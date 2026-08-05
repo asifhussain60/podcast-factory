@@ -6,9 +6,10 @@ semantic `book-challenger` (which reads `book.md`) and the on-screen
 `html-view-quality` standard (which governs the Astro site). It governs what the
 reader physically holds: pages, figures, legibility, page-fill.
 
-Active only under `book_pipeline_v2`. Enforced by the deterministic probes in
-`scripts/podcast/_book_render_checks.py` plus the visual judgment of the
-`book-render-challenger` agent. Requirements are cited by `REQ-BR-NNN`.
+Applies to every rendered book reading edition (wired into 0book-render).
+Enforced by the deterministic probes in `scripts/podcast/_book_render_checks.py`
+plus the visual judgment of the `book-render-challenger` agent. Requirements are
+cited by `REQ-BR-NNN`.
 
 ## Scope
 
@@ -33,6 +34,12 @@ the meaning.
   paragraph stranded alone at a page top or bottom; a chapter heading is never the
   last thing on a page. *CSS: `orphans/widows`, `.chapter-open { break-after:
   avoid }` in `book-print.css` under `body.book-v2`.*
+- **REQ-BR-004 (MUST · P1) — The running head names the page's own chapter.** Every
+  page's margin-box title matches the chapter the page actually belongs to. Keying
+  `@page` rules by position over a chapter list that leads with the preface shifts
+  every rule by one, so pages deep in a chapter carry the previous chapter's title
+  — a defect no other gate can see, because nothing else reads margin-box text
+  against chapter boundaries. *Probe: `scan_running_heads` → `BR-RUNNING-HEAD`.*
 
 ### Figures
 
@@ -59,6 +66,19 @@ the meaning.
 - **REQ-BR-020 (SHOULD · —) — Legible figures.** No figure is shrunk below
   readability to fit; diagrams stay vertical and uncapped (`_svg_geometry` gate).
   *Visual check.*
+
+### Text integrity + apparatus
+
+- **REQ-BR-030 (MUST · P0) — No unsubstituted placeholder on the page.** No
+  `__TOKEN__` reaches print. A placeholder of that shape on a rendered page means a
+  substitution silently did not happen, and the reader sees the machinery.
+  *Probe: `scan_placeholders` → `BR-PLACEHOLDER`.*
+- **REQ-BR-031 (MUST · P0) — A book with a crosswalk prints its crosswalk page.**
+  When `source-crosswalk.json` exists, the rendered PDF carries a Source Crosswalk
+  apparatus page. Dropping it loses every per-chapter provenance line at once, and
+  a translation edition without its crosswalk is unciteable. Books with no
+  crosswalk file are out of scope for this requirement.
+  *Probe: `scan_crosswalk_present` → `BR-CROSSWALK-MISSING`.*
 
 ## Verdicts
 

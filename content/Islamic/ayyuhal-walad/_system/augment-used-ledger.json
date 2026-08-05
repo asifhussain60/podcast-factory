@@ -1,0 +1,32 @@
+{
+  "schema": "podcast.augment-used-ledger/v1",
+  "used": [
+    "doctrine:wisdom:1:20:3",
+    "doctrine:wisdom:1:20:5",
+    "doctrine:wisdom:1:20:7",
+    "doctrine:wisdom:1:73:3",
+    "doctrine:wisdom:1:74:1",
+    "doctrine:wisdom:1:74:10",
+    "doctrine:wisdom:1:74:7",
+    "doctrine:wisdom:1:74:8",
+    "doctrine:wisdom:1:78:6",
+    "doctrine:wisdom:1:80:4",
+    "doctrine:wisdom:1:81:4",
+    "doctrine:wisdom:1:81:5",
+    "etymology:hll",
+    "etymology:hrm",
+    "etymology:jhd",
+    "etymology:nfs",
+    "etymology:shykh",
+    "etymology:snn",
+    "quote:hatim-ibn-ism:5e4c780739",
+    "quote:imam-al-ghazali:2ac04a23e7",
+    "quote:imam-al-ghazali:6d3f859b5c",
+    "quote:mawla-amir-al-muminin:f477508c26",
+    "quote:the-author:6ccf410027",
+    "quote:the-prophet-muhammad:81bb121181",
+    "quote:the-prophet-muhammad:8f5a29e509",
+    "quote:the-prophet-muhammad:9b2a10e5b0",
+    "quote:the-prophet-muhammad:b12ec9b949"
+  ]
+}

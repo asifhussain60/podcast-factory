@@ -23,12 +23,13 @@ House style for the ``phonetic`` field (enforced by ``is_house_style``):
 ALL lowercase, syllables hyphen-separated, the stressed syllable in CAPITALS,
 no Arabic script, no spelled-out letters. e.g. al-Ghazali -> gha-zaa-lee.
 """
+
 from __future__ import annotations
 
 import json
 import re
 import unicodedata
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 # content/knowledge-base/pronunciations.jsonl — sibling to hadith.jsonl / quran.jsonl
@@ -90,20 +91,34 @@ def is_house_style(phonetic: str) -> bool:
 
 @dataclass
 class PronEntry:
-    key: str                                   # normalize_key(term)
-    term: str                                  # plain display transliteration
-    phonetic: str                              # house-style spoken form (the value)
-    status: str = "confirmed"                  # confirmed | unfixable
-    transliteration: str = ""                  # diacritic transliteration
+    key: str  # normalize_key(term)
+    term: str  # plain display transliteration
+    phonetic: str  # house-style spoken form (the value)
+    status: str = "confirmed"  # confirmed | unfixable
+    transliteration: str = ""  # diacritic transliteration
     arabic_script: str = ""
-    gloss: str = ""                            # English substitute (required if unfixable)
+    gloss: str = ""  # English substitute (required if unfixable)
     mangled_variants: list[str] = field(default_factory=list)
     source_books: list[str] = field(default_factory=list)
-    confirmed_date: str = ""                   # caller-stamped (scripts cannot call Date.now)
+    confirmed_date: str = ""  # caller-stamped (scripts cannot call Date.now)
     notes: str = ""
 
     def to_json(self) -> str:
         return json.dumps(asdict(self), ensure_ascii=False, sort_keys=True)
+
+
+def entry_key(term: str, transliteration: str = "") -> str:
+    """The lookup key for an entry, always ASCII when one can be had.
+
+    ``normalize_key`` does not transliterate, so keying on a ``term`` that holds
+    Arabic script produces an Arabic-script key — and every consumer looks up by
+    the romanised form. 145 of the library's 211 rows were written that way on
+    2026-06-08 and had never been found by anything since. The romanisation wins
+    whenever the term is script and a usable one exists.
+    """
+    if _ARABIC_SCRIPT.search(term) and transliteration and not _ARABIC_SCRIPT.search(transliteration):
+        return normalize_key(transliteration)
+    return normalize_key(term)
 
 
 class PronunciationLibrary:
@@ -113,12 +128,31 @@ class PronunciationLibrary:
         self._entries = entries
         self._path = path
 
+    def _by_script(self) -> dict[str, PronEntry]:
+        """Secondary index on the Arabic script, rebuilt per call (small library).
+
+        Callers legitimately look up either way — the probe holds raw script in
+        its ``term`` field while the framing compiler holds the romanisation —
+        so moving the primary key to ASCII must not lose the script lookup.
+        """
+        out: dict[str, PronEntry] = {}
+        for e in self._entries.values():
+            for candidate in (e.arabic_script, e.term):
+                if candidate and _ARABIC_SCRIPT.search(candidate):
+                    out.setdefault(normalize_key(candidate), e)
+        return out
+
     # ---- read side -------------------------------------------------------
     def lookup(self, term: str) -> PronEntry | None:
-        return self._entries.get(normalize_key(term))
+        hit = self._entries.get(normalize_key(term))
+        if hit is not None:
+            return hit
+        if _ARABIC_SCRIPT.search(term):
+            return self._by_script().get(normalize_key(term))
+        return None
 
     def __contains__(self, term: str) -> bool:
-        return normalize_key(term) in self._entries
+        return self.lookup(term) is not None
 
     def __len__(self) -> int:
         return len(self._entries)
@@ -156,10 +190,10 @@ class PronunciationLibrary:
         if status == "unfixable" and not gloss.strip():
             raise ValueError(f"unfixable entry {term!r} requires a non-empty gloss substitute")
 
-        key = normalize_key(term)
+        key = entry_key(term, transliteration)
         existing = self._entries.get(key)
         new_variants = sorted({*(mangled_variants or []), *(existing.mangled_variants if existing else [])})
-        new_books = sorted({*( [source_book] if source_book else [] ), *(existing.source_books if existing else [])})
+        new_books = sorted({*([source_book] if source_book else []), *(existing.source_books if existing else [])})
         entry = PronEntry(
             key=key,
             term=term or (existing.term if existing else term),
@@ -208,6 +242,7 @@ def load(path: Path | None = None) -> PronunciationLibrary:
 
 if __name__ == "__main__":  # pragma: no cover - tiny CLI for inspection
     import sys
+
     lib = load()
     if len(sys.argv) > 1:
         hit = lib.lookup(sys.argv[1])
@@ -215,4 +250,4 @@ if __name__ == "__main__":  # pragma: no cover - tiny CLI for inspection
     else:
         print(f"{len(lib)} entries in {LIBRARY_PATH}")
         for e in lib.all():
-            print(f"  [{e.status:9}] {e.term:30} -> {e.phonetic or '(gloss: '+e.gloss+')'}")
+            print(f"  [{e.status:9}] {e.term:30} -> {e.phonetic or '(gloss: ' + e.gloss + ')'}")

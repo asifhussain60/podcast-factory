@@ -4,24 +4,24 @@
  * DELETE /api/annotations?id=N             — remove a specific annotation
  */
 
-import type { APIRoute } from 'astro';
+import type { APIRoute } from "astro";
 import {
   clearChapterAnnotations,
   getChapterAnnotationSnapshot,
   toggleAnnotation,
   deleteAnnotation,
   upsertParagraphNote,
-} from '../../lib/db/annotations';
-import { apiError, apiOk, apiServerError } from '../../lib/api-responses';
+} from "../../lib/db/annotations";
+import { apiError, apiOk, apiServerError } from "../../lib/api-responses";
 
 export const prerender = false;
 
 export const GET: APIRoute = ({ request }) => {
   const url = new URL(request.url);
-  const book = url.searchParams.get('book');
-  const chapter = url.searchParams.get('chapter');
+  const book = url.searchParams.get("book");
+  const chapter = url.searchParams.get("chapter");
   if (!book || !chapter) {
-    return apiError('Missing book or chapter param');
+    return apiError("Missing book or chapter param");
   }
   try {
     const snapshot = getChapterAnnotationSnapshot(book, chapter);
@@ -36,12 +36,12 @@ export const PATCH: APIRoute = async ({ request }) => {
   try {
     body = await request.json();
   } catch {
-    return apiError('Invalid JSON');
+    return apiError("Invalid JSON");
   }
 
   const { book, chapter, paraIdx, note } = body;
-  if (!book || !chapter || paraIdx == null || typeof note !== 'string') {
-    return apiError('Missing required fields');
+  if (!book || !chapter || paraIdx == null || typeof note !== "string") {
+    return apiError("Missing required fields");
   }
 
   try {
@@ -53,15 +53,21 @@ export const PATCH: APIRoute = async ({ request }) => {
 };
 
 export const POST: APIRoute = async ({ request }) => {
-  let body: { book: string; chapter: string; paraIdx: number; tagId: number; note?: string };
+  let body: {
+    book: string;
+    chapter: string;
+    paraIdx: number;
+    tagId: number;
+    note?: string;
+  };
   try {
     body = await request.json();
   } catch {
-    return apiError('Invalid JSON');
+    return apiError("Invalid JSON");
   }
   const { book, chapter, paraIdx, tagId, note } = body;
   if (!book || !chapter || paraIdx == null || !tagId) {
-    return apiError('Missing required fields');
+    return apiError("Missing required fields");
   }
   try {
     const result = toggleAnnotation(book, chapter, paraIdx, tagId, note);
@@ -73,9 +79,9 @@ export const POST: APIRoute = async ({ request }) => {
 
 export const DELETE: APIRoute = ({ request }) => {
   const url = new URL(request.url);
-  const book = url.searchParams.get('book');
-  const chapter = url.searchParams.get('chapter');
-  const id = Number(url.searchParams.get('id'));
+  const book = url.searchParams.get("book");
+  const chapter = url.searchParams.get("chapter");
+  const id = Number(url.searchParams.get("id"));
 
   try {
     if (book && chapter) {
@@ -84,7 +90,7 @@ export const DELETE: APIRoute = ({ request }) => {
     }
 
     if (!id) {
-      return apiError('Missing id param');
+      return apiError("Missing id param");
     }
 
     deleteAnnotation(id);

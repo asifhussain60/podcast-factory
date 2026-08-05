@@ -58,10 +58,11 @@ esac
 drift_count=0
 created_count=0
 
-# Iterate over EVERY canonical spec under infra/claude-agents/. For each:
+# FORWARD SWEEP — iterate over EVERY canonical spec under infra/claude-agents/:
 # - If the .github/ wrapper is missing, create it (sync mode) or flag (check mode).
 # - If the wrapper exists but differs, sync it (sync mode) or flag (check mode).
-# This ensures new agents (e.g., podcast-auditor) propagate automatically.
+# This ensures a NEW agent propagates automatically. It says nothing about a
+# DELETED one — see the reverse sweep below, which is the half that was missing.
 mkdir -p "${WRAPPER_DIR}"
 for canonical in "${CANONICAL_DIR}"/*.md; do
   [[ -e "$canonical" ]] || continue
@@ -108,6 +109,52 @@ for canonical in "${CANONICAL_DIR}"/*.md; do
     fi
   fi
 done
+
+# REVERSE SWEEP — the other direction, added 2026-07-26. The forward loop above
+# walks canonical -> generated only, so RETIRING an agent never retired it: delete
+# the canonical spec and the generated copies live on. `.claude/agents/` is the one
+# Claude Code actually reads, so a deprecated agent stayed in the live roster
+# indefinitely. That is exactly what happened to podcast-auditor — deprecated
+# 2026-06-02, canonical spec correctly deleted, still loading into sessions seven
+# weeks later. (The forward loop's comment used to cite podcast-auditor as proof
+# that propagation worked. It was the counter-example.)
+#
+# For each generated markdown copy, require a canonical source. No source = orphan:
+# flag in check mode, delete in sync mode. .codex/*.toml is deliberately excluded —
+# it is a curated subset by design, and sync_codex_agents.py reports its own orphans.
+for generated_dir in "${WRAPPER_DIR}:.agent.md" "${ACTIVATION_DIR}:.md"; do
+  dir="${generated_dir%%:*}"
+  suffix="${generated_dir##*:}"
+  [[ -d "$dir" ]] || continue
+  for copy in "$dir"/*"${suffix}"; do
+    [[ -e "$copy" ]] || continue
+    name="$(basename "$copy" "$suffix")"
+    [[ "$name" == "_README" ]] && continue
+    [[ -f "${CANONICAL_DIR}/${name}.md" ]] && continue
+
+    if [[ "$mode" == "check" ]]; then
+      echo "ORPHAN:  ${copy#${REPO_ROOT}/} (no canonical spec — agent was retired)" >&2
+      drift_count=$((drift_count + 1))
+    else
+      rm -f "$copy"
+      echo "removed  ${copy#${REPO_ROOT}/} (orphan — canonical spec no longer exists)"
+    fi
+  done
+done
+
+# The FOURTH mirror: .codex/agents/*.toml. It is a format transform rather than a
+# copy, so it lives in its own generator — but it runs from here, because a mirror
+# nothing invokes is a mirror that rots. `book-challenger.toml` was a whole
+# generation behind when the 2026-07-20 sweep found it, and ten of the eighteen
+# carried a blind Claude->Codex substitution that had produced paths which do not
+# exist (`infra/Codex-agents/`) and model names which do not exist ("Codex Opus").
+# A scalar, not an array: macOS ships bash 3.2, where an EMPTY array expanded
+# under `set -u` is an unbound-variable error rather than nothing.
+codex_arg=""
+[[ "$mode" == "check" ]] && codex_arg="--check"
+if ! python3 "${REPO_ROOT}/scripts/podcast/sync_codex_agents.py" ${codex_arg}; then
+  drift_count=$((drift_count + 1))
+fi
 
 if [[ "$mode" == "check" ]]; then
   if [[ $drift_count -gt 0 ]]; then

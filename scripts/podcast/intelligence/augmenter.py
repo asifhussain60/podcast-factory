@@ -2,8 +2,8 @@
 
 Enriches episode text with relevant doctrine atoms from the Kashkole corpus
 stored in the knowledge-base DB.  This is the Wave B upgrade of the JSONL-based
-`knowledge/augmenter.py`.  The old JSONL augmenter remains as a fallback for
-books without DB-backed atoms.
+`knowledge/augmenter.py`, which was deleted 2026-07-18 (it was never wired as a
+runtime fallback); this module is the only augment path.
 
 Guards:
   - `series.enable_knowledge_augmenter` must be True in the book's meta.yml
@@ -13,6 +13,7 @@ Guards:
 
 Authority: architecture.md §Intelligence Layer; plan.md Wave B, B3.
 """
+
 from __future__ import annotations
 
 import json
@@ -24,12 +25,15 @@ from typing import Sequence
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import _db
+from _narrator_policy import disallowed_narrator
 from _rules import (
-    R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED,
     CONTENT_LEVEL_LADDER,
+    R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED,
     allowed_content_levels,
 )
-from intelligence._local_server_client import quran_verse as _live_verse, topic_search as _live_topic_search
+
+from intelligence._local_server_client import quran_verse as _live_verse
+from intelligence._local_server_client import topic_search as _live_topic_search
 
 # Maximum doctrine atoms injected per augmentation call
 _MAX_ATOMS_DEFAULT = 5
@@ -43,7 +47,7 @@ _MAX_ATOM_TEXT_CHARS = 600
 # Strip Arabic Unicode range (U+0600–U+06FF and extended)
 _ARABIC_RE = re.compile(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff]+")
 # Strip Kashkole markup wrappers: ⟪ar:...⟫, ⟪quran N:N⟫, ⟪ar-quote:...⟫
-_WRAPPER_RE = re.compile(r'⟪[^⟫]*⟫')
+_WRAPPER_RE = re.compile(r"⟪[^⟫]*⟫")
 
 # Canonical Q-citation pattern: Q2:255 or unicode quran marker
 _QURAN_CITE_RE = re.compile(r"Q(\d+):(\d+)", re.IGNORECASE)
@@ -51,24 +55,72 @@ _QURAN_CITE_RE = re.compile(r"Q(\d+):(\d+)", re.IGNORECASE)
 _TOPIC_MARKER_TMPL = '<span class="ref-topic" data-topic-id="{id}">{text}</span>'
 
 _PROMPT_BLOCK_HEADER = "[PRIOR DOCTRINAL CONTEXT — Kashkole corpus]"
-_TERM_BLOCK_HEADER  = "[TERM GLOSSARY — Kashkole corpus]"
+_TERM_BLOCK_HEADER = "[TERM GLOSSARY — Kashkole corpus]"
 _QUOTE_BLOCK_HEADER = "[ATTRIBUTED SAYINGS — Kashkole corpus]"
 # Minimum term-name length for keyword match — avoids false hits on very short roots
 _MIN_TERM_MATCH_LEN = 4
 # Common English words to skip in term keyword matching — they appear italicised in
 # Kashkole source but carry no Islamic technical meaning.
-_COMMON_ENGLISH_SKIP = frozenset({
-    "complete", "perfect", "defective", "content", "without", "observe",
-    "observation", "knowledge", "power", "life", "faith", "truth", "light",
-    "prayer", "fasting", "pilgrimage", "alms", "witness", "first", "second",
-    "third", "good", "evil", "right", "wrong", "great", "small", "high", "low",
-    "able", "above", "below", "before", "after", "indeed", "thus", "divine",
-    "sacred", "holy", "inner", "outer", "true", "false", "special", "general",
-    "natural", "spiritual", "physical", "moral", "pure", "perfect", "blessed",
-})
+_COMMON_ENGLISH_SKIP = frozenset(
+    {
+        "complete",
+        "perfect",
+        "defective",
+        "content",
+        "without",
+        "observe",
+        "observation",
+        "knowledge",
+        "power",
+        "life",
+        "faith",
+        "truth",
+        "light",
+        "prayer",
+        "fasting",
+        "pilgrimage",
+        "alms",
+        "witness",
+        "first",
+        "second",
+        "third",
+        "good",
+        "evil",
+        "right",
+        "wrong",
+        "great",
+        "small",
+        "high",
+        "low",
+        "able",
+        "above",
+        "below",
+        "before",
+        "after",
+        "indeed",
+        "thus",
+        "divine",
+        "sacred",
+        "holy",
+        "inner",
+        "outer",
+        "true",
+        "false",
+        "special",
+        "general",
+        "natural",
+        "spiritual",
+        "physical",
+        "moral",
+        "pure",
+        "perfect",
+        "blessed",
+    }
+)
 
 
 # ─── public API ───────────────────────────────────────────────────────────────
+
 
 def augment_episode_text(
     episode_text: str,
@@ -127,8 +179,12 @@ def augment_episode_text(
         # matched atom pool — prevents all episodes in one book seeing identical passages.
         ep_offset = _episode_offset(episode_slug, max_atoms)
         doc_atoms = _fetch_doctrine_atoms(
-            tags, max_atoms=max_atoms, tradition=book_tradition, offset=ep_offset,
-            content_level=book_content_level, exclude_atom_ids=already_used,
+            tags,
+            max_atoms=max_atoms,
+            tradition=book_tradition,
+            offset=ep_offset,
+            content_level=book_content_level,
+            exclude_atom_ids=already_used,
         )
         if doc_atoms:
             doctrine_block = _build_context_block(doc_atoms)
@@ -136,16 +192,16 @@ def augment_episode_text(
 
     # 2. Term atoms (keyword match in episode text)
     term_block = ""
-    term_atoms = _fetch_matching_terms(episode_text, book_tradition, max_terms=max_atoms,
-                                       exclude_atom_ids=already_used)
+    term_atoms = _fetch_matching_terms(episode_text, book_tradition, max_terms=max_atoms, exclude_atom_ids=already_used)
     if term_atoms:
         term_block = _build_term_block(term_atoms)
         injected_ids += [a["id"] for a in term_atoms]
 
     # 3. Quote atoms (speaker keyword match)
     quote_block = ""
-    quote_atoms = _fetch_matching_quotes(episode_text, book_tradition, max_quotes=max_atoms,
-                                         exclude_atom_ids=already_used)
+    quote_atoms = _fetch_matching_quotes(
+        episode_text, book_tradition, max_quotes=max_atoms, exclude_atom_ids=already_used
+    )
     if quote_atoms:
         quote_block = _build_quote_block(quote_atoms)
         injected_ids += [a["id"] for a in quote_atoms]
@@ -153,8 +209,9 @@ def augment_episode_text(
     # 4. Etymology atoms (Wave L-4) — universal resource, never content-level-gated.
     #    Conservative term match; capped at 3/chapter; spoken-form guidance only.
     etym_block = ""
-    etym_atoms = _fetch_matching_etymology(episode_text, max_etymology=_MAX_ETYMOLOGY_DEFAULT,
-                                           exclude_atom_ids=already_used)
+    etym_atoms = _fetch_matching_etymology(
+        episode_text, max_etymology=_MAX_ETYMOLOGY_DEFAULT, exclude_atom_ids=already_used
+    )
     if etym_atoms:
         etym_block = _build_etymology_block(etym_atoms)
         injected_ids += [a["id"] for a in etym_atoms]
@@ -192,6 +249,7 @@ def augment_chapter_text(
         return chapter_text
 
     import time
+
     additions: list[str] = []
     for surah_str, ayat_str in citations:
         surah, ayat = int(surah_str), int(ayat_str)
@@ -204,12 +262,24 @@ def augment_chapter_text(
             pickthall = verse.get("pickthall", "")
             additions.append(f"[Q{surah}:{ayat}] {pickthall}")
             if mcp_log:
-                _append_mcp_log(mcp_log, "quran_verse", {"surah": surah, "ayat": ayat},
-                                latency_ms=latency_ms, source="live", chapter=chapter_slug)
+                _append_mcp_log(
+                    mcp_log,
+                    "quran_verse",
+                    {"surah": surah, "ayat": ayat},
+                    latency_ms=latency_ms,
+                    source="live",
+                    chapter=chapter_slug,
+                )
         else:
             if mcp_log:
-                _append_mcp_log(mcp_log, "quran_verse", {"surah": surah, "ayat": ayat},
-                                latency_ms=latency_ms, source="miss", chapter=chapter_slug)
+                _append_mcp_log(
+                    mcp_log,
+                    "quran_verse",
+                    {"surah": surah, "ayat": ayat},
+                    latency_ms=latency_ms,
+                    source="miss",
+                    chapter=chapter_slug,
+                )
 
     if not additions:
         return chapter_text
@@ -269,6 +339,7 @@ def fetch_atoms_for_tags(
 
 # ─── internal helpers ─────────────────────────────────────────────────────────
 
+
 def _augmentation_enabled(book_dir: Path) -> bool:
     """Read `enable_knowledge_augmenter` from meta.yml. Default: False."""
     meta_path = book_dir / "meta.yml"
@@ -276,10 +347,10 @@ def _augmentation_enabled(book_dir: Path) -> bool:
         return R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED
     try:
         import yaml  # type: ignore[import]
+
         meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
-        return bool(meta.get("series", {}).get("enable_knowledge_augmenter",
-                                                R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED))
-    except Exception:   # noqa: BLE001
+        return bool(meta.get("series", {}).get("enable_knowledge_augmenter", R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED))
+    except Exception:
         return R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED
 
 
@@ -290,9 +361,10 @@ def _book_tradition(book_dir: Path) -> str:
         return "universal"
     try:
         import yaml  # type: ignore[import]
+
         meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
         return str(meta.get("tradition_affinity", "universal"))
-    except Exception:  # noqa: BLE001
+    except Exception:
         return "universal"
 
 
@@ -303,9 +375,10 @@ def _book_tags(book_dir: Path) -> list[str]:
         return []
     try:
         import yaml  # type: ignore[import]
+
         meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
         return list(meta.get("knowledge_tags", []))
-    except Exception:   # noqa: BLE001
+    except Exception:
         return []
 
 
@@ -330,7 +403,7 @@ def _load_episode_ledger(book_dir: Path) -> dict:
         data = json.loads(p.read_text(encoding="utf-8"))
         if isinstance(data, dict) and isinstance(data.get("episodes"), dict):
             return data
-    except Exception:  # noqa: BLE001
+    except Exception:
         pass
     return {"episodes": {}}
 
@@ -376,12 +449,13 @@ def _book_content_level(book_dir: Path) -> str | None:
         return None
     try:
         import yaml  # type: ignore[import]
+
         meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
         level = meta.get("content_level")
         if level in CONTENT_LEVEL_LADDER:
             return str(level)
         return None
-    except Exception:  # noqa: BLE001
+    except Exception:
         return None
 
 
@@ -396,6 +470,7 @@ def _episode_offset(episode_slug: str, max_atoms: int) -> int:
         return 0
     # Use first digit found in slug (EP01→1, EP02→2, ch03→3) or hash-based fallback
     import re as _re
+
     m = _re.search(r"\d+", episode_slug)
     ep_num = (int(m.group()) - 1) if m else 0
     return ep_num * max_atoms
@@ -531,11 +606,9 @@ def _fetch_matching_quotes(
     max_quotes: int,
     exclude_atom_ids: set[str] | None = None,
 ) -> list[dict]:
-    """Return quote atoms whose speaker name appears in the episode text.
-
-    Only used once quote atoms exist in the DB (currently 0; wired for future runs).
-    Excludes exclude_atom_ids (Wave L-5): no quote atom repeats across chapters.
-    """
+    """Quote atoms whose speaker appears in the text (0 rows today; wired for later).
+    Excludes exclude_atom_ids (no repeats across chapters) and any narrator-policy-
+    restricted speaker, regardless of content match."""
     ep_lower = episode_text.lower()
     exclude = exclude_atom_ids or set()
     conn = _db.get_connection()
@@ -553,7 +626,7 @@ def _fetch_matching_quotes(
             continue
         speaker = body.get("speaker", "").lower().strip()
         text_en = body.get("text_en", "").strip()
-        if not speaker or not text_en:
+        if not speaker or not text_en or disallowed_narrator(speaker):
             continue
         if speaker in ep_lower:
             matched.append({"id": atom_id, "body": body})
@@ -577,6 +650,7 @@ def _fetch_matching_etymology(
     Excludes exclude_atom_ids (Wave L-5): no etymology repeats across chapters.
     """
     import re as _re
+
     ep_lower = episode_text.lower()
     exclude = exclude_atom_ids or set()
     conn = _db.get_connection()
@@ -591,8 +665,9 @@ def _fetch_matching_etymology(
             continue
         if not body.get("root_phonetic"):
             continue  # no spoken form yet — cannot weave correctly
-        # Candidate spoken terms: the root + every derivative transliteration.
-        terms = [body.get("root_transliteration", "")]
+        # Candidate spoken terms: the primary term (the surface word the book
+        # actually uses), the root, and every derivative transliteration.
+        terms = [body.get("term", ""), body.get("root_transliteration", "")]
         terms += [d.get("term", "") for d in body.get("derivatives", [])]
         best_len = 0
         for term in terms:
@@ -640,8 +715,7 @@ def _build_etymology_block(etymology_atoms: list[dict]) -> str:
             phon = d.get("phonetic", "").strip()
             gloss = _strip_arabic(d.get("meaning_en", "")).strip()
             if term and gloss:
-                surface = f'the word "{gloss}" ({term}, spoken "{phon}")' if phon \
-                    else f'the word "{gloss}" ({term})'
+                surface = f'the word "{gloss}" ({term}, spoken "{phon}")' if phon else f'the word "{gloss}" ({term})'
                 break
         lead = surface or f'the term "{root}"'
         lines.append(
@@ -731,9 +805,10 @@ def _live_quran_enabled(book_dir: Path) -> bool:
         return False
     try:
         import yaml  # type: ignore[import]
+
         meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
         return bool(meta.get("series", {}).get("enable_live_quran_lookup", False))
-    except Exception:  # noqa: BLE001
+    except Exception:
         return False
 
 
@@ -744,9 +819,10 @@ def _topic_markers_enabled(book_dir: Path) -> bool:
         return False
     try:
         import yaml  # type: ignore[import]
+
         meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
         return bool(meta.get("series", {}).get("enable_topic_markers", False))
-    except Exception:  # noqa: BLE001
+    except Exception:
         return False
 
 
@@ -759,14 +835,14 @@ def _verse_in_db(surah: int, ayat: int) -> bool:
             (surah, ayat),
         ).fetchone()
         return row is not None
-    except Exception:  # noqa: BLE001
+    except Exception:
         return False
 
 
-def _append_mcp_log(log_path: Path, tool: str, args: dict,
-                    *, latency_ms: int, source: str, chapter: str = "") -> None:
+def _append_mcp_log(log_path: Path, tool: str, args: dict, *, latency_ms: int, source: str, chapter: str = "") -> None:
     """Append a JSON line to _system/mcp-calls.jsonl."""
     import datetime
+
     log_path.parent.mkdir(parents=True, exist_ok=True)
     entry = {
         "ts": datetime.datetime.now(datetime.timezone.utc).isoformat(),
@@ -782,8 +858,10 @@ def _append_mcp_log(log_path: Path, tool: str, args: dict,
 
 # ─── CLI ──────────────────────────────────────────────────────────────────────
 
+
 def main() -> int:
     import argparse
+
     parser = argparse.ArgumentParser(description="Fetch doctrine atoms for given topic tags.")
     parser.add_argument("tags", nargs="+", help="Topic tags to look up (e.g. tawhid eschatology)")
     parser.add_argument("--max", type=int, default=_MAX_ATOMS_DEFAULT, help="Max atoms to return")

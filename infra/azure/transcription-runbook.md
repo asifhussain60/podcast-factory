@@ -36,7 +36,7 @@ EOF
 chmod +x /tmp/run_transcriptions.sh
 
 # 3. Run (example: healthequity)
-BOOK="content/drafts/sites/healthequity"
+BOOK="content/Guides/healthequity"
 bash /tmp/run_transcriptions.sh "$BOOK" \
   "EP01-hsa:$BOOK/audio/The_Triple_Tax_Advantage_of_HSAs.m4a" \
   "EP02-cobra:$BOOK/audio/Keep_your_insurance_after_job_loss.m4a" \

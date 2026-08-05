@@ -28,6 +28,7 @@ Usage:
   python3 scripts/podcast/holistic_editorial.py --slug <book-slug>
   python3 scripts/podcast/holistic_editorial.py --slug <slug> --skip-fidelity   (debug)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -38,8 +39,8 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _paths import REPO_ROOT, content_dir, find_content  # noqa: E402
-from _authoring._core import _run_claude_p  # noqa: E402
+from _authoring._core import _run_claude_p
+from _paths import REPO_ROOT, content_dir, find_content
 
 LEDGER_TIMEOUT = 1800
 EDITORIAL_TIMEOUT = 3600
@@ -96,8 +97,7 @@ Rules:
 """
 
 
-def _editorial_prompt(raw: Path, ledger: Path, unified: Path, refined: Path,
-                      reorg: Path, curation: Path) -> str:
+def _editorial_prompt(raw: Path, ledger: Path, unified: Path, refined: Path, reorg: Path, curation: Path) -> str:
     return f"""You are the holistic editor of an Ismaili scholarly book assembled from lecture transcripts.
 
 INPUTS (read both):
@@ -190,8 +190,11 @@ def run(slug: str, *, skip_fidelity: bool = False) -> int:
     # 1 — teaching ledger
     _info("==> [1/3] Extracting teaching ledger (claude -p) ...")
     rc, _out, err = _run_claude_p(
-        _ledger_prompt(raw, ledger), timeout=LEDGER_TIMEOUT, book_dir=book_dir,
-        phase="0a-synthesize", step="teaching-ledger",
+        _ledger_prompt(raw, ledger),
+        timeout=LEDGER_TIMEOUT,
+        book_dir=book_dir,
+        phase="0a-synthesize",
+        step="teaching-ledger",
     )
     if rc != 0 or not ledger.exists():
         return _die(f"ledger extraction failed (rc={rc}): {err[:400]}")
@@ -204,8 +207,9 @@ def run(slug: str, *, skip_fidelity: bool = False) -> int:
     # Arabic baseline BEFORE the first mutating pass (R-ARABIC-INTEGRITY).
     try:
         import arabic_integrity as _ai
+
         _ai.snapshot(slug)
-    except Exception as _e:  # noqa: BLE001
+    except Exception as _e:
         _info(f"    (arabic-integrity snapshot skipped: {_e!r})")
         _ai = None
 
@@ -213,8 +217,10 @@ def run(slug: str, *, skip_fidelity: bool = False) -> int:
     _info("==> [2/3] Holistic editorial — reorganize + denoise + enrich (claude -p) ...")
     rc, _out, err = _run_claude_p(
         _editorial_prompt(raw, ledger, unified, refined, reorg, curation),
-        timeout=EDITORIAL_TIMEOUT, book_dir=book_dir,
-        phase="0a-synthesize", step="holistic-editorial",
+        timeout=EDITORIAL_TIMEOUT,
+        book_dir=book_dir,
+        phase="0a-synthesize",
+        step="holistic-editorial",
     )
     if rc != 0 or not refined.exists() or not unified.exists():
         return _die(f"editorial pass failed (rc={rc}): {err[:400]}")
@@ -223,9 +229,11 @@ def run(slug: str, *, skip_fidelity: bool = False) -> int:
     ratio = enhanced_words / max(faithful_words, 1)
     _info(f"    wrote {_rel(refined)} ({enhanced_words:,} words = {ratio:.0%} of faithful) + unified-book.md")
     if ratio < OVER_COMPRESSION_FLOOR:
-        _info(f"    ⚠ OVER-COMPRESSION: enhanced is {ratio:.0%} of faithful "
-              f"(<{OVER_COMPRESSION_FLOOR:.0%}). That is summarization, not denoise — the full "
-              f"exposition of each teaching was lost. NOT advancing; re-run the editorial.")
+        _info(
+            f"    ⚠ OVER-COMPRESSION: enhanced is {ratio:.0%} of faithful "
+            f"(<{OVER_COMPRESSION_FLOOR:.0%}). That is summarization, not denoise — the full "
+            f"exposition of each teaching was lost. NOT advancing; re-run the editorial."
+        )
         return 3
 
     # 3 — fidelity gate
@@ -235,8 +243,10 @@ def run(slug: str, *, skip_fidelity: bool = False) -> int:
         _info("==> [3/3] Fidelity gate — verify ledger coverage (claude -p) ...")
         rc, _out, err = _run_claude_p(
             _fidelity_prompt(refined, ledger, coverage, openq),
-            timeout=FIDELITY_TIMEOUT, book_dir=book_dir,
-            phase="0a-synthesize", step="fidelity-gate",
+            timeout=FIDELITY_TIMEOUT,
+            book_dir=book_dir,
+            phase="0a-synthesize",
+            step="fidelity-gate",
         )
         if rc != 0 or not coverage.exists():
             return _die(f"fidelity gate failed (rc={rc}): {err[:400]}")
@@ -246,16 +256,20 @@ def run(slug: str, *, skip_fidelity: bool = False) -> int:
         last = cov.strip().splitlines()[-1].lower() if cov.strip() else ""
         if "coverage:" in last:
             import re
+
             m = re.search(r"coverage:\s*(\d+)\s*/\s*(\d+)", last)
             if m and m.group(1) != m.group(2):
-                _info(f"    ⚠ ledger coverage incomplete ({m.group(1)}/{m.group(2)}) — see "
-                      f"{_rel(openq)}. NOT advancing phase.")
+                _info(
+                    f"    ⚠ ledger coverage incomplete ({m.group(1)}/{m.group(2)}) — see "
+                    f"{_rel(openq)}. NOT advancing phase."
+                )
                 return 3
 
     # Arabic verify AFTER the editorial/fidelity passes (R-ARABIC-INTEGRITY).
     if _ai is not None and _ai.verify(slug, "0a") == _ai.EXIT_FORBIDDEN:
-        _info(f"    ⚠ R-ARABIC-INTEGRITY: forbidden Arabic mutation — see "
-              f"_system/{_ai.REPORT_NAME}. NOT advancing phase.")
+        _info(
+            f"    ⚠ R-ARABIC-INTEGRITY: forbidden Arabic mutation — see _system/{_ai.REPORT_NAME}. NOT advancing phase."
+        )
         return 3
 
     # advance state

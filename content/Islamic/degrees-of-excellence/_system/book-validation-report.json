@@ -1,0 +1,43 @@
+{
+  "slug": "degrees-of-excellence",
+  "verdict": "BOOK-SOUND",
+  "summary": "reading edition sound (6 gates checked)",
+  "gates": [
+    {
+      "gate": "B1",
+      "name": "book-md-complete",
+      "passed": true,
+      "note": "book.md: 140 KB, 10 sections \u2265 9 TOC chapters"
+    },
+    {
+      "gate": "B2",
+      "name": "book-pdf-renderable",
+      "passed": true,
+      "note": "book.pdf: 1560 KB, 87 pages \u2265 9 chapters"
+    },
+    {
+      "gate": "B3",
+      "name": "book-arabic-coverage",
+      "passed": true,
+      "note": "Arabic script present in all 6 chapters from 10 glossary terms \u00b7 translation-edition Arabic preservation signal: 152 rendered Arabic runs from 24407 source runs"
+    },
+    {
+      "gate": "B4",
+      "name": "book-prose-integrity",
+      "passed": true,
+      "note": "book.md: no model commentary or generated headings detected"
+    },
+    {
+      "gate": "B5",
+      "name": "book-chapter-body-coverage",
+      "passed": true,
+      "note": "book.md: 9 numbered chapters have body text"
+    },
+    {
+      "gate": "B6",
+      "name": "book-source-crosswalk",
+      "passed": true,
+      "note": "source-crosswalk.json: 9 chapters aligned"
+    }
+  ]
+}

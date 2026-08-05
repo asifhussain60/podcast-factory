@@ -5,6 +5,7 @@ Pins the locked decisions: sessions derive from source Parts, apply only
 above the episode threshold (with config override), stamp contracts
 append-only and idempotently, and stay completely absent for flat books.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,7 +16,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _sessions as S  # noqa: E402
+import _sessions as S
 
 
 def _plan(counts):
@@ -23,12 +24,14 @@ def _plan(counts):
     out, ep = [], 1
     for i, n in enumerate(counts, start=1):
         eps = [{"ep_num": ep + j, "episode_slug": f"e{ep + j}"} for j in range(n)]
-        out.append({
-            "sc_index": i,
-            "source_title": f"Part {('One','Two','Three','Four','Five')[i-1]} — Theme {i}",
-            "episode_count": n,
-            "episodes": eps,
-        })
+        out.append(
+            {
+                "sc_index": i,
+                "source_title": f"Part {('One', 'Two', 'Three', 'Four', 'Five')[i - 1]} — Theme {i}",
+                "episode_count": n,
+                "episodes": eps,
+            }
+        )
         ep += n
     return out
 
@@ -64,10 +67,8 @@ class DeriveSessionsTest(unittest.TestCase):
 class TitleStrippingTest(unittest.TestCase):
     def test_strips_part_prefixes(self):
         cases = {
-            "Part One — The True Sources of Knowledge":
-                "The True Sources of Knowledge",
-            "Part Two — Spiritual Symbols: The Architecture of Creation":
-                "Spiritual Symbols: The Architecture of Creation",
+            "Part One — The True Sources of Knowledge": "The True Sources of Knowledge",
+            "Part Two — Spiritual Symbols: The Architecture of Creation": "Spiritual Symbols: The Architecture of Creation",
             "Part 3: Knowledge versus Action": "Knowledge versus Action",
             "Book II - On the Imamate": "On the Imamate",
         }
@@ -75,37 +76,36 @@ class TitleStrippingTest(unittest.TestCase):
             self.assertEqual(S.session_title_from_source(raw), want)
 
     def test_passthrough_without_prefix(self):
-        self.assertEqual(S.session_title_from_source("The Living Witness"),
-                         "The Living Witness")
+        self.assertEqual(S.session_title_from_source("The Living Witness"), "The Living Witness")
 
 
 class StampingTest(unittest.TestCase):
     def _book(self, tmp, counts):
         import json
+
         book = Path(tmp) / "Islamic" / "fixture"
         chunks = book / "_system" / "source" / "text" / "_chunks" / "0d"
         chunks.mkdir(parents=True)
-        (chunks / "source-toc.json").write_text(
-            json.dumps({"source_chapters": _plan(counts)}), encoding="utf-8")
+        (chunks / "source-toc.json").write_text(json.dumps({"source_chapters": _plan(counts)}), encoding="utf-8")
         cc = book / "chapter-contracts"
         cc.mkdir(parents=True)
         ep = 1
         for n in counts:
             for _ in range(n):
                 (cc / f"ep{ep:02d}.yml").write_text(
-                    f"slug: ep{ep:02d}\nepisode_number: {ep}\ntitle: T{ep}\n",
-                    encoding="utf-8")
+                    f"slug: ep{ep:02d}\nepisode_number: {ep}\ntitle: T{ep}\n", encoding="utf-8"
+                )
                 ep += 1
         return book
 
     def test_stamp_book_appends_fields_idempotently(self):
         import yaml
+
         with tempfile.TemporaryDirectory() as tmp:
             book = self._book(tmp, [3, 4, 4, 5, 4])
             n = S.stamp_book(book, log=lambda *a: None)
             self.assertEqual(n, 20)
-            data = yaml.safe_load(
-                (book / "chapter-contracts" / "ep12.yml").read_text())
+            data = yaml.safe_load((book / "chapter-contracts" / "ep12.yml").read_text())
             self.assertEqual(data["session_index"], 4)
             self.assertEqual(data["session_episode"], 1)
             self.assertEqual(data["session_episode_count"], 5)

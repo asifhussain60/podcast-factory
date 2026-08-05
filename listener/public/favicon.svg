@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <!--
+    The Podcast Factory mark, compact.
+
+    The same geometry as app/components/brand/mark.tsx with `compact` set: no
+    waveform bars and no grille slots, because at 16px neither survives. It is a
+    hand-kept copy rather than an import because a favicon is fetched as a
+    standalone document — it cannot reach the app's stylesheet, so the two
+    colours have to be literals here. Changing the mark means changing both.
+
+    A favicon also cannot read `data-theme`, so it follows the OS instead. That
+    is the one place in this project where prefers-color-scheme is correct.
+  -->
+  <style>
+    :root { --ink: #0c1b39; --accent: #0b53d4; }
+    @media (prefers-color-scheme: dark) {
+      :root { --ink: #e7edf8; --accent: #6ba5ff; }
+    }
+  </style>
+
+  <g fill="none" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M13 20 L13 66 C27 69 39 74 46.5 80 L46.5 34 C39 28 27 23 13 20 Z" stroke="var(--accent)"/>
+    <path d="M83 20 L83 66 C69 69 57 74 49.5 80 L49.5 34 C57 28 69 23 83 20 Z" stroke="var(--ink)"/>
+  </g>
+
+  <rect x="40" y="24" width="16" height="34" rx="8" fill="var(--ink)"/>
+  <g fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round">
+    <path d="M34 46 L34 50 A14 14 0 0 0 62 50 L62 46"/>
+    <path d="M48 64 L48 74"/>
+    <path d="M39 75.5 L57 75.5"/>
+  </g>
+</svg>

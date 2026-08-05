@@ -1,0 +1,23 @@
+{
+  "vowelled": 5,
+  "marks_added": 59,
+  "already": 163,
+  "quranic": 0,
+  "from_mushaf": 0,
+  "refused": 2,
+  "recovered": 0,
+  "in_chars": 86,
+  "out_chars": 154,
+  "mushaf_pairs": [],
+  "refusals": [
+    {
+      "run": "القذة بالقذة",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"القذة بالقذة\" vs proposal \"ألقذة بالقذة\")"
+    },
+    {
+      "run": "القذة بالقذة",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" بالقذة\" vs proposal \"\")"
+    }
+  ],
+  "lexical": 1
+}

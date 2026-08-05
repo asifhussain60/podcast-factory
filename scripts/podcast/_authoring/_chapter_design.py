@@ -2,6 +2,7 @@
 
 Extracted from _authoring.py (A4 split).
 """
+
 from __future__ import annotations
 
 import sys
@@ -9,29 +10,32 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from ._core import (  # noqa: E402
-    AuthoringError,
-    DEFAULT_TIMEOUT,
-    PHASE_0D_TOC_TIMEOUT,
-    PHASE_0D_SC_TIMEOUT,
-    _run_claude_p,
-    _run_claude_p_with_retry,
-    _assert_artifact,
-    _compute_sc_timeout,
-    ARABIC_SCHOLARLY_CATEGORIES,
-    SKIP_PHONETICS_CATEGORIES,
-    _read_category,
+from _content_profile import (
+    density_standard_active as _density_standard_active,
 )
-from _validator_constants import (  # noqa: E402
+from _content_profile import (
+    is_islamic_scholarly as _is_islamic_scholarly,
+)
+from _validator_constants import (
     EPISODE_DENSITY_CEILING_DENSE,
     EPISODE_DENSITY_CEILING_NARRATIVE,
     EPISODE_MAX_CONCEPTS,
     episode_overcrammed,
 )
-from _content_profile import (  # noqa: E402
-    is_islamic_scholarly as _is_islamic_scholarly,
-    density_standard_active as _density_standard_active,
+
+from ._core import (
+    ARABIC_SCHOLARLY_CATEGORIES,
+    DEFAULT_TIMEOUT,
+    PHASE_0D_SC_TIMEOUT,
+    PHASE_0D_TOC_TIMEOUT,
+    AuthoringError,
+    _assert_artifact,
+    _compute_sc_timeout,
+    _read_category,
+    _run_claude_p,
+    _run_claude_p_with_retry,
 )
+
 
 def _read_profile_and_planning(book_dir: Path) -> tuple[str, str]:
     """Return (content_profile, episode_planning_mode) from series-config.yaml.
@@ -44,6 +48,7 @@ def _read_profile_and_planning(book_dir: Path) -> tuple[str, str]:
         return ("islamic_scholarly", "")
     try:
         import yaml  # local import — keep module import-light
+
         cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
     except Exception:
         return ("islamic_scholarly", "")
@@ -64,15 +69,16 @@ def _episode_max_concepts(book_dir: Path) -> int:
     reading edition keeps full depth.
     """
     import json as _json
+
     try:
-        cfg = (_json.loads((book_dir / "_system" / "orchestrator-state.json").read_text())
-               .get("config") or {})
+        cfg = _json.loads((book_dir / "_system" / "orchestrator-state.json").read_text()).get("config") or {}
         if cfg.get("episode_max_concepts"):
             return max(1, int(cfg["episode_max_concepts"]))
     except Exception:
         pass
     try:
         import yaml as _yaml
+
         sc = book_dir / "_system" / "series-config.yaml"
         if sc.exists():
             v = (_yaml.safe_load(sc.read_text(encoding="utf-8")) or {}).get("episode_max_concepts")
@@ -97,13 +103,13 @@ def _concept_inventory(book_dir: Path) -> list[dict] | None:
     archive = book_dir / "chapters" / "_curator-archive"
     if not archive.is_dir():
         return None
-    from chapter_density_audit import audit_chapter  # noqa: PLC0415
+    from chapter_density_audit import audit_chapter
+
     inventory: list[dict] = []
     for p in sorted(archive.glob("*.txt")):
         d = audit_chapter(p, book_dir.name, "")
         if d.concept_count:
-            inventory.append(
-                {"file": p.name, "topics": [s.title for s in d.concept_sections]})
+            inventory.append({"file": p.name, "topics": [s.title for s in d.concept_sections]})
     return inventory or None
 
 
@@ -133,29 +139,30 @@ def _topic_floor_violations(
     planner redraws source-chapter boundaries.
     """
     import math
+
     violations: list[str] = []
     total_eps = 0
     for sc in source_chapters:
         try:
-            ep_count = int(sc.get("episode_count", 1) or 1)
+            ep_count = int(sc.get("episode_count", 1))  # 0 stays 0: a skip ships nothing
         except (TypeError, ValueError):
             ep_count = 1
         total_eps += ep_count
-        label = (f"sc {sc.get('sc_index', '?')} "
-                 f"({str(sc.get('source_title', '?'))[:40]})")
+        label = f"sc {sc.get('sc_index', '?')} ({str(sc.get('source_title', '?'))[:40]})"
         topics = sc.get("topics") or []
         if not topics:
-            if enforce and not consolidate:
+            if enforce and not consolidate and ep_count >= 1:  # a skip owes no topics
                 violations.append(
-                    f"{label}: plan is missing the `topics` enumeration "
-                    f"(required under the chapter-density standard)")
+                    f"{label}: plan is missing the `topics` enumeration (required under the chapter-density standard)"
+                )
             continue
         need = math.ceil(len(topics) / max_concepts)
         if ep_count < need:
             violations.append(
                 f"{label}: {len(topics)} distinct topics over {ep_count} "
                 f"episode(s) — requires episode_count >= {need} "
-                f"(max {max_concepts} concepts/episode)")
+                f"(max {max_concepts} concepts/episode)"
+            )
     if inventory and enforce:
         total_topics = sum(len(e["topics"]) for e in inventory)
         need_total = math.ceil(total_topics / max_concepts)
@@ -163,7 +170,8 @@ def _topic_floor_violations(
             violations.append(
                 f"whole-book: deterministic concept inventory carries "
                 f"{total_topics} concepts → plan requires >= {need_total} "
-                f"episodes total, plan has {total_eps}")
+                f"episodes total, plan has {total_eps}"
+            )
     return violations
 
 
@@ -197,7 +205,6 @@ def build_phase_0d_toc_prompt_technical(book_slug: str) -> str:
     )
 
 
-
 def _phase_0d_stitch(
     source_chapters: list,
     *,
@@ -217,14 +224,13 @@ def _phase_0d_stitch(
         rp = chunks_dir / f"sc-{sc_idx:03d}.rationale.md"
         if rp.exists() and rp.stat().st_size > 0:
             sc_title = str(sc.get("source_title", f"source chapter {sc_idx}"))
-            rationale_parts.append(f"## Source chapter {sc_idx} — {sc_title}\n\n{rp.read_text(encoding='utf-8').strip()}\n")
+            rationale_parts.append(
+                f"## Source chapter {sc_idx} — {sc_title}\n\n{rp.read_text(encoding='utf-8').strip()}\n"
+            )
     out_rationale.write_text("\n".join(rationale_parts) + "\n", encoding="utf-8")
 
     if unit_mode != "chapter":
-        header = (
-            "| source chapter | source title | episode(s) | split reason |\n"
-            "|---|---|---|---|\n"
-        )
+        header = "| source chapter | source title | episode(s) | split reason |\n|---|---|---|---|\n"
         sm_rows: list[str] = []
         for sc in source_chapters:
             sc_idx = int(sc["sc_index"])
@@ -232,7 +238,6 @@ def _phase_0d_stitch(
             if smp.exists() and smp.stat().st_size > 0:
                 sm_rows.append(smp.read_text(encoding="utf-8").strip())
         out_source_map.write_text(header + "\n".join(sm_rows) + "\n", encoding="utf-8")
-
 
 
 def _build_phase_0d_toc_prompt(
@@ -255,120 +260,120 @@ def _build_phase_0d_toc_prompt(
     the phase orchestration. EPISODE_MAX_CONCEPTS is a module global.
     """
     return (
-            f"You are driving Phase 0d STEP 1 (TOC + segmentation plan) of the /podcast "
-            f"skill on book-slug `{book_slug}`. This is a small read-mostly call: you will "
-            f"NOT write any chapter or contract files in this step — only one JSON plan.\n\n"
-            f"INPUT:  `{in_content}` (the refined English source)\n"
-            f"OUTPUT: `{toc_path}` (machine-readable plan; valid JSON only, no markdown)"
-            f"{_gap_context_block}\n\n"
-            f"TASK:\n"
-            f"1. Read `{in_content}` and identify the EPISODE units that serve the\n"
-            f"   listener best — NOT the source author's chapter list. The source's own\n"
-            f"   chapter breaks are ADVISORY, not authoritative. You are reconfiguring\n"
-            f"   the material into episodes; you are not transcribing a table of contents.\n"
-            f"   Specifically, you should:\n"
-            f"   (a) MERGE adjacent source chapters whose content shares one narrative or\n"
-            f"       doctrinal arc that a listener should hear as a single unit (e.g. an\n"
-            f"       editor's preface + the opening doctrinal chapter often belong together).\n"
-            f"   (b) SPLIT a long source chapter into multiple episodes when it carries\n"
-            f"       multiple distinct teachings that would each support a full episode.\n"
-            f"   (c) DROP editorial side-matter that wouldn't make a good standalone episode\n"
-            f"       (manuscript history, philological appendices) — flag via `essential:\n"
-            f"       skip` in the per-chapter contract so Asif can confirm at Phase 0f.\n"
-            f"   (d) RE-DRAW boundaries when a thematic seam falls inside a source chapter —\n"
-            f"       cut at the seam, not at the source's heading.\n"
-            f"{consolidation_directive}"
-            f"   Reflect your reconfiguration in `split_reason` per source chapter.\n"
-            f"2. For each output episode unit, compute its line range in `{in_content}` "
-            f"(1-indexed, inclusive — use `wc -l` style counting; lines are separated by "
-            f"`\\n`). Also compute its word count (whitespace-split).\n"
-            f"3. Apply the following segmentation directive PER SOURCE-OR-RECONFIGURED CHAPTER:\n"
-            f"   {unit_directive}\n"
-            f"3b. HARD DENSITY FLOOR — ARITHMETIC, NOT JUDGEMENT (no exceptions unless the\n"
-            f"   directive above is the forced single-episode 'chapter' mode): for EVERY\n"
-            f"   source-or-reconfigured chapter, `episode_count` MUST be >= ceil(word_count /\n"
-            f"   {density_ceiling_hint}). A chapter whose word_count exceeds {density_ceiling_hint:,} is\n"
-            f"   NEVER one episode — e.g. a {density_ceiling_hint + 218:,}-word chapter REQUIRES\n"
-            f"   episode_count >= 2 (set unit_mode='sections', cut at the nearest thematic\n"
-            f"   seam). 'It is one coherent teaching' is NOT a valid reason to exceed the\n"
-            f"   floor. A plan that violates this floor is rejected and you will be re-run, so\n"
-            f"   compute ceil(word_count / {density_ceiling_hint}) for each chapter and honour it.\n"
-            f"3c. CONCEPT CEILING — SECOND FLOOR, SAME DISCIPLINE (R-MAX-CONCEPTS, MANDATORY):\n"
-            f"   each episode covers AT MOST {EPISODE_MAX_CONCEPTS} distinct concept-level topics. ENUMERATE the\n"
-            f"   distinct teachings of each source chapter in a `topics` string array on that\n"
-            f"   source chapter's plan entry (one short title per topic), and require\n"
-            f"   episode_count >= ceil(len(topics) / {EPISODE_MAX_CONCEPTS}). A 5,400-word chapter that carries 9\n"
-            f"   distinct teachings is THREE episodes even though it fits one episode by word\n"
-            f"   count. Both floors are enforced by deterministic gates: the plan parser\n"
-            f"   computes ceil(len(topics) / {EPISODE_MAX_CONCEPTS}) per source chapter and REJECTS any plan\n"
-            f"   whose episode_count is lower, and a post-write gate rejects chapters that\n"
-            f"   come out with more than {EPISODE_MAX_CONCEPTS} concept sections. Merging several teachings\n"
-            f"   under one umbrella heading does NOT reduce the topic count — count at the\n"
-            f"   grain a listener experiences: one teachable unit = one topic.\n"
-            f"   When splitting by topic, keep each concept WHOLE inside one episode — never\n"
-            f"   leave a concept's argument straddling an episode boundary — and order the\n"
-            f"   episodes so each one's closing hands off naturally to the next one's opening.\n"
-            f"{inventory_block}"
-            f"{density_advisory_block}"
-            f"4. Assign monotonically increasing episode numbers (`ep_num`) across the whole "
-            f"book starting at 1. Each episode gets a short kebab-case `episode_slug` "
-            f"(distinct across the whole book). When a source chapter splits into multiple "
-            f"episodes (unit_mode='sections'), each episode's slug must reflect its OWN "
-            f"theme, not the source chapter's overall theme.\n\n"
-            f"Length tier: **{length_tier}** — target {tier_band}.\n\n"
-            f"OUTPUT FORMAT — write to `{toc_path}`, valid JSON, no surrounding text:\n"
-            f"```json\n"
-            f"{{\n"
-            f'  "length_tier": "{length_tier}",\n'
-            f'  "unit_mode_input": "{unit_mode}",\n'
-            f'  "source_chapters": [\n'
-            f'    {{\n'
-            f'      "sc_index": 1,\n'
-            f'      "source_title": "Introduction",\n'
-            f'      "start_line": 12,\n'
-            f'      "end_line": 487,\n'
-            f'      "word_count": 4280,\n'
-            f'      "topics": ["The question of authority", "Why a living guide", '
-            f'"The covenant"],\n'
-            f'      "unit_mode": "chapter",\n'
-            f'      "episode_count": 1,\n'
-            f'      "episodes": [\n'
-            f'        {{ "ep_num": 1, "episode_slug": "the-question-of-authority", '
-            f'"section_index": null }}\n'
-            f'      ],\n'
-            f'      "split_reason": "fits tier band"\n'
-            f'    }},\n'
-            f'    {{\n'
-            f'      "sc_index": 2,\n'
-            f'      "source_title": "On the Imamate",\n'
-            f'      "start_line": 488,\n'
-            f'      "end_line": 1820,\n'
-            f'      "word_count": 11400,\n'
-            f'      "topics": ["The claim to succession", "The designation texts", '
-            f'"The tests of legitimacy", "The counter-claims answered", '
-            f'"The unbroken chain", "The seal of the argument"],\n'
-            f'      "unit_mode": "sections",\n'
-            f'      "episode_count": 2,\n'
-            f'      "episodes": [\n'
-            f'        {{ "ep_num": 2, "episode_slug": "the-claim-to-succession", '
-            f'"section_index": 1 }},\n'
-            f'        {{ "ep_num": 3, "episode_slug": "the-tests-of-legitimacy", '
-            f'"section_index": 2 }}\n'
-            f'      ],\n'
-            f'      "split_reason": "1.7x upper bound; thematic seam at the legitimacy tests"\n'
-            f'    }}\n'
-            f'  ]\n'
-            f"}}\n"
-            f"```\n\n"
-            f"Constraints:\n"
-            f"- Write ONLY `{toc_path}`. Do NOT touch any other file.\n"
-            f"- The output MUST be valid JSON (parseable by Python's json.loads).\n"
-            f"- ep_num starts at 1 and is strictly monotonic across the whole array.\n"
-            f"- end_line of source_chapter N must be < start_line of source_chapter N+1.\n"
-            f"- episode_slug must be unique across the whole book.\n"
-            f"- For unit_mode='chapter', episodes[*].section_index MUST be null.\n"
-            f"- For unit_mode='sections', episodes[*].section_index is 1..episode_count.\n\n"
-            f"Exit when `{toc_path}` is non-empty and valid JSON."
+        f"You are driving Phase 0d STEP 1 (TOC + segmentation plan) of the /podcast "
+        f"skill on book-slug `{book_slug}`. This is a small read-mostly call: you will "
+        f"NOT write any chapter or contract files in this step — only one JSON plan.\n\n"
+        f"INPUT:  `{in_content}` (the refined English source)\n"
+        f"OUTPUT: `{toc_path}` (machine-readable plan; valid JSON only, no markdown)"
+        f"{_gap_context_block}\n\n"
+        f"TASK:\n"
+        f"1. Read `{in_content}` and identify the EPISODE units that serve the\n"
+        f"   listener best — NOT the source author's chapter list. The source's own\n"
+        f"   chapter breaks are ADVISORY, not authoritative. You are reconfiguring\n"
+        f"   the material into episodes; you are not transcribing a table of contents.\n"
+        f"   Specifically, you should:\n"
+        f"   (a) MERGE adjacent source chapters whose content shares one narrative or\n"
+        f"       doctrinal arc that a listener should hear as a single unit (e.g. an\n"
+        f"       editor's preface + the opening doctrinal chapter often belong together).\n"
+        f"   (b) SPLIT a long source chapter into multiple episodes when it carries\n"
+        f"       multiple distinct teachings that would each support a full episode.\n"
+        f"   (c) DROP editorial side-matter that wouldn't make a good standalone episode\n"
+        f"       (manuscript history, philological appendices) — flag via `essential:\n"
+        f"       skip` in the per-chapter contract so Asif can confirm at Phase 0f.\n"
+        f"   (d) RE-DRAW boundaries when a thematic seam falls inside a source chapter —\n"
+        f"       cut at the seam, not at the source's heading.\n"
+        f"{consolidation_directive}"
+        f"   Reflect your reconfiguration in `split_reason` per source chapter.\n"
+        f"2. For each output episode unit, compute its line range in `{in_content}` "
+        f"(1-indexed, inclusive — use `wc -l` style counting; lines are separated by "
+        f"`\\n`). Also compute its word count (whitespace-split).\n"
+        f"3. Apply the following segmentation directive PER SOURCE-OR-RECONFIGURED CHAPTER:\n"
+        f"   {unit_directive}\n"
+        f"3b. HARD DENSITY FLOOR — ARITHMETIC, NOT JUDGEMENT (no exceptions unless the\n"
+        f"   directive above is the forced single-episode 'chapter' mode): for EVERY\n"
+        f"   source-or-reconfigured chapter, `episode_count` MUST be >= ceil(word_count /\n"
+        f"   {density_ceiling_hint}). A chapter whose word_count exceeds {density_ceiling_hint:,} is\n"
+        f"   NEVER one episode — e.g. a {density_ceiling_hint + 218:,}-word chapter REQUIRES\n"
+        f"   episode_count >= 2 (set unit_mode='sections', cut at the nearest thematic\n"
+        f"   seam). 'It is one coherent teaching' is NOT a valid reason to exceed the\n"
+        f"   floor. A plan that violates this floor is rejected and you will be re-run, so\n"
+        f"   compute ceil(word_count / {density_ceiling_hint}) for each chapter and honour it.\n"
+        f"3c. CONCEPT CEILING — SECOND FLOOR, SAME DISCIPLINE (R-MAX-CONCEPTS, MANDATORY):\n"
+        f"   each episode covers AT MOST {EPISODE_MAX_CONCEPTS} distinct concept-level topics. ENUMERATE the\n"
+        f"   distinct teachings of each source chapter in a `topics` string array on that\n"
+        f"   source chapter's plan entry (one short title per topic), and require\n"
+        f"   episode_count >= ceil(len(topics) / {EPISODE_MAX_CONCEPTS}). A 5,400-word chapter that carries 9\n"
+        f"   distinct teachings is THREE episodes even though it fits one episode by word\n"
+        f"   count. Both floors are enforced by deterministic gates: the plan parser\n"
+        f"   computes ceil(len(topics) / {EPISODE_MAX_CONCEPTS}) per source chapter and REJECTS any plan\n"
+        f"   whose episode_count is lower, and a post-write gate rejects chapters that\n"
+        f"   come out with more than {EPISODE_MAX_CONCEPTS} concept sections. Merging several teachings\n"
+        f"   under one umbrella heading does NOT reduce the topic count — count at the\n"
+        f"   grain a listener experiences: one teachable unit = one topic.\n"
+        f"   When splitting by topic, keep each concept WHOLE inside one episode — never\n"
+        f"   leave a concept's argument straddling an episode boundary — and order the\n"
+        f"   episodes so each one's closing hands off naturally to the next one's opening.\n"
+        f"{inventory_block}"
+        f"{density_advisory_block}"
+        f"4. Assign monotonically increasing episode numbers (`ep_num`) across the whole "
+        f"book starting at 1. Each episode gets a short kebab-case `episode_slug` "
+        f"(distinct across the whole book). When a source chapter splits into multiple "
+        f"episodes (unit_mode='sections'), each episode's slug must reflect its OWN "
+        f"theme, not the source chapter's overall theme.\n\n"
+        f"Length tier: **{length_tier}** — target {tier_band}.\n\n"
+        f"OUTPUT FORMAT — write to `{toc_path}`, valid JSON, no surrounding text:\n"
+        f"```json\n"
+        f"{{\n"
+        f'  "length_tier": "{length_tier}",\n'
+        f'  "unit_mode_input": "{unit_mode}",\n'
+        f'  "source_chapters": [\n'
+        f"    {{\n"
+        f'      "sc_index": 1,\n'
+        f'      "source_title": "Introduction",\n'
+        f'      "start_line": 12,\n'
+        f'      "end_line": 487,\n'
+        f'      "word_count": 4280,\n'
+        f'      "topics": ["The question of authority", "Why a living guide", '
+        f'"The covenant"],\n'
+        f'      "unit_mode": "chapter",\n'
+        f'      "episode_count": 1,\n'
+        f'      "episodes": [\n'
+        f'        {{ "ep_num": 1, "episode_slug": "the-question-of-authority", '
+        f'"section_index": null }}\n'
+        f"      ],\n"
+        f'      "split_reason": "fits tier band"\n'
+        f"    }},\n"
+        f"    {{\n"
+        f'      "sc_index": 2,\n'
+        f'      "source_title": "On the Imamate",\n'
+        f'      "start_line": 488,\n'
+        f'      "end_line": 1820,\n'
+        f'      "word_count": 11400,\n'
+        f'      "topics": ["The claim to succession", "The designation texts", '
+        f'"The tests of legitimacy", "The counter-claims answered", '
+        f'"The unbroken chain", "The seal of the argument"],\n'
+        f'      "unit_mode": "sections",\n'
+        f'      "episode_count": 2,\n'
+        f'      "episodes": [\n'
+        f'        {{ "ep_num": 2, "episode_slug": "the-claim-to-succession", '
+        f'"section_index": 1 }},\n'
+        f'        {{ "ep_num": 3, "episode_slug": "the-tests-of-legitimacy", '
+        f'"section_index": 2 }}\n'
+        f"      ],\n"
+        f'      "split_reason": "1.7x upper bound; thematic seam at the legitimacy tests"\n'
+        f"    }}\n"
+        f"  ]\n"
+        f"}}\n"
+        f"```\n\n"
+        f"Constraints:\n"
+        f"- Write ONLY `{toc_path}`. Do NOT touch any other file.\n"
+        f"- The output MUST be valid JSON (parseable by Python's json.loads).\n"
+        f"- ep_num starts at 1 and is strictly monotonic across the whole array.\n"
+        f"- end_line of source_chapter N must be < start_line of source_chapter N+1.\n"
+        f"- episode_slug must be unique across the whole book.\n"
+        f"- For unit_mode='chapter', episodes[*].section_index MUST be null.\n"
+        f"- For unit_mode='sections', episodes[*].section_index is 1..episode_count.\n\n"
+        f"Exit when `{toc_path}` is non-empty and valid JSON."
     )
 
 
@@ -384,16 +389,18 @@ def _volume_allocation(book_dir: Path):
     EARLIER volumes (to seed cross-volume de-dup). Best-effort — never fatal.
     """
     import sys as _sys
+
     _sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
     # Legitimate "no allocation here" cases — return empty SILENTLY (single books,
     # works without a split yet). A volume's book_dir.name is "vol-NN", NOT its
     # composite slug, so resolve the work-aware "<work>-vol-NN" via _paths.slug_of.
     try:
-        import _work_manifest as wm  # noqa: E402
-        import _paths  # noqa: E402
+        import _paths
+        import _work_manifest as wm
+
         slug = _paths.slug_of(book_dir)
         work_slug = wm.work_slug_of(slug)
-    except Exception:  # noqa: BLE001 — resolver hiccup, not a degradation
+    except Exception:
         return "", []
     if not work_slug:
         return "", []
@@ -406,14 +413,18 @@ def _volume_allocation(book_dir: Path):
     # so WARN loudly rather than silently returning empty.
     try:
         import json as _json
+
         doc = _json.loads(split_path.read_text())
         entry = wm.volume_entry(slug) or {}
         vol_dir, order = entry.get("dir"), entry.get("order", 0)
         vols = doc.get("volumes", {})
         my_concepts = vols.get(vol_dir, {}).get("concepts", [])
-        prior = [c["teaching"][:120]
-                 for v in wm.volumes_of(work_slug) if v.get("order", 0) < order
-                 for c in vols.get(v.get("dir"), {}).get("concepts", [])]
+        prior = [
+            c["teaching"][:120]
+            for v in wm.volumes_of(work_slug)
+            if v.get("order", 0) < order
+            for c in vols.get(v.get("dir"), {}).get("concepts", [])
+        ]
         listing = "\n".join(f"  - [{c['cluster']}] {c['teaching'][:160]}" for c in my_concepts)
         block = (
             "\n\nVOLUME CONCEPT ALLOCATION (work-level teaching allocator — AUTHORITATIVE).\n"
@@ -421,29 +432,28 @@ def _volume_allocation(book_dir: Path):
             "(listed in source order, for coverage reference only). EVERY concept must be covered "
             "across this volume's episodes (none dropped); NO concept outside this list belongs "
             "here; concepts already aired in earlier volumes must NOT be re-taught.\n"
-            "CRITICAL — EACH EPISODE STANDS ALONE. Every chapter and contract you author is "
-            "uploaded to NotebookLM and read LITERALLY by the hosts. NEVER write cross-episode or "
-            "continuity references anywhere in a chapter or contract — forbidden phrases include "
-            "'the previous episode', 'the next episode', 'earlier we', 'as we saw', 'as we will "
-            "see', 'this volume', 'handing off to', 'in the last lesson'. Describe ONLY this "
-            "episode's own content; put no authoring/meta commentary about ordering or other "
-            "episodes into any field.\n\n"
             f"ALLOCATED CONCEPTS:\n{listing}\n"
         )
         return block, prior
-    except Exception as _e:  # noqa: BLE001 — advisory, but surface the degradation
-        print(f"  WARNING: _volume-split.json present at {split_path} but could not be "
-              f"applied ({_e!r}); 0d will author WITHOUT allocation coverage/de-dup.")
+    except Exception as _e:
+        print(
+            f"  WARNING: _volume-split.json present at {split_path} but could not be "
+            f"applied ({_e!r}); 0d will author WITHOUT allocation coverage/de-dup."
+        )
         return "", []
 
 
-def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
-                    unit_mode: str = "auto",
-                    timeout: int = DEFAULT_TIMEOUT,
-                    toc_timeout: int = PHASE_0D_TOC_TIMEOUT,
-                    sc_timeout: int = PHASE_0D_SC_TIMEOUT,
-                    log=print,
-                    category: str | None = None) -> str:
+def author_phase_0d(
+    book_dir: Path,
+    *,
+    length_tier: str = "extended",
+    unit_mode: str = "auto",
+    timeout: int = DEFAULT_TIMEOUT,
+    toc_timeout: int = PHASE_0D_TOC_TIMEOUT,
+    sc_timeout: int = PHASE_0D_SC_TIMEOUT,
+    log=print,
+    category: str | None = None,
+) -> str:
     """Segment the refined source into meaningful, balanced **episode units**.
 
     Implemented as a 2-step map-reduce so the LLM never has to author the
@@ -524,12 +534,18 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"episode framing only — do not factor into boundary decisions.\n\n"
             f"```\n{_gap_excerpt}\n```\n"
         )
+    # EVERY book, not just multi-volume ones — see _extract_contract.stands_alone_rule.
+    from _extract_contract import stands_alone_rule
+
+    _gap_context_block = _gap_context_block + "\n\n" + stands_alone_rule()
     # Work-level teaching allocation (multi-volume works only; "" for single books).
     _alloc_block, _prior_vol_concepts = _volume_allocation(book_dir)
     if _alloc_block:
         _gap_context_block = _gap_context_block + _alloc_block
-        log(f"  phase 0d · volume allocation active "
-            f"({len(_prior_vol_concepts)} prior-volume concepts seeded for cross-volume de-dup)")
+        log(
+            f"  phase 0d · volume allocation active "
+            f"({len(_prior_vol_concepts)} prior-volume concepts seeded for cross-volume de-dup)"
+        )
 
     out_rationale = book_dir / "_system" / "source" / "text" / "chapters-rationale.md"
     out_source_map = book_dir / "_system" / "source" / "text" / "source-chapter-map.md"
@@ -560,11 +576,12 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # vignette planning mode) instead GROUPS adjacent chapters into arc-level
     # episodes. Driven by content_profile + episode_planning_mode in series-config.
     _profile, _planning_mode = _read_profile_and_planning(book_dir)
-    _consolidate = (_profile == "fiction") or (
-        _planning_mode in {"chronological", "vignette_grid", "consolidate"})
+    _consolidate = (_profile == "fiction") or (_planning_mode in {"chronological", "vignette_grid", "consolidate"})
     if _consolidate:
-        log(f"  phase 0d · CONSOLIDATION mode (profile={_profile!r}, "
-            f"planning_mode={_planning_mode!r}) — grouping adjacent chapters into arcs")
+        log(
+            f"  phase 0d · CONSOLIDATION mode (profile={_profile!r}, "
+            f"planning_mode={_planning_mode!r}) — grouping adjacent chapters into arcs"
+        )
 
     chunks_dir.mkdir(parents=True, exist_ok=True)
     chapters_dir.mkdir(parents=True, exist_ok=True)
@@ -586,8 +603,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # Islamic scholarly content is validated against EPISODE_DENSITY_CEILING_DENSE
     # (6,000w), not the narrative 9,500w ceiling. Cap the tier_band upper bound so
     # the LLM's segmentation target matches what the density validator will enforce.
-    if (category in ARABIC_SCHOLARLY_CATEGORIES and _is_islamic_scholarly(book_dir)
-            and "9,500" in tier_band):
+    if category in ARABIC_SCHOLARLY_CATEGORIES and _is_islamic_scholarly(book_dir) and "9,500" in tier_band:
         tier_band = tier_band.replace("9,500", f"{EPISODE_DENSITY_CEILING_DENSE:,}")
         _tier_hi = min(_tier_hi, EPISODE_DENSITY_CEILING_DENSE)
 
@@ -602,10 +618,11 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # segmenter cannot under-split a dense chapter into a marathon episode and
     # then dead-halt the phase. Must match the density_ceiling computed at the
     # over-cram check.
-    density_ceiling_hint = (EPISODE_DENSITY_CEILING_DENSE
-                            if (category in ARABIC_SCHOLARLY_CATEGORIES
-                                and _is_islamic_scholarly(book_dir))
-                            else EPISODE_DENSITY_CEILING_NARRATIVE)
+    density_ceiling_hint = (
+        EPISODE_DENSITY_CEILING_DENSE
+        if (category in ARABIC_SCHOLARLY_CATEGORIES and _is_islamic_scholarly(book_dir))
+        else EPISODE_DENSITY_CEILING_NARRATIVE
+    )
 
     unit_directive = {
         "chapter": (
@@ -655,23 +672,19 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # topic-counting judgement (which under-counted 59 topics as ~15 on
     # the-master-and-the-disciple and re-planned 5 marathon episodes).
     _inventory = _concept_inventory(book_dir)
-    _enforce_topic_floor = (_density_standard_active(book_dir)
-                            or (category in ARABIC_SCHOLARLY_CATEGORIES
-                                and _is_islamic_scholarly(book_dir)))
+    _enforce_topic_floor = _density_standard_active(book_dir) or (
+        category in ARABIC_SCHOLARLY_CATEGORIES and _is_islamic_scholarly(book_dir)
+    )
     inventory_block = ""
     if _inventory:
         import math as _math
+
         _inv_total = sum(len(e["topics"]) for e in _inventory)
-        _inv_lines = [
-            f"   - {e['file']}: {len(e['topics'])} topics — "
-            + "; ".join(e["topics"])
-            for e in _inventory
-        ]
+        _inv_lines = [f"   - {e['file']}: {len(e['topics'])} topics — " + "; ".join(e["topics"]) for e in _inventory]
         inventory_block = (
-            f"3d. DETERMINISTIC CONCEPT INVENTORY (BINDING — measured from a prior\n"
-            f"   render of this exact source at the established concept grain; the\n"
-            f"   post-parse gate enforces it arithmetically):\n"
-            + "\n".join(_inv_lines) + "\n"
+            "3d. DETERMINISTIC CONCEPT INVENTORY (BINDING — measured from a prior\n"
+            "   render of this exact source at the established concept grain; the\n"
+            "   post-parse gate enforces it arithmetically):\n" + "\n".join(_inv_lines) + "\n"
             f"   TOTAL: {_inv_total} concepts. The whole plan MUST contain at least\n"
             f"   ceil({_inv_total} / {EPISODE_MAX_CONCEPTS}) = "
             f"{_math.ceil(_inv_total / EPISODE_MAX_CONCEPTS)} episodes across all source\n"
@@ -686,8 +699,9 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # pattern — present on re-runs, silent (empty string) on fresh books.
     density_advisory_block = ""
     try:
-        from _density_profiles import planner_enabled as _dplanner_enabled  # noqa: PLC0415
-        from density_planner import phase_0d_advisory_block as _density_advisory  # noqa: PLC0415
+        from _density_profiles import planner_enabled as _dplanner_enabled
+        from density_planner import phase_0d_advisory_block as _density_advisory
+
         if _dplanner_enabled(book_dir):
             density_advisory_block = _density_advisory(book_dir)
     except Exception:
@@ -719,13 +733,17 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         # using the prompt size as the word-count proxy (2026-06-15).
         eff_toc_timeout = max(toc_timeout, _compute_sc_timeout(len(toc_prompt.split())))
         rc, stdout, stderr = _run_claude_p(
-            toc_prompt, timeout=eff_toc_timeout,
-            book_dir=book_dir, phase="0d", step="toc",
+            toc_prompt,
+            timeout=eff_toc_timeout,
+            book_dir=book_dir,
+            phase="0d",
+            step="toc",
         )
         # Stdout fallback: claude -p sometimes emits valid JSON as text output instead
         # of using the Write tool. Detect and salvage that JSON before failing.
         if not toc_path.exists() and stdout and stdout.strip().startswith("{"):
             import re as _re
+
             m = _re.search(r"(\{.*\})", stdout, _re.DOTALL)
             if m:
                 candidate = m.group(1).strip()
@@ -755,10 +773,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         raise AuthoringError(
             phase="0d-toc",
             message=f"source-toc.json is not valid JSON: {e}",
-            manual_fallback=(
-                f"Fix or delete `{toc_path}` and retry Phase 0d "
-                f"(--resume --retry-phase 0d)."
-            ),
+            manual_fallback=(f"Fix or delete `{toc_path}` and retry Phase 0d (--resume --retry-phase 0d)."),
         ) from e
 
     source_chapters = plan.get("source_chapters") or []
@@ -779,10 +794,11 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # Use the tighter dense ceiling only for Islamic scholarly content — check
     # content_profile first so fiction/technical books in the "books" category
     # (which is in ARABIC_SCHOLARLY_CATEGORIES) aren't wrongly capped at 6,000w.
-    density_ceiling = (EPISODE_DENSITY_CEILING_DENSE
-                       if (category in ARABIC_SCHOLARLY_CATEGORIES
-                           and _is_islamic_scholarly(book_dir))
-                       else EPISODE_DENSITY_CEILING_NARRATIVE)
+    density_ceiling = (
+        EPISODE_DENSITY_CEILING_DENSE
+        if (category in ARABIC_SCHOLARLY_CATEGORIES and _is_islamic_scholarly(book_dir))
+        else EPISODE_DENSITY_CEILING_NARRATIVE
+    )
     overcrammed: list[str] = []
     for sc in source_chapters:
         try:
@@ -790,24 +806,27 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             ep_count = int(sc.get("episode_count", 1))
         except (KeyError, ValueError, TypeError):
             continue
-        words = len("\n".join(refined_lines[max(0, a - 1):b]).split())
+        words = len("\n".join(refined_lines[max(0, a - 1) : b]).split())
         need = episode_overcrammed(words, ep_count, density_ceiling)
         if need:
             overcrammed.append(
                 f"sc {sc.get('sc_index', '?')} "
                 f"({str(sc.get('source_title', '?'))[:40]}): {words}w over {ep_count} "
                 f"episode(s) = {words // max(1, ep_count)}w/episode > {density_ceiling}w "
-                f"ceiling — split into >= {need} episodes")
+                f"ceiling — split into >= {need} episodes"
+            )
     if overcrammed:
         raise AuthoringError(
             phase="0d-toc",
-            message=("Phase 0d segmentation is over-crammed — too many teachings per episode "
-                     f"(ceiling {density_ceiling}w/episode for category '{category}'):\n  "
-                     + "\n  ".join(overcrammed)),
+            message=(
+                "Phase 0d segmentation is over-crammed — too many teachings per episode "
+                f"(ceiling {density_ceiling}w/episode for category '{category}'):\n  " + "\n  ".join(overcrammed)
+            ),
             manual_fallback=(
                 f"Edit `{toc_path}`: raise episode_count (unit_mode='sections') for the flagged "
                 f"source chapter(s), re-cutting at thematic seams so each episode is ONE coherent "
-                f"teaching cluster, then retry Phase 0d (--resume --retry-phase 0d)."),
+                f"teaching cluster, then retry Phase 0d (--resume --retry-phase 0d)."
+            ),
         )
 
     # ── Topic floor — deterministic R-MAX-CONCEPTS plan gate (2026-06-10) ────
@@ -817,7 +836,8 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # "<= 3 H2 sections" by rolling 9 teachings under 3 umbrella headings,
     # but it cannot shrink the topic count the plan was forced to enumerate.
     topic_violations = _topic_floor_violations(
-        source_chapters, _inventory,
+        source_chapters,
+        _inventory,
         max_concepts=EPISODE_MAX_CONCEPTS,
         enforce=_enforce_topic_floor,
         consolidate=_consolidate,
@@ -825,22 +845,25 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     if topic_violations:
         raise AuthoringError(
             phase="0d-toc",
-            message=("Phase 0d plan violates the chapter-density topic floor "
-                     f"(max {EPISODE_MAX_CONCEPTS} concepts/episode — "
-                     "docs/standards/chapter-density.md):\n  "
-                     + "\n  ".join(topic_violations)),
+            message=(
+                "Phase 0d plan violates the chapter-density topic floor "
+                f"(max {EPISODE_MAX_CONCEPTS} concepts/episode — "
+                "docs/standards/chapter-density.md):\n  " + "\n  ".join(topic_violations)
+            ),
             manual_fallback=(
                 f"Delete `{toc_path}` and retry Phase 0d (--resume --retry-phase 0d) so the "
                 f"planner re-plans against the inventory, or edit the plan's episode_count / "
                 f"topics arrays by hand to satisfy episode_count >= ceil(topics / "
-                f"{EPISODE_MAX_CONCEPTS}) per source chapter."),
+                f"{EPISODE_MAX_CONCEPTS}) per source chapter."
+            ),
         )
 
     # Session grouping (chapter-density standard, presence-gated): derive once
     # from the validated plan; each source chapter's contracts are stamped
     # right after they pass the post-write gate. Flat books derive None and
     # nothing is stamped anywhere.
-    from _sessions import sessions_for_plan, session_for_episode, stamp_contract  # noqa: PLC0415
+    from _sessions import session_for_episode, sessions_for_plan, stamp_contract
+
     plan_sessions = sessions_for_plan(book_dir, source_chapters)
     if plan_sessions:
         log(f"  phase 0d · session grouping active — {len(plan_sessions)} sessions")
@@ -856,14 +879,14 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
     # a callback. Deterministic extraction (H2 concept titles via
     # chapter_density_audit — no extra LLM call); seeded from any already-authored
     # chapters so it is resume-safe.
-    from chapter_density_audit import audit_chapter as _audit_ch  # noqa: PLC0415
+    from chapter_density_audit import audit_chapter as _audit_ch
 
     def _chapter_concepts(_cf: Path) -> list[str]:
         try:
-            return [s.title.strip()
-                    for s in _audit_ch(_cf, book_slug, "").concept_sections
-                    if s.title and s.title.strip()]
-        except Exception:  # noqa: BLE001 — ledger is best-effort, never fatal
+            return [
+                s.title.strip() for s in _audit_ch(_cf, book_slug, "").concept_sections if s.title and s.title.strip()
+            ]
+        except Exception:
             return []
 
     # Seed with EARLIER volumes' concepts so the per-source-chapter R-NO-DOCTRINE-REPEAT
@@ -887,7 +910,9 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         episode_count = int(sc.get("episode_count", 1))
         episodes = sc.get("episodes") or []
         if len(episodes) != episode_count:
-            sc_failures.append((sc_idx, f"plan inconsistent: episodes={len(episodes)} != episode_count={episode_count}"))
+            sc_failures.append(
+                (sc_idx, f"plan inconsistent: episodes={len(episodes)} != episode_count={episode_count}")
+            )
             continue
 
         done_marker = chunks_dir / f"sc-{sc_idx:03d}.done"
@@ -901,10 +926,12 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
 
         # Slice the refined text for this source chapter.
         if start_line < 1 or end_line > len(refined_lines) or start_line > end_line:
-            sc_failures.append((sc_idx, f"bad line range {start_line}-{end_line} (refined has {len(refined_lines)} lines)"))
+            sc_failures.append(
+                (sc_idx, f"bad line range {start_line}-{end_line} (refined has {len(refined_lines)} lines)")
+            )
             log(f"    sc {sc_idx:03d}/{len(source_chapters)} · BAD RANGE")
             continue
-        slice_text = "\n".join(refined_lines[start_line - 1:end_line])
+        slice_text = "\n".join(refined_lines[start_line - 1 : end_line])
         slice_wc = len(slice_text.split())
         slice_path.write_text(slice_text, encoding="utf-8")
 
@@ -992,7 +1019,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"     contract:\n"
             f"       sermon:\n"
             f"         present: true\n"
-            f"         section_title: \"<the H2 title of the sermon section>\"\n"
+            f'         section_title: "<the H2 title of the sermon section>"\n'
             f"     The framing author uses this to instruct the hosts to recite the sermon\n"
             f"     aloud before discussing it. A sermon counts as ONE concept section even\n"
             f"     when long.\n"
@@ -1020,7 +1047,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"  episode_count: {episode_count}\n"
             f"  length_tier: {length_tier} ({tier_band})\n"
             f"  episodes:\n" + "\n".join(episode_lines) + "\n\n"
-            f"OUTPUTS (write exactly these files — DO NOT touch any other path):\n"
+            "OUTPUTS (write exactly these files — DO NOT touch any other path):\n"
             + "".join(f"  - `{p}`\n" for p in expected_chapter_files)
             + "".join(f"  - `{p}`\n" for p in expected_contract_files)
             + f"  - `{rationale_path}` (one paragraph per episode in this source chapter; "
@@ -1029,7 +1056,8 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                 f"  - `{source_map_path}` (pipe-table rows for THIS source chapter, "
                 f"NO header — the orchestrator stitches headers later. Format per row: "
                 f"`| {sc_idx} | {sc_title} | <comma-sep chapter filenames> | <split_reason> |`)\n"
-                if unit_mode != "chapter" else ""
+                if unit_mode != "chapter"
+                else ""
             )
             + f"\nConstraints:\n"
             f"- Use the EXACT episode filenames listed above. Do NOT invent slugs or "
@@ -1069,7 +1097,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             f"central claim that <THESIS> by <SPECIFIC CONTRIBUTION>.' If the "
             f"chapter does not advance the central thesis (it is digression, "
             f"appendix, supplementary apparatus, or fundraising), set `thesis_relevance: "
-            f"\"out-of-scope\"` and EXCLUDE the chapter from the episode array; "
+            f'"out-of-scope"` and EXCLUDE the chapter from the episode array; '
             f"move it to series-plan's `frontmatter:` list with the reason. This "
             f"prevents the F23 failure mode (chapters that don't serve the listener's "
             f"reason for choosing the book getting shipped as full episodes).\n"
@@ -1132,7 +1160,8 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                 "  - When this episode is a section of a longer source chapter, also include "
                 "`source_chapter_ref` (the sc_index) and `section_index` (1-based) in the "
                 "contract.\n"
-                if sc_unit_mode == "sections" else ""
+                if sc_unit_mode == "sections"
+                else ""
             )
             + f"- Each chapter txt MUST land inside the tier band ({tier_band}).\n"
             f"- Do NOT modify any file outside the named outputs (in particular, do NOT "
@@ -1164,13 +1193,18 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
 
         # chapters get the budget they need without short ones overpaying.
         per_sc_timeout = _compute_sc_timeout(slice_wc)
-        log(f"    sc {sc_idx:03d}/{len(source_chapters)} · authoring "
+        log(
+            f"    sc {sc_idx:03d}/{len(source_chapters)} · authoring "
             f"({episode_count} ep, {slice_wc} src words, timeout={per_sc_timeout}s) · "
-            f"`{sc_title[:50]}`")
+            f"`{sc_title[:50]}`"
+        )
         try:
             rc, stdout, stderr = _run_claude_p_with_retry(
-                sc_prompt, timeout=per_sc_timeout,
-                book_dir=book_dir, phase="0d", step=f"sc-{sc_idx:03d}",
+                sc_prompt,
+                timeout=per_sc_timeout,
+                book_dir=book_dir,
+                phase="0d",
+                step=f"sc-{sc_idx:03d}",
                 log=log,
             )
         except AuthoringError as e:
@@ -1188,16 +1222,16 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
             sc_failures.append(
                 (
                     sc_idx,
-                    f"rc={rc}: stderr={(stderr or '').strip()[:300]} | "
-                    f"stdout={(stdout or '').strip()[:300]}",
+                    f"rc={rc}: stderr={(stderr or '').strip()[:300]} | stdout={(stdout or '').strip()[:300]}",
                 )
             )
             log(f"    sc {sc_idx:03d}/{len(source_chapters)} · FAILED rc={rc}")
             continue
 
         # Validate this source chapter's outputs.
-        missing = [str(p) for p in expected_chapter_files + expected_contract_files
-                   if not p.exists() or p.stat().st_size == 0]
+        missing = [
+            str(p) for p in expected_chapter_files + expected_contract_files if not p.exists() or p.stat().st_size == 0
+        ]
         if not rationale_path.exists() or rationale_path.stat().st_size == 0:
             missing.append(str(rationale_path))
         if unit_mode != "chapter" and (not source_map_path.exists() or source_map_path.stat().st_size == 0):
@@ -1217,9 +1251,9 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                     f"issue."
                 ),
                 manual_fallback=(
-                    f"Inspect stdout/stderr attached to this error. If the "
-                    f"prompt needs adjusting, edit and resume. If transient "
-                    f"quota, retry. DO NOT silently advance."
+                    "Inspect stdout/stderr attached to this error. If the "
+                    "prompt needs adjusting, edit and resume. If transient "
+                    "quota, retry. DO NOT silently advance."
                 ),
                 stdout=stdout or "",
                 stderr=stderr or "",
@@ -1229,15 +1263,15 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         # Count concept-level H2 sections (frames excluded) in every chapter
         # txt this source chapter produced; reject over-dense output BEFORE
         # the done marker so resume re-authors it.
-        from chapter_density_audit import audit_chapter  # noqa: PLC0415
+        from chapter_density_audit import audit_chapter
+
         over_dense: list[str] = []
         for cf in expected_chapter_files:
             density = audit_chapter(cf, book_slug, "", max_concepts=EPISODE_MAX_CONCEPTS)
             if density.concept_count > EPISODE_MAX_CONCEPTS:
                 over_dense.append(
                     f"{cf.name}: {density.concept_count} concept sections "
-                    f"(max {EPISODE_MAX_CONCEPTS}): "
-                    + "; ".join(s.title for s in density.concept_sections)
+                    f"(max {EPISODE_MAX_CONCEPTS}): " + "; ".join(s.title for s in density.concept_sections)
                 )
         if over_dense:
             for cf in expected_chapter_files + expected_contract_files:
@@ -1249,7 +1283,7 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                     f"R-MAX-CONCEPTS — over-dense episode(s) rejected and deleted:\n  "
                     + "\n  ".join(over_dense)
                     + "\nThe plan under-split this source chapter by topic count. "
-                    f"See docs/standards/chapter-density.md."
+                    "See docs/standards/chapter-density.md."
                 ),
                 manual_fallback=(
                     f"Re-run Phase 0d for this source chapter (the .done marker was "
@@ -1289,10 +1323,10 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
                 + "; ".join(f"sc {i}: {m}" for i, m in sc_failures[:3])
             ),
             manual_fallback=(
-                f"Inspect _chunks/0d/sc-NNN.in.md for failed source chapters; "
-                f"drive each manually via /podcast, then re-invoke "
-                f"orchestrate-book --resume (already-done source chapters are skipped via "
-                f"the .done marker file)."
+                "Inspect _chunks/0d/sc-NNN.in.md for failed source chapters; "
+                "drive each manually via /podcast, then re-invoke "
+                "orchestrate-book --resume (already-done source chapters are skipped via "
+                "the .done marker file)."
             ),
         )
 
@@ -1326,4 +1360,3 @@ def author_phase_0d(book_dir: Path, *, length_tier: str = "extended",
         f"0d map-reduce: {len(source_chapters)} source chapters → "
         f"{total_episodes} episodes (chapters + contracts written)"
     )
-

@@ -1,0 +1,1263 @@
+{
+  "schema": "book.arabic-audit/v1",
+  "chapters": [
+    {
+      "chapter": "(front matter)",
+      "arabic_runs": 0,
+      "unverified": 0,
+      "runs": []
+    },
+    {
+      "chapter": "Introduction to the Book",
+      "arabic_runs": 3,
+      "unverified": 1,
+      "runs": [
+        {
+          "text": "الْإِمَامَة",
+          "resolution": "ocr",
+          "skeleton": "الامامه"
+        },
+        {
+          "text": "اَلنَّيْسَابُورِي",
+          "resolution": "ocr",
+          "skeleton": "النيسابوري"
+        },
+        {
+          "text": "اَلْكِرْمَانِيّ",
+          "resolution": "unverified",
+          "skeleton": "الكرماني"
+        }
+      ]
+    },
+    {
+      "chapter": "1. The Pole and Foundation of Religion",
+      "arabic_runs": 29,
+      "unverified": 1,
+      "runs": [
+        {
+          "text": "اَلْأَوْلِيَاء",
+          "resolution": "unverified",
+          "skeleton": "الاولياء"
+        },
+        {
+          "text": "عِمَارَة",
+          "resolution": "ocr",
+          "skeleton": "عماره"
+        },
+        {
+          "text": "اَلْحَكِيم",
+          "resolution": "ocr",
+          "skeleton": "الحكيم"
+        },
+        {
+          "text": "وَلِيّ عَهْد الْمُسْلِمِين",
+          "resolution": "ocr",
+          "skeleton": "وليعهدالمسلمين"
+        },
+        {
+          "text": "خَلِيفَة",
+          "resolution": "ocr",
+          "skeleton": "خليفه"
+        },
+        {
+          "text": "أَسَاسُه",
+          "resolution": "ocr",
+          "skeleton": "اساسه"
+        },
+        {
+          "text": "التَّوْحِيد",
+          "resolution": "ocr",
+          "skeleton": "التوحيد"
+        },
+        {
+          "text": "التَّأْوِيل",
+          "resolution": "ocr",
+          "skeleton": "التاويل"
+        },
+        {
+          "text": "إِثْبَات",
+          "resolution": "ocr",
+          "skeleton": "اثبات"
+        },
+        {
+          "text": "وَإِذِ ٱبْتَلَىٰٓ إِبْرَهِۦمَ رَبُّهُۥ بِكَلِمَتٍۢ فَأَتَمَّهُنَّ ۖ قَالَ إِنِّى جَاعِلُكَ لِلنَّاسِ إِمَامًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذابتليابرهمربهبكلمتفاتمهنقالانيجاعلكلل"
+        },
+        {
+          "text": "خَلِيفَة",
+          "resolution": "ocr",
+          "skeleton": "خليفه"
+        },
+        {
+          "text": "اَلْحُجَج",
+          "resolution": "ocr",
+          "skeleton": "الحجج"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اِسْتَشْهَد",
+          "resolution": "ocr",
+          "skeleton": "استشهد"
+        },
+        {
+          "text": "اَلْاِسْتِدْلَال",
+          "resolution": "ocr",
+          "skeleton": "الاستدلال"
+        },
+        {
+          "text": "اَلْآفَاق",
+          "resolution": "ocr",
+          "skeleton": "الافاق"
+        },
+        {
+          "text": "اَلسِّيَاسَة",
+          "resolution": "ocr",
+          "skeleton": "السياسه"
+        },
+        {
+          "text": "اَلرُّسُوم",
+          "resolution": "ocr",
+          "skeleton": "الرسوم"
+        },
+        {
+          "text": "اَلْعَقْل",
+          "resolution": "ocr",
+          "skeleton": "العقل"
+        },
+        {
+          "text": "اَلضَّرُورَة",
+          "resolution": "ocr",
+          "skeleton": "الضروره"
+        },
+        {
+          "text": "اَلْفِطْرَة",
+          "resolution": "ocr",
+          "skeleton": "الفطره"
+        },
+        {
+          "text": "الْجِبْلَة",
+          "resolution": "ocr",
+          "skeleton": "الجبله"
+        },
+        {
+          "text": "اَلْاِتِّفَاق",
+          "resolution": "ocr",
+          "skeleton": "الاتفاق"
+        },
+        {
+          "text": "أَهْلُ كُلِّ مِلَّةٍ",
+          "resolution": "ocr",
+          "skeleton": "اهلكلمله"
+        },
+        {
+          "text": "اَلْفَلَاسِفَة",
+          "resolution": "ocr",
+          "skeleton": "الفلاسفه"
+        },
+        {
+          "text": "أَهْلُ الْحِسَاب",
+          "resolution": "ocr",
+          "skeleton": "اهلالحساب"
+        },
+        {
+          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ ۗ أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ شَهِيدٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنافيالافاقوفيانفسهمحتييتبينلهما"
+        },
+        {
+          "text": "اَلْفَرَائِض",
+          "resolution": "ocr",
+          "skeleton": "الفرايض"
+        },
+        {
+          "text": "وَلِيُّ الْعَصْرِ وَالزَّمَانِ",
+          "resolution": "ocr",
+          "skeleton": "وليالعصروالزمان"
+        }
+      ]
+    },
+    {
+      "chapter": "2. By Nature and by Reason",
+      "arabic_runs": 27,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلْفِطْرَة",
+          "resolution": "ocr",
+          "skeleton": "الفطره"
+        },
+        {
+          "text": "اَلطَّبِيعَة",
+          "resolution": "ocr",
+          "skeleton": "الطبيعه"
+        },
+        {
+          "text": "اَلْعَقْل",
+          "resolution": "ocr",
+          "skeleton": "العقل"
+        },
+        {
+          "text": "اَلسِّيَاسَة",
+          "resolution": "ocr",
+          "skeleton": "السياسه"
+        },
+        {
+          "text": "اَلْوَضْع",
+          "resolution": "ocr",
+          "skeleton": "الوضع"
+        },
+        {
+          "text": "اَلرُّسُوم",
+          "resolution": "ocr",
+          "skeleton": "الرسوم"
+        },
+        {
+          "text": "شَرِيْعَة",
+          "resolution": "ocr",
+          "skeleton": "شريعه"
+        },
+        {
+          "text": "أَئِمَّة",
+          "resolution": "ocr",
+          "skeleton": "ايمه"
+        },
+        {
+          "text": "حُكَمَاء",
+          "resolution": "ocr",
+          "skeleton": "حكماء"
+        },
+        {
+          "text": "رَأْسُ الْعُلَمَاء",
+          "resolution": "ocr",
+          "skeleton": "راسالعلماء"
+        },
+        {
+          "text": "مُعَلِّم",
+          "resolution": "ocr",
+          "skeleton": "معلم"
+        },
+        {
+          "text": "اَلضَّرُورَة",
+          "resolution": "ocr",
+          "skeleton": "الضروره"
+        },
+        {
+          "text": "مَعْرِفَةُ إِمَامِ الْحَقِّ",
+          "resolution": "ocr",
+          "skeleton": "معرفهامامالحق"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "تَشَبُّه",
+          "resolution": "ocr",
+          "skeleton": "تشبه"
+        },
+        {
+          "text": "تَعْطِيلْ",
+          "resolution": "ocr",
+          "skeleton": "تعطيل"
+        },
+        {
+          "text": "الْكَوَاكِب",
+          "resolution": "ocr",
+          "skeleton": "الكواكب"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "مَنْفَعَة",
+          "resolution": "ocr",
+          "skeleton": "منفعه"
+        },
+        {
+          "text": "اَلتَّنَسُّم",
+          "resolution": "ocr",
+          "skeleton": "التنسم"
+        },
+        {
+          "text": "اَلْمِثَالَاتُ الْجَبْرِيَّات",
+          "resolution": "ocr",
+          "skeleton": "المثالاتالجبريات"
+        },
+        {
+          "text": "تَشَبُّه",
+          "resolution": "ocr",
+          "skeleton": "تشبه"
+        },
+        {
+          "text": "يُحَرِّفُونَ ٱلْكَلِمَ عَن مَّوَاضِعِهِۦ ۙ وَنَسُوا۟ حَظًّۭا مِّمَّا ذُكِّرُوا۟ بِهِۦ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يحرفونالكلمعنمواضعهونسواحظامماذكروابه"
+        },
+        {
+          "text": "إِنَّمَا ٱلنَّسِىٓءُ زِيَادَةٌۭ فِى ٱلْكُفْرِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انماالنسيءزيادهفيالكفر"
+        },
+        {
+          "text": "تَضِلَّ إِحْدَىٰهُمَا فَتُذَكِّرَ إِحْدَىٰهُمَا ٱلْأُخْرَىٰ ۚ وَلَا يَأْبَ ٱلشُّهَدَآءُ إِذَا مَا دُعُوا۟",
+          "resolution": "canonical-mushaf",
+          "skeleton": "تضلاحداهمافتذكراحداهماالاخريولايابالشهدا"
+        },
+        {
+          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنافيالافاقوفيانفسهمحتييتبينلهما"
+        }
+      ]
+    },
+    {
+      "chapter": "3. Degrees of Excellence",
+      "arabic_runs": 24,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "الْجَوْهَر",
+          "resolution": "ocr",
+          "skeleton": "الجوهر"
+        },
+        {
+          "text": "اَلْكَيْفِيَّة",
+          "resolution": "ocr",
+          "skeleton": "الكيفيه"
+        },
+        {
+          "text": "الْإِضَافَة",
+          "resolution": "ocr",
+          "skeleton": "الاضافه"
+        },
+        {
+          "text": "اَلْمَكَان",
+          "resolution": "ocr",
+          "skeleton": "المكان"
+        },
+        {
+          "text": "اَلزَّمَانْ",
+          "resolution": "ocr",
+          "skeleton": "الزمان"
+        },
+        {
+          "text": "الْمَفْعُول",
+          "resolution": "ocr",
+          "skeleton": "المفعول"
+        },
+        {
+          "text": "الْأَعْرَاض",
+          "resolution": "ocr",
+          "skeleton": "الاعراض"
+        },
+        {
+          "text": "اَلْعَنَاصِر",
+          "resolution": "ocr",
+          "skeleton": "العناصر"
+        },
+        {
+          "text": "التَّرَاكِيب",
+          "resolution": "ocr",
+          "skeleton": "التراكيب"
+        },
+        {
+          "text": "اَلنُّورُ الْعَقْلِيّ",
+          "resolution": "ocr",
+          "skeleton": "النورالعقلي"
+        },
+        {
+          "text": "اَلْحَرَكَة",
+          "resolution": "ocr",
+          "skeleton": "الحركه"
+        },
+        {
+          "text": "اَلْعُلُو",
+          "resolution": "ocr",
+          "skeleton": "العلو"
+        },
+        {
+          "text": "فَلَكُ الْأَفْلَاك",
+          "resolution": "ocr",
+          "skeleton": "فلكالافلاك"
+        },
+        {
+          "text": "اَلنَّاطِق",
+          "resolution": "ocr",
+          "skeleton": "الناطق"
+        },
+        {
+          "text": "الْعَقْلُ الْكُلِّي",
+          "resolution": "ocr",
+          "skeleton": "العقلالكلي"
+        },
+        {
+          "text": "اَلْأَرْكَان",
+          "resolution": "ocr",
+          "skeleton": "الاركان"
+        },
+        {
+          "text": "يُرِيدُونَ أَن يُطْفِـُٔوا۟ نُورَ ٱللَّهِ بِأَفْوَهِهِمْ وَيَأْبَى ٱللَّهُ إِلَّآ أَن يُتِمَّ نُورَهُۥ وَلَوْ كَرِهَ ٱلْكَفِرُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يريدونانيطفوانوراللهبافوههمويابياللهالاا"
+        },
+        {
+          "text": "الْكَوَاكِب",
+          "resolution": "ocr",
+          "skeleton": "الكواكب"
+        },
+        {
+          "text": "اَلْحُجَج",
+          "resolution": "ocr",
+          "skeleton": "الحجج"
+        },
+        {
+          "text": "اَلْحُجَج",
+          "resolution": "ocr",
+          "skeleton": "الحجج"
+        },
+        {
+          "text": "اَللَّوَاحِق",
+          "resolution": "ocr",
+          "skeleton": "اللواحق"
+        },
+        {
+          "text": "اَلدَّاعِي",
+          "resolution": "ocr",
+          "skeleton": "الداعي"
+        },
+        {
+          "text": "اَلْجَنَاح",
+          "resolution": "ocr",
+          "skeleton": "الجناح"
+        },
+        {
+          "text": "الْمَأْذُون",
+          "resolution": "ocr",
+          "skeleton": "الماذون"
+        }
+      ]
+    },
+    {
+      "chapter": "4. The Ladder of Creation",
+      "arabic_runs": 25,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "حَصَبُ جَهَنَّمَ أَنتُمْ لَهَا وَرِدُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "حصبجهنمانتملهاوردون"
+        },
+        {
+          "text": "فَٱتَّقُوا۟ ٱلنَّارَ ٱلَّتِى وَقُودُهَا ٱلنَّاسُ وَٱلْحِجَارَةُ ۖ أُعِدَّتْ لِلْكَفِرِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فاتقواالنارالتيوقودهاالناسوالحجارهاعدتلل"
+        },
+        {
+          "text": "أَهْلُ الظَّاهِر",
+          "resolution": "ocr",
+          "skeleton": "اهلالظاهر"
+        },
+        {
+          "text": "أَلَمْ تَرَ كَيْفَ ضَرَبَ ٱللَّهُ مَثَلًۭا كَلِمَةًۭ طَيِّبَةًۭ كَشَجَرَةٍۢ طَيِّبَةٍ أَصْلُهَا ثَابِتٌۭ وَفَرْعُهَا فِى ٱلسَّمَآءِ تُؤْتِىٓ أُكُلَهَا كُلَّ حِينٍۭ بِإِذْنِ رَبِّهَا ۗ وَيَضْرِبُ ٱللَّهُ ٱلْأَمْثَالَ لِلنَّاسِ لَعَلَّهُمْ يَتَذَكَّرُونَ وَمَثَلُ كَلِمَةٍ خَبِيثَةٍۢ كَشَجَرَةٍ خَبِيثَةٍ ٱجْتُثَّتْ مِن فَوْقِ ٱلْأَرْضِ مَا لَهَا مِن قَرَارٍۢ",
+          "resolution": "ocr",
+          "skeleton": "المتركيفضرباللهمثلاكلمهطيبهكشجرهطيبهاصله"
+        },
+        {
+          "text": "يَعْسُوب",
+          "resolution": "ocr",
+          "skeleton": "يعسوب"
+        },
+        {
+          "text": "يَعْسُوب",
+          "resolution": "ocr",
+          "skeleton": "يعسوب"
+        },
+        {
+          "text": "وَأَوْحَىٰ رَبُّكَ إِلَى ٱلنَّحْلِ أَنِ ٱتَّخِذِى مِنَ ٱلْجِبَالِ بُيُوتًۭا وَمِنَ ٱلشَّجَرِ وَمِمَّا يَعْرِشُونَ ثُمَّ كُلِى مِن كُلِّ ٱلثَّمَرَتِ فَٱسْلُكِى سُبُلَ رَبِّكِ ذُلُلًۭا ۚ يَخْرُجُ مِنۢ بُطُونِهَا شَرَابٌۭ مُّخْتَلِفٌ أَلْوَنُهُۥ فِيهِ شِفَآءٌۭ لِّلنَّاسِ",
+          "resolution": "ocr",
+          "skeleton": "واوحيربكاليالنحلاناتخذيمنالجبالبيوتاومنا"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "مَعْرِفَةُ الصَّانِع",
+          "resolution": "ocr",
+          "skeleton": "معرفهالصانع"
+        },
+        {
+          "text": "إِنَّ شَرَّ ٱلدَّوَآبِّ عِندَ ٱللَّهِ ٱلصُّمُّ ٱلْبُكْمُ ٱلَّذِينَ لَا يَعْقِلُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انشرالدوابعنداللهالصمالبكمالذينلايعقلون"
+        },
+        {
+          "text": "أُو۟لَٓئِكَ كَٱلْأَنْعَمِ بَلْ هُمْ أَضَلُّ ۚ أُو۟لَٓئِكَ هُمُ ٱلْغَفِلُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اوليككالانعمبلهماضلاوليكهمالغفلون"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "أَفَآءَ ٱللَّهُ عَلَىٰ رَسُولِهِۦ مِنْ أَهْلِ ٱلْقُرَىٰ فَلِلَّهِ وَلِلرَّسُولِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "افاءاللهعليرسولهمناهلالقريفللهوللرسول"
+        },
+        {
+          "text": "اَلْفَيْء",
+          "resolution": "ocr",
+          "skeleton": "الفيء"
+        },
+        {
+          "text": "رُوحُ النَّمَاء",
+          "resolution": "ocr",
+          "skeleton": "روحالنماء"
+        },
+        {
+          "text": "رُوحُ الْحِسّ",
+          "resolution": "ocr",
+          "skeleton": "روحالحس"
+        },
+        {
+          "text": "رُوحُ النُّطْق",
+          "resolution": "ocr",
+          "skeleton": "روحالنطق"
+        },
+        {
+          "text": "رُوحُ الْقُدْس",
+          "resolution": "ocr",
+          "skeleton": "روحالقدس"
+        },
+        {
+          "text": "رُوحُ الْوَحْدَةِ",
+          "resolution": "ocr",
+          "skeleton": "روحالوحده"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        }
+      ]
+    },
+    {
+      "chapter": "5. The Physician of Souls",
+      "arabic_runs": 18,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلْكَيْمُوسَات",
+          "resolution": "ocr",
+          "skeleton": "الكيموسات"
+        },
+        {
+          "text": "وَلَوْ يُؤَاخِذُ ٱللَّهُ ٱلنَّاسَ بِمَا كَسَبُوا۟ مَا تَرَكَ عَلَىٰ ظَهْرِهَا مِن دَآبَّةٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولويواخذاللهالناسبماكسبواماتركعليظهرهامن"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلْحَكِيم",
+          "resolution": "ocr",
+          "skeleton": "الحكيم"
+        },
+        {
+          "text": "اَلتَّسْلِيم",
+          "resolution": "ocr",
+          "skeleton": "التسليم"
+        },
+        {
+          "text": "رَعِيَّة",
+          "resolution": "ocr",
+          "skeleton": "رعيه"
+        },
+        {
+          "text": "اَلتَّفَاوُت",
+          "resolution": "ocr",
+          "skeleton": "التفاوت"
+        },
+        {
+          "text": "التَّفَاضُل",
+          "resolution": "ocr",
+          "skeleton": "التفاضل"
+        },
+        {
+          "text": "الْعَقْلُ الْكُلِّي",
+          "resolution": "ocr",
+          "skeleton": "العقلالكلي"
+        },
+        {
+          "text": "اَلْإِمَام",
+          "resolution": "ocr",
+          "skeleton": "الامام"
+        },
+        {
+          "text": "الْمَأْمُوم",
+          "resolution": "ocr",
+          "skeleton": "الماموم"
+        },
+        {
+          "text": "الْمَفْضُول",
+          "resolution": "ocr",
+          "skeleton": "المفضول"
+        },
+        {
+          "text": "اَلسَّابِق",
+          "resolution": "ocr",
+          "skeleton": "السابق"
+        },
+        {
+          "text": "اَلْمَسْبُوق",
+          "resolution": "ocr",
+          "skeleton": "المسبوق"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        }
+      ]
+    },
+    {
+      "chapter": "6. Governance and the First Principle",
+      "arabic_runs": 13,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "سِيَاسَة اَلْخَاصَّة",
+          "resolution": "ocr",
+          "skeleton": "سياسهالخاصه"
+        },
+        {
+          "text": "سِيَاسَةُ الْحَامَّة",
+          "resolution": "ocr",
+          "skeleton": "سياسهالحامه"
+        },
+        {
+          "text": "سِيَاسَةُ الْعَامَّة",
+          "resolution": "ocr",
+          "skeleton": "سياسهالعامه"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "أَهْلُ الظَّاهِر",
+          "resolution": "ocr",
+          "skeleton": "اهلالظاهر"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "فَلِلَّهِ ٱلْحُجَّةُ ٱلْبَلِغَةُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فللهالحجهالبلغه"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "دَائِرَة الدِّين",
+          "resolution": "ocr",
+          "skeleton": "دايرهالدين"
+        },
+        {
+          "text": "الْحُدُود",
+          "resolution": "ocr",
+          "skeleton": "الحدود"
+        },
+        {
+          "text": "الدُّعَاء",
+          "resolution": "ocr",
+          "skeleton": "الدعاء"
+        },
+        {
+          "text": "نُكَتًا عَلَى الِاخْتِصَارِ",
+          "resolution": "ocr",
+          "skeleton": "نكتاعليالاختصار"
+        },
+        {
+          "text": "اَلْفَرَائِض",
+          "resolution": "ocr",
+          "skeleton": "الفرايض"
+        }
+      ]
+    },
+    {
+      "chapter": "7. The Imam in the Pillars of Faith",
+      "arabic_runs": 42,
+      "unverified": 1,
+      "runs": [
+        {
+          "text": "الْإِمَامُ الْأَعْظَم",
+          "resolution": "ocr",
+          "skeleton": "الامامالاعظم"
+        },
+        {
+          "text": "اَلْجُزْئِيّ",
+          "resolution": "ocr",
+          "skeleton": "الجزيي"
+        },
+        {
+          "text": "الْأَعْظَم",
+          "resolution": "ocr",
+          "skeleton": "الاعظم"
+        },
+        {
+          "text": "شَرِيْعَة",
+          "resolution": "ocr",
+          "skeleton": "شريعه"
+        },
+        {
+          "text": "التَّأْوِيل",
+          "resolution": "ocr",
+          "skeleton": "التاويل"
+        },
+        {
+          "text": "وَلَايَة",
+          "resolution": "ocr",
+          "skeleton": "ولايه"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلتَّسْلِيم",
+          "resolution": "ocr",
+          "skeleton": "التسليم"
+        },
+        {
+          "text": "الْأَمْر",
+          "resolution": "ocr",
+          "skeleton": "الامر"
+        },
+        {
+          "text": "الْأُمَّة",
+          "resolution": "ocr",
+          "skeleton": "الامه"
+        },
+        {
+          "text": "اَلْخُطْبَة",
+          "resolution": "ocr",
+          "skeleton": "الخطبه"
+        },
+        {
+          "text": "الْمَنَابِر",
+          "resolution": "ocr",
+          "skeleton": "المنابر"
+        },
+        {
+          "text": "مَعْرِفَة",
+          "resolution": "ocr",
+          "skeleton": "معرفه"
+        },
+        {
+          "text": "مَمْثُول",
+          "resolution": "ocr",
+          "skeleton": "ممثول"
+        },
+        {
+          "text": "اَلْاِسْتِلَام",
+          "resolution": "unverified",
+          "skeleton": "الاستلام"
+        },
+        {
+          "text": "الْإِحْرَام",
+          "resolution": "ocr",
+          "skeleton": "الاحرام"
+        },
+        {
+          "text": "اَلزَّكَاة",
+          "resolution": "ocr",
+          "skeleton": "الزكاه"
+        },
+        {
+          "text": "نَاسِخَة",
+          "resolution": "ocr",
+          "skeleton": "ناسخه"
+        },
+        {
+          "text": "مَنْسُوخَة",
+          "resolution": "ocr",
+          "skeleton": "منسوخه"
+        },
+        {
+          "text": "أَهْلُ الْبَيْت",
+          "resolution": "ocr",
+          "skeleton": "اهلالبيت"
+        },
+        {
+          "text": "اَلزَّكَاة",
+          "resolution": "ocr",
+          "skeleton": "الزكاه"
+        },
+        {
+          "text": "اَلزَّكَاة",
+          "resolution": "ocr",
+          "skeleton": "الزكاه"
+        },
+        {
+          "text": "اَلْخَرَاج",
+          "resolution": "ocr",
+          "skeleton": "الخراج"
+        },
+        {
+          "text": "اَلْفِئَة",
+          "resolution": "ocr",
+          "skeleton": "الفيه"
+        },
+        {
+          "text": "اَلْخُمْس",
+          "resolution": "ocr",
+          "skeleton": "الخمس"
+        },
+        {
+          "text": "اَلْخُطْبَة",
+          "resolution": "ocr",
+          "skeleton": "الخطبه"
+        },
+        {
+          "text": "الْحُدُود",
+          "resolution": "ocr",
+          "skeleton": "الحدود"
+        },
+        {
+          "text": "أَرْشُ اَلْجِرَاحَات",
+          "resolution": "ocr",
+          "skeleton": "ارشالجراحات"
+        },
+        {
+          "text": "وَلَايَة",
+          "resolution": "ocr",
+          "skeleton": "ولايه"
+        },
+        {
+          "text": "أَتَأْمُرُونَ ٱلنَّاسَ بِٱلْبِرِّ وَتَنسَوْنَ أَنفُسَكُمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اتامرونالناسبالبروتنسونانفسكم"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "كُنتُمْ خَيْرَ أُمَّةٍ أُخْرِجَتْ لِلنَّاسِ تَأْمُرُونَ بِٱلْمَعْرُوفِ وَتَنْهَوْنَ عَنِ ٱلْمُنكَرِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "كنتمخيرامهاخرجتللناستامرونبالمعروفوتنهون"
+        },
+        {
+          "text": "اَلْأَئِمَّةُ الْوَسَطْ",
+          "resolution": "ocr",
+          "skeleton": "الايمهالوسط"
+        },
+        {
+          "text": "النَّاسِخ وَالْمَنْسُوخ",
+          "resolution": "ocr",
+          "skeleton": "الناسخوالمنسوخ"
+        },
+        {
+          "text": "اَلْقِيَاس",
+          "resolution": "ocr",
+          "skeleton": "القياس"
+        },
+        {
+          "text": "وَلَايَة",
+          "resolution": "ocr",
+          "skeleton": "ولايه"
+        },
+        {
+          "text": "اَلْاِخْتِيَار",
+          "resolution": "ocr",
+          "skeleton": "الاختيار"
+        },
+        {
+          "text": "اَلْاِتِّفَاق",
+          "resolution": "ocr",
+          "skeleton": "الاتفاق"
+        },
+        {
+          "text": "اَلْإِجْمَاع",
+          "resolution": "ocr",
+          "skeleton": "الاجماع"
+        },
+        {
+          "text": "اَلْاِجْتِهَاد",
+          "resolution": "ocr",
+          "skeleton": "الاجتهاد"
+        },
+        {
+          "text": "خَلِيفَة",
+          "resolution": "ocr",
+          "skeleton": "خليفه"
+        },
+        {
+          "text": "أُصُولُ الدِّين",
+          "resolution": "ocr",
+          "skeleton": "اصولالدين"
+        }
+      ]
+    },
+    {
+      "chapter": "8. From Adam to Ali",
+      "arabic_runs": 27,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "إِنِّى جَاعِلٌۭ فِى ٱلْأَرْضِ خَلِيفَةًۭ ۖ قَالُوٓا۟ أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ ۖ قَالَ إِنِّىٓ أَعْلَمُ مَا لَا تَعْلَمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انيجاعلفيالارضخليفهقالوااتجعلفيهامنيفسدف"
+        },
+        {
+          "text": "اَلْاِخْتِيَار",
+          "resolution": "ocr",
+          "skeleton": "الاختيار"
+        },
+        {
+          "text": "فَلَا تَقُل لَّهُمَآ أُفٍّۢ وَلَا تَنْهَرْهُمَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فلاتقللهماافولاتنهرهما"
+        },
+        {
+          "text": "القذة بالقذة",
+          "resolution": "ocr",
+          "skeleton": "القذهبالقذه"
+        },
+        {
+          "text": "سُنَّةَ مَن قَدْ أَرْسَلْنَا قَبْلَكَ مِن رُّسُلِنَا ۖ وَلَا تَجِدُ لِسُنَّتِنَا تَحْوِيلًا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنهمنقدارسلناقبلكمنرسلناولاتجدلسنتناتحوي"
+        },
+        {
+          "text": "وَلَن تَجِدَ لِسُنَّةِ ٱللَّهِ تَبْدِيلًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولنتجدلسنهاللهتبديلا"
+        },
+        {
+          "text": "الْعِبَادَات",
+          "resolution": "ocr",
+          "skeleton": "العبادات"
+        },
+        {
+          "text": "أَهْلُ الْبَيْت",
+          "resolution": "ocr",
+          "skeleton": "اهلالبيت"
+        },
+        {
+          "text": "التَّوْقِيف",
+          "resolution": "ocr",
+          "skeleton": "التوقيف"
+        },
+        {
+          "text": "نُورُ الْإِمَامَة",
+          "resolution": "ocr",
+          "skeleton": "نورالامامه"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "بَيْتُ الْمُقَدَّس",
+          "resolution": "ocr",
+          "skeleton": "بيتالمقدس"
+        },
+        {
+          "text": "قِبْلَتَكُمْ",
+          "resolution": "ocr",
+          "skeleton": "قبلتكم"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلْاِخْتِيَار",
+          "resolution": "ocr",
+          "skeleton": "الاختيار"
+        },
+        {
+          "text": "وَرَبُّكَ يَخْلُقُ مَا يَشَآءُ وَيَخْتَارُ ۗ مَا كَانَ لَهُمُ ٱلْخِيَرَةُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وربكيخلقمايشاءويختارماكانلهمالخيره"
+        },
+        {
+          "text": "أَشْيَاء",
+          "resolution": "ocr",
+          "skeleton": "اشياء"
+        },
+        {
+          "text": "فَضَّلَ ٱللَّهُ ٱلْمُجَهِدِينَ بِأَمْوَلِهِمْ وَأَنفُسِهِمْ عَلَى ٱلْقَعِدِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فضلاللهالمجهدينبامولهموانفسهمعليالقعدين"
+        },
+        {
+          "text": "ٱلَّذِينَ يَعْلَمُونَ وَٱلَّذِينَ لَا يَعْلَمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الذينيعلمونوالذينلايعلمون"
+        },
+        {
+          "text": "أُوتُوا۟ ٱلْعِلْمَ دَرَجَتٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اوتواالعلمدرجت"
+        },
+        {
+          "text": "أَكْرَمَكُمْ عِندَ ٱللَّهِ أَتْقَىٰكُمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اكرمكمعنداللهاتقاكم"
+        },
+        {
+          "text": "الْخَاصّ",
+          "resolution": "ocr",
+          "skeleton": "الخاص"
+        },
+        {
+          "text": "الْعَامّ",
+          "resolution": "ocr",
+          "skeleton": "العام"
+        },
+        {
+          "text": "اَلتَّقْوَى",
+          "resolution": "ocr",
+          "skeleton": "التقوي"
+        },
+        {
+          "text": "الْمُحْتَسِبِين",
+          "resolution": "ocr",
+          "skeleton": "المحتسبين"
+        },
+        {
+          "text": "اَلسَّابِق",
+          "resolution": "ocr",
+          "skeleton": "السابق"
+        },
+        {
+          "text": "اَلْفُرْقَان",
+          "resolution": "ocr",
+          "skeleton": "الفرقان"
+        }
+      ]
+    },
+    {
+      "chapter": "9. God's Vicegerent in His Time",
+      "arabic_runs": 22,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "وَلِيُّ الْعَصْرِ وَالزَّمَانِ",
+          "resolution": "ocr",
+          "skeleton": "وليالعصروالزمان"
+        },
+        {
+          "text": "اَلْحَكِيم",
+          "resolution": "ocr",
+          "skeleton": "الحكيم"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "دَار عَمَلِه",
+          "resolution": "ocr",
+          "skeleton": "دارعمله"
+        },
+        {
+          "text": "مَوَالِيد",
+          "resolution": "ocr",
+          "skeleton": "مواليد"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلْوَضْعِيّ",
+          "resolution": "ocr",
+          "skeleton": "الوضعي"
+        },
+        {
+          "text": "اَلْخِلَافَة",
+          "resolution": "ocr",
+          "skeleton": "الخلافه"
+        },
+        {
+          "text": "خَلِيفَة",
+          "resolution": "ocr",
+          "skeleton": "خليفه"
+        },
+        {
+          "text": "اَلتَّشَبُّهُ بِالْبَارِئِ",
+          "resolution": "ocr",
+          "skeleton": "التشبهبالباري"
+        },
+        {
+          "text": "أَهْلُ الْحَقِيقَة",
+          "resolution": "ocr",
+          "skeleton": "اهلالحقيقه"
+        },
+        {
+          "text": "إِيْمَانْ",
+          "resolution": "ocr",
+          "skeleton": "ايمان"
+        },
+        {
+          "text": "اَلْكُفْر",
+          "resolution": "ocr",
+          "skeleton": "الكفر"
+        },
+        {
+          "text": "وَقَدْ كَانُوا۟ يُدْعَوْنَ إِلَى ٱلسُّجُودِ وَهُمْ سَلِمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وقدكانوايدعوناليالسجودوهمسلمون"
+        },
+        {
+          "text": "أَهْلُ الْحَقّ",
+          "resolution": "ocr",
+          "skeleton": "اهلالحق"
+        },
+        {
+          "text": "أَهْلُ الْبَاطِل",
+          "resolution": "ocr",
+          "skeleton": "اهلالباطل"
+        },
+        {
+          "text": "وَلِيُّ الْعَصْرِ وَالزَّمَانِ",
+          "resolution": "ocr",
+          "skeleton": "وليالعصروالزمان"
+        },
+        {
+          "text": "الشِّرْك",
+          "resolution": "ocr",
+          "skeleton": "الشرك"
+        },
+        {
+          "text": "اَلْكُفْر",
+          "resolution": "ocr",
+          "skeleton": "الكفر"
+        },
+        {
+          "text": "اَلنِّفَاق",
+          "resolution": "ocr",
+          "skeleton": "النفاق"
+        },
+        {
+          "text": "الْأَمْرُ الْعَالِي",
+          "resolution": "ocr",
+          "skeleton": "الامرالعالي"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "canonical-mushaf": 26,
+    "ocr": 201,
+    "knowledge-base": 0,
+    "honorific-formula": 0,
+    "unverified": 3,
+    "arabic_runs": 230
+  },
+  "quran_coverage": {
+    "measured": true,
+    "cited": 23,
+    "with_arabic": 24,
+    "coverage": 1.0,
+    "uncovered": [],
+    "uncited_inserted": 3
+  },
+  "stages": {
+    "final": {
+      "(front matter)": 0,
+      "Introduction to the Book": 3,
+      "1. The Pole and Foundation of Religion": 29,
+      "2. By Nature and by Reason": 27,
+      "3. Degrees of Excellence": 24,
+      "4. The Ladder of Creation": 25,
+      "5. The Physician of Souls": 18,
+      "6. Governance and the First Principle": 13,
+      "7. The Imam in the Pillars of Faith": 42,
+      "8. From Adam to Ali": 27,
+      "9. God's Vicegerent in His Time": 22
+    }
+  },
+  "stage_losses": []
+}

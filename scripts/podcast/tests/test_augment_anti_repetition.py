@@ -5,6 +5,7 @@ Verifies the per-episode augmentation ledger excludes atoms already injected
 into OTHER episodes of the same book, while keeping single-episode re-runs
 idempotent. Uses a throwaway DB + temp book dir — no Gemini, no canonical-DB writes.
 """
+
 from __future__ import annotations
 
 import json
@@ -17,8 +18,8 @@ SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 sys.path.insert(0, str(SCRIPTS_PODCAST / "intelligence"))
 
-import _db  # noqa: E402
-import augmenter  # noqa: E402
+import _db
+import augmenter
 
 
 class TestLedgerHelpers(unittest.TestCase):
@@ -28,10 +29,12 @@ class TestLedgerHelpers(unittest.TestCase):
         return d
 
     def test_excludes_other_episodes_keeps_self(self):
-        ledger = {"episodes": {
-            "ch01": {"atoms_injected": ["doctrine:a", "term:x"]},
-            "ch02": {"atoms_injected": ["doctrine:b"]},
-        }}
+        ledger = {
+            "episodes": {
+                "ch01": {"atoms_injected": ["doctrine:a", "term:x"]},
+                "ch02": {"atoms_injected": ["doctrine:b"]},
+            }
+        }
         # From ch02's perspective: ch01's atoms are excluded; ch02's own are not.
         used = augmenter._atoms_used_in_other_episodes(ledger, "ch02")
         self.assertEqual(used, {"doctrine:a", "term:x"})
@@ -65,8 +68,7 @@ class TestDoctrineExclusion(unittest.TestCase):
                 "VALUES (?, 'doctrine', ?, 'universal', 'taveel')",
                 (f"doctrine:d{i}", json.dumps({"text_en": f"teaching {i}"})),
             )
-            conn.execute("INSERT INTO atom_topic_tags (atom_id, tag) VALUES (?, 'wisdom')",
-                         (f"doctrine:d{i}",))
+            conn.execute("INSERT INTO atom_topic_tags (atom_id, tag) VALUES (?, 'wisdom')", (f"doctrine:d{i}",))
         conn.commit()
 
     @classmethod
@@ -75,15 +77,22 @@ class TestDoctrineExclusion(unittest.TestCase):
 
     def test_excluded_ids_never_returned(self):
         exclude = {"doctrine:d0", "doctrine:d1", "doctrine:d2"}
-        got = {a["id"] for a in augmenter._fetch_doctrine_atoms(
-            ["wisdom"], max_atoms=50, tradition="universal",
-            content_level="esoteric", exclude_atom_ids=exclude)}
+        got = {
+            a["id"]
+            for a in augmenter._fetch_doctrine_atoms(
+                ["wisdom"], max_atoms=50, tradition="universal", content_level="esoteric", exclude_atom_ids=exclude
+            )
+        }
         self.assertFalse(got & exclude, "excluded atom leaked through")
         self.assertEqual(got, {"doctrine:d3", "doctrine:d4"})
 
     def test_no_exclusion_returns_all(self):
-        got = {a["id"] for a in augmenter._fetch_doctrine_atoms(
-            ["wisdom"], max_atoms=50, tradition="universal", content_level="esoteric")}
+        got = {
+            a["id"]
+            for a in augmenter._fetch_doctrine_atoms(
+                ["wisdom"], max_atoms=50, tradition="universal", content_level="esoteric"
+            )
+        }
         self.assertEqual(len(got), 5)
 
     def test_end_to_end_ch02_excludes_ch01(self):
@@ -106,8 +115,7 @@ class TestDoctrineExclusion(unittest.TestCase):
         augmenter.augment_episode_text(text, book, max_atoms=2, episode_slug="ch02")
         led = augmenter._load_episode_ledger(book)
         ch02_atoms = set(led["episodes"]["ch02"]["atoms_injected"])
-        self.assertFalse(ch01_atoms & ch02_atoms,
-                         f"atom repeated across chapters: {ch01_atoms & ch02_atoms}")
+        self.assertFalse(ch01_atoms & ch02_atoms, f"atom repeated across chapters: {ch01_atoms & ch02_atoms}")
 
 
 if __name__ == "__main__":

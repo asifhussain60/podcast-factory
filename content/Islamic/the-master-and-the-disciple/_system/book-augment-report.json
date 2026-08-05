@@ -1,6 +1,241 @@
 {
-  "schema": "podcast.book-augment/v1",
-  "accepted": 0,
+  "schema": "podcast.book-augment/v3",
+  "accepted": 5,
   "dropped": 0,
-  "chapters_seen": 9
+  "chapters_seen": 9,
+  "chapters_no_relevant_atom": 0,
+  "chapters_composer_authored": 0,
+  "atoms_per_chapter": 8,
+  "relevance_threshold": 0.08,
+  "per_chapter": [
+    {
+      "chapter": "A Stranger in the City",
+      "selected": [
+        {
+          "id": "etymology:mm",
+          "score": 0.3106
+        },
+        {
+          "id": "doctrine:wisdom:1:73:3",
+          "score": 0.1209
+        },
+        {
+          "id": "doctrine:wisdom:1:74:10",
+          "score": 0.1134
+        },
+        {
+          "id": "quote:the-scholar:e73e68292e",
+          "score": 0.1121
+        },
+        {
+          "id": "doctrine:wisdom:1:80:19",
+          "score": 0.1078
+        },
+        {
+          "id": "doctrine:wisdom:1:74:7",
+          "score": 0.1058
+        },
+        {
+          "id": "doctrine:wisdom:1:125:1",
+          "score": 0.1011
+        },
+        {
+          "id": "doctrine:wisdom:1:74:9",
+          "score": 0.0991
+        }
+      ],
+      "used": [
+        "etymology:mm",
+        "doctrine:wisdom:1:73:3",
+        "doctrine:wisdom:1:74:10",
+        "doctrine:wisdom:1:80:19",
+        "doctrine:wisdom:1:74:7",
+        "doctrine:wisdom:1:125:1",
+        "doctrine:wisdom:1:74:9"
+      ]
+    },
+    {
+      "chapter": "The Boy at the Door — Limits and Conditions",
+      "selected": [
+        {
+          "id": "doctrine:wisdom:1:81:5",
+          "score": 0.1374
+        },
+        {
+          "id": "etymology:hll",
+          "score": 0.135
+        },
+        {
+          "id": "doctrine:wisdom:1:74:1",
+          "score": 0.1324
+        },
+        {
+          "id": "doctrine:wisdom:1:74:8",
+          "score": 0.1322
+        },
+        {
+          "id": "doctrine:wisdom:1:78:4",
+          "score": 0.1322
+        },
+        {
+          "id": "doctrine:wisdom:1:80:3",
+          "score": 0.1298
+        },
+        {
+          "id": "doctrine:wisdom:1:78:6",
+          "score": 0.1294
+        },
+        {
+          "id": "doctrine:wisdom:1:80:9",
+          "score": 0.1267
+        }
+      ],
+      "used": [
+        "doctrine:wisdom:1:81:5",
+        "doctrine:wisdom:1:74:1",
+        "doctrine:wisdom:1:74:8",
+        "doctrine:wisdom:1:78:4",
+        "doctrine:wisdom:1:80:3",
+        "doctrine:wisdom:1:78:6",
+        "doctrine:wisdom:1:80:9"
+      ]
+    },
+    {
+      "chapter": "How the World Was Made",
+      "selected": [
+        {
+          "id": "quote:the-scholar:e73e68292e",
+          "score": 0.1434
+        },
+        {
+          "id": "doctrine:wisdom:1:80:16",
+          "score": 0.1342
+        },
+        {
+          "id": "doctrine:wisdom:1:84:1",
+          "score": 0.1315
+        },
+        {
+          "id": "quote:the-disciple:8b5d676afa",
+          "score": 0.13
+        },
+        {
+          "id": "doctrine:wisdom:1:81:7",
+          "score": 0.1281
+        },
+        {
+          "id": "doctrine:wisdom:1:84:3",
+          "score": 0.1277
+        },
+        {
+          "id": "doctrine:wisdom:1:78:2",
+          "score": 0.1215
+        },
+        {
+          "id": "doctrine:wisdom:1:84:5",
+          "score": 0.1199
+        }
+      ],
+      "used": [
+        "quote:the-scholar:e73e68292e",
+        "doctrine:wisdom:1:80:16",
+        "doctrine:wisdom:1:84:1",
+        "doctrine:wisdom:1:81:7",
+        "doctrine:wisdom:1:84:3",
+        "doctrine:wisdom:1:78:2",
+        "doctrine:wisdom:1:84:5"
+      ]
+    },
+    {
+      "chapter": "The World, the Hereafter, and the Speech of Parables",
+      "selected": [
+        {
+          "id": "doctrine:wisdom:1:20:5",
+          "score": 0.1581
+        },
+        {
+          "id": "doctrine:wisdom:1:75:1",
+          "score": 0.1442
+        },
+        {
+          "id": "doctrine:wisdom:1:20:7",
+          "score": 0.1437
+        },
+        {
+          "id": "doctrine:wisdom:1:80:14",
+          "score": 0.1408
+        },
+        {
+          "id": "doctrine:wisdom:1:84:2",
+          "score": 0.1378
+        },
+        {
+          "id": "quote:the-author-of-the-book-the-correction:3203a62fe0",
+          "score": 0.1354
+        },
+        {
+          "id": "doctrine:wisdom:1:73:1",
+          "score": 0.1314
+        },
+        {
+          "id": "doctrine:wisdom:1:81:6",
+          "score": 0.1297
+        }
+      ],
+      "used": [
+        "doctrine:wisdom:1:20:5",
+        "doctrine:wisdom:1:75:1",
+        "doctrine:wisdom:1:20:7",
+        "doctrine:wisdom:1:80:14",
+        "doctrine:wisdom:1:84:2",
+        "doctrine:wisdom:1:73:1",
+        "doctrine:wisdom:1:81:6"
+      ]
+    },
+    {
+      "chapter": "Homecoming, the Father, and the Debate with Abu Malik",
+      "selected": [
+        {
+          "id": "etymology:shykh",
+          "score": 0.1918
+        },
+        {
+          "id": "etymology:snn",
+          "score": 0.1861
+        },
+        {
+          "id": "doctrine:wisdom:1:74:11",
+          "score": 0.1516
+        },
+        {
+          "id": "doctrine:wisdom:1:20:6",
+          "score": 0.1465
+        },
+        {
+          "id": "etymology:hll",
+          "score": 0.1447
+        },
+        {
+          "id": "doctrine:wisdom:1:20:0",
+          "score": 0.1374
+        },
+        {
+          "id": "doctrine:wisdom:1:20:8",
+          "score": 0.1327
+        },
+        {
+          "id": "doctrine:wisdom:1:73:0",
+          "score": 0.131
+        }
+      ],
+      "used": [
+        "etymology:shykh",
+        "doctrine:wisdom:1:74:11",
+        "doctrine:wisdom:1:20:6",
+        "doctrine:wisdom:1:20:0",
+        "doctrine:wisdom:1:20:8",
+        "doctrine:wisdom:1:73:0"
+      ]
+    }
+  ]
 }

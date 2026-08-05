@@ -13,8 +13,9 @@
  *
  * Dependency-free, class-driven, external CSS only — matches NewContentForm.
  */
-import { useEffect, useState } from 'react';
-import VoicePicker from './VoicePicker';
+import { useEffect, useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
+import VoicePicker from "./VoicePicker";
 
 type Options = Record<string, string[]>;
 type Proposal = Record<string, { value: string; rationale?: string }>;
@@ -29,13 +30,13 @@ interface Props {
 // The fields SmartForm renders as editable dropdowns, in form order, with the
 // plain-language label the operator sees. bucket is derived (not listed here).
 const FIELD_LABELS: { key: string; label: string }[] = [
-  { key: 'content_profile', label: 'Content profile' },
-  { key: 'audience_profile', label: 'Audience' },
-  { key: 'host_dynamic', label: 'Conversation style' },
-  { key: 'length_tier', label: 'Episode length' },
-  { key: 'video_style', label: 'Video style' },
-  { key: 'episode_planning_mode', label: 'Episode planning' },
-  { key: 'source_language', label: 'Source language' },
+  { key: "content_profile", label: "Content profile" },
+  { key: "audience_profile", label: "Audience" },
+  { key: "host_dynamic", label: "Conversation style" },
+  { key: "length_tier", label: "Episode length" },
+  { key: "video_style", label: "Video style" },
+  { key: "episode_planning_mode", label: "Episode planning" },
+  { key: "source_language", label: "Source language" },
 ];
 
 // Pipeline tokens the operator should read as words. The option VALUE sent to
@@ -43,37 +44,43 @@ const FIELD_LABELS: { key: string; label: string }[] = [
 // Unknown / operator-added tokens fall back to snake_case → sentence case, so
 // new options never need an entry here to render readably.
 const LABEL_OVERRIDES: Record<string, string> = {
-  default_deep_dive: 'Default (deep dive)',
+  default_deep_dive: "Default (deep dive)",
 };
 
 function humanizeOption(field: string, value: string): string {
   if (LABEL_OVERRIDES[value]) return LABEL_OVERRIDES[value];
-  if (field === 'source_language') {
+  if (field === "source_language") {
     // Render language codes as names: "ar" → "Arabic (ar)".
     try {
-      const name = new Intl.DisplayNames(['en'], { type: 'language' }).of(value);
-      if (name && name.toLowerCase() !== value.toLowerCase()) return `${name} (${value})`;
-    } catch { /* not a language code — fall through to the generic form */ }
+      const name = new Intl.DisplayNames(["en"], { type: "language" }).of(
+        value,
+      );
+      if (name && name.toLowerCase() !== value.toLowerCase())
+        return `${name} (${value})`;
+    } catch {
+      /* not a language code — fall through to the generic form */
+    }
   }
-  const words = value.replace(/[_-]/g, ' ').trim();
+  const words = value.replace(/[_-]/g, " ").trim();
   return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
 // content_profile → bucket, mirrors _rules.bucket_for_profile (display only).
 const PROFILE_TO_BUCKET: Record<string, string> = {
-  islamic_scholarly: 'Islamic',
-  technical: 'Technical',
-  fiction: 'Fiction',
-  consumer_explainer: 'Guides',
-  general_nonfiction: 'Guides',
+  islamic_scholarly: "Islamic",
+  technical: "Technical",
+  fiction: "Fiction",
+  consumer_explainer: "Guides",
+  general_nonfiction: "Guides",
+  islamic_supplication: "Supplications",
 };
 
 export default function SmartForm({ proposed, onChange }: Props) {
   const [options, setOptions] = useState<Options | null>(null);
   const [values, setValues] = useState<Record<string, string>>({});
   const [adding, setAdding] = useState<string | null>(null);
-  const [addText, setAddText] = useState('');
-  const [error, setError] = useState('');
+  const [addText, setAddText] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   // Load the option-sets once; pre-select from the proposal (or first option).
@@ -81,27 +88,35 @@ export default function SmartForm({ proposed, onChange }: Props) {
     let alive = true;
     (async () => {
       try {
-        const r = await fetch('/api/intake/form-options');
-        const json = await r.json();
+        const data = await apiFetch<{ options: Options }>(
+          "/api/intake/form-options",
+        );
         if (!alive) return;
-        if (!r.ok || !json.ok) { setError(json.error ?? 'Could not load options'); return; }
-        const opts: Options = json.data.options;
+        const opts: Options = data.options;
         setOptions(opts);
         const initial: Record<string, string> = {};
         for (const { key } of FIELD_LABELS) {
           const proposedVal = proposed?.[key]?.value;
-          initial[key] = proposedVal && opts[key]?.includes(proposedVal)
-            ? proposedVal
-            : (opts[key]?.[0] ?? '');
+          initial[key] =
+            proposedVal && opts[key]?.includes(proposedVal)
+              ? proposedVal
+              : (opts[key]?.[0] ?? "");
         }
         setValues(initial);
       } catch (e) {
-        if (alive) setError(`Network error: ${String(e)}`);
+        if (alive)
+          setError(
+            e instanceof ApiFetchError && e.status !== 0
+              ? e.message
+              : `Network error: ${String(e)}`,
+          );
       } finally {
         if (alive) setLoading(false);
       }
     })();
-    return () => { alive = false; };
+    return () => {
+      alive = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -124,92 +139,142 @@ export default function SmartForm({ proposed, onChange }: Props) {
 
   async function addOption(field: string) {
     const value = addText.trim();
-    if (!value) { setAdding(null); return; }
+    if (!value) {
+      setAdding(null);
+      return;
+    }
     try {
-      const r = await fetch('/api/intake/form-options', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'add', field, value }),
-      });
-      const json = await r.json();
-      if (!r.ok || !json.ok) { setError(json.error ?? 'Could not add option'); return; }
-      setOptions(json.data.options);
-      setValue(field, value);     // select the value the operator just added
+      const data = await apiFetch<{ options: Options }>(
+        "/api/intake/form-options",
+        {
+          method: "POST",
+          body: { action: "add", field, value },
+        },
+      );
+      setOptions(data.options);
+      setValue(field, value); // select the value the operator just added
     } catch (e) {
-      setError(`Network error: ${String(e)}`);
+      setError(
+        e instanceof ApiFetchError && e.status !== 0
+          ? e.message
+          : `Network error: ${String(e)}`,
+      );
     } finally {
       setAdding(null);
-      setAddText('');
+      setAddText("");
     }
   }
 
-  if (loading) return <div className="intake-card"><p className="intake-hint" role="status">Loading options…</p></div>;
-  if (!options) return <div className="intake-card"><p className="intake-error" role="alert">{error || 'No options'}</p></div>;
+  if (loading)
+    return (
+      <div className="intake-card">
+        <p className="intake-hint" role="status">
+          Loading options…
+        </p>
+      </div>
+    );
+  if (!options)
+    return (
+      <div className="intake-card">
+        <p className="intake-error" role="alert">
+          {error || "No options"}
+        </p>
+      </div>
+    );
 
-  const bucket = PROFILE_TO_BUCKET[values.content_profile] ?? 'Islamic';
+  const bucket = PROFILE_TO_BUCKET[values.content_profile] ?? "Islamic";
 
   return (
     <>
-    <div className="intake-card">
-      <h2 className="intake-card-title">Production settings</h2>
-      <p className="intake-hint">
-        Pre-filled from the source. Everything is a dropdown — pick, or add your own with the
-        "+ add" button. The folder bucket follows the content profile automatically.
-      </p>
+      <div className="intake-card">
+        <h2 className="intake-card-title">Production settings</h2>
+        <p className="intake-hint">
+          Pre-filled from the source. Everything is a dropdown — pick, or add
+          your own with the "+ add" button. The folder bucket follows the
+          content profile automatically.
+        </p>
 
-      {FIELD_LABELS.map(({ key, label }) => (
-        <div className="intake-field" key={key}>
-          <label className="intake-label" htmlFor={`sf-${key}`}>{label}</label>
-          <div className="intake-smartrow">
-            <select
-              id={`sf-${key}`}
-              className="intake-select"
-              value={values[key] ?? ''}
-              onChange={(e) => setValue(key, e.target.value)}
-            >
-              {(options[key] ?? []).map((opt) => (
-                <option key={opt} value={opt}>{humanizeOption(key, opt)}</option>
-              ))}
-            </select>
-            <button
-              type="button"
-              className="intake-smalladd"
-              onClick={() => { setAdding(adding === key ? null : key); setAddText(''); }}
-              aria-label={`Add a new ${label} option`}
-            >
-              + add
-            </button>
-          </div>
-          {adding === key && (
-            <div className="intake-addrow">
-              <input
-                className="intake-input"
-                type="text"
-                value={addText}
-                placeholder={`New ${label.toLowerCase()}…`}
-                onChange={(e) => setAddText(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addOption(key); } }}
-                aria-label={`New ${label} value`}
-              />
-              <button type="button" className="intake-btn intake-btn--primary" onClick={() => addOption(key)}>
-                Add
+        {FIELD_LABELS.map(({ key, label }) => (
+          <div className="intake-field" key={key}>
+            <label className="intake-label" htmlFor={`sf-${key}`}>
+              {label}
+            </label>
+            <div className="intake-smartrow">
+              <select
+                id={`sf-${key}`}
+                className="intake-select"
+                value={values[key] ?? ""}
+                onChange={(e) => setValue(key, e.target.value)}
+              >
+                {(options[key] ?? []).map((opt) => (
+                  <option key={opt} value={opt}>
+                    {humanizeOption(key, opt)}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                className="intake-smalladd"
+                onClick={() => {
+                  setAdding(adding === key ? null : key);
+                  setAddText("");
+                }}
+                aria-label={`Add a new ${label} option`}
+              >
+                + add
               </button>
             </div>
-          )}
-          {proposed?.[key]?.rationale && (
-            <p className="intake-rationale">Suggested: {proposed[key].rationale}</p>
-          )}
+            {adding === key && (
+              <div className="intake-addrow">
+                <input
+                  className="intake-input"
+                  type="text"
+                  value={addText}
+                  placeholder={`New ${label.toLowerCase()}…`}
+                  onChange={(e) => setAddText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addOption(key);
+                    }
+                  }}
+                  aria-label={`New ${label} value`}
+                />
+                <button
+                  type="button"
+                  className="intake-btn intake-btn--primary"
+                  onClick={() => addOption(key)}
+                >
+                  Add
+                </button>
+              </div>
+            )}
+            {proposed?.[key]?.rationale && (
+              <p className="intake-rationale">
+                Suggested: {proposed[key].rationale}
+              </p>
+            )}
+          </div>
+        ))}
+
+        <div
+          className="intake-field"
+          role="group"
+          aria-labelledby="sf-bucket-label"
+        >
+          <span className="intake-label" id="sf-bucket-label">
+            Folder bucket <span>(derived from profile)</span>
+          </span>
+          <p className="intake-derived">{bucket}</p>
         </div>
-      ))}
 
-      <div className="intake-field" role="group" aria-labelledby="sf-bucket-label">
-        <span className="intake-label" id="sf-bucket-label">Folder bucket <span>(derived from profile)</span></span>
-        <p className="intake-derived">{bucket}</p>
+        {error && (
+          <p className="intake-error" role="alert">
+            {error}
+          </p>
+        )}
       </div>
-
-      {error && <p className="intake-error" role="alert">{error}</p>}
-    </div>
-    <VoicePicker onChange={mergeVoice} />
+      <VoicePicker onChange={mergeVoice} />
     </>
   );
 }

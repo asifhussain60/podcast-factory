@@ -9,31 +9,49 @@
  * .diagram-container / .diagram-figure classes (vertical, uncapped). Styling
  * is external (theme.css); zero inline style here.
  */
-import { readFileSync, existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { readFileSync, existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 
 interface Props {
   id: string;
-  title: string;     // accessible name — what the diagram answers
-  caption?: string;  // visible figcaption
+  title: string; // accessible name — what the diagram answers
+  caption?: string; // visible figcaption
 }
 const { id, title, caption } = Astro.props;
 
-const svgPath = fileURLToPath(new URL(`../generated/mermaid/${id}.svg`, import.meta.url));
+const svgPath = fileURLToPath(
+  new URL(`../generated/mermaid/${id}.svg`, import.meta.url),
+);
 const missing = !existsSync(svgPath);
-const svg = missing ? '' : readFileSync(svgPath, 'utf8');
+const svg = missing ? "" : readFileSync(svgPath, "utf8");
 const titleId = `mmd-title-${id}`;
-const capId   = `mmd-cap-${id}`;
+const capId = `mmd-cap-${id}`;
 const labelledBy = caption ? `${titleId} ${capId}` : titleId;
 ---
+
 <div class="diagram-container">
-  <figure class="diagram-figure mermaid-svg" role="img" aria-labelledby={labelledBy}>
+  <figure
+    class="diagram-figure mermaid-svg"
+    role="img"
+    aria-labelledby={labelledBy}
+  >
     <span id={titleId} class="sr-only">{title}</span>
-    {missing ? (
-      <p class="diagram-missing">Diagram <code>{id}</code> not yet rendered — run <code>npm run mermaid:render</code>.</p>
-    ) : (
-      <Fragment set:html={svg} />
-    )}
-    {caption && <figcaption id={capId} class="diagram-figcaption">{caption}</figcaption>}
+    {
+      missing ? (
+        <p class="diagram-missing">
+          Diagram <code>{id}</code> not yet rendered — run{" "}
+          <code>npm run mermaid:render</code>.
+        </p>
+      ) : (
+        <Fragment set:html={svg} />
+      )
+    }
+    {
+      caption && (
+        <figcaption id={capId} class="diagram-figcaption">
+          {caption}
+        </figcaption>
+      )
+    }
   </figure>
 </div>

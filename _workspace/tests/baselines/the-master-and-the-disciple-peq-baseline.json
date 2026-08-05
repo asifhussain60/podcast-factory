@@ -1,65 +1,264 @@
 {
-  "ch01-the-call-and-the-covenant": {
+  "_provenance": {
+    "note": "Regenerated from current output. A baseline is only a regression floor if the chapters it names still exist — re-baseline deliberately when a book is re-segmented, and never to make a failing gate quiet.",
+    "reset_on": "2026-08-04",
+    "reason": "The previous floor named six chapters (ch01-the-call-and-the-covenant ...) from a segmentation this book no longer has: it is now twenty chapters and NONE of the six slugs resolves. A floor whose chapters do not exist cannot be compared, so it was reset deliberately rather than left to fail or, worse, to skip. kitab-al-riyad's historical floor was NOT reset — all fifteen of its chapters still match and it passes against the original numbers."
+  },
+  "ch01a-three-thanks-and-the-persian-awakening": {
     "fidelity": 100.0,
     "voice": 0.0,
+    "voice_available": false,
     "structure": 66.7,
-    "enrichment": 1.5,
+    "enrichment": 34.5,
+    "interest": 75.0,
+    "total": 79.1,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch02b-the-test-of-speech-and-the-design-of-creation": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 0.0,
+    "interest": 50.0,
+    "total": 69.5,
+    "verdict": "FAIL",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch03c-five-conditions-and-the-covenant": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 0.0,
+    "interest": 50.0,
+    "total": 69.5,
+    "verdict": "FAIL",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch04a-originator-and-the-three-primordial-words": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 6.3,
+    "interest": 75.0,
+    "total": 74.3,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch05b-bismillah-seal-and-the-chosen-ranks": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 4.1,
+    "interest": 50.0,
+    "total": 70.2,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch06c-zahir-batin-and-the-seven-natiqs": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 20.0,
+    "interest": 50.0,
+    "total": 72.9,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch07d-air-and-the-instance-beyond-air": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 33.3,
+    "enrichment": 35.0,
+    "interest": 50.0,
+    "total": 69.4,
+    "verdict": "FAIL",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch08a-three-levels-of-knowledge": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 35.0,
+    "interest": 50.0,
+    "total": 75.5,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch09b-hawl-quwwa-and-josephs-dream": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 42.0,
+    "interest": 50.0,
+    "total": 76.6,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch10c-union-of-inner-and-outer": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 35.0,
+    "interest": 75.0,
+    "total": 79.2,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch11d-purifying-possessions-and-parting": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 20.0,
+    "interest": 50.0,
+    "total": 72.9,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch12a-rebirth-and-the-seven-day-tawaf": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 23.3,
+    "interest": 75.0,
+    "total": 77.2,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch13b-homecoming-and-the-forty-year-syllogism": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 0.0,
+    "interest": 50.0,
+    "total": 69.5,
+    "verdict": "FAIL",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch14c-abu-malik-arrives-and-the-fair-inquiry": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 33.3,
+    "enrichment": 23.3,
+    "interest": 100.0,
+    "total": 75.0,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch15d-emptying-the-cup": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 35.0,
+    "interest": 87.5,
+    "total": 81.1,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch16e-jewels-moon-and-the-description-of-religion": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 35.0,
+    "interest": 100.0,
+    "total": 83.0,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch17a-who-is-allah-beyond-names": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 52.5,
+    "interest": 75.0,
+    "total": 82.2,
+    "verdict": "WARN",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch18b-syllogism-of-divine-justice": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 33.3,
+    "enrichment": 37.5,
+    "interest": 50.0,
+    "total": 69.9,
+    "verdict": "FAIL",
+    "notes": [
+      "voice axis unavailable — weight redistributed to fidelity"
+    ]
+  },
+  "ch19c-the-conspiracy-formula": {
+    "fidelity": 100.0,
+    "voice": 0.0,
+    "voice_available": false,
+    "structure": 66.7,
+    "enrichment": 2.2,
+    "interest": 75.0,
     "total": 73.6,
     "verdict": "WARN",
     "notes": [
       "voice axis unavailable — weight redistributed to fidelity"
     ]
   },
-  "ch02-will-command-and-the-seven": {
+  "ch20d-unbroken-chain-and-the-path-of-return": {
     "fidelity": 100.0,
     "voice": 0.0,
-    "structure": 66.7,
-    "enrichment": 3.0,
-    "total": 73.9,
-    "verdict": "WARN",
-    "notes": [
-      "voice axis unavailable — weight redistributed to fidelity"
-    ]
-  },
-  "ch03-world-hereafter-and-the-right-of-wealth": {
-    "fidelity": 100.0,
-    "voice": 0.0,
-    "structure": 66.7,
-    "enrichment": 2.3,
-    "total": 73.8,
-    "verdict": "WARN",
-    "notes": [
-      "voice axis unavailable — weight redistributed to fidelity"
-    ]
-  },
-  "ch04-the-greater-shaykh-and-the-naming": {
-    "fidelity": 100.0,
-    "voice": 0.0,
-    "structure": 66.7,
-    "enrichment": 5.6,
-    "total": 74.4,
-    "verdict": "WARN",
-    "notes": [
-      "voice axis unavailable — weight redistributed to fidelity"
-    ]
-  },
-  "ch05-father-revealed-and-the-faces-of-seeking": {
-    "fidelity": 100.0,
-    "voice": 0.0,
-    "structure": 66.7,
-    "enrichment": 3.7,
-    "total": 74.1,
-    "verdict": "WARN",
-    "notes": [
-      "voice axis unavailable — weight redistributed to fidelity"
-    ]
-  },
-  "ch06-justice-monotheism-and-the-guardians": {
-    "fidelity": 100.0,
-    "voice": 0.0,
+    "voice_available": false,
     "structure": 33.3,
-    "enrichment": 3.3,
-    "total": 67.3,
+    "enrichment": 0.0,
+    "interest": 50.0,
+    "total": 63.5,
     "verdict": "FAIL",
     "notes": [
       "voice axis unavailable — weight redistributed to fidelity"

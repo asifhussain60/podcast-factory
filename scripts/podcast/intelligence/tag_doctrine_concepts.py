@@ -15,11 +15,10 @@ CLI:
     python3 scripts/podcast/intelligence/tag_doctrine_concepts.py             # tag all untagged doctrine atoms
     python3 scripts/podcast/intelligence/tag_doctrine_concepts.py --limit 20  # tag a sample first
 """
+
 from __future__ import annotations
 
 import json
-import os
-import subprocess
 import sys
 import urllib.request
 from dataclasses import dataclass, field
@@ -44,9 +43,24 @@ MIN_TAGS, MAX_TAGS = 2, 5
 # A few seed tags steer the model toward a consistent, concise vocabulary that will
 # align with the existing root/theme concepts (mercy<->rhm, knowledge<->ilm, etc.).
 _SEED_VOCAB = [
-    "mercy", "knowledge", "worship", "oneness", "soul", "love", "intellect",
-    "faith", "patience", "justice", "prophethood", "imamate", "ethics",
-    "eschatology", "cosmology", "purification", "gratitude", "humility",
+    "mercy",
+    "knowledge",
+    "worship",
+    "oneness",
+    "soul",
+    "love",
+    "intellect",
+    "faith",
+    "patience",
+    "justice",
+    "prophethood",
+    "imamate",
+    "ethics",
+    "eschatology",
+    "cosmology",
+    "purification",
+    "gratitude",
+    "humility",
 ]
 
 _PROMPT_TMPL = """You are a concept tagger for Fatimid-Ismaili wisdom teachings.
@@ -76,8 +90,8 @@ class TagSummary:
 def _load_gemini_key() -> str:
     # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
     from _secrets import get_gemini_key
-    return get_gemini_key()
 
+    return get_gemini_key()
 
 
 def _default_llm_caller(prompt: str) -> tuple[int, str, str]:
@@ -86,11 +100,13 @@ def _default_llm_caller(prompt: str) -> tuple[int, str, str]:
         f"https://generativelanguage.googleapis.com/v1beta/models/"
         f"{_GEMINI_MODEL}:generateContent?key={_load_gemini_key()}"
     )
-    body = json.dumps({
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"temperature": 0.1, "maxOutputTokens": 4096},
-    }).encode()
+    body = json.dumps(
+        {
+            "system_instruction": {"parts": [{"text": system}]},
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {"temperature": 0.1, "maxOutputTokens": 4096},
+        }
+    ).encode()
     req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"}, method="POST")
     try:
         with urllib.request.urlopen(req, timeout=300) as resp:
@@ -98,7 +114,7 @@ def _default_llm_caller(prompt: str) -> tuple[int, str, str]:
         text = d["candidates"][0]["content"]["parts"][0]["text"]
         cost = round(len(prompt) / 4 * _PRICE["in"] + len(text) / 4 * _PRICE["out"], 5)
         return 0, text, str(cost)
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         return 1, "", str(exc)
 
 
@@ -130,9 +146,13 @@ def _untagged_doctrine(conn) -> list[tuple[str, str]]:
     return out
 
 
-def tag_all(*, dry_run: bool = False, limit: int | None = None,
-            cost_cap: float = DEFAULT_COST_CAP_USD,
-            llm_caller: LLMCaller | None = None) -> TagSummary:
+def tag_all(
+    *,
+    dry_run: bool = False,
+    limit: int | None = None,
+    cost_cap: float = DEFAULT_COST_CAP_USD,
+    llm_caller: LLMCaller | None = None,
+) -> TagSummary:
     caller = llm_caller or _default_llm_caller
     conn = get_connection()
     candidates = _untagged_doctrine(conn)
@@ -146,10 +166,11 @@ def tag_all(*, dry_run: bool = False, limit: int | None = None,
         if summary.cost_usd >= cost_cap:
             summary.errors.append(f"cost cap ${cost_cap} reached — stopped at {summary.tagged} tagged")
             break
-        batch = candidates[start:start + BATCH_SIZE]
+        batch = candidates[start : start + BATCH_SIZE]
         passages = "\n\n".join(f"[{i}] {text[:900]}" for i, (_id, text) in enumerate(batch))
-        prompt = _PROMPT_TMPL.format(min_tags=MIN_TAGS, max_tags=MAX_TAGS,
-                                     vocab=", ".join(_SEED_VOCAB), passages=passages)
+        prompt = _PROMPT_TMPL.format(
+            min_tags=MIN_TAGS, max_tags=MAX_TAGS, vocab=", ".join(_SEED_VOCAB), passages=passages
+        )
         rc, stdout, cost_str = caller(prompt)
         summary.batches += 1
         try:
@@ -182,10 +203,13 @@ def tag_all(*, dry_run: bool = False, limit: int | None = None,
 
 def main() -> int:
     import argparse
+
     p = argparse.ArgumentParser(description="WC2 doctrine concept-tagger (D19)")
     p.add_argument("--dry-run", action="store_true", help="Count untagged doctrine atoms; no LLM, no write")
     p.add_argument("--limit", type=int, default=None, help="Tag at most N atoms (sample run)")
-    p.add_argument("--cost-cap", type=float, default=DEFAULT_COST_CAP_USD, help="Abort when cumulative cost reaches this")
+    p.add_argument(
+        "--cost-cap", type=float, default=DEFAULT_COST_CAP_USD, help="Abort when cumulative cost reaches this"
+    )
     args = p.parse_args()
     s = tag_all(dry_run=args.dry_run, limit=args.limit, cost_cap=args.cost_cap)
     flag = " (dry-run)" if args.dry_run else ""

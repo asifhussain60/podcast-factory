@@ -46,55 +46,56 @@ Usage:
         get_doctrine_context,
     )
 """
+
 from __future__ import annotations
 
 import sys
 from pathlib import Path
 from typing import Any
 
-_HERE = Path(__file__).resolve().parent           # …/scripts/podcast/intelligence
-_SCRIPTS = _HERE.parent                           # …/scripts/podcast
-_REPO = _SCRIPTS.parents[1]                       # repo root
+_HERE = Path(__file__).resolve().parent  # …/scripts/podcast/intelligence
+_SCRIPTS = _HERE.parent  # …/scripts/podcast
+_REPO = _SCRIPTS.parents[1]  # repo root
 for p in (str(_SCRIPTS), str(_REPO)):
     if p not in sys.path:
         sys.path.insert(0, p)
 
+from scripts.podcast.source_library_mirror import open_mirror
 from scripts.podcast.source_library_queries import (
+    hadith_lookup,
     quran_lookup,
     quran_theme_search,
-    hadith_lookup,
-    word_etymology,
     session_style_fetch,
-    topic_search,
     topic_get,
+    topic_search,
+    word_etymology,
 )
-from scripts.podcast.source_library_mirror import open_mirror
 
 # ---------------------------------------------------------------------------
 # KASHKOLE TypeID constants (from Lookup_TopicTypes)
 # ---------------------------------------------------------------------------
 
-TYPE_HADITH_PROPHETIC   = 17   # حدیث نبوی — Prophetic Hadith
-TYPE_HADITH_COMMENTARY  = 23   # معنی الحدیث — Hadith Commentary
-TYPE_QURAN_MEANING      = 19   # معنی آیت القرآن — Quranic verse exegesis
-TYPE_ETHICS_COUNSEL     = 18   # نصیحت و اخلاقیات — Ethical counsel
-TYPE_GOLDEN_SAYINGS     = 20   # اقوال زریں — Golden sayings / aphorisms
-TYPE_ESOTERIC_KNOWLEDGE = 27   # علم الباطنۃ — Esoteric / batin knowledge
-TYPE_POETRY_MANQABAT    = 31   # منقبت — Devotional praise poems
-TYPE_PROOF_ARGUMENT     = 15   # حجت و دلیل — Proof and argument
-TYPE_DOCTRINAL_TERM     = 33   # دینی اسطلاح — Doctrinal terminology
+TYPE_HADITH_PROPHETIC = 17  # حدیث نبوی — Prophetic Hadith
+TYPE_HADITH_COMMENTARY = 23  # معنی الحدیث — Hadith Commentary
+TYPE_QURAN_MEANING = 19  # معنی آیت القرآن — Quranic verse exegesis
+TYPE_ETHICS_COUNSEL = 18  # نصیحت و اخلاقیات — Ethical counsel
+TYPE_GOLDEN_SAYINGS = 20  # اقوال زریں — Golden sayings / aphorisms
+TYPE_ESOTERIC_KNOWLEDGE = 27  # علم الباطنۃ — Esoteric / batin knowledge
+TYPE_POETRY_MANQABAT = 31  # منقبت — Devotional praise poems
+TYPE_PROOF_ARGUMENT = 15  # حجت و دلیل — Proof and argument
+TYPE_DOCTRINAL_TERM = 33  # دینی اسطلاح — Doctrinal terminology
 
 # Groups of TypeIDs by intended use in the pipeline:
-HADITH_TYPE_IDS      = (TYPE_HADITH_PROPHETIC, TYPE_HADITH_COMMENTARY)
-POETRY_TYPE_IDS      = (TYPE_POETRY_MANQABAT,)
-ENRICHMENT_TYPE_IDS  = (TYPE_ETHICS_COUNSEL, TYPE_GOLDEN_SAYINGS,
-                        TYPE_ESOTERIC_KNOWLEDGE, TYPE_PROOF_ARGUMENT)
-ALL_TYPE_IDS         = tuple(range(100))  # sentinel meaning "no filter"
+HADITH_TYPE_IDS = (TYPE_HADITH_PROPHETIC, TYPE_HADITH_COMMENTARY)
+POETRY_TYPE_IDS = (TYPE_POETRY_MANQABAT,)
+ENRICHMENT_TYPE_IDS = (TYPE_ETHICS_COUNSEL, TYPE_GOLDEN_SAYINGS, TYPE_ESOTERIC_KNOWLEDGE, TYPE_PROOF_ARGUMENT)
+ALL_TYPE_IDS = tuple(range(100))  # sentinel meaning "no filter"
 
 
 # ---------------------------------------------------------------------------
 # Pattern 1 — Citation verify
 # ---------------------------------------------------------------------------
+
 
 def verify_quran_citation(surah: int, ayat: int) -> dict[str, Any] | None:
     """Verify a Quran citation and return the canonical verse record.
@@ -119,6 +120,7 @@ def verify_quran_citation(surah: int, ayat: int) -> dict[str, Any] | None:
 # Pattern 2 — Concept verse search
 # ---------------------------------------------------------------------------
 
+
 def search_quran_by_concept(concept: str, limit: int = 5) -> list[dict[str, Any]]:
     """Find Quran verses relevant to a concept or theme keyword.
 
@@ -138,6 +140,7 @@ def search_quran_by_concept(concept: str, limit: int = 5) -> list[dict[str, Any]
 # ---------------------------------------------------------------------------
 # Pattern 3 — Hadith retrieve
 # ---------------------------------------------------------------------------
+
 
 def find_hadith(
     text_hint: str,
@@ -161,6 +164,7 @@ def find_hadith(
 # Pattern 4 — Etymology annotation
 # ---------------------------------------------------------------------------
 
+
 def get_etymology(term: str) -> dict[str, Any] | None:
     """Return the etymology record for an Arabic term or transliteration.
 
@@ -183,6 +187,7 @@ def get_etymology(term: str) -> dict[str, Any] | None:
 # ---------------------------------------------------------------------------
 # Pattern 5 — Style reference
 # ---------------------------------------------------------------------------
+
 
 def get_style_reference(
     theme: str,
@@ -208,6 +213,7 @@ def get_style_reference(
 # ---------------------------------------------------------------------------
 # Pattern 6 — Doctrine context
 # ---------------------------------------------------------------------------
+
 
 def get_doctrine_context(
     concept: str,
@@ -283,7 +289,7 @@ def get_doctrine_topic(topic_id: int) -> dict[str, Any] | None:
                 return None
             return {
                 "topic": dict(row),
-                "ayats": [],   # not available without SQL Server
+                "ayats": [],  # not available without SQL Server
                 "glossary": [],
             }
         except Exception:

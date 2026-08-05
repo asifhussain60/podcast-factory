@@ -37,6 +37,7 @@ holistic_editorial.py. Idempotent: each pass skips if its output exists unless -
 Usage:
   python3 scripts/podcast/multi_source_synthesis.py --slug <slug> [--skip-fidelity] [--force]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -50,12 +51,12 @@ from typing import Any
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _paths import REPO_ROOT, content_dir, find_content  # noqa: E402
-from _authoring._core import _run_claude_p, _run_claude_p_with_retry  # noqa: E402
-import arabic_integrity as _ai  # noqa: E402
+import arabic_integrity as _ai
+from _authoring._core import _run_claude_p, _run_claude_p_with_retry
+from _paths import REPO_ROOT, content_dir, find_content
 
 LEDGER_TIMEOUT = 1800
-LEDGER_BATCH_TIMEOUT = 900   # per ~10-lecture sub-batch; hung call → in-process retry/fallback
+LEDGER_BATCH_TIMEOUT = 900  # per ~10-lecture sub-batch; hung call → in-process retry/fallback
 EDITORIAL_TIMEOUT = 3600
 FIDELITY_TIMEOUT = 1800
 # Enhanced edition must retain >= this fraction of the SPINE word count.
@@ -106,8 +107,7 @@ def _utc() -> str:
 # ─────────────────────────────────────────────────────────────────────────────
 # Pass 0 — deterministic re-tag
 # ─────────────────────────────────────────────────────────────────────────────
-def _retag_augmentation(book_dir: Path, manifest: list[dict[str, Any]],
-                        *, force: bool) -> list[dict[str, Any]]:
+def _retag_augmentation(book_dir: Path, manifest: list[dict[str, Any]], *, force: bool) -> list[dict[str, Any]]:
     """Write `<name>/raw-extract.tagged.md` with globally-unique AUG markers.
 
     Returns the manifest enriched with the tagged path. Pure string rewrite.
@@ -122,8 +122,7 @@ def _retag_augmentation(book_dir: Path, manifest: list[dict[str, Any]],
             continue
         if not tagged.exists() or force:
             text = raw.read_text(encoding="utf-8")
-            text = _LEC_MARKER_RE.sub(
-                lambda mo, n=name: f"<!-- AUG:{n} lecture {mo.group(1)} -->", text)
+            text = _LEC_MARKER_RE.sub(lambda mo, n=name: f"<!-- AUG:{n} lecture {mo.group(1)} -->", text)
             tagged.write_text(text, encoding="utf-8")
         out.append({**m, "tagged": tagged.relative_to(book_dir).as_posix()})
     return out
@@ -170,17 +169,18 @@ def _split_tagged_by_lectures(text: str, batch_size: int) -> list[str]:
     pre = text[: marks[0].start()]
     for i, mo in enumerate(marks):
         end = marks[i + 1].start() if i + 1 < len(marks) else len(text)
-        blocks.append(text[mo.start():end])
+        blocks.append(text[mo.start() : end])
     if pre.strip():
         blocks[0] = pre + blocks[0]
     batches: list[str] = []
     for i in range(0, len(blocks), batch_size):
-        batches.append("".join(blocks[i:i + batch_size]))
+        batches.append("".join(blocks[i : i + batch_size]))
     return batches
 
 
-def _corpus_ledger(book_dir: Path, name: str, tagged_path: Path, slice_out: Path,
-                   text_dir: Path, *, force: bool) -> bool:
+def _corpus_ledger(
+    book_dir: Path, name: str, tagged_path: Path, slice_out: Path, text_dir: Path, *, force: bool
+) -> bool:
     """Build one augmentation corpus's ledger slice, chunked by lecture-range.
 
     Splits the corpus into ~LEDGER_CHUNK_LECTURES-lecture sub-batches, runs a retried
@@ -208,19 +208,27 @@ def _corpus_ledger(book_dir: Path, name: str, tagged_path: Path, slice_out: Path
             for attempt in range(1, LEDGER_RC_RETRIES + 1):
                 rc, _o, err = _run_claude_p_with_retry(
                     _ledger_prompt(bfile, bout, f"aug:{name}", f"<!-- AUG:{name} lecture N -->"),
-                    timeout=LEDGER_BATCH_TIMEOUT, book_dir=book_dir,
-                    phase="0a-synthesize", step=f"ledger-aug-{name}-b{bi:02d}", log=_info)
+                    timeout=LEDGER_BATCH_TIMEOUT,
+                    book_dir=book_dir,
+                    phase="0a-synthesize",
+                    step=f"ledger-aug-{name}-b{bi:02d}",
+                    log=_info,
+                )
                 if rc == 0 and bout.exists():
                     break
                 detail = (_o or err or "").strip().replace("\n", " ")[:160]
                 if attempt < LEDGER_RC_RETRIES:
                     backoff = LEDGER_RC_BACKOFF_S * attempt
-                    _info(f"      [rc-retry] aug:{name} b{bi:02d} rc={rc} ({detail}); "
-                          f"retry {attempt+1}/{LEDGER_RC_RETRIES} after {backoff}s")
+                    _info(
+                        f"      [rc-retry] aug:{name} b{bi:02d} rc={rc} ({detail}); "
+                        f"retry {attempt + 1}/{LEDGER_RC_RETRIES} after {backoff}s"
+                    )
                     time.sleep(backoff)
             if rc != 0 or not bout.exists():
-                _die(f"augmentation ledger {name} batch {bi} failed after "
-                     f"{LEDGER_RC_RETRIES} tries (rc={rc}): {(_o or err)[:300]}")
+                _die(
+                    f"augmentation ledger {name} batch {bi} failed after "
+                    f"{LEDGER_RC_RETRIES} tries (rc={rc}): {(_o or err)[:300]}"
+                )
                 return False
         try:
             all_items.extend(json.loads(bout.read_text(encoding="utf-8")))
@@ -231,9 +239,9 @@ def _corpus_ledger(book_dir: Path, name: str, tagged_path: Path, slice_out: Path
     return True
 
 
-def _build_unified_ledger(book_dir: Path, spine_raw: Path,
-                          tagged_manifest: list[dict[str, Any]], *,
-                          force: bool) -> tuple[list[dict[str, Any]], int] | None:
+def _build_unified_ledger(
+    book_dir: Path, spine_raw: Path, tagged_manifest: list[dict[str, Any]], *, force: bool
+) -> tuple[list[dict[str, Any]], int] | None:
     text_dir = book_dir / "_system" / "source" / "text"
     text_dir.mkdir(parents=True, exist_ok=True)
 
@@ -243,8 +251,11 @@ def _build_unified_ledger(book_dir: Path, spine_raw: Path,
         _info("    ledger: spine ...")
         rc, _o, err = _run_claude_p(
             _ledger_prompt(spine_raw, spine_ledger, "spine", "<!-- lecture N -->"),
-            timeout=LEDGER_TIMEOUT, book_dir=book_dir,
-            phase="0a-synthesize", step="ledger-spine")
+            timeout=LEDGER_TIMEOUT,
+            book_dir=book_dir,
+            phase="0a-synthesize",
+            step="ledger-spine",
+        )
         if rc != 0 or not spine_ledger.exists():
             _die(f"spine ledger failed (rc={rc}): {err[:300]}")
             return None
@@ -262,11 +273,10 @@ def _build_unified_ledger(book_dir: Path, spine_raw: Path,
     # concatenate with namespaced ids
     merged: list[dict[str, Any]] = []
     spine_n = 0
-    for prefix, path, src in (
-        [("S", spine_ledger, "spine")]
-        + [(f"A-{m['name']}", text_dir / f"_teaching-ledger.aug-{m['name']}.json", f"aug:{m['name']}")
-           for m in tagged_manifest]
-    ):
+    for prefix, path, src in [("S", spine_ledger, "spine")] + [
+        (f"A-{m['name']}", text_dir / f"_teaching-ledger.aug-{m['name']}.json", f"aug:{m['name']}")
+        for m in tagged_manifest
+    ]:
         if not path.is_file():
             continue
         try:
@@ -283,19 +293,25 @@ def _build_unified_ledger(book_dir: Path, spine_raw: Path,
                 spine_n += 1
     unified = text_dir / "_teaching-ledger.json"
     unified.write_text(json.dumps(merged, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    _info(f"    unified ledger: {len(merged)} teachings ({spine_n} spine, {len(merged)-spine_n} aug)")
+    _info(f"    unified ledger: {len(merged)} teachings ({spine_n} spine, {len(merged) - spine_n} aug)")
     return merged, spine_n
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Pass 2 — editorial merge
 # ─────────────────────────────────────────────────────────────────────────────
-def _editorial_prompt(book_dir: Path, spine_raw: Path, ledger: Path,
-                      tagged_manifest: list[dict[str, Any]],
-                      unified: Path, refined: Path, reorg: Path, curation: Path,
-                      spine_words: int) -> str:
-    aug_list = "\n".join(
-        f"  - aug:{m['name']} -> {_rel(book_dir / m['tagged'])}" for m in tagged_manifest)
+def _editorial_prompt(
+    book_dir: Path,
+    spine_raw: Path,
+    ledger: Path,
+    tagged_manifest: list[dict[str, Any]],
+    unified: Path,
+    refined: Path,
+    reorg: Path,
+    curation: Path,
+    spine_words: int,
+) -> str:
+    aug_list = "\n".join(f"  - aug:{m['name']} -> {_rel(book_dir / m['tagged'])}" for m in tagged_manifest)
     lo = int(spine_words * 0.55)
     hi = int(spine_words * 0.95)
     return f"""You are the holistic editor of an Ismaili scholarly book built from lecture transcripts.
@@ -349,8 +365,7 @@ Output files only; no chat response.
 # ─────────────────────────────────────────────────────────────────────────────
 # Pass 3 — fidelity gate
 # ─────────────────────────────────────────────────────────────────────────────
-def _fidelity_prompt(refined: Path, ledger: Path, reorg: Path, curation: Path,
-                     coverage: Path, openq: Path) -> str:
+def _fidelity_prompt(refined: Path, ledger: Path, reorg: Path, curation: Path, coverage: Path, openq: Path) -> str:
     return f"""You are the FIDELITY GATE for a merged Ismaili book. Verify the editorial merge kept
 faith with the SPINE and traced every merged augmentation span.
 
@@ -404,13 +419,18 @@ def _emit_atom_candidates(book_dir: Path, tagged_manifest: list[dict[str, Any]])
             body = text[start:end].strip()
             if not body:
                 continue
-            rows.append(json.dumps({
-                "source": f"aug:{m['name']}",
-                "marker": f"AUG:{m['name']} lecture {mo.group('n')}",
-                "lecture": int(mo.group("n")),
-                "chars": len(body),
-                "text": body,
-            }, ensure_ascii=False))
+            rows.append(
+                json.dumps(
+                    {
+                        "source": f"aug:{m['name']}",
+                        "marker": f"AUG:{m['name']} lecture {mo.group('n')}",
+                        "lecture": int(mo.group("n")),
+                        "chars": len(body),
+                        "text": body,
+                    },
+                    ensure_ascii=False,
+                )
+            )
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(rows) + ("\n" if rows else ""), encoding="utf-8")
     return len(rows)
@@ -428,11 +448,12 @@ def run(slug: str, *, skip_fidelity: bool = False, force: bool = False) -> int:
     state = json.loads(state_path.read_text(encoding="utf-8")) if state_path.exists() else {}
     ms = state.get("multi_source")
     if not ms:
-        return _die("no multi_source block in state — run promote_staging_to_book.py first "
-                    "(or use holistic_editorial.py for single-source books).")
+        return _die(
+            "no multi_source block in state — run promote_staging_to_book.py first "
+            "(or use holistic_editorial.py for single-source books)."
+        )
 
-    manifest_path = book_dir / ms.get("augmentation_manifest",
-                                      "_system/source/augmentation/_manifest.json")
+    manifest_path = book_dir / ms.get("augmentation_manifest", "_system/source/augmentation/_manifest.json")
     if not manifest_path.is_file():
         return _die(f"augmentation manifest missing: {_rel(manifest_path)}")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -478,18 +499,24 @@ def run(slug: str, *, skip_fidelity: bool = False, force: bool = False) -> int:
     else:
         _info("==> [2/4] Editorial merge — spine backbone + genuine-gap augmentation (claude -p) ...")
         rc, _o, err = _run_claude_p(
-            _editorial_prompt(book_dir, spine_raw, ledger, tagged_manifest,
-                              unified, refined, reorg, curation, spine_words),
-            timeout=EDITORIAL_TIMEOUT, book_dir=book_dir,
-            phase="0a-synthesize", step="editorial-merge")
+            _editorial_prompt(
+                book_dir, spine_raw, ledger, tagged_manifest, unified, refined, reorg, curation, spine_words
+            ),
+            timeout=EDITORIAL_TIMEOUT,
+            book_dir=book_dir,
+            phase="0a-synthesize",
+            step="editorial-merge",
+        )
         if rc != 0 or not refined.exists() or not unified.exists():
             return _die(f"editorial merge failed (rc={rc}): {err[:300]}")
         enhanced_words = len(refined.read_text(encoding="utf-8").split())
         ratio = enhanced_words / max(spine_words, 1)
         _info(f"    wrote refined-english.md ({enhanced_words:,} words = {ratio:.0%} of spine)")
         if ratio < OVER_COMPRESSION_FLOOR:
-            _info(f"    ⚠ OVER-COMPRESSION: {ratio:.0%} of spine (<{OVER_COMPRESSION_FLOOR:.0%}) — "
-                  f"that is summarization. NOT advancing; re-run the editorial.")
+            _info(
+                f"    ⚠ OVER-COMPRESSION: {ratio:.0%} of spine (<{OVER_COMPRESSION_FLOOR:.0%}) — "
+                f"that is summarization. NOT advancing; re-run the editorial."
+            )
             return 3
 
     # Pass 3 — fidelity gate
@@ -499,8 +526,11 @@ def run(slug: str, *, skip_fidelity: bool = False, force: bool = False) -> int:
         _info("==> [3/4] Fidelity gate — spine coverage + merged-span traceability (claude -p) ...")
         rc, _o, err = _run_claude_p(
             _fidelity_prompt(refined, ledger, reorg, curation, coverage, openq),
-            timeout=FIDELITY_TIMEOUT, book_dir=book_dir,
-            phase="0a-synthesize", step="fidelity-gate")
+            timeout=FIDELITY_TIMEOUT,
+            book_dir=book_dir,
+            phase="0a-synthesize",
+            step="fidelity-gate",
+        )
         if rc != 0 or not coverage.exists():
             return _die(f"fidelity gate failed (rc={rc}): {err[:300]}")
         cov = coverage.read_text(encoding="utf-8")
@@ -509,15 +539,18 @@ def run(slug: str, *, skip_fidelity: bool = False, force: bool = False) -> int:
         if "coverage:" in last:
             m = re.search(r"coverage:\s*(\d+)\s*/\s*(\d+)", last)
             if m and m.group(1) != m.group(2):
-                _info(f"    ⚠ spine coverage incomplete ({m.group(1)}/{m.group(2)}) — see "
-                      f"{_rel(openq)}. NOT advancing phase.")
+                _info(
+                    f"    ⚠ spine coverage incomplete ({m.group(1)}/{m.group(2)}) — see "
+                    f"{_rel(openq)}. NOT advancing phase."
+                )
                 return 3
 
     # Arabic verify AFTER the editorial/fidelity passes.
     _info("==> Arabic integrity: verifying spans unchanged (phase 0a) ...")
     if _ai.verify(slug, "0a") == _ai.EXIT_FORBIDDEN:
-        _info(f"    ⚠ R-ARABIC-INTEGRITY: forbidden Arabic mutation — see "
-              f"_system/{_ai.REPORT_NAME}. NOT advancing phase.")
+        _info(
+            f"    ⚠ R-ARABIC-INTEGRITY: forbidden Arabic mutation — see _system/{_ai.REPORT_NAME}. NOT advancing phase."
+        )
         return 3
 
     # Pass 4 — atom candidates

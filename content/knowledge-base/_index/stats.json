@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "last_updated": "2026-06-14T20:18:55.701517+00:00",
+  "last_updated": "2026-08-03T00:20:02.384716+00:00",
   "counts": {
-    "quran": 51,
-    "hadith": 11,
+    "quran": 100,
+    "hadith": 12,
     "quote": 0,
     "etymology": 0,
     "definition": 0,
-    "doctrine": 0
+    "doctrine": 93
   },
   "books_contributed": 0,
   "top_cited_atoms": [],

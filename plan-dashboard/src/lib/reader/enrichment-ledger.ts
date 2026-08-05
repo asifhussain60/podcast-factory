@@ -6,9 +6,9 @@
  * transformation dashboard charts. Book-level (one file per book), resilient:
  * returns null when the ledger is absent or malformed. Read-only — never writes.
  */
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { findContentDirSync } from '../content-paths';
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { findContentDirSync } from "../content-paths";
 
 export interface EnrichmentSummary {
   /** Distinct wisdom atoms woven into the text. */
@@ -38,7 +38,7 @@ interface RawLedger {
 }
 
 function num(v: unknown): number {
-  return typeof v === 'number' && Number.isFinite(v) ? v : 0;
+  return typeof v === "number" && Number.isFinite(v) ? v : 0;
 }
 
 /** Load the enrichment summary for a book, or null when unavailable. */
@@ -47,7 +47,9 @@ export function loadEnrichment(slug: string): EnrichmentSummary | null {
   if (!dir) return null;
   let raw: RawLedger;
   try {
-    raw = JSON.parse(readFileSync(join(dir, '_system', 'augmentation-ledger.json'), 'utf8')) as RawLedger;
+    raw = JSON.parse(
+      readFileSync(join(dir, "_system", "augmentation-ledger.json"), "utf8"),
+    ) as RawLedger;
   } catch {
     return null;
   }

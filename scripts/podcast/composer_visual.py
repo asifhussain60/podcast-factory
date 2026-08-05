@@ -16,6 +16,7 @@ single JSON line to stdout: {"ok": true, ...} or {"ok": false, "error": ...}.
 Batch pipeline image generation still lives in generate_video_layer.py; this is the
 single-image, human-in-the-loop path.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -36,9 +37,10 @@ def _fail(msg: str) -> int:
 
 
 def _gemini_client():
-    from _secrets import get_gemini_key  # noqa: PLC0415
+    from _secrets import get_gemini_key
+
     try:
-        from google import genai  # noqa: PLC0415
+        from google import genai
     except ImportError:
         raise RuntimeError("google-genai not installed. Run: pip3 install google-genai")
     return genai.Client(api_key=get_gemini_key()), genai
@@ -69,7 +71,7 @@ def do_generate(book_dir: Path, prompt: str, from_file: str | None, anchor: str)
         return _fail("empty prompt")
 
     client, _ = _gemini_client()
-    from google.genai import types  # noqa: PLC0415
+    from google.genai import types
 
     contents: object
     if from_file:
@@ -91,7 +93,7 @@ def do_generate(book_dir: Path, prompt: str, from_file: str | None, anchor: str)
             contents=contents,
             config=types.GenerateContentConfig(response_modalities=["image", "text"]),
         )
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         return _fail(f"Gemini request failed: {e}")
 
     image_bytes = _extract_image_bytes(resp)
@@ -106,13 +108,18 @@ def do_generate(book_dir: Path, prompt: str, from_file: str | None, anchor: str)
 
     caption = prompt if len(prompt) <= 140 else prompt[:137] + "…"
     entry = {
-        "id": vid, "type": "generated", "aspect": "", "caption": caption,
-        "file": fname, "suggested_anchor": anchor or "", "cleaned": True, "embedded_title": "",
+        "id": vid,
+        "type": "generated",
+        "aspect": "",
+        "caption": caption,
+        "file": fname,
+        "suggested_anchor": anchor or "",
+        "cleaned": True,
+        "embedded_title": "",
     }
     merged = merge_entries(book_dir, [entry])
     write_index(book_dir, merged)
-    print(json.dumps({"ok": True, "id": vid, "file": fname, "caption": caption,
-                      "kb": len(image_bytes) // 1024}))
+    print(json.dumps({"ok": True, "id": vid, "file": fname, "caption": caption, "kb": len(image_bytes) // 1024}))
     return 0
 
 
@@ -161,7 +168,7 @@ def main() -> int:
         if args.action == "generate":
             return do_generate(book_dir, args.prompt, args.from_file or None, args.anchor)
         return do_delete(book_dir, args.id)
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         return _fail(str(e))
 
 

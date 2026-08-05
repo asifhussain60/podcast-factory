@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>prose-editor — standalone, no bundler</title>
+    <link rel="stylesheet" href="../styles/prose-editor.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 2rem;
+        font:
+          16px/1.6 system-ui,
+          sans-serif;
+        background: #faf8f4;
+      }
+      main {
+        max-width: 44rem;
+        margin-inline: auto;
+      }
+      /* Theme-Adapter Pattern B: alias the package's tokens onto this page's
+         palette. The package stylesheet is never edited. */
+      .editor-shell {
+        --rte-accent: #8b4513;
+        --rte-surface: #fffdf8;
+        --rte-border: #ebe6da;
+        --rte-border-strong: #d9d3c4;
+        border: 1px solid var(--rte-border-strong);
+        border-radius: 8px;
+        overflow: visible;
+        background: var(--rte-surface);
+      }
+      .editor-shell .rte-prose {
+        padding: 1rem 1.25rem;
+        min-height: 12rem;
+        outline: none;
+        font-size: 1.05rem;
+      }
+      pre {
+        padding: 1rem;
+        background: #fff;
+        border: 1px solid #ebe6da;
+        border-radius: 8px;
+        white-space: pre-wrap;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>prose-editor, with no build step</h1>
+      <p>
+        One script tag, one stylesheet, no npm. This is the path a host with no
+        module bundler takes — TipTap and ProseMirror are bundled in.
+      </p>
+
+      <div class="editor-shell" id="shell"></div>
+
+      <h2>What a save would write</h2>
+      <pre id="out"></pre>
+    </main>
+
+    <script src="../dist/standalone/prose-editor.global.js"></script>
+    <script>
+      var shell = document.getElementById("shell");
+      var out = document.getElementById("out");
+
+      var editor = ProseEditor.mount(shell, {
+        // REQUIRED — there is deliberately no default serializer.
+        serializer: { kind: "markdown" },
+        content:
+          "<h2>A heading</h2><p>Try the toolbar. Select some text for the bubble bar.</p><ol><li value='3'>a list that starts at three</li><li value='4'>and continues</li></ol>",
+        toolbar: { ariaLabel: "Formatting" },
+        bubble: {},
+      });
+
+      if (editor.toolbarEl) shell.prepend(editor.toolbarEl);
+      if (editor.bubbleEl) document.body.append(editor.bubbleEl);
+
+      function render() {
+        out.textContent = editor.serialize();
+      }
+      window.__ed = editor; // exposed for the verification script
+      editor.editor.on("update", render);
+      render();
+    </script>
+  </body>
+</html>

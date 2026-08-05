@@ -12,8 +12,9 @@ enum drifted from both reality and its own test. It is now a re-export so there
 is exactly ONE phase list in the codebase. (Machine names like ``0a`` / ``06a``
 are not valid Python identifiers, so a StrEnum view is intentionally not offered.)
 """
+
 from __future__ import annotations
 
-from _progress import PHASES as PHASE_ORDER  # noqa: F401  (re-export)
+from _progress import PHASES as PHASE_ORDER
 
 __all__ = ["PHASE_ORDER"]

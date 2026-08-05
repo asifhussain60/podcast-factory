@@ -15,15 +15,20 @@ USAGE
     python3 scripts/podcast/gemini_refine.py --slug ayyuhal-walad --chapter ch02-hatim-eight-benefits --mode denoise
     python3 scripts/podcast/gemini_refine.py --slug ayyuhal-walad --chapter ch02-hatim-eight-benefits --mode normalize
 """
+
 from __future__ import annotations
-import argparse, json, os, subprocess, sys, urllib.request
+
+import argparse
+import json
+import sys
+import urllib.request
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _paths import REPO_ROOT, content_dir  # noqa: E402
-from _cost_ledger import append_gemini_cost  # noqa: E402
-from _rules import R_NOISE_APPARATUS_DIRECTIVE, strip_noise_reference_attributions  # noqa: E402
+from _cost_ledger import append_gemini_cost
+from _paths import REPO_ROOT, content_dir
+from _rules import R_NOISE_APPARATUS_DIRECTIVE, strip_noise_reference_attributions
 
 # ─── SN-7 Terminus-technicus preservation (R_TERMINUS_PRESERVE) ───────────────
 # house-voice.md §2b. The RULE is the standard; the protect-LIST is per-book, tradition-agnostic
@@ -32,6 +37,7 @@ from _rules import R_NOISE_APPARATUS_DIRECTIVE, strip_noise_reference_attributio
 # R-PHONETICS-OUT: Arabic SCRIPT (تأویل) is still stripped (TTS can't read it); the doctrinal
 # term is carried by its Arabic script and/or phonetic form, preserved on every occurrence,
 # glossed once.
+
 
 def load_protect_terms(slug: str) -> list[str]:
     """Phonetic + transliteration forms from the per-book glossary.yml (the protect-list).
@@ -75,14 +81,14 @@ def load_protect_terms(slug: str) -> list[str]:
 def sn7_guard(terms: list[str]) -> str:
     """The SN-7 terminus-technicus guard, identical for both stages (R_TERMINUS_PRESERVE)."""
     base = (
-      "TERMINUS-TECHNICUS GUARD (R_TERMINUS_PRESERVE, mandatory): a terminus technicus is a "
-      "precise doctrinal term, not stylistic vocabulary. Preserve every such term in its "
-      "Arabic SCRIPT when present and in its PHONETIC/transliterated identity on EVERY occurrence; "
-      "on the FIRST occurrence you MAY add a brief English gloss in parentheses, e.g. "
-      "'تأويل / tawil (the inner, esoteric meaning of scripture)'. NEVER reduce a term to an "
-      "English gloss only ('tawil' -> 'esoteric interpretation' is FORBIDDEN). Arabic SCRIPT is "
-      "source content for the review pipeline, not audio noise; preserve it unless it belongs "
-      "only to stripped publisher/OCR apparatus."
+        "TERMINUS-TECHNICUS GUARD (R_TERMINUS_PRESERVE, mandatory): a terminus technicus is a "
+        "precise doctrinal term, not stylistic vocabulary. Preserve every such term in its "
+        "Arabic SCRIPT when present and in its PHONETIC/transliterated identity on EVERY occurrence; "
+        "on the FIRST occurrence you MAY add a brief English gloss in parentheses, e.g. "
+        "'تأويل / tawil (the inner, esoteric meaning of scripture)'. NEVER reduce a term to an "
+        "English gloss only ('tawil' -> 'esoteric interpretation' is FORBIDDEN). Arabic SCRIPT is "
+        "source content for the review pipeline, not audio noise; preserve it unless it belongs "
+        "only to stripped publisher/OCR apparatus."
     )
     if terms:
         base += " Known terms for this book (case/diacritic-insensitive): " + ", ".join(terms) + "."
@@ -90,17 +96,17 @@ def sn7_guard(terms: list[str]) -> str:
 
 
 DENOISE_SYS = (
-  "You are a text-cleaning tool for a scholarly book. The input is an OCR'd academic edition of a "
-  "classical Islamic treatise, with the treatise BODY interleaved with scholarly APPARATUS "
-  "(numbered footnotes, manuscript/variant notes, biographical glosses, editorial brackets [...] "
-  "and {...}, page numbers, and inline footnote-reference digits attached to words). "
-  "Return ONLY the treatise body text, cleaned of all apparatus. RULES: (1) Do NOT reword, "
-  "rewrite, summarize, translate, or add anything — output the body VERBATIM minus apparatus. "
-  "(2) Remove footnotes, glosses, manuscript notes, editorial brackets and their contents, page "
-  "numbers, section-number labels like 'XVIII.', and stray inline footnote digits. (3) Keep all "
-  "Quran/hadith quotations, poetry, Arabic-script terms, Arabic-script names, prayers, and "
-  "doctrinal formulae exactly. (4) Preserve paragraph flow. Output plain text only."
-  "\n\n" + R_NOISE_APPARATUS_DIRECTIVE
+    "You are a text-cleaning tool for a scholarly book. The input is an OCR'd academic edition of a "
+    "classical Islamic treatise, with the treatise BODY interleaved with scholarly APPARATUS "
+    "(numbered footnotes, manuscript/variant notes, biographical glosses, editorial brackets [...] "
+    "and {...}, page numbers, and inline footnote-reference digits attached to words). "
+    "Return ONLY the treatise body text, cleaned of all apparatus. RULES: (1) Do NOT reword, "
+    "rewrite, summarize, translate, or add anything — output the body VERBATIM minus apparatus. "
+    "(2) Remove footnotes, glosses, manuscript notes, editorial brackets and their contents, page "
+    "numbers, section-number labels like 'XVIII.', and stray inline footnote digits. (3) Keep all "
+    "Quran/hadith quotations, poetry, Arabic-script terms, Arabic-script names, prayers, and "
+    "doctrinal formulae exactly. (4) Preserve paragraph flow. Output plain text only."
+    "\n\n" + R_NOISE_APPARATUS_DIRECTIVE
 )
 
 # ─── Consumer-voice denoise (category: sites) ────────────────────────────────
@@ -160,25 +166,31 @@ Preserve the YAML frontmatter (--- block) verbatim. Begin the prose body where i
 the input.\
 """
 
+
 def load_key() -> str:
     # Vault-deterministic (llm-gemini-api-key).
     from _secrets import get_gemini_key
+
     return get_gemini_key()
 
 
 def gemini(model: str, system: str, user: str) -> str:
-    from _engine import engine_guard, TASK_DENOISE, ENGINE_GEMINI
+    from _engine import ENGINE_GEMINI, TASK_DENOISE, engine_guard
+
     engine_guard(TASK_DENOISE, ENGINE_GEMINI)
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={load_key()}"
-    body = json.dumps({
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"parts": [{"text": user}]}],
-        "generationConfig": {"temperature": 0.3, "maxOutputTokens": 16000},
-    }).encode()
+    body = json.dumps(
+        {
+            "system_instruction": {"parts": [{"text": system}]},
+            "contents": [{"parts": [{"text": user}]}],
+            "generationConfig": {"temperature": 0.3, "maxOutputTokens": 16000},
+        }
+    ).encode()
     req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"}, method="POST")
     with urllib.request.urlopen(req, timeout=300) as r:
         d = json.loads(r.read())
     return d["candidates"][0]["content"]["parts"][0]["text"]
+
 
 def main() -> int:
     ap = argparse.ArgumentParser(
@@ -198,11 +210,15 @@ def main() -> int:
     ap.add_argument("--mode", required=True, choices=["denoise", "normalize", "web-consumer-denoise"])
     ap.add_argument("--model", default="gemini-2.5-flash")
     ap.add_argument("--force", action="store_true", help="overwrite existing output (re-spends Gemini)")
-    ap.add_argument("--input", dest="input_path", default=None,
-                    help="Override source file path (used with web-consumer-denoise)")
-    ap.add_argument("--output", dest="output_path", default=None,
-                    help="Override output file path (used with web-consumer-denoise; "
-                         "omit to edit in-place)")
+    ap.add_argument(
+        "--input", dest="input_path", default=None, help="Override source file path (used with web-consumer-denoise)"
+    )
+    ap.add_argument(
+        "--output",
+        dest="output_path",
+        default=None,
+        help="Override output file path (used with web-consumer-denoise; omit to edit in-place)",
+    )
     a = ap.parse_args()
     book = content_dir(a.slug)
 
@@ -210,14 +226,13 @@ def main() -> int:
         # ── Consumer jargon strip for sites category ──────────────────────────
         if a.input_path is None:
             raise SystemExit(
-                "web-consumer-denoise requires --input <file>  "
-                "(e.g. content/drafts/<slug>/chapters/ch01-foo.md)"
+                "web-consumer-denoise requires --input <file>  (e.g. content/drafts/<slug>/chapters/ch01-foo.md)"
             )
         src = Path(a.input_path)
         # Default: edit in-place (overwrite the source file)
         dst = Path(a.output_path) if a.output_path else src
         system = DENOISE_SYS_WEB_CONSUMER
-        label = f"web-consumer-denoise/{src.name}"
+        label = f"web-consumer-denoise/{src.name}"  # noqa: F841
         if not src.exists():
             raise SystemExit(f"missing input {src}")
         if dst.exists() and dst != src and not a.force:
@@ -226,12 +241,12 @@ def main() -> int:
         text = src.read_text(encoding="utf-8")
         out = gemini(a.model, system, text)
         dst.write_text(out.strip() + "\n", encoding="utf-8")
-        append_gemini_cost(book, phase="consumer-denoise", step=src.stem,
-                           model=a.model, in_chars=len(text), out_chars=len(out))
+        append_gemini_cost(
+            book, phase="consumer-denoise", step=src.stem, model=a.model, in_chars=len(text), out_chars=len(out)
+        )
         delta = len(out) - len(text)
         sign = "+" if delta >= 0 else ""
-        print(f"[web-consumer-denoise] {src.name}: {len(text):,} → {len(out):,} chars "
-              f"({sign}{delta:,})  →  {dst}")
+        print(f"[web-consumer-denoise] {src.name}: {len(text):,} → {len(out):,} chars ({sign}{delta:,})  →  {dst}")
         return 0
 
     # ── Existing WC8 scholarly modes ─────────────────────────────────────────
@@ -243,12 +258,15 @@ def main() -> int:
         title = f"# Denoised — {a.chapter} (apparatus stripped via Gemini)"
     else:
         hv = (REPO_ROOT / "docs" / "standards" / "house-voice.md").read_text()
-        system = ("OUTPUT DISCIPLINE: return ONLY the re-voiced chapter text. No preamble, no "
-                  "'Here is...', no notes, no explanation, no headings about the task. Begin directly "
-                  "with the chapter's first words.\n\n" + hv + "\n\n" + guard)
+        system = (
+            "OUTPUT DISCIPLINE: return ONLY the re-voiced chapter text. No preamble, no "
+            "'Here is...', no notes, no explanation, no headings about the task. Begin directly "
+            "with the chapter's first words.\n\n" + hv + "\n\n" + guard
+        )
         src, dst = sd / "denoised.md", sd / "normalized.md"
         title = f"# Normalized — {a.chapter} (house voice via Gemini)"
-    if not src.exists(): raise SystemExit(f"missing input {src}")
+    if not src.exists():
+        raise SystemExit(f"missing input {src}")
     if dst.exists() and not a.force:
         print(f"[skip] {dst.name} already exists — use --force to re-run (re-spends Gemini).")
         return 0
@@ -256,10 +274,12 @@ def main() -> int:
     out = gemini(a.model, system, text)
     out, _reference_tail_strips = strip_noise_reference_attributions(out)
     dst.write_text(title + "\n\n" + out.strip() + "\n")
-    append_gemini_cost(book, phase=f"wc8/{a.mode}", step=a.chapter,
-                       model=a.model, in_chars=len(text), out_chars=len(out))
+    append_gemini_cost(
+        book, phase=f"wc8/{a.mode}", step=a.chapter, model=a.model, in_chars=len(text), out_chars=len(out)
+    )
     print(f"[{a.mode}] {a.chapter}: {len(text):,} -> {len(out):,} chars -> {dst.name}")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

@@ -4,6 +4,7 @@ Uses a MOCK llm_caller (no Gemini, no network, no cost) over a temp DB. Asserts:
 tags are written to atom_topic_tags, the pass is idempotent (already-tagged atoms
 skipped), --dry-run writes nothing, and the cost cap halts the run.
 """
+
 from __future__ import annotations
 
 import json
@@ -26,6 +27,7 @@ _SCHEMA = (
 def _mock_caller(prompt: str):
     """Return deterministic tags for every passage index found in the prompt."""
     import re
+
     idxs = [int(n) for n in re.findall(r"\[(\d+)\]", prompt)]
     results = [{"i": i, "tags": ["mercy", "soul"]} for i in idxs]
     return 0, json.dumps({"results": results}), "0.0001"
@@ -39,25 +41,35 @@ class DoctrineTagger(unittest.TestCase):
         c = sqlite3.connect(self.path)
         c.executescript(_SCHEMA)
         for i in range(3):
-            c.execute("INSERT INTO atoms VALUES (?, 'doctrine', ?, 'fatimid-ismaili')",
-                      (f"doctrine:wisdom:1:{i}:0", json.dumps({"text_en": f"teaching about the soul {i}"})))
+            c.execute(
+                "INSERT INTO atoms VALUES (?, 'doctrine', ?, 'fatimid-ismaili')",
+                (f"doctrine:wisdom:1:{i}:0", json.dumps({"text_en": f"teaching about the soul {i}"})),
+            )
         # one non-doctrine + one already-tagged doctrine (should be skipped)
         c.execute("INSERT INTO atoms VALUES ('quran:1:1','quran','{}','universal')")
-        c.execute("INSERT INTO atoms VALUES ('doctrine:wisdom:9:9:0','doctrine','{\"text_en\":\"x\"}','fatimid-ismaili')")
+        c.execute(
+            "INSERT INTO atoms VALUES ('doctrine:wisdom:9:9:0','doctrine','{\"text_en\":\"x\"}','fatimid-ismaili')"
+        )
         c.execute("INSERT INTO atom_topic_tags VALUES ('doctrine:wisdom:9:9:0','preexisting')")
-        c.commit(); c.close()
+        c.commit()
+        c.close()
         self._orig = td.get_connection
         td.get_connection = lambda **_: self._open()
 
     def _open(self):
-        c = sqlite3.connect(self.path); c.row_factory = sqlite3.Row; return c
+        c = sqlite3.connect(self.path)
+        c.row_factory = sqlite3.Row
+        return c
 
     def tearDown(self):
         td.get_connection = self._orig
         Path(self.path).unlink(missing_ok=True)
 
     def _count(self, sql, *a):
-        c = sqlite3.connect(self.path); n = c.execute(sql, a).fetchone()[0]; c.close(); return n
+        c = sqlite3.connect(self.path)
+        n = c.execute(sql, a).fetchone()[0]
+        c.close()
+        return n
 
     def test_dry_run_writes_nothing(self):
         s = td.tag_all(dry_run=True, llm_caller=_mock_caller)
@@ -83,12 +95,16 @@ class DoctrineTagger(unittest.TestCase):
         # need >1 batch (BATCH_SIZE=8) for the pre-batch cap to trigger
         c = sqlite3.connect(self.path)
         for i in range(10):
-            c.execute("INSERT INTO atoms VALUES (?, 'doctrine', ?, 'fatimid-ismaili')",
-                      (f"doctrine:wisdom:5:{i}:0", json.dumps({"text_en": f"more teaching {i}"})))
-        c.commit(); c.close()
+            c.execute(
+                "INSERT INTO atoms VALUES (?, 'doctrine', ?, 'fatimid-ismaili')",
+                (f"doctrine:wisdom:5:{i}:0", json.dumps({"text_en": f"more teaching {i}"})),
+            )
+        c.commit()
+        c.close()
 
         def pricey(prompt):
             return 0, json.dumps({"results": [{"i": 0, "tags": ["mercy"]}]}), "99.0"
+
         s = td.tag_all(llm_caller=pricey, cost_cap=1.0)
         self.assertTrue(any("cost cap" in e for e in s.errors))
         self.assertEqual(s.batches, 1, "halted before the second batch")

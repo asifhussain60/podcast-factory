@@ -6,6 +6,7 @@ loop (pipeline_mode=non_orchestrated_mode_2) or whose challenger-report.md
 verdict is not in {SHIP-READY, SHIP-WITH-CAUTION}. The gate's verdict
 parsing must accept both `**Verdict:** X` and `**Verdict: X**` shapes.
 """
+
 from __future__ import annotations
 
 import json
@@ -17,20 +18,15 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import publish_to_library as ptl  # noqa: E402
+import publish_to_library as ptl
 
 
 class G7GateTests(unittest.TestCase):
-
     def _workspace(self, state: dict, report_body: str) -> Path:
         ws = Path(tempfile.mkdtemp()) / "fake-book"
         (ws / "_system").mkdir(parents=True)
-        (ws / "_system" / "orchestrator-state.json").write_text(
-            json.dumps(state), encoding="utf-8"
-        )
-        (ws / "_system" / "challenger-report.md").write_text(
-            report_body, encoding="utf-8"
-        )
+        (ws / "_system" / "orchestrator-state.json").write_text(json.dumps(state), encoding="utf-8")
+        (ws / "_system" / "challenger-report.md").write_text(report_body, encoding="utf-8")
         return ws
 
     def test_passes_with_canonical_ship_ready(self):

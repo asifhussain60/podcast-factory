@@ -468,7 +468,7 @@ To absorb the rest of the second-pass-audit chrome findings:
 **Server-side routing via Astro endpoints.** The reader section of the Podcast Factory Astro Site is Astro with the Node adapter, so it already has server-side endpoints. We add four:
 
 - `src/pages/api/ai/define-term.ts` — Gemini Flash, POST `{phonetic, context}` → `{definition}`. Reads `gemini_api_key` from keychain via `security find-generic-password -s gemini_api_key -a $USER -w`. Cached in localStorage on the browser side.
-- `src/pages/api/ai/summarize-section.ts` — Claude Haiku via `claude -p`, POST `{sectionText}` → `{summary}`. Spawns `claude -p` as a child process; no API key needed (Max subscription OAuth).
+- `src/pages/api/ai/summarize-section.ts` — Claude Haiku via `claude -p`, POST `{sectionText}` → `{summary}`. Spawns `claude -p` as a child process; no API key needed (Max subscription OAuth). **Removed 2026-07-16** — the route was built but never wired to a frontend caller; re-add if the summarize feature is picked back up.
 - `src/pages/api/ai/ask-chapter.ts` — Claude Sonnet via `claude -p` (streaming), POST `{chapterText, question}` → SSE stream of tokens.
 - `src/pages/api/tts.ts` — Azure Speech, POST `{text, voice}` → audio Blob. Reads `azure-podcast-speech-key1` + endpoint + region from keychain.
 

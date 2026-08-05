@@ -10,9 +10,9 @@
  * This endpoint launches a real, cost-incurring pipeline run; it must only be
  * called from the cockpit's explicit pre-flight confirm (the user's Tier-2 OK).
  */
-import type { APIRoute } from 'astro';
-import { runPythonJson, spawnDetachedPython } from '../../../lib/intake-cli';
-import { apiOk, apiError, apiServerError } from '../../../lib/api-responses';
+import type { APIRoute } from "astro";
+import { runPythonJson, spawnDetachedPython } from "../../../lib/intake-cli";
+import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
 
 export const prerender = false;
 
@@ -28,31 +28,39 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     body = await request.json();
   } catch {
-    return apiError('Invalid JSON');
+    return apiError("Invalid JSON");
   }
   const { title, settings, staging_token } = body;
   if (!title || !settings || !staging_token) {
-    return apiError('need title, settings, and staging_token');
+    return apiError("need title, settings, and staging_token");
   }
-  if (!body.slug && !body.work_slug) return apiError('need slug or work_slug');
+  if (!body.slug && !body.work_slug) return apiError("need slug or work_slug");
 
   const prepArgs = [
-    '--title', title,
-    '--settings', JSON.stringify(settings),
-    '--staging-token', staging_token,
+    "--title",
+    title,
+    "--settings",
+    JSON.stringify(settings),
+    "--staging-token",
+    staging_token,
   ];
-  if (body.slug) prepArgs.push('--slug', body.slug);
-  if (body.work_slug) prepArgs.push('--work', body.work_slug);
-  if (body.volume != null) prepArgs.push('--volume', String(body.volume));
+  if (body.slug) prepArgs.push("--slug", body.slug);
+  if (body.work_slug) prepArgs.push("--work", body.work_slug);
+  if (body.volume != null) prepArgs.push("--volume", String(body.volume));
 
   try {
     // 1. Prep — no spend. Fails loudly (e.g. missing primary source) before launch.
-    const prep = (await runPythonJson('intake_launch.py', prepArgs)) as {
+    const prep = (await runPythonJson("intake_launch.py", prepArgs)) as {
       ok: boolean;
-      result?: { slug: string; branch: string; launch: { script: string; args: string[] } };
+      result?: {
+        slug: string;
+        branch: string;
+        launch: { script: string; args: string[] };
+      };
       error?: string;
     };
-    if (!prep.ok || !prep.result) return apiError(prep.error ?? 'launch prep failed');
+    if (!prep.ok || !prep.result)
+      return apiError(prep.error ?? "launch prep failed");
 
     // 2. Detached spawn — survives the browser. The orchestrator never runs in-request.
     const { script, args } = prep.result.launch;

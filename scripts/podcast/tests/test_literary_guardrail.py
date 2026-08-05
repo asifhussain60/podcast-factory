@@ -1,4 +1,5 @@
 """Tests for the no-teaching-lost guardrail in _literary.teaching_loss_findings."""
+
 import sys
 import unittest
 from pathlib import Path
@@ -6,7 +7,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from _literary import teaching_loss_findings
-
 
 SOURCE = """# Ayyuhal Walad
 

@@ -27,6 +27,7 @@ Dry-run first (vacuum pattern): default prints the proposed plan and exits;
 Usage:
     python3 scripts/podcast/standardize_book_folders.py [--confirm] [--slug <slug>]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -36,7 +37,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import (  # noqa: E402
+from _paths import (
     BOOK_SUBDIRS,
     CONTENT_ROOT,
     REPO_ROOT,
@@ -44,7 +45,7 @@ from _paths import (  # noqa: E402
     is_work_parent,
     volume_dirs,
 )
-from _rules import BUCKETS  # noqa: E402
+from _rules import BUCKETS
 
 
 @dataclass
@@ -107,8 +108,7 @@ def _plan_simple_renames(book_dir: Path, plan: BookPlan) -> None:
         if not legacy.is_dir():
             continue
         if std.is_dir() and any(std.iterdir()):
-            plan.oddities.append(
-                f"both {legacy_name}/ and {std_name}/ exist with content — review manually")
+            plan.oddities.append(f"both {legacy_name}/ and {std_name}/ exist with content — review manually")
             continue
         plan.renames.append((legacy, std))
 
@@ -121,7 +121,8 @@ def build_plan(book_dir: Path) -> BookPlan:
     # after renames. Exclude dirs a planned rename will itself create.
     rename_targets = {dst.relative_to(book_dir).as_posix() for _, dst in plan.renames}
     plan.missing_dirs = [
-        s for s in BOOK_SUBDIRS
+        s
+        for s in BOOK_SUBDIRS
         if not (book_dir / s).is_dir()
         and s not in rename_targets
         and not any(t == s or t.startswith(s + "/") for t in rename_targets)
@@ -168,8 +169,7 @@ def main() -> int:
         for src, dst in plan.renames:
             print(f"    RENAME {src.relative_to(book_dir)} -> {dst.relative_to(book_dir)}")
         if plan.missing_dirs:
-            print(f"    CREATE {len(plan.missing_dirs)} missing standard dirs: "
-                  + ", ".join(plan.missing_dirs))
+            print(f"    CREATE {len(plan.missing_dirs)} missing standard dirs: " + ", ".join(plan.missing_dirs))
         for o in plan.oddities:
             print(f"    FLAG   {o}")
         if plan.has_actions:

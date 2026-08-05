@@ -3,6 +3,7 @@
 verdict gating, spend approval, ledger determinism, canonical layout, credit
 metering, sanity band. ElevenLabs + ffmpeg fully mocked: no network, no spend.
 """
+
 from __future__ import annotations
 
 import json
@@ -15,9 +16,9 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import render_dialogue_audio as rda  # noqa: E402
-import _dialogue_convergence as dc  # noqa: E402
-import _dialogue_script as ds  # noqa: E402
+import _dialogue_convergence as dc
+import _dialogue_script as ds
+import render_dialogue_audio as rda
 
 FIXTURE_BOOK = Path(__file__).resolve().parent / "fixtures" / "audio-engine-book"
 EPISODE_ID = "EP01-the-lamp-and-the-wick"
@@ -46,13 +47,26 @@ class FakeClient:
     def subscription(self):
         return {"character_count": self._meter, "character_limit": 100_000}
 
-    def text_to_dialogue(self, inputs, *, model_id, seed=None, settings=None,
-                         pronunciation_dictionary_locators=None,
-                         output_format="mp3_44100_128", timeout=300):
-        self.dialogue_calls.append({
-            "inputs": inputs, "model_id": model_id, "seed": seed,
-            "settings": settings, "locators": pronunciation_dictionary_locators,
-        })
+    def text_to_dialogue(
+        self,
+        inputs,
+        *,
+        model_id,
+        seed=None,
+        settings=None,
+        pronunciation_dictionary_locators=None,
+        output_format="mp3_44100_128",
+        timeout=300,
+    ):
+        self.dialogue_calls.append(
+            {
+                "inputs": inputs,
+                "model_id": model_id,
+                "seed": seed,
+                "settings": settings,
+                "locators": pronunciation_dictionary_locators,
+            }
+        )
         self._meter += self._meter_per_call
         return b"FAKEAUDIO:" + str(len(self.dialogue_calls)).encode()
 
@@ -77,8 +91,7 @@ class RenderTestCase(unittest.TestCase):
         self.book = Path(tmp) / "book"
         shutil.copytree(FIXTURE_BOOK, self.book)
         cfg = self.book / "_system" / "series-config.yaml"
-        cfg.write_text(cfg.read_text(encoding="utf-8") + "audio_engine: elevenlabs\n",
-                       encoding="utf-8")
+        cfg.write_text(cfg.read_text(encoding="utf-8") + "audio_engine: elevenlabs\n", encoding="utf-8")
         self._write_script(SCRIPT)
         self._write_verdict("SHIP-READY")
         self.client = FakeClient()
@@ -124,9 +137,10 @@ class TestGating(RenderTestCase):
 
     def test_refuses_manual_engine(self):
         cfg = self.book / "_system" / "series-config.yaml"
-        cfg.write_text(cfg.read_text(encoding="utf-8").replace(
-            "audio_engine: elevenlabs", "audio_engine: notebooklm"),
-            encoding="utf-8")
+        cfg.write_text(
+            cfg.read_text(encoding="utf-8").replace("audio_engine: elevenlabs", "audio_engine: notebooklm"),
+            encoding="utf-8",
+        )
         with self.assertRaises(RuntimeError):
             self._render()
 
@@ -135,8 +149,7 @@ class TestRender(RenderTestCase):
     def test_canonical_outputs(self):
         res = self._render()
         self.assertTrue(res.rendered)
-        self.assertEqual(res.m4a_path,
-                         self.book / "m4a" / "ch01-the-lamp-and-the-wick.m4a")
+        self.assertEqual(res.m4a_path, self.book / "m4a" / "ch01-the-lamp-and-the-wick.m4a")
         self.assertTrue(res.m4a_path.exists())
         tx1 = self.book / "m4a" / "transcripts" / "ch01-the-lamp-and-the-wick.transcript.txt"
         tx2 = self.book / "transcripts" / f"{EPISODE_ID}.transcript.txt"
@@ -158,6 +171,7 @@ class TestRender(RenderTestCase):
             # cast: with no series-config override, the deterministic
             # per-slug pair from the approved pools applies.
             from _voice_library import pair_for_slug
+
             expected = set(pair_for_slug(self.book.name).values())
             for inp in call["inputs"]:
                 self.assertIn(inp["voice_id"], expected)
@@ -177,9 +191,7 @@ class TestRender(RenderTestCase):
         res = self._render()
         n_calls = len(self.client.dialogue_calls)
         self.assertEqual(res.credits_metered, n_calls * 100)
-        cost_rows = [json.loads(l) for l in
-                     (self.book / "_system" / "cost-ledger.jsonl")
-                     .read_text().splitlines()]
+        cost_rows = [json.loads(l) for l in (self.book / "_system" / "cost-ledger.jsonl").read_text().splitlines()]
         eleven = [r for r in cost_rows if r["model"] == "elevenlabs-eleven-v3"]
         self.assertEqual(len(eleven), 1)
         self.assertEqual(eleven[0]["input_tokens"], res.credits_metered)
@@ -206,7 +218,8 @@ class TestCache(RenderTestCase):
         long_script = "# s\n" + "\n\n".join(
             f"HOST_{'A' if i % 2 == 0 else 'B'}: Sentence number {i} carries "
             f"its own weight in this long conversation about the lamp."
-            for i in range(40))
+            for i in range(40)
+        )
         self._write_script(long_script)
         res1 = self._render()
         calls_after_first = len(self.client.dialogue_calls)
@@ -223,20 +236,19 @@ class TestCache(RenderTestCase):
     def test_same_input_same_chunk_hashes(self):
         res1 = self._render()
         res2 = self._render(approved=False)
-        self.assertEqual([c.input_hash for c in res1.chunks],
-                         [c.input_hash for c in res2.chunks])
+        self.assertEqual([c.input_hash for c in res1.chunks], [c.input_hash for c in res2.chunks])
 
 
 class TestDictionaryPinning(RenderTestCase):
     def test_glossary_dictionary_pinned_into_render_calls(self):
         import yaml
-        (self.book / "_system" / "glossary.yml").write_text(yaml.safe_dump({
-            "entries": [{"phonetic": "batin", "audio_phonetic": "BAA-tin"}]}),
-            encoding="utf-8")
+
+        (self.book / "_system" / "glossary.yml").write_text(
+            yaml.safe_dump({"entries": [{"phonetic": "batin", "audio_phonetic": "BAA-tin"}]}), encoding="utf-8"
+        )
         self._render()
         for call in self.client.dialogue_calls:
-            self.assertEqual(call["locators"], [{
-                "pronunciation_dictionary_id": "dict-1", "version_id": "ver-1"}])
+            self.assertEqual(call["locators"], [{"pronunciation_dictionary_id": "dict-1", "version_id": "ver-1"}])
         self.assertEqual(self.client.dict_uploads, 1)
         # Re-render after cache clear: dictionary NOT re-uploaded (pin reused).
         shutil.rmtree(self.book / "_system" / "render-cache")

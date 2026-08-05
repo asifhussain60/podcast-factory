@@ -12,6 +12,7 @@ Checks (all P0 unless noted):
 
 Returns a FindingsList for inclusion in the challenger report.
 """
+
 from __future__ import annotations
 
 import json
@@ -23,24 +24,34 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 TRANSLATOR_DATA = REPO_ROOT / "tools" / "content_translator" / "data"
 
-_SECTION_MARKER_RE = re.compile(
-    r"(<!-- section \d+ \(id=\d+, raw_sort=\d+\): .+? -->)"
-)
+_SECTION_MARKER_RE = re.compile(r"(<!-- section \d+ \(id=\d+, raw_sort=\d+\): .+? -->)")
 _AR_MARKER_RE = re.compile(r"⟪ar:[^⟫]+⟫")
 _QURAN_MARKER_RE = re.compile(r"⟪quran \d+:\d+⟫")
 
 # Allowlisted source authors (must match entries in fatimid-sources.yaml)
 _ALLOWED_AUTHORS = {
-    "Hamid al-Din al-Kirmani", "al-Kirmani", "Kirmani",
-    "Al-Muʾayyad fi al-Din al-Shirazi", "al-Muʾayyad", "Al-Muʾayyad",
-    "Qadi al-Nuʿman ibn Muhammad", "Qadi al-Nuʿman", "al-Nuʿman",
-    "Abu Yaʿqub al-Sijistani", "al-Sijistani",
-    "Nasir-i Khusraw", "Nāṣir-i Khusraw",
+    "Hamid al-Din al-Kirmani",
+    "al-Kirmani",
+    "Kirmani",
+    "Al-Muʾayyad fi al-Din al-Shirazi",
+    "al-Muʾayyad",
+    "Al-Muʾayyad",
+    "Qadi al-Nuʿman ibn Muhammad",
+    "Qadi al-Nuʿman",
+    "al-Nuʿman",
+    "Abu Yaʿqub al-Sijistani",
+    "al-Sijistani",
+    "Nasir-i Khusraw",
+    "Nāṣir-i Khusraw",
     "Jaʿfar ibn Mansur al-Yaman",
-    "Sayyidna Ibrahim al-Hamidi", "al-Hamidi",
-    "Sayyidna ʿAli ibn Muhammad ibn al-Walid", "Ibn al-Walid",
-    "al-Sharif al-Radi (compiler)", "al-Sharif al-Radi",
-    "Imam Zayn al-ʿAbidin (attributed)", "Imam Zayn al-ʿAbidin",
+    "Sayyidna Ibrahim al-Hamidi",
+    "al-Hamidi",
+    "Sayyidna ʿAli ibn Muhammad ibn al-Walid",
+    "Ibn al-Walid",
+    "al-Sharif al-Radi (compiler)",
+    "al-Sharif al-Radi",
+    "Imam Zayn al-ʿAbidin (attributed)",
+    "Imam Zayn al-ʿAbidin",
     "Various / Prophetic tradition",
     # Also accept KASHKOLE-internal attributions (not ideal but valid for source quotes)
     "al-Muʾayyad al-Shīrāzī",
@@ -114,8 +125,9 @@ def validate_bundle(bundle_root: Path) -> ValidatorResult:
     adapted_markers_set = set(_SECTION_MARKER_RE.findall(adapted_text))
     missing_markers = [m for m in raw_markers if m not in adapted_markers_set]
     if missing_markers:
-        result.add("V1", "P0", f"{len(missing_markers)} section marker(s) missing from adapted",
-                   "\n".join(missing_markers[:3]))
+        result.add(
+            "V1", "P0", f"{len(missing_markers)} section marker(s) missing from adapted", "\n".join(missing_markers[:3])
+        )
 
     # V2 — Arabic marker preservation
     # Models sometimes normalize whitespace inside markers or use shorter forms.
@@ -132,19 +144,31 @@ def validate_bundle(bundle_root: Path) -> ValidatorResult:
             if not any(raw_norm in a or a in raw_norm for a in adapted_ar_texts):
                 truly_missing.append(f"⟪ar:{raw_t}⟫")
     if len(truly_missing) > len(raw_ar_texts) * 0.5:
-        result.add("V2", "P0", f"{len(truly_missing)} ⟪ar:…⟫ marker text(s) fully absent from adapted",
-                   " ".join(truly_missing[:5]))
+        result.add(
+            "V2",
+            "P0",
+            f"{len(truly_missing)} ⟪ar:…⟫ marker text(s) fully absent from adapted",
+            " ".join(truly_missing[:5]),
+        )
     elif truly_missing:
-        result.add("V2", "P1", f"{len(truly_missing)} ⟪ar:…⟫ marker(s) absent or form-changed in adapted",
-                   " ".join(truly_missing[:5]))
+        result.add(
+            "V2",
+            "P1",
+            f"{len(truly_missing)} ⟪ar:…⟫ marker(s) absent or form-changed in adapted",
+            " ".join(truly_missing[:5]),
+        )
 
     # V3 — Quran marker preservation
     raw_quran = set(_QURAN_MARKER_RE.findall(raw_text))
     adapted_quran = set(_QURAN_MARKER_RE.findall(adapted_text))
     missing_quran = raw_quran - adapted_quran
     if missing_quran:
-        result.add("V3", "P0", f"{len(missing_quran)} ⟪quran S:A⟫ marker(s) lost in adaptation",
-                   " ".join(list(missing_quran)[:5]))
+        result.add(
+            "V3",
+            "P0",
+            f"{len(missing_quran)} ⟪quran S:A⟫ marker(s) lost in adaptation",
+            " ".join(list(missing_quran)[:5]),
+        )
 
     # V4 — Section headings (## under each marker)
     adapted_lines = adapted_text.splitlines()
@@ -152,7 +176,7 @@ def validate_bundle(bundle_root: Path) -> ValidatorResult:
     headings_missing = 0
     for pos in marker_positions:
         # Look for a ## heading within the next 5 lines
-        window = adapted_lines[pos + 1: pos + 6]
+        window = adapted_lines[pos + 1 : pos + 6]
         if not any(l.strip().startswith("## ") for l in window):
             headings_missing += 1
     if headings_missing:
@@ -170,8 +194,9 @@ def validate_bundle(bundle_root: Path) -> ValidatorResult:
                     except json.JSONDecodeError as e:
                         bad_lines.append(f"line {i}: {e}")
         if bad_lines:
-            result.add("V5", "P0", f"{len(bad_lines)} citation JSONL line(s) are invalid JSON",
-                       "\n".join(bad_lines[:3]))
+            result.add(
+                "V5", "P0", f"{len(bad_lines)} citation JSONL line(s) are invalid JSON", "\n".join(bad_lines[:3])
+            )
 
     # V6 — Citation source allowlist (lenient — just warn)
     if citations_file.exists():
@@ -185,23 +210,24 @@ def validate_bundle(bundle_root: Path) -> ValidatorResult:
                         author = c.get("source_author", "")
                         # Check if any allowed author substring matches (diacritic-normalized)
                         norm_author = _norm(author)
-                        if author and not any(
-                            a in norm_author or norm_author in a
-                            for a in _NORM_ALLOWED
-                        ):
+                        if author and not any(a in norm_author or norm_author in a for a in _NORM_ALLOWED):
                             unlisted.append(f"{c.get('cite_id', '?')}: {author}")
                     except json.JSONDecodeError:
                         pass
         if unlisted:
-            result.add("V6", "P1", f"{len(unlisted)} citation(s) reference non-allowlisted authors",
-                       "\n".join(unlisted[:5]))
+            result.add(
+                "V6", "P1", f"{len(unlisted)} citation(s) reference non-allowlisted authors", "\n".join(unlisted[:5])
+            )
 
     # V7 — Length sanity
     if raw_text:
         ratio = len(adapted_text.encode()) / max(len(raw_text.encode()), 1)
         if ratio < 0.40:
-            result.add("V7", "P1",
-                       f"Adapted is {ratio:.0%} the size of source — possible truncation",
-                       f"adapted={len(adapted_text):,} bytes, raw_en={len(raw_text):,} bytes")
+            result.add(
+                "V7",
+                "P1",
+                f"Adapted is {ratio:.0%} the size of source — possible truncation",
+                f"adapted={len(adapted_text):,} bytes, raw_en={len(raw_text):,} bytes",
+            )
 
     return result

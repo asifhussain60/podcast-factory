@@ -1,0 +1,24 @@
+{
+  "schema": "podcast.source-vowelling/v1",
+  "streams": {
+    "_system/source/ocr/raw-extract.md": {
+      "source_sha256": "621a12b6ce4b03cd2bc3dfc4ec8c22fdef6203f5e6f2c59050e59a66827a56bc",
+      "sibling": "_system/source/ocr/raw-extract.vowelled.md",
+      "stats": {
+        "vowelled": 2,
+        "marks_added": 117,
+        "already": 1390,
+        "quranic": 1,
+        "from_mushaf": 0,
+        "refused": 0,
+        "recovered": 0,
+        "in_chars": 164,
+        "out_chars": 281,
+        "mushaf_pairs": [],
+        "refusals": [],
+        "retry_of_refused": true
+      }
+    }
+  },
+  "generated_at": "2026-07-30T22:52:20.100247+00:00"
+}

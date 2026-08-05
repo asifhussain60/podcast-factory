@@ -46,9 +46,31 @@ import json
 import os
 import sys
 import tempfile
+import threading
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+# Ensure scripts/podcast/ is importable when this module is loaded from within
+# a package directory (mirrors _authoring/_core.py).
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+# DR-005 re-exports — the run-log block moved verbatim to _runlog.py when it
+# pushed this module past the 600-line limit; the names stay importable here.
+# One line each: the parenthesised form costs a dozen lines and says no more.
+from _runlog import RUN_LOG_RETENTION as RUN_LOG_RETENTION
+from _runlog import RUN_LOG_TAIL_CHARS as RUN_LOG_TAIL_CHARS
+from _runlog import current_run_id as current_run_id
+from _runlog import init_run_log as init_run_log
+from _runlog import log_event as log_event
+from _runlog import mint_run_id as mint_run_id
+from _runlog import read_run_events as read_run_events
+from _runlog import reset_run_log as reset_run_log
+from _runlog import run_log_enabled as run_log_enabled
+from _runlog import run_log_path as run_log_path
+from _runlog import runs_dir as runs_dir
+from _runlog import tail as tail
+from _runlog import write_failure_dump as write_failure_dump
 
 ORCHESTRATOR_VERSION = "1.2"  # 2026-05-19: chunked 0b/0c + unit_mode (chapter|section|auto) + --retry-phase
 SCHEMA_VERSION = 1
@@ -61,29 +83,29 @@ PHASES = (
     "pre-flight",
     "branch",
     "scaffold",
-    "0a",       # Azure OCR + Translation (deterministic)
-    "0b",       # English refinement (LLM)
-    "0c",       # Arabic phonetic pass (LLM)
-    "0ci",      # Book intelligence: gap analysis + corpus cross-reference (LLM); Islamic-content halt
-    "0d",       # Chapter design (LLM)
-    "0e",       # Enrichment (LLM)
+    "0a",  # Azure OCR + Translation (deterministic)
+    "0b",  # English refinement (LLM)
+    "0c",  # Arabic phonetic pass (LLM)
+    "0ci",  # Book intelligence: gap analysis + corpus cross-reference (LLM); Islamic-content halt
+    "0d",  # Chapter design (LLM)
+    "0e",  # Enrichment (LLM)
     "0literary",  # 08b literary transformation (Gemini); after enrichment, emitted by initial_driver
-    "06a",      # Wave I — source review gate (human approval before series plan)
-    "0f",       # Series plan halt (deterministic write + human gate)
-    "0g",       # Register series (deterministic)
+    "06a",  # Wave I — source review gate (human approval before series plan)
+    "0f",  # Series plan halt (deterministic write + human gate)
+    "0g",  # Register series (deterministic)
     "per-chapter",  # iterated across the chapter list on --resume
     "per-chapter-optimize",  # Wave I — Sonnet arc/format check per chapter
     "per-chapter-slides",  # optional; gated by series.enable_slide_decks. Per-chapter slide-deck authoring + slide-deck-challenger convergence. Skipped (status="skipped") when flag is false.
-    "audio-script",   # Audio Engine v2 — per-chapter dialogue-script authorship + pre-synthesis gate convergence (API engines only; skipped for notebooklm)
-    "audio-render",   # Audio Engine v2 — H1 spend halt (exact credit estimate) then ElevenLabs render into canonical m4a layout (API engines only; skipped for notebooklm)
-    "finalize",     # G1-G7 quality gates + human review halt — podcast-only; book branch has not run yet
-    "audio-ingest",   # NotebookLM path — self-correcting normalize + Azure-transcribe of dropped m4a (skipped for API/ElevenLabs books); halts cleanly until audio is dropped, then re-enters idempotently on --resume
-    "0book-design",   # PDF path — book-craft re-segmentation -> book/book-toc.json (gated by series.enable_book_branch; runs post-finalize so book is built from reviewed podcast content)
+    "audio-script",  # Audio Engine v2 — per-chapter dialogue-script authorship + pre-synthesis gate convergence (API engines only; skipped for notebooklm)
+    "audio-render",  # Audio Engine v2 — H1 spend halt (exact credit estimate) then ElevenLabs render into canonical m4a layout (API engines only; skipped for notebooklm)
+    "finalize",  # G1-G7 quality gates + human review halt — podcast-only; book branch has not run yet
+    "audio-ingest",  # NotebookLM path — self-correcting normalize + Azure-transcribe of dropped m4a (skipped for API/ElevenLabs books); halts cleanly until audio is dropped, then re-enters idempotently on --resume
+    "0book-design",  # PDF path — book-craft re-segmentation -> book/book-toc.json (gated by series.enable_book_branch; runs post-finalize so book is built from reviewed podcast content)
     "0book-compose",  # PDF path — whole-book revoice -> book/book.md (modern author voice, Arabic script + English)
     "0book-illustrate",  # PDF path — teaching diagrams injected -> book/book-illustrated.md
     "0book-slide-import",  # PDF path — NotebookLM-exported deck PDFs (slide-decks/chNN-*.pdf) -> LLM anchor manifests -> book/book-slides.md; HALTS when framed chapters lack dropped PDFs (.SKIP exempts)
-    "0book-render",   # PDF path — book-slides.md (or book-illustrated.md / book.md) -> book.pdf (Playwright); non-blocking on the podcast ship
-    "publish",      # copy drafts → published/ catalog (publish_driver)
+    "0book-render",  # PDF path — book-slides.md (or book-illustrated.md / book.md) -> book.pdf (Playwright); non-blocking on the podcast ship
+    "publish",  # copy drafts → published/ catalog (publish_driver)
     "trainer",
     "merge",
     "done",
@@ -127,6 +149,37 @@ def state_path(book_dir: Path) -> Path:
     return book_dir / "_system" / "orchestrator-state.json"
 
 
+# In-process guard for the read-modify-write cycle on orchestrator-state.json.
+#
+# `write_state` is already atomic at the filesystem level (temp file + rename),
+# which is enough while one thread owns the state. It is NOT enough once a phase
+# fans out: every writer does read_state() -> mutate -> write_state(), and two
+# workers interleaving on that sequence means the later write is computed from a
+# snapshot taken before the earlier one landed, so the earlier worker's result is
+# silently dropped. The file is never corrupt — it is just missing a verdict,
+# which is worse, because nothing reports an error.
+#
+# Re-entrant: update_phase() may be called from inside a caller that already
+# holds the lock. Guards THIS process only; cross-process exclusion is the job of
+# the fcntl book lock in orchestrate_book.py.
+_STATE_LOCK = threading.RLock()
+
+
+def state_transaction() -> threading.RLock:
+    """Hold this around any read_state -> mutate -> write_state sequence.
+
+    Used as a context manager::
+
+        with state_transaction():
+            state = read_state(book_dir) or {}
+            state["..."] = ...
+            write_state(book_dir, state)
+
+    Mandatory for any code path that can run in a worker thread.
+    """
+    return _STATE_LOCK
+
+
 def read_state(book_dir: Path) -> dict[str, Any] | None:
     """Return the current state dict or None if no state file exists."""
     p = state_path(book_dir)
@@ -138,9 +191,26 @@ def read_state(book_dir: Path) -> dict[str, Any] | None:
         return None
 
 
-def initial_state(
-    book_slug: str, category: str, *, content_profile: str | None = None
-) -> dict[str, Any]:
+UNATTENDED_KEY = "unattended"
+
+
+def unattended_run(book_dir: Path) -> bool:
+    """True when this book was launched with ``--unattended``.
+
+    A property of the RUN, not of the book, so it lives in the state file rather
+    than series-config.yaml — and it persists there precisely because the
+    watchdog re-invokes ``--resume`` in a fresh process that never saw the flag.
+
+    It clears the human-approval gates that exist to pace an attended run (the
+    06a source review). It does NOT clear a halt that waits on an ARTIFACT only a
+    human can supply — dropped audio, curated visuals — because no amount of
+    authorization makes a missing file appear.
+    """
+    state = read_state(book_dir) or {}
+    return bool(state.get(UNATTENDED_KEY))
+
+
+def initial_state(book_slug: str, category: str, *, content_profile: str | None = None) -> dict[str, Any]:
     """Build the initial state dict for a new orchestrator run.
 
     ``content_profile`` (when known) selects the branch bucket; otherwise the
@@ -152,13 +222,14 @@ def initial_state(
     try:
         sys.path.insert(0, str(Path(__file__).resolve().parent))
         from _rules import CHALLENGER_VERSION as _cv  # type: ignore
+
         challenger_version = _cv
     except Exception:
         challenger_version = "unknown"
 
     # Branch is <Bucket>/<slug> — bucket-grouped per content profile (2026-06-07).
     # See _branching.py.
-    from _branching import branch_name as _branch_name   # noqa: E402
+    from _branching import branch_name as _branch_name
 
     return {
         "schema_version": SCHEMA_VERSION,
@@ -205,9 +276,7 @@ def write_state(book_dir: Path, state: dict[str, Any]) -> Path:
     state = {**state, "ts_updated": _utc_now()}
 
     # tmpfile in the same directory so rename is atomic on the same filesystem.
-    tmp_fd, tmp_path = tempfile.mkstemp(
-        prefix=".orchestrator-state.", suffix=".tmp", dir=p.parent
-    )
+    tmp_fd, tmp_path = tempfile.mkstemp(prefix=".orchestrator-state.", suffix=".tmp", dir=p.parent)
     try:
         with os.fdopen(tmp_fd, "w", encoding="utf-8") as f:
             json.dump(state, f, indent=2, ensure_ascii=False)
@@ -242,6 +311,19 @@ def update_phase(
     if status not in ("running", "completed", "failed", "halted", "skipped"):
         raise ValueError(f"unknown status: {status!r}")
 
+    with _STATE_LOCK:
+        return _update_phase_locked(book_dir, phase=phase, status=status, error=error, extras=extras)
+
+
+def _update_phase_locked(
+    book_dir: Path,
+    *,
+    phase: str,
+    status: str,
+    error: str | None = None,
+    extras: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """update_phase's body, with the state lock already held by the caller."""
     state = read_state(book_dir)
     if state is None:
         raise RuntimeError(
@@ -275,7 +357,28 @@ def update_phase(
     elif status == "completed":
         state["last_error"] = None
 
+    # Run correlation (2026-07-31): stamp the run id into the checkpoint so
+    # state.json and the timeline under _workspace/runs/ share one key. Lazily
+    # mints a run id if nothing initialised one — a phase transition is proof a
+    # run is under way, so there is no ordering requirement on main().
+    run_id = current_run_id() or init_run_log(book_dir, slug=state.get("book_slug"))
+    if run_id:
+        state["run_id"] = run_id
+
     write_state(book_dir, state)
+
+    # Timeline + failure dump. Both are internally guarded: observability must
+    # never turn a working phase into a failed one.
+    log_event(
+        f"phase.{status}",
+        book_dir=book_dir,
+        level="error" if status == "failed" else "info",
+        phase=phase,
+        slug=state.get("book_slug"),
+        msg=error or "",
+    )
+    if status in ("failed", "halted"):
+        write_failure_dump(book_dir, state)
     return state
 
 
@@ -316,12 +419,12 @@ def render_status(state: dict[str, Any]) -> str:
         block = state.get("phases", {}).get(p, {"status": "pending"})
         status = block.get("status", "pending")
         marker = {
-            "pending":   "·",
-            "running":   "›",
+            "pending": "·",
+            "running": "›",
             "completed": "✓",
-            "failed":    "✗",
-            "halted":    "⏸",
-            "skipped":   "—",
+            "failed": "✗",
+            "halted": "⏸",
+            "skipped": "—",
         }.get(status, "?")
         ts = block.get("ts_completed") or block.get("ts_started") or ""
         lines.append(f"  {marker} {p:<14} {status:<10} {ts}")

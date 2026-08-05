@@ -8,6 +8,7 @@ CLI usage:
     python3 scripts/podcast/approve_book.py kitab-al-riyad
     python3 scripts/podcast/approve_book.py the-master-and-the-disciple
 """
+
 from __future__ import annotations
 
 import json
@@ -26,14 +27,14 @@ def approve_book(slug: str) -> int:
     hit = find_content(slug)
     if not hit:
         print(f"ERROR: Book not found: {slug}", file=sys.stderr)
-        print(f"  (searched all buckets via _paths.find_content)", file=sys.stderr)
+        print("  (searched all buckets via _paths.find_content)", file=sys.stderr)
         return 1
     book_dir = Path(hit[2])
 
     gate_path = book_dir / "_system" / "review-gate.json"
     if not gate_path.exists():
         print(f"ERROR: No review-gate.json found for {slug}.", file=sys.stderr)
-        print(f"  Run Phase 06a first: python3 scripts/podcast/phases/source_review_gate.py <book-dir>", file=sys.stderr)
+        print("  Run Phase 06a first: python3 scripts/podcast/phases/source_review_gate.py <book-dir>", file=sys.stderr)
         return 1
 
     gate = json.loads(gate_path.read_text(encoding="utf-8"))

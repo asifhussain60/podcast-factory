@@ -6,12 +6,17 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _authoring._refine import build_phase_0b_window_prompt  # noqa: E402
+from _authoring._refine import build_phase_0b_window_prompt
 
 
 def _prompt(de_calque: bool) -> str:
     return build_phase_0b_window_prompt(
-        "slug", 1, 3, Path("in.md"), Path("out.md"), de_calque=de_calque,
+        "slug",
+        1,
+        3,
+        Path("in.md"),
+        Path("out.md"),
+        de_calque=de_calque,
     )
 
 

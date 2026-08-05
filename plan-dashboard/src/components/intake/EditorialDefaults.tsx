@@ -8,8 +8,8 @@
  * No new card logic here — this is purely a composition wrapper so the
  * intake page can display book-scope editorial decisions alongside the form.
  */
-import EditorialCards from '../reader/poc/EditorialCards';
-import type { CardDef } from '../../lib/reader/editorial';
+import EditorialCards from "../studio/editor/EditorialCards";
+import type { CardDef } from "../../lib/reader/editorial";
 
 interface Props {
   /** Slug of the newly-scaffolded content, or null before scaffolding. */
@@ -24,8 +24,9 @@ export default function EditorialDefaults({ slug, cardDefs }: Props) {
       <div className="intake-editorial-panel">
         <p className="intake-editorial-label">Editorial defaults</p>
         <div className="intake-editorial-placeholder">
-          Create the workshop folder first — the editorial cockpit will appear here
-          so you can set canonical decisions before asking Claude to run intake.
+          Create the workshop folder first — the editorial cockpit will appear
+          here so you can set canonical decisions before asking Claude to run
+          intake.
         </div>
       </div>
     );

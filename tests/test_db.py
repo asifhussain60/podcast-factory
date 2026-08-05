@@ -3,9 +3,8 @@
 Runs against a temporary SQLite database (never the live knowledge.db).
 Uses _reset_connection() for isolation between tests.
 """
-import os
+
 import sys
-import tempfile
 from pathlib import Path
 
 import pytest
@@ -14,12 +13,12 @@ import pytest
 SCRIPTS_DIR = Path(__file__).resolve().parents[1] / "scripts" / "podcast"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
-import _db  # noqa: E402
-
+import _db
 
 # ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------
+
 
 @pytest.fixture
 def tmp_db(tmp_path):
@@ -32,6 +31,7 @@ def tmp_db(tmp_path):
 # ---------------------------------------------------------------------------
 # run_migrations
 # ---------------------------------------------------------------------------
+
 
 def test_run_migrations_applies_all_schemas(tmp_db):
     applied = _db.run_migrations(db_path=tmp_db)
@@ -54,9 +54,7 @@ def test_run_migrations_is_idempotent(tmp_db):
 def test_run_migrations_records_in_schema_migrations_table(tmp_db):
     _db.run_migrations(db_path=tmp_db)
     conn = _db.get_connection(db_path=tmp_db)
-    rows = conn.execute(
-        "SELECT filename FROM schema_migrations ORDER BY filename"
-    ).fetchall()
+    rows = conn.execute("SELECT filename FROM schema_migrations ORDER BY filename").fetchall()
     filenames = [r[0] for r in rows]
     # Spot-check canonical schema files
     assert any("001" in f for f in filenames)
@@ -66,6 +64,7 @@ def test_run_migrations_records_in_schema_migrations_table(tmp_db):
 # ---------------------------------------------------------------------------
 # get_connection
 # ---------------------------------------------------------------------------
+
 
 def test_get_connection_returns_singleton(tmp_db):
     _db._reset_connection()
@@ -91,6 +90,7 @@ def test_get_connection_has_foreign_keys_on(tmp_db):
 # ---------------------------------------------------------------------------
 # Repository helpers — basic smoke tests (insert + retrieve)
 # ---------------------------------------------------------------------------
+
 
 def test_atoms_repository_upsert_and_get(tmp_db):
     _db._reset_connection()

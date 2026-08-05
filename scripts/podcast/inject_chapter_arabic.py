@@ -6,6 +6,7 @@ source, while pronunciation guidance remains in the glossary / Customize prompt.
 This pass deterministically injects ``romanized term (Arabic script)`` from the
 book glossary into ``chapters/ch*.txt``.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -16,8 +17,8 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _content_profile import is_islamic_scholarly  # noqa: E402
-from pronunciation_compiler import load_glossary_entries, resolve_curation  # noqa: E402
+from _content_profile import is_islamic_scholarly
+from pronunciation_compiler import load_glossary_entries, resolve_curation
 
 _ARABIC_RE = re.compile(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]")
 _FENCE_RE = re.compile(r"^\s*```")
@@ -81,7 +82,7 @@ def inject_text(text: str, subs: list[tuple[str, str, str]]) -> tuple[str, int]:
             script = scripts.get(term.casefold())
             if not script:
                 return term
-            after = line[match.end():]
+            after = line[match.end() :]
             paren = re.match(r"\s*\(([^)]*)\)", after)
             if paren and _has_arabic(paren.group(1)):
                 introduced.add(term.casefold())
@@ -134,21 +135,36 @@ def chapter_arabic_status(book_dir: Path, *, require_islamic: bool = True) -> di
         return {"ok": True, "skipped_non_islamic": True, "note": "n/a (not islamic_scholarly)"}
     chapters = sorted((book_dir / "chapters").glob("ch*.txt"))
     subs = _term_subs(book_dir)
-    missing = [chapter.name for chapter in chapters
-               if not _has_arabic(chapter.read_text(encoding="utf-8", errors="replace"))]
+    missing = [
+        chapter.name for chapter in chapters if not _has_arabic(chapter.read_text(encoding="utf-8", errors="replace"))
+    ]
     if not chapters:
-        return {"ok": False, "chapters": 0, "terms": len(subs), "missing": [],
-                "note": "no chapters found"}
+        return {"ok": False, "chapters": 0, "terms": len(subs), "missing": [], "note": "no chapters found"}
     if not subs:
-        return {"ok": False, "chapters": len(chapters), "terms": 0, "missing": [],
-                "note": "no glossary entries with Arabic script"}
+        return {
+            "ok": False,
+            "chapters": len(chapters),
+            "terms": 0,
+            "missing": [],
+            "note": "no glossary entries with Arabic script",
+        }
     if missing:
         preview = ", ".join(missing[:5])
         suffix = "" if len(missing) <= 5 else f", +{len(missing) - 5} more"
-        return {"ok": False, "chapters": len(chapters), "terms": len(subs), "missing": missing,
-                "note": f"{len(missing)}/{len(chapters)} chapters have no Arabic script: {preview}{suffix}"}
-    return {"ok": True, "chapters": len(chapters), "terms": len(subs), "missing": [],
-            "note": f"Arabic script present in all {len(chapters)} chapters from {len(subs)} glossary terms"}
+        return {
+            "ok": False,
+            "chapters": len(chapters),
+            "terms": len(subs),
+            "missing": missing,
+            "note": f"{len(missing)}/{len(chapters)} chapters have no Arabic script: {preview}{suffix}",
+        }
+    return {
+        "ok": True,
+        "chapters": len(chapters),
+        "terms": len(subs),
+        "missing": [],
+        "note": f"Arabic script present in all {len(chapters)} chapters from {len(subs)} glossary terms",
+    }
 
 
 def main() -> int:

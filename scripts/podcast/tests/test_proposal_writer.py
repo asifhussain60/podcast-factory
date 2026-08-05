@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Tests for scripts/podcast/_proposal_writer.py (P1.2 deliverable)."""
+
 from __future__ import annotations
 
 import sys
@@ -10,7 +11,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _proposal_writer as pw  # noqa: E402
+import _proposal_writer as pw
 
 
 class RenderTests(unittest.TestCase):
@@ -28,13 +29,15 @@ class RenderTests(unittest.TestCase):
         b = pw.ProposalBundle(
             book_slug="ayyuhal-walad",
             episode_id="EP02-hatim",
-            quotes=[pw.QuoteProposal(
-                text="Knowledge that you do not act on will not save you.",
-                attribution="al-Ghazali",
-                source_ref="Ayyuhal Walad, ch. 1",
-                episode_context="Anchor for the chapter's central tension",
-                confidence="high",
-            )],
+            quotes=[
+                pw.QuoteProposal(
+                    text="Knowledge that you do not act on will not save you.",
+                    attribution="al-Ghazali",
+                    source_ref="Ayyuhal Walad, ch. 1",
+                    episode_context="Anchor for the chapter's central tension",
+                    confidence="high",
+                )
+            ],
         )
         out = pw.render_proposal(b, generated_at="2026-05-19T12:00:00Z")
         self.assertIn("Knowledge that you do not act on will not save you.", out)
@@ -45,12 +48,14 @@ class RenderTests(unittest.TestCase):
         b = pw.ProposalBundle(
             book_slug="ayyuhal-walad",
             episode_id="EP02-hatim",
-            clinical=[pw.ClinicalProposal(
-                title="Hatim's eight benefits",
-                summary="Pattern of inventorying lifelong work into eight distilled benefits.",
-                source_ref="Ayyuhal Walad, ch. 2",
-                episode_context="Craft observation for memoir benefit-structuring",
-            )],
+            clinical=[
+                pw.ClinicalProposal(
+                    title="Hatim's eight benefits",
+                    summary="Pattern of inventorying lifelong work into eight distilled benefits.",
+                    source_ref="Ayyuhal Walad, ch. 2",
+                    episode_context="Craft observation for memoir benefit-structuring",
+                )
+            ],
         )
         out = pw.render_proposal(b)
         self.assertIn("title: 'Hatim''s eight benefits'", out)  # escaped apostrophe
@@ -95,10 +100,10 @@ class WriteProposalTests(unittest.TestCase):
         self.assertIn("Promotion is journal-side", str(cm.exception))
 
     def test_overwrite_when_explicit(self):
-        b1 = pw.ProposalBundle(book_slug="x", episode_id="EP02-test",
-                               quotes=[pw.QuoteProposal("first", "x", "x", "x")])
-        b2 = pw.ProposalBundle(book_slug="x", episode_id="EP02-test",
-                               quotes=[pw.QuoteProposal("second", "x", "x", "x")])
+        b1 = pw.ProposalBundle(book_slug="x", episode_id="EP02-test", quotes=[pw.QuoteProposal("first", "x", "x", "x")])
+        b2 = pw.ProposalBundle(
+            book_slug="x", episode_id="EP02-test", quotes=[pw.QuoteProposal("second", "x", "x", "x")]
+        )
         path = pw.write_proposal(self.book, b1)
         first = path.read_text()
         pw.write_proposal(self.book, b2, overwrite=True)
@@ -111,8 +116,7 @@ class WriteProposalTests(unittest.TestCase):
         b = pw.ProposalBundle(book_slug="kitab-foo", episode_id="EP03-bar")
         path = pw.write_proposal(self.book, b)
         text = path.read_text()
-        for key in ("schema_version:", "book_slug:", "episode_id:",
-                    "generated_by:", "generated_at:"):
+        for key in ("schema_version:", "book_slug:", "episode_id:", "generated_by:", "generated_at:"):
             self.assertIn(key, text, f"missing frontmatter key: {key}")
 
     def test_promotion_ledger_section_present_empty(self):

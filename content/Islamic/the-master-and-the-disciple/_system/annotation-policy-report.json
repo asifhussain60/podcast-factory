@@ -1,0 +1,19 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 1,
+  "skipped": 78,
+  "by_class": {
+    "teach": 1,
+    "familiar": 0,
+    "name": 0,
+    "silent": 0
+  },
+  "proposals": [
+    {
+      "phonetic": "Kitab al-Alim wa-l-Ghulam",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The work's own Arabic title, which a reader would want to cite or search, so it is named once in Arabic script and then referred to plainly."
+    }
+  ]
+}

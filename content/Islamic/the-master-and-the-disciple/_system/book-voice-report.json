@@ -1,5 +1,105 @@
 {
-  "schema": "podcast.book-voice/v1",
-  "revoiced": 9,
-  "reverted": 0
+  "schema": "podcast.book-voice/v5",
+  "narrative_frame": "transmitted_report",
+  "revoiced": 7,
+  "reverted": 0,
+  "chapters": [
+    {
+      "title": "The Persian Who Was Dead and Revived",
+      "base_words": 752,
+      "output_words": 758,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": []
+    },
+    {
+      "title": "A Stranger in the City",
+      "base_words": 851,
+      "output_words": 851,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "voice-03: output near-identical to base \u2014 copied, not re-voiced"
+      ]
+    },
+    {
+      "title": "The Boy at the Door \u2014 Limits and Conditions",
+      "base_words": 3406,
+      "output_words": 3406,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted-then-overwritten",
+      "gates": [],
+      "warnings": [
+        "voice-04: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "pre_replay_status": "adapted"
+    },
+    {
+      "title": "How the World Was Made",
+      "base_words": 1515,
+      "output_words": 1527,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": []
+    },
+    {
+      "title": "The World, the Hereafter, and the Speech of Parables",
+      "base_words": 3361,
+      "output_words": 3361,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "voice-06: output near-identical to base \u2014 copied, not re-voiced"
+      ]
+    },
+    {
+      "title": "Three Layers of Knowledge",
+      "base_words": 3477,
+      "output_words": 3478,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": []
+    },
+    {
+      "title": "The Five Shares and the Long Road to the Shaykh",
+      "base_words": 7258,
+      "output_words": 7260,
+      "windows": 3,
+      "windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "voice-08-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "voice-08-part-03: output near-identical to base \u2014 copied, not re-voiced"
+      ]
+    },
+    {
+      "title": "Homecoming, the Father, and the Debate with Abu Malik",
+      "base_words": 14384,
+      "output_words": 14441,
+      "windows": 6,
+      "windows_kept": 6,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "voice-09-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "voice-09-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "voice-09-part-04: output near-identical to base \u2014 copied, not re-voiced",
+        "voice-09-part-05: output near-identical to base \u2014 copied, not re-voiced",
+        "voice-09-part-06: output near-identical to base \u2014 copied, not re-voiced"
+      ]
+    }
+  ],
+  "overwritten_by_replay": 1
 }

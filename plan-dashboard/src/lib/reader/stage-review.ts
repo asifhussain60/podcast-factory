@@ -9,14 +9,15 @@
  * This is finer-grained than the book-level review-gate.json (the final pre-publish gate);
  * the two compose — every stage approved -> the book gate can be approved.
  */
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { findContentDirSync, getRepoRoot } from '../content-paths';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { findContentDirSync, getRepoRoot } from "../content-paths";
 
 function reviewPath(slug: string, chapter: string): string {
   // Resolve via the type-first resolver; fall back to the canonical Islamic path.
-  const dir = findContentDirSync(slug) ?? join(getRepoRoot(), 'content', 'Islamic', slug);
-  return join(dir, '_system', 'review', `${chapter}.json`);
+  const dir =
+    findContentDirSync(slug) ?? join(getRepoRoot(), "content", "Islamic", slug);
+  return join(dir, "_system", "review", `${chapter}.json`);
 }
 
 export interface StageReview {
@@ -36,21 +37,30 @@ export function readReview(slug: string, chapter: string): ChapterReview {
   const p = reviewPath(slug, chapter);
   if (!existsSync(p)) return { slug, chapter, stages: {}, finalized: null };
   try {
-    const parsed = JSON.parse(readFileSync(p, 'utf8')) as ChapterReview;
-    return { slug, chapter, stages: parsed.stages ?? {}, finalized: parsed.finalized ?? null };
+    const parsed = JSON.parse(readFileSync(p, "utf8")) as ChapterReview;
+    return {
+      slug,
+      chapter,
+      stages: parsed.stages ?? {},
+      finalized: parsed.finalized ?? null,
+    };
   } catch {
     return { slug, chapter, stages: {}, finalized: null };
   }
 }
 
 /** Mark (or clear) the chapter-level finalize flag, preserving per-stage review state. */
-export function setChapterFinalized(slug: string, chapter: string, finalized: boolean): ChapterReview {
+export function setChapterFinalized(
+  slug: string,
+  chapter: string,
+  finalized: boolean,
+): ChapterReview {
   const review = readReview(slug, chapter);
-  const now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+  const now = new Date().toISOString().replace(/\.\d+Z$/, "Z");
   review.finalized = finalized ? { at: now } : null;
   const p = reviewPath(slug, chapter);
   mkdirSync(dirname(p), { recursive: true });
-  writeFileSync(p, JSON.stringify(review, null, 2), 'utf8');
+  writeFileSync(p, JSON.stringify(review, null, 2), "utf8");
   return review;
 }
 
@@ -62,7 +72,7 @@ export function setStageReview(
   notes?: string,
 ): ChapterReview {
   const review = readReview(slug, chapter);
-  const now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+  const now = new Date().toISOString().replace(/\.\d+Z$/, "Z");
   review.stages[stage] = {
     approved,
     approved_at: approved ? now : null,
@@ -70,6 +80,6 @@ export function setStageReview(
   };
   const p = reviewPath(slug, chapter);
   mkdirSync(dirname(p), { recursive: true });
-  writeFileSync(p, JSON.stringify(review, null, 2), 'utf8');
+  writeFileSync(p, JSON.stringify(review, null, 2), "utf8");
   return review;
 }

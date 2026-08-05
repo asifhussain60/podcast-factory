@@ -11,9 +11,9 @@
  * Metrics are also persisted to content/drafts/books/<slug>/_system/stage-metrics.json as a
  * durable ledger the pipeline + dashboards can read.
  */
-import { writeFileSync, mkdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { findContentDirSync, getRepoRoot } from '../content-paths';
+import { writeFileSync, mkdirSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { findContentDirSync, getRepoRoot } from "../content-paths";
 
 export interface StageCounts {
   words: number;
@@ -32,10 +32,10 @@ export interface StageMetric extends StageCounts {
 /** Strip light markdown/html so counts reflect prose, not syntax. */
 function toPlain(text: string): string {
   return text
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/[#*_>`~]+/g, ' ')
-    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
-    .replace(/\s+/g, ' ')
+    .replace(/<[^>]+>/g, " ")
+    .replace(/[#*_>`~]+/g, " ")
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/\s+/g, " ")
     .trim();
 }
 
@@ -53,29 +53,47 @@ export function buildStageMetrics(
   let prior: { id: string; counts: StageCounts } | null = null;
   return stages.map((s) => {
     if (!s.available) {
-      return { id: s.id, available: false, words: 0, chars: 0, sentences: 0, deltaPct: null, comparedTo: null };
+      return {
+        id: s.id,
+        available: false,
+        words: 0,
+        chars: 0,
+        sentences: 0,
+        deltaPct: null,
+        comparedTo: null,
+      };
     }
     const counts = countText(s.text);
-    const deltaPct = prior && prior.counts.words > 0
-      ? Math.round(((counts.words - prior.counts.words) / prior.counts.words) * 1000) / 10
-      : null;
+    const deltaPct =
+      prior && prior.counts.words > 0
+        ? Math.round(
+            ((counts.words - prior.counts.words) / prior.counts.words) * 1000,
+          ) / 10
+        : null;
     const comparedTo = prior ? prior.id : null;
     prior = { id: s.id, counts };
     return { id: s.id, available: true, ...counts, deltaPct, comparedTo };
   });
 }
 
-export function writeMetricsLedger(slug: string, chapter: string, metrics: StageMetric[]): void {
-  const dir = findContentDirSync(slug) ?? join(getRepoRoot(), 'content', 'Islamic', slug);
-  const p = join(dir, '_system', 'stage-metrics.json');
+export function writeMetricsLedger(
+  slug: string,
+  chapter: string,
+  metrics: StageMetric[],
+): void {
+  const dir =
+    findContentDirSync(slug) ?? join(getRepoRoot(), "content", "Islamic", slug);
+  const p = join(dir, "_system", "stage-metrics.json");
   const payload = {
     slug,
     chapter,
-    measured_at: new Date().toISOString().replace(/\.\d+Z$/, 'Z'),
+    measured_at: new Date().toISOString().replace(/\.\d+Z$/, "Z"),
     stages: metrics,
     // Convenience: the headline "% noise removed" (Denoised vs Core), when both exist.
-    noise_removed_pct: metrics.find((m) => m.id === 'denoised' && m.comparedTo === 'core')?.deltaPct ?? null,
+    noise_removed_pct:
+      metrics.find((m) => m.id === "denoised" && m.comparedTo === "core")
+        ?.deltaPct ?? null,
   };
   mkdirSync(dirname(p), { recursive: true });
-  writeFileSync(p, JSON.stringify(payload, null, 2), 'utf8');
+  writeFileSync(p, JSON.stringify(payload, null, 2), "utf8");
 }

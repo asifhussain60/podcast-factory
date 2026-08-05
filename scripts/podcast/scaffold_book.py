@@ -2,12 +2,13 @@
 """scaffold_book.py — create the canonical BOOK_DIR layout for a new podcasted source.
 
 Authoritative shape: this script's own template strings + the kitab-al-riyad
-worked example under content/drafts/kitab-al-riyad/. (The prior reference
+worked example under content/Islamic/kitab-al-riyad/. (The prior reference
 content/podcast/.skill/handbook/book-dir-layout.md was retired in the
 2026-05-23 restructure; its shape is now inlined here.)
 
 This script writes the canonical shape in one shot for a new
-content/drafts/<book-slug>/ and registers it via the per-book meta.yml.
+content/<Bucket>/<book-slug>/ — the bucket resolved by _paths.content_dir, the
+same resolver every reader uses — and registers it via the per-book meta.yml.
 
 Usage:
     python3 scripts/podcast/scaffold_book.py <category> <book-slug> "<Book Title>" \\
@@ -22,8 +23,9 @@ Behavior:
 - Writes empty stub files in _system/: registry.md, pronunciation.md,
   mangle-map.md, meta-prose-tells.md, enrichment-whitelist.md, enrichment-log.md.
 - Writes a starter _README.md and transcripts/_README.md.
-- Appends a one-line row to content/podcast/.skill/books.md (idempotent — does
-  nothing if the row already exists).
+  (It used to also append a row to content/podcast/.skill/books.md. That index
+  lived in a folder deleted in the 2026-05-23 restructure, so the write only
+  ever resurrected retired debris; dropped 2026-07-31.)
 
 Determinism:
 - Same args → same files. Pre-existing user-edited content is preserved unless
@@ -34,14 +36,12 @@ from __future__ import annotations
 
 import argparse
 import sys
-from pathlib import Path
-from _paths import REPO_ROOT, ensure_book_skeleton
-
-LIBRARY_DIR = REPO_ROOT / "content" / "drafts"
-BOOKS_INDEX = REPO_ROOT / "content" / "podcast" / ".skill" / "books.md"
-
 import sys as _sys
+from pathlib import Path
 from pathlib import Path as _Path
+
+from _paths import REPO_ROOT, content_dir, ensure_book_skeleton
+
 _sys.path.insert(0, str(_Path(__file__).resolve().parent))
 from _rules import ALLOWED_CATEGORIES  # centralized 2026-05-23 per AU-X1-001 (audit report)
 
@@ -55,7 +55,7 @@ README_TEMPLATE = """# Podcast — {title}
 
 ## Folder layout
 
-Canonical shape is established by this script (`scripts/podcast/scaffold_book.py`) and the kitab-al-riyad worked example under `content/drafts/kitab-al-riyad/`. The full tree is reproducible from those references — this README is the book-specific blurb only.
+Canonical shape is established by this script (`scripts/podcast/scaffold_book.py`) and the kitab-al-riyad worked example under `content/Islamic/kitab-al-riyad/`. The full tree is reproducible from those references — this README is the book-specific blurb only.
 
 ## Upload checklist (per episode)
 
@@ -91,8 +91,9 @@ Architecture: v3.5 (chapter-as-source; phonetics in customize prompt only).
 PRONUNCIATION_TEMPLATE = """# Pronunciation — {title} (book-specific overrides)
 
 Per-book phonetic overrides. Read by `build_episode_txt.py` (via `_rules`) and
-`podcast-challenger`. **May ADD terms; MUST NOT contradict** the shared manifest
-at `content/_shared/arabic/03-arabic-english-manifest.md`.
+`podcast-challenger`. **May ADD terms; MUST NOT contradict** the per-book
+glossary at `_system/glossary.yml` (the shared `content/_shared/arabic/` manifest was
+retired in the 2026-05-23 restructure).
 
 Format: pipe table.
 
@@ -153,7 +154,15 @@ each chapter.
 
 
 def book_dir_for(category: str, book_slug: str) -> Path:
-    return LIBRARY_DIR / category / book_slug
+    """Resolve BOOK_DIR through the ONE resolver every other reader uses.
+
+    This used to be `content/drafts/<category>/<slug>` — the layout retired on
+    2026-06-04. `orchestrate_book` has always asserted the new path afterwards,
+    so a scaffold that wrote the old one left the directory somewhere no reader
+    looks and failed the whole intake at `phase_scaffold`. Deriving it from
+    `_paths.content_dir` means the writer and the readers cannot disagree.
+    """
+    return content_dir(book_slug, category=category)
 
 
 def is_non_empty(p: Path) -> bool:
@@ -169,29 +178,9 @@ def write_if_absent_or_force(path: Path, body: str, force: bool, written: list[P
     written.append(path)
 
 
-def append_books_index_row(category: str, book_slug: str, title: str) -> bool:
-    """Append one row to .skill/books.md if not already present. Returns True if appended."""
-    BOOKS_INDEX.parent.mkdir(parents=True, exist_ok=True)
-    if not BOOKS_INDEX.exists():
-        BOOKS_INDEX.write_text(
-            "# Podcast Library Index\n\n"
-            "One row per book under `_workspace/<category>/<book-slug>/`.\n\n"
-            "| Category | Book Slug | Title | Registry |\n"
-            "|---|---|---|---|\n",
-            encoding="utf-8",
-        )
-    existing = BOOKS_INDEX.read_text(encoding="utf-8")
-    needle = f"| {category} | {book_slug} |"
-    if needle in existing:
-        return False
-    registry_link = f"[registry](../library/{category}/{book_slug}/_system/registry.md)"
-    row = f"| {category} | {book_slug} | {title} | {registry_link} |\n"
-    with BOOKS_INDEX.open("a", encoding="utf-8") as f:
-        f.write(row)
-    return True
-
-
-def scaffold(category: str, book_slug: str, title: str, author: str | None, force: bool, allow_existing: bool = False) -> int:
+def scaffold(
+    category: str, book_slug: str, title: str, author: str | None, force: bool, allow_existing: bool = False
+) -> int:
     if category not in ALLOWED_CATEGORIES:
         print(
             f"ERROR: category {category!r} not in {sorted(ALLOWED_CATEGORIES)}",
@@ -220,9 +209,7 @@ def scaffold(category: str, book_slug: str, title: str, author: str | None, forc
     author_clause = f" by {author}" if author else ""
     author_line = f"Author: **{author}**." if author else "Author: _unspecified_."
     author_short = author.split(",")[0].split(" ")[-1] if author else "the author"
-    author_corpus_placeholder = (
-        "- _Enumerate this book's author's corpus here. One work per line._"
-    )
+    author_corpus_placeholder = "- _Enumerate this book's author's corpus here. One work per line._"
 
     bindings = dict(
         title=title,
@@ -248,9 +235,6 @@ def scaffold(category: str, book_slug: str, title: str, author: str | None, forc
     for path, body in files:
         write_if_absent_or_force(path, body, force, written, skipped)
 
-    # Append top-level books.md index row.
-    appended = append_books_index_row(category, book_slug, title)
-
     # Report.
     print(f"Scaffolded {book_dir.relative_to(REPO_ROOT)}")
     if written:
@@ -261,13 +245,11 @@ def scaffold(category: str, book_slug: str, title: str, author: str | None, forc
         print("  Unchanged (pre-existing; --force to overwrite):")
         for p in skipped:
             print(f"    {p.relative_to(REPO_ROOT)}")
-    print(
-        f"  Books index: {'appended row' if appended else 'row already present'} "
-        f"at {BOOKS_INDEX.relative_to(REPO_ROOT)}"
-    )
     print()
     print("Next steps:")
-    print(f"  1. Drop the verbatim source file into {(book_dir / '_system' / 'source').relative_to(REPO_ROOT)}/<Source-Title>.<ext>")
+    print(
+        f"  1. Drop the verbatim source file into {(book_dir / '_system' / 'source').relative_to(REPO_ROOT)}/<Source-Title>.<ext>"
+    )
     print("  2. Run Phase 0a (OCR / format normalization) → _system/source/text/normalized.md")
     print("  3. Run Phase 0b (English refinement), Phase 0c (Arabic phonetic pass)")
     print("  4. Run Phase 0d (content-depth-driven chapter design) → chapters/ch##-<slug>.txt")
@@ -288,7 +270,7 @@ def main() -> int:
         "--allow-existing",
         action="store_true",
         help="Fill in only missing stub files when BOOK_DIR is non-empty "
-             "(preflight-artifacts mode: registry.md / concept-glossary.md / source/ pre-staged).",
+        "(preflight-artifacts mode: registry.md / concept-glossary.md / source/ pre-staged).",
     )
     args = ap.parse_args()
 

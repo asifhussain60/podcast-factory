@@ -9,7 +9,9 @@ shelf → book → sections). Optional hooks let an adapter inject source-specif
 cleanup (e.g., KAHSKOLE's HQAyats Quran widget replacement) without polluting
 the stages.
 """
+
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Optional, Protocol
@@ -23,6 +25,7 @@ class BookIds:
       KAHSKOLE: shelf_id=BinderID, book_id=ChapterID
       KSESSIONS: shelf_id=GroupID, book_id=CategoryID
     """
+
     shelf_id: int
     book_id: int
 
@@ -30,41 +33,45 @@ class BookIds:
 @dataclass(frozen=True)
 class AdapterLabels:
     """Human-readable level names for the source's hierarchy."""
-    shelf_label: str   # e.g., "binder" | "group"
-    book_label: str    # e.g., "chapter" | "category"
-    section_label: str # e.g., "topic" | "session"
+
+    shelf_label: str  # e.g., "binder" | "group"
+    book_label: str  # e.g., "chapter" | "category"
+    section_label: str  # e.g., "topic" | "session"
 
 
 @dataclass
 class Section:
     """One section within a book (topic, session, etc.)."""
-    position: int           # 1-based position within book
-    id: int                 # source DB id
-    raw_sort: int           # original sort key in DB
-    label: str              # display name (may be in source language)
-    html: Optional[str]     # raw HTML payload — None for empty/image-only sections
+
+    position: int  # 1-based position within book
+    id: int  # source DB id
+    raw_sort: int  # original sort key in DB
+    label: str  # display name (may be in source language)
+    html: Optional[str]  # raw HTML payload — None for empty/image-only sections
     extras: dict = field(default_factory=dict)  # adapter-specific (name_en, date, ...)
 
 
 @dataclass
 class BookMeta:
     """Resolved book metadata + filesystem placement."""
-    source_name: str        # "wisdom" | "ksessions"
-    source_language: str    # "ur" | "en"
+
+    source_name: str  # "wisdom" | "ksessions"
+    source_language: str  # "ur" | "en"
     shelf_id: int
     shelf_name: str
     shelf_sort_key: int
-    shelf_prefix: int       # 1-based filesystem prefix (ordering of shelves)
+    shelf_prefix: int  # 1-based filesystem prefix (ordering of shelves)
     shelf_slug: str
     book_id: int
     book_name: str
     book_sort_key: int
-    book_prefix: int        # 1-based filesystem prefix within shelf
+    book_prefix: int  # 1-based filesystem prefix within shelf
     book_slug: str
 
 
 class QuranCorpus(Protocol):
     """Minimal interface for adapters that expose a Quran lookup table."""
+
     def get(self, surah: int, ayat: int) -> Optional[dict]: ...
     def get_range(self, surah: int, start: int, end: int) -> list[dict]: ...
 
@@ -110,9 +117,7 @@ class SourceAdapter(ABC):
         (e.g., KAHSKOLE.HQAyats). Returns None when the source does not."""
         return None
 
-    def cleanup_inline_citations(
-        self, md: str, corpus: Optional[QuranCorpus]
-    ) -> tuple[str, list[dict]]:
+    def cleanup_inline_citations(self, md: str, corpus: Optional[QuranCorpus]) -> tuple[str, list[dict]]:
         """Replace adapter-specific inline citation widgets (KAHSKOLE Quran
         tables in flattened markdown) with clean blockquotes sourced from the
         adapter's corpus.

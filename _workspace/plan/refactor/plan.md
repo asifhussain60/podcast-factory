@@ -1082,3 +1082,109 @@ Landed on `develop` (merge `4165160`, `--no-ff`) entirely behind the `book_pipel
 > Added source notes are dropped if they fail the doctrinal checks; the revoice/de-calque passes revert any chapter that loses a teaching or an Arabic quotation; a new print-quality standard plus a render challenger inspect the finished PDF. The final cutover — flipping the flag on for everyone and deleting the old code — is deliberately **not** done yet: it waits on a full generation run over the two fixture books, documented in `book-pipeline-cutover.md`.
 >
 > *Value gained:* the new path can prove itself on real books before it ever becomes the default, with no teaching put at risk.
+
+## Clean-Code & Architecture Hardening — R0+R1 executed (2026-07-18)
+
+Approved plan: `refactor/clean-code-hardening-plan.md` (machine ledger: `waves_refactor:` in `plan.yaml`). Subsumes Wave H's open code-quality items. R2–R5 await separate approval.
+
+### 1. Both codebases now have real quality gates that cannot silently regress
+
+> The pipeline gained a linter and formatter (whole-tree mechanical baseline: ~465 files normalized, imports sorted, dead imports removed, three genuine data bugs fixed along the way) and the site gained the JavaScript equivalents, with warnings ratcheted to become errors as later phases land. The repo's own 600-line-per-file rule — documented as "enforced" but actually checked by nothing — is now a real gate in the commit hook and CI: the 24 files currently over the limit are grandfathered (they may shrink, never grow), and any new violation blocks the commit. The full 1,592-test suite and every site gate stayed green throughout.
+>
+> *Value gained:* every later refactor phase works against enforced standards instead of good intentions; drift now fails fast at commit time.
+
+### 2. The site's file tree stopped lying, and HTTP plumbing lives in one place
+
+> The production Studio editor no longer ships from a folder named "poc", and the corpus browser no longer claims to be a mock — folders, files, components, and style classes were renamed to what they actually are, with every reference patched and proven by the type checker and the 32-route browser smoke. A single typed fetch client now handles path building, JSON, errors, and response unwrapping for the site's own API; all non-editor call sites migrated (the editor's 23 calls move in the next phase, where that component is decomposed under browser-verify).
+>
+> *Value gained:* one place to fix HTTP behavior instead of 87; names that tell the truth to every future reader and tool.
+
+## Clean-Code & Architecture Hardening — R2+R3 executed (2026-07-18, second tranche)
+
+Asif approved both remaining independent tracks (option A). Fifteen commits landed; the packaging go/no-go (R4) and the wave-engine decision (R5) now await their gates as designed.
+
+### 1. The pipeline's structural debt is substantially paid down
+
+> Both module-name collisions that would break packaging are gone (one purposeful rename, one dead module deleted outright with its phantom-fallback claims corrected). The five untested critical modules gained 72 tests — and the citation checker turned out to have an unreachable failure branch that had been misreporting every dead link; it is fixed. Three oversized modules split along genuine seams (Azure services, translation edition, slide authoring — the over-limit list burns from 24 down to 21), while two others were examined and deliberately left whole with the reasoning recorded in the file, per the plan's own split-real-mixes-only rule. A real data drift was caught and fixed: the pipeline's stage list was missing a stage the live site renders.
+>
+> *Value gained:* the packaging conversion's known blockers are cleared, the riskiest untested code has a net, and every split-or-keep judgment is written down where the next reader will look.
+
+### 2. The editor decomposition is under way with its safety pattern proven
+
+> The giant editor component's mechanical layer is fully extracted (constants, types, marker extension, the imperative pickers), its last 23 hand-rolled server calls now go through the shared client, the two markdown renderers are one (proven byte-identical over a 61-file corpus), both fat page headers moved into typed library builders, and the two monolithic stylesheets are layered. Three of the nine stateful hooks are out — each landed as its own commit with a live browser check (preference persistence, the debounced draft autosave, section depth marking). The remaining six follow the same established pattern.
+>
+> *Value gained:* the most fragile surface in the repo is shrinking one verified step at a time, with zero behavior change so far and the commit-hook lint gate already catching real mistakes mid-refactor.
+
+## Clean-Code & Architecture Hardening — R5 resolved: dormant wave-engine deleted wholesale (2026-07-18)
+
+Asif asked for a direct recommendation rather than choosing blind between archive-or-delete. Verified first, not assumed: the background job that ran it was confirmed switched off on this machine, its own 27-item completion checklist was fully checked, and the live book pipeline was traced to confirm it never calls into this engine at all.
+
+### 1. The dormant wave-building engine is gone, not shelved
+
+> Deleted the wave dispatcher, its chain-runner, its 28 phase-runner modules (waves 1 through 6, all shipped), its acceptance-marking helper, and their dedicated tests — 39 tracked files in one commit. The background macOS scheduler that used to run it, plus its install script and template plist, went with it. Archiving into its own package was the other option on the table; deletion won because keeping 30 files and 50 tests on permanent life support for code that will never execute again is pure upkeep with no offsetting value, and git preserves every line if it's ever needed again.
+>
+> *Value gained:* removes one of the two colliding meanings of "phase" in the shared pipeline folder before the packaging conversion (R4) even starts, so that step inherits a simpler, less ambiguous import graph. The written record of what waves 1-6 delivered (this file, `plan.yaml`, `wave-acceptance-checklist.md`) stays exactly where it is — only the machinery that ran them is gone.
+
+## Quranic morphology layer — real roots, real families, real meanings (2026-07-28)
+
+### 1. The etymology apparatus stopped depending on the model's memory
+
+> Every word of the Quran now sits in a local, committed database with its human-annotated root, dictionary form, and part of speech — about 128,000 annotated segments across 1,642 roots. When the pipeline prints a root breakdown for a term like *sakina*, the root, its real sibling words with verse locations, and Lane's Lexicon meaning are handed to the model as ground truth, and a deterministic check with 3,353 term keys (up from ~35 usable rows) vetoes any contradicted root before the adversarial verifier even runs. The engine that does this had never been wired into the pipeline; it now runs once per book inside compose, at no repeat cost.
+>
+> *Value gained:* printed etymology can no longer carry an invented root — and it quotes the standard classical reference instead of paraphrasing from recall.
+
+### 2. Glossary Arabic fills itself deterministically where it safely can
+
+> Before any model reads the scanned pages, the glossary's empty Arabic-script slots are matched against the corpus dictionary; a fill is accepted only when the match is unique and the word appears standalone in the book's own scan. A live probe on a finished book caught the loose version of this filling a wrong word — the fix (whole-word matching) is pinned by a regression test.
+>
+> *Value gained:* one more model-supplied-Arabic path becomes a grounded lookup, shrinking the fabrication surface the 2026-07-20 provenance work exists to police.
+
+### 3. The classical meanings layer is joined and extensible
+
+> Lane's Lexicon now supplies a genuine English meaning for 81% of the corpus roots, trimmed to each article's defining head; the gaps are listed openly in a coverage report, never silently dropped. Ibn Faris's *Maqayis* and Raghib's *Mufradat* have registered slots that activate the moment their text files are dropped in — one parser each, written against the real file like Lane's was.
+>
+> *Value gained:* "what does this root mean" is answered by the canonical references scholars actually cite, with visible coverage instead of quiet guesses.
+
+### 4. The morphology layer became visible and usable everywhere it matters
+
+> The site gained a root explorer at Corpus → Morphology — all 1,642 roots searchable in either script, each opening to its real derived family with verse peeks and Lane's meaning, with the 313 meaning gaps listed openly. The Composer's etymology cards now open with a verified block (root, family, Lane) computed live from the corpus and never stored, the scholar-persona generation is grounded and vetoed against the same data, and the pipeline's card gate enforces the identical root truth.
+>
+> *Value gained:* one committed source of morphological fact now feeds the study page, the editing surface, the reader, and the pipeline — and an invented root has nowhere left to appear.
+
+## Front matter — editions begin with the book, then a short introduction in its own voice (2026-08-03)
+
+### 1. The machine-written preface is gone, and stays gone
+
+> Every Islamic edition used to open on three to five hundred words a model had written *about* the book, under an invented literary title like *A Threshold to the Subtle Lights*, with the author's own opening demoted beneath it under a machine-written subheading. A reader met the pipeline's voice before the book's. The code that authored it is retired and a cleanup step took its place, so the five books already carrying one are cleared on their next pass and no book is given another.
+>
+> *Value gained:* the reader's first page is the book's, not the pipeline's.
+
+### 2. The author's own opening moves into chapter 1
+
+> What the source itself opens with — the letter's occasion in *Ayyuhal Walad*, the scene the whole dialogue rests on in *The Master and the Disciple* — is no longer a section of its own under a title nobody wrote. It is folded into chapter 1 under that chapter's own heading, and the chapter is given the source lines it now carries so everything downstream can still say which Arabic each passage came from.
+>
+> *Value gained:* no source text is lost and no invented heading survives, and the book starts where the book starts.
+
+### 3. Front matter is never reached through a re-composition
+
+> Composing a finished book to change its front matter re-translates the whole thing. Doing that to *Ayyuhal Walad* cost 615 words of teaching and 38 Arabic quotations — six Qur'anic verses, several hadith, and the entire closing supplication of chapter 9 — and not one gate failed. The fold is therefore available as a deterministic step over a book already on disk, with no model involved.
+>
+> *Value gained:* an apparatus change costs apparatus work, and an approved edition is never rewritten to make one.
+
+### 4. A short introduction, written in the book's own voice
+
+> Each book now opens on an honestly titled `Introduction to the Book`, unnumbered and capped at 250 words, saying what the text is, what it is about, and who wrote it — and refusing to name an author the files do not record, which for one of these books is the truth rather than a gap. It is written under the same articulation register the chapters are written under, imported from one definition rather than copied, and the model is shown a real passage of the book's own prose to match. It is injected before the house-style steps, so the Arabic, the transliteration, the vowelling and the spelling all reach it.
+>
+> *Value gained:* the reader gets orientation that does not read as a different hand, and the register cannot drift apart from the chapters later.
+
+### 5. It applies to every PDF route
+
+> The step lives in the shared apparatus tail rather than on one composer, so every route that produces a PDF — translation edition, augmented companion, fiction, supplication — gets the same front matter, and a new book inherits it without anyone remembering to ask.
+>
+> *Value gained:* one rule, one place, no route left behind.
+
+### 6. A book addresses nobody, not just in the first person
+
+> Declaring who narrates a book changed every "I" in *Al-Anwaar al-Lateefah* and left the lecturer completely intact — "Hold that frame, and step now inside it", "Do not pass over that phrase lightly", "you should expect nothing else from these pages". The page passed every check and read nothing like the edition printed beside it, because none of those tells is first person. The rule now covers ADDRESS as well as person: under a third-person frame the narration never turns to the reader and never directs an audience, and every such move is recast into exposition rather than deleted, since it carries a thought. Quoted speech, verses, hadith, prayers and block quotations are untouched — there one person really is addressing another — and a book that is a letter to a disciple, like *Ayyuhal Walad*, is exempt entirely.
+>
+> *Value gained:* a book transcribed from spoken lectures can be turned into a book, and the record now says which of the two it is instead of only reporting that the voice pass ran.

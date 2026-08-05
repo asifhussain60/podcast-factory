@@ -12,41 +12,239 @@
 /* Source Serif 4 — Latin body. Variable fonts: one upright file covers all
  * weights (100-900), one italic file covers all italic weights. */
 @font-face {
-  font-family: 'Source Serif 4';
-  src: url('/fonts/source-serif/SourceSerif4-VF.ttf') format('truetype');
+  font-family: "Source Serif 4";
+  src: url("/fonts/source-serif/SourceSerif4-VF.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Source Serif 4';
-  src: url('/fonts/source-serif/SourceSerif4-Italic-VF.ttf') format('truetype');
+  font-family: "Source Serif 4";
+  src: url("/fonts/source-serif/SourceSerif4-Italic-VF.ttf") format("truetype");
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
 }
 
+/* ── Translation faces ────────────────────────────────────────────────────────
+ * The English rendering under an Arabic verse/hadith/poem prints in a face
+ * DISTINCT from the Source Serif body, so the reader can tell the book's prose
+ * from a rendering of the quoted Arabic without reading a word of either. The
+ * face is chosen per book in the Composer's Citations tab, persisted to
+ * book/citation-style.json as `translation_font`, and stamped onto <body> as
+ * `tr-<font>` by buildBookHtml.
+ *
+ * MIRROR: editor-fonts.css declares the SAME four families for every on-screen
+ * surface. Add a face in one file and you MUST add it in the other in the same
+ * commit, or a book previews in a face it cannot print. All four are SIL OFL,
+ * self-hosted under public/fonts/<family>/ and served by render-book-pdf.mjs —
+ * so pagination is identical on every machine, as with Source Serif and Amiri. */
 @font-face {
-  font-family: 'Amiri Quran';
-  src: url('/fonts/amiri/AmiriQuran.ttf') format('truetype');
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-400-normal.woff2")
+    format("woff2");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
-  font-family: 'Amiri';
-  src: url('/fonts/amiri/Amiri-Regular.ttf') format('truetype');
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-400-normal.woff2")
+    format("woff2");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
-  font-family: 'Amiri';
-  src: url('/fonts/amiri/Amiri-Bold.ttf') format('truetype');
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* These carried `size-adjust: 135%` until 2026-07-31, to "enlarge the Arabic
+   glyphs so Arabic reads at the same visual size as the Latin body". Measured
+   against the real font files, the premise behind it is false of every Arabic
+   face this repo ships — unadjusted, each already sets its base letter between
+   the Latin x-height and cap height. The full measurement is recorded once, in
+   theme-tokens.css; that file is the MIRROR of this one and the two were
+   corrected together, because the printed page has to match the Composer it is
+   verified in.
+
+   With the descriptor gone, the sizes below finally mean what they say: a
+   display quotation at 1.05rem sets its base letter at 1.31x the Latin
+   x-height, and an inline term at the body size sets it at 1.25x. */
+@font-face {
+  font-family: "Amiri Quran";
+  src: url("/fonts/amiri/AmiriQuran.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Amiri";
+  src: url("/fonts/amiri/Amiri-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Amiri";
+  src: url("/fonts/amiri/Amiri-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
 }
 
+/* The two Arabic reading faces (2026-07-21). Which one a run gets is decided by
+   PROVENANCE, not markup: renderMd tags a run `is-quranic` when the Arabic audit
+   resolved it against the canonical mushaf, and quote-typography.css switches
+   --q-ar-face on that class alone. Neither is optically adjusted — see the note
+   above the Amiri block.
+ *
+ * The KFGQPC file is vendored byte-for-byte from quran.com. Its EULA grants free
+ * use, copy and distribution but forbids modification: never subset or re-encode
+ * public/fonts/uthmanic-hafs/*, and keep LICENSE.txt beside it. */
+@font-face {
+  font-family: "Scheherazade New";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Scheherazade New";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-600-normal.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "UthmanicHafs";
+  src: url("/fonts/uthmanic-hafs/UthmanicHafs1Ver18.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* The three MODERN Arabic faces a book may choose (2026-08-02). Self-hosted from
+   @fontsource, all three SIL OFL 1.1, served to the print renderer over its own
+   /fonts/** route like every other face here.
+   MIRROR: theme-tokens.css declares the same three for the screen. */
+@font-face {
+  font-family: "Cairo";
+  src: url("/fonts/cairo/cairo-arabic-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Cairo";
+  src: url("/fonts/cairo/cairo-arabic-600-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/tajawal/tajawal-arabic-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/tajawal/tajawal-arabic-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("/fonts/ibm-plex-sans-arabic/ibm-plex-sans-arabic-arabic-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("/fonts/ibm-plex-sans-arabic/ibm-plex-sans-arabic-arabic-700-normal.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Running head. A reader landing on page 60 of a 123-page book had no cue what
+   they were holding — the single largest gap between this and a commercial
+   reading edition, per the render challenger.
+
+   The book TITLE, not the chapter title: Chromium's print engine ignores
+   `string-set`/`string()`, so a margin box cannot carry per-chapter text (probed
+   on this book — the head simply did not render). Per-chapter recto heads would
+   mean rendering the PDF through Paged.js, which is a renderer swap with its own
+   pagination-parity risk, and the cue a lost reader actually needs first is the
+   book. `__BOOK_RUNNING_HEAD__` is substituted by render-book-pdf.mjs, which
+   already inlines this file; the stylesheet stays the single source of truth. */
 @page {
   margin: 2.2cm 2cm;
+  @top-center {
+    content: "__BOOK_RUNNING_HEAD__";
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--c-ink-muted, #87827a);
+  }
   @bottom-right {
     content: counter(page);
     font-family: "Source Serif 4", Georgia, serif;
@@ -54,14 +252,39 @@
     color: var(--c-ink-muted, #87827a);
   }
 }
-@page:first {
-  margin: 0;
-  @bottom-right { content: ""; }
+/* Front matter and chapter openings carry no running head — a title page or a
+   Contents that announces the book title twice, and a chapter opening whose own
+   display title sits an inch below the head, both read as a mistake. Named pages
+   rather than :nth selectors, so the suppression follows the CONTENT wherever
+   pagination moves it. */
+@page bare {
+  @top-center {
+    content: "";
+  }
+}
+.title-page,
+.toc-page,
+.crosswalk-page {
+  page: bare;
 }
 
-html { font-size: 19.2px; }
+@page:first {
+  margin: 0;
+  @top-center {
+    content: "";
+  }
+  @bottom-right {
+    content: "";
+  }
+}
+
+html {
+  font-size: 19.2px;
+}
 body {
-  font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
+  font-family:
+    "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman",
+    serif;
   font-size: 1rem;
   line-height: 1.62;
   color: var(--c-ink, #1f1d18);
@@ -182,17 +405,34 @@ body {
 .crosswalk-page {
   page-break-after: always;
   break-after: page;
-  padding-top: 2.4cm;
+  padding-top: 1.4cm;
+}
+/* Bind the heading to the (now atomic) table + trim its margin so eyebrow +
+   heading + all 8 rows fit on the crosswalk's single dedicated page — otherwise
+   `break-inside: avoid` on the table strands the heading alone on the page before. */
+.crosswalk-page h2 {
+  margin-bottom: 1rem;
+  break-after: avoid;
+  page-break-after: avoid;
 }
 .crosswalk-page table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.78rem;
-  line-height: 1.32;
+  line-height: 1.28;
+  /* Keep the whole crosswalk on its dedicated page — no lone row dangling onto
+     the next page. The page is already isolated (page-break-after: always), so
+     the table has a full page minus the top padding to fit into. */
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.crosswalk-page tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 .crosswalk-page th,
 .crosswalk-page td {
-  padding: 0.38rem 0.45rem;
+  padding: 0.28rem 0.45rem;
   border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
   vertical-align: top;
 }
@@ -288,12 +528,82 @@ h3 {
   margin: 1.3rem 0 0.6rem;
   page-break-after: avoid;
 }
-p { margin: 0 0 0.8rem; }
+p {
+  margin: 0 0 0.8rem;
+}
+
+/* An Arabic quotation set on its own line — a DISPLAY block, not a sentence with a
+   term in it. Until 2026-07-30 there was no rule for one: it printed as a plain <p>
+   at the body's 1rem/1.62, and `.ar-inline` below pins every run inside it to that
+   same leading. That pinning is right for one Arabic word in an English line (it
+   stops the word inflating the line) and wrong for a whole paragraph of Arabic —
+   and once every run carried its vowel marks the stacks had nowhere to go. It read
+   as oversized and cramped at once.
+
+   The numbers are this file's OWN display-Arabic pair, already set on
+   `blockquote.quran p.ar` below and matched by the Composer's read view: 1.05rem
+   over 1.9. Beside a 1rem Latin body that reads a touch larger, as a display
+   quotation should; the 1.9 is what the marks need.
+
+   CENTERED, not right-aligned (2026-07-31). Right was inherited from `direction:
+   rtl` thinking — correct for a paragraph of running Arabic PROSE, wrong for
+   what this class actually matches, which is a display quotation standing alone
+   between English paragraphs. Right-aligned, every one of them hung off the
+   right margin with a ragged gap on the left while the 27 `blockquote.quran`
+   verses on the same pages sat centered: one book, two conventions. `direction`
+   stays rtl — that is bidi ordering, and only the alignment changed. */
+.ar-block {
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
+  direction: rtl;
+  text-align: center;
+  unicode-bidi: isolate;
+  margin: 0.9rem 0;
+}
+/* The runs inside it must NOT inherit the body leading that `.ar-inline` pins —
+   here the paragraph's own line-height is the correct one. */
+/* Also `blockquote.quran p.ar` (2026-08-02): once `.ar-inline` below carried a
+   1.26em term size, a verse marked up with inline runs multiplied its own
+   display size by it. `.ar-block` had this guard from the start; the Qur'anic
+   blockquote is the same shape and needed it too. */
+.ar-block .ar-inline,
+blockquote.quran .ar-inline {
+  line-height: inherit;
+  font-size: inherit;
+}
 
 .ar-inline {
+  /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
+     shearing the glyphs, which is wrong for the script and looked wrong on the
+     page; and an inherited bold would fake a weight the face does not have.
+     Pinned here so the run renders the same whatever prose it sits in. */
+  font-style: normal;
+  /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
+     descent are far taller than the Latin body face, so without an explicit
+     line-height a single Arabic word makes its line taller than its
+     neighbours and the column loses its rhythm. */
+  line-height: inherit;
   direction: rtl;
   unicode-bidi: isolate;
-  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  /* Inline terms woven into prose are never tagged is-quranic (a mid-sentence
+     word carries too little evidence to call scripture), so they always take the
+     non-Qur'anic face. */
+  font-family: var(--q-ar-face);
+  /* --q-ar-inline-size, default 1.26em — chosen by Asif on 2026-08-02 from three
+     candidates rendered side by side in the Composer, and moved onto a token the
+     same day so the book's Arabic-size setting could carry it. It was a bare
+     1.26em here and in book-composer.css, hand-mirrored; a token both files read
+     is what a "MIRROR" comment was standing in for, so the note stays but the
+     number no longer needs copying.
+
+     NOT a reinstatement of `size-adjust: 135%` (removed 2026-07-31). That scaled
+     the FACE and so inflated display quotations too, where it was measured and
+     correctly found to tower. This is one selector: a term woven into an English
+     sentence, the case that measurement never covered. A vowelled word stacks
+     three marks into the same ink as the letter, so at parity with the Latin it
+     reads as fine print rather than as a word. Display quotations
+     (`blockquote.quran p.ar`, `.ar-block`) keep --q-ar-size and are untouched. */
+  font-size: var(--q-ar-inline-size);
 }
 
 /* ── Quotation blocks ────────────────────────────────────────────────────── */
@@ -305,7 +615,9 @@ blockquote {
   background: var(--c-bg-card, #fffdf8);
   page-break-inside: avoid;
 }
-blockquote p { margin: 0.3rem 0; }
+blockquote p {
+  margin: 0.3rem 0;
+}
 
 /* Quranic / Arabic quotation blocks — woven scholarly style (IIIT/Kube convention).
    Arabic runs at body scale, left-border only, no box or gradient.
@@ -320,14 +632,37 @@ blockquote.quran {
   box-shadow: none;
 }
 blockquote.quran p.ar {
-  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
-  font-size: 1.05rem;
-  line-height: 1.9;
+  /* Face by provenance — see quote-typography.css. `is-quranic` (stamped by
+     renderMd from the Arabic audit) swaps this token to the Uthmanic script. */
+  font-family: var(--q-ar-face);
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
   color: var(--c-ink, #1f1d18);
   margin: 0 0 0.2rem;
   text-align: center;
   direction: rtl;
 }
+/* Keep an Arabic display line with whatever renders it into English. The block
+   already refuses to split internally, which is enough when the gloss is the
+   paired `p.tr` INSIDE it — but in several passages the English is a sibling
+   paragraph after the block, and there the Arabic ended a page while its meaning
+   opened the next (pages 39/40, 50/51 and 118/119 of the 122-page render). A
+   reader met scripture with no rendering and had to turn the page to learn what
+   it said.
+
+   `break-before` closes the seam the `break-after` alone relocated: with only
+   keep-with-next, nine pages came to end on a colon lead-in with the quotation
+   overleaf, up from two. That is the milder failure — a reader meets "The
+   Almighty said:" and turns the page, rather than meeting scripture with no
+   rendering — but it is nine times instead of twice, and carrying the lead-in
+   across costs a few lines of white at each seam. */
+blockquote.quran {
+  break-after: avoid;
+  page-break-after: avoid;
+  break-before: avoid;
+  page-break-before: avoid;
+}
+
 blockquote.quran .quran-divider {
   display: none;
 }
@@ -348,17 +683,59 @@ blockquote.quran p.tr {
    verse/quotation (hadith, poetry, sayings) light up here once the tagging step
    gives their text a class — the mirror of book-styles.css on the picker page. */
 
-/* Plain — no borders, no tint; black ink, set apart only by placement. */
+/* Plain — no borders, no tint. The Arabic and its rendering are set apart by
+   CENTRING, by the maroon of the script and by a translation face distinct from
+   the body serif, rather than by a rule or a panel. This is the family's whole
+   definition (locked with Asif 2026-07-21): where Scholarly says "quotation" with
+   a gold hairline and Elegant says it with a frame, Plain says it with typography
+   alone. Values come from quote-typography.css; the mirrors are compose-print.css,
+   book-composer.css, book-reader.css and book-styles.css. */
 body.style-plain blockquote.quran {
   border-left: 0;
   padding-left: 0;
-}
-body.style-plain blockquote.quran p.ar { color: var(--c-ink, #1f1d18); }
-body.style-plain blockquote:not(.quran) {
-  border-left: 0;
-  background: none;
-  padding-left: 0;
   padding-right: 0;
+  text-align: center;
+}
+body.style-plain blockquote.quran p.ar {
+  color: var(--q-maroon);
+  text-align: center;
+}
+/* The rendering steps up from 0.9rem and takes the book's ink rather than the
+   muted grey: it is the line a reader who has no Arabic actually reads, so it
+   should not be the faintest thing on the page. The face carries the distinction
+   the colour used to. */
+body.style-plain blockquote.quran p.tr {
+  font-family: var(--q-tr-face);
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: var(--c-ink, #1f1d18);
+  text-align: center;
+}
+/* The plain family strips ornament from the Qur'an blocks above, which is the
+   whole point of it. Zeroing the fence on EVERY other blockquote too was
+   collateral damage: the editorial notes and the reader notes then printed as
+   ordinary body paragraphs at the body margin, distinguishable only by their
+   bold run-in label — while the front matter of `the-master-and-the-disciple`
+   promises on page 6 that a reader "can always tell the book's voice from a note
+   about it". Caught by the render challenger, which is the only gate that sees
+   the page rather than the markup.
+
+   The fence restored here is the quietest one that still reads as a fence: a
+   hairline rule in the existing muted ink token and a single indent. No tint, no
+   radius, no colour outside the palette — the plain family's spirit is intact and
+   the theme is unchanged. */
+body.style-plain blockquote:not(.quran):not(.aside) {
+  border-left: 1px solid var(--c-rule, rgba(31, 29, 24, 0.18));
+  background: none;
+  padding-left: 0.9rem;
+  padding-right: 0;
+  /* Set one step below body. The fence alone created a hierarchy inversion the
+     render challenger flagged: an editorial aside carried a rule while scripture
+     carried none, which reads as emphasis. Smaller type says subordinate, and it
+     resolves the inversion WITHOUT ornamenting the Qur'an blocks — the plain
+     family exists precisely to leave those unornamented. Apparatus is marked as
+     apparatus; scripture is set apart by script, centring and its own face. */
+  font-size: 0.92rem;
 }
 
 /* Elegant — framed panels, gold detailing, centered display. */
@@ -369,9 +746,11 @@ body.style-elegant blockquote.quran {
   padding: 0.9rem 1.2rem;
   text-align: center;
 }
-body.style-elegant blockquote.quran p.ar { text-align: center; }
+body.style-elegant blockquote.quran p.ar {
+  text-align: center;
+}
 body.style-elegant blockquote.quran p.ar::after {
-  content: ' \06DD';                 /* ۝ end-of-ayah marker */
+  content: " \06DD"; /* ۝ end-of-ayah marker */
   color: rgba(201, 165, 92, 0.9);
   font-size: 0.9em;
 }
@@ -382,19 +761,19 @@ body.style-elegant blockquote.quran p.tr {
   padding-top: 0.45rem;
   margin-top: 0.45rem;
 }
-body.style-elegant blockquote:not(.quran) {
+body.style-elegant blockquote:not(.quran):not(.aside) {
   position: relative;
   border-left: 0;
   border: 1px solid var(--c-rule, #e6e0d4);
   border-radius: 8px;
   padding-left: 2.2rem;
 }
-body.style-elegant blockquote:not(.quran)::before {
-  content: '\201C';                  /* “ */
+body.style-elegant blockquote:not(.quran):not(.aside)::before {
+  content: "\201C"; /* “ */
   position: absolute;
   left: 0.55rem;
   top: 0.05rem;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 2.4rem;
   line-height: 1;
   color: rgba(201, 165, 92, 0.9);
@@ -454,14 +833,31 @@ body.book-v2 .v2-fig.flow-standalone {
   margin-right: auto;
   clear: both;
 }
-body.book-v2 .v2-fig.flow-standalone.align-left { margin-left: 0; margin-right: auto; }
-body.book-v2 .v2-fig.flow-standalone.align-right { margin-left: auto; margin-right: 0; }
+body.book-v2 .v2-fig.flow-standalone.align-left {
+  margin-left: 0;
+  margin-right: auto;
+}
+body.book-v2 .v2-fig.flow-standalone.align-right {
+  margin-left: auto;
+  margin-right: 0;
+}
 /* wrap: float with body text flowing beside it (width_pct<=50 enforced upstream). */
-body.book-v2 .v2-fig.flow-wrap { width: var(--fig-w); }
-body.book-v2 .v2-fig.flow-wrap.align-left { float: left; margin: 0.2rem 1.1rem 0.8rem 0; }
-body.book-v2 .v2-fig.flow-wrap.align-right { float: right; margin: 0.2rem 0 0.8rem 1.1rem; }
+body.book-v2 .v2-fig.flow-wrap {
+  width: var(--fig-w);
+}
+body.book-v2 .v2-fig.flow-wrap.align-left {
+  float: left;
+  margin: 0.2rem 1.1rem 0.8rem 0;
+}
+body.book-v2 .v2-fig.flow-wrap.align-right {
+  float: right;
+  margin: 0.2rem 0 0.8rem 1.1rem;
+}
 /* one-plate rule: page_fit drives pagination so a tall figure never splits. */
-body.book-v2 .v2-fig.page-fit-before { break-before: page; page-break-before: always; }
+body.book-v2 .v2-fig.page-fit-before {
+  break-before: page;
+  page-break-before: always;
+}
 body.book-v2 .v2-fig.page-fit-isolate-plate {
   break-before: page;
   break-after: page;
@@ -476,10 +872,134 @@ body.book-v2 .v2-fig.page-fit-isolate-plate {
    lines, no figure-forced half-empty verso. */
 body.book-v2 p,
 body.book-v2 blockquote {
-  orphans: 2;
-  widows: 2;
+  /* 3 is the conventional print-quality floor: it pulls at least three lines
+     together at a page break, cutting the two-line chapter-tail strand that
+     otherwise lands alone on an almost-empty verso. */
+  orphans: 3;
+  widows: 3;
 }
 body.book-v2 .chapter-open {
   break-after: avoid;
   page-break-after: avoid;
+  /* A prior chapter's unresolved wrap float must not bleed onto the next
+     chapter's opening page and shove its heading/drop-cap off-axis. */
+  clear: both;
+}
+
+/* ── Self-study layer ───────────────────────────────────────────────────────
+ * Opt-in (body.book-self-study, set by buildBookHtml when selfStudy is on). The
+ * render-time self-study format adds two labeled asides — a source-grounded
+ * Contextual note (from 0book-augment's editorial fences) and a Study summary —
+ * plus proper bullet lists. Token-only styling; the reading edition is untouched
+ * when the class is absent. */
+.book-self-study .study-note,
+.book-self-study .study-summary {
+  margin: 1.1rem 0;
+  padding: 0.7rem 0.95rem;
+  background: var(--c-bg-sunken, #f3efe7);
+  border-left: 3px solid var(--c-accent, #8b4513);
+  border-radius: 0 6px 6px 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.book-self-study .study-summary {
+  border-left-style: double;
+  border-left-width: 5px;
+}
+
+.book-self-study .study-aside-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--c-accent, #8b4513);
+}
+
+.book-self-study .study-note p,
+.book-self-study .study-summary p {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.book-self-study .study-note p:last-child,
+.book-self-study .study-summary p:last-child {
+  margin-bottom: 0;
+}
+
+/* Ordered lists in the reading edition. renderMd gained an ordered-list parser
+   on 2026-07-26 — before that a real enumeration printed as one run-together
+   paragraph with "1." "2." as literal text. The PDF inlines only theme.css,
+   quote-typography.css and this file, with no framework reset, so markers come
+   from the UA by default; these values are the book's own measure rather than
+   the browser's, and `list-style-position: outside` keeps a wrapped line aligned
+   to the text instead of under its own number. REQ-015 values, matching the
+   on-screen hosts. */
+.book-list {
+  margin: 0.85rem 0 1.1rem;
+  padding-inline-start: 2.25rem;
+  list-style-position: outside;
+  list-style-type: decimal;
+}
+.book-list li {
+  margin: 0.3rem 0;
+  line-height: 1.55;
+}
+
+.book-self-study .study-list {
+  margin: 0.7rem 0 0.9rem;
+  padding-left: 1.4rem;
+}
+
+.book-self-study .study-list li {
+  margin: 0.25rem 0;
+  line-height: 1.5;
+}
+
+/* ── Per-selection text colour ────────────────────────────────────────────────
+   The PRINT half. Applied to any run a human coloured in the Book Composer. The record lives in
+   `_system/text-colour.json` and is re-found and wrapped at RENDER time
+   (scripts/lib/text-colour.mjs) — book.md never carries it, so no Python phase
+   that reads that file as text can be disturbed by a colour.
+
+   `!important` on nothing, and `color` only: a coloured run keeps its face, its
+   size and its direction, so colouring an Arabic term does not quietly undo the
+   book's Arabic typography. The five values are the palette in
+   src/lib/reader/text-ink.ts, each measured to clear WCAG AA on the cream, sepia
+   and dark papers. */
+.ink-maroon {
+  color: #7a1f1f;
+}
+.ink-ink {
+  color: #1f1d18;
+}
+.ink-indigo {
+  color: #23356b;
+}
+.ink-forest {
+  color: #1d4d33;
+}
+.ink-brown {
+  color: #6b4423;
+}
+
+/* ── Per-paragraph alignment ──────────────────────────────────────────────────
+   Chosen in the Book Composer and recorded in `_system/text-align.json` by the
+   paragraph's own fingerprint, so book.md never carries it and no Python phase
+   that reads that file as text can be disturbed by it.
+
+   `left` has no rule and never will: it is what a paragraph does already, and a
+   class for it would be a second declaration that has to agree with the first.
+   Choosing Left removes the paragraph's entry instead.
+
+   `text-align` only. A centred paragraph keeps its face, size, leading and
+   direction, so centring an Arabic block does not quietly undo the book's Arabic
+   typography. */
+.align-center {
+  text-align: center;
+}
+.align-right {
+  text-align: right;
 }

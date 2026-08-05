@@ -31,6 +31,7 @@ Usage:
   apply_pronunciation_corrections.py <book_dir> <corrections.json>
   apply_pronunciation_corrections.py <book_dir> -   # read payload from stdin
 """
+
 from __future__ import annotations
 
 import argparse
@@ -44,7 +45,7 @@ _SCRIPTS_PODCAST = Path(__file__).resolve().parent
 if str(_SCRIPTS_PODCAST) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS_PODCAST))
 
-from knowledge import pronunciation_ledger as ledger  # noqa: E402
+from knowledge import pronunciation_ledger as ledger
 
 
 def _update_phonetics_md(book_dir: Path, term_to_phonetic: dict[str, str]) -> int:
@@ -108,12 +109,20 @@ def _seed_mangle_map(book_dir: Path, term_variants: dict[str, list[str]]) -> int
     if not variants:
         return 0
     path = book_dir / "_system" / "mangle-map.md"
-    existing = path.read_text(encoding="utf-8") if path.exists() else (
-        "# Mangle-map — canonical term -> TTS misreadings heard in NotebookLM audio.\n\n"
-        "| Canonical | Mangled forms (CSV) |\n|---|---|\n"
+    existing = (
+        path.read_text(encoding="utf-8")
+        if path.exists()
+        else (
+            "# Mangle-map — canonical term -> TTS misreadings heard in NotebookLM audio.\n\n"
+            "| Canonical | Mangled forms (CSV) |\n|---|---|\n"
+        )
     )
     lines = existing.rstrip().splitlines()
-    have = {ledger.normalize_key(l.split("|")[1]) for l in lines if l.strip().startswith("|") and "Canonical" not in l and len(l.split("|")) > 1}
+    have = {
+        ledger.normalize_key(row.split("|")[1])
+        for row in lines
+        if row.strip().startswith("|") and "Canonical" not in row and len(row.split("|")) > 1
+    }
     added = 0
     for term, vs in variants.items():
         if ledger.normalize_key(term) in have:
@@ -125,13 +134,53 @@ def _seed_mangle_map(book_dir: Path, term_variants: dict[str, list[str]]) -> int
     return added
 
 
+def _update_pronunciation_overrides(book_dir: Path, term_to_value: dict[str, str]) -> int:
+    """Correct EXISTING rows of ``_system/pronunciation.md``. Returns count.
+
+    The override table is rung 0 of the term ladder — it beats the glossary, the
+    ledger and every corpus table. So a verdict that never reaches it has no
+    effect on the audio: mark `arkan: ar-KAAN` wrong, and the ledger and glossary
+    are updated while the override keeps winning and the hosts keep saying the
+    thing you just rejected.
+
+    Existing rows only. The table is the human's, and this writes back the
+    human's own listening verdict; inventing rows for terms they never listed
+    would turn their file into machine output.
+    """
+    path = Path(book_dir) / "_system" / "pronunciation.md"
+    if not path.exists() or not term_to_value:
+        return 0
+    norm_map = {ledger.normalize_key(k): v for k, v in term_to_value.items()}
+    lines = path.read_text(encoding="utf-8").splitlines()
+    changed = 0
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        if not stripped.startswith("|") or set(stripped) <= {"|", "-", ":", " "}:
+            continue
+        cells = [c.strip() for c in stripped.strip("|").split("|")]
+        if len(cells) < 2 or cells[0].lower() == "term":
+            continue
+        key = ledger.normalize_key(cells[0])
+        if key in norm_map and cells[1] != norm_map[key]:
+            cells[1] = norm_map[key]
+            lines[i] = "| " + " | ".join(cells) + " |"
+            changed += 1
+    if changed:
+        path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return changed
+
+
 def apply_corrections(book_dir: Path, payload: dict, *, confirmed_date: str | None = None) -> dict:
     book_slug = payload.get("book_slug") or book_dir.name
     cdate = confirmed_date or payload.get("confirmed_date") or date.today().isoformat()
     corrections = payload.get("corrections", [])
 
     lib = ledger.load()
-    phonetic_updates: dict[str, str] = {}    # term -> phonetic (for _phonetics.md / glossary)
+    phonetic_updates: dict[str, str] = {}  # term -> phonetic (for _phonetics.md / glossary)
+    # term -> the value its override row should now carry, so a verdict actually
+    # reaches rung 0 of the ladder instead of being outranked by the belief it
+    # just overturned.
+    override_updates: dict[str, str] = {}
     variant_updates: dict[str, list[str]] = {}
     counts = {"confirmed": 0, "respelled": 0, "unfixable": 0, "skipped": 0}
 
@@ -151,27 +200,53 @@ def apply_corrections(book_dir: Path, payload: dict, *, confirmed_date: str | No
             if not phon:
                 counts["skipped"] += 1
                 continue
-            lib.record(term, phon, status="confirmed", transliteration=translit,
-                       arabic_script=c.get("arabic_script", ""),
-                       mangled_variants=variants, source_book=book_slug, confirmed_date=cdate)
+            lib.record(
+                term,
+                phon,
+                status="confirmed",
+                transliteration=translit,
+                arabic_script=c.get("arabic_script", ""),
+                mangled_variants=variants,
+                source_book=book_slug,
+                confirmed_date=cdate,
+            )
             counts["confirmed"] += 1
         elif status == "respell":
             phon = (c.get("phonetic") or "").strip()
             if not phon:
                 counts["skipped"] += 1
                 continue
-            lib.record(term, phon, status="confirmed", transliteration=translit,
-                       arabic_script=c.get("arabic_script", ""),
-                       mangled_variants=variants, source_book=book_slug, confirmed_date=cdate)
+            lib.record(
+                term,
+                phon,
+                status="confirmed",
+                transliteration=translit,
+                arabic_script=c.get("arabic_script", ""),
+                mangled_variants=variants,
+                source_book=book_slug,
+                confirmed_date=cdate,
+            )
             phonetic_updates[term] = phon
+            override_updates[term] = phon
             counts["respelled"] += 1
         elif status == "unfixable":
             gloss = (c.get("gloss") or "").strip()
             if not gloss:
                 counts["skipped"] += 1
                 continue
-            lib.record(term, "", status="unfixable", gloss=gloss, transliteration=translit,
-                       mangled_variants=variants, source_book=book_slug, confirmed_date=cdate)
+            lib.record(
+                term,
+                "",
+                status="unfixable",
+                gloss=gloss,
+                transliteration=translit,
+                mangled_variants=variants,
+                source_book=book_slug,
+                confirmed_date=cdate,
+            )
+            # No spoken form works, so the override must stop asserting one and
+            # say "use the English" in the form the ladder understands.
+            override_updates[term] = f"substitute *{gloss}*"
             counts["unfixable"] += 1
         else:
             counts["skipped"] += 1
@@ -179,6 +254,7 @@ def apply_corrections(book_dir: Path, payload: dict, *, confirmed_date: str | No
     lib.save()
     md_changed = _update_phonetics_md(book_dir, phonetic_updates)
     gloss_changed = _update_glossary_yaml(book_dir, phonetic_updates)
+    override_changed = _update_pronunciation_overrides(book_dir, override_updates)
     mangle_added = _seed_mangle_map(book_dir, variant_updates)
 
     return {
@@ -188,6 +264,7 @@ def apply_corrections(book_dir: Path, payload: dict, *, confirmed_date: str | No
         "library_size": len(lib),
         "phonetics_md_updated": md_changed,
         "glossary_updated": gloss_changed,
+        "overrides_updated": override_changed,
         "mangle_map_added": mangle_added,
     }
 

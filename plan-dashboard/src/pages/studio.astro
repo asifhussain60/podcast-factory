@@ -4,261 +4,182 @@
  *
  * Books are grouped by content bucket (Islamic / Fiction / Technical / Guides),
  * each rendered as a visual bookshelf section. Each card deep-links to that
- * book's current pipeline step. Cards show:
- *   • script panel: per-book icon + native-script title (Arabic/Chinese) when available
- *   • body: English translation, author (italic), pipeline status bar
+ * book's current pipeline step. All derived view state lives in
+ * lib/reader/studio-shelves.ts (R2 extraction); destructured under the
+ * template's long-standing names — template unchanged.
  */
-import Base from '../layouts/Base.astro';
-import { listContent, slugToTitle, BUCKETS, type Bucket } from '../lib/content-paths';
-import { loadStudioPipeline, loadStatusBucket, type StatusBucket } from '../lib/reader/studio-pipeline';
-import { cardMetaFor } from '../lib/book-card-meta';
-import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import '../styles/studio-pipeline.css';
+import Base from "../layouts/Base.astro";
+import BookCard from "../components/studio/BookCard.astro";
+import { buildStudioShelves } from "../lib/reader/studio-shelves";
+import "../styles/studio-pipeline.css";
 
-// Multi-volume series: a volume slug is `<work>-vol-NN`. The per-volume prophet
-// label ("Adam", "Nuh", …) lives in each volume's meta.yml title after "Volume N:".
-const VOL_RE = /^(.+)-vol-(\d+)$/;
-async function readVolumeLabel(dir: string, order: number): Promise<string> {
-  try {
-    const meta = await readFile(join(dir, 'meta.yml'), 'utf-8');
-    const m = meta.match(/^title:\s*["']?.*Volume\s*\d+:\s*(.+?)["']?\s*$/m);
-    if (m) return m[1].trim();
-  } catch { /* fall through */ }
-  return `Volume ${order}`;
-}
-
-const SHELF_META: Record<Bucket, { icon: string; label: string; desc: string }> = {
-  Islamic:   { icon: 'fa-mosque',   label: 'Islamic Scholarship', desc: 'Scholarly texts, commentaries, and spiritual works' },
-  Fiction:   { icon: 'fa-scroll',   label: 'Fiction & Narrative',  desc: 'Literature, storytelling, and imaginative works' },
-  Technical: { icon: 'fa-code',     label: 'Technical',            desc: 'Engineering, architecture, and technical guides' },
-  Guides:    { icon: 'fa-compass',  label: 'Guides & References',  desc: 'Practical guides, explainers, and reference materials' },
-};
-
-const allContent = await listContent();
-
-const cards = await Promise.all(
-  allContent.map(async (b) => {
-    const steps = await loadStudioPipeline(b.slug);
-    const statusBucket = await loadStatusBucket(b.slug, b.status);
-    const blocked = steps.find((s) => s.state === 'blocked');
-    const active  = steps.find((s) => s.state === 'active');
-    const entry   = blocked ?? active ?? (steps.every((s) => s.state === 'done') ? steps[3] : steps[0]);
-    const bm      = cardMetaFor(b.slug);
-    const volM    = VOL_RE.exec(b.slug);
-    const volOrder = volM ? Number(volM[2]) : null;
-    return {
-      slug:         b.slug,
-      title:        bm.displayTitle ?? slugToTitle(b.slug),
-      bucket:       b.bucket,
-      steps,
-      entry,
-      statusBucket,
-      nativeTitle:  bm.nativeTitle,
-      nativeLang:   bm.nativeLang,
-      author:       bm.author,
-      icon:         bm.icon ?? 'fa-book',
-      blurb:        bm.blurb,
-      volume:       bm.volume,
-      // Multi-volume series fields (null for standalone books).
-      seriesSlug:   volM ? volM[1] : null,
-      volumeOrder:  volOrder,
-      volumeLabel:  volOrder ? await readVolumeLabel(b.dir, volOrder) : '',
-    };
-  }),
-);
-
-// Fold multi-volume series into a single collapsible "deck"; standalone books
-// stay as cards. Reusable for any work with `<work>-vol-NN` volumes.
-type Card = typeof cards[number];
-type Deck = { seriesSlug: string; title: string; nativeTitle?: string; nativeLang?: string; author?: string; icon: string; volumes: Card[] };
-type ShelfItem = { kind: 'card'; card: Card } | { kind: 'deck'; deck: Deck };
-
-function buildItems(shelfCards: Card[]): ShelfItem[] {
-  const decks = new Map<string, Deck>();
-  const items: ShelfItem[] = [];
-  for (const c of shelfCards) {
-    if (c.seriesSlug) {
-      let d = decks.get(c.seriesSlug);
-      if (!d) {
-        const sm = cardMetaFor(c.seriesSlug);
-        d = {
-          seriesSlug: c.seriesSlug,
-          title: sm.displayTitle ?? slugToTitle(c.seriesSlug),
-          nativeTitle: sm.nativeTitle,
-          nativeLang: sm.nativeLang,
-          author: sm.author,
-          icon: sm.icon ?? 'fa-layer-group',
-          volumes: [],
-        };
-        decks.set(c.seriesSlug, d);
-        items.push({ kind: 'deck', deck: d });
-      }
-      d.volumes.push(c);
-    } else {
-      items.push({ kind: 'card', card: c });
-    }
-  }
-  for (const d of decks.values()) d.volumes.sort((a, b) => (a.volumeOrder ?? 0) - (b.volumeOrder ?? 0));
-  return items;
-}
-
-const shelves = BUCKETS
-  .map(bucket => {
-    const shelfCards = cards.filter(c => c.bucket === bucket).sort((a, b) => a.title.localeCompare(b.title));
-    return { bucket, meta: SHELF_META[bucket], items: buildItems(shelfCards), cards: shelfCards };
-  })
-  .filter(s => s.cards.length > 0);
-
-/** Status filter buttons — MULTI-select facets; ALL on by default so no book is
- *  ever hidden on arrival. Toggling a chip adds/removes that status from the view. */
-const STATUS_FILTERS: { id: StatusBucket; icon: string; label: string; hint: string; defaultOn: boolean }[] = [
-  { id: 'in-the-works', icon: 'fa-gears',           label: 'In Pipeline', hint: 'Books actively moving through the pipeline', defaultOn: true },
-  { id: 'published',    icon: 'fa-circle-check',    label: 'Published',   hint: 'Live in the library',                          defaultOn: true },
-  { id: 'up-next',      icon: 'fa-hourglass-start', label: 'Up Next',     hint: 'Scaffolded volumes where work has not begun', defaultOn: true },
-];
-
-const statusCount = (id: StatusBucket) => cards.filter((c) => c.statusBucket === id).length;
-const defaultOn = new Set(STATUS_FILTERS.filter((f) => f.defaultOn).map((f) => f.id));
-const visibleInShelf = (shelfCards: typeof cards) => shelfCards.filter((c) => defaultOn.has(c.statusBucket)).length;
+const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
+  await buildStudioShelves();
 ---
-<Base title="Studio" active="studio" description="Pick a book to work on through the content pipeline.">
-  <div class="studio-picker">
 
+<Base
+  title="Studio"
+  active="studio"
+  description="Pick a book to work on through the content pipeline."
+>
+  <div class="studio-picker">
     <header class="studio-step-head">
       <span class="studio-eyebrow">Studio · Workshop</span>
       <h1>Work a book through the pipeline.</h1>
-      <p>Pick a book to open its content — read the edition, inspect its sources, audits, and media, and step into the pipeline (intake, source review, edit &amp; enrich, publish) from there.</p>
-      <p>Before generating audio in NotebookLM, run the <a href="/pre-upload">Pre-Upload Review</a> and the <a href="/pronunciation">Pronunciation</a> utility.</p>
+      <p>
+        Pick a book to open its content — read the edition, inspect its sources,
+        audits, and media, and step into the pipeline (intake, source review,
+        edit &amp; enrich, publish) from there.
+      </p>
+      <p>
+        Before generating audio in NotebookLM, run the <a href="/pre-upload"
+          >Pre-Upload Review</a
+        > and the <a href="/pronunciation">Pronunciation</a> utility.
+      </p>
     </header>
 
     <div class="studio-toolbar">
-      <div class="studio-filter-bar" role="group" aria-label="Filter books by lifecycle status">
-        {STATUS_FILTERS.map((f) => (
-          <button
-            type="button"
-            class="studio-filter-chip"
-            data-status-filter={f.id}
-            aria-pressed={f.defaultOn ? 'true' : 'false'}
-            title={f.hint}
-          >
-            <i class={`fa-solid ${f.icon}`} aria-hidden="true"></i>
-            <span class="studio-filter-chip-label">{f.label}</span>
-            <span class="studio-filter-chip-count">{statusCount(f.id)}</span>
-          </button>
-        ))}
+      <div
+        class="studio-filter-bar"
+        role="group"
+        aria-label="Filter books by lifecycle status"
+      >
+        {
+          STATUS_FILTERS.map((f) => (
+            <button
+              type="button"
+              class="studio-filter-chip"
+              data-status-filter={f.id}
+              aria-pressed={f.defaultOn ? "true" : "false"}
+              title={f.hint}
+            >
+              <i class={`fa-solid ${f.icon}`} aria-hidden="true" />
+              <span class="studio-filter-chip-label">{f.label}</span>
+              <span class="studio-filter-chip-count">{statusCount(f.id)}</span>
+            </button>
+          ))
+        }
       </div>
-      <a class="studio-new-content-link" href="/studio/new" title="Scaffold a new book, lecture, or article">
+      <a
+        class="studio-new-content-link"
+        href="/studio/new"
+        title="Scaffold a new book, lecture, or article"
+      >
         <i class="fa-solid fa-plus" aria-hidden="true"></i>
         <span class="studio-new-content-label">New content</span>
       </a>
     </div>
 
     <div class="studio-shelves">
+      {
+        shelves.map(({ bucket, meta, items, cards: shelfCards }) => (
+          <section
+            class="studio-shelf"
+            data-bucket={bucket}
+            hidden={visibleInShelf(shelfCards) === 0}
+          >
+            <header class="studio-shelf-header">
+              <span class="studio-shelf-icon-wrap" aria-hidden="true">
+                <i class={`fa-solid ${meta.icon}`} />
+              </span>
+              <div class="studio-shelf-title-group">
+                <h2 class="studio-shelf-name">{meta.label}</h2>
+                <p class="studio-shelf-desc">{meta.desc}</p>
+              </div>
+              <span class="studio-shelf-count">
+                {visibleInShelf(shelfCards)}{" "}
+                {visibleInShelf(shelfCards) === 1 ? "work" : "works"}
+              </span>
+            </header>
 
-      {shelves.map(({ bucket, meta, items, cards: shelfCards }) => (
-        <section class="studio-shelf" data-bucket={bucket} hidden={visibleInShelf(shelfCards) === 0}>
-
-          <header class="studio-shelf-header">
-            <span class="studio-shelf-icon-wrap" aria-hidden="true">
-              <i class={`fa-solid ${meta.icon}`}></i>
-            </span>
-            <div class="studio-shelf-title-group">
-              <h2 class="studio-shelf-name">{meta.label}</h2>
-              <p class="studio-shelf-desc">{meta.desc}</p>
-            </div>
-            <span class="studio-shelf-count">{visibleInShelf(shelfCards)} {visibleInShelf(shelfCards) === 1 ? 'work' : 'works'}</span>
-          </header>
-
-          <div class="studio-shelf-floor-wrap">
-            <div class="studio-shelf-grid">
-              {items.map((it) => it.kind === 'deck' ? (
-                <details class="studio-series-deck">
-                  <summary class="studio-picker-card studio-shelf-card studio-series-summary">
-                    {/* Same card design as standalone books — script panel + body */}
-                    <div class={`card-script-wrap${it.deck.nativeTitle ? ' has-script' : ''}`}>
-                      <span class="card-script-icon" aria-hidden="true">
-                        <i class={`fa-solid ${it.deck.icon}`}></i>
-                      </span>
-                      {it.deck.nativeTitle && (
-                        <span class="card-script-text" lang={it.deck.nativeLang ?? 'ar'} dir={it.deck.nativeLang === 'ar' ? 'rtl' : undefined}>{it.deck.nativeTitle}</span>
-                      )}
-                    </div>
-                    <div class="card-body-wrap">
-                      <div class="card-identity">
-                        <h3 class="card-title-en">{it.deck.title}</h3>
-                        {it.deck.author && <span class="card-author">{it.deck.author}</span>}
-                      </div>
-                      <span class="studio-series-count">{it.deck.volumes.length} volumes<i class="fa-solid fa-chevron-down studio-series-chevron" aria-hidden="true"></i></span>
-                    </div>
-                  </summary>
-                  <ul class="studio-series-volumes">
-                    {it.deck.volumes.map((v) => (
-                      <li>
-                        <a class="studio-series-vol" href={`/studio/${v.slug}`} data-status={v.statusBucket}>
-                          <span class="studio-series-vol-order" aria-hidden="true">{v.volumeOrder}</span>
-                          <span class="studio-series-vol-title">{v.volumeLabel}</span>
-                          <span class="studio-series-vol-status">{v.entry.label} · {v.entry.detail}</span>
-                          <span class="studio-picker-bar" aria-hidden="true">
-                            {v.steps.map((s) => (
-                              <span class={`studio-picker-seg${s.state === 'done' ? ' is-done' : s.state === 'active' ? ' is-active' : s.state === 'blocked' ? ' is-blocked' : ''}`}></span>
-                            ))}
-                          </span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </details>
-              ) : (
-                <a
-                  class="studio-picker-card studio-shelf-card"
-                  href={`/studio/${it.card.slug}`}
-                  data-status={it.card.statusBucket}
-                  hidden={!defaultOn.has(it.card.statusBucket)}
-                >
-
-                  {/* ── Script/icon panel — always rendered ── */}
-                  <div class={`card-script-wrap${it.card.nativeTitle ? ' has-script' : ''}`}>
-                    <span class="card-script-icon" aria-hidden="true">
-                      <i class={`fa-solid ${it.card.icon}`}></i>
-                    </span>
-                    {it.card.nativeTitle && (
-                      <span
-                        class="card-script-text"
-                        lang={it.card.nativeLang ?? 'ar'}
-                        dir={it.card.nativeLang === 'ar' ? 'rtl' : undefined}
-                      >{it.card.nativeTitle}</span>
-                    )}
-                  </div>
-
-                  {/* ── Card body: English title + author + pipeline status ── */}
-                  <div class="card-body-wrap">
-                    <div class="card-identity">
-                      <h3 class="card-title-en">{it.card.title}</h3>
-                      {it.card.volume && <span class="card-volume-badge">Volume {it.card.volume}</span>}
-                      {it.card.author && <span class="card-author">{it.card.author}</span>}
-                    </div>
-                    {it.card.blurb && <p class="card-blurb">{it.card.blurb}</p>}
-                    <div class="card-pipeline-status">
-                      <span class="studio-picker-step">{it.card.entry.label} · {it.card.entry.detail}</span>
-                      <div class="studio-picker-bar" aria-hidden="true">
-                        {it.card.steps.map((s) => (
-                          <span class={`studio-picker-seg${s.state === 'done' ? ' is-done' : s.state === 'active' ? ' is-active' : s.state === 'blocked' ? ' is-blocked' : ''}`}></span>
+            <div class="studio-shelf-floor-wrap">
+              <div class="studio-shelf-grid">
+                {items.map((it) =>
+                  it.kind === "deck" ? (
+                    <details class="studio-series-deck">
+                      {/* The deck's status: decks are never hidden by a status
+                          chip, because a series has no single status of its own
+                          and its volumes each carry their own. Before this the
+                          summary carried no `data-status` at all, so the filter
+                          script read "" — never in the active set — and every
+                          deck was hidden the first time any chip was toggled,
+                          with no way to bring it back. */}
+                      <summary
+                        class="studio-picker-card studio-shelf-card studio-series-summary"
+                        data-status="always"
+                      >
+                        <BookCard
+                          identity={it.deck.identity}
+                          countLabel={`${it.deck.volumes.length} volumes`}
+                          statusLabel={it.deck.statusLabel}
+                          steps={it.deck.steps}
+                          chevron
+                        />
+                      </summary>
+                      <ul class="studio-series-volumes">
+                        {it.deck.volumes.map((v) => (
+                          <li>
+                            <a
+                              class="studio-series-vol"
+                              href={`/studio/${v.slug}`}
+                              data-status={v.statusBucket}
+                            >
+                              <span
+                                class="studio-series-vol-order"
+                                aria-hidden="true"
+                              >
+                                {v.volumeOrder}
+                              </span>
+                              <span class="studio-series-vol-title">
+                                {v.volumeLabel}
+                              </span>
+                              <span class="studio-series-vol-status">
+                                {v.entry.label} · {v.entry.detail}
+                              </span>
+                              <span
+                                class="studio-picker-bar"
+                                aria-hidden="true"
+                              >
+                                {v.steps.map((s) => (
+                                  <span
+                                    class={`studio-picker-seg${s.state === "done" ? " is-done" : s.state === "active" ? " is-active" : s.state === "blocked" ? " is-blocked" : ""}`}
+                                  />
+                                ))}
+                              </span>
+                            </a>
+                          </li>
                         ))}
-                      </div>
-                    </div>
-                  </div>
-
-                </a>
-              ))}
+                      </ul>
+                    </details>
+                  ) : (
+                    <a
+                      class="studio-picker-card studio-shelf-card"
+                      href={`/studio/${it.card.slug}`}
+                      data-status={it.card.statusBucket}
+                      hidden={!defaultOn.has(it.card.statusBucket)}
+                    >
+                      <BookCard
+                        identity={it.card.identity}
+                        pdfGenerated={it.card.pdfGenerated}
+                        podcastGenerated={it.card.podcastGenerated}
+                        augmented={it.card.augmented}
+                        countLabel={
+                          it.card.episodeCount > 0
+                            ? `${it.card.episodeCount} episodes`
+                            : ""
+                        }
+                        statusLabel={`${it.card.entry.label} · ${it.card.entry.detail}`}
+                        steps={it.card.steps}
+                      />
+                    </a>
+                  ),
+                )}
+              </div>
             </div>
-          </div>
-
-        </section>
-      ))}
-
+          </section>
+        ))
+      }
     </div>
-
   </div>
 </Base>
 
@@ -267,32 +188,49 @@ const visibleInShelf = (shelfCards: typeof cards) => shelfCards.filter((c) => de
   // default (nothing hidden on arrival). Toggling a chip adds/removes that
   // status from the visible set; cards show when their status is in the set;
   // shelves with no visible cards hide, and shelf counts track visible cards.
-  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.studio-filter-chip'));
+  const chips = Array.from(
+    document.querySelectorAll<HTMLButtonElement>(".studio-filter-chip"),
+  );
   const active = new Set<string>(
     chips
-      .filter((c) => c.getAttribute('aria-pressed') === 'true')
-      .map((c) => c.dataset.statusFilter ?? ''),
+      .filter((c) => c.getAttribute("aria-pressed") === "true")
+      .map((c) => c.dataset.statusFilter ?? ""),
   );
 
   function applyFilter(): void {
-    document.querySelectorAll<HTMLElement>('.studio-shelf').forEach((shelf) => {
+    document.querySelectorAll<HTMLElement>(".studio-shelf").forEach((shelf) => {
       let visible = 0;
-      shelf.querySelectorAll<HTMLElement>('.studio-shelf-card').forEach((card) => {
-        const show = active.has(card.dataset.status ?? '');
-        card.hidden = !show;
-        if (show) visible += 1;
-      });
+      shelf
+        .querySelectorAll<HTMLElement>(".studio-shelf-card")
+        .forEach((card) => {
+          const status = card.dataset.status ?? "";
+          // A series deck is `always`: it has no status of its own, and its
+          // volumes each carry theirs on the rows inside it. Before this the
+          // deck's summary had no `data-status` at all, so `active.has("")` was
+          // false on every pass and one chip click hid every deck permanently.
+          const show = status === "always" || active.has(status);
+          card.hidden = !show;
+          if (show) visible += 1;
+        });
+      // Volume rows inside a deck follow their own status, so a chip narrows
+      // what an OPEN deck lists rather than leaving stale rows on screen.
+      shelf
+        .querySelectorAll<HTMLElement>(".studio-series-vol")
+        .forEach((row) => {
+          row.hidden = !active.has(row.dataset.status ?? "");
+        });
       shelf.hidden = visible === 0;
-      const count = shelf.querySelector<HTMLElement>('.studio-shelf-count');
-      if (count) count.textContent = `${visible} ${visible === 1 ? 'work' : 'works'}`;
+      const count = shelf.querySelector<HTMLElement>(".studio-shelf-count");
+      if (count)
+        count.textContent = `${visible} ${visible === 1 ? "work" : "works"}`;
     });
   }
 
   chips.forEach((chip) => {
-    chip.addEventListener('click', () => {
-      const id = chip.dataset.statusFilter ?? '';
-      const on = chip.getAttribute('aria-pressed') === 'true';
-      chip.setAttribute('aria-pressed', on ? 'false' : 'true');
+    chip.addEventListener("click", () => {
+      const id = chip.dataset.statusFilter ?? "";
+      const on = chip.getAttribute("aria-pressed") === "true";
+      chip.setAttribute("aria-pressed", on ? "false" : "true");
       if (on) active.delete(id);
       else active.add(id);
       applyFilter();

@@ -1,0 +1,349 @@
+{
+  "cited": 4,
+  "inserted": 0,
+  "already": 3,
+  "uncovered": [
+    {
+      "ref": "7:56",
+      "line": 97,
+      "reason": "no-span-in-scan",
+      "ayah_words": 16
+    }
+  ],
+  "inserted_detail": [],
+  "invalid_reference": [],
+  "spans_in_scan": 0,
+  "scan_arabic_words": 6960,
+  "uncited_review": [
+    {
+      "line": 17,
+      "passage": "O Allah, I seek refuge in You from knowledge that does not benefit.",
+      "proposed_ref": "11:47",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 47,
+      "passage": "The most severely punished of people on the Day of Resurrection is a scholar whom Allah did not benefit through his knowledge.",
+      "proposed_ref": "7:187",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 49,
+      "passage": "O Abu al-Qasim, what news do you bring of your state?",
+      "proposed_ref": "22:29",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 61,
+      "passage": "Even if you were to buy two thousand pounds of wine, it would not make you drunk until you drink it.",
+      "proposed_ref": "2:109",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 75,
+      "passage": "So whoever hopes for the meeting with his Lord, let him do righteous work.",
+      "proposed_ref": "18:110",
+      "english_similarity": 0.857,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 79,
+      "passage": "Indeed, those who believe and do righteous deeds, for them the Gardens of Firdaws shall be a welcome abode, in which they will dwell forever, never desiring any",
+      "proposed_ref": "65:11",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 85,
+      "passage": "Except for those who repented, and believed, and did righteous work.",
+      "proposed_ref": "28:67",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 121,
+      "passage": "O My angels, bear witness, all of you, that I have forgiven him.",
+      "proposed_ref": "83:21",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 139,
+      "passage": "To seek Paradise without deeds is a sin among the sins.",
+      "proposed_ref": "95:6",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 175,
+      "passage": "Live as you wish, for you shall surely die. Love what you wish, for you shall surely be parted from it. And do what you wish, for you shall surely be recompense",
+      "proposed_ref": "20:74",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 201,
+      "passage": "Send us back, that we may do righteous deeds!",
+      "proposed_ref": "32:12",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 211,
+      "passage": "These bodies are either cages for birds or stables for beasts.",
+      "proposed_ref": "35:12",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 231,
+      "passage": "Is there any who asks? Is there any who seeks forgiveness? Is there any who repents?",
+      "proposed_ref": "4:110",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 237,
+      "passage": "He is an excellent man, if only he would pray in the night.",
+      "proposed_ref": "73:2",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 241,
+      "passage": "Do not sleep much in the night, for much sleep in the night leaves its owner destitute on the Day of Resurrection.",
+      "proposed_ref": "25:47",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 255,
+      "passage": "And in the hours before dawn they would seek forgiveness.",
+      "proposed_ref": "51:18",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 261,
+      "passage": "And those who seek forgiveness in the hours before dawn.",
+      "proposed_ref": "51:18",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 355,
+      "passage": "In all that long time, what benefit have you drawn from me?",
+      "proposed_ref": "18:19",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 363,
+      "passage": "Very well. Tell me, then — what are those eight benefits?",
+      "proposed_ref": "21:65",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 369,
+      "passage": "Well done, O Hatim! You have said a most excellent thing. Now tell me the second benefit.",
+      "proposed_ref": "8:74",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 385,
+      "passage": "All that is with you is bound to come to an end, whereas all that is with Allah is everlasting.",
+      "proposed_ref": "16:96",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 395,
+      "passage": "Verily, the noblest of you in the sight of Allah is the one most deeply conscious of Him, most in awe and fear of Him.",
+      "proposed_ref": "49:13",
+      "english_similarity": 0.778,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 405,
+      "passage": "It is We who apportion among them their means of livelihood, their sustenance, in the life of this world.",
+      "proposed_ref": "43:32",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 409,
+      "passage": "O Hatim! You speak the truth and you do what is right. Now tell me the sixth benefit.",
+      "proposed_ref": "27:82",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 415,
+      "passage": "Verily, Shaytan is your enemy, so treat him as your enemy.",
+      "proposed_ref": "35:6",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 425,
+      "passage": "And there is no creature that moves upon the earth whose sustenance is not the responsibility of Allah.",
+      "proposed_ref": "11:6",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 429,
+      "passage": "You have done an excellent thing and said an excellent thing. Now tell me the eighth benefit.",
+      "proposed_ref": "11:72",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 435,
+      "passage": "And whoever places his trust in Allah, He alone is sufficient for him. Verily, Allah brings His command to pass; indeed, Allah has set a measure for all things.",
+      "proposed_ref": "65:3",
+      "english_similarity": 0.462,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 500,
+      "passage": "Had those people been patient until you yourself came out to them, it would have been better for them.",
+      "proposed_ref": "98:4",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 506,
+      "passage": "Do not question me about anything until I myself bring it up to you and explain it.",
+      "proposed_ref": "18:70",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 512,
+      "passage": "I will show you My signs, so do not seek to hasten them.",
+      "proposed_ref": "21:37",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 518,
+      "passage": "Have they not traveled through the earth and seen?",
+      "proposed_ref": "47:10",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 524,
+      "passage": "If you are able to give of your soul, then come; and if not, do not busy yourself with the idle talk of the Sufis.",
+      "proposed_ref": "2:260",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 532,
+      "passage": "This one will not accept a cure, so do not trouble yourself with treating him",
+      "proposed_ref": "75:27",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 546,
+      "passage": "So turn away from him who turns his back on Our remembrance and desires nothing but the life of this world.",
+      "proposed_ref": "53:29",
+      "english_similarity": 0.7,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 552,
+      "passage": "Envy devours good deeds as fire devours firewood.",
+      "proposed_ref": "47:12",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 558,
+      "passage": "I was not powerless to bring the dead to life, yet I was powerless to treat the fool.",
+      "proposed_ref": "75:40",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 566,
+      "passage": "We, the company of the prophets, have been commanded to speak to people according to the measure of their minds.",
+      "proposed_ref": "2:235",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 574,
+      "passage": "O son of Maryam, admonish your own soul; then, if it takes the admonition, admonish the people, and if not, be ashamed before your Lord.",
+      "proposed_ref": "43:57",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 614,
+      "passage": "Allah does not look at your forms nor at your deeds, but He looks at your hearts and your intentions.",
+      "proposed_ref": "9:127",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 622,
+      "passage": "O Allah, make the provision of the family of Muhammad just enough.",
+      "proposed_ref": "33:28",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    }
+  ],
+  "coverage": 0.75,
+  "cited_inserted": 0
+}

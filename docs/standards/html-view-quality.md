@@ -223,7 +223,7 @@ On light themes, swap the background to a low-alpha *tint of the accent or a lig
 
 ### REQ-015 [MUST] List rendering standard
 
-A universal `* { margin: 0; padding: 0; }` reset strips default list indentation and collapses markers into the text. Every view MUST restore predictable list rendering:
+A universal `* { margin: 0; padding: 0; }` reset strips default list indentation and collapses markers into the text — and a framework reset goes further: Tailwind's preflight sets `list-style: none` on every `ol`/`ul`, which leaves a real `<ol>` with **no markers at all**. That failure is invisible to DOM inspection (the `<ol>`, the `<li>`s and their `value` attributes are all present and correct) and only shows in the rendered pixels. Every view MUST restore predictable list rendering, marker TYPE included:
 
 ```css
 ol, ul {
@@ -231,6 +231,9 @@ ol, ul {
   margin-block: 0.85rem 1.1rem;
   list-style-position: outside;     /* MUST be outside, not inside */
 }
+ol { list-style-type: decimal; }    /* MUST be declared — a reset zeroes it */
+ul { list-style-type: disc; }       /* MUST be declared */
+ul ul { list-style-type: circle; }
 ol ol, ol ul, ul ol, ul ul {
   padding-inline-start: 1.75rem;
   margin-block: 0.4rem;
@@ -240,7 +243,9 @@ li > p:first-child { margin-block-start: 0; }
 li > p:last-child  { margin-block-end: 0; }
 ```
 
-Ordered lists MUST use `<ol>` with native decimal numbering — do NOT fake numbering with text inside `<li>`. Number alignment and wrapped-line indentation depend on `list-style-position: outside`.
+Ordered lists MUST use `<ol>` with `list-style-type: decimal` declared EXPLICITLY — "native" numbering is not available once a reset has removed it, and an `<ol>` whose markers are invisible has lost its enumeration entirely, which is worse than prose that never claimed to be a list. Do NOT fake numbering with text inside `<li>`, and do NOT rely on `<ol>`'s own counter to supply an ordinal the source states: carry it as `value="N"` so a list beginning at 3 renders as 3. Number alignment and wrapped-line indentation depend on `list-style-position: outside`.
+
+> Enforcement: `lint:views` cannot see computed style, so this rule is gated at RUNTIME by the `prose-list-unstyled` invariant in `plan-dashboard/scripts/site-health-smoke.mjs`, which measures every prose host in a real browser. Add a new prose host to that check's `PROSE_HOSTS` when you create one — five hosts have needed this rule so far, and each was found only after the previous one was fixed.
 
 ### REQ-016 [SHOULD] Line-length comfort
 

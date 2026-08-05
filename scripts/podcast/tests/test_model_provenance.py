@@ -4,6 +4,7 @@ Locks the contract that every authoring call records which model produced it, an
 that a non-default model (the Sonnet timeout-fallback) is flagged as a divergence
 so mixed-model books are visible rather than silent.
 """
+
 from __future__ import annotations
 
 import json
@@ -13,7 +14,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _authoring._core import record_model_provenance, DEFAULT_MODEL_LABEL  # noqa: E402
+from _authoring._core import DEFAULT_MODEL_LABEL, record_model_provenance
 
 
 def _rows(book_dir: Path):
@@ -22,8 +23,7 @@ def _rows(book_dir: Path):
 
 
 def test_default_model_is_not_a_divergence(tmp_path):
-    record_model_provenance(tmp_path, phase="0d", step="design",
-                            model=DEFAULT_MODEL_LABEL)
+    record_model_provenance(tmp_path, phase="0d", step="design", model=DEFAULT_MODEL_LABEL)
     rows = _rows(tmp_path)
     assert len(rows) == 1
     assert rows[0]["model"] == DEFAULT_MODEL_LABEL
@@ -31,8 +31,7 @@ def test_default_model_is_not_a_divergence(tmp_path):
 
 
 def test_fallback_model_is_flagged_divergence(tmp_path):
-    record_model_provenance(tmp_path, phase="0d", step="design-retry-sonnet",
-                            model="claude-sonnet-4-6", fallback=True)
+    record_model_provenance(tmp_path, phase="0d", step="design-retry-sonnet", model="claude-sonnet-4-6", fallback=True)
     rows = _rows(tmp_path)
     assert rows[0]["divergence"] is True
     assert rows[0]["fallback"] is True
@@ -46,8 +45,7 @@ def test_non_default_model_is_divergence_even_without_fallback_flag(tmp_path):
 
 def test_appends_multiple_rows(tmp_path):
     record_model_provenance(tmp_path, phase="0d", step="a", model=DEFAULT_MODEL_LABEL)
-    record_model_provenance(tmp_path, phase="0e", step="b", model="claude-sonnet-4-6",
-                            fallback=True)
+    record_model_provenance(tmp_path, phase="0e", step="b", model="claude-sonnet-4-6", fallback=True)
     rows = _rows(tmp_path)
     assert len(rows) == 2
     assert sum(1 for r in rows if r["divergence"]) == 1

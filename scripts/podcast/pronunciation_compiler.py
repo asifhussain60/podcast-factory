@@ -28,6 +28,7 @@ Usage (manual):
     python3 scripts/podcast/pronunciation_compiler.py <book-slug>            # compile + show plan
     python3 scripts/podcast/pronunciation_compiler.py <book-slug> --upload   # ensure uploaded + pinned
 """
+
 from __future__ import annotations
 
 import argparse
@@ -48,17 +49,28 @@ STATE_FILENAME = "pronunciation-dictionary.json"
 # produces mangled audio ("Imam" -> "e-Maam", observed live 2026-06-12).
 # Matches the WHOLE grapheme case-insensitively — multi-word names that merely
 # contain one of these ("Abd Allah") keep their rules.
-LOANWORD_SKIP = frozenset({
-    "imam", "imams", "allah", "quran", "koran", "sunnah", "sunna",
-    "hadith", "ahadith", "islam", "muslim", "muslims",
-})
+LOANWORD_SKIP = frozenset(
+    {
+        "imam",
+        "imams",
+        "allah",
+        "quran",
+        "koran",
+        "sunnah",
+        "sunna",
+        "hadith",
+        "ahadith",
+        "islam",
+        "muslim",
+        "muslims",
+    }
+)
 
 # Personal-name connectors: a glossary entry containing one of these as a
 # standalone token is a person name (e.g. "Ja'far ibn Mansur al-Yaman"), which is
 # REFERENTIAL — never recited in Arabic (the user wants teaching terms in Arabic,
 # not author/transmitter names; names are pronounced fine via the alias dictionary).
-_NAME_CONNECTORS = frozenset({"ibn", "bin", "ibni", "abu", "abi", "abu'l",
-                              "umm", "bint", "al-yaman"})
+_NAME_CONNECTORS = frozenset({"ibn", "bin", "ibni", "abu", "abi", "abu'l", "umm", "bint", "al-yaman"})
 
 
 def _is_proper_name(phonetic: str) -> bool:
@@ -119,8 +131,9 @@ def load_glossary_entries(book_dir: Path) -> list[dict]:
         return []
     try:
         import yaml
+
         data = yaml.safe_load(gpath.read_text(encoding="utf-8")) or {}
-    except Exception:  # noqa: BLE001
+    except Exception:
         return []
     entries = data.get("entries") or []
     return [e for e in entries if isinstance(e, dict)]
@@ -132,6 +145,7 @@ def _usable_rules(entries: list[dict]) -> list[tuple[str, str]]:
     the audio respelling. Skips entries with no audio_phonetic, trivial
     rules where the alias equals the grapheme (case/punct-insensitively),
     and LOANWORD_SKIP graphemes (whole-grapheme match)."""
+
     def _norm(s: str) -> str:
         return "".join(c for c in s.lower() if c.isalnum())
 
@@ -237,38 +251,46 @@ def ensure_dictionary(book_dir: Path, client=None, *, log=print) -> dict | None:
 
     st = read_dictionary_state(book_dir)
     if st.get("pls_sha256") == digest and st.get("dictionary_id") and st.get("version_id"):
-        log(f"  [pronunciation] glossary unchanged — pinned dictionary "
-            f"{st['dictionary_id']} v{st['version_id']} ({n_rules} rules)")
+        log(
+            f"  [pronunciation] glossary unchanged — pinned dictionary "
+            f"{st['dictionary_id']} v{st['version_id']} ({n_rules} rules)"
+        )
         return dictionary_locator(book_dir)
 
     if client is None:
         from _elevenlabs import ElevenLabsClient
+
         client = ElevenLabsClient()
 
     name = f"{Path(book_dir).name}-glossary"
     log(f"  [pronunciation] uploading {n_rules}-rule PLS dictionary {name!r} ...")
     dict_id, version_id = client.create_pronunciation_dictionary(
-        name=name, pls_text=pls,
-        description=f"podcast-factory glossary compile {digest[:12]}")
+        name=name, pls_text=pls, description=f"podcast-factory glossary compile {digest[:12]}"
+    )
 
     history = list(st.get("history") or [])
     if st.get("dictionary_id"):
-        history.append({
-            "dictionary_id": st.get("dictionary_id"),
-            "version_id": st.get("version_id"),
-            "pls_sha256": st.get("pls_sha256"),
-            "compiled_at": st.get("compiled_at"),
-            "entry_count": st.get("entry_count"),
-        })
-    _write_dictionary_state(book_dir, {
-        "engine": "elevenlabs",
-        "dictionary_id": dict_id,
-        "version_id": version_id,
-        "pls_sha256": digest,
-        "compiled_at": _utc_now(),
-        "entry_count": n_rules,
-        "history": history,
-    })
+        history.append(
+            {
+                "dictionary_id": st.get("dictionary_id"),
+                "version_id": st.get("version_id"),
+                "pls_sha256": st.get("pls_sha256"),
+                "compiled_at": st.get("compiled_at"),
+                "entry_count": st.get("entry_count"),
+            }
+        )
+    _write_dictionary_state(
+        book_dir,
+        {
+            "engine": "elevenlabs",
+            "dictionary_id": dict_id,
+            "version_id": version_id,
+            "pls_sha256": digest,
+            "compiled_at": _utc_now(),
+            "entry_count": n_rules,
+            "history": history,
+        },
+    )
     log(f"  [pronunciation] pinned dictionary {dict_id} v{version_id}")
     return dictionary_locator(book_dir)
 
@@ -290,16 +312,18 @@ def arabic_recitation_enabled(book_dir: Path) -> bool:
         return False
     try:
         import yaml
+
         data = yaml.safe_load(cfg.read_text(encoding="utf-8")) or {}
         if not bool(data.get("elevenlabs_arabic_recitation")):
             return False
-    except Exception:  # noqa: BLE001
+    except Exception:
         return False
     # Engine gate: Arabic reaches the audio only on an Arabic-capable engine.
     try:
         from _audio_engines import audio_engine_for_book
+
         return bool(audio_engine_for_book(book_dir).supports_arabic_script)
-    except Exception:  # noqa: BLE001
+    except Exception:
         return True  # flag set but engine unresolvable — honor the flag
 
 
@@ -318,8 +342,7 @@ def _glossary_term_subs(book_dir: Path) -> list[tuple[str, str]]:
     classified = any(str(e.get("teaching_relevance") or "").strip() for e in entries)
     subs = []
     for e in entries:
-        if classified and \
-                str(e.get("teaching_relevance") or "").strip().lower() != "teaching":
+        if classified and str(e.get("teaching_relevance") or "").strip().lower() != "teaching":
             continue  # recite teaching terms only — leave referential noise unrecited
         cur = resolve_curation(e)
         if cur["drop_arabic"]:
@@ -363,21 +386,20 @@ def compile_turns_for_render(book_dir: Path, turns: list, *, log=None) -> list:
         # Use letter-boundary lookahead/lookbehind so short phonetics (e.g. "itra")
         # cannot match inside English words ("arb[itra]ry" -> "arbعترةry" was the bug).
         for phonetic, arabic in term_subs:
-            pattern = r'(?<![a-zA-Z])' + re.escape(phonetic) + r'(?![a-zA-Z])'
+            pattern = r"(?<![a-zA-Z])" + re.escape(phonetic) + r"(?![a-zA-Z])"
             text = re.sub(pattern, arabic, text)
         out.append(Turn(speaker=t.speaker, text=text))
     return out
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(
-        description="Compile (and optionally upload+pin) a book's pronunciation dictionary.")
+    ap = argparse.ArgumentParser(description="Compile (and optionally upload+pin) a book's pronunciation dictionary.")
     ap.add_argument("slug", help="book slug (any bucket)")
-    ap.add_argument("--upload", action="store_true",
-                    help="ensure the compiled dictionary is uploaded + pinned")
+    ap.add_argument("--upload", action="store_true", help="ensure the compiled dictionary is uploaded + pinned")
     args = ap.parse_args()
 
     from _paths import find_content
+
     found = find_content(args.slug)
     if not found:
         print(f"ERROR: no content directory matches slug {args.slug!r}", file=sys.stderr)
@@ -391,8 +413,7 @@ def main() -> int:
     print(f"compiled PLS sha256: {pls_sha256(pls)[:16]}...")
     st = read_dictionary_state(book_dir)
     if st:
-        print(f"pinned: {st.get('dictionary_id')} v{st.get('version_id')} "
-              f"(hash {str(st.get('pls_sha256'))[:16]}...)")
+        print(f"pinned: {st.get('dictionary_id')} v{st.get('version_id')} (hash {str(st.get('pls_sha256'))[:16]}...)")
     if args.upload:
         loc = ensure_dictionary(book_dir)
         print(f"locator: {loc}")

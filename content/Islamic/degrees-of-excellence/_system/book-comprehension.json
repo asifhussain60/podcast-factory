@@ -1,0 +1,180 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 92,
+  "terms_tracked": 139,
+  "prerequisite_gaps": [
+    {
+      "term": "al-Hakim",
+      "first_use_page": 12,
+      "explained_page": 82,
+      "pages_carried": 70,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-Naysaburi",
+      "first_use_page": 5,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "imam",
+      "first_use_page": 5,
+      "explained_page": 7,
+      "pages_carried": 2,
+      "kind": "explained-late"
+    }
+  ],
+  "naming_drift": [],
+  "referent_collisions": [],
+  "dense_pages": [
+    {
+      "page": 4,
+      "term_count": 7,
+      "terms": [
+        "imam",
+        "imamate",
+        "pole",
+        "qibla",
+        "siyasa",
+        "wujub",
+        "zaman"
+      ]
+    },
+    {
+      "page": 5,
+      "term_count": 7,
+      "terms": [
+        "al-Kirmani",
+        "al-Naysaburi",
+        "aql",
+        "imam",
+        "imamate",
+        "ithbat",
+        "pole"
+      ]
+    },
+    {
+      "page": 6,
+      "term_count": 9,
+      "terms": [
+        "hudud",
+        "imam",
+        "imamate",
+        "khums",
+        "khutba",
+        "pole",
+        "qibla",
+        "qutb",
+        "zakat"
+      ]
+    }
+  ],
+  "long_sentences": [
+    {
+      "page": 14,
+      "words": 182,
+      "text": "‫َو ْبَتَل ْبَر َم َر ُّبُه َك َم ٍۢت َفَأ َتَّمُهَّن َق َل‬ ‫َج ُلَك‬ ‫َّن‬ ‫َم‬ ‫ِإِذ ٱ ٰٓى ِإ ِهۦ‬ ‫ۖ ا ِإِّنى اِع ِلل اِس ِإ اًۭم ا‬ ‫ۥ ِب ِل‬ God, the Exal"
+    },
+    {
+      "page": 7,
+      "words": 141,
+      "text": "God, the Exalted, called the imam a messenger when He said: \"And remember in the Scripture, Ismail was indeed faithful in fulfilling his promise while he was a "
+    },
+    {
+      "page": 72,
+      "words": 137,
+      "text": "People accept the imams of Adam's age yet deny them in the age of Muhammad, may God bless him, even though God, the Almighty and Glorious, has declared: ‫ُّرُس "
+    },
+    {
+      "page": 80,
+      "words": 137,
+      "text": "Just as the wisdom of the world, and of the animals and plants within it, came to full expression in the emergence of human beings — the well-being of all creat"
+    },
+    {
+      "page": 33,
+      "words": 134,
+      "text": "For this reason God, the Exalted, said: ‫َأ َلْم َتَر َك ْيَف َض َرَب ٱلَّلُه َم َثاًۭل َك ِلَم ًۭة َطِّيَبًۭة َك َش َج َر ٍۢة َطِّيَبٍة َأْص ُلَه ا َثاِبٌۭت‬ ‫"
+    },
+    {
+      "page": 36,
+      "words": 134,
+      "text": "It is on this account that God, the Exalted and Glorious, said: ‫َّن َش‬ ‫ُّص ُّم ْلُب ْك ُم َّل َن َل َي ْع ُل َن‬ ‫ٱ ِذي ا ِق و‬ ‫ِإ َّر ٱلَّد َو ٓاِّب ِعنَد "
+    },
+    {
+      "page": 81,
+      "words": 130,
+      "text": "They believe in God and the Last Day ...\" Just as the whole of humanity stands as the final realm of nature (‫ )َم َو اِليد‬in the world, having absorbed all th"
+    },
+    {
+      "page": 34,
+      "words": 125,
+      "text": "144) And God, the Exalted, said: ‫َو َأْوَح ٰى َر ُّبَك ِإَلى ٱلَّنْح ِل َأِن ٱَّتِخ ِذ ى ِم َن ٱ ْلِج َب اِل ُبُيوًۭتا َو ِم َن ٱلَّش َج ِر‬ ‫ِك‬ ‫ِل ِم‬ ‫ِم‬ "
+    },
+    {
+      "page": 58,
+      "words": 121,
+      "text": "The Prophet pointed to the imam's place as going before everyone, and he commanded them not to vie with the imam in reciting the Quran (‫)َا ْلُف ْر َقان‬, sayi"
+    },
+    {
+      "page": 76,
+      "words": 120,
+      "text": "From Adam to Ali He also said: ‫َّل َن َي ْعَلُم َن َو َّل َن َل َي ْعَلُم َن‬ ‫و‬ ‫و ٱ ِذي ا‬ ‫ٱ ِذي‬ \"Are those who know and those who do not, equal?\" (Az-Zum"
+    },
+    {
+      "page": 57,
+      "words": 113,
+      "text": "All of this makes plain that if obedience to a partial ( ‫ )َا ْلُج ْز ِئّي‬imam — one who is not an imam in the absolute sense — is made obligatory, and the re"
+    },
+    {
+      "page": 24,
+      "words": 111,
+      "text": "When people deny the legally established testimony, the one bound by nature — namely the horizons and our own inner selves — steps in to remind, to enforce, and"
+    },
+    {
+      "page": 9,
+      "words": 104,
+      "text": "I wish, therefore, to write a treatise that affirms the imamate by means of evidence (‫ )استشهد‬and deduction (‫ )االستدالل‬drawn from the outer horizons (‫ )َا"
+    },
+    {
+      "page": 23,
+      "words": 97,
+      "text": "God, the Exalted, has told us of this in His words: ‫َن‬ ‫ُذ‬ ‫ُي َح ُف َن ْلَك َع‬ ‫ِّر و ٱ ِلَم ن َّم َواِض ِعِهۦۙ َو ُس و۟ا َح ًّۭظ ا ِّمَّم ا ِّكُر و۟ا ِبِه"
+    },
+    {
+      "page": 66,
+      "words": 96,
+      "text": "We also say: it is agreed by all that legal judgment among the people in matters of bloodshed, sexual offenses, and property may be exercised only by one who kn"
+    },
+    {
+      "page": 79,
+      "words": 96,
+      "text": "100-112 W e shall now set down some of the merits of the lord of the age and time (‫)ولي العصر والزمان‬, the Commander of the Faithful (‫— )َا ْلَح ِك يم‬ thoug"
+    },
+    {
+      "page": 73,
+      "words": 94,
+      "text": "The ark was none other than the imam himself, and Noah's call to the people was a call to the imam — just as the Prophet said: \"The likeness of my family (‫ )َأ"
+    },
+    {
+      "page": 85,
+      "words": 92,
+      "text": "So the Commander of the Faithful bestowed blessings on the believers for a season as no one else had ever bestowed, and he also withheld from them for a season,"
+    },
+    {
+      "page": 44,
+      "words": 91,
+      "text": "They arise from disputes among people; from their arbitrary desires and their leaning toward leisure, comfort, and self-display; from innovation, worldly ambiti"
+    },
+    {
+      "page": 16,
+      "words": 87,
+      "text": "In this I follow the way of God, the Exalted, who said: ‫ٓأَف َو ٓى َأ ُف ْم َحَّت ٰى َيَتَبَّيَن َلُهْم َأَّنُه ْلَحُّق َأَو َلْم َيْك‬ ‫َس ُن ي ْم آَي َن‬ ۗ ‫"
+    }
+  ],
+  "summary": {
+    "never_explained": 1,
+    "explained_late": 2,
+    "referent_collisions": 0
+  }
+}

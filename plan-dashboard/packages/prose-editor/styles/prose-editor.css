@@ -1,0 +1,302 @@
+/* @asifhussain/prose-editor — the package's only stylesheet.
+ *
+ * THEMING CONTRACT (Theme-Adapter Pattern B). Every colour, radius and size in
+ * this file reads a `--rte-*` custom property. The block below supplies neutral
+ * defaults so the editor is usable with no host CSS at all; a host themes it by
+ * ALIASING its own tokens onto these, scoped to the toolbar, and never by
+ * editing this file:
+ *
+ *   .my-toolbar-host {
+ *     --rte-surface: var(--c-bg-card);
+ *     --rte-ink:     var(--c-ink);
+ *     --rte-accent:  var(--c-accent);
+ *   }
+ *
+ * No hardcoded colour may appear outside the defaults block — a test enforces
+ * it, so a host's palette can never be overridden by a package release.
+ */
+
+:root {
+  --rte-surface: #ffffff;
+  --rte-surface-sunken: #f1efe9;
+  --rte-surface-hover: #e9e6de;
+  --rte-ink: #1f1d18;
+  --rte-ink-muted: #66625a;
+  --rte-accent: #3b5bdb;
+  --rte-border: #e6e2d8;
+  --rte-border-strong: #d5cfc2;
+  --rte-focus: var(--rte-accent);
+  --rte-radius: 5px;
+  --rte-control-size: 2rem;
+  /* Breathing room BETWEEN controls. Buttons that touch read as one segmented
+     control; these are independent actions and should look it. */
+  --rte-gap: 0.3rem;
+  --rte-shadow: 0 1px 0 rgb(0 0 0 / 4%);
+  --rte-font: inherit;
+  --rte-font-size: 0.85rem;
+  /* Layered BELOW a host's own modal/dialog scrim on purpose: a blocking
+     question must always be able to cover the editor, never the reverse. */
+  --rte-z-bubble: 700;
+  --rte-z-menu: 750;
+  --rte-z-fullscreen: 800;
+}
+
+/* ── Toolbar ──────────────────────────────────────────────────────────────── */
+
+.rte-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--rte-gap);
+  padding: 0.3rem 0.4rem;
+  background: var(--rte-surface);
+  border-bottom: 1px solid var(--rte-border);
+  color: var(--rte-ink);
+  font-family: var(--rte-font);
+  font-size: var(--rte-font-size);
+}
+
+/* Toolbar controls are chrome, not a reading surface, so they sit below the
+   1.2rem body-text floor by design (the same exception the host's own control
+   chrome takes). Reading text lives in the editor below, never in here.
+
+   Each control carries its OWN surface and hairline border rather than being a
+   bare glyph that only appears on hover. A transparent control reads as a
+   decoration until you happen to touch it, and on a tinted toolbar it reads as
+   nothing at all — the affordance has to be visible before the pointer arrives. */
+.rte-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--rte-control-size);
+  height: var(--rte-control-size);
+  padding: 0 0.45rem;
+  background: var(--rte-surface);
+  border: 1px solid var(--rte-border);
+  border-radius: var(--rte-radius);
+  box-shadow: var(--rte-shadow);
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    transform 120ms ease;
+}
+
+.rte-tool:hover:not(:disabled) {
+  background: var(--rte-surface-hover);
+  border-color: var(--rte-border-strong);
+}
+
+.rte-tool:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.rte-tool[aria-pressed="true"] {
+  background: var(--rte-surface-sunken);
+  border-color: var(--rte-accent);
+  color: var(--rte-accent);
+  box-shadow: none;
+}
+
+.rte-tool:disabled {
+  opacity: 0.35;
+  box-shadow: none;
+  cursor: default;
+}
+
+.rte-tool:focus-visible {
+  outline: 2px solid var(--rte-focus);
+  outline-offset: 2px;
+}
+
+/* The glyph, sized once so every icon sits on the same optical centre. */
+.rte-tool svg {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Separators earn more room than the gap between buttons — that difference is
+   what makes the bar read as CLUSTERS rather than as one long undifferentiated
+   run of controls. */
+.rte-sep {
+  width: 1px;
+  height: 1.35rem;
+  margin-inline: 0.45rem;
+  background: var(--rte-border-strong);
+}
+
+/* ── Paragraph-format control (button + ARIA listbox) ─────────────────────── */
+
+.rte-select {
+  position: relative;
+  display: inline-flex;
+}
+
+.rte-select-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  height: var(--rte-control-size);
+  padding: 0 0.55rem;
+  background: var(--rte-surface);
+  border: 1px solid var(--rte-border);
+  border-radius: var(--rte-radius);
+  box-shadow: var(--rte-shadow);
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
+}
+
+.rte-select-button:hover:not(:disabled) {
+  background: var(--rte-surface-hover);
+  border-color: var(--rte-border-strong);
+}
+
+.rte-select-button:focus-visible {
+  outline: 2px solid var(--rte-focus);
+  outline-offset: 2px;
+}
+
+.rte-select-button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.rte-select-value {
+  min-width: 6ch;
+  text-align: start;
+}
+
+.rte-select-chevron {
+  display: inline-flex;
+  color: var(--rte-ink-muted);
+}
+
+.rte-select-list {
+  position: absolute;
+  z-index: var(--rte-z-menu);
+  top: calc(var(--rte-control-size) + 0.25rem);
+  inset-inline-start: 0;
+  min-width: 100%;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  background: var(--rte-surface);
+  border: 1px solid var(--rte-border-strong);
+  border-radius: var(--rte-radius);
+}
+
+.rte-select-option {
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--rte-radius);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.rte-select-option:hover {
+  background: var(--rte-surface-hover);
+}
+
+.rte-select-option:focus-visible {
+  outline: 2px solid var(--rte-focus);
+  outline-offset: -2px;
+}
+
+.rte-select-option[aria-selected="true"] {
+  background: var(--rte-surface-sunken);
+  color: var(--rte-accent);
+}
+
+/* ── Overflow menu ────────────────────────────────────────────────────────── */
+/* Controls MOVE here; they are never removed. A control that disappears at a
+   narrow width is indistinguishable from one that was never built. */
+
+.rte-more-menu {
+  position: absolute;
+  z-index: var(--rte-z-menu);
+  inset-inline-end: 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rte-gap);
+  max-width: min(20rem, 90vw);
+  margin-top: 0.25rem;
+  padding: 0.3rem;
+  background: var(--rte-surface);
+  border: 1px solid var(--rte-border-strong);
+  border-radius: var(--rte-radius);
+}
+
+.rte-toolbar {
+  position: relative;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rte-toolbar *,
+  .rte-toolbar *::before,
+  .rte-toolbar *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ── Selection bubble ─────────────────────────────────────────────────────── */
+/* Positioned from --rte-bubble-x/y, which the script sets as custom properties
+   rather than as style.left — so THIS file keeps control of placement and can
+   clamp or re-anchor it at a narrow width. */
+
+.rte-bubble {
+  position: absolute;
+  z-index: var(--rte-z-bubble);
+  left: var(--rte-bubble-x, 0);
+  top: var(--rte-bubble-y, 0);
+  transform: translate(-50%, -100%);
+  max-width: min(90vw, 26rem);
+  background: var(--rte-surface);
+  border: 1px solid var(--rte-border-strong);
+  border-radius: var(--rte-radius);
+}
+
+.rte-bubble[hidden] {
+  display: none;
+}
+
+.rte-bubble .rte-toolbar {
+  border-bottom: 0;
+  padding: 0.2rem 0.25rem;
+}
+
+/* ── Counter ──────────────────────────────────────────────────────────────── */
+
+.rte-counter {
+  margin-inline-start: auto;
+  padding-inline: 0.4rem;
+  color: var(--rte-ink-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ── Fullscreen ───────────────────────────────────────────────────────────── */
+/* A CSS state, never the Fullscreen API: the native one takes the element out
+   of the page's stacking context, so any dialog the HOST raises — including a
+   blocking one its save path is waiting on — renders behind it or not at all.
+   The z-index sits deliberately BELOW where a host puts its modals. */
+
+[data-rte-fullscreen="true"] {
+  position: fixed;
+  z-index: var(--rte-z-fullscreen);
+  inset: 0;
+  overflow: auto;
+  background: var(--rte-paper-bg, var(--rte-surface));
+  color: var(--rte-paper-ink, var(--rte-ink));
+}

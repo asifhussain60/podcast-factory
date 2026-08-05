@@ -6,6 +6,7 @@ Exports:
   _gemini_key_available   — probe macOS keychain for Gemini API key
   phase_0g_audit_bundles  — run Claude + Gemini auditors over every chapter bundle
 """
+
 from __future__ import annotations
 
 import json
@@ -15,17 +16,18 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT
 
 AUDIT_BUNDLE_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "audit_bundle.py"
 AUDIT_BUNDLE_GEMINI_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "audit_bundle_gemini.py"
 
 
-from _subprocess import err as _err, info as _info  # noqa: E402
+from _subprocess import info as _info
 
 
 def _gemini_key_available() -> bool:
     from _secrets import get_gemini_key
+
     try:
         return bool(get_gemini_key())
     except Exception:
@@ -71,11 +73,9 @@ def phase_0g_audit_bundles(book_dir: Path, chapter_slugs: list[str]) -> dict:
         framing = bundle_dir / "00-framing.md"
         framing_mtime = framing.stat().st_mtime if framing.exists() else 0.0
         both_fresh = (
-            claude_audit.exists() and claude_audit.stat().st_mtime > framing_mtime
-            and (
-                not gemini_ok
-                or (gemini_audit.exists() and gemini_audit.stat().st_mtime > framing_mtime)
-            )
+            claude_audit.exists()
+            and claude_audit.stat().st_mtime > framing_mtime
+            and (not gemini_ok or (gemini_audit.exists() and gemini_audit.stat().st_mtime > framing_mtime))
         )
         if both_fresh:
             _info(f"  [{slug}] audits up-to-date, skipping")
@@ -85,23 +85,29 @@ def phase_0g_audit_bundles(book_dir: Path, chapter_slugs: list[str]) -> dict:
         _info(f"  [{slug}] auditing bundle {bundle_dir.name}/ (Claude{' + Gemini' if gemini_ok else ''})")
 
         procs: list[tuple[str, subprocess.Popen]] = []
-        procs.append((
-            "claude",
-            subprocess.Popen(
-                [sys.executable, str(AUDIT_BUNDLE_SCRIPT), str(bundle_dir),
-                 "--out", str(claude_audit)],
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-            ),
-        ))
-        if gemini_ok:
-            procs.append((
-                "gemini",
+        procs.append(
+            (
+                "claude",
                 subprocess.Popen(
-                    [sys.executable, str(AUDIT_BUNDLE_GEMINI_SCRIPT), str(bundle_dir),
-                     "--out", str(gemini_audit)],
-                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                    [sys.executable, str(AUDIT_BUNDLE_SCRIPT), str(bundle_dir), "--out", str(claude_audit)],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
                 ),
-            ))
+            )
+        )
+        if gemini_ok:
+            procs.append(
+                (
+                    "gemini",
+                    subprocess.Popen(
+                        [sys.executable, str(AUDIT_BUNDLE_GEMINI_SCRIPT), str(bundle_dir), "--out", str(gemini_audit)],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                    ),
+                )
+            )
 
         per_auditor: dict[str, dict] = {}
         for name, p in procs:
@@ -141,9 +147,7 @@ def phase_0g_audit_bundles(book_dir: Path, chapter_slugs: list[str]) -> dict:
             "gemini_rc": per_auditor.get("gemini", {}).get("rc"),
             **sev_total,
         }
-        _info(
-            f"  [{slug}] done · P0={sev_total['p0']} P1={sev_total['p1']} P2={sev_total['p2']}"
-        )
+        _info(f"  [{slug}] done · P0={sev_total['p0']} P1={sev_total['p1']} P2={sev_total['p2']}")
 
     summary = audits_dir / "0g-audit-summary.md"
     lines = [

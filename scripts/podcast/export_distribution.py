@@ -42,21 +42,22 @@ import re
 import shutil
 import sys
 from pathlib import Path
-from typing import Any
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _paths import resolve_content  # noqa: E402
+from _paths import resolve_content
+
 # R4 unification: share ONE reading-edition PDF finder (titled copy preferred,
 # book.pdf fallback) so delivery and distribution ship the SAME PDF for a book.
-from deliver_book import _find_pdf  # noqa: E402
+from deliver_book import _find_pdf
 
 GOOGLE_DRIVE_CLOUD = Path.home() / "Library" / "CloudStorage"
-PODCAST_LIBRARY    = "Podcast Library"
+PODCAST_LIBRARY = "Podcast Library"
 
 
 # ─── Google Drive detection ───────────────────────────────────────────────────
+
 
 def _find_google_drive_root() -> Path | None:
     """Return the 'My Drive' root if Google Drive Desktop is mounted.
@@ -80,6 +81,7 @@ def _find_google_drive_root() -> Path | None:
 
 # ─── Meta + naming helpers ────────────────────────────────────────────────────
 
+
 def _read_title(book_dir: Path) -> str:
     """Read title from meta.yml; fall back to slug."""
     meta = book_dir / "meta.yml"
@@ -91,10 +93,29 @@ def _read_title(book_dir: Path) -> str:
     return book_dir.name.replace("-", " ").title()
 
 
-_LOWERCASE_WORDS = frozenset({
-    "a", "an", "the", "and", "but", "or", "nor", "for", "so", "yet",
-    "at", "by", "in", "of", "on", "to", "up", "as", "if",
-})
+_LOWERCASE_WORDS = frozenset(
+    {
+        "a",
+        "an",
+        "the",
+        "and",
+        "but",
+        "or",
+        "nor",
+        "for",
+        "so",
+        "yet",
+        "at",
+        "by",
+        "in",
+        "of",
+        "on",
+        "to",
+        "up",
+        "as",
+        "if",
+    }
+)
 
 
 def _title_case(slug: str) -> str:
@@ -170,7 +191,7 @@ def _episode_map(book_dir: Path) -> dict[str, str]:
         if ep_entry.is_dir():
             name = ep_entry.name
         elif ep_entry.suffix == ".txt":
-            name = ep_entry.stem          # strip .txt → EP##-<slug>
+            name = ep_entry.stem  # strip .txt → EP##-<slug>
         else:
             continue
         num, human = _ep_human_title(name)
@@ -180,6 +201,7 @@ def _episode_map(book_dir: Path) -> dict[str, str]:
 
 
 # ─── Core export logic ────────────────────────────────────────────────────────
+
 
 def _copy(src: Path, dst: Path, dry_run: bool) -> bool:
     try:
@@ -207,8 +229,7 @@ def export(
     """
     book_dir = resolve_content(slug)
     if not book_dir.exists():
-        print(f"export_distribution: book dir not found for '{slug}'",
-              file=sys.stderr)
+        print(f"export_distribution: book dir not found for '{slug}'", file=sys.stderr)
         return 1
 
     title = _read_title(book_dir)
@@ -218,16 +239,15 @@ def export(
         drive = _find_google_drive_root()
         if drive is None:
             print(
-                "export_distribution: Google Drive not mounted and no --output-dir "
-                "supplied; skipping export.",
+                "export_distribution: Google Drive not mounted and no --output-dir supplied; skipping export.",
                 file=sys.stderr,
             )
-            return 0   # non-fatal — publish succeeded, export skipped
+            return 0  # non-fatal — publish succeeded, export skipped
         output_root = drive
 
-    dest_book   = output_root / PODCAST_LIBRARY / title
-    dest_audio  = dest_book / "Episodes" / "Audio"
-    dest_video  = dest_book / "Episodes" / "Video"
+    dest_book = output_root / PODCAST_LIBRARY / title
+    dest_audio = dest_book / "Episodes" / "Audio"
+    dest_video = dest_book / "Episodes" / "Video"
 
     if not dry_run:
         dest_audio.mkdir(parents=True, exist_ok=True)
@@ -248,14 +268,14 @@ def export(
         if _copy(pdf, dest_book / f"{title}.pdf", dry_run):
             copied += 1
     else:
-        print(f"  WARN: reading-edition PDF not found in book/ — PDF not exported")
+        print("  WARN: reading-edition PDF not found in book/ — PDF not exported")
         skipped += 1
 
     # Audio
     audio_map = _find_audio(book_dir)
     for num, src in sorted(audio_map.items()):
         human = ep_titles.get(num, f"Episode {num}")
-        dst   = dest_audio / f"{_ep_label(num, human)}.m4a"
+        dst = dest_audio / f"{_ep_label(num, human)}.m4a"
         if _copy(src, dst, dry_run):
             copied += 1
 
@@ -267,7 +287,7 @@ def export(
     video_map = _find_video(book_dir)
     for num, src in sorted(video_map.items()):
         human = ep_titles.get(num, f"Episode {num}")
-        dst   = dest_video / f"{_ep_label(num, human)}.mp4"
+        dst = dest_video / f"{_ep_label(num, human)}.mp4"
         if _copy(src, dst, dry_run):
             copied += 1
 
@@ -284,6 +304,7 @@ def export(
 
 # ─── CLI ──────────────────────────────────────────────────────────────────────
 
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=__doc__,
@@ -291,11 +312,13 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("slug", help="Book slug, e.g. ayyuhal-walad")
     parser.add_argument(
-        "--output-dir", metavar="DIR",
+        "--output-dir",
+        metavar="DIR",
         help="Root output directory (default: auto-detect Google Drive My Drive)",
     )
     parser.add_argument(
-        "--dry-run", action="store_true",
+        "--dry-run",
+        action="store_true",
         help="Print what would be copied without writing anything",
     )
     args = parser.parse_args(argv)

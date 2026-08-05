@@ -19,19 +19,22 @@ finds no rename actions, so it completes immediately. Engine routing reuses the
 SAME `notebooklm_episode_filter` the finalize halt uses, so the halt card and
 this phase can never disagree about which episodes need the ritual.
 """
+
 from __future__ import annotations
 
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _progress import read_state, update_phase  # noqa: E402
-from _subprocess import err as _err, info as _info  # noqa: E402
+from _progress import read_state, update_phase
+from _subprocess import err as _err
+from _subprocess import info as _info
 
 
 def _episode_mapping(book_dir: Path) -> list[dict]:
     """The episode↔chapter mapping, via the finalize-halt discovery (one source)."""
-    from phases.chapter_driver import _discover_episode_mapping  # noqa: PLC0415
+    from phases.chapter_driver import _discover_episode_mapping
+
     return _discover_episode_mapping(book_dir)
 
 
@@ -41,7 +44,8 @@ def _canonical_stems_by_num(book_dir: Path) -> dict[int, str]:
     so the completeness check targets the SAME canonical names normalize_m4a /
     transcribe_notebooklm write (letter suffixes included).
     """
-    from normalize_m4a import load_chapters  # noqa: PLC0415
+    from normalize_m4a import load_chapters
+
     return {c.num: c.stem for c in load_chapters(book_dir)}
 
 
@@ -61,28 +65,31 @@ def drive_audio_ingest(book_dir: Path) -> tuple[str, int]:
 
     # ── Resolve which episodes need the NotebookLM ritual ────────────────────
     try:
-        from _audio_engines import notebooklm_episode_filter  # noqa: PLC0415
+        from _audio_engines import notebooklm_episode_filter
+
         mapping = _episode_mapping(book_dir)
         all_eps = [e["episode"] for e in mapping]
         nlm_filter = notebooklm_episode_filter(book_dir, all_eps)
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         _err(f"audio-ingest: could not resolve audio engine — {exc}")
         update_phase(book_dir, phase="audio-ingest", status="failed", error=str(exc))
         return "failed", 2
 
     # Pure-autonomous book (empty set): no manual audio at all.
     if nlm_filter == set():
-        update_phase(book_dir, phase="audio-ingest", status="skipped",
-                     extras={"reason": "no NotebookLM episodes (autonomous engine)"})
+        update_phase(
+            book_dir,
+            phase="audio-ingest",
+            status="skipped",
+            extras={"reason": "no NotebookLM episodes (autonomous engine)"},
+        )
         _info("phase: audio-ingest · skipped (autonomous audio engine — no manual drop).")
         return "skipped", 0
 
     # nlm_filter is None (pure NotebookLM → all) or a non-empty subset (mixed).
-    nlm_entries = mapping if nlm_filter is None else [
-        e for e in mapping if e["episode"] in nlm_filter]
+    nlm_entries = mapping if nlm_filter is None else [e for e in mapping if e["episode"] in nlm_filter]
     if not nlm_entries:
-        update_phase(book_dir, phase="audio-ingest", status="skipped",
-                     extras={"reason": "no episodes to ingest"})
+        update_phase(book_dir, phase="audio-ingest", status="skipped", extras={"reason": "no episodes to ingest"})
         return "skipped", 0
 
     _info("phase: audio-ingest · normalize + transcribe dropped NotebookLM audio")
@@ -96,13 +103,14 @@ def drive_audio_ingest(book_dir: Path) -> tuple[str, int]:
     worklist = book_dir / "_system" / "notebooklm-worklist.md"
     worklist_hint = (
         f"  See the worklist: {worklist.relative_to(book_dir.parents[2])}"
-        if worklist.exists() else
-        "  Re-run after dropping the generated .m4a files under m4a/.")
+        if worklist.exists()
+        else "  Re-run after dropping the generated .m4a files under m4a/."
+    )
 
     # ── Presence gate: has the operator dropped anything yet? ────────────────
     try:
-        from normalize_m4a import plan_book, apply_plan  # noqa: PLC0415
-    except Exception as exc:  # noqa: BLE001
+        from normalize_m4a import apply_plan, plan_book
+    except Exception as exc:
         update_phase(book_dir, phase="audio-ingest", status="failed", error=str(exc))
         _err(f"audio-ingest: normalize_m4a unavailable — {exc}")
         return "failed", 2
@@ -112,8 +120,9 @@ def drive_audio_ingest(book_dir: Path) -> tuple[str, int]:
     loose_audio = [e for e in plan if e.get("kind") == "audio"]
 
     if not present_canonical and not loose_audio:
-        update_phase(book_dir, phase="audio-ingest", status="halted",
-                     extras={"reason": "awaiting NotebookLM audio drop"})
+        update_phase(
+            book_dir, phase="audio-ingest", status="halted", extras={"reason": "awaiting NotebookLM audio drop"}
+        )
         _info("audio-ingest halted — no audio dropped yet.")
         _info(worklist_hint)
         return "halted", 3
@@ -124,7 +133,7 @@ def drive_audio_ingest(book_dir: Path) -> tuple[str, int]:
             renamed = apply_plan(book_dir, plan, log=_info)
             if renamed:
                 _info(f"  normalized {renamed} dropped file(s) to canonical order.")
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             update_phase(book_dir, phase="audio-ingest", status="failed", error=str(exc))
             _err(f"audio-ingest: normalize failed — {exc}")
             return "failed", 2
@@ -134,9 +143,10 @@ def drive_audio_ingest(book_dir: Path) -> tuple[str, int]:
 
     # ── Transcribe every canonical m4a still missing its transcript ──────────
     try:
-        from transcribe_notebooklm import transcribe_book  # noqa: PLC0415
+        from transcribe_notebooklm import transcribe_book
+
         transcribe_book(book_dir, log=_info)
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         update_phase(book_dir, phase="audio-ingest", status="failed", error=str(exc))
         _err(f"audio-ingest: transcription failed — {exc}")
         return "failed", 2
@@ -150,23 +160,23 @@ def drive_audio_ingest(book_dir: Path) -> tuple[str, int]:
             missing.append(f"{ep}: m4a/transcripts/{stem}.transcript.txt")
 
     if missing:
-        update_phase(book_dir, phase="audio-ingest", status="halted",
-                     extras={"missing": missing})
+        update_phase(book_dir, phase="audio-ingest", status="halted", extras={"missing": missing})
         _info(f"audio-ingest halted — {len(missing)} episode(s) still missing audio/transcript:")
         for m in missing:
             _info(f"    · {m}")
         _info(worklist_hint)
         return "halted", 3
 
-    update_phase(book_dir, phase="audio-ingest", status="completed",
-                 extras={"episodes_ingested": len(expected)})
+    update_phase(book_dir, phase="audio-ingest", status="completed", extras={"episodes_ingested": len(expected)})
     try:
-        from phases.scaffold import phase_git_commit  # noqa: PLC0415
+        from phases.scaffold import phase_git_commit
+
         phase_git_commit(
             book_dir,
             f"podcast({book_slug}): phase audio-ingest "
-            f"({len(expected)} NotebookLM episode(s) normalized + transcribed)")
-    except Exception as exc:  # noqa: BLE001 — commit failure must not block the ship
+            f"({len(expected)} NotebookLM episode(s) normalized + transcribed)",
+        )
+    except Exception as exc:
         _info(f"  [audio-ingest commit skipped: {exc}]")
     _info(f"phase audio-ingest complete · {len(expected)} episode(s) have audio + transcript.")
     return "ingested", 0

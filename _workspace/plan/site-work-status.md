@@ -1,14 +1,1453 @@
-<!--
-  SINGLE LIVING SOURCE for "where the work stands." The SessionStart hook
-  (.claude/hooks/site-work-status.sh) injects this into every new conversation so
-  the next session inherits context with zero re-reminding (WC7e). KEEP IT SHORT and
-  CURRENT. Recover older entries from git history when needed.
--->
 # Current work - status
 
-**Last updated:** 2026-07-16 6:55 AM EST (Composer header redesign + Layout mode retired + shared autosave module)
+**Last updated:** 2026-08-05 (A cited book prints under its English name, every
+Arabic quotation looks like one, and an editorial note reads as a note)
 
-**Newest — Composer header redesign, Layout mode retired, autosave made shared infrastructure.**
+**Newest — three things Asif reported from the Book Composer, all fixed at the
+source. Not deployed; no PDF re-rendered.**
+
+- **Work titles.** `work_title` joins the annotation registry
+  (`_annotation_policy`), and `_book_work_titles` prints a cited book's English
+  translation alone WHERE THE PROSE ALREADY SUPPLIES ONE. A title the author
+  names bare keeps his own words — the English is always lifted from the bracket
+  beside the title, never from the glossary and never from a model.
+- **Arabic display quotations.** `_book_arabic_blocks` gives every one the same
+  shape: a blockquote holding its own English rendering, so the page draws
+  `p.ar` + `p.tr` — Arabic centred in maroon at display size, translation
+  centred beneath. Ten stray paragraphs promoted, 53 renderings joined on
+  `ayyuhal-walad`; ten deliberately left out because the author's commentary
+  continues in the same paragraph.
+- **Editorial notes.** `blockquote.aside` finally has a panel, one rule shared by
+  the Composer, the reader and print. Fixed in three places: the print renderer
+  marks the fenced span regardless of `selfStudy`, `markdown.ts` flushes before
+  clearing the fence in EDIT mode too, and the editor's class allow-list carries
+  `aside` and its kinds. The citation families no longer strip the fence from an
+  aside — they style the book's QUOTATIONS, and an apparatus note is not one.
+- Both new passes are sequenced by `_book_shape` as ONE apparatus step
+  (`text-shape`): `_book_apparatus` sits at the 600-line DR-005 cap and two more
+  blocks put it over.
+- Open, reported not fixed: `_translit` keeps a word-initial ayn
+  (`Rabbul 'Alamin`) while dropping one inside a word. Worked around locally in
+  `_book_work_titles._spellings` rather than changed, because that module is
+  half a fixture-pinned TS/Python pair every book runs through.
+
+---
+
+**Previous — the Companion is in the reader, and only Asif can see it.**
+
+Asif: reading a chapter on the Listener should open the Ismaili Scholar Companion
+where the Notes drawer is, for `asifhussain60@gmail.com` and nobody else, with
+the Composer's behaviour — the explained sentence tinted, the card following the
+page.
+
+- **The cards travel at publish time.** `companion_note` (migration 0007) is
+  written from `_system/companion-notes/*.json` by `publish_to_listener.py`, body
+  markdown rendered ONCE through the admin site's own `cardMarkdownToHtml`. The
+  notes are filed under `sectionKeyFromHeading`, which keeps the heading's
+  ordinal, while every table here keys a chapter by `anchor_key`, which strips
+  it: the two are reconciled at publish time by ASKING the renderer bridge for
+  the section key, so no fifth TS↔Python mirror was created. Both new functions
+  are pinned by the golden fixture.
+- **One reader, and the query is never made for anybody else.**
+  `companionFor` (its own module — `catalog.server.ts` says of itself that
+  nothing in it asks who may see what) returns `[]` without touching the database
+  unless `viewer.isAdmin`. `npm run security` fires the leak request as a FULLY
+  GRANTED non-admin with the administrator's copy of the same page as the
+  control; a unit test hands the non-admin path a database that throws if
+  anything is asked of it.
+- **One paint pass owns the chapter DOM.** The tint is a second class inside
+  `paintHighlights`, not a second painter: two painters would each strip "what
+  the last run added" and take the other's marks off with it. A reader's own
+  highlight over an explained sentence nests inside the tint and both survive —
+  photographed, not assumed.
+- **A card whose sentence is gone is shown and says so.** Passages resolve
+  through `resolveAnchor` with no offsets and no prefix, so it falls to the
+  whole-chapter search and refuses on ambiguity. Nothing is guessed onto a
+  paragraph.
+- **The drawer is decided by WHO, never by what exists.** From `isAdmin`, not
+  from whether this chapter has cards — otherwise the right-hand panel would be
+  the Companion on two chapters and the notes list on the other seven.
+- **It stands OPEN, which meant docking it.** Above 64rem the Companion is open
+  when the chapter opens and the page lays out in the width it leaves — no
+  scrim, because nobody reads through one. Below that width it is an ordinary
+  drawer and does not open by itself; opening it there would land a reader on a
+  chapter they must dismiss something to read. Measured at 1024/1280/1440: the
+  panel never overlaps the sheet and nothing scrolls sideways.
+- **Which panel a reader gets is pinned three ways** — the route rendered to
+  static markup (`test/reader-drawer.test.tsx`, verified by inverting the branch
+  and watching three of its five fail), the query handed a database that throws
+  (`test/companion.test.ts`), and the real request as a fully granted non-admin
+  with the administrator's page as the control (`npm run security`).
+- **Known, not a defect in the code:** the one card whose `anchor` was saved as a
+  truncated copy of its own quote prints that truncation as its title and the
+  full sentence under it. The Composer shows the same duplication from the same
+  field; the fix is a real label on the note, not a presentation rule here.
+
+**Previously — the Access screen is People, and the numbers moved above the tabs.**
+
+Asif, on the two screenshots: drop the Overview tab, make People the default and
+its metrics a single row keeping only the highest-value numbers across people and
+content, move the list to the right of the invite form as an alphabetical
+paginated table with the search on top and more filters, seed a hundred dummy
+records to see it at size, combine first/last name into one field, drop the note
+field, and stop the whole thing being so bland.
+
+- **`/admin` IS the people screen now.** `admin._index.tsx` used to be an
+  Overview tab holding five numbers and two links, so the page an administrator
+  works on was never the one that opened. `admin/people` is gone as a URL, which
+  moved the security manifest's case-variant probe to `/Admin/content` — it has
+  to name a route that EXISTS and is nested, or its 404 proves only that React
+  Router matched nothing.
+- **The strip lives in the LAYOUT**, above both tabs, because it describes Access
+  as a whole. Five tiles chosen by whether the number makes somebody act:
+  invited, never signed in, no access yet, readable now, open to everyone. Each
+  links to the view that produced it. Revoked and not-yet-published were dropped
+  — near-always zero and still one click away.
+- **Tone only where it earns it.** The two tiles that can describe somebody
+  quietly stuck take a warning tone ONLY while their count is above zero. Fill at
+  10-12% of the tone with the text inked to 75% of it: the raw token on a tint of
+  itself measures 4.00:1 on sepia, i.e. under AA at pill size.
+- **Two filters added** — whole library (the widest grant, given by one button,
+  previously unauditable) and gone quiet (signed in once, not seen in 30 days).
+  Its cutoff uses `strftime`, not `datetime`: stored timestamps carry a `T` and a
+  `Z`, and `datetime()`'s space sorts below every one of them, so the filter would
+  have matched nobody forever. Test-pinned.
+- **One name field, two columns.** `splitName` puts the last word in the surname;
+  the halves rejoin in order with one space, so what is displayed is what was
+  typed. The note COLUMN stays and an existing note still shows — deleting what
+  the administrator once wrote is not a form change.
+- **A hundred invented readers, LOCAL only** (`npm run seed:people`,
+  `--clear` to undo). Not a migration: a row in `invite` is permission to sign in
+  to the live site, and the deploy applies migrations before it ships code.
+  `@example.invalid` is unroutable by RFC 2606 and is what `--clear` matches.
+
+**Five defects the visual pass found, each fixed and re-shot:**
+- The strip wrapped 4 + 1 at 1440px — `auto-fit` with a 12rem floor fits only
+  four in a 64rem container, so the fifth tile sat alone looking like an
+  afterthought. Explicit five columns above 1000px.
+- Five columns did not fit the working column's 624px. Addresses broke three ways
+  mid-word; giving them room pushed Signed-in and Standing off the right edge
+  behind the scroller. Name and address are ONE column now — they are one fact,
+  who this is — and the table is `table-layout: fixed` so widths are arithmetic
+  rather than a negotiation.
+- Four of the five tile labels wrap at that width, so the numbers sat at five
+  different heights. The label is a grid with a two-line floor.
+- The name link was a 19px tap target and the runtime gate failed it at phone and
+  tablet — correctly, since it is the only way to open somebody.
+- One tile per line made the strip 800px tall on a phone: a glance that has to be
+  scrolled is not one. Two up and smaller below 560px.
+
+**Observed, deliberately NOT changed:** `.pf-panel__head` mixes 8% of the accent
+into the surface, and on the sepia palette that muted navy over cream reads as a
+cool grey rather than as a tint. It is the site's existing answer for every panel
+head — the invite panel beside it agrees — so re-toning it is a whole-site
+decision to take with Asif, not a side effect of this screen.
+
+**Then, in the same session — three follow-ups from Asif.**
+
+**"Ensure the deploy script does not move the dummy records over to the live
+site."** Four doors, each now pinned rather than merely closed:
+- `seed-people.mjs` refuses `--remote` (and any flag but `--clear`) with the
+  reason, instead of silently ignoring it.
+- `deploy_listener.sh` gained an **Invented people** step that reads PRODUCTION
+  for any address in a `.invalid` domain — invites and grants — before the Worker
+  ships, and refuses to deploy on a match OR on an answer it could not parse. It
+  verifies the destination instead of reasoning about the route. `--worker-only
+  --dry-run` is therefore a read-only audit of who can sign in to the live site.
+- Four tests in `config.test.ts`: the seed has no remote path, no migration
+  carries a reserved fixture domain, `publish_to_listener.py` never names `invite`
+  or `access_grant`, and the deploy still runs the check before the Worker.
+- Mutation-tested: putting `--remote` in the seed and removing the deploy step
+  each turn the relevant test red, and both go green again on revert.
+
+**"There is no option to edit or delete the people from the list."** Both are in
+the row now, through `useFetcher` rather than `<Form>` — a form POST is a
+navigation, so renaming somebody on page three would answer correctly and then
+throw away where you were.
+- **Rename** swaps the person cell for a box holding what was RECORDED (not what
+  the row displays — an unnamed person displays their address, and prefilling that
+  invites saving an address as a name). The address stays visible underneath,
+  because the box covers the name.
+- **Delete is not revoke**, and both exist deliberately: revoke keeps the row and
+  the grants so re-inviting restores everything, and this is for a row that should
+  not exist. It takes the grants WITH the person — `access_grant` keys on email,
+  so a grant left behind is dormant, not gone, and inviting that address again
+  would silently restore every book it held. Sessions end too; the access_event
+  survives.
+- The confirmation spans the whole row rather than living in the 80px actions
+  column, where it wrapped a name across three lines and stacked its buttons.
+- No delete on the administrator's own row, in the UI and again in the action:
+  unlike a revocation there would be nothing left to restore.
+
+**"Move the sign out to the right after the color schemes."** Done in
+`SiteHeader`, so every signed-in page moved together. The order now reads: links
+that go somewhere, then the control that changes how this page looks, then the one
+thing that ends the session — which was the only item in that row that cannot be
+undone by pressing something else.
+
+Two things the visual pass caught in the follow-ups: the delete confirmation
+trapped in its column (above), and "Add to the invitation list" wrapping onto two
+lines once the aside narrowed — `.pf-button--block` now uses a space-3 side
+gutter, since a full-width button does not need padding sized for one that hugs
+its words.
+
+Gates: 251 tests, `npm run smoke` all clear (17 routes x 4 widths), `npm run
+security` all checks passed, build clean.
+
+---
+
+**Previous — contents is a panel on the left, and the toolbar is a card.**
+
+Asif, on the layout above: move contents to a left collapsible panel and take it
+out of the toolbar entirely; drop the duplicate width dropdown; frame the toolbar
+with a border, a radius and a shadow; align the prev/next cards with the sheet's
+edges rather than the window's; and close the gap above them.
+
+- **`ContentsPanel.tsx`** — collapsed it is a tab on the left edge carrying its
+  own label; expanded it is the notes drawer mirrored. Nothing in the toolbar
+  refers to it. Two earlier attempts put a way of LEAVING the chapter into the
+  row of controls for how the chapter is SET.
+- **Line width is gone.** It and line spacing were different settings that both
+  read "Normal" at their defaults, so side by side they were two dropdowns
+  nobody could tell apart. `MEASURES` stays in `lib/reading.ts` so a measure
+  stored by an earlier visit still validates.
+- **The prev/next cards were a regression from the previous change** — splitting
+  the head out of the page container left them a sibling of it, so they ran to
+  both edges of the window. Back inside; measured identical to the sheet.
+- Gap above them 6rem → 3rem, matching the page's own rhythm.
+
+**Four defects the visual pass found, each fixed and re-shot:**
+- The new border was cut mid-edge whenever the row scrolled — a rounded left
+  corner and a right edge running off the screen. The CARD is the scroller now,
+  not the rail, so the frame stays whole at every width.
+- The contents control as a bottom-left floating button sat on the text: below
+  640px the sheet is full-bleed and nothing fixed can float without covering
+  prose. It is a 28px edge tab living inside the sheet's own gutter, which was
+  widened by a quarter rem to match. Verified clear at 360 / 390 / 639 / 640 /
+  768 / 1024 / 1440.
+- The tab was an unlabelled icon, replacing a control that had said "Contents"
+  in words. It carries a vertical label now.
+- The slim tab was keyed to 899px when the constraint is the full-bleed sheet at
+  639px, so tablets got the cramped variant with 89px of margin going spare.
+
+Removing two controls also bought the row enough width to fit unscrolled at 768.
+Both harness scripts caught their own drift twice — `shots.mjs` was still
+clicking `.pf-toolbar__place` and waiting on `.pf-toc`.
+
+**Previously — the reader is a title, a toolbar and a page, in that order.**
+
+Asif, on the toolbar shipped earlier the same night: move it above the page and
+centre it, take it out of the header, put the book's name above it in large
+type, and replace the L/S/D letters with dots.
+
+- **No header at all on the reader.** The toolbar was in a sticky bar; it now
+  sits in the flow between the title and the sheet and scrolls away with them,
+  so nothing whatever covers the prose while reading. The cost is honest and
+  accepted: changing a setting mid-chapter means scrolling up.
+- **The book's name is the `<h1>` again**, at `--pf-display` in the same navy as
+  every other page title on the site, and the chapter heading inside the sheet
+  is the `<h2>` — which is also the true nesting. A sticky bar could only ever
+  show that title as "Ayyu… Introduc…".
+- **Three dots, each painted in the theme it offers.** Letters were worse than
+  either words or dots: an isolated "S" names nothing, and only the selected one
+  was drawn as a filled shape, so the control read as one dot beside two stray
+  letters. Each button carries its own `data-theme`, which re-scopes §3's
+  palette inside it — so a dot shows the paper colour it will give you with **no
+  palette value repeated outside §3**. The selected ring reads `--pf-ring`,
+  captured on the container, or it would take the colour of whichever theme the
+  dot offers rather than the one in force.
+- **The head and the page are SIBLINGS, with two max-widths.** Nested, the rail
+  was capped at the reading column and the row scrolled even on a 1440px screen
+  with half the window empty. Done with max-widths rather than a `100vw`
+  breakout, because `100vw` includes the scrollbar and would put a horizontal
+  scrollbar on every page that has a vertical one — measured 947px of controls
+  against an 848px rail before, 1168px after.
+- **One rhythm, stated once:** 4rem above the title, 3rem between each block. It
+  was 64 / 32 / 24, which put the toolbar nearer the sheet than the title it
+  belongs with. `.pf-page` carries no top margin now, so the gap is one number
+  instead of two that were added up and disagreed at the phone breakpoint.
+- The contents drawer became an in-flow panel aligned to the sheet's own width,
+  and the harness caught its own drift: `shots.mjs` still clicked
+  `.pf-toolbar__place`, which no longer exists.
+
+Gates: 229 tests · typecheck 0 · build clean · smoke 18 routes × 4 widths clean,
+zero page overflow at 390 / 768 / 1024 / 1440.
+
+**Previously that night — the Listener remembers who is reading, and the reader
+has one row of controls instead of two surfaces.**
+
+Asif's ask: audit the whole site, redesign it on the theme from earlier the same
+day, keep progress across all views, rebuild the access screen for many people
+and many books, and put the reader's controls in a single compact toolbar with
+Kindle-style highlighting. Scope was the Listener only; `plan-dashboard/` was
+deliberately untouched.
+
+**Per-reader state is SERVER-side, with local storage as a cache.** He asked for
+local storage; local storage is per-device, so a highlight made on the iPad would
+not exist on the iPhone and clearing Safari would destroy every note. Migration
+`0006_reader_state.sql` adds `reading_progress`, `bookmark`, `annotation` and
+`listening_progress`, all keyed on the NORMALIZED email like `invite` and
+`access_grant`, and all with `(slug, anchor_key)` as loose columns — **no foreign
+key to `chapter`**, because `publish_to_listener.py` DELETEs and re-inserts that
+table on every re-publish and a cascade would erase the library's highlights each
+time a book was re-composed. A test fires exactly that sequence. Preferences
+(theme, typeface, size) stay in local storage: they are applied by a pre-paint
+script and serving them per-user would cost a flash on every load.
+
+**A highlight is anchored four ways and the QUOTE is the authority.** The
+rendered HTML carries no per-paragraph ids and adding them would mean editing
+`plan-dashboard/src/lib/reader/markdown.ts`, which the printed book also uses.
+So `app/lib/anchor.ts` stores block index, offsets, the exact quote and 48
+characters of preceding context; offsets are tried first, the quote must match,
+and a re-compose that moved the passage re-anchors and saves the correction. Two
+matches with no distinguishing prefix, or none at all, yields **orphaned** — the
+note is kept, listed, and marked "the wording here has changed", never guessed
+onto a neighbouring sentence.
+
+**The reader is one sticky row.** `ReaderSettings` (the floating "Aa" panel) and
+`ReadingControls` (the bar under the title) are both deleted; typeface and size
+had been duplicated across them. The row carries home, book · chapter, bookmark,
+notes, theme, typeface, size, spacing, width and time-left, and scrolls
+horizontally below 900px rather than collapsing into the popover that was the
+thing being removed. Theme folded into the same external store as typography, so
+two pickers on one page cannot disagree.
+
+**The access screen searches in SQL.** First and last name on the invite;
+searchable, filterable, paged people list with counts (`Everyone / Signed in /
+Never signed in / No access yet / Revoked`); grants show what is held first and a
+search to add more instead of the whole catalogue; and `/admin/content` gained
+the mirror direction — one book, search people, give it to several. The overview
+counted by loading every invitation row and taking `.length`; it asks the
+database now.
+
+**Nine defects found and fixed, several pre-existing:**
+- `invite.redeemed_at` had existed since migration 0002 and **nothing had ever
+  written it**, so every person showed as never-having-signed-in. Stamped now in
+  `session.create.before`, with `last_seen_at` beside it.
+- The site header's nav did not wrap, so **every page scrolled sideways by 14px
+  at 390px**.
+- `.pf-note` was used for a new component AND for the site's existing muted
+  paragraph, which put a border and a padded box around prose on every admin
+  screen. Renamed `.pf-mark`.
+- The player keyed listening position on the media URL, which changes when audio
+  is re-uploaded — so a re-upload silently lost everyone's place.
+- "Send invitation" sent nothing; there is no mail transport in this repo. It
+  says what it does now and hands over the link.
+- The administrator could revoke their own sign-in and lock themselves out
+  irrecoverably. Refused in the action, not only in the UI.
+- "about 1 minutes"; an email upper-cased as a panel title; a progress meter that
+  shrink-wrapped to 80px; eight dead CSS classes; a README whose entire styling
+  section named three stylesheets that do not exist.
+
+**New: `npm run smoke` and `npm run shots` — the runtime gate this app never
+had.** `npm run check` was typecheck + tests + build and had never opened a page.
+Smoke visits every route as three identities (admin, a reader with one book, a
+reader with none) at four widths and fails on any console error, uncaught
+exception, failed request, wrong status, undeclared redirect, horizontal overflow
+or under-size touch target — and the denied routes are ACCESS assertions, not
+just visits. Shots does the same as PNGs across three themes plus the reader's own
+states (contents open, selection bar up, highlighted, notes drawer).
+
+**The standing note that signed-in pages are unreachable by a browser is now
+wrong** — `scripts/session-cookie.mjs` mints a valid cookie against the local D1,
+which is what `security-smoke.mjs` had always done over HTTP; Playwright uses the
+same cookie. The `renderToStaticMarkup` workaround is not needed and was never
+committed.
+
+Gates: 229 site tests · typecheck 0 · build clean · security-smoke clean ·
+smoke 18 routes × 4 widths clean. `content/` untouched throughout.
+
+**Previous — the Listener's book page is rebuilt as tabs on the theme from
+earlier the same day; the book-lane note below is unchanged and still open**
+
+**Newest — a book page is three tabs and a panel, not two columns and a list.**
+
+`/book/:slug` used to set the chapters and the episodes side by side with the
+deck as a third block below. Nine chapters beside twenty episodes meant whichever
+list you were reading, the other was moving in the corner of your eye — so Read,
+Listen and Slides are now one ARIA tablist with one panel visible, Read first.
+The Slides tab shows the DECK, not a link to it: the viewer moved to
+`app/components/DeckViewer.tsx` and `/book/:slug/slides` is now that component
+plus a masthead, so the two cannot drift.
+
+Around it: the description moved into a full-width white panel under a centred
+masthead; the print-edition button moved out of the masthead to the head of the
+Read panel, beside the chapters it is another format of; rows are striped;
+`--l-font-ui` is **Inter**, replacing IBM Plex Sans everywhere.
+
+New in the theme, all Bootstrap-derived and all reusable: `.pf-panel`
+(their `.card` + `.card-header`), `.pf-tabset` (their `.nav-pills`, drawn on the
+same track as `.pf-swatches`), `.pf-rows--striped` (`.table-striped`) and
+`.pf-button--soft` (`.btn-*-subtle`). No new palette tokens — every tint is
+`color-mix` off `--l-accent` or `--l-sunken`, so a fourth palette still costs one
+block in §3 and `theme.test.ts` still holds it to AA.
+
+**A trap worth knowing before the next visual pass:** the Chrome instances the
+browser extension offers cannot reach this machine's loopback (they load
+example.com and refuse `127.0.0.1:5273`), and `npm run dev` binds `[::1]` only.
+The book page is behind Google sign-in, so neither the in-app browser nor a
+headless one can see it. What worked was rendering the real component tree with
+`renderToStaticMarkup` against the local D1 and the dev server's own compiled CSS
+(`/app/app.css?direct`), served out of `public/`, then screenshotting that.
+
+**Newest — the Listener now has a theme, where before it had class strings.**
+
+Every design decision on `podcast-factory.safinaverse.com` used to live in
+Tailwind utilities inside eighteen TSX files, which meant a new theme was an
+eighteen-file refactor. It is now one authored stylesheet,
+`listener/app/styles/podcast-factory.css`, in seven numbered sections; §3 is the
+only place a palette lives, and adding a theme is one block there plus one entry
+in `THEMES`. Proved by adding a throwaway fourth palette, screenshotting the
+library under it, and deleting it. `listener/test/theme.test.ts` re-derives every
+contrast ratio on every run, so a palette added later meets the same AA floor.
+
+Also shipped: the real logo (trimmed — the source PNG was 62% padding — with the
+mark redrawn as SVG so it survives 28px), a sign-in hero, a sign-out route,
+Amiri as an Arabic DISPLAY face, and Font Awesome icons.
+
+**One rule not to relax:** Amiri is display only. The reading column keeps
+Scheherazade New, which is engineered for the fully-vowelled prose this corpus
+carries. Three tests in `theme.test.ts` pin it — §7 may not reference
+`--l-font-arabic-display`, and `:lang(ar)` may not bind it.
+
+**Scope note:** this was the Listener (`listener/`). The Astro site
+(`plan-dashboard/`) was deliberately untouched and still wears its own look.
+
+**Newest — the Arabic rule reached the other six books, and four defects came out
+with it.**
+
+The 2026-08-02 rule (Arabic terms print in Arabic) had only ever been applied to
+`degrees-of-excellence`, because the machinery that applies it lived inside a
+compose whose earlier stages re-run models over the prose. It is now
+`_book_apparatus.apply_book_apparatus`, called both by `compose_book_v2` as its own
+tail and standalone by `apply_book_apparatus.py`. Across seven books: 296 doubly
+bracketed honorifics gone, 13 retired `(translit, script)` brackets gone, 24
+scholarly diacritics gone, Arabic runs 10,685 → 12,332. No model rewrote a line.
+
+Four defects surfaced by diffing every book sentence by sentence. Three share one
+root cause — a byte comparison where only a consonantal skeleton is safe, because
+the prose's vowelling and the glossary's were written by different passes. The
+worst DELETED an author's own English: `(عُبَيْدُ اللَّهِ, 'little servant of Allah')`
+became `(عُبَيْدُ اللّٰه)` in a sentence about what the names mean. A fourth, outside
+that family: `simplify_transliteration` destroyed single-quoted speech, because a
+closing quote and a word-final ayn look identical. All four fixed with tests; every
+book restored to its pre-run text and re-derived clean after each fix.
+
+**Open, and deliberately so.** No PDF has been re-rendered — rendering copies each
+file to Google Drive, so it waits on Asif. Two hazards are recorded in
+`pending-work.yaml`: al-anwaar and asaas declare no `narrative_frame` and any future
+model pass will rewrite them into the wrong grammatical person; and the
+zero-transliteration rule and the once-per-book annotation policy disagree about a
+term's second mention, which is why ayyuhal-walad still prints *mujahadah* bare.
+
+**Earlier — `(2:24)` reaches the page as `(Al-Baqarah: 24)`.**
+
+Asif: "2:24 should be replaced by (Al-Baqarah: 24). This should be done for all
+pdfs moving forward." A bare number is a lookup key, not a reference — it asks a
+reader who does not read Arabic to already know which surah 2 is.
+
+- **One house form, `(Name: ayah)`**, and every shape collapses onto it. "Quran"
+  goes with the number, because once the surah is named it says nothing the name
+  does not. A range keeps both ends: `(Ibrahim: 24-26)`. All 23 citations in
+  `degrees-of-excellence` renamed; the rendered PDF carries 23 named and zero
+  numeric.
+- **The rename is readable by its own pipeline**, which is the whole risk.
+  `find_citations` reads BOTH forms, so a re-compose still finds the book's 23
+  cited verses instead of reporting a book that cites none and quietly ceasing to
+  maintain their Arabic. The named pattern is not a general "word: number" — the
+  text must BE one of the 114 names, so `(see: 24)` is never scripture.
+- The names are the site's own 114, now **pinned to one shared fixture** and
+  declared in the audit contract.
+
+**Q 6:149 was never missing — the page break hid it.**
+
+The scan opens the ornate run at the foot of page 192 and finishes it at the head
+of 193, with that page's thirteen apparatus notes, the running header and the
+folio number between the halves. A perfect four-word quotation scored 0.02 against
+its own span and was discarded. Fixed in the tracked OCR ledger — **brackets only,
+not one letter moves** — after two attempts in the alignment were measured and
+reverted: a span-gap rule recovered 6:149 but cost Q 17:77 its opening two words,
+and preferring the fuller search would have printed twelve words of Q 68:43 where
+the scan prints seven. **Coverage is 23 of 23.**
+
+**Two things the re-compose surfaced.**
+
+- **The mirror stores some ayat inside a U+200F … U+200E pair**, and each caller
+  was responsible for remembering to strip it. Two did; `_book_compose` did not,
+  and put both marks into a printed verse. Stripped at the mirror's boundary now,
+  so forgetting is no longer possible.
+- **The one chapter without a Composer edit drifted.** Every other chapter is
+  human-authored and passes through untouched, but "3. Degrees of Excellence" was
+  re-articulated: four `I say` became `We say` against the book's own voice, and
+  `Abraham (ع)` lost its honorific — an Arabic-retention miss the revoice gate did
+  not catch. Restored from the prior text and the deterministic passes re-applied.
+  **It will drift again on every compose until it is saved once in the Composer**,
+  which is what pins a chapter.
+
+Gates: pytest 2,138 · site tests 364 · smoke 36 clean · lint:views 0 · astro check
+0 errors · repo probe 1 pre-existing P3. PDF re-rendered at 91 pages.
+
+**Newest — the book quoted 23 verses and printed the Arabic of two.**
+
+`degrees-of-excellence` shipped 21 of its 23 cited verses as English with a bare
+`(5:13)` after them, and the Arabic audit reported `unverified: 0` the whole time.
+Every rule in the audit asks whether the script that IS on the page is right; none
+asked whether scripture the book QUOTES reached the page at all.
+
+- **`_book_quran.py`, compose step `5a-quran`.** Zero model spend and zero model
+  judgment: the EXTENT of a verse comes from the source scan — what the author
+  actually printed — and the LETTERS come from the canonical mushaf in
+  `content/knowledge-base/mirror.db`. No model is ever asked to recall scripture.
+- **22 of 23 cited verses now carry their Arabic**, plus 5 uncited passages where
+  two independent signals agreed the scan is quoting a verse. The one left out is
+  `6:149`, whose Arabic the scan does not print: filling it from a whole ayah is
+  refused rather than guessed, because it would put Arabic on the page saying more
+  than the English beside it. It is reported as `uncovered` for Asif's judgment,
+  never substituted.
+- **Five citations were written wordlessly** — `(5:13)`, not `(Quran 5:13)` — and
+  matched no pattern, so those verses were never anchored into the compose prompt
+  in the first place. `_book_compose._QURAN_CITE_RE` reads the bare form now,
+  gated on the enclosing parentheses AND a colon so a fiscal quarter cannot reach
+  it.
+- Position in the pipeline is forced from four directions (after every LLM pass
+  and the Composer replay, before the glossary overlay, before the audit, before
+  the alignment) — the reasoning is written out at the call site.
+- New rule `R-QURAN-ARABIC-PRESENT`; `book-challenger` gains **BK-N8** (P1),
+  seeded from `quran_coverage` in `_system/book-arabic-audit.json`. It is a P1 for
+  human judgment, never an automatic substitution.
+
+**The LIVE Session is retired.**
+
+It was a second surface doing Read mode's job — a reading column over `book.md`
+with the companion explanations beside it. Once Read mode gained the same
+read-only cards, the same passage tint and the same follow-the-chapter sync
+(2026-07-30), the two were one feature maintained twice; the cross-book picker it
+also carried is `/studio` itself.
+
+- `live.astro` + `live-session.ts` + `live-session.css` + `live-index.ts` deleted
+  (1,750 lines), replaced by a 302 in `live.ts`. A redirect rather than a plain
+  deletion for the reason `arabic-review` records: the path otherwise falls
+  through to `[step].astro`, which bounces every unknown step to `/edit` — the
+  NotebookLM chapter lane, a different text for a different deliverable. 302 and
+  not 301, because a permanent redirect is cached indefinitely and this decision
+  is one session old.
+- **The runtime gate caught the retirement one line short.** `/live` was kept in
+  the route manifest with a comment explaining why, and never added to
+  `EXPECTED_REDIRECTS` — so smoke failed it as an undeclared redirect, which is
+  exactly what that check exists to say. Declared; 36 routes clean.
+- **The prev/next chapter row came across in the retired view's vocabulary** and
+  had to be redrawn (Asif: "make these buttons look like buttons similar to the
+  buttons on top"). It was a transparent 999px capsule; an inch above it the
+  toolbar gives every control a card surface, a 6px corner and a raised hairline.
+  Same surface, border token, radius, shadow and press now — hover is surface +
+  border only, exactly as `.rte-tool:hover` does it. `--cx-control-border` moved
+  from the toolbar block to the view ROOT, because the nav is the toolbar's
+  sibling and could not inherit it; that hoist is what stops the two drifting
+  apart again.
+
+Gates: pytest 2,114 · site tests 363 · smoke 36 clean · lint:views 0 ·
+astro check 0 errors · agent-wrapper parity in sync · repo probe 1 pre-existing P3.
+
+**Previous — the English paragraphing is the Arabic's now.**
+
+Asif (2026-07-30): "I want the English paragraphs to mirror the Arabic." A
+translation edition's paragraphing belongs to its source, and articulation had been
+choosing its own — splitting long Arabic paragraphs for readability and splitting
+speech tags off from the speech, so `قال الغلام: …` (one paragraph in the source)
+printed as "The boy said:" on a line of its own.
+
+- **696 English paragraphs became 560**, merging 136 back into the Arabic paragraphs
+  they came from — 43 of them speech tags. Verified word-for-word: 37,550 words
+  before, 37,550 after, identical sequence. The only things that moved are paragraph
+  breaks and the 21 continuation quotation marks that became orphans once the
+  paragraphs either side of them joined.
+- **514 of 534 groups are now exactly 1:1.** The remaining 20 are runs a verse sits
+  inside — merging across a blockquote would carry prose over scripture, so the pass
+  refuses and the panel honestly says "the 2 paragraphs below".
+- `mirror_paragraphs.py`, wired as step 11 of the compose pipeline AFTER the
+  alignment (it is driven by the pairing and rewrites that pairing itself, so no
+  fingerprint is left naming a paragraph the merge replaced). No model is called —
+  the grouping is already known. Idempotent: a second pass merges nothing.
+- Refuses rather than guesses: a chapter whose alignment no longer describes its
+  prose is left alone, and so is any chapter the human authored in the Composer.
+
+**The Arabic beside the English is the right Arabic now.**
+
+Asif opened the reveal on "The narrator continued:" and got a nine-paragraph block
+that plainly did not translate it, half of it unvowelled. Two independent defects,
+and the first one was worse than it looked.
+
+- **A repeated speech tag pointed at the wrong Arabic.** The Composer keyed the
+  alignment into a `Map` by paragraph fingerprint, and a Map keeps one entry per
+  key. This book repeats its speech tags — one fingerprint occurs THIRTEEN times
+  against thirteen different source paragraphs — so all thirteen rendered the last
+  one's Arabic. 37 paragraphs book-wide were showing text they did not come from,
+  with nothing on screen to say so. The alignment file was right the whole time:
+  it is written one entry per composed paragraph, verified monotone across all 696.
+  Position is the key now, and the fingerprint went back to being the edit guard
+  its own comment always claimed it was.
+- **One Arabic paragraph, one English block.** Articulation makes several English
+  paragraphs from one Arabic one — up to nine — and the source used to be printed
+  in full above each of them. They group now: the Arabic appears once, labelled
+  "the N paragraphs below", with a rule bracketing the English it produced. The
+  paragraphs are not reparented — their DOM order is persisted to
+  `visual-layout.json` and moves figures in the printed book.
+- **94 bare runs became 7.** The marks-only gate is all-or-nothing per run, so one
+  disputed letter cost the vowelling of everything around it — `ويرثله` in the
+  scan against the model's `ويرتله`, almost certainly the right word, took ~120
+  characters of good marking down with it. `_vowel_recovery` re-asks a refused run
+  sentence by sentence and clause by clause under the SAME gate, so only the
+  fragment holding the dispute stays bare. The gate did not move by one character:
+  every piece is checked, and the reassembly is checked again.
+- Both fixes are pinned by tests that fail when the defect is put back — the
+  fingerprint collapse returns `9, 2, 9, 6, 9` where the truth is `1, 2, 5, 6, 9`.
+
+- **The last two came from correcting the SCAN** (Asif approved, 2026-07-30). Both
+  were single-dot scanner errors the vowelling gate had surfaced by refusing to mark
+  the passages around them: `دعوثكم` for `دعوتكم`, and `الجأهم` for `ألجأهم`. They are
+  declared in a tracked ledger beside the scan with their evidence, applied by
+  `correct_ocr.py`, which keeps the vowelled sibling in step and re-stamps the
+  staleness hash — editing the scan alone would have marked a good vowelling stale
+  and sent every reader back to bare text. **Zero bare non-Qur'anic runs remain.**
+  The one bare run left is a verse the mushaf declines to align word for word, which
+  is the documented behaviour: a verse is left exactly as the book prints it.
+
+Still to do: `book.md` was composed from the pre-salvage source, so the PRINTED
+edition does not yet carry the recovered marks. A re-compose picks them up.
+
+**Full-system audit: the dashboard was reporting four confident zeros.**
+
+**Newest — the dashboard stopped lying about the project.**
+
+A full audit of the pipeline and the site. Everything deterministic already passed
+— 2,360 Python tests, 349 site tests, 180 route renders across five book fixtures
+with no console error, ruff, the repo probe, doc links, agent-wrapper parity. What
+it found instead was a whole class of defect the gates cannot see: **snapshot fields
+that render a zero nobody computed.**
+
+- **"0 books in flight" — for two months.** Both snapshot generators read
+  `content/drafts`, a directory the 2026-06-04 restructure deleted. `readdir` threw,
+  the catch returned `[]`, and the dashboard reported the empty list as a fact while
+  six books sat mid-pipeline, one failed since June. They walk the buckets now, with
+  the legacy trees kept as fallbacks in the same order `_paths.py` uses.
+- **"56 / 140 steps done" when 117 were.** plan.yaml says "finished" eight different
+  ways; the generator passed each through verbatim and every consumer tests
+  `=== "complete"`, so 61 finished steps read as unfinished. One closed vocabulary is
+  now imposed in the generator — `complete | in_progress | pending | deferred` — not
+  in the four pages that were each getting it wrong separately.
+- **"Next Step —" always.** The card looked for status `"ready"`, a value no
+  generator has emitted and plan.yaml has never contained.
+- **"$0 spend" and "0 books published, 0 episodes".** `metrics` and `books_shipped`
+  were never written by anything, while the per-book cost ledgers and the published
+  shelf sat on disk. Both are computed now; the 30-day window ends at HEAD's commit
+  time, not wall clock, so regenerating at an unchanged commit stays a no-op.
+- **Both generators still emit byte-identical files**, verified by running them back
+  to back and diffing, and five new tests assert the snapshot AGREES WITH THE
+  FILESYSTEM rather than merely parsing — each one fails when its defect is put back.
+- **Also:** a dead Google-Fonts `@import` (misplaced after `@font-face`, so the
+  browser had always dropped it — a network trace confirms nothing leaves for
+  fonts.googleapis.com) removed with its build warning; one dead variable; 21 files
+  of accumulated prettier drift reformatted, and prettier added to the pre-commit
+  hook, since the repo has declared `format:check` since day one and nothing ever ran
+  it.
+
+Still open, needing Asif: `claude-code-training` has been `failed` since
+2026-06-02; and Lexend + Cinzel are named in three stylesheets but are not
+self-hosted, so they have been silently resolving to Inter and Georgia.
+
+**Book Composer Read mode: reads as a page, Arabic set at the English's size,
+source numbers dropped, Companion read-only.**
+
+**Newest — Read mode is a reading surface on both sides of the page.**
+
+- **Read mode is a page now**, not a column of text on the site background: the
+  chapter body wears the frame the edit shell already wore — card background, 1px
+  rule, 10px radius, the shared card shadow — and the 60ch measure is preserved by
+  adding the horizontal padding back into `max-width` rather than letting the
+  border box eat it. Narrow screens drop the page margins to 1.1rem.
+- **The Arabic source reveal is set at the English's size.** 1.05rem/1.9 — the same
+  pair `compose-print.css` sets on a Qur'anic quotation, and for the same reason
+  (`--q-ar-face` leads with the size-adjusted aliases). It was 1.45rem/2.15, which
+  made the source tower over the translation it exists to support. The ع gutter
+  control came down with it, and the provenance label — which was set LARGER than
+  the prose it annotates — is now apparatus-sized.
+- **The paragraph marker is stripped from the served Arabic.** `(٢٩)` opened each
+  block only so the parser could find the boundary; the number survives on the
+  record and the panel already states it in words, so printing the Arabic-Indic
+  original into the middle of the quotation was scan furniture, like the page
+  comments dropped beside it.
+- **The Companion panel is read-only in Read mode** (Asif, 2026-07-30) — same
+  cards, same tint, same follow-the-chapter sync, no rich-text editor mounted in a
+  card and no delete button. Expressed as withholding the write callbacks, because
+  `renderExplanationCard` already derives editability from `onSave` and its
+  read-only render is the one the public reader ships, with CSS written as paired
+  selector lists — so the two cannot look different. A Read/Edit flip rebuilds the
+  cards, since editability is decided when a card is built.
+
+**Diacritics, and a reversed rule.**
+
+- **A Diacritics button** sits at the end of the Reshape now row, dark until the
+  selection is a predominantly-Arabic run that still lacks its marks. One click
+  vowels it in place through `POST /api/studio/vowelling` `action: "run"`.
+  Verified end to end on a real run: 34 marks added, consonantal skeleton
+  byte-identical.
+- **The rule that a model may never supply diacritics is reversed** (Asif,
+  2026-07-29). He does not read Arabic; an unvowelled run is unreadable to him, so
+  the propose-review-accept gate was making the book worse for its reader. Marks
+  are applied on the spot now. The skeleton gate STAYS — it refuses letters
+  changing under cover of marking, which was never the thing being relaxed — and
+  Qur'anic runs are still skipped because the mushaf already vowels them.
+- **Flipped, and done (2026-07-30).** The pipeline-side BK-N5 gate was already
+  reversed — `_narrative.supplied_diacritics_findings` is deleted and the
+  challenger's BK-N5 now seeds from `_vowelling.rejection_reason` — so what this
+  entry listed as pending had in fact landed; corrected on sight. What was still
+  missing was the vowelling pass itself, which now exists on BOTH sides:
+  `vowel_source.py` marks the Arabic SOURCE stream once (so the glossary and every
+  later compose inherit it) and `vowel_book.py` remains the net at compose time.
+  Backfilled across the library: 62 bare Arabic runs in finished books went to 1,
+  and that one is the gate refusing a candidate that moved letters.
+
+**Newest — the Composer's Companion panel now follows the chapter you are reading,
+and the page no longer depends on an unrelated panel to boot.**
+
+- **Companion cards are tied to the tinted passages.** A passage scrolling into
+  view opens its card and lights it with an accent ring; the passage leaving view
+  shuts the card and takes the ring off. Several on screen means several open, in
+  reading order. The previous sync scrolled the list without opening anything, so
+  arriving at the right card still showed only its title. The sync skips itself
+  entirely while the caret is inside the card list — an open card holds a live
+  editor and saves on focusout.
+- **The floating buttons sit over the bottom of the right panel**, ordered Ismaili
+  Scholar, Tools, back-to-top, and the Companion is the surface the page opens on.
+  Each surface scroller already reserved `--cx-fab-clear`, so nothing the buttons
+  cover is unreachable.
+- **The Arabic drawer surface is gone** (term curation + vowelling review). Its
+  components and `/api/studio/arabic-review` still exist; nothing mounts them, and
+  the three links still pointing at `/studio/<slug>/arabic-review` now land on the
+  Composer with no Arabic panel — see the open item below.
+- **A page with no Astro island cannot use React in dev.** Removing those two
+  `client:only="react"` panels removed the React Fast Refresh preamble Astro only
+  emits for pages that hydrate an island, and `book-composer.ts` — which mounts
+  every React surface imperatively — died on its first React import, leaving the
+  whole page as inert server HTML. `src/scripts/react-refresh-preamble.ts` declares
+  that dependency instead of inheriting it. It must stay SYNCHRONOUS: an awaited
+  runtime import only suspends its parent, so the sibling module still evaluated
+  first and lost the race exactly as before.
+- **Open item:** the "Arabic review" / "Phonetic Map" links in `StudioEditor.tsx`,
+  `[step].astro` (x2) and `library-view.ts` now lead nowhere useful. Either remove
+  them or give those two panels a new home.
+
+**Previous — a full visual-QA pass over all 36 routes, and the gate can no longer
+miss a page.**
+
+- **Route coverage was short by four live surfaces.** `/corpus/morphology` (shipped
+  that morning) and three of the four `[step].astro` steps — `intake`, `review`,
+  `publish` — were never visited by `npm run smoke`; the miss was invisible because
+  `[step].astro` redirects an unknown step to `/edit`. Manifest is 36 routes now, and
+  `scripts/site-health-routes.test.mjs` fails in BOTH directions: a page with no
+  manifest entry, and a manifest entry with no page (which is how the sentinel spec
+  went on naming `/studio/<slug>/style` for nine days after the page was deleted).
+  The wisdom leaf is gated only where `content/_shared/wisdom-corpus/` exists.
+- **`site-health-shots.mjs --full false`** captures the viewport instead of the page.
+  The LIVE reader's full-page PNG is ~105,000px tall; scaled to fit, nothing in it
+  can be judged.
+- **Five defects fixed**, each measured, fixed at the smallest in-pattern point, and
+  re-shot before being called done:
+  - Companion cards clipped 871px of an open explanation and the list never scrolled
+    — `.xpl` has `overflow: hidden`, which zeroes its flex minimum size, so the CARD
+    shrank and the scroller measured no overflow (`flex-shrink: 0`, companion-card.css).
+  - Composer FAB row covered four panel controls when the drawer was open
+    (`--cx-drawer-w` hoisted to body and added to the offset, book-composer.css).
+  - "Tell the AI" clipped its own placeholder by 23px (`min-height` 5rem → 6.5rem).
+  - Wisdom empty-state icon sat flush left under centred text — the Icon is a
+    `display: block` svg (`margin-inline: auto`, wisdom.css).
+  - Editorial asides rendered as scripture display type — 27.8px/52.9px centred
+    against 20px/31px body. `markdown.ts` now emits `blockquote.aside`, and the two
+    screen rules take `:not(.aside)`; verses keep the exact treatment they had.
+    Screen only — `book-print.css` scopes Arabic to `blockquote.quran p.ar` and
+    never had the bug.
+- **`> >` in composed books**: `_book_augment.format_editorial_block` strips
+  model-written blockquote markers before adding its own, and BOTH markdown
+  renderers flatten a nested marker, so the five notes already in
+  `the-master-and-the-disciple` read correctly without a re-compose.
+- **Judged NOT defects** (checked, not assumed): the mobile nav is a deliberate
+  scrolling tab strip (`overflow-x: auto`, 32px hidden, not a clip); dark theme is
+  not a supported state (`theme.css` declares no dark palette); sr-only labels,
+  `text-overflow: ellipsis` truncation, and volume titles inside a collapsed
+  `<details>` all read as "clipped" to a naive probe and are not.
+- Gates: smoke 36 clean · site tests 331 · pytest 2,303 · lint:views + astro check
+  0 errors. A DOM probe across all 36 routes at 1440px and 390px found zero
+  horizontal page overflow and zero broken images.
+- **Open for Asif:** nothing blocking. The `.mjs` print renderer deliberately does
+  NOT emit the aside class (the print CSS has no rule keyed on it); revisit only if
+  a print rule ever needs to tell asides apart.
+
+---
+
+**Prior — the Scholar Companion is a synced, one-button, title-only card rail.**
+
+- ONE Explain button: probes the live prose selection first (explains + files a
+  Companion note, tints the passage), falls back to the typed concept. The
+  "From selection" ghost button is retired (`GemCompanionPanel.tsx`,
+  `gem-companion.css`).
+- Cards: collapsed = TITLE-ONLY rows in chapter order; whole card is the expand
+  target; ONE card (and one etymology accordion) open at a time
+  (`explanation-card.ts`, `companion-card.css`).
+- Scroll sync both directions: scrolling the chapter drives the panel (capture
+  scroll listener + visible-mark sweep in `book-composer.ts` — mode-blind, works
+  over read spans AND editor decorations; scroll events/rAF do NOT fire in
+  hidden tabs, so verify in a rendering Playwright page); clicking a card
+  reveals its passage (revealPassage now targets the visible tint twin — it was
+  a silent no-op in Edit mode).
+- Deletes (card + etymology entry) go through `confirmDialog` (danger, Cancel
+  default) — shipped alongside RCA
+  `docs/rca/2026-07-28-automation-deleted-companion-notes.md`: an automated QA
+  pass deleted two real chapter-3 notes via the then-unguarded one-click
+  delete. Both restored (one from git, one regenerated as `5de6a25d`).
+  `site-health-sentinel` spec now hard-forbids operating destructive controls
+  in the browser; STANDING RULE (Asif-approved): commit
+  `content/*/_system/companion-notes/` at session end and before launching
+  browser-QA agents.
+- Gates: astro check 0 / lint:views clean / site tests green / smoke 32 clean;
+  html-view-challenger PASS twice (advisory: REQ-050 reduced-motion on three
+  smooth-scroll call sites, in-pattern); sentinel round re-ran post-RCA.
+
+---
+
+**Prior — the morphology layer is surfaced everywhere (commit 4aa8928).**
+
+- `/corpus/morphology` — new root-first explorer under the Corpus domain
+  (nav: Corpus -> Morphology): all 1,642 roots, both-script client-side search
+  in the shared fold space (`src/lib/arabic-fold.ts`, fixture-pinned TS mirror
+  at `plan-dashboard/scripts/lib/buckwalter.fixtures.json`), per-root family +
+  POS + verse peeks (mirror.db) + Lane's meaning, coverage strip with the 313
+  meaning gaps listed. Data via `src/lib/db/morphology.server.ts` (per-call
+  readonly opens over the committed morphology.db/lexicon.jsonl; degrades to
+  an empty state, never crashes).
+- Etymology cards (Composer + live reader) are now VERIFIED CORE + persona
+  note: companion-notes GET/POST and live.astro attach computed (never
+  persisted) `morphology` per etymology row; explanation-card renders the
+  corpus block (.xpl-morph) above the persona textarea. gem-explain grounds +
+  vetoes generation; api/ai/etymology grounds from local DBs. Python parity:
+  `_book_companion.gate_card` vetoes against `load_morphology_reference`.
+- Gates: smoke 32 clean; lint:views + astro check 0 errors; site tests 327;
+  pytest 2,307. html-view-challenger PASS-WITH-CAUTION (7 CSS fixes applied);
+  site-health-sentinel PASS (bdi root line; mirror translation markup stripped).
+- Open advisories for Asif (non-blocking): REQ-070 source dates on the
+  attribution footer; REQ-004 tool-page deviation note (no numbered sections,
+  matches /corpus); .xpl-morph-chip location is title-only (keyboard/touch
+  inaccessible, supplementary info).
+
+---
+
+**Prior — the Composer's toolbar is now `@asifhussain/prose-editor`.**
+A self-contained npm workspace at `plan-dashboard/packages/prose-editor/`,
+framework-free core plus a React wrapper plus a standalone IIFE for hosts with no
+bundler. Its defining guarantee is that nothing typable can be lost on save:
+every node and mark in the schema must declare how it serializes, enforced at
+compile time by a branded type and at runtime by a coverage assertion against the
+FINAL schema. The Composer binds it with `attach()`, handing over `docToMarkdown`
+unchanged — so adoption changed nothing about what a save writes.
+
+*What the toolbar gained.* Thirteen controls where there were five: undo/redo, a
+Body/Section/Subsection format dropdown, bold, italic, inline code, link, bullet
+and numbered lists, quote, a Quranic-quotation button registered through the
+package's extension point, divider, clear formatting. Plus a selection bubble, a
+keyboard-shortcut registry that throws on a duplicate binding, and an allow-list
+paste sanitizer that replaces the deny-list-over-a-string approach.
+
+*Four things a keystroke could lose, closed first.* Ordered lists were renumbered
+from 1 on every save, destroying the stated ordinals `renderMarkdown` carries as
+`value=`. Shift+Enter fused the words either side of it. Underline and Mod-U
+discarded silently. And TipTap's `autolink` defaulted on, so typing a bare domain
+put a link into `book.md` that nobody authored. All four are now schema-level
+impossibilities rather than serializer omissions.
+
+*Two gates were weaker than their green output suggested.* The runtime smoke check
+FOLLOWS redirects, so a route that 302s away was reported clean — which is exactly
+how a broken `/studio/<slug>/compose` (an unresolvable CSS import, caused by a Vite
+string alias matching by prefix) passed. It now compares the landed path with the
+one asked for, with legitimate redirects declared per route, and was proven to
+catch the original defect. Separately, the view linter's CSS scan cannot see a
+single-line rule at all — found while proving the linter reached `packages/`, and
+spawned as its own task.
+
+*Known and not mine to fix here.* Round-tripping every chapter of all four books
+shows the seed/serialize pair is not byte-exact on real content — multi-line quotes
+get joined, and an asterisk used as an ayah separator loses its spacing. Identical
+before and after this work (5/0/1/7 chapters), so pre-existing; spawned separately.
+
+
+**Newest — the audit pass, and the two things it found that a human would have seen.**
+`repo-surgeon` (report-only, because a visual-QA agent was writing the same tree)
+plus `site-health-sentinel`. No P0. Both agents found that this session's work had
+stopped one renderer short, twice, and in both cases the missing renderer was the
+one a human actually looks at.
+
+*Lists.* Turning on real list rendering changed `renderMarkdown`, not just its
+source profile — and there are FOUR renderers of the same markdown. Two were
+fixed, two were not: the reader at `/studio/<slug>/live` (`.bookv-body`) had no
+list CSS at all, and `renderMd` — the PDF renderer — had no ordered-list parser
+at all, so the next PDF render would have printed the one real enumeration in the
+corpus as a run-together paragraph with "1." "2." as literal text. That is faked
+numbering in the publication deliverable. `renderMd` now parses ordered lists in
+every render (bullets stay self-study-only; no `book.md` uses them) and carries
+the source ordinal as `value="N"`, pinned by a cross-renderer test asserting the
+print and reader numbering agree on four fixtures.
+
+*The marker-CSS reset has now needed the same fix in FIVE hosts* —
+`.src-view-prose`, `.se-prose`, `.cx-podcast-body`, `.bookv-body`, `.cx-body` —
+and each was found only after the previous one was repaired. The runtime smoke
+check (INV-3) was listing only the hosts already fixed, so it could confirm the
+fix and never find the next instance; widened, it immediately reported `.cx-body`.
+REQ-015 itself said nothing about `list-style-type`, so the rule as written
+reproduced the defect — the standard and its digest now say so, and name the
+runtime gate as the enforcement.
+
+*Fences.* Recorded here for the first time: `MACHINE_FENCE_KINDS` in
+`book-html.mjs` fixed the print renderer's skip list (it had three of the four
+kinds and missed `edition-intro`), `fence-decos.ts` decorates the marker in the
+edit canvas instead of removing it (the text is load-bearing —
+`preserveFences` reads it back), and `markdown.ts` now skips fence lines in
+display renders while the EDIT seed opts back in via `keepMachineFences`. That
+last one removed 16 visible grey `editorial:begin` chips from the reader. The
+fence-kind contract is now pinned in both directions and registered in
+`.repo-audit/profile.yaml`: JS↔TS by a live `deepEqual`, and — the gap the JS pin
+structurally cannot see — Python↔TS by a scan of what the producers actually
+write. Comparing the two renderer lists to each other stays green when both are
+wrong together, which is exactly how the `edition-intro` bug shipped.
+
+*Also fixed:* the lane switch's reload-restore path could never fire —
+`location.reload()` queues a navigation rather than halting the task, so the
+clear after `leave()` deleted the stash before the reload read it, and a user who
+pressed Podcast landed back in the editor. Plus a bounded heading read (336 KB →
+40 KB per compose render), two softened test assertions that would have redded on
+legacy content rather than on a defect, and one incorrect CSS comment of mine.
+
+*Reported, not fixed:* the Wisdom section is dead two ways —
+`source-extractor.ts:21` points at a directory that does not exist, and the Urdu
+`raw-extract.md` it wants has never been tracked; `$RefreshSig$` throws on the
+Composer route for a book with no composed `book/` (dev-only); fenced code blocks
+render their ``` markers as text; `.bilingual-grid` never collapses at mobile.
+
+---
+
+**Composer lane switch + shared list pass (earlier the same day)**
+
+**Real enumerations now render as real lists (superseded above: it was FOUR renderers, not three).**
+The read-only source renderer ran with `lists: false`, so a numbered list in a
+chapter source rendered as one run-together paragraph with the numbering as
+literal text. Asif authorised the shared pass. Flipping the flag ALONE would
+have been worse than leaving it off, and the investigation is the point: a blank
+line used to flush the list, so a loose `1. / 2. / 3.` — the dominant style in
+this corpus — became three separate `<ol>`s that each restarted at 1, and the
+ordinal came from the `<ol>` counter, so a list starting at 3 renumbered itself
+to 1. Both are the faked numbering REQ-015 forbids. Fixed at root first: ordered
+items carry `<li value="N">` reproducing whatever the source states, and a blank
+line keeps the list open when the next content is an item of the same kind.
+
+Then a defect only the pixels showed: with padding and `list-style-position` set
+but not `list-style-type`, Tailwind's preflight (`list-style: none` on every
+ol/ul) left a numbered list with NO NUMBERS — the enumeration gone entirely,
+worse than the paragraph it replaced. The DOM read as correct throughout. The
+CSS now restores `decimal`/`disc`/`circle` alongside the REQ-015 indentation,
+using logical properties so an RTL panel indents from the correct side.
+
+Blast radius, measured rather than assumed: 88 of 170 source files now render
+real lists, across THREE surfaces — the chapter/file viewer, the Composer's new
+podcast lane, and the Urdu bilingual wisdom view (`bilingual-sections.ts`, which
+the original recommendation had not accounted for). Zero numbering mismatches
+against the corpus. 13 new renderer tests; 3 of 5 mutants killed and the other
+two shown to be behaviourally equivalent rather than coverage gaps. **Not
+verified: the Urdu bilingual view** — `/wisdom` exposes no reachable book page,
+so the RTL path rests on logical properties by construction, not observation.
+Known cosmetic case: a page marker like `- 87` alone on a line in a raw-extract
+file now renders as a one-item bullet.
+
+---
+
+**The Composer can now show the podcast source, read-only.**
+The Book Composer at `/studio/<slug>/compose` gained a lane switch: "Reading
+edition" (book.md, editable — unchanged) vs "Podcast source" (`chapters/*.txt`,
+read-only). The original ask was for the same edit to apply to BOTH lanes; that
+turned out to be unimplementable and was replaced, with Asif's own agreement in
+the handoff, by a read-only flip. Re-verified against the code this session: the
+two lanes are independently translated (identical source passage, different
+English), independently segmented (9 book chapters vs 20 podcast chapters, no
+title correspondence), and the podcast lane deliberately carries narration
+framing, teaching commentary and attributed citations (22 of them; book.md has
+0) that mirroring would delete. 20 audio episodes already exist from the current
+chapter text.
+
+The read-only guarantee is structural, not intentional. `compose-lane.ts` owns
+the flip ORDER: it awaits the Composer's own `leaveEditMode` (flush the
+debounced autosave, then destroy the TipTap editor) before any pane swap, so an
+edit typed a moment before the flip lands in book.md and nothing editable
+survives behind the toggle; a declined leave aborts the flip. The podcast body
+is a host of its own, never the chapter body the editor seeds from — re-seeding
+one shared surface is what would write podcast prose into book.md AND freeze
+that chapter in `composer-edits.json` (RCA-001, with prose from the wrong lane).
+Flips are serialized so a double-click cannot flush twice. Bodies are fetched on
+demand through the read-only `/api/library/file` route and rendered by
+`renderSourceMarkdown`, the same path `studio/<slug>/view.astro` uses, so the
+lane reads like the existing chapter viewer; the podcast picker is drawn by
+`enhanceSelect` like the book picker rather than left as an OS dropdown.
+
+Test harness: 15 node:test cases in `compose-lane.test.ts` driving the REAL
+TipTap editor and REAL autosave against a recording transport (only the network
+is stubbed), plus 5 content-invariant pytest gates in
+`test_compose_lanes_distinct.py` whose content root is env-overridable so they
+can be falsified without touching `content/`. All 15 mutants killed — including
+"skip the flush", "make the host editable", "bypass leaveEditMode", "mirror book
+prose over a chapter source" and "leak an attributed citation into book.md". Two
+mutants exposed real gaps that were then closed (an unserialized flip; an
+untested picker sync). 12/12 repo-contract gates green before and after;
+`content/` byte-identical throughout. Phase 2 (extending
+`/api/studio/replace` across both lanes) is NOT built — it needs Asif's separate
+approval per the handoff.
+
+---
+
+**RCA-001: the composer-snapshot freeze, found, root-caused, recovered.**
+Asif reported "original bad English" in the compose tab; forensics showed 8 of
+9 chapters were byte-frozen at their 2026-07-20 pre-articulation Composer
+snapshots — the 07-21 compose articulated all 9 chapters and its own replay
+discarded 8 in the same run. Standing RCA practice established (docs/rca/ —
+SRE postmortem format; RCA-001 written and Resolved). Recovery: human deltas
+extracted first, stale sidecar archived, full fresh compose (base + fluency,
+9/9 de-calqued, 0 reverted), punchlist re-applied (green-ears proved correct
+from source; name glosses + bridges re-applied), then book-challenger
+convergence in 3 iterations — 4 P0 / 7 P1 / 3 P2 found-and-fixed (seam
+double-telling, one-name-for-the-teacher restored per the locked ruling,
+Quran tokens vs canonical mushaf, the العالِم/العالَم garble) — final verdict
+SHIP-READY. Six chapters now carry Composer edits whose bodies are the
+ARTICULATED text. Pipeline hardening: enumeration gate refined (section
+numbering is apparatus — run-shape rule), integrity-retry now names actual
+findings, augment notes are "(tradition-grounded)" with an honest-provenance
+prompt rule. Composer save-guard (AI-3) shipped from a task chip; AI-2
+(articulation-survival reporting) still in its chip session; AI-6 (no-headings
+prompt strengthening — must ride with a planned recompose) and AI-7
+(enumeration-gate watch) open in the RCA. Advisory P2s for a future apparatus
+pass: intro diacritic register, front-matter basmala, two ch5 Arabic slab
+openings.
+
+---
+
+## Previous sessions
+
+**Last updated:** 2026-07-27 evening (Rearticulate ships; the flattened chapter is restored)
+
+**Newest — the Rearticulate action, and the contract behind it.**
+
+*A Composer Rewrite had flattened one chapter.* A "clarify" rewrite (Gemini,
+generic-editor prompt) had rewritten the boy's opening speech in chapter 3 of
+`the-master-and-the-disciple` from 183 words to 139 — imagery abstracted away
+("struck the mark" → "effectively"), plus a stray "Sheikh" against the book's
+24 "Shaykh". Sat uncommitted; verified against the pipeline's translation
+chunks (paragraph-level sweep, all 8 chapters — only ch. 3 was flattened);
+restored via git. The companion note added the same day was genuine enrichment
+and was kept.
+
+*Shipped in response — the Rearticulate lane:*
+- `docs/standards/book-articulation.md` (REQ-BA-010..120) + the
+  `book-articulation` skill — the articulation contract (LAL-handbook-grounded:
+  simple lucid English, grammar may be rebuilt, meaning/speeches/quotes/imagery/
+  Arabic are inviolable).
+- `scripts/podcast/rearticulate_chapter.py` — chapter-scoped engine reusing the
+  fluency pass's `_run_pass` (windowing, revoice_gates, per-window revert);
+  addresses chapters by `anchor_key`, records results in `composer-edits.json`
+  like a human save, writes `_system/rearticulate-status.json` (gitignored).
+- `POST/GET /api/studio/rearticulate` — detached spawn + poll, single-run lock,
+  dead-worker detection.
+- Composer Refinement tab: **Rearticulate chapter** button — whole-chapter,
+  selection-independent; flushes autosave, locks the editor read-only, shimmers
+  (`.cx-rearticulating`, reduced-motion safe), reloads via
+  `reloadPreservingChapter()` on success. No live-editor surgery (RCA-002).
+- `book-rearticulator` agent (canonical infra/claude-agents/ + synced wrapper) —
+  judges results against REQ-BA-*; convergence action is revert, never
+  re-prompt-until-pass.
+- The Refine panel's Rewrite modes now carry the REQ-BA register/imagery/
+  spelling guards, so the original flattening path is constrained too.
+- Composer header: **Generate PDF** button beside LIVE Session (flush autosave
+  → themed confirm → /api/studio/generate-book-pdf; spinner while rendering,
+  reduced-motion safe) and a persistent **Download PDF** link — pre-filled
+  server-side from the newest book/*.pdf on load, refreshed with size after
+  each render, served via /api/library/file with a download filename.
+
+**Previous — RCA-002, then durable view state across the site.**
+
+*The session opened by finding corruption, not by writing code.* Two Book
+Composer autosaves from the previous evening sat uncommitted in the working
+tree, and everything in that eighteen-hour delta was damage: the edition
+introduction of `the-master-and-the-disciple` stacked THREE times (fence count
+1 → 3 in both `book.md` and the sidecar), "The Master here **is is** a teacher
+figure", a clause transposed into "grown dear to your fellowship and us has
+become sweet to us", and a nested editorial-note blockquote collapsed from ten
+lines to one so its inner `>` would render as literal text. No authored content
+anywhere in the diff. Dev server stopped first so its autosave could not race
+the restore, evidence captured, both files restored, clean tree verified.
+Written up as [RCA-002](../../docs/rca/2026-07-27-composer-autosave-wrote-corruption-into-book-md.md)
+— the second incident in RCA-001's class, because RCA-001's fixes all pointed
+downstream at what the PIPELINE does with a Composer edit and never constrained
+what a Composer SAVE may write. Checked and KEPT: the vowelling change swept
+into the CSS commit `bff3680` is a correctly-applied entry from the approved
+review ledger. Only the commit hygiene was wrong there, not the content.
+
+*The root cause, fixed (AI-1).* `createAutosave` gained an optional
+`fingerprint`. It captures the serialized content once at construction and
+skips any save that still matches — no `save()` call, no request, no write.
+`markDirty()` is wired to the editor's `update` event, which fires for things
+that are not edits, so before this a stray keystroke or a pointer-drag that
+landed where it started rewrote the whole chapter; and because the markdown
+round trip is not byte-exact on real content, reflow of paragraphs nobody
+touched went with it. Fingerprinting the SERIALIZED output rather than diffing
+against disk is what makes that second case safe — drift sits in both the
+baseline and the current value, so it cancels and never reaches disk alone.
+Proven in a real browser with the save endpoint stubbed: typing then undoing
+inside the debounce window produced ZERO PUTs and settled the pill back to its
+previous "Saved 9:36 AM" rather than a new timestamp, while a real edit still
+saved and its undo saved the revert. Both Composer autosaves (prose + figure
+layout) now carry it. 10 unit tests.
+
+*Then the actual ask: the site remembers where you were.* The app already
+persisted PREFERENCES (font, size, paper, zoom, panel width) and always had.
+SELECTIONS mostly did not — and where they did it was a one-shot
+`sessionStorage` handoff written just before a scripted reload and deleted on
+read, so the editor's own refresh kept your place while a plain F5, a new tab,
+or the next morning lost it. New `src/lib/view-state.ts` is the one home for
+the second kind: storage access guarded (a blocked store degrades to "opens at
+its default"), keys namespaced by surface AND book slug so one book's chapter
+can never restore into another, every read validated by the caller so a
+chapter a re-compose renamed is discarded rather than leaving a blank page, and
+a registry that THROWS on a duplicate surface+field instead of letting two
+surfaces quietly share a key. `use-view-state.ts` binds it to React and
+deliberately does not seed from storage in the useState initializer — several
+islands are `client:load`, and a first-render read would trip a hydration
+mismatch.
+
+*What now survives a reload:* the Composer's selected chapter, its Read/Edit
+mode, its lane (Reading edition ⇄ Podcast source) and the selected podcast
+source file; the pre-upload review tab; Edit & Enrich's inspector tab; and the
+LIVE Session reading position (throttled to one write a second, restored after
+fonts load, re-running the scroll-spy on landing so you are not told you are in
+chapter one while sitting in chapter three). The three one-shot keys
+(`cx-restore-chapter`, `cx-restore-edit`, `cx-restore-lane:<slug>`) are GONE
+rather than left beside the new mechanism — one path, nothing to drift.
+Restoring straight into the editor is only safe because of AI-1 above; without
+that guard it would arm an editor over `book.md` on every page load.
+
+*Verified in the browser, not assumed:* chapter and mode restored across a real
+reload; a stale chapter key falls back to chapter one and still renders; with
+every `pf:` key cleared the original defaults return; the LIVE scroll throttle
+holds a value for a second then advances; the pre-upload tab reopens where it
+was left. `content/` byte-identical throughout, confirmed by git rather than by
+a checksum (an unsorted `find` briefly suggested otherwise — git is the
+authority). Gates: astro check 0 errors, npm test 317 (315 pass / 2 pre-existing
+skips), lint:views clean, eslint 0 errors, prettier clean, smoke 32/32.
+
+*Known harness limits, not defects:* the in-app browser pane does not dispatch
+scroll events for `window.scrollTo` and its hidden viewport reports
+`innerHeight: 0`, so the LIVE scroll listener was exercised by dispatching the
+same `scroll` event the pre-existing `updateActive` handler already depends on,
+and pixel-level layout readings from that pane are unreliable.
+
+*Still open from RCA-002:* AI-2 (reproduce and fix the `edition-intro`
+tripling), AI-3 (a pre-commit gate refusing a `plan-dashboard/` commit while
+`content/` is dirty), AI-4 (make the known round-trip losses fixed or blocking
+rather than recorded), AI-5 (session hygiene for a dev server left running).
+
+**Then — the etymology accordion opens one at a time and shows all of itself.**
+Asif's ask on the Companion card: no scrollbar inside an expanded entry, and
+only one entry open at a time. Both done. The interesting part is what the
+conformance gate found in the FIRST version, which looked right and was not:
+removing the inner scrollbar and the resize grip took away both escape hatches
+from a measurement that goes stale, and in two ordinary situations it did.
+Pressing the panel TEXT dial with an entry open reflowed the text to 333px
+inside a field still pinned at 173px — 160px of the explanation unreachable,
+a WCAG 1.4.4 failure. And a window resize while the card was COLLAPSED measured
+a `display:none` field, read `scrollHeight` 0, and wrote a 2px height that
+survived into the next expand.
+
+The fix changes WHEN the measurement runs rather than patching each case:
+`autoSizeEntry` refuses to measure a hidden field (`offsetParent === null`),
+the card's `setOpen(true)` re-measures at the first visible moment, a
+width-guarded `ResizeObserver` on `.xpl-etym` replaces the window listener (the
+callback's own work changes the container's HEIGHT, so reacting to height would
+loop), and `panel-text-size.ts` now exports `PANEL_TEXT_SIZE_EVENT` and
+dispatches it from `broadcast()`. That last one is the class fix, not the
+instance: the stepper is shared by every panel, so the next surface that
+measures its own text gets the notification for free. Height moved to a
+`--ety-h` custom property, matching `--pv-zoom` / `--panel-fs` / `--cx-w`
+rather than assigning a concrete `height` — the only place in the codebase
+that did.
+
+`html-view-challenger` re-audited and passed at Level 1, and its own re-run was
+sharper than mine: my collapse-then-resize case went 1440→1100, which does not
+move the drawer on this layout, so it would have passed even had the fix been
+broken. Its widths (1440→900, 900→390), a dial change while collapsed, and a
+six-change resize storm all came back clean with no observer-loop warning.
+
+*Also fixed here:* the LIVE scroll restore was recording its own jump —
+`restoreReadingPosition` runs before the listeners are wired but DEFERS into
+`document.fonts.ready`, by which time they are attached. Mostly it rewrote the
+same number; the case that bites is a position saved on a phone, where the
+column is more than twice as tall, which a desktop then clamps to the bottom
+AND persists, destroying the phone position. Found by `site-health-sentinel`.
+
+*And a two-byte fix worth recording:* `explanation-card.ts` carried two literal
+NUL bytes as a `.join()` separator, which made the file register as BINARY —
+`grep` silently returned nothing for it, which is what made the accordion hard
+to find at all. Now the `\0` escape: identical to the compiler, text again to
+every tool. Worth knowing because parts of this repo's own gates are grep-based.
+
+*Known and NOT taken up* (challenger SHOULDs, carried forward): the accordion's
+ARIA is correct but incomplete — no `aria-controls`/`id` on the body, no heading
+wrapper per term, the field labelled "Etymology entry N" rather than by its
+term, no arrow-key movement between headers, and the single-select collapse is
+unannounced. The Composer also prints the term twice (header + first words of
+the field) because `etymologyDetail` strips it for the reader only. Two
+governance items: `book-composer.css:1771` claims the `--panel-fs` exception is
+recorded in `html-view-lint.config.json` and it is not, and `lint:views`
+classifies only `.astro`/`.tsx` as code, so SVG built as a string in a `.ts`
+file is invisible to the gate.
+
+---
+**Composer articulation save guard (RCA-001 AI-3), shipped and
+challenger-gated (Level 1).** The Book Composer now warns before a save would
+freeze a chapter whose current prose never passed the articulation (fluency)
+pass — the exact failure that froze 8 calqued chapters on 2026-07-20. Server
+side: `lib/reader/articulation.ts` (pure, 6 unit tests) reads
+`_system/book-fluency-report.json` and maps at-risk chapter keys to
+plain-language reasons (`adapted` safe; `partial`/`reverted`/`skipped` warn;
+`composer-edit` judged by `superseded_status`; unknown chapters warn; no
+report = contract doesn't apply, no warnings). Client side: a red advisory
+banner tops the edit shell on at-risk chapters, and the FIRST autosave of such
+a chapter raises a confirm ("Freeze un-articulated machine text?" — Save
+anyway / Don't save, danger variant). Confirm-once-per-chapter-per-session
+(sessionStorage, survives autosave reloads); a decline parks the autosave in
+its error state and the pill's Retry re-asks. Advisory only — a deliberate
+save always proceeds. Verified live in the browser on all three states.
+Also fixed in passing: a broken comment in book-composer.css was silently
+discarding the `.cx-body .ar-inline, .cx-prose .ar-raw` font rule (inline
+Arabic in the Composer rendered in the wrong face).
+
+**Newest — a full Composer UX session, all shipped and challenger-gated.**
+(1) Chapter dropdown fixed — option mousedown moved focus to the skip-link
+target, whose focusout closed the list before the click committed; standard
+combobox preventDefault, guarded to option rows (select-menu.ts). (2) The
+candidate palette now filters by chapter — slide-deck anchors quote the deck
+NARRATION, so the producer resolves and stamps an explicit `chapter` into
+visuals/index.json at emit (`resolve_candidate_chapter` in
+_visual_candidates.py, heading rung via the pinned anchor_key); composer.ts
+prefers the stamp; this book backfilled 27/29. (3) Palette gestures: CLICK
+opens a self-sizing lightbox (image-lightbox.ts, shared modal contract), DRAG
+is the ONLY placement path (per-paragraph drop marker); hover-preview deleted.
+(4) Actions always visible in their own column (no hover-reveal, no caption
+overlap), accent borders >=3:1, shadows; drag ghost, marker pulse, one-shot
+arrival flash — all motion behind prefers-reduced-motion. Edit icon is ✏️.
+(5) Inspector restructure (Asif-approved plan): tabs are [Artifacts, Refine &
+Notes] (Details merged in, detected-citations list included); citation style +
+typography moved VERBATIM into a Book-settings dialog behind a tab-bar gear —
+forms keep their bindings, saves verified end-to-end. (6) Book content:
+Tur/Bayt al-Mamur glossed per Asif ("the Mount"/"the Frequented House", NOT
+"House of Light"), plus 4 name-gloss composer edits (Salih 'the righteous',
+the Ubayd Allah name-riddle, Abu Salih, Abu al-Khair); 6 chapters now carry
+durable composer edits. Gates every ship: astro check, lint:views, npm test
+59, smoke 32/32, pytest 1751 (+4 new), html-view-challenger. Standing
+advisory: placement is drag-only (no keyboard path) — accepted by design.
+
+**Last updated:** 2026-07-22 9:55 AM EST (annotation policy applied; book SHIP-READY, zero open findings)
+
+**Newest — the annotation policy is live and the book converged to SHIP-READY
+with zero open findings.** Asif's rule ("annotations once and intelligently;
+commonly-known terms speak English") shipped as the four-class policy
+(`_annotation_policy.py` + class-aware `_book_inline_arabic.py`): one model
+call classified all 74 glossary terms (22 teach / 23 familiar / 15 name / 14
+silent), reviewable + durable in `glossary.yml`; annotations are DERIVED state
+(fold back, re-derive), taking the-master-and-the-disciple from 65
+parentheticals to 30 — vocabulary now introduced as `(bab, باب)`, cast named
+with script at true first mention, familiar terms plain. The final challenger
+sweep also caught and fixed a REAL P1 every prior review had inherited: line
+567 read the adjective الخضر ("green ears") as the person al-Khidr — corrected
+through the Composer path (3 chapters now carry durable composer edits) and
+upstream in refined-english.md. Sidecars restamped clean (57 runs, 0
+unverified); three sweeps ran today, final verdict SHIP-READY. Gates: pytest
+1754, npm test 59, tsc clean, lint:views 0, smoke 32/32, ruff clean.
+
+**Last updated:** 2026-07-22 8:27 AM EST (introduction is apparatus, not a chapter)
+
+**Newest — the fenced edition introduction can no longer be edited as a
+chapter.** Its `## Introduction` heading lives inside the `edition-intro` span,
+so the Composer offered it as an editable chapter whose edit was orphaned on
+every compose — and a save through the editor stripped the unknown markers,
+after which `strip_introduction` stopped matching and composes stacked a second
+introduction. `edition-intro` joined `FENCE_KINDS` (round-trip survival), the
+Composer's chapter enumeration skips headings inside the span, and
+`writeChapterBody` refuses a key resolving into it. Dormant on
+the-master-and-the-disciple (hand-split front matter, still editable by
+design); live for the next book whose preface is excluded. Commit `c1f5146`.
+
+**Last updated:** 2026-07-21 5:46 PM EST (Composer authority + honorifics)
+
+**Newest — a Composer-authored chapter is no longer regenerated, and the
+conflict warning finally means something.** Every model stage of
+`compose_book_v2` (base compose, fluency, augment, re-voice) consults
+`_book_edits.edited_chapter_keys` and passes an authored chapter through
+untouched; `--force` still re-composes and warns first. The conflict signal was
+structurally false — the Composer hashed the live `book.md` (introduction and
+bridges included) while replay hashed the composed body from before either is
+injected — so the pipeline now stamps `_system/composer-base.json` and the
+Composer quotes that value back as `base_fingerprint`. The TS hash is deleted;
+`anchor_key`/`anchorKey` is the only remaining mirror pair. New deterministic
+pass `_honorifics.py` spells out the first honorific in the book and abbreviates
+the rest. Eight audit findings closed alongside, including a seam de-dup that
+deleted paragraphs with no record, a sidecar that discarded every prior edit on
+a parse failure, and a superseded whole-book composer that clobbered `book.md`
+when run. Site-side: `npm test` now reaches `src/` via a 40-line resolve hook
+(`scripts/lib/ts-resolve-hook.mjs`, no new dependency), starting with
+`book-md-write.ts` — the sole writer into `book.md`, previously untested.
+Gates: pytest 1734, npm test 55, tsc clean, lint:views 0, eslint 0 errors,
+smoke 32/32, ruff clean. Commit `0b52991`.
+
+**Last updated:** 2026-07-19 8:20 AM EST (Supplications lane — PDF-only sibling)
+
+**Newest — the Supplications category shipped as a standalone PDF-only lane.**
+A fourth content bucket (`Supplications`) plus profile `islamic_supplication`
+now produce a facing-column reading PDF (English left, Arabic/Urdu right) with
+no episodes, audio, slides, or video. Built as a SIBLING of the podcast
+pipeline, not a branch inside it: the ship gate hard-requires paired
+`episodes/`, so the lane has its own driver (`scripts/podcast/supplication/`),
+its own state file (`_system/supplication-state.json`), its own gates, its own
+renderer (`render-supplication-pdf.mjs`), and its own stylesheet
+(`supplication-print.css`). Every firewall file — orchestrator, `_progress`,
+episode/ship gates, translation-edition composer, `book-print.css`,
+`render-book-pdf.mjs`, `_augment_registry` — is byte-untouched, and an existing
+Islamic book's PDF re-renders byte-identically (modulo PDF timestamps).
+Site-side: four TS mirrors updated in one commit (`content-paths`, `live-index`,
+the exhaustive `SHELF_META`, `PROFILE_TO_BUCKET`) plus a shelf accent; new shelf
+renders with zero console errors. Integrity design: a unit's source text is
+NEVER model-authored — models emit only line groupings and English, and Python
+re-derives source from the immutable OCR record, so the verbatim guarantee is
+structural. OCR diacritic fidelity was validated on a real vocalised Arabic scan
+before building (1,435 tashkeel marks recovered, 1 invalid token in 968).
+Gates: pytest 1642, astro 0 errors, lint:views 0, smoke 33/33, eslint 0 errors.
+
+**Last updated:** 2026-07-18 2:20 PM EST (R2 hooks pass COMPLETE + audit fixes)
+
+**Newest — all nine StudioEditor hooks extracted; post-chain audit clean.**
+Hooks 4-9 landed one-per-commit (useStageApproval, useAiActions,
+useTermCuration, useReplaceTool, useDenoiseTool, useAnnotations), each
+byte-diff-verified + smoke 32/32 + browser-driven. StudioEditor
+4605 → 2754 lines. Notable: the smoke gate caught a real TDZ constraint on
+useAnnotations placement (StudioDecos reads actionsRef during useEditor's
+synchronous first pass — hook must precede useEditor; composition order
+documented in the file). repo-surgeon end-of-chain sweep: zero P0; its two
+P1s + P2 fixed (Node snapshot generator now rebuilds the waves META array —
+R0-R3 + Wave K render on the plan page; Wave K rekeyed to id:/name:; infra
+librarian mirror no longer cites the deleted augmenter). R2 remaining tail
+= R2f: JSX child-component splits + editor-coupled route envelope flips
+toward ≤600. R4 go/no-go evidence gathered (277 sys.path files, 0 true
+collisions left, the two phases/ import roots confirmed — but run_wave.py
+is the R5 deletion candidate, so R5-first may dissolve R4's flagship bug);
+decision with Asif. Gates: pytest 1658, astro 0, eslint 0 err, smoke 32/32.
+
+**Last updated:** 2026-07-18 12:35 PM EST (Clean-code hardening R2+R3 tranche)
+
+**Newest — R2+R3 executed on Asif's approval (option A), 16 commits pushed.**
+R3 (pipeline) substantially complete: both basename collisions gone
+(`_agent_invocations` rename + dead `knowledge/augmenter.py` deleted), +72
+tests for the 5 untested critical modules (1 real bug fixed in
+`_citation_verify` — unreachable 'failed' branch), framing registry (Spec 1)
+completed, `_azure.py` split (824→500 + 4 siblings), `_translation_edition`
+(1056→576) + `_slide_authoring` (999→569) split along genuine seams,
+`intake_book` split DECLINED with recorded reasoning, stage-order drift fixed
+(`_stage_gate` was missing the live `literary` stage), audit deferrals all
+resolved. DR-005 grandfather list burned 24→21. Callable-DI sweep = recorded
+remainder (R3h), sequenced with R4's go/no-go. R2 (site) in progress:
+Pass 1 fully done (constants/types/markers/pickers extracted; 21/23 editor
+fetches on apiFetch), renderers merged (61-file byte-diff, 0 mismatches),
+both fat frontmatters extracted (`library-view.ts`, `studio-shelves.ts`),
+CSS layered (`theme-*`/`studio-editor-*`), hooks 3/9 landed one-per-commit
+with live browser verification (`useEditorPrefs`, `useAutosaveDraft`,
+`useSectionDepth` — the exemplars for the remaining six: useStageApproval,
+useAiActions, useTermCuration, useReplaceTool, useDenoiseTool,
+useAnnotations). eslint gained `react-hooks/refs` ratchet-warn (compiler
+analyzes extracted hooks but bailed on the giant component). All gates
+green: pytest 1658 (post-dead-code delta), astro check 0, eslint 0 errors,
+prettier clean, lint:views 0/0, smoke 32/32. NOTE: one leftover
+`stash@{0}` from an agent's baseline check (superseded snapshot JSONs only —
+safe to drop). R4 packaging go/no-go + R5 wave-engine decision await Asif.
+
+---
+
+**Last updated:** 2026-07-18 9:45 AM EST (Clean-code hardening R0+R1 executed)
+
+**Newest — clean-code hardening plan, R0+R1 tranche shipped (7 commits on
+`develop`, pushed).** R0: Ruff gate + whole-tree format baseline (pipeline,
+`1c26f42`); ESLint+Prettier gates (site, `936291e`); enforceable DR-005
+line-count gate with 24-file shrink-only grandfather list + lint wiring into
+pre-commit/CI/Makefile (`7fd115c`). R1: Studio renames — `reader/poc/` →
+`studio/editor/`, `StudioPoc`→`StudioEditor` (+ CSS class family),
+`corpus-mock/`→`corpus/`, `corpus-mock-sample.ts`→`corpus-fallback.ts`,
+css pairs (`0bddb02`); `src/lib/api-fetch.ts` shared typed client, 35 call
+sites across 21 files migrated, `ai/etymology`+`ai/english-term` flipped to
+the strict envelope, apiOk/apiError gained a headers param (`7a5cbb1`).
+StudioEditor's 23 fetches + 9 editor-coupled envelope routes deferred to R2
+BY DESIGN. Roadmap: `waves_refactor:` block in plan.yaml (R0-R5; R2-R5
+pending_approval) + snapshots (`b7a722f`); the Node snapshot generator now
+auto-discovers `waves_*` keys (was hardcoded — mirror-parity fix). Gates all
+green: pytest 1592, astro check 0, eslint 0 errors, lint:views 0/0, smoke
+32/32, browser drive of editor + composer clean. NOTE: machine-policy myth
+corrected repo-wide — this is a personal machine, `npm install` works
+(`f16aa70`). R2 (editor decomposition), R3-R5 await Asif's approval.
+
+---
+
+**Last updated:** 2026-07-18 5:40 AM EST (Repo audit remediation — groups 1-3)
+
+**Newest — full repo audit + safe-batch remediation.** Report:
+`docs/assessment/repo-audit-2026-07-18.md`. Three commits on `develop`
+(`b42e700` security, `fa328d9` dead-code, `b606936` edge-drift). Site impact:
+removed a 30-file dead island (the superseded chapter-reader UI + 6 uncalled
+API endpoints + `SpendChart`); added `sites`/`explainers` to `content-paths.ts`
+to match Python; corrected the `editorial.ts` mirror docstring. Gates green
+(`astro check` 0 errors, `lint:views` clean). Also (options A+B, pushed):
+fixed the pre-existing `test_etymology.py::test_build_pipeline_keeps_only_gated`
+flake (test-isolation — stubbed the global corpus loaders; suite 1592 pass / 0
+fail); repaired `.codex/hooks.json` (foreign path → repo-relative `.claude/hooks/`);
+canonicalized the `docs-updater` agent spec (infra + `.github` mirror) and rebuilt
+`infra/_README.md` to 23 agents. Remaining deferrals: WC8 staging trio (live
+stage-order mirror), `knowledge/augmenter.py`, `classify_slides.py`, StudioPoc
+`poc/` rename + split, wave-engine fate. See `docs/assessment/repo-audit-2026-07-18.md`.
+
+---
+
+**Prior — interactive Etymology AI action on the Book Composer (PDF) page.** _(2026-07-17 2:08 PM EST)_
+Commit `d203599` on `develop` (follows the `c85f458`/`03f1d1d` corpus-augmentation
+pipeline work same session). Highlight a word in the Book Composer prose editor →
+click **Etymology** in the Refinement panel → one Gemini Flash call returns TWO
+reviewed outputs shown in a `.cx-ety-card`: (1) a compact **transliterated inline
+insert** (`gratitude (shukr, from the root sha-ka-ra — also shakir, mashkur)`) that
+REPLACES the highlighted word in the reading-edition prose and autosaves to
+`book.md` → so it flows into the generated PDF; and (2) a richer **chapter-aware
+companion note** in **voweled Arabic script** (شُكْر · ش-ك-ر · شَاكِر with an example
+· مَشْكُور) filed to the Companion Panel as a new `etymology` note-kind, explaining
+each derivative with an example in the KSESSIONS/KQUR teaching voice. New
+`POST /api/ai/etymology` (two-way English↔Arabic; local KSESSIONS/KQUR root-grounded
+then Gemini Flash; inline stays Latin-only, companion is Arabic-with-diacritics —
+the two script rules are locked separately in the prompt). Files: `api/ai/etymology.ts`
+(new), `scripts/book-composer.ts`, `styles/book-composer.css`, `companion/registry.ts`.
+Gemini 2.5 Flash needs `thinkingBudget: 0` or thinking tokens starve the JSON output
+(caused a first-pass "unparseable output" — the documented fix). Gated: `astro check`
++ `lint:views` clean, `site-health-sentinel` PASS (32 routes, desktop+mobile, focus
++ Arabic contrast verified), `html-view-challenger` Level 2 conformant (fixed 2
+REQ-048 a11y MUSTs: focus-visible on the new buttons + label↔input associations).
+Compose route is light-only by design (its Light/Sepia/Dark toggle is the editor
+paper, not a page theme). Podcast/PDF batch etymology (`_etymology.py`, 12 seed atoms)
+remains the automated peer path; the interactive Studio button is the human-in-loop
+creator.
+
+**Earlier — Composer header redesign, Layout mode retired, autosave made shared infrastructure.**
 Commit `f1c2936` on `develop`, pushed (follows `13d34c3`/`7018dea`, the Phase 3 Preview
 work below, same session). Driven by live feedback on the shipped Preview screenshots —
 Asif didn't like the large vertical pill stack in Compose's header. (1) **Header row**:

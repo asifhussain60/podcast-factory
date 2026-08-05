@@ -1,0 +1,65 @@
+{
+  "_comment": "Shared fixtures for the prose-block mirror pair. Read by BOTH plan-dashboard/scripts/lib/para-blocks.test.mjs and scripts/podcast/tests/test_para_blocks.py. The two halves must agree on which blocks a chapter HAS and what each is called: the Python aligner writes _system/arabic-alignment.json keyed by these fingerprints and the Composer looks paragraphs up by them, so a divergence does not degrade the Arabic reveal — it puts the wrong Arabic above the wrong paragraph.",
+  "proseBlocks": [
+    {
+      "_why": "blank-line split, trimmed",
+      "in": "First paragraph.\n\nSecond paragraph.",
+      "out": ["First paragraph.", "Second paragraph."]
+    },
+    {
+      "_why": "a blockquote is not a prose paragraph — it renders as <blockquote>, and visual-layout does not count it",
+      "in": "Before.\n\n> A quoted line.\n\nAfter.",
+      "out": ["Before.", "After."]
+    },
+    {
+      "_why": "headings and raw HTML blocks are excluded by the same rule",
+      "in": "## A heading\n\nProse.\n\n<figure>x</figure>\n\nMore prose.",
+      "out": ["Prose.", "More prose."]
+    },
+    {
+      "_why": "a blank line with trailing spaces still splits",
+      "in": "One.\n   \nTwo.",
+      "out": ["One.", "Two."]
+    },
+    {
+      "_why": "a multi-line block stays ONE block",
+      "in": "A sentence\nwrapped over two lines.\n\nNext.",
+      "out": ["A sentence\nwrapped over two lines.", "Next."]
+    },
+    { "_why": "empty body", "in": "", "out": [] }
+  ],
+  "paraFingerprint": [
+    {
+      "_why": "whitespace-collapsed and lowercased, so a re-wrap does not rename a paragraph",
+      "a": "The Master replied to him.",
+      "b": "the   master\nreplied  to him.",
+      "equal": true
+    },
+    {
+      "_why": "different words are a different paragraph",
+      "a": "The Master replied.",
+      "b": "The boy replied.",
+      "equal": false
+    },
+    {
+      "_why": "Arabic and its marks are part of the identity",
+      "a": "He quoted اَلطُّور here.",
+      "b": "He quoted الطور here.",
+      "equal": false
+    }
+  ],
+  "blocksFingerprint": [
+    {
+      "_why": "reordering two paragraphs renames the chapter's block list",
+      "a": "One.\n\nTwo.",
+      "b": "Two.\n\nOne.",
+      "equal": false
+    },
+    {
+      "_why": "a blockquote added between prose does NOT change the prose block list",
+      "a": "One.\n\nTwo.",
+      "b": "One.\n\n> quoted\n\nTwo.",
+      "equal": true
+    }
+  ]
+}

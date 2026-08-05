@@ -27,7 +27,9 @@ class TestClassifySection(unittest.TestCase):
         self.assertEqual(_classify_section("The Inner Meaning", "esoteric interpretation of the verse", None), "taveel")
 
     def test_advanced_keyword_wins(self):
-        self.assertEqual(_classify_section("Legal Reasoning", "analysis of jurisprudence in the text", None), "advanced")
+        self.assertEqual(
+            _classify_section("Legal Reasoning", "analysis of jurisprudence in the text", None), "advanced"
+        )
 
     def test_general_keyword_wins(self):
         self.assertEqual(_classify_section("Historical Background", "a history of the period", None), "general")

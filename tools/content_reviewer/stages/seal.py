@@ -1,7 +1,9 @@
 """seal.py — validate the review outputs, switch bundle.yml.stage to 'reviewed',
 and stamp needs_human_review flag if any annotation needs human attention.
 """
+
 from __future__ import annotations
+
 import json
 from pathlib import Path
 
@@ -38,9 +40,7 @@ def seal_book(bundle_root: Path) -> dict:
     if not bundle_yml.exists():
         raise FileNotFoundError(f"bundle.yml not found at {bundle_yml}")
     if not editorial_md.exists() or not annotations_jsonl.exists():
-        raise FileNotFoundError(
-            f"Reviewer outputs missing under {text_dir}. Run `review` first."
-        )
+        raise FileNotFoundError(f"Reviewer outputs missing under {text_dir}. Run `review` first.")
 
     # Inspect annotations for needs-human-review entries.
     nhr_count = 0
@@ -62,10 +62,7 @@ def seal_book(bundle_root: Path) -> dict:
     if needs_human:
         FAILURE_LOG.parent.mkdir(parents=True, exist_ok=True)
         with FAILURE_LOG.open("a", encoding="utf-8") as f:
-            f.write(
-                f"needs_human_review bundle={bundle_root} "
-                f"annotations={nhr_count}/{total}\n"
-            )
+            f.write(f"needs_human_review bundle={bundle_root} annotations={nhr_count}/{total}\n")
 
     return {
         "total_annotations": total,

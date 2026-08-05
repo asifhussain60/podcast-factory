@@ -3,12 +3,15 @@
 Extracted from _authoring.py (A4 split). Contains everything through
 _assert_artifact so the per-phase modules can import from here.
 """
+
 from __future__ import annotations
 
 import os
 import subprocess
 import sys
+import time
 from pathlib import Path
+from typing import Any
 
 # Ensure scripts/podcast/ is importable from within the package directory.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -39,6 +42,7 @@ PHASE_0D_SC_TIMEOUT_BASELINE = 600
 def _compute_sc_timeout(words: int) -> int:
     """Word-count-aware per-source-chapter timeout in seconds."""
     import math
+
     raw = math.ceil(words * PHASE_0D_SC_TIMEOUT_RATE + PHASE_0D_SC_TIMEOUT_BASELINE)
     return max(PHASE_0D_SC_TIMEOUT_MIN, min(PHASE_0D_SC_TIMEOUT_MAX, raw))
 
@@ -54,28 +58,44 @@ CLAUDE_CMD = "claude"
 # pipeline: OCR→translate, Phase 0b (scholarly refinement), Phase 0c (Arabic
 # phonetics), Phase 0d (scholarly chapter design), Phase 0e (7-tier Islamic
 # enrichment), Islamic framing prompt, Islamic challenger rules.
-ARABIC_SCHOLARLY_CATEGORIES: frozenset[str] = frozenset({
-    "books", "letters", "lectures", "articles", "asbaaq", "documents", "interviews",
-})
+ARABIC_SCHOLARLY_CATEGORIES: frozenset[str] = frozenset(
+    {
+        "books",
+        "letters",
+        "lectures",
+        "articles",
+        "asbaaq",
+        "documents",
+        "interviews",
+    }
+)
 
 # Categories that skip Phase 0c (Arabic phonetics) entirely — no Arabic terms
 # to extract, no _phonetics.md output needed.
-SKIP_PHONETICS_CATEGORIES: frozenset[str] = frozenset({
-    "sites", "explainers",
-})
+SKIP_PHONETICS_CATEGORIES: frozenset[str] = frozenset(
+    {
+        "sites",
+        "explainers",
+    }
+)
 
 # Categories that skip Phase 0e (enrichment) — source material is already
 # authoritative (product docs, official technical docs) and outside enrichment
 # would introduce inaccuracy.
-SKIP_ENRICHMENT_CATEGORIES: frozenset[str] = frozenset({
-    "sites",
-})
+SKIP_ENRICHMENT_CATEGORIES: frozenset[str] = frozenset(
+    {
+        "sites",
+    }
+)
 
 # Categories that skip Phase 0a (OCR + Azure translation) — source text is
 # already in English (scraped web content, synthesized markdown, pre-written docs).
-SKIP_OCR_CATEGORIES: frozenset[str] = frozenset({
-    "sites", "explainers",
-})
+SKIP_OCR_CATEGORIES: frozenset[str] = frozenset(
+    {
+        "sites",
+        "explainers",
+    }
+)
 
 # content_profile values that trigger the fiction sidecar augmenter in Phase 0e.
 # The sidecar augmenter NEVER modifies chapter prose — it writes a companion
@@ -96,6 +116,7 @@ def _read_category(book_dir: "Path") -> str:
     pre-dates category stamping continues to use the correct path.
     """
     import json as _json
+
     state_path = book_dir / "_system" / "orchestrator-state.json"
     if state_path.exists():
         try:
@@ -103,7 +124,7 @@ def _read_category(book_dir: "Path") -> str:
             cat = state.get("category", "").strip()
             if cat:
                 return cat.lower()
-        except Exception:  # noqa: BLE001
+        except Exception:
             pass
 
     meta_path = book_dir / "_system" / "meta.yml"
@@ -131,6 +152,7 @@ def _read_content_profile(book_dir: "Path") -> str:
     content_profile wins for Phase 0e routing decisions.
     """
     import json as _json
+
     state_path = book_dir / "_system" / "orchestrator-state.json"
     if state_path.exists():
         try:
@@ -138,7 +160,7 @@ def _read_content_profile(book_dir: "Path") -> str:
             prof = state.get("content_profile", "").strip()
             if prof:
                 return prof.lower()
-        except Exception:  # noqa: BLE001
+        except Exception:
             pass
 
     cfg_path = book_dir / "_system" / "series-config.yaml"
@@ -155,8 +177,7 @@ def _read_content_profile(book_dir: "Path") -> str:
 class AuthoringError(RuntimeError):
     """Raised when an LLM-authoring shellout fails to produce its declared artifact."""
 
-    def __init__(self, phase: str, message: str, manual_fallback: str = "",
-                 stdout: str = "", stderr: str = ""):
+    def __init__(self, phase: str, message: str, manual_fallback: str = "", stdout: str = "", stderr: str = ""):
         super().__init__(message)
         self.phase = phase
         self.manual_fallback = manual_fallback
@@ -195,8 +216,10 @@ DEFAULT_MODEL_LABEL = "claude-opus-4-8"
 # Pinning sampling is impossible until the CLI grows the knob; do NOT claim the
 # content route is byte-deterministic.
 
-def record_model_provenance(book_dir: "Path | None", *, phase: str, step: str,
-                            model: str, fallback: bool = False) -> None:
+
+def record_model_provenance(
+    book_dir: "Path | None", *, phase: str, step: str, model: str, fallback: bool = False
+) -> None:
     """Append one row to _system/model-provenance.jsonl naming the model that
     authored this call. A row whose model != DEFAULT_MODEL_LABEL (or fallback=True)
     is a content-provenance divergence — surfaced so mixed-model books are visible.
@@ -205,15 +228,106 @@ def record_model_provenance(book_dir: "Path | None", *, phase: str, step: str,
         return
     try:
         import json as _json
+
         sysdir = Path(book_dir) / "_system"
         sysdir.mkdir(parents=True, exist_ok=True)
-        row = {"phase": phase or "(unspecified)", "step": step or "(unspecified)",
-               "model": model, "fallback": bool(fallback),
-               "divergence": bool(fallback or model != DEFAULT_MODEL_LABEL)}
+        row = {
+            "phase": phase or "(unspecified)",
+            "step": step or "(unspecified)",
+            "model": model,
+            "fallback": bool(fallback),
+            "divergence": bool(fallback or model != DEFAULT_MODEL_LABEL),
+        }
         with (sysdir / "model-provenance.jsonl").open("a", encoding="utf-8") as fh:
             fh.write(_json.dumps(row) + "\n")
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         sys.stderr.write(f"[record_model_provenance] skipped: {e!r}\n")
+
+
+def _dump_failed_call(
+    book_dir: Path | None,
+    *,
+    step: str,
+    prompt: str,
+    stdout: Any,
+    stderr: Any,
+) -> str | None:
+    """On a FAILED call only, write the full prompt + both streams to a sidecar.
+
+    Hash-only logging is right for the success path and useless for the failure
+    path — you cannot diff a prompt you no longer have. Bounded excerpts go in
+    the timeline; the complete evidence goes here, and only when it is needed.
+    Returns a repo-relative-ish path string, or None.
+    """
+    try:
+        from _progress import current_run_id, init_run_log, run_log_path
+
+        if not current_run_id():
+            init_run_log(book_dir)
+        base = run_log_path()
+        if base is None:
+            return None
+        safe = "".join(c if (c.isalnum() or c in "-_") else "-" for c in (step or "call"))[:60]
+        stamp = time.strftime("%H%M%S", time.gmtime())
+        p = Path(base).parent / f"{Path(base).stem}.{safe}-{stamp}.failure.txt"
+
+        def _txt(v: Any) -> str:
+            if v is None:
+                return "(none)"
+            if isinstance(v, bytes):
+                return v.decode("utf-8", "replace")
+            return str(v)
+
+        p.write_text(
+            "\n".join(
+                [
+                    f"step:   {step}",
+                    f"run_id: {current_run_id()}",
+                    "",
+                    "===== PROMPT =====",
+                    prompt,
+                    "",
+                    "===== STDOUT =====",
+                    _txt(stdout),
+                    "",
+                    "===== STDERR =====",
+                    _txt(stderr),
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        return str(p)
+    except Exception as e:
+        sys.stderr.write(f"[_dump_failed_call] skipped: {e!r}\n")
+        return None
+
+
+def _log_claude_p(
+    event: str,
+    *,
+    book_dir: Path | None,
+    prompt: str | None = None,
+    stdout: Any = None,
+    stderr: Any = None,
+    **fields: Any,
+) -> None:
+    """Emit one claude_p.* timeline event. NEVER raises into the pipeline."""
+    try:
+        import hashlib
+
+        from _progress import log_event, tail
+
+        if prompt is not None:
+            fields["prompt_sha256"] = hashlib.sha256(prompt.encode("utf-8", "replace")).hexdigest()[:16]
+            fields["prompt_chars"] = len(prompt)
+        if stdout is not None:
+            fields["stdout_tail"] = tail(stdout)
+        if stderr is not None:
+            fields["stderr_tail"] = tail(stderr)
+        log_event(event, book_dir=book_dir, **fields)
+    except Exception as e:
+        sys.stderr.write(f"[_log_claude_p] dropped {event!r}: {e!r}\n")
 
 
 def _run_claude_p(
@@ -233,9 +347,14 @@ def _run_claude_p(
     # instead of writing. --allowedTools grants the specific tools each phase needs.
     _ALLOWED = "Write,Edit,MultiEdit,Read,Bash,Grep,Glob"
     argv: list[str] = [
-        CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits",
-        "--allowedTools", _ALLOWED,
-        "--output-format", "json",
+        CLAUDE_CMD,
+        "-p",
+        "--permission-mode",
+        "acceptEdits",
+        "--allowedTools",
+        _ALLOWED,
+        "--output-format",
+        "json",
     ]
     if model_flag:
         argv.extend(["--model", model_flag])
@@ -248,6 +367,7 @@ def _run_claude_p(
     child_env = dict(os.environ)
     for _v in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"):
         child_env.pop(_v, None)
+    _t0 = time.monotonic()
     try:
         proc = subprocess.run(
             argv,
@@ -258,32 +378,75 @@ def _run_claude_p(
             env=child_env,
         )
         rc, raw_stdout, stderr = proc.returncode, proc.stdout, proc.stderr
+        _elapsed_ms = int((time.monotonic() - _t0) * 1000)
+        _tokens_in = _tokens_out = None
         if book_dir is not None:
             try:
                 from _cost_ledger import append_from_claude_p_stdout
-                append_from_claude_p_stdout(
+
+                _row = append_from_claude_p_stdout(
                     book_dir,
                     phase=phase or "(unspecified)",
                     step=step or "(unspecified)",
                     model=model_flag or model,
                     stdout=raw_stdout,
                 )
-            except Exception as e:  # noqa: BLE001
+                _tokens_in, _tokens_out = _row.input_tokens, _row.output_tokens
+            except Exception as e:
                 sys.stderr.write(f"[_run_claude_p] cost-ledger append failed: {e!r}\n")
             # Record which model authored this artifact (provenance). A non-default
             # model (the Sonnet timeout-fallback passes model_flag) is flagged as a
             # content-provenance divergence so mixed-model books are never silent.
             _effective_model = model_flag or model
             record_model_provenance(
-                book_dir, phase=phase, step=step, model=_effective_model,
-                fallback=_effective_model != DEFAULT_MODEL_LABEL)
+                book_dir,
+                phase=phase,
+                step=step,
+                model=_effective_model,
+                fallback=_effective_model != DEFAULT_MODEL_LABEL,
+            )
         try:
             from _cost_ledger import parse_text_from_json_stdout
+
             stdout = parse_text_from_json_stdout(raw_stdout)
         except Exception:
             stdout = raw_stdout
+
+        # Timeline event. On a NON-ZERO rc the full prompt and both streams are
+        # also dumped to a sidecar — before this, a failed call persisted nothing
+        # at all while a successful one wrote two artifacts.
+        _dump = (
+            None if rc == 0 else _dump_failed_call(book_dir, step=step, prompt=prompt, stdout=raw_stdout, stderr=stderr)
+        )
+        _log_claude_p(
+            "claude_p.call",
+            book_dir=book_dir,
+            level="info" if rc == 0 else "error",
+            phase=phase,
+            step=step,
+            model=model_flag or model,
+            rc=rc,
+            duration_ms=_elapsed_ms,
+            tokens_in=_tokens_in,
+            tokens_out=_tokens_out,
+            prompt=prompt,
+            stdout=raw_stdout,
+            stderr=stderr,
+            prompt_dump=_dump,
+            msg="" if rc == 0 else f"claude -p exited {rc}",
+        )
         return rc, stdout, stderr
     except FileNotFoundError as e:
+        _log_claude_p(
+            "claude_p.missing_binary",
+            book_dir=book_dir,
+            level="error",
+            phase=phase,
+            step=step,
+            model=model_flag or model,
+            duration_ms=int((time.monotonic() - _t0) * 1000),
+            msg=f"`{CLAUDE_CMD}` not found on PATH",
+        )
         raise AuthoringError(
             phase="(shellout)",
             message=(
@@ -294,6 +457,26 @@ def _run_claude_p(
             manual_fallback="Drive the phase via conversational /podcast skill.",
         ) from e
     except subprocess.TimeoutExpired as e:
+        # TimeoutExpired carries whatever the child had already written. That
+        # partial output was previously discarded unread — it is often the only
+        # evidence of WHY the call hung, so capture it before re-raising.
+        _partial_out, _partial_err = getattr(e, "stdout", None), getattr(e, "stderr", None)
+        _dump = _dump_failed_call(book_dir, step=step, prompt=prompt, stdout=_partial_out, stderr=_partial_err)
+        _log_claude_p(
+            "claude_p.timeout",
+            book_dir=book_dir,
+            level="error",
+            phase=phase,
+            step=step,
+            model=model_flag or model,
+            rc=None,
+            duration_ms=int((time.monotonic() - _t0) * 1000),
+            prompt=prompt,
+            stdout=_partial_out,
+            stderr=_partial_err,
+            prompt_dump=_dump,
+            msg=f"timed out after {timeout}s",
+        )
         raise AuthoringError(
             phase="(shellout)",
             message=f"LLM call timed out after {timeout}s.",
@@ -315,24 +498,33 @@ def _run_claude_p_with_retry(
     """Timeout → single retry with fallback model → halt."""
     try:
         return _run_claude_p(
-            prompt, timeout=timeout,
-            book_dir=book_dir, phase=phase, step=step,
+            prompt,
+            timeout=timeout,
+            book_dir=book_dir,
+            phase=phase,
+            step=step,
         )
     except AuthoringError as e:
         if "timed out after" not in str(e):
             raise
 
     bumped = int(timeout * fallback_timeout_multiplier)
-    log(f"      [retry] {step}: first attempt timed out ({timeout}s); "
+    log(
+        f"      [retry] {step}: first attempt timed out ({timeout}s); "
         f"retrying once with model={fallback_model}, timeout={bumped}s "
         f"— CONTENT-PROVENANCE DIVERGENCE: this artifact will be authored by "
         f"{fallback_model}, not {DEFAULT_MODEL_LABEL} (recorded in "
-        f"_system/model-provenance.jsonl)")
+        f"_system/model-provenance.jsonl)"
+    )
     try:
         return _run_claude_p(
-            prompt, timeout=bumped,
-            book_dir=book_dir, phase=phase, step=f"{step}-retry-sonnet",
-            model=fallback_model, model_flag=fallback_model,
+            prompt,
+            timeout=bumped,
+            book_dir=book_dir,
+            phase=phase,
+            step=f"{step}-retry-sonnet",
+            model=fallback_model,
+            model_flag=fallback_model,
         )
     except AuthoringError as e:
         if "timed out after" not in str(e):

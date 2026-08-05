@@ -1,0 +1,10 @@
+{
+  "schema": "book.gloss-coverage/v1",
+  "candidates": 6,
+  "strong": 0,
+  "covered": 6,
+  "missing_strong": [],
+  "glossary_entries": 168,
+  "coverage": 1.0,
+  "strong_coverage": 1.0
+}

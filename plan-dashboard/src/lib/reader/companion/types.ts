@@ -19,6 +19,27 @@
 /** Open-ended note category. Known values live in KIND_DEFS (registry.ts). */
 export type CompanionNoteKind = string;
 
+/** The verified, corpus-derived half of one etymology row (client-safe shape;
+ *  produced only by lib/db/morphology.server.ts from the committed Quranic
+ *  morphology DB + Lane join — never model output). */
+export interface EtymologyMorphology {
+  root_ar: string;
+  root_dashed: string;
+  occurrences: number;
+  lemma_count: number;
+  family: Array<{
+    lemma_ar: string;
+    lemma_bw: string;
+    pos: string | null;
+    occurrence_count: number;
+    first_location: string;
+  }>;
+  pos_distribution: Record<string, number>;
+  lane_en?: string;
+  maqayis_ar?: string;
+  mufradat_ar?: string;
+}
+
 /**
  * Where a note's content came from. Provider is open-ended (registry.ts):
  * 'notebooklm' (transcribed deep-dive), 'manual' (your own), or future providers.
@@ -48,6 +69,19 @@ export interface CompanionNote {
    *  show the one relevant card as you scroll. Distinct from `anchor` (the label):
    *  `anchor` is what the card is called, `quote` is where it lives in the text. */
   quote?: string;
+  /** Etymology as DISCRETE ITEMS, one per term (2026-07-26). It used to be prose
+   *  appended to `body`, which made it uncurateable: the reader adds and deletes
+   *  entries one at a time, and the body's word cap could eat the last of them.
+   *  Optional — a note without etymology simply omits it, and the Python side
+   *  (scripts/podcast/_book_companion.py) does not propose the field at all.
+   *  That module stopped WRITING these files on 2026-08-02; it proposes
+   *  candidates and the Composer's apply step files the ones a human kept. */
+  etymology?: string[];
+  /** Verified morphology per etymology row, index-aligned (null = the corpus
+   *  declined). COMPUTED at read time from the Quranic morphology DB — never
+   *  persisted, never accepted from a client, so it cannot drift or be forged.
+   *  See lib/db/morphology.server.ts. */
+  morphology?: (EtymologyMorphology | null)[];
   source?: CompanionSource;
   createdAt: string;
   updatedAt: string;
@@ -76,5 +110,6 @@ export type CompanionNoteInput = {
   body: string;
   anchor?: string;
   quote?: string;
+  etymology?: string[];
   source?: CompanionSource;
 };

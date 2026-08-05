@@ -7,16 +7,16 @@ When implementing, the SQL queries below (lifted from the Phase 1
 _workspace/source-library/scripts/extract.py KSESSIONS sketch) are a
 starting point — verify against the live KSESSIONS schema before trusting them.
 """
+
 from __future__ import annotations
 
 from .base import (
-    SourceAdapter,
+    AdapterLabels,
     BookIds,
     BookMeta,
     Section,
-    AdapterLabels,
+    SourceAdapter,
 )
-
 
 # Reference SQL templates (NOT YET VERIFIED — do not enable until checked):
 #

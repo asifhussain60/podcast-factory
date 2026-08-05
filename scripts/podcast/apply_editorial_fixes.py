@@ -26,7 +26,9 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-CONTENT = REPO_ROOT / "content" / "drafts" / "books"
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _paths import resolve_content  # noqa: E402
 
 
 def _paragraphs(text: str) -> list[str]:
@@ -85,11 +87,13 @@ def apply_fixes(
         if f["action"] == "suppress":
             idx = f["paragraph_index"]
             if idx < len(paras):
-                suppressed_entries.append({
-                    "paragraph_index": idx,
-                    "pattern": f["pattern"],
-                    "original_text": paras[idx],
-                })
+                suppressed_entries.append(
+                    {
+                        "paragraph_index": idx,
+                        "pattern": f["pattern"],
+                        "original_text": paras[idx],
+                    }
+                )
 
     # Build the cleaned paragraph list.
     cleaned: list[str] = []
@@ -126,11 +130,13 @@ def apply_fixes(
     }
 
     if dry_run:
-        print(f"  [dry-run] {summary['chapter']}: "
-              f"{summary['suppressed']} suppressed, "
-              f"{summary['consolidated']} consolidated, "
-              f"{summary['dropped_secondary']} secondary-dropped "
-              f"→ {n_original}→{len(cleaned)} paragraphs")
+        print(
+            f"  [dry-run] {summary['chapter']}: "
+            f"{summary['suppressed']} suppressed, "
+            f"{summary['consolidated']} consolidated, "
+            f"{summary['dropped_secondary']} secondary-dropped "
+            f"→ {n_original}→{len(cleaned)} paragraphs"
+        )
         return summary
 
     clean_path = stage_file.parent / "additions-narrator-clean.md"
@@ -138,9 +144,11 @@ def apply_fixes(
 
     clean_path.write_text(clean_text, encoding="utf-8")
     meta_path.write_text(json.dumps(meta, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"  ✅ {summary['chapter']}: "
-          f"{n_original}→{len(cleaned)} paragraphs "
-          f"| clean → {clean_path.name} | meta → {meta_path.name}")
+    print(
+        f"  ✅ {summary['chapter']}: "
+        f"{n_original}→{len(cleaned)} paragraphs "
+        f"| clean → {clean_path.name} | meta → {meta_path.name}"
+    )
 
     return summary
 
@@ -152,7 +160,11 @@ def main() -> None:
     ap.add_argument("--dry-run", action="store_true", help="Print plan without writing files")
     args = ap.parse_args()
 
-    book_dir = CONTENT / args.slug
+    # Resolved through _paths so the book is found in whichever bucket holds it.
+    # This used to hardcode content/drafts/books/<slug>, a tree that stopped
+    # existing at the type-first migration — every invocation died on "book
+    # directory not found".
+    book_dir = resolve_content(args.slug)
     if not book_dir.exists():
         print(f"ERROR: book directory not found: {book_dir}", file=sys.stderr)
         sys.exit(1)
@@ -175,8 +187,7 @@ def main() -> None:
         print("No audit files found.", file=sys.stderr)
         sys.exit(1)
 
-    print(f"\nApplying editorial fixes — {args.slug} "
-          f"({'dry-run' if args.dry_run else 'live'})\n")
+    print(f"\nApplying editorial fixes — {args.slug} ({'dry-run' if args.dry_run else 'live'})\n")
 
     total_suppressed = 0
     total_consolidated = 0
@@ -196,8 +207,10 @@ def main() -> None:
         total_suppressed += result["suppressed"]
         total_consolidated += result["consolidated"]
 
-    print(f"\nDone. {total_suppressed} suppress + {total_consolidated} consolidate applied across "
-          f"{len(audit_files)} chapters.")
+    print(
+        f"\nDone. {total_suppressed} suppress + {total_consolidated} consolidate applied across "
+        f"{len(audit_files)} chapters."
+    )
     if errors:
         print(f"⚠️  {errors} chapter(s) skipped (missing stage file).")
     sys.exit(0 if not errors else 1)

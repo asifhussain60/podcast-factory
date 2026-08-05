@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# post-merge hook — see sync-develop.sh. Fires after `git merge` and after a
+# `git pull` that fast-forwards or merges (e.g. `scripts/start-session.sh`
+# pulling `origin/develop`, or deploy_listener.sh's own branch sweep).
+#
+# Install via `bash scripts/install-git-hooks.sh` (copies infra/git-hooks/*
+# into .git/hooks/).
+
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+[ -x "$repo_root/infra/git-hooks/sync-develop.sh" ] || exit 0
+"$repo_root/infra/git-hooks/sync-develop.sh"
+exit 0

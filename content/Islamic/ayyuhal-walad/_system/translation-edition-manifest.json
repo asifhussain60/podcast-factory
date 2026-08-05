@@ -1,0 +1,126 @@
+{
+  "schema": "podcast.translation-edition/v1",
+  "mode": "translation_edition",
+  "augmentation": "forbidden",
+  "visual_style": "black_white",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "Knowledge That Will Not Save You",
+      "chapter_file": "book/_chapters/ch01-knowledge-that-will-not-save-you.txt",
+      "source_line_ranges": [
+        [
+          69,
+          144
+        ]
+      ],
+      "source_words": 1581,
+      "output_words": 1335
+    },
+    {
+      "index": 2,
+      "title": "The Striving That Mercy Meets",
+      "chapter_file": "book/_chapters/ch02-the-striving-that-mercy-meets.txt",
+      "source_line_ranges": [
+        [
+          146,
+          213
+        ]
+      ],
+      "source_words": 808,
+      "output_words": 750
+    },
+    {
+      "index": 3,
+      "title": "The Hours Before Dawn",
+      "chapter_file": "book/_chapters/ch03-the-hours-before-dawn.txt",
+      "source_line_ranges": [
+        [
+          214,
+          332
+        ]
+      ],
+      "source_words": 1632,
+      "output_words": 1369
+    },
+    {
+      "index": 4,
+      "title": "Worship Is Obedience, Nothing Less",
+      "chapter_file": "book/_chapters/ch04-worship-is-obedience-nothing-less.txt",
+      "source_line_ranges": [
+        [
+          334,
+          358
+        ]
+      ],
+      "source_words": 1540,
+      "output_words": 1377
+    },
+    {
+      "index": 5,
+      "title": "Eight Lessons from Thirty-Three Years",
+      "chapter_file": "book/_chapters/ch05-eight-lessons-from-thirty-three-years.txt",
+      "source_line_ranges": [
+        [
+          360,
+          478
+        ]
+      ],
+      "source_words": 2113,
+      "output_words": 1877
+    },
+    {
+      "index": 6,
+      "title": "Finding a True Guide",
+      "chapter_file": "book/_chapters/ch06-finding-a-true-guide.txt",
+      "source_line_ranges": [
+        [
+          481,
+          515
+        ]
+      ],
+      "source_words": 1278,
+      "output_words": 1213
+    },
+    {
+      "index": 7,
+      "title": "Sufism, Servitude, Trust, Sincerity",
+      "chapter_file": "book/_chapters/ch07-sufism-servitude-trust-sincerity.txt",
+      "source_line_ranges": [
+        [
+          517,
+          562
+        ]
+      ],
+      "source_words": 977,
+      "output_words": 870
+    },
+    {
+      "index": 8,
+      "title": "Four to Avoid, Four to Embrace",
+      "chapter_file": "book/_chapters/ch08-four-to-avoid-four-to-embrace.txt",
+      "source_line_ranges": [
+        [
+          564,
+          684
+        ]
+      ],
+      "source_words": 3606,
+      "output_words": 2607
+    },
+    {
+      "index": 9,
+      "title": "A Prayer for the Road",
+      "chapter_file": "book/_chapters/ch09-a-prayer-for-the-road.txt",
+      "source_line_ranges": [
+        [
+          686,
+          700
+        ]
+      ],
+      "source_words": 603,
+      "output_words": 818
+    }
+  ],
+  "source_crosswalk": "book/source-crosswalk.json"
+}

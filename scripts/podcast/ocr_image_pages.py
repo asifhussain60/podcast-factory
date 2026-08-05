@@ -53,14 +53,12 @@ from pathlib import Path
 try:
     from PIL import Image
 except ImportError:
-    sys.stderr.write(
-        "Pillow is required: /usr/bin/python3 -m pip install --user pillow\n"
-    )
+    sys.stderr.write("Pillow is required: /usr/bin/python3 -m pip install --user pillow\n")
     sys.exit(2)
 
 # Local: pure-stdlib helpers, no pip-installs at runtime
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _azure import (  # noqa: E402
+from _azure import (
     AzureCredsError,
     docintel_analyze_pdf,
     docintel_pages_to_markdown,
@@ -150,9 +148,7 @@ def main() -> int:
     provenance = out_dir / "_provenance.json"
 
     if stitched_pdf.exists() and not args.force:
-        sys.stderr.write(
-            f"Refusing to overwrite {stitched_pdf} — pass --force to re-run.\n"
-        )
+        sys.stderr.write(f"Refusing to overwrite {stitched_pdf} — pass --force to re-run.\n")
         return 3
 
     started = _utcnow_iso()
@@ -174,7 +170,8 @@ def main() -> int:
         print(f"        chunk {i}: pages {s}-{e}  ({len(b):,} bytes)", file=sys.stderr)
 
     # 2. OCR (one Doc Intel call per chunk; concatenate markdown)
-    from _engine import engine_guard, TASK_OCR, ENGINE_AZURE
+    from _engine import ENGINE_AZURE, TASK_OCR, engine_guard
+
     engine_guard(TASK_OCR, ENGINE_AZURE)
     try:
         docintel = load_docintel_creds()
@@ -245,15 +242,14 @@ def main() -> int:
     translated_chars = 0
     if not args.no_translate and args.src_lang != "en":
         from _engine import TASK_TRANSLATE_BULK
+
         engine_guard(TASK_TRANSLATE_BULK, ENGINE_AZURE)
         translator = load_translator_creds()
         print(
             f"[3/3] Translating {args.src_lang} → en via Azure Translator …",
             file=sys.stderr,
         )
-        en_text = translate_text(
-            translator, md, src_lang=args.src_lang, tgt_lang="en"
-        )
+        en_text = translate_text(translator, md, src_lang=args.src_lang, tgt_lang="en")
         translated.write_text(en_text, encoding="utf-8")
         translated_chars = len(en_text)
         print(
@@ -267,6 +263,7 @@ def main() -> int:
         # — operator can post-hoc move it).
         try:
             from _cost_ledger import append_azure_translator_cost
+
             # Heuristic book_dir resolution: walk up from out_dir looking for a
             # directory whose parent is "drafts" or "books" (the standard book
             # roots). Fall back to out_dir.
@@ -279,7 +276,9 @@ def main() -> int:
                     _book = out_dir
                     break
             cost_row = append_azure_translator_cost(
-                book_dir=_book, phase="0a", step="ocr-image-pages/translator",
+                book_dir=_book,
+                phase="0a",
+                step="ocr-image-pages/translator",
                 char_count=len(md),
             )
             print(

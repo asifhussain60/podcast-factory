@@ -1,0 +1,13 @@
+{
+  "schema": "podcast.composer-edits-replay/v1",
+  "applied": 1,
+  "conflicts": 0,
+  "orphaned": 0,
+  "chapters": [
+    {
+      "chapter_key": "the striving that mercy meets",
+      "title": "## 2. The Striving That Mercy Meets",
+      "conflict": false
+    }
+  ]
+}

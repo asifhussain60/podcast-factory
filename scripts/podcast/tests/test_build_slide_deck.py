@@ -6,6 +6,7 @@ and has shipped on zero books to date. These tests pin the deterministic
 validators in build_slide_deck.py so enabling the slide path for a new book
 (M&D) is a measured risk rather than an unknown.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,12 +16,11 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import build_slide_deck as bsd   # noqa: E402
-from _slide_convergence import _VERDICT_LINE_RE   # noqa: E402
+import build_slide_deck as bsd
+from _slide_convergence import _VERDICT_LINE_RE
 
 
 class WordCountTests(unittest.TestCase):
-
     def test_word_count_basic(self):
         self.assertEqual(bsd.word_count("one two three"), 3)
         self.assertEqual(bsd.word_count(""), 0)
@@ -50,7 +50,8 @@ class DeterministicCheckerTests(unittest.TestCase):
         findings: list[str] = []
         bsd.check_inline_phonetics(
             "the seeker spoke of *Sharee-ah* (Sha-REE-ah) gently.",
-            "chapter", findings,
+            "chapter",
+            findings,
         )
         # At minimum should flag the inline parenthetical
         self.assertNotEqual(findings, [])
@@ -94,7 +95,9 @@ class MissingSpineFallThroughTests(unittest.TestCase):
 
     def test_no_spine_detected_and_density_is_high(self):
         import tempfile
+
         from _slide_convergence import _compute_density, _discussion_spine_path
+
         with tempfile.TemporaryDirectory() as d:
             book = Path(d) / "book"
             (book / "_system").mkdir(parents=True)

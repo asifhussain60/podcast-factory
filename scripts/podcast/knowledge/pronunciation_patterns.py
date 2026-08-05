@@ -23,12 +23,13 @@ Suggestion precedence (``suggest_phonetic``):
 This is also the fix for IPA-contaminated _phonetics.md rows: their translit
 column is clean, so the baseline regenerates a usable spoken form for them.
 """
+
 from __future__ import annotations
 
 import json
 import re
 import unicodedata
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from pathlib import Path
 
 _REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -78,8 +79,8 @@ _VOWELS = set("aeiou")
 @dataclass
 class Suggestion:
     phonetic: str
-    confidence: str   # confirmed | baseline | none
-    source: str       # "library" | "patterns" | ""
+    confidence: str  # confirmed | baseline | none
+    source: str  # "library" | "patterns" | ""
 
 
 def _strip_combining_keep_special(s: str) -> str:
@@ -112,7 +113,7 @@ def _syllabify(token: str) -> str:
     for sub in token.split("|"):
         chunks = re.findall(r"[^aeiou]*[aeiou]+", sub)
         consumed = "".join(chunks)
-        tail = sub[len(consumed):]
+        tail = sub[len(consumed) :]
         if not chunks:
             out_syls.append(sub)
             continue
@@ -224,6 +225,7 @@ def feature_signature(term: str, translit: str = "") -> list[str]:
 
 if __name__ == "__main__":  # pragma: no cover - inspection CLI
     import sys
+
     store = load()
     if len(sys.argv) > 1:
         term = sys.argv[1]

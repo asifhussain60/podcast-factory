@@ -1,5 +1,6 @@
 work_slug: al-anwaar-al-lateefah
 title: Al-Anwaar al-Lateefah
+title_arabic: الأنوار اللطيفة
 content_profile: islamic_scholarly
 bucket: Islamic
 collection: Al-Anwaar Collection
@@ -8,9 +9,9 @@ shared:
   ledger: _system/source/text/_teaching-ledger.json
   arabic_fingerprints: _system/arabic-fingerprints.json
   knowledge: _system
-note: 'Partitioned from the synthesized 0c book by scripts/podcast/split_synthesis_al_anwaar.py (no re-synthesis).
-  Volumes start at 0c; teaching-level _volume-split.json is a per-volume 0d artifact. Boundaries: COLLECTION-PLAN.md
-  section 5 (APPROVED 2026-06-17).'
+note: 'Partitioned from the synthesized 0c book by scripts/podcast/split_synthesis_al_anwaar.py
+  (no re-synthesis). Volumes start at 0c; teaching-level _volume-split.json is a per-volume
+  0d artifact. Boundaries: COLLECTION-PLAN.md section 5 (APPROVED 2026-06-17).'
 volumes:
 - order: 1
   slug: al-anwaar-al-lateefah-vol-01
@@ -82,3 +83,8 @@ volumes:
   - 28
   refined_source: vol-06/_system/source/text/refined-english.md
   status: draft
+source_medium: audio_lecture
+source_note: '65 mp3 lectures recorded in Urdu, transcribed and translated by Gemini
+  2.5 Pro, plus five augmentation series. There is no printed Arabic source and never
+  was: the whole spine carries 40 Arabic runs across 65 transcripts. REQ-BA-127 (every
+  foreign term shown in script once) is out of scope for this work.'

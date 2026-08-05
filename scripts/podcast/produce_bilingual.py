@@ -34,6 +34,7 @@ USAGE
     python3 scripts/podcast/produce_bilingual.py --slug ayyuhal-walad --all
     python3 scripts/podcast/produce_bilingual.py --slug ayyuhal-walad --chapter ch01-... --force
 """
+
 from __future__ import annotations
 
 import argparse
@@ -46,12 +47,12 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 sys.path.insert(0, str(SCRIPT_DIR.parents[1]))  # repo root for tools.*
 
-from _paths import REPO_ROOT, content_dir  # noqa: E402
-
+from _paths import REPO_ROOT, content_dir
 
 # ---------------------------------------------------------------------------
 # Arabic OCR extraction
 # ---------------------------------------------------------------------------
+
 
 def _parse_line_range(spec: str) -> tuple[int, int] | None:
     """Parse 'lines 13-191' or '13-191' into (start, end) inclusive."""
@@ -67,9 +68,15 @@ def extract_arabic_chapter(book: Path, reconcile: dict) -> tuple[str, str]:
     Reads _system/source/multi/ocr/arabic.md and slices it using the line range
     stored in reconcile-report.json under the 'spine' field.
     """
+    from _vowelled_source import resolve_arabic_source
+
     arabic_ocr = book / "_system" / "source" / "multi" / "ocr" / "arabic.md"
     if not arabic_ocr.exists():
         return "", ""
+    # The vowelled copy when current. Safe for the line slice below precisely
+    # because `vowel_source` refuses to write a sibling whose line count differs
+    # from its source — the bilingual build addresses this file by line number.
+    arabic_ocr = resolve_arabic_source(arabic_ocr)
 
     spine_note = reconcile.get("spine", "")
     line_range = _parse_line_range(spine_note)
@@ -78,7 +85,7 @@ def extract_arabic_chapter(book: Path, reconcile: dict) -> tuple[str, str]:
     if line_range:
         start, end = line_range
         # Lines in the spec are 1-indexed, list is 0-indexed
-        chunk = lines[max(0, start - 1): end]
+        chunk = lines[max(0, start - 1) : end]
     else:
         # No line range — return full file (fallback for chapters without reconcile)
         chunk = lines
@@ -92,18 +99,26 @@ def extract_arabic_chapter(book: Path, reconcile: dict) -> tuple[str, str]:
 # Quran verse lookup
 # ---------------------------------------------------------------------------
 
+
 def lookup_quran_verses(quran_refs: list[dict]) -> list[dict]:
     """Look up Arabic text for each verified Quran citation via KQUR.
 
     Falls back gracefully if the source library is unavailable.
     """
     try:
-        from scripts.podcast.source_library_queries import quran_lookup  # noqa: PLC0415
+        from scripts.podcast.source_library_queries import quran_lookup
     except ImportError:
         print("[bilingual] source_library_queries not importable — Quran lookup skipped")
         return [
-            {"ref": r["key"], "surah": r.get("surah", ""), "arabic": None,
-             "phonetic": None, "confidence": 0.0, "status": "import_error", "source": "kqur"}
+            {
+                "ref": r["key"],
+                "surah": r.get("surah", ""),
+                "arabic": None,
+                "phonetic": None,
+                "confidence": 0.0,
+                "status": "import_error",
+                "source": "kqur",
+            }
             for r in quran_refs
         ]
 
@@ -124,28 +139,37 @@ def lookup_quran_verses(quran_refs: list[dict]) -> list[dict]:
             row = {"error": str(exc)}
 
         if "error" in row:
-            results.append({
-                "ref": key, "surah": ref.get("surah", ""),
-                "arabic": None, "phonetic": None,
-                "confidence": 0.0, "status": "lookup_failed", "source": "kqur",
-                "error": row["error"],
-            })
+            results.append(
+                {
+                    "ref": key,
+                    "surah": ref.get("surah", ""),
+                    "arabic": None,
+                    "phonetic": None,
+                    "confidence": 0.0,
+                    "status": "lookup_failed",
+                    "source": "kqur",
+                    "error": row["error"],
+                }
+            )
         else:
-            results.append({
-                "ref": key,
-                "surah": ref.get("surah", row.get("surah", "")),
-                "arabic": row.get("arabic", ""),
-                "phonetic": row.get("phonetic", ""),
-                "confidence": 1.0,
-                "status": "verified",
-                "source": "kqur",
-            })
+            results.append(
+                {
+                    "ref": key,
+                    "surah": ref.get("surah", row.get("surah", "")),
+                    "arabic": row.get("arabic", ""),
+                    "phonetic": row.get("phonetic", ""),
+                    "confidence": 1.0,
+                    "status": "verified",
+                    "source": "kqur",
+                }
+            )
     return results
 
 
 # ---------------------------------------------------------------------------
 # Hadith lookup
 # ---------------------------------------------------------------------------
+
 
 def lookup_hadith(hadith_refs: list[str]) -> list[dict]:
     """Try to match each hadith text description to a KQUR Ahadees entry.
@@ -154,11 +178,17 @@ def lookup_hadith(hadith_refs: list[str]) -> list[dict]:
     Fail-safe: if the mirror is not built yet, returns all as pending.
     """
     try:
-        from scripts.podcast.source_library_queries import hadith_lookup  # noqa: PLC0415
+        from scripts.podcast.source_library_queries import hadith_lookup
     except ImportError:
         return [
-            {"text_en": h, "arabic": None, "collection": None, "hadith_num": None,
-             "confidence": 0.0, "status": "import_error"}
+            {
+                "text_en": h,
+                "arabic": None,
+                "collection": None,
+                "hadith_num": None,
+                "confidence": 0.0,
+                "status": "import_error",
+            }
             for h in hadith_refs
         ]
 
@@ -171,30 +201,35 @@ def lookup_hadith(hadith_refs: list[str]) -> list[dict]:
 
         if matches:
             m = matches[0]
-            results.append({
-                "text_en": text_en,
-                "arabic": m.get("arabic") or None,
-                "collection": m.get("collection") or None,
-                "hadith_num": m.get("hadith_num") or None,
-                "confidence": m.get("score", 0.7),
-                "status": "matched" if m.get("arabic") else "matched_no_arabic",
-                "source": m.get("source", "kqur"),
-            })
+            results.append(
+                {
+                    "text_en": text_en,
+                    "arabic": m.get("arabic") or None,
+                    "collection": m.get("collection") or None,
+                    "hadith_num": m.get("hadith_num") or None,
+                    "confidence": m.get("score", 0.7),
+                    "status": "matched" if m.get("arabic") else "matched_no_arabic",
+                    "source": m.get("source", "kqur"),
+                }
+            )
         else:
-            results.append({
-                "text_en": text_en,
-                "arabic": None,
-                "collection": None,
-                "hadith_num": None,
-                "confidence": 0.0,
-                "status": "pending_match",
-            })
+            results.append(
+                {
+                    "text_en": text_en,
+                    "arabic": None,
+                    "collection": None,
+                    "hadith_num": None,
+                    "confidence": 0.0,
+                    "status": "pending_match",
+                }
+            )
     return results
 
 
 # ---------------------------------------------------------------------------
 # Main bake
 # ---------------------------------------------------------------------------
+
 
 def bake_chapter(slug: str, chapter: str, *, force: bool = False) -> Path:
     """Produce bilingual.json for one chapter. Returns the output path."""
@@ -237,10 +272,7 @@ def bake_chapter(slug: str, chapter: str, *, force: bool = False) -> Path:
 
     # hadith_refs may be strings or dicts — normalize to list of strings
     raw_hadith = knowledge.get("hadith_refs", [])
-    hadith_refs = [
-        h if isinstance(h, str) else h.get("text", str(h))
-        for h in raw_hadith
-    ]
+    hadith_refs = [h if isinstance(h, str) else h.get("text", str(h)) for h in raw_hadith]
 
     # 1. Full Arabic chapter text from OCR
     arabic_text, arabic_lines = extract_arabic_chapter(book, reconcile)
@@ -276,13 +308,17 @@ def main() -> int:
     ap.add_argument("--chapter", help="single chapter slug (e.g. ch01-frame-and-first-counsel)")
     ap.add_argument("--all", action="store_true", help="process every chapter with a stage dir")
     ap.add_argument("--force", action="store_true", help="overwrite existing bilingual.json")
-    ap.add_argument("--discover-hadith-schema", action="store_true",
-                    help="print Ahadees column names from KQUR and exit (run before first build)")
+    ap.add_argument(
+        "--discover-hadith-schema",
+        action="store_true",
+        help="print Ahadees column names from KQUR and exit (run before first build)",
+    )
     a = ap.parse_args()
 
     if a.discover_hadith_schema:
-        from scripts.podcast.source_library_queries import discover_hadith_schema  # noqa: PLC0415
-        cols = discover_hadith_schema()
+        from scripts.podcast.source_library_queries import discover_hadith_schema
+
+        cols = discover_hadith_schema()  # noqa: F841
         print("If any column name differs from the guesses in source_library_mirror._SQL_HADITH,")
         print("update the aliases there and rebuild the mirror.")
         return 0
@@ -296,10 +332,7 @@ def main() -> int:
         if not stage_root.is_dir():
             print(f"No _stages directory for {a.slug}")
             return 1
-        chapters = sorted(
-            d.name for d in stage_root.iterdir()
-            if d.is_dir() and not d.name.startswith(".")
-        )
+        chapters = sorted(d.name for d in stage_root.iterdir() if d.is_dir() and not d.name.startswith("."))
         print(f"[batch] {len(chapters)} chapters")
         for ch in chapters:
             bake_chapter(a.slug, ch, force=a.force)

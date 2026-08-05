@@ -1,4 +1,5 @@
 """Tests for scripts/podcast/phases/noise_router.py (Wave I, I2)."""
+
 from __future__ import annotations
 
 import sys
@@ -9,9 +10,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts" / "pod
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts" / "podcast" / "phases"))
 
 from noise_router import (
+    ParagraphDecision,
     _is_protected,
     _pass1_rule,
-    ParagraphDecision,
 )
 
 
@@ -58,8 +59,9 @@ class TestPass1RuleRouting(unittest.TestCase):
         self.assertEqual(decision.action, "delete")
 
     def test_substantive_paragraph_not_matched(self):
-        text = ("The Imam explained that ta'wil is the science of uncovering hidden meaning "
-                "within the text of scripture.")
+        text = (
+            "The Imam explained that ta'wil is the science of uncovering hidden meaning within the text of scripture."
+        )
         decision = _pass1_rule(text)
         self.assertIsNone(decision)
 

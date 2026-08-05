@@ -1,0 +1,147 @@
+/**
+ * Regenerate `.dev.vars` from the macOS keychain.
+ *
+ * `.dev.vars` is gitignored, so a fresh clone has no local secrets and no way to
+ * re-derive them. Rather than leave that as a note in a README, the durable copy
+ * lives in the keychain — the same pattern cf-deploy.sh already uses for the
+ * Cloudflare token — and this script rebuilds the file from it.
+ *
+ * Two rules it follows, both deliberate:
+ *
+ *   - It never PRINTS a secret. It reads with `security find-generic-password -w`
+ *     and writes straight to the file. Nothing lands in scrollback.
+ *   - It never WRITES to the keychain. Asif stores and rotates values himself
+ *     with `security add-generic-password -w`, which prompts — so the value never
+ *     enters shell history either. If an item is missing this prints the exact
+ *     command and stops.
+ *
+ *   node scripts/dev-vars.mjs           # rebuild .dev.vars
+ *   node scripts/dev-vars.mjs --check   # report what is present; write nothing
+ */
+import { execFileSync } from "node:child_process";
+import { chmodSync, writeFileSync } from "node:fs";
+
+/**
+ * Local dev is the only consumer; production uses `wrangler secret put`.
+ *
+ * `looksWrong` exists because of a real incident: the Google client ID was
+ * pasted into the client-secret prompt. Everything downstream accepted it
+ * happily and the first sign of trouble was Google answering the token exchange
+ * with `invalid_client` — three redirects later, in a log, long after the
+ * mistake. These checks are shape-only (never the value) and turn that into an
+ * immediate, specific message.
+ */
+const ITEMS = [
+  {
+    name: "BETTER_AUTH_SECRET",
+    service: "listener_better_auth_secret",
+    why: "signs the session cookie",
+    generate: "openssl rand -base64 32",
+    /** @param {string} v */
+    looksWrong: (v) => (v.length < 32 ? "shorter than 32 characters" : null),
+  },
+  {
+    name: "GOOGLE_CLIENT_SECRET",
+    service: "safina_google_client_secret",
+    why: "the Safina OAuth client secret, from the Google Cloud console",
+    generate: null,
+    /** @param {string} v */
+    looksWrong: (v) =>
+      v.endsWith(".apps.googleusercontent.com")
+        ? "this is the client ID, not the client secret"
+        : !v.startsWith("GOCSPX-")
+          ? "a Google client secret starts with 'GOCSPX-'"
+          : null,
+  },
+];
+
+const check = process.argv.includes("--check");
+
+/** @param {string} service @returns {string | null} */
+function fromKeychain(service) {
+  try {
+    return execFileSync("security", ["find-generic-password", "-s", service, "-w"], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return null;
+  }
+}
+
+/** @param {string} service */
+function exists(service) {
+  try {
+    // No -w: an existence check that cannot read the value.
+    execFileSync("security", ["find-generic-password", "-s", service], { stdio: "ignore" });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const missing = ITEMS.filter((item) => !exists(item.service));
+
+if (missing.length > 0) {
+  console.error("Missing keychain items:\n");
+  for (const item of missing) {
+    console.error(`  ${item.name} — ${item.why}`);
+    console.error(
+      item.generate
+        ? // Command substitution: shell history keeps the literal text, so the
+          // generated value is never recorded and never shown on screen.
+          `    store:  security add-generic-password -U -a "$USER" ` +
+            `-s ${item.service} -w "$(${item.generate})"\n`
+        : `    store:  security add-generic-password -U -a "$USER" -s ${item.service} -w\n` +
+            `            (prompts for the value, so it never enters shell history)\n`,
+    );
+  }
+  process.exit(1);
+}
+
+// Validate SHAPE before anything is written or reported as fine. Values are
+// read but never printed — only the verdict is.
+const values = new Map(ITEMS.map((item) => [item.name, fromKeychain(item.service) ?? ""]));
+const wrong = ITEMS
+  .map((item) => ({ item, why: item.looksWrong(values.get(item.name) ?? "") }))
+  .filter((r) => r.why !== null);
+
+if (wrong.length > 0) {
+  console.error("Keychain items present but wrong:\n");
+  for (const { item, why } of wrong) {
+    const v = values.get(item.name) ?? "";
+    console.error(`  ${item.name} — ${why}`);
+    console.error(`    stored value is ${v.length} characters and begins ${JSON.stringify(v.slice(0, 7))}`);
+    console.error(
+      `    replace: security add-generic-password -U -a "$USER" -s ${item.service} -w\n`,
+    );
+  }
+  process.exit(1);
+}
+
+if (check) {
+  for (const item of ITEMS) console.log(`  ok  ${item.name}  (keychain: ${item.service})`);
+  console.log("\nAll keychain items present and correctly shaped.");
+  process.exit(0);
+}
+
+// GOOGLE_CLIENT_ID is deliberately NOT here: a client id is public — it travels
+// in the browser's address bar during sign-in — so it belongs in wrangler.jsonc
+// under `vars`, where it is visible and reviewable, not in a secrets file.
+const lines = [
+  "# GENERATED by scripts/dev-vars.mjs from the macOS keychain. Do not hand-edit.",
+  "# Gitignored. Rebuild any time with: npm run dev-vars",
+  "",
+  "# Local override — production uses the value in wrangler.jsonc.",
+  "BETTER_AUTH_URL=http://localhost:5273",
+  "",
+  ...ITEMS.map((item) => `${item.name}=${fromKeychain(item.service)}`),
+  "",
+];
+
+// chmod SEPARATELY: writeFileSync's `mode` applies only when it creates the
+// file, so rewriting an existing .dev.vars silently keeps whatever mode it had —
+// 644 by default, i.e. world-readable. Caught on the first real run.
+writeFileSync(".dev.vars", lines.join("\n"));
+chmodSync(".dev.vars", 0o600);
+console.log(`.dev.vars rebuilt from the keychain (${ITEMS.length} secrets, mode 600).`);

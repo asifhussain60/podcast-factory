@@ -29,12 +29,12 @@ REPOSITORY HELPERS
 Each helper returns a small namespace of callables bound to ``conn``. They
 are intentionally thin — complex queries belong in their caller, not here.
 """
+
 from __future__ import annotations
 
 import sqlite3
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -85,6 +85,7 @@ def _reset_connection() -> None:
 # Migration runner
 # ---------------------------------------------------------------------------
 
+
 def run_migrations(*, db_path: Path | None = None) -> list[str]:
     """Apply pending schema SQL files in lexicographic order.
 
@@ -103,10 +104,7 @@ def run_migrations(*, db_path: Path | None = None) -> list[str]:
     )
     conn.commit()
 
-    already_applied: set[str] = {
-        row[0]
-        for row in conn.execute("SELECT filename FROM schema_migrations").fetchall()
-    }
+    already_applied: set[str] = {row[0] for row in conn.execute("SELECT filename FROM schema_migrations").fetchall()}
 
     sql_files = sorted(_SCHEMA_DIR.glob("*.sql"))
     applied: list[str] = []
@@ -116,9 +114,7 @@ def run_migrations(*, db_path: Path | None = None) -> list[str]:
             continue
         sql = sql_file.read_text(encoding="utf-8")
         conn.executescript(sql)
-        conn.execute(
-            "INSERT OR IGNORE INTO schema_migrations (filename) VALUES (?)", (name,)
-        )
+        conn.execute("INSERT OR IGNORE INTO schema_migrations (filename) VALUES (?)", (name,))
         conn.commit()
         applied.append(name)
 
@@ -128,6 +124,7 @@ def run_migrations(*, db_path: Path | None = None) -> list[str]:
 # ---------------------------------------------------------------------------
 # Repository helpers
 # ---------------------------------------------------------------------------
+
 
 def atoms_repository(conn: sqlite3.Connection) -> SimpleNamespace:
     """Thin access helpers for the ``atoms`` table."""
@@ -158,9 +155,7 @@ def atoms_repository(conn: sqlite3.Connection) -> SimpleNamespace:
         conn.commit()
 
     def list_by_type(atom_type: str) -> list[sqlite3.Row]:
-        return conn.execute(
-            "SELECT * FROM atoms WHERE type = ? ORDER BY id", (atom_type,)
-        ).fetchall()
+        return conn.execute("SELECT * FROM atoms WHERE type = ? ORDER BY id", (atom_type,)).fetchall()
 
     def count() -> int:
         return conn.execute("SELECT COUNT(*) FROM atoms").fetchone()[0]
@@ -236,9 +231,7 @@ def corpus_chapters_repository(conn: sqlite3.Connection) -> SimpleNamespace:
     """Thin access helpers for the ``corpus_chapters`` table."""
 
     def get(chapter_id: str) -> sqlite3.Row | None:
-        return conn.execute(
-            "SELECT * FROM corpus_chapters WHERE id = ?", (chapter_id,)
-        ).fetchone()
+        return conn.execute("SELECT * FROM corpus_chapters WHERE id = ?", (chapter_id,)).fetchone()
 
     def list_for_corpus(corpus_id: str) -> list[sqlite3.Row]:
         return conn.execute(
@@ -276,14 +269,10 @@ def external_corpora_repository(conn: sqlite3.Connection) -> SimpleNamespace:
     """Thin access helpers for the ``external_corpora`` table."""
 
     def get(corpus_id: str) -> sqlite3.Row | None:
-        return conn.execute(
-            "SELECT * FROM external_corpora WHERE id = ?", (corpus_id,)
-        ).fetchone()
+        return conn.execute("SELECT * FROM external_corpora WHERE id = ?", (corpus_id,)).fetchone()
 
     def list_all() -> list[sqlite3.Row]:
-        return conn.execute(
-            "SELECT * FROM external_corpora ORDER BY id"
-        ).fetchall()
+        return conn.execute("SELECT * FROM external_corpora ORDER BY id").fetchall()
 
     def upsert(
         corpus_id: str,
@@ -333,8 +322,7 @@ def manual_review_queue_repository(conn: sqlite3.Connection) -> SimpleNamespace:
     def pending(book_slug: str | None = None) -> list[sqlite3.Row]:
         if book_slug:
             return conn.execute(
-                "SELECT * FROM manual_review_queue WHERE resolved_at IS NULL AND book_slug = ?"
-                " ORDER BY created_at",
+                "SELECT * FROM manual_review_queue WHERE resolved_at IS NULL AND book_slug = ? ORDER BY created_at",
                 (book_slug,),
             ).fetchall()
         return conn.execute(
@@ -403,9 +391,7 @@ def run_telemetry_repository(conn: sqlite3.Connection) -> SimpleNamespace:
         return float(row[0])
 
     def recent(limit: int = 20) -> list[sqlite3.Row]:
-        return conn.execute(
-            "SELECT * FROM run_telemetry ORDER BY started_at DESC LIMIT ?", (limit,)
-        ).fetchall()
+        return conn.execute("SELECT * FROM run_telemetry ORDER BY started_at DESC LIMIT ?", (limit,)).fetchall()
 
     return SimpleNamespace(
         start_run=start_run,

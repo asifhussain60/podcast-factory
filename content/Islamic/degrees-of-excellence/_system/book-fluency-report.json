@@ -1,0 +1,78 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "first_person_author",
+  "adapted": 1,
+  "reverted": 0,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "The Pole and Foundation of Religion",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "By Nature and by Reason",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "Degrees of Excellence",
+      "base_words": 1351,
+      "output_words": 1359,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The Ladder of Creation",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "The Physician of Souls",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "Governance and the First Principle",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "The Imam in the Pillars of Faith",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "From Adam to Ali",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "God's Vicegerent in His Time",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    }
+  ]
+}

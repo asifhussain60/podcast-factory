@@ -1,0 +1,217 @@
+/* select-menu.css — the styled drop-down that replaces a native <select> panel.
+ *
+ * A native <select> renders its open list through the operating system, so no
+ * stylesheet can reach it: the control matched the editorial design while the
+ * list that dropped out of it was a grey OS panel in a different typeface. This
+ * is the list we draw ourselves.
+ *
+ * Colours come from the existing --c-* tokens only — no new palette. Every value
+ * has the same fallback the rest of book-composer.css uses, so the component
+ * still renders correctly if a token is missing.
+ *
+ * Behaviour lives in scripts/select-menu.ts; the native <select> stays in the
+ * DOM as the state holder, so anything already reading its .value keeps working.
+ */
+
+/* The native control is kept for state and form association, not shown.
+   It carries aria-hidden, so it is NOT in the accessibility tree at all — that is
+   deliberate: leaving it there would announce two comboboxes with one name. The
+   reason it is not `display:none` is that it must stay measurable, and this is
+   the visually-hidden idiom the rest of the site uses (see .cx-fab-label). */
+.sm-native {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sm-root {
+  position: relative;
+  display: block;
+  /* The root is dropped into whatever the host layout is — on the composer's
+     chapter bar that is a grid cell, where the default `min-width: auto` sizes
+     the item to its own min-content. The label inside is `white-space: nowrap`,
+     so min-content is the WHOLE untruncated chapter title: the control then
+     refused to shrink and pushed the page into horizontal scroll at narrow
+     widths. This is the same clamp `.composer-preview` uses. */
+  min-width: 0;
+}
+
+/* ── the closed control ──────────────────────────────────────────────────── */
+/* Inherits the picker's existing look so the swap is invisible when closed. */
+.sm-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  height: 2.75rem;
+  padding: 0 0.9rem;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-align: left;
+  color: var(--c-ink, #1f1d18);
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: var(
+    --shadow-card,
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 4px 12px rgba(31, 29, 24, 0.06)
+  );
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.sm-button:hover:not(:disabled) {
+  border-color: var(--c-accent, #8b4513);
+}
+
+.sm-button:focus-visible {
+  border-color: var(--c-accent, #8b4513);
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 1px;
+}
+
+.sm-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.sm-button[aria-expanded="true"] {
+  border-color: var(--c-accent, #8b4513);
+}
+
+.sm-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Chevron. Points down when closed and flips when open, so the control shows
+   its state. The list always opens downward, so it never points up while shut. */
+.sm-caret {
+  flex: none;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-right: 2px solid var(--c-ink-muted, #66625a);
+  border-bottom: 2px solid var(--c-ink-muted, #66625a);
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 160ms ease;
+}
+
+.sm-button[aria-expanded="true"] .sm-caret {
+  transform: rotate(-135deg) translate(-2px, -2px);
+}
+
+/* ── the open list ───────────────────────────────────────────────────────── */
+.sm-list {
+  position: absolute;
+  z-index: 60;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 10px;
+  box-shadow: var(--shadow-hover);
+  /* Sprawl control: the list never grows past what the viewport can show.
+     `--sm-max-h` is measured per-open by the script from the space actually
+     available on the chosen side; 22rem is the ceiling when everything fits. */
+  max-height: min(var(--sm-max-h, 22rem), 22rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.sm-list[hidden] {
+  display: none;
+}
+
+/* ALWAYS BELOW (2026-08-03). The list used to flip above the control when the
+   control sat low in the viewport, and upward it is bounded by the sticky site
+   nav (z-index 50 against this list's 60), so a long chapter list opened into a
+   window too short to reach its last rows. Downward it is bounded only by the
+   viewport, and select-menu.ts scrolls the control up first when the room below
+   is short. `data-placement` is kept as the hook and is always "down". */
+.sm-root[data-placement="down"] .sm-list {
+  top: calc(100% + 0.35rem);
+}
+
+.sm-option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: var(--c-ink, #1f1d18);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* One highlight, driven by the keyboard AND the pointer, so arrow keys and the
+   mouse cannot disagree about which row is live. */
+.sm-option[data-active="true"] {
+  background: var(--accent-primary-dim);
+}
+
+.sm-option[aria-selected="true"] {
+  font-weight: 700;
+  color: var(--c-accent, #8b4513);
+}
+
+/* The chapter number, in its own fixed-width column so every title starts on the
+   same left edge whether its number is one digit or two — and so an unnumbered
+   row (the reader's preface) lines up with the rest instead of hanging left. */
+.sm-ordinal {
+  flex: none;
+  width: 1.4rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--c-ink-muted, #66625a);
+}
+
+.sm-option[aria-selected="true"] .sm-ordinal {
+  color: inherit;
+}
+
+/* A row with no number keeps the column, so its title still aligns. */
+.sm-option:not(:has(.sm-ordinal)) .sm-option-label {
+  margin-left: calc(1.4rem + 0.6rem);
+}
+
+/* The tick reserves its space always, so labels line up whether or not a row is
+   the selected one. */
+.sm-tick {
+  flex: none;
+  width: 1rem;
+  text-align: center;
+  opacity: 0;
+}
+
+.sm-option[aria-selected="true"] .sm-tick {
+  opacity: 1;
+}
+
+.sm-option-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sm-button,
+  .sm-caret {
+    transition: none;
+  }
+}

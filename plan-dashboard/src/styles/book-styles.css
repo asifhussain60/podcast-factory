@@ -10,18 +10,23 @@
  * per-type choice, so the printed book stays visually coherent. The renderer
  * maps the same three families onto book-print.css (body.style-<family>).
  */
-:root { --bs-gold: #c9a55c; --bs-arabic: #5a3a0a; }
+:root {
+  --bs-gold: #c9a55c;
+  --bs-arabic: #5a3a0a;
+}
 
 .bs-lede {
   color: var(--c-ink-muted, #6f6a61);
-  font-size: 1.2rem;          /* REQ-010 reading-text floor (page-level prose) */
+  font-size: 1.2rem; /* REQ-010 reading-text floor (page-level prose) */
   line-height: 1.6;
   max-width: 60ch;
   margin: 0;
 }
 
 /* ── Picker form ─────────────────────────────────────────────────────────── */
-.bs-styleform { margin: var(--sp-5, 20px) 0 0; }
+.bs-styleform {
+  margin: var(--sp-5, 20px) 0 0;
+}
 
 /* Family chips — accessible radios rendered as a segmented control. The radio
    itself is visually hidden but focusable; the label is the visible target. */
@@ -35,7 +40,7 @@
 }
 .bs-chips legend {
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.78rem;
+  font-size: var(--panel-fs, 15px);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--c-ink-muted, #87827a);
@@ -54,12 +59,17 @@
   padding: 0.7rem 0.9rem;
   cursor: pointer;
   background: var(--c-bg-card, #fffdf8);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
-.bs-chip:hover { border-color: var(--c-ink-dim, #9a938a); }
+.bs-chip:hover {
+  border-color: var(--c-ink-dim, #9a938a);
+}
 .bs-radio {
   position: absolute;
-  width: 1px; height: 1px;
+  width: 1px;
+  height: 1px;
   opacity: 0;
   margin: 0;
 }
@@ -79,7 +89,7 @@
 .bs-chip-name {
   font-family: var(--font-ui, system-ui, sans-serif);
   font-weight: 700;
-  font-size: 1.02rem;
+  font-size: var(--panel-fs-title, 16px);
   color: var(--c-ink, #2b2823);
 }
 .bs-chip-check {
@@ -88,26 +98,268 @@
   opacity: 0;
   transition: opacity 0.15s ease;
 }
-.bs-chip:has(.bs-radio:checked) .bs-chip-check { opacity: 1; }
+.bs-chip:has(.bs-radio:checked) .bs-chip-check {
+  opacity: 1;
+}
 .bs-chip-tag {
-  font-size: 0.8rem;
+  font-size: var(--panel-fs, 15px);
   color: var(--c-ink-muted, #87827a);
+}
+
+/* ── Translation-face chips ──────────────────────────────────────────────────
+   A second chip row under the family chips, choosing the face the English
+   rendering under an Arabic quotation is set in. Two things happen here:
+   each chip's NAME renders in its own face (so the choice is legible before it is
+   made), and selecting one re-declares --q-tr-face on this form — which is what
+   makes the preview sheet below change live, with no JavaScript. The declaration
+   sits on .bs-styleform, a descendant of the page root that carries the book's
+   saved face, so previewing overrides the page for this sheet only. */
+.bs-trchips {
+  margin-top: var(--sp-4, 16px);
+}
+.bs-trchip {
+  min-width: 8.5rem;
+  flex: 1 1 8.5rem;
+}
+.bs-trchip .bs-chip-name {
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+.bs-trchip[data-font="eb-garamond"] .bs-chip-name {
+  font-family: "EB Garamond", Georgia, serif;
+}
+.bs-trchip[data-font="cormorant-garamond"] .bs-chip-name {
+  font-family: "Cormorant Garamond", Georgia, serif;
+}
+.bs-trchip[data-font="crimson-pro"] .bs-chip-name {
+  font-family: "Crimson Pro", Georgia, serif;
+}
+.bs-trchip[data-font="lora"] .bs-chip-name {
+  font-family: "Lora", Georgia, serif;
+}
+.bs-styleform:has(.bs-trradio[value="eb-garamond"]:checked) {
+  --q-tr-face: "EB Garamond", "Iowan Old Style", Georgia, serif;
+}
+.bs-styleform:has(.bs-trradio[value="cormorant-garamond"]:checked) {
+  --q-tr-face: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+}
+.bs-styleform:has(.bs-trradio[value="crimson-pro"]:checked) {
+  --q-tr-face: "Crimson Pro", "EB Garamond", Georgia, serif;
+}
+.bs-styleform:has(.bs-trradio[value="lora"]:checked) {
+  --q-tr-face: "Lora", "EB Garamond", Georgia, serif;
+}
+
+/* ── Arabic face chips (Typography tab) ───────────────────────────────────────
+   Same construction as the translation chips above, one axis over: each chip's
+   name renders in the face it names, and selecting one re-declares --q-ar-face on
+   the form so the specimen changes live with no JavaScript.
+
+   TWO chips, not three. The Qur'anic face is absent by design — scripture is set
+   in the KFGQPC Uthmanic script because that is the orthography it is written in,
+   and `.is-quranic` re-declares --q-ar-face on the run itself, so it survives
+   whatever this form declares. The panel says so in words rather than leaving the
+   omission to be inferred. */
+.bs-archips {
+  margin-top: var(--sp-4, 16px);
+}
+.bs-archip {
+  min-width: 8.5rem;
+  flex: 1 1 8.5rem;
+}
+.bs-archip .bs-chip-name {
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+.bs-archip[data-font="scheherazade-new"] .bs-chip-name {
+  font-family: "Scheherazade New", "Amiri", serif;
+}
+.bs-archip[data-font="amiri"] .bs-chip-name {
+  font-family: "Amiri", "Scheherazade New", serif;
+}
+.bs-styleform:has(.bs-arradio[value="scheherazade-new"]:checked) {
+  --q-ar-face:
+    "ScheherazadeSized", "Scheherazade New", "Scheherazade", "Amiri",
+    "DecoType Naskh", serif;
+}
+.bs-styleform:has(.bs-arradio[value="amiri"]:checked) {
+  --q-ar-face:
+    "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
+}
+/* The three modern faces (2026-08-02). Each chip renders its own name in its own
+   face, and selecting one re-declares --q-ar-face on the form so the specimen
+   below changes live — the same :has() mechanism the two naskh faces use, with
+   no JavaScript for the preview itself. The stacks MIRROR the `.ar-*` classes in
+   quote-typography.css: this form previews what the book will print, so a
+   difference between the two would make the preview a lie. */
+.bs-archip[data-font="cairo"] .bs-chip-name {
+  font-family: "Cairo", "Scheherazade New", sans-serif;
+}
+.bs-archip[data-font="tajawal"] .bs-chip-name {
+  font-family: "Tajawal", "Scheherazade New", sans-serif;
+}
+.bs-archip[data-font="ibm-plex-sans-arabic"] .bs-chip-name {
+  font-family: "IBM Plex Sans Arabic", "Scheherazade New", sans-serif;
+}
+.bs-styleform:has(.bs-arradio[value="cairo"]:checked) {
+  --q-ar-face:
+    "Cairo", "ScheherazadeSized", "Scheherazade New", "Amiri", sans-serif;
+}
+.bs-styleform:has(.bs-arradio[value="tajawal"]:checked) {
+  --q-ar-face:
+    "Tajawal", "ScheherazadeSized", "Scheherazade New", "Amiri", sans-serif;
+}
+.bs-styleform:has(.bs-arradio[value="ibm-plex-sans-arabic"]:checked) {
+  --q-ar-face:
+    "IBM Plex Sans Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
+    sans-serif;
+}
+
+/* ── Arabic SIZE chips ────────────────────────────────────────────────────────
+   Each chip shows its own name at the size it sets, so the choice is visible
+   before it is made — the same principle as the face chips above, applied to the
+   one property a name alone ("Generous") cannot convey.
+
+   Selecting one re-declares BOTH Arabic size tokens on the form, so the specimen
+   at the foot of the panel resizes live. Values MIRROR `.ars-*` in
+   quote-typography.css. */
+.bs-arsizechips,
+.bs-arinkchips {
+  margin-top: var(--sp-4, 16px);
+}
+.bs-arsizechip {
+  min-width: 7.5rem;
+  flex: 1 1 7.5rem;
+}
+.bs-arsizechip .bs-chip-name {
+  font-family: var(--q-ar-face);
+  font-weight: 400;
+}
+.bs-arsizechip[data-arsize="compact"] .bs-chip-name {
+  font-size: 1rem;
+}
+.bs-arsizechip[data-arsize="standard"] .bs-chip-name {
+  font-size: 1.15rem;
+}
+.bs-arsizechip[data-arsize="large"] .bs-chip-name {
+  font-size: 1.32rem;
+}
+.bs-arsizechip[data-arsize="generous"] .bs-chip-name {
+  font-size: 1.5rem;
+}
+.bs-styleform:has(input[name="arabic-size"][value="compact"]:checked) {
+  --q-ar-size: 1.2rem;
+  --q-ar-inline-size: 1.14em;
+}
+.bs-styleform:has(input[name="arabic-size"][value="large"]:checked) {
+  --q-ar-size: 1.6rem;
+  --q-ar-inline-size: 1.38em;
+}
+.bs-styleform:has(input[name="arabic-size"][value="generous"]:checked) {
+  --q-ar-size: 1.8rem;
+  --q-ar-inline-size: 1.5em;
+}
+
+/* The Typography specimen shows what the PAGE will look like, so it has to read
+   the same three tokens the page does — face, size and ink together.
+
+   `.bs-ar` hard-codes 1.05rem and body ink, and the Plain family's override that
+   would have replaced both is scoped to the CITATIONS form, so it never reached
+   here: this specimen previewed the FACE and nothing else. Harmless while the
+   face was the only thing this panel chose. The moment it also chose a size and
+   an ink, a sample that ignored two of the three settings was worse than no
+   sample — you would pick Forest, see no change, and reasonably conclude the
+   control was broken. */
+.cx-type-form .bs-ar {
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
+  color: var(--q-maroon);
+}
+
+/* ── Arabic INK chips ─────────────────────────────────────────────────────────
+   A filled dot beside each name, in the ink it sets. A dot rather than colouring
+   the name itself: at chip size a coloured word is a poor sample of an ink, and
+   the four dots side by side are directly comparable in a way four words are not.
+   Colour is never the only carrier here — every chip is also named.
+
+   Values MIRROR `.ari-*` in quote-typography.css, and selecting one re-declares
+   --q-maroon on the form so the specimen recolours live. */
+.bs-arinkchip {
+  min-width: 7rem;
+  flex: 1 1 7rem;
+}
+.bs-chip-swatch {
+  display: inline-block;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-inline-end: 0.4rem;
+  border-radius: 50%;
+  vertical-align: -0.08em;
+  background: var(--bs-swatch, #7a1f1f);
+  /* A hairline so a dark ink still reads as a disc against the chip, and a light
+     one would not vanish into it. */
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 18%);
+}
+.bs-arinkchip[data-arink="maroon"] {
+  --bs-swatch: #7a1f1f;
+}
+.bs-arinkchip[data-arink="ink"] {
+  --bs-swatch: #1f1d18;
+}
+.bs-arinkchip[data-arink="indigo"] {
+  --bs-swatch: #23356b;
+}
+.bs-arinkchip[data-arink="forest"] {
+  --bs-swatch: #1d4d33;
+}
+.bs-arinkchip[data-arink="brown"] {
+  --bs-swatch: #6b4423;
+}
+.bs-styleform:has(input[name="arabic-ink"][value="ink"]:checked) {
+  --q-maroon: #1f1d18;
+}
+.bs-styleform:has(input[name="arabic-ink"][value="indigo"]:checked) {
+  --q-maroon: #23356b;
+}
+.bs-styleform:has(input[name="arabic-ink"][value="forest"]:checked) {
+  --q-maroon: #1d4d33;
+}
+.bs-styleform:has(input[name="arabic-ink"][value="brown"]:checked) {
+  --q-maroon: #6b4423;
+}
+
+/* The Typography specimen carries no family chips, so the family rules further
+   down this file never match it. It is a FACE specimen — the family specimen is
+   the one in the Citations tab — and this is the one declaration it needs that
+   those rules would otherwise have supplied. */
+.cx-type-preview .bs-tr {
+  font-family: var(--q-tr-face);
 }
 
 /* Per-family blurb above the preview — only the selected family's shows. */
 .bs-blurb {
-  font-size: 1.2rem;          /* REQ-010 */
+  font-size: 1.2rem; /* REQ-010 */
   line-height: 1.6;
   color: var(--c-ink-muted, #6f6a61);
   max-width: 62ch;
   margin: 0 0 var(--sp-4, 16px);
   display: none;
 }
-.bs-styleform:has(.bs-radio[value="plain"]:checked)    .bs-blurb[data-fam="plain"],
-.bs-styleform:has(.bs-radio[value="scholarly"]:checked) .bs-blurb[data-fam="scholarly"],
-.bs-styleform:has(.bs-radio[value="elegant"]:checked)  .bs-blurb[data-fam="elegant"] { display: block; }
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-blurb[data-fam="plain"],
+.bs-styleform:has(.bs-radio[value="scholarly"]:checked)
+  .bs-blurb[data-fam="scholarly"],
+.bs-styleform:has(.bs-radio[value="elegant"]:checked)
+  .bs-blurb[data-fam="elegant"] {
+  display: block;
+}
 
-/* ── Live preview — one sheet, all passage types ─────────────────────────── */
+/* ── Live preview — one sheet, all passage types ───────────────────────────
+   DELIBERATELY OFF the --panel-fs scale. This sheet is a TYPE SPECIMEN: it shows
+   what a verse, a hadith and a poem will look like on the printed page, so it has
+   to be at reading size to be worth looking at. Set it to 12px and it stops
+   answering the only question it exists to answer — and Arabic at 12px is not
+   legible at all. Same argument as the .cx-body print-parity exception in
+   html-view-lint.config.json. The chips and labels AROUND it are on the scale. */
 .bs-preview {
   background: var(--c-bg-card, #fffdf8);
   border: 1px solid var(--c-rule-soft, #ebe6da);
@@ -123,7 +375,7 @@
 .bs-ct-label {
   display: block;
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.7rem;
+  font-size: var(--panel-fs, 15px);
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--c-ink-dim, #9a938a);
@@ -132,7 +384,10 @@
 
 /* Shared primitives (base look = the "Scholarly" default). */
 .bs-ar {
-  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', 'Scheherazade New', serif;
+  /* One token, same as every other Arabic surface. The preview sheet's own
+     Qur'an-verse sample carries .is-quranic so it previews the Uthmanic face;
+     the hadith and poem samples take the default (Scheherazade New). */
+  font-family: var(--q-ar-face);
   direction: rtl;
   text-align: center;
   font-size: 1.05rem;
@@ -149,12 +404,14 @@
 }
 .bs-attr {
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.78rem;
+  font-size: var(--panel-fs, 15px);
   text-align: center;
   color: var(--c-ink-muted, #87827a);
   margin: 0.35rem 0 0;
 }
-.bs-attr::before { content: '— '; }
+.bs-attr::before {
+  content: "— ";
+}
 .bs-inline {
   font-size: 1.02rem;
   line-height: 1.75;
@@ -162,7 +419,17 @@
   margin: 0;
 }
 .bs-inline .ar-inline {
-  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  font-family: var(--q-ar-face);
+  /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
+     shearing the glyphs, which is wrong for the script and looked wrong on the
+     page; and an inherited bold would fake a weight the face does not have.
+     Pinned here so the run renders the same whatever prose it sits in. */
+  font-style: normal;
+  /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
+     descent are far taller than the Latin body face, so without an explicit
+     line-height a single Arabic word makes its line taller than its
+     neighbours and the column loses its rhythm. */
+  line-height: inherit;
   direction: rtl;
   unicode-bidi: isolate;
   color: var(--bs-arabic);
@@ -185,11 +452,22 @@
   margin: 0;
 }
 /* Poem — centered couplet, no rule. */
-.bs-poem { margin: 0; text-align: center; }
-.bs-poem .bs-ar { text-align: center; }
-.bs-poem .bs-tr { text-align: center; font-style: italic; }
+.bs-poem {
+  margin: 0;
+  text-align: center;
+}
+.bs-poem .bs-ar {
+  text-align: center;
+}
+.bs-poem .bs-tr {
+  text-align: center;
+  font-style: italic;
+}
 /* Saying — an aphorism set in italic with an attribution. */
-.bs-saying { margin: 0; text-align: center; }
+.bs-saying {
+  margin: 0;
+  text-align: center;
+}
 .bs-saying p:first-child {
   font-size: 1.05rem;
   line-height: 1.35;
@@ -209,14 +487,32 @@
   color: var(--c-ink, #2b2823);
   margin: 0;
 }
-.bs-quote p { margin: 0; }
+.bs-quote p {
+  margin: 0;
+}
 
-/* ── Family: Plain — no ornament, black ink, differentiated by set only ──── */
-.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-ar { color: var(--c-ink, #1f1d18); font-size: 1.18rem; }
+/* ── Family: Plain — no ornament; centred, maroon Arabic + a distinct rendering
+   face. The preview must show what the page will show, so these rules mirror
+   book-print.css body.style-plain (and its compose-print/book-reader twins) using
+   the same quote-typography.css tokens. The `:has()` mechanism is the existing
+   one — the chips drive the sheet with no JavaScript. */
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-ar {
+  color: var(--q-maroon);
+  font-size: 1.18rem;
+  text-align: center;
+}
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-tr {
+  font-family: var(--q-tr-face);
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: var(--c-ink, #1f1d18);
+  text-align: center;
+}
 .bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-verse,
 .bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-hadith {
   border-left: 0;
   padding-left: 0;
+  text-align: center;
 }
 .bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-quote {
   border-left: 0;
@@ -225,7 +521,9 @@
   border-radius: 0;
   color: var(--c-ink-dim, #4a463f);
 }
-.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-saying p:first-child { color: var(--c-ink-dim, #4a463f); }
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-saying p:first-child {
+  color: var(--c-ink-dim, #4a463f);
+}
 
 /* ── Family: Elegant — framed panels, gold, centered display ──────────────── */
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-verse {
@@ -240,7 +538,7 @@
   font-size: 1.4rem;
 }
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-verse .bs-ar::after {
-  content: ' \06DD';                 /* ۝ end-of-ayah marker */
+  content: " \06DD"; /* ۝ end-of-ayah marker */
   color: var(--bs-gold);
   font-size: 0.9em;
 }
@@ -252,13 +550,16 @@
   margin-top: 0.5rem;
 }
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-hadith {
-  border: 1px solid color-mix(in oklab, var(--c-accent, #8b4513) 35%, transparent);
+  border: 1px solid
+    color-mix(in oklab, var(--c-accent, #8b4513) 35%, transparent);
   border-radius: 8px;
   background: none;
   padding: 1rem 1.2rem 0.85rem;
   text-align: center;
 }
-.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-hadith .bs-ar { text-align: center; }
+.bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-hadith .bs-ar {
+  text-align: center;
+}
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-hadith .bs-attr {
   text-align: center;
   font-variant: small-caps;
@@ -273,18 +574,18 @@
   padding: 0.9rem 1.2rem 0.9rem 2.4rem;
 }
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-quote::before {
-  content: '\201C';                  /* “ */
+  content: "\201C"; /* “ */
   position: absolute;
   left: 0.6rem;
   top: 0.1rem;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 2.6rem;
   line-height: 1;
   color: var(--bs-gold);
 }
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-poem .bs-tr::before,
 .bs-styleform:has(.bs-radio[value="elegant"]:checked) .bs-poem .bs-tr::after {
-  content: '\2766';                  /* ❦ floral heart */
+  content: "\2766"; /* ❦ floral heart */
   color: var(--bs-gold);
   padding: 0 0.5rem;
   font-size: 0.9em;
@@ -298,11 +599,15 @@
   margin: var(--sp-4, 16px) 0 0;
   min-height: 1.2rem;
 }
-.bs-save.is-saved { color: var(--c-accent, #8b4513); }
-.bs-save.is-error { color: var(--c-red, #b3261e); }
+.bs-save.is-saved {
+  color: var(--c-accent, #8b4513);
+}
+.bs-save.is-error {
+  color: var(--c-red, #b3261e);
+}
 
 .bs-foot {
-  font-size: 1.2rem;          /* REQ-010 reading-text floor (page-level prose) */
+  font-size: 1.2rem; /* REQ-010 reading-text floor (page-level prose) */
   line-height: 1.6;
   color: var(--c-ink-muted, #87827a);
   font-style: italic;
@@ -314,5 +619,7 @@
    (matches the per-stylesheet guard convention used across the site). */
 @media (prefers-reduced-motion: reduce) {
   .bs-chip,
-  .bs-chip-check { transition: none; }
+  .bs-chip-check {
+    transition: none;
+  }
 }

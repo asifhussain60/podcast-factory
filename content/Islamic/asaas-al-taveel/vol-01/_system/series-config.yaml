@@ -1,4 +1,17 @@
 content_profile: islamic_scholarly
+
+# WHO NARRATES (Asif, 2026-08-03). Declared, not inferred, because the default
+# for `islamic_scholarly` is `transmitted_report` — an anonymous third-person
+# report — and that was wrong for what this book actually is. It stayed harmless
+# only because no model pass had touched the prose since; the next one would have
+# rewritten al-Nu'man into the third person.
+#
+# The book's chapter 1 used to be its 1960 editor's front matter, so the "I" on
+# the opening page was Arif Tamer's. That chapter is gone. What remains is
+# al-Nu'man (d. 363 AH) addressing his reader directly — "In the name of God...
+# we have already published a book for those who respond to the call" — which is
+# `first_person_author`.
+narrative_frame: first_person_author
 series: Asas al-Taweel
 volume: 1
 video_style: teaching_hybrid

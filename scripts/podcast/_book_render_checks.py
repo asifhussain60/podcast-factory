@@ -16,6 +16,7 @@ Checks (see docs/standards/book-print-quality.md for REQ text):
   BR-BLANK-PAGE  (P0) — no blank interior page.
   BR-PAGE-FILL   (P1) — no half-empty interior page (text fills like a real book).
 """
+
 from __future__ import annotations
 
 import re
@@ -36,10 +37,14 @@ def scan_watermark(pages_text: list[str]) -> list[dict[str, Any]]:
     findings: list[dict[str, Any]] = []
     for i, text in enumerate(pages_text, start=1):
         if _WATERMARK_RE.search(text):
-            findings.append({
-                "check": "BR-WATERMARK", "severity": "P0", "page": i,
-                "detail": "NotebookLM watermark text present on the rendered page",
-            })
+            findings.append(
+                {
+                    "check": "BR-WATERMARK",
+                    "severity": "P0",
+                    "page": i,
+                    "detail": "NotebookLM watermark text present on the rendered page",
+                }
+            )
     return findings
 
 
@@ -51,10 +56,14 @@ def scan_duplicate_captions(pages_text: list[str]) -> list[dict[str, Any]]:
         lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
         for a, b in zip(lines, lines[1:]):
             if a == b and 0 < len(a.split()) <= 12:
-                findings.append({
-                    "check": "BR-CAPTION-DUP", "severity": "P1", "page": i,
-                    "detail": f"caption printed twice: {a[:60]!r}",
-                })
+                findings.append(
+                    {
+                        "check": "BR-CAPTION-DUP",
+                        "severity": "P1",
+                        "page": i,
+                        "detail": f"caption printed twice: {a[:60]!r}",
+                    }
+                )
                 break
     return findings
 
@@ -74,28 +83,151 @@ def scan_blank_and_halfempty(pages_text: list[str]) -> list[dict[str, Any]]:
     lengths = {p: len(pages_text[p - 1].strip()) for p in interior}
     for p in interior:
         if lengths[p] < _MIN_PAGE_CHARS:
-            findings.append({
-                "check": "BR-BLANK-PAGE", "severity": "P0", "page": p,
-                "detail": f"blank/near-blank interior page ({lengths[p]} chars)",
-            })
+            findings.append(
+                {
+                    "check": "BR-BLANK-PAGE",
+                    "severity": "P0",
+                    "page": p,
+                    "detail": f"blank/near-blank interior page ({lengths[p]} chars)",
+                }
+            )
     non_blank = [v for v in lengths.values() if v >= _MIN_PAGE_CHARS]
     if len(non_blank) >= 3:
         srt = sorted(non_blank)
         median = srt[len(srt) // 2]
         for p in interior:
             if _MIN_PAGE_CHARS <= lengths[p] < _HALF_EMPTY_RATIO * median:
-                findings.append({
-                    "check": "BR-PAGE-FILL", "severity": "P1", "page": p,
-                    "detail": f"half-empty interior page ({lengths[p]} vs median {median} chars)",
-                })
+                findings.append(
+                    {
+                        "check": "BR-PAGE-FILL",
+                        "severity": "P1",
+                        "page": p,
+                        "detail": f"half-empty interior page ({lengths[p]} vs median {median} chars)",
+                    }
+                )
     return findings
 
 
-def run_all_scans(pages_text: list[str]) -> list[dict[str, Any]]:
+# Two assertions that the render did what the renderer intended. Both come from
+# real defects that reached a finished PDF and were caught only because a human
+# read it: a `.replace` that hit a placeholder's own mention in a CSS comment, so
+# every page printed `__BOOK_RUNNING_HEAD__`; and a crosswalk regenerated in the
+# wrong shape, which a strict-and-silent reader turned into a missing apparatus
+# page plus eight missing provenance lines. Neither is a judgment call and neither
+# costs anything, which is the argument for making them assertions rather than
+# lessons.
+_PLACEHOLDER_RE = re.compile(r"__[A-Z][A-Z0-9_]{3,}__")
+_CROSSWALK_HEADING_RE = re.compile(r"S\s*O\s*U\s*R\s*C\s*E\s*C\s*R\s*O\s*S", re.I)
+
+
+def scan_placeholders(pages_text: list[str]) -> list[dict[str, Any]]:
+    """A `__TOKEN__` on the printed page means a substitution did not happen."""
+    findings: list[dict[str, Any]] = []
+    for i, text in enumerate(pages_text, start=1):
+        for token in sorted(set(_PLACEHOLDER_RE.findall(text))):
+            findings.append(
+                {
+                    "check": "BR-PLACEHOLDER",
+                    "severity": "P0",
+                    "page": i,
+                    "detail": f"unsubstituted placeholder {token} printed on the page",
+                }
+            )
+    return findings
+
+
+def scan_crosswalk_present(pages_text: list[str], book_dir: Path) -> list[dict[str, Any]]:
+    """A book WITH a crosswalk file must print its crosswalk page.
+
+    Absent file, no finding — the companion route legitimately has none. Present
+    file and no page is the artifact silently dropping content it holds.
+    """
+    if not (Path(book_dir) / "book" / "source-crosswalk.json").exists():
+        return []
+    if any(_CROSSWALK_HEADING_RE.search(text) for text in pages_text):
+        return []
+    return [
+        {
+            "check": "BR-CROSSWALK-MISSING",
+            "severity": "P0",
+            "page": 0,
+            "detail": (
+                "source-crosswalk.json exists but no Source Crosswalk page was printed — "
+                "the render dropped the apparatus page and every per-chapter provenance line"
+            ),
+        }
+    ]
+
+
+# The running head names the chapter, and until this check nothing anywhere read
+# margin-box text against chapter boundaries. The first implementation keyed its
+# @page rules by array position over a chapters list that leads with the preface,
+# so every rule was shifted by one and pages deep in chapter 8 carried chapter 7's
+# title — a defect invisible to every other gate, in a book that had just gated
+# RENDER-CLEAN.
+_CHAPTER_OPEN_RE = re.compile(r"CHAPTER\s+([A-Z][A-Za-z-]+)")
+_HEAD_NUMBER_RE = re.compile(r"^\s*(\d+)\.\s")
+_NUMBER_WORDS = {
+    w: i
+    for i, w in enumerate(
+        "ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN ELEVEN TWELVE THIRTEEN "
+        "FOURTEEN FIFTEEN SIXTEEN SEVENTEEN EIGHTEEN NINETEEN TWENTY".split(),
+        start=1,
+    )
+}
+
+
+def scan_running_heads(pages_text: list[str]) -> list[dict[str, Any]]:
+    """Every numbered running head must name the chapter whose pages it sits on.
+
+    Silent when the book has no numbered heads — a book title head, or none at
+    all, is a legitimate choice and not this probe's business.
+    """
+    opens: list[tuple[int, int]] = []
+    for i, text in enumerate(pages_text, start=1):
+        m = _CHAPTER_OPEN_RE.search(text)
+        if m and (n := _NUMBER_WORDS.get(m.group(1).upper())):
+            if not any(num == n for _, num in opens):
+                opens.append((i, n))
+    if not opens:
+        return []
+    opens.sort()
+
+    def owner(page: int) -> int:
+        current = 0
+        for start, num in opens:
+            if page >= start:
+                current = num
+        return current
+
+    findings: list[dict[str, Any]] = []
+    for i, text in enumerate(pages_text, start=1):
+        first = (text.strip().split("\n") or [""])[0]
+        m = _HEAD_NUMBER_RE.match(first)
+        if not m:
+            continue
+        claimed, actual = int(m.group(1)), owner(i)
+        if claimed != actual:
+            findings.append(
+                {
+                    "check": "BR-RUNNING-HEAD",
+                    "severity": "P1",
+                    "page": i,
+                    "detail": f"running head names chapter {claimed}; the page belongs to chapter {actual}",
+                }
+            )
+    return findings
+
+
+def run_all_scans(pages_text: list[str], book_dir: Path | None = None) -> list[dict[str, Any]]:
     findings: list[dict[str, Any]] = []
     findings.extend(scan_watermark(pages_text))
     findings.extend(scan_duplicate_captions(pages_text))
     findings.extend(scan_blank_and_halfempty(pages_text))
+    findings.extend(scan_placeholders(pages_text))
+    findings.extend(scan_running_heads(pages_text))
+    if book_dir is not None:
+        findings.extend(scan_crosswalk_present(pages_text, book_dir))
     findings.sort(key=lambda f: (f["severity"] != "P0", f.get("page", 0)))
     return findings
 
@@ -112,7 +244,9 @@ def _extract_pages_text(pdf: Path, max_pages: int = 400) -> list[str] | None:
                 out = tmp_dir / f"p{page}.txt"
                 rc = subprocess.run(
                     ["pdftotext", "-f", str(page), "-l", str(page), str(pdf), str(out)],
-                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=15,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    timeout=15,
                 ).returncode
                 if rc != 0 or not out.exists():
                     break
@@ -122,7 +256,7 @@ def _extract_pages_text(pdf: Path, max_pages: int = 400) -> list[str] | None:
                 if page > 1 and not pages[-1].strip() and not pages[-2].strip():
                     pages = pages[:-2]
                     break
-    except Exception:  # noqa: BLE001
+    except Exception:
         return None
     return pages
 
@@ -130,13 +264,19 @@ def _extract_pages_text(pdf: Path, max_pages: int = 400) -> list[str] | None:
 def run_render_checks(book_dir: Path, *, log=print) -> dict[str, Any]:
     """Run the deterministic render probes and write a report. Never raises."""
     book_dir = Path(book_dir).resolve()
-    pdf = book_dir / "book" / "book.pdf"
-    pages_text = _extract_pages_text(pdf)
+    from deliver_book import _find_pdf
+
+    pdf = _find_pdf(book_dir)
+    pages_text = _extract_pages_text(pdf) if pdf else None
     if pages_text is None:
-        report = {"schema": "podcast.book-render-checks/v1", "verdict": "UNKNOWN",
-                  "reason": "pdftotext unavailable or PDF missing", "findings": []}
+        report = {
+            "schema": "podcast.book-render-checks/v1",
+            "verdict": "UNKNOWN",
+            "reason": "pdftotext unavailable or PDF missing",
+            "findings": [],
+        }
     else:
-        findings = run_all_scans(pages_text)
+        findings = run_all_scans(pages_text, book_dir)
         p0 = [f for f in findings if f["severity"] == "P0"]
         report = {
             "schema": "podcast.book-render-checks/v1",
@@ -146,7 +286,8 @@ def run_render_checks(book_dir: Path, *, log=print) -> dict[str, Any]:
         }
     try:
         (book_dir / "_system" / "book-render-checks.json").write_text(
-            __import__("json").dumps(report, indent=2) + "\n", encoding="utf-8")
-    except Exception as e:  # noqa: BLE001
+            __import__("json").dumps(report, indent=2) + "\n", encoding="utf-8"
+        )
+    except Exception as e:
         log(f"    0book-render: render-checks report write skipped (non-fatal): {e}")
     return report

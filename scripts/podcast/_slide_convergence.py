@@ -61,13 +61,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 # (orchestrator-side feature gating). The contract is documented in the
 # module docstring above.
 
-from _authoring import (  # noqa: E402
+from _authoring import (
     AuthoringError,
     _run_claude_p,
-)
-from _progress import (  # noqa: E402
-    read_state,
-    write_state,
 )
 
 # Cost-ledger wiring (AU-S3-001 fix): every `claude -p` invocation in this
@@ -81,8 +77,11 @@ from _progress import (  # noqa: E402
 # all ledger rows in `orchestrate_book.py`'s `book_cost_usd()`) catches
 # slide-deck overruns. Import made explicit so the regression-isolation
 # grep finds `cost_ledger` here.
-from _cost_ledger import append_from_claude_p_stdout  # noqa: E402,F401
-
+from _progress import (
+    read_state,
+    state_transaction,
+    write_state,
+)
 
 # ─── Module-level constants ──────────────────────────────────────────────────
 
@@ -172,21 +171,25 @@ def _parse_verdict(report_path: Path) -> tuple[str, list[dict]]:
 
     findings: list[dict] = []
     for pm in _PROBE_FAIL_RE.finditer(text):
-        findings.append({
-            "id": pm.group(1).strip(),
-            "severity": "fail",
-            "slides": pm.group(2).strip(),
-            "notes": pm.group(3).strip(),
-            "scope": "probe",
-        })
+        findings.append(
+            {
+                "id": pm.group(1).strip(),
+                "severity": "fail",
+                "slides": pm.group(2).strip(),
+                "notes": pm.group(3).strip(),
+                "scope": "probe",
+            }
+        )
     for am in _ARCH_FAIL_RE.finditer(text):
-        findings.append({
-            "id": am.group(1).strip(),
-            "severity": "fail",
-            "slides": "",
-            "notes": am.group(2).strip(),
-            "scope": "arch",
-        })
+        findings.append(
+            {
+                "id": am.group(1).strip(),
+                "severity": "fail",
+                "slides": "",
+                "notes": am.group(2).strip(),
+                "scope": "arch",
+            }
+        )
 
     return verdict, findings
 
@@ -317,8 +320,7 @@ def _invoke_slide_challenger(book_dir: Path, slug: str) -> Path:
             phase=f"slide-challenger/{slug}",
             message=f"claude -p (slide-challenger) exited rc={rc}",
             manual_fallback=(
-                "Invoke the slide-deck-challenger subagent manually on this chapter, "
-                "then re-run slide convergence."
+                "Invoke the slide-deck-challenger subagent manually on this chapter, then re-run slide convergence."
             ),
             stdout=stdout,
             stderr=stderr,
@@ -381,8 +383,7 @@ def _author_justified_skip(book_dir: Path, slug: str, density: float) -> Path:
             phase=f"slide-justified-skip/{slug}",
             message=f"justified-skip note not produced at {justification} (rc={rc})",
             manual_fallback=(
-                "Author the justification manually per Probe 7 acceptance criteria, "
-                "then re-run slide convergence."
+                "Author the justification manually per Probe 7 acceptance criteria, then re-run slide convergence."
             ),
             stdout=stdout,
             stderr=stderr,
@@ -393,9 +394,7 @@ def _author_justified_skip(book_dir: Path, slug: str, density: float) -> Path:
 # ─── Registry update (best-effort) ───────────────────────────────────────────
 
 
-def _update_registry_status(book_dir: Path, slug: str, *,
-                            slide_deck_status: str,
-                            challenger_status: str) -> bool:
+def _update_registry_status(book_dir: Path, slug: str, *, slide_deck_status: str, challenger_status: str) -> bool:
     """Best-effort update of slide-deck-status + challenger-status in the registry.
 
     Reads `BOOK_DIR/_system/registry.md`, finds the row whose slug column
@@ -470,24 +469,25 @@ def _update_registry_status(book_dir: Path, slug: str, *,
 # ─── State updates ───────────────────────────────────────────────────────────
 
 
-def _record_state(book_dir: Path, slug: str, *, phase_status: str,
-                  iterations: int, verdict: str) -> None:
+def _record_state(book_dir: Path, slug: str, *, phase_status: str, iterations: int, verdict: str) -> None:
     """Stamp the slide-deck convergence outcome into orchestrator-state.json.
 
-    Idempotent and resume-safe. Writes a per-chapter dict under
-    `state['slide_decks'][slug]` with:
-        slide_deck_phase: "running" | "done" | "stalled" | "skipped"
-        slide_challenger_iter: int
-        slide_challenger_verdict: str
+    Idempotent and resume-safe. Writes `state['slide_decks'][slug]`
+    (slide_deck_phase / slide_challenger_iter / slide_challenger_verdict).
+
+    Holds the shared state lock across the read-modify-write: the cohort runs one
+    chapter per worker thread, and unguarded, two finishing close together each
+    write from a snapshot predating the other — one verdict vanishes, silently.
     """
-    state = read_state(book_dir) or {}
-    sd = state.setdefault("slide_decks", {})
-    sd[slug] = {
-        "slide_deck_phase": phase_status,
-        "slide_challenger_iter": iterations,
-        "slide_challenger_verdict": verdict,
-    }
-    write_state(book_dir, state)
+    with state_transaction():
+        state = read_state(book_dir) or {}
+        sd = state.setdefault("slide_decks", {})
+        sd[slug] = {
+            "slide_deck_phase": phase_status,
+            "slide_challenger_iter": iterations,
+            "slide_challenger_verdict": verdict,
+        }
+        write_state(book_dir, state)
 
 
 # ─── Public convergence loop ─────────────────────────────────────────────────
@@ -553,16 +553,14 @@ def run_slide_convergence(
             findings=[],
             notes=[f"density={density:.3f} < {DENSITY_THRESHOLD} → justified-skip flow"],
         )
-        _record_state(book_dir, slug, phase_status="skipped",
-                      iterations=0, verdict="SKIPPED")
+        _record_state(book_dir, slug, phase_status="skipped", iterations=0, verdict="SKIPPED")
         try:
             justification = _author_justified_skip(book_dir, slug, density)
             outcome.notes.append(f"justified-skip authored at {justification}")
         except AuthoringError as e:
             outcome.notes.append(f"justified-skip authoring failed: {e}")
             outcome.verdict = "BLOCKED"
-            _record_state(book_dir, slug, phase_status="stalled",
-                          iterations=0, verdict="BLOCKED")
+            _record_state(book_dir, slug, phase_status="stalled", iterations=0, verdict="BLOCKED")
             return outcome
 
         # Probe-7-only Challenger pass. Retry once on AuthoringError before
@@ -579,29 +577,21 @@ def run_slide_convergence(
                 verdict, findings = _parse_verdict(r_path)
                 outcome.findings = findings
                 outcome.notes.append(
-                    f"Probe-7 verification (attempt {attempt}): "
-                    f"verdict={verdict} findings={len(findings)}"
+                    f"Probe-7 verification (attempt {attempt}): verdict={verdict} findings={len(findings)}"
                 )
                 if verdict == "SHIP-READY":
-                    _update_registry_status(book_dir, slug,
-                                            slide_deck_status="not-needed",
-                                            challenger_status="pass")
+                    _update_registry_status(book_dir, slug, slide_deck_status="not-needed", challenger_status="pass")
                 else:
                     # Challenger RAN and rejected the justification — terminal.
                     # No retry helps; escalate to BLOCKED.
                     outcome.verdict = "BLOCKED"
-                    outcome.notes.append(
-                        "Probe-7 rejected justification; SKIPPED escalated to BLOCKED"
-                    )
-                    _record_state(book_dir, slug, phase_status="stalled",
-                                  iterations=0, verdict="BLOCKED")
+                    outcome.notes.append("Probe-7 rejected justification; SKIPPED escalated to BLOCKED")
+                    _record_state(book_dir, slug, phase_status="stalled", iterations=0, verdict="BLOCKED")
                 last_attempt_error = None
                 break  # exit retry loop on success-or-rejection (both terminal)
             except AuthoringError as e:
                 last_attempt_error = e
-                outcome.notes.append(
-                    f"Probe-7 challenger invocation failed (attempt {attempt}): {e}"
-                )
+                outcome.notes.append(f"Probe-7 challenger invocation failed (attempt {attempt}): {e}")
                 # Retry on transient failure; final attempt falls through below.
                 continue
 
@@ -613,8 +603,7 @@ def run_slide_convergence(
                 f"Probe-7 challenger could not be invoked after "
                 f"{max_challenger_attempts} attempts; manual re-invocation required"
             )
-            _record_state(book_dir, slug, phase_status="stalled",
-                          iterations=0, verdict="BLOCKED")
+            _record_state(book_dir, slug, phase_status="stalled", iterations=0, verdict="BLOCKED")
 
         return outcome
 
@@ -640,9 +629,10 @@ def run_slide_convergence(
         framing_path=framing_path if framing_path.exists() else None,
         report_path=report_path,
         findings=[],
-        notes=([f"density={density:.3f} ≥ {DENSITY_THRESHOLD} → full loop"]
-               + (["no discussion-spine present → authoring deck from the audio "
-                   "chapter alone"] if spine_absent else [])),
+        notes=(
+            [f"density={density:.3f} ≥ {DENSITY_THRESHOLD} → full loop"]
+            + (["no discussion-spine present → authoring deck from the audio chapter alone"] if spine_absent else [])
+        ),
     )
 
     verdict_history: list[str] = []
@@ -650,20 +640,15 @@ def run_slide_convergence(
 
     for outer in range(1, max_iterations + 1):
         outcome.iterations = outer
-        _record_state(book_dir, slug, phase_status="running",
-                      iterations=outer, verdict="(in-progress)")
+        _record_state(book_dir, slug, phase_status="running", iterations=outer, verdict="(in-progress)")
 
         # 2a. (Re-)author the deck pair, passing prior findings as constraints.
         try:
             ar = author_deck_pair(book_dir, slug, prior_findings=last_findings)
-        except TypeError:
-            # Fallback if author_deck_pair's signature omits prior_findings.
-            ar = author_deck_pair(book_dir, slug)  # type: ignore[misc]
         except AuthoringError as e:
             outcome.notes.append(f"iter {outer}: authoring failed — {e}")
             outcome.verdict = "BLOCKED"
-            _record_state(book_dir, slug, phase_status="stalled",
-                          iterations=outer, verdict="BLOCKED")
+            _record_state(book_dir, slug, phase_status="stalled", iterations=outer, verdict="BLOCKED")
             return outcome
 
         if not getattr(ar, "success", False):
@@ -672,8 +657,7 @@ def run_slide_convergence(
                 f"validation_findings={len(getattr(ar, 'validation_findings', []) or [])}"
             )
             outcome.verdict = "BLOCKED"
-            _record_state(book_dir, slug, phase_status="stalled",
-                          iterations=outer, verdict="BLOCKED")
+            _record_state(book_dir, slug, phase_status="stalled", iterations=outer, verdict="BLOCKED")
             return outcome
 
         outcome.deck_path = getattr(ar, "deck_path", deck_path)
@@ -685,8 +669,7 @@ def run_slide_convergence(
         except AuthoringError as e:
             outcome.notes.append(f"iter {outer}: challenger invocation failed — {e}")
             outcome.verdict = "BLOCKED"
-            _record_state(book_dir, slug, phase_status="stalled",
-                          iterations=outer, verdict="BLOCKED")
+            _record_state(book_dir, slug, phase_status="stalled", iterations=outer, verdict="BLOCKED")
             return outcome
         outcome.report_path = r_path
 
@@ -695,45 +678,28 @@ def run_slide_convergence(
         verdict_history.append(verdict)
         last_findings = findings
         outcome.findings = findings
-        outcome.notes.append(
-            f"iter {outer}: verdict={verdict} findings={len(findings)}"
-        )
+        outcome.notes.append(f"iter {outer}: verdict={verdict} findings={len(findings)}")
 
         # 2d. Decision rule.
         if verdict == "SHIP-READY":
             outcome.verdict = "SHIP-READY"
-            _record_state(book_dir, slug, phase_status="done",
-                          iterations=outer, verdict="SHIP-READY")
-            _update_registry_status(book_dir, slug,
-                                    slide_deck_status="ready",
-                                    challenger_status="pass")
+            _record_state(book_dir, slug, phase_status="done", iterations=outer, verdict="SHIP-READY")
+            _update_registry_status(book_dir, slug, slide_deck_status="ready", challenger_status="pass")
             return outcome
 
         if verdict == "SHIP-WITH-CAUTION" and outer >= SHIP_WITH_CAUTION_MIN_ITER:
             outcome.verdict = "SHIP-WITH-CAUTION"
-            outcome.notes.append(
-                f"iter {outer}: SHIP-WITH-CAUTION accepted at iter ≥ "
-                f"{SHIP_WITH_CAUTION_MIN_ITER}"
-            )
-            _record_state(book_dir, slug, phase_status="done",
-                          iterations=outer, verdict="SHIP-WITH-CAUTION")
-            _update_registry_status(book_dir, slug,
-                                    slide_deck_status="ready",
-                                    challenger_status="fail-iterating")
+            outcome.notes.append(f"iter {outer}: SHIP-WITH-CAUTION accepted at iter ≥ {SHIP_WITH_CAUTION_MIN_ITER}")
+            _record_state(book_dir, slug, phase_status="done", iterations=outer, verdict="SHIP-WITH-CAUTION")
+            _update_registry_status(book_dir, slug, slide_deck_status="ready", challenger_status="fail-iterating")
             return outcome
 
         # Intelligent break: two consecutive identical non-success verdicts.
         if _intelligent_break(verdict_history):
-            outcome.notes.append(
-                f"iter {outer}: intelligent break — verdict {verdict} "
-                f"repeated; stalling"
-            )
+            outcome.notes.append(f"iter {outer}: intelligent break — verdict {verdict} repeated; stalling")
             outcome.verdict = "STALLED"
-            _record_state(book_dir, slug, phase_status="stalled",
-                          iterations=outer, verdict="STALLED")
-            _update_registry_status(book_dir, slug,
-                                    slide_deck_status="pending",
-                                    challenger_status="fail-iterating")
+            _record_state(book_dir, slug, phase_status="stalled", iterations=outer, verdict="STALLED")
+            _update_registry_status(book_dir, slug, slide_deck_status="pending", challenger_status="fail-iterating")
             return outcome
 
         # Otherwise loop: next iteration re-authors with `findings` as constraints.
@@ -742,12 +708,7 @@ def run_slide_convergence(
     # 2e. Cap reached without convergence.
     outcome.iterations = max_iterations
     outcome.verdict = "STALLED"
-    outcome.notes.append(
-        f"iter cap reached ({max_iterations}); slide-deck did not converge"
-    )
-    _record_state(book_dir, slug, phase_status="stalled",
-                  iterations=max_iterations, verdict="STALLED")
-    _update_registry_status(book_dir, slug,
-                            slide_deck_status="pending",
-                            challenger_status="fail-iterating")
+    outcome.notes.append(f"iter cap reached ({max_iterations}); slide-deck did not converge")
+    _record_state(book_dir, slug, phase_status="stalled", iterations=max_iterations, verdict="STALLED")
+    _update_registry_status(book_dir, slug, slide_deck_status="pending", challenger_status="fail-iterating")
     return outcome

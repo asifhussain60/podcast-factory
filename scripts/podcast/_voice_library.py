@@ -9,6 +9,7 @@ access and the deterministic per-slug pick.
 Extensibility: adding a voice = one YAML entry. Nothing here enumerates
 names; pools are whatever the YAML says.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -21,6 +22,7 @@ LIBRARY_PATH = Path(__file__).resolve().parent / "voice-library.yaml"
 @lru_cache(maxsize=1)
 def load_library() -> dict:
     import yaml
+
     with LIBRARY_PATH.open(encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
@@ -48,8 +50,7 @@ def resolve_name(name: str) -> str | None:
     """Library `name`/`full_name` (case-insensitive) -> voice_id, else None."""
     needle = name.strip().lower()
     for entry in male_pool() + female_pool():
-        if needle in (str(entry.get("name", "")).lower(),
-                      str(entry.get("full_name", "")).lower()):
+        if needle in (str(entry.get("name", "")).lower(), str(entry.get("full_name", "")).lower()):
             return entry.get("voice_id")
     return None
 

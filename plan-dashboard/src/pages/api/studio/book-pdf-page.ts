@@ -7,33 +7,37 @@
  * single-scrollbar view (/studio/<slug>/preview) — see preview.astro for why
  * this replaced an <iframe>-embedded PDF.
  */
-import type { APIRoute } from 'astro';
-import { readFileSync } from 'node:fs';
-import { findContentDirSync } from '../../../lib/content-paths';
-import { ensurePreviewPageImages, pagePngPath } from '../../../../scripts/lib/preview-pages.mjs';
-import { apiError, apiNotFound } from '../../../lib/api-responses';
+import type { APIRoute } from "astro";
+import { readFileSync } from "node:fs";
+import { findContentDirSync } from "../../../lib/content-paths";
+import {
+  ensurePreviewPageImages,
+  pagePngPath,
+} from "../../../../scripts/lib/preview-pages.mjs";
+import { apiError, apiNotFound } from "../../../lib/api-responses";
 
 export const prerender = false;
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export const GET: APIRoute = ({ url }) => {
-  const slug = String(url.searchParams.get('slug') ?? '').trim();
-  const page = Number(url.searchParams.get('page') ?? '');
-  if (!SLUG_RE.test(slug)) return apiError('Invalid slug');
-  if (!Number.isInteger(page) || page < 1) return apiError('Invalid page');
+  const slug = String(url.searchParams.get("slug") ?? "").trim();
+  const page = Number(url.searchParams.get("page") ?? "");
+  if (!SLUG_RE.test(slug)) return apiError("Invalid slug");
+  if (!Number.isInteger(page) || page < 1) return apiError("Invalid page");
 
   const bookDir = findContentDirSync(slug);
   if (!bookDir) return apiNotFound(`Book not found: ${slug}`);
 
   const { pageCount } = ensurePreviewPageImages(bookDir);
-  if (page > pageCount) return apiNotFound(`Page ${page} out of range (${pageCount} total)`);
+  if (page > pageCount)
+    return apiNotFound(`Page ${page} out of range (${pageCount} total)`);
 
   const target = pagePngPath(bookDir, page);
-  if (!target) return apiNotFound('page image not found');
+  if (!target) return apiNotFound("page image not found");
 
   return new Response(readFileSync(target), {
     status: 200,
-    headers: { 'content-type': 'image/png', 'cache-control': 'no-store' },
+    headers: { "content-type": "image/png", "cache-control": "no-store" },
   });
 };

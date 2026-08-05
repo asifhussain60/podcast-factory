@@ -4,6 +4,7 @@ Covers the merge/collision primitives that resolve duplicate-id JSONL lines
 produced by cross-machine git union-merges. These are pure functions (no DB),
 so they run fast and deterministically.
 """
+
 import sys
 from pathlib import Path
 
@@ -11,21 +12,25 @@ _INTEL = Path(__file__).resolve().parent.parent / "intelligence"
 if str(_INTEL) not in sys.path:
     sys.path.insert(0, str(_INTEL))
 
-import corpus_sync as cs  # noqa: E402
+import corpus_sync as cs
 
 
-def _atom(atom_id, text_en=None, arabic=None, sources=None, variants=None,
-          date="2026-01-01", confidence=1.0):
+def _atom(atom_id, text_en=None, arabic=None, sources=None, variants=None, date="2026-01-01", confidence=1.0):
     body = {}
     if text_en is not None:
         body["text_en"] = text_en
     if arabic is not None:
         body["arabic"] = arabic
     return {
-        "id": atom_id, "type": "quran", "body": body,
+        "id": atom_id,
+        "type": "quran",
+        "body": body,
         "first_seen": {"book": "b", "chapter": "c", "date": date},
-        "confidence": confidence, "tradition": "universal", "content_level": None,
-        "sources": sources or [], "variants": variants or [],
+        "confidence": confidence,
+        "tradition": "universal",
+        "content_level": None,
+        "sources": sources or [],
+        "variants": variants or [],
     }
 
 
@@ -78,6 +83,7 @@ def test_id_collision_splits_and_rekeys():
 def test_unique_id_count_ignores_duplicate_lines(tmp_path):
     p = tmp_path / "quran.jsonl"
     import json
+
     lines = [
         json.dumps(_atom("a", text_en="t")),
         json.dumps(_atom("a", text_en="t", arabic="AR")),  # dup id
@@ -89,4 +95,5 @@ def test_unique_id_count_ignores_duplicate_lines(tmp_path):
 
 if __name__ == "__main__":
     import subprocess
+
     raise SystemExit(subprocess.call(["python3", "-m", "pytest", "-q", __file__]))

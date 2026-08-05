@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Normalize Azure OCR's `((text))` double-paren artifact to markdown italics.
 
+Manual utility, not wired into orchestrate_book.py or phases/*.py — run by hand
+when needed. Flagged 2026-07-16, kept as-is (real working code, no evidence
+it's dead, just not automatic).
+
 Azure Document Intelligence emits `((text))` for what was likely italics
 or quotation marks in the source PDF. Phase 0b refinement preserves these
 inconsistently (about 75% normalized, 25% left as-is in observed KaR run).
@@ -17,6 +21,7 @@ Usage:
 If --in-place, the original is overwritten and a `.bak` sibling is saved.
 Without --in-place, the normalized text goes to stdout.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -42,8 +47,7 @@ def normalize(text: str) -> tuple[str, int]:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("path", type=Path)
-    ap.add_argument("--in-place", action="store_true",
-                    help="overwrite the input file (saves .bak)")
+    ap.add_argument("--in-place", action="store_true", help="overwrite the input file (saves .bak)")
     args = ap.parse_args()
 
     if not args.path.is_file():

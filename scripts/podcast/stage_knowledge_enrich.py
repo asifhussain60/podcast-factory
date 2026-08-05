@@ -25,6 +25,7 @@ CLI:
     python3 scripts/podcast/stage_knowledge_enrich.py --slug ayyuhal-walad --chapter ch02-hatim-eight-benefits
     python3 scripts/podcast/stage_knowledge_enrich.py --slug ayyuhal-walad --dry-run
 """
+
 from __future__ import annotations
 
 import argparse
@@ -41,10 +42,10 @@ for p in (str(_HERE), str(_REPO)):
         sys.path.insert(0, p)
 
 from scripts.podcast.intelligence.mcp_access import (
-    verify_quran_citation,
-    get_etymology,
-    get_doctrine_context,
     ENRICHMENT_TYPE_IDS,
+    get_doctrine_context,
+    get_etymology,
+    verify_quran_citation,
 )
 
 # ── paths ─────────────────────────────────────────────────────────────────────
@@ -63,31 +64,31 @@ def _stage_dir(slug: str, chapter: str) -> Path:
 # ── Islamic technical term map (English surface → transliteration for term_index) ──
 
 _TERM_MAP: dict[str, str] = {
-    "sincerity":     "ikhlas",
-    "trust":         "tawakkul",
-    "reliance":      "tawakkul",
-    "repentance":    "tawbah",
-    "patience":      "sabr",
-    "gratitude":     "shukr",
-    "soul":          "nafs",
-    "heart":         "qalb",
-    "knowledge":     "ilm",
-    "worship":       "ibadah",
-    "humility":      "tawadu",
-    "asceticism":    "zuhd",
-    "worldly":       "dunya",
-    "heedlessness":  "ghaflah",
-    "intention":     "niyyah",
-    "fear":          "khawf",
-    "hope":          "raja",
-    "love":          "mahabbah",
-    "remembrance":   "dhikr",
+    "sincerity": "ikhlas",
+    "trust": "tawakkul",
+    "reliance": "tawakkul",
+    "repentance": "tawbah",
+    "patience": "sabr",
+    "gratitude": "shukr",
+    "soul": "nafs",
+    "heart": "qalb",
+    "knowledge": "ilm",
+    "worship": "ibadah",
+    "humility": "tawadu",
+    "asceticism": "zuhd",
+    "worldly": "dunya",
+    "heedlessness": "ghaflah",
+    "intention": "niyyah",
+    "fear": "khawf",
+    "hope": "raja",
+    "love": "mahabbah",
+    "remembrance": "dhikr",
     "contemplation": "tafakkur",
-    "path":          "tariqah",
-    "station":       "maqam",
-    "state":         "hal",
-    "shaykh":        "shaykh",
-    "scholar":       "alim",
+    "path": "tariqah",
+    "station": "maqam",
+    "state": "hal",
+    "shaykh": "shaykh",
+    "scholar": "alim",
 }
 
 _TERM_RE = re.compile(
@@ -147,6 +148,7 @@ def _collect_chapter_refs(slug: str, chapter: str) -> list[str]:
 
 # ── Step 1: Quran citation enrichment ─────────────────────────────────────────
 
+
 def _enrich_quran(
     slug: str,
     chapter: str,
@@ -164,17 +166,19 @@ def _enrich_quran(
 
         verse = verify_quran_citation(surah, ayat)
         if verse:
-            enriched.append({
-                "ref":       ref,
-                "surah_num": surah,
-                "ayat_num":  ayat,
-                "arabic":    verse.get("arabic", ""),
-                "pickthall": verse.get("pickthall", ""),
-                "asad":      verse.get("asad", ""),
-                "phonetic":  verse.get("phonetic", ""),
-                "status":    "verified",
-                "source":    "kqur-mirror",
-            })
+            enriched.append(
+                {
+                    "ref": ref,
+                    "surah_num": surah,
+                    "ayat_num": ayat,
+                    "arabic": verse.get("arabic", ""),
+                    "pickthall": verse.get("pickthall", ""),
+                    "asad": verse.get("asad", ""),
+                    "phonetic": verse.get("phonetic", ""),
+                    "status": "verified",
+                    "source": "kqur-mirror",
+                }
+            )
         else:
             enriched.append({"ref": ref, "status": "not-found"})
 
@@ -182,6 +186,7 @@ def _enrich_quran(
 
 
 # ── Step 2: Etymology annotation ──────────────────────────────────────────────
+
 
 def _enrich_etymology(
     normalized_text: str,
@@ -202,21 +207,24 @@ def _enrich_etymology(
         record = get_etymology(term)
         if record and "root" in record:
             root = record["root"]
-            results.append({
-                "term":             term,
-                "occurrences":      count,
-                "root_arabic":      root.get("root_arabic", ""),
-                "transliteration":  root.get("transliteration", term),
-                "meaning_en":       root.get("meaning_en", ""),
-                "meaning_ar":       root.get("meaning_ar", ""),
-                "derivatives_count": len(record.get("derivatives", [])),
-                "source":           record.get("source", "mirror"),
-            })
+            results.append(
+                {
+                    "term": term,
+                    "occurrences": count,
+                    "root_arabic": root.get("root_arabic", ""),
+                    "transliteration": root.get("transliteration", term),
+                    "meaning_en": root.get("meaning_en", ""),
+                    "meaning_ar": root.get("meaning_ar", ""),
+                    "derivatives_count": len(record.get("derivatives", [])),
+                    "source": record.get("source", "mirror"),
+                }
+            )
 
     return results
 
 
 # ── Step 3: Doctrine context ──────────────────────────────────────────────────
+
 
 def _enrich_doctrine(
     chapter: str,
@@ -239,14 +247,16 @@ def _enrich_doctrine(
             tid = t.get("topic_id")
             if tid not in seen_ids:
                 seen_ids.add(tid)
-                results.append({
-                    "topic_id":      tid,
-                    "topic_type_id": t.get("topic_type_id"),
-                    "name":          t.get("name", ""),
-                    "binder":        t.get("binder", ""),
-                    "chapter":       t.get("chapter", ""),
-                    "matched_theme": theme,
-                })
+                results.append(
+                    {
+                        "topic_id": tid,
+                        "topic_type_id": t.get("topic_type_id"),
+                        "name": t.get("name", ""),
+                        "binder": t.get("binder", ""),
+                        "chapter": t.get("chapter", ""),
+                        "matched_theme": theme,
+                    }
+                )
         if len(results) >= max_topics:
             break
 
@@ -254,6 +264,7 @@ def _enrich_doctrine(
 
 
 # ── Step 4: Write outputs ─────────────────────────────────────────────────────
+
 
 def _build_knowledge_report(
     slug: str,
@@ -273,17 +284,17 @@ def _build_knowledge_report(
     verified_q = [r for r in quran_refs if r.get("status") == "verified"]
 
     return {
-        "slug":               slug,
-        "chapter":            chapter,
-        "stage":              "knowledge-enriched",
-        "chapter_tradition":  tradition,
-        "enrichment_source":  "mcp-mirror (KQUR + KASHKOLE, zero LLM calls)",
-        "quran_verified":     len(verified_q),
-        "quran_refs":         quran_refs,
-        "etymology_terms":    etymology,
-        "doctrine_topics":    doctrine,
-        "hadith_refs":        [],
-        "hadith_note":        (
+        "slug": slug,
+        "chapter": chapter,
+        "stage": "knowledge-enriched",
+        "chapter_tradition": tradition,
+        "enrichment_source": "mcp-mirror (KQUR + KASHKOLE, zero LLM calls)",
+        "quran_verified": len(verified_q),
+        "quran_refs": quran_refs,
+        "etymology_terms": etymology,
+        "doctrine_topics": doctrine,
+        "hadith_refs": [],
+        "hadith_note": (
             "KQUR Ahadees are Ismaili tradition — not matched to Ghazali's "
             "Sunni Prophetic narrations.  Tradition filter correctly withholds injection."
         ),
@@ -301,7 +312,9 @@ def _build_references_section(
     verified = [r for r in quran_refs if r.get("status") == "verified"]
     not_found = [r for r in quran_refs if r.get("status") != "verified"]
     if verified:
-        lines.append(f"**{len(verified)} Quran citation{'s' if len(verified) != 1 else ''} verified** (Arabic text + Pickthall/Asad translations from KQUR mirror)\n")
+        lines.append(
+            f"**{len(verified)} Quran citation{'s' if len(verified) != 1 else ''} verified** (Arabic text + Pickthall/Asad translations from KQUR mirror)\n"
+        )
         for r in verified:
             ref = r["ref"]
             arabic = r.get("arabic", "")
@@ -320,7 +333,9 @@ def _build_references_section(
     # Etymology
     if etymology:
         lines.append("")
-        lines.append(f"**{len(etymology)} Islamic term{'s' if len(etymology) != 1 else ''} annotated** (KQUR Roots + Derivatives)\n")
+        lines.append(
+            f"**{len(etymology)} Islamic term{'s' if len(etymology) != 1 else ''} annotated** (KQUR Roots + Derivatives)\n"
+        )
         for e in etymology:
             ar = f" ({e['root_arabic']})" if e.get("root_arabic") else ""
             meaning = e.get("meaning_en", "")
@@ -330,7 +345,9 @@ def _build_references_section(
     # Doctrine context
     if doctrine:
         lines.append("")
-        lines.append(f"**{len(doctrine)} KASHKOLE wisdom topic{'s' if len(doctrine) != 1 else ''} matched** (ethics/aphorism topics — tradition-adjacent)\n")
+        lines.append(
+            f"**{len(doctrine)} KASHKOLE wisdom topic{'s' if len(doctrine) != 1 else ''} matched** (ethics/aphorism topics — tradition-adjacent)\n"
+        )
         for d in doctrine:
             binder = d.get("binder", "")
             name = d.get("name", "")
@@ -353,6 +370,7 @@ def _update_augmented_md(aug_path: Path, ref_section: str) -> None:
 
 
 # ── Main per-chapter runner ───────────────────────────────────────────────────
+
 
 def enrich_chapter(
     slug: str,
@@ -426,23 +444,21 @@ def enrich_all(
             total_doctrine += len(report.get("doctrine_topics", []))
 
     print()
-    print(f"Total: {total_quran} Quran refs verified, "
-          f"{total_etym} terms annotated, "
-          f"{total_doctrine} doctrine topics matched")
+    print(
+        f"Total: {total_quran} Quran refs verified, "
+        f"{total_etym} terms annotated, "
+        f"{total_doctrine} doctrine topics matched"
+    )
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def _cli() -> None:
-    parser = argparse.ArgumentParser(
-        description="MCP-backed knowledge enrichment for pipeline chapters."
-    )
-    parser.add_argument("--slug", required=True,
-                        help="Book slug, e.g. ayyuhal-walad")
-    parser.add_argument("--chapter", default=None,
-                        help="Restrict to one chapter (prefix or full name), e.g. ch02")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Print what would be written without writing files.")
+    parser = argparse.ArgumentParser(description="MCP-backed knowledge enrichment for pipeline chapters.")
+    parser.add_argument("--slug", required=True, help="Book slug, e.g. ayyuhal-walad")
+    parser.add_argument("--chapter", default=None, help="Restrict to one chapter (prefix or full name), e.g. ch02")
+    parser.add_argument("--dry-run", action="store_true", help="Print what would be written without writing files.")
     args = parser.parse_args()
     enrich_all(args.slug, dry_run=args.dry_run, only_chapter=args.chapter)
 

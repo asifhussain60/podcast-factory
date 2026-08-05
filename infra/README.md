@@ -12,8 +12,8 @@ This directory contains all provisioning scripts, credential management tooling,
 | [`llm-apis/`](llm-apis/) | Claude + Gemini API account docs, keys, bootstrap | New Mac setup, key verification |
 | [`claude-agents/`](claude-agents/) | Canonical agent spec files (18 agents) | Agent authoring; `.github/agents/` stubs point here |
 | [`setup-wisdom-db.sh`](supabase/setup-wisdom-db.sh) | Local SQL Server (Docker) for Quran/sessions/topics corpus | Post-clone, once per Mac |
-| [`cloudflare/`](cloudflare/) | Salty Lamps proposal site record (not podcast-factory pipeline) | Reference only |
-| [`supabase/`](supabase/) | Salty Lamps notes database record (not podcast-factory pipeline) | Reference only |
+| [`cloudflare/`](cloudflare/) | Cloudflare account, secrets, and how to deploy to it | Canonical |
+| [`wisdom-db/`](wisdom-db/) | Local SQL Server container holding the three source-library dumps | Setup script |
 
 ## Quick-reference: new Mac setup order
 
@@ -27,7 +27,7 @@ Full guide at [docs/setup/bootstrap.md](../docs/setup/bootstrap.md). The infra s
 5. bash scripts/install-claude-skills.sh       # infra/claude-agents/
 6. cd infra/azure && az login && bash pull-secrets.sh   # all credentials from Key Vault
 7. bash infra/llm-apis/verify-llm-apis.sh      # confirm Claude + Gemini
-8. bash infra/supabase/setup-wisdom-db.sh               # SQL Server (optional; needs Docker + dump files)
+8. bash infra/wisdom-db/setup-wisdom-db.sh               # SQL Server (optional; needs Docker + dump files)
 9. bash scripts/start-session.sh               # confirm ready
 ```
 
@@ -63,26 +63,6 @@ bash scripts/install-git-hooks.sh
 
 The install script symlinks the hook into `.git/hooks/` — it is per-machine (not tracked by git). Re-run after pulling hook updates.
 
-## launchd/ — background Wave 1 pipeline
-
-`infra/launchd/install-pipeline-w1.sh` installs a macOS launchd agent that runs `scripts/podcast/run_wave.py 1` on an hourly interval. This is **optional** — used for autonomous background processing without manual orchestrator invocation.
-
-```bash
-# Install and start:
-bash infra/launchd/install-pipeline-w1.sh install
-bash infra/launchd/install-pipeline-w1.sh start
-
-# Monitor:
-bash infra/launchd/install-pipeline-w1.sh status
-bash infra/launchd/install-pipeline-w1.sh logs
-
-# Stop / remove:
-bash infra/launchd/install-pipeline-w1.sh stop
-bash infra/launchd/install-pipeline-w1.sh uninstall
-```
-
-Logs land at `~/Library/Logs/podcast-w1.log` and `~/Library/Logs/podcast-w1.err`.
-
 ## llm-apis/ — Claude + Gemini accounts
 
 Full documentation at [infra/llm-apis/README.md](llm-apis/README.md). Key facts:
@@ -102,7 +82,7 @@ One-time Docker SQL Server bootstrap for the source library (Quran lookup, sessi
   - `CONTENT/_shared/source-library/Kashkole.sql` (~724 MB)
 
 ```bash
-bash infra/supabase/setup-wisdom-db.sh   # ~3-5 min first run; idempotent
+bash infra/wisdom-db/setup-wisdom-db.sh   # ~3-5 min first run; idempotent
 
 # After script completes, register the MCP server:
 python3 scripts/podcast/source_library_server.py --register

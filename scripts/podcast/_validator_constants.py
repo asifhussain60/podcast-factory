@@ -37,8 +37,8 @@ FRAMING_CHAR_MAX = 4500
 # precisely because they're low-density). Phase 0d halts-and-surfaces above the
 # ceiling rather than shipping a marathon episode. (Root-causes the case where
 # Ayyuhal Walad's 8,955-word episodes packed ~24 teachings each.)
-EPISODE_DENSITY_CEILING_DENSE = 6000       # Arabic-scholarly / doctrinal
-EPISODE_DENSITY_CEILING_NARRATIVE = 9500   # narrative / consumer (the extended ceiling)
+EPISODE_DENSITY_CEILING_DENSE = 6000  # Arabic-scholarly / doctrinal
+EPISODE_DENSITY_CEILING_NARRATIVE = 9500  # narrative / consumer (the extended ceiling)
 
 # Concept-count ceiling per episode (chapter-density standard, 2026-06-10).
 # One concept = one `## H2` section in the rendered chapter .txt, excluding
@@ -54,9 +54,9 @@ EPISODE_MAX_CONCEPTS = 3
 # Terse scholarly forms are forbidden in chapter/framing prose — NotebookLM
 # reads them aloud as "Q five nineteen" and listeners can't resolve them.
 QURAN_CITATION_BAD_PATTERNS = [
-    re.compile(r"\(\s*Q\.?\s*\d{1,3}\s*:\s*\d{1,3}\s*\)"),        # (Q 5:19)
+    re.compile(r"\(\s*Q\.?\s*\d{1,3}\s*:\s*\d{1,3}\s*\)"),  # (Q 5:19)
     re.compile(r"\(\s*Quran\s+\d{1,3}\s*:\s*\d{1,3}\s*\)", re.I),  # (Quran 5:19)
-    re.compile(r"\(\s*\d{1,3}\s*:\s*\d{1,3}\s*\)"),                # bare (16:74)
+    re.compile(r"\(\s*\d{1,3}\s*:\s*\d{1,3}\s*\)"),  # bare (16:74)
 ]
 
 # ─── R-NO-TRANSLIT-FORMULA (2026-06-10) ───────────────────────────────────────
@@ -67,23 +67,22 @@ QURAN_CITATION_BAD_PATTERNS = [
 # The italic run must contain >=4 whitespace-separated tokens — short famous
 # term-glosses like `*kun fa-yakūn* — *Be! and it became*` are legitimate
 # inline teaching and stay un-flagged; long formula sentences are the target.
-TRANSLIT_FORMULA_PAIR_RE = re.compile(
-    r"\*(?=[^*\n]*[āīūēōḍḥṣṭẓġʿʾ])(?:[^*\s\n]+\s+){3,}[^*\s\n]+\*\s+—\s+\*"
-)
+TRANSLIT_FORMULA_PAIR_RE = re.compile(r"\*(?=[^*\n]*[āīūēōḍḥṣṭẓġʿʾ])(?:[^*\s\n]+\s+){3,}[^*\s\n]+\*\s+—\s+\*")
 
 
 def episode_overcrammed(words: int, episode_count: int, ceiling: int) -> int:
     """Density-brake check (pure). Given a source chapter's word count, how many
     episodes it currently maps to, and the per-episode density ceiling, return:
-      0  — not over-crammed (per-episode words ≤ ceiling), OR
+      0  — not over-crammed (per-episode words ≤ ceiling) or zero episodes, OR
       N  — the minimum episode_count this chapter SHOULD use (≥2) so each episode
            lands at/under the ceiling.
     """
-    eps = max(1, int(episode_count))
-    per_episode = int(words) // eps
+    eps = int(episode_count)
+    per_episode = int(words) // eps if eps >= 1 else 0  # 0 eps ships nothing to cram
     if per_episode <= ceiling:
         return 0
     return max(2, -(-int(words) // ceiling))  # ceil division
+
 
 # ─── Regex patterns ──────────────────────────────────────────────────────────
 EP_PATTERN = re.compile(r"^EP(\d+)-(.+)$")
@@ -98,7 +97,13 @@ META_PROSE_TELLS = [
     "the body below",
     "the file below",
     "phase 0",
-    "phase 0a", "phase 0b", "phase 0c", "phase 0d", "phase 0e", "phase 0f", "phase 0g",
+    "phase 0a",
+    "phase 0b",
+    "phase 0c",
+    "phase 0d",
+    "phase 0e",
+    "phase 0f",
+    "phase 0g",
     "enrichment status",
     "enrichment ratio",
     "per the meta-prose rule (B1) in infra/claude-agents/podcast-challenger.md",
@@ -148,10 +153,17 @@ INLINE_PHONETIC_PATTERNS = [
 # ─── R-NO-ABBREVIATION (2026-05-17) ──────────────────────────────────────────
 sys.path.insert(0, str(Path(__file__).parent))
 from _rules import (
-    abbreviations_for_build,
     HONORIFICS as _HONORIFICS_RAW,
-    HOST_A_ROLES_SCHOLAR,
-    HOST_B_ROLES_SEEKER,
+)
+from _rules import (
+    # Re-exported for _validators.py / _contract_validation.py (role-parity checks).
+    HOST_A_ROLES_SCHOLAR as HOST_A_ROLES_SCHOLAR,
+)
+from _rules import (
+    HOST_B_ROLES_SEEKER as HOST_B_ROLES_SEEKER,
+)
+from _rules import (
+    abbreviations_for_build,
 )
 
 FORBIDDEN_ABBREVIATIONS = abbreviations_for_build()
@@ -163,8 +175,7 @@ def _compile_honorific(p: str) -> re.Pattern:
     return re.compile(p) if is_acronym or p == "ﷺ" else re.compile(p, re.IGNORECASE)
 
 
-HONORIFIC_PHRASES = [_compile_honorific(p) for p in _HONORIFICS_RAW
-                     if p.startswith(r"\(") or p == "ﷺ"]
+HONORIFIC_PHRASES = [_compile_honorific(p) for p in _HONORIFICS_RAW if p.startswith(r"\(") or p == "ﷺ"]
 
 # ─── R-PRONUNCIATION-IMPERATIVE (framing) ────────────────────────────────────
 # Old passive-list format (asterisk-bold style) — always was bad.
@@ -218,7 +229,7 @@ def _flag_p1(rule: str, file_path: Path, message: str) -> None:
 # ─── Pushback / manuscript-meta constants ─────────────────────────────────────
 CHALLENGER_PUSHBACK_PATTERNS = [
     "I don't buy that yet",
-    "I don’t buy that yet",     # smart-quote (right single quotation mark) variant
+    "I don’t buy that yet",  # smart-quote (right single quotation mark) variant
     "That sounds like wordplay",
     "Isn't this just replacing",
     "Isn’t this just replacing",  # smart-quote variant
@@ -232,7 +243,7 @@ MANUSCRIPT_META_TELLS = [
     "collapses in the OCR",
     "a second damaged folio carries fragments",
     "translator's note",
-    "translator's note",                # smart-quote variant
+    "translator's note",  # smart-quote variant
     "editor's note",
     "editor's note",
     "manuscript notes",
@@ -255,66 +266,185 @@ ARABIC_TRANSLIT_PATTERNS = [
 ]
 
 ALLOWED_ARABIC_ORIGIN_LOWER = {
-    "quran", "imam", "medina", "ismaili", "fatimid", "fatimi",
-    "yusuf ali", "muhammad",
-    "al-bari", "al-mubdi", "al-wahid", "al-haqq",
+    "quran",
+    "imam",
+    "medina",
+    "ismaili",
+    "fatimid",
+    "fatimi",
+    "yusuf ali",
+    "muhammad",
+    "al-bari",
+    "al-mubdi",
+    "al-wahid",
+    "al-haqq",
     # Publisher names containing Arabic-origin al- prefix:
-    "al-fikr",      # "Dar al-Fikr" (publisher)
+    "al-fikr",  # "Dar al-Fikr" (publisher)
     # Translator names:
-    "al-khattab",   # "Nasiruddin al-Khattab" (translator)
+    "al-khattab",  # "Nasiruddin al-Khattab" (translator)
     # Phonetic respellings used in pronunciation guidance (always uppercase):
-    "al-lah",       # "al-LAH" (phonetic respelling of Allah)
+    "al-lah",  # "al-LAH" (phonetic respelling of Allah)
 }
 
 # Context phrases that contain a surah name as a substring but are NOT references
 # to the surah (e.g. translator names, phonetic forms). When any of these strings
 # appear within 30 characters of a surah-name match, the match is skipped.
 SURAH_ALLOWED_CONTEXT_LOWER = {
-    "yusuf ali",    # A.Y. Ali (Quran translator — name contains surah "yusuf")
-    "a.y. ali",     # abbreviated form of the same translator
+    "yusuf ali",  # A.Y. Ali (Quran translator — name contains surah "yusuf")
+    "a.y. ali",  # abbreviated form of the same translator
 }
 
 KNOWN_SURAH_NAMES_LOWER = {
-    "al-ahzab", "al-shams", "al-isra", "al-baqarah", "al-imran",
-    "al-nisa", "al-maidah", "al-anam", "al-araf", "al-anfal",
-    "al-tawbah", "yunus", "hud", "yusuf", "al-rad", "ibrahim",
-    "al-hijr", "al-nahl", "al-kahf", "maryam", "ta-ha", "al-anbiya",
-    "al-hajj", "al-muminun", "al-nur", "al-furqan", "al-shuara",
-    "al-naml", "al-qasas", "al-ankabut", "al-rum", "luqman",
-    "al-sajdah", "saba", "fatir", "ya-sin", "al-saffat", "sad",
-    "al-zumar", "ghafir", "fussilat", "al-shura", "al-zukhruf",
-    "al-dukhan", "al-jathiyah", "al-ahqaf", "al-fath", "al-hujurat",
-    "qaf", "al-dhariyat", "al-tur", "al-najm", "al-qamar",
-    "al-rahman", "al-waqiah", "al-hadid", "al-mujadilah", "al-hashr",
-    "al-mumtahanah", "al-saff", "al-jumuah", "al-munafiqun",
-    "al-taghabun", "al-talaq", "al-tahrim", "al-mulk", "al-qalam",
-    "al-haqqah", "al-maarij", "nuh", "al-jinn", "al-muzzammil",
-    "al-muddaththir", "al-qiyamah", "al-insan", "al-mursalat",
-    "al-naba", "al-naziat", "abasa", "al-takwir", "al-infitar",
-    "al-mutaffifin", "al-inshiqaq", "al-buruj", "al-tariq", "al-ala",
-    "al-ghashiyah", "al-fajr", "al-balad", "al-layl", "al-duha",
-    "al-sharh", "al-tin", "al-alaq", "al-qadr", "al-bayyinah",
-    "al-zalzalah", "al-adiyat", "al-qariah", "al-takathur", "al-asr",
-    "al-humazah", "al-fil", "quraysh", "al-maun", "al-kawthar",
-    "al-kafirun", "al-nasr", "al-masad", "al-ikhlas", "al-falaq",
+    "al-ahzab",
+    "al-shams",
+    "al-isra",
+    "al-baqarah",
+    "al-imran",
+    "al-nisa",
+    "al-maidah",
+    "al-anam",
+    "al-araf",
+    "al-anfal",
+    "al-tawbah",
+    "yunus",
+    "hud",
+    "yusuf",
+    "al-rad",
+    "ibrahim",
+    "al-hijr",
+    "al-nahl",
+    "al-kahf",
+    "maryam",
+    "ta-ha",
+    "al-anbiya",
+    "al-hajj",
+    "al-muminun",
+    "al-nur",
+    "al-furqan",
+    "al-shuara",
+    "al-naml",
+    "al-qasas",
+    "al-ankabut",
+    "al-rum",
+    "luqman",
+    "al-sajdah",
+    "saba",
+    "fatir",
+    "ya-sin",
+    "al-saffat",
+    "sad",
+    "al-zumar",
+    "ghafir",
+    "fussilat",
+    "al-shura",
+    "al-zukhruf",
+    "al-dukhan",
+    "al-jathiyah",
+    "al-ahqaf",
+    "al-fath",
+    "al-hujurat",
+    "qaf",
+    "al-dhariyat",
+    "al-tur",
+    "al-najm",
+    "al-qamar",
+    "al-rahman",
+    "al-waqiah",
+    "al-hadid",
+    "al-mujadilah",
+    "al-hashr",
+    "al-mumtahanah",
+    "al-saff",
+    "al-jumuah",
+    "al-munafiqun",
+    "al-taghabun",
+    "al-talaq",
+    "al-tahrim",
+    "al-mulk",
+    "al-qalam",
+    "al-haqqah",
+    "al-maarij",
+    "nuh",
+    "al-jinn",
+    "al-muzzammil",
+    "al-muddaththir",
+    "al-qiyamah",
+    "al-insan",
+    "al-mursalat",
+    "al-naba",
+    "al-naziat",
+    "abasa",
+    "al-takwir",
+    "al-infitar",
+    "al-mutaffifin",
+    "al-inshiqaq",
+    "al-buruj",
+    "al-tariq",
+    "al-ala",
+    "al-ghashiyah",
+    "al-fajr",
+    "al-balad",
+    "al-layl",
+    "al-duha",
+    "al-sharh",
+    "al-tin",
+    "al-alaq",
+    "al-qadr",
+    "al-bayyinah",
+    "al-zalzalah",
+    "al-adiyat",
+    "al-qariah",
+    "al-takathur",
+    "al-asr",
+    "al-humazah",
+    "al-fil",
+    "quraysh",
+    "al-maun",
+    "al-kawthar",
+    "al-kafirun",
+    "al-nasr",
+    "al-masad",
+    "al-ikhlas",
+    "al-falaq",
     "al-nas",
 }
 
 FORBIDDEN_ANALOGY_KEYWORDS = {
-    "sealed room", "two rooms", "two sealed",
-    "mail carrier", "mailman", "postal",
-    "television", "tv set", "tv screen",
-    "broadcast", "data stream", "streaming service",
-    "4k", "hd resolution", "sd resolution", "pixels",
-    "teacup", "tea cup",
-    "battery", "positive terminal", "negative terminal",
-    "signet ring", "wax seal", "wax-seal", "wax stamped",
-    "crystal pitcher", "silver cup",
+    "sealed room",
+    "two rooms",
+    "two sealed",
+    "mail carrier",
+    "mailman",
+    "postal",
+    "television",
+    "tv set",
+    "tv screen",
+    "broadcast",
+    "data stream",
+    "streaming service",
+    "4k",
+    "hd resolution",
+    "sd resolution",
+    "pixels",
+    "teacup",
+    "tea cup",
+    "battery",
+    "positive terminal",
+    "negative terminal",
+    "signet ring",
+    "wax seal",
+    "wax-seal",
+    "wax stamped",
+    "crystal pitcher",
+    "silver cup",
     "cosmic ruler",
     "venn diagram",
-    "radio tower", "antenna",
-    "cosplay", "dress-up",
-    "campfire", "camp fire",
+    "radio tower",
+    "antenna",
+    "cosplay",
+    "dress-up",
+    "campfire",
+    "camp fire",
     "waterfall",
     "solar panel",
     "cathedral",
@@ -326,23 +456,61 @@ FORBIDDEN_ANALOGY_KEYWORDS = {
 }
 
 FORBIDDEN_MODERN_KEYWORDS = {
-    "television", "monitor", "tablet", "computer", "laptop",
-    "broadcast", "data stream", "internet", "software",
+    "television",
+    "monitor",
+    "tablet",
+    "computer",
+    "laptop",
+    "broadcast",
+    "data stream",
+    "internet",
+    "software",
     "streaming",
-    "sd ", "hd ", "4k", "8k", "pixels",
-    "twitter", "tiktok", "instagram", "youtube",
-    "social media", "algorithm", "internet troll", "reply guy",
-    "cognitive behavioral therapy", "productivity framework",
-    "life hack", "self-help", "mindfulness app", "dopamine hit",
+    "sd ",
+    "hd ",
+    "4k",
+    "8k",
+    "pixels",
+    "twitter",
+    "tiktok",
+    "instagram",
+    "youtube",
+    "social media",
+    "algorithm",
+    "internet troll",
+    "reply guy",
+    "cognitive behavioral therapy",
+    "productivity framework",
+    "life hack",
+    "self-help",
+    "mindfulness app",
+    "dopamine hit",
     "attention economy",
-    "refrigerator", "lightbulb", "coffee maker",
-    "influencer", "podcaster", "blogger", "vlogger",
-    "21st century", "in our modern world", "modern listener",
-    "in today's world", "in the 1990s", "modern-day",
-    "cosplay", "hot take", "doomscroll", "deep dive",
-    "screen time", "notification",
-    "nation-state", "democracy", "parliament",
-    "frankenstein", "popularity contest", "synthetic chemistry",
+    "refrigerator",
+    "lightbulb",
+    "coffee maker",
+    "influencer",
+    "podcaster",
+    "blogger",
+    "vlogger",
+    "21st century",
+    "in our modern world",
+    "modern listener",
+    "in today's world",
+    "in the 1990s",
+    "modern-day",
+    "cosplay",
+    "hot take",
+    "doomscroll",
+    "deep dive",
+    "screen time",
+    "notification",
+    "nation-state",
+    "democracy",
+    "parliament",
+    "frankenstein",
+    "popularity contest",
+    "synthetic chemistry",
     "biological nature",
 }
 
@@ -370,6 +538,7 @@ SHOW_NOTES_REQUIRED_COLUMNS = (
 
 
 # ─── Helper functions ─────────────────────────────────────────────────────────
+
 
 def word_count(text: str) -> int:
     return len(text.split())

@@ -65,6 +65,160 @@ if [ "$fail" -ne 0 ]; then
     exit 1
 fi
 
+# Check 2b — lint gates (R0, clean-code hardening plan 2026-07-18).
+# Ruff (lint + format) over staged Python; DR-005 line-count gate over staged
+# scripts/podcast/ production modules; ESLint (errors only) over staged site
+# source. Each skips cleanly when its tool is absent.
+repo_root=$(git rev-parse --show-toplevel)
+ruff_bin="$repo_root/.venv/bin/ruff"
+command -v ruff >/dev/null 2>&1 && [ ! -x "$ruff_bin" ] && ruff_bin=$(command -v ruff)
+
+py_staged=$(printf '%s\n' "$staged_files" | grep -E '\.py$' || true)
+if [ -n "$py_staged" ] && [ -x "$ruff_bin" ]; then
+    if ! printf '%s\n' "$py_staged" | tr '\n' '\0' | xargs -0 "$ruff_bin" check --quiet >&2; then
+        echo "pre-commit: ruff check failed. Run: .venv/bin/ruff check --fix" >&2
+        exit 1
+    fi
+    if ! printf '%s\n' "$py_staged" | tr '\n' '\0' | xargs -0 "$ruff_bin" format --check --quiet >&2; then
+        echo "pre-commit: ruff format drift. Run: .venv/bin/ruff format" >&2
+        exit 1
+    fi
+fi
+
+dr005_staged=$(printf '%s\n' "$staged_files" | grep -E '^scripts/podcast/.*\.py$' | grep -v '/tests/' || true)
+if [ -n "$dr005_staged" ] && [ -f "$repo_root/infra/git-hooks/check-dr005.py" ]; then
+    if ! printf '%s\n' "$dr005_staged" | tr '\n' '\0' | xargs -0 python3 "$repo_root/infra/git-hooks/check-dr005.py" >&2; then
+        echo "pre-commit: DR-005 line-count gate failed (see above)." >&2
+        exit 1
+    fi
+fi
+
+# AGENTS.md is GENERATED from CLAUDE.md. Staging either without regenerating means the
+# two always-loaded instruction files have drifted — which is how AGENTS.md came to be
+# missing five standing rules and carrying a blind Claude->Codex rewrite that invented a
+# content slug and two filesystem paths.
+if printf '%s\n' "$staged_files" | grep -qE '^(CLAUDE|AGENTS)\.md$' \
+        && [ -f "$repo_root/scripts/sync_agent_instructions.py" ]; then
+    if ! python3 "$repo_root/scripts/sync_agent_instructions.py" --check >&2; then
+        echo "pre-commit: AGENTS.md is out of sync with CLAUDE.md." >&2
+        exit 1
+    fi
+fi
+
+# infra/claude-agents/*.md is the canonical agent-spec source; .github/agents/,
+# .claude/agents/, and .codex/agents/ are all generated mirrors of it. Unlike
+# AGENTS.md above, nothing was gating this pair — a canonical edit that skipped
+# `sync-agent-wrappers.sh` (and skipped `start-session.sh`, the only other
+# caller) landed with a stale mirror and nothing blocked it. That is exactly
+# how podcast-auditor stayed in the live `.claude/agents/` roster for seven
+# weeks after its canonical spec was deleted (2026-07-26 audit).
+if printf '%s\n' "$staged_files" | grep -qE '^infra/claude-agents/.*\.md$' \
+        && [ -f "$repo_root/scripts/podcast/sync-agent-wrappers.sh" ]; then
+    if ! bash "$repo_root/scripts/podcast/sync-agent-wrappers.sh" --check >&2; then
+        echo "pre-commit: an agent-spec mirror is out of sync with its canonical source." >&2
+        echo "pre-commit: run: bash scripts/podcast/sync-agent-wrappers.sh" >&2
+        exit 1
+    fi
+fi
+
+# Dead-link gate over the NORMATIVE docs only (agent specs, skills, root docs).
+# The 2026-07-26 sweep found 13 dead links, dominated by a handbook tree gone since
+# the 2026-05-23 restructure that six files still cited. Historical trees like
+# _workspace/reviews/ are deliberately out of scope — their stale paths are correct
+# as history, and a gate that flags those gets routed around.
+docs_staged=$(printf '%s\n' "$staged_files" \
+    | grep -E '^(infra/claude-agents/.*\.md|skills-staging/.*\.md|CLAUDE\.md|AGENTS\.md|framework\.md|README\.md)$' || true)
+if [ -n "$docs_staged" ] && [ -f "$repo_root/scripts/check_doc_links.py" ]; then
+    files_csv=$(printf '%s\n' "$docs_staged" | paste -sd, -)
+    if ! python3 "$repo_root/scripts/check_doc_links.py" --files "$files_csv" >&2; then
+        echo "pre-commit: dead link(s) in the normative docs (see above)." >&2
+        exit 1
+    fi
+fi
+
+# repo-surgeon project probe. Runs on EVERY commit rather than on a staged-file
+# filter: it validates the tracked contract, root membership, the retired-surface ban,
+# agent-mirror and skill-registry parity, the fixture-pinned mirrors, the book-pipeline
+# invariants and plan conformance — and almost any commit can break one of those, often
+# a commit that touches none of the files involved (deleting a file some contract entry
+# names, for instance). At ~0.6s the filter would cost more thought than it saves.
+#
+# Wired 2026-07-27, once the baseline reached zero. It exits non-zero only on P0/P1;
+# P2 and P3 findings are reported without blocking. Until that day the baseline carried
+# pre-existing findings, and a gate that fails on somebody else's backlog is a gate
+# people learn to bypass.
+if [ -f "$repo_root/scripts/repo_surgeon_probe.py" ]; then
+    if ! python3 "$repo_root/scripts/repo_surgeon_probe.py" >&2; then
+        echo "" >&2
+        echo "pre-commit: repo-surgeon probe found P0/P1 finding(s) (see above)." >&2
+        echo "pre-commit: catalog + what each id means: skills-staging/repo-surgeon/SKILL.md" >&2
+        echo "pre-commit: bypass requires explicit operator authorization (--no-verify)." >&2
+        exit 1
+    fi
+fi
+
+site_staged=$(printf '%s\n' "$staged_files" \
+    | grep -E '^plan-dashboard/(src|scripts)/.*\.(ts|tsx|astro|mjs|js)$' || true)
+if [ -n "$site_staged" ] && command -v node >/dev/null 2>&1 \
+        && [ -d "$repo_root/plan-dashboard/node_modules/eslint" ]; then
+    files_rel=$(printf '%s\n' "$site_staged" | sed 's|^plan-dashboard/||' | tr '\n' ' ')
+    if ! (cd "$repo_root/plan-dashboard" && npx eslint --quiet --no-warn-ignored $files_rel) >&2; then
+        echo "pre-commit: eslint errors on staged site files (warnings don't block)." >&2
+        echo "pre-commit: run: cd plan-dashboard && npm run lint:fix" >&2
+        exit 1
+    fi
+fi
+
+# Prettier over staged site files (2026-07-30 audit). The repo has declared a
+# `format:check` script since the site existed and NOTHING ever ran it, so drift
+# accumulated silently to 21 files — every one of them a file some recent commit had
+# touched, which is exactly the population a staged-file gate catches. Styles are in
+# scope as well as code: two of the drifted files were CSS, which the eslint gate
+# above cannot see at all.
+#
+# Blocking, unlike eslint's warnings: prettier is not a matter of opinion here, it is
+# a single command away, and a formatter that only warns is a formatter nobody runs.
+fmt_staged=$(printf '%s\n' "$staged_files" \
+    | grep -E '^plan-dashboard/(src|scripts|packages)/.*\.(ts|tsx|astro|mjs|js|css|json)$' || true)
+if [ -n "$fmt_staged" ] && command -v node >/dev/null 2>&1 \
+        && [ -d "$repo_root/plan-dashboard/node_modules/prettier" ]; then
+    files_rel=$(printf '%s\n' "$fmt_staged" | sed 's|^plan-dashboard/||' | tr '\n' ' ')
+    if ! (cd "$repo_root/plan-dashboard" \
+            && npx prettier --check --ignore-unknown $files_rel) >&2; then
+        echo "pre-commit: prettier drift on staged site files." >&2
+        echo "pre-commit: run: cd plan-dashboard && npm run format" >&2
+        echo "pre-commit: bypass requires explicit operator authorization (--no-verify)." >&2
+        exit 1
+    fi
+fi
+
+# Listener unit tests (2026-08-04). The Podcast Factory Listener had NO automated
+# gate of any kind — not in this hook, not in CI — so its 300-odd vitest cases,
+# typecheck and build ran only when somebody remembered to type them. That app owns
+# the access-control rules (who may sign in, who may see which book, whose bookmarks
+# are whose), which is precisely the surface where a silent regression is worst.
+#
+# `npm run test` ONLY, deliberately. vitest runs the whole suite in ~1.5s; the
+# typecheck is `react-router typegen && tsc -b` at ~6s cold and is wired into CI
+# instead. A pre-commit hook competes with the author's patience, and a hook people
+# learn to --no-verify around protects nothing. The build (~20s) stays in CI too.
+#
+# Scoped to app/, scripts/ and test/ sources: a migration or a config change does not
+# move the suite, and the hook already runs a repo-wide probe on every commit.
+listener_staged=$(printf '%s\n' "$staged_files" \
+    | grep -E '^listener/(app|scripts|test)/.*\.(ts|tsx|mjs)$' || true)
+if [ -n "$listener_staged" ] && command -v node >/dev/null 2>&1 \
+        && [ -d "$repo_root/listener/node_modules/vitest" ]; then
+    if ! (cd "$repo_root/listener" && npm run test --silent) >&2; then
+        echo "" >&2
+        echo "pre-commit: listener unit tests failed." >&2
+        echo "pre-commit: run: cd listener && npm run test" >&2
+        echo "pre-commit: full local gate: cd listener && npm run check" >&2
+        echo "pre-commit: bypass requires explicit operator authorization (--no-verify)." >&2
+        exit 1
+    fi
+fi
+
 # Check 3 — HTML View Quality gate (WC7c).
 # Run the deterministic Cortex linter over staged Astro-site view/layout/style files.
 # Blocking-tier checks (inline style= on view pages, external SVG, <svg> w/h attrs,

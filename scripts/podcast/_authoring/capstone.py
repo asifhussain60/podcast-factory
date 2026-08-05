@@ -37,9 +37,9 @@ DOCTRINAL-CLEAN ASSERTION
   If any P0-class doctrinal findings are present, the capstone is refused
   and the finding is returned to the operator for resolution.
 """
+
 from __future__ import annotations
 
-import json
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Literal
@@ -47,6 +47,7 @@ from typing import Literal
 # ── Types ─────────────────────────────────────────────────────────────────────
 
 CapstoneMode = Literal["standard", "extended", "debate"]
+
 
 @dataclass
 class CrossTierRead:
@@ -72,6 +73,7 @@ class CrossTierRead:
         Set to True for collective-author texts (Ikhwan al-Safa pattern).
         Activates the collective-authorial-intention opening directive.
     """
+
     book_dir: Path
     chapter_slugs: list[str] = field(default_factory=list)
     tier1_passages_stripped: int = 0
@@ -93,6 +95,7 @@ class CrossTierRead:
         full_brethren = False
         if meta_path.exists():
             import yaml  # optional dep — only needed when building
+
             meta = yaml.safe_load(meta_path.read_text()) or {}
             full_brethren = bool(meta.get("full_brethren", False))
 
@@ -119,6 +122,7 @@ class CrossTierRead:
 @dataclass
 class CapstoneResult:
     """Result of a capstone authoring call."""
+
     mode: CapstoneMode
     episode_txt_path: Path | None = None
     doctrinal_clean: bool = True
@@ -131,6 +135,7 @@ class CapstoneResult:
 
 
 # ── Public API ────────────────────────────────────────────────────────────────
+
 
 def author_capstone(
     book_dir: Path,
@@ -163,6 +168,7 @@ def author_capstone(
     if meta_path.exists():
         try:
             import yaml
+
             meta = yaml.safe_load(meta_path.read_text()) or {}
             meta_mode = meta.get("capstone_mode")
             if meta_mode in ("standard", "extended", "debate"):
@@ -196,6 +202,7 @@ def assert_doctrinally_clean(ctx: CrossTierRead) -> list[str]:
 
 
 # ── Internal helpers ──────────────────────────────────────────────────────────
+
 
 def _discover_chapter_slugs(book_dir: Path) -> list[str]:
     """Return sorted shipped chapter slugs from `book_dir/_chapters/`."""

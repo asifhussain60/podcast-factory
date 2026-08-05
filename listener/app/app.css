@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* One theme, one file. See the index at the top of it.
+ *
+ * It is imported unlayered because it does its own layering internally: the
+ * faces, tokens, palettes and the `@theme` bridge are layer-neutral, while the
+ * element defaults sit in `@layer base` and the component vocabulary and the
+ * reading column sit in `@layer components`.
+ *
+ * That layering is load-bearing, not tidiness. Unlayered CSS beats every layered
+ * rule regardless of specificity, so an unlayered `button { color: inherit }`
+ * silently overrides every Tailwind text utility — which is exactly what it once
+ * did here: the active theme chip rendered ink-on-accent at 2.8:1 instead of the
+ * white its token specifies. */
+@import "./styles/podcast-factory.css";

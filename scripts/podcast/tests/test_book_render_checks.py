@@ -6,7 +6,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _book_render_checks import (  # noqa: E402
+from _book_render_checks import (
     run_all_scans,
     scan_blank_and_halfempty,
     scan_duplicate_captions,
@@ -23,7 +23,7 @@ def test_watermark_flagged() -> None:
 
 def test_watermark_spacing_variants() -> None:
     assert scan_watermark(["Notebook LM"])  # spaced variant caught
-    assert scan_watermark(["notebooklm"])   # lowercase caught
+    assert scan_watermark(["notebooklm"])  # lowercase caught
 
 
 def test_duplicate_caption_flagged() -> None:
@@ -73,3 +73,78 @@ def test_run_all_scans_orders_p0_first() -> None:
     pages = ["cover", "NotebookLM " + "x" * 5, "real " * 40, "colophon"]
     findings = run_all_scans(pages)
     assert findings[0]["severity"] == "P0"
+
+
+def test_placeholder_on_the_page_is_a_blocker() -> None:
+    # A `.replace` hit a placeholder's own mention in a CSS comment, so every page
+    # of a finished book printed `__BOOK_RUNNING_HEAD__`. Nothing in the pipeline
+    # noticed; a human reading the PDF did.
+    from _book_render_checks import scan_placeholders
+
+    findings = scan_placeholders(["ordinary page", "__BOOK_RUNNING_HEAD__\nchapter text"])
+
+    assert [f["check"] for f in findings] == ["BR-PLACEHOLDER"]
+    assert findings[0]["severity"] == "P0"
+    assert findings[0]["page"] == 2
+
+
+def test_ordinary_prose_with_underscores_is_not_a_placeholder() -> None:
+    from _book_render_checks import scan_placeholders
+
+    assert scan_placeholders(["snake_case and __x__ and MACRO_NAME are not placeholders"]) == []
+
+
+def test_a_missing_crosswalk_page_is_a_blocker_when_the_file_exists(tmp_path) -> None:
+    from _book_render_checks import scan_crosswalk_present
+
+    bd = tmp_path / "book"
+    (bd / "book").mkdir(parents=True)
+    (bd / "book" / "source-crosswalk.json").write_text("{}", encoding="utf-8")
+
+    assert scan_crosswalk_present(["page one", "page two"], bd)[0]["check"] == "BR-CROSSWALK-MISSING"
+    assert scan_crosswalk_present(["page one", "S O U R C E C R O S SWA L K"], bd) == []
+
+
+def test_no_crosswalk_file_means_no_finding(tmp_path) -> None:
+    # The companion route legitimately has none; absent is not the same as dropped.
+    from _book_render_checks import scan_crosswalk_present
+
+    bd = tmp_path / "book"
+    (bd / "book").mkdir(parents=True)
+
+    assert scan_crosswalk_present(["page one"], bd) == []
+
+
+def test_running_head_must_name_the_chapter_that_owns_the_page() -> None:
+    # The first implementation keyed its @page rules by array position over a
+    # chapters list that leads with the preface, so every rule shifted by one and
+    # pages deep in chapter 8 carried chapter 7's title. No other gate reads
+    # margin-box text against chapter boundaries.
+    from _book_render_checks import scan_running_heads
+
+    pages = [
+        "CHAPTER ONE\nThe Persian\nbody",
+        "1. The Persian\nmore body",
+        "CHAPTER TWO\nA Stranger\nbody",
+        "1. The Persian\nstill chapter two's pages",
+    ]
+
+    findings = scan_running_heads(pages)
+
+    assert [f["page"] for f in findings] == [4]
+    assert "names chapter 1" in findings[0]["detail"]
+    assert "belongs to chapter 2" in findings[0]["detail"]
+
+
+def test_correct_running_heads_produce_nothing() -> None:
+    from _book_render_checks import scan_running_heads
+
+    pages = ["CHAPTER ONE\nThe Persian", "1. The Persian\nbody", "CHAPTER TWO\nA Stranger", "2. A Stranger\nbody"]
+
+    assert scan_running_heads(pages) == []
+
+
+def test_a_book_with_no_numbered_heads_is_not_this_probes_business() -> None:
+    from _book_render_checks import scan_running_heads
+
+    assert scan_running_heads(["CHAPTER ONE\nThe Persian", "The Master and the Disciple\nbody"]) == []

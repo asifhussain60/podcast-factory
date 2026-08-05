@@ -1,12 +1,20 @@
 # Per-Book Ship Checklist
 
-**Companion to:** [`./podcast-plan.yaml`](./podcast-plan.yaml), [`./acceptance-criteria.md`](./acceptance-criteria.md), [`./podcast-plan-DoR.md`](./podcast-plan-DoR.md)
+**Companion to:** [`./wave-acceptance-checklist.md`](./wave-acceptance-checklist.md), [`../refactor/plan.yaml`](../refactor/plan.yaml)
 **Read by:** podcast-challenger agent, the human reviewer at ship time
-**Purpose:** A single bullet-checkable checklist a reviewer marks PASS/FAIL per book before that book's bundle ships to NotebookLM. Consolidates three authoritative sources:
+**Purpose:** A single bullet-checkable checklist a reviewer marks PASS/FAIL per book before that book's bundle ships to NotebookLM. Consolidates two authoritative sources:
 
-1. **podcast-challenger 30-check catalog** — [`infra/claude-agents/podcast-challenger.md`](../../infra/claude-agents/podcast-challenger.md) §"Check catalog", to migrate to `.github/agents/podcast-challenger.agent.md` in P8.8.
-2. **Handbook NORMATIVE R-rules** — [`content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md`](../../content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md) (chapter rules) + [`...notebooklm-customize-prompt-rules.md`](../../content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md) (framing rules).
-3. **`P9.per_book_ship_gate`** — [`podcast-plan.yaml` P9 block](./podcast-plan.yaml).
+1. **podcast-challenger check catalog** — [`infra/claude-agents/podcast-challenger.md`](../../../infra/claude-agents/podcast-challenger.md) §"Check catalog". **The bracketed id after each bullet below — `*(A1)*`, `*(F6)*`, `*(B6; R-NOFABRIC)*` — is a check id from that catalog, not a plan id.**
+2. **NORMATIVE R-rules** — [`scripts/podcast/_rules.py`](../../../scripts/podcast/_rules.py), the canonical Python data behind every `R-*` name cited below.
+
+> **Provenance note (2026-07-27).** This file's links were repaired after an audit found
+> 26 dead ones. Two causes, both from the plan-folder consolidation in `78ce80e`: the file
+> moved into `operations/` and its `../../` prefixes were never re-depthed to `../../../`,
+> and it still cited the `content/podcast/.skill/handbook/` tree plus `podcast-plan.yaml`,
+> both retired in the 2026-05-23 restructure. Where a handbook file is named below, the
+> current authority is given instead — the retirement map is in
+> [`skills-staging/podcast/SKILL.md`](../../../skills-staging/podcast/SKILL.md) §"handbook
+> tree retirement", and a per-check-id map lives in `scripts/podcast/learn_propose.py`.
 
 > **Ship rule:** every bullet below MUST be PASS (or documented as a deliberate exception in the book's `_system/challenger-report.md`) before merging the book's branch into `develop`. P0 failures BLOCK ship outright. P1 failures may ship with caution + sidecar note. P2 = polish.
 
@@ -53,11 +61,11 @@ Every chapter-as-source under `BOOK_DIR/chapters/chNN-<slug>.txt` AND every fram
 
 ## Section D — Pronunciation discipline *(challenger Category C, P1)*
 
-- [ ] **D1** Every italicized Arabic term has an inline phonetic guide on first chapter occurrence; lookup order: (a) `content/_shared/arabic/03-arabic-english-manifest.md`, then (b) `_system/source/text/_lexicon.md` *(C1)*
+- [ ] **D1** Every italicized Arabic term has an inline phonetic guide on first chapter occurrence; lookup order: (a) the per-book `_system/glossary.yml`, then (b) `_system/source/text/_lexicon.md` (the shared `content/_shared/arabic/` manifest was retired 2026-05-23) *(C1)*
   - **OR**: phonetic guides are absent because the imperative-pronunciation pivot is active — see Section H.
 - [ ] **D2** Lexicon parity — every phonetic in chapter matches the shared manifest where present; same term same phonetic across chapters *(C2)*
 - [ ] **D3** Honorific discipline — PBUH / AS / RA at first mention only per chapter, never on every line *(C3; R-HONORIFIC-ONCE)*
-- [ ] **D4** Substitution policy — every term flagged in `content/_shared/arabic/04-common-term-substitutions.md` §2 either substituted to English OR justified in framing's Pronunciation hooks *(C4; R-SUBSTITUTION)*
+- [ ] **D4** Substitution policy — every term flagged by the substitution data in `scripts/podcast/_rules.py` either substituted to English OR justified in framing's Pronunciation hooks *(C4; R-SUBSTITUTION)*
 
 ---
 
@@ -112,7 +120,7 @@ Every chapter-as-source under `BOOK_DIR/chapters/chNN-<slug>.txt` AND every fram
 
 ## Section J — Name aliasing *(challenger Category J, P1; R-NAMES, R-NAMEALIAS)*
 
-- [ ] **J1** Name discipline block in framing's Pronunciation hooks lists every long name in chapter with alias from `content/_shared/arabic/05-name-alias-policy.md` *(J1)*
+- [ ] **J1** Name discipline block in framing's Pronunciation hooks lists every long name in chapter with its alias, per the name-alias R-rules inlined in `scripts/podcast/_authoring/_framing.py` and backed by `scripts/podcast/_rules.py` *(J1)*
 - [ ] **J2** Chapter applies alias after first mention — every long name appears full ONCE then alias subsequently *(J2)*
 - [ ] **J3** Alias spelling matches canonical phonetic in `03-arabic-english-manifest.md` exactly *(J3, P0)*
 
@@ -175,14 +183,14 @@ Every chapter-as-source under `BOOK_DIR/chapters/chNN-<slug>.txt` AND every fram
 
 - [ ] **Q1** No mojibake — chapter renders Arabic UTF-8 cleanly in a NotebookLM-rendering preview
 - [ ] **Q2** No `?? ?? ??` placeholder runs anywhere
-- [ ] **Q3** Phonetic guides preserve liaison/gemination per `content/_shared/arabic/01-tts-pronunciation-key.md`
+- [ ] **Q3** Phonetic guides preserve liaison/gemination per the per-book `_system/glossary.yml` (compiled to the ElevenLabs dictionary by `pronunciation_compiler.py`)
 - [ ] **Q4** Quranic verses preserve original Arabic UTF-8 alongside transliteration where used
 
 ---
 
 ## Section R — Learning loop closure *(P9 per_book_ship_gate; P-9 invariant)*
 
-- [ ] **R1** Cost-ledger row appended for every `claude -p` call during this book's pipeline *(P6.1)*
+- [ ] **R1** Cost-ledger row appended for every `claude -p` call during this book's pipeline *(cost ledger; the `cost` dict in `_system/orchestrator-state.json`)*
 - [ ] **R2** ≥1 finding row in `_learning/findings.jsonl` OR documented zero-findings rationale in `_system/challenger-report.md` *(LL2)*
 - [ ] **R3** `_learning/health/<book-slug>.json` written; row appended to `BOOK_DIR/_system/health-trend.md` *(LL3)*
 - [ ] **R4** Trainer ran; outcome ∈ {PROMOTED, ARCHIVED} — **never NEVER_RAN** unless explicitly documented *(R7 risk; per_book_ship_gate)*
@@ -203,8 +211,8 @@ Every chapter-as-source under `BOOK_DIR/chapters/chNN-<slug>.txt` AND every fram
 
 ## Section T — Cross-skill boundary *(framework.md governance; P1, P-6, P-7)*
 
-- [ ] **T1** Zero writes from `scripts/podcast/` to `content/babu-memoir/**`, `content/_shared/**` (except whitelisted `06-abjad-numerals.md`), `scripts/memoir/**`, `scripts/site/**` *(P1.1 / `_boundary_check.py`)*
-- [ ] **T2** Any `proposed-library-entries.md` written carries `schema_version: 1` frontmatter *(P1.2)*
+- [ ] **T1** Zero writes from `scripts/podcast/` to `content/babu-memoir/**`, `content/_shared/**` (except whitelisted `06-abjad-numerals.md`), `scripts/memoir/**`, `scripts/site/**` *(enforced by `scripts/podcast/_boundary_check.py`)*
+- [ ] **T2** Any `proposed-library-entries.md` written carries `schema_version: 1` frontmatter *(the one allowed cross-skill write)*
 - [ ] **T3** Manual library handoff documented — journal-side promotion is a separate human step *(P-7)*
 
 ---
@@ -227,26 +235,26 @@ Every chapter-as-source under `BOOK_DIR/chapters/chNN-<slug>.txt` AND every fram
 
 | Section | Source-of-truth file |
 |---|---|
-| A — Source bundle | [`skills-staging/podcast/SKILL.md`](../../skills-staging/podcast/SKILL.md) §10 ("In `BOOK_DIR/`") |
-| B — Citation authenticity | [`infra/claude-agents/podcast-challenger.md`](../../infra/claude-agents/podcast-challenger.md) §"Category A" + [`content/podcast/.skill/handbook/enrichment-sources.md`](../../content/podcast/.skill/handbook/enrichment-sources.md) |
-| C — NotebookLM literalness | [`infra/claude-agents/podcast-challenger.md`](../../infra/claude-agents/podcast-challenger.md) §"Category B" + `scripts/podcast/build_episode_txt.py:META_PROSE_TELLS` |
-| D — Pronunciation discipline | [`...handbook/notebooklm-source-chapter-rules.md`](../../content/podcast/.skill/handbook/notebooklm-source-chapter-rules.md) R-PHONETICS-OUT, R-HONORIFIC-ONCE, R-SUBSTITUTION |
-| E — Enrichment & depth | [`...handbook/enrichment-sources.md`](../../content/podcast/.skill/handbook/enrichment-sources.md) + R-ENRICH60, R-MULTITIER, R-NOSTACK |
-| F — Articulation & shape | R-WORDBAND + [`...handbook/episode-architecture.md`](../../content/podcast/.skill/handbook/episode-architecture.md) |
+| A — Source bundle | [`skills-staging/podcast/SKILL.md`](../../../skills-staging/podcast/SKILL.md) §10 ("In `BOOK_DIR/`") |
+| B — Citation authenticity | [`infra/claude-agents/podcast-challenger.md`](../../../infra/claude-agents/podcast-challenger.md) §"Category A" + [`scripts/podcast/_authoring/_enrichment.py`](../../../scripts/podcast/_authoring/_enrichment.py) (enrichment sources, inlined 2026-05-23) |
+| C — NotebookLM literalness | [`infra/claude-agents/podcast-challenger.md`](../../../infra/claude-agents/podcast-challenger.md) §"Category B" + `scripts/podcast/build_episode_txt.py:META_PROSE_TELLS` |
+| D — Pronunciation discipline | [`scripts/podcast/_rules.py`](../../../scripts/podcast/_rules.py) R-PHONETICS-OUT, R-HONORIFIC-ONCE, R-SUBSTITUTION |
+| E — Enrichment & depth | [`scripts/podcast/_authoring/_enrichment.py`](../../../scripts/podcast/_authoring/_enrichment.py) + R-ENRICH60, R-MULTITIER, R-NOSTACK |
+| F — Articulation & shape | R-WORDBAND + [`podcast-challenger.md`](../../../infra/claude-agents/podcast-challenger.md) Category E |
 | G — Chapter opens correctly | R-OPENFRAME, R-WELCOME, R-SUMMARYTAIL |
-| H — Framing integrity | [`...handbook/two-host-framing.md`](../../content/podcast/.skill/handbook/two-host-framing.md) + [`...handbook/notebooklm-best-practices.md`](../../content/podcast/.skill/handbook/notebooklm-best-practices.md) §5 |
+| H — Framing integrity | [`podcast-challenger.md`](../../../infra/claude-agents/podcast-challenger.md) Categories F + P + [`podcast-challenger.md`](../../../infra/claude-agents/podcast-challenger.md) §5 |
 | I — Imperative pronunciation | R-PHONETICS-OUT + R-PRONUNCIATION-IMPERATIVE (challenger Loop N) |
-| J — Name aliasing | [`content/_shared/arabic/05-name-alias-policy.md`](../../content/_shared/arabic/05-name-alias-policy.md) + R-NAMES + R-NAMEALIAS |
+| J — Name aliasing | [`_rules.py`](../../../scripts/podcast/_rules.py) `HONORIFICS` + name-alias policy (retired 2026-05-23) + R-NAMES + R-NAMEALIAS |
 | K — Anti-repetition / no-bg | R-NOREPEAT + R-NOBACKGROUND |
-| L — Host-dynamic discipline | R-NOINTERRUPT + [`...handbook/two-host-framing.md`](../../content/podcast/.skill/handbook/two-host-framing.md) |
+| L — Host-dynamic discipline | R-NOINTERRUPT + [`podcast-challenger.md`](../../../infra/claude-agents/podcast-challenger.md) Categories F + P |
 | M — Modernization + surprise | R-NOMODERNIZE + R-NOSURPRISE (challenger Loop M; empirical-transcript loop) |
-| N — Numeric / symbolic | [`./numeric-symbolic-disambiguation-plan.md`](./numeric-symbolic-disambiguation-plan.md) + [`...handbook/numeric-symbolic-disambiguation.md`](../../content/podcast/.skill/handbook/numeric-symbolic-disambiguation.md) (P4) + [`content/_shared/arabic/06-abjad-numerals.md`](../../content/_shared/arabic/06-abjad-numerals.md) |
+| N — Numeric / symbolic | [`podcast-challenger.md`](../../../infra/claude-agents/podcast-challenger.md) Category N (numeric/symbolic disambiguation; the P4-era plan and abjad reference were retired) |
 | O — Honorific + abbreviation | R-HONORIFIC-ONCE + R-NO-ABBREVIATION |
-| P — Extract Mode contracts | [`...handbook/extract-capability.md`](../../content/podcast/.skill/handbook/extract-capability.md) + [`scripts/podcast/extract_chapter.py`](../../scripts/podcast/extract_chapter.py) |
-| Q — Arabic / RTL hygiene | [`content/_shared/arabic/01-tts-pronunciation-key.md`](../../content/_shared/arabic/01-tts-pronunciation-key.md) + manifest |
-| R — Learning loop closure | [`podcast-plan.yaml`](./podcast-plan.yaml) `P9.per_book_ship_gate` + `LL1..LL15` block |
-| S — Cost & resource | `podcast-plan.yaml` P6.3 + P10.1 |
-| T — Cross-skill boundary | [`framework.md`](../../framework.md) §"Cowork-Canonical-Writes" + `podcast-plan.yaml` P-6/P-7 |
+| P — Extract Mode contracts | [`scripts/podcast/extract_chapter.py`](../../../scripts/podcast/extract_chapter.py) Splitting Policy + [`scripts/podcast/extract_chapter.py`](../../../scripts/podcast/extract_chapter.py) |
+| Q — Arabic / RTL hygiene | the per-book phonetic glossary at `BOOK_DIR/_system/glossary.yml` + manifest |
+| R — Learning loop closure | `per_book_ship_gate` + the learning-loop ledger at `_learning/findings.jsonl` |
+| S — Cost & resource | the `cost` dict in each book's `_system/orchestrator-state.json` + the per-run cost ledger |
+| T — Cross-skill boundary | [`scripts/podcast/_boundary_check.py`](../../../scripts/podcast/_boundary_check.py), the enforcing gate |
 | U — Show-note resolvability | `enrichment-sources.md` tier discipline |
 
 ---

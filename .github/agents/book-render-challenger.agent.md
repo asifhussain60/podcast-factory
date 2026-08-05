@@ -1,6 +1,6 @@
 ---
 name: book-render-challenger
-description: "Print-render challenger for the Book Pipeline v2 reading edition — it gates the RENDERED PDF (`BOOK_DIR/book/book.pdf`), the one thing the semantic `book-challenger` (which reads book.md) and the on-screen `html-view-quality` standard cannot see. Validates the physical page against `docs/standards/book-print-quality.md` (REQ-BR-*): no blank or half-empty interior pages (text fills like a professional book), no figure spanning a page break (the one-plate rule), no surviving `NotebookLM` watermark, no duplicated caption (an embedded title echoed again as a figcaption), each figure rendered at the align/flow/width/anchor the human curated in `visual-layout.json` (wrap floats with text beside it, standalone is a centered block), placement after the passage it illustrates, and legible/uncapped figures. Backed by the deterministic probes in `scripts/podcast/_book_render_checks.py` (BR-WATERMARK, BR-CAPTION-DUP, BR-BLANK-PAGE, BR-PAGE-FILL) plus visual judgment for split-figure / float-vs-standalone / legibility. Runs only under `book_pipeline_v2`, wired into 0book-render, NON-blocking (records `_system/book-render-checks.json`; a broken reading edition never stops the podcast ship). Emits BR-* findings for Worker re-curation (fix the visual-layout in the Book Composer, or re-clean the asset — no in-place PDF mutation). Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'render-challenge <book-slug>', 'check the book PDF', 'audit the printed pages', '/book-render-challenger', 'is the reading edition print-clean'. Distinct from book-challenger (semantic fidelity of book.md), html-view-challenger (Astro views incl. the Book Composer), slide-deck-challenger (NotebookLM deck bundle) — this is the ONLY gate on the rendered print deliverable."
+description: "Print-render challenger for the book reading edition — it gates the RENDERED PDF (`BOOK_DIR/book/book.pdf`), the one thing the semantic `book-challenger` (which reads book.md) and the on-screen `html-view-quality` standard cannot see. Validates the physical page against `docs/standards/book-print-quality.md` (REQ-BR-*): no blank or half-empty interior pages (text fills like a professional book), no figure spanning a page break (the one-plate rule), no surviving `NotebookLM` watermark, no duplicated caption (an embedded title echoed again as a figcaption), each figure rendered at the align/flow/width/anchor the human curated in `visual-layout.json` (wrap floats with text beside it, standalone is a centered block), placement after the passage it illustrates, and legible/uncapped figures. Backed by the deterministic probes in `scripts/podcast/_book_render_checks.py` (BR-WATERMARK, BR-CAPTION-DUP, BR-BLANK-PAGE, BR-PAGE-FILL) plus visual judgment for split-figure / float-vs-standalone / legibility. Wired into 0book-render, NON-blocking (records `_system/book-render-checks.json`; a broken reading edition never stops the podcast ship). Emits BR-* findings for Worker re-curation (fix the visual-layout in the Book Composer, or re-clean the asset — no in-place PDF mutation). Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'render-challenge <book-slug>', 'check the book PDF', 'audit the printed pages', '/book-render-challenger', 'is the reading edition print-clean'. Distinct from book-challenger (semantic fidelity of book.md), html-view-challenger (Astro views incl. the Book Composer), slide-deck-challenger (NotebookLM deck bundle) — this is the ONLY gate on the rendered print deliverable."
 tools: Read, Edit, Glob, Grep, Bash
 
 # Canonical challenger contract (peer with book-challenger.md)
@@ -9,7 +9,7 @@ challenger_contract:
   verdict_states: [RENDER-CLEAN, RENDER-CAUTION, RENDER-BROKEN]
   severity_tiers: [P0, P1]
   auto_fix_categories: []   # v1.0 — findings route to Book Composer re-curation, no PDF mutation
-  active_when: book_pipeline_v2
+  active_when: enable_book_branch
   reads_normative:
     - content/<Bucket>/<slug>/book/book.pdf
     - content/<Bucket>/<slug>/book/visual-layout.json
@@ -38,6 +38,12 @@ always about the page, never the meaning.
    with body text beside it and `flow: standalone` is centered (REQ-BR-013); it
    sits at/after its introducing passage (REQ-BR-014); it is legible and not
    shrunk (REQ-BR-020).
+2b. **Self-study asides (only when `book/book-self-study.pdf` exists).** On that
+   PDF, confirm each **Contextual note** / **Study summary** aside renders as one
+   labeled block, not split across a page break, visually distinct from the body
+   and from each other (note = solid rule, summary = double rule), with its label
+   present. A split or unlabeled aside is BR-CAUTION. (Deterministic pre-check:
+   `_system/self-study-checks.json` must be clean.)
 3. **Verdict.** `RENDER-BROKEN` on any P0, else `RENDER-CAUTION` on any P1, else
    `RENDER-CLEAN`. Stamp `book_render_challenger_version: 1.0`.
 4. **Route fixes, do not mutate the PDF.** BR findings are fixed upstream: a

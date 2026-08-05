@@ -1,0 +1,45 @@
+{
+  "schema": "book.seam-dedup/v1",
+  "removed": [
+    {
+      "pass": "base",
+      "rule": "adjacent-echo",
+      "chapter": "",
+      "words": 19,
+      "removed_text": "And as for thanking the work, it is to be patient with it and to call others to it.",
+      "kept_neighbour_head": "As for thanking the knowledge, it is to act upon what is in it and to call others to it."
+    },
+    {
+      "pass": "base",
+      "rule": "adjacent-echo",
+      "chapter": "4. How the World Was Made",
+      "words": 119,
+      "removed_text": "> فذلك ثلاث كلمات تفرع منها كن، حرفين، فيكون، خمسة أحرف، فذلك سبعة أحرف تفرع منها سبعة أشياء. خلق من النور الهواء، وهو أولها، فرد عن الأزواج، فريد عن الأشياء، ممازج لها، محيط بها، ولا محيط به شيء منها. فهو دليل على من ليس كمثله شيء.\n>\n> These are three words from which كن (Kun) is derived, two letters, and فيكون (fa-yakun), five letters; that is seven letters from which seven things branch. From the light He created the air, which is the first of them: singular without consort, unique among things, mingling with them, surrounding them, yet not surrounded by any of them. It is the proof of the One concerning whom there is nothing like Him.",
+      "kept_neighbour_head": "These are three words, and from them is derived كن (Kun), which is two letters, and فيكون (fa-yakun), which is five letters. That is seven letters, and from them seven"
+    },
+    {
+      "pass": "base",
+      "rule": "adjacent-echo",
+      "chapter": "5. The World, the Hereafter, and the Speech of Parables",
+      "words": 8,
+      "removed_text": "The boy said: And what is the time?",
+      "kept_neighbour_head": "The Master said: It is the time."
+    },
+    {
+      "pass": "base",
+      "rule": "boundary-echo",
+      "chapter": "6. Three Layers of Knowledge",
+      "words": 40,
+      "removed_text": "The boy said: \"Are not this world and the Hereafter a pair, and the soul and the body a pair, and the knowledge of the outward and of the inward a pair, and so on, many pairs, all of them?\"",
+      "kept_neighbour_head": "The Master said: You have spoken truly. The pair is an outward that is a name and an inward that is an attribute, pointing to the knowledge of God and"
+    },
+    {
+      "pass": "base",
+      "rule": "adjacent-echo",
+      "chapter": "7. The Five Shares and the Long Road to the Shaykh",
+      "words": 14,
+      "removed_text": "The boy said: And why is that deferred until the completion of seven days?",
+      "kept_neighbour_head": "The Shaykh said: That waits until the completion of seven days."
+    }
+  ]
+}

@@ -35,6 +35,7 @@ Usage:
   python3 scripts/podcast/teaching_relevance_classifier.py <slug> --reclassify
   python3 scripts/podcast/teaching_relevance_classifier.py <slug> --dry-run
 """
+
 from __future__ import annotations
 
 import argparse
@@ -45,11 +46,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from fill_glossary_arabic import parse_glossary_yml, emit_glossary_yml
-from pronunciation_compiler import _is_proper_name
+from fill_glossary_arabic import emit_glossary_yml, parse_glossary_yml
 from probe.score_pronunciation_risk import (
-    _load_concept_glossary, _normalise_translit, _PLACE_HINT,
+    _PLACE_HINT,
+    _load_concept_glossary,
+    _normalise_translit,
 )
+from pronunciation_compiler import _is_proper_name
 
 TEACHING = "teaching"
 NAME = "name"
@@ -64,7 +67,9 @@ _CLAUDE_TIMEOUT = 600
 # deterministic pre-LLM catch (the LLM still handles anything not listed here).
 _INCIDENTAL_HINT = re.compile(
     r"\b(fatimid|umayyad|abbasid|ayyubid|mamluk|ottoman|safavid|"
-    r"dynasty|caliphate|empire)\b", re.IGNORECASE)
+    r"dynasty|caliphate|empire)\b",
+    re.IGNORECASE,
+)
 
 
 def _deterministic_class(entry: dict, concept: dict[str, str]) -> str | None:
@@ -106,7 +111,8 @@ def _build_llm_prompt(items: list[tuple[int, dict]]) -> str:
     for i, e in items:
         rows.append(
             f'{i}. term="{e.get("transliteration") or e.get("phonetic")}" '
-            f'context="{(e.get("first_seen_snippet") or "").strip()[:200]}"')
+            f'context="{(e.get("first_seen_snippet") or "").strip()[:200]}"'
+        )
     listing = "\n".join(rows)
     return f"""You are classifying Arabic terms pulled from a scholarly Islamic book by how \
 much each one carries the book's TEACHING, versus being incidental reference. For each numbered \
@@ -137,16 +143,16 @@ def _llm_classify(items: list[tuple[int, dict]], book_dir: Path, log) -> dict[in
     missing/failed entries are simply absent (caller defaults them to referential)."""
     try:
         from _authoring._core import _run_claude_p
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         log(f"    [classify] claude unavailable ({e}) — ambiguous terms -> referential")
         return {}
     out: dict[int, str] = {}
     for start in range(0, len(items), _LLM_BATCH):
-        batch = items[start:start + _LLM_BATCH]
+        batch = items[start : start + _LLM_BATCH]
         prompt = _build_llm_prompt(batch)
         rc, text, err = _run_claude_p(
-            prompt, timeout=_CLAUDE_TIMEOUT, book_dir=book_dir,
-            phase="audio-script", step="teaching-relevance")
+            prompt, timeout=_CLAUDE_TIMEOUT, book_dir=book_dir, phase="audio-script", step="teaching-relevance"
+        )
         if rc != 0:
             log(f"    [classify] LLM batch rc={rc}: {err[:120]} — batch -> referential")
             continue
@@ -160,13 +166,14 @@ def _llm_classify(items: list[tuple[int, dict]], book_dir: Path, log) -> dict[in
                 cls = str(obj.get("class") or "").strip().lower()
                 if cls in VALID_CLASSES:
                     out[idx] = cls
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             log(f"    [classify] LLM JSON parse failed ({e}) — batch -> referential")
     return out
 
 
-def classify_entries(entries: list[dict], book_dir: Path, *, use_llm: bool = True,
-                     reclassify: bool = False, log=print) -> dict[str, int]:
+def classify_entries(
+    entries: list[dict], book_dir: Path, *, use_llm: bool = True, reclassify: bool = False, log=print
+) -> dict[str, int]:
     """Mutate entries in place, adding `teaching_relevance`. Returns class counts."""
     concept = _load_concept_glossary(book_dir)
     ambiguous: list[tuple[int, dict]] = []
@@ -199,7 +206,8 @@ def _resolve_book_dir(arg: str) -> Path:
     if p.is_dir() and (p / "_system").is_dir():
         return p.resolve()
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from _paths import find_content  # noqa: E402
+    from _paths import find_content
+
     bd = find_content(arg)
     if not bd:
         raise SystemExit(f"cannot resolve book dir for {arg!r}")
@@ -209,12 +217,9 @@ def _resolve_book_dir(arg: str) -> Path:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("book", help="book slug or BOOK_DIR")
-    ap.add_argument("--no-llm", action="store_true",
-                    help="deterministic only; ambiguous terms -> referential")
-    ap.add_argument("--reclassify", action="store_true",
-                    help="overwrite existing teaching_relevance values")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="classify + print the split; do not write glossary.yml")
+    ap.add_argument("--no-llm", action="store_true", help="deterministic only; ambiguous terms -> referential")
+    ap.add_argument("--reclassify", action="store_true", help="overwrite existing teaching_relevance values")
+    ap.add_argument("--dry-run", action="store_true", help="classify + print the split; do not write glossary.yml")
     args = ap.parse_args(argv)
 
     book_dir = _resolve_book_dir(args.book)
@@ -223,8 +228,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"no glossary.yml at {gpath}")
         return 1
     entries, top = parse_glossary_yml(gpath)
-    counts = classify_entries(entries, book_dir, use_llm=not args.no_llm,
-                              reclassify=args.reclassify, log=print)
+    counts = classify_entries(entries, book_dir, use_llm=not args.no_llm, reclassify=args.reclassify, log=print)
 
     total = sum(counts.values())
     print(f"\n  teaching-relevance split for {book_dir.name} ({total} terms):")

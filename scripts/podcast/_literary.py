@@ -20,18 +20,17 @@ Usage (standalone):
   python3 _literary.py <BOOK_DIR> --chapter ch01-<slug>  # single chapter
   python3 _literary.py <BOOK_DIR> --dry-run               # show prompts, no write
 """
+
 from __future__ import annotations
 
 import json
-import os
 import re
-import subprocess
 import sys
 import urllib.request
 from pathlib import Path
 
-from _rules import literary_voice_for_profile
 from _content_profile import resolve_content_profile
+from _rules import literary_voice_for_profile
 
 # ── Default voice config per content_profile ────────────────────────────────
 # Voice DEFAULTS now live in the single content-type registry (_rules.
@@ -98,9 +97,9 @@ _CHAPTER_CRAFT_CORE = (
     "Write this as a chapter of a real book by a skilled author-teacher — not a study guide, a "
     "summary, an outline, or a simplified paraphrase. The prose should feel authored, not assembled: "
     "it has movement, clear ideas, and clean transitions. The teaching must live INSIDE the prose, "
-    "never announced as instructional scaffolding. Do NOT write \"the teaching of this chapter,\" "
-    "\"the main lesson,\" \"the key takeaway,\" \"in plain language,\" \"this matters because,\" or "
-    "\"the reader should understand.\" Show the idea through the specific things the text names; let "
+    'never announced as instructional scaffolding. Do NOT write "the teaching of this chapter," '
+    '"the main lesson," "the key takeaway," "in plain language," "this matters because," or '
+    '"the reader should understand." Show the idea through the specific things the text names; let '
     "the point arrive, do not label it.\n\n"
     "Preserve the source's SEQUENCE. Keep the original order of events, claims, concepts, and "
     "arguments unless a change is genuinely necessary for readability; the chapter should unfold "
@@ -109,18 +108,18 @@ _CHAPTER_CRAFT_CORE = (
     "natural repetition — but do NOT dumb the material down, flatten a technical distinction, soften "
     "a demanding or severe teaching into vagueness, or modernize the worldview away. Make difficulty "
     "teachable, not easy.\n\n"
-    "Define specialized terms inside the prose, never as a glossary line — not \"Hujja means proof\" "
+    'Define specialized terms inside the prose, never as a glossary line — not "Hujja means proof" '
     "but a sentence in which the meaning lands as the term is used. Use repetition only when each "
     "return adds force or clarity, never to pad. Bridge the reader into hard ideas with transitions "
     "that teach rather than abrupt jumps from narration to doctrine. Every paragraph should move the "
     "chapter forward — advance the matter, clarify the argument, deepen the stakes, or turn toward "
     "what comes next. Cut filler.\n\n"
-    "Never let the prose read like any of these failure modes: a study guide (\"This chapter teaches "
-    "three lessons. First...\"), an academic abstract (\"The passage establishes a hierarchical "
-    "epistemology...\"), a podcast script (\"So what's really going on here is...\"), a casual "
-    "explainer (\"Basically, the student realizes...\"), decorative mysticism (\"the luminous river "
-    "of inward knowing cascaded through the secret chambers...\"), or mechanical paraphrase (\"He "
-    "asked a question. The teacher answered. Then he asked another.\").\n\n"
+    'Never let the prose read like any of these failure modes: a study guide ("This chapter teaches '
+    'three lessons. First..."), an academic abstract ("The passage establishes a hierarchical '
+    'epistemology..."), a podcast script ("So what\'s really going on here is..."), a casual '
+    'explainer ("Basically, the student realizes..."), decorative mysticism ("the luminous river '
+    'of inward knowing cascaded through the secret chambers..."), or mechanical paraphrase ("He '
+    'asked a question. The teacher answered. Then he asked another.").\n\n'
     "Sentence discipline: prefer concrete verbs over abstract nominalizations; keep most sentences "
     "under 30 words, using an occasional longer one only for rhythm or emphasis; keep paragraphs "
     "short to medium; never stack more than two abstract concepts in one sentence; use a topic "
@@ -170,9 +169,11 @@ def chapter_craft_block(profile: str | None) -> str:
     and future — inherits the craft standard, with narrative vs. expository craft
     selected by content profile.
     """
-    overlay = (_CHAPTER_CRAFT_NARRATIVE
-               if (profile or "islamic_scholarly") in _NARRATIVE_CRAFT_PROFILES
-               else _CHAPTER_CRAFT_EXPOSITORY)
+    overlay = (
+        _CHAPTER_CRAFT_NARRATIVE
+        if (profile or "islamic_scholarly") in _NARRATIVE_CRAFT_PROFILES
+        else _CHAPTER_CRAFT_EXPOSITORY
+    )
     return f"{_CHAPTER_CRAFT_CORE}\n\n{overlay}"
 
 
@@ -185,31 +186,33 @@ _GEMINI_TIMEOUT = 300  # seconds; literary rewrites are longer than analysis tas
 def _load_gemini_key() -> str:
     # Central resolver: env → keychain → Azure Key Vault (llm-gemini-api-key).
     from _secrets import get_gemini_key
+
     return get_gemini_key()
 
 
 def _call_gemini(prompt: str) -> str:
-    from _engine import engine_guard, TASK_REVOICE, ENGINE_GEMINI
+    from _engine import ENGINE_GEMINI, TASK_REVOICE, engine_guard
+
     engine_guard(TASK_REVOICE, ENGINE_GEMINI)
     key = _load_gemini_key()
-    url = (f"https://generativelanguage.googleapis.com/v1beta/models/{_GEMINI_MODEL}"
-           f":generateContent?key={key}")
-    body = json.dumps({
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "temperature": 0.55,
-            "maxOutputTokens": 16000,
-        },
-    }).encode()
-    req = urllib.request.Request(
-        url, data=body, headers={"Content-Type": "application/json"}, method="POST"
-    )
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{_GEMINI_MODEL}:generateContent?key={key}"
+    body = json.dumps(
+        {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "temperature": 0.55,
+                "maxOutputTokens": 16000,
+            },
+        }
+    ).encode()
+    req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"}, method="POST")
     with urllib.request.urlopen(req, timeout=_GEMINI_TIMEOUT) as r:
         d = json.loads(r.read())
     return d["candidates"][0]["content"]["parts"][0]["text"]
 
 
 # ── Config loading ───────────────────────────────────────────────────────────
+
 
 def _read_literary_config(book_dir: Path) -> dict[str, str]:
     # Use the validated resolver (not a raw regex) so the literary voice agrees
@@ -232,7 +235,7 @@ def _read_literary_config(book_dir: Path) -> dict[str, str]:
                     break  # left the literary block
                 m = re.match(r"^\s+([\w_]+)\s*:\s*(.+)$", line)
                 if m:
-                    config[m.group(1)] = m.group(2).strip().strip('"\'')
+                    config[m.group(1)] = m.group(2).strip().strip("\"'")
 
     # Derive narrator_subject from meta.yml author if not set explicitly
     if config.get("narrator_subject") in ("the author", None, ""):
@@ -246,6 +249,7 @@ def _read_literary_config(book_dir: Path) -> dict[str, str]:
 
 
 # ── Prompt building ──────────────────────────────────────────────────────────
+
 
 def _build_prompt(chapter_text: str, config: dict[str, str]) -> str:
     voice_key = config.get("narrator_voice", "author_first_person")
@@ -289,6 +293,7 @@ SOURCE TEXT
 
 # ── Idempotency log ──────────────────────────────────────────────────────────
 
+
 def _log_path(book_dir: Path) -> Path:
     return book_dir / "_system" / "literary-log.md"
 
@@ -306,17 +311,18 @@ def _mark_done(book_dir: Path, stem: str) -> None:
     if not log.exists():
         slug = book_dir.name
         log.write_text(
-            f"# Literary transformation log — {slug}\n\n"
-            f"Rows with `DONE` are checkpointed and skipped on re-run.\n\n",
+            f"# Literary transformation log — {slug}\n\nRows with `DONE` are checkpointed and skipped on re-run.\n\n",
             encoding="utf-8",
         )
     with log.open("a", encoding="utf-8") as f:
         from datetime import datetime, timezone
+
         ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         f.write(f"- {stem}: DONE at {ts}\n")
 
 
 # ── Chapter discovery ────────────────────────────────────────────────────────
+
 
 def _discover_chapters(book_dir: Path, only: str | None = None) -> list[Path]:
     chapters_dir = book_dir / "chapters"
@@ -332,6 +338,7 @@ def _chapter_id_from_path(chapter_path: Path) -> str:
 
 
 # ── No-teaching-lost guardrail ───────────────────────────────────────────────
+
 
 def teaching_loss_findings(source_text: str, output_text: str) -> list[str]:
     """Deterministic check that the revoice dropped nothing instructive.
@@ -359,7 +366,8 @@ def teaching_loss_findings(source_text: str, output_text: str) -> list[str]:
         if kept < len(src_refs) * 0.5:
             findings.append(
                 f"P1 citation refs dropped: only {kept}/{len(src_refs)} verse-style "
-                f"references ({', '.join(sorted(src_refs)[:5])}…) survived")
+                f"references ({', '.join(sorted(src_refs)[:5])}…) survived"
+            )
     return findings
 
 
@@ -374,6 +382,7 @@ def _log_guardrail(book_dir: Path, stem: str, findings: list[str]) -> None:
 
 
 # ── Section-chunked revoice (faithfulness over whole-chapter abridgement) ─────
+
 
 def _split_chapter(text: str) -> tuple[str, str, list[tuple[str, str]]]:
     """Split a chapter into (title_line, preamble_body, [(heading, body), ...]).
@@ -414,7 +423,8 @@ def _build_section_prompt(body: str, config: dict[str, str]) -> str:
     narrator = config.get("narrator_subject", "the author")
     addressee = config.get("addressee", "the reader")
     voice_instr = _VOICE_INSTRUCTIONS.get(voice_key, _VOICE_INSTRUCTIONS["author_first_person"]).format(
-        narrator_subject=narrator, addressee=addressee)
+        narrator_subject=narrator, addressee=addressee
+    )
     scene_instr = _SCENE_SOURCE_INSTRUCTIONS.get(scene_key, _SCENE_SOURCE_INSTRUCTIONS["text_only"])
     return f"""You are re-voicing ONE passage of a scholarly or translated text into contemporary literary nonfiction.
 
@@ -483,6 +493,7 @@ def _revoice_chapter(chapter_text: str, config: dict[str, str], log, stem: str) 
 
 # ── Main transform ───────────────────────────────────────────────────────────
 
+
 def author_literary_phase(
     book_dir: Path,
     *,
@@ -535,8 +546,10 @@ def author_literary_phase(
         findings = teaching_loss_findings(chapter_text, literary_text)
         if findings:
             _log_guardrail(book_dir, stem, findings)
-            log(f"  {stem}: ⚠ guardrail flagged {len(findings)} possible teaching-loss issue(s) "
-                f"(logged to literary-log.md) — review before shipping")
+            log(
+                f"  {stem}: ⚠ guardrail flagged {len(findings)} possible teaching-loss issue(s) "
+                f"(logged to literary-log.md) — review before shipping"
+            )
             for fnd in findings:
                 log(f"      · {fnd}")
 
@@ -546,8 +559,10 @@ def author_literary_phase(
 
 # ── CLI entry point ──────────────────────────────────────────────────────────
 
+
 def main() -> None:
     import argparse
+
     p = argparse.ArgumentParser(description="Literary transformation phase")
     p.add_argument("book_dir", type=Path, help="Path to book directory")
     p.add_argument("--chapter", help="Transform only this chapter stem (e.g. ch01-<slug>)")

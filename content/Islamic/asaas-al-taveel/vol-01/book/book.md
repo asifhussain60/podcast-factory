@@ -1,160 +1,20 @@
 # Asas al-Taweel — Volume 1: The Cycle of Adam
 
-## 1. What Ismaili Interpretation Is
+## Introduction to the Book
 
-I held this book back from the press for a long time, and I want to tell you why before I tell you anything else. The first reason was caution. I wished to keep it longer in the cave of *taqiyya*, the protective silence under which our Ismaili manuscripts have lived for centuries, alongside other works that have not yet been let out into the air. The second reason was scholarly: I felt my own information about it was still incomplete, and that other Ismaili manuscripts — lesser in rank than this one, but indispensable as preliminaries, gateways one must pass through before approaching it — needed to appear in print first. So I waited.
+This is a work of Ismailiتَأْوِيل — the drawing-out of a scripture's inner (نَار) sense — and it takes the shape of a doctrinal treatise, not a story and not a running verse-by-verse commentary. It first sets down what such interpretation is and why it matters, then lays out the framework of the testimony and its four limits, and only afterward turns that framework onto the opening of sacred history: Adam, the tree, the pact with Iblis, the splitting of humankind into two parties, and the line of transmission that runs down to Noah. The argument moves from method to demonstration.
 
-And then I stopped waiting. Whenever the words *inner interpretation* come into my mind — and that is the very subject we are about to enter — only one book rises to meet them: *Asas al-Ta'wil*. In the whole Ismaili manuscript corpus, it is the single work that takes interpretation itself as its declared theme. It lays out the basic idea of this science in a measured, balanced way, with precision and detail, casting light on its sections and materials, bringing them near to the mind, lowering them within reach of thought. We call this science *inner interpretation* because the word *ta'wil* itself means a return — *awl*, a returning of a thing to its outcome and to its origin. You interpret first what is and what is not, then you bring the matter back and resolve it, so that the fate of words is their meaning, and their substance.
+The figures divide along an axis the book builds early. Certain prophets — Adam, Noah — are speakers, bringers of an outward revealed law; beside each stands a foundation, an *asas*, who holds the hidden meaning beneath that law. Keep this pairing of the outer and the inner in view, for it is the engine of all that follows.
 
-In the earliest days of the Ismaili mission, and in its flowering, *inner interpretation* was the primary theme of every esoteric philosophical idea we carried. It was the tree that grew and branched, or — more accurately — the foundation upon which the pillars of this intellectual movement rested. It was the nourishment by which esoteric philosophy fed its judgment, its logic, and its exposition. For all of this, *Asas al-Ta'wil* is counted among us as one of the precious books — a treasury whose doctrinal teachings demand the preservation of secrecy and the concealment of its lessons, whose materials must be guarded from leaking to anyone who is not Ismaili. All of it is reckoned the secret of the creed and the key to the door of the mission.
+The book comes down under the name of the Ismaili دَاعِي al-Numan ibn Hayyun al-Tamimi al-Maghribi, judge of the Fatimid dynasty, who died in 363 of the Hijra. One caution about names: several words here are titles and proper names at once. "al-Mahdi (اَلْمَهْدِيّ)," "al-Qaim (الْقَائِم)," and "al-Mansur (الْمَنْصُور)" name an awaited or functional role in one place and a particular historical Fatimid ruler in another. Let the context, not the word alone, tell you which is meant.
 
-Add to this that the book contains an interpretation of the stories of the prophets as they appear in the three heavenly books: the Torah, the Gospel, and the Qur'an. This too is a subject whose secrecy our doctrine demands be preserved, lest it pass beyond the circle of the general community, who are held to have grasped only the husks of culture and only the outward face of science.
+## 1. The Call to Inner Meaning
 
-I want to be clear at the outset about what *inner interpretation* is and is not. *Inner interpretation*, in its realistic Ismaili sense, is not the same as *tafsir* — exegesis in the conventional sense used by the other Islamic sects. *Tafsir* clarifies the meaning of an obscure word whose sense the reader does not understand. Suppose someone asks, *What is the* tafsir *of the word* tree? You answer: it is a plant that begins small, then grows; from it limbs branch out upon which green leaves grow; in spring it bears flowers that do not linger long before turning into good fruit; and so on. But now suppose someone asks instead, *What is the* inner interpretation *of the word* tree? The answer follows the view of the one giving the inner interpretation. He may say it is a chamber, or a cow, or a rock, or something else entirely — provided that what he says accords with truth, with reality, and with reason, that it is not foreign to belief, nor distant from sound thought. *Inner interpretation* is the essence of the meaning, its symbol, its inner reality — a truth hidden behind a word that does not openly signify it. This is why the Ismaili intellectual order assigns the authority of *tanzil*, of revelation, to the one we call *al-Natiq*, the Speaker, and the authority of *inner interpretation* to the Imam. The first stands for the sacred law — its rulings, its jurisprudence, the legal apparent. The second stands for the truth, the interpretation, the philosophy, the inward.
+In the name of God, the Most Gracious, the Most Merciful. Praise belongs to Him who bestows every grace, and may His blessing rest on Muhammad, Prophet of mercy, and on the وَصِي appointed as executor for the community, and on the pure Imams of his goodly line.
 
-*Inner interpretation* is one of the sciences we singled out for our community, and which we named *esoteric* for that very reason. We have always held that Muhammad was the bearer of the revelation of the Qur'an — as I have said — and that Ali was the bearer of its interpretation. The Qur'an was sent down to Muhammad in its words and its outward sense for the people at large; its mystical secrets were entrusted to Ali.
+Now to the matter at hand. With God's support, and in gratitude for His help, His bounty, and His kindness, we have already put into the world one book for those who answer the call of truth — those who take hold of the rope of the Creator, who grip the trustworthy handhold, who keep to the straightest road (الطَّرِيق). That book set out the outward knowledge (الْعِلْم) of the sacred law, and we named it *Daaim al-Islam* (دَعَائِمُ الْإِسْلَام), the Pillars of Islam. In it we drew the limits of belief and showed the distinction between إِيمَان and *islam* (إِسْلَام) — between faith as an inward conviction and submission as an outward act. We laid out the obligation of وَلَايَة, the loyalty owed to the rightful guides; we set down the proofs by which the Imams are known; we gathered the requirements of duty, the chapters of what is lawful and what is forbidden, and the questions and rulings that arise — so that those who answered the call would know the outward shape of their religion, believe in it, act by it, and neither contradict it nor abandon it. That is the first frontier of education, the lowest rung in the ladder of knowledge and understanding.
 
-We have taken certain verses of the Noble Qur'an as proof that interpretation is obligatory. He said:
-
-> وَكَذَٰلِكَ يَجْتَبِيكَ رَبُّكَ وَيُعَلِّمُكَ مِن تَأْوِيلِ ٱلْأَحَادِيثِ
->
-> "Thus your Lord shall choose you and teach you the interpretation of events."
-
-And He said:
-
-> وَكَذَٰلِكَ مَكَّنَّا لِيُوسُفَ فِي ٱلْأَرْضِ وَلِنُعَلِّمَهُ مِن تَأْوِيلِ ٱلْأَحَادِيثِ
->
-> "And thus We established Joseph in the land, that We might teach him the interpretation of events."
-
-And He said:
-
-> سَأُنَبِّئُكَ بِتَأْوِيلِ مَا لَمْ تَسْتَطِع عَّلَيْهِ صَبْرًا
->
-> "I shall inform you of the interpretation of that which you could not bear patiently."
-
-And He said:
-
-> هُوَ ٱلَّذِي أَنزَلَ عَلَيْكَ ٱلْكِتَابَ مِنْهُ آيَاتٌ مُّحْكَمَاتٌ هُنَّ أُمُّ ٱلْكِتَابِ وَأُخَرُ مُتَشَابِهَاتٌ ۖ فَأَمَّا ٱلَّذِينَ فِي قُلُوبِهِمْ زَيْغٌ فَيَتَّبِعُونَ مَا تَشَابَهَ مِنْهُ ٱبْتِغَاءَ ٱلْفِتْنَةِ وَٱبْتِغَاءَ تَأْوِيلِهِ ۗ وَمَا يَعْلَمُ تَأْوِيلَهُ إِلَّا ٱللَّهُ ۗ وَٱلرَّاسِخُونَ فِي ٱلْعِلْمِ يَقُولُونَ آمَنَّا بِهِ كُلٌّ مِّنْ عِندِ رَبِّنَا ۗ وَمَا يَذَّكَّرُ إِلَّا أُولُو ٱلْأَلْبَابِ
->
-> "He it is who has sent down to you the Book, in which are verses precisely defined — they are the foundation of the Book — and others ambiguous. As for those in whose hearts is deviation, they pursue what is ambiguous of it, seeking discord and seeking its interpretation, though none knows its interpretation save Allah and those firmly grounded in knowledge. They say: We believe in it; the whole of it is from our Lord. But none take heed except those of understanding."
-
-There are also rational proofs for the necessity of interpretation drawn from the Holy Qur'an. The Almighty said:
-
-> سَنُرِيهِمْ آيَاتِنَا فِي ٱلْآفَاقِ وَفِي أَنفُسِهِمْ
->
-> "We shall show them Our signs on the horizons and within themselves."
-
-And He said:
-
-> وَفِي ٱلْأَرْضِ آيَاتٌ لِّلْمُوقِنِينَ ۝ وَفِي أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ
->
-> "And in the earth are signs for those certain in faith — and in your own selves: do you not see?"
-
-All of this makes one thing plain: the apparent was created in order to point to the subtle. We have taken the apparent as a parable. Our great supporter of the religion, the foremost of our preachers and philosophers, al-Mu'ayyad fi al-Din, said on this subject:
-
-> ضَرَبَ ٱللَّهُ ٱلْأَمْثَالَ وَٱلْأَشْبَاهَ: فَٱلْجَسَدُ مَثَلٌ، وَٱلنَّفْسُ مَثَلٌ، وَٱلدُّنْيَا مَثَلٌ، وَٱلْآخِرَةُ مَثَلٌ
->
-> "Allah has made parables and likenesses: the human body is a likeness, and the soul is a likeness; this world is a likeness, and the Hereafter is a likeness."
-
-And he said:
-
-> أَعْنِي بِٱلْمَثَلِ مَثَلًا مَضْرُوبًا — كَإِبَرِ ٱلنَّحْلِ وَمَا يَخْرُجُ مِنْهَا كَٱلْعَسَلِ
->
-> "By the parable I mean a parable struck — like the bee's needles, and what comes from it like honey."
-
-All of this carries us, if we trace its lineage, back to the city of Alexandria and to its philosophical school — to what Philo and his disciples said when they tried to interpret the Torah esoterically and did not succeed. Augustine and his disciples then attempted to follow Philo's school in interpreting the Gospel esoterically, but they too could not bring the idea to completion, for reasons too long to set out here. Then came the Ismailis, who spread their system of thought; and this was the first curriculum we put forward and to which we called others — a system of interpretation. We refined it with our own ideas, plainly, and added to it a rational interpretation that pruned bare transmission and produced conclusive proof for the Islamic world. We are the most ancient in our understanding of Islamic principles. We affirmed the inward and its necessity, just as we affirmed the outward alongside it. The apparent is not accepted without the inward, and the inward is of no use without the apparent. They are like body and soul; benefits arise only from their meeting, and through their meeting the ends are known.
-
-I should say it once more, because it is easy to mistake. *Tanzil* was specialized in by the Prophet during his lifetime: it is the knowledge of the apparent and of the rulings of the sacred law, the knowledge to which the public is permitted access, which they may learn, adopt, and embrace as their station. The *imam* — the foundational figure, *al-asas*, a designation given to every Imam contemporary with the Speaker — is responsible for the inward, for the interpretation, for the truth, and for its secret symbols and teachings. These are not to be disclosed except to the loyal soldiers of the mission who have risen in its ranks and been elevated in its stations. These are what we call the specially favored classes.
-
-This is why we see the two books *Asas al-Ta'wil* and *Da'a'im al-Islam* — both authored by al-Nu'man ibn Hayyun — as two related, fully interconnected directions of a single project. By them I mean the inward and the outward: the first is the foundation of esoteric philosophy; the second is the foundation of jurisprudence and the sacred law, narrated by Imam Ja'far ibn Muhammad al-Sadiq from his grandfather, the Prophet Muhammad — for the Prophet is the bearer of the sacred law, of the rulings of the outward and the revealed. This furnishes a conclusive proof of the book's importance, and shows that Ismaili esoteric studies proceeded by degrees, ranks divided into ranks, through which the respondent must pass and whose circles he must complete.
-
-We Ismailis were alone in this. We interpreted the verses of the Qur'an that require interpretation, where other sects contented themselves with mere *tafsir*. You can see it plainly in the books of the earliest Qur'anic commentators before Muhammad ibn Jarir al-Tabari — whose *tafsir* is the great scientific tribunal for weighing among Islamic sects and for testing the soundness of theories and ideas.
-
-I return to the heart of the matter, and I repeat: it is very difficult to understand and to reach the end of Ismaili philosophical texts, to grasp their expressions, their symbols, and their aims, unless the reader has first passed through the foundational interpretive texts. There is no doubt that *Asas al-Ta'wil* is one of the texts that must be studied carefully and whose content must be understood.
-
-A note for researchers and for interested readers. Al-Nu'man ibn Hayyun wrote many books — in jurisprudence, law, rulings, history, and in the science of interpretation, which is considered an introduction to philosophy. But we have not observed that he wrote any books on philosophy itself, and we do not know whether he was forbidden to do so. What we do know is that Ja'far ibn Mansur al-Yaman was directly responsible for that field in that period, and was the only one with permission to present it, to write about it, to discuss its topics. None of this prevents us from saying that al-Nu'man is counted among the great thinking minds who laid the pillars of thought in the Fatimid state.
-
-Yes — and there is no exaggeration in declaring it — we Ismailis had our share, indeed the most advanced share, in this field. We won the first prize in the arena of thought. We enriched the Islamic library with a massive scientific production before the Fatimid state even existed. Unfortunately, that precious heritage has been lost; nothing remains in our hands today except the *Rasa'il Ikhwan al-Safa*, the Epistles of the Brethren of Purity, alone.
-
-There is another point that occupies a long stretch of my thought: the Ismaili literature that existed before the Fatimid state. There is no doubt that systems of interpretation and philosophical-ideological laws prevailed in our society in that period. And I think we have a right to wonder where those intellectual fruits went, and what the names are of those who produced them.
-
-The answer is hard. In reality we do not possess, from those earlier eras laden with events, any trace of the Ismailis except the *Rasa'il Ikhwan al-Safa*. It is likely that those antiquities were destroyed at the mission center at Salamiyya, in Syria, during the raids of the Abbasids, the Qaramita, and other groups. This is why the information about the poet Abd al-Salam ibn Raghban — known as *Dik al-Jinn*, the Rooster of the Jinn — and about al-Mutanabbi, al-Ma'arri, and others, has remained scant and has not lit the way before researchers or informed the interested reader.
-
-In any case, I must refer to the story related by Ja'far al-Hajib in his biography, published by the orientalist Ivanow, concerning Muhammad al-Mahdi — Ubaydallah — the founder of the Fatimid state in the Maghrib: how some thieves attacked him on his way from Salamiyya to the Maghrib and stripped him of the collection of precious books he had carried with him from the Levant, and how the Fatimid Imam *al-Qa'im* later returned to that very place, once the Fatimids had settled their affairs in the Maghrib, and recovered the books. This indicates that the collection — which he had himself selected, carried, valued, and preferred above gold and precious stones — was of great worth. There is no doubt it contained a system of esoteric beliefs, the rules of philosophy, of interpretation, and other philosophical topics.
-
-I used to say yesterday, and I return and repeat today, that the third and fourth centuries of the Hijra are among the most splendid of ages for the Arab and Islamic worlds. During these centuries the Ismaili mission flowered into a comprehensive intellectual flourishing. Our preachers stepped into the arena of knowledge free of every external influence, restriction, or consequence, and worked to transmit much of the sciences of the Persians, of India, and of Greece — after expounding them, adapting them, refining them — placing scattered theories in order and applying them in a manner suited to Islamic principles and to reason, with transmission as their tool. All of this took place during the early Ismaili mission, when we were saturated with the science, the disputation, and the debates that were spreading very swiftly throughout the world. To this must be added our firm grip on the apparent of the sacred law — its obligations, its duties, its rulings — a realistic adherence we would not tolerate being abandoned or neglected, joined to the urgent religious desire to hold also to the esoteric scientific worship alongside it.
-
-There is no group within Islam that has so long a record in events as the Ismailis. The Buyids and the Hamdanids raised the banner of culture and literature high in the Levant; the Umayyads made an effective contribution to building the literary renaissance in Andalusia. But all of that does not equal a small part of what the Fatimids contributed in this field, especially during the era of Imam *al-Mu'izz li-Din Allah*, an era history counts as among the most prosperous Islam has ever known.
-
-Al-Mu'izz al-Fatimi possessed great understanding and farsightedness. He was deeply committed to reviving the scientific renaissance throughout his vast realm and to strengthening the intellectual system he considered the foundation of his mission. It is not surprising, then, that we find him personally contributing — collaborating with the da'i al-Nu'man on two books that together form the basis of every science, of jurisprudence, and of philosophy. The first was meant as the foundation of the apparent law — what they call *practical worship* — namely *Da'a'im al-Islam*, The Pillars of Islam. The second was meant as the foundation of esoteric philosophy, or *scientific worship* — namely the basis of inner interpretation. As the first laid down the law, the rulings, and the body, the second laid down the truth, the philosophy, and the spirit.
-
-Yes — Imam al-Mu'izz li-Din Allah contributed to the revival of the Fatimid state in the intellectual sphere. He raised it scientifically and literarily to a height no Fatimid Imam before or after him had reached. In his time culture reached its peak; the literary market flourished; Cairo became a Ka'ba toward which scholars, writers, philosophers, students, and seekers turned, drawing from its flowing springs the various sciences and arts. In this field the Fatimid state surpassed its competitors in learning and literature just as it surpassed them politically and militarily.
-
-When we remember that al-Mu'izz himself was a highly cultivated intellectual who had absorbed a vast measure of knowledge, we understand why. Beyond his command of the dominant languages of his age — Latin, Italian, and Spanish, which it is said he learned because he intended to conquer those countries and annex them — he also studied Sicilian, Berber, and Sudanese, given the considerable numbers of slaves and soldiers from those regions in his armies. And on top of all this, he was a man devoted to poetry and literature, as the historians who recorded his life relate. Al-Maqrizi and others say his library overflowed with books. He delighted in convening scholarly councils, in listening to the debates of the learned, in encouraging them and providing them with funds, and he personally supervised authors and their works, ordering changes and refinements.
-
-It is worth noting that al-Nu'man ibn Muhammad ibn Mansur ibn Ahmad ibn Hayyun — the author of our book, *Asas al-Ta'wil* — was born in Morocco, into a family belonging to the Arab tribe of Banu Tamim. We have found no mention of the date of his birth in his biography, but it is known that he died in Cairo in the year 363 AH, during the imamate of al-Mu'izz li-Din Allah al-Fatimi. Al-Nu'man is truly the father of a family that served learning with distinguished service to the Ismaili mission, performing every possible scholarly service for it; the prolific output of this family shaped the course of public thought and mental life not only in Egypt but throughout the lands of Islam.
-
-It is fair to say he is the most famous jurist Ismailism has produced since the dawn of Islam, and among its most productive — the most prolific in substance, the most fertile, the most generative of books on jurisprudence and on legal and religious research. He entered the service of Imam Muhammad al-Mahdi, Ubayd Allah, founder of the Fatimid state in Morocco, in the late years of that Imam's life. Under the Fatimid *al-Qa'im*, he took charge of the judiciary in Tripoli in the west. In the era of Imam *al-Mansur* he was appointed judge of *al-Mansuriyya*, where his scholarly assemblies, his mosques, and his literary councils and lectures captivated the hearts of those who sought knowledge and elevation. When Imam al-Mu'izz li-Din Allah came to Egypt, he brought al-Nu'man and his family with him, intending the state to benefit from him in Egypt as it had benefited from him in Morocco. But while we speak of al-Nu'man, we must ask: what of his literary production in Morocco? Did the same fate that befell so many works at the hands of the angles of the ages befall his too?
-
-Now, at last, I must turn to the central theme — inner interpretation itself — and say what it is.
-
-This science was propagated by the Ismailis among the various classes of Muslims with great care. It is, in truth, the natural outcome of our foundational learning and our intellectual system. In our view, religion required that a person ascend through continuous discipline, rising from one degree to the next, until at last he attained knowledge of the houses of the universe — the inhabited worlds that were cut off after they were separated from the transcendent Creator: that is, from Absolute Non-Anthropomorphic Thought, the First Intellect, the Higher Light, the Originating Power — the Pen that writes, the First that precedes existence, the one who emits lights from itself toward the Second Place, toward the Second Universal Intellect, the Universal Soul. These two principles are the two origins from which everything proceeds, after their transformation in the minds of human beings — the minds of the prophets, the imams, and the elect. The common classes do not possess such distinct minds; they are destitute of them so long as they have not acquired knowledge or moved to the second station. That movement comes through enlightenment and guidance. This education has many degrees. If a person walks them, he may reach the ultimate degree of mental and literary perfection that is the highest purpose of human life. To achieve this end, one must work on the development of the mental faculties and then on the cultivation of a good biography and a literary life that accords with the demands of sound reason and the theory of intellectual development that leads a man to belief — the perfect believer, the wise one, the one stripped clean.
-
-This system of inner interpretation grew in just this way, and it led to just such a theory, because we gave the religious laws and the Qur'anic verses an esoteric interpretation that differed from their outward sense and yet conformed to common sense. At the same time, we did not reject the revealed laws, and we did not deny what the Qur'an and the other heavenly books brought. We affirmed them. We acknowledged that their obligations could not be set aside; we understood what God meant by them, for we were among those whose insight had been opened by knowledge. We separated ourselves into the ranks of the mission of the religious world, which is the type of the world of creators and created beings.
-
-From this you may conclude that we do not operate by apparent interpretation alone. We interpret the laws, the rulings, and the Qur'an esoterically as well, drawing from a trusted source we consider to be the representative of the Universal Intellect. You may therefore call us rationalists who anchor our beliefs only on these foundations. Beyond that, the Ismaili movement is a universal one — or, more plainly, an *intellectual system* — whose mission was to overthrow the dominant political order that controlled the Islamic world and to achieve a major upheaval in ideas, systems, and beliefs.
-
-Yes — this system of thought required of its adherent that he affirm both the apparent and the subtle principles, for the two together constitute the spirit of religion. They are joined to each other in full conjunction, and both are obligatory upon every respondent and adherent. The apparent is the general framework of recommendations bound up with the rules of religious scholarship; the subtle is the spirit of religion hidden from view, reserved for the dedicated. For this reason our preachers proclaimed our principles in two modes and summoned others to our intellectual system through two ideas.
-
-The first concerned the prophecies and the necessity of accepting what they brought — laws, texts, ordinances — in an apparent way, calling people to follow them in the manner of *obligation and imitation*.
-
-The second was a call to what the heavenly books had brought through esoteric interpretation, in the manner of *choice, covenant, and pledge*.
-
-From this it may be said that the Ismaili system of thought was founded on lofty fundamental philosophical teachings, which stipulate following the idea of pure, absolute faith, thirsting after knowledge, and never relying on what others repeat — thoughts that echo onward without understanding.
-
-Religion was, and still is, a fortified citadel that cannot be breached. One cannot reach what lies behind it except through a real, abiding spiritual meaning — an essence subsisting in itself — and never through gleaming external appearances and superficial teachings that, with the passage of time, become mere habit. Whatever the mind does not register, or what lies outside the mind's compass, is in origin nonexistent and does not endure.
-
-The verses of the Qur'an were revealed openly, and yet they were not devoid of esoteric meaning, of soul, of essence — present in every being. It is worth noting that the texts of the Qur'an, or its *tafsir*, often lead to differences of opinion, while *inner interpretation* — the disclosure of the esoteric meaning — is a fixed system that does not shift; it leads to mental reality and to the consensus of society.
-
-I have said that inner interpretation — which is *knowledge* — was the specialty of the Imam and his disciples. This is why we see the Prophet Muhammad keen to commend to his companions the search for it wherever it may be found.
-
-The proof is plain. The knowledge of the apparent is very easy to reach. *Inner interpretation*, by contrast, cannot be reached except after struggle, weariness, and the surmounting of obstacles — after passing through trials and entering the ranks of an intellectual system from which one does not emerge without being marked by what we have called *the covenant, the compact, and the oath*.
-
-To sum it up: God revealed His religion to humanity and gave it the optional portion by way of following the clearest paths, demonstrating its justice and leaving freedom before man to act in the light of the intellect of his constitution — making that intellect the finest gift bestowed upon him.
-
-Islam, in fact, was nothing other than the forbidding of evil and the permitting of the good. Its inner reality is absolute faith — the inward spirit that runs in the blood of every human being and aims at abstraction, at living in the shadow of idealism and virtue.
-
-Beyond all I have said, let me put inner interpretation as a thesis. It is a philosophical and religious theory which may be summarized this way. God Almighty has set all the meanings of religion in the creatures that surround man. One must therefore substitute what is in nature and on the face of the earth, according to one's understanding of the truth of religion, which has divided creation into two categories: an apparent part that is visible and an inward part that is hidden, with the apparent pointing to the inward — like the human body, which is apparent, and the soul, which is inward. What is disclosed from the matters of religion is *practical worship*, and what is set down in the apparent verses of the Qur'an consists of meanings known and articulated by the scholars of the people of the apparent and by the common public alike. Yet each of the religious duties also has an esoteric interpretation, which can only be taught by the imams, by their senior preachers, and by the elect.
-
-In any case, the Holy Qur'an stands before us, and it makes clear that the creed Islam has brought is not contrary to reason, nor should it conflict with reason — nor is it complete if it does not square with reason — particularly since the Islamic religion was born a rational religion capable of development.
-
-If you survey the Qur'anic verses and analyze what is mentioned in them in the light of reason, logic, and reality, they teach you that man must think, reflect, look, meditate, consider, and deduce. Islam is a comprehensive worldly order that directs man in life and helps him attain — for himself and for the human collective — the highest degree of human perfection in spirit, character, matter, and essence.
-
-Knowledge in Islam has been made a condition of faith: whoever believes without understanding and knowing has not believed well. True belief is the truth that emerges from guidance, from understanding, from choice. Islam is a revolution against mental rigidity and a war upon reaction, fanaticism, and constriction. It granted freedom to step out, to loosen and unfetter; it released freedom of opinion and thought, raised it to a high station, fenced it about with care and attention. The Islamic creed rests upon argument and evidence, not upon compulsion. It honored the intellect, wanted it alert, and demanded that it be attentive. It was not acceptable that a person be a deaf machine accepting whatever he was told without ruling on it by his own mind.
-
-Islam also freed human minds from the constraints of imitation, opening before them a space to walk in the direction of guidance, in a wide atmosphere of freedom — settling a sound mind in them and setting it apart from its opponents, especially in matters of research, instruction, and discussion. It meant to awaken the mind and rouse it to perform its mission, to develop its mental and intellectual powers, that it might walk in the field of self-esteem and independence of opinion and move toward freedom of thought.
-
-This has been a brief presentation of the subject of *inner interpretation* as set forth in *Asas al-Ta'wil* by al-Nu'man ibn Hayyun al-Tamimi. I have dealt with it in all its aspects, drawing upon our Ismaili materials enough to suffice, while keeping in mind that the legal code of the Ismaili mission is the only source that guides researchers to distinguish the intruders from the genuine envelopers of the tradition.
-
-Before I close, I owe a word to those who call themselves specialists in the study of Ismaili literature, history, and philosophy — those who have not yet reached the point of distinguishing between the two terms *Ismailiyya* and *Fatimiyya*. To these I say: we are not convinced, because we have found no mention of the name *Fatimiyya* in our studies. We are sure the name should be confined to the family that ruled the Ismailis — namely the Imams — and has nothing to do with the philosophy itself. From this it follows that the use of the word *Fatimid* should not extend beyond the Fatimid dynasty during its reign in Morocco and Egypt. The reason is well known: their wish to draw near to the Islamic world, which honors the name of Fatima al-Zahra, daughter of Muhammad, and, on the other hand, to distinguish themselves from the descendants of Ali by women other than Fatima. So every name applied to literature, philosophy, doctrine, or anything else pertaining to this mission must not stray beyond the scope of the word *Ismailiyya*.
-
-A word, finally, about the book itself, so you know what is ahead of you. Al-Nu'man divided *Asas al-Ta'wil* into six chapters, devoting one chapter to each Speaker-Prophet, the *natiq*, the chief of his cycle, his preachers, and his followers. Each chapter is filled with Qur'anic verses concerning their stories, their era, and the events of their time. He begins with the era of Adam and ends with the era of Muhammad. He did not write the chapter concerning the Awaited Imam — the seventh — because his time has not yet come.
-
-In my judgment, it would be very difficult to explain the chapters of the book one by one. Nevertheless, there is one chapter that deserves particular attention: the chapter dealing with Isa ibn Maryam, Jesus, son of Mary, and the story of his birth without a father, followed by the story of Adam and the meaning of his creation from clay. All of this is worth reading and reflecting upon, for it is innovative in its philosophy of doctrine, rich in ideas, and marked by sound rational maturity.
-
-As for the copies on which I worked: I obtained two manuscripts of *Asas al-Ta'wil*. The first came from the town of Masyaf in Syria, and it was the principal manuscript adopted in the present edition; it is designated by the letter (S), and was copied in 1183 AH. The second came from manuscripts of Yemen, presented to me by my honored brother Hakim Luqman of the town of Kampala in Uganda, East Africa, during my visit to that country in 1956. It is written in the hand of Amin ibn Ali al-Kamenhab Dari Watana al-Shakadhakar, and was copied in 1033 AH; it is designated by the letter (e).
-
-I should mention that I have made grammatical and orthographic corrections, restored some sentences that had dropped out, and revised Qur'anic verses that had been corrupted in transmission. I have not noted these emendations in the margins, and they do not depart from the substance of the original. All of this was done in order to produce a sound text upon which no dust settles.
-
-In this work I have, I believe, rendered a service to scholarship and discharged my duty toward our history, our literature, and Arabic philosophy. What follows now is the author's own introduction, and after it the six chapters of the book itself — beginning, as he begins, with Adam.
-
-## 2. The Call to Inner Meaning
-
-In the name of God, the Most Gracious, the Most Merciful. Praise belongs to Him who bestows every grace, and may His blessing rest on Muhammad, Prophet of mercy, and on the *wasi* appointed as executor for the community, and on the pure Imams of his goodly line.
-
-Now to the matter at hand. With God's support, and in gratitude for His help, His bounty, and His kindness, we have already put into the world one book for those who answer the call of truth — those who take hold of the rope of the Creator, who grip the trustworthy handhold, who keep to the straightest road. That book set out the outward knowledge of the sacred law, and we named it *Da'a'im al-Islam*, the Pillars of Islam. In it we drew the limits of belief and showed the distinction between *iman* and *islam* — between faith as an inward conviction and submission as an outward act. We laid out the obligation of *walaya*, the loyalty owed to the rightful guides; we set down the proofs by which the Imams are known; we gathered the requirements of duty, the chapters of what is lawful and what is forbidden, and the questions and rulings that arise — so that those who answered the call would know the outward shape of their religion, believe in it, act by it, and neither contradict it nor abandon it. That is the first frontier of education, the lowest rung in the ladder of knowledge and understanding.
-
-The one in whom the spirit of faith and wisdom is to be written must begin from precisely this point. He must pass from the realm of darkness into the realm of light. This is the first stage for the one newly born into faith: the stage of nurture at birth, the moment when the spirit of life is breathed into him. Consider what happens when an infant comes out of the womb into the light of the world. The outward form is repaired at once. The cord that was once the link between what was and what was not yet of him is cut. His limbs are adjusted, his skin anointed, his body swaddled with what tightens and strengthens it — so that his frame does not slacken, his joints do not weaken, his constitution does not warp, and no other ruin overtakes him while he is still soft.
+The one in whom the spirit of faith and wisdom is to be written must begin from precisely this point. He must pass from the realm of darkness (الظَّلَام) into the realm of light (النُّور). This is the first stage for the one newly born into faith: the stage of nurture at birth, the moment when the spirit of life (الْحَيَاة) is breathed into him. Consider what happens when an infant comes out of the womb into the light of the world. The outward form is repaired at once. The cord that was once the link between what was and what was not yet of him is cut. His limbs are adjusted, his skin anointed, his body swaddled with what tightens and strengthens it — so that his frame does not slacken, his joints do not weaken, his constitution does not warp, and no other ruin overtakes him while he is still soft.
 
 It is the same with the one who fails to repair the outward of his religion and set it on its feet. He stands on the edge of breaking it and ruining it. So we put into the hands of those who had answered our call what they needed in order to mend themselves and stand straight. We read the book aloud to them. We placed it in the hands of those who wished to copy it. We refused it to no one who wished to recite it whole. Each took from it according to his measure. Some — though they were few — were truly nourished by it, according to the Almighty's word:
 
@@ -164,9 +24,9 @@ It is the same with the one who fails to repair the outward of his religion and 
 
 And:
 
-> بَلْ أَكْثَرُهُمْ فَاسِقُونَ فَهُمْ لَا يَسْمَعُونَ
+> فَأَعْرَضَ أَكْثَرُهُمْ فَهُمْ لَا يَسْمَعُونَ
 >
-> "But most of them are insolently disobedient, and they do not hear."
+> "But most of them turned away, and they do not hear."
 
 And of most of them He said:
 
@@ -200,9 +60,9 @@ These were the ones who said: this is the outward — we know it already, and wh
 
 And those who disbelieved said: this is only the man whom others have helped along with injustice and falsehood. They said:
 
-> إِنْ هَٰذَا إِلَّا أَسَاطِيرُ الْأَوَّلِينَ اكْتَتَبَهَا فَهِيَ تُمْلَىٰ عَلَيْهِ بُكْرَةً وَأَصِيلًا
+> وَقَالُوٓا۟ أَسَطِيرُ ٱلْأَوَّلِينَ ٱكْتَتَبَهَا فَهِىَ تُمْلَىٰ عَلَيْهِ بُكْرَةًۭ وَأَصِيلًۭا
 >
-> "These are nothing but fables of the ancients which he has written down; they are dictated to him morning and evening."
+> "They said: fables of the ancients which he has written down; they are dictated to him morning and evening."
 
 This is one of the ways men deny the limits of religion. They twisted what was meant for those who came before and for others besides — the evil things the worst of preachers thought of those who turned the people away from God's friends — and they departed from what the friends had thought concerning them. They disobeyed the command. They altered the order that had been laid out for them. They overstepped the limits. They blocked others from doing what was their duty.
 
@@ -212,15 +72,15 @@ This is one of the ways men deny the limits of religion. They twisted what was m
 
 Had they obeyed the command of their guardians and walked the path the community had laid out before them, they themselves would have been guided, and no one after them would have had anything to object to. God will yet set the foolish one right, in whichever case He sees fit. He will restore whatever any man has changed of His religion. He will repair what those who disobeyed Him have corrupted — by His power, His might, His provision, and His mercy, and through the success He grants to whoever holds firm to what we have laid out.
 
-The measure of the outward, and the portion each man received of it, did not move us to neglect them, few as they were among the many. We resolved instead to raise them to the next stage in the limits given to the responding initiate, the *mustajib* — to the stage of *ramz* and *ishara*, symbol and sign, which is the gentlest and most accessible of the higher degrees. A symbol stands in for what cannot yet be spoken plainly; a sign points toward what the listener is being made ready to see.
+The measure of the outward, and the portion each man received of it, did not move us to neglect them, few as they were among the many. We resolved instead to raise them to the next stage in the limits given to the responding initiate, the مُسْتَجِيب — to the stage of *ramz* and *ishara*, symbol and sign, which is the gentlest and most accessible of the higher degrees. A symbol stands in for what cannot yet be spoken plainly; a sign points toward what the listener is being made ready to see.
 
-This is the exact counterpart of the raising of children, of nourishing their bodies. After their outward form has been put right at birth, they are begun on milk — because their constitution is still too delicate for solid food, because they cannot yet digest it, because their bodies must first grow strong enough to bear it. They are eased onto firmer things in stages. It is the same with symbols and signs. They impregnate the imagination of the listener. What is symbolized stirs him; what wisdom points to draws him; he becomes eager to hear and ready to accept. But if the same content were dropped on him whole and at once, with no preparation, falling upon him before his powers of comprehension could rise to meet it, it would harm him — as solid food harms a child who is fed it too soon. The Almighty Himself has fixed this measure when He said:
+This is the exact counterpart of the raising of children, of nourishing their bodies. After their outward form has been put right at birth, they are begun on milk — because their constitution is still too delicate for solid food, because they cannot yet digest it, because their bodies must first grow strong enough to bear it. They are eased onto firmer things in stages. It is the same with symbols and signs (آيَات). They impregnate the imagination of the listener. What is symbolized stirs him; what wisdom points to draws him; he becomes eager to hear and ready to accept. But if the same content were dropped on him whole and at once, with no preparation, falling upon him before his powers of comprehension could rise to meet it, it would harm him — as solid food harms a child who is fed it too soon. The Almighty Himself has fixed this measure when He said:
 
 > وَالْوَالِدَاتُ يُرْضِعْنَ أَوْلَادَهُنَّ حَوْلَيْنِ كَامِلَيْنِ ۖ لِمَنْ أَرَادَ أَن يُتِمَّ الرَّضَاعَةَ
 >
 > "And mothers shall suckle their children two full years, for those who wish to complete the suckling."
 
-After *Da'a'im al-Islam*, then, we composed for these same people another book, which we called *Hudud al-Ma'rifa*, the Limits of Knowledge. In it we set down the limits that prove inner interpretation, *ta'wil*, against the one who denies it, and that establish the inner sense, *batin*, against the one who rejects it, and we showed the manner in which its degrees are climbed. We laid out the symbols and the signs of the inner and the interpretation that benefit men of intellect — those whose road is acceptance, longing, withdrawal from worldly attachments, and the discipline of restraint.
+After *Daaim al-Islam*, then, we composed for these same people another book, which we called *Hudud al-Marifa* (حُدُود الْمَعْرِفَة), the Limits of Knowledge. In it we set down the limits that prove inner (نَار) interpretation, تَأْوِيل, against the one who denies it, and that establish the inner sense, الْبَاطِن, against the one who rejects it, and we showed the manner in which its degrees are climbed. We laid out the symbols and the signs of the inner and the interpretation that benefit men of intellect — those whose road is acceptance, longing, withdrawal from worldly attachments, and the discipline of restraint.
 
 When we had reached a certain measure in that work, others who wanted to attain what they had earned obliged us to compose a further book — one that would unfold for them a degree of inner interpretation and subtlety lying beyond the degree of symbol. Whoever hears any of it that seems to contradict the proper limits as we have set them out, and does not act on it accordingly — referring it on his own to something other than what he has heard, or interpreting it without the prior explanation already given — his way must be the way of those we have just described: those who hand themselves over to those who came before, who follow in their path, who stand in their footsteps, and who let themselves be clothed in the religion of their judgment.
 
@@ -228,7 +88,7 @@ When we had reached a certain measure in that work, others who wanted to attain 
 >
 > "That God may test those who believe and destroy the disbelievers."
 
-So the Almighty said, and He is the most truthful of those who speak. If only they had understood the speech of the truthful one — Ja'far al-Sadiq, the trustee — when it came to them by the mouth of one of his preachers, his *du'at*, whom he had brought into the matter. A man once said to him: "O son of the Messenger of God, before this we heard from you something else — a different aspect than this one." And he — meaning Ja'far al-Sadiq — said:
+So the Almighty said, and He is the most truthful of those who speak. If only they had understood the speech of the truthful one — Jafar al-Sadiq (جَعْفَرُ الصَّادِق), the trustee — when it came to them by the mouth of one of his preachers, his *duat* (دَاعِي الدُّعَاة), whom he had brought into the matter. A man once said to him: "O son of the Messenger of God, before this we heard from you something else — a different aspect than this one." And he — meaning Jafar al-Sadiq — said:
 
 > إِنِّي لَأَتَكَلَّمُ بِالْكَلِمَةِ الْوَاحِدَةِ لَهَا سَبْعَةُ وُجُوهٍ
 >
@@ -236,11 +96,11 @@ So the Almighty said, and He is the most truthful of those who speak. If only th
 
 The man, astonished, said: "Seven, O son of the Messenger of God?" He said: "Yes — and seventy. And if we wished to add more, we would add."
 
-This knowledge has been put on display in proportion to the limits set for it, so that the one who has heard it and benefited from it may come to know it page by page, in its degrees. The present book, which we now set forth in its foundational form — being the first of its limits — we have called *Asas al-Ta'wil*, the Basis of Interpretation. By it we mean to explain what we had established in *Da'a'im al-Islam*, so that this book may serve as the foundation of the inner, just as the earlier book served as the foundation of the outward. From God we seek help. There is no power and no strength except in God the Almighty.
+This knowledge has been put on display in proportion to the limits set for it, so that the one who has heard it and benefited from it may come to know it page by page, in its degrees. The present book, which we now set forth in its foundational form — being the first of its limits — we have called *Asas al-Tawil* (أُسَاسُ التَّأْوِيلِ), the Basis of Interpretation. By it we mean to explain what we had established in *Daaim al-Islam*, so that this book may serve as the foundation of the inner, just as the earlier book served as the foundation of the outward. From God we seek help. There is no power and no strength except in God the Almighty.
 
 What follows is the discourse on the interpretation of interpretation, and on the inner meaning of what is reported in hadith and revealed in scripture.
 
-In *Hudud al-Ma'rifa*, the book just named, we wrote at length to establish the science of *ta'wil* and the *batin*, and to answer those who deny them from the Book, from the practice of the Prophet, and from the words of the Imams and the community. We said enough there, briefly as we said it. But that does not free us from publishing this present book on the side of the inner, so that it may stand as our proof in the hands of those who recite it. So we say — and from God comes success.
+In *Hudud al-Marifa*, the book just named, we wrote at length to establish the science of تَأْوِيل and the الْبَاطِن, and to answer those who deny them from the Book, from the practice of the Prophet, and from the words of the Imams and the community. We said enough there, briefly as we said it. But that does not free us from publishing this present book on the side of the inner, so that it may stand as our proof in the hands of those who recite it. So we say — and from God comes success.
 
 Every intelligible thing must have an outward and an inward. Its outward is what the senses can lay hold of. Its inward is what it contains — the knowledge that lives within it, and the meaning the outer form embraces. The two are spouse and partner to each other; neither is whole without the other. The Almighty said:
 
@@ -272,7 +132,7 @@ And He said:
 >
 > "And none knows its interpretation except God and those firmly rooted in knowledge."
 
-In *Hudud al-Ma'rifa* we laid out the position of those who admit interpretation but are ignorant of its true face; the position of those who deny it altogether and turn from it; and the proof against both. He also said, concerning the arrival of interpretation in its time:
+In *Hudud al-Marifa* we laid out the position of those who admit interpretation but are ignorant of its true face; the position of those who deny it altogether and turn from it; and the proof against both. He also said, concerning the arrival of interpretation in its time:
 
 > هَلْ يَنظُرُونَ إِلَّا تَأْوِيلَهُ ۚ يَوْمَ يَأْتِي تَأْوِيلُهُ يَقُولُ الَّذِينَ نَسُوهُ مِن قَبْلُ قَدْ جَاءَتْ رُسُلُ رَبِّنَا بِالْحَقِّ
 >
@@ -282,9 +142,9 @@ The Messenger of God, peace and blessings upon him, said:
 
 > مَا نَزَلَ عَلَيَّ مِنَ الْقُرْآنِ آيَةٌ إِلَّا وَلَهَا ظَهْرٌ وَبَطْنٌ
 >
-> "Not a single verse of the Qur'an has come down to me without an outer and an inner."
+> "Not a single verse of the Quran has come down to me without an outer and an inner."
 
-In *Hudud al-Ma'rifa* we showed the consensus of the community on the soundness of this report, and the corruption of any reading that twists it away from its meaning. We showed also what those who reject interpretation are nevertheless forced to admit without realizing it — because there are passages they cannot make sense of without granting an inner meaning, and they can find no way around it. Take the word *water*. By their own teaching, the Almighty meant by it in one place *knowledge*, and in another place *death* and *disbelief*, and in another *life* in the sense of faith, and *light* in the sense of guidance, and *darkness* in the sense of error. The *blind*, the *deaf*, and the *dumb* in their reading mean something other than the outward sense of those words; the "sheep of women" — and many other figures of the same kind — they explain at length in just this way. Yet when they hear things that must be granted in order to keep the absolute oneness of God and to purify Him from any likeness to His creation, suddenly they deny the very move they made elsewhere. They liken Him instead. They set up their idol and describe Him by qualities that God in His sanctity is exalted above, qualities from which His blessed name is far removed. And this after they have heard what the Almighty says in His Book about the parables He strikes for His servants:
+In *Hudud al-Marifa* we showed the consensus of the community on the soundness of this report, and the corruption of any reading that twists it away from its meaning. We showed also what those who reject interpretation are nevertheless forced to admit without realizing it — because there are passages they cannot make sense of without granting an inner meaning, and they can find no way around it. Take the word *water*. By their own teaching, the Almighty meant by it in one place *knowledge*, and in another place *death* (الْمَوْت) and *disbelief* (الْكُفْر), and in another *life* in the sense of faith, and *light* in the sense of guidance, and *darkness* in the sense of error. The *blind* (الْعَمَى), the *deaf* (الصُّمّ), and the *dumb* (الْبُكْم) in their reading mean something other than the outward sense of those words; the "sheep of women" — and many other figures of the same kind — they explain at length in just this way. Yet when they hear things that must be granted in order to keep the absolute oneness of God and to purify Him from any likeness to His creation, suddenly they deny the very move they made elsewhere. They liken Him instead. They set up their idol and describe Him by qualities that God in His sanctity is exalted above, qualities from which His blessed name is far removed. And this after they have heard what the Almighty says in His Book about the parables He strikes for His servants:
 
 > وَتِلْكَ الْأَمْثَالُ نَضْرِبُهَا لِلنَّاسِ ۖ وَمَا يَعْقِلُهَا إِلَّا الْعَالِمُونَ
 >
@@ -306,7 +166,7 @@ And He says:
 
 > وَلَقَدْ ضَرَبْنَا لِلنَّاسِ فِي هَٰذَا الْقُرْآنِ مِن كُلِّ مَثَلٍ
 >
-> "And We have certainly set forth for mankind in this Qur'an every kind of parable."
+> "And We have certainly set forth for mankind in this Quran every kind of parable."
 
 The Almighty also told us that the narratives of the prophets themselves carry interpretation. He said in the story of Yusuf, peace be upon him:
 
@@ -320,7 +180,7 @@ And He said:
 >
 > "And thus We established Yusuf in the land, that We might teach him the interpretation of narratives."
 
-In many verses of His Book He speaks of parables, of subtleties, of interpretation. The Arabs in whose tongue the Qur'an was revealed knew this style well; it was in their idiom that He addressed them. Among the wonders and marvels of the Qur'an's composition is precisely this: that He brings forth a single utterance which carries one meaning in its outward form and another in its inner. He made the outward form a miracle of His Messenger, and the inner form a miracle of the Imams of his Household. The inner exists only with them. No one but Muhammad, the Messenger of God, can match the outward of the Book — and he is their grandfather. No one but the Imams of his line can match its inner.
+In many verses of His Book He speaks of parables, of subtleties, of interpretation. The Arabs in whose tongue the Quran was revealed knew this style well; it was in their idiom that He addressed them. Among the wonders and marvels of the Quran's composition is precisely this: that He brings forth a single utterance which carries one meaning in its outward form and another in its inner. He made the outward form a miracle of His Messenger, and the inner form a miracle of the Imams of his Household. The inner exists only with them. No one but Muhammad, the Messenger of God, can match the outward of the Book — and he is their grandfather. No one but the Imams of his line can match its inner.
 
 It is a knowledge they hold among themselves. They speak to each man according to the measure he can grasp. They give every member of the family his proper share, and they withhold from the one who must be withheld from, and they entrust the matter to those who are worthy to receive it — as the Bestower said:
 
@@ -328,7 +188,7 @@ It is a knowledge they hold among themselves. They speak to each man according t
 >
 > "This is Our gift; so bestow or withhold without reckoning."
 
-Now, with God's help and support, we begin to put down what we promised — the interpretation of what we set out concisely in *Da'a'im al-Islam* — and we present its essence in what follows.
+Now, with God's help and support, we begin to put down what we promised — the interpretation of what we set out concisely in *Daaim al-Islam* — and we present its essence in what follows.
 
 This is the boundary at which we begin, in the language of the one whose hearing and whose measure of understanding you already know. God the Mighty and Sublime said:
 
@@ -340,11 +200,11 @@ If the common people were addressed in the specialized speech of the philosopher
 
 So we come to faith.
 
-In *Da'a'im al-Islam* we set out the chapter on faith and followed it with a chapter on the difference between faith and Islam. Here we have gathered the inner interpretation of both into a single chapter, since at the root they share one origin — and this is where we begin.
+In *Daaim al-Islam* we set out the chapter on faith and followed it with a chapter on the difference between faith and Islam. Here we have gathered the inner interpretation of both into a single chapter, since at the root they share one origin — and this is where we begin.
 
 Each of the foremost Messengers, those of firm resolve, instituted two foundations for his law: an outward foundation, and an inward continuation of it. Together these two form the boundaries of his sacred law.
 
-So Noah, peace be upon him, set up the ark. He called those who believed in him to come aboard. Whoever did not come aboard drowned and perished. Ibrahim, peace be upon him, raised up the Ka'ba and proclaimed the pilgrimage to mankind, calling them to circle it and perform its rites. Musa, peace be upon him, took up the staff and cast it at the one who gave him the lie, and the staff overpowered the magician at his trade. Isa, peace be upon him, set up the cross, and said to those who trusted him: "Whoever wishes to follow me, let him take up a cross with him." The foundation of Muhammad, peace be upon him, was the testimony that there is no god but God. He called the people to it, and they believed in it. He said:
+So Noah, peace be upon him, set up the ark. He called those who believed in him to come aboard. Whoever did not come aboard drowned and perished. Ibrahim, peace be upon him, raised up the Kaba and proclaimed the pilgrimage to mankind, calling them to circle it and perform its rites. Musa, peace be upon him, took up the staff and cast it at the one who gave him the lie, and the staff overpowered the magician at his trade. Isa, peace be upon him, set up the cross, and said to those who trusted him: "Whoever wishes to follow me, let him take up a cross with him." The foundation of Muhammad, peace be upon him, was the testimony that there is no god but God. He called the people to it, and they believed in it. He said:
 
 > أُمِرْتُ أَنْ أُقَاتِلَ النَّاسَ حَتَّى يَقُولُوا لَا إِلَٰهَ إِلَّا اللَّهُ ۖ فَإِذَا قَالُوهَا عَصَمُوا مِنِّي دِمَاءَهُمْ وَأَمْوَالَهُمْ إِلَّا بِحَقِّهَا ۖ وَحِسَابُهُمْ عَلَى اللَّهِ
 >
@@ -354,25 +214,25 @@ So Noah, peace be upon him, set up the ark. He called those who believed in him 
 
 The outward of these foundations differs from one Messenger to another, each one being something other than the rest. But the inward of all of them is the same. Each foundation holds within it the full set of limits of its bearer's sacred law, and the whole of what God sent him with to be worshipped by. Otherwise the one sent would never have called people to that foundation, since it would not have contained, all at once, everything by which God is to be worshipped.
 
-The general public of this community claimed that the Messenger of God at the beginning of Islam called people only to bear witness that there is no god but God, because that was easier for them. Once they answered, he obliged them to the easier of the duties, and progressed by stages up to jihad — in which souls and wealth are spent — and, as some say, the last thing imposed was the *wilaya*, the loyalty to the rightful guide.
+The general public of this community claimed that the Messenger of God at the beginning of Islam called people only to bear witness that there is no god but God, because that was easier for them. Once they answered, he obliged them to the easier of the duties, and progressed by stages up to jihad — in which souls and wealth are spent — and, as some say, the last thing imposed was the الْوِلَايَة, the loyalty to the rightful guide.
 
 The wise reject this account, because it amounts to a kind of deception. Where the matter is one of summoning men to a pledge, you do not invite them to swear, nor establish your claim to anything, except by setting before them the whole of what is required. The one called to give his hand does not pledge his hand unless the sum of what he is bound to is present in the call. The summoner then unfolds it, expounds it, explains its meanings. It is like one man calling another to the religion of Islam: the man pledges to it, since "religion" is a general statement under which the whole obligation rests. Only afterward does the caller make clear what was contained in the word. The Messenger of God, peace be upon him, when he called for the sincere saying of *there is no god but God*, made the Garden binding upon whoever spoke it sincerely. He was asked what sincerity in this is, and he said: "Belief in it, and knowledge of its limits."
 
 It has its conditions. He said: "The saying *there is no god but God* will continue to ward off the Lord's wrath from this community, so long as they do not draw down from their religion. When one of them does so, his words will be thrown back at him, and it will be said to him: You have lied; you are not among the truthful."
 
-Al-Sadiq, peace be upon him — and we have already drawn from him in *Da'a'im al-Islam* — said:
+Al-Sadiq, peace be upon him — and we have already drawn from him in *Daaim al-Islam* — said:
 
-> الْإِيمَانُ قَوْلٌ بِاللِّسَانِ وَاعْتِقَادٌ بِالْجَنَانِ وَعَمَلٌ بِالْأَرْكَانِ
+> الْإِيمَانُ قَوْلٌ بِاللِّسَانِ وَتَصْدِيقٌ بِالْجَنَانِ وَعَمَلٌ بِالْأَرْكَانِ
 >
-> "Faith is a saying with the tongue, a conviction in the heart, and an action with the limbs."
+> "Faith is a saying with the tongue, an affirmation in the heart, and an action with the limbs."
 
-And he said: "Faith is wholly action, and speech is one part of that action." He went on to describe how faith is parcelled out among the parts of a man — each part of him entrusted with an action that counts as faith, distinct from what is entrusted to the others — and he spoke of all this in a long discourse which is set down in full in *Da'a'im al-Islam*. All of it makes one thing necessary: that the testimony embrace the whole of what the sacred law requires. It is established about the Messenger of God, peace and blessings upon him, that when he stood up against the polytheists, he invited them to it. If they answered him and bore witness, he brought them under the rule of Islam and ceased fighting them, and their wealth was made safe except for what Islam claims from it. If they refused, he called them to pay the *jizya* from their own hand while in submission. If they refused even that, he fought them. He held the outward sacred law to be inseparable from the rule of Islam, the rule by which a man becomes inviolate in his life and his property — except for what is its right. The *jizya* takes the place of the testimony of *there is no god but God* and of the acknowledgment of the Prophet; likewise the believer received under a covenant must acknowledge it. This is what God the Mighty and Sublime said in the story of Ibrahim, peace be upon him, when his Lord said to him:
+And he said: "Faith is wholly action, and speech is one part of that action." He went on to describe how faith is parcelled out among the parts of a man — each part of him entrusted with an action that counts as faith, distinct from what is entrusted to the others — and he spoke of all this in a long discourse which is set down in full in *Daaim al-Islam*. All of it makes one thing necessary: that the testimony embrace the whole of what the sacred law requires. It is established about the Messenger of God, peace and blessings upon him, that when he stood up against the polytheists, he invited them to it. If they answered him and bore witness, he brought them under the rule of Islam and ceased fighting them, and their wealth was made safe except for what Islam claims from it. If they refused, he called them to pay the جِزْيَة from their own hand while in submission. If they refused even that, he fought them. He held the outward sacred law to be inseparable from the rule of Islam, the rule by which a man becomes inviolate in his life and his property — except for what is its right. The جِزْيَة takes the place of the testimony of *there is no god but God* and of the acknowledgment of the Prophet; likewise the believer received under a covenant must acknowledge it. This is what God the Mighty and Sublime said in the story of Ibrahim, peace be upon him, when his Lord said to him:
 
 > أَسْلِمْ ۖ قَالَ أَسْلَمْتُ لِرَبِّ الْعَالَمِينَ
 >
 > "Submit. He said: I have submitted to the Lord of the Worlds."
 
-— meaning the One who brought him up in wisdom. And he said: "Death is the lord of the two distresses." Ibrahim laid this charge upon his sons, and Ya'qub did the same:
+— meaning the One who brought him up in wisdom. And he said: "Death is the lord of the two distresses." Ibrahim laid this charge upon his sons, and Yaqub did the same:
 
 > يَا بَنِيَّ إِنَّ اللَّهَ اصْطَفَىٰ لَكُمُ الدِّينَ فَلَا تَمُوتُنَّ إِلَّا وَأَنتُم مُّسْلِمُونَ
 >
@@ -380,7 +240,7 @@ And he said: "Faith is wholly action, and speech is one part of that action." He
 
 Islam is the testimony to God by oneness, and to the Messenger by the message. Whoever bears witness to it is bound to do so in truth and sincerity. If he does not, his account is with God. As the Messenger of God, peace be upon him, said: "His testimony has not lost him anything with God — if God does not save him by it, He still rewards him for it." For it is established in the law that the man who testifies to something he is not fit to testify to, who does not stand on its truths, who does not know the one for whom or against whom he gives evidence — his testimony is not accepted and is overturned in its time. How then could a testimony be accepted in the greatest of all matters when the man has put off the work of becoming fit to give it? In this great testimony, whose weight the one who carries it himself attests to, and whose danger is great, knowing its reality and bearing witness to it both outwardly and inwardly, believing in it and discharging its conditions and obligations, is binding on the one who testifies. Only then is the testimony accepted from him, and only then is his reward not turned away. When he is ignorant of any part of it, or denies any part of it, his testimony is incomplete and will not be accepted.
 
-The man who stands in the secret of the wisdom God has entrusted to His friends — having made it a miracle for them — sees that the testimony *there is no god but God* contained, all at once, the affirmation of God's oneness, the acknowledgment of His Messenger, the recognition of the Imam of His religion and his limits, the duty of obedience to them, the *walaya* owed to them, and the acceptance of their command. It contained everything by which God is worshipped. That is why it became the foundation of the sacred law, and that is why the Prophet, peace and blessings upon him, called the people to it and made the Garden binding upon whoever testifies to it sincerely. He showed that its sincerity is belief in it, knowledge of its limits, and the performance of its rights — and that the letters of the testimony are what give it utterance, while what is signified by it is what is contained within it, since it is the expression of what is spoken aloud. That is why al-Sadiq, peace be upon him, said:
+The man who stands in the secret of the wisdom God has entrusted to His friends — having made it a miracle for them — sees that the testimony *there is no god but God* contained, all at once, the affirmation of God's oneness, the acknowledgment of His Messenger, the recognition of the Imam of His religion and his limits, the duty of obedience to them, the وَلَايَة owed to them, and the acceptance of their command. It contained everything by which God is worshipped. That is why it became the foundation of the sacred law, and that is why the Prophet, peace and blessings upon him, called the people to it and made the Garden binding upon whoever testifies to it sincerely. He showed that its sincerity is belief in it, knowledge of its limits, and the performance of its rights — and that the letters of the testimony are what give it utterance, while what is signified by it is what is contained within it, since it is the expression of what is spoken aloud. That is why al-Sadiq (اَلصَّادِق), peace be upon him, said:
 
 > إِنَّ اللَّهَ تَعَالَىٰ لَمَّا خَلَقَ الْحُرُوفَ أَوَّلًا، عَرَّفَ بِالْحُرُوفِ الْأَسْمَاءَ، وَبِالْأَسْمَاءِ عَرَّفَ الْعِبَادَ
 >
@@ -400,11 +260,11 @@ The Almighty said: *but of it there is one whose interpretation will yet come* �
 
 All of this has an explanation whose recollection will come, God willing, in its proper place. Were we to take it up here in full, our exposition of the *shahada* would be cut short before it has fairly begun. So we turn now to it.
 
-## 3. The Four Limits of the Testimony
+## 2. The Four Limits of the Testimony
 
-Turn with me, then, to the testimony itself, and look closely at how it is built. It divides into two halves — one that denies, and one that affirms. *La ilaha* — "there is no god" — is the negation. *Illa Allah* — "but Allah" — is the affirmation. Each half is made of two words, and the words do not lie side by side as equals. The first leans on the second; the second lifts above the first. Even the small grammatical break that separates them does work: it marks the affirmation as standing higher than the negation that precedes it.
+Turn with me, then, to the testimony itself, and look closely at how it is built. It divides into two halves — one that denies, and one that affirms. لَا إِلَهَ — "there is no god" — is the negation. *Illa Allah* — "but Allah" — is the affirmation. Each half is made of two words, and the words do not lie side by side as equals. The first leans on the second; the second lifts above the first. Even the small grammatical break that separates them does work: it marks the affirmation as standing higher than the negation that precedes it.
 
-Picture the sentence as a vertical thing, not a horizontal one. The negation is the lower limit. The affirmation is the upper limit. The first word of the affirmation — *Allah* — is the highest boundary the testimony can reach; the word joined to it just beneath, the *illa*, is the next boundary down. Then, descending further, the second word of the negation marks the lower boundaries, and the word joined to that one, beneath it again, completes the lower side. Four words. Four limits. A small ladder placed in the mouth of every believer.
+Picture the sentence as a vertical thing, not a horizontal one. The negation is the lower limit. The affirmation is the upper limit. The first word of the affirmation — *Allah* — is the highest boundary the testimony can reach; the word joined to it just beneath, the إِلَّا, is the next boundary down. Then, descending further, the second word of the negation marks the lower boundaries, and the word joined to that one, beneath it again, completes the lower side. Four words. Four limits. A small ladder placed in the mouth of every believer.
 
 The pair of words that meet at the limit of affirmation, and the pair that meet at the limit of negation, function as two and no more. If they were treated as one indissoluble compound, the joined pair would become loftier than anything else and more crowded with meaning than language can carry — they would be God Himself, which is impossible. So the words must hold their places: paired, leaning, but distinct.
 
@@ -424,7 +284,7 @@ The Pen is the highest limit Allah has set for His servants — a limit they may
 >
 > "Whoever transgresses the limits of Allah has wronged his own soul."
 
-The Almighty stands above all the boundaries. He has erected them for His creation beneath Himself, so that His servants might reach the knowledge of Him by stepping along them, and so that creation might be led to command and prohibition. The Pen is the bearer of the knowledge it received from Allah, glorified and exalted, and that knowledge it fixed in the Tablet. The Tablet then drew the limits of God beneath itself — meaning that, sitting below the Pen, the Tablet took its knowledge from the Pen, and so it became, in relation to it, both from it and for it.
+The Almighty stands above all the boundaries. He has erected them for His creation beneath Himself, so that His servants might reach the knowledge (الْعِلْم) of Him by stepping along them, and so that creation might be led to command and prohibition. The Pen is the bearer of the knowledge it received from Allah, glorified and exalted, and that knowledge it fixed in the Tablet. The Tablet then drew the limits of God beneath itself — meaning that, sitting below the Pen, the Tablet took its knowledge from the Pen, and so it became, in relation to it, both from it and for it.
 
 These are the two upper boundaries I have named. As for the river that Allah Almighty made to flow for the Pen, He has said:
 
@@ -440,25 +300,25 @@ The *way* is the prophet who speaks in his time, and the imam in his time after 
 
 I will return to this in full, in its proper place.
 
-What the general public confirmed about the interpretation of the esoteric is what they had evidence of in their own eyes: that water comes from the sky onto the righteous land and onto the immoral alike. They read the verse on its surface — that the *way* dispenses water, meaning literal water — and they noted that Allah has said, of creatures generally, that if they had stood upright before their guardian they would have been given the most abundant knowledge. So far so good. But the Almighty's words, *"that We may try them therein,"* mean: that We may test them, see what they say, and teach them about it. Then He continued:
+What the general public confirmed about the interpretation of the esoteric is what they had evidence of in their own eyes: that water comes from the sky onto the righteous land and onto the immoral alike. They read the verse on its surface — that the *way* dispenses water, meaning literal water — and they noted that Allah has said, of creatures generally, that if they had stood upright before their guardian (وَلِيّ) they would have been given the most abundant knowledge. So far so good. But the Almighty's words, *"that We may try them therein,"* mean: that We may test them, see what they say, and teach them about it. Then He continued:
 
 > وَمَن يُعْرِضْ عَن ذِكْرِ رَبِّهِ يَسْلُكْهُ عَذَابًا صَعَدًا
 >
 > "And whoever turns away from the remembrance of his Lord, He will lead him into an ever-increasing torment."
 
-Notice what He says: whoever turned away from his *guardian*, the punishment of God became his — and He called him a *remembrance*, that is, a person of remembrance, so that the thing was named after the one who carries it. This naming-after is well known among the Arabs. They will call a thing by what is suited to it and to its owner. They call *al-maziwada*, the water-skin, a *rawiya*, a "narrator," even though in their tongue the *rawiya* is properly the camel that carries the water — so they named the skin after the camel that bears it. Their language is full of such transferences. And Allah Almighty said:
+Notice what He says: whoever turned away from his *guardian*, the punishment of God became his — and He called him a *remembrance*, that is, a person of remembrance, so that the thing was named after the one who carries it. This naming-after is well known among the Arabs. They will call a thing by what is suited to it and to its owner. They call الْمَزَادَة, the water-skin, a رَاوِيَة, a "narrator," even though in their tongue the رَاوِيَة is properly the camel that carries the water — so they named the skin after the camel that bears it. Their language is full of such transferences. And Allah Almighty said:
 
 > قَدْ أَنزَلَ ٱللَّهُ إِلَيْكُمْ ذِكْرًا ۝ رَّسُولًا
 >
 > "Indeed, Allah has sent down to you a Reminder — a Messenger."
 
-He called the Messenger a *Reminder* because the Messenger is the bearer of the remembrance.
+He called the Messenger a *Reminder* (ذِكْر) because the Messenger is the bearer of the remembrance.
 
-Then Allah Almighty established, in correspondence with these two upper spiritual limits, two lower physical limits — and these are the *Natiq*, the Speaker, and the *Samit*, the Silent One. The Speaker is the messenger who comes with a message and articulates a law; the Speakers are seven — Adam, Noah, Abraham, Moses, Jesus, Muhammad, and al-Qa'im, the awaited. The Silent One is the Speaker's successor after him, from whom the Imams come down in succession; he is the one entrusted with the affairs of the esoteric mission during the Speaker's own lifetime. The foundational Silent Ones among us are likewise seven — Seth, Shem, Isaac, Aaron, Simeon, Ali, and the Mahdi.
+Then Allah Almighty established, in correspondence with these two upper spiritual limits, two lower physical limits — and these are the اَلنَّاطِق, the Speaker, and the اَلصَّامِت, the Silent One. The Speaker is the messenger who comes with a message and articulates a law; the Speakers are seven — Adam, Noah, Abraham, Moses, Jesus, Muhammad, and al-Qaim, the awaited. The Silent One is the Speaker's successor after him, from whom the Imams come down in succession; he is the one entrusted with the affairs of the esoteric mission during the Speaker's own lifetime. The foundational Silent Ones among us are likewise seven — Seth, Shem, Isaac, Aaron, Simeon, Ali, and the Mahdi.
 
-The Speaker is the master of the sacred law, and the Silent One is the foundation of that sacred law within the Speaker's era and the master of its interpretation. The Messenger utters the manifest; the foundation is silent regarding that manifest — that is, from the manifest he conducts the believers toward the subtle, the inner meaning that the Prophet himself has already affirmed. The arrangement mirrors the one above: as the Pen is to the knowledge it lays in the Tablet, and as the Tablet sits beneath the Pen, so the Silent One sits beneath the Tablet.
+The Speaker is the master of the sacred law, and the Silent One is the foundation of that sacred law within the Speaker's era and the master of its interpretation. The Messenger utters the manifest; the foundation is silent regarding that manifest — that is, from the manifest he conducts the believers toward the subtle, the inner (نَار) meaning that the Prophet himself has already affirmed. The arrangement mirrors the one above: as the Pen is to the knowledge it lays in the Tablet, and as the Tablet sits beneath the Pen, so the Silent One sits beneath the Tablet.
 
-When the house that God Almighty has established holds these two lower boundaries as a place of transformation, and the bodies in that house are mortal, then by the wisdom of God the house cannot be left empty of an argument — a *hujja*, a living proof. So Allah Almighty established a foundation after the Speaker to take his place in the apparent matter and in the other duties the Speaker had been performing, and He instructed that foundation to appoint a *hujja* for himself, to entrust the *hujja* with the knowledge of interpretation, and to install it with him just as that knowledge had been installed with the Speaker before. Then, after that *hujja*, He established another *hujja* before him, and ordered him likewise to take a *hujja* for himself — according to the pattern that the Sunnah of Allah Almighty has established. He has said in His mighty Book:
+When the house that God Almighty has established holds these two lower boundaries as a place of transformation, and the bodies in that house are mortal, then by the wisdom of God the house cannot be left empty of an argument — a اَلْحُجَّة, a living proof. So Allah Almighty established a foundation after the Speaker to take his place in the apparent matter and in the other duties the Speaker had been performing, and He instructed that foundation to appoint a اَلْحُجَّة for himself, to entrust the اَلْحُجَّة with the knowledge of interpretation, and to install it with him just as that knowledge had been installed with the Speaker before. Then, after that اَلْحُجَّة, He established another اَلْحُجَّة before him, and ordered him likewise to take a اَلْحُجَّة for himself — according to the pattern that the Sunnah of Allah Almighty has established. He has said in His mighty Book:
 
 > وَلَن تَجِدَ لِسُنَّةِ ٱللَّهِ تَبْدِيلًا
 >
@@ -466,7 +326,7 @@ When the house that God Almighty has established holds these two lower boundarie
 
 So this continues, until the role of that one Speaker has turned over seven Imams.
 
-The Speakers themselves, as I said, are seven: Adam, Noah, Abraham, Moses, Jesus, Muhammad, and al-Qa'im of the Age — may God's blessings be upon them. Six of them are designated by a covenant. The seventh is Adam, who is not, and of him He said in His mighty Book:
+The Speakers themselves, as I said, are seven: Adam, Noah, Abraham, Moses, Jesus, Muhammad, and al-Qaim of the Age — may God's blessings be upon them. Six of them are designated by a covenant. The seventh is Adam, who is not, and of him He said in His mighty Book:
 
 > وَلَقَدْ عَهِدْنَا إِلَىٰ آدَمَ مِن قَبْلُ فَنَسِيَ وَلَمْ نَجِدْ لَهُۥ عَزْمًا
 >
@@ -478,9 +338,9 @@ The four words of the testimony, then, stand as the likeness of these four limit
 
 And as for those I shall call the *outwardists* — those of the "people of refuge" who hold fast to the testimony and to the outward marks of Islam, who acknowledge the Tablet, the Pen, and the Speaker among the prophets — they did not have proper knowledge of these matters either. They professed something other than what is true, and so they did not complete the testimony. From them this incomplete testimony is accepted only to this extent: that their blood is spared and their wealth is made inviolable. They are also prevented from being counted among the jizya-payers — for the Prophet established that for them, by the command of Allah Almighty, when they became Muslim.
 
-This last point asks for a word about *Islam* and *iman*, since the two are not the same. *Islam* is a word drawn from *salam* — reconciliation, surrender — the casting of one's hands into obedience. *Iman*, faith, is a limit that follows after Islam: it is the knowledge of the limits of the testimony, the belief in them, and the rendering of their due. And this is sincerity. The Messenger of Allah, peace and blessings upon him, said of one who is sincere to the testimony that Paradise has been promised to him; and he told us that the testimony is returned upon whoever is not sincere to it; and that one's religion is diminished by however much one's sincerity falls short. So the testimony is the root of the religion — indeed the whole religion is in it — and the call to it is as I have described.
+This last point asks for a word about *Islam* and إِيمَان, since the two are not the same. *Islam* is a word drawn from *salam* — reconciliation, surrender — the casting of one's hands into obedience. إِيمَان, faith, is a limit that follows after Islam: it is the knowledge of the limits of the testimony, the belief in them, and the rendering of their due. And this is sincerity. The Messenger of Allah, peace and blessings upon him, said of one who is sincere to the testimony that Paradise has been promised to him; and he told us that the testimony is returned upon whoever is not sincere to it; and that one's religion is diminished by however much one's sincerity falls short. So the testimony is the root of the religion — indeed the whole religion is in it — and the call to it is as I have described.
 
-Now look with me at the count of its letters, and at what it signifies and bears witness to. *La ilaha illa Allah* contains seven syllabic strokes — and this is a proof and a likeness for the seven Speakers, and for the seven Imams in the role of every Speaker. These I have already named for you, and they are the *signs* of Allah that He has mentioned in His Book and in His speech. He has said:
+Now look with me at the count of its letters, and at what it signifies and bears witness to. *La ilaha illa Allah* contains seven syllabic strokes — and this is a proof and a likeness for the seven Speakers, and for the seven Imams in the role of every Speaker. These I have already named for you, and they are the *signs* (آيَات) of Allah that He has mentioned in His Book and in His speech. He has said:
 
 > وَجَعَلْنَا ٱبْنَ مَرْيَمَ وَأُمَّهُۥٓ ءَايَةً
 >
@@ -510,17 +370,17 @@ And He said:
 >
 > "And in the earth are signs for the certain in faith, and in your own selves — do you not then see?"
 
-These signs are like those of the testimony, but their likenesses are drawn from heaven and earth. From the side of religion, the heaven is the likeness of the master of the age — whether he is a Speaker or an Imam — and the earth is the likeness of his *hujja*. For water descends from the heaven onto the earth, and from that earth trees and plants sprout, grow, and flourish; and just so, knowledge descends from the Speaker to the Silent One, and from that knowledge the believers sprout and live.
+These signs are like those of the testimony, but their likenesses are drawn from heaven and earth. From the side of religion, the heaven is the likeness of the master of the age — whether he is a Speaker or an Imam — and the earth is the likeness of his اَلْحُجَّة. For water descends from the heaven onto the earth, and from that earth trees and plants sprout, grow, and flourish; and just so, knowledge descends from the Speaker to the Silent One, and from that knowledge the believers sprout and live.
 
-The likeness of the believers, in these similes of trees and plants, is that they live by the knowledge that comes to them from the *hujja*. And like the Speaker too is the sun: in both heavens, the spiritual and the physical, the sun is the likeness of the Speaker who illuminates the world — for the Speaker illuminates the world with his knowledge. This is why a report has been transmitted from the Messenger of Allah, peace and blessings be upon him, in which he said:
+The likeness of the believers, in these similes of trees and plants, is that they live by the knowledge that comes to them from the اَلْحُجَّة. And like the Speaker too is the sun: in both heavens, the spiritual and the physical, the sun is the likeness of the Speaker who illuminates the world — for the Speaker illuminates the world with his knowledge. This is why a report has been transmitted from the Messenger of Allah, peace and blessings be upon him, in which he said:
 
 > تَطْلُعُ مِن مَغْرِبِهَا عَلَىٰ رَأْسِ ٱلثَّلَاثِمِائَةِ
 >
 > "It will rise from its west at the head of the three hundred."
 
-That was the appearance of the Mahdi. May God bless him with his illuminating light. The moon is the likeness of the *hujja*, because the moon draws its light from the sun; and just so, the knowledge of the *hujja* is derived from the knowledge of the Imam. The likeness of the Speaker in the body is the heart, which is the prince among the bodily limbs; and the *hujja* is like the brain, which is the seat of the mind. Each of them is one within the body — and just so, the Speaker is one in the world. Like the Speaker too is the tongue, for through it speech is made. The *hujja* is like the two eyes through which sight is made, like the ears through which hearing is made, and like the two hands through which both restraint and action are accomplished.
+That was the appearance of the Mahdi. May God bless him with his illuminating light (النُّور). The moon is the likeness of the اَلْحُجَّة, because the moon draws its light from the sun; and just so, the knowledge of the اَلْحُجَّة is derived from the knowledge of the Imam. The likeness of the Speaker in the body is the heart, which is the prince among the bodily limbs; and the اَلْحُجَّة is like the brain, which is the seat of the mind. Each of them is one within the body — and just so, the Speaker is one in the world. Like the Speaker too is the tongue, for through it speech is made. The اَلْحُجَّة is like the two eyes through which sight is made, like the ears through which hearing is made, and like the two hands through which both restraint and action are accomplished.
 
-From the earth, the likeness is the west and the east. The east is like the Speaker, for from it the light comes. The west is like the *hujja* that receives that light and is the place where it comes to rest. The seven heavens are like the seven Speakers, and the seven earths are like the seven *hujjas*. So too the seven planetary stars — the *mudabbirat* — which Allah Almighty mentioned in His Book when He said:
+From the earth, the likeness is the west and the east. The east is like the Speaker, for from it the light comes. The west is like the اَلْحُجَّة that receives that light and is the place where it comes to rest. The seven heavens are like the seven Speakers, and the seven earths are like the seven الْحُجَج. So too the seven planetary stars — the اَلْمُدَبِّرَات — which Allah Almighty mentioned in His Book when He said:
 
 > فَٱلْمُدَبِّرَٰتِ أَمْرًا
 >
@@ -538,7 +398,7 @@ These are the limits that Allah Almighty has commanded be safeguarded, and by wh
 
 > إِنَّ ٱللَّهَ ٱشْتَرَىٰ مِنَ ٱلْمُؤْمِنِينَ أَنفُسَهُمْ وَأَمْوَٰلَهُم بِأَنَّ لَهُمُ ٱلْجَنَّةَ ۚ يُقَـٰتِلُونَ فِى سَبِيلِ ٱللَّهِ فَيَقْتُلُونَ وَيُقْتَلُونَ ۖ وَعْدًا عَلَيْهِ حَقًّا فِى ٱلتَّوْرَىٰةِ وَٱلْإِنجِيلِ وَٱلْقُرْءَانِ ۚ وَمَنْ أَوْفَىٰ بِعَهْدِهِۦ مِنَ ٱللَّهِ ۚ فَٱسْتَبْشِرُوا۟ بِبَيْعِكُمُ ٱلَّذِى بَايَعْتُم بِهِۦ ۚ وَذَٰلِكَ هُوَ ٱلْفَوْزُ ٱلْعَظِيمُ
 >
-> "Indeed, Allah has purchased from the believers their souls and their wealth, in exchange for Paradise being theirs. They fight in the way of Allah, so they slay and are slain — a true promise upon Him in the Torah, the Gospel, and the Qur'an. And who is more faithful to his covenant than Allah? So rejoice in your transaction which you have contracted, and that is indeed the great success."
+> "Indeed, Allah has purchased from the believers their souls and their wealth, in exchange for Paradise being theirs. They fight in the way of Allah, so they slay and are slain — a true promise upon Him in the Torah, the Gospel, and the Quran. And who is more faithful to his covenant than Allah? So rejoice in your transaction which you have contracted, and that is indeed the great success."
 
 Then He described, by their attributes, the believers to whom this was enjoined:
 
@@ -546,25 +406,25 @@ Then He described, by their attributes, the believers to whom this was enjoined:
 >
 > "Those who repent, who worship, who praise, who fast — or who travel — who bow down, who prostrate themselves, who enjoin the good and forbid the wrong, and who keep the limits of Allah — and give glad tidings to the believers."
 
-These are some of the signs of the seven I have mentioned. As for the twelve successors: they are *asbab* — instruments, causes — for every Speaker in every age. Four of them stand above, closest to the Speaker, and each of those four has two beneath him, one on the right and one on the left, making twelve in all. The four are like the bird of Abraham in his story, of whom the Almighty said:
+These are some of the signs of the seven I have mentioned. As for the twelve successors: they are اَسْبَاب — instruments, causes — for every Speaker in every age. Four of them stand above, closest to the Speaker, and each of those four has two beneath him, one on the right and one on the left, making twelve in all. The four are like the bird of Abraham in his story, of whom the Almighty said:
 
 > قَالَ فَخُذْ أَرْبَعَةً مِّنَ ٱلطَّيْرِ فَصُرْهُنَّ إِلَيْكَ
 >
 > "He said: Then take four birds and incline them toward yourself."
 
-They are among the twelve *hudud*, and they are like the four sacred months — these four are, in our knowledge, the consultative council of every Imam, the *Haram* of his ministry, four in number, one of whom holds the presidency and is called "the Bab"; they are also called *al-Abdal*, "those who have changed," because they were re-created after their first creation, refined after refinement, as the Ikhwan al-Safa have said. The Almighty's own word holds them out for the eye:
+They are among the twelve حُدُود, and they are like the four sacred months — these four are, in our knowledge, the consultative council of every Imam, the الْحَرَم of his ministry, four in number, one of whom holds the presidency and is called "the الْبَاب"; they are also called الْاَبْدَال, "those who have changed," because they were re-created after their first creation, refined after refinement, as the Ikhwan al-Safa have said. The Almighty's own word holds them out for the eye:
 
 > إِنَّ عِدَّةَ ٱلشُّهُورِ عِندَ ٱللَّهِ ٱثْنَا عَشَرَ شَهْرًا فِى كِتَـٰبِ ٱللَّهِ يَوْمَ خَلَقَ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ مِنْهَآ أَرْبَعَةٌ حُرُمٌ ۚ ذَٰلِكَ ٱلدِّينُ ٱلْقَيِّمُ ۚ فَلَا تَظْلِمُوا۟ فِيهِنَّ أَنفُسَكُمْ
 >
 > "The number of months with Allah is twelve months in the Book of Allah from the day He created the heavens and the earth, of which four are sacred. So do not wrong yourselves with them."
 
-Their likeness is found also in the testimony, whose letters number twelve. Twelve letters that, taken together, form *la ilaha illa Allah* — and those twelve letters correspond to the names of the twelve *jaza'ir* that make up the globe, and to the names of the twelve missionaries called the "missionaries of the *jaza'ir*," who are charged with the propagation and organization of the mission. Their likeness is in the twelve constellations of the heavens; their likeness is in the twelve *jaza'ir* of the earth, each of them an island; and their likeness is in the twelve spiritual ones, the angels and the messengers, who are the first wings, for it is through them that the command in the message of the Companion is directed. Their wings are the preachers, for each of them is sent to one of the *jaza'ir*, where there is a *hadd* corresponding to him. As the Almighty has said:
+Their likeness is found also in the testimony, whose letters number twelve. Twelve letters that, taken together, form *la ilaha illa Allah* — and those twelve letters correspond to the names of the twelve *jazair* that make up the globe, and to the names of the twelve missionaries called the "missionaries of the *jazair*," who are charged with the propagation and organization of the mission. Their likeness is in the twelve constellations of the heavens; their likeness is in the twelve *jazair* of the earth, each of them an island; and their likeness is in the twelve spiritual ones, the angels and the messengers, who are the first wings, for it is through them that the command in the message of the Companion is directed. Their wings are the preachers, for each of them is sent to one of the *jazair*, where there is a حَدّ corresponding to him. As the Almighty has said:
 
 > ٱلْحَمْدُ لِلَّهِ فَاطِرِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ جَاعِلِ ٱلْمَلَـٰٓئِكَةِ رُسُلًا أُو۟لِىٓ أَجْنِحَةٍ مَّثْنَىٰ وَثُلَـٰثَ وَرُبَـٰعَ ۚ يَزِيدُ فِى ٱلْخَلْقِ مَا يَشَآءُ ۚ إِنَّ ٱللَّهَ عَلَىٰ كُلِّ شَىْءٍ قَدِيرٌ ۝ مَّا يَفْتَحِ ٱللَّهُ لِلنَّاسِ مِن رَّحْمَةٍ فَلَا مُمْسِكَ لَهَا ۖ وَمَا يُمْسِكْ فَلَا مُرْسِلَ لَهُۥ مِنۢ بَعْدِهِۦ ۚ وَهُوَ ٱلْعَزِيزُ ٱلْحَكِيمُ
 >
 > "Praise be to Allah, who made the angels messengers having wings — two, three, and four. He increases in creation what He wills. Indeed, Allah is able to do all things. Whatever mercy Allah opens to mankind, none can withhold; and whatever He withholds, none can release after Him. He is the Mighty, the Wise."
 
-Understand, then, that the twelve *hudud* in the lower world correspond to the angels in the upper world. The Almighty has said:
+Understand, then, that the twelve حُدُود in the lower world correspond to the angels in the upper world. The Almighty has said:
 
 > وَمِن كُلِّ شَىْءٍ خَلَقْنَا زَوْجَيْنِ
 >
@@ -576,15 +436,15 @@ The seven and the twelve, taken together, total nineteen. These are the ones to 
 >
 > "Over it are nineteen."
 
-The testimony has gathered them all together. Whoever knows them, believes in their *wilaya*, and acts upon what he has taken from them, is a believer among the people of Paradise, accepted in his testimony. Whoever is unable to do any of that, or who falls short of it, but bears witness with his tongue alone, is a Muslim whose testimony is not accepted, and his judgment rests with Allah. For this reason it is mentioned in the book *Da'a'im al-Islam*, from the saying of al-Sadiq, may the blessings of Allah be upon him:
+The testimony has gathered them all together. Whoever knows them, believes in their الْوِلَايَة, and acts upon what he has taken from them, is a believer among the people of Paradise, accepted in his testimony. Whoever is unable to do any of that, or who falls short of it, but bears witness with his tongue alone, is a Muslim whose testimony is not accepted, and his judgment rests with Allah. For this reason it is mentioned in the book *Daaim al-Islam*, from the saying of al-Sadiq, may the blessings of Allah be upon him:
 
 > ٱلْإِيمَانُ يُشَارِكُ ٱلْإِسْلَامَ وَلَا يُشَارِكُهُ ٱلْإِسْلَامُ، وَقَدْ يَكُونُ ٱلرَّجُلُ مُسْلِمًا وَلَا يَكُونُ مُؤْمِنًا، وَلَا يَكُونُ مُؤْمِنًا حَتَّى يَكُونَ مُسْلِمًا
 >
 > "Faith encompasses Islam, but Islam does not encompass faith. A man may be a Muslim without being a believer, but he is not a believer until he is also a Muslim."
 
-This is the testimony whose *hudud* I have laid out for you with respect to the foundations — the *usul*. Connected to it is the second testimony, which pertains to the branches — the *furu*: *Muhammadun rasulu Llah*, "Muhammad is the Messenger of Allah," peace be upon him. It is three words, representing the three subordinate spiritual *hudud* — the upper spiritual ones — namely Israfil, Mika'il, and Jibra'il. They correspond to three earthly corporeal *hudud*, which stand in extension of the Speaker and the Foundation: the Imam, the *hujja*, and the *lahiq*, the one who follows. Together these six divisions correspond to the six pronunciations of the first determination that I have already mentioned. Together they make twelve letters, like the twelve *hujjas* already named. So the testimony to Allah Almighty is the highest degree — the *usul*; and the testimony to the Messenger, peace be upon him, is the lowest degree — the *furu*. The upper and the lower *hudud* are contained within the letters of the testimony together.
+This is the testimony whose حُدُود I have laid out for you with respect to the foundations — the اَلْاُصُول. Connected to it is the second testimony, which pertains to the branches — the اَلْفُرُوع: مُحَمَّدٌ رَسُولُ اللَّهِ, "Muhammad is the Messenger of Allah," peace be upon him. It is three words, representing the three subordinate spiritual حُدُود — the upper spiritual ones — namely Israfil, Mikail, and Jibrail. They correspond to three earthly corporeal حُدُود, which stand in extension of the Speaker and the Foundation: the Imam, the اَلْحُجَّة, and the أَلْحَق, the one who follows. Together these six divisions correspond to the six pronunciations of the first determination that I have already mentioned. Together they make twelve letters, like the twelve الْحُجَج already named. So the testimony to Allah Almighty is the highest degree — the اَلْاُصُول; and the testimony to the Messenger, peace be upon him, is the lowest degree — the اَلْفُرُوع. The upper and the lower حُدُود are contained within the letters of the testimony together.
 
-So the outward of the testimony is a statement with the tongue. Its inner meaning is statement together with knowledge. And its substance is action. Its outward form is Islam, and at its core is faith. On this al-Sadiq, may the blessings of Allah be upon him, said — as I have set down in *Da'a'im al-Islam*, when he was asked whether faith is speech or action:
+So the outward of the testimony is a statement with the tongue. Its inner meaning is statement together with knowledge. And its substance is action. Its outward form is Islam, and at its core is faith. On this al-Sadiq, may the blessings of Allah be upon him, said — as I have set down in *Daaim al-Islam*, when he was asked whether faith is speech or action:
 
 > ٱلْإِيمَانُ كُلُّهُ عَمَلٌ، وَٱلْقَوْلُ بَعْضُ ذَٰلِكَ ٱلْعَمَلِ
 >
@@ -610,21 +470,21 @@ Allah has promised you, on the tongue of His Messenger, Paradise if you are sinc
 
 It is wise to know that you will not leave its gardens, and you will receive with them their fruits and their spouses. You will enter the Garden of Eternity in the abode of permanence in the hereafter, and you will gain therein the reward of Allah, which He promised you. And you will be safe from His punishment, with which He warned you should you disobey what He has commanded and commit what He has forbidden — should you neglect what He has enjoined upon you and to which He has called you to be sincere, by the testimony in which He gathered together all that with which you worship Him.
 
-What I have placed in this chapter — the chapter on faith — should suffice as an explanation of the testimony and what it indicates of the *hudud*. I shall mention them all again, each in its likeness, in the chapters of this book that follow. When I come to the obligatory prayers, you will see that this same testimony has descended upon them, and that it has encompassed the totality of that with which you worship Allah. That is why the call of the Prophet, peace be upon him, was directed to it, and why he took upon you the covenant that you would testify with sincerity after him. You have borne witness to it with your tongue; you bear witness to it in your hearts as a testimony of belief; and you act upon it as a ruling next to a deed.
+What I have placed in this chapter — the chapter on faith — should suffice as an explanation of the testimony and what it indicates of the حُدُود. I shall mention them all again, each in its likeness, in the chapters of this book that follow. When I come to the obligatory prayers, you will see that this same testimony has descended upon them, and that it has encompassed the totality of that with which you worship Allah. That is why the call of the Prophet, peace be upon him, was directed to it, and why he took upon you the covenant that you would testify with sincerity after him. You have borne witness to it with your tongue; you bear witness to it in your hearts as a testimony of belief; and you act upon it as a ruling next to a deed.
 
-Take notice, then, that you have been appointed to be encompassed by the *hudud* set out for you, and by the proofs shown to you, upon the right path by which you have been saved. May Allah aid you in that, and guide you to it. May the blessings of Allah be upon the Prophet Muhammad, and upon the righteous of his descendants who succeed one another until the Day of Judgment. And praise be to Allah, Lord of the Worlds.
+Take notice, then, that you have been appointed to be encompassed by the حُدُود set out for you, and by the proofs shown to you, upon the right path by which you have been saved. May Allah aid you in that, and guide you to it. May the blessings of Allah be upon the Prophet Muhammad, and upon the righteous of his descendants who succeed one another until the Day of Judgment. And praise be to Allah, Lord of the Worlds.
 
-## 4. Adam, the Tree, and the Iblis Pact
+## 3. Adam, the Tree, and the Iblis Pact
 
-I have already opened, in the book whose pillars I undertook to simplify, the chapters on faith and Islam, and I named there what faith and Islam mean. Now I want to open a different door — the door of *wilaya*, the door of authority and friendship with God — and to recite it for the Messengers and for the first of those whom God placed in command after them, those whose obedience He bound to His own obedience. He said:
+I have already opened, in the book whose pillars I undertook to simplify, the chapters on faith and Islam, and I named there what faith and Islam mean. Now I want to open a different door — the door of الْوِلَايَة, the door of authority and friendship with God — and to recite it for the Messengers and for the first of those whom God placed in command after them, those whose obedience He bound to His own obedience. He said:
 
 > أَطِيعُوا اللَّهَ وَأَطِيعُوا الرَّسُولَ وَأُولِي الْأَمْرِ مِنكُمْ
 >
 > "Obey God, and obey the Messenger, and those in authority among you."
 
-He gathered them in this one duty — to be obeyed — and though their ranks rise and fall by degrees, the order issuing from their station is, in the matter of knowledge, a single thing. The pronouncement is one.
+He gathered them in this one duty — to be obeyed — and though their ranks rise and fall by degrees, the order issuing from their station is, in the matter of knowledge (الْعِلْم), a single thing. The pronouncement is one.
 
-They are seven: Adam, Noah, Abraham, Moses, Jesus, Muhammad, and the seventh of them, the *Qa'im* of the Age — the One Who Stands at the End. After each of these, in his lifetime, comes the *Asas*, the Foundation, whom God established to carry the inner meaning of the message. The *Asas* rises after the *Natiq* and inherits his place when he passes, becoming an Imam, and appoints for himself a *Hujja*, a Proof, who will stand where he stood. So the cycle keeps turning, *Hujja* into Imam into *Hujja*, until that *Natiq*s age is finished, and then another *Natiq* arises with a new *shari'a* and the cycle begins again. The reason is simple, and severe: the earth is never empty of a *Wali* of God, of His Proof standing upon it — not even for the time it takes an eye to close and open. Al-Sadiq (peace be upon him) was once asked, when the question came up of "the second" in a certain saying, what that second was. He answered, "In another minute that remains from the same past" — so that both might be fully credited, the one who has gone and the one who remains. There is always one after one. There is never two at once. The unity of the Almighty is mirrored in the unity of His Proof.
+They are seven: Adam, Noah, Abraham, Moses, Jesus, Muhammad, and the seventh of them, the الْقَائِم of the Age — the One Who Stands at the End. After each of these, in his lifetime, comes the *Asas*, the Foundation, whom God established to carry the inner (نَار) meaning of the message. The *Asas* rises after the اَلنَّاطِق and inherits his place when he passes, becoming an Imam, and appoints for himself a اَلْحُجَّة, a Proof, who will stand where he stood. So the cycle keeps turning, اَلْحُجَّة into Imam into اَلْحُجَّة, until that *Natiq*s age is finished, and then another اَلنَّاطِق arises with a new *sharia* and the cycle begins again. The reason is simple, and severe: the earth is never empty of a وَلِيّ of God, of His Proof standing upon it — not even for the time it takes an eye to close and open. Al-Sadiq (peace be upon him) was once asked, when the question came up of "the second" in a certain saying, what that second was. He answered, "In another minute that remains from the same past" — so that both might be fully credited, the one who has gone and the one who remains. There is always one after one. There is never two at once. The unity of the Almighty is mirrored in the unity of His Proof.
 
 He said:
 
@@ -632,35 +492,35 @@ He said:
 >
 > "Were there in them gods other than God, both [the heavens and the earth] would have been corrupted."
 
-The companion of the age — whether prophet, messenger, or imam — is called the *Natiq*, the Speaking One, because he is the one who pronounces what is outward and carries it into act. His *Hujja* is called the *Samit*, the Silent One, because he holds his peace concerning the outward. This is why God has named twelve pure ones in His Book, when He said:
+The companion of the age — whether prophet, messenger, or imam — is called the اَلنَّاطِق, the Speaking One, because he is the one who pronounces what is outward and carries it into act. His اَلْحُجَّة is called the اَلصَّامِت, the Silent One, because he holds his peace concerning the outward. This is why God has named twelve pure ones in His Book, when He said:
 
 > وَبَعَثْنَا مِنْهُمُ اثْنَيْ عَشَرَ نَقِيبًا
 >
 > "And We sent forth from among them twelve chiefs."
 
-We have already recounted their testimonies and the testimonies of the other scholars of the greater world, and the lesser scholars who stand to them as smaller mirrors stand to larger ones. Beyond what we have said, let me say this: the Imam and the *Hujja* succeed one another as day succeeds night, and what is like them follows the same pattern. The day is like the Imam — the outer made manifest — and the night is like the *Hujja*, the silence and concealment of the inner. Of these two God Almighty said:
+We have already recounted their testimonies and the testimonies of the other scholars of the greater world, and the lesser scholars who stand to them as smaller mirrors stand to larger ones. Beyond what we have said, let me say this: the Imam and the اَلْحُجَّة succeed one another as day succeeds night, and what is like them follows the same pattern. The day is like the Imam — the outer made manifest — and the night is like the اَلْحُجَّة, the silence and concealment of the inner. Of these two God Almighty said:
 
 > وَجَعَلْنَا اللَّيْلَ وَالنَّهَارَ آيَتَيْنِ
 >
 > "And We made the night and the day two signs."
 
-The signs of God in the inner meaning are His proofs set against His creation. They are the inner ones whose obedience is made binding — the obedience that is bound to His own.
+The signs (آيَات) of God in the inner meaning are His proofs set against His creation. They are the inner ones whose obedience is made binding — the obedience that is bound to His own.
 
-The name of the Imam falls upon the *Natiq*, and the name of the *Natiq* falls upon the Imam. God said:
+The name of the Imam falls upon the اَلنَّاطِق, and the name of the اَلنَّاطِق falls upon the Imam. God said:
 
 > وَإِذِ ابْتَلَىٰ إِبْرَاهِيمَ رَبُّهُ بِكَلِمَاتٍ فَأَتَمَّهُنَّ قَالَ إِنِّي جَاعِلُكَ لِلنَّاسِ إِمَامًا ۖ قَالَ وَمِن ذُرِّيَّتِي ۖ قَالَ لَا يَنَالُ عَهْدِي الظَّالِمِينَ
 >
 > "And when his Lord tested Abraham with certain words and he fulfilled them, He said, I will make you an Imam for the people. He said, And from my descendants? He said, My covenant does not reach the wrongdoers."
 
-The Imam is called *Natiq* because he speaks what the prophet of his turn used to speak — the outward *shari'a* with which that prophet was sent. He is called Imam because the servants follow his example, and the *imam* in prayer is so named because he stands in front of those who pray behind him; the congregation imitates him because he is at their head. He is also called *al-ra'is*, the leader, because he goes before them, in front of their hands, while they trail behind. But there is also an imam of misguidance — an imam who must not be followed, an imam who pulls his people downward. God said:
+The Imam is called اَلنَّاطِق because he speaks what the prophet of his turn used to speak — the outward *sharia* with which that prophet was sent. He is called Imam because the servants follow his example, and the *imam* in prayer is so named because he stands in front of those who pray behind him; the congregation imitates him because he is at their head. He is also called *al-rais*, the leader, because he goes before them, in front of their hands, while they trail behind. But there is also an imam of misguidance — an imam who must not be followed, an imam who pulls his people downward. God said:
 
 > وَجَعَلْنَاهُمْ أَئِمَّةً يَدْعُونَ إِلَى النَّارِ
 >
 > "And We made them leaders inviting to the Fire."
 
-The name of prophecy was given only to those connected to the upper substance with no intermediary between, no *hadd* — no limit, no rank — placed below them and the source. The Imamate is one *hadd* below prophecy, one degree under it; yet the obedience owed to the Imam is equal in obligation to the obedience owed to the prophet, and it is likewise paired with the obedience owed to God.
+The name of prophecy was given only to those connected to the upper substance with no intermediary between, no حَدّ — no limit, no rank — placed below them and the source. The Imamate (الْاِمَامَة) is one حَدّ below prophecy, one degree under it; yet the obedience owed to the Imam is equal in obligation to the obedience owed to the prophet, and it is likewise paired with the obedience owed to God.
 
-Now we must mention the origin of the Imamate in the lower *hadd*, which is Adam (peace be upon him). After that I will arrange what follows and recite it to you piece by piece, as much as a man can bear of this limit of speech that we are saying. And by God we seek help.
+Now we must mention the origin of the Imamate in the lower حَدّ, which is Adam (peace be upon him). After that I will arrange what follows and recite it to you piece by piece, as much as a man can bear of this limit of speech that we are saying. And by God we seek help.
 
 God says:
 
@@ -684,7 +544,7 @@ He says "Be," and the thing becomes — as creation itself says "be" in being su
 
 There are many parables of this in the mystery of God's dealings with His angelic guardians, those to whom God spoke what He spoke concerning the affair of Adam — not all the angels, but a particular company among them. When God willed to create Adam (and this was the second creation, the creation of knowledge, after the first creation of clay — as the Almighty said, "Then We brought him forth as another creation," and as He said, "And He will form you in the wombs of your mothers, creation after creation"), and when He willed to appoint Adam as Imam, He set apart from among the angels twelve kings to stand him up as their leader. From him they would receive, and they would carry his report to the people of the earth. When He knew He would create Adam from clay — and clay, in the inner reading, stands for the outward, the dense bodily knowledge — He created those angels in the creation of the gentle and subtle, the spiritual knowledge.
 
-They had already been taught a certain principle: that gentle knowledge does not cling to matter, and that dense knowledge comes only through being taught. They had been taught that gentle spiritual knowledge is not joined to deeds; it is a science without work or assignment, the inverse of apparent knowledge, which is married to action. The Commander of the Believers said it plainly, of the Qur'an:
+They had already been taught a certain principle: that gentle knowledge does not cling to matter, and that dense knowledge comes only through being taught. They had been taught that gentle spiritual knowledge is not joined to deeds; it is a science without work or assignment, the inverse of apparent knowledge, which is married to action. The Commander of the Believers said it plainly, of the Quran:
 
 > الظَّاهِرُ عِلْمٌ ظَاهِرٌ وَالْبَاطِنُ عِلْمٌ بَاطِنٌ
 >
@@ -700,9 +560,9 @@ The angels, then, were not put to the test of deeds. They already carried the kn
 >
 > He said, "Indeed, I know what you do not know."
 
-What the Almighty meant was that Adam would be granted everything the angels had been granted, and warned against the same dangers, so that he might not fall short, slip, or come to ruin. Iblis was among them. He saw himself as better than Adam; he laid claim to Adam's rank for himself, refused to be his follower, and swelled with arrogance against the command of his Lord. He wanted God to see in the angels — in himself — an incapacity that would lift him above what was coming. So God created Adam, as He said, from clay: He began with the apparent knowledge, the *zahir*, in keeping with the unalterable custom He set for His servants — begin with the outward, end with the inward. Adam remained in this state a long time, knowing nothing other than what he had been taught — only the outward, only the *zahir*.
+What the Almighty meant was that Adam would be granted everything the angels had been granted, and warned against the same dangers, so that he might not fall short, slip, or come to ruin. Iblis was among them. He saw himself as better than Adam; he laid claim to Adam's rank for himself, refused to be his follower, and swelled with arrogance against the command of his Lord. He wanted God to see in the angels — in himself — an incapacity that would lift him above what was coming. So God created Adam, as He said, from clay: He began with the apparent knowledge, the الظَّاهِر, in keeping with the unalterable custom He set for His servants — begin with the outward, end with the inward. Adam remained in this state a long time, knowing nothing other than what he had been taught — only the outward, only the الظَّاهِر.
 
-This is what the hadith refers to when it says that, when God formed Adam's image from clay, he lay a lifeless body for a long stretch before the spirit was breathed into him — meaning, before he received the inner, spiritual knowledge, the *batin*. In that interval, Iblis would come to him and speak to him of knowledge Adam did not have. He probed him, found only the apparent knowledge in him — knowledge Adam took delight in, because it was all he had — and Iblis reported back to the angels that Adam was hollow: empty of any inner content. This was before the angels, and Iblis among them, had been ordered to obey him. The Almighty had said:
+This is what the hadith refers to when it says that, when God formed Adam's image from clay, he lay a lifeless body for a long stretch before the spirit was breathed into him — meaning, before he received the inner, spiritual knowledge, the الْبَاطِن. In that interval, Iblis would come to him and speak to him of knowledge Adam did not have. He probed him, found only the apparent knowledge in him — knowledge Adam took delight in, because it was all he had — and Iblis reported back to the angels that Adam was hollow: empty of any inner content. This was before the angels, and Iblis among them, had been ordered to obey him. The Almighty had said:
 
 > فَإِذَا سَوَّيْتُهُ وَنَفَخْتُ فِيهِ مِن رُّوحِي فَقَعُوا لَهُ سَاجِدِينَ
 >
@@ -746,7 +606,7 @@ Al-Sadiq (peace be upon him) said: "One day I argued with my father, and he set 
 >
 > "Will You place upon it one who will corrupt it and shed blood, while we glorify You with praise and sanctify You?"
 
-— and what they concealed was what they said within themselves: *we did not think that God would create any creation more honorable in His sight than we are*. Then He commanded them to prostrate to Adam, and when He said it, they understood that they had fallen into disobedience. They took refuge at the Throne, and they circled it for a week, seeking their Lord's pleasure. He said to them: *Descend to the earth and build a House at which to seek refuge — to which the sinner from the children of Adam may come, and they will circumambulate it as you have circled the Throne, and I will be pleased with them as I was pleased with you.* So they built this House. Then God raised it up at the time of the flood, so that even now, from the fourth heaven, the angels make pilgrimage to it until the Day of Resurrection. Ibrahim al-Khalil rebuilt the House upon its old foundations." The hadith goes on at length; I have taken from it only what is needed.
+— and what they concealed was what they said within themselves: *we did not think that God would create any creation more honorable in His sight than we are*. Then He commanded them to prostrate to Adam, and when He said it, they understood that they had fallen into disobedience. They took refuge at the Throne, and they circled it for a week, seeking their Lord's pleasure. He said to them: *Descend to the earth and build a House at which to seek refuge — to which the sinner from the children of Adam may come, and they will circumambulate it as you have circled the Throne, and I will be pleased with them as I was pleased with you.* So they built this House. Then God raised it up at the time of the flood, so that even now, from the fourth heaven, the angels make pilgrimage to it until the Day of Resurrection. Ibrahim al-Khalil (الْخَلِيل) rebuilt the House upon its old foundations." The hadith goes on at length; I have taken from it only what is needed.
 
 Then God Almighty commanded the angels to prostrate to Adam — that is, He commanded them to obey him, to call upon him, and to accept him — as the Almighty said:
 
@@ -760,7 +620,7 @@ So they prostrated, as God said:
 >
 > "Except Iblis: he was arrogant and became one of the disbelievers."
 
-It was only after this that he was called *Shaytan*. The masters of the language hold that *shaytan* follows the pattern of words meaning ruined or perished: it is said *shata fulan* when a man perishes, and so Iblis was called *Shaytan* once he was destroyed by the limit at which he became *Shaytan*. It is also said that *shaytan* names the man who is cut off and has no proof; and it is said *ibn abi sad* and *iblis* of the one dejected and brought low. All these conditions were gathered in him. God spoke — and He is the most truthful of those who speak:
+It was only after this that he was called *Shaytan*. The masters of the language hold that *shaytan* (اَلشَّيْطَان) follows the pattern of words meaning ruined or perished: it is said *shata fulan* when a man perishes, and so Iblis was called *Shaytan* once he was destroyed by the limit at which he became *Shaytan*. It is also said that *shaytan* names the man who is cut off and has no proof; and it is said *ibn abi sad* and *iblis* of the one dejected and brought low. All these conditions were gathered in him. God spoke — and He is the most truthful of those who speak:
 
 > بَلِ السَّاعَةُ مَوْعِدُهُمْ وَالسَّاعَةُ أَدْهَىٰ وَأَمَرُّ
 >
@@ -772,13 +632,13 @@ The Almighty said:
 >
 > "What prevented you from prostrating when I commanded you?" He said, "I am better than him. You created me from fire, and You created him from clay."
 
-What he meant was: *You raised me up in knowledge by spiritual cultivation, and granted me the brilliant supportive knowledge, the* ta'yid, *that carries no dense bodily mass with it, and You created Adam with a thick, heavy, corporeal knowledge fitted to a physical body — so how should I prostrate to one whom I am better than?* In this way he exposed what he had been hiding, and openly declared his disobedience. God was angered with him, and He cursed him — that is, expelled him — saying:
+What he meant was: *You raised me up in knowledge by spiritual cultivation, and granted me the brilliant supportive knowledge, the* التَّأْيِيد, *that carries no dense bodily mass with it, and You created Adam with a thick, heavy, corporeal knowledge fitted to a physical body — so how should I prostrate to one whom I am better than?* In this way he exposed what he had been hiding, and openly declared his disobedience. God was angered with him, and He cursed him — that is, expelled him — saying:
 
 > فَاخْرُجْ مِنْهَا فَإِنَّكَ رَجِيمٌ ۖ وَإِنَّ عَلَيْكَ لَعْنَتِي إِلَىٰ يَوْمِ الدِّينِ
 >
 > "Get out of it — you are accursed, and indeed upon you is My curse until the Day of Recompense."
 
-So He brought him out of the bounds of *ta'yid*, the supportive knowledge, cut him off from it, expelled him from it, and cursed him. *Curse*, in the language, is exactly that: expulsion.
+So He brought him out of the bounds of التَّأْيِيد, the supportive knowledge, cut him off from it, expelled him from it, and cursed him. *Curse* (اللَّعْن), in the language, is exactly that: expulsion.
 
 God then created Eve — Hawwa — from Adam, because He said:
 
@@ -786,9 +646,9 @@ God then created Eve — Hawwa — from Adam, because He said:
 >
 > "And from it He created its mate."
 
-The creation here is the creation of *ta'yid*, of support, not a creation of body. God Almighty took her up and supported her, taught her, illumined her, and joined her to Adam in marriage; He made her his wife, and He made her his proof. He compensated Adam with her in place of Iblis. It is not what the common folk claim — that God cast Adam into sleep, took one of his ribs while he slept, and from that rib created Eve. They heard a fragment of the interpretation that they did not grasp and did not know truly: they heard that God exchanged for Adam one of his ribs and made that rib Eve, and they read it crudely. This is not so. God compensated Adam with Eve in the place of Iblis — who had been qualified to stand as Adam's proof, as we have said — and He made her one of the twelve chiefs, the *nuqaba*. Their likeness, in the apparent creation of the human being, is the ribs of the body: a human being has twelve ribs on each side. Just as the right side resembles the inner knowledge and the left side the apparent knowledge, so the chiefs of the inner, subtle knowledge are twelve, and their counterparts for the knowledge of the outward are twelve as well.
+The creation here is the creation of التَّأْيِيد, of support, not a creation of body. God Almighty took her up and supported her, taught her, illumined her, and joined her to Adam in marriage; He made her his wife, and He made her his proof. He compensated Adam with her in place of Iblis. It is not what the common folk claim — that God cast Adam into sleep, took one of his ribs while he slept, and from that rib created Eve. They heard a fragment of the interpretation that they did not grasp and did not know truly: they heard that God exchanged for Adam one of his ribs and made that rib Eve, and they read it crudely. This is not so. God compensated Adam with Eve in the place of Iblis — who had been qualified to stand as Adam's proof, as we have said — and He made her one of the twelve chiefs, the النُّقَبَاء. Their likeness, in the apparent creation of the human being, is the ribs of the body: a human being has twelve ribs on each side. Just as the right side resembles the inner knowledge and the left side the apparent knowledge, so the chiefs of the inner, subtle knowledge are twelve, and their counterparts for the knowledge of the outward are twelve as well.
 
-Then God settled Adam and his wife in the Garden. The Garden, inwardly, is the ranks of the messengers of *ta'yid*, and beneath them the chiefs. When I say this, and the like of it about the subordinate ranks, I am not denying the outer reality — that the Garden is itself a created Garden. The Almighty has said:
+Then God settled Adam and his wife in the Garden. The Garden, inwardly, is the ranks of the messengers of التَّأْيِيد, and beneath them the chiefs. When I say this, and the like of it about the subordinate ranks, I am not denying the outer reality — that the Garden is itself a created Garden. The Almighty has said:
 
 > وَمِن كُلِّ شَيْءٍ خَلَقْنَا زَوْجَيْنِ لَعَلَّكُمْ تَذَكَّرُونَ
 >
@@ -818,7 +678,7 @@ He made Paradise a glad tiding for the believers, and He said elsewhere:
 >
 > "Their reward is with their Lord — gardens of eternity beneath which rivers flow."
 
-He told them that for them is a Paradise in this world and a Paradise in the Hereafter. When He said, "Whenever they are provided with fruit from them, they will say, This is what we were provided with before," what He meant is exactly this: that what He grants in the Hereafter is the same kind of thing He has been supplying them with already — that is *ta'yid*, support, the inner thing they were already eating from in this life.
+He told them that for them is a Paradise in this world and a Paradise in the Hereafter. When He said, "Whenever they are provided with fruit from them, they will say, This is what we were provided with before," what He meant is exactly this: that what He grants in the Hereafter is the same kind of thing He has been supplying them with already — that is التَّأْيِيد, support, the inner thing they were already eating from in this life (الْحَيَاة).
 
 So let the listener not be misled into thinking that when we mention the inner meaning of Paradise we deny the eternal Paradise and the abode of bliss, or that when we mention the inner meaning of the Fire we deny that there is a real fire and a torment that has come to pass, or that when we read a subtle inner interpretation into a thing we cancel its outer reality. We seek refuge in God from any of that. He does nothing except that it has an inner aspect — and there is no inner without an outer. We do not see, in this world, a soul rising in a human being except within a body; we do not see any inner thing except inside an outer thing. If there were no outer, the very name *inner* would have nothing to attach to. Understand this, O company of believers, with full understanding. Let your hearts feel it. Many among the people of this knowledge have perished by exactly this point — letting one half eat the other. It was for the same reason that Adam fell into sin, as we shall mention when we come to it. So believe what God has revealed, outwardly and inwardly; believe it, and act upon it. God Almighty said:
 
@@ -850,7 +710,7 @@ And He said:
 
 > وَلَقَدْ ضَرَبْنَا لِلنَّاسِ فِي هَٰذَا الْقُرْآنِ مِن كُلِّ مَثَلٍ
 >
-> "And We have struck for the people in this Qur'an from every parable."
+> "And We have struck for the people in this Quran from every parable."
 
 The way these parables work is not the way of the outer-and-inner symbolism in which what symbolizes and what is symbolized are both real, established things standing side by side. In a parable, the established and obligatory thing represented by the figure is like His saying:
 
@@ -858,9 +718,9 @@ The way these parables work is not the way of the outer-and-inner symbolism in w
 >
 > "Guide us to the straight path — the path of those upon whom You have bestowed favor, not of those who incurred wrath, nor of those who are astray."
 
-*Path*, in the language, is a road. The Imam stands here in the place of the road, because whoever is bound to follow the Imam will not stray, and whoever needs guidance through him will not be misled. What is meant by *road* here is the Imam — not a road taken on the ground.
+*Path* (الصِّرَاط), in the language, is a road (الطَّرِيق). The Imam stands here in the place of the road, because whoever is bound to follow the Imam will not stray, and whoever needs guidance through him will not be misled. What is meant by *road* here is the Imam — not a road taken on the ground.
 
-Let us return to Adam (peace be upon him), and to the inner meaning of the Garden, which is *ta'yid* — supportive knowledge, in its true, pure, spiritual content. The bliss in it surpasses every other bliss, and the pleasure in it exceeds every other pleasure. For this reason, whoever attains it renounces every worldly attachment. Things shrivel in his eye. Everything in this world is diminished in his sight. He comes to make light of his attachment to anything other than that knowledge. His union with it he finds to be perfect bliss, and a glory that no humiliation can follow — as in the hadith of the Commander of the Believers to Kumayl ibn Ziyad, when he said: "Knowledge is the ruler, and wealth is the ruled. Wealth runs out as it is spent; knowledge purifies as it is spent. Wealth's store decays, but the scholars endure as long as time endures. Their persons are absent, yet their traces remain in the world." The hadith is long; I have taken from it only what is needed.
+Let us return to Adam (peace be upon him), and to the inner meaning of the Garden, which is التَّأْيِيد — supportive knowledge, in its true, pure, spiritual content. The bliss in it surpasses every other bliss, and the pleasure in it exceeds every other pleasure. For this reason, whoever attains it renounces every worldly attachment. Things shrivel in his eye. Everything in this world is diminished in his sight. He comes to make light (النُّور) of his attachment to anything other than that knowledge. His union with it he finds to be perfect bliss, and a glory that no humiliation can follow — as in the hadith of the Commander of the Believers to Kumayl ibn Ziyad (كُمَيْلُ بْنُ زِيَاد), when he said: "Knowledge is the ruler, and wealth is the ruled. Wealth runs out as it is spent; knowledge purifies as it is spent. Wealth's store decays, but the scholars endure as long as time endures. Their persons are absent, yet their traces remain in the world." The hadith is long; I have taken from it only what is needed.
 
 The Almighty said:
 
@@ -880,7 +740,7 @@ And He entrusted Adam with a charge:
 >
 > "And We had already taken a covenant with Adam before, but he forgot, and We found no firm resolve in him."
 
-What He had permitted to Adam and his wife were the ranks of the messengers, opened to them according to their conditions and the duties He had laid upon them: to declare lawful what was lawful, to declare forbidden what was forbidden, to ward off the forbidden, to warn against it. And the tree — the tree He forbade Adam to approach, the tree He fenced off and made unlawful for him — that tree is a likeness for the Master of the Time, the *Sahib al-Qiyama*, the Possessor of the Resurrection. Within his limits lie the duties of charge; before his appearance they do not yet apply. The Almighty said:
+What He had permitted to Adam and his wife were the ranks of the messengers, opened to them according to their conditions and the duties He had laid upon them: to declare lawful what was lawful, to declare forbidden what was forbidden, to ward off the forbidden, to warn against it. And the tree — the tree He forbade Adam to approach, the tree He fenced off and made unlawful for him — that tree is a likeness for the Master of the Time, the صَاحِبُ الْقِيَامَة, the Possessor of the Resurrection. Within his limits lie the duties of charge; before his appearance they do not yet apply. The Almighty said:
 
 > لَا يَنفَعُ نَفْسًا إِيمَانُهَا لَمْ تَكُنْ آمَنَتْ مِن قَبْلُ أَوْ كَسَبَتْ فِي إِيمَانِهَا خَيْرًا ۗ قُلِ انتَظِرُوا إِنَّا مُنتَظِرُونَ
 >
@@ -916,43 +776,45 @@ So Iblis's wish was to say: *share with them in their sons who believe in your f
 >
 > "Indeed, over My servants you will have no authority."
 
-## 5. Two Parties and the Line to Noah
+## 4. Two Parties and the Line to Noah
 
 He made for Himself a party out of His own creation, and He described the other party — the party of Satan — so that no one could mistake which side he stood on. Listen to how He names them:
 
 > أَلَمْ تَرَ إِلَى الَّذِينَ تَوَلَّوْا قَوْمًا غَضِبَ اللَّهُ عَلَيْهِم مَّا هُم مِّنكُمْ وَلَا مِنْهُمْ وَيَحْلِفُونَ عَلَى الْكَذِبِ وَهُمْ يَعْلَمُونَ ۚ أَعَدَّ اللَّهُ لَهُمْ عَذَابًا شَدِيدًا ۖ إِنَّهُمْ سَاءَ مَا كَانُوا يَعْمَلُونَ ۚ اتَّخَذُوا أَيْمَانَهُمْ جُنَّةً فَصَدُّوا عَن سَبِيلِ اللَّهِ فَلَهُمْ عَذَابٌ مُّهِينٌ ۚ لَّن تُغْنِيَ عَنْهُمْ أَمْوَالُهُمْ وَلَا أَوْلَادُهُم مِّنَ اللَّهِ شَيْئًا ۚ أُولَٰئِكَ أَصْحَابُ النَّارِ ۖ هُمْ فِيهَا خَالِدُونَ ۚ يَوْمَ يَبْعَثُهُمُ اللَّهُ جَمِيعًا فَيَحْلِفُونَ لَهُ كَمَا يَحْلِفُونَ لَكُمْ ۖ وَيَحْسَبُونَ أَنَّهُمْ عَلَىٰ شَيْءٍ ۚ أَلَا إِنَّهُمْ هُمُ الْكَاذِبُونَ ۚ اسْتَحْوَذَ عَلَيْهِمُ الشَّيْطَانُ فَأَنسَاهُمْ ذِكْرَ اللَّهِ ۚ أُولَٰئِكَ حِزْبُ الشَّيْطَانِ ۚ أَلَا إِنَّ حِزْبَ الشَّيْطَانِ هُمُ الْخَاسِرُونَ
 >
-> "Have you not considered those who make allies of a people upon whom God has placed His wrath" — meaning the nation of misguidance — "they are neither of you nor of them, and they swear to falsehood while they know. God has prepared for them a severe punishment; evil indeed is what they used to do. They took their oaths as a cover and averted people from the way of God, so for them is a humiliating punishment. Never will their wealth or their children avail them against God at all. Those are the companions of the Fire; they will abide therein eternally — on the Day when God will resurrect them all, and they will swear to Him as they swear to you, thinking that they are upon something. Unquestionably, it is they who are the liars. Satan has overcome them and made them forget the remembrance of God. Those are the party of Satan. Unquestionably, the party of Satan — they will be the losers." (Qur'an 58:14–19)
+> "Have you not considered those who make allies of a people upon whom God has placed His wrath" — meaning the nation of misguidance — "they are neither of you nor of them, and they swear to falsehood while they know. God has prepared for them a severe punishment; evil indeed is what they used to do. They took their oaths as a cover and averted people from the way of God, so for them is a humiliating punishment. Never will their wealth or their children avail them against God at all. Those are the companions of the Fire; they will abide therein eternally — on the Day when God will resurrect them all, and they will swear to Him as they swear to you, thinking that they are upon something. Unquestionably, it is they who are the liars. Satan has overcome them and made them forget the remembrance of God. Those are the party of Satan. Unquestionably, the party of Satan — they will be the losers." (Al-Mujadila: 14-19)
 
 Then, in the same breath, He turned and described His own party — those who are His by claim and by love:
 
 > لَّا تَجِدُ قَوْمًا يُؤْمِنُونَ بِاللَّهِ وَالْيَوْمِ الْآخِرِ يُوَادُّونَ مَنْ حَادَّ اللَّهَ وَرَسُولَهُ وَلَوْ كَانُوا آبَاءَهُمْ أَوْ أَبْنَاءَهُمْ أَوْ إِخْوَانَهُمْ أَوْ عَشِيرَتَهُمْ ۚ أُولَٰئِكَ كَتَبَ فِي قُلُوبِهِمُ الْإِيمَانَ وَأَيَّدَهُم بِرُوحٍ مِّنْهُ ۖ وَيُدْخِلُهُمْ جَنَّاتٍ تَجْرِي مِن تَحْتِهَا الْأَنْهَارُ خَالِدِينَ فِيهَا ۚ رَضِيَ اللَّهُ عَنْهُمْ وَرَضُوا عَنْهُ ۚ أُولَٰئِكَ حِزْبُ اللَّهِ ۚ أَلَا إِنَّ حِزْبَ اللَّهِ هُمُ الْمُفْلِحُونَ
 >
-> "You will not find a people who believe in God and the Last Day having affection for those who oppose God and His Messenger" — meaning the imams of injustice and their followers — "even if they were their fathers or their sons or their brothers or their kindred. Those — He has decreed faith within their hearts and supported them with a spirit from Himself. And He will admit them to gardens beneath which rivers flow, wherein they will abide eternally. God is pleased with them, and they are pleased with Him. Those are the party of God. Unquestionably, the party of God — they are the successful." (Qur'an 58:22)
+> "You will not find a people who believe in God and the Last Day having affection for those who oppose God and His Messenger" — meaning the imams of injustice and their followers — "even if they were their fathers or their sons or their brothers or their kindred. Those — He has decreed faith within their hearts and supported them with a spirit from Himself. And He will admit them to gardens beneath which rivers flow, wherein they will abide eternally. God is pleased with them, and they are pleased with Him. Those are the party of God. Unquestionably, the party of God — they are the successful." (Al-Mujadila: 22)
 
 The line between the two parties is drawn by guardianship. God's party are those who cling to Him and have taken His guardians as their own. The party of Satan are those whom Iblis has bought and severed for himself: he forced his way into their loyalties, and they took as their friends his enemies — who, though they do not see it, are their enemies too — and they walked away from God's guardianship and the guardianship of God's friends, and gave their hearts instead to Satan and to Satan's allies.
 
 And yet — and this matters — whoever was once abased by Satan, then awoke to his abasement and was grieved by it, who pulled himself free from his stumbling and turned back to his Lord, that one is no longer Satan's, and no longer of his party. The door is open. God Almighty says:
 
+> وَمَن يَعْمَلْ سُوٓءًا أَوْ يَظْلِمْ نَفْسَهُۥ ثُمَّ يَسْتَغْفِرِ ٱللَّهَ يَجِدِ ٱللَّهَ غَفُورًۭا
+
 > وَمَن يَعْمَلْ سُوءًا أَوْ يَظْلِمْ نَفْسَهُ ثُمَّ يَسْتَغْفِرِ اللَّهَ يَجِدِ اللَّهَ غَفُورًا رَّحِيمًا
 >
-> "And whoever does evil or wrongs himself but then seeks forgiveness of God will find God Forgiving and Merciful." (Qur'an 4:110)
+> "And whoever does evil or wrongs himself but then seeks forgiveness of God will find God Forgiving and Merciful." (An-Nisa: 110)
 
-Al-Sadiq, peace be upon him, said: "Do not consider as a guardian one whom Satan has abased entirely; rather, consider as a guardian a man who turns back, relying on his Lord." The man who returns is the man fit to lead.
+Al-Sadiq, peace be upon him, said: "Do not consider as a guardian (وَلِيّ) one whom Satan has abased entirely; rather, consider as a guardian a man who turns back, relying on his Lord." The man who returns is the man fit to lead.
 
 Look at the first abasement and you will understand every one that came after it. The cursed Satan abased Adam and Hawwa, peace be upon them, with a sentence. God Himself has reported what he whispered:
 
 > مَا نَهَاكُمَا رَبُّكُمَا عَنْ هَٰذِهِ الشَّجَرَةِ إِلَّا أَن تَكُونَا مَلَكَيْنِ أَوْ تَكُونَا مِنَ الْخَالِدِينَ ۝ وَقَاسَمَهُمَا إِنِّي لَكُمَا لَمِنَ النَّاصِحِينَ
 >
-> "Your Lord did not forbid you this tree except that you might become kings, or that you might become among the immortals," and he swore to them: "Indeed I am to you among the sincere advisors." (Qur'an 7:20–21)
+> "Your Lord did not forbid you this tree except that you might become kings, or that you might become among the immortals," and he swore to them: "Indeed I am to you among the sincere advisors." (Al-Araf: 20-21)
 
 Satan made plain to them what was permitted and what was forbidden, and where the limit lay. The limit of obligation, he said, was the limit of effort and aspiration: if only they would push past the boundary God had set, they would slough off the dense material world and rise among the gentle spiritual angels, two sovereigns living forever in whatever they wished. But the limit he was urging them across was not theirs to cross. The Almighty said: "But if they had not been beguiled, they would not have tasted of the tree, and it appeared evil to them." They transgressed the limits of speech that had been permitted to them, into the limit that belongs to the Lord of the Resurrection — the very thing God had warned them about — and they extended their hands to what was not theirs.
 
-So they ate. They ate from the tree and they fell into sin, and at the moment of the fall, the support that had been holding them up was cut. That support is what God names in His Book: the garment of piety. He said: "And that is from the signs of God." (Qur'an 7:26) They were stripped bare of it, and what was reprehensible became visible to them — the intensity of the natural image, all the rough density of the lower world — because the garment of piety, which is the word, had fallen away. By the light of that garment Hawwa had seen, until then, all the darkness in which she was compounded. Support does not accompany sin; reaching for what is not yours is a hand that must, by ruling, be cut off. When the support ceased, as the Almighty said:
+So they ate. They ate from the tree and they fell into sin, and at the moment of the fall, the support that had been holding them up was cut. That support is what God names in His Book: the garment of piety. He said: "And that is from the signs (آيَات) of God." (Al-Araf: 26) They were stripped bare of it, and what was reprehensible became visible to them — the intensity of the natural image, all the rough density of the lower world — because the garment of piety, which is the word, had fallen away. By the light (النُّور) of that garment Hawwa had seen, until then, all the darkness (الظَّلَام) in which she was compounded. Support does not accompany sin; reaching for what is not yours is a hand that must, by ruling, be cut off. When the support ceased, as the Almighty said:
 
 > وَطَفِقَا يَخْصِفَانِ عَلَيْهِمَا مِن وَرَقِ الْجَنَّةِ
 >
-> "They began to stitch upon themselves leaves from Paradise." (Qur'an 7:22)
+> "They began to stitch upon themselves leaves from Paradise." (Al-Araf: 22)
 
 They gathered what light of wisdom was still left to them and tried to cover the shame that had been laid bare. What was revealed in their condition was the loss of support; and through ignorance of this matter many who hold to it have perished, and the shame has been made into a permission.
 
@@ -960,33 +822,33 @@ Then they cried out to their Lord. The Almighty said:
 
 > أَلَمْ أَنْهَكُمَا عَن تِلْكُمَا الشَّجَرَةِ وَأَقُل لَّكُمَا إِنَّ الشَّيْطَانَ لَكُمَا عَدُوٌّ مُّبِينٌ ۝ قَالَا رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ
 >
-> "Did I not forbid you that tree and tell you that Satan is to you a clear enemy? They said: Our Lord, we have wronged ourselves; if You do not forgive us and have mercy on us, we will surely be among the losers." (Qur'an 7:22–23)
+> "Did I not forbid you that tree and tell you that Satan is to you a clear enemy? They said: Our Lord, we have wronged ourselves; if You do not forgive us and have mercy on us, we will surely be among the losers." (Al-Araf: 22-23)
 
 Adam did not turn away as Iblis had turned away. He turned back. He repented, and asked for mercy, and asked for forgiveness.
 
 > فَتَلَقَّىٰ آدَمُ مِن رَّبِّهِ كَلِمَاتٍ فَتَابَ عَلَيْهِ ۚ إِنَّهُ هُوَ التَّوَّابُ الرَّحِيمُ
 >
-> "Then Adam received from his Lord words, so He turned to him in forgiveness; indeed He is the Accepter of Repentance, the Merciful." (Qur'an 2:37)
+> "Then Adam received from his Lord words, so He turned to him in forgiveness; indeed He is the Accepter of Repentance, the Merciful." (Al-Baqarah: 37)
 
 He drew close to Him, and found Him turning toward him from the side of the higher limits, and was met there with mercy. Satan never had the authority to drag him back into his own camp and take him as a possession; Adam remained of the Party of God. The Almighty turned to him, forgave him, received his words. And from then on, this became the pattern for his descendants. Whoever sinned and then repented from his sin, God turned to in forgiveness, and that one belonged to His party. Whoever persisted in sin and did not repent, whoever no words came from his Lord to receive — that one was of the party of Iblis and his soldiers. The Almighty said:
 
 > وَلَوْ أَنَّهُمْ إِذ ظَّلَمُوا أَنفُسَهُمْ جَاءُوكَ فَاسْتَغْفَرُوا اللَّهَ وَاسْتَغْفَرَ لَهُمُ الرَّسُولُ لَوَجَدُوا اللَّهَ تَوَّابًا رَّحِيمًا
 >
-> "If, when they wronged themselves, they had come to you and asked forgiveness of God, and the Messenger had asked forgiveness for them, they would have found God Accepting of Repentance and Merciful." (Qur'an 4:64)
+> "If, when they wronged themselves, they had come to you and asked forgiveness of God, and the Messenger had asked forgiveness for them, they would have found God Accepting of Repentance and Merciful." (An-Nisa: 64)
 
-Take that verse seriously. Repentance is not accepted except by God's receiving His words for the repentant; the sinner is not forgiven until after forgiveness has been sought, and until the words have been spoken on his behalf. This is the parallel statement to the tree God forbade Adam — the tree of which, in the inner sense I am unfolding for you in this book, he ate nothing literally, but to which he was exposed, and which was the beginning of his trouble. That is the esoteric meaning, the inner interpretation that belongs to the elaborate punishment treated here.
+Take that verse seriously. Repentance is not accepted except by God's receiving His words for the repentant; the sinner is not forgiven until after forgiveness has been sought, and until the words have been spoken on his behalf. This is the parallel statement to the tree God forbade Adam — the tree of which, in the inner (نَار) sense I am unfolding for you in this book, he ate nothing literally, but to which he was exposed, and which was the beginning of his trouble. That is the esoteric meaning, the inner interpretation that belongs to the elaborate punishment treated here.
 
 It is not what the outward interpreters have said. They claimed the tree was a wheat tree; some said a fig tree; some said a grape vine. They claimed its clothing was a kind of nail-like material, forbidden to them; that when they repented, what was left of it stayed in their fingertips, and from there in their children, and that this is why most animals have nails and the like — hooves of cows and sheep, claws of predators and birds — and that Adam's descendants are not inspired with what he received but bear the residue in their limbs as a wisdom in the composition that the Maker could recall when He pleased. Even if the garment had truly been of nail, the inner meaning would be the same. The literal claim is one the mind cannot accept and which does not survive examination.
 
 The same goes for what they have said about the figure of his disgrace — that Adam and Hawwa had their sins exposed and so sewed themselves a covering of fig leaves. That is not proven either, because it did not happen. God has named Adam in honor, and Adam is too noble for it: a prophet whom He has chosen and elevated. To imagine, even on the supposition that he was merely one of the followers, that God would look at him as a man looks at a slave who has angered him, then strip him naked and leave him there, beginning his humiliation with that act — they attribute this to their idol; God is exalted above it.
 
-Most of those who held this interpretation took it from the Jewish converts among their ancestors — Ka'b al-Ahbar, Abdullah ibn Salam, and others — because they say it is in their tradition: that Adam and Eve remained naked in Paradise, that they sensed God walking among its trees, that they hid from Him among the trees, and that He called out to them, "Where are you?" They said: "We sensed You among the trees of Paradise while we were naked, and we were ashamed before You, so we hid." And He said: "Did you eat from the tree?" Adam said: "The woman fed me." The woman said: "The serpent commanded me." The serpent said: "Iblis. He entered me through the underground."
+Most of those who held this interpretation took it from the Jewish converts among their ancestors — Kab al-Ahbar (كَعْبُ الْأَحْبَار), Abdullah ibn Salam (عبدالله بن سلام), and others — because they say it is in their tradition: that Adam and Eve remained naked in Paradise, that they sensed God walking among its trees, that they hid from Him among the trees, and that He called out to them, "Where are you?" They said: "We sensed You among the trees of Paradise while we were naked, and we were ashamed before You, so we hid." And He said: "Did you eat from the tree?" Adam said: "The woman fed me." The woman said: "The serpent commanded me." The serpent said: "Iblis. He entered me through the underground."
 
-Whether God should interpret this so literally — that the lands hold such a thing, that it is seen with the eyes — no. In the Torah and the Gospel, as in the Qur'an, there are proverbs, signs, and symbols, and an outward face that requires interpretation, and that interpretation is the stored knowledge. God Almighty says:
+Whether God should interpret this so literally — that the lands hold such a thing, that it is seen with the eyes — no. In the Torah and the Gospel, as in the Quran, there are proverbs, signs, and symbols, and an outward face that requires interpretation, and that interpretation is the stored knowledge (الْعِلْم). God Almighty says:
 
 > قُلْ يَا أَهْلَ الْكِتَابِ لَسْتُمْ عَلَىٰ شَيْءٍ حَتَّىٰ تُقِيمُوا التَّوْرَاةَ وَالْإِنجِيلَ وَمَا أُنزِلَ إِلَيْكُم مِّن رَّبِّكُمْ
 >
-> "Say: O People of the Book, you stand upon nothing until you uphold the Torah and the Gospel and what has been revealed to you from your Lord." (Qur'an 5:68)
+> "Say: O People of the Book, you stand upon nothing until you uphold the Torah and the Gospel and what has been revealed to you from your Lord." (Al-Maidah: 68)
 
 From which it is known that they do not establish these scriptures except by interpretation. And so it has been said in interpretation that the Torah is like the outward and the Gospel is like the inward — and God has commanded, and the Almighty will establish them all, as we have said, by means of the knowledge He has sent down: the knowledge Adam deposited and transmitted in the word, carried forward by the foundations, the imams, and their successors among their descendants, upon them all be the prayers and peace of God.
 
@@ -996,31 +858,33 @@ When God turned to Adam in repentance, He did not remove him from the rank of ca
 
 > اهْبِطُوا مِنْهَا جَمِيعًا
 >
-> "Go down from it together" — from the light which was, on earth, the good for you — "and you will have therein dwelling and enjoyment for a time." (Qur'an 7:24)
+> "Go down from it together" — from the light which was, on earth, the good for you — "and you will have therein dwelling and enjoyment for a time." (Al-Araf: 24)
 
 And:
 
 > فِيهَا تَحْيَوْنَ وَفِيهَا تَمُوتُونَ وَمِنْهَا تُخْرَجُونَ
+
+> فِيهَا تَحْيَوْنَ وَفِيهَا تَمُوتُونَ وَمِنْهَا تُخْرَجُونَ
 >
-> "Therein you will live, and therein you will die, and from it you will be brought forth." (Qur'an 7:25)
+> "Therein you will live, and therein you will die, and from it you will be brought forth." (Al-Araf: 25)
 
 And:
 
 > يَا بَنِي آدَمَ قَدْ أَنزَلْنَا عَلَيْكُمْ لِبَاسًا يُوَارِي سَوْآتِكُمْ وَرِيشًا ۖ وَلِبَاسُ التَّقْوَىٰ ذَٰلِكَ خَيْرٌ ۚ ذَٰلِكَ مِنْ آيَاتِ اللَّهِ لَعَلَّهُمْ يَذَّكَّرُونَ
 >
-> "O children of Adam, We have bestowed upon you clothing to conceal your private parts, and as adornment. But the clothing of righteousness — that is best. That is from the signs of God, that perhaps they will remember." (Qur'an 7:26)
+> "O children of Adam, We have bestowed upon you clothing to conceal your private parts, and as adornment. But the clothing of righteousness — that is best. That is from the signs of God, that perhaps they will remember." (Al-Araf: 26)
 
 So God brought Adam down from the limit of interpretation without a veil; yet He did not strip him of his substance. What was connected to him by way of material descended with him from the upper celestial limits, and remained connected to the signs of God He has just named. And the same arrangement has been put in place in the word of his son.
 
-The Messenger of God, peace and blessings be upon him, said: "I take the revelation from Jibril, and Jibril takes it from Mika'il, and Mika'il takes it from Israfil, and Israfil takes it from the Tablet (al-Lawh), and the Tablet takes it from the Pen (al-Qalam)." The support is connected to the word of the Five Upper Limits, and these are connected, on the receiving side, to the Five Lower Limits. The Upper Limits are those we have named. The Lower Limits are the Foundation (al-asas), the Imams, the Proofs (al-hujaj), the Captains (al-nuqaba), the Lords of the Islands (ashab al-jaza'ir), and the Wings (al-ajniha), who are the preachers (al-du'at).
+The Messenger of God, peace and blessings be upon him, said: "I take the revelation from Jibril, and Jibril takes it from Mikail, and Mikail takes it from Israfil, and Israfil takes it from the Tablet (اَللَّوْح), and the Tablet takes it from the Pen (اَلْقَلَم)." The support is connected to the word of the Five Upper Limits, and these are connected, on the receiving side, to the Five Lower Limits. The Upper Limits are those we have named. The Lower Limits are the Foundation (الْأَسَاس), the Imams, the Proofs (اَلْحُجَج), the Captains (النُّقَبَاء), the Lords of the Islands (أَصْحَابُ الْجَزَائِر), and the Wings (الْأَجْنِحَة), who are the preachers (الدُّعَاة).
 
-The sixth of the two ranks of limits is the rebel. Satan became an enemy to Adam and against him, from God and against God — whether the Adam he opposed is a Speaker (natiq), a Silent One (samit), an imam, or a Proof (hujja). Whoever takes them as guardians and is loyal to them is of Adam's party, which is the party of God Almighty; and that includes everyone who is obedient to the guardianship of God and of the Prophet, peace and blessings be upon him. Whoever has dismissed their command or claimed their place is of the party of Iblis — whom Satan possessed and who forgot the remembrance of God, and forgot too that the matter is deferred by His own saying, that the last of them is the remembrance of God; and the remembrance of God here is, in the inner sense, His guardians who are remembered, and they are the ones who have remembered Him.
+The sixth of the two ranks of limits is the rebel. Satan became an enemy to Adam and against him, from God and against God — whether the Adam he opposed is a Speaker (اَلنَّاطِق), a Silent One (اَلصَّامِت), an imam, or a Proof (اَلْحُجَّة). Whoever takes them as guardians and is loyal to them is of Adam's party, which is the party of God Almighty; and that includes everyone who is obedient to the guardianship of God and of the Prophet, peace and blessings be upon him. Whoever has dismissed their command or claimed their place is of the party of Iblis — whom Satan possessed and who forgot the remembrance (ذِكْر) of God, and forgot too that the matter is deferred by His own saying, that the last of them is the remembrance of God; and the remembrance of God here is, in the inner sense, His guardians who are remembered, and they are the ones who have remembered Him.
 
-What happened to Adam and Hawwa happened, in turn, in their descendants. The descendants did not differ in their kinds, I mean male and female, just as Adam and Hawwa did not differ. So obedience and disobedience among them played out in the same way, on the same pattern. The beginning of Adam's creation and what befell him parallels what happened to his son at the beginning of his command and his settling in this house. God Almighty's settling of Adam and Hawwa in Paradise after what had befallen them parallels His settling, in faith, of those of their descendants who believed and were reconciled — the ones who are of their party. The repentance of those who repent corresponds to the words written for Adam, and the destruction of those of them who perished in disobedience and met the punishment of God by disbelief and by doing what He forbade corresponds to Iblis's hold on them, and to the fact that they were of his party. They cut themselves off from Adam, they left his lineage, they took the entrance of those who came from him without being him, and they became other than him — that is, other than Adam — because they were severed from him. God Almighty said:
+What happened to Adam and Hawwa happened, in turn, in their descendants. The descendants did not differ in their kinds, I mean male and female, just as Adam and Hawwa did not differ. So obedience and disobedience among them played out in the same way, on the same pattern. The beginning of Adam's creation and what befell him parallels what happened to his son at the beginning of his command and his settling in this house. God Almighty's settling of Adam and Hawwa in Paradise after what had befallen them parallels His settling, in faith, of those of their descendants who believed and were reconciled — the ones who are of their party. The repentance of those who repent corresponds to the words written for Adam, and the destruction of those of them who perished in disobedience and met the punishment of God by disbelief (الْكُفْر) and by doing what He forbade corresponds to Iblis's hold on them, and to the fact that they were of his party. They cut themselves off from Adam, they left his lineage, they took the entrance of those who came from him without being him, and they became other than him — that is, other than Adam — because they were severed from him. God Almighty said:
 
 > وَمَن يَتَوَلَّهُم مِّنكُمْ فَإِنَّهُ مِنْهُمْ
 >
-> "And whoever takes them as allies among you, then indeed he is of them." (Qur'an 5:51)
+> "And whoever takes them as allies among you, then indeed he is of them." (Al-Maidah: 51)
 
 Whoever takes Iblis as an ally is from him: they become his sons by calling, his family by calling, other than Adam. God Almighty said of the son of Noah when he disobeyed:
 
@@ -1044,25 +908,25 @@ These are those who follow Adam through his son.
 
 > إِلَّا مَنِ اتَّبَعَكَ مِنَ الْغَاوِينَ ۝ وَإِنَّ جَهَنَّمَ لَمَوْعِدُهُمْ أَجْمَعِينَ ۝ لَهَا سَبْعَةُ أَبْوَابٍ لِّكُلِّ بَابٍ مِّنْهُمْ جُزْءٌ مَّقْسُومٌ
 >
-> "Except for those of the deviators who follow you... It has seven gates; to each gate is an allotted portion." (Qur'an 15:42–44)
+> "Except for those of the deviators who follow you... It has seven gates; to each gate is an allotted portion." (Al-Hijr: 42-44)
 
-By "the gates" I mean the messengers, the gates of the pure outward truth — and for each of them there is a known sacred law. Some of those who answered that law in the wrong way gave themselves over to the Fire. Of this the Prophet, God's blessings upon him, said to Ali: "You are the Distributor of the Fire (Qasim al-Nar)" — for he will say to it on the Day of Resurrection: "This one is yours, take him; and this one is mine, leave him."
+By "the gates" I mean the messengers, the gates of the pure outward truth — and for each of them there is a known sacred law. Some of those who answered that law in the wrong way gave themselves over to the Fire. Of this the Prophet, God's blessings upon him, said to Ali: "You are the Distributor of the Fire (قَيِّم النَّار)" — for he will say to it on the Day of Resurrection: "This one is yours, take him; and this one is mine, leave him."
 
 Iblis's opposition to Adam and his enmity toward him is exactly the opposition of the enemies of the messengers to the messengers, and the hostility their followers carry against them. God Almighty says:
 
 > وَكَذَٰلِكَ جَعَلْنَا لِكُلِّ نَبِيٍّ عَدُوًّا شَيَاطِينَ الْإِنسِ وَالْجِنِّ
 >
-> "And thus We have made for every prophet an enemy — devils from among humankind and the jinn." (Qur'an 6:112)
+> "And thus We have made for every prophet an enemy — devils from among humankind and the jinn." (Al-Anam: 112)
 
 The sinner is the son of Adam who persists in his sin, who neither repents of it nor casts it off. He is Satan in his persistence; he has walked out of Adam's party and into Satan's. He has taken Satan's entrance and arrived where Iblis is arriving, at the punishment of God. The one who turns back from what he has done, and the obedient born of Adam, are Adam's party, which is the party of God:
 
 > وَالَّذِينَ إِذَا فَعَلُوا فَاحِشَةً أَوْ ظَلَمُوا أَنفُسَهُمْ ذَكَرُوا اللَّهَ فَاسْتَغْفَرُوا لِذُنُوبِهِمْ وَمَن يَغْفِرُ الذُّنُوبَ إِلَّا اللَّهُ وَلَمْ يُصِرُّوا عَلَىٰ مَا فَعَلُوا وَهُمْ يَعْلَمُونَ ۝ أُولَٰئِكَ جَزَاؤُهُم مَّغْفِرَةٌ مِّن رَّبِّهِمْ وَجَنَّاتٌ تَجْرِي مِن تَحْتِهَا الْأَنْهَارُ خَالِدِينَ فِيهَا ۚ وَنِعْمَ أَجْرُ الْعَامِلِينَ
 >
-> "And those who, when they commit an immorality or wrong themselves, remember God and seek forgiveness for their sins — and who can forgive sins except God? — and they do not persist in what they have done while they know. Their reward is forgiveness from their Lord, and gardens beneath which rivers flow, wherein they shall abide forever. How excellent is the reward of those who labor." (Qur'an 3:135–136)
+> "And those who, when they commit an immorality or wrong themselves, remember God and seek forgiveness for their sins — and who can forgive sins except God? — and they do not persist in what they have done while they know. Their reward is forgiveness from their Lord, and gardens beneath which rivers flow, wherein they shall abide forever. How excellent is the reward of those who labor." (Ali 'Imran: 135-136)
 
-God Almighty granted Adam the benefit of His will: He settled him on the earth, made him a successor over those He had placed there. Adam's descendants multiplied, and the proof of God was established against them, and Adam was the one who carried the message to them. He entrusted (awsa) his son Habil — Abel; and his brother Qabil envied him and killed him, as God Almighty has described. The killing happened during Adam's own lifetime, so that the meaning of the will (wasiyya) and what it costs would be made plain to him in his own house. Whoever entertained evil thoughts after that, persisted in disobedience, and did not repent of his sin, was of Satan's party.
+God Almighty granted Adam the benefit of His will: He settled him on the earth, made him a successor over those He had placed there. Adam's descendants multiplied, and the proof of God was established against them, and Adam was the one who carried the message to them. He entrusted (أَوْصَى) his son Habil — Abel; and his brother Qabil envied him and killed him, as God Almighty has described. The killing happened during Adam's own lifetime, so that the meaning of the will (اَلْوَصِيَّة) and what it costs would be made plain to him in his own house. Whoever entertained evil thoughts after that, persisted in disobedience, and did not repent of his sin, was of Satan's party.
 
-Then God granted Adam, from among his descendants, a son whom Adam named Hibat Allah — "the Gift of God." To him Adam entrusted the inner knowledge. He took him into confidence and commanded him to keep the secret, fearing that Qabil would kill him as he had killed Habil. From that fear, made into a discipline, the custom (sunna) was established of guarding the secrets of the covenant and keeping them hidden.
+Then God granted Adam, from among his descendants, a son whom Adam named Hibat Allah (هِبَةُ اللّٰه) — "the Gift of God." To him Adam entrusted the inner knowledge. He took him into confidence and commanded him to keep the secret, fearing that Qabil would kill him as he had killed Habil. From that fear, made into a discipline, the custom (سُنَّة) was established of guarding the secrets of the covenant and keeping them hidden.
 
 God prepared Adam for the reward He had set aside for him in the Abode of Decision, and after him the matter of the imamate passed by will to Shith — to Seth. With Seth's son it went on as we have said: remembrance after remembrance, station after station, imam after imam, until the matter reached the one God mentioned in His Book concerning Idris, peace be upon him. All of this was within the Cycle of Adam, God's blessings upon him. Then the cycle came to its close with the era of Noah.
 
@@ -1070,43 +934,43 @@ God sent Noah as a messenger speaking a sacred law different from the law of Ada
 
 > لِكُلٍّ جَعَلْنَا مِنكُمْ شِرْعَةً وَمِنْهَاجًا
 >
-> "For each of you We have appointed a law and a way." (Qur'an 5:48)
+> "For each of you We have appointed a law and a way." (Al-Maidah: 48)
 
 Adam's cycle ended when Noah's era came upon them. None of these messengers rose to messengership until he had first held fast to the law of those before him; the predecessor's covenant was taken up, and he bound himself to it. The Almighty says:
 
 > وَإِذْ أَخَذْنَا مِنَ النَّبِيِّينَ مِيثَاقَهُمْ وَمِنكَ وَمِن نُّوحٍ وَإِبْرَاهِيمَ وَمُوسَىٰ وَعِيسَى ابْنِ مَرْيَمَ ۖ وَأَخَذْنَا مِنْهُم مِّيثَاقًا غَلِيظًا
 >
-> "And when We took from the prophets their covenant — and from you, and from Noah, Abraham, Moses, and Jesus, son of Mary — We took from them a solemn covenant." (Qur'an 33:7)
+> "And when We took from the prophets their covenant — and from you, and from Noah, Abraham, Moses, and Jesus, son of Mary — We took from them a solemn covenant." (Al-Ahzab: 7)
 
-We have spoken of this above. Hold to what I have recited to you of the interpretation of what God has revealed to you. Know the truth of what is in it, so that you may worship Him by it, and grasp the inner revelation — the inner unveiling — of which the Almighty has informed you in His Book: that none knows it but He and those firmly rooted in knowledge — His friends (awliya), whose authority God has favored you with, whose following has placed you in His party. He has promised you His reward. Through that following He has lifted you out of the party of Satan — whose punishment you have learned to dread.
+We have spoken of this above. Hold to what I have recited to you of the interpretation of what God has revealed to you. Know the truth of what is in it, so that you may worship Him by it, and grasp the inner revelation — the inner unveiling — of which the Almighty has informed you in His Book: that none knows it but He and those firmly rooted in knowledge — His friends (أَوْلِيَاء), whose authority God has favored you with, whose following has placed you in His party. He has promised you His reward. Through that following He has lifted you out of the party of Satan — whose punishment you have learned to dread.
 
-Carry out what God Almighty has prescribed. Be sincere before His face. Perform what He has made obligatory, outwardly and inwardly. Whoever of you has committed a sin, let him repent to God from it, and let him take refuge in the guardian (wali) of his own time, so that God may forgive him and lift the sin from him. He becomes one of those God has promised — the repentant, who seek forgiveness for their own sins and for their guardians — that he may belong to the party of your father Adam, and to the party of the friends of God from his progeny, which is Hizb Allah.
+Carry out what God Almighty has prescribed. Be sincere before His face. Perform what He has made obligatory, outwardly and inwardly. Whoever of you has committed a sin, let him repent to God from it, and let him take refuge in the guardian (اَلْوَالِي) of his own time, so that God may forgive him and lift the sin from him. He becomes one of those God has promised — the repentant, who seek forgiveness for their own sins and for their guardians — that he may belong to the party of your father Adam, and to the party of the friends of God from his progeny, which is حِزْبُ اللّٰه.
 
 Leave the party of Satan: those who persisted in their sins as Satan persisted in his, and so became satanic like him. Just as Satan despaired of his Lord, do not despair of your Lord or of His mercy upon you. The Almighty said:
 
 > لَا تَيْأَسُوا مِن رَّوْحِ اللَّهِ ۖ إِنَّهُ لَا يَيْأَسُ مِن رَّوْحِ اللَّهِ إِلَّا الْقَوْمُ الْكَافِرُونَ
 >
-> "Do not despair of the mercy of God; surely none despair of God's mercy except the disbelieving people." (Qur'an 12:87)
+> "Do not despair of the mercy of God; surely none despair of God's mercy except the disbelieving people." (Yusuf: 87)
 
 And as I have cited from the words of the Almighty to His friend Ibrahim al-Khalil:
 
 > وَمَن يَقْنَطُ مِن رَّحْمَةِ رَبِّهِ إِلَّا الضَّالُّونَ
 >
-> "And who despairs of the mercy of his Lord but those who go astray?" (Qur'an 15:56)
+> "And who despairs of the mercy of his Lord but those who go astray?" (Al-Hijr: 56)
 
-May God guide you to what He loves and is pleased with, protect you from violating His prohibitions and disobeying Him, and open for you the gates of obedience to His friends. May God bless His servant Muhammad and the pure imams from his progeny (itra), and peace be upon him.
+May God guide you to what He loves and is pleased with, protect you from violating His prohibitions and disobeying Him, and open for you the gates of obedience to His friends. May God bless His servant Muhammad and the pure imams from his progeny (عِتْرَة), and peace be upon him.
 
-A word here on the architecture of cycles, since I have just spoken of the close of Adam's and the opening of Noah's. In our tradition, cycles are of two kinds: the major and the minor. The major cycles open at Adam and close at the Resurrection. The minor cycles open with each Speaker-prophet (natiq) — the one sent with a sacred law — and close with the next Speaker. The major cycle we are now inside is divided into seven minor cycles: Adam, Noah, Abraham, Moses, Jesus, Muhammad, and the awaited Qa'im, the Standing One. Each minor cycle contains a Resident Imam (al-imam al-muqim), a permanent Imam, a Foundation (asas), a Speaker (natiq), and seven Imams. The Resident Imam is the one who instructs the Speaker in his mission. The Concluder is the one who closes the cycle. The Foundation is the Speaker's proof in his lifetime and inherits his will after him; he is the master of the inner interpretation, corresponding to the Speaker, who holds the knowledge of the outward sacred law.
+A word here on the architecture of cycles, since I have just spoken of the close of Adam's and the opening of Noah's. In our tradition, cycles are of two kinds: the major and the minor. The major cycles open at Adam and close at the Resurrection. The minor cycles open with each Speaker-prophet (اَلنَّاطِق) — the one sent with a sacred law — and close with the next Speaker. The major cycle we are now inside is divided into seven minor cycles: Adam, Noah, Abraham, Moses, Jesus, Muhammad, and the awaited الْقَائِم, the Standing One. Each minor cycle contains a Resident Imam (الْإِمَامُ الْمُقِيم), a permanent Imam, a Foundation (أَسَاس), a Speaker (اَلنَّاطِق), and seven Imams. The Resident Imam is the one who instructs the Speaker in his mission. The Concluder is the one who closes the cycle. The Foundation is the Speaker's proof in his lifetime and inherits his will after him; he is the master of the inner interpretation, corresponding to the Speaker, who holds the knowledge of the outward sacred law.
 
-In Adam's era, the Resident Imam was Hunayd, and his proofs (hujaj) were twelve — among them Iblis, who refused to submit to Adam. Adam descended at Aden, perhaps the Aden of Yemen, then migrated to Mecca al-Mukarrama, whose name was then Faran, where he died at nine hundred and thirty years of age and was buried at the foot of Abu Qubays. Before that, he bequeathed the matter to his son Shith, called Hibat Allah. Shith was born in the year 230 from Adam's descent, died in 1142, lived 912 years, and bequeathed to his son Anush. Anush, born in 435 from Adam's descent, died in 1385, lived 950 years, and bequeathed to his son Qaynan. Qaynan, born in 625, died in 1535, lived 910 years, and bequeathed to his son Mahla'il. Mahla'il, born in 795, died in 1690, lived 895 years, and bequeathed to his son Yard. Yard, born in 960, died in 1922, lived 962 years, and bequeathed to his son Akhnukh. Akhnukh — Enoch — born in 1122, was raised up in 1487, lived 365 years, and bequeathed to his son Mattu Shalih — whose name was also Idris, also called Hermes the Thrice-Blessed, the first to write with the pen. Methuselah was born in 1287 and died in 2242, the year of the flood; his death came just before it. He lived 955 years and bequeathed to his son Lamak — Lamech. Lamak, born in 1454 from Adam's descent, died in 2346, one hundred and four years after the flood, having lived 891 years. He completed the cycle of Adam and was the seventh of its imams. From him the matter passed to his son Noah, after the divine will had decreed the changing of the old law and its replacement by a new one: the law of Noah, the Second Speaker.
+In Adam's era, the Resident Imam was Hunayd, and his proofs (حُجَج) were twelve — among them Iblis, who refused to submit to Adam. Adam descended at Aden, perhaps the Aden of Yemen, then migrated to Mecca al-Mukarrama, whose name was then Faran (فَارَان), where he died at nine hundred and thirty years of age and was buried at the foot of Abu Qubays (أَبُو قُبَيْس). Before that, he bequeathed the matter to his son Shith, called Hibat Allah. Shith was born in the year 230 from Adam's descent, died in 1142, lived 912 years, and bequeathed to his son Anush. Anush, born in 435 from Adam's descent, died in 1385, lived 950 years, and bequeathed to his son Qaynan. Qaynan, born in 625, died in 1535, lived 910 years, and bequeathed to his son Mahlail. Mahlail, born in 795, died in 1690, lived 895 years, and bequeathed to his son Yard. Yard, born in 960, died in 1922, lived 962 years, and bequeathed to his son Akhnukh. Akhnukh — Enoch — born in 1122, was raised up in 1487, lived 365 years, and bequeathed to his son Mattu Shalih — whose name was also Idris, also called Hermes the Thrice-Blessed, the first to write with the pen. Methuselah was born in 1287 and died in 2242, the year of the flood; his death (الْمَوْت) came just before it. He lived 955 years and bequeathed to his son Lamak — Lamech. Lamak, born in 1454 from Adam's descent, died in 2346, one hundred and four years after the flood, having lived 891 years. He completed the cycle of Adam and was the seventh of its imams. From him the matter passed to his son Noah, after the divine will had decreed the changing of the old law and its replacement by a new one: the law of Noah, the Second Speaker.
 
-In the name of God, the Most Gracious, the Most Merciful. Praise be to God, Lord of the Worlds. May God bless Muhammad, the Seal of the Prophets, and his guardian (wasi) Ali ibn Abi Talib, the best of guardians, and the pure imams from his successive progeny, from his loins until the Day of Judgment, and beyond.
+In the name of God, the Most Gracious, the Most Merciful. Praise be to God, Lord of the Worlds. May God bless Muhammad, the Seal of the Prophets, and his guardian (وَصِي) Ali ibn Abi Talib, the best of guardians, and the pure imams from his successive progeny, from his loins until the Day of Judgment, and beyond.
 
 God Almighty sent Noah, God's blessings upon him, as a prophet bearing a new sacred law, after the law of Adam had altered and corruption had increased among Adam's descendants. Noah called the people to his law: to worship God Almighty and affirm His oneness outwardly. God informed him in His Book:
 
 > لَقَدْ أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِ فَقَالَ يَا قَوْمِ اعْبُدُوا اللَّهَ مَا لَكُم مِّنْ إِلَٰهٍ غَيْرُهُ أَفَلَا تَتَّقُونَ
 >
-> "We sent Noah to his people, saying: O my people, worship God; you have no god other than Him. Will you not be conscious of Him?" (Qur'an 7:59)
+> "We sent Noah to his people, saying: O my people, worship God; you have no god other than Him. Will you not be conscious of Him?" (Al-Araf: 59)
 
 The weak among them responded; the arrogant turned him down. Those who were content with the law of Adam answered him with a line so familiar I want you to hear it carefully:
 
@@ -1114,26 +978,30 @@ The weak among them responded; the arrogant turned him down. Those who were cont
 >
 > "You are nothing but a human being like us." — that is: you have come to us in the same outward form we already know. We hold in our hands what we inherited from those before you; you began with us with the same things they began with us. You are *bashar*, just as we are.
 
-The word *bashar* in our language names the visible skin, and the touch of skin to skin. So the meaning of their answer is this: what he has brought us we already have. He is like us, and has no merit over us. And they went on:
+The word الْبَشَر in our language names the visible skin, and the touch of skin to skin. So the meaning of their answer is this: what he has brought us we already have. He is like us, and has no merit over us. And they went on:
 
 > وَمَا نَرَاكَ اتَّبَعَكَ إِلَّا الَّذِينَ هُمْ أَرَاذِلُنَا بَادِيَ الرَّأْيِ
 >
-> "None follows you but the lowliest among us, with no real thought." (Qur'an 11:27)
+> "None follows you but the lowliest among us, with no real thought." (Hud: 27)
 
-By "lowliest" they meant — in knowledge. They had their own scholars, and they measured every newcomer against the standing of those scholars. We have already said that the Speaker (natiq) is a caller to the outward; and those who pride themselves on the outward are precisely the ones who do not recognize a new outward when it arrives.
+By "lowliest" they meant — in knowledge. They had their own scholars, and they measured every newcomer against the standing of those scholars. We have already said that the Speaker (اَلنَّاطِق) is a caller to the outward; and those who pride themselves on the outward are precisely the ones who do not recognize a new outward when it arrives.
 
 > قَالَ نُوحٌ رَّبِّ إِنَّهُمْ عَصَوْنِي وَاتَّبَعُوا مَن لَّمْ يَزِدْهُ مَالُهُ وَوَلَدُهُ إِلَّا خَسَارًا
 >
-> "Noah said: My Lord, they have disobeyed me and followed one whose wealth and child have only increased him in loss." (Qur'an 71:21)
+> "Noah said: My Lord, they have disobeyed me and followed one whose wealth and child have only increased him in loss." (Nuh: 21)
 
-He means: their outward scholars, whose knowledge added nothing, who called Noah's hearers to nothing but loss. Wealth (mal), in the inner sense, is like knowledge; the child (walad) is like the responder — the one who answers a caller's call and takes on what is preached to him, whether rightly or wrongly.
+He means: their outward scholars, whose knowledge added nothing, who called Noah's hearers to nothing but loss. Wealth (اَلْمَال), in the inner sense, is like knowledge; the child (الْوَلَد) is like the responder — the one who answers a caller's call and takes on what is preached to him, whether rightly or wrongly.
+
+> وَمَكَرُوا۟ مَكْرًۭا كُبَّارًۭا وَقَالُوا۟ لَا تَذَرُنَّ آلِهَتَكُمْ وَلَا تَذَرُنَّ وَدًّۭا وَلَا سُوَاعًۭا وَلَا يَغُوثَ وَيَعُوقَ وَنَسْرًۭا
 
 > وَمَكَرُوا مَكْرًا كُبَّارًا ۝ وَقَالُوا لَا تَذَرُنَّ آلِهَتَكُمْ وَلَا تَذَرُنَّ وَدًّا وَلَا سُوَاعًا وَلَا يَغُوثَ وَيَعُوقَ وَنَسْرًا
 >
-> "And they devised a great plot, and they said: Do not forsake your gods, and do not forsake Wadd, Suwa, Yaghuth, Ya'uq, or Nasr." (Qur'an 71:22–23)
+> "And they devised a great plot, and they said: Do not forsake your gods, and do not forsake Wadd, Suwa, Yaghuth, Yauq, or Nasr." (Nuh: 22-23)
 
 These named idols, in the inner sense, are the scholars from whom that people took their knowledge — the elders among their scholars whom they had come to revere, and who in turn misled a great many of God's creation. Noah, peace be upon him, called them outwardly for a long time. And then God Almighty entrusted him with the verdict:
 
+> إِلَىٰ نُوحٍ أَنَّهُۥ لَن يُؤْمِنَ مِن قَوْمِكَ إِلَّا مَن قَدْ آمَنَ
+
 > أَنَّهُ لَن يُؤْمِنَ مِن قَوْمِكَ إِلَّا مَن قَدْ آمَنَ
 >
-> "None of your people will believe except those who have already believed." (Qur'an 11:36)
+> "None of your people will believe except those who have already believed." (Hud: 36)

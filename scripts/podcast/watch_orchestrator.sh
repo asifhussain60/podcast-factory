@@ -48,19 +48,12 @@ else
 fi
 ORCH="$REPO_ROOT/scripts/podcast/orchestrate_book.py"
 
-# Resolve state file path via _paths.find_content() so non-books categories
-# (sites, lectures, articles, etc.) are found at their canonical location
-# content/drafts/<category>/<slug>/ rather than the legacy flat path.
-_CONTENT_DIR=$(cd "$REPO_ROOT" && $PYTHON - <<'PYEOF' 2>/dev/null
-import sys, os
-sys.path.insert(0, 'scripts/podcast')
-from _paths import find_content
-slug = os.environ.get('_WD_SLUG', '')
-r = find_content(slug)
-if r:
-    print(r[2])
-PYEOF
-)
+# Resolve state file path via _paths.find_content() so every bucket
+# (Islamic, Technical, Fiction, Guides) is found at its canonical location
+# content/<Bucket>/<slug>/ rather than the legacy flat path.
+#
+# This ran twice: the first copy executed before _WD_SLUG was exported, so it
+# always resolved the empty slug to nothing and was immediately overwritten.
 export _WD_SLUG="$SLUG"
 _CONTENT_DIR=$(cd "$REPO_ROOT" && _WD_SLUG="$SLUG" $PYTHON - <<'PYEOF' 2>/dev/null
 import sys, os
@@ -74,13 +67,13 @@ PYEOF
 )
 
 if [[ -n "$_CONTENT_DIR" ]]; then
-    STATE="$_CONTENT_DIR/_system/orchestrator-state.json"
-    SENTINEL="$_CONTENT_DIR/_system/watchdog.json"
+    BOOK_DIR="$_CONTENT_DIR"
 else
     # Fallback: legacy flat path (books category, pre-2026-05-26 layout)
-    STATE="$REPO_ROOT/content/drafts/$SLUG/_system/orchestrator-state.json"
-    SENTINEL="$REPO_ROOT/content/drafts/$SLUG/_system/watchdog.json"
+    BOOK_DIR="$REPO_ROOT/content/drafts/$SLUG"
 fi
+STATE="$BOOK_DIR/_system/orchestrator-state.json"
+SENTINEL="$BOOK_DIR/_system/watchdog.json"
 
 LOG_DIR="$REPO_ROOT/_workspace/logs"
 LOG="$LOG_DIR/orchestrator-$SLUG.log"
@@ -100,6 +93,51 @@ fi
 echo "{\"slug\":\"$SLUG\",\"pid\":$$,\"started\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" > "$SENTINEL"
 
 _log "=== watchdog start: $SLUG (max $MAX_RETRIES retries, ${RETRY_DELAY_S}s backoff) ==="
+
+# ── Self-owned status heartbeat ───────────────────────────────────────────────
+# The status card used to exist only while a Claude session was attached to
+# re-arm a wakeup and render it. A run that outlived the session kept working and
+# stopped reporting, which is the failure "once started it should end after
+# completing everything" is meant to rule out. So the RUN owns its own beat: a
+# background loop writes the card to _system/status-card.txt on a fixed cadence,
+# whether or not anyone is watching, and a session that attaches just reads the
+# file.
+#
+# 270s, not 300: the interval predates this and is set just under five minutes to
+# stay inside the prompt-cache window a reading session works in. Cheap either
+# way — rendering the card is pure file I/O over state the pipeline already
+# writes, no model spend.
+HEARTBEAT_S="${HEARTBEAT_S:-270}"
+CARD_PATH="$BOOK_DIR/_system/status-card.txt"
+
+_emit_card() {
+    # Written to a temp file and moved, so a reader never catches a half-written
+    # card. Failure is silent by design: a status card that cannot be rendered
+    # must never take down the run it is reporting on.
+    local tmp="$CARD_PATH.tmp.$$"
+    if "$PYTHON" "$REPO_ROOT/scripts/podcast/book_status_card.py" "$BOOK_DIR" > "$tmp" 2>/dev/null; then
+        mv -f "$tmp" "$CARD_PATH"
+    else
+        rm -f "$tmp"
+    fi
+}
+
+_heartbeat_loop() {
+    while true; do
+        _emit_card
+        sleep "$HEARTBEAT_S"
+    done
+}
+
+_heartbeat_loop &
+HEARTBEAT_PID=$!
+# EXIT only, and only the heartbeat child. The watchdog deliberately has no trap
+# that reaches the orchestrator -- SIGTERM here would kill a live multi-hour run,
+# which is why "never kill the watchdog" is a standing rule. This trap adds a
+# child of its own and must not widen that blast radius.
+trap 'kill "$HEARTBEAT_PID" 2>/dev/null; _emit_card' EXIT
+_log "heartbeat: status card every ${HEARTBEAT_S}s -> ${CARD_PATH#"$REPO_ROOT/"}"
+
 
 # ── Helpers: terminal and human-review states ─────────────────────────────────
 _is_done() {
@@ -155,7 +193,7 @@ if _is_human_review_gate; then
 fi
 if _is_iter_cap_halt; then
     _log "At iter-cap halt (per-chapter/failed) — human review required. Watchdog will not retry."
-    _log "Check findings: jq '.last_error' content/drafts/$SLUG/_system/orchestrator-state.json"
+    _log "Check findings: jq '.last_error' $STATE"
     _log "Fix the unresolved P0/P1, then re-run: python3 scripts/podcast/orchestrate_book.py --resume $SLUG --retry-phase per-chapter"
     rm -f "$SENTINEL"
     exit 0
@@ -206,8 +244,8 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
         # watchdog's attempt budget for zero gain. Stop here and tell the user what to do.
         _log "=== ITER-CAP HALT: $SLUG per-chapter/failed — human review required. ==="
         _log "Unresolved finding(s) blocked convergence. Do NOT re-run watchdog without fixing first."
-        _log "1. Check: jq '.last_error' content/drafts/$SLUG/_system/orchestrator-state.json"
-        _log "2. Read:  content/drafts/$SLUG/_system/challenger-report.md (P0 section)"
+        _log "1. Check: jq '.last_error' $STATE"
+        _log "2. Read:  $BOOK_DIR/_system/challenger-report.md (P0 section)"
         _log "3. Fix the P0, then: python3 scripts/podcast/orchestrate_book.py --resume $SLUG --retry-phase per-chapter"
         rm -f "$SENTINEL"
         exit 0

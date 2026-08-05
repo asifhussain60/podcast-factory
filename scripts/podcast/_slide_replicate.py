@@ -35,6 +35,7 @@ Standalone:
   python3 scripts/podcast/_slide_replicate.py <BOOK_DIR> <ch> [--force]
   (expects slide-decks/<ch>*.pdf already dropped + pages extracted)
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -46,8 +47,8 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _authoring._core import _run_claude_p  # noqa: E402
-from inject_slide_deck import page_titles, _page_map  # noqa: E402
+from _authoring._core import _run_claude_p
+from inject_slide_deck import _page_map, page_titles
 
 _PHASE = "0book-slide-import"
 _ANALYSIS_TIMEOUT = 1200
@@ -64,7 +65,7 @@ MAX_TEXT_BLOCKS = 22
 
 # House style constants surfaced into the SVG prompt (mirrors _svg_patterns.py).
 _SVG_STYLE_NOTE = (
-    "viewBox=\"0 0 760 H\" (no width/height attributes; H sized to content), "
+    'viewBox="0 0 760 H" (no width/height attributes; H sized to content), '
     "font-family 'Lato', system-ui, sans-serif; palette: ink #2b2117, "
     "accent #8b4513, muted #7a6a58, hairline #d9cdbd, panel fill #f7f1e6; "
     "real <text> elements only (NEVER paths-as-text, NEVER <foreignObject>)"
@@ -72,6 +73,7 @@ _SVG_STYLE_NOTE = (
 
 
 # ── paths + sig cache ────────────────────────────────────────────────────────
+
 
 def _analysis_dir(book_dir: Path) -> Path:
     return book_dir / "slide-decks" / "_analysis"
@@ -95,12 +97,13 @@ def _sha(path: Path) -> str:
 
 # ── prompts ──────────────────────────────────────────────────────────────────
 
-def _analysis_prompt(pages: dict[int, Path], titles: list[str], ch: str,
-                     out_path: Path) -> str:
+
+def _analysis_prompt(pages: dict[int, Path], titles: list[str], ch: str, out_path: Path) -> str:
     page_lines = "\n".join(
         f"  page {n}: {p}"
-        + (f"  (pdftotext title: {titles[n-1]!r})" if n - 1 < len(titles) and titles[n - 1] else "")
-        for n, p in sorted(pages.items()))
+        + (f"  (pdftotext title: {titles[n - 1]!r})" if n - 1 < len(titles) and titles[n - 1] else "")
+        for n, p in sorted(pages.items())
+    )
     return f"""You are analyzing the pages of a NotebookLM-exported slide deck ({ch}).
 READ each page image listed below (use your Read tool on each JPEG path):
 {page_lines}
@@ -134,8 +137,7 @@ OUTPUT: write the JSON file at the path above. Do not modify any other file."""
 
 def _svg_prompt(entries: list[dict], ch: str, svg_dir: Path) -> str:
     payload = json.dumps(entries, ensure_ascii=False, indent=2)
-    outputs = "\n".join(
-        "  - " + str(svg_dir / ("page-%02d.svg" % int(e["page"]))) for e in entries)
+    outputs = "\n".join("  - " + str(svg_dir / ("page-%02d.svg" % int(e["page"]))) for e in entries)
     return f"""You are replicating high-value slide pages as clean vector SVG figures for a
 book reading edition. Work ONLY from the structured analysis below — do NOT
 read the original images; the analysis text_blocks are the verified content.
@@ -163,6 +165,7 @@ Do not modify any other file."""
 
 
 # ── deterministic classification ─────────────────────────────────────────────
+
 
 def classify_value(entry: dict) -> tuple[str, list[str]]:
     """Final high/low decision + rubric reasons. The LLM's value_class is advisory.
@@ -194,6 +197,7 @@ def classify_value(entry: dict) -> tuple[str, list[str]]:
 
 # ── deterministic SVG verification ───────────────────────────────────────────
 
+
 def _norm(s: str) -> str:
     return re.sub(r"\s+", " ", unicodedata.normalize("NFC", s)).strip()
 
@@ -205,14 +209,13 @@ def verify_svg(svg_path: Path, entry: dict) -> tuple[bool, str]:
     except (ET.ParseError, OSError) as e:
         return False, f"unparseable SVG: {e}"
     svg_text = _norm(" ".join(root.itertext()))
-    for block in (entry.get("text_blocks") or []):
+    for block in entry.get("text_blocks") or []:
         if _norm(str(block)) not in svg_text:
             return False, f"text block missing/altered: {str(block)[:60]!r}"
-    for term in (entry.get("arabic_terms") or []):
+    for term in entry.get("arabic_terms") or []:
         if _norm(str(term)) not in svg_text:
             return False, f"arabic term missing/altered: {term!r}"
-    expected_digits = re.findall(r"\d+(?:[.,]\d+)?",
-                                 " ".join(str(b) for b in (entry.get("text_blocks") or [])))
+    expected_digits = re.findall(r"\d+(?:[.,]\d+)?", " ".join(str(b) for b in (entry.get("text_blocks") or [])))
     for num in expected_digits:
         if num not in svg_text:
             return False, f"number missing/altered: {num!r}"
@@ -220,22 +223,23 @@ def verify_svg(svg_path: Path, entry: dict) -> tuple[bool, str]:
     # with a neighbour, or prints below the readable floor demotes the page
     # to its raster JPEG — the semantic checks above never see layout.
     from _svg_geometry import geometry_findings
+
     geo = geometry_findings(svg_path.read_text(encoding="utf-8"))
     if geo:
-        return False, f"geometry: {geo[0]}" + (f" (+{len(geo)-1} more)" if len(geo) > 1 else "")
+        return False, f"geometry: {geo[0]}" + (f" (+{len(geo) - 1} more)" if len(geo) > 1 else "")
     return True, ""
 
 
 # ── phase entry ──────────────────────────────────────────────────────────────
 
-def analyze_and_replicate_slides(book_dir: Path, ch: str, deck_pdf: Path,
-                                 pages_dir: Path, *, force: bool = False,
-                                 log=print) -> dict[int, Path]:
+
+def analyze_and_replicate_slides(
+    book_dir: Path, ch: str, deck_pdf: Path, pages_dir: Path, *, force: bool = False, log=print
+) -> dict[int, Path]:
     """Return {page_no: verified_svg_path}. Degrades to {} on any failure."""
     try:
-        return _analyze_and_replicate(book_dir, ch, deck_pdf, pages_dir,
-                                      force=force, log=log)
-    except Exception as e:  # noqa: BLE001 — non-blocking contract: raster fallback
+        return _analyze_and_replicate(book_dir, ch, deck_pdf, pages_dir, force=force, log=log)
+    except Exception as e:
         log(f"    {_PHASE}: {ch} slide-intelligence degraded to all-raster: {e}")
         return {}
 
@@ -263,8 +267,9 @@ def _verify_high_pages(svg_dir: Path, high: list[dict]) -> tuple[dict[int, Path]
     return verified, failed
 
 
-def _analyze_and_replicate(book_dir: Path, ch: str, deck_pdf: Path,
-                           pages_dir: Path, *, force: bool, log=print) -> dict[int, Path]:
+def _analyze_and_replicate(
+    book_dir: Path, ch: str, deck_pdf: Path, pages_dir: Path, *, force: bool, log=print
+) -> dict[int, Path]:
     raw_map = _page_map(pages_dir)
     if not raw_map:
         return {}
@@ -276,8 +281,12 @@ def _analyze_and_replicate(book_dir: Path, ch: str, deck_pdf: Path,
     #      PDF changes (or --force). Classification + SVG work ALWAYS rerun
     #      below, so rubric recalibration and hand-edits to the analysis JSON
     #      (incl. manual_value_class pins) take effect without an LLM re-read.
-    cache_hit = (analysis_path.exists() and sig_path.exists()
-                 and sig_path.read_text(encoding="utf-8").strip() == sig and not force)
+    cache_hit = (
+        analysis_path.exists()
+        and sig_path.exists()
+        and sig_path.read_text(encoding="utf-8").strip() == sig
+        and not force
+    )
     if cache_hit:
         log(f"    {_PHASE}: {ch} slide-analysis cache hit — skipping vision LLM")
     else:
@@ -285,12 +294,13 @@ def _analyze_and_replicate(book_dir: Path, ch: str, deck_pdf: Path,
         titles = page_titles(deck_pdf)
         rc, stdout, stderr = _run_claude_p(
             _analysis_prompt(raw_map, titles, ch, analysis_path),
-            timeout=_ANALYSIS_TIMEOUT, book_dir=book_dir,
-            phase=_PHASE, step=f"slide-analysis/{ch}")
+            timeout=_ANALYSIS_TIMEOUT,
+            book_dir=book_dir,
+            phase=_PHASE,
+            step=f"slide-analysis/{ch}",
+        )
         if rc != 0 or not analysis_path.exists():
-            raise RuntimeError(
-                f"vision analysis failed (rc={rc}; "
-                f"stderr={(stderr or '').strip()[:200]})")
+            raise RuntimeError(f"vision analysis failed (rc={rc}; stderr={(stderr or '').strip()[:200]})")
     analysis = json.loads(analysis_path.read_text(encoding="utf-8"))
     if not isinstance(analysis, list) or not analysis:
         raise RuntimeError("analysis JSON is not a non-empty list")
@@ -304,8 +314,7 @@ def _analyze_and_replicate(book_dir: Path, ch: str, deck_pdf: Path,
         entry["rubric_reasons"] = reasons
         if final == "high":
             high.append(entry)
-    log(f"    {_PHASE}: {ch} slide-analysis: {len(analysis)} pages, "
-        f"{len(high)} high-value → SVG")
+    log(f"    {_PHASE}: {ch} slide-analysis: {len(analysis)} pages, {len(high)} high-value → SVG")
 
     # ── 3+4. REPLICATE missing/failed SVGs, then VERIFY (deterministic) ─────
     verified: dict[int, Path] = {}
@@ -319,8 +328,11 @@ def _analyze_and_replicate(book_dir: Path, ch: str, deck_pdf: Path,
                 break
             rc, stdout, stderr = _run_claude_p(
                 _svg_prompt(pending, ch, svg_dir),
-                timeout=_SVG_TIMEOUT, book_dir=book_dir,
-                phase=_PHASE, step=f"slide-svg/{ch}/attempt-{attempt}")
+                timeout=_SVG_TIMEOUT,
+                book_dir=book_dir,
+                phase=_PHASE,
+                step=f"slide-svg/{ch}/attempt-{attempt}",
+            )
             if rc != 0:
                 raise RuntimeError(f"SVG authoring rc={rc}")
             newly_verified, pending = _verify_high_pages(svg_dir, pending)
@@ -331,11 +343,9 @@ def _analyze_and_replicate(book_dir: Path, ch: str, deck_pdf: Path,
                 for e in pending:
                     e["_retry_reason"] = e.get("fallback_reason")
         for entry in pending:
-            log(f"    {_PHASE}: {ch} page {entry['page']} → raster fallback "
-                f"({entry.get('fallback_reason')})")
+            log(f"    {_PHASE}: {ch} page {entry['page']} → raster fallback ({entry.get('fallback_reason')})")
 
-    analysis_path.write_text(json.dumps(analysis, ensure_ascii=False, indent=2),
-                             encoding="utf-8")
+    analysis_path.write_text(json.dumps(analysis, ensure_ascii=False, indent=2), encoding="utf-8")
     sig_path.write_text(sig, encoding="utf-8")
     return verified
 
@@ -349,8 +359,7 @@ def main() -> int:
     book_dir = Path(args[0]).resolve()
     ch = args[1]
     deck_dir = book_dir / "slide-decks"
-    pdf = deck_dir / "book-deck.pdf" if ch == "book" else next(
-        iter(sorted(deck_dir.glob(f"{ch}-*.pdf"))), None)
+    pdf = deck_dir / "book-deck.pdf" if ch == "book" else next(iter(sorted(deck_dir.glob(f"{ch}-*.pdf"))), None)
     if pdf is None or not pdf.exists():
         print(f"deck PDF not found for {ch}", file=sys.stderr)
         return 2

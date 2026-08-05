@@ -5,6 +5,7 @@ Calls localhost:4390 with a 300 ms timeout.  Returns None on any failure
 
 No third-party dependencies — stdlib urllib only.
 """
+
 from __future__ import annotations
 
 import json
@@ -26,7 +27,7 @@ def _get(path: str) -> Any | None:
             if resp.status != 200:
                 return None
             return json.loads(resp.read().decode("utf-8"))
-    except Exception:   # noqa: BLE001
+    except Exception:
         return None
 
 

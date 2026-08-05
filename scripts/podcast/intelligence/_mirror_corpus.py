@@ -16,6 +16,7 @@ Re-running an importer produces zero new rows.
 Shared contract: each importer exposes ``ingest_all(*, dry_run=False) -> MirrorSummary``
 so it slots straight into populate_corpus.SOURCES.
 """
+
 from __future__ import annotations
 
 import sqlite3
@@ -23,8 +24,8 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-_HERE = Path(__file__).resolve().parent          # …/scripts/podcast/intelligence
-_SCRIPTS = _HERE.parent                           # …/scripts/podcast
+_HERE = Path(__file__).resolve().parent  # …/scripts/podcast/intelligence
+_SCRIPTS = _HERE.parent  # …/scripts/podcast
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
@@ -42,8 +43,8 @@ class MirrorSummary:
     """
 
     source: str = ""
-    total_chapters: int = 0          # corpus_chapters rows touched
-    total_atoms_created: int = 0     # atoms newly inserted (not counting no-op IGNOREs)
+    total_chapters: int = 0  # corpus_chapters rows touched
+    total_atoms_created: int = 0  # atoms newly inserted (not counting no-op IGNOREs)
     atoms_skipped_existing: int = 0  # canonical id already present — left untouched
     corpora_registered: int = 0
     errors: list[str] = field(default_factory=list)
@@ -62,8 +63,7 @@ def open_mirror_ro() -> sqlite3.Connection | None:
 def upsert_corpus(conn, corpus_id: str, display_name: str, corpus_type: str) -> None:
     """Register an external_corpora row idempotently (corpus_type in quran|hadith|scholarly)."""
     conn.execute(
-        "INSERT OR IGNORE INTO external_corpora (id, display_name, corpus_type)"
-        " VALUES (?, ?, ?)",
+        "INSERT OR IGNORE INTO external_corpora (id, display_name, corpus_type) VALUES (?, ?, ?)",
         (corpus_id, display_name, corpus_type),
     )
 
@@ -109,9 +109,7 @@ def insert_atom(
         raise ValueError(f"atom {atom_id} has no tradition — D5 requires every atom stamped")
     verb = "INSERT OR REPLACE" if replace else "INSERT OR IGNORE"
     cur = conn.execute(
-        f"{verb} INTO atoms"
-        " (id, type, body, tradition, first_seen_book, confidence)"
-        " VALUES (?, ?, ?, ?, ?, 1.0)",
+        f"{verb} INTO atoms (id, type, body, tradition, first_seen_book, confidence) VALUES (?, ?, ?, ?, ?, 1.0)",
         (atom_id, atom_type, body, tradition, first_seen_book),
     )
     created = cur.rowcount > 0
@@ -126,13 +124,9 @@ def insert_atom(
 
 def refresh_corpus_count(conn, corpus_id: str, atom_type: str) -> None:
     """Keep external_corpora.atom_count + last_synced current for one corpus."""
-    total = conn.execute(
-        "SELECT COUNT(*) FROM atoms WHERE type = ?", (atom_type,)
-    ).fetchone()[0]
+    total = conn.execute("SELECT COUNT(*) FROM atoms WHERE type = ?", (atom_type,)).fetchone()[0]
     conn.execute(
-        "UPDATE external_corpora"
-        " SET atom_count = ?, last_synced = strftime('%Y-%m-%dT%H:%M:%SZ','now')"
-        " WHERE id = ?",
+        "UPDATE external_corpora SET atom_count = ?, last_synced = strftime('%Y-%m-%dT%H:%M:%SZ','now') WHERE id = ?",
         (total, corpus_id),
     )
 
@@ -155,12 +149,20 @@ def ingest_terms(mirror, conn, summary: "MirrorSummary", *, source: str, dry_run
             summary.total_atoms_created += 1
             continue
         atom_id = f"term:{source.lower()}:{slugify(r['term'])}"
-        body = json.dumps({
-            "term": r["term"], "arabic": r["arabic"], "root": r["root"],
-            "grammar_tag": r["grammar_tag"], "definition": r["definition"],
-            "etymology": r["etymology"], "related": r["related"],
-            "source": source, "tradition": tradition,
-        }, ensure_ascii=False)
+        body = json.dumps(
+            {
+                "term": r["term"],
+                "arabic": r["arabic"],
+                "root": r["root"],
+                "grammar_tag": r["grammar_tag"],
+                "definition": r["definition"],
+                "etymology": r["etymology"],
+                "related": r["related"],
+                "source": source,
+                "tradition": tradition,
+            },
+            ensure_ascii=False,
+        )
         if insert_atom(conn, atom_id, "term", body, tradition, first_seen_book=source.lower()):
             summary.total_atoms_created += 1
         else:

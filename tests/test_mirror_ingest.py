@@ -8,6 +8,7 @@ Builds a synthetic mirror.db + a temp knowledge.db (never the live DB) and asser
   * sessions register as corpus_chapters with no atoms,
   * re-running is idempotent (no new rows).
 """
+
 from __future__ import annotations
 
 import sqlite3
@@ -54,8 +55,10 @@ CREATE TABLE fts_topics (topic_id, topic_type_id, name, name_en, description);
 
 class MirrorIngest(unittest.TestCase):
     def setUp(self):
-        self._kt = tempfile.NamedTemporaryFile(suffix="-k.db", delete=False); self._kt.close()
-        self._mt = tempfile.NamedTemporaryFile(suffix="-m.db", delete=False); self._mt.close()
+        self._kt = tempfile.NamedTemporaryFile(suffix="-k.db", delete=False)
+        self._kt.close()
+        self._mt = tempfile.NamedTemporaryFile(suffix="-m.db", delete=False)
+        self._mt.close()
         self.k_path, self.m_path = self._kt.name, self._mt.name
 
         k = sqlite3.connect(self.k_path)
@@ -65,25 +68,32 @@ class MirrorIngest(unittest.TestCase):
             "INSERT INTO atoms (id, type, body, tradition, first_seen_book)"
             " VALUES ('hadith:kashkole:9', 'hadith', '{\"english\":\"upstream original\"}', 'ismaili', 'wisdom')"
         )
-        k.commit(); k.close()
+        k.commit()
+        k.close()
 
         m = sqlite3.connect(self.m_path)
         m.executescript(_MIRROR_SCHEMA)
         m.executemany(
             "INSERT INTO fts_quran VALUES (?,?,?,?,?,?,?)",
-            [(1, 1, "ar1", "pick1", "asad1", "ur1", "ph1"),
-             (1, 2, "ar2", "pick2", "asad2", "ur2", "ph2"),
-             (2, 1, "ar3", "pick3", "asad3", "ur3", "ph3")],
+            [
+                (1, 1, "ar1", "pick1", "asad1", "ur1", "ph1"),
+                (1, 2, "ar2", "pick2", "asad2", "ur2", "ph2"),
+                (2, 1, "ar3", "pick3", "asad3", "ur3", "ph3"),
+            ],
         )
         m.executemany(
             "INSERT INTO term_index VALUES (?,?,?,?,?,?,?,?,?)",
-            [("ALIM", "عالم", "ilm", "noun", "scholar", "", "ismaili", "KQUR", ""),
-             ("WUDU", "وضو", "wdu", "noun", "ablution", "", "ismaili", "KASHKOLE", "")],
+            [
+                ("ALIM", "عالم", "ilm", "noun", "scholar", "", "ismaili", "KQUR", ""),
+                ("WUDU", "وضو", "wdu", "noun", "ablution", "", "ismaili", "KASHKOLE", ""),
+            ],
         )
         m.executemany(
             "INSERT INTO fts_hadith VALUES (?,?,?,?,?)",
-            [(9, "tawheed", "9", "har", "existing-id"),     # collides w/ upstream -> ignored
-             (500, "soul", "500", "har2", "brand new")],     # new -> inserted
+            [
+                (9, "tawheed", "9", "har", "existing-id"),  # collides w/ upstream -> ignored
+                (500, "soul", "500", "har2", "brand new"),
+            ],  # new -> inserted
         )
         m.executemany(
             "INSERT INTO fts_sessions VALUES (?,?,?,?)",
@@ -93,12 +103,13 @@ class MirrorIngest(unittest.TestCase):
             "INSERT INTO fts_topics VALUES (?,?,?,?,?)",
             [(3, 15, "اردو عنوان", "", "اردو متن"), (4, 16, "دوسرا", "", "متن دو")],
         )
-        m.commit(); m.close()
+        m.commit()
+        m.close()
 
         # Route both connections at the temp DBs for all three importers.
         self._patches = []
-        target = self  # noqa
-        ro = lambda: sqlite3.connect(f"file:{self.m_path}?mode=ro", uri=True)
+        target = self  # noqa: F841
+        ro = lambda: sqlite3.connect(f"file:{self.m_path}?mode=ro", uri=True)  # noqa: F841
         for mod in (ingest_kqur, ingest_kashkole, ingest_ksessions_dump):
             for name, fn in (("get_connection", self._open_k), ("open_mirror_ro", self._open_m)):
                 if hasattr(mod, name):
@@ -106,10 +117,14 @@ class MirrorIngest(unittest.TestCase):
                     setattr(mod, name, fn)
 
     def _open_k(self, **_):
-        c = sqlite3.connect(self.k_path); c.row_factory = sqlite3.Row; return c
+        c = sqlite3.connect(self.k_path)
+        c.row_factory = sqlite3.Row
+        return c
 
     def _open_m(self):
-        c = sqlite3.connect(f"file:{self.m_path}?mode=ro", uri=True); c.row_factory = sqlite3.Row; return c
+        c = sqlite3.connect(f"file:{self.m_path}?mode=ro", uri=True)
+        c.row_factory = sqlite3.Row
+        return c
 
     def tearDown(self):
         for mod, name, orig in self._patches:
@@ -153,8 +168,9 @@ class MirrorIngest(unittest.TestCase):
 
     def test_topics_mint_no_atoms(self):
         ingest_kashkole.ingest_all()
-        self.assertEqual(self._q("SELECT COUNT(*) FROM atoms WHERE type='doctrine'"), 0,
-                         "D8: Urdu topics must NOT become atoms")
+        self.assertEqual(
+            self._q("SELECT COUNT(*) FROM atoms WHERE type='doctrine'"), 0, "D8: Urdu topics must NOT become atoms"
+        )
 
     def test_sessions_chapters_no_atoms(self):
         before = self._q("SELECT COUNT(*) FROM atoms")

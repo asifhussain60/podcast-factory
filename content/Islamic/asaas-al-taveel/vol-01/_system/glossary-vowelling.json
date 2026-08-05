@@ -1,0 +1,24 @@
+{
+  "vowelled": 2,
+  "marks_added": 2,
+  "already": 190,
+  "refused": 4,
+  "refusals": [
+    {
+      "term": "المعيّد في الدين",
+      "reason": "letters changed, not just marks (first difference at character 7: source \" في الدين\" vs proposal \"\")"
+    },
+    {
+      "term": "المعز لدين الله",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" لدين الله\" vs proposal \"\")"
+    },
+    {
+      "term": "جعفر بن محمد",
+      "reason": "letters changed, not just marks (first difference at character 5: source \" بن محمد\" vs proposal \"\")"
+    },
+    {
+      "term": "عبدالله بن سلام",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"الله بن سلام\" vs proposal \" الله\")"
+    }
+  ]
+}

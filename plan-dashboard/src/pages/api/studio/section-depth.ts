@@ -10,48 +10,116 @@
  * Ordinal is the stable key. Source defaults to 'human' on PATCH.
  */
 
-import type { APIRoute } from 'astro';
-import { getSectionDepths, upsertSectionDepth } from '../../../lib/db/knowledge';
+import type { APIRoute } from "astro";
+import {
+  getSectionDepths,
+  upsertSectionDepth,
+  KnowledgeDbUnavailableError,
+} from "../../../lib/db/knowledge";
+
+// A machine without knowledge.db is not a broken server — the database is built by
+// the pipeline and is absent on a fresh clone by design. Reads already degrade to
+// empty; a WRITE must say so distinguishably, so the UI can disable the control
+// instead of showing the user a 500 it can do nothing about.
+const failed = (e: unknown) => {
+  const unavailable = e instanceof KnowledgeDbUnavailableError;
+  return new Response(
+    JSON.stringify({
+      ok: false,
+      error: unavailable ? e.message : String(e),
+      ...(unavailable ? { code: e.code } : {}),
+    }),
+    {
+      status: unavailable ? 503 : 500,
+      headers: { "Content-Type": "application/json" },
+    },
+  );
+};
 
 export const GET: APIRoute = ({ request }) => {
   try {
     const url = new URL(request.url);
-    const book = url.searchParams.get('book') ?? '';
-    const chapter = url.searchParams.get('chapter') ?? '';
+    const book = url.searchParams.get("book") ?? "";
+    const chapter = url.searchParams.get("chapter") ?? "";
     if (!book || !chapter) {
-      return new Response(JSON.stringify({ ok: false, error: 'book and chapter params required' }), {
-        status: 400, headers: { 'Content-Type': 'application/json' },
-      });
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: "book and chapter params required",
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
     const sections = getSectionDepths(book, chapter);
     return new Response(JSON.stringify({ ok: true, sections }), {
-      status: 200, headers: { 'Content-Type': 'application/json' },
+      status: 200,
+      headers: { "Content-Type": "application/json" },
     });
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, error: String(e) }), {
-      status: 500, headers: { 'Content-Type': 'application/json' },
-    });
+    return failed(e);
   }
 };
 
 export const PATCH: APIRoute = async ({ request }) => {
   try {
     let body: unknown;
-    try { body = await request.json(); } catch { return new Response(JSON.stringify({ ok: false, error: 'Invalid JSON' }), { status: 400, headers: { 'Content-Type': 'application/json' } }); }
-    const { book, chapter, ordinal, slug, depth_level, tags } = body as Record<string, unknown>;
-    if (typeof book !== 'string' || !book) return new Response(JSON.stringify({ ok: false, error: 'book required' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
-    if (typeof chapter !== 'string' || !chapter) return new Response(JSON.stringify({ ok: false, error: 'chapter required' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
-    if (typeof ordinal !== 'number') return new Response(JSON.stringify({ ok: false, error: 'ordinal (number) required' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
-    if (typeof slug !== 'string') return new Response(JSON.stringify({ ok: false, error: 'slug required' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
-    if (typeof depth_level !== 'string') return new Response(JSON.stringify({ ok: false, error: 'depth_level required' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
-    const tagsArr = Array.isArray(tags) ? (tags as unknown[]).filter((t): t is string => typeof t === 'string') : [];
-    const section = upsertSectionDepth(book, chapter, ordinal, slug, depth_level, 'human', tagsArr);
+    try {
+      body = await request.json();
+    } catch {
+      return new Response(
+        JSON.stringify({ ok: false, error: "Invalid JSON" }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
+    }
+    const { book, chapter, ordinal, slug, depth_level, tags } = body as Record<
+      string,
+      unknown
+    >;
+    if (typeof book !== "string" || !book)
+      return new Response(
+        JSON.stringify({ ok: false, error: "book required" }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
+    if (typeof chapter !== "string" || !chapter)
+      return new Response(
+        JSON.stringify({ ok: false, error: "chapter required" }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
+    if (typeof ordinal !== "number")
+      return new Response(
+        JSON.stringify({ ok: false, error: "ordinal (number) required" }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
+    if (typeof slug !== "string")
+      return new Response(
+        JSON.stringify({ ok: false, error: "slug required" }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
+    if (typeof depth_level !== "string")
+      return new Response(
+        JSON.stringify({ ok: false, error: "depth_level required" }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
+    const tagsArr = Array.isArray(tags)
+      ? (tags as unknown[]).filter((t): t is string => typeof t === "string")
+      : [];
+    const section = upsertSectionDepth(
+      book,
+      chapter,
+      ordinal,
+      slug,
+      depth_level,
+      "human",
+      tagsArr,
+    );
     return new Response(JSON.stringify({ ok: true, section }), {
-      status: 200, headers: { 'Content-Type': 'application/json' },
+      status: 200,
+      headers: { "Content-Type": "application/json" },
     });
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, error: String(e) }), {
-      status: 500, headers: { 'Content-Type': 'application/json' },
-    });
+    return failed(e);
   }
 };

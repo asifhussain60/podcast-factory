@@ -4,6 +4,7 @@
 Verifies the AST scan correctly catches forbidden writes and honors the
 single whitelisted exception path.
 """
+
 from __future__ import annotations
 
 import sys
@@ -14,19 +15,15 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _boundary_check  # noqa: E402
+import _boundary_check
 
 
 class WhitelistTests(unittest.TestCase):
     def test_whitelisted_abjad_file_passes(self):
-        self.assertTrue(
-            _boundary_check._is_whitelisted("content/_shared/arabic/06-abjad-numerals.md")
-        )
+        self.assertTrue(_boundary_check._is_whitelisted("content/_shared/arabic/06-abjad-numerals.md"))
 
     def test_other_shared_paths_not_whitelisted(self):
-        self.assertFalse(
-            _boundary_check._is_whitelisted("content/_shared/arabic/01-other.md")
-        )
+        self.assertFalse(_boundary_check._is_whitelisted("content/_shared/arabic/01-other.md"))
         self.assertFalse(_boundary_check._is_whitelisted("content/_shared/foo.md"))
 
 
@@ -81,8 +78,7 @@ class ScanFileTests(unittest.TestCase):
     def test_write_text_to_whitelisted_abjad_is_safe(self):
         f = self._write(
             "abjad.py",
-            "from pathlib import Path\n"
-            "Path('content/_shared/arabic/06-abjad-numerals.md').write_text('table')\n",
+            "from pathlib import Path\nPath('content/_shared/arabic/06-abjad-numerals.md').write_text('table')\n",
         )
         self.assertEqual(_boundary_check.scan_file(f), [])
 
@@ -106,9 +102,7 @@ class ScanTreeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             (root / "__pycache__").mkdir()
-            (root / "__pycache__" / "trash.py").write_text(
-                "open('content/babu-memoir/x', 'w')\n"
-            )
+            (root / "__pycache__" / "trash.py").write_text("open('content/babu-memoir/x', 'w')\n")
             (root / "real.py").write_text("x = 1\n")
             self.assertEqual(_boundary_check.scan_tree(root), [])
 
@@ -116,9 +110,7 @@ class ScanTreeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             (root / "subdir").mkdir()
-            (root / "subdir" / "bad.py").write_text(
-                "open('content/babu-memoir/x.md', 'w')\n"
-            )
+            (root / "subdir" / "bad.py").write_text("open('content/babu-memoir/x.md', 'w')\n")
             v = _boundary_check.scan_tree(root)
             self.assertEqual(len(v), 1)
 

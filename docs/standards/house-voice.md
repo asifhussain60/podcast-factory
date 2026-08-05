@@ -58,7 +58,7 @@ lossy English paraphrase ("*tawil*" → "esoteric interpretation" is forbidden).
   normalized prose.)
 
 > The protect-list is **per-book, tradition-agnostic data** loaded at run time from
-> `content/drafts/books/<slug>/_system/glossary.yml` (the `phonetic`/`transliteration` fields) —
+> `content/<Bucket>/<slug>/_system/glossary.yml` (the `phonetic`/`transliteration` fields) —
 > see `gemini_refine.load_protect_terms`. A Sufi treatise, a Stoic letter, and a Vedanta
 > commentary each carry their own terms; the rule is the standard, the glossary is the data. An
 > empty/absent glossary degrades gracefully to the general rule with no enumerated terms.

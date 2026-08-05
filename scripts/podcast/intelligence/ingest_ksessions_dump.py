@@ -20,6 +20,7 @@ CLI:
     python3 scripts/podcast/intelligence/ingest_ksessions_dump.py --dry-run
     python3 scripts/podcast/intelligence/ingest_ksessions_dump.py
 """
+
 from __future__ import annotations
 
 import sys
@@ -54,16 +55,16 @@ def ingest_all(*, dry_run: bool = False) -> MirrorSummary:
         upsert_corpus(conn, SESSIONS_CORPUS_ID, "KSESSIONS Transcripts", "scholarly")
         summary.corpora_registered += 1
 
-    sessions = mirror.execute(
-        "SELECT session_id, session_name, group_id FROM fts_sessions"
-    ).fetchall()
+    sessions = mirror.execute("SELECT session_id, session_name, group_id FROM fts_sessions").fetchall()
     for s in sessions:
         if dry_run:
             summary.total_chapters += 1
             continue
         title = (s["session_name"] or f"Session {s['session_id']}").strip()
         if upsert_chapter(
-            conn, f"ksessions:{s['session_id']}", SESSIONS_CORPUS_ID,
+            conn,
+            f"ksessions:{s['session_id']}",
+            SESSIONS_CORPUS_ID,
             number=int(s["group_id"]) if s["group_id"] is not None else None,
             title_en=title,
         ):

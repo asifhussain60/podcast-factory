@@ -12,6 +12,7 @@ suspenders guard: whatever the LLM emits, every branch is re-nested under the
 root so a stray top-level line can't break the render. These tests pin that
 guard and, when a Mermaid renderer is available, assert a real single-root SVG.
 """
+
 from __future__ import annotations
 
 import shutil
@@ -24,7 +25,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-from _book_illustrate import _normalize_mindmap_dsl, _RENDER_SCRIPT, _DASHBOARD  # noqa: E402
+from _book_illustrate import _DASHBOARD, _RENDER_SCRIPT, _normalize_mindmap_dsl
 
 # The live-render assertion needs the FULL mermaid toolchain: node, the render
 # script, AND the Playwright npm package (render-mermaid.mjs imports it at module
@@ -33,9 +34,7 @@ from _book_illustrate import _normalize_mindmap_dsl, _RENDER_SCRIPT, _DASHBOARD 
 # ERR_MODULE_NOT_FOUND (exit 1) and the test asserts instead of skipping. See the
 # runtime guard below for the chromium-binary-missing case (graceful exit 0).
 _RENDER_READY = (
-    _RENDER_SCRIPT.exists()
-    and bool(shutil.which("node"))
-    and (_DASHBOARD / "node_modules" / "playwright").exists()
+    _RENDER_SCRIPT.exists() and bool(shutil.which("node")) and (_DASHBOARD / "node_modules" / "playwright").exists()
 )
 
 
@@ -47,8 +46,7 @@ def _root_count(dsl: str) -> int:
     A well-formed mindmap therefore has exactly one such top-level line.
     """
     lines = dsl.splitlines()
-    decl = next((i for i, ln in enumerate(lines)
-                 if ln.strip().lower() == "mindmap"), None)
+    decl = next((i for i, ln in enumerate(lines) if ln.strip().lower() == "mindmap"), None)
     assert decl is not None, "not a mindmap DSL"
 
     def indent_of(ln: str) -> int:
@@ -87,8 +85,7 @@ class NormalizeMindmapTests(unittest.TestCase):
         lines = fixed.splitlines()
         b1 = next(ln for ln in lines if ln.strip() == "Branch1")
         b1a = next(ln for ln in lines if ln.strip() == "Branch1a")
-        self.assertGreater(indent_of(b1a), indent_of(b1),
-                           "child must stay deeper than its parent")
+        self.assertGreater(indent_of(b1a), indent_of(b1), "child must stay deeper than its parent")
 
     def test_shallower_than_root_still_nested(self) -> None:
         bad = 'mindmap\n    root(("R"))\n  Branch1\n  Branch2'
@@ -120,7 +117,10 @@ class MindmapRenderTests(unittest.TestCase):
 
         proc = subprocess.run(
             ["node", str(_RENDER_SCRIPT), f"--book-dir={book}"],
-            cwd=str(_DASHBOARD), capture_output=True, text=True, timeout=120,
+            cwd=str(_DASHBOARD),
+            capture_output=True,
+            text=True,
+            timeout=120,
         )
         # Skip (not fail) on any infrastructure-degrade signal: chromium binary
         # missing (render-mermaid.mjs degrades gracefully to exit 0 with this
@@ -135,8 +135,7 @@ class MindmapRenderTests(unittest.TestCase):
         )
         if infra_degraded:
             self.skipTest("mermaid renderer unavailable (chromium/playwright not installed)")
-        self.assertEqual(proc.returncode, 0,
-                         f"render failed (multi-root regression?):\n{proc.stderr[:400]}")
+        self.assertEqual(proc.returncode, 0, f"render failed (multi-root regression?):\n{proc.stderr[:400]}")
         svg = diagrams / "mm-1.svg"
         self.assertTrue(svg.exists(), "renderer produced no SVG")
         # A multi-root failure never reaches a clean SVG; a successful single-root

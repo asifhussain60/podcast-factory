@@ -13,6 +13,14 @@ name: podcast-e2e
 # Python is pinned to 3.13 (not 3.14): the full suite is green on 3.13 with the
 # pinned wheels; 3.14 surfaced a stdlib behaviour regression (a dict KeyError in
 # the augmentation ledger path) and is held until that is reconciled separately.
+#
+# `content/**` is in the path filters (added 2026-08-01) because several tests read
+# content/** as fixture data and assert invariants over it — the articulation report,
+# the two compose lanes, the fence contract. Without it a CONTENT-ONLY commit could
+# land a broken invariant with no gate firing at all, which is exactly what happened
+# on 2026-07-31: the ayyuhal-walad articulation report arrived in a content-only
+# commit already violating `reverted == 0`, and nothing noticed until the post-merge
+# audit. See docs/rca/2026-08-01-a-faithful-opening-was-reverted-as-if-invented.md.
 
 on:
   pull_request:
@@ -20,6 +28,7 @@ on:
     paths:
       - "scripts/**"
       - "tests/**"
+      - "content/**"
       - "pytest.ini"
       - "requirements.txt"
       - ".github/agents/podcast-*.agent.md"
@@ -29,6 +38,7 @@ on:
     paths:
       - "scripts/**"
       - "tests/**"
+      - "content/**"
       - "pytest.ini"
       - "requirements.txt"
       - ".github/agents/podcast-*.agent.md"

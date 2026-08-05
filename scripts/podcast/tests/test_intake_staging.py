@@ -5,6 +5,7 @@ Staging is resolver-based (rename-safe), enforces the allow-list + role rules
 (Q7: exactly one primary; audio-as-primary warned), and commits atomically into
 the canonical _source/ only on confirm. Abandoned sessions are swept.
 """
+
 from __future__ import annotations
 
 import sys
@@ -16,8 +17,8 @@ import pytest
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _paths  # noqa: E402
-import intake_staging as st  # noqa: E402
+import _paths
+import intake_staging as st
 
 
 @pytest.fixture
@@ -56,7 +57,7 @@ class TestLifecycle:
         token = st.new_session()
         pdf = _stage_bytes(token, "book.pdf", b"%PDF-1.4")
         txt = _stage_bytes(token, "notes.txt", b"hello")
-        assert pdf["role"] == "primary_source"      # PDF auto-primary
+        assert pdf["role"] == "primary_source"  # PDF auto-primary
         assert txt["role"] == "supplementary_text"  # default
         assert {f["filename"] for f in st.list_files(token)} == {"book.pdf", "notes.txt"}
 
@@ -85,8 +86,8 @@ class TestRoleValidation:
 
     def test_two_primaries_rejected(self, temp_root):
         token = st.new_session()
-        _stage_bytes(token, "a.pdf", b"x")           # primary
-        _stage_bytes(token, "b.pdf", b"y")           # primary
+        _stage_bytes(token, "a.pdf", b"x")  # primary
+        _stage_bytes(token, "b.pdf", b"y")  # primary
         v = st.validate_roles(token)
         assert not v["ok"] and any("exactly one" in e for e in v["errors"])
 
@@ -101,7 +102,7 @@ class TestRoleValidation:
 class TestCommit:
     def test_commit_moves_files_and_returns_sources(self, temp_root):
         token = st.new_session()
-        _stage_bytes(token, "book.pdf", b"%PDF")          # primary
+        _stage_bytes(token, "book.pdf", b"%PDF")  # primary
         _stage_bytes(token, "gloss.md", b"# terms", role="pronunciation_reference")
         target = temp_root / "Islamic" / "asaas" / "vol-01" / "_source"
         sources = st.commit(token, target)

@@ -1,0 +1,31 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 3,
+  "skipped": 171,
+  "by_class": {
+    "teach": 1,
+    "familiar": 0,
+    "name": 1,
+    "silent": 1
+  },
+  "proposals": [
+    {
+      "phonetic": "Ahya al-Uloom ad-Deen",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A cited work by its own title with no casually-recognized English form; the romanisation is how the reader refers to it."
+    },
+    {
+      "phonetic": "Ayyuha al-Walad",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "The book's own title, already translated in running prose as \"O son\", so a formal annotation adds nothing."
+    },
+    {
+      "phonetic": "marifah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's own doctrinal vocabulary for experiential knowledge of God — a reader would want to name and look it up."
+    }
+  ]
+}

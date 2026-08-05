@@ -14,6 +14,7 @@ after the per-chapter convergence loop has shipped the framing.
 
 Artifact: BOOK_DIR/_system/dialogue-scripts/EP##-<slug>.script.md
 """
+
 from __future__ import annotations
 
 import re as _re
@@ -22,11 +23,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from ._core import (  # noqa: E402
-    AuthoringError,
+from ._core import (
     DEFAULT_TIMEOUT,
-    _run_claude_p_with_retry,
+    AuthoringError,
     _assert_artifact,
+    _run_claude_p_with_retry,
 )
 
 DIALOGUE_TIMEOUT = DEFAULT_TIMEOUT  # full-script authorship is the heaviest per-chapter call
@@ -58,11 +59,12 @@ def _read_length_tier(book_dir: Path) -> str:
     if cfg.exists():
         try:
             import yaml
+
             data = yaml.safe_load(cfg.read_text(encoding="utf-8")) or {}
             tier = str(data.get("length_tier") or "").strip()
             if tier:
                 return tier
-        except Exception:  # noqa: BLE001
+        except Exception:
             pass
     return "default_deep_dive"
 
@@ -78,9 +80,10 @@ def _read_dialogue_lens(book_dir: Path) -> str:
     if cfg.exists():
         try:
             import yaml
+
             data = yaml.safe_load(cfg.read_text(encoding="utf-8")) or {}
             return str(data.get("dialogue_lens") or "").strip()
-        except Exception:  # noqa: BLE001
+        except Exception:
             pass
     return ""
 
@@ -130,9 +133,11 @@ def _teaching_terms_for_prompt(book_dir: Path, *, cap: int = 30) -> str:
     is absent or unclassified, so the prompt is byte-identical for such books."""
     try:
         from pronunciation_compiler import (
-            load_glossary_entries, _is_proper_name, LOANWORD_SKIP,
+            LOANWORD_SKIP,
+            _is_proper_name,
+            load_glossary_entries,
         )
-    except Exception:  # noqa: BLE001
+    except Exception:
         return ""
     seen: list[str] = []
     for e in load_glossary_entries(book_dir):
@@ -146,8 +151,7 @@ def _teaching_terms_for_prompt(book_dir: Path, *, cap: int = 30) -> str:
     return ", ".join(seen[:cap])
 
 
-def author_dialogue_script(book_dir: Path, chapter_slug: str,
-                           timeout: int = DIALOGUE_TIMEOUT) -> str:
+def author_dialogue_script(book_dir: Path, chapter_slug: str, timeout: int = DIALOGUE_TIMEOUT) -> str:
     """Author the dialogue script for one chapter. Returns claude -p stdout.
 
     Reads:  BOOK_DIR/chapters/ch##-<slug>.txt           (the teaching content)
@@ -158,7 +162,9 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
     """
     from _audio_engines import audio_engine_for_book
     from _dialogue_script import (
-        script_path_for, soft_char_band, CHARS_PER_AUDIO_MINUTE,
+        CHARS_PER_AUDIO_MINUTE,
+        script_path_for,
+        soft_char_band,
     )
 
     engine = audio_engine_for_book(book_dir)
@@ -179,10 +185,7 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
                 f"framing missing: {framing} — the dialogue script is authored "
                 f"AGAINST the framing (it is the per-chapter steering spec)."
             ),
-            manual_fallback=(
-                "Run the per-chapter loop first so the framing exists, then "
-                "re-run dialogue authorship."
-            ),
+            manual_fallback=("Run the per-chapter loop first so the framing exists, then re-run dialogue authorship."),
         )
 
     script_path = script_path_for(book_dir, episode_id)
@@ -193,6 +196,7 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
     # book sets a known `dialogue_lens` AND is islamic_scholarly — so books that
     # do not opt in author byte-identically to before.
     from _content_profile import is_islamic_scholarly
+
     lens_key = _read_dialogue_lens(book_dir)
     lens_clause = ""
     if lens_key and is_islamic_scholarly(book_dir):
@@ -211,8 +215,7 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
             "reaction (not decoration); each tag is billed as audio characters."
         )
     else:
-        tags_note = ("Do NOT use [tag] performance cues — this engine does not "
-                     "support them.")
+        tags_note = "Do NOT use [tag] performance cues — this engine does not support them."
 
     # Script-language discipline. The author writes ASCII ONLY and NEVER types
     # Arabic script — even on engines that can pronounce it. Arabic is injected
@@ -337,8 +340,11 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
     )
 
     rc, stdout, stderr = _run_claude_p_with_retry(
-        prompt, timeout=timeout,
-        book_dir=book_dir, phase="audio-script", step=f"dialogue/{chapter_slug}",
+        prompt,
+        timeout=timeout,
+        book_dir=book_dir,
+        phase="audio-script",
+        step=f"dialogue/{chapter_slug}",
     )
     _assert_artifact(
         phase=f"dialogue/{chapter_slug}",
@@ -355,7 +361,8 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
 
     # Deterministic post-author sanity: the artifact must PARSE. Format errors
     # are systemic (prompt/template bugs), not content — fail loudly here.
-    from _dialogue_script import parse_dialogue_script, DialogueScriptError
+    from _dialogue_script import DialogueScriptError, parse_dialogue_script
+
     try:
         parse_dialogue_script(script_path.read_text(encoding="utf-8"))
     except DialogueScriptError as e:
@@ -363,8 +370,7 @@ def author_dialogue_script(book_dir: Path, chapter_slug: str,
             phase=f"dialogue/{chapter_slug}",
             message=f"authored script does not parse: {e}",
             manual_fallback=(
-                f"Fix the format of {script_path} (HOST_A:/HOST_B: turn lines, "
-                f"'#' comments only), then re-run."
+                f"Fix the format of {script_path} (HOST_A:/HOST_B: turn lines, '#' comments only), then re-run."
             ),
         ) from e
     return stdout

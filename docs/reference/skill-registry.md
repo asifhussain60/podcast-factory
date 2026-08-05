@@ -2,7 +2,7 @@
 
 **Purpose:** Single source of truth for every skill present in THIS repo (the `podcast-factory` repo, renamed from `Journal` on 2026-05-22).
 
-**Authority:** Anchored to `reference/cortex-challenger-framework.md` v1.0. Anything in `framework.md` defers to this file for skill-level detail.
+**Authority:** Anchored to [docs/reference/cortex-challenger-framework.md](cortex-challenger-framework.md) v1.0. Anything in `framework.md` defers to this file for skill-level detail.
 
 The skill set here is a STRICT SUBSET of what existed pre-split — the journal skill (and css-theme-sync + ui-modernizer) moved to the sibling **[journal](https://github.com/asifhussain60/journal)** repo. Each duplicated general-utility skill is an INDEPENDENT COPY; changes do NOT cross-propagate to the sibling repo.
 
@@ -14,10 +14,13 @@ The skill set here is a STRICT SUBSET of what existed pre-split — the journal 
 |---|---|---|---|
 | **CORTEX** | BASELINE | Active (plugin) | `~/.claude/skills/cortex/SKILL.md` |
 | **ADLC** | GOLD | Active (plugin) | `~/.claude/skills/adlc/SKILL.md` |
-| **Clean-commit** | BRONZE (target) | Active (plugin) — overlay applies (duplicated copy) | `~/.claude/skills/clean-commit/SKILL.md` + `reference/skill-overlays/clean-commit-cortex-overlay.md` |
+| **Book-articulation** | N/A — it IS a standard | Active in staging — the Book Articulation Standard (REQ-BA-*); contract for rearticulating chapter prose (Composer Rearticulate action, `book-rearticulator` agent, rewrite-mode guards) | `skills-staging/book-articulation/SKILL.md` + `docs/standards/book-articulation.md` |
+| **Clean-commit** | BRONZE (target) | Active in staging — overlay applies (duplicated copy) | `skills-staging/clean-commit/SKILL.md` + `docs/reference/skill-overlays/clean-commit-cortex-overlay.md` |
+| **Html-view-quality** | N/A — it IS a standard | Active in staging — the Cortex HTML View Quality Standard (REQ-NNN); mandatory for any work touching the Astro site, gated by the `html-view-challenger` agent | `skills-staging/html-view-quality/SKILL.md` + `docs/standards/html-view-quality.md` |
 | **Podcast** | OUT OF SCOPE (content-prep) | Active in staging — exempt from CORTEX per SKILL.md §9; quality judged by human listening | `skills-staging/podcast/SKILL.md` |
-| **Repo-surgeon** | BRONZE (target) | WIP in staging — consolidated to single skill.md (duplicated copy) | `skills-staging/repo-surgeon/SKILL.md` |
+| **Repo-surgeon** | BRONZE (target) | Active in staging — a project-specific layer over the generic `repo-audit` skill; backed by `scripts/repo_surgeon_probe.py` | `skills-staging/repo-surgeon/SKILL.md` |
 | **Studio-composer** | BRONZE (target) | Active in staging — behavioural contract for the Book Composer / Preview / LIVE Session surfaces; defers styling to html-view-quality | `skills-staging/studio-composer/SKILL.md` |
+| **Ui-designer** | N/A — design system | Active in staging — the Astro site's design system (typography, `--c-*` palette, editorial cards); load for any site design work | `skills-staging/ui-designer/SKILL.md` |
 
 All skills target **CORTEX Challenger Framework v1.0**. The framework version is implicit unless a row says otherwise.
 
@@ -56,10 +59,11 @@ Detail on what each skill owns, what triggers it, and what it explicitly defers 
 | Skill | Purpose | Owns | Triggers |
 |---|---|---|---|
 | `studio-composer` | Behavioural contract for the three Studio authoring surfaces (merged Edit canvas, whole-book Preview, LIVE Session) | `docs/standards/studio-composer-quality.md` (REQ-SC-*); defers styling to `html-view-quality` | "book composer", "compose view", "preview mode", "live session", "figure placement" |
+| `book-articulation` | Rearticulation contract for chapter prose — simple lucid English, grammar may be rebuilt, meaning/speeches/quotes/imagery/Arabic inviolable | `docs/standards/book-articulation.md` (REQ-BA-*); engine `scripts/podcast/rearticulate_chapter.py` | "rearticulate", "de-calque", "reads like a literal translation", "make it read professionally" |
 
 ### General-utility skills (duplicated independent copies from journal repo)
 
 | Skill | Purpose | Triggers |
 |---|---|---|
 | `clean-commit` | Pre-commit / commit-quality discipline | "clean commit", "/clean-commit" |
-| `repo-surgeon` | Holistic architecture audit, orphan cleanup, root hygiene | "/repo-surgeon", "repo surgery" |
+| `repo-surgeon` | This repo's project-specific audit layer — gate integrity, retired-surface ban, agent-mirror parity, mirror pins, book-pipeline invariants, plan conformance. Delegates all generic auditing (root sprawl, dead code, duplicates, debris) to the `repo-audit` skill and does not re-implement it. | "/repo-surgeon", "repo review", "repo health check", "plan conformance" |

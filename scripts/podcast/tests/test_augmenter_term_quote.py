@@ -7,6 +7,7 @@ Verifies:
 - Disabled gate (enable_knowledge_augmenter=False) skips all three lookups.
 - Empty lookups produce no block; only non-empty blocks appear in the output.
 """
+
 from __future__ import annotations
 
 import json
@@ -24,9 +25,9 @@ sys.path.insert(0, str(_REPO_ROOT / "scripts" / "podcast"))
 class TermQuoteLookupTests(unittest.TestCase):
     """Unit tests for _fetch_matching_terms, _fetch_matching_quotes, and their callers."""
 
-    def _fake_book_dir(self, tmp: Path, enabled: bool = True,
-                       tradition: str = "fatimid-ismaili",
-                       tags: list[str] | None = None) -> Path:
+    def _fake_book_dir(
+        self, tmp: Path, enabled: bool = True, tradition: str = "fatimid-ismaili", tags: list[str] | None = None
+    ) -> Path:
         book_dir = tmp / "books" / "test-book"
         book_dir.mkdir(parents=True)
         meta = {
@@ -35,6 +36,7 @@ class TermQuoteLookupTests(unittest.TestCase):
             "knowledge_tags": tags or [],
         }
         import yaml  # type: ignore[import]
+
         (book_dir / "meta.yml").write_text(yaml.dump(meta), encoding="utf-8")
         return book_dir
 
@@ -65,9 +67,9 @@ class TermQuoteLookupTests(unittest.TestCase):
         conn.commit()
         return conn
 
-    def _run_augment(self, episode_text: str, book_dir: Path,
-                     term_atoms: list[dict], quote_atoms: list[dict]) -> str:
+    def _run_augment(self, episode_text: str, book_dir: Path, term_atoms: list[dict], quote_atoms: list[dict]) -> str:
         import intelligence.augmenter as aug_mod
+
         fake_conn = self._fake_db(term_atoms + quote_atoms)
 
         def fake_get_connection():
@@ -81,8 +83,12 @@ class TermQuoteLookupTests(unittest.TestCase):
     def test_term_match_injects_glossary_block(self):
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = self._fake_book_dir(Path(tmp), tradition="universal")
-            term = {"id": "term:doctrine:tawakkul", "type": "term",
-                    "body": {"term": "tawakkul", "text_en": "Complete trust in Allah"}, "tradition": "universal"}
+            term = {
+                "id": "term:doctrine:tawakkul",
+                "type": "term",
+                "body": {"term": "tawakkul", "text_en": "Complete trust in Allah"},
+                "tradition": "universal",
+            }
             episode = "The chapter discusses tawakkul and its spiritual dimensions."
             result = self._run_augment(episode, book_dir, [term], [])
             self.assertIn("[TERM GLOSSARY", result)
@@ -93,8 +99,12 @@ class TermQuoteLookupTests(unittest.TestCase):
     def test_term_not_in_text_produces_no_block(self):
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = self._fake_book_dir(Path(tmp), tradition="universal")
-            term = {"id": "term:doctrine:zuhd", "type": "term",
-                    "body": {"term": "zuhd", "text_en": "Asceticism"}, "tradition": "universal"}
+            term = {
+                "id": "term:doctrine:zuhd",
+                "type": "term",
+                "body": {"term": "zuhd", "text_en": "Asceticism"},
+                "tradition": "universal",
+            }
             episode = "This episode covers patience and sincerity only."
             result = self._run_augment(episode, book_dir, [term], [])
             self.assertNotIn("[TERM GLOSSARY", result)
@@ -103,8 +113,12 @@ class TermQuoteLookupTests(unittest.TestCase):
     def test_short_term_below_min_length_not_matched(self):
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = self._fake_book_dir(Path(tmp), tradition="universal")
-            short_term = {"id": "term:doctrine:al", "type": "term",
-                          "body": {"term": "al", "text_en": "Definite article"}, "tradition": "universal"}
+            short_term = {
+                "id": "term:doctrine:al",
+                "type": "term",
+                "body": {"term": "al", "text_en": "Definite article"},
+                "tradition": "universal",
+            }
             episode = "The al-prefix carries deep meaning in Arabic grammar."
             result = self._run_augment(episode, book_dir, [short_term], [])
             self.assertNotIn("[TERM GLOSSARY", result)
@@ -114,9 +128,12 @@ class TermQuoteLookupTests(unittest.TestCase):
     def test_quote_match_injects_sayings_block(self):
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = self._fake_book_dir(Path(tmp), tradition="universal")
-            quote = {"id": "quote:imam-ali:abc1234567", "type": "quote",
-                     "body": {"speaker": "Imam Ali", "text_en": "Knowledge is the greatest gift."},
-                     "tradition": "universal"}
+            quote = {
+                "id": "quote:imam-ali:abc1234567",
+                "type": "quote",
+                "body": {"speaker": "Imam Ali", "text_en": "Knowledge is the greatest gift."},
+                "tradition": "universal",
+            }
             episode = "Imam Ali is frequently cited by scholars of this tradition."
             result = self._run_augment(episode, book_dir, [], [quote])
             self.assertIn("[ATTRIBUTED SAYINGS", result)
@@ -126,20 +143,50 @@ class TermQuoteLookupTests(unittest.TestCase):
     def test_quote_speaker_absent_produces_no_block(self):
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = self._fake_book_dir(Path(tmp), tradition="universal")
-            quote = {"id": "quote:imam-hussain:xyz9999", "type": "quote",
-                     "body": {"speaker": "Imam Hussain", "text_en": "Patience is honour."},
-                     "tradition": "universal"}
+            quote = {
+                "id": "quote:imam-hussain:xyz9999",
+                "type": "quote",
+                "body": {"speaker": "Imam Hussain", "text_en": "Patience is honour."},
+                "tradition": "universal",
+            }
             episode = "This episode discusses only Ghazali's letter to his student."
             result = self._run_augment(episode, book_dir, [], [quote])
             self.assertNotIn("[ATTRIBUTED SAYINGS", result)
+
+    def test_a_restricted_narrators_quote_is_never_injected_even_when_matched(self):
+        """This DB-backed path shares the same narrator-attribution policy as the
+        book lane's JSONL corpus (_narrator_policy) — a quote attributed to Umar
+        must never reach an episode, even when its speaker name genuinely appears
+        in the episode text and would otherwise match. Live docstring on
+        _fetch_matching_quotes: 'currently 0 [quote atoms]; wired for future
+        runs' — this closes the gap before that data ever lands."""
+        with tempfile.TemporaryDirectory() as tmp:
+            book_dir = self._fake_book_dir(Path(tmp), tradition="universal")
+            quote = {
+                "id": "quote:umar-ibn-al-khattab:restricted",
+                "type": "quote",
+                "body": {
+                    "speaker": "Umar ibn al-Khattab",
+                    "text_en": "Had it not been for Ali, Umar would have perished.",
+                },
+                "tradition": "universal",
+            }
+            episode = "Umar ibn al-Khattab is discussed at length in this chapter."
+            result = self._run_augment(episode, book_dir, [], [quote])
+            self.assertNotIn("[ATTRIBUTED SAYINGS", result)
+            self.assertNotIn("perished", result)
 
     # ── gate check ─────────────────────────────────────────────────────────────
 
     def test_disabled_gate_skips_all_lookups(self):
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = self._fake_book_dir(Path(tmp), enabled=False)
-            term = {"id": "term:doctrine:nafs", "type": "term",
-                    "body": {"term": "nafs", "text_en": "The soul or self"}, "tradition": "universal"}
+            term = {
+                "id": "term:doctrine:nafs",
+                "type": "term",
+                "body": {"term": "nafs", "text_en": "The soul or self"},
+                "tradition": "universal",
+            }
             episode = "This chapter is about nafs and its purification."
             result = self._run_augment(episode, book_dir, [term], [])
             self.assertEqual(result, episode)

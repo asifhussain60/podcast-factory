@@ -31,33 +31,117 @@
  * Exit 0 on success; exit 3 if the chromium binary is missing (actionable
  * message — run `npx playwright install chromium`); exit 1 on other errors.
  */
-import { chromium } from 'playwright';
-import { readFileSync, mkdirSync, existsSync } from 'node:fs';
-import { createServer } from 'node:http';
-import path from 'node:path';
+import { chromium } from "playwright";
+import { readFileSync, mkdirSync, existsSync } from "node:fs";
+import { createServer } from "node:http";
+import path from "node:path";
 
-import { buildBookHtml, themeRoot } from './lib/book-html.mjs';
+import { buildBookHtml, themeRoot } from "./lib/book-html.mjs";
 
-const [, , MD_PATH, OUT_PATH, THEME_PATH, FLAG_V2] = process.argv;
-// book_pipeline_v2 flag (resolved per-book by build_book_pdf.py and passed in).
-// When ON, the renderer honors book/visual-layout.json and enables the v2
-// pagination CSS (scoped under body.book-v2). When OFF, output is unchanged.
-const V2 = String(FLAG_V2 || '').trim() === '1';
+const [, , MD_PATH, OUT_PATH, THEME_PATH, FLAG_V2, FLAG_SELF_STUDY] =
+  process.argv;
+// The renderer honors book/visual-layout.json and enables the unified
+// pagination CSS (scoped under body.book-v2). Callers always pass "1".
+const V2 = String(FLAG_V2 || "").trim() === "1";
+// Opt-in self-study layer (body.book-self-study): renders labeled Contextual-note
+// and Study-summary asides + bullet lists. Off unless the caller passes "1".
+const SELF_STUDY = String(FLAG_SELF_STUDY || "").trim() === "1";
 if (!MD_PATH || !OUT_PATH) {
-  console.error('usage: render-book-pdf.mjs <book.md> <out.pdf> [theme.css]');
+  console.error("usage: render-book-pdf.mjs <book.md> <out.pdf> [theme.css]");
   process.exit(2);
 }
-const themePath = THEME_PATH || path.resolve(import.meta.dirname, '..', 'src', 'styles', 'theme.css');
-const printCssPath = path.resolve(import.meta.dirname, '..', 'src', 'styles', 'book-print.css');
-const fontRoot = path.resolve(import.meta.dirname, '..', 'public', 'fonts');
+const themePath =
+  THEME_PATH ||
+  path.resolve(import.meta.dirname, "..", "src", "styles", "theme.css");
+const printCssPath = path.resolve(
+  import.meta.dirname,
+  "..",
+  "src",
+  "styles",
+  "book-print.css",
+);
+// The quotation-setting VALUES (Arabic maroon + the four translation faces).
+// Shared verbatim with every on-screen surface — see quote-typography.css's own
+// header for why the values are centralised while the selectors are not. Inlined
+// AHEAD of book-print.css so the print rules can consume its tokens.
+const quoteCssPath = path.resolve(
+  import.meta.dirname,
+  "..",
+  "src",
+  "styles",
+  "quote-typography.css",
+);
+const fontRoot = path.resolve(import.meta.dirname, "..", "public", "fonts");
 
 async function main() {
-  const rootTokens = existsSync(themePath) ? themeRoot(readFileSync(themePath, 'utf-8')) : '';
-  const printCss = readFileSync(printCssPath, 'utf-8');
+  const rootTokens = existsSync(themePath)
+    ? themeRoot(readFileSync(themePath, "utf-8"))
+    : "";
+  const printCssTemplate = readFileSync(printCssPath, "utf-8");
+  const quoteCss = existsSync(quoteCssPath)
+    ? readFileSync(quoteCssPath, "utf-8")
+    : "";
 
-  const { assetRoot, coverHtml, titlePage, tocHtml, crosswalkHtml, bodyHtml, bodyClass }
-    = buildBookHtml(MD_PATH, { v2: V2 });
-  const bodyClassAttr = bodyClass ? ` class="${bodyClass}"` : '';
+  const {
+    title: bookTitle,
+    chapters: bookChapters,
+    assetRoot,
+    coverHtml,
+    titlePage,
+    tocHtml,
+    crosswalkHtml,
+    bodyHtml,
+    bodyClass,
+  } = buildBookHtml(MD_PATH, { v2: V2, selfStudy: SELF_STUDY });
+  const bodyClassAttr = bodyClass ? ` class="${bodyClass}"` : "";
+
+  // The running head's text. A CSS margin box cannot read a custom property or a
+  // `string()` in Chromium's print engine, so the one per-book value in the
+  // stylesheet is substituted here. Quotes and backslashes are stripped rather
+  // than escaped: this lands inside a CSS `content: "..."` string, and a stray
+  // quote would silently break the whole @page rule rather than fail loudly.
+  const cssString = (s) =>
+    String(s || "")
+      .replace(/["\\]/g, "")
+      .trim();
+  const runningHead = cssString(bookTitle);
+
+  // Per-chapter running heads. Chromium's print engine ignores `string-set` /
+  // `string()`, so a margin box cannot read the chapter title from the document —
+  // probed on a real book, the head simply did not render. What Chromium DOES
+  // support is named pages, which this stylesheet already depends on (`@page bare`
+  // suppresses the head on the title page, Contents and crosswalk, and that is
+  // verifiably working in the shipped PDF). So the rules are generated here, one
+  // per chapter, and the chapter wrapper carries the matching class.
+  //
+  // The book title stays the fallback in the generic `@page`, which covers the
+  // preface and anything outside a chapter.
+  // Keyed by the chapter's OWN number — the same value `book-html.mjs` stamps as
+  // `data-ch` and turns into `.ch-page-N`. Deriving it from array position was an
+  // off-by-one waiting to happen and duly was: the chapters array leads with the
+  // PREFACE, so index+1 shifted every rule by one and pages deep in chapter 8
+  // carried chapter 7's title. Nothing in the pipeline would have caught that —
+  // no gate reads margin-box text against chapter boundaries — so it is worth
+  // saying plainly: the number in the class and the number in the rule must come
+  // from one source, and that source is the heading.
+  const chapterHeadCss = (bookChapters || [])
+    .map((ch) => {
+      const n = /^\d+$/.test(String(ch.label || "")) ? Number(ch.label) : 0;
+      const label = n ? `${n}. ` : "";
+      const head = cssString(`${label}${ch.title || ""}`) || runningHead;
+      return (
+        `@page chap-${n} { @top-center { content: "${head}"; } }\n` +
+        `.ch-page-${n} { page: chap-${n}; }`
+      );
+    })
+    .join("\n");
+
+  const printCss =
+    quoteCss +
+    "\n" +
+    printCssTemplate.replaceAll("__BOOK_RUNNING_HEAD__", runningHead) +
+    "\n" +
+    chapterHeadCss;
 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
     :root {${rootTokens}}
@@ -70,27 +154,41 @@ ${printCss}
     ${bodyHtml}
   </body></html>`;
 
-  const MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.woff2': 'font/woff2' };
+  const MIME = {
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".svg": "image/svg+xml",
+    ".ttf": "font/ttf",
+    ".woff2": "font/woff2",
+  };
   const server = createServer((req, res) => {
-    const reqPath = decodeURIComponent((req.url || '/').split('?')[0]);
-    if (reqPath === '/' || reqPath === '') {
-      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    const reqPath = decodeURIComponent((req.url || "/").split("?")[0]);
+    if (reqPath === "/" || reqPath === "") {
+      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
       res.end(html);
       return;
     }
     // Font route: /fonts/** → plan-dashboard/public/fonts/**
-    const root = reqPath.startsWith('/fonts/') ? path.dirname(fontRoot) : assetRoot;
-    const resolved = path.resolve(root, '.' + reqPath);
+    const root = reqPath.startsWith("/fonts/")
+      ? path.dirname(fontRoot)
+      : assetRoot;
+    const resolved = path.resolve(root, "." + reqPath);
     const type = MIME[path.extname(resolved).toLowerCase()];
     // Traversal guard: only files under the allowed root, known types only.
-    if (!resolved.startsWith(root + path.sep) || !type || !existsSync(resolved)) {
-      res.writeHead(404); res.end('not found');
+    if (
+      !resolved.startsWith(root + path.sep) ||
+      !type ||
+      !existsSync(resolved)
+    ) {
+      res.writeHead(404);
+      res.end("not found");
       return;
     }
-    res.writeHead(200, { 'Content-Type': type });
+    res.writeHead(200, { "Content-Type": type });
     res.end(readFileSync(resolved));
   });
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
+  await new Promise((r) => server.listen(0, "127.0.0.1", r));
   const { port } = server.address();
 
   let browser;
@@ -98,22 +196,28 @@ ${printCss}
     browser = await chromium.launch();
   } catch (err) {
     server.close();
-    const first = String(err.message || err).split('\n')[0];
+    const first = String(err.message || err).split("\n")[0];
     console.error(`book-pdf: chromium unavailable — ${first}`);
-    console.error('  Run `npx playwright install chromium` in plan-dashboard/, then retry.');
+    console.error(
+      "  Run `npx playwright install chromium` in plan-dashboard/, then retry.",
+    );
     process.exit(3);
   }
   try {
     const page = await browser.newPage();
-    page.on('pageerror', (e) => console.error('  [pageerror]', e.message));
-    await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: 'networkidle' });
+    page.on("pageerror", (e) => console.error("  [pageerror]", e.message));
+    await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: "networkidle" });
     // Wait for ALL @font-face fonts (self-hosted Source Serif 4 + Amiri) to finish
     // loading before paginating. Without this, font-display:swap can paginate with
     // a fallback font and swap after — making page/line breaks non-deterministic.
     await page.evaluate(() => document.fonts.ready);
     mkdirSync(path.dirname(OUT_PATH), { recursive: true });
-    await page.pdf({ path: OUT_PATH, format: 'A4', printBackground: true,
-      margin: { top: '0', right: '0', bottom: '0', left: '0' } });
+    await page.pdf({
+      path: OUT_PATH,
+      format: "A4",
+      printBackground: true,
+      margin: { top: "0", right: "0", bottom: "0", left: "0" },
+    });
     console.log(`book-pdf: wrote ${OUT_PATH}`);
   } finally {
     await browser.close();
@@ -121,4 +225,7 @@ ${printCss}
   }
 }
 
-main().catch((e) => { console.error('book-pdf: ' + (e?.stack || e)); process.exit(1); });
+main().catch((e) => {
+  console.error("book-pdf: " + (e?.stack || e));
+  process.exit(1);
+});

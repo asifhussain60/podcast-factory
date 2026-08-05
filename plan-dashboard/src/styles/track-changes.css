@@ -1,0 +1,62 @@
+/* track-changes.css — word-level diff rendering for EVERY editor host.
+ *
+ * `studio-decos.ts` mounts the same decoration plugin in both editors: an
+ * insertion becomes `Decoration.inline` with `tc-ins`, and a deletion becomes a
+ * `contentEditable="false"` widget carrying `tc-del` with the removed word.
+ * (`aug-*` is the same pair in a teal palette, distinguishing pipeline
+ * additions from human edits.)
+ *
+ * These rules used to live scoped to `.studio-editor__editor`, so they applied
+ * in Edit & Enrich and NOWHERE ELSE. The Book Composer mounts the identical
+ * plugin but has no such ancestor — and never loaded that stylesheet at all —
+ * so its deletion widgets rendered as UNSTYLED text sitting next to the new
+ * text. Deleting one letter from "lights" showed "lightslight", which reads as
+ * the editor duplicating your typing rather than as a struck-out word.
+ * (Reported 2026-07-26; the document and the saved file were correct
+ * throughout — this was only ever a rendering gap.)
+ *
+ * Scoped to `.ProseMirror`, the class TipTap puts on every editable surface, so
+ * a THIRD editor host gets correct track-change rendering by existing rather
+ * than by remembering to copy this block.
+ */
+
+/* ── Human edits (word-level, via jsdiff) ─────────────────────────────────── */
+
+.ProseMirror .tc-ins {
+  color: var(--c-green, #15803d);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  background: color-mix(in srgb, var(--c-green, #16a34a) 12%, transparent);
+  border-radius: 2px;
+}
+
+.ProseMirror .tc-del {
+  color: var(--c-red, #b91c1c);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  opacity: 0.75;
+  margin: 0 1px;
+  /* Belt and braces with the widget's own contentEditable="false": struck-out
+     text is chrome, and selecting or copying it would carry words the author
+     has already removed back into whatever it is pasted into. */
+  user-select: none;
+}
+
+/* ── Pipeline additions (teal, to read as not-yours) ──────────────────────── */
+
+.ProseMirror .aug-ins {
+  color: #0d7a61;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  background: color-mix(in srgb, #0d9488 12%, transparent);
+  border-radius: 2px;
+}
+
+.ProseMirror .aug-del {
+  color: var(--c-red, #b91c1c);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  opacity: 0.75;
+  margin: 0 1px;
+  user-select: none;
+}

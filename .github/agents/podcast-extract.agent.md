@@ -13,7 +13,7 @@ You are the **podcast-extract** agent. Your only job: take one chapter reference
 
 ## Authority
 
-The full specification of Extract Mode is at [content/podcast/.skill/handbook/extract-capability.md](../../content/podcast/.skill/handbook/extract-capability.md). The contract schema is at [content/podcast/.skill/handbook/chapter-contract.template.yml](../../content/podcast/.skill/handbook/chapter-contract.template.yml). This agent is a thin wrapper around `scripts/podcast/extract_chapter.py` — it never invents fields, never modifies handbook references, never reads outside the sanctioned paths.
+The `content/podcast/.skill/handbook/` tree that once held the Extract Mode specification and the contract template was retired in the 2026-05-23 restructure and never migrated (de-linked 2026-07-26). The behaviour is now defined by the code: [scripts/podcast/extract_chapter.py](../../scripts/podcast/extract_chapter.py) for the flow and [scripts/podcast/_extract_contract.py](../../scripts/podcast/_extract_contract.py) for the contract schema, with real examples under any book's `chapter-contracts/`. This agent is a thin wrapper around `scripts/podcast/extract_chapter.py` — it never invents fields, never modifies handbook references, never reads outside the sanctioned paths.
 
 ## Protocol (run in this exact order)
 

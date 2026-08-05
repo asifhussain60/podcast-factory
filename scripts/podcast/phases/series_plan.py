@@ -11,6 +11,7 @@ Exports:
   phase_0f_write_series_plan      — assemble and write series-plan.md; halt
   phase_0g_register               — append episode rows to cross-book registry
 """
+
 from __future__ import annotations
 
 import json
@@ -20,11 +21,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _paths import REPO_ROOT  # noqa: E402
-from _progress import ORCHESTRATOR_VERSION, read_state  # noqa: E402
-
-
-from _subprocess import err as _err, info as _info  # noqa: E402
+from _paths import REPO_ROOT
+from _progress import ORCHESTRATOR_VERSION, read_state
 
 
 def _git(*args: str) -> tuple[int, str, str]:
@@ -146,6 +144,7 @@ def _resolve_episode_id(book_dir: Path, chapter_file: Path, chapter_slug: str) -
     if contract_path.exists():
         try:
             import yaml as _yaml
+
             with contract_path.open("r", encoding="utf-8") as f:
                 data = _yaml.safe_load(f) or {}
             ep_num = data.get("episode_number")
@@ -177,7 +176,7 @@ def _series_numeric(book_dir: Path, flag_name: str, *, default: float) -> float:
         for raw in plan_path.read_text(encoding="utf-8").splitlines():
             line = raw.strip()
             if line.lower().startswith(needle_lower):
-                value = line[len(needle_lower):].strip().strip("`").strip("*").strip("$")
+                value = line[len(needle_lower) :].strip().strip("`").strip("*").strip("$")
                 return float(value)
     except (OSError, ValueError):
         return default
@@ -249,7 +248,7 @@ def _series_flag(book_dir: Path, flag_name: str, *, default: bool = False) -> bo
         for raw in plan_path.read_text(encoding="utf-8").splitlines():
             line = raw.strip()
             if line.lower().startswith(needle_lower):
-                value = line[len(needle_lower):].strip().strip("`").strip("*").lower()
+                value = line[len(needle_lower) :].strip().strip("`").strip("*").lower()
                 return value in {"true", "yes", "on", "1", "enabled"}
     except OSError:
         return default
@@ -265,8 +264,9 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     Returns the path written. Does NOT halt — the caller updates state to
     `phase=0f, status=halted` and exits to wait for human review.
     """
-    import yaml as _yaml
     from datetime import datetime, timezone
+
+    import yaml as _yaml
     from _branching import branch_name as _branch_name
 
     book_slug = book_dir.name
@@ -286,10 +286,7 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     contracts.sort(key=lambda t: t[1].get("episode_number") or 9999)
 
     if not contracts:
-        raise RuntimeError(
-            f"Phase 0f: no chapter contracts under {contracts_dir}. "
-            "Phase 0d should have produced them."
-        )
+        raise RuntimeError(f"Phase 0f: no chapter contracts under {contracts_dir}. Phase 0d should have produced them.")
 
     tiers = {c[1].get("length_target", "extended") for c in contracts}
     if len(tiers) == 1:
@@ -298,8 +295,7 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     else:
         length_tier = "MIXED · author resolves"
         tier_rationale = (
-            f"Chapters declare mixed tiers ({sorted(tiers, key=str)}). Pick one in the "
-            "contracts before resuming."
+            f"Chapters declare mixed tiers ({sorted(tiers, key=str)}). Pick one in the contracts before resuming."
         )
 
     LENGTH_CUE = {
@@ -333,8 +329,7 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
         words = len(ch_file.read_text(encoding="utf-8").split()) if ch_file else "?"
         upload = f"`chapters/{ch_file.name}`" if ch_file else "(missing)"
         customize = (
-            f"`episodes/EP{ch_num:02d}-{slug}.txt`" if isinstance(ch_num, int)
-            else f"`episodes/EP{ch_num}-{slug}.txt`"
+            f"`episodes/EP{ch_num:02d}-{slug}.txt`" if isinstance(ch_num, int) else f"`episodes/EP{ch_num}-{slug}.txt`"
         )
         return (
             f"| {ch_num} | {title_} | {words} | {target} | **{fmt}** | "
@@ -355,14 +350,10 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
             else:
                 stitle = group[0][1].get("session_title") or f"Session {key}"
                 label = f"#### Session {key} — {stitle} · {len(group)} episode(s)"
-            _parts.append(
-                label + "\n\n"
-                + "\n".join(_EP_TABLE_HEADER + [_episode_row(s, d) for s, d in group])
-            )
+            _parts.append(label + "\n\n" + "\n".join(_EP_TABLE_HEADER + [_episode_row(s, d) for s, d in group]))
         chapter_list_table = "\n\n".join(_parts)
     else:
-        chapter_list_table = "\n".join(
-            _EP_TABLE_HEADER + [_episode_row(s, d) for s, d in contracts])
+        chapter_list_table = "\n".join(_EP_TABLE_HEADER + [_episode_row(s, d) for s, d in contracts])
 
     ess_rows = [
         "| # | Slug | Essential? | Why |",
@@ -397,8 +388,7 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     source_map_path = book_dir / "_system" / "source" / "text" / "source-chapter-map.md"
     if source_map_path.exists() and source_map_path.stat().st_size > 0:
         source_map_section = (
-            "\n### Source-chapter → episode map\n\n"
-            f"{source_map_path.read_text(encoding='utf-8').strip()}\n"
+            f"\n### Source-chapter → episode map\n\n{source_map_path.read_text(encoding='utf-8').strip()}\n"
         )
     else:
         source_map_section = ""
@@ -406,9 +396,8 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
     body = SERIES_PLAN_TEMPLATE.format(
         title=title,
         book_slug=book_slug,
-        branch=state.get("branch") or _branch_name(
-            state.get("category"), book_slug, profile=state.get("content_profile")
-        ),
+        branch=state.get("branch")
+        or _branch_name(state.get("category"), book_slug, profile=state.get("content_profile")),
         ts=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
         orch_version=ORCHESTRATOR_VERSION,
         unit_mode=unit_mode,
@@ -444,6 +433,7 @@ def phase_0g_register(book_dir: Path) -> None:
         return
 
     import yaml as _yaml
+
     existing = registry.read_text(encoding="utf-8")
     new_lines: list[str] = []
     for yml in sorted(contracts_dir.glob("*.yml")):
@@ -456,10 +446,9 @@ def phase_0g_register(book_dir: Path) -> None:
         if f"`{slug}`" in existing:
             continue
         new_lines.append(
-            f"| EP{ep:02d} | {title} | `{slug}` | {source_type} | drafted | "
-            f"{book_slug} | — |"
-            if isinstance(ep, int) else
-            f"| EP{ep} | {title} | `{slug}` | {source_type} | drafted | {book_slug} | — |"
+            f"| EP{ep:02d} | {title} | `{slug}` | {source_type} | drafted | {book_slug} | — |"
+            if isinstance(ep, int)
+            else f"| EP{ep} | {title} | `{slug}` | {source_type} | drafted | {book_slug} | — |"
         )
     if new_lines:
         with registry.open("a", encoding="utf-8") as f:

@@ -17,6 +17,7 @@ Renderer semantics the contract encodes:
     ``before`` -> start the figure on a fresh page. ``isolate-plate`` -> give the
     figure its own page (used for a tall plate that would otherwise strand text).
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -60,9 +61,7 @@ def normalize_placement(raw: dict[str, Any]) -> tuple[dict[str, Any], list[str]]
         flow = "standalone"
     # A wrap wider than the cap has no real text column -> promote to standalone.
     if flow == "wrap" and width_pct > WRAP_MAX_WIDTH_PCT:
-        warnings.append(
-            f"{vid or '?'}: wrap width {width_pct}%>{WRAP_MAX_WIDTH_PCT}% -> standalone"
-        )
+        warnings.append(f"{vid or '?'}: wrap width {width_pct}%>{WRAP_MAX_WIDTH_PCT}% -> standalone")
         flow = "standalone"
 
     page_fit = str(raw.get("page_fit") or "avoid").strip().lower()
@@ -128,6 +127,6 @@ def load_layout(book_dir: Path) -> tuple[list[dict[str, Any]], list[str]]:
         return [], []
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         return [], [f"visual-layout.json unreadable: {e}"]
     return validate_layout(data)

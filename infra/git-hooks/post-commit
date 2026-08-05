@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# post-commit hook — see sync-develop.sh. Fires after every local commit
+# (including each `git cherry-pick` in deploy_listener.sh's branch sweep);
+# the shared script no-ops unless the commit landed on develop.
+#
+# Install via `bash scripts/install-git-hooks.sh` (copies infra/git-hooks/*
+# into .git/hooks/).
+
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+[ -x "$repo_root/infra/git-hooks/sync-develop.sh" ] || exit 0
+"$repo_root/infra/git-hooks/sync-develop.sh"
+exit 0

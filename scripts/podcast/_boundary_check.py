@@ -17,6 +17,7 @@ Targets <2s runtime on the current scripts/podcast/ tree.
 
 Per `_workspace/plan/podcast-plan.yaml` P1.1.
 """
+
 from __future__ import annotations
 
 import ast
@@ -24,6 +25,7 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+
 from _paths import REPO_ROOT
 
 SCRIPTS_PODCAST = REPO_ROOT / "scripts" / "podcast"
@@ -36,9 +38,7 @@ FORBIDDEN_PATH_PATTERNS: tuple[str, ...] = (
 )
 
 # The single whitelisted write path. Anything ending in this suffix is exempt.
-WHITELISTED_PATHS: tuple[str, ...] = (
-    "content/_shared/arabic/06-abjad-numerals.md",
-)
+WHITELISTED_PATHS: tuple[str, ...] = ("content/_shared/arabic/06-abjad-numerals.md",)
 
 # Open modes that are violations: anything with 'w', 'a', 'x'.
 WRITE_MODE_RE = re.compile(r"[wax]")
@@ -89,6 +89,7 @@ def _extract_str_argument(node: ast.AST) -> str | None:
     if isinstance(node, ast.BinOp) and isinstance(node.op, (ast.Div,)):
         # Path('x') / 'y' / 'z'    OR    repo_root / 'scripts/memoir/...'
         parts = []
+
         # Walk left, accumulate strings.
         def _walk(n: ast.AST) -> None:
             if isinstance(n, ast.BinOp) and isinstance(n.op, ast.Div):
@@ -98,6 +99,7 @@ def _extract_str_argument(node: ast.AST) -> str | None:
                 s = _extract_str_argument(n)
                 if s:
                     parts.append(s)
+
         _walk(node)
         if parts:
             return "/".join(parts)

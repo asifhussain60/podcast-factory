@@ -12,13 +12,15 @@ EXIT CODES
     1 — error
     2 — migrations applied
 """
+
 from __future__ import annotations
 
 import argparse
 import sys
 from pathlib import Path
-from _paths import REPO_ROOT
 from typing import Any
+
+from _paths import REPO_ROOT
 
 try:
     import yaml
@@ -122,8 +124,9 @@ def main(argv: list[str] | None = None) -> int:
         description="Idempotent unified-schema migration for all book meta.yml files.",
     )
     parser.add_argument("--dry-run", action="store_true", help="Print planned changes without writing.")
-    parser.add_argument("--slug", action="append", dest="slugs", metavar="SLUG",
-                        help="Restrict migration to one slug (repeatable).")
+    parser.add_argument(
+        "--slug", action="append", dest="slugs", metavar="SLUG", help="Restrict migration to one slug (repeatable)."
+    )
     args = parser.parse_args(argv)
 
     paths = _find_meta_ymls(args.slugs)

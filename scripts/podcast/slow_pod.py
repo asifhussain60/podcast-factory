@@ -43,6 +43,7 @@ EXIT CODES
   1  partial batch failure (at least one file errored)
   2  fatal (bad arguments / ffmpeg not found)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -64,6 +65,7 @@ ATEMPO_MIN_SINGLE = 0.5
 
 # ── ffmpeg discovery ----------------------------------------------------------
 
+
 def _find_ffmpeg() -> str:
     """Return ffmpeg path, or raise SystemExit(2) with install instructions."""
     path = shutil.which("ffmpeg")
@@ -71,14 +73,11 @@ def _find_ffmpeg() -> str:
         return path
     install_hint = {
         "darwin": "  macOS:   brew install ffmpeg",
-        "linux":  "  Linux:   sudo apt install ffmpeg  OR  sudo dnf install ffmpeg",
-        "win32":  "  Windows: winget install ffmpeg  OR download from https://ffmpeg.org/download.html",
+        "linux": "  Linux:   sudo apt install ffmpeg  OR  sudo dnf install ffmpeg",
+        "win32": "  Windows: winget install ffmpeg  OR download from https://ffmpeg.org/download.html",
     }.get(sys.platform, "  See https://ffmpeg.org/download.html")
     print(
-        "ERROR: ffmpeg not found on PATH.\n"
-        "Install it first:\n"
-        f"{install_hint}\n"
-        "Then re-run this script.",
+        f"ERROR: ffmpeg not found on PATH.\nInstall it first:\n{install_hint}\nThen re-run this script.",
         file=sys.stderr,
     )
     sys.exit(2)
@@ -90,6 +89,7 @@ def _find_ffprobe() -> str | None:
 
 
 # ── atempo filter chain -------------------------------------------------------
+
 
 def build_atempo_chain(tempo: float) -> str:
     """Return ffmpeg -af filter string for pitch-preserving tempo change.
@@ -116,6 +116,7 @@ def build_atempo_chain(tempo: float) -> str:
 
 # ── output path --------------------------------------------------------------
 
+
 def _output_path(input_path: Path, output_dir: Path | None, tempo: float) -> Path:
     """Compute output .mp3 path from input stem + tempo percentage."""
     pct = round(tempo * 100)
@@ -125,6 +126,7 @@ def _output_path(input_path: Path, output_dir: Path | None, tempo: float) -> Pat
 
 
 # ── ffmpeg command builder ----------------------------------------------------
+
 
 def build_ffmpeg_cmd(
     input_path: Path,
@@ -147,16 +149,21 @@ def build_ffmpeg_cmd(
     return [
         ffmpeg,
         "-y",
-        "-i", str(input_path),
+        "-i",
+        str(input_path),
         "-vn",
-        "-af", build_atempo_chain(tempo),
-        "-b:a", bitrate,
-        "-map_metadata", "0",
+        "-af",
+        build_atempo_chain(tempo),
+        "-b:a",
+        bitrate,
+        "-map_metadata",
+        "0",
         str(output_path),
     ]
 
 
 # ── per-file processing -------------------------------------------------------
+
 
 def process_file(
     input_path: Path,
@@ -186,7 +193,7 @@ def process_file(
 
     print(f"PROCESSING  {input_path.name}  →  {out.name}  (tempo={tempo}, bitrate={bitrate})")
     try:
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: F841
             cmd,
             check=True,
             capture_output=True,
@@ -208,17 +215,16 @@ def process_file(
 
 # ── batch / folder mode -------------------------------------------------------
 
+
 def collect_audio_files(root: Path, recursive: bool) -> list[Path]:
     """Return sorted list of supported audio files under root."""
     pattern = "**/*" if recursive else "*"
-    files = [
-        p for p in sorted(root.glob(pattern))
-        if p.is_file() and p.suffix.lower() in SUPPORTED_EXTENSIONS
-    ]
+    files = [p for p in sorted(root.glob(pattern)) if p.is_file() and p.suffix.lower() in SUPPORTED_EXTENSIONS]
     return files
 
 
 # ── CLI -----------------------------------------------------------------------
+
 
 def _parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
@@ -228,32 +234,46 @@ def _parse_args() -> argparse.Namespace:
         epilog=__doc__,
     )
     p.add_argument(
-        "--input", "-i", required=True, metavar="PATH",
+        "--input",
+        "-i",
+        required=True,
+        metavar="PATH",
         help="Input file (.m4a / .wav / .aac) or directory.",
     )
     p.add_argument(
-        "--tempo", type=float, default=TEMPO_DEFAULT, metavar="F",
-        help=f"Playback speed factor, 0.5–1.0 (default {TEMPO_DEFAULT}). "
-             "0.85 = 85%% speed, 15%% slower.",
+        "--tempo",
+        type=float,
+        default=TEMPO_DEFAULT,
+        metavar="F",
+        help=f"Playback speed factor, 0.5–1.0 (default {TEMPO_DEFAULT}). 0.85 = 85%% speed, 15%% slower.",
     )
     p.add_argument(
-        "--bitrate", default=BITRATE_DEFAULT, metavar="RATE",
+        "--bitrate",
+        default=BITRATE_DEFAULT,
+        metavar="RATE",
         help=f"Output MP3 bitrate (default {BITRATE_DEFAULT}).",
     )
     p.add_argument(
-        "--output", "-o", metavar="DIR",
+        "--output",
+        "-o",
+        metavar="DIR",
         help="Output directory (default: alongside source file).",
     )
     p.add_argument(
-        "--recursive", "-r", action="store_true",
+        "--recursive",
+        "-r",
+        action="store_true",
         help="Recurse into subdirectories when --input is a folder.",
     )
     p.add_argument(
-        "--force", "-f", action="store_true",
+        "--force",
+        "-f",
+        action="store_true",
         help="Re-process even if output already exists.",
     )
     p.add_argument(
-        "--dry-run", action="store_true",
+        "--dry-run",
+        action="store_true",
         help="Print ffmpeg commands without executing them.",
     )
     return p.parse_args()
@@ -272,9 +292,7 @@ def _validate_args(args: argparse.Namespace) -> tuple[Path, Path | None]:
         output_dir = Path(args.output).expanduser().resolve()
 
     if not (TEMPO_MIN <= args.tempo <= TEMPO_MAX):
-        errors.append(
-            f"--tempo {args.tempo} is out of range [{TEMPO_MIN}, {TEMPO_MAX}]"
-        )
+        errors.append(f"--tempo {args.tempo} is out of range [{TEMPO_MIN}, {TEMPO_MAX}]")
 
     if errors:
         for err in errors:

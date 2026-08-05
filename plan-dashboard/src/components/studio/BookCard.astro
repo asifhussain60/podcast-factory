@@ -1,0 +1,160 @@
+---
+/**
+ * BookCard.astro — the ONE Studio card template.
+ *
+ * Both shelf branches render this: a standalone book (wrapped in an `<a>`) and a
+ * multi-volume series deck (wrapped in a `<summary>`). They used to be two
+ * near-identical copies inlined in studio.astro, and they had already drifted
+ * five slots apart — the deck had no uncatalogued pill, no blurb, no generation
+ * pills, no count, and no pipeline status at all. That is why the shelf looked
+ * non-deterministic: not one design rendered from varying data, but two designs.
+ *
+ * EVERY SLOT ALWAYS RENDERS. The old markup wrapped each one in `&&`, so a book
+ * with no author simply had no author line and its neighbours in the same row
+ * stretched around the gap. Absent data now prints an em dash and keeps its
+ * space, and the two identity panels carry a `min-height` so the divider between
+ * the script panel and the body sits at the same height on every card.
+ *
+ * This component renders the card's INSIDE only. The wrapper is the caller's,
+ * because `<details>` requires its clickable child to be a `<summary>` and a
+ * standalone book must be an `<a>` — one element cannot be both.
+ */
+import type { BookCardIdentity } from "../../lib/reader/book-card-identity";
+
+interface PipelineStep {
+  state: string;
+}
+
+export interface Props {
+  identity: BookCardIdentity;
+  /** PDF / podcast / augmented indicators. A deck passes all false. */
+  pdfGenerated?: boolean;
+  podcastGenerated?: boolean;
+  augmented?: boolean;
+  /** "6 episodes" for a book, "6 volumes" for a deck. */
+  countLabel?: string;
+  /** The pipeline line. A deck passes its aggregate. */
+  statusLabel: string;
+  steps?: PipelineStep[];
+  /** Renders the deck's disclosure chevron inside the count slot. */
+  chevron?: boolean;
+}
+
+const {
+  identity,
+  pdfGenerated = false,
+  podcastGenerated = false,
+  augmented = false,
+  countLabel = "",
+  statusLabel,
+  steps = [],
+  chevron = false,
+} = Astro.props;
+
+const PILLS = [
+  {
+    on: pdfGenerated,
+    icon: "fa-file-pdf",
+    yes: "PDF generated",
+    no: "PDF not yet generated",
+  },
+  {
+    on: podcastGenerated,
+    icon: "fa-headphones",
+    yes: "Podcast generated",
+    no: "Podcast not yet generated",
+  },
+  {
+    on: augmented,
+    icon: "fa-sparkles",
+    yes: "Augmented from the corpus",
+    no: "Not yet augmented",
+  },
+];
+---
+
+{
+  /* ── Script panel — the icon always, the native title when the book has one ── */
+}
+<div class={`card-script-wrap${identity.nativeTitle ? " has-script" : ""}`}>
+  <span class="card-script-icon" aria-hidden="true">
+    <i class={`fa-solid ${identity.icon}`}></i>
+  </span>
+  {
+    identity.nativeTitle && (
+      <span
+        class="card-script-text"
+        lang={identity.nativeLang ?? "ar"}
+        dir={identity.nativeLang === "ar" ? "rtl" : undefined}
+      >
+        {identity.nativeTitle}
+      </span>
+    )
+  }
+</div>
+
+{/* ── Body: identity, indicators, pipeline ── */}
+<div class="card-body-wrap">
+  <div class="card-identity">
+    <h3 class="card-title-en">{identity.title}</h3>
+    {
+      identity.volume && (
+        <span class="card-volume-badge">Volume {identity.volume}</span>
+      )
+    }
+    {
+      /* Held rather than omitted: an absent author used to remove the line and
+        let the card above it collapse to a different height. */
+    }
+    <span class={`card-author${identity.author ? "" : " is-empty"}`}>
+      {identity.author ?? "—"}
+    </span>
+    {
+      identity.uncatalogued && (
+        <span class="card-uncatalogued-pill">Not yet catalogued</span>
+      )
+    }
+  </div>
+
+  {identity.blurb && <p class="card-blurb">{identity.blurb}</p>}
+
+  <div class="card-gen-pills">
+    {
+      PILLS.map((p) => (
+        <span
+          class={`card-gen-pill${p.on ? " is-generated" : ""}`}
+          title={p.on ? p.yes : p.no}
+          aria-label={p.on ? p.yes : p.no}
+        >
+          <i class={`fa-solid ${p.icon}`} aria-hidden="true" />
+        </span>
+      ))
+    }
+    {
+      countLabel && (
+        <span class="card-episode-count">
+          {countLabel}
+          {chevron && (
+            <i
+              class="fa-solid fa-chevron-down studio-series-chevron"
+              aria-hidden="true"
+            />
+          )}
+        </span>
+      )
+    }
+  </div>
+
+  <div class="card-pipeline-status">
+    <span class="studio-picker-step">{statusLabel}</span>
+    <div class="studio-picker-bar" aria-hidden="true">
+      {
+        steps.map((s) => (
+          <span
+            class={`studio-picker-seg${s.state === "done" ? " is-done" : s.state === "active" ? " is-active" : s.state === "blocked" ? " is-blocked" : ""}`}
+          />
+        ))
+      }
+    </div>
+  </div>
+</div>

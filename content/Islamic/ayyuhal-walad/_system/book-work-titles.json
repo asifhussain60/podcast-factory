@@ -1,0 +1,18 @@
+{
+  "schema": "book.work-titles/v1",
+  "terms": [
+    "Minhaj ul-Abideen ila Jannatu Rabbul 'Alamin",
+    "Minhaj ul-Abideen ila Jannatu Rabbul Alamin",
+    "Ihya al-Ulum ad-Din",
+    "Jawahir ul-Quran",
+    "Ihya Ulum ad-Din",
+    "Kimiya as-Saada",
+    "Arbaeen"
+  ],
+  "changes": [
+    {
+      "title": "إِحْيَاءُ الْعُلُوم",
+      "action": "dropped-orphan-script"
+    }
+  ]
+}

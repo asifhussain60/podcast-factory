@@ -20,6 +20,7 @@ run_all aggregator. Pure-stdlib; importable in stripped CI shells.
 
 Authority: Wave L plan §L-6; _rules.py R_AUGMENT_* + CHALLENGER_VERSION 2.4.
 """
+
 from __future__ import annotations
 
 import json
@@ -31,30 +32,30 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
-import _db  # noqa: E402
-from _rules import (  # noqa: E402
-    R_AUGMENT_ETYMOLOGY_MAX_PER_CHAPTER,
+import _db
+from _rules import (
     R_AUGMENT_ARABIC_RANGES,
     R_AUGMENT_BLOCK_HEADERS,
+    R_AUGMENT_ETYMOLOGY_MAX_PER_CHAPTER,
     allowed_content_levels,
 )
 
-_ARABIC_RE = re.compile(
-    "[" + "".join(rf"\u{lo:04x}-\u{hi:04x}" for lo, hi in R_AUGMENT_ARABIC_RANGES) + "]"
-)
+_ARABIC_RE = re.compile("[" + "".join(rf"\u{lo:04x}-\u{hi:04x}" for lo, hi in R_AUGMENT_ARABIC_RANGES) + "]")
 
 
 @dataclass
 class AugmentationFinding:
     """One Category-W finding. Mirrors the shape emit_finding() expects."""
-    check_id: str            # "W1".."W6"
-    severity: str            # "P0" | "P1"
-    signature: str           # short machine-readable id
+
+    check_id: str  # "W1".."W6"
+    severity: str  # "P0" | "P1"
+    signature: str  # short machine-readable id
     context_excerpt: str = ""
     reason: str = ""
 
 
 # ─── block extraction ───────────────────────────────────────────────────────
+
 
 def _extract_block(text: str, header_key: str) -> str:
     """Return the augmentation block whose header startswith the configured prefix.
@@ -89,10 +90,11 @@ def _extract_block(text: str, header_key: str) -> str:
             break  # next block header
         end = j
         j += 1
-    return "\n".join(lines[start:end + 1]).strip()
+    return "\n".join(lines[start : end + 1]).strip()
 
 
 # ─── W3 — etymology discipline (text-only) ──────────────────────────────────
+
 
 def check_w3_etymology(text: str) -> list[AugmentationFinding]:
     block = _extract_block(text, "etymology")
@@ -101,33 +103,46 @@ def check_w3_etymology(text: str) -> list[AugmentationFinding]:
     findings: list[AugmentationFinding] = []
     bullets = [ln for ln in block.splitlines() if ln.lstrip().startswith("- ")]
     if len(bullets) > R_AUGMENT_ETYMOLOGY_MAX_PER_CHAPTER:
-        findings.append(AugmentationFinding(
-            check_id="W3", severity="P1", signature="etymology-over-cap",
-            context_excerpt=f"{len(bullets)} etymology insights",
-            reason=f"More than {R_AUGMENT_ETYMOLOGY_MAX_PER_CHAPTER} etymology insights "
-                   f"in one chapter ({len(bullets)}).",
-        ))
+        findings.append(
+            AugmentationFinding(
+                check_id="W3",
+                severity="P1",
+                signature="etymology-over-cap",
+                context_excerpt=f"{len(bullets)} etymology insights",
+                reason=f"More than {R_AUGMENT_ETYMOLOGY_MAX_PER_CHAPTER} etymology insights "
+                f"in one chapter ({len(bullets)}).",
+            )
+        )
     if _ARABIC_RE.search(block):
         m = _ARABIC_RE.search(block)
-        findings.append(AugmentationFinding(
-            check_id="W3", severity="P1", signature="etymology-arabic-script",
-            context_excerpt=block[max(0, m.start() - 20): m.start() + 20],
-            reason="Arabic script in an etymology aside — roots must be SPOKEN "
-                   "(romanized), never written/spelled in Arabic letters.",
-        ))
+        findings.append(
+            AugmentationFinding(
+                check_id="W3",
+                severity="P1",
+                signature="etymology-arabic-script",
+                context_excerpt=block[max(0, m.start() - 20) : m.start() + 20],
+                reason="Arabic script in an etymology aside — roots must be SPOKEN "
+                "(romanized), never written/spelled in Arabic letters.",
+            )
+        )
     # Every etymology bullet must carry a spoken form (a quoted "..." phonetic).
     for b in bullets:
         if 'spoken "' not in b and "spoken '" not in b:
-            findings.append(AugmentationFinding(
-                check_id="W3", severity="P1", signature="etymology-no-spoken-form",
-                context_excerpt=b[:120],
-                reason="Etymology aside lacks a spoken phonetic guide.",
-            ))
+            findings.append(
+                AugmentationFinding(
+                    check_id="W3",
+                    severity="P1",
+                    signature="etymology-no-spoken-form",
+                    context_excerpt=b[:120],
+                    reason="Etymology aside lacks a spoken phonetic guide.",
+                )
+            )
             break
     return findings
 
 
 # ─── ledger / DB backed checks (W4, W5, W6) ─────────────────────────────────
+
 
 def _load_ledger(book_dir: Path) -> dict:
     p = book_dir / "_system" / "episode-augment-ledger.json"
@@ -136,7 +151,7 @@ def _load_ledger(book_dir: Path) -> dict:
     try:
         d = json.loads(p.read_text(encoding="utf-8"))
         return d if isinstance(d.get("episodes"), dict) else {"episodes": {}}
-    except Exception:  # noqa: BLE001
+    except Exception:
         return {"episodes": {}}
 
 
@@ -146,10 +161,11 @@ def _book_content_level(book_dir: Path) -> str | None:
         return None
     try:
         import yaml  # type: ignore[import]
+
         data = yaml.safe_load(meta.read_text(encoding="utf-8")) or {}
         lvl = data.get("content_level")
         return str(lvl) if allowed_content_levels(lvl) else None
-    except Exception:  # noqa: BLE001
+    except Exception:
         return None
 
 
@@ -164,19 +180,27 @@ def check_w4_w5_content_and_existence(book_dir: Path, episode_slug: str) -> list
         return []
     conn = _db.get_connection()
     placeholders = ",".join("?" * len(atom_ids))
-    rows = {r[0]: (r[1], r[2]) for r in conn.execute(
-        f"SELECT id, type, content_level FROM atoms WHERE id IN ({placeholders})", atom_ids,
-    ).fetchall()}
+    rows = {
+        r[0]: (r[1], r[2])
+        for r in conn.execute(
+            f"SELECT id, type, content_level FROM atoms WHERE id IN ({placeholders})",
+            atom_ids,
+        ).fetchall()
+    }
 
     findings: list[AugmentationFinding] = []
     # W5 — fabrication: every injected atom id must exist.
     for aid in atom_ids:
         if aid not in rows:
-            findings.append(AugmentationFinding(
-                check_id="W5", severity="P0", signature="fabricated-atom",
-                context_excerpt=aid,
-                reason=f"Injected atom '{aid}' does not exist in knowledge.db.",
-            ))
+            findings.append(
+                AugmentationFinding(
+                    check_id="W5",
+                    severity="P0",
+                    signature="fabricated-atom",
+                    context_excerpt=aid,
+                    reason=f"Injected atom '{aid}' does not exist in knowledge.db.",
+                )
+            )
     # W4 — content-level leak: doctrine atoms must be within the book's band.
     book_level = _book_content_level(book_dir)
     allowed = set(allowed_content_levels(book_level))
@@ -187,12 +211,16 @@ def check_w4_w5_content_and_existence(book_dir: Path, episode_slug: str) -> list
             if clevel is None:
                 continue  # uncategorized passes during transition
             if clevel not in allowed:
-                findings.append(AugmentationFinding(
-                    check_id="W4", severity="P0", signature="content-level-leak",
-                    context_excerpt=f"{aid} ({clevel})",
-                    reason=f"Doctrine atom '{aid}' is level '{clevel}', above the book's "
-                           f"level '{book_level}' (allowed: {sorted(allowed)}).",
-                ))
+                findings.append(
+                    AugmentationFinding(
+                        check_id="W4",
+                        severity="P0",
+                        signature="content-level-leak",
+                        context_excerpt=f"{aid} ({clevel})",
+                        reason=f"Doctrine atom '{aid}' is level '{clevel}', above the book's "
+                        f"level '{book_level}' (allowed: {sorted(allowed)}).",
+                    )
+                )
     return findings
 
 
@@ -204,17 +232,22 @@ def check_w6_no_cross_chapter_repeat(book_dir: Path) -> list[AugmentationFinding
     for slug, entry in (ledger.get("episodes") or {}).items():
         for aid in entry.get("atoms_injected", []) or []:
             if aid in seen and seen[aid] != slug:
-                findings.append(AugmentationFinding(
-                    check_id="W6", severity="P1", signature="cross-chapter-repeat",
-                    context_excerpt=f"{aid}: {seen[aid]} + {slug}",
-                    reason=f"Atom '{aid}' injected into both '{seen[aid]}' and '{slug}'.",
-                ))
+                findings.append(
+                    AugmentationFinding(
+                        check_id="W6",
+                        severity="P1",
+                        signature="cross-chapter-repeat",
+                        context_excerpt=f"{aid}: {seen[aid]} + {slug}",
+                        reason=f"Atom '{aid}' injected into both '{seen[aid]}' and '{slug}'.",
+                    )
+                )
             else:
                 seen[aid] = slug
     return findings
 
 
 # ─── auto-revert helper (W1/W2 remediation) ─────────────────────────────────
+
 
 def revert_block(text: str, header_key: str) -> str:
     """Strip one augmentation block (W1/W2 auto-revert). Returns text unchanged
@@ -229,6 +262,7 @@ def revert_block(text: str, header_key: str) -> str:
 
 
 # ─── aggregator ─────────────────────────────────────────────────────────────
+
 
 def run_all(text: str, book_dir: Path | None = None, episode_slug: str = "") -> list[AugmentationFinding]:
     """Run W3 (text) + W4/W5/W6 (ledger+DB when book_dir given). Severity-sorted."""

@@ -28,7 +28,9 @@ export default function AgentCard({ agent }: Props) {
         <span className="agent-executor-model">· claude-3-5-sonnet</span>
       </div>
       <header className="agent-head">
-        <div className="agent-icon"><i className={iconClass} aria-hidden="true"></i></div>
+        <div className="agent-icon">
+          <i className={iconClass} aria-hidden="true"></i>
+        </div>
         <div className="agent-title">
           <span className="agent-name">{agent.name}</span>
           <span className="agent-role">{agent.role}</span>
@@ -57,8 +59,17 @@ export default function AgentCard({ agent }: Props) {
       </div>
 
       <div className="agent-cost-row">
-        <span className="pill-cost"><i className="fa-solid fa-coins" aria-hidden="true"></i> {agent.cost_profile}</span>
-        <span className="pill-fail"><i className="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> {agent.failure_mode}</span>
+        <span className="pill-cost">
+          <i className="fa-solid fa-coins" aria-hidden="true"></i>{" "}
+          {agent.cost_profile}
+        </span>
+        <span className="pill-fail">
+          <i
+            className="fa-solid fa-triangle-exclamation"
+            aria-hidden="true"
+          ></i>{" "}
+          {agent.failure_mode}
+        </span>
       </div>
     </div>
   );

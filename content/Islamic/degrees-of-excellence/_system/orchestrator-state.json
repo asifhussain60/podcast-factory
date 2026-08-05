@@ -1,0 +1,368 @@
+{
+  "schema_version": 1,
+  "book_slug": "degrees-of-excellence",
+  "category": "books",
+  "branch": "Islamic/degrees-of-excellence",
+  "status": "draft",
+  "phase": "0book-render",
+  "phase_status": "completed",
+  "last_completed_phase": "0book-render",
+  "next_phase": "publish",
+  "last_error": null,
+  "phases": {
+    "pre-flight": {
+      "status": "completed",
+      "ts_completed": "2026-07-31T11:39:48Z"
+    },
+    "branch": {
+      "status": "completed",
+      "ts_completed": "2026-07-31T11:39:48Z"
+    },
+    "scaffold": {
+      "status": "completed",
+      "ts_completed": "2026-07-31T11:39:48Z",
+      "book_dir": "content/Islamic/degrees-of-excellence"
+    },
+    "0a": {
+      "status": "completed",
+      "ts_started": "2026-07-31T11:39:48Z",
+      "ts_completed": "2026-07-31T11:40:20Z",
+      "note": "Azure OCR + Translation SUCCEEDED at 11:40Z: _system/source/text/raw-extract.md (464589 bytes) and _system/source/ocr/raw-extract.md (504320 bytes) were both written and are the artifacts every later phase reads. What failed afterwards was the OPTIONAL vowel_arabic_source pass, which hung on the model with no wall-clock bound and was killed at 12:27Z; that left phase_status stuck even though 0a's own deliverable was already correct on disk. Re-running was impossible without discarding good work — ingest_source.py refuses to overwrite an existing raw-extract. Status corrected BY HAND on 2026-07-31 with Asif's explicit approval, not written by the orchestrator. The hang itself is fixed in d63a7bee (20-minute deadline on the vowelling pass); the Arabic source stays bare for this book, which vowel_book re-marks at compose time as designed."
+    },
+    "0b": {
+      "status": "completed",
+      "ts_started": "2026-07-31T12:47:57Z",
+      "ts_completed": "2026-07-31T13:02:56Z"
+    },
+    "0c": {
+      "status": "completed",
+      "ts_started": "2026-07-31T13:02:57Z",
+      "ts_completed": "2026-07-31T13:02:57Z"
+    },
+    "0ci": {
+      "status": "completed",
+      "ts_started": "2026-07-31T13:02:58Z",
+      "ts_completed": "2026-07-31T13:02:58Z"
+    },
+    "0d": {
+      "status": "completed",
+      "ts_started": "2026-07-31T13:02:58Z",
+      "ts_completed": "2026-07-31T14:06:30Z",
+      "manual_fallback": "Delete `/Users/ahmac/Code/podcast-factory/content/Islamic/degrees-of-excellence/_system/source/text/_chunks/0d/source-toc.json` and retry Phase 0d (--resume --retry-phase 0d) so the planner re-plans against the inventory, or edit the plan's episode_count / topics arrays by hand to satisfy episode_count >= ceil(topics / 3) per source chapter."
+    },
+    "0e": {
+      "status": "completed",
+      "ts_started": "2026-07-31T14:06:31Z",
+      "ts_completed": "2026-07-31T15:05:37Z"
+    },
+    "0literary": {
+      "status": "pending"
+    },
+    "06a": {
+      "status": "halted",
+      "ts_started": "2026-07-31T15:05:38Z",
+      "ts_completed": "2026-07-31T15:05:47Z",
+      "gate_warnings": 6
+    },
+    "0f": {
+      "status": "halted",
+      "ts_started": "2026-07-31T15:46:32Z",
+      "ts_completed": "2026-07-31T15:46:32Z",
+      "series_plan_path": "content/Islamic/degrees-of-excellence/_system/series-plan.md"
+    },
+    "0g": {
+      "status": "completed",
+      "ts_started": "2026-07-31T19:19:40Z",
+      "ts_completed": "2026-07-31T19:19:45Z",
+      "audit_outcomes": {
+        "degrees-of-excellence-the-peak-of-every-kind": {
+          "status": "audited",
+          "ep_label": "EP04-degrees-of-excellence-the-peak-of-every-kind",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "prophets-as-symbols-and-the-first-caliphs": {
+          "status": "audited",
+          "ep_label": "EP07-prophets-as-symbols-and-the-first-caliphs",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-imam-and-the-authority-over-sacred-law": {
+          "status": "audited",
+          "ep_label": "EP05-the-imam-and-the-authority-over-sacred-law",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-imamate-pole-and-foundation-of-religion": {
+          "status": "audited",
+          "ep_label": "EP03-the-imamate-pole-and-foundation-of-religion",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-virtues-of-ali-the-imam-who-mirrors-god": {
+          "status": "audited",
+          "ep_label": "EP08-the-virtues-of-ali-the-imam-who-mirrors-god",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "worship-alms-and-war-void-without-the-imam": {
+          "status": "audited",
+          "ep_label": "EP06-worship-alms-and-war-void-without-the-imam",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        }
+      }
+    },
+    "per-chapter": {
+      "status": "completed",
+      "ts_started": "2026-07-31T15:47:03Z",
+      "current_chapter": "the-imamate-pole-and-foundation-of-religion",
+      "last_beat": "2026-07-31T19:15:34Z",
+      "completed_slugs": [
+        "degrees-of-excellence-the-peak-of-every-kind",
+        "prophets-as-symbols-and-the-first-caliphs",
+        "the-imam-and-the-authority-over-sacred-law",
+        "the-imamate-pole-and-foundation-of-religion",
+        "the-virtues-of-ali-the-imam-who-mirrors-god",
+        "worship-alms-and-war-void-without-the-imam"
+      ],
+      "failed_slugs": [],
+      "chapter_timings": {
+        "degrees-of-excellence-the-peak-of-every-kind": {
+          "started_ts": "2026-07-31T15:47:03Z",
+          "completed_ts": "2026-07-31T16:15:42Z",
+          "duration_sec": 1719.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "prophets-as-symbols-and-the-first-caliphs": {
+          "started_ts": "2026-07-31T16:15:43Z",
+          "completed_ts": "2026-07-31T16:36:48Z",
+          "duration_sec": 1265.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-imam-and-the-authority-over-sacred-law": {
+          "started_ts": "2026-07-31T17:00:33Z",
+          "completed_ts": "2026-07-31T17:15:53Z",
+          "duration_sec": 919.7,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-virtues-of-ali-the-imam-who-mirrors-god": {
+          "started_ts": "2026-07-31T17:34:45Z",
+          "completed_ts": "2026-07-31T18:00:02Z",
+          "duration_sec": 1516.9,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "worship-alms-and-war-void-without-the-imam": {
+          "started_ts": "2026-07-31T18:23:22Z",
+          "completed_ts": "2026-07-31T18:40:54Z",
+          "duration_sec": 1052.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-imamate-pole-and-foundation-of-religion": {
+          "started_ts": "2026-07-31T18:48:38Z",
+          "completed_ts": "2026-07-31T19:19:39Z",
+          "duration_sec": 1861.3,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        }
+      },
+      "convergence_iter": 3,
+      "ts_completed": "2026-08-01T11:02:24Z"
+    },
+    "per-chapter-optimize": {
+      "status": "skipped",
+      "ts_started": "2026-07-31T19:19:40Z",
+      "ts_completed": "2026-07-31T19:19:40Z",
+      "reason": "optimize_enabled=false in meta.yml"
+    },
+    "per-chapter-slides": {
+      "status": "completed",
+      "ts_started": "2026-07-31T19:19:45Z",
+      "outcomes": {
+        "prophets-as-symbols-and-the-first-caliphs": "SHIP-READY",
+        "the-imamate-pole-and-foundation-of-religion": "SHIP-READY",
+        "worship-alms-and-war-void-without-the-imam": "SHIP-READY",
+        "the-imam-and-the-authority-over-sacred-law": "SHIP-READY",
+        "degrees-of-excellence-the-peak-of-every-kind": "SHIP-READY",
+        "the-virtues-of-ali-the-imam-who-mirrors-god": "SHIP-READY"
+      },
+      "bad_outcomes": 0,
+      "total_outcomes": 6,
+      "ts_completed": "2026-07-31T23:15:39Z"
+    },
+    "audio-script": {
+      "status": "skipped",
+      "reason": "audio_engine=notebooklm (manual)",
+      "ts_completed": "2026-07-31T23:15:40Z"
+    },
+    "audio-render": {
+      "status": "skipped",
+      "reason": "audio_engine=notebooklm (manual)",
+      "ts_completed": "2026-07-31T23:15:40Z"
+    },
+    "finalize": {
+      "status": "halted",
+      "ts_started": "2026-07-31T20:23:19Z",
+      "validator_stdout": "==> validate_ship_ready: degrees-of-excellence\n    workspace: content/Islamic/degrees-of-excellence\n    publish:   sets status=published in place (nothing is copied)\n\n=== Gates ===\nOK    [G1] 8 chapters + 8 episodes present\nOK    [G2] 8 chapter/episode pairs match\nOK    [G3] chapters 1..8 + episodes 1..8 purely sequential\nOK    [G4] P0=0 across 8 episodes (P1=22, warn-only)\nOK    [G5] state.json phase=finalize phase_status=running\nn/a   [G6] status-flag model writes no published/ tree\nOK    [G7] challenger verdict=SHIP-WITH-CAUTION, pipeline_mode=None\n\n✗ BLOCKED — G13 arabic-script-in-chapters failed — no glossary entries with Arabic script\n  Remediation: see the failing gate's reason above.\n",
+      "validator_stderr": "WARN  G4 EP01-the-fatimid-world-and-al-naysaburi: 3 P1 advisories (warn-only)\nWARN  G4 EP02-the-theory-of-degrees-of-excellence-explained: 3 P1 advisories (warn-only)\nWARN  G4 EP03-the-imamate-pole-and-foundation-of-religion: 3 P1 advisories (warn-only)\nWARN  G4 EP04-degrees-of-excellence-the-peak-of-every-kind: 3 P1 advisories (warn-only)\nWARN  G4 EP05-the-imam-and-the-authority-over-sacred-law: 3 P1 advisories (warn-only)\nWARN  G4 EP06-worship-alms-and-war-void-without-the-imam: 1 P1 advisory (warn-only)\nWARN  G4 EP07-prophets-as-symbols-and-the-first-caliphs: 3 P1 advisories (warn-only)\nWARN  G4 EP08-the-virtues-of-ali-the-imam-who-mirrors-god: 3 P1 advisories (warn-only)\n",
+      "verdict": "SHIP-READY",
+      "ts_completed": "2026-08-01T11:02:25Z"
+    },
+    "audio-ingest": {
+      "status": "pending",
+      "ts_started": "2026-08-01T11:01:16Z",
+      "reason": "awaiting NotebookLM audio drop"
+    },
+    "0book-design": {
+      "status": "completed",
+      "ts_started": "2026-08-01T11:02:25Z",
+      "ts_completed": "2026-08-01T11:06:45Z"
+    },
+    "0book-compose": {
+      "status": "completed",
+      "ts_started": "2026-08-01T11:06:46Z",
+      "ts_completed": "2026-08-01T11:47:31Z"
+    },
+    "0book-illustrate": {
+      "status": "skipped",
+      "ts_completed": "2026-08-01T11:47:32Z",
+      "reason": "book_visuals=manual_only"
+    },
+    "0book-slide-import": {
+      "status": "skipped",
+      "ts_completed": "2026-08-01T11:47:32Z",
+      "reason": "book_visuals=manual_only"
+    },
+    "0book-render": {
+      "status": "completed",
+      "ts_started": "2026-08-01T11:47:32Z",
+      "ts_completed": "2026-08-01T12:24:10Z",
+      "book_validation": {
+        "slug": "degrees-of-excellence",
+        "verdict": "BOOK-SOUND",
+        "summary": "reading edition sound (6 gates checked)",
+        "gates": [
+          {
+            "gate": "B1",
+            "name": "book-md-complete",
+            "passed": true,
+            "note": "book.md: 140 KB, 10 sections ≥ 9 TOC chapters"
+          },
+          {
+            "gate": "B2",
+            "name": "book-pdf-renderable",
+            "passed": true,
+            "note": "book.pdf: 1560 KB, 87 pages ≥ 9 chapters"
+          },
+          {
+            "gate": "B3",
+            "name": "book-arabic-coverage",
+            "passed": true,
+            "note": "Arabic script present in all 6 chapters from 10 glossary terms · translation-edition Arabic preservation signal: 152 rendered Arabic runs from 24407 source runs"
+          },
+          {
+            "gate": "B4",
+            "name": "book-prose-integrity",
+            "passed": true,
+            "note": "book.md: no model commentary or generated headings detected"
+          },
+          {
+            "gate": "B5",
+            "name": "book-chapter-body-coverage",
+            "passed": true,
+            "note": "book.md: 9 numbered chapters have body text"
+          },
+          {
+            "gate": "B6",
+            "name": "book-source-crosswalk",
+            "passed": true,
+            "note": "source-crosswalk.json: 9 chapters aligned"
+          }
+        ]
+      }
+    },
+    "publish": {
+      "status": "pending"
+    },
+    "trainer": {
+      "status": "pending"
+    },
+    "merge": {
+      "status": "pending"
+    },
+    "done": {
+      "status": "pending"
+    }
+  },
+  "cost": {
+    "azure_usd": 0.0,
+    "anthropic_usd": 0.0,
+    "slide_deck_usd": 0.0
+  },
+  "wall_clock_sec": 0,
+  "ts_started": "2026-07-31T11:39:48Z",
+  "ts_updated": "2026-08-01T12:24:10Z",
+  "challenger_version": "2.6",
+  "orchestrator_version": "1.2",
+  "config": {
+    "length_tier": "extended",
+    "unit_mode": "auto"
+  },
+  "unattended": true,
+  "slide_decks": {
+    "the-virtues-of-ali-the-imam-who-mirrors-god": {
+      "slide_deck_phase": "done",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "SHIP-READY"
+    },
+    "degrees-of-excellence-the-peak-of-every-kind": {
+      "slide_deck_phase": "done",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "SHIP-READY"
+    },
+    "the-imam-and-the-authority-over-sacred-law": {
+      "slide_deck_phase": "done",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "SHIP-READY"
+    },
+    "prophets-as-symbols-and-the-first-caliphs": {
+      "slide_deck_phase": "done",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "SHIP-READY"
+    },
+    "the-imamate-pole-and-foundation-of-religion": {
+      "slide_deck_phase": "done",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "SHIP-READY"
+    },
+    "worship-alms-and-war-void-without-the-imam": {
+      "slide_deck_phase": "done",
+      "slide_challenger_iter": 2,
+      "slide_challenger_verdict": "SHIP-READY"
+    }
+  },
+  "run_id": "20260801T110224Z-941dbb"
+}

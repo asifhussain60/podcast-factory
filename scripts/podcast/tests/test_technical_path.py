@@ -24,26 +24,26 @@ Run:
   cd /path/to/podcast-factory
   python3 -m pytest scripts/podcast/tests/test_technical_path.py -v
 """
+
 from __future__ import annotations
 
 import sys
+import tempfile
 import textwrap
 import unittest
 from pathlib import Path
-import tempfile
-import os
 
 # Make scripts/podcast/ importable
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _branching  # noqa: E402
-import _rules      # noqa: E402
-
+import _branching
+import _rules
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def _make_book_dir(tmp: Path, category: str = "explainers") -> Path:
     """Scaffold a minimal book directory with meta.yml for the given category."""
@@ -66,15 +66,17 @@ def _make_refined_english(book_dir: Path, content: str = "Sample technical text.
 def _make_phonetics(book_dir: Path) -> Path:
     p = book_dir / "_system" / "source" / "text" / "_phonetics.md"
     p.write_text(
-        "| term | transliteration | phonetic | first-occurrence-snippet |\n"
-        "|---|---|---|---|\n",
+        "| term | transliteration | phonetic | first-occurrence-snippet |\n|---|---|---|---|\n",
         encoding="utf-8",
     )
     return p
 
 
-def _make_chapter(book_dir: Path, stem: str = "ch01-getting-started",
-                  content: str = "Install Claude Code with: npm install -g @anthropic-ai/claude-code") -> Path:
+def _make_chapter(
+    book_dir: Path,
+    stem: str = "ch01-getting-started",
+    content: str = "Install Claude Code with: npm install -g @anthropic-ai/claude-code",
+) -> Path:
     p = book_dir / "chapters" / f"{stem}.txt"
     p.write_text(content, encoding="utf-8")
     return p
@@ -93,6 +95,7 @@ def _make_contract(book_dir: Path, slug: str = "getting-started") -> Path:
 # 1. Routing and rules (category + branch prefix)
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 class TestCategoryRouting(unittest.TestCase):
     """Validate that `explainers` is a first-class category with correct branch prefix.
 
@@ -106,10 +109,6 @@ class TestCategoryRouting(unittest.TestCase):
     def test_sites_in_allowed_categories(self):
         # GREEN today — regression guard
         self.assertIn("sites", _rules.ALLOWED_CATEGORIES)
-
-    def test_explainers_branch_prefix(self):
-        # GREEN today
-        self.assertEqual(_branching.branch_prefix("explainers"), "explainer")
 
     def test_explainers_branch_name(self):
         # 2026-06-07: branch is <Bucket>/<slug>, bucket-grouped. The 'explainers'
@@ -143,18 +142,6 @@ class TestCategoryRouting(unittest.TestCase):
             "Islamic/kitab-al-riyad",
         )
 
-    def test_sites_branch_prefix_unchanged(self):
-        # GREEN today — regression guard
-        self.assertEqual(_branching.branch_prefix("sites"), "site")
-
-    def test_books_branch_prefix_unchanged(self):
-        # GREEN today — regression guard
-        self.assertEqual(_branching.branch_prefix("books"), "book")
-
-    def test_unknown_category_falls_back_to_draft(self):
-        # GREEN today
-        self.assertEqual(_branching.branch_prefix("unknown-category"), "draft")
-
     def test_branch_name_rejects_slug_with_slash(self):
         # GREEN today
         with self.assertRaises(ValueError):
@@ -164,6 +151,7 @@ class TestCategoryRouting(unittest.TestCase):
 # ─────────────────────────────────────────────────────────────────────────────
 # 2. Phase 0b — Refine / Denoise
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class TestPhase0bPrompt(unittest.TestCase):
     """Phase 0b refinement prompt must not leak Arabic-specific constraints into
@@ -176,6 +164,7 @@ class TestPhase0bPrompt(unittest.TestCase):
 
     def _import_refine(self):
         from _authoring._refine import build_phase_0b_window_prompt
+
         return build_phase_0b_window_prompt
 
     def test_books_prompt_contains_arabic_preservation(self):
@@ -224,8 +213,13 @@ class TestPhase0bPrompt(unittest.TestCase):
             prompt = build_tech("claude-code-training", 1, 1, win_in, win_out)
         # At least one of these technical-constraint markers should appear
         technical_markers = [
-            "code block", "code fence", "CLI command", "version number",
-            "command", "technical term", "exact syntax",
+            "code block",
+            "code fence",
+            "CLI command",
+            "version number",
+            "command",
+            "technical term",
+            "exact syntax",
         ]
         self.assertTrue(
             any(m.lower() in prompt.lower() for m in technical_markers),
@@ -239,8 +233,10 @@ class TestPhase0bPrompt(unittest.TestCase):
         # This is a routing test, not an end-to-end test — we check that
         # the function accepts a category kwarg without raising TypeError.
         try:
-            from _authoring._refine import author_phase_0b
             import inspect
+
+            from _authoring._refine import author_phase_0b
+
             sig = inspect.signature(author_phase_0b)
             self.assertIn(
                 "category",
@@ -254,6 +250,7 @@ class TestPhase0bPrompt(unittest.TestCase):
 # ─────────────────────────────────────────────────────────────────────────────
 # 3. Phase 0c — Phonetics (must be SKIPPED for explainers)
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class TestPhase0cSkip(unittest.TestCase):
     """Phase 0c (Arabic phonetics) must be a no-op for explainers category.
@@ -270,14 +267,15 @@ class TestPhase0cSkip(unittest.TestCase):
         # book should return a skip/no-op result rather than attempting
         # Arabic phonetic extraction.
         try:
-            from _authoring._refine import author_phase_0c
             import inspect
+
+            from _authoring._refine import author_phase_0c
+
             sig = inspect.signature(author_phase_0c)
             self.assertIn(
                 "category",
                 sig.parameters,
-                "author_phase_0c should accept a `category` keyword argument "
-                "to enable category-aware skip logic",
+                "author_phase_0c should accept a `category` keyword argument to enable category-aware skip logic",
             )
         except ImportError:
             self.skipTest("Cannot import author_phase_0c")
@@ -307,15 +305,16 @@ class TestPhase0cSkip(unittest.TestCase):
             "_phonetics.md should NOT be written when category=explainers",
         )
         self.assertIsInstance(result, str)
-        self.assertIn("skip", result.lower(),
-                      "Skip message should contain 'skip' for non-phonetic categories")
+        self.assertIn("skip", result.lower(), "Skip message should contain 'skip' for non-phonetic categories")
 
     def test_phase_0c_still_runs_for_books(self):
         # GREEN today (once category kwarg is added) — regression guard.
         # For books, phase 0c should still be invoked (not skipped).
         try:
-            from _authoring._refine import author_phase_0c
             import inspect
+
+            from _authoring._refine import author_phase_0c
+
             sig = inspect.signature(author_phase_0c)
             if "category" not in sig.parameters:
                 self.skipTest("category kwarg not yet added")
@@ -331,6 +330,7 @@ class TestPhase0cSkip(unittest.TestCase):
 # 4. Phase 0d — Chapter Design
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 class TestPhase0dTechnical(unittest.TestCase):
     """Phase 0d (Chapter Design) currently reads _phonetics.md as a hard input.
     For explainers (where 0c is skipped), _phonetics.md won't exist and the
@@ -342,14 +342,15 @@ class TestPhase0dTechnical(unittest.TestCase):
         # For explainers it must either skip reading phonetics, or treat its absence
         # as a no-op (not raise AuthoringError).
         try:
-            from _authoring._chapter_design import author_phase_0d
             import inspect
+
+            from _authoring._chapter_design import author_phase_0d
+
             sig = inspect.signature(author_phase_0d)
             self.assertIn(
                 "category",
                 sig.parameters,
-                "author_phase_0d should accept a `category` kwarg so it can "
-                "skip _phonetics.md for explainers",
+                "author_phase_0d should accept a `category` kwarg so it can skip _phonetics.md for explainers",
             )
         except ImportError:
             self.skipTest("Cannot import author_phase_0d")
@@ -376,18 +377,22 @@ class TestPhase0dTechnical(unittest.TestCase):
             self.skipTest("build_phase_0d_toc_prompt_technical not yet implemented")
         prompt = build_phase_0d_toc_prompt_technical("claude-code-training")
         technical_markers = [
-            "episode", "developer", "technical", "training", "practical",
+            "episode",
+            "developer",
+            "technical",
+            "training",
+            "practical",
         ]
         self.assertTrue(
             any(m.lower() in prompt.lower() for m in technical_markers),
-            f"Expected episode/developer arc language in technical 0d TOC prompt, "
-            f"got: {prompt[:300]}",
+            f"Expected episode/developer arc language in technical 0d TOC prompt, got: {prompt[:300]}",
         )
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 5. Phase 0e — Enrichment
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class TestPhase0eEnrichment(unittest.TestCase):
     """Phase 0e enrichment prompt hardcodes Islamic source tiers and doctrinal
@@ -400,8 +405,10 @@ class TestPhase0eEnrichment(unittest.TestCase):
         # We'll read the enrichment module and invoke the prompt builder directly
         # once it's refactored to expose it. For now, we reproduce the relevant
         # portion to inspect it.
-        from _authoring._enrichment import author_phase_0e
         import inspect
+
+        from _authoring._enrichment import author_phase_0e
+
         src = inspect.getsource(author_phase_0e)
         return src
 
@@ -409,20 +416,24 @@ class TestPhase0eEnrichment(unittest.TestCase):
         # GREEN today — documents that the Islamic content IS present.
         # Prevents silent regression if someone removes it without a technical
         # replacement.
-        from _authoring._enrichment import author_phase_0e
         import inspect
+
+        from _authoring._enrichment import author_phase_0e
+
         src = inspect.getsource(author_phase_0e)
         self.assertIn("_shared/islam", src)
-        self.assertIn("seven tiers", src.lower().replace("_", " ").replace("-", " ")
-                      .replace("tier", "tiers")
-                      if "seven tier" in src.lower() or "seven-tier" in src.lower()
-                      else src)
+        self.assertIn(
+            "seven tiers",
+            src.lower().replace("_", " ").replace("-", " ").replace("tier", "tiers")
+            if "seven tier" in src.lower() or "seven-tier" in src.lower()
+            else src,
+        )
 
     def test_technical_enrichment_function_exists(self):
         # RED today — a `_build_technical_enrichment_prompt()` (or
         # `author_phase_0e_technical()`) must be introduced.
         try:
-            from _authoring._enrichment import build_technical_enrichment_prompt
+            from _authoring._enrichment import build_technical_enrichment_prompt  # noqa: F401
         except ImportError:
             self.skipTest("build_technical_enrichment_prompt not yet implemented")
 
@@ -460,12 +471,17 @@ class TestPhase0eEnrichment(unittest.TestCase):
                 chapter_file=chapter_file,
             )
         technical_markers = [
-            "official", "documentation", "accuracy", "version",
-            "technical", "source", "verified",
+            "official",
+            "documentation",
+            "accuracy",
+            "version",
+            "technical",
+            "source",
+            "verified",
         ]
         self.assertTrue(
             any(m.lower() in prompt.lower() for m in technical_markers),
-            f"Expected technical accuracy language in enrichment prompt",
+            "Expected technical accuracy language in enrichment prompt",
         )
 
     def test_technical_enrichment_prompt_omits_arabic_name_rules(self):
@@ -492,8 +508,10 @@ class TestPhase0eEnrichment(unittest.TestCase):
         # RED today — `author_phase_0e()` should detect category=explainers
         # and call `build_technical_enrichment_prompt()` instead of the Islamic prompt.
         try:
-            from _authoring._enrichment import author_phase_0e
             import inspect
+
+            from _authoring._enrichment import author_phase_0e
+
             sig = inspect.signature(author_phase_0e)
             self.assertIn(
                 "category",
@@ -507,6 +525,7 @@ class TestPhase0eEnrichment(unittest.TestCase):
 # ─────────────────────────────────────────────────────────────────────────────
 # 6. Framing — per-chapter framing authorship
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class TestFramingRouting(unittest.TestCase):
     """author_framing() must route explainers to a technical prompt, not the
@@ -544,7 +563,7 @@ class TestFramingRouting(unittest.TestCase):
     def test_framing_has_technical_prompt_builder(self):
         # RED today — a `_build_technical_framing_prompt()` function must exist.
         try:
-            from _authoring._framing import _build_technical_framing_prompt
+            from _authoring._framing import _build_technical_framing_prompt  # noqa: F401
         except ImportError:
             self.skipTest("_build_technical_framing_prompt not yet implemented")
 
@@ -553,15 +572,20 @@ class TestFramingRouting(unittest.TestCase):
         # every value callable. A new content variant is one dict entry + one fn.
         try:
             from _authoring._framing import (
-                FRAMING_PROMPT_BUILDERS, _resolve_prompt_variant,
+                CATEGORY_TO_VARIANT,
+                FRAMING_PROMPT_BUILDERS,
+                _resolve_prompt_variant,
             )
         except ImportError:
             self.skipTest("FRAMING_PROMPT_BUILDERS not yet implemented")
-        self.assertEqual(
-            set(FRAMING_PROMPT_BUILDERS), {"islamic", "consumer", "technical"}
-        )
+        self.assertEqual(set(FRAMING_PROMPT_BUILDERS), {"islamic", "consumer", "technical"})
         for variant, fn in FRAMING_PROMPT_BUILDERS.items():
             self.assertTrue(callable(fn), f"{variant} builder is not callable")
+        # Every category→variant mapping must point at a registered builder,
+        # and unknowns must fall back to the islamic back-compat default.
+        for variant in CATEGORY_TO_VARIANT.values():
+            self.assertIn(variant, FRAMING_PROMPT_BUILDERS)
+        self.assertEqual(_resolve_prompt_variant("unknown-cat"), "islamic")
         # Every resolved variant must have a builder (no silent KeyError path).
         for cat in ("books", "sites", "explainers", "unknown-cat"):
             self.assertIn(_resolve_prompt_variant(cat), FRAMING_PROMPT_BUILDERS)
@@ -590,13 +614,23 @@ class TestFramingRouting(unittest.TestCase):
                 book_dir=book_dir,
             )
         islamic_markers = [
-            "hadith", "Quran", "Islamic", "scholarly rubric", "Ismaili",
-            "doctrinal", "spiritual", "imam lineage", "ta'wil", "esoteric",
-            "seeker/student", "scholar/teacher",
+            "hadith",
+            "Quran",
+            "Islamic",
+            "scholarly rubric",
+            "Ismaili",
+            "doctrinal",
+            "spiritual",
+            "imam lineage",
+            "ta'wil",
+            "esoteric",
+            "seeker/student",
+            "scholar/teacher",
         ]
         for marker in islamic_markers:
             self.assertNotIn(
-                marker.lower(), prompt.lower(),
+                marker.lower(),
+                prompt.lower(),
                 f"Islamic marker {marker!r} found in technical framing prompt",
             )
 
@@ -624,41 +658,46 @@ class TestFramingRouting(unittest.TestCase):
                 book_dir=book_dir,
             )
         developer_markers = [
-            "developer", "engineer", "workflow", "command", "CLI",
-            "practical", "hands-on", "terminal",
+            "developer",
+            "engineer",
+            "workflow",
+            "command",
+            "CLI",
+            "practical",
+            "hands-on",
+            "terminal",
         ]
         self.assertTrue(
             any(m.lower() in prompt.lower() for m in developer_markers),
-            f"Expected developer-oriented language in technical framing prompt",
+            "Expected developer-oriented language in technical framing prompt",
         )
 
     def test_author_framing_routes_explainers_to_technical_prompt(self):
-        # RED today — `author_framing()` must branch on `explainers` the same
-        # way it currently branches on `sites`. The key line to change is:
-        #   _use_consumer_prompt = (_category == "sites")
-        # to something like:
-        #   _prompt_variant = _resolve_prompt_variant(_category)
-        # This test checks the routing contract: when category=explainers,
-        # the Islamic scholarly prompt is NOT used.
+        # Registry refactor (2026-06-13): routing no longer lives in
+        # author_framing's body — it lives in the module-level registries
+        # (CATEGORY_TO_VARIANT + FRAMING_PROMPT_BUILDERS). Assert the routing
+        # contract there: category=explainers must resolve to the technical
+        # builder, never fall through to the Islamic scholarly prompt.
         try:
-            from _authoring._framing import author_framing
-            import inspect
-            src = inspect.getsource(author_framing)
+            from _authoring._framing import (
+                CATEGORY_TO_VARIANT,
+                FRAMING_PROMPT_BUILDERS,
+                _build_technical_framing_prompt,
+                _resolve_prompt_variant,
+            )
         except ImportError:
-            self.skipTest("Cannot import author_framing")
+            self.skipTest("Cannot import framing registries")
 
-        # After the fix, the routing should NOT be a simple `== "sites"` check.
-        # It should handle 'explainers' too.
-        # We inspect source to check that explainers is accounted for in routing.
-        routes_explainers = (
-            '"explainers"' in src or
-            "'explainers'" in src or
-            "explainer" in src
-        )
-        self.assertTrue(
-            routes_explainers,
-            "author_framing() source does not reference 'explainers' — "
+        self.assertEqual(
+            CATEGORY_TO_VARIANT.get("explainers"),
+            "technical",
+            "CATEGORY_TO_VARIANT does not route 'explainers' to 'technical' — "
             "it will silently use the Islamic scholarly prompt for this category",
+        )
+        self.assertIs(
+            FRAMING_PROMPT_BUILDERS[_resolve_prompt_variant("explainers")],
+            _build_technical_framing_prompt,
+            "'explainers' does not resolve to the technical framing builder",
         )
 
     def test_sites_framing_route_still_works(self):
@@ -691,6 +730,7 @@ class TestFramingRouting(unittest.TestCase):
 # 7. Noise Router — category-aware Sonnet system prompt
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 class TestNoiseRouter(unittest.TestCase):
     """The noise router's Pass 2 (Sonnet) system prompt protects 'spiritual,
     doctrinal, scriptural, or philosophical' content. For technical content the
@@ -703,6 +743,7 @@ class TestNoiseRouter(unittest.TestCase):
     def _import_router(self):
         sys.path.insert(0, str(SCRIPTS_PODCAST / "phases"))
         from noise_router import _is_protected, _pass2_sonnet, route_chapter
+
         return _is_protected, _pass2_sonnet, route_chapter
 
     def test_arabic_text_is_protected(self):
@@ -733,7 +774,7 @@ class TestNoiseRouter(unittest.TestCase):
         # technical categories.
         try:
             sys.path.insert(0, str(SCRIPTS_PODCAST / "phases"))
-            from noise_router import _build_sonnet_system_for_category
+            from noise_router import _build_sonnet_system_for_category  # noqa: F401
         except ImportError:
             self.skipTest("_build_sonnet_system_for_category not yet implemented")
 
@@ -761,12 +802,17 @@ class TestNoiseRouter(unittest.TestCase):
             self.skipTest("_build_sonnet_system_for_category not yet implemented")
         prompt = _build_sonnet_system_for_category("explainers")
         technical_protection_markers = [
-            "code", "command", "CLI", "technical", "specification",
-            "example", "syntax",
+            "code",
+            "command",
+            "CLI",
+            "technical",
+            "specification",
+            "example",
+            "syntax",
         ]
         self.assertTrue(
             any(m.lower() in prompt.lower() for m in technical_protection_markers),
-            f"Expected code/CLI protection language in technical Sonnet system prompt",
+            "Expected code/CLI protection language in technical Sonnet system prompt",
         )
 
     def test_books_sonnet_system_unchanged(self):
@@ -786,6 +832,7 @@ class TestNoiseRouter(unittest.TestCase):
         # After refactoring, this lives in _build_sonnet_system_for_category("books").
         sys.path.insert(0, str(SCRIPTS_PODCAST / "phases"))
         from noise_router import _build_sonnet_system_for_category
+
         prompt = _build_sonnet_system_for_category("books")
         self.assertIn("spiritual", prompt)
         self.assertIn("doctrinal", prompt)
@@ -794,6 +841,7 @@ class TestNoiseRouter(unittest.TestCase):
 # ─────────────────────────────────────────────────────────────────────────────
 # 8. End-to-end routing integration
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class TestTechnicalPathRouting(unittest.TestCase):
     """Integration-level routing tests: verify that a book_dir with
@@ -825,13 +873,17 @@ class TestTechnicalPathRouting(unittest.TestCase):
         # never fall through silently to the Islamic scholarly default.
         #
         # This test documents the requirement: every category name must appear
-        # in the framing module's routing logic.
+        # in the framing module's routing logic. Registry refactor (2026-06-13):
+        # routing lives in the module-level CATEGORY_TO_VARIANT registry, so
+        # inspect the MODULE source, not author_framing's body.
         try:
-            from _authoring._framing import author_framing
             import inspect
-            src = inspect.getsource(author_framing)
+
+            from _authoring import _framing
+
+            src = inspect.getsource(_framing)
         except ImportError:
-            self.skipTest("Cannot import author_framing")
+            self.skipTest("Cannot import _authoring._framing")
 
         non_book_categories = [c for c in _rules.ALLOWED_CATEGORIES if c != "books"]
         missing = []
@@ -844,7 +896,7 @@ class TestTechnicalPathRouting(unittest.TestCase):
         # As other categories get technical/specialized prompts, add them here.
         if "explainers" in missing:
             self.fail(
-                "author_framing() does not reference 'explainers' in its routing logic. "
+                "_authoring._framing does not reference 'explainers' in its routing logic. "
                 "explainers content will silently use the Islamic scholarly prompt. "
                 f"All non-book categories missing from routing: {missing}"
             )

@@ -31,6 +31,7 @@ Phase A wires only the deterministic pre-check path (``discriminator_fn=None``,
 ``fixer_fn=None``) into 0b/0e — no autonomous LLM spend. Phases B/C supply the
 frozen-prompt discriminator + fixer callbacks and a non-zero cap.
 """
+
 from __future__ import annotations
 
 import re
@@ -41,7 +42,7 @@ from typing import Callable, Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT
 
 ARTIFACT_CONVERGENCE_VERSION = "1.0"
 
@@ -77,8 +78,9 @@ PRECHECK_0E_BALLOON_RATIO = 2.50
 class ArtifactFinding:
     """One defect found in an upstream artifact. Mirrors the subset of the
     ``emit_finding`` record shape this layer populates."""
+
     check_id: str
-    severity: str          # "P0" | "P1" | "P2"
+    severity: str  # "P0" | "P1" | "P2"
     signature: str
     message: str
     file: str = ""
@@ -90,8 +92,9 @@ class ArtifactOutcome:
     """The result of one ``converge_artifact`` pass. ``proceeded`` is ALWAYS True
     — this loop never blocks a phase — and is kept explicit so callers (and the
     regression tests) can assert the flag-and-proceed contract directly."""
+
     label: str
-    converged: bool                 # True iff the final round surfaced no findings
+    converged: bool  # True iff the final round surfaced no findings
     rounds: int
     discriminator_calls: int
     fixer_calls: int
@@ -116,8 +119,7 @@ def _paragraph_count(text: str) -> int:
     return len([p for p in re.split(r"\n\s*\n", text.strip()) if p.strip()])
 
 
-def precheck_refined_english(raw_text: str, refined_text: str,
-                             *, file: str = "") -> list[ArtifactFinding]:
+def precheck_refined_english(raw_text: str, refined_text: str, *, file: str = "") -> list[ArtifactFinding]:
     """Deterministic pre-checks for the 0b output (refined-english.md).
 
     Catches the failure modes a downstream LLM challenger would otherwise catch
@@ -130,51 +132,58 @@ def precheck_refined_english(raw_text: str, refined_text: str,
     raw_words = _word_count(raw_text)
 
     if refined_words == 0:
-        findings.append(ArtifactFinding(
-            check_id="U0B-EMPTY", severity="P0",
-            signature="U0B-EMPTY",
-            message="refined-english.md is empty after 0b refinement.",
-            file=file,
-        ))
+        findings.append(
+            ArtifactFinding(
+                check_id="U0B-EMPTY",
+                severity="P0",
+                signature="U0B-EMPTY",
+                message="refined-english.md is empty after 0b refinement.",
+                file=file,
+            )
+        )
         return findings  # nothing else is meaningful on an empty artifact
 
     if raw_words > 0:
         ratio = refined_words / raw_words
         if ratio < PRECHECK_0B_LENGTH_RATIO_MIN or ratio > PRECHECK_0B_LENGTH_RATIO_MAX:
-            findings.append(ArtifactFinding(
-                check_id="U0B-LENGTH-DRIFT", severity="P1",
-                signature="U0B-LENGTH-DRIFT",
-                message=(
-                    f"refined/raw word ratio {ratio:.2f} outside band "
-                    f"[{PRECHECK_0B_LENGTH_RATIO_MIN}, {PRECHECK_0B_LENGTH_RATIO_MAX}] "
-                    f"(refined={refined_words}, raw={raw_words}) — possible wholesale "
-                    f"drop or hallucinated expansion."
-                ),
-                file=file,
-                context_excerpt=f"refined={refined_words} raw={raw_words} ratio={ratio:.2f}",
-            ))
+            findings.append(
+                ArtifactFinding(
+                    check_id="U0B-LENGTH-DRIFT",
+                    severity="P1",
+                    signature="U0B-LENGTH-DRIFT",
+                    message=(
+                        f"refined/raw word ratio {ratio:.2f} outside band "
+                        f"[{PRECHECK_0B_LENGTH_RATIO_MIN}, {PRECHECK_0B_LENGTH_RATIO_MAX}] "
+                        f"(refined={refined_words}, raw={raw_words}) — possible wholesale "
+                        f"drop or hallucinated expansion."
+                    ),
+                    file=file,
+                    context_excerpt=f"refined={refined_words} raw={raw_words} ratio={ratio:.2f}",
+                )
+            )
 
     raw_paras = _paragraph_count(raw_text)
     refined_paras = _paragraph_count(refined_text)
-    if (raw_paras >= PRECHECK_0B_PARA_MIN_RAW
-            and refined_paras < raw_paras * PRECHECK_0B_PARA_COLLAPSE_FRACTION):
-        findings.append(ArtifactFinding(
-            check_id="U0B-STRUCTURE-COLLAPSE", severity="P1",
-            signature="U0B-STRUCTURE-COLLAPSE",
-            message=(
-                f"refined paragraph count {refined_paras} collapsed below "
-                f"{PRECHECK_0B_PARA_COLLAPSE_FRACTION:.0%} of raw {raw_paras} — "
-                f"paragraphs may have been merged into a wall of text."
-            ),
-            file=file,
-            context_excerpt=f"refined_paras={refined_paras} raw_paras={raw_paras}",
-        ))
+    if raw_paras >= PRECHECK_0B_PARA_MIN_RAW and refined_paras < raw_paras * PRECHECK_0B_PARA_COLLAPSE_FRACTION:
+        findings.append(
+            ArtifactFinding(
+                check_id="U0B-STRUCTURE-COLLAPSE",
+                severity="P1",
+                signature="U0B-STRUCTURE-COLLAPSE",
+                message=(
+                    f"refined paragraph count {refined_paras} collapsed below "
+                    f"{PRECHECK_0B_PARA_COLLAPSE_FRACTION:.0%} of raw {raw_paras} — "
+                    f"paragraphs may have been merged into a wall of text."
+                ),
+                file=file,
+                context_excerpt=f"refined_paras={refined_paras} raw_paras={raw_paras}",
+            )
+        )
 
     return findings
 
 
-def precheck_enriched_chapter(before_text: str, after_text: str,
-                              *, file: str = "") -> list[ArtifactFinding]:
+def precheck_enriched_chapter(before_text: str, after_text: str, *, file: str = "") -> list[ArtifactFinding]:
     """Deterministic pre-checks for one 0e enriched chapter (in-place rewrite).
 
     Enrichment adds citations/context, so the enriched text should grow, not
@@ -189,27 +198,33 @@ def precheck_enriched_chapter(before_text: str, after_text: str,
         return findings  # nothing to compare against
 
     if after_words < before_words:
-        findings.append(ArtifactFinding(
-            check_id="U0E-SHRANK", severity="P1",
-            signature="U0E-SHRANK",
-            message=(
-                f"enriched chapter shrank ({after_words} < {before_words} words) — "
-                f"enrichment should add citations/context, not remove source content."
-            ),
-            file=file,
-            context_excerpt=f"before={before_words} after={after_words}",
-        ))
+        findings.append(
+            ArtifactFinding(
+                check_id="U0E-SHRANK",
+                severity="P1",
+                signature="U0E-SHRANK",
+                message=(
+                    f"enriched chapter shrank ({after_words} < {before_words} words) — "
+                    f"enrichment should add citations/context, not remove source content."
+                ),
+                file=file,
+                context_excerpt=f"before={before_words} after={after_words}",
+            )
+        )
     elif after_words / before_words > PRECHECK_0E_BALLOON_RATIO:
-        findings.append(ArtifactFinding(
-            check_id="U0E-BALLOON", severity="P1",
-            signature="U0E-BALLOON",
-            message=(
-                f"enriched/source word ratio {after_words / before_words:.2f} exceeds "
-                f"{PRECHECK_0E_BALLOON_RATIO} — enrichment may be burying the source."
-            ),
-            file=file,
-            context_excerpt=f"before={before_words} after={after_words}",
-        ))
+        findings.append(
+            ArtifactFinding(
+                check_id="U0E-BALLOON",
+                severity="P1",
+                signature="U0E-BALLOON",
+                message=(
+                    f"enriched/source word ratio {after_words / before_words:.2f} exceeds "
+                    f"{PRECHECK_0E_BALLOON_RATIO} — enrichment may be burying the source."
+                ),
+                file=file,
+                context_excerpt=f"before={before_words} after={after_words}",
+            )
+        )
 
     return findings
 
@@ -278,7 +293,7 @@ def _parse_discriminator_findings(
         s = line.strip()
         if not s.startswith("FINDING:"):
             continue
-        body = s[len("FINDING:"):].strip()
+        body = s[len("FINDING:") :].strip()
         parts = body.split("|", 2)
         if len(parts) < 2:
             continue
@@ -286,14 +301,16 @@ def _parse_discriminator_findings(
         message = parts[1].strip()
         context = parts[2].strip() if len(parts) > 2 else ""
         severity = _smap.get(check_id, "P1")
-        findings.append(ArtifactFinding(
-            check_id=check_id,
-            severity=severity,
-            signature=check_id,
-            message=message,
-            file=file,
-            context_excerpt=context,
-        ))
+        findings.append(
+            ArtifactFinding(
+                check_id=check_id,
+                severity=severity,
+                signature=check_id,
+                message=message,
+                file=file,
+                context_excerpt=context,
+            )
+        )
     return findings
 
 
@@ -324,7 +341,7 @@ def build_0b_discriminator_prompt(
         f"  {_U0B_HALLUCINATED_ADDITION} — content in REFINED has no basis in RAW (CRITICAL — P0)\n"
         f"  {_U0B_REGISTER_SHIFT}        — register shift (e.g. scholarly → casual)\n\n"
         f"Output format for each finding:\n"
-        f'FINDING: <CHECK_ID> | <one-sentence description> | '
+        f"FINDING: <CHECK_ID> | <one-sentence description> | "
         f'raw: "<exact raw phrase>" → refined: "<exact refined phrase>"\n\n'
         f"If NO problems are found, output exactly:\n"
         f"VERDICT: CLEAN\n\n"
@@ -362,10 +379,7 @@ def discriminate_0b_fidelity(
     raw_sample = _sample_text(raw_text, DISCRIMINATOR_0B_SAMPLE_WORDS)
     refined_sample = _sample_text(refined_text, DISCRIMINATOR_0B_SAMPLE_WORDS)
     prompt = build_0b_discriminator_prompt(book_dir.name, raw_sample, refined_sample)
-    log(
-        f"  phase 0b · discriminator: scoring fidelity "
-        f"(sample≤{DISCRIMINATOR_0B_SAMPLE_WORDS}w each side) …"
-    )
+    log(f"  phase 0b · discriminator: scoring fidelity (sample≤{DISCRIMINATOR_0B_SAMPLE_WORDS}w each side) …")
     rc, stdout, _stderr = _run_claude_p(
         prompt,
         book_dir=book_dir,
@@ -378,10 +392,7 @@ def discriminate_0b_fidelity(
         return []
     findings = _parse_discriminator_findings(stdout, file=str(refined_path))
     if findings:
-        log(
-            f"  phase 0b · discriminator: {len(findings)} finding(s) — "
-            + ", ".join(f.check_id for f in findings)
-        )
+        log(f"  phase 0b · discriminator: {len(findings)} finding(s) — " + ", ".join(f.check_id for f in findings))
     else:
         log("  phase 0b · discriminator: CLEAN")
     return findings
@@ -404,7 +415,7 @@ _U0E_SOURCE_ALTERED = "U0E-SOURCE-ALTERED"
 _U0E_DOCTRINE_DRIFT = "U0E-DOCTRINE-DRIFT"
 
 _DISCRIMINATOR_0E_SEVERITY: dict[str, str] = {
-    _U0E_HALLUCINATED_CITATION: "P0",   # P0: fabricating citations corrupts the source text
+    _U0E_HALLUCINATED_CITATION: "P0",  # P0: fabricating citations corrupts the source text
     _U0E_SOURCE_ALTERED: "P1",
     _U0E_DOCTRINE_DRIFT: "P1",
 }
@@ -442,7 +453,7 @@ def build_0e_discriminator_prompt(
         f"  {_U0E_DOCTRINE_DRIFT}       — an enrichment addition introduces a doctrinal "
         f"claim inconsistent with Ismaili scholarly tradition\n\n"
         f"Output format for each finding:\n"
-        f'FINDING: <CHECK_ID> | <one-sentence description> | '
+        f"FINDING: <CHECK_ID> | <one-sentence description> | "
         f'original: "<exact phrase>" → enriched: "<exact phrase>"\n\n'
         f"If NO faithfulness problems are found, output exactly:\n"
         f"VERDICT: CLEAN\n\n"
@@ -479,8 +490,7 @@ def discriminate_0e_faithfulness(
     chapter_file = book_dir / "chapters" / f"{chapter_stem}.md"
     before_sample = _sample_text(before_text, DISCRIMINATOR_0E_SAMPLE_WORDS)
     after_sample = _sample_text(after_text, DISCRIMINATOR_0E_SAMPLE_WORDS)
-    prompt = build_0e_discriminator_prompt(
-        book_dir.name, chapter_stem, before_sample, after_sample)
+    prompt = build_0e_discriminator_prompt(book_dir.name, chapter_stem, before_sample, after_sample)
     log(
         f"    {chapter_stem} · discriminator: scoring faithfulness "
         f"(sample≤{DISCRIMINATOR_0E_SAMPLE_WORDS}w each side) …"
@@ -495,9 +505,7 @@ def discriminate_0e_faithfulness(
     if rc != 0:
         log(f"    {chapter_stem} · discriminator: rc={rc} — treating as CLEAN")
         return []
-    findings = _parse_discriminator_findings(
-        stdout, file=str(chapter_file),
-        severity_map=_DISCRIMINATOR_0E_SEVERITY)
+    findings = _parse_discriminator_findings(stdout, file=str(chapter_file), severity_map=_DISCRIMINATOR_0E_SEVERITY)
     if findings:
         log(
             f"    {chapter_stem} · discriminator: {len(findings)} finding(s) — "
@@ -511,8 +519,7 @@ def discriminate_0e_faithfulness(
 # ─── Findings ledger emission ────────────────────────────────────────────────
 
 
-def _emit_findings(findings: list[ArtifactFinding], *, book_slug: str,
-                   source: str) -> None:
+def _emit_findings(findings: list[ArtifactFinding], *, book_slug: str, source: str) -> None:
     """Append findings to the repo-level _learning/findings.jsonl ledger so the
     trainer (Phase D) can cluster recurring upstream defects. Best-effort: a
     ledger failure must never break the authoring phase."""
@@ -520,7 +527,7 @@ def _emit_findings(findings: list[ArtifactFinding], *, book_slug: str,
         return
     try:
         from _rules import emit_finding
-    except Exception:  # noqa: BLE001
+    except Exception:
         return
     for f in findings:
         try:
@@ -535,12 +542,11 @@ def _emit_findings(findings: list[ArtifactFinding], *, book_slug: str,
                 file=f.file,
                 context_excerpt=f.context_excerpt or f.message,
             )
-        except Exception:  # noqa: BLE001
+        except Exception:
             continue
 
 
-def write_precheck_brief(book_dir: Path, label: str,
-                         findings: list[ArtifactFinding]) -> Path:
+def write_precheck_brief(book_dir: Path, label: str, findings: list[ArtifactFinding]) -> Path:
     """Write a short markdown brief the human 06a/0ci review gate will see.
 
     Appends (does not overwrite) so 0b and 0e briefs accumulate in one place.
@@ -601,8 +607,11 @@ def converge_artifact(
     wrappers (``run_*_precheck``), not here, so emission happens once.
     """
     outcome = ArtifactOutcome(
-        label=label, converged=False, rounds=0,
-        discriminator_calls=0, fixer_calls=0,
+        label=label,
+        converged=False,
+        rounds=0,
+        discriminator_calls=0,
+        fixer_calls=0,
     )
     llm_enabled = cost_cap_usd > 0 and discriminator_fn is not None
 
@@ -612,7 +621,7 @@ def converge_artifact(
         if heartbeat is not None:
             try:
                 heartbeat(rnd, "artifact-converge")
-            except Exception:  # noqa: BLE001
+            except Exception:
                 pass  # a beat failure must never break the loop
 
         # F35-style mid-loop cost ceiling — checked BEFORE any LLM call so a
@@ -621,9 +630,11 @@ def converge_artifact(
         if llm_enabled and cost_fn is not None:
             spent = cost_fn()
             if spent > cost_cap_usd:
-                msg = (f"COST-CEILING: book spent ${spent:.2f} > cap "
-                       f"${cost_cap_usd:.2f} at round {rnd} — disabling LLM "
-                       f"discriminator, proceeding on deterministic findings only.")
+                msg = (
+                    f"COST-CEILING: book spent ${spent:.2f} > cap "
+                    f"${cost_cap_usd:.2f} at round {rnd} — disabling LLM "
+                    f"discriminator, proceeding on deterministic findings only."
+                )
                 outcome.notes.append(msg)
                 outcome.cost_ceiling_tripped = msg
                 llm_enabled = False
@@ -634,15 +645,14 @@ def converge_artifact(
             try:
                 findings.extend(discriminator_fn() or [])
                 outcome.discriminator_calls += 1
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 # A discriminator failure degrades to deterministic-only — never
                 # fatal (flag-and-proceed). Record and carry on.
                 outcome.notes.append(f"round {rnd}: discriminator failed — {e!r}")
 
         outcome.findings = findings
         outcome.notes.append(
-            f"round {rnd}: {len(findings)} finding(s) "
-            f"[{', '.join(f.check_id for f in findings) or 'none'}]"
+            f"round {rnd}: {len(findings)} finding(s) [{', '.join(f.check_id for f in findings) or 'none'}]"
         )
 
         if not findings:
@@ -654,17 +664,15 @@ def converge_artifact(
         # challenger handles it). With a fixer, attempt repair and re-validate.
         if not (llm_enabled and fixer_fn is not None):
             outcome.notes.append(
-                f"round {rnd}: no enabled fixer — flag-and-proceed "
-                f"({len(findings)} finding(s) surfaced to human gate)"
+                f"round {rnd}: no enabled fixer — flag-and-proceed ({len(findings)} finding(s) surfaced to human gate)"
             )
             return outcome
 
         try:
             fixer_fn(findings)
             outcome.fixer_calls += 1
-        except Exception as e:  # noqa: BLE001
-            outcome.notes.append(
-                f"round {rnd}: fixer failed — {e!r}; flag-and-proceed")
+        except Exception as e:
+            outcome.notes.append(f"round {rnd}: fixer failed — {e!r}; flag-and-proceed")
             return outcome
 
     # Round cap reached with findings still open — flag-and-proceed.
@@ -695,8 +703,9 @@ def run_0b_precheck(book_dir: Path, *, log=print) -> ArtifactOutcome:
     raw_path = book_dir / "_system" / "source" / "text" / "raw-extract.md"
     refined_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
     rel = str(refined_path)
-    _clean = ArtifactOutcome(label="0b:refined-english.md", converged=True,
-                             rounds=0, discriminator_calls=0, fixer_calls=0)
+    _clean = ArtifactOutcome(
+        label="0b:refined-english.md", converged=True, rounds=0, discriminator_calls=0, fixer_calls=0
+    )
     # The wrapper is advisory — invoked AFTER 0b hard-asserts non-empty. If the
     # artifact is absent/empty here the phase's own assertion is the authority.
     if not refined_path.exists() or refined_path.stat().st_size == 0:
@@ -713,9 +722,9 @@ def run_0b_precheck(book_dir: Path, *, log=print) -> ArtifactOutcome:
     disc_cap = 0.0
     try:
         from phases.series_plan import _series_numeric
-        disc_cap = _series_numeric(
-            book_dir, "phase_0b_discriminator_cap_usd", default=0.0)
-    except Exception:  # noqa: BLE001
+
+        disc_cap = _series_numeric(book_dir, "phase_0b_discriminator_cap_usd", default=0.0)
+    except Exception:
         pass
 
     discriminator_fn: Optional[Callable[[], list[ArtifactFinding]]] = None
@@ -723,12 +732,12 @@ def run_0b_precheck(book_dir: Path, *, log=print) -> ArtifactOutcome:
     if disc_cap > 0.0:
         _raw_captured = raw_text
         _refined_captured = refined_text
-        discriminator_fn = lambda: discriminate_0b_fidelity(
-            book_dir, _raw_captured, _refined_captured, log=log)
+        discriminator_fn = lambda: discriminate_0b_fidelity(book_dir, _raw_captured, _refined_captured, log=log)
         try:
             from phases.series_plan import _book_cost_so_far
+
             cost_fn = lambda: _book_cost_so_far(book_dir)
-        except Exception:  # noqa: BLE001
+        except Exception:
             pass
         log(f"  phase 0b · discriminator enabled (cap=${disc_cap:.2f})")
 
@@ -744,16 +753,18 @@ def run_0b_precheck(book_dir: Path, *, log=print) -> ArtifactOutcome:
     _emit_findings(outcome.findings, book_slug=book_dir.name, source="precheck-0b")
     write_precheck_brief(book_dir, outcome.label, outcome.findings)
     if outcome.findings:
-        log(f"  phase 0b · precheck flagged {len(outcome.findings)} finding(s) "
-            f"(flag-and-proceed): {', '.join(f.check_id for f in outcome.findings)}")
+        log(
+            f"  phase 0b · precheck flagged {len(outcome.findings)} finding(s) "
+            f"(flag-and-proceed): {', '.join(f.check_id for f in outcome.findings)}"
+        )
     else:
         log("  phase 0b · precheck clean")
     return outcome
 
 
-def run_0e_chapter_precheck(book_dir: Path, chapter_stem: str,
-                            before_text: str, after_text: str,
-                            *, file: str = "", log=print) -> ArtifactOutcome:
+def run_0e_chapter_precheck(
+    book_dir: Path, chapter_stem: str, before_text: str, after_text: str, *, file: str = "", log=print
+) -> ArtifactOutcome:
     """Phase A+C: validation of one 0e enriched chapter.
 
     Phase A (always free, always runs): deterministic pre-checks — shrank,
@@ -773,9 +784,9 @@ def run_0e_chapter_precheck(book_dir: Path, chapter_stem: str,
     disc_cap = 0.0
     try:
         from phases.series_plan import _series_numeric
-        disc_cap = _series_numeric(
-            book_dir, "phase_0e_discriminator_cap_usd", default=0.0)
-    except Exception:  # noqa: BLE001
+
+        disc_cap = _series_numeric(book_dir, "phase_0e_discriminator_cap_usd", default=0.0)
+    except Exception:
         pass
 
     discriminator_fn: Optional[Callable[[], list[ArtifactFinding]]] = None
@@ -784,11 +795,13 @@ def run_0e_chapter_precheck(book_dir: Path, chapter_stem: str,
         _before_captured = before_text
         _after_captured = after_text
         discriminator_fn = lambda: discriminate_0e_faithfulness(
-            book_dir, chapter_stem, _before_captured, _after_captured, log=log)
+            book_dir, chapter_stem, _before_captured, _after_captured, log=log
+        )
         try:
             from phases.series_plan import _book_cost_so_far
+
             cost_fn = lambda: _book_cost_so_far(book_dir)
-        except Exception:  # noqa: BLE001
+        except Exception:
             pass
 
     outcome = converge_artifact(
@@ -803,15 +816,19 @@ def run_0e_chapter_precheck(book_dir: Path, chapter_stem: str,
     _emit_findings(outcome.findings, book_slug=book_dir.name, source="precheck-0e")
     write_precheck_brief(book_dir, label, outcome.findings)
     if outcome.findings:
-        log(f"    {chapter_stem} · precheck flagged "
-            f"{', '.join(f.check_id for f in outcome.findings)} (flag-and-proceed)")
+        log(
+            f"    {chapter_stem} · precheck flagged "
+            f"{', '.join(f.check_id for f in outcome.findings)} (flag-and-proceed)"
+        )
     return outcome
+
 
 # ─── Phase D: trainer substrate utilities ────────────────────────────────────
 #
 # These functions let podcast-trainer and learn_aggregate.py surface upstream
 # precheck pattern summaries without importing the full pipeline. They read the
 # shared _learning/findings.jsonl ledger — never write to it.
+
 
 def query_upstream_findings(
     repo_root: Optional[Path] = None,
@@ -832,7 +849,7 @@ def query_upstream_findings(
 
     try:
         from _rules import UPSTREAM_PRECHECK_SOURCES as _sources
-    except Exception:  # noqa: BLE001 — if _rules unavailable, fall back to inline
+    except Exception:
         _sources = frozenset({"precheck-0b", "precheck-0e"})
 
     if repo_root is None:
@@ -861,5 +878,4 @@ def query_upstream_findings(
     except OSError:
         return {}
 
-    return {cid: recs for cid, recs in by_check_id.items()
-            if len(recs) >= min_occurrences}
+    return {cid: recs for cid, recs in by_check_id.items() if len(recs) >= min_occurrences}

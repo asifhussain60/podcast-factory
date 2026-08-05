@@ -24,43 +24,102 @@ from pathlib import Path
 
 import yaml
 
-
 # ---------------------------------------------------------------------------
 # Keyword heuristic — ordered high→low so the rarest/most-specific keywords
 # take precedence. Match is case-insensitive.
 # ---------------------------------------------------------------------------
 
 _LEVEL_KEYWORDS: list[tuple[str, list[str]]] = [
-    ("haqaiq", [
-        "haqaiq", "realities", "essential reality", "eternal truth",
-        "metaphysical truth", "permanent truth", "al-haqaiq", "ḥaqāʾiq",
-    ]),
-    ("mabda_maad", [
-        "origin and return", "mabda", "ma'ad", "cosmic intellect",
-        "emanation", "divine origin", "return to the divine",
-        "origin & return", "mabda maad", "al-mabda",
-    ]),
-    ("mamsool", [
-        "parable", "exemplar", "similitude", "analogy", "teaching story",
-        "mamsool", "ممثولات", "allegorical story", "instructive example",
-    ]),
-    ("taveel", [
-        "esoteric", "ta'wil", "taveel", "inner meaning", "batin",
-        "allegorical", "hidden meaning", "tawil", "taʾwīl",
-        "spiritual interpretation", "inner dimension",
-    ]),
-    ("advanced", [
-        "jurisprudence", "fiqh", "legal reasoning", "scholarly commentary",
-        "exegesis", "advanced", "formal analysis", "doctrinal analysis",
-        "theological argument",
-    ]),
-    ("general", [
-        "history", "context", "background", "introduction", "overview",
-        "narrative", "story", "biography", "chronology", "events",
-    ]),
+    (
+        "haqaiq",
+        [
+            "haqaiq",
+            "realities",
+            "essential reality",
+            "eternal truth",
+            "metaphysical truth",
+            "permanent truth",
+            "al-haqaiq",
+            "ḥaqāʾiq",
+        ],
+    ),
+    (
+        "mabda_maad",
+        [
+            "origin and return",
+            "mabda",
+            "ma'ad",
+            "cosmic intellect",
+            "emanation",
+            "divine origin",
+            "return to the divine",
+            "origin & return",
+            "mabda maad",
+            "al-mabda",
+        ],
+    ),
+    (
+        "mamsool",
+        [
+            "parable",
+            "exemplar",
+            "similitude",
+            "analogy",
+            "teaching story",
+            "mamsool",
+            "ممثولات",
+            "allegorical story",
+            "instructive example",
+        ],
+    ),
+    (
+        "taveel",
+        [
+            "esoteric",
+            "ta'wil",
+            "taveel",
+            "inner meaning",
+            "batin",
+            "allegorical",
+            "hidden meaning",
+            "tawil",
+            "taʾwīl",
+            "spiritual interpretation",
+            "inner dimension",
+        ],
+    ),
+    (
+        "advanced",
+        [
+            "jurisprudence",
+            "fiqh",
+            "legal reasoning",
+            "scholarly commentary",
+            "exegesis",
+            "advanced",
+            "formal analysis",
+            "doctrinal analysis",
+            "theological argument",
+        ],
+    ),
+    (
+        "general",
+        [
+            "history",
+            "context",
+            "background",
+            "introduction",
+            "overview",
+            "narrative",
+            "story",
+            "biography",
+            "chronology",
+            "events",
+        ],
+    ),
 ]
 
-_SECTION_RE = re.compile(r'^##\s+(.+)$', re.MULTILINE)
+_SECTION_RE = re.compile(r"^##\s+(.+)$", re.MULTILINE)
 
 
 def _classify_section(heading: str, body: str, book_level: str | None) -> str:
@@ -93,6 +152,7 @@ def _read_book_level(book_dir: Path) -> str | None:
 def _get_db():
     """Open knowledge.db in write mode (deferred import to avoid import-time errors)."""
     import sqlite3
+
     db_path = Path(__file__).parent.parent.parent / "content" / "knowledge-base" / "knowledge.db"
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
@@ -123,7 +183,7 @@ def mint_section_depths_for_chapter(
         Optional logging function (print-compatible).
     """
     if log is None:
-        log = lambda *a: None  # noqa: E731
+        log = lambda *a: None
 
     book_slug = book_dir.name
     chapter_id = chapter_path.stem  # e.g. "ch01-the-opening"
@@ -162,7 +222,7 @@ def mint_section_depths_for_chapter(
 
         depth = _classify_section(heading_text, body_text, book_level)
         slug = heading_text[:60].lower()
-        slug = re.sub(r'[^a-z0-9]+', '-', slug).strip('-')
+        slug = re.sub(r"[^a-z0-9]+", "-", slug).strip("-")
 
         cur.execute(
             """
@@ -188,10 +248,13 @@ def mint_section_depths_for_chapter(
 # CLI entry point
 # ---------------------------------------------------------------------------
 
+
 def _main() -> None:
     if len(sys.argv) < 3:
         print("Usage: mint_section_depths.py <book_dir> <chapter_slug>")
-        print("  Example: mint_section_depths.py content/drafts/books/ayyuhal-walad ch01-frame-and-the-problem-of-knowledge")
+        print(
+            "  Example: mint_section_depths.py content/drafts/books/ayyuhal-walad ch01-frame-and-the-problem-of-knowledge"
+        )
         sys.exit(1)
 
     book_dir = Path(sys.argv[1]).resolve()

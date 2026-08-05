@@ -6,21 +6,22 @@ with clean blockquotes sourced from HQAyats (the in-DB Quran corpus).
 Optional curated citations: TopicAyats per-topic linkages, rendered as a
 'Verses referenced' footer that dedups against inline citations.
 """
+
 from __future__ import annotations
+
 import re
 from typing import Optional
 
 from ..db import query_json
 from ..slugify import slugify_urdu
 from .base import (
-    SourceAdapter,
+    AdapterLabels,
     BookIds,
     BookMeta,
-    Section,
-    AdapterLabels,
     QuranCorpus,
+    Section,
+    SourceAdapter,
 )
-
 
 # KAHSKOLE database name (note: the DB is "KASHKOLE" but the adapter/folder
 # uses "kashkole" — historical naming inconsistency, preserved for compatibility).
@@ -54,13 +55,16 @@ class WisdomQuranCorpus:
     def _load(self) -> None:
         if self._by_key is not None:
             return
-        rows = query_json(DB, """
+        rows = query_json(
+            DB,
+            """
             SELECT SurahNumber AS surah, AyatNumber AS ayat,
                    AyatUNICODE AS arabic, AyatTranslation AS english,
                    UrduTranslation AS urdu, Chapter AS surah_name,
                    Translation_Asad AS english_asad
             FROM HQAyats
-            FOR JSON PATH;""")
+            FOR JSON PATH;""",
+        )
         for r in rows:
             for k in ("english", "urdu", "english_asad", "arabic"):
                 if r.get(k):
@@ -93,11 +97,7 @@ def _render_quran_block(
     end = end or start
     ayats = corpus.get_range(surah, start, end)
     if not ayats:
-        return (
-            f"> *(Quran {surah}:{start}"
-            f"{('-' + str(end)) if end != start else ''} "
-            f"— not found in HQAyats)*"
-        )
+        return f"> *(Quran {surah}:{start}{('-' + str(end)) if end != start else ''} — not found in HQAyats)*"
     surah_name = ayats[0].get("surah_name") or ""
     range_str = f"{surah}:{start}" if end == start else f"{surah}:{start}-{end}"
 
@@ -138,27 +138,34 @@ class WisdomAdapter(SourceAdapter):
     # ---- Required: book resolution + sections ------------------------------
 
     def resolve_book(self, ids: BookIds) -> BookMeta:
-        binder = query_json(DB, f"""
+        binder = query_json(
+            DB,
+            f"""
             SELECT BinderID AS id, BinderName AS name, BinderOrder AS sort_key
-            FROM Binders WHERE BinderID = {ids.shelf_id} FOR JSON PATH;""")[0]
+            FROM Binders WHERE BinderID = {ids.shelf_id} FOR JSON PATH;""",
+        )[0]
 
-        bc = query_json(DB, f"""
+        bc = query_json(
+            DB,
+            f"""
             SELECT bc.BinderChapterOrder AS book_sort_key,
                    c.ChapterID AS id, c.ChapterName AS name
             FROM BinderChapters bc
             JOIN Chapters c ON c.ChapterID = bc.ChapterID
             WHERE bc.BinderID = {ids.shelf_id} AND bc.ChapterID = {ids.book_id}
-            FOR JSON PATH;""")[0]
+            FOR JSON PATH;""",
+        )[0]
 
-        all_binders = query_json(DB,
-            "SELECT BinderID AS id FROM Binders "
-            "ORDER BY BinderOrder, BinderID FOR JSON PATH;")
+        all_binders = query_json(DB, "SELECT BinderID AS id FROM Binders ORDER BY BinderOrder, BinderID FOR JSON PATH;")
         shelf_prefix = [b["id"] for b in all_binders].index(ids.shelf_id) + 1
 
-        chaps_in_binder = query_json(DB, f"""
+        chaps_in_binder = query_json(
+            DB,
+            f"""
             SELECT ChapterID AS id FROM BinderChapters
             WHERE BinderID = {ids.shelf_id}
-            ORDER BY BinderChapterOrder, ChapterID FOR JSON PATH;""")
+            ORDER BY BinderChapterOrder, ChapterID FOR JSON PATH;""",
+        )
         book_prefix = [c["id"] for c in chaps_in_binder].index(ids.book_id) + 1
 
         return BookMeta(
@@ -177,7 +184,9 @@ class WisdomAdapter(SourceAdapter):
         )
 
     def get_book_sections(self, ids: BookIds) -> list[Section]:
-        topics = query_json(DB, f"""
+        topics = query_json(
+            DB,
+            f"""
             SELECT ct.ChapterTopicOrder AS raw_sort,
                    t.TopicID AS id, t.TopicName AS name,
                    t.TopicNameEnglish AS name_en,
@@ -187,7 +196,8 @@ class WisdomAdapter(SourceAdapter):
             LEFT JOIN TopicDataUnicode td ON td.TopicID = t.TopicID
             WHERE ct.ChapterID = {ids.book_id}
             ORDER BY ct.ChapterTopicOrder
-            FOR JSON PATH;""")
+            FOR JSON PATH;""",
+        )
 
         sections: list[Section] = []
         for pos, t in enumerate(topics, 1):
@@ -195,14 +205,16 @@ class WisdomAdapter(SourceAdapter):
             extras = {}
             if t.get("name_en"):
                 extras["name_en"] = t["name_en"]
-            sections.append(Section(
-                position=pos,
-                id=t["id"],
-                raw_sort=t["raw_sort"],
-                label=label,
-                html=t.get("html"),
-                extras=extras,
-            ))
+            sections.append(
+                Section(
+                    position=pos,
+                    id=t["id"],
+                    raw_sort=t["raw_sort"],
+                    label=label,
+                    html=t.get("html"),
+                    extras=extras,
+                )
+            )
         return sections
 
     # ---- Optional: Quran corpus + inline citation cleanup ------------------
@@ -212,9 +224,7 @@ class WisdomAdapter(SourceAdapter):
             self._quran_corpus = WisdomQuranCorpus()
         return self._quran_corpus
 
-    def cleanup_inline_citations(
-        self, md: str, corpus: Optional[QuranCorpus]
-    ) -> tuple[str, list[dict]]:
+    def cleanup_inline_citations(self, md: str, corpus: Optional[QuranCorpus]) -> tuple[str, list[dict]]:
         if corpus is None:
             return md, []
         replacements: list[dict] = []
@@ -224,15 +234,15 @@ class WisdomAdapter(SourceAdapter):
             surah = int(m.group(2))
             start = int(m.group(3))
             end = int(m.group(4)) if m.group(4) else None
-            rendered = _render_quran_block(
-                corpus, surah, start, end, source_note="inline widget"
+            rendered = _render_quran_block(corpus, surah, start, end, source_note="inline widget")
+            replacements.append(
+                {
+                    "surah": surah,
+                    "start_ayat": start,
+                    "end_ayat": end or start,
+                    "raw_widget_chars": len(full),
+                }
             )
-            replacements.append({
-                "surah": surah,
-                "start_ayat": start,
-                "end_ayat": end or start,
-                "raw_widget_chars": len(full),
-            })
             return "\n" + rendered + "\n"
 
         rewritten = _QURAN_WIDGET_RE.sub(_sub_quran, md)
@@ -241,12 +251,15 @@ class WisdomAdapter(SourceAdapter):
     # ---- Optional: curated citations from TopicAyats -----------------------
 
     def get_section_curated_citations(self, section_id: int) -> list[dict]:
-        rows = query_json(DB, f"""
+        rows = query_json(
+            DB,
+            f"""
             SELECT Surah AS surah, Ayat AS ayat
             FROM TopicAyats
             WHERE TopicID = {section_id}
             ORDER BY Surah, Ayat
-            FOR JSON PATH;""")
+            FOR JSON PATH;""",
+        )
         return [{"surah": int(r["surah"]), "ayat": int(r["ayat"])} for r in rows]
 
     def render_curated_citation_footer(
@@ -265,10 +278,7 @@ class WisdomAdapter(SourceAdapter):
             for a in range(start, end + 1):
                 inline_pairs.add((s, a))
 
-        novel = [
-            r for r in refs
-            if (int(r["surah"]), int(r["ayat"])) not in inline_pairs
-        ]
+        novel = [r for r in refs if (int(r["surah"]), int(r["ayat"])) not in inline_pairs]
         if not novel:
             return ""
 

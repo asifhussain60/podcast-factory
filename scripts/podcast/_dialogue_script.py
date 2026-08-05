@@ -30,6 +30,7 @@ deterministic chunker, and hash-derived seeds. No network, no LLM calls.
 The renderer (render_dialogue_audio.py) and the gate (_validators_dialogue.py)
 both import from here so the format can never drift between them.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -49,10 +50,10 @@ CHARS_PER_AUDIO_MINUTE = 900
 # word-count soft bands on the NotebookLM path. CONTENT COMPLETENESS OUTRANKS
 # THE BAND: a script over its band is a P2 pacing flag, NEVER a cut.
 SOFT_CHAR_BANDS: dict[str, tuple[int, int]] = {
-    "brief":              ( 6 * CHARS_PER_AUDIO_MINUTE, 10 * CHARS_PER_AUDIO_MINUTE),
-    "default_deep_dive":  (12 * CHARS_PER_AUDIO_MINUTE, 15 * CHARS_PER_AUDIO_MINUTE),
-    "longer":             (22 * CHARS_PER_AUDIO_MINUTE, 40 * CHARS_PER_AUDIO_MINUTE),
-    "extended":           (50 * CHARS_PER_AUDIO_MINUTE, 60 * CHARS_PER_AUDIO_MINUTE),
+    "brief": (6 * CHARS_PER_AUDIO_MINUTE, 10 * CHARS_PER_AUDIO_MINUTE),
+    "default_deep_dive": (12 * CHARS_PER_AUDIO_MINUTE, 15 * CHARS_PER_AUDIO_MINUTE),
+    "longer": (22 * CHARS_PER_AUDIO_MINUTE, 40 * CHARS_PER_AUDIO_MINUTE),
+    "extended": (50 * CHARS_PER_AUDIO_MINUTE, 60 * CHARS_PER_AUDIO_MINUTE),
 }
 DEFAULT_LENGTH_TIER = "default_deep_dive"
 
@@ -63,8 +64,8 @@ class DialogueScriptError(ValueError):
 
 @dataclass(frozen=True)
 class Turn:
-    speaker: str   # "HOST_A" | "HOST_B"
-    text: str      # turn text, may carry sparse [tag] cues
+    speaker: str  # "HOST_A" | "HOST_B"
+    text: str  # turn text, may carry sparse [tag] cues
 
 
 def script_path_for(book_dir: Path, episode_id: str) -> Path:
@@ -96,15 +97,11 @@ def parse_dialogue_script(text: str) -> list[Turn]:
             )
         turns[-1][1].append(line.strip())
     if not turns:
-        raise DialogueScriptError(
-            "no speaker turns found — script must contain 'HOST_A: ...' / "
-            "'HOST_B: ...' lines."
-        )
+        raise DialogueScriptError("no speaker turns found — script must contain 'HOST_A: ...' / 'HOST_B: ...' lines.")
     return [Turn(speaker=s, text=" ".join(parts)) for s, parts in turns]
 
 
-def serialize_dialogue_script(turns: list[Turn], episode_id: str,
-                              engine_name: str) -> str:
+def serialize_dialogue_script(turns: list[Turn], episode_id: str, engine_name: str) -> str:
     """Render turns back to the canonical on-disk format (round-trip stable)."""
     lines = [
         f"# {episode_id} — dialogue script",
@@ -203,10 +200,14 @@ def chunk_turns(turns: list[Turn], max_chars: int) -> list[list[Turn]]:
     return chunks
 
 
-def chunk_content_hash(chunk: list[Turn], *, model_id: str = "",
-                       voices: dict[str, str] | None = None,
-                       dictionary_version: str = "",
-                       take_salt: str = "") -> str:
+def chunk_content_hash(
+    chunk: list[Turn],
+    *,
+    model_id: str = "",
+    voices: dict[str, str] | None = None,
+    dictionary_version: str = "",
+    take_salt: str = "",
+) -> str:
     """Stable content hash for a chunk + its pinned render settings.
 
     The render ledger keys on this: same text + same speaker sequence + same

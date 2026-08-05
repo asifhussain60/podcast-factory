@@ -55,17 +55,17 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from _paths import REPO_ROOT, find_content, content_dir
+
+from _paths import REPO_ROOT, content_dir, find_content
 
 # Local imports — _azure.py is the credential + REST adapter.
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-import _azure  # noqa: E402
+import _azure
 
 LIBRARY_DIR = REPO_ROOT / "content" / "drafts"
 
@@ -93,15 +93,11 @@ def find_book_dir(book_slug: str, category: str | None) -> Path:
             )
         return candidate
 
-    matches = [
-        LIBRARY_DIR / cat / book_slug
-        for cat in ALLOWED_CATEGORIES
-        if (LIBRARY_DIR / cat / book_slug).is_dir()
-    ]
+    matches = [LIBRARY_DIR / cat / book_slug for cat in ALLOWED_CATEGORIES if (LIBRARY_DIR / cat / book_slug).is_dir()]
     if not matches:
         raise SystemExit(
             f"ERROR: no book directory found for slug '{book_slug}' under {LIBRARY_DIR}.\n"
-            f"Run: python3 scripts/podcast/scaffold_book.py <category> {book_slug} \"<Title>\""
+            f'Run: python3 scripts/podcast/scaffold_book.py <category> {book_slug} "<Title>"'
         )
     if len(matches) > 1:
         rendered = "\n  ".join(str(m) for m in matches)
@@ -176,8 +172,7 @@ def main() -> int:
 
     if raw_path.exists() and not args.force:
         print(
-            f"ERROR: {raw_path} already exists. Pass --force to overwrite, "
-            f"or delete the file and re-run.",
+            f"ERROR: {raw_path} already exists. Pass --force to overwrite, or delete the file and re-run.",
             file=sys.stderr,
         )
         return 2
@@ -194,7 +189,8 @@ def main() -> int:
         print(f"FATAL: {e}", file=sys.stderr)
         return 3
 
-    from _engine import engine_guard, TASK_OCR, ENGINE_AZURE
+    from _engine import ENGINE_AZURE, TASK_OCR, engine_guard
+
     engine_guard(TASK_OCR, ENGINE_AZURE)
     t0 = time.monotonic()
     result = _azure.docintel_analyze_pdf(docintel, pdf_bytes)
@@ -206,8 +202,11 @@ def main() -> int:
     # F36 (2026-05-25): record Azure Doc Intelligence spend in cost-ledger.jsonl.
     try:
         from _cost_ledger import append_azure_docintel_cost
+
         cost_row = append_azure_docintel_cost(
-            book_dir=book_dir, phase="0a", step="ingest/docintel",
+            book_dir=book_dir,
+            phase="0a",
+            step="ingest/docintel",
             pages=page_count,
         )
         print(f"    Azure cost (docintel): ${cost_row.cost_usd:.4f} for {page_count} pages")
@@ -226,12 +225,11 @@ def main() -> int:
         except _azure.AzureCredsError as e:
             print(f"FATAL: {e}", file=sys.stderr)
             return 3
-        from _engine import engine_guard, TASK_TRANSLATE_BULK, ENGINE_AZURE
+        from _engine import ENGINE_AZURE, TASK_TRANSLATE_BULK, engine_guard
+
         engine_guard(TASK_TRANSLATE_BULK, ENGINE_AZURE)
         t0 = time.monotonic()
-        final_text = _azure.translate_text(
-            translator, ocr_text, src_lang=args.src_lang, tgt_lang="en"
-        )
+        final_text = _azure.translate_text(translator, ocr_text, src_lang=args.src_lang, tgt_lang="en")
         tr_elapsed = time.monotonic() - t0
         tr_region = translator.region
         print(f"    Translation done: {len(final_text):,} chars, {tr_elapsed:.1f}s")
@@ -239,8 +237,11 @@ def main() -> int:
         # Translator pricing is per INPUT char; ocr_text is the input.
         try:
             from _cost_ledger import append_azure_translator_cost
+
             cost_row = append_azure_translator_cost(
-                book_dir=book_dir, phase="0a", step="ingest/translator",
+                book_dir=book_dir,
+                phase="0a",
+                step="ingest/translator",
                 char_count=len(ocr_text),
             )
             print(f"    Azure cost (translator): ${cost_row.cost_usd:.4f} for {len(ocr_text):,} input chars")
@@ -292,10 +293,7 @@ def main() -> int:
         ),
         "outputs": {
             "raw_extract": str(raw_path.relative_to(REPO_ROOT)),
-            "ocr_raw_extract": (
-                str(ocr_raw_path.relative_to(REPO_ROOT))
-                if not args.no_translate else None
-            ),
+            "ocr_raw_extract": (str(ocr_raw_path.relative_to(REPO_ROOT)) if not args.no_translate else None),
             "extraction_notes": str(notes_path.relative_to(REPO_ROOT)),
         },
     }

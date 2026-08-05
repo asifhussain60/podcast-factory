@@ -26,6 +26,7 @@ orchestrator does NOT also spawn the shell watchdog — exactly one actor at a t
 It strips ANTHROPIC_API_KEY from the child env (cost policy: never divert
 `claude -p` off the flat-rate Max subscription).
 """
+
 from __future__ import annotations
 
 import argparse
@@ -38,9 +39,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import REPO_ROOT, find_content  # noqa: E402
-from _progress import read_state  # noqa: E402
-from cost_guard import cost_ceiling_check  # noqa: E402
+from _paths import REPO_ROOT, find_content
+from _progress import read_state
+from cost_guard import cost_ceiling_check
 
 RUNS_DIR = REPO_ROOT / "_workspace" / "runs"
 LOGS_DIR = REPO_ROOT / "_workspace" / "logs"
@@ -48,11 +49,12 @@ ORCH = REPO_ROOT / "scripts" / "podcast" / "orchestrate_book.py"
 
 POLL_SEC = 60
 MAX_RELAUNCHES = 5
-HANG_SECS = 900            # alive + no progress + no LLM child this long -> hung
+HANG_SECS = 900  # alive + no progress + no LLM child this long -> hung
 BACKOFF_BASE_SEC = 30
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
+
 
 def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -81,8 +83,7 @@ def _progress_mtime(book_dir: Path) -> float:
     """Newest mtime across the files a healthy run keeps touching."""
     mtimes: list[float] = []
     sysd = book_dir / "_system"
-    for p in (sysd / "cost-ledger.jsonl", sysd / "challenger-report.md",
-              sysd / "orchestrator-state.json"):
+    for p in (sysd / "cost-ledger.jsonl", sysd / "challenger-report.md", sysd / "orchestrator-state.json"):
         if p.is_file():
             mtimes.append(p.stat().st_mtime)
     for d in (book_dir / "chapters", sysd / "episode-drafts"):
@@ -110,8 +111,7 @@ def _systemic_reason(state: dict, book_dir: Path) -> str | None:
             return msg
     cc = cost_ceiling_check(book_dir)
     if cc["action"] == "halt":
-        return (f"cost ceiling: real spend ${cc['real_spend_usd']:.2f} >= "
-                f"hard ${cc['hard']:.2f}")
+        return f"cost ceiling: real spend ${cc['real_spend_usd']:.2f} >= hard ${cc['hard']:.2f}"
     if state.get("phase") == "per-chapter" and state.get("phase_status") == "failed":
         return msg or "per-chapter failed (iter-cap / triage)"
     return None
@@ -145,13 +145,17 @@ def _relaunch(slug: str) -> int:
     with open(log, "a", encoding="utf-8") as fh:
         p = subprocess.Popen(
             [sys.executable, str(ORCH), "--resume", slug, "--skip-doctor"],
-            stdout=fh, stderr=subprocess.STDOUT, start_new_session=True,
-            env=env, cwd=str(REPO_ROOT),
+            stdout=fh,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+            env=env,
+            cwd=str(REPO_ROOT),
         )
     return p.pid
 
 
 # ── rendering (read-only) ────────────────────────────────────────────────────
+
 
 def render_card(slug: str) -> str:
     book_dir = _book_dir(slug)
@@ -178,6 +182,7 @@ def render_card(slug: str) -> str:
 
 
 # ── subcommands ──────────────────────────────────────────────────────────────
+
 
 def cmd_status(slug: str) -> int:
     print(render_card(slug))
@@ -225,9 +230,9 @@ def cmd_watch(slug: str, poll_sec: int = POLL_SEC, max_ticks: int = 480) -> int:
 
         # TERMINAL — clean exit.
         if _terminal(state):
-            _write_registry(slug, status="terminal",
-                            phase=f"{state.get('phase')}/{state.get('phase_status')}",
-                            retries=retries)
+            _write_registry(
+                slug, status="terminal", phase=f"{state.get('phase')}/{state.get('phase_status')}", retries=retries
+            )
             print(f"{slug}: terminal ({state.get('phase')}/{state.get('phase_status')}).")
             return 0
 
@@ -276,12 +281,14 @@ def cmd_watch(slug: str, poll_sec: int = POLL_SEC, max_ticks: int = 480) -> int:
         # HEALTHY.
         pc = state.get("phases", {}).get("per-chapter", {})
         _write_registry(
-            slug, status="running",
+            slug,
+            status="running",
             phase=f"{state.get('phase')}/{state.get('phase_status')}",
             current_chapter=pc.get("current_chapter"),
             completed=len(pc.get("completed_slugs", [])),
             failed=len(pc.get("failed_slugs", [])),
-            llm_child=children, retries=retries,
+            llm_child=children,
+            retries=retries,
             real_spend_usd=cost_ceiling_check(book_dir)["real_spend_usd"],
         )
         time.sleep(poll_sec)

@@ -1,0 +1,48 @@
+{
+  "schema": "podcast.composer-edits-replay/v1",
+  "applied": 8,
+  "conflicts": 0,
+  "orphaned": 0,
+  "chapters": [
+    {
+      "chapter_key": "the pole and foundation of religion",
+      "title": "## 1. The Pole and Foundation of Religion",
+      "conflict": false
+    },
+    {
+      "chapter_key": "by nature and by reason",
+      "title": "## 2. By Nature and by Reason",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the ladder of creation",
+      "title": "## 4. The Ladder of Creation",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the physician of souls",
+      "title": "## 5. The Physician of Souls",
+      "conflict": false
+    },
+    {
+      "chapter_key": "governance and the first principle",
+      "title": "## 6. Governance and the First Principle",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the imam in the pillars of faith",
+      "title": "## 7. The Imam in the Pillars of Faith",
+      "conflict": false
+    },
+    {
+      "chapter_key": "from adam to ali",
+      "title": "## 8. From Adam to Ali",
+      "conflict": false
+    },
+    {
+      "chapter_key": "god's vicegerent in his time",
+      "title": "## 9. God's Vicegerent in His Time",
+      "conflict": false
+    }
+  ]
+}

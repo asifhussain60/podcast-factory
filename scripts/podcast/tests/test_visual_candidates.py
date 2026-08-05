@@ -7,7 +7,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _visual_candidates import (  # noqa: E402
+from _visual_candidates import (
     VISUALS_SCHEMA,
     clean_slide_watermark,
     emit_diagram_candidates,
@@ -47,10 +47,16 @@ def test_emit_diagram_candidates_copies_and_registers(tmp_path: Path) -> None:
     diagrams.mkdir(parents=True)
     svg = diagrams / "ch1-1.svg"
     svg.write_text("<svg xmlns='http://www.w3.org/2000/svg'></svg>", encoding="utf-8")
-    manifest = [{
-        "diagram_id": "ch1-1", "section": "## 1. Knowledge", "anchor_text": "Seek",
-        "caption": "A ladder", "svg_path": str(svg), "structure_type": "mermaid-flowchart",
-    }]
+    manifest = [
+        {
+            "diagram_id": "ch1-1",
+            "section": "## 1. Knowledge",
+            "anchor_text": "Seek",
+            "caption": "A ladder",
+            "svg_path": str(svg),
+            "structure_type": "mermaid-flowchart",
+        }
+    ]
     entries = emit_diagram_candidates(bd, manifest, log=lambda *a: None)
     assert (bd / "book" / "visuals" / "ch1-1.svg").exists()
     assert entries[0]["type"] == "mermaid-flowchart"
@@ -60,9 +66,7 @@ def test_emit_diagram_candidates_copies_and_registers(tmp_path: Path) -> None:
 
 def test_emit_diagram_skips_missing_svg(tmp_path: Path) -> None:
     bd = _bookdir(tmp_path)
-    entries = emit_diagram_candidates(
-        bd, [{"diagram_id": "x", "svg_path": str(bd / "nope.svg")}], log=lambda *a: None
-    )
+    entries = emit_diagram_candidates(bd, [{"diagram_id": "x", "svg_path": str(bd / "nope.svg")}], log=lambda *a: None)
     assert entries == []
 
 
@@ -107,3 +111,70 @@ def test_emit_slide_candidates_cleans_raster(tmp_path: Path) -> None:
     )
     assert entries[0]["type"] == "slide"
     assert (bd / "book" / "visuals" / "slide-2.png").exists()
+
+
+# ── chapter stamping (2026-07-22) ───────────────────────────────────────────
+# The palette-flood bug: book-deck slide anchors quote the deck NARRATION
+# (book-slides.md), the Composer resolved anchors against book.md alone, so
+# every slide fell to "book-wide" and appeared in every chapter's palette.
+# The producer now resolves the chapter at emit time, where both surfaces are
+# on disk, and stamps it explicitly.
+
+from _visual_candidates import resolve_candidate_chapter  # noqa: E402
+
+
+def _surfaces(bd: Path) -> None:
+    (bd / "book" / "book.md").write_text(
+        "# T\n\n## 1. The Garden\n\nA rose grew by the wall.\n\n## 2. The Sea\n\nThe tide came in slowly.\n",
+        encoding="utf-8",
+    )
+    (bd / "book" / "book-slides.md").write_text(
+        "# T (narration)\n\n## 1. The Garden\n\nPicture a rose, stubborn by the wall.\n\n"
+        "## 2. The Sea\n\nWatch the tide crawl up the sand.\n",
+        encoding="utf-8",
+    )
+
+
+def test_resolve_chapter_needle_from_narration(tmp_path: Path) -> None:
+    # The needle exists ONLY in book-slides.md — the exact shape of the flood bug.
+    bd = _bookdir(tmp_path)
+    _surfaces(bd)
+    assert resolve_candidate_chapter(bd, "Watch the tide crawl up the sand") == "2. The Sea"
+
+
+def test_resolve_chapter_heading_anchor_via_anchor_key(tmp_path: Path) -> None:
+    # Illustrate manifests put the section heading in the anchor; resolved
+    # through the fixture-pinned anchor_key, so numbering differences don't matter.
+    bd = _bookdir(tmp_path)
+    _surfaces(bd)
+    assert resolve_candidate_chapter(bd, "The Garden") == "1. The Garden"
+    assert resolve_candidate_chapter(bd, "2. The Sea") == "2. The Sea"
+
+
+def test_resolve_chapter_empty_or_unresolvable_is_book_wide(tmp_path: Path) -> None:
+    bd = _bookdir(tmp_path)
+    _surfaces(bd)
+    assert resolve_candidate_chapter(bd, "") == ""
+    assert resolve_candidate_chapter(bd, "no such passage anywhere") == ""
+
+
+def test_emit_slide_candidates_stamps_chapter(tmp_path: Path) -> None:
+    bd = _bookdir(tmp_path)
+    _surfaces(bd)
+    vec = bd / "replica.svg"
+    vec.write_text("<svg/>", encoding="utf-8")
+    entries = emit_slide_candidates(
+        bd,
+        [
+            {"page": 1, "anchor_text": "stubborn by the wall", "title": "Rose"},
+            {"page": 2, "anchor_text": "", "title": "Cover"},
+            {"page": 3, "anchor_text": "x", "title": "Pre", "chapter": "2. The Sea"},
+        ],
+        pages={},
+        svg_overrides={1: vec, 2: vec, 3: vec},
+        log=lambda *a: None,
+    )
+    by_id = {e["id"]: e for e in entries}
+    assert by_id["slide-1"]["chapter"] == "1. The Garden"  # resolved from narration
+    assert by_id["slide-2"]["chapter"] == ""  # cover stays book-wide
+    assert by_id["slide-3"]["chapter"] == "2. The Sea"  # explicit stamp wins

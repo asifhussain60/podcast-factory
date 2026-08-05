@@ -1,0 +1,221 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "transmitted_report",
+  "adapted": 8,
+  "reverted": 0,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "The Sealed Lamp and the Road Home",
+      "base_words": 1690,
+      "output_words": 1687,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-02: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The God No Pointing Can Reach",
+      "base_words": 3054,
+      "output_words": 3020,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-03: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The argument hinges on the technical claim that \"names and attributes fall only upon their like,\" which a modern reader may find hard to follow without an example the source already supplies but which remains abstract."
+      ],
+      "terminology_notes": [
+        "huwiyyah / *huwa* \u2014 the rendering \"Ipseity\" (with \"the bare He\") should be fixed book-wide, since the same term also surfaces as \"He\" and \"Huwa\" and could read as three different notions."
+      ]
+    },
+    {
+      "title": "The Sin of Naming the Unnameable",
+      "base_words": 2467,
+      "output_words": 2446,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "\"Arya Samaji\" appears with no gloss identifying it as a member of a Hindu reformist movement, which a general reader may not recognize."
+      ],
+      "terminology_notes": [
+        "'ijz' / 'diq' \u2014 the romanization of technical terms (ayn and long vowels) should be standardized to one consistent scheme book-wide."
+      ]
+    },
+    {
+      "title": "What Oneness Actually Means",
+      "base_words": 3009,
+      "output_words": 2819,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "In the ten stations of *Jaddiyyat*, the clause \"the seventh standing lower and the higher being something other than it\" is obscure \u2014 the intended distinction between the seventh degree and the higher ones is not clear."
+      ],
+      "comprehension_flags": [
+        "The dense run of station-names (*Hijabiyyat*, *Hujjiyyat*, *Jaddiyyat*) and rank-degrees (*Mumin*, *Mukathir*, *Madhun*) arrives without definition, and a general reader may lose the thread of the hierarchy without a glossary this pass is not authorized to add."
+      ],
+      "terminology_notes": [
+        "ibda al-zawat / ibda-e zawat \u2014 the same concept (origination of beings) appears in two spellings within a few lines; one form should be standardized book-wide."
+      ]
+    },
+    {
+      "title": "The Nearest Rank: Breaking the Self to Climb",
+      "base_words": 4182,
+      "output_words": 4145,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-06: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"the Tenth\" (as in \"cleanse oneself of the filth of Iblis through the knowledge of the Tenth\" and \"act upon the commands of the Tenth\") is used with no antecedent, and its referent will be unclear to a reader who does not already know the system."
+      ],
+      "comprehension_flags": [
+        "The chapter carries a heavy load of untranslated technical terms (hudud, Mukathir, Madhun, Dai Mutlaq, Dai Mahsur, malakut, aqtar, barzakh al-khawf, surat al-alfiyya, taweel) that a general reader cannot follow without a glossary this pass is not authorized to add."
+      ],
+      "terminology_notes": [
+        "the rank names (Mukathir, Madhun, Dai Mutlaq, Dai Mahsur) and \"dawah\" \u2014 fix one spelling for each and apply it consistently book-wide."
+      ]
+    },
+    {
+      "title": "Every Teacher a Threshold, Not a God",
+      "base_words": 4870,
+      "output_words": 4777,
+      "windows": 2,
+      "windows_kept": 1,
+      "status": "partial",
+      "gates": [
+        "fluency-07-part-02: lecture voice added \u2014 narration addresses the reader (2 vs 0 in source) under transmitted_report frame"
+      ],
+      "warnings": [
+        "fluency-07-part-01: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The hierarchy of \"circles\" is named with two overlapping but non-identical sets of rank-terms (first person / Imam / Bab / Hujjat in one list; ashir / Adam / Qaims / Dais / Hujjats / Imams / ain / mim in another), which a general reader may find hard to reconcile without a note this pass cannot add."
+      ],
+      "terminology_notes": [
+        "mubdi \u2014 the Originator is rendered both as \"the mubdi\" and as \"mubdi-e taala\"; one romanized form should be standardized book-wide."
+      ]
+    },
+    {
+      "title": "Out of Nothing, and Equal in Justice",
+      "base_words": 4004,
+      "output_words": 3950,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-08: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The First to Say There Is No God But He",
+      "base_words": 4116,
+      "output_words": 4095,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-09: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 4,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 4,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "It is unclear whether \"Amir al-Din al-Sadiq\" (in the fear-of-God passage) and \"Sayyidna Sadiq\" (in the circle-of-oneness passage) name the same figure or two different ones."
+      ],
+      "comprehension_flags": [
+        "The numerology passage (two/three/five/four/seven/twelve/nineteen and its mapping onto Bismillah, the Imams, and their naqibs) is dense and may need an orienting bridge for a general reader, which this pass is not authorized to add."
+      ],
+      "terminology_notes": [
+        "transliterated technical terms (ruh-i-saidah, tarkib-i-idafi/tawsifi, munbaith al-thani, wahm-e masawat, dairat al-wahdat, ism al-azam) mix Persian/Arabic izafa styles and should be standardized to one book-wide romanization scheme."
+      ]
+    }
+  ]
+}

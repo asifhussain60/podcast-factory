@@ -7,7 +7,8 @@
  * POSTs to /api/intake/resume (resume / --advance). The UI is read-only while the
  * volume runs (single-writer rule) — it only reads state + sends approvals.
  */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 
 interface Status {
   found: boolean;
@@ -36,76 +37,99 @@ interface Props {
 
 // Gloss the pipeline's internal phase tokens into plain English (REQ-037).
 const PHASE_LABELS: Record<string, string> = {
-  preflight: 'Preparing',
-  '0a': 'Reading the source (OCR)',
-  '0b': 'Refining the text',
-  '0c': 'Phonetics pass',
-  '0ci': 'Gap analysis',
-  '0d': 'Designing chapters',
-  '0e': 'Enrichment',
-  '0f': 'Series plan (your review)',
-  '06a': 'Source review (your review)',
-  'per-chapter': 'Authoring episodes',
-  '0g': 'Bundle audit',
-  finalize: 'Finishing (your review)',
-  done: 'Done',
+  preflight: "Preparing",
+  "0a": "Reading the source (OCR)",
+  "0b": "Refining the text",
+  "0c": "Phonetics pass",
+  "0ci": "Gap analysis",
+  "0d": "Designing chapters",
+  "0e": "Enrichment",
+  "0f": "Series plan (your review)",
+  "06a": "Source review (your review)",
+  "per-chapter": "Authoring episodes",
+  "0g": "Bundle audit",
+  finalize: "Finishing (your review)",
+  done: "Done",
 };
 
 function phaseLabel(phase?: string): string {
-  if (!phase) return '—';
+  if (!phase) return "—";
   return PHASE_LABELS[phase] ?? phase;
 }
 
 export default function Cockpit({ slug, pollMs = 5000 }: Props) {
   const [status, setStatus] = useState<Status | null>(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [approving, setApproving] = useState(false);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   async function poll() {
     try {
-      const r = await fetch(`/api/intake/status?slug=${encodeURIComponent(slug)}`);
-      const json = await r.json();
-      if (r.ok && json.ok) setStatus(json.data.status);
-    } catch { /* transient — keep polling */ }
+      const data = await apiFetch<{ status: Status }>("/api/intake/status", {
+        query: { slug },
+      });
+      setStatus(data.status);
+    } catch {
+      /* transient — keep polling */
+    }
   }
 
   useEffect(() => {
     poll();
     timer.current = setInterval(poll, pollMs);
-    return () => { if (timer.current) clearInterval(timer.current); };
+    return () => {
+      if (timer.current) clearInterval(timer.current);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
 
-  async function approve(action: 'resume' | 'advance') {
+  async function approve(action: "resume" | "advance") {
     setApproving(true);
-    setError('');
+    setError("");
     try {
-      const r = await fetch('/api/intake/resume', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, action, work_slug: status?.work_slug ?? undefined }),
+      await apiFetch("/api/intake/resume", {
+        method: "POST",
+        body: {
+          slug,
+          action,
+          work_slug: status?.work_slug ?? undefined,
+        },
       });
-      const json = await r.json();
-      if (!r.ok || !json.ok) { setError(json.error ?? 'Approval failed'); return; }
       setTimeout(poll, 1500); // give the relaunch a moment, then refresh
     } catch (e) {
-      setError(`Network error: ${String(e)}`);
+      setError(
+        e instanceof ApiFetchError && e.status !== 0
+          ? e.message
+          : `Network error: ${String(e)}`,
+      );
     } finally {
       setApproving(false);
     }
   }
 
   if (!status) {
-    return <div className="intake-card"><p className="intake-hint" role="status">Connecting to the run…</p></div>;
+    return (
+      <div className="intake-card">
+        <p className="intake-hint" role="status">
+          Connecting to the run…
+        </p>
+      </div>
+    );
   }
   if (!status.found) {
-    return <div className="intake-card"><p className="intake-error" role="alert">Run not found for {slug}.</p></div>;
+    return (
+      <div className="intake-card">
+        <p className="intake-error" role="alert">
+          Run not found for {slug}.
+        </p>
+      </div>
+    );
   }
 
   const c = status.cost;
   const ch = status.chapters;
-  const progressPct = ch && ch.total > 0 ? Math.round((ch.completed / ch.total) * 100) : 0;
+  const progressPct =
+    ch && ch.total > 0 ? Math.round((ch.completed / ch.total) * 100) : 0;
 
   return (
     <div className="intake-card">
@@ -116,18 +140,26 @@ export default function Cockpit({ slug, pollMs = 5000 }: Props) {
         <dl className="intake-estimate">
           <div className="intake-estimate-row">
             <dt>Phase</dt>
-            <dd>{phaseLabel(status.phase)} · {status.phase_status ?? '—'}</dd>
+            <dd>
+              {phaseLabel(status.phase)} · {status.phase_status ?? "—"}
+            </dd>
           </div>
           <div className="intake-estimate-row">
             <dt>Publication</dt>
-            <dd>{status.publication_status ?? 'draft'}</dd>
+            <dd>{status.publication_status ?? "draft"}</dd>
           </div>
           {c && (
             <div className="intake-estimate-row">
               <dt>Spend</dt>
-              <dd className={c.over_book_cap ? 'intake-validation-error' : undefined}>
+              <dd
+                className={
+                  c.over_book_cap ? "intake-validation-error" : undefined
+                }
+              >
                 ${c.book_spend_usd.toFixed(2)}
-                {c.book_cap_active ? ` / $${c.book_cap_usd.toFixed(2)} cap` : ''}
+                {c.book_cap_active
+                  ? ` / $${c.book_cap_usd.toFixed(2)} cap`
+                  : ""}
               </dd>
             </div>
           )}
@@ -142,13 +174,16 @@ export default function Cockpit({ slug, pollMs = 5000 }: Props) {
               aria-label={`Chapters ${ch.completed} of ${ch.total} complete (${progressPct}%)`}
             />
             <p className="intake-hint">
-              {ch.completed} / {ch.total} chapters{ch.failed > 0 ? ` · ${ch.failed} failed` : ''}
+              {ch.completed} / {ch.total} chapters
+              {ch.failed > 0 ? ` · ${ch.failed} failed` : ""}
             </p>
           </div>
         )}
 
         {status.last_error && !status.at_human_gate && (
-          <p className="intake-validation-warn">Last note: {status.last_error}</p>
+          <p className="intake-validation-warn">
+            Last note: {status.last_error}
+          </p>
         )}
       </div>
 
@@ -161,15 +196,19 @@ export default function Cockpit({ slug, pollMs = 5000 }: Props) {
               className="intake-btn intake-btn--primary"
               type="button"
               disabled={approving}
-              onClick={() => approve('resume')}
+              onClick={() => approve("resume")}
             >
-              {approving ? 'Resuming…' : 'Approve & continue'}
+              {approving ? "Resuming…" : "Approve & continue"}
             </button>
           </div>
         </div>
       )}
 
-      {error && <p className="intake-error" role="alert">{error}</p>}
+      {error && (
+        <p className="intake-error" role="alert">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

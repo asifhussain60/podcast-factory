@@ -51,21 +51,21 @@ from dataclasses import dataclass, field
 from typing import Sequence
 
 from _rules import (
-    R_INTEREST_WEIGHT,
-    R_INTEREST_HOOK_PATTERNS,
     R_INTEREST_CHALLENGE_RAISE_PATTERNS,
     R_INTEREST_CHALLENGE_RESOLVE_PATTERNS,
+    R_INTEREST_HOOK_PATTERNS,
     R_INTEREST_RELEVANCE_PATTERNS,
     R_INTEREST_STRAWMAN_DENY,
+    R_INTEREST_WEIGHT,
 )
 
 # ---------------------------------------------------------------------------
 # Threshold constants
 # ---------------------------------------------------------------------------
 
-PASS  = "PASS"
-WARN  = "WARN"
-FAIL  = "FAIL"
+PASS = "PASS"
+WARN = "WARN"
+FAIL = "FAIL"
 
 THRESHOLD_PASS = 85
 THRESHOLD_WARN = 70
@@ -75,16 +75,13 @@ THRESHOLD_WARN = 70
 # Weights (must sum to 1.0) — K6: 5-axis formula
 # ---------------------------------------------------------------------------
 
-WEIGHT_FIDELITY   = 0.30
-WEIGHT_VOICE      = 0.20
-WEIGHT_STRUCTURE  = 0.18
+WEIGHT_FIDELITY = 0.30
+WEIGHT_VOICE = 0.20
+WEIGHT_STRUCTURE = 0.18
 WEIGHT_ENRICHMENT = 0.17
-WEIGHT_INTEREST   = R_INTEREST_WEIGHT  # authoritative value lives in _rules.py
+WEIGHT_INTEREST = R_INTEREST_WEIGHT  # authoritative value lives in _rules.py
 
-assert abs(
-    WEIGHT_FIDELITY + WEIGHT_VOICE + WEIGHT_STRUCTURE
-    + WEIGHT_ENRICHMENT + WEIGHT_INTEREST - 1.0
-) < 1e-9
+assert abs(WEIGHT_FIDELITY + WEIGHT_VOICE + WEIGHT_STRUCTURE + WEIGHT_ENRICHMENT + WEIGHT_INTEREST - 1.0) < 1e-9
 
 # ---------------------------------------------------------------------------
 # Voice-scorer readiness flag
@@ -103,45 +100,46 @@ _VOICE_SCORER_READY = False
 # Result dataclass
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class PEQScore:
     """Immutable result of a PEQ scoring pass on one chapter."""
 
-    fidelity:        float   # 0–100
-    voice:           float   # 0–100 (0.0 when voice_available=False)
-    structure:       float   # 0–100
-    enrichment:      float   # 0–100
-    interest:        float   # 0–100  (K6)
-    total:           float   # 0–100  (weighted sum)
-    verdict:         str     # PASS | WARN | FAIL
-    voice_available: bool    = True   # False when _VOICE_SCORER_READY=False; weight → Fidelity
-    notes:           list[str] = field(default_factory=list)
+    fidelity: float  # 0–100
+    voice: float  # 0–100 (0.0 when voice_available=False)
+    structure: float  # 0–100
+    enrichment: float  # 0–100
+    interest: float  # 0–100  (K6)
+    total: float  # 0–100  (weighted sum)
+    verdict: str  # PASS | WARN | FAIL
+    voice_available: bool = True  # False when _VOICE_SCORER_READY=False; weight → Fidelity
+    notes: list[str] = field(default_factory=list)
 
     def as_dict(self) -> dict:
         return {
-            "fidelity":        round(self.fidelity,   1),
-            "voice":           round(self.voice,       1),
+            "fidelity": round(self.fidelity, 1),
+            "voice": round(self.voice, 1),
             "voice_available": self.voice_available,
-            "structure":       round(self.structure,   1),
-            "enrichment":      round(self.enrichment,  1),
-            "interest":        round(self.interest,    1),
-            "total":           round(self.total,       1),
-            "verdict":         self.verdict,
-            "notes":           self.notes,
+            "structure": round(self.structure, 1),
+            "enrichment": round(self.enrichment, 1),
+            "interest": round(self.interest, 1),
+            "total": round(self.total, 1),
+            "verdict": self.verdict,
+            "notes": self.notes,
         }
 
     def markdown_table(self) -> str:
         """Return a compact Markdown table for embedding in challenger reports."""
         if self.voice_available:
-            voice_score_cell    = f"{self.voice:.1f}"
+            voice_score_cell = f"{self.voice:.1f}"
             voice_weighted_cell = f"{self.voice * WEIGHT_VOICE:.1f}"
             fidelity_weight_label = "30%"
-            fidelity_weighted   = self.fidelity * WEIGHT_FIDELITY
+            fidelity_weighted = self.fidelity * WEIGHT_FIDELITY
         else:
-            voice_score_cell    = "N/A"
+            voice_score_cell = "N/A"
             voice_weighted_cell = "→Fidelity"
             fidelity_weight_label = "50% (incl. Voice)"
-            fidelity_weighted   = self.fidelity * (WEIGHT_FIDELITY + WEIGHT_VOICE)
+            fidelity_weighted = self.fidelity * (WEIGHT_FIDELITY + WEIGHT_VOICE)
         lines = [
             "| Axis | Weight | Score | Weighted |",
             "|---|---|---|---|",
@@ -158,6 +156,7 @@ class PEQScore:
 # ---------------------------------------------------------------------------
 # Axis scorers
 # ---------------------------------------------------------------------------
+
 
 def _fidelity_score(
     citation_ids_source: Sequence[str],
@@ -235,7 +234,7 @@ def _enrichment_score(
     if word_count == 0:
         return 0.0
     glossing_ratio = glossed_count / max(term_count, 1)
-    quran_density  = min(quran_ref_count / max(word_count / 100.0, 1.0), 1.0)
+    quran_density = min(quran_ref_count / max(word_count / 100.0, 1.0), 1.0)
     combined = 0.70 * glossing_ratio + 0.30 * quran_density
     return round(combined * 100.0, 2)
 
@@ -274,6 +273,7 @@ def _interest_score(adapted_text: str) -> float:
 # Verdict helper
 # ---------------------------------------------------------------------------
 
+
 def verdict_from_total(total: float) -> str:
     if total >= THRESHOLD_PASS:
         return PASS
@@ -285,6 +285,7 @@ def verdict_from_total(total: float) -> str:
 # ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
+
 
 def score(
     *,
@@ -307,11 +308,11 @@ def score(
     """
     wc = word_count if word_count is not None else len(adapted_text.split())
 
-    fidelity   = _fidelity_score(citation_ids_source, citation_ids_found)
-    voice      = _voice_score(adapted_text, voice_exemplar_vector)
-    structure  = _structure_score(arc_rules, arc_labels_found)
+    fidelity = _fidelity_score(citation_ids_source, citation_ids_found)
+    voice = _voice_score(adapted_text, voice_exemplar_vector)
+    structure = _structure_score(arc_rules, arc_labels_found)
     enrichment = _enrichment_score(term_count, glossed_count, quran_ref_count, wc)
-    interest   = _interest_score(adapted_text)
+    interest = _interest_score(adapted_text)
 
     # Redistribute Voice weight to Fidelity when the scorer is not ready or
     # no exemplar vector was supplied, so the total still sums to 100.
@@ -319,18 +320,18 @@ def score(
     if _voice_unavailable:
         total = (
             (WEIGHT_FIDELITY + WEIGHT_VOICE) * fidelity
-            + WEIGHT_STRUCTURE  * structure
+            + WEIGHT_STRUCTURE * structure
             + WEIGHT_ENRICHMENT * enrichment
-            + WEIGHT_INTEREST   * interest
+            + WEIGHT_INTEREST * interest
         )
         notes = ["voice axis unavailable — weight redistributed to fidelity"]
     else:
         total = (
-            WEIGHT_FIDELITY   * fidelity
-            + WEIGHT_VOICE    * voice
-            + WEIGHT_STRUCTURE  * structure
+            WEIGHT_FIDELITY * fidelity
+            + WEIGHT_VOICE * voice
+            + WEIGHT_STRUCTURE * structure
             + WEIGHT_ENRICHMENT * enrichment
-            + WEIGHT_INTEREST   * interest
+            + WEIGHT_INTEREST * interest
         )
         notes = []
 

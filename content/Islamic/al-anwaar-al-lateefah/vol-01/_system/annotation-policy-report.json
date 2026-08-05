@@ -1,0 +1,1273 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 210,
+  "skipped": 30,
+  "by_class": {
+    "teach": 66,
+    "familiar": 2,
+    "name": 2,
+    "silent": 140
+  },
+  "proposals": [
+    {
+      "phonetic": "asma al-husna",
+      "class": "familiar",
+      "english_equivalent": "the Most Beautiful Names of God",
+      "reason": "The well-known concept of God's most beautiful names, recognizable to educated readers."
+    },
+    {
+      "phonetic": "shariah",
+      "class": "familiar",
+      "english_equivalent": "sharia",
+      "reason": "Established English form educated readers already recognize."
+    },
+    {
+      "phonetic": "Mabda wa Maad",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Title of a specific doctrinal work with no familiar English form; the romanisation and script stand."
+    },
+    {
+      "phonetic": "Rahat al-Aql",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Title of a cited work with no established English form; romanisation and script stay."
+    },
+    {
+      "phonetic": "adl",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Appears once, glossed inline as 'justice'; carried by the prose without a formal term."
+    },
+    {
+      "phonetic": "ahl al-haqq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A descriptive phrase fully translated in prose ('the people of truth'); nothing gained by formal introduction."
+    },
+    {
+      "phonetic": "ajall al-ilm",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A descriptive phrase ('the highest knowledge') that is translated in the running prose."
+    },
+    {
+      "phonetic": "al-ilahiyyah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Simply the Arabic for 'divinity', fully carried by its inline gloss."
+    },
+    {
+      "phonetic": "al-qamat al-insaniyya al-bashariyya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A long descriptive phrase glossed in place; too incidental to introduce formally."
+    },
+    {
+      "phonetic": "Amma yasifun",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A scriptural quotation fragment rendered in prose, not a term to catalogue."
+    },
+    {
+      "phonetic": "anfus hayulaniyya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A minor technical phrase ('material souls') translated inline at its single appearance."
+    },
+    {
+      "phonetic": "ashbah suriyyah nuraniyya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A long descriptive phrase ('luminous imaginal forms') translated in place."
+    },
+    {
+      "phonetic": "ashiq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "'The ardent lover' is translated inline and used illustratively, not as doctrine."
+    },
+    {
+      "phonetic": "asl",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A common word ('the root') glossed in the running prose."
+    },
+    {
+      "phonetic": "awham",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "'The imaginations' is translated inline and needs no formal apparatus."
+    },
+    {
+      "phonetic": "bab al-iftial",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A grammatical/morphological pattern label useful only inside its own aside."
+    },
+    {
+      "phonetic": "because",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An ordinary English word captured spuriously, not an Arabic term."
+    },
+    {
+      "phonetic": "bi-hukmi al-idtirar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase ('by necessity') translated in place at its lone occurrence."
+    },
+    {
+      "phonetic": "bi-l-fil",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "'In actuality' is fully carried by its inline English gloss."
+    },
+    {
+      "phonetic": "bi-l-quwwah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "'In potentiality' is fully carried by its inline English gloss."
+    },
+    {
+      "phonetic": "both",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An ordinary English word captured spuriously, not an Arabic term."
+    },
+    {
+      "phonetic": "dafatan wahidatan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An adverbial phrase fully translated in prose ('in a single instant'); nothing to formally introduce."
+    },
+    {
+      "phonetic": "dhanb",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A common word ('a sin') translated inline."
+    },
+    {
+      "phonetic": "dhanbun mashfuun bi-al-istighfar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full clause translated in place, not a term to catalogue."
+    },
+    {
+      "phonetic": "diq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "'The narrowness' is glossed inline and too minor to introduce."
+    },
+    {
+      "phonetic": "distinct",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An ordinary English word captured spuriously, not an Arabic term."
+    },
+    {
+      "phonetic": "do",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An ordinary English word captured spuriously, not an Arabic term."
+    },
+    {
+      "phonetic": "equal",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An ordinary English word captured spuriously, not an Arabic term."
+    },
+    {
+      "phonetic": "fataha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb cited only to explain an etymology in the prose."
+    },
+    {
+      "phonetic": "fatahun",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A grammatical form appearing only within an etymological aside."
+    },
+    {
+      "phonetic": "fazl",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "'The grace' is translated inline and needs no apparatus."
+    },
+    {
+      "phonetic": "fil",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Rendered inline as 'act'; a minor common word, not a term a reader would search."
+    },
+    {
+      "phonetic": "free",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An ordinary English word captured spuriously, not an Arabic term."
+    },
+    {
+      "phonetic": "ghayatuhu",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A grammatical fragment ('its end') translated in the running prose."
+    },
+    {
+      "phonetic": "ghayr masum",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A negated phrase ('not preserved') translated inline; the concept surfaces in prose."
+    },
+    {
+      "phonetic": "ghayru masumin",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A grammatical variant of the same negated phrase, translated in place."
+    },
+    {
+      "phonetic": "haqiqatan mahdatan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase ('a pure reality') translated in the running prose."
+    },
+    {
+      "phonetic": "hisar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Ordinary word for confinement, translated inline in the running prose."
+    },
+    {
+      "phonetic": "hiss",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Sense-faculty, glossed inline and too minor to introduce formally."
+    },
+    {
+      "phonetic": "how",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An ordinary English word, not an Arabic term to annotate."
+    },
+    {
+      "phonetic": "huwa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "The bare grammatical pronoun, glossed inline and subordinate to the taught term Hu."
+    },
+    {
+      "phonetic": "ibda al-zawat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Zero occurrences; a spelling variant of ibda-e zawat, not actually used."
+    },
+    {
+      "phonetic": "ibtida wujud al-had",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A long descriptive phrase fully translated in running prose."
+    },
+    {
+      "phonetic": "ibtidaat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Plural 'beginnings', translated inline and too minor to formalize."
+    },
+    {
+      "phonetic": "idtirar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Rendered fully in running prose as 'necessity/compelled'; too minor to introduce formally."
+    },
+    {
+      "phonetic": "iftitah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A variant of Istiftah, glossed inline; not a distinct term to introduce."
+    },
+    {
+      "phonetic": "Ijz",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Appears once, glossed inline as inadequacy/incapacity; too minor to introduce formally."
+    },
+    {
+      "phonetic": "ikhtaraa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb ('He originated') translated inline in the prose."
+    },
+    {
+      "phonetic": "ikhtilaf",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'contradiction'; the argument carries in English without a formal term."
+    },
+    {
+      "phonetic": "ilhan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "'Bewilderment', glossed inline and too minor to introduce formally."
+    },
+    {
+      "phonetic": "illa Huwa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A scriptural phrase fragment translated in place."
+    },
+    {
+      "phonetic": "irjii",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A single Quranic imperative word, translated inline as 'return'."
+    },
+    {
+      "phonetic": "ishara",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'allusion' alongside ramz; a minor supporting word, not a term to introduce."
+    },
+    {
+      "phonetic": "jisr",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Ordinary word 'a bridge', translated inline in an etymological aside."
+    },
+    {
+      "phonetic": "juhd",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Ordinary word 'effort', glossed inline in the prose."
+    },
+    {
+      "phonetic": "kamal al-awwali",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A grammatical variant of kamal al-awwal, already taught; no separate annotation helps."
+    },
+    {
+      "phonetic": "khalaiq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Ordinary word 'creatures', translated inline in the prose."
+    },
+    {
+      "phonetic": "khalf",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A root cited in an etymological aside, not a term the reader would formally cite."
+    },
+    {
+      "phonetic": "khamira",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "'Essence/leaven', glossed inline and too minor to introduce formally."
+    },
+    {
+      "phonetic": "khata",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Ordinary word 'error', translated inline in the prose."
+    },
+    {
+      "phonetic": "khawatir",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "The plural of khatir, already taught; no separate annotation helps."
+    },
+    {
+      "phonetic": "know",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An ordinary English word, not an Arabic term to annotate."
+    },
+    {
+      "phonetic": "la aiqa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase 'no obstacle' translated inline in the prose."
+    },
+    {
+      "phonetic": "la bi-zaman",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase 'not in time' translated inline in the prose."
+    },
+    {
+      "phonetic": "la tabayun",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase 'no distinction' translated inline in the prose."
+    },
+    {
+      "phonetic": "la tafadul",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A negation fragment already rendered in prose ('no preference of one over another')."
+    },
+    {
+      "phonetic": "la takhaluf",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A negation fragment translated inline ('no disagreement among them')."
+    },
+    {
+      "phonetic": "la tamayul",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A negation fragment translated inline ('no leaning of one above the rest')."
+    },
+    {
+      "phonetic": "lataif nuraniyya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Descriptive phrase glossed in running prose ('luminous subtleties'), too minor to introduce formally."
+    },
+    {
+      "phonetic": "like",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "This is the ordinary English word 'like', not an Arabic term to annotate."
+    },
+    {
+      "phonetic": "mahdah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "One adjective in a translated triad ('pure'), glossed in place."
+    },
+    {
+      "phonetic": "makan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as its own substrate/locus; used descriptively, not taught."
+    },
+    {
+      "phonetic": "manfiyyah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Grammatical/theological predicate translated inline ('negated')."
+    },
+    {
+      "phonetic": "mansubin",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('appointed'); a minor participle, not book vocabulary."
+    },
+    {
+      "phonetic": "marifah batinah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Compositional variant of marifah glossed inline ('inner gnosis'); the base term already carries it."
+    },
+    {
+      "phonetic": "marifah zahirah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Compositional variant of marifah glossed inline ('outer gnosis'); covered by the taught base term."
+    },
+    {
+      "phonetic": "marifat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Romanisation variant of the taught term marifah; would double-teach the same concept."
+    },
+    {
+      "phonetic": "markaz",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Used as a geometric metaphor and glossed inline ('the centre')."
+    },
+    {
+      "phonetic": "mashfu",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Passive participle of shafa, translated inline as 'paired, joined'; a grammatical form, not a term to introduce."
+    },
+    {
+      "phonetic": "mashra",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline ('the seventh path'); too minor to introduce formally."
+    },
+    {
+      "phonetic": "maslub",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Apophatic predicate translated inline ('stripped'); descriptive, not a citeable heading."
+    },
+    {
+      "phonetic": "matlub",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('object of seeking'); a passing gloss."
+    },
+    {
+      "phonetic": "mawaddah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('noble affections'); a minor term in the wilayah cluster."
+    },
+    {
+      "phonetic": "mawjud al-awwal",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "One of several inline names for the First Intellect ('the first existent'), glossed in place."
+    },
+    {
+      "phonetic": "mubayinah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('distinct'); a passing adjective."
+    },
+    {
+      "phonetic": "Mubda al-Awwal",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline and carried by the English 'First Intellect'; appears once as an apposition."
+    },
+    {
+      "phonetic": "muhabbah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('love') as a synonym in the allegiance cluster."
+    },
+    {
+      "phonetic": "muhiqqin",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('the verifiers'); a minor descriptive group."
+    },
+    {
+      "phonetic": "murtazin",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('the disciplined ones'); a passing gloss."
+    },
+    {
+      "phonetic": "musabbah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A passive participle glossed inline ('the One [glorified]'); a grammatical form, not a term to introduce."
+    },
+    {
+      "phonetic": "musabbih",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A grammatical contrast (musabbah vs musabbih) resolved inline ('the glorifier')."
+    },
+    {
+      "phonetic": "musamahah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('forbearance'); a one-off gloss."
+    },
+    {
+      "phonetic": "mustarr",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline inside a quotation ('compelled')."
+    },
+    {
+      "phonetic": "mutaali",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine attribute glossed inline ('the transcendent One'); minor here, translated in prose."
+    },
+    {
+      "phonetic": "mutasawiyah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('equal'); a passing adjective."
+    },
+    {
+      "phonetic": "muwalat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('loyal allegiance') as a synonym of wilayah."
+    },
+    {
+      "phonetic": "nafi al-jins",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A grammarians' term glossed inline ('negation of the genus'); linguistic apparatus, not book doctrine."
+    },
+    {
+      "phonetic": "nafyi al-ilahiyyat anhum",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A defining phrase translated inline ('the negation of divinity from them')."
+    },
+    {
+      "phonetic": "najaha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb root cited for etymology only; not a term to look up."
+    },
+    {
+      "phonetic": "najat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('salvation'); appears once as a gloss."
+    },
+    {
+      "phonetic": "nuqta-e irtifa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('the final point of ascent'); a one-off phrase."
+    },
+    {
+      "phonetic": "nuraniyya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An adjective in a translated triad ('luminous'), glossed in place."
+    },
+    {
+      "phonetic": "nutq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline ('our speech and articulation')."
+    },
+    {
+      "phonetic": "Nuzilla",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A cited verb form in a grammatical aside, translated inline."
+    },
+    {
+      "phonetic": "opened",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "English word discussed inline as the rendering of a verb; no apparatus helps."
+    },
+    {
+      "phonetic": "paida kiye hue",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Urdu phrase translated in the running prose as 'created'."
+    },
+    {
+      "phonetic": "qamat alfiyya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Imagery translated in place as 'statures of a thousand-fold measure'; too minor to introduce."
+    },
+    {
+      "phonetic": "qawlun mujmalun",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Rhetorical descriptor glossed as 'a summary saying' in the prose itself."
+    },
+    {
+      "phonetic": "ramz",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated in place as 'symbol' within the sentence."
+    },
+    {
+      "phonetic": "rubq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'the snare'; a passing image, not a term to introduce."
+    },
+    {
+      "phonetic": "sajiyyah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated in place as 'the inborn nature'."
+    },
+    {
+      "phonetic": "samaha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Etymological root explained inline ('to forgive'); not a standalone term."
+    },
+    {
+      "phonetic": "sawa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Root given inline as 'equal' to explain a verb; grammatical gloss."
+    },
+    {
+      "phonetic": "shafaa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Root cited inline to explain another word; translated in prose."
+    },
+    {
+      "phonetic": "shimah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'the ingrained' nature; minor synonym."
+    },
+    {
+      "phonetic": "some",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Ordinary English word swept up by the extractor; no apparatus applies."
+    },
+    {
+      "phonetic": "something",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Ordinary English word; not a term."
+    },
+    {
+      "phonetic": "summary",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Ordinary English word; not a term."
+    },
+    {
+      "phonetic": "suriyyah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated in place as 'imaginal'; a passing gloss."
+    },
+    {
+      "phonetic": "suwar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Plural of 'form', translated inline as 'forms'; carried by the prose."
+    },
+    {
+      "phonetic": "suwar mahdah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'pure forms'."
+    },
+    {
+      "phonetic": "Tafaddulan minhu",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Arabic phrase translated immediately as 'a favor from Him'."
+    },
+    {
+      "phonetic": "tafkir",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated in place as 'reasoning', contrasted with imagination."
+    },
+    {
+      "phonetic": "tajarrud",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'abstracted from all matter'; carried by the sentence."
+    },
+    {
+      "phonetic": "talib",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'the one seeking', paired against matlub."
+    },
+    {
+      "phonetic": "tamjid",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'the real glorification'."
+    },
+    {
+      "phonetic": "tartib",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated in place as 'the arrangement'."
+    },
+    {
+      "phonetic": "tasbih",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'glorification'; carried by the prose."
+    },
+    {
+      "phonetic": "tawahhum",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated in place as 'imagination'."
+    },
+    {
+      "phonetic": "ubudiyyah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated in place as 'servitude'; the prose carries the sense."
+    },
+    {
+      "phonetic": "uluww",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Root supplied inline as 'height' to explain a name; etymological gloss."
+    },
+    {
+      "phonetic": "Wa judan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Arabic phrase translated immediately as 'and generosity'."
+    },
+    {
+      "phonetic": "Wa tatawwulan minhu",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Arabic phrase translated immediately in the prose."
+    },
+    {
+      "phonetic": "walah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'the stunning' bewilderment."
+    },
+    {
+      "phonetic": "wasala",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Root cited inline as 'to connect' to explain tawassul; grammatical gloss."
+    },
+    {
+      "phonetic": "watan-e-asli",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Urdu phrase translated in place as 'our original homeland'."
+    },
+    {
+      "phonetic": "wujud al-kull maan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full phrase already translated in running prose, too specific to introduce formally."
+    },
+    {
+      "phonetic": "yatajasaru",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb cited only to explain its etymology in the surrounding sentence."
+    },
+    {
+      "phonetic": "yatasawa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A grammatical fragment glossed inline, not a term to cite."
+    },
+    {
+      "phonetic": "yekta",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A single-use word for 'unique' already translated in the same clause."
+    },
+    {
+      "phonetic": "zamair",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'the inmost', a minor term not worth formal introduction."
+    },
+    {
+      "phonetic": "zanbun mashfuun bil-istighfar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase rendered in the running prose, too incidental to annotate."
+    },
+    {
+      "phonetic": "zawat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'being', translated where it appears rather than taught."
+    },
+    {
+      "phonetic": "zulm",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Immediately translated as 'injustice' in the sentence, used once in passing."
+    },
+    {
+      "phonetic": "adam",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The metaphysical term for nonexistence, from which existence is drawn; a citable concept the book relies on."
+    },
+    {
+      "phonetic": "ahl al-maarif",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's own term for the people of gnosis — doctrinal vocabulary a reader should be able to name and look up."
+    },
+    {
+      "phonetic": "aimma",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Imams as a doctrinal institution central to this book's teaching, not the generic common-noun sense of imam."
+    },
+    {
+      "phonetic": "alam al-aql",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A core cosmological term ('world of intellect') the book builds its metaphysics on."
+    },
+    {
+      "phonetic": "alam al-hiss",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The paired cosmological term ('world of sense') the reader should be able to cite."
+    },
+    {
+      "phonetic": "alam al-ibda",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical phrase for 'the world of origination', a named cosmological level."
+    },
+    {
+      "phonetic": "aql al-awwal",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The doctrinal term for the First Intellect, a named tier of the book's cosmology."
+    },
+    {
+      "phonetic": "ashbah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A recurring technical term for the originated imaginal forms in the book's cosmology."
+    },
+    {
+      "phonetic": "Bab al-Abwab",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A specific doctrinal rank ('Gate of Gates') in the hierarchy the reader may wish to cite."
+    },
+    {
+      "phonetic": "dar al-ibda",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named cosmological realm ('abode of origination') in the book's metaphysical scheme."
+    },
+    {
+      "phonetic": "dar al-inbiath",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The paired cosmological realm ('abode of emanation') the reader should be able to look up."
+    },
+    {
+      "phonetic": "dar al-quds",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A doctrinal realm ('Abode of Holiness') the reader may want to name and cite."
+    },
+    {
+      "phonetic": "ghayb",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical concept of the unseen/hidden that a reader may want to name and search."
+    },
+    {
+      "phonetic": "had",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core concept (the singular of hudud) central to the book's definition of Tawhid as marifat al-hudud; occurs constantly."
+    },
+    {
+      "phonetic": "hayat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "One of the taught divine attributes ('life') in the enumerated list."
+    },
+    {
+      "phonetic": "hayula",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for prime matter; a reader should be able to name and look it up."
+    },
+    {
+      "phonetic": "Hijabiyyat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal station the book defines and teaches."
+    },
+    {
+      "phonetic": "Hu",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's doctrinal divine name 'He' used repeatedly; worth naming and citing."
+    },
+    {
+      "phonetic": "Hujjiyyat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal station the book defines, parallel to Hijabiyyat."
+    },
+    {
+      "phonetic": "ibda",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's own doctrinal term for divine origination, explicitly contrasted with khalq and worth citing."
+    },
+    {
+      "phonetic": "ibda-e zawat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for origination of essences; a citable doctrinal concept."
+    },
+    {
+      "phonetic": "ikhtiyar",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "One of the taught divine attributes ('choice') in the enumerated list."
+    },
+    {
+      "phonetic": "ilah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book examines this word's meaning directly, so a reader should be able to name and search it."
+    },
+    {
+      "phonetic": "ilahiyyat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for divinity, defined with care and worth looking up."
+    },
+    {
+      "phonetic": "ilm",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "One of the divine attributes the book sets out and teaches (life, knowledge, power, choice)."
+    },
+    {
+      "phonetic": "ilm al-hayat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal concept, the knowledge of life, that a reader may cite."
+    },
+    {
+      "phonetic": "ilm al-kulli",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal concept, total knowledge, worth naming and searching."
+    },
+    {
+      "phonetic": "istifal",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A specific morphological form the author uses doctrinally; a reader may want to look it up."
+    },
+    {
+      "phonetic": "Istiftah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named technical term for the act of seeking-opening that the book defines."
+    },
+    {
+      "phonetic": "istighfar",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical Islamic term the book discusses and a reader may want to look up."
+    },
+    {
+      "phonetic": "Jadd",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal station the book defines alongside Jaddiyyat."
+    },
+    {
+      "phonetic": "Jaddiyyat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named spiritual station the book identifies as a doctrinal rank a reader may cite."
+    },
+    {
+      "phonetic": "jawhar",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The philosophical term for substance/essence the book uses technically."
+    },
+    {
+      "phonetic": "julus",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Named companion term of witr in the taught triad of prayer structures."
+    },
+    {
+      "phonetic": "kamal al-awwal",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for the first perfection; a citable doctrinal concept."
+    },
+    {
+      "phonetic": "kamal al-thani",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical phrase for 'the second perfection', a named stage in its scheme."
+    },
+    {
+      "phonetic": "kamal-e insani",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal concept, human perfection, worth naming and searching."
+    },
+    {
+      "phonetic": "kathaif zulmaniyya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term 'dark densities' for bodies; a citable concept."
+    },
+    {
+      "phonetic": "khalq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Key contrast term ('creation') the book distinguishes from ibda; a reader would want to cite the distinction."
+    },
+    {
+      "phonetic": "khatima bil-khair",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal concept, a good end / salvation, a reader may cite."
+    },
+    {
+      "phonetic": "khatir",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for the passing thought; a citable concept."
+    },
+    {
+      "phonetic": "maad",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core doctrinal term (the Return/afterlife), paired with mabda; central and citable."
+    },
+    {
+      "phonetic": "mabda",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core doctrinal term (the Origin), paired with maad; central to the book's framework."
+    },
+    {
+      "phonetic": "maratib",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The named ladder of ascending ranks central to the book's hierarchy of stations."
+    },
+    {
+      "phonetic": "marifah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core doctrinal term (gnosis/knowledge of God) the book builds on; a reader should be able to name and search it."
+    },
+    {
+      "phonetic": "marifat al-hudud",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's own definition of Tawhid; the most citable technical phrase in the passage."
+    },
+    {
+      "phonetic": "martaba",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The term for a person's spiritual station/rank, a taught unit of the maratib ladder."
+    },
+    {
+      "phonetic": "Mubdi",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A divine name ('the Originator') the book teaches and a reader should be able to name and look up."
+    },
+    {
+      "phonetic": "muhdath",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The taught term for 'the originated thing', explicitly contrasted with muhdith."
+    },
+    {
+      "phonetic": "muhdathah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The doctrinal predicate that names and attributes are 'originated', a citable claim of the book."
+    },
+    {
+      "phonetic": "muhdith",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The pivotal originator/originated (muhdith vs muhdath) distinction the text turns on; a reader should be able to name it."
+    },
+    {
+      "phonetic": "Mumin",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Used here as a technical ranked degree ('the ninth degree of the Mumin'), not the ordinary word for believer."
+    },
+    {
+      "phonetic": "Qawd",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical term tied to the doctrine of return that the book defines and a reader may want to cite."
+    },
+    {
+      "phonetic": "qudrah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A taught divine attribute ('power'), paired with ilm in the book's exposition."
+    },
+    {
+      "phonetic": "quwwah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "One of the taught divine attributes ('power') in the enumerated list."
+    },
+    {
+      "phonetic": "rakat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The prayer-unit term is introduced and discussed technically within the shafa/witr scheme."
+    },
+    {
+      "phonetic": "Rutbat al-Ilahiyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal rank the book sets out; a reader should be able to name and look it up."
+    },
+    {
+      "phonetic": "sadir al-awwal",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical emanation-cosmology term ('the first emanated') the book uses as its own vocabulary."
+    },
+    {
+      "phonetic": "shafa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Explicitly defined and analysed term ('paired/coupled') at the heart of the passage's argument."
+    },
+    {
+      "phonetic": "shirk",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core doctrinal term (the grave sin opposed to Tawhid) the book defines and a reader will cite."
+    },
+    {
+      "phonetic": "tawassul",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A recurring doctrinal concept (the means of approach/connection) the book develops and names."
+    },
+    {
+      "phonetic": "taweel",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's central term for esoteric interpretation; a reader should be able to name and search it."
+    },
+    {
+      "phonetic": "wali",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core doctrinal term (the friend/wali of Allah) the book teaches; a reader should be able to name it."
+    },
+    {
+      "phonetic": "witr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The 'odd' counterpart to shafa, named and taught as part of the triad."
+    },
+    {
+      "phonetic": "wujud",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core Tawheed vocabulary the book itself defines (existence) and a reader would want to name and search."
+    },
+    {
+      "phonetic": "zahir",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Doctrinal outer/manifest term (paired with batin) a reader should be able to name and look up."
+    }
+  ]
+}

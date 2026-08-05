@@ -12,6 +12,7 @@ Classification logic:
 
 Authority: architecture.md §Intelligence Layer; plan.md Wave B, B2.
 """
+
 from __future__ import annotations
 
 import json
@@ -34,18 +35,20 @@ _CONFLICT_FIELDS: dict[str, set[str]] = {
 
 # ─── public types ─────────────────────────────────────────────────────────────
 
+
 @dataclass
 class MergeReport:
     book_slug: str = ""
-    atoms_new: dict[str, int] = field(default_factory=dict)       # type → count
-    atoms_merged: dict[str, int] = field(default_factory=dict)    # type → count
-    atoms_variant: dict[str, int] = field(default_factory=dict)   # type → count
+    atoms_new: dict[str, int] = field(default_factory=dict)  # type → count
+    atoms_merged: dict[str, int] = field(default_factory=dict)  # type → count
+    atoms_variant: dict[str, int] = field(default_factory=dict)  # type → count
     atoms_conflict: dict[str, int] = field(default_factory=dict)  # type → count
     conflict_count: int = 0
     report_md_path: Path | None = None
 
 
 # ─── classification helpers ───────────────────────────────────────────────────
+
 
 def _is_conflict(existing_body: dict, incoming_body: dict, atom_type: str) -> bool:
     """True if the two bodies have a structural contradiction worth halting for."""
@@ -86,12 +89,12 @@ def _record_conflict(conn, atom_id: str, existing_body: dict, incoming_body: dic
     conn.execute(
         """INSERT INTO manual_review_queue (book_slug, chapter_id, reason, payload)
            VALUES (?, ?, ?, ?)""",
-        ("", "", "atom_conflict",
-         json.dumps({"atom_id": atom_id})),
+        ("", "", "atom_conflict", json.dumps({"atom_id": atom_id})),
     )
 
 
 # ─── core merge ───────────────────────────────────────────────────────────────
+
 
 def _classify_and_write(conn, atom: dict, book_slug: str) -> str:
     """Classify one atom and write to DB. Returns 'new'|'merged'|'variant'|'conflict'."""
@@ -145,6 +148,7 @@ def _classify_and_write(conn, atom: dict, book_slug: str) -> str:
 
 # ─── report writer ────────────────────────────────────────────────────────────
 
+
 def _write_report(book_dir: Path, report: MergeReport) -> Path:
     system_dir = book_dir / "_system"
     system_dir.mkdir(parents=True, exist_ok=True)
@@ -157,11 +161,18 @@ def _write_report(book_dir: Path, report: MergeReport) -> Path:
         "| Category | quran | hadith | doctrine |",
         "|---|---|---|---|",
     ]
-    for label, d in [("New", report.atoms_new), ("Merged (source added)", report.atoms_merged),
-                     ("Variant (text added)", report.atoms_variant), ("Conflict (halted)", report.atoms_conflict)]:
-        lines.append(f"| {label} | {d.get('quran',0)} | {d.get('hadith',0)} | {d.get('doctrine',0)} |")
+    for label, d in [
+        ("New", report.atoms_new),
+        ("Merged (source added)", report.atoms_merged),
+        ("Variant (text added)", report.atoms_variant),
+        ("Conflict (halted)", report.atoms_conflict),
+    ]:
+        lines.append(f"| {label} | {d.get('quran', 0)} | {d.get('hadith', 0)} | {d.get('doctrine', 0)} |")
     if report.conflict_count:
-        lines += ["", f"> **{report.conflict_count} conflict(s) detected. Phase halted. Resolve via manual review queue.**"]
+        lines += [
+            "",
+            f"> **{report.conflict_count} conflict(s) detected. Phase halted. Resolve via manual review queue.**",
+        ]
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return out
 
@@ -173,17 +184,16 @@ def _update_stats(conn) -> None:
     try:
         stats = json.loads(stats_path.read_text())
         for atom_type in ("quran", "hadith", "doctrine"):
-            count = conn.execute(
-                "SELECT COUNT(*) FROM atoms WHERE type = ?", (atom_type,)
-            ).fetchone()[0]
+            count = conn.execute("SELECT COUNT(*) FROM atoms WHERE type = ?", (atom_type,)).fetchone()[0]
             stats.setdefault("counts", {})[atom_type] = count
         stats["last_updated"] = datetime.now(timezone.utc).isoformat()
         stats_path.write_text(json.dumps(stats, indent=2, ensure_ascii=False) + "\n")
-    except Exception:   # noqa: BLE001 — stats update is best-effort
+    except Exception:
         pass
 
 
 # ─── public API ───────────────────────────────────────────────────────────────
+
 
 def merge_into_library(book_dir: Path, scratch_path: Path) -> MergeReport:
     """Merge scratch JSONL atoms into the canonical knowledge-base DB.
@@ -225,6 +235,7 @@ def merge_into_library(book_dir: Path, scratch_path: Path) -> MergeReport:
 
 def main() -> int:
     import argparse
+
     parser = argparse.ArgumentParser(description="Merge scratch atoms into the knowledge library.")
     parser.add_argument("book_dir", help="Path to content/drafts/<slug>/")
     parser.add_argument("scratch", help="Path to knowledge-atoms-scratch.jsonl")

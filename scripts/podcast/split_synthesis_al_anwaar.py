@@ -28,6 +28,7 @@ Usage:
     .venv/bin/python scripts/podcast/split_synthesis_al_anwaar.py            # dry-run
     .venv/bin/python scripts/podcast/split_synthesis_al_anwaar.py --execute
 """
+
 from __future__ import annotations
 
 import argparse
@@ -39,7 +40,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import ensure_book_skeleton  # noqa: E402
+from _paths import ensure_book_skeleton
 
 WORK_SLUG = "al-anwaar-al-lateefah"
 WORK_DIR = REPO_ROOT / "content" / "Islamic" / WORK_SLUG
@@ -49,12 +50,12 @@ WORK_TITLE = "Al-Anwaar al-Lateefah"
 
 # Volume -> (title, inclusive 1-based H2 section range). Partition of all 28.
 VOLUMES: dict[int, dict] = {
-    1: {"title": "The Oneness (Tawheed)",                 "sections": (1, 2)},
-    2: {"title": "The Origin (Mabda')",                   "sections": (3, 9)},
-    3: {"title": "The Hidden Hierarchy",                  "sections": (10, 14)},
-    4: {"title": "The Sacred Line",                       "sections": (15, 18)},
-    5: {"title": "The Two Paths and the Resurrection",    "sections": (19, 23)},
-    6: {"title": "Retribution and the Dawn",              "sections": (24, 28)},
+    1: {"title": "The Oneness (Tawheed)", "sections": (1, 2)},
+    2: {"title": "The Origin (Mabda')", "sections": (3, 9)},
+    3: {"title": "The Hidden Hierarchy", "sections": (10, 14)},
+    4: {"title": "The Sacred Line", "sections": (15, 18)},
+    5: {"title": "The Two Paths and the Resurrection", "sections": (19, 23)},
+    6: {"title": "Retribution and the Dawn", "sections": (24, 28)},
 }
 
 _ARABIC_RE = re.compile(r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]")
@@ -74,7 +75,7 @@ def _parse_sections(text: str) -> tuple[str, list[tuple[str, str]]]:
     bounds = head_idx + [len(lines)]
     sections: list[tuple[str, str]] = []
     for k in range(len(head_idx)):
-        block = lines[bounds[k]: bounds[k + 1]]
+        block = lines[bounds[k] : bounds[k + 1]]
         header = block[0][3:].strip()
         body = "\n".join(block).rstrip() + "\n"
         sections.append((header, body))
@@ -98,7 +99,7 @@ def _volume_refined_text(vol: int, sections: list[tuple[str, str]]) -> str:
 
 def _volume_state(vol: int) -> dict:
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    pre = lambda note: {"status": "completed", "note": note}  # noqa: E731
+    pre = lambda note: {"status": "completed", "note": note}
     return {
         "schema_version": 1,
         "book_slug": f"{WORK_SLUG}-vol-{vol:02d}",
@@ -142,15 +143,17 @@ def _manifest(sections: list[tuple[str, str]]) -> dict:
     vols = []
     for v in sorted(VOLUMES):
         lo, hi = VOLUMES[v]["sections"]
-        vols.append({
-            "order": v,
-            "slug": f"{WORK_SLUG}-vol-{v:02d}",
-            "dir": f"vol-{v:02d}",
-            "title": VOLUMES[v]["title"],
-            "h2_sections": list(range(lo, hi + 1)),
-            "refined_source": f"vol-{v:02d}/_system/source/text/refined-english.md",
-            "status": "draft",
-        })
+        vols.append(
+            {
+                "order": v,
+                "slug": f"{WORK_SLUG}-vol-{v:02d}",
+                "dir": f"vol-{v:02d}",
+                "title": VOLUMES[v]["title"],
+                "h2_sections": list(range(lo, hi + 1)),
+                "refined_source": f"vol-{v:02d}/_system/source/text/refined-english.md",
+                "status": "draft",
+            }
+        )
     return {
         "work_slug": WORK_SLUG,
         "title": WORK_TITLE,
@@ -176,6 +179,7 @@ def _manifest(sections: list[tuple[str, str]]) -> dict:
 def _emit_yaml(manifest: dict) -> str:
     """Minimal manifest YAML (avoids a PyYAML dump dependency; matches asaas shape)."""
     import yaml  # available in .venv
+
     return yaml.safe_dump(manifest, sort_keys=False, allow_unicode=True, width=100)
 
 
@@ -203,8 +207,10 @@ def main() -> int:
     src_arabic = sum(len(_ARABIC_RE.findall(b)) for _, b in sections)
 
     print(f"{'mode':<10}{'EXECUTE' if args.execute else 'DRY-RUN'}")
-    print(f"source: {UNIFIED_BOOK.relative_to(REPO_ROOT)}  ({len(sections)} sections, "
-          f"{src_words} words, {src_arabic} Arabic chars)\n")
+    print(
+        f"source: {UNIFIED_BOOK.relative_to(REPO_ROOT)}  ({len(sections)} sections, "
+        f"{src_words} words, {src_arabic} Arabic chars)\n"
+    )
     print(f"{'Vol':<4}{'dir':<9}{'sections':<12}{'words':>8}{'arabic':>9}  title")
     tot_w = tot_a = 0
     vol_texts: dict[int, str] = {}
@@ -241,8 +247,7 @@ def main() -> int:
         vdir = WORK_DIR / f"vol-{v:02d}"
         ensure_book_skeleton(vdir)
         (vdir / "_system" / "source" / "text" / "refined-english.md").write_text(vol_texts[v])
-        (vdir / "_system" / "orchestrator-state.json").write_text(
-            json.dumps(_volume_state(v), indent=2) + "\n")
+        (vdir / "_system" / "orchestrator-state.json").write_text(json.dumps(_volume_state(v), indent=2) + "\n")
         print(f"  vol-{v:02d}: skeleton + refined-english.md + state(0c/pending)")
     print("\nDONE. Next: launch per-volume 0c via orchestrate_work.py (Tier 2 — ask first).")
     return 0

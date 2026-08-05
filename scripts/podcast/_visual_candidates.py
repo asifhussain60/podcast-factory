@@ -8,13 +8,25 @@ then curates placement in the Astro Book Composer (Phase 4), which writes
 diagram-free.
 
 Index schema ``book.visuals-index/v1``: ``{schema, visuals: [ {id, type, aspect,
-caption, file, suggested_anchor, cleaned, embedded_title} ]}``. ``file`` is the
-basename inside ``book/visuals/``. ``embedded_title`` lets the renderer suppress a
-duplicated caption when a slide already bakes its title into the image.
+caption, file, suggested_anchor, chapter, cleaned, embedded_title} ]}``. ``file``
+is the basename inside ``book/visuals/``. ``embedded_title`` lets the renderer
+suppress a duplicated caption when a slide already bakes its title into the image.
+
+``chapter`` (2026-07-22) is the bare ``##`` heading text of the chapter a
+candidate belongs to, resolved HERE at emit time — because only the producer has
+every surface in hand. The Composer's palette filters candidates by chapter, and
+it used to recover the chapter by searching the candidate's ``suggested_anchor``
+needle in book.md alone. Slide-deck anchors quote the deck's own narration
+(book-slides.md), not the reading edition, so every book-deck slide failed that
+search, fell to "book-wide", and flooded the palette of every chapter. The needle
+search now happens once, against the surface the needle was actually authored
+from; the Composer just normalizes the stamped heading. Empty = genuinely
+book-wide (a cover or closing slide), shown on every chapter by design.
 
 Emission is idempotent (keyed by ``id``): re-running replaces an entry, never
 duplicates it.
 """
+
 from __future__ import annotations
 
 import json
@@ -42,7 +54,7 @@ def load_index(book_dir: Path) -> list[dict[str, Any]]:
     try:
         data = json.loads(p.read_text(encoding="utf-8"))
         return list(data.get("visuals") or [])
-    except Exception:  # noqa: BLE001
+    except Exception:
         return []
 
 
@@ -50,8 +62,7 @@ def write_index(book_dir: Path, visuals: list[dict[str, Any]]) -> Path:
     p = index_path(book_dir)
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(
-        json.dumps({"schema": VISUALS_SCHEMA, "visuals": visuals}, indent=2, ensure_ascii=False)
-        + "\n",
+        json.dumps({"schema": VISUALS_SCHEMA, "visuals": visuals}, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
     return p
@@ -82,7 +93,7 @@ def clean_slide_watermark(src: Path, dst: Path) -> bool:
     """
     dst.parent.mkdir(parents=True, exist_ok=True)
     try:
-        from PIL import Image  # noqa: PLC0415
+        from PIL import Image
 
         with Image.open(src) as im:
             w, h = im.size
@@ -92,17 +103,57 @@ def clean_slide_watermark(src: Path, dst: Path) -> bool:
                 return False
             im.crop((0, 0, w, h - band)).save(dst)
             return True
-    except Exception:  # noqa: BLE001 — Pillow absent or image unreadable
+    except Exception:
         try:
             shutil.copy2(src, dst)
-        except Exception:  # noqa: BLE001
+        except Exception:
             return False
         return False
 
 
-def emit_diagram_candidates(
-    book_dir: Path, manifest: list[dict[str, Any]], *, log=print
-) -> list[dict[str, Any]]:
+def _chapter_sections(text: str) -> list[tuple[str, str]]:
+    """[(bare_heading, lowercased_body)] for each ``## `` section of a surface."""
+    parts = re.split(r"(?m)^##\s+(.+)$", text)
+    # parts: [preamble, heading1, body1, heading2, body2, ...]
+    return [(parts[i].strip(), parts[i + 1].lower()) for i in range(1, len(parts) - 1, 2)]
+
+
+def resolve_candidate_chapter(book_dir: Path, anchor: str) -> str:
+    """Bare heading of the chapter an anchor points into.
+
+    Two rungs, mirroring the Composer's resolver but run where every surface is
+    on disk. First: the anchor IS a chapter heading (illustrate manifests put
+    the section name there) — compared through ``_book_edits.anchor_key``, the
+    fixture-pinned normalizer, never a re-implementation. Second: the anchor is
+    a passage needle (first 60 chars, lowercased) searched through each
+    surface's sections — book-slides.md FIRST, because deck manifests author
+    their anchors from the narration, then book.md. Returns "" when
+    unresolvable, which the Composer treats as book-wide.
+    """
+    from _book_edits import anchor_key
+
+    needle = (anchor or "").strip().lower()[:60]
+    if not needle:
+        return ""
+    ak = anchor_key(anchor)
+    surfaces: list[list[tuple[str, str]]] = []
+    for name in ("book-slides.md", "book.md"):
+        f = Path(book_dir) / "book" / name
+        if f.exists():
+            surfaces.append(_chapter_sections(f.read_text(encoding="utf-8")))
+    if ak:
+        for sections in surfaces:
+            for heading, _body in sections:
+                if anchor_key(heading) == ak:
+                    return heading
+    for sections in surfaces:
+        for heading, body in sections:
+            if needle in body:
+                return heading
+    return ""
+
+
+def emit_diagram_candidates(book_dir: Path, manifest: list[dict[str, Any]], *, log=print) -> list[dict[str, Any]]:
     """Copy generated diagram SVGs into book/visuals/ and register them.
 
     ``manifest`` is the 0book-illustrate manifest (diagram_id/section/caption/
@@ -119,19 +170,23 @@ def emit_diagram_candidates(
         fname = f"{vid}.svg"
         try:
             shutil.copy2(svg_src, vdir / fname)
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             log(f"      visuals: copy failed for {svg_src.name}: {exc}")
             continue
-        entries.append({
-            "id": vid,
-            "type": str(e.get("structure_type") or e.get("diagram_type") or "diagram"),
-            "aspect": "",
-            "caption": str(e.get("caption") or ""),
-            "file": fname,
-            "suggested_anchor": str(e.get("section") or e.get("anchor_text") or ""),
-            "cleaned": True,
-            "embedded_title": "",
-        })
+        anchor = str(e.get("section") or e.get("anchor_text") or "")
+        entries.append(
+            {
+                "id": vid,
+                "type": str(e.get("structure_type") or e.get("diagram_type") or "diagram"),
+                "aspect": "",
+                "caption": str(e.get("caption") or ""),
+                "file": fname,
+                "suggested_anchor": anchor,
+                "chapter": str(e.get("chapter") or "") or resolve_candidate_chapter(book_dir, anchor),
+                "cleaned": True,
+                "embedded_title": "",
+            }
+        )
     log(f"      visuals: registered {len(entries)} diagram candidate(s)")
     return entries
 
@@ -170,15 +225,18 @@ def emit_slide_candidates(
             vtype = "slide"
         else:
             continue
-        out.append({
-            "id": vid,
-            "type": vtype,
-            "aspect": "",
-            "caption": title,
-            "file": fname,
-            "suggested_anchor": anchor,
-            "cleaned": cleaned,
-            "embedded_title": title,  # slides bake the title in -> caption de-dup
-        })
+        out.append(
+            {
+                "id": vid,
+                "type": vtype,
+                "aspect": "",
+                "caption": title,
+                "file": fname,
+                "suggested_anchor": anchor,
+                "chapter": str(e.get("chapter") or "") or resolve_candidate_chapter(book_dir, anchor),
+                "cleaned": cleaned,
+                "embedded_title": title,  # slides bake the title in -> caption de-dup
+            }
+        )
     log(f"      visuals: registered {len(out)} slide candidate(s)")
     return out

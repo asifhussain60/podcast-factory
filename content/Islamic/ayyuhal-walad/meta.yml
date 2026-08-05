@@ -1,10 +1,17 @@
 slug: ayyuhal-walad
 title: Ayyuha al-Walad
+title_arabic: "أيُّها الولد"
 short_name: ayw
 source_pdf: _system/source/Ayyuhal-Walad.pdf
 
 series:
   enable_knowledge_augmenter: true
+  # Build the reading edition. This book has had a finished book/book.md and a
+  # fluency report since 2026-08-01, but without this flag `_book_branch_enabled`
+  # returns false and all five 0book-* phases are stamped `skipped` — so any
+  # re-run reported success over an untouched folder. Same omission that cost
+  # degrees-of-excellence a run on 2026-07-31.
+  enable_book_branch: true
 
 # tradition_affinity: 'fatimid-ismaili' — all 628 doctrine atoms carry this label, including
 # the ethically-universal passages (sincerity, patience, soul, asceticism) that are safe for

@@ -14,6 +14,52 @@ audience_profile: general_scholarly
 source_tradition: ismaili-scholarly
 episode_planning_mode: dialectical_pairs
 
+# Reading-edition knobs, pinned explicitly 2026-07-31 rather than inherited from
+# the knob-default map — the same discipline `the-master-and-the-disciple`
+# documents for itself, so this book's route stays readable here and cannot shift
+# if that map is re-tuned. (It was re-tuned in the same change that added these
+# lines: islamic_scholarly now defaults to exactly this pair. The pin is
+# deliberately redundant, not obsolete.)
+#
+# `faithful` selects the articulation route: the faithful base plus the
+# `0book-fluency` de-calque pass, governed by the Book Articulation Standard
+# (REQ-BA-*). It replaces `author_companion`, which is what the implicit default
+# gave this book and which produced the 2026-06-04 edition — a re-voice with far
+# more latitude than REQ-BA allows, written before the standard existed.
+book_augmentation: source_only
+book_voice: faithful
+
+# Narrative frame — a property of the SOURCE, not of the delivery route.
+#
+# This book is a LETTER. The treatise proper is al-Ghazali's own first person
+# from its first line to its last: "My dear beloved son and true friend! May
+# Allah, the Exalted, grant you a long life in His worship... in all these years,
+# what knowledge have you truly acquired from me?" All nine chapters in
+# book-toc.json are that letter.
+#
+# Declared, not left to the profile default, because the default is
+# `transmitted_report` — third person — and the compose route hands the frame to
+# the model as a BINDING instruction ("Narrate in the THIRD PERSON... never 'I
+# said to him'"). Undeclared, a recompose would therefore instruct the model to
+# convert Ghazali's letter into a report about Ghazali. The 2026-06-04 edition
+# predates frame enforcement entirely, which is why it reads correctly today
+# despite the config saying otherwise.
+#
+# `narrator_subject` is deliberately NOT set at top level. The source's own
+# INTRODUCTION OF THE BOOK is a compiler's third-person preamble ("It has been
+# learned that one of the students of Imam Ghazali...") — legitimately third
+# person, and confined entirely to the `preface` entry in book-toc.json (source
+# lines 58-65), never to a chapter. Setting a narrator name switches on
+# `_narrative`'s self-report check, which would police that preface for being
+# exactly what the source makes it. Left unset, a faithful rendering of the
+# compiler's preamble passes, while the frame still protects the nine chapters
+# from being flattened to third person — which is the defect that matters.
+#
+# Contrast `degrees-of-excellence`, which rejected first_person_author for the
+# mirror reason: there the third-person framing occupies whole CHAPTERS, so a
+# per-chapter person gate would fail permanently. Here it occupies a preface.
+narrative_frame: first_person_author
+
 host_dynamic:
   host_a: scholar_narrator
   host_b: reflective_interlocutor

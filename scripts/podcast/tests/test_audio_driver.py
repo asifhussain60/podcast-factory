@@ -1,6 +1,7 @@
 """Tests for phases/audio_driver.py (Step 6) — engine routing, the H1 spend
 
 halt, idempotent re-entry, and render approval. All LLM/network/git mocked."""
+
 from __future__ import annotations
 
 import shutil
@@ -13,10 +14,10 @@ from unittest import mock
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _progress  # noqa: E402
-import _dialogue_convergence as dc  # noqa: E402
-import _dialogue_script as ds  # noqa: E402
-from phases import audio_driver  # noqa: E402
+import _dialogue_convergence as dc
+import _dialogue_script as ds
+import _progress
+from phases import audio_driver
 
 FIXTURE_BOOK = Path(__file__).resolve().parent / "fixtures" / "audio-engine-book"
 EPISODE_ID = "EP01-the-lamp-and-the-wick"
@@ -37,9 +38,9 @@ class AudioDriverTestCase(unittest.TestCase):
         shutil.copytree(FIXTURE_BOOK, self.book)
         (self.book / "chapter-contracts").mkdir()
         (self.book / "chapter-contracts" / f"{CHAPTER_SLUG}.yml").write_text(
-            "title: The Lamp and the Wick\n", encoding="utf-8")
-        _progress.write_state(self.book, _progress.initial_state(
-            "audio-engine-fixture-book", "books"))
+            "title: The Lamp and the Wick\n", encoding="utf-8"
+        )
+        _progress.write_state(self.book, _progress.initial_state("audio-engine-fixture-book", "books"))
         # git commits are repo-relative — neutralize for tmp books.
         self._git_patch = mock.patch.object(audio_driver, "phase_git_commit")
         self._git_patch.start()
@@ -48,8 +49,7 @@ class AudioDriverTestCase(unittest.TestCase):
     def _set_engine(self, engine: str):
         cfg = self.book / "_system" / "series-config.yaml"
         body = cfg.read_text(encoding="utf-8")
-        body = "\n".join(l for l in body.splitlines()
-                         if not l.startswith("audio_engine:"))
+        body = "\n".join(l for l in body.splitlines() if not l.startswith("audio_engine:"))
         cfg.write_text(body + f"\naudio_engine: {engine}\n", encoding="utf-8")
 
     def _write_gated_script(self, verdict="SHIP-READY"):
@@ -87,13 +87,13 @@ class TestAutonomousFlow(AudioDriverTestCase):
         def fake_converge(book_dir, slug, **kw):
             self._write_gated_script()
             return dc.DialogueConvergenceResult(
-                chapter_slug=slug, episode_id=EPISODE_ID,
-                verdict="SHIP-READY", credit_estimate=1234)
+                chapter_slug=slug, episode_id=EPISODE_ID, verdict="SHIP-READY", credit_estimate=1234
+            )
 
-        with mock.patch.object(audio_driver, "_drive_audio_script",
-                               wraps=audio_driver._drive_audio_script), \
-             mock.patch("_dialogue_convergence.converge_dialogue_script",
-                        side_effect=fake_converge):
+        with (
+            mock.patch.object(audio_driver, "_drive_audio_script", wraps=audio_driver._drive_audio_script),
+            mock.patch("_dialogue_convergence.converge_dialogue_script", side_effect=fake_converge),
+        ):
             outcome, rc = audio_driver.drive_audio_phases(self.book)
         self.assertEqual((outcome, rc), ("halted", 0))
         self.assertEqual(self._phase_status("audio-script"), "completed")
@@ -111,11 +111,9 @@ class TestAutonomousFlow(AudioDriverTestCase):
 
     def test_failed_convergence_fails_phase(self):
         def fake_converge(book_dir, slug, **kw):
-            return dc.DialogueConvergenceResult(
-                chapter_slug=slug, episode_id=EPISODE_ID, verdict="FAILED")
+            return dc.DialogueConvergenceResult(chapter_slug=slug, episode_id=EPISODE_ID, verdict="FAILED")
 
-        with mock.patch("_dialogue_convergence.converge_dialogue_script",
-                        side_effect=fake_converge):
+        with mock.patch("_dialogue_convergence.converge_dialogue_script", side_effect=fake_converge):
             outcome, rc = audio_driver.drive_audio_phases(self.book)
         self.assertEqual((outcome, rc), ("failed", 2))
         self.assertEqual(self._phase_status("audio-script"), "failed")
@@ -128,14 +126,11 @@ class TestAutonomousFlow(AudioDriverTestCase):
             (book_dir / "m4a").mkdir(exist_ok=True)
             (book_dir / "m4a" / f"{stem}.m4a").write_bytes(b"AUDIO")
             from render_dialogue_audio import RenderResult
-            return RenderResult(episode_id=ep, ch_stem=stem,
-                                verdict="SHIP-READY", rendered=True,
-                                credits_metered=2200)
 
-        with mock.patch("render_dialogue_audio.render_episode",
-                        side_effect=fake_render):
-            outcome, rc = audio_driver.drive_audio_phases(
-                self.book, approve_render=True)
+            return RenderResult(episode_id=ep, ch_stem=stem, verdict="SHIP-READY", rendered=True, credits_metered=2200)
+
+        with mock.patch("render_dialogue_audio.render_episode", side_effect=fake_render):
+            outcome, rc = audio_driver.drive_audio_phases(self.book, approve_render=True)
         self.assertEqual((outcome, rc), ("done", 0))
         self.assertEqual(self._phase_status("audio-render"), "completed")
         extras = (_progress.read_state(self.book))["phases"]["audio-render"]
@@ -151,10 +146,8 @@ class TestAutonomousFlow(AudioDriverTestCase):
 
     def test_render_failure_fails_phase(self):
         self._write_gated_script()
-        with mock.patch("render_dialogue_audio.render_episode",
-                        side_effect=RuntimeError("boom")):
-            outcome, rc = audio_driver.drive_audio_phases(
-                self.book, approve_render=True)
+        with mock.patch("render_dialogue_audio.render_episode", side_effect=RuntimeError("boom")):
+            outcome, rc = audio_driver.drive_audio_phases(self.book, approve_render=True)
         self.assertEqual((outcome, rc), ("failed", 2))
         self.assertEqual(self._phase_status("audio-render"), "failed")
 

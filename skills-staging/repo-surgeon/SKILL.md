@@ -1,687 +1,320 @@
 ---
 name: repo-surgeon
-description: "Holistic repo architecture reviewer, regression hunter, and cleanup enforcer. Runs four passes — Structure, Code, Architecture, Brittleness — generates a repair plan, and executes approved fixes. Invoke for 'repo review', 'architectural audit', 'cleanup sweep', 'find regressions', 'root clutter', or 'repo health check'."
+description: "podcast-factory's project-specific audit layer. Runs the generic `repo-audit` engine for structure, dead code, duplicates and debris, then adds the probes only this repo needs: gate integrity, the retired-surface ban, the four agent mirrors, the fixture-pinned TS/Python pairs, the book-pipeline invariants, and plan conformance. Backed by a deterministic probe script, so every claim it makes can fail. Invoke for 'repo review', 'architectural audit', 'cleanup sweep', 'find regressions', 'repo health check', 'plan conformance', '/repo-surgeon', '/repo-surgeon --scope podcast'."
 ---
 
-# repo-surgeon — Architectural Auditor & Repair Skill
+# repo-surgeon — the project-specific half of a repo audit
 
-Single-file definition. This file is the canonical skill contract, the per-pass procedure, and the CORTEX compliance contract. The subagent stub at `.github/agents/repo-surgeon.agent.md` registers the agent's description/tools and points back here for full procedure.
+## What this skill is, and what it deliberately is not
 
----
+This skill is **not** a general audit engine. The generic engine is the `repo-audit`
+skill: root sprawl, dead code, duplicate implementations, debris, dynamic-reference
+safety, the capability manifest, the risk register, the approval gate, the visual-QA
+loop, and the commit discipline all live there and are **not re-implemented here**.
 
-## SECTION 0 — Bootstrap (read first)
+repo-surgeon owns only what a repo-agnostic engine cannot know: the invariants that
+are true of *this* repo. It runs as a layer inside `repo-audit`'s Phase 3.
 
-This skill targets the **CORTEX Challenger Framework v1.0** (`reference/cortex-challenger-framework.md`).
-Compliance tier: **BRONZE (target)** — Pass 2 dynamic-import detection is wired; full per-pass playbooks are below; framework primitives are explicit.
-
-Before any action, read in order:
-1. `reference/cortex-challenger-framework.md` — the framework
-2. `reference/skill-bootstrap.md` — the shared SECTION 0 contract
-3. `reference/skill-registry.md` — file ownership table
-4. This file (SKILL.md) end-to-end.
-5. **`_workspace/plan/refactor/plan.yaml`** — the v2 podcast plan (added 2026-05-19). Specifically:
-   - `meta.scope_in` / `meta.scope_out` — the contracted boundaries Pass 5 enforces.
-   - `intelligence_sources` — files agents must consult before edits; Pass 5 L3 verifies existence.
-   - `async_safety` — wait-banner format + pre-edit checklist; Pass 5 L6 honors.
-   - `phases[]` — phase ids that Pass 5 L7 cross-checks against the HTML view.
-6. **`_workspace/plan/operations/per-book-ship-checklist.md`** (if present) — the master checklist Pass 5 L10 syncs against the YAML.
-
-Severity is **P0 / P1 / P2 / P3** per bootstrap §2. Legacy labels (Critical / High / Medium / Low) map: Critical → P0, High → P1, Medium → P2, Low → P3. See "Severity tier mapping" below for per-pass examples.
-
-Run report: one report per pass at `_workspace/challenger-reports/repo-surgeon-pass<N>-<run_id>.yml` per framework §3 schema.
+> **Why the split exists.** Until 2026-07-27 this file carried its own copy of the
+> generic engine, with the project facts hardcoded inside it. Of its 38 rules, 21 were
+> dead, inert, or aimed at directories deleted in the May 2026 repo split — and one
+> asserted every plan wave must appear in a view directory that no longer existed,
+> manufacturing 35 false findings on every run. The duplicated half was the half that
+> rotted, so it is gone. The lesson is recorded in `repo-audit`'s own Phase 0.5
+> rationale, which quotes this file's correction note as its cautionary example:
+> *a rule that flags real directories and blesses deleted ones is worse than no rule,
+> because its output has to be ignored to get any work done.*
 
 ---
 
-## Role
+## Section 0 — Bootstrap (read first, in order)
 
-Systematic, multi-pass reviews of the journal repo. Identify structural drift, dead code, orphaned files, root clutter, stale references, architectural violations, brittleness — then fix them. Not a linter; a structural surgeon that understands the repo's governance model and enforces it.
+1. **[.repo-audit/profile.yaml](../../.repo-audit/profile.yaml)** — the tracked project
+   contract. Root allow-lists, protected paths, the verify list, the mirror pairs, the
+   size gate and its ratchet, and the paths flagged fragile.
+2. **[.repo-audit/waivers.yaml](../../.repo-audit/waivers.yaml)** — findings the owner
+   has already ruled not-a-defect, with expiry dates.
+3. **[CLAUDE.md](../../CLAUDE.md)** — branch policy, authorization tiers, and the
+   standing operator rules this skill enforces.
+4. **[docs/reference/skill-bootstrap.md](../../docs/reference/skill-bootstrap.md)** —
+   the P0/P1/P2/P3 severity grammar.
+5. **[docs/reference/cortex-challenger-framework.md](../../docs/reference/cortex-challenger-framework.md)** —
+   the challenger framework this skill targets.
+6. This file, end to end.
 
-## Owns
+The three framework documents live under `docs/reference/`. This file pointed at a
+bare `reference/` prefix until 2026-07-27, so its own first instruction had been
+unfollowable for two months.
 
-- Repo structural integrity (root hygiene, folder placement)
-- Orphaned file detection and cleanup
-- Registry alignment (skills, prompts, agents)
-- Stale reference detection and repair
-- `_workspace/logs/surgeon-log.jsonl` (run log — `server/` was retired 2026-05-22)
+### Facts this skill does not restate
 
-## Does NOT own
+Every row below is read from the contract at run time. **Do not copy any of them into
+this file.** That is precisely how the previous version rotted: the list drifted out of
+step with the repo, blessed two surfaces the project brief bans, and omitted five
+directories that actually exist — including `.repo-audit/` itself, so the audit contract
+was flagged as clutter.
 
-- CSS/theme audit (delegates to `css-theme-sync` / `ui-reviewer`)
-- Memoir content quality (that's `journal` skill)
-- Spend/budget (out of scope; usage-auditor was removed 2026-06-02)
+| Project fact | Lives in | Never in |
+|---|---|---|
+| What may sit at the repo root | `root.allow_files` / `root.allow_dirs` | this file |
+| What must never be moved or rewritten | `protected` | this file |
+| What proves a change safe | `verify` | this file |
+| Which files must change together | `mirrors` (each with its `pinned_by` fixture) | this file |
+| The Python size ceiling and its ratchet | `size_gates` | this file |
+| What is deliberately odd and must be asked about | `fragile` | this file |
+
+A contract entry that no longer resolves is a **P1 finding against the contract**, never
+a silent obedience and never a silent drop. The probe checks this before trusting it.
 
 ---
 
-## Activation
-
-Trigger on any of:
-- `repo-surgeon`, `/repo-surgeon`, `@repo-surgeon`
-- "repo review", "architectural audit", "cleanup sweep", "find regressions"
-- "root clutter", "repo health check", "code hygiene", "dead code audit"
-- "run the surgeon", "full sweep"
-
-## Tier
-
-Cowork T3 — file system access, git history, search, edit capabilities.
-
----
-
-## Execution Model
-
-Every run executes **five passes** in sequence (Pass 5 added 2026-05-19 to support the v2 podcast plan). Each pass produces findings. After all passes complete, a **repair plan** is generated and executed.
+## Execution model
 
 ```
-Pass 1: Structure Auditor     → root clutter, misplaced files, folder violations
-Pass 2: Code Auditor          → dead code, orphaned files, redundant modules, stale imports
-Pass 3: Architecture Auditor  → App/Cowork drift, skill registry gaps, prompt orphans
-Pass 4: Brittleness Scanner   → stale cross-refs, missing contracts, regression traps
-Pass 5: Plan Conformance      → v2 plan YAML/MD/HTML parity, intelligence-source liveness,
-                                async-safety state, podcast↔journal boundary integrity
-              │
-              ▼
-        Repair Plan → Preview → Execute (with user approval for destructive ops)
+repo-audit  Phase 0    orientation + stack detection
+            Phase 0.5  contract read / bootstrap / validate
+            Phase 1-2  digital twin + capability verification
+            Phase 3    findings  <-- repo-surgeon's probes run HERE
+            Phase 4-5  challenge, fit assessment, APPROVAL GATE
+            Phase 6-7  execution, verification, contract write-back, commit
 ```
+
+### Where the old passes went
+
+The five-pass vocabulary is preserved because `CLAUDE.md`, `project-steward`, and
+`.github/prompts/repo-health-check.prompt.md` all invoke it by name. What changed is
+who executes each pass.
+
+| Old pass | Now |
+|---|---|
+| Pass 1 — Structure | **Delegated.** `repo-audit` Phase 3, driven by the contract's root lists. Retained here: the retired-surface ban (`RS-*`), which is a project rule. |
+| Pass 2 — Code | **Delegated.** `repo-audit` Phase 3 refactoring findings + its dynamic-reference safety rule. Six of the eight old rules audited deleted directories. |
+| Pass 2b — Pipeline probes | **Retained.** This skill's core. See *Pipeline probes* below. Unchanged `AU-*` finding ids. |
+| Pass 3 — Architecture | **Reshaped.** Only this repo's real invariants survive: agent-mirror parity across four homes, skill-registry completeness, generated-file parity. The old prompt-registry rules audited a server tree deleted in May. |
+| Pass 4 — Brittleness | **Mostly delegated.** Retained here: the retired-surface ban and the hardcoded-branch-name ban. The old rules grepped `site/`, `server/`, `wrangler.toml` and journal-repo residue — none of which exist here. |
+| Pass 5 — Plan conformance | **Retained and rewritten.** Five of its ten rules read plan keys that do not exist. See *Plan conformance* below. |
 
 ### Flags
 
 | Flag | Effect |
 |---|---|
 | `--preview` | Findings + plan only, no execution. **Default.** |
-| `--fix` | Execute the repair plan (destructive ops need confirmation). |
-| `--pass <1-5>` | Run only one pass. |
-| `--root-only` | Shortcut: only Pass 1 Rule R1 (root hygiene). |
-| `--plan-only` | Shortcut: only Pass 5 (plan conformance + boundary + async-safety). |
-| `--plan-path <path>` | Override the default `_workspace/plan/refactor/plan.yaml` location (e.g., when reviewing a future second plan). |
-| `--scope podcast` | Run Pass 2b: Podcast Pipeline Probes (supersedes the standalone `podcast-auditor` agent). Covers the 13 probes across Efficiency / Accuracy / Scalability / Extensibility / Hygiene axes against `scripts/podcast/`. |
+| `--fix` | Execute the approved repair plan. Destructive ops still need confirmation. |
+| `--scope podcast` | Pipeline + book-pipeline probes only. The post-merge sweep `CLAUDE.md` mandates. |
+| `--plan-only` / `--pass 5` | Plan conformance only. |
+| `--root-only` | Contract root-membership check only. |
 
 ---
 
-## Pass 1: Structure Auditor
+## The deterministic probe
 
-**Goal:** Repo root must be clean. Files must live in their governed locations.
+**Run this first, every time:**
 
-### Rules
+```bash
+python3 scripts/repo_surgeon_probe.py
+```
 
-| ID | Rule | Action |
+`--scope podcast` narrows it to the pipeline groups; `--json` emits machine-readable
+findings. Exit 0 means no unwaived P0 or P1; exit 1 means there are; exit 2 means the
+probe could not run.
+
+**It is a live gate.** Since 2026-07-27 the probe runs in three places: the contract's
+`verify:` list (listed first — it is the cheapest at ~0.6s, and a stale contract
+invalidates the reasoning behind every gate below it), the pre-commit hook, and the
+`lint` workflow. CI is what actually binds; a hook can be bypassed with `--no-verify`
+and is absent on a fresh clone. It blocks on **P0/P1 only** — P2 and P3 report without
+failing, so an advisory can sit in the backlog without holding up unrelated work.
+
+It was deliberately left unwired until its baseline reached zero. A gate that fails on
+a backlog somebody else created is a gate people learn to route around.
+
+The script is the executable half of this catalog. It loads the contract, validates it,
+applies waivers with expiry, and machine-checks every claim below that can be checked
+deterministically. Findings sort by severity, then id, then path, then line — so two
+runs on one tree produce one report.
+
+**Everything the script checks, it checks; everything it cannot, this file describes as
+requiring judgment.** Never assert a probe result you did not run, and never re-derive
+by hand what the script already reports.
+
+> **A gate you add must be able to fail.** After extending the probe, break the thing
+> it guards, confirm it fails, and restore. The three checks added on 2026-07-27 were
+> each verified this way. A check that cannot fail converts an unknown into false
+> confidence, which is worse than no check.
+
+### Checked by the script
+
+| Group | Ids | What it proves |
 |---|---|---|
-| R1 | **Root hygiene** — Only these files may exist at repo root: `framework.md`, `package.json`, `release-please-config.json`, `.release-please-manifest.json`, `site-worker.js`, `wrangler.toml`, `CHANGELOG.md`, `.gitignore`, `.gitattributes`, `.mcp.json`, `LICENSE`, `README.md`. Everything else is clutter. | Move to `_workspace/scratch/` or correct location, or delete if stale. |
-| R2 | **No loose dotfiles** — `.env*`, `.tool-versions`, editor configs (`.vscode/settings.json` excepted) at root are violations unless gitignored. | Add to `.gitignore` or relocate. |
-| R3 | **No temp/scratch at root** — `*.prompt.md`, `scratchpad-*`, `tmp-*`, `test-*`, `debug-*` at root are violations. | Move to `_workspace/scratch/`. |
-| R4 | **Folder depth** — No content file should be more than 4 levels deep from repo root (exception: `node_modules/`, `.git/`). | Flag for review. |
-| R5 | **Empty directories** — Tracked empty directories (with no files, just `.gitkeep` or nothing) are violations. | Remove or add `.gitkeep` with purpose comment. |
-| R6 | **`.DS_Store` penetration** — Any `.DS_Store` not covered by `.gitignore` is a violation. | Add pattern to `.gitignore` if missing. |
+| Contract | `CT-PATH`, `CT-RATCHET`, `CT-VERIFY` | Every path, ratchet, Makefile target and npm script the contract names still resolves |
+| Mirrors | `MI-UNPINNED`, `MI-PIN-GONE`, `MI-PATH` | Every pair the contract says must change together has a fixture that exists |
+| Root | `R1` | Root membership against the contract's exhaustive lists |
+| Retired surfaces | `RS-RESURRECT` | `server/`, `site/`, `shared/`, `wrangler.toml`, `site-worker.js`, `docs/cloudflare/` stay deleted |
+| Agents | `A2` | Canonical specs and their generated `.github` mirrors are the same set |
+| Skills | `A1` | Every `skills-staging/` directory is registered and has a `SKILL.md` |
+| Self-integrity | `SK-DEADREF`, `SK-MISSING` | Every relative link in this skill and its agent spec resolves |
+| Pipeline | `AU-S2`, `AU-A2` | No machine-specific paths in pipeline source; no duplicated version constant has drifted |
+| Book pipeline | `AU-V1`, `AU-V2`, `AU-V4`, `AU-V5`, `AU-V6` | The unified compose route is the only route, its schema mirrors agree, its stages exist, its governance ids resolve |
+| Plan | `L1`, `L2`, `L2-DUP`, `L10` | The plan parses, its wave references resolve, its ids are unambiguous, the ship checklist maps onto it |
 
-### Procedure
-
-```bash
-# R1: Root clutter scan
-ls -1 | grep -v -E '^(framework\.md|package\.json|release-please-config\.json|\.release-please-manifest\.json|site-worker\.js|wrangler\.toml|CHANGELOG\.md|\.gitignore|\.gitattributes|\.mcp\.json|LICENSE|README\.md)$' | grep -v -E '^(\.|_workspace|content|docs|infra|reference|scripts|server|shared|site|skills-staging)$'
-
-# R3: Scratch files at root
-ls -1 *.prompt.md scratchpad-* tmp-* test-* debug-* 2>/dev/null
-
-# R5: Empty tracked directories
-find . -type d -empty -not -path './.git/*' -not -path '*/node_modules/*'
-
-# R6: DS_Store leak
-git ls-files --others --ignored --exclude-standard | grep DS_Store
-git ls-files | grep DS_Store
-```
+`SK-DEADREF` is the check that would have caught this whole rot two months ago: it
+asserts the audit's own references resolve. It exists because nothing did.
 
 ---
 
-## Pass 2: Code Auditor
+## Pipeline probes (`--scope podcast`, formerly Pass 2b)
 
-**Goal:** No dead code. No orphaned files. No redundant modules.
+**Scope:** `scripts/podcast/**/*.py`, `skills-staging/podcast/SKILL.md`,
+`infra/claude-agents/*.md`, `_workspace/plan/**/*.md`, `CLAUDE.md`.
+**Out of scope:** `plan-dashboard/` (the Astro site has its own gates — see *Gate
+integrity*), `infra/azure/`, `node_modules/`, the sibling journal repo.
 
-### Rules
-
-> **Retired checks (2026-05-22 repo split):** C1–C5 and C8 targeted the `site/` +
-> `server/` + `shared/` surfaces, which moved to the sibling `journal` repo or were
-> retired outright. They are kept below for the record but MUST be skipped in this
-> repo — the directories do not exist. The web-app analogues for this repo live in
-> the Astro site's view lint (`plan-dashboard/html-view-lint.config.json`,
-> `npm run lint:views`).
-
-| ID | Rule | Action |
-|---|---|---|
-| C1 | RETIRED — orphaned CSS in `site/css/` (dir gone). | Skip. |
-| C2 | RETIRED — orphaned JS in `site/js/` (dir gone). | Skip. |
-| C3 | RETIRED — dead `server/src/` routes (dir gone). | Skip. |
-| C4 | RETIRED — orphaned prompts in `server/src/prompts/` (dir gone). | Skip. |
-| C5 | RETIRED — stale exports in `server/src/prompts/index.js` (dir gone). | Skip. |
-| C6 | **Duplicate functions** — Identical signatures + near-identical bodies across files. | Consolidate. |
-| C7 | **Console.log in production** — Unguarded `console.log`/`console.debug` in `plan-dashboard/src/` (non-debug files). | Remove or guard with `DEBUG` flag. |
-| C8 | RETIRED — orphaned `shared/*.js` modules (dir gone). | Skip. |
-
-### Procedure
-
-```bash
-# C6/C7 only — C1-C5 + C8 are retired (site/, server/, shared/ no longer exist here).
-# C7: console.log in the Astro site source
-grep -rn "console\.\(log\|debug\)" plan-dashboard/src/ --include='*.ts' --include='*.tsx' --include='*.astro' | grep -v "// debug-ok"
-```
-
-### Dynamic-import safety (closes silent-failure mode)
-
-Static `grep` alone produces false-positive orphans for files reached via dynamic import. **Before flagging any candidate orphan as deletable**, also run:
-
-```bash
-candidate="$f"
-base=$(basename "$candidate")
-modname=$(basename "$candidate" .js)
-
-# 1. String-literal references anywhere in the repo
-grep -rn "['\"]${base}['\"]" --include='*.js' --include='*.json' --include='*.html' . 2>/dev/null
-grep -rn "['\"]${modname}['\"]" --include='*.js' --include='*.json' --include='*.html' . 2>/dev/null
-
-# 2. Dynamic-import patterns (template literals, require(varname))
-grep -rnE "import\\([^)]*\\\$\\{|require\\([a-zA-Z_]" --include='*.js' . 2>/dev/null | grep -i "$modname"
-
-# 3. Glob-based loaders / registry lookups
-grep -rnE "readdirSync|glob\\.sync|require\\.context" --include='*.js' . 2>/dev/null
-```
-
-If ANY of the three returns a hit referencing this candidate, downgrade to "POSSIBLE ORPHAN — verify before deletion" / **P2**. `--fix` does NOT delete; operator review required. Only if all three are clean is the candidate a confirmed orphan at **P1**.
-
----
-
-## Pass 2b: Podcast Pipeline Probes (`--scope podcast`)
-
-**Goal:** Surface drift, dead code, and regressions specific to `scripts/podcast/`. Runs in addition to Pass 2 when `--scope podcast` is passed. Supersedes the standalone `podcast-auditor` agent (deprecated 2026-06-02).
-
-**Scope:** `scripts/podcast/**/*.py`, `skills-staging/podcast/SKILL.md`, `.github/agents/*.agent.md`, `_workspace/plan/**/*.md`, `CLAUDE.md`.
-
-**Out of scope:** `plan-dashboard/` (Astro SPA), `infra/azure/` (deployment), `node_modules/`, `dist/`, sibling journal repo.
-
-**Probes (13 total across 5 axes):**
+`AU-S2` and `AU-A2` are machine-checked. The rest need judgment and are the reason a
+model runs this rather than a linter.
 
 | ID | Axis | Severity | What to detect |
 |---|---|---|---|
-| AU-E1 | Efficiency | P1 | **Dead code** — Python modules nothing imports, scripts no agent/phase invokes. Build call graph from `import` + subagent_type refs + `python3 scripts/podcast/X.py` calls across all `.md`/`.py` files. |
-| AU-E2 | Efficiency | P1 | **Duplicate scripts** — Overlapping responsibilities. Cluster by function-name overlap, docstring topic, read/write footprint. |
-| AU-E3 | Efficiency | P1 | **Validation duplication** — Same check in N>1 places (em-dash, HTML comments, META_PROSE_TELLS, word-count bands). |
-| AU-A1 | Accuracy | P0 | **Spec ↔ code drift** — Docs that reference paths/scripts/constants that no longer exist. Extract path-like strings from all `.md`; verify on disk. |
-| AU-A2 | Accuracy | P0 | **Version-constant drift** — `CHALLENGER_VERSION` in `_rules.py` vs frontmatter in `podcast-challenger.agent.md`; `SLIDE_DECK_CHALLENGER_VERSION` in `_rules.py` vs `slide-deck-challenger.agent.md`. |
-| AU-A3 | Accuracy | P0 | **Registry ↔ disk drift** — `_system/registry.md` rows whose Slug doesn't match any `chapters/ch##-<slug>.txt`; chapter files with no registry row. |
-| AU-S1 | Scalability | P1 | **Magic numbers** — ALL_CAPS integer/float literals that look like config but aren't (`MAX_OUTER_ITERATIONS`, `WORD_COUNT_FLOOR`, `COST_CAP_USD`). |
-| AU-S2 | Scalability | P0 | **Hardcoded absolute paths** — `/Users/` or `/home/` in Python source outside test fixtures / state-file provenance. |
-| AU-S3 | Scalability | P1 | **Cost-cap leakage** — New LLM/Azure calls that don't contribute to `orchestrator-state.json`'s cost dict. |
-| AU-X1 | Extensibility | P1 | **Hard-coded enums** — Category/status lists >3 elements appearing in >1 file that should be a registry. |
-| AU-X2 | Extensibility | P1 | **Missing plugin points** — Classes/functions with the same shape in N>1 places without a registration pattern. |
-| AU-X3 | Extensibility | P2 | **Convention drift** — Recent additions that don't match established naming/file-layout/invocation patterns. |
-| AU-H1 | Hygiene | P1 | **Workspace-root sprawl** — Files at any folder root not in vacuum's root-legit whitelist (vacuum.agent.md §9). Report with `delegate_to: vacuum`. |
+| AU-E1 | Efficiency | P1 | **Dead code** — modules nothing imports, scripts no agent or phase invokes. Build the call graph from `import` statements, `subagent_type` references, and `python3 scripts/podcast/X.py` invocations across every `.md` and `.py`. Apply `repo-audit`'s three dynamic-reference greps before calling anything an orphan. |
+| AU-E2 | Efficiency | P1 | **Duplicate scripts** — overlapping responsibility. Cluster by function-name overlap, docstring topic, and read/write footprint. Check the contract's `fragile` list first: the dual snapshot generators are a deliberate, waived pair. |
+| AU-E3 | Efficiency | P1 | **Validation duplication** — the same check in more than one place (em-dash, HTML comments, word-count bands). |
+| AU-A1 | Accuracy | P0 | **Spec/code drift** — docs naming paths, scripts or constants that no longer exist. `scripts/check_doc_links.py` covers the normative docs; this probe covers the rest. |
+| AU-A2 | Accuracy | P0 | **Version-constant drift** — a version pinned in both `_rules.py` and an agent spec. `podcast-challenger` is exempt by its own instruction: its spec tells the agent to read `CHALLENGER_VERSION` at run time rather than hardcode it, so there is no second copy to drift. Only genuinely duplicated pins are compared. |
+| AU-A3 | Accuracy | P0 | **Registry/disk drift** — `_system/registry.md` rows whose slug matches no `chapters/ch##-<slug>.txt`, and chapter files with no row. |
+| AU-S1 | Scalability | P1 | **Magic numbers** — ALL_CAPS literals that are configuration in everything but name. |
+| AU-S2 | Scalability | P0 | **Hardcoded absolute paths** — `/Users/` or `/home/` in pipeline source outside test fixtures and state-file provenance. |
+| AU-S3 | Scalability | P1 | **Cost-cap leakage** — a new paid API call that never reaches the orchestrator state's cost dict. |
+| AU-X1 | Extensibility | P1 | **Hard-coded enums** — a category or status list of more than three elements appearing in more than one file, which should be a registry. |
+| AU-X2 | Extensibility | P1 | **Missing plugin points** — the same shape in several places with no registration pattern. |
+| AU-X3 | Extensibility | P2 | **Convention drift** — recent additions that do not match established naming, layout, or invocation patterns. |
+| AU-H1 | Hygiene | P1 | **Folder-root sprawl** — files at a folder root outside vacuum's root-legit whitelist (`infra/claude-agents/vacuum.md`, the root-legit whitelist section). Report with `delegate_to: vacuum`. |
 
-### Book Pipeline v2 conformance (AU-V*, added 2026-07-13)
+### Book pipeline conformance (`AU-V*`)
 
-Verifies the unified book path landed intact behind `book_pipeline_v2` (default OFF). Source of truth for the architecture: `_workspace/plan/book-pipeline-plan.md`; cutover state: `_workspace/plan/book-pipeline-cutover.md`.
+The unified book path must remain the sole compose route. Architecture:
+[book-pipeline-plan.md](../../_workspace/plan/book-pipeline-plan.md); cutover state:
+[book-pipeline-cutover.md](../../_workspace/plan/book-pipeline-cutover.md).
 
-| ID | Axis | Severity | What to detect |
-|---|---|---|---|
-| AU-V1 | Accuracy | P0 | **Flag backbone present** — `scripts/podcast/_pipeline_flags.py` defines `book_pipeline_v2_enabled` + `book_augmentation` + `book_voice`, and `phases/book_driver.py` dispatches 0book-compose on the flag. Missing = the cohesion backbone is gone. |
-| AU-V2 | Accuracy | P0 | **Contract mirrors in sync** — the `book.visual-layout/v1` schema, the `align`/`flow`/`page_fit` enums, the wrap `width_pct<=50` rule, and the center=>standalone rule agree across the three mirrors: `scripts/podcast/_visual_layout.py`, `plan-dashboard/scripts/visual-layout.mjs`, and (anchorKey) `plan-dashboard/src/lib/reader/composer.ts`. Any divergence is drift. |
-| AU-V3 | Accuracy | P0 | **Schema-string agreement** — `book.visual-layout/v1` (both mirrors) and `book.visuals-index/v1` (`_visual_candidates.py` ↔ `render-book-pdf.mjs` reader) match verbatim. |
-| AU-V4 | Extensibility | P1 | **Unified stages exist** — `_book_pipeline_v2.compose_book_v2`, `_book_augment.author_phase_book_augment` (0book-augment), `_book_voice.apply_fluency_adapt` + `apply_author_companion_voice`. A stage referenced by the knob matrix but absent is a regression. |
-| AU-V5 | Accuracy | P0 | **Governance present + aligned** — `docs/standards/book-print-quality.md` exists; the `book-render-challenger` agent spec exists in BOTH tracked mirrors (`infra/claude-agents/`, `.github/agents/`); and the `REQ-BR-*` IDs cited by `_book_render_checks.py` (BR-WATERMARK/CAPTION-DUP/BLANK-PAGE/PAGE-FILL) exist in the standard. |
-| AU-V6 | Hygiene | P1 | **Flag-OFF isolation** — every v2 module import in the legacy drivers (`book_driver.py`, `build_book_pdf.py`, `_book_illustrate.py`, `_slide_import.py`, `_refine.py`) is lazy + guarded by `book_pipeline_v2_enabled`; no top-level v2 import changes the OFF path. |
-
-**Findings:** emit one JSONL record per finding to `_learning/findings.jsonl` with `source: "repo-surgeon/podcast"` and `finding_id` prefixed `AU`. Report written to `_workspace/audit-reports/<ISO>-podcast-probes.md`.
-
-**Verdict:** same as podcast-auditor — `healthy` (zero P0, ≤3 P1), `drift-detected` (≥1 P0 or ≥4 P1), `regression-detected` (≥3 P0).
-
----
-
-## Pass 3: Architecture Auditor
-
-**Goal:** Enforce App/Cowork split, skill registry completeness, governance alignment.
-
-### Rules
-
-| ID | Rule | Action |
+| ID | Severity | What to detect |
 |---|---|---|
-| A1 | **Skill registry completeness** — Every directory in `skills-staging/` appears in `reference/skill-registry.md`; every registry entry has `skills-staging/<name>/SKILL.md`. | Add missing entries. |
-| A2 | **Agent registry** — Every `.agent.md` in `.github/agents/` and every `.md` in `.claude/agents/` listed in `framework.md` agents table (or marked DEPRECATED in frontmatter). | Update framework.md or deprecate. |
-| A3 | **Prompt ↔ Registry alignment** — Every prompt file in `server/src/prompts/` registered in `server/src/prompts/index.js` AND noted in `reference/skill-registry.md` server-prompt-registry section. | Sync the map. |
-| A4 | **Route ↔ Prompt alignment** — Every server route calling a named prompt references it correctly. | Fix import path. |
-| A5 | **Canonical write violations** — Scan recent git history for App-surface commits touching `content/`, `reference/`, or `framework.md`. | Flag violation, add pre-commit guard if pattern. |
-| A6 | **Framework.md staleness** — Folder tree in framework.md matches actual `ls`. | Update the tree. |
-| A7 | **Deprecated agent cleanup** — Agents marked DEPRECATED older than 30 days archive or remove. | Move to `_workspace/archive/` or delete. |
+| AU-V1 | P0 | **Unified compose is the only route** — `phases/book_driver.py` calls `compose_book_v2` unconditionally, and no `book_pipeline_v2_enabled` or `FEATURE_FLAG_*` has reappeared anywhere. |
+| AU-V2 | P0 | **Layout schema mirrors agree** — `book.visual-layout/v1`, the `align`/`flow`/`page_fit` enums, the wrap `width_pct<=50` rule and the center-implies-standalone rule agree between `_visual_layout.py` and `plan-dashboard/scripts/visual-layout.mjs`. The anchor-key leg moved out of `composer.ts` — it is now re-exported from `scripts/lib/anchor-key.mjs` and fixture-pinned, so audit it through the contract's `mirrors` list, not here. |
+| AU-V4 | P1 | **Unified stages exist** — `compose_book_v2`, `author_phase_book_augment`, `apply_fluency_adapt`, `apply_author_companion_voice`. |
+| AU-V5 | P1 | **Governance ids resolve** — every `BR-*` id cited by `_book_render_checks.py` is defined in `docs/standards/book-print-quality.md`, and the `book-render-challenger` spec exists in both tracked mirrors. The probe derives the id list from the code rather than hardcoding it; the prose rule hardcoded the original four and so never noticed three later checks citing a standard that omits them. |
+| AU-V6 | P1 | **Legacy compose stays retired** — no `generate_translation_edition.py`, no `book-illustrated.md` assembly, no `book-slides.md` injection write. |
 
-### Procedure
-
-```bash
-# A1: Skill directory vs registry
-for d in skills-staging/*/; do
-  name=$(basename "$d")
-  grep -q "$name" reference/skill-registry.md || echo "UNREGISTERED SKILL DIR: $name"
-  [[ -f "skills-staging/$name/skill.md" || -f "skills-staging/$name/SKILL.md" ]] || echo "MISSING skill.md: skills-staging/$name/"
-done
-
-# A2: Unregistered agents
-for f in .github/agents/*.agent.md .claude/agents/*.md; do
-  name=$(basename "$f" .agent.md)
-  name=$(basename "$name" .md)
-  if ! grep -q "$name" framework.md && ! head -5 "$f" | grep -qi 'deprecated'; then
-    echo "UNREGISTERED AGENT: $f"
-  fi
-done
-
-# A3: Prompt file vs registry
-for f in server/src/prompts/*.js; do
-  base=$(basename "$f" .js)
-  [[ "$base" == "index" ]] && continue
-  grep -q "$base" reference/skill-registry.md || echo "UNMAPPED PROMPT: $base"
-done
-
-# A6: Framework tree drift
-echo "Compare framework.md folder tree against:"
-find . -maxdepth 2 -type d \
-  -not -path './.git*' \
-  -not -path './node_modules*' \
-  -not -path './server/node_modules*' \
-  -not -path './_workspace*' \
-  | sort
-```
+`AU-V3` was **removed on 2026-07-27**. It asserted that the `book.visuals-index/v1`
+schema string must match verbatim between `_visual_candidates.py` and the
+`render-book-pdf.mjs` reader. The renderer reads `visual-layout.json` and the string
+appears nowhere in `plan-dashboard/`, so the rule asserted a mirror that does not exist.
 
 ---
 
-## Pass 4: Brittleness Scanner
+## Plan conformance (`--plan-only`)
 
-**Goal:** Find fragile patterns that will break on next change.
+Target: [plan.yaml](../../_workspace/plan/refactor/plan.yaml). Waves live under the
+top-level keys matching `waves`, `waves_*`, `wave_*` — enumerate them dynamically;
+there are six families and 35 waves today, and **there is no `phases[]` key.**
 
-### Rules
-
-| ID | Rule | Action |
+| ID | Severity | Rule |
 |---|---|---|
-| B1 | **Hardcoded paths** — Any hardcoded absolute path in JS/HTML/CSS (e.g., `/Users/asif...`, `C:\...`). | Replace with relative path or config variable. |
-| B2 | **Stale branch references** — References to completed feature branches (e.g. `refine-all-redesign-v2`, `phase-*`) in active agent/skill files. | Update or remove. |
-| B3 | **Missing error boundaries** — Server routes without try/catch at the handler level. | Add error boundary. |
-| B4 | **Broken internal links** — Markdown files referencing other files by path that don't exist. | Fix path or remove link. |
-| B5 | **Zombie TODO/FIXME** — `TODO`, `FIXME`, `HACK`, `XXX` comments older than 30 days (check via `git log`). | Resolve or promote to issue. |
-| B6 | **Config drift** — `wrangler.toml` references not matching actual Cloudflare setup. `package.json` scripts referencing nonexistent files. | Fix references. |
-| B7 | **Stale v3.0 residue** — Any reference to removed surfaces (`trips/`, `trip-edit`, `dayone-publish`, `log-view.css`, daybook routes) in active code or docs. | Remove. Full removal set lives on branch `archive/full-stack-pre-strip`. |
+| L1 | P0 | The plan parses. |
+| L2 | P1 | Every `depends_on` / `parallel_with` reference resolves to a real wave id. |
+| L2-DUP | P1 | No wave id is defined in more than one family. A duplicate makes every reference to it ambiguous. |
+| L5 | P0 | **Boundary contract** — the pipeline never writes into the memoir, shared, or site trees. Enforced by `scripts/podcast/_boundary_check.py`, which is in the contract's verify list. Run the script; do not re-grep for it. |
+| L6 | P0 | **Async safety** — if any book shows `phase_status: running` with a recent timestamp AND `pgrep -fl 'orchestrate_book|claude -p|extract_chapter|build_episode'` returns non-empty, HALT anything that would touch that book's directory. Report and stop; never fix through a live pipeline. |
+| L10 | P1 | The ship checklist's cross-references resolve to plan ids. Only the trailing italic parenthetical is a cross-reference — the bold row ids are the checklist's own scheme, and bare `P0`-`P3` is the severity grammar. Scanning whole lines produced 30 findings for one root cause. |
 
-### Procedure
+**Removed on 2026-07-27**, all five for the same reason — the plan key they read does
+not exist, so each had been passing without ever running:
 
-```bash
-# B1: Hardcoded absolute paths
-grep -rn '/Users/\|C:\\' site/js/ site/css/ site/index.html server/src/ --include='*.js' --include='*.html' --include='*.css' 2>/dev/null
-
-# B2: Stale branch references
-grep -rn 'refine-all-redesign' .github/agents/ .claude/agents/ skills-staging/ framework.md 2>/dev/null
-
-# B4: Broken internal links
-grep -rnoP '\[.*?\]\(((?!http)[^)]+)\)' framework.md reference/skill-registry.md .github/agents/*.md 2>/dev/null | while IFS=: read -r file line match; do
-  path=$(echo "$match" | grep -oP '\(([^)]+)\)' | tr -d '()')
-  [[ -e "$path" ]] || echo "BROKEN LINK in $file:$line → $path"
-done
-
-# B5: Zombie TODOs
-grep -rn 'TODO\|FIXME\|HACK\|XXX' site/js/ server/src/ site/css/ --include='*.js' --include='*.css' 2>/dev/null
-
-# B7: Trip/daybook residue scan
-grep -rnE 'trips/|trip-edit|trip-planner|dayone|FloatingChat|LogModule|InsertEvent|receipt-capture|food-photo|/api/(trip|log|queue|dayone|publish-sessions|holiday-budget|flight-status|weather|distance-matrix|extract-receipt|refine-(note|voice-transcript|receipt|reflection))' site/ server/src/ skills-staging/ framework.md .github/agents/ 2>/dev/null | grep -v 'archive/full-stack-pre-strip\|^Binary'
-```
-
----
-
-## Pass 5: Plan Conformance
-
-**Goal:** The phased plan at `_workspace/plan/refactor/plan.yaml` must remain (a) parseable, (b) internally consistent across YAML / README.md / view/index.html / research/findings.md, (c) grounded in actual repo paths (no broken `intelligence_sources`), (d) honored by the active orchestrator state (`async_safety` rules upheld), and (e) aligned with the boundary contract (podcast never writes to journal/clinical/quote libraries).
-
-### Rules
-
-| ID | Rule | Action |
+| Removed | Read | Reality |
 |---|---|---|
-| L1 | **YAML parses cleanly** — `ruby -r yaml -e "YAML.load_file('_workspace/plan/refactor/plan.yaml')"` exits 0; or `python3 -c "import yaml; yaml.safe_load(open('…'))"` if PyYAML installed. | Report syntax error with line/column; halt before fix. |
-| L2 | **Phase list reachable** — every phase referenced in `done_when` exists in `phases[].id`; every `depends_on` entry resolves to a real phase. | Flag dangling refs; suggest insertion or removal. |
-| L3 | **`intelligence_sources` paths exist** — each `path:` under `intelligence_sources.podcast.consult_before_any_edit` / `journal.consult_before_any_edit` / `cross_cutting` resolves to an extant file. Exceptions: paths containing `<book>` (template variable), paths containing `*` (glob), and paths whose `staleness_signal` declares them as a forward deliverable (literal match: `deliverable`, `created in`, `to be created`). | Flag missing paths; offer plausible-replacement suggestions from `git log` filename history. |
-| L4 | **Scope contracts honored** — no file inside `meta.scope_in` patterns imports from any file inside `meta.scope_out` patterns. | Run AST + grep check (see procedure below); flag any cross-import as **P0**. |
-| L5 | **Boundary contract (podcast → journal)** — under `scripts/podcast/**`, no `open(...,'w')` / `open(...,'a')` / `pathlib.Path(...).write_*` / shutil.copy* targets `content/babu-memoir/**`, `content/_shared/**`, `scripts/memoir/**`, or `scripts/site/**`. Reads of `content/_shared/arabic/**` are allowed (READ-ONLY exception). | Flag any write target as **P0**; the only allowed cross-skill write is `BOOK_DIR/_system/episode-drafts/EP##-*/proposed-library-entries.md`. |
-| L6 | **Async-safety state** — if any `orchestrator-state.json` shows `phase_status: running` with `ts_updated` within the last 5 minutes, AND a `pgrep -fl 'orchestrate_book\|claude -p\|extract_chapter\|build_episode'` returns non-empty, emit the wait-banner from `meta.async_safety.wait_banner_format` and HALT all subsequent passes that would touch the active book directory. | Halt + emit banner; do not fix. |
-| L7 | **HTML/YAML parity** — every phase id in `_workspace/plan/refactor/plan.yaml` `phases[].id` must appear in at least one file under `_workspace/plan/view/*.html` (the view system is split — `index.html` is the landing/capability surface; `phased-plan.html` is the canonical phase content; `acceptance-criteria.html` and `podcast-capabilities.html` are role-specific surfaces). | Flag any phase id missing from EVERY view HTML as **P2**. |
-| L8 | **Broken-ref audit after legacy-file cleanup** — for every basename listed under `meta.legacy_cleanup_basenames` (if present), every remaining mention in the repo must occur within 80 characters of one of the literal substrings: `deleted`, `retired`, `RETIRED`, `DELETED`, `closed`. | Flag unannotated mentions as **P1**. |
-| L9 | **HTML view freshness** — `_workspace/plan/view/index.html` mtime older than `_workspace/plan/refactor/plan.yaml` mtime → flag for re-render. (Best-effort check; the HTML is hand-edited, so age alone is not destructive; tag as **P3 advisory**.) | Flag. |
-| L10 | **Acceptance-criteria sync** — if `_workspace/plan/operations/per-book-ship-checklist.md` exists, every ID mentioned on a checkbox row must resolve to one of: (a) a current phase id (`phases[].id`), (b) a current task id (`phases[].tasks[].id`), (c) an open-question id (`open_questions[].id`), (d) a risk id (`risks[].id`), (e) a legacy id retained for v2→v3 traceability (`phases[].legacy_id`, `phases[].tasks[].legacy_id`, or any key/value in `meta.legacy_id_map`). | Flag drift between checklist and canonical plan as **P1**. |
+| L3 | `intelligence_sources` | No such key |
+| L4 | `meta.scope_in` / `meta.scope_out` | No such keys |
+| L7 | wave ids vs `_workspace/plan/view/*.html` | Directory deleted; emitted 35 false P2s per run |
+| L8 | `meta.legacy_cleanup_basenames` | No such key |
+| L9 | view mtime vs plan mtime | Same deleted directory |
 
-### Procedure
-
-```bash
-PLAN="_workspace/plan/refactor/plan.yaml"
-
-# L1: YAML lint
-ruby -r yaml -e "YAML.load_file('$PLAN'); puts 'OK'" 2>&1
-
-# L2: Reachable phase ids
-ruby -r yaml -e "
-d=YAML.load_file('$PLAN')
-ids=d['phases'].map{|p|p['id']}.to_set
-d['phases'].each do |p|
-  (p['depends_on']||[]).each{|x| puts \"DANGLING depends_on: #{p['id']} -> #{x}\" unless ids.include?(x)}
-end
-(d['done_when']||[]).each{|line| ids.each{|i| } } # advisory only
-"
-
-# L3: intelligence_sources existence (forward-deliverable paths skipped)
-ruby -r yaml -e "
-d=YAML.load_file('$PLAN')
-forward = /deliverable|created in|to be created/i
-%w[podcast journal].each do |bucket|
-  (d['intelligence_sources'][bucket]['consult_before_any_edit']||[]).each do |row|
-    p=row['path']
-    next if p.include?('<book>') || p.include?('*')
-    next if row['staleness_signal'].to_s =~ forward
-    File.exist?(p) || puts(\"MISSING: #{bucket} -> #{p}\")
-  end
-end
-(d['intelligence_sources']['cross_cutting']||[]).each do |row|
-  next if row['staleness_signal'].to_s =~ forward
-  File.exist?(row['path']) || puts(\"MISSING: cross_cutting -> #{row['path']}\")
-end
-"
-
-# L4: scope_in/scope_out cross-imports (Python AST is conservative; grep is fast)
-grep -rnE '^from scripts\.(memoir|site)\b|^import scripts\.(memoir|site)\b' scripts/podcast/ 2>/dev/null
-grep -rnE '^from scripts\.podcast\b|^import scripts\.podcast\b' scripts/memoir/ scripts/site/ 2>/dev/null
-
-# L5: boundary writes
-grep -rnE '(open\([^)]*content/babu-memoir|open\([^)]*content/_shared|open\([^)]*scripts/memoir|open\([^)]*scripts/site|shutil\.copy[^(]*\([^)]*content/babu-memoir)' scripts/podcast/ 2>/dev/null
-
-# L6: async safety
-ACTIVE=$(pgrep -fl 'orchestrate_book|claude -p|extract_chapter|build_episode' 2>/dev/null)
-RUNNING_STATES=$(find content/*/*/_system/orchestrator-state.json -type f 2>/dev/null | xargs -I{} grep -l '"phase_status": "running"' {} 2>/dev/null)
-if [ -n "$ACTIVE" ] && [ -n "$RUNNING_STATES" ]; then
-  echo "ASYNC ACTIVE — emit wait banner from meta.async_safety.wait_banner_format and HALT."
-fi
-
-# L7: HTML/YAML phase parity — phase id must appear in at least one view HTML.
-# Implemented in Ruby for shell portability (bash word-splits `$VAR`; zsh does not).
-ruby -r yaml -e "
-phase_ids = YAML.load_file('$PLAN')['phases'].map{|p| p['id']}
-htmls = Dir.glob('_workspace/plan/view/*.html')
-bodies = htmls.map{|f| File.read(f) }
-missing = phase_ids.reject{|id| bodies.any?{|b| b.include?(id) } }
-if missing.empty?
-  puts \"L7 CLEAN (#{phase_ids.size} phase ids covered across #{htmls.size} view html(s))\"
-else
-  missing.each{|id| puts \"HTML missing phase reference (no view/*.html contains): #{id}\" }
-end
-"
-
-# L8: broken-ref annotation for deleted basenames (if list is provided in meta.legacy_cleanup_basenames)
-ruby -r yaml -e "
-bases = YAML.load_file('$PLAN').dig('meta','legacy_cleanup_basenames') || []
-exit if bases.empty?
-bases.each do |b|
-  refs = \`grep -rln '#{b}' --include='*.md' --include='*.html' --include='*.py' --include='*.yaml' . 2>/dev/null | grep -v '/.git/' | grep -v '_workspace/plan/' | grep -v '_workspace/.chats/'\`.split(\"\\n\")
-  refs.reject!(&:empty?)
-  refs.each do |f|
-    File.foreach(f).with_index(1) do |line, n|
-      next unless line.include?(b)
-      next if line =~ /deleted|retired|RETIRED|DELETED|closed/i
-      puts \"UNANNOTATED: #{f}:#{n} -> #{b}\"
-    end
-  end
-end
-"
-
-# L10: acceptance-criteria sync (when file exists) — includes legacy_id mappings
-[ -f _workspace/plan/operations/per-book-ship-checklist.md ] && \
-  ruby -r yaml -e "
-  d=YAML.load_file('$PLAN')
-  ids = (d['phases']||[]).flat_map{|p| [p['id'], p['legacy_id']] + ((p['tasks']||[]).flat_map{|t| [t['id'], t['legacy_id']]})}.compact.flat_map{|x| x.is_a?(String) ? [x] : []}.to_set
-  ids.merge((d['open_questions']||[]).map{|q|q['id']}.compact)
-  ids.merge((d['risks']||[]).map{|r|r['id']}.compact)
-  legacy_map = d.dig('meta','legacy_id_map') || {}
-  ids.merge(legacy_map.keys.map(&:to_s))
-  ids.merge(legacy_map.values.map(&:to_s))
-  File.foreach('_workspace/plan/operations/per-book-ship-checklist.md').with_index(1) do |line, n|
-    next unless line =~ /^\\s*-\\s*\\[/
-    refs = line.scan(/\\b([PQR]\\d+[a-z]?(?:\\.\\d+)?)\\b/).flatten
-    next if refs.empty?
-    refs.each{|r| ids.include?(r) || puts(\"per-book-ship-checklist.md:#{n} references unknown id: #{r}\")}
-  end
-  "
-```
-
-### When to invoke Pass 5
-
-- Before every commit on `plan/*` branches.
-- After every merge into `develop` that touches `_workspace/plan/**` or `scripts/podcast/**`.
-- After any legacy-file cleanup commit (verifies broken refs are annotated).
-- Before invoking the orchestrator (verifies async-safety + boundary).
-
-### What Pass 5 deliberately does NOT do
-
-- Does not edit the plan itself — that is the operator's authoring decision.
-- Does not change `intelligence_sources` paths automatically (suggestions are advisory).
-- Does not touch `book/*` branch state files even with `--fix`.
+L6 is retained as prose rather than moved into the probe on purpose: it is a **halt**
+rule about a live process, and a probe that could halt an orchestrator mid-book is a
+worse failure than a rule a human runs.
 
 ---
 
-## Severity tier mapping (per-pass examples)
+## Gate integrity
 
-| Pass | Finding type | Severity |
-|---|---|---|
-| Pass 1 (Structure) | Root has > 20 files; canonical structure violated | **P1** |
-| Pass 1 | Misplaced file (e.g., `.env` in root, tracked) | **P0** if it's a secrets file; **P2** otherwise |
-| Pass 2 (Code) | Orphan file (truly unreachable) | **P1** |
-| Pass 2 | Orphan candidate that might be reached via dynamic import | **P2** (requires verification) |
-| Pass 3 (Architecture) | File violates framework.md folder placement | **P1** |
-| Pass 4 (Brittleness) | Hardcoded path in code | **P1** |
-| Pass 4 | TODO older than 30 days | **P2** |
-| Pass 4 | TODO older than 180 days | **P1** |
-| Pass 5 (Plan Conformance) | YAML doesn't parse | **P0** |
-| Pass 5 | Boundary contract violation (podcast writes journal-library path) | **P0** |
-| Pass 5 | Async-safety violation while orchestrator running | **P0** (halt) |
-| Pass 5 | `intelligence_sources` path missing in repo | **P1** |
-| Pass 5 | HTML view missing a phase id from YAML | **P2** |
-| Pass 5 | `per-book-ship-checklist.md` references unknown id | **P1** |
-| Pass 5 | Unannotated reference to a deleted legacy basename | **P1** |
-| Pass 5 | HTML view mtime older than YAML mtime | **P3** advisory |
+The repo already enforces nine gates. Before 2026-07-27 this skill knew about none of
+them, which is why drift kept reaching `develop` past an audit that reported healthy.
+The authoritative list is the contract's `verify:` block — read it there. What this
+skill adds is the obligation to **treat a gate's absence or failure as a finding**, not
+just to run it:
 
----
+- A gate that does not run in CI or a hook is a **P1**: it will be skipped exactly when
+  it matters.
+- A gate whose script the contract names but that does not exist is `CT-VERIFY`, **P1**.
+- The TS/Astro side has **no size gate** and six files exceed the Python ceiling, the
+  largest above 3,000 lines. This is a known, deliberate omission recorded in the
+  contract — the right ceiling for JSX is the owner's call. Report it; never impose one.
 
-## DoR Gate (per run)
+### Standing obligations this skill audits
 
-| Dimension | Weight | Score 100% when |
-|---|---|---|
-| Input completeness | 20% | Target repo specified and readable |
-| Context clarity | 25% | `--preview` or `--fix` mode explicit; `--pass N` if scoped |
-| Dependency resolution | 25% | framework.md / canonical-structure spec readable; git available |
-| Risk assessment | 20% | If `--fix` scope > 20 files, escalate before execution |
-| Output target identified | 10% | Repo path resolved; commit will be made per pass |
-
-**Pass criterion:** 100%. On failure: write `_workspace/repo-surgeon-dor-incomplete-<run_id>.md` and halt.
-
-## Convergence Gate
-
-Per-pass:
-
-```
-For each pass (1–4):
-    cycle = 0
-    WHILE cycle < 3:
-        run pass in --check mode
-        IF no P0/P1 findings: BREAK
-        IF --fix mode: apply fixes; cycle += 1
-        IF --preview mode: report and break (no convergence in preview)
-
-    IF cycle == 3 AND P0/P1 still present:
-        HALT pass; report what didn't converge
-```
-
-## Sweep Completeness
-
-Per-pass, per-category. Pass 2 deletes all confirmed orphans in approved scope or none. Pass 1 moves all root violations or none. No partial sweeps.
-
-## Holistic Validation
-
-After each pass commits, run a 5-check:
-1. Registry: changed files in expected paths.
-2. Dependency drift: framework.md still parses; no broken references.
-3. Regression risk: tests still pass (if test infra exists).
-4. Governance: commit message follows convention; sweep contract honored.
-5. Challenge gate: if pass touched > 10 files, alternatives offered.
-
-## Challenge Gate triggers
-
-- Pass 1 root-only refactor with > 5 files moved: alternatives offered.
-- Pass 2 orphan deletion of > 10 files: alternatives offered.
-- Pass 3 architectural relocation: alternatives offered.
-- Pass 4 hardcoded-path fix touching > 5 files: alternatives offered.
-
-## Determinism Contract
-
-| Pass | Deterministic? | Why / exception |
-|---|---|---|
-| Pass 1 (Structure) | YES given same R1 allow-list | |
-| Pass 2 (Code, static) | YES | AST analysis is deterministic |
-| Pass 2 (Code, dynamic) | YES given same grep patterns | |
-| Pass 3 (Architecture) | YES given framework.md | |
-| Pass 4 (Brittleness) | TIME-DEPENDENT | TODO ages depend on git dates (declared, not subjective) |
-
-Findings sort order: severity (P0 first) → pass number (1–4) → rule ID (R1/C1/A1/B1, lexicographic) → file path (lexicographic POSIX) → line number. `run_id` = SHA-256(`skill_name || "\0" || ISO-8601 UTC timestamp || "\0" || input_hash`) truncated to 16 hex. `input_hash` = SHA-256 of `git rev-parse HEAD` + `git status --porcelain` (newline-normalized). Dates ISO-8601 UTC; numeric formatting `en-US` decimal. No `Math.random()` or unseeded RNG anywhere.
-
----
-
-## Repair Plan
-
-After all passes complete, generate a **Repair Plan** structured as:
-
-```markdown
-## Repair Plan — {date}
-
-### P0 — Critical (blocks ship)
-1. [finding] → [fix action]
-
-### P1 — High (architectural debt; blocks merge)
-1. [finding] → [fix action]
-
-### P2 — Medium (hygiene; may proceed with waiver)
-1. [finding] → [fix action]
-
-### P3 — Low (advisory / informational)
-1. [finding] → [fix action]
-
-### Deferred (needs human decision)
-1. [finding] → [options]
-```
-
-Sort within each tier: file path (lexicographic POSIX) → line number → rule ID.
-
-### Execution Rules
-
-1. **Preview first** — Always generate the plan before executing. Show it to the user.
-2. **Non-destructive by default** — Moves over deletes. Deprecation over removal.
-3. **Destructive ops require confirmation** — File deletions, agent removals, route removals.
-4. **Batch commits** — Group fixes by pass. One commit per pass, not per fix.
-5. **Commit message format** — `fix(surgeon-P{N}): {summary}` where N is the pass number.
-6. **Update registries** — After any structural change, update `reference/skill-registry.md`, `framework.md` agents table, and `server/src/prompts/index.js` as needed.
-7. **Log the run** — Append a summary to `server/logs/surgeon-log.jsonl` (create if missing).
-
-## Output
-
-1. **Findings report** — categorized by pass, severity **P0 / P1 / P2 / P3**.
-2. **Repair plan** — actionable fix list grouped by severity.
-3. **Execution log** — appended to `server/logs/surgeon-log.jsonl`.
-4. **Per-pass run report** — `_workspace/challenger-reports/repo-surgeon-pass<N>-<run_id>.yml` per framework §3 schema.
-
----
-
-## Root Hygiene — The Prime Directive
-
-The repo root is a **governed surface**. It is NOT a dumping ground.
-
-### Allowed at root (exhaustive list)
-
-```
-framework.md
-package.json
-release-please-config.json
-.release-please-manifest.json
-site-worker.js
-wrangler.toml
-CHANGELOG.md
-.gitignore
-.gitattributes
-.mcp.json (gitignored)
-LICENSE
-README.md
-```
-
-### Allowed directories at root
-
-```
-_workspace/       ← untracked workspace (gitignored)
-content/          ← all authored content (memoir + podcasts)
-docs/             ← documentation
-infra/            ← infrastructure configs
-reference/        ← repo-wide skill governance (framework, bootstrap, registry, overlays)
-scripts/          ← shell + python scripts (memoir/, podcast/, git-hooks/)
-server/           ← Express API server
-shared/           ← shared JS modules
-site/             ← SPA frontend
-skills-staging/   ← skill definitions
-.github/          ← GitHub config + agents
-.claude/          ← Claude config + agents
-```
-
-**Anything else at root is a violation.** Move it or delete it. No exceptions. No "temporary" files. The root tells the story of the repo at a glance.
-
----
-
-## Integration with Other Agents
-
-- **CORTEX** — repo-surgeon is CORTEX's enforcement arm for structural reviews. CORTEX governs policy; repo-surgeon enforces it.
-- **journal-orchestrator** — Routes `repo-surgeon` triggers. Does not duplicate surgeon's analysis.
-- **ui-reviewer** — Handles CSS/theme-specific review. repo-surgeon defers CSS audit to ui-reviewer and focuses on structural/architectural concerns.
-
-## Cold Start
-
-At the beginning of every run:
-
-```bash
-git status --short
-git log --oneline -10
-ls -1A                      # root hygiene check
-head -5 framework.md        # confirm version
-```
-
-Then proceed through passes 1→4 in order.
-
-## Commit Convention
-
-Fixes are committed per-pass: `fix(surgeon-P{N}): {summary}`
-
-## Dependencies
-
-- `css-theme-sync` — defers CSS/theme audit
-- `ui-reviewer` — defers CSS review detail
-- `framework.md` — reads governance rules (Pass 3)
-- `reference/skill-registry.md` — reads/writes skill registry (Pass 3)
-
----
-
-## Applied CORE rules
-
-| Rule | Applied via |
+| Obligation | Finding when broken |
 |---|---|
-| CORE-028 | Pass 1 enforces snake_case for new files |
-| CORE-035 | Pass 2 enforces single canonical implementation (orphans = duplicates that lost) |
-| CORE-048 | Per-pass holistic validation |
-| CORE-064 | Per-pass sweep completeness |
-| CORE-068 | Per-pass convergence (max 3 cycles) |
-| CORE-071 | Per-skill-invocation DoR |
+| Any edit to `architecture.md`, `refactor/plan.{md,yaml}`, or `debt/pipeline-debt.md` regenerates the three snapshot JSONs in the same response (Tier 0) | P1 — stale snapshots are a contract violation |
+| Any edit to an agent spec runs `scripts/podcast/sync-agent-wrappers.sh`; generated mirrors are never hand-edited | P1 — this is how a `.codex` mirror fell a generation behind while claiming parity |
+| `CLAUDE.md` edits regenerate `AGENTS.md` | P1 — `scripts/sync_agent_instructions.py --check` proves it |
+| Any merge touching `_rules.py` R-constants or `orchestrate_book.py` state fields also touches the podcast skill, `framework.md`, and the challenger catalog | P1 — the docs-sweep sub-rule |
+| Discarded paid work, a defect crossing a gate, a human catching a pipeline miss, or a repeated mistake gets an RCA under `docs/rca/` | P1 — a recurrence with no postmortem is the signal this rule exists for |
+| Branch names come from `_branching.py`, never hardcoded | P1 — a hardcoded bucket/slug can drift from the folder layout |
 
-## Outstanding gaps to reach SILVER
+---
 
-1. Implement automated pass-runner (currently each pass is procedural bash; SILVER requires it be invocable as a single skill action).
-2. Make TODO-age threshold configurable (currently hardcoded 30 days).
-3. Wire `_workspace/challenger-reports/` output emission into each pass automatically.
+## Severity, determinism, convergence
 
-When all three are addressed, skill graduates to SILVER.
+Severity is P0/P1/P2/P3 per `docs/reference/skill-bootstrap.md`. Ordering, bounded
+convergence (three cycles, then report what did not converge), sweep completeness, the
+approval gate, and the commit discipline are **`repo-audit`'s Governing Constraints** —
+follow them there rather than re-reading a second copy here.
 
-## Framework version targeted
+Two project-specific severity calls:
 
-CORTEX Challenger Framework v1.0.
+- A **retired-surface resurrection** is P0 regardless of size. The project brief bans it
+  by name, and the previous version of this file allow-listed two of them.
+- An **unpinned mirror** is P1 even with both sides currently in agreement. Six real
+  divergences were found the day the pins went in, including two resolution ladders that
+  disagreed about precedence.
+
+## Reports and the findings ledger
+
+- Report: `_workspace/reviews/reports/<ISO-date>-repo-surgeon.md`.
+- Ledger: one JSONL record per finding appended to `_learning/findings.jsonl` with
+  `source: "repo-surgeon/podcast"` for the `AU-*` groups, matching the existing prefix
+  convention other challengers already use.
+- Every report ends with two lines even at zero, because a silent zero and an absent
+  line read identically: `N finding(s) suppressed by waiver` and
+  `N stale contract entry/entries`.
+
+## What this skill deliberately does not do
+
+- **Does not re-implement `repo-audit`.** If a rule would apply to any repo, it belongs
+  there.
+- **Does not restate the contract.** Facts get read, never copied.
+- **Does not edit the plan.** Authoring is the operator's decision; conformance findings
+  are advisory.
+- **Does not write a waiver.** It may draft one and ask. Only the owner rules something
+  not-a-defect.
+- **Does not touch `content/**` or `_learning/**`** beyond appending findings — both are
+  protected by the contract.
+- **Does not fix through a live pipeline.** L6 halts instead.
+
+## Revision log
+
+- **2026-07-27** — Refactored. Deleted the duplicated generic engine and delegated it to
+  `repo-audit`; moved every project fact to the tracked contract; removed `AU-V3` and
+  `L3`/`L4`/`L7`/`L8`/`L9` as asserting contracts that do not exist; rewrote `L10`, which
+  emitted 30 findings for one root cause; added `L2-DUP`, the gate-integrity group, the
+  standing-obligation table, and `scripts/repo_surgeon_probe.py` so the catalog can fail.
+  716 lines to roughly 300, with more real coverage.
+- **2026-07-20** — Corrected the root allow-lists, which had drifted to bless two retired
+  surfaces and omit five real directories.
+- **2026-05-19** — Pass 5 (plan conformance) added.

@@ -4,6 +4,7 @@ Covers the pure similarity helpers and an isolated, temp-DB integration test of
 the tier routing (HIGH -> variant + auto-merge candidate; BORDERLINE -> review)
 plus idempotency. No dependency on the live knowledge.db.
 """
+
 from __future__ import annotations
 
 import json
@@ -76,9 +77,9 @@ class DedupRouting(unittest.TestCase):
         conn.executescript(_MINIMAL_SCHEMA)
         atoms = [
             ("a1", "the soul ascends through knowledge and action"),
-            ("a2", "the soul ascends through knowledge and action"),          # exact dup -> HIGH
+            ("a2", "the soul ascends through knowledge and action"),  # exact dup -> HIGH
             ("a3", "the soul ascends via knowledge and through action and silence"),  # near -> BORDERLINE
-            ("a4", "completely separate teaching on ritual purity and ablution"),     # distinct
+            ("a4", "completely separate teaching on ritual purity and ablution"),  # distinct
         ]
         for aid, text in atoms:
             conn.execute(

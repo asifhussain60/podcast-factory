@@ -52,16 +52,17 @@ EXIT CODES:
   1  — gate failed; publish aborted.
   2  — bad input (slug missing, workspace not found, etc).
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import re
-import shutil
 import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
 from _paths import REPO_ROOT, find_content
 
 # Type-first layout (2026-06-04): books live at content/<Bucket>/<slug>/ and
@@ -85,8 +86,8 @@ def resolve_workspace(slug: str) -> Path:
         return found[2]
     return WORKSPACE / slug
 
-SHIPPABLE_STATUSES = {"shipped", "ship-ready", "ship-with-caution",
-                      "ship-with-caution-approved", "halted_by_operator"}
+
+SHIPPABLE_STATUSES = {"shipped", "ship-ready", "ship-with-caution", "ship-with-caution-approved", "halted_by_operator"}
 
 # Books may only be published if a real challenger convergence pass produced
 # one of these verdicts. Anything else (including "unknown" or N/A reports)
@@ -127,14 +128,12 @@ def _ok(gate: str, msg: str) -> None:
 
 
 def git_sha() -> str:
-    r = subprocess.run(["git", "rev-parse", "HEAD"],
-                       cwd=REPO_ROOT, capture_output=True, text=True)
+    r = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, capture_output=True, text=True)
     return r.stdout.strip()[:12] if r.returncode == 0 else "unknown"
 
 
 def git_branch() -> str:
-    r = subprocess.run(["git", "rev-parse", "--abbrev-ref", "HEAD"],
-                       cwd=REPO_ROOT, capture_output=True, text=True)
+    r = subprocess.run(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=REPO_ROOT, capture_output=True, text=True)
     return r.stdout.strip() if r.returncode == 0 else "unknown"
 
 
@@ -147,40 +146,37 @@ def gate_g1_structure(workspace: Path) -> tuple[bool, list[Path], list[Path]]:
     chapters = sorted(p for p in chap_dir.glob("ch*.txt") if p.is_file())
     episodes = sorted(p for p in ep_dir.glob("EP*.txt") if p.is_file())
     if not chapters or not episodes:
-        _fail("G1", f"no chapters/ or episodes/ content "
-                    f"(chapters={len(chapters)}, episodes={len(episodes)})")
+        _fail("G1", f"no chapters/ or episodes/ content (chapters={len(chapters)}, episodes={len(episodes)})")
         return False, [], []
     _ok("G1", f"{len(chapters)} chapters + {len(episodes)} episodes present")
     return True, chapters, episodes
 
 
 def gate_g2_pairs(chapters: list[Path], episodes: list[Path]) -> bool:
-    ch_keys = {(int(m.group(1)), m.group(2)) for p in chapters
-               if (m := CH_PATTERN.match(p.name))}
-    ep_keys = {(int(m.group(1)), m.group(2)) for p in episodes
-               if (m := EP_PATTERN.match(p.name))}
+    ch_keys = {(int(m.group(1)), m.group(2)) for p in chapters if (m := CH_PATTERN.match(p.name))}
+    ep_keys = {(int(m.group(1)), m.group(2)) for p in episodes if (m := EP_PATTERN.match(p.name))}
     unparseable_ch = [p.name for p in chapters if not CH_PATTERN.match(p.name)]
     unparseable_ep = [p.name for p in episodes if not EP_PATTERN.match(p.name)]
     if unparseable_ch or unparseable_ep:
-        _fail("G2", f"unparseable filenames: chapters={unparseable_ch[:3]}, "
-                    f"episodes={unparseable_ep[:3]}")
+        _fail("G2", f"unparseable filenames: chapters={unparseable_ch[:3]}, episodes={unparseable_ep[:3]}")
         return False
     missing_episodes = ch_keys - ep_keys
     missing_chapters = ep_keys - ch_keys
     if missing_episodes or missing_chapters:
-        _fail("G2", f"chapter/episode pair mismatch: "
-                    f"chapters without episodes={sorted(missing_episodes)[:3]}, "
-                    f"episodes without chapters={sorted(missing_chapters)[:3]}")
+        _fail(
+            "G2",
+            f"chapter/episode pair mismatch: "
+            f"chapters without episodes={sorted(missing_episodes)[:3]}, "
+            f"episodes without chapters={sorted(missing_chapters)[:3]}",
+        )
         return False
     _ok("G2", f"{len(ch_keys)} chapter/episode pairs match")
     return True
 
 
 def gate_g3_sequential(chapters: list[Path], episodes: list[Path]) -> bool:
-    ch_nums = sorted(int(m.group(1)) for p in chapters
-                     if (m := CH_PATTERN.match(p.name)))
-    ep_nums = sorted(int(m.group(1)) for p in episodes
-                     if (m := EP_PATTERN.match(p.name)))
+    ch_nums = sorted(int(m.group(1)) for p in chapters if (m := CH_PATTERN.match(p.name)))
+    ep_nums = sorted(int(m.group(1)) for p in episodes if (m := EP_PATTERN.match(p.name)))
     if ch_nums != list(range(1, len(ch_nums) + 1)):
         _fail("G3", f"chapter numbers not purely sequential 1..N: {ch_nums}")
         return False
@@ -195,14 +191,11 @@ def gate_g3_sequential(chapters: list[Path], episodes: list[Path]) -> bool:
     if bad:
         _fail("G3", f"letter-suffix EPISODE names detected: {bad[:3]}")
         return False
-    _ok("G3", f"chapters {ch_nums[0]}..{ch_nums[-1]} + episodes "
-              f"{ep_nums[0]}..{ep_nums[-1]} purely sequential")
+    _ok("G3", f"chapters {ch_nums[0]}..{ch_nums[-1]} + episodes {ep_nums[0]}..{ep_nums[-1]} purely sequential")
     return True
 
 
-def gate_g4_build_clean(workspace: Path, slug: str,
-                        episodes: list[Path], strict: bool,
-                        dry_run: bool = False) -> bool:
+def gate_g4_build_clean(workspace: Path, slug: str, episodes: list[Path], strict: bool, dry_run: bool = False) -> bool:
     builder = REPO_ROOT / "scripts" / "podcast" / "build_episode_txt.py"
     if not builder.exists():
         _warn(f"build_episode_txt.py not found at {builder}; skipping G4")
@@ -218,7 +211,9 @@ def gate_g4_build_clean(workspace: Path, slug: str,
         ep_id = ep.stem  # EP01-the-perfect-and-the-perfection-of-the-soul
         r = subprocess.run(
             ["python3", str(builder), str(book_dir), ep_id, *build_cmd_tail],
-            cwd=REPO_ROOT, capture_output=True, text=True,
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
         )
         p0 = len(re.findall(r"^FLAG \(P0\)", r.stdout + r.stderr, re.MULTILINE))
         p1 = len(re.findall(r"^FLAG \(P1\)", r.stdout + r.stderr, re.MULTILINE))
@@ -237,8 +232,7 @@ def gate_g4_build_clean(workspace: Path, slug: str,
     if strict and p1_total > 0:
         _fail("G4", f"--strict: {p1_total} total P1 advisories block publish")
         return False
-    _ok("G4", f"P0=0 across {len(episodes)} episodes "
-              f"(P1={p1_total}, {'blocking' if strict else 'warn-only'})")
+    _ok("G4", f"P0=0 across {len(episodes)} episodes (P1={p1_total}, {'blocking' if strict else 'warn-only'})")
     return True
 
 
@@ -254,7 +248,7 @@ def gate_g5_state(workspace: Path, force: bool) -> bool:
     phase = state.get("phase")
     phase_status = state.get("phase_status")
     if phase == "done":
-        _ok("G5", f"state.json phase=done")
+        _ok("G5", "state.json phase=done")
         return True
     if phase == "per-chapter" and phase_status in SHIPPABLE_STATUSES:
         _ok("G5", f"state.json phase=per-chapter phase_status={phase_status}")
@@ -266,9 +260,9 @@ def gate_g5_state(workspace: Path, force: bool) -> bool:
     if phase == "finalize" and phase_status in ("running", "halted"):
         _ok("G5", f"state.json phase=finalize phase_status={phase_status}")
         return True
-    _fail("G5", f"state.json not in shippable state "
-                f"(phase={phase}, phase_status={phase_status}). "
-                f"Use --force to bypass.")
+    _fail(
+        "G5", f"state.json not in shippable state (phase={phase}, phase_status={phase_status}). Use --force to bypass."
+    )
     return False
 
 
@@ -310,10 +304,12 @@ def gate_g7_challenger_convergence(workspace: Path, allow_mode_2: bool) -> bool:
 
     if convergence_skipped or not verdict_recognized:
         if allow_mode_2:
-            _warn(f"G7 ⚠ MODE-2 SHIP: challenger convergence not satisfied "
-                  f"(pipeline_mode={pipeline_mode!r}, verdict={verdict!r}). "
-                  f"--allow-mode-2 honored; downstream catalog will mark this "
-                  f"book as 'challenger_convergence: skipped_mode_2'.")
+            _warn(
+                f"G7 ⚠ MODE-2 SHIP: challenger convergence not satisfied "
+                f"(pipeline_mode={pipeline_mode!r}, verdict={verdict!r}). "
+                f"--allow-mode-2 honored; downstream catalog will mark this "
+                f"book as 'challenger_convergence: skipped_mode_2'."
+            )
             return True
         reasons = []
         if convergence_skipped:
@@ -323,8 +319,7 @@ def gate_g7_challenger_convergence(workspace: Path, allow_mode_2: bool) -> bool:
                 f"verdict={verdict!r} not in {sorted(ALLOWED_SHIP_VERDICTS)} "
                 f"(challenger-report.md missing, malformed, or marked N/A)"
             )
-        _fail("G7", "; ".join(reasons) +
-              ". Run challenger to convergence OR rerun with --allow-mode-2.")
+        _fail("G7", "; ".join(reasons) + ". Run challenger to convergence OR rerun with --allow-mode-2.")
         return False
 
     _ok("G7", f"challenger verdict={verdict}, pipeline_mode={pipeline_mode!r}")
@@ -356,25 +351,27 @@ def update_catalog(slug: str, episode_count: int, source_sha: str) -> None:
     catalog_path = LIBRARY / "_meta" / "catalog.md"
     catalog_path.parent.mkdir(parents=True, exist_ok=True)
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    new_row = (f"| [{slug}](../books/{slug}/README.md) | {episode_count} | "
-               f"{ts} | `{source_sha}` |")
-    header = ("# content/published/ — published catalog\n\n"
-              "Auto-updated by `scripts/podcast/publish_to_library.py`. Each row\n"
-              "tracks one published book. Republish a book to refresh its row.\n\n"
-              "| Book | Episodes | Latest publish date | Source git SHA |\n"
-              "|---|---|---|---|\n")
+    new_row = f"| [{slug}](../books/{slug}/README.md) | {episode_count} | {ts} | `{source_sha}` |"
+    header = (
+        "# content/published/ — published catalog\n\n"
+        "Auto-updated by `scripts/podcast/publish_to_library.py`. Each row\n"
+        "tracks one published book. Republish a book to refresh its row.\n\n"
+        "| Book | Episodes | Latest publish date | Source git SHA |\n"
+        "|---|---|---|---|\n"
+    )
 
     def is_stale_format(text: str) -> bool:
         # Stale = legacy ship_to_library.py header (4-col with Verdict + Phase)
         # or missing the new tool's auto-update marker line.
-        return ("Auto-generated by `scripts/podcast/ship_to_library.py`" in text
-                or "| Latest verdict |" in text
-                or "publish_to_library.py" not in text)
+        return (
+            "Auto-generated by `scripts/podcast/ship_to_library.py`" in text
+            or "| Latest verdict |" in text
+            or "publish_to_library.py" not in text
+        )
 
     if not catalog_path.exists():
         catalog_path.write_text(header + new_row + "\n")
-        _info(f"    catalog: created {catalog_path.relative_to(LIBRARY.parent)} "
-              f"with row for {slug}")
+        _info(f"    catalog: created {catalog_path.relative_to(LIBRARY.parent)} with row for {slug}")
         return
 
     existing = catalog_path.read_text()
@@ -388,8 +385,9 @@ def update_catalog(slug: str, episode_count: int, source_sha: str) -> None:
         for ps in sorted(prior_slugs):
             rows.append(f"| [{ps}](../books/{ps}/README.md) | ? | (legacy) | `unknown` |")
         catalog_path.write_text(header + "\n".join(rows) + "\n")
-        _info(f"    catalog: rewrote stale-format catalog; "
-              f"{len(prior_slugs)} legacy row(s) preserved with placeholders")
+        _info(
+            f"    catalog: rewrote stale-format catalog; {len(prior_slugs)} legacy row(s) preserved with placeholders"
+        )
         return
 
     lines = existing.splitlines()
@@ -418,17 +416,18 @@ def publish(slug: str, args: argparse.Namespace) -> int:
     """
     workspace = resolve_workspace(slug)
     if not workspace.is_dir():
-        print(f"publish_to_library: workspace not found: {workspace}",
-              file=sys.stderr)
+        print(f"publish_to_library: workspace not found: {workspace}", file=sys.stderr)
         return 2
 
     _info(f"==> publish_to_library: {slug}")
     _info(f"    workspace: {workspace.relative_to(REPO_ROOT)}")
-    _info(f"    model:     status-flag (type-first layout; no second tree)")
-    _info(f"    mode:      "
-          f"{'dry-run' if args.dry_run else 'live'}"
-          f"{', strict' if args.strict else ''}"
-          f"{', force' if args.force else ''}")
+    _info("    model:     status-flag (type-first layout; no second tree)")
+    _info(
+        f"    mode:      "
+        f"{'dry-run' if args.dry_run else 'live'}"
+        f"{', strict' if args.strict else ''}"
+        f"{', force' if args.force else ''}"
+    )
     _info("")
     _info("=== Gates ===")
 
@@ -439,8 +438,7 @@ def publish(slug: str, args: argparse.Namespace) -> int:
         return 1
     if not gate_g3_sequential(chapters, episodes):
         return 1
-    if not gate_g4_build_clean(workspace, slug, episodes, args.strict,
-                               dry_run=args.dry_run):
+    if not gate_g4_build_clean(workspace, slug, episodes, args.strict, dry_run=args.dry_run):
         return 1
     if not gate_g5_state(workspace, args.force):
         return 1
@@ -464,7 +462,7 @@ def publish(slug: str, args: argparse.Namespace) -> int:
     _info("")
     _info("=== Publishing ===")
     _mark_published_status(workspace)
-    _info(f"    status → published in orchestrator-state.json")
+    _info("    status → published in orchestrator-state.json")
     # Keep the meta.yml publication.status write — the astro site reads it.
     _update_meta_publication_status(workspace)
     update_catalog(slug, len(episodes), git_sha())
@@ -472,16 +470,11 @@ def publish(slug: str, args: argparse.Namespace) -> int:
     _info("")
     _info(f"==> DONE. Marked {slug} published ({len(episodes)} episode(s)) in place.")
 
-    # Distribution export — copy PDF + audio + video to Google Drive (non-fatal).
-    if not getattr(args, "skip_export", False):
-        _info("")
-        _info("=== Distribution export ===")
-        try:
-            from export_distribution import export as _dist_export
-            out = Path(args.export_dir).expanduser() if getattr(args, "export_dir", None) else None
-            _dist_export(slug, output_root=out, dry_run=False)
-        except Exception as _exc:
-            _warn(f"distribution export failed (publish succeeded): {_exc}")
+    # Google Drive and the Listener. Both leave this machine, so both are
+    # non-fatal — see _publish_downstream.py.
+    from _publish_downstream import deliver
+
+    deliver(slug, args, info=_info, warn=_warn)
 
     return 0
 
@@ -489,6 +482,7 @@ def publish(slug: str, args: argparse.Namespace) -> int:
 def _mark_published_status(workspace: Path) -> None:
     """Set status=published (+ published_at) in the book's orchestrator-state.json."""
     from _progress import read_state, write_state
+
     state = read_state(workspace) or {}
     state["status"] = "published"
     state["published_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -537,9 +531,9 @@ def _update_meta_publication_status(workspace: Path) -> None:
 
     if updated != text:
         meta_path.write_text(updated)
-        _info(f"    meta.yml: publication.status → published")
+        _info("    meta.yml: publication.status → published")
     else:
-        _warn(f"    meta.yml: publication.status already published or pattern unmatched")
+        _warn("    meta.yml: publication.status already published or pattern unmatched")
 
 
 def main() -> int:
@@ -548,30 +542,39 @@ def main() -> int:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("slug", help="Book slug (e.g. kitab-al-riyad).")
-    parser.add_argument("--strict", action="store_true",
-                        help="Elevate P1 advisories to blocking.")
-    parser.add_argument("--no-wipe", action="store_true",
-                        help="Skip wipe step; coexist with prior content.")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Run gates + print plan; do not write.")
+    parser.add_argument("--strict", action="store_true", help="Elevate P1 advisories to blocking.")
+    parser.add_argument("--no-wipe", action="store_true", help="Skip wipe step; coexist with prior content.")
+    parser.add_argument("--dry-run", action="store_true", help="Run gates + print plan; do not write.")
     parser.add_argument(
-        "--allow-mode-2", action="store_true",
-        help=("Bypass G7: permit publishing a book that did NOT run the "
-              "challenger convergence loop (pipeline_mode="
-              "non_orchestrated_mode_2 or verdict not in {SHIP-READY, "
-              "SHIP-WITH-CAUTION}). Use only after manual review."),
+        "--allow-mode-2",
+        action="store_true",
+        help=(
+            "Bypass G7: permit publishing a book that did NOT run the "
+            "challenger convergence loop (pipeline_mode="
+            "non_orchestrated_mode_2 or verdict not in {SHIP-READY, "
+            "SHIP-WITH-CAUTION}). Use only after manual review."
+        ),
     )
-    parser.add_argument("--force", action="store_true",
-                        help="Skip G5 state-checkpoint gate.")
-    parser.add_argument("--skip-export", action="store_true",
-                        help="Skip the post-publish distribution export to Google Drive.")
-    parser.add_argument("--export-dir", metavar="DIR",
-                        help="Override the export output root (default: Google Drive My Drive).")
+    parser.add_argument("--force", action="store_true", help="Skip G5 state-checkpoint gate.")
+    parser.add_argument(
+        "--skip-export", action="store_true", help="Skip the post-publish distribution export to Google Drive."
+    )
+    parser.add_argument(
+        "--export-dir", metavar="DIR", help="Override the export output root (default: Google Drive My Drive)."
+    )
+    parser.add_argument(
+        "--skip-listener",
+        action="store_true",
+        help=(
+            "Skip pushing this book to the Podcast Factory Listener. The push "
+            "never makes a book visible — it lands as a draft either way — so "
+            "this is for working offline, not for holding something back."
+        ),
+    )
     args = parser.parse_args()
 
     if not re.match(r"^[a-z0-9]+(-[a-z0-9]+)*$", args.slug):
-        print(f"publish_to_library: invalid slug '{args.slug}' "
-              f"(must be lowercase-kebab-case)", file=sys.stderr)
+        print(f"publish_to_library: invalid slug '{args.slug}' (must be lowercase-kebab-case)", file=sys.stderr)
         return 2
 
     return publish(args.slug, args)

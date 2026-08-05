@@ -14,6 +14,7 @@ What it does:
 
 Stub files are skeletal — Claude fills them during Phase 3.
 """
+
 import argparse
 import datetime
 import re
@@ -67,12 +68,15 @@ def add_registry_row(registry_path: Path, n: int, title: str, slug: str) -> None
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Scaffold a new podcast episode draft folder.")
-    parser.add_argument("book_dir", type=Path,
-                        help="Path to BOOK_DIR (e.g., _workspace/<category>/<book-slug>/)")
+    parser.add_argument("book_dir", type=Path, help="Path to BOOK_DIR (e.g., _workspace/<category>/<book-slug>/)")
     parser.add_argument("slug", help="kebab-case episode slug, ≤ 40 chars")
     parser.add_argument("--title", default="Untitled Episode", help="Episode title")
-    parser.add_argument("--registry", type=Path, default=None,
-                        help="Path to the per-book registry.md (defaults to <BOOK_DIR>/_system/registry.md)")
+    parser.add_argument(
+        "--registry",
+        type=Path,
+        default=None,
+        help="Path to the per-book registry.md (defaults to <BOOK_DIR>/_system/registry.md)",
+    )
     args = parser.parse_args()
 
     if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", args.slug) or len(args.slug) > 40:
@@ -106,7 +110,7 @@ def main() -> int:
     chapter_expected = book_dir / "chapters" / f"ch{n:02d}-{args.slug}.txt"
     print(f"Scaffolded episode draft folder: {draft_dir}")
     print(f"Matching chapter (SOURCE) must exist at: {chapter_expected}")
-    print(f"  - If missing, run Phase 0 (SKILL.md §1.5) to author it before compiling.")
+    print("  - If missing, run Phase 0 (SKILL.md §1.5) to author it before compiling.")
     print(f"Final deliverable will be:        {book_dir / 'episodes' / (folder_name + '.txt')}")
     print(f"  (build with: python3 scripts/podcast/build_episode_txt.py {book_dir} {folder_name})")
     print(f"Registry updated:                 {registry_path}")

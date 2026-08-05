@@ -2,6 +2,10 @@
 """Sanitize Phase 0d chapter contracts that contain markdown asterisks
 which YAML mis-parses as undefined aliases.
 
+Manual utility, not wired into orchestrate_book.py or phases/*.py — run by hand
+when needed. Flagged 2026-07-16, kept as-is (real working code, no evidence
+it's dead, just not automatic).
+
 The Phase 0d LLM emits list items like:
     tone_constraints:
       - When X sides with *al-Islah*, ... *in this chapter the two...*
@@ -19,6 +23,7 @@ Usage:
     python3 scripts/podcast/sanitize_contract_yaml.py <file.yml> [<more.yml> ...]
         [--check]   only diagnose, don't write
 """
+
 from __future__ import annotations
 
 import argparse
@@ -65,8 +70,7 @@ def sanitize(text: str) -> tuple[str, int]:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("paths", nargs="+", type=Path)
-    ap.add_argument("--check", action="store_true",
-                    help="only diagnose; don't write")
+    ap.add_argument("--check", action="store_true", help="only diagnose; don't write")
     args = ap.parse_args()
 
     overall_rc = 0

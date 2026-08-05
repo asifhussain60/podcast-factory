@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["vite.config.ts", "react-router.config.ts", "scripts/**/*"],
+  "compilerOptions": {
+    "composite": true,
+    "strict": true,
+    "types": ["node"],
+    // "dom" alongside "ES2022", because two of these scripts genuinely contain
+    // BROWSER code: everything inside a `page.evaluate(...)` callback is
+    // serialised and run in Chromium, where `document` and `window` are real.
+    // Without it the smoke gate's layout probe does not compile, and the
+    // alternative — writing that probe as a string to dodge the checker — would
+    // give up type-checking on the one part of it most likely to be wrong.
+    //
+    // The cost is that a genuine `document` typo in NODE code here would type-
+    // check and fail at run time. Accepted: these files are run by `npm run
+    // smoke` on every pass, so that failure surfaces immediately and loudly.
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler"
+  }
+}

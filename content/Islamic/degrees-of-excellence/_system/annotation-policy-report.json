@@ -1,0 +1,19 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 1,
+  "skipped": 182,
+  "by_class": {
+    "teach": 0,
+    "familiar": 0,
+    "name": 0,
+    "silent": 1
+  },
+  "proposals": [
+    {
+      "phonetic": "Kitab ithbat al-imama",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A one-off book title whose meaning is translated inline in running prose, so a formal annotation adds nothing."
+    }
+  ]
+}

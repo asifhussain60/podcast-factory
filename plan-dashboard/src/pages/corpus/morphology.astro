@@ -1,0 +1,103 @@
+---
+import Base from "../../layouts/Base.astro";
+import MorphologyExplorer from "../../components/corpus/MorphologyExplorer.tsx";
+import {
+  laneCoverage,
+  morphologyTotals,
+  rootsForExplorer,
+} from "../../lib/db/morphology.server";
+import "../../styles/corpus-morphology.css";
+
+// Everything on this page is committed reference data read at request time —
+// morphology.db (Quranic Arabic Corpus, GPL, Kais Dukes), lexicon.jsonl
+// (Lane's Lexicon per root), and the coverage report. No model, no network.
+const totals = morphologyTotals();
+const roots = rootsForExplorer();
+const coverage = laneCoverage();
+const unmatched = coverage?.unmatched_roots ?? [];
+const live = totals !== null && roots.length > 0;
+---
+
+<Base
+  title="Quranic Morphology — roots, families, meanings"
+  active="corpus-morphology"
+  section="knowledge"
+  description="Root-first explorer over the Quranic Arabic Corpus morphology layer: every root with its real derived family, verse locations, and Lane's classical meaning — searchable in either script."
+>
+  <div class="mxp">
+    <header class="mxp-hero">
+      <span class="eyebrow">Knowledge · Quranic Morphology</span>
+      <h1>Every root of the Quran, with its family and meaning</h1>
+      <p class="lede">
+        The Quranic Arabic Corpus morphology layer the pipeline grounds its
+        etymology on — word-by-word human annotation of the whole Quran, joined
+        to Lane's Lexicon per root. Search in either script; every fact below is
+        committed reference data, none of it model recall.
+      </p>
+      {
+        live ? (
+          <span class="mxp-flag">
+            ● LIVE — morphology.db: {totals!.roots.toLocaleString()} roots ·{" "}
+            {totals!.lemmas.toLocaleString()} lemmas ·{" "}
+            {totals!.segments.toLocaleString()} annotated segments
+          </span>
+        ) : (
+          <span class="mxp-flag">
+            ● morphology.db not built — run
+            scripts/podcast/quranic_morphology.py, then reload
+          </span>
+        )
+      }
+    </header>
+
+    {
+      live && (
+        <section class="mxp-stats" aria-label="Corpus totals">
+          <div class="mxp-stat">
+            <div class="n">{totals!.chapters}</div>
+            <div class="l">chapters</div>
+          </div>
+          <div class="mxp-stat">
+            <div class="n">{totals!.verses.toLocaleString()}</div>
+            <div class="l">verses</div>
+          </div>
+          <div class="mxp-stat">
+            <div class="n">{totals!.words.toLocaleString()}</div>
+            <div class="l">words</div>
+          </div>
+          <div class="mxp-stat">
+            <div class="n">{totals!.segments.toLocaleString()}</div>
+            <div class="l">segments</div>
+          </div>
+          <div class="mxp-stat">
+            <div class="n">{totals!.roots.toLocaleString()}</div>
+            <div class="l">roots</div>
+          </div>
+          <div class="mxp-stat">
+            <div class="n">{coverage?.matched.toLocaleString() ?? "—"}</div>
+            <div class="l">roots with Lane's meaning</div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      live && (
+        <MorphologyExplorer
+          client:load
+          roots={roots}
+          unmatchedRoots={unmatched}
+        />
+      )
+    }
+
+    <footer class="mxp-attrib">
+      <p>
+        Morphology: the Quranic Arabic Corpus, © Kais Dukes, GNU GPL —
+        <a href="https://corpus.quran.com" rel="noopener">corpus.quran.com</a>.
+        Meanings: Lane's <em>Arabic-English Lexicon</em> (public domain), root-keyed
+        join with coverage reported — gaps listed, never hidden.
+      </p>
+    </footer>
+  </div>
+</Base>

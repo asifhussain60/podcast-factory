@@ -16,11 +16,11 @@ CLI usage:
 Outputs:
     CONTENT/drafts/books/<slug>/_system/annotations/<chapter>.json
 """
+
 from __future__ import annotations
 
 import argparse
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -28,15 +28,22 @@ _HERE = Path(__file__).resolve().parent.parent  # scripts/
 _REPO = _HERE.parent
 sys.path.insert(0, str(_HERE / "podcast"))
 
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT
 
-BOOKS_DIR = REPO_ROOT / "CONTENT" / "drafts" / "books"
+BOOKS_DIR = REPO_ROOT / "content" / "drafts" / "books"
 CANONICAL_BOOKS = ["kitab-al-riyad", "the-master-and-the-disciple"]
 
 # Tags that must never be flagged for deletion
-PROTECTED_TAGS = frozenset({
-    "esoteric", "reality", "quran", "hadith", "poetry", "sharia",
-})
+PROTECTED_TAGS = frozenset(
+    {
+        "esoteric",
+        "reality",
+        "quran",
+        "hadith",
+        "poetry",
+        "sharia",
+    }
+)
 
 HAIKU_SYSTEM_PROMPT = """\
 You are an annotation assistant for Islamic scholarly texts.
@@ -66,11 +73,10 @@ def _call_haiku(paragraphs: list[str]) -> list[dict]:
     try:
         import anthropic  # type: ignore[import]
     except ImportError:
-        raise RuntimeError(
-            "anthropic package not installed. Run: pip install anthropic"
-        )
+        raise RuntimeError("anthropic package not installed. Run: pip install anthropic")
 
     from _secrets import get_anthropic_key  # vault-deterministic
+
     api_key = get_anthropic_key()
     if not api_key:
         raise RuntimeError("ANTHROPIC_API_KEY environment variable not set.")
@@ -78,9 +84,7 @@ def _call_haiku(paragraphs: list[str]) -> list[dict]:
     client = anthropic.Anthropic(api_key=api_key)
 
     # Build a numbered list of paragraphs for the prompt
-    para_text = "\n\n".join(
-        f"[{i}] {p[:600]}" for i, p in enumerate(paragraphs)
-    )
+    para_text = "\n\n".join(f"[{i}] {p[:600]}" for i, p in enumerate(paragraphs))
     prompt = f"Annotate each paragraph:\n\n{para_text}"
 
     response = client.messages.create(
@@ -126,8 +130,7 @@ def annotate_chapter(chapter_txt: Path, *, dry_run: bool = False) -> list[dict]:
     if dry_run:
         # Return stub annotations
         return [
-            {"para_idx": i, "tag": "mark-for-improvement", "confidence": 0.5,
-             "note": "dry-run stub"}
+            {"para_idx": i, "tag": "mark-for-improvement", "confidence": 0.5, "note": "dry-run stub"}
             for i in range(len(paragraphs))
         ]
 
@@ -138,10 +141,14 @@ def annotate_chapter(chapter_txt: Path, *, dry_run: bool = False) -> list[dict]:
     annotated_idxs = {a["para_idx"] for a in annotations if "para_idx" in a}
     for i in range(len(paragraphs)):
         if i not in annotated_idxs:
-            annotations.append({
-                "para_idx": i, "tag": "mark-for-improvement",
-                "confidence": 0.3, "note": "missing from model response — defaulted"
-            })
+            annotations.append(
+                {
+                    "para_idx": i,
+                    "tag": "mark-for-improvement",
+                    "confidence": 0.3,
+                    "note": "missing from model response — defaulted",
+                }
+            )
 
     annotations.sort(key=lambda a: a.get("para_idx", 0))
     return annotations
@@ -161,22 +168,22 @@ def run_book(slug: str, *, dry_run: bool = False) -> dict:
     annotations_dir.mkdir(parents=True, exist_ok=True)
 
     chapter_files = sorted(chapters_dir.glob("ch*.txt"))
-    results = {"slug": slug, "chapters_processed": 0, "total_paragraphs": 0,
-               "dry_run": dry_run, "errors": []}
+    results = {"slug": slug, "chapters_processed": 0, "total_paragraphs": 0, "dry_run": dry_run, "errors": []}
 
     for cf in chapter_files:
         try:
             anns = annotate_chapter(cf, dry_run=dry_run)
             out_path = annotations_dir / f"{cf.stem}.json"
             out_path.write_text(
-                json.dumps({"chapter": cf.stem, "paragraphs": len(anns),
-                            "annotations": anns}, indent=2, ensure_ascii=False),
-                encoding="utf-8"
+                json.dumps(
+                    {"chapter": cf.stem, "paragraphs": len(anns), "annotations": anns}, indent=2, ensure_ascii=False
+                ),
+                encoding="utf-8",
             )
             results["chapters_processed"] += 1
             results["total_paragraphs"] += len(anns)
             print(f"  annotated {cf.stem}: {len(anns)} paragraphs")
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             results["errors"].append({"chapter": cf.stem, "error": str(exc)})
             print(f"  ERROR {cf.stem}: {exc}", file=sys.stderr)
 
@@ -185,10 +192,10 @@ def run_book(slug: str, *, dry_run: bool = False) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Haiku annotation pass on book chapters.")
-    parser.add_argument("--book", choices=CANONICAL_BOOKS + ["all"], default="all",
-                        help="Which book to annotate (default: all)")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Generate stub annotations without calling the API")
+    parser.add_argument(
+        "--book", choices=CANONICAL_BOOKS + ["all"], default="all", help="Which book to annotate (default: all)"
+    )
+    parser.add_argument("--dry-run", action="store_true", help="Generate stub annotations without calling the API")
     args = parser.parse_args()
 
     books = CANONICAL_BOOKS if args.book == "all" else [args.book]
@@ -198,8 +205,7 @@ def main() -> None:
         if result.get("error"):
             print(f"  ERROR: {result['error']}", file=sys.stderr)
         else:
-            print(f"  Done: {result['chapters_processed']} chapters, "
-                  f"{result['total_paragraphs']} paragraphs")
+            print(f"  Done: {result['chapters_processed']} chapters, {result['total_paragraphs']} paragraphs")
             if result["errors"]:
                 print(f"  Chapter errors: {len(result['errors'])}")
 

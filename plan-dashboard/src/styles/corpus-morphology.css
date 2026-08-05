@@ -1,0 +1,261 @@
+/* corpus-morphology.css — /corpus/morphology root explorer.
+   External stylesheet, existing --c-* tokens only (Cortex theme-adapter);
+   no new colours, no inline styles. */
+
+.mxp {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+.mxp-hero h1 {
+  margin: 0.2rem 0 0.5rem;
+  /* Gradient title (REQ-013) — same restrained ink→accent recipe as
+     .page-hero-title, with the solid-ink fallback for engines without
+     background-clip: text. */
+  color: var(--c-ink);
+  background: linear-gradient(115deg, var(--c-ink) 55%, var(--c-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.mxp-hero .lede {
+  color: var(--c-ink-muted);
+  max-width: 46rem;
+}
+.mxp-flag {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--c-ink-muted);
+}
+
+.mxp-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 0.6rem;
+  margin: 1.5rem 0;
+}
+.mxp-stat {
+  border: 1px solid var(--c-rule-soft);
+  border-radius: 8px;
+  background: var(--c-bg-card);
+  padding: 0.7rem 0.8rem;
+}
+.mxp-stat .n {
+  font-size: 1.35rem;
+  font-weight: 650;
+}
+.mxp-stat .l {
+  font-size: 0.8rem;
+  color: var(--c-ink-muted);
+}
+
+.mx-search {
+  margin: 1rem 0 0.75rem;
+}
+.mx-search-label {
+  /* <label> is on the REQ-010 reading floor — inherits the 1.2rem base. */
+  display: block;
+  color: var(--c-ink-muted);
+  margin-bottom: 0.25rem;
+}
+.mx-search-input {
+  width: 100%;
+  max-width: 30rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--c-rule-soft);
+  border-radius: 8px;
+  background: var(--c-bg-card);
+  color: inherit;
+  font-size: 1rem;
+}
+.mx-search-input:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 1px;
+}
+.mx-search-count {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  color: var(--c-ink-muted);
+}
+
+.mx-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.mx-root {
+  border: 1px solid var(--c-rule-soft);
+  border-radius: 8px;
+  background: var(--c-bg-card);
+}
+.mx-root[data-open="true"] {
+  border-left: 3px solid var(--c-accent);
+}
+.mx-root-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.mx-root-head:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+.mx-root-ar {
+  font-size: 1.25rem;
+  min-width: 4.5rem;
+}
+.mx-root-bw {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.85rem;
+  color: var(--c-ink-muted);
+}
+.mx-root-meta {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--c-ink-muted);
+  white-space: nowrap;
+}
+
+.mx-detail {
+  padding: 0.2rem 0.9rem 0.8rem;
+  border-top: 1px solid var(--c-rule-soft);
+}
+.mx-detail-root {
+  /* Reading prose (REQ-010) — inherits the 1.2rem base, no override. */
+  font-weight: 600;
+  margin: 0.6rem 0 0.4rem;
+}
+.mx-family {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.mx-lemma {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+.mx-lemma-ar {
+  /* Primary content of its <li> (REQ-010) — floor, below .mx-root-ar's
+     1.25rem so the root keeps visual precedence. */
+  font-size: 1.2rem;
+  min-width: 5.5rem;
+}
+.mx-lemma-meta {
+  font-size: 0.85rem;
+  color: var(--c-ink-muted);
+}
+.mx-loc {
+  background: none;
+  border: 1px solid var(--c-rule-soft);
+  border-radius: 999px;
+  padding: 0 0.55rem;
+  font-size: 0.78rem;
+  color: var(--c-ink-muted);
+  cursor: pointer;
+}
+.mx-loc:hover,
+.mx-loc:focus-visible {
+  border-color: var(--c-accent);
+  color: inherit;
+  outline: none;
+}
+
+.mx-verse {
+  margin: 0.6rem 0;
+  padding: 0.5rem 0.8rem;
+  border-left: 3px solid var(--c-accent-soft);
+  background: var(--c-bg-sunken);
+  border-radius: 0 8px 8px 0;
+}
+.mx-verse p {
+  margin: 0.15rem 0;
+}
+.mx-verse cite {
+  font-style: normal;
+  color: var(--c-ink-muted);
+  font-size: 0.85rem;
+}
+
+.mx-lane {
+  /* Lane's meaning is genuine reading prose (REQ-010) — 1.2rem base. */
+  margin: 0.6rem 0 0;
+}
+.mx-src {
+  margin: 0.5rem 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.mx-more {
+  margin: 0.9rem 0;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--c-rule-soft);
+  border-radius: 8px;
+  background: var(--c-bg-card);
+  color: inherit;
+  cursor: pointer;
+}
+.mx-more:focus-visible {
+  outline: 2px solid var(--c-accent);
+}
+.mx-empty {
+  color: var(--c-ink-muted);
+  margin: 0.8rem 0;
+}
+
+.mx-coverage {
+  margin-top: 2rem;
+  border-top: 1px solid var(--c-rule-soft);
+  padding-top: 1rem;
+}
+.mx-coverage h2 {
+  /* Bottom of the REQ-011 h2 range — below it the heading undercuts
+     the 1.2rem reading floor of the prose it introduces. */
+  font-size: 1.4rem;
+  margin: 0 0 0.4rem;
+}
+.mx-unmatched-toggle {
+  background: none;
+  border: 0;
+  color: var(--c-accent);
+  cursor: pointer;
+  font: inherit;
+  text-decoration: underline;
+  padding: 0;
+}
+.mx-unmatched {
+  /* Arabic root list is content the reader scans (REQ-010) — floor size,
+     generous line-height for the script. */
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  line-height: 1.9;
+}
+
+.mxp-attrib {
+  /* Provenance prose (REQ-070 content) is reading text, not chrome —
+     REQ-010 floor via the inherited 1.2rem base. */
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--c-rule-soft);
+  padding-top: 0.9rem;
+  color: var(--c-ink-muted);
+}

@@ -49,19 +49,19 @@ from typing import Any
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _paths import content_dir  # noqa: E402
-from _cost_ledger import append_gemini_cost  # noqa: E402
+from _cost_ledger import append_gemini_cost
+from _paths import content_dir
 
 # ─── Constants ────────────────────────────────────────────────────────────────
 
-WORDS_PER_MINUTE     = 130
-PREAMBLE_FACTOR      = 1.10
-IMAGES_PER_EP_SCENIC = 10     # cost estimate for scenic mode
-BG_PER_EP_HYBRID     = 4      # cost estimate for teaching_hybrid backgrounds
+WORDS_PER_MINUTE = 130
+PREAMBLE_FACTOR = 1.10
+IMAGES_PER_EP_SCENIC = 10  # cost estimate for scenic mode
+BG_PER_EP_HYBRID = 4  # cost estimate for teaching_hybrid backgrounds
 
-IMAGE_MODEL         = "gemini-3.1-flash-image"
+IMAGE_MODEL = "gemini-3.1-flash-image"
 IMAGE_COST_ESTIMATE = 0.04
-TEXT_MODEL          = "gemini-2.5-flash"
+TEXT_MODEL = "gemini-2.5-flash"
 
 # ─── Scenic mode (fiction / narrative) ────────────────────────────────────────
 #
@@ -121,6 +121,7 @@ Schema per element:
   "overlay_text": ""
 }}
 """
+
 
 # ─── Teaching-hybrid mode (Islamic scholarly) ─────────────────────────────────
 
@@ -200,6 +201,7 @@ Top-level schema:
 
 # ─── Category routing ────────────────────────────────────────────────────────
 
+
 def _read_series_config(book_dir: Path) -> dict:
     """Load _system/series-config.yaml for this book. Returns {} on any failure."""
     cfg_path = book_dir / "_system" / "series-config.yaml"
@@ -207,6 +209,7 @@ def _read_series_config(book_dir: Path) -> dict:
         return {}
     try:
         import yaml
+
         return yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
     except Exception:
         return {}
@@ -248,10 +251,11 @@ def _read_scenic_style(book_dir: Path) -> str:
 
 # ─── Episode discovery ────────────────────────────────────────────────────────
 
+
 def _discover_episodes(book_dir: Path) -> list[dict[str, Any]]:
     """Return list of dicts with ep_id, chapter_path, framing_path, for all episodes."""
-    episodes_dir  = book_dir / "_system" / "episode-drafts"
-    chapters_dir  = book_dir / "chapters"
+    episodes_dir = book_dir / "_system" / "episode-drafts"
+    chapters_dir = book_dir / "chapters"
 
     if not episodes_dir.exists():
         sys.exit(f"ERROR: no episode-drafts directory at {episodes_dir}")
@@ -260,13 +264,13 @@ def _discover_episodes(book_dir: Path) -> list[dict[str, Any]]:
     for ep_dir in sorted(episodes_dir.iterdir()):
         if not ep_dir.is_dir():
             continue
-        ep_id = ep_dir.name                        # e.g. EP01-knowledge-without-action
+        ep_id = ep_dir.name  # e.g. EP01-knowledge-without-action
         framing = ep_dir / "00-framing.md"
         if not framing.exists():
             continue
 
         # Match chapter: slug after EP##- in ep_id matches slug in chapter filename
-        ep_slug = re.sub(r"^EP\d+-", "", ep_id)   # "knowledge-without-action"
+        ep_slug = re.sub(r"^EP\d+-", "", ep_id)  # "knowledge-without-action"
         chapter = None
         for ch in sorted(chapters_dir.glob("ch*.txt")):
             ch_slug = re.sub(r"^ch\d+[a-z]?-", "", ch.stem)  # strip ch##- prefix
@@ -281,6 +285,7 @@ def _discover_episodes(book_dir: Path) -> list[dict[str, Any]]:
 
 
 # ─── Timestamp estimation ──────────────────────────────────────────────────────
+
 
 def _estimate_total_seconds(chapter_text: str) -> int:
     words = len(chapter_text.split())
@@ -298,7 +303,7 @@ def _assign_timestamps(segments: list[dict], total_s: int) -> list[dict]:
         if seg.get("est_end_s", 0) == 0:
             seg["est_end_s"] = min((i + 1) * slice_s, total_s)
     segments[0]["est_start_s"] = 0
-    segments[-1]["est_end_s"]  = total_s
+    segments[-1]["est_end_s"] = total_s
     return segments
 
 
@@ -314,14 +319,16 @@ def _assign_timestamps_hybrid(manifest: dict, total_s: int) -> dict:
         if s.get("est_end_s", 0) == 0:
             s["est_end_s"] = min((i + 1) * slice_s, total_s)
     slides[0]["est_start_s"] = 0
-    slides[-1]["est_end_s"]  = total_s
+    slides[-1]["est_end_s"] = total_s
     return manifest
 
 
 # ─── Gemini helpers ───────────────────────────────────────────────────────────
 
+
 def _gemini_client():
     from _secrets import get_gemini_key
+
     try:
         from google import genai
     except ImportError:
@@ -331,24 +338,21 @@ def _gemini_client():
 
 def _strip_fences(raw: str) -> str:
     raw = re.sub(r"^```json\s*", "", raw.strip())
-    raw = re.sub(r"^```\s*",     "", raw)
-    raw = re.sub(r"\s*```$",     "", raw)
+    raw = re.sub(r"^```\s*", "", raw)
+    raw = re.sub(r"\s*```$", "", raw)
     return raw.strip()
 
 
-def _call_gemini_scenic(chapter_text: str, framing_text: str, ep_id: str,
-                        book_dir: Path) -> list[dict]:
+def _call_gemini_scenic(chapter_text: str, framing_text: str, ep_id: str, book_dir: Path) -> list[dict]:
     """Generate scenic image prompts (flat JSON array) with the book's own style."""
-    from _engine import engine_guard, TASK_IMAGE_PROMPT, ENGINE_GEMINI
+    from _engine import ENGINE_GEMINI, TASK_IMAGE_PROMPT, engine_guard
+
     engine_guard(TASK_IMAGE_PROMPT, ENGINE_GEMINI)  # policy: Claude Max; migrate when ready
     client, genai = _gemini_client()
     from google.genai import types
 
     scenic_prompt = _build_scenic_prompt(_read_scenic_style(book_dir))
-    user_content = (
-        f"## Episode framing\n\n{framing_text}\n\n"
-        f"## Enriched chapter text\n\n{chapter_text}"
-    )
+    user_content = f"## Episode framing\n\n{framing_text}\n\n## Enriched chapter text\n\n{chapter_text}"
     print(f"  Calling Gemini Flash for {ep_id} (scenic prompts)…")
     response = client.models.generate_content(
         model=TEXT_MODEL,
@@ -371,15 +375,13 @@ def _call_gemini_scenic(chapter_text: str, framing_text: str, ep_id: str,
 
 def _call_gemini_hybrid(chapter_text: str, framing_text: str, ep_id: str) -> dict:
     """Generate teaching-hybrid manifest (JSON object with backgrounds + slides)."""
-    from _engine import engine_guard, TASK_IMAGE_PROMPT, ENGINE_GEMINI
+    from _engine import ENGINE_GEMINI, TASK_IMAGE_PROMPT, engine_guard
+
     engine_guard(TASK_IMAGE_PROMPT, ENGINE_GEMINI)  # policy: Claude Max; migrate when ready
     client, genai = _gemini_client()
     from google.genai import types
 
-    user_content = (
-        f"## Episode framing\n\n{framing_text}\n\n"
-        f"## Enriched chapter text\n\n{chapter_text}"
-    )
+    user_content = f"## Episode framing\n\n{framing_text}\n\n## Enriched chapter text\n\n{chapter_text}"
     print(f"  Calling Gemini Flash for {ep_id} (teaching-hybrid manifest)…")
     response = client.models.generate_content(
         model=TEXT_MODEL,
@@ -402,6 +404,7 @@ def _call_gemini_hybrid(chapter_text: str, framing_text: str, ep_id: str) -> dic
 
 # ─── Output writers ───────────────────────────────────────────────────────────
 
+
 def _write_json(data: Any, out_path: Path) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -414,43 +417,44 @@ def _write_markdown_scenic(segments: list[dict], ep_id: str, out_path: Path) -> 
         "|---|---|---|---|---|---|",
     ]
     for seg in segments:
-        start = f"{seg.get('est_start_s', 0)//60}:{seg.get('est_start_s', 0)%60:02d}"
-        end   = f"{seg.get('est_end_s',   0)//60}:{seg.get('est_end_s',   0)%60:02d}"
+        start = f"{seg.get('est_start_s', 0) // 60}:{seg.get('est_start_s', 0) % 60:02d}"
+        end = f"{seg.get('est_end_s', 0) // 60}:{seg.get('est_end_s', 0) % 60:02d}"
         lines.append(
-            f"| {seg.get('segment_id','?')} "
-            f"| {seg.get('visual_type','?')} "
+            f"| {seg.get('segment_id', '?')} "
+            f"| {seg.get('visual_type', '?')} "
             f"| {start} | {end} "
-            f"| {seg.get('prompt_short','?')} "
-            f"| {seg.get('overlay_text','') or '—'} |"
+            f"| {seg.get('prompt_short', '?')} "
+            f"| {seg.get('overlay_text', '') or '—'} |"
         )
     out_path.write_text("\n".join(lines), encoding="utf-8")
 
 
 def _write_markdown_hybrid(manifest: dict, ep_id: str, out_path: Path) -> None:
     slides = manifest.get("slides", [])
-    bgs    = {b["bg_id"]: b["theme"] for b in manifest.get("backgrounds", [])}
-    lines  = [
+    bgs = {b["bg_id"]: b["theme"] for b in manifest.get("backgrounds", [])}
+    lines = [
         f"# Teaching slides — {ep_id}\n",
         "| # | Type | Background | Start | End | Content summary | Overlay |",
         "|---|---|---|---|---|---|---|",
     ]
     for s in slides:
-        start   = f"{s.get('est_start_s',0)//60}:{s.get('est_start_s',0)%60:02d}"
-        end     = f"{s.get('est_end_s',0)//60}:{s.get('est_end_s',0)%60:02d}"
-        bg_name = bgs.get(s.get("background_id",""), "?")
-        summary = s.get("prompt_short","?")[:40]
+        start = f"{s.get('est_start_s', 0) // 60}:{s.get('est_start_s', 0) % 60:02d}"
+        end = f"{s.get('est_end_s', 0) // 60}:{s.get('est_end_s', 0) % 60:02d}"
+        bg_name = bgs.get(s.get("background_id", ""), "?")
+        summary = s.get("prompt_short", "?")[:40]
         lines.append(
-            f"| {s.get('segment_id','?')} "
-            f"| {s.get('slide_type','?')} "
+            f"| {s.get('segment_id', '?')} "
+            f"| {s.get('slide_type', '?')} "
             f"| {bg_name} "
             f"| {start} | {end} "
             f"| {summary} "
-            f"| {s.get('overlay_text','') or '—'} |"
+            f"| {s.get('overlay_text', '') or '—'} |"
         )
     out_path.write_text("\n".join(lines), encoding="utf-8")
 
 
 # ─── Imagen 3 generation ──────────────────────────────────────────────────────
+
 
 def _generate_background_images(
     manifest: dict,
@@ -459,7 +463,8 @@ def _generate_background_images(
     ep_id: str,
 ) -> int:
     """Generate the 3–5 Imagen3 background images for a teaching_hybrid episode."""
-    from _engine import engine_guard, TASK_IMAGE_GEN, ENGINE_GEMINI
+    from _engine import ENGINE_GEMINI, TASK_IMAGE_GEN, engine_guard
+
     engine_guard(TASK_IMAGE_GEN, ENGINE_GEMINI)
     client, genai = _gemini_client()
     from google.genai import types
@@ -468,8 +473,8 @@ def _generate_background_images(
     generated = 0
 
     for bg in manifest.get("backgrounds", []):
-        bg_id    = bg.get("bg_id", f"bg{generated+1:02d}")
-        filename = f"{bg_id}_{bg.get('theme','bg')}.jpg"
+        bg_id = bg.get("bg_id", f"bg{generated + 1:02d}")
+        filename = f"{bg_id}_{bg.get('theme', 'bg')}.jpg"
         out_path = images_dir / filename
 
         # Update the manifest so render_slides.py can find this file
@@ -506,13 +511,15 @@ def _generate_background_images(
                 print("FAILED: no image in response")
                 continue
             out_path.write_bytes(image_bytes)
-            print(f"saved ({len(image_bytes)//1024}KB)")
+            print(f"saved ({len(image_bytes) // 1024}KB)")
             generated += 1
             try:
                 append_gemini_cost(
-                    book_dir=book_dir, phase="video",
+                    book_dir=book_dir,
+                    phase="video",
                     step=f"bg/{ep_id}/{bg_id}",
-                    input_tokens=0, output_tokens=0,
+                    input_tokens=0,
+                    output_tokens=0,
                     cost_usd=IMAGE_COST_ESTIMATE,
                 )
             except Exception:
@@ -530,9 +537,11 @@ def _generate_images(
     ep_id: str,
     fast: bool = False,  # kept for API compat; currently unused
 ) -> int:
-    from _engine import engine_guard, TASK_IMAGE_GEN, ENGINE_GEMINI
+    from _engine import ENGINE_GEMINI, TASK_IMAGE_GEN, engine_guard
+
     engine_guard(TASK_IMAGE_GEN, ENGINE_GEMINI)
     from _secrets import get_gemini_key
+
     try:
         from google import genai
         from google.genai import types
@@ -540,15 +549,15 @@ def _generate_images(
         sys.exit("ERROR: google-genai not installed. Run: pip3 install google-genai")
 
     api_key = get_gemini_key()
-    client  = genai.Client(api_key=api_key)
+    client = genai.Client(api_key=api_key)
     images_dir.mkdir(parents=True, exist_ok=True)
 
     generated = 0
     for seg in segments:
-        seg_id  = seg.get("segment_id", f"s{generated+1:02d}")
-        vtype   = seg.get("visual_type", "scenery")
+        seg_id = seg.get("segment_id", f"s{generated + 1:02d}")
+        vtype = seg.get("visual_type", "scenery")
         ep_slug = re.sub(r"^EP\d+-", "", ep_id)[:24]
-        filename = f"{seg_id}_{vtype}_{ep_slug}.jpg"   # Gemini returns JPEG
+        filename = f"{seg_id}_{vtype}_{ep_slug}.jpg"  # Gemini returns JPEG
         out_path = images_dir / filename
 
         if out_path.exists():
@@ -558,7 +567,7 @@ def _generate_images(
         prompt = f"{seg.get('prompt_full', '')}. {seg.get('style_directive', _SCENIC_STYLE)}"
         overlay = seg.get("overlay_text", "")
         if overlay:
-            prompt += f" Text overlay reads: \"{overlay}\"."
+            prompt += f' Text overlay reads: "{overlay}".'
 
         print(f"    Generating {filename}…", end=" ", flush=True)
         try:
@@ -578,13 +587,15 @@ def _generate_images(
                 print("FAILED: no image in response")
                 continue
             out_path.write_bytes(image_bytes)
-            print(f"saved ({len(image_bytes)//1024}KB)")
+            print(f"saved ({len(image_bytes) // 1024}KB)")
             generated += 1
             try:
                 append_gemini_cost(
-                    book_dir=book_dir, phase="video",
+                    book_dir=book_dir,
+                    phase="video",
                     step=f"image/{ep_id}/{seg_id}",
-                    input_tokens=0, output_tokens=0,
+                    input_tokens=0,
+                    output_tokens=0,
                     cost_usd=IMAGE_COST_ESTIMATE,
                 )
             except Exception:
@@ -597,13 +608,14 @@ def _generate_images(
 
 # ─── Main ─────────────────────────────────────────────────────────────────────
 
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("slug",           help="Book slug, e.g. ayyuhal-walad")
-    parser.add_argument("--episode",      help="Run for a single episode, e.g. EP01")
+    parser.add_argument("slug", help="Book slug, e.g. ayyuhal-walad")
+    parser.add_argument("--episode", help="Run for a single episode, e.g. EP01")
     parser.add_argument("--prompts-only", action="store_true", help="Generate manifests but not images")
     parser.add_argument("--fast-preview", action="store_true", help="(deprecated, kept for CLI compat)")
-    parser.add_argument("--confirm",      action="store_true", help="Required to trigger image generation")
+    parser.add_argument("--confirm", action="store_true", help="Required to trigger image generation")
     args = parser.parse_args(argv)
 
     book_dir = content_dir(args.slug)
@@ -612,7 +624,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if not _is_video_enabled(book_dir):
         print(f"\nVideo generation is disabled for '{args.slug}'.")
-        print(f"  To enable: set  enable_video: true  in _system/series-config.yaml")
+        print("  To enable: set  enable_video: true  in _system/series-config.yaml")
         return 0
 
     video_style = _read_video_style(book_dir)
@@ -641,21 +653,21 @@ def main(argv: list[str] | None = None) -> int:
     print(f"  Estimated:   ~{est_images} Imagen3 images ≈ ${est_cost:.2f}")
 
     if not args.prompts_only and not args.confirm:
-        print(f"\n  Add --confirm to generate images, or --prompts-only to review manifest first.")
+        print("\n  Add --confirm to generate images, or --prompts-only to review manifest first.")
         print("  Re-run with --confirm to proceed.\n")
         return 0
 
     for ep in episodes:
-        ep_id   = ep["ep_id"]
+        ep_id = ep["ep_id"]
         ch_text = ep["chapter"].read_text(encoding="utf-8")
         fr_text = ep["framing"].read_text(encoding="utf-8")
         total_s = _estimate_total_seconds(ch_text)
 
-        print(f"\n── {ep_id} ({len(ch_text.split())} words, ~{total_s//60}m estimated)")
+        print(f"\n── {ep_id} ({len(ch_text.split())} words, ~{total_s // 60}m estimated)")
 
-        out_dir   = book_dir / "episodes" / ep_id
+        out_dir = book_dir / "episodes" / ep_id
         json_path = out_dir / "video-prompts.json"
-        md_path   = out_dir / "video-prompts.md"
+        md_path = out_dir / "video-prompts.md"
         images_dir = out_dir / "video-images"
 
         # ── Teaching-hybrid path ──────────────────────────────────────────────
@@ -665,7 +677,7 @@ def main(argv: list[str] | None = None) -> int:
                 manifest = json.loads(json_path.read_text(encoding="utf-8"))
                 # Re-detect mode in case this is an old scenic manifest
                 if not isinstance(manifest, dict) or manifest.get("mode") != "teaching_hybrid":
-                    print(f"  WARN: existing manifest is not teaching_hybrid — regenerating")
+                    print("  WARN: existing manifest is not teaching_hybrid — regenerating")
                     json_path.unlink(missing_ok=True)
                     manifest = None
             else:
@@ -677,7 +689,7 @@ def main(argv: list[str] | None = None) -> int:
                 _write_json(manifest, json_path)
                 _write_markdown_hybrid(manifest, ep_id, md_path)
                 slides = manifest.get("slides", [])
-                bgs    = manifest.get("backgrounds", [])
+                bgs = manifest.get("backgrounds", [])
                 print(f"  Wrote {len(slides)} slides + {len(bgs)} backgrounds → {json_path.relative_to(book_dir)}")
 
             if args.prompts_only:
@@ -694,6 +706,7 @@ def main(argv: list[str] | None = None) -> int:
 
             # Render teaching slides via Pillow
             from render_slides import render_all_slides
+
             slides = manifest.get("slides", [])
             print(f"  Rendering {len(slides)} teaching slide(s)…")
             n_slides = render_all_slides(manifest, images_dir, ep_id)

@@ -1,0 +1,28 @@
+---
+// One wave row for the overview "how we got here" accordion.
+// Waves that carry a description expand (<details>); title-only waves render as
+// a clean static row (no dead expanders). See skills-staging/ui-designer §3a.
+const { wave } = Astro.props as {
+  wave: { id: string; name: string; plain?: string };
+};
+---
+
+{
+  wave.plain ? (
+    <details class="wave-item">
+      <summary class="wave-summary">
+        <span class="wave-badge">{wave.id}</span>
+        <span class="wave-name">{wave.name}</span>
+        <span class="wave-chevron" aria-hidden="true" />
+      </summary>
+      <div class="wave-body">
+        <p>{wave.plain}</p>
+      </div>
+    </details>
+  ) : (
+    <div class="wave-item wave-static">
+      <span class="wave-badge">{wave.id}</span>
+      <span class="wave-name">{wave.name}</span>
+    </div>
+  )
+}

@@ -7,8 +7,11 @@
  * All CSS classes are defined in styles/pre-upload.css (no inline styles).
  */
 
-import { useState, useCallback } from 'react';
-import { lookupTranslation } from '../lib/term-translations';
+import { useState, useCallback } from "react";
+import { lookupTranslation } from "../lib/term-translations";
+import { apiFetch, ApiFetchError } from "../lib/api-fetch";
+import { useViewState } from "../lib/use-view-state";
+import { preUploadTab } from "../lib/site-view-state";
 
 // ─── shared types (mirror lib/pre-upload.ts) ─────────────────────────────
 
@@ -16,12 +19,12 @@ interface ChecklistTerm {
   n: number;
   term: string;
   rendered: string;
-  ok: '' | 'y' | 'n' | 'r' | 'd';
+  ok: "" | "y" | "n" | "r" | "d";
   fix: string;
 }
 
-type AmbiguityPriority = 'high' | 'medium' | 'low';
-type AmbiguityStatus = 'pending' | 'applied' | 'skipped';
+type AmbiguityPriority = "high" | "medium" | "low";
+type AmbiguityStatus = "pending" | "applied" | "skipped";
 
 interface AmbiguityItem {
   id: string;
@@ -59,51 +62,72 @@ function ChecklistRow({
     onChange(next);
   }
 
-  const rowClass = row.ok === 'y' ? 'is-ok' : row.ok === 'n' ? 'is-fix' : row.ok === 'r' ? 'is-replace' : row.ok === 'd' ? 'is-delete' : '';
+  const rowClass =
+    row.ok === "y"
+      ? "is-ok"
+      : row.ok === "n"
+        ? "is-fix"
+        : row.ok === "r"
+          ? "is-replace"
+          : row.ok === "d"
+            ? "is-delete"
+            : "";
 
   return (
     <tr className={rowClass}>
       <td className="pu-n">{row.n}</td>
-      <td><span className="pu-term-name">{row.term}</span></td>
-      <td><code className="pu-rendered">{row.rendered}</code></td>
+      <td>
+        <span className="pu-term-name">{row.term}</span>
+      </td>
+      <td>
+        <code className="pu-rendered">{row.rendered}</code>
+      </td>
       <td>
         <div className="pu-radio-group">
-          <label className={`pu-radio-btn${row.ok === 'y' ? ' is-ok-active' : ''}`}>
+          <label
+            className={`pu-radio-btn${row.ok === "y" ? " is-ok-active" : ""}`}
+          >
             <input
               type="radio"
               name={`ok-${row.n}`}
-              checked={row.ok === 'y'}
-              onChange={() => update({ ok: 'y', fix: '' })}
+              checked={row.ok === "y"}
+              onChange={() => update({ ok: "y", fix: "" })}
             />
             ✓ OK
           </label>
-          <label className={`pu-radio-btn${row.ok === 'n' ? ' is-fix-active' : ''}`}>
+          <label
+            className={`pu-radio-btn${row.ok === "n" ? " is-fix-active" : ""}`}
+          >
             <input
               type="radio"
               name={`ok-${row.n}`}
-              checked={row.ok === 'n'}
-              onChange={() => update({ ok: 'n' })}
+              checked={row.ok === "n"}
+              onChange={() => update({ ok: "n" })}
             />
             Fix
           </label>
-          <label className={`pu-radio-btn${row.ok === 'r' ? ' is-replace-active' : ''}`}>
+          <label
+            className={`pu-radio-btn${row.ok === "r" ? " is-replace-active" : ""}`}
+          >
             <input
               type="radio"
               name={`ok-${row.n}`}
-              checked={row.ok === 'r'}
+              checked={row.ok === "r"}
               onChange={() => {
-                const suggestion = lookupTranslation(row.term)?.english ?? '';
-                update({ ok: 'r', fix: row.fix.trim() || suggestion });
+                const suggestion = lookupTranslation(row.term)?.english ?? "";
+                update({ ok: "r", fix: row.fix.trim() || suggestion });
               }}
             />
             Replace
           </label>
-          <label className={`pu-radio-btn${row.ok === 'd' ? ' is-delete-active' : ''}`}>
+          <label
+            className={`pu-radio-btn${row.ok === "d" ? " is-delete-active" : ""}`}
+          >
             <input
               type="radio"
               name={`ok-${row.n}`}
-              checked={row.ok === 'd'}
-              onChange={() => update({ ok: 'd', fix: '' })}
+              checked={row.ok === "d"}
+              onChange={() => update({ ok: "d", fix: "" })}
             />
             Delete
           </label>
@@ -114,13 +138,16 @@ function ChecklistRow({
           type="text"
           className="pu-fix-input"
           placeholder={
-            row.ok === 'n' ? 'substitute for NotebookLM framing…' :
-            row.ok === 'r' ? 'English / biblical equivalent in source…' :
-            row.ok === 'd' ? 'generic substitute — or leave blank to drop the sentence' :
-            ''
+            row.ok === "n"
+              ? "substitute for NotebookLM framing…"
+              : row.ok === "r"
+                ? "English / biblical equivalent in source…"
+                : row.ok === "d"
+                  ? "generic substitute — or leave blank to drop the sentence"
+                  : ""
           }
           value={row.fix}
-          disabled={row.ok !== 'n' && row.ok !== 'r' && row.ok !== 'd'}
+          disabled={row.ok !== "n" && row.ok !== "r" && row.ok !== "d"}
           onChange={(e) => update({ fix: e.target.value })}
         />
       </td>
@@ -128,104 +155,114 @@ function ChecklistRow({
   );
 }
 
-function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string; terms: ChecklistTerm[]; audioPath: string | null }) {
+function PronunciationTab({
+  slug,
+  terms: initTerms,
+  audioPath,
+}: {
+  slug: string;
+  terms: ChecklistTerm[];
+  audioPath: string | null;
+}) {
   const [terms, setTerms] = useState<ChecklistTerm[]>(initTerms);
-  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
-  const [saveMsg, setSaveMsg] = useState('');
-  const [replaceState, setReplaceState] = useState<'idle' | 'applying' | 'done' | 'error'>('idle');
-  const [replaceMsg, setReplaceMsg] = useState('');
-  const [deleteState, setDeleteState] = useState<'idle' | 'applying' | 'done' | 'error'>('idle');
-  const [deleteMsg, setDeleteMsg] = useState('');
+  const [saveState, setSaveState] = useState<
+    "idle" | "saving" | "saved" | "error"
+  >("idle");
+  const [saveMsg, setSaveMsg] = useState("");
+  const [replaceState, setReplaceState] = useState<
+    "idle" | "applying" | "done" | "error"
+  >("idle");
+  const [replaceMsg, setReplaceMsg] = useState("");
+  const [deleteState, setDeleteState] = useState<
+    "idle" | "applying" | "done" | "error"
+  >("idle");
+  const [deleteMsg, setDeleteMsg] = useState("");
 
   const handleChange = useCallback((updated: ChecklistTerm) => {
-    setTerms(prev => prev.map(t => t.n === updated.n ? updated : t));
+    setTerms((prev) => prev.map((t) => (t.n === updated.n ? updated : t)));
   }, []);
 
-  const done = terms.filter(t =>
-    t.ok === 'y' ||
-    (t.ok === 'n' && t.fix.trim()) ||
-    (t.ok === 'r' && t.fix.trim()) ||
-    t.ok === 'd'
+  const done = terms.filter(
+    (t) =>
+      t.ok === "y" ||
+      (t.ok === "n" && t.fix.trim()) ||
+      (t.ok === "r" && t.fix.trim()) ||
+      t.ok === "d",
   ).length;
   const total = terms.length;
-  const replaceTerms = terms.filter(t => t.ok === 'r' && t.fix.trim());
-  const deleteTerms = terms.filter(t => t.ok === 'd');
+  const replaceTerms = terms.filter((t) => t.ok === "r" && t.fix.trim());
+  const deleteTerms = terms.filter((t) => t.ok === "d");
 
   async function handleSave() {
-    setSaveState('saving');
+    setSaveState("saving");
     try {
-      const res = await fetch('/api/pre-upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'save-checklist', slug, terms }),
+      const data = await apiFetch<{ saved: number }>("/api/pre-upload", {
+        method: "POST",
+        body: { action: "save-checklist", slug, terms },
       });
-      const data = await res.json();
-      if (data.ok) {
-        setSaveState('saved');
-        setSaveMsg(`Saved ${data.saved} terms to listen-checklist.md`);
-      } else {
-        setSaveState('error');
-        setSaveMsg(data.error ?? 'Save failed');
-      }
+      setSaveState("saved");
+      setSaveMsg(`Saved ${data.saved} terms to listen-checklist.md`);
     } catch (e) {
-      setSaveState('error');
-      setSaveMsg(String(e));
+      setSaveState("error");
+      setSaveMsg(e instanceof Error ? e.message : String(e));
     }
-    setTimeout(() => setSaveState('idle'), 4000);
+    setTimeout(() => setSaveState("idle"), 4000);
   }
 
   async function handleApplyReplacements() {
-    setReplaceState('applying');
+    setReplaceState("applying");
     try {
-      const res = await fetch('/api/pre-upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'apply-source-replacements',
+      const data = await apiFetch<{
+        total_replacements: number;
+        files_changed: number;
+      }>("/api/pre-upload", {
+        method: "POST",
+        body: {
+          action: "apply-source-replacements",
           slug,
-          replacements: replaceTerms.map(t => ({ term: t.term, replacement: t.fix })),
-        }),
+          replacements: replaceTerms.map((t) => ({
+            term: t.term,
+            replacement: t.fix,
+          })),
+        },
       });
-      const data = await res.json();
-      if (data.ok) {
-        setReplaceState('done');
-        setReplaceMsg(`${data.total_replacements} replacement${data.total_replacements !== 1 ? 's' : ''} across ${data.files_changed} chapter file${data.files_changed !== 1 ? 's' : ''}`);
-      } else {
-        setReplaceState('error');
-        setReplaceMsg(data.error ?? 'Failed');
-      }
+      setReplaceState("done");
+      setReplaceMsg(
+        `${data.total_replacements} replacement${data.total_replacements !== 1 ? "s" : ""} across ${data.files_changed} chapter file${data.files_changed !== 1 ? "s" : ""}`,
+      );
     } catch (e) {
-      setReplaceState('error');
-      setReplaceMsg(String(e));
+      setReplaceState("error");
+      setReplaceMsg(e instanceof Error ? e.message : String(e));
     }
-    setTimeout(() => setReplaceState('idle'), 6000);
+    setTimeout(() => setReplaceState("idle"), 6000);
   }
 
   async function handleApplyDeletions() {
-    setDeleteState('applying');
+    setDeleteState("applying");
     try {
-      const res = await fetch('/api/pre-upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'apply-deletions-to-source',
+      const data = await apiFetch<{
+        total_changes: number;
+        files_changed: number;
+      }>("/api/pre-upload", {
+        method: "POST",
+        body: {
+          action: "apply-deletions-to-source",
           slug,
-          deletions: deleteTerms.map(t => ({ term: t.term, substitute: t.fix })),
-        }),
+          deletions: deleteTerms.map((t) => ({
+            term: t.term,
+            substitute: t.fix,
+          })),
+        },
       });
-      const data = await res.json();
-      if (data.ok) {
-        setDeleteState('done');
-        setDeleteMsg(`${data.total_changes} change${data.total_changes !== 1 ? 's' : ''} across ${data.files_changed} file${data.files_changed !== 1 ? 's' : ''}`);
-      } else {
-        setDeleteState('error');
-        setDeleteMsg(data.error ?? 'Failed');
-      }
+      setDeleteState("done");
+      setDeleteMsg(
+        `${data.total_changes} change${data.total_changes !== 1 ? "s" : ""} across ${data.files_changed} file${data.files_changed !== 1 ? "s" : ""}`,
+      );
     } catch (e) {
-      setDeleteState('error');
-      setDeleteMsg(String(e));
+      setDeleteState("error");
+      setDeleteMsg(e instanceof Error ? e.message : String(e));
     }
-    setTimeout(() => setDeleteState('idle'), 6000);
+    setTimeout(() => setDeleteState("idle"), 6000);
   }
 
   return (
@@ -233,12 +270,22 @@ function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string;
       <div className="pu-section-head">
         <h2 className="pu-section-title">Pronunciation Review</h2>
         <p className="pu-section-note">
-          Listen to the EP00 probe, then mark each term: <strong>OK</strong> (correct), <strong>Fix</strong> (substitute in NotebookLM framing only), <strong>Replace</strong> (swap with English/biblical equivalent in chapter source), or <strong>Delete</strong> (type a generic substitute, e.g. "the Fatimid scholar" — or leave blank to drop the whole sentence). Do <em>not</em> write hyphen-CAPS respellings.
+          Listen to the EP00 probe, then mark each term: <strong>OK</strong>{" "}
+          (correct), <strong>Fix</strong> (substitute in NotebookLM framing
+          only), <strong>Replace</strong> (swap with English/biblical equivalent
+          in chapter source), or <strong>Delete</strong> (type a generic
+          substitute, e.g. "the Fatimid scholar" — or leave blank to drop the
+          whole sentence). Do <em>not</em> write hyphen-CAPS respellings.
         </p>
       </div>
 
       {audioPath && (
-        <a href={audioPath} className="pu-audio-link" target="_blank" rel="noreferrer">
+        <a
+          href={audioPath}
+          className="pu-audio-link"
+          target="_blank"
+          rel="noreferrer"
+        >
           <i className="fa-solid fa-headphones" aria-hidden="true"></i>
           Open EP00 probe audio
         </a>
@@ -256,7 +303,7 @@ function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string;
             </tr>
           </thead>
           <tbody>
-            {terms.map(t => (
+            {terms.map((t) => (
               <ChecklistRow key={t.n} term={t} onChange={handleChange} />
             ))}
           </tbody>
@@ -266,42 +313,58 @@ function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string;
       <div className="pu-save-bar">
         <button
           className="pu-btn pu-btn-primary"
-          disabled={saveState === 'saving'}
+          disabled={saveState === "saving"}
           onClick={handleSave}
         >
-          {saveState === 'saving' ? 'Saving…' : 'Save corrections'}
+          {saveState === "saving" ? "Saving…" : "Save corrections"}
         </button>
         {replaceTerms.length > 0 && (
           <button
             className="pu-btn pu-btn-replace"
-            disabled={replaceState === 'applying'}
+            disabled={replaceState === "applying"}
             onClick={handleApplyReplacements}
           >
-            {replaceState === 'applying' ? 'Applying…' :
-             replaceState === 'done'     ? '✓ Applied to source' :
-             `Apply ${replaceTerms.length} replacement${replaceTerms.length !== 1 ? 's' : ''} to source`}
+            {replaceState === "applying"
+              ? "Applying…"
+              : replaceState === "done"
+                ? "✓ Applied to source"
+                : `Apply ${replaceTerms.length} replacement${replaceTerms.length !== 1 ? "s" : ""} to source`}
           </button>
         )}
         {deleteTerms.length > 0 && (
           <button
             className="pu-btn pu-btn-danger"
-            disabled={deleteState === 'applying'}
+            disabled={deleteState === "applying"}
             onClick={handleApplyDeletions}
           >
-            {deleteState === 'applying' ? 'Applying…' :
-             deleteState === 'done'     ? '✓ Deletions applied' :
-             `Apply ${deleteTerms.length} deletion${deleteTerms.length !== 1 ? 's' : ''} to source`}
+            {deleteState === "applying"
+              ? "Applying…"
+              : deleteState === "done"
+                ? "✓ Deletions applied"
+                : `Apply ${deleteTerms.length} deletion${deleteTerms.length !== 1 ? "s" : ""} to source`}
           </button>
         )}
         <span className="pu-save-status">
           {done}/{total} terms reviewed
         </span>
-        {saveState === 'saved'     && <span className="pu-save-status success">{saveMsg}</span>}
-        {saveState === 'error'     && <span className="pu-save-status error">{saveMsg}</span>}
-        {replaceState === 'done'   && <span className="pu-save-status success">{replaceMsg}</span>}
-        {replaceState === 'error'  && <span className="pu-save-status error">{replaceMsg}</span>}
-        {deleteState === 'done'    && <span className="pu-save-status success">{deleteMsg}</span>}
-        {deleteState === 'error'   && <span className="pu-save-status error">{deleteMsg}</span>}
+        {saveState === "saved" && (
+          <span className="pu-save-status success">{saveMsg}</span>
+        )}
+        {saveState === "error" && (
+          <span className="pu-save-status error">{saveMsg}</span>
+        )}
+        {replaceState === "done" && (
+          <span className="pu-save-status success">{replaceMsg}</span>
+        )}
+        {replaceState === "error" && (
+          <span className="pu-save-status error">{replaceMsg}</span>
+        )}
+        {deleteState === "done" && (
+          <span className="pu-save-status success">{deleteMsg}</span>
+        )}
+        {deleteState === "error" && (
+          <span className="pu-save-status error">{deleteMsg}</span>
+        )}
       </div>
     </section>
   );
@@ -310,95 +373,122 @@ function PronunciationTab({ slug, terms: initTerms, audioPath }: { slug: string;
 // ─── Ambiguity tab ────────────────────────────────────────────────────────
 
 const PRIORITY_EMOJI: Record<AmbiguityPriority, string> = {
-  high: '🔴',
-  medium: '🟡',
-  low: '🟢',
+  high: "🔴",
+  medium: "🟡",
+  low: "🟢",
 };
 
-function AmbiguityCard({ slug, item: initItem }: { slug: string; item: AmbiguityItem }) {
+function AmbiguityCard({
+  slug,
+  item: initItem,
+}: {
+  slug: string;
+  item: AmbiguityItem;
+}) {
   const [item, setItem] = useState<AmbiguityItem>(initItem);
   const [clarText, setClarText] = useState(initItem.framing_hint);
   const [originalHint] = useState(initItem.framing_hint);
-  const [saveResState, setSaveResState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
-  const [saveResMsg, setSaveResMsg] = useState('');
-  const [applyState, setApplyState] = useState<Record<string, 'idle' | 'applying' | 'done' | 'error'>>({});
+  const [saveResState, setSaveResState] = useState<
+    "idle" | "saving" | "saved" | "error"
+  >("idle");
+  const [saveResMsg, setSaveResMsg] = useState("");
+  const [applyState, setApplyState] = useState<
+    Record<string, "idle" | "applying" | "done" | "error">
+  >({});
   const [applyMsg, setApplyMsg] = useState<Record<string, string>>({});
 
   async function handleSaveResolution() {
-    setSaveResState('saving');
+    setSaveResState("saving");
     try {
-      const res = await fetch('/api/pre-upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'save-clarification', slug, item_id: item.id, text: clarText }),
+      await apiFetch("/api/pre-upload", {
+        method: "POST",
+        body: {
+          action: "save-clarification",
+          slug,
+          item_id: item.id,
+          text: clarText,
+        },
       });
-      const data = await res.json();
-      if (data.ok) { setSaveResState('saved'); setSaveResMsg('Saved'); }
-      else { setSaveResState('error'); setSaveResMsg(data.error ?? 'Save failed'); }
+      setSaveResState("saved");
+      setSaveResMsg("Saved");
     } catch (e) {
-      setSaveResState('error'); setSaveResMsg(String(e));
+      setSaveResState("error");
+      setSaveResMsg(e instanceof Error ? e.message : String(e));
     }
-    setTimeout(() => setSaveResState('idle'), 3500);
+    setTimeout(() => setSaveResState("idle"), 3500);
   }
 
   async function handleApply(episodeId: string) {
-    setApplyState(s => ({ ...s, [episodeId]: 'applying' }));
+    setApplyState((s) => ({ ...s, [episodeId]: "applying" }));
     try {
-      const res = await fetch('/api/pre-upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'apply-fix',
+      await apiFetch("/api/pre-upload", {
+        method: "POST",
+        body: {
+          action: "apply-fix",
           slug,
           item_id: item.id,
           episode_id: episodeId,
           section: item.section,
           fix_text: clarText,
-        }),
+        },
       });
-      const data = await res.json();
-      if (data.ok) {
-        setApplyState(s => ({ ...s, [episodeId]: 'done' }));
-        setApplyMsg(m => ({ ...m, [episodeId]: `Applied to ${episodeId}` }));
-        setItem(i => ({ ...i, status: 'applied' }));
-      } else {
-        setApplyState(s => ({ ...s, [episodeId]: 'error' }));
-        setApplyMsg(m => ({ ...m, [episodeId]: data.error ?? 'Failed' }));
-      }
+      setApplyState((s) => ({ ...s, [episodeId]: "done" }));
+      setApplyMsg((m) => ({ ...m, [episodeId]: `Applied to ${episodeId}` }));
+      setItem((i) => ({ ...i, status: "applied" }));
     } catch (e) {
-      setApplyState(s => ({ ...s, [episodeId]: 'error' }));
-      setApplyMsg(m => ({ ...m, [episodeId]: String(e) }));
+      setApplyState((s) => ({ ...s, [episodeId]: "error" }));
+      setApplyMsg((m) => ({
+        ...m,
+        [episodeId]: e instanceof Error ? e.message : String(e),
+      }));
     }
   }
 
   async function handleApplyAll() {
     for (const ep of item.episodes) {
-      if (applyState[ep] === 'done') continue;
+      if (applyState[ep] === "done") continue;
       await handleApply(ep);
     }
   }
 
   async function handleSkip() {
-    await fetch('/api/pre-upload', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'mark-fix-status', slug, item_id: item.id, status: 'skipped' }),
-    });
-    setItem(i => ({ ...i, status: 'skipped' }));
+    try {
+      await apiFetch("/api/pre-upload", {
+        method: "POST",
+        body: {
+          action: "mark-fix-status",
+          slug,
+          item_id: item.id,
+          status: "skipped",
+        },
+      });
+    } catch (e) {
+      // The old raw fetch never checked the response, so any HTTP/envelope
+      // error still flipped the local status — only a transport failure (which
+      // rejected the fetch) stopped it. Preserve exactly that.
+      if (e instanceof ApiFetchError && e.status === 0) throw e;
+    }
+    setItem((i) => ({ ...i, status: "skipped" }));
   }
 
   const cardClass = [
-    'pu-amb-card',
+    "pu-amb-card",
     `priority-${item.priority}`,
-    item.status !== 'pending' ? `status-${item.status}` : '',
-  ].filter(Boolean).join(' ');
+    item.status !== "pending" ? `status-${item.status}` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
-  const lastApplyMsg = Object.values(applyMsg).filter(Boolean).slice(-1)[0] ?? '';
-  const hasError = Object.values(applyState).some(s => s === 'error');
-  const hasApplying = Object.values(applyState).some(s => s === 'applying');
+  const lastApplyMsg =
+    Object.values(applyMsg).filter(Boolean).slice(-1)[0] ?? "";
+  const hasError = Object.values(applyState).some((s) => s === "error");
+  const hasApplying = Object.values(applyState).some((s) => s === "applying");
 
   return (
-    <div className={cardClass} aria-label={`Ambiguity item: ${item.description}`}>
+    <div
+      className={cardClass}
+      aria-label={`Ambiguity item: ${item.description}`}
+    >
       <div className="pu-amb-head">
         <span className={`pu-amb-priority ${item.priority}`}>
           {PRIORITY_EMOJI[item.priority]} {item.priority}
@@ -406,12 +496,13 @@ function AmbiguityCard({ slug, item: initItem }: { slug: string; item: Ambiguity
         <div className="pu-amb-meta">
           <div className="pu-amb-desc">{item.description}</div>
           <div className="pu-amb-target">
-            <strong>Target:</strong> {item.episodes.join(', ')} — {item.section} section
+            <strong>Target:</strong> {item.episodes.join(", ")} — {item.section}{" "}
+            section
           </div>
         </div>
-        {item.status !== 'pending' && (
+        {item.status !== "pending" && (
           <span className={`pu-amb-status-badge ${item.status}`}>
-            {item.status === 'applied' ? '✓ Applied' : 'Skipped'}
+            {item.status === "applied" ? "✓ Applied" : "Skipped"}
           </span>
         )}
       </div>
@@ -421,17 +512,20 @@ function AmbiguityCard({ slug, item: initItem }: { slug: string; item: Ambiguity
         <div className="pu-amb-resolution">
           <div className="pu-amb-res-header">
             <span className="pu-amb-res-label">Your resolution</span>
-            {saveResState === 'saved' && (
+            {saveResState === "saved" && (
               <span className="pu-amb-saved-badge">✓ Saved</span>
             )}
-            {saveResState === 'error' && (
+            {saveResState === "error" && (
               <span className="pu-amb-saved-badge is-error">{saveResMsg}</span>
             )}
           </div>
           <textarea
             className="pu-amb-textarea"
             value={clarText}
-            onChange={e => { setClarText(e.target.value); if (saveResState === 'saved') setSaveResState('idle'); }}
+            onChange={(e) => {
+              setClarText(e.target.value);
+              if (saveResState === "saved") setSaveResState("idle");
+            }}
             placeholder="Enter your interpretation or clarification for this gap…"
             aria-label="Your resolution for this ambiguity"
             rows={6}
@@ -443,47 +537,58 @@ function AmbiguityCard({ slug, item: initItem }: { slug: string; item: Ambiguity
         <div className="pu-amb-actions">
           <button
             className="pu-btn pu-btn-sm"
-            disabled={saveResState === 'saving'}
+            disabled={saveResState === "saving"}
             onClick={handleSaveResolution}
             aria-label="Save resolution to the ambiguity file"
           >
-            {saveResState === 'saving' ? 'Saving…' : 'Save resolution'}
+            {saveResState === "saving" ? "Saving…" : "Save resolution"}
           </button>
 
-          <span className="pu-amb-sep" aria-hidden="true">|</span>
+          <span className="pu-amb-sep" aria-hidden="true">
+            |
+          </span>
 
           <button
             className="pu-btn pu-btn-primary pu-btn-sm"
-            disabled={hasApplying || item.episodes.every(ep => applyState[ep] === 'done')}
+            disabled={
+              hasApplying ||
+              item.episodes.every((ep) => applyState[ep] === "done")
+            }
             onClick={handleApplyAll}
             aria-label="Apply resolution to all episodes"
           >
-            {hasApplying ? 'Applying…' :
-             item.episodes.every(ep => applyState[ep] === 'done') ? '✓ Applied to All' :
-             'Apply to All'}
+            {hasApplying
+              ? "Applying…"
+              : item.episodes.every((ep) => applyState[ep] === "done")
+                ? "✓ Applied to All"
+                : "Apply to All"}
           </button>
 
           <div className="pu-amb-episode-btns">
-            {item.episodes.map(ep => (
+            {item.episodes.map((ep) => (
               <button
                 key={ep}
                 className="pu-btn pu-btn-primary pu-btn-sm"
-                disabled={hasApplying || applyState[ep] === 'done'}
+                disabled={hasApplying || applyState[ep] === "done"}
                 onClick={() => handleApply(ep)}
                 aria-label={`Apply resolution to ${ep}`}
               >
-                {applyState[ep] === 'applying' ? '…' :
-                 applyState[ep] === 'done'     ? `✓ ${ep}` :
-                                                 `Apply → ${ep}`}
+                {applyState[ep] === "applying"
+                  ? "…"
+                  : applyState[ep] === "done"
+                    ? `✓ ${ep}`
+                    : `Apply → ${ep}`}
               </button>
             ))}
           </div>
 
-          <span className="pu-amb-sep" aria-hidden="true">|</span>
+          <span className="pu-amb-sep" aria-hidden="true">
+            |
+          </span>
 
           <button
             className="pu-btn pu-btn-sm"
-            disabled={item.status === 'skipped'}
+            disabled={item.status === "skipped"}
             onClick={handleSkip}
             aria-label="Skip this item"
           >
@@ -491,7 +596,9 @@ function AmbiguityCard({ slug, item: initItem }: { slug: string; item: Ambiguity
           </button>
 
           {lastApplyMsg && (
-            <span className={`pu-amb-apply-status ${hasError ? 'error' : 'success'}`}>
+            <span
+              className={`pu-amb-apply-status ${hasError ? "error" : "success"}`}
+            >
               {lastApplyMsg}
             </span>
           )}
@@ -500,7 +607,9 @@ function AmbiguityCard({ slug, item: initItem }: { slug: string; item: Ambiguity
         {/* ── Original suggestion (collapsible) ────────────────── */}
         {originalHint && (
           <details className="pu-amb-hint-details">
-            <summary className="pu-amb-hint-summary">Original system suggestion</summary>
+            <summary className="pu-amb-hint-summary">
+              Original system suggestion
+            </summary>
             <div className="pu-amb-hint-text">{originalHint}</div>
           </details>
         )}
@@ -509,23 +618,35 @@ function AmbiguityCard({ slug, item: initItem }: { slug: string; item: Ambiguity
   );
 }
 
-function AmbiguityTab({ slug, items }: { slug: string; items: AmbiguityItem[] }) {
-  const applied = items.filter(i => i.status === 'applied').length;
-  const total   = items.length;
+function AmbiguityTab({
+  slug,
+  items,
+}: {
+  slug: string;
+  items: AmbiguityItem[];
+}) {
+  const applied = items.filter((i) => i.status === "applied").length;
+  const total = items.length;
 
   return (
     <section aria-label="Framing Fixes">
       <div className="pu-section-head">
         <h2 className="pu-section-title">Framing Fixes</h2>
         <p className="pu-section-note">
-          Apply these findings to the episode framing files before upload to NotebookLM.
-          Edit the text area, then click <strong>Apply → EP##</strong> to insert it into that episode's framing.
+          Apply these findings to the episode framing files before upload to
+          NotebookLM. Edit the text area, then click{" "}
+          <strong>Apply → EP##</strong> to insert it into that episode's
+          framing.
         </p>
       </div>
 
       <div className="pu-progress">
-        <div className={`pu-progress-chip ${applied === total ? 'done' : applied > 0 ? 'in-progress' : 'pending'}`}>
-          <span className="pu-progress-num">{applied}/{total}</span>
+        <div
+          className={`pu-progress-chip ${applied === total ? "done" : applied > 0 ? "in-progress" : "pending"}`}
+        >
+          <span className="pu-progress-num">
+            {applied}/{total}
+          </span>
           items applied
         </div>
       </div>
@@ -534,7 +655,7 @@ function AmbiguityTab({ slug, items }: { slug: string; items: AmbiguityItem[] })
         <div className="pu-empty">No ambiguity items found for this book.</div>
       ) : (
         <div className="pu-amb-list">
-          {items.map(item => (
+          {items.map((item) => (
             <AmbiguityCard key={item.id} slug={slug} item={item} />
           ))}
         </div>
@@ -545,56 +666,90 @@ function AmbiguityTab({ slug, items }: { slug: string; items: AmbiguityItem[] })
 
 // ─── Root tabbed component ────────────────────────────────────────────────
 
-type Tab = 'pronunciation' | 'ambiguity';
+type Tab = "pronunciation" | "ambiguity";
 
-export default function PreUploadTabs({ slug, title, terms, ambiguityItems, audioPath }: Props) {
-  const [activeTab, setActiveTab] = useState<Tab>('pronunciation');
+export default function PreUploadTabs({
+  slug,
+  title,
+  terms,
+  ambiguityItems,
+  audioPath,
+}: Props) {
+  // Reopens on the tab this book was last reviewed in — see lib/view-state.
+  const [activeTab, setActiveTab] = useViewState<Tab>(
+    preUploadTab,
+    "pronunciation",
+    slug,
+  );
 
-  const pronDone  = terms.filter(t => t.ok === 'y' || (t.ok === 'n' && t.fix.trim()) || (t.ok === 'r' && t.fix.trim()) || t.ok === 'd').length;
-  const ambApplied = ambiguityItems.filter(i => i.status === 'applied').length;
+  const pronDone = terms.filter(
+    (t) =>
+      t.ok === "y" ||
+      (t.ok === "n" && t.fix.trim()) ||
+      (t.ok === "r" && t.fix.trim()) ||
+      t.ok === "d",
+  ).length;
+  const ambApplied = ambiguityItems.filter(
+    (i) => i.status === "applied",
+  ).length;
 
   return (
     <div>
       <header className="pu-header">
         <h1 className="pu-title">{title}</h1>
-        <p className="pu-lede">Pre-upload review — complete both tabs before generating audio in NotebookLM.</p>
+        <p className="pu-lede">
+          Pre-upload review — complete both tabs before generating audio in
+          NotebookLM.
+        </p>
       </header>
 
       <div className="pu-progress">
-        <div className={`pu-progress-chip ${pronDone === terms.length && terms.length > 0 ? 'done' : pronDone > 0 ? 'in-progress' : 'pending'}`}>
-          <span className="pu-progress-num">{pronDone}</span>/<span>{terms.length}</span>&nbsp;pronunciation terms
+        <div
+          className={`pu-progress-chip ${pronDone === terms.length && terms.length > 0 ? "done" : pronDone > 0 ? "in-progress" : "pending"}`}
+        >
+          <span className="pu-progress-num">{pronDone}</span>/
+          <span>{terms.length}</span>&nbsp;pronunciation terms
         </div>
-        <div className={`pu-progress-chip ${ambApplied === ambiguityItems.length && ambiguityItems.length > 0 ? 'done' : ambApplied > 0 ? 'in-progress' : 'pending'}`}>
-          <span className="pu-progress-num">{ambApplied}</span>/<span>{ambiguityItems.length}</span>&nbsp;framing fixes
+        <div
+          className={`pu-progress-chip ${ambApplied === ambiguityItems.length && ambiguityItems.length > 0 ? "done" : ambApplied > 0 ? "in-progress" : "pending"}`}
+        >
+          <span className="pu-progress-num">{ambApplied}</span>/
+          <span>{ambiguityItems.length}</span>&nbsp;framing fixes
         </div>
       </div>
 
-      <div className="pu-tabs tabbar" role="tablist" aria-label="Review sections">
+      <div
+        className="pu-tabs tabbar"
+        role="tablist"
+        aria-label="Review sections"
+      >
         <button
           role="tab"
-          aria-selected={activeTab === 'pronunciation'}
-          className={`tab${activeTab === 'pronunciation' ? ' is-active' : ''}`}
-          onClick={() => setActiveTab('pronunciation')}
+          aria-selected={activeTab === "pronunciation"}
+          className={`tab${activeTab === "pronunciation" ? " is-active" : ""}`}
+          onClick={() => setActiveTab("pronunciation")}
         >
           Pronunciation
-          {pronDone === terms.length && terms.length > 0 && ' ✓'}
+          {pronDone === terms.length && terms.length > 0 && " ✓"}
         </button>
         <button
           role="tab"
-          aria-selected={activeTab === 'ambiguity'}
-          className={`tab${activeTab === 'ambiguity' ? ' is-active' : ''}`}
-          onClick={() => setActiveTab('ambiguity')}
+          aria-selected={activeTab === "ambiguity"}
+          className={`tab${activeTab === "ambiguity" ? " is-active" : ""}`}
+          onClick={() => setActiveTab("ambiguity")}
         >
           Framing Fixes
-          {ambApplied === ambiguityItems.length && ambiguityItems.length > 0 && ' ✓'}
+          {ambApplied === ambiguityItems.length &&
+            ambiguityItems.length > 0 &&
+            " ✓"}
         </button>
       </div>
 
       <div role="tabpanel">
-        {activeTab === 'pronunciation' && (
+        {activeTab === "pronunciation" && (
           <PronunciationTab slug={slug} terms={terms} audioPath={audioPath} />
         )}
-        {activeTab === 'ambiguity' && (
+        {activeTab === "ambiguity" && (
           <AmbiguityTab slug={slug} items={ambiguityItems} />
         )}
       </div>

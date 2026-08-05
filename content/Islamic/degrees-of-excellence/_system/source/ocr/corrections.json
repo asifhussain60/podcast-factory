@@ -1,0 +1,26 @@
+{
+  "schema": "ocr.corrections/v1",
+  "note": "Declared corrections to the Arabic scan. Applied by scripts/podcast/correct_ocr.py, which keeps the vowelled sibling in step and re-stamps the staleness hash. Each entry states the reading the scan carries, the reading it should carry, and why — so a fixed scanner error can never be mistaken later for a manuscript variant.",
+  "corrections": [
+    {
+      "wrong": "﴿قُل",
+      "right": "قُل",
+      "occurrences": 1,
+      "context": "فبالإمام تقوم حجة الله على الخلق كما قال الله تعالى: ﴿قُل١٤ْ  [foot of page 192, followed by that page's critical apparatus and the page break]",
+      "evidence": "BRACKETS ONLY — not one letter changes. The quotation of Q 6:149 is split across a page break: the ornate run opens at the foot of page 192 with قُل and its remaining three words resume at the head of page 193 as فَلِلْهِ الْحُجَّةُ اَلْبَلِغَةُ ﴾, with that page's thirteen apparatus notes, the running header and the folio number transcribed between the two halves. An ornate span therefore runs from the opener straight through ~180 words of apparatus, and the verse scores 0.02 against it and is discarded — this is the one cited verse of the book's 23 that reached the page with no Arabic. This entry removes the opener stranded on page 192 (its word قُل stays exactly where the printer set it) and its pair below opens the run where the text resumes, which restores the scan to 45 balanced pairs. The joined reading is confirmed against the canonical mushaf in content/knowledge-base/mirror.db: قُلْ فَلِلَّهِ ٱلْحُجَّةُ ٱلْبَٰلِغَةُ.",
+      "approved_by": "Asif",
+      "approved_on": "2026-08-01",
+      "applied_at": "2026-08-01"
+    },
+    {
+      "wrong": "فَلِلْهِ الْحُجَّةُ اَلْبَلِغَةُ ﴾",
+      "right": "﴿فَلِلْهِ الْحُجَّةُ اَلْبَلِغَةُ ﴾",
+      "occurrences": 1,
+      "context": "<!-- page 193 --> كتاب إثبات الإمامة ٥٨ فَلِلْهِ الْحُجَّةُ اَلْبَلِغَةُ ﴾.٢",
+      "evidence": "The pair of the entry above; see its evidence. Opens the ornate run where the quotation resumes after the page break, so the span holds the verse alone instead of the preceding page's apparatus. Brackets only — the three words are left exactly as the scan transcribes them, OCR errors and all (فَلِلْهِ for فَلِلَّهِ, اَلْبَلِغَةُ for ٱلْبَٰلِغَةُ), because the letters printed in the edition are copied from the mushaf and never from the scan.",
+      "approved_by": "Asif",
+      "approved_on": "2026-08-01",
+      "applied_at": "2026-08-01"
+    }
+  ]
+}

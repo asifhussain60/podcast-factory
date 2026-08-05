@@ -17,8 +17,8 @@ Mechanics:
      slide figures, re-inject one <figure class="book-diagram book-slide"> per
      anchored slide at the paragraph containing its verbatim anchor_text —
      by default BEFORE that paragraph (the slide precedes the passage that
-     explains it). Same anchor mechanics as _book_illustrate._inject_figures,
-     hardened: a missing OR ambiguous anchor fails loudly naming the slide_id.
+     explains it). Anchor-and-insert mechanics, hardened: a missing OR
+     ambiguous anchor fails loudly naming the slide_id.
   3. Write book/book-slides.md. build_book_pdf.py prefers it over
      book-illustrated.md/book.md. book.md / book-illustrated.md never mutated.
 
@@ -33,6 +33,7 @@ USAGE (manual book-level mode)
 
 --force re-extracts the page images even if present. Re-runs are idempotent.
 """
+
 from __future__ import annotations
 
 import json
@@ -43,8 +44,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _authoring._core import AuthoringError  # noqa: E402
-from _paths import resolve_content  # noqa: E402
+from _authoring._core import AuthoringError
+from _paths import resolve_content
 
 _PHASE = "slide-inject"
 _DPI = 150
@@ -55,8 +56,7 @@ _JPEG_QUALITY = 85
 _PAGE_RE = re.compile(r"-(\d+)\.(?:png|jpg)$")
 # Widened 2026-06-10: also strips the SVG-replicated variant
 # (class="book-diagram book-slide book-slide-svg") so re-runs stay idempotent.
-_SLIDE_FIGURE_RE = re.compile(
-    r'<figure class="book-diagram book-slide[^"]*">.*?</figure>\n*', re.DOTALL)
+_SLIDE_FIGURE_RE = re.compile(r'<figure class="book-diagram book-slide[^"]*">.*?</figure>\n*', re.DOTALL)
 _REQUIRED_KEYS = ("slide_id", "page", "title", "anchor_text")
 
 
@@ -74,14 +74,12 @@ def load_manifest(manifest_path: Path) -> list[dict]:
         missing = [k for k in _REQUIRED_KEYS if k not in e]
         if missing:
             raise AuthoringError(
-                phase=_PHASE,
-                message=f"{manifest_path} entry {i} missing key(s): {', '.join(missing)}")
+                phase=_PHASE, message=f"{manifest_path} entry {i} missing key(s): {', '.join(missing)}"
+            )
         if not isinstance(e["page"], int) or e["page"] < 1:
-            raise AuthoringError(
-                phase=_PHASE, message=f"slide {e['slide_id']}: page must be an int >= 1")
+            raise AuthoringError(phase=_PHASE, message=f"slide {e['slide_id']}: page must be an int >= 1")
         if e["slide_id"] in seen:
-            raise AuthoringError(
-                phase=_PHASE, message=f"duplicate slide_id in manifest: {e['slide_id']}")
+            raise AuthoringError(phase=_PHASE, message=f"duplicate slide_id in manifest: {e['slide_id']}")
         seen.add(e["slide_id"])
     return entries
 
@@ -108,18 +106,28 @@ def extract_pages(deck_pdf: Path, pages_dir: Path, *, force: bool = False, log=p
 
     pages_dir.mkdir(parents=True, exist_ok=True)
     proc = subprocess.run(
-        ["pdftoppm", "-jpeg", "-jpegopt", f"quality={_JPEG_QUALITY}",
-         "-r", str(_DPI), str(deck_pdf), str(pages_dir / "page")],
-        capture_output=True, text=True)
+        [
+            "pdftoppm",
+            "-jpeg",
+            "-jpegopt",
+            f"quality={_JPEG_QUALITY}",
+            "-r",
+            str(_DPI),
+            str(deck_pdf),
+            str(pages_dir / "page"),
+        ],
+        capture_output=True,
+        text=True,
+    )
     if proc.returncode != 0:
         raise AuthoringError(
             phase=_PHASE,
             message=f"pdftoppm failed rc={proc.returncode}: {proc.stderr[:400]}",
-            manual_fallback="Install poppler (`brew install poppler`) and retry.")
+            manual_fallback="Install poppler (`brew install poppler`) and retry.",
+        )
     count = len(_page_map(pages_dir))
     if count == 0:
-        raise AuthoringError(
-            phase=_PHASE, message=f"pdftoppm produced no PNGs from {deck_pdf.name}")
+        raise AuthoringError(phase=_PHASE, message=f"pdftoppm produced no PNGs from {deck_pdf.name}")
     log(f"    {_PHASE}: extracted {count} pages from {deck_pdf.name} at {_DPI} dpi")
     return count
 
@@ -134,7 +142,8 @@ def pdf_page_texts(pdf: Path) -> list[str]:
         raise AuthoringError(
             phase=_PHASE,
             message=f"pdftotext failed rc={proc.returncode}: {proc.stderr[:400]}",
-            manual_fallback="Install poppler (`brew install poppler`) and retry.")
+            manual_fallback="Install poppler (`brew install poppler`) and retry.",
+        )
     pages = proc.stdout.split("\f")
     if pages and not pages[-1].strip():
         pages = pages[:-1]
@@ -156,9 +165,14 @@ def strip_slide_figures(book_md: str) -> str:
     return _SLIDE_FIGURE_RE.sub("", book_md)
 
 
-def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str],
-                  position: str = "before",
-                  svg_overrides: dict[int, Path] | None = None) -> str:
+def inject_slides(
+    book_md: str,
+    entries: list[dict],
+    *,
+    pages: dict[int, str],
+    position: str = "before",
+    svg_overrides: dict[int, Path] | None = None,
+) -> str:
     """Inject one figure per anchored slide at its anchor paragraph.
 
     ``pages`` maps page number -> img SRC PATH relative to the book content dir
@@ -186,8 +200,7 @@ def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str],
     for e in entries:
         sid, page, anchor = e["slide_id"], e["page"], e["anchor_text"]
         if page not in pages:
-            problems.append(f"{sid}: page {page} has no extracted image "
-                            f"({len(pages)} pages present)")
+            problems.append(f"{sid}: page {page} has no extracted image ({len(pages)} pages present)")
             continue
         if anchor is None:  # combined-deck-only slide (cover) — never inline
             continue
@@ -213,7 +226,7 @@ def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str],
             caption_html = ""
             alt_text = "slide"
         else:
-            caption_html = f'<figcaption>{title}</figcaption>\n'
+            caption_html = f"<figcaption>{title}</figcaption>\n"
             alt_text = title
         svg_path = (svg_overrides or {}).get(page)
         if svg_path is not None:
@@ -224,9 +237,9 @@ def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str],
             if svg_markup.startswith("<svg"):
                 figure_block = (
                     f'<figure class="book-diagram book-slide book-slide-svg">\n'
-                    f'{svg_markup}\n'
-                    f'{caption_html}'
-                    f'</figure>\n\n'
+                    f"{svg_markup}\n"
+                    f"{caption_html}"
+                    f"</figure>\n\n"
                 )
                 insertions.append((insert_at, figure_block))
                 continue
@@ -234,17 +247,17 @@ def inject_slides(book_md: str, entries: list[dict], *, pages: dict[int, str],
         figure_block = (
             f'<figure class="book-diagram book-slide">\n'
             f'<img src="{pages[page]}" alt="{alt_text}">\n'
-            f'{caption_html}'
-            f'</figure>\n\n'
+            f"{caption_html}"
+            f"</figure>\n\n"
         )
         insertions.append((insert_at, figure_block))
 
     if problems:
         raise AuthoringError(
             phase=_PHASE,
-            message="slide injection failed — fix slide-manifest.json:\n  "
-                    + "\n  ".join(problems),
-            manual_fallback="Anchors must be verbatim substrings occurring exactly once.")
+            message="slide injection failed — fix slide-manifest.json:\n  " + "\n  ".join(problems),
+            manual_fallback="Anchors must be verbatim substrings occurring exactly once.",
+        )
 
     insertions.sort(key=lambda x: x[0], reverse=True)
     for pos, block in insertions:
@@ -261,7 +274,8 @@ def injection_source(book_dir: Path) -> Path:
         raise AuthoringError(
             phase=_PHASE,
             message=f"no book/book-illustrated.md or book/book.md in {book_dir.name}",
-            manual_fallback="Run 0book-compose (and 0book-illustrate) first.")
+            manual_fallback="Run 0book-compose (and 0book-illustrate) first.",
+        )
     return src
 
 
@@ -277,20 +291,20 @@ def inject_slide_deck(book_dir: Path, *, force: bool = False, log=print) -> Path
         raise AuthoringError(
             phase=_PHASE,
             message=f"missing slide-decks/book-deck.pdf in {book_dir.name}",
-            manual_fallback="Export the deck from NotebookLM and drop it at "
-                            "slide-decks/book-deck.pdf.")
+            manual_fallback="Export the deck from NotebookLM and drop it at slide-decks/book-deck.pdf.",
+        )
     manifest_path = deck_dir / "_manifests" / "book-manifest.json"
     if not manifest_path.exists():
         raise AuthoringError(
             phase=_PHASE,
             message=f"missing {manifest_path.relative_to(book_dir)}",
-            manual_fallback="Author the slide manifest (slide_id/page/title/anchor_text per slide).")
+            manual_fallback="Author the slide manifest (slide_id/page/title/anchor_text per slide).",
+        )
 
     entries = load_manifest(manifest_path)
     pages_dir = deck_dir / "_pages" / "book"
     extract_pages(deck_pdf, pages_dir, force=force, log=log)
-    pages = {n: f"slide-decks/_pages/book/{p.name}"
-             for n, p in _page_map(pages_dir).items()}
+    pages = {n: f"slide-decks/_pages/book/{p.name}" for n, p in _page_map(pages_dir).items()}
 
     src = injection_source(book_dir)
     out = inject_slides(src.read_text(encoding="utf-8"), entries, pages=pages)

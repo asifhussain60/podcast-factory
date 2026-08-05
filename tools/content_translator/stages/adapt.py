@@ -10,10 +10,10 @@ This stage does NOT call an LLM API. Instead it:
 
 Stage transition: translated → adapted  (manual, after operator writes the files)
 """
+
 from __future__ import annotations
 
 import re
-import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -33,7 +33,7 @@ def _find_r1_entry(binder_id: int, chapter_id: int) -> dict | None:
     r1_file = CLASSIFIER_DATA / "wisdom-r1-decisions.yaml"
     if not r1_file.exists():
         return None
-    pattern = re.compile(
+    pattern = re.compile(  # noqa: F841
         rf"binder_id:\s*{binder_id}.*?chapter_id:\s*{chapter_id}.*?en_title:\s*\"([^\"]+)\"",
         re.DOTALL,
     )
@@ -57,13 +57,15 @@ def _find_r2_entries(binder_id: int, chapter_id: int) -> list[dict]:
         if f"binder_id: {binder_id}" in block and f"chapter_id: {chapter_id}" in block:
             source_m = re.search(r'source:\s*"([^"]+)"', block)
             en_m = re.search(r'en_title:\s*"([^"]+)"', block)
-            topic_m = re.search(r'topic_id:\s*(\d+)', block)
+            topic_m = re.search(r"topic_id:\s*(\d+)", block)
             if en_m:
-                entries.append({
-                    "topic_id": int(topic_m.group(1)) if topic_m else None,
-                    "source": source_m.group(1) if source_m else "",
-                    "en_title": en_m.group(1),
-                })
+                entries.append(
+                    {
+                        "topic_id": int(topic_m.group(1)) if topic_m else None,
+                        "source": source_m.group(1) if source_m else "",
+                        "en_title": en_m.group(1),
+                    }
+                )
     return entries
 
 
@@ -83,12 +85,10 @@ def surface_adapt_brief(bundle_root: Path, binder_id: int, chapter_id: int) -> N
         print(f"SKIPPED (already adapted): {bundle_root}")
         return
     if stage != "translated":
-        raise RuntimeError(
-            f"Stage is '{stage}' — run `translate` first before `adapt`."
-        )
+        raise RuntimeError(f"Stage is '{stage}' — run `translate` first before `adapt`.")
 
     if not raw_en.exists():
-        raise FileNotFoundError(f"raw-extract.en.md not found — run translate first.")
+        raise FileNotFoundError("raw-extract.en.md not found — run translate first.")
 
     r1 = _find_r1_entry(binder_id, chapter_id)
     r2 = _find_r2_entries(binder_id, chapter_id)
@@ -109,10 +109,10 @@ def surface_adapt_brief(bundle_root: Path, binder_id: int, chapter_id: int) -> N
     urdu_text = raw_ur.read_text(encoding="utf-8")
     english_literal = raw_en.read_text(encoding="utf-8")
 
-    r2_map = "\n".join(
-        f"  topic_id={e['topic_id']}: {e['source']} → {e['en_title']}"
-        for e in r2
-    ) or "  (none — use Urdu topic labels translated literally)"
+    r2_map = (
+        "\n".join(f"  topic_id={e['topic_id']}: {e['source']} → {e['en_title']}" for e in r2)
+        or "  (none — use Urdu topic labels translated literally)"
+    )
 
     sep = "=" * 80
     print(f"""

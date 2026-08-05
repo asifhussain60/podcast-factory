@@ -1,12 +1,11 @@
 """tests/test_source_library_mirror.py — Wave J (J1): mirror builder + query tests."""
+
 from __future__ import annotations
 
 import sqlite3
 import tempfile
 from pathlib import Path
 from unittest.mock import patch
-
-import pytest
 
 # ── helpers ────────────────────────────────────────────────────────────────
 
@@ -32,8 +31,26 @@ def _make_mirror(db_path: Path) -> sqlite3.Connection:
     conn.executemany(
         "INSERT INTO fts_topics VALUES (?,?,?,?,?,?,?,?)",
         [
-            (1, 0, "التأويل", "Tawil", "Esoteric interpretation", "Binder 1", "Ch 1", "The inner meaning of revelation"),
-            (2, 0, "الحقيقة", "Haqiqa", "Spiritual reality", "Binder 1", "Ch 2", "The ultimate truth beyond the apparent"),
+            (
+                1,
+                0,
+                "التأويل",
+                "Tawil",
+                "Esoteric interpretation",
+                "Binder 1",
+                "Ch 1",
+                "The inner meaning of revelation",
+            ),
+            (
+                2,
+                0,
+                "الحقيقة",
+                "Haqiqa",
+                "Spiritual reality",
+                "Binder 1",
+                "Ch 2",
+                "The ultimate truth beyond the apparent",
+            ),
         ],
     )
     # Sessions: 1 sample
@@ -65,12 +82,10 @@ def test_schema_creates_all_tables():
         db_path = Path(td) / "mirror.db"
         conn = sqlite3.connect(str(db_path))
         from scripts.podcast.source_library_mirror import _SCHEMA
+
         conn.executescript(_SCHEMA)
         tables = {
-            r[0]
-            for r in conn.execute(
-                "SELECT name FROM sqlite_master WHERE type IN ('table','shadow')"
-            ).fetchall()
+            r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type IN ('table','shadow')").fetchall()
         }
         conn.close()
     assert "term_index" in tables
@@ -81,13 +96,9 @@ def test_schema_has_term_index_indexes():
         db_path = Path(td) / "mirror.db"
         conn = sqlite3.connect(str(db_path))
         from scripts.podcast.source_library_mirror import _SCHEMA
+
         conn.executescript(_SCHEMA)
-        indexes = {
-            r[0]
-            for r in conn.execute(
-                "SELECT name FROM sqlite_master WHERE type='index'"
-            ).fetchall()
-        }
+        indexes = {r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='index'").fetchall()}
         conn.close()
     assert "idx_term_index_term" in indexes
     assert "idx_term_index_root" in indexes
@@ -98,6 +109,7 @@ def test_schema_has_term_index_indexes():
 
 def test_open_mirror_returns_none_when_absent():
     from scripts.podcast.source_library_mirror import open_mirror
+
     result = open_mirror(Path("/nonexistent/path/mirror.db"))
     assert result is None
 
@@ -107,6 +119,7 @@ def test_open_mirror_returns_connection_when_present():
         db_path = Path(td) / "mirror.db"
         _make_mirror(db_path)
         from scripts.podcast.source_library_mirror import open_mirror
+
         conn = open_mirror(db_path)
         assert conn is not None
         conn.close()
@@ -119,7 +132,8 @@ def test_fts_quran_search_finds_verse():
     with tempfile.TemporaryDirectory() as td:
         db_path = Path(td) / "mirror.db"
         _make_mirror(db_path)
-        from scripts.podcast.source_library_mirror import open_mirror, fts_quran_search
+        from scripts.podcast.source_library_mirror import fts_quran_search, open_mirror
+
         conn = open_mirror(db_path)
         results = fts_quran_search("praise", conn=conn)
         conn.close()
@@ -130,6 +144,7 @@ def test_fts_quran_search_finds_verse():
 def test_fts_quran_search_returns_empty_without_mirror():
     from scripts.podcast import source_library_mirror
     from scripts.podcast.source_library_mirror import fts_quran_search
+
     # Patch open_mirror → None to simulate no mirror regardless of local DB state.
     with patch.object(source_library_mirror, "open_mirror", return_value=None):
         results = fts_quran_search("praise", conn=None)
@@ -140,7 +155,8 @@ def test_fts_quran_search_respects_limit():
     with tempfile.TemporaryDirectory() as td:
         db_path = Path(td) / "mirror.db"
         _make_mirror(db_path)
-        from scripts.podcast.source_library_mirror import open_mirror, fts_quran_search
+        from scripts.podcast.source_library_mirror import fts_quran_search, open_mirror
+
         conn = open_mirror(db_path)
         results = fts_quran_search("Allah", limit=1, conn=conn)
         conn.close()
@@ -154,7 +170,8 @@ def test_fts_topics_search_finds_topic():
     with tempfile.TemporaryDirectory() as td:
         db_path = Path(td) / "mirror.db"
         _make_mirror(db_path)
-        from scripts.podcast.source_library_mirror import open_mirror, fts_topics_search
+        from scripts.podcast.source_library_mirror import fts_topics_search, open_mirror
+
         conn = open_mirror(db_path)
         results = fts_topics_search("esoteric", conn=conn)
         conn.close()
@@ -165,6 +182,7 @@ def test_fts_topics_search_finds_topic():
 def test_fts_topics_search_returns_empty_without_mirror():
     from scripts.podcast import source_library_mirror
     from scripts.podcast.source_library_mirror import fts_topics_search
+
     with patch.object(source_library_mirror, "open_mirror", return_value=None):
         results = fts_topics_search("esoteric", conn=None)
     assert results == []
@@ -178,6 +196,7 @@ def test_term_index_exact_lookup():
         db_path = Path(td) / "mirror.db"
         _make_mirror(db_path)
         from scripts.podcast.source_library_mirror import open_mirror, term_index_lookup
+
         conn = open_mirror(db_path)
         result = term_index_lookup("tawil", conn=conn)
         conn.close()
@@ -191,6 +210,7 @@ def test_term_index_prefix_lookup():
         db_path = Path(td) / "mirror.db"
         _make_mirror(db_path)
         from scripts.podcast.source_library_mirror import open_mirror, term_index_lookup
+
         conn = open_mirror(db_path)
         result = term_index_lookup("tan", conn=conn)  # prefix match on "tanzil"
         conn.close()
@@ -203,6 +223,7 @@ def test_term_index_returns_none_on_miss():
         db_path = Path(td) / "mirror.db"
         _make_mirror(db_path)
         from scripts.podcast.source_library_mirror import open_mirror, term_index_lookup
+
         conn = open_mirror(db_path)
         result = term_index_lookup("zzzznotaword", conn=conn)
         conn.close()
@@ -211,6 +232,7 @@ def test_term_index_returns_none_on_miss():
 
 def test_term_index_lookup_returns_none_without_mirror():
     from scripts.podcast.source_library_mirror import term_index_lookup
+
     result = term_index_lookup("tawil", conn=None)
     assert result is None
 
@@ -222,13 +244,13 @@ def test_build_mirror_dry_run_does_not_write():
     with tempfile.TemporaryDirectory() as td:
         db_path = Path(td) / "should-not-exist.db"
         # patch query_json so it doesn't need Docker
-        fake_rows = [{"surah": 1, "ayat": 1, "arabic": "", "pickthall": "test",
-                      "asad": "", "urdu": "", "phonetic": ""}]
+        fake_rows = [{"surah": 1, "ayat": 1, "arabic": "", "pickthall": "test", "asad": "", "urdu": "", "phonetic": ""}]
         with patch(
             "scripts.podcast.source_library_mirror.query_json",
             return_value=fake_rows,
         ):
             from scripts.podcast.source_library_mirror import build_mirror
+
             build_mirror(db_path=db_path, dry_run=True)
         assert not db_path.exists()
 
@@ -241,13 +263,12 @@ def test_word_etymology_uses_mirror_when_available():
     with tempfile.TemporaryDirectory() as td:
         db_path = Path(td) / "mirror.db"
         _make_mirror(db_path)
-        with patch(
-            "scripts.podcast.source_library_mirror.MIRROR_PATH", db_path
-        ):
-            from importlib import reload
+        with patch("scripts.podcast.source_library_mirror.MIRROR_PATH", db_path):
             import scripts.podcast.source_library_mirror as m
+
             m.MIRROR_PATH = db_path
             from scripts.podcast import source_library_queries as q
+
             result = q.word_etymology("tawil")
     assert result.get("source") == "mirror"
     assert "root" in result

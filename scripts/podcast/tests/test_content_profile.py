@@ -7,19 +7,20 @@ CONTENT_PROFILES in _rules.py.
 """
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
-import tempfile
+
 import yaml
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from _content_profile import resolve_content_profile, is_islamic_scholarly
+from _content_profile import is_islamic_scholarly, resolve_content_profile
 from _rules import (
-    CONTENT_PROFILES,
-    ISLAMIC_SCHOLARLY_PROFILE,
-    CONTENT_TYPE_REGISTRY,
     BUCKETS,
+    CONTENT_PROFILES,
+    CONTENT_TYPE_REGISTRY,
+    ISLAMIC_SCHOLARLY_PROFILE,
     bucket_for_profile,
     literary_voice_for_profile,
 )
@@ -80,8 +81,14 @@ class TestResolveContentProfile(unittest.TestCase):
         # CONTENT_PROFILES is now derived from CONTENT_TYPE_REGISTRY; technical +
         # fiction are first-class (was a hand-maintained 3-tuple before 2026-06-04).
         self.assertEqual(tuple(CONTENT_TYPE_REGISTRY), CONTENT_PROFILES)
-        for expected in ("islamic_scholarly", "technical", "fiction",
-                         "consumer_explainer", "general_nonfiction"):
+        for expected in (
+            "islamic_scholarly",
+            "technical",
+            "fiction",
+            "consumer_explainer",
+            "general_nonfiction",
+            "islamic_supplication",
+        ):
             self.assertIn(expected, CONTENT_PROFILES)
 
     def test_reads_technical_profile(self):
@@ -108,6 +115,7 @@ class TestContentTypeRegistry(unittest.TestCase):
         self.assertEqual(bucket_for_profile("fiction"), "Fiction")
         self.assertEqual(bucket_for_profile("consumer_explainer"), "Guides")
         self.assertEqual(bucket_for_profile("general_nonfiction"), "Guides")
+        self.assertEqual(bucket_for_profile("islamic_supplication"), "Supplications")
 
     def test_unknown_or_none_profile_defaults_to_islamic_bucket(self):
         self.assertEqual(bucket_for_profile(None), "Islamic")
@@ -118,13 +126,10 @@ class TestContentTypeRegistry(unittest.TestCase):
             self.assertIn(ct.bucket, BUCKETS)
 
     def test_literary_voice_resolves_per_profile(self):
-        self.assertEqual(
-            literary_voice_for_profile("fiction")["narrator_voice"], "narrative_voice")
-        self.assertEqual(
-            literary_voice_for_profile("technical")["narrator_voice"], "peer_expert")
+        self.assertEqual(literary_voice_for_profile("fiction")["narrator_voice"], "narrative_voice")
+        self.assertEqual(literary_voice_for_profile("technical")["narrator_voice"], "peer_expert")
         # Unknown profile falls back to the islamic_scholarly voice.
-        self.assertEqual(
-            literary_voice_for_profile("nonsense")["narrator_voice"], "author_first_person")
+        self.assertEqual(literary_voice_for_profile("nonsense")["narrator_voice"], "author_first_person")
 
     def test_registry_keys_match_profile_field(self):
         for key, ct in CONTENT_TYPE_REGISTRY.items():

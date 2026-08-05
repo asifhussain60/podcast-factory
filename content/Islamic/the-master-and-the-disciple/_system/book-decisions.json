@@ -1,0 +1,47 @@
+{
+  "schema": "book.decisions/v1",
+  "decisions": [
+    {
+      "key": "chapter-07-qad-alimtu-grammatical-person",
+      "phase": "0book-compose",
+      "chose": "first person — 'My son, I know your father's state'",
+      "default": "first person — 'My son, I know your father's state'",
+      "alternatives": [
+        "second person — 'My son, you know your father's state'"
+      ],
+      "why": "The scan is unvowelled at this word, and qad alimtu reads equally as first or second person. Followed the refined English and the surviving telling, both of which take it as the Master speaking of his own knowledge.",
+      "evidence": "_system/source/ocr/raw-extract.md 1146-1165 (sections 300-302); refined-english.md renders it first person",
+      "override": "",
+      "source": "pipeline default"
+    },
+    {
+      "key": "front-matter-source-opening-placement",
+      "phase": "0book-compose",
+      "chose": "kept in place beneath the edition introduction, under its own subheading",
+      "default": "kept in place beneath the edition introduction, under its own subheading",
+      "alternatives": [
+        "moved to an appendix",
+        "dropped"
+      ],
+      "why": "The source's opening teaches (the three thanks, the houses of the traveler), so an appendix buries content, and moving it breaks the deliberate order of a faithful edition. Orientation goes in front of it instead.",
+      "evidence": "book-toc.json preface.source_line_ranges [8,13]; refined-english.md sections 1-3",
+      "override": "",
+      "source": "pipeline default"
+    },
+    {
+      "key": "arabic-vowelling-source-is-bare-text",
+      "phase": "0book-arabic-audit",
+      "chose": "leave non-Qur'anic Arabic unvowelled, exactly as the scan has it",
+      "default": "leave non-Qur'anic Arabic unvowelled, exactly as the scan has it",
+      "alternatives": [
+        "supply tashkeel from model memory across all Arabic runs",
+        "substitute canonical mushaf text for the three runs whose skeleton matches an ayah",
+        "strip the surviving partial vowelling so the page reads uniformly bare"
+      ],
+      "why": "The printed Arabic original is itself a bare critical edition. Verified by reading the source page images directly (not inferred from the extract): pages 3 and 20 both show unvowelled prose carrying only occasional disambiguating marks (ilayya, taliban, yatafarrasuhum, a'azz, maytatan). That matches the extract's measured density of 1,689 tashkeel marks across 82,237 Arabic characters, about 2 percent. The OCR did not lose the marks; they were never printed. Three unvowelled runs have skeletons matching Qur'anic text (awliya' Allah, la quwwata illa bi-llah, inna li-llahi wa-inna ilayhi raji'un) but each is used as a SPOKEN FORMULA rather than a citation - the first glosses the English 'the friends of God' inline, the other two are uttered by characters in dialogue. Substituting mushaf text would assert a citation the author never made; for the istirja' it would also switch that one line into Uthmani orthography (raji'un spelled with a dagger alif) against the book's own convention. Supplying the marks from model memory is a BK-N5 P0 under the book-challenger's closing gate and would fabricate vocalisation on hadith in a book intended for publication.",
+      "evidence": "_system/source/images/page_0003.png and page_0020.png (printed source, sparse marks only); _system/book-arabic-audit.json totals (canonical-mushaf 23, ocr 28, honorific-formula 1); content/knowledge-base/mirror.db fts_quran 2:156 reads raji'un with dagger alif where book.md has the plain alif form; infra/claude-agents/book-challenger.md BK-N5",
+      "override": "",
+      "source": "human decision 2026-07-21"
+    }
+  ]
+}

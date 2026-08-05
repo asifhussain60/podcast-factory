@@ -44,6 +44,7 @@ NON-GOALS
     Audio transcription (no STT dependency); challenger-grade content QA
     (postprod-review owns that); moving files between books.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -54,7 +55,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import find_content  # noqa: E402
+from _paths import find_content
 
 CH_STEM_RE = re.compile(r"^ch(\d{2})([a-z]?)-([a-z0-9][a-z0-9-]*)$")
 EP_FILE_RE = re.compile(r"^EP(\d{2})-([a-z0-9][a-z0-9-]*)\.txt$")
@@ -68,9 +69,9 @@ STOPWORDS = frozenset(
     "chapter podcast audio overview notebooklm deep dive debate".split()
 )
 
-MIN_SCORE = 0.18          # filename probe: best match must clear this floor
-MIN_MARGIN = 1.35         # ... and beat the runner-up by this ratio
-MIN_TEXT_SCORE = 0.03     # transcript probe (trigram evidence is sparser but sharper)
+MIN_SCORE = 0.18  # filename probe: best match must clear this floor
+MIN_MARGIN = 1.35  # ... and beat the runner-up by this ratio
+MIN_TEXT_SCORE = 0.03  # transcript probe (trigram evidence is sparser but sharper)
 MIN_TEXT_MARGIN = 1.5
 TRANSCRIPT_PROBE_WORDS = 500
 
@@ -85,7 +86,7 @@ def _words(text: str) -> list[str]:
 
 
 def _trigrams(words: list[str]) -> set[str]:
-    return {" ".join(words[i:i + 3]) for i in range(len(words) - 2)}
+    return {" ".join(words[i : i + 3]) for i in range(len(words) - 2)}
 
 
 def _utc_now() -> str:
@@ -95,9 +96,8 @@ def _utc_now() -> str:
 class Chapter:
     """One canonical chapter/episode pair and its fingerprint corpus."""
 
-    def __init__(self, stem: str, num: int, episode_file: Path | None,
-                 chapter_file: Path):
-        self.stem = stem                      # ch19c-the-conspiracy-formula
+    def __init__(self, stem: str, num: int, episode_file: Path | None, chapter_file: Path):
+        self.stem = stem  # ch19c-the-conspiracy-formula
         self.num = num
         self.episode_file = episode_file
         self.chapter_file = chapter_file
@@ -113,8 +113,7 @@ class Chapter:
         self.body_tokens = _tokens(body)
         self.body_trigrams = _trigrams(_words(body))
 
-    def score(self, probe: set[str], idf: dict[str, float] | None = None,
-              max_idf: float = 1.0) -> float:
+    def score(self, probe: set[str], idf: dict[str, float] | None = None, max_idf: float = 1.0) -> float:
         """IDF-weighted containment of probe tokens in this chapter's corpus.
 
         Sibling episodes of one book share most of their vocabulary (debate
@@ -170,6 +169,7 @@ def _build_idf(chapters: list[Chapter], attr: str) -> tuple[dict[str, float], fl
     max_idf in the denominator so noise still dilutes confidence.
     """
     from math import log
+
     n = len(chapters)
     df: dict[str, int] = {}
     for c in chapters:
@@ -185,7 +185,7 @@ def _build_idf(chapters: list[Chapter], attr: str) -> tuple[dict[str, float], fl
 def _rank(scored: list[tuple[float, "Chapter"]]) -> tuple["Chapter | None", float, float, "Chapter | None"]:
     scored.sort(key=lambda t: t[0], reverse=True)
     best_score, best = scored[0]
-    runner_score, runner = (scored[1] if len(scored) > 1 else (0.0, None))
+    runner_score, runner = scored[1] if len(scored) > 1 else (0.0, None)
     margin = best_score / runner_score if runner_score > 0 else float("inf")
     return best, best_score, margin, runner
 
@@ -217,10 +217,7 @@ def _match_text(probe_words: list[str], chapters: list[Chapter]) -> tuple[Chapte
         return None, 0.0, 0.0, None
     idf, max_idf = _build_idf(chapters, "body_trigrams")
     den = sum(idf.get(t, max_idf) for t in probe)
-    scored = [
-        (sum(idf.get(t, 0.0) for t in probe & c.body_trigrams) / den if den > 0 else 0.0, c)
-        for c in chapters
-    ]
+    scored = [(sum(idf.get(t, 0.0) for t in probe & c.body_trigrams) / den if den > 0 else 0.0, c) for c in chapters]
     return _rank(scored)
 
 
@@ -235,8 +232,9 @@ def plan_book(book_dir: Path) -> list[dict]:
 
     canonical_stems = {c.stem for c in chapters}
     taken_audio = {p.stem for p in m4a_dir.glob("*.m4a") if p.stem in canonical_stems}
-    taken_tx = {p.name.removesuffix(".transcript.txt")
-                for p in tx_dir.glob("*.transcript.txt")} if tx_dir.is_dir() else set()
+    taken_tx = (
+        {p.name.removesuffix(".transcript.txt") for p in tx_dir.glob("*.transcript.txt")} if tx_dir.is_dir() else set()
+    )
 
     # ── Audio: any *.m4a in m4a/ root whose stem is not canonical ────────────
     for p in sorted(m4a_dir.glob("*.m4a")):
@@ -245,27 +243,27 @@ def plan_book(book_dir: Path) -> list[dict]:
         probe = _tokens(p.stem.replace("_", " ").replace("-", " "))
         best, score, margin, runner = _match(probe, chapters)
         entry = {
-            "file": p.name, "kind": "audio",
+            "file": p.name,
+            "kind": "audio",
             "claimed": _claimed_number(p.name),
             "best": best.stem if best else None,
             "best_num": best.num if best else None,
-            "score": round(score, 3), "margin": round(margin, 2),
+            "score": round(score, 3),
+            "margin": round(margin, 2),
             "runner_up": runner.stem if runner else None,
             "evidence": "title-tokens",
         }
         if best is None or score < MIN_SCORE or margin < MIN_MARGIN:
-            entry.update(verdict="AMBIGUOUS",
-                         action=None,
-                         note="no confident match — resolve by transcript or by hand")
+            entry.update(verdict="AMBIGUOUS", action=None, note="no confident match — resolve by transcript or by hand")
         elif best.stem in taken_audio:
-            entry.update(verdict="COLLISION", action=None,
-                         note=f"canonical {best.stem}.m4a already exists — duplicate drop?")
+            entry.update(
+                verdict="COLLISION", action=None, note=f"canonical {best.stem}.m4a already exists — duplicate drop?"
+            )
         else:
             verdict = "MATCH"
             if entry["claimed"] is not None and entry["claimed"] != best.num:
                 verdict = "SWAP"  # the operator's prefix disagrees with the content
-            entry.update(verdict=verdict,
-                         action={"rename_to": f"{best.stem}.m4a"})
+            entry.update(verdict=verdict, action={"rename_to": f"{best.stem}.m4a"})
             taken_audio.add(best.stem)
         plan.append(entry)
 
@@ -278,39 +276,47 @@ def plan_book(book_dir: Path) -> list[dict]:
         stem = p.stem.removesuffix(".transcript")
         if stem in canonical_stems and stem not in taken_tx:
             # Right stem already — just needs to move into transcripts/.
-            plan.append({
-                "file": str(p.relative_to(m4a_dir)), "kind": "transcript",
-                "claimed": _claimed_number(p.name), "best": stem,
-                "best_num": int(CH_STEM_RE.match(stem).group(1)),
-                "score": 1.0, "margin": float("inf"), "runner_up": None,
-                "evidence": "canonical-stem", "verdict": "MATCH",
-                "action": {"rename_to": f"transcripts/{stem}.transcript.txt"},
-            })
+            plan.append(
+                {
+                    "file": str(p.relative_to(m4a_dir)),
+                    "kind": "transcript",
+                    "claimed": _claimed_number(p.name),
+                    "best": stem,
+                    "best_num": int(CH_STEM_RE.match(stem).group(1)),
+                    "score": 1.0,
+                    "margin": float("inf"),
+                    "runner_up": None,
+                    "evidence": "canonical-stem",
+                    "verdict": "MATCH",
+                    "action": {"rename_to": f"transcripts/{stem}.transcript.txt"},
+                }
+            )
             taken_tx.add(stem)
             continue
         probe_words = _words(p.read_text(encoding="utf-8", errors="replace"))[:TRANSCRIPT_PROBE_WORDS]
         best, score, margin, runner = _match_text(probe_words, chapters)
         entry = {
-            "file": str(p.relative_to(m4a_dir)), "kind": "transcript",
+            "file": str(p.relative_to(m4a_dir)),
+            "kind": "transcript",
             "claimed": _claimed_number(p.name),
             "best": best.stem if best else None,
             "best_num": best.num if best else None,
-            "score": round(score, 3), "margin": round(margin, 2),
+            "score": round(score, 3),
+            "margin": round(margin, 2),
             "runner_up": runner.stem if runner else None,
             "evidence": "transcript-trigrams",
         }
         if best is None or score < MIN_TEXT_SCORE or margin < MIN_TEXT_MARGIN:
-            entry.update(verdict="AMBIGUOUS", action=None,
-                         note="no confident match — resolve by hand")
+            entry.update(verdict="AMBIGUOUS", action=None, note="no confident match — resolve by hand")
         elif best.stem in taken_tx:
-            entry.update(verdict="COLLISION", action=None,
-                         note=f"transcripts/{best.stem}.transcript.txt already exists")
+            entry.update(
+                verdict="COLLISION", action=None, note=f"transcripts/{best.stem}.transcript.txt already exists"
+            )
         else:
             verdict = "MATCH"
             if entry["claimed"] is not None and entry["claimed"] != best.num:
                 verdict = "SWAP"
-            entry.update(verdict=verdict,
-                         action={"rename_to": f"transcripts/{best.stem}.transcript.txt"})
+            entry.update(verdict=verdict, action={"rename_to": f"transcripts/{best.stem}.transcript.txt"})
             taken_tx.add(best.stem)
         plan.append(entry)
 
@@ -362,9 +368,11 @@ def render_plan(plan: list[dict]) -> str:
         return "nothing to normalize — all audio/transcripts already canonical."
     lines = [f"{'verdict':9s}  {'kind':10s}  file -> action"]
     for e in plan:
-        act = e["action"]["rename_to"] if e.get("action") else f"(none — {e.get('note','')})"
-        lines.append(f"{e['verdict']:9s}  {e['kind']:10s}  {e['file']} -> {act}"
-                     f"   [score={e['score']}, margin={e['margin']}, claimed={e['claimed']}]")
+        act = e["action"]["rename_to"] if e.get("action") else f"(none — {e.get('note', '')})"
+        lines.append(
+            f"{e['verdict']:9s}  {e['kind']:10s}  {e['file']} -> {act}"
+            f"   [score={e['score']}, margin={e['margin']}, claimed={e['claimed']}]"
+        )
     return "\n".join(lines)
 
 
@@ -392,8 +400,7 @@ def main() -> int:
         if not plan:
             return 0
         n = apply_plan(book_dir, plan)
-        print(f"\napplied: {n} rename(s); ledger updated "
-              f"({book_dir.name}/m4a/_review/prefix-verification.json)")
+        print(f"\napplied: {n} rename(s); ledger updated ({book_dir.name}/m4a/_review/prefix-verification.json)")
         return 1 if ambiguous else 0
     if plan:
         print("\ndry-run only — re-run with --apply to execute.")

@@ -32,6 +32,7 @@ profile (islamic_scholarly fallback), mirroring _rules.bucket_for_profile.
 NO SPEND: pure local DSP over ffmpeg-decoded audio. Used by the post-render
 style gate (render_dialogue_audio) and the corpus builder.
 """
+
 from __future__ import annotations
 
 import json
@@ -43,31 +44,31 @@ import numpy as np
 
 # ── DSP constants (ported verbatim — do not retune without a corpus rebuild) ──
 SR = 16000
-FRAME = int(0.04 * SR)          # 40 ms
-HOP = int(0.02 * SR)            # 20 ms
+FRAME = int(0.04 * SR)  # 40 ms
+HOP = int(0.02 * SR)  # 20 ms
 SILENCE_RMS = 0.015
 MALE_MAX_HZ = 150.0
 FEMALE_MIN_HZ = 175.0
 PAUSE_MIN_S = 0.40
-BRIDGE_FRAMES = 12              # bridge gaps < 240 ms inside a speaker run
+BRIDGE_FRAMES = 12  # bridge gaps < 240 ms inside a speaker run
 
 # Metric weights + relative tolerances for scoring. The tolerance here is the
 # FLOOR; a per-profile gold standard may widen any band to the real corpus
 # spread (build_audio_gold_standard) but never tightens below this.
 SCORE_SPEC: dict[str, tuple[float, float]] = {
-    "wpm":              (3.0, 0.18),
+    "wpm": (3.0, 0.18),
     "switches_per_min": (2.5, 0.55),
-    "run_med_s":        (1.5, 0.60),
-    "share_male":       (1.0, 0.35),
-    "pause_per_min":    (1.5, 0.60),
-    "pause_med_ms":     (1.0, 0.60),
-    "st_sd_male":       (2.0, 0.45),
-    "st_sd_female":     (1.5, 0.45),
+    "run_med_s": (1.5, 0.60),
+    "share_male": (1.0, 0.35),
+    "pause_per_min": (1.5, 0.60),
+    "pause_med_ms": (1.0, 0.60),
+    "st_sd_male": (2.0, 0.45),
+    "st_sd_female": (1.5, 0.45),
 }
 
 METRIC_KEYS: tuple[str, ...] = tuple(SCORE_SPEC)
 
-GOLD_STANDARD_DIR = "audio-style"   # under content/_shared/
+GOLD_STANDARD_DIR = "audio-style"  # under content/_shared/
 
 
 # ── audio decode + pitch ──────────────────────────────────────────────────────
@@ -90,13 +91,13 @@ def frames_f0(x: np.ndarray) -> list[tuple[float, float]]:
     out = []
     lo, hi = int(SR / 350), int(SR / 70)
     for s in range(0, len(x) - FRAME, HOP):
-        fr = x[s:s + FRAME]
+        fr = x[s : s + FRAME]
         t = s / SR
-        if np.sqrt(np.mean(fr ** 2)) < SILENCE_RMS:
+        if np.sqrt(np.mean(fr**2)) < SILENCE_RMS:
             out.append((t, 0.0))
             continue
         fr = fr - fr.mean()
-        ac = np.correlate(fr, fr, "full")[FRAME - 1:]
+        ac = np.correlate(fr, fr, "full")[FRAME - 1 :]
         if hi >= len(ac):
             out.append((t, -1.0))
             continue
@@ -152,8 +153,7 @@ def speaker_runs(lab, min_run_s: float = 0.6) -> list[tuple[str, int, int]]:
 # ── fingerprint ─────────────────────────────────────────────────────────────
 
 
-def fingerprint(path: Path, words: int | None = None,
-                start: float | None = None, dur: float | None = None) -> dict:
+def fingerprint(path: Path, words: int | None = None, start: float | None = None, dur: float | None = None) -> dict:
     x = decode(path, start, dur)
     total_s = len(x) / SR
     fr = frames_f0(x)
@@ -189,7 +189,8 @@ def fingerprint(path: Path, words: int | None = None,
         return float(np.std(12 * np.log2(f0s / med)))
 
     prof = {
-        "file": str(path), "window": [start or 0, dur or total_s],
+        "file": str(path),
+        "window": [start or 0, dur or total_s],
         "total_s": round(total_s, 1),
         "switches_per_min": round(switches / total_s * 60, 2) if total_s else 0,
         "run_med_s": round(float(np.median(run_lens)), 2) if run_lens else 0,
@@ -210,13 +211,12 @@ def word_count(text: str) -> int:
     Mirrors the experiment's norm_tokens so stage directions and HOST_x labels
     never inflate the rate.
     """
-    text = re.sub(r"\[[^\]]+\]", " ", text)            # [tags] are not speech
+    text = re.sub(r"\[[^\]]+\]", " ", text)  # [tags] are not speech
     text = re.sub(r"(?im)^\s*host_[ab]\s*:", " ", text)  # speaker labels
     return len(re.sub(r"[^a-z' ]+", " ", text.lower()).split())
 
 
-def fingerprint_m4a(path: Path, *, transcript: Path | None = None,
-                    words: int | None = None) -> dict:
+def fingerprint_m4a(path: Path, *, transcript: Path | None = None, words: int | None = None) -> dict:
     """Fingerprint an m4a; derive the word count from a transcript when given.
 
     *words* (explicit) wins; else *transcript* is read and counted; else wpm is
@@ -232,6 +232,7 @@ def fingerprint_m4a(path: Path, *, transcript: Path | None = None,
 
 def _gold_standard_path(profile: str) -> Path:
     from _paths import REPO_ROOT
+
     return Path(REPO_ROOT) / "content" / "_shared" / GOLD_STANDARD_DIR / f"{profile}.json"
 
 
@@ -276,12 +277,10 @@ def score(cand: dict, ref_metrics: dict) -> dict:
             continue
         rel = abs(cand[m] - center) / (abs(center) * tol)
         sub = max(0.0, 1.0 - rel)
-        rows.append({"metric": m, "ref": center, "cand": cand[m],
-                     "sub": round(sub * 100)})
+        rows.append({"metric": m, "ref": center, "cand": cand[m], "sub": round(sub * 100)})
         total += w * sub
         wsum += w
-    return {"score": round(total / wsum * 100, 1) if wsum else 0.0,
-            "breakdown": rows}
+    return {"score": round(total / wsum * 100, 1) if wsum else 0.0, "breakdown": rows}
 
 
 def score_against_profile(fp: dict, profile: str | None) -> dict:
@@ -293,9 +292,14 @@ def score_against_profile(fp: dict, profile: str | None) -> dict:
     """
     gold = load_gold_standard(profile)
     if not gold:
-        return {"score": None, "breakdown": [], "threshold": None,
-                "passed": True, "profile": profile,
-                "note": "no gold standard for profile"}
+        return {
+            "score": None,
+            "breakdown": [],
+            "threshold": None,
+            "passed": True,
+            "profile": profile,
+            "note": "no gold standard for profile",
+        }
     metrics = gold.get("metrics") or {}
     result = score(fp, metrics)
     threshold = float(gold.get("pass_threshold", 70))

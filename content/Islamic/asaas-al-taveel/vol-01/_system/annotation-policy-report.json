@@ -1,0 +1,139 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 21,
+  "skipped": 171,
+  "by_class": {
+    "teach": 10,
+    "familiar": 0,
+    "name": 2,
+    "silent": 9
+  },
+  "proposals": [
+    {
+      "phonetic": "Asas al-Tawil",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "The title of this very work, with no familiar English form; romanisation and script stand once."
+    },
+    {
+      "phonetic": "Hudud al-Marifa",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Title of another of the author's works, with no established English form."
+    },
+    {
+      "phonetic": "al-maziwada",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An etymological aside about the word for a water-skin, glossed inline; too minor to formalize."
+    },
+    {
+      "phonetic": "al-rais",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed as 'the leader' in the same sentence; a minor synonym translated in prose."
+    },
+    {
+      "phonetic": "ibn abi sad",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An etymological wordplay alternative for Iblis, explained in the running prose; not a term to formalize."
+    },
+    {
+      "phonetic": "illa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A grammatical particle discussed within the analysis of the creed; a fragment translated in prose."
+    },
+    {
+      "phonetic": "La ilaha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "The opening clause of the shahada, translated inline as 'there is no god'; a phrase glossed in prose."
+    },
+    {
+      "phonetic": "Muhammadun rasulu Llah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "The second half of the shahada, translated inline as 'Muhammad is the messenger of God'; glossed in prose."
+    },
+    {
+      "phonetic": "outwardists",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An English coinage by the translator, already in plain English and defined in the prose; no Arabic apparatus helps."
+    },
+    {
+      "phonetic": "rawiya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A passing lexical gloss on a water-skin's name, fully translated in the running prose."
+    },
+    {
+      "phonetic": "shata fulan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A lexical example phrase illustrating a word's meaning, translated in the running prose."
+    },
+    {
+      "phonetic": "batin",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's key term for the inner/esoteric sense; central technical vocabulary a reader will search."
+    },
+    {
+      "phonetic": "hadd",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The singular 'limit'/rank that anchors the book's hierarchy vocabulary; core term to cite."
+    },
+    {
+      "phonetic": "Haram",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Used in a special doctrinal sense (an Imam's consultative inner circle) the book defines, not the common sanctuary meaning."
+    },
+    {
+      "phonetic": "hudud",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's own technical term for the ranks/limits of its spiritual hierarchy; a reader should be able to name and look it up."
+    },
+    {
+      "phonetic": "hujjas",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rank ('proof') in the book's cosmological hierarchy; technical term to teach once."
+    },
+    {
+      "phonetic": "nuqaba",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rank ('the twelve chiefs') in the book's hierarchy; technical vocabulary a reader may cite."
+    },
+    {
+      "phonetic": "Qaim",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The messianic 'Riser of the Age' rank; core doctrinal title the book teaches and the reader will look up."
+    },
+    {
+      "phonetic": "tayid",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Doctrinal term for divine support that the book develops and reuses six times."
+    },
+    {
+      "phonetic": "wilaya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's doctrine of loyalty/allegiance to the Imams; a term the reader should be able to name."
+    },
+    {
+      "phonetic": "zahir",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's term for the apparent/exoteric sense, paired doctrinally with batin; core vocabulary."
+    }
+  ]
+}

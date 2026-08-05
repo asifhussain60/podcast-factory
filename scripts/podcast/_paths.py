@@ -31,6 +31,7 @@ migration cannot silently break readers. New writes ALWAYS use the type-first
 layout. Back-compat: ``content_dir()`` still accepts the old ``stage=`` /
 ``category=`` kwargs and maps them onto a bucket, so existing callers keep working.
 """
+
 from __future__ import annotations
 
 import json
@@ -60,8 +61,14 @@ CONTENT_ROOT = REPO_ROOT / "content"
 # manifest CONTENTS are read by _work_manifest.py. When no work.yml exists
 # anywhere, every function below is byte-identical to flat resolution.
 WORK_MANIFEST_NAME = "work.yml"
-_VOL_DIR_RE = re.compile(r"^vol-\d+$")
-_COMPOSITE_SLUG_RE = re.compile(r"^(?P<work>.+)-(?P<dir>vol-\d+)$")
+# `[0-9]`, not `\d`. Python's `\d` is Unicode-aware and JavaScript's is ASCII-only,
+# so `vol-٠١` matched here and not in content-paths.ts — the same dialect split that
+# silently orphaned Composer edits through anchorKey until 2026-07-20. Volume dirs
+# are minted by the pipeline as ASCII (`vol-01`), so pinning to ASCII costs nothing
+# and makes both languages agree by construction rather than by coincidence.
+# Pinned by plan-dashboard/scripts/lib/content-paths.fixtures.json.
+_VOL_DIR_RE = re.compile(r"^vol-[0-9]+$")
+_COMPOSITE_SLUG_RE = re.compile(r"^(?P<work>.+)-(?P<dir>vol-[0-9]+)$")
 
 
 def is_work_parent(dir_: Path) -> bool:
@@ -99,8 +106,8 @@ def work_rollup_status(work_dir: Path) -> str:
 # never define a folder list anywhere else. Extensibility-first: adding a
 # pipeline surface = one entry here.
 BOOK_SUBDIRS: tuple[str, ...] = (
-    "_source",                   # irreplaceable source inputs (tracked)
-    "_system",                   # pipeline state + scratch
+    "_source",  # irreplaceable source inputs (tracked)
+    "_system",  # pipeline state + scratch
     "_system/episode-drafts",
     "_system/scratchpad",
     "_system/source",
@@ -108,11 +115,11 @@ BOOK_SUBDIRS: tuple[str, ...] = (
     "chapter-contracts",
     "chapters",
     "episodes",
-    "m4a",                       # NotebookLM audio drops (contents gitignored)
-    "transcripts",               # Turboscribe/Azure transcripts
-    "slide-decks",               # deck sources + framings + dropped deck PDFs
-    "slide-decks/_manifests",    # slide→anchor manifests (tracked)
-    "book",                      # reading edition (book.md … book.pdf)
+    "m4a",  # NotebookLM audio drops (contents gitignored)
+    "transcripts",  # Turboscribe/Azure transcripts
+    "slide-decks",  # deck sources + framings + dropped deck PDFs
+    "slide-decks/_manifests",  # slide→anchor manifests (tracked)
+    "book",  # reading edition (book.md … book.pdf)
     "audits",
     "notebooklm",
 )
@@ -146,6 +153,7 @@ def slug_of(path: Path) -> str:
         return f"{parent.name}-{path.name}"
     return path.name
 
+
 # Type-first plumbing root (2026-06-04).
 SYSTEM_ROOT = CONTENT_ROOT / "_system"
 
@@ -170,9 +178,15 @@ STATUSES = ("draft", "published", "archived")
 # The authoritative bucket comes from a book's content_profile; this table only
 # serves transitional callers (scaffold/preflight) that pass category=.
 _CATEGORY_TO_BUCKET: dict[str, str] = {
-    "books": "Islamic", "lectures": "Islamic", "letters": "Islamic",
-    "asbaaq": "Islamic", "interviews": "Islamic", "articles": "Islamic",
-    "documents": "Islamic", "sites": "Guides", "explainers": "Guides",
+    "books": "Islamic",
+    "lectures": "Islamic",
+    "letters": "Islamic",
+    "asbaaq": "Islamic",
+    "interviews": "Islamic",
+    "articles": "Islamic",
+    "documents": "Islamic",
+    "sites": "Guides",
+    "explainers": "Guides",
 }
 
 
@@ -226,7 +240,7 @@ def content_dir(
     bucket: str | None = None,
     profile: str | None = None,
     category: str | None = None,
-    stage: str | None = None,   # deprecated; accepted + ignored for back-compat
+    stage: str | None = None,  # deprecated; accepted + ignored for back-compat
 ) -> Path:
     """Return the canonical directory for a piece of content: content/<Bucket>/<slug>.
 
@@ -301,9 +315,12 @@ def find_content(slug: str) -> tuple[str, str, Path] | None:
             p = st_root / cat / slug
             if p.is_dir():
                 return (st, cat, p)
-    # Legacy: flat drafts/<slug>.
+    # Legacy: flat drafts/<slug>. BOOKS and LECTURES are legacy CONTAINERS, not
+    # books — iter_content skips both when enumerating, and content-paths.ts guarded
+    # both here while this side guarded only BOOKS. Aligned 2026-07-26; pinned by
+    # plan-dashboard/scripts/lib/content-paths.fixtures.json.
     flat = DRAFTS_ROOT / slug
-    if flat.is_dir() and slug not in ALLOWED_CATEGORIES and slug != "BOOKS":
+    if flat.is_dir() and slug not in ALLOWED_CATEGORIES and slug not in ("BOOKS", "LECTURES"):
         return ("drafts", "books", flat)
     # Legacy: nested orphan drafts/BOOKS/<slug>.
     nested = DRAFTS_ROOT / "BOOKS" / slug
@@ -325,8 +342,8 @@ def resolve_content(slug: str) -> Path:
 def iter_content(
     *,
     bucket: str | None = None,
-    stage: str | None = None,      # deprecated alias for legacy callers
-    category: str | None = None,   # deprecated (legacy layout filter)
+    stage: str | None = None,  # deprecated alias for legacy callers
+    category: str | None = None,  # deprecated (legacy layout filter)
 ) -> Iterable[tuple[str, str, Path]]:
     """Yield every ``(status_or_stage, bucket_or_category, dir)`` on disk.
 

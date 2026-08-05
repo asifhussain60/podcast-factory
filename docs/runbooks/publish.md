@@ -49,4 +49,4 @@ git branch -D Islamic/my-book-slug
 git push origin --delete Islamic/my-book-slug
 ```
 
-Run `python3 scripts/podcast/cross_book_dashboard.py` to confirm the book moves from `in-flight` to `shipped` in the fleet table.
+Run `python3 scripts/podcast/cross_book_dashboard.py` to confirm the book's Publication column reads `published` in the fleet table (and that it has moved into the Published books line beneath it).

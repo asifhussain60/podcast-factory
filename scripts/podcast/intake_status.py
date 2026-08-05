@@ -8,6 +8,7 @@ UI is read-only while a volume runs (single-writer rule) — this never writes.
 All reads go through the Phase-1 resolver, so a composite volume slug
 (``asaas-vol-02``) resolves to its volume dir exactly like the pipeline sees it.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,9 +16,9 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import _paths  # noqa: E402
-from _progress import read_state  # noqa: E402
-from phases.series_plan import _series_numeric, _book_cost_so_far  # noqa: E402
+import _paths
+from _progress import read_state
+from phases.series_plan import _book_cost_so_far, _series_numeric
 
 # Phases that HALT for human review (not failures — the run is waiting on a person).
 HUMAN_GATES: frozenset[str] = frozenset({"0f", "0ci", "06a", "finalize"})
@@ -70,8 +71,11 @@ def status_view(slug: str) -> dict[str, Any]:
         "last_error": _short_error(state.get("last_error")),
         "at_human_gate": at_gate,
         "gate": {
-            "name": phase, "label": GATE_LABELS.get(phase, "Human review required"),
-        } if at_gate else None,
+            "name": phase,
+            "label": GATE_LABELS.get(phase, "Human review required"),
+        }
+        if at_gate
+        else None,
         "cost": {
             "book_spend_usd": round(book_spend, 2),
             "per_chapter_cap_usd": per_chapter_cap,

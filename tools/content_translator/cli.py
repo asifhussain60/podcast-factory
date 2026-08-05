@@ -7,20 +7,20 @@ Usage:
   python -m tools.content_translator status
   python -m tools.content_translator status    --binder N --chapter M --format stage
 """
+
 from __future__ import annotations
 
 import argparse
 import json
-import sys
 from pathlib import Path
 
 from tools.source_extractor.adapters import get_adapter as get_source_adapter
 from tools.source_extractor.adapters.base import BookIds
 from tools.source_extractor.bundle import bundle_paths
 
-from .stages.translate import translate_bundle
 from .stages.adapt import surface_adapt_brief
 from .stages.seal import seal_stage
+from .stages.translate import translate_bundle
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted"
@@ -42,9 +42,7 @@ def _resolve_ids(args: argparse.Namespace) -> BookIds:
     shelf_id = args.shelf_id if getattr(args, "shelf_id", None) is not None else getattr(args, "shelf_id_alias", None)
     book_id = args.book_id if getattr(args, "book_id", None) is not None else getattr(args, "book_id_alias", None)
     if shelf_id is None or book_id is None:
-        raise SystemExit(
-            "Missing IDs. Pass --binder/--chapter (wisdom) or --shelf-id/--book-id."
-        )
+        raise SystemExit("Missing IDs. Pass --binder/--chapter (wisdom) or --shelf-id/--book-id.")
     return BookIds(shelf_id=shelf_id, book_id=book_id)
 
 
@@ -57,10 +55,7 @@ def _resolve_bundle_root(adapter_name: str, ids: BookIds, extract_root: Path) ->
 
 def _status_summary(args: argparse.Namespace) -> None:
     """Print ledger summary or per-chapter stage."""
-    has_chapter = (
-        getattr(args, "binder", None) is not None
-        or getattr(args, "shelf_id", None) is not None
-    )
+    has_chapter = getattr(args, "binder", None) is not None or getattr(args, "shelf_id", None) is not None
     fmt = getattr(args, "format", None) or "summary"
 
     if has_chapter and fmt in ("stage", "nhr"):
@@ -112,12 +107,12 @@ def _status_summary(args: argparse.Namespace) -> None:
     total_cost = sum(e.get("cost_usd", 0) for e in entries)
     print(f"\nWisdom Translation Cost Ledger — {len(entries)} entries, total ${total_cost:.4f}\n")
     print(f"  {'binder':>6}  {'chapter':>7}  {'phase':>12}  {'cost_usd':>10}  completed_at")
-    print(f"  {'-'*6}  {'-'*7}  {'-'*12}  {'-'*10}  {'-'*24}")
+    print(f"  {'-' * 6}  {'-' * 7}  {'-' * 12}  {'-' * 10}  {'-' * 24}")
     for e in entries:
         print(
-            f"  {str(e.get('binder_id','')):>6}  "
-            f"{str(e.get('chapter_id','')):>7}  "
-            f"{e.get('phase',''):>12}  "
+            f"  {str(e.get('binder_id', '')):>6}  "
+            f"{str(e.get('chapter_id', '')):>7}  "
+            f"{e.get('phase', ''):>12}  "
             f"${e.get('cost_usd', 0):>9.4f}  "
             f"{e.get('completed_at', '')}"
         )
@@ -196,7 +191,7 @@ def main() -> None:
             print(f"SKIPPED (already {result['stage']}): {bundle_root}")
         elif result.get("passthrough"):
             print(f"PASSTHROUGH (English source): {bundle_root}")
-            print(f"  cost:     $0.0000")
+            print("  cost:     $0.0000")
             print(f"  output:   {result['output_path']}")
         else:
             print(f"TRANSLATED: {bundle_root}")
@@ -210,6 +205,7 @@ def main() -> None:
 
     elif args.cmd == "adapt-auto":
         from .stages.adapt_auto import adapt_bundle_auto
+
         result = adapt_bundle_auto(
             bundle_root,
             binder_id=ids.shelf_id,
@@ -219,7 +215,7 @@ def main() -> None:
         if result.get("skipped"):
             print(f"SKIPPED (already {result['stage']}): {bundle_root}")
         elif result.get("dry_run"):
-            print(f"DRY-RUN ({result.get('mode','?')}): {bundle_root}")
+            print(f"DRY-RUN ({result.get('mode', '?')}): {bundle_root}")
             print(f"  raw_bytes: {result['raw_bytes']:,}")
             print(f"  chunks:   {result['chunks']}")
         else:
@@ -235,6 +231,7 @@ def main() -> None:
 
     elif args.cmd == "challenge":
         from tools.content_challenger.wisdom.challenge_auto import challenge_bundle
+
         result = challenge_bundle(
             bundle_root,
             binder_id=ids.shelf_id,

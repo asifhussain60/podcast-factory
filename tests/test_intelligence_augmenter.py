@@ -13,6 +13,7 @@ Covers:
 - _build_context_block: contains header and source attribution
 - _strip_arabic: removes Arabic characters
 """
+
 from __future__ import annotations
 
 import json
@@ -26,17 +27,17 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 import _db
-from _db import get_connection, run_migrations, _reset_connection
+from _db import _reset_connection, get_connection, run_migrations
 from intelligence.augmenter import (
-    augment_episode_text,
-    fetch_atoms_for_tags,
+    _augmentation_enabled,
     _build_context_block,
     _strip_arabic,
-    _augmentation_enabled,
+    augment_episode_text,
+    fetch_atoms_for_tags,
 )
 
-
 # ─── fixtures ─────────────────────────────────────────────────────────────────
+
 
 @pytest.fixture()
 def isolated_db(tmp_path, monkeypatch):
@@ -48,8 +49,9 @@ def isolated_db(tmp_path, monkeypatch):
     _reset_connection()
 
 
-def _insert_doctrine_atom(conn, atom_id: str, text_en: str, tag: str,
-                           binder_slug: str = "binder1", chapter_slug: str = "ch01") -> None:
+def _insert_doctrine_atom(
+    conn, atom_id: str, text_en: str, tag: str, binder_slug: str = "binder1", chapter_slug: str = "ch01"
+) -> None:
     body = json.dumps({"text_en": text_en, "binder_slug": binder_slug, "chapter_slug": chapter_slug})
     conn.execute(
         "INSERT OR IGNORE INTO atoms (id, type, body, confidence) VALUES (?, 'doctrine', ?, 1.0)",
@@ -76,6 +78,7 @@ def _meta_yml(book_dir: Path, enabled: bool = True, tags: list | None = None) ->
 
 # ─── unit tests ───────────────────────────────────────────────────────────────
 
+
 def test_strip_arabic_removes_arabic():
     result = _strip_arabic("Hello \u0628\u0633\u0645 world")
     assert "\u0628\u0633\u0645" not in result
@@ -89,14 +92,24 @@ def test_strip_arabic_clean_text_unchanged():
 
 
 def test_build_context_block_contains_header():
-    atoms = [{"id": "doctrine:wisdom:b1:ch01:0", "body": {"text_en": "Doctrine text.", "binder_slug": "b1", "chapter_slug": "ch01"}}]
+    atoms = [
+        {
+            "id": "doctrine:wisdom:b1:ch01:0",
+            "body": {"text_en": "Doctrine text.", "binder_slug": "b1", "chapter_slug": "ch01"},
+        }
+    ]
     block = _build_context_block(atoms)
     assert "[PRIOR DOCTRINAL CONTEXT" in block
     assert "Doctrine text." in block
 
 
 def test_build_context_block_contains_source():
-    atoms = [{"id": "doctrine:wisdom:b1:ch01:0", "body": {"text_en": "test", "binder_slug": "binder1", "chapter_slug": "ch01"}}]
+    atoms = [
+        {
+            "id": "doctrine:wisdom:b1:ch01:0",
+            "body": {"text_en": "test", "binder_slug": "binder1", "chapter_slug": "ch01"},
+        }
+    ]
     block = _build_context_block(atoms)
     assert "Kashkole" in block
     assert "binder1" in block
@@ -110,6 +123,7 @@ def test_build_context_block_skips_empty_text():
 
 
 # ─── augmentation_enabled tests ──────────────────────────────────────────────
+
 
 def test_augmentation_disabled_by_default(tmp_path, isolated_db):
     book_dir = tmp_path / "my-book"
@@ -131,6 +145,7 @@ def test_augmentation_disabled_via_meta_yml(tmp_path, isolated_db):
 
 
 # ─── fetch_atoms_for_tags tests ───────────────────────────────────────────────
+
 
 def test_fetch_atoms_empty_tags(isolated_db):
     atoms = fetch_atoms_for_tags([])
@@ -175,6 +190,7 @@ def test_fetch_atoms_only_doctrine_type(isolated_db):
 
 
 # ─── augment_episode_text integration tests ───────────────────────────────────
+
 
 def test_augment_text_disabled_returns_original(tmp_path, isolated_db):
     book_dir = tmp_path / "my-book"

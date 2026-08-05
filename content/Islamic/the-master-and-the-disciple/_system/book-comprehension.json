@@ -1,0 +1,177 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 122,
+  "terms_tracked": 60,
+  "prerequisite_gaps": [],
+  "naming_drift": [],
+  "referent_collisions": [
+    {
+      "role_word": "father",
+      "pages": [
+        23,
+        73
+      ],
+      "first_page": 23,
+      "frames": [
+        "my",
+        "your"
+      ],
+      "kind": "referent-collision"
+    }
+  ],
+  "dense_pages": [
+    {
+      "page": 6,
+      "term_count": 10,
+      "terms": [
+        "Imam",
+        "batin",
+        "bāb",
+        "da'wa",
+        "daʿwa",
+        "dāʿī",
+        "nāṭiq",
+        "taʾwīl",
+        "zahir",
+        "ḥujja"
+      ]
+    },
+    {
+      "page": 37,
+      "term_count": 10,
+      "terms": [
+        "Imam",
+        "bāb",
+        "du'āt",
+        "duʿāt",
+        "nuqabā'",
+        "nuqabāʾ",
+        "nāṭiq",
+        "taʾwīl",
+        "waṣī",
+        "ḥujaj"
+      ]
+    },
+    {
+      "page": 49,
+      "term_count": 8,
+      "terms": [
+        "Imam",
+        "du'āt",
+        "duʿāt",
+        "quwwa",
+        "yuḥawwil",
+        "Ādam",
+        "ḥawl",
+        "ḥujja"
+      ]
+    }
+  ],
+  "long_sentences": [
+    {
+      "page": 112,
+      "words": 265,
+      "text": "Homecoming, the Father, and the Debate with Abu Malik Abu Malik said: \"There is no way, and no escape, for the justice of God and His command, amid the throng o"
+    },
+    {
+      "page": 103,
+      "words": 222,
+      "text": "Homecoming, the Father, and the Debate with Abu Malik Abu Malik said: \"Whoever charges an obedient servant with what he has no strength to bear has charged him "
+    },
+    {
+      "page": 83,
+      "words": 183,
+      "text": "If it is right guidance, we will follow it; and if it is error, we will shun it.\" Abu Malik said: \"That is doubt on your part in what you hold, and the doubter "
+    },
+    {
+      "page": 106,
+      "words": 178,
+      "text": "Both its sending down and its interpretation are from God, and what is with God is attained only through inspiration.\" Abu Malik said: \"And is the lesser one al"
+    },
+    {
+      "page": 107,
+      "words": 174,
+      "text": "By what, then, does the bearer of the interpretation show that the knowledge of the unseen is with him, so that the revelation bears witness for him and makes o"
+    },
+    {
+      "page": 102,
+      "words": 160,
+      "text": "Salih said to him: \"O Abu Malik, raise your head and say what has come to you of speech.\" Abu Malik said: \"Speech is gone, and there is none left; the minds are"
+    },
+    {
+      "page": 104,
+      "words": 156,
+      "text": "Once creation stands in need of God's justice to be taught what He wants of them, and this comes by the hand of the righteous one He has appointed, then each sh"
+    },
+    {
+      "page": 105,
+      "words": 153,
+      "text": "Rather, by His justice He has preferred some of them above others, so that obedience may pass from the lesser to the greater, and from the greater to one greate"
+    },
+    {
+      "page": 93,
+      "words": 130,
+      "text": "Homecoming, the Father, and the Debate with Abu Malik Abu Malik said, \"Want hurried me on with its straitness, so I hurried; and I came to know how good it is t"
+    },
+    {
+      "page": 81,
+      "words": 124,
+      "text": "Either the people hold to what we already know of religion, and this new thing among them is only an increase in manners, hadiths, and poetry — and people's spe"
+    },
+    {
+      "page": 110,
+      "words": 123,
+      "text": "But if this community must indeed be believed in what it has decreed against God—that His proofs have been cut off from His creation by a single thread of conse"
+    },
+    {
+      "page": 55,
+      "words": 121,
+      "text": "So describe to me the deception of the people of the world by their world, and their heedlessness of the Hereafter.\" The Master said: \"If those enamored of the "
+    },
+    {
+      "page": 106,
+      "words": 119,
+      "text": "Homecoming, the Father, and the Debate with Abu Malik He said: \"Then can anyone imitate the lesser one among them, since no Book is sent down to him in which kn"
+    },
+    {
+      "page": 76,
+      "words": 118,
+      "text": "And I commend to you the fear of the One who created you when you were nothing, and the keeping of His covenant, and the fulfillment of the right He has laid up"
+    },
+    {
+      "page": 11,
+      "words": 116,
+      "text": "When they had finished the discussion they were engaged in, they turned to him and said, \"Who are you, boy, and where are you from?\" He said, \"I am a servant of"
+    },
+    {
+      "page": 48,
+      "words": 111,
+      "text": "Three Layers of Knowledge The Master said: \"And what are the might and the power you have mentioned, which cannot be except by God?\" The boy said: \"We mean: I h"
+    },
+    {
+      "page": 105,
+      "words": 111,
+      "text": "Homecoming, the Father, and the Debate with Abu Malik Salih said: \"And is not this succession of theirs, from God to His creation, appointed so that He may make"
+    },
+    {
+      "page": 34,
+      "words": 110,
+      "text": "They forbade the dead thing that God has forbidden, .‫ َو َباَن َك ِذ ُب َأْه ِل اْلَج ْه ِل ِبَم ْد ِح الُّد ْنَي ا ِإْذ َلْم َيْع ِرُفوا َباِط َنَه ا َو َم ا "
+    },
+    {
+      "page": 96,
+      "words": 110,
+      "text": "What, then, is the state of religion in your view?\" Salih said to him, \"And what is religion, O Abu Malik?\" He said, \"Command and prohibition; the lawful and th"
+    },
+    {
+      "page": 115,
+      "words": 110,
+      "text": "What is its cause?\" Salih answered: \"And what was the cause of Moses's absence, when he left the city of Pharaoh and passed out beyond it in fear and watchfulne"
+    }
+  ],
+  "summary": {
+    "never_explained": 0,
+    "explained_late": 0,
+    "referent_collisions": 1
+  }
+}

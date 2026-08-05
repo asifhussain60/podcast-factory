@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# post-checkout hook — see sync-develop.sh. Fires after `git checkout`; git
+# passes $3=1 for a branch checkout and $3=0 for a single-file checkout, so
+# this only acts on the former (a file-level checkout can't change which
+# commit develop points at).
+#
+# Install via `bash scripts/install-git-hooks.sh` (copies infra/git-hooks/*
+# into .git/hooks/).
+
+[ "${3:-0}" = "1" ] || exit 0
+
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+[ -x "$repo_root/infra/git-hooks/sync-develop.sh" ] || exit 0
+"$repo_root/infra/git-hooks/sync-develop.sh"
+exit 0

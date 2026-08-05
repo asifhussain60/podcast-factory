@@ -10,7 +10,9 @@ Resolves the bundle directory by reusing tools.source_extractor's adapter
 BOOK_DIR). The reviewer does not touch the DB beyond optionally instantiating
 the adapter's Quran corpus for sentence-completion / quran-uncited lookups.
 """
+
 from __future__ import annotations
+
 import argparse
 from pathlib import Path
 
@@ -21,7 +23,6 @@ from tools.source_extractor.bundle import bundle_paths
 from .adapters import get_review_adapter
 from .stages.review import review_book
 from .stages.seal import seal_book
-
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted"

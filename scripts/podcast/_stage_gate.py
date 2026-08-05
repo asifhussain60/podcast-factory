@@ -23,13 +23,18 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from _paths import REPO_ROOT, resolve_content  # noqa: E402
+from _paths import resolve_content
 
 # Canonical stage order for the WC8 bilingual pipeline (all books).
+# MIRROR: plan-dashboard/src/lib/reader/book-workspace.ts `STAGE_DEFS` (and
+# stage-roles.ts `STAGE_ROLES`) declare the same stage set — keep both sides
+# in sync in the SAME commit when the stage set changes (repo mirror
+# convention, cf. content-paths.ts ↔ _paths.py).
 # source → core: produced by intake_stage.py / agent (Azure OCR + alignment)
 # denoised:      produced by gemini_refine.py --mode denoise
 # normalized:    produced by gemini_refine.py --mode normalize
 # augmented:     produced by inline agent (knowledge + Quran refs)
+# literary:      produced by _literary.py (phase 08b-literary)
 # narrator:      produced by narrator_additions.py
 STAGE_ORDER: list[str] = [
     "source",
@@ -37,6 +42,7 @@ STAGE_ORDER: list[str] = [
     "denoised",
     "normalized",
     "augmented",
+    "literary",
     "narrator",
 ]
 
@@ -47,15 +53,13 @@ STAGE_ARTIFACTS: dict[str, str] = {
     "denoised": "denoised.md",
     "normalized": "normalized.md",
     "augmented": "augmented.md",
+    "literary": "literary.md",
     "narrator": "additions-narrator.md",
 }
 
 
 def _review_path(slug: str, chapter: str) -> Path:
-    return (
-        resolve_content(slug)
-        / "_system" / "review" / f"{chapter}.json"
-    )
+    return resolve_content(slug) / "_system" / "review" / f"{chapter}.json"
 
 
 def _stages_dir(slug: str, chapter: str) -> Path:
@@ -65,6 +69,7 @@ def _stages_dir(slug: str, chapter: str) -> Path:
 # ---------------------------------------------------------------------------
 # Readers
 # ---------------------------------------------------------------------------
+
 
 def read_stage_review(slug: str, chapter: str) -> dict:
     """Return the full review document, or an empty shell if none exists."""
@@ -95,6 +100,7 @@ def stage_artifact_exists(slug: str, chapter: str, stage: str) -> bool:
 # ---------------------------------------------------------------------------
 # Stage state summary
 # ---------------------------------------------------------------------------
+
 
 def chapter_stage_summary(slug: str, chapter: str) -> list[dict]:
     """Return one dict per stage with artifact/approval state.
@@ -155,6 +161,7 @@ def awaiting_approval_stage(slug: str, chapter: str) -> str | None:
 # ---------------------------------------------------------------------------
 # Writer (called by approve_book / Studio API)
 # ---------------------------------------------------------------------------
+
 
 def set_stage_approved(
     slug: str,

@@ -14,6 +14,7 @@ Usage:
     python3 scripts/podcast/intelligence/extract_terms_from_doctrine.py
     python3 scripts/podcast/intelligence/extract_terms_from_doctrine.py --dry-run
 """
+
 from __future__ import annotations
 
 import argparse
@@ -23,8 +24,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-import _db  # noqa: E402
-from knowledge._atom_schemas import term_canonical_id, validate_atom  # noqa: E402
+import _db
+from knowledge._atom_schemas import term_canonical_id, validate_atom
 
 # ── regex patterns ────────────────────────────────────────────────────────────
 
@@ -34,9 +35,7 @@ _TIER1_RE = re.compile(
     r"\s*\(([^)]{3,100})\)"
 )
 # Tier 2: *term* with no inline definition
-_TIER2_RE = re.compile(
-    r"\*([a-záéíóúāēīōūʿʾḥḍṭẓṣḳ'\-]{2,35})\*"
-)
+_TIER2_RE = re.compile(r"\*([a-záéíóúāēīōūʿʾḥḍṭẓṣḳ'\-]{2,35})\*")
 
 # Terms that are common English or markdown fragments — skip
 # Also skip plain English adjectives/adverbs that get italicised in the source
@@ -45,18 +44,85 @@ _TIER2_RE = re.compile(
 # (b) begin with "al-", or (c) be in a small explicit allow-set of short terms
 # that have no diacritics but are genuine Arabic loanwords.
 _SKIP_TERMS = {
-    "the", "and", "for", "not", "but", "with", "also", "this", "that",
-    "from", "upon", "into", "over", "under", "as", "at", "by", "in",
-    "al-", "wa-", "or", "is", "it", "of",
+    "the",
+    "and",
+    "for",
+    "not",
+    "but",
+    "with",
+    "also",
+    "this",
+    "that",
+    "from",
+    "upon",
+    "into",
+    "over",
+    "under",
+    "as",
+    "at",
+    "by",
+    "in",
+    "al-",
+    "wa-",
+    "or",
+    "is",
+    "it",
+    "of",
     # Common English words that appear italicised in Kashkole but are not terms
-    "complete", "perfect", "defective", "content", "without", "observe",
-    "knowledge", "power", "life", "faith", "truth", "heart", "soul",
-    "prayer", "fasting", "pilgrimage", "alms", "witness", "light",
-    "first", "second", "third", "two", "three", "seven", "eight",
-    "good", "evil", "right", "wrong", "great", "small", "high", "low",
-    "able", "above", "below", "before", "after", "indeed", "thus",
-    "divine", "sacred", "holy", "inner", "outer", "true", "false",
-    "special", "general", "natural", "spiritual", "physical", "moral",
+    "complete",
+    "perfect",
+    "defective",
+    "content",
+    "without",
+    "observe",
+    "knowledge",
+    "power",
+    "life",
+    "faith",
+    "truth",
+    "heart",
+    "soul",
+    "prayer",
+    "fasting",
+    "pilgrimage",
+    "alms",
+    "witness",
+    "light",
+    "first",
+    "second",
+    "third",
+    "two",
+    "three",
+    "seven",
+    "eight",
+    "good",
+    "evil",
+    "right",
+    "wrong",
+    "great",
+    "small",
+    "high",
+    "low",
+    "able",
+    "above",
+    "below",
+    "before",
+    "after",
+    "indeed",
+    "thus",
+    "divine",
+    "sacred",
+    "holy",
+    "inner",
+    "outer",
+    "true",
+    "false",
+    "special",
+    "general",
+    "natural",
+    "spiritual",
+    "physical",
+    "moral",
 }
 
 # Max surrounding context chars (each side) for Tier 2 terms
@@ -76,7 +142,7 @@ def _surrounding_sentence(text: str, match_start: int, match_end: int) -> str:
     for sep in (". ", ".\n", "? ", "! "):
         first = snippet.find(sep)
         if 0 < first < (_CTX_CHARS - 10):
-            snippet = snippet[first + 2:]
+            snippet = snippet[first + 2 :]
             break
     return _clean(snippet)
 
@@ -86,22 +152,16 @@ def extract_terms(dry_run: bool = False) -> dict:
     conn = _db.get_connection()
 
     # Load existing term IDs and normalized names for dedup
-    existing_ids: set[str] = {
-        row[0] for row in conn.execute("SELECT id FROM atoms WHERE type='term'").fetchall()
-    }
+    existing_ids: set[str] = {row[0] for row in conn.execute("SELECT id FROM atoms WHERE type='term'").fetchall()}
     existing_names: set[str] = {
         row[0]
-        for row in conn.execute(
-            "SELECT json_extract(body, '$.term') FROM atoms WHERE type='term'"
-        ).fetchall()
+        for row in conn.execute("SELECT json_extract(body, '$.term') FROM atoms WHERE type='term'").fetchall()
         if row[0]
     }
     existing_names_normalized = {n.lower().strip() for n in existing_names}
 
     # Scan doctrine atoms
-    doctrine_rows = conn.execute(
-        "SELECT id, body FROM atoms WHERE type='doctrine'"
-    ).fetchall()
+    doctrine_rows = conn.execute("SELECT id, body FROM atoms WHERE type='doctrine'").fetchall()
 
     tier1: dict[str, dict] = {}  # term_name -> first-seen candidate
     tier2: dict[str, dict] = {}
@@ -182,7 +242,7 @@ def extract_terms(dry_run: bool = False) -> dict:
                     ),
                 )
                 inserted += 1
-            except Exception:  # noqa: BLE001
+            except Exception:
                 continue
         conn.commit()
     else:

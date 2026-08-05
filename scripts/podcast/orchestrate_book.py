@@ -77,7 +77,6 @@ from __future__ import annotations
 
 import argparse
 import fcntl
-import json
 import os
 import re
 import subprocess
@@ -96,7 +95,8 @@ from pathlib import Path
 # exec loop, and a missing/incomplete venv surfaces an actionable message.
 def _ensure_capable_interpreter() -> None:
     try:
-        import yaml  # noqa: F401  (probe only)
+        import yaml  # noqa: F401
+
         return
     except ImportError:
         pass
@@ -125,76 +125,30 @@ _ensure_capable_interpreter()
 
 # Local imports (these live next to this script).
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _progress import (  # noqa: E402
+from _paths import REPO_ROOT
+from _paths import content_dir as _paths_content_dir
+from _paths import find_content as _paths_find_content
+from _progress import (
     ORCHESTRATOR_VERSION,
     PHASES,
-    initial_state,
     read_state,
     render_status,
-    update_phase,
-    write_state,
 )
-from _authoring import (  # noqa: E402
-    AuthoringError,
-    author_phase_0b,
-    author_phase_0c,
-    author_phase_0d,
-    author_phase_0e,
-    author_framing,
-    invoke_trainer,
-)
-from _convergence import (  # noqa: E402
-    MAX_OUTER_ITERATIONS,
-    ChapterOutcome,
-    converge_chapter,
-    render_outcome,
-)
-from _paths import REPO_ROOT, content_dir as _paths_content_dir, find_content as _paths_find_content, relative_to_repo as _paths_rel  # noqa: E402
-from _rules import ALLOWED_CATEGORIES  # noqa: E402
+from _rules import ALLOWED_CATEGORIES
 
 # ─── Re-exports from extracted phase modules (backward compat + test mocking) ─
 # Callers that do `from orchestrate_book import phase_git_commit` continue to
 # work.  Tests that mock.patch.object(orchestrate_book, "phase_git_commit", …)
 # still intercept calls made from functions defined IN this module.
-from phases.preflight import (  # noqa: F401,E402
-    _in_preflight_artifacts_mode,
-    preflight_initial,
-    preflight_resume,
-    _run_chapter_set_check,
-    _sweep_orphan_episode_drafts,
-)
-from phases.scaffold import (  # noqa: F401,E402
-    phase_branch,
-    phase_scaffold,
-    phase_0a_ingest,
-    phase_git_commit,
-)
-from phases.series_plan import (  # noqa: F401,E402
-    SERIES_PLAN_TEMPLATE,
-    phase_0f_write_series_plan,
-    _resolve_episode_id,
-    _series_numeric,
-    _series_flag,
-    _chapter_cost_so_far,
-    phase_0g_register,
-)
-from phases.bundle_audit import (  # noqa: F401,E402
-    _gemini_key_available,
-    phase_0g_audit_bundles,
-)
-from phases.per_chapter import per_chapter_pass  # noqa: F401,E402
-from phases.merge import phase_merge_to_develop  # noqa: F401,E402
-from phases.chapter_driver import _drive_per_chapter_and_after  # noqa: F401,E402
-from phases.publish_driver import _drive_publish_through_done  # noqa: F401,E402
-from phases.initial_driver import run_initial, _drive_authoring_through_0f  # noqa: F401,E402
 
 # Canonical phase order — used by run_resume and pinned by regression test.
 # Single source of truth lives in _progress.PHASES — alias it here so existing
 # references keep working without maintaining a parallel (drift-prone) copy.
 CANONICAL_PHASES: tuple[str, ...] = PHASES
 
-# 2026-05-26 restructure: canonical layout is content/<stage>/<category>/<slug>/
-LIBRARY_ROOT = REPO_ROOT / "content" / "drafts"
+# Canonical layout is content/<Bucket>/<slug>/ — resolved through _paths, never
+# by joining a root here. (The old LIBRARY_ROOT = content/drafts constant was
+# unreferenced and named a tree the type-first migration emptied.)
 SCAFFOLD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "scaffold_book.py"
 INGEST_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "ingest_source.py"
 EXTRACT_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "extract_chapter.py"
@@ -229,19 +183,15 @@ def _phase_boundary_gate(
 # ─── tiny utilities ──────────────────────────────────────────────────────────
 
 
-def _run(cmd: list[str], *, cwd: Path | None = None,
-         timeout: int = 120) -> tuple[int, str, str]:
+def _run(cmd: list[str], *, cwd: Path | None = None, timeout: int = 120) -> tuple[int, str, str]:
     """Run a short, bounded command (git, etc.). NOT for long-running LLM phases —
     those are driven by run_wave/chapter_driver and supervised by the watchdog.
     On timeout, returns a non-zero rc + stderr instead of hanging forever.
     """
     try:
-        proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
-                              timeout=timeout)
+        proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=timeout)
     except subprocess.TimeoutExpired as e:
-        return 124, (e.stdout or ""), (
-            f"{(e.stderr or '')}\ncommand timed out after {timeout}s: {' '.join(cmd)}"
-        )
+        return 124, (e.stdout or ""), (f"{(e.stderr or '')}\ncommand timed out after {timeout}s: {' '.join(cmd)}")
     return proc.returncode, proc.stdout, proc.stderr
 
 
@@ -373,7 +323,7 @@ def _read_book_title(book_dir: Path) -> str | None:
     for line in readme.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if line.startswith("# Podcast — "):
-            return line[len("# Podcast — "):].strip()
+            return line[len("# Podcast — ") :].strip()
     return None
 
 
@@ -385,10 +335,7 @@ def run_status(args: argparse.Namespace) -> int:
         return 1
     state = read_state(book_dir)
     if state is None:
-        _err(
-            f"no orchestrator state at "
-            f"{(book_dir / '_system' / 'orchestrator-state.json').relative_to(REPO_ROOT)}"
-        )
+        _err(f"no orchestrator state at {(book_dir / '_system' / 'orchestrator-state.json').relative_to(REPO_ROOT)}")
         return 1
     print(render_status(state))
     return 0
@@ -409,60 +356,121 @@ def build_parser() -> argparse.ArgumentParser:
             "  Status:   orchestrate-book --status foo\n"
         ),
     )
-    p.add_argument("pdf_path", nargs="?",
-                   help="path to the source PDF (initial run only)")
-    p.add_argument("--slug",
-                   help="book slug (default: derived from PDF filename)")
-    p.add_argument("--category", default="books",
-                   choices=ALLOWED_CATEGORIES,
-                   help="library subdirectory (default: books)")
-    p.add_argument("--title",
-                   help='book title (default: derived from PDF filename)')
-    p.add_argument("--author", default=None,
-                   help="book author (optional)")
-    p.add_argument("--resume", metavar="SLUG",
-                   help="resume an orchestrator run for the named book slug")
-    p.add_argument("--status", metavar="SLUG",
-                   help="render the current state for the named book slug")
-    p.add_argument("--retry-phase", metavar="PHASE_ID", default=None,
-                   help=(
-                       "(used with --resume) reset the named phase's status to 'pending' "
-                       "and re-run it. Example: --resume foo --retry-phase 0b"
-                   ))
-    p.add_argument("--stop-after", metavar="PHASE_ID", default=None,
-                   help=(
-                       "(used with --resume) run forward through the authoring phases and "
-                       "halt cleanly AFTER the named phase completes, instead of continuing "
-                       "to the next review gate. Enables per-step review of one transformation "
-                       "at a time. Example: --resume foo --stop-after 0b"
-                   ))
-    p.add_argument("--length-tier", default="extended",
-                   choices=("default_deep_dive", "longer", "extended"),
-                   help=(
-                       "target episode length tier (initial run only; persisted in state). "
-                       "Default: extended."
-                   ))
-    p.add_argument("--unit-mode", default="auto",
-                   choices=("chapter", "section", "auto"),
-                   help=(
-                       "Phase 0d episode segmentation (initial run only; persisted in state). "
-                       "Default: auto."
-                   ))
-    p.add_argument("--doctor", action="store_true",
-                   help=("run ONLY the Setup-stage system check (deps, claude -p auth, "
-                         "Anthropic + Azure connectivity) and exit. 0=ready, 1=blocked."))
-    p.add_argument("--skip-doctor", action="store_true",
-                   help=("skip the Setup-stage system check. Use only when you know the "
-                         "failing subsystem is unused by the phases you are running."))
-    p.add_argument("--version", action="version",
-                   version=f"orchestrate_book.py v{ORCHESTRATOR_VERSION}")
+    p.add_argument("pdf_path", nargs="?", help="path to the source PDF (initial run only)")
+    p.add_argument("--slug", help="book slug (default: derived from PDF filename)")
+    p.add_argument(
+        "--category", default="books", choices=ALLOWED_CATEGORIES, help="library subdirectory (default: books)"
+    )
+    p.add_argument("--title", help="book title (default: derived from PDF filename)")
+    p.add_argument("--author", default=None, help="book author (optional)")
+    p.add_argument("--resume", metavar="SLUG", help="resume an orchestrator run for the named book slug")
+    p.add_argument("--status", metavar="SLUG", help="render the current state for the named book slug")
+    p.add_argument(
+        "--retry-phase",
+        metavar="PHASE_ID",
+        default=None,
+        help=(
+            "(used with --resume) reset the named phase's status to 'pending' "
+            "and re-run it. Example: --resume foo --retry-phase 0b"
+        ),
+    )
+    p.add_argument(
+        "--stop-after",
+        metavar="PHASE_ID",
+        default=None,
+        help=(
+            "(used with --resume) run forward through the authoring phases and "
+            "halt cleanly AFTER the named phase completes, instead of continuing "
+            "to the next review gate. Enables per-step review of one transformation "
+            "at a time. Example: --resume foo --stop-after 0b"
+        ),
+    )
+    p.add_argument(
+        "--length-tier",
+        default="extended",
+        choices=("default_deep_dive", "longer", "extended"),
+        help=("target episode length tier (initial run only; persisted in state). Default: extended."),
+    )
+    p.add_argument(
+        "--unit-mode",
+        default="auto",
+        choices=("chapter", "section", "auto"),
+        help=("Phase 0d episode segmentation (initial run only; persisted in state). Default: auto."),
+    )
+    p.add_argument(
+        "--unattended",
+        action="store_true",
+        help=(
+            "clear the human-approval gates that only pace an attended run (the "
+            "06a source review), so the book runs through to the reading edition "
+            "without a person at the keyboard. Persisted in state, so the "
+            "watchdog's own --resume honours it. Halts that wait on a FILE only a "
+            "human can supply (dropped audio, curated visuals) are unaffected."
+        ),
+    )
+    p.add_argument(
+        "--doctor",
+        action="store_true",
+        help=(
+            "run ONLY the Setup-stage system check (deps, claude -p auth, "
+            "Anthropic + Azure connectivity) and exit. 0=ready, 1=blocked."
+        ),
+    )
+    p.add_argument(
+        "--skip-doctor",
+        action="store_true",
+        help=(
+            "skip the Setup-stage system check. Use only when you know the "
+            "failing subsystem is unused by the phases you are running."
+        ),
+    )
+    p.add_argument("--version", action="version", version=f"orchestrate_book.py v{ORCHESTRATOR_VERSION}")
     return p
 
 
-def _maybe_relaunch_under_watchdog(slug: str) -> None:
-    """Auto-spawn watch_orchestrator.sh when --resume is called without it."""
+def _maybe_relaunch_under_watchdog(slug: str, *, retry_phase: str | None = None) -> None:
+    """Auto-spawn watch_orchestrator.sh when --resume is called without it.
+
+    ``retry_phase`` — this process is about to exit and hand the run to the
+    watchdog, whose own subsequent ``--resume`` invocations never see the
+    original ``--retry-phase`` the operator typed (verified 2026-07-31: the
+    watchdog's stale-running recovery loop derives its OWN --retry-phase from
+    state.phase when phase_status=="running" — an unrelated crash-recovery
+    heuristic, not a pass-through of what was typed here). Without this, an
+    operator's explicit ``--resume <slug> --retry-phase per-chapter`` after
+    fixing a failed chapter silently did nothing: this process exited before
+    ever calling into resume_dispatcher.run_resume, so the reset that flag
+    was supposed to trigger never happened, and the relaunched watchdog saw
+    the still-failed state and skipped the chapter again. Applying the same
+    reset here — BEFORE the relaunch, mirroring how --unattended is already
+    latched into state above this call — makes the flag take effect
+    regardless of which process ends up running the phase loop.
+    """
     if os.environ.get("PODCAST_WATCHDOG"):
+        # Already running under the watchdog (or PODCAST_WATCHDOG=1 was set
+        # deliberately to stay in-process) — this process continues on to
+        # resume_dispatcher.run_resume itself, which applies --retry-phase
+        # normally. Applying it again here would be redundant, not harmful,
+        # but the point of this block is specifically to cover the case
+        # where that normal path is never reached (below).
         return
+
+    if retry_phase:
+        _bd = _paths_find_content(slug)
+        if _bd:
+            from _progress import read_state as _read_state
+            from _progress import write_state as _write_state
+            from phases.resume_dispatcher import _clear_downstream_phases
+
+            _st = _read_state(_bd[2]) or {}
+            if retry_phase in _st.get("phases", {}):
+                _clear_downstream_phases(_st, retry_phase, log=_info)
+                _write_state(_bd[2], _st)
+                _info(f"  --retry-phase {retry_phase}: applied before watchdog handoff")
+            else:
+                _err(
+                    f"  --retry-phase {retry_phase}: unknown phase, not applied — {sorted(_st.get('phases', {}).keys())}"
+                )
 
     watchdog = Path(__file__).resolve().parent / "watch_orchestrator.sh"
     if not watchdog.exists():
@@ -475,7 +483,7 @@ def _maybe_relaunch_under_watchdog(slug: str) -> None:
 
     print(f"  [watchdog] auto-spawning watch_orchestrator.sh for {slug}")
     print(f"  [watchdog] log: {log_path}")
-    print(f"  [watchdog] this process exits; watchdog owns the run from here.")
+    print("  [watchdog] this process exits; watchdog owns the run from here.")
 
     with open(log_path, "a") as log_fh:
         subprocess.Popen(
@@ -546,7 +554,21 @@ def main() -> int:
         return 1
 
     if args.resume:
-        _maybe_relaunch_under_watchdog(slug_for_lock)
+        # BEFORE the watchdog handoff, not inside run_resume: the relaunch replaces
+        # this process with one the watchdog invokes WITHOUT --unattended, so a flag
+        # latched further down would never be written at all. It was not — the book
+        # sat at the same gate it had just been authorized past.
+        if getattr(args, "unattended", False):
+            _bd = _paths_find_content(args.resume)
+            if _bd:
+                from _progress import UNATTENDED_KEY, write_state
+
+                _st = read_state(_bd[2]) or {}
+                if not _st.get(UNATTENDED_KEY):
+                    _st[UNATTENDED_KEY] = True
+                    write_state(_bd[2], _st)
+                    _info("  --unattended: human-approval gates auto-cleared for this book from here on.")
+        _maybe_relaunch_under_watchdog(slug_for_lock, retry_phase=getattr(args, "retry_phase", None))
 
     lock_result = _acquire_book_lock(slug_for_lock)
     if lock_result is None:
@@ -555,8 +577,10 @@ def main() -> int:
     try:
         if args.resume:
             from phases.resume_dispatcher import run_resume
+
             return run_resume(args)
         from phases.initial_driver import run_initial
+
         return run_initial(args)
     finally:
         _release_book_lock(lock_fd, lock_path)

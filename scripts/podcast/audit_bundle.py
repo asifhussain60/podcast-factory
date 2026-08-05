@@ -63,8 +63,8 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from _paths import REPO_ROOT
 
+from _paths import REPO_ROOT
 
 GEM_PROMPT_PATH = REPO_ROOT / "prompts" / "gemini-bundle-auditor.md"
 
@@ -100,7 +100,7 @@ def _load_gem_prompt() -> str:
 
 def _pack_bundle_inline(bundle_dir: Path) -> Path:
     """Pack the bundle into a temp consolidated markdown file."""
-    from importlib.util import spec_from_file_location, module_from_spec
+    from importlib.util import module_from_spec, spec_from_file_location
 
     packer_path = Path(__file__).resolve().parent / "pack_bundle_for_gemini.py"
     spec = spec_from_file_location("pack_bundle_for_gemini", packer_path)
@@ -123,12 +123,7 @@ def _run_claude(prompt: str, packed_text: str, timeout: int = 600) -> str:
     LLM phase — keeping it consistent here means cost ledgers, retries, and
     permissions all behave the same way.
     """
-    full_prompt = (
-        prompt
-        + "\n\n---\n\n"
-        + "## Consolidated bundle (input)\n\n"
-        + packed_text
-    )
+    full_prompt = prompt + "\n\n---\n\n" + "## Consolidated bundle (input)\n\n" + packed_text
     try:
         result = subprocess.run(
             ["claude", "-p", full_prompt],
@@ -138,17 +133,12 @@ def _run_claude(prompt: str, packed_text: str, timeout: int = 600) -> str:
             check=False,
         )
     except FileNotFoundError as exc:
-        raise AuditError(
-            "`claude` CLI not on PATH. Install Claude Code or run this from a shell that has it."
-        ) from exc
+        raise AuditError("`claude` CLI not on PATH. Install Claude Code or run this from a shell that has it.") from exc
     except subprocess.TimeoutExpired as exc:
         raise AuditError(f"claude -p timed out after {timeout}s") from exc
 
     if result.returncode != 0:
-        raise AuditError(
-            f"claude -p exited with code {result.returncode}.\n"
-            f"stderr:\n{result.stderr}"
-        )
+        raise AuditError(f"claude -p exited with code {result.returncode}.\nstderr:\n{result.stderr}")
     return result.stdout
 
 

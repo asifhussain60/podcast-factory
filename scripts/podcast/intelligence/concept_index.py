@@ -20,6 +20,7 @@ CLI:
     python3 scripts/podcast/intelligence/concept_index.py --stats   # read-only coverage report
     python3 scripts/podcast/intelligence/concept_index.py           # emit concepts.json
 """
+
 from __future__ import annotations
 
 import json
@@ -49,9 +50,11 @@ def _slug(s: str) -> str:
     out, dash = [], False
     for ch in (s or "").strip().lower():
         if ch.isalnum():
-            out.append(ch); dash = False
+            out.append(ch)
+            dash = False
         elif not dash:
-            out.append("-"); dash = True
+            out.append("-")
+            dash = True
     return "".join(out).strip("-")
 
 
@@ -62,26 +65,54 @@ def _atom_display(row, body: dict) -> dict:
     if t == "quran":
         s, a = body.get("surah"), body.get("ayat")
         gloss = (body.get("pickthall") or body.get("asad") or "").strip()
-        return {"gloss": gloss, "source_ref": f"Q {s}:{a}", "arabic": body.get("arabic", ""), "corpus": "quran", "tradition": tradition}
+        return {
+            "gloss": gloss,
+            "source_ref": f"Q {s}:{a}",
+            "arabic": body.get("arabic", ""),
+            "corpus": "quran",
+            "tradition": tradition,
+        }
     if t == "hadith":
-        return {"gloss": (body.get("english") or body.get("text_en") or "").strip(),
-                "source_ref": f"hadith · {body.get('collection','')}".rstrip(' ·'),
-                "arabic": body.get("arabic", ""), "corpus": "hadith", "tradition": tradition}
+        return {
+            "gloss": (body.get("english") or body.get("text_en") or "").strip(),
+            "source_ref": f"hadith · {body.get('collection', '')}".rstrip(" ·"),
+            "arabic": body.get("arabic", ""),
+            "corpus": "hadith",
+            "tradition": tradition,
+        }
     if t == "term":
-        return {"gloss": (body.get("definition") or body.get("term") or "").strip(),
-                "source_ref": f"term · {body.get('term','')}".rstrip(' ·'),
-                "arabic": body.get("arabic", ""), "corpus": "quran", "tradition": tradition}
+        return {
+            "gloss": (body.get("definition") or body.get("term") or "").strip(),
+            "source_ref": f"term · {body.get('term', '')}".rstrip(" ·"),
+            "arabic": body.get("arabic", ""),
+            "corpus": "quran",
+            "tradition": tradition,
+        }
     if t == "etymology":
-        return {"gloss": (body.get("text_en") or body.get("definition") or "")[:160].strip(),
-                "source_ref": f"root · {row['id'].split(':',1)[-1]}",
-                "arabic": body.get("arabic", ""), "corpus": "wisdom", "tradition": tradition}
+        return {
+            "gloss": (body.get("text_en") or body.get("definition") or "")[:160].strip(),
+            "source_ref": f"root · {row['id'].split(':', 1)[-1]}",
+            "arabic": body.get("arabic", ""),
+            "corpus": "wisdom",
+            "tradition": tradition,
+        }
     if t == "doctrine":
         txt = (body.get("text_en") or "").strip().lstrip("#").strip()
-        return {"gloss": txt.split("\n")[0][:160], "source_ref": f"wisdom · {body.get('chapter_slug','')}".rstrip(' ·'),
-                "arabic": "", "corpus": "wisdom", "tradition": tradition}
+        return {
+            "gloss": txt.split("\n")[0][:160],
+            "source_ref": f"wisdom · {body.get('chapter_slug', '')}".rstrip(" ·"),
+            "arabic": "",
+            "corpus": "wisdom",
+            "tradition": tradition,
+        }
     if t == "poetry":
-        return {"gloss": (body.get("text_en") or "")[:160].strip(), "source_ref": "poetry",
-                "arabic": body.get("arabic", ""), "corpus": "wisdom", "tradition": tradition}
+        return {
+            "gloss": (body.get("text_en") or "")[:160].strip(),
+            "source_ref": "poetry",
+            "arabic": body.get("arabic", ""),
+            "corpus": "wisdom",
+            "tradition": tradition,
+        }
     return {"gloss": "", "source_ref": row["id"], "arabic": "", "corpus": "wisdom", "tradition": tradition}
 
 
@@ -104,11 +135,21 @@ def build_concepts(conn) -> dict:
         tags_by_atom.setdefault(tr["atom_id"], []).append(tr["tag"])
 
     def root_bucket(root: str) -> dict:
-        return roots.setdefault(root, {
-            "id": f"root:{root}", "kind": "root", "root": root,
-            "label": "", "arabic": "", "translit": root, "definition": "",
-            "synonyms": set(), "atom_ids": [], "by_type": {},
-        })
+        return roots.setdefault(
+            root,
+            {
+                "id": f"root:{root}",
+                "kind": "root",
+                "root": root,
+                "label": "",
+                "arabic": "",
+                "translit": root,
+                "definition": "",
+                "synonyms": set(),
+                "atom_ids": [],
+                "by_type": {},
+            },
+        )
 
     def add(bucket: dict, row, body: dict):
         bucket["atom_ids"].append(row["id"])
@@ -116,11 +157,21 @@ def build_concepts(conn) -> dict:
         mapped.add(row["id"])
 
     def tag_bucket(tag: str) -> dict:
-        return tags.setdefault(_slug(tag), {
-            "id": f"tag:{_slug(tag)}", "kind": "tag", "root": None,
-            "label": tag, "arabic": "", "translit": "", "definition": f"Atoms tagged “{tag}”.",
-            "synonyms": {tag}, "atom_ids": [], "by_type": {},
-        })
+        return tags.setdefault(
+            _slug(tag),
+            {
+                "id": f"tag:{_slug(tag)}",
+                "kind": "tag",
+                "root": None,
+                "label": tag,
+                "arabic": "",
+                "translit": "",
+                "definition": f"Atoms tagged “{tag}”.",
+                "synonyms": {tag},
+                "atom_ids": [],
+                "by_type": {},
+            },
+        )
 
     for row in rows:
         body = _body(row)
@@ -154,11 +205,21 @@ def build_concepts(conn) -> dict:
         elif t == "hadith":
             theme = (body.get("collection") or "").strip()
             if theme:
-                tb = themes.setdefault(_slug(theme), {
-                    "id": f"theme:{_slug(theme)}", "kind": "theme", "root": None,
-                    "label": theme, "arabic": "", "translit": "", "definition": f"Hadith on the theme of {theme}.",
-                    "synonyms": {theme}, "atom_ids": [], "by_type": {},
-                })
+                tb = themes.setdefault(
+                    _slug(theme),
+                    {
+                        "id": f"theme:{_slug(theme)}",
+                        "kind": "theme",
+                        "root": None,
+                        "label": theme,
+                        "arabic": "",
+                        "translit": "",
+                        "definition": f"Hadith on the theme of {theme}.",
+                        "synonyms": {theme},
+                        "atom_ids": [],
+                        "by_type": {},
+                    },
+                )
                 add(tb, row, body)
 
     # unmapped = atoms that landed in no concept at all
@@ -187,13 +248,16 @@ def build_concepts(conn) -> dict:
             continue
         body = _body(row)
         disp = _atom_display(row, body)
-        atoms_out.append({
-            "id": row["id"], "type": row["type"],
-            "concepts": atom_concepts.get(row["id"], []),
-            "root": (body.get("root") or "").strip().lower() or None,
-            "text_en": (body.get("text_en") or disp["gloss"])[:400],
-            **disp,
-        })
+        atoms_out.append(
+            {
+                "id": row["id"],
+                "type": row["type"],
+                "concepts": atom_concepts.get(row["id"], []),
+                "root": (body.get("root") or "").strip().lower() or None,
+                "text_en": (body.get("text_en") or disp["gloss"])[:400],
+                **disp,
+            }
+        )
 
     return {
         "schema_version": SCHEMA_VERSION,
@@ -229,6 +293,7 @@ def _print_stats(index: dict) -> None:
 
 def main() -> int:
     import argparse
+
     p = argparse.ArgumentParser(description="WC2 concept-index builder (D19)")
     p.add_argument("--stats", action="store_true", help="Print coverage report; do not write the index")
     args = p.parse_args()

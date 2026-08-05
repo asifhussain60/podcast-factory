@@ -5,6 +5,7 @@ Covers _augmentation.py: W3 (etymology cap / spoken-form / no-Arabic), W4 (conte
 -level leak), W5 (fabricated atom), W6 (cross-chapter repeat), and the revert_block
 auto-revert helper. Throwaway DB + temp book dir; no Gemini, no canonical-DB writes.
 """
+
 from __future__ import annotations
 
 import json
@@ -16,8 +17,8 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _db  # noqa: E402
-import _augmentation as aug  # noqa: E402
+import _augmentation as aug
+import _db
 
 _ETYM_HEADER = "[ETYMOLOGY — OPTIONAL ROOT-INSIGHTS — weave AT MOST 3]"
 
@@ -58,12 +59,17 @@ class TestW4W5W6(unittest.TestCase):
         _db._reset_connection()
         conn = _db.get_connection(db_path=cls.tmp)
         _db.run_migrations(db_path=cls.tmp)
-        conn.execute("INSERT INTO atoms (id,type,body,tradition,content_level) "
-                     "VALUES ('doctrine:eso','doctrine','{}','universal','taveel')")
-        conn.execute("INSERT INTO atoms (id,type,body,tradition,content_level) "
-                     "VALUES ('doctrine:real','doctrine','{}','universal','haqaiq')")
-        conn.execute("INSERT INTO atoms (id,type,body,tradition,content_level) "
-                     "VALUES ('term:x','term','{}','universal',NULL)")
+        conn.execute(
+            "INSERT INTO atoms (id,type,body,tradition,content_level) "
+            "VALUES ('doctrine:eso','doctrine','{}','universal','taveel')"
+        )
+        conn.execute(
+            "INSERT INTO atoms (id,type,body,tradition,content_level) "
+            "VALUES ('doctrine:real','doctrine','{}','universal','haqaiq')"
+        )
+        conn.execute(
+            "INSERT INTO atoms (id,type,body,tradition,content_level) VALUES ('term:x','term','{}','universal',NULL)"
+        )
         conn.commit()
 
     @classmethod
@@ -74,41 +80,43 @@ class TestW4W5W6(unittest.TestCase):
         d = Path(tempfile.mkdtemp())
         (d / "_system").mkdir(parents=True)
         (d / "meta.yml").write_text(f"content_level: {level}\n", encoding="utf-8")
-        (d / "_system" / "episode-augment-ledger.json").write_text(
-            json.dumps({"episodes": episodes}), encoding="utf-8")
+        (d / "_system" / "episode-augment-ledger.json").write_text(json.dumps({"episodes": episodes}), encoding="utf-8")
         return d
 
     def test_w4_content_level_leak(self):
-        book = self._book(level="taveel",
-                          episodes={"ch01": {"atoms_injected": ["doctrine:real"]}})
+        book = self._book(level="taveel", episodes={"ch01": {"atoms_injected": ["doctrine:real"]}})
         f = aug.check_w4_w5_content_and_existence(book, "ch01")
         self.assertTrue(any(x.check_id == "W4" and x.severity == "P0" for x in f))
 
     def test_w4_within_level_clean(self):
-        book = self._book(level="taveel",
-                          episodes={"ch01": {"atoms_injected": ["doctrine:eso", "term:x"]}})
+        book = self._book(level="taveel", episodes={"ch01": {"atoms_injected": ["doctrine:eso", "term:x"]}})
         f = aug.check_w4_w5_content_and_existence(book, "ch01")
         self.assertFalse(any(x.check_id == "W4" for x in f))
 
     def test_w5_fabricated_atom(self):
-        book = self._book(level="taveel",
-                          episodes={"ch01": {"atoms_injected": ["doctrine:ghost"]}})
+        book = self._book(level="taveel", episodes={"ch01": {"atoms_injected": ["doctrine:ghost"]}})
         f = aug.check_w4_w5_content_and_existence(book, "ch01")
         self.assertTrue(any(x.check_id == "W5" and x.severity == "P0" for x in f))
 
     def test_w6_cross_chapter_repeat(self):
-        book = self._book(level="taveel", episodes={
-            "ch01": {"atoms_injected": ["doctrine:eso"]},
-            "ch02": {"atoms_injected": ["doctrine:eso"]},
-        })
+        book = self._book(
+            level="taveel",
+            episodes={
+                "ch01": {"atoms_injected": ["doctrine:eso"]},
+                "ch02": {"atoms_injected": ["doctrine:eso"]},
+            },
+        )
         f = aug.check_w6_no_cross_chapter_repeat(book)
         self.assertTrue(any(x.check_id == "W6" for x in f))
 
     def test_w6_no_repeat_clean(self):
-        book = self._book(level="taveel", episodes={
-            "ch01": {"atoms_injected": ["doctrine:eso"]},
-            "ch02": {"atoms_injected": ["doctrine:real"]},
-        })
+        book = self._book(
+            level="taveel",
+            episodes={
+                "ch01": {"atoms_injected": ["doctrine:eso"]},
+                "ch02": {"atoms_injected": ["doctrine:real"]},
+            },
+        )
         self.assertEqual(aug.check_w6_no_cross_chapter_repeat(book), [])
 
 

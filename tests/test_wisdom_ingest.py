@@ -12,9 +12,9 @@ Covers:
 - Verdict filtering: FAIL chapters are skipped
 - Canonical ID format: doctrine:wisdom:<binder_id>:<chapter_id>:<chunk_index>
 """
+
 from __future__ import annotations
 
-import json
 import sys
 import textwrap
 from pathlib import Path
@@ -26,8 +26,7 @@ _SCRIPTS = Path(__file__).resolve().parents[1] / "scripts" / "podcast"
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from _db import get_connection, run_migrations, _reset_connection
-
+from _db import _reset_connection, get_connection, run_migrations
 
 # ---------------------------------------------------------------------------
 # Module-level skip guard
@@ -38,14 +37,15 @@ try:
         CORPUS_ROOT,
         PASS_WARN,
         _chunk_text,
-        _make_chunk,
-        _parse_bundle,
-        _parse_verdict,
+        _make_chunk,  # noqa: F401
+        _parse_bundle,  # noqa: F401
+        _parse_verdict,  # noqa: F401
         ingest_all,
         ingest_chapter,
-        print_status,
+        print_status,  # noqa: F401
         seed_lookup_tables,
     )
+
     _IMPORT_OK = True
 except ImportError as _e:
     _IMPORT_OK = False
@@ -61,11 +61,13 @@ pytestmark = pytest.mark.skipif(
 # Fixtures
 # ---------------------------------------------------------------------------
 
+
 @pytest.fixture(autouse=True)
 def isolated_db(tmp_path, monkeypatch):
     """Run every test with an isolated in-memory DB backed by a tmp file."""
     db_path = tmp_path / "test_knowledge.db"
     import _db as db_module
+
     monkeypatch.setattr(db_module, "_DB_PATH", db_path)
     _reset_connection()
     run_migrations(db_path=db_path)
@@ -84,6 +86,7 @@ def corpus_available():
 # Unit tests — chunking
 # ---------------------------------------------------------------------------
 
+
 def _dummy_topic_map():
     """Return minimal topic_types + assignments for unit testing."""
     types = {
@@ -95,25 +98,33 @@ def _dummy_topic_map():
     return types, assignments
 
 
-SAMPLE_EXTRACT = textwrap.dedent("""\
+SAMPLE_EXTRACT = textwrap.dedent(
+    """\
     Preamble text before first section.
 
     <!-- section 1 (id=101, raw_sort=1): First section -->
 
     ## Section One Title
 
-    Alpha beta gamma delta epsilon. """ + "word " * 100 + """
+    Alpha beta gamma delta epsilon. """
+    + "word " * 100
+    + """
 
     <!-- section 2 (id=102, raw_sort=2): Second section -->
 
     ## Section Two Title
 
-    Another paragraph here. """ + "word " * 20 + """
+    Another paragraph here. """
+    + "word " * 20
+    + """
 
     <!-- section 3 (id=103, raw_sort=3): Third section -->
 
-    Final section text. """ + "word " * 30 + """
-""")
+    Final section text. """
+    + "word " * 30
+    + """
+"""
+)
 
 
 def test_chunk_splits_on_section_markers():
@@ -169,8 +180,7 @@ def test_chunk_unknown_topic_tag_excluded():
 
 def test_chunk_quran_refs_extracted():
     types, assignments = _dummy_topic_map()
-    text = "<!-- section 1 (id=101, raw_sort=1): A -->\n" \
-           "See ⟪quran 2:255⟫ and ⟪quran 7:24⟫ here.\n"
+    text = "<!-- section 1 (id=101, raw_sort=1): A -->\nSee ⟪quran 2:255⟫ and ⟪quran 7:24⟫ here.\n"
     chunks = _chunk_text(text, types, assignments)
     refs = chunks[0]["quran_refs"]
     assert "2:255" in refs
@@ -180,6 +190,7 @@ def test_chunk_quran_refs_extracted():
 # ---------------------------------------------------------------------------
 # DB-backed tests — live corpus (skip if absent)
 # ---------------------------------------------------------------------------
+
 
 def test_ingest_all_dry_run_no_errors(corpus_available):
     """ingest_all(dry_run=True) must complete without errors on the real corpus."""
@@ -203,7 +214,8 @@ def test_ingest_all_dry_run_skips_fail_chapters(corpus_available):
 def test_ingest_one_chapter(corpus_available):
     """Ingesting one known PASS/WARN chapter creates atoms in the DB."""
     # Find first PASS or WARN chapter to use as test target
-    from intelligence.wisdom_ingest_knowledge import _iter_chapter_dirs, _parse_verdict, _parse_bundle
+    from intelligence.wisdom_ingest_knowledge import _iter_chapter_dirs, _parse_bundle, _parse_verdict
+
     target = None
     for ch_dir, _bd, _cd in _iter_chapter_dirs():
         v = _parse_verdict(ch_dir)
@@ -221,15 +233,14 @@ def test_ingest_one_chapter(corpus_available):
     assert result.verdict in PASS_WARN
 
     conn = get_connection()
-    count = conn.execute(
-        "SELECT COUNT(*) FROM atoms WHERE type = 'doctrine'"
-    ).fetchone()[0]
+    count = conn.execute("SELECT COUNT(*) FROM atoms WHERE type = 'doctrine'").fetchone()[0]
     assert count == result.atoms_created
 
 
 def test_warn_chapter_sets_needs_review(corpus_available):
     """WARN chapters must write needs_review=1 to corpus_chapters."""
-    from intelligence.wisdom_ingest_knowledge import _iter_chapter_dirs, _parse_verdict, _parse_bundle
+    from intelligence.wisdom_ingest_knowledge import _iter_chapter_dirs, _parse_bundle, _parse_verdict
+
     for ch_dir, _bd, _cd in _iter_chapter_dirs():
         v = _parse_verdict(ch_dir)
         if v == "WARN":
@@ -249,7 +260,8 @@ def test_warn_chapter_sets_needs_review(corpus_available):
 
 def test_pass_chapter_sets_needs_review_zero(corpus_available):
     """PASS chapters must write needs_review=0 to corpus_chapters."""
-    from intelligence.wisdom_ingest_knowledge import _iter_chapter_dirs, _parse_verdict, _parse_bundle
+    from intelligence.wisdom_ingest_knowledge import _iter_chapter_dirs, _parse_bundle, _parse_verdict
+
     for ch_dir, _bd, _cd in _iter_chapter_dirs():
         v = _parse_verdict(ch_dir)
         if v == "PASS":
@@ -269,7 +281,8 @@ def test_pass_chapter_sets_needs_review_zero(corpus_available):
 
 def test_idempotency_second_call_skips(corpus_available):
     """Calling ingest_chapter twice without re_ingest returns atoms_skipped > 0."""
-    from intelligence.wisdom_ingest_knowledge import _iter_chapter_dirs, _parse_verdict, _parse_bundle
+    from intelligence.wisdom_ingest_knowledge import _iter_chapter_dirs, _parse_bundle, _parse_verdict
+
     for ch_dir, _bd, _cd in _iter_chapter_dirs():
         if _parse_verdict(ch_dir) in PASS_WARN:
             b = _parse_bundle(ch_dir)
@@ -284,7 +297,8 @@ def test_idempotency_second_call_skips(corpus_available):
 
 def test_re_ingest_produces_same_atom_count(corpus_available):
     """Re-ingesting a chapter must produce the same atom count as the first ingest."""
-    from intelligence.wisdom_ingest_knowledge import _iter_chapter_dirs, _parse_verdict, _parse_bundle
+    from intelligence.wisdom_ingest_knowledge import _iter_chapter_dirs, _parse_bundle, _parse_verdict
+
     for ch_dir, _bd, _cd in _iter_chapter_dirs():
         if _parse_verdict(ch_dir) in PASS_WARN:
             b = _parse_bundle(ch_dir)
@@ -293,9 +307,7 @@ def test_re_ingest_produces_same_atom_count(corpus_available):
                 r2 = ingest_chapter(b["binder_slug"], b["chapter_slug"], re_ingest=True)
                 assert r1.atoms_created == r2.atoms_created
                 conn = get_connection()
-                count = conn.execute(
-                    "SELECT COUNT(*) FROM atoms WHERE type = 'doctrine'"
-                ).fetchone()[0]
+                count = conn.execute("SELECT COUNT(*) FROM atoms WHERE type = 'doctrine'").fetchone()[0]
                 assert count == r1.atoms_created
                 return
     pytest.skip("No PASS/WARN chapter found")
@@ -303,8 +315,10 @@ def test_re_ingest_produces_same_atom_count(corpus_available):
 
 def test_canonical_id_format(corpus_available):
     """Atom IDs must match doctrine:wisdom:<binder_id>:<chapter_id>:<chunk_index>."""
-    from intelligence.wisdom_ingest_knowledge import _iter_chapter_dirs, _parse_verdict, _parse_bundle
     import re as _re
+
+    from intelligence.wisdom_ingest_knowledge import _iter_chapter_dirs, _parse_bundle, _parse_verdict
+
     pattern = _re.compile(r"^doctrine:wisdom:\d+:\d+:\d+$")
     for ch_dir, _bd, _cd in _iter_chapter_dirs():
         if _parse_verdict(ch_dir) in PASS_WARN:
@@ -312,9 +326,7 @@ def test_canonical_id_format(corpus_available):
             if b.get("binder_slug") and b.get("chapter_slug"):
                 ingest_chapter(b["binder_slug"], b["chapter_slug"])
                 conn = get_connection()
-                rows = conn.execute(
-                    "SELECT id FROM atoms WHERE type = 'doctrine' LIMIT 10"
-                ).fetchall()
+                rows = conn.execute("SELECT id FROM atoms WHERE type = 'doctrine' LIMIT 10").fetchall()
                 assert rows, "No doctrine atoms were written"
                 for (atom_id,) in rows:
                     assert pattern.match(atom_id), f"Bad ID format: {atom_id}"
@@ -327,7 +339,5 @@ def test_seed_lookup_tables_idempotent():
     conn = get_connection()
     seed_lookup_tables(conn)
     seed_lookup_tables(conn)
-    count = conn.execute(
-        "SELECT COUNT(*) FROM external_corpora WHERE id = 'wisdom'"
-    ).fetchone()[0]
+    count = conn.execute("SELECT COUNT(*) FROM external_corpora WHERE id = 'wisdom'").fetchone()[0]
     assert count == 1

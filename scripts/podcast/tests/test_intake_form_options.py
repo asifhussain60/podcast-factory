@@ -4,6 +4,7 @@
 Defaults come from the pipeline's OWN vocabularies (registry + blueprint enums);
 user add/rename/remove persist to form-options.yml and survive a reload.
 """
+
 from __future__ import annotations
 
 import sys
@@ -14,9 +15,9 @@ import pytest
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _paths  # noqa: E402
-import intake_form_options as fo  # noqa: E402
-from _rules import CONTENT_PROFILES, BUCKETS  # noqa: E402
+import _paths
+import intake_form_options as fo
+from _rules import BUCKETS, CONTENT_PROFILES
 
 
 @pytest.fixture

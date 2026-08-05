@@ -1,0 +1,240 @@
+name: lint
+
+# R0 of the clean-code hardening plan (2026-07-18): Ruff + DR-005 gate the
+# pipeline surface; ESLint + Prettier gate the site surface. mypy runs
+# non-blocking (gradual opt-in per pyproject.toml) until the strict set is
+# meaningful.
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+permissions:
+  contents: read
+
+jobs:
+  pipeline:
+    name: ruff + DR-005 (pipeline)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      # PINNED (2026-08-01). These were unpinned, so CI silently adopted every new
+      # release — and ruff 0.16 began formatting Python fenced blocks inside .md,
+      # taking `ruff format --check` from 584 files to 789 and failing five plan
+      # and standard DOCUMENTS that had not changed. A lint gate that upgrades
+      # itself fails on days nobody touched the code, which is how it stops being
+      # believed. `*.md` is now excluded in pyproject.toml as well, so the gate is
+      # green on both 0.15.x and 0.16.x; the pin is what keeps the NEXT such change
+      # a deliberate bump rather than a surprise. Bump both deliberately, and run
+      # the same versions locally. See RCA-009.
+      # PyYAML is not a linter — it is here because `repo_surgeon_probe.py` reads
+      # the tracked contract at .repo-audit/profile.yaml and exits 2 ("the probe
+      # could not run") without it. It was never installed, so that step has NEVER
+      # executed in CI since it was wired: a gate that cannot run is indistinguishable
+      # from a gate that passes, right up until you read the log. Found 2026-08-01
+      # while fixing the install step two jobs over (RCA-009).
+      - name: Install ruff + mypy + probe deps
+        run: python3 -m pip install "ruff==0.16.1" "mypy==2.3.0" "pyyaml>=6"
+      - name: Ruff lint
+        run: ruff check
+      - name: Ruff format check
+        run: ruff format --check
+      - name: DR-005 line-count gate
+        run: python3 infra/git-hooks/check-dr005.py
+      # Scoped to the normative docs (agent specs, skills, root docs) — not all
+      # markdown. Historical review transcripts carry stale paths that are correct
+      # as history; flagging those would make the gate un-adoptable.
+      - name: Dead-link gate (normative docs)
+        run: python3 scripts/check_doc_links.py
+      # AGENTS.md is generated from CLAUDE.md. Both load into every session, so drift
+      # between them degrades every turn and is invisible to any other gate.
+      - name: Agent-instructions mirror (AGENTS.md <- CLAUDE.md)
+        run: python3 scripts/sync_agent_instructions.py --check
+      # infra/claude-agents/ is canonical; .github/agents/, .claude/agents/, and
+      # .codex/agents/ are generated mirrors. Same reasoning as the AGENTS.md gate
+      # above — nothing bound this pair until 2026-08-05, which is how a deleted
+      # agent spec (podcast-auditor) stayed live in .claude/agents/ for seven weeks.
+      - name: Agent-spec mirrors (.github, .claude, .codex <- infra/claude-agents)
+        run: bash scripts/podcast/sync-agent-wrappers.sh --check
+      # The project-specific audit probe. The pre-commit hook runs it too, but a hook
+      # can be bypassed with --no-verify and is not installed on a fresh clone, so CI
+      # is where it actually binds. Blocks on P0/P1 only; P2/P3 report without failing.
+      - name: repo-surgeon probe (contract, mirrors, retired surfaces, plan)
+        run: python3 scripts/repo_surgeon_probe.py
+      # `continue-on-error` already makes this advisory. It used to ALSO end in
+      # `|| true`, which forced a green step and hid the result entirely — a gate
+      # that cannot fail teaches you to ignore it. Dropped 2026-07-26; the step
+      # now reports honestly while still not blocking the job.
+      - name: mypy (non-blocking, gradual opt-in)
+        continue-on-error: true
+        run: mypy scripts tools
+
+  site:
+    name: eslint + prettier + astro + tests + views (site)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: plan-dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: plan-dashboard/package-lock.json
+      # NOT `npm ci` — see the note above `site-runtime`'s install step. The
+      # lock cannot describe the runner's ideal tree, and `npm ci` treats that
+      # as fatal before running a single gate.
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: ESLint (errors block, warnings advisory)
+        run: npx eslint src scripts --quiet
+      - name: Prettier check
+        run: npm run format:check
+      # The four gates below were all built and all uncalled by any workflow
+      # until 2026-07-26. Each was verified green locally before being wired:
+      # astro check 0 errors, 76/76 unit tests, view lint clean.
+      - name: Astro type check
+        run: npm run check
+      - name: Unit tests
+        run: npm test
+      - name: HTML-view quality gate (Cortex MUST rules)
+        run: npm run lint:views
+
+  listener:
+    name: typecheck + tests + build (listener)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: listener
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: listener/package-lock.json
+      # NOT `npm ci` — same reason as the two `site` jobs above, and the same
+      # hazard: this app also depends on tailwindcss + sharp, whose wasm FALLBACK
+      # bindings declare @emnapi at caret ranges that a macOS-generated lock
+      # structurally prunes and an ubuntu-x64 runner then resolves fresh. `npm ci`
+      # calls that missing-from-lock and fails before any gate runs. See
+      # docs/rca/2026-08-01-the-site-gates-were-dead-for-five-days.md.
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      # `Env` is a GENERATED type. tsconfig.cloudflare.json includes
+      # worker-configuration.d.ts, which is gitignored (it is 550 kB of runtime
+      # types) — so on a fresh checkout it does not exist and tsc reports
+      # "Cannot find name 'Env'" eight times before reaching a single real error.
+      # `wrangler types` writes it, needs no Cloudflare auth and no network.
+      #
+      # The placeholder .dev.vars is what makes that generated Env COMPLETE.
+      # wrangler derives Env's shape from wrangler.jsonc `vars` PLUS the local
+      # .dev.vars, and this app deliberately declares no secret in wrangler.jsonc
+      # (see the comment at its `vars` block) — so without this file Env is
+      # missing BETTER_AUTH_SECRET and GOOGLE_CLIENT_SECRET and the typecheck
+      # fails on code that is correct. The names come from that same comment;
+      # the VALUES are inert strings that only ever shape a type. Nothing here
+      # runs the code, so no real secret is needed and none must ever be added.
+      - name: Generate Env types (wrangler types)
+        run: |
+          printf '%s\n' \
+            'BETTER_AUTH_SECRET=ci-placeholder-not-a-secret' \
+            'GOOGLE_CLIENT_SECRET=ci-placeholder-not-a-secret' \
+            'PUBLISH_TOKEN=ci-placeholder-not-a-secret' \
+            'MEDIA_TOKEN_SECRET=ci-placeholder-not-a-secret' \
+            > .dev.vars
+          npm run cf-typegen
+      # These three gates existed since the app did and ran ONLY when somebody
+      # typed them by hand — a gate nobody is obliged to run is not a gate.
+      # Wired 2026-08-04.
+      - name: Type check (react-router typegen + tsc)
+        run: npm run typecheck
+      - name: Unit tests
+        run: npm run test
+      - name: Build
+        run: npm run build
+      # DELIBERATELY NOT WIRED HERE: `npm run smoke`, `npm run security` and
+      # `npm run controls`. Each drives a real browser against a BOOTED dev server
+      # backed by a seeded local D1 (listener/.wrangler/state/v3/d1) plus
+      # listener/.dev.vars — neither of which exists on a bare runner, and the
+      # seed path is `wrangler d1 migrations apply --local` + seed-people.mjs
+      # rather than a checked-in fixture. `controls` additionally REFUSES any host
+      # but localhost by design, because it presses Delete and flips open_to_all.
+      # Follow-up: give CI a disposable seeded D1 (migrations + a fixture seed) and
+      # add a `listener-runtime` job mirroring `site-runtime` — including the
+      # `npx playwright install --with-deps chromium` step, since playwright is
+      # already a devDependency here and only the browser binary is missing.
+
+  site-runtime:
+    name: runtime smoke (site)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: plan-dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: plan-dashboard/package-lock.json
+      # WHY NOT `npm ci` (changed 2026-08-01 after 60 consecutive red runs).
+      #
+      # `npm ci` refuses to install unless the lock describes the COMPLETE ideal
+      # tree for the runner's platform. package-lock.json cannot satisfy that on
+      # every platform at once, and the gap is not fixable by regenerating it:
+      #
+      #   - `@tailwindcss/oxide-wasm32-wasi` and `@img/sharp-wasm32` are the wasm
+      #     FALLBACK bindings. They declare `@emnapi/core`, `@emnapi/runtime` and
+      #     `@emnapi/wasi-threads` at caret ranges.
+      #   - Resolving on darwin-arm64 never reaches that subtree, so npm neither
+      #     writes those entries NOR keeps them: a lock generated (or merely
+      #     touched by `npm install`) on macOS has them PRUNED. Verified
+      #     2026-08-01 — grafting the entries back by hand and running
+      #     `npm install --package-lock-only` strips all four again, and
+      #     `--os=linux --cpu=x64` does not change the outcome.
+      #   - ubuntu-x64 DOES reach that subtree. Once @emnapi published past the
+      #     ranges, npm resolved them fresh from the registry, found no lock
+      #     entry, and failed with "Missing: @emnapi/runtime@1.11.3 from lock
+      #     file" before any gate ran.
+      #
+      # The lock was complete at ef325f2 (2026-07-21, generated on a Linux host);
+      # regenerations on macOS in ca21cb8 and 5133957 took it from 10 @emnapi
+      # entries to 6, and CI went red on 2026-07-27 and stayed red for five days.
+      # Restoring a Linux-generated lock is NOT durable — the next local
+      # `npm install` prunes it straight back.
+      #
+      # `npm install` has no whole-tree sync requirement, so it cannot fail this
+      # way. Every version the lock DOES pin is still honoured; only the handful
+      # of entries the lock structurally cannot carry are resolved fresh. For a
+      # lint + smoke gate that is the right trade: these jobs publish nothing.
+      # Do not "fix" this back to `npm ci` without reading docs/rca/2026-08-01-the-site-gates-were-dead-for-five-days.md.
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      # Playwright is already a devDependency; only the browser binary is missing
+      # on a fresh runner. Its own job because it boots a dev server and drives a
+      # real browser — slower than the static gates and worth isolating so a
+      # runtime failure is legible at a glance.
+      - name: Install chromium
+        run: npx playwright install --with-deps chromium
+      # `pdftoppm` (poppler-utils) is a SYSTEM binary the Composer preview shells
+      # out to via scripts/lib/preview-pages.mjs. It is present on the author's Mac
+      # through homebrew, absent on a bare runner, and its absence took
+      # /studio/<slug>/preview down with `spawnSync pdftoppm ENOENT` (2026-08-01).
+      # Installing it is the right fix rather than stubbing the page: the preview
+      # genuinely needs a PDF rasteriser, and a smoke gate that skips the render
+      # path is not exercising the surface it claims to cover.
+      - name: Install poppler-utils (pdftoppm — Composer preview rasteriser)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: Runtime smoke — every route, console errors, 5xx, failed requests
+        run: npm run smoke

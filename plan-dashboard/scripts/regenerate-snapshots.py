@@ -11,8 +11,7 @@ import json
 import os
 import re
 import subprocess
-import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import yaml
@@ -21,7 +20,16 @@ HERE = Path(__file__).parent
 APP = HERE.parent
 REPO = APP.parent
 DATA = APP / "src" / "data"
-DRAFTS = REPO / "content" / "drafts"
+CONTENT = REPO / "content"
+# Buckets first, then the legacy trees. See the long note on BOOK_ROOTS in
+# regenerate-snapshots.mjs — this is its exact mirror. Short version: the single
+# `content/drafts` constant that used to live here named a directory deleted on
+# 2026-06-04, so "books in flight" had been a structural zero ever since.
+BUCKETS = ("Islamic", "Technical", "Fiction", "Guides")
+BOOK_ROOTS = tuple(CONTENT / b for b in BUCKETS) + (
+    CONTENT / "drafts",
+    CONTENT / "published" / "books",
+)
 PLAN_YAML = REPO / "_workspace" / "plan" / "refactor" / "plan.yaml"
 WAVE_ACCEPTANCE = REPO / "_workspace" / "plan" / "operations" / "wave-acceptance-checklist.md"
 WAVE_EVENTS = REPO / "_workspace" / "plan" / "refactor" / "wave-execution-events.jsonl"
@@ -35,16 +43,15 @@ def now_iso():
 
 
 def head_commit_iso():
-    """Committer date of HEAD (ISO 8601).
-
-    Used for the snapshots' ``generated_at`` so regenerating at the SAME commit
-    produces a byte-identical file — no wall-clock churn, no perpetually-dirty
-    working tree. Falls back to wall-clock only when git is unavailable.
+    """Committer date of HEAD (ISO 8601). Console-log only as of 2026-08-05 —
+    it used to be stamped into the tracked snapshots too, which meant a file
+    could never carry its own not-yet-created commit hash and every run
+    produced a metadata-only diff on the NEXT commit, forever. Not written to
+    disk anymore.
     """
     try:
         out = subprocess.check_output(
-            ["git", "-C", str(REPO), "log", "-1", "--format=%cI"],
-            text=True, stderr=subprocess.DEVNULL
+            ["git", "-C", str(REPO), "log", "-1", "--format=%cI"], text=True, stderr=subprocess.DEVNULL
         ).strip()
         return out or now_iso()
     except Exception:
@@ -59,25 +66,121 @@ def read_json(p):
 
 
 def write_json(p, data):
-    Path(p).write_text(json.dumps(data, indent=2) + "\n")
+    # ensure_ascii=False mirrors JSON.stringify in regenerate-snapshots.mjs, which
+    # emits raw UTF-8. Escaping here would rewrite every em dash as a \\u escape,
+    # so a machine without node and a machine with node would thrash these JSONs
+    # back and forth on every commit.
+    Path(p).write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
 
 
 def current_commit():
     try:
         return subprocess.check_output(
-            ["git", "-C", str(REPO), "rev-parse", "--short", "HEAD"],
-            text=True, stderr=subprocess.DEVNULL
+            ["git", "-C", str(REPO), "rev-parse", "--short", "HEAD"], text=True, stderr=subprocess.DEVNULL
         ).strip()
     except Exception:
         return "unknown"
 
 
+def books_shipped():
+    """The published shelf, with episode counts.
+
+    Exact mirror of ``booksShipped`` in regenerate-snapshots.mjs — see the note there.
+    Short version: this field was carried forward and computed by nothing, so the
+    Overview hero opened with "0 books published, 0 episodes" over two finished books
+    and twenty-eight episodes on disk.
+    """
+    out = []
+    for slug in list_books():
+        d = book_dir(slug)
+        if d is None:
+            continue
+        state = read_json(d / "_system" / "orchestrator-state.json")
+        if not state or state.get("status") != "published":
+            continue
+        # The title is meta.yml's, never the state file's — the state file has no
+        # title field at all, so reading one from it would print the slug forever.
+        title = slug
+        try:
+            meta = yaml.safe_load((d / "meta.yml").read_text()) or {}
+            if isinstance(meta.get("title"), str) and meta["title"].strip():
+                title = meta["title"].strip()
+        except Exception:
+            pass  # no meta.yml: the slug is a worse name than the title, but it is a name
+        # One episode is one `EP##-*.txt` framing file. NOT the sibling directories:
+        # some books carry a per-episode folder as well and some do not, so counting
+        # directories reported 0 for a 20-episode book and double for a 4-episode one.
+        episodes = 0
+        try:
+            episodes = sum(1 for e in (d / "episodes").iterdir() if e.is_file() and re.match(r"^EP\d+.*\.txt$", e.name))
+        except Exception:
+            pass  # a published book with no episode folder counts zero, not undefined
+        out.append(
+            {
+                "slug": slug,
+                "title": title,
+                "shipped": state.get("published_at"),
+                "episodes": episodes,
+            }
+        )
+    return out
+
+
+def burn_30d_usd():
+    """Real money spent in the 30 days before HEAD, in dollars.
+
+    Exact mirror of ``burn30dUsd`` in regenerate-snapshots.mjs — see the long note
+    there. Short version: the Roadmap's "Spend / 30 Days" card summed a key the
+    generator never wrote and rendered the resulting zero as a measurement, while the
+    per-book ``cost-ledger.jsonl`` files held the priced rows all along. The window
+    ends at HEAD's COMMIT time, not wall clock, so an unchanged commit regenerates to
+    a byte-identical file. Cents accumulate as integers so the two generators cannot
+    drift apart on float addition.
+    """
+    try:
+        end = datetime.fromisoformat(head_commit_iso().replace("Z", "+00:00"))
+    except Exception:
+        return 0.0
+    start = end - timedelta(days=30)
+    cents = 0
+    for slug in list_books():
+        d = book_dir(slug)
+        if d is None:
+            continue
+        ledger = d / "_system" / "cost-ledger.jsonl"
+        try:
+            raw = ledger.read_text()
+        except Exception:
+            continue  # a book that has cost nothing yet has no ledger
+        for line in raw.split("\n"):
+            if not line.strip():
+                continue
+            try:
+                row = json.loads(line)
+            except Exception:
+                continue  # a torn last line mid-write is not a reason to report nothing
+            try:
+                usd = float(row.get("cost_usd") or 0)
+            except Exception:
+                continue
+            if not usd:
+                continue
+            try:
+                t = datetime.fromisoformat(str(row.get("ts") or "").replace("Z", "+00:00"))
+            except Exception:
+                continue
+            if t < start or t > end:
+                continue
+            cents += round(usd * 100)
+    return cents / 100
+
+
 def recent_commits():
     try:
         out = subprocess.check_output(
-            ["git", "-C", str(REPO), "log", "-n", "10",
-             "--pretty=format:%h|%s|%ad", "--date=short"],
-            text=True, stderr=subprocess.DEVNULL
+            ["git", "-C", str(REPO), "log", "-n", "10", "--pretty=format:%h|%s|%ad", "--date=short"],
+            text=True,
+            stderr=subprocess.DEVNULL,
         ).strip()
         rows = []
         for line in out.splitlines():
@@ -134,9 +237,41 @@ def parse_checklist_done_waves(md):
     return done
 
 
+# One vocabulary out, whatever went in. See the long note on `normalizeStepStatus`
+# in regenerate-snapshots.mjs — this is its exact mirror, and the two are
+# byte-parity-tested by tests/test_snapshot_regenerator_parity.py. Short version:
+# plan.yaml says "finished" eight different ways, the site asks for exactly one of
+# them, and on 2026-07-30 that made the Roadmap read 56/140 done when 117 were.
+STATUS_DONE = frozenset(
+    {
+        "complete",
+        "completed",
+        "done",
+        "shipped",
+        "built_committed",
+        "pilot_complete",
+        "resolved",
+    }
+)
+
+
+def normalize_step_status(raw):
+    s = str(raw or "").strip().lower()
+    if not s:
+        return "pending"
+    # `completed_2026_05_28` and friends: a done marker with the date welded on.
+    if s in STATUS_DONE or s.startswith("completed_"):
+        return "complete"
+    if s in ("in_progress", "in-progress"):
+        return "in_progress"
+    if s == "deferred":
+        return "deferred"
+    return "pending"
+
+
 def derive_step_status(step, wave):
     if isinstance(step.get("status"), str) and step["status"].strip():
-        return step["status"].strip()
+        return normalize_step_status(step["status"])
     wave_status = str(wave.get("execution_status") or "").lower()
     if wave_status.startswith("completed"):
         return "complete"
@@ -144,17 +279,41 @@ def derive_step_status(step, wave):
 
 
 def list_books():
-    try:
-        return [
-            e.name for e in sorted(DRAFTS.iterdir())
-            if e.is_dir() and not e.name.startswith("_") and e.name == e.name.lower()
-        ]
-    except Exception:
-        return []
+    """Every book slug, across every bucket. Sorted, so the two generators agree."""
+    slugs = set()
+    for root in BOOK_ROOTS:
+        try:
+            entries = list(root.iterdir())
+        except Exception:
+            continue  # a bucket with no books yet, or a legacy tree already gone
+        for e in entries:
+            if not e.is_dir():
+                continue
+            if e.name.startswith("_"):
+                continue
+            if e.name != e.name.lower():
+                continue
+            slugs.add(e.name)
+    return sorted(slugs)
+
+
+def book_dir(slug):
+    """The book's folder, wherever it lives. None when no root holds it."""
+    for root in BOOK_ROOTS:
+        p = root / slug
+        try:
+            if p.is_dir():
+                return p
+        except Exception:
+            pass
+    return None
 
 
 def book_state(slug):
-    p = DRAFTS / slug / "_system" / "orchestrator-state.json"
+    d = book_dir(slug)
+    if d is None:
+        return None
+    p = d / "_system" / "orchestrator-state.json"
     try:
         if not p.is_file():
             return None
@@ -179,9 +338,7 @@ def read_plan_yaml():
 
 
 def merge_dashboard():
-    existing = read_json(DATA / "dashboard-snapshot.json") or {
-        "roadmap": [], "waves": [], "debt": [], "metrics": {}
-    }
+    existing = read_json(DATA / "dashboard-snapshot.json") or {"roadmap": [], "waves": [], "debt": [], "metrics": {}}
 
     done_waves = set()
     try:
@@ -195,29 +352,32 @@ def merge_dashboard():
     for s in states:
         if s["phase"] == "done" or s["phase_status"] in ("shipped", "merged"):
             continue
-        existing_match = next(
-            (b for b in (existing.get("books_in_flight") or []) if b["slug"] == s["slug"]),
-            None
+        existing_match = next((b for b in (existing.get("books_in_flight") or []) if b["slug"] == s["slug"]), None)
+        in_flight.append(
+            {
+                "slug": s["slug"],
+                "title": (existing_match or {}).get("title") or s["slug"],
+                "phase": (existing_match or {}).get("phase") or s["phase"],
+                "phase_status": (existing_match or {}).get("phase_status") or s["phase_status"],
+                "cost_to_date_usd": (existing_match or {}).get("cost_to_date_usd") or 0,
+                "kind": (existing_match or {}).get("kind") or "unknown",
+            }
         )
-        in_flight.append({
-            "slug": s["slug"],
-            "title": (existing_match or {}).get("title") or s["slug"],
-            "phase": (existing_match or {}).get("phase") or s["phase"],
-            "phase_status": (existing_match or {}).get("phase_status") or s["phase_status"],
-            "cost_to_date_usd": (existing_match or {}).get("cost_to_date_usd") or 0,
-            "kind": (existing_match or {}).get("kind") or "unknown",
-        })
 
     plan = read_plan_yaml()
     roadmap = list(existing.get("roadmap") or [])
     # Every wave-shaped list in plan.yaml (waves, waves_ghj, waves_o_ph, and any
     # future waves_* section) — entries are dicts with an id + steps. Reading only
     # the first two lists silently hid waves O/PH/WM/SD+ from the dashboard.
+    # Document order, NOT sorted() — the roadmap is ordered by wave_order below,
+    # and plan.yaml's own sequencing is the authored order. Sorting the keys put
+    # waves_bpv2 ahead of waves_ghj, which reordered the whole roadmap away from
+    # what the .mjs mirror (insertion order) emits.
     wave_lists = []
     if plan:
-        for key in sorted(plan.keys()):
+        for key, value in plan.items():
             if key == "waves" or key.startswith("waves_"):
-                wave_lists.extend(list(plan.get(key) or []))
+                wave_lists.extend(list(value or []))
     all_waves = [w for w in wave_lists if isinstance(w, dict) and w.get("id")]
 
     if all_waves:
@@ -227,7 +387,7 @@ def merge_dashboard():
         wave_order = [w["id"] for w in all_waves]
 
         for wave in all_waves:
-            for step in (wave.get("steps") or []):
+            for step in wave.get("steps") or []:
                 prev = existing_by_id.get(step["id"]) or {}
                 entry = {
                     **prev,
@@ -239,8 +399,13 @@ def merge_dashboard():
                     "depends_on": step.get("depends_on") or prev.get("depends_on") or [],
                     "plain": step.get("plain") or prev.get("plain") or "",
                     "tools": step.get("tools") or prev.get("tools") or [],
-                    "last_touched": step.get("last_touched") or prev.get("last_touched"),
                 }
+                # JSON.stringify drops undefined keys, so the .mjs mirror omits
+                # last_touched entirely when neither source carries one. Emitting
+                # an explicit null here would diverge from it.
+                last_touched = step.get("last_touched") or prev.get("last_touched")
+                if last_touched is not None:
+                    entry["last_touched"] = last_touched
                 wave_num = WAVE_NUM_BY_LETTER.get(wave["id"])
                 if wave_num and wave_num in done_waves:
                     entry["status"] = "complete"
@@ -250,10 +415,7 @@ def merge_dashboard():
                     roadmap.append(entry)
 
         roadmap = [existing_by_id.get(r["id"], r) for r in roadmap]
-        roadmap.sort(key=lambda r: (
-            wave_order.index(r["wave"]) if r["wave"] in wave_order else 999,
-            str(r["id"])
-        ))
+        roadmap.sort(key=lambda r: (wave_order.index(r["wave"]) if r["wave"] in wave_order else 999, str(r["id"])))
 
     # Wave metadata (id/name/plain) drives the PlanDesign grouping — rebuild it
     # from plan.yaml so an empty `waves` array can never blank the Roadmap page.
@@ -276,26 +438,33 @@ def merge_dashboard():
             w = picked[wid]
             if not w.get("steps"):
                 continue  # empty band — no roadmap steps to show
-            plain = str(w.get("summary") or "").strip().split("\n")[0] \
-                or (prev_by_id.get(wid) or {}).get("plain", "")
-            waves_meta.append({
-                "id": wid,
-                "name": w.get("name") or wid,
-                "plain": plain,
-            })
+            plain = str(w.get("summary") or "").strip().split("\n")[0] or (prev_by_id.get(wid) or {}).get("plain", "")
+            waves_meta.append(
+                {
+                    "id": wid,
+                    "name": w.get("name") or wid,
+                    "plain": plain,
+                }
+            )
 
     merged = {
         **existing,
-        "generated_at": head_commit_iso(),
-        "source_commit": current_commit(),
-        "generator": "regenerate-snapshots.py",
+        # Deliberately NOT the filename: both regenerators must emit byte-identical
+        # snapshots, so neither may stamp which of the two produced this run.
+        "generator": "regenerate-snapshots",
         "roadmap": roadmap,
         "waves": waves_meta,
         "books_in_flight": in_flight,
-        "books_shipped": existing.get("books_shipped", []),
+        "metrics": {**(existing.get("metrics") or {}), "burn_30d_usd": burn_30d_usd()},
+        "books_shipped": books_shipped(),
         "recent_commits": recent_commits(),
         "wave_execution_events": recent_wave_events(),
     }
+    # Legacy fields from before 2026-08-05 — see head_commit_iso()'s docstring.
+    # Stripped here (not just stopped going forward) so one regen run cleans an
+    # already-committed file.
+    merged.pop("generated_at", None)
+    merged.pop("source_commit", None)
     write_json(DATA / "dashboard-snapshot.json", merged)
     return merged
 
@@ -329,20 +498,22 @@ def merge_architecture():
                     pass
             desc = str(fm.get("description") or "")
             title_case = " ".join(w[0].upper() + w[1:] for w in agent_id.split("-"))
-            agents.append({
-                "id": agent_id,
-                "name": title_case,
-                "role": desc.split(".")[0][:80],
-                "icon": "robot",
-                "tone": "neutral",
-                "plain": desc[:237] + "…" if len(desc) > 240 else desc,
-                "what_it_knows": f"See infra/claude-agents/{f}",
-                "boundary_in": "",
-                "boundary_out": "",
-                "does_not": "",
-                "cost_profile": "varies",
-                "failure_mode": "surfaces error and halts",
-            })
+            agents.append(
+                {
+                    "id": agent_id,
+                    "name": title_case,
+                    "role": desc.split(".")[0][:80],
+                    "icon": "robot",
+                    "tone": "neutral",
+                    "plain": desc[:237] + "…" if len(desc) > 240 else desc,
+                    "what_it_knows": f"See infra/claude-agents/{f}",
+                    "boundary_in": "",
+                    "boundary_out": "",
+                    "does_not": "",
+                    "cost_profile": "varies",
+                    "failure_mode": "surfaces error and halts",
+                }
+            )
         except Exception:
             pass
 
@@ -360,7 +531,13 @@ def merge_architecture():
                 title = title.strip()
                 adrs.append(existing_adrs.get(adr_id) or {"id": adr_id, "title": title, "plain": title})
 
-    merged = {**snap, "generated_at": head_commit_iso(), "source_commit": current_commit(), "agents": agents, "adrs": adrs}
+    merged = {
+        **snap,
+        "agents": agents,
+        "adrs": adrs,
+    }
+    merged.pop("generated_at", None)
+    merged.pop("source_commit", None)
     write_json(p, merged)
 
 
@@ -369,8 +546,8 @@ def touch_existing(name):
     data = read_json(p)
     if not data:
         return
-    data["generated_at"] = head_commit_iso()
-    data["source_commit"] = current_commit()
+    data.pop("generated_at", None)
+    data.pop("source_commit", None)
     write_json(p, data)
 
 
@@ -384,8 +561,8 @@ def main():
     except Exception:
         pass
 
-    print(f"snapshots regenerated @ {dash['generated_at']}")
-    print(f"  source_commit: {dash['source_commit']}")
+    print(f"snapshots regenerated @ {head_commit_iso()}")
+    print(f"  source_commit: {current_commit()}")
     print(f"  books in flight: {len(dash['books_in_flight'])}")
     print(f"  roadmap steps: {len(dash['roadmap'])}")
     print(f"  recent commits: {len(dash['recent_commits'])}")

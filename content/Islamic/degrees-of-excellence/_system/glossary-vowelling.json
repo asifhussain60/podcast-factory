@@ -1,0 +1,36 @@
+{
+  "vowelled": 0,
+  "marks_added": 0,
+  "already": 164,
+  "refused": 7,
+  "refusals": [
+    {
+      "term": "ولي العصر والزمان",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" العصر والزم\" vs proposal \"\")"
+    },
+    {
+      "term": "قلم",
+      "reason": "empty"
+    },
+    {
+      "term": "معرفة إمام الحق",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" إمام الحق\" vs proposal \"\")"
+    },
+    {
+      "term": "نكتاً على الاختصار",
+      "reason": "letters changed, not just marks (first difference at character 5: source \" على الاختصا\" vs proposal \"\")"
+    },
+    {
+      "term": "أهل كل ملة",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" كل ملة\" vs proposal \"\")"
+    },
+    {
+      "term": "التشبه بالبارئ",
+      "reason": "letters changed, not just marks (first difference at character 7: source \" بالبارئ\" vs proposal \"\")"
+    },
+    {
+      "term": "القذة بالقذة",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" بالقذة\" vs proposal \"\")"
+    }
+  ]
+}
