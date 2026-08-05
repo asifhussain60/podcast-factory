@@ -1411,59 +1411,135 @@
     text-align: start;
   }
 
-  /* The medallion (Asif, 2026-08-05): the book's two-part identity — Arabic
-     name, English beneath — held inside one seal rather than sitting bare on
-     the page. A fixed circle rather than a shape that hugs the text: this
-     library's titles range from four words to a dozen, and a seal that
-     changed outline with every book would not read as the same mark twice.
-     Sized in clamp() so it scales with the viewport the way the display type
-     around it already does, never fixed pixels.
+  /* The title plate (Asif, 2026-08-05, replacing the circular seal): the
+     book's two-part identity — English name, the work's own Arabic beneath —
+     held in one rectangular panel rather than sitting bare on the page.
 
-     The animation is a single slow breath — shadow and scale together, never
-     just one, because a shadow that grows without the shape appearing to
-     lift reads as a bug, not a seal settling. `--pf-motion`'s own easing,
-     stretched from a 160ms interaction curve to an 6s ambient one; the global
-     `prefers-reduced-motion` rule already zeroes every `animation-duration`
-     on this site, so no separate guard is needed here. */
-  .pf-title-medallion {
+     A rectangle rather than the circle it replaces because the panel can take
+     the width a title needs. The circle could not: it had to be sized for the
+     library's longest name, which left every short one floating in an empty
+     disc, and shrinking the type to fit the longest made the shelf read at one
+     size and the page at another.
+
+     It borrows the page's own panel idiom — the same radius and the same
+     accent-mixed tint the "About this book" panel below it uses — so it reads
+     as part of this page rather than as an ornament dropped onto it. `fit-
+     content` up to a cap, so a two-word title gets a compact plate and a
+     subtitled one gets a wide one, both centred. */
+  .pf-title-plate {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     gap: var(--pf-space-2);
+    width: fit-content;
+    max-width: min(100%, 44rem);
     margin-inline: auto;
     margin-top: var(--pf-space-5);
-    aspect-ratio: 1;
-    width: clamp(16rem, 11rem + 22vw, 27rem);
-    padding: 12%;
-    border-radius: 50%;
-    background: var(--l-surface);
-    border: 1px solid color-mix(in srgb, var(--l-accent) 22%, transparent);
-    box-shadow: var(--pf-elev-4);
-    animation: pf-medallion-breathe 6s cubic-bezier(0.2, 0, 0.2, 1) infinite;
+    /* Tighter above and below than at the sides: two centred lines of display
+       type already carry their own leading, and matching the side padding
+       vertically left a band of empty plate under the Arabic. */
+    padding: clamp(var(--pf-space-3), 2vw, var(--pf-space-4))
+      clamp(var(--pf-space-5), 5vw, var(--pf-space-8));
+    border-radius: var(--pf-radius-lg);
+    /* A tint rather than a flat fill: the plate reads as its own object against
+       the page instead of a rule drawn on the same paper. Mixed INTO
+       `--l-surface` rather than laid over it, so sepia and dark inherit their
+       own version instead of a light-theme colour bleeding through. */
+    background: linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--l-accent) 4%, var(--l-surface)) 0%,
+      color-mix(in srgb, var(--l-accent) 10%, var(--l-surface)) 100%
+    );
+    border: 3px solid color-mix(in srgb, var(--l-accent) 22%, transparent);
+    box-shadow: var(--pf-elev-3);
+    /* The sheen below is clipped to the plate and sits between its fill and its
+       type, so it passes UNDER the names rather than washing over them.
+       `isolation` keeps that z-order local: without it the sheen's negative
+       index would sink behind the page instead of behind the text. */
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
   }
 
-  .pf-title-medallion .pf-book-title-ar {
-    margin-top: 0;
-    font-size: clamp(1.7rem, 1.2rem + 2vw, 2.6rem);
+  /* The glass: one soft band crossing the plate at an angle, as light travels
+     over a glazed surface.
+
+     Made of `--l-accent` at low alpha rather than white. White is what a
+     specular highlight actually is, and it was tried first — but the same white
+     band that is invisible on the near-white light panel reads as a polished
+     metal blade on the dark one, and no single alpha serves both. The accent is
+     DARKER than the light panel and LIGHTER than the dark one, so one rule
+     produces a soft shift in either direction.
+
+     Slow and mostly absent: the sweep takes a third of the cycle and the rest
+     of the nine seconds is still. A highlight that crossed continuously would
+     be an animation playing on a page of prose; this one catches the eye once
+     and then leaves. The global `prefers-reduced-motion` rule covers `::before`
+     as well as elements, so a reader who asks for stillness gets it here too. */
+  .pf-title-plate::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      color-mix(in srgb, var(--l-accent) 5%, transparent) 42%,
+      color-mix(in srgb, var(--l-accent) 13%, transparent) 50%,
+      color-mix(in srgb, var(--l-accent) 5%, transparent) 58%,
+      transparent 70%
+    );
+    animation: pf-title-plate-glass 9s ease-in-out infinite;
   }
 
-  .pf-title-medallion .pf-title {
-    margin-top: 0;
-    max-width: 16ch;
-    font-size: clamp(1.1rem, 0.85rem + 1.1vw, 1.6rem);
-  }
-
-  @keyframes pf-medallion-breathe {
-    0%,
+  @keyframes pf-title-plate-glass {
+    0% {
+      transform: translateX(-115%);
+    }
+    35%,
     100% {
-      transform: scale(1);
-      box-shadow: var(--pf-elev-3);
+      transform: translateX(115%);
     }
-    50% {
-      transform: scale(1.015);
-      box-shadow: var(--pf-elev-4);
-    }
+  }
+
+  /* ONE size for every book — both names scale with the viewport and with
+     nothing else, so a reader moving along the shelf sees every title set the
+     same way.
+
+     The Arabic is stepped UP from the shared size rather than sharing it
+     outright. Set at the same `font-size` the two scripts do not look the same
+     size: Naskh's letterforms sit on a smaller body than Latin capitals, so an
+     identical number renders visibly smaller. The multiplier is what makes them
+     look equal, which is the thing actually being matched here. */
+  .pf-title-plate {
+    --pf-plate-type: clamp(1.45rem, 1.05rem + 1.7vw, 2.4rem);
+  }
+
+  .pf-title-plate .pf-title {
+    margin-top: 0;
+    max-width: 100%;
+    font-size: var(--pf-plate-type);
+    line-height: 1.15;
+    /* When a title is long enough to need two lines, it divides into even ones
+       rather than a full line and an orphan — and at the space, never at the
+       hyphen in a name like `al-Walad`, which reads as a word cut in half. */
+    text-wrap: balance;
+    /* The two names are set apart by colour as well as by face: the English in
+       a deeper violet-blue, the Arabic beneath it in the lighter blue, so the
+       eye reads a heading and its translation rather than two equal titles.
+       Both are MIXED FROM `--l-accent`, never fixed hexes, so sepia's muted
+       blue and dark's pale blue each produce their own pair instead of a
+       light-theme colour showing through. */
+    color: color-mix(in oklab, var(--l-accent-hover) 80%, rebeccapurple);
+  }
+
+  .pf-title-plate .pf-book-title-ar {
+    margin-top: 0;
+    font-size: calc(var(--pf-plate-type) * 1.18);
+    line-height: 1.4;
+    color: color-mix(in srgb, var(--l-accent) 78%, var(--l-surface));
   }
 
   .pf-eyebrow {

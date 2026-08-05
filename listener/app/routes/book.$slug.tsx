@@ -218,10 +218,9 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     <AppShell here="book" isAdmin={isAdmin}>
       {/* ---- Identity ----
           The same two-part identity the library card carries, opened out: the
-          Arabic title set large as the book's own name, the English beneath
-          it, both held inside one medallion (Asif, 2026-08-05) — the seal
-          motif this reader's Islamic library earns and a plain stacked title
-          did not have. One wrapper, so every book's page gets it from this
+          English name, the work's own Arabic beneath it, both held in one
+          rectangular plate (Asif, 2026-08-05, replacing the circular seal that
+          preceded it). One wrapper, so every book's page gets it from this
           template rather than one book at a time. */}
       <header className="pf-masthead pf-masthead--tight pf-masthead--centred">
         <p className="pf-eyebrow">
@@ -230,14 +229,23 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
           {detail?.editionNote ? ` · ${detail.editionNote.replace(/_/g, " ")}` : null}
         </p>
 
-        <div className="pf-title-medallion">
+        {/* No per-book type size (Asif, 2026-08-05): a length-based step-down
+            made a short title larger than a long one, so the same library read
+            at three different sizes as you moved between books. One size for
+            every book; the plate takes the width each title needs instead. */}
+        <div className="pf-title-plate">
+          {/* English first, Arabic under it (Asif, 2026-08-05): the name the
+              reader came looking for leads, and the original sits beneath it
+              as the work's own name. The order is the DOM's, not a flex
+              `order` — a heading that reads second in the source and first on
+              screen is a different page to a screen reader than to the eye. */}
+          <h1 className="pf-title pf-title--sm">{unit.title}</h1>
+
           {detail?.titleArabic ? (
             <p lang="ar" dir="rtl" className="pf-book-title-ar">
               {detail.titleArabic}
             </p>
           ) : null}
-
-          <h1 className="pf-title pf-title--sm">{unit.title}</h1>
         </div>
 
         {/* ---- The description ----
