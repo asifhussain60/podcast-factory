@@ -1922,6 +1922,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "9dec592",
+      "subject": "chore(plan-dashboard): regenerate snapshots",
+      "date": "2026-08-05"
+    },
+    {
       "sha": "87c0a2d",
       "subject": "chore(plan-dashboard): drop reconcile from the agent snapshot",
       "date": "2026-08-05"
@@ -1964,11 +1969,6 @@
     {
       "sha": "9b04c91",
       "subject": "docs: lock the develop<->localhost and main<->prod deploy invariants",
-      "date": "2026-08-05"
-    },
-    {
-      "sha": "4e485c5",
-      "subject": "chore(plan-dashboard): regenerate snapshots (drift caught by new sync hook)",
       "date": "2026-08-05"
     }
   ],
