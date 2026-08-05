@@ -1859,10 +1859,8 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 14.42
+    "burn_30d_usd": 17.51
   },
-  "generated_at": "2026-08-03T18:17:37-04:00",
-  "source_commit": "9893073",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1924,54 +1922,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "9893073",
-      "subject": "feat(listener): the library gets a heading, a search box and an order",
-      "date": "2026-08-03"
+      "sha": "9dec592",
+      "subject": "chore(plan-dashboard): regenerate snapshots",
+      "date": "2026-08-05"
     },
     {
-      "sha": "02c2d6e",
-      "subject": "style(listener): a hero, a way out, and Arabic that carries a title",
-      "date": "2026-08-03"
+      "sha": "87c0a2d",
+      "subject": "chore(plan-dashboard): drop reconcile from the agent snapshot",
+      "date": "2026-08-05"
     },
     {
-      "sha": "f11f454",
-      "subject": "fix(book): Arabic replaces a romanization only when it is one, and only when a reviewer has said so",
-      "date": "2026-08-03"
+      "sha": "c6318d9",
+      "subject": "chore(agents): retire reconcile (zombie since a botched 2026-05-31 sweep)",
+      "date": "2026-08-05"
     },
     {
-      "sha": "46ab27f",
-      "subject": "style(listener): one stylesheet, and brand assets derived from the logo",
-      "date": "2026-08-03"
+      "sha": "b6b9bd2",
+      "subject": "chore(plan-dashboard): drop docs-updater from the agent snapshot",
+      "date": "2026-08-05"
     },
     {
-      "sha": "011bbb4",
-      "subject": "feat(book): source medium is a declared property, and speech is not a missing scan",
-      "date": "2026-08-03"
+      "sha": "db523e8",
+      "subject": "chore(agents): retire docs-updater, dead since 2026-05-28",
+      "date": "2026-08-05"
     },
     {
-      "sha": "c1d02f5",
-      "subject": "fix(glossary): a book may only lend Arabic its own scan proves",
-      "date": "2026-08-03"
+      "sha": "075bb77",
+      "subject": "docs(hooks): note the recent_commits rolling-window churn is expected",
+      "date": "2026-08-05"
     },
     {
-      "sha": "a36993c",
-      "subject": "fix(book): the Replace-with-Arabic button works inline, and every book's glossary is harvested",
-      "date": "2026-08-03"
+      "sha": "538b915",
+      "subject": "chore(plan-dashboard): regenerate snapshots",
+      "date": "2026-08-05"
     },
     {
-      "sha": "f061086",
-      "subject": "style(listener): every declaration is in a stylesheet, and a session title stops wrapping under its own label",
-      "date": "2026-08-03"
+      "sha": "e782041",
+      "subject": "fix(pipeline): close the three P1/P0 findings from the podcast-pipeline audit",
+      "date": "2026-08-05"
     },
     {
-      "sha": "4ba720b",
-      "subject": "feat(book): romanization out, Arabic script in — the third inline-Arabic operation",
-      "date": "2026-08-03"
+      "sha": "34e8e83",
+      "subject": "chore(plan-dashboard): regenerate snapshots",
+      "date": "2026-08-05"
     },
     {
-      "sha": "604440f",
-      "subject": "feat(listener): twenty episodes in five sessions, and one command to ship them",
-      "date": "2026-08-03"
+      "sha": "9b04c91",
+      "subject": "docs: lock the develop<->localhost and main<->prod deploy invariants",
+      "date": "2026-08-05"
     }
   ],
   "wave_execution_events": [],

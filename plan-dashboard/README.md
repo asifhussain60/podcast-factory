@@ -30,7 +30,7 @@ Three JSON snapshots in `src/data/`:
 Two ways to refresh:
 
 1. **The planner agent** — runs after every plan-related task and rewrites all three snapshots from current repo truth, including the plain-English copy. This is the primary path.
-2. **`npm run snapshot`** — runs the mechanical refresher at `scripts/regenerate-snapshots.mjs`. Preserves the agent-authored plain-English copy, updates only the live fields (book state, recent commits, generated_at). Useful in CI and when you want a quick refresh without invoking a model.
+2. **`npm run snapshot`** — runs the mechanical refresher at `scripts/regenerate-snapshots.mjs`. Preserves the agent-authored plain-English copy, updates only the live fields (book state, recent commits). Useful in CI and when you want a quick refresh without invoking a model. (Until 2026-08-05 this also stamped `generated_at`/`source_commit` into the tracked JSON — dropped, since a file can never contain its own not-yet-created commit hash, which meant every run produced a diff on the next commit forever. Both values still print to the console.)
 
 Both paths touch `.snapshot-version`, which the SSE endpoint watches — the dashboard refreshes within ~100ms of either path completing.
 

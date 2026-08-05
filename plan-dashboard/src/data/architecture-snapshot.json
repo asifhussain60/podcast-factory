@@ -172,20 +172,6 @@
       "failure_mode": "surfaces error and halts"
     },
     {
-      "id": "docs-updater",
-      "name": "Docs Updater",
-      "role": "",
-      "icon": "robot",
-      "tone": "neutral",
-      "plain": "",
-      "what_it_knows": "See infra/claude-agents/docs-updater.md",
-      "boundary_in": "",
-      "boundary_out": "",
-      "does_not": "",
-      "cost_profile": "varies",
-      "failure_mode": "surfaces error and halts"
-    },
-    {
       "id": "html-view-challenger",
       "name": "Html View Challenger",
       "role": "Conformance challenger for HTML views, Astro pages, components, and diagrams on ",
@@ -347,20 +333,6 @@
       "tone": "neutral",
       "plain": "Closes the pronunciation loop for Arabic books: takes the ONE short NotebookLM probe episode produced by `scripts/podcast/run_pronunciation_probe.py`, transcribes it, compares what the hosts ACTUALLY said against what the term ladder int…",
       "what_it_knows": "See infra/claude-agents/pronunciation-probe-analyst.md",
-      "boundary_in": "",
-      "boundary_out": "",
-      "does_not": "",
-      "cost_profile": "varies",
-      "failure_mode": "surfaces error and halts"
-    },
-    {
-      "id": "reconcile",
-      "name": "Reconcile",
-      "role": "Reconciliation agent for architecture docs",
-      "icon": "robot",
-      "tone": "neutral",
-      "plain": "Reconciliation agent for architecture docs. Given (a) a file:// or https:// link to one of Asif's architecture HTML views and (b) a free-text change request, the agent first verifies whether the underlying skill/agent/script ALREADY impl…",
-      "what_it_knows": "See infra/claude-agents/reconcile.md",
       "boundary_in": "",
       "boundary_out": "",
       "does_not": "",
@@ -614,7 +586,5 @@
         "ayyuhal-walad"
       ]
     }
-  ],
-  "generated_at": "2026-08-03T18:17:37-04:00",
-  "source_commit": "9893073"
+  ]
 }
