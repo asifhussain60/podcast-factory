@@ -53,21 +53,50 @@ DEFAULT_DUMP = Path("content/_shared/source-library/KSessions.sql")
 # Column orders, read off the dump's own INSERT statements.
 COLUMNS: dict[str, list[str]] = {
     "Groups": [
-        "GroupID", "GroupName", "GroupImage", "GroupDescription", "Syllabus",
-        "SpeakerID", "IsCompleted", "IsActive", "CreatedDate", "ChangedDate",
+        "GroupID",
+        "GroupName",
+        "GroupImage",
+        "GroupDescription",
+        "Syllabus",
+        "SpeakerID",
+        "IsCompleted",
+        "IsActive",
+        "CreatedDate",
+        "ChangedDate",
     ],
     "Categories": [
-        "CategoryID", "CategoryName", "GroupID", "IsActive", "CreatedDate",
-        "ChangedDate", "SortOrder",
+        "CategoryID",
+        "CategoryName",
+        "GroupID",
+        "IsActive",
+        "CreatedDate",
+        "ChangedDate",
+        "SortOrder",
     ],
     "Sessions": [
-        "SessionID", "GroupID", "Sequence", "CategoryID", "SessionName",
-        "Description", "SessionDate", "MediaPath", "SpeakerID", "DeliveryRating",
-        "CreatedDate", "ChangedDate", "IsActive", "ImageCount",
-        "ImagesFolderPath", "ImagesProcessedDate",
+        "SessionID",
+        "GroupID",
+        "Sequence",
+        "CategoryID",
+        "SessionName",
+        "Description",
+        "SessionDate",
+        "MediaPath",
+        "SpeakerID",
+        "DeliveryRating",
+        "CreatedDate",
+        "ChangedDate",
+        "IsActive",
+        "ImageCount",
+        "ImagesFolderPath",
+        "ImagesProcessedDate",
     ],
     "SessionTranscripts": [
-        "TranscriptID", "SessionID", "Transcript", "CreatedDate", "ChangedDate",
+        "TranscriptID",
+        "SessionID",
+        "Transcript",
+        "CreatedDate",
+        "ChangedDate",
     ],
 }
 
@@ -167,7 +196,7 @@ def read_tables(dump: Path, tables: set[str]) -> dict[str, list[dict]]:
                     at = line.find(marker)
                     if at == -1:
                         continue
-                    body = line[at + len(marker):].rstrip()
+                    body = line[at + len(marker) :].rstrip()
                     if body.endswith(")"):
                         body = body[:-1]
                     vals = split_values(body)
@@ -203,14 +232,14 @@ def build(group_id: int, dump: Path, out_dir: Path, category_id: int | None) -> 
 
     cats = sorted(
         (c for c in data["Categories"] if c["GroupID"] == group_id),
-        key=lambda c: (c.get("SortOrder") or 0),
+        key=lambda c: c.get("SortOrder") or 0,
     )
     cat_by_id = {c["CategoryID"]: c for c in cats}
 
     sessions = [s for s in data["Sessions"] if s["GroupID"] == group_id]
     if category_id is not None:
         sessions = [s for s in sessions if s["CategoryID"] == category_id]
-    sessions.sort(key=lambda s: (s.get("Sequence") or 0))
+    sessions.sort(key=lambda s: s.get("Sequence") or 0)
 
     transcripts = {t["SessionID"]: t["Transcript"] for t in data["SessionTranscripts"]}
 
@@ -223,10 +252,7 @@ def build(group_id: int, dump: Path, out_dir: Path, category_id: int | None) -> 
     txt_dir.mkdir(parents=True, exist_ok=True)
 
     md: list[str] = [f"# {group_name}\n"]
-    md.append(
-        f"\n*Source: ksessions-group, group {group_id} ({group_name}). "
-        f"{len(sessions)} sections.*\n"
-    )
+    md.append(f"\n*Source: ksessions-group, group {group_id} ({group_name}). {len(sessions)} sections.*\n")
     anchor: list[str] = []
     notes: list[str] = []
     current_cat: int | None = None
@@ -242,9 +268,7 @@ def build(group_id: int, dump: Path, out_dir: Path, category_id: int | None) -> 
             current_cat = cat
             md.append(f"\n<!-- category {cat}: {cat_by_id[cat]['CategoryName']} -->\n")
 
-        md.append(
-            f"\n<!-- section {position} (id={sid}, raw_sort={sess.get('Sequence')}): {name} -->\n"
-        )
+        md.append(f"\n<!-- section {position} (id={sid}, raw_sort={sess.get('Sequence')}): {name} -->\n")
 
         if not html:
             notes.append(f"- session {sid} ({name}): no SessionTranscripts row — section empty")
@@ -282,8 +306,7 @@ def build(group_id: int, dump: Path, out_dir: Path, category_id: int | None) -> 
         f"shelf: {{kind: group, id: {group_id}, name: {group_name}, slug: {slug}}}\n"
         f"categories:\n"
         + "".join(
-            f"  - {{id: {c['CategoryID']}, name: {c['CategoryName']}, sort_key: {c.get('SortOrder')}}}\n"
-            for c in cats
+            f"  - {{id: {c['CategoryID']}, name: {c['CategoryName']}, sort_key: {c.get('SortOrder')}}}\n" for c in cats
         )
         + f"sections:\n  kind: session\n  items:\n{items}\n",
         encoding="utf-8",

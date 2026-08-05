@@ -91,7 +91,7 @@ def slice_section(lines: list[str], marker: str | None) -> tuple[list[str], list
             if lines[j].strip().startswith("APPENDIX"):
                 note_end = j
                 break
-        return prose, lines[notes_at + 1:note_end]
+        return prose, lines[notes_at + 1 : note_end]
     return lines[start:end], []
 
 
@@ -151,7 +151,8 @@ TRANSLIT_PAREN = re.compile(
 # English prose always carries these; a run of transliteration never does.
 ENGLISH_TELLS = re.compile(
     r"\b(the|and|of|is|was|were|to|in|that|which|for|with|his|her|from|"
-    r"this|are|as|but|not|who|had|have|been)\b", re.I
+    r"this|are|as|but|not|who|had|have|been)\b",
+    re.I,
 )
 
 
@@ -214,8 +215,10 @@ def main() -> int:
     NOTES_DIR.mkdir(parents=True, exist_ok=True)
 
     out: list[str] = ["# Spiritual Ethos", ""]
-    out.append("*Justice and Remembrance — Reza Shah-Kazemi. "
-               "Chapters one to three, with both primary texts from the appendices.*")
+    out.append(
+        "*Justice and Remembrance — Reza Shah-Kazemi. "
+        "Chapters one to three, with both primary texts from the appendices.*"
+    )
     out.append("")
 
     summary: list[tuple[str, int, int]] = []
@@ -228,12 +231,22 @@ def main() -> int:
         while paras and (
             re.fullmatch(r"CHAPTER (ONE|TWO|THREE)", paras[0].strip())
             or paras[0].strip().startswith("APPENDIX")
-            or is_heading(paras[0]) and idx <= 3 and len(paras[0]) < 60
+            or is_heading(paras[0])
+            and idx <= 3
+            and len(paras[0]) < 60
         ):
             paras.pop(0)
-        if paras and ("Spiritual Ethos" in paras[0] or "Mystical Tradition" in paras[0]
-                      or "Sacred Conception" in paras[0] or "Nahj al-bal" in paras[0]
-                      or "Malik al-Ashtar" in paras[0]) and len(paras[0]) < 100:
+        if (
+            paras
+            and (
+                "Spiritual Ethos" in paras[0]
+                or "Mystical Tradition" in paras[0]
+                or "Sacred Conception" in paras[0]
+                or "Nahj al-bal" in paras[0]
+                or "Malik al-Ashtar" in paras[0]
+            )
+            and len(paras[0]) < 100
+        ):
             paras.pop(0)
 
         out.append(f"## {title}")
