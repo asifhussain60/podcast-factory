@@ -183,6 +183,16 @@ def build_phase_0b_window_prompt(
         f"- Do NOT modify any file other than `{win_out}`.\n"
         f"- Do NOT invent content not present in the INPUT — fidelity to the source is mandatory.\n"
         f"- Preserve every Arabic-derived term in transliteration form (al-Razi, al-Kirmani, etc.).\n"
+        # Script, not just transliteration. This line was missing until 2026-08-05
+        # because no source had ever carried Arabic script into 0b — every book got
+        # its script later, from its own OCR. `spiritual-ethos` arrives with 999 runs
+        # already in the source, woven in from lecture transcripts, and the pass
+        # silently dropped twelve of them while faithfully keeping the English around
+        # them. R-ARABIC-INTEGRITY caught it; the prompt is where it had to be fixed.
+        f"- COPY EVERY ARABIC-SCRIPT RUN VERBATIM, character for character, including its\n"
+        f"  diacritics. Never drop one, never romanize one away, never re-vowel one, and\n"
+        f"  never merge a verse number into the verse beside it. If a sentence around the\n"
+        f"  Arabic is rewritten, the Arabic inside it still comes through untouched.\n"
         f"- Preserve every citation (verse references, hadith collection numbers).\n"
         f"- Preserve every `<!-- page N -->` HTML comment verbatim and in-place (see invariant above).\n"
         f"- Do NOT wrap output in code fences or add preamble like 'Here is the refined text:'.\n\n"
