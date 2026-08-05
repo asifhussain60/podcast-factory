@@ -81,10 +81,18 @@ export function BookCard({
         {arabic === null ? null : <h2 className="pf-book__title">{title}</h2>}
         <Contents card={card} />
 
-        {/* Only for a book actually begun. A 0% bar on every unopened card would
-            turn the library into a list of things not done, which is the
-            opposite of what it is for. */}
-        {percent === null ? null : (
+        {/* ALWAYS rendered, so every card in the grid is the same height — a book
+            with no progress used to omit this block entirely and sit shorter
+            than its neighbours.
+
+            Still no 0% BAR on an unopened book: that would turn the library into
+            a list of things not done, which is the opposite of what it is for.
+            An unread card says so in words and reserves the same space. */}
+        {percent === null ? (
+          <div className="pf-book__progress">
+            <p className="pf-book__resume pf-book__resume--idle">Not yet started</p>
+          </div>
+        ) : (
           <div className="pf-book__progress">
             <div
               role="progressbar"
@@ -142,7 +150,7 @@ function Contents({ card }: { card: LibraryCard | null }) {
     pdfAvailable: card.pdfAvailable,
     deckPages: card.deckPages,
     deckAvailable: card.deckAvailable,
-  });
+  }, { combineFormats: true });
 
   if (pills.length === 0) {
     return (

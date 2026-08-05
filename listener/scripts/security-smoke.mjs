@@ -250,6 +250,51 @@ d1(`
   DELETE FROM access_event WHERE subject IN ('${OUTSIDER}', '${STRANGER}');
 `);
 
+console.log("\nthe way in is not advertised to anyone else");
+// The route is 404 for everyone but the administrator, which the checks above
+// prove. This is the OTHER half: the header must not offer the link either.
+//
+// Worth firing rather than reading, because it is a property of every page that
+// renders the shell — and the shell recently became a shared component used by
+// pages that previously drew their own header. Any of them could pass `isAdmin`
+// wrongly and nothing else here would notice.
+//
+// The header's LINK, and only that one. Not the word "Access", which appears in
+// prose elsewhere; and not any `/admin` href, because the admin screen is full of
+// its own internal links — tabs, filters, person rows, pagination.
+//
+// Attribute ORDER is not assumed. The first version of this required
+// href-then-class and reported the administrator as not being offered the link,
+// because the renderer emits class first. Each anchor is matched whole and both
+// parts are looked for inside it.
+/** @param {string} html */
+const hasNavLinkToAdmin = (html) =>
+  [...html.matchAll(/<a\b[^>]*>/g)].some(
+    ([tag]) => tag.includes('href="/admin"') && tag.includes("pf-navlink"),
+  );
+/** @param {string} path @param {string} cookie */
+const linkShown = async (path, cookie) => {
+  const res = await get(path, cookie);
+  return res.status === 200 && hasNavLinkToAdmin(await res.text());
+};
+
+check("the administrator is offered it", await linkShown("/", admin), true);
+check("somebody invited but granted nothing is not", await linkShown("/", outsider), false);
+check("and neither is a signed-out visitor", await linkShown("/sign-in", ""), false);
+// Simulation takes the capability away, so it has to take the link with it — or
+// the administrator sees a door that answers 404 while they are being somebody
+// else.
+check(
+  "nor the administrator while simulating somebody",
+  await linkShown("/", `${admin}; ${forged(OUTSIDER)}`),
+  false,
+);
+check(
+  "a forged cookie does not conjure it in a reader's browser",
+  await linkShown("/", `${outsider}; ${forged(ADMIN)}`),
+  false,
+);
+
 console.log("\none reader's marks are their own");
 // The most private thing this application stores. The unit tests in
 // test/marks-isolation.test.ts prove the SQL; this proves the ROUTE, as one

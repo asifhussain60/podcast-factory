@@ -35,6 +35,24 @@ const MANIFEST = [
     to: "literata-latin-opsz-italic.woff2",
     note: "Literata Variable (italic)",
   },
+  // Book titles on the library card, and nowhere else. Asif asked for Roboto
+  // Condensed there specifically: the grid sets a title at two lines in a narrow
+  // column, and a condensed face fits a long one without shrinking it.
+  //
+  // COPIED like every other face rather than linked from fonts.googleapis.com.
+  // A Google Fonts <link> is a third-party request on every page load of a
+  // private library — it tells another origin who is reading and when — and it
+  // is one more thing between a reader and the page rendering.
+  {
+    from: "node_modules/@fontsource-variable/roboto-condensed/files/roboto-condensed-latin-wght-normal.woff2",
+    to: "roboto-condensed-latin-wght-normal.woff2",
+    note: "Roboto Condensed Variable (library card titles)",
+  },
+  {
+    from: "node_modules/@fontsource-variable/roboto-condensed/LICENSE",
+    to: "roboto-condensed-LICENSE.txt",
+    note: "Apache 2.0",
+  },
   // Display — Fraunces, for headings only.
   //
   // The `opsz` cut rather than the plain weight one, and for the same reason

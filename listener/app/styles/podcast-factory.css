@@ -37,12 +37,40 @@
  * files in public/fonts/.
  * ========================================================================== */
 
+/* Book titles on the library card. Self-hosted like every other face here — a
+   Google Fonts link would tell a third party who is reading this private
+   library and when. */
+@font-face {
+  font-family: "Roboto Condensed Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/roboto-condensed-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @font-face {
   font-family: "Literata Variable";
   font-style: normal;
   font-display: swap;
   font-weight: 200 900;
   src: url("/fonts/literata-latin-opsz-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Book titles on the library card. Self-hosted like every other face here — a
+   Google Fonts link would tell a third party who is reading this private
+   library and when. */
+@font-face {
+  font-family: "Roboto Condensed Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/roboto-condensed-latin-wght-normal.woff2") format("woff2-variations");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
     U+2212, U+2215, U+FEFF, U+FFFD;
@@ -217,6 +245,9 @@
   /* Page titles only. Everything that is read rather than scanned stays on
      `--l-font-prose`. */
   --l-font-display: "Fraunces Variable", "Literata Variable", Georgia, serif;
+  /* Library-card book titles only. Condensed, so a long title fits the card's
+     narrow column at full size instead of being shrunk to fit. */
+  --l-font-card-title: "Roboto Condensed Variable", "Inter Variable", system-ui, sans-serif;
   --l-font-ui: "Inter Variable", system-ui, -apple-system, sans-serif;
   --l-font-arabic: "Scheherazade New", "Amiri", serif;
   /* Titles and other display Arabic ONLY. Never the reading column — see the
@@ -1846,7 +1877,7 @@
   /* The fallback, for the books with no Arabic title at all. Display serif at a
      size that fills the same band without pretending to be Arabic. */
   .pf-book__band-title--latin {
-    font-family: var(--l-font-prose);
+    font-family: var(--l-font-card-title);
     font-size: var(--pf-text-xl);
     line-height: 1.3;
     letter-spacing: var(--pf-tracking-tight);
@@ -1916,22 +1947,34 @@
 
   .pf-book__title {
     margin-top: var(--pf-space-2);
-    font-family: var(--l-font-prose);
+    font-family: var(--l-font-card-title);
     font-size: var(--pf-text-lg);
     line-height: 1.3;
     color: var(--l-ink);
     text-wrap: balance;
   }
 
+  /* TWO COLUMNS, not flex-wrap. Wrapping made the row count depend on how long
+     the words happened to be: Master and Disciple's five facts ran to three rows
+     while its neighbours took two, so no two cards in the grid were the same
+     height. Four facts in a fixed two-by-two is two rows for every book, and
+     `describeContents({ combineFormats: true })` is what guarantees four. */
   .pf-book__pills {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-items: center;
+    align-items: start;
     gap: var(--pf-space-2);
     margin-top: auto;
     padding-top: var(--pf-space-5);
     list-style: none;
     padding-inline-start: 0;
+  }
+
+  /* A lone pill — "Not published yet", or a book with one fact — centres across
+     both columns rather than sitting in the left one. */
+  .pf-book__pills > :only-child {
+    grid-column: 1 / -1;
   }
 
   /* ---- Pills -----------------------------------------------------------
@@ -3358,12 +3401,23 @@
   .pf-book__progress {
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
     align-self: stretch;
     gap: var(--pf-space-2);
     /* Pushed to the foot of the card, so cards with different numbers of pills
        still line their progress bars up across a row of the grid. */
     margin-top: auto;
     padding-top: var(--pf-space-4);
+    /* The bar and its caption together. An unopened book renders the caption
+       alone — "Not yet started" — and reserving the pair's height here is what
+       keeps it exactly as tall as a book that has been read. */
+    min-height: calc(var(--pf-space-4) + 1.9rem);
+  }
+
+  /* The unread caption sits where the bar's caption sits, so the baseline does
+     not shift between one card and the next. */
+  .pf-book__resume--idle {
+    margin: 0;
   }
 
   .pf-book__resume {
@@ -5710,5 +5764,82 @@
     transform: scaleX(var(--l-progress, 0));
     transform-origin: left;
     transition: transform 120ms linear;
+  }
+}
+
+@layer components {
+  /* ---- Giving access, and the note that follows it ----------------------- */
+
+  /* Centred and given room. The submit button was a small pill hard against the
+     left edge of a tall scrolling panel — the least prominent control on a
+     screen whose whole purpose it is. */
+  .pf-scope-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--pf-space-3);
+    margin-top: var(--pf-space-6);
+    padding-top: var(--pf-space-5);
+    border-top: 1px solid var(--l-rule);
+  }
+
+  /* A native <dialog>: the top layer, focus trapping, Escape and an inert
+     background all come from the platform rather than from a z-index. */
+  .pf-dialog {
+    /* Centred. A <dialog> in the top layer is positioned by its own margins, and
+       the reset in this stylesheet zeroes them — so it pinned itself to the top
+       left of the viewport instead of the middle of the screen. */
+    margin: auto;
+    width: min(42rem, calc(100vw - 2 * var(--pf-space-5)));
+    max-height: calc(100vh - 2 * var(--pf-space-6));
+    overflow-y: auto;
+    padding: var(--pf-space-6);
+    color: var(--l-ink);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    box-shadow: var(--pf-elev-4);
+  }
+
+  .pf-dialog::backdrop {
+    background: rgb(0 0 0 / 45%);
+  }
+
+  .pf-dialog__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--pf-space-4);
+  }
+
+  .pf-dialog__title {
+    margin: 0;
+    font-family: var(--l-font-display);
+    font-size: var(--pf-text-lg);
+    color: var(--l-ink);
+  }
+
+  /* Monospace, because what is on screen is exactly what gets pasted — and a
+     proportional face hides the line breaks that carry this message's shape. */
+  .pf-dialog__text {
+    width: 100%;
+    margin-top: var(--pf-space-4);
+    padding: var(--pf-space-4);
+    font-family: var(--l-font-mono, ui-monospace, monospace);
+    font-size: var(--pf-text-base);
+    line-height: 1.6;
+    color: var(--l-ink);
+    background: var(--l-sunken);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-sm);
+    resize: vertical;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
+
+  .pf-dialog__foot {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--pf-space-5);
   }
 }
