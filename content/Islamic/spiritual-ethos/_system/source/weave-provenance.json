@@ -1,0 +1,119 @@
+{
+  "chapters": {
+    "1": {
+      "chapter": 1,
+      "title": "Introducing Ali (\u0639) and his Spiritual Ethos",
+      "sessions_offered": [
+        "The Spiritual Heart",
+        "Reason vs Intellect",
+        "Centrality Of Revelation",
+        "Harmonizing Intellect With Revelation",
+        "The Spirit Of The Intellect",
+        "What Is Spiritual Knowledge?"
+      ],
+      "windows": [
+        {
+          "window": 1,
+          "status": "woven",
+          "base_words": 1691,
+          "woven_words": 1870,
+          "lecture_words_offered": 6043,
+          "notes": "USED: The Spiritual Heart\nADDED: The Arabic originals the book's English-only passage lacked \u2014 the full script of Qur'an 68:4 and 33:6 (the latter quoted in full), the Arabic of the three Prophetic sayings (ka-nafsi, anta minn\u012b wa ana minka, and Ali-with-the-Qur'an), the term \u0645\u0648\u0627\u062f for \"substance,\" and the Arabic text of the Imam's sermon set beside its translation."
+        },
+        {
+          "window": 2,
+          "status": "woven",
+          "base_words": 1776,
+          "woven_words": 1796,
+          "lecture_words_offered": 5971,
+          "notes": "USED: The Spiritual Heart, Reason vs Intellect\nADDED: The lecture supplied the Arabic-script form of three hadith the book gives only in transliteration or English \u2014 'Ali is with the Qur'an', 'You are from me and I am from you', and the ta'wil/tanzil saying \u2014 folded beside the book's own wording."
+        },
+        {
+          "window": 3,
+          "status": "woven",
+          "base_words": 1380,
+          "woven_words": 1586,
+          "lecture_words_offered": 6014,
+          "notes": "USED: Reason vs Intellect\nADDED: The Latin etymologies of intellectus ('understanding' / to 'stand under' a perception) and ratio (a comparison between two numbers, i.e. binary logic), the point that reason is the tool the intellect employs, the knowledge-versus-direct-experience distinction, and the Arabic coinage \u27eaar:\u0627\u0644\u0631\u0648\u062d \u0627\u0644\u0639\u0642\u0644\u27eb for the spirit of the intellect."
+        },
+        {
+          "window": 4,
+          "status": "woven",
+          "base_words": 1800,
+          "woven_words": 2095,
+          "lecture_words_offered": 6049,
+          "notes": "USED: Reason vs Intellect, The Spirit Of The Intellect\nADDED: The lecture supplied the Arabic script of the two Prophetic sayings and of Q 41:53, the names of the three battles (Nahrawan and Siffin), the reason a numerical 'one' fails (it admits a 'two', 'three'\u2026), the clarification that 'no otherness' means nothing bears His likeness, the Arabic of ta'wil as return to the awwal, and the plainer point that reflection discloses rather than confines the text's meaning."
+        },
+        {
+          "window": 5,
+          "status": "woven",
+          "base_words": 1773,
+          "woven_words": 2070,
+          "lecture_words_offered": 6041,
+          "notes": "USED: The Spirit Of The Intellect, Reason vs Intellect\nADDED: Plain-language glosses the book states densely \u2014 the reminder/primordial-testimony framing and amnesia image for why intellect and revelation share one source, the farmer/miner/diver picture of the messengers unearthing buried treasures, the Arabic terms \u0628\u0635\u0627\u0631\u06c3 / \u0628\u0635\u06cc\u0631\u06c3 and \u0642\u0644\u0628 for the heart's sight-versus-insight, and hadd (\u062d\u062f) as the boundary reason draws through pros and cons."
+        },
+        {
+          "window": 6,
+          "status": "woven",
+          "base_words": 1736,
+          "woven_words": 1961,
+          "lecture_words_offered": 5971,
+          "notes": "USED: The Spirit Of The Intellect, What Is Spiritual Knowledge?\nADDED: The lecture supplied the Arabic script for the first-sermon creation-of-Adam passage and for the discourse to Kumayl, the Qur'anic Arabic of 32:9, the Arabic citation for \"puts all things in their proper place,\" and plain glosses the book leaves out \u2014 the fully-formed body that could not perceive until the spirit was breathed in, hamaj as the moth drawn to any flame, and the heart-vessels as containers for knowledge."
+        },
+        {
+          "window": 7,
+          "status": "woven",
+          "base_words": 1668,
+          "woven_words": 2272,
+          "lecture_words_offered": 6059,
+          "notes": "USED: What Is Spiritual Knowledge?\nADDED: The lecture supplied the Quran verse 3:19 (with its Arabic) on submission as religion's unchanging essence, the din/dayn debt gloss on ma'rifat al-'ilm, the battle-line and chessboard picture behind hajama, the zahir/batin chest-and-heart reading of the Imam's gesture, and tahqiq as the striving that reaches the meaning \u2014 none present in the book."
+        },
+        {
+          "window": 8,
+          "status": "woven",
+          "base_words": 1639,
+          "woven_words": 1673,
+          "lecture_words_offered": 6028,
+          "notes": "USED: none\nADDED: none \u2014 the lecture sessions supplied cover the reason/intellect distinction, the ruh, tanzil/tawil, the spiritual heart and the idols of the world, all of which belong to other parts of the chapter; none of them tracks this passage's arc from hawa and hidden idolatry through tawhid, ikhlas and worship, so nothing was folded in."
+        },
+        {
+          "window": 9,
+          "status": "woven",
+          "base_words": 1721,
+          "woven_words": 1747,
+          "lecture_words_offered": 6025,
+          "notes": "USED: The Spirit Of The Intellect\nADDED: The lecture's definition of how the heart 'sees' God \u2014 through spiritual insight (\u27eaar:\u0628\u0635\u06cc\u0631\u06c3\u27eb) rather than eyesight (\u27eaar:\u0628\u0635\u0627\u0631\u06c3\u27eb), generated by the true principles of faith (\u27eaar:\u062d\u0642\u0627\u0626\u0642 \u0627\u0644\u0627\u06cc\u0645\u0627\u0646\u27eb) \u2014 folded into the book's undefined clause about the heart that has access to the reality of insight."
+        },
+        {
+          "window": 10,
+          "status": "woven",
+          "base_words": 1747,
+          "woven_words": 1796,
+          "lecture_words_offered": 6017,
+          "notes": "USED: The Spirit Of The Intellect\nADDED: The lecture supplied the Imam's explicit definition of the 'aqil (\u0627\u0644\u0639\u0627\u0642\u0644 \u0645\u0646 \u0648\u0636\u0639 \u0634\u0626\u06cc \u062d\u0642 \u0645\u062d\u0644\u06c1 \u2014 he who puts each thing in its proper place), a term the book uses without defining, and its plainer gloss that being 'spiritual' means being true to one's intellect rather than only to reason's surface."
+        },
+        {
+          "window": 11,
+          "status": "woven",
+          "base_words": 1718,
+          "woven_words": 1713,
+          "lecture_words_offered": 5962,
+          "notes": "USED: none\nADDED: nothing \u2014 the supplied lecture sessions treat the anatomy of the soul, the spirit of the intellect, reason vs intellect, the primordial covenant and the penetration of words to esoteric knowledge, all of which belong to a different chapter than this passage on zuhd, the sincere testimony, fana', pure prayer and the Hereafter; nothing in them restates or supplements this material without going where the passage never goes, so nothing was folded in."
+        },
+        {
+          "window": 12,
+          "status": "woven",
+          "base_words": 632,
+          "woven_words": 631,
+          "lecture_words_offered": 5958,
+          "notes": "USED: none\nADDED: nothing \u2014 the supplied lecture sessions (spirit of the intellect, spiritual knowledge, the discourse to Kumayl, the spiritual heart, reason vs intellect) treat other chapters' material and nowhere restate or supplement this passage's argument on the Hereafter, paradisal bliss, and ihsan, so none was folded in."
+        }
+      ],
+      "base_words": 19281,
+      "woven_words": 21210,
+      "status": "woven"
+    }
+  },
+  "updated": "2026-08-05T15:37:33Z",
+  "contract": "weave inline, no duplicate content; attribution kept here, not on the page"
+}
