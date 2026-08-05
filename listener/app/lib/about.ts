@@ -336,6 +336,8 @@ export const RELEASES: Release[] = [
     date: "2026-08-05",
     items: [
       "This page. Everything the site can do, with a search box and a FAQ.",
+      "A book's page opens with both of its names — the English title and the work's own Arabic beneath it — set together in one panel.",
+      "The notes panel in the reader stays as you leave it. It used to reopen itself every time you turned to a new chapter.",
       "Books whose recordings run long are now grouped into sessions, so a twenty-episode series reads as five sittings rather than one list.",
       "Slides are held per chapter, so a book with several decks keeps them apart instead of merging them into one.",
       "The library's cards were made uniform — every book now shows its progress in the same place, whether or not you have started it.",
