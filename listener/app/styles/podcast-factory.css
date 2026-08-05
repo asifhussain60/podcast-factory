@@ -844,6 +844,7 @@
   .pf-navlink {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.45em;
     /* The header wraps to two rows on a phone; the items inside it must not
        wrap too, or "Sign out" breaks across lines and reads as two links. */
@@ -853,10 +854,36 @@
     color: var(--l-muted);
     text-decoration: none;
     transition: color var(--pf-motion);
+    /* Now icon-only: at 1.5em the glyph itself is ~22.5px, under the WCAG 2.2
+       AA 24px touch-target floor. The icon's own size stays as designed; the
+       link's hit area is padded out to the floor instead, the same way the
+       reader toolbar's icon buttons already do. */
+    min-width: 24px;
+    min-height: 24px;
   }
 
   .pf-navlink:hover {
     color: var(--l-ink);
+  }
+
+  /* Font Awesome's "1.5x" scale — the header glyphs read as small dots next to
+     the label text at 1em, so they are enlarged here rather than in `.pf-icon`
+     itself, which every other pill/button/heading glyph also uses. */
+  .pf-navlink .pf-icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  /* The sign-out `<button>` sits inside a `<form>` (see below), which is not
+     itself a flex item of `.pf-header__nav` — so without this, the button is
+     the sole inline-level child of a plain block box and picks up the form's
+     line-height/baseline instead of being centered like the two `<a>` icons
+     beside it, drifting a few pixels off their vertical middle. `display:
+     contents` removes the form's own box from layout entirely (it still
+     submits normally) so the button becomes a direct flex item, aligned the
+     same way as its neighbours. */
+  .pf-header__nav form {
+    display: contents;
   }
 
   /* Sign-out has to be a submit button rather than a link, because ending a
@@ -1580,8 +1607,9 @@
     display: flex;
     align-items: center;
     gap: var(--pf-space-3);
+    width: 100%;
     max-width: 34rem;
-    margin-top: var(--pf-space-6);
+    margin: var(--pf-space-6) auto 0;
     padding: var(--pf-space-3) var(--pf-space-5);
     background: var(--l-surface);
     border: 1px solid var(--l-rule);

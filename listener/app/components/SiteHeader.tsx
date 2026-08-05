@@ -40,26 +40,23 @@ export function SiteHeader({
           </Link>
         ) : null}
 
-        {/* Before Access, and offered to everyone. It answers the question a
-            reader arrives with — what is this, and what can I do here — so it
-            sits with the link to their library rather than beside the two
-            controls at the end, which act on this page rather than leaving it.
-            Access stays after it and stays admin-only. */}
-        {here !== "about" ? (
-          <Link to="/about" className="pf-navlink">
-            <Icon icon={faCircleQuestion} />
-            About
-          </Link>
-        ) : null}
-
         {isAdmin && here !== "admin" ? (
-          <Link to="/admin" className="pf-navlink">
+          <Link to="/admin" className="pf-navlink" aria-label="Access" title="Access">
             <Icon icon={faUserShield} />
-            Access
           </Link>
         ) : null}
 
         <ThemePicker />
+
+        {/* Right before Sign out, and offered to everyone. It answers the
+            question a reader arrives with — what is this, and what can I do
+            here — but sits beside the way out rather than up front, since it
+            no longer needs to be the first thing offered. */}
+        {here !== "about" ? (
+          <Link to="/about" className="pf-navlink" aria-label="About" title="About">
+            <Icon icon={faCircleQuestion} />
+          </Link>
+        ) : null}
 
         {/* Last, after the theme picker, and that order is the point: the links
             before it go somewhere, the picker changes how this page looks, and
@@ -71,9 +68,13 @@ export function SiteHeader({
             the header does not grow a second visual weight for what is just
             another way out. */}
         <Form method="post" action="/sign-out">
-          <button type="submit" className="pf-navlink pf-navlink--button">
+          <button
+            type="submit"
+            className="pf-navlink pf-navlink--button"
+            aria-label="Sign out"
+            title="Sign out"
+          >
             <Icon icon={faRightFromBracket} />
-            Sign out
           </button>
         </Form>
       </div>
