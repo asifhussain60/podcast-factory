@@ -172,20 +172,6 @@
       "failure_mode": "surfaces error and halts"
     },
     {
-      "id": "docs-updater",
-      "name": "Docs Updater",
-      "role": "",
-      "icon": "robot",
-      "tone": "neutral",
-      "plain": "",
-      "what_it_knows": "See infra/claude-agents/docs-updater.md",
-      "boundary_in": "",
-      "boundary_out": "",
-      "does_not": "",
-      "cost_profile": "varies",
-      "failure_mode": "surfaces error and halts"
-    },
-    {
       "id": "html-view-challenger",
       "name": "Html View Challenger",
       "role": "Conformance challenger for HTML views, Astro pages, components, and diagrams on ",

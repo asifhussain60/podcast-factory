@@ -1922,6 +1922,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "db523e8",
+      "subject": "chore(agents): retire docs-updater, dead since 2026-05-28",
+      "date": "2026-08-05"
+    },
+    {
+      "sha": "075bb77",
+      "subject": "docs(hooks): note the recent_commits rolling-window churn is expected",
+      "date": "2026-08-05"
+    },
+    {
+      "sha": "538b915",
+      "subject": "chore(plan-dashboard): regenerate snapshots",
+      "date": "2026-08-05"
+    },
+    {
       "sha": "e782041",
       "subject": "fix(pipeline): close the three P1/P0 findings from the podcast-pipeline audit",
       "date": "2026-08-05"
@@ -1954,21 +1969,6 @@
     {
       "sha": "1ea8e2b",
       "subject": "feat(deploy): sweep stray branches into develop, sync main, before every deploy",
-      "date": "2026-08-05"
-    },
-    {
-      "sha": "2fa1819",
-      "subject": "fix(listener): the Content tab's two columns start at the same line",
-      "date": "2026-08-05"
-    },
-    {
-      "sha": "8faf4a3",
-      "subject": "docs(listener): the About page catches up with the two things a reader can see",
-      "date": "2026-08-05"
-    },
-    {
-      "sha": "1bb7f41",
-      "subject": "feat(listener): a book's two names in one plate, sized the same for every book",
       "date": "2026-08-05"
     }
   ],
