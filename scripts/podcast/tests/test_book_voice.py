@@ -188,6 +188,52 @@ def test_articulation_prompt_carries_the_notes_block_instruction() -> None:
     assert "REQ-BA-160" in prompt
 
 
+def test_articulation_prompt_names_the_defect_the_source_actually_has() -> None:
+    """A book WRITTEN in English is not calqued, and saying it is aims the pass
+    at a defect that is not there.
+
+    `spiritual-ethos` is fluent academic English whose difficulty is long
+    periodic sentences and unexplained specialist vocabulary. Told to hunt for
+    Arabic calques it would find none and change little. Translated sources keep
+    the original wording, which is why this is a branch and not a rewrite.
+    """
+    from _book_voice_prompts import _articulation_prompt
+
+    english = _articulation_prompt("Ch", "text", source_language="en")
+    assert "already fluent English" in english
+    assert "Do not hunt for calques" in english
+    assert "Arabic-calqued draft" not in english
+
+    for lang in ("ar", "ur", ""):
+        translated = _articulation_prompt("Ch", "text", source_language=lang)
+        assert "Arabic-calqued draft" in translated, lang
+        assert "already fluent English" not in translated, lang
+
+    # The contract itself is identical on both sides — only the diagnosis moves.
+    for prompt in (english, translated):
+        assert "REQ-BA-010..160" in prompt
+        assert "REQ-BA-020" in prompt
+
+
+def test_source_language_defaults_do_not_mislabel_a_translation(tmp_path) -> None:
+    """Absent `source_language`, a book declaring a TARGET language is still a
+    translation and must not be told its source is already English."""
+    from _content_profile import source_language
+
+    book = tmp_path / "book"
+    (book / "_system").mkdir(parents=True)
+    cfg = book / "_system" / "series-config.yaml"
+
+    cfg.write_text("content_profile: islamic_scholarly\n")
+    assert source_language(book) == "en"
+
+    cfg.write_text("target_language: en\n")
+    assert source_language(book) == ""
+
+    cfg.write_text("source_language: AR\n")
+    assert source_language(book) == "ar"
+
+
 # ── _merge_records: the superseded chain keeps its origin ────────────────────
 # RCA-001 follow-up: a composer-edit record used to carry the PRIOR RUN's status
 # verbatim, so from the second run onward superseded_status chained

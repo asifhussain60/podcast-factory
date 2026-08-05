@@ -1,0 +1,52 @@
+slug: spiritual-ethos
+title: Spiritual Ethos
+short_name: ethos
+author: Reza Shah-Kazemi
+
+# The source is a folder of Kindle screenshots, not a file — the same shape as
+# the-master-and-the-disciple, which is the only other book here that arrived as
+# images. `_system/source/images/` holds them renamed to the zero-padded form
+# `ocr_image_pages.py` requires; `kindle_images/` is Asif's untouched capture and
+# is gitignored as a byte-identical duplicate.
+source_pdf: _system/source/images/
+source_work: "Justice and Remembrance: Introducing the Spirituality of Imam 'Ali"
+
+# Chapters one to three, plus both appendices — which are not reference matter
+# but two complete primary texts, and are carried here as chapters four and five.
+scope: partial
+
+series:
+  # Build the reading edition. Without this, `_book_branch_enabled` returns
+  # false and all five 0book-* phases stamp themselves `skipped`, so a run
+  # reports success over an untouched folder — the omission that cost
+  # degrees-of-excellence and ayyuhal-walad a run each.
+  enable_book_branch: true
+
+  # Off deliberately, and not for lack of a corpus. This book's outside material
+  # is Asif's own twenty-session series, which reaches the chapters through the
+  # spine-and-augmentation merge, not through knowledge.db — where
+  # `external_corpora` and `corpus_chapters` are both still empty and the
+  # atomiser that would fill them does not exist yet.
+  enable_knowledge_augmenter: false
+
+pipeline:
+  current_phase: 0b
+  next_phase: 0c
+  chapters_drafted: 0
+  chapters_with_contracts: 0
+  episodes_shipped: 0
+  episodes_with_audio: 0
+
+doctrinal_context:
+  subject: Imam Ali ibn Abi Talib (ع)
+  author: Reza Shah-Kazemi
+  school: Contemporary scholarship, Shi'i and Sufi sources read together
+  period: Published 2006; sources are 7th century onward
+  genre: Scholarly essays, with two primary texts in translation
+  cross_contamination_risk: >-
+    Low but not nil. The author writes deliberately across the Sunni-Shi'i
+    divide and quotes al-Shafi'i and Ibn Hanbal alongside Shi'i sources; that
+    breadth is the book's argument, not drift, and must not be normalized away.
+
+publication:
+  status: draft
