@@ -30,6 +30,17 @@ const PUBLIC_ROUTE_FILES = [
   "routes/favicon.ico.ts",
 ];
 
+/**
+ * Routes that look public and are not.
+ *
+ * `/about` describes the site to the people invited to it, and the obvious place
+ * for such a page is outside the gate. It is deliberately inside: the library is
+ * private, and a page enumerating what it holds and how it works is part of what
+ * is private. The invitation message links to it, which works because the gate
+ * carries the destination through sign-in in `?next=`.
+ */
+const DELIBERATELY_GATED = ["routes/about.tsx"];
+
 /** Every `"routes/..."` string, in source order. */
 function routeFiles(source: string): string[] {
   return [...source.matchAll(/"(routes\/[^"]+)"/g)].map((m) => m[1]);
@@ -55,6 +66,24 @@ describe("route tree", () => {
         `${file} sits outside the _authed layout. Either nest it, or add it to ` +
           `PUBLIC_ROUTE_FILES here and be sure it is meant to be readable by anyone.`,
       ).toBe(true);
+    }
+  });
+
+  it("keeps the pages that only LOOK public behind the gate", () => {
+    // The inverse of the test above, and it exists because the pressure on this
+    // one runs the other way: a page called "About" reads like something anyone
+    // should be able to open, so the change that breaks it is somebody moving it
+    // out of the layout for a perfectly sensible-sounding reason. Moving it is
+    // allowed — deleting the entry here is what makes it deliberate.
+    const gated = new Set(routeFiles(authedRegion(SOURCE)));
+
+    for (const file of DELIBERATELY_GATED) {
+      expect(
+        gated.has(file),
+        `${file} is meant to be readable only by people who are signed in, and it ` +
+          `has left the _authed layout. See the note beside DELIBERATELY_GATED.`,
+      ).toBe(true);
+      expect(PUBLIC_ROUTE_FILES).not.toContain(file);
     }
   });
 

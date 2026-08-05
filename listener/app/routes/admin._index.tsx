@@ -6,7 +6,6 @@ import {
   faChevronDown,
   faChevronRight,
   faEye,
-  faLink,
   faPen,
   faPlus,
   faTrash,
@@ -106,6 +105,17 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     page,
     pageSize: PAGE,
     granted: grants.map((g) => `${g.scopeType}:${g.scopeId}`),
+    /**
+     * Whether this person's address carries a `+tag` that folding did not remove.
+     *
+     * Derived HERE from what was stored, not carried through the invite as a
+     * one-shot flag. Inviting now opens the person's panel instead of answering
+     * with a message above the table, and a warning that only appeared on the
+     * render right after the invite would have been a warning the redirect threw
+     * away — while the hazard it describes is a permanent property of the
+     * address, true every time this person is opened.
+     */
+    plusTag: person === null ? false : hasUnfoldedPlusTag(person.emailRaw),
     /** Both sides are already normalized, so this is a plain comparison. */
     self: viewer.email,
     /**
@@ -132,14 +142,33 @@ export async function action({ request, context }: Route.ActionArgs) {
   switch (intent) {
     case "invite": {
       const raw = text("email");
-      if (tryNormalizeEmail(raw) === null) {
+      const email = tryNormalizeEmail(raw);
+      if (email === null) {
         return { error: `"${raw.trim()}" is not an email address.` };
       }
       // One typed name, two stored columns. The form no longer asks for a note
       // either — the column stays and an existing one is still shown, because
       // deleting what an administrator once wrote is not a form change.
       await invite(env.DB, raw, actor, splitName(text("name")), now);
-      return { ok: true, invited: raw.trim(), warnPlusTag: hasUnfoldedPlusTag(raw) };
+
+      // OPEN THE PERSON, rather than answering with a green line above a table
+      // of a hundred. Inviting somebody and giving them a book are one act
+      // performed in two places, and the second place had to be found by
+      // searching for the name just typed.
+      //
+      // The rest of the query is carried through — the filter and the search
+      // that were applied stay applied, so "Back to everyone" returns to the
+      // list as it was rather than to the top of an unfiltered one. `page` is
+      // dropped because the new person is not on it.
+      //
+      // The two things the green line used to say are not lost: the `+tag`
+      // warning is re-derived on the panel from the address itself, and the
+      // reminder to send the link is the Generate message button that is now
+      // offered there for anybody selected.
+      const to = new URL(request.url);
+      to.searchParams.set("email", email);
+      to.searchParams.delete("page");
+      return redirect(`${to.pathname}${to.search}`);
     }
 
     case "rename":
@@ -308,6 +337,7 @@ export default function AdminPeople({ loaderData, actionData }: Route.ComponentP
               granted={granted}
               isSelf={person.email === loaderData.self}
               siteUrl={loaderData.siteUrl}
+              plusTag={loaderData.plusTag}
               justGranted={
                 actionData !== undefined &&
                 actionData !== null &&
@@ -686,9 +716,17 @@ function Standing({ person: p }: { person: Person }) {
 /* Inviting                                                                    */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Adding somebody to the invitation list.
+ *
+ * It answers with an ERROR or with nothing. A successful invite is a redirect
+ * onto that person's own panel — see the action — so there is no success message
+ * here to write: the panel opening is the confirmation, and it is also the next
+ * thing to do. The two notices this used to print both moved with it, to where
+ * they remain true rather than lasting one render: the `+tag` warning is derived
+ * from the stored address, and the reminder to send the link is a button.
+ */
 function InviteForm({ actionData }: { actionData: Route.ComponentProps["actionData"] }) {
-  const invited = actionData && "invited" in actionData ? actionData.invited : null;
-
   return (
     <div className="pf-panel">
       <div className="pf-panel__head">
@@ -716,26 +754,14 @@ function InviteForm({ actionData }: { actionData: Route.ComponentProps["actionDa
           <p className="pf-message pf-message--danger">{actionData.error}</p>
         ) : null}
 
-        {actionData && "warnPlusTag" in actionData && actionData.warnPlusTag ? (
-          <p className="pf-message pf-message--warn">
-            That address has a <code>+tag</code>. On this domain the tag is part of the identity, so
-            it must match the account they sign in with exactly.
-          </p>
-        ) : null}
-
-        {/* The button used to say "Send invitation" and no invitation was ever
-            sent — there is no mail transport in this application. It now says
-            what it does, and hands over the link to pass on by whatever means
-            the administrator was already using. */}
-        {invited !== null ? (
-          <p className="pf-message pf-message--ok">
-            <Icon icon={faCheck} /> {invited} can now sign in. Nothing was emailed — send them the
-            link yourself:{" "}
-            <span className="pf-invite__link">
-              <Icon icon={faLink} /> podcast-factory.safinaverse.com
-            </span>
-          </p>
-        ) : null}
+        {/* Said before the press rather than after it, because it is true of
+            every invitation and not of one: no mail is sent from this
+            application, and there never was a transport. Saving opens the new
+            person's page, where the message to send them is a button. */}
+        <p className="pf-note--quiet">
+          Nothing is emailed. Saving opens their page, where you can give them books and copy a
+          message to send.
+        </p>
       </div>
     </div>
   );
@@ -789,6 +815,7 @@ function PersonDetail({
   granted,
   isSelf,
   siteUrl,
+  plusTag,
   justGranted,
 }: {
   person: Person;
@@ -798,6 +825,8 @@ function PersonDetail({
   isSelf: boolean;
   /** Where the site lives, for the link in the invitation message. */
   siteUrl: string;
+  /** Their address keeps a `+tag`, which they must sign in with exactly. */
+  plusTag: boolean;
   /** True on the render right after a grant to this person succeeded. */
   justGranted: boolean;
 }) {
@@ -915,6 +944,13 @@ function PersonDetail({
             <Fact label="Books" value={wholeLibrary ? "Everything" : String(person.grantCount)} />
           </dl>
           {person.note ? <p className="pf-note--quiet">{person.note}</p> : null}
+
+          {plusTag ? (
+            <p className="pf-message pf-message--warn">
+              That address has a <code>+tag</code>. On this domain the tag is part of the identity,
+              so it must match the account they sign in with exactly.
+            </p>
+          ) : null}
 
           {person.revokedAt !== null ? (
             <p className="pf-message pf-message--warn">
@@ -1043,19 +1079,23 @@ function PersonDetail({
                   : `Give access to ${count(picked.size, "book")}`}
               </button>
 
-              {/* Available whenever they hold something, because the reason to
-                  send the note is not always the moment access was given —
-                  somebody loses the link, or never got the first message. */}
-              {held.length > 0 || wholeLibrary ? (
-                <button
-                  type="button"
-                  onClick={() => setShowMessage(true)}
-                  className="pf-button pf-button--soft"
-                >
-                  <Icon icon={faEnvelope} />
-                  Generate message
-                </button>
-              ) : null}
+              {/* Always, for anybody selected. It was offered only once they
+                  held a book, which left the one case that needs it most with
+                  nothing: a person invited a moment ago has no books yet, and
+                  is exactly the person who has not been told the site exists.
+                  The message says what they can open only when there is
+                  something — see `whatTheyHave` — so it reads correctly either
+                  way, and the reason to send it is not always the moment access
+                  was given: somebody loses the link, or never got the first
+                  message. */}
+              <button
+                type="button"
+                onClick={() => setShowMessage(true)}
+                className="pf-button pf-button--soft"
+              >
+                <Icon icon={faEnvelope} />
+                Generate message
+              </button>
             </div>
           </Form>
 

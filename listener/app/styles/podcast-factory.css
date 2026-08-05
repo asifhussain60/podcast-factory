@@ -2611,17 +2611,13 @@
     color: var(--l-faint);
   }
 
-  .pf-message--ok {
-    color: var(--l-ok);
-  }
-
-  .pf-invite__link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--pf-space-1);
-    color: var(--l-accent);
-    overflow-wrap: anywhere;
-  }
+  /* Two rules were here — a green "ok" message colour and an inline invite link
+     — and both belonged to the line the invite form printed on success: "X can
+     now sign in… send them the link yourself". Inviting somebody now opens their
+     page instead, so there is no success message to style and no hardcoded
+     address to print. Named without their leading dots on purpose: the parity
+     check in test/styles.test.ts scans this file for class selectors and does not
+     skip comments, so writing them here would resurrect them as dead rules. */
 
   /* ---- Finding someone ----------------------------------------------------
      The search box lives IN the table panel's tinted header, spanning its width,
@@ -2696,6 +2692,9 @@
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
     text-decoration: none;
+    /* These are links on the admin screens and buttons on the About page — the
+       cursor has to be stated or the two forms of one control feel different. */
+    cursor: pointer;
     transition:
       background var(--pf-motion),
       color var(--pf-motion),
@@ -2707,6 +2706,10 @@
     color: var(--l-ink);
   }
 
+  /* Lit. Two attributes for one look, because the two uses are genuinely
+     different: a chip that changes the URL is `aria-current`, and a chip that
+     narrows the page in place is a toggle button and is `aria-pressed`. */
+  .pf-filter[aria-pressed="true"],
   .pf-filter[aria-current="true"] {
     background: var(--l-accent);
     border-color: var(--l-accent);
@@ -5841,5 +5844,221 @@
     display: flex;
     justify-content: center;
     margin-top: var(--pf-space-5);
+  }
+
+  /* ---- About --------------------------------------------------------------
+     One long page, read by skimming. Three things carry that: a search field
+     and a row of chips that STAY on screen while the page scrolls under them,
+     headings heavy enough to find at a glance, and answers folded away until
+     they are wanted.
+
+     The measure is narrower than the page container. This is prose, and prose
+     set to the full width of a 1440px window is prose nobody finishes. */
+
+  .pf-about__head {
+    max-width: var(--pf-measure-narrow);
+    /* The bottom margin is smaller than the top on purpose: the search bar below
+       carries its own padding, and the two together left a void on a phone big
+       enough to read as the end of the page. */
+    margin-block: var(--pf-space-7) var(--pf-space-3);
+  }
+
+  .pf-about__title {
+    margin: 0;
+    font-family: var(--l-font-display);
+    font-size: var(--pf-display-sm);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-tight);
+    color: var(--l-ink);
+  }
+
+  .pf-about__lead {
+    margin: var(--pf-space-4) 0 0;
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-md);
+    line-height: 1.65;
+    color: var(--l-muted);
+  }
+
+  /* Sticky, because the search box is useless the moment it scrolls away on a
+     page this long — the reader is by then deep in one section and the control
+     that would take them out of it is above the fold. It carries the page
+     background so the sections pass UNDER it rather than showing through. */
+  .pf-about__find {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    /* The same measure as everything it sits above. Left at the page width its
+       bottom rule ran a thousand pixels past the last card on a desktop, which
+       read as a column boundary for a column that was not there. Nothing on this
+       page is wider than the measure, so the bar has nothing else to cover. */
+    max-width: var(--pf-measure-narrow);
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    padding-block: var(--pf-space-4);
+    margin-bottom: var(--pf-space-6);
+    background: var(--l-bg);
+    border-bottom: 1px solid var(--l-rule-soft);
+  }
+
+  .pf-about__hits {
+    margin: 0;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    color: var(--l-muted);
+  }
+
+  .pf-about__section {
+    max-width: var(--pf-measure-narrow);
+    margin-bottom: var(--pf-space-7);
+    /* Clears the sticky bar when a chip jumps to this section, so the heading
+       does not land underneath it. */
+    scroll-margin-top: var(--pf-space-9);
+  }
+
+  .pf-about__heading {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-3);
+    margin: 0;
+    font-family: var(--l-font-display);
+    font-size: var(--pf-text-xl);
+    font-weight: 600;
+    color: var(--l-ink);
+  }
+
+  .pf-about__blurb {
+    margin: var(--pf-space-2) 0 var(--pf-space-4);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-md);
+    line-height: 1.6;
+    color: var(--l-muted);
+  }
+
+  .pf-about__entries {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+  }
+
+  .pf-about__entry {
+    border: 1px solid var(--l-rule-soft);
+    border-radius: var(--pf-radius-lg);
+    background: var(--l-surface);
+    overflow: hidden;
+  }
+
+  .pf-about__entry[open] {
+    border-color: var(--l-rule);
+  }
+
+  /* The whole row is the control, so the target is the width of the card rather
+     than the width of the words. */
+  .pf-about__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-4);
+    padding: var(--pf-space-4) var(--pf-space-5);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-md);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--l-ink);
+    cursor: pointer;
+    /* The native marker is replaced below. Both properties are needed: Safari
+       answers only to the pseudo-element, everything else to `list-style`. */
+    list-style: none;
+  }
+
+  .pf-about__q::-webkit-details-marker {
+    display: none;
+  }
+
+  .pf-about__q:hover {
+    background: var(--l-sunken);
+  }
+
+  /* A caret drawn from two borders — no icon font, no image, and it inherits the
+     text colour in all three themes for nothing. */
+  .pf-about__q::after {
+    content: "";
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: 0.2rem;
+    border-right: 2px solid var(--l-muted);
+    border-bottom: 2px solid var(--l-muted);
+    transform: rotate(45deg) translate(-0.1rem, -0.1rem);
+    transition: transform var(--pf-motion);
+  }
+
+  .pf-about__entry[open] > .pf-about__q::after {
+    transform: rotate(-135deg) translate(-0.2rem, -0.2rem);
+  }
+
+  .pf-about__a {
+    padding: 0 var(--pf-space-5) var(--pf-space-4);
+  }
+
+  .pf-about__a p {
+    margin: 0 0 var(--pf-space-3);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-md);
+    line-height: 1.7;
+    color: var(--l-ink);
+  }
+
+  .pf-about__a p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ---- What's new ---------------------------------------------------------- */
+
+  .pf-about__releases {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-5);
+  }
+
+  .pf-about__release {
+    padding-left: var(--pf-space-5);
+    border-left: 2px solid var(--l-rule);
+  }
+
+  .pf-about__date {
+    display: block;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-muted);
+  }
+
+  .pf-about__changes {
+    margin: var(--pf-space-3) 0 0;
+    padding-left: var(--pf-space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-md);
+    line-height: 1.65;
+    color: var(--l-ink);
+  }
+
+  .pf-about__foot {
+    max-width: var(--pf-measure-narrow);
+    margin: 0 0 var(--pf-space-8);
+    padding-top: var(--pf-space-5);
+    border-top: 1px solid var(--l-rule-soft);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    color: var(--l-muted);
   }
 }

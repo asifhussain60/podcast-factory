@@ -34,7 +34,7 @@ export function AppShell({
   children,
 }: {
   /** Which page this is, so the masthead never offers a link to where you are. */
-  here: "library" | "admin" | "book";
+  here: "library" | "admin" | "book" | "about";
   isAdmin?: boolean;
   /**
    * The reading column instead of the page container.

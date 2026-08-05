@@ -1,4 +1,4 @@
-import { faRightFromBracket, faUserShield } from "@fortawesome/free-solid-svg-icons";
+import { faCircleQuestion, faRightFromBracket, faUserShield } from "@fortawesome/free-solid-svg-icons";
 import { Form, Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
@@ -20,7 +20,7 @@ export function SiteHeader({
   here,
   isAdmin = false,
 }: {
-  here: "library" | "admin" | "book";
+  here: "library" | "admin" | "book" | "about";
   isAdmin?: boolean;
 }) {
   return (
@@ -37,6 +37,18 @@ export function SiteHeader({
         {here !== "library" ? (
           <Link to="/" className="pf-navlink">
             Library
+          </Link>
+        ) : null}
+
+        {/* Before Access, and offered to everyone. It answers the question a
+            reader arrives with — what is this, and what can I do here — so it
+            sits with the link to their library rather than beside the two
+            controls at the end, which act on this page rather than leaving it.
+            Access stays after it and stays admin-only. */}
+        {here !== "about" ? (
+          <Link to="/about" className="pf-navlink">
+            <Icon icon={faCircleQuestion} />
+            About
           </Link>
         ) : null}
 

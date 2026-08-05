@@ -29,6 +29,16 @@ export const STATIC_ROUTES = [
   { path: "/", who: "admin", expect: 200, label: "library" },
   { path: "/", who: "reader", expect: 200, label: "library-one-book" },
   { path: "/", who: "nobody", expect: 200, label: "library-empty" },
+
+  // What the site does. Behind the gate like every other page, and visited as
+  // all three signed-in identities because it must not depend on holding a book:
+  // somebody invited and given nothing yet is precisely the reader who needs it,
+  // and the invitation message links here.
+  { path: "/about", who: "admin", expect: 200, label: "about" },
+  { path: "/about", who: "reader", expect: 200, label: "about-reader" },
+  { path: "/about", who: "nobody", expect: 200, label: "about-no-books" },
+  { path: "/about", who: "anon", expect: 302, label: "about-signed-out" },
+
   // `/admin` IS the people screen — the Overview tab it used to open on was
   // retired, and its numbers now sit above both tabs.
   { path: "/admin", who: "admin", expect: 200, label: "admin-people" },

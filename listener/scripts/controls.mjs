@@ -111,6 +111,11 @@ const VIEWS = [
       ]),
   { label: "admin", path: "/admin" },
   { label: "admin-content", path: "/admin/content" },
+  // Almost nothing but controls: a chip per section and a disclosure per answer.
+  // It is also the page where a dead control is least likely to be noticed by
+  // hand, because pressing a chip that does nothing looks like a page with one
+  // category in it.
+  { label: "about", path: "/about" },
 ].filter((v) => only === null || v.label === only);
 
 /**

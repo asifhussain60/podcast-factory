@@ -1,4 +1,4 @@
-import { faCheck, faCopy, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCopy, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 
 import { Icon } from "~/components/Icon";
@@ -24,7 +24,6 @@ export function InviteMessage({
 }: { open: boolean; onClose: () => void } & InviteMessageInput) {
   const ref = useRef<HTMLDialogElement>(null);
   const [text, setText] = useState("");
-  const [copied, setCopied] = useState(false);
 
   // Rebuilt whenever the dialog opens, not on every render: it is editable, and
   // regenerating under the administrator mid-correction would discard what they
@@ -32,7 +31,6 @@ export function InviteMessage({
   useEffect(() => {
     if (!open) return;
     setText(inviteMessage(message));
-    setCopied(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, message.email, message.books.join("|"), message.wholeLibrary]);
 
@@ -45,17 +43,31 @@ export function InviteMessage({
     if (!open && el.open) el.close();
   }, [open]);
 
+  /**
+   * Copy, and get out of the way.
+   *
+   * Closing is the confirmation: the administrator's next act is to paste it
+   * somewhere else, and a dialog still sitting over the screen is one more press
+   * before they can.
+   *
+   * ONLY on success, which is the whole reason this is not one line. The
+   * clipboard is refused outright on any page not served over https, and this
+   * screen is used on localhost — so an unconditional close would shut the dialog
+   * having copied nothing, and the administrator would paste whatever was in the
+   * clipboard before. On the failure path the dialog STAYS, with its text
+   * selected, so the keyboard shortcut is one press away.
+   *
+   * There is no "Copied" state any more, because closing IS the acknowledgement
+   * and nothing could observe the label change in the frame before the dialog
+   * went away.
+   */
   async function copy() {
     try {
       await navigator.clipboard.writeText(text);
-      setCopied(true);
+      onClose();
     } catch {
-      // Refused — insecure context, or permission denied. Select the text so the
-      // administrator can press the shortcut themselves rather than being told
-      // it worked when it did not.
       const field = ref.current?.querySelector("textarea");
       field?.select();
-      setCopied(false);
     }
   }
 
@@ -86,10 +98,7 @@ export function InviteMessage({
 
       <textarea
         value={text}
-        onChange={(e) => {
-          setText(e.target.value);
-          setCopied(false);
-        }}
+        onChange={(e) => setText(e.target.value)}
         rows={20}
         aria-label="The message to send"
         className="pf-dialog__text"
@@ -97,8 +106,8 @@ export function InviteMessage({
 
       <div className="pf-dialog__foot">
         <button type="button" onClick={copy} className="pf-button pf-button--primary">
-          <Icon icon={copied ? faCheck : faCopy} />
-          {copied ? "Copied" : "Copy to clipboard"}
+          <Icon icon={faCopy} />
+          Copy to clipboard
         </button>
       </div>
     </dialog>
