@@ -18,6 +18,18 @@
 # Advisory only — never fails the underlying git operation. A commit, merge,
 # or checkout must never be blocked by a snapshot regen or a migration apply;
 # a failure here is printed and swallowed, not propagated.
+#
+# EXPECTED, NOT A BUG: dashboard-snapshot.json carries a rolling window of
+# `recent_commits`, so regenerating it right after a commit produces a diff
+# that includes that very commit — which isn't reflected until it, in turn,
+# is committed. Chasing that with another "chore: regenerate snapshots"
+# commit only produces a fresh one-behind diff, forever (this is the same
+# shape of problem `generated_at`/`source_commit` had, and removing THOSE
+# fields doesn't remove this one, because unlike them, a rolling recent-
+# activity window is legitimately meant to change on every commit). Leave a
+# lone post-hook diff here uncommitted; it gets picked up naturally the next
+# time there's real work to commit, per the existing snapshot-staging
+# convention — do not spend a commit solely chasing this tail.
 
 set -u
 
