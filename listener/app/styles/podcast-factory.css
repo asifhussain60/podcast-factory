@@ -6141,6 +6141,9 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr));
     gap: var(--pf-space-4);
+    /* Same rule as the answers below: seven cards over two rows, all one height,
+       so the second row does not sit shorter than the first. */
+    grid-auto-rows: 1fr;
   }
 
   .pf-about-card {
@@ -6318,29 +6321,40 @@
   }
 
   /* ---- The questions and their answers -------------------------------------
-     COLUMNS, not a grid, and the difference is the whole reason this works.
+     A GRID, so cards line up.
 
-     These cards used to be collapsed rows of one height, so a grid was fine. Now
-     each carries its answer and they are all different heights — and a grid
-     aligns ROWS, so one four-paragraph card would leave two of its neighbours
-     with a hole beneath them the size of the difference. Multi-column flows the
-     cards into the shortest arrangement instead and packs them tight.
+     They were flowed in columns for a while, which packs variable-height cards
+     with no wasted space and is the technically tidier answer — and it looked
+     ragged, because no two cards beside each other ended at the same line. A
+     grid stretches every card in a row to the tallest of them, so the page reads
+     as rows of equal cards rather than as a pile.
 
-     `break-inside: avoid` is what keeps a card whole: without it a column break
-     lands mid-answer and one paragraph appears under the wrong question, which
-     on a page like this is not a cosmetic fault. `column-width` rather than a
-     count, so the number of columns is the browser's answer to how much room
-     there is — one on a phone, three on a monitor, nothing declaring where. */
+     The cost is real and is the reason columns were tried: a row whose tallest
+     card has four paragraphs gives its neighbours the difference as empty space
+     at the bottom. That is the trade — alignment is bought with whitespace, and
+     the whitespace is inside a card rather than between them, which is the form
+     of it that reads as deliberate.
+
+     `auto-fit`/`minmax` as everywhere else on this page, so the column count is
+     the browser's answer to how much room there is. */
 
   .pf-about-qa {
-    column-width: 24rem;
-    column-gap: var(--pf-space-4);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
+    gap: var(--pf-space-4);
+    /* EVERY card in a section is one height, not merely every card in a row.
+       `1fr` on the implicit rows makes all rows equal to the tallest, and
+       `stretch` — the default, stated because it is the rule here rather than an
+       accident — makes each card fill its row. Together: one height per section. */
+    grid-auto-rows: 1fr;
+    align-items: stretch;
   }
 
   .pf-about-entry {
-    break-inside: avoid;
-    /* The columns' own vertical rhythm — `gap` does not apply here. */
-    margin-bottom: var(--pf-space-4);
+    /* A column, so the question sits at the top and a short answer leaves its
+       slack at the bottom rather than floating in the middle of the card. */
+    display: flex;
+    flex-direction: column;
     padding: var(--pf-space-5);
     border: 1px solid var(--l-rule-soft);
     /* A left edge in the section's colour, so an answer is visibly part of the
