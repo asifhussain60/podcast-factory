@@ -70,10 +70,22 @@ book_augmentation: source_only
 # which is the singular path for chapter prose bound for the PDF.
 narrative_frame: external_narrator
 
-# Per-chapter decks, the pipeline default. Five chapters, each a self-contained
-# argument, so a single book-level deck would have to compress five unrelated
-# theses into one.
-slide_deck_mode: per-chapter
+# Both of the next two are adopted from `the-master-and-the-disciple`, which Asif
+# named the gold standard for book creation (2026-08-05).
+#
+# The chapter-density standard: max ~3 concepts per episode, with the preflight
+# and chapter-set gates active rather than advisory. This matters more here than
+# on most books — the source is dense scholarly argument, and Asif delegated the
+# episode count and lengths to the planner, so the standard is what makes that
+# delegation safe rather than arbitrary.
+density_standard: 2
+
+# ONE deck for the whole book, not five. This is the override, not the default,
+# and it is chosen for the human on the other end: per-chapter decks mean five
+# separate NotebookLM generations and five PDF drops, book mode means one. The
+# five chapters do share a single thesis — the spiritual ethos of Ali (ع) — so a
+# book-level deck is not compressing unrelated arguments.
+slide_deck_mode: book
 
 # `deliverable_mode: translation_edition` is deliberately NOT set. It would be
 # wrong twice over: nothing here is translated, and the mode forces
