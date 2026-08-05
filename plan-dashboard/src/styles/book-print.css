@@ -724,7 +724,7 @@ body.style-plain blockquote.quran p.tr {
    hairline rule in the existing muted ink token and a single indent. No tint, no
    radius, no colour outside the palette — the plain family's spirit is intact and
    the theme is unchanged. */
-body.style-plain blockquote:not(.quran) {
+body.style-plain blockquote:not(.quran):not(.aside) {
   border-left: 1px solid var(--c-rule, rgba(31, 29, 24, 0.18));
   background: none;
   padding-left: 0.9rem;
@@ -761,14 +761,14 @@ body.style-elegant blockquote.quran p.tr {
   padding-top: 0.45rem;
   margin-top: 0.45rem;
 }
-body.style-elegant blockquote:not(.quran) {
+body.style-elegant blockquote:not(.quran):not(.aside) {
   position: relative;
   border-left: 0;
   border: 1px solid var(--c-rule, #e6e0d4);
   border-radius: 8px;
   padding-left: 2.2rem;
 }
-body.style-elegant blockquote:not(.quran)::before {
+body.style-elegant blockquote:not(.quran):not(.aside)::before {
   content: "\201C"; /* “ */
   position: absolute;
   left: 0.55rem;

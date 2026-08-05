@@ -289,7 +289,11 @@ def scripted_terms(book_md: str) -> set[str]:
 #: decision to annotate nothing — both are the annotation policy working, not a
 #: gap. Skipping them is what makes the finding list actionable: on
 #: `ayyuhal-walad` it is the difference between 5 findings and the 2 that are real.
-_DELIBERATELY_BARE = frozenset({"familiar", "silent"})
+#:
+#: `work_title` joined them on 2026-08-05: a cited book prints under its English
+#: name or under the author's own romanisation, and never carries script — so a
+#: title with no Arabic beside it is the policy working, not a coverage gap.
+_DELIBERATELY_BARE = frozenset({"familiar", "silent", "work_title"})
 
 
 def scoped_out_by_source(book_dir: Path | str | None) -> bool:

@@ -376,6 +376,16 @@ def apply_book_apparatus(
     except Exception as e:  # an overlay is never worth a finished translation
         _record_skip(book_dir, "inline-arabic", e, log)
 
+    # 5a-shape. A cited book under its English name; every Arabic quotation a
+    #     blockquote holding its own rendering. AFTER 5a-arabic — the overlay is
+    #     also the strip pass, and both read what it leaves. See _book_shape.py.
+    from _book_shape import apply_book_shape
+
+    try:
+        apply_book_shape(book_dir, log=lambda m: log(f"    {m}"))
+    except Exception as e:  # a printed shape is never worth a finished book
+        _record_skip(book_dir, "text-shape", e, log)
+
     # 5a-vowelling. Put the vowel marks on the Arabic (Asif, 2026-07-29 — this
     #     reverses the rule that a model may never supply tashkeel). AFTER the
     #     inline-Arabic overlay, so glossary script inserted there is marked too,

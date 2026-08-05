@@ -46,6 +46,10 @@ PAGE_ALTERING_STEPS = frozenset(
         "annotation-policy",  # decides what the overlay may annotate
         "glossary-vowelling",  # must precede the overlay or it double-annotates
         "inline-arabic",  # the Arabic-script overlay itself
+        # Both shape passes, as one sub-phase (see _book_shape). Without it a
+        # cited book prints under two names, unreadable one first, and a
+        # quotation prints as running prose with its rendering orphaned.
+        "text-shape",
         "arabic-substitution",  # romanization would stay on the page
         "vowelling",
         "spelling",

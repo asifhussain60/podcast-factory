@@ -159,8 +159,13 @@ def _glossary_terms(book_dir: Path) -> list[dict[str, str]]:
         # ANNOTATED, but the strip pass still needs their scripts so an
         # annotation added before the term was classified is removed rather
         # than fossilised.
-        style = cls if cls in ("teach", "name", "familiar", "silent") else "legacy"
-        if style in ("familiar", "silent"):
+        style = cls if cls in ("teach", "name", "familiar", "silent", "work_title") else "legacy"
+        # `work_title` joins familiar/silent here rather than getting a branch of
+        # its own: what it means TO THIS PASS is exactly "never annotated", and
+        # the English collapse that makes it a distinct class happens earlier, in
+        # `_book_work_titles`. Carrying it with style "none" is also what removes
+        # `Arbaeen (أَرْبَعُون)` from a book classified before the class existed.
+        if style in ("familiar", "silent", "work_title"):
             style = "none"
         out.append({"phonetic": phonetic, "script": script, "style": style})
     out.sort(key=lambda t: len(t["phonetic"]), reverse=True)

@@ -257,6 +257,11 @@ function listContinues(lines, from, kind) {
 const MACHINE_FENCE_RE = new RegExp(
   `^<!--\\s*(?:${MACHINE_FENCE_KINDS.join("|")}):(?:begin|end)\\s*-->$`,
 );
+/** The same marker, with its kind and side captured — so a renderer can know
+ *  WHICH span it is inside rather than merely that a marker went past. */
+const MACHINE_FENCE_PARTS = new RegExp(
+  `^<!--\\s*(${MACHINE_FENCE_KINDS.join("|")}):(begin|end)\\s*-->$`,
+);
 
 /** Read the per-book citation-style family from book/citation-style.json.
  *  Returns 'plain' | 'scholarly' | 'elegant', or '' when the file is absent or
@@ -658,6 +663,18 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
     out.push(`<p${cls}>${renderInline(text)}</p>`);
     para = [];
   };
+  // The pipeline fence currently open, so a blockquote written INSIDE an
+  // editorial/bridge/study-summary span can say so. Tracked independently of
+  // `selfStudy` (2026-08-05): the reading edition renders these as blockquotes
+  // whether or not the self-study layer is on, and an apparatus note that draws
+  // exactly like the book's own words is the one thing it must not do. Only a
+  // CLASS is added — the markup is otherwise byte-identical, so any surface that
+  // does not style `.aside` renders exactly as before.
+  let openFence = null;
+  const ASIDE_KINDS = new Set(["editorial", "study-summary", "bridge"]);
+  const asideCls = () =>
+    openFence && ASIDE_KINDS.has(openFence) ? ` aside ${openFence}` : "";
+
   const flushQuote = () => {
     if (!quote.length) return;
     const paras = [];
@@ -688,10 +705,13 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
           inner.push(`<p class="tr">${renderInline(p)}</p>`);
         }
       });
-      out.push(`<blockquote class="quran">${inner.join("")}</blockquote>`);
-    } else {
       out.push(
-        `<blockquote>${paras.map((p) => `<p>${renderInline(p)}</p>`).join("") || "<p></p>"}</blockquote>`,
+        `<blockquote class="quran${asideCls()}">${inner.join("")}</blockquote>`,
+      );
+    } else {
+      const cls = asideCls().trim();
+      out.push(
+        `<blockquote${cls ? ` class="${cls}"` : ""}>${paras.map((p) => `<p>${renderInline(p)}</p>`).join("") || "<p></p>"}</blockquote>`,
       );
     }
     quote = [];
@@ -745,6 +765,17 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
     // the next kind added cannot be missed here; the list is pinned against
     // FENCE_KINDS by book-html.test.mjs.
     if (MACHINE_FENCE_RE.test(line.trim())) {
+      // Flush BEFORE clearing on `end`: the fenced blockquote is still sitting
+      // in the buffer at that moment, and it is the marker that says what kind
+      // of aside it is. Clear first and the class is lost on the very block it
+      // describes.
+      const parts = line.trim().match(MACHINE_FENCE_PARTS);
+      if (parts) {
+        flushPara();
+        flushQuote();
+        flushList();
+        openFence = parts[2] === "begin" ? parts[1] : null;
+      }
       continue;
     }
     if (line.trimStart().toLowerCase().startsWith("<figure")) {
