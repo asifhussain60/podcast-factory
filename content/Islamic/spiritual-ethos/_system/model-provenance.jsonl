@@ -10,3 +10,5 @@
 {"phase": "weave-source", "step": "ch01-w10", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "weave-source", "step": "ch01-w11", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "weave-source", "step": "ch01-w12", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "weave-source", "step": "ch02-w01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "weave-source", "step": "ch02-w02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
