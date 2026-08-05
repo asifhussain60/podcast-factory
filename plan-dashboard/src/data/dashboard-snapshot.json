@@ -1859,10 +1859,10 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 14.42
+    "burn_30d_usd": 17.51
   },
-  "generated_at": "2026-08-03T18:17:37-04:00",
-  "source_commit": "9893073",
+  "generated_at": "2026-08-05T13:15:36-04:00",
+  "source_commit": "8ab5414",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1924,54 +1924,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "9893073",
-      "subject": "feat(listener): the library gets a heading, a search box and an order",
-      "date": "2026-08-03"
+      "sha": "8ab5414",
+      "subject": "feat(hooks): sync localhost with develop the moment its local ref moves",
+      "date": "2026-08-05"
     },
     {
-      "sha": "02c2d6e",
-      "subject": "style(listener): a hero, a way out, and Arabic that carries a title",
-      "date": "2026-08-03"
+      "sha": "186d936",
+      "subject": "docs: document the deploy_listener.sh branch-sweep and main-sync default",
+      "date": "2026-08-05"
     },
     {
-      "sha": "f11f454",
-      "subject": "fix(book): Arabic replaces a romanization only when it is one, and only when a reviewer has said so",
-      "date": "2026-08-03"
+      "sha": "1ea8e2b",
+      "subject": "feat(deploy): sweep stray branches into develop, sync main, before every deploy",
+      "date": "2026-08-05"
     },
     {
-      "sha": "46ab27f",
-      "subject": "style(listener): one stylesheet, and brand assets derived from the logo",
-      "date": "2026-08-03"
+      "sha": "2fa1819",
+      "subject": "fix(listener): the Content tab's two columns start at the same line",
+      "date": "2026-08-05"
     },
     {
-      "sha": "011bbb4",
-      "subject": "feat(book): source medium is a declared property, and speech is not a missing scan",
-      "date": "2026-08-03"
+      "sha": "8faf4a3",
+      "subject": "docs(listener): the About page catches up with the two things a reader can see",
+      "date": "2026-08-05"
     },
     {
-      "sha": "c1d02f5",
-      "subject": "fix(glossary): a book may only lend Arabic its own scan proves",
-      "date": "2026-08-03"
+      "sha": "1bb7f41",
+      "subject": "feat(listener): a book's two names in one plate, sized the same for every book",
+      "date": "2026-08-05"
     },
     {
-      "sha": "a36993c",
-      "subject": "fix(book): the Replace-with-Arabic button works inline, and every book's glossary is harvested",
-      "date": "2026-08-03"
+      "sha": "1155d58",
+      "subject": "fix(listener): header nav icon-only, reordered, sized, aligned, touch-target safe",
+      "date": "2026-08-05"
     },
     {
-      "sha": "f061086",
-      "subject": "style(listener): every declaration is in a stylesheet, and a session title stops wrapping under its own label",
-      "date": "2026-08-03"
+      "sha": "9e117de",
+      "subject": "feat(listener): a medallion for the book's title, Roboto for its English name, a companion that stays where you leave it",
+      "date": "2026-08-05"
     },
     {
-      "sha": "4ba720b",
-      "subject": "feat(book): romanization out, Arabic script in — the third inline-Arabic operation",
-      "date": "2026-08-03"
+      "sha": "32f14ba",
+      "subject": "fix(listener): every card on the About page is one height",
+      "date": "2026-08-05"
     },
     {
-      "sha": "604440f",
-      "subject": "feat(listener): twenty episodes in five sessions, and one command to ship them",
-      "date": "2026-08-03"
+      "sha": "370c8c9",
+      "subject": "docs: record the work-title, quotation-shape and editorial-panel work",
+      "date": "2026-08-05"
     }
   ],
   "wave_execution_events": [],
