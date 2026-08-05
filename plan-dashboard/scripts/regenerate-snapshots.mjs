@@ -391,15 +391,10 @@ function currentCommit() {
 }
 
 /**
- * Commit timestamp of HEAD, ISO-8601.
- *
- * Used for the snapshots' `generated_at` so regenerating at the SAME commit
- * produces a byte-identical file — no wall-clock churn, no perpetually-dirty
- * working tree. Falls back to wall-clock only when git is unavailable.
- *
- * MIRROR: scripts/regenerate-snapshots.py::commit_iso — the two regenerators
- * must emit byte-identical files, or machines with/without node thrash these
- * JSONs back and forth on every commit.
+ * Commit timestamp of HEAD, ISO-8601. Console-log only as of 2026-08-05 — it
+ * used to be stamped into the tracked snapshots too, which meant a file could
+ * never carry its own not-yet-created commit hash and every run produced a
+ * metadata-only diff on the NEXT commit, forever. Not written to disk anymore.
  */
 function generatedAt() {
   try {
@@ -563,8 +558,6 @@ async function mergeDashboard() {
 
   const merged = {
     ...existing,
-    generated_at: generatedAt(),
-    source_commit: currentCommit(),
     generator: "regenerate-snapshots",
     roadmap,
     waves: wavesMeta,
@@ -574,6 +567,12 @@ async function mergeDashboard() {
     recent_commits: recentCommits(),
     wave_execution_events: await recentWaveEvents(),
   };
+  // Legacy fields from before 2026-08-05: a tracked file can never contain its
+  // own not-yet-created commit hash, so stamping one guaranteed a metadata-only
+  // diff on every subsequent commit, forever. Stripped here (not just stopped
+  // going forward) so one regen run cleans an already-committed file.
+  delete merged.generated_at;
+  delete merged.source_commit;
 
   await writeFile(
     path.join(DATA, "dashboard-snapshot.json"),
@@ -587,8 +586,8 @@ async function touchExisting(name) {
   const p = path.join(DATA, name);
   const existing = await readJsonIfExists(p);
   if (!existing) return;
-  existing.generated_at = generatedAt();
-  existing.source_commit = currentCommit();
+  delete existing.generated_at;
+  delete existing.source_commit;
   await writeFile(p, JSON.stringify(existing, null, 2) + "\n", "utf-8");
 }
 
@@ -671,11 +670,11 @@ async function mergeArchitecture() {
 
   const merged = {
     ...snap,
-    generated_at: generatedAt(),
-    source_commit: currentCommit(),
     agents,
     adrs,
   };
+  delete merged.generated_at;
+  delete merged.source_commit;
   await writeFile(p, JSON.stringify(merged, null, 2) + "\n", "utf-8");
 }
 
@@ -688,8 +687,8 @@ async function main() {
     writeFileSync(SENTINEL, new Date().toISOString() + "\n", "utf-8");
   } catch {}
 
-  console.log(`snapshots regenerated @ ${dash.generated_at}`);
-  console.log(`  source_commit: ${dash.source_commit}`);
+  console.log(`snapshots regenerated @ ${generatedAt()}`);
+  console.log(`  source_commit: ${currentCommit()}`);
   console.log(`  books in flight: ${dash.books_in_flight.length}`);
   console.log(`  roadmap steps: ${dash.roadmap.length}`);
   console.log(`  recent commits: ${dash.recent_commits.length}`);

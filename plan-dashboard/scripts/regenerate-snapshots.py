@@ -43,11 +43,11 @@ def now_iso():
 
 
 def head_commit_iso():
-    """Committer date of HEAD (ISO 8601).
-
-    Used for the snapshots' ``generated_at`` so regenerating at the SAME commit
-    produces a byte-identical file — no wall-clock churn, no perpetually-dirty
-    working tree. Falls back to wall-clock only when git is unavailable.
+    """Committer date of HEAD (ISO 8601). Console-log only as of 2026-08-05 —
+    it used to be stamped into the tracked snapshots too, which meant a file
+    could never carry its own not-yet-created commit hash and every run
+    produced a metadata-only diff on the NEXT commit, forever. Not written to
+    disk anymore.
     """
     try:
         out = subprocess.check_output(
@@ -449,8 +449,6 @@ def merge_dashboard():
 
     merged = {
         **existing,
-        "generated_at": head_commit_iso(),
-        "source_commit": current_commit(),
         # Deliberately NOT the filename: both regenerators must emit byte-identical
         # snapshots, so neither may stamp which of the two produced this run.
         "generator": "regenerate-snapshots",
@@ -462,6 +460,11 @@ def merge_dashboard():
         "recent_commits": recent_commits(),
         "wave_execution_events": recent_wave_events(),
     }
+    # Legacy fields from before 2026-08-05 — see head_commit_iso()'s docstring.
+    # Stripped here (not just stopped going forward) so one regen run cleans an
+    # already-committed file.
+    merged.pop("generated_at", None)
+    merged.pop("source_commit", None)
     write_json(DATA / "dashboard-snapshot.json", merged)
     return merged
 
@@ -530,11 +533,11 @@ def merge_architecture():
 
     merged = {
         **snap,
-        "generated_at": head_commit_iso(),
-        "source_commit": current_commit(),
         "agents": agents,
         "adrs": adrs,
     }
+    merged.pop("generated_at", None)
+    merged.pop("source_commit", None)
     write_json(p, merged)
 
 
@@ -543,8 +546,8 @@ def touch_existing(name):
     data = read_json(p)
     if not data:
         return
-    data["generated_at"] = head_commit_iso()
-    data["source_commit"] = current_commit()
+    data.pop("generated_at", None)
+    data.pop("source_commit", None)
     write_json(p, data)
 
 
@@ -558,8 +561,8 @@ def main():
     except Exception:
         pass
 
-    print(f"snapshots regenerated @ {dash['generated_at']}")
-    print(f"  source_commit: {dash['source_commit']}")
+    print(f"snapshots regenerated @ {head_commit_iso()}")
+    print(f"  source_commit: {current_commit()}")
     print(f"  books in flight: {len(dash['books_in_flight'])}")
     print(f"  roadmap steps: {len(dash['roadmap'])}")
     print(f"  recent commits: {len(dash['recent_commits'])}")
