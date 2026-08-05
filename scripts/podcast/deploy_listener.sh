@@ -256,6 +256,55 @@ it would push. Nothing was deployed. Name the books instead, or retry."
   [[ -n "$unsent" ]] && echo "  ! published here and never sent, name it to send it: $unsent"
 fi
 
+# --- Has the About page kept up? ---------------------------------------------
+#
+# `/about` is the one page that tells readers what the site does, and a page like
+# that goes stale the way documentation always does — silently, because nothing
+# depends on it. This is the thing that depends on it.
+#
+# It compares two commit dates: the last change to the About CONTENT, and the
+# last change to anything else under `listener/app`. If the app is newer, the
+# page has fallen behind whatever shipped since, and this says so.
+#
+# GIT is the comparison, not a date written into the file. A hand-kept "updated"
+# field is a second copy of a fact the repository already holds exactly, and the
+# copy is the one that goes wrong.
+#
+# IT NEVER BLOCKS, and that is deliberate rather than lenient. publish_to_library.py
+# runs this same script at the end of every book publish — so a failing check here
+# would mean a stale paragraph on a help page could refuse to publish a finished
+# book. It joins the other things this script REPORTS: the books on the Listener
+# with no content here, the ones published and never sent. A warning that stops
+# work gets skipped with a flag; one that names the gap gets acted on.
+
+step "What's new"
+
+ABOUT="listener/app/lib/about.ts"
+
+if ! git -C "$REPO_ROOT" rev-parse --git-dir >/dev/null 2>&1; then
+  echo "  not a git checkout — skipped"
+elif [[ ! -f "$REPO_ROOT/$ABOUT" ]]; then
+  echo "  ! $ABOUT is missing — the About page has no content to check"
+else
+  about_at="$(git -C "$REPO_ROOT" log -1 --format=%ct -- "$ABOUT" 2>/dev/null)"
+  # Everything under the app EXCEPT the About content, or it would always be
+  # comparing that file against itself and never report anything.
+  app_at="$(git -C "$REPO_ROOT" log -1 --format=%ct -- listener/app ":!$ABOUT" 2>/dev/null)"
+
+  if [[ -z "$about_at" || -z "$app_at" ]]; then
+    echo "  no history for one side yet — skipped"
+  elif (( app_at > about_at )); then
+    changed="$(git -C "$REPO_ROOT" log --format=%H --since="@$about_at" -- listener/app ":!$ABOUT" | wc -l | tr -d ' ')"
+    printf '  ! the app changed in %s commit(s) since the About page was last written.\n' "$changed"
+    printf '    Readers will not see those changes described. To look at what moved:\n'
+    printf '      git log --oneline --since=@%s -- listener/app ":!%s"\n' "$about_at" "$ABOUT"
+    printf '    Then add a note to RELEASES in %s.\n' "$ABOUT"
+    printf '    Deploying anyway — this never blocks.\n'
+  else
+    echo "  ok — the About page is current with the app"
+  fi
+fi
+
 # --- The Worker --------------------------------------------------------------
 
 if [[ -n "$DRY_RUN" ]]; then

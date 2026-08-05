@@ -165,3 +165,4 @@
 {"ts": "2026-08-04T22:43:00Z", "phase": "publish", "step": "ensure-transcripts/ep02", "model": "azure-speech-stt-fast", "input_tokens": 2025, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.16875, "engine": "api"}
 {"ts": "2026-08-04T22:43:36Z", "phase": "publish", "step": "ensure-transcripts/ep03", "model": "azure-speech-stt-fast", "input_tokens": 1813, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.151083, "engine": "api"}
 {"ts": "2026-08-04T22:44:20Z", "phase": "publish", "step": "ensure-transcripts/ep04", "model": "azure-speech-stt-fast", "input_tokens": 3153, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.26275, "engine": "api"}
+{"ts": "2026-08-05T12:31:43Z", "phase": "rearticulate", "step": "rearticulate-03", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 2122, "cache_read": 0, "cache_create": 78525, "cost_usd": 0.0, "engine": "max"}

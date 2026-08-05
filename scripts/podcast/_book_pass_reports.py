@@ -9,7 +9,9 @@ pass itself has finished:
     targeted ``only=`` re-run without erasing them, and without resurrecting a
     claim the Composer-edit replay has invalidated;
   * ``reconcile_reports_after_replay`` — re-stamps chapters whose adapted text
-    a replayed Book Composer edit overwrote later in the same compose.
+    a replayed Book Composer edit overwrote later in the same compose;
+  * ``record_rearticulation`` — the other side of that same ledger: re-stamps
+    one chapter once ``rearticulate_chapter`` has put articulated prose back.
 
 Split out of ``_book_voice.py`` on 2026-07-22 (DR-005): the passes produce
 prose, this module produces truth about the prose, and the two change for
@@ -163,6 +165,71 @@ def reconcile_reports_after_replay(book_dir: Path, replay_report: dict | None, *
         path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
         log(f"    {name[: -len('.json')]}: {changed} chapter(s) re-stamped '{STATUS_OVERWRITTEN}'")
         total += changed
+    return total
+
+
+def record_rearticulation(book_dir: Path, title: str, status: str, *, log=print) -> int:
+    """Re-stamp one chapter after an on-demand rearticulation. Returns reports changed.
+
+    ``rearticulate_chapter`` articulates a single chapter and records the result
+    as a Composer edit — the prose on disk is now adapted, but the pass report
+    still carries whatever the last full compose said about it, which for the
+    chapter that needed the tool is ``adapted-then-overwritten``. Left alone, the
+    report goes on calling articulated prose un-articulated: the Composer keeps
+    warning, and `articulationWarningsFrom` keeps refusing to clear a chapter
+    that is in fact fine. This is the same honesty duty as
+    ``reconcile_reports_after_replay``, on the other side of the ledger.
+
+    The stamp is ``composer-edit`` + ``superseded_status`` — deliberately NOT a
+    bare ``adapted``. A rearticulated chapter IS owned by a Composer save (that
+    is what makes it durable), so ``adapted`` would be demoted straight back to
+    ``adapted-then-overwritten`` by ``merge_records``' ``edited_keys`` rule on
+    the very next targeted re-run. The takeover shape is both true and stable:
+    the pass adapted this chapter, then a save took it over — which is exactly
+    what happened, in that order, inside one command.
+
+    Conservative like its siblings: only a report that already names the chapter
+    is touched, an unreadable report is left alone, and a status the pass does
+    not count as kept is refused rather than laundered into one.
+    """
+    if status not in KEPT_STATUSES:
+        return 0
+    key = anchor_key(title or "")
+    if not key:
+        return 0
+    book_dir = Path(book_dir)
+    total = 0
+    for name, schema, count_key in _RECONCILED_REPORTS:
+        path = book_dir / "_system" / name
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        records = data.get("chapters")
+        if not isinstance(records, list):
+            continue
+        changed = False
+        for record in records:
+            if not isinstance(record, dict):
+                continue
+            if anchor_key(str(record.get("title") or "")) != key:
+                continue
+            record.pop("pre_replay_status", None)
+            record["status"] = "composer-edit"
+            record["superseded_status"] = status
+            changed = True
+        if not changed:
+            continue
+        data["schema"] = schema
+        data[count_key] = sum(1 for r in records if isinstance(r, dict) and r.get("status") in KEPT_STATUSES)
+        data["overwritten_by_replay"] = sum(
+            1 for r in records if isinstance(r, dict) and r.get("status") == STATUS_OVERWRITTEN
+        )
+        path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+        log(f"    {name[: -len('.json')]}: {title!r} re-stamped 'composer-edit' (superseded '{status}')")
+        total += 1
     return total
 
 

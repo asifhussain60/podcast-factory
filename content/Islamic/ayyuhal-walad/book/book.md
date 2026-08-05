@@ -100,23 +100,23 @@ How, then, will a servant enter Paradise without the mercy of Allah the Exalted?
 
 ## 2. The Striving That Mercy Meets
 
-My dear son, hold firmly to this conviction: you will not find the reward without the effort that earns it.
+My dear son, hold fast to this truth: you will never find the reward without the effort that earns it.
 
-Let me tell you of a man among the Children of Israel who worshipped Allah the Exalted with great devotion for seventy years. Allah willed to show him to the angels, and so, to test him, He sent an angel down to him. The angel said:
+Let me tell you about a man among the Children of Israel who worshipped Allah the Exalted with great devotion for seventy years. Allah willed to display him to the angels, and so, to test him, He sent an angel down to him. The angel said:
 
 "Allah, the Holy, says that you have worn yourself out for nothing, for with all this worship you are still not fit to enter Paradise."
 
 When this message reached him, the worshipper answered:
 
-"We were created for His worship and His service, and it is only right that we should serve Him, whatever comes of it. He is the Owner of all things and of all people, myself among them, and He is the All-Powerful."
+"We were created to worship Him and to serve Him, and it is only right that we should serve Him, whatever comes of it. He owns all things and all people, myself among them, and He has power over all."
 
 The angel then returned to the Presence of Allah the Exalted and said:
 
 "O my Lord, You know best what Your servant has said."
 
-At this Allah the Exalted said: since this servant of Ours does not turn his face away from Our worship and Our service, We too, in Our generosity, will not turn Our Face away from him.
+Then Allah the Exalted said: since this servant of Ours does not turn his face away from Our worship and Our service, We too, in Our generosity, will not turn Our Face away from him.
 
-> اِشْهَدُوا يَا مَلَائِكَتِي أَنِّي قَدْ غَفَرْتُ لَهُ
+> اِشْهَدُوا يَا مَلَائِكَتِي أَنِّي قَدْ غَفَرْتُ لَهُ
 
 "O My angels, bear witness, all of you, that I have forgiven him."
 
@@ -142,15 +142,15 @@ And another intimate of Allah said:
 
 > عَلَامَةُ الْحَقِيقَةِ تَرْكُ مُلَاحَظَةِ الْعَمَلِ لَا تَرْكُ الْعَمَلِ
 
-"The mark of realized truth is to leave off admiring one's own action, not to leave off the action itself." One should act without regarding one's own act with pride, yet one must never abandon the doing of good deeds, even where the danger of self-admiration is present.
+"The mark of realized truth is to leave off admiring one's own action, not to leave off the action itself." One acts without regarding one's own act with pride, yet one must never abandon the doing of good deeds, even where the danger of self-admiration is present.
 
 Our master of both worlds, the Prophet Muhammad, expresses this truth more eloquently, more clearly, and more beautifully than any of the sayings above:
 
-> الْكَيِّسُ مَنْ دَانَ نَفْسَهُ وَ عَمِلَ لِمَا بَعْدَ الْمَوْتِ، وَ الْأَحْمَقُ مَنِ اتَّبَعَ هَوَاهُ وَتَمَنَّى عَلَى اللَّهِ تَعَالَى الْأَمَانِيَّ
+> الْكَيِّسُ مَنْ دَانَ نَفْسَهُ وَ عَمِلَ لِمَا بَعْدَ الْمَوْتِ، وَ الْأَحْمَقُ مَنِ اتَّبَعَ هَوَاهُ وَتَمَنَّى عَلَى اللَّهِ تَعَالَى الْأَمَانِيَّ
 
 "The intelligent one is he who calls his own soul to account and works for what lies after death; and the fool is he who follows the desires of his soul and yet indulges vain hopes upon Allah the Exalted." Some narrations add the words: and hopes for Allah's forgiveness.
 
-My dear son, how many nights have you kept awake, going over your knowledge and poring over books, denying yourself sleep? I do not know what your motive was. If it was to grasp some share of this world, to draw in its worthless goods, to secure its offices, and to boast over your peers and equals, then:
+My dear son, how many nights have you stayed awake, going over your knowledge and poring over books, denying yourself sleep? I do not know what your motive was. If it was to grasp some share of this world, to draw in its worthless goods, to secure its offices, and to boast over your peers and equals, then:
 
 > فَوَيْلٌ لَكَ ثُمَّ وَيْلٌ لَكَ
 
