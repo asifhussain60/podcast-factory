@@ -256,3 +256,110 @@ def test_the_introduction_is_never_touched_by_a_prose_pass(tmp_path: Path) -> No
     assert "The edition's own introduction." in out
     assert "REWRITTEN The edition's own introduction." not in out
     assert "Introduction to the Book" not in seen
+
+
+# ── record_rearticulation: the report tells the truth after an on-demand fix ──
+# `rearticulate_chapter` put articulated prose back, but the pass report was
+# written by the LAST COMPOSE and still described what the replay had discarded.
+# The Composer computes its articulation warning from that report, so the tool
+# fixed the book and the reader went on being told it had not.
+
+
+def _fluency_report(tmp_path: Path, records: list[dict]) -> Path:
+    import json
+
+    bd = tmp_path / "bk"
+    (bd / "_system").mkdir(parents=True)
+    path = bd / "_system" / "book-fluency-report.json"
+    path.write_text(
+        json.dumps(
+            {
+                "schema": "podcast.book-fluency/v5",
+                "chapters": records,
+                "adapted": sum(1 for r in records if r["status"] in ("adapted", "partial")),
+                "reverted": 0,
+                "overwritten_by_replay": sum(1 for r in records if r["status"] == "adapted-then-overwritten"),
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    return bd
+
+
+def _read(bd: Path) -> dict:
+    import json
+
+    return json.loads((bd / "_system" / "book-fluency-report.json").read_text(encoding="utf-8"))
+
+
+def test_record_rearticulation_clears_the_overwritten_stamp(tmp_path: Path) -> None:
+    from _book_pass_reports import record_rearticulation
+
+    bd = _fluency_report(
+        tmp_path,
+        [
+            {"title": "Knowledge That Will Not Save You", "status": "adapted"},
+            {
+                "title": "The Striving That Mercy Meets",
+                "status": "adapted-then-overwritten",
+                "pre_replay_status": "adapted",
+            },
+        ],
+    )
+    # The heading carries its printed ordinal; the report's titles do not. Both
+    # sides go through anchor_key, which is what makes them the same chapter.
+    assert record_rearticulation(bd, "2. The Striving That Mercy Meets", "adapted", log=lambda _m: None) == 1
+
+    data = _read(bd)
+    fixed = next(r for r in data["chapters"] if r["title"] == "The Striving That Mercy Meets")
+    assert fixed["status"] == "composer-edit"
+    assert fixed["superseded_status"] == "adapted"
+    assert "pre_replay_status" not in fixed
+    assert data["overwritten_by_replay"] == 0
+    assert data["adapted"] == 1  # the other chapter; a takeover is not a kept claim
+
+
+def test_a_rearticulated_chapter_is_no_longer_at_risk_in_the_composer(tmp_path: Path) -> None:
+    """The point of the stamp: `articulationWarningsFrom` reads exactly these two
+    fields, and a takeover whose superseded status is `adapted` is safe."""
+    from _book_pass_reports import record_rearticulation
+
+    bd = _fluency_report(tmp_path, [{"title": "T", "status": "adapted-then-overwritten"}])
+    record_rearticulation(bd, "1. T", "adapted", log=lambda _m: None)
+    rec = _read(bd)["chapters"][0]
+    assert (rec["status"], rec["superseded_status"]) == ("composer-edit", "adapted")
+
+
+def test_record_rearticulation_survives_a_later_targeted_rerun(tmp_path: Path) -> None:
+    """Why the stamp is a takeover and not a bare `adapted`: the chapter now
+    carries a Composer edit, so `merge_records` would demote a live `adapted`
+    claim straight back to `adapted-then-overwritten` on the next `only=` run."""
+    from _book_edits import anchor_key
+    from _book_pass_reports import merge_records, record_rearticulation
+
+    bd = _fluency_report(tmp_path, [{"title": "T", "status": "adapted-then-overwritten"}])
+    record_rearticulation(bd, "1. T", "adapted", log=lambda _m: None)
+    prior = _read(bd)["chapters"]
+
+    rerun = [{"title": "T", "status": "skipped"}]
+    merged = merge_records(prior, rerun, edited_keys={anchor_key("T")})
+    assert merged[0]["status"] == "composer-edit"
+    assert merged[0]["superseded_status"] == "adapted"
+
+
+def test_record_rearticulation_refuses_to_launder_a_reverted_window(tmp_path: Path) -> None:
+    from _book_pass_reports import record_rearticulation
+
+    bd = _fluency_report(tmp_path, [{"title": "T", "status": "adapted-then-overwritten"}])
+    assert record_rearticulation(bd, "1. T", "reverted", log=lambda _m: None) == 0
+    assert _read(bd)["chapters"][0]["status"] == "adapted-then-overwritten"
+
+
+def test_record_rearticulation_ignores_a_chapter_the_report_never_named(tmp_path: Path) -> None:
+    from _book_pass_reports import record_rearticulation
+
+    bd = _fluency_report(tmp_path, [{"title": "T", "status": "adapted"}])
+    assert record_rearticulation(bd, "9. Somewhere Else", "adapted", log=lambda _m: None) == 0
+    assert _read(bd)["chapters"][0]["status"] == "adapted"

@@ -67,6 +67,7 @@ def test_every_apparatus_step_lives_in_the_apparatus():
         "etymology",
         "glossary-vowelling",
         "inline-arabic",
+        "text-shape",
         "vowelling",
         "spelling",
         "front-matter",

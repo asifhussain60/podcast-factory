@@ -412,6 +412,27 @@
   --l-warn: #8a5712;
   --l-danger: #a52d2d;
 
+  /* ---- Topic hues -------------------------------------------------------
+     Six colours that tell the parts of the About page apart.
+
+     Declared per palette rather than mixed off the accent, for the same reason
+     the four highlights above are: a set of colours has to stay DISTINGUISHABLE
+     from each other AND legible on paper, on sepia and on near-black, and one
+     mix off a single accent cannot do that — it gives six tints of one hue,
+     which is the blandness this was added to fix.
+
+     Each is used two ways: as the glyph inside a topic's medallion, and as the
+     small count beneath it. The count is words on the card surface, so every one
+     is held to the body floor of 4.5:1 there by test/theme.test.ts — not to the
+     3:1 a shape would allow. The medallion's fill is a 12% mix of the hue into
+     the surface, made in CSS, and the glyph clears 4.4:1 even on that. */
+  --l-topic-coral: #c02f3b;   /* 5.57:1 on surface */
+  --l-topic-cyan: #0a6a82;    /* 6.09:1 */
+  --l-topic-violet: #6a34a6;  /* 7.79:1 */
+  --l-topic-green: #1f7a4d;   /* 5.23:1 */
+  --l-topic-amber: #8a5712;   /* 5.99:1 */
+  --l-topic-blue: #0d51c9;    /* 6.80:1 */
+
   /* The reader's four highlight colours.
      Declared per palette rather than color-mixed off the accent like every other
      tint in this file, and that exception is deliberate: a highlight has to stay
@@ -468,6 +489,15 @@
   --l-warn: #d6a44b;
   --l-danger: #e57b74;
 
+  /* Topic hues — see the light palette for what they are and why they are
+     declared rather than mixed. Lifted for a near-black surface. */
+  --l-topic-coral: #ff8f97;   /* 7.56:1 on surface */
+  --l-topic-cyan: #5ad0e8;    /* 9.13:1 */
+  --l-topic-violet: #c9a8f7;  /* 8.19:1 */
+  --l-topic-green: #63d69b;   /* 9.13:1 */
+  --l-topic-amber: #e6b465;   /* 8.70:1 */
+  --l-topic-blue: #7aadff;    /* 7.26:1 */
+
   /* The same four hues, inverted rather than dimmed. A pale highlight on a dark
      page is a lamp, not a mark: it would out-shine the text it sits under and
      the ink would have to flip to dark, so a marked sentence would read as a
@@ -513,6 +543,14 @@
   --l-ok: #3d7b53;
   --l-warn: #8b5d14;
   --l-danger: #9b3731;
+
+  /* Topic hues — see the light palette. Warmed and darkened for paper. */
+  --l-topic-coral: #a93039;   /* 5.94:1 on surface */
+  --l-topic-cyan: #0b6076;    /* 6.39:1 */
+  --l-topic-violet: #5f3199;  /* 7.89:1 */
+  --l-topic-green: #1c6c45;   /* 5.74:1 */
+  --l-topic-amber: #7d4e10;   /* 6.34:1 */
+  --l-topic-blue: #1c5296;    /* 6.98:1 */
 
   /* Warmed towards the paper they sit on. The light theme's values on this
      background read as four stickers laid on parchment. */
@@ -806,6 +844,7 @@
   .pf-navlink {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.45em;
     /* The header wraps to two rows on a phone; the items inside it must not
        wrap too, or "Sign out" breaks across lines and reads as two links. */
@@ -815,10 +854,36 @@
     color: var(--l-muted);
     text-decoration: none;
     transition: color var(--pf-motion);
+    /* Now icon-only: at 1.5em the glyph itself is ~22.5px, under the WCAG 2.2
+       AA 24px touch-target floor. The icon's own size stays as designed; the
+       link's hit area is padded out to the floor instead, the same way the
+       reader toolbar's icon buttons already do. */
+    min-width: 24px;
+    min-height: 24px;
   }
 
   .pf-navlink:hover {
     color: var(--l-ink);
+  }
+
+  /* Font Awesome's "1.5x" scale — the header glyphs read as small dots next to
+     the label text at 1em, so they are enlarged here rather than in `.pf-icon`
+     itself, which every other pill/button/heading glyph also uses. */
+  .pf-navlink .pf-icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  /* The sign-out `<button>` sits inside a `<form>` (see below), which is not
+     itself a flex item of `.pf-header__nav` — so without this, the button is
+     the sole inline-level child of a plain block box and picks up the form's
+     line-height/baseline instead of being centered like the two `<a>` icons
+     beside it, drifting a few pixels off their vertical middle. `display:
+     contents` removes the form's own box from layout entirely (it still
+     submits normally) so the button becomes a direct flex item, aligned the
+     same way as its neighbours. */
+  .pf-header__nav form {
+    display: contents;
   }
 
   /* Sign-out has to be a submit button rather than a link, because ending a
@@ -1354,6 +1419,11 @@
 
   .pf-masthead--centred .pf-title {
     margin-inline: auto;
+    /* Roboto Condensed everywhere else a book's title appears — the library
+       card, per §1's own comment. The book page's own H1 was still set in the
+       display serif, so this was the one surface a book's name changed face
+       between the shelf and its own page (Asif, 2026-08-05). */
+    font-family: var(--l-font-card-title);
   }
 
   .pf-masthead--centred .pf-book-title-ar {
@@ -1366,6 +1436,137 @@
 
   .pf-masthead--centred .pf-panel {
     text-align: start;
+  }
+
+  /* The title plate (Asif, 2026-08-05, replacing the circular seal): the
+     book's two-part identity — English name, the work's own Arabic beneath —
+     held in one rectangular panel rather than sitting bare on the page.
+
+     A rectangle rather than the circle it replaces because the panel can take
+     the width a title needs. The circle could not: it had to be sized for the
+     library's longest name, which left every short one floating in an empty
+     disc, and shrinking the type to fit the longest made the shelf read at one
+     size and the page at another.
+
+     It borrows the page's own panel idiom — the same radius and the same
+     accent-mixed tint the "About this book" panel below it uses — so it reads
+     as part of this page rather than as an ornament dropped onto it. `fit-
+     content` up to a cap, so a two-word title gets a compact plate and a
+     subtitled one gets a wide one, both centred. */
+  .pf-title-plate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--pf-space-2);
+    width: fit-content;
+    max-width: min(100%, 44rem);
+    margin-inline: auto;
+    margin-top: var(--pf-space-5);
+    /* Tighter above and below than at the sides: two centred lines of display
+       type already carry their own leading, and matching the side padding
+       vertically left a band of empty plate under the Arabic. */
+    padding: clamp(var(--pf-space-3), 2vw, var(--pf-space-4))
+      clamp(var(--pf-space-5), 5vw, var(--pf-space-8));
+    border-radius: var(--pf-radius-lg);
+    /* A tint rather than a flat fill: the plate reads as its own object against
+       the page instead of a rule drawn on the same paper. Mixed INTO
+       `--l-surface` rather than laid over it, so sepia and dark inherit their
+       own version instead of a light-theme colour bleeding through. */
+    background: linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--l-accent) 4%, var(--l-surface)) 0%,
+      color-mix(in srgb, var(--l-accent) 10%, var(--l-surface)) 100%
+    );
+    border: 3px solid color-mix(in srgb, var(--l-accent) 22%, transparent);
+    box-shadow: var(--pf-elev-3);
+    /* The sheen below is clipped to the plate and sits between its fill and its
+       type, so it passes UNDER the names rather than washing over them.
+       `isolation` keeps that z-order local: without it the sheen's negative
+       index would sink behind the page instead of behind the text. */
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  /* The glass: one soft band crossing the plate at an angle, as light travels
+     over a glazed surface.
+
+     Made of `--l-accent` at low alpha rather than white. White is what a
+     specular highlight actually is, and it was tried first — but the same white
+     band that is invisible on the near-white light panel reads as a polished
+     metal blade on the dark one, and no single alpha serves both. The accent is
+     DARKER than the light panel and LIGHTER than the dark one, so one rule
+     produces a soft shift in either direction.
+
+     Slow and mostly absent: the sweep takes a third of the cycle and the rest
+     of the nine seconds is still. A highlight that crossed continuously would
+     be an animation playing on a page of prose; this one catches the eye once
+     and then leaves. The global `prefers-reduced-motion` rule covers `::before`
+     as well as elements, so a reader who asks for stillness gets it here too. */
+  .pf-title-plate::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      color-mix(in srgb, var(--l-accent) 5%, transparent) 42%,
+      color-mix(in srgb, var(--l-accent) 13%, transparent) 50%,
+      color-mix(in srgb, var(--l-accent) 5%, transparent) 58%,
+      transparent 70%
+    );
+    animation: pf-title-plate-glass 9s ease-in-out infinite;
+  }
+
+  @keyframes pf-title-plate-glass {
+    0% {
+      transform: translateX(-115%);
+    }
+    35%,
+    100% {
+      transform: translateX(115%);
+    }
+  }
+
+  /* ONE size for every book — both names scale with the viewport and with
+     nothing else, so a reader moving along the shelf sees every title set the
+     same way.
+
+     The Arabic is stepped UP from the shared size rather than sharing it
+     outright. Set at the same `font-size` the two scripts do not look the same
+     size: Naskh's letterforms sit on a smaller body than Latin capitals, so an
+     identical number renders visibly smaller. The multiplier is what makes them
+     look equal, which is the thing actually being matched here. */
+  .pf-title-plate {
+    --pf-plate-type: clamp(1.45rem, 1.05rem + 1.7vw, 2.4rem);
+  }
+
+  .pf-title-plate .pf-title {
+    margin-top: 0;
+    max-width: 100%;
+    font-size: var(--pf-plate-type);
+    line-height: 1.15;
+    /* When a title is long enough to need two lines, it divides into even ones
+       rather than a full line and an orphan — and at the space, never at the
+       hyphen in a name like `al-Walad`, which reads as a word cut in half. */
+    text-wrap: balance;
+    /* The two names are set apart by colour as well as by face: the English in
+       a deeper violet-blue, the Arabic beneath it in the lighter blue, so the
+       eye reads a heading and its translation rather than two equal titles.
+       Both are MIXED FROM `--l-accent`, never fixed hexes, so sepia's muted
+       blue and dark's pale blue each produce their own pair instead of a
+       light-theme colour showing through. */
+    color: color-mix(in oklab, var(--l-accent-hover) 80%, rebeccapurple);
+  }
+
+  .pf-title-plate .pf-book-title-ar {
+    margin-top: 0;
+    font-size: calc(var(--pf-plate-type) * 1.18);
+    line-height: 1.4;
+    color: color-mix(in srgb, var(--l-accent) 78%, var(--l-surface));
   }
 
   .pf-eyebrow {
@@ -1482,8 +1683,9 @@
     display: flex;
     align-items: center;
     gap: var(--pf-space-3);
+    width: 100%;
     max-width: 34rem;
-    margin-top: var(--pf-space-6);
+    margin: var(--pf-space-6) auto 0;
     padding: var(--pf-space-3) var(--pf-space-5);
     background: var(--l-surface);
     border: 1px solid var(--l-rule);
@@ -2589,7 +2791,8 @@
      that margin is added to the gap, so the first panel of each column sat lower
      than the other's and the two tops did not line up. */
   .pf-admin-aside > .pf-panel,
-  .pf-admin-main > .pf-panel {
+  .pf-admin-main > .pf-panel,
+  .pf-admin-detail > .pf-panel {
     margin-top: 0;
   }
 
@@ -2611,17 +2814,13 @@
     color: var(--l-faint);
   }
 
-  .pf-message--ok {
-    color: var(--l-ok);
-  }
-
-  .pf-invite__link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--pf-space-1);
-    color: var(--l-accent);
-    overflow-wrap: anywhere;
-  }
+  /* Two rules were here — a green "ok" message colour and an inline invite link
+     — and both belonged to the line the invite form printed on success: "X can
+     now sign in… send them the link yourself". Inviting somebody now opens their
+     page instead, so there is no success message to style and no hardcoded
+     address to print. Named without their leading dots on purpose: the parity
+     check in test/styles.test.ts scans this file for class selectors and does not
+     skip comments, so writing them here would resurrect them as dead rules. */
 
   /* ---- Finding someone ----------------------------------------------------
      The search box lives IN the table panel's tinted header, spanning its width,
@@ -2696,6 +2895,9 @@
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
     text-decoration: none;
+    /* These are links on the admin screens and buttons on the About page — the
+       cursor has to be stated or the two forms of one control feel different. */
+    cursor: pointer;
     transition:
       background var(--pf-motion),
       color var(--pf-motion),
@@ -2707,6 +2909,10 @@
     color: var(--l-ink);
   }
 
+  /* Lit. Two attributes for one look, because the two uses are genuinely
+     different: a chip that changes the URL is `aria-current`, and a chip that
+     narrows the page in place is a toggle button and is `aria-pressed`. */
+  .pf-filter[aria-pressed="true"],
   .pf-filter[aria-current="true"] {
     background: var(--l-accent);
     border-color: var(--l-accent);
@@ -5841,5 +6047,610 @@
     display: flex;
     justify-content: center;
     margin-top: var(--pf-space-5);
+  }
+
+  /* ==== About ===============================================================
+     A page built out of full-bleed BANDS rather than one column.
+
+     The first version put everything in a 34rem measure, which is the right
+     line length for prose and the wrong shape for a page: on a 1440px window it
+     was a narrow grey ribbon down the left with two thirds of the screen empty
+     beside it. Those are two different problems and one `max-width` was
+     answering both. Now the BAND fills the window and the LINE LENGTH is capped
+     inside it, per element, at the width that element actually needs.
+
+     RESPONSIVENESS IS INTRINSIC, not a stack of breakpoints. Every grid here is
+     `auto-fit`/`minmax`, every type size is a `clamp()`, and every gutter scales
+     with the viewport — so the page has no width at which it is untested, and it
+     survives a 320px phone and a 2560px monitor without either being a case
+     somebody remembered to write. There is exactly one media query, for the
+     two-column timeline, because that one IS a layout change rather than a
+     reflow. */
+
+  /* `main`, with no container at all — the bands own their own gutters. */
+  .pf-flush {
+    width: 100%;
+  }
+
+  /* The inner measure of every band.
+     104rem, which on a 1440px window is the whole width less its gutters and on
+     a 1920px one still fills most of it — while stopping an uncapped band from
+     setting a 200-character line on a 2560px monitor. It can be this wide
+     BECAUSE line length is capped per element further down: the paragraphs at
+     60ch, the ledes at 46rem. Width and measure are two settings here, not one.
+     The gutter scales with the viewport so the page never crowds its own edge on
+     a phone. */
+  .pf-about-wrap {
+    width: 100%;
+    max-width: 104rem;
+    margin-inline: auto;
+    padding-inline: clamp(var(--pf-space-4), 4vw, var(--pf-space-8));
+  }
+
+  /* ---- The hero ------------------------------------------------------------
+     Tinted, so the page opens with something rather than with a heading on the
+     same background as everything else. The wash is built from the accent's own
+     soft tone, so it follows all three themes without a single hardcoded
+     colour. */
+
+  /* Paperclip opens on a full-bleed coloured block and so does this. `--l-band`
+     is the navy the library's book cards already wear and every palette declares
+     it with `--l-on-band` / `--l-band-muted` / `--l-band-ornament` beside it,
+     already measured — so the boldest thing on the page introduces no colour the
+     site did not already own. The wash on top is the accent bleeding up from the
+     bottom edge, which is what stops it reading as a flat slab. */
+  .pf-about-hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 140% at 50% 100%, color-mix(in oklab, var(--l-accent) 55%, transparent) 0%, transparent 62%),
+      var(--l-band);
+    color: var(--l-on-band);
+  }
+
+  /* Two soft discs behind the words, in the two lead hues. Paperclip carries a
+     photograph here; this library has no photograph to carry and a stock one
+     would be a picture of nothing. Shapes in the page's own colours do the same
+     job — they give the block depth — and cost no request. `aria-hidden` is not
+     needed because they are painted, not marked up. */
+  .pf-about-hero::before,
+  .pf-about-hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(6px);
+  }
+
+  .pf-about-hero::before {
+    inset-block-start: -14%;
+    inset-inline-start: -6%;
+    width: clamp(14rem, 26vw, 26rem);
+    aspect-ratio: 1;
+    background: radial-gradient(circle, color-mix(in oklab, var(--l-topic-cyan) 38%, transparent) 0%, transparent 70%);
+  }
+
+  .pf-about-hero::after {
+    inset-block-end: -22%;
+    inset-inline-end: -8%;
+    width: clamp(16rem, 32vw, 32rem);
+    aspect-ratio: 1;
+    background: radial-gradient(circle, color-mix(in oklab, var(--l-topic-coral) 34%, transparent) 0%, transparent 70%);
+  }
+
+  .pf-about-hero__inner {
+    position: relative;
+  }
+
+  .pf-about-hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--pf-space-4);
+    padding-block: clamp(var(--pf-space-6), 6vw, var(--pf-space-8));
+  }
+
+  .pf-about-hero__eyebrow {
+    margin: 0;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-band-ornament);
+  }
+
+  .pf-about-hero__title {
+    margin: 0;
+    /* Fluid rather than stepped: it reaches display size on a monitor and stays
+       inside a 320px screen without a breakpoint deciding when. */
+    font-family: var(--l-font-display);
+    font-size: clamp(2rem, 1.2rem + 3.4vw, 3.5rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: var(--pf-tracking-tight);
+    text-wrap: balance;
+    color: var(--l-on-band);
+  }
+
+  .pf-about-hero__lead {
+    max-width: 46rem;
+    margin: 0;
+    font-family: var(--l-font-prose);
+    font-size: clamp(var(--pf-text-md), 0.95rem + 0.4vw, var(--pf-text-lg));
+    line-height: 1.6;
+    text-wrap: pretty;
+    color: var(--l-band-muted);
+  }
+
+  /* ---- The search bar, pinned ----------------------------------------------
+     Directly under the hero and sticky from there, so it is on screen for the
+     whole page rather than for the first screen of it. It carries the page
+     background and a shadow, which is what makes content pass UNDER it rather
+     than appearing to collide with it. */
+
+  .pf-about-find {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: var(--l-bg);
+    border-bottom: 1px solid var(--l-rule-soft);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-about-find__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-3) var(--pf-space-5);
+    padding-block: var(--pf-space-3);
+  }
+
+  /* The field takes the room and stops well short of the full band: a search box
+     1400px wide looks like a text editor.
+
+     `margin-top: 0` is not tidying. `.pf-search` itself carries
+     `margin-top: var(--pf-space-6)` — a LAYOUT decision belonging to the library
+     page, where the box is the only control and is spaced away from the heading
+     above it — and every other user of the class inherits it. Here it made a
+     pinned bar 117px tall to hold a 60px field, with 32px of nothing above it.
+     The admin people header inherits the same margin and does not override it.
+     Zeroed at this one call site rather than lifted off the base class, which
+     would silently reflow the library. */
+  .pf-about-find__inner > .pf-search {
+    flex: 1 1 18rem;
+    max-width: 34rem;
+    margin-top: 0;
+  }
+
+  /* ---- A band --------------------------------------------------------------
+     Alternating surfaces so a long page reads as parts rather than as a scroll.
+     The tint is the sunken tone the rest of the site already uses for a recessed
+     surface, so no new colour enters the system. */
+
+  .pf-about-band {
+    padding-block: clamp(var(--pf-space-6), 5vw, var(--pf-space-8));
+  }
+
+  .pf-about-band--tint {
+    background: var(--l-surface);
+    border-block: 1px solid var(--l-rule-soft);
+  }
+
+  /* ---- The hue channel -----------------------------------------------------
+     ONE custom property, set from a `data-hue` attribute and read by everything
+     below it. Six declarations here instead of six copies of every rule that
+     wants a colour — a card, its medallion, its count, a section's heading and
+     that section's left edge all say `var(--topic)` and none of them knows which
+     colour it got. The attribute carries a NAME; the palette owns the value. */
+  /* The default, first, so nothing on this page can read an undefined `--topic`
+     — a `color-mix()` with one is an invalid value, and an invalid value on a
+     border shorthand does not fall back to something sensible, it drops the
+     whole declaration. The dark band carries no topic of its own and is exactly
+     that case. The `[data-hue]` rules below have equal specificity and come
+     after, so a stated hue still wins. */
+  .pf-about-hero,
+  .pf-about-band,
+  .pf-about-card { --topic: var(--l-accent); }
+
+  [data-hue="coral"] { --topic: var(--l-topic-coral); }
+  [data-hue="cyan"] { --topic: var(--l-topic-cyan); }
+  [data-hue="violet"] { --topic: var(--l-topic-violet); }
+  [data-hue="green"] { --topic: var(--l-topic-green); }
+  [data-hue="amber"] { --topic: var(--l-topic-amber); }
+  [data-hue="blue"] { --topic: var(--l-topic-blue); }
+
+  /* The dark band, mid-page. Paperclip's `section_inverse`: a run of pale
+     sections needs one that is not, or the page reads as a single long sheet —
+     which is most of what "bland" meant here. */
+  .pf-about-band--inverse {
+    background: var(--l-band);
+    color: var(--l-on-band);
+    border-block: 1px solid var(--l-band);
+  }
+
+  .pf-about-band--inverse .pf-about-lede__title {
+    color: var(--l-on-band);
+  }
+
+  .pf-about-band--inverse .pf-about-lede__title svg {
+    color: var(--l-band-ornament);
+  }
+
+  .pf-about-band--inverse .pf-about-lede__blurb {
+    color: var(--l-band-muted);
+  }
+
+  /* Paperclip closes on a call to action that is not the same colour as the page
+     above it. This one is the accent at low strength — enough to read as a
+     deliberate ending rather than as the page running out. */
+  .pf-about-band--close {
+    background:
+      linear-gradient(180deg, color-mix(in oklab, var(--l-accent) 12%, var(--l-bg)) 0%, var(--l-bg) 100%);
+    border-top: 1px solid var(--l-rule-soft);
+  }
+
+  /* ---- Browse by topic -----------------------------------------------------
+     The cards replaced a wrapping row of pills. Same state and same behaviour,
+     and they carry what a pill cannot: an icon and the line saying what is
+     inside. `auto-fit` with a 19rem floor gives four across a monitor, three on
+     a laptop, two on a tablet and one on a phone with nothing declaring where
+     those changes happen — and four is the figure the floor was chosen for:
+     there are seven cards, so four leaves a tidy second row of three. 20rem was
+     the first try and gave THREE at 1440px, stranding a seventh card alone on a
+     row: four tracks needed 1328px and the band had 1325. The gap counts, and a
+     floor picked without it is a floor picked for the wrong number. */
+
+  .pf-about-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr));
+    gap: var(--pf-space-4);
+    /* Same rule as the answers below: seven cards over two rows, all one height,
+       so the second row does not sit shorter than the first. */
+    grid-auto-rows: 1fr;
+  }
+
+  .pf-about-card {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--pf-space-4);
+    padding: var(--pf-space-5);
+    text-align: left;
+    border: 1px solid var(--l-rule-soft);
+    border-radius: var(--pf-radius-lg);
+    background: var(--l-surface);
+    box-shadow: var(--pf-elev-1);
+    cursor: pointer;
+    overflow: hidden;
+    transition:
+      border-color var(--pf-motion),
+      box-shadow var(--pf-motion),
+      transform var(--pf-motion);
+  }
+
+  /* A bar of the topic's own colour along the top edge, drawn short and growing
+     to the full width when the card is chosen. It is what makes a grid of seven
+     cards read as seven different things rather than as seven grey boxes. */
+  .pf-about-card::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    width: 3.5rem;
+    height: 3px;
+    background: var(--topic);
+    transition: width var(--pf-motion);
+  }
+
+  .pf-about-card:hover {
+    border-color: var(--topic);
+    box-shadow: var(--pf-elev-3);
+    transform: translateY(-2px);
+  }
+
+  .pf-about-card:hover::before,
+  .pf-about-card[aria-pressed="true"]::before {
+    width: 100%;
+  }
+
+  .pf-about-card[aria-pressed="true"] {
+    border-color: var(--topic);
+    box-shadow: var(--pf-elev-2);
+  }
+
+  /* The icon in a tile rather than loose beside the words. It is what makes a
+     row of cards scannable at a glance, which is the whole reason they are cards
+     and not a list. */
+  /* A CIRCLE, which is Paperclip's `home-app-feature__icon` — 50px, fully
+     rounded, a hairline ring. The fill is a 12% mix of the topic's colour into
+     the card, so the six read as a family rather than as six unrelated blocks of
+     paint, and the glyph still clears 4.4:1 on it in every theme. */
+  .pf-about-card__tile {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 3.125rem;
+    height: 3.125rem;
+    border-radius: 50%;
+    border: 1px solid color-mix(in oklab, var(--topic) 30%, transparent);
+    background: color-mix(in oklab, var(--topic) 12%, var(--l-surface));
+    color: var(--topic);
+    font-size: var(--pf-text-md);
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  .pf-about-card[aria-pressed="true"] .pf-about-card__tile {
+    background: var(--topic);
+    border-color: var(--topic);
+    /* The page background, not `--l-on-accent`: that pair is measured against
+       the accent and these are six other colours. Every theme's page colour is
+       at the far end of the range from every topic hue — which is exactly what
+       the 4.5:1 floor on `hue vs surface` guarantees. */
+    color: var(--l-bg);
+  }
+
+  .pf-about-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-1);
+    /* Without this a long unbroken word in a blurb widens the grid track and
+       every other card with it. */
+    min-width: 0;
+  }
+
+  .pf-about-card__title {
+    font-family: var(--l-font-card-title);
+    font-size: var(--pf-text-lg);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--l-ink);
+  }
+
+  .pf-about-card__blurb {
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-base);
+    line-height: 1.5;
+    color: var(--l-muted);
+  }
+
+  /* Coloured, like Paperclip's price under a plan title. It is the smallest
+     type on the card and the one place a second touch of the hue lands without
+     competing with the words. */
+  .pf-about-card__meta {
+    margin-top: var(--pf-space-1);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--topic);
+  }
+
+  /* What the search or the chosen category did, and the way back out. */
+  .pf-about-results {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-4);
+    margin: 0;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    color: var(--l-muted);
+  }
+
+  .pf-about-results__what {
+    font-weight: 600;
+    color: var(--l-ink);
+  }
+
+  /* ---- A section's heading -------------------------------------------------
+     Capped at a heading measure of its own, so a two-word title on a monitor is
+     not marooned above a full-width rule. */
+
+  .pf-about-lede {
+    max-width: 46rem;
+    margin-bottom: var(--pf-space-5);
+  }
+
+  .pf-about-lede__title {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-3);
+    margin: 0;
+    /* The icon alone carries the colour; the words stay ink. A whole heading in
+       a topic hue would be six differently coloured headings down one page,
+       which is decoration rather than a system. */
+    font-family: var(--l-font-display);
+    font-size: clamp(var(--pf-text-xl), 1.1rem + 1vw, 2rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: var(--pf-tracking-tight);
+    color: var(--l-ink);
+  }
+
+  .pf-about-lede__title svg {
+    color: var(--topic);
+  }
+
+  .pf-about-lede__blurb {
+    margin: var(--pf-space-2) 0 0;
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-md);
+    line-height: 1.6;
+    text-wrap: pretty;
+    color: var(--l-muted);
+  }
+
+  /* ---- The questions and their answers -------------------------------------
+     A GRID, so cards line up.
+
+     They were flowed in columns for a while, which packs variable-height cards
+     with no wasted space and is the technically tidier answer — and it looked
+     ragged, because no two cards beside each other ended at the same line. A
+     grid stretches every card in a row to the tallest of them, so the page reads
+     as rows of equal cards rather than as a pile.
+
+     The cost is real and is the reason columns were tried: a row whose tallest
+     card has four paragraphs gives its neighbours the difference as empty space
+     at the bottom. That is the trade — alignment is bought with whitespace, and
+     the whitespace is inside a card rather than between them, which is the form
+     of it that reads as deliberate.
+
+     `auto-fit`/`minmax` as everywhere else on this page, so the column count is
+     the browser's answer to how much room there is. */
+
+  .pf-about-qa {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
+    gap: var(--pf-space-4);
+    /* EVERY card in a section is one height, not merely every card in a row.
+       `1fr` on the implicit rows makes all rows equal to the tallest, and
+       `stretch` — the default, stated because it is the rule here rather than an
+       accident — makes each card fill its row. Together: one height per section. */
+    grid-auto-rows: 1fr;
+    align-items: stretch;
+  }
+
+  .pf-about-entry {
+    /* A column, so the question sits at the top and a short answer leaves its
+       slack at the bottom rather than floating in the middle of the card. */
+    display: flex;
+    flex-direction: column;
+    padding: var(--pf-space-5);
+    border: 1px solid var(--l-rule-soft);
+    /* A left edge in the section's colour, so an answer is visibly part of the
+       topic above it rather than a loose grey card. 3px because 1px of a
+       saturated colour reads as a rendering artefact at this size. */
+    border-left: 3px solid var(--topic);
+    border-radius: var(--pf-radius-lg);
+    background: var(--l-bg);
+  }
+
+  /* On the dark band the cards sit on navy, so they take a mix of it rather than
+     the page colour, and their rule lifts instead of darkening. */
+  .pf-about-band--inverse .pf-about-entry {
+    background: color-mix(in oklab, var(--l-band) 82%, var(--l-bg));
+    border-color: color-mix(in oklab, var(--l-on-band) 18%, transparent);
+  }
+
+  /* A heading, not a control. No caret, no pointer, nothing suggesting a press
+     that does nothing — and a real `h3`, so the page has an outline to jump
+     through. */
+  .pf-about-entry__q {
+    margin: 0 0 var(--pf-space-3);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-md);
+    font-weight: 600;
+    line-height: 1.35;
+    text-wrap: balance;
+    color: var(--l-ink);
+  }
+
+  .pf-about-band--inverse .pf-about-entry__q {
+    color: var(--l-on-band);
+  }
+
+  .pf-about-entry__a p {
+    margin: 0 0 var(--pf-space-3);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-base);
+    line-height: 1.65;
+    text-wrap: pretty;
+    color: var(--l-muted);
+  }
+
+  .pf-about-entry__a p:last-child {
+    margin-bottom: 0;
+  }
+
+  .pf-about-band--inverse .pf-about-entry__a p {
+    color: var(--l-band-muted);
+  }
+
+  /* ---- What's new ----------------------------------------------------------
+     A rail with the date beside the changes, which is the shape a release list
+     wants and the reason this is the one media query on the page: at narrow
+     widths the date sits ABOVE its items, and that is a different layout rather
+     than the same one reflowed. */
+
+  .pf-about-timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-6);
+  }
+
+  .pf-about-moment {
+    display: grid;
+    gap: var(--pf-space-3);
+    padding-left: var(--pf-space-5);
+    border-left: 2px solid var(--l-band-ornament);
+  }
+
+  @media (min-width: 48rem) {
+    .pf-about-moment {
+      grid-template-columns: 12rem 1fr;
+      gap: var(--pf-space-6);
+    }
+  }
+
+  .pf-about-moment__when {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-band-ornament);
+  }
+
+  /* The changes themselves flow into as many columns as the band has room for,
+     by the same rule as everything else on this page. As one capped column they
+     left the right two thirds of the band empty under a section that had just
+     used all of it — the one place the redesign was still setting a ribbon. Each
+     column keeps its own reading measure via the track floor rather than a
+     `max-width`, so the text never runs long however wide the window is. */
+  .pf-about-moment__what {
+    margin: 0;
+    padding-left: var(--pf-space-5);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
+    align-items: start;
+    gap: var(--pf-space-3) var(--pf-space-6);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-md);
+    line-height: 1.65;
+    text-wrap: pretty;
+    color: var(--l-on-band);
+  }
+
+  /* ---- The closing band ---------------------------------------------------- */
+
+  .pf-about-close {
+    text-align: center;
+    padding-block: var(--pf-space-3);
+  }
+
+  .pf-about-close__title {
+    margin: 0;
+    font-family: var(--l-font-display);
+    font-size: clamp(var(--pf-text-xl), 1.1rem + 1vw, 2rem);
+    font-weight: 600;
+    color: var(--l-ink);
+  }
+
+  .pf-about-close__text {
+    max-width: 46rem;
+    margin: var(--pf-space-3) auto 0;
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-md);
+    line-height: 1.65;
+    text-wrap: pretty;
+    color: var(--l-muted);
   }
 }

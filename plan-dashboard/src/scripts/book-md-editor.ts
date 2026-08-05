@@ -17,8 +17,25 @@ import type { Node as PMNode } from "@tiptap/pm/model";
 /** The only class names the editor is allowed to carry through from the seed
  *  HTML. `quran` marks an Arabic-bearing quotation block, `ar` its Arabic line,
  *  `tr` the English rendering — the three markdown.ts emits (markdown.ts:188-207)
- *  and the three every quotation stylesheet keys off. */
-export const PRESERVED_CLASSES = new Set(["quran", "ar", "tr"]);
+ *  and the three every quotation stylesheet keys off.
+ *
+ *  `aside` and its three kinds joined them on 2026-08-05. markdown.ts tags a
+ *  pipeline-authored span `blockquote.aside.editorial` (or `.bridge` /
+ *  `.study-summary`) so a stylesheet can draw it as a panel rather than as the
+ *  book's own words; dropped here, Edit mode showed the note as a plain
+ *  blockquote between two grey marker strips, which is what Asif saw. Same
+ *  guarantee as the other three: docToMarkdown dispatches on `node.type.name`
+ *  and reads exactly one attribute (`heading.level`), so a class carried here is
+ *  presentation and can never reach book.md. */
+export const PRESERVED_CLASSES = new Set([
+  "quran",
+  "ar",
+  "tr",
+  "aside",
+  "editorial",
+  "bridge",
+  "study-summary",
+]);
 
 /**
  * QuotationClasses — re-admit the verse markup TipTap would otherwise discard.

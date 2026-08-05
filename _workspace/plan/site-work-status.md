@@ -1,9 +1,39 @@
 # Current work - status
 
-**Last updated:** 2026-08-04 (The Scholar Companion stands open beside the text,
-for one account, and the sentence it explains lights up as you reach it)
+**Last updated:** 2026-08-05 (A cited book prints under its English name, every
+Arabic quotation looks like one, and an editorial note reads as a note)
 
-**Newest — the Companion is in the reader, and only Asif can see it.**
+**Newest — three things Asif reported from the Book Composer, all fixed at the
+source. Not deployed; no PDF re-rendered.**
+
+- **Work titles.** `work_title` joins the annotation registry
+  (`_annotation_policy`), and `_book_work_titles` prints a cited book's English
+  translation alone WHERE THE PROSE ALREADY SUPPLIES ONE. A title the author
+  names bare keeps his own words — the English is always lifted from the bracket
+  beside the title, never from the glossary and never from a model.
+- **Arabic display quotations.** `_book_arabic_blocks` gives every one the same
+  shape: a blockquote holding its own English rendering, so the page draws
+  `p.ar` + `p.tr` — Arabic centred in maroon at display size, translation
+  centred beneath. Ten stray paragraphs promoted, 53 renderings joined on
+  `ayyuhal-walad`; ten deliberately left out because the author's commentary
+  continues in the same paragraph.
+- **Editorial notes.** `blockquote.aside` finally has a panel, one rule shared by
+  the Composer, the reader and print. Fixed in three places: the print renderer
+  marks the fenced span regardless of `selfStudy`, `markdown.ts` flushes before
+  clearing the fence in EDIT mode too, and the editor's class allow-list carries
+  `aside` and its kinds. The citation families no longer strip the fence from an
+  aside — they style the book's QUOTATIONS, and an apparatus note is not one.
+- Both new passes are sequenced by `_book_shape` as ONE apparatus step
+  (`text-shape`): `_book_apparatus` sits at the 600-line DR-005 cap and two more
+  blocks put it over.
+- Open, reported not fixed: `_translit` keeps a word-initial ayn
+  (`Rabbul 'Alamin`) while dropping one inside a word. Worked around locally in
+  `_book_work_titles._spellings` rather than changed, because that module is
+  half a fixture-pinned TS/Python pair every book runs through.
+
+---
+
+**Previous — the Companion is in the reader, and only Asif can see it.**
 
 Asif: reading a chapter on the Listener should open the Ismaili Scholar Companion
 where the Notes drawer is, for `asifhussain60@gmail.com` and nobody else, with

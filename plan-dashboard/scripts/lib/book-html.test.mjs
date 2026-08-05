@@ -86,7 +86,41 @@ test("self-study parses bullet lists and study-summary fences; default does not"
     !off.includes('<ul class="study-list">'),
     "default has no list parser",
   );
-  assert.ok(!off.includes("study-summary"), "default has no summary aside");
+  // The self-study layer is what builds an <aside> with a printed label. What it
+  // is NOT, since 2026-08-05, is the only thing that says a blockquote came from
+  // a pipeline fence: the default render marks the span too, so an apparatus
+  // note can be drawn as a panel instead of looking like the book's own words.
+  // Asserted on the ELEMENT rather than on the substring the class also
+  // contains, which is what the looser check was really reaching for.
+  assert.ok(
+    !off.includes('<aside class="study-summary">'),
+    "default builds no labeled aside element",
+  );
+  assert.ok(
+    off.includes('<blockquote class="aside study-summary">'),
+    "default still marks the fenced span",
+  );
+});
+
+test("a fenced editorial note is marked in the default render, and only inside the fence", () => {
+  const md = [
+    "## 1. A Chapter",
+    "",
+    "> the book's own words",
+    "",
+    "<!-- editorial:begin -->",
+    "> **Editorial note.** Something the pipeline added.",
+    "<!-- editorial:end -->",
+    "",
+    "> the book's own words again",
+    "",
+  ].join("\n");
+  const html = renderMd(md);
+  assert.ok(html.includes('<blockquote class="aside editorial">'));
+  // Exactly one marked block: the fence must close, or every later quotation in
+  // the chapter inherits the aside and the book reads as apparatus throughout.
+  assert.equal((html.match(/class="aside editorial"/g) || []).length, 1);
+  assert.equal((html.match(/<blockquote>/g) || []).length, 2);
 });
 
 test("default render of ordinary prose is structurally unchanged", () => {

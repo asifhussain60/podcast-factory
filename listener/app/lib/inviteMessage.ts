@@ -6,6 +6,11 @@
  * different with rich markup — so the message is written to survive being
  * pasted anywhere, which means no formatting at all beyond line breaks.
  *
+ * It reads like a person wrote it, because a person is sending it. The earlier
+ * draft opened "I've given you access to my library of classical Islamic works",
+ * which is accurate and reads like a service notification — and the whole point
+ * of this text is that it arrives from someone the recipient knows.
+ *
  * The ADDRESS is the part that earns its place. Access is keyed on the email,
  * so somebody signing in with a different Google account than the one they were
  * invited under lands on the no-access page and reasonably concludes the link is
@@ -40,7 +45,7 @@ function greetingName(displayName: string): string {
   return trimmed.split(/\s+/)[0];
 }
 
-/** What they can open, as the sentence fragment that follows "You can open:". */
+/** What they can open, as the sentence fragment that follows "You've got:". */
 function whatTheyHave(books: string[], wholeLibrary: boolean): string | null {
   if (wholeLibrary) return "everything in the library";
   if (books.length === 0) return null;
@@ -48,6 +53,16 @@ function whatTheyHave(books: string[], wholeLibrary: boolean): string | null {
   if (books.length === 2) return `${books[0]} and ${books[1]}`;
   return `${books.slice(0, -1).join(", ")} and ${books[books.length - 1]}`;
 }
+
+/**
+ * The About page.
+ *
+ * Behind the sign-in like everything else, which is fine and is why the line
+ * around it says "once you're in": the gate carries the destination through
+ * sign-in in `?next=`, so following this link cold lands them here after Google
+ * rather than dumping them on the library with nothing explained.
+ */
+const aboutUrl = (siteUrl: string) => `${siteUrl.replace(/\/+$/, "")}/about`;
 
 export function inviteMessage(input: InviteMessageInput): string {
   const name = greetingName(input.displayName);
@@ -62,22 +77,28 @@ export function inviteMessage(input: InviteMessageInput): string {
   const lines = [
     `Hi ${name},`,
     "",
-    "I've given you access to my library of classical Islamic works. Each one is published twice — as a modern English reading edition, and as a series of long-form audio episodes drawn from the same source. You can read it, listen to it, or follow both together.",
+    "I've been putting together a little library of classical Islamic works and I've set you up with access. Each book comes two ways — a proper English edition you can read, and a series of long-form audio episodes on the same material. Read it, listen to it, or do both.",
     "",
     input.siteUrl,
     "",
-    `Sign in with Google using ${input.email} — that's the address your invitation is tied to, so a different account won't work.`,
+    `Sign in with Google using ${input.email} — that's the address I've set it up under, so another account won't find it.`,
     "",
   ];
 
   // Omitted entirely when they hold nothing yet, rather than printed empty. A
-  // line reading "You can open:" with nothing after it tells them something has
+  // line reading "You've got:" with nothing after it tells them something has
   // gone wrong, when the truthful state is simply that the books come next.
   if (has !== null) {
-    lines.push(`You can open: ${has}`, "");
+    lines.push(`You've got: ${has}`, "");
   }
 
-  lines.push("The library is private and nothing on it is public.", "", "— Asif");
+  lines.push(
+    `Once you're in, have a look at this — it runs through everything the site does, including highlighting, notes and the transcripts: ${aboutUrl(input.siteUrl)}`,
+    "",
+    "It's all private, nothing's public, and there's nothing to pay. Any trouble getting in, just tell me.",
+    "",
+    "— Asif",
+  );
 
   return lines.join("\n");
 }

@@ -99,6 +99,15 @@ const PAIRS: [string, string, number][] = [
   ["l-ok", "l-surface", 4.5],
   ["l-warn", "l-surface", 4.5],
   ["l-danger", "l-surface", 4.5],
+  // The six topic hues, each held to the BODY floor rather than the 3:1 a shape
+  // would allow. They colour a glyph, which is a shape — but the same hue also
+  // sets the count under it, and that is words.
+  ["l-topic-coral", "l-surface", 4.5],
+  ["l-topic-cyan", "l-surface", 4.5],
+  ["l-topic-violet", "l-surface", 4.5],
+  ["l-topic-green", "l-surface", 4.5],
+  ["l-topic-amber", "l-surface", 4.5],
+  ["l-topic-blue", "l-surface", 4.5],
   // Shapes, not words: the card's ornament, and the focus ring where it lands
   // on the most difficult surface.
   ["l-band-ornament", "l-band", 3],

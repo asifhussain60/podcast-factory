@@ -6,7 +6,11 @@ import { inviteMessage } from "../app/lib/inviteMessage";
  * The note that goes to a real person. It is the one thing this application
  * produces that leaves it entirely — pasted into a chat, read by somebody who
  * has never seen the site — so the parts that are load-bearing are asserted:
- * the address they must sign in with, the link, and what they can open.
+ * the address they must sign in with, the two links, and what they can open.
+ *
+ * The TONE is not asserted, and deliberately. "Informal" is a judgement, and a
+ * test that pinned a phrase would fail the next time the phrasing improved while
+ * proving nothing about whether it reads well.
  */
 
 const base = {
@@ -35,31 +39,51 @@ describe("the invitation message", () => {
     expect(inviteMessage(base)).toContain("https://podcast-factory.safinaverse.com");
   });
 
+  it("points them at the About page, built from the same base address", () => {
+    // Not a second hardcoded host. The About page is behind the sign-in, which
+    // is why the sentence around it says "once you're in" — the gate carries the
+    // destination through Google and returns them there.
+    expect(inviteMessage(base)).toContain("https://podcast-factory.safinaverse.com/about");
+  });
+
+  it("does not produce a double slash when the site address has a trailing one", () => {
+    const msg = inviteMessage({ ...base, siteUrl: "https://example.com/" });
+    expect(msg).toContain("https://example.com/about");
+    expect(msg).not.toContain("example.com//about");
+  });
+
   it("takes the site address from its caller rather than hardcoding one", () => {
     const local = inviteMessage({ ...base, siteUrl: "http://localhost:5273" });
     expect(local).toContain("http://localhost:5273");
+    expect(local).toContain("http://localhost:5273/about");
     expect(local).not.toContain("safinaverse");
   });
 
   it("says what one book is", () => {
-    expect(inviteMessage(base)).toContain("You can open: Degrees of Excellence");
+    expect(inviteMessage(base)).toContain("You've got: Degrees of Excellence");
   });
 
   it("joins two books with 'and', and three with commas", () => {
-    expect(inviteMessage({ ...base, books: ["A", "B"] })).toContain("You can open: A and B");
-    expect(inviteMessage({ ...base, books: ["A", "B", "C"] })).toContain("You can open: A, B and C");
+    expect(inviteMessage({ ...base, books: ["A", "B"] })).toContain("You've got: A and B");
+    expect(inviteMessage({ ...base, books: ["A", "B", "C"] })).toContain("You've got: A, B and C");
   });
 
   it("says 'everything' rather than listing twenty-one titles", () => {
     const msg = inviteMessage({ ...base, books: ["A", "B"], wholeLibrary: true });
-    expect(msg).toContain("You can open: everything in the library");
+    expect(msg).toContain("You've got: everything in the library");
     expect(msg).not.toContain("A and B");
   });
 
   it("omits the line entirely when they hold nothing yet", () => {
-    // Rather than printing "You can open:" with nothing after it, which reads as
-    // a fault where the truthful state is that the books come next.
-    expect(inviteMessage({ ...base, books: [] })).not.toContain("You can open:");
+    // Rather than printing "You've got:" with nothing after it, which reads as a
+    // fault where the truthful state is that the books come next. This is the
+    // case that matters most now: Generate message is offered for anybody
+    // selected, including somebody invited a moment ago who holds nothing.
+    const msg = inviteMessage({ ...base, books: [] });
+    expect(msg).not.toContain("You've got:");
+    // Everything else still has to be there — this is a message worth sending.
+    expect(msg).toContain("mariampalejwala07@gmail.com");
+    expect(msg).toContain("https://podcast-factory.safinaverse.com/about");
   });
 
   it("falls back to the address when no name was recorded", () => {
@@ -74,5 +98,13 @@ describe("the invitation message", () => {
     // them.
     const msg = inviteMessage(base);
     expect(msg).not.toMatch(/[<>]|\*\*|\[.+\]\(/);
+  });
+
+  it("is not hard-wrapped — the receiving app wraps it", () => {
+    // Wrapping at a fixed column looked tidy in the desktop textarea and wrapped
+    // a second time on a phone, leaving orphans like "work." alone on a line.
+    // Paragraphs are single lines; blank lines are the only structure.
+    const paragraphs = inviteMessage(base).split("\n").filter((l) => l.trim() !== "");
+    expect(paragraphs.some((l) => l.length > 90)).toBe(true);
   });
 });

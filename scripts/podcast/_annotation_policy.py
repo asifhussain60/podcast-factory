@@ -24,7 +24,7 @@ name entirely.
 
 THE SHAPE. Each glossary entry may carry two new fields:
 
-    annotation_class:    teach | familiar | name | silent
+    annotation_class:    teach | familiar | name | silent | work_title
     english_equivalent:  the recognized English form, when one exists
 
 The CLASSIFICATION is a judgment call, so it is made by a model — ONCE per book —
@@ -47,6 +47,13 @@ What each class means downstream (enforced in `_book_inline_arabic`):
     name       first use in the book gets the script appended, once. The
                romanisation stays — it is how an English reader says the name.
     silent     no annotation, ever.
+    work_title a book the text CITES. Never annotated — and where the prose
+               already glosses it in English, `_book_work_titles` prints that
+               English alone: `Ihya al-Ulum ad-Din (Revival of the Knowledge of
+               the Path to God)` becomes `Revival of the Knowledge of the Path to
+               God`. Its own class rather than `silent` because silence would
+               only stop the script being added and still leave the reader two
+               names for one book, the unreadable one first (Asif, 2026-08-05).
     (absent)   legacy behaviour — first use per chapter — so books that predate
                the policy compose exactly as before until they are classified.
 """
@@ -62,7 +69,7 @@ from typing import Any, Callable
 import yaml
 from _glossary_io import load_glossary, save_glossary
 
-ANNOTATION_CLASSES = ("teach", "familiar", "name", "silent")
+ANNOTATION_CLASSES = ("teach", "familiar", "name", "silent", "work_title")
 _CLASS_FIELD = "annotation_class"
 _EQUIV_FIELD = "english_equivalent"
 _REASON_FIELD = "annotation_reason"
@@ -135,6 +142,11 @@ of this material:
   silent    An annotation would not help the reader at all (grammatical fragments,
             phrases that are translated in running prose anyway, terms too minor to
             introduce formally).
+  work_title The title of a BOOK the text cites — the author's other works, or any
+            work named in passing. Never annotated, and where the prose already
+            gives an English translation beside it the edition prints only that
+            translation. Use this for every cited work, never `name`: a book is
+            not a person whose romanisation is how a reader says them.
 
 Rules:
 - Judge by what helps a reader with no Arabic. When in doubt between teach and silent,
@@ -151,7 +163,7 @@ of its first appearance, and how often it occurs in the book.
 {json.dumps(rows, ensure_ascii=False, indent=1)}
 
 OUTPUT: a JSON array only, no prose, one object per term:
-  {{"phonetic": "...", "class": "teach|familiar|name|silent",
+  {{"phonetic": "...", "class": "teach|familiar|name|silent|work_title",
     "english_equivalent": "...", "reason": "<one short sentence>"}}"""
 
 

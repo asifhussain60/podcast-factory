@@ -81,6 +81,25 @@ check("a book link redirects so the recipient can sign in", (await get("/book/ay
 check("admin redirects too", (await get("/admin")).status, 302);
 check("sign-in is reachable", (await get("/sign-in")).status, 200);
 
+// The About page is GATED, which is a decision rather than an oversight: the
+// library is private, and a page describing what it holds and how it works is
+// part of what is private. It reads like a page that ought to be public, so this
+// is here to make moving it a thing that fails rather than a thing that happens.
+check("the About page redirects, it is not public", (await get("/about")).status, 302);
+
+// The same request against the single-fetch endpoint, with the `_routes` filter
+// that skips parent LOADERS — the bypass the gates are middleware to survive.
+// Asserted on the BODY, not the status: a redirect out of a `.data` request is
+// answered 202 with a redirect payload rather than a 302, so a status check here
+// would have been comparing the wrong thing and passing on a served page.
+const aboutData = await get("/about.data?_routes=routes%2Fabout");
+const aboutBody = await aboutData.text();
+check("its data endpoint hands back a redirect, not the page", aboutBody.includes("SingleFetchRedirect"), true);
+check("aimed at sign-in", aboutBody.includes("/sign-in"), true);
+// Control: something only the rendered page carries, so the two checks above
+// cannot both pass on an empty response.
+check("and none of the page's own content", aboutBody.includes("What’s new"), false);
+
 console.log("\nunmatched path (middleware never runs here)");
 check("renders a 404 rather than throwing 500", (await get("/nonexistent")).status, 404);
 check("still 404 with a session", (await get("/nonexistent", admin)).status, 404);

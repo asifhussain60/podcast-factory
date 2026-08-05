@@ -40,6 +40,15 @@ export default [
   // Everything else. Pathless, so it adds a gate without adding a URL segment.
   layout("routes/_authed.tsx", [
     index("routes/home.tsx"),
+
+    // What the site does, for the people invited to it. INSIDE the gate like
+    // everything else: it is offered from the masthead of every signed-in page,
+    // and the invitation message links to it, which the gate handles by carrying
+    // the destination in `?next=` and returning here after sign-in. It reads
+    // nothing from the database, so it names no book and needs no access rule of
+    // its own beyond this position.
+    route("about", "routes/about.tsx"),
+
     route("book/:slug", "routes/book.$slug.tsx"),
     route("book/:slug/read/:chapter", "routes/book.$slug.read.$chapter.tsx"),
     route("book/:slug/slides", "routes/book.$slug.slides.tsx"),

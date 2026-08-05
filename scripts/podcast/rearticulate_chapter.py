@@ -19,7 +19,10 @@ of the `##` heading), NEVER by printed chapter number — the introduction is an
 unnumbered `##` section, so "chapter 3" is section 4 and trusting numbers
 rewrites the wrong chapter. The result is recorded into
 `_system/composer-edits.json` via `record_edit`, exactly like a human Composer
-save: it survives re-compose and marks the chapter as authored.
+save: it survives re-compose and marks the chapter as authored. The pass report
+is re-stamped in the same breath (`_book_pass_reports.record_rearticulation`),
+because a report that still calls the new prose un-articulated would keep the
+Composer warning about a chapter this tool has just fixed.
 
 Progress is written to `_system/rearticulate-status.json` (state: running |
 done | error) so the Astro endpoint can poll a detached run.
@@ -42,6 +45,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _authoring._core import _run_claude_p_with_retry
 from _book_edits import anchor_key, base_fingerprint_for, record_edit
+from _book_pass_reports import record_rearticulation
 from _book_voice import _CHAPTER_HEADING_RE, _run_pass
 from _book_voice_prompts import _articulation_prompt
 from _paths import resolve_content
@@ -162,6 +166,12 @@ def rearticulate(book_dir: Path, chapter_key: str, *, adapter=None, log=print) -
             base_fingerprint=base_fingerprint_for(book_dir, chapter_key),
             saved_at=datetime.now(timezone.utc).isoformat(),
         )
+        # The pass report still describes the PREVIOUS state of this chapter —
+        # for the chapter that needed this tool, "adapted-then-overwritten".
+        # Leaving it there means the Composer goes on warning that articulated
+        # prose is un-articulated, so the run would fix the book and not the
+        # thing the reader is looking at.
+        record_rearticulation(book_dir, heading, str(record.get("status")), log=log)
 
     result = {
         "chapter_key": chapter_key,

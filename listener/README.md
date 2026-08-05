@@ -179,7 +179,12 @@ not, by itself, let you see anything.
 protected because of where it sits, never because code compared a pathname.
 `compilePath` matches case-insensitively, so `/Admin/people` defeats any
 `startsWith("/admin")` check. `test/routes.test.ts` fails if a route is added
-outside the gate.
+outside the gate — and, for the pages that only LOOK public, if one is moved
+out of it. `/about` is the case that pressure applies to: it describes the site
+rather than naming any book, so it reads like something anyone should be able to
+open, and it is deliberately behind the gate because the library is private and
+so is a page enumerating how it works. The invitation message links to it, which
+works because the gate carries the destination through sign-in in `?next=`.
 
 Four layers:
 
@@ -261,6 +266,21 @@ domain is already attached — it was attached through the ACCOUNT-level
 `workers/domains` endpoint, which the same token is allowed to call. Check the
 `Uploaded podcast-listener` line, not the exit code. See
 `infra/cloudflare/README.md` §7.
+
+**The deploy says when the About page has fallen behind.** `/about` is the one
+page that tells readers what the site does, and it goes stale the way
+documentation always does — silently, because nothing depends on it. The "What's
+new" step in `scripts/podcast/deploy_listener.sh` compares two commit dates: the
+last change to `app/lib/about.ts` and the last change to anything else under
+`app/`. If the app is newer it names the gap and says how to look at it. Git is
+the comparison, not a date written into the file — a hand-kept "updated" field is
+a second copy of something the repository already holds exactly, and the copy is
+the one that goes wrong. **It warns and continues, never blocks**:
+`publish_to_library.py` runs the same script at the end of every book publish, so
+a gate here would let a stale help page refuse to publish a finished book.
+Release notes are WRITTEN, in `RELEASES` in that file — generating them from
+commit messages would publish "test(listener): pin that the Access link is
+offered to the administrator" to readers.
 
 **Probing production from a script does not work.** Bot Fight Mode on the zone
 answers non-browser requests with a managed challenge, so `curl` gets a 403. To

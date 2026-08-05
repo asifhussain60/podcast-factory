@@ -574,7 +574,16 @@ export function renderMarkdown(
         // Flush FIRST, then move the marker: on `begin` that closes whatever
         // preceded the span, and on `end` it emits the aside's own blockquote
         // while the kind is still open — which is what carries the class.
-        if (!opts.keepMachineFences) flushAll();
+        //
+        // Unconditional since 2026-08-05. It used to be skipped under
+        // `keepMachineFences`, which is the EDIT seed — so there the marker was
+        // cleared first and the flush at the bottom of this branch emitted the
+        // note with no class at all. Read mode drew a plain blockquote and Edit
+        // drew a plain blockquote between two grey marker strips, which is the
+        // shape Asif reported. The flush is safe here either way: a marker line
+        // is never itself prose, so closing the buffer at it cannot join two
+        // paragraphs that belong apart.
+        flushAll();
         openFence = fence[2] === "begin" ? fence[1] : null;
       }
       if (!opts.keepMachineFences && fence) {

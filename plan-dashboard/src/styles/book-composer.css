@@ -1345,6 +1345,58 @@ body:has(.composer-grid) .to-top {
   margin: 0.8rem 0;
 }
 
+/* ── Editorial asides — a panel, not a blockquote ─────────────────────────────
+   `markdown.ts` has always tagged these `blockquote.aside.editorial` (also
+   `.bridge`, `.study-summary`), and until 2026-08-05 NOTHING on the site styled
+   the class: the only rule that named `.aside` used it to EXCLUDE these from the
+   scripture treatment. So a contextual note the pipeline wrote drew as an
+   ordinary quotation — indistinguishable from the book's own words, which for an
+   apparatus note is the one thing it must not look like.
+
+   The panel already existed in book-print.css, keyed off a DIFFERENT class name
+   (`.study-note`, emitted by the PDF's own renderer) and behind a `selfStudy`
+   flag that defaults off. Same measurements here, so screen and print draw one
+   thing; `.study-note` is listed alongside so the two class names can converge
+   rather than being restated a third time.
+
+   `--c-*` tokens only, no new colour: the panel reads as a panel through its
+   sunken ground and accent edge, which is exactly how the print side does it. */
+.cx-body blockquote.aside,
+.cx-prose blockquote.aside,
+.cx-body .study-note,
+.cx-body .study-summary {
+  border-left: 3px solid var(--c-accent, #8b4513);
+  border-radius: 0 6px 6px 0;
+  background: var(--c-bg-sunken, #f3efe7);
+  padding: 0.85rem 1.1rem;
+  margin: 1.2rem 0;
+  font-style: normal;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-body blockquote.aside > p:last-child,
+.cx-prose blockquote.aside > p:last-child {
+  margin-bottom: 0;
+}
+
+/* The fence markers, in EDIT mode only. They are load-bearing — `preserveFences`
+   reads them back to restore the HTML-comment form, so a save without them
+   strips the fence off the note — but they were drawing as two grey monospace
+   strips wrapped around the panel. Reduced to a small caption on the opening
+   marker and hidden on the closing one: the document still holds both nodes, and
+   nothing here can reach book.md (docToMarkdown serialises from the node tree,
+   never from CSS). */
+.cx-prose .md-comment {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted, #8a8272);
+  background: none;
+  padding: 0;
+  margin: 1.2rem 0 -0.9rem;
+  opacity: 1;
+}
+
 /* ── Arabic quotations INSIDE the editor ──────────────────────────────────────
    The seed HTML carries class="quran"/"ar"/"tr"; the QuotationClasses extension
    in book-md-editor.ts is what keeps them alive through ProseMirror's parse. The

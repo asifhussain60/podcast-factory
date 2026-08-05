@@ -318,27 +318,22 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     return () => observer.disconnect();
   }, [passages, paints]);
 
-  /* ---- Open on arrival, for the account the Companion belongs to ---------
-     The panel is not something to go and get: it is part of how this reader
-     reads, so it is already there when the chapter opens, and again on the next
-     chapter. Closing it closes it for that chapter, which is what a close button
-     has to mean.
+  /* ---- Collapsed by default; a reader's own open stays open ---------------
+     REVERSES the prior rule (Asif, 2026-08-05): the panel used to force itself
+     open on arrival and again on every chapter change, on the reasoning that a
+     companion note is "part of how this reader reads" rather than something to
+     go and get. In practice that meant the drawer re-opened out from under a
+     reader who had just closed it, the moment they turned the page.
 
-     Only where it can stand BESIDE the text. Below that width the drawer covers
-     the page and dims it, so opening it automatically would land the reader on a
-     chapter they cannot read until they dismiss something — and the tab is right
-     there. `matchMedia` rather than a width comparison so the same number lives
-     in one place, the stylesheet, with the rule it drives.
-
-     It runs after hydration rather than in the initial state because the server
-     does not know the viewport. The panel arrives a frame after the text, which
-     on a wide screen reads as it sliding in, and on a phone never happens.     */
-  useEffect(() => {
-    if (!isCompanion) return;
-    if (!window.matchMedia(DOCKED_AT).matches) return;
-    setNotesOpen(true);
-    setContentsOpen(false);
-  }, [isCompanion, chapter.anchorKey]);
+     There is deliberately no effect here now. `notesOpen` already initialises
+     to `false` (its `useState` above), and this route component is NOT
+     remounted between chapters — `$chapter` is a param on the same route, not
+     a new one — so a plain `useState` already does exactly what was asked:
+     collapsed until opened, and once opened, open through the next chapter
+     too, because nothing resets it. Explicit user actions still open it
+     (tapping a companion mark, the panel's own edge tab) and still close it
+     (its own close control) — those are unchanged; only the automatic
+     open-on-arrival is gone. */
 
   // Tapping an explained sentence opens its card. A tap that lands inside the
   // reader's OWN highlight is theirs — the selection bar answers it — because a
@@ -799,16 +794,6 @@ function Elsewhere({
     </nav>
   );
 }
-
-/**
- * The width at which the Companion stands beside the text instead of over it.
- *
- * The same 64rem the stylesheet uses, and it has to be: above it the panel is
- * docked and the page lays out around it, below it it is a drawer that covers
- * what it opens over. Written as the media query rather than as a number so the
- * two are one sentence in two files.
- */
-const DOCKED_AT = "(min-width: 64rem)";
 
 /** Whether two id lists are the same, in the same order. Same purpose as below. */
 function sameList(a: string[], b: string[]): boolean {
