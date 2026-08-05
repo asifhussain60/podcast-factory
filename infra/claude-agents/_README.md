@@ -12,7 +12,7 @@ stay byte-identical (verify with `cmp`).
 
 ---
 
-## Agent registry (23 agents)
+## Agent registry (22 agents)
 
 Alphabetical. Each row has one canonical spec in this directory plus a byte-identical
 `.github/agents/<name>.agent.md` mirror.
@@ -22,7 +22,6 @@ Alphabetical. Each row has one canonical spec in this directory plus a byte-iden
 | `book-challenger` | Semantic-fidelity challenger for the reading-edition PDF (augmented companion + articulated translation editions) |
 | `book-publisher` | Physical delivery — copies a book's audio (m4a) + reading-edition PDF to a target folder (default: Google Drive) |
 | `book-render-challenger` | Print-render challenger for the rendered reading-edition PDF (blank pages, split figures, watermark, page fill) |
-| `docs-updater` | Regenerates the single architecture view at `docs/architecture/index.html` from current repo truth (idempotent) |
 | `html-view-challenger` | Conformance validator for HTML views against the Cortex quality standard (STATIC, source-level) |
 | `noise-auditor` | Cross-surface detector for authorial-apparatus noise (circulation/provenance/colophon) the denoise step never strips; identify-only |
 | `podcast-blueprint` | Content-aware episode-structure planner (genre classification → episode plan) |
@@ -42,7 +41,7 @@ Alphabetical. Each row has one canonical spec in this directory plus a byte-iden
 | `slide-deck-challenger` | Visual quality validator for slide-deck bundles |
 | `vacuum` | Post-production filesystem cleanup and file normalization |
 
-**Deprecated (no spec file):** `podcast-auditor` — retired 2026-06-02; use `repo-surgeon --scope podcast` instead.
+**Deprecated (no spec file):** `podcast-auditor` — retired 2026-06-02; use `repo-surgeon --scope podcast` instead. `docs-updater` — spec + all three mirrors deleted 2026-08-05 (was declared retired in `framework.md` back on 2026-05-28, but the files themselves were never removed until this audit caught it); its target, `docs/architecture/index.html`, has been gone since that same date.
 
 ---
 
