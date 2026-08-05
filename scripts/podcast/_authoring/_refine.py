@@ -193,6 +193,11 @@ def build_phase_0b_window_prompt(
         f"  diacritics. Never drop one, never romanize one away, never re-vowel one, and\n"
         f"  never merge a verse number into the verse beside it. If a sentence around the\n"
         f"  Arabic is rewritten, the Arabic inside it still comes through untouched.\n"
+        # The one span that still slipped after the rule above: the source read
+        # `substance (⟪ar:مواد⟫)` and the pass replaced the script with `mawadd`.
+        # The marker is content, not an instruction to transliterate.
+        f"  This includes runs inside `⟪ar:…⟫` markers: keep the marker AND the script\n"
+        f"  exactly as written. It is not an annotation asking you to romanize the word.\n"
         f"- Preserve every citation (verse references, hadith collection numbers).\n"
         f"- Preserve every `<!-- page N -->` HTML comment verbatim and in-place (see invariant above).\n"
         f"- Do NOT wrap output in code fences or add preamble like 'Here is the refined text:'.\n\n"
