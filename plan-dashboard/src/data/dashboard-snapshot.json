@@ -1922,6 +1922,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "b6b9bd2",
+      "subject": "chore(plan-dashboard): drop docs-updater from the agent snapshot",
+      "date": "2026-08-05"
+    },
+    {
       "sha": "db523e8",
       "subject": "chore(agents): retire docs-updater, dead since 2026-05-28",
       "date": "2026-08-05"
@@ -1964,11 +1969,6 @@
     {
       "sha": "186d936",
       "subject": "docs: document the deploy_listener.sh branch-sweep and main-sync default",
-      "date": "2026-08-05"
-    },
-    {
-      "sha": "1ea8e2b",
-      "subject": "feat(deploy): sweep stray branches into develop, sync main, before every deploy",
       "date": "2026-08-05"
     }
   ],
