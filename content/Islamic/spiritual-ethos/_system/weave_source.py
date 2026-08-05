@@ -344,22 +344,32 @@ def main() -> int:
     prov = json.loads(PROVENANCE.read_text()) if PROVENANCE.exists() and not args.force else {}
     prov.setdefault("chapters", {})
 
-    out = [header, ""]
+    # Bodies are held here and flushed to disk after EVERY chapter, not once at
+    # the end. The first run wrote only on completion, was interrupted during
+    # chapter three, and lost chapter two entirely along with it -- an hour of
+    # finished work that existed only in memory. A chapter costs ~20 minutes;
+    # losing one is a nuisance, losing all of them is not.
+    bodies = {i: body for i, (_, body) in enumerate(chapters, 1)}
+
+    def flush() -> None:
+        out = [header, ""]
+        for i, (title, _) in enumerate(chapters, 1):
+            out.extend([f"## {title}", "", bodies[i], ""])
+        SOURCE.write_text("\n".join(out).rstrip() + "\n", encoding="utf-8")
+        prov["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        prov["contract"] = "weave inline, no duplicate content; attribution kept here, not on the page"
+        PROVENANCE.write_text(json.dumps(prov, indent=2) + "\n", encoding="utf-8")
+
     for i, (title, body) in enumerate(chapters, 1):
-        if i in wanted:
-            log(f"  chapter {i}: {title}")
-            body, record = weave_chapter(i, title, body, sess, log)
-            prov["chapters"][str(i)] = record
-        out.append(f"## {title}")
-        out.append("")
-        out.append(body)
-        out.append("")
+        if i not in wanted:
+            continue
+        log(f"  chapter {i}: {title}")
+        bodies[i], record = weave_chapter(i, title, body, sess, log)
+        prov["chapters"][str(i)] = record
+        flush()
+        log(f"      saved — chapter {i} is on disk")
 
-    SOURCE.write_text("\n".join(out).rstrip() + "\n", encoding="utf-8")
-    prov["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    prov["contract"] = "weave inline, no duplicate content; attribution kept here, not on the page"
-    PROVENANCE.write_text(json.dumps(prov, indent=2) + "\n", encoding="utf-8")
-
+    flush()
     log(f"\nwrote {SOURCE.relative_to(REPO)}")
     for i, rec in sorted(prov["chapters"].items(), key=lambda kv: int(kv[0])):
         log(f"  ch{i}: {rec['base_words']:,} -> {rec['woven_words']:,} words  ({rec['status']})")
