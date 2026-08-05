@@ -2791,7 +2791,8 @@
      that margin is added to the gap, so the first panel of each column sat lower
      than the other's and the two tops did not line up. */
   .pf-admin-aside > .pf-panel,
-  .pf-admin-main > .pf-panel {
+  .pf-admin-main > .pf-panel,
+  .pf-admin-detail > .pf-panel {
     margin-top: 0;
   }
 
