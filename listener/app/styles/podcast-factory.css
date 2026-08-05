@@ -412,6 +412,27 @@
   --l-warn: #8a5712;
   --l-danger: #a52d2d;
 
+  /* ---- Topic hues -------------------------------------------------------
+     Six colours that tell the parts of the About page apart.
+
+     Declared per palette rather than mixed off the accent, for the same reason
+     the four highlights above are: a set of colours has to stay DISTINGUISHABLE
+     from each other AND legible on paper, on sepia and on near-black, and one
+     mix off a single accent cannot do that — it gives six tints of one hue,
+     which is the blandness this was added to fix.
+
+     Each is used two ways: as the glyph inside a topic's medallion, and as the
+     small count beneath it. The count is words on the card surface, so every one
+     is held to the body floor of 4.5:1 there by test/theme.test.ts — not to the
+     3:1 a shape would allow. The medallion's fill is a 12% mix of the hue into
+     the surface, made in CSS, and the glyph clears 4.4:1 even on that. */
+  --l-topic-coral: #c02f3b;   /* 5.57:1 on surface */
+  --l-topic-cyan: #0a6a82;    /* 6.09:1 */
+  --l-topic-violet: #6a34a6;  /* 7.79:1 */
+  --l-topic-green: #1f7a4d;   /* 5.23:1 */
+  --l-topic-amber: #8a5712;   /* 5.99:1 */
+  --l-topic-blue: #0d51c9;    /* 6.80:1 */
+
   /* The reader's four highlight colours.
      Declared per palette rather than color-mixed off the accent like every other
      tint in this file, and that exception is deliberate: a highlight has to stay
@@ -468,6 +489,15 @@
   --l-warn: #d6a44b;
   --l-danger: #e57b74;
 
+  /* Topic hues — see the light palette for what they are and why they are
+     declared rather than mixed. Lifted for a near-black surface. */
+  --l-topic-coral: #ff8f97;   /* 7.56:1 on surface */
+  --l-topic-cyan: #5ad0e8;    /* 9.13:1 */
+  --l-topic-violet: #c9a8f7;  /* 8.19:1 */
+  --l-topic-green: #63d69b;   /* 9.13:1 */
+  --l-topic-amber: #e6b465;   /* 8.70:1 */
+  --l-topic-blue: #7aadff;    /* 7.26:1 */
+
   /* The same four hues, inverted rather than dimmed. A pale highlight on a dark
      page is a lamp, not a mark: it would out-shine the text it sits under and
      the ink would have to flip to dark, so a marked sentence would read as a
@@ -513,6 +543,14 @@
   --l-ok: #3d7b53;
   --l-warn: #8b5d14;
   --l-danger: #9b3731;
+
+  /* Topic hues — see the light palette. Warmed and darkened for paper. */
+  --l-topic-coral: #a93039;   /* 5.94:1 on surface */
+  --l-topic-cyan: #0b6076;    /* 6.39:1 */
+  --l-topic-violet: #5f3199;  /* 7.89:1 */
+  --l-topic-green: #1c6c45;   /* 5.74:1 */
+  --l-topic-amber: #7d4e10;   /* 6.34:1 */
+  --l-topic-blue: #1c5296;    /* 6.98:1 */
 
   /* Warmed towards the paper they sit on. The light theme's values on this
      background read as four stickers laid on parchment. */
@@ -5890,11 +5928,53 @@
      soft tone, so it follows all three themes without a single hardcoded
      colour. */
 
+  /* Paperclip opens on a full-bleed coloured block and so does this. `--l-band`
+     is the navy the library's book cards already wear and every palette declares
+     it with `--l-on-band` / `--l-band-muted` / `--l-band-ornament` beside it,
+     already measured — so the boldest thing on the page introduces no colour the
+     site did not already own. The wash on top is the accent bleeding up from the
+     bottom edge, which is what stops it reading as a flat slab. */
   .pf-about-hero {
+    position: relative;
+    overflow: hidden;
     background:
-      linear-gradient(180deg, var(--l-accent-soft) 0%, transparent 100%),
-      var(--l-surface);
-    border-bottom: 1px solid var(--l-rule-soft);
+      radial-gradient(120% 140% at 50% 100%, color-mix(in oklab, var(--l-accent) 55%, transparent) 0%, transparent 62%),
+      var(--l-band);
+    color: var(--l-on-band);
+  }
+
+  /* Two soft discs behind the words, in the two lead hues. Paperclip carries a
+     photograph here; this library has no photograph to carry and a stock one
+     would be a picture of nothing. Shapes in the page's own colours do the same
+     job — they give the block depth — and cost no request. `aria-hidden` is not
+     needed because they are painted, not marked up. */
+  .pf-about-hero::before,
+  .pf-about-hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(6px);
+  }
+
+  .pf-about-hero::before {
+    inset-block-start: -14%;
+    inset-inline-start: -6%;
+    width: clamp(14rem, 26vw, 26rem);
+    aspect-ratio: 1;
+    background: radial-gradient(circle, color-mix(in oklab, var(--l-topic-cyan) 38%, transparent) 0%, transparent 70%);
+  }
+
+  .pf-about-hero::after {
+    inset-block-end: -22%;
+    inset-inline-end: -8%;
+    width: clamp(16rem, 32vw, 32rem);
+    aspect-ratio: 1;
+    background: radial-gradient(circle, color-mix(in oklab, var(--l-topic-coral) 34%, transparent) 0%, transparent 70%);
+  }
+
+  .pf-about-hero__inner {
+    position: relative;
   }
 
   .pf-about-hero__inner {
@@ -5913,7 +5993,7 @@
     font-weight: 600;
     letter-spacing: var(--pf-tracking-eyebrow);
     text-transform: uppercase;
-    color: var(--l-accent);
+    color: var(--l-band-ornament);
   }
 
   .pf-about-hero__title {
@@ -5926,7 +6006,7 @@
     line-height: 1.08;
     letter-spacing: var(--pf-tracking-tight);
     text-wrap: balance;
-    color: var(--l-ink);
+    color: var(--l-on-band);
   }
 
   .pf-about-hero__lead {
@@ -5936,7 +6016,7 @@
     font-size: clamp(var(--pf-text-md), 0.95rem + 0.4vw, var(--pf-text-lg));
     line-height: 1.6;
     text-wrap: pretty;
-    color: var(--l-muted);
+    color: var(--l-band-muted);
   }
 
   .pf-about-hero__search {
@@ -5959,8 +6039,56 @@
     border-block: 1px solid var(--l-rule-soft);
   }
 
+  /* ---- The hue channel -----------------------------------------------------
+     ONE custom property, set from a `data-hue` attribute and read by everything
+     below it. Six declarations here instead of six copies of every rule that
+     wants a colour — a card, its medallion, its count, a section's heading and
+     that section's left edge all say `var(--topic)` and none of them knows which
+     colour it got. The attribute carries a NAME; the palette owns the value. */
+  /* The default, first, so nothing on this page can read an undefined `--topic`
+     — a `color-mix()` with one is an invalid value, and an invalid value on a
+     border shorthand does not fall back to something sensible, it drops the
+     whole declaration. The dark band carries no topic of its own and is exactly
+     that case. The `[data-hue]` rules below have equal specificity and come
+     after, so a stated hue still wins. */
+  .pf-about-hero,
+  .pf-about-band,
+  .pf-about-card { --topic: var(--l-accent); }
+
+  [data-hue="coral"] { --topic: var(--l-topic-coral); }
+  [data-hue="cyan"] { --topic: var(--l-topic-cyan); }
+  [data-hue="violet"] { --topic: var(--l-topic-violet); }
+  [data-hue="green"] { --topic: var(--l-topic-green); }
+  [data-hue="amber"] { --topic: var(--l-topic-amber); }
+  [data-hue="blue"] { --topic: var(--l-topic-blue); }
+
+  /* The dark band, mid-page. Paperclip's `section_inverse`: a run of pale
+     sections needs one that is not, or the page reads as a single long sheet —
+     which is most of what "bland" meant here. */
+  .pf-about-band--inverse {
+    background: var(--l-band);
+    color: var(--l-on-band);
+    border-block: 1px solid var(--l-band);
+  }
+
+  .pf-about-band--inverse .pf-about-lede__title {
+    color: var(--l-on-band);
+  }
+
+  .pf-about-band--inverse .pf-about-lede__title svg {
+    color: var(--l-band-ornament);
+  }
+
+  .pf-about-band--inverse .pf-about-lede__blurb {
+    color: var(--l-band-muted);
+  }
+
+  /* Paperclip closes on a call to action that is not the same colour as the page
+     above it. This one is the accent at low strength — enough to read as a
+     deliberate ending rather than as the page running out. */
   .pf-about-band--close {
-    background: var(--l-sunken);
+    background:
+      linear-gradient(180deg, color-mix(in oklab, var(--l-accent) 12%, var(--l-bg)) 0%, var(--l-bg) 100%);
     border-top: 1px solid var(--l-rule-soft);
   }
 
@@ -5982,6 +6110,7 @@
   }
 
   .pf-about-card {
+    position: relative;
     display: flex;
     align-items: flex-start;
     gap: var(--pf-space-4);
@@ -5992,41 +6121,74 @@
     background: var(--l-surface);
     box-shadow: var(--pf-elev-1);
     cursor: pointer;
+    overflow: hidden;
     transition:
       border-color var(--pf-motion),
       box-shadow var(--pf-motion),
       transform var(--pf-motion);
   }
 
+  /* A bar of the topic's own colour along the top edge, drawn short and growing
+     to the full width when the card is chosen. It is what makes a grid of seven
+     cards read as seven different things rather than as seven grey boxes. */
+  .pf-about-card::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    width: 3.5rem;
+    height: 3px;
+    background: var(--topic);
+    transition: width var(--pf-motion);
+  }
+
   .pf-about-card:hover {
-    border-color: var(--l-accent);
+    border-color: var(--topic);
     box-shadow: var(--pf-elev-3);
     transform: translateY(-2px);
   }
 
+  .pf-about-card:hover::before,
+  .pf-about-card[aria-pressed="true"]::before {
+    width: 100%;
+  }
+
   .pf-about-card[aria-pressed="true"] {
-    border-color: var(--l-accent);
+    border-color: var(--topic);
     box-shadow: var(--pf-elev-2);
   }
 
   /* The icon in a tile rather than loose beside the words. It is what makes a
      row of cards scannable at a glance, which is the whole reason they are cards
      and not a list. */
+  /* A CIRCLE, which is Paperclip's `home-app-feature__icon` — 50px, fully
+     rounded, a hairline ring. The fill is a 12% mix of the topic's colour into
+     the card, so the six read as a family rather than as six unrelated blocks of
+     paint, and the glyph still clears 4.4:1 on it in every theme. */
   .pf-about-card__tile {
     display: grid;
     place-items: center;
     flex: none;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: var(--pf-radius-lg);
-    background: var(--l-accent-soft);
-    color: var(--l-accent);
+    width: 3.125rem;
+    height: 3.125rem;
+    border-radius: 50%;
+    border: 1px solid color-mix(in oklab, var(--topic) 30%, transparent);
+    background: color-mix(in oklab, var(--topic) 12%, var(--l-surface));
+    color: var(--topic);
     font-size: var(--pf-text-md);
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion);
   }
 
   .pf-about-card[aria-pressed="true"] .pf-about-card__tile {
-    background: var(--l-accent);
-    color: var(--l-on-accent);
+    background: var(--topic);
+    border-color: var(--topic);
+    /* The page background, not `--l-on-accent`: that pair is measured against
+       the accent and these are six other colours. Every theme's page colour is
+       at the far end of the range from every topic hue — which is exactly what
+       the 4.5:1 floor on `hue vs surface` guarantees. */
+    color: var(--l-bg);
   }
 
   .pf-about-card__body {
@@ -6053,14 +6215,17 @@
     color: var(--l-muted);
   }
 
+  /* Coloured, like Paperclip's price under a plan title. It is the smallest
+     type on the card and the one place a second touch of the hue lands without
+     competing with the words. */
   .pf-about-card__meta {
     margin-top: var(--pf-space-1);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: var(--pf-tracking-eyebrow);
     text-transform: uppercase;
-    color: var(--l-faint);
+    color: var(--topic);
   }
 
   /* What the search or the chosen category did, and the way back out. */
@@ -6094,12 +6259,19 @@
     align-items: center;
     gap: var(--pf-space-3);
     margin: 0;
+    /* The icon alone carries the colour; the words stay ink. A whole heading in
+       a topic hue would be six differently coloured headings down one page,
+       which is decoration rather than a system. */
     font-family: var(--l-font-display);
     font-size: clamp(var(--pf-text-xl), 1.1rem + 1vw, 2rem);
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: var(--pf-tracking-tight);
     color: var(--l-ink);
+  }
+
+  .pf-about-lede__title svg {
+    color: var(--topic);
   }
 
   .pf-about-lede__blurb {
@@ -6126,19 +6298,27 @@
 
   .pf-about-entry {
     border: 1px solid var(--l-rule-soft);
+    /* A left edge in the section's colour, so an open answer is visibly part of
+       the topic above it rather than a loose grey card. 3px because 1px of a
+       saturated colour reads as a rendering artefact at this size. */
+    border-left: 3px solid color-mix(in oklab, var(--topic) 35%, transparent);
     border-radius: var(--pf-radius-lg);
     background: var(--l-bg);
     overflow: hidden;
     transition: border-color var(--pf-motion);
   }
 
-  .pf-about-band--tint .pf-about-entry {
-    background: var(--l-bg);
-  }
-
   .pf-about-entry:hover,
   .pf-about-entry[open] {
     border-color: var(--l-rule);
+    border-left-color: var(--topic);
+  }
+
+  /* On the dark band the cards sit on navy, so they take the page colour to
+     stay legible rather than the band's. */
+  .pf-about-band--inverse .pf-about-entry {
+    background: color-mix(in oklab, var(--l-band) 82%, var(--l-bg));
+    border-color: color-mix(in oklab, var(--l-on-band) 18%, transparent);
   }
 
   /* The whole row is the control, so the target is the width of the card rather
@@ -6221,7 +6401,7 @@
     display: grid;
     gap: var(--pf-space-3);
     padding-left: var(--pf-space-5);
-    border-left: 2px solid var(--l-accent-soft);
+    border-left: 2px solid var(--l-band-ornament);
   }
 
   @media (min-width: 48rem) {
@@ -6237,7 +6417,7 @@
     font-weight: 600;
     letter-spacing: var(--pf-tracking-eyebrow);
     text-transform: uppercase;
-    color: var(--l-faint);
+    color: var(--l-band-ornament);
   }
 
   /* The changes themselves flow into as many columns as the band has room for,
@@ -6257,7 +6437,7 @@
     font-size: var(--pf-text-md);
     line-height: 1.65;
     text-wrap: pretty;
-    color: var(--l-ink);
+    color: var(--l-on-band);
   }
 
   /* ---- The closing band ---------------------------------------------------- */

@@ -6,7 +6,7 @@ import { AppShell } from "~/components/AppShell";
 import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
 import { SearchBox } from "~/components/SearchBox";
-import { ALL_SECTIONS, RELEASES, type Entry, type Section } from "~/lib/about";
+import { ALL_SECTIONS, RELEASES, type Entry, type Hue, type Section } from "~/lib/about";
 import { count } from "~/lib/plural";
 import { session } from "~/middleware/session";
 
@@ -112,7 +112,7 @@ export default function About({ loaderData }: Route.ComponentProps) {
           for somebody who already knows what they want to ask. */}
       <section className="pf-about-hero">
         <div className="pf-about-wrap pf-about-hero__inner">
-          <p className="pf-about-hero__eyebrow">Podcast Factory</p>
+          <p className="pf-about-hero__eyebrow">Read it. Hear it. Mark it up.</p>
           <h1 className="pf-about-hero__title">Everything this library can do</h1>
           <p className="pf-about-hero__lead">
             Classical works published twice over — as modern English reading editions, and as
@@ -148,6 +148,7 @@ export default function About({ loaderData }: Route.ComponentProps) {
                 title={s.short ?? s.title}
                 blurb={s.blurb}
                 icon={s.icon}
+                hue={s.hue}
                 meta={count(s.entries.length, "answer")}
                 on={pick === s.id}
                 onPick={() => setPick(pick === s.id ? null : s.id)}
@@ -158,6 +159,7 @@ export default function About({ loaderData }: Route.ComponentProps) {
               title="What’s new"
               blurb="Changes to the site, most recent first."
               icon={faBullhorn}
+              hue="coral"
               meta={count(RELEASES.length, "update")}
               on={pick === WHATS_NEW}
               onPick={() => setPick(pick === WHATS_NEW ? null : WHATS_NEW)}
@@ -196,7 +198,7 @@ export default function About({ loaderData }: Route.ComponentProps) {
         <SectionBand key={s.id} section={s} openAll={searching} tinted={i % 2 === 1} />
       ))}
 
-      {showReleases ? <Releases tinted={shown.length % 2 === 1} /> : null}
+      {showReleases ? <Releases /> : null}
 
       <section className="pf-about-band pf-about-band--close">
         <div className="pf-about-wrap pf-about-close">
@@ -230,6 +232,7 @@ function TopicCard({
   title,
   blurb,
   icon,
+  hue,
   meta,
   on,
   onPick,
@@ -238,6 +241,7 @@ function TopicCard({
   title: string;
   blurb: string;
   icon: Section["icon"];
+  hue: Hue;
   meta: string;
   on: boolean;
   onPick: () => void;
@@ -245,12 +249,16 @@ function TopicCard({
   const said = `${id}-blurb`;
 
   return (
+    // `data-hue`, not a style attribute. The stylesheet matches on it and sets
+    // one custom property; the colour itself never appears in the markup, so a
+    // theme can change what "amber" means without this file knowing.
     <button
       type="button"
       onClick={onPick}
       aria-pressed={on}
       aria-label={title}
       aria-describedby={said}
+      data-hue={hue}
       className="pf-about-card"
     >
       <span className="pf-about-card__tile" aria-hidden="true">
@@ -281,6 +289,7 @@ function SectionBand({
   return (
     <section
       id={section.id}
+      data-hue={section.hue}
       className={`pf-about-band${tinted ? " pf-about-band--tint" : ""}`}
       aria-labelledby={`${section.id}-h`}
     >
@@ -319,13 +328,14 @@ function SectionBand({
 }
 
 /** What has changed lately, newest first. */
-function Releases({ tinted }: { tinted: boolean }) {
+function Releases() {
   return (
-    <section
-      id={WHATS_NEW}
-      className={`pf-about-band${tinted ? " pf-about-band--tint" : ""}`}
-      aria-labelledby="whats-new-h"
-    >
+    // THE INVERSE BAND. Paperclip breaks a run of light sections with one dark
+    // one, and this page had nothing playing that part — seven pale bands in a
+    // row is most of what "bland" meant. It uses `--l-band`, the navy the library
+    // cards already wear, so it is the site's own colour rather than a new one,
+    // and every palette declares it with its foregrounds already measured.
+    <section id={WHATS_NEW} className="pf-about-band pf-about-band--inverse" aria-labelledby="whats-new-h">
       <div className="pf-about-wrap">
         <header className="pf-about-lede">
           <h2 id="whats-new-h" className="pf-about-lede__title">

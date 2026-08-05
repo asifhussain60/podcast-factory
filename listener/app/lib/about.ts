@@ -36,6 +36,9 @@ export interface Entry {
   a: string[];
 }
 
+/** The six declared topic hues. See `--l-topic-*` in the stylesheet. */
+export type Hue = "coral" | "cyan" | "violet" | "green" | "amber" | "blue";
+
 export interface Section {
   /** The anchor, the filter value, and the `details` name group. */
   id: string;
@@ -50,6 +53,15 @@ export interface Section {
    */
   short?: string;
   icon: IconDefinition;
+  /**
+   * Which of the six topic hues this section wears.
+   *
+   * A NAME, not a colour: the value indexes `--l-topic-*`, which every palette
+   * declares and `test/theme.test.ts` holds to the body contrast floor in all
+   * three. A hex here would be one colour for three themes, and the one that is
+   * right on paper is the one that is unreadable on near-black.
+   */
+  hue: Hue;
   /** One line, always visible under the heading — the answer for a skimmer. */
   blurb: string;
   entries: Entry[];
@@ -63,6 +75,7 @@ export const SECTIONS: Section[] = [
   {
     id: "reading",
     title: "Reading",
+    hue: "blue",
     icon: faBookOpen,
     blurb: "Every book is a modern English edition you can set to your own eyes.",
     entries: [
@@ -94,6 +107,7 @@ export const SECTIONS: Section[] = [
   {
     id: "marks",
     title: "Highlights, notes and bookmarks",
+    hue: "amber",
     short: "Highlights",
     icon: faHighlighter,
     blurb: "Mark a passage, write on it, and find it again from any device.",
@@ -138,6 +152,7 @@ export const SECTIONS: Section[] = [
   {
     id: "listening",
     title: "Listening",
+    hue: "violet",
     icon: faHeadphones,
     blurb: "Long-form episodes, with the transcript following along beside them.",
     entries: [
@@ -167,6 +182,7 @@ export const SECTIONS: Section[] = [
   {
     id: "formats",
     title: "Slides and the print edition",
+    hue: "cyan",
     short: "Slides & PDF",
     icon: faImages,
     blurb: "Some books also carry slides, and some a PDF you can keep.",
@@ -190,6 +206,7 @@ export const SECTIONS: Section[] = [
   {
     id: "access",
     title: "Signing in and access",
+    hue: "green",
     short: "Access",
     icon: faKey,
     blurb: "The library is private. You are invited to it by address, book by book.",
@@ -245,6 +262,7 @@ export const SECTIONS: Section[] = [
 export const FAQ: Section = {
   id: "faq",
   title: "Frequently asked",
+  hue: "coral",
   icon: faCircleQuestion,
   blurb: "The things people ask first.",
   entries: [
