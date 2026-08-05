@@ -12,3 +12,7 @@
 {"phase": "weave-source", "step": "ch01-w12", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "weave-source", "step": "ch02-w01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "weave-source", "step": "ch02-w02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "weave-source", "step": "ch02-w03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "weave-source", "step": "ch02-w04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0d", "step": "toc", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "weave-source", "step": "ch02-w05", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
