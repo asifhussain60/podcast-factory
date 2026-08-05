@@ -5983,7 +5983,7 @@
     align-items: center;
     text-align: center;
     gap: var(--pf-space-4);
-    padding-block: clamp(var(--pf-space-6), 7vw, var(--pf-space-9));
+    padding-block: clamp(var(--pf-space-6), 6vw, var(--pf-space-8));
   }
 
   .pf-about-hero__eyebrow {
@@ -6019,10 +6019,44 @@
     color: var(--l-band-muted);
   }
 
-  .pf-about-hero__search {
-    width: 100%;
+  /* ---- The search bar, pinned ----------------------------------------------
+     Directly under the hero and sticky from there, so it is on screen for the
+     whole page rather than for the first screen of it. It carries the page
+     background and a shadow, which is what makes content pass UNDER it rather
+     than appearing to collide with it. */
+
+  .pf-about-find {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: var(--l-bg);
+    border-bottom: 1px solid var(--l-rule-soft);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-about-find__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-3) var(--pf-space-5);
+    padding-block: var(--pf-space-3);
+  }
+
+  /* The field takes the room and stops well short of the full band: a search box
+     1400px wide looks like a text editor.
+
+     `margin-top: 0` is not tidying. `.pf-search` itself carries
+     `margin-top: var(--pf-space-6)` — a LAYOUT decision belonging to the library
+     page, where the box is the only control and is spaced away from the heading
+     above it — and every other user of the class inherits it. Here it made a
+     pinned bar 117px tall to hold a 60px field, with 32px of nothing above it.
+     The admin people header inherits the same margin and does not override it.
+     Zeroed at this one call site rather than lifted off the base class, which
+     would silently reflow the library. */
+  .pf-about-find__inner > .pf-search {
+    flex: 1 1 18rem;
     max-width: 34rem;
-    margin-top: var(--pf-space-3);
+    margin-top: 0;
   }
 
   /* ---- A band --------------------------------------------------------------
@@ -6234,7 +6268,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: var(--pf-space-4);
-    margin: var(--pf-space-5) 0 0;
+    margin: 0;
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-base);
     color: var(--l-muted);
@@ -6283,103 +6317,79 @@
     color: var(--l-muted);
   }
 
-  /* ---- The questions -------------------------------------------------------
-     Two columns on a wide screen and one on a narrow, by the same `auto-fit`
-     rule as the cards. The 26rem floor is chosen so a column never sets a line
-     shorter than is comfortable to read — below that the grid gives up and goes
-     to one column rather than squeezing two. */
+  /* ---- The questions and their answers -------------------------------------
+     COLUMNS, not a grid, and the difference is the whole reason this works.
+
+     These cards used to be collapsed rows of one height, so a grid was fine. Now
+     each carries its answer and they are all different heights — and a grid
+     aligns ROWS, so one four-paragraph card would leave two of its neighbours
+     with a hole beneath them the size of the difference. Multi-column flows the
+     cards into the shortest arrangement instead and packs them tight.
+
+     `break-inside: avoid` is what keeps a card whole: without it a column break
+     lands mid-answer and one paragraph appears under the wrong question, which
+     on a page like this is not a cosmetic fault. `column-width` rather than a
+     count, so the number of columns is the browser's answer to how much room
+     there is — one on a phone, three on a monitor, nothing declaring where. */
 
   .pf-about-qa {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr));
-    gap: var(--pf-space-3);
-    align-items: start;
+    column-width: 24rem;
+    column-gap: var(--pf-space-4);
   }
 
   .pf-about-entry {
+    break-inside: avoid;
+    /* The columns' own vertical rhythm — `gap` does not apply here. */
+    margin-bottom: var(--pf-space-4);
+    padding: var(--pf-space-5);
     border: 1px solid var(--l-rule-soft);
-    /* A left edge in the section's colour, so an open answer is visibly part of
-       the topic above it rather than a loose grey card. 3px because 1px of a
+    /* A left edge in the section's colour, so an answer is visibly part of the
+       topic above it rather than a loose grey card. 3px because 1px of a
        saturated colour reads as a rendering artefact at this size. */
-    border-left: 3px solid color-mix(in oklab, var(--topic) 35%, transparent);
+    border-left: 3px solid var(--topic);
     border-radius: var(--pf-radius-lg);
     background: var(--l-bg);
-    overflow: hidden;
-    transition: border-color var(--pf-motion);
   }
 
-  .pf-about-entry:hover,
-  .pf-about-entry[open] {
-    border-color: var(--l-rule);
-    border-left-color: var(--topic);
-  }
-
-  /* On the dark band the cards sit on navy, so they take the page colour to
-     stay legible rather than the band's. */
+  /* On the dark band the cards sit on navy, so they take a mix of it rather than
+     the page colour, and their rule lifts instead of darkening. */
   .pf-about-band--inverse .pf-about-entry {
     background: color-mix(in oklab, var(--l-band) 82%, var(--l-bg));
     border-color: color-mix(in oklab, var(--l-on-band) 18%, transparent);
   }
 
-  /* The whole row is the control, so the target is the width of the card rather
-     than the width of the words. */
+  /* A heading, not a control. No caret, no pointer, nothing suggesting a press
+     that does nothing — and a real `h3`, so the page has an outline to jump
+     through. */
   .pf-about-entry__q {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--pf-space-4);
-    padding: var(--pf-space-4) var(--pf-space-5);
+    margin: 0 0 var(--pf-space-3);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-md);
-    font-weight: 500;
-    line-height: 1.4;
+    font-weight: 600;
+    line-height: 1.35;
+    text-wrap: balance;
     color: var(--l-ink);
-    cursor: pointer;
-    /* The native marker is replaced below. Both properties are needed: Safari
-       answers only to the pseudo-element, everything else to `list-style`. */
-    list-style: none;
   }
 
-  .pf-about-entry__q::-webkit-details-marker {
-    display: none;
-  }
-
-  /* A caret drawn from two borders — no icon font, no image, and it inherits the
-     text colour in all three themes for nothing. */
-  .pf-about-entry__q::after {
-    content: "";
-    flex: none;
-    width: 0.5rem;
-    height: 0.5rem;
-    margin-right: 0.2rem;
-    border-right: 2px solid var(--l-muted);
-    border-bottom: 2px solid var(--l-muted);
-    transform: rotate(45deg) translate(-0.1rem, -0.1rem);
-    transition: transform var(--pf-motion);
-  }
-
-  .pf-about-entry[open] > .pf-about-entry__q::after {
-    transform: rotate(-135deg) translate(-0.2rem, -0.2rem);
-  }
-
-  .pf-about-entry__a {
-    padding: 0 var(--pf-space-5) var(--pf-space-4);
+  .pf-about-band--inverse .pf-about-entry__q {
+    color: var(--l-on-band);
   }
 
   .pf-about-entry__a p {
-    /* The one place a measure is still stated: this is the prose, and a column
-       of a two-column grid on a monitor is wide enough to need it. */
-    max-width: 60ch;
     margin: 0 0 var(--pf-space-3);
     font-family: var(--l-font-prose);
-    font-size: var(--pf-text-md);
-    line-height: 1.7;
+    font-size: var(--pf-text-base);
+    line-height: 1.65;
     text-wrap: pretty;
-    color: var(--l-ink);
+    color: var(--l-muted);
   }
 
   .pf-about-entry__a p:last-child {
     margin-bottom: 0;
+  }
+
+  .pf-about-band--inverse .pf-about-entry__a p {
+    color: var(--l-band-muted);
   }
 
   /* ---- What's new ----------------------------------------------------------

@@ -120,17 +120,45 @@ export default function About({ loaderData }: Route.ComponentProps) {
             both together.
           </p>
 
-          <div className="pf-about-hero__search">
-            <SearchBox
-              id="about-q"
-              label="Search this page"
-              placeholder="Search this page"
-              size="wide"
-              action={{ kind: "filter", value: query, onChange: search }}
-            />
-          </div>
         </div>
       </section>
+
+      {/* ---- The search, which STAYS -------------------------------------
+          It sat in the hero, which was the right place while every answer was
+          folded away and the page was short. Now that nothing is folded the page
+          is three times as tall, and a search that scrolls out of reach after the
+          first screen is a search you have to travel back to — which is the same
+          complaint as a row you have to press, wearing different clothes.
+
+          Sticky, so it pins to the top the moment the hero passes. One input, not
+          a second copy that shadows the first: there is one field on this page
+          and it is always where you left it. */}
+      <div className="pf-about-find">
+        <div className="pf-about-wrap pf-about-find__inner">
+          <SearchBox
+            id="about-q"
+            label="Search this page"
+            placeholder="Search this page"
+            size="wide"
+            action={{ kind: "filter", value: query, onChange: search }}
+          />
+
+          {searching ? (
+            <p className="pf-about-results" role="status">
+              {hits === 0 ? "Nothing matches" : count(hits, "answer")} for “{query.trim()}”
+            </p>
+          ) : pick === null ? null : (
+            <div className="pf-about-results">
+              <button type="button" onClick={() => setPick(null)} className="pf-backlink">
+                <Icon icon={faArrowLeft} /> Show everything
+              </button>
+              <span className="pf-about-results__what">
+                {picked === null ? "What’s new" : picked.title}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* ---- Browse by topic ---------------------------------------------
           The cards ARE the navigation, and they replaced a row of pills. Same
@@ -165,21 +193,6 @@ export default function About({ loaderData }: Route.ComponentProps) {
               onPick={() => setPick(pick === WHATS_NEW ? null : WHATS_NEW)}
             />
           </div>
-
-          {searching ? (
-            <p className="pf-about-results" role="status">
-              {hits === 0 ? "Nothing matches" : count(hits, "answer")} for “{query.trim()}”
-            </p>
-          ) : pick === null ? null : (
-            <div className="pf-about-results">
-              <button type="button" onClick={() => setPick(null)} className="pf-backlink">
-                <Icon icon={faArrowLeft} /> Show everything
-              </button>
-              <span className="pf-about-results__what">
-                {picked === null ? "What’s new" : picked.title}
-              </span>
-            </div>
-          )}
         </div>
       </section>
 
@@ -195,7 +208,7 @@ export default function About({ loaderData }: Route.ComponentProps) {
       ) : null}
 
       {shown.map((s, i) => (
-        <SectionBand key={s.id} section={s} openAll={searching} tinted={i % 2 === 1} />
+        <SectionBand key={s.id} section={s} tinted={i % 2 === 1} />
       ))}
 
       {showReleases ? <Releases /> : null}
@@ -275,14 +288,12 @@ function TopicCard({
   );
 }
 
-/** One category's questions, as a full-width band. */
+/** One category's questions and their answers, as a full-width band. */
 function SectionBand({
   section,
-  openAll,
   tinted,
 }: {
   section: Section;
-  openAll: boolean;
   /** Alternating surfaces, so a long page reads as parts rather than as a scroll. */
   tinted: boolean;
 }) {
@@ -302,24 +313,32 @@ function SectionBand({
           <p className="pf-about-lede__blurb">{section.blurb}</p>
         </header>
 
+        {/* NOTHING TO OPEN.
+            These were `<details>`, and the objection to them was the right one:
+            on a page whose whole job is answering a question, hiding every answer
+            behind a press taxes the reader once per thing they wanted to know —
+            and worse, it hides the answers from the eye that is SCANNING, which
+            is how somebody who does not yet know what to search for finds
+            anything at all.
+
+            The page got longer and that cost is real. It is paid for by the two
+            controls that were already here and doing little: the search now cuts
+            the page down rather than merely opening rows within it, and the topic
+            cards narrow it to one section.
+
+            The question is a real `<h3>` now rather than a `<summary>`, so the
+            page has a heading outline — which is how a screen reader jumps
+            through it, and something the disclosure version never had. */}
         <div className="pf-about-qa">
           {section.entries.map((entry) => (
-            // `open` is set only while searching, so a match is never hidden
-            // behind a closed row. Clearing the search removes the attribute and
-            // everything collapses — which is right: the reader is back to
-            // skimming. Outside a search the prop never changes, so rows opened
-            // by hand stay open.
-            //
-            // No `name` attribute: that would make these mutually exclusive, and
-            // comparing two answers is most of what a page like this is for.
-            <details key={entry.q} open={openAll || undefined} className="pf-about-entry">
-              <summary className="pf-about-entry__q">{entry.q}</summary>
+            <article key={entry.q} className="pf-about-entry">
+              <h3 className="pf-about-entry__q">{entry.q}</h3>
               <div className="pf-about-entry__a">
                 {entry.a.map((p) => (
                   <p key={p}>{p}</p>
                 ))}
               </div>
-            </details>
+            </article>
           ))}
         </div>
       </div>
