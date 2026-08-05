@@ -1922,6 +1922,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "e782041",
+      "subject": "fix(pipeline): close the three P1/P0 findings from the podcast-pipeline audit",
+      "date": "2026-08-05"
+    },
+    {
       "sha": "34e8e83",
       "subject": "chore(plan-dashboard): regenerate snapshots",
       "date": "2026-08-05"
@@ -1964,11 +1969,6 @@
     {
       "sha": "1bb7f41",
       "subject": "feat(listener): a book's two names in one plate, sized the same for every book",
-      "date": "2026-08-05"
-    },
-    {
-      "sha": "1155d58",
-      "subject": "fix(listener): header nav icon-only, reordered, sized, aligned, touch-target safe",
       "date": "2026-08-05"
     }
   ],
