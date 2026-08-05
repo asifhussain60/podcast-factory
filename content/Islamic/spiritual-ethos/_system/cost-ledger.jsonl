@@ -168,3 +168,9 @@
 {"ts": "2026-08-05T21:20:58Z", "phase": "0b", "step": "win-026", "model": "claude-sonnet-4-6", "input_tokens": 4988, "output_tokens": 3891, "cache_read": 0, "cache_create": 0, "cost_usd": 0.073329, "engine": "api"}
 {"ts": "2026-08-05T21:21:18Z", "phase": "0b", "step": "win-027", "model": "claude-sonnet-4-6", "input_tokens": 4737, "output_tokens": 3674, "cache_read": 0, "cache_create": 0, "cost_usd": 0.069321, "engine": "api"}
 {"ts": "2026-08-05T21:21:18Z", "phase": "0b", "step": "win-028", "model": "claude-sonnet-4-6", "input_tokens": 2719, "output_tokens": 1679, "cache_read": 0, "cache_create": 0, "cost_usd": 0.033342, "engine": "api"}
+{"ts": "2026-08-05T21:26:01Z", "phase": "0d", "step": "toc", "model": "claude-opus-4-8", "input_tokens": 23, "output_tokens": 20312, "cache_read": 1002218, "cache_create": 115882, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-05T21:45:05Z", "phase": "0d", "step": "sc-001", "model": "claude-opus-4-8", "input_tokens": 78, "output_tokens": 79083, "cache_read": 8228679, "cache_create": 232356, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-05T22:21:07Z", "phase": "0d", "step": "sc-002", "model": "claude-opus-4-8", "input_tokens": 271, "output_tokens": 137796, "cache_read": 32129579, "cache_create": 297612, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-05T22:52:28Z", "phase": "0d", "step": "sc-003", "model": "claude-opus-4-8", "input_tokens": 208, "output_tokens": 116119, "cache_read": 23256667, "cache_create": 258231, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-05T23:01:28Z", "phase": "0d", "step": "sc-004", "model": "claude-opus-4-8", "input_tokens": 26, "output_tokens": 33991, "cache_read": 1677351, "cache_create": 127741, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-05T23:19:13Z", "phase": "0d", "step": "sc-005", "model": "claude-opus-4-8", "input_tokens": 52, "output_tokens": 73678, "cache_read": 4496966, "cache_create": 187443, "cost_usd": 0.0, "engine": "max"}
