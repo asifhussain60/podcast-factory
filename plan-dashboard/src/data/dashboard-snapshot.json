@@ -1861,8 +1861,8 @@
   "metrics": {
     "burn_30d_usd": 17.51
   },
-  "generated_at": "2026-08-05T13:15:36-04:00",
-  "source_commit": "8ab5414",
+  "generated_at": "2026-08-05T13:16:36-04:00",
+  "source_commit": "9b04c91",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1924,6 +1924,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "9b04c91",
+      "subject": "docs: lock the develop<->localhost and main<->prod deploy invariants",
+      "date": "2026-08-05"
+    },
+    {
+      "sha": "4e485c5",
+      "subject": "chore(plan-dashboard): regenerate snapshots (drift caught by new sync hook)",
+      "date": "2026-08-05"
+    },
+    {
       "sha": "8ab5414",
       "subject": "feat(hooks): sync localhost with develop the moment its local ref moves",
       "date": "2026-08-05"
@@ -1961,16 +1971,6 @@
     {
       "sha": "9e117de",
       "subject": "feat(listener): a medallion for the book's title, Roboto for its English name, a companion that stays where you leave it",
-      "date": "2026-08-05"
-    },
-    {
-      "sha": "32f14ba",
-      "subject": "fix(listener): every card on the About page is one height",
-      "date": "2026-08-05"
-    },
-    {
-      "sha": "370c8c9",
-      "subject": "docs: record the work-title, quotation-shape and editorial-panel work",
       "date": "2026-08-05"
     }
   ],
