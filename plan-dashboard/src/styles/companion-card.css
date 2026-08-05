@@ -753,6 +753,34 @@ textarea.xpl-ety-text:focus {
   transition: background-color 0.2s ease;
 }
 
+/* The passage you just highlighted, painted while you type a question about
+   it in the Companion box — survives focusing the textarea, which collapses
+   the browser's own text selection. Two mechanisms, same visual result, split
+   because Chromium does not paint `::highlight()` inside `contenteditable`
+   (verified 2026-08-05):
+     Read mode  — a CSS Custom Highlight (`gcp-pending`), painted below,
+                  registered from the panel's DOM Range. Never touches the DOM.
+     Edit mode  — a ProseMirror decoration (`.cx-pending-hl`, this rule),
+                  same reason `.cx-note-hl` below is a decoration there —
+                  see pending-selection-decos.ts.
+   `::highlight()` only accepts a handful of properties (no border, no
+   padding, no radius); `.cx-pending-hl` has no such limit, but is kept
+   visually identical on purpose — the accent tint rather than the filed-note
+   yellow, since this is provisional, not yet a saved explanation. */
+::highlight(gcp-pending) {
+  background-color: color-mix(
+    in srgb,
+    var(--c-accent, #8b4513) 28%,
+    transparent
+  );
+}
+.cx-pending-hl {
+  background: color-mix(in srgb, var(--c-accent, #8b4513) 28%, transparent);
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
 .cx-note-hl:hover,
 .cx-note-hl.is-active {
   background: var(--reader-mark, #ffd529);

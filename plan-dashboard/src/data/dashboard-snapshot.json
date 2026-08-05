@@ -1922,6 +1922,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "006ccda",
+      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
+      "date": "2026-08-05"
+    },
+    {
       "sha": "9dec592",
       "subject": "chore(plan-dashboard): regenerate snapshots",
       "date": "2026-08-05"
@@ -1964,11 +1969,6 @@
     {
       "sha": "34e8e83",
       "subject": "chore(plan-dashboard): regenerate snapshots",
-      "date": "2026-08-05"
-    },
-    {
-      "sha": "9b04c91",
-      "subject": "docs: lock the develop<->localhost and main<->prod deploy invariants",
       "date": "2026-08-05"
     }
   ],

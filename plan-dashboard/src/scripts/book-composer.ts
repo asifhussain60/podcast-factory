@@ -75,6 +75,10 @@ import {
   type CompanionMark,
 } from "../components/studio/editor/companion-decos";
 import {
+  createPendingSelectionDecos,
+  type PendingRange,
+} from "../components/studio/editor/pending-selection-decos";
+import {
   markPassages,
   normalizeQuote,
   foldText,
@@ -863,6 +867,12 @@ function boot(): void {
   // the page disagreeing about which sentences are annotated.
   let scholarRoot: Root | null = null;
   const companionNotes: { current: CompanionMark[] } = { current: [] };
+  /** The passage highlighted in the Companion panel right now, not yet filed —
+   *  read by pending-selection-decos.ts. Chromium does not paint the panel's
+   *  own CSS Custom Highlight inside this contenteditable canvas, so Edit mode
+   *  needs its own decoration; Read mode already works via the panel's DOM
+   *  highlight and does not use this box. */
+  const pendingSelection: { current: PendingRange | null } = { current: null };
   /** The OPEN chapter's coloured runs. A live box, read by the decoration
    *  plugin on every repaint, so colouring a selection shows at once. */
   const colourSpans: { current: ColourSpan[] } = { current: [] };
@@ -982,6 +992,33 @@ function boot(): void {
     markCompanionPassages();
   };
 
+  /** The Companion panel just highlighted (or cleared) a passage it has not
+   *  filed yet. Read mode has no ProseMirror doc to map into — this is an
+   *  Edit-mode-only concern, silently a no-op otherwise, since Read mode's own
+   *  CSS Custom Highlight already shows the same thing there. */
+  const onPendingRange = (range: Range | null): void => {
+    const ed = activeEditor?.editor;
+    if (!ed || ed.isDestroyed) return;
+    if (!range) {
+      pendingSelection.current = null;
+    } else {
+      try {
+        const from = ed.view.posAtDOM(range.startContainer, range.startOffset);
+        const to = ed.view.posAtDOM(range.endContainer, range.endOffset);
+        // -1 is `posAtDOM`'s own "not found" — the range's container wasn't
+        // inside this view's DOM (e.g. captured a beat before a chapter
+        // switch tore the old view down). No tint rather than a wrong one.
+        pendingSelection.current =
+          from < 0 || to < 0 || from === to
+            ? null
+            : { from: Math.min(from, to), to: Math.max(from, to) };
+      } catch {
+        pendingSelection.current = null;
+      }
+    }
+    ed.view.dispatch(ed.state.tr);
+  };
+
   function renderScholar(): void {
     const host = root.querySelector<HTMLElement>("#cx-scholar-mount");
     if (!host) return;
@@ -999,6 +1036,7 @@ function boot(): void {
         readOnly: scholarReadOnly,
         onNotesChanged,
         onReveal: revealPassage,
+        onPendingRange,
       }),
     );
   }
@@ -1849,6 +1887,11 @@ function boot(): void {
       // The Companion tint, as a DECORATION: an annotated passage is visible
       // while you edit, and cannot reach book.md on the next autosave.
       createCompanionDecos({ notesRef: companionNotes }),
+      // The Companion panel's PENDING (not yet filed) highlight — same reason,
+      // and the only way it can show at all inside this contenteditable
+      // canvas (Chromium does not paint the panel's CSS Custom Highlight
+      // there). See pending-selection-decos.ts.
+      createPendingSelectionDecos({ rangeRef: pendingSelection }),
       // Per-selection text colour, from the sidecar. A decoration for the same
       // reason the Companion tint is one: it is visible while you edit and
       // cannot reach book.md on the next autosave.
