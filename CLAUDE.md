@@ -49,6 +49,13 @@ The script does: `git fetch --all --prune`, switches to `develop` if needed, fas
 - `0` = ready
 - `1` = pre-flight failed (working tree dirty, or not in a git repo)
 
+## `develop` and `main` deploy invariants (LOCKED 2026-08-05)
+
+Two standing guarantees, kept true by two different mechanisms — do not conflate them:
+
+- **`origin/develop` <-> localhost (the Listener dev server + the Podcast Factory Astro Site).** Git hooks in [infra/git-hooks/](infra/git-hooks/) (`post-commit`, `post-merge`, `post-checkout`, sharing logic in `sync-develop.sh`) fire the instant `develop`'s local ref moves — a commit, a pull, a merge, or `deploy_listener.sh`'s own branch sweep — and regenerate the Astro Site's snapshot JSONs plus apply the Listener's local D1 migrations. Installed via `bash scripts/install-git-hooks.sh` (run once per machine; re-run if `infra/git-hooks/*` changes). Deliberately does NOT restart either dev server — Vite/React Router already hot-reloads on file changes, so a running server picks up new commits on its own; forcing a restart from a git hook would only risk fighting however the server was actually launched. Advisory only: a snapshot regen or migration failure is printed, never blocks the underlying git operation.
+- **`origin/main` <-> production (`https://podcast-factory.safinaverse.com`).** No separate trigger exists, and none should be added: `scripts/podcast/deploy_listener.sh` already pushes `main` and deploys the Worker as one atomic script (see the Listener section below), so "`main` moved" and "prod was deployed" are the same event by construction. A hook that deployed whenever `main`'s local ref changed for any OTHER reason would risk bypassing the local-sign-off gate two paragraphs below it in this file — nothing else in this repo's documented workflow pushes to `main`, and it should stay that way.
+
 ## Read these once, or when conventions feel stale
 
 - **`~/.claude/response-template.md`** — the canonical response format, loaded into every session by the global CLAUDE.md. H2 main title, H3 sections that carry the gist, blockquote callouts, tables for tabular data only, and an alphabetized `### Next:` block with the recommended option first. **No custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed". No `**TL;DR:**` opener, no `## Project Status` block. (Two repo-local copies were linked here until 2026-07-20; neither had existed for some time, and the global file superseded both — the 4-part template they described was itself retired on 2026-05-26.)
