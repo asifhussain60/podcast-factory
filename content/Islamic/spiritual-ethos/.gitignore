@@ -1,0 +1,6 @@
+# Asif's raw Kindle capture. Every file here was copied byte-for-byte into
+# _system/source/images/<group>/page_NNNN.png, which is the location the OCR
+# script reads and the copy this repo tracks. Verified identical by checksum on
+# 2026-08-05; keeping both under version control would double 75 MB of PNGs for
+# no gain. The folder stays on disk — this ignores it, it does not delete it.
+kindle_images/
