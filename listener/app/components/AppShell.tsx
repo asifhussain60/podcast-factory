@@ -29,6 +29,7 @@ export function AppShell({
   here,
   isAdmin = false,
   reader = false,
+  flush = false,
   docked = false,
   overlays,
   children,
@@ -44,6 +45,21 @@ export function AppShell({
    * other page is one column and takes the container.
    */
   reader?: boolean;
+  /**
+   * No page container at all — `main` runs edge to edge and the PAGE owns its
+   * own bands and gutters.
+   *
+   * For a page built out of full-bleed sections, which the container cannot
+   * express: it caps and pads every child alike, so a tinted hero would stop
+   * short of both edges with the page colour showing beside it. Escaping it from
+   * the inside is the usual trick and is wrong here — `width: 100vw` counts the
+   * scrollbar, so the page it is meant to widen scrolls sideways on any platform
+   * that reserves one.
+   *
+   * Distinct from `reader`, which is not "no cap" but two nested caps of its
+   * own. A page passes one or the other, never both.
+   */
+  flush?: boolean;
   /**
    * The Companion stands beside the text rather than over it, and the page lays
    * out in the width it leaves. A question about the SHELL, not about `main`:
@@ -70,7 +86,7 @@ export function AppShell({
 
       {overlays}
 
-      <main id="main" className={reader ? "pf-reader" : "pf-container"}>
+      <main id="main" className={reader ? "pf-reader" : flush ? "pf-flush" : "pf-container"}>
         {children}
       </main>
 

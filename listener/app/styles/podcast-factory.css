@@ -5846,116 +5846,304 @@
     margin-top: var(--pf-space-5);
   }
 
-  /* ---- About --------------------------------------------------------------
-     One long page, read by skimming. Three things carry that: a search field
-     and a row of chips that STAY on screen while the page scrolls under them,
-     headings heavy enough to find at a glance, and answers folded away until
-     they are wanted.
+  /* ==== About ===============================================================
+     A page built out of full-bleed BANDS rather than one column.
 
-     The measure is narrower than the page container. This is prose, and prose
-     set to the full width of a 1440px window is prose nobody finishes. */
+     The first version put everything in a 34rem measure, which is the right
+     line length for prose and the wrong shape for a page: on a 1440px window it
+     was a narrow grey ribbon down the left with two thirds of the screen empty
+     beside it. Those are two different problems and one `max-width` was
+     answering both. Now the BAND fills the window and the LINE LENGTH is capped
+     inside it, per element, at the width that element actually needs.
 
-  .pf-about__head {
-    max-width: var(--pf-measure-narrow);
-    /* The bottom margin is smaller than the top on purpose: the search bar below
-       carries its own padding, and the two together left a void on a phone big
-       enough to read as the end of the page. */
-    margin-block: var(--pf-space-7) var(--pf-space-3);
+     RESPONSIVENESS IS INTRINSIC, not a stack of breakpoints. Every grid here is
+     `auto-fit`/`minmax`, every type size is a `clamp()`, and every gutter scales
+     with the viewport — so the page has no width at which it is untested, and it
+     survives a 320px phone and a 2560px monitor without either being a case
+     somebody remembered to write. There is exactly one media query, for the
+     two-column timeline, because that one IS a layout change rather than a
+     reflow. */
+
+  /* `main`, with no container at all — the bands own their own gutters. */
+  .pf-flush {
+    width: 100%;
   }
 
-  .pf-about__title {
-    margin: 0;
-    font-family: var(--l-font-display);
-    font-size: var(--pf-display-sm);
-    font-weight: 600;
-    letter-spacing: var(--pf-tracking-tight);
-    color: var(--l-ink);
+  /* The inner measure of every band.
+     104rem, which on a 1440px window is the whole width less its gutters and on
+     a 1920px one still fills most of it — while stopping an uncapped band from
+     setting a 200-character line on a 2560px monitor. It can be this wide
+     BECAUSE line length is capped per element further down: the paragraphs at
+     60ch, the ledes at 46rem. Width and measure are two settings here, not one.
+     The gutter scales with the viewport so the page never crowds its own edge on
+     a phone. */
+  .pf-about-wrap {
+    width: 100%;
+    max-width: 104rem;
+    margin-inline: auto;
+    padding-inline: clamp(var(--pf-space-4), 4vw, var(--pf-space-8));
   }
 
-  .pf-about__lead {
-    margin: var(--pf-space-4) 0 0;
-    font-family: var(--l-font-prose);
-    font-size: var(--pf-text-md);
-    line-height: 1.65;
-    color: var(--l-muted);
-  }
+  /* ---- The hero ------------------------------------------------------------
+     Tinted, so the page opens with something rather than with a heading on the
+     same background as everything else. The wash is built from the accent's own
+     soft tone, so it follows all three themes without a single hardcoded
+     colour. */
 
-  /* Sticky, because the search box is useless the moment it scrolls away on a
-     page this long — the reader is by then deep in one section and the control
-     that would take them out of it is above the fold. It carries the page
-     background so the sections pass UNDER it rather than showing through. */
-  .pf-about__find {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    /* The same measure as everything it sits above. Left at the page width its
-       bottom rule ran a thousand pixels past the last card on a desktop, which
-       read as a column boundary for a column that was not there. Nothing on this
-       page is wider than the measure, so the bar has nothing else to cover. */
-    max-width: var(--pf-measure-narrow);
-    display: flex;
-    flex-direction: column;
-    gap: var(--pf-space-3);
-    padding-block: var(--pf-space-4);
-    margin-bottom: var(--pf-space-6);
-    background: var(--l-bg);
+  .pf-about-hero {
+    background:
+      linear-gradient(180deg, var(--l-accent-soft) 0%, transparent 100%),
+      var(--l-surface);
     border-bottom: 1px solid var(--l-rule-soft);
   }
 
-  .pf-about__hits {
+  .pf-about-hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--pf-space-4);
+    padding-block: clamp(var(--pf-space-6), 7vw, var(--pf-space-9));
+  }
+
+  .pf-about-hero__eyebrow {
     margin: 0;
     font-family: var(--l-font-ui);
-    font-size: var(--pf-text-sm);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-accent);
+  }
+
+  .pf-about-hero__title {
+    margin: 0;
+    /* Fluid rather than stepped: it reaches display size on a monitor and stays
+       inside a 320px screen without a breakpoint deciding when. */
+    font-family: var(--l-font-display);
+    font-size: clamp(2rem, 1.2rem + 3.4vw, 3.5rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: var(--pf-tracking-tight);
+    text-wrap: balance;
+    color: var(--l-ink);
+  }
+
+  .pf-about-hero__lead {
+    max-width: 46rem;
+    margin: 0;
+    font-family: var(--l-font-prose);
+    font-size: clamp(var(--pf-text-md), 0.95rem + 0.4vw, var(--pf-text-lg));
+    line-height: 1.6;
+    text-wrap: pretty;
     color: var(--l-muted);
   }
 
-  .pf-about__section {
-    max-width: var(--pf-measure-narrow);
-    margin-bottom: var(--pf-space-7);
-    /* Clears the sticky bar when a chip jumps to this section, so the heading
-       does not land underneath it. */
-    scroll-margin-top: var(--pf-space-9);
+  .pf-about-hero__search {
+    width: 100%;
+    max-width: 34rem;
+    margin-top: var(--pf-space-3);
   }
 
-  .pf-about__heading {
+  /* ---- A band --------------------------------------------------------------
+     Alternating surfaces so a long page reads as parts rather than as a scroll.
+     The tint is the sunken tone the rest of the site already uses for a recessed
+     surface, so no new colour enters the system. */
+
+  .pf-about-band {
+    padding-block: clamp(var(--pf-space-6), 5vw, var(--pf-space-8));
+  }
+
+  .pf-about-band--tint {
+    background: var(--l-surface);
+    border-block: 1px solid var(--l-rule-soft);
+  }
+
+  .pf-about-band--close {
+    background: var(--l-sunken);
+    border-top: 1px solid var(--l-rule-soft);
+  }
+
+  /* ---- Browse by topic -----------------------------------------------------
+     The cards replaced a wrapping row of pills. Same state and same behaviour,
+     and they carry what a pill cannot: an icon and the line saying what is
+     inside. `auto-fit` with a 19rem floor gives four across a monitor, three on
+     a laptop, two on a tablet and one on a phone with nothing declaring where
+     those changes happen — and four is the figure the floor was chosen for:
+     there are seven cards, so four leaves a tidy second row of three. 20rem was
+     the first try and gave THREE at 1440px, stranding a seventh card alone on a
+     row: four tracks needed 1328px and the band had 1325. The gap counts, and a
+     floor picked without it is a floor picked for the wrong number. */
+
+  .pf-about-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr));
+    gap: var(--pf-space-4);
+  }
+
+  .pf-about-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--pf-space-4);
+    padding: var(--pf-space-5);
+    text-align: left;
+    border: 1px solid var(--l-rule-soft);
+    border-radius: var(--pf-radius-lg);
+    background: var(--l-surface);
+    box-shadow: var(--pf-elev-1);
+    cursor: pointer;
+    transition:
+      border-color var(--pf-motion),
+      box-shadow var(--pf-motion),
+      transform var(--pf-motion);
+  }
+
+  .pf-about-card:hover {
+    border-color: var(--l-accent);
+    box-shadow: var(--pf-elev-3);
+    transform: translateY(-2px);
+  }
+
+  .pf-about-card[aria-pressed="true"] {
+    border-color: var(--l-accent);
+    box-shadow: var(--pf-elev-2);
+  }
+
+  /* The icon in a tile rather than loose beside the words. It is what makes a
+     row of cards scannable at a glance, which is the whole reason they are cards
+     and not a list. */
+  .pf-about-card__tile {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--pf-radius-lg);
+    background: var(--l-accent-soft);
+    color: var(--l-accent);
+    font-size: var(--pf-text-md);
+  }
+
+  .pf-about-card[aria-pressed="true"] .pf-about-card__tile {
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+  }
+
+  .pf-about-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-1);
+    /* Without this a long unbroken word in a blurb widens the grid track and
+       every other card with it. */
+    min-width: 0;
+  }
+
+  .pf-about-card__title {
+    font-family: var(--l-font-card-title);
+    font-size: var(--pf-text-lg);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--l-ink);
+  }
+
+  .pf-about-card__blurb {
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-base);
+    line-height: 1.5;
+    color: var(--l-muted);
+  }
+
+  .pf-about-card__meta {
+    margin-top: var(--pf-space-1);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 500;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-faint);
+  }
+
+  /* What the search or the chosen category did, and the way back out. */
+  .pf-about-results {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-4);
+    margin: var(--pf-space-5) 0 0;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    color: var(--l-muted);
+  }
+
+  .pf-about-results__what {
+    font-weight: 600;
+    color: var(--l-ink);
+  }
+
+  /* ---- A section's heading -------------------------------------------------
+     Capped at a heading measure of its own, so a two-word title on a monitor is
+     not marooned above a full-width rule. */
+
+  .pf-about-lede {
+    max-width: 46rem;
+    margin-bottom: var(--pf-space-5);
+  }
+
+  .pf-about-lede__title {
     display: flex;
     align-items: center;
     gap: var(--pf-space-3);
     margin: 0;
     font-family: var(--l-font-display);
-    font-size: var(--pf-text-xl);
+    font-size: clamp(var(--pf-text-xl), 1.1rem + 1vw, 2rem);
     font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: var(--pf-tracking-tight);
     color: var(--l-ink);
   }
 
-  .pf-about__blurb {
-    margin: var(--pf-space-2) 0 var(--pf-space-4);
+  .pf-about-lede__blurb {
+    margin: var(--pf-space-2) 0 0;
     font-family: var(--l-font-prose);
     font-size: var(--pf-text-md);
     line-height: 1.6;
+    text-wrap: pretty;
     color: var(--l-muted);
   }
 
-  .pf-about__entries {
-    display: flex;
-    flex-direction: column;
-    gap: var(--pf-space-2);
+  /* ---- The questions -------------------------------------------------------
+     Two columns on a wide screen and one on a narrow, by the same `auto-fit`
+     rule as the cards. The 26rem floor is chosen so a column never sets a line
+     shorter than is comfortable to read — below that the grid gives up and goes
+     to one column rather than squeezing two. */
+
+  .pf-about-qa {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr));
+    gap: var(--pf-space-3);
+    align-items: start;
   }
 
-  .pf-about__entry {
+  .pf-about-entry {
     border: 1px solid var(--l-rule-soft);
     border-radius: var(--pf-radius-lg);
-    background: var(--l-surface);
+    background: var(--l-bg);
     overflow: hidden;
+    transition: border-color var(--pf-motion);
   }
 
-  .pf-about__entry[open] {
+  .pf-about-band--tint .pf-about-entry {
+    background: var(--l-bg);
+  }
+
+  .pf-about-entry:hover,
+  .pf-about-entry[open] {
     border-color: var(--l-rule);
   }
 
   /* The whole row is the control, so the target is the width of the card rather
      than the width of the words. */
-  .pf-about__q {
+  .pf-about-entry__q {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -5972,17 +6160,13 @@
     list-style: none;
   }
 
-  .pf-about__q::-webkit-details-marker {
+  .pf-about-entry__q::-webkit-details-marker {
     display: none;
-  }
-
-  .pf-about__q:hover {
-    background: var(--l-sunken);
   }
 
   /* A caret drawn from two borders — no icon font, no image, and it inherits the
      text colour in all three themes for nothing. */
-  .pf-about__q::after {
+  .pf-about-entry__q::after {
     content: "";
     flex: none;
     width: 0.5rem;
@@ -5994,71 +6178,110 @@
     transition: transform var(--pf-motion);
   }
 
-  .pf-about__entry[open] > .pf-about__q::after {
+  .pf-about-entry[open] > .pf-about-entry__q::after {
     transform: rotate(-135deg) translate(-0.2rem, -0.2rem);
   }
 
-  .pf-about__a {
+  .pf-about-entry__a {
     padding: 0 var(--pf-space-5) var(--pf-space-4);
   }
 
-  .pf-about__a p {
+  .pf-about-entry__a p {
+    /* The one place a measure is still stated: this is the prose, and a column
+       of a two-column grid on a monitor is wide enough to need it. */
+    max-width: 60ch;
     margin: 0 0 var(--pf-space-3);
     font-family: var(--l-font-prose);
     font-size: var(--pf-text-md);
     line-height: 1.7;
+    text-wrap: pretty;
     color: var(--l-ink);
   }
 
-  .pf-about__a p:last-child {
+  .pf-about-entry__a p:last-child {
     margin-bottom: 0;
   }
 
-  /* ---- What's new ---------------------------------------------------------- */
+  /* ---- What's new ----------------------------------------------------------
+     A rail with the date beside the changes, which is the shape a release list
+     wants and the reason this is the one media query on the page: at narrow
+     widths the date sits ABOVE its items, and that is a different layout rather
+     than the same one reflowed. */
 
-  .pf-about__releases {
+  .pf-about-timeline {
     margin: 0;
     padding: 0;
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: var(--pf-space-5);
+    gap: var(--pf-space-6);
   }
 
-  .pf-about__release {
+  .pf-about-moment {
+    display: grid;
+    gap: var(--pf-space-3);
     padding-left: var(--pf-space-5);
-    border-left: 2px solid var(--l-rule);
+    border-left: 2px solid var(--l-accent-soft);
   }
 
-  .pf-about__date {
-    display: block;
+  @media (min-width: 48rem) {
+    .pf-about-moment {
+      grid-template-columns: 12rem 1fr;
+      gap: var(--pf-space-6);
+    }
+  }
+
+  .pf-about-moment__when {
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-sm);
     font-weight: 600;
     letter-spacing: var(--pf-tracking-eyebrow);
     text-transform: uppercase;
-    color: var(--l-muted);
+    color: var(--l-faint);
   }
 
-  .pf-about__changes {
-    margin: var(--pf-space-3) 0 0;
+  /* The changes themselves flow into as many columns as the band has room for,
+     by the same rule as everything else on this page. As one capped column they
+     left the right two thirds of the band empty under a section that had just
+     used all of it — the one place the redesign was still setting a ribbon. Each
+     column keeps its own reading measure via the track floor rather than a
+     `max-width`, so the text never runs long however wide the window is. */
+  .pf-about-moment__what {
+    margin: 0;
     padding-left: var(--pf-space-5);
-    display: flex;
-    flex-direction: column;
-    gap: var(--pf-space-2);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
+    align-items: start;
+    gap: var(--pf-space-3) var(--pf-space-6);
     font-family: var(--l-font-prose);
     font-size: var(--pf-text-md);
     line-height: 1.65;
+    text-wrap: pretty;
     color: var(--l-ink);
   }
 
-  .pf-about__foot {
-    max-width: var(--pf-measure-narrow);
-    margin: 0 0 var(--pf-space-8);
-    padding-top: var(--pf-space-5);
-    border-top: 1px solid var(--l-rule-soft);
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-base);
+  /* ---- The closing band ---------------------------------------------------- */
+
+  .pf-about-close {
+    text-align: center;
+    padding-block: var(--pf-space-3);
+  }
+
+  .pf-about-close__title {
+    margin: 0;
+    font-family: var(--l-font-display);
+    font-size: clamp(var(--pf-text-xl), 1.1rem + 1vw, 2rem);
+    font-weight: 600;
+    color: var(--l-ink);
+  }
+
+  .pf-about-close__text {
+    max-width: 46rem;
+    margin: var(--pf-space-3) auto 0;
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-md);
+    line-height: 1.65;
+    text-wrap: pretty;
     color: var(--l-muted);
   }
 }
