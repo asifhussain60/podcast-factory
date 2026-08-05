@@ -1922,6 +1922,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "c6318d9",
+      "subject": "chore(agents): retire reconcile (zombie since a botched 2026-05-31 sweep)",
+      "date": "2026-08-05"
+    },
+    {
       "sha": "b6b9bd2",
       "subject": "chore(plan-dashboard): drop docs-updater from the agent snapshot",
       "date": "2026-08-05"
@@ -1964,11 +1969,6 @@
     {
       "sha": "8ab5414",
       "subject": "feat(hooks): sync localhost with develop the moment its local ref moves",
-      "date": "2026-08-05"
-    },
-    {
-      "sha": "186d936",
-      "subject": "docs: document the deploy_listener.sh branch-sweep and main-sync default",
       "date": "2026-08-05"
     }
   ],

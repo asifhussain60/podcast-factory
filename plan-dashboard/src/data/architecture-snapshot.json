@@ -340,20 +340,6 @@
       "failure_mode": "surfaces error and halts"
     },
     {
-      "id": "reconcile",
-      "name": "Reconcile",
-      "role": "Reconciliation agent for architecture docs",
-      "icon": "robot",
-      "tone": "neutral",
-      "plain": "Reconciliation agent for architecture docs. Given (a) a file:// or https:// link to one of Asif's architecture HTML views and (b) a free-text change request, the agent first verifies whether the underlying skill/agent/script ALREADY impl…",
-      "what_it_knows": "See infra/claude-agents/reconcile.md",
-      "boundary_in": "",
-      "boundary_out": "",
-      "does_not": "",
-      "cost_profile": "varies",
-      "failure_mode": "surfaces error and halts"
-    },
-    {
       "id": "refine-prompt",
       "name": "Refine Prompt",
       "role": "Refines a raw user request into a single compact instruction-paragraph tuned for",
