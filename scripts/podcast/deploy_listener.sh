@@ -90,6 +90,110 @@ fi
 step() { printf '\n\033[1m== %s\033[0m\n' "$1"; }
 die()  { printf '\n\033[31mstopped: %s\033[0m\n' "$1" >&2; exit 1; }
 
+# --- Branch sweep --------------------------------------------------------------
+#
+# Every book runs on its own branch (see CLAUDE.md's branch policy), but the
+# Listener is not book-specific code — a header fix or a title-plate fix made
+# while a book branch happened to be checked out still belongs on develop, and
+# production can only ever be built from develop's working tree. Before
+# 2026-08-05 that fix could land on a book branch and simply never reach
+# develop until someone noticed the live site still showed the bug — which is
+# exactly what happened to the book-page title plate (fixed on
+# Islamic/spiritual-ethos, never merged, still circular in production).
+#
+# This walks every other local/remote branch, finds commits touching
+# `listener/` that are not yet reachable from develop, and cherry-picks them in
+# (oldest first, by commit time) — `-x` so each pick records which commit it
+# came from. Content-only commits (everything under `content/`) are never
+# touched: a book's own branch stays the only place its content changes until
+# that book's own publish step merges it.
+#
+# Asif, 2026-08-05: standing default from here on — always sweep before
+# deploying, never a manual step to remember.
+
+step "Branch sweep"
+
+git -C "$REPO_ROOT" fetch origin --quiet 2>&1 || echo "  ! fetch failed — sweeping local refs only" >&2
+
+current_branch="$(git -C "$REPO_ROOT" branch --show-current)"
+if [[ "$current_branch" != "develop" ]]; then
+  echo "  on $current_branch — switching to develop for the deploy"
+  git -C "$REPO_ROOT" checkout develop || die "could not switch to develop"
+fi
+git -C "$REPO_ROOT" pull --ff-only origin develop \
+  || die "develop is not fast-forwardable against origin — resolve manually, then re-run"
+
+# Content-based, not SHA-based: a commit cherry-picked here on a previous
+# sweep gets a NEW sha, so comparing shas would flag its original forever and
+# re-pick it every run. `git patch-id` fingerprints a commit by its diff, so a
+# commit already folded into develop under a different sha is recognised as
+# already applied and skipped.
+#
+# (No `mapfile`/`readarray`/`declare -A` - this machine's `/bin/bash` is
+# Apple's stock 3.2, which predates all three, so plain read loops and a temp
+# file stand in for them. That same old bash also mis-parses a comment
+# containing a multibyte character, such as an em dash, when the comment
+# sits inside a process substitution `<( ... )` - it throws "bad
+# substitution: no closing ')'" and swallows the rest of the script. So every
+# comment explaining the exclusions below lives up here, in plain top-level
+# script, and the loop itself stays ASCII and comment-free.
+#
+# `main`'s own release-promotion merges, and release-please's automated
+# branches (which fork from main and carry its history), are not independent
+# listener work - they are main's own bookkeeping. A commit reachable from
+# develop OR from main is therefore excluded from the search entirely (`git
+# log ref --not develop main`), not merely from the candidate list, so
+# release's own merge commits are never even considered. Merge commits are
+# excluded too (`--no-merges`): a merge's own "diff" is its conflict
+# resolution rather than a feature in its own right, and cherry-picking one
+# cleanly needs `-m` and a mainline choice this sweep has no basis to make -
+# the ordinary commits it merged are picked up on their own instead.
+develop_pids="$(mktemp)"
+git -C "$REPO_ROOT" log develop --format=%H -- listener/ \
+  | while read -r h; do git -C "$REPO_ROOT" show "$h" | git -C "$REPO_ROOT" patch-id --stable; done \
+  | awk '{print $1}' | sort -u > "$develop_pids"
+
+skip_ref() {
+  case "$1" in
+    (develop|origin/develop|origin/HEAD|main|origin/main|origin/release-please--*) return 0 ;;
+    (*) return 1 ;;
+  esac
+}
+
+stray=()
+while IFS= read -r sha; do
+  [[ -n "$sha" ]] || continue
+  pid="$(git -C "$REPO_ROOT" show "$sha" | git -C "$REPO_ROOT" patch-id --stable | awk '{print $1}')"
+  if [[ -n "$pid" ]] && grep -qxF "$pid" "$develop_pids"; then
+    continue
+  fi
+  stray+=("$sha")
+done < <(
+  { for ref in $(git -C "$REPO_ROOT" for-each-ref --format='%(refname:short)' refs/heads refs/remotes/origin); do
+      skip_ref "$ref" && continue
+      git -C "$REPO_ROOT" log "$ref" --not develop main --no-merges --format='%ct %H' -- listener/ 2>/dev/null
+    done
+  } | sort -n | awk '{print $2}' | awk '!seen[$0]++'
+)
+rm -f "$develop_pids"
+
+if [[ ${#stray[@]} -eq 0 ]]; then
+  echo "  ok — nothing stranded on other branches"
+elif [[ -n "$DRY_RUN" ]]; then
+  echo "  found ${#stray[@]} listener commit(s) stranded elsewhere — dry run, not merging:"
+  for sha in "${stray[@]}"; do
+    printf '    %s\n' "$(git -C "$REPO_ROOT" log -1 --format='%h %s' "$sha")"
+  done
+else
+  echo "  found ${#stray[@]} listener commit(s) stranded elsewhere — merging into develop:"
+  for sha in "${stray[@]}"; do
+    printf '    %s\n' "$(git -C "$REPO_ROOT" log -1 --format='%h %s' "$sha")"
+    git -C "$REPO_ROOT" cherry-pick -x "$sha" \
+      || die "cherry-pick of $sha failed — resolve the conflict manually, then re-run"
+  done
+  git -C "$REPO_ROOT" push origin develop || die "could not push develop after the sweep"
+fi
+
 # --- The account -------------------------------------------------------------
 
 step "Cloudflare account"
@@ -303,6 +407,40 @@ else
   else
     echo "  ok — the About page is current with the app"
   fi
+fi
+
+# --- main, synced before anything reaches production --------------------------
+#
+# Asif, 2026-08-05: standing default — a production deploy first fast-forwards
+# (or merges) `main` up to `develop`, so `main` always reflects what is
+# actually live rather than lagging behind it. This supersedes, for this one
+# flow only, the repo-wide "develop -> main is a manual, always-ask gate" rule
+# in CLAUDE.md — that rule still governs every OTHER develop -> main merge
+# (regular content releases, unrelated feature work). It does not remove the
+# separate, still-mandatory gate that nothing here runs until Asif has tried
+# the change on localhost:5273 himself; this step runs only once that has
+# already happened, immediately before the Worker upload below.
+
+if [[ -z "$DRY_RUN" ]]; then
+  step "Production branch"
+
+  git -C "$REPO_ROOT" fetch origin main --quiet 2>&1 || echo "  ! fetch failed — using local main" >&2
+  git -C "$REPO_ROOT" checkout main || die "could not switch to main"
+  git -C "$REPO_ROOT" pull --ff-only origin main \
+    || die "main is not fast-forwardable against origin — resolve manually, then re-run"
+
+  if git -C "$REPO_ROOT" merge --ff-only develop >/dev/null 2>&1; then
+    echo "  fast-forwarded main to develop"
+  else
+    git -C "$REPO_ROOT" merge --no-ff develop -m "release: sync main with develop for Listener deploy" \
+      || die "main would not merge cleanly with develop — resolve the conflict manually, then re-run"
+    echo "  merged develop into main"
+  fi
+  git -C "$REPO_ROOT" push origin main || die "could not push main"
+  git -C "$REPO_ROOT" checkout develop || die "could not switch back to develop"
+else
+  step "Production branch"
+  echo "  dry run — not merging into main"
 fi
 
 # --- The Worker --------------------------------------------------------------
