@@ -1392,6 +1392,11 @@
 
   .pf-masthead--centred .pf-title {
     margin-inline: auto;
+    /* Roboto Condensed everywhere else a book's title appears — the library
+       card, per §1's own comment. The book page's own H1 was still set in the
+       display serif, so this was the one surface a book's name changed face
+       between the shelf and its own page (Asif, 2026-08-05). */
+    font-family: var(--l-font-card-title);
   }
 
   .pf-masthead--centred .pf-book-title-ar {
@@ -1404,6 +1409,61 @@
 
   .pf-masthead--centred .pf-panel {
     text-align: start;
+  }
+
+  /* The medallion (Asif, 2026-08-05): the book's two-part identity — Arabic
+     name, English beneath — held inside one seal rather than sitting bare on
+     the page. A fixed circle rather than a shape that hugs the text: this
+     library's titles range from four words to a dozen, and a seal that
+     changed outline with every book would not read as the same mark twice.
+     Sized in clamp() so it scales with the viewport the way the display type
+     around it already does, never fixed pixels.
+
+     The animation is a single slow breath — shadow and scale together, never
+     just one, because a shadow that grows without the shape appearing to
+     lift reads as a bug, not a seal settling. `--pf-motion`'s own easing,
+     stretched from a 160ms interaction curve to an 6s ambient one; the global
+     `prefers-reduced-motion` rule already zeroes every `animation-duration`
+     on this site, so no separate guard is needed here. */
+  .pf-title-medallion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pf-space-2);
+    margin-inline: auto;
+    margin-top: var(--pf-space-5);
+    aspect-ratio: 1;
+    width: clamp(16rem, 11rem + 22vw, 27rem);
+    padding: 12%;
+    border-radius: 50%;
+    background: var(--l-surface);
+    border: 1px solid color-mix(in srgb, var(--l-accent) 22%, transparent);
+    box-shadow: var(--pf-elev-4);
+    animation: pf-medallion-breathe 6s cubic-bezier(0.2, 0, 0.2, 1) infinite;
+  }
+
+  .pf-title-medallion .pf-book-title-ar {
+    margin-top: 0;
+    font-size: clamp(1.7rem, 1.2rem + 2vw, 2.6rem);
+  }
+
+  .pf-title-medallion .pf-title {
+    margin-top: 0;
+    max-width: 16ch;
+    font-size: clamp(1.1rem, 0.85rem + 1.1vw, 1.6rem);
+  }
+
+  @keyframes pf-medallion-breathe {
+    0%,
+    100% {
+      transform: scale(1);
+      box-shadow: var(--pf-elev-3);
+    }
+    50% {
+      transform: scale(1.015);
+      box-shadow: var(--pf-elev-4);
+    }
   }
 
   .pf-eyebrow {

@@ -219,7 +219,10 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
       {/* ---- Identity ----
           The same two-part identity the library card carries, opened out: the
           Arabic title set large as the book's own name, the English beneath
-          it. */}
+          it, both held inside one medallion (Asif, 2026-08-05) — the seal
+          motif this reader's Islamic library earns and a plain stacked title
+          did not have. One wrapper, so every book's page gets it from this
+          template rather than one book at a time. */}
       <header className="pf-masthead pf-masthead--tight pf-masthead--centred">
         <p className="pf-eyebrow">
           <Icon icon={faTag} />
@@ -227,13 +230,15 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
           {detail?.editionNote ? ` · ${detail.editionNote.replace(/_/g, " ")}` : null}
         </p>
 
-        {detail?.titleArabic ? (
-          <p lang="ar" dir="rtl" className="pf-book-title-ar">
-            {detail.titleArabic}
-          </p>
-        ) : null}
+        <div className="pf-title-medallion">
+          {detail?.titleArabic ? (
+            <p lang="ar" dir="rtl" className="pf-book-title-ar">
+              {detail.titleArabic}
+            </p>
+          ) : null}
 
-        <h1 className="pf-title pf-title--sm">{unit.title}</h1>
+          <h1 className="pf-title pf-title--sm">{unit.title}</h1>
+        </div>
 
         {/* ---- The description ----
             In a panel of its own, running the page's full width. It used to
