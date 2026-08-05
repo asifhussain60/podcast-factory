@@ -200,10 +200,12 @@ The narrator continued: The Master then recited the covenant to the boy slowly, 
 ## 4. How the World Was Made
 
 <!-- bridge:begin -->
+
 > **A note for the reader.** *Everything that follows to the end of this chapter is the Master's own discourse to the boy, so the "I" and "we" in it are his and not the edition's.*
+
 <!-- bridge:end -->
 
-God is the Creator of all things and the One who composes them: He made them and brought them into being. He is not merely the first of each created thing, cited as evidence for what came after Him; He is the First of all firsts and the Inheritor of every existing thing. He began the creation of all He made out of a light, and from that light three words branched. The first is the will; from the will branched the command; and from the command branched the saying — that He says "Be" to whatever He wills, and it is. So the first of creation was a will, then a command, then a saying.
+God is the Creator of all things and the One who composes them: He made them and brought them into being. He is not merely the first of each created thing, cited as evidence for what came after Him; He is the First of all firsts and the Inheritor of every existing thing. He began the creation of all He made out of light, and from that light three words branched. The first is the will; from the will branched the command; and from the command branched the saying — that He says "Be" to whatever He wills, and it is. So the first of creation was a will, then a command, then a saying.
 
 فَابْتَدَأَ خَلْقَ مَا خَلَقَ مِنْ نُورٍ تَفَرَّعَ مِنْهُ ثَلَاثُ كَلِمَاتٍ. أَوَّلُهَا إِرَادَةٌ، وَتَفَرَّعَ مِنَ الْإِرَادَةِ الْأَمْرُ، وَتَفَرَّعَ مِنَ الْأَمْرِ الْقَوْلُ لِمَا يَشَاءُ كُنْ فَيَكُونُ. فَكَانَ أَوَّلُ الْخَلْقِ إِرَادَةَ أَمْرٍ بِقَوْلٍ.
 
@@ -240,6 +242,7 @@ The discourse upon this is long, and it grows ever greater; and the more its ans
 Editorial note (tradition-grounded). Where this chapter closes by naming "the signs of the heavens and the earth, which people pass by while turning away from them," it is echoing a specific verse the reader may not recognize: And how many a sign in the heavens and the earth they pass by, while they are averse therefrom (Yusuf: 105). The chapter's whole architecture — the twelve constellations and twelve islands, their heavenly and earthly witnesses — is offered as a catalog of exactly these overlooked signs. It is worth pairing this with the chapter's earlier note on the air as "the proof of the One of whom there is nothing like Him": for the Master, the sign that points to God is precisely the one unlike every other sign.
 
 <!-- editorial:end -->
+
 ## 5. The World, the Hereafter, and the Speech of Parables
 
 The boy then turned to a question that had long weighed on him, and said: This world, in which so vast a creation was set, holds a great multitude of people, the first of them and the last, and they differ about it. Some have given themselves over to it and chased after it, seeing no worth in anything but gathering more of it. Others reproach it and hold themselves back from it, yet do not do without it altogether — even though everything whose abundance is forbidden has its small measure forbidden too. From you I have heard neither mention of it nor any account of it. What do you say of it?
