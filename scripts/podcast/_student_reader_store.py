@@ -118,6 +118,15 @@ def merge_notes(existing: list[dict[str, Any]], proposed: list[dict[str, Any]], 
     return out
 
 
+def owned_notes(book_dir: Path, chapter_key: str, slug: str) -> list[dict[str, Any]]:
+    """This pass's own notes already filed for a chapter. Never anyone else's."""
+    try:
+        doc = read_doc(book_dir, chapter_key, slug)
+    except Exception:
+        return []
+    return [n for n in doc.get("notes") or [] if OWNED_ID_RE.match(str(n.get("id") or ""))]
+
+
 def prose_fingerprint(prose: str) -> str:
     """What the pass last read. Whitespace-folded, so reflow is not a change."""
     folded = " ".join(str(prose or "").split())

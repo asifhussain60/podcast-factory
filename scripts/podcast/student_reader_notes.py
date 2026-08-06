@@ -52,7 +52,7 @@ from _student_reader import (  # noqa: E402
     select,
     to_companion_note,
 )
-from _student_reader_store import already_current, file_notes, section_key  # noqa: E402
+from _student_reader_store import already_current, file_notes, owned_notes, section_key  # noqa: E402
 
 _TIMEOUT = 900
 _KB = REPO_ROOT / "content" / "knowledge-base"
@@ -124,8 +124,21 @@ def _evidence_block(title: str, prose: str) -> str:
 
 
 # ─── the prompt ──────────────────────────────────────────────────────────────
-def build_prompt(title: str, prose: str, evidence: str, budget: int) -> str:
+def build_prompt(title: str, prose: str, evidence: str, budget: int, already: list[str] | None = None) -> str:
     kinds = "\n".join(f"  - {k}" for k in DEFECT_KINDS)
+    # Passages a previous run already noted. Told to the model rather than only
+    # filtered afterwards: identical passages would be caught by the id anyway,
+    # but a NEAR-miss — the next sentence, the same difficulty — would not, and
+    # would arrive as a second note saying the same thing in a different place.
+    seen = ""
+    if already:
+        listed = "\n".join(f"  - {q}" for q in already)
+        seen = (
+            "\nALREADY NOTED. These passages of this chapter have been marked before. Do "
+            "not report them again, and do not report a neighbouring sentence that raises "
+            "the SAME difficulty — find what is still unmarked, or return fewer.\n"
+            f"{listed}\n"
+        )
     return f"""You are reading one chapter of a translated Ismaili teaching text as a STUDENT
 meeting it for the first time — not as a teacher explaining it. You are an
 intelligent, careful reader: you can tell a passage that is genuinely hard to
@@ -140,6 +153,7 @@ of stop, and nothing else:
 
 Report at most {budget} findings for this chapter. Fewer is correct when fewer
 are real — an empty list is a valid answer and is better than a padded one.
+{seen}
 
 Classify each into EXACTLY one of these, using no other word:
 {kinds}
@@ -167,19 +181,37 @@ CHAPTER — {title}
 
 
 # ─── the run ─────────────────────────────────────────────────────────────────
-def run_chapter(book_dir: Path, slug: str, ch: dict[str, str], *, dry_run: bool, force: bool, log) -> dict[str, Any]:
+def run_chapter(
+    book_dir: Path, slug: str, ch: dict[str, str], *, dry_run: bool, force: bool, top_up: bool, log
+) -> dict[str, Any]:
     from _authoring._core import _run_claude_p_with_retry
 
     file_key = section_key(ch["title"])
-    # Do not ask twice about prose that has not changed. See
-    # _student_reader_store.already_current — this, not the merge, is what makes
-    # a re-run reproduce its own output instead of accumulating a new set.
-    if not force and already_current(book_dir, file_key, slug, ch["prose"]):
-        log(f"    student-reader: {ch['title'][:44]} — unchanged since the last read, left as it is")
-        return {"chapter": ch["key"], "file": file_key, "title": ch["title"], "skipped": "unchanged", "filed": 0}
+    full_budget = chapter_budget(len(ch["prose"].split()))
+    have = owned_notes(book_dir, file_key, slug)
 
-    budget = chapter_budget(len(ch["prose"].split()))
-    prompt = build_prompt(ch["title"], ch["prose"], _evidence_block(ch["title"], ch["prose"]), budget)
+    # TOP UP — fill a chapter that came back under its budget, without disturbing
+    # what is already there. Distinct from --force, which re-reads a chapter from
+    # scratch: this asks only for the SHORTFALL and tells the model what has
+    # already been marked, so it looks for what is still unnoted rather than
+    # re-finding the same difficulties. A chapter already at its budget is left
+    # alone; asking for zero more would spend a model call to file nothing.
+    if top_up:
+        budget = full_budget - len(have)
+        if budget <= 0:
+            log(f"    student-reader: {ch['title'][:44]} — already at its budget of {full_budget}, left as it is")
+            return {"chapter": ch["key"], "file": file_key, "title": ch["title"], "skipped": "at-budget", "filed": 0}
+    else:
+        budget = full_budget
+        # Do not ask twice about prose that has not changed. See
+        # _student_reader_store.already_current — this, not the merge, is what
+        # makes a re-run reproduce its own output instead of accumulating.
+        if not force and already_current(book_dir, file_key, slug, ch["prose"]):
+            log(f"    student-reader: {ch['title'][:44]} — unchanged since the last read, left as it is")
+            return {"chapter": ch["key"], "file": file_key, "title": ch["title"], "skipped": "unchanged", "filed": 0}
+
+    already = [str(n.get("quote") or "") for n in have if n.get("quote")] if top_up else None
+    prompt = build_prompt(ch["title"], ch["prose"], _evidence_block(ch["title"], ch["prose"]), budget, already)
 
     rc, out, err = _run_claude_p_with_retry(
         prompt,
@@ -206,7 +238,8 @@ def run_chapter(book_dir: Path, slug: str, ch: dict[str, str], *, dry_run: bool,
         created, refreshed = file_notes(book_dir, file_key, slug, notes, now=_now(), prose=ch["prose"])
 
     log(
-        f"    student-reader: {ch['title'][:44]} — budget {budget}, "
+        f"    student-reader: {ch['title'][:44]} — "
+        f"{'top-up ' + str(budget) + ' of ' + str(full_budget) if top_up else 'budget ' + str(budget)}, "
         f"{len(candidates)} proposed, {len(dropped)} failed the gate, {len(notes)} filed"
     )
     return {
@@ -214,6 +247,8 @@ def run_chapter(book_dir: Path, slug: str, ch: dict[str, str], *, dry_run: bool,
         "file": file_key,
         "title": ch["title"],
         "budget": budget,
+        "full_budget": full_budget,
+        "already_had": len(have),
         "proposed": len(candidates),
         "gated_out": dropped,
         "filed": len(notes),
@@ -229,6 +264,11 @@ def main() -> int:
     ap.add_argument("--chapter", help="one chapter key; default is every chapter but the introduction")
     ap.add_argument("--dry-run", action="store_true", help="propose and gate, write nothing")
     ap.add_argument("--force", action="store_true", help="re-read a chapter whose prose has not changed")
+    ap.add_argument(
+        "--top-up",
+        action="store_true",
+        help="ask only for the shortfall on a chapter under its budget, keeping what is already filed",
+    )
     args = ap.parse_args()
 
     try:
@@ -249,7 +289,10 @@ def main() -> int:
             return 2
 
     print(f"==> student-reader: {args.slug} — {len(chapters)} chapter(s){' (dry run)' if args.dry_run else ''}")
-    results = [run_chapter(book_dir, args.slug, c, dry_run=args.dry_run, force=args.force, log=print) for c in chapters]
+    results = [
+        run_chapter(book_dir, args.slug, c, dry_run=args.dry_run, force=args.force, top_up=args.top_up, log=print)
+        for c in chapters
+    ]
 
     report = {
         "schema": "book.student-reader/v1",
