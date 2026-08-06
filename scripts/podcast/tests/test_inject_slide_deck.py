@@ -10,7 +10,8 @@ Contract under test (no real book, no poppler — synthesized fixtures only):
   - injection is idempotent: re-running on its own output yields identical md.
   - cover slides (anchor_text: null) are never injected inline.
   - _page_map tolerates pdftoppm's page-number padding variants.
-  - build_book_pdf prefers book-slides.md > book-illustrated.md > book.md.
+  - build_book_pdf renders book.md, and the injector reads book.md — neither
+    consults a retired *-illustrated/-slides variant, however stale.
 """
 
 from __future__ import annotations
@@ -197,6 +198,26 @@ class RenderPriorityTests(unittest.TestCase):
         (d / "book" / "book-illustrated.md").write_text("# t", encoding="utf-8")
         (d / "book" / "book-slides.md").write_text("# t", encoding="utf-8")
         self.assertEqual(bbp._pick_book_md(d).name, "book.md")
+
+    def test_injection_source_is_always_book_md(self) -> None:
+        # The deck injector validates every anchor against the text it reads, so
+        # it must read the text a reader sees. It used to prefer an illustrated
+        # variant, which on a book carrying a stale one meant anchoring a deck to
+        # prose weeks out of date and, in one case, missing a chapter entirely.
+        d = Path(tempfile.mkdtemp())
+        (d / "book").mkdir()
+        (d / "book" / "book.md").write_text(BOOK_MD, encoding="utf-8")
+        self.assertEqual(isd.injection_source(d).name, "book.md")
+        (d / "book" / "book-illustrated.md").write_text("# stale", encoding="utf-8")
+        self.assertEqual(isd.injection_source(d).name, "book.md")
+
+    def test_injection_source_without_book_md_fails_loudly(self) -> None:
+        # An illustrated variant must not stand in for a missing book either.
+        d = Path(tempfile.mkdtemp())
+        (d / "book").mkdir()
+        (d / "book" / "book-illustrated.md").write_text("# stale", encoding="utf-8")
+        with self.assertRaises(AuthoringError):
+            isd.injection_source(d)
 
 
 if __name__ == "__main__":

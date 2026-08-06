@@ -119,6 +119,12 @@ items:
     title: "HAZARD, carried forward. al-anwaar-al-lateefah/vol-01 and asaas-al-taveel/vol-01 declare no narrative_frame, so both resolve to a conservative default (external_narrator / transmitted_report) while their prose narrates in the first person. No model pass has run on them -- the 2026-08-02 apparatus work is deterministic and deliberately avoided the model route for exactly this reason -- but ANY future compose will run 0book-fluency under the wrong frame and rewrite both books into the wrong grammatical person. Read how each SOURCE opens and declare narrative_frame in _system/series-config.yaml BEFORE any model pass touches either book."
     noticed: 2026-08-02
 
+  - id: kashkole-urdu-to-english
+    scope: pipeline
+    status: open
+    title: "Asif 2026-08-06: the KASHKOLE Wisdom corpus must be rendered into articulate English so it can augment content, etymology and explanations as ONE unit with KSESSIONS -- a separate, systematic pass over the whole corpus, not a per-note translation. STATE TODAY: content/knowledge-base/mirror.db carries all 1347 topics (1055 with a substantial body_plain) and NONE of them carry English -- the source dump at content/_shared/source-library/Kashkole.sql (759 MB, gitignored) contains zero name_en occurrences, so this is Urdu at source, not a mirroring loss. That is why intelligence/ingest_kashkole.py deliberately mints no atoms from them (rule D8, never re-translate) and records them as a deferred note; the only English Kashkole material in the corpus today is the 93 doctrine atoms (tradition fatimid-ismaili) from the wisdom-binder pipeline. The new pass must target the SAME articulation standard the reading editions use (docs/standards/book-articulation.md, REQ-BA-*) so a translated topic reads like the books it will be cited beside, must be idempotent and re-runnable, and must record provenance per topic so a rendering can be traced and revised. It supersedes D8 for this corpus and D8's text must be updated in the same change rather than left contradicting it. Until it lands, the Companion student-reader lane cites Kashkole topics by binder and topic name WITHOUT rendering their Urdu, and draws its English from the 606 KSESSIONS transcripts and the 93 doctrine atoms. Re-importing needs Docker, which is NOT installed on this machine; no re-import is required for this work since the mirror already holds every topic."
+    noticed: 2026-08-06
+
   - id: annotation-policy-vs-zero-translit
     scope: pipeline
     status: open
