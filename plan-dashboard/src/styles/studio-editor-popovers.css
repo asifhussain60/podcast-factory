@@ -409,11 +409,23 @@
 /* Effective button sizing (this block wins over the base rule by source order).
    0.72rem ≈ 13.8px at the 19.2px root — clearly larger than the old 0.62rem,
    yet small enough that 8-char labels ("Rephrase", "Condense") stay one line;
-   only genuinely long single words ("Visualization") wrap. */
+   only genuinely long single words ("Visualization") wrap.
+   The horizontal padding and icon gap are trimmed from 7px/5px: at those
+   values the label box measured 67px against a 68px "Condense" and a 71px
+   "Etymology", so both broke mid-word one glyph short of fitting. */
 .sp-action-btn {
   font-size: 0.72rem;
   min-height: 50px;
-  padding: 8px 7px;
+  padding: 8px 5px;
+  gap: 4px;
+}
+/* "Visualization" is genuinely wider than any cell here, so it must wrap.
+   Hyphenate it at a syllable boundary rather than shearing it mid-word —
+   `anywhere` in the base rule produced "Visualizat / ion". `break-word` keeps
+   the same no-overflow guarantee while leaving hyphens: auto free to act. */
+.sp-action-btn .sp-action-label {
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 .sp-aq-item {
   font-size: 0.68rem;

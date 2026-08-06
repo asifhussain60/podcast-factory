@@ -67,10 +67,15 @@
 
 /* ── Chapter counter pill ──────────────────────────────────────── */
 
+/* Seated to the LEFT of the global back-to-top control (.to-top in
+   theme-components.css: right/bottom var(--sp-5), 44px wide, z-index 900)
+   rather than sharing its corner — at right: 2rem the two boxes overlapped by
+   ~30px and .to-top's far higher z-index painted over the pill's chapter
+   count. Same bottom offset keeps the pair reading as one row. */
 .narrative-chapter-pill {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: var(--sp-5, 1.5rem);
+  right: calc(var(--sp-5, 1.5rem) + 44px + var(--sp-3, 0.75rem));
   background: rgba(247, 244, 238, 0.92);
   border: 1px solid rgba(201, 151, 58, 0.35);
   color: #c9973a;

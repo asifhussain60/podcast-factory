@@ -466,6 +466,54 @@ async function checkLayoutInvariants(page) {
       }
     }
 
+    // INV-6: a hover popover swallowed by an ancestor's `overflow: hidden`.
+    // Found twice on 2026-08-06, from the same cause each time: a card that
+    // clips itself ONLY to keep a decorative ::before glow inside its rounded
+    // corners, and takes every popover anchored inside it down with the glow.
+    // /infrastructure's vendor cost cards cut the per-service tooltip to a
+    // ~20px black sliver (up to 353px of it gone), and /plan's wave bands cut
+    // the .step-hover-card on the LAST step of every expanded wave to its
+    // heading. Neither is visible until something is HOVERED, which is why the
+    // screenshots looked clean — so this measures geometry against the clipping
+    // ancestor rather than waiting for a hover state to be captured.
+    // The popover need not be visible right now: it is positioned at author
+    // time, so the overhang is measurable in its resting state too.
+    const POPOVERS = ".hover-tip, .step-hover-card, [role='tooltip']";
+    for (const tip of document.querySelectorAll(POPOVERS)) {
+      const tb = tip.getBoundingClientRect();
+      if (tb.width < 1 || tb.height < 1) continue;
+      let clipper = null;
+      for (
+        let a = tip.parentElement;
+        a && a !== document.body;
+        a = a.parentElement
+      ) {
+        const cs = getComputedStyle(a);
+        if (/(hidden|clip)/.test(cs.overflow + cs.overflowX + cs.overflowY)) {
+          clipper = a;
+          break;
+        }
+      }
+      if (!clipper) continue;
+      const ab = clipper.getBoundingClientRect();
+      const lost = Math.round(
+        Math.max(
+          tb.bottom - ab.bottom,
+          ab.top - tb.top,
+          tb.right - ab.right,
+          ab.left - tb.left,
+        ),
+      );
+      if (lost <= 2) continue;
+      const who = (tip.className || tip.tagName).toString().split(" ")[0];
+      const by = (clipper.className || clipper.tagName)
+        .toString()
+        .split(" ")[0];
+      out.push(
+        `popover-clipped-by-ancestor: .${who} loses ${lost}px to .${by}'s overflow (the tooltip is unreadable once opened)`,
+      );
+    }
+
     // INV-4 asserted the same overlap as INV-2 one surface over: the LIVE
     // Session's sticky companion panel against the site-wide back-to-top
     // control. It went with that route on 2026-08-01. Not re-pointed at the

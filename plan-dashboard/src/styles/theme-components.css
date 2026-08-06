@@ -23,6 +23,19 @@ body {
   overflow-x: clip; /* clip prevents horizontal scroll without creating a new scroll container (hidden would break position:sticky) */
 }
 
+/* REQ-005: in-page anchors scroll smoothly. The jump nav and the back-to-top
+   control already do this in JS (site-chrome.ts), but three paths bypass that
+   code entirely and used to land instantly: a #hash typed or pasted into the
+   URL bar, the browser Back button returning to an anchor, and any plain
+   <a href="#…"> written in page prose. Declared under no-preference rather
+   than overridden inside a reduce query, so a reader who asks for less motion
+   never has to out-specify us. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* Vertical-flow guarantee — no fixed-height container anywhere */
 .page {
   max-width: var(--maxw-page);
@@ -206,6 +219,29 @@ hr {
   max-width: 18ch;
   /* Gradient title (REQ-013) — restrained: mostly ink, easing to accent brown
      at the tail. --c-ink fallback for engines without background-clip:text. */
+  color: var(--c-ink);
+  background: linear-gradient(115deg, var(--c-ink) 55%, var(--c-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* REQ-013 for the reference views that never adopted .page-hero-title. Eleven
+   pages carry the gradient and these five carried a flat <h1>, so the site was
+   telling you two different things about what a page title looks like. One rule
+   rather than five copies of the recipe — the only earlier copy, in
+   corpus-morphology.css, is left where it is because that page states the
+   fallback reasoning in its own comment.
+
+   The paint lands through -webkit-text-fill-color, not `color`, which is why a
+   page stylesheet loading later and setting its own `color` (about.css does)
+   still gets the gradient and keeps a readable ink fallback on engines without
+   background-clip: text. Sizes stay with each page — this sets treatment, not
+   scale. */
+.about-hero-h1,
+.intel-hero-h1,
+.cm-hero h1,
+header.stack > h1 {
   color: var(--c-ink);
   background: linear-gradient(115deg, var(--c-ink) 55%, var(--c-accent) 100%);
   -webkit-background-clip: text;
@@ -2340,9 +2376,13 @@ table.data tr:hover td {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--sp-5);
 }
+/* No `overflow: hidden` here: it was only ever there to keep the decorative
+   ::before glow inside the rounded corners, and it also clipped every
+   .hover-tip on the per-service rows — the tooltip for a row low in the card
+   was cut to a sliver and its text was unreachable. The glow is clipped at the
+   card's edges on ::before itself instead, which leaves tooltips free. */
 .vendor-col {
   position: relative;
-  overflow: hidden;
   isolation: isolate;
   border-radius: 6px;
   padding: var(--sp-5);
@@ -2354,6 +2394,9 @@ table.data tr:hover td {
   right: -60px;
   width: 220px;
   height: 220px;
+  /* Trims exactly the 60px the glow bleeds past the card's top and right
+     edges, matching the 6px corner radius it used to inherit from the clip. */
+  clip-path: inset(60px 60px 0 0 round 0 6px 0 0);
   pointer-events: none;
   z-index: -1;
   background: radial-gradient(
@@ -2723,7 +2766,11 @@ table.data tr:hover td {
     inset 0 1px 0 rgba(255, 255, 255, 0.4),
     0 1px 2px rgba(31, 29, 24, 0.04),
     0 10px 24px -12px rgba(31, 29, 24, 0.12);
-  overflow: hidden;
+  /* No `overflow: hidden`: it only ever clipped the decorative ::before glow
+     (the collapsed state renders fewer children, it is not a max-height
+     animation), and it also clipped .step-hover-card — the hover card on the
+     LAST step of every expanded wave was cut to its first line. The glow is
+     clipped on ::before itself instead. */
   isolation: isolate;
 }
 .wave-band::before {
@@ -2733,6 +2780,9 @@ table.data tr:hover td {
   right: -80px;
   width: 260px;
   height: 260px;
+  /* Trims exactly the 80px the glow bleeds past the band's top and right
+     edges, matching the 6px corner radius it used to inherit from the clip. */
+  clip-path: inset(80px 80px 0 0 round 0 6px 0 0);
   background: radial-gradient(
     circle at center,
     color-mix(in oklab, var(--c-accent) 10%, transparent),

@@ -291,7 +291,15 @@ function PronunciationTab({
         </a>
       )}
 
-      <div className="pu-table-wrap">
+      {/* REQ-052: the wrapper already scrolls horizontally; role+tabIndex are
+          what make that scroll reachable from the keyboard and announce it as a
+          named region rather than an anonymous overflowing div. */}
+      <div
+        className="pu-table-wrap"
+        role="region"
+        aria-label="Pronunciation checklist"
+        tabIndex={0}
+      >
         <table className="pu-table" aria-label="Pronunciation checklist">
           <thead>
             <tr>

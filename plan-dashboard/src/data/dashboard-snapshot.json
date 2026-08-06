@@ -1930,6 +1930,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "0a5a3ea",
+      "subject": "fix(plan-dashboard): the snapshot showed a phase from days ago, and two gates could not fail",
+      "date": "2026-08-06"
+    },
+    {
       "sha": "5cfbbd4",
       "subject": "fix(the-master-and-the-disciple): one answer for which prose route this book takes",
       "date": "2026-08-06"
@@ -1972,11 +1977,6 @@
     {
       "sha": "08ace78",
       "subject": "podcast(spiritual-ethos): phase 0d chapter design (tier=extended, unit=auto)",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "82c853c",
-      "subject": "podcast(spiritual-ethos): phase 0d chapter design — 17 chapters, halted on the density gate",
       "date": "2026-08-06"
     }
   ],
