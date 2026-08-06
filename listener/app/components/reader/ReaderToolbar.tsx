@@ -45,6 +45,51 @@ const LEADING_ICONS: Record<(typeof LEADINGS)[number], IconDefinition> = {
 };
 
 /**
+ * How wide the page runs — drawn as the PAGE, at three widths.
+ *
+ * Its first version drew three stacks of horizontal bars whose length grew, on
+ * the reasoning that width is horizontal so the icon should be. Rendered beside
+ * the spacing buttons, which are also stacks of horizontal bars, the two groups
+ * read as one family of six: the widest width icon and the widest spacing icon
+ * were near enough identical to swap. That is the third time this control has
+ * been misread, and every time the cause was the same — it borrowed the drawing
+ * vocabulary of the setting next to it.
+ *
+ * So it borrows nothing. A page outline, height fixed, width growing. It shares
+ * no line, no stack and no rhythm with the icons beside it, and it names the
+ * thing that actually moves: not the text, the sheet the text is printed on.
+ *
+ * `aria-hidden` because the button around it is already labelled with the
+ * setting AND its value ("Wider page width"); announcing the drawing as well
+ * would say the same thing twice.
+ */
+function WidthIcon({ measure }: { measure: (typeof MEASURES)[number] }) {
+  // Centred, so growth reads as the page widening from the middle rather than
+  // as something being added on the right.
+  const width = { 68: 7, 84: 11, 100: 15 }[measure];
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      width="1em"
+      height="1em"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect
+        x={(16 - width) / 2}
+        y="1.5"
+        width={width}
+        height="13"
+        rx="1.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+    </svg>
+  );
+}
+
+/**
  * Everything that controls the reading view, in ONE row above it.
  *
  * This replaces two surfaces that used to coexist: a typeface-and-size bar under
@@ -65,21 +110,23 @@ const LEADING_ICONS: Record<(typeof LEADINGS)[number], IconDefinition> = {
  *      the thing being removed. A scrolling strip is the same idiom the mobile
  *      nav already uses.
  *
- *   2. **Buttons for spacing, a select for width, a stepper for size.** Six
- *      chips would not fit a phone, so only one of the two three-step settings
- *      can have buttons, and it is the one a reader actually reaches for: line
- *      SPACING. A select is one control, gets the platform's own picker on
- *      touch, and reads its current value without being opened — right for
- *      width, which is set once and left alone. Size stays a stepper because it
- *      is nudged repeatedly, and nudging through a picker is two taps a go.
+ *   2. **Buttons for spacing AND for width, a stepper for size.** Six chips do
+ *      not fit a phone, which is why only one of the two three-step settings
+ *      could have buttons — and that constraint dissolved once width became a
+ *      setting that does nothing below 900px: it is hidden exactly where the
+ *      room runs out, so the phone still shows one row of three-plus-a-stepper
+ *      and the desktop shows both groups. Size stays a stepper because it is
+ *      nudged repeatedly, and nudging through a picker is two taps a go.
  *
- *      Spacing and width have swapped controls twice now, and both moves came
+ *      Spacing and width have swapped controls three times, and every move came
  *      from the same failure: a control that does not look like what it does.
  *      As two selects they both read "Normal" and were indistinguishable, so
  *      width was pulled (2026-08-04) and came back as buttons — drawn with
  *      arrows pushing left and right, which is how it was then read as a
- *      spacing control that moved the wrong axis. Whatever holds the buttons
- *      must be drawn on the axis it changes.
+ *      spacing control that moved the wrong axis. It returns as buttons again
+ *      (2026-08-06), and what keeps it legible this time is that its icons
+ *      share no vocabulary with the ones beside it: lines for spacing, a sheet
+ *      for width. See `WidthIcon`.
  *
  *   3. **Nothing overlays the text.** The one thing that still floats is the
  *      selection bar, which has to — it points at the words it acts on.
@@ -105,7 +152,11 @@ export function ReaderToolbar({
           chapter into the row of controls for how this chapter is SET. It is a
           collapsible panel on the left now, carrying its own affordance. */}
       <div className="pf-toolbar__group">
-        <Link to="/" aria-label="Back to your library" className="pf-toolbar__home">
+        <Link
+          to="/"
+          aria-label="Back to your library"
+          className="pf-toolbar__home"
+        >
           <Icon icon={faHouse} title="Back to your library" />
         </Link>
 
@@ -116,9 +167,11 @@ export function ReaderToolbar({
           title={bookmarked ? "Remove bookmark" : "Bookmark this place"}
           className="pf-tool"
         >
-          <Icon icon={faBookmark} title={bookmarked ? "Remove bookmark" : "Bookmark this place"} />
+          <Icon
+            icon={faBookmark}
+            title={bookmarked ? "Remove bookmark" : "Bookmark this place"}
+          />
         </button>
-
       </div>
 
       {/* ---- How the page is set ----------------------------------------- */}
@@ -131,7 +184,9 @@ export function ReaderToolbar({
         <select
           id={`${id}-face`}
           value={prefs.family}
-          onChange={(e) => setReading({ ...prefs, family: e.target.value as Family })}
+          onChange={(e) =>
+            setReading({ ...prefs, family: e.target.value as Family })
+          }
           title="Typeface"
           className="pf-select pf-select--sm pf-select--auto"
         >
@@ -142,10 +197,19 @@ export function ReaderToolbar({
           ))}
         </select>
 
-        <div role="group" aria-label="Text size" className="pf-stepper pf-stepper--sm">
+        <div
+          role="group"
+          aria-label="Text size"
+          className="pf-stepper pf-stepper--sm"
+        >
           <button
             type="button"
-            onClick={() => setReading({ ...prefs, size: step(SIZES, prefs.size as never, -1) })}
+            onClick={() =>
+              setReading({
+                ...prefs,
+                size: step(SIZES, prefs.size as never, -1),
+              })
+            }
             disabled={smallest}
             aria-label="Smaller text"
             className="pf-stepper__step"
@@ -159,7 +223,12 @@ export function ReaderToolbar({
           </span>
           <button
             type="button"
-            onClick={() => setReading({ ...prefs, size: step(SIZES, prefs.size as never, 1) })}
+            onClick={() =>
+              setReading({
+                ...prefs,
+                size: step(SIZES, prefs.size as never, 1),
+              })
+            }
             disabled={largest}
             aria-label="Larger text"
             className="pf-stepper__step"
@@ -175,7 +244,11 @@ export function ReaderToolbar({
             controls stating their value in the same word with nothing to
             separate them is the confusion that took line width off this toolbar
             once already. */}
-        <div role="group" aria-label="Line spacing" className="pf-stepper pf-stepper--sm">
+        <div
+          role="group"
+          aria-label="Line spacing"
+          className="pf-stepper pf-stepper--sm"
+        >
           {LEADINGS.map((leading) => (
             <button
               key={leading}
@@ -186,27 +259,43 @@ export function ReaderToolbar({
               title={`${LEADING_LABELS[leading]} line spacing`}
               className="pf-stepper__step pf-stepper__step--toggle"
             >
-              <Icon icon={LEADING_ICONS[leading]} title={`${LEADING_LABELS[leading]} line spacing`} />
+              <Icon
+                icon={LEADING_ICONS[leading]}
+                title={`${LEADING_LABELS[leading]} line spacing`}
+              />
             </button>
           ))}
         </div>
 
-        <label htmlFor={`${id}-measure`} className="sr-only">
-          Line width
-        </label>
-        <select
-          id={`${id}-measure`}
-          value={prefs.measure}
-          onChange={(e) => setReading({ ...prefs, measure: Number(e.target.value) })}
-          title="Line width"
-          className="pf-select pf-select--sm pf-select--auto"
+        {/* Width gets buttons too, now that it has somewhere to go: each step
+            widens the SHEET as well as the column, so the top of the scale uses
+            the empty half of a desktop window instead of adding white space
+            inside the same narrow leaf (Asif, 2026-08-06).
+
+            Hidden below the tablet tier, and that is the honest behaviour rather
+            than a tidy-up: under about 900px the sheet is already capped by the
+            window, so all three steps render identically and the control would
+            be three buttons that do nothing. The CSS hides it; the setting still
+            applies if it was chosen on a wider screen. */}
+        <div
+          role="group"
+          aria-label="Page width"
+          className="pf-stepper pf-stepper--sm pf-stepper--wide-only"
         >
           {MEASURES.map((measure) => (
-            <option key={measure} value={measure}>
-              {MEASURE_LABELS[measure]}
-            </option>
+            <button
+              key={measure}
+              type="button"
+              onClick={() => setReading({ ...prefs, measure })}
+              aria-pressed={prefs.measure === measure}
+              aria-label={`${MEASURE_LABELS[measure]} page width`}
+              title={`${MEASURE_LABELS[measure]} page width`}
+              className="pf-stepper__step pf-stepper__step--toggle"
+            >
+              <WidthIcon measure={measure} />
+            </button>
           ))}
-        </select>
+        </div>
       </div>
 
       {/* Nothing here is information. "13 min left" sat at the end of the row

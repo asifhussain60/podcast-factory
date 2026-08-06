@@ -45,10 +45,12 @@
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
-  src: url("/fonts/roboto-condensed-latin-wght-normal.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  src: url("/fonts/roboto-condensed-latin-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -57,9 +59,10 @@
   font-display: swap;
   font-weight: 200 900;
   src: url("/fonts/literata-latin-opsz-normal.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 /* Book titles on the library card. Self-hosted like every other face here — a
@@ -70,10 +73,12 @@
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
-  src: url("/fonts/roboto-condensed-latin-wght-normal.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  src: url("/fonts/roboto-condensed-latin-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -82,9 +87,10 @@
   font-display: swap;
   font-weight: 200 900;
   src: url("/fonts/literata-latin-opsz-italic.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 /* Fraunces — headings only. Its optical-size axis gives large type far more
@@ -96,9 +102,10 @@
   font-display: swap;
   font-weight: 100 900;
   src: url("/fonts/fraunces-latin-opsz-normal.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 /* Inter — the interface face, and the one that carries the most words on this
@@ -112,9 +119,10 @@
   font-display: swap;
   font-weight: 100 900;
   src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -123,9 +131,10 @@
   font-display: swap;
   font-weight: 100 900;
   src: url("/fonts/inter-latin-wght-italic.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 /* Scheherazade New is engineered for fully-vowelled text — harakat stack above
@@ -180,7 +189,8 @@
   font-style: normal;
   font-display: swap;
   font-weight: 300 900;
-  src: url("/fonts/merriweather-latin-opsz-normal.woff2") format("woff2-variations");
+  src: url("/fonts/merriweather-latin-opsz-normal.woff2")
+    format("woff2-variations");
 }
 
 @font-face {
@@ -188,7 +198,8 @@
   font-style: italic;
   font-display: swap;
   font-weight: 300 900;
-  src: url("/fonts/merriweather-latin-opsz-italic.woff2") format("woff2-variations");
+  src: url("/fonts/merriweather-latin-opsz-italic.woff2")
+    format("woff2-variations");
 }
 
 /* Atkinson Hyperlegible — drawn by the Braille Institute for low vision, around
@@ -198,7 +209,8 @@
   font-style: normal;
   font-display: swap;
   font-weight: 400;
-  src: url("/fonts/atkinson-hyperlegible-latin-400-normal.woff2") format("woff2");
+  src: url("/fonts/atkinson-hyperlegible-latin-400-normal.woff2")
+    format("woff2");
 }
 
 @font-face {
@@ -206,7 +218,8 @@
   font-style: italic;
   font-display: swap;
   font-weight: 400;
-  src: url("/fonts/atkinson-hyperlegible-latin-400-italic.woff2") format("woff2");
+  src: url("/fonts/atkinson-hyperlegible-latin-400-italic.woff2")
+    format("woff2");
 }
 
 /* Lexend — wide spacing and simplified forms, drawn around reading proficiency.
@@ -247,7 +260,8 @@
   --l-font-display: "Fraunces Variable", "Literata Variable", Georgia, serif;
   /* Library-card book titles only. Condensed, so a long title fits the card's
      narrow column at full size instead of being shrunk to fit. */
-  --l-font-card-title: "Roboto Condensed Variable", "Inter Variable", system-ui, sans-serif;
+  --l-font-card-title:
+    "Roboto Condensed Variable", "Inter Variable", system-ui, sans-serif;
   --l-font-ui: "Inter Variable", system-ui, -apple-system, sans-serif;
   --l-font-arabic: "Scheherazade New", "Amiri", serif;
   /* Titles and other display Arabic ONLY. Never the reading column — see the
@@ -260,7 +274,8 @@
      so a face that fails to load degrades to something of the same shape rather
      than to the browser's default. */
   --l-font-merriweather: "Merriweather Variable", Georgia, serif;
-  --l-font-atkinson: "Atkinson Hyperlegible", "Inter Variable", system-ui, sans-serif;
+  --l-font-atkinson:
+    "Atkinson Hyperlegible", "Inter Variable", system-ui, sans-serif;
   --l-font-lexend: "Lexend Variable", "Inter Variable", system-ui, sans-serif;
   --l-font-dyslexic: "OpenDyslexic", "Atkinson Hyperlegible", sans-serif;
 
@@ -384,16 +399,16 @@
   --l-elev: #ffffff;
   --l-sunken: #eae5db;
 
-  --l-ink: #1c2433;    /* 14.16:1 on bg */
-  --l-muted: #575d6b;  /*  6.00:1 on bg */
-  --l-faint: #6a707d;  /*  4.52:1 on bg */
+  --l-ink: #1c2433; /* 14.16:1 on bg */
+  --l-muted: #575d6b; /*  6.00:1 on bg */
+  --l-faint: #6a707d; /*  4.52:1 on bg */
 
   --l-rule: #ded8cd;
   --l-rule-soft: #ebe6dc;
 
-  --l-accent: #0d51c9;       /* 6.29:1 on bg — the logo's blue, held to AA */
+  --l-accent: #0d51c9; /* 6.29:1 on bg — the logo's blue, held to AA */
   --l-accent-hover: #0a3e9c;
-  --l-accent-soft: #dde7fb;  /* accent reads 5.56:1 on this — soft pills */
+  --l-accent-soft: #dde7fb; /* accent reads 5.56:1 on this — soft pills */
   --l-on-accent: #ffffff;
 
   /* A real mid-navy, not the logo's near-black #0c1b39. At the size a card
@@ -401,11 +416,11 @@
      colour — the hue was right and the quantity was wrong. */
   /* Page titles: the band's own navy, so the biggest type on the library and
      the colour of the cards under it are the same decision. */
-  --l-display: #2b456f;       /* 8.75:1 on bg */
+  --l-display: #2b456f; /* 8.75:1 on bg */
 
   --l-band: #2b456f;
-  --l-on-band: #f6f4ef;       /* 8.75:1 */
-  --l-band-muted: #b3c3de;    /* 5.39:1 */
+  --l-on-band: #f6f4ef; /* 8.75:1 */
+  --l-band-muted: #b3c3de; /* 5.39:1 */
   --l-band-ornament: #8fb4f7; /* 4.60:1 */
 
   --l-ok: #1f7a4d;
@@ -426,12 +441,12 @@
      is held to the body floor of 4.5:1 there by test/theme.test.ts — not to the
      3:1 a shape would allow. The medallion's fill is a 12% mix of the hue into
      the surface, made in CSS, and the glyph clears 4.4:1 even on that. */
-  --l-topic-coral: #c02f3b;   /* 5.57:1 on surface */
-  --l-topic-cyan: #0a6a82;    /* 6.09:1 */
-  --l-topic-violet: #6a34a6;  /* 7.79:1 */
-  --l-topic-green: #1f7a4d;   /* 5.23:1 */
-  --l-topic-amber: #8a5712;   /* 5.99:1 */
-  --l-topic-blue: #0d51c9;    /* 6.80:1 */
+  --l-topic-coral: #c02f3b; /* 5.57:1 on surface */
+  --l-topic-cyan: #0a6a82; /* 6.09:1 */
+  --l-topic-violet: #6a34a6; /* 7.79:1 */
+  --l-topic-green: #1f7a4d; /* 5.23:1 */
+  --l-topic-amber: #8a5712; /* 5.99:1 */
+  --l-topic-blue: #0d51c9; /* 6.80:1 */
 
   /* The reader's four highlight colours.
      Declared per palette rather than color-mixed off the accent like every other
@@ -442,14 +457,14 @@
      readable, and the tint against the page at 1.3:1 so the mark is visible as a
      BAND rather than only as a hue. That second floor is what a reader who
      cannot separate the colours actually sees. */
-  --l-hl-gold: #f7e5a2;  /* ink 12.36:1 · page 1.24:1 */
-  --l-hl-sage: #d2ebca;  /* ink 12.21:1 · page 1.25:1 */
-  --l-hl-sky: #cadef6;   /* ink 11.33:1 · page 1.35:1 */
-  --l-hl-rose: #f9d3dc;  /* ink 11.40:1 · page 1.34:1 */
+  --l-hl-gold: #f7e5a2; /* ink 12.36:1 · page 1.24:1 */
+  --l-hl-sage: #d2ebca; /* ink 12.21:1 · page 1.25:1 */
+  --l-hl-sky: #cadef6; /* ink 11.33:1 · page 1.35:1 */
+  --l-hl-rose: #f9d3dc; /* ink 11.40:1 · page 1.34:1 */
 
   /* Warm-tinted, so a shadow on warm paper does not go grey. */
   --l-shadow-near: rgb(46 38 24 / 0.07);
-  --l-shadow-far: rgb(46 38 24 / 0.10);
+  --l-shadow-far: rgb(46 38 24 / 0.1);
 }
 
 [data-theme="dark"] {
@@ -462,27 +477,27 @@
   --l-elev: #232833;
   --l-sunken: #0d1015;
 
-  --l-ink: #eceef3;    /* 15.73:1 on bg */
-  --l-muted: #a8b0bf;  /*  8.37:1 on bg */
-  --l-faint: #8d95a4;  /*  6.06:1 on bg */
+  --l-ink: #eceef3; /* 15.73:1 on bg */
+  --l-muted: #a8b0bf; /*  8.37:1 on bg */
+  --l-faint: #8d95a4; /*  6.06:1 on bg */
 
   --l-rule: #2f353f;
   --l-rule-soft: #242932;
 
-  --l-accent: #7aadff;       /* 8.04:1 on bg */
+  --l-accent: #7aadff; /* 8.04:1 on bg */
   --l-accent-hover: #9cc3ff;
-  --l-accent-soft: #1c2a44;  /* accent reads 6.32:1 on this */
+  --l-accent-soft: #1c2a44; /* accent reads 6.32:1 on this */
   --l-on-accent: #06152e;
 
   /* Above the surface, not below it: on a dark page the band has to be the
      lighter of the two or the card reads inside-out. */
   /* The band's navy is far too dark to letter with here, so the same idea runs
      the other way: a blue-tinted light, distinct from the neutral ink. */
-  --l-display: #b9cdf0;       /* 11.35:1 on bg */
+  --l-display: #b9cdf0; /* 11.35:1 on bg */
 
   --l-band: #2c3855;
-  --l-on-band: #eceef3;       /* 10.03:1 */
-  --l-band-muted: #a9b6cd;    /*  5.69:1 */
+  --l-on-band: #eceef3; /* 10.03:1 */
+  --l-band-muted: #a9b6cd; /*  5.69:1 */
   --l-band-ornament: #7aadff; /*  5.13:1 */
 
   --l-ok: #54b782;
@@ -491,21 +506,21 @@
 
   /* Topic hues — see the light palette for what they are and why they are
      declared rather than mixed. Lifted for a near-black surface. */
-  --l-topic-coral: #ff8f97;   /* 7.56:1 on surface */
-  --l-topic-cyan: #5ad0e8;    /* 9.13:1 */
-  --l-topic-violet: #c9a8f7;  /* 8.19:1 */
-  --l-topic-green: #63d69b;   /* 9.13:1 */
-  --l-topic-amber: #e6b465;   /* 8.70:1 */
-  --l-topic-blue: #7aadff;    /* 7.26:1 */
+  --l-topic-coral: #ff8f97; /* 7.56:1 on surface */
+  --l-topic-cyan: #5ad0e8; /* 9.13:1 */
+  --l-topic-violet: #c9a8f7; /* 8.19:1 */
+  --l-topic-green: #63d69b; /* 9.13:1 */
+  --l-topic-amber: #e6b465; /* 8.70:1 */
+  --l-topic-blue: #7aadff; /* 7.26:1 */
 
   /* The same four hues, inverted rather than dimmed. A pale highlight on a dark
      page is a lamp, not a mark: it would out-shine the text it sits under and
      the ink would have to flip to dark, so a marked sentence would read as a
      different colour of text. These are dark tints under the SAME light ink. */
-  --l-hl-gold: #45391a;  /* ink  9.76:1 · page 1.46:1 */
-  --l-hl-sage: #253e25;  /* ink 10.08:1 · page 1.41:1 */
-  --l-hl-sky: #1e3450;   /* ink 10.88:1 · page 1.31:1 */
-  --l-hl-rose: #452433;  /* ink 11.65:1 · page 1.22:1 */
+  --l-hl-gold: #45391a; /* ink  9.76:1 · page 1.46:1 */
+  --l-hl-sage: #253e25; /* ink 10.08:1 · page 1.41:1 */
+  --l-hl-sky: #1e3450; /* ink 10.88:1 · page 1.31:1 */
+  --l-hl-rose: #452433; /* ink 11.65:1 · page 1.22:1 */
 
   --l-shadow-near: rgb(0 0 0 / 0.55);
   --l-shadow-far: rgb(0 0 0 / 0.45);
@@ -519,25 +534,25 @@
   --l-elev: #fcf8ef;
   --l-sunken: #e3d9c5;
 
-  --l-ink: #2c2519;    /* 12.45:1 on bg */
-  --l-muted: #615642;  /*  5.91:1 on bg */
-  --l-faint: #6d614a;  /*  4.99:1 on bg */
+  --l-ink: #2c2519; /* 12.45:1 on bg */
+  --l-muted: #615642; /*  5.91:1 on bg */
+  --l-faint: #6d614a; /*  4.99:1 on bg */
 
   --l-rule: #d9ceb9;
   --l-rule-soft: #e7decc;
 
-  --l-accent: #1c5296;       /* 6.40:1 on bg — the brand blue, muted for paper */
+  --l-accent: #1c5296; /* 6.40:1 on bg — the brand blue, muted for paper */
   --l-accent-hover: #143e74;
-  --l-accent-soft: #d2dcee;  /* accent reads 5.64:1 on this */
+  --l-accent-soft: #d2dcee; /* accent reads 5.64:1 on this */
   --l-on-accent: #f8f2e6;
 
   /* A slate-navy: on warm paper a cold true navy reads as a hole punched in
      the page. */
-  --l-display: #33425a;       /* 8.34:1 on bg */
+  --l-display: #33425a; /* 8.34:1 on bg */
 
   --l-band: #3b4a63;
-  --l-on-band: #f3ede1;       /* 7.68:1 */
-  --l-band-muted: #b4bfcf;    /* 4.81:1 */
+  --l-on-band: #f3ede1; /* 7.68:1 */
+  --l-band-muted: #b4bfcf; /* 4.81:1 */
   --l-band-ornament: #8fb0dc; /* 4.01:1 */
 
   --l-ok: #3d7b53;
@@ -545,19 +560,19 @@
   --l-danger: #9b3731;
 
   /* Topic hues — see the light palette. Warmed and darkened for paper. */
-  --l-topic-coral: #a93039;   /* 5.94:1 on surface */
-  --l-topic-cyan: #0b6076;    /* 6.39:1 */
-  --l-topic-violet: #5f3199;  /* 7.89:1 */
-  --l-topic-green: #1c6c45;   /* 5.74:1 */
-  --l-topic-amber: #7d4e10;   /* 6.34:1 */
-  --l-topic-blue: #1c5296;    /* 6.98:1 */
+  --l-topic-coral: #a93039; /* 5.94:1 on surface */
+  --l-topic-cyan: #0b6076; /* 6.39:1 */
+  --l-topic-violet: #5f3199; /* 7.89:1 */
+  --l-topic-green: #1c6c45; /* 5.74:1 */
+  --l-topic-amber: #7d4e10; /* 6.34:1 */
+  --l-topic-blue: #1c5296; /* 6.98:1 */
 
   /* Warmed towards the paper they sit on. The light theme's values on this
      background read as four stickers laid on parchment. */
-  --l-hl-gold: #eedba1;  /* ink 11.03:1 · page 1.23:1 */
-  --l-hl-sage: #d1e1c2;  /* ink 11.01:1 · page 1.23:1 */
-  --l-hl-sky: #ced9e7;   /* ink 10.61:1 · page 1.28:1 */
-  --l-hl-rose: #efcccb;  /* ink 10.23:1 · page 1.33:1 */
+  --l-hl-gold: #eedba1; /* ink 11.03:1 · page 1.23:1 */
+  --l-hl-sage: #d1e1c2; /* ink 11.01:1 · page 1.23:1 */
+  --l-hl-sky: #ced9e7; /* ink 10.61:1 · page 1.28:1 */
+  --l-hl-rose: #efcccb; /* ink 10.23:1 · page 1.33:1 */
 
   --l-shadow-near: rgb(51 41 28 / 0.09);
   --l-shadow-far: rgb(51 41 28 / 0.12);
@@ -1245,6 +1260,18 @@
     color: var(--l-accent);
   }
 
+  /* The one in force stays in force under the cursor.
+     `.pf-stepper__step:hover:not(:disabled)` above is (0,3,0) and the pressed
+     rule is (0,2,0), so hover was winning and the selected button lost its
+     accent the moment it was pointed at — it read as nothing being chosen, on
+     the button you had just chosen. Repeating the pressed colours at hover
+     specificity is the whole fix; it applies to line spacing too, which has had
+     it since those buttons were made toggles. */
+  .pf-stepper__step--toggle[aria-pressed="true"]:hover:not(:disabled) {
+    background: var(--l-accent-soft);
+    color: var(--l-accent);
+  }
+
   .pf-stepper__step--toggle + .pf-stepper__step--toggle {
     border-inline-start: 1px solid var(--l-rule);
   }
@@ -1287,6 +1314,26 @@
   .pf-stepper--sm .pf-stepper__value {
     min-width: 2.1rem;
     font-size: var(--pf-text-sm);
+  }
+
+  /* A control only where it can do something.
+     Page width is three steps of `--pf-measure-reader`, and below about 900px
+     the sheet is already capped by the window — so every step renders the same
+     page and the buttons would be an offer the layout cannot keep. `display`
+     rather than `visibility` so it leaves the scrolling toolbar strip entirely
+     on a phone, where the row is tight enough that an inert control costs the
+     ones beside it their room.
+
+     The SETTING is untouched by this: a reader who chose Widest on a desktop
+     keeps it, and sees it again the moment the window is wide enough to draw. */
+  .pf-stepper--wide-only {
+    display: none;
+  }
+
+  @media (min-width: 900px) {
+    .pf-stepper--wide-only {
+      display: inline-flex;
+    }
   }
 
   /* ---- The page ----------------------------------------------------------
@@ -3330,7 +3377,6 @@
     background: color-mix(in srgb, var(--l-danger) 18%, var(--l-elev));
   }
 
-
   .pf-quiet {
     color: var(--l-faint);
   }
@@ -4196,7 +4242,8 @@
      above for the same reason. A different colour would collide with the four
      the reader chose; a border drawn from the tint cannot. */
   .pf-hl--noted {
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--pf-hl-tint) 72%, var(--l-ink));
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--pf-hl-tint) 72%, var(--l-ink));
   }
 
   /* Where the notes drawer just sent you. Temporary by nature — it is removed
@@ -5099,8 +5146,6 @@
     }
   }
 
-
-
   /* ---- The Scholar Companion ----------------------------------------------
      The cards in the drawer, and the tint on the sentences they explain. Seen
      by one account; styled from the same tokens as everything else, because a
@@ -5118,7 +5163,8 @@
        dotted rule under the words, not the solid one a highlight refuses (see
        .pf-hl) — solid reads as a link, dotted reads as a footnote, which is
        what this is. */
-    border-bottom: 1px dotted color-mix(in srgb, var(--l-accent) 60%, transparent);
+    border-bottom: 1px dotted
+      color-mix(in srgb, var(--l-accent) 60%, transparent);
     border-radius: 2px;
     cursor: pointer;
     transition: background var(--pf-motion);
@@ -5328,7 +5374,9 @@
     color: var(--l-on-band);
     /* Cast UPWARD, over the page it sits in front of. A border alone put it in
        the same plane as the article; the shadow is what says it is above it. */
-    box-shadow: 0 -2px 6px var(--l-shadow-near), 0 -12px 32px var(--l-shadow-far);
+    box-shadow:
+      0 -2px 6px var(--l-shadow-near),
+      0 -12px 32px var(--l-shadow-far);
   }
 
   /* The global focus ring is `--l-accent`, measured against the PAGE. On this
@@ -5683,7 +5731,8 @@
     background: linear-gradient(
         to right,
         var(--l-band-ornament) calc(var(--pf-seek, 0) * 100%),
-        color-mix(in srgb, var(--l-on-band) 22%, transparent) calc(var(--pf-seek, 0) * 100%)
+        color-mix(in srgb, var(--l-on-band) 22%, transparent)
+          calc(var(--pf-seek, 0) * 100%)
       )
       center / 100% 6px no-repeat;
     border-radius: var(--pf-radius-pill);
@@ -6642,7 +6691,11 @@
     position: relative;
     overflow: hidden;
     background:
-      radial-gradient(120% 140% at 50% 100%, color-mix(in oklab, var(--l-accent) 55%, transparent) 0%, transparent 62%),
+      radial-gradient(
+        120% 140% at 50% 100%,
+        color-mix(in oklab, var(--l-accent) 55%, transparent) 0%,
+        transparent 62%
+      ),
       var(--l-band);
     color: var(--l-on-band);
   }
@@ -6666,7 +6719,11 @@
     inset-inline-start: -6%;
     width: clamp(14rem, 26vw, 26rem);
     aspect-ratio: 1;
-    background: radial-gradient(circle, color-mix(in oklab, var(--l-topic-cyan) 38%, transparent) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--l-topic-cyan) 38%, transparent) 0%,
+      transparent 70%
+    );
   }
 
   .pf-about-hero::after {
@@ -6674,7 +6731,11 @@
     inset-inline-end: -8%;
     width: clamp(16rem, 32vw, 32rem);
     aspect-ratio: 1;
-    background: radial-gradient(circle, color-mix(in oklab, var(--l-topic-coral) 34%, transparent) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--l-topic-coral) 34%, transparent) 0%,
+      transparent 70%
+    );
   }
 
   .pf-about-hero__inner {
@@ -6791,14 +6852,28 @@
      after, so a stated hue still wins. */
   .pf-about-hero,
   .pf-about-band,
-  .pf-about-card { --topic: var(--l-accent); }
+  .pf-about-card {
+    --topic: var(--l-accent);
+  }
 
-  [data-hue="coral"] { --topic: var(--l-topic-coral); }
-  [data-hue="cyan"] { --topic: var(--l-topic-cyan); }
-  [data-hue="violet"] { --topic: var(--l-topic-violet); }
-  [data-hue="green"] { --topic: var(--l-topic-green); }
-  [data-hue="amber"] { --topic: var(--l-topic-amber); }
-  [data-hue="blue"] { --topic: var(--l-topic-blue); }
+  [data-hue="coral"] {
+    --topic: var(--l-topic-coral);
+  }
+  [data-hue="cyan"] {
+    --topic: var(--l-topic-cyan);
+  }
+  [data-hue="violet"] {
+    --topic: var(--l-topic-violet);
+  }
+  [data-hue="green"] {
+    --topic: var(--l-topic-green);
+  }
+  [data-hue="amber"] {
+    --topic: var(--l-topic-amber);
+  }
+  [data-hue="blue"] {
+    --topic: var(--l-topic-blue);
+  }
 
   /* The dark band, mid-page. Paperclip's `section_inverse`: a run of pale
      sections needs one that is not, or the page reads as a single long sheet —
@@ -6825,8 +6900,11 @@
      above it. This one is the accent at low strength — enough to read as a
      deliberate ending rather than as the page running out. */
   .pf-about-band--close {
-    background:
-      linear-gradient(180deg, color-mix(in oklab, var(--l-accent) 12%, var(--l-bg)) 0%, var(--l-bg) 100%);
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--l-accent) 12%, var(--l-bg)) 0%,
+      var(--l-bg) 100%
+    );
     border-top: 1px solid var(--l-rule-soft);
   }
 

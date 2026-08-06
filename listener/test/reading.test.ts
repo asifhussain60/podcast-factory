@@ -7,6 +7,9 @@ import {
   FAMILIES,
   FAMILY_LABELS,
   FAMILY_VAR,
+  MEASURE_LABELS,
+  MEASURE_SHEET,
+  MEASURES,
   READING_INIT_SCRIPT,
   hydrateReading,
   readingSnapshot,
@@ -37,7 +40,9 @@ beforeEach(() => {
       store[k] = v;
     },
   });
-  vi.stubGlobal("document", { documentElement: { style: { setProperty: () => {} } } });
+  vi.stubGlobal("document", {
+    documentElement: { style: { setProperty: () => {} } },
+  });
   setReading(DEFAULT_PREFS);
 });
 
@@ -62,10 +67,14 @@ describe("the shared reading store", () => {
   });
 
   it("changes one field without dropping the others", () => {
-    setReading({ ...DEFAULT_PREFS, measure: 78, leading: 1.9 });
+    setReading({ ...DEFAULT_PREFS, measure: 100, leading: 1.9 });
     setReading({ ...readingSnapshot(), family: "ui" });
 
-    expect(readingSnapshot()).toMatchObject({ family: "ui", measure: 78, leading: 1.9 });
+    expect(readingSnapshot()).toMatchObject({
+      family: "ui",
+      measure: 100,
+      leading: 1.9,
+    });
   });
 
   it("stops notifying once a control unsubscribes", () => {
@@ -98,7 +107,9 @@ describe("the shared reading store", () => {
 describe("the size stepper", () => {
   it("clamps at both ends rather than running off the scale", () => {
     expect(step(SIZES, SIZES[0], -1)).toBe(SIZES[0]);
-    expect(step(SIZES, SIZES[SIZES.length - 1], 1)).toBe(SIZES[SIZES.length - 1]);
+    expect(step(SIZES, SIZES[SIZES.length - 1], 1)).toBe(
+      SIZES[SIZES.length - 1],
+    );
   });
 
   it("moves one step at a time in each direction", () => {
@@ -114,12 +125,17 @@ describe("the typeface list", () => {
   // custom property the stylesheet declares, and carries a name a reader can
   // recognise. A family with no token behind it falls back to the browser's
   // default, which looks like the picker not working.
-  const CSS = readFileSync(new URL("../app/styles/podcast-factory.css", import.meta.url), "utf8");
+  const CSS = readFileSync(
+    new URL("../app/styles/podcast-factory.css", import.meta.url),
+    "utf8",
+  );
 
   it("maps every family to a token the stylesheet declares", () => {
     for (const family of FAMILIES) {
       const token = FAMILY_VAR[family].replace(/^var\(|\)$/g, "");
-      expect(FAMILY_VAR[family], `${family} has no token`).toMatch(/^var\(--l-font-[a-z-]+\)$/);
+      expect(FAMILY_VAR[family], `${family} has no token`).toMatch(
+        /^var\(--l-font-[a-z-]+\)$/,
+      );
       expect(CSS, `${token} is never declared`).toContain(`${token}:`);
     }
   });
@@ -136,7 +152,69 @@ describe("the typeface list", () => {
   // hydration, on every load, with nothing to say the two had drifted.
   it("applies every family before first paint", () => {
     for (const family of FAMILIES) {
-      expect(READING_INIT_SCRIPT).toContain(`"${family}":"${FAMILY_VAR[family]}"`);
+      expect(READING_INIT_SCRIPT).toContain(
+        `"${family}":"${FAMILY_VAR[family]}"`,
+      );
     }
+  });
+});
+
+describe("the page width scale", () => {
+  const CSS = readFileSync(
+    new URL("../app/styles/podcast-factory.css", import.meta.url),
+    "utf8",
+  );
+
+  it("starts at the width the reader has today", () => {
+    // "The current one as the smallest" (Asif, 2026-08-06). If a narrower step
+    // is ever put in front of this one, the setting stops being three ways to
+    // use MORE of the window and goes back to being a line-length preference.
+    expect(MEASURES[0]).toBe(DEFAULT_PREFS.measure);
+    expect(MEASURE_SHEET[MEASURES[0]]).toBe("56rem");
+  });
+
+  it("only ever gets wider", () => {
+    const rem = (value: string) => Number.parseFloat(value);
+    for (let i = 1; i < MEASURES.length; i++) {
+      expect(MEASURES[i]).toBeGreaterThan(MEASURES[i - 1]);
+      expect(rem(MEASURE_SHEET[MEASURES[i]])).toBeGreaterThan(
+        rem(MEASURE_SHEET[MEASURES[i - 1]]),
+      );
+    }
+  });
+
+  it("moves the sheet with the column, every step", () => {
+    // THE reason this is a scale of pairs. A column cannot grow past the sheet
+    // it is printed on, so a step that widened only the column would spend
+    // itself against a 56rem cap and change nothing a reader could see.
+    for (const measure of MEASURES) {
+      expect(MEASURE_SHEET[measure], `${measure}ch has no sheet`).toMatch(
+        /^\d+rem$/,
+      );
+    }
+  });
+
+  it("overrides a sheet width the stylesheet actually declares", () => {
+    // Same invariant the typeface list holds: a custom property written by a
+    // control but never declared in the CSS silently does nothing.
+    expect(CSS).toContain("--pf-measure-reader:");
+    expect(CSS).toContain("max-width: var(--pf-measure-reader)");
+  });
+
+  it("applies the sheet before first paint", () => {
+    // The sheet is the widest thing on the page. Arriving only at hydration
+    // would reflow the whole chapter under the reader rather than one line.
+    for (const measure of MEASURES) {
+      expect(READING_INIT_SCRIPT).toContain(
+        `"${measure}":"${MEASURE_SHEET[measure]}"`,
+      );
+    }
+    expect(READING_INIT_SCRIPT).toContain("--pf-measure-reader");
+  });
+
+  it("gives every step a label, and no two the same", () => {
+    const labels = MEASURES.map((m) => MEASURE_LABELS[m]);
+    expect(labels.filter(Boolean)).toHaveLength(MEASURES.length);
+    expect(new Set(labels).size).toBe(MEASURES.length);
   });
 });
