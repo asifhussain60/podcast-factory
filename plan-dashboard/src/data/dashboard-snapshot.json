@@ -1930,53 +1930,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "281e6bd",
+      "sha": "3ccd627",
+      "subject": "docs: the audience-facing site is the Podcast Factory Library",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "bedbc5f",
       "subject": "fix(player,compose): the transcript follows, its \"+\" is reachable, and a held passage can be let go",
       "date": "2026-08-06"
     },
     {
-      "sha": "6e9d97e",
+      "sha": "b75505b",
       "subject": "content(the-master-and-the-disciple): six chapters articulated, nineteen student-reader notes",
       "date": "2026-08-06"
     },
     {
-      "sha": "b63c6b4",
+      "sha": "a50b083",
       "subject": "fix(companion): the pass does not ask twice, and it files where the reader looks",
       "date": "2026-08-06"
     },
     {
-      "sha": "6bf7382",
+      "sha": "d30ae6a",
       "subject": "feat(compose): accept or delete a machine-filed note, on the Compose tab",
       "date": "2026-08-06"
     },
     {
-      "sha": "98ce6ca",
+      "sha": "5529161",
       "subject": "feat(companion): the student-reader driver — a model may notice, it may not select",
       "date": "2026-08-06"
     },
     {
-      "sha": "d080f6a",
+      "sha": "104f1ad",
       "subject": "feat(companion): the student-reader lane's rules, and a writer that cannot repeat 2026-07-28",
       "date": "2026-08-06"
     },
     {
-      "sha": "86944bd",
+      "sha": "2662a67",
       "subject": "fix(book): the pipeline stops writing a second copy of the book",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "a703028",
+      "subject": "fix(status-card): read real chunk progress for 0b/0d instead of a flat guess",
       "date": "2026-08-06"
     },
     {
       "sha": "1bc3742",
       "subject": "docs(plan): record the 2026-08-06 repo audit in the site-work status",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "ba09ab9",
-      "subject": "feat(plan-dashboard): implement REQ-010's reading floor, which was never gated",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "6e653a7",
-      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
       "date": "2026-08-06"
     }
   ],
