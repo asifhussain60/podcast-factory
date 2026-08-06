@@ -27,6 +27,7 @@ import {
   alignablePositions,
 } from "../components/studio/editor/align-decos";
 import { TOOLBAR_ICONS } from "./toolbar-icons";
+import { initPublishToProduction } from "./publish-to-production";
 import {
   ARABIC_FACES,
   ARABIC_SIZES,
@@ -2119,6 +2120,8 @@ function boot(): void {
           },
         });
         contentChangedThisSession = true;
+        // Readers do not have this text yet. The Publish button listens.
+        document.dispatchEvent(new CustomEvent("cx:content-changed"));
         // The prose is on disk; now keep the explanations attached to it. Never
         // allowed to fail the save — the chapter is already safe, and an
         // explanation that stayed on its old wording is a note to re-point, not
@@ -4133,6 +4136,14 @@ function boot(): void {
   renderAiActions();
   renderScholar(); // page-lifetime surface: loads the chapter's explanations
   render();
+
+  // ── Publish to production (header) ─────────────────────────────────────────
+  // Everything it needs is in its own module; the only thing it borrows from
+  // here is the flush, because publishing an unsaved chapter would put
+  // yesterday's text in front of readers.
+  initPublishToProduction(slug, bookTitle || slug, () =>
+    activeSaveFlush ? activeSaveFlush() : Promise.resolve(true),
+  );
 
   // ── Generate PDF (header) — same contract as the Preview page's button ─────
   // The renderer reads book.md from DISK, so the open chapter's pending edits
