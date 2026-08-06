@@ -2,7 +2,7 @@
 
 - Rule: R-ARABIC-INTEGRITY (fingerprint v1.0)
 - Phase verified: `0e`
-- Generated: 2026-08-06T14:54:28Z
+- Generated: 2026-08-06T14:56:22Z
 - Verdict: FAIL
 
 Forbidden = an Arabic span mutated/dropped/invented by an LLM pass with no
@@ -178,12 +178,9 @@ sanctioning provenance (canonical injection or glossary curation).
 | سنۃ | _system/source/text/raw-extract.md | {'line': 955} | 1 |
 | كَبُرَ مَقْتًا عِندَ ٱللَّهِ أَن تَقُولُوا۟ مَا لَا تَفْعَلُونَ | _system/source/text/raw-extract.md | {'line': 1005} | 1 |
 
-## AI-INVENT — spans introduced without sanction (2)
+## AI-INVENT — spans introduced without sanction (0)
 
-| NFC_text | Artifact | Anchor | Count |
-|---|---|---|---|
-| خراج | chapters/ch13-the-letter-of-ali-to-malik-al-ashtar.txt | {'line': 49} | 1 |
-| بیت المال | chapters/ch13-the-letter-of-ali-to-malik-al-ashtar.txt | {'line': 89} | 1 |
+_None._
 
 ## AI-VOWEL-DRIFT — tashkeel altered on a protected span (0)
 
