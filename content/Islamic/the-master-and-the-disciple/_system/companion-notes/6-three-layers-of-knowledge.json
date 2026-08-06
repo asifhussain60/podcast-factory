@@ -17,8 +17,40 @@
       "citations": [],
       "createdAt": "2026-08-06T13:53:46Z",
       "updatedAt": "2026-08-06T13:53:46Z"
+    },
+    {
+      "id": "student:4806a887fd943d43",
+      "kind": "question",
+      "body": "The Master unpacks the king's dream by naming, in one breath, 'the causes of God,' 'the seven appointed speakers,' and 'the guardians,' as if each were an already-familiar rank. But nowhere in the chapter is a 'cause of God' explained. Are these persons, offices, angelic beings? The word arrives fully loaded and is never opened. A first-time reader can follow that cows map to one thing and lean cows to another, but cannot tell WHAT the mapped-to things actually are, so the interpretation resolves one mystery into a set of new undefined ones. I would want to ask: what is a 'cause of God,' and how does it differ from a speaker or a guardian?",
+      "anchor": "causes of God",
+      "quote": "they are the causes of God that stand between Him and His creation",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "undefined-term"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T16:15:04Z",
+      "updatedAt": "2026-08-06T16:15:04Z"
+    },
+    {
+      "id": "student:ced7c0b68830ebce",
+      "kind": "question",
+      "body": "The boy asks what the seven-eared grain is 'among us,' and the Master answers that it lies 'in the foundation of Islam, and its child is like a grain that sprouted seven ears — meaning that seven imams came out of his loins.' I could not fix the referents. Who is 'the foundation of Islam' — a person, an era, a first Imam? Whose child, and then whose loins does the closing 'his' point back to? The pronouns slide from an abstract 'foundation' to a 'child' to a masculine 'his loins' without a stable named subject, and the chapter never lands them on anyone I can identify. It reads as though I am expected to already know the figure being described.",
+      "anchor": "foundation of Islam and its child",
+      "quote": "its child is like a grain that sprouted seven ears",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "ambiguous-referent"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T16:15:04Z",
+      "updatedAt": "2026-08-06T16:15:04Z"
     }
   ],
-  "updatedAt": "2026-08-06T13:53:46Z",
+  "updatedAt": "2026-08-06T16:15:04Z",
   "studentReaderFingerprint": "0f6b508556bddedb"
 }

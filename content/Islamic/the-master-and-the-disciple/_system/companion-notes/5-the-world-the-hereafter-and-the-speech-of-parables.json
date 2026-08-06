@@ -33,8 +33,24 @@
       "citations": [],
       "createdAt": "2026-08-06T13:51:36Z",
       "updatedAt": "2026-08-06T13:51:36Z"
+    },
+    {
+      "id": "student:a4f0501fdff9a354",
+      "kind": "question",
+      "body": "The Master runs through the seven days and hands each one an esoteric assignment — Monday \"the doublings, in the great meaning,\" Wednesday \"the four sacred things,\" Thursday \"the fifth of the causes of God.\" I cannot tell what any of these are. \"The doublings\" is set down as if I already know it, \"the great meaning\" is never anchored to anything, and the chapter simply moves on to the next day. Later parts of the chapter carefully unfold the inward of the world, the parables of the heaven and the earth, even the air — but these weekday meanings are asserted once and left standing with nothing behind them. A first-time reader is stopped here and never given a way forward.",
+      "anchor": "meanings of the weekdays",
+      "quote": "Monday is for the doublings, in the great meaning",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "undefined-term"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T16:14:34Z",
+      "updatedAt": "2026-08-06T16:14:34Z"
     }
   ],
-  "updatedAt": "2026-08-06T13:51:36Z",
+  "updatedAt": "2026-08-06T16:14:34Z",
   "studentReaderFingerprint": "8b357dc9ee7cf0ad"
 }

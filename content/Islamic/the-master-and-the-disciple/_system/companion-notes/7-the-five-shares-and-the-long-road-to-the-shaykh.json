@@ -65,8 +65,40 @@
       "citations": [],
       "createdAt": "2026-08-06T13:56:07Z",
       "updatedAt": "2026-08-06T13:56:07Z"
+    },
+    {
+      "id": "student:16aba225affa63e6",
+      "kind": "question",
+      "body": "The boy asks the same thing twice — where does the difference of desires come from, when origin and instrument are one — and gets two answers that don't line up. The first time, the difference is traced to corrupted lineage: departure from the Sunna in marriage, children of fornication, roots corrupted so the branches grew strange. The second time, it's traced to free judgment at the moment the call of truth arrives: same aim, like archers, but differing in whether they hit. One account makes differing desire an inherited defect of birth; the other makes it a choice each heart makes when the Messengers come. I can't tell which is meant to be the real cause, or how a corrupted root and a free choice are supposed to be the same story. The chapter moves on without joining them.",
+      "anchor": "two roots for differing desire",
+      "quote": "their aim in seeking is one, yet they differ in striking the mark",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "unresolved-double-reading"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T16:16:07Z",
+      "updatedAt": "2026-08-06T16:16:07Z"
+    },
+    {
+      "id": "student:593037fdd1bf7e31",
+      "kind": "question",
+      "body": "The boy asks whether the name the Shaykh will give him is his own — an ordinary question. The Shaykh answers as if claiming the name for himself would make him a worshipped thing rather than a servant. I can't follow the step. Why does possessing your own name turn you into something worshipped? Nothing in the exchange explains the link, and the reply that follows — 'The name belongs to you, and you belong to the name. So do not step beyond your bound' — restates the puzzle rather than opening it. There seems to be a hidden argument connecting a name, servitude, and being born, but the chapter never lays it out, so the whole naming scene turns on a move I'm left to guess at.",
+      "anchor": "owning your name means worship",
+      "quote": "Would you then become one that is worshipped, though you were born?",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "unexplained-leap"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T16:16:07Z",
+      "updatedAt": "2026-08-06T16:16:07Z"
     }
   ],
-  "updatedAt": "2026-08-06T13:56:07Z",
+  "updatedAt": "2026-08-06T16:16:07Z",
   "studentReaderFingerprint": "298ddb9792df7b21"
 }
