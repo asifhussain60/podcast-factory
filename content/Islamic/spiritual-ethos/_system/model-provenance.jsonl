@@ -76,3 +76,7 @@
 {"phase": "per-chapter", "step": "fixer/dhikr-the-polish-for-hearts/P0", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/dhikr-the-polish-for-hearts/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/dhikr-the-polish-for-hearts", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/paradox-and-the-inner-struggle", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/paradox-and-the-inner-struggle", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/paradox-and-the-inner-struggle/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/paradox-and-the-inner-struggle", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
