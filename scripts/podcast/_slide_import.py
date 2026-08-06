@@ -197,7 +197,13 @@ def _author_manifest(
 
 
 def author_phase_slide_import(book_dir: Path, *, force: bool = False, log=print) -> dict:
-    """Weave dropped deck PDFs into book/book-slides.md.
+    """Turn dropped deck PDFs into extracted pages and slide candidates.
+
+    It does NOT write `book/book-slides.md` — that assembly was retired on
+    2026-07-17 (`_workspace/plan/book-pipeline-cutover.md`) and `inject_slides` is
+    called here only as dry validation. The docstring said otherwise until
+    2026-08-06, which is the kind of stale claim that sends a reader looking for a
+    file the pipeline has not produced in weeks.
 
     Raises AuthoringHalt (PDF drops missing) or AuthoringError (manifest
     convergence failure / no injection source). Returns a summary dict:

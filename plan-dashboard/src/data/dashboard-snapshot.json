@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 17.51
+    "burn_30d_usd": 27.78
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1877,15 +1877,15 @@
       "phase": "per-chapter",
       "phase_status": "failed",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "technical"
     },
     {
       "slug": "degrees-of-excellence",
-      "title": "degrees-of-excellence",
-      "phase": "per-chapter-slides",
-      "phase_status": "running",
+      "title": "Degrees of Excellence",
+      "phase": "0book-render",
+      "phase_status": "completed",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "islamic_scholarly"
     },
     {
       "slug": "healthequity",
@@ -1893,11 +1893,11 @@
       "phase": "per-chapter",
       "phase_status": "manual-complete",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "consumer_explainer"
     },
     {
       "slug": "kunooz-al-hikmah",
-      "title": "kunooz-al-hikmah",
+      "title": "Kunooz al Hikmah",
       "phase": "finalize",
       "phase_status": "halted",
       "cost_to_date_usd": 0,
@@ -1905,71 +1905,79 @@
     },
     {
       "slug": "mukhtasar-ul-asar-2",
-      "title": "mukhtasar-ul-asar-2",
+      "title": "Mukhtasar ul Asar 2",
       "phase": "preflight",
       "phase_status": "pending",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "islamic_scholarly"
+    },
+    {
+      "slug": "spiritual-ethos",
+      "title": "Spiritual Ethos",
+      "phase": "0d",
+      "phase_status": "pending",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_scholarly"
     },
     {
       "slug": "the-master-and-the-disciple",
-      "title": "the-master-and-the-disciple",
+      "title": "The Master and the Disciple",
       "phase": "0book-render",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "islamic_scholarly"
     }
   ],
   "recent_commits": [
     {
-      "sha": "b8030e9",
-      "subject": "feat(composer): targeted questions on a highlighted passage, visible while typing",
-      "date": "2026-08-05"
+      "sha": "5cfbbd4",
+      "subject": "fix(the-master-and-the-disciple): one answer for which prose route this book takes",
+      "date": "2026-08-06"
     },
     {
-      "sha": "006ccda",
-      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
-      "date": "2026-08-05"
+      "sha": "5fa56c9",
+      "subject": "podcast(the-master-and-the-disciple): restore 11 episode sources the book route destroyed",
+      "date": "2026-08-06"
     },
     {
-      "sha": "9dec592",
-      "subject": "chore(plan-dashboard): regenerate snapshots",
-      "date": "2026-08-05"
+      "sha": "6e17d9f",
+      "subject": "Merge Islamic/spiritual-ethos into develop",
+      "date": "2026-08-06"
     },
     {
-      "sha": "87c0a2d",
-      "subject": "chore(plan-dashboard): drop reconcile from the agent snapshot",
-      "date": "2026-08-05"
+      "sha": "b9523bb",
+      "subject": "fix(repo): untrack plan-dashboard/node_modules — it is a machine-local symlink",
+      "date": "2026-08-06"
     },
     {
-      "sha": "c6318d9",
-      "subject": "chore(agents): retire reconcile (zombie since a botched 2026-05-31 sweep)",
-      "date": "2026-08-05"
+      "sha": "086d5c2",
+      "subject": "Merge Islamic/the-master-and-the-disciple into develop",
+      "date": "2026-08-06"
     },
     {
-      "sha": "b6b9bd2",
-      "subject": "chore(plan-dashboard): drop docs-updater from the agent snapshot",
-      "date": "2026-08-05"
+      "sha": "63d15db",
+      "subject": "docs(spiritual-ethos): a handoff brief that reads cold on another machine",
+      "date": "2026-08-06"
     },
     {
-      "sha": "db523e8",
-      "subject": "chore(agents): retire docs-updater, dead since 2026-05-28",
-      "date": "2026-08-05"
+      "sha": "7c6c18b",
+      "subject": "podcast(spiritual-ethos): stop cleanly at a 0d start point for handoff",
+      "date": "2026-08-06"
     },
     {
-      "sha": "075bb77",
-      "subject": "docs(hooks): note the recent_commits rolling-window churn is expected",
-      "date": "2026-08-05"
+      "sha": "c0eb364",
+      "subject": "podcast(spiritual-ethos): clear the 0d design for a genuine re-run",
+      "date": "2026-08-06"
     },
     {
-      "sha": "538b915",
-      "subject": "chore(plan-dashboard): regenerate snapshots",
-      "date": "2026-08-05"
+      "sha": "08ace78",
+      "subject": "podcast(spiritual-ethos): phase 0d chapter design (tier=extended, unit=auto)",
+      "date": "2026-08-06"
     },
     {
-      "sha": "e782041",
-      "subject": "fix(pipeline): close the three P1/P0 findings from the podcast-pipeline audit",
-      "date": "2026-08-05"
+      "sha": "82c853c",
+      "subject": "podcast(spiritual-ethos): phase 0d chapter design — 17 chapters, halted on the density gate",
+      "date": "2026-08-06"
     }
   ],
   "wave_execution_events": [],

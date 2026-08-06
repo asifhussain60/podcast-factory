@@ -73,7 +73,16 @@ const isBenign = (text) => BENIGN.some((re) => re.test(String(text || "")));
 // state and a built book/ (the richest surface), then fall back.
 function discoverSlug() {
   if (process.env.SITE_HEALTH_SLUG) return process.env.SITE_HEALTH_SLUG;
-  const buckets = ["Islamic", "Technical", "Fiction", "Guides"];
+  // Pinned to scripts/podcast/_content_types.py::BUCKETS by
+  // tests/test_snapshot_regenerator_parity.py. A bucket missing here is a bucket
+  // whose books can never be chosen as the smoke fixture, so its routes go unvisited.
+  const buckets = [
+    "Islamic",
+    "Technical",
+    "Fiction",
+    "Guides",
+    "Supplications",
+  ];
   const candidates = [];
   for (const b of buckets) {
     const bdir = join(CONTENT_DIR, b);
