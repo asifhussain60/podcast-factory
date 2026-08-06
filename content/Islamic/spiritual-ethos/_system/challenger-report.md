@@ -1,31 +1,59 @@
 # Podcast Challenger Report
 
 **Book:** spiritual-ethos
-**Run:** 2026-08-06 19:37 (challenger v2.6)
-**Scope:** per-chapter why-intellect-not-reason (ch02b + EP02)
-**Iterations:** 1 (of 5 max — intelligent break: 0 auto-fixes, findings stable)
+**Run:** 2026-08-06 19:49 (challenger v2.6)
+**Scope:** per-chapter the-letter-of-ali-to-malik-al-ashtar (ch13 + EP13)
+**Iterations:** 1 (of 5 max — intelligent break: 0 auto-fixes, deterministic gates stable)
 **Verdict:** SHIP-WITH-CAUTION
 
 content_profile: islamic_scholarly  ← detected from _system/series-config.yaml
-episode_format: deep_dive  ← Category P (debate) not run; Category Q (host-role parity) run
 
-## Gate results (deterministic authorities)
+> Pipeline-internal invocation (orchestrate_book.py per-chapter loop). Category S1
+> async-safety gate bypassed for the parent orchestrator process per invocation
+> contract. All other categories run in full.
 
-| Gate | Result |
-|---|---|
-| `build_episode_txt.py --check` | PASS (exit 0) — chapter 6,473 w, episode 693 w |
-| `_doctrinal.run_doctrinal_checks` (Category T) | CLEAN — 0 findings (T1–T5) |
-| `check_chapter_set.py` (Category CS, book-scope) | findings folded below |
-| N6 Arabic script present | PASS — 7 instances (تأويل / توحيد) |
-| Q1/Q2/Q3 host-role parity | PASS — Host A male scholar, Host B female seeker, consistent across all 13 framings |
+## Summary
+
+The chapter (the SOURCE, 10,109 words) and framing (the CUSTOMIZE PROMPT, 702
+words emitted) both pass the build-time gate (`build_episode_txt.py` exit 0).
+Doctrinal checks T1–T5 are clean across chapter, framing, and show-notes (0
+findings each). Every Quran citation is in the canonical `(chapter N, verse M)`
+form (6 of them). Honorific forms each appear once. Host roles are the
+book-consistent pair (A male scholar / B female seeker). No AI-cliché hits. No
+P0 findings. Three P1 findings carry over as ship-with-caution, matching the
+standard the book's twelve prior chapters shipped at.
+
+No auto-fixes were applied this run — see "Auto-fix decisions" for why the
+em-dash and framing-clause auto-fixers were deliberately withheld to preserve
+book-wide parity.
 
 ## Auto-fixes applied (iteration-by-iteration)
 
-None. 0 auto-fixes this run.
+| Iter | Check | File | Action |
+|---|---|---|---|
+| — | — | — | None. No deterministic auto-fix was warranted (see decisions below). |
 
-- **B5 (em-dashes) NOT applied** — deliberately. The current validators (the on-disk contract) do not gate em-dashes; the build passes exit 0 with 91 em-dashes present, and every sibling chapter ships with them. The v2.2 B5 rule is superseded by current build behavior; auto-stripping 91 em-dashes would be destructive and fight the authority.
-- **Framing canonical-clause insertions (H/I/K/M/R templates) NOT applied** — this book uses a deliberate lean 8-section framing format (Opening directive · Name discipline · Pronunciation · Three-part focus · Host dynamic · Tone constraints · Landing · Do not) that the build gate accepts and that is identical across all 13 episodes. Inserting the verbose canonical clauses into this one file would desync it from 12 human-tuned, build-passing siblings.
-- **Chapter Arabic-name substitutions NOT applied** — chapter prose is authoring, outside the auto-fix scope; flagged below.
+### Auto-fix decisions (why nothing was changed)
+
+- **B5 (em-dashes) — withheld.** The chapter carries 109 em-dashes; the
+  already-shipped ch10 carries 66. Em-dashes are this book's established house
+  style and the build gate does not flag them. Auto-replacing 109 of them would
+  destructively diverge ch13 from the twelve shipped chapters. Not applied.
+- **C3 / O1 (honorifics) — not needed.** Each English honorific form appears
+  exactly once (`God bless him and his family` ×1; `God bless him and his good
+  and pure progeny` ×1). No repeat to strip.
+- **B2 (cross-episode refs) — not needed.** No literal `EP##` / "previous
+  episode" / "earlier episode" strings. The "earlier chapter" callbacks are
+  book-internal narrative, not the episode-reference form B2 targets (see P2).
+- **M1/M2, I1/I2, K1/K2, R1–R5, N4 (framing clause insertions) — withheld.**
+  The framing uses this book's established compact template, shared in shape
+  across all thirteen episodes. Unilaterally inserting divergent DENY /
+  choreography clauses into ch13's framing alone would break the book-wide
+  framing parity the twelve shipped episodes established. The build gate accepts
+  the current framing (exit 0). The framing's Pronunciation block already uses
+  the correct say-once `- term: form` bullet shape (N2/N7 clean) and carries the
+  DENY / no-read-aloud / R-RECURRING-THESIS content in its `## Do not` section.
+  Flagged for book-level consideration rather than single-episode auto-fix.
 
 ## Findings requiring author resolution
 
@@ -35,59 +63,72 @@ None.
 
 ### P1 (ship-with-caution)
 
-#### R-NO-ARABIC-TRANSLITERATION — chapter carries Arabic transliterations (F20)
-- **File:** content/Islamic/spiritual-ethos/chapters/ch02b-why-intellect-not-reason.txt:59, :77, :95
-- **Context:** blockquote attribution "— Junayd al-Baghdadi" (:59); "His cousin Ibn Abbas" (:77); "the first sermon of Nahj al-Balagha … dafa'in al-'uqul" (:95, :101).
-- **Note:** The framing's Name discipline already instructs the hosts to avoid these ("the early Sufi master and the Prophet's cousin are named by those descriptions; the sermon collection is 'the collection of Ali's sermons'"), but the SOURCE text still carries them and NotebookLM may voice them. F20 doctrine: replace with English audio labels in the chapter prose.
-- **Remediation:** Authoring — substitute English descriptors ("Junayd of Baghdad" is already used at :57; make :59 match; "his cousin" for Ibn Abbas; "the collection of Ali's sermons" for Nahj al-Balagha). Not in challenger auto-fix scope.
+#### R-NO-ARABIC-TRANSLITERATION: 'al-Ashtar' in chapter opening
+- **File:** content/Islamic/spiritual-ethos/chapters/ch13-the-letter-of-ali-to-malik-al-ashtar.txt:1
+- **Context:** "the mandate he sent with Malik al-Ashtar when he made him governor of Egypt". One Arabic transliteration (`al-Ashtar`) in the SOURCE. F20 doctrine prefers English audio labels; the framing already routes the hosts to "the governor".
+- **Note:** This is the addressee's intrinsic family name (and the chapter's own title). There is no English translation to substitute; resolution is an authoring judgment (keep the historical name once vs. reword to "the man he made governor"). Not a mechanical fix. Consistent with proper-name handling in the book's other chapters.
 
-#### F25-APPARATUS-TABLE — show-notes missing Name/Title Preservation Table
-- **File:** content/Islamic/spiritual-ethos/_system/episode-drafts/EP02-why-intellect-not-reason/99-show-notes.md
-- **Context:** no `## Name and Title Preservation Table` header. F25 wants the written-layer apparatus (preserved Arabic + audio-label crosswalk) the TTS-safe audio omits.
-- **Remediation:** Pipeline/authoring — 99-show-notes.md is outside the challenger's edit scope (Section 8). Flagged for the author.
+#### F25-APPARATUS-TABLE: show-notes missing Name and Title Preservation Table
+- **File:** content/Islamic/spiritual-ethos/_system/episode-drafts/EP13-the-letter-of-ali-to-malik-al-ashtar/99-show-notes.md
+- **Context:** No `## Name and Title Preservation Table` header. F25 doctrine wants the written-layer apparatus (preserved Arabic / transliterations + audio-label crosswalk) in each episode's show-notes.
+- **Note:** Show-notes are published-library apparatus; the challenger does not edit `99-show-notes.md` (Section 8). Flagged for the author. Does not reach NotebookLM audio.
 
-#### CS10 — chapter over-dense (5 concept sections, target ≤3)
-- **File:** ch02b-why-intellect-not-reason.txt (H2 map: The question of the faculty · Intellect, not reason · A oneness beyond number · Revelation and the buried treasures · Gathering the threads · Closing)
-- **Context:** `density_standard: 2` book. Advisory here (the $0 preflight gate owns halting); surfaced for the set view.
-- **Remediation:** Authoring — re-split via Phase 0d if the density is judged too high, or accept as an extended-tier introductory chapter.
-
-#### CS8 — shared 12-word passages with the-first-sermon chapter
-- **File:** book-scope (ch02b vs ch12-the-first-sermon-of-nahj-al-balagha)
-- **Context:** 3 shared distinct 12-word passages. Sample: "the first and the last the outward and the inward chapter verse" — this is the Qur'an 57:3 quotation + its plain-English citation, legitimately quoted in both chapters. Low concern (shared scriptural formula the shingle scan does not exclude).
-- **Remediation:** Authoring judgment — acceptable if the shared text is scriptural; no action likely needed.
-
-#### CS5 — chapter-set word-count variance 50% (book-scope)
-- **File:** book-scope (min 5,006 · max 10,109 words)
-- **Context:** >30% variance flags an uneven set shape. Our chapter (~6,473 w) sits mid-range; the outliers are the two primary-text chapters (Letter/Sermon).
-- **Remediation:** Authoring — expected given the two long primary-text appendices; resegment only if desired.
+#### CS5: chapter-set word-count variance (book-scope)
+- **Scope:** book-set (min=5,006, max=10,109 → 50% variance; >30% threshold)
+- **Note:** Expected by design — the Letter is deliberately the longest chapter and its length band was widened on purpose (contract `length_target: 5500-10300`; commit "widen the Letter chapter's declared length band, don't trim it"). Surfaced for the record; no per-chapter action.
 
 ### P2 (advisory)
 
-- **A3 translation provenance** — no Qur'an translator named inline (verses at :35, :69, :89 use plain `(chapter N, verse M)` references only). This is the established book-wide convention (framing: "Render every Qur'an verse in English only with a plain reference") and aligns with TTS-safety / no-reference-tail doctrine; naming a translator inline would conflict. Recorded as an Open Question consistent with all shipped siblings, not a fresh P0.
-- **CS6 cross-book bleed (false positive)** — chapter contains 'tawhid', which appears in degrees-of-excellence's mangle-map. 'tawhid' is a common Islamic term; benign false positive. No auto-strip.
-- **E1 word count** — 6,473 w exceeds the 4,500 default soft band, but `length_target: extended` (declared 5,827) and the build accepted it; CS4 did not flag a band violation. No action.
-- **Framing canonical-completeness** — the lean framing omits the verbose R-NOFORMAL / R-NOMODERNIZE-analogy / R-NOREPEAT / R-NOINTERRUPT template clauses. Book-wide design choice the build accepts; noted, not fixed.
+#### CS2: title length soft target
+- **Slug:** the-letter-of-ali-to-malik-al-ashtar — title is 8 words (>6 soft target; under the 60-char hard cap). Advisory.
 
-## Category sweep summary
+#### CS6: cross-book term bleed (book-scope, false-positive class)
+- Common Islamic vocabulary (`tawhid`, `walaya`, `qutb`, `vicegerent`, `Ghadir Khumm`, `al-Sijistani`) in other chapters matches the `degrees-of-excellence` / `kitab-al-riyad` mangle-maps. These are shared-tradition terms, not genuine bleed. Surfaced for human review per CS6; never auto-stripped. None specific to ch13.
 
-| Category | Result |
-|---|---|
-| A Authenticity (P0) | PASS — all 4 Qur'an verses cite `(chapter N, verse M)`; hadith names collection (Bukhari & Muslim); Junayd/Rumi/Ali/Aga Khan attributed; A6 traditions named distinctly; A3 advisory only |
-| B NotebookLM literalness (P0) | PASS — build meta-prose gate clean; em-dashes not gated (superseded) |
-| C Pronunciation (P1) | PASS — bullet-form block, "Say each term ONCE" anti-doubling present |
-| D Enrichment (P1) | PASS — multi-tier (Qur'an/hadith/Nahj/Sufi/Ismaili/Patristic), ratio well under 60%, no stacking, no markers |
-| E Articulation (P1) | PASS — clear arc, one-sentence summarizable, no filler/calques; E1 word count advisory |
-| F Framing integrity (P1) | PASS — framing exists, 8 sections, concrete audience, tensions named |
-| N Phonetic-as-content (P0) | PASS — no inline phonetic parens; N6 Arabic script present; N2/N4 satisfied |
-| O Honorific/abbrev (P0) | PASS — honorifics first-mention only; no abbreviated titles |
-| Q Host-role parity (P0) | PASS — male scholar / female seeker, consistent book-wide |
-| T Doctrinal (P0/P1) | CLEAN — 0 findings |
-| U Scholarly rubric (P0/P1) | PASS — U2 faux-profundity & U4 self-ref forbidden in Do-not; U5 essentialism handled ("the living Ismaili tradition", not "Muslims believe") |
-| V Interest (P1) | STRONG — curiosity hook (:5), steelmanned rationalist, modern relevance (Aga Khan + listener turn), no strawman |
-| CS Chapter-set (book) | 5 findings folded above (CS5/CS8/CS10 P1, CS6/CS2 P2) |
+#### B1/B3-adjacent: capstone cross-chapter / series callbacks
+- **File:** ch13 (multiple lines) — "This is the final chapter of the book." (line 1) plus ~10 "earlier chapter" / "the series" callbacks.
+- **Note:** By design — the contract commissions this final chapter as a capstone with brief callbacks where the earlier commentary episodes already unfolded a doctrine. NotebookLM has only this source in the notebook, so the callbacks reference material not present; kept because they read as natural narrative context and match the authored intent. Advisory only.
+
+### Book-scope (not ch13; surfaced for the record)
+
+#### CS8 / P8: near-duplicate passages between two other chapters
+- **Slugs:** dhikr-the-polish-for-hearts ↔ prayer-as-the-source-of-justice — 4 distinct 12-word passages shared (n-gram half of CS8). Sample: "has made the remembrance a polish for the hearts by which they…".
+- **Note:** Book-scope P1 between two chapters other than ch13. Does not gate this per-chapter run; recorded so the author can decide whether to cut the overlap from one chapter. No source-range overlap was reported (the P0 half of CS8 did not fire).
+
+### INFO / NOTE
+
+- **N3 (pronunciation ladder):** 8 terms have no settled spoken form and were left
+  without a settled framing entry: `ahd, hilm, kharaj, jizya, bayt al-mal,
+  sa'ada, shahada, al-sa'ada, al-shahada`. The framing's Pronunciation block
+  lists them in `- term: form` identity form (say-once), which is structurally
+  correct; the ladder simply has nothing settled to say yet. Settle by ear when
+  convenient: `python3 scripts/podcast/run_pronunciation_probe.py spiritual-ethos`.
 
 ## Health metrics
 
-| Chapter | Words | Arabic script | Qur'an citations | Phonetic gaps | Concept sections |
-|---|---|---|---|---|---|
-| ch02b-why-intellect-not-reason | 6,473 | 7 (present) | 4 (all `(ch N, v M)`) | 0 (3 unsettled terms noted: aql, ruh, dhikr) | 5 (target ≤3) |
+| Item | Value |
+|---|---|
+| Chapter | ch13-the-letter-of-ali-to-malik-al-ashtar |
+| Chapter words (SOURCE) | 10,109 |
+| Declared length band | 5,500–10,300 (widened for the Letter; within band) |
+| Framing words (emitted CUSTOMIZE PROMPT) | 702 |
+| Build gate | exit 0 (chapter validated, episode emitted) |
+| Quran citations | 6, all canonical `(chapter N, verse M)` |
+| Fabrication / VERIFY / CONTEXT markers | 0 |
+| Doctrinal T1–T5 (chapter / framing / show-notes) | 0 / 0 / 0 findings |
+| Honorific-form repeats | 0 (each form ×1) |
+| Arabic script present (N6) | yes (`جزیۃ`, `(ع)`) |
+| AI-cliché (U1) | 0 hits (chapter + framing) |
+| Host-role parity (Q) | A male scholar / B female seeker — consistent |
+| Em-dashes | 109 (house style; not gated) |
+| P0 / P1 / P2 | 0 / 3 / 3 |
+
+## Verdict
+
+**SHIP-WITH-CAUTION** — no P0. Three P1 findings (one intrinsic proper name, one
+show-notes apparatus gap the challenger does not edit, one book-scope length-band
+variance that is intentional). This matches the ship standard of the book's twelve
+prior chapters. Upload-ready:
+1. Upload `chapters/ch13-the-letter-of-ali-to-malik-al-ashtar.txt` as the single source.
+2. Paste `episodes/EP13-the-letter-of-ali-to-malik-al-ashtar.txt` into the Customize box.
+3. Generate.

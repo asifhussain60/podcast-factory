@@ -121,3 +121,6 @@
 {"phase": "per-chapter", "step": "challenger/why-intellect-not-reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/why-intellect-not-reason/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/why-intellect-not-reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
