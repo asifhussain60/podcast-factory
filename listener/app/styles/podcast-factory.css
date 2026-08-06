@@ -3701,6 +3701,85 @@
     color: var(--l-accent);
   }
 
+  /* On a chapter row the count is a fact printed inside a link that already goes
+     somewhere. On an EPISODE row there is no such link — an episode has no page
+     — so the count has to be the control itself.
+
+     A gold disc, not a blue pill. Everything else in the row is the accent —
+     the play button, the episode's own soft tint — so a blue count read as a
+     second play control rather than as a different KIND of thing. `--l-hl-gold`
+     is the tint this site already puts behind a marked passage, declared in all
+     three palettes with its contrast against the ink measured (12.4:1 light,
+     9.8:1 dark, 11.0:1 sepia), so the meaning and the colour agree and nothing
+     new is invented.
+
+     Just the number. The sticky-note glyph beside it was saying "notes" a
+     second time, in a row where the count is the only thing that could be
+     counting, and it was what forced the shape to a pill. */
+  .pf-row__marks--button {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    /* A circle for one or two digits, an ellipse rather than a clipped disc for
+       three: the height is fixed and the width only grows if a reader ever
+       keeps a hundred notes in one episode. */
+    min-width: 1.75rem;
+    height: 1.75rem;
+    padding-inline: var(--pf-space-1);
+    /* Toward the INK rather than literally darker, which is the same intent in
+       every theme: in the dark palette the fill is already dark and a darker
+       edge would disappear into it. Mixing toward the text colour always yields
+       a defined edge. */
+    border: 1px solid color-mix(in srgb, var(--l-hl-gold) 68%, var(--l-ink));
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-hl-gold);
+    color: var(--l-ink);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      border-color var(--pf-motion),
+      background var(--pf-motion);
+  }
+
+  .pf-row__marks--button:hover {
+    border-color: var(--l-ink);
+  }
+
+  /* An episode row's controls, kept together so they can move together. */
+  .pf-row__actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--pf-space-3);
+  }
+
+  /* On a phone the title takes the line and the controls take the next one.
+     Three items abreast is more than 390px holds: the title shrank until its
+     text ran underneath the note count's pill, which is a row that has stopped
+     being readable rather than one that is merely tight. Nothing is hidden —
+     the same answer the player bar's own crowding got. */
+  @media (max-width: 639px) {
+    .pf-session__list .pf-row {
+      flex-wrap: wrap;
+    }
+
+    .pf-session__list .pf-row__main {
+      /* Forces the wrap. With `flex: 1` and `min-width: 0` the title shrinks to
+         nothing instead, and flexbox never sees a reason to break the line. */
+      flex: 1 1 60%;
+    }
+
+    .pf-session__list .pf-row__actions {
+      flex: 1 1 100%;
+      justify-content: flex-end;
+    }
+  }
+
   /* ---- Stacks and splits -------------------------------------------------
      The two arrangements the admin screens need, named rather than repeated
      as a utility string on every block. */

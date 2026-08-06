@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   faBookmark,
   faHeadphones,
@@ -120,6 +120,24 @@ export function NotesList({
     onEditEpisodeNote?.(id, editDraft);
     cancelEdit();
   };
+
+  /* Go to the group the reader asked for.
+     The episode list's note count links to `?tab=notes#ep-N`, and the browser's
+     own hash handling cannot serve it: this list appears because a TAB changed,
+     which is a search-param navigation with no document load and nothing for the
+     browser to scroll to — by the time these sections exist, the moment it would
+     have acted on has passed. So the move is made here, once, when the list that
+     owns the target has rendered. Silent when the hash names nothing. */
+  useEffect(() => {
+    const hash = location.hash.slice(1);
+    if (hash === "") return;
+    document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Deliberately not depending on the hash: the reader may scroll away and
+    // switch tabs back, and yanking them to an anchor they have already read is
+    // the sort of help nobody asked for. One move, on the render that follows
+    // the link.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (annotations.length === 0 && bookmarks.length === 0 && episodeNotes.length === 0) {
     return (
@@ -281,7 +299,12 @@ export function NotesList({
       ))}
 
       {byEpisode.map(({ episode, moments }) => (
-        <section key={`ep-${episode.number}`} className="pf-notes__chapter">
+        /* The `id` is a destination, not decoration: the episode list's note
+           count links to `?tab=notes#ep-N`, and on a book of twenty episodes
+           landing at the top of the list is landing nowhere. See the scroll
+           effect above, which does the moving — a hash alone does not, because
+           this list is rendered by a tab switch rather than by a page load. */
+        <section id={`ep-${episode.number}`} key={`ep-${episode.number}`} className="pf-notes__chapter">
           <h3 className="pf-notes__heading">
             <Icon icon={faHeadphones} /> {episode.number}. {episode.title}
           </h3>
