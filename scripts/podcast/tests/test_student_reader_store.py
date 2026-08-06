@@ -105,3 +105,82 @@ def test_file_notes_round_trips_to_disk(tmp_path: Path) -> None:
 def test_a_traversing_chapter_key_is_refused(tmp_path: Path) -> None:
     with pytest.raises(ValueError):
         file_notes(tmp_path, "../../etc/passwd", "s", [], now=NOW)
+
+
+# ─── the chapter-key mirror ──────────────────────────────────────────────────
+# section_key mirrors companion/keys.ts sectionKeyFromHeading. A divergence does
+# not raise: the note lands in a file the reader never opens and the chapter
+# silently shows nothing. These cases are the ones that actually differ between
+# the two Python key rules in this repo.
+def test_section_key_keeps_the_ordinal_unlike_anchor_key() -> None:
+    from _book_edits import anchor_key
+    from _student_reader_store import section_key
+
+    heading = "1. The Persian Who Was Dead and Revived"
+    assert section_key(heading) == "1-the-persian-who-was-dead-and-revived"
+    assert anchor_key(heading) == "the persian who was dead and revived"
+    assert section_key(heading) != anchor_key(heading), (
+        "if these ever agree, one of them has changed and notes will be misfiled"
+    )
+
+
+def test_section_key_matches_the_files_this_book_already_has() -> None:
+    """Pinned to real filenames, not to a restatement of the rule."""
+    from _student_reader_store import section_key
+
+    cases = {
+        "## 3. The Boy at the Door — Limits and Conditions": "3-the-boy-at-the-door-limits-and-conditions",
+        "## 5. The World, the Hereafter, and the Speech of Parables": "5-the-world-the-hereafter-and-the-speech-of-parables",
+        "## 8. Homecoming, the Father, and the Debate with Abu Malik": "8-homecoming-the-father-and-the-debate-with-abu-malik",
+    }
+    for heading, expected in cases.items():
+        assert section_key(heading) == expected
+
+
+def test_section_key_output_always_satisfies_the_traversal_guard() -> None:
+    from _student_reader_store import CHAPTER_KEY_RE, section_key
+
+    for heading in ("## 1. A — B, C", "## Introduction to the Book", "## 12. Ma'rifah & Zawq"):
+        assert CHAPTER_KEY_RE.match(section_key(heading)), heading
+
+
+# ─── not asking twice ────────────────────────────────────────────────────────
+# The determinism guarantee. Measured on chapter 2 of the-master-and-the-disciple
+# (2026-08-06): asked twice about identical prose, the model named two findings
+# that did not overlap its first two at all. Each anchored to a different
+# sentence, so each minted a different id, and the file went 2 -> 4 notes. The
+# merge was correct; the input was not stable. So the pass does not ask twice.
+def test_a_chapter_read_before_with_unchanged_prose_is_current(tmp_path: Path) -> None:
+    from _student_reader_store import already_current, prose_fingerprint
+
+    d = tmp_path / "book"
+    (d / "_system" / "companion-notes").mkdir(parents=True)
+    prose = "The Master spoke, and the boy did not ask."
+    file_notes(d, "1-x", "s", [owned()], now=NOW, prose=prose)
+
+    assert already_current(d, "1-x", "s", prose)
+    assert prose_fingerprint(prose) == prose_fingerprint("  The Master spoke,\n  and the boy did not ask.  "), (
+        "reflowing a paragraph is not an edit"
+    )
+
+
+def test_edited_prose_is_read_again(tmp_path: Path) -> None:
+    from _student_reader_store import already_current
+
+    d = tmp_path / "book"
+    (d / "_system" / "companion-notes").mkdir(parents=True)
+    file_notes(d, "1-x", "s", [owned()], now=NOW, prose="The Master spoke.")
+
+    assert not already_current(d, "1-x", "s", "The Master spoke at length.")
+
+
+def test_a_chapter_with_only_human_notes_is_not_current(tmp_path: Path) -> None:
+    """A fingerprint without any of this pass's own notes means it never ran."""
+    from _student_reader_store import already_current, prose_fingerprint, write_chapter
+
+    d = tmp_path / "book"
+    (d / "_system" / "companion-notes").mkdir(parents=True)
+    prose = "The Master spoke."
+    write_chapter(d, "1-x", "s", [HUMAN], now=NOW, fingerprint=prose_fingerprint(prose))
+
+    assert not already_current(d, "1-x", "s", prose)

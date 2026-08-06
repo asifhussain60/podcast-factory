@@ -22,6 +22,7 @@ half of accept-or-delete, and it stays his.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -32,6 +33,32 @@ from typing import Any
 OWNED_ID_RE = re.compile(r"^student:[0-9a-f]{16}$")
 
 CHAPTER_KEY_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+
+_KEY_STRIP_RE = re.compile(r"[^a-z0-9\s-]")
+_KEY_HASH_RE = re.compile(r"^#{1,6}\s+")
+_KEY_WS_RE = re.compile(r"\s+")
+
+
+def section_key(heading: str) -> str:
+    """The key a Companion note file is named for — MIRROR of
+    ``companion/keys.ts sectionKeyFromHeading``.
+
+    This is NOT ``_book_edits.anchor_key``, and the difference is the whole
+    reason this function exists: ``anchor_key`` STRIPS a heading's ordinal
+    ("the persian who was dead and revived") while the note files keep it
+    ("1-the-persian-who-was-dead-and-revived"). ``book_chapters`` returns the
+    former, the Composer writes the latter, and the two had never met because
+    until 2026-08-06 nothing in Python wrote a note file — the Composer did, in
+    TypeScript, with its own key.
+
+    Getting this wrong does not raise anywhere useful: the note is written to a
+    file the reader never opens, and a chapter silently shows nothing. It is
+    caught here only because the traversal guard happens to reject a key with
+    spaces in it.
+    """
+    text = _KEY_HASH_RE.sub("", str(heading or "")).lower()
+    text = _KEY_STRIP_RE.sub("", text).strip()
+    return _KEY_WS_RE.sub("-", text)[:80]
 
 
 def chapter_path(book_dir: Path, chapter_key: str) -> Path:
@@ -91,21 +118,69 @@ def merge_notes(existing: list[dict[str, Any]], proposed: list[dict[str, Any]], 
     return out
 
 
-def write_chapter(book_dir: Path, chapter_key: str, slug: str, notes: list[dict[str, Any]], *, now: str) -> Path:
+def prose_fingerprint(prose: str) -> str:
+    """What the pass last read. Whitespace-folded, so reflow is not a change."""
+    folded = " ".join(str(prose or "").split())
+    return hashlib.sha256(folded.encode()).hexdigest()[:16]
+
+
+def already_current(book_dir: Path, chapter_key: str, slug: str, prose: str) -> bool:
+    """Has this pass already read this exact chapter?
+
+    THE determinism guarantee, and it is not a nicety. Asked twice about the same
+    prose, a model does not name the same passages: measured on chapter 2 of this
+    book, a second run proposed two findings that did not overlap the first two
+    at all, and since each anchors to a different sentence each minted a new id —
+    the file went from two notes to four, and would have gone to six. Nothing in
+    the merge is wrong; the input changed.
+
+    So the pass does not ask twice. Unchanged prose that already carries this
+    pass's notes is left exactly as it is, which makes a re-run byte-identical
+    rather than merely non-duplicating. Edit the chapter and the fingerprint
+    moves, and it is read again — which is the behaviour that matters, since the
+    reason to re-run is that the prose changed.
+    """
+    try:
+        doc = read_doc(book_dir, chapter_key, slug)
+    except Exception:
+        return False
+    if doc.get("studentReaderFingerprint") != prose_fingerprint(prose):
+        return False
+    return any(OWNED_ID_RE.match(str(n.get("id") or "")) for n in doc.get("notes") or [])
+
+
+def write_chapter(
+    book_dir: Path,
+    chapter_key: str,
+    slug: str,
+    notes: list[dict[str, Any]],
+    *,
+    now: str,
+    fingerprint: str | None = None,
+) -> Path:
     path = chapter_path(book_dir, chapter_key)
     path.parent.mkdir(parents=True, exist_ok=True)
-    doc = {"slug": slug, "chapter": chapter_key, "notes": notes, "updatedAt": now}
+    doc: dict[str, Any] = {"slug": slug, "chapter": chapter_key, "notes": notes, "updatedAt": now}
+    if fingerprint:
+        doc["studentReaderFingerprint"] = fingerprint
     path.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return path
 
 
 def file_notes(
-    book_dir: Path, chapter_key: str, slug: str, proposed: list[dict[str, Any]], *, now: str
+    book_dir: Path,
+    chapter_key: str,
+    slug: str,
+    proposed: list[dict[str, Any]],
+    *,
+    now: str,
+    prose: str | None = None,
 ) -> tuple[int, int]:
     """Merge and persist. Returns (created, refreshed)."""
     doc = read_doc(book_dir, chapter_key, slug)
     before = {str(n.get("id")) for n in doc["notes"] if n.get("id")}
     merged = merge_notes(doc["notes"], proposed, now=now)
     created = sum(1 for n in proposed if str(n.get("id")) not in before)
-    write_chapter(book_dir, chapter_key, slug, merged, now=now)
+    fp = prose_fingerprint(prose) if prose is not None else doc.get("studentReaderFingerprint")
+    write_chapter(book_dir, chapter_key, slug, merged, now=now, fingerprint=fp)
     return created, len(proposed) - created

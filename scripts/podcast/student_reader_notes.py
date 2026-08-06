@@ -52,7 +52,7 @@ from _student_reader import (  # noqa: E402
     select,
     to_companion_note,
 )
-from _student_reader_store import file_notes  # noqa: E402
+from _student_reader_store import already_current, file_notes, section_key  # noqa: E402
 
 _TIMEOUT = 900
 _KB = REPO_ROOT / "content" / "knowledge-base"
@@ -167,8 +167,16 @@ CHAPTER — {title}
 
 
 # ─── the run ─────────────────────────────────────────────────────────────────
-def run_chapter(book_dir: Path, slug: str, ch: dict[str, str], *, dry_run: bool, log) -> dict[str, Any]:
+def run_chapter(book_dir: Path, slug: str, ch: dict[str, str], *, dry_run: bool, force: bool, log) -> dict[str, Any]:
     from _authoring._core import _run_claude_p_with_retry
+
+    file_key = section_key(ch["title"])
+    # Do not ask twice about prose that has not changed. See
+    # _student_reader_store.already_current — this, not the merge, is what makes
+    # a re-run reproduce its own output instead of accumulating a new set.
+    if not force and already_current(book_dir, file_key, slug, ch["prose"]):
+        log(f"    student-reader: {ch['title'][:44]} — unchanged since the last read, left as it is")
+        return {"chapter": ch["key"], "file": file_key, "title": ch["title"], "skipped": "unchanged", "filed": 0}
 
     budget = chapter_budget(len(ch["prose"].split()))
     prompt = build_prompt(ch["title"], ch["prose"], _evidence_block(ch["title"], ch["prose"]), budget)
@@ -195,7 +203,7 @@ def run_chapter(book_dir: Path, slug: str, ch: dict[str, str], *, dry_run: bool,
 
     created = refreshed = 0
     if not dry_run and notes:
-        created, refreshed = file_notes(book_dir, ch["key"], slug, notes, now=_now())
+        created, refreshed = file_notes(book_dir, file_key, slug, notes, now=_now(), prose=ch["prose"])
 
     log(
         f"    student-reader: {ch['title'][:44]} — budget {budget}, "
@@ -203,6 +211,7 @@ def run_chapter(book_dir: Path, slug: str, ch: dict[str, str], *, dry_run: bool,
     )
     return {
         "chapter": ch["key"],
+        "file": file_key,
         "title": ch["title"],
         "budget": budget,
         "proposed": len(candidates),
@@ -219,6 +228,7 @@ def main() -> int:
     ap.add_argument("slug")
     ap.add_argument("--chapter", help="one chapter key; default is every chapter but the introduction")
     ap.add_argument("--dry-run", action="store_true", help="propose and gate, write nothing")
+    ap.add_argument("--force", action="store_true", help="re-read a chapter whose prose has not changed")
     args = ap.parse_args()
 
     try:
@@ -239,7 +249,7 @@ def main() -> int:
             return 2
 
     print(f"==> student-reader: {args.slug} — {len(chapters)} chapter(s){' (dry run)' if args.dry_run else ''}")
-    results = [run_chapter(book_dir, args.slug, c, dry_run=args.dry_run, log=print) for c in chapters]
+    results = [run_chapter(book_dir, args.slug, c, dry_run=args.dry_run, force=args.force, log=print) for c in chapters]
 
     report = {
         "schema": "book.student-reader/v1",
