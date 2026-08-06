@@ -7,6 +7,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type ReactNode,
 } from "react";
 import { Link } from "react-router";
@@ -732,6 +733,12 @@ function PlayerBar() {
             onChange={(e) => seek(Number(e.target.value))}
             aria-label="Seek"
             className="pf-player__seek"
+            /* How much has been played, as a scalar the stylesheet paints the
+               track from — the same arrangement `.pf-meter` uses. The browser's
+               own `accent-color` fill was not usable here: it leaves the
+               UNPLAYED remainder to whatever the platform derives, which on a
+               navy deck came out near-black. */
+            style={{ "--pf-seek": total > 0 ? Math.min(position, total) / total : 0 } as CSSProperties}
           />
           <span>{clock(total || null)}</span>
         </div>
