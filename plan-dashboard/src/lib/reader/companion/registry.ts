@@ -105,6 +105,18 @@ export const SOURCE_PROVIDERS: SourceProvider[] = [
     icon: "fa-solid fa-book-open-reader",
     tokenVar: "--c-accent",
   },
+  {
+    // The student-reader pass. Its own provider rather than reusing `scholar`
+    // or `manual`: a note nobody has read yet must not wear a person's name or
+    // a scholar's authority. The predecessor stamped machine cards `manual`,
+    // which the site renders as "You" — a hundred-odd explanations arriving
+    // under Asif's own byline is why automatic authoring was withdrawn on
+    // 2026-08-02. Dim token, deliberately: it recedes until it is accepted.
+    id: "student",
+    label: "Student reader",
+    icon: "fa-solid fa-graduation-cap",
+    tokenVar: "--c-ink-dim",
+  },
 ];
 
 const PROVIDER_MAP = new Map(SOURCE_PROVIDERS.map((p) => [p.id, p]));
