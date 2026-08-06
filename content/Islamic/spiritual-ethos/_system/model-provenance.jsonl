@@ -96,3 +96,17 @@
 {"phase": "per-chapter", "step": "challenger/the-first-sermon-of-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/the-first-sermon-of-nahj-al-balagha/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/the-first-sermon-of-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P0", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P0", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P0", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-sacred-conception-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-sacred-conception-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-sacred-conception-of-justice/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-sacred-conception-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
