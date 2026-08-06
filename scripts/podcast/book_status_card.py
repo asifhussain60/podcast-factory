@@ -137,14 +137,15 @@ def _weight(phase: str) -> int:
     return _PHASE_WEIGHTS.get(phase, 1)
 
 
-def _fraction_done(phase: str, block: dict[str, Any]) -> float:
+def _fraction_done(phase: str, block: dict[str, Any], book_dir: Path | None = None) -> float:
     """How much of ONE phase is complete, 0.0-1.0, using sub-phase credit if recorded."""
     status = str(block.get("status") or "pending")
     if status in _DONE_STATUSES:
         return 1.0
     if status != "running":
         return 0.0
-    # The per-chapter loop is the only phase that publishes its own progress.
+    # The per-chapter loop is the only phase that publishes its own progress
+    # directly into the state file.
     completed = block.get("completed_slugs")
     if isinstance(completed, list) and completed:
         total = len(completed) + len(block.get("failed_slugs") or [])
@@ -152,9 +153,77 @@ def _fraction_done(phase: str, block: dict[str, Any]) -> float:
         if current:
             total += 1
         return min(0.95, len(completed) / total) if total else 0.0
+    # 0b and 0d checkpoint per source-chunk on disk even though the state file
+    # itself stays a flat "running" the whole time — read that instead of
+    # guessing. (2026-08-06: the flat guess below starved the ETA of any real
+    # signal on a multi-hour chunked phase, and it drifted to a wrong number
+    # a day out — see _chunk_fraction.)
+    chunk_fraction = _chunk_fraction(phase, book_dir)
+    if chunk_fraction is not None:
+        return chunk_fraction
     # A running phase with nothing else to go on counts as half — honest about
     # being underway without claiming knowledge the state file does not have.
     return 0.5
+
+
+_CHUNK_DIR_PHASES = frozenset({"0b", "0d"})
+
+
+def _chunk_dir(phase: str, book_dir: Path) -> Path:
+    return Path(book_dir) / "_system" / "source" / "text" / "_chunks" / phase
+
+
+def _sc_total(chunks_dir: Path) -> int:
+    """The expected 0d chunk count, from that run's own source-toc.json where
+    present (authoritative — it lists every source chapter this run planned to
+    design), else counted from the `.in.md` inputs already written."""
+    manifest = chunks_dir / "source-toc.json"
+    if manifest.exists():
+        try:
+            data = json.loads(manifest.read_text(encoding="utf-8"))
+            chapters = data.get("source_chapters")
+            if isinstance(chapters, list) and chapters:
+                return len(chapters)
+        except Exception:
+            pass
+    return len(list(chunks_dir.glob("sc-*.in.md")))
+
+
+def _chunk_fraction(phase: str, book_dir: Path | None) -> float | None:
+    """Real sub-phase progress for phases that checkpoint per source-chunk on
+    disk, read from files those phases already write — never a fabricated
+    number. Two conventions exist today (scripts/podcast/_chunking.py owns the
+    windowing one):
+
+      * 0d writes `sc-NNN.done` markers per source chapter, with the expected
+        total in that run's own `source-toc.json`.
+      * 0b writes `win-NNN.in.md` / `win-NNN.out.md` pairs — a window counts as
+        done the moment its `.out.md` exists (see _chunking.py's own doc
+        comment: it skips windows whose `.out.md` already exists).
+
+    Returns None — never a guess — when book_dir is unknown, the phase has no
+    chunk directory (0c and 0e do not chunk this way today), or the directory
+    has nothing to count yet. The caller falls back to the flat 0.5 guess in
+    that case, exactly as it did before this existed.
+    """
+    if book_dir is None or phase not in _CHUNK_DIR_PHASES:
+        return None
+    chunks_dir = _chunk_dir(phase, book_dir)
+    if not chunks_dir.is_dir():
+        return None
+    if phase == "0d":
+        total = _sc_total(chunks_dir)
+        if not total:
+            return None
+        done = len(list(chunks_dir.glob("sc-*.done")))
+        return min(0.95, done / total)
+    if phase == "0b":
+        total = len(list(chunks_dir.glob("win-*.in.md")))
+        if not total:
+            return None
+        done = len(list(chunks_dir.glob("win-*.out.md")))
+        return min(0.95, done / total)
+    return None
 
 
 # Phases that do not wait on a machine — they wait on a person. `audio-ingest`
@@ -166,8 +235,13 @@ def _fraction_done(phase: str, block: dict[str, Any]) -> float:
 _HUMAN_GATED_PHASES = frozenset({"audio-ingest"})
 
 
-def compute_progress(state: dict[str, Any]) -> dict[str, Any]:
-    """Per-phase status plus the weighted percentage. The single source of the number."""
+def compute_progress(state: dict[str, Any], book_dir: Path | None = None) -> dict[str, Any]:
+    """Per-phase status plus the weighted percentage. The single source of the number.
+
+    ``book_dir`` is optional and used only to read real on-disk chunk progress
+    for phases that have it (see ``_chunk_fraction``); every existing caller
+    that passes state alone keeps its prior behavior unchanged.
+    """
     blocks = state.get("phases") or {}
     rows: list[dict[str, Any]] = []
     earned = 0.0
@@ -201,7 +275,7 @@ def compute_progress(state: dict[str, Any]) -> dict[str, Any]:
                 bypassed.append({"phase": phase, "status": status})
             continue
         weight = _weight(phase)
-        fraction = _fraction_done(phase, block)
+        fraction = _fraction_done(phase, block, book_dir)
         # A skipped phase leaves the denominator entirely — a book that will never
         # render slides should still be able to reach 100%.
         if status == "skipped":
@@ -396,7 +470,7 @@ def build_card(book_dir: Path) -> dict[str, Any]:
     """Everything the card shows, as data — so a caller can render it any way."""
     book_dir = Path(book_dir).resolve()
     state = read_state(book_dir) or {}
-    progress = compute_progress(state)
+    progress = compute_progress(state, book_dir)
     # Estimate against MACHINE work only. Projecting a compute rate across a phase
     # that is waiting on a person answers a question the rate cannot answer.
     eta = estimate_eta(book_dir, progress["machine_percent_complete"])

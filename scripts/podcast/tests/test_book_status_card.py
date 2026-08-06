@@ -65,6 +65,75 @@ def test_the_per_chapter_loop_reports_its_own_chapter_progress() -> None:
     assert compute_progress(early)["percent_complete"] < compute_progress(late)["percent_complete"]
 
 
+# ─── chunked phases (0b, 0d) read real on-disk progress ──────────────────────
+def test_a_chunked_phase_reads_real_chunk_progress_not_a_flat_guess(tmp_path: Path) -> None:
+    """0d checkpoints on disk per source chunk even though the state file just
+    says "running" the whole time. 2 of 5 chunks done must read as 0.4, not the
+    flat 0.5 guess used when there is nothing else to go on."""
+    chunks_dir = tmp_path / "_system" / "source" / "text" / "_chunks" / "0d"
+    chunks_dir.mkdir(parents=True)
+    (chunks_dir / "source-toc.json").write_text('{"source_chapters": [{}, {}, {}, {}, {}]}', encoding="utf-8")
+    (chunks_dir / "sc-001.done").write_text("", encoding="utf-8")
+    (chunks_dir / "sc-002.done").write_text("", encoding="utf-8")
+
+    progress = compute_progress(state(**{"0a": "completed", "0d": "running"}), tmp_path)
+    row = next(r for r in progress["phases"] if r["phase"] == "0d")
+    assert row["fraction"] == 0.4
+
+
+def test_a_chunked_phase_without_book_dir_falls_back_to_the_flat_guess() -> None:
+    """Every existing pure-state caller must see the old behavior unchanged —
+    book_dir is optional precisely so this stays true."""
+    progress = compute_progress(state(**{"0a": "completed", "0d": "running"}))
+    row = next(r for r in progress["phases"] if r["phase"] == "0d")
+    assert row["fraction"] == 0.5
+
+
+def test_a_running_phase_with_no_chunk_directory_yet_falls_back_to_the_flat_guess(tmp_path: Path) -> None:
+    """0c and 0e do not chunk this way today — book_dir is known but there is no
+    _chunks/0c directory to read, so the honest flat guess still applies."""
+    (tmp_path / "_system").mkdir(parents=True)
+    progress = compute_progress(state(**{"0c": "running"}), tmp_path)
+    row = next(r for r in progress["phases"] if r["phase"] == "0c")
+    assert row["fraction"] == 0.5
+
+
+def test_a_windowed_phase_reads_real_window_progress(tmp_path: Path) -> None:
+    """0b writes win-NNN.in.md / win-NNN.out.md pairs — a window counts as done
+    once its .out.md exists (see _chunking.py). 3 of 4 windows done reads as 0.75."""
+    chunks_dir = tmp_path / "_system" / "source" / "text" / "_chunks" / "0b"
+    chunks_dir.mkdir(parents=True)
+    for i in range(1, 5):
+        (chunks_dir / f"win-{i:03d}.in.md").write_text("", encoding="utf-8")
+    for i in range(1, 4):
+        (chunks_dir / f"win-{i:03d}.out.md").write_text("", encoding="utf-8")
+
+    progress = compute_progress(state(**{"0b": "running"}), tmp_path)
+    row = next(r for r in progress["phases"] if r["phase"] == "0b")
+    assert row["fraction"] == 0.75
+
+
+def test_the_card_reflects_real_chunk_progress_end_to_end(tmp_path: Path) -> None:
+    """build_card must pass book_dir through so a live run's ETA has a real
+    signal instead of a flat half-guess frozen for the whole phase."""
+    bd = tmp_path / "slug"
+    (bd / "_system").mkdir(parents=True)
+    (bd / "_system" / "orchestrator-state.json").write_text(
+        '{"book_slug": "slug", "phase": "0d", "phase_status": "running",'
+        ' "phases": {"0a": {"status": "completed"}, "0d": {"status": "running"}}}',
+        encoding="utf-8",
+    )
+    chunks_dir = bd / "_system" / "source" / "text" / "_chunks" / "0d"
+    chunks_dir.mkdir(parents=True)
+    (chunks_dir / "source-toc.json").write_text('{"source_chapters": [{}, {}, {}, {}, {}]}', encoding="utf-8")
+    (chunks_dir / "sc-001.done").write_text("", encoding="utf-8")
+    (chunks_dir / "sc-002.done").write_text("", encoding="utf-8")
+
+    card = build_card(bd)
+    row = next(r for r in card["phases"] if r["phase"] == "0d")
+    assert row["fraction"] == 0.4
+
+
 def test_a_shipped_book_is_not_held_back_by_steps_its_run_never_stamped() -> None:
     """A real shipped book carries stale 'pending' phases behind a completed 'done'."""
     progress = compute_progress(
