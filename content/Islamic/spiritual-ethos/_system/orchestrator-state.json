@@ -10,8 +10,8 @@
   "last_completed_phase": "0g",
   "last_error": {
     "phase": "per-chapter",
-    "message": "pre-flight smoke gate failed: forgetting-the-self-and-the-name: density gate: 6 concept sections (max 3) — split required before authoring; see docs/standards/chapter-density.md; the-letter-of-ali-to-malik-al-ashtar: density gate: 6 concept sections (max 3) — split required before authoring; see docs/standards/chapter-density.md; the-veils-that-do-not-veil: density gate: 5 concept sections (max 3) — split required before authoring; see docs/standards/chapter-density.md; why-intellect-not-reason: density gate: 5 concept sections (max 3) — split required before authoring; see docs/standards/chapter-density.md",
-    "ts": "2026-08-06T18:12:31Z"
+    "message": "[dhikr-the-polish-for-hearts] pipeline_lint P0: framing structural mismatch:",
+    "ts": "2026-08-06T19:01:56Z"
   },
   "category": "books",
   "branch": "Islamic/spiritual-ethos",
@@ -74,14 +74,33 @@
     },
     "per-chapter": {
       "status": "running",
-      "failed_slugs": [],
+      "failed_slugs": [
+        "dhikr-the-polish-for-hearts"
+      ],
       "ts_started": "2026-08-06T18:32:19Z",
-      "current_chapter": "ali-and-the-prophet",
-      "last_beat": "2026-08-06T18:47:09Z",
-      "completed_slugs": [],
+      "current_chapter": "forgetting-the-self-and-the-name",
+      "last_beat": "2026-08-06T19:16:10Z",
+      "completed_slugs": [
+        "ali-and-the-prophet"
+      ],
       "chapter_timings": {
         "ali-and-the-prophet": {
           "started_ts": "2026-08-06T18:32:19Z",
+          "completed_ts": "2026-08-06T18:53:27Z",
+          "duration_sec": 1267.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "dhikr-the-polish-for-hearts": {
+          "started_ts": "2026-08-06T18:53:28Z",
+          "completed_ts": "2026-08-06T19:01:56Z",
+          "duration_sec": 507.7,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "pipeline_lint P0: framing structural mismatch:"
+        },
+        "forgetting-the-self-and-the-name": {
+          "started_ts": "2026-08-06T19:01:56Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -93,6 +112,6 @@
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260806T183219Z-9c32fa",
-  "ts_updated": "2026-08-06T18:47:09Z",
+  "ts_updated": "2026-08-06T19:16:10Z",
   "next_phase": "0literary"
 }

@@ -2,94 +2,100 @@
 
 **Book:** spiritual-ethos
 **Run:** 2026-08-06 (challenger v2.6)
-**Scope:** per-chapter ali-and-the-prophet (ch01a) + EP01-ali-and-the-prophet framing
+**Scope:** per-chapter forgetting-the-self-and-the-name (ch11c) + EP11-forgetting-the-self-and-the-name framing
 **content_profile:** islamic_scholarly  ← detected from _system/series-config.yaml
-**Iterations:** 1 (of 5 max) — converged on first pass; no safe auto-fixes available
+**Iterations:** 1 (of 5 max) — converged on first pass; no safe, non-regressing auto-fix available
 **Verdict:** SHIP-WITH-CAUTION
 
-> Note: S1 async-safety gate intentionally bypassed for this invocation — it
-> originates from within the parent orchestrate_book.py pipeline that spawned it.
+> S1 async-safety gate intentionally bypassed for this invocation — it originates
+> from within the parent orchestrate_book.py pipeline that spawned it (per invocation
+> context). The parent orchestrator is the caller, not a concurrent independent run.
 
-## Deterministic gates run
+## Deterministic gates run (authoritative)
 
 | Gate | Result |
 |---|---|
-| build_episode_txt.py (chapter SOURCE + framing → episode txt) | exit 0; 5 P1 FLAGs (below) |
-| _doctrinal.run_doctrinal_checks (Category T) | clean — 0 findings |
-| check_chapter_set.py (Category CS, book scope) | 1 P0 (other chapter), 1 P1, several P2 |
+| `build_episode_txt.py EP11` (chapter SOURCE + framing) | exit 0 — episode txt emitted; 2 P1 FLAGs + 1 NOTE |
+| `check_chapter_set.py` (book scope) | 24 findings (1 P0 on a *different* chapter, 12 P1, 11 P2) |
+| `_doctrinal.run_doctrinal_checks` (Category T) | 0 findings — clean |
+| Host-parity Q1–Q4 (all 3 sibling framings) | consistent: Host A male/scholar, Host B female/seeker — clean |
+| Markers A2/D5 · filler E4 · honorific O1 | clean (no [VERIFY]/[CONTEXT], no filler, honorifics symbol-form once) |
+
+The 7,894-word chapter is IN the `extended` band (5,500–9,500) and is accepted as-is
+by the build gate. Em-dashes (38 in chapter) are NOT flagged by current code and were
+NOT altered — the legacy B5 auto-fix is not enforced by build_episode_txt.py v2.6.
 
 ## Auto-fixes applied
 
-None. The chapter and framing were produced by the pipeline and pass the hard
-build gate; the remaining items are either (a) authoring decisions on the
-chapter SOURCE, (b) known false positives of the naive substring scanners, or
-(c) out-of-scope files (99-show-notes.md, sibling chapters). No deterministic,
-non-regressing auto-fix was available this run.
+None. Rationale: the authoritative gates require no deterministic fix, and the framing
+is deliberately hand-authored with constraints that boilerplate insertion would violate
+(source-images-only analogies per Tone constraints; mandated 3× spine repetition via
+R-RECURRING-THESIS). Auto-inserting R4/R5/K1/M1 clauses or rewriting 38 em-dashes would
+be content authoring against the author's intent, not mechanical cleanup. All items below
+are flagged for author resolution.
 
 ## Findings requiring author resolution
 
-### P0 (blocks ship) — BOOK SCOPE, not this chapter
+### P0 (blocks ship) — none on THIS chapter
 
-#### CS-P4: Chapter over its declared length band (sibling chapter)
-- **File:** content/Islamic/spiritual-ethos/chapters/ch13-the-letter-of-ali-to-malik-al-ashtar.txt
-- **Context:** 10,109 words; declared band `extended` is 5,500–9,500. Over by ~600 words.
-- **Note:** This is NOT the chapter under per-chapter review (ali-and-the-prophet is 6,177 words, inside the extended band). It is surfaced because Category CS runs at book scope. It will block the BOOK at publish (density_standard: 2). The Letter to Malik is a single primary text; either accept a wider band for it or resegment.
-- **Suggested fix:** Re-run Phase 0d for that chapter or relabel its band; does not affect ali-and-the-prophet's per-chapter verdict.
+> Book-scope note (surfaced, does NOT block the per-chapter verdict): `check_chapter_set.py`
+> reports a P0 (CS4) on a **different** chapter — `the-letter-of-ali-to-malik-al-ashtar`
+> is 10,109 words, over the `extended` band ceiling of 9,500. That chapter, not this one,
+> must be rewritten to band or re-split. It is out of this per-chapter scope.
 
 ### P1 (ship-with-caution)
 
-#### R-NO-ARABIC-TRANSLITERATION (F20): 7 transliterations in the chapter SOURCE
-- **File:** chapters/ch01a-ali-and-the-prophet.txt
-- **Context:** Abu Bakr, Abu Dharr, Abu Talib, al-Bayt, al-Farisi, al-Muttalib, bint Asad.
-- **Assessment:** These are biographical PROPER NAMES intrinsic to the narrative (Ali's father Abu Talib, the companions). They cannot be flattened to English audio labels without losing the history. Recommend leaving as-is; the framing's Name discipline and Pronunciation blocks already govern how they are voiced. Flag retained for the record.
+#### F20 / R-NO-ARABIC-TRANSLITERATION — Arabic transliterated names in the chapter SOURCE
+- **File:** content/Islamic/spiritual-ethos/chapters/ch11c-forgetting-the-self-and-the-name.txt
+- **Context:** build sampled `al-Hallaj, al-Kalabadhi, al-Kashani, al-Sadiq`; the chapter also carries `Bayazid, Rumi, Ibn al-'Arabi, Nasir-i Khusraw, al-Ghazali, Ibn 'Ata'illah, Abu 'Uthman, al-Kalabadhi` and the book title `the Mathnawi`. F20 doctrine wants these rendered as English audio labels in the SOURCE that NotebookLM reads. The framing's Name-discipline block already handles the audio side (English roles), but the uploaded chapter still carries the transliterations.
+- **Suggested fix:** replace transliterated personal names / book titles in the chapter body with the English role labels the framing already defines (the early Sufi master / the Andalusian master / the reviver-jurist / the Persian poet / his treatise on extinction), or accept as a documented book-wide exception. Authoring decision.
 
-#### R-RECURRING-THESIS: framing rule reference missing from an Anti-noise section
-- **File:** _system/episode-drafts/EP01-ali-and-the-prophet/00-framing.md
-- **Context:** The framing DOES carry the "Repeat the spine thesis verbatim three times — opening, pivot, and close" instruction (in `## Do not`), but the build gate wants it referenced inside a `## Anti-noise rules` section. Substantively satisfied; structurally the gate does not find its anchor.
-- **Suggested fix (author): ** move/duplicate the recurring-thesis clause into a `## Anti-noise rules` H2, or add the R-RECURRING-THESIS rule reference.
+#### F25-APPARATUS-TABLE — show-notes missing the Name and Title Preservation Table
+- **File:** content/Islamic/spiritual-ethos/_system/episode-drafts/EP11-forgetting-the-self-and-the-name/99-show-notes.md
+- **Context:** no `## Name and Title Preservation Table` header. F25 doctrine: every episode's show-notes carries the written-layer crosswalk (preserved Arabic / transliterations → audio labels) that the TTS-safe audio omits.
+- **Suggested fix:** add the apparatus table to 99-show-notes.md (author/producer surface; challenger does not edit show-notes).
 
-#### F25-APPARATUS-TABLE: 99-show-notes.md missing the preservation table
-- **File:** _system/episode-drafts/EP01-ali-and-the-prophet/99-show-notes.md
-- **Context:** No `## Name and Title Preservation Table` header. F25 doctrine requires the written-layer apparatus (preserved Arabic / transliterations + audio-label crosswalk).
-- **Suggested fix (author):** add the preservation table to 99-show-notes.md. Out of the challenger's edit scope.
+#### N3 — pronunciation ledger has no settled spoken form for `fana`, `baqa`
+- **File:** content/Islamic/spiritual-ethos/_system/episode-drafts/EP11-forgetting-the-self-and-the-name/00-framing.md:15-16
+- **Context:** the `## Pronunciation` block lists `- fana: fana` / `- baqa: baqa`, but neither term is settled in the cross-book pronunciation ledger (build NOTE).
+- **Suggested fix:** settle by ear — `python3 scripts/podcast/run_pronunciation_probe.py spiritual-ethos` — which writes the answer to the ledger. Do not hand-edit the framing value (the build recompiles it).
 
-### P1 — recorded but assessed as FALSE POSITIVES
+#### CS8 — cross-chapter duplication with `the-veils-that-do-not-veil`
+- **File:** content/Islamic/spiritual-ethos/chapters/ch11c-forgetting-the-self-and-the-name.txt
+- **Context:** shares 3 distinct 12-word passages with `the-veils-that-do-not-veil` — same content taught twice. Sample: "a batin and the whole labor of the awakened intellect is the…" (the zahir/batin/ta'wil exposition).
+- **Suggested fix:** cut the overlapping zahir/batin/ta'wil passage from one chapter so the teaching lands once. Authoring decision — never auto-stripped.
 
-#### R-SURAH-ENGLISH-ONLY: 'quraysh' flagged as a surah name
-- **File:** chapters/ch01a-ali-and-the-prophet.txt
-- **Assessment:** Every occurrence of "Quraysh" in this chapter names the Meccan TRIBE (e.g. "the Meccan Quraysh and their allies"), not the Qur'anic chapter. False positive; no change needed.
+#### CS10 — chapter over-dense (6 concept sections; target ≤3)
+- **File:** content/Islamic/spiritual-ethos/chapters/ch11c-forgetting-the-self-and-the-name.txt
+- **Context:** concept H2s: The self that remembers · The reality of remembrance · Extinction in remembrance · The Name that is the Named · The effaced friend as the Name (+ synthesis + Closing). Density audit target is ≤3.
+- **Suggested fix:** advisory — this is the extended-band closing chapter carrying two mysteries by design; either accept given the length band, or re-split at a concept seam via Phase 0d.
 
-#### R-NOMODERNIZE-STRICT: 'twitter', 'algorithm', 'social media' in framing
-- **File:** _system/episode-drafts/EP01-ali-and-the-prophet/00-framing.md
-- **Assessment:** These terms appear ONLY inside the `## Do not` DENY list, which is exactly what M1/R-NOMODERNIZE requires the framing to carry. The gate's substring scan cannot distinguish the DENY list from an injection. False positive; the DENY block is correct and should stay.
+#### CS5 — chapter-set word-count variance 50% (>30%) [book-scope]
+- **Context:** min 5,007 / max 10,109 words across the set; driven mainly by the over-band `the-letter-of-ali-to-malik-al-ashtar`.
+- **Suggested fix:** rebalance the set (largely resolved by fixing the CS4 P0 above). Authoring decision.
 
 ### P2 (advisory)
 
-- **A3 translation provenance:** The chapter quotes Qur'anic translations ("Verily, thou art of a tremendous nature", etc.) without naming a translator. These are the source author's (Shah-Kazemi's) own scholarly renderings in a faithful_exposition; forcing a "Yusuf Ali / Sahih International" attribution would be inaccurate. Optionally note "the author's rendering" once. Not a blocker.
-- **Honorific (ع) x91:** the honorific is attached to nearly every mention of Ali in the SOURCE. The build's honorific gate does not flag the bare (ع) mark, and the framing Name-discipline governs the SPOKEN form ("first mention 'Ali, peace be upon him', then 'Ali'"), so the audio says it once. Written repetition is stylistic; left as-is.
-- **B5 em-dashes:** the chapter uses em-dashes throughout as authored literary punctuation. The current build gate accepts them (no flag). Not auto-stripped — mechanically converting 30+ em-dashes would damage a validated literary SOURCE against a contract that permits them.
-- **CS-P6 cross-book bleed:** 'Ghadir Khumm', 'qutb', 'walaya' match degrees-of-excellence's mangle-map. Both books treat Ali's spirituality; this is shared Islamic vocabulary, not a bleed. Advisory only; never auto-stripped.
+- **CS6** — chapter contains `tawhid`, which matches `degrees-of-excellence`'s mangle-map (possible cross-book bleed). Almost certainly a false positive: `tawhid` is a common term of art AND is in this book's own `_system/glossary.yml` (with Arabic توحيد). Surfaced for human review; never auto-stripped.
+- **Framing R4** — `## Do not` block does not name the formal-essay transitions (Firstly, Secondly, Furthermore, In conclusion, Moving on to, Lastly). Advisory hardening; NOT auto-inserted (build did not require it).
+- **Framing K1** — no explicit interruption-avoidance ("conversation discipline") clause in Host dynamic. K2 (named filler words) IS satisfied via the Forbidden-first-words list.
+- **Framing M1** — DENY-modernize list in `## Do not` is thin (Twitter, social media, algorithm only); canonical list also names TikTok/YouTube/"21st century"/etc. NOT auto-inserted — build validator passed the framing.
 
-## Category pass summary (islamic_scholarly — full catalog)
-
-| Category | Result |
-|---|---|
-| A Authenticity | Quran cites all in canonical `(chapter N, verse M)` form (A1 ✓). Sunni/Shi'i sources annotated as parallel traditions (A6 ✓). A3 translator-name P2 advisory. No [VERIFY] markers (A2 ✓). |
-| B NotebookLM literalness | "this episode / what this episode lands" are permitted structural frames (per _validator_constants.py), not meta-prose. No cross-episode refs. Clean. |
-| C/N Pronunciation | Framing `## Pronunciation` uses correct `- term: form` bullets (N2 ✓); no-read-aloud guard present (N4 ✓). Build NOTE: 5 terms (Ali, Qur'an, mawla, Khaybar, Ghadir Khumm) have no settled spoken form in the ledger — settle by ear with run_pronunciation_probe.py (N3, advisory). |
-| D Enrichment | Multi-source (Qur'an, hadith fada'il, Nasir-i Khusraw, Rumi, Ali's own sayings). Coherent to the chapter's three tensions. Clean. |
-| E Shape | Clear hook → middle → landing arc; one-sentence summarizable. 6,177 words, inside the extended band (5,500–9,500). Clean. |
-| F Framing integrity | Four-part structure present; audience concrete; tensions named. Clean. |
-| G Extract contracts | Contract present + validates (build exit 0). Clean. |
-| H/I/K/R Choreography | Welcome + summary + closing-landing present. Interruption-avoidance (K1) and formal-transition DENY (R4) not explicitly present, but the current compact framing format validated clean; left as P2-advisory rather than risk a format regression. |
-| Q Host parity | Host A male scholar/teacher; Host B female seeker/questioner/challenger — both in-pool (Q1/Q2 ✓); voice-gender declared (Q4 ✓). |
-| T Doctrinal | Clean — 0 findings. No forbidden Imam-title/name pairing; lineage correct. |
-| U Scholarly rubric | No AI-cliché, no faux-profundity opener, no deep-dive self-reference, no external essentialism. Clean. |
-| V Interest | Curiosity hook ("Picture a room…"), challenge-defeat arc (imitation vs assimilation), fair framing of both Sunni/Shi'i readings. Clean. |
-| W Augmentation | enable_knowledge_augmenter: false; no augment ledger. N/A. |
+> Deliberately NOT flagged as findings: B5 em-dashes (not enforced by current code);
+> R5 modern-analogy permission (would contradict the authored source-images-only Tone
+> constraint); A1 hadith reference tails (this book's F20/English-only doctrine and the
+> passing build gate intentionally omit bibliographic tails for TTS safety).
 
 ## Health metrics
 
-| Chapter | Words | Band | Arabic transliterations | Quran cites | Honorific (ع) | Pronunciation gaps |
+| Chapter | Words | Band | In band? | Arabic script | Doctrinal | Pron. gaps |
 |---|---|---|---|---|---|---|
-| ch01a ali-and-the-prophet | 6,177 | extended (5,500–9,500) ✓ | 7 (proper names) | 10, all canonical form | 91 (spoken once via framing) | 5 unsettled terms (advisory) |
+| ch11c-forgetting-the-self-and-the-name | 7,894 | extended (5,500–9,500) | yes | yes (توحيد, تأويل) | clean | 2 (fana, baqa unsettled) |
+
+## Convergence
+
+Iteration 1 produced 0 auto-fixes and a stable finding set → intelligent break.
+Verdict: **SHIP-WITH-CAUTION** — zero P0 on this chapter/framing; 6 P1 + 4 P2 flagged
+for author resolution. The book as a whole carries one out-of-scope P0 (CS4 on
+`the-letter-of-ali-to-malik-al-ashtar`) that must be resolved before a book-wide
+SHIP-READY.

@@ -61,3 +61,8 @@
 {"phase": "per-chapter", "step": "challenger/ali-and-the-prophet", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/ali-and-the-prophet/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/ali-and-the-prophet", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/dhikr-the-polish-for-hearts", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/forgetting-the-self-and-the-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/forgetting-the-self-and-the-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/forgetting-the-self-and-the-name/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/forgetting-the-self-and-the-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
