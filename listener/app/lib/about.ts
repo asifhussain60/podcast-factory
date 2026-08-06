@@ -333,6 +333,16 @@ export interface Release {
  */
 export const RELEASES: Release[] = [
   {
+    date: "2026-08-06",
+    items: [
+      "The player skips back and forward fifteen seconds on a phone. Those two buttons had been hidden on small screens, which is where most listening happens.",
+      "The Notes button shows how many notes you have kept in the episode you are listening to.",
+      "Your phone's own controls now know what is playing: the lock screen, your headphones and a car stereo show the episode and the book, and their skip buttons move by the same fifteen seconds.",
+      "The player reads as a piece of equipment rather than the foot of the page, and the position bar shows how much of the episode is behind you.",
+      "The transcript follows the audio as it plays, and a line's \"+\" opens a note already holding that line.",
+    ],
+  },
+  {
     date: "2026-08-05",
     items: [
       "This page. Everything the site can do, with a search box and a FAQ.",

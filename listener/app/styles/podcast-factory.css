@@ -5046,14 +5046,58 @@
      Fixed to the foot of every page once something is playing, so navigating
      away from a book does not stop it. */
 
+  /* A DECK, not a strip of the page.
+     It was the page's own elevated surface behind a blur, one hairline apart
+     from the article above it — so the thing that is playing looked like the
+     last paragraph rather than like a player, and on a phone (where it is most
+     of what is on screen) it read as a footer.
+
+     `--l-band` is the navy the library's book cards and the About hero already
+     wear, and every palette declares it with `--l-on-band` / `--l-band-muted` /
+     `--l-band-ornament` beside it, already measured — so the boldest thing on
+     the page introduces no colour the site did not already own, and it follows
+     light, sepia and dark without one hardcoded value. The wash is the accent
+     bleeding in from the leading edge, which is what stops a full-width block
+     reading as a flat slab; the same device the About hero uses.
+
+     Opaque rather than translucent, which is the point: text scrolling under a
+     blurred bar was the one place on this site where a line of prose and a
+     control were legible through each other. */
   .pf-player {
     position: fixed;
     inset-inline: 0;
     bottom: 0;
     z-index: 40;
-    background: color-mix(in srgb, var(--l-elev) 95%, transparent);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid var(--l-rule);
+    background:
+      radial-gradient(
+        120% 180% at 0% 100%,
+        color-mix(in oklab, var(--l-accent) 45%, transparent) 0%,
+        transparent 60%
+      ),
+      var(--l-band);
+    color: var(--l-on-band);
+    /* Cast UPWARD, over the page it sits in front of. A border alone put it in
+       the same plane as the article; the shadow is what says it is above it. */
+    box-shadow: 0 -2px 6px var(--l-shadow-near), 0 -12px 32px var(--l-shadow-far);
+  }
+
+  /* The global focus ring is `--l-accent`, measured against the PAGE. On this
+     deck that is a mid blue on a navy — a ring you cannot see is a keyboard
+     user with no idea where they are, so the whole bar re-declares it in the
+     colour that IS measured against the band. */
+  .pf-player :focus-visible {
+    outline-color: var(--l-band-ornament);
+  }
+
+  /* The one hairline it keeps, in its own ornament colour rather than the
+     page's rule: a lit top edge is what a piece of equipment has. */
+  .pf-player::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background: color-mix(in srgb, var(--l-band-ornament) 55%, transparent);
   }
 
   .pf-player__inner {
@@ -5064,14 +5108,45 @@
     max-width: var(--pf-measure-page);
     margin-inline: auto;
     padding: var(--pf-space-3) var(--pf-space-5);
+    /* The seek control carries `padding-block: var(--pf-space-2)` of its own so
+       its hit area is a thumb-sized strip, and that padding lands BELOW the
+       visible track — against the bar's own bottom edge, where it adds to the
+       gap. At the top the same padding falls between two rows, where it reads
+       as spacing rather than as margin. So the top edge is short by exactly the
+       seek's block padding, and it is written as that value rather than as a
+       round number: change the seek's padding and this follows it. */
+    padding-top: calc(var(--pf-space-3) + var(--pf-space-2));
+    /* iOS reserves a strip at the foot of the window for its own bar. Without
+       this the scrub row sits under it and the last few pixels of the seek
+       control cannot be touched. Deliberately NOT mirrored at the top — that
+       inset is the OS's furniture, not the bar's breathing room. */
+    padding-bottom: calc(var(--pf-space-3) + env(safe-area-inset-bottom, 0px));
   }
 
+  /* Three groups, not eight controls in a row: what is playing, the transport,
+     and the panels. The groups are what the phone breakpoint re-flows — the
+     controls inside them are never taken away, which is the whole point of the
+     grouping. */
   .pf-player__top {
     display: flex;
     align-items: center;
     gap: var(--pf-space-3);
   }
 
+  .pf-player__transport,
+  .pf-player__panels {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--pf-space-2);
+  }
+
+  /* Light disc, dark glyph — the transport control every piece of playback
+     equipment has, and on this deck the only pairing that is guaranteed
+     legible: the accent is measured against the PAGE, not against the band, and
+     `--l-accent` on `--l-band` is two mid-tone blues on top of each other. Every
+     palette measures `--l-on-band` against `--l-band` at 7.7:1 or better, so
+     inverting is both the stronger look and the safe one. */
   .pf-player__play {
     display: flex;
     flex: none;
@@ -5081,28 +5156,84 @@
     height: 2.75rem;
     border: 0;
     border-radius: var(--pf-radius-pill);
-    background: var(--l-accent);
-    color: var(--l-on-accent);
+    background: var(--l-on-band);
+    color: var(--l-band);
     cursor: pointer;
-    transition: background var(--pf-motion);
+    transition:
+      background var(--pf-motion),
+      scale var(--pf-motion);
   }
 
   .pf-player__play:hover {
-    background: var(--l-accent-hover);
+    background: var(--l-band-ornament);
   }
 
-  /* The skip controls READ as buttons now. They were bare text on a bar full of
-     real controls, so the two things a listener reaches for most while an
-     episode runs — go back fifteen, go forward fifteen — looked like labels
-     printed beside the play button rather than things to press. */
-  .pf-player__nudge,
-  .pf-player__panel-tab {
+  .pf-player__play:active {
+    scale: 0.94;
+  }
+
+  /* Round, and the same 44px as play. They were pill-shaped text — "-15s" —
+     which needed more width than a phone's bar had, and the fix taken at the
+     time was to hide them below 640px: the two controls a listener reaches for
+     most, absent on the device the listening happens on (Asif, 2026-08-06). A
+     glyph with the numeral inside says the same thing in a circle, so they now
+     fit at every width and are held to the AAA target size at all of them. */
+  .pf-player__nudge {
+    position: relative;
+    display: flex;
     flex: none;
-    padding: var(--pf-space-1) var(--pf-space-3);
-    border: 1px solid var(--l-rule);
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, var(--l-on-band) 32%, transparent);
     border-radius: var(--pf-radius-pill);
     background: transparent;
-    color: var(--l-muted);
+    color: var(--l-on-band);
+    font-family: var(--l-font-ui);
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      border-color var(--pf-motion),
+      scale var(--pf-motion);
+  }
+
+  .pf-player__nudge:active {
+    scale: 0.94;
+  }
+
+  /* The rotating arrow is drawn AROUND the numeral rather than beside it, which
+     is what makes "fifteen seconds back" one mark instead of two things to
+     read. */
+  .pf-player__nudge .pf-icon {
+    width: 1.35em;
+    height: 1.35em;
+  }
+
+  .pf-player__nudge-n {
+    position: absolute;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    /* Optically centred inside the arrow's loop, which is not the button's own
+       centre — the glyph's arrowhead sits above the ring. */
+    padding-top: 0.15em;
+  }
+
+  .pf-player__panel-tab {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--pf-space-1);
+    /* Never below the AAA target height, whatever the label does. */
+    min-height: 2.75rem;
+    padding: var(--pf-space-1) var(--pf-space-3);
+    border: 1px solid color-mix(in srgb, var(--l-on-band) 32%, transparent);
+    border-radius: var(--pf-radius-pill);
+    background: transparent;
+    color: var(--l-on-band);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-sm);
     font-weight: 600;
@@ -5114,25 +5245,51 @@
       background var(--pf-motion);
   }
 
+  /* Lit rather than re-coloured. On a dark deck a hover that changes the text
+     colour is nearly invisible; filling the button is what the eye catches. */
   .pf-player__nudge:hover,
   .pf-player__panel-tab:hover {
-    color: var(--l-ink);
-    border-color: var(--l-accent);
+    border-color: var(--l-band-ornament);
+    background: color-mix(in srgb, var(--l-on-band) 14%, transparent);
+  }
+
+  /* How many notes are in THIS episode, on the button that opens them. Never
+     rendered as zero — an empty count reads as something to clear rather than
+     something not yet started, which is the same rule the reader's own tab
+     follows. */
+  .pf-player__badge {
+    min-width: 1.25rem;
+    padding: 0 var(--pf-space-1);
+    background: var(--l-band-ornament);
+    border-radius: var(--pf-radius-pill);
+    color: var(--l-band);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  /* Held down, the badge inverts with its button — a light pill on a light
+     button would otherwise disappear exactly when the panel it counts is
+     open. */
+  .pf-player__panel-tab[aria-expanded="true"] .pf-player__badge {
+    background: var(--l-band);
+    color: var(--l-on-band);
   }
 
   /* The open panel's button is held down, which is the only thing on screen
      saying which of the two is showing once the panel covers its own heading on
      a narrow window. */
   .pf-player__panel-tab[aria-expanded="true"] {
-    background: var(--l-accent);
-    border-color: var(--l-accent);
-    color: var(--l-on-accent);
+    background: var(--l-on-band);
+    border-color: var(--l-on-band);
+    color: var(--l-band);
   }
 
   .pf-player__close {
     border: 0;
     background: transparent;
-    color: var(--l-muted);
+    color: var(--l-band-muted);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-base);
     cursor: pointer;
@@ -5140,7 +5297,7 @@
   }
 
   .pf-player__close:hover {
-    color: var(--l-ink);
+    color: var(--l-on-band);
   }
 
   /* ---- The player's own side panel ---------------------------------------
@@ -5167,10 +5324,13 @@
     position: fixed;
     inset-inline-end: 0;
     top: 0;
-    /* The bar is two rows plus its padding. A magic number here would drift the
-       first time the bar changed, so it is measured from the same space scale
-       the bar is built from. */
-    bottom: calc(var(--pf-space-3) * 2 + 4.5rem);
+    /* The bar's ACTUAL height, published by the bar itself through a
+       ResizeObserver. It was worked out by hand from the space scale, which was
+       true for exactly one shape of bar: the phone layout is two rows and the
+       safe-area inset is per-device, so a constant here would leave a strip of
+       this drawer hidden behind the transport with nothing reporting it. The
+       fallback is only for the instant before the observer's first reading. */
+    bottom: var(--pf-player-h, 7rem);
     /* Above a PAGE's drawer (25), so a chapter's notes can be open underneath
        and the transcript still opens over it. */
     z-index: 41;
@@ -5204,18 +5364,18 @@
   .pf-player__title {
     font-family: var(--l-font-prose);
     font-size: var(--pf-text-base);
-    color: var(--l-ink);
+    color: var(--l-on-band);
   }
 
   .pf-player__book {
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
-    color: var(--l-muted);
+    color: var(--l-band-muted);
     text-decoration: none;
   }
 
   .pf-player__book:hover {
-    color: var(--l-ink);
+    color: var(--l-on-band);
   }
 
   .pf-player__rate {
@@ -5224,7 +5384,17 @@
     gap: var(--pf-space-1);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
-    color: var(--l-muted);
+    color: var(--l-band-muted);
+  }
+
+  /* The page's select carries the page's surface and ink, which on this deck is
+     a white chip in a navy bar. Re-dressed in the band's own values rather than
+     given a new control: the native menu it opens is drawn by the platform and
+     is unaffected either way. */
+  .pf-player__rate .pf-select {
+    background: color-mix(in srgb, var(--l-on-band) 12%, transparent);
+    border-color: color-mix(in srgb, var(--l-on-band) 32%, transparent);
+    color: var(--l-on-band);
   }
 
   .pf-player__scrub {
@@ -5234,13 +5404,61 @@
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
     font-variant-numeric: tabular-nums;
-    color: var(--l-muted);
+    color: var(--l-band-muted);
   }
 
+  /* The transport track, and the one thing here that most makes the bar read as
+     a player rather than a row of buttons.
+
+     `accent-color` alone was not enough: it colours the FILL and the thumb, and
+     leaves the unplayed remainder to whatever the platform derives — which on
+     this navy deck came out a muddy near-black with barely any separation from
+     the played part. So the track is painted here, from a `--pf-seek` scalar
+     the component measures, exactly as `.pf-meter` is driven by `--pf-meter`:
+     the component supplies a number and this file decides what a number looks
+     like. One gradient works in every engine, where `::-moz-range-progress`
+     has no WebKit counterpart and the two would have had to be maintained
+     apart.
+
+     Padded on the block axis so the hit area stays a comfortable strip while
+     the visible track stays thin — a 6px-tall control is a 6px-tall target
+     otherwise, which under a thumb is a miss. */
   .pf-player__seek {
     flex: 1;
-    height: 4px;
-    accent-color: var(--l-accent);
+    height: 6px;
+    box-sizing: content-box;
+    padding-block: var(--pf-space-2);
+    margin: 0;
+    appearance: none;
+    background: linear-gradient(
+        to right,
+        var(--l-band-ornament) calc(var(--pf-seek, 0) * 100%),
+        color-mix(in srgb, var(--l-on-band) 22%, transparent) calc(var(--pf-seek, 0) * 100%)
+      )
+      center / 100% 6px no-repeat;
+    border-radius: var(--pf-radius-pill);
+    cursor: pointer;
+  }
+
+  /* One thumb, declared twice: WebKit and Gecko refuse a shared selector list —
+     an unknown pseudo-element invalidates the whole rule for both. */
+  .pf-player__seek::-webkit-slider-thumb {
+    appearance: none;
+    width: 0.875rem;
+    height: 0.875rem;
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-on-band);
+    cursor: pointer;
+  }
+
+  .pf-player__seek::-moz-range-thumb {
+    width: 0.875rem;
+    height: 0.875rem;
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-on-band);
+    cursor: pointer;
   }
 
   .pf-select--sm {
@@ -5250,13 +5468,23 @@
     font-size: var(--pf-text-xs);
   }
 
-  /* A phone's player bar has room for play, what is playing, the two panels and
-     close. The skip buttons and the speed control are the parts that go —
-     Transcript and Notes deliberately do NOT, because they are the reason the
-     bar is worth having on a phone at all. */
+  /* From a tablet up the three groups sit in one row, transport first, exactly
+     as the bar has always read. */
   @media (min-width: 640px) {
-    .pf-player__nudge {
-      display: block;
+    .pf-player__top {
+      flex-wrap: nowrap;
+    }
+
+    .pf-player__transport {
+      order: 1;
+    }
+
+    .pf-player__what {
+      order: 2;
+    }
+
+    .pf-player__panels {
+      order: 3;
     }
 
     .pf-player__rate {
@@ -5264,14 +5492,39 @@
     }
   }
 
+  /* On a phone the groups RE-FLOW; nothing is removed from them. The title
+     takes the first line on its own — it is the one thing here that needs the
+     full width and can be truncated — and the transport and the panels share
+     the second. Every control that exists at 1440px exists at 320px. */
   @media (max-width: 639px) {
-    .pf-player__nudge {
-      display: none;
+    .pf-player__top {
+      flex-wrap: wrap;
+      gap: var(--pf-space-2);
     }
 
-    /* Room for two of them beside the title. The padding goes rather than the
-       control: a smaller tap target on the thing a listener presses most on the
-       device they listen on is the wrong economy. */
+    .pf-player__inner {
+      padding-inline: var(--pf-space-4);
+    }
+
+    .pf-player__what {
+      order: 1;
+      flex: 1 1 100%;
+    }
+
+    .pf-player__transport {
+      order: 2;
+    }
+
+    .pf-player__panels {
+      order: 3;
+      /* Pushed to the trailing edge, so the transport keeps the thumb-side
+         corner it is reached from. */
+      margin-inline-start: auto;
+    }
+
+    /* The label shrinks; the 44px target does not. A smaller tap target on the
+       thing a listener presses most on the device they listen on is the wrong
+       economy. */
     .pf-player__panel-tab {
       padding-inline: var(--pf-space-2);
       font-size: var(--pf-text-xs);

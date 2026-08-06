@@ -147,6 +147,21 @@ export function setUp() {
              ON CONFLICT(user_email, slug) DO UPDATE SET fraction = 0.42;`
         : ""
     }
+    ${
+      book && episode !== null
+        ? `DELETE FROM episode_note WHERE user_email = '${READER}';
+           -- Two moments kept in the episode the harness plays, for the same
+           -- reason the reading progress above is seeded: the player's Notes
+           -- badge and the panel's populated list only exist once a note does,
+           -- so with an empty table neither is ever photographed and a defect
+           -- in either could ship. Removed by tearDown with the rest.
+           INSERT INTO episode_note (id, user_email, slug, number, seconds, note, quote, created_at, updated_at)
+             VALUES ('smoke-note-1', '${READER}', '${book.slug}', ${episode}, 909,
+                     'Beautiful explanation of this passage', NULL, 'now', 'now'),
+                    ('smoke-note-2', '${READER}', '${book.slug}', ${episode}, 1081,
+                     'Come back to this argument', NULL, 'now', 'now');`
+        : ""
+    }
   `);
 
   return {

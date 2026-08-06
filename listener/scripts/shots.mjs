@@ -149,6 +149,21 @@ const STATES = {
         await page.waitForTimeout(600);
       },
     },
+    {
+      // The other panel, and the state its button's badge counts. It was never
+      // photographed, which meant the notes a listener keeps in an episode —
+      // and the held-down badge that has to invert to stay visible on an accent
+      // button — had no picture anywhere.
+      name: "notes-open",
+      act: async (page) => {
+        await page.click(".pf-tabset__tab:nth-child(2)").catch(() => {});
+        await page.locator(".pf-row__action").first().click().catch(() => {});
+        await page.waitForSelector(".pf-player", { timeout: 3000 }).catch(() => {});
+        await page.locator(".pf-player__panel-tab").last().click().catch(() => {});
+        await page.waitForSelector(".pf-player-panel", { timeout: 3000 }).catch(() => {});
+        await page.waitForTimeout(600);
+      },
+    },
   ],
   "admin-people": [
     { name: "plain", act: async () => {} },
