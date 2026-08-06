@@ -78,10 +78,11 @@
         "dhikr-the-polish-for-hearts"
       ],
       "ts_started": "2026-08-06T18:32:19Z",
-      "current_chapter": "forgetting-the-self-and-the-name",
-      "last_beat": "2026-08-06T19:16:10Z",
+      "current_chapter": "joy-virtue-and-the-hereafter",
+      "last_beat": "2026-08-06T19:42:42Z",
       "completed_slugs": [
-        "ali-and-the-prophet"
+        "ali-and-the-prophet",
+        "forgetting-the-self-and-the-name"
       ],
       "chapter_timings": {
         "ali-and-the-prophet": {
@@ -101,6 +102,13 @@
         },
         "forgetting-the-self-and-the-name": {
           "started_ts": "2026-08-06T19:01:56Z",
+          "completed_ts": "2026-08-06T19:22:10Z",
+          "duration_sec": 1214.5,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "joy-virtue-and-the-hereafter": {
+          "started_ts": "2026-08-06T19:22:11Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -112,6 +120,6 @@
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260806T183219Z-9c32fa",
-  "ts_updated": "2026-08-06T19:16:10Z",
+  "ts_updated": "2026-08-06T19:42:42Z",
   "next_phase": "0literary"
 }

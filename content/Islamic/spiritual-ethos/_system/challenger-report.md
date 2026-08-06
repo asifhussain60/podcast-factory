@@ -1,101 +1,100 @@
 # Podcast Challenger Report
 
 **Book:** spiritual-ethos
-**Run:** 2026-08-06 (challenger v2.6)
-**Scope:** per-chapter forgetting-the-self-and-the-name (ch11c) + EP11-forgetting-the-self-and-the-name framing
-**content_profile:** islamic_scholarly  ← detected from _system/series-config.yaml
-**Iterations:** 1 (of 5 max) — converged on first pass; no safe, non-regressing auto-fix available
+**Run:** 2026-08-06 15:49 (challenger v2.6)
+**Scope:** per-chapter joy-virtue-and-the-hereafter (chapter ch04d-joy-virtue-and-the-hereafter.txt + EP04 framing)
+**Iterations:** 1 (of 5 max — intelligent break: no net auto-fixes, findings stable vs prior pass)
 **Verdict:** SHIP-WITH-CAUTION
 
-> S1 async-safety gate intentionally bypassed for this invocation — it originates
-> from within the parent orchestrate_book.py pipeline that spawned it (per invocation
-> context). The parent orchestrator is the caller, not a concurrent independent run.
+content_profile: islamic_scholarly  <- detected from _system/series-config.yaml
 
-## Deterministic gates run (authoritative)
+> Scope note: per-chapter invocation from within the orchestrator pipeline.
+> Category S1 (async-safety) intentionally bypassed for the parent orchestrator
+> process per pipeline context. Category CS runs book-scope once; its P0 (CS-P4)
+> and P1 (CS-P5) belong to a DIFFERENT chapter (the-letter-of-ali-to-malik-al-ashtar)
+> and are reported below as book-scope context, NOT this chapter's remediation scope.
+
+## Gates run this pass
 
 | Gate | Result |
 |---|---|
-| `build_episode_txt.py EP11` (chapter SOURCE + framing) | exit 0 — episode txt emitted; 2 P1 FLAGs + 1 NOTE |
-| `check_chapter_set.py` (book scope) | 24 findings (1 P0 on a *different* chapter, 12 P1, 11 P2) |
-| `_doctrinal.run_doctrinal_checks` (Category T) | 0 findings — clean |
-| Host-parity Q1–Q4 (all 3 sibling framings) | consistent: Host A male/scholar, Host B female/seeker — clean |
-| Markers A2/D5 · filler E4 · honorific O1 | clean (no [VERIFY]/[CONTEXT], no filler, honorifics symbol-form once) |
+| build_episode_txt.py (structural + doctrinal T + phonetic N) | PASS (exit 0); P1 flags + pronunciation NOTE only |
+| extract_chapter.py --force (Category G2) | PASS (exit 0); WARN length_target extended->longer |
+| _doctrinal.py (Category T1-T5) | CLEAN (no findings) |
+| check_chapter_set.py (Category CS, book-scope) | 1 P0 + 1 P1 belong to the-letter chapter; this chapter: 1 P2 advisory |
+| A1 Quran citation format (plain-English) | 17 canonical "(chapter N, verse M)" cites; 0 non-canonical |
+| B/U meta-prose, AI-cliche, self-reference | CLEAN via _rules regex; soft advisory only (see P2) |
 
-The 7,894-word chapter is IN the `extended` band (5,500–9,500) and is accepted as-is
-by the build gate. Em-dashes (38 in chapter) are NOT flagged by current code and were
-NOT altered — the legacy B5 auto-fix is not enforced by build_episode_txt.py v2.6.
+## Auto-fixes applied (iteration-by-iteration)
 
-## Auto-fixes applied
+| Iter | Check | File | Action |
+|---|---|---|---|
+| 1 | (repair) | EP04/00-framing.md | Restored authored framing after a challenger-side extract_chapter --force overwrote it with the extract scaffold stub; re-ran build_episode_txt (idempotent, framing == episode txt) |
 
-None. Rationale: the authoritative gates require no deterministic fix, and the framing
-is deliberately hand-authored with constraints that boilerplate insertion would violate
-(source-images-only analogies per Tone constraints; mandated 3× spine repetition via
-R-RECURRING-THESIS). Auto-inserting R4/R5/K1/M1 clauses or rewriting 38 em-dashes would
-be content authoring against the author's intent, not mechanical cleanup. All items below
-are flagged for author resolution.
+No CONTENT auto-fixes were applied to the deliverables. Em-dashes (25+ lines in
+chapter, 14 in framing) are house style for this scholarly prose, are NOT enforced
+by the build gate (challenger v2.6), and are not auto-converted (would corrupt
+meaning). This matches the prior pass and the pipeline convention.
 
 ## Findings requiring author resolution
 
-### P0 (blocks ship) — none on THIS chapter
+### P0 (blocks ship)
 
-> Book-scope note (surfaced, does NOT block the per-chapter verdict): `check_chapter_set.py`
-> reports a P0 (CS4) on a **different** chapter — `the-letter-of-ali-to-malik-al-ashtar`
-> is 10,109 words, over the `extended` band ceiling of 9,500. That chapter, not this one,
-> must be rewritten to band or re-split. It is out of this per-chapter scope.
+None in this chapter's scope.
+
+Book-scope (context only -- belongs to another chapter's pass):
+- **CS-P4 (P0):** the-letter-of-ali-to-malik-al-ashtar is 10,109 words vs declared
+  `extended` band 5,500-9,500. Address in that chapter's own convergence pass
+  (rewrite to band, or relabel length_target: longer). Not this chapter.
 
 ### P1 (ship-with-caution)
 
-#### F20 / R-NO-ARABIC-TRANSLITERATION — Arabic transliterated names in the chapter SOURCE
-- **File:** content/Islamic/spiritual-ethos/chapters/ch11c-forgetting-the-self-and-the-name.txt
-- **Context:** build sampled `al-Hallaj, al-Kalabadhi, al-Kashani, al-Sadiq`; the chapter also carries `Bayazid, Rumi, Ibn al-'Arabi, Nasir-i Khusraw, al-Ghazali, Ibn 'Ata'illah, Abu 'Uthman, al-Kalabadhi` and the book title `the Mathnawi`. F20 doctrine wants these rendered as English audio labels in the SOURCE that NotebookLM reads. The framing's Name-discipline block already handles the audio side (English roles), but the uploaded chapter still carries the transliterations.
-- **Suggested fix:** replace transliterated personal names / book titles in the chapter body with the English role labels the framing already defines (the early Sufi master / the Andalusian master / the reviver-jurist / the Persian poet / his treatise on extinction), or accept as a documented book-wide exception. Authoring decision.
+#### N3 / pronunciation: transliterated terms have no settled spoken form
+- **File:** EP04 framing `## Pronunciation` + chapter prose
+- **Context:** Build NOTE -- `hilm` (and ihsan, husn, zuhd, taqwa, fana appearing in
+  chapter prose) have no settled spoken form in the pronunciation ladder. The
+  compiled framing block carries only `tawhid: tow-HEED`. The build recompiles the
+  block from the ladder, so a gap means the ladder has nothing settled to say.
+- **Suggested fix:** Settle by ear -- `python3 scripts/podcast/run_pronunciation_probe.py spiritual-ethos`.
+  Structural; not hand-fixable in the framing (the build recompiles every value).
 
-#### F25-APPARATUS-TABLE — show-notes missing the Name and Title Preservation Table
-- **File:** content/Islamic/spiritual-ethos/_system/episode-drafts/EP11-forgetting-the-self-and-the-name/99-show-notes.md
-- **Context:** no `## Name and Title Preservation Table` header. F25 doctrine: every episode's show-notes carries the written-layer crosswalk (preserved Arabic / transliterations → audio labels) that the TTS-safe audio omits.
-- **Suggested fix:** add the apparatus table to 99-show-notes.md (author/producer surface; challenger does not edit show-notes).
-
-#### N3 — pronunciation ledger has no settled spoken form for `fana`, `baqa`
-- **File:** content/Islamic/spiritual-ethos/_system/episode-drafts/EP11-forgetting-the-self-and-the-name/00-framing.md:15-16
-- **Context:** the `## Pronunciation` block lists `- fana: fana` / `- baqa: baqa`, but neither term is settled in the cross-book pronunciation ledger (build NOTE).
-- **Suggested fix:** settle by ear — `python3 scripts/podcast/run_pronunciation_probe.py spiritual-ethos` — which writes the answer to the ledger. Do not hand-edit the framing value (the build recompiles it).
-
-#### CS8 — cross-chapter duplication with `the-veils-that-do-not-veil`
-- **File:** content/Islamic/spiritual-ethos/chapters/ch11c-forgetting-the-self-and-the-name.txt
-- **Context:** shares 3 distinct 12-word passages with `the-veils-that-do-not-veil` — same content taught twice. Sample: "a batin and the whole labor of the awakened intellect is the…" (the zahir/batin/ta'wil exposition).
-- **Suggested fix:** cut the overlapping zahir/batin/ta'wil passage from one chapter so the teaching lands once. Authoring decision — never auto-stripped.
-
-#### CS10 — chapter over-dense (6 concept sections; target ≤3)
-- **File:** content/Islamic/spiritual-ethos/chapters/ch11c-forgetting-the-self-and-the-name.txt
-- **Context:** concept H2s: The self that remembers · The reality of remembrance · Extinction in remembrance · The Name that is the Named · The effaced friend as the Name (+ synthesis + Closing). Density audit target is ≤3.
-- **Suggested fix:** advisory — this is the extended-band closing chapter carrying two mysteries by design; either accept given the length band, or re-split at a concept seam via Phase 0d.
-
-#### CS5 — chapter-set word-count variance 50% (>30%) [book-scope]
-- **Context:** min 5,007 / max 10,109 words across the set; driven mainly by the over-band `the-letter-of-ali-to-malik-al-ashtar`.
-- **Suggested fix:** rebalance the set (largely resolved by fixing the CS4 P0 above). Authoring decision.
+#### F25-APPARATUS-TABLE: 99-show-notes.md missing Name and Title Preservation Table
+- **File:** EP04/99-show-notes.md
+- **Context:** Build-flagged P1 -- no `## Name and Title Preservation Table` header.
+  F25 doctrine: every episode's show-notes carries the written-layer apparatus
+  (preserved Arabic / transliterations + audio-label crosswalk) the TTS-safe audio omits.
+- **Suggested fix:** Add the apparatus table to 99-show-notes.md (out of challenger
+  edit scope; authoring/publish-prep decision).
 
 ### P2 (advisory)
 
-- **CS6** — chapter contains `tawhid`, which matches `degrees-of-excellence`'s mangle-map (possible cross-book bleed). Almost certainly a false positive: `tawhid` is a common term of art AND is in this book's own `_system/glossary.yml` (with Arabic توحيد). Surfaced for human review; never auto-stripped.
-- **Framing R4** — `## Do not` block does not name the formal-essay transitions (Firstly, Secondly, Furthermore, In conclusion, Moving on to, Lastly). Advisory hardening; NOT auto-inserted (build did not require it).
-- **Framing K1** — no explicit interruption-avoidance ("conversation discipline") clause in Host dynamic. K2 (named filler words) IS satisfied via the Forbidden-first-words list.
-- **Framing M1** — DENY-modernize list in `## Do not` is thin (Twitter, social media, algorithm only); canonical list also names TikTok/YouTube/"21st century"/etc. NOT auto-inserted — build validator passed the framing.
+#### Source-prose self-reference (NotebookLM-literalness, soft)
+- **File:** chapter ch04d, lines 1, 4, 61
+- **Context:** "This episode covers the closing movement of the chapter", "this final
+  episode begins", "Everything this chapter has traced". Not file-length tells (B3)
+  and passed by the build's semantic B-gate; but NotebookLM reads them as content.
+- **Suggested fix:** Optional -- soften "this episode/this chapter" self-references to
+  source-anchored phrasing. Authoring judgment; not auto-fixed.
 
-> Deliberately NOT flagged as findings: B5 em-dashes (not enforced by current code);
-> R5 modern-analogy permission (would contradict the authored source-images-only Tone
-> constraint); A1 hadith reference tails (this book's F20/English-only doctrine and the
-> passing build gate intentionally omit bibliographic tails for TTS safety).
+#### CS-P6: cross-book name bleed (false positive)
+- **Context:** "tawhid" flagged as belonging to degrees-of-excellence's mangle-map.
+  tawhid is a universal Islamic term, not book-specific -- advisory false positive.
+
+#### A3-advisory: no inline translator named for Quranic renderings
+- **Context:** The chapter renders 17 Quranic verses in English with no inline
+  translator attribution. This is by design: the contract's tone_constraints require
+  "every verse and saying in English only, with plain-English references", and the
+  book is a scholarly essay quoting Shah-Kazemi's own renderings. Translator
+  provenance belongs in the show-notes apparatus, not the TTS-safe spoken prose.
+  Not raised as A3 P0 (consistent with the build gate and the prior pass).
+
+Book-scope context (not this chapter):
+- **CS-P5 (P1):** chapter-set word-count variance 50% (min 5,007 / max 10,109),
+  driven by the-letter chapter. Rebalance decision at book scope.
+- **CS-P2:** the-letter title is 8 words (>6 soft target).
 
 ## Health metrics
 
-| Chapter | Words | Band | In band? | Arabic script | Doctrinal | Pron. gaps |
-|---|---|---|---|---|---|---|
-| ch11c-forgetting-the-self-and-the-name | 7,894 | extended (5,500–9,500) | yes | yes (توحيد, تأويل) | clean | 2 (fana, baqa unsettled) |
-
-## Convergence
-
-Iteration 1 produced 0 auto-fixes and a stable finding set → intelligent break.
-Verdict: **SHIP-WITH-CAUTION** — zero P0 on this chapter/framing; 6 P1 + 4 P2 flagged
-for author resolution. The book as a whole carries one out-of-scope P0 (CS4 on
-`the-letter-of-ali-to-malik-al-ashtar`) that must be resolved before a book-wide
-SHIP-READY.
+| Chapter | Words | Quran cites (canonical) | Doctrinal (T) | Arabic-script terms | Pronunciation gaps |
+|---|---|---|---|---|---|
+| ch04d-joy-virtue-and-the-hereafter | 6,122 | 17 | clean | tawhid | hilm (+5 unsettled transliterations) |
