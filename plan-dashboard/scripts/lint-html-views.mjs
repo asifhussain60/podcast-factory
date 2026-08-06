@@ -250,6 +250,116 @@ function scanCss(_rel, src) {
   return out;
 }
 
+// ── REQ-010 reading floor ────────────────────────────────────────────────────
+// Prose intended for reading is 1.2rem minimum. This was ungated until
+// 2026-08-06: the config carried two documented `_notes` exceptions for a rule
+// that no code implemented, so forty-plus sub-floor prose selectors were never
+// reported — including four-sentence FAQ answers at 0.92rem on a blocking-path
+// page. Same shape as the INLINE-SCRIPT-BLOCK gap the config records for
+// 2026-08-04: a rule everyone believed was gated, wasn't.
+//
+// WHAT IT FLAGS. Only a declaration whose value can be resolved to a definite
+// length below the floor — `rem` and `px` (at the 16px root this site uses).
+// `em`, `%`, `var()`, `calc()` and `clamp()` are SKIPPED rather than guessed:
+// their computed size depends on a context the linter cannot see, and a floor
+// rule that cries wolf on a `clamp()` teaches people to ignore it.
+const READING_FLOOR_REM = 1.2;
+
+// The prose elements REQ-010 names, as bare type selectors, plus the narrative
+// classes it lists. `th` and `label` are deliberately ABSENT: the rule's own
+// EXEMPT list covers mono-uppercase column headers, and in this codebase a
+// `label` is form chrome rather than narrative copy. Both are better raised by
+// a human reading the page than by a linter that cannot tell a caption from a
+// column head.
+const PROSE_SELECTOR =
+  /(^|[\s,>+~])(p|li|td|dd|dt|blockquote|figcaption)([\s,>+~{:.[]|$)|\.(callout|qa-a|qa-q|gloss|section-description)\b/i;
+
+// UI chrome per REQ-010's EXEMPT list: chips, badges, pills, breadcrumbs,
+// jump-nav, metadata tags. Matched on the selector so a `.chip p` stays exempt.
+const CHROME_SELECTOR =
+  /\b(chip|badge|pill|tag|crumb|breadcrumb|jump|toolbar|tooltip|tip|legend|caption-meta|meta|kbd|code|mono|stat-label|axis|tick|nav)\b/i;
+
+const FONT_SIZE_DECL = /font-size\s*:\s*([^;}]+)/i;
+
+/** The declared size in rem, or null when it cannot be resolved definitely. */
+function remValue(raw) {
+  const v = raw.trim().toLowerCase();
+  if (
+    /var\(|calc\(|clamp\(|%|\bem\b(?!\s*$)/.test(v) &&
+    !/^\d*\.?\d+rem$/.test(v)
+  )
+    return null;
+  const rem = v.match(/^(\d*\.?\d+)\s*rem$/);
+  if (rem) return parseFloat(rem[1]);
+  const px = v.match(/^(\d*\.?\d+)\s*px$/);
+  if (px) return parseFloat(px[1]) / 16;
+  return null;
+}
+
+// Walks declaration by declaration rather than line by line. A line-based scan
+// (the shape scanCss uses) silently misses `.x p { font-size: 0.5rem; }`,
+// because by the time the line ends the closing brace has already cleared the
+// selector — so every single-line rule reads as "no selector" and is skipped.
+// Real stylesheets contain both shapes, and a floor rule that only sees the
+// multi-line one is the same half-gate this check was written to replace.
+function scanReadingFloor(_rel, src) {
+  const out = [];
+  const noComments = src.replace(/\/\*[\s\S]*?\*\//g, (m) =>
+    m.replace(/[^\n]/g, " "),
+  );
+  const lines = noComments.split("\n");
+
+  let selector = ""; // the selector of the block we are inside
+  let pending = ""; // chars since the last `{`, `}` or `;`
+  let line = 1;
+  let declLine = 1; // the line the pending declaration STARTED on
+  let disabled = false;
+
+  const flushDecl = () => {
+    const decl = pending.match(FONT_SIZE_DECL);
+    pending = "";
+    if (!decl || !selector || disabled) return;
+    if (!PROSE_SELECTOR.test(selector) || CHROME_SELECTOR.test(selector))
+      return;
+    const rem = remValue(decl[1]);
+    if (rem === null || rem >= READING_FLOOR_REM) return;
+    out.push({
+      line: declLine,
+      selector: selector.slice(0, 60),
+      rem,
+      src: (lines[declLine - 1] ?? "").trim().slice(0, 120),
+    });
+  };
+
+  for (const ch of noComments) {
+    if (ch === "\n") {
+      line += 1;
+      disabled = (lines[line - 1] ?? "").includes(
+        "html-view-lint-disable-line",
+      );
+      if (!pending.trim()) declLine = line;
+      pending += " ";
+      continue;
+    }
+    if (ch === "{") {
+      selector = pending.trim();
+      pending = "";
+      declLine = line;
+    } else if (ch === "}") {
+      flushDecl();
+      selector = "";
+      declLine = line;
+    } else if (ch === ";") {
+      flushDecl();
+      declLine = line;
+    } else {
+      if (!pending.trim()) declLine = line;
+      pending += ch;
+    }
+  }
+  return out;
+}
+
 // Whole-file checks (presence-based).
 const FILE_CHECKS = [
   {
@@ -317,6 +427,23 @@ for (const rel of candidates) {
           REQ: "REQ-002",
           sev: resolveSeverity(false),
           msg: `height/overflow clamp on landmark selector "${hit.selector}"`,
+          src: hit.src,
+        });
+      }
+    }
+    if (!suppressed(rel, "READING-FLOOR")) {
+      for (const hit of scanReadingFloor(rel, src)) {
+        findings.push({
+          rel,
+          line: hit.line,
+          id: "READING-FLOOR",
+          REQ: "REQ-010",
+          // WARN, like INLINE-SCRIPT-BLOCK was when it landed and for the same
+          // reason: the rule went ungated long enough to accumulate real
+          // violations, and a check that blocks the build the day it is written
+          // gets bypassed rather than obeyed. --strict promotes it with the rest.
+          sev: resolveSeverity(false),
+          msg: `prose below the ${READING_FLOOR_REM}rem reading floor (${hit.rem}rem) on "${hit.selector}"`,
           src: hit.src,
         });
       }
