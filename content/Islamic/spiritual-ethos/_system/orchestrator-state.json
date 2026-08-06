@@ -76,15 +76,16 @@
       "status": "running",
       "failed_slugs": [],
       "ts_started": "2026-08-06T18:32:19Z",
-      "current_chapter": "pride-and-conscience",
-      "last_beat": "2026-08-06T21:12:48Z",
+      "current_chapter": "the-classes-of-society-and-the-poor",
+      "last_beat": "2026-08-06T21:30:32Z",
       "completed_slugs": [
         "ali-and-the-prophet",
         "dhikr-the-polish-for-hearts",
         "forgetting-the-self-and-the-name",
         "joy-virtue-and-the-hereafter",
         "paradox-and-the-inner-struggle",
-        "prayer-as-the-source-of-justice"
+        "prayer-as-the-source-of-justice",
+        "pride-and-conscience"
       ],
       "chapter_timings": {
         "ali-and-the-prophet": {
@@ -131,6 +132,13 @@
         },
         "pride-and-conscience": {
           "started_ts": "2026-08-06T21:01:01Z",
+          "completed_ts": "2026-08-06T21:18:03Z",
+          "duration_sec": 1022.3,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-classes-of-society-and-the-poor": {
+          "started_ts": "2026-08-06T21:18:04Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -142,6 +150,6 @@
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260806T200100Z-41cc7d",
-  "ts_updated": "2026-08-06T21:12:48Z",
+  "ts_updated": "2026-08-06T21:30:32Z",
   "next_phase": "0literary"
 }

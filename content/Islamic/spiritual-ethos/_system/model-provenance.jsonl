@@ -88,3 +88,7 @@
 {"phase": "per-chapter", "step": "challenger/pride-and-conscience", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/pride-and-conscience/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/pride-and-conscience", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-classes-of-society-and-the-poor", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-classes-of-society-and-the-poor", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-classes-of-society-and-the-poor/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-classes-of-society-and-the-poor", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
