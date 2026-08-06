@@ -1930,6 +1930,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "b722db9",
+      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
+      "date": "2026-08-06"
+    },
+    {
       "sha": "351a9bb",
       "subject": "fix(book-composer): the pipeline's fence markers stop showing in the editor",
       "date": "2026-08-06"
@@ -1972,11 +1977,6 @@
     {
       "sha": "254396e",
       "subject": "style(player): the deck's top edge matches its bottom",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "018b6b5",
-      "subject": "style(player): the bar is a deck, not the last paragraph of the page",
       "date": "2026-08-06"
     }
   ],
