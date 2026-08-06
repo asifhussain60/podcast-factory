@@ -231,14 +231,23 @@ export async function generateWithGrounding(
   const data = (await res.json()) as {
     candidates?: {
       content: { parts: { text?: string }[] };
-      groundingMetadata?: { groundingChunks?: { web?: { uri: string } }[] };
+      groundingMetadata?: {
+        groundingChunks?: { web?: { uri: string; title?: string } }[];
+      };
     }[];
   };
   const candidate = data.candidates?.[0];
   const text = candidate?.content.parts.map((p) => p.text ?? "").join("") ?? "";
+  // THE SITE'S NAME, not its URI. Google hands back an opaque
+  // `vertexaisearch.cloud.google.com/grounding-api-redirect/…` link that names
+  // nothing and expires, while the `title` beside it is the actual site —
+  // "ismaililiterature.org", "slideshare.net". A reader weighing where an
+  // explanation came from can act on the second and not the first, and that
+  // judgement is the whole point of listing sources on a researched card
+  // (Asif, 2026-08-06). The URI is kept only where no title came with it.
   const sources = (candidate?.groundingMetadata?.groundingChunks ?? [])
-    .map((c) => c.web?.uri)
-    .filter(Boolean) as string[];
+    .filter((c) => c.web?.uri)
+    .map((c) => c.web!.title || c.web!.uri);
   return { text, sources };
 }
 

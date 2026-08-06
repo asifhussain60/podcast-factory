@@ -21,6 +21,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 from _student_reader_store import (  # noqa: E402
     file_notes,
     merge_notes,
+    prune_owned,
     read_doc,
 )
 
@@ -95,7 +96,7 @@ def test_file_notes_round_trips_to_disk(tmp_path: Path) -> None:
     path = d / "_system" / "companion-notes" / "1-x.json"
     path.write_text(json.dumps({"slug": "s", "chapter": "1-x", "notes": [HUMAN]}), encoding="utf-8")
 
-    created, refreshed = file_notes(d, "1-x", "s", [owned()], now=NOW)
+    created, refreshed, withdrawn = file_notes(d, "1-x", "s", [owned()], now=NOW)
 
     doc = json.loads(path.read_text(encoding="utf-8"))
     assert (created, refreshed) == (1, 0)
@@ -184,3 +185,55 @@ def test_a_chapter_with_only_human_notes_is_not_current(tmp_path: Path) -> None:
     write_chapter(d, "1-x", "s", [HUMAN], now=NOW, fingerprint=prose_fingerprint(prose))
 
     assert not already_current(d, "1-x", "s", prose)
+
+
+# ─── the prune: the ONLY removal, and its three locks ────────────────────────
+def test_prune_withdraws_an_unreviewed_note_the_pass_no_longer_proposes() -> None:
+    """--force means "read this chapter again from scratch", so a finding the
+    pass no longer makes is one it should take back — otherwise a re-authoring
+    run leaves the old cards sitting beside the new ones forever."""
+    kept, dropped = prune_owned([owned(OWNED), owned(OTHER)], {OWNED})
+    assert dropped == 1
+    assert [n["id"] for n in kept] == [OWNED]
+
+
+def test_prune_never_touches_a_note_the_pass_does_not_own() -> None:
+    """The same lock as merge_notes. A prune that could reach a human's note
+    would be the 2026-07-28 failure with a different name."""
+    kept, dropped = prune_owned([HUMAN], set())
+    assert dropped == 0
+    assert kept == [HUMAN]
+
+
+def test_prune_never_withdraws_a_note_he_accepted() -> None:
+    """Accepting is his half of accept-or-delete. A pass that swept its own
+    accepted findings would delete his judgements to tidy up after itself."""
+    accepted = owned(OTHER, review="kept")
+    kept, dropped = prune_owned([accepted], set())
+    assert dropped == 0
+    assert kept == [accepted]
+
+
+def test_prune_is_off_unless_asked_for(tmp_path: Path) -> None:
+    """file_notes without prune= must behave exactly as it did before the prune
+    existed: nothing is ever removed."""
+    d = tmp_path / "book"
+    (d / "_system" / "companion-notes").mkdir(parents=True)
+    path = d / "_system" / "companion-notes" / "1-x.json"
+    path.write_text(json.dumps({"slug": "s", "chapter": "1-x", "notes": [HUMAN, owned(OTHER)]}), encoding="utf-8")
+
+    _, _, withdrawn = file_notes(d, "1-x", "s", [owned(OWNED)], now=NOW)
+    assert withdrawn == 0
+    assert len(read_doc(d, "1-x", "s")["notes"]) == 3
+
+
+def test_prune_on_leaves_the_human_note_and_takes_only_the_stale_owned_one(tmp_path: Path) -> None:
+    d = tmp_path / "book"
+    (d / "_system" / "companion-notes").mkdir(parents=True)
+    path = d / "_system" / "companion-notes" / "1-x.json"
+    path.write_text(json.dumps({"slug": "s", "chapter": "1-x", "notes": [HUMAN, owned(OTHER)]}), encoding="utf-8")
+
+    _, _, withdrawn = file_notes(d, "1-x", "s", [owned(OWNED)], now=NOW, prune=True)
+    assert withdrawn == 1
+    ids = [n["id"] for n in read_doc(d, "1-x", "s")["notes"]]
+    assert HUMAN["id"] in ids and OWNED in ids and OTHER not in ids

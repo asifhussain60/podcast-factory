@@ -36,6 +36,7 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { sectionKeyFromHeading } from "../../../lib/reader/companion/keys";
+import { labelFor } from "../../../lib/reader/companion/card-label";
 import { defaultStore } from "../../../lib/reader/companion/store.client";
 import {
   renderExplanationCard,
@@ -151,10 +152,9 @@ function chapterKeyFor(node: Node | null): string {
 /** The transient answer's card id — never a note id, which are uuids. */
 const EPHEMERAL = "__ephemeral__";
 
-/** A short card title for the filed note — the passage, not a paraphrase of it. */
-function labelFor(text: string): string {
-  return text.length <= 72 ? text : `${text.slice(0, 69).trimEnd()}…`;
-}
+// `labelFor` moved to companion/card-label.ts (2026-08-06): the student-reader's
+// Node bridge files cards too, and a second copy of the rule would let two cards
+// explaining the same sentence carry different titles. Imported at the top.
 
 /** Name registered with the CSS Custom Highlight API — must match the
  *  `::highlight(gcp-pending)` rule in companion-card.css. */

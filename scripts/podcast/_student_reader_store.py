@@ -118,6 +118,35 @@ def merge_notes(existing: list[dict[str, Any]], proposed: list[dict[str, Any]], 
     return out
 
 
+def prune_owned(existing: list[dict[str, Any]], keep_ids: set[str]) -> tuple[list[dict[str, Any]], int]:
+    """Withdraw this pass's own UNREVIEWED notes that it no longer proposes.
+
+    The narrowest possible removal, and every clause is load-bearing. A note is
+    dropped only when all three are true: this pass owns its id, its `review` is
+    not "kept", and it is not among the ids just proposed. So:
+
+      * a note Asif accepted survives, always — accepting is his half of
+        accept-or-delete and a pass must never undo it (the module docstring's
+        rule, unchanged);
+      * a note anyone or anything else wrote is untouchable here, exactly as in
+        `merge_notes`;
+      * the pass may only withdraw what it said itself and nobody has read.
+
+    Reached ONLY from `--force`, which is the flag that means "read this chapter
+    again from scratch". Without it a chapter is not re-read at all, so there is
+    nothing to withdraw. Returns (kept, dropped-count).
+    """
+    kept: list[dict[str, Any]] = []
+    dropped = 0
+    for note in existing:
+        nid = str(note.get("id") or "")
+        if OWNED_ID_RE.match(nid) and note.get("review") != "kept" and nid not in keep_ids:
+            dropped += 1
+            continue
+        kept.append(note)
+    return kept, dropped
+
+
 def owned_notes(book_dir: Path, chapter_key: str, slug: str) -> list[dict[str, Any]]:
     """This pass's own notes already filed for a chapter. Never anyone else's."""
     try:
@@ -184,12 +213,17 @@ def file_notes(
     *,
     now: str,
     prose: str | None = None,
-) -> tuple[int, int]:
-    """Merge and persist. Returns (created, refreshed)."""
+    prune: bool = False,
+) -> tuple[int, int, int]:
+    """Merge and persist. Returns (created, refreshed, withdrawn)."""
     doc = read_doc(book_dir, chapter_key, slug)
     before = {str(n.get("id")) for n in doc["notes"] if n.get("id")}
-    merged = merge_notes(doc["notes"], proposed, now=now)
+    existing = doc["notes"]
+    withdrawn = 0
+    if prune:
+        existing, withdrawn = prune_owned(existing, {str(n.get("id")) for n in proposed})
+    merged = merge_notes(existing, proposed, now=now)
     created = sum(1 for n in proposed if str(n.get("id")) not in before)
     fp = prose_fingerprint(prose) if prose is not None else doc.get("studentReaderFingerprint")
     write_chapter(book_dir, chapter_key, slug, merged, now=now, fingerprint=fp)
-    return created, len(proposed) - created
+    return created, len(proposed) - created, withdrawn

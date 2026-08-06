@@ -1,33 +1,51 @@
 {
   "schema": "book.student-reader/v1",
-  "generated_at": "2026-08-06T16:16:07Z",
+  "generated_at": "2026-08-06T20:00:29Z",
   "dry_run": false,
   "chapters": [
     {
-      "chapter": "the five shares and the long road to the shaykh",
-      "file": "7-the-five-shares-and-the-long-road-to-the-shaykh",
-      "title": "7. The Five Shares and the Long Road to the Shaykh",
-      "budget": 2,
-      "full_budget": 6,
-      "already_had": 4,
-      "proposed": 2,
+      "chapter": "three layers of knowledge",
+      "file": "6-three-layers-of-knowledge",
+      "title": "6. Three Layers of Knowledge",
+      "budget": 3,
+      "full_budget": 3,
+      "already_had": 2,
+      "proposed": 3,
       "gated_out": [],
-      "filed": 2,
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 3,
       "created": 2,
-      "refreshed": 0,
+      "refreshed": 1,
+      "withdrawn": 1,
       "notes": [
         {
-          "id": "student:16aba225affa63e6",
-          "defect": "unresolved-double-reading",
-          "quote": "their aim in seeking is one, yet they differ in striking the mark"
+          "id": "student:874abc577ac52018",
+          "defect": "unexplained-leap",
+          "quote": "That is the end of your guidance and the utmost of the worlds",
+          "question": "The chapter distinguishes the Imam (the rope's outward sign) from the rope of God and the rope that comes from God, yet answers the boy's direct question only by calling them the end of guidance. What in fact are the rope of God and the rope that comes from God, and how do the two differ?",
+          "grounded": 3,
+          "researched": false
         },
         {
-          "id": "student:593037fdd1bf7e31",
-          "defect": "unexplained-leap",
-          "quote": "Would you then become one that is worshipped, though you were born?"
+          "id": "student:f925762714ecc642",
+          "defect": "undefined-term",
+          "quote": "the lord of the twelve captains",
+          "question": "The Imam is called al-hawl and the lord of the twelve captains, paralleled with the year's twelve months. Who are these twelve captains, and what is their relation to the single hujja named quwwa who stands beside him?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:9dc564b3090817da",
+          "defect": "ambiguous-referent",
+          "quote": "they are the seven appointed speakers",
+          "question": "The seven fat cows are named the seven causes of God, the seven lean the seven appointed speakers, and the ears the seven causes and seven guardians. Who are these seven speakers and seven guardians concretely, and how does a 'cause' differ from a 'speaker' when both stand between God and His creation?",
+          "grounded": 4,
+          "researched": false
         }
       ]
     }
   ],
-  "filed_total": 2
+  "filed_total": 3
 }

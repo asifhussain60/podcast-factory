@@ -421,3 +421,93 @@
 {"phase": "0book-student-reader", "step": "student-the world, the hereafter", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-student-reader", "step": "student-three layers of knowledg", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-student-reader", "step": "student-the five shares and the ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-how the world was made", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-how the world was made", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-how the world was -a will, a comman", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-how the world was -a will, a comman-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-how the world was -whose witnesses ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-how the world was -whose witnesses -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the persian who was dead", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the persian who wa-ignorance ruled ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the persian who wa-ignorance ruled -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the persian who wa-one of the schol", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the persian who wa-one of the schol-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-a stranger in the city", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "probe", "step": "probe-raw", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a stranger in the -Its outward is a", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the persian who was dead", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the persian who wa-These are the ho", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the persian who wa-These are the ho-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the persian who wa-one of the schol", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the persian who wa-one of the schol-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-a stranger in the city", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a stranger in the -and its secrets ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a stranger in the -and its secrets -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a stranger in the -by ignorance and", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a stranger in the -by ignorance and-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the boy at the door \u2014 li", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the boy at the doo-It is a part of ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the boy at the doo-It is a part of -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the boy at the doo-turn toward the ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the boy at the doo-turn toward the -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the boy at the doo-It is the covena", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the boy at the doo-It is the covena-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-how the world was made", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-how the world was -That comes to tw", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-how the world was -That comes to tw-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-how the world was -whose witnesses ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-how the world was -whose witnesses -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the world, the hereafter", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the world, the her-Monday is for th", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the world, the her-Monday is for th-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the world, the her-These are the se", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the world, the her-These are the se-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the world, the her-It is the time o", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the world, the her-It is the time o-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-three layers of knowledg", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-the lord of the ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-the lord of the -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-they are the sev", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-they are the sev-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the five shares and the ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the five shares an-bring out a fift", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the five shares an-bring out a fift-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the five shares an-he is the one wh", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the five shares an-he is the one wh-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the five shares an-he is the cause ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the five shares an-he is the cause -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the five shares an-until he reached", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the five shares an-until he reached-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the five shares an-The name belongs", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the five shares an-The name belongs-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the five shares an-circled the anci", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the five shares an-circled the anci-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-homecoming, the father, ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-whom they had na", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-whom they had na-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-Salih today is m", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-Salih today is m-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-the Lord is pres", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-the Lord is pres-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-The word one (\u0648\u064e", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-The word one (\u0648\u064e-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-the seven creati", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-the seven creati-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-the lesser one l", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-the lesser one l-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-the guardians of", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-the guardians of-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-let no eagerness", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-homecoming, the fa-let no eagerness-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-three layers of knowledg", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-they are the sev", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-they are the sev-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-its child is lik", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-its child is lik-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-three layers of knowledg", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-That is the end ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-That is the end -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-the lord of the ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-the lord of the -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-they are the sev", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-three layers of kn-they are the sev-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
