@@ -1,0 +1,79 @@
+Salih pressed the point further. "Then whoever does not know the just one of Allah and His guardian, will his speech itself be just?"
+
+At this the narrator tells us that Abu Malik smiled. "You have brought me out of my own chapter on justice and monotheism," he said, "and what has brought me out of it is nothing but the truth itself, argued in the clearest of proofs and spoken in the kindest of words. After this, what chapter is left for me to prove?"
+
+"From here, O Abu Malik," Salih answered, "the camouflaged glass falls away from those who trade in the colors of jewels. They never recognized its worth; but once it is set before one who knows, the essentialists stand exposed, and those they deceived stand exposed with them."
+
+Abu Malik said, "I have believed, and I have acted upon it. But how are we to be safe from the seducers of the nations, and how are we to know the causes by which Allah reaches His servants, or even one such cause among them, when we do not live in their time? In our age there are neither prophets nor messengers, as there were among the nations before us."
+
+"Glory be to Allah, O Abu Malik," said Salih. "For a long stretch of your life you have kept affirming the justice of Allah. Yet the moment we press that justice upon you, in your own presence, where it becomes binding on you, you turn back. You begin to say that you would only be deceived about Allah, and you attribute injustice to Him."
+
+"God forbid," Abu Malik protested. "I say no such thing. Whoever says it has transgressed and lied against Allah. Where have you found me committed to that?"
+
+"From your own words," Salih replied. "You say the age of the prophets has passed, and that in our time there is neither prophet nor messenger. So tell me: when Allah sent those earlier ranks of messengers, was that sending a matter of His justice among His servants, or was it in vain?"
+
+"May Allah forbid that it be anything but justice from Him," he said.
+
+"Then what has shut us out of that justice?" Salih asked. "Are we not His servants as they were? They were created as we are created, and we are bound in His service as they were bound. Has the obligation been lifted from us after it was made binding upon them? Has His giving run dry in our time, so that we cling to Him only by what was granted to them? Has the Sunnah of Allah changed in our case after standing firm in those before us, so that we should now rule that God Himself has changed? Or is justice a duty owed to us and His judgment binding upon us, exactly as it was His way with those before us, so that there is no altering the words of Allah and none to overturn His decree? And who deserves the name just except the guardians of Allah? Justice is not found among any Allah created except in the one He Himself chose, who became just by His command. That is why a judge is called just, for the sake of the One who appointed him, and a true word is called truthful because of the truthfulness of the one who utters it."
+
+"It can only be as you say," Abu Malik admitted. "We are not permitted to say anything about Allah except the truth. Yet if we followed our own opinion in what we said, and judged by it in the absence of the rightly guided among us, we would have abandoned His judgment. This is part of Allah's ruling and His Sunnah with us, just as it was with those before us during the interregna between one messenger and the next. There was the period between the religion of Abraham and the time of Moses and the Torah, and the period between the Torah and the time of Jesus and the Gospel. We have stood upon that same footing, working through the interregnum, holding fast to the traditions and the Sunnah."
+
+"The religion of Allah is far too precious to Him for that," Salih answered. "Was there truly any interregnum after the religion of Abraham, when Allah sent after him Ishmael, Isaac, Jacob, Joseph, Jonah, and Shu'ayb, leading on to Moses? He inspired them to do good, to call to the religion of Abraham, to establish prayer according to its Sunnah and to give zakat according to its obligation, until at last the ruling of the Torah was sent down to Moses. And what interregnum stood between Moses and the Gospel, when after Moses Allah sent Joshua son of Nun, and Elias, Talut, David, Solomon, Zechariah, and John, leading on to Jesus? They upheld the ruling of the Torah, holding to its religion, calling others to it, reciting its Psalms, until the ruling of the Gospel came down to Jesus. So it was with those who passed before them and those who came after, and with the many generations between them whose full number none but Allah knows. Their messengers came to them with clear proofs; for each He set forth parables, and each of them called to the truth. Where, then, is this interregnum, and when did it ever occur? Allah said only, 'After a succession of messengers,' and by that He affirmed the messengers themselves. What came after was the rising of the call once fear had settled in, so that they prayed in secret and concealment. Why then should you imagine they were ever cut off from the earth? The earth is never emptied of the justice of Allah for the blink of an eye. He is either openly present, or hidden and veiled in fear."
+
+"This is a statement that cannot be refuted," Abu Malik said, "a settled word in which there is no doubt. As for the standing of Allah's argument through justice and the succession of the messengers, that is now established and made plain. So show me the meaning of their absence in our own time. What is its cause?"
+
+"What was the cause of Moses' own absence," Salih asked in turn, "when he went out of Pharaoh's city and passed on in fear, watching and waiting until he reached the land of Shu'ayb?"
+
+"He fled from Pharaoh's people, hiding himself from them," Abu Malik said, "because he feared for his life once they had agreed to kill him."
+
+"Have you heard in this law of yours," Salih continued, "of any among the just, the just ones of Allah and the sons of His prophets, who was killed while patiently bearing the burdens of the religion?"
+
+"Yes," he said. "Many of them have been killed."
+
+"Then which of the just ones of Allah do you expect to appear to you and to the people of your age? One who was killed, whom Allah sends back to you from death? Or one who fled from you, whom you would drive back to the very killing he escaped, though he has followed Allah's own way in His prophets and messengers, patient under fear and in concealment, until Allah judges between him and us, and He is the best of judges?"
+
+"There is no blame," Abu Malik said, "upon one who follows the Sunnah of the righteous by fearing for his life and fleeing from his people. The blame lies upon the wicked nations and the helpers of the powers of darkness, for killing the prophets of Allah and His just ones, and for their unanimous agreement upon that crime."
+
+"And what do you say of the one who kills the just one of Allah and His proof?" Salih asked. "Where is his end, and where the end of the one who helped him?"
+
+"Both are in the Fire," Abu Malik answered, "and so too is anyone who raised a banner for them or so much as carried an inkpot in their service."
+
+"What do your jurists say about this?"
+
+"They call for mercy upon the slain," he said, "yet they see no disobedience in the one who killed him."
+
+"And whoever obeys the killer of his own accord," Salih pressed, "is he not a partner with him in the blood of the slain?"
+
+"Yes, by Allah," said Abu Malik. "He is his partner, and even more wicked than he."
+
+"His partnership is plain enough through the help he gave," Salih said. "But how has he become worse than the killer himself?"
+
+"Were it not for the narrations of the jurists," Abu Malik answered, "the rule of the tyrants could never have been established through the foolish."
+
+"You have spoken the truth, O Abu Malik," said Salih. "And now I lay this upon you yourself. You have accepted their kingdom as your home, their land as your resting place, their soldiers as your neighbors, and their enforcers as your intimate companions. You serve as their just man, judging on their behalf by your learning and settling your own needs through their power. You have prayed for them when you had a request, and thanked them for what you took from them. You set the crown of your justice upon their tyranny, and they grew proud. You clothed their falsehood in the robe of the sacred law, and they went to further excess. You lit up their falsehood with the idleness of your truth. So the weak were led astray by your conduct, and every scholar like you, and they said, 'These are the jurists of the community; in them we have our example.' They went astray through you, and you went astray through the tyrants, and you supposed that the one held to account was someone other than yourself. You forgot the words of Allah Almighty, 'And do not incline toward those who have done wrong, lest the Fire touch you.' So you severed what Allah commanded to be joined, and you saw yourselves doing it. You spoke of the outward forms of justice while you were lost to its very path. You came upon His saying, 'Obey Allah, and obey the Messenger and those in authority among you,' and you made these powers of darkness the ones in authority over you, even when they had disbelieved. And you forgot His saying, 'Fight those of the disbelievers who are near to you.' So you disobeyed the ones you were commanded to obey, and obeyed the ones you were commanded to fight, all the while imagining you were doing good. Your error ran on and your opinion carried you so far that at last you said Allah will send neither messenger nor warner in your age. Is it that the goodness of your deeds has freed you from any need of the guardians of Allah and their proof? Or that the foulness of your deeds has cut off your hope of Allah's accepting repentance? Or is it justice that you should pass judgment on God without justice, and be content on your Messenger's behalf with what none of you would accept for himself in his place? Would any one of you accept that his own son be killed, or that his house and his wealth be seized from him without right?"
+
+"No one would accept that," Abu Malik said. "If a child of ours were killed, or a man among us driven from his property, he would rage, and his people would rage with him, and they would not rest until he was satisfied."
+
+"Then Allah and His Messenger," said Salih, "have a greater right that you should be angry for their sake, when His vicegerent is killed and His guardian is driven out of the land."
+
+"It is bitter to us indeed," Abu Malik replied, "that the guardian of Allah should be killed among us or driven from his land. But they have deliberately withdrawn themselves from us, and the tyrants have risen up over us in their place."
+
+"Had you supported the friends of Allah, they would have appeared," Salih said. "Had you forsaken His enemies, they could never have prevailed. But your standing toward the guardians of Allah has fallen into three ranks. There is the assailant given power over them, who never tires of the hunt and is never satisfied even when he has struck. There is the one who looks on with malicious pleasure, biting his fingertips in spite, sparing no effort to incite others against them and never turning his gaze from them even in their heedlessness. And there is the one who hates what is done to them and holds in his heart a love for the guardians of Allah, yet forsakes them all the same, having no clear insight into faith and no trustworthiness in keeping a secret. For the sake of all this the guardians of Allah have withdrawn themselves from you by Taqiyya, out of caution before you and before this great mass of people who have taken their own desires as their god, fallen greedily upon the goods of this world, and joined together in the killing of the prophets. They were blind to the fault in what they did, so they never held themselves to account for the wrong they committed, and were never humbled into repentance for their deeds. Instead they turned the injustice of their own actions back upon Allah and ascribed it to Him, saying, 'Allah will send no messenger after these messengers, and no warner.' So they made lawful the killing of the guardians of Allah without right. They wronged by their deeds, they turned aside by their words, and they overstepped by their denial."
+
+"Yes," said Abu Malik, "this is the very description of this nation of ours, and this is exactly what they say. So where is the salvation from it, and where is the escape from the punishment of Allah?"
+
+"To Allah," Salih answered. "Seek refuge in Him, and He will grant you refuge. Repent to Him, and He will accept your repentance. Ask Him for the way of His guardians, and by your works He will deliver you from the deeds of those who did wrong. So it is with this mass of people as well: were they to repent to Allah, He would accept their repentance, and then what use would He have for punishing them? For Allah does not wrong them by the weight of an atom, even when they are unjust and lie, and He does not hasten their punishment, even when they hasten to disobey."
+
+"Then I take refuge from the punishment of Allah," Abu Malik said, "by repenting to Him and by seeking the means to what pleases Him. Show your favor, then, to the one who seeks from you and asks to be guided. May your Lord reward you."
+
+"If you do that," Salih said, "you will find Allah nearer to pardoning you than you are to your own repentance, for He loves those who turn to Him in repentance; and you will find me eager to guide you and watchful over you."
+
+Then Salih's eyes filled with tears at the mention of repentance, and he broke off his speech. He gave them heart, and ordered them to go on to his father's house. He himself went in to his father, the scholar who had first sent him out, and consulted him about the affair of Abu Malik and his companions.
+
+The scholar said, "You know your companions best. If you see good in them, guide them with your guidance. And when you warn them, do not let eagerness carry you into inflicting ta'zir upon them. Test them by leaving them to themselves for a while, without harshness, and instruct your elders to treat them well and act kindly toward them in due season. The one who truly desires good cannot stay hidden. Allah will not abandon what you leave behind you. He will open for you, from the light of His enabling grace, that by which the affairs of His creation are ordered, and from the gates of guidance that which will let you see the works of those rightly guided."
+
+So Abu Malik and his companions remained in their trial, wavering, until their affair was settled and they came to know their own guidance, and the guardian of Allah turned toward them in their guidance with tenderness. They gave thanks to Allah for that, and returned to their people as warners. And through them Allah guided a company of His servants to His religion.
+
+The author said: Whatever in this account took the shape of a story was no idle tale invented, but a confirmation of what Allah has commanded, for in it lies the steadfastness of the messengers, the signs of the guardians, and the manners of the seekers.
+
+Praise be to Allah, first and last. May Allah bless His Messenger, our master Muhammad, sent forth from Him to His creation as a bearer of good news and a warner; and His guardian, the Imam of the God-fearing, the radiant leader of the bright-marked, the beloved of the Lord of the Worlds; and the Imams of the people of his house, upon whom Allah has bestowed His favor, from whom He has removed every impurity and whom He has purified completely. Allah is sufficient for us, and how excellent a Guardian; how excellent a Master and how excellent a Helper. There is no power and no strength except by Allah, the Most High, the Most Great.
