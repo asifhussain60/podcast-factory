@@ -5,14 +5,10 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "per-chapter",
-  "phase_status": "running",
+  "phase": "0g",
+  "phase_status": "completed",
   "last_completed_phase": "0g",
-  "last_error": {
-    "phase": "per-chapter",
-    "message": "1 chapter(s) failed: the-letter-of-ali-to-malik-al-ashtar. 12 chapter(s) completed. Triage failures or raise per_chapter_cost_cap_usd and --resume.",
-    "ts": "2026-08-06T23:38:56Z"
-  },
+  "last_error": null,
   "category": "books",
   "branch": "Islamic/spiritual-ethos",
   "status": "draft",
@@ -73,7 +69,7 @@
       "series_plan_path": "content/Islamic/spiritual-ethos/_system/series-plan.md"
     },
     "per-chapter": {
-      "status": "running",
+      "status": "completed",
       "failed_slugs": [],
       "ts_started": "2026-08-06T18:32:19Z",
       "current_chapter": "the-letter-of-ali-to-malik-al-ashtar",
@@ -88,6 +84,7 @@
         "pride-and-conscience",
         "the-classes-of-society-and-the-poor",
         "the-first-sermon-of-nahj-al-balagha",
+        "the-letter-of-ali-to-malik-al-ashtar",
         "the-sacred-conception-of-justice",
         "the-veils-that-do-not-veil",
         "why-intellect-not-reason"
@@ -179,17 +176,148 @@
         },
         "the-letter-of-ali-to-malik-al-ashtar": {
           "started_ts": "2026-08-06T23:39:52Z",
-          "completed_ts": null,
-          "duration_sec": null,
-          "verdict": null,
-          "cost_usd": null
+          "completed_ts": "2026-08-06T23:51:09Z",
+          "duration_sec": 676.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
         }
       },
-      "convergence_iter": 2
+      "convergence_iter": 2,
+      "ts_completed": "2026-08-06T23:51:10Z"
+    },
+    "per-chapter-optimize": {
+      "status": "skipped",
+      "ts_started": "2026-08-06T23:51:10Z",
+      "ts_completed": "2026-08-06T23:51:10Z",
+      "reason": "optimize_enabled=false in meta.yml"
+    },
+    "0g": {
+      "status": "completed",
+      "ts_started": "2026-08-06T23:51:10Z",
+      "ts_completed": "2026-08-06T23:51:12Z",
+      "audit_outcomes": {
+        "ali-and-the-prophet": {
+          "status": "audited",
+          "ep_label": "EP01-ali-and-the-prophet",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "dhikr-the-polish-for-hearts": {
+          "status": "audited",
+          "ep_label": "EP09-dhikr-the-polish-for-hearts",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "forgetting-the-self-and-the-name": {
+          "status": "audited",
+          "ep_label": "EP11-forgetting-the-self-and-the-name",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "joy-virtue-and-the-hereafter": {
+          "status": "audited",
+          "ep_label": "EP04-joy-virtue-and-the-hereafter",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "paradox-and-the-inner-struggle": {
+          "status": "audited",
+          "ep_label": "EP03-paradox-and-the-inner-struggle",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "prayer-as-the-source-of-justice": {
+          "status": "audited",
+          "ep_label": "EP08-prayer-as-the-source-of-justice",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "pride-and-conscience": {
+          "status": "audited",
+          "ep_label": "EP06-pride-and-conscience",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-classes-of-society-and-the-poor": {
+          "status": "audited",
+          "ep_label": "EP07-the-classes-of-society-and-the-poor",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-first-sermon-of-nahj-al-balagha": {
+          "status": "audited",
+          "ep_label": "EP12-the-first-sermon-of-nahj-al-balagha",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-letter-of-ali-to-malik-al-ashtar": {
+          "status": "audited",
+          "ep_label": "EP13-the-letter-of-ali-to-malik-al-ashtar",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-sacred-conception-of-justice": {
+          "status": "audited",
+          "ep_label": "EP05-the-sacred-conception-of-justice",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-veils-that-do-not-veil": {
+          "status": "audited",
+          "ep_label": "EP10-the-veils-that-do-not-veil",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "why-intellect-not-reason": {
+          "status": "audited",
+          "ep_label": "EP02-why-intellect-not-reason",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        }
+      }
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260806T233952Z-560da5",
-  "ts_updated": "2026-08-06T23:46:33Z",
-  "next_phase": "0literary"
+  "ts_updated": "2026-08-06T23:51:12Z",
+  "next_phase": "per-chapter"
 }
