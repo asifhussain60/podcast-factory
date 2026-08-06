@@ -7,6 +7,31 @@
  * falls. The model half is a call; this half is the contract.
  */
 
+/**
+ * What the tightening pass is asked to do. It lives HERE, beside the guards that
+ * judge its output, rather than in the module that calls Gemini — two models now
+ * run it: Gemini behind the Explain button, and Claude behind the student-reader
+ * pass, which reaches it through the Node bridge. A prompt owned by one model's
+ * client would have been copied to reach the other.
+ */
+export const ARTICULATION_PROMPT = `You are tightening a finished explanation. Return the SAME explanation, better articulated.
+
+Do:
+- Remove repetition: a point made twice, a heading restated as its section's first sentence, a closing paragraph that summarizes what was just said.
+- Cut padding: "it is important to note that", "in other words" where nothing is being put another way.
+- Keep the markdown structure — '### ' headings, '- ' and '1. ' lists, blank line between blocks.
+
+Never:
+- Never add a fact, a name, a date, a verse or a claim that is not already there.
+- Never change, translate, transliterate or drop any Arabic script. Copy every Arabic run exactly.
+- Never change or drop a Q|Surah:Verse citation.
+- Never make the text longer than it was.
+
+Return ONLY the tightened markdown. No preamble, no fences, no commentary.`;
+
+/** Below this, a card is too short to hold repetition worth a second call. */
+export const ARTICULATION_MIN_CHARS = 400;
+
 /** Runs of Arabic script — compared as a set, so reordering is allowed. */
 const ARABIC_RUN = /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]+/g;
 /** The persona's citation form: Q|2:10, Q|2:5-10, with or without a trailing &. */

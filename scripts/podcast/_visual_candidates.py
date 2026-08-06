@@ -68,8 +68,52 @@ def write_index(book_dir: Path, visuals: list[dict[str, Any]]) -> Path:
     return p
 
 
-def merge_entries(book_dir: Path, new_entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Idempotently merge entries by id, preserving prior order for stable diffs."""
+def prune_missing(book_dir: Path, visuals: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Split entries into (on disk, gone). An index may not claim a file it lacks.
+
+    ``merge_entries`` is additive by id and has no removal, so an asset deleted
+    from ``book/visuals/`` leaves its entry behind forever. On
+    ``the-master-and-the-disciple`` that is exactly what happened: commit ef97c27
+    (2026-07-16, subject "0book-design — book-toc.json") removed fourteen diagram
+    SVGs and left all twenty-nine entries pointing at them, so the Composer's
+    palette offered twenty-nine broken images, fired twenty-nine 404s per chapter
+    load, and showed NONE of the fifteen slides that were actually there.
+
+    The producers write their assets BEFORE they register them (`_render_diagrams`
+    then `merge_entries`; slide extraction then `merge_entries`), so reconciling
+    against the directory after a merge can never drop an entry that was just
+    emitted.
+
+    Scoped to entries that NAME a file. An entry carrying no ``file`` at all is
+    left where it is: it is malformed rather than stale, it cannot produce a
+    request for a missing asset, and the Composer already refuses it at read time
+    (``partitionByAsset``). Pruning it here would widen this function from "the
+    index may not claim a file it lacks" into "the index may only hold entries I
+    recognise", which is a different and much less safe rule.
+    """
+    directory = visuals_dir(book_dir)
+    try:
+        on_disk = {p.name for p in directory.iterdir() if p.is_file()}
+    except OSError:
+        on_disk = set()
+
+    def stale(v: dict[str, Any]) -> bool:
+        named = str(v.get("file") or "").strip()
+        return bool(named) and named not in on_disk
+
+    kept = [v for v in visuals if not stale(v)]
+    gone = [v for v in visuals if stale(v)]
+    return kept, gone
+
+
+def merge_entries(book_dir: Path, new_entries: list[dict[str, Any]], *, log=None) -> list[dict[str, Any]]:
+    """Idempotently merge entries by id, preserving prior order for stable diffs.
+
+    Reconciles against the directory on the way out — see ``prune_missing``. A
+    dropped entry is NAMED rather than swept silently: the index is tracked in
+    git and the assets sometimes are not, so a drop can mean "this book was
+    cloned without its diagrams" as easily as "these were deleted".
+    """
     existing = {e.get("id"): e for e in load_index(book_dir)}
     order = [e.get("id") for e in load_index(book_dir)]
     for e in new_entries:
@@ -77,6 +121,11 @@ def merge_entries(book_dir: Path, new_entries: list[dict[str, Any]]) -> list[dic
             order.append(e.get("id"))
         existing[e.get("id")] = e
     merged = [existing[i] for i in order if i in existing]
+    merged, gone = prune_missing(book_dir, merged)
+    if gone and log:
+        names = ", ".join(str(g.get("file")) for g in gone[:5])
+        more = f" (+{len(gone) - 5} more)" if len(gone) > 5 else ""
+        log(f"    visuals: dropped {len(gone)} index entry/entries with no file on disk — {names}{more}")
     write_index(book_dir, merged)
     return merged
 

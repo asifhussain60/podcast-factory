@@ -670,7 +670,7 @@ def author_phase_book_illustrate(
     # render input is book.md (see build_book_pdf._pick_book_md).
     from _visual_candidates import emit_diagram_candidates, merge_entries
 
-    merge_entries(book_dir, emit_diagram_candidates(book_dir, manifest, log=log))
+    merge_entries(book_dir, emit_diagram_candidates(book_dir, manifest, log=log), log=log)
     log(f"    0book-illustrate: {len(manifest)} diagram candidate(s) offered, book.md left diagram-free")
     return book_md_path
 

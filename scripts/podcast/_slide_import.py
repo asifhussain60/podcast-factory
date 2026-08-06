@@ -319,7 +319,9 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False, log=print)
     # injecting them into the book text. book.md stays diagram-free.
     from _visual_candidates import emit_slide_candidates, merge_entries
 
-    merge_entries(book_dir, emit_slide_candidates(book_dir, combined_entries, combined_pages, combined_svgs, log=log))
+    merge_entries(
+        book_dir, emit_slide_candidates(book_dir, combined_entries, combined_pages, combined_svgs, log=log), log=log
+    )
     log(
         f"    {_PHASE}: {total} slide candidate(s) offered "
         f"({len(work)} deck(s), {total_svg} as SVG), book.md left diagram-free"

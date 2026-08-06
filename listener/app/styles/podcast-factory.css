@@ -862,6 +862,18 @@
     min-height: 24px;
   }
 
+  /* A target, not just a glyph.
+     Two of these carry an icon and no text — About and Access — and with no
+     padding of their own an icon-only link is exactly the icon: 24x24, in a
+     header present on every page, while this same stylesheet holds the toolbar's
+     buttons and the theme swatches to 44px and says why. The floor applies to
+     all of them, so the text links keep the same height as the icons beside
+     them rather than the row mixing two sizes. */
+  .pf-navlink {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+
   .pf-navlink:hover {
     color: var(--l-ink);
   }
@@ -1108,15 +1120,49 @@
      wider than the screen is a card wider than the screen: it would be clipped
      by the viewport instead of by its own border, and the right edge would be
      gone rather than merely full. */
+  /* It WRAPS below the tablet tier; it no longer scrolls.
+     Measured at 393px before this: the row was 774px wide against a 393px
+     window, so six of its nine controls — typeface, both size steps, all three
+     spacing toggles and line width — sat past the right edge, reachable only by
+     dragging inside the card and with nothing on screen to say so (Asif,
+     2026-08-06). A scrolling strip is a fine idiom when the overflow is
+     obviously more of the same thing; here it hid every typographic setting the
+     toolbar exists for.
+
+     Wrapping and not a popover, because the popover is what this toolbar
+     replaced and must not come back. The card is not sticky — it scrolls away
+     with the title — so the extra height costs a reader nothing. */
   @media (max-width: 899px) {
     .pf-toolbar {
       width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+      overflow-x: visible;
     }
 
+    /* The GROUPS have to wrap too, and this is the whole fix rather than a
+       detail of it. They are `flex: none`, so wrapping only the card put each
+       group on its own line and left the second one — swatches, typeface, size,
+       spacing, width — a single 590px-wide unbreakable item. With the card no
+       longer scrolling, that overflowed the PAGE instead: 148px of sideways
+       document scroll at 320px, which is worse than what it replaced. */
     .pf-toolbar__group {
-      scroll-snap-align: end;
+      flex: 0 1 auto;
+      flex-wrap: wrap;
+      justify-content: center;
     }
+  }
 
+  /* The hairline between "what you have marked" and "how the page is set" is a
+     left border, which is right while the two share a line and wrong the moment
+     the second group starts its own — there it is a stray vertical mark against
+     the card's inner edge. Below the tier where they can wrap, the line break
+     does the separating. */
+  @media (max-width: 899px) {
+    .pf-toolbar__group--set {
+      padding-inline-start: 0;
+      border-inline-start: 0;
+    }
   }
 
   /* ---- Contents -----------------------------------------------------------
@@ -1255,12 +1301,42 @@
      inside is still governed by `--l-reading-measure` and centres in what the
      padding leaves, so the reader's own measure control keeps working and the
      margins stay even at every setting. */
+  /* A LEAF, not a card. Three things were saying "card" rather than "page":
+     rounded corners, which paper does not have — it is cut square, and a 14px
+     radius was the strongest UI signal on the whole surface; an even shadow all
+     round, which is how a card floats and not how a sheet resting on something
+     casts; and symmetric padding, where a set page is never symmetric.
+
+     The margins are a printer's: tighter at the head than at the foot, so the
+     text block sits above optical centre the way a typeset page does. The
+     column inside is still governed by `--l-reading-measure` and centres in
+     what the padding leaves, so the reader's own measure control is untouched
+     by all of this — only the frame around the words moves. */
   .pf-page {
-    padding: var(--pf-space-8);
+    position: relative;
+    padding: var(--pf-space-7) var(--pf-space-8) var(--pf-space-9);
     background: var(--l-elev);
     border: 1px solid var(--l-rule);
-    border-radius: var(--pf-radius-lg);
-    box-shadow: var(--pf-elev-2);
+    /* The leaves underneath and the cast, in one property.
+       Six shadows, painted first on top: each leaf is a hard-edged rectangle
+       stepped down and to the right — a fill inset by 1px over a solid of the
+       rule colour, which is what draws its hairline edge — and the two soft
+       casts come last, underneath everything.
+
+       Built from `box-shadow` rather than from two pseudo-elements, which is
+       what this was first and what did not work: a pseudo-element pushed behind
+       its parent with `z-index: -1` only stays between the parent and the page
+       when the parent makes a stacking context, and `.pf-page` does not, so
+       both leaves slid behind the page background and were invisible. Shadows
+       cannot have that failure, need no extra elements, and paint in a defined
+       order. */
+    box-shadow:
+      5px 5px 0 -1px var(--l-elev),
+      5px 5px 0 0 var(--l-rule),
+      10px 10px 0 -1px var(--l-elev),
+      10px 10px 0 0 var(--l-rule),
+      3px 6px 14px var(--l-shadow-near),
+      8px 14px 34px var(--l-shadow-far);
   }
 
   /* Title, meta and prose share one column and one centre. Without this the
@@ -1285,7 +1361,11 @@
          sits on the text. */
       padding: var(--pf-space-6) 1.75rem;
       border-inline: 0;
-      border-radius: 0;
+      /* Full-bleed, so the sheet has no visible edges — and leaves drawn
+         against edges that run off the screen are a stack of nothing. The cast
+         goes with them for the same reason: at this width there is no surface
+         for the page to be resting ON. */
+      box-shadow: none;
     }
   }
 
@@ -1790,8 +1870,11 @@
   .pf-session__head {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: var(--pf-space-3);
+    /* Baseline, not centre: the title is now much the larger of the two, and
+       centring hung the badge at the middle of its cap height rather than on
+       the line it belongs to. */
+    align-items: baseline;
+    gap: var(--pf-space-2) var(--pf-space-3);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
   }
@@ -1799,7 +1882,12 @@
   /* Drawn as a soft badge rather than plain tracked capitals. Five of these run
      down the podcast list and they are the only thing separating one group of
      episodes from the next; as grey small-caps they read as a caption on the
-     row beneath rather than as a divider above it. */
+     row beneath rather than as a divider above it.
+
+     It sits AFTER the title now and is deliberately the quieter of the two: the
+     ordinal is how a reader refers to a sitting afterwards, not what they scan
+     for. Baseline-aligned rather than centred, so a badge beside a title two
+     sizes larger sits on the words rather than floating at their mid-height. */
   .pf-session__label {
     display: inline-flex;
     align-items: center;
@@ -1817,10 +1905,32 @@
     letter-spacing: 0.16em;
   }
 
+  /* A basis, not `flex: 1` with `min-width: 0`.
+     The head has always been `flex-wrap: wrap`, but a title that may shrink to
+     nothing never reaches the point of wrapping: instead of dropping to its own
+     line it squeezed into whatever was left beside the badge and set itself two
+     or three words wide — on a 400px window, "The Treatise: Affirming the
+     Imamate" became a narrow column pressed against the pill (Asif, 2026-08-06).
+     With a basis the browser can see that the two do not fit, and the title
+     takes the next line at full width, which is what the wrap was there for.
+     18rem is about the narrowest a session title reads well at; above roughly
+     640px the pair still sits on one line exactly as before.
+
+     Set in the prose face at heading size, because it is now the heading: it
+     leads the group and the badge follows it. As `--pf-text-base` in the UI face
+     it was the same weight as the episode titles listed underneath it, so a
+     sitting's name did not read as standing over them. */
   .pf-session__title {
-    flex: 1;
-    min-width: 0;
-    font-size: var(--pf-text-base);
+    /* No GROW. With `flex-grow: 1` the title took the whole line at every width
+       and the badge wrapped underneath it always — technically not squeezed, but
+       the pair never sat together even on a 2560px window. Natural width, a
+       floor it may not shrink past, and the badge follows it directly.
+       `min()` so the floor cannot itself cause overflow on a 320px screen. */
+    flex: 0 1 auto;
+    min-width: min(18rem, 100%);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-lg);
+    line-height: 1.35;
     color: var(--l-ink);
   }
 
@@ -2171,6 +2281,19 @@
     padding-top: var(--pf-space-5);
     list-style: none;
     padding-inline-start: 0;
+  }
+
+  /* A card's pills may wrap their own text; pills elsewhere may not.
+     `.pf-pill` is `white-space: nowrap` so a fact never breaks across lines
+     mid-phrase, which is right in a row that can grow sideways. Here the pills
+     sit in a two-column grid inside a fixed-width card, and the longest of them
+     — "print + 44 slides, not uploaded" — is wider than its column at every
+     phone width, so it ran out past the card's edge by 47px. Wrapping inside the
+     cell keeps the fact whole and the card intact; centring keeps the second
+     line under the first rather than ragged against the icon. */
+  .pf-book__pills .pf-pill {
+    white-space: normal;
+    text-align: center;
   }
 
   /* A lone pill — "Not published yet", or a book with one fact — centres across
@@ -2966,6 +3089,16 @@
       border-color var(--pf-motion);
   }
 
+  /* Same rule as the row buttons, and more clearly needed: a pager is a line of
+     small numbers with nothing but a gap between them, which is the hardest
+     thing on these screens to hit with a thumb. */
+  @media (max-width: 1023px) {
+    .pf-pagenum {
+      min-width: 2.75rem;
+      min-height: 2.75rem;
+    }
+  }
+
   .pf-pagenum:hover {
     border-color: var(--l-accent);
     color: var(--l-ink);
@@ -3116,6 +3249,20 @@
       color var(--pf-motion);
   }
 
+  /* Full target on anything a finger is likely to be driving; dense on the
+     desktop table, where a pointer is.
+     Keyed at 1023px rather than at the 700px where the table becomes cards: a
+     tablet in either orientation is a touch device holding a wide window, and
+     that is exactly the case the card breakpoint misses. Above it the table is
+     dense on purpose — raising these everywhere would grow every row of a
+     twenty-person table to hold two buttons a mouse hits accurately at 28px. */
+  @media (max-width: 1023px) {
+    .pf-iconbtn {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
+
   .pf-iconbtn:hover {
     border-color: var(--l-accent);
     color: var(--l-accent);
@@ -3262,6 +3409,15 @@
     /* Same reason as the address column: `anywhere` would let this column's
        min-content width collapse to one character. */
     overflow-wrap: break-word;
+  }
+
+  /* The person's name is the way into their record, so on the card layout it is
+     a target rather than a line of text that happens to be blue. Height only —
+     its width is the name, and stretching that would underline empty space. */
+  @media (max-width: 1023px) {
+    .pf-person {
+      min-height: 2.75rem;
+    }
   }
 
   .pf-person:hover {
@@ -3763,19 +3919,34 @@
      text ran underneath the note count's pill, which is a row that has stopped
      being readable rather than one that is merely tight. Nothing is hidden —
      the same answer the player bar's own crowding got. */
+  /* A GRID on a phone, not a wrapping flex row.
+     Three flex attempts and three different failures, all from the same cause:
+     wrapping decides per ITEM, and the row's number is an item. `min-width: 0`
+     let the title shrink until its text ran under the note count; `flex: 1 1 60%`
+     fixed that but put every row on two lines whether it needed them or not; a
+     `min-width` floor with `basis: auto` then ORPHANED the number — a long title
+     moved to the second line on its own and set itself against the card's left
+     edge, under the number it belongs beside.
+
+     A grid cannot do any of that. The number and the title are placed in named
+     columns and stay there; the controls take the row beneath, aligned to the
+     title's own column rather than to the card. Nothing can overlap because
+     tracks do not overlap. */
   @media (max-width: 639px) {
     .pf-session__list .pf-row {
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: baseline;
+      column-gap: var(--pf-space-4);
+      row-gap: var(--pf-space-2);
     }
 
     .pf-session__list .pf-row__main {
-      /* Forces the wrap. With `flex: 1` and `min-width: 0` the title shrinks to
-         nothing instead, and flexbox never sees a reason to break the line. */
-      flex: 1 1 60%;
+      grid-column: 2;
     }
 
     .pf-session__list .pf-row__actions {
-      flex: 1 1 100%;
+      grid-column: 2;
       justify-content: flex-end;
     }
   }

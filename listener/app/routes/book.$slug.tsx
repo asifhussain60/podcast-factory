@@ -809,17 +809,24 @@ function Podcast({
 
       {sessions.map((session) => (
         <div key={session.number} className="pf-session">
-          {/* Label and title are separate flex items, not one wrapping line of
-              inline spans. A long title used to wrap back to the left margin and
-              set its second line under "SESSION 3", so the two read as unrelated
-              fragments — three of this book's five headings did it on a phone. */}
+          {/* The TITLE leads, and the session number follows it as a badge
+              (Asif, 2026-08-06). What a sitting is ABOUT is what a reader scans
+              for; its ordinal is how they refer to it afterwards. The badge went
+              first for most of this component's life, which made every heading
+              in the list open with the same word and put the one thing that
+              differed second.
+
+              Still two flex items rather than one wrapping line of inline
+              spans: as inline text a long title wrapped back to the left margin
+              and set its later lines under the badge, so the two read as
+              unrelated fragments. */}
           {session.title ? (
             <h3 className="pf-session__head">
+              <span className="pf-session__title">{session.title}</span>
               <span className="pf-session__label">
                 <Icon icon={faLayerGroup} />
                 Session {session.number}
               </span>
-              <span className="pf-session__title">{session.title}</span>
             </h3>
           ) : null}
 

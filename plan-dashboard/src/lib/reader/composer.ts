@@ -245,6 +245,33 @@ async function readJson<T>(path: string, fallback: T): Promise<T> {
   }
 }
 
+/**
+ * Split index entries into the ones whose asset is on disk and the names of the
+ * ones that are not.
+ *
+ * Pure, and exported, so the rule can be tested without a book on disk — the
+ * loader around it needs a whole content directory to run at all, which is how
+ * this went unnoticed: nothing cheap enough to run in a unit test ever asked
+ * whether a candidate's file existed.
+ *
+ * An entry with no `file` at all is MISSING, not available: it can only produce
+ * a request for the empty string.
+ */
+export function partitionByAsset<T extends { file?: string }>(
+  entries: T[],
+  onDisk: readonly string[],
+): { available: T[]; missing: string[] } {
+  const present = new Set(onDisk);
+  const available: T[] = [];
+  const missing: string[] = [];
+  for (const entry of entries) {
+    const file = (entry.file ?? "").trim();
+    if (file && present.has(file)) available.push(entry);
+    else missing.push(file || "(no file)");
+  }
+  return { available, missing };
+}
+
 export async function loadComposer(slug: string): Promise<ComposerView | null> {
   const ref = await findContent(slug);
   if (!ref) return null;
@@ -378,7 +405,33 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     join(ref.dir, "book", "visuals", "index.json"),
     {},
   );
-  const visuals: ComposerVisual[] = (indexData.visuals ?? []).map((v) => ({
+  // THE PALETTE MAY ONLY OFFER ASSETS THAT EXIST. The index is written by the
+  // producers and is additive by id, so an asset deleted from book/visuals/
+  // leaves its entry behind — and this loader used to turn every such entry into
+  // a candidate, which means a broken image in the palette and a 404 on every
+  // chapter load. Measured on the-master-and-the-disciple 2026-08-06: all 29
+  // entries pointed at files removed by commit ef97c27 back in July, and none of
+  // the 15 slides actually on disk appeared, because they had never been indexed.
+  //
+  // `prune_missing` in _visual_candidates.py now reconciles the index on the
+  // producer side. This filter is the second half of the same guarantee: the
+  // index is tracked in git while some assets are not, so a machine can clone a
+  // perfectly valid index whose files it does not have.
+  const onDisk = await readdir(join(ref.dir, "book", "visuals")).catch(
+    () => [] as string[],
+  );
+  const { available, missing } = partitionByAsset(
+    indexData.visuals ?? [],
+    onDisk,
+  );
+  if (missing.length) {
+    // Named, not swept: a drop can mean "deleted" or "cloned without them", and
+    // those want different responses from whoever is reading the log.
+    console.warn(
+      `composer(${slug}): ${missing.length} visual candidate(s) skipped — no file in book/visuals/: ${missing.slice(0, 5).join(", ")}`,
+    );
+  }
+  const visuals: ComposerVisual[] = available.map((v) => ({
     id: v.id,
     type: v.type ?? "diagram",
     caption: v.caption ?? "",
