@@ -78,8 +78,8 @@
         "the-letter-of-ali-to-malik-al-ashtar"
       ],
       "ts_started": "2026-08-06T18:32:19Z",
-      "current_chapter": "the-sacred-conception-of-justice",
-      "last_beat": "2026-08-06T22:43:04Z",
+      "current_chapter": "the-veils-that-do-not-veil",
+      "last_beat": "2026-08-06T23:16:21Z",
       "completed_slugs": [
         "ali-and-the-prophet",
         "dhikr-the-polish-for-hearts",
@@ -89,7 +89,8 @@
         "prayer-as-the-source-of-justice",
         "pride-and-conscience",
         "the-classes-of-society-and-the-poor",
-        "the-first-sermon-of-nahj-al-balagha"
+        "the-first-sermon-of-nahj-al-balagha",
+        "the-sacred-conception-of-justice"
       ],
       "chapter_timings": {
         "ali-and-the-prophet": {
@@ -165,17 +166,24 @@
         },
         "the-sacred-conception-of-justice": {
           "started_ts": "2026-08-06T22:30:49Z",
+          "completed_ts": "2026-08-06T22:48:38Z",
+          "duration_sec": 1069.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-veils-that-do-not-veil": {
+          "started_ts": "2026-08-06T22:48:39Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
           "cost_usd": null
         }
       },
-      "convergence_iter": 2
+      "convergence_iter": 3
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260806T200100Z-41cc7d",
-  "ts_updated": "2026-08-06T22:43:04Z",
+  "ts_updated": "2026-08-06T23:16:21Z",
   "next_phase": "0literary"
 }
