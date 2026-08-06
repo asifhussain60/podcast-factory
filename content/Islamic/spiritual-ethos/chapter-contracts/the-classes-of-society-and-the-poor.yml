@@ -1,10 +1,10 @@
 slug: the-classes-of-society-and-the-poor
-chapter_ref: ch09d-the-classes-of-society-and-the-poor
+chapter_ref: ch07c-the-classes-of-society-and-the-poor
 source_type: book-chapter
 book_slug: spiritual-ethos
-episode_number: 9
+episode_number: 7
 source_chapter_ref: 2
-section_index: 4
+section_index: 3
 title: Classes of Society and the Poor
 audience: Thoughtful adult listeners, Muslim and non-Muslim, interested in the practical shape of just governance and the claim of the poor, who want a faithful walk through Shah-Kazemi's reading of the letter's anatomy of society.
 angle: faithful_exposition
@@ -16,7 +16,7 @@ essential_rationale: It is justice at its sharpest practical edge — the concre
 host_dynamic: curious_mind + scholar_companion
 host_dynamic_rationale: The curious_mind asks how a spiritual ideal touches the machinery of taxation and office; the scholar_companion unfolds the wheel image, each class's due, and why the poor and pure intention are the true measure of a ruler.
 length_target: extended
-word_count: 5996
+word_count: 5775
 key_tensions:
   - The governor as the self-sufficient hub of society versus the hub as powerless without the vertical axle joining it to the Real
   - Power grasped as a privilege and distinction versus power accepted as an onerous trial from God, in the spirit of noblesse oblige
@@ -24,7 +24,7 @@ key_tensions:
 tone_constraints:
   - Reverent but concrete; let the practical counsel carry its spiritual charge without abstraction
   - Render every Qur'anic verse in English only, with its plain-English reference
-  - Keep the honorific after Ali (as); keep short inline Arabic terms without diacritics and never pair a transliteration run with a translation
+  - Keep the honorific after Ali (ع); keep short inline Arabic terms without diacritics and never pair a transliteration run with a translation
 anchor_passages:
   - Let your concern with the cultivation of the land outweigh your concern with the collection of the tax
   - Miserliness, cowardice and avarice are diverse inclinations, all united by a bad opinion of God
@@ -35,14 +35,15 @@ phonetic_overrides: {}
 show_notes:
   blurb: 'A governor is the hub of society''s wheel — and useless without an axle he cannot see. We walk the letter''s anatomy of a just state, from the army and the judges to the tillers of the soil, hear why greed is spiritual short-sightedness, and arrive at the sharpest test of all: the destitute, whose claim can be honoured only by a soul that acts from gratitude and pure intention rather than calculation.'
   related_episodes:
-    - conscience-and-compassion
+    - pride-and-conscience
+    - the-letter-of-ali-to-malik-al-ashtar
     - prayer-as-the-source-of-justice
   references: []
-thesis_relevance: This chapter advances the book's central claim that Ali (as) embodies the universal spiritual ethos at the heart of Islam by showing that the concrete ordering of society turns on the ruler's connection to the Real, so that the practical justice owed to each class — and above all to the poor — flows from intention and spiritual conviction rather than political calculation.
+thesis_relevance: This chapter advances the book's central claim that Ali (ع) embodies the universal spiritual ethos at the heart of Islam by showing that the concrete ordering of society turns on the ruler's connection to the Real, so that the practical justice owed to each class — and above all to the poor — flows from intention and spiritual conviction rather than political calculation.
 source_tradition: islamic-scholarly
 audience_profile: traditional
 session_index: 2
 session_title: A Sacred Conception of Justice in the Letter of Ali (ع) to Malik al-Ashtar
 session_slug: a-sacred-conception-of-justice-in-the-letter-of-ali-to-malik-al-ashtar
-session_episode: 4
-session_episode_count: 5
+session_episode: 3
+session_episode_count: 4
