@@ -5108,9 +5108,18 @@
     max-width: var(--pf-measure-page);
     margin-inline: auto;
     padding: var(--pf-space-3) var(--pf-space-5);
+    /* The seek control carries `padding-block: var(--pf-space-2)` of its own so
+       its hit area is a thumb-sized strip, and that padding lands BELOW the
+       visible track — against the bar's own bottom edge, where it adds to the
+       gap. At the top the same padding falls between two rows, where it reads
+       as spacing rather than as margin. So the top edge is short by exactly the
+       seek's block padding, and it is written as that value rather than as a
+       round number: change the seek's padding and this follows it. */
+    padding-top: calc(var(--pf-space-3) + var(--pf-space-2));
     /* iOS reserves a strip at the foot of the window for its own bar. Without
        this the scrub row sits under it and the last few pixels of the seek
-       control cannot be touched. */
+       control cannot be touched. Deliberately NOT mirrored at the top — that
+       inset is the OS's furniture, not the bar's breathing room. */
     padding-bottom: calc(var(--pf-space-3) + env(safe-area-inset-bottom, 0px));
   }
 
