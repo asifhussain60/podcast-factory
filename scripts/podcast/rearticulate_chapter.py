@@ -48,6 +48,7 @@ from _book_edits import anchor_key, base_fingerprint_for, record_edit
 from _book_pass_reports import record_rearticulation
 from _book_voice import _CHAPTER_HEADING_RE, _run_pass
 from _book_voice_prompts import _articulation_prompt
+from _content_profile import source_language as _source_language
 from _paths import resolve_content
 from _pipeline_flags import narrative_frame, narrator_subject
 
@@ -66,8 +67,9 @@ def _adapter(
     frame: str = "",
     narrator: str = "",
 ) -> str:
+    lang = _source_language(book_dir)
     rc, out, err = _run_claude_p_with_retry(
-        _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator),
+        _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator, source_language=lang),
         timeout=_TIMEOUT,
         book_dir=book_dir,
         phase=_PHASE,

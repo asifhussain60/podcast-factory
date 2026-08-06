@@ -59,6 +59,7 @@ from _book_edits import anchor_key, edited_chapter_keys
 from _book_fences import span_re
 from _book_pass_reports import KEPT_STATUSES, STATUS_OVERWRITTEN, load_prior_records, merge_records
 from _book_voice_prompts import _articulation_prompt, _voice_prompt
+from _content_profile import source_language as _source_language
 from _doctrinal import run_doctrinal_checks
 from _literary import teaching_loss_findings
 from _narrative import frame_findings, lecture_voice_counts
@@ -358,8 +359,9 @@ def _fluency_chapter(
     narrator: str = "",
 ) -> str:
     """Isolated LLM call (monkeypatched in tests). Returns polished prose or ''."""
+    lang = _source_language(book_dir)
     rc, out, err = _run_claude_p_with_retry(
-        _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator),
+        _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator, source_language=lang),
         timeout=_VOICE_TIMEOUT,
         book_dir=book_dir,
         phase="0book-fluency",

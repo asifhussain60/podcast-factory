@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "book_slug": "spiritual-ethos",
+  "source_path": "content/Islamic/spiritual-ethos/_system/source/images",
+  "source_kind": "page-images",
+  "input_type": "page-images",
+  "source_language": "en",
+  "phase": "0d",
+  "phase_status": "pending",
+  "last_completed_phase": "0ci",
+  "last_error": null,
+  "category": "books",
+  "branch": "Islamic/spiritual-ethos",
+  "status": "draft",
+  "started": "2026-08-05T14:42:06Z",
+  "updated": "2026-08-05T14:42:06Z",
+  "phases": {
+    "0a": {
+      "completed_via": "ocr_image_pages.py (Azure Doc Intelligence prebuilt-read), assembled by _system/build_source.py",
+      "completed_at": "2026-08-05T14:42:06Z",
+      "note": "Phase 0a ran outside the orchestrator: the source is 61 Kindle screenshots, and neither intake_book.py nor ingest_source.py accepts images. Four groups OCR'd separately so chapter boundaries come from the capture rather than being re-derived; endnotes split off to _system/source/notes/; the two appendices carried as chapters.",
+      "pages": 61,
+      "groups": [
+        "ch01",
+        "ch02",
+        "ch03",
+        "appx"
+      ],
+      "docintel_model": "prebuilt-read",
+      "docintel_api_version": "2023-07-31",
+      "translated": false
+    },
+    "0b": {
+      "status": "completed",
+      "ts_started": "2026-08-05T16:02:04Z",
+      "ts_completed": "2026-08-05T21:21:18Z"
+    },
+    "0c": {
+      "status": "completed",
+      "ts_started": "2026-08-05T16:14:44Z",
+      "ts_completed": "2026-08-05T21:21:19Z"
+    },
+    "0ci": {
+      "status": "completed",
+      "ts_started": "2026-08-05T16:14:44Z",
+      "ts_completed": "2026-08-05T21:21:20Z"
+    },
+    "0d": {
+      "status": "running",
+      "ts_started": "2026-08-05T16:14:45Z"
+    }
+  },
+  "intake_via": "manual image-source intake (see _system/build_source.py)",
+  "run_id": "20260806T095849Z-0367f9",
+  "ts_updated": "2026-08-06T09:58:49Z",
+  "next_phase": "0e"
+}

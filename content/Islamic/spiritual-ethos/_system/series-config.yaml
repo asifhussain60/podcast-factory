@@ -1,0 +1,98 @@
+# series-config.yaml — Spiritual Ethos
+# Three essays from Reza Shah-Kazemi's *Justice and Remembrance*, plus the two
+# primary texts printed in its appendices.
+
+slug: spiritual-ethos
+title: Spiritual Ethos
+
+content_profile: islamic_scholarly
+
+# Already English. The screenshots were OCR'd with --src-lang en, so no
+# translation step ran and none should: this book has no source-language
+# original in the repo to translate from.
+source_language: en
+
+# An essay collection, which is what GENRE_TO_DEFAULT_PLANNING_MODE maps to
+# vignette_grid. The three chapters are self-contained arguments rather than a
+# sequence, and the two primary texts stand alone entirely — chronological would
+# imply a through-line the book does not have.
+episode_planning_mode: vignette_grid
+audience_profile: traditional
+conversation_style: deep_dive
+
+video_style: teaching_hybrid
+enable_video: false
+
+# Reading-edition knobs, pinned explicitly rather than inherited from the
+# knob-default map — the discipline `the-master-and-the-disciple` and
+# `ayyuhal-walad` both document for themselves.
+#
+# `faithful` is what Asif asked for, though the name reads backwards. It selects
+# the articulation route: the faithful base plus the `0book-fluency` pass
+# governed by the Book Articulation Standard, whose REQ-BA-010 is precisely the
+# brief — "modern, lucid, simple English that a general reader understands on
+# first read", preferring the plain word over the ornate one — and whose
+# REQ-BA-020 licenses splitting the long periodic sentences this source is built
+# from. `author_companion` would give the model far more latitude than REQ-BA
+# allows and is not the simplification wanted here.
+book_voice: faithful
+
+# Permits `0book-augment`, the additive editorial-aside pass. This book needs it
+# for two things: the substantive endnotes held in _system/source/notes/, and
+# Asif's own twenty lectures on this exact material.
+book_augmentation: source_only
+
+# Narrative frame — a property of the SOURCE, not of the delivery route.
+#
+# Shah-Kazemi is a living scholar writing ABOUT Ali (ع): "To speak of Ali is to
+# speak of the quintessential spirituality of the Islamic tradition." That is an
+# external narrator, not the anonymous `transmitted_report` of classical Arabic
+# prose ("it has reached us that…") which is the islamic_scholarly default, and
+# not `first_person_author` — his "we" is the editorial plural of academic
+# writing, not a narrator with a life in the story.
+#
+# CAUTION, and the reason this comment is long. Chapters four and five are NOT
+# in that voice. The First Sermon is Ali's own speech throughout, and the Letter
+# to Malik al-Ashtar addresses Malik directly in the second person for six
+# thousand words: "Infuse your heart with mercy for the subjects." Under a
+# third-person frame, REQ-BA-125 tells the model that a book addresses nobody
+# and to recast "you/your" into exposition. That rule is aimed at a narrator
+# lecturing the reader — Malik is not the reader — but the model has no way to
+# know the difference from the prompt alone.
+#
+# The gates themselves are safe: `narrative_person_findings` reads only
+# paragraph-opening attribution windows, so first person inside speech is never
+# flagged, and `lecture_voice_findings` is DIFFERENTIAL — it fires on voice the
+# rewrite ADDS, never on what the source already had. What no gate catches is
+# the opposite error, a pass that quietly REMOVES the Letter's direct address.
+# So those two chapters are a named verification point after the first compose:
+# if the imperatives have been flattened, revert them through the Book Composer,
+# which is the singular path for chapter prose bound for the PDF.
+narrative_frame: external_narrator
+
+# Both of the next two are adopted from `the-master-and-the-disciple`, which Asif
+# named the gold standard for book creation (2026-08-05).
+#
+# The chapter-density standard: max ~3 concepts per episode, with the preflight
+# and chapter-set gates active rather than advisory. This matters more here than
+# on most books — the source is dense scholarly argument, and Asif delegated the
+# episode count and lengths to the planner, so the standard is what makes that
+# delegation safe rather than arbitrary.
+density_standard: 2
+
+# ONE deck for the whole book, not five. This is the override, not the default,
+# and it is chosen for the human on the other end: per-chapter decks mean five
+# separate NotebookLM generations and five PDF drops, book mode means one. The
+# five chapters do share a single thesis — the spiritual ethos of Ali (ع) — so a
+# book-level deck is not compressing unrelated arguments.
+slide_deck_mode: book
+
+# `deliverable_mode: translation_edition` is deliberately NOT set. It would be
+# wrong twice over: nothing here is translated, and the mode forces
+# `book_augmentation: none` while skipping phases 0ci and 0e outright — which
+# would silently discard both the endnote material and Asif's lectures, the two
+# things this book is being built to bring together.
+
+host_dynamic:
+  host_a: scholar_narrator
+  host_b: reflective_interlocutor

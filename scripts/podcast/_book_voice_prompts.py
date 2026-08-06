@@ -150,6 +150,29 @@ Omit the block entirely when there is nothing to report. Never put any of this
 inside the chapter prose itself."""
 
 
+# What the pass is actually fixing, which is not the same defect in every book.
+#
+# A translated book arrives calqued: word-for-word Arabic grammar wearing English
+# words. A book WRITTEN in English does not have that defect and telling the model
+# it does aims the pass at nothing — the prose is already idiomatic, and what makes
+# it hard is that its sentences run long and periodic, its argument is carried in
+# abstractions, and its vocabulary is a specialist's. REQ-BA-010 and -020 are the
+# same contract either way; only the diagnosis differs.
+_CALQUED_SOURCE = "The source below is a stiff, literal, Arabic-calqued draft.\nFix that completely."
+_DIFFICULT_ENGLISH_SOURCE = (
+    "The source below is already fluent English — it is not a translation, and it is "
+    "not\nclumsy. What makes it hard is different: sentences that run long and hold "
+    "several\nsubordinate clauses before they land, an argument carried in abstract "
+    "nouns rather\nthan in things a reader can picture, and a specialist's vocabulary "
+    "used without\nexplanation. Fix THAT. Do not hunt for calques; there are none."
+)
+
+
+def _source_defect(source_language: str) -> str:
+    lang = (source_language or "").strip().lower()
+    return _DIFFICULT_ENGLISH_SOURCE if lang in ("en", "english") else _CALQUED_SOURCE
+
+
 def _articulation_prompt(
     title: str,
     base_text: str,
@@ -157,6 +180,7 @@ def _articulation_prompt(
     *,
     frame: str = "",
     narrator: str = "",
+    source_language: str = "",
 ) -> str:
     """The REQ-BA prompt (docs/standards/book-articulation.md) — the single
     builder shared by the automatic 0book-fluency pass and the on-demand
@@ -172,8 +196,8 @@ def _articulation_prompt(
     )
     return f"""You are articulating one chapter of a scholarly Islamic book so it reads like a
 professionally published edition: modern, lucid, simple English that a general reader
-understands on first read. The source below is a stiff, literal, Arabic-calqued draft.
-Fix that completely. (Contract: the Book Articulation Standard, REQ-BA-010..160.)
+understands on first read. {_source_defect(source_language)}
+(Contract: the Book Articulation Standard, REQ-BA-010..160.)
 {directives}{continuity}
 
 YOU MAY (REQ-BA-020, -130)
