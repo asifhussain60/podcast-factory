@@ -1,0 +1,42 @@
+{
+  "publishedAt": "2026-08-06T23:08:45Z",
+  "fingerprint": "87ca454b7ae3e805",
+  "verified": true,
+  "checks": [
+    {
+      "name": "the book exists",
+      "ok": true,
+      "detail": "content row present"
+    },
+    {
+      "name": "visible",
+      "ok": true,
+      "detail": "status is 'published'"
+    },
+    {
+      "name": "written just now",
+      "ok": true,
+      "detail": "recorded 2026-08-06T23:08:48Z"
+    },
+    {
+      "name": "chapters",
+      "ok": true,
+      "detail": "9 live"
+    },
+    {
+      "name": "Companion cards",
+      "ok": true,
+      "detail": "29 live, 29 on disk"
+    },
+    {
+      "name": "episodes",
+      "ok": true,
+      "detail": "20 live"
+    },
+    {
+      "name": "media uploaded",
+      "ok": true,
+      "detail": "57 of 57 file(s) in the bucket"
+    }
+  ]
+}
