@@ -1,7 +1,48 @@
 # Current work - status
 
-**Last updated:** 2026-08-05 (A cited book prints under its English name, every
-Arabic quotation looks like one, and an editorial note reads as a note)
+**Last updated:** 2026-08-06 (Full repo audit: three gates that could not fail,
+eleven files restored, and the three live books re-published locally)
+
+**Newest — a repo-wide audit across the pipeline, the Astro Site and the local
+Listener. Six commits on `develop`, pushed. Nothing deployed to production.**
+
+- **The recurring shape was a gate reporting clean over a rule it never ran.**
+  Three instances, all fixed and each one verified to FAIL before being trusted:
+  the two snapshot generators are documented byte-identical but the only test
+  read their SOURCE TEXT, so a divergence caused by the CONTENT they read was
+  invisible; the bucket list was pinned generator-to-generator and to nothing
+  else, so both agreed while both missed `Supplications`; and REQ-010's reading
+  floor had two documented config exceptions for a check that did not exist.
+- **A book config said two contradictory things.**
+  `the-master-and-the-disciple` declared `book_augmentation` twice — PyYAML
+  silently takes the last, js-yaml refuses the file outright. Consolidated to
+  the value actually in force (`none`, what the published edition was composed
+  under). Behaviour-preserving; the only file in the repo with duplicate keys.
+- **The dashboard had frozen every book's phase.** `books_in_flight` preferred
+  the previously-snapshotted value over disk, so the first phase a book was seen
+  in was the phase it displayed forever. Disk wins now; titles come from
+  `meta.yml` and `kind` from `content_profile`.
+- **Eleven destroyed episode sources restored** (RCA-010). A book-compose route
+  deleted them on 2026-07-16; the mechanism was fixed three days later and the
+  data never was, leaving 12 tests red for 21 days. Suite now 3,033 passing. The
+  8 bare-numbered files left in their place were stale duplicates of a LATER
+  book-lane compose and were removed.
+- **Runtime + visual QA:** `/quality` was returning a 500, two popover families
+  were clipped by an ancestor `overflow: hidden`, four surfaces had no keyboard
+  focus ring. Smoke 35→36 clean. New INV-6 catches clipped popovers at rest,
+  since neither clipping bug was visible to a screenshot nobody hovered.
+- **Ayyuha al-Walad had no print edition** — it predates the render phase.
+  Rendered (61pp) and all three live books re-published to the LOCAL Listener;
+  visibility columns untouched, Listener smoke 23 routes × 4 widths clear.
+- Open, reported not fixed: 25 reading-floor findings left VISIBLE rather than
+  waived (mostly the print-parity family — a per-view decision); `/wisdom`'s
+  lede claims "19 binders, 122 chapters" against genuinely empty tiles;
+  `inject_slide_deck()` still writes an artifact a plan doc records as retired.
+
+---
+
+**Previous — 2026-08-05 (A cited book prints under its English name, every
+Arabic quotation looks like one, and an editorial note reads as a note)**
 
 **Newest — three things Asif reported from the Book Composer, all fixed at the
 source. Not deployed; no PDF re-rendered.**
