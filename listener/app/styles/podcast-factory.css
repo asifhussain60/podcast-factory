@@ -1301,12 +1301,42 @@
      inside is still governed by `--l-reading-measure` and centres in what the
      padding leaves, so the reader's own measure control keeps working and the
      margins stay even at every setting. */
+  /* A LEAF, not a card. Three things were saying "card" rather than "page":
+     rounded corners, which paper does not have — it is cut square, and a 14px
+     radius was the strongest UI signal on the whole surface; an even shadow all
+     round, which is how a card floats and not how a sheet resting on something
+     casts; and symmetric padding, where a set page is never symmetric.
+
+     The margins are a printer's: tighter at the head than at the foot, so the
+     text block sits above optical centre the way a typeset page does. The
+     column inside is still governed by `--l-reading-measure` and centres in
+     what the padding leaves, so the reader's own measure control is untouched
+     by all of this — only the frame around the words moves. */
   .pf-page {
-    padding: var(--pf-space-8);
+    position: relative;
+    padding: var(--pf-space-7) var(--pf-space-8) var(--pf-space-9);
     background: var(--l-elev);
     border: 1px solid var(--l-rule);
-    border-radius: var(--pf-radius-lg);
-    box-shadow: var(--pf-elev-2);
+    /* The leaves underneath and the cast, in one property.
+       Six shadows, painted first on top: each leaf is a hard-edged rectangle
+       stepped down and to the right — a fill inset by 1px over a solid of the
+       rule colour, which is what draws its hairline edge — and the two soft
+       casts come last, underneath everything.
+
+       Built from `box-shadow` rather than from two pseudo-elements, which is
+       what this was first and what did not work: a pseudo-element pushed behind
+       its parent with `z-index: -1` only stays between the parent and the page
+       when the parent makes a stacking context, and `.pf-page` does not, so
+       both leaves slid behind the page background and were invisible. Shadows
+       cannot have that failure, need no extra elements, and paint in a defined
+       order. */
+    box-shadow:
+      5px 5px 0 -1px var(--l-elev),
+      5px 5px 0 0 var(--l-rule),
+      10px 10px 0 -1px var(--l-elev),
+      10px 10px 0 0 var(--l-rule),
+      3px 6px 14px var(--l-shadow-near),
+      8px 14px 34px var(--l-shadow-far);
   }
 
   /* Title, meta and prose share one column and one centre. Without this the
@@ -1331,7 +1361,11 @@
          sits on the text. */
       padding: var(--pf-space-6) 1.75rem;
       border-inline: 0;
-      border-radius: 0;
+      /* Full-bleed, so the sheet has no visible edges — and leaves drawn
+         against edges that run off the screen are a stack of nothing. The cast
+         goes with them for the same reason: at this width there is no surface
+         for the page to be resting ON. */
+      box-shadow: none;
     }
   }
 
