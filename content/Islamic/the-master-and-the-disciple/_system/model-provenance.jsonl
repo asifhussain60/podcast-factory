@@ -389,3 +389,31 @@
 {"phase": "0book-frontmatter", "step": "edition-introduction-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-compose", "step": "arabic-alignment", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
 {"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-06", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-07", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-a stranger in the city", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-08-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-a stranger in the city", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-08-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "probe", "step": "probe", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-08-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-a stranger in the city", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-09-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-09-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-09-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-09-part-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-a stranger in the city", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-09-part-05", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-a stranger in the city", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-09-part-06", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-a stranger in the city", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the persian who was dead", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the boy at the door \u2014 li", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-how the world was made", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the world, the hereafter", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-three layers of knowledg", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the five shares and the ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-homecoming, the father, ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the persian who was dead", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

@@ -1,6 +1,72 @@
 {
   "slug": "the-master-and-the-disciple",
   "chapter": "7-the-five-shares-and-the-long-road-to-the-shaykh",
-  "notes": [],
-  "updatedAt": null
+  "notes": [
+    {
+      "id": "student:cde6aa2afb6d7d07",
+      "kind": "question",
+      "body": "The Master calls this a fifth's worth of the best wealth 'its zakat,' and says that by it the wealth is 'purified by the alms.' But zakat, as far as I knew coming in, is a small alms — a fraction like a fortieth — not a full fifth, and not necessarily the dearest of what you own. The chapter uses the word 'zakat' as though its meaning here (a fifth, the dearest portion) were already settled, and never says why this differs from the alms I thought I understood. I could not tell whether 'zakat' is being redefined, or whether this is a second, separate obligation being called by the same name.",
+      "anchor": "zakat as a fifth",
+      "quote": "bring out a fifth of the best of it",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "undefined-term"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:56:07Z",
+      "updatedAt": "2026-08-06T13:56:07Z"
+    },
+    {
+      "id": "student:02c32620c216fd21",
+      "kind": "question",
+      "body": "By this point several senior figures are in play and I lost track of how many people there actually are. The Master goes to 'his own greater father,' who says 'bring this boy to me.' Later the two travel 'until they came to the greater scholar,' and then a 'Shaykh, the lord of the house' receives them. Are the greater father, the greater scholar, and the Shaykh of the house all one man, or two, or three? The note about the word 'father' warns me the term is shared among three men, but it does not settle whether 'greater scholar' and 'the Shaykh' are the same person, and the chapter moves between them as if I already knew.",
+      "anchor": "how many elders",
+      "quote": "until they came to the greater scholar",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "ambiguous-referent"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:56:07Z",
+      "updatedAt": "2026-08-06T13:56:07Z"
+    },
+    {
+      "id": "student:99ff939fff27702b",
+      "kind": "question",
+      "body": "In the naming exchange the Shaykh answers twice in a row with no question from the boy in between: 'That waits until seven days are complete,' and then 'For the honoring of the newborn.' The second line reads like the answer to a 'why?' that was never asked on the page, so I stumbled over who was speaking and what was being answered. More basically, I could not follow the logic that the boy — a grown young man who has traveled far — is now 'one newly born' who must be named after seven days like an infant. The chapter treats him as a newborn without explaining in what sense he has just been born.",
+      "anchor": "the doubled naming reply",
+      "quote": "That waits until seven days are complete",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "unexplained-leap"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:56:07Z",
+      "updatedAt": "2026-08-06T13:56:07Z"
+    },
+    {
+      "id": "student:adcff04bc223a76b",
+      "kind": "question",
+      "body": "Right after the Shaykh speaks to the boy of hidden matters, the text says the boy 'released his pilgrim state,' 'circled the ancient House,' 'completed his rites,' and 'fulfilled his pilgrimage by the greatest sign.' I could read this two ways and the chapter never tells me which. Either the boy physically went to Mecca and performed the Hajj — but nothing in the surrounding story shows such a journey — or the whole line is a figure for the initiation he just received, with the House and the rites standing for something inward. The passage carries both readings at once and leaves them unresolved.",
+      "anchor": "pilgrimage: real or figure",
+      "quote": "circled the ancient House, completed his rites",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "unresolved-double-reading"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:56:07Z",
+      "updatedAt": "2026-08-06T13:56:07Z"
+    }
+  ],
+  "updatedAt": "2026-08-06T13:56:07Z",
+  "studentReaderFingerprint": "298ddb9792df7b21"
 }

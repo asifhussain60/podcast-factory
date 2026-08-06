@@ -87,8 +87,15 @@ _MIN_QUOTE_WORDS = 4
 #: entire job is to talk ABOUT a passage, so a note reading "the passage above
 #: never says which" is the product working, not chatter. Measured on this book:
 #: the broad pattern rejected every candidate of a chapter for saying so.
+#: "I cannot" and "I am unable" are NOT here, and must not be added back. They
+#: are this lane's own voice: the prompt asks the reader to mark where "you
+#: cannot tell what is meant", so "I cannot tell which of the two is meant" is
+#: the finding, stated. Measured on this book 2026-08-06 — every one of the six
+#: candidates the gate threw away across eight chapters was rejected for saying
+#: exactly that, including both of chapter 1's, which is why that chapter came
+#: back with nothing.
 _META_RE = re.compile(
-    r"\b(as an AI|as a language model|I cannot|I'm unable|I am unable|in this task|as requested)\b",
+    r"\b(as an AI|as a language model|in this task|as requested|I'm unable to (?:help|assist))\b",
     re.I,
 )
 

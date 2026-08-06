@@ -1,7 +1,7 @@
 {
   "schema": "podcast.book-fluency/v5",
   "narrative_frame": "transmitted_report",
-  "adapted": 7,
+  "adapted": 1,
   "reverted": 0,
   "overwritten_by_replay": 1,
   "chapters": [
@@ -11,12 +11,13 @@
       "output_words": 727,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted",
+      "status": "composer-edit",
       "gates": [],
       "warnings": [],
       "editorial_queries": [],
       "comprehension_flags": [],
-      "terminology_notes": []
+      "terminology_notes": [],
+      "superseded_status": "adapted"
     },
     {
       "title": "A Stranger in the City",
@@ -24,14 +25,15 @@
       "output_words": 997,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted",
+      "status": "composer-edit",
       "gates": [],
       "warnings": [],
       "editorial_queries": [],
       "comprehension_flags": [
         "Across the long sermon the pronoun \"it\" refers throughout to \"His knowledge,\" but so many clauses separate the noun from its pronouns that a reader may lose the antecedent."
       ],
-      "terminology_notes": []
+      "terminology_notes": [],
+      "superseded_status": "adapted"
     },
     {
       "title": "The Boy at the Door \u2014 Limits and Conditions",
@@ -70,7 +72,7 @@
       "output_words": 3463,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted",
+      "status": "composer-edit",
       "gates": [],
       "warnings": [
         "fluency-06: output near-identical to base \u2014 copied, not re-voiced"
@@ -79,7 +81,8 @@
       "comprehension_flags": [],
       "terminology_notes": [
         "Speaking Imam / al-Natiq \u2014 the source uses both \"the Speaking Imam\" and \"the Speakers/natiq\"; the singular/plural rendering of \u0627\u0644\u0646\u064e\u0651\u0627\u0637\u0650\u0642 should be standardized book-wide."
-      ]
+      ],
+      "superseded_status": "adapted"
     },
     {
       "title": "Three Layers of Knowledge",
@@ -87,7 +90,7 @@
       "output_words": 3478,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted",
+      "status": "composer-edit",
       "gates": [],
       "warnings": [
         "fluency-07: output near-identical to base \u2014 copied, not re-voiced"
@@ -96,7 +99,8 @@
       "comprehension_flags": [],
       "terminology_notes": [
         "hujja/hawl/quwwa/usba/natiqs/duat/awliya \u2014 these transliterated technical terms should be standardized book-wide to one spelling and one treatment (script-beside-transliteration on first use) across every chapter."
-      ]
+      ],
+      "superseded_status": "adapted"
     },
     {
       "title": "The Five Shares and the Long Road to the Shaykh",
@@ -104,7 +108,7 @@
       "output_words": 7113,
       "windows": 3,
       "windows_kept": 3,
-      "status": "adapted",
+      "status": "composer-edit",
       "gates": [],
       "warnings": [
         "fluency-08-part-01: output near-identical to base \u2014 copied, not re-voiced"
@@ -120,7 +124,8 @@
         "zakat \u2014 the source uses \"alms/zakat\" for two distinct ideas (the general purifying due, and here a specific one-fifth given to a binding claimant, closer to khums); the rendering \"zakat\" should be standardized book-wide and the one-fifth usage checked against how earlier chapters name it.",
         "Shaykh \u2014 the senior figure's title is rendered \"Shaykh\" here but described elsewhere as \"the greater scholar\"/\"greater father\"; one consistent handling of this figure's title should be fixed book-wide.",
         "\"the Master\" and \"the Shaykh\" \u2014 keep them as two distinct persons throughout; they are not interchangeable and must never be conflated."
-      ]
+      ],
+      "superseded_status": "adapted"
     },
     {
       "title": "Homecoming, the Father, and the Debate with Abu Malik",
@@ -128,14 +133,15 @@
       "output_words": 14993,
       "windows": 6,
       "windows_kept": 6,
-      "status": "adapted",
+      "status": "composer-edit",
       "gates": [],
       "warnings": [],
       "editorial_queries": [],
       "comprehension_flags": [],
       "terminology_notes": [
         "God / Allah \u2014 the source names the deity as \"God\" through the earlier exchange and shifts to \"Allah\" from the \"just one of Allah\" turn onward; this rendering preserves each occurrence as given, but the divine name should be standardized one way book-wide."
-      ]
+      ],
+      "superseded_status": "adapted"
     }
   ]
 }

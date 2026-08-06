@@ -1,6 +1,40 @@
 {
   "slug": "the-master-and-the-disciple",
   "chapter": "5-the-world-the-hereafter-and-the-speech-of-parables",
-  "notes": [],
-  "updatedAt": null
+  "notes": [
+    {
+      "id": "student:314600250a812ef9",
+      "kind": "question",
+      "body": "The boy asks about 'the twelve islands in the earth' as though the earth's having exactly twelve islands were an established fact between them. But nowhere in the chapter is that stated. Earlier the earth was described only as broad, a resting-place and a bed for creation; twelve islands appear here for the first time, already counted. The same happens a few lines later with 'the seven kingdoms of the heavens' and 'the seven seas.' I stop because I do not know where these numbered features of the world come from, and the chapter never establishes them before drawing likenesses from them. My question: what are the twelve islands, and on what basis is the earth said to have that many?",
+      "anchor": "twelve islands presupposed",
+      "quote": "What is the likeness of the twelve islands in the earth?",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "ambiguous-referent"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:51:36Z",
+      "updatedAt": "2026-08-06T13:51:36Z"
+    },
+    {
+      "id": "student:edc34d98149b83e0",
+      "kind": "question",
+      "body": "The air has just been raised to the highest place — greater than heaven and earth, the indication of the One to whom nothing is like. The boy then asks whether anything stood between the air and God, and the Master answers: 'the time,' and when pressed, 'the time of the Will by which He created what He willed and commanded what He wished.' This defines time by naming it again ('the time of the Will') without telling me what that is, and it introduces a new thing standing between the air and God at the moment the chapter has said the air is the very highest indication. The two do not sit together for me, and the phrase closes the door rather than opening it. My question: what is 'the time of the Will,' and how does it stand higher than the air just called the highest?",
+      "anchor": "the time before the air",
+      "quote": "It is the time of the Will by which He created what He willed",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "unexplained-leap"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:51:36Z",
+      "updatedAt": "2026-08-06T13:51:36Z"
+    }
+  ],
+  "updatedAt": "2026-08-06T13:51:36Z",
+  "studentReaderFingerprint": "8b357dc9ee7cf0ad"
 }

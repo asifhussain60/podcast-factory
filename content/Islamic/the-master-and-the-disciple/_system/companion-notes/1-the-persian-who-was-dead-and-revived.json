@@ -1,6 +1,40 @@
 {
   "slug": "the-master-and-the-disciple",
   "chapter": "1-the-persian-who-was-dead-and-revived",
-  "notes": [],
-  "updatedAt": null
+  "notes": [
+    {
+      "id": "student:edc4e1f83ef6c1ee",
+      "kind": "question",
+      "body": "This is the opening chapter and I have just met the Persian man. But the sentence says ignorance ruled over him in the knowledge 'already described' — pointing me back to something as if I have already been told what that knowledge is. Nothing before this point in the chapter names a specific body of knowledge that ignorance could rule over; the earlier passage was about gratitude and the houses of understanding. So I cannot tell what 'the knowledge already described' refers to. Is it a specific doctrine, the religion's teaching in general, or something from an introduction I haven't been given? The phrase leans on a shared prior reference I do not have.",
+      "anchor": "knowledge already described",
+      "quote": "in the very knowledge already described",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "ambiguous-referent"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T14:01:50Z",
+      "updatedAt": "2026-08-06T14:01:50Z"
+    },
+    {
+      "id": "student:cb85bbdfdc2c536d",
+      "kind": "question",
+      "body": "After the man is guided, the chapter says he became 'one of the scholars of the Mount' and 'one of those who dwell at the Frequented House.' These are named as if they are known places or ranks, but the chapter tells me nothing about what the Mount is, who its scholars are, or what the Frequented House is. They arrive fully formed at the moment of his transformation and are never unpacked. I can feel they mark some attained station, but I cannot tell whether they are literal places, symbolic ones, or titles within the religion's hierarchy. A first-time reader is stopped here because the terms carry the weight of the sentence yet stand undefined.",
+      "anchor": "Mount and Frequented House",
+      "quote": "one of the scholars of the Mount",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "undefined-term"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T14:01:50Z",
+      "updatedAt": "2026-08-06T14:01:50Z"
+    }
+  ],
+  "updatedAt": "2026-08-06T14:01:50Z",
+  "studentReaderFingerprint": "d713d7bd65f70eaf"
 }

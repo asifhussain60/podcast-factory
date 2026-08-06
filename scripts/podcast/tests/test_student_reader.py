@@ -86,6 +86,25 @@ def test_assistant_voice_is_dropped() -> None:
     assert any("chatter" in r for r in reasons)
 
 
+def test_saying_you_cannot_tell_is_the_FINDING_not_chatter() -> None:
+    """The single most important non-rejection in this gate.
+
+    The prompt asks the reader to mark where "you cannot tell what is meant", so
+    "I cannot tell which of the two is meant" is the finding, worded. The pattern
+    borrowed from the teacher lane rejected exactly that: measured on this book,
+    all six candidates dropped across eight chapters were dropped for it, both of
+    chapter 1's among them, and that chapter came back with no notes at all.
+    """
+    for phrase in (
+        "I cannot tell which of the two the chapter means, and it never says.",
+        "I am unable to work out which referent is intended by the second.",
+    ):
+        n = note("ambiguous-referent", "the condensation of heat, and")
+        n["body"] = phrase + " " + " ".join(["word"] * 25)
+        ok, reasons = gate_note(n, PROSE)
+        assert ok, f"{phrase!r}: {reasons}"
+
+
 def test_a_note_that_talks_about_the_passage_is_NOT_chatter() -> None:
     """This lane's whole job is to talk about a passage.
 
