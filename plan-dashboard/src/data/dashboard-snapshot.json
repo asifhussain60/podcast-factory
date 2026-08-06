@@ -1930,6 +1930,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "351a9bb",
+      "subject": "fix(book-composer): the pipeline's fence markers stop showing in the editor",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "6af29fb",
+      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
+      "date": "2026-08-06"
+    },
+    {
       "sha": "6e20ba1",
       "subject": "feat(companion): the student reader asks, the Ismaili Scholar answers",
       "date": "2026-08-06"
@@ -1967,16 +1977,6 @@
     {
       "sha": "018b6b5",
       "subject": "style(player): the bar is a deck, not the last paragraph of the page",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "d552df9",
-      "subject": "fix(player): the skip controls exist on a phone, and the Notes button says how many",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "8a16c30",
-      "subject": "feat(companion): --top-up fills a chapter that came back short, without disturbing it",
       "date": "2026-08-06"
     }
   ],
