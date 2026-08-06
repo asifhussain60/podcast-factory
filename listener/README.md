@@ -1,11 +1,11 @@
-# Podcast Factory Listener
+# Podcast Factory Library
 
 The audience-facing site: sign in, listen, read, annotate. Deployed to Cloudflare
 Workers on its own subdomain.
 
 **This is not the admin site.** `plan-dashboard/` is the authoring tool Asif uses
 (the Book Composer, intake, pipeline views). The two share a repository and
-nothing else — the Listener has its own dependencies, its own palette, its own
+nothing else — the Podcast Factory Library has its own dependencies, its own palette, its own
 database, and imports nothing from `plan-dashboard/` at runtime.
 
 ## Why it lives in this repo
@@ -156,7 +156,7 @@ that may be half-made. The publish step reports them and moves on.
 
 **A book may have SEVERAL slide decks, one per chapter.** That is the pipeline's
 default (`_content_profile.slide_deck_mode`; `book` is the override), and the
-Listener was the piece out of step — it looked in one hardcoded folder and keyed
+Podcast Factory Library was the piece out of step — it looked in one hardcoded folder and keyed
 pages `<slug>/deck/page-NN.jpg`, so four decks all offering `page-01.jpg` collided
 on the primary key and three vanished. Since migration 0010 the key carries the
 deck and `media_asset` holds `deck_id` + `deck_title`. A deck is named from its

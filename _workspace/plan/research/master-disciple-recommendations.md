@@ -54,7 +54,7 @@ Concrete example:
 
 ## Source Roles
 
-- Chapter 00: Listener preface. Use this to orient the episode series.
+- Chapter 00: Podcast Factory Library preface. Use this to orient the episode series.
 - Chapters 01-06: Primary narrative and teaching chapters.
 - Chapter 07: Thematic epilogue and practical application guide.
 - Source and Editorial Notes: Use for source integrity, pronunciation, and theological review cautions.
@@ -126,7 +126,7 @@ The oath is not merely a sentence repeated by the tongue. It marks entry into re
 [Podcast Host Cue]
 Frame this as the episode's central question: Why does the book make covenant the doorway into deeper knowledge?
 
-[Listener Takeaway]
+[Podcast Factory Library Takeaway]
 The book treats knowledge as a trust, not as information available on demand.
 ```
 
@@ -194,18 +194,18 @@ Concrete example for Chapter 6:
 - Where does authoritative interpretation live after prophecy?
 ```
 
-### 6. Add Listener Difficulty Notes
+### 6. Add Podcast Factory Library Difficulty Notes
 
 Problem:
 Some chapters are much harder than others. Chapter 2 and Chapter 6 need special handling.
 
 Fix:
-Add a `Listener Difficulty` section.
+Add a `Podcast Factory Library Difficulty` section.
 
 Concrete example:
 
 ```md
-## Listener Difficulty
+## Podcast Factory Library Difficulty
 
 Difficulty: High
 
@@ -361,7 +361,7 @@ Add listener-fit notes.
 Concrete example:
 
 ```md
-## Listener Fit
+## Podcast Factory Library Fit
 
 This episode is for listeners who:
 - Want to understand Ismaili symbolic interpretation.
@@ -532,7 +532,7 @@ Improve:
 Concrete addition:
 
 ```md
-## Listener Objection
+## Podcast Factory Library Objection
 
 A modern listener may hear hierarchy as control. The host should clarify that the chapter presents hierarchy as disciplined responsibility under rightful guidance, not mere personality worship.
 ```
@@ -615,7 +615,7 @@ Improve:
 Concrete addition:
 
 ```md
-## Final Listener Examination
+## Final Podcast Factory Library Examination
 
 After this series, the listener should ask:
 - Am I seeking truth or relief from uncertainty?

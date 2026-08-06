@@ -26,7 +26,7 @@ is recognisable — see §7, where it is an active hazard right now.
 
 ## 2. What is actually deployed today
 
-Read from the API on 2026-08-03, after the Listener went live:
+Read from the API on 2026-08-03, after the Podcast Factory Library went live:
 
 | Kind | Name | Address | Notes |
 |---|---|---|---|
@@ -48,7 +48,7 @@ keychain (local development) or in Cloudflare's own secret store (production).
 | Keychain service | What it is | Used by |
 |---|---|---|
 | `cloudflare_api_token` | Account-scoped Cloudflare API token | `cf-deploy.sh`; any manual API call |
-| `listener_better_auth_secret` | Signs the Listener's session cookies | `listener/scripts/dev-vars.mjs` |
+| `listener_better_auth_secret` | Signs the Podcast Factory Library's session cookies | `listener/scripts/dev-vars.mjs` |
 | `safina_google_client_secret` | Google OAuth client secret for Safina sign-in | `listener/scripts/dev-vars.mjs` |
 
 ### Rules that apply to all three
@@ -115,7 +115,7 @@ but if a standalone record is ever needed, add **DNS: Edit** on the zone.
 
 R2 needs a one-time account opt-in in the dashboard before any bucket can exist;
 without it every create is refused with `10042`. Asif enabled it on 2026-08-03
-and the Listener's media went up the same day. The free tier is 10 GB of storage,
+and the Podcast Factory Library's media went up the same day. The free tier is 10 GB of storage,
 1M Class A and 10M Class B operations a month, and — the part that matters for
 audio — **no egress charge at all**. At 139 MB the library uses about 1.4% of the
 storage allowance.
@@ -165,7 +165,7 @@ the token needs no DNS write permission for the Pages path.
 Workers are different products with different APIs, and a Worker with static
 assets is not a Pages project.
 
-The **Podcast Factory Listener** (`listener/`) is a Worker, and it is deployed —
+The **Podcast Factory Library** (`listener/`) is a Worker, and it is deployed —
 live since 2026-08-03. It deploys with:
 
 ```bash
@@ -248,7 +248,7 @@ for s in cloudflare_api_token listener_better_auth_secret safina_google_client_s
     && echo "ok      $s" || echo "MISSING $s"
 done
 
-# The Listener's address resolves to Cloudflare.
+# The Podcast Factory Library's address resolves to Cloudflare.
 dig +short podcast-factory.safinaverse.com
 ```
 

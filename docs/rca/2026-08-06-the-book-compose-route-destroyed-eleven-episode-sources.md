@@ -31,7 +31,7 @@ narration framing, each the upload source for one NotebookLM episode — were
 absent from the working tree for 21 days. Every byte was recoverable from git for
 the whole period, so nothing was permanently lost and no shipped artifact
 regressed: the twenty episodes had already been recorded and are live on the
-Listener.
+Podcast Factory Library.
 
 The real cost was the gate. Twelve tests were red on `develop` for three weeks —
 eleven per-chapter regression baselines and one lane-separation test — which
