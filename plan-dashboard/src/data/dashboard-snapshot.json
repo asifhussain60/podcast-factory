@@ -1930,6 +1930,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "33c0d69",
+      "subject": "style(listener): the reading sheet is a leaf of paper, not a card",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "e6b2811",
+      "subject": "fix(listener): every control fits the screen it is on, at every viewport",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "2f2a442",
+      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
+      "date": "2026-08-06"
+    },
+    {
       "sha": "e3b61ca",
       "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
       "date": "2026-08-06"
@@ -1962,21 +1977,6 @@
     {
       "sha": "c8a6285",
       "subject": "fix(listener): the session heading leads with its title, and the row is a grid",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "fff54f7",
-      "subject": "docs(listener): what's new, for the episode list's note count",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "870c6d1",
-      "subject": "style(listener): the episode note count is a gold disc, not a blue pill",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "44586ac",
-      "subject": "feat(listener): the episode list says what you have kept in each episode",
       "date": "2026-08-06"
     }
   ],
