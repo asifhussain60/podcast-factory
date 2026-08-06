@@ -76,14 +76,15 @@
       "status": "running",
       "failed_slugs": [],
       "ts_started": "2026-08-06T18:32:19Z",
-      "current_chapter": "prayer-as-the-source-of-justice",
-      "last_beat": "2026-08-06T20:55:56Z",
+      "current_chapter": "pride-and-conscience",
+      "last_beat": "2026-08-06T21:12:48Z",
       "completed_slugs": [
         "ali-and-the-prophet",
         "dhikr-the-polish-for-hearts",
         "forgetting-the-self-and-the-name",
         "joy-virtue-and-the-hereafter",
-        "paradox-and-the-inner-struggle"
+        "paradox-and-the-inner-struggle",
+        "prayer-as-the-source-of-justice"
       ],
       "chapter_timings": {
         "ali-and-the-prophet": {
@@ -123,6 +124,13 @@
         },
         "prayer-as-the-source-of-justice": {
           "started_ts": "2026-08-06T20:42:40Z",
+          "completed_ts": "2026-08-06T21:01:00Z",
+          "duration_sec": 1100.5,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "pride-and-conscience": {
+          "started_ts": "2026-08-06T21:01:01Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -134,6 +142,6 @@
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260806T200100Z-41cc7d",
-  "ts_updated": "2026-08-06T20:55:56Z",
+  "ts_updated": "2026-08-06T21:12:48Z",
   "next_phase": "0literary"
 }
