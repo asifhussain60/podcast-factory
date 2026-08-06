@@ -1930,53 +1930,53 @@
   ],
   "recent_commits": [
     {
+      "sha": "281e6bd",
+      "subject": "fix(player,compose): the transcript follows, its \"+\" is reachable, and a held passage can be let go",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "6e9d97e",
+      "subject": "content(the-master-and-the-disciple): six chapters articulated, nineteen student-reader notes",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "b63c6b4",
+      "subject": "fix(companion): the pass does not ask twice, and it files where the reader looks",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "6bf7382",
+      "subject": "feat(compose): accept or delete a machine-filed note, on the Compose tab",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "98ce6ca",
+      "subject": "feat(companion): the student-reader driver — a model may notice, it may not select",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "d080f6a",
+      "subject": "feat(companion): the student-reader lane's rules, and a writer that cannot repeat 2026-07-28",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "86944bd",
+      "subject": "fix(book): the pipeline stops writing a second copy of the book",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "1bc3742",
+      "subject": "docs(plan): record the 2026-08-06 repo audit in the site-work status",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "ba09ab9",
+      "subject": "feat(plan-dashboard): implement REQ-010's reading floor, which was never gated",
+      "date": "2026-08-06"
+    },
+    {
       "sha": "6e653a7",
       "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "a4dfeda",
-      "subject": "fix(plan-dashboard): a 500 route, two clipped-popover families, and four missing focus rings",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "0a5a3ea",
-      "subject": "fix(plan-dashboard): the snapshot showed a phase from days ago, and two gates could not fail",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "5cfbbd4",
-      "subject": "fix(the-master-and-the-disciple): one answer for which prose route this book takes",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "5fa56c9",
-      "subject": "podcast(the-master-and-the-disciple): restore 11 episode sources the book route destroyed",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "6e17d9f",
-      "subject": "Merge Islamic/spiritual-ethos into develop",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "b9523bb",
-      "subject": "fix(repo): untrack plan-dashboard/node_modules — it is a machine-local symlink",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "086d5c2",
-      "subject": "Merge Islamic/the-master-and-the-disciple into develop",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "63d15db",
-      "subject": "docs(spiritual-ethos): a handoff brief that reads cold on another machine",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "7c6c18b",
-      "subject": "podcast(spiritual-ethos): stop cleanly at a 0d start point for handoff",
       "date": "2026-08-06"
     }
   ],
