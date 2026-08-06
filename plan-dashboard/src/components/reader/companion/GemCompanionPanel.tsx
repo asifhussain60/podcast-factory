@@ -222,6 +222,11 @@ export default function GemCompanionPanel({
     chapterContext: string;
     chapter: string;
   } | null>(null);
+  /** The held selection's text, mirrored into state so the panel can render it.
+   *  `lastSelectionRef` is a ref precisely so capturing a selection does not
+   *  re-render on every `selectionchange`; this is the one thing that must be
+   *  visible, so it is the one thing kept in state. */
+  const [held, setHeld] = useState("");
   const listRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
   /** Live cards by note id. The list is reconciled against this, never rebuilt. */
@@ -262,6 +267,27 @@ export default function GemCompanionPanel({
     onPendingRangeRef.current?.(range);
   }, []);
 
+  /** Let the passage go without explaining it.
+   *
+   *  The panel HOLDS a selection on purpose — `lastSelectionRef` keeps it alive
+   *  past the native selection so you can highlight a sentence and then click
+   *  into the box to type a question about it. The cost of that, until now, was
+   *  that there was no way out: clicking elsewhere collapses the native
+   *  selection but not the held one, so the tint stayed and the next Explain
+   *  would answer a passage you had moved on from. Pressing Explain was the only
+   *  release (Asif, 2026-08-06).
+   *
+   *  Collapses the native selection too. Leaving it would let the very next
+   *  `selectionchange` — a click, a caret move — re-capture the same passage and
+   *  put the tint straight back. */
+  const release = useCallback(() => {
+    lastSelectionRef.current = null;
+    setHeld("");
+    setPendingHighlight(null);
+    window.getSelection()?.removeAllRanges();
+    inputRef.current?.focus();
+  }, [setPendingHighlight]);
+
   // Capture the live prose selection as it happens, not just at submit time —
   // clicking into the textarea to type a question collapses `window.getSelection()`
   // (see readSelection's docs), so without this a highlight-then-type-a-question
@@ -272,6 +298,7 @@ export default function GemCompanionPanel({
       const picked = readSelection();
       if (!picked) return;
       lastSelectionRef.current = picked;
+      setHeld(picked.text);
       const sel = window.getSelection();
       setPendingHighlight(sel?.rangeCount ? sel.getRangeAt(0) : null);
     };
@@ -749,6 +776,7 @@ export default function GemCompanionPanel({
       setContext(picked.context);
       setInput("");
       lastSelectionRef.current = null;
+      setHeld("");
       setPendingHighlight(null);
       void explain(
         picked.text,
@@ -763,6 +791,7 @@ export default function GemCompanionPanel({
       setContext(picked.context);
       setInput("");
       lastSelectionRef.current = null;
+      setHeld("");
       setPendingHighlight(null);
       void explain(
         picked.text,
@@ -860,7 +889,29 @@ export default function GemCompanionPanel({
             </button>
           </div>
 
-          {context && (
+          {/* What is held right now, and the way to let it go. Shows the
+              passage itself rather than the words "a passage is selected": the
+              tint is in the chapter, which may be scrolled off screen, so the
+              panel has to be able to answer "selected WHAT" on its own. */}
+          {held && (
+            <p className="gcp-held">
+              <i className="fa-solid fa-highlighter" aria-hidden="true" />
+              <span className="gcp-held__text" title={held}>
+                {held}
+              </span>
+              <button
+                type="button"
+                className="gcp-held__clear"
+                onClick={release}
+                title="Let this passage go"
+                aria-label="Clear the selected passage"
+              >
+                <i className="fa-solid fa-xmark" aria-hidden="true" />
+              </button>
+            </p>
+          )}
+
+          {context && !held && (
             <p className="gcp-context" title={context}>
               <i className="fa-solid fa-quote-left" aria-hidden="true" />{" "}
               Grounding in the selected passage.
