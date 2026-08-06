@@ -940,9 +940,8 @@ function EpisodeNotes({
         type="button"
         onClick={() => player.openPanel("notes")}
         aria-label={label}
-        className="pf-row__meta pf-row__marks pf-row__marks--button"
+        className="pf-row__meta pf-row__marks--button"
       >
-        <Icon icon={faNoteSticky} />
         {kept}
       </button>
     );
@@ -952,9 +951,8 @@ function EpisodeNotes({
     <Link
       to={`/book/${slug}?tab=notes#ep-${number}`}
       aria-label={label}
-      className="pf-row__meta pf-row__marks pf-row__marks--button"
+      className="pf-row__meta pf-row__marks--button"
     >
-      <Icon icon={faNoteSticky} />
       {kept}
     </Link>
   );
