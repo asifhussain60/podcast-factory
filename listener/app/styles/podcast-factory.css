@@ -1790,8 +1790,11 @@
   .pf-session__head {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: var(--pf-space-3);
+    /* Baseline, not centre: the title is now much the larger of the two, and
+       centring hung the badge at the middle of its cap height rather than on
+       the line it belongs to. */
+    align-items: baseline;
+    gap: var(--pf-space-2) var(--pf-space-3);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
   }
@@ -1799,7 +1802,12 @@
   /* Drawn as a soft badge rather than plain tracked capitals. Five of these run
      down the podcast list and they are the only thing separating one group of
      episodes from the next; as grey small-caps they read as a caption on the
-     row beneath rather than as a divider above it. */
+     row beneath rather than as a divider above it.
+
+     It sits AFTER the title now and is deliberately the quieter of the two: the
+     ordinal is how a reader refers to a sitting afterwards, not what they scan
+     for. Baseline-aligned rather than centred, so a badge beside a title two
+     sizes larger sits on the words rather than floating at their mid-height. */
   .pf-session__label {
     display: inline-flex;
     align-items: center;
@@ -1817,10 +1825,32 @@
     letter-spacing: 0.16em;
   }
 
+  /* A basis, not `flex: 1` with `min-width: 0`.
+     The head has always been `flex-wrap: wrap`, but a title that may shrink to
+     nothing never reaches the point of wrapping: instead of dropping to its own
+     line it squeezed into whatever was left beside the badge and set itself two
+     or three words wide — on a 400px window, "The Treatise: Affirming the
+     Imamate" became a narrow column pressed against the pill (Asif, 2026-08-06).
+     With a basis the browser can see that the two do not fit, and the title
+     takes the next line at full width, which is what the wrap was there for.
+     18rem is about the narrowest a session title reads well at; above roughly
+     640px the pair still sits on one line exactly as before.
+
+     Set in the prose face at heading size, because it is now the heading: it
+     leads the group and the badge follows it. As `--pf-text-base` in the UI face
+     it was the same weight as the episode titles listed underneath it, so a
+     sitting's name did not read as standing over them. */
   .pf-session__title {
-    flex: 1;
-    min-width: 0;
-    font-size: var(--pf-text-base);
+    /* No GROW. With `flex-grow: 1` the title took the whole line at every width
+       and the badge wrapped underneath it always — technically not squeezed, but
+       the pair never sat together even on a 2560px window. Natural width, a
+       floor it may not shrink past, and the badge follows it directly.
+       `min()` so the floor cannot itself cause overflow on a 320px screen. */
+    flex: 0 1 auto;
+    min-width: min(18rem, 100%);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-lg);
+    line-height: 1.35;
     color: var(--l-ink);
   }
 
@@ -3763,19 +3793,34 @@
      text ran underneath the note count's pill, which is a row that has stopped
      being readable rather than one that is merely tight. Nothing is hidden —
      the same answer the player bar's own crowding got. */
+  /* A GRID on a phone, not a wrapping flex row.
+     Three flex attempts and three different failures, all from the same cause:
+     wrapping decides per ITEM, and the row's number is an item. `min-width: 0`
+     let the title shrink until its text ran under the note count; `flex: 1 1 60%`
+     fixed that but put every row on two lines whether it needed them or not; a
+     `min-width` floor with `basis: auto` then ORPHANED the number — a long title
+     moved to the second line on its own and set itself against the card's left
+     edge, under the number it belongs beside.
+
+     A grid cannot do any of that. The number and the title are placed in named
+     columns and stay there; the controls take the row beneath, aligned to the
+     title's own column rather than to the card. Nothing can overlap because
+     tracks do not overlap. */
   @media (max-width: 639px) {
     .pf-session__list .pf-row {
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: baseline;
+      column-gap: var(--pf-space-4);
+      row-gap: var(--pf-space-2);
     }
 
     .pf-session__list .pf-row__main {
-      /* Forces the wrap. With `flex: 1` and `min-width: 0` the title shrinks to
-         nothing instead, and flexbox never sees a reason to break the line. */
-      flex: 1 1 60%;
+      grid-column: 2;
     }
 
     .pf-session__list .pf-row__actions {
-      flex: 1 1 100%;
+      grid-column: 2;
       justify-content: flex-end;
     }
   }
