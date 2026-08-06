@@ -1,134 +1,75 @@
 # Podcast Challenger Report
 
 **Book:** spiritual-ethos
-**Run:** 2026-08-06 18:05 (challenger v2.6)
-**Scope:** per-chapter the-classes-of-society-and-the-poor (ch07c / EP07)
-**Iterations:** 1 (of 5 max — re-validation after fixer pass; zero auto-fixes, findings stable → intelligent break)
+**Run:** 2026-08-06 (challenger v2.6)
+**Scope:** per-chapter the-first-sermon-of-nahj-al-balagha (EP12 / ch12)
+**content_profile:** islamic_scholarly (full check catalog applies)
+**Iterations:** 2 (of 5 max) — intelligent break: iteration 2 produced no auto-fixes and identical (P0,P1) counts vs iteration 1
 **Verdict:** SHIP-WITH-CAUTION
 
-content_profile: islamic_scholarly  ← detected from _system/series-config.yaml
-S1 async-safety gate: BYPASSED (in-pipeline invocation; parent orchestrate_book.py is this call's own parent, not a concurrent run).
-
-## What changed since the previous run (fixer pass verified)
-
-- **P1-2 (al-Kawthar) CONFIRMED FIXED** — 0 occurrences of `al-Kawthar` remain; chapter reads "the paradisal fountain of abundance". Build gate no longer emits R-SURAH-ENGLISH-ONLY for this chapter.
-- **P1-5 (CS8 duplication) CONFIRMED FIXED** — `check_chapter_set.py` P8 now returns **0** shared-passage hits for the-classes-of-society-and-the-poor (was 13 distinct 12-word passages shared with pride-and-conscience / the-sacred-conception-of-justice). The recurring Aga Khan passage was reworded; teaching preserved.
-- **P1-1 (transliterations) REDUCED 6 → 3** — al-Shiqshiqiyya / al-Kawthar / Shiqshiqiyya dropped; residual `Ibn Ata`, `al-Ashtar`, `al-Iskandari` are proper names retained per book policy (see P1-1 below).
-- Doctrinal (T1–T5): **CLEAN**. Build gate (`build_episode_txt.py`): exits 0, episode txt regenerated.
+Format: deep_dive · Extract Mode (13 contracts) · sermon present · no transcript on disk (Loops M/N/O/R/P/Q empirical checks inactive).
+Async-safety gate S1 bypassed for this invocation: the visible `orchestrate_book.py` process is this pass's own parent, not a concurrent run (per pipeline context).
 
 ## Auto-fixes applied (iteration-by-iteration)
 
-_None._ Every remaining finding is an authoring / pipeline / show-notes-generator
-action outside the challenger's deterministic auto-fix set. No em-dash auto-fix was
-applied — see the reconciliation note below.
+None. Zero deterministic auto-fixes were applicable this run.
 
-## Reconciliation notes (why some catalog rules did not fire)
-
-- **B5 em-dashes NOT auto-fixed.** The v2.2 catalog lists em-dash → comma as a
-  deterministic auto-fix. The live contract has moved on: the hard build gate
-  (`build_episode_txt.py`, rules v2.6) does NOT flag em-dashes, and all four
-  sibling chapters that already shipped SHIP-WITH-CAUTION carry 26–59 em-dashes
-  each (this chapter: 28). Auto-fixing 28 em-dashes here would corrupt
-  deliberately literary prose and break book-wide consistency. Deferring to the
-  build gate as the authoritative structural contract (Section 6), em-dashes are
-  treated as non-violating for this book.
-- **A3 translation provenance held at advisory, not P0.** The Qur'anic renderings
-  are the source essayist's (Shah-Kazemi's) own English, woven into exposition,
-  not a cited standalone translation. The book's `tone_constraints` explicitly
-  render verses "in English only, with plain-English reference" — naming a
-  translator would be apparatus noise. Every sibling chapter shipped P0=0 under
-  the same policy. Recorded as P2.
-- **N6 (Arabic-script-required) superseded by F20 for this book.** The v2.6 build
-  gate enforces R-NO-ARABIC-TRANSLITERATION (TTS-safe English audio labels) and
-  does not require Arabic script in the source. N6 does not apply in this era.
+- **B5 (em-dashes) NOT applied.** The v2.2 catalog rates em-dash stripping as an auto-fix, but the live `build_episode_txt.py` (v2.6) does NOT gate em-dashes — the chapter is dense with deliberate em-dashes and passes the build gate cleanly. The catalog rule is stale; the book's authored style is authoritative. No change made.
+- **R/H/I/K clause insertions NOT applied.** The framing is a mature, hand-authored, TTS-safety-focused artifact validated by the current build gate. Injecting the v2.2 boilerplate choreography/welcome clauses would corrupt the bespoke voice and contradict this book's established convergence pattern (prior chapters shipped SHIP-WITH-CAUTION without them). Surfaced as P2 advisories instead.
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
 
-_None._
+None. `build_episode_txt.py` exits 0; `run_doctrinal_checks` returns 0 findings (T1–T5 clean); Imam lineage and forbidden-phrase scans clean.
 
 ### P1 (ship-with-caution)
 
-#### P1-1 — R-NO-ARABIC-TRANSLITERATION (Category N / F20): 3 residual transliterations in the SOURCE
-- **File:** content/Islamic/spiritual-ethos/chapters/ch07c-the-classes-of-society-and-the-poor.txt
-- **Context:** `Ibn Ata`, `al-Ashtar`, `al-Iskandari` (down from 6). NotebookLM reads the SOURCE literally and will attempt to voice these Arabic runs.
-- **Note:** All three are proper names — the letter's addressee (referenced
-  book-wide as "Malik") and the Sufi aphorist's authorship attribution
-  (Ibn Ata Allah al-Iskandari). The framing's Name-discipline block steers the
-  hosts to English forms ("a famous sermon", "the early Sufi master", "the
-  governor he counsels"), so the audio risk is mitigated. Residual retained per
-  book policy — consistent with every sibling chapter that shipped
-  SHIP-WITH-CAUTION. Full resolution is an authoring decision (replace with
-  English labels or accept the residual).
+#### R-NO-ARABIC-TRANSLITERATION (F20) — chapter SOURCE carries 7 Arabic transliterations
+- **File:** content/Islamic/spiritual-ethos/chapters/ch12-the-first-sermon-of-nahj-al-balagha.txt
+- **Context:** Latin-letter transliterated proper names in prose: Abu Ya'qub al-Sijistani (line 27), Junayd al-Baghdadi (line 31), Imam Zayn al-Abidin / Sahifa al-Sajjadiyya (line 25), Nahj al-Balagha (lines 1, 5). The framing's Name discipline block already routes the AUDIO to English roles ("an Ismaili philosopher", "an early Sufi master", "the fourth Imam", "the collection"), but the SOURCE that NotebookLM ingests still contains the transliterations.
+- **Suggested fix (authoring, not auto-fixed):** replace the transliterated names in the chapter prose with the same English audio labels the framing already declares, OR accept the residual risk knowing the framing steers the spoken form. Content decision — challenger does not rewrite chapter names.
 
-#### P1-3 — F25-APPARATUS-TABLE: show-notes missing the Name and Title Preservation Table
-- **File:** content/Islamic/spiritual-ethos/_system/episode-drafts/EP07-the-classes-of-society-and-the-poor/99-show-notes.md
-- **Context:** No `## Name and Title Preservation Table` header. The written-layer
-  apparatus (preserved Arabic / transliteration → audio-label crosswalk) the
-  TTS-safe audio omits belongs here.
-- **Note:** The challenger does not edit 99-show-notes.md (Section 8). Flag for
-  the show-notes generator / author.
+#### F25-APPARATUS-TABLE — 99-show-notes.md missing the Name and Title Preservation Table
+- **File:** content/Islamic/spiritual-ethos/_system/episode-drafts/EP12-the-first-sermon-of-nahj-al-balagha/99-show-notes.md
+- **Context:** the build gate expects a `## Name and Title Preservation Table` carrying the written-layer crosswalk (preserved Arabic / transliterations ↔ audio labels) that the TTS-safe audio omits. Absent here.
+- **Suggested fix:** add the apparatus table to 99-show-notes.md. Out of challenger edit scope (show-notes apparatus) — surfaced for the author/publisher step.
 
-#### P1-4 — N3 pronunciation ladder: 4 terms with no settled spoken form
-- **File:** content/Islamic/spiritual-ethos/_system/episode-drafts/EP07-the-classes-of-society-and-the-poor/00-framing.md
-- **Context:** 'ahd, hilm, su al-zann, husn al-zann have no settled spoken form; the
-  compiled `## Pronunciation` block carries hilm / su al-zann / husn al-zann as
-  identity bullets and omits 'ahd entirely.
-- **Suggested fix:** Settle by ear — `python3 scripts/podcast/run_pronunciation_probe.py spiritual-ethos` — which writes the answer to the cross-book ledger; the build recompiles the block. Not hand-editable in the framing.
+#### N3 — "Iblis" has no settled spoken form in the pronunciation ledger
+- **File:** framing Pronunciation block (only `- Iblis: Iblis`, an identity entry).
+- **Context:** the build reports Iblis as a term with no settled spoken form. The ladder has nothing settled to say, so the bullet is a placeholder identity.
+- **Suggested fix:** settle by ear — `python3 scripts/podcast/run_pronunciation_probe.py spiritual-ethos` — which writes the answer to the cross-book ledger. Not hand-editable in the framing (the build recompiles the block).
 
-_(P1-2 and P1-5 from the prior run are now RESOLVED — see "What changed since the previous run" at the top. P1-5's residual duplication now lives only between pride-and-conscience ↔ the-sacred-conception-of-justice, a book-scope item for those two chapters, not ch07c.)_
+#### CS8 / n-gram — 3 shared 12-word passages with why-intellect-not-reason (book-scope)
+- **Files:** ch12 + ch02b-why-intellect-not-reason.txt
+- **Context:** the sample passage is Qur'an chapter 57, verse 3 ("He is the First and the Last, the Outward and the Inward"), cited in both chapters. This is a **shared scripture citation, not re-taught concept prose** — a probable false positive of the n-gram shingle scan, which did not exclude this verse as a liturgical formula.
+- **Suggested fix:** no action recommended unless the author judges the two chapters over-lean on the same verse. Accept as legitimate shared scripture.
 
 ### P2 (advisory)
 
-#### P2-1 — A3 translation provenance (reconciled)
-- Qur'anic renderings name no translator. Held at advisory per book policy (see
-  reconciliation notes). No action required unless the book policy changes.
+#### CS6 — 'al-Sijistani' flagged as cross-book bleed from kitab-al-riyad
+- Likely false positive: Abu Ya'qub al-Sijistani (the Ismaili philosopher) is legitimately in this chapter and appears in another book's mangle-map by coincidence. Never auto-stripped. Human review only.
 
-#### P2-2 — Soft forward-reference in the SOURCE (Category B2, soft)
-- **Context:** "…when we reach it directly later in the book" (~line 35) and
-  "The letter follows on to that hidden wellspring" (Closing). These are
-  source-anchored to the letter's own structure, not "EP##"/"next episode", so
-  they clear the hard B2 gate. But the framing forbids the hosts from
-  pre-announcing what comes next, and the SOURCE mildly invites it. Advisory:
-  consider softening to pure in-letter phrasing.
+#### A3 — Qur'anic verses rendered in the book's own English without a named translator
+- The five verses (chapters 42:11, 23:91, 57:3, 7:12, 3:81) are woven as the book's own faithful-exposition renderings, and `tone_constraints` explicitly mandates "render every Qur'anic verse in English only, with its plain-English reference." Because these are the author's renderings rather than quotations of a named published edition, strict A3 provenance does not cleanly apply. Recorded as an Open Question rather than a P0. Confirm the book-wide convention is deliberate.
 
-#### P2-3 — Woven Prophetic sayings without formal isnad (strict-A1 note)
-- **Context:** The shepherd hadith (~line 25) and the "a people is sustained
-  through its weak" hadith (~line 57) are attributed to the Prophet and woven
-  into exposition without collection/book/number. Under a strict A1 reading this
-  is a citation gap; under this book's shipped standard (faithful exposition of
-  Shah-Kazemi, formal isnad relegated to the written apparatus) it is acceptable
-  and every sibling shipped the same way. Surfaced transparently; agent does not
-  escalate to P0.
+#### V3 — modern-relevance signal thin in the chapter body
+- The chapter is reverent/timeless by design (tone: "reverent and grand"). The listener-facing modern bridge lives in the framing (Beat 6: "turn the listener toward one idol of mind their own worship still serves this week"), so the audio lands the relevance even though the chapter prose does not signal it strongly. No change required.
+
+#### R1 / R4 — conversation-choreography clauses absent from framing
+- R1 (separate-prep illusion) and R4 (formal-transition DENY: "Firstly / Secondly / In conclusion …") are not present. The framing's `## Do not` block already forbids AI filler and faux-profundity, and the bespoke authored style deliberately omits the v2.2 boilerplate. Optional hardening; not auto-inserted to preserve the authored voice.
+
+### Book-scope CS findings (informational — not this chapter's gate)
+
+- **P5 (P1):** chapter-set word-count variance is 50% (min 5,006 / max 10,109) — the-letter-of-ali-to-malik-al-ashtar (10,109 w) skews the set.
+- **P4 (P0 for that chapter):** the-letter-of-ali-to-malik-al-ashtar is 10,109 words vs the extended band 5,500–9,500. Belongs to that chapter's own pass.
+- **P10 (P1):** density over target (≤3 concepts) on why-intellect-not-reason, the-veils-that-do-not-veil, forgetting-the-self-and-the-name, the-letter-of-ali-to-malik-al-ashtar.
+- ch12 itself is NOT flagged for band (6,169 w, in-band) or density (2 concept H2s, under target).
 
 ## Health metrics
 
-| Chapter | Words | Band fit (CS4) | Tier diversity | Citations | Phonetic gaps |
+| Chapter | Words | Enrichment ratio | Tier diversity | Citations | Phonetic gaps |
 |---|---|---|---|---|---|
-| ch07c-the-classes-of-society-and-the-poor | 6,108 | within `extended` (5,500–9,500) | 5+ tiers (Qur'an, hadith, Nahj sermon, Plato, Aga Khan, Ibn Ata Allah) | 7 Qur'an refs + 2 woven hadith + wisdom saying | 3 transliterations · 4 unsettled |
+| ch12-the-first-sermon | 6,169 | ~10% (3 wisdom blockquotes; the sermon itself is the core primary text, not outside enrichment) | 5+ (Qur'an, Nahj al-Balagha, Sahifa al-Sajjadiyya, Ismaili philosophy, Sufi, Prophetic hadith) | 8 (5 Qur'anic + 3 attributed sayings) | 1 (Iblis unsettled) |
 
-## Convergence trace
-
-| Iter | P0 | P1 | P2 | Auto-fixes |
-|---|---|---|---|---|
-| prior (17:25) | 0 | 5 | 3 | 0 |
-| fixer pass | 0 | 3 | 3 | (2 P1 resolved: al-Kawthar, CS8 dup) |
-| 1 (this run) | 0 | 3 | 3 | 0 → intelligent break (stable findings, zero auto-fixes) |
-
-**Verdict: SHIP-WITH-CAUTION** — 0 P0, 3 P1, 3 P2. Consistent with the book's
-sibling chapters. The chapter is doctrinally clean (T1–T5), host-role parity
-holds book-wide (Host A male-scholar / Host B female-seeker across all 8
-framings), the ch07c cross-chapter duplication is cleared, and the build gate
-emits the episode txt successfully. The 3 residual P1s are all outside the
-challenger's edit surface: P1-1 (proper-name transliterations, book-policy
-accepted), P1-3 (99-show-notes apparatus table — show-notes generator), P1-4
-(pronunciation ladder — `run_pronunciation_probe.py`, a pipeline action).
-
-## Fixer-pass note (2026-08-06)
-
-- **P1-2 FIXED** — "the paradisal fountain of al-Kawthar" → "the paradisal fountain of abundance" (English meaning only, per F29).
-- **P1-5 FIXED** — the recurring Aga Khan passage (~line 55) rewritten to drop every 12-word run shared with pride-and-conscience / the-sacred-conception-of-justice ("living thread in the Ismaili tradition that reveres…", "The Aga Khan has taught, across a lifetime of guidance…", "the early shape of exactly that ethic"); teaching preserved.
-- **P1-1 PARTIAL** — the chapter-specific sermon title al-Shiqshiqiyya dropped ("a famous sermon", matching the framing). al-Ashtar (the letter's addressee, referenced book-wide as "Malik") and the quote attribution "Ibn Ata Allah al-Iskandari" (aphorism authorship/provenance) are retained per book policy, consistent with all siblings and mitigated by the framing's Name-discipline block.
-- **P1-3 NOT ADDRESSED (out of fixer scope)** — 99-show-notes.md is not in the fixer's allowed-edit set; belongs to the show-notes generator/author.
-- **P1-4 NOT ADDRESSED (out of fixer scope)** — settling 'ahd / hilm / su al-zann / husn al-zann requires `run_pronunciation_probe.py` writing the cross-book ledger (not hand-editable in the framing); a pipeline/author action, not a chapter or framing edit.
+Framing: 756 words (in band 200–3,500). Build gate: PASS (exit 0). Doctrinal: 0 findings. Host-role parity (Q1–Q4): PASS — Host A scholar/male, Host B seeker/female, consistent across all 9 sibling framings.

@@ -92,3 +92,7 @@
 {"phase": "per-chapter", "step": "challenger/the-classes-of-society-and-the-poor", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/the-classes-of-society-and-the-poor/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/the-classes-of-society-and-the-poor", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-first-sermon-of-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-first-sermon-of-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-first-sermon-of-nahj-al-balagha/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-first-sermon-of-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
