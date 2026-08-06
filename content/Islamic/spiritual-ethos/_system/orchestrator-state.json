@@ -6,8 +6,8 @@
   "input_type": "page-images",
   "source_language": "en",
   "phase": "0d",
-  "phase_status": "completed",
-  "last_completed_phase": "0d",
+  "phase_status": "pending",
+  "last_completed_phase": "0ci",
   "last_error": null,
   "category": "books",
   "branch": "Islamic/spiritual-ethos",
@@ -46,13 +46,12 @@
       "ts_completed": "2026-08-05T21:21:20Z"
     },
     "0d": {
-      "status": "completed",
-      "ts_started": "2026-08-05T16:14:45Z",
-      "ts_completed": "2026-08-06T09:56:23Z"
+      "status": "running",
+      "ts_started": "2026-08-05T16:14:45Z"
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
-  "run_id": "20260806T095623Z-9b34e2",
-  "ts_updated": "2026-08-06T09:56:23Z",
+  "run_id": "20260806T095849Z-0367f9",
+  "ts_updated": "2026-08-06T09:58:49Z",
   "next_phase": "0e"
 }
