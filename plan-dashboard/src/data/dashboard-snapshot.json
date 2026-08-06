@@ -1930,6 +1930,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "6e20ba1",
+      "subject": "feat(companion): the student reader asks, the Ismaili Scholar answers",
+      "date": "2026-08-06"
+    },
+    {
       "sha": "c8a6285",
       "subject": "fix(listener): the session heading leads with its title, and the row is a grid",
       "date": "2026-08-06"
@@ -1972,11 +1977,6 @@
     {
       "sha": "8a16c30",
       "subject": "feat(companion): --top-up fills a chapter that came back short, without disturbing it",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "abfec89",
-      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
       "date": "2026-08-06"
     }
   ],
