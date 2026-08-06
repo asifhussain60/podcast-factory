@@ -77,6 +77,30 @@ def test_every_declared_defect_kind_passes_the_gate() -> None:
         assert ok, f"{kind}: {reasons}"
 
 
+# ─── chatter, and what is NOT chatter ────────────────────────────────────────
+def test_assistant_voice_is_dropped() -> None:
+    chatter = note("undefined-term", "the condensation of heat, and")
+    chatter["body"] = "As an AI I cannot judge this passage, but " + " ".join(["word"] * 30)
+    ok, reasons = gate_note(chatter, PROSE)
+    assert not ok
+    assert any("chatter" in r for r in reasons)
+
+
+def test_a_note_that_talks_about_the_passage_is_NOT_chatter() -> None:
+    """This lane's whole job is to talk about a passage.
+
+    The broader pattern borrowed from the teacher lane rejects 'the passage
+    above' and 'here is the' — measured on this book, that threw away every
+    candidate of a chapter for describing what it had read.
+    """
+    fine = note("ambiguous-referent", "the condensation of heat, and")
+    fine["body"] = "The passage above never says which of the two it means, and here is the difficulty: " + " ".join(
+        ["word"] * 25
+    )
+    ok, reasons = gate_note(fine, PROSE)
+    assert ok, reasons
+
+
 # ─── the anchor ──────────────────────────────────────────────────────────────
 def test_a_quote_that_is_not_in_the_chapter_is_dropped() -> None:
     ok, reasons = gate_note(note("undefined-term", "a sentence the book never printed"), PROSE)

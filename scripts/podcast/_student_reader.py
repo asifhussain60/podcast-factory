@@ -81,9 +81,14 @@ _MAX_BODY_WORDS = 220
 #: several places and the reader is shown a highlight that is not the passage.
 _MIN_QUOTE_WORDS = 4
 
-#: Model process-chatter that must never reach a card.
+#: Assistant-voice leakage that must never reach a card. Deliberately NARROWER
+#: than the equivalent in `_book_companion`: that one also rejects "the passage
+#: above" and "here is the", which are fine there and wrong here — this lane's
+#: entire job is to talk ABOUT a passage, so a note reading "the passage above
+#: never says which" is the product working, not chatter. Measured on this book:
+#: the broad pattern rejected every candidate of a chapter for saying so.
 _META_RE = re.compile(
-    r"\b(as an AI|I cannot|I'm unable|the passage above|in this task|as requested|here (?:is|are) the)\b",
+    r"\b(as an AI|as a language model|I cannot|I'm unable|I am unable|in this task|as requested)\b",
     re.I,
 )
 
