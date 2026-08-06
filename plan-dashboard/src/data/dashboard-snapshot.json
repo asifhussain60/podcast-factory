@@ -1930,6 +1930,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "a4dfeda",
+      "subject": "fix(plan-dashboard): a 500 route, two clipped-popover families, and four missing focus rings",
+      "date": "2026-08-06"
+    },
+    {
       "sha": "0a5a3ea",
       "subject": "fix(plan-dashboard): the snapshot showed a phase from days ago, and two gates could not fail",
       "date": "2026-08-06"
@@ -1972,11 +1977,6 @@
     {
       "sha": "c0eb364",
       "subject": "podcast(spiritual-ethos): clear the 0d design for a genuine re-run",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "08ace78",
-      "subject": "podcast(spiritual-ethos): phase 0d chapter design (tier=extended, unit=auto)",
       "date": "2026-08-06"
     }
   ],
