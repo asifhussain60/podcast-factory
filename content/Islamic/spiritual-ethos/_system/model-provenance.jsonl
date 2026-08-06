@@ -56,3 +56,8 @@
 {"phase": "0e", "step": "ch12-the-first-sermon-of-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0e", "step": "ch13-the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0e", "step": "ch13-the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/ali-and-the-prophet", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing-compress/ali-and-the-prophet", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/ali-and-the-prophet", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/ali-and-the-prophet/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/ali-and-the-prophet", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
