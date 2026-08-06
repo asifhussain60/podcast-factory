@@ -17,3 +17,4 @@ each chapter.
 - ch10b-the-veils-that-do-not-veil: ENRICHED at 2026-08-06 10:22:15 (in-place rewrite)
 - ch11c-forgetting-the-self-and-the-name: ENRICHED at 2026-08-06 10:32:11 (in-place rewrite)
 - ch12-the-first-sermon-of-nahj-al-balagha: ENRICHED at 2026-08-06 10:41:11 (in-place rewrite)
+- ch13-the-letter-of-ali-to-malik-al-ashtar: ENRICHED at 2026-08-06 10:54:28 (in-place rewrite)

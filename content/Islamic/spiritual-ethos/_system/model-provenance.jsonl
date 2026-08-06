@@ -55,3 +55,4 @@
 {"phase": "0e", "step": "ch11c-forgetting-the-self-and-the-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0e", "step": "ch12-the-first-sermon-of-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0e", "step": "ch13-the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch13-the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

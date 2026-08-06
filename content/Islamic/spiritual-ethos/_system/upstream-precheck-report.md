@@ -51,3 +51,6 @@ Deterministic shift-left checks on 0b/0e artifacts (flag-and-proceed — these n
 
 ## 0e:ch12-the-first-sermon-of-nahj-al-balagha
 - (clean) no findings
+
+## 0e:ch13-the-letter-of-ali-to-malik-al-ashtar
+- (clean) no findings
