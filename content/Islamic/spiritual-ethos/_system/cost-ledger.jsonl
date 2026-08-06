@@ -175,3 +175,9 @@
 {"ts": "2026-08-05T23:01:28Z", "phase": "0d", "step": "sc-004", "model": "claude-opus-4-8", "input_tokens": 26, "output_tokens": 33991, "cache_read": 1677351, "cache_create": 127741, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-05T23:19:13Z", "phase": "0d", "step": "sc-005", "model": "claude-opus-4-8", "input_tokens": 52, "output_tokens": 73678, "cache_read": 4496966, "cache_create": 187443, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-06T10:04:43Z", "phase": "0d", "step": "toc", "model": "claude-opus-4-8", "input_tokens": 23, "output_tokens": 24748, "cache_read": 1093228, "cache_create": 120254, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-06T10:36:15Z", "phase": "0d", "step": "toc", "model": "claude-opus-4-8", "input_tokens": 46, "output_tokens": 37640, "cache_read": 3589107, "cache_create": 261650, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-06T10:59:54Z", "phase": "0d", "step": "sc-001", "model": "claude-opus-4-8", "input_tokens": 833, "output_tokens": 51750, "cache_read": 3076670, "cache_create": 178829, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-06T11:22:06Z", "phase": "0d", "step": "sc-002", "model": "claude-opus-4-8", "input_tokens": 806, "output_tokens": 53508, "cache_read": 3831073, "cache_create": 188783, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-06T11:49:12Z", "phase": "0d", "step": "sc-003", "model": "claude-opus-4-8", "input_tokens": 154, "output_tokens": 104621, "cache_read": 16040109, "cache_create": 238214, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-06T12:00:19Z", "phase": "0d", "step": "sc-004", "model": "claude-opus-4-8", "input_tokens": 44, "output_tokens": 43381, "cache_read": 2976181, "cache_create": 132311, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-06T12:17:11Z", "phase": "0d", "step": "sc-005", "model": "claude-opus-4-8", "input_tokens": 4045, "output_tokens": 64162, "cache_read": 5133726, "cache_create": 162784, "cost_usd": 0.0, "engine": "max"}
