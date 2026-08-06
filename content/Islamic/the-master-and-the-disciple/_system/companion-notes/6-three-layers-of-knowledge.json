@@ -1,6 +1,24 @@
 {
   "slug": "the-master-and-the-disciple",
   "chapter": "6-three-layers-of-knowledge",
-  "notes": [],
-  "updatedAt": null
+  "notes": [
+    {
+      "id": "student:4c008018cc7f429e",
+      "kind": "question",
+      "body": "The chapter builds toward this on its own: the Master tells the boy to hold fast \"until you are guided by a rope from God to the rope of God.\" So there are apparently two different ropes, and the boy sensibly asks which is which. But then the Imam is called only \"its outward sign\" — the sign of something else — and when the boy asks the direct question, the answer is \"That is the end of your guidance and the utmost of the worlds,\" which names neither rope. I am left unable to tell what the rope of God is as opposed to the rope from God, even though the whole passage turns on their being two things. The distinction is used to guide the boy and then withheld from him, and from me.",
+      "anchor": "two ropes never distinguished",
+      "quote": "Then what is the rope of God, and what is the rope that comes from God?",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "ambiguous-referent"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:53:46Z",
+      "updatedAt": "2026-08-06T13:53:46Z"
+    }
+  ],
+  "updatedAt": "2026-08-06T13:53:46Z",
+  "studentReaderFingerprint": "0f6b508556bddedb"
 }

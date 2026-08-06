@@ -1859,10 +1859,8 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 14.42
+    "burn_30d_usd": 27.78
   },
-  "generated_at": "2026-08-03T18:17:37-04:00",
-  "source_commit": "9893073",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1879,15 +1877,15 @@
       "phase": "per-chapter",
       "phase_status": "failed",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "technical"
     },
     {
       "slug": "degrees-of-excellence",
-      "title": "degrees-of-excellence",
-      "phase": "per-chapter-slides",
-      "phase_status": "running",
+      "title": "Degrees of Excellence",
+      "phase": "0book-render",
+      "phase_status": "completed",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "islamic_scholarly"
     },
     {
       "slug": "healthequity",
@@ -1895,11 +1893,11 @@
       "phase": "per-chapter",
       "phase_status": "manual-complete",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "consumer_explainer"
     },
     {
       "slug": "kunooz-al-hikmah",
-      "title": "kunooz-al-hikmah",
+      "title": "Kunooz al Hikmah",
       "phase": "finalize",
       "phase_status": "halted",
       "cost_to_date_usd": 0,
@@ -1907,71 +1905,79 @@
     },
     {
       "slug": "mukhtasar-ul-asar-2",
-      "title": "mukhtasar-ul-asar-2",
+      "title": "Mukhtasar ul Asar 2",
       "phase": "preflight",
       "phase_status": "pending",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "islamic_scholarly"
+    },
+    {
+      "slug": "spiritual-ethos",
+      "title": "Spiritual Ethos",
+      "phase": "0d",
+      "phase_status": "pending",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_scholarly"
     },
     {
       "slug": "the-master-and-the-disciple",
-      "title": "the-master-and-the-disciple",
+      "title": "The Master and the Disciple",
       "phase": "0book-render",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "islamic_scholarly"
     }
   ],
   "recent_commits": [
     {
-      "sha": "9893073",
-      "subject": "feat(listener): the library gets a heading, a search box and an order",
-      "date": "2026-08-03"
+      "sha": "6e653a7",
+      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
+      "date": "2026-08-06"
     },
     {
-      "sha": "02c2d6e",
-      "subject": "style(listener): a hero, a way out, and Arabic that carries a title",
-      "date": "2026-08-03"
+      "sha": "a4dfeda",
+      "subject": "fix(plan-dashboard): a 500 route, two clipped-popover families, and four missing focus rings",
+      "date": "2026-08-06"
     },
     {
-      "sha": "f11f454",
-      "subject": "fix(book): Arabic replaces a romanization only when it is one, and only when a reviewer has said so",
-      "date": "2026-08-03"
+      "sha": "0a5a3ea",
+      "subject": "fix(plan-dashboard): the snapshot showed a phase from days ago, and two gates could not fail",
+      "date": "2026-08-06"
     },
     {
-      "sha": "46ab27f",
-      "subject": "style(listener): one stylesheet, and brand assets derived from the logo",
-      "date": "2026-08-03"
+      "sha": "5cfbbd4",
+      "subject": "fix(the-master-and-the-disciple): one answer for which prose route this book takes",
+      "date": "2026-08-06"
     },
     {
-      "sha": "011bbb4",
-      "subject": "feat(book): source medium is a declared property, and speech is not a missing scan",
-      "date": "2026-08-03"
+      "sha": "5fa56c9",
+      "subject": "podcast(the-master-and-the-disciple): restore 11 episode sources the book route destroyed",
+      "date": "2026-08-06"
     },
     {
-      "sha": "c1d02f5",
-      "subject": "fix(glossary): a book may only lend Arabic its own scan proves",
-      "date": "2026-08-03"
+      "sha": "6e17d9f",
+      "subject": "Merge Islamic/spiritual-ethos into develop",
+      "date": "2026-08-06"
     },
     {
-      "sha": "a36993c",
-      "subject": "fix(book): the Replace-with-Arabic button works inline, and every book's glossary is harvested",
-      "date": "2026-08-03"
+      "sha": "b9523bb",
+      "subject": "fix(repo): untrack plan-dashboard/node_modules — it is a machine-local symlink",
+      "date": "2026-08-06"
     },
     {
-      "sha": "f061086",
-      "subject": "style(listener): every declaration is in a stylesheet, and a session title stops wrapping under its own label",
-      "date": "2026-08-03"
+      "sha": "086d5c2",
+      "subject": "Merge Islamic/the-master-and-the-disciple into develop",
+      "date": "2026-08-06"
     },
     {
-      "sha": "4ba720b",
-      "subject": "feat(book): romanization out, Arabic script in — the third inline-Arabic operation",
-      "date": "2026-08-03"
+      "sha": "63d15db",
+      "subject": "docs(spiritual-ethos): a handoff brief that reads cold on another machine",
+      "date": "2026-08-06"
     },
     {
-      "sha": "604440f",
-      "subject": "feat(listener): twenty episodes in five sessions, and one command to ship them",
-      "date": "2026-08-03"
+      "sha": "7c6c18b",
+      "subject": "podcast(spiritual-ethos): stop cleanly at a 0d start point for handoff",
+      "date": "2026-08-06"
     }
   ],
   "wave_execution_events": [],

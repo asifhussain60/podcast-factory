@@ -42,6 +42,8 @@ export interface CardNote {
    *  declined and the row renders exactly as before. Server-computed only. */
   morphology?: (EtymologyMorphology | null)[];
   source?: { provider: string; label?: string; ref?: string };
+  /** Absent = kept. Only `"proposed"` renders the badge and the keep button. */
+  review?: "proposed" | "kept";
 }
 
 export interface CardEdit {
@@ -61,6 +63,10 @@ export interface CardOptions {
   onSave?: (id: string, edit: CardEdit) => Promise<void> | void;
   /** Delete capability: a trash button in the header. Omitted by the reader. */
   onRemove?: (id: string) => void;
+  /** Accept capability: a keep button, shown ONLY on a note still marked
+   *  `review: "proposed"`. Omitted by the reader, like the two above — a reading
+   *  pass judges nothing. */
+  onAccept?: (id: string) => void;
 }
 
 /** What a host holds onto. */
@@ -189,6 +195,18 @@ export function renderExplanationCard(
       note.source.ref ||
       sourceProvider(note.source.provider).label;
     meta.append(src);
+  }
+  // A note the machine filed and nobody has read yet says so, ON THE CARD.
+  // Without this the whole set reads as approved the moment it is written, which
+  // is the failure that withdrew automatic authoring on 2026-08-02: a hundred
+  // explanations no human had looked at, indistinguishable from his own.
+  // ABSENT `review` means kept, so every note written before today and every
+  // note he types himself is unmarked — the badge appears only where it is true.
+  if (note.review === "proposed") {
+    const flag = document.createElement("span");
+    flag.className = "xpl-proposed";
+    flag.textContent = "Unreviewed";
+    meta.append(flag);
   }
 
   // ONE identifier, not two. The panel titles a filed note with a truncation of
@@ -547,6 +565,20 @@ export function renderExplanationCard(
       });
     });
     card.append(del);
+  }
+
+  // Accept — the other half of accept-or-delete, and it exists ONLY while there
+  // is something to accept. Sits beside delete, unconfirmed: keeping a note is
+  // reversible (delete is still there) and a dialog on a reversible act that may
+  // be used thirty times in one pass is friction, not safety. Requires onSave
+  // for the same reason delete requires onRemove — a reading pass mounts neither.
+  if (note.review === "proposed" && opts.onAccept) {
+    const keep = iconButton("xpl-keep", "fa-check", "Keep this explanation");
+    keep.addEventListener("click", (e) => {
+      e.stopPropagation();
+      opts.onAccept?.(note.id);
+    });
+    card.append(keep);
   }
 
   // ── the editor, and the one thing it must never do ───────────────────────

@@ -15,6 +15,7 @@ import {
   readChapter,
   upsertNote,
   reanchorNote,
+  acceptNote,
   deleteNote,
   listChapters,
 } from "../../../lib/reader/companion/store.server";
@@ -88,17 +89,38 @@ export const POST: APIRoute = async ({ request }) => {
 /** Re-point a note at the wording its passage now carries. Quote only — the
  *  Composer's write-back after an explained sentence is edited and saved. */
 export const PATCH: APIRoute = async ({ request }) => {
-  let body: { slug?: string; chapter?: string; id?: string; quote?: string };
+  let body: {
+    slug?: string;
+    chapter?: string;
+    id?: string;
+    quote?: string;
+    review?: string;
+  };
   try {
     body = await request.json();
   } catch {
     return apiError("Invalid JSON");
   }
-  const { slug, chapter, id, quote } = body;
+  const { slug, chapter, id, quote, review } = body;
   if (!slug || !SLUG_RE.test(slug)) return apiError("Missing or invalid slug");
   if (!chapter || !CHAPTER_KEY_RE.test(chapter))
     return apiError("Missing or invalid chapter");
   if (!id || typeof id !== "string") return apiError("Missing note id");
+  // Accepting shares PATCH with re-anchoring because both are the same kind of
+  // request -- one field of one known note -- and both go through a write that
+  // touches only that field. `review` is the only accepted value: "kept" is a
+  // judgement a person makes, and there is deliberately no route back to
+  // "proposed", which only the pass that filed the note may set.
+  if (review !== undefined) {
+    if (review !== "kept") return apiError("review may only be set to 'kept'");
+    try {
+      const accepted = acceptNote(slug, chapter, id);
+      if (!accepted) return apiError("Unknown note id");
+      return apiOk(withMorphology(accepted));
+    } catch (e) {
+      return apiServerError(String(e));
+    }
+  }
   if (typeof quote !== "string") return apiError("Missing quote");
   try {
     const saved = reanchorNote(slug, chapter, id, quote);

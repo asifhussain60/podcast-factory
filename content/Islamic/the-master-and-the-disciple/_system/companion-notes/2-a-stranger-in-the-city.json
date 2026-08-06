@@ -1,6 +1,24 @@
 {
   "slug": "the-master-and-the-disciple",
   "chapter": "2-a-stranger-in-the-city",
-  "notes": [],
-  "updatedAt": null
+  "notes": [
+    {
+      "id": "student:135e34ac8df32ed4",
+      "kind": "question",
+      "body": "After a long, exalted description of a knowledge that is protected, concealed, crowned with covenants, and unreachable by the schemes of schemers, the sentence turns abruptly: \"Then, by ignorance and by want, He compelled minds to seek knowledge and capacity.\" I stopped here. Nothing before it prepared me for ignorance and want as the mechanism, and the chapter does not explain how being kept in ignorance would compel a mind toward seeking, or how that squares with the knowledge just described as guarded and hidden from seekers. It reads as a hinge the argument turns on, but the hinge itself is stated and never shown.",
+      "anchor": "ignorance compels seeking",
+      "quote": "by ignorance and by want, He compelled minds to seek knowledge",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "unexplained-leap"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:42:46Z",
+      "updatedAt": "2026-08-06T13:42:46Z"
+    }
+  ],
+  "updatedAt": "2026-08-06T13:42:46Z",
+  "studentReaderFingerprint": "59e225af0d5fc532"
 }

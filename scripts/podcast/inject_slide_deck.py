@@ -13,14 +13,12 @@ Two consumers:
 Mechanics:
   1. Extract deck pages to slide-decks/_pages/<key>/page-NN.jpg via pdftoppm
      (poppler — installed; no pip dependency; JPEG q85 — PNG balloons the PDF).
-  2. Read book/book-illustrated.md (or book/book.md), strip previously injected
-     slide figures, re-inject one <figure class="book-diagram book-slide"> per
-     anchored slide at the paragraph containing its verbatim anchor_text —
-     by default BEFORE that paragraph (the slide precedes the passage that
-     explains it). Anchor-and-insert mechanics, hardened: a missing OR
-     ambiguous anchor fails loudly naming the slide_id.
-  3. Write book/book-slides.md. build_book_pdf.py prefers it over
-     book-illustrated.md/book.md. book.md / book-illustrated.md never mutated.
+  2. Read book/book.md, strip previously injected slide figures, re-inject one
+     <figure class="book-diagram book-slide"> per anchored slide at the paragraph
+     containing its verbatim anchor_text — by default BEFORE that paragraph (the
+     slide precedes the passage that explains it). Anchor-and-insert mechanics,
+     hardened: a missing OR ambiguous anchor fails loudly naming the slide_id.
+  3. Write book/book-slides.md. book.md is never mutated.
 
 MANIFEST entries:
   {"slide_id": "ch01-s02", "page": 2, "title": "...",
@@ -266,15 +264,21 @@ def inject_slides(
 
 
 def injection_source(book_dir: Path) -> Path:
-    """The markdown the figures are injected into (and anchors validated against)."""
-    src = book_dir / "book" / "book-illustrated.md"
-    if not src.exists():
-        src = book_dir / "book" / "book.md"
+    """The markdown the figures are injected into (and anchors validated against).
+
+    ALWAYS book.md — the same file `build_book_pdf._pick_book_md` renders, for the
+    same reason. This used to prefer `book-illustrated.md`, which was the last
+    reader of that retired v1 artifact: on a book carrying a stale copy it
+    validated deck anchors against prose that was weeks behind the real edition
+    and, on the-master-and-the-disciple, missing a chapter outright. Anchors must
+    be checked against the text a reader will actually see.
+    """
+    src = book_dir / "book" / "book.md"
     if not src.exists():
         raise AuthoringError(
             phase=_PHASE,
-            message=f"no book/book-illustrated.md or book/book.md in {book_dir.name}",
-            manual_fallback="Run 0book-compose (and 0book-illustrate) first.",
+            message=f"no book/book.md in {book_dir.name}",
+            manual_fallback="Run 0book-compose first.",
         )
     return src
 

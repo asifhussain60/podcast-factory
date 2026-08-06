@@ -15,13 +15,16 @@
  * Steps 1 and 3 are best-effort by construction: each returns the input unchanged
  * on any failure, so a card is never lost to an enrichment step.
  *
- * Body: { gem?, concept, context?, bookTitle?, model?, ground?: boolean, maxWords?: number }
+ * Body: { gem?, concept, context?, bookTitle?, model?, ground?: boolean, maxWords?: number, question?: string }
+ *   `question`, when given, is a reader-typed ask ABOUT `concept` (usually the
+ *   selected passage) — the answer targets that question instead of generically
+ *   explaining `concept`.
  * Returns: { ok, body: string, etymology: string[], grounded: number, source: 'gemini' }
  */
 
 import type { APIRoute } from "astro";
 import { rateLimitCheck } from "../../../lib/reader/gemini-server";
-import { runGemConcept } from "../../../lib/reader/gems/engine";
+import { runGemConcept, runGemQuestion } from "../../../lib/reader/gems/engine";
 import {
   groundingFor,
   groundingBlock,
@@ -67,7 +70,10 @@ export const POST: APIRoute = async ({ request }) => {
       model,
       ground,
       maxWords,
+      question,
     } = await request.json();
+    const askedQuestion =
+      typeof question === "string" && question.trim() ? question.trim() : "";
     if (typeof concept !== "string" || !concept.trim()) {
       return new Response(
         JSON.stringify({ ok: false, error: "missing concept" }),
@@ -98,15 +104,25 @@ export const POST: APIRoute = async ({ request }) => {
 
     let result;
     try {
-      result = await runGemConcept({
-        gemId: gem,
-        concept: concept.trim(),
-        context: grounded,
-        chapterContext:
-          typeof chapterContext === "string" ? chapterContext : undefined,
-        bookTitle,
-        model,
-      });
+      result = askedQuestion
+        ? await runGemQuestion({
+            gemId: gem,
+            question: askedQuestion,
+            context: grounded,
+            chapterContext:
+              typeof chapterContext === "string" ? chapterContext : undefined,
+            bookTitle,
+            model,
+          })
+        : await runGemConcept({
+            gemId: gem,
+            concept: concept.trim(),
+            context: grounded,
+            chapterContext:
+              typeof chapterContext === "string" ? chapterContext : undefined,
+            bookTitle,
+            model,
+          });
     } catch (e) {
       const msg = (e as Error).message;
       if (msg.startsWith("unknown_gem:")) {

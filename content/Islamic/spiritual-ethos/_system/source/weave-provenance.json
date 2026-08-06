@@ -1,0 +1,442 @@
+{
+  "chapters": {
+    "1": {
+      "chapter": 1,
+      "title": "Introducing Ali (\u0639) and his Spiritual Ethos",
+      "sessions_offered": [
+        "The Spiritual Heart",
+        "Reason vs Intellect",
+        "Centrality Of Revelation",
+        "Harmonizing Intellect With Revelation",
+        "The Spirit Of The Intellect",
+        "What Is Spiritual Knowledge?"
+      ],
+      "windows": [
+        {
+          "window": 1,
+          "status": "woven",
+          "base_words": 1691,
+          "woven_words": 1870,
+          "lecture_words_offered": 6043,
+          "notes": "USED: The Spiritual Heart\nADDED: The Arabic originals the book's English-only passage lacked \u2014 the full script of Qur'an 68:4 and 33:6 (the latter quoted in full), the Arabic of the three Prophetic sayings (ka-nafsi, anta minn\u012b wa ana minka, and Ali-with-the-Qur'an), the term \u0645\u0648\u0627\u062f for \"substance,\" and the Arabic text of the Imam's sermon set beside its translation."
+        },
+        {
+          "window": 2,
+          "status": "woven",
+          "base_words": 1776,
+          "woven_words": 1796,
+          "lecture_words_offered": 5971,
+          "notes": "USED: The Spiritual Heart, Reason vs Intellect\nADDED: The lecture supplied the Arabic-script form of three hadith the book gives only in transliteration or English \u2014 'Ali is with the Qur'an', 'You are from me and I am from you', and the ta'wil/tanzil saying \u2014 folded beside the book's own wording."
+        },
+        {
+          "window": 3,
+          "status": "woven",
+          "base_words": 1380,
+          "woven_words": 1586,
+          "lecture_words_offered": 6014,
+          "notes": "USED: Reason vs Intellect\nADDED: The Latin etymologies of intellectus ('understanding' / to 'stand under' a perception) and ratio (a comparison between two numbers, i.e. binary logic), the point that reason is the tool the intellect employs, the knowledge-versus-direct-experience distinction, and the Arabic coinage \u27eaar:\u0627\u0644\u0631\u0648\u062d \u0627\u0644\u0639\u0642\u0644\u27eb for the spirit of the intellect."
+        },
+        {
+          "window": 4,
+          "status": "woven",
+          "base_words": 1800,
+          "woven_words": 2095,
+          "lecture_words_offered": 6049,
+          "notes": "USED: Reason vs Intellect, The Spirit Of The Intellect\nADDED: The lecture supplied the Arabic script of the two Prophetic sayings and of Q 41:53, the names of the three battles (Nahrawan and Siffin), the reason a numerical 'one' fails (it admits a 'two', 'three'\u2026), the clarification that 'no otherness' means nothing bears His likeness, the Arabic of ta'wil as return to the awwal, and the plainer point that reflection discloses rather than confines the text's meaning."
+        },
+        {
+          "window": 5,
+          "status": "woven",
+          "base_words": 1773,
+          "woven_words": 2070,
+          "lecture_words_offered": 6041,
+          "notes": "USED: The Spirit Of The Intellect, Reason vs Intellect\nADDED: Plain-language glosses the book states densely \u2014 the reminder/primordial-testimony framing and amnesia image for why intellect and revelation share one source, the farmer/miner/diver picture of the messengers unearthing buried treasures, the Arabic terms \u0628\u0635\u0627\u0631\u06c3 / \u0628\u0635\u06cc\u0631\u06c3 and \u0642\u0644\u0628 for the heart's sight-versus-insight, and hadd (\u062d\u062f) as the boundary reason draws through pros and cons."
+        },
+        {
+          "window": 6,
+          "status": "woven",
+          "base_words": 1736,
+          "woven_words": 1961,
+          "lecture_words_offered": 5971,
+          "notes": "USED: The Spirit Of The Intellect, What Is Spiritual Knowledge?\nADDED: The lecture supplied the Arabic script for the first-sermon creation-of-Adam passage and for the discourse to Kumayl, the Qur'anic Arabic of 32:9, the Arabic citation for \"puts all things in their proper place,\" and plain glosses the book leaves out \u2014 the fully-formed body that could not perceive until the spirit was breathed in, hamaj as the moth drawn to any flame, and the heart-vessels as containers for knowledge."
+        },
+        {
+          "window": 7,
+          "status": "woven",
+          "base_words": 1668,
+          "woven_words": 2272,
+          "lecture_words_offered": 6059,
+          "notes": "USED: What Is Spiritual Knowledge?\nADDED: The lecture supplied the Quran verse 3:19 (with its Arabic) on submission as religion's unchanging essence, the din/dayn debt gloss on ma'rifat al-'ilm, the battle-line and chessboard picture behind hajama, the zahir/batin chest-and-heart reading of the Imam's gesture, and tahqiq as the striving that reaches the meaning \u2014 none present in the book."
+        },
+        {
+          "window": 8,
+          "status": "woven",
+          "base_words": 1639,
+          "woven_words": 1673,
+          "lecture_words_offered": 6028,
+          "notes": "USED: none\nADDED: none \u2014 the lecture sessions supplied cover the reason/intellect distinction, the ruh, tanzil/tawil, the spiritual heart and the idols of the world, all of which belong to other parts of the chapter; none of them tracks this passage's arc from hawa and hidden idolatry through tawhid, ikhlas and worship, so nothing was folded in."
+        },
+        {
+          "window": 9,
+          "status": "woven",
+          "base_words": 1721,
+          "woven_words": 1747,
+          "lecture_words_offered": 6025,
+          "notes": "USED: The Spirit Of The Intellect\nADDED: The lecture's definition of how the heart 'sees' God \u2014 through spiritual insight (\u27eaar:\u0628\u0635\u06cc\u0631\u06c3\u27eb) rather than eyesight (\u27eaar:\u0628\u0635\u0627\u0631\u06c3\u27eb), generated by the true principles of faith (\u27eaar:\u062d\u0642\u0627\u0626\u0642 \u0627\u0644\u0627\u06cc\u0645\u0627\u0646\u27eb) \u2014 folded into the book's undefined clause about the heart that has access to the reality of insight."
+        },
+        {
+          "window": 10,
+          "status": "woven",
+          "base_words": 1747,
+          "woven_words": 1796,
+          "lecture_words_offered": 6017,
+          "notes": "USED: The Spirit Of The Intellect\nADDED: The lecture supplied the Imam's explicit definition of the 'aqil (\u0627\u0644\u0639\u0627\u0642\u0644 \u0645\u0646 \u0648\u0636\u0639 \u0634\u0626\u06cc \u062d\u0642 \u0645\u062d\u0644\u06c1 \u2014 he who puts each thing in its proper place), a term the book uses without defining, and its plainer gloss that being 'spiritual' means being true to one's intellect rather than only to reason's surface."
+        },
+        {
+          "window": 11,
+          "status": "woven",
+          "base_words": 1718,
+          "woven_words": 1713,
+          "lecture_words_offered": 5962,
+          "notes": "USED: none\nADDED: nothing \u2014 the supplied lecture sessions treat the anatomy of the soul, the spirit of the intellect, reason vs intellect, the primordial covenant and the penetration of words to esoteric knowledge, all of which belong to a different chapter than this passage on zuhd, the sincere testimony, fana', pure prayer and the Hereafter; nothing in them restates or supplements this material without going where the passage never goes, so nothing was folded in."
+        },
+        {
+          "window": 12,
+          "status": "woven",
+          "base_words": 632,
+          "woven_words": 631,
+          "lecture_words_offered": 5958,
+          "notes": "USED: none\nADDED: nothing \u2014 the supplied lecture sessions (spirit of the intellect, spiritual knowledge, the discourse to Kumayl, the spiritual heart, reason vs intellect) treat other chapters' material and nowhere restate or supplement this passage's argument on the Hereafter, paradisal bliss, and ihsan, so none was folded in."
+        }
+      ],
+      "base_words": 19281,
+      "woven_words": 21210,
+      "status": "woven"
+    },
+    "2": {
+      "chapter": 2,
+      "title": "A Sacred Conception of Justice in the Letter of Ali (\u0639) to Malik al-Ashtar",
+      "sessions_offered": [
+        "Concept Of Justice",
+        "Beauty Of Justice",
+        "Subtle Polytheism",
+        "Waging War Against Allah",
+        "Good Opinion Of Allah"
+      ],
+      "windows": [
+        {
+          "window": 1,
+          "status": "woven",
+          "base_words": 1679,
+          "woven_words": 2474,
+          "lecture_words_offered": 5803,
+          "notes": "USED: Concept Of Justice\nADDED: Plain definitions of relativism, nihilism, utilitarianism and opportunism; the truth-telling example illustrating ad hoc virtue; the sharia body-and-spirit analogy; \u0627\u0644\u0642\u062f\u0633, \u0628\u0627\u0637\u0646 and the \u0627\u0633\u0644\u0627\u0645/\u0627\u06cc\u0645\u0627\u0646/\u0627\u062d\u0633\u0627\u0646 triad; the full Surah al-Falaq verse in Arabic with translation; and the Arabic wording of the Imam's definition of justice."
+        },
+        {
+          "window": 2,
+          "status": "woven",
+          "base_words": 1574,
+          "woven_words": 1757,
+          "lecture_words_offered": 5819,
+          "notes": "USED: Beauty Of Justice\nADDED: The lecture supplied the Arabic script for the hadith of Gabriel and for the key terms (dhikr, ihsan, husn/qubh, Nahj al-Balagha, al-Haqq, al-muhsinin, nafs, sujud, Iblis, and the description of Satan), a plainer restatement of remembrance/dhikr and of the worship-virtue link, the prostration image of self-effacement in prayer, and a plain definition of bigotry."
+        },
+        {
+          "window": 3,
+          "status": "woven",
+          "base_words": 1752,
+          "woven_words": 1894,
+          "lecture_words_offered": 5815,
+          "notes": "USED: Concept Of Justice\nADDED: The lecture supplied a plainer on-ramp (the everyday dictionary sense of justice as fairness/equality) and the sharpened point that justice is not merely one attribute among God's attributes but His very essence, from which mercy, wrath, love, creating and destroying all flow."
+        },
+        {
+          "window": 4,
+          "status": "woven",
+          "base_words": 1766,
+          "woven_words": 2133,
+          "lecture_words_offered": 5864,
+          "notes": "USED: Good Opinion Of Allah, Beauty Of Justice\nADDED: a plain definition of ihsan (worshipping God as though you see Him, knowing He sees you) at the point the book only names the \"ihsani tradition\", plus the emulation-within-servitude framing that makes the book's claim concrete \u2014 the mirror/inverted-reflection image, man as both khalifat Allah and 'abd Allah, and Qur'an 35:15 quoted in full."
+        },
+        {
+          "window": 5,
+          "status": "woven",
+          "base_words": 1794,
+          "woven_words": 2190,
+          "lecture_words_offered": 5970,
+          "notes": "USED: Subtle Polytheism\nADDED: The lecture supplied the Arabic-script originals for lines the book gave only in English \u2014 the Imam's own words from the letter, the Qur'anic verses (40:16, 38:71\u201374, 28:88, 55:26\u201327, 17:81), and the hadith on hidden shirk \u2014 plus the hadith qudsi \"Pride is My cloak and greatness is My robe,\" an explicit shirk jali / shirk khafi distinction, a definition of takabbur/kibr, and the Arabic terms riya, makhila/khayal, and wad' kull shay'."
+        },
+        {
+          "window": 6,
+          "status": "woven",
+          "base_words": 1307,
+          "woven_words": 1522,
+          "lecture_words_offered": 5918,
+          "notes": "USED: Waging War Against Allah\nADDED: The lecture supplied the full Arabic of every Qur'an verse the book cited only in translation, the etymology of istidraj (\u27eaar:\u062f\u0631\u062c\u27eb = stages, Urdu \u27eaar:\u062f\u0631\u062c\u06c1 \u0628\u062f\u0631\u062c\u06c1\u27eb), the Arabic of the Imam's warning and of the key terms (\u27eaar:\u0641\u0637\u0631\u06c3\u27eb, \u27eaar:\u0636\u0645\u06cc\u0631\u27eb, nafs al-ammara), and plainer restatements (witnessing so that none may plead ignorance; self-rectification as restoring the divine nature within)."
+        },
+        {
+          "window": 7,
+          "status": "woven",
+          "base_words": 1650,
+          "woven_words": 1662,
+          "lecture_words_offered": 5838,
+          "notes": "USED: Good Opinion Of Allah\nADDED: the full Arabic text of Qur'an 35:15, which the book cites only in English translation, folded in beside the book's own rendering at the first citation"
+        },
+        {
+          "window": 8,
+          "status": "woven",
+          "base_words": 1698,
+          "woven_words": 2211,
+          "lecture_words_offered": 5973,
+          "notes": "USED: Good Opinion Of Allah\nADDED: The lecture supplied the full Arabic of the advisers passage, the covenant sentence, and verses 13:19\u201320 and 17:34 with translations; concrete glosses of the miser/coward/greedy \"bad opinion\"; the Arabic script for husn al-zann, s\u016b' al-zann, the divine names, khalifat/'ibad Allah, and the scholars/sages terms; and the mirror and wheel-and-axle analogies that plainly render the book's dense hub/vertical-axis and inverted-reflection imagery."
+        },
+        {
+          "window": 9,
+          "status": "woven",
+          "base_words": 1617,
+          "woven_words": 1610,
+          "lecture_words_offered": 5985,
+          "notes": "USED: none\nADDED: nothing \u2014 the supplied lecture sessions (advisers, war-with-Allah/istidraj, subtle polytheism/pride, the definition of justice, and ihsan) all treat neighbouring chapters, not this passage's tour of the classes and the poor, so per the leave-it-out rule none was woven in; the book passage is carried in full."
+        },
+        {
+          "window": 10,
+          "status": "woven",
+          "base_words": 1539,
+          "woven_words": 2041,
+          "lecture_words_offered": 5798,
+          "notes": "USED: Concept Of Justice\nADDED: The lecture supplied the plainer statement that justice IS God's essence (not merely one attribute in His nature, so that mercy and wrath alike proceed from it), the concrete truth-telling example of why a virtue ungrounded in the divine becomes ad hoc, and the four named modern theories (relativism, nihilism, utilitarianism, opportunism) as illustration of secular conceptions lacking spiritual grounding."
+        },
+        {
+          "window": 11,
+          "status": "woven",
+          "base_words": 1558,
+          "woven_words": 1697,
+          "lecture_words_offered": 5887,
+          "notes": "USED: Beauty Of Justice\nADDED: A plainer definition of dhikr as the recollection of an ultimate reality already inherent in the intellect (not the learning of anything new), and a gloss on \"your every act is dependent upon your prayer\" as depending on how one gazes upon God, tying the effacement of the ego in prostration directly to putting all things in their proper place."
+        },
+        {
+          "window": 12,
+          "status": "woven",
+          "base_words": 1558,
+          "woven_words": 1705,
+          "lecture_words_offered": 5855,
+          "notes": "USED: Beauty Of Justice, Concept Of Justice\nADDED: A plainer definition of remembrance (\u27eaar:\u0630\u06a9\u0631\u27eb) as recollection of divine principles inherent in the intellect rather than new learning; the worship\u2013virtue / devotion\u2013kindness relationship underlying ihsan and the \"hurting creation to please the Creator\" gloss on terrorism; and the Arabic maxim for \"putting each thing in its proper place.\""
+        },
+        {
+          "window": 13,
+          "status": "woven",
+          "base_words": 489,
+          "woven_words": 679,
+          "lecture_words_offered": 5725,
+          "notes": "USED: Concept Of Justice, Beauty Of Justice\nADDED: The lecture supplied a working definition of remembrance (dhikr) \u2014 a recollection of immutable divine principles inherent in the intellect, the foundation of Islamic ethical thought \u2014 which the book asserts as essence but never defines; the plainer statement that a virtue not rooted in the divine collapses into ad hoc, self-serving pragmatism; and the gloss that tawhid means integrating theory and practice into one."
+        }
+      ],
+      "base_words": 19981,
+      "woven_words": 23575,
+      "status": "woven"
+    },
+    "3": {
+      "chapter": 3,
+      "title": "Realization through Remembrance: Ali (\u0639) and the Mystical Tradition of Islam",
+      "sessions_offered": [
+        "Unification - Refraining From Vices",
+        "Unification - Developing Virtues",
+        "Deliverance",
+        "Recap By Yasmin Palejwala",
+        "What Is Spiritual Knowledge?"
+      ],
+      "windows": [
+        {
+          "window": 1,
+          "status": "woven",
+          "base_words": 1726,
+          "woven_words": 1738,
+          "lecture_words_offered": 6018,
+          "notes": "USED: none\nADDED: nothing \u2014 the supplied lecture sessions (Deliverance, Recap By Yasmin Palejwala, Unification - Developing Virtues, What Is Spiritual Knowledge?) all expound other chapters (the Kumayl discourse, spiritual knowledge, the intellect, virtue, the hereafter) and none restated or supplemented this passage's argument on dhikr, so no lecture wording was folded in."
+        },
+        {
+          "window": 2,
+          "status": "woven",
+          "base_words": 1672,
+          "woven_words": 1680,
+          "lecture_words_offered": 6022,
+          "notes": "USED: none\nADDED: nothing \u2014 the lecture material (the discourse to Kumayl bin Ziyad on knowledge, the intellect, jihad al-akbar, zuhd, and ikhlas) covers the following chapter's ground, not this passage on dhikr, so it was left out."
+        },
+        {
+          "window": 3,
+          "status": "woven",
+          "base_words": 1791,
+          "woven_words": 1863,
+          "lecture_words_offered": 6060,
+          "notes": "USED: What Is Spiritual Knowledge?\nADDED: A plain gloss distinguishing the eye's outward sight from the heart's penetrating insight, clarifying the \"particular mode of vision\" the book attaches to verse 22:46; the remaining lecture passages treat other chapters (the Kumayl discourse on knowledge, the \"assault\" on words, the Kharijites, ikhlas, tawhid, worship-as-sincerity) and were left out as belonging elsewhere."
+        },
+        {
+          "window": 4,
+          "status": "woven",
+          "base_words": 1752,
+          "woven_words": 1812,
+          "lecture_words_offered": 5973,
+          "notes": "USED: Recap By Yasmin Palejwala\nADDED: Only a plainer restatement of the divine oneness (\"no otherness,\" \"unique,\" \"one\" as misleading if it implies a second) and of God's nearness \"as close as our jugular vein\" \u2014 points the book passage already carried more fully; the other lecture sessions (Deliverance, Unification, What Is Spiritual Knowledge?) addressed adjacent chapters on sincerity, worship and the Kumayl discourse and were left out as belonging elsewhere."
+        },
+        {
+          "window": 5,
+          "status": "woven",
+          "base_words": 1718,
+          "woven_words": 1725,
+          "lecture_words_offered": 5908,
+          "notes": "USED: Deliverance\nADDED: The Arabic script for the Imam's certitude saying (\u27eaar:\u0644\u0648 \u06a9\u0634\u0641 \u0627\u0644\u063a\u0637\u0627\u0621 \u0645\u0627 \u0627\u0632\u062f\u062a \u06cc\u0642\u06cc\u0646\u0627\u27eb) and the Arabic term for gnosis/ma'rifa (\u27eaar:\u0645\u0639\u0631\u0641\u06c3\u27eb), which the book gives only in transliteration."
+        },
+        {
+          "window": 6,
+          "status": "woven",
+          "base_words": 1680,
+          "woven_words": 1728,
+          "lecture_words_offered": 5956,
+          "notes": "USED: Unification - Developing Virtues\nADDED: A definition the book leaves implicit \u2014 that the intellect (\u0639\u0642\u0644) means \"to bind,\" so its work of binding the heart's disclosures into the unity of tawhid through negation and affirmation glosses the book's own \"deconstruction\" and \"reconstruction.\""
+        },
+        {
+          "window": 7,
+          "status": "woven",
+          "base_words": 1472,
+          "woven_words": 1511,
+          "lecture_words_offered": 5993,
+          "notes": "USED: Deliverance, Unification - Developing Virtues\nADDED: Completed the Qur'anic citation the book left trailing at 'make a show ...' by folding in the final verse of Surah al-Ma'un (107:7, withholding simple assistance) that the lecture quoted in full, and supplied a plain-language definition of ikhlas \u2014 sincerity as making oneself purely for God with no desire for anything other than Him \u2014 for a term the book uses undefined."
+        },
+        {
+          "window": 8,
+          "status": "woven",
+          "base_words": 1689,
+          "woven_words": 1690,
+          "lecture_words_offered": 6054,
+          "notes": "USED: Deliverance\nADDED: Only a plainer gloss of fana' as the perishing of egoistic self-awareness before the Absolute; the lecture's substantive coverage (knowledge, tawhid, the hereafter, the Kharijites, the four ma'rifa sayings) belongs to other chapters, so nothing else was folded in and the book passage's content was carried whole."
+        },
+        {
+          "window": 9,
+          "status": "woven",
+          "base_words": 1791,
+          "woven_words": 1839,
+          "lecture_words_offered": 6050,
+          "notes": "USED: Recap By Yasmin Palejwala\nADDED: The lecture supplied the reason the book leaves implicit behind 'that which has no second' \u2014 that even to call God 'one' implies a second could stand in sequence to Him, so He is more truly named unique, a reality with no otherness."
+        },
+        {
+          "window": 10,
+          "status": "woven",
+          "base_words": 1702,
+          "woven_words": 1715,
+          "lecture_words_offered": 5952,
+          "notes": "USED: Unification - Developing Virtues\nADDED: Only a plainer restatement of one point \u2014 that in total concentration on the Name \"there remains no room in one's consciousness\" for anything but the reality invoked; the remaining lecture passages (vices, worship-as-tool, death, intellect-vs-reason) belonged to other chapters and were left out."
+        },
+        {
+          "window": 11,
+          "status": "woven",
+          "base_words": 1758,
+          "woven_words": 1751,
+          "lecture_words_offered": 5865,
+          "notes": "USED: none\nADDED: nothing \u2014 the supplied lecture sessions all treat other parts of the chapter (the Kumayl discourse, the spirit of the intellect, the hereafter, the greater jihad, befriending the harsh), and none bear on this passage's doctrine of the Name and the Named or its degrees of dhikr, so no lecture material was folded in."
+        },
+        {
+          "window": 12,
+          "status": "woven",
+          "base_words": 1718,
+          "woven_words": 1740,
+          "lecture_words_offered": 6003,
+          "notes": "USED: Deliverance\nADDED: The lecture supplied the Arabic term fana and a plain one-line gloss (\"the perishing of egoistic consciousness in the face of the Absolute\") for the \"extinction\" the book names but never defines; its remaining material (the hereafter, sincerity, deliverance/falah, the greater jihad, death and the ocean) develops other chapters and was left out."
+        },
+        {
+          "window": 13,
+          "status": "woven",
+          "base_words": 1715,
+          "woven_words": 1858,
+          "lecture_words_offered": 5982,
+          "notes": "USED: Deliverance, Purpose of the world (Unification sessions)\nADDED: The lecture supplied a plainer gloss of the \"hearts in the Gardens while bodies at work\" saying (the saint already living within the transcendent realm, acting yet unbound by the fruits of action) and the fuller wording of Qur'an 24:41 on all creation's glorification."
+        },
+        {
+          "window": 14,
+          "status": "woven",
+          "base_words": 483,
+          "woven_words": 497,
+          "lecture_words_offered": 6012,
+          "notes": "USED: none\nADDED: nothing \u2014 none of the lecture sessions cover this passage's ground (the verse 29:64, Ali's death by Ibn Muljam's sword, the Prophet's \"moist tongue\" hadith, or the futuwwa/silsila citations); the death-as-deliverance material in \"Deliverance\" belongs to the preceding passage and was left out to avoid duplication."
+        }
+      ],
+      "base_words": 22667,
+      "woven_words": 23147,
+      "status": "woven"
+    },
+    "4": {
+      "chapter": 4,
+      "title": "The First Sermon of Nahj al-Balagha",
+      "sessions_offered": [
+        "TAWHEED"
+      ],
+      "windows": [
+        {
+          "window": 1,
+          "status": "woven",
+          "base_words": 1718,
+          "woven_words": 2147,
+          "lecture_words_offered": 1994,
+          "notes": "USED: TAWHEED\nADDED: The Arabic of the opening lines with plainer renderings, the naming and meaning of sincerity (\u0623\u062e\u0644\u0627\u0635) and \u0646\u0641\u06cc \u0627\u0644\u0635\u0641\u06c3, the shahada's negation\u2013affirmation logic behind divesting God of attributes, and Quran 23:91 quoted in full with its translation."
+        },
+        {
+          "window": 2,
+          "status": "woven",
+          "base_words": 123,
+          "woven_words": 138,
+          "lecture_words_offered": 1994,
+          "notes": "USED: none\nADDED: nothing \u2014 the lecture sessions treat the sermon's opening on divine unity and the affirmation-and-negation of God's attributes, a section this passage never reaches, so none of that material belongs here."
+        }
+      ],
+      "base_words": 1841,
+      "woven_words": 2285,
+      "status": "woven"
+    },
+    "5": {
+      "chapter": 5,
+      "title": "The Letter of Ali (\u0639) to Malik al-Ashtar",
+      "sessions_offered": [
+        "Letter To MALIK",
+        "Importance Of Humility",
+        "Justice With Compassion",
+        "Classes Of People"
+      ],
+      "windows": [
+        {
+          "window": 1,
+          "status": "woven",
+          "base_words": 1762,
+          "woven_words": 1685,
+          "lecture_words_offered": 6013,
+          "notes": "USED: Letter To MALIK, Justice With Compassion\nADDED: The lecture supplied plainer, modern renderings of the letter's own sentences (used in place of the book's denser phrasing) and carried the inline Arabic terms jizya, kharaj, and Sunna, which were preserved; its stories, other letters, and humility/tahqiq reflections belonged to other material and were left out."
+        },
+        {
+          "window": 2,
+          "status": "woven",
+          "base_words": 1552,
+          "woven_words": 1585,
+          "lecture_words_offered": 5974,
+          "notes": "USED: Letter To MALIK, Classes Of People\nADDED: Chiefly plainer, point-by-point restatements of the social classes, the judge's required qualities, the administrators' vetting, and the revenue instruction; no net-new teaching within this passage's bounds (the lecture's other material\u2014the destitute charge, seclusion, counselors, worship, Quran 48:29, and the humility reflections\u2014goes beyond this passage and was left out)."
+        },
+        {
+          "window": 3,
+          "status": "woven",
+          "base_words": 1752,
+          "woven_words": 1769,
+          "lecture_words_offered": 5897,
+          "notes": "USED: Classes Of People, Letter To MALIK\nADDED: The lecture largely re-quoted the same letter, so it mainly supplied plainer phrasing for the scribe-selection instruction \u2014 including the gloss that \"the one on whose behalf you have been appointed\" is the writer himself, and that vetting by past record puts the right man in the right place and so enacts justice."
+        },
+        {
+          "window": 4,
+          "status": "woven",
+          "base_words": 1106,
+          "woven_words": 1092,
+          "lecture_words_offered": 5994,
+          "notes": "USED: Letter To MALIK\nADDED: The Arabic text of the Qur'anic verse (61:3), which the book cited only in English translation, folded in beside that translation."
+        }
+      ],
+      "base_words": 6172,
+      "woven_words": 6131,
+      "status": "woven"
+    }
+  },
+  "updated": "2026-08-05T20:07:34Z",
+  "contract": "weave inline, no duplicate content; attribution kept here, not on the page"
+}

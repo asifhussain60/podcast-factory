@@ -30,6 +30,8 @@ export interface CompanionStore {
     id: string,
     quote: string,
   ): Promise<CompanionNote>;
+  /** Mark a machine-filed note as read and kept — `review` only. */
+  accept(slug: string, chapter: string, id: string): Promise<CompanionNote>;
   remove(slug: string, chapter: string, id: string): Promise<void>;
 }
 
@@ -63,6 +65,13 @@ export function createApiStore(): CompanionStore {
       return apiFetch<CompanionNote>(BASE, {
         method: "PATCH",
         body: { slug, chapter: key, id, quote },
+      });
+    },
+    async accept(slug, chapter, id) {
+      const key = safeChapterKey(chapter);
+      return apiFetch<CompanionNote>(BASE, {
+        method: "PATCH",
+        body: { slug, chapter: key, id, review: "kept" },
       });
     },
     async remove(slug, chapter, id) {

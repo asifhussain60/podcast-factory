@@ -1,7 +1,7 @@
 {
   "schema": "podcast.book-voice/v5",
   "narrative_frame": "transmitted_report",
-  "revoiced": 7,
+  "revoiced": 1,
   "reverted": 0,
   "chapters": [
     {
@@ -10,9 +10,10 @@
       "output_words": 758,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted",
+      "status": "composer-edit",
       "gates": [],
-      "warnings": []
+      "warnings": [],
+      "superseded_status": "adapted"
     },
     {
       "title": "A Stranger in the City",
@@ -20,11 +21,12 @@
       "output_words": 851,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted",
+      "status": "composer-edit",
       "gates": [],
       "warnings": [
         "voice-03: output near-identical to base \u2014 copied, not re-voiced"
-      ]
+      ],
+      "superseded_status": "adapted"
     },
     {
       "title": "The Boy at the Door \u2014 Limits and Conditions",
@@ -55,11 +57,12 @@
       "output_words": 3361,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted",
+      "status": "composer-edit",
       "gates": [],
       "warnings": [
         "voice-06: output near-identical to base \u2014 copied, not re-voiced"
-      ]
+      ],
+      "superseded_status": "adapted"
     },
     {
       "title": "Three Layers of Knowledge",
@@ -67,9 +70,10 @@
       "output_words": 3478,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted",
+      "status": "composer-edit",
       "gates": [],
-      "warnings": []
+      "warnings": [],
+      "superseded_status": "adapted"
     },
     {
       "title": "The Five Shares and the Long Road to the Shaykh",
@@ -77,12 +81,13 @@
       "output_words": 7260,
       "windows": 3,
       "windows_kept": 3,
-      "status": "adapted",
+      "status": "composer-edit",
       "gates": [],
       "warnings": [
         "voice-08-part-01: output near-identical to base \u2014 copied, not re-voiced",
         "voice-08-part-03: output near-identical to base \u2014 copied, not re-voiced"
-      ]
+      ],
+      "superseded_status": "adapted"
     },
     {
       "title": "Homecoming, the Father, and the Debate with Abu Malik",
@@ -90,7 +95,7 @@
       "output_words": 14441,
       "windows": 6,
       "windows_kept": 6,
-      "status": "adapted",
+      "status": "composer-edit",
       "gates": [],
       "warnings": [
         "voice-09-part-01: output near-identical to base \u2014 copied, not re-voiced",
@@ -98,7 +103,8 @@
         "voice-09-part-04: output near-identical to base \u2014 copied, not re-voiced",
         "voice-09-part-05: output near-identical to base \u2014 copied, not re-voiced",
         "voice-09-part-06: output near-identical to base \u2014 copied, not re-voiced"
-      ]
+      ],
+      "superseded_status": "adapted"
     }
   ],
   "overwritten_by_replay": 1

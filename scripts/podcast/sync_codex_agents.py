@@ -20,11 +20,19 @@ so the TOML never needs to be edited by hand again. Edit the canonical markdown.
 
 Only regenerates TOMLs that ALREADY exist. The Codex set is a curated subset of
 the agent roster (18 of 24), and silently promoting an agent into another tool's
-registry is not this script's call to make; missing ones are reported instead.
+registry is not this script's call to make; an agent with no `.toml` yet is left
+alone rather than created.
+
+The REVERSE case — a `.toml` whose canonical spec has been retired — is an
+orphan, not a curated absence, and IS deleted in sync mode / failed in check
+mode (added 2026-08-05, mirroring the reverse sweep `sync-agent-wrappers.sh`
+already runs for the other three mirrors). Before this, an orphaned `.toml`
+only printed a NOTE and exited 0 even under `--check`, which is exactly how
+`reconcile.toml` survived for two months after its canonical spec was deleted.
 
 Modes:
-    sync_codex_agents.py            rewrite drifted TOMLs
-    sync_codex_agents.py --check    exit non-zero on drift, write nothing
+    sync_codex_agents.py            rewrite drifted TOMLs, delete orphaned ones
+    sync_codex_agents.py --check    exit non-zero on drift OR an orphan, write nothing
 """
 
 from __future__ import annotations
@@ -101,12 +109,25 @@ def main(argv: list[str]) -> int:
 
     drift = 0
     errors = 0
-    missing_canonical: list[str] = []
+    orphans = 0
     for toml_path in sorted(CODEX_DIR.glob("*.toml")):
         name = toml_path.stem
         canonical = CANONICAL_DIR / f"{name}.md"
         if not canonical.is_file():
-            missing_canonical.append(name)
+            # An orphan, not a curated absence: the canonical spec USED to exist
+            # (this file was rendered from it) and was retired without anyone
+            # deleting the .codex copy. `reconcile.toml` survived exactly this
+            # way for two months — this branch used to only print a NOTE and
+            # exit 0 even in --check mode, so nothing ever caught it. Deleted in
+            # sync mode, failed in check mode, mirroring the reverse sweep
+            # sync-agent-wrappers.sh already runs for the other three mirrors.
+            orphans += 1
+            rel = toml_path.relative_to(REPO_ROOT)
+            if check:
+                print(f"ORPHAN:  {rel} (no canonical infra/claude-agents/{name}.md)", file=sys.stderr)
+            else:
+                toml_path.unlink()
+                print(f"removed  {rel} (orphan — canonical spec no longer exists)")
             continue
         try:
             rendered = render_toml(canonical.read_text(encoding="utf-8"), name)
@@ -127,19 +148,20 @@ def main(argv: list[str]) -> int:
             toml_path.write_text(rendered, encoding="utf-8")
             print(f"synced   {rel}")
 
-    for name in missing_canonical:
-        print(f"NOTE:    .codex/agents/{name}.toml has no canonical infra/claude-agents/{name}.md")
-
     if errors:
         print(f"\n{errors} Codex spec(s) could not be rendered.", file=sys.stderr)
         return 1
-    if check and drift:
-        print(f"\n{drift} Codex spec(s) drifted from canonical.", file=sys.stderr)
-        print("Run: python3 scripts/podcast/sync_codex_agents.py", file=sys.stderr)
+    if check and (drift or orphans):
+        if drift:
+            print(f"\n{drift} Codex spec(s) drifted from canonical.", file=sys.stderr)
+            print("Run: python3 scripts/podcast/sync_codex_agents.py", file=sys.stderr)
+        if orphans:
+            print(f"\n{orphans} Codex spec(s) orphaned (canonical spec retired).", file=sys.stderr)
+            print("Run: python3 scripts/podcast/sync_codex_agents.py", file=sys.stderr)
         return 1
     if check:
         print("all Codex specs in sync")
-    elif not drift:
+    elif not drift and not orphans:
         print("all Codex specs already in sync")
     return 0
 

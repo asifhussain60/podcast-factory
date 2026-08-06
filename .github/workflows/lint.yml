@@ -56,6 +56,12 @@ jobs:
       # between them degrades every turn and is invisible to any other gate.
       - name: Agent-instructions mirror (AGENTS.md <- CLAUDE.md)
         run: python3 scripts/sync_agent_instructions.py --check
+      # infra/claude-agents/ is canonical; .github/agents/, .claude/agents/, and
+      # .codex/agents/ are generated mirrors. Same reasoning as the AGENTS.md gate
+      # above — nothing bound this pair until 2026-08-05, which is how a deleted
+      # agent spec (podcast-auditor) stayed live in .claude/agents/ for seven weeks.
+      - name: Agent-spec mirrors (.github, .claude, .codex <- infra/claude-agents)
+        run: bash scripts/podcast/sync-agent-wrappers.sh --check
       # The project-specific audit probe. The pre-commit hook runs it too, but a hook
       # can be bypassed with --no-verify and is not installed on a fresh clone, so CI
       # is where it actually binds. Blocks on P0/P1 only; P2/P3 report without failing.

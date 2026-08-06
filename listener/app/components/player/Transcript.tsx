@@ -1,6 +1,8 @@
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { EmptyState } from "~/components/EmptyState";
+import { Icon } from "~/components/Icon";
 import { count } from "~/lib/plural";
 
 /**
@@ -127,12 +129,31 @@ export function Transcript({
 }) {
   const [follow, setFollow] = useState(true);
   const list = useRef<HTMLOListElement>(null);
+  /** The element that actually scrolls: the drawer body this list sits in. */
+  const scroller = useRef<HTMLElement | null>(null);
+  /** True while OUR scroll is in flight, so the guard below ignores it. */
+  const programmatic = useRef(false);
+  const settle = useRef(0);
+
+  useEffect(() => {
+    scroller.current = list.current?.closest<HTMLElement>(".pf-drawer__body") ?? null;
+  }, [cues]);
 
   const at = useMemo(() => (cues === null ? -1 : cueAt(cues, position)), [cues, position]);
 
-  /* Keep the spoken line on screen, while the reader has not scrolled away.
+  /* Keep the spoken line in the middle of what the reader can SEE.
      Someone reading ahead to find a passage must not be dragged back every
-     quarter second; the button below is how they hand control back.
+     quarter second; the control below is how they hand following back.
+
+     Scrolls the container EXPLICITLY rather than calling `scrollIntoView`
+     (Asif, 2026-08-06 — the line was not centring on a phone). Two reasons
+     scrollIntoView could not do this job here. It centres the line in its
+     nearest scrolling ancestor's BOX, and this drawer is `inset-block: 0` —
+     full viewport height, with its lower strip sitting behind the player bar.
+     Its box centre is therefore below the centre of the visible area, so the
+     spoken line lands low and, near the end of a long panel, off screen
+     entirely. And it gives no way to tell its own scrolling apart from the
+     reader's, which is what the guard below needs.
 
      Not conditioned on `playing`: opening this panel on a PAUSED episode should
      still land on the line where the audio stands, which is the whole point of
@@ -140,16 +161,41 @@ export function Transcript({
   useEffect(() => {
     if (!follow || at < 0) return;
     const line = list.current?.querySelector<HTMLElement>(`[data-cue="${at}"]`);
-    line?.scrollIntoView({ block: "center", behavior: "smooth" });
+    const box = scroller.current;
+    if (!line || !box) return;
+
+    // The strip of `box` the player bar covers. Measured rather than assumed:
+    // the bar's height changes with its own content and with the platform's
+    // safe-area inset, and a hardcoded number would be wrong on most phones.
+    const bar = document.querySelector<HTMLElement>(".pf-player");
+    const hidden = bar === null ? 0 : Math.max(0, box.getBoundingClientRect().bottom - bar.getBoundingClientRect().top);
+    const visible = Math.max(0, box.clientHeight - hidden);
+
+    const target = line.offsetTop - box.offsetTop - visible / 2 + line.offsetHeight / 2;
+    programmatic.current = true;
+    box.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
+    // Released on a timer, not on a scroll event: a smooth scroll that is
+    // already at its destination emits nothing at all, and the flag would
+    // stick — leaving every later scroll of the reader's read as our own.
+    window.clearTimeout(settle.current);
+    settle.current = window.setTimeout(() => {
+      programmatic.current = false;
+    }, 700);
   }, [at, follow]);
 
   useEffect(() => {
-    const element = list.current;
+    // The scroll container is the DRAWER's body, not this list — see the
+    // stylesheet, which says so and gives the list no overflow of its own.
+    // Listening on the list meant a scroll that never crossed it was invisible.
+    const element = scroller.current;
     if (element === null) return;
-    // Any deliberate scroll stops the following. `wheel` and `touchmove` rather
-    // than `scroll`, because the smooth scroll above fires `scroll` too and would
-    // switch itself off on its first move.
-    const release = () => setFollow(false);
+    // Any deliberate scroll stops the following, EXCEPT the one we just made.
+    // `wheel` and `touchmove` rather than `scroll`, because the smooth scroll
+    // above fires `scroll` too and would switch itself off on its first move.
+    const release = () => {
+      if (programmatic.current) return;
+      setFollow(false);
+    };
     element.addEventListener("wheel", release, { passive: true });
     element.addEventListener("touchmove", release, { passive: true });
     return () => {
@@ -215,9 +261,18 @@ export function Transcript({
                 type="button"
                 onClick={() => onNote(cue)}
                 aria-label={`Make a note at ${spoken(cue.startS)}`}
-                className="pf-cue__note"
+                // The line being spoken carries the FULL control — a filled
+                // circle at the whole tap target — and every other line a small
+                // quiet glyph. Size, not visibility, is what separates them:
+                // the control used to be `opacity: 0` until `:hover`, which a
+                // phone never fires, so on the surface it was designed for it
+                // could not be reached at all (Asif, 2026-08-06). It also
+                // answers what the opacity was guarding against — six hundred
+                // identical plus signs down the page — since only one is ever
+                // large, and it leaves with its line.
+                className={`pf-cue__note ${i === at ? "pf-cue__note--now" : ""}`}
               >
-                +
+                <Icon icon={faPlus} />
               </button>
             )}
           </li>

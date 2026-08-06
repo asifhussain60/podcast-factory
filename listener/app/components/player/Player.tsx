@@ -1,3 +1,4 @@
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import {
   createContext,
   useCallback,
@@ -10,6 +11,7 @@ import {
 } from "react";
 import { Link } from "react-router";
 
+import { Icon } from "~/components/Icon";
 import { NotesList } from "~/components/reader/NotesList";
 import { RichNoteEditor } from "~/components/notes/RichNoteEditor";
 import { Transcript, parseVtt, type Cue } from "~/components/player/Transcript";
@@ -540,6 +542,21 @@ function PlayerPanelDrawer() {
   const [composing, setComposing] = useState(false);
   const [composeSeconds, setComposeSeconds] = useState(0);
   const [composeQuote, setComposeQuote] = useState("");
+  /* Which panel sent us to the composer. Closing a note started from a
+     transcript line returns you to the transcript, because that is where you
+     were listening and where the next line you want to mark is (Asif,
+     2026-08-06). A note started from the Notes panel's own button has nowhere
+     to go back to, so it stays — which is why this records the origin rather
+     than always returning. */
+  const [composeFrom, setComposeFrom] = useState<PlayerPanel>(null);
+
+  /** Leave the composer, and go back where it was opened from. */
+  const closeCompose = useCallback(() => {
+    setComposing(false);
+    setComposeQuote("");
+    if (composeFrom === "transcript") openPanel("transcript");
+    setComposeFrom(null);
+  }, [composeFrom, openPanel]);
   const [composeDraft, setComposeDraft] = useState("");
 
   const slug = current?.slug ?? null;
@@ -615,6 +632,7 @@ function PlayerPanelDrawer() {
                 setComposeSeconds(Math.floor(cue.startS));
                 setComposeQuote(cue.text);
                 setComposeDraft("");
+                setComposeFrom("transcript");
                 setComposing(true);
                 openPanel("notes");
               }}
@@ -642,7 +660,7 @@ function PlayerPanelDrawer() {
                     <div className="pf-mark__edit-actions">
                       <button
                         type="button"
-                        onClick={() => setComposing(false)}
+                        onClick={closeCompose}
                         className="pf-button pf-button--sm pf-button--ghost"
                       >
                         Cancel
@@ -652,7 +670,10 @@ function PlayerPanelDrawer() {
                         onClick={() => {
                           void markMoment(current, composeSeconds, newId(), composeQuote, composeDraft).then(
                             (ok) => {
-                              setComposing(false);
+                              // Same return as Cancel: saved or abandoned, you
+                              // came from the transcript and that is where the
+                              // next line you want to mark is.
+                              closeCompose();
                               if (!ok) return;
                               void refresh(current.slug);
                               reload();
@@ -673,11 +694,12 @@ function PlayerPanelDrawer() {
                     setComposeSeconds(Math.floor(position));
                     setComposeQuote("");
                     setComposeDraft("");
+                    setComposeFrom(null);
                     setComposing(true);
                   }}
-                  className="pf-button pf-button--sm pf-button--primary pf-notes__add"
+                  className="pf-button pf-button--primary pf-notes__add"
                 >
-                  + Add note at {clock(position)}
+                  <Icon icon={faPlus} /> Add note at {clock(position)}
                 </button>
               )}
 

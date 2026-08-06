@@ -63,3 +63,4 @@ Analysis discipline, always:
 | RCA-007 | 2026-08-01 | [The hosts were handed translations instead of phonetics](2026-08-01-the-hosts-were-handed-translations-instead-of-phonetics.md) | Resolved — block compiled from the ladder, library re-keyed; AI-3/4 open |
 | RCA-008 | 2026-08-01 | [A faithful opening was reverted as if the model invented it](2026-08-01-a-faithful-opening-was-reverted-as-if-invented.md) | Resolved — gate made differential, chapter re-articulated; AI-6 open |
 | RCA-009 | 2026-08-01 | [The site's CI gates were dead for five days](2026-08-01-the-site-gates-were-dead-for-five-days.md) | Resolved — all three jobs green, first success since 2026-07-27; AI-1…AI-8 all closed |
+| RCA-010 | 2026-08-06 | [The book compose route destroyed eleven episode sources, and the fix left them destroyed](2026-08-06-the-book-compose-route-destroyed-eleven-episode-sources.md) | Resolved — 11 restored, 8 duplicates removed, 12 tests green; 2 prevent items open |

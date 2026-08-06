@@ -12,7 +12,7 @@ stay byte-identical (verify with `cmp`).
 
 ---
 
-## Agent registry (23 agents)
+## Agent registry (21 agents)
 
 Alphabetical. Each row has one canonical spec in this directory plus a byte-identical
 `.github/agents/<name>.agent.md` mirror.
@@ -22,7 +22,6 @@ Alphabetical. Each row has one canonical spec in this directory plus a byte-iden
 | `book-challenger` | Semantic-fidelity challenger for the reading-edition PDF (augmented companion + articulated translation editions) |
 | `book-publisher` | Physical delivery — copies a book's audio (m4a) + reading-edition PDF to a target folder (default: Google Drive) |
 | `book-render-challenger` | Print-render challenger for the rendered reading-edition PDF (blank pages, split figures, watermark, page fill) |
-| `docs-updater` | Regenerates the single architecture view at `docs/architecture/index.html` from current repo truth (idempotent) |
 | `html-view-challenger` | Conformance validator for HTML views against the Cortex quality standard (STATIC, source-level) |
 | `noise-auditor` | Cross-surface detector for authorial-apparatus noise (circulation/provenance/colophon) the denoise step never strips; identify-only |
 | `podcast-blueprint` | Content-aware episode-structure planner (genre classification → episode plan) |
@@ -35,14 +34,13 @@ Alphabetical. Each row has one canonical spec in this directory plus a byte-iden
 | `podcast-trainer` | Cross-book pattern learner; proposes regression-gated spec refinements |
 | `postprod-review` | Post-production audio audit from downloaded m4a transcripts |
 | `project-steward` | Strategic health advisor; composes other agents; corpus-cited recommendations |
-| `reconcile` | Code-first doc reconciliation — fixes code gaps before updating architecture views |
 | `refine-prompt` | Refines raw requests into compact instruction paragraphs for Claude |
 | `repo-surgeon` | Holistic repo auditor — 5-pass sweep (structure, code, architecture, brittleness, plan conformance) |
 | `site-health-sentinel` | Runtime + visual-QA gate for the Astro site — boots a browser, sweeps every route for console errors, screenshots at desktop/mobile across states, judges pixels for visual defects, fixes in-pattern; the runtime peer of `html-view-challenger` |
 | `slide-deck-challenger` | Visual quality validator for slide-deck bundles |
 | `vacuum` | Post-production filesystem cleanup and file normalization |
 
-**Deprecated (no spec file):** `podcast-auditor` — retired 2026-06-02; use `repo-surgeon --scope podcast` instead.
+**Deprecated (no spec file):** `podcast-auditor` — retired 2026-06-02; use `repo-surgeon --scope podcast` instead. `docs-updater` — spec + all three mirrors deleted 2026-08-05 (was declared retired in `framework.md` back on 2026-05-28, but the files themselves were never removed until this audit caught it); its target, `docs/architecture/index.html`, has been gone since that same date. `reconcile` — retired alongside `docs-updater` on 2026-05-28 for the same reason (its worked example also targeted the deleted `docs/architecture/index.html`), but a later "production-readiness sweep" (2026-05-31) accidentally resurrected the canonical spec from its still-orphaned `.github/agents/` mirror, believing the mirror's existence meant the canonical was "missing" rather than deleted-on-purpose. Deleted again 2026-08-05, this time with `.codex/agents/reconcile.toml` cleared too and `sync_codex_agents.py` fixed to delete/fail on that kind of orphan going forward (it previously only printed a NOTE and exited 0 even under `--check`, which is how the zombie went undetected for two months).
 
 ---
 

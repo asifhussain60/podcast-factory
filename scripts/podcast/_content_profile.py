@@ -84,6 +84,30 @@ def slide_deck_mode(book_dir: Path) -> str:
     return "book" if mode == "book" else "per-chapter"
 
 
+def source_language(book_dir: Path) -> str:
+    """Return the book's declared source language, lowercased; 'en' by default.
+
+    Read by `_book_voice_prompts._source_defect` to decide what the articulation
+    pass is actually repairing: a translated source arrives calqued, while a book
+    written in English is hard for entirely different reasons. Defaults to 'en'
+    only when the field is absent AND the book declares no target language —
+    a translation edition that forgot the field must not be told its Arabic
+    source is already fluent English.
+    """
+    cfg_path = book_dir / "_system" / "series-config.yaml"
+    if not cfg_path.exists():
+        return "en"
+    try:
+        with cfg_path.open() as f:
+            cfg = yaml.safe_load(f) or {}
+    except Exception:
+        return "en"
+    declared = str(cfg.get("source_language") or "").strip().lower()
+    if declared:
+        return declared
+    return "" if cfg.get("target_language") else "en"
+
+
 def density_standard_active(book_dir: Path) -> bool:
     """True when the book opts into the chapter-density standard (v2, 2026-06-10).
 

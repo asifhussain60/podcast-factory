@@ -130,18 +130,27 @@ export function upsertNote(
           ? existing.etymology
           : cleanItems(input.etymology),
       source: input.source ?? existing.source,
+      review: input.review ?? existing.review,
       updatedAt: ts,
     };
     doc.notes = doc.notes.map((n) => (n.id === note.id ? note : n));
   } else {
     note = {
-      id: randomUUID(),
+      // A caller-supplied id is HONOURED on create. The student-reader pass
+      // derives each note's id from the chapter and the sentence it anchors to,
+      // which is the whole of "deterministic, not random" (Asif, 2026-08-06):
+      // a second run over unchanged prose must UPDATE the note it wrote last
+      // time, not file a duplicate beside it. Minting a fresh uuid here would
+      // have made re-running the pass additive forever. A human's own note
+      // sends no id and still gets one.
+      id: input.id || randomUUID(),
       kind: input.kind,
       body,
       anchor: input.anchor?.trim() || undefined,
       quote: input.quote?.trim() || undefined,
       etymology: cleanItems(input.etymology),
       source: input.source,
+      review: input.review,
       createdAt: ts,
       updatedAt: ts,
     };
@@ -177,6 +186,36 @@ export function reanchorNote(
   const next: CompanionNote = {
     ...existing,
     quote: quote.trim() || undefined,
+    updatedAt: nowIso(),
+  };
+  doc.notes = doc.notes.map((n) => (n.id === id ? next : n));
+  doc.updatedAt = next.updatedAt;
+  writeChapter(doc);
+  return next;
+}
+
+/**
+ * Mark one note as read and kept.
+ *
+ * As narrow as `reanchorNote` above and for the same reason: `review` and
+ * `updatedAt`, nothing else. Accepting is a judgement about a note, not an edit
+ * of it, so it must not travel as a whole-note save — every field sent is a
+ * field at risk, and the panel may be holding a copy from before an edit.
+ *
+ * Returns null on an unknown id: accepting a note deleted elsewhere must not
+ * resurrect it.
+ */
+export function acceptNote(
+  slug: string,
+  chapter: string,
+  id: string,
+): CompanionNote | null {
+  const doc = readChapter(slug, chapter);
+  const existing = doc.notes.find((n) => n.id === id);
+  if (!existing) return null;
+  const next: CompanionNote = {
+    ...existing,
+    review: "kept",
     updatedAt: nowIso(),
   };
   doc.notes = doc.notes.map((n) => (n.id === id ? next : n));

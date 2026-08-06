@@ -104,6 +104,12 @@ interface Props {
   onNotesChanged?: (notes: CompanionNote[]) => void;
   /** A card wants its passage shown in the prose. */
   onReveal?: (noteId: string) => void;
+  /** A passage was highlighted (or the highlight was cleared/consumed) — the
+   *  host paints it as a ProseMirror decoration in Edit mode, where the CSS
+   *  Custom Highlight this panel paints itself has no effect (Chromium does
+   *  not render `::highlight()` inside `contenteditable`). Read mode ignores
+   *  this prop; its own DOM highlight already works there. */
+  onPendingRange?: (range: Range | null) => void;
 }
 
 /** The element a selection boundary sits in (a text node reports its parent). */
@@ -150,6 +156,30 @@ function labelFor(text: string): string {
   return text.length <= 72 ? text : `${text.slice(0, 69).trimEnd()}…`;
 }
 
+/** Name registered with the CSS Custom Highlight API — must match the
+ *  `::highlight(gcp-pending)` rule in companion-card.css. */
+const PENDING_HIGHLIGHT = "gcp-pending";
+
+/** Paint `range` with the CSS Custom Highlight API rather than the browser's
+ *  native selection: focusing the textarea to type a question collapses
+ *  `window.getSelection()` (see readSelection's docs) and would otherwise take
+ *  the visible highlight with it. A Custom Highlight is independent of focus
+ *  and never touches the DOM, so it is safe to use anywhere — but Chromium
+ *  does not actually PAINT `::highlight()` inside `contenteditable`, so this
+ *  is Read-mode-only in practice; the Edit canvas gets its visible tint from
+ *  `onPendingRange` → pending-selection-decos.ts instead. Registering it
+ *  everywhere regardless costs nothing and keeps this function ignorant of
+ *  which mode it's running in. No-op where unsupported (feature-detected —
+ *  this is a visual nicety, never required for the flow to work). */
+function paintPendingSelection(range: Range | null): void {
+  if (typeof CSS === "undefined" || !("highlights" in CSS)) return;
+  if (!range) {
+    CSS.highlights.delete(PENDING_HIGHLIGHT);
+    return;
+  }
+  CSS.highlights.set(PENDING_HIGHLIGHT, new Highlight(range.cloneRange()));
+}
+
 export default function GemCompanionPanel({
   slug,
   bookTitle,
@@ -162,6 +192,7 @@ export default function GemCompanionPanel({
   readOnly = false,
   onNotesChanged,
   onReveal,
+  onPendingRange,
 }: Props) {
   const [open, setOpen] = useState(docked);
   const [input, setInput] = useState("");
@@ -180,6 +211,22 @@ export default function GemCompanionPanel({
   const reqId = useRef(0);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
+  /** The last real prose selection, captured on `selectionchange` so it survives
+   *  focusing the textarea (which collapses `window.getSelection()`). Lets a
+   *  reader highlight a passage, then type a targeted question about it in the
+   *  box, without the highlight being lost the moment they click into the field.
+   *  Consumed (cleared) the moment `submit()` uses it. */
+  const lastSelectionRef = useRef<{
+    text: string;
+    context: string;
+    chapterContext: string;
+    chapter: string;
+  } | null>(null);
+  /** The held selection's text, mirrored into state so the panel can render it.
+   *  `lastSelectionRef` is a ref precisely so capturing a selection does not
+   *  re-render on every `selectionchange`; this is the one thing that must be
+   *  visible, so it is the one thing kept in state. */
+  const [held, setHeld] = useState("");
   const listRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
   /** Live cards by note id. The list is reconciled against this, never rebuilt. */
@@ -190,8 +237,10 @@ export default function GemCompanionPanel({
   // Read by card callbacks, which outlive the render that created them.
   const openIdsRef = useRef<string[]>([]);
   const onRevealRef = useRef(onReveal);
+  const onPendingRangeRef = useRef(onPendingRange);
   const saveRef = useRef<(id: string, edit: CardEdit) => void>(() => {});
   const removeRef = useRef<(id: string) => void>(() => {});
+  const acceptRef = useRef<(id: string) => void>(() => {});
 
   useEffect(() => {
     if (open) {
@@ -209,6 +258,58 @@ export default function GemCompanionPanel({
     }
   }, [open, docked]);
 
+  /** Show (or clear) the pending-selection tint on every surface that has
+   *  one: this panel's own CSS Custom Highlight, and — the host's job,
+   *  because only the host can reach the ProseMirror view — the Edit canvas
+   *  decoration, via `onPendingRange`. */
+  const setPendingHighlight = useCallback((range: Range | null) => {
+    paintPendingSelection(range);
+    onPendingRangeRef.current?.(range);
+  }, []);
+
+  /** Let the passage go without explaining it.
+   *
+   *  The panel HOLDS a selection on purpose — `lastSelectionRef` keeps it alive
+   *  past the native selection so you can highlight a sentence and then click
+   *  into the box to type a question about it. The cost of that, until now, was
+   *  that there was no way out: clicking elsewhere collapses the native
+   *  selection but not the held one, so the tint stayed and the next Explain
+   *  would answer a passage you had moved on from. Pressing Explain was the only
+   *  release (Asif, 2026-08-06).
+   *
+   *  Collapses the native selection too. Leaving it would let the very next
+   *  `selectionchange` — a click, a caret move — re-capture the same passage and
+   *  put the tint straight back. */
+  const release = useCallback(() => {
+    lastSelectionRef.current = null;
+    setHeld("");
+    setPendingHighlight(null);
+    window.getSelection()?.removeAllRanges();
+    inputRef.current?.focus();
+  }, [setPendingHighlight]);
+
+  // Capture the live prose selection as it happens, not just at submit time —
+  // clicking into the textarea to type a question collapses `window.getSelection()`
+  // (see readSelection's docs), so without this a highlight-then-type-a-question
+  // flow would lose the highlight the instant the reader starts typing.
+  useEffect(() => {
+    if (!open) return;
+    const onSelectionChange = () => {
+      const picked = readSelection();
+      if (!picked) return;
+      lastSelectionRef.current = picked;
+      setHeld(picked.text);
+      const sel = window.getSelection();
+      setPendingHighlight(sel?.rangeCount ? sel.getRangeAt(0) : null);
+    };
+    document.addEventListener("selectionchange", onSelectionChange);
+    return () => {
+      document.removeEventListener("selectionchange", onSelectionChange);
+      setPendingHighlight(null);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, setPendingHighlight]);
+
   // The host's callback, held in a ref so the load effect below depends on the
   // CHAPTER and nothing else. Depending on the callback identity meant a host
   // that passes an inline arrow re-ran the load on every re-render — which
@@ -217,7 +318,8 @@ export default function GemCompanionPanel({
   useEffect(() => {
     notify.current = onNotesChanged;
     onRevealRef.current = onReveal;
-  }, [onNotesChanged, onReveal]);
+    onPendingRangeRef.current = onPendingRange;
+  }, [onNotesChanged, onReveal, onPendingRange]);
   useEffect(() => {
     openIdsRef.current = openIds;
   }, [openIds]);
@@ -280,6 +382,28 @@ export default function GemCompanionPanel({
     [chapter, notes, publish, slug],
   );
 
+  /** Accept a machine-filed note: `review` -> "kept", and nothing else.
+   *
+   *  Optimistic like `removeNote` above and for the same reason — the badge and
+   *  the keep button vanish the instant he clicks, and come back if the write
+   *  fails. Unlike a delete this is not confirmed: keeping is reversible (the
+   *  delete button is still there) and he may accept thirty of these in one
+   *  pass, where a dialog each time is friction rather than safety. */
+  const acceptNote = useCallback(
+    async (id: string) => {
+      if (!chapter) return;
+      const prev = notes;
+      publish(notes.map((n) => (n.id === id ? { ...n, review: "kept" } : n)));
+      try {
+        await defaultStore.accept(slug, chapter, id);
+      } catch (e) {
+        publish(prev); // put the badge back — nothing was accepted
+        setError(`Could not keep it: ${(e as Error).message}`);
+      }
+    },
+    [chapter, notes, publish, slug],
+  );
+
   /** Save an edited title/body back to the note's file. */
   const saveNote = useCallback(
     async (
@@ -318,7 +442,8 @@ export default function GemCompanionPanel({
   useEffect(() => {
     saveRef.current = (id, edit) => void saveNote(id, edit);
     removeRef.current = (id) => void removeNote(id);
-  }, [saveNote, removeNote]);
+    acceptRef.current = (id) => void acceptNote(id);
+  }, [saveNote, removeNote, acceptNote]);
 
   // The cards actually shown: in the Composer, the notes whose passage is in the
   // chapter on screen. Memoized on the id list (a string, so a host that rebuilds
@@ -407,6 +532,7 @@ export default function GemCompanionPanel({
                 onSave: (id: string, edit: CardEdit) =>
                   saveRef.current(id, edit),
                 onRemove: (id: string) => void removeRef.current(id),
+                onAccept: (id: string) => void acceptRef.current(id),
               }),
         });
         live.set(note.id, card);
@@ -522,12 +648,17 @@ export default function GemCompanionPanel({
     };
   }
 
-  /** Explain `concept`; when `passage` is given, file the answer for the reader. */
+  /**
+   * Explain `concept`; when `passage` is given, file the answer for the reader.
+   * `question`, when given, is a reader-typed ask ABOUT the concept/passage — the
+   * answer is targeted at that question rather than a generic explanation of it.
+   */
   async function explain(
     concept: string,
     ctx: string,
     passage?: { text: string; chapter: string },
     chapterCtx?: string,
+    question?: string,
   ): Promise<void> {
     const id = ++reqId.current;
     setLoading(true);
@@ -553,6 +684,7 @@ export default function GemCompanionPanel({
           // Ground a PASSAGE in the library's corpus; a typed concept is a
           // question about an idea, not about a sentence in this chapter.
           ground: Boolean(passage),
+          question: question || undefined,
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -621,16 +753,46 @@ export default function GemCompanionPanel({
   }
 
   /**
-   * The ONE button. Selection first: a highlighted chapter passage is explained
-   * AND filed as a Companion note. No selection, fall back to the typed concept
-   * (ephemeral). Focusing the textarea collapses any prose selection, so typing
-   * a concept cannot be shadowed by a stale highlight.
+   * The ONE button, three ways in:
+   *   Selection + typed text — the box holds a targeted QUESTION about the
+   *     highlighted passage (captured via `lastSelectionRef` so it survives
+   *     focusing the textarea to type). The answer addresses that question,
+   *     not a generic explanation of the passage, and is still filed against
+   *     the chapter like any passage explanation.
+   *   Selection only — unchanged: the passage is explained generically and
+   *     filed as a Companion note.
+   *   Typed text only, no selection — unchanged: the typed concept is
+   *     explained (ephemeral, nothing filed).
+   * The box is cleared the moment Explain is pressed, in every case — it is
+   * not meant to keep showing what was just asked while the answer loads.
    */
   function submit(): void {
-    const picked = readSelection();
-    if (picked) {
-      setInput(picked.text);
+    const live = readSelection();
+    if (live) lastSelectionRef.current = live;
+    const picked = live ?? lastSelectionRef.current;
+    const typed = input.trim();
+
+    if (picked && typed) {
       setContext(picked.context);
+      setInput("");
+      lastSelectionRef.current = null;
+      setHeld("");
+      setPendingHighlight(null);
+      void explain(
+        picked.text,
+        picked.context,
+        { text: picked.text, chapter: picked.chapter },
+        picked.chapterContext,
+        typed,
+      );
+      return;
+    }
+    if (picked) {
+      setContext(picked.context);
+      setInput("");
+      lastSelectionRef.current = null;
+      setHeld("");
+      setPendingHighlight(null);
       void explain(
         picked.text,
         picked.context,
@@ -639,14 +801,14 @@ export default function GemCompanionPanel({
       );
       return;
     }
-    const value = input.trim();
-    if (!value) {
+    if (!typed) {
       setHint(
         "Highlight a sentence in the chapter — or type a concept — then press Explain.",
       );
       return;
     }
-    void explain(value, context);
+    setInput("");
+    void explain(typed, context);
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -727,7 +889,29 @@ export default function GemCompanionPanel({
             </button>
           </div>
 
-          {context && (
+          {/* What is held right now, and the way to let it go. Shows the
+              passage itself rather than the words "a passage is selected": the
+              tint is in the chapter, which may be scrolled off screen, so the
+              panel has to be able to answer "selected WHAT" on its own. */}
+          {held && (
+            <p className="gcp-held">
+              <i className="fa-solid fa-highlighter" aria-hidden="true" />
+              <span className="gcp-held__text" title={held}>
+                {held}
+              </span>
+              <button
+                type="button"
+                className="gcp-held__clear"
+                onClick={release}
+                title="Let this passage go"
+                aria-label="Clear the selected passage"
+              >
+                <i className="fa-solid fa-xmark" aria-hidden="true" />
+              </button>
+            </p>
+          )}
+
+          {context && !held && (
             <p className="gcp-context" title={context}>
               <i className="fa-solid fa-quote-left" aria-hidden="true" />{" "}
               Grounding in the selected passage.

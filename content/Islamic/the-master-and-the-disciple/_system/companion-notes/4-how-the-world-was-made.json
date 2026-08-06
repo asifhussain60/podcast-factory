@@ -3,22 +3,38 @@
   "chapter": "4-how-the-world-was-made",
   "notes": [
     {
-      "id": "8445c19a-067e-4ec4-9330-d4cc6ef93213",
-      "kind": "explanation",
-      "body": "The concept of the condensation of heat (تَكَاثُفُ الْحَرَارَةِ) is a profound spiritual metaphor describing the miraculous origin of our physical world. From primordial darkness—a creative source, not an empty void—Allah brings forth an intense, formless energy, termed the **condensation of heat**.\n\nLike invisible steam gathering and cooling into solid water droplets, this process describes how powerful, non-physical energy becomes dense, tangible, and structured. This transformation of the intangible forms the material realm, giving rise to the **seven earths and all their sustenances**.\n\nThis creation establishes a cosmic balance. Just as smoke, born from water, rises to form the seven heavens, this condensed heat, born from darkness, settles to form the seven earths. This pairing—heaven light and ethereal, earth dense and material—reflects a fundamental duality throughout creation.",
-      "anchor": "condensation of heat",
-      "quote": "condensation of heat",
-      "etymology": [
-        "تَكَاثُف (condensation): From the root ك-ث-ف, which means to be thick, dense, or numerous. The form تَفَاعُل implies a process of becoming something. Thus, تَكَاثُف is the process of becoming dense, perfectly describing how a diffuse energy gathers to form a solid, material reality like the earth.",
-        "حَرَارَة (heat): From the root ح-ر-ر, which means to be hot. This root also carries the meaning of being free or liberated. This connection suggests that the primordial heat was a free, unbound energy, and its condensation represents this energy becoming bound and structured into the forms of the physical world."
-      ],
+      "id": "student:97c51d6b84da1b71",
+      "kind": "question",
+      "body": "Earlier the chapter was careful with its arithmetic: Kun is two letters, fa-yakun is five, 'seven letters in all,' and from those seven letters seven things branch. Then it returns to the same formula — 'a will, a command, by a saying' — and says this 'comes to twelve letters,' and builds the twelve constellations on it. So the same three-word saying is counted as seven letters in one place and twelve in another, and nothing tells me which count governs what, or why the number changed when the words did not. Are the seven and the twelve two different tallies of the same phrase, or of different phrases? I could not resolve it from the chapter, and the whole scheme of signs hangs on the number.",
+      "anchor": "seven letters, then twelve",
+      "quote": "That comes to twelve letters",
+      "review": "proposed",
       "source": {
-        "provider": "scholar",
-        "label": "Ismaili Scholar"
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "unexplained-leap"
       },
-      "createdAt": "2026-07-29T23:31:20Z",
-      "updatedAt": "2026-07-29T23:31:20Z"
+      "citations": [],
+      "createdAt": "2026-08-06T13:49:42Z",
+      "updatedAt": "2026-08-06T13:49:42Z"
+    },
+    {
+      "id": "student:e81fdd1e315130de",
+      "kind": "note",
+      "body": "The twelve constellations are given 'witnesses,' and the witnesses are 'seven kingdoms'; then the twelve earthly islands get 'seventeen seas' as their witnesses. These two numbers simply arrive. Nothing earlier prepared me for seven kingdoms or seventeen seas, and nothing after explains what a 'witness' to a constellation or an island is, or why the count is seven in the sky and seventeen on the earth when the signs themselves are twelve in both. Every other number in the passage was derived from something — the letters, the words — but these two are asserted flat. A first-time reader is left holding two figures with nothing behind them.",
+      "anchor": "seven kingdoms, seventeen seas",
+      "quote": "whose witnesses are seven kingdoms",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "unsupported-claim"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:49:42Z",
+      "updatedAt": "2026-08-06T13:49:42Z"
     }
   ],
-  "updatedAt": "2026-07-29T23:33:01Z"
+  "updatedAt": "2026-08-06T13:49:42Z",
+  "studentReaderFingerprint": "e7f9a44e00b8e931"
 }

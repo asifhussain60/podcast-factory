@@ -4611,12 +4611,18 @@
     gap: var(--pf-space-2);
   }
 
-  /* The "+ Add note" trigger in the player's Notes panel. Left-aligned and no
-     wider than its label — a full-width button here would read as the panel's
-     main action, and marking a moment is something a listener reaches for, not
-     the point of opening the panel. */
+  /* The "Add note" trigger in the player's Notes panel. FULL WIDTH and centred,
+     with its icon before the caption (Asif, 2026-08-06). This reverses the
+     earlier reading — that marking a moment is something a listener reaches for
+     rather than the point of opening the panel, so the control should be no
+     wider than its label. On a phone that produced a small pill in the top-left
+     corner of an otherwise empty sheet, which reads as a label rather than as
+     the thing to press. Marking the moment IS why the panel is open while the
+     audio runs, and the control now says so. */
   .pf-notes__add {
-    align-self: flex-start;
+    align-self: stretch;
+    justify-content: center;
+    gap: var(--pf-space-2);
   }
 
   /* ---- A rich-text note editor ---------------------------------------------
@@ -4786,31 +4792,61 @@
     padding-inline-start: var(--pf-space-5);
   }
 
+  /* Marking a moment. SIZE tells you which line is live, not visibility.
+     This was `opacity: 0` until `:hover` — which a phone never fires, so on the
+     surface it was designed for the control did not exist (Asif, 2026-08-06).
+     The concern behind that rule was real and is answered a better way: six
+     hundred plus signs are noise when they are all the same size, so only the
+     spoken line's is large, and it leaves when its line stops being spoken. */
   .pf-cue__note {
     flex: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    /* Full tap target even while the glyph inside is small — the hit area is
+       what a thumb needs, and it must not shrink with the icon. */
     min-width: 2.75rem;
     min-height: 2.75rem;
-    border: 0;
-    border-radius: var(--pf-radius);
+    border: 1px solid transparent;
+    border-radius: var(--pf-radius-pill);
     background: transparent;
     color: var(--l-faint);
-    font-size: var(--pf-text-lg);
+    font-size: var(--pf-text-sm);
     cursor: pointer;
-    opacity: 0;
+    opacity: 0.45;
     transition:
       opacity var(--pf-motion),
-      color var(--pf-motion);
+      color var(--pf-motion),
+      background var(--pf-motion),
+      border-color var(--pf-motion),
+      font-size var(--pf-motion);
   }
 
-  /* Revealed on hover or focus — six hundred plus signs down the page is noise,
-     and `:focus-visible` is what keeps it reachable without a pointer. */
+  /* The line being spoken: a filled circle at full size, always visible. */
+  .pf-cue__note--now {
+    background: var(--l-accent);
+    border-color: var(--l-accent);
+    color: var(--l-on-accent);
+    font-size: var(--pf-text-lg);
+    opacity: 1;
+  }
+
   .pf-cue:hover .pf-cue__note,
   .pf-cue__note:focus-visible {
     opacity: 1;
     color: var(--l-accent);
+  }
+
+  /* Hover must not repaint the live one into the quiet treatment. */
+  .pf-cue:hover .pf-cue__note--now,
+  .pf-cue__note--now:focus-visible {
+    color: var(--l-on-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-cue__note {
+      transition: none;
+    }
   }
 
 

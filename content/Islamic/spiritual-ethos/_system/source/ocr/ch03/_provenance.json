@@ -1,0 +1,16 @@
+{
+  "script": "ocr_image_pages.py",
+  "started_at": "2026-08-05T14:25:34Z",
+  "ended_at": "2026-08-05T14:27:31Z",
+  "elapsed_s": 116.9,
+  "images_dir": "/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/spiritual-ethos/_system/source/images/ch03",
+  "pages_in": 20,
+  "stitched_pdf_bytes_total": 11428950,
+  "n_chunks": 10,
+  "raw_extract_chars": 180880,
+  "translated_chars": 180880,
+  "src_lang": "en",
+  "translate_skipped": false,
+  "docintel_api_version": "2023-07-31",
+  "docintel_model": "prebuilt-read"
+}

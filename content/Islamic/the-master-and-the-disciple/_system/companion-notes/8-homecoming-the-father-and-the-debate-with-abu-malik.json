@@ -1,6 +1,88 @@
 {
   "slug": "the-master-and-the-disciple",
   "chapter": "8-homecoming-the-father-and-the-debate-with-abu-malik",
-  "notes": [],
-  "updatedAt": null
+  "notes": [
+    {
+      "id": "student:704088149baa0282",
+      "kind": "question",
+      "body": "When al-Bakhtari says his son is now his father and that Salih 'is with his Lord' and 'never will' die but 'endures as long as time itself endures,' I could not tell what is actually being claimed. Abu Malik himself lists three matters 'turned upside down' — the son become the father, a Lord present on earth with a servant, a created thing become everlasting — but the chapter treats these as wonders to marvel at rather than things to resolve, and it never comes back to explain them. A first-time reader is left holding a riddle: is 'Salih is with his Lord' a claim about his spiritual station, his rank in some hierarchy, or something literal? The question a student would ask: in what sense does a living son 'become the father,' and how can a man 'created to perish' be everlasting?",
+      "anchor": "father-son inversion",
+      "quote": "the son has become the father",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "unexplained-leap"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:58:54Z",
+      "updatedAt": "2026-08-06T13:58:54Z"
+    },
+    {
+      "id": "student:db0bb8b8cbff2ae9",
+      "kind": "question",
+      "body": "Salih turns Abu Malik's confession of faith against him: because he said 'nothing is like Him' (laysa kamithlihi shay'un), Salih claims this 'proves out of your own mouth that He has a likeness and that nothing is like that likeness,' and that true oneness would require saying instead 'He is not like anything.' The conclusion is presented as decisive — it silences Abu Malik — but the inference itself is never unpacked. Why must 'nothing resembles His likeness' entail that a likeness exists, rather than being an ordinary idiom of absolute negation? The chapter asserts the grammatical distinction and moves on. A student stops: is this a real difference in the two Arabic phrasings, or a verbal trap? Nothing in the chapter shows the step from 'no likeness is like Him' to 'He has a likeness.'",
+      "anchor": "'nothing is like Him' argument",
+      "quote": "proves out of your own mouth that He has a likeness",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "unexplained-leap"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:58:54Z",
+      "updatedAt": "2026-08-06T13:58:54Z"
+    },
+    {
+      "id": "student:31b29d7c017b95fa",
+      "kind": "question",
+      "body": "This phrase arrives with no warning: Abu Malik asks how anyone could imitate the lesser one 'when they did not set forth the seven creations of the unseen as the virtuous one himself set them forth.' It is used as if I already know what the 'seven creations of the unseen' are, but nothing earlier in the chapter names them or counts to seven. A careful reader stops here — the number is specific, the phrase is doing real work in the argument about who has knowledge of the unseen, and yet I have no idea what the seven are or where the count comes from. The question a student would ask: what are these seven, and why seven?",
+      "anchor": "seven creations of the unseen",
+      "quote": "the seven creations of the unseen",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "undefined-term"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:58:54Z",
+      "updatedAt": "2026-08-06T13:58:54Z"
+    },
+    {
+      "id": "student:59afec99efb87152",
+      "kind": "note",
+      "body": "Salih answers how the 'no prophet after ours' error began by asserting a fixed formula: 'In every age it began with three men: a rebellious devil, a stubborn tyrant, and a dissembling jurist.' The chapter goes on to describe what these three do and how they work together, but it never gives any ground for the claim that it is always exactly these three, in every age, that this is the universal mechanism. It reads as a confident historical law stated without anything behind the 'every age' or the precise count of three. A student would ask: how is it known that this same trio recurs in every nation, rather than being one vivid way of picturing what went wrong?",
+      "anchor": "the three men in every age",
+      "quote": "a rebellious devil, a stubborn tyrant, and a dissembling jurist",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "unsupported-claim"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:58:54Z",
+      "updatedAt": "2026-08-06T13:58:54Z"
+    },
+    {
+      "id": "student:8c4f4d24a7fa3da0",
+      "kind": "question",
+      "body": "The Master's counsel drops an Arabic word, تَعْزِير, in the middle of an otherwise fully translated sentence, and never renders it. From context — 'when you warn them, let no eagerness move you to impose تَعْزِير upon them' — I can guess it is some form of penalty or disciplinary correction, but that is only a guess, and the whole point of the counsel (go gently, test them without harshness) turns on knowing exactly what is being warned against. Every other Arabic term in the chapter gets an English gloss beside it; this one is left bare. The question a student would ask: what specific thing is Salih being told not to inflict on Abu Malik and his companions?",
+      "anchor": "ta'zir left untranslated",
+      "quote": "let no eagerness move you to impose تَعْزِير upon them",
+      "review": "proposed",
+      "source": {
+        "provider": "student",
+        "label": "Student reader",
+        "ref": "undefined-term"
+      },
+      "citations": [],
+      "createdAt": "2026-08-06T13:58:54Z",
+      "updatedAt": "2026-08-06T13:58:54Z"
+    }
+  ],
+  "updatedAt": "2026-08-06T13:58:54Z",
+  "studentReaderFingerprint": "da7cae8062829be5"
 }

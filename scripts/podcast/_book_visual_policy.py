@@ -18,6 +18,28 @@ Two halves, matching the two ways a figure could reach a page:
 Pure and side-effect-free apart from writing its own report. Never mutates
 ``book.md`` — an unexpected figure is surfaced for a human, not silently deleted
 from a book someone may have meant to illustrate.
+
+THE RULE, stated once (Asif, 2026-08-06 — cite this, do not re-copy it):
+
+  A diagram NEVER enters a chapter by pipeline action. 0book-illustrate and
+  0book-slide-import may GENERATE and OFFER — each asset is registered as a
+  candidate in ``book/visuals/index.json`` — and placement is a human act in the
+  Astro Book Composer, which writes ``book/visual-layout.json``, the renderer's
+  only placement source. ``book.md`` stays diagram-free and IS the render input
+  on every route (``build_book_pdf._pick_book_md``).
+
+  An empty ``visual-layout.json`` is therefore the CORRECT resting state of a
+  book nobody has curated yet, and must never be reported as an unfinished job.
+  Generated assets sitting unplaced are a palette waiting on a person, not debris.
+
+  There is no second copy of the book. ``book-illustrated.md`` and
+  ``book-slides.md`` were the v1 injected variants; the illustrate passthroughs
+  went on writing the first as a plain copy long after the renderer stopped
+  reading it, and the deck injector went on PREFERRING it — so on a book carrying
+  a stale one, deck anchors were validated against prose weeks out of date. Four
+  leftovers were deleted 2026-08-06, one of them nine weeks stale and missing a
+  whole chapter of a published book. ``injected_variants`` below reports any that
+  reappear, because a scan of ``book.md`` cannot see a file beside it.
 """
 
 from __future__ import annotations
@@ -43,6 +65,19 @@ _VISUAL_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 )
 
 _CHAPTER_HEADING_RE = re.compile(r"(?m)^##\s+(.+?)\s*$")
+
+#: Book variants the pipeline used to write by INJECTING figures into the prose.
+#: Nothing produces these any more and nothing renders them — the renderer reads
+#: book.md on every route. One on disk means either a retired artifact nobody
+#: cleaned up, or a phase that has started injecting again; both are worth a
+#: human's attention, and neither is visible by scanning book.md alone.
+INJECTED_VARIANTS: tuple[str, ...] = ("book-illustrated.md", "book-slides.md")
+
+
+def injected_variants(book_dir: Path) -> list[str]:
+    """Which retired injected-variant files exist beside book.md. Usually none."""
+    book = Path(book_dir) / "book"
+    return [name for name in INJECTED_VARIANTS if (book / name).exists()]
 
 
 def scan_markdown(book_md: str) -> list[dict[str, Any]]:
@@ -91,6 +126,7 @@ def check_text_only(book_dir: Path, *, log=print) -> dict[str, Any]:
     policy = book_visuals(book_dir)
     findings = scan_markdown(book_md.read_text(encoding="utf-8")) if book_md.exists() else []
     curated = layout_placements(book_dir)
+    variants = injected_variants(book_dir)
     violations = findings if policy == BOOK_VISUALS_MANUAL_ONLY else []
     report = {
         "schema": "book.visual-policy/v1",
@@ -98,6 +134,7 @@ def check_text_only(book_dir: Path, *, log=print) -> dict[str, Any]:
         "text_only": not violations,
         "pipeline_inserted": findings,
         "curated_placements": curated,
+        "injected_variants": variants,
     }
     out = book_dir / "_system" / "book-visual-policy.json"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -111,6 +148,11 @@ def check_text_only(book_dir: Path, *, log=print) -> dict[str, Any]:
             log(f"      ! {f['chapter']} line {f['line']}: {f['kind']}")
     else:
         log(f"    visual-policy: text-only confirmed · {curated} human-curated figure(s) from the Composer")
+    if variants:
+        # Not folded into `violations`: book.md itself is clean, so calling the
+        # edition not-text-only would be false. It is a separate fact and is
+        # reported as one.
+        log(f"    visual-policy: retired injected variant(s) on disk — {', '.join(variants)}")
     return report
 
 

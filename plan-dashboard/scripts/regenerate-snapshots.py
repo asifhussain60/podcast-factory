@@ -25,7 +25,10 @@ CONTENT = REPO / "content"
 # regenerate-snapshots.mjs — this is its exact mirror. Short version: the single
 # `content/drafts` constant that used to live here named a directory deleted on
 # 2026-06-04, so "books in flight" had been a structural zero ever since.
-BUCKETS = ("Islamic", "Technical", "Fiction", "Guides")
+# Pinned to scripts/podcast/_content_types.py::BUCKETS — see the note on the same
+# constant in regenerate-snapshots.mjs. Being pinned to that mirror alone is what
+# let "Supplications" go missing from both for three weeks.
+BUCKETS = ("Islamic", "Technical", "Fiction", "Guides", "Supplications")
 BOOK_ROOTS = tuple(CONTENT / b for b in BUCKETS) + (
     CONTENT / "drafts",
     CONTENT / "published" / "books",
@@ -43,11 +46,11 @@ def now_iso():
 
 
 def head_commit_iso():
-    """Committer date of HEAD (ISO 8601).
-
-    Used for the snapshots' ``generated_at`` so regenerating at the SAME commit
-    produces a byte-identical file — no wall-clock churn, no perpetually-dirty
-    working tree. Falls back to wall-clock only when git is unavailable.
+    """Committer date of HEAD (ISO 8601). Console-log only as of 2026-08-05 —
+    it used to be stamped into the tracked snapshots too, which meant a file
+    could never carry its own not-yet-created commit hash and every run
+    produced a metadata-only diff on the NEXT commit, forever. Not written to
+    disk anymore.
     """
     try:
         out = subprocess.check_output(
@@ -98,15 +101,7 @@ def books_shipped():
         state = read_json(d / "_system" / "orchestrator-state.json")
         if not state or state.get("status") != "published":
             continue
-        # The title is meta.yml's, never the state file's — the state file has no
-        # title field at all, so reading one from it would print the slug forever.
-        title = slug
-        try:
-            meta = yaml.safe_load((d / "meta.yml").read_text()) or {}
-            if isinstance(meta.get("title"), str) and meta["title"].strip():
-                title = meta["title"].strip()
-        except Exception:
-            pass  # no meta.yml: the slug is a worse name than the title, but it is a name
+        title = book_title(d, slug)
         # One episode is one `EP##-*.txt` framing file. NOT the sibling directories:
         # some books carry a per-episode folder as well and some do not, so counting
         # directories reported 0 for a 20-episode book and double for a 4-episode one.
@@ -309,6 +304,43 @@ def book_dir(slug):
     return None
 
 
+def book_title(d, slug):
+    """The book's own name, from meta.yml.
+
+    The state file has no title field at all, so a caller that reaches for one
+    there prints the slug forever — which is what `books_in_flight` did until
+    2026-08-06 while the shipped shelf beside it read the real title. One helper
+    now, so the two lists cannot disagree about what a book is called.
+
+    MIRROR: regenerate-snapshots.mjs::bookTitle.
+    """
+    try:
+        meta = yaml.safe_load((d / "meta.yml").read_text()) or {}
+        if isinstance(meta.get("title"), str) and meta["title"].strip():
+            return meta["title"].strip()
+    except Exception:
+        pass  # no meta.yml: the slug is a worse name than the title, but it is a name
+    return slug
+
+
+def book_kind(d):
+    """What KIND of book this is — its `content_profile`.
+
+    Read from `_system/series-config.yaml` rather than guessed from the bucket:
+    a `books`-category item can be Islamic or Fiction, which is exactly why the
+    bucket resolver takes the profile and not the category.
+
+    MIRROR: regenerate-snapshots.mjs::bookKind.
+    """
+    try:
+        cfg = yaml.safe_load((d / "_system" / "series-config.yaml").read_text()) or {}
+        if isinstance(cfg.get("content_profile"), str) and cfg["content_profile"].strip():
+            return cfg["content_profile"].strip()
+    except Exception:
+        pass  # no series-config: "unknown" is honest, a guessed profile is not
+    return "unknown"
+
+
 def book_state(slug):
     d = book_dir(slug)
     if d is None:
@@ -353,14 +385,22 @@ def merge_dashboard():
         if s["phase"] == "done" or s["phase_status"] in ("shipped", "merged"):
             continue
         existing_match = next((b for b in (existing.get("books_in_flight") or []) if b["slug"] == s["slug"]), None)
+        d = book_dir(s["slug"])
         in_flight.append(
             {
                 "slug": s["slug"],
-                "title": (existing_match or {}).get("title") or s["slug"],
-                "phase": (existing_match or {}).get("phase") or s["phase"],
-                "phase_status": (existing_match or {}).get("phase_status") or s["phase_status"],
+                "title": book_title(d, s["slug"]) if d else s["slug"],
+                # DISK WINS. These preferred the previously-snapshotted value, so
+                # the first phase a book was ever seen in became the phase it
+                # displayed forever: `degrees-of-excellence` sat at
+                # "per-chapter-slides/running" for days after finishing
+                # 0book-render. A carried-forward value is only right for a field
+                # the state file does not hold — which is why cost_to_date_usd
+                # below still carries and these two no longer do.
+                "phase": s["phase"],
+                "phase_status": s["phase_status"],
                 "cost_to_date_usd": (existing_match or {}).get("cost_to_date_usd") or 0,
-                "kind": (existing_match or {}).get("kind") or "unknown",
+                "kind": book_kind(d) if d else "unknown",
             }
         )
 
@@ -449,8 +489,6 @@ def merge_dashboard():
 
     merged = {
         **existing,
-        "generated_at": head_commit_iso(),
-        "source_commit": current_commit(),
         # Deliberately NOT the filename: both regenerators must emit byte-identical
         # snapshots, so neither may stamp which of the two produced this run.
         "generator": "regenerate-snapshots",
@@ -462,6 +500,11 @@ def merge_dashboard():
         "recent_commits": recent_commits(),
         "wave_execution_events": recent_wave_events(),
     }
+    # Legacy fields from before 2026-08-05 — see head_commit_iso()'s docstring.
+    # Stripped here (not just stopped going forward) so one regen run cleans an
+    # already-committed file.
+    merged.pop("generated_at", None)
+    merged.pop("source_commit", None)
     write_json(DATA / "dashboard-snapshot.json", merged)
     return merged
 
@@ -530,11 +573,11 @@ def merge_architecture():
 
     merged = {
         **snap,
-        "generated_at": head_commit_iso(),
-        "source_commit": current_commit(),
         "agents": agents,
         "adrs": adrs,
     }
+    merged.pop("generated_at", None)
+    merged.pop("source_commit", None)
     write_json(p, merged)
 
 
@@ -543,8 +586,8 @@ def touch_existing(name):
     data = read_json(p)
     if not data:
         return
-    data["generated_at"] = head_commit_iso()
-    data["source_commit"] = current_commit()
+    data.pop("generated_at", None)
+    data.pop("source_commit", None)
     write_json(p, data)
 
 
@@ -558,8 +601,8 @@ def main():
     except Exception:
         pass
 
-    print(f"snapshots regenerated @ {dash['generated_at']}")
-    print(f"  source_commit: {dash['source_commit']}")
+    print(f"snapshots regenerated @ {head_commit_iso()}")
+    print(f"  source_commit: {current_commit()}")
     print(f"  books in flight: {len(dash['books_in_flight'])}")
     print(f"  roadmap steps: {len(dash['roadmap'])}")
     print(f"  recent commits: {len(dash['recent_commits'])}")

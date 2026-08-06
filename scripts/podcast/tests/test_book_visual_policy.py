@@ -17,6 +17,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 
 from _book_visual_policy import (  # noqa: E402
     check_text_only,
+    injected_variants,
     layout_placements,
     scan_markdown,
 )
@@ -157,3 +158,23 @@ def test_a_book_that_allows_pipeline_visuals_is_reported_not_failed(tmp_path: Pa
 
     assert report["text_only"], "the scan only judges books that promised to be text-only"
     assert report["pipeline_inserted"], "but what it found is still recorded"
+
+
+# ─── retired injected variants ───────────────────────────────────────────────
+# A second copy of the book on disk is invisible to a scan of book.md, which is
+# how one nine weeks stale and missing a chapter survived on a published book.
+def test_a_clean_book_reports_no_injected_variant(tmp_path: Path) -> None:
+    bd = book(tmp_path, "## One\n\njust prose\n")
+
+    assert injected_variants(bd) == []
+    assert check_text_only(bd, log=lambda *a: None)["injected_variants"] == []
+
+
+def test_a_leftover_injected_variant_is_reported(tmp_path: Path) -> None:
+    bd = book(tmp_path, "## One\n\njust prose\n")
+    (bd / "book" / "book-illustrated.md").write_text("## One\n\nstale\n", encoding="utf-8")
+
+    report = check_text_only(bd, log=lambda *a: None)
+
+    assert report["injected_variants"] == ["book-illustrated.md"]
+    assert report["text_only"], "book.md is still clean — the variant is a separate fact, not a violation"

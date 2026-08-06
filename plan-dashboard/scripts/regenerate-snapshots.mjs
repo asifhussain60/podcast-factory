@@ -45,10 +45,16 @@ const CONTENT = path.join(REPO, "content");
  *
  * Buckets first, then the legacy trees — the same order, and the same reason, as
  * `_paths.py` / `content-paths.ts`: a partial migration must never hide a book.
- * BUCKETS is the list from content-paths.ts, restated because this script runs under
- * plain node with no TS resolver.
  */
-const BUCKETS = ["Islamic", "Technical", "Fiction", "Guides"];
+// Pinned to scripts/podcast/_content_types.py::BUCKETS by
+// tests/test_snapshot_regenerator_parity.py. "Supplications" was appended to the
+// authority on 2026-07-19 and to content-paths.ts, but not here, not in the .py
+// mirror and not in site-health-smoke.mjs — and because the two generators are
+// pinned to EACH OTHER they agreed while both being wrong. Latent only until the
+// first supplication book lands, at which point it would have been invisible to
+// every snapshot JSON. Restated rather than imported because this script runs
+// under plain node with no TS resolver; the test is what keeps the restatement true.
+const BUCKETS = ["Islamic", "Technical", "Fiction", "Guides", "Supplications"];
 const BOOK_ROOTS = [
   ...BUCKETS.map((b) => path.join(CONTENT, b)),
   path.join(CONTENT, "drafts"),
@@ -230,6 +236,47 @@ async function bookDir(slug) {
   return null;
 }
 
+/**
+ * The book's own name, from meta.yml. The state file has no title field at all,
+ * so a caller that reaches for one there prints the slug forever — which is what
+ * `books_in_flight` did until 2026-08-06 while the shipped shelf beside it read
+ * the real title. One helper now, so the two lists cannot disagree about what a
+ * book is called.
+ *
+ * MIRROR: regenerate-snapshots.py::book_title.
+ */
+async function bookTitle(dir, slug) {
+  try {
+    const meta = yaml.load(await readFile(path.join(dir, "meta.yml"), "utf-8"));
+    if (typeof meta?.title === "string" && meta.title.trim())
+      return meta.title.trim();
+  } catch {
+    /* no meta.yml: the slug is a worse name than the title, but it is a name */
+  }
+  return slug;
+}
+
+/**
+ * What KIND of book this is — its `content_profile`, the same field the pipeline
+ * routes on. Read from `_system/series-config.yaml` rather than guessed from the
+ * bucket: a `books`-category item can be Islamic or Fiction, which is exactly why
+ * the bucket resolver takes the profile and not the category.
+ *
+ * MIRROR: regenerate-snapshots.py::book_kind.
+ */
+async function bookKind(dir) {
+  try {
+    const cfg = yaml.load(
+      await readFile(path.join(dir, "_system", "series-config.yaml"), "utf-8"),
+    );
+    if (typeof cfg?.content_profile === "string" && cfg.content_profile.trim())
+      return cfg.content_profile.trim();
+  } catch {
+    /* no series-config: "unknown" is honest, a guessed profile is not */
+  }
+  return "unknown";
+}
+
 async function bookState(slug) {
   const dir = await bookDir(slug);
   if (!dir) return null;
@@ -272,18 +319,7 @@ async function booksShipped() {
       path.join(dir, "_system", "orchestrator-state.json"),
     );
     if (state?.status !== "published") continue;
-    // The title is meta.yml's, never the state file's — the state file has no title
-    // field at all, so reading one from it would silently print the slug forever.
-    let title = slug;
-    try {
-      const meta = yaml.load(
-        await readFile(path.join(dir, "meta.yml"), "utf-8"),
-      );
-      if (typeof meta?.title === "string" && meta.title.trim())
-        title = meta.title.trim();
-    } catch {
-      /* no meta.yml: the slug is a worse name than the title, but it is a name */
-    }
+    const title = await bookTitle(dir, slug);
     // One episode is one `EP##-*.txt` framing file. NOT the sibling directories:
     // some books carry a per-episode folder as well and some do not, so counting
     // directories reported 0 for a 20-episode book and double for a 4-episode one.
@@ -391,15 +427,10 @@ function currentCommit() {
 }
 
 /**
- * Commit timestamp of HEAD, ISO-8601.
- *
- * Used for the snapshots' `generated_at` so regenerating at the SAME commit
- * produces a byte-identical file — no wall-clock churn, no perpetually-dirty
- * working tree. Falls back to wall-clock only when git is unavailable.
- *
- * MIRROR: scripts/regenerate-snapshots.py::commit_iso — the two regenerators
- * must emit byte-identical files, or machines with/without node thrash these
- * JSONs back and forth on every commit.
+ * Commit timestamp of HEAD, ISO-8601. Console-log only as of 2026-08-05 — it
+ * used to be stamped into the tracked snapshots too, which meant a file could
+ * never carry its own not-yet-created commit hash and every run produced a
+ * metadata-only diff on the NEXT commit, forever. Not written to disk anymore.
  */
 function generatedAt() {
   try {
@@ -436,24 +467,33 @@ async function mergeDashboard() {
 
   const slugs = await listBooks();
   const states = (await Promise.all(slugs.map(bookState))).filter(Boolean);
-  const inFlight = states
-    .filter(
-      (s) =>
-        s.phase !== "done" && !["shipped", "merged"].includes(s.phase_status),
-    )
-    .map((s) => {
-      const existingMatch = existing.books_in_flight?.find(
-        (b) => b.slug === s.slug,
-      );
-      return {
-        slug: s.slug,
-        title: existingMatch?.title ?? s.slug,
-        phase: existingMatch?.phase ?? s.phase,
-        phase_status: existingMatch?.phase_status ?? s.phase_status,
-        cost_to_date_usd: existingMatch?.cost_to_date_usd ?? 0,
-        kind: existingMatch?.kind ?? "unknown",
-      };
-    });
+  const inFlight = await Promise.all(
+    states
+      .filter(
+        (s) =>
+          s.phase !== "done" && !["shipped", "merged"].includes(s.phase_status),
+      )
+      .map(async (s) => {
+        const existingMatch = existing.books_in_flight?.find(
+          (b) => b.slug === s.slug,
+        );
+        const dir = await bookDir(s.slug);
+        return {
+          slug: s.slug,
+          title: dir ? await bookTitle(dir, s.slug) : s.slug,
+          // DISK WINS. These preferred the previously-snapshotted value, so the
+          // first phase a book was ever seen in became the phase it displayed
+          // forever: `degrees-of-excellence` sat at "per-chapter-slides/running"
+          // for days after finishing 0book-render. A carried-forward value is only
+          // right for a field the state file does not hold — which is why
+          // cost_to_date_usd below still carries and these two no longer do.
+          phase: s.phase,
+          phase_status: s.phase_status,
+          cost_to_date_usd: existingMatch?.cost_to_date_usd ?? 0,
+          kind: dir ? await bookKind(dir) : "unknown",
+        };
+      }),
+  );
 
   const planYaml = await readPlanYaml();
   let roadmap = existing.roadmap ?? [];
@@ -563,8 +603,6 @@ async function mergeDashboard() {
 
   const merged = {
     ...existing,
-    generated_at: generatedAt(),
-    source_commit: currentCommit(),
     generator: "regenerate-snapshots",
     roadmap,
     waves: wavesMeta,
@@ -574,6 +612,12 @@ async function mergeDashboard() {
     recent_commits: recentCommits(),
     wave_execution_events: await recentWaveEvents(),
   };
+  // Legacy fields from before 2026-08-05: a tracked file can never contain its
+  // own not-yet-created commit hash, so stamping one guaranteed a metadata-only
+  // diff on every subsequent commit, forever. Stripped here (not just stopped
+  // going forward) so one regen run cleans an already-committed file.
+  delete merged.generated_at;
+  delete merged.source_commit;
 
   await writeFile(
     path.join(DATA, "dashboard-snapshot.json"),
@@ -587,8 +631,8 @@ async function touchExisting(name) {
   const p = path.join(DATA, name);
   const existing = await readJsonIfExists(p);
   if (!existing) return;
-  existing.generated_at = generatedAt();
-  existing.source_commit = currentCommit();
+  delete existing.generated_at;
+  delete existing.source_commit;
   await writeFile(p, JSON.stringify(existing, null, 2) + "\n", "utf-8");
 }
 
@@ -671,11 +715,11 @@ async function mergeArchitecture() {
 
   const merged = {
     ...snap,
-    generated_at: generatedAt(),
-    source_commit: currentCommit(),
     agents,
     adrs,
   };
+  delete merged.generated_at;
+  delete merged.source_commit;
   await writeFile(p, JSON.stringify(merged, null, 2) + "\n", "utf-8");
 }
 
@@ -688,8 +732,8 @@ async function main() {
     writeFileSync(SENTINEL, new Date().toISOString() + "\n", "utf-8");
   } catch {}
 
-  console.log(`snapshots regenerated @ ${dash.generated_at}`);
-  console.log(`  source_commit: ${dash.source_commit}`);
+  console.log(`snapshots regenerated @ ${generatedAt()}`);
+  console.log(`  source_commit: ${currentCommit()}`);
   console.log(`  books in flight: ${dash.books_in_flight.length}`);
   console.log(`  roadmap steps: ${dash.roadmap.length}`);
   console.log(`  recent commits: ${dash.recent_commits.length}`);

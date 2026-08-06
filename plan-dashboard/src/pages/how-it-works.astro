@@ -42,7 +42,17 @@ import "../styles/how-it-works.css";
       </p>
 
       <figure class="hiw-figure">
-        <div class="hiw-svg-scroll">
+        {
+          /* REQ-052: this is the one region on the page permitted to scroll, and
+            a scrollable region has to be focusable or its right-hand half is
+            mouse-only. Named after the diagram it holds. */
+        }
+        <div
+          class="hiw-svg-scroll"
+          role="region"
+          aria-label="Podcast Factory mind map (scrolls sideways on narrow screens)"
+          tabindex="0"
+        >
           <svg
             class="hiw-svg"
             viewBox="0 0 960 560"
@@ -434,7 +444,12 @@ import "../styles/how-it-works.css";
       </p>
 
       <figure class="hiw-figure">
-        <div class="hiw-svg-scroll">
+        <div
+          class="hiw-svg-scroll"
+          role="region"
+          aria-label="How the factory connects to outside services (scrolls sideways on narrow screens)"
+          tabindex="0"
+        >
           <svg
             class="hiw-svg"
             viewBox="0 0 960 210"

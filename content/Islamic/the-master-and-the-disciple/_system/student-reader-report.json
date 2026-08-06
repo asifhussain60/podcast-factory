@@ -1,0 +1,64 @@
+{
+  "schema": "book.student-reader/v1",
+  "generated_at": "2026-08-06T14:02:15Z",
+  "dry_run": false,
+  "chapters": [
+    {
+      "chapter": "the persian who was dead and revived",
+      "file": "1-the-persian-who-was-dead-and-revived",
+      "title": "1. The Persian Who Was Dead and Revived",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "a stranger in the city",
+      "file": "2-a-stranger-in-the-city",
+      "title": "2. A Stranger in the City",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "the boy at the door — limits and conditions",
+      "file": "3-the-boy-at-the-door-limits-and-conditions",
+      "title": "3. The Boy at the Door — Limits and Conditions",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "how the world was made",
+      "file": "4-how-the-world-was-made",
+      "title": "4. How the World Was Made",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "the world, the hereafter, and the speech of parables",
+      "file": "5-the-world-the-hereafter-and-the-speech-of-parables",
+      "title": "5. The World, the Hereafter, and the Speech of Parables",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "three layers of knowledge",
+      "file": "6-three-layers-of-knowledge",
+      "title": "6. Three Layers of Knowledge",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "the five shares and the long road to the shaykh",
+      "file": "7-the-five-shares-and-the-long-road-to-the-shaykh",
+      "title": "7. The Five Shares and the Long Road to the Shaykh",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "homecoming, the father, and the debate with abu malik",
+      "file": "8-homecoming-the-father-and-the-debate-with-abu-malik",
+      "title": "8. Homecoming, the Father, and the Debate with Abu Malik",
+      "skipped": "unchanged",
+      "filed": 0
+    }
+  ],
+  "filed_total": 0
+}

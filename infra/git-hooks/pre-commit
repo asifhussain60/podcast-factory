@@ -105,6 +105,22 @@ if printf '%s\n' "$staged_files" | grep -qE '^(CLAUDE|AGENTS)\.md$' \
     fi
 fi
 
+# infra/claude-agents/*.md is the canonical agent-spec source; .github/agents/,
+# .claude/agents/, and .codex/agents/ are all generated mirrors of it. Unlike
+# AGENTS.md above, nothing was gating this pair — a canonical edit that skipped
+# `sync-agent-wrappers.sh` (and skipped `start-session.sh`, the only other
+# caller) landed with a stale mirror and nothing blocked it. That is exactly
+# how podcast-auditor stayed in the live `.claude/agents/` roster for seven
+# weeks after its canonical spec was deleted (2026-07-26 audit).
+if printf '%s\n' "$staged_files" | grep -qE '^infra/claude-agents/.*\.md$' \
+        && [ -f "$repo_root/scripts/podcast/sync-agent-wrappers.sh" ]; then
+    if ! bash "$repo_root/scripts/podcast/sync-agent-wrappers.sh" --check >&2; then
+        echo "pre-commit: an agent-spec mirror is out of sync with its canonical source." >&2
+        echo "pre-commit: run: bash scripts/podcast/sync-agent-wrappers.sh" >&2
+        exit 1
+    fi
+fi
+
 # Dead-link gate over the NORMATIVE docs only (agent specs, skills, root docs).
 # The 2026-07-26 sweep found 13 dead links, dominated by a handbook tree gone since
 # the 2026-05-23 restructure that six files still cited. Historical trees like

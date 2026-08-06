@@ -70,7 +70,12 @@
   background: var(--c-accent);
   color: #fff;
   border-color: var(--c-accent);
-  outline: none;
+}
+/* The fill above is shared with :hover, so on its own it leaves a keyboard
+   user with no indicator distinct from a mouse-over. Same ring as .to-top. */
+.about-jumplinks a:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
 }
 
 /* ── Section titles ──────────────────────────────────────────────────────────── */
@@ -295,7 +300,12 @@
 .about-faq-q:hover,
 .about-faq-q:focus-visible {
   background: var(--c-bg-sunken);
-  outline: none;
+}
+/* The tint above is the same one :hover paints, so keyboard focus was
+   indistinguishable from a mouse-over. Same ring as .to-top. */
+.about-faq-q:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: -2px;
 }
 .about-faq-q[aria-expanded="true"] {
   background: color-mix(in oklab, var(--c-accent) 6%, var(--c-bg-card));
@@ -321,12 +331,22 @@
     padding 0.2s ease;
 }
 .about-faq-a.is-open {
-  max-height: 600px;
+  /* Headroom, not a measurement. The cap only exists so the open/close slide
+     has two numbers to animate between; it must never be the thing that
+     decides how much of an answer you get to read. The longest answer here is
+     ~530 characters, which at the REQ-010 floor wraps to roughly 550px on a
+     360px phone — 600px used to clear that by 50px, and the floor raise above
+     would have started clipping. Raised well past any realistic answer so the
+     clamp can only ever be slack. */
+  max-height: 1400px;
   padding: 0.85rem 1.25rem 1.1rem;
 }
 .about-faq-a p {
   margin: 0 0 0.6rem;
-  font-size: 0.92rem;
+  /* REQ-010 reading floor — was 0.92rem. An FAQ answer is four sentences of
+     explanation, not a chip or a label, so none of the rule's chrome
+     exemptions apply to it. */
+  font-size: var(--fs-base);
   color: var(--c-ink-dim);
   line-height: 1.65;
 }
