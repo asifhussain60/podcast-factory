@@ -484,23 +484,27 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   color: var(--c-accent, #8b4513);
 }
 
-/* A pipeline fence marker in the edit canvas (fence-decos.ts). The marker is
-   load-bearing text in book.md — `preserveFences` reads it back to restore the
-   comment form — so it cannot be removed from the document, only made to look
-   like what it is. Before this it rendered as an ordinary paragraph, which made
-   `edition-intro:begin` the apparent first sentence of the chapter. Toned as
-   inert machine chrome: mono, small, muted, on a sunken strip. */
+/* A pipeline fence marker in the edit canvas (fence-decos.ts).
+
+   HIDDEN, NOT REMOVED (Asif, 2026-08-06). The marker is load-bearing text in
+   book.md: `preserveFences` step 1 reads it back to restore the HTML-comment
+   form, and that is the LOSSLESS path — taking the text out of the editor seed
+   would demote every fence onto the heuristic re-wrap path, which is the failure
+   that once printed this book's chapter 3 editorial note twice, one copy wearing
+   the narrator's voice. So the node stays in the document and only its
+   presentation goes.
+
+   It used to draw as a sunken mono strip above and below every editorial aside —
+   machine chrome in the middle of a page being read as a book, twice per note.
+   `display: none` removes it from layout entirely; the node is still there, still
+   serialises through `docToMarkdown`, and still round-trips. Nothing in CSS can
+   reach book.md.
+
+   If a marker is ever deleted by a backspace at the head of the following
+   paragraph, `preserveFences` step 2 re-wraps the span in place and step 3
+   re-appends it — so a loss degrades rather than destroys. */
 .cx-prose .cx-fence-marker {
-  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
-  font-size: 0.8rem;
-  line-height: 1.4;
-  color: var(--c-ink-dim, #4d4a42);
-  background: var(--c-bg-sunken, #f0ece2);
-  border-inline-start: 2px solid var(--c-rule, #d9d3c4);
-  border-radius: 3px;
-  padding: 0.15rem 0.5rem;
-  margin: 0.9rem 0;
-  user-select: none;
+  display: none;
 }
 
 /* ── The Podcast lane ───────────────────────────────────────────────────────
@@ -1378,23 +1382,14 @@ body:has(.composer-grid) .to-top {
   margin-bottom: 0;
 }
 
-/* The fence markers, in EDIT mode only. They are load-bearing — `preserveFences`
-   reads them back to restore the HTML-comment form, so a save without them
-   strips the fence off the note — but they were drawing as two grey monospace
-   strips wrapped around the panel. Reduced to a small caption on the opening
-   marker and hidden on the closing one: the document still holds both nodes, and
-   nothing here can reach book.md (docToMarkdown serialises from the node tree,
-   never from CSS). */
+/* The same markers before TipTap flattens them, on the Composer's EDIT seed
+   (`keepMachineFences`). Hidden for the same reason and under the same guarantee
+   as `.cx-fence-marker` above: the node stays, only the paint goes. A caption on
+   the opening marker was the previous compromise and is retired — Asif reads
+   this canvas as a book, and a machine label above every editorial aside is
+   still machine chrome in the middle of the prose. */
 .cx-prose .md-comment {
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 0.68rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--c-ink-muted, #8a8272);
-  background: none;
-  padding: 0;
-  margin: 1.2rem 0 -0.9rem;
-  opacity: 1;
+  display: none;
 }
 
 /* ── Arabic quotations INSIDE the editor ──────────────────────────────────────
