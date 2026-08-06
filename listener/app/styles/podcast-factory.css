@@ -3701,6 +3701,63 @@
     color: var(--l-accent);
   }
 
+  /* On a chapter row the count is a fact printed inside a link that already goes
+     somewhere. On an EPISODE row there is no such link — an episode has no page
+     — so the count has to be the control itself, and it has to look like one:
+     a soft pill sized to a real target, not a number floating beside a title.
+     Same colours as the plain count, so the two read as the same thing said in
+     two places. */
+  .pf-row__marks--button {
+    /* Sized like the small button it sits beside, not larger. It is the row's
+       SECONDARY control — Play is what the row is for — and a count that stood
+       taller than the play button read as the more important of the two. */
+    padding: var(--pf-space-1) var(--pf-space-3);
+    border: 1px solid transparent;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-accent-soft);
+    font-family: var(--l-font-ui);
+    font-variant-numeric: tabular-nums;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      border-color var(--pf-motion),
+      background var(--pf-motion);
+  }
+
+  .pf-row__marks--button:hover {
+    border-color: var(--l-accent);
+  }
+
+  /* An episode row's controls, kept together so they can move together. */
+  .pf-row__actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--pf-space-3);
+  }
+
+  /* On a phone the title takes the line and the controls take the next one.
+     Three items abreast is more than 390px holds: the title shrank until its
+     text ran underneath the note count's pill, which is a row that has stopped
+     being readable rather than one that is merely tight. Nothing is hidden —
+     the same answer the player bar's own crowding got. */
+  @media (max-width: 639px) {
+    .pf-session__list .pf-row {
+      flex-wrap: wrap;
+    }
+
+    .pf-session__list .pf-row__main {
+      /* Forces the wrap. With `flex: 1` and `min-width: 0` the title shrinks to
+         nothing instead, and flexbox never sees a reason to break the line. */
+      flex: 1 1 60%;
+    }
+
+    .pf-session__list .pf-row__actions {
+      flex: 1 1 100%;
+      justify-content: flex-end;
+    }
+  }
+
   /* ---- Stacks and splits -------------------------------------------------
      The two arrangements the admin screens need, named rather than repeated
      as a utility string on every block. */
