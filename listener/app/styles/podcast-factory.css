@@ -5064,12 +5064,28 @@
     max-width: var(--pf-measure-page);
     margin-inline: auto;
     padding: var(--pf-space-3) var(--pf-space-5);
+    /* iOS reserves a strip at the foot of the window for its own bar. Without
+       this the scrub row sits under it and the last few pixels of the seek
+       control cannot be touched. */
+    padding-bottom: calc(var(--pf-space-3) + env(safe-area-inset-bottom, 0px));
   }
 
+  /* Three groups, not eight controls in a row: what is playing, the transport,
+     and the panels. The groups are what the phone breakpoint re-flows — the
+     controls inside them are never taken away, which is the whole point of the
+     grouping. */
   .pf-player__top {
     display: flex;
     align-items: center;
     gap: var(--pf-space-3);
+  }
+
+  .pf-player__transport,
+  .pf-player__panels {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--pf-space-2);
   }
 
   .pf-player__play {
@@ -5091,13 +5107,58 @@
     background: var(--l-accent-hover);
   }
 
-  /* The skip controls READ as buttons now. They were bare text on a bar full of
-     real controls, so the two things a listener reaches for most while an
-     episode runs — go back fifteen, go forward fifteen — looked like labels
-     printed beside the play button rather than things to press. */
-  .pf-player__nudge,
-  .pf-player__panel-tab {
+  /* Round, and the same 44px as play. They were pill-shaped text — "-15s" —
+     which needed more width than a phone's bar had, and the fix taken at the
+     time was to hide them below 640px: the two controls a listener reaches for
+     most, absent on the device the listening happens on (Asif, 2026-08-06). A
+     glyph with the numeral inside says the same thing in a circle, so they now
+     fit at every width and are held to the AAA target size at all of them. */
+  .pf-player__nudge {
+    position: relative;
+    display: flex;
     flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-pill);
+    background: transparent;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    cursor: pointer;
+    transition:
+      color var(--pf-motion),
+      border-color var(--pf-motion);
+  }
+
+  /* The rotating arrow is drawn AROUND the numeral rather than beside it, which
+     is what makes "fifteen seconds back" one mark instead of two things to
+     read. */
+  .pf-player__nudge .pf-icon {
+    width: 1.35em;
+    height: 1.35em;
+  }
+
+  .pf-player__nudge-n {
+    position: absolute;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    /* Optically centred inside the arrow's loop, which is not the button's own
+       centre — the glyph's arrowhead sits above the ring. */
+    padding-top: 0.15em;
+  }
+
+  .pf-player__panel-tab {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--pf-space-1);
+    /* Never below the AAA target height, whatever the label does. */
+    min-height: 2.75rem;
     padding: var(--pf-space-1) var(--pf-space-3);
     border: 1px solid var(--l-rule);
     border-radius: var(--pf-radius-pill);
@@ -5118,6 +5179,29 @@
   .pf-player__panel-tab:hover {
     color: var(--l-ink);
     border-color: var(--l-accent);
+  }
+
+  /* How many notes are in THIS episode, on the button that opens them. Never
+     rendered as zero — an empty count reads as something to clear rather than
+     something not yet started, which is the same rule the reader's own tab
+     follows. */
+  .pf-player__badge {
+    min-width: 1.25rem;
+    padding: 0 var(--pf-space-1);
+    background: var(--l-accent);
+    border-radius: var(--pf-radius-pill);
+    color: var(--l-on-accent);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  /* Held down, the badge inverts with it — an accent pill on an accent button
+     would otherwise disappear exactly when the panel it counts is open. */
+  .pf-player__panel-tab[aria-expanded="true"] .pf-player__badge {
+    background: var(--l-on-accent);
+    color: var(--l-accent);
   }
 
   /* The open panel's button is held down, which is the only thing on screen
@@ -5167,10 +5251,13 @@
     position: fixed;
     inset-inline-end: 0;
     top: 0;
-    /* The bar is two rows plus its padding. A magic number here would drift the
-       first time the bar changed, so it is measured from the same space scale
-       the bar is built from. */
-    bottom: calc(var(--pf-space-3) * 2 + 4.5rem);
+    /* The bar's ACTUAL height, published by the bar itself through a
+       ResizeObserver. It was worked out by hand from the space scale, which was
+       true for exactly one shape of bar: the phone layout is two rows and the
+       safe-area inset is per-device, so a constant here would leave a strip of
+       this drawer hidden behind the transport with nothing reporting it. The
+       fallback is only for the instant before the observer's first reading. */
+    bottom: var(--pf-player-h, 7rem);
     /* Above a PAGE's drawer (25), so a chapter's notes can be open underneath
        and the transcript still opens over it. */
     z-index: 41;
@@ -5250,13 +5337,23 @@
     font-size: var(--pf-text-xs);
   }
 
-  /* A phone's player bar has room for play, what is playing, the two panels and
-     close. The skip buttons and the speed control are the parts that go —
-     Transcript and Notes deliberately do NOT, because they are the reason the
-     bar is worth having on a phone at all. */
+  /* From a tablet up the three groups sit in one row, transport first, exactly
+     as the bar has always read. */
   @media (min-width: 640px) {
-    .pf-player__nudge {
-      display: block;
+    .pf-player__top {
+      flex-wrap: nowrap;
+    }
+
+    .pf-player__transport {
+      order: 1;
+    }
+
+    .pf-player__what {
+      order: 2;
+    }
+
+    .pf-player__panels {
+      order: 3;
     }
 
     .pf-player__rate {
@@ -5264,14 +5361,39 @@
     }
   }
 
+  /* On a phone the groups RE-FLOW; nothing is removed from them. The title
+     takes the first line on its own — it is the one thing here that needs the
+     full width and can be truncated — and the transport and the panels share
+     the second. Every control that exists at 1440px exists at 320px. */
   @media (max-width: 639px) {
-    .pf-player__nudge {
-      display: none;
+    .pf-player__top {
+      flex-wrap: wrap;
+      gap: var(--pf-space-2);
     }
 
-    /* Room for two of them beside the title. The padding goes rather than the
-       control: a smaller tap target on the thing a listener presses most on the
-       device they listen on is the wrong economy. */
+    .pf-player__inner {
+      padding-inline: var(--pf-space-4);
+    }
+
+    .pf-player__what {
+      order: 1;
+      flex: 1 1 100%;
+    }
+
+    .pf-player__transport {
+      order: 2;
+    }
+
+    .pf-player__panels {
+      order: 3;
+      /* Pushed to the trailing edge, so the transport keeps the thumb-side
+         corner it is reached from. */
+      margin-inline-start: auto;
+    }
+
+    /* The label shrinks; the 44px target does not. A smaller tap target on the
+       thing a listener presses most on the device they listen on is the wrong
+       economy. */
     .pf-player__panel-tab {
       padding-inline: var(--pf-space-2);
       font-size: var(--pf-text-xs);
