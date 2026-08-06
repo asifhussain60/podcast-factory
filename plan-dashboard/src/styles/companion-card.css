@@ -136,6 +136,67 @@
   }
 }
 
+/* Keep — the other half of accept-or-delete, on a note the machine filed and
+   nobody has read yet. Same geometry and same hover reveal as delete, sitting
+   immediately left of it: the two are one decision taken in one place, and a
+   control that appeared somewhere else would read as a different kind of act.
+   Green on hover against delete's red, both already in the palette. */
+.xpl-keep {
+  position: absolute;
+  top: 0.3rem;
+  right: 2.1rem;
+  z-index: 1;
+  width: 1.6rem;
+  height: 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule-soft);
+  border-radius: 6px;
+  font-size: 0.72rem;
+  color: var(--c-ink-muted);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.xpl:hover .xpl-keep,
+.xpl-keep:focus-visible {
+  opacity: 1;
+}
+
+.xpl-keep:hover {
+  border-color: var(--c-green);
+  color: var(--c-green);
+}
+
+.xpl-keep:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 1px;
+}
+
+@media (hover: none) {
+  .xpl-keep {
+    opacity: 1;
+  }
+}
+
+/* "Nobody has read this yet." Muted rather than alarming: an unreviewed note is
+   a normal resting state, not an error, and thirty of these in a pass must not
+   turn the panel into a wall of warnings. It is the ONLY thing distinguishing a
+   machine's finding from an approved one, so it must not be so quiet as to be
+   missed either — hence the border, which the other meta chips do not carry. */
+.xpl-proposed {
+  border: 1px solid var(--c-rule-soft);
+  border-radius: 999px;
+  padding: 0 0.4rem;
+  color: var(--c-ink-dim);
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 /* The toggle — everything except the delete control. */
 .xpl-head {
   display: flex;

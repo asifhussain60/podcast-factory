@@ -235,6 +235,7 @@ export default function GemCompanionPanel({
   const onPendingRangeRef = useRef(onPendingRange);
   const saveRef = useRef<(id: string, edit: CardEdit) => void>(() => {});
   const removeRef = useRef<(id: string) => void>(() => {});
+  const acceptRef = useRef<(id: string) => void>(() => {});
 
   useEffect(() => {
     if (open) {
@@ -354,6 +355,28 @@ export default function GemCompanionPanel({
     [chapter, notes, publish, slug],
   );
 
+  /** Accept a machine-filed note: `review` -> "kept", and nothing else.
+   *
+   *  Optimistic like `removeNote` above and for the same reason — the badge and
+   *  the keep button vanish the instant he clicks, and come back if the write
+   *  fails. Unlike a delete this is not confirmed: keeping is reversible (the
+   *  delete button is still there) and he may accept thirty of these in one
+   *  pass, where a dialog each time is friction rather than safety. */
+  const acceptNote = useCallback(
+    async (id: string) => {
+      if (!chapter) return;
+      const prev = notes;
+      publish(notes.map((n) => (n.id === id ? { ...n, review: "kept" } : n)));
+      try {
+        await defaultStore.accept(slug, chapter, id);
+      } catch (e) {
+        publish(prev); // put the badge back — nothing was accepted
+        setError(`Could not keep it: ${(e as Error).message}`);
+      }
+    },
+    [chapter, notes, publish, slug],
+  );
+
   /** Save an edited title/body back to the note's file. */
   const saveNote = useCallback(
     async (
@@ -392,7 +415,8 @@ export default function GemCompanionPanel({
   useEffect(() => {
     saveRef.current = (id, edit) => void saveNote(id, edit);
     removeRef.current = (id) => void removeNote(id);
-  }, [saveNote, removeNote]);
+    acceptRef.current = (id) => void acceptNote(id);
+  }, [saveNote, removeNote, acceptNote]);
 
   // The cards actually shown: in the Composer, the notes whose passage is in the
   // chapter on screen. Memoized on the id list (a string, so a host that rebuilds
@@ -481,6 +505,7 @@ export default function GemCompanionPanel({
                 onSave: (id: string, edit: CardEdit) =>
                   saveRef.current(id, edit),
                 onRemove: (id: string) => void removeRef.current(id),
+                onAccept: (id: string) => void acceptRef.current(id),
               }),
         });
         live.set(note.id, card);

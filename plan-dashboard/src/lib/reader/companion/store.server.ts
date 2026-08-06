@@ -194,6 +194,36 @@ export function reanchorNote(
   return next;
 }
 
+/**
+ * Mark one note as read and kept.
+ *
+ * As narrow as `reanchorNote` above and for the same reason: `review` and
+ * `updatedAt`, nothing else. Accepting is a judgement about a note, not an edit
+ * of it, so it must not travel as a whole-note save — every field sent is a
+ * field at risk, and the panel may be holding a copy from before an edit.
+ *
+ * Returns null on an unknown id: accepting a note deleted elsewhere must not
+ * resurrect it.
+ */
+export function acceptNote(
+  slug: string,
+  chapter: string,
+  id: string,
+): CompanionNote | null {
+  const doc = readChapter(slug, chapter);
+  const existing = doc.notes.find((n) => n.id === id);
+  if (!existing) return null;
+  const next: CompanionNote = {
+    ...existing,
+    review: "kept",
+    updatedAt: nowIso(),
+  };
+  doc.notes = doc.notes.map((n) => (n.id === id ? next : n));
+  doc.updatedAt = next.updatedAt;
+  writeChapter(doc);
+  return next;
+}
+
 /** Remove a note by id. Returns the updated doc. */
 export function deleteNote(
   slug: string,

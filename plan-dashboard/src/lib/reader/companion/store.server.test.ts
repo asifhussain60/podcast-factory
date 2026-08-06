@@ -33,7 +33,8 @@ writeFileSync(
   `slug: ${slug}\n`,
 );
 
-const { upsertNote, readChapter, deleteNote } = await import("./store.server");
+const { upsertNote, readChapter, deleteNote, acceptNote } =
+  await import("./store.server");
 
 const CH = "1-a-chapter";
 
@@ -112,4 +113,35 @@ test("deleting a proposed note removes it — the other half of accept-or-delete
   });
   deleteNote(slug, "4-fourth", "student:4-fourth:y");
   assert.equal(readChapter(slug, "4-fourth").notes.length, 0);
+});
+
+test("accepting touches review and nothing else", () => {
+  const { note } = upsertNote(slug, "5-fifth", {
+    id: "student:5-fifth:z",
+    kind: "explanation",
+    body: "Proposed by the pass.",
+    anchor: "a label",
+    quote: "a passage",
+    review: "proposed",
+  });
+
+  const accepted = acceptNote(slug, "5-fifth", note.id);
+
+  assert.equal(accepted?.review, "kept");
+  assert.equal(
+    accepted?.body,
+    note.body,
+    "accepting is a judgement, not an edit",
+  );
+  assert.equal(accepted?.anchor, note.anchor);
+  assert.equal(
+    accepted?.quote,
+    note.quote,
+    "the anchor must survive an accept",
+  );
+  assert.equal(accepted?.createdAt, note.createdAt);
+});
+
+test("accepting an unknown id returns null rather than resurrecting it", () => {
+  assert.equal(acceptNote(slug, "5-fifth", "student:deleted:elsewhere"), null);
 });
