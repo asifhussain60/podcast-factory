@@ -42,3 +42,16 @@
 {"phase": "0d", "step": "sc-003", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0d", "step": "sc-004", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0d", "step": "sc-005", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch01a-ali-and-the-prophet", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch02b-why-intellect-not-reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch03c-paradox-and-the-inner-struggle", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch04d-joy-virtue-and-the-hereafter", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch05a-the-sacred-conception-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch06b-pride-and-conscience", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch07c-the-classes-of-society-and-the-poor", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch08d-prayer-as-the-source-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch09a-dhikr-the-polish-for-hearts", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch10b-the-veils-that-do-not-veil", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch11c-forgetting-the-self-and-the-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch12-the-first-sermon-of-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch13-the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
