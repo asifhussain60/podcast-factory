@@ -1930,6 +1930,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "de33ba8",
+      "subject": "fix(composer): the visual palette offers only assets that exist",
+      "date": "2026-08-06"
+    },
+    {
       "sha": "b722db9",
       "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
       "date": "2026-08-06"
@@ -1972,11 +1977,6 @@
     {
       "sha": "b2d5817",
       "subject": "docs(listener): what's new, for the player changes readers are about to get",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "254396e",
-      "subject": "style(player): the deck's top edge matches its bottom",
       "date": "2026-08-06"
     }
   ],
