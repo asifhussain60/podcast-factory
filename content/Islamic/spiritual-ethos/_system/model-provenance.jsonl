@@ -80,3 +80,7 @@
 {"phase": "per-chapter", "step": "challenger/paradox-and-the-inner-struggle", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/paradox-and-the-inner-struggle/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/paradox-and-the-inner-struggle", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/prayer-as-the-source-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/prayer-as-the-source-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/prayer-as-the-source-of-justice/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/prayer-as-the-source-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
