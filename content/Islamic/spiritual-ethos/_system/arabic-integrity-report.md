@@ -2,7 +2,7 @@
 
 - Rule: R-ARABIC-INTEGRITY (fingerprint v1.0)
 - Phase verified: `0e`
-- Generated: 2026-08-06T16:33:35Z
+- Generated: 2026-08-06T16:34:24Z
 - Verdict: PASS
 
 Forbidden = an Arabic span mutated/dropped/invented by an LLM pass with no

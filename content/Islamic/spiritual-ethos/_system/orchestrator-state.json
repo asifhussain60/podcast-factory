@@ -6,13 +6,9 @@
   "input_type": "page-images",
   "source_language": "en",
   "phase": "0e",
-  "phase_status": "failed",
-  "last_completed_phase": "0d",
-  "last_error": {
-    "phase": "0e",
-    "message": "R-ARABIC-INTEGRITY: an LLM pass altered/dropped/invented Arabic script in phase 0e. See _system/arabic-integrity-report.md.",
-    "ts": "2026-08-06T14:56:22Z"
-  },
+  "phase_status": "completed",
+  "last_completed_phase": "0e",
+  "last_error": null,
   "category": "books",
   "branch": "Islamic/spiritual-ethos",
   "status": "draft",
@@ -55,14 +51,14 @@
       "ts_completed": "2026-08-06T12:17:11Z"
     },
     "0e": {
-      "status": "failed",
+      "status": "completed",
       "ts_started": "2026-08-06T13:14:35Z",
-      "ts_completed": "2026-08-06T14:56:22Z",
+      "ts_completed": "2026-08-06T16:34:24Z",
       "manual_fallback": "Restore the affected Arabic from canonical source, or record the change as a glossary curation decision, then --resume."
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
-  "run_id": "20260806T145622Z-917329",
-  "ts_updated": "2026-08-06T14:56:22Z",
-  "next_phase": "0e"
+  "run_id": "20260806T163424Z-0ec9ca",
+  "ts_updated": "2026-08-06T16:34:24Z",
+  "next_phase": "0literary"
 }
