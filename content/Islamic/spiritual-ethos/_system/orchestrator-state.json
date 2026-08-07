@@ -5,10 +5,14 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "0book-design",
-  "phase_status": "completed",
+  "phase": "0book-compose",
+  "phase_status": "failed",
   "last_completed_phase": "0book-design",
-  "last_error": null,
+  "last_error": {
+    "phase": "0book-compose",
+    "message": "bk-11-part-03: translation edition output failed integrity gate: speech tag cut into a quotation (2 interior vs 1 in source) — attribution may have moved",
+    "ts": "2026-08-07T01:28:57Z"
+  },
   "category": "books",
   "branch": "Islamic/spiritual-ethos",
   "status": "draft",
@@ -345,10 +349,16 @@
       "status": "completed",
       "ts_started": "2026-08-06T23:57:56Z",
       "ts_completed": "2026-08-07T00:02:25Z"
+    },
+    "0book-compose": {
+      "status": "failed",
+      "ts_started": "2026-08-07T00:02:26Z",
+      "ts_completed": "2026-08-07T01:28:57Z",
+      "manual_fallback": "Re-run 0book-design/0book-compose after inspecting the source range; the pipeline refused to persist model commentary or generated headings."
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260806T233952Z-560da5",
-  "ts_updated": "2026-08-07T00:02:25Z",
+  "ts_updated": "2026-08-07T01:28:57Z",
   "next_phase": "0book-compose"
 }
