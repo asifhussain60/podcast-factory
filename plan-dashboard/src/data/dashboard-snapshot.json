@@ -1930,6 +1930,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "2533af4",
+      "subject": "chore(plan-dashboard): regenerate snapshot after slide-deck default fix",
+      "date": "2026-08-07"
+    },
+    {
       "sha": "955aaf3",
       "subject": "fix(slides): make black-and-white minimal decks the pipeline default",
       "date": "2026-08-07"
@@ -1972,11 +1977,6 @@
     {
       "sha": "855d8ab",
       "subject": "fix(compose): accepting a Companion note now shows on the card",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "1d29635",
-      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
       "date": "2026-08-06"
     }
   ],

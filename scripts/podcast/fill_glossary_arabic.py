@@ -343,17 +343,26 @@ def main() -> int:
         )
         all_fills.update(batch_fills)
 
-    # Merge fills into entries (preserve order, ignore unknown phonetics)
-    by_phon = {r["phonetic"]: r for r in entries}
+    # Merge fills into entries (preserve order, ignore unknown phonetics). A
+    # phonetic can label MULTIPLE rows (repeat first-occurrence snippets of the
+    # same term) — collapsing to one row by phonetic (the prior approach) wrote
+    # the model's answer into whichever row happened to survive the collapse,
+    # which could be an already-filled row while the genuinely empty duplicate
+    # stayed empty. Apply the fill to every row sharing that phonetic that is
+    # still empty; never touch a row that already has a value.
+    known_phons = {r["phonetic"] for r in entries}
     n_filled = 0
     n_skipped_unknown = 0
     for phon, script in all_fills.items():
-        if phon not in by_phon:
+        if phon not in known_phons:
             n_skipped_unknown += 1
             continue
-        if script:  # only update on non-empty
-            by_phon[phon]["arabic_script"] = script
-            n_filled += 1
+        if not script:
+            continue
+        for r in entries:
+            if r["phonetic"] == phon and not r.get("arabic_script"):
+                r["arabic_script"] = script
+                n_filled += 1
 
     if n_skipped_unknown:
         print(f"  ⚠ {n_skipped_unknown} LLM-emitted rows had unknown phonetics; dropped", file=sys.stderr)

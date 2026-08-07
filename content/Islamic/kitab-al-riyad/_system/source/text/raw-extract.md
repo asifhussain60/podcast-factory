@@ -206,7 +206,7 @@ Al-Kirmani remained alive until the year 411 AH. So at any time he took Al-Kirma
 About the philosophical sciences of calling? There is an explicit text in the book ((Al-Itikhar))
 Al-Sijistani himself mentions in it that he laid it in 360 AH. It has been mentioned
 The book ((Al-Iftikhar)) in the book of ((Riyadh)) Al-Kirmani, that is, he was a preacher in
-The province of Bukhara during the caliphate of Imam ((al-Mu'izz al-Din al-Fatimi)) and the meaning of this
+The province of Bukhara during the caliphate of Imam ((Al-Mu'izz al-Din al-Fatimi)) and the meaning of this
 He was a contemporary of the great preacher ((Jaafar bin Mansour Al-Yemeni)) and the scholar jurist
 Judge ((Al-Nu'man bin Muhammad bin Hayun Al-Maghribi Al-Tamimi)) Judge of the Fatimid State
 And to other great authors and scholars of da'wah in that golden age of science
@@ -385,7 +385,7 @@ There is between the act by which God preserves the world and the act by which H
 In fact, al-Kirmani shared with Muslim philosophers and was influenced by some of them
 Especially those who say that Greek philosophy and it is distinguished from them that when he presented these
 Philosophy characterized his body with the traits of novelty, wit and innovation, and he was the predecessor of
-to the renewal of modern European and ancient Oriental philosophers. Accordingly
+To the renewal of the modern European philosophers and the ancient Orientals. Accordingly
 It can be said that Al-Kirmani left books and produced ideas that should
 They are seen not only as Ismaili intellectual views, but as Islamic philosophical views
 A high-level public that looks at the essence of things and the mental aspects
@@ -427,7 +427,7 @@ In expression and high heels in philosophy.
 00-19-19
 
 <!-- page 22 -->
-And from going back to (peace of mind) and reviewing what is stated in it, you will see that it has been
+And from going back to (peace of mind) and reviewing what is stated in it, you will see that it has
 It is full of expressions and evidence about the heroes of the Apostolic about God and the negation of divine attributes
 From what he said and supported, Allaah does not attain any attribute, and that He is not a body.
 Nor is it in a body, and it does not rationalize itself, nor does it feel it, and it is
@@ -503,7 +503,7 @@ and my purpose is to show the origins in the correct sense and to separate
 Monday, and when we get to this point it is easy to show the error and the teachings remain
 The correct one is free from doubt and doubt and far from all disparity and confusion.
 Al-Kirmani divided his book (Riyadh) into ten chapters and divided each chapter into
-Several chapters, and with his literary and scientific tact, and the strength of his statement and his knowledge, he chose what he saw
+Several chapters, and with his literary and scientific tact, and the strength of his statement and his knowledge, he chose what he saw.
 important, and basic from the books ((Al-Islah)) and (Al-Nusra)) and his reading in his style
 - 22
 
@@ -626,8 +626,8 @@ Al-Sijistani changes the meaning of what is stated in the book (Al-Islah) by cha
 Al-Kirmani agrees with the opinion on the subject of partial souls, knowing
 The group of these souls does not constitute the general soul, and Al-Sijistani comes back and speaks.
 about this world and with his speech he hints at the complete truths and says that the soul
-The human soul belongs to the area between the world of nature and the world of rebirth
-It is the component and known (by natural force) and the soul may be exposed to the world
+The human soul belongs to the region between the world of nature and the world of rebirth
+It is the component and known (by natural force) and the soul may look out into the world
 The highest by practicing piety and then by uniting with the second and Sijistani does not stand
 At this point, he says:
 The mind is the first resurrection while the talking souls are the second resurrection
@@ -649,7 +649,7 @@ Al-Kirmani does not stop at this limit, but he quotes the sayings of Al-Razi rec
 The book (Al-Islah) in which he says:
 Movement and stillness are like the soul of the body and the image and these last two
 Like the body of the first two, because the soul is gentler than the body, and the body is more dense.
-of the soul, movement and stillness are gentler than the hymns and the image, and it seems
+of the soul, movement and stillness are gentler than the hypnosis and the image, and it seems
 Al-Sijistani rejects this analysis, supporting the theory of the author of the crop.
 Al-Kirmani says that the two were wrong, especially Al-Razi with regard to
 By the movement which is the action of the engine which we call the soul.
@@ -1027,7 +1027,7 @@ Humans are also a channel that moves, which is the soul, and in the world the ex
 <!-- page 46 -->
 0
 A great speech in the Bab al-Qahna and the old one includes four (Atwyn)
-Wasla al-Bab al-Tas'afi al-Kallah fi Bab Shari'at al-Dam'ini)
+Wasla al-Bab al-Tas'afi al-Kallah fi bab shari'iyat al-da'mina)
 000
 Rumi Fahh Ali Al-Lam moves on three and softens the door
 Tenth as to the work of the Asalam from the Book of the Harvest
@@ -1144,12 +1144,12 @@ Gatd Fauj Website
 Those close to him will be our domination and his followers
 He is aware of Jabr and his son is a son of you from the Ted, Rajzor and Tayneem or
 The only way to do that is by adopting the two acts of worship and making a good judgment that we have lost and lost.
-Outwardly, our arms are silky, even if it is the friendliness.
+Outwardly, our arms are silky, even if it is a friendly one.
 What is left of the paradox of parents, boys, relatives, homeland and mastery
 It is now to reach the habit except by the increase and the increase the mayogre in obedience
 His land and a paradise will be established to perform its right and good to do and Ali Saleh with work and knowledge
 The criminals of fasting spread God and the Al-Wamunir group in boxes
-The land and the cave of the idol and the rice of their canals are intercession
+The land and the cave of the idol and the rice of their channels are intercession
 The sheath and suppression of the pure Imams is the material carrot and we attended with them
 With Amr Al-Tahirin, the ruling Imam by the command of God Almighty and "Bab"
 The serious God's peace on a name in the land of Jerusalem about him and his gentleness and stubbornness
@@ -1158,11 +1158,11 @@ And the believers and the believers and do not increase the oppressors
 And the others are the cradle and the sin of the two days that guide the prayers of Allah?
 In two days and we say to Mall and there is no power but from God the Almighty with the will of righteousness
 ۔
-Underestimate him and Al-Washaari to Al-Yahsban Allah and Al-Waqar Al-Wakil
+Our disdain and the poetry to the one who counts Allah and the agent
 And the best of God and the best supporter and mash and unity and the prayer on him and his family
 The pure good ones with the forehead
 And he is in the changer
-The book is a sinner who is guilty of begging the deputies from Aldweer Qabea
+The book is a shame who is guilty of begging the deputies from Aldweer Qabaa
 The branch of this book is signed, the Lord has given you the guidance and the day of mine.
 death and
 The twenty eighth Mr. Shawala from the year of Haramsh
@@ -1178,8 +1178,8 @@ And if there is something that should exist, I will not see that there are no tw
 All the destinations, stop being for a self and I don't stop being
 Existence because I am tired of being there and its existence
 Goods, creativity and quality about God flir one from the swirl
-And the creative by saying that he is a creative, or a creative, or a person who is a former.
-Be yours and wait for what is available to be issued when the first existence
+And the creative is not said to be the one who is the one who is creative or the one who is
+Be yours and wait for what is available when you first exist
 ۔
 The goose does not exist Anjar in the part of the verb from the subject and the verb to be
 The one proved that creativity is the creative and if he is brilliant he is the creative
@@ -1188,7 +1188,7 @@ And we are more careful about what we promise and for the book we say that deliv
 And knowing the borders is harder and we make ourselves happy and stay marginalized
 From the world of nature and its origins and when it was hard and I don't know
 His servants are words that do not know the degree of perfection with a bitter knowledge
-The one who is alone has passed his anger from among those who grow on one or all of them.
+The camel and the only one passed through it between the two of them on one or all of them.
 The next and the storm is like the Imam, the number of peace biting with money to be
 "Complete in the acceptance of the path in the medical world from the Queen's side
 : Manuscript =
@@ -1210,15 +1210,15 @@ The true idol who created all things with their different essences, from simple
 Dhu Sana'a and Jalal, and Nadhid, who is your love and perfection, there is nothing like him (3) of them.
 And he leans away from her in all faces, and I bear witness that the Most Merciful, the Most Merciful, and the righteous
 Al-Kareem, Muhammad Abdu Mukhtar Al-Zaki, and the righteous Messenger of God, sent him and the idols
-1 – It is mentioned in copy (a) (and in it) Tawakkli and al-Safiq (and on him) and it is not mentioned in Sunnah (b).
-2 – It is mentioned in the two versions, so it is not "ta'a'ta'a" and the more correct one is ''a'ta'a'.
+1 – It is mentioned in the copy (a) (and in it) (and in it) and in the correct (and on him) and it is not mentioned in the year (b).
+2 – It is mentioned in the two versions, so it is not "ta'a'ta'a" and the more correct one is ''i'ta'a'.
 3 – It is mentioned in Taskhah (B) (there is nothing like it).
 - 47
 
 <!-- page 50 -->
 In its sanctuary it is an idol, and the landmarks of the Hanifi religion (1) are threatened, and the fire of disbelief and atheism
 It is burning, and the buildings of polytheism and polytheism are constructed, and the people are in the midst of misguidance.
-They have penetrated into its depths, and in the blindness of adversity, they have become obsessed with it, and he rose up for God as a diligent
+They have penetrated into its depths, and in the blindness of adversity, they have become obsessed with it, and he has risen up for the sake of Allah
 And he struggled, and he bemoaned for them what was more than clothing and darkness, and he broke what was
 He was worshipped among them by idols and idols, and he began to worship the Most Merciful and your rituals.
 Faith and Islam, and the replacement of the houses of fire with the Sacred House of Allah, and the abrogation of the ruling
@@ -1229,7 +1229,7 @@ Her eyes were bright, and the word of shirk was humiliated and darkened, and the
 with clear verses, and the wind dragged the ships of salvation in the seas of differences, and he
 The ruling of Allah Almighty (3) in what He willed to afflict people of opinions and religions, may Allah bless him and grant him peace.
 He has a prayer that informs him about his followers in general, and about the preachers in particular.
-So it will make easy for them a day when neither money nor children will be of any use except for those who come to God with a sound heart.
+So it will make easy for them a day when neither money nor children will be of any use except for those who come to God with a sound heart,
 The way of his intercession and the right to follow him and obey him will be deprived of them. And on Qutb al-Din,
 And the pillar of the believers, meet His lights, and the Guardians by the command of His followers and supporters, and Al-Kazim (4)
 For anger in fulfillment of the covenant of Allah Almighty, and patience in the humiliation of usurpation in order to seek the face of Allah
@@ -1384,7 +1384,7 @@ Completely, and if it is a thing, then that thing is its cause, and if that is (
 The perfect is the cause of the perfect, and the perfect is the effect of the perfect, and if the perfect is the cause of the perfect, and if
 The perfect was the result of perfection, and he gave honor and credit to the perfect over perfection.
 It is obligatory for the disabled to be more honorable than his illness, and this is impossible,
-For what was his existence by the existence of if he had risen, his existence had risen by his height.
+For what was his existence by the existence of if he increased, his existence rose with his height,
 That existence with which he exists below him in honor and progress, and if that is
 It is impossible that the owner of Al-Nusra in what he mentioned was prejudiced against the owner of the reform.
 4 - The F of affection appeared in copy (A).
@@ -2288,7 +2288,7 @@ And we say:
 The submissive to which you are led and the altruism and pleasures and the following of desires
 The natural and abandonment of worship is the sensual soul being from it, not the soul
 The speaker to which I have attached, (1) and the sensual soul are only convinced, and he is convinced of the coming of
-Ugliness and vices, if they are (2) affected by the intellect in terms of the limits
+Ugliness and vices, if they are worked on (2) have the effects of the intellect in terms of the limits
 membership in education, so it prevents her from committing what keeps her from doing what keeps her doing, and this is not
 The souls are the next that emanates from the first mind on which the owner speaks
 reform, and it has been advanced from saying what is involved in it (that the following is different from this
@@ -2306,13 +2306,13 @@ The imperfect to accept the degree of perfection, by the proof that the beings a
 - 88
 
 <!-- page 91 -->
-But it is by force first, then by force last, and there is no exit of what exists by force.
+But it is by force first, then by force last, and there is no exit to what exists by force.
 to the deed, except in the presence of what already exists, and if there is no exit of what is
 Exists by force to action, the existence of what already exists, and external to
 The action exists, for the existence of what already exists is a necessary existence, and if it
 The existence of what already exists is a necessary existence that has not been disturbed by its existence.
 He is the first mind or another, and it is invalid to be the first mind
-Abstaining from the existence of an action except in the presence of others and its need in the mind for what exists
+Abstaining from the existence of an action except in the presence of others and his need in the mind for what exists
 with him outside of it so that he acts in it, and the first mind is dispensed with in doing it.
 For there is nothing in it other than himself, for he is the one who is perfect whose existence is from what is found.
 The Almighty is about him, and he grows up as one existence that has no parallel in his existence, and nothing else.
@@ -2342,7 +2342,7 @@ And the Shari'ah, so I do not mean that the basis is to dispense with this, i.e.
 And the Shari'ah, nor is this about that which the speaker was dispensed with something that exists.
 with him in the world of the body, so he uses him to do it like the foundation, and therefore he does it.
 The course of the next is that the one who is on it will have his command in what we have mentioned
-As a proof of knowing the rank of the second, the Prophet (peace and blessings of Allaah be upon him) and his family are following the path of the
+As a proof of knowing the rank of the second, the Prophet (peace and blessings of Allaah be upon him) and his family are following the
 The first is the perfect, and he dispenses with others in his action and uses it
 other than itself, and the basis is the course of the second, which is the perfect, nor does it exist in it.
 His action is from the revelation and the Shari'ah is as follows, which he did not dispense with in doing it without anyone else.
@@ -2687,13 +2687,13 @@ Natural, and the first and second intellect being the first being are not embodi
 They must be moving or stationary by proof that the body requires (1) being a substance
 and the need of one of them in existence for the other not to be his existence
 From God Almighty exists first, because what exists from God is existence.
-First, the self is nothing but the same as the act of which is the first existence of it.
+First, the self is nothing but the same as the act of which it is the first existence of it.
 The Almighty and the Great, and the same action has one and not two subjects, and if it is not His existence
 Existence first must be preceded by someone else in existence, so it was a matter of
 If the mind were a body, it would be preceded in existence by others and it would not be
 Something that precedes the first mind in its existence as it is the same action that is
 Creativity is behind it only God the Creator of the Almighty, whose existence is indicated.
-If it is a sin that something is preceded by it in its existence, it is invalidated to be a body, and if
+And if it is a sin that something is preceded by it in its existence, it is invalidated to be a body, and if
 (1) It fell in copy (b).
 - 103
 
@@ -2838,7 +2838,7 @@ The mind is very still, and there is no illusion of movement in it, and the soul
 It moves to reach the door of the mind, then to dwell then, and does not move to surround it.
 By benefiting from it on what you want to encompass it, and as long as the soul is in motion
 It does not surround it, and it does not attain virtues and lights until it dwells by benefiting
-From it, and then it surrounds things, and the soul moves a movement of survival that dwells.
+From it, then it surrounds things, and the soul moves a movement of survival that dwells
 By benefiting from the one who is inhabited, this is what he said.
 We say:
 You may say that the mind is not moving about what it does not
@@ -2870,8 +2870,8 @@ He is a consonant, of whom he already exists, and by which he becomes a liar, is
 He carries his saying on its face value, for the second is not a moving one, nor the mind is a consonant, because it is a consonant.
 They do not need to move, stillness, and care, they must
 It is spent on knowing the levels of the limits so that there is no confusion about the matter of perception
-Things with their facts, they lead to the corruption of the essence of souls, God is the light of our minds.
-By its means and we are happy to follow the pure stages of the divine sciences, and the treasures of lights.
+Things with their facts, they lead to the corruption of the essence of souls, God is the light of our minds
+With its extent, and we are happy to follow the puritans of the divine sciences, and the treasures of lights.
 Sanctity, may Allah's prayers be upon them.
 - 110
 
@@ -3013,7 +3013,7 @@ But the hyoli fell dark because of its distance from the first disease, in order
 From the soul.
 We say:
 The fact that the Hayuli is not like the first, and the second is not because it is far from the first from the ratio
-which is the case of the first one of being ma'aloula as it is a combination of two ratios relative to being
+which has the first case of being ma'aloula as it is a combination of two ratios relative to being
 cause, and the percentage of being a ma'ala and the existence of something that exists from the ratio that is
 It is not like the existence of something that exists about the ratio that is a cause, for the cause (1) is more honorable.
 From the effect at all, and preceding it in rank and nature, because from the beginning what
@@ -3045,7 +3045,7 @@ The two limits are the best luck and the best installment, because the soul is a
 is the surviving moving essence, and is nevertheless labeled with the mind, not in the
 The mind is one of the characteristics of the limitation of the soul, and the soul also seriously challenges the mind, if
 The limit of the intellect is that it is the first of things, that it is the creator, that it is the first effect, and that it is the middle
-First, it is not permissible to say that the soul is the first thing, nor is it creative,
+First, it is not permissible to say that the soul is the first of things, nor is it creative,
 Nor is it the first effect, so it is permissible to be born from the intellect with its perfection and honor.
 His closeness to the word is like the soul that does not limit the limitation of the intellect, and it is not
 Denial is permissible to be born from the soul like nature that is similar in its limits
@@ -3330,7 +3330,7 @@ Complete, and the image emanated from the Hyuls complete, and it was all complet
 The author of al-Nusrah said:
 If the matter is according to what he said about the perfection of the soul like the intellect, then the saying
 So what is it that is spread out on the shapes, the image, and the compounds, and it is invalid, and it is not reduced?
-It is permissible to imagine that these artifacts are only from the husband of one of them, a rich perfectionist, and the other
+It is permissible to imagine that these products are only from the husband of one of them, a rich perfectionist, and the other
 Minus is needed, to have a marriage between them, as it is found in the witness, like the sky.
 And the earth, the heavens are like remembrance and perfection, and rich in all its movements.
 Her circles are visible, and the earth is deficient in the status of the female, and the need for it is fixed (4).
@@ -3461,7 +3461,7 @@ So he talked about it from the movement and the stillness and the image
 Chapter One of Chapter Six
 The author of the reform said:
 As for the saying about the bodies and the image, they are the spirit of movement and stillness like the body.
-For them, the first cytoplasm is the phantom motion in the vehicles, and the cytoplasmics
+For them, the first cytoplasm is the phantom motion in the vehicles, and the cytoplasm
 In sentence three, and what has been said about that has happened in this book.
 There is a lot of mixing, and I say in short, that movement and stillness.
 Like the soul to the image and the image, because the image and the image are like the body for movement and stillness.
@@ -3565,7 +3565,7 @@ With the word, and the first cause which is the word will be the whole world, fo
 It must be said in motion and stillness, in all the essences of the cytoplasm.
 The image is below it in all the worlds, and the whole of the saying is in the three worlds.
 The first beings are illusory, they are motion and stillness, and they are the same
-Gyoliae, their image, and the second cytoplasm, which are individuals and generative of the cytoplasm.
+Gyoliae, their image, and the second cytoplasm, which are individuals and generative organisms of the cytoplasm.
 The first, and the third hyols are the four composite mothers of the hygiens
 The second .
 Then we say:
@@ -3755,7 +3755,7 @@ And we say:
 If the owner of victory is inferred from the Book of Allah, the Lord of the Worlds, and the words of our followers
 The pure Imams, may Allah's prayers be upon them all, according to what he wants from the command of the soul
 From the point of view of interpretation, it is richer than the words of the Prophet.
-If he and his ilk were advanced in our time, they would lack to take
+If he and his likes were advanced in our time, they would lack to take
 From the seas of the knowledge of the House of Revelation, which is surplus from the side of the reservoir of God in His land, and our loyalists.
 The pure ones may God's prayers be upon them all, and they would have been about many of what they believed in
 He was absent from the senses, and they talked about him from the minds and their ranks, and the soul and its principles
@@ -3868,7 +3868,7 @@ And it grows and does not feel, like hair and nails, and as it grows and increas
 His youth to his greatness, and in the world of sensitive animals, as well as in strong human beings
 sensitive, the whole world is composed and composed, and has been supplemented by the existing
 This is an analogy to the world, although all that we have mentioned is a sentence that is detailed in our book
-which is known for the peace of mind, and what is similar to it in the world of creativity and emancipation
+which is known for the peace of mind, and what is similar to it in the world of creativity and rebirth
 First, that world is the world of the mind, the world of praise, and praise,
 and purification, the world of monotheism, deification, the world of virtues, the world of goodness, and the world of
 Virtues, and the human being, who is also a human being, is the collector of these virtues.
@@ -3929,7 +3929,7 @@ That is just as the separation is also proven by what has been decreed for it, a
 Estimation is based on what he said, but it is not an estimate except by a judge who obliges it.
 Estimation, as for the evidence that he has quoted from the Book of Allaah that the judiciary
 It is emptiness, and it is not motivated, because the wise men said: When Allaah
-The intellect has created a vacuum of the worlds, because it is the sum of the images of the two worlds, and it has not been strange from
+The intellect created the emptiness of the two worlds, because it is the sum of the images of the two worlds, and it did not descend from
 The images of the worlds about the mind are one thing, it is pure emptiness, but the owner of
 Islah has mistreated by likening fate and fate to the dress that the tailor appreciates,
 And where he made his estimation like fate, and his elaboration like the decree, and he did not straighten
@@ -3949,7 +3949,7 @@ The fate is the following.
 . We say:
 The interpretation of the two hunters is the decree and destiny according to what each of them has to do.
 He invoked it even though the meaning of the word destiny and destiny is based on what we have shown to be an impossible interpretation.
-In any case, the decree and decree of the previous and the next, and that is that
+In any case, the decree and decree of the former and the next, and that is that
 The author of the reform has obliged by saying that destiny is estimation, and judgment is detail.
 And with the analogy that I mentioned in the matter of the garment, and the image of sewing, that destiny is what is
 It was based on force, and it could be, and the judiciary, which was what was in place
@@ -4017,7 +4017,7 @@ And fate is third for the world with its parts that are in its power to go out i
 
 <!-- page 160 -->
 And the action is on the passage of days, months, years, events, and universes
-whose presence is necessary from it in the constant movement of the movers below it.
+whose presence of it is necessary by the constant movement of the movers below it.
 Because it is a decree (1), it is said: What Allah has decreed will be, for it is predestined.
 Being in terms of the necessity of its existence, and if it lasts for a long time, it is like the being in fact
 Hence Allaah said: "They see Him far away, and We see Him soon." There was no
@@ -4108,7 +4108,7 @@ The meaning of the "I" by which he wants to be an object is not tainted by an ad
 Something that the mind, which is all things, wants with it, and we created it wants an image with it.
 The two worlds are among them, and as much as the next one wants with it, on which the matter is stable,
 All the spiritual and physical images appeared among them in the witness, which is
-The pen, the tablet, the writing, and the writer, the writer is the face of me, and he is pure eternity.
+The pen, the tablet, the writing, and the writer, the writer is the face of me and he is pure eternity
 "And the pen is the pen of the mind, which is the pen of the pen, and We created it in the form of the tablet.
 And the pen in contrast to the letters that appear on the tablet, and as much as it is in front of the tablet that is receivable.
 For all the forms of letters, as all physical and spiritual things
@@ -4217,7 +4217,7 @@ But we would say in it, with the help of Allah Almighty and His blessings, that 
 It acts into three meanings, and each of those proves that the elimination of
 The preceding and the predestined for the next, one of them, which is the greatest, the most accurate of them.
 In the meaning, and that what is meant by him is his flight from Allah's decree to His destiny.
-is that the previous one, God willing, is the support, and the next is the composition, and who
+is that the previous one, God willing, is support, and from the next is the composition, and who
 The speaker is the authorship of the Shariah, and it is the basic interpretation of everyone, the interpretation that is
 The end is more like an endorsement, and the composition is more like a synthesis, so the speaker (peace be upon him) was
 In saying this, he showed that it is similar in the composition of the laws and therefore in the structure of the world.
@@ -4429,7 +4429,7 @@ And do good deeds as a wing in which they will be taught, if they fear Allah and
 It means that those who call for the unity of Allah do not have to know His limits on the one hand.
 The accused, peace be upon them, who believe the respondents if they call the rope of God,
 And they held fast to their guardianship from doubts and doubts about the religion of Allah, and they reached a degree
-Perfection and communication are wings, i.e. they are confused in what they are taught, i.e. in what they read from the sciences,
+Perfection and communication are wings, i.e. they are confused in what they are reading from the sciences,
 which is not their belief, so it will be like a weapon with which they fight opposites in
 Proving the truth, if they fear and believe and do good deeds, and that is a condition of it.
 I mean as long as their way is straight in obedience to Allah Almighty in following His Messenger
@@ -4811,7 +4811,7 @@ Noah recommended it, and what We revealed to you, and what Abraham, Moses, and J
 If you establish the religion and do not be divided) (1) The verse:
 The owner of Al-Nusra is not fair in his protest, and do not hope that the owner of Al-Nusra will say
 Reform in his book, as for Adam, it is mentioned in the Qur'an, and his followers and his people
-The angels who are commanded to prostrate themselves to Him and from whom they learned the names according to what Allah has commanded
+The angels who are commanded to prostrate to Him who learned the names from him according to what Allah has commanded
 The Almighty says to him: "O Adam, send them by their names."
 Sending is greater than sending it," because sending the messengers is obligatory.
 They will be the successors of God in his land God will refrain from realizing and
@@ -4888,7 +4888,7 @@ The jealousy among them that leads them to death, this soul asks that
 <!-- page 194 -->
 All the money is for her in any way, whatever it may be, so she has to pay fees
 They believe in each other from cheating, cunning and deceit, which leads them to domination and fighting.
-These souls move with their keenness to ask for a pension, and transactions are necessary, so they are forced to work with
+These souls move with their keenness in asking for a pension, and transactions are necessary, so they are forced to work with
 Because treachery and cunning in nature are fees that the plaintiff and vice run on in
 Extracting the truth for his family, and death is necessary among them, and they do not replace the absence of a person
 The dead among them are either buried, burned, and thrown away in a friendly manner, or otherwise.
@@ -4951,7 +4951,7 @@ Very much, and that the structure of the world, the systems and wonders of his w
 In the composition of the world of bodies, the composition of bodies, and the marriage of opposite natures,
 In the different bodies, and the people who are destined to signify monotheism,
 It is indispensable to put verbs, similar actions, and different situations that signify meanings
-agreed, and about proverbs represented by an existing parable, and proofs based on a connotation
+agreed, and about proverbs represented by an existing parable, and proofs based on a signifier
 It is clear, and what is in these evidences, and the contradictory deeds of the apparent way,
 And what is in these proverbs that are multiplied to establish known boundaries, is evidence of the same
 The monotheistic because the elaborate and elaborate actions of the world are wonderful, and the souls sing of
@@ -4976,7 +4976,7 @@ The existence of those whose status has risen in science in terms of teaching th
 The works, the signs that the revelation gathers, and the law, so he thinks, and deduces,
 It is inferred from him that he wants to know the limits of Allah and His presumed verses.
 Humans should know it, as Allaah says (interpretation of the meaning): "Even if they come, he says, 'You have lied about My signs.'
-And you did not take note of it, but if you know, it is the preceding ones in existence.
+And you did not take note of them, but if you know, they are the preceding ones in existence.
 of the honorable jewels that are the angels who are close to him, and so is the matter if
 Need business, signals, alerting, and education that not all of the
 Science, work and alertness that can be deduced from the existence the truth of inference,
@@ -4986,7 +4986,7 @@ Perhaps this statement has been proven by the opposites in the book, so that it 
 The author of the book, and Allah knows best.
 Chapter Twenty of Title IX
 Moreover, the work is not only for monotheism, but for the correction of the soul in
-Worship and to simulate the highest public, and to acquire it through sport for honorable morals,
+Worship and to simulate the highest public., and to acquire it through sports for honorable morals,
 And the noble habits by which they prepare for the union above them, and not to get them out of the way.
 (1) It fell in copy (A).
 - 195
@@ -5028,7 +5028,7 @@ The role of knowledge, and the role of work, the Almighty taught them to leave t
 Ignorance is the purpose of the time, since time is the time of the beginning of knowledge by appearing, which is what wisdom is for.
 The Almighty said: I know from the end of (1) ignorance in the world to its end.
 The act, the completion of its role, its appearance, and from the attainment of knowledge in the world to its goal in
-Strength, and the return of repentance to Him in the reappearance, and the resurrection of the need in His appearance.
+Strength, and the return of repentance to Him in His appearance, and the resurrection of the need in His appearance.
 To the establishment of the teachers and the guides, what you do not know, so Allah sent Adam upon him.
 Peace be upon him by making him his successor to show knowledge, and to gain them integrity in fact, and to show them
 to know the boundaries, and to teach them what they did not know, and it was the beginning of the matter.
@@ -5133,7 +5133,7 @@ He called them to intimidate, so his saying is only by giving them proverbs that
 From it to the world of the senses to visualize it, and in the interpretation of it there is a stream other than the above.
 If he calls for all of them, then his words are not without a valid appearance, so it is necessary to
 interpretation, and if that is the case, then the three sections are positive for the phenomenon of
-It is fixed for Adam, followed by an interpretation, so Adam is the owner of a law and a clear custom.
+It is fixed for Adam, followed by an interpretation, so Adam is the owner of a law and a manifest custom.
 Chapter Twenty-Four of Title IX
 Then we say:
 Adam peace be upon him is not without being either calling the people of his time to obey God
@@ -5184,7 +5184,7 @@ Integrity by teaching (1) assignment, knowledge, signs, works, and doing
 By acquiring, the first mind, and the paradoxical transcendent boundaries of bodies have not been attained
 Perfectionism is something of that, and it has even gained perfections from the beginning of its existence in creativity,
 and emission, and it is not permissible to rule on this statement (2) on that, and what I have mentioned
-The author of Al-Nasra in the meaning of the seven stars, their confirmation, their return, and their rectitude.
+The author of Al-Nasrah in the meaning of the seven stars, their confirmation, their return, and their rectitude.
 And the six days in which Allah created the heavens and the earth, and all that is in between, and what is mentioned
 From determination, the owner of the reform did not leave anything that he did not bring from the interpretation of that
 and its meanings, and it has enough of Arabization in the interpretation that is hardly balanced (3)
@@ -5246,7 +5246,7 @@ Seventh: May Allah's peace be upon him, and this is one of the impossibilities o
 The first role that is for Adam peace be upon him was not done except with the appearance of a friend
 The second role which is Noah peace be upon him, as well as the roles are not the role of
 Except with the appearance of what he follows, so he made the place of his saying about the Shari'ah the first floor.
-It would have been identical, and Allah forgives us and him by His mercy.
+It would have been identical, and Allah will forgive us and him by His mercy.
 Chapter Twenty-Eight of Title IX
 As for the author of Al-Nusra (in line (1) and Al-Arda) and his interpretation of the six offers.
 On the imams, so it is better that the fonts should be on the pronunciation and not on the letters
@@ -5295,7 +5295,7 @@ However, he did not have a law, because he had that, which is that his name is f
 Letters, which are Alif, D, and Mim, which are not compounded and composed, but all
 One of them is indicated by the other, a clear indication that he was not the owner of
 The authorship of the Sharia, and the five prophets who were after him were names, and she is the author of
-A vehicle such as Noah, Abraham, Moses, Jesus, and Muhammad (Salam) is evidence of
+A vehicle such as Noah, Abraham, Moses, Jesus and Muhammad (Salam) is evidence of
 Each of them was a sharee'ah, and this is what he said.
 We say:
 If the letters of Adam's name are separate, then it is necessary that
@@ -5401,10 +5401,10 @@ From obedience to his principle, which is his refusal to enter the ark, he calle
 and the commitment of the order, especially and the desire to return to the beginning of the
 What he saw from him was good obedience to his commands, when he prayed to him and despaired.
 In total, from that rank that he was hoping for, hypocrite, arrogant, and refusing to obey
-Based on what happened, and said that God's command is in it, if you do not return your presidency
+Based on what happened, and he said that God's command is in it, if you do not return your presidency
 On him it is invalidated and the opposite is with our guardian peace be upon him, so he preached to him at times and terrorized him at other times.
 He said: "The command of Allah is in it, and if you do not preach to it, your presidency will go and it will include you."
-Humiliation, and do not see anyone pretending to be you, and helping you in your affairs, which is what he said: "And there is no 'Asim."
+Humiliation, and do not see anyone pretending to be you, and helping you in your affairs, which is what he said: "And no 'Aasim."
 Today is from the command of Allah) and when he heard this from him, he showed disobedience and said, "He does not know it."
 This is not done for you to make the whole presidency in your house, even if it appears
 Intention, abuse and abuse, I was supported by heads who tightened my hands and helped me
@@ -5614,12 +5614,12 @@ Chapter Eight of Title X
 The owner of the crop said:
 In the first chapter of the creator, the Almighty said: He created the world all at once.
 This is because he created the mind in one sentence, and in it the images of the two worlds emerged.
-and what is in them, without those images being referred to by their identities at
+and what is in them, without those images being referred to by their identities at the
 The intellect, but the science of the mind is based on it, and it has information, except that
 The mind has already advanced on it, either by the fact, but by force it and the images
 All together.
 We say:
-This science is the mind that is said to have been created and in which the images of the worlds emerged.
+This science is the mind that is said to have been created and in which the images of the worlds emerged
 And what is in it, it is not permissible for it to be the first intellect that exists from Allah, may He be exalted.
 First, because what is advanced in existence is dispensed with the perception of what is in it.
 It exists, for its existence is related to its Creator who created it, and it is not necessary for him to know
@@ -5692,7 +5692,7 @@ The stream of the creator of the Almighty, and He called it unity, or it is the 
 Or it runs through the course of the image from the body house, or from which
 From it runs the course of the purpose for which it was created, which is its eye and its self, and the hero of
 To be the one who runs the course of his creator, because unity is if it is a bug
-The intellect has a thing, and the cause is a thing, and if the thing is not its existence by itself, then it is as if it is obligatory.
+The intellect has a thing, and the cause is a thing, and if the thing is not its existence itself, then it is as if it is obligatory.
 The Almighty God, whom He called the Unitarian, (modernized) (1) after He was
 Creative, by being based on others, is in the sense that he has said it, and that is
 It is impossible, then because unity is other than Allah, and that which is other than Allah was creative
@@ -5836,7 +5836,7 @@ Two examples that are positive for the competence of each of them in terms of th
 Two things, which are only for a positive reason because they are on that before them,
 Their existence is either not alike, and there is no likeness, and the existence of
 The two opposites are only in the presence of others who preserve their existence, for in the presence of
-One of the opposites is the invalidity of the existence of the other, because its existence is obligatory.
+One of the opposites is the invalidity of the existence of the other, because it is obligatory for them to exist (what is advanced
 This requires that the creator be the Almighty.
 Creative, and to take precedence over what is primary, and by the Almighty and the Almighty, and that is
 It is more abstaining, and more impossible, and if there is something that necessitates its existence, it is
@@ -5920,7 +5920,7 @@ A brief talk about the reasons that led him to write the book (Al-Zayad))
 Then a review of the views expressed in the three books ((The Harvest))
 and ((Islah)) and ((Al-Nusra)) in a nutshell.
 ((Chapter One)) from page 53 to page 100
-Divided into thirty-eight chapters that examine the essence of the soul which is
+Divided into thirty-eight chapters that look at the essence of the soul which is
 The first issue.
 ((Chapter Two)) from page 101 to page 110
 It is divided into nine chapters and examines the first chapter of the mind which is
