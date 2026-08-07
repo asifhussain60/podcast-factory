@@ -86,3 +86,4 @@
 {"ts": "2026-05-22T10:34:21Z", "phase": "per-chapter", "step": "framing/prophets-as-teachers-monotheism-and-the-ranks", "model": "claude-opus-4-7", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0}
 {"ts": "2026-08-07T19:04:40Z", "phase": "0a", "step": "ingest/docintel", "model": "azure-docintel-prebuilt-read", "input_tokens": 260, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.39, "engine": "api"}
 {"ts": "2026-08-07T19:05:14Z", "phase": "0a", "step": "ingest/translator", "model": "azure-translator-text", "input_tokens": 310232, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 3.10232, "engine": "api"}
+{"ts": "2026-08-07T20:19:19Z", "phase": "0book-design", "step": "segment", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 16927, "cache_read": 20129, "cache_create": 233128, "cost_usd": 0.0, "engine": "max"}

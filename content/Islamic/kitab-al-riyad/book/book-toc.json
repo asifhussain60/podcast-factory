@@ -1,0 +1,148 @@
+{
+  "book_title": "Kitab al-Riyad: A Judgment Between the Two Reformers",
+  "voice": "modern author first-person",
+  "preface": {
+    "include": true,
+    "title": "A Garden Between Two Reformers",
+    "source_line_ranges": [
+      [
+        24,
+        29
+      ]
+    ]
+  },
+  "chapters": [
+    {
+      "bk_index": 1,
+      "title": "The Age of Open Argument",
+      "source_line_ranges": [
+        [
+          36,
+          54
+        ]
+      ],
+      "theme": "intellectual context",
+      "rationale": "The seam is the late-third-century Islamic intellectual ferment and the striking spectacle of Ismaili missionaries debating one another through the chain of books al-Mahsul, al-Islah, and al-Nusra that gave rise to al-Riyad."
+    },
+    {
+      "bk_index": 2,
+      "title": "The Two Reformers",
+      "source_line_ranges": [
+        [
+          56,
+          135
+        ]
+      ],
+      "theme": "rival biographies",
+      "rationale": "Groups the lives, works, and doctrines of Abu Hatim al-Razi (author of al-Islah) and Abu Ya'qub al-Sijistani (author of al-Nusra), including al-Sijistani's theology of Creator, Intellect, and Soul, because these are the two disputants whose books al-Kirmani will judge."
+    },
+    {
+      "bk_index": 3,
+      "title": "The Judge Between Them",
+      "source_line_ranges": [
+        [
+          137,
+          183
+        ]
+      ],
+      "theme": "the arbiter's life",
+      "rationale": "The seam is the biography and philosophical achievement of Hamid al-Din al-Kirmani, the arbiter whose Rahat al-Aql and city-of-seven-walls method frame the judgment that follows."
+    },
+    {
+      "bk_index": 4,
+      "title": "A Map of the Garden",
+      "source_line_ranges": [
+        [
+          185,
+          359
+        ]
+      ],
+      "theme": "analytical overview",
+      "rationale": "The editor's chapter-by-chapter walkthrough of al-Riyad, previewing each dispute and al-Kirmani's verdict so the reader enters the full text already oriented."
+    },
+    {
+      "bk_index": 5,
+      "title": "The Author's Purpose",
+      "source_line_ranges": [
+        [
+          499,
+          566
+        ]
+      ],
+      "theme": "author's preamble",
+      "rationale": "Al-Kirmani's own invocation and statement of why he wrote the book: to correct al-Mahsul where al-Razi left it uncorrected and to separate truth from error between the two reformers."
+    },
+    {
+      "bk_index": 6,
+      "title": "Is the Soul the Equal of the Intellect?",
+      "source_line_ranges": [
+        [
+          601,
+          1562
+        ]
+      ],
+      "theme": "perfection and motion",
+      "rationale": "Covers the first two chapters of Riyad, where the dispute turns on whether the Soul (the Second) is as perfect as the Intellect (the First) and on how motion and stillness belong to each."
+    },
+    {
+      "bk_index": 7,
+      "title": "Soul, Spirit, and the Parts of the Whole",
+      "source_line_ranges": [
+        [
+          1565,
+          1813
+        ]
+      ],
+      "theme": "nature of the soul",
+      "rationale": "Joins the two linked questions of whether soul and spirit are one thing and whether individual souls are parts of the Universal Soul or merely its traces."
+    },
+    {
+      "bk_index": 8,
+      "title": "The Human Microcosm",
+      "source_line_ranges": [
+        [
+          1817,
+          2165
+        ]
+      ],
+      "theme": "human and cosmos",
+      "rationale": "The seam is the human being as fruit and counterpart of the whole world, treated through the world's own composition of matter, form, motion, and stillness that the human mirrors."
+    },
+    {
+      "bk_index": 9,
+      "title": "Decree and Destiny",
+      "source_line_ranges": [
+        [
+          2168,
+          2542
+        ]
+      ],
+      "theme": "qada and qadar",
+      "rationale": "The single sustained dispute over whether decree precedes destiny or the reverse, and what each term means in the order of being."
+    },
+    {
+      "bk_index": 10,
+      "title": "Adam, Noah, and the Origin of the Law",
+      "source_line_ranges": [
+        [
+          2545,
+          3137
+        ]
+      ],
+      "theme": "prophetology",
+      "rationale": "Whether the first speaker-prophet Adam brought a Shari'a, argued through the sacrifice of Adam's sons and the story of Noah and his drowned son."
+    },
+    {
+      "bk_index": 11,
+      "title": "The Oneness of God and the Act of Creation",
+      "source_line_ranges": [
+        [
+          3140,
+          3384
+        ]
+      ],
+      "theme": "tawhid and creation",
+      "rationale": "Al-Kirmani's closing correction of al-Mahsul on monotheism and creativity, setting out what may and may not be said of the Creator and the created."
+    }
+  ]
+}

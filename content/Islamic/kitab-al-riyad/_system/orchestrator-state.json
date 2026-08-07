@@ -3,10 +3,10 @@
   "book_slug": "kitab-al-riyad",
   "category": "books",
   "branch": "book/kitab-al-riyad",
-  "phase": "done",
-  "phase_status": "ship-with-caution",
-  "last_completed_phase": "merge",
-  "next_phase": null,
+  "phase": "0book-design",
+  "phase_status": "completed",
+  "last_completed_phase": "0book-design",
+  "next_phase": "0book-compose",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -100,6 +100,11 @@
     "done": {
       "status": "completed",
       "ts_completed": "2026-05-23T00:00:00Z"
+    },
+    "0book-design": {
+      "status": "completed",
+      "ts_started": "2026-08-07T20:15:26Z",
+      "ts_completed": "2026-08-07T20:19:19Z"
     }
   },
   "cost": {
@@ -108,7 +113,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-23T00:00:00Z",
+  "ts_updated": "2026-08-07T20:19:19Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1",
   "reset_for_reemit": {
@@ -134,5 +139,6 @@
     "book-summary"
   ],
   "pipeline_mode": "orchestrated",
-  "status": "draft"
+  "status": "draft",
+  "run_id": "20260807T201526Z-b373b1"
 }
