@@ -5,10 +5,14 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "0book-design",
-  "phase_status": "completed",
+  "phase": "0book-compose",
+  "phase_status": "failed",
   "last_completed_phase": "0book-design",
-  "last_error": null,
+  "last_error": {
+    "phase": "0book-compose",
+    "message": "bk-07-part-01: translation edition output failed integrity gate: Arabic script dropped (1 run(s)) — replaced or removed: ٱليوم",
+    "ts": "2026-08-07T12:38:58Z"
+  },
   "category": "books",
   "branch": "Islamic/spiritual-ethos",
   "status": "draft",
@@ -347,8 +351,10 @@
       "ts_completed": "2026-08-07T11:47:15Z"
     },
     "0book-compose": {
-      "status": "pending",
-      "ts_started": "2026-08-07T00:02:26Z"
+      "status": "failed",
+      "ts_started": "2026-08-07T00:02:26Z",
+      "ts_completed": "2026-08-07T12:38:58Z",
+      "manual_fallback": "Re-run 0book-design/0book-compose after inspecting the source range; the pipeline refused to persist model commentary or generated headings."
     },
     "audio-ingest": {
       "status": "halted",
@@ -359,7 +365,7 @@
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260807T114715Z-0ba1a6",
-  "ts_updated": "2026-08-07T11:47:15Z",
+  "ts_updated": "2026-08-07T12:38:58Z",
   "next_phase": "0book-compose",
   "unattended": true
 }
