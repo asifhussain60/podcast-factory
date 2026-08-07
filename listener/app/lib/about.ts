@@ -341,6 +341,7 @@ export const RELEASES: Release[] = [
     date: "2026-08-06",
     items: [
       "On a laptop, a tablet held sideways, or any wide screen, three buttons in the reading controls set how wide the page runs. The narrowest is what you have been reading; the other two use the space that was empty on either side. They do not appear on a phone or a tablet held upright, where the page already fills the screen.",
+      "The speed you listen at is remembered. Choosing 1.5× used to last only until the page was reloaded, and every episode after that started at normal speed again.",
       "The player skips back and forward fifteen seconds on a phone. Those two buttons had been hidden on small screens, which is where most listening happens.",
       "The Notes button shows how many notes you have kept in the episode you are listening to.",
       "The episode list says the same thing for every episode at once: a small gold number on any episode you have kept something in. Press it to read those notes.",
