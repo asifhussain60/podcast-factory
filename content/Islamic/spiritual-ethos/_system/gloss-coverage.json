@@ -1,0 +1,518 @@
+{
+  "schema": "book.gloss-coverage/v2",
+  "candidates": 258,
+  "strong": 23,
+  "covered": 0,
+  "missing_strong": [
+    "al-Madhkur",
+    "al-asma al-husna",
+    "al-din al-qayyim",
+    "al-khafi",
+    "al-nazar ila Ali ibada",
+    "al-ruh",
+    "al-shirk al-khafi",
+    "ala imihil-uzma wa ayatihil-kubra",
+    "ala salatihim daimun",
+    "alladhi yalzamani min al-haqq",
+    "ana iyya",
+    "awwal al-din marifatuhu",
+    "fana",
+    "hudur",
+    "hudur al-qalb",
+    "idha jallaha",
+    "ijal lisani bi-dhikrika lahijan",
+    "lahiza",
+    "sifat",
+    "su zannihim bil-baqa",
+    "tahqiq",
+    "taqlid",
+    "yaqaza"
+  ],
+  "glossary_entries": 428,
+  "coverage": 0.0,
+  "strong_coverage": 0.0,
+  "bare_terms": 88,
+  "bare_uses": 112,
+  "bare": [
+    {
+      "term": "al-ruh",
+      "uses": 2,
+      "confidence": "strong",
+      "first_seen_snippet": "ectly to the Quranic idea of the spirit (al-ruh), and much"
+    },
+    {
+      "term": "al-asma al-husna",
+      "uses": 1,
+      "confidence": "strong",
+      "first_seen_snippet": "wn selves as the 'most beautiful Names' (al-asma al-husna)."
+    },
+    {
+      "term": "al-khafi",
+      "uses": 1,
+      "confidence": "strong",
+      "first_seen_snippet": "ssence'; then the dhikr of 'the hidden' (al-khafi), which is"
+    },
+    {
+      "term": "al-Madhkur",
+      "uses": 1,
+      "confidence": "strong",
+      "first_seen_snippet": "one wherein everything but the Invoked (al-Madhkur) is absent"
+    },
+    {
+      "term": "al-shirk al-khafi",
+      "uses": 1,
+      "confidence": "strong",
+      "first_seen_snippet": ". This is the subtle or hidden idolatry (al-shirk al-khafi) that the"
+    },
+    {
+      "term": "hudur",
+      "uses": 1,
+      "confidence": "strong",
+      "first_seen_snippet": "gilance to one with the Presence of God (hudur), and from"
+    },
+    {
+      "term": "hudur al-qalb",
+      "uses": 1,
+      "confidence": "strong",
+      "first_seen_snippet": "inuously with the presence of the heart (hudur al-qalb). This is"
+    },
+    {
+      "term": "sifat",
+      "uses": 1,
+      "confidence": "strong",
+      "first_seen_snippet": "las) is to divest Him of all attributes (sifat) because o"
+    },
+    {
+      "term": "tahqiq",
+      "uses": 1,
+      "confidence": "strong",
+      "first_seen_snippet": "imitation (taqlid) against verification (tahqiq), piety ag"
+    },
+    {
+      "term": "taqlid",
+      "uses": 1,
+      "confidence": "strong",
+      "first_seen_snippet": "unna) against nature (tabia), imitation (taqlid) against v"
+    },
+    {
+      "term": "yaqaza",
+      "uses": 1,
+      "confidence": "strong",
+      "first_seen_snippet": "tfulness (ghafla) to one with vigilance (yaqaza), and from"
+    },
+    {
+      "term": "hilm",
+      "uses": 4,
+      "confidence": "weak",
+      "first_seen_snippet": "osity and modesty, and wise forbearance (*hilm*) are equal"
+    },
+    {
+      "term": "ikhlas",
+      "uses": 4,
+      "confidence": "weak",
+      "first_seen_snippet": "erity of devotion expressed by the word *ikhlas*. Without"
+    },
+    {
+      "term": "riya",
+      "uses": 4,
+      "confidence": "weak",
+      "first_seen_snippet": "but hypocrisy (*nifaq*) and pretension (*riya*), which th"
+    },
+    {
+      "term": "hawa",
+      "uses": 3,
+      "confidence": "weak",
+      "first_seen_snippet": "ord, and restraineth his soul from whim (hawa), verily,"
+    },
+    {
+      "term": "nawafil",
+      "uses": 3,
+      "confidence": "weak",
+      "first_seen_snippet": "near to Me through supererogatory acts (nawafil) until I l"
+    },
+    {
+      "term": "qutb",
+      "uses": 3,
+      "confidence": "weak",
+      "first_seen_snippet": "s regarded as the first spiritual pole' (qutb) of Sufism"
+    },
+    {
+      "term": "'alim rabbani",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "vided into three types: a lordly knower ('alim rabbani); one who"
+    },
+    {
+      "term": "al-hawd",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "ey return to me at the [paradisal pool] (al-hawd).'"
+    },
+    {
+      "term": "al-nafs",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "greatest jihad as the jihad of the soul (al-nafs). It is no"
+    },
+    {
+      "term": "al-sirr",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "t His graces; then that of the 'secret' (al-sirr), correspo"
+    },
+    {
+      "term": "bayt al-mal",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "e him maintenance from the public funds (bayt al-mal).' In a si"
+    },
+    {
+      "term": "ghafla",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "ngrained in human nature, forgetfulness (ghafla) has becom"
+    },
+    {
+      "term": "taqwa",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "n many places in the *Nahj* it is named *taqwa*, another"
+    },
+    {
+      "term": "zuhd",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "ears directly on this: the principle of *zuhd*, which no"
+    },
+    {
+      "term": "'aqil",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "mal worship, the true intellectual, the *'aqil*, whom the"
+    },
+    {
+      "term": "'ilm al-mukashafa",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "only through the 'science of unveiling' ('ilm al-mukashafa). What can"
+    },
+    {
+      "term": "ahl al-dhimma",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "خَرَج) from among the protected people (ahl al-dhimma) and the M"
+    },
+    {
+      "term": "aimmat al-haqq",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": ", has made it incumbent on true leaders (aimmat al-haqq) that they"
+    },
+    {
+      "term": "akhlaq",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "he Islamic tradition of ethical thought (akhlaq). But one"
+    },
+    {
+      "term": "al-aql",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "as an intellectual heart. The intellect (al-aql) plays a c"
+    },
+    {
+      "term": "al-awliya",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "Seen in this light, the saints (al-awliya) are perfe"
+    },
+    {
+      "term": "al-dhikr",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "Truly, God has made the remembrance (al-dhikr) a polish"
+    },
+    {
+      "term": "al-fana fil-dhikr",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "rinciple of 'extinction in remembrance' (al-fana fil-dhikr):"
+    },
+    {
+      "term": "al-fana fiLlah",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "soteric meaning of being slain for God: *al-fana fiLlah*, extincti"
+    },
+    {
+      "term": "al-ihsan",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "),' he said. 'Then tell me about virtue (al-ihsan),' he said"
+    },
+    {
+      "term": "al-iman",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "spoken truly. 'Then tell me about faith (al-iman),' he said"
+    },
+    {
+      "term": "al-islam",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "'O Muhammad, tell me about submission (al-islam),' يَا مُح"
+    },
+    {
+      "term": "al-ism huwal-musamma",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "commonly assert, the Name is the Named (al-ism huwal-musamma)."
+    },
+    {
+      "term": "al-kutub al-sitta",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "deemed 'canonical' in the Sunni corpus (al-kutub al-sitta). The seco"
+    },
+    {
+      "term": "al-Maida",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "On the revelation of verse 55 of Sura 5 (al-Maida), 'Verily"
+    },
+    {
+      "term": "al-nafs al-ammara bil-su",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "nny of the 'soul which incites to evil' (al-nafs al-ammara bil-su), which th"
+    },
+    {
+      "term": "al-nafs al-mutmainna",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "is state of soul is called in the Quran *al-nafs al-mutmainna*, \"the sou"
+    },
+    {
+      "term": "al-qalb",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "soul (al-nafs); then that of the heart (al-qalb), correspo"
+    },
+    {
+      "term": "al-thaqalayn",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "behind among you the two weighty things (al-thaqalayn): the Book"
+    },
+    {
+      "term": "ayan al-mawjudat",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "g the loci of the entities of existents (ayan al-mawjudat), which th"
+    },
+    {
+      "term": "dhawq",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "y this oneness through mystical 'taste' (dhawq), he write"
+    },
+    {
+      "term": "dhimma",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "eives from you a covenant of protection (dhimma), then kee"
+    },
+    {
+      "term": "except one",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "the head of every chapter of the Quran (except one) the name"
+    },
+    {
+      "term": "falah",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ct dominates his caprice.\" Deliverance, *falah*, which ca"
+    },
+    {
+      "term": "faqih",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "e goodness and compassion that the true *faqih* — not so"
+    },
+    {
+      "term": "fard",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "of the Prophet of God, is an obligation (fard) from God"
+    },
+    {
+      "term": "fuqaha",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "the ones who truly understand, the true *fuqaha*."
+    },
+    {
+      "term": "hamaj raa",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ake of deliverance; and the common folk (hamaj raa), the word"
+    },
+    {
+      "term": "haqaiq al-iman",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "of God through 'the verities of faith' (haqaiq al-iman). Only the"
+    },
+    {
+      "term": "haqiqat al-dhikr",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "to the true reality of the remembrance (haqiqat al-dhikr) until you"
+    },
+    {
+      "term": "husn",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ral meanings is \"making beautiful,\" for *husn* means \"be"
+    },
+    {
+      "term": "ilm al-muamala",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "int of the practical religious sciences (ilm al-muamala) is that t"
+    },
+    {
+      "term": "imkan",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "oved from him his 'contingent dimension (imkan), resultin"
+    },
+    {
+      "term": "ithbat",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "'except God', coming as the affirmation (ithbat). This hel"
+    },
+    {
+      "term": "khalwat-i khass",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "As to the particular spiritual retreat (khalwat-i khass) it is dis"
+    },
+    {
+      "term": "kun",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "The creative Word that God utters, \"Be! (kun),\" which b"
+    },
+    {
+      "term": "lubb",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "art and illuminates his inner substance (lubb).' The wor"
+    },
+    {
+      "term": "maani",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "s nocturnal journey the inner realities (maani) of all th"
+    },
+    {
+      "term": "maiyya",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ot through separation.' This 'withness' (maiyya) of God im"
+    },
+    {
+      "term": "maqamat",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "piritual virtue. The spiritual stations (maqamat) the Sufis"
+    },
+    {
+      "term": "marifat al-ilm",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "yad, the wise apprehension of knowledge (marifat al-ilm) is a reli"
+    },
+    {
+      "term": "maslaha",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "the Islamic principle of social welfare (maslaha), which re"
+    },
+    {
+      "term": "mubahila",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "g for a challenge of mutual imprecation (mubahila) against t"
+    },
+    {
+      "term": "musaffa",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "The word *musaffa* refers to"
+    },
+    {
+      "term": "nass",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "regarded as an unambiguous designation (nass) of Ali (ع"
+    },
+    {
+      "term": "qurra",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "against the Imam were numerous readers (*qurra*, sing. *q"
+    },
+    {
+      "term": "ridwan",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ise — the Quran affirms that the divine *ridwan*, beatitud"
+    },
+    {
+      "term": "shathiyyat",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "eem to apply to the ecstatic utterances (shathiyyat) of many o"
+    },
+    {
+      "term": "shirk",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "urn defines as the gravest of all sins, *shirk*, the attr"
+    },
+    {
+      "term": "sifa",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "The divine attribute (sifa) has no li"
+    },
+    {
+      "term": "sirr",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "on alone. Its inmost essence, or secret (sirr), belongs"
+    },
+    {
+      "term": "tahlil",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "aqdis), the declaration of divine unity (tahlil), or the d"
+    },
+    {
+      "term": "tahmid",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "tasbih), magnification (tamjid), praise (tahmid), sanctifi"
+    },
+    {
+      "term": "tamjid",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "f glorification (tasbih), magnification (tamjid), praise ("
+    }
+  ]
+}
