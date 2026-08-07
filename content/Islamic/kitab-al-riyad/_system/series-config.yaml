@@ -1,0 +1,22 @@
+slug: kitab-al-riyad
+title: Kitāb al-Riyāḍ
+content_profile: islamic_scholarly
+source_language: en
+
+# Faithful reading edition — mirrors the-master-and-the-disciple, the
+# repo's gold-standard config for this route (docs/standards/book-series-setup.md).
+book_augmentation: none
+book_voice: faithful
+
+# Narrative frame — a property of the SOURCE, never inferred silently.
+# The book opens with the author's own doxology and prayer for the Imam of
+# his time, then states his method in first person: "I thought to quote the
+# sayings of each one of them..." (chapters/ch01, "The author's preface" /
+# "Why this book was written"). Chapters 1-9 are the author refereeing between
+# two other scholars' books in his own voice; Chapter 10 is, in the book's own
+# words, "the author speaking in his own voice." One narrator throughout.
+narrative_frame: first_person_author
+
+enable_video: false
+video_style: none
+book_pipeline_v2: true
