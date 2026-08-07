@@ -77,11 +77,44 @@ def test_source_narration_passes_the_same_frame() -> None:
 def test_first_person_inside_quoted_speech_is_not_flagged() -> None:
     # First person belongs here under EVERY frame — a character speaking. If this
     # ever fires, the check reverts legitimate prose across the whole corpus.
+    # Neither sentence here actually matches _FIRST_PERSON_ATTRIBUTION ("you"/
+    # "me" aren't its target pronouns) — kept as a general sanity check, but see
+    # test_a_short_attribution_tag_does_not_expose_the_quote_to_the_person_check
+    # below for the fixture that actually exercises the pattern this guards.
     speech = (
         'The scholar said: "I say to you that the world was set up upon seven things, '
         'and I have told you of them already, and my own teacher told me the same."'
     )
     assert narrative_person_findings(speech, "transmitted_report") == []
+
+
+def test_a_short_attribution_tag_does_not_expose_the_quote_to_the_person_check() -> None:
+    """Regression: spiritual-ethos, 2026-08-07.
+
+    A faithful rendering of Moses's exchange with God (Q7:143) was rejected
+    twice in a row under `external_narrator` for 'I asked Him' — first-person
+    speech, but Moses's own, properly attributed and quoted. The attribution
+    tag ("Moses replies:") is short enough that the quote landed inside the
+    140-character opening window `narrative_person_findings` scans, and the
+    window was never stripped of quoted text before matching — so the
+    character's own words were checked as if the narrator had said them.
+    """
+    text = (
+        'He addresses Moses: "You requested the vision, while the Messenger of '
+        'God said that not one of you will see his Lord until he dies."\n\n'
+        'Moses replies: "And it was just like that: when I asked Him for the '
+        "vision, He answered me, so that I fell down stunned. Then I saw Him in "
+        'my state of being stunned."'
+    )
+    assert narrative_person_findings(text, "external_narrator") == []
+
+
+def test_an_unquoted_narrator_first_person_is_still_flagged() -> None:
+    """The fix above must not blind the check to a genuine violation sitting
+    right next to a quote in the same paragraph — only quoted text is exempt."""
+    text = 'I asked him what the ruling was, and he said: "The tax follows the harvest."'
+    findings = narrative_person_findings(text, "external_narrator")
+    assert findings and "narrator speaks" in findings[0]
 
 
 def test_first_person_frame_flags_third_person_self_report() -> None:
