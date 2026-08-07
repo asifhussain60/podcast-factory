@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L9,4 L0,8 Z" fill="#8b4513"/>
+    </marker>
+  </defs>
+  <text x="40" y="42" font-size="20" font-weight="700" fill="#8b4513">The Ultimate Ruin vs. The Ultimate Summit</text>
+
+  <!-- central node -->
+  <rect x="60" y="250" width="200" height="52" rx="10" fill="#8b4513"/>
+  <text x="160" y="282" font-size="16" font-weight="700" fill="#f7f1e6" text-anchor="middle">Human Reason</text>
+
+  <!-- rising path -->
+  <line x1="260" y1="262" x2="470" y2="130" stroke="#8b4513" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="470" y="80" width="250" height="110" rx="10" fill="#f7f1e6" stroke="#8b4513" stroke-width="2"/>
+  <text x="486" y="112" font-size="12.5" fill="#2b2117">
+    <tspan x="486" dy="0"><tspan font-weight="700">Governed by the Imam:</tspan> Reason</tspan>
+    <tspan x="486" dy="18"> steered by the summit. Virtues</tspan>
+    <tspan x="486" dy="18"> acquired, latent excellence</tspan>
+    <tspan x="486" dy="18"> unlocked, creation justified.</tspan>
+  </text>
+
+  <!-- baseline of beasts -->
+  <line x1="40" y1="360" x2="720" y2="360" stroke="#7a6a58" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="40" y="378" font-size="13" font-weight="700" fill="#7a6a58">Baseline of Beasts</text>
+
+  <!-- falling path -->
+  <line x1="260" y1="300" x2="470" y2="415" stroke="#8b4513" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="470" y="395" width="250" height="120" rx="10" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1.5"/>
+  <text x="486" y="422" font-size="12" fill="#2b2117">
+    <tspan x="486" dy="0"><tspan font-weight="700">Ungoverned Reason:</tspan> Refusing the</tspan>
+    <tspan x="486" dy="16"> guide turns the mastery of reason</tspan>
+    <tspan x="486" dy="16"> into an instrument of profound</tspan>
+    <tspan x="486" dy="16"> corruption. Plummets below the beast,</tspan>
+    <tspan x="486" dy="16"> which only acts on use and does not</tspan>
+    <tspan x="486" dy="16"> scheme its own ruin.</tspan>
+  </text>
+
+  <text x="160" y="450" font-size="15" font-weight="700" fill="#8b4513" text-anchor="middle">WORSE THAN CATTLE.</text>
+</svg>

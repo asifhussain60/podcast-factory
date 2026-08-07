@@ -1,6 +1,84 @@
 {
   "slug": "degrees-of-excellence",
   "chapter": "7-the-imam-in-the-pillars-of-faith",
-  "notes": [],
-  "updatedAt": null
+  "notes": [
+    {
+      "id": "student:e951f6b89fa5f24f",
+      "kind": "explanation",
+      "body": "The connection the text draws is not metaphorical — it is etymological. The word قبلة traces back to قابل, meaning face to face: when a worshipper turns toward the قبلة, he enacts the posture of standing directly before someone. The word إمام itself comes from أمام, the Arabic for before, in front of — the imam is the one who goes ahead, who stands at the front. These two words share **the same geometry of relation**, and the text treats that overlap as proof. To face the قبلة is to face the one who stands before you.\n\nEvery act of prayer (صلاة) rehearses, in the body, what must also be true in the soul. The standing in rows, the prohibition against moving ahead of the prayer leader, the fact that the imam's intention covers a worshipper's lapse — all of this maps onto a single teaching about **the incompleteness of a self without guidance.** A person needs a point of orientation outside himself to anchor his intention, his action, and ultimately his standing before Allah. The قبلة gives the body that anchor in space. The إمام gives the soul the same anchor across an entire lifetime.\n\nWhat a fixed direction in space cannot do, a living imam does. A direction stays passive and silent; the supreme imam (الْإِمَامُ الْأَعْظَم) moves, decides, compensates, seeks forgiveness, and **guarantees** the purification of those who follow him. The prayer leader covers a worshipper's shortcomings in a single prayer; the supreme imam carries the shortcomings of the whole community across all of time — the Prophet said the imam is the guarantor for those he leads.\n\nSo the equation runs in both directions. Facing the قبلة is the outer sign of an inner reality: the believer's soul is oriented toward the **living axis** that precedes it and holds it upright. Remove the imam, and the direction in space is only a direction — compass degrees without a destination. The imam is what gives the قبلة its meaning, which is why the text can say that to command people toward the قبلة is, in its inward truth, to command them toward the imam.",
+      "anchor": "to direct people toward the qibla is therefore to direct them toward…",
+      "quote": "to direct people toward the qibla is therefore to direct them toward the imam",
+      "review": "proposed",
+      "source": {
+        "provider": "scholar",
+        "label": "Ismaili Scholar",
+        "ref": "unexplained-leap"
+      },
+      "etymology": [
+        "قبلة (prayer direction): from root ق-ب-ل, meaning to face, to receive, to stand opposite. Its active form قابل means face-to-face, and مقابل means directly opposite. The قبلة is not merely a compass bearing — it is the posture of standing before something, the direction of the face itself.",
+        "إمام (imam, leader): from the preposition أمام, meaning before or in front of. The إمام is the one whose very name says he goes first. The wider root أ-م-م gives أمة (community) — those who gather behind the one ahead — so leader and community are named from a single spatial relationship.",
+        "ولاية (allegiance, guardianship): from root و-ل-ي, meaning nearness and closeness. The ولي is the near one, the guardian who stands close. ولاية is therefore not merely loyalty but a bond of intimate proximity — the relationship between a believer and the imam who guards him from within.",
+        "تسليم (the closing salutation of prayer): from root س-ل-م, meaning wholeness, peace, safety. The تسليم is a handing over — surrendering the prayer back to its source. The same root gives سلام, إسلام, and مسلم. Peace, in Arabic, is not the absence of conflict but arrival at wholeness."
+      ],
+      "createdAt": "2026-08-07T14:48:54Z",
+      "updatedAt": "2026-08-07T14:48:54Z"
+    },
+    {
+      "id": "student:686c1dc0998d7ff6",
+      "kind": "explanation",
+      "body": "The unnamed \"he\" is the first caliph who assumed authority after the Prophet — historically known as Abu Bakr — though the author's **deliberate silence is itself the argument**: by calling him only \"whoever sat in the place of the imams,\" the text signals that this man occupied a station that did not belong to him.\n\nAfter the Prophet passed, several Arab tribes refused to pay زكاة to Abu Bakr. Their reasoning: the covenant of almsgiving had been made with the Prophet himself, and they saw no obligation to hand that sacred duty over to a successor of the community's own choosing. The Banu Hanifa, a powerful tribe in central Arabia, were among those who withheld it. Abu Bakr declared their refusal an act of apostasy — ردة — and launched the campaigns known as حروب الردة, the Wars of Apostasy. The campaign against the Banu Hanifa was fought at Yamama and was among the bloodiest of them.\n\nMore revealing than the war is the justification Abu Bakr used: he cited the very Quranic verse commanding the Prophet to collect صدقة and appealed to the Prophet's own practice, **confirming the principle the chapter builds toward** — that the collection of زكاة, and the purification and intercession that travel with it, are so sacred and so inseparable from the imam's office that people were willing to die over who held the right to them. The Ismaili reading is that the usurpers seized the outward form of the imam's duty — the collecting, the distributing — while cutting the community off from its inward fruit: the imam's prayer lifting the believer toward God, the forgiveness flowing back, the tranquillity the verse promised. War filled one man's treasury. The purification was lost.\n\n- زكاة (alms): from the root ز-ك-و, meaning to grow, to thrive, to be pure. Wealth given away does not diminish but grows, and the giver is purified in the act — the root refuses to separate those two things.\n- ردة (apostasy): from the root ر-د-د, meaning to turn back or to reverse. A person who commits ردة has reversed direction — turned their whole self away. The root's sense of physical reversal gives the concept its emotional weight: not merely a change of mind.",
+      "anchor": "For that reason he waged war against the Banu Hanifa and killed them",
+      "quote": "For that reason he waged war against the Banu Hanifa and killed them",
+      "review": "proposed",
+      "source": {
+        "provider": "scholar",
+        "label": "Ismaili Scholar",
+        "ref": "ambiguous-referent"
+      },
+      "createdAt": "2026-08-07T14:48:54Z",
+      "updatedAt": "2026-08-07T14:48:54Z"
+    },
+    {
+      "id": "student:d35db26a163044f1",
+      "kind": "explanation",
+      "body": "In classical Islamic legal scholarship, scholars recognized that not all abrogation works the same way. A later verse might cancel an earlier ruling while both texts remain in the Quran. Or a verse might cancel both the ruling and the text of an earlier passage — removing it from the Quran in word and in law simultaneously. This second type is what the opponents claim when they say the زَكَاة verse \"abrogates in both ruling and recitation.\"\n\nThe verse they are pointing to is the command in which Allah tells the Prophet to take alms (صَدَقَة) from the believers, purify them through it, and pray for them. The opponents say this verse is the surviving, authoritative instruction — not itself abrogated, still in force, and confirmed by the Prophet's own practice. **And yet they stopped the alms from reaching the imam.** Their own leaders took the alms money and kept it. The author's trap springs here: if the verse is final and the Prophetic sunna still requires collection, on what authority did they change the ruling the verse itself commands?\n\nThe contradiction runs deeper still. The opponents used abrogation to sweep away an earlier command they found inconvenient, then declared the new command ironclad. Then, quietly, they revoked what that ironclad command required — denying the imam from the Prophet's family the alms the verse directed to him. This is a third abrogation, one for which they hold no authority and cite no warrant. They have handled the word of Allah the way a man handles property that does not belong to him.",
+      "anchor": "the verse in question abrogates (نَاسِخَة) in both ruling and recitat…",
+      "quote": "the verse in question abrogates (نَاسِخَة) in both ruling and recitation, that it is not itself abrogated",
+      "review": "proposed",
+      "source": {
+        "provider": "scholar",
+        "label": "Ismaili Scholar",
+        "ref": "undefined-term"
+      },
+      "etymology": [
+        "نَاسِخَة (abrogating verse): from the root ن-س-خ, whose original sense is to copy or transcribe — and, from that, to displace an original by writing over it. A نَاسِخَة is the verse that does the overwriting: it arrives later and inscribes itself in place of what was there before, in ruling, in text, or in both.",
+        "مَنْسُوخَة (abrogated verse): the passive form from the same root ن-س-خ — the text that has been written over and displaced. Where نَاسِخَة acts, مَنْسُوخَة receives. Pairing the two in the same sentence is a legal shorthand: one verse carries force, the other has had its force removed.",
+        "صَدَقَة (alms, charitable giving): from the root ص-د-ق, meaning truth and sincerity. The gift is named after the inner quality it requires — a صَدَقَة must be truthful in its intention, not performed for recognition. The word carries the conviction that a gift given without sincerity is not really a gift at all.",
+        "زَكَاة (obligatory alms): from ز-ك-و, meaning to grow and to be pure. The root holds both meanings at once: giving زَكَاة purifies what remains of one's wealth and causes blessing to increase from it. Purification and growth are not two separate ideas in this word — they are one."
+      ],
+      "createdAt": "2026-08-07T14:48:54Z",
+      "updatedAt": "2026-08-07T14:48:54Z"
+    },
+    {
+      "id": "student:f7c1db11ab2dda9c",
+      "kind": "explanation",
+      "body": "The Friday prayer and the two feast prayers stand apart from the daily prayers in one crucial respect: they cannot be performed as a congregation unless an imam — or someone the imam himself has appointed — is present and delivers the sermon (اَلْخُطْبَة). The minimum congregation most jurists recognise for a valid Friday prayer is four people. Below four, the prayer loses its Friday character entirely and reverts to an ordinary noon prayer.\n\nWhat collapses that threshold down to two is specifically the imam's sermon. **The imam's presence transforms the nature of what is happening.** When he stands at the pulpit and addresses the congregation with the اَلْخُطْبَة, he supplies something no additional worshipper can provide. The imam compensates for the shortcomings of those he leads — just as in the daily prayer — and his sermon is the completing act. Two people gathered around an imam who delivers the خطبة constitute a valid congregation, because his presence closes the gap that absent attendees would otherwise leave open.\n\nThe imam is not merely a participant in worship but its axis. A Friday prayer without the imam's sermon **is not a Friday prayer**. Two people with the imam and his sermon possess something more essential than forty who do not. The sermon, delivered from the pulpits (الْمَنَابِر) by the imam or his appointed delegate, is the mechanism through which a gathering becomes a true congregation — gathered under authority and validated.",
+      "anchor": "even if the congregation is reduced from four to two on account of th…",
+      "quote": "even if the congregation is reduced from four to two on account of the imam's sermon",
+      "review": "proposed",
+      "source": {
+        "provider": "scholar",
+        "label": "Ismaili Scholar",
+        "ref": "unexplained-leap"
+      },
+      "etymology": [
+        "خطبة (sermon): from root خ-ط-ب, meaning to address with purpose or to seek. خَطَبَ also means to propose marriage — in both cases, one speaks before another with a claim and a directed intention. The خطبة is address with authority: not a lesson shared among equals, but a leader directing those he stands before.",
+        "منابر (pulpits, singular منبر): from root ن-ب-ر, meaning to raise or elevate. The منبر is literally the thing that raises — a platform from which one speaks downward to the congregation. The name encodes the authority relationship in its very structure: height is not comfort, it is position."
+      ],
+      "createdAt": "2026-08-07T14:48:54Z",
+      "updatedAt": "2026-08-07T14:48:54Z"
+    }
+  ],
+  "updatedAt": "2026-08-07T14:48:54Z",
+  "studentReaderFingerprint": "acfb3ed5320673d2"
 }

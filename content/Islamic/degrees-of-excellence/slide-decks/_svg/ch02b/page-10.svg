@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 730" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L9,4 L0,8 Z" fill="#8b4513"/>
+    </marker>
+  </defs>
+  <text x="40" y="42" font-size="20" font-weight="700" fill="#8b4513">The Teleological Loop</text>
+
+  <!-- cyclic nodes in a diamond -->
+  <rect x="300" y="80" width="160" height="48" rx="10" fill="#8b4513"/>
+  <text x="380" y="110" font-size="15" font-weight="700" fill="#f7f1e6" text-anchor="middle">The Creator</text>
+
+  <rect x="560" y="200" width="160" height="48" rx="10" fill="#f7f1e6" stroke="#8b4513" stroke-width="2"/>
+  <text x="640" y="230" font-size="15" font-weight="700" fill="#2b2117" text-anchor="middle">The Imam</text>
+
+  <rect x="300" y="320" width="160" height="48" rx="10" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1.5"/>
+  <text x="380" y="350" font-size="15" fill="#2b2117" text-anchor="middle">Humanity</text>
+
+  <rect x="40" y="200" width="160" height="48" rx="10" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1.5"/>
+  <text x="120" y="230" font-size="15" fill="#2b2117" text-anchor="middle">Nature</text>
+
+  <!-- cycle arrows -->
+  <line x1="200" y1="224" x2="300" y2="335" stroke="#8b4513" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="460" y1="335" x2="560" y2="238" stroke="#8b4513" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="600" y1="200" x2="460" y2="110" stroke="#8b4513" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- edge labels -->
+  <text x="140" y="300" font-size="11.5" fill="#7a6a58">(Extracts latent value)</text>
+  <text x="540" y="300" font-size="11.5" fill="#7a6a58" text-anchor="end">Guides and steers...</text>
+  <text x="470" y="150" font-size="11.5" fill="#7a6a58">Justifies and fulfills the wisdom of...</text>
+
+  <!-- synthesis panel -->
+  <rect x="40" y="400" width="680" height="130" rx="10" fill="#f7f1e6" stroke="#8b4513" stroke-width="2"/>
+  <text x="60" y="432" font-size="14" font-weight="700" fill="#8b4513">Synthesis:</text>
+  <text x="60" y="458" font-size="13" fill="#2b2117">
+    <tspan x="60" dy="0">The catalogue was never merely about nature. It is a structural proof that without</tspan>
+    <tspan x="60" dy="20"> the Imam, human excellence remains hidden. Without human excellence, nature's</tspan>
+    <tspan x="60" dy="20"> worth is never known.</tspan>
+  </text>
+
+  <!-- conclusion panel -->
+  <rect x="40" y="550" width="680" height="130" rx="10" fill="#ffffff" stroke="#d9cdbd" stroke-width="1.5"/>
+  <text x="60" y="582" font-size="14" font-weight="700" fill="#8b4513">Conclusion:</text>
+  <text x="60" y="608" font-size="13" fill="#2b2117">
+    <tspan x="60" dy="0">The natural order terminates not in an abstraction, but in an absolute obligation:</tspan>
+    <tspan x="60" dy="20"> to receive religion from the guides for whose sake the cosmos was made.</tspan>
+  </text>
+</svg>

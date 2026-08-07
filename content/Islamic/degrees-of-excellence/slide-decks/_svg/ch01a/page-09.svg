@@ -1,0 +1,20 @@
+<svg viewBox="0 0 760 460" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <rect x="0" y="0" width="760" height="460" fill="#ffffff"/>
+  <text x="40" y="34" font-size="20" font-weight="700" fill="#8b4513">The Celestial Blueprint</text>
+
+  <circle cx="200" cy="210" r="40" fill="none" stroke="#d9cdbd" stroke-width="1"/>
+  <circle cx="200" cy="210" r="80" fill="none" stroke="#d9cdbd" stroke-width="1"/>
+  <circle cx="200" cy="210" r="120" fill="none" stroke="#8b4513" stroke-width="1"/>
+  <circle cx="200" cy="210" r="150" fill="none" stroke="#8b4513" stroke-width="1"/>
+  <circle cx="200" cy="210" r="5" fill="#8b4513"/>
+  <polygon points="200,54 204,66 216,66 206,74 210,86 200,78 190,86 194,74 184,66 196,66" fill="#8b4513"/>
+  <polygon points="320,210 324,222 336,222 326,230 330,242 320,234 310,242 314,230 304,222 316,222" fill="#8b4513"/>
+  <polygon points="120,300 124,312 136,312 126,320 130,332 120,324 110,332 114,320 104,312 116,312" fill="#8b4513"/>
+  <polygon points="290,120 294,132 306,132 296,140 300,152 290,144 280,152 284,140 274,132 286,132" fill="#8b4513"/>
+
+  <text font-size="13" fill="#2b2117"><tspan x="400" y="110" font-weight="700" fill="#8b4513">The Outer Tracks (The Spheres):&#10;</tspan><tspan x="400" y="132">The Prophets. They provide the vast </tspan><tspan x="400" y="150">turning framework and the boundaries </tspan><tspan x="400" y="168">of the era.</tspan></text>
+
+  <text font-size="13" fill="#2b2117"><tspan x="400" y="220" font-weight="700" fill="#8b4513">The Coordinate Nodes (The Stars):&#10;</tspan><tspan x="400" y="242">The Imams.</tspan></text>
+
+  <text font-size="13" font-style="italic" fill="#7a6a58"><tspan x="40" y="390">The spheres alone perfect nothing; the machinery runs empty without the stars. Just as a </tspan><tspan x="40" y="408">physical body is sustained only by the spheres together with the stars, the soul is guided </tspan><tspan x="40" y="426">by the Prophet's framework actualized by the Imam's light. (&#8220;My companions are like the </tspan><tspan x="40" y="444">stars...&#8221;)</tspan></text>
+</svg>

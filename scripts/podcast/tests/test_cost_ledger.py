@@ -211,6 +211,61 @@ class AppendFromStdoutTests(unittest.TestCase):
         self.assertEqual(row.cost_usd, 0.0)
         self.assertEqual(row.engine, "max")
 
+    def test_ledger_records_the_model_that_actually_answered(self):
+        stdout = json.dumps(
+            {
+                "usage": {"input_tokens": 10, "output_tokens": 5},
+                "modelUsage": {"claude-sonnet-5[1m]": {"outputTokens": 5}},
+            }
+        )
+        row = _cost_ledger.append_from_claude_p_stdout(
+            self.book,
+            phase="0book-fluency",
+            step="ch01",
+            model="claude-opus-4-8",  # what the caller requested
+            stdout=stdout,
+        )
+        self.assertEqual(row.model, "claude-sonnet-5")
+
+    def test_ledger_falls_back_to_requested_model_on_legacy_stdout(self):
+        stdout = "Tokens: 10 in, 5 out, cache: 0 read, 0 create\n"
+        row = _cost_ledger.append_from_claude_p_stdout(
+            self.book,
+            phase="0d",
+            step="toc",
+            model="claude-opus-4-8",
+            stdout=stdout,
+        )
+        self.assertEqual(row.model, "claude-opus-4-8")
+
+
+class ActualModelFromStdoutTests(unittest.TestCase):
+    def test_picks_the_model_with_the_most_output_tokens(self):
+        stdout = json.dumps(
+            {
+                "modelUsage": {
+                    "claude-opus-4-8[1m]": {"outputTokens": 5},
+                    "claude-sonnet-5[1m]": {"outputTokens": 200},
+                }
+            }
+        )
+        self.assertEqual(_cost_ledger.actual_model_from_stdout(stdout), "claude-sonnet-5")
+
+    def test_strips_context_window_suffix(self):
+        stdout = json.dumps({"modelUsage": {"claude-opus-4-8[1m]": {"outputTokens": 5}}})
+        self.assertEqual(_cost_ledger.actual_model_from_stdout(stdout), "claude-opus-4-8")
+
+    def test_none_on_missing_model_usage(self):
+        stdout = json.dumps({"usage": {"input_tokens": 1, "output_tokens": 1}})
+        self.assertIsNone(_cost_ledger.actual_model_from_stdout(stdout))
+
+    def test_none_on_legacy_text_stdout(self):
+        self.assertIsNone(_cost_ledger.actual_model_from_stdout("Tokens: 10 in, 5 out\n"))
+
+    def test_none_on_empty_or_garbage(self):
+        self.assertIsNone(_cost_ledger.actual_model_from_stdout(""))
+        self.assertIsNone(_cost_ledger.actual_model_from_stdout("{not json"))
+
 
 if __name__ == "__main__":
     unittest.main()

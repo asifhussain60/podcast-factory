@@ -1,0 +1,304 @@
+[
+  {
+    "page": 1,
+    "title": "The Axiomatic Schematics of Guidance",
+    "content_summary": "Cover/title slide showing a decorative concentric-circle blueprint diagram with a central node labeled Rational Foundation.",
+    "text_blocks": [
+      "The Axiomatic Schematics of Guidance",
+      "Mapping Al-Naysaburi’s Pole and Foundation of Religion",
+      "RATIONAL FOUNDATION"
+    ],
+    "diagram_type": "none",
+    "arabic_terms": [
+      "Al-Naysaburi"
+    ],
+    "value_class": "low",
+    "illegible": true,
+    "llm_value_class": "low",
+    "final_value_class": "low",
+    "rubric_reasons": [
+      "illegible text on page",
+      "diagram_type 'none' not replicable"
+    ]
+  },
+  {
+    "page": 2,
+    "title": "The Disrupted Center",
+    "content_summary": "A two-column comparison table contrasting the Assumed Paradigm with Al-Naysaburi's True Paradigm across three rows.",
+    "text_blocks": [
+      "The Disrupted Center",
+      "The Assumed Paradigm",
+      "The True Paradigm (Al-Naysaburi)",
+      "The Messenger & The Book",
+      "Qutb (The Pole) &\nAsas al-Din (The Foundation)",
+      "The origin point of the religion",
+      "The axis around which the religion revolves",
+      "Affirming the Messenger leads to the Book",
+      "Affirming the Imam carries the Messenger inside it",
+      "A religion does not merely begin; it turns. The foundational axis is not the one who initiates the law, but the one who sustains its revolution."
+    ],
+    "diagram_type": "table",
+    "arabic_terms": [
+      "Al-Naysaburi",
+      "Qutb",
+      "Asas al-Din",
+      "Imam"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable table, 10 blocks, 452 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 3,
+    "title": "The Conduit of the Three Truths",
+    "content_summary": "A flow diagram showing three truths (Tawhid, The Message, Ta'wil) passing through the Imam as a central axis to arrive at Realized Faith.",
+    "text_blocks": [
+      "The Conduit of the Three Truths",
+      "Tawhid: Knowledge of God’s absolute unity (The Summit)",
+      "The Imam\n(The living guardian lashed to the Book — Thaqalayn)",
+      "The Message: The historical fact of revelation (The Event)",
+      "Realized Faith",
+      "Ta’wil: The sacred law and its hidden interpretation (The Practice)",
+      "Remove the central axis, and the entire structure from the peak to the floor goes dark."
+    ],
+    "diagram_type": "flow",
+    "arabic_terms": [
+      "Tawhid",
+      "Imam",
+      "Thaqalayn",
+      "Ta’wil"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable flow, 7 blocks, 372 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 4,
+    "title": "The Matrix of Precedence",
+    "content_summary": "A two-row by three-column table comparing The Messenger and The Imam across Containment, Audience, and Permanence.",
+    "text_blocks": [
+      "The Matrix of Precedence",
+      "Containment",
+      "Audience",
+      "Permanence",
+      "The Messenger",
+      "Acknowledging the Messenger does not guarantee the Imam.",
+      "Outward-facing; a settled argument against external polytheists.",
+      "Intermittent; historical speakers who arise and depart.",
+      "The Imam",
+      "Folds the Messengership inside it; guarding implies a revelation to be guarded.",
+      "Inward-facing; the live, urgent intellectual labor among believers.",
+      "Continuous; a permanent fixture as necessary as breath to a body."
+    ],
+    "diagram_type": "table",
+    "arabic_terms": [
+      "Imam"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable table, 12 blocks, 460 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 5,
+    "title": "Prophecy as a Function of the Imamate",
+    "content_summary": "A pulse/waveform diagram showing the Imamate as a flat baseline with two spikes representing moments of Messengership.",
+    "text_blocks": [
+      "Prophecy as a Function of the Imamate",
+      "The Messengership\n(The Speaker of the Cycle)",
+      "The Baseline: The silent keeper upholding the law and inner reality. Never vacant, never absent.",
+      "The Imamate (The Deep Current)",
+      "The Spikes: The moment history demands a new sacred law. The Imam ascends to become the speaker, delivers the law, and returns the succession to its course.",
+      "Messengership is not a separate, higher species of office. It is an action the Imam takes when the era requires it."
+    ],
+    "diagram_type": "flow",
+    "arabic_terms": [
+      "Imamate",
+      "Imam"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable flow, 6 blocks, 478 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 6,
+    "title": "The Architecture of Ascent (Surah 2:124)",
+    "content_summary": "A rising staircase flow diagram of four ranks ascending from Prophet to Friend to Messenger to Imam.",
+    "text_blocks": [
+      "The Architecture of Ascent (Surah 2:124)",
+      "Imam\n(“Indeed, I am appointing you an imam for all humanity.”)",
+      "Messenger\n(The Lawgiver)",
+      "Friend\n(The Proximity)",
+      "Prophet\n(The Foundation)",
+      "The two titles trade places. Ismail is remembered as a messenger and prophet; Abraham completes his work as a messenger only to be crowned as Imam. It is the destination, not the starting line."
+    ],
+    "diagram_type": "hierarchy",
+    "arabic_terms": [
+      "Imam",
+      "Ismail"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable hierarchy, 6 blocks, 365 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 7,
+    "title": "The Engine of Counterfeits",
+    "content_summary": "A funnel diagram filtering out false guides (whims, blind imitation, easy answers) and pretenders, distilling down to recognition of the True Imam.",
+    "text_blocks": [
+      "The Engine of Counterfeits",
+      "Universal Necessity\n(Driven by Fitra, Nature, Intellect).\n“The need for a guide is written as deep as the need for a Creator.”",
+      "Counterfeits prove the reality of the throne; no one impersonates a useless office.",
+      "Whims & Opinions",
+      "The Usurper",
+      "Blind Imitation of Forebears",
+      "The Flattered Jurist",
+      "Desire for the Easy Answer",
+      "The Philosopher's Teacher",
+      "Ma'rifat Imam al-Haqq\n(Recognition of the True Imam).",
+      "The seeker must strip away the pretenders using their own internal logic until only the unqualified truth remains standing."
+    ],
+    "diagram_type": "flow",
+    "arabic_terms": [
+      "Fitra",
+      "Ma'rifat Imam al-Haqq",
+      "Imam"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable flow, 11 blocks, 537 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 8,
+    "title": "The Master Key: Two Creations",
+    "content_summary": "A mirrored parallel diagram showing the World of Souls and the World of Bodies as corresponding realities linked by 'mirrors' relations.",
+    "text_blocks": [
+      "The Master Key: Two Creations",
+      "Nourishment of the Understanding",
+      "The World of Souls\n(Eternal, Chosen, Spiritual Realities)",
+      "Ruin by deprivation of the Guide",
+      "mirrors",
+      "mirrors",
+      "mirrors",
+      "Sustenance of the Body",
+      "The World of Bodies\n(Perishable, Compulsory, Natural Symbols\n/ al-mithalat al-jabriyyat)",
+      "Death by deprivation of elements",
+      "The physical world is a compulsory working model of the invisible one.\nEvery mechanism that keeps a body alive is a coded blueprint for how a soul survives."
+    ],
+    "diagram_type": "other",
+    "arabic_terms": [
+      "al-mithalat al-jabriyyat"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "low",
+    "rubric_reasons": [
+      "diagram_type 'other' not replicable"
+    ]
+  },
+  {
+    "page": 9,
+    "title": "The Celestial Blueprint",
+    "content_summary": "A radial orrery diagram with concentric spheres (Prophets) and coordinate nodes/stars (Imams) explaining cosmic guidance.",
+    "text_blocks": [
+      "The Celestial Blueprint",
+      "The Outer Tracks (The Spheres):\nThe Prophets. They provide the vast turning framework and the boundaries of the era.",
+      "The Coordinate Nodes (The Stars):\nThe Imams.",
+      "The spheres alone perfect nothing; the machinery runs empty without the stars. Just as a physical body is sustained only by the spheres together with the stars, the soul is guided by the Prophet's framework actualized by the Imam's light. (“My companions are like the stars...”)"
+    ],
+    "diagram_type": "hierarchy",
+    "arabic_terms": [
+      "Imams",
+      "Imam"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable hierarchy, 4 blocks, 461 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 10,
+    "title": "The Courtroom of Reality: The Two Witnesses",
+    "content_summary": "A two-row by two-column table contrasting the Legal Witness and the Natural Witness across Medium and Vulnerability.",
+    "text_blocks": [
+      "The Courtroom of Reality: The Two Witnesses",
+      "The Medium",
+      "Vulnerability",
+      "The Legal Witness",
+      "Revelation, scripture, and historical reported testimony.",
+      "Subject to human tampering, distortion, and suppressed translation.",
+      "The Natural Witness",
+      "The outer horizons and the inner selves (Surah 41:53).",
+      "Unforgeable, immutable. Cannot be edited by human hands.",
+      "When the legal testimony is corrupted, the mute creation itself—the geometry of nature—steps in to verify what the tampered law can no longer securely say."
+    ],
+    "diagram_type": "table",
+    "arabic_terms": [],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable table, 10 blocks, 491 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 11,
+    "title": "The Engine of Excellence",
+    "content_summary": "A triangular convergence diagram with arrows rising from ordered domains of creation up to a single summit, the Imam.",
+    "text_blocks": [
+      "The Engine of Excellence",
+      "The Summit of the Human World\n(The Imam).",
+      "Elements resolving to heat, planets resolving to the sun, bodies resolving to the soul.",
+      "The universe is not a collection of random hierarchies. Every ordered domain of creation operates on a single geometric law, pointing to a final summit. The imamate is not a theological anomaly; it is the inevitable resolution of the architecture of reality."
+    ],
+    "diagram_type": "hierarchy",
+    "arabic_terms": [
+      "Imam",
+      "imamate"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable hierarchy, 4 blocks, 410 chars"
+    ],
+    "svg_verified": true
+  }
+]

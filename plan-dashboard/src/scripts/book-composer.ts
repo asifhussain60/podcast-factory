@@ -26,6 +26,7 @@ import {
   createAlignDecos,
   alignablePositions,
 } from "../components/studio/editor/align-decos";
+import { createArabicDecos } from "../components/studio/editor/arabic-decos";
 import { TOOLBAR_ICONS } from "./toolbar-icons";
 import { initPublishToProduction } from "./publish-to-production";
 import {
@@ -1904,6 +1905,13 @@ function boot(): void {
       // HTML-comment node) and must STAY in the document for preserveFences to
       // restore it — so it is decorated, never removed. See fence-decos.ts.
       createFenceDecos(),
+      // The seed's `.ar-inline` span (isolateInlineArabic, markdown.ts) is
+      // stripped on parse — TipTap has no span node — so a term woven into
+      // English prose otherwise renders in the browser's fallback serif at
+      // parity with the Latin, which a vowelled Arabic word reads as fine
+      // print against. Repaints it as `.ar-raw`, which book-composer.css
+      // already sizes and faces for exactly this run. See arabic-decos.ts.
+      createArabicDecos(),
     ]);
     paintDiffToggle();
 

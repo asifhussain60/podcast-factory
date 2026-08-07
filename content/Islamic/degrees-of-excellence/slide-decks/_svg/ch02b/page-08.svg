@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L9,4 L0,8 Z" fill="#8b4513"/>
+    </marker>
+  </defs>
+  <text x="40" y="42" font-size="20" font-weight="700" fill="#8b4513">The Human Paradox</text>
+
+  <!-- The Trap -->
+  <rect x="40" y="66" width="680" height="48" rx="8" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1.5"/>
+  <text x="56" y="95" font-size="13" fill="#2b2117"><tspan font-weight="700">The Trap:</tspan> Man redirects nature, but this mastery is an engine that must be steered.</text>
+
+  <!-- System Input caption -->
+  <text x="40" y="150" font-size="13" fill="#7a6a58">
+    <tspan x="40" dy="0"><tspan font-weight="700" fill="#2b2117">System Input:</tspan> The merits of the whole world are gathered and enfolded into</tspan>
+    <tspan x="40" dy="18"> the human frame.</tspan>
+  </text>
+
+  <!-- three input boxes -->
+  <rect x="60" y="190" width="180" height="46" rx="8" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1.5"/>
+  <text x="150" y="219" font-size="14" fill="#2b2117" text-anchor="middle">Plants</text>
+  <rect x="290" y="190" width="180" height="46" rx="8" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1.5"/>
+  <text x="380" y="219" font-size="14" fill="#2b2117" text-anchor="middle">Metals</text>
+  <rect x="520" y="190" width="180" height="46" rx="8" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1.5"/>
+  <text x="610" y="219" font-size="14" fill="#2b2117" text-anchor="middle">Animals</text>
+
+  <!-- arrows into Human Reason -->
+  <line x1="150" y1="236" x2="330" y2="300" stroke="#8b4513" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="380" y1="236" x2="380" y2="300" stroke="#8b4513" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="610" y1="236" x2="430" y2="300" stroke="#8b4513" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Human Reason node -->
+  <rect x="230" y="308" width="300" height="52" rx="10" fill="#8b4513"/>
+  <text x="380" y="340" font-size="16" font-weight="700" fill="#f7f1e6" text-anchor="middle">Human Reason</text>
+
+  <!-- processor description -->
+  <rect x="40" y="400" width="680" height="110" rx="10" fill="#f7f1e6" stroke="#8b4513" stroke-width="2"/>
+  <text x="60" y="438" font-size="13" fill="#2b2117">
+    <tspan x="60" dy="0"><tspan font-weight="700">The Processor: Reason.</tspan> Without the human capacity to extract,</tspan>
+    <tspan x="60" dy="20"> crossbreed, and cultivate, the latent excellence of the cosmos remains</tspan>
+    <tspan x="60" dy="20"> invisible.</tspan>
+  </text>
+</svg>

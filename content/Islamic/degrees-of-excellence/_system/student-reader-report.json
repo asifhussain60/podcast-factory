@@ -1,0 +1,368 @@
+{
+  "schema": "book.student-reader/v1",
+  "generated_at": "2026-08-07T15:20:19Z",
+  "dry_run": false,
+  "chapters": [
+    {
+      "chapter": "the pole and foundation of religion",
+      "file": "1-the-pole-and-foundation-of-religion",
+      "title": "1. The Pole and Foundation of Religion",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [
+        {
+          "quote": "a messenger first reaches the rank of the imamate, and then, should the age call for a new religious law to be set in place, he becomes the seventh imam of that cycle",
+          "reasons": [
+            "question is 62 words, over the 60 maximum"
+          ]
+        }
+      ],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 1,
+      "created": 1,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:87918d8ca8f237c6",
+          "defect": "unexplained-leap",
+          "quote": "he becomes the seventh imam of that cycle and takes up the promulgation of that law",
+          "question": "The chapter introduces the term \"cycle\" and specifically the number seven without definition: what is a religious cycle, and why does a law-giving messenger occupy the seventh position within it rather than some other position?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "by nature and by reason",
+      "file": "2-by-nature-and-by-reason",
+      "title": "2. By Nature and by Reason",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:934714bdc4bd5488",
+          "defect": "unexplained-leap",
+          "quote": "the imams are the religious stars, as the Prophet, may God bless him and his family, said: \"My companions are like the stars; whomsoever you emulate, you will be guided.\"",
+          "question": "The hadith names the Prophet's companions (ṣaḥāba) as the stars — so why does the chapter cite it as proof that the imams, rather than the companions, hold the place of the religious stars?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:f5520ad20a6ace72",
+          "defect": "unresolved-double-reading",
+          "quote": "the imams stand in the place of the prophets, who are like the celestial spheres",
+          "question": "The chapter has just said imams are the stars while prophets are the spheres — so when it then says imams stand in the place of the prophets, does it mean imams occupy both positions in the current age, or that the star-role and the sphere-role collapse into one when no prophet is present?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "degrees of excellence",
+      "file": "3-degrees-of-excellence",
+      "title": "3. Degrees of Excellence",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [
+        {
+          "quote": "the imam is the qaim in his own time; he is the proclaimer (اَلنَّاطِق) in his age, and he is the one who occupies the position of the qaim",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        }
+      ],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 1,
+      "created": 1,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:9c0d1a2ced10f734",
+          "defect": "ambiguous-referent",
+          "quote": "that interpretation has proven correct, as we have witnessed with our own eyes, by the grace and favor of God",
+          "question": "What specific event or historical occurrence does the author point to as confirming, through direct personal witness, that the Prophet's words about the sun rising from the west were fulfilled by the imam's rise in the Maghrib?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the ladder of creation",
+      "file": "4-the-ladder-of-creation",
+      "title": "4. The Ladder of Creation",
+      "budget": 3,
+      "full_budget": 3,
+      "already_had": 0,
+      "proposed": 3,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:8610b0ef431a455e",
+          "defect": "unexplained-leap",
+          "quote": "The word \"bestowal\" (اَلْفَيْء) means \"return,\" and it is for this reason that a shadow is called اَلْفَيْء, because it returns to the place from which it first came. The whole world comes from the fortune and property of the imams",
+          "question": "The chapter moves from the Arabic word for shadow meaning 'return' to the conclusion that all worldly goods are the property of the imams — what is the step that connects an etymology to a claim of universal ownership?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:166e6298bd03cd23",
+          "defect": "ambiguous-referent",
+          "quote": "the furthest happiness of the celestial spheres, the balance of nature, and the subtlest influence of all the celestial spheres and stars are so joined in him",
+          "question": "The celestial spheres and stars are introduced here as if they play a known role in the imam's constitution — what place do they occupy in the ladder of creation the chapter has been building, and what does 'the furthest happiness of the celestial spheres' mean in this context?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:aeb77ae9eefcb2f5",
+          "defect": "unexplained-leap",
+          "quote": "the creative spirit (رُوح الإبداع), which is the perfect seventh spirit that God has prepared for humanity",
+          "question": "The chapter names three spirits in ascending order — growth, sensation, and reason — then calls the creative spirit the seventh. What are spirits four, five, and six in this sequence, and where do they appear in the ladder?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the physician of souls",
+      "file": "5-the-physician-of-souls",
+      "title": "5. The Physician of Souls",
+      "budget": 3,
+      "full_budget": 3,
+      "already_had": 0,
+      "proposed": 3,
+      "gated_out": [
+        {
+          "quote": "the imam is the Universal Intellect (الْعَقْلُ الْكُلِّي) in the world, the one in whom and through whom all the people of the world are made one",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        }
+      ],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:f0a538238ec7db07",
+          "defect": "unresolved-double-reading",
+          "quote": "those who require burning or the amputation of limbs through his turning away from us",
+          "question": "Throughout the chapter, burning and amputation are acts the physician performs while actively treating the patient; here they arise from the imam turning away — does the imam's withdrawal itself inflict the spiritual equivalent of burning, or does it mean the person is left untreated and then suffers those consequences from elsewhere?",
+          "grounded": 2,
+          "researched": false
+        },
+        {
+          "id": "student:c3f2be9f75bc767b",
+          "defect": "unexplained-leap",
+          "quote": "It is therefore mandatory that this leader be the best of all people: the most noble, the most perfect, the most knowing, and the most pure",
+          "question": "The chapter establishes that leadership is necessary — a claim it says even atheists accept — but why does the necessity of leadership require that the leader be the single most perfect and knowing individual among all humanity, rather than merely someone competent or appointed?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "governance and the first principle",
+      "file": "6-governance-and-the-first-principle",
+      "title": "6. Governance and the First Principle",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:25ba690875c345ed",
+          "defect": "unexplained-leap",
+          "quote": "this in turn makes necessary a final end-point in the chain of teachers, namely the prophet and the imam",
+          "question": "The argument shows only that some primordial teacher must have received knowledge divinely rather than from any human; why does this single chain of instruction require two separate necessary endpoints — prophet and imam — rather than one?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:0d64e7ad74163440",
+          "defect": "unresolved-double-reading",
+          "quote": "the dot, which the mathematicians describe as having no parts and as the origin of the line, the surface, and the body, is a symbol of the imam",
+          "question": "The chapter already established the circle as the imam's symbol because it contains every other figure and needs none of them; how does the dot — described here as sourceless and partless — relate to that circle-symbol: are these two separate qualities of the imam being illustrated, or does one take precedence?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the imam in the pillars of faith",
+      "file": "7-the-imam-in-the-pillars-of-faith",
+      "title": "7. The Imam in the Pillars of Faith",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 4,
+      "created": 4,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:e951f6b89fa5f24f",
+          "defect": "unexplained-leap",
+          "quote": "to direct people toward the qibla is therefore to direct them toward the imam",
+          "question": "The chapter argues that the qibla — a fixed geographic direction toward Mecca — is equivalent to the imam as a person: what is the inner connection that makes a direction in space stand for a living spiritual authority?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:686c1dc0998d7ff6",
+          "defect": "ambiguous-referent",
+          "quote": "For that reason he waged war against the Banu Hanifa and killed them",
+          "question": "The chapter shifts from 'the Prophet' to 'whoever afterward sat in the place of the imams' without naming anyone: who is the 'he' who waged war on the Banu Hanifa over the collection of alms?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:d35db26a163044f1",
+          "defect": "undefined-term",
+          "quote": "the verse in question abrogates (نَاسِخَة) in both ruling and recitation, that it is not itself abrogated",
+          "question": "What does it mean for a verse to abrogate 'in both ruling and recitation,' and which earlier ruling or recitation does the opponents' position claim this verse cancels?",
+          "grounded": 2,
+          "researched": false
+        },
+        {
+          "id": "student:f7c1db11ab2dda9c",
+          "defect": "unexplained-leap",
+          "quote": "even if the congregation is reduced from four to two on account of the imam's sermon",
+          "question": "What is the standard quorum of four for the Friday or feast prayer, and by what rule does the imam's sermon reduce the required number to two?",
+          "grounded": 0,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "from adam to ali",
+      "file": "8-from-adam-to-ali",
+      "title": "8. From Adam to Ali",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:6933aca188c8f90d",
+          "defect": "ambiguous-referent",
+          "quote": "in the appointment of Adam's son to the imamate there is a further sign",
+          "question": "Which of Adam's sons held the imamate after him, and is that figure identified by name anywhere this chapter presupposes the reader has already encountered?",
+          "grounded": 2,
+          "researched": false
+        },
+        {
+          "id": "student:dae7c8581468a1f7",
+          "defect": "unsupported-claim",
+          "quote": "he commanded that fire be glorified. If what has been said of this is correct, then it was a symbol",
+          "question": "What text or tradition records Abraham commanding the glorification of fire, and how should that account be distinguished from the fire-worship he is remembered for refusing — the refusal for which he was thrown into the fire?",
+          "grounded": 1,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "god's vicegerent in his time",
+      "file": "9-gods-vicegerent-in-his-time",
+      "title": "9. God's Vicegerent in His Time",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 4,
+      "created": 4,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:c1cb53eb3375160e",
+          "defect": "unexplained-leap",
+          "quote": "He is the sixth, through whom the command of the seventh will be perfected",
+          "question": "The chapter assigns al-Hakim three different ordinal positions — sixth, ninth, and second — each under a separate 'reckoning.' What series is being counted in each of the three calculations, and why does the same person hold a different position in each?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:899899ed69d6e66a",
+          "defect": "unsupported-claim",
+          "quote": "Life in the hereafter rests on four spiritual natures and five spiritual senses",
+          "question": "The only proof offered for this claim is the verse 'Indeed, the abode of the hereafter, that is life,' which speaks of the hereafter as life but says nothing about four natures or five senses. What is the argument connecting that verse to this specific enumeration?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:40f96929b5442550",
+          "defect": "ambiguous-referent",
+          "quote": "the reported judgment of David and God's command in the perplexing and astonishing story of the owner of the vineyard and the owner of the bull",
+          "question": "The chapter cites this story of a vineyard-owner and a bull-owner as a parallel to the Khidr-and-Moses episode, but does not identify its source. What was the judgment David gave, what was God's correcting command, and where is this story recorded?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:67e0f71e9c701288",
+          "defect": "unresolved-double-reading",
+          "quote": "Everything found at the two extremes does not exist at the center, and what exists at the center does not exist at the extremes",
+          "question": "In the preceding argument about why people cannot bear al-Hakim's actions, what specifically do 'the two extremes' and 'the center' stand for — are these positions on a scale of rank, of understanding, of religious dispensation, or something else?",
+          "grounded": 3,
+          "researched": false
+        }
+      ]
+    }
+  ],
+  "filed_total": 21
+}

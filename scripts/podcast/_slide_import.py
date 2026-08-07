@@ -35,7 +35,14 @@ figures, autonomously:
      render input.
 
 Standalone:
-  python3 scripts/podcast/_slide_import.py <BOOK_DIR> [--force]
+  python3 scripts/podcast/_slide_import.py <BOOK_DIR> [--force] [--raster-only]
+
+--raster-only skips the vision-analyze + SVG-replicate calls that normally run
+between EXTRACT and MANIFEST below (2 of the 3 `claude -p` calls per chapter)
+and leaves every slide as its watermark-cropped raster JPEG — the same
+fallback the pipeline already takes whenever SVG replication fails on its own.
+The MANIFEST call still runs, since that is what lets the Book Composer place
+a candidate at all.
 """
 
 from __future__ import annotations
@@ -196,7 +203,7 @@ def _author_manifest(
 # ── main phase entry ─────────────────────────────────────────────────────────
 
 
-def author_phase_slide_import(book_dir: Path, *, force: bool = False, log=print) -> dict:
+def author_phase_slide_import(book_dir: Path, *, force: bool = False, raster_only: bool = False, log=print) -> dict:
     """Turn dropped deck PDFs into extracted pages and slide candidates.
 
     It does NOT write `book/book-slides.md` — that assembly was retired on
@@ -204,6 +211,15 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False, log=print)
     called here only as dry validation. The docstring said otherwise until
     2026-08-06, which is the kind of stale claim that sends a reader looking for a
     file the pipeline has not produced in weeks.
+
+    `raster_only` skips the vision-analyze + SVG-replicate calls in
+    `_slide_replicate.py` (2 of the 3 `claude -p` calls per chapter) and leaves
+    every slide as its watermark-cropped raster — the same fallback
+    `emit_slide_candidates` already takes whenever SVG replication fails on its
+    own, so this is not a new code path, just an intentional skip of an
+    optional print-quality enhancement. The anchor-manifest call (which chapter
+    paragraph each slide belongs beside) always runs — that is what lets the
+    Book Composer place a candidate at all.
 
     Raises AuthoringHalt (PDF drops missing) or AuthoringError (manifest
     convergence failure / no injection source). Returns a summary dict:
@@ -274,10 +290,16 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False, log=print)
         # Slide intelligence (2026-06-10): OCR/vision-analyze every page;
         # high-value diagram slides are replicated as verified inline SVG,
         # everything else keeps the raster JPEG. Degrades to {} on failure
-        # (non-blocking contract — the import proceeds all-raster).
-        from _slide_replicate import analyze_and_replicate_slides
+        # (non-blocking contract — the import proceeds all-raster). --raster-only
+        # takes that same all-raster branch on purpose, skipping the 2 vision/SVG
+        # calls per chapter rather than waiting for them to fail.
+        if raster_only:
+            log(f"    {_PHASE}: {ch} raster-only — skipping SVG analyze/replicate")
+            svg_overrides: dict[int, Path] = {}
+        else:
+            from _slide_replicate import analyze_and_replicate_slides
 
-        svg_overrides = analyze_and_replicate_slides(book_dir, ch, pdf, pages_dir, force=force, log=log)
+            svg_overrides = analyze_and_replicate_slides(book_dir, ch, pdf, pages_dir, force=force, log=log)
         svg_counts[ch] = len(svg_overrides)
 
         manifest_file = _manifest_path(book_dir, ch)
@@ -332,11 +354,12 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False, log=print)
 def main() -> int:
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     force = "--force" in sys.argv[1:]
+    raster_only = "--raster-only" in sys.argv[1:]
     if not args:
-        print("usage: _slide_import.py <BOOK_DIR> [--force]", file=sys.stderr)
+        print("usage: _slide_import.py <BOOK_DIR> [--force] [--raster-only]", file=sys.stderr)
         return 2
     try:
-        result = author_phase_slide_import(Path(args[0]), force=force)
+        result = author_phase_slide_import(Path(args[0]), force=force, raster_only=raster_only)
     except AuthoringHalt as e:
         print(f"[{_PHASE}] HALT: {e}", file=sys.stderr)
         return 3

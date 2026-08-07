@@ -1,0 +1,16 @@
+<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <rect x="0" y="0" width="760" height="360" fill="#ffffff"/>
+  <text x="40" y="34" font-size="20" font-weight="700" fill="#8b4513">Prophecy as a Function of the Imamate</text>
+
+  <polyline points="40,160 200,160 250,90 300,160 490,160 540,90 590,160 720,160" fill="none" stroke="#8b4513" stroke-width="2"/>
+  <text font-size="13" fill="#2b2117" text-anchor="middle"><tspan x="275" y="58" font-weight="700">The Messengership&#10;</tspan><tspan x="275" y="75">(The Speaker of the Cycle)</tspan></text>
+  <text x="120" y="184" font-size="13" font-weight="700" fill="#7a6a58">The Imamate (The Deep Current)</text>
+
+  <rect x="40" y="205" width="330" height="100" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text font-size="13" fill="#2b2117"><tspan x="54" y="232">The Baseline: The silent keeper </tspan><tspan x="54" y="250">upholding the law and inner reality. </tspan><tspan x="54" y="268">Never vacant, never absent.</tspan></text>
+
+  <rect x="390" y="205" width="330" height="100" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text font-size="13" fill="#2b2117"><tspan x="404" y="228">The Spikes: The moment history demands a new </tspan><tspan x="404" y="246">sacred law. The Imam ascends to become the </tspan><tspan x="404" y="264">speaker, delivers the law, and returns the </tspan><tspan x="404" y="282">succession to its course.</tspan></text>
+
+  <text font-size="13" font-style="italic" fill="#7a6a58"><tspan x="40" y="332">Messengership is not a separate, higher species of office. It is an action the Imam </tspan><tspan x="40" y="350">takes when the era requires it.</tspan></text>
+</svg>

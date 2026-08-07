@@ -1,0 +1,38 @@
+<svg viewBox="0 0 760 462" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <defs><marker id="arw" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#8b4513"/></marker></defs>
+  <rect x="0" y="0" width="760" height="462" fill="#ffffff"/>
+  <text x="40" y="34" font-size="20" font-weight="700" fill="#8b4513">The Engine of Counterfeits</text>
+
+  <rect x="110" y="54" width="540" height="92" rx="6" fill="#f7f1e6" stroke="#8b4513" stroke-width="1.5"/>
+  <text text-anchor="middle"><tspan x="380" y="80" font-size="15" font-weight="700" fill="#8b4513">Universal Necessity&#10;</tspan><tspan x="380" y="100" font-size="13" fill="#2b2117">(Driven by Fitra, Nature, Intellect).&#10;</tspan><tspan x="380" y="120" font-size="13" fill="#2b2117">&#8220;The need for a guide is written as deep as the need for a Creator.&#8221;</tspan></text>
+
+  <text x="380" y="164" font-size="12" font-style="italic" fill="#7a6a58" text-anchor="middle">Counterfeits prove the reality of the throne; no one impersonates a useless office.</text>
+
+  <line x1="380" y1="146" x2="380" y2="180" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+
+  <rect x="60" y="185" width="280" height="40" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text x="200" y="210" font-size="13" fill="#2b2117" text-anchor="middle">Whims &amp; Opinions</text>
+  <line x1="340" y1="205" x2="416" y2="205" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="420" y="185" width="280" height="40" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text x="560" y="210" font-size="13" font-weight="700" fill="#2b2117" text-anchor="middle">The Usurper</text>
+
+  <rect x="60" y="240" width="280" height="40" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text x="200" y="265" font-size="13" fill="#2b2117" text-anchor="middle">Blind Imitation of Forebears</text>
+  <line x1="340" y1="260" x2="416" y2="260" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="420" y="240" width="280" height="40" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text x="560" y="265" font-size="13" font-weight="700" fill="#2b2117" text-anchor="middle">The Flattered Jurist</text>
+
+  <rect x="60" y="295" width="280" height="40" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text x="200" y="320" font-size="13" fill="#2b2117" text-anchor="middle">Desire for the Easy Answer</text>
+  <line x1="340" y1="315" x2="416" y2="315" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="420" y="295" width="280" height="40" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text x="560" y="320" font-size="13" font-weight="700" fill="#2b2117" text-anchor="middle">The Philosopher's Teacher</text>
+
+  <line x1="560" y1="335" x2="470" y2="348" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="200" y1="335" x2="300" y2="348" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+
+  <rect x="200" y="350" width="360" height="60" rx="6" fill="#f7f1e6" stroke="#8b4513" stroke-width="1.5"/>
+  <text text-anchor="middle"><tspan x="380" y="376" font-size="15" font-weight="700" fill="#8b4513">Ma'rifat Imam al-Haqq&#10;</tspan><tspan x="380" y="396" font-size="13" fill="#2b2117">(Recognition of the True Imam).</tspan></text>
+
+  <text font-size="13" font-style="italic" fill="#7a6a58"><tspan x="40" y="432">The seeker must strip away the pretenders using their own internal logic until only the </tspan><tspan x="40" y="450">unqualified truth remains standing.</tspan></text>
+</svg>

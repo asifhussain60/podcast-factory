@@ -1,0 +1,23 @@
+<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <defs><marker id="arw" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#8b4513"/></marker></defs>
+  <rect x="0" y="0" width="760" height="380" fill="#ffffff"/>
+  <text x="40" y="34" font-size="20" font-weight="700" fill="#8b4513">The Architecture of Ascent (Surah 2:124)</text>
+
+  <rect x="230" y="60" width="470" height="64" rx="6" fill="#f7f1e6" stroke="#8b4513" stroke-width="1.5"/>
+  <text text-anchor="middle"><tspan x="465" y="88" font-size="16" font-weight="700" fill="#8b4513">Imam&#10;</tspan><tspan x="465" y="110" font-size="13" fill="#2b2117">(&#8220;Indeed, I am appointing you an imam for all humanity.&#8221;)</tspan></text>
+
+  <rect x="360" y="150" width="150" height="52" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text text-anchor="middle"><tspan x="435" y="172" font-size="14" font-weight="700" fill="#2b2117">Messenger&#10;</tspan><tspan x="435" y="190" font-size="12" fill="#7a6a58">(The Lawgiver)</tspan></text>
+
+  <rect x="200" y="200" width="150" height="52" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text text-anchor="middle"><tspan x="275" y="222" font-size="14" font-weight="700" fill="#2b2117">Friend&#10;</tspan><tspan x="275" y="240" font-size="12" fill="#7a6a58">(The Proximity)</tspan></text>
+
+  <rect x="40" y="250" width="150" height="52" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text text-anchor="middle"><tspan x="115" y="272" font-size="14" font-weight="700" fill="#2b2117">Prophet&#10;</tspan><tspan x="115" y="290" font-size="12" fill="#7a6a58">(The Foundation)</tspan></text>
+
+  <line x1="190" y1="270" x2="200" y2="240" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="350" y1="220" x2="360" y2="190" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="435" y1="150" x2="460" y2="126" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+
+  <text font-size="13" font-style="italic" fill="#7a6a58"><tspan x="40" y="330">The two titles trade places. Ismail is remembered as a messenger and prophet; Abraham </tspan><tspan x="40" y="348">completes his work as a messenger only to be crowned as Imam. It is the destination, not </tspan><tspan x="40" y="366">the starting line.</tspan></text>
+</svg>

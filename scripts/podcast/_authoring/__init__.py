@@ -34,6 +34,7 @@ from ._core import (
     PHASE_0D_SC_TIMEOUT_RATE,
     PHASE_0D_TOC_TIMEOUT,
     PHASE_0E_CHAPTER_TIMEOUT,
+    PHASE_MODEL_OVERRIDE,
     TRAINER_TIMEOUT,
     AuthoringError,
     AuthoringHalt,

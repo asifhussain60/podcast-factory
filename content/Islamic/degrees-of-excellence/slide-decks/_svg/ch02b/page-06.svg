@@ -1,0 +1,55 @@
+<svg viewBox="0 0 760 470" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <text x="40" y="42" font-size="20" font-weight="700" fill="#8b4513">The Sensory Sorting of Guides</text>
+
+  <!-- grid: 3 columns x (header + 3 rows) -->
+  <!-- column x boundaries: 40 | 240 | 470 | 720 -->
+  <!-- header -->
+  <rect x="40" y="70" width="680" height="40" fill="#8b4513"/>
+  <text x="52" y="95" font-size="13" font-weight="700" fill="#f7f1e6">Sensory Trait (Input)</text>
+  <text x="252" y="95" font-size="13" font-weight="700" fill="#f7f1e6">Spiritual Output</text>
+  <text x="482" y="95" font-size="13" font-weight="700" fill="#f7f1e6">The Archetype</text>
+
+  <!-- row 1 -->
+  <rect x="40" y="110" width="680" height="90" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text x="52" y="152" font-size="13" font-weight="700" fill="#2b2117">Sweet / Fragrant</text>
+  <text x="252" y="145" font-size="13" fill="#2b2117">
+    <tspan x="252" dy="0">Delights the eye, heals</tspan>
+    <tspan x="252" dy="18"> disease</tspan>
+  </text>
+  <text x="482" y="145" font-size="13" fill="#2b2117">
+    <tspan x="482" dy="0">The True Imams (Deep roots,</tspan>
+    <tspan x="482" dy="18"> endless fruit)</tspan>
+  </text>
+
+  <!-- row 2 -->
+  <rect x="40" y="200" width="680" height="90" fill="#ffffff" stroke="#d9cdbd" stroke-width="1"/>
+  <text x="52" y="242" font-size="13" font-weight="700" fill="#2b2117">Bitter / Foul</text>
+  <text x="252" y="235" font-size="13" fill="#2b2117">
+    <tspan x="252" dy="0">Gives neither food nor</tspan>
+    <tspan x="252" dy="18"> delight; sickens</tspan>
+  </text>
+  <text x="482" y="235" font-size="13" fill="#2b2117">
+    <tspan x="482" dy="0">Imams of Error (Uprooted tree,</tspan>
+    <tspan x="482" dy="18"> no footing)</tspan>
+  </text>
+
+  <!-- row 3 -->
+  <rect x="40" y="290" width="680" height="100" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text x="52" y="332" font-size="13" font-weight="700" fill="#2b2117">
+    <tspan x="52" dy="0">Thorned /</tspan>
+    <tspan x="52" dy="18"> Fruitless</tspan>
+  </text>
+  <text x="252" y="332" font-size="13" fill="#2b2117">
+    <tspan x="252" dy="0">Wounds whoever</tspan>
+    <tspan x="252" dy="18"> comes near</tspan>
+  </text>
+  <text x="482" y="325" font-size="13" fill="#2b2117">
+    <tspan x="482" dy="0">The Literalists (Ahl al-Zahir,</tspan>
+    <tspan x="482" dy="18"> clinging only to the outer</tspan>
+    <tspan x="482" dy="18"> husk)</tspan>
+  </text>
+
+  <!-- column separators -->
+  <line x1="240" y1="70" x2="240" y2="390" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="470" y1="70" x2="470" y2="390" stroke="#d9cdbd" stroke-width="1"/>
+</svg>

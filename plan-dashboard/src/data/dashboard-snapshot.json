@@ -1930,6 +1930,41 @@
   ],
   "recent_commits": [
     {
+      "sha": "f9e10b5",
+      "subject": "docs(listener): tell readers the listening speed is remembered",
+      "date": "2026-08-07"
+    },
+    {
+      "sha": "968d22f",
+      "subject": "chore(listener): drop the scratch persistence check",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "4f9d889",
+      "subject": "fix(listener): remember the listening speed, and pin every setting's persistence",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "5016a7f",
+      "subject": "feat(listener): three page widths for desktops and tablets held sideways",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "3438515",
+      "subject": "content(the-master-and-the-disciple): published to production, verified",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "855d8ab",
+      "subject": "fix(compose): accepting a Companion note now shows on the card",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "1d29635",
+      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
+      "date": "2026-08-06"
+    },
+    {
       "sha": "c512a55",
       "subject": "feat(compose): publish one book to production, and prove it landed",
       "date": "2026-08-06"
@@ -1942,41 +1977,6 @@
     {
       "sha": "33c0d69",
       "subject": "style(listener): the reading sheet is a leaf of paper, not a card",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "e6b2811",
-      "subject": "fix(listener): every control fits the screen it is on, at every viewport",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "2f2a442",
-      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "e3b61ca",
-      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "de33ba8",
-      "subject": "fix(composer): the visual palette offers only assets that exist",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "b722db9",
-      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "351a9bb",
-      "subject": "fix(book-composer): the pipeline's fence markers stop showing in the editor",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "6af29fb",
-      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
       "date": "2026-08-06"
     }
   ],

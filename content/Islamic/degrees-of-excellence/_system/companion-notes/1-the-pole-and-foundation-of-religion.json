@@ -1,6 +1,30 @@
 {
   "slug": "degrees-of-excellence",
   "chapter": "1-the-pole-and-foundation-of-religion",
-  "notes": [],
-  "updatedAt": null
+  "notes": [
+    {
+      "id": "student:87918d8ca8f237c6",
+      "kind": "explanation",
+      "body": "A religious cycle (دور) is a complete era of divine guidance — it opens when a new law is revealed through a speaking prophet (ناطق), runs through the work of those who preserve and interpret that law, and closes when the world is ready to receive something new.\n\nIn Ismaili thought, **seven positions structure each cycle**. Seven mirrors the architecture of the cosmos itself: seven heavens, seven celestial bodies, seven days — the number of completion. The cycle opens with the ناطق who plants the new law. His legatee, the inner knower (أساس), follows. Then come five imams who sustain and interpret across the generations, bringing the total to seven.\n\nNow comes the passage's most striking claim: the seventh imam of one cycle does not merely close it — he becomes the ناطق of the next. Before he speaks a new law, he has lived under the authority of one already given. This is exactly the ascent Imam Jafar al-Sadiq (عليه السلام) described for Abraham: Allah chose him first as a prophet (نبي), then drew him intimately close as a friend (خليل), then appointed him a messenger (رسول), and only at the last named him an imam for all humanity. The imamate is the summit.\n\n**His authority is proven by the climb.** Once he has completed his own cycle, he hands command forward to the imam who follows — so that the world is never left without a living guide.",
+      "anchor": "he becomes the seventh imam of that cycle and takes up the promulgati…",
+      "quote": "he becomes the seventh imam of that cycle and takes up the promulgation of that law",
+      "review": "proposed",
+      "source": {
+        "provider": "scholar",
+        "label": "Ismaili Scholar",
+        "ref": "unexplained-leap"
+      },
+      "etymology": [
+        "دور (cycle): from the root د-و-ر, meaning to turn or revolve. The same root gives دائرة (circle) and دوران (revolution). A دور is not merely a period of time — it is a full turning, a complete rotation through every station before the wheel returns to its start. The cycle is embedded in the word itself.",
+        "ناطق (speaking prophet): from the root ن-ط-ق, to speak or articulate. Related forms include نطق (speech) and منطق (logic, reasoned discourse). A ناطق is one who makes the hidden word public — who takes the inward reality of revelation and gives it a law-bearing voice the whole of humanity can hear.",
+        "أساس (foundation, legatee): from the root أ-س-س, to found or establish. The root gives تأسيس (the act of founding). An أساس is the very base on which everything else stands — in the cycle, the one who holds the inner meaning that makes the law's outer form intelligible, the root that keeps the tree alive.",
+        "خليل (intimate friend): from the root خ-ل-ل. The root carries the idea of permeating through gaps (خِلَال) until two things are intertwined. A خليل is not merely a close friend; he is one whose love has entered the very interstices of another's being — and this is how Allah's bond with Abraham is named.",
+        "خليفة (vicegerent): from the root خ-ل-ف. Lane's Lexicon: \"He came after, followed, succeeded, or remained after, another.\" A خليفة is the one who stands in the place of one who has gone — not filling a vacancy in loss, but continuing a living line of authority the world cannot be left without."
+      ],
+      "createdAt": "2026-08-07T13:38:20Z",
+      "updatedAt": "2026-08-07T13:38:20Z"
+    }
+  ],
+  "updatedAt": "2026-08-07T13:38:20Z",
+  "studentReaderFingerprint": "201a30e00aaf181f"
 }

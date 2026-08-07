@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 426" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <text x="380" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">Three Structures of Necessity Answer Three Specific Doubts of Reason</text>
+
+  <!-- header band -->
+  <rect x="20" y="60" width="720" height="46" fill="#efe2d0" stroke="#d9cdbd"/>
+  <rect x="20" y="106" width="720" height="300" fill="#f7f1e6" stroke="#d9cdbd"/>
+
+  <!-- column dividers -->
+  <line x1="170" y1="60" x2="170" y2="406" stroke="#d9cdbd"/>
+  <line x1="370" y1="60" x2="370" y2="406" stroke="#d9cdbd"/>
+  <line x1="570" y1="60" x2="570" y2="406" stroke="#d9cdbd"/>
+  <!-- row dividers -->
+  <line x1="20" y1="106" x2="740" y2="106" stroke="#d9cdbd"/>
+  <line x1="20" y1="206" x2="740" y2="206" stroke="#d9cdbd"/>
+  <line x1="20" y1="306" x2="740" y2="306" stroke="#d9cdbd"/>
+  <rect x="20" y="60" width="720" height="346" fill="none" stroke="#8b4513" stroke-width="1.5"/>
+
+  <!-- header labels -->
+  <text x="270" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#8b4513">The Doubter's Premise</text>
+  <text x="470" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#8b4513">The Structural Reality</text>
+  <text x="655" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#8b4513">The Unavoidable Proof</text>
+
+  <!-- Row 1: Flock -->
+  <text x="32" y="149" font-size="13" font-weight="700" fill="#2b2117"><tspan x="32" dy="0">The Flock </tspan><tspan x="32" dy="17">(Shepherd)</tspan></text>
+  <text x="182" y="149" font-size="13" fill="#2b2117"><tspan x="182" dy="0">A capable society can </tspan><tspan x="182" dy="17">manage itself.</tspan></text>
+  <text x="382" y="141" font-size="13" fill="#2b2117"><tspan x="382" dy="0">Unshepherded, they perish </tspan><tspan x="382" dy="17">by predators and poor </tspan><tspan x="382" dy="17">pasture.</tspan></text>
+  <text x="582" y="141" font-size="13" fill="#2b2117"><tspan x="582" dy="0">Competence requires </tspan><tspan x="582" dy="17">steering; the flock is not </tspan><tspan x="582" dy="17">defective, just untended.</tspan></text>
+
+  <!-- Row 2: Body -->
+  <text x="32" y="249" font-size="13" font-weight="700" fill="#2b2117"><tspan x="32" dy="0">The Body </tspan><tspan x="32" dy="17">(Head)</tspan></text>
+  <text x="182" y="241" font-size="13" fill="#2b2117"><tspan x="182" dy="0">Leadership is a </tspan><tspan x="182" dy="17">slow-acting good we can </tspan><tspan x="182" dy="17">temporarily pause.</tspan></text>
+  <text x="382" y="241" font-size="13" fill="#2b2117"><tspan x="382" dy="0">Without a head, it does </tspan><tspan x="382" dy="17">not limp; it rots in a </tspan><tspan x="382" dy="17">single day.</tspan></text>
+  <text x="582" y="249" font-size="13" fill="#2b2117"><tspan x="582" dy="0">Dissolution is immediate, </tspan><tspan x="582" dy="17">not gradual.</tspan></text>
+
+  <!-- Row 3: Ranks -->
+  <text x="32" y="349" font-size="13" font-weight="700" fill="#2b2117"><tspan x="32" dy="0">The Ranks </tspan><tspan x="32" dy="17">(Nature)</tspan></text>
+  <text x="182" y="349" font-size="13" fill="#2b2117"><tspan x="182" dy="0">Hierarchy is merely a </tspan><tspan x="182" dy="17">human invention.</tspan></text>
+  <text x="382" y="341" font-size="13" fill="#2b2117"><tspan x="382" dy="0">The stallion, rooster, </tspan><tspan x="382" dy="17">crane, and bee operate </tspan><tspan x="382" dy="17">on built-in gradation.</tspan></text>
+  <text x="582" y="341" font-size="13" fill="#2b2117"><tspan x="582" dy="0">Headship precedes </tspan><tspan x="582" dy="17">human contracts; it is a </tspan><tspan x="582" dy="17">biological instinct.</tspan></text>
+</svg>

@@ -200,6 +200,19 @@ class AuthoringHalt(AuthoringError):
 DEFAULT_MODEL_LABEL = "claude-opus-4-8"
 
 
+# ── Phase-declared model overrides (Asif, 2026-08-07) ───────────────────────
+# A phase is listed ONLY when its output is GATED (a bad window reverts to its
+# base, or the result is a human-reviewed proposal — nothing ships on its own)
+# so a weaker model costs a wasted window, never bad prose on the page. Every
+# other phase, including judgment calls like chapter design (0d) and
+# enrichment (0e), is absent on purpose and inherits the CLI's own default.
+PHASE_MODEL_OVERRIDE: dict[str, str] = {
+    "0book-fluency": "claude-sonnet-4-6",
+    "0book-student-reader": "claude-sonnet-4-6",
+    "rearticulate": "claude-sonnet-4-6",
+}
+
+
 # ── Determinism contract (read before "make authoring deterministic") ──────────
 # The `claude -p` CLI exposes NO temperature, top_p, or seed flag (verified
 # against `claude --help`). Authoring therefore runs at the model's default
@@ -356,8 +369,9 @@ def _run_claude_p(
         "--output-format",
         "json",
     ]
-    if model_flag:
-        argv.extend(["--model", model_flag])
+    _resolved_model_flag = model_flag or PHASE_MODEL_OVERRIDE.get(phase)
+    if _resolved_model_flag:
+        argv.extend(["--model", _resolved_model_flag])
     argv.append(prompt)
     # P0 COST POLICY (2026-06-04): `claude -p` MUST use the flat-rate Claude Max
     # subscription, NEVER the metered Anthropic API. Strip any API-key env from the
@@ -388,16 +402,16 @@ def _run_claude_p(
                     book_dir,
                     phase=phase or "(unspecified)",
                     step=step or "(unspecified)",
-                    model=model_flag or model,
+                    model=_resolved_model_flag or model,
                     stdout=raw_stdout,
                 )
                 _tokens_in, _tokens_out = _row.input_tokens, _row.output_tokens
             except Exception as e:
                 sys.stderr.write(f"[_run_claude_p] cost-ledger append failed: {e!r}\n")
-            # Record which model authored this artifact (provenance). A non-default
-            # model (the Sonnet timeout-fallback passes model_flag) is flagged as a
-            # content-provenance divergence so mixed-model books are never silent.
-            _effective_model = model_flag or model
+                _row = None
+            # `_row.model` is the CLI's own report of who actually answered;
+            # the requested model is only the fallback for unparseable stdout.
+            _effective_model = (_row.model if _row is not None else None) or _resolved_model_flag or model
             record_model_provenance(
                 book_dir,
                 phase=phase,
@@ -424,7 +438,7 @@ def _run_claude_p(
             level="info" if rc == 0 else "error",
             phase=phase,
             step=step,
-            model=model_flag or model,
+            model=_resolved_model_flag or model,
             rc=rc,
             duration_ms=_elapsed_ms,
             tokens_in=_tokens_in,
@@ -443,7 +457,7 @@ def _run_claude_p(
             level="error",
             phase=phase,
             step=step,
-            model=model_flag or model,
+            model=_resolved_model_flag or model,
             duration_ms=int((time.monotonic() - _t0) * 1000),
             msg=f"`{CLAUDE_CMD}` not found on PATH",
         )
@@ -468,7 +482,7 @@ def _run_claude_p(
             level="error",
             phase=phase,
             step=step,
-            model=model_flag or model,
+            model=_resolved_model_flag or model,
             rc=None,
             duration_ms=int((time.monotonic() - _t0) * 1000),
             prompt=prompt,

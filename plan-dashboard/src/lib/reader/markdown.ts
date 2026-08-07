@@ -210,6 +210,32 @@ export function isArabicOnlyParagraph(s: string): boolean {
 }
 
 /**
+ * Every inline Arabic run in a chunk of plain text (no tags — the caller has
+ * already split those out), as `[start, end)` character offsets with the
+ * bracketing whitespace trimmed off each end.
+ *
+ * Factored out of `isolateInlineArabic` so the live Book Composer editor can
+ * find the SAME runs over ProseMirror text nodes that this function finds over
+ * an HTML string — see `arabic-decos.ts`'s header for why that decoration
+ * exists and why it has to match this, not a second regex of its own.
+ */
+export function findArabicRuns(
+  text: string,
+): Array<{ start: number; end: number }> {
+  if (!ARABIC_SCRIPT_RE.test(text)) return [];
+  const runs: Array<{ start: number; end: number }> = [];
+  for (const m of text.matchAll(ARABIC_INLINE_RE)) {
+    if (!ARABIC_SCRIPT_RE.test(m[0])) continue;
+    const leading = m[0].match(/^\s*/)?.[0] ?? "";
+    const trailing = m[0].match(/\s*$/)?.[0] ?? "";
+    const start = m.index + leading.length;
+    const end = m.index + m[0].length - trailing.length;
+    if (end > start) runs.push({ start, end });
+  }
+  return runs;
+}
+
+/**
  * Wrap each inline Arabic run in the same `.ar-inline` span the PRINT renderer
  * emits (book-html.mjs `renderInline`).
  *
@@ -229,13 +255,17 @@ function isolateInlineArabic(html: string): string {
   // Only rewrite text, never the inside of a tag.
   return html.replace(/<[^>]+>|[^<]+/g, (chunk) => {
     if (chunk.startsWith("<")) return chunk;
-    return chunk.replace(ARABIC_INLINE_RE, (match) => {
-      if (!ARABIC_SCRIPT_RE.test(match)) return match;
-      const leading = match.match(/^\s*/)?.[0] ?? "";
-      const trailing = match.match(/\s*$/)?.[0] ?? "";
-      const body = match.slice(leading.length, match.length - trailing.length);
-      return `${leading}<span class="ar-inline" dir="rtl" lang="ar">${body}</span>${trailing}`;
-    });
+    const runs = findArabicRuns(chunk);
+    if (!runs.length) return chunk;
+    let out = "";
+    let last = 0;
+    for (const r of runs) {
+      out += chunk.slice(last, r.start);
+      out += `<span class="ar-inline" dir="rtl" lang="ar">${chunk.slice(r.start, r.end)}</span>`;
+      last = r.end;
+    }
+    out += chunk.slice(last);
+    return out;
   });
 }
 

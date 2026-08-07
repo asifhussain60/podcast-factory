@@ -565,6 +565,23 @@
   outline: none;
 }
 
+/* An Arabic run, repainted by arabic-decos.ts (explanation-card.ts's
+   unsafeTiptapExtensions). The seed carries no span for the editor to lose —
+   `.xpl-prose` above is the parity size the run would otherwise inherit — so
+   this is the SAME defect `.xpl-ar` below exists to fix on the read-only path,
+   reached the same way arabic-decos.ts reaches it in the chapter editor: a
+   decoration, since the schema has no node for a bare run to sit in. Matches
+   `.xpl-ar`'s own 1.08em nudge (line ~430) rather than the chapter's 1.26em —
+   this is the card's face and size, not the book's. */
+.xpl-prose .ar-raw {
+  font-family:
+    "ScheherazadeSized", "Scheherazade New", "Noto Naskh Arabic", serif;
+  font-size: 1.08em;
+  color: var(--c-accent);
+  font-style: normal;
+  font-weight: 500;
+}
+
 .xpl-prose p {
   margin: 0;
   padding: 0 0.7rem 0.55rem;
