@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 27.78
+    "burn_30d_usd": 31.27
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1930,6 +1930,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "007ba6f",
+      "subject": "content(kitab-al-riyad): recover Arabic OCR ground truth and backfill glossary",
+      "date": "2026-08-07"
+    },
+    {
       "sha": "2533af4",
       "subject": "chore(plan-dashboard): regenerate snapshot after slide-deck default fix",
       "date": "2026-08-07"
@@ -1972,11 +1977,6 @@
     {
       "sha": "3438515",
       "subject": "content(the-master-and-the-disciple): published to production, verified",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "855d8ab",
-      "subject": "fix(compose): accepting a Companion note now shows on the card",
       "date": "2026-08-06"
     }
   ],
