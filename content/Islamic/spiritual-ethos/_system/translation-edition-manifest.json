@@ -7,97 +7,99 @@
     {
       "index": 1,
       "title": "In the Prophet's Shadow",
+      "chapter_file": "book/_chapters/ch01-in-the-prophet-s-shadow.txt",
       "source_line_ranges": [
         [
           5,
           43
         ]
       ],
-      "source_words": 2135,
-      "chapter_file": "book/_chapters/ch01-in-the-prophet-s-shadow.txt",
-      "output_words": 1957
+      "source_words": 2115,
+      "output_words": 2719,
+      "folded_opening_words": 767
     },
     {
       "index": 2,
       "title": "The People of the House and the Prophet's Witness",
+      "chapter_file": "book/_chapters/ch02-the-people-of-the-house-and-the-prophet-s-witness.txt",
       "source_line_ranges": [
         [
           44,
           119
         ]
       ],
-      "source_words": 2520,
-      "chapter_file": "book/_chapters/ch02-the-people-of-the-house-and-the-prophet-s-witness.txt",
-      "output_words": 2461
+      "source_words": 2504,
+      "output_words": 2451
     },
     {
       "index": 3,
       "title": "Intellect, Not Reason",
+      "chapter_file": "book/_chapters/ch03-intellect-not-reason.txt",
       "source_line_ranges": [
         [
           120,
           185
         ]
       ],
-      "source_words": 6254,
-      "chapter_file": "book/_chapters/ch03-intellect-not-reason.txt",
-      "output_words": 6137
+      "source_words": 6250,
+      "output_words": 6133
     },
     {
       "index": 4,
       "title": "The Discourse to Kumayl",
+      "chapter_file": "book/_chapters/ch04-the-discourse-to-kumayl.txt",
       "source_line_ranges": [
         [
           186,
           266
         ]
       ],
-      "source_words": 4405,
-      "chapter_file": "book/_chapters/ch04-the-discourse-to-kumayl.txt",
-      "output_words": 4255
+      "source_words": 4389,
+      "output_words": 4250
     },
     {
       "index": 5,
       "title": "The Fruits of Certainty",
+      "chapter_file": "book/_chapters/ch05-the-fruits-of-certainty.txt",
       "source_line_ranges": [
         [
           267,
           347
         ]
       ],
-      "source_words": 5421,
-      "chapter_file": "book/_chapters/ch05-the-fruits-of-certainty.txt",
-      "output_words": 5404
+      "source_words": 5397,
+      "output_words": 5399
     },
     {
       "index": 6,
       "title": "A Sacred Conception of Justice",
+      "chapter_file": "book/_chapters/ch06-a-sacred-conception-of-justice.txt",
       "source_line_ranges": [
         [
           348,
           399
         ]
       ],
-      "source_words": 5935,
-      "chapter_file": "book/_chapters/ch06-a-sacred-conception-of-justice.txt",
-      "output_words": 5747
+      "source_words": 5931,
+      "output_words": 5741
     },
     {
       "index": 7,
       "title": "Justice and the Tyrant's Pride",
+      "chapter_file": "book/_chapters/ch07-justice-and-the-tyrant-s-pride.txt",
       "source_line_ranges": [
         [
           400,
           467
         ]
       ],
-      "source_words": 4644,
-      "chapter_file": "book/_chapters/ch07-justice-and-the-tyrant-s-pride.txt",
-      "output_words": 4534
+      "source_words": 4608,
+      "output_words": 4528
     },
     {
       "index": 8,
       "title": "Conscience, Compassion, and the Ordering of Society",
+      "chapter_file": "book/_chapters/ch08-conscience-compassion-and-the-ordering-of-society.txt",
       "source_line_ranges": [
         [
           468,
@@ -105,45 +107,46 @@
         ]
       ],
       "source_words": 5905,
-      "chapter_file": "book/_chapters/ch08-conscience-compassion-and-the-ordering-of-society.txt",
-      "output_words": 5799
+      "output_words": 5791
     },
     {
       "index": 9,
       "title": "Justice for the Poor and the Sincerity of Intention",
+      "chapter_file": "book/_chapters/ch09-justice-for-the-poor-and-the-sincerity-of-intention.txt",
       "source_line_ranges": [
         [
           572,
           600
         ]
       ],
-      "source_words": 2676,
-      "chapter_file": "book/_chapters/ch09-justice-for-the-poor-and-the-sincerity-of-intention.txt",
-      "output_words": 2634
+      "source_words": 2660,
+      "output_words": 2624
     },
     {
       "index": 10,
       "title": "Prayer, Remembrance, and Gazing on the Good",
+      "chapter_file": "book/_chapters/ch10-prayer-remembrance-and-gazing-on-the-good.txt",
       "source_line_ranges": [
         [
           601,
           657
         ]
       ],
-      "source_words": 4081,
-      "chapter_file": "book/_chapters/ch10-prayer-remembrance-and-gazing-on-the-good.txt",
-      "output_words": 3746
+      "source_words": 4077,
+      "output_words": 3738
     },
     {
       "index": 11,
       "title": "Dhikr: The Polish of the Heart",
+      "chapter_file": "book/_chapters/ch11-dhikr-the-polish-of-the-heart.txt",
       "source_line_ranges": [
         [
           658,
           815
         ]
       ],
-      "source_words": 9015
+      "source_words": 8975,
+      "output_words": 8908
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"

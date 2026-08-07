@@ -195,3 +195,9 @@
 {"phase": "0book-compose", "step": "translation-bk-11-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-compose", "step": "translation-bk-11-part-03-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-compose", "step": "diag2-translation-bk-11-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-12-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-12-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-12-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-12-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "diag-translation-bk-12-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
