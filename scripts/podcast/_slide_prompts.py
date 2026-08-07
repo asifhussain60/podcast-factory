@@ -239,11 +239,12 @@ def _build_book_pair_prompt(
     except Exception:
         monochrome = False
     style_clause = (
-        "black-and-white line-art illustration style: conceptual diagrams in the manner "
-        "of pen-and-ink scholarly illustrations (hierarchies as tree diagrams, contrast "
-        "pairs as two-panel layouts, genealogy chains as flowing arrow diagrams, process "
-        "flows as numbered-step illustrations). No colour fills, no photographs, no "
-        "gradients. Clean geometric shapes and lines only."
+        "black-and-white, minimal-yet-elegant line-art style on a white background: "
+        "conceptual diagrams in the manner of pen-and-ink scholarly illustrations "
+        "(hierarchies as tree diagrams, contrast pairs as two-panel layouts, genealogy "
+        "chains as flowing arrow diagrams, process flows as numbered-step illustrations). "
+        "No colour fills, no photographs, no gradients, no dark backgrounds. Clean "
+        "geometric shapes and lines only."
         if monochrome
         else "clear scholarly visual style: conceptual diagrams over decorative slides."
     )

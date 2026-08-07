@@ -72,13 +72,19 @@ def translation_policy(book_dir: Path) -> dict[str, Any]:
     return policy if isinstance(policy, dict) else {}
 
 
+_COLOR_VISUAL_STYLES = {"color", "full_color", "colour", "photographic", "illustrated"}
+
+
 def requires_monochrome_visuals(book_dir: Path) -> bool:
+    """Standardized default (2026-08-07): every slide deck is black-and-white,
+    minimal-yet-elegant unless a book explicitly opts into a colour style via
+    `visual_style` or `translation_policy.monochrome_visuals: false`."""
     cfg = read_series_config(book_dir)
     policy = translation_policy(book_dir)
     style = str(cfg.get("visual_style") or policy.get("visual_style") or "").strip().lower()
-    if style in {"black_white", "black-and-white", "monochrome", "bw"}:
-        return True
-    return bool(policy.get("monochrome_visuals"))
+    if policy.get("monochrome_visuals") is False or style in _COLOR_VISUAL_STYLES:
+        return False
+    return True
 
 
 def contract_findings(book_dir: Path) -> list[str]:

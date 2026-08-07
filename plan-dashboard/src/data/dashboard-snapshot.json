@@ -1930,6 +1930,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "9ecd8b3",
+      "subject": "chore(plan-dashboard): regenerate snapshot after slide-deck commit",
+      "date": "2026-08-07"
+    },
+    {
       "sha": "11e88bf",
       "subject": "content(degrees-of-excellence): weave six slide decks in as raster candidates; local library gets its deck rows",
       "date": "2026-08-07"
@@ -1972,11 +1977,6 @@
     {
       "sha": "c512a55",
       "subject": "feat(compose): publish one book to production, and prove it landed",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "ce13687",
-      "subject": "docs(listener): what's new, for the paper sheet and the phone toolbar",
       "date": "2026-08-06"
     }
   ],
