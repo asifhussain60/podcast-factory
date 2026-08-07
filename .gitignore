@@ -290,6 +290,14 @@ listener/.wrangler/
 listener/.dev.vars
 listener/worker-configuration.d.ts
 listener/*.tsbuildinfo
+# What THIS machine last deployed, written by deploy_listener.sh and read by the
+# Composer's Publish button to report when the live site is running older code.
+# Untracked deliberately: tracked, it would conflict on every deploy and would
+# tell a fresh clone something untrue about what is live.
+listener/.deployed-commit
+# Local-only fixtures for the dev database. Its own header says nothing here is
+# committed; ignoring it means `git add -A` cannot stage it by accident.
+listener/.seed-demo-notes.mjs
 # SQL emitted by publish_to_listener.py. It carries whole chapters of rendered
 # prose — the same text already tracked in content/**/book/book.md — so it is a
 # large regenerable duplicate, not a source.

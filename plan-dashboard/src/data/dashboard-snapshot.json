@@ -1930,6 +1930,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "c512a55",
+      "subject": "feat(compose): publish one book to production, and prove it landed",
+      "date": "2026-08-06"
+    },
+    {
+      "sha": "ce13687",
+      "subject": "docs(listener): what's new, for the paper sheet and the phone toolbar",
+      "date": "2026-08-06"
+    },
+    {
       "sha": "33c0d69",
       "subject": "style(listener): the reading sheet is a leaf of paper, not a card",
       "date": "2026-08-06"
@@ -1967,16 +1977,6 @@
     {
       "sha": "6af29fb",
       "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "6e20ba1",
-      "subject": "feat(companion): the student reader asks, the Ismaili Scholar answers",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "c8a6285",
-      "subject": "fix(listener): the session heading leads with its title, and the row is a grid",
       "date": "2026-08-06"
     }
   ],

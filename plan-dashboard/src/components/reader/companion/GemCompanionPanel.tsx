@@ -537,6 +537,11 @@ export default function GemCompanionPanel({
         });
         live.set(note.id, card);
       }
+      // A REUSED card was built from the note as it was, so accepting one left
+      // the badge and the tick on screen while the file already said "kept" —
+      // pressing it looked like it did nothing (2026-08-06). Told, not rebuilt:
+      // rebuilding is how the open editor gets destroyed. Idempotent.
+      if (note.review !== "proposed") card.markKept();
       wanted.push(card.el);
     }
 

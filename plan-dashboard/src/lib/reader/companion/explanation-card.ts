@@ -78,6 +78,10 @@ export interface ExplanationCard {
    *  scroll position, and a card can be lit while its own expand animation is
    *  still settling. The class is all it is — companion-card.css owns the glow. */
   setInView(on: boolean): void;
+  /** "This note has been accepted." Drops the Unreviewed badge and the tick.
+   *  Same reason `setOpen` exists — a reused card has to be TOLD what changed,
+   *  and rebuilding it to show one badge less would destroy its open editor. */
+  markKept(): void;
   destroy(): void;
 }
 
@@ -202,11 +206,14 @@ export function renderExplanationCard(
   // explanations no human had looked at, indistinguishable from his own.
   // ABSENT `review` means kept, so every note written before today and every
   // note he types himself is unmarked — the badge appears only where it is true.
+  // Held rather than dropped: `markKept` below removes it, and it cannot remove
+  // an element it never had a reference to.
+  let proposedFlag: HTMLElement | null = null;
   if (note.review === "proposed") {
-    const flag = document.createElement("span");
-    flag.className = "xpl-proposed";
-    flag.textContent = "Unreviewed";
-    meta.append(flag);
+    proposedFlag = document.createElement("span");
+    proposedFlag.className = "xpl-proposed";
+    proposedFlag.textContent = "Unreviewed";
+    meta.append(proposedFlag);
   }
 
   // ONE identifier, not two. The panel titles a filed note with a truncation of
@@ -572,13 +579,14 @@ export function renderExplanationCard(
   // reversible (delete is still there) and a dialog on a reversible act that may
   // be used thirty times in one pass is friction, not safety. Requires onSave
   // for the same reason delete requires onRemove — a reading pass mounts neither.
+  let keepBtn: HTMLElement | null = null;
   if (note.review === "proposed" && opts.onAccept) {
-    const keep = iconButton("xpl-keep", "fa-check", "Keep this explanation");
-    keep.addEventListener("click", (e) => {
+    keepBtn = iconButton("xpl-keep", "fa-check", "Keep this explanation");
+    keepBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       opts.onAccept?.(note.id);
     });
-    card.append(keep);
+    card.append(keepBtn);
   }
 
   // ── the editor, and the one thing it must never do ───────────────────────
@@ -677,6 +685,28 @@ export function renderExplanationCard(
   };
   setOpen(!!opts.open);
 
+  /**
+   * The note has been accepted — drop the badge and the tick.
+   *
+   * A card is REUSED across renders, deliberately: rebuilding it destroys the
+   * editor a keystroke after the author opened it. The cost is that a card built
+   * from a "proposed" note keeps showing "Unreviewed" and its tick after the note
+   * is accepted, because nothing ever told it otherwise. That is what pressing
+   * the tick looked like from the outside: the write landed, the file said
+   * "kept", and the card was unchanged (2026-08-06).
+   *
+   * Only this direction exists. The API refuses any `review` but "kept" — going
+   * back to unreviewed is the filing pass's to set, never a person's — so a
+   * `setReview` taking either value would offer a transition nothing can make.
+   * Idempotent, so the panel may call it on every render.
+   */
+  function markKept(): void {
+    proposedFlag?.remove();
+    proposedFlag = null;
+    keepBtn?.remove();
+    keepBtn = null;
+  }
+
   head.addEventListener("click", () => {
     const open = card.dataset.open !== "true";
     setOpen(open);
@@ -706,6 +736,7 @@ export function renderExplanationCard(
     setInView(on: boolean) {
       card.classList.toggle("is-inview", on);
     },
+    markKept,
     destroy() {
       window.clearTimeout(flashTimer);
       widthObserver.disconnect();

@@ -77,7 +77,8 @@ export const SECTIONS: Section[] = [
     title: "Reading",
     hue: "blue",
     icon: faBookOpen,
-    blurb: "Every book is a modern English edition you can set to your own eyes.",
+    blurb:
+      "Every book is a modern English edition you can set to your own eyes.",
     entries: [
       {
         q: "How do I make the text comfortable to read?",
@@ -154,7 +155,8 @@ export const SECTIONS: Section[] = [
     title: "Listening",
     hue: "violet",
     icon: faHeadphones,
-    blurb: "Long-form episodes, with the transcript following along beside them.",
+    blurb:
+      "Long-form episodes, with the transcript following along beside them.",
     entries: [
       {
         q: "What are the episodes?",
@@ -209,7 +211,8 @@ export const SECTIONS: Section[] = [
     hue: "green",
     short: "Access",
     icon: faKey,
-    blurb: "The library is private. You are invited to it by address, book by book.",
+    blurb:
+      "The library is private. You are invited to it by address, book by book.",
     entries: [
       {
         q: "Why must I sign in with a particular email address?",
@@ -296,7 +299,9 @@ export const FAQ: Section = {
     },
     {
       q: "How do I sign out?",
-      a: ["Sign out is at the top right of every page, beside the theme control."],
+      a: [
+        "Sign out is at the top right of every page, beside the theme control.",
+      ],
     },
   ],
 };
@@ -335,6 +340,7 @@ export const RELEASES: Release[] = [
   {
     date: "2026-08-06",
     items: [
+      "On a laptop, a tablet held sideways, or any wide screen, three buttons in the reading controls set how wide the page runs. The narrowest is what you have been reading; the other two use the space that was empty on either side. They do not appear on a phone or a tablet held upright, where the page already fills the screen.",
       "The player skips back and forward fifteen seconds on a phone. Those two buttons had been hidden on small screens, which is where most listening happens.",
       "The Notes button shows how many notes you have kept in the episode you are listening to.",
       "The episode list says the same thing for every episode at once: a small gold number on any episode you have kept something in. Press it to read those notes.",
@@ -342,7 +348,7 @@ export const RELEASES: Release[] = [
       "On a phone, every reading setting is now on screen at once. The typeface, size, spacing and line width had been sitting off the right-hand edge, reachable only by dragging a row that gave no sign it could be dragged.",
       "Your phone's own controls now know what is playing: the lock screen, your headphones and a car stereo show the episode and the book, and their skip buttons move by the same fifteen seconds.",
       "The player reads as a piece of equipment rather than the foot of the page, and the position bar shows how much of the episode is behind you.",
-      "The transcript follows the audio as it plays, and a line's \"+\" opens a note already holding that line.",
+      'The transcript follows the audio as it plays, and a line\'s "+" opens a note already holding that line.',
     ],
   },
   {
