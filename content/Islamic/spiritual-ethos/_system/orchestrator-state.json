@@ -5,10 +5,14 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "0book-compose",
-  "phase_status": "completed",
+  "phase": "0book-render",
+  "phase_status": "failed",
   "last_completed_phase": "0book-compose",
-  "last_error": null,
+  "last_error": {
+    "phase": "0book-render",
+    "message": "deliverable failed validation: B7 book-gloss-coverage: 0/23 glossed terms carry Arabic (0%); glossary has 428 entries · 87 term(s) never given in Arabic script (110 uses): al-ruh, al-asma al-husna, al-khafi, al-Madhkur, al-shirk al-khafi, hudur — starved glossary; e.g. al-Madhkur, al-asma al-husna, al-din al-qayyim, al-khafi, al-nazar ila Ali ibada, al-ruh",
+    "ts": "2026-08-07T20:08:42Z"
+  },
   "category": "books",
   "branch": "Islamic/spiritual-ethos",
   "status": "draft",
@@ -359,34 +363,34 @@
     },
     "0book-illustrate": {
       "status": "skipped",
-      "ts_completed": "2026-08-07T18:08:06Z",
+      "ts_completed": "2026-08-07T20:07:29Z",
       "reason": "book_visuals=manual_only"
     },
     "0book-slide-import": {
       "status": "skipped",
-      "ts_completed": "2026-08-07T18:08:06Z",
+      "ts_completed": "2026-08-07T20:07:29Z",
       "reason": "book_visuals=manual_only"
     },
     "0book-render": {
       "status": "failed",
       "ts_started": "2026-08-07T16:08:49Z",
-      "ts_completed": "2026-08-07T18:09:22Z",
+      "ts_completed": "2026-08-07T20:08:42Z",
       "book_validation": {
         "slug": "spiritual-ethos",
         "verdict": "BOOK-BROKEN",
-        "summary": "B7 book-gloss-coverage: 0/23 glossed terms carry Arabic (0%); glossary has 428 entries · 88 term(s) never given in Arabic script (112 uses): al-ruh, al-asma al-husna, al-khafi, al-Madhkur, al-shirk al-khafi, hudur — starved glossary; e.g. al-Madhkur, al-asma al-husna, al-din al-qayyim, al-khafi, al-nazar ila Ali ibada, al-ruh",
+        "summary": "B7 book-gloss-coverage: 0/23 glossed terms carry Arabic (0%); glossary has 428 entries · 87 term(s) never given in Arabic script (110 uses): al-ruh, al-asma al-husna, al-khafi, al-Madhkur, al-shirk al-khafi, hudur — starved glossary; e.g. al-Madhkur, al-asma al-husna, al-din al-qayyim, al-khafi, al-nazar ila Ali ibada, al-ruh",
         "gates": [
           {
             "gate": "B1",
             "name": "book-md-complete",
             "passed": true,
-            "note": "book.md: 445 KB, 16 sections ≥ 15 TOC chapters"
+            "note": "book.md: 441 KB, 16 sections ≥ 15 TOC chapters"
           },
           {
             "gate": "B2",
             "name": "book-pdf-renderable",
             "passed": true,
-            "note": "book.pdf: 2648 KB, 248 pages ≥ 15 chapters"
+            "note": "book.pdf: 2637 KB, 247 pages ≥ 15 chapters"
           },
           {
             "gate": "B3",
@@ -416,7 +420,7 @@
             "gate": "B7",
             "name": "book-gloss-coverage",
             "passed": false,
-            "note": "0/23 glossed terms carry Arabic (0%); glossary has 428 entries · 88 term(s) never given in Arabic script (112 uses): al-ruh, al-asma al-husna, al-khafi, al-Madhkur, al-shirk al-khafi, hudur — starved glossary; e.g. al-Madhkur, al-asma al-husna, al-din al-qayyim, al-khafi, al-nazar ila Ali ibada, al-ruh"
+            "note": "0/23 glossed terms carry Arabic (0%); glossary has 428 entries · 87 term(s) never given in Arabic script (110 uses): al-ruh, al-asma al-husna, al-khafi, al-Madhkur, al-shirk al-khafi, hudur — starved glossary; e.g. al-Madhkur, al-asma al-husna, al-din al-qayyim, al-khafi, al-nazar ila Ali ibada, al-ruh"
           },
           {
             "gate": "B8",
@@ -430,7 +434,7 @@
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260807T180953Z-abe076",
-  "ts_updated": "2026-08-07T20:07:29Z",
+  "ts_updated": "2026-08-07T20:08:42Z",
   "next_phase": "0book-illustrate",
   "unattended": true
 }

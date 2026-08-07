@@ -1,7 +1,7 @@
 {
   "schema": "podcast.book-render-checks/v1",
   "verdict": "RENDER-BROKEN",
-  "pages": 248,
+  "pages": 247,
   "findings": [
     {
       "check": "BR-BLANK-PAGE",
@@ -19,13 +19,13 @@
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 2,
-      "detail": "half-empty interior page (127 vs median 1991 chars)"
+      "detail": "half-empty interior page (127 vs median 1996 chars)"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 3,
-      "detail": "half-empty interior page (595 vs median 1991 chars)"
+      "detail": "half-empty interior page (595 vs median 1996 chars)"
     },
     {
       "check": "BR-CAPTION-DUP",
@@ -40,6 +40,12 @@
       "detail": "caption printed twice: '\\u202b\u0652\u0644\\u202c'"
     },
     {
+      "check": "BR-PAGE-FILL",
+      "severity": "P1",
+      "page": 17,
+      "detail": "half-empty interior page (202 vs median 1996 chars)"
+    },
+    {
       "check": "BR-CAPTION-DUP",
       "severity": "P1",
       "page": 22,
@@ -48,56 +54,80 @@
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
-      "page": 63,
-      "detail": "half-empty interior page (613 vs median 1991 chars)"
+      "page": 27,
+      "detail": "half-empty interior page (540 vs median 1996 chars)"
     },
     {
       "check": "BR-CAPTION-DUP",
       "severity": "P1",
-      "page": 64,
+      "page": 62,
       "detail": "caption printed twice: '\\u202b\u0650\u0625\\u202c'"
     },
     {
       "check": "BR-CAPTION-DUP",
       "severity": "P1",
-      "page": 72,
+      "page": 70,
       "detail": "caption printed twice: '\\u202b\u0650\u0631\\u202c'"
     },
     {
       "check": "BR-CAPTION-DUP",
       "severity": "P1",
-      "page": 74,
+      "page": 72,
       "detail": "caption printed twice: '\\u202b\u064e\u0623\\u202c'"
     },
     {
       "check": "BR-CAPTION-DUP",
       "severity": "P1",
-      "page": 80,
+      "page": 78,
       "detail": "caption printed twice: '\\u202b\u064e\u0623\\u202c'"
     },
     {
       "check": "BR-CAPTION-DUP",
       "severity": "P1",
-      "page": 91,
+      "page": 102,
       "detail": "caption printed twice: '\\u202b\u064e\u0623\\u202c'"
     },
     {
       "check": "BR-CAPTION-DUP",
       "severity": "P1",
-      "page": 103,
+      "page": 107,
+      "detail": "caption printed twice: '\\u202b\u064e\u0633\\u202c'"
+    },
+    {
+      "check": "BR-CAPTION-DUP",
+      "severity": "P1",
+      "page": 110,
       "detail": "caption printed twice: '\\u202b\u064e\u0623\\u202c'"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
-      "page": 127,
-      "detail": "half-empty interior page (677 vs median 1991 chars)"
+      "page": 126,
+      "detail": "half-empty interior page (643 vs median 1996 chars)"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
-      "page": 133,
-      "detail": "half-empty interior page (576 vs median 1991 chars)"
+      "page": 178,
+      "detail": "half-empty interior page (686 vs median 1996 chars)"
+    },
+    {
+      "check": "BR-RUNNING-HEAD",
+      "severity": "P1",
+      "page": 179,
+      "detail": "running head names chapter 12; the page belongs to chapter 11"
+    },
+    {
+      "check": "BR-RUNNING-HEAD",
+      "severity": "P1",
+      "page": 180,
+      "detail": "running head names chapter 12; the page belongs to chapter 11"
+    },
+    {
+      "check": "BR-RUNNING-HEAD",
+      "severity": "P1",
+      "page": 181,
+      "detail": "running head names chapter 12; the page belongs to chapter 11"
     },
     {
       "check": "BR-RUNNING-HEAD",
@@ -214,21 +244,9 @@
       "detail": "running head names chapter 12; the page belongs to chapter 11"
     },
     {
-      "check": "BR-RUNNING-HEAD",
-      "severity": "P1",
-      "page": 201,
-      "detail": "running head names chapter 12; the page belongs to chapter 11"
-    },
-    {
-      "check": "BR-RUNNING-HEAD",
-      "severity": "P1",
-      "page": 202,
-      "detail": "running head names chapter 12; the page belongs to chapter 11"
-    },
-    {
       "check": "BR-CAPTION-DUP",
       "severity": "P1",
-      "page": 219,
+      "page": 217,
       "detail": "caption printed twice: '\\u202b\u064e\u0623\\u202c'"
     }
   ]
