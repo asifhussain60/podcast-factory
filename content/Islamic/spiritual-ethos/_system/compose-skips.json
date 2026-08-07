@@ -1,0 +1,9 @@
+{
+  "schema": "book.compose-skips/v1",
+  "skips": [
+    {
+      "step": "glossary-harvest",
+      "error": "TimeoutExpired: Command '['/Users/ahmac/Code/podcast-factory/.venv/bin/python', '/Users/ahmac/Code/podcast-factory/scripts/podcast/fill_glossary_arabic.py', '--book-dir', '/Users/ahmac/Code/podcast-factory/content/Islamic/spiritual-ethos']' timed out after 900 seconds"
+    }
+  ]
+}

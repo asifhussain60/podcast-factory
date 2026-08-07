@@ -2,7 +2,7 @@
   "book_title": "Spiritual Ethos",
   "voice": "modern author first-person",
   "preface": {
-    "include": true,
+    "include": false,
     "title": "The Universal Ali",
     "source_line_ranges": [
       [

@@ -1,0 +1,17 @@
+{
+  "schema": "book.work-titles/v1",
+  "terms": [
+    "Ihya 'ulum al-din",
+    "Ihya ulum al-din",
+    "Nahj al-balagha",
+    "Republic",
+    "Nahj"
+  ],
+  "changes": [
+    {
+      "title": "Ihya 'ulum al-din",
+      "action": "englished",
+      "printed": "Revival of the Sciences of Religion"
+    }
+  ]
+}

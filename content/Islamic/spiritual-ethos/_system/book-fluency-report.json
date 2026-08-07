@@ -1,0 +1,361 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "external_narrator",
+  "adapted": 13,
+  "reverted": 2,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "In the Prophet's Shadow",
+      "base_words": 2842,
+      "output_words": 2842,
+      "windows": 1,
+      "windows_kept": 0,
+      "status": "reverted",
+      "gates": [
+        "fluency-01: Arabic runs dropped (117<173)"
+      ],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 4,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 4,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The People of the House and the Prophet's Witness",
+      "base_words": 2516,
+      "output_words": 2519,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-02: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 30,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 30,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Intellect, Not Reason",
+      "base_words": 6092,
+      "output_words": 6164,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 7,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 7,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "A general reader may stumble on the specialist vocabulary carried over untranslated \u2014 \"apophatic\", \"antinomies\", \"sublimated\", \"existentiation\", \"denouement\", and the Latin \"grosso modo\" (rendered here as \"wholesale\") \u2014 none of which this pass is authorized to gloss inline."
+      ],
+      "terminology_notes": [
+        "'aql \u2014 the source alternates between \"'aql\" (with the ayn) and bare \"aql\"; standardized here to \"'aql\", and the bare-form intellectual \"'aqil\"/\"al-aqil\" should likewise be reconciled book-wide."
+      ]
+    },
+    {
+      "title": "The Discourse to Kumayl",
+      "base_words": 4271,
+      "output_words": 4213,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 5,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 5,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The source's forward references to \"the second chapter\" and \"the third chapter\" were recast as direct statements (worship's role in the quest for justice; remembrance as the quintessence of worship's fruits), since this edition's chapter scheme may not match the source's numbering \u2014 an editor should confirm the neighboring chapters still carry those topics."
+      ],
+      "comprehension_flags": [
+        "The passage stacks many transliterated technical terms (zahir/batin, haqiqa/tahaqquq/tahqiq, tawhid, hawa, ikhlas) in close succession; each is glossed in place, but a first-time reader may still find the density demanding."
+      ],
+      "terminology_notes": [
+        "hamaj raa \u2014 the gloss \"the moth that hurls itself at any flame\" should be standardized against the rendering used elsewhere in the book."
+      ]
+    },
+    {
+      "title": "The Fruits of Certainty",
+      "base_words": 5978,
+      "output_words": 5976,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 6,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 6,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "A general reader may stumble on \"scientistic,\" which is retained because \"scientific\" would alter the author's meaning (a critique of scientism, not of science)."
+      ],
+      "terminology_notes": [
+        "epistemology \u2014 kept verbatim on both occurrences (\"epistemology of joy,\" \"joyous epistemology\") rather than paraphrased, to hold the technical term steady."
+      ]
+    },
+    {
+      "title": "A Sacred Conception of Justice",
+      "base_words": 5794,
+      "output_words": 5757,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 6,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 6,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The Platonic soul-part vocabulary \u2014 \"concupiscent\" and \"irascible\" for the appetitive and spirited faculties \u2014 is obscure to a general reader, and this pass is not authorized to add a gloss."
+      ],
+      "terminology_notes": [
+        "al-Haqq / \u0627\u0644\u062d\u0642 \u2014 the divine name appears variously as the transliteration alone (\"al-Haqq\"), the script alone (\"\u0627\u0644\u062d\u0642\"), and the two paired (\"al-Haqq, \u0627\u0644\u062d\u0642\"); a book-wide convention for when script, transliteration, or both are shown would keep this central term consistent."
+      ]
+    },
+    {
+      "title": "Justice and the Tyrant's Pride",
+      "base_words": 4525,
+      "output_words": 4650,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 25,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 25,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Conscience, Compassion, and the Ordering of Society",
+      "base_words": 5857,
+      "output_words": 5723,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 59,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 47,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Justice for the Poor and the Sincerity of Intention",
+      "base_words": 2571,
+      "output_words": 2514,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Prayer, Remembrance, and Gazing on the Good",
+      "base_words": 3657,
+      "output_words": 3665,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Dhikr: The Polish of the Heart",
+      "base_words": 8467,
+      "output_words": 8478,
+      "windows": 3,
+      "windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 11,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 11,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "In the al-Ghazali paragraph, a closing quotation mark appears at the end (\"...the practical acts of worship.'\") with no matching opening mark, so it is unclear where his direct quotation is meant to begin."
+      ],
+      "comprehension_flags": [
+        "A general reader may stumble on unglossed specialist words carried over from the source \u2014 \"gnosis\", \"prima facie\", \"re-ligare\", \"par excellence\" \u2014 which this pass is not authorized to explain inline.",
+        "One paragraph clusters several unexplained specialist terms in close succession \u2014 \"ontological reality,\" \"ontological infrastructure,\" \"principial realities,\" and \"theophanies\" \u2014 and a general reader may stumble where they arrive together without gloss."
+      ],
+      "terminology_notes": [
+        "Shii / Shiite / Shia / Shiism \u2014 the source alternates spellings for the same adjective; a single book-wide form should be standardized.",
+        "Ibn 'Ataillah / Ibn Ataillah \u2014 the source spells this name two ways within the same passage (with and without the apostrophe); a single spelling should be standardized book-wide."
+      ]
+    },
+    {
+      "title": "Remembrance as the Quintessence of Worship",
+      "base_words": 6452,
+      "output_words": 6452,
+      "windows": 3,
+      "windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-12-part-01: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 16,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 16,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Extinction and the Name: The Death of the Saint",
+      "base_words": 6697,
+      "output_words": 6566,
+      "windows": 3,
+      "windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 13,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 13,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The author's repeated term \"coagulations\" (individualistic and cosmic) is unusual and a modern reader may stumble on it, but this pass is not authorized to gloss it in the prose."
+      ],
+      "terminology_notes": []
+    },
+    {
+      "title": "The First Sermon of the Nahj al-Balagha",
+      "base_words": 2266,
+      "output_words": 2296,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The Letter to Malik al-Ashtar",
+      "base_words": 5993,
+      "output_words": 5993,
+      "windows": 2,
+      "windows_kept": 0,
+      "status": "reverted",
+      "gates": [
+        "fluency-15-part-01: lecture voice added \u2014 stage directions to an audience (2 vs 1 in source) under external_narrator frame",
+        "fluency-15-part-02: lecture voice added \u2014 narration addresses the reader (188 vs 187 in source) under external_narrator frame"
+      ],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 297,
+        "stage_directions": 2
+      },
+      "lecture_voice_after": {
+        "reader_address": 297,
+        "stage_directions": 2
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    }
+  ]
+}

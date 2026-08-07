@@ -1,0 +1,252 @@
+{
+  "vowelled": 28,
+  "marks_added": 88,
+  "already": 79,
+  "refused": 61,
+  "refusals": [
+    {
+      "term": "یا أمیر المومنین",
+      "reason": "empty"
+    },
+    {
+      "term": "أنَّ علیٌ مع القرآن، و قرآن مع العلی",
+      "reason": "empty"
+    },
+    {
+      "term": "توحید",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ید\" vs proposal \"يد\")"
+    },
+    {
+      "term": "آیات",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"یات\" vs proposal \"يات\")"
+    },
+    {
+      "term": "بصارۃ",
+      "reason": "letters changed, not just marks (first difference at character 5: source \"ۃ\" vs proposal \"ة\")"
+    },
+    {
+      "term": "بصیرۃ",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یرۃ\" vs proposal \"يرة\")"
+    },
+    {
+      "term": "حقائق الایمان",
+      "reason": "empty"
+    },
+    {
+      "term": "العاقل",
+      "reason": "empty"
+    },
+    {
+      "term": "العاقل من وضع شئی حق محلہ",
+      "reason": "letters changed, not just marks (first difference at character 7: source \" من وضع شئی \" vs proposal \"\")"
+    },
+    {
+      "term": "شریعۃ",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یعۃ\" vs proposal \"يعة\")"
+    },
+    {
+      "term": "زکوۃ",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"کوۃ\" vs proposal \"كوۃ\")"
+    },
+    {
+      "term": "احسان",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"احسان\" vs proposal \"إحسان\")"
+    },
+    {
+      "term": "ایمان",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"ایمان\" vs proposal \"إيمان\")"
+    },
+    {
+      "term": "شیطان",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"یطان\" vs proposal \"يطان\")"
+    },
+    {
+      "term": "ابلیس",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"یس\" vs proposal \"يس\")"
+    },
+    {
+      "term": "سورۃ الفلق",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ۃ الفلق\" vs proposal \"ة الفلق\")"
+    },
+    {
+      "term": "جبرئیل",
+      "reason": "letters changed, not just marks (first difference at character 5: source \"یل\" vs proposal \"يل\")"
+    },
+    {
+      "term": "قبیح",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یح\" vs proposal \"يح\")"
+    },
+    {
+      "term": "نھج البلاغۃ",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"ھج البلاغۃ\" vs proposal \"هج البلاغة\")"
+    },
+    {
+      "term": "المُحسنین",
+      "reason": "empty"
+    },
+    {
+      "term": "سجدۃ",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ۃ\" vs proposal \"ة\")"
+    },
+    {
+      "term": "امام المتعصبین و سلف المستکبرین",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"مام المتعصبی\" vs proposal \"لمتعصبين\")"
+    },
+    {
+      "term": "الرحمن الرحیم",
+      "reason": "letters changed, not just marks (first difference at character 6: source \"ن الرحیم\" vs proposal \"ان الرحيم\")"
+    },
+    {
+      "term": "خلیفۃ اللہ",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یفۃ اللہ\" vs proposal \"يفة الله\")"
+    },
+    {
+      "term": "عباد اللہ",
+      "reason": "letters changed, not just marks (first difference at character 9: source \"ہ\" vs proposal \"ه\")"
+    },
+    {
+      "term": "القاسیۃ",
+      "reason": "letters changed, not just marks (first difference at character 6: source \"یۃ\" vs proposal \"ية\")"
+    },
+    {
+      "term": "خلقتنی من نار و خلقتہ من طین",
+      "reason": "letters changed, not just marks (first difference at character 6: source \"ی من نار و خ\" vs proposal \"ي\")"
+    },
+    {
+      "term": "شرک الجلی",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"ک الجلی\" vs proposal \"ك الجلي\")"
+    },
+    {
+      "term": "شرک الخفی",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"ک الخفی\" vs proposal \"ك الخفي\")"
+    },
+    {
+      "term": "ریا",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"یا\" vs proposal \"يا\")"
+    },
+    {
+      "term": "وضع کل شئی حق محلہ",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" کل شئی حق م\" vs proposal \"\")"
+    },
+    {
+      "term": "خیال",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"یال\" vs proposal \"يال\")"
+    },
+    {
+      "term": "مخیلۃ",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یلۃ\" vs proposal \"يلة\")"
+    },
+    {
+      "term": "فطرۃ",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ۃ\" vs proposal \"ة\")"
+    },
+    {
+      "term": "درجہ بدرجہ",
+      "reason": "empty"
+    },
+    {
+      "term": "۱۸۱",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "term": "۱۸۲",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "term": "۸۵",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "term": "ضمیر",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یر\" vs proposal \"ير\")"
+    },
+    {
+      "term": "۱۷۲",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "term": "النفس الامارۃ بالسوء",
+      "reason": "letters changed, not just marks (first difference at character 9: source \"امارۃ بالسوء\" vs proposal \"أمارة بالسوء\")"
+    },
+    {
+      "term": "مجاھدۃ النفس",
+      "reason": "letters changed, not just marks (first difference at character 6: source \"ۃ النفس\" vs proposal \"ة النفس\")"
+    },
+    {
+      "term": "محمد بن ابی بکر",
+      "reason": "letters changed, not just marks (first difference at character 5: source \" بن ابی بکر\" vs proposal \"\")"
+    },
+    {
+      "term": "مالک اشتر",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ک اشتر\" vs proposal \"ك أشتر\")"
+    },
+    {
+      "term": "صلى الله عليه وآله",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" الله عليه و\" vs proposal \"\")"
+    },
+    {
+      "term": "عہد",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"ہد\" vs proposal \"هد\")"
+    },
+    {
+      "term": "۱۹",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "term": "۲۰",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "term": "۳۴",
+      "reason": "empty"
+    },
+    {
+      "term": "حکما",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"کما\" vs proposal \"كما\")"
+    },
+    {
+      "term": "معرفۃ",
+      "reason": "letters changed, not just marks (first difference at character 5: source \"ۃ\" vs proposal \"ة\")"
+    },
+    {
+      "term": "لو کشف الغطاء ما ازدت یقینا",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"لو کشف الغطا\" vs proposal \"يقينا\")"
+    },
+    {
+      "term": "نھج البلاغہ",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"ھج البلاغہ\" vs proposal \"هج البلاغہ\")"
+    },
+    {
+      "term": "خطبۃ",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ۃ\" vs proposal \"ة\")"
+    },
+    {
+      "term": "نفی الصفۃ",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"ی الصفۃ\" vs proposal \"ي الصفة\")"
+    },
+    {
+      "term": "رحیم",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یم\" vs proposal \"يم\")"
+    },
+    {
+      "term": "عزیز",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یز\" vs proposal \"يز\")"
+    },
+    {
+      "term": "لا الہ",
+      "reason": "letters changed, not just marks (first difference at character 6: source \"ہ\" vs proposal \"ه\")"
+    },
+    {
+      "term": "نفی",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"ی\" vs proposal \"ى\")"
+    },
+    {
+      "term": "الا اللہ",
+      "reason": "letters changed, not just marks (first difference at character 8: source \"ہ\" vs proposal \"ه\")"
+    },
+    {
+      "term": "سنۃ",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"ۃ\" vs proposal \"ة\")"
+    }
+  ]
+}

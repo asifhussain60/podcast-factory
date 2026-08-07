@@ -82,6 +82,123 @@
       ],
       "source_words": 5931,
       "output_words": 5794
+    },
+    {
+      "index": 7,
+      "title": "Justice and the Tyrant's Pride",
+      "chapter_file": "book/_chapters/ch07-justice-and-the-tyrant-s-pride.txt",
+      "source_line_ranges": [
+        [
+          400,
+          467
+        ]
+      ],
+      "source_words": 4608,
+      "output_words": 4525
+    },
+    {
+      "index": 8,
+      "title": "Conscience, Compassion, and the Ordering of Society",
+      "chapter_file": "book/_chapters/ch08-conscience-compassion-and-the-ordering-of-society.txt",
+      "source_line_ranges": [
+        [
+          468,
+          571
+        ]
+      ],
+      "source_words": 5905,
+      "output_words": 5857
+    },
+    {
+      "index": 9,
+      "title": "Justice for the Poor and the Sincerity of Intention",
+      "chapter_file": "book/_chapters/ch09-justice-for-the-poor-and-the-sincerity-of-intention.txt",
+      "source_line_ranges": [
+        [
+          572,
+          600
+        ]
+      ],
+      "source_words": 2660,
+      "output_words": 2571
+    },
+    {
+      "index": 10,
+      "title": "Prayer, Remembrance, and Gazing on the Good",
+      "chapter_file": "book/_chapters/ch10-prayer-remembrance-and-gazing-on-the-good.txt",
+      "source_line_ranges": [
+        [
+          601,
+          657
+        ]
+      ],
+      "source_words": 4077,
+      "output_words": 3657
+    },
+    {
+      "index": 11,
+      "title": "Dhikr: The Polish of the Heart",
+      "chapter_file": "book/_chapters/ch11-dhikr-the-polish-of-the-heart.txt",
+      "source_line_ranges": [
+        [
+          658,
+          815
+        ]
+      ],
+      "source_words": 8975,
+      "output_words": 8646
+    },
+    {
+      "index": 12,
+      "title": "Remembrance as the Quintessence of Worship",
+      "chapter_file": "book/_chapters/ch12-remembrance-as-the-quintessence-of-worship.txt",
+      "source_line_ranges": [
+        [
+          816,
+          935
+        ]
+      ],
+      "source_words": 6665,
+      "output_words": 6452
+    },
+    {
+      "index": 13,
+      "title": "Extinction and the Name: The Death of the Saint",
+      "chapter_file": "book/_chapters/ch13-extinction-and-the-name-the-death-of-the-saint.txt",
+      "source_line_ranges": [
+        [
+          936,
+          1046
+        ]
+      ],
+      "source_words": 6908,
+      "output_words": 6697
+    },
+    {
+      "index": 14,
+      "title": "The First Sermon of the Nahj al-Balagha",
+      "chapter_file": "book/_chapters/ch14-the-first-sermon-of-the-nahj-al-balagha.txt",
+      "source_line_ranges": [
+        [
+          1047,
+          1083
+        ]
+      ],
+      "source_words": 2287,
+      "output_words": 2266
+    },
+    {
+      "index": 15,
+      "title": "The Letter to Malik al-Ashtar",
+      "chapter_file": "book/_chapters/ch15-the-letter-to-malik-al-ashtar.txt",
+      "source_line_ranges": [
+        [
+          1084,
+          1189
+        ]
+      ],
+      "source_words": 5943,
+      "output_words": 5993
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
