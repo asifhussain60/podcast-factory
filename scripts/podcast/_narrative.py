@@ -165,6 +165,19 @@ _INTERIOR_TAG_RE = re.compile(
 # Source-style enumeration markers at the head of a paragraph: "(a)", "(1)", "1.".
 _ENUM_MARKER_RE = re.compile(r"(?m)^\s*(?:\(([a-z]|[0-9]{1,2})\)|([0-9]{1,2})\.)\s+\S")
 
+# A manuscript-variant critical-apparatus line: "(3) It fell in copy (B).",
+# "(1) In copy (A), it reads 'and it required of us.'" — see enumeration_findings.
+_MANUSCRIPT_VARIANT_RE = re.compile(r"\b(?:in|into|from)\s+(?:copy|version)\s*\(?[ab]\)?\b", re.I)
+
+# A bibliographic/citation footnote: "(2) Philosophical Letters — Paul Kraus —
+# p. 291", "(1) This book is being edited by Dr. Hussein Hamdani of Cairo
+# University." — the modern editor citing where a REFERENCED work was
+# published, not the author's own argument. See enumeration_findings.
+_CITATION_FOOTNOTE_RE = re.compile(
+    r"\b(?:edited|published|translated|verified|composed|researched)\s+(?:and\s+\w+\s+)?by\b" r"|\bpp?\.\s*\d",
+    re.I,
+)
+
 # ─── LECTURE VOICE ───────────────────────────────────────────────────────────
 # A speaker addresses an audience; a book addresses nobody. Under a third-person
 # frame the narration must not turn and instruct the reader.
@@ -425,7 +438,27 @@ def enumeration_findings(base_text: str, candidate: str, *, minimum: int = 3) ->
     # (A paragraph-head scan under-counted: a section number that follows an
     # inline Arabic line sits mid-paragraph, so the run looked broken and the
     # apparatus went half-detected.)
-    markers = [(m.group(1) or m.group(2)) for m in _ENUM_MARKER_RE.finditer(base_text or "")]
+    #
+    # Manuscript-variant footnotes are filtered out by CONTENT before the run
+    # detection ever sees them: a scholarly edition sometimes carries critical-
+    # apparatus notes comparing two source manuscripts -- "(3) It fell in copy
+    # (B)", "(4) In copy (A), it reads 'and it required of us'" -- keyed to a
+    # marker inline in the main text. That is the modern editor's apparatus,
+    # not the author's argument, and unlike the RCA-001 per-paragraph numbering
+    # (one long CONSECUTIVE run) it shows up as several SHORT runs restarting
+    # at (1) throughout a chapter -- kitab-al-riyad carried six separate such
+    # runs (length 2-5 each) in one composed window, none individually long
+    # enough to trip the run-shape apparatus rule below, but which together
+    # produced a false "10-item enumeration lost" finding on content a faithful
+    # edition is right to drop.
+    _text = base_text or ""
+    markers = []
+    for m in _ENUM_MARKER_RE.finditer(_text):
+        line_end = _text.find("\n", m.start())
+        line = _text[m.start() : line_end if line_end != -1 else None]
+        if _MANUSCRIPT_VARIANT_RE.search(line) or _CITATION_FOOTNOTE_RE.search(line):
+            continue
+        markers.append(m.group(1) or m.group(2))
     base_n = len(markers)
     if base_n < minimum:
         return []
