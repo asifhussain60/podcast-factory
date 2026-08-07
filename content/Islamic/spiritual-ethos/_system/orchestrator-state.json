@@ -5,9 +5,9 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "per-chapter-slides",
+  "phase": "0book-design",
   "phase_status": "completed",
-  "last_completed_phase": "per-chapter-slides",
+  "last_completed_phase": "0book-design",
   "last_error": null,
   "category": "books",
   "branch": "Islamic/spiritual-ethos",
@@ -324,10 +324,31 @@
       "bad_outcomes": 0,
       "total_outcomes": 1,
       "ts_completed": "2026-08-06T23:57:50Z"
+    },
+    "audio-script": {
+      "status": "skipped",
+      "ts_completed": "2026-08-06T23:57:51Z",
+      "reason": "audio_engine=notebooklm (manual)"
+    },
+    "audio-render": {
+      "status": "skipped",
+      "ts_completed": "2026-08-06T23:57:51Z",
+      "reason": "audio_engine=notebooklm (manual)"
+    },
+    "finalize": {
+      "status": "halted",
+      "ts_started": "2026-08-06T23:57:51Z",
+      "ts_completed": "2026-08-06T23:57:56Z",
+      "verdict": "SHIP-READY"
+    },
+    "0book-design": {
+      "status": "completed",
+      "ts_started": "2026-08-06T23:57:56Z",
+      "ts_completed": "2026-08-07T00:02:25Z"
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260806T233952Z-560da5",
-  "ts_updated": "2026-08-06T23:57:50Z",
-  "next_phase": "audio-script"
+  "ts_updated": "2026-08-07T00:02:25Z",
+  "next_phase": "0book-compose"
 }
