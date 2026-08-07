@@ -104,7 +104,13 @@
     "0book-design": {
       "status": "completed",
       "ts_started": "2026-08-07T20:15:26Z",
-      "ts_completed": "2026-08-07T20:19:19Z"
+      "ts_completed": "2026-08-07T20:21:05Z"
+    },
+    "0book-compose": {
+      "status": "failed",
+      "ts_started": "2026-08-07T20:19:19Z",
+      "ts_completed": "2026-08-07T20:19:20Z",
+      "manual_fallback": "Fix book/book-toc.json source_line_ranges or chapter titles, then rerun translation edition compose. OCR/refinement/audio do not need to rerun."
     }
   },
   "cost": {
@@ -113,7 +119,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-08-07T20:19:19Z",
+  "ts_updated": "2026-08-07T20:21:05Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1",
   "reset_for_reemit": {
@@ -140,5 +146,5 @@
   ],
   "pipeline_mode": "orchestrated",
   "status": "draft",
-  "run_id": "20260807T201526Z-b373b1"
+  "run_id": "20260807T202105Z-7387ef"
 }
