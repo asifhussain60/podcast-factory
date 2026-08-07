@@ -208,6 +208,21 @@ const TRANSLATION_FONTS = [
               <i class="fa-solid fa-download" aria-hidden="true" /> Download PDF
               {existingPdf ? ` (${existingPdf.kb} KB)` : ""}
             </a>
+            {/* Publish to production. Starts unlit and un-promising: its real
+                state is fetched on load by publish-to-production.ts, which also
+                re-lights it whenever a chapter is saved. Rendering it "up to
+                date" server-side would flash a claim about the live site that
+                nothing has yet checked. The label lives in its own span so the
+                script can swap Publish/Published without touching the icon. */}
+            <button
+              type="button"
+              class="cx-hdr-btn cx-hdr-btn--publish"
+              id="cx-publish-prod"
+              title="Publish to production"
+            >
+              <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true" />
+              <span class="cx-hdr-btn-label">Publish</span>
+            </button>
           </div>
         </header>
 

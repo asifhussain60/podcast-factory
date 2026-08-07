@@ -1,4 +1,9 @@
 import {
+  faPlus,
+  faRotateLeft,
+  faRotateRight,
+} from "@fortawesome/free-solid-svg-icons";
+import {
   createContext,
   useCallback,
   useContext,
@@ -6,10 +11,12 @@ import {
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type ReactNode,
 } from "react";
 import { Link } from "react-router";
 
+import { Icon } from "~/components/Icon";
 import { NotesList } from "~/components/reader/NotesList";
 import { RichNoteEditor } from "~/components/notes/RichNoteEditor";
 import { Transcript, parseVtt, type Cue } from "~/components/player/Transcript";
@@ -66,6 +73,19 @@ interface PlayerState {
    * either distinction.
    */
   cues: Cue[] | null;
+  /**
+   * The PLAYING book's episode notes, held here rather than in the panel.
+   *
+   * The panel used to own them, fetched when it opened, which meant nothing on
+   * screen could say how many there were until you had already looked. They cost
+   * no request: `/book/<slug>/marks` returns them in the SAME response the
+   * resume position is read from, and that response was being fetched and
+   * three-quarters discarded on every play. Scoped to the playing book, never
+   * the book being read — see `markMoment` for why those differ.
+   */
+  notes: EpisodeNote[];
+  /** Re-read the playing book's notes after one is kept, edited or removed. */
+  reloadNotes: () => void;
   panel: PlayerPanel;
   openPanel: (panel: PlayerPanel) => void;
   play: (episode: NowPlaying) => void;
@@ -98,6 +118,33 @@ export const RATES = [0.9, 1, 1.2, 1.5, 1.8] as const;
  * is gone.
  */
 const POSITION_KEY = "pf-positions";
+
+/**
+ * How fast the listener plays things — remembered like every other setting.
+ *
+ * It was React state alone, so a listener who plays at 1.5× was returned to 1×
+ * by every reload and every new visit, on every episode. That is not a position
+ * (which belongs to one episode) but a PREFERENCE about listening, so it is one
+ * value rather than a map, and it sits beside the positions rather than in
+ * `pf-reading` — that key is the reading column's typography, and a listening
+ * speed inside it would be a second meaning for one store.
+ */
+const RATE_KEY = "pf-rate";
+
+function loadRate(): number {
+  try {
+    const stored = Number(localStorage.getItem(RATE_KEY));
+    // Validated against the SCALE THE UI OFFERS, never merely against "is a
+    // number". `playbackRate = 0` is a silent, unrecoverable pause, and a rate
+    // between the buttons would light none of them — the control would read as
+    // broken. Same rule as `storedReading`, and it must keep using the exported
+    // RATES rather than a second list: a copy that drifted would reject every
+    // real stored value and reset to 1, which is the bug this exists to fix.
+    return (RATES as readonly number[]).includes(stored) ? stored : 1;
+  } catch {
+    return 1;
+  }
+}
 
 const positionKey = (slug: string, number: number) => `${slug}#${number}`;
 
@@ -188,8 +235,35 @@ function markMoment(
     .catch(() => false);
 }
 
+/** What the marks endpoint gives back, as much of it as the player uses. */
+interface PlayingMarks {
+  listening?: Record<string, number>;
+  episodeNotes?: EpisodeNote[];
+}
+
 /**
- * The server's copy, if it is further along than the cache.
+ * The playing book's marks: where other devices got to, and what is kept in it.
+ *
+ * ONE request for both, because the endpoint answers with both and the player
+ * needs both. It used to read only `listening` and drop the rest, and the notes
+ * panel then fetched the identical URL again when it opened — two requests for
+ * one response, which is also why nothing could show a count before the panel
+ * was asked for.
+ */
+async function fetchMarks(slug: string): Promise<PlayingMarks | null> {
+  try {
+    const response = await fetch(`/book/${encodeURIComponent(slug)}/marks`, {
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) return null;
+    return (await response.json()) as PlayingMarks;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The server's copy of the position, if it is further along than the cache.
  *
  * "Further along" rather than "newer": there is no clock to trust between two
  * devices, and the failure that actually matters is resuming EARLIER than you
@@ -197,18 +271,10 @@ function markMoment(
  * greater of the two can only ever skip ahead by however far the other device
  * went, which is the direction a listener can correct in one gesture.
  */
-async function serverPosition(slug: string, number: number): Promise<number | null> {
-  try {
-    const response = await fetch(`/book/${encodeURIComponent(slug)}/marks`, {
-      headers: { Accept: "application/json" },
-    });
-    if (!response.ok) return null;
-    const marks = (await response.json()) as { listening?: Record<string, number> };
-    return marks.listening?.[String(number)] ?? null;
-  } catch {
-    return null;
-  }
-}
+const positionIn = (
+  marks: PlayingMarks | null,
+  number: number,
+): number | null => marks?.listening?.[String(number)] ?? null;
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const audio = useRef<HTMLAudioElement>(null);
@@ -216,8 +282,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [playing, setPlaying] = useState(false);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
+  // Starts at 1 and is corrected from storage on mount, never read during
+  // render: the server has no localStorage, so seeding state from it directly
+  // would make the first client render differ from the server's. Same reasoning
+  // as `hydrateReading`.
   const [rate, setRateState] = useState(1);
   const [cues, setCues] = useState<Cue[] | null>(null);
+  const [notes, setNotes] = useState<EpisodeNote[]>([]);
   const [panel, setPanel] = useState<PlayerPanel>(null);
 
   /**
@@ -231,53 +302,118 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
    */
   const cuesFor = useRef<string | null>(null);
 
-  const play = useCallback((episode: NowPlaying) => {
-    const element = audio.current;
-    if (element === null) return;
+  /**
+   * Which book the notes in state belong to — the same guard, same reason.
+   *
+   * Two books can be in play in one session: one being read, one being heard.
+   * A response that arrives after the listener has moved to another work would
+   * otherwise put that work's count on this work's button.
+   */
+  const notesFor = useRef<string | null>(null);
 
-    if (current?.src === episode.src) {
-      void element.play();
-      return;
-    }
-
-    setCurrent(episode);
-    element.src = episode.src;
-
-    // The words, loaded alongside the audio rather than when the panel opens.
-    // Cleared FIRST so the panel never shows the previous episode's transcript
-    // while this one arrives.
-    setCues(null);
-    cuesFor.current = episode.src;
-    if (episode.transcriptSrc !== null) {
-      const wanted = episode.src;
-      void fetch(episode.transcriptSrc)
-        .then((response) => (response.ok ? response.text() : Promise.reject(new Error("not ok"))))
-        .then((text) => {
-          if (cuesFor.current !== wanted) return; // they moved on; this is stale
-          setCues(parseVtt(text));
-        })
-        .catch(() => {
-          // No transcript to show. The panel says so; playback is unaffected,
-          // and a failed side-fetch must not surface as an unhandled rejection
-          // in the listener's console mid-episode.
-        });
-    }
-
-    // Start from the cache immediately — playback must not wait on a request.
-    const cached = loadPositions()[positionKey(episode.slug, episode.number)] ?? 0;
-    element.currentTime = cached;
-    void element.play();
-
-    // Then ask the server, and jump forward only if another device got further.
-    // Guarded on the listener not having moved in the meantime: seeking under
-    // someone who has already scrubbed would be the player fighting them.
-    void serverPosition(episode.slug, episode.number).then((remote) => {
-      if (remote === null || remote <= cached + 5) return;
-      if (audio.current === null || audio.current.src !== element.src) return;
-      if (Math.abs(audio.current.currentTime - cached) > 5) return;
-      audio.current.currentTime = remote;
+  /** Re-read the playing book's notes. Used after a note is kept or removed. */
+  const reloadNotes = useCallback(() => {
+    const slug = current?.slug ?? null;
+    if (slug === null) return;
+    notesFor.current = slug;
+    void fetchMarks(slug).then((marks) => {
+      if (notesFor.current !== slug) return;
+      setNotes(marks?.episodeNotes ?? []);
     });
   }, [current]);
+
+  /**
+   * The stored listening speed, applied once the client is running.
+   *
+   * In an effect rather than in `useState(loadRate())` because the server has no
+   * localStorage: seeding the initial state from it would make the first client
+   * render differ from the server's, which is the hydration mismatch every other
+   * stored setting on this site avoids the same way.
+   *
+   * It sets the element too, not only the state. `play` re-applies it on each
+   * new source below — a fresh `<audio>` src resets `playbackRate` to 1 — but
+   * that runs on the NEXT episode, and something already playing when this
+   * mounts would otherwise keep the default while the buttons showed 1.5x.
+   */
+  useEffect(() => {
+    const stored = loadRate();
+    if (stored === 1) return;
+    setRateState(stored);
+    const element = audio.current;
+    if (element !== null) element.playbackRate = stored;
+  }, []);
+
+  const play = useCallback(
+    (episode: NowPlaying) => {
+      const element = audio.current;
+      if (element === null) return;
+
+      if (current?.src === episode.src) {
+        void element.play();
+        return;
+      }
+
+      setCurrent(episode);
+      element.src = episode.src;
+      // Setting a new source resets `playbackRate` to 1. Without this, choosing
+      // 1.5x and then playing the next episode silently dropped back to normal
+      // speed while the control still showed 1.5x.
+      element.playbackRate = rate;
+
+      // The words, loaded alongside the audio rather than when the panel opens.
+      // Cleared FIRST so the panel never shows the previous episode's transcript
+      // while this one arrives.
+      setCues(null);
+      cuesFor.current = episode.src;
+      if (episode.transcriptSrc !== null) {
+        const wanted = episode.src;
+        void fetch(episode.transcriptSrc)
+          .then((response) =>
+            response.ok ? response.text() : Promise.reject(new Error("not ok")),
+          )
+          .then((text) => {
+            if (cuesFor.current !== wanted) return; // they moved on; this is stale
+            setCues(parseVtt(text));
+          })
+          .catch(() => {
+            // No transcript to show. The panel says so; playback is unaffected,
+            // and a failed side-fetch must not surface as an unhandled rejection
+            // in the listener's console mid-episode.
+          });
+      }
+
+      // Start from the cache immediately — playback must not wait on a request.
+      const cached =
+        loadPositions()[positionKey(episode.slug, episode.number)] ?? 0;
+      element.currentTime = cached;
+      void element.play();
+
+      // Then ask the server ONCE, for both halves of what it knows: how far other
+      // devices got, and what this listener has kept in this book. The notes are
+      // what the Notes button counts, which is why they are read now rather than
+      // when the panel opens — a count that only appears after you look is not a
+      // count.
+      setNotes([]);
+      notesFor.current = episode.slug;
+      void fetchMarks(episode.slug).then((marks) => {
+        if (notesFor.current === episode.slug)
+          setNotes(marks?.episodeNotes ?? []);
+
+        // Jump forward only if another device got further, and only if the
+        // listener has not moved in the meantime: seeking under someone who has
+        // already scrubbed would be the player fighting them.
+        const remote = positionIn(marks, episode.number);
+        if (remote === null || remote <= cached + 5) return;
+        if (audio.current === null || audio.current.src !== element.src) return;
+        if (Math.abs(audio.current.currentTime - cached) > 5) return;
+        audio.current.currentTime = remote;
+      });
+      // `rate` is a dependency because the new source is started at it. Without it
+      // this closure keeps whichever rate was current when it was last built, and
+      // a speed chosen mid-episode would not survive to the next one.
+    },
+    [current, rate],
+  );
 
   const toggle = useCallback(() => {
     const element = audio.current;
@@ -294,13 +430,21 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const nudge = useCallback((delta: number) => {
     const element = audio.current;
     if (element === null) return;
-    element.currentTime = Math.max(0, Math.min(element.duration || 0, element.currentTime + delta));
+    element.currentTime = Math.max(
+      0,
+      Math.min(element.duration || 0, element.currentTime + delta),
+    );
   }, []);
 
   const setRate = useCallback((next: number) => {
     const element = audio.current;
     if (element !== null) element.playbackRate = next;
     setRateState(next);
+    try {
+      localStorage.setItem(RATE_KEY, String(next));
+    } catch {
+      // Storage disabled. The rate still applies to this session.
+    }
   }, []);
 
   const close = useCallback(() => {
@@ -317,6 +461,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setPanel(null);
     setCues(null);
     cuesFor.current = null;
+    setNotes([]);
+    notesFor.current = null;
   }, []);
 
   /** Pressing the open panel's own button closes it, which is what a toggle is. */
@@ -324,6 +470,101 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     (next: PlayerPanel) => setPanel((now) => (now === next ? null : next)),
     [],
   );
+
+  /**
+   * Hand the episode to the phone itself.
+   *
+   * Everything below the lock screen — the Control Centre card, the AirPods
+   * stem, the car head unit, the watch — reads one browser API, and this site
+   * never called it, so with the screen off a listener had a nameless audio
+   * stream and no way to skip within it. The hardware's own back/forward map to
+   * the SAME fifteen seconds the bar's buttons use rather than to next/previous
+   * track: there is no queue here, so a track control would be a control that
+   * does nothing, and fifteen seconds is what those buttons mean in every
+   * podcast app anyway.
+   *
+   * Artwork is the site's mark. Books have no cover images in this repo — a
+   * per-book image would have to be invented, and inventing one is worse than
+   * showing whose library this is.
+   *
+   * Feature-detected, not assumed: Firefox and older Safari have parts of this,
+   * and `setPositionState` throws outright if the numbers it is handed are not
+   * self-consistent (a position past the duration, a rate of zero), which is
+   * reachable in the moment between a new src and its first `durationchange`.
+   */
+  useEffect(() => {
+    if (typeof navigator === "undefined" || !("mediaSession" in navigator))
+      return;
+    const session = navigator.mediaSession;
+
+    if (current === null) {
+      session.metadata = null;
+      session.playbackState = "none";
+      return;
+    }
+
+    session.metadata = new MediaMetadata({
+      title: `${current.number}. ${current.title}`,
+      artist: current.bookTitle,
+      album: "The Podcast Factory Library",
+      artwork: [
+        { src: "/brand/icon-512.png", sizes: "512x512", type: "image/png" },
+      ],
+    });
+    session.playbackState = playing ? "playing" : "paused";
+
+    const handlers: [MediaSessionAction, MediaSessionActionHandler][] = [
+      ["play", () => toggle()],
+      ["pause", () => toggle()],
+      ["seekbackward", () => nudge(-15)],
+      ["seekforward", () => nudge(15)],
+      [
+        "seekto",
+        (details) => {
+          if (typeof details.seekTime === "number") seek(details.seekTime);
+        },
+      ],
+    ];
+
+    for (const [action, handler] of handlers) {
+      // Not every platform implements every action, and setting an unsupported
+      // one throws rather than being ignored.
+      try {
+        session.setActionHandler(action, handler);
+      } catch {
+        /* unsupported here; the rest still work */
+      }
+    }
+
+    return () => {
+      for (const [action] of handlers) {
+        try {
+          session.setActionHandler(action, null);
+        } catch {
+          /* as above */
+        }
+      }
+    };
+  }, [current, playing, toggle, nudge, seek]);
+
+  /* Where the scrubber on the lock screen sits. Separate from the effect above
+     so a moving position does not tear down and rebuild every action handler
+     four times a second. */
+  useEffect(() => {
+    if (typeof navigator === "undefined" || !("mediaSession" in navigator))
+      return;
+    if (typeof navigator.mediaSession.setPositionState !== "function") return;
+    if (current === null || !Number.isFinite(duration) || duration <= 0) return;
+    try {
+      navigator.mediaSession.setPositionState({
+        duration,
+        playbackRate: rate,
+        position: Math.min(Math.max(0, position), duration),
+      });
+    } catch {
+      /* The numbers were momentarily inconsistent; the next tick corrects it. */
+    }
+  }, [current, position, duration, rate]);
 
   const value = useMemo<PlayerState>(
     () => ({
@@ -333,6 +574,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       duration,
       rate,
       cues,
+      notes,
+      reloadNotes,
       panel,
       openPanel,
       play,
@@ -342,7 +585,24 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       setRate,
       close,
     }),
-    [current, playing, position, duration, rate, cues, panel, openPanel, play, toggle, seek, nudge, setRate, close],
+    [
+      current,
+      playing,
+      position,
+      duration,
+      rate,
+      cues,
+      notes,
+      reloadNotes,
+      panel,
+      openPanel,
+      play,
+      toggle,
+      seek,
+      nudge,
+      setRate,
+      close,
+    ],
   );
 
   return (
@@ -358,7 +618,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         onDurationChange={(e) => setDuration(e.currentTarget.duration || 0)}
         onTimeUpdate={(e) => {
           setPosition(e.currentTarget.currentTime);
-          if (current !== null && Math.floor(e.currentTarget.currentTime) % 5 === 0) {
+          if (
+            current !== null &&
+            Math.floor(e.currentTarget.currentTime) % 5 === 0
+          ) {
             savePosition(current, e.currentTarget.currentTime);
           }
         }}
@@ -376,7 +639,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
 export function usePlayer(): PlayerState {
   const value = useContext(PlayerContext);
-  if (value === null) throw new Error("usePlayer must be used inside PlayerProvider");
+  if (value === null)
+    throw new Error("usePlayer must be used inside PlayerProvider");
   return value;
 }
 
@@ -392,105 +656,192 @@ export function clock(seconds: number | null): string {
     : `${m}:${String(s).padStart(2, "0")}`;
 }
 
+/**
+ * The transport bar, in three groups rather than one row of eight controls.
+ *
+ * It was one flex row, and at a phone's width that row could not hold what was
+ * in it — so the fix taken at the time was to HIDE the two skip buttons below
+ * 640px. The result was that the two controls a listener reaches for most were
+ * absent on the device almost all the listening happens on (Asif, 2026-08-06).
+ * Un-hiding them alone would only restore the overflow that caused it.
+ *
+ * So the markup is now three named groups — what is playing, the transport, the
+ * panels — and the breakpoint re-flows the groups instead of deleting controls
+ * from them. On a phone the title takes its own line and the transport sits
+ * below it as three round 44px targets; from 640px up the groups sit in one row
+ * as before. Nothing is hidden at any width any more except the speed menu,
+ * which is a preference rather than a transport control and which the browser's
+ * own long-press menu can still reach.
+ */
 function PlayerBar() {
-  const { current, playing, position, duration, rate, panel, openPanel, toggle, seek, nudge, setRate, close } =
-    usePlayer();
+  const {
+    current,
+    playing,
+    position,
+    duration,
+    rate,
+    notes,
+    panel,
+    openPanel,
+    toggle,
+    seek,
+    nudge,
+    setRate,
+    close,
+  } = usePlayer();
+  const bar = useRef<HTMLDivElement>(null);
+
+  /**
+   * Publish this bar's real height, for the panel that stops on top of it.
+   *
+   * The side panel used to end at `calc(var(--pf-space-3) * 2 + 4.5rem)` — the
+   * bar's height, worked out by hand from the space scale. That number was
+   * already a liability and this change would have falsified it outright: a
+   * two-row bar on a phone would have had a third of the drawer hidden behind
+   * it, and the transcript's own centring (which measures the bar live) would
+   * have been centring lines into a strip nobody can see. Measured, so the
+   * question cannot be got wrong again — including the safe-area inset, which
+   * differs per device and could never have been in a constant.
+   */
+  useEffect(() => {
+    const element = bar.current;
+    if (element === null || typeof ResizeObserver === "undefined") return;
+    const publish = () =>
+      document.documentElement.style.setProperty(
+        "--pf-player-h",
+        `${element.offsetHeight}px`,
+      );
+    publish();
+    const observer = new ResizeObserver(publish);
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty("--pf-player-h");
+    };
+  }, []);
+
   if (current === null) return null;
 
   const total = duration || current.durationS || 0;
+  /* THIS episode's, matching what the panel shows when it opens. A count of the
+     whole book's notes on a button that opens one episode's would be a number
+     the panel then contradicts. */
+  const here = notes.filter((n) => n.number === current.number).length;
 
   return (
-    <div
-      role="region"
-      aria-label="Now playing"
-      className="pf-player"
-    >
+    <div ref={bar} role="region" aria-label="Now playing" className="pf-player">
       <div className="pf-player__inner">
         <div className="pf-player__top">
-          <button
-            type="button"
-            onClick={toggle}
-            aria-label={playing ? "Pause" : "Play"}
-            className="pf-player__play"
-          >
-            {playing ? <PauseIcon /> : <PlayIcon />}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => nudge(-15)}
-            aria-label="Back 15 seconds"
-            className="pf-player__nudge"
-          >
-            &minus;15s
-          </button>
-          <button
-            type="button"
-            onClick={() => nudge(15)}
-            aria-label="Forward 15 seconds"
-            className="pf-player__nudge"
-          >
-            +15s
-          </button>
-
           <div className="pf-player__what">
             <p className="pf-player__title">
               {current.number}. {current.title}
             </p>
-            <Link
-              to={`/book/${current.slug}`}
-              className="pf-player__book"
-            >
+            <Link to={`/book/${current.slug}`} className="pf-player__book">
               {current.bookTitle}
             </Link>
           </div>
 
-          <label className="pf-player__rate">
-            <span className="sr-only">Playback speed</span>
-            <select
-              value={rate}
-              onChange={(e) => setRate(Number(e.target.value))}
-              className="pf-select pf-select--sm"
-            >
-              {RATES.map((r) => (
-                <option key={r} value={r}>
-                  {r}&times;
-                </option>
-              ))}
-            </select>
-          </label>
-
-          {/* The two things a listener actually wants while listening, and the
-              only controls here that are NOT hidden on a phone. The skip and
-              speed controls go at that width; these are the point. */}
-          {current.transcriptSrc === null ? null : (
+          {/* Play, and the fifteen seconds either side of it. One group, always
+              together, present at every width — a listener who has missed a
+              sentence reaches for the same place whatever they are holding. */}
+          <div className="pf-player__transport">
             <button
               type="button"
-              onClick={() => openPanel("transcript")}
-              aria-expanded={panel === "transcript"}
+              onClick={() => nudge(-15)}
+              aria-label="Back 15 seconds"
+              className="pf-player__nudge"
+            >
+              {/* The glyph carries the direction and the numeral the amount,
+                  which is the idiom every podcast app uses — and it fits a
+                  round tap target where "−15s" as text did not. */}
+              <Icon icon={faRotateLeft} />
+              <span className="pf-player__nudge-n" aria-hidden="true">
+                15
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={toggle}
+              aria-label={playing ? "Pause" : "Play"}
+              className="pf-player__play"
+            >
+              {playing ? <PauseIcon /> : <PlayIcon />}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => nudge(15)}
+              aria-label="Forward 15 seconds"
+              className="pf-player__nudge"
+            >
+              <Icon icon={faRotateRight} />
+              <span className="pf-player__nudge-n" aria-hidden="true">
+                15
+              </span>
+            </button>
+          </div>
+
+          <div className="pf-player__panels">
+            <label className="pf-player__rate">
+              <span className="sr-only">Playback speed</span>
+              <select
+                value={rate}
+                onChange={(e) => setRate(Number(e.target.value))}
+                className="pf-select pf-select--sm"
+              >
+                {RATES.map((r) => (
+                  <option key={r} value={r}>
+                    {r}&times;
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            {current.transcriptSrc === null ? null : (
+              <button
+                type="button"
+                onClick={() => openPanel("transcript")}
+                aria-expanded={panel === "transcript"}
+                className="pf-player__panel-tab"
+              >
+                Transcript
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={() => openPanel("notes")}
+              aria-expanded={panel === "notes"}
+              /* The count is in the accessible name, not only in the badge —
+                 a screen reader gets "Notes, 2 in this episode" rather than a
+                 button called "Notes 2", which is read as a label ending in a
+                 stray number. */
+              aria-label={
+                here === 0 ? "Notes" : `Notes, ${here} in this episode`
+              }
               className="pf-player__panel-tab"
             >
-              Transcript
+              <span aria-hidden="true">Notes</span>
+              {/* Never rendered as zero. An empty count reads as something to
+                  clear rather than something not yet started — the same rule
+                  the reader's own tab follows. */}
+              {here === 0 ? null : (
+                <span aria-hidden="true" className="pf-player__badge">
+                  {here}
+                </span>
+              )}
             </button>
-          )}
 
-          <button
-            type="button"
-            onClick={() => openPanel("notes")}
-            aria-expanded={panel === "notes"}
-            className="pf-player__panel-tab"
-          >
-            Notes
-          </button>
-
-          <button
-            type="button"
-            onClick={close}
-            aria-label="Close the player"
-            className="pf-player__close"
-          >
-            &times;
-          </button>
+            <button
+              type="button"
+              onClick={close}
+              aria-label="Close the player"
+              className="pf-player__close"
+            >
+              &times;
+            </button>
+          </div>
         </div>
 
         <div className="pf-player__scrub">
@@ -504,6 +855,16 @@ function PlayerBar() {
             onChange={(e) => seek(Number(e.target.value))}
             aria-label="Seek"
             className="pf-player__seek"
+            /* How much has been played, as a scalar the stylesheet paints the
+               track from — the same arrangement `.pf-meter` uses. The browser's
+               own `accent-color` fill was not usable here: it leaves the
+               UNPLAYED remainder to whatever the platform derives, which on a
+               navy deck came out near-black. */
+            style={
+              {
+                "--pf-seek": total > 0 ? Math.min(position, total) / total : 0,
+              } as CSSProperties
+            }
           />
           <span>{clock(total || null)}</span>
         </div>
@@ -531,8 +892,16 @@ function PlayerBar() {
  * write posts directly.
  */
 function PlayerPanelDrawer() {
-  const { current, panel, openPanel, cues, position, seek } = usePlayer();
-  const [marks, setMarks] = useState<PlayingMarks | null>(null);
+  const {
+    current,
+    panel,
+    openPanel,
+    cues,
+    position,
+    seek,
+    notes,
+    reloadNotes,
+  } = usePlayer();
   // The "+ Add note" composer. `composeSeconds` is frozen at the moment the
   // button is pressed, not read again at save time — typing takes a while and
   // playback keeps advancing, so a live read would land the note on whatever
@@ -540,20 +909,29 @@ function PlayerPanelDrawer() {
   const [composing, setComposing] = useState(false);
   const [composeSeconds, setComposeSeconds] = useState(0);
   const [composeQuote, setComposeQuote] = useState("");
+  /* Which panel sent us to the composer. Closing a note started from a
+     transcript line returns you to the transcript, because that is where you
+     were listening and where the next line you want to mark is (Asif,
+     2026-08-06). A note started from the Notes panel's own button has nowhere
+     to go back to, so it stays — which is why this records the origin rather
+     than always returning. */
+  const [composeFrom, setComposeFrom] = useState<PlayerPanel>(null);
+
+  /** Leave the composer, and go back where it was opened from. */
+  const closeCompose = useCallback(() => {
+    setComposing(false);
+    setComposeQuote("");
+    if (composeFrom === "transcript") openPanel("transcript");
+    setComposeFrom(null);
+  }, [composeFrom, openPanel]);
   const [composeDraft, setComposeDraft] = useState("");
 
-  const slug = current?.slug ?? null;
-
-  /* The playing book's own marks. Re-fetched when the panel opens rather than
-     held all the time: it is a handful of rows behind a deliberate press, and
-     keeping it live would mean polling for something nobody is looking at. */
-  const reload = useCallback(() => {
-    if (slug === null) return;
-    void fetch(`/book/${encodeURIComponent(slug)}/marks`, { headers: { Accept: "application/json" } })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => setMarks(data as PlayingMarks | null))
-      .catch(() => setMarks(null));
-  }, [slug]);
+  /* The notes come from the PLAYER now, not from a fetch of this panel's own —
+     they arrive with the episode so the bar's badge can count them before
+     anyone opens this. Still re-read on open, because another device may have
+     added one since playback started; the difference is that this is a refresh
+     of something already on screen rather than the only way to see it. */
+  const reload = reloadNotes;
 
   useEffect(() => {
     if (panel === "notes") reload();
@@ -570,7 +948,7 @@ function PlayerPanelDrawer() {
      bare numbers, or silently dropping them, are both worse than a panel that
      says plainly what it covers. The whole book's notes are one press away on
      the book page, which has the titles. */
-  const here = (marks?.episodeNotes ?? []).filter((n) => n.number === current.number);
+  const here = notes.filter((n) => n.number === current.number);
   const label = panel === "transcript" ? "Transcript" : "Notes in this episode";
 
   return (
@@ -586,7 +964,10 @@ function PlayerPanelDrawer() {
         className="pf-player-panel__scrim"
       />
 
-      <aside aria-label={`${label} for ${current.title}`} className="pf-player-panel">
+      <aside
+        aria-label={`${label} for ${current.title}`}
+        className="pf-player-panel"
+      >
         <div className="pf-drawer__head">
           <h2 className="pf-drawer__title">{label}</h2>
           <button
@@ -615,6 +996,7 @@ function PlayerPanelDrawer() {
                 setComposeSeconds(Math.floor(cue.startS));
                 setComposeQuote(cue.text);
                 setComposeDraft("");
+                setComposeFrom("transcript");
                 setComposing(true);
                 openPanel("notes");
               }}
@@ -628,10 +1010,16 @@ function PlayerPanelDrawer() {
               {composing ? (
                 <div className="pf-mark pf-mark--moment">
                   <div className="pf-mark__body">
-                    <span className="pf-mark__kind">{clock(composeSeconds)}</span>
+                    <span className="pf-mark__kind">
+                      {clock(composeSeconds)}
+                    </span>
                     {/* Only present when opened from a transcript line's "+" —
                         the generic "+ Add note" button has no line to quote. */}
-                    {composeQuote ? <blockquote className="pf-mark__quote">{composeQuote}</blockquote> : null}
+                    {composeQuote ? (
+                      <blockquote className="pf-mark__quote">
+                        {composeQuote}
+                      </blockquote>
+                    ) : null}
                     <RichNoteEditor
                       initialValue={composeDraft}
                       onChange={setComposeDraft}
@@ -642,7 +1030,7 @@ function PlayerPanelDrawer() {
                     <div className="pf-mark__edit-actions">
                       <button
                         type="button"
-                        onClick={() => setComposing(false)}
+                        onClick={closeCompose}
                         className="pf-button pf-button--sm pf-button--ghost"
                       >
                         Cancel
@@ -650,14 +1038,21 @@ function PlayerPanelDrawer() {
                       <button
                         type="button"
                         onClick={() => {
-                          void markMoment(current, composeSeconds, newId(), composeQuote, composeDraft).then(
-                            (ok) => {
-                              setComposing(false);
-                              if (!ok) return;
-                              void refresh(current.slug);
-                              reload();
-                            },
-                          );
+                          void markMoment(
+                            current,
+                            composeSeconds,
+                            newId(),
+                            composeQuote,
+                            composeDraft,
+                          ).then((ok) => {
+                            // Same return as Cancel: saved or abandoned, you
+                            // came from the transcript and that is where the
+                            // next line you want to mark is.
+                            closeCompose();
+                            if (!ok) return;
+                            void refresh(current.slug);
+                            reload();
+                          });
                         }}
                         className="pf-button pf-button--sm pf-button--primary"
                       >
@@ -673,11 +1068,12 @@ function PlayerPanelDrawer() {
                     setComposeSeconds(Math.floor(position));
                     setComposeQuote("");
                     setComposeDraft("");
+                    setComposeFrom(null);
                     setComposing(true);
                   }}
-                  className="pf-button pf-button--sm pf-button--primary pf-notes__add"
+                  className="pf-button pf-button--primary pf-notes__add"
                 >
-                  + Add note at {clock(position)}
+                  <Icon icon={faPlus} /> Add note at {clock(position)}
                 </button>
               )}
 
@@ -693,11 +1089,19 @@ function PlayerPanelDrawer() {
                 onRemoveAnnotation={NOTHING}
                 onRemoveBookmark={NOTHING}
                 onRemoveEpisodeNote={(id) => {
-                  void fetch(`/book/${encodeURIComponent(current.slug)}/marks`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: new URLSearchParams({ intent: "un-episode-note", id }),
-                  })
+                  void fetch(
+                    `/book/${encodeURIComponent(current.slug)}/marks`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                      },
+                      body: new URLSearchParams({
+                        intent: "un-episode-note",
+                        id,
+                      }),
+                    },
+                  )
                     .then(() => {
                       void refresh(current.slug);
                       reload();
@@ -707,7 +1111,13 @@ function PlayerPanelDrawer() {
                 onEditEpisodeNote={(id, note) => {
                   const existing = here.find((n) => n.id === id);
                   if (existing === undefined) return;
-                  void markMoment(current, existing.seconds, id, existing.quote ?? "", note).then((ok) => {
+                  void markMoment(
+                    current,
+                    existing.seconds,
+                    id,
+                    existing.quote ?? "",
+                    note,
+                  ).then((ok) => {
                     if (!ok) return;
                     void refresh(current.slug);
                     reload();
@@ -722,17 +1132,18 @@ function PlayerPanelDrawer() {
   );
 }
 
-/** What the marks endpoint gives back, as much of it as this panel uses. */
-interface PlayingMarks {
-  episodeNotes: EpisodeNote[];
-}
-
 const NOTHING_ORPHANED: ReadonlySet<string> = new Set<string>();
 const NOTHING = () => {};
 
 function PlayIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor">
+    <svg
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      aria-hidden="true"
+      fill="currentColor"
+    >
       <path d="M8 5.5v13l11-6.5z" />
     </svg>
   );
@@ -740,7 +1151,13 @@ function PlayIcon() {
 
 function PauseIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor">
+    <svg
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      aria-hidden="true"
+      fill="currentColor"
+    >
       <path d="M7 5h3.5v14H7zm6.5 0H17v14h-3.5z" />
     </svg>
   );

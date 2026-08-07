@@ -463,6 +463,14 @@ else
     die "the Worker did not upload"
   fi
   rm -f "$deploy_log"
+
+  # Record what just shipped. Read by `_production_publish.code_behind`, so the
+  # Publish button on the Composer can say "the live site is N commits behind"
+  # instead of guessing — that button moves a BOOK and never ships code, which
+  # is only safe if it can tell when code is stale. Untracked on purpose: it is
+  # a fact about THIS machine's last deploy, and a tracked file would conflict
+  # on every deploy while telling a fresh clone something untrue.
+  git -C "$REPO_ROOT" rev-parse HEAD > "$REPO_ROOT/listener/.deployed-commit"
 fi
 
 [[ -n "$WORKER_ONLY" ]] && { printf '\n\033[1mdone — worker only\033[0m\n'; exit 0; }

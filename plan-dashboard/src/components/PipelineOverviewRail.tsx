@@ -370,6 +370,17 @@ export default function PipelineOverviewRail({ phases }: Props) {
                 transform={`translate(${x},${y})`}
                 opacity={isDimmed ? 0.2 : 1}
                 onClick={() => handleNodeClick(phase)}
+                /* REQ-049: a node declares role="button" and takes focus, so it
+                   has to answer the two keys a button answers. An SVG <g> gets
+                   none of that for free the way a real <button> would, and
+                   without this the rail could be tabbed through but never
+                   opened without a mouse. */
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleNodeClick(phase);
+                  }
+                }}
                 onMouseEnter={() => handleNodeHover(phase, i, true)}
                 onMouseLeave={() => handleNodeHover(phase, i, false)}
                 role="button"

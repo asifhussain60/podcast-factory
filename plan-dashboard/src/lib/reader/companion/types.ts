@@ -83,6 +83,20 @@ export interface CompanionNote {
    *  See lib/db/morphology.server.ts. */
   morphology?: (EtymologyMorphology | null)[];
   source?: CompanionSource;
+  /**
+   * Whether a human has passed judgement on this note yet.
+   *
+   * ABSENT means kept — so every note written before 2026-08-06, and every note
+   * a person writes themselves, needs no migration and no flag: the thing you
+   * typed is not awaiting your approval.
+   *
+   * `"proposed"` is what the machine files. Asif asked for notes filed directly
+   * rather than held in a review queue, stamped as the machine's, with the
+   * option to accept or delete — which only works if a filed note can say it has
+   * not been looked at. Without this field an unreviewed note is indistinguishable
+   * from an approved one, and the whole set silently becomes "his".
+   */
+  review?: "proposed" | "kept";
   createdAt: string;
   updatedAt: string;
 }
@@ -112,4 +126,6 @@ export type CompanionNoteInput = {
   quote?: string;
   etymology?: string[];
   source?: CompanionSource;
+  /** Absent = keep whatever the note already says (create defaults to kept). */
+  review?: "proposed" | "kept";
 };

@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 17.51
+    "burn_30d_usd": 27.78
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1877,15 +1877,15 @@
       "phase": "per-chapter",
       "phase_status": "failed",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "technical"
     },
     {
       "slug": "degrees-of-excellence",
-      "title": "degrees-of-excellence",
-      "phase": "per-chapter-slides",
-      "phase_status": "running",
+      "title": "Degrees of Excellence",
+      "phase": "0book-render",
+      "phase_status": "completed",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "islamic_scholarly"
     },
     {
       "slug": "healthequity",
@@ -1893,11 +1893,11 @@
       "phase": "per-chapter",
       "phase_status": "manual-complete",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "consumer_explainer"
     },
     {
       "slug": "kunooz-al-hikmah",
-      "title": "kunooz-al-hikmah",
+      "title": "Kunooz al Hikmah",
       "phase": "finalize",
       "phase_status": "halted",
       "cost_to_date_usd": 0,
@@ -1905,71 +1905,79 @@
     },
     {
       "slug": "mukhtasar-ul-asar-2",
-      "title": "mukhtasar-ul-asar-2",
+      "title": "Mukhtasar ul Asar 2",
       "phase": "preflight",
       "phase_status": "pending",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "islamic_scholarly"
+    },
+    {
+      "slug": "spiritual-ethos",
+      "title": "Spiritual Ethos",
+      "phase": "0d",
+      "phase_status": "pending",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_scholarly"
     },
     {
       "slug": "the-master-and-the-disciple",
-      "title": "the-master-and-the-disciple",
+      "title": "The Master and the Disciple",
       "phase": "0book-render",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "islamic_scholarly"
     }
   ],
   "recent_commits": [
     {
-      "sha": "9dec592",
-      "subject": "chore(plan-dashboard): regenerate snapshots",
-      "date": "2026-08-05"
+      "sha": "c512a55",
+      "subject": "feat(compose): publish one book to production, and prove it landed",
+      "date": "2026-08-06"
     },
     {
-      "sha": "87c0a2d",
-      "subject": "chore(plan-dashboard): drop reconcile from the agent snapshot",
-      "date": "2026-08-05"
+      "sha": "ce13687",
+      "subject": "docs(listener): what's new, for the paper sheet and the phone toolbar",
+      "date": "2026-08-06"
     },
     {
-      "sha": "c6318d9",
-      "subject": "chore(agents): retire reconcile (zombie since a botched 2026-05-31 sweep)",
-      "date": "2026-08-05"
+      "sha": "33c0d69",
+      "subject": "style(listener): the reading sheet is a leaf of paper, not a card",
+      "date": "2026-08-06"
     },
     {
-      "sha": "b6b9bd2",
-      "subject": "chore(plan-dashboard): drop docs-updater from the agent snapshot",
-      "date": "2026-08-05"
+      "sha": "e6b2811",
+      "subject": "fix(listener): every control fits the screen it is on, at every viewport",
+      "date": "2026-08-06"
     },
     {
-      "sha": "db523e8",
-      "subject": "chore(agents): retire docs-updater, dead since 2026-05-28",
-      "date": "2026-08-05"
+      "sha": "2f2a442",
+      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
+      "date": "2026-08-06"
     },
     {
-      "sha": "075bb77",
-      "subject": "docs(hooks): note the recent_commits rolling-window churn is expected",
-      "date": "2026-08-05"
+      "sha": "e3b61ca",
+      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
+      "date": "2026-08-06"
     },
     {
-      "sha": "538b915",
-      "subject": "chore(plan-dashboard): regenerate snapshots",
-      "date": "2026-08-05"
+      "sha": "de33ba8",
+      "subject": "fix(composer): the visual palette offers only assets that exist",
+      "date": "2026-08-06"
     },
     {
-      "sha": "e782041",
-      "subject": "fix(pipeline): close the three P1/P0 findings from the podcast-pipeline audit",
-      "date": "2026-08-05"
+      "sha": "b722db9",
+      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
+      "date": "2026-08-06"
     },
     {
-      "sha": "34e8e83",
-      "subject": "chore(plan-dashboard): regenerate snapshots",
-      "date": "2026-08-05"
+      "sha": "351a9bb",
+      "subject": "fix(book-composer): the pipeline's fence markers stop showing in the editor",
+      "date": "2026-08-06"
     },
     {
-      "sha": "9b04c91",
-      "subject": "docs: lock the develop<->localhost and main<->prod deploy invariants",
-      "date": "2026-08-05"
+      "sha": "6af29fb",
+      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
+      "date": "2026-08-06"
     }
   ],
   "wave_execution_events": [],

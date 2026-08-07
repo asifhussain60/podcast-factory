@@ -663,7 +663,10 @@
 .outcome-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12.5px;
+  /* REQ-010 reading floor — was 12.5px. <td> is named in the rule and these
+     cells carry sentences, not codes. The mono uppercase column headers below
+     stay small: those ARE on the rule's exempt list. */
+  font-size: var(--fs-base);
 }
 .outcome-table th {
   text-align: left;
@@ -684,7 +687,10 @@
   color: var(--text-bright);
   font-weight: 700;
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  /* Mono, so it needs to sit a touch below the sans around it to look the same
+     size — but it is still a <td> and still read, so it stays at the floor
+     rather than the 11.5px it used to take. */
+  font-size: var(--fs-base);
 }
 @keyframes pulse {
   0%,

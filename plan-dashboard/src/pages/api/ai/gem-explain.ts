@@ -15,29 +15,21 @@
  * Steps 1 and 3 are best-effort by construction: each returns the input unchanged
  * on any failure, so a card is never lost to an enrichment step.
  *
- * Body: { gem?, concept, context?, bookTitle?, model?, ground?: boolean, maxWords?: number }
+ * Body: { gem?, concept, context?, bookTitle?, model?, ground?: boolean, maxWords?: number, question?: string }
+ *   `question`, when given, is a reader-typed ask ABOUT `concept` (usually the
+ *   selected passage) — the answer targets that question instead of generically
+ *   explaining `concept`.
  * Returns: { ok, body: string, etymology: string[], grounded: number, source: 'gemini' }
  */
 
 import type { APIRoute } from "astro";
 import { rateLimitCheck } from "../../../lib/reader/gemini-server";
-import { runGemConcept } from "../../../lib/reader/gems/engine";
+import { runGemPrepared } from "../../../lib/reader/gems/engine";
 import {
-  groundingFor,
-  groundingBlock,
-} from "../../../lib/reader/companion/corpus-grounding.server";
+  prepareCard,
+  finishCard,
+} from "../../../lib/reader/companion/gem-card.server";
 import { articulate } from "../../../lib/reader/companion/articulate.server";
-import { capWords } from "../../../lib/reader/companion/articulate-rules";
-import { resolveQuranCitations } from "../../../lib/reader/companion/quran-citation.server";
-import {
-  morphologyGroundingBlock,
-  vetoEtymologyItems,
-} from "../../../lib/db/morphology.server";
-
-/** The body budget. ~400 words is about half of what an ungoverned card ran to. */
-const DEFAULT_MAX_WORDS = 400;
-/** Per etymology item, mirroring the persona's own "at most 60 words" rule. */
-const ETYMOLOGY_MAX_WORDS = 60;
 
 export const prerender = false;
 
@@ -67,7 +59,10 @@ export const POST: APIRoute = async ({ request }) => {
       model,
       ground,
       maxWords,
+      question,
     } = await request.json();
+    const askedQuestion =
+      typeof question === "string" && question.trim() ? question.trim() : "";
     if (typeof concept !== "string" || !concept.trim()) {
       return new Response(
         JSON.stringify({ ok: false, error: "missing concept" }),
@@ -75,36 +70,39 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // 1. The corpus first, so the model writes WITH it rather than being corrected
-    //    by it afterwards. Empty when nothing in the library bears on the passage.
-    // Grounding retrieval stays on the concept + its PARAGRAPH. Widening it to the
-    // whole chapter would swamp the query and pull atoms about whatever else the
-    // chapter happens to mention.
-    const atoms = ground ? groundingFor(`${concept} ${context ?? ""}`) : [];
-    // Morphology grounding is UNCONDITIONAL (local committed DB, no spend): any
-    // Arabic term in the passage that resolves to one corpus root arrives in
-    // the prompt with its verified root, real family and Lane's meaning.
-    const morphBlock = morphologyGroundingBlock(`${concept} ${context ?? ""}`);
-    const grounded =
-      atoms.length || morphBlock
-        ? [
-            context ?? "",
-            morphBlock,
-            ...(atoms.length ? [groundingBlock(atoms)] : []),
-          ]
-            .filter(Boolean)
-            .join("\n\n")
-        : context;
-
-    let result;
+    // 1. Grounding and the persona's turn, both assembled by the module the
+    //    student-reader bridge also calls — see gem-card.server.ts.
+    let prepared;
     try {
-      result = await runGemConcept({
+      prepared = prepareCard({
         gemId: gem,
-        concept: concept.trim(),
-        context: grounded,
+        concept,
+        context,
         chapterContext:
           typeof chapterContext === "string" ? chapterContext : undefined,
         bookTitle,
+        question: askedQuestion,
+        ground: Boolean(ground),
+      });
+    } catch (e) {
+      const msg = (e as Error).message;
+      if (msg.startsWith("unknown_gem:")) {
+        return new Response(
+          JSON.stringify({ ok: false, error: "unknown gem" }),
+          {
+            status: 400,
+            headers: { "content-type": "application/json" },
+          },
+        );
+      }
+      throw e;
+    }
+
+    let result;
+    try {
+      result = await runGemPrepared({
+        system: prepared.system,
+        user: prepared.user,
         model,
       });
     } catch (e) {
@@ -125,30 +123,23 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // 3. Tighten, then bound. Both fall back to their input on any failure.
-    const budget =
-      typeof maxWords === "number" && maxWords > 50
-        ? Math.min(maxWords, 2000)
-        : DEFAULT_MAX_WORDS;
-    // 4. Citations last, so the cap can never cut a verse away from its
-    //    rendering: `Q|18:65` becomes `Al-Kahf 18:65`, and a cited verse gets its
-    //    canonical English from the mushaf mirror rather than from the model.
-    const tightened = resolveQuranCitations(
-      capWords(await articulate(result.body), budget),
-    );
-
-    // Deterministic veto LAST: an item whose claimed root contradicts the
-    // morphology corpus is dropped, never rewritten. Conservative by contract —
-    // unknown terms and unparseable items always pass.
-    const vetoed = vetoEtymologyItems(result.etymology);
+    // 3. Tighten — the one step that can make a card worse, so it is also the one
+    //    step with its own guards, and it falls back to its input on any failure.
+    // 4. Cap, resolve citations, veto contradicted etymology. Same module, same
+    //    order, as the batch pass — see gem-card.server.ts.
+    const finished = finishCard({
+      body: await articulate(result.body),
+      etymology: result.etymology,
+      maxWords,
+    });
 
     return new Response(
       JSON.stringify({
         ok: true,
-        body: tightened,
-        etymology: vetoed.kept.map((e) => capWords(e, ETYMOLOGY_MAX_WORDS)),
-        etymologyVetoed: vetoed.dropped.length,
-        grounded: atoms.length,
+        body: finished.body,
+        etymology: finished.etymology,
+        etymologyVetoed: finished.etymologyVetoed,
+        grounded: prepared.grounded,
         source: "gemini",
       }),
       {

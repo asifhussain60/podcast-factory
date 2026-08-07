@@ -40,7 +40,13 @@ function truncateContext(context: string | undefined): string | undefined {
     : context;
 }
 
-function buildUserTurn(opts: {
+/** The label a passage-with-a-question turn carries. Exported so the bridge and
+ *  the API route ask in the same words. */
+export const QUESTION_LABEL = "Answer this question a reader might ask";
+/** The label a bare concept/passage turn carries. */
+export const CONCEPT_LABEL = "Explain this concept";
+
+export function buildUserTurn(opts: {
   label: string;
   value: string;
   bookTitle?: string;
@@ -119,7 +125,11 @@ function toItems(value: unknown): string[] {
     .filter(Boolean);
 }
 
-function toResult(raw: string, sources?: string[]): GemResult {
+/** Parse whatever a model returned into a GemResult. Exported because the
+ *  student-reader bridge runs the same persona through Claude and must read the
+ *  reply with the SAME parser — a second one would disagree about where the
+ *  etymology ends on exactly the replies that are hardest to parse. */
+export function toResult(raw: string, sources?: string[]): GemResult {
   const parsed = extractGemJson(raw);
   if (parsed && typeof parsed.body === "string") {
     return {
@@ -133,32 +143,39 @@ function toResult(raw: string, sources?: string[]): GemResult {
   return { raw, ...split, ...(sources ? { sources } : {}) };
 }
 
-export async function runGemConcept(opts: {
-  gemId?: string;
-  concept: string;
-  context?: string;
-  chapterContext?: string;
-  bookTitle?: string;
+// `runGemConcept` was removed 2026-08-06. It built its own user turn and then
+// called Gemini, which is exactly what `prepareCard` + `runGemPrepared` now do
+// for both writers; its last caller went with them. A second path to the same
+// card is a second place for the persona's turn to drift.
+
+/** The persona's system instruction, envelope included — what a caller must send
+ *  a model to get a card back. Exported for the bridge, which hands it to Claude
+ *  instead of Gemini and so cannot go through `generate` here. */
+export function gemSystemInstruction(gemId?: string): string {
+  return resolveGem(gemId).systemPrompt + JSON_ENVELOPE_ADDENDUM;
+}
+
+/**
+ * Run a turn that `prepareCard` already assembled.
+ *
+ * The narrow seam between the two writers: the Explain button lands here with
+ * Gemini, and the student-reader bridge takes the same `system` and `user` to
+ * Claude. Everything on either side of this call is shared, so the model is the
+ * only thing that differs between a card you press for and a card the pass files.
+ */
+export async function runGemPrepared(opts: {
+  system: string;
+  user: string;
   model?: GeminiModel;
 }): Promise<GemResult> {
-  const gem = resolveGem(opts.gemId);
-  const user = buildUserTurn({
-    label: "Explain this concept",
-    value: opts.concept,
-    bookTitle: opts.bookTitle,
-    context: opts.context,
-    chapterContext: opts.chapterContext,
-  });
-
   const raw = await generate({
     model: opts.model ?? "pro",
-    systemInstruction: gem.systemPrompt + JSON_ENVELOPE_ADDENDUM,
-    contents: [{ role: "user", parts: [{ text: user }] }],
+    systemInstruction: opts.system,
+    contents: [{ role: "user", parts: [{ text: opts.user }] }],
     temperature: 0.3,
     maxOutputTokens: 4000,
     jsonMode: true,
   });
-
   return toResult(raw);
 }
 

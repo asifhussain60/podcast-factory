@@ -1509,8 +1509,15 @@ export default function DbArchitecture() {
             </div>
           )}
 
-          {/* Full column detail table */}
-          <div className="dba-drawer-fields-wrap">
+          {/* Full column detail table. REQ-052: the wrapper scrolls sideways on
+              a narrow drawer, so it needs to be focusable and named or the
+              columns past the right edge are mouse-only. */}
+          <div
+            className="dba-drawer-fields-wrap"
+            role="region"
+            aria-label={`Columns of ${selectedTable.label}`}
+            tabIndex={0}
+          >
             <div className="dba-drawer-meta-label">
               Columns ({selectedTable.fields.length})
             </div>

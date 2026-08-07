@@ -30,10 +30,25 @@ export interface CompanionStore {
     id: string,
     quote: string,
   ): Promise<CompanionNote>;
+  /** Mark a machine-filed note as read and kept — `review` only. */
+  accept(slug: string, chapter: string, id: string): Promise<CompanionNote>;
   remove(slug: string, chapter: string, id: string): Promise<void>;
 }
 
 const BASE = "/api/studio/companion-notes";
+
+/**
+ * Say that something a reader would see has changed.
+ *
+ * An EVENT rather than a call into the Composer's scripts: this module is a
+ * `lib/` store and must not depend on a page's wiring. The Publish button
+ * listens and lights itself; nothing else does, and nothing breaks if nothing
+ * is listening — which is the case on every surface but the Composer.
+ */
+function announceChange(): void {
+  if (typeof document === "undefined") return;
+  document.dispatchEvent(new CustomEvent("cx:content-changed"));
+}
 
 /** The default, API-backed store. */
 export function createApiStore(): CompanionStore {
@@ -53,17 +68,30 @@ export function createApiStore(): CompanionStore {
     },
     async upsert(slug, chapter, note) {
       const key = safeChapterKey(chapter);
-      return apiFetch<CompanionNote>(BASE, {
+      const saved = await apiFetch<CompanionNote>(BASE, {
         method: "POST",
         body: { slug, chapter: key, note },
       });
+      announceChange();
+      return saved;
     },
     async reanchor(slug, chapter, id, quote) {
       const key = safeChapterKey(chapter);
-      return apiFetch<CompanionNote>(BASE, {
+      const saved = await apiFetch<CompanionNote>(BASE, {
         method: "PATCH",
         body: { slug, chapter: key, id, quote },
       });
+      announceChange();
+      return saved;
+    },
+    async accept(slug, chapter, id) {
+      const key = safeChapterKey(chapter);
+      const saved = await apiFetch<CompanionNote>(BASE, {
+        method: "PATCH",
+        body: { slug, chapter: key, id, review: "kept" },
+      });
+      announceChange();
+      return saved;
     },
     async remove(slug, chapter, id) {
       const key = safeChapterKey(chapter);
@@ -71,6 +99,7 @@ export function createApiStore(): CompanionStore {
         method: "DELETE",
         query: { slug, chapter: key, id },
       });
+      announceChange();
     },
   };
 }

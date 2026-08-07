@@ -1,0 +1,152 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 61,
+  "terms_tracked": 85,
+  "prerequisite_gaps": [
+    {
+      "term": "Shaykh",
+      "first_use_page": 9,
+      "explained_page": 32,
+      "pages_carried": 23,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Shari'ah",
+      "first_use_page": 25,
+      "explained_page": 41,
+      "pages_carried": 16,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Shari'ah",
+      "first_use_page": 25,
+      "explained_page": 41,
+      "pages_carried": 16,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Shaytan",
+      "first_use_page": 35,
+      "explained_page": 41,
+      "pages_carried": 6,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Haram",
+      "first_use_page": 36,
+      "explained_page": 41,
+      "pages_carried": 5,
+      "kind": "explained-late"
+    }
+  ],
+  "naming_drift": [],
+  "referent_collisions": [],
+  "dense_pages": [],
+  "long_sentences": [
+    {
+      "page": 58,
+      "words": 221,
+      "text": "And recite this supplication in particular at all times, and‬‬ ‫‪especially in the moments that follow each of your prayers:‬‬ ‫«َأ َّل ُهَّم ِإ ِّني َأ ْس َأ ُ"
+    },
+    {
+      "page": 11,
+      "words": 210,
+      "text": "Knowledge That Will Not Save You ‫َخاِلِديَن ِفيَها لَا َيْبُغوَن َعْنَها ِحَولًا‬ \"Indeed, those who believe and do righteous deeds, for them the Gardens of Fi"
+    },
+    {
+      "page": 45,
+      "words": 187,
+      "text": "Sufism, Servitude, Trust, Sincerity My dear son, from this day on, do not ask me about what is difficult for you except through the tongue of the heart, for All"
+    },
+    {
+      "page": 9,
+      "words": 163,
+      "text": "Does he not know that the Prophet (‫ )ع‬said: ‫َأ َش ُّد الَّن اِس َعَذاًبا َيْوَم اْلِقَياَمِة َعاِلٌم َلا َيْنَفُعُه الَّل ُه ِبِعْلِمِه‬ \"The most severely p"
+    },
+    {
+      "page": 23,
+      "words": 139,
+      "text": "The Hours Before Dawn \"Allah, blessed and exalted, created a wind that blows in the hours before dawn, carrying the words of remembrance and the seeking of forg"
+    },
+    {
+      "page": 39,
+      "words": 129,
+      "text": "I say that a man is fit to be a Shaykh only when, having turned away from love of the world, love of honor, and love of worldly rank, he has taken ‫َاْلَبْيَعة‬"
+    },
+    {
+      "page": 53,
+      "words": 127,
+      "text": "It has been said: ‫ َوَمْن َدَعا ِلُطوِل‬،‫ِإ َّن الَّل َه َتَعاَلٰى َيْغَضُب ِإ َذا ُمِدَح اْلَفاِسُق َوالَّظ اِلُم‬ ‫َبَقاِئِهْم َفَقْد َأ َحَّب َأ ْن ُيْعَصٰ"
+    },
+    {
+      "page": 19,
+      "words": 124,
+      "text": "If you do not act on your knowledge today, and do not make good the days that have already slipped away from you, then on the Day of Resurrection you will cry o"
+    },
+    {
+      "page": 20,
+      "words": 120,
+      "text": "When he came to himself, he was asked, \"What is the matter with you, O Abu Said?\" He said: ‫ َأ ْن َأ ِفيُضوا َعَلْيَنا‬:‫ُذِكَرْت ُأ ْمِنَّي ُة َأ ْهِل الَّن ا"
+    },
+    {
+      "page": 14,
+      "words": 116,
+      "text": "‫َمْن َظ َّن َأ َّن ُه ِبُدوِن اْل َجْهِد َيِص ُل َفُهَو ُمَتَمٍّن‬ ‫اْل ُجْهِد َيِص ُل َفُهَو ُمْس َتْغٍن‬ \"Whoever supposes that he will arrive without strivi"
+    },
+    {
+      "page": 21,
+      "words": 113,
+      "text": "Once a group of Companions were praising Abdullah ibn Umar (‫ )رض‬in the presence of the Messenger of Allah (‫)ع‬, and he said: ‫ِنْعَم الَّر ُجُل ُهَو َلْو َكا"
+    },
+    {
+      "page": 16,
+      "words": 111,
+      "text": "The Striving That Mercy Meets that commands to evil, then: ‫َفُطوَبى َلَك ُثَّم ُطوَبى َلَك‬ \"Blessedness be yours, and again blessedness be yours.\" How well he"
+    },
+    {
+      "page": 20,
+      "words": 110,
+      "text": "So the Messenger of Allah (‫ )ع‬said: ‫ِاْهَتَّز َعْر ُش الَّر ْحَمِن ِمْن َمْوِت َسْعٍد ْبِن ُمَعاٍذ‬ \"The Throne of the Most Merciful trembled at the death of"
+    },
+    {
+      "page": 50,
+      "words": 109,
+      "text": "It is not fitting to trouble yourself with answering him either, for the Messenger of Allah (‫ )ع‬said: ‫نحن معاشر اْلَأ ْنِبَياُء أمرنا أن نكّلم الّناس على قدر"
+    },
+    {
+      "page": 59,
+      "words": 109,
+      "text": "A Prayer for the Road ‫َس َّت اُر َيا َخاِلَق الَّل ْيِل َو الَّن َهاِر َخِّلْص َنا ِمْن َهِّم الُّد ْنَيا َو َعَذاِب اْلَقْبِر َو‬ ‫ ِبَرْح َمِتَك َيا َأ ْرَحَ"
+    },
+    {
+      "page": 51,
+      "words": 108,
+      "text": "The meaning of admonition is that the servant should recall the fire of the Hereafter and his own failing in the service of his Creator; that he should reflect "
+    },
+    {
+      "page": 15,
+      "words": 100,
+      "text": "Our master of both worlds, the Prophet Muhammad, expresses this truth more eloquently, more clearly, and more beautifully than any of the sayings above: ‫ َو اْ"
+    },
+    {
+      "page": 18,
+      "words": 99,
+      "text": "The first is this: ‫َعْبِدي َط َّه ْرَت َمْنَظَر اْل َخْلِق ِس ِنيَن َو َما َط َّه ْرَت َمْنَظِري َساَعًة‬ \"My servant, for years you cleansed and adorned your "
+    },
+    {
+      "page": 22,
+      "words": 98,
+      "text": "The Messenger of Allah (‫ )ع‬said: ‫ َوَصْوُت اَّلِذي َي ُأ‬، ‫ َصْوُت الِّديِك‬:‫َثَلاَثُة َأ ْص َواٍت ُي ِحُّب َها الَّل َتَعاَلى‬ ‫ْقَر‬ ‫ُه‬ ‫ َوَصْوُت اْلُ"
+    },
+    {
+      "page": 29,
+      "words": 97,
+      "text": "I found in this one hadith the knowledge of all who came first and all who came last: ،‫ َواْعَمْل ِلآِخَرِتَك ِبَقْدِر َبَقاِئَك ِفيَها‬،‫ِإ ْعَمْل ِلُدْنَياَك"
+    }
+  ],
+  "summary": {
+    "never_explained": 0,
+    "explained_late": 5,
+    "referent_collisions": 0
+  }
+}

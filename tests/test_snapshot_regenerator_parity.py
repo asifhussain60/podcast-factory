@@ -97,7 +97,17 @@ class TestPlanYamlShaTyping(unittest.TestCase):
 class TestCommittedSnapshotsAreParseable(unittest.TestCase):
     """The site imports these at build time — a malformed one breaks the build."""
 
-    def test_each_snapshot_is_valid_json_with_a_source_commit(self):
+    # `source_commit` and `generated_at` were asserted here until 2026-08-06, and
+    # both generators had already stopped writing them: a tracked file cannot
+    # contain its own not-yet-created commit hash, so stamping one guaranteed a
+    # metadata-only diff on every subsequent commit, forever. Commit 6fff0b6
+    # removed the fields — and strips them from an already-committed file — which
+    # is what byte-identical output required. These two assertions were the
+    # leftover, and they are the reason this suite reported two failures on
+    # `develop` while both generators were behaving exactly as designed. The
+    # remaining check is the one the class docstring actually claims.
+
+    def test_each_snapshot_is_valid_json(self):
         data_dir = REPO / "plan-dashboard" / "src" / "data"
         names = [
             "architecture-snapshot.json",
@@ -107,16 +117,16 @@ class TestCommittedSnapshotsAreParseable(unittest.TestCase):
         for name in names:
             with self.subTest(snapshot=name):
                 snap = json.loads((data_dir / name).read_text())
-                self.assertIsInstance(snap.get("source_commit"), str)
-                self.assertRegex(snap["source_commit"], r"^[0-9a-f]{7,40}$|^unknown$")
+                self.assertIsInstance(snap, dict)
 
-    def test_generated_at_is_iso8601(self):
+    def test_no_snapshot_reintroduces_a_self_referential_timestamp(self):
+        """The fields are not merely unasserted — writing one is the bug."""
         data_dir = REPO / "plan-dashboard" / "src" / "data"
-        pattern = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}")
         for path in sorted(data_dir.glob("*-snapshot.json")):
             with self.subTest(snapshot=path.name):
                 snap = json.loads(path.read_text())
-                self.assertRegex(snap.get("generated_at", ""), pattern)
+                self.assertNotIn("generated_at", snap)
+                self.assertNotIn("source_commit", snap)
 
 
 class TestSnapshotsDescribeRealContent(unittest.TestCase):
@@ -232,6 +242,55 @@ class TestSnapshotsDescribeRealContent(unittest.TestCase):
             "the Roadmap's Spend / 30 Days card reads this key; an absent one renders $0",
         )
         self.assertIsInstance(metrics["burn_30d_usd"], (int, float))
+
+
+class TestBucketListsTrackTheAuthority(unittest.TestCase):
+    """Every restated copy of the bucket list must match `_content_types.BUCKETS`.
+
+    The two generators were pinned to EACH OTHER and to nothing else, so when
+    "Supplications" was appended to the authority on 2026-07-19 they stayed at four
+    buckets and AGREED about it — byte-identical, both wrong. `site-health-smoke.mjs`
+    carried a third copy with the same gap.
+
+    Nothing was visibly broken because `content/Supplications/` does not exist yet.
+    That is the point: the day the first supplication book lands it would have been
+    absent from all three snapshot JSONs and its routes never visited by the smoke
+    gate, with every test green. Pinning to the authority is what turns "wrong and
+    latent" into "wrong and failing".
+
+    The copies are restatements rather than imports because these scripts run under
+    plain node with no TS resolver; this test is the price of that.
+    """
+
+    AUTHORITY = REPO / "scripts" / "podcast" / "_content_types.py"
+    COPIES = (
+        SCRIPTS / "regenerate-snapshots.mjs",
+        SCRIPTS / "regenerate-snapshots.py",
+        SCRIPTS / "site-health-smoke.mjs",
+    )
+
+    def _buckets(self, path: Path) -> list[str]:
+        """The bucket names from the first BUCKETS/buckets sequence literal."""
+        text = path.read_text()
+        match = re.search(
+            r"(?:BUCKETS|buckets)\s*(?::\s*tuple\[str, \.\.\.\]\s*)?=\s*[\(\[]([^\)\]]*)[\)\]]",
+            text,
+        )
+        self.assertIsNotNone(match, f"no bucket list literal found in {path.name}")
+        return re.findall(r"[\"']([A-Za-z]+)[\"']", match.group(1))
+
+    def test_every_copy_matches_the_authority(self):
+        expected = self._buckets(self.AUTHORITY)
+        self.assertIn("Supplications", expected, "authority itself lost a bucket")
+        for path in self.COPIES:
+            with self.subTest(copy=path.name):
+                self.assertEqual(
+                    self._buckets(path),
+                    expected,
+                    f"{path.name} restates the bucket list and has drifted from "
+                    f"scripts/podcast/_content_types.py::BUCKETS. Add the bucket "
+                    f"there first, then update every copy named in this test.",
+                )
 
 
 if __name__ == "__main__":

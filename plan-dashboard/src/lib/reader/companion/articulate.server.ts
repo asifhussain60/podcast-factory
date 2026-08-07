@@ -16,22 +16,11 @@
  * SERVER ONLY (calls gemini-server).
  */
 import { generate } from "../gemini-server";
-import { articulationGuardsPass } from "./articulate-rules";
-
-const PROMPT = `You are tightening a finished explanation. Return the SAME explanation, better articulated.
-
-Do:
-- Remove repetition: a point made twice, a heading restated as its section's first sentence, a closing paragraph that summarizes what was just said.
-- Cut padding: "it is important to note that", "in other words" where nothing is being put another way.
-- Keep the markdown structure — '### ' headings, '- ' and '1. ' lists, blank line between blocks.
-
-Never:
-- Never add a fact, a name, a date, a verse or a claim that is not already there.
-- Never change, translate, transliterate or drop any Arabic script. Copy every Arabic run exactly.
-- Never change or drop a Q|Surah:Verse citation.
-- Never make the text longer than it was.
-
-Return ONLY the tightened markdown. No preamble, no fences, no commentary.`;
+import {
+  articulationGuardsPass,
+  ARTICULATION_PROMPT as PROMPT,
+  ARTICULATION_MIN_CHARS,
+} from "./articulate-rules";
 
 /**
  * Tighten `body`, or return it unchanged.
@@ -40,7 +29,7 @@ Return ONLY the tightened markdown. No preamble, no fences, no commentary.`;
  * card is already two model calls deep by the time it runs.
  */
 export async function articulate(body: string): Promise<string> {
-  if (body.trim().length < 400) return body; // too short to have repetition worth a call
+  if (body.trim().length < ARTICULATION_MIN_CHARS) return body; // too short to have repetition worth a call
   try {
     const raw = await generate({
       model: "flash",

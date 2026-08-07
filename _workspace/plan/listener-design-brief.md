@@ -1,4 +1,4 @@
-# Design brief — Podcast Factory Listener
+# Design brief — Podcast Factory Library
 
 **Hand this whole file over as the prompt.** It is self-contained: the designer
 needs no access to the codebase. Everything below is real — real book titles,
@@ -28,7 +28,7 @@ real chapter titles, real prose, real constraints. Nothing is placeholder.
 ## The prompt
 
 I need high-fidelity UI mockups for a web app called **Podcast Factory
-Listener**. I will build the real thing from your mockups, so I need to see what
+Podcast Factory Library**. I will build the real thing from your mockups, so I need to see what
 it will actually look like before I commit to it.
 
 ### What the product is

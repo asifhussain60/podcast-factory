@@ -178,3 +178,88 @@ def test_emit_slide_candidates_stamps_chapter(tmp_path: Path) -> None:
     assert by_id["slide-1"]["chapter"] == "1. The Garden"  # resolved from narration
     assert by_id["slide-2"]["chapter"] == ""  # cover stays book-wide
     assert by_id["slide-3"]["chapter"] == "2. The Sea"  # explicit stamp wins
+
+
+# ─── the index may not claim a file it does not have ─────────────────────────
+def _write_asset(book_dir: Path, name: str) -> None:
+    d = book_dir / "book" / "visuals"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / name).write_text("<svg/>", encoding="utf-8")
+
+
+def test_an_entry_whose_asset_is_gone_is_dropped_on_the_next_merge(tmp_path: Path) -> None:
+    """The regression on the-master-and-the-disciple, 2026-08-06.
+
+    `merge_entries` is additive by id and had no removal, so commit ef97c27's
+    deletion of fourteen diagram SVGs left all twenty-nine entries pointing at
+    files that were gone — a palette of broken images and a 404 per entry on
+    every chapter load.
+    """
+    from _visual_candidates import load_index, merge_entries
+
+    _write_asset(tmp_path, "kept.svg")
+    merge_entries(tmp_path, [{"id": "a", "file": "kept.svg"}, {"id": "b", "file": "gone.svg"}])
+
+    files = [e["file"] for e in load_index(tmp_path)]
+    assert files == ["kept.svg"], "an entry with no file on disk must not survive the write"
+
+
+def test_an_asset_written_just_before_registration_survives(tmp_path: Path) -> None:
+    """The ordering the producers rely on.
+
+    `_book_illustrate` renders its diagrams and THEN calls `merge_entries`; the
+    slide importer does the same. Reconciling after the merge is only safe
+    because of that order, so it is pinned here rather than left as a comment.
+    """
+    from _visual_candidates import load_index, merge_entries
+
+    _write_asset(tmp_path, "fresh.svg")
+    merge_entries(tmp_path, [{"id": "new", "file": "fresh.svg"}])
+    assert [e["file"] for e in load_index(tmp_path)] == ["fresh.svg"]
+
+
+def test_a_drop_is_reported_rather_than_swept(tmp_path: Path) -> None:
+    """A drop can mean "deleted" or "cloned without the assets", and those want
+    different responses from whoever reads the log."""
+    from _visual_candidates import merge_entries
+
+    said: list[str] = []
+    _write_asset(tmp_path, "kept.svg")
+    merge_entries(
+        tmp_path,
+        [{"id": "a", "file": "kept.svg"}, {"id": "b", "file": "gone.svg"}],
+        log=said.append,
+    )
+    assert any("gone.svg" in line for line in said)
+
+
+def test_prune_leaves_a_healthy_index_untouched(tmp_path: Path) -> None:
+    from _visual_candidates import prune_missing
+
+    _write_asset(tmp_path, "a.svg")
+    _write_asset(tmp_path, "b.svg")
+    entries = [{"id": "1", "file": "a.svg"}, {"id": "2", "file": "b.svg"}]
+    kept, gone = prune_missing(tmp_path, entries)
+    assert kept == entries and gone == []
+
+
+def test_a_missing_visuals_directory_drops_everything_rather_than_raising(tmp_path: Path) -> None:
+    """A book with no visuals folder is a book with no candidates, not a crash."""
+    from _visual_candidates import prune_missing
+
+    kept, gone = prune_missing(tmp_path, [{"id": "1", "file": "a.svg"}])
+    assert kept == [] and len(gone) == 1
+
+
+def test_an_entry_with_no_file_at_all_is_left_alone(tmp_path: Path) -> None:
+    """Malformed, not stale — and a different rule.
+
+    Pruning it here would widen `prune_missing` from "the index may not claim a
+    file it lacks" into "the index may only hold entries I recognise". The
+    Composer already refuses a file-less entry at read time (partitionByAsset),
+    which is where that judgement belongs.
+    """
+    from _visual_candidates import load_index, merge_entries
+
+    merge_entries(tmp_path, [{"id": "a", "caption": "no file key"}])
+    assert [e["id"] for e in load_index(tmp_path)] == ["a"]

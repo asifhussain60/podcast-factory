@@ -1,4 +1,7 @@
-"""_book_illustrate.py — Phase 0book-illustrate: inject teaching diagrams into book.md.
+"""_book_illustrate.py — Phase 0book-illustrate: OFFER teaching diagrams for the book.
+
+It never places a figure, never writes a second copy of the book, and is off by
+default; every route returns book.md. Rule stated once in _book_visual_policy.py.
 
 Two-stage, content-profile-aware SVG generation:
 
@@ -19,8 +22,8 @@ Mermaid's grammar cannot express concentric cosmological layers, cosmic-pair
 polarity columns, 2×2 quadrant maps, 4-tier ranked hierarchies, or transmission
 cascade chains with the visual fidelity these structures deserve.
 
-Idempotent: if book-illustrated.md exists, manifest.json is complete, and all SVG
-files are present, the LLM + render steps are skipped.  Pass force=True to regenerate.
+Idempotent: if manifest.json is complete and all its SVG files are present, the
+LLM + render steps are skipped.  Pass force=True to regenerate.
 
 Standalone:
   python3 _book_illustrate.py <BOOK_DIR> [--force]
@@ -504,7 +507,7 @@ def _render_diagrams(book_dir: Path, *, log=print) -> None:
 def author_phase_book_illustrate(
     book_dir: Path, *, log=print, force: bool = False, model_flag: str | None = None
 ) -> Path:
-    """Main entry point for 0book-illustrate. Returns path to book/book-illustrated.md.
+    """Main entry point for 0book-illustrate. ALWAYS returns book/book.md.
 
     model_flag overrides the default model (Opus) for the diagram-classification
     LLM call — a mechanical structure-triage task, not translation-fidelity-
@@ -513,7 +516,6 @@ def author_phase_book_illustrate(
     """
     book_dir = Path(book_dir).resolve()
     book_md_path = book_dir / "book" / "book.md"
-    illustrated_path = book_dir / "book" / "book-illustrated.md"
     diagram_dir = book_dir / "book" / "_diagrams"
     manifest_path = diagram_dir / "manifest.json"
 
@@ -530,8 +532,7 @@ def author_phase_book_illustrate(
     content_profile = resolve_content_profile(book_dir)
 
     # Fiction passthrough: novels use scenic raster illustrations (separate path),
-    # not teaching diagrams.  Emit book-illustrated.md as a clean copy of book.md
-    # so downstream build_book_pdf still finds the expected file name.
+    # not teaching diagrams.
     if content_profile == "fiction":
         log(
             f"    0book-illustrate: {book_dir.name}: content_profile='fiction' — "
@@ -539,8 +540,7 @@ def author_phase_book_illustrate(
         )
         diagram_dir.mkdir(parents=True, exist_ok=True)
         manifest_path.write_text("[]\n", encoding="utf-8")
-        illustrated_path.write_text(book_md_path.read_text(encoding="utf-8"), encoding="utf-8")
-        return illustrated_path
+        return book_md_path
 
     # book_augmentation=none passthrough: a diagram is model-added interpretive
     # content (it does not exist in the source text), which is augmentation by
@@ -559,16 +559,16 @@ def author_phase_book_illustrate(
         )
         diagram_dir.mkdir(parents=True, exist_ok=True)
         manifest_path.write_text("[]\n", encoding="utf-8")
-        illustrated_path.write_text(book_md_path.read_text(encoding="utf-8"), encoding="utf-8")
-        return illustrated_path
+        return book_md_path
 
-    # Idempotency: skip if all outputs are present and not forcing.
-    if not force and illustrated_path.exists() and manifest_path.exists():
+    # Idempotency: keyed on the manifest + its SVGs, the real outputs. Keying it
+    # on book-illustrated.md (no longer written) would re-pay for every diagram.
+    if not force and manifest_path.exists():
         try:
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
             if all((diagram_dir / Path(e["svg_path"]).name).exists() for e in manifest if e.get("svg_path")):
                 log(f"    0book-illustrate: {book_dir.name}: already complete ({len(manifest)} diagrams) — skipping")
-                return illustrated_path
+                return book_md_path
         except Exception:
             pass  # fall through to re-run
 
@@ -670,7 +670,7 @@ def author_phase_book_illustrate(
     # render input is book.md (see build_book_pdf._pick_book_md).
     from _visual_candidates import emit_diagram_candidates, merge_entries
 
-    merge_entries(book_dir, emit_diagram_candidates(book_dir, manifest, log=log))
+    merge_entries(book_dir, emit_diagram_candidates(book_dir, manifest, log=log), log=log)
     log(f"    0book-illustrate: {len(manifest)} diagram candidate(s) offered, book.md left diagram-free")
     return book_md_path
 

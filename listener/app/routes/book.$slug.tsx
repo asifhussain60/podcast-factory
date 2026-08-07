@@ -169,6 +169,14 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     markedChapters.set(m.anchorKey, (markedChapters.get(m.anchorKey) ?? 0) + 1);
   }
 
+  // The same, for the podcast. The episode list said nothing about what was kept
+  // in each episode, so the only way to find out whether you had marked anything
+  // in episode four was to play it and open the panel (Asif, 2026-08-06).
+  const markedEpisodes = new Map<number, number>();
+  for (const n of marks.episodeNotes) {
+    markedEpisodes.set(n.number, (markedEpisodes.get(n.number) ?? 0) + 1);
+  }
+
   /* ---- Where you left off ----
      Computed HERE rather than inside the reading edition, because it is shown
      ABOVE the panel now (Asif, 2026-08-04). Inside, sandwiched between the
@@ -369,6 +377,7 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                     bookTitle={unit.title}
                     sessions={sessions}
                     chapters={chapters}
+                    markedEpisodes={markedEpisodes}
                     alongsideAnEdition={canRead}
                   />
                 ),
@@ -759,12 +768,14 @@ function Podcast({
   bookTitle,
   sessions,
   chapters,
+  markedEpisodes,
   alongsideAnEdition,
 }: {
   slug: string;
   bookTitle: string;
   sessions: Session[];
   chapters: Route.ComponentProps["loaderData"]["chapters"];
+  markedEpisodes: Map<number, number>;
   alongsideAnEdition: boolean;
 }) {
   const titleOf = new Map(chapters.map((c) => [c.anchorKey, c.title]));
@@ -798,17 +809,24 @@ function Podcast({
 
       {sessions.map((session) => (
         <div key={session.number} className="pf-session">
-          {/* Label and title are separate flex items, not one wrapping line of
-              inline spans. A long title used to wrap back to the left margin and
-              set its second line under "SESSION 3", so the two read as unrelated
-              fragments — three of this book's five headings did it on a phone. */}
+          {/* The TITLE leads, and the session number follows it as a badge
+              (Asif, 2026-08-06). What a sitting is ABOUT is what a reader scans
+              for; its ordinal is how they refer to it afterwards. The badge went
+              first for most of this component's life, which made every heading
+              in the list open with the same word and put the one thing that
+              differed second.
+
+              Still two flex items rather than one wrapping line of inline
+              spans: as inline text a long title wrapped back to the left margin
+              and set its later lines under the badge, so the two read as
+              unrelated fragments. */}
           {session.title ? (
             <h3 className="pf-session__head">
+              <span className="pf-session__title">{session.title}</span>
               <span className="pf-session__label">
                 <Icon icon={faLayerGroup} />
                 Session {session.number}
               </span>
-              <span className="pf-session__title">{session.title}</span>
             </h3>
           ) : null}
 
@@ -834,32 +852,47 @@ function Podcast({
                     ) : null}
                   </div>
 
-                  {episode.hasAudio && episode.audioKey !== null ? (
-                    <PlayButton
-                      episode={episode}
-                      onPlay={(p) => p.play({
-                        slug,
-                        bookTitle,
-                        number: episode.number,
-                        title: episode.title,
-                        src: `/media/${episode.audioKey}`,
-                        // Handed over WITH the audio, so the player can load
-                        // the words alongside it rather than when somebody asks
-                        // to see them. Null for an episode with no transcript,
-                        // which is what hides the panel's button.
-                        transcriptSrc:
-                          episode.transcriptKey === null
-                            ? null
-                            : `/media/${episode.transcriptKey}`,
-                        durationS: episode.durationS,
-                      })}
+                  {/* The row's controls, as ONE group rather than as siblings
+                      of the title. With the note count beside it three things
+                      competed for a phone's width and the title lost — text ran
+                      under the count's pill. Grouped, they drop to a line of
+                      their own at that width, which is the same answer the
+                      player bar's crowding got: re-flow, never remove. */}
+                  <div className="pf-row__actions">
+                    <EpisodeNotes
+                      slug={slug}
+                      number={episode.number}
+                      audioKey={episode.audioKey}
+                      kept={markedEpisodes.get(episode.number) ?? 0}
                     />
-                  ) : (
-                    <span className="pf-row__meta pf-row__action">
-                      <Icon icon={faCircleMinus} />
-                      not recorded
-                    </span>
-                  )}
+
+                    {episode.hasAudio && episode.audioKey !== null ? (
+                      <PlayButton
+                        episode={episode}
+                        onPlay={(p) => p.play({
+                          slug,
+                          bookTitle,
+                          number: episode.number,
+                          title: episode.title,
+                          src: `/media/${episode.audioKey}`,
+                          // Handed over WITH the audio, so the player can load
+                          // the words alongside it rather than when somebody
+                          // asks to see them. Null for an episode with no
+                          // transcript, which is what hides the panel's button.
+                          transcriptSrc:
+                            episode.transcriptKey === null
+                              ? null
+                              : `/media/${episode.transcriptKey}`,
+                          durationS: episode.durationS,
+                        })}
+                      />
+                    ) : (
+                      <span className="pf-row__meta pf-row__action">
+                        <Icon icon={faCircleMinus} />
+                        not recorded
+                      </span>
+                    )}
+                  </div>
                 </div>
               </li>
             ))}
@@ -867,6 +900,68 @@ function Podcast({
         </div>
       ))}
     </section>
+  );
+}
+
+/**
+ * How much you have kept in this episode, and a way into it.
+ *
+ * Where it GOES is decided by whether this episode is the one playing, and that
+ * is not a flourish — the player's Notes drawer is scoped to what is playing, so
+ * on any other row it would open somebody else's notes. So:
+ *
+ *   playing        the player's own drawer, already on screen, and the panel
+ *                  these notes were made in
+ *   not playing    the book's Notes tab, anchored at this episode's group
+ *
+ * The alternative — starting playback so the drawer becomes correct — would turn
+ * a request to see your notes into a request to play half an hour of audio,
+ * which is not what pressing a count means.
+ *
+ * Absent at zero rather than rendered as "0": an empty count reads as something
+ * to clear rather than something not yet started, the same rule the reader's own
+ * tab and the player's own badge follow.
+ */
+function EpisodeNotes({
+  slug,
+  number,
+  audioKey,
+  kept,
+}: {
+  slug: string;
+  number: number;
+  audioKey: string | null;
+  kept: number;
+}) {
+  const player = usePlayer();
+  if (kept === 0) return null;
+
+  // The count is in the accessible name, not only in the pill: "2" alone is not
+  // a control anyone can act on by ear.
+  const label = `${count(kept, "note")} in this episode`;
+  const isPlaying = audioKey !== null && player.current?.src === `/media/${audioKey}`;
+
+  if (isPlaying) {
+    return (
+      <button
+        type="button"
+        onClick={() => player.openPanel("notes")}
+        aria-label={label}
+        className="pf-row__meta pf-row__marks--button"
+      >
+        {kept}
+      </button>
+    );
+  }
+
+  return (
+    <Link
+      to={`/book/${slug}?tab=notes#ep-${number}`}
+      aria-label={label}
+      className="pf-row__meta pf-row__marks--button"
+    >
+      {kept}
+    </Link>
   );
 }
 

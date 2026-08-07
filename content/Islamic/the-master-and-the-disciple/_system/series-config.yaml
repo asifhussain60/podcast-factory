@@ -12,10 +12,23 @@ conversation_style: deep_dive
 # 17k-word source, the extended band (5,500w+/episode) would demand ~6x
 # padding; 1,800-2,800w/episode keeps the render faithful (2026-06-10).
 length_tier: default_deep_dive
-# Augmented companion edition (2026-07-19): both knobs pinned explicitly rather
-# than inherited from the deliverable-mode default map, so the reading edition's
-# behaviour is readable here and cannot shift if that map is ever re-tuned.
-book_augmentation: source_only
+# Both knobs are pinned explicitly rather than inherited from the deliverable-mode
+# default map, so the reading edition's behaviour is readable here and cannot shift
+# if that map is ever re-tuned.
+#
+# `book_augmentation` was declared TWICE in this file until 2026-08-06 — once here
+# as `source_only` (2026-07-19) and again at the foot of the file as `none`. YAML
+# has no merge rule for that: PyYAML silently takes the LAST, so `none` is what
+# every pipeline run actually resolved and what the published edition was composed
+# under — no augment pass, no model-added diagrams. js-yaml does not take either;
+# it refuses the whole file with "duplicated mapping key", so any JS reader of this
+# config failed outright while Python quietly disagreed with the comment above it.
+# Consolidated to the single value that was in force. This is a documentation fix,
+# NOT a route change: flipping it to `source_only` would re-augment a published
+# book on the next compose. Leaving the key out entirely is not neutral either —
+# the resolver's own default is `source_only`, so an absent key is the route this
+# book must not take. It is stated here explicitly for that reason.
+book_augmentation: none
 # Switched from author_companion 2026-07-20. With narrative_frame enforcing third
 # person, the author-companion prompt had nothing left to do -- six of nine chapters
 # came back 92-100% identical to the faithful base and chapter 3 byte-identical.
@@ -59,3 +72,9 @@ slide_deck_mode: book
 voice_cast:
   host_a: Eric
   host_b: Lily
+# `book_augmentation` and `book_voice` were re-declared here until 2026-08-06.
+# The augmentation value that won was this one (`none`) and it now lives with its
+# reasoning at the head of the file; `book_voice: faithful` was a duplicate of the
+# identical value above. Both removed so the file parses in js-yaml as well as
+# PyYAML and states each knob exactly once. See the note beside book_augmentation.
+book_pipeline_v2: true

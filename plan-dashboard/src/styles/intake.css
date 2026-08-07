@@ -234,7 +234,13 @@
 .intake-drop:hover,
 .intake-drop:focus-visible {
   border-color: var(--c-accent);
-  outline: none;
+}
+/* The border tint above is the same one :hover paints, so keyboard focus on
+   this drop zone was indistinguishable from a mouse-over. Same ring as
+   .to-top; offset inward so it reads inside the dashed border. */
+.intake-drop:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: -6px;
 }
 .intake-drop--active {
   border-color: var(--c-accent);

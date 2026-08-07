@@ -66,8 +66,18 @@
   overflow-x: auto;
   overflow-y: visible;
 }
+/* REQ-048: this used to be a bare `outline: none`, which took the focus ring
+   off a role="button" tabIndex=0 node and put nothing back — tabbing along a
+   rail of fifteen phases showed you nothing at all. The ring is drawn on the
+   node's own background rect instead of the <g>, because an outline on an SVG
+   group is boxed around the untransformed geometry in several engines and
+   lands in the wrong place. */
 .por-node:focus-visible {
   outline: none;
+}
+.por-node:focus-visible .por-node-bg {
+  stroke: var(--c-accent, #8b4513);
+  stroke-width: 3;
 }
 .por-tooltip {
   background: var(--por-card-bg);

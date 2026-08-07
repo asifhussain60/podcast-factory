@@ -465,7 +465,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **Where:** `scripts/podcast/orchestrate_book.py:per_chapter_pass()` (around line 720) and `scripts/podcast/_authoring.py:author_framing()` (around line 1153) — both currently extract the digit prefix from the chapter filename (with X3 + X7 letter-strip logic) to form the episode_id.
 
-**What goes wrong:** Listener-facing episode IDs derive from chapter filenames. Chapter files carry source-baab provenance (ch03a, ch04b, ch05c, ch13a, ch14b) and may include gaps after a chapter drop (ch01a, ch02b dropped → no EP01/EP02). The listener sees a non-sequential episode feed (KaR shipped EP04 / EP07 / EP10 / EP12 / EP14, queued EP03 / EP05 / EP06 / EP08 / EP09 / EP11 / EP13 / EP15 — visible gaps at EP01 / EP02 and the irregular spacing).
+**What goes wrong:** Podcast Factory Library-facing episode IDs derive from chapter filenames. Chapter files carry source-baab provenance (ch03a, ch04b, ch05c, ch13a, ch14b) and may include gaps after a chapter drop (ch01a, ch02b dropped → no EP01/EP02). The listener sees a non-sequential episode feed (KaR shipped EP04 / EP07 / EP10 / EP12 / EP14, queued EP03 / EP05 / EP06 / EP08 / EP09 / EP11 / EP13 / EP15 — visible gaps at EP01 / EP02 and the irregular spacing).
 
 **Impact:** The chapter contracts already have an `episode_number:` field declaring the listener-facing sequence. The orchestrator ignores it and derives from filename digits instead. Renaming chapter files would lose source-baab provenance; the contract field is the right source of truth.
 
@@ -530,9 +530,9 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 1. **Second host too agreeable.** Transcript shows phrases like "That is a remarkably precise analogy", "That beautifully maps al-Kirmani's intent", "That is the perfect translation" — supportive-explainer dynamic instead of genuine-challenger dynamic. The episode reads like a polished lecture disguised as dialogue.
 2. **Central tension introduced + resolved too quickly.** The crisis ("if higher and lower realities are categorically different, how do they connect at all?") is stated, then both reformers' positions, al-Kirmani's correction, and several analogies are explained before the listener has time to feel the problem.
 3. **Analogy proliferation.** Ch07's 30-minute episode contains 14+ distinct analogies (footprint, political border, messenger, white-coat doctor, glass-and-stone, fulcrum, sphere, pie chart, cathedral, ladder/mountain/valley, seven seas, solar panels, wax-seal). Some are valuable; cumulative effect is fatigue.
-4. **Thesis stated once, not repeated.** Al-Kirmani's central settled formula ("contact does not require resemblance — it requires rank, receptivity, and transmitted power") is stated once and never returned to. Listener loses the anchor.
+4. **Thesis stated once, not repeated.** Al-Kirmani's central settled formula ("contact does not require resemblance — it requires rank, receptivity, and transmitted power") is stated once and never returned to. Podcast Factory Library loses the anchor.
 
-**Impact:** Listener gets information but not suspense; the philosophical stakes (an-Nusra's universe-disconnection fear) are explained but don't land emotionally; the episode's intellectual richness is undermined by structural choices.
+**Impact:** Podcast Factory Library gets information but not suspense; the philosophical stakes (an-Nusra's universe-disconnection fear) are explained but don't land emotionally; the episode's intellectual richness is undermined by structural choices.
 
 **Proposed fix (4 parts, all in Phase 0g framing-gen prompt):**
 
@@ -566,7 +566,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 **What goes wrong:** The framing instructs hosts to open with "*Kitab al-Riyad*, Chapter Three" (the source-book's chapter number). The listener hears "Chapter 3" and gets confused when they're listening to "Episode 7" of the podcast. Empirical: KaR Ch07 v2 audio surfaced this — listener explicitly asked "why does the audio say chapter 3?"
 
-**Impact:** Listener loses series-position context. For a 13-episode book, knowing whether you're at episode 4 of 13 or episode 11 of 13 matters for pacing your listen-through.
+**Impact:** Podcast Factory Library loses series-position context. For a 13-episode book, knowing whether you're at episode 4 of 13 or episode 11 of 13 matters for pacing your listen-through.
 
 **Proposed fix:** Opening directive instructs hosts to announce BOTH — "Episode 7 of our walkthrough of *Kitab al-Riyad*, covering the book's Chapter Three." Order matters: episode-number first (listener's reference), source-chapter second (provenance reference). Phase 0g framing-gen prompt also gets a section reminder that `contract.episode_number` is the listener-facing reference; `contract.source_chapter_ref` is the source-tracing reference.
 
@@ -632,7 +632,7 @@ When you author a new R-rule (handbook addition), CHECK whether it can be enforc
 
 2. **Phase 0g — framing host-discipline.** The framing's `## Name discipline` section becomes `## No-name discipline` — explicitly instructs hosts to NEVER speak Arabic person-names or book-titles. The `## Pronunciation` section drops ALL figure-name entries. Concept-word loanwords that are necessary role-terms (Da'i, Imam) may stay with pronunciation guidance; figure-names cannot.
 
-3. **Show notes / book entry preserves attribution.** The audio strips all Arabic; the written companion (book entry on the journal site + per-episode `99-show-notes.md`) preserves the full bibliography with Arabic names, transliterations, English glosses, and suggested-reading list. Listener who wants deeper study has full access; listener who only consumes audio gets clean prose.
+3. **Show notes / book entry preserves attribution.** The audio strips all Arabic; the written companion (book entry on the journal site + per-episode `99-show-notes.md`) preserves the full bibliography with Arabic names, transliterations, English glosses, and suggested-reading list. Podcast Factory Library who wants deeper study has full access; listener who only consumes audio gets clean prose.
 
 **Push-back recorded:** Claude recommended specific English role-descriptors ("the Fatimid philosopher", "the chief preacher of the Persian school") instead of generic ("a scholar") to preserve figure-tracking across an episode. Asif chose generic per the simpler editorial doctrine. The trade-off accepted: listener cannot easily distinguish which-of-several-scholars-said-what; audio quality wins. Mitigation: when the same scholar is referenced multiple times in close sequence, use "the same scholar" or "the one who argued earlier" to preserve continuity within a beat.
 

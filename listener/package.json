@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Podcast Factory Listener — the audience-facing site. Independent of the admin site in plan-dashboard/.",
+  "description": "Podcast Factory Library — the audience-facing site. Independent of the admin site in plan-dashboard/.",
   "scripts": {
     "dev": "node scripts/dev-vars.mjs && react-router dev",
     "build": "react-router build",

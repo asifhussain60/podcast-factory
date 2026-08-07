@@ -130,7 +130,18 @@ describe("the deploy notices when this file falls behind", () => {
       new URL("../../scripts/podcast/deploy_listener.sh", import.meta.url),
       "utf8",
     );
-    const step = script.slice(script.indexOf('step "What\'s new"'), script.indexOf("--- The Worker"));
+    // Bounded by the NEXT step, not by a landmark further down the file. It
+    // used to end at "--- The Worker", and on 2026-08-05 the branch-sweep
+    // commit inserted a "Production branch" step in between -- one that MUST
+    // `die` when main will not merge. The slice then spanned both steps and
+    // this test failed over a `die` belonging to a step it does not govern,
+    // while the step it names still ended with "Deploying anyway -- this never
+    // blocks." A gate that fails over a rule it is not measuring is worse than
+    // no gate; ending at the next `step "` makes it immune to whatever is
+    // inserted after this one.
+    const from = script.indexOf('step "What\'s new"');
+    const next = script.indexOf('step "', from + 1);
+    const step = script.slice(from, next === -1 ? script.indexOf("--- The Worker") : next);
     expect(step).not.toMatch(/\bdie\b|\bexit 1\b/);
   });
 });

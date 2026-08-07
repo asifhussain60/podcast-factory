@@ -1,0 +1,51 @@
+{
+  "schema": "book.student-reader/v1",
+  "generated_at": "2026-08-06T20:00:29Z",
+  "dry_run": false,
+  "chapters": [
+    {
+      "chapter": "three layers of knowledge",
+      "file": "6-three-layers-of-knowledge",
+      "title": "6. Three Layers of Knowledge",
+      "budget": 3,
+      "full_budget": 3,
+      "already_had": 2,
+      "proposed": 3,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 3,
+      "created": 2,
+      "refreshed": 1,
+      "withdrawn": 1,
+      "notes": [
+        {
+          "id": "student:874abc577ac52018",
+          "defect": "unexplained-leap",
+          "quote": "That is the end of your guidance and the utmost of the worlds",
+          "question": "The chapter distinguishes the Imam (the rope's outward sign) from the rope of God and the rope that comes from God, yet answers the boy's direct question only by calling them the end of guidance. What in fact are the rope of God and the rope that comes from God, and how do the two differ?",
+          "grounded": 3,
+          "researched": false
+        },
+        {
+          "id": "student:f925762714ecc642",
+          "defect": "undefined-term",
+          "quote": "the lord of the twelve captains",
+          "question": "The Imam is called al-hawl and the lord of the twelve captains, paralleled with the year's twelve months. Who are these twelve captains, and what is their relation to the single hujja named quwwa who stands beside him?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:9dc564b3090817da",
+          "defect": "ambiguous-referent",
+          "quote": "they are the seven appointed speakers",
+          "question": "The seven fat cows are named the seven causes of God, the seven lean the seven appointed speakers, and the ears the seven causes and seven guardians. Who are these seven speakers and seven guardians concretely, and how does a 'cause' differ from a 'speaker' when both stand between God and His creation?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    }
+  ],
+  "filed_total": 3
+}

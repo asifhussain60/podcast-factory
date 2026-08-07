@@ -21,7 +21,7 @@ review.
 |---|---|---|
 | Cloud project | `Safina` | Only Asif, in the console |
 | Consent screen name | **Safina** | Everyone signing in, to any app |
-| OAuth client | `Podcast Factory Listener` | Only Asif — client names are internal |
+| OAuth client | `Podcast Factory Library` | Only Asif — client names are internal |
 | Redirect URIs | Only this app's two | — |
 
 Someone signing in reads "continue to Safina" rather than the site name they
@@ -57,7 +57,7 @@ own project. Not a reason to split now.
 
 3. **APIs & Services -> Credentials -> Create credentials -> OAuth client ID.**
    - Application type: **Web application**.
-   - Name: **Podcast Factory Listener** — internal only, never shown to users.
+   - Name: **Podcast Factory Library** — internal only, never shown to users.
      One client per app; this is the piece you repeat for the next one.
    - **Authorized JavaScript origins** — add both:
      - `http://localhost:5273`

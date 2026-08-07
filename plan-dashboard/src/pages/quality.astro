@@ -45,9 +45,16 @@ function loadBaseline(slug: string): BookBaseline | null {
     if (Array.isArray(data.chapters)) {
       return data as BookBaseline;
     }
-    // Convert flat dict → array
+    // Convert flat dict → array. Metadata keys (e.g. `_provenance`) are objects
+    // too but carry no axis scores — keep only entries that are real chapters,
+    // or the render below calls .toFixed() on undefined and 500s the route.
     const chapters: ChapterScore[] = Object.entries(data)
-      .filter(([, v]) => v !== null && typeof v === "object")
+      .filter(
+        ([, v]) =>
+          v !== null &&
+          typeof v === "object" &&
+          typeof (v as { total?: unknown }).total === "number",
+      )
       .map(
         ([chapter, score]: [string, any]) =>
           ({ chapter, ...score }) as ChapterScore,

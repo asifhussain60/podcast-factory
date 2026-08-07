@@ -45,10 +45,12 @@
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
-  src: url("/fonts/roboto-condensed-latin-wght-normal.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  src: url("/fonts/roboto-condensed-latin-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -57,9 +59,10 @@
   font-display: swap;
   font-weight: 200 900;
   src: url("/fonts/literata-latin-opsz-normal.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 /* Book titles on the library card. Self-hosted like every other face here — a
@@ -70,10 +73,12 @@
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
-  src: url("/fonts/roboto-condensed-latin-wght-normal.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  src: url("/fonts/roboto-condensed-latin-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -82,9 +87,10 @@
   font-display: swap;
   font-weight: 200 900;
   src: url("/fonts/literata-latin-opsz-italic.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 /* Fraunces — headings only. Its optical-size axis gives large type far more
@@ -96,9 +102,10 @@
   font-display: swap;
   font-weight: 100 900;
   src: url("/fonts/fraunces-latin-opsz-normal.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 /* Inter — the interface face, and the one that carries the most words on this
@@ -112,9 +119,10 @@
   font-display: swap;
   font-weight: 100 900;
   src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -123,9 +131,10 @@
   font-display: swap;
   font-weight: 100 900;
   src: url("/fonts/inter-latin-wght-italic.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 /* Scheherazade New is engineered for fully-vowelled text — harakat stack above
@@ -180,7 +189,8 @@
   font-style: normal;
   font-display: swap;
   font-weight: 300 900;
-  src: url("/fonts/merriweather-latin-opsz-normal.woff2") format("woff2-variations");
+  src: url("/fonts/merriweather-latin-opsz-normal.woff2")
+    format("woff2-variations");
 }
 
 @font-face {
@@ -188,7 +198,8 @@
   font-style: italic;
   font-display: swap;
   font-weight: 300 900;
-  src: url("/fonts/merriweather-latin-opsz-italic.woff2") format("woff2-variations");
+  src: url("/fonts/merriweather-latin-opsz-italic.woff2")
+    format("woff2-variations");
 }
 
 /* Atkinson Hyperlegible — drawn by the Braille Institute for low vision, around
@@ -198,7 +209,8 @@
   font-style: normal;
   font-display: swap;
   font-weight: 400;
-  src: url("/fonts/atkinson-hyperlegible-latin-400-normal.woff2") format("woff2");
+  src: url("/fonts/atkinson-hyperlegible-latin-400-normal.woff2")
+    format("woff2");
 }
 
 @font-face {
@@ -206,7 +218,8 @@
   font-style: italic;
   font-display: swap;
   font-weight: 400;
-  src: url("/fonts/atkinson-hyperlegible-latin-400-italic.woff2") format("woff2");
+  src: url("/fonts/atkinson-hyperlegible-latin-400-italic.woff2")
+    format("woff2");
 }
 
 /* Lexend — wide spacing and simplified forms, drawn around reading proficiency.
@@ -247,7 +260,8 @@
   --l-font-display: "Fraunces Variable", "Literata Variable", Georgia, serif;
   /* Library-card book titles only. Condensed, so a long title fits the card's
      narrow column at full size instead of being shrunk to fit. */
-  --l-font-card-title: "Roboto Condensed Variable", "Inter Variable", system-ui, sans-serif;
+  --l-font-card-title:
+    "Roboto Condensed Variable", "Inter Variable", system-ui, sans-serif;
   --l-font-ui: "Inter Variable", system-ui, -apple-system, sans-serif;
   --l-font-arabic: "Scheherazade New", "Amiri", serif;
   /* Titles and other display Arabic ONLY. Never the reading column — see the
@@ -260,7 +274,8 @@
      so a face that fails to load degrades to something of the same shape rather
      than to the browser's default. */
   --l-font-merriweather: "Merriweather Variable", Georgia, serif;
-  --l-font-atkinson: "Atkinson Hyperlegible", "Inter Variable", system-ui, sans-serif;
+  --l-font-atkinson:
+    "Atkinson Hyperlegible", "Inter Variable", system-ui, sans-serif;
   --l-font-lexend: "Lexend Variable", "Inter Variable", system-ui, sans-serif;
   --l-font-dyslexic: "OpenDyslexic", "Atkinson Hyperlegible", sans-serif;
 
@@ -384,16 +399,16 @@
   --l-elev: #ffffff;
   --l-sunken: #eae5db;
 
-  --l-ink: #1c2433;    /* 14.16:1 on bg */
-  --l-muted: #575d6b;  /*  6.00:1 on bg */
-  --l-faint: #6a707d;  /*  4.52:1 on bg */
+  --l-ink: #1c2433; /* 14.16:1 on bg */
+  --l-muted: #575d6b; /*  6.00:1 on bg */
+  --l-faint: #6a707d; /*  4.52:1 on bg */
 
   --l-rule: #ded8cd;
   --l-rule-soft: #ebe6dc;
 
-  --l-accent: #0d51c9;       /* 6.29:1 on bg — the logo's blue, held to AA */
+  --l-accent: #0d51c9; /* 6.29:1 on bg — the logo's blue, held to AA */
   --l-accent-hover: #0a3e9c;
-  --l-accent-soft: #dde7fb;  /* accent reads 5.56:1 on this — soft pills */
+  --l-accent-soft: #dde7fb; /* accent reads 5.56:1 on this — soft pills */
   --l-on-accent: #ffffff;
 
   /* A real mid-navy, not the logo's near-black #0c1b39. At the size a card
@@ -401,11 +416,11 @@
      colour — the hue was right and the quantity was wrong. */
   /* Page titles: the band's own navy, so the biggest type on the library and
      the colour of the cards under it are the same decision. */
-  --l-display: #2b456f;       /* 8.75:1 on bg */
+  --l-display: #2b456f; /* 8.75:1 on bg */
 
   --l-band: #2b456f;
-  --l-on-band: #f6f4ef;       /* 8.75:1 */
-  --l-band-muted: #b3c3de;    /* 5.39:1 */
+  --l-on-band: #f6f4ef; /* 8.75:1 */
+  --l-band-muted: #b3c3de; /* 5.39:1 */
   --l-band-ornament: #8fb4f7; /* 4.60:1 */
 
   --l-ok: #1f7a4d;
@@ -426,12 +441,12 @@
      is held to the body floor of 4.5:1 there by test/theme.test.ts — not to the
      3:1 a shape would allow. The medallion's fill is a 12% mix of the hue into
      the surface, made in CSS, and the glyph clears 4.4:1 even on that. */
-  --l-topic-coral: #c02f3b;   /* 5.57:1 on surface */
-  --l-topic-cyan: #0a6a82;    /* 6.09:1 */
-  --l-topic-violet: #6a34a6;  /* 7.79:1 */
-  --l-topic-green: #1f7a4d;   /* 5.23:1 */
-  --l-topic-amber: #8a5712;   /* 5.99:1 */
-  --l-topic-blue: #0d51c9;    /* 6.80:1 */
+  --l-topic-coral: #c02f3b; /* 5.57:1 on surface */
+  --l-topic-cyan: #0a6a82; /* 6.09:1 */
+  --l-topic-violet: #6a34a6; /* 7.79:1 */
+  --l-topic-green: #1f7a4d; /* 5.23:1 */
+  --l-topic-amber: #8a5712; /* 5.99:1 */
+  --l-topic-blue: #0d51c9; /* 6.80:1 */
 
   /* The reader's four highlight colours.
      Declared per palette rather than color-mixed off the accent like every other
@@ -442,14 +457,14 @@
      readable, and the tint against the page at 1.3:1 so the mark is visible as a
      BAND rather than only as a hue. That second floor is what a reader who
      cannot separate the colours actually sees. */
-  --l-hl-gold: #f7e5a2;  /* ink 12.36:1 · page 1.24:1 */
-  --l-hl-sage: #d2ebca;  /* ink 12.21:1 · page 1.25:1 */
-  --l-hl-sky: #cadef6;   /* ink 11.33:1 · page 1.35:1 */
-  --l-hl-rose: #f9d3dc;  /* ink 11.40:1 · page 1.34:1 */
+  --l-hl-gold: #f7e5a2; /* ink 12.36:1 · page 1.24:1 */
+  --l-hl-sage: #d2ebca; /* ink 12.21:1 · page 1.25:1 */
+  --l-hl-sky: #cadef6; /* ink 11.33:1 · page 1.35:1 */
+  --l-hl-rose: #f9d3dc; /* ink 11.40:1 · page 1.34:1 */
 
   /* Warm-tinted, so a shadow on warm paper does not go grey. */
   --l-shadow-near: rgb(46 38 24 / 0.07);
-  --l-shadow-far: rgb(46 38 24 / 0.10);
+  --l-shadow-far: rgb(46 38 24 / 0.1);
 }
 
 [data-theme="dark"] {
@@ -462,27 +477,27 @@
   --l-elev: #232833;
   --l-sunken: #0d1015;
 
-  --l-ink: #eceef3;    /* 15.73:1 on bg */
-  --l-muted: #a8b0bf;  /*  8.37:1 on bg */
-  --l-faint: #8d95a4;  /*  6.06:1 on bg */
+  --l-ink: #eceef3; /* 15.73:1 on bg */
+  --l-muted: #a8b0bf; /*  8.37:1 on bg */
+  --l-faint: #8d95a4; /*  6.06:1 on bg */
 
   --l-rule: #2f353f;
   --l-rule-soft: #242932;
 
-  --l-accent: #7aadff;       /* 8.04:1 on bg */
+  --l-accent: #7aadff; /* 8.04:1 on bg */
   --l-accent-hover: #9cc3ff;
-  --l-accent-soft: #1c2a44;  /* accent reads 6.32:1 on this */
+  --l-accent-soft: #1c2a44; /* accent reads 6.32:1 on this */
   --l-on-accent: #06152e;
 
   /* Above the surface, not below it: on a dark page the band has to be the
      lighter of the two or the card reads inside-out. */
   /* The band's navy is far too dark to letter with here, so the same idea runs
      the other way: a blue-tinted light, distinct from the neutral ink. */
-  --l-display: #b9cdf0;       /* 11.35:1 on bg */
+  --l-display: #b9cdf0; /* 11.35:1 on bg */
 
   --l-band: #2c3855;
-  --l-on-band: #eceef3;       /* 10.03:1 */
-  --l-band-muted: #a9b6cd;    /*  5.69:1 */
+  --l-on-band: #eceef3; /* 10.03:1 */
+  --l-band-muted: #a9b6cd; /*  5.69:1 */
   --l-band-ornament: #7aadff; /*  5.13:1 */
 
   --l-ok: #54b782;
@@ -491,21 +506,21 @@
 
   /* Topic hues — see the light palette for what they are and why they are
      declared rather than mixed. Lifted for a near-black surface. */
-  --l-topic-coral: #ff8f97;   /* 7.56:1 on surface */
-  --l-topic-cyan: #5ad0e8;    /* 9.13:1 */
-  --l-topic-violet: #c9a8f7;  /* 8.19:1 */
-  --l-topic-green: #63d69b;   /* 9.13:1 */
-  --l-topic-amber: #e6b465;   /* 8.70:1 */
-  --l-topic-blue: #7aadff;    /* 7.26:1 */
+  --l-topic-coral: #ff8f97; /* 7.56:1 on surface */
+  --l-topic-cyan: #5ad0e8; /* 9.13:1 */
+  --l-topic-violet: #c9a8f7; /* 8.19:1 */
+  --l-topic-green: #63d69b; /* 9.13:1 */
+  --l-topic-amber: #e6b465; /* 8.70:1 */
+  --l-topic-blue: #7aadff; /* 7.26:1 */
 
   /* The same four hues, inverted rather than dimmed. A pale highlight on a dark
      page is a lamp, not a mark: it would out-shine the text it sits under and
      the ink would have to flip to dark, so a marked sentence would read as a
      different colour of text. These are dark tints under the SAME light ink. */
-  --l-hl-gold: #45391a;  /* ink  9.76:1 · page 1.46:1 */
-  --l-hl-sage: #253e25;  /* ink 10.08:1 · page 1.41:1 */
-  --l-hl-sky: #1e3450;   /* ink 10.88:1 · page 1.31:1 */
-  --l-hl-rose: #452433;  /* ink 11.65:1 · page 1.22:1 */
+  --l-hl-gold: #45391a; /* ink  9.76:1 · page 1.46:1 */
+  --l-hl-sage: #253e25; /* ink 10.08:1 · page 1.41:1 */
+  --l-hl-sky: #1e3450; /* ink 10.88:1 · page 1.31:1 */
+  --l-hl-rose: #452433; /* ink 11.65:1 · page 1.22:1 */
 
   --l-shadow-near: rgb(0 0 0 / 0.55);
   --l-shadow-far: rgb(0 0 0 / 0.45);
@@ -519,25 +534,25 @@
   --l-elev: #fcf8ef;
   --l-sunken: #e3d9c5;
 
-  --l-ink: #2c2519;    /* 12.45:1 on bg */
-  --l-muted: #615642;  /*  5.91:1 on bg */
-  --l-faint: #6d614a;  /*  4.99:1 on bg */
+  --l-ink: #2c2519; /* 12.45:1 on bg */
+  --l-muted: #615642; /*  5.91:1 on bg */
+  --l-faint: #6d614a; /*  4.99:1 on bg */
 
   --l-rule: #d9ceb9;
   --l-rule-soft: #e7decc;
 
-  --l-accent: #1c5296;       /* 6.40:1 on bg — the brand blue, muted for paper */
+  --l-accent: #1c5296; /* 6.40:1 on bg — the brand blue, muted for paper */
   --l-accent-hover: #143e74;
-  --l-accent-soft: #d2dcee;  /* accent reads 5.64:1 on this */
+  --l-accent-soft: #d2dcee; /* accent reads 5.64:1 on this */
   --l-on-accent: #f8f2e6;
 
   /* A slate-navy: on warm paper a cold true navy reads as a hole punched in
      the page. */
-  --l-display: #33425a;       /* 8.34:1 on bg */
+  --l-display: #33425a; /* 8.34:1 on bg */
 
   --l-band: #3b4a63;
-  --l-on-band: #f3ede1;       /* 7.68:1 */
-  --l-band-muted: #b4bfcf;    /* 4.81:1 */
+  --l-on-band: #f3ede1; /* 7.68:1 */
+  --l-band-muted: #b4bfcf; /* 4.81:1 */
   --l-band-ornament: #8fb0dc; /* 4.01:1 */
 
   --l-ok: #3d7b53;
@@ -545,19 +560,19 @@
   --l-danger: #9b3731;
 
   /* Topic hues — see the light palette. Warmed and darkened for paper. */
-  --l-topic-coral: #a93039;   /* 5.94:1 on surface */
-  --l-topic-cyan: #0b6076;    /* 6.39:1 */
-  --l-topic-violet: #5f3199;  /* 7.89:1 */
-  --l-topic-green: #1c6c45;   /* 5.74:1 */
-  --l-topic-amber: #7d4e10;   /* 6.34:1 */
-  --l-topic-blue: #1c5296;    /* 6.98:1 */
+  --l-topic-coral: #a93039; /* 5.94:1 on surface */
+  --l-topic-cyan: #0b6076; /* 6.39:1 */
+  --l-topic-violet: #5f3199; /* 7.89:1 */
+  --l-topic-green: #1c6c45; /* 5.74:1 */
+  --l-topic-amber: #7d4e10; /* 6.34:1 */
+  --l-topic-blue: #1c5296; /* 6.98:1 */
 
   /* Warmed towards the paper they sit on. The light theme's values on this
      background read as four stickers laid on parchment. */
-  --l-hl-gold: #eedba1;  /* ink 11.03:1 · page 1.23:1 */
-  --l-hl-sage: #d1e1c2;  /* ink 11.01:1 · page 1.23:1 */
-  --l-hl-sky: #ced9e7;   /* ink 10.61:1 · page 1.28:1 */
-  --l-hl-rose: #efcccb;  /* ink 10.23:1 · page 1.33:1 */
+  --l-hl-gold: #eedba1; /* ink 11.03:1 · page 1.23:1 */
+  --l-hl-sage: #d1e1c2; /* ink 11.01:1 · page 1.23:1 */
+  --l-hl-sky: #ced9e7; /* ink 10.61:1 · page 1.28:1 */
+  --l-hl-rose: #efcccb; /* ink 10.23:1 · page 1.33:1 */
 
   --l-shadow-near: rgb(51 41 28 / 0.09);
   --l-shadow-far: rgb(51 41 28 / 0.12);
@@ -862,6 +877,18 @@
     min-height: 24px;
   }
 
+  /* A target, not just a glyph.
+     Two of these carry an icon and no text — About and Access — and with no
+     padding of their own an icon-only link is exactly the icon: 24x24, in a
+     header present on every page, while this same stylesheet holds the toolbar's
+     buttons and the theme swatches to 44px and says why. The floor applies to
+     all of them, so the text links keep the same height as the icons beside
+     them rather than the row mixing two sizes. */
+  .pf-navlink {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+
   .pf-navlink:hover {
     color: var(--l-ink);
   }
@@ -1108,15 +1135,49 @@
      wider than the screen is a card wider than the screen: it would be clipped
      by the viewport instead of by its own border, and the right edge would be
      gone rather than merely full. */
+  /* It WRAPS below the tablet tier; it no longer scrolls.
+     Measured at 393px before this: the row was 774px wide against a 393px
+     window, so six of its nine controls — typeface, both size steps, all three
+     spacing toggles and line width — sat past the right edge, reachable only by
+     dragging inside the card and with nothing on screen to say so (Asif,
+     2026-08-06). A scrolling strip is a fine idiom when the overflow is
+     obviously more of the same thing; here it hid every typographic setting the
+     toolbar exists for.
+
+     Wrapping and not a popover, because the popover is what this toolbar
+     replaced and must not come back. The card is not sticky — it scrolls away
+     with the title — so the extra height costs a reader nothing. */
   @media (max-width: 899px) {
     .pf-toolbar {
       width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+      overflow-x: visible;
     }
 
+    /* The GROUPS have to wrap too, and this is the whole fix rather than a
+       detail of it. They are `flex: none`, so wrapping only the card put each
+       group on its own line and left the second one — swatches, typeface, size,
+       spacing, width — a single 590px-wide unbreakable item. With the card no
+       longer scrolling, that overflowed the PAGE instead: 148px of sideways
+       document scroll at 320px, which is worse than what it replaced. */
     .pf-toolbar__group {
-      scroll-snap-align: end;
+      flex: 0 1 auto;
+      flex-wrap: wrap;
+      justify-content: center;
     }
+  }
 
+  /* The hairline between "what you have marked" and "how the page is set" is a
+     left border, which is right while the two share a line and wrong the moment
+     the second group starts its own — there it is a stray vertical mark against
+     the card's inner edge. Below the tier where they can wrap, the line break
+     does the separating. */
+  @media (max-width: 899px) {
+    .pf-toolbar__group--set {
+      padding-inline-start: 0;
+      border-inline-start: 0;
+    }
   }
 
   /* ---- Contents -----------------------------------------------------------
@@ -1199,6 +1260,18 @@
     color: var(--l-accent);
   }
 
+  /* The one in force stays in force under the cursor.
+     `.pf-stepper__step:hover:not(:disabled)` above is (0,3,0) and the pressed
+     rule is (0,2,0), so hover was winning and the selected button lost its
+     accent the moment it was pointed at — it read as nothing being chosen, on
+     the button you had just chosen. Repeating the pressed colours at hover
+     specificity is the whole fix; it applies to line spacing too, which has had
+     it since those buttons were made toggles. */
+  .pf-stepper__step--toggle[aria-pressed="true"]:hover:not(:disabled) {
+    background: var(--l-accent-soft);
+    color: var(--l-accent);
+  }
+
   .pf-stepper__step--toggle + .pf-stepper__step--toggle {
     border-inline-start: 1px solid var(--l-rule);
   }
@@ -1243,6 +1316,26 @@
     font-size: var(--pf-text-sm);
   }
 
+  /* A control only where it can do something.
+     Page width is three steps of `--pf-measure-reader`, and below about 900px
+     the sheet is already capped by the window — so every step renders the same
+     page and the buttons would be an offer the layout cannot keep. `display`
+     rather than `visibility` so it leaves the scrolling toolbar strip entirely
+     on a phone, where the row is tight enough that an inert control costs the
+     ones beside it their room.
+
+     The SETTING is untouched by this: a reader who chose Widest on a desktop
+     keeps it, and sees it again the moment the window is wide enough to draw. */
+  .pf-stepper--wide-only {
+    display: none;
+  }
+
+  @media (min-width: 900px) {
+    .pf-stepper--wide-only {
+      display: inline-flex;
+    }
+  }
+
   /* ---- The page ----------------------------------------------------------
      A chapter is a SHEET laid on the page colour, not type printed straight
      onto it. Before this the prose sat directly on `--l-bg` with the column
@@ -1255,12 +1348,42 @@
      inside is still governed by `--l-reading-measure` and centres in what the
      padding leaves, so the reader's own measure control keeps working and the
      margins stay even at every setting. */
+  /* A LEAF, not a card. Three things were saying "card" rather than "page":
+     rounded corners, which paper does not have — it is cut square, and a 14px
+     radius was the strongest UI signal on the whole surface; an even shadow all
+     round, which is how a card floats and not how a sheet resting on something
+     casts; and symmetric padding, where a set page is never symmetric.
+
+     The margins are a printer's: tighter at the head than at the foot, so the
+     text block sits above optical centre the way a typeset page does. The
+     column inside is still governed by `--l-reading-measure` and centres in
+     what the padding leaves, so the reader's own measure control is untouched
+     by all of this — only the frame around the words moves. */
   .pf-page {
-    padding: var(--pf-space-8);
+    position: relative;
+    padding: var(--pf-space-7) var(--pf-space-8) var(--pf-space-9);
     background: var(--l-elev);
     border: 1px solid var(--l-rule);
-    border-radius: var(--pf-radius-lg);
-    box-shadow: var(--pf-elev-2);
+    /* The leaves underneath and the cast, in one property.
+       Six shadows, painted first on top: each leaf is a hard-edged rectangle
+       stepped down and to the right — a fill inset by 1px over a solid of the
+       rule colour, which is what draws its hairline edge — and the two soft
+       casts come last, underneath everything.
+
+       Built from `box-shadow` rather than from two pseudo-elements, which is
+       what this was first and what did not work: a pseudo-element pushed behind
+       its parent with `z-index: -1` only stays between the parent and the page
+       when the parent makes a stacking context, and `.pf-page` does not, so
+       both leaves slid behind the page background and were invisible. Shadows
+       cannot have that failure, need no extra elements, and paint in a defined
+       order. */
+    box-shadow:
+      5px 5px 0 -1px var(--l-elev),
+      5px 5px 0 0 var(--l-rule),
+      10px 10px 0 -1px var(--l-elev),
+      10px 10px 0 0 var(--l-rule),
+      3px 6px 14px var(--l-shadow-near),
+      8px 14px 34px var(--l-shadow-far);
   }
 
   /* Title, meta and prose share one column and one centre. Without this the
@@ -1285,7 +1408,11 @@
          sits on the text. */
       padding: var(--pf-space-6) 1.75rem;
       border-inline: 0;
-      border-radius: 0;
+      /* Full-bleed, so the sheet has no visible edges — and leaves drawn
+         against edges that run off the screen are a stack of nothing. The cast
+         goes with them for the same reason: at this width there is no surface
+         for the page to be resting ON. */
+      box-shadow: none;
     }
   }
 
@@ -1790,8 +1917,11 @@
   .pf-session__head {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: var(--pf-space-3);
+    /* Baseline, not centre: the title is now much the larger of the two, and
+       centring hung the badge at the middle of its cap height rather than on
+       the line it belongs to. */
+    align-items: baseline;
+    gap: var(--pf-space-2) var(--pf-space-3);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
   }
@@ -1799,7 +1929,12 @@
   /* Drawn as a soft badge rather than plain tracked capitals. Five of these run
      down the podcast list and they are the only thing separating one group of
      episodes from the next; as grey small-caps they read as a caption on the
-     row beneath rather than as a divider above it. */
+     row beneath rather than as a divider above it.
+
+     It sits AFTER the title now and is deliberately the quieter of the two: the
+     ordinal is how a reader refers to a sitting afterwards, not what they scan
+     for. Baseline-aligned rather than centred, so a badge beside a title two
+     sizes larger sits on the words rather than floating at their mid-height. */
   .pf-session__label {
     display: inline-flex;
     align-items: center;
@@ -1817,10 +1952,32 @@
     letter-spacing: 0.16em;
   }
 
+  /* A basis, not `flex: 1` with `min-width: 0`.
+     The head has always been `flex-wrap: wrap`, but a title that may shrink to
+     nothing never reaches the point of wrapping: instead of dropping to its own
+     line it squeezed into whatever was left beside the badge and set itself two
+     or three words wide — on a 400px window, "The Treatise: Affirming the
+     Imamate" became a narrow column pressed against the pill (Asif, 2026-08-06).
+     With a basis the browser can see that the two do not fit, and the title
+     takes the next line at full width, which is what the wrap was there for.
+     18rem is about the narrowest a session title reads well at; above roughly
+     640px the pair still sits on one line exactly as before.
+
+     Set in the prose face at heading size, because it is now the heading: it
+     leads the group and the badge follows it. As `--pf-text-base` in the UI face
+     it was the same weight as the episode titles listed underneath it, so a
+     sitting's name did not read as standing over them. */
   .pf-session__title {
-    flex: 1;
-    min-width: 0;
-    font-size: var(--pf-text-base);
+    /* No GROW. With `flex-grow: 1` the title took the whole line at every width
+       and the badge wrapped underneath it always — technically not squeezed, but
+       the pair never sat together even on a 2560px window. Natural width, a
+       floor it may not shrink past, and the badge follows it directly.
+       `min()` so the floor cannot itself cause overflow on a 320px screen. */
+    flex: 0 1 auto;
+    min-width: min(18rem, 100%);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-lg);
+    line-height: 1.35;
     color: var(--l-ink);
   }
 
@@ -2171,6 +2328,19 @@
     padding-top: var(--pf-space-5);
     list-style: none;
     padding-inline-start: 0;
+  }
+
+  /* A card's pills may wrap their own text; pills elsewhere may not.
+     `.pf-pill` is `white-space: nowrap` so a fact never breaks across lines
+     mid-phrase, which is right in a row that can grow sideways. Here the pills
+     sit in a two-column grid inside a fixed-width card, and the longest of them
+     — "print + 44 slides, not uploaded" — is wider than its column at every
+     phone width, so it ran out past the card's edge by 47px. Wrapping inside the
+     cell keeps the fact whole and the card intact; centring keeps the second
+     line under the first rather than ragged against the icon. */
+  .pf-book__pills .pf-pill {
+    white-space: normal;
+    text-align: center;
   }
 
   /* A lone pill — "Not published yet", or a book with one fact — centres across
@@ -2966,6 +3136,16 @@
       border-color var(--pf-motion);
   }
 
+  /* Same rule as the row buttons, and more clearly needed: a pager is a line of
+     small numbers with nothing but a gap between them, which is the hardest
+     thing on these screens to hit with a thumb. */
+  @media (max-width: 1023px) {
+    .pf-pagenum {
+      min-width: 2.75rem;
+      min-height: 2.75rem;
+    }
+  }
+
   .pf-pagenum:hover {
     border-color: var(--l-accent);
     color: var(--l-ink);
@@ -3116,6 +3296,20 @@
       color var(--pf-motion);
   }
 
+  /* Full target on anything a finger is likely to be driving; dense on the
+     desktop table, where a pointer is.
+     Keyed at 1023px rather than at the 700px where the table becomes cards: a
+     tablet in either orientation is a touch device holding a wide window, and
+     that is exactly the case the card breakpoint misses. Above it the table is
+     dense on purpose — raising these everywhere would grow every row of a
+     twenty-person table to hold two buttons a mouse hits accurately at 28px. */
+  @media (max-width: 1023px) {
+    .pf-iconbtn {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
+
   .pf-iconbtn:hover {
     border-color: var(--l-accent);
     color: var(--l-accent);
@@ -3182,7 +3376,6 @@
     border-color: var(--l-danger);
     background: color-mix(in srgb, var(--l-danger) 18%, var(--l-elev));
   }
-
 
   .pf-quiet {
     color: var(--l-faint);
@@ -3262,6 +3455,15 @@
     /* Same reason as the address column: `anywhere` would let this column's
        min-content width collapse to one character. */
     overflow-wrap: break-word;
+  }
+
+  /* The person's name is the way into their record, so on the card layout it is
+     a target rather than a line of text that happens to be blue. Height only —
+     its width is the name, and stretching that would underline empty space. */
+  @media (max-width: 1023px) {
+    .pf-person {
+      min-height: 2.75rem;
+    }
   }
 
   .pf-person:hover {
@@ -3701,6 +3903,100 @@
     color: var(--l-accent);
   }
 
+  /* On a chapter row the count is a fact printed inside a link that already goes
+     somewhere. On an EPISODE row there is no such link — an episode has no page
+     — so the count has to be the control itself.
+
+     A gold disc, not a blue pill. Everything else in the row is the accent —
+     the play button, the episode's own soft tint — so a blue count read as a
+     second play control rather than as a different KIND of thing. `--l-hl-gold`
+     is the tint this site already puts behind a marked passage, declared in all
+     three palettes with its contrast against the ink measured (12.4:1 light,
+     9.8:1 dark, 11.0:1 sepia), so the meaning and the colour agree and nothing
+     new is invented.
+
+     Just the number. The sticky-note glyph beside it was saying "notes" a
+     second time, in a row where the count is the only thing that could be
+     counting, and it was what forced the shape to a pill. */
+  .pf-row__marks--button {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    /* A circle for one or two digits, an ellipse rather than a clipped disc for
+       three: the height is fixed and the width only grows if a reader ever
+       keeps a hundred notes in one episode. */
+    min-width: 1.75rem;
+    height: 1.75rem;
+    padding-inline: var(--pf-space-1);
+    /* Toward the INK rather than literally darker, which is the same intent in
+       every theme: in the dark palette the fill is already dark and a darker
+       edge would disappear into it. Mixing toward the text colour always yields
+       a defined edge. */
+    border: 1px solid color-mix(in srgb, var(--l-hl-gold) 68%, var(--l-ink));
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-hl-gold);
+    color: var(--l-ink);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      border-color var(--pf-motion),
+      background var(--pf-motion);
+  }
+
+  .pf-row__marks--button:hover {
+    border-color: var(--l-ink);
+  }
+
+  /* An episode row's controls, kept together so they can move together. */
+  .pf-row__actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--pf-space-3);
+  }
+
+  /* On a phone the title takes the line and the controls take the next one.
+     Three items abreast is more than 390px holds: the title shrank until its
+     text ran underneath the note count's pill, which is a row that has stopped
+     being readable rather than one that is merely tight. Nothing is hidden —
+     the same answer the player bar's own crowding got. */
+  /* A GRID on a phone, not a wrapping flex row.
+     Three flex attempts and three different failures, all from the same cause:
+     wrapping decides per ITEM, and the row's number is an item. `min-width: 0`
+     let the title shrink until its text ran under the note count; `flex: 1 1 60%`
+     fixed that but put every row on two lines whether it needed them or not; a
+     `min-width` floor with `basis: auto` then ORPHANED the number — a long title
+     moved to the second line on its own and set itself against the card's left
+     edge, under the number it belongs beside.
+
+     A grid cannot do any of that. The number and the title are placed in named
+     columns and stay there; the controls take the row beneath, aligned to the
+     title's own column rather than to the card. Nothing can overlap because
+     tracks do not overlap. */
+  @media (max-width: 639px) {
+    .pf-session__list .pf-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: baseline;
+      column-gap: var(--pf-space-4);
+      row-gap: var(--pf-space-2);
+    }
+
+    .pf-session__list .pf-row__main {
+      grid-column: 2;
+    }
+
+    .pf-session__list .pf-row__actions {
+      grid-column: 2;
+      justify-content: flex-end;
+    }
+  }
+
   /* ---- Stacks and splits -------------------------------------------------
      The two arrangements the admin screens need, named rather than repeated
      as a utility string on every block. */
@@ -3946,7 +4242,8 @@
      above for the same reason. A different colour would collide with the four
      the reader chose; a border drawn from the tint cannot. */
   .pf-hl--noted {
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--pf-hl-tint) 72%, var(--l-ink));
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--pf-hl-tint) 72%, var(--l-ink));
   }
 
   /* Where the notes drawer just sent you. Temporary by nature — it is removed
@@ -4611,12 +4908,18 @@
     gap: var(--pf-space-2);
   }
 
-  /* The "+ Add note" trigger in the player's Notes panel. Left-aligned and no
-     wider than its label — a full-width button here would read as the panel's
-     main action, and marking a moment is something a listener reaches for, not
-     the point of opening the panel. */
+  /* The "Add note" trigger in the player's Notes panel. FULL WIDTH and centred,
+     with its icon before the caption (Asif, 2026-08-06). This reverses the
+     earlier reading — that marking a moment is something a listener reaches for
+     rather than the point of opening the panel, so the control should be no
+     wider than its label. On a phone that produced a small pill in the top-left
+     corner of an otherwise empty sheet, which reads as a label rather than as
+     the thing to press. Marking the moment IS why the panel is open while the
+     audio runs, and the control now says so. */
   .pf-notes__add {
-    align-self: flex-start;
+    align-self: stretch;
+    justify-content: center;
+    gap: var(--pf-space-2);
   }
 
   /* ---- A rich-text note editor ---------------------------------------------
@@ -4786,34 +5089,62 @@
     padding-inline-start: var(--pf-space-5);
   }
 
+  /* Marking a moment. SIZE tells you which line is live, not visibility.
+     This was `opacity: 0` until `:hover` — which a phone never fires, so on the
+     surface it was designed for the control did not exist (Asif, 2026-08-06).
+     The concern behind that rule was real and is answered a better way: six
+     hundred plus signs are noise when they are all the same size, so only the
+     spoken line's is large, and it leaves when its line stops being spoken. */
   .pf-cue__note {
     flex: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    /* Full tap target even while the glyph inside is small — the hit area is
+       what a thumb needs, and it must not shrink with the icon. */
     min-width: 2.75rem;
     min-height: 2.75rem;
-    border: 0;
-    border-radius: var(--pf-radius);
+    border: 1px solid transparent;
+    border-radius: var(--pf-radius-pill);
     background: transparent;
     color: var(--l-faint);
-    font-size: var(--pf-text-lg);
+    font-size: var(--pf-text-sm);
     cursor: pointer;
-    opacity: 0;
+    opacity: 0.45;
     transition:
       opacity var(--pf-motion),
-      color var(--pf-motion);
+      color var(--pf-motion),
+      background var(--pf-motion),
+      border-color var(--pf-motion),
+      font-size var(--pf-motion);
   }
 
-  /* Revealed on hover or focus — six hundred plus signs down the page is noise,
-     and `:focus-visible` is what keeps it reachable without a pointer. */
+  /* The line being spoken: a filled circle at full size, always visible. */
+  .pf-cue__note--now {
+    background: var(--l-accent);
+    border-color: var(--l-accent);
+    color: var(--l-on-accent);
+    font-size: var(--pf-text-lg);
+    opacity: 1;
+  }
+
   .pf-cue:hover .pf-cue__note,
   .pf-cue__note:focus-visible {
     opacity: 1;
     color: var(--l-accent);
   }
 
+  /* Hover must not repaint the live one into the quiet treatment. */
+  .pf-cue:hover .pf-cue__note--now,
+  .pf-cue__note--now:focus-visible {
+    color: var(--l-on-accent);
+  }
 
+  @media (prefers-reduced-motion: reduce) {
+    .pf-cue__note {
+      transition: none;
+    }
+  }
 
   /* ---- The Scholar Companion ----------------------------------------------
      The cards in the drawer, and the tint on the sentences they explain. Seen
@@ -4832,7 +5163,8 @@
        dotted rule under the words, not the solid one a highlight refuses (see
        .pf-hl) — solid reads as a link, dotted reads as a footnote, which is
        what this is. */
-    border-bottom: 1px dotted color-mix(in srgb, var(--l-accent) 60%, transparent);
+    border-bottom: 1px dotted
+      color-mix(in srgb, var(--l-accent) 60%, transparent);
     border-radius: 2px;
     cursor: pointer;
     transition: background var(--pf-motion);
@@ -5010,14 +5342,60 @@
      Fixed to the foot of every page once something is playing, so navigating
      away from a book does not stop it. */
 
+  /* A DECK, not a strip of the page.
+     It was the page's own elevated surface behind a blur, one hairline apart
+     from the article above it — so the thing that is playing looked like the
+     last paragraph rather than like a player, and on a phone (where it is most
+     of what is on screen) it read as a footer.
+
+     `--l-band` is the navy the library's book cards and the About hero already
+     wear, and every palette declares it with `--l-on-band` / `--l-band-muted` /
+     `--l-band-ornament` beside it, already measured — so the boldest thing on
+     the page introduces no colour the site did not already own, and it follows
+     light, sepia and dark without one hardcoded value. The wash is the accent
+     bleeding in from the leading edge, which is what stops a full-width block
+     reading as a flat slab; the same device the About hero uses.
+
+     Opaque rather than translucent, which is the point: text scrolling under a
+     blurred bar was the one place on this site where a line of prose and a
+     control were legible through each other. */
   .pf-player {
     position: fixed;
     inset-inline: 0;
     bottom: 0;
     z-index: 40;
-    background: color-mix(in srgb, var(--l-elev) 95%, transparent);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid var(--l-rule);
+    background:
+      radial-gradient(
+        120% 180% at 0% 100%,
+        color-mix(in oklab, var(--l-accent) 45%, transparent) 0%,
+        transparent 60%
+      ),
+      var(--l-band);
+    color: var(--l-on-band);
+    /* Cast UPWARD, over the page it sits in front of. A border alone put it in
+       the same plane as the article; the shadow is what says it is above it. */
+    box-shadow:
+      0 -2px 6px var(--l-shadow-near),
+      0 -12px 32px var(--l-shadow-far);
+  }
+
+  /* The global focus ring is `--l-accent`, measured against the PAGE. On this
+     deck that is a mid blue on a navy — a ring you cannot see is a keyboard
+     user with no idea where they are, so the whole bar re-declares it in the
+     colour that IS measured against the band. */
+  .pf-player :focus-visible {
+    outline-color: var(--l-band-ornament);
+  }
+
+  /* The one hairline it keeps, in its own ornament colour rather than the
+     page's rule: a lit top edge is what a piece of equipment has. */
+  .pf-player::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background: color-mix(in srgb, var(--l-band-ornament) 55%, transparent);
   }
 
   .pf-player__inner {
@@ -5028,14 +5406,45 @@
     max-width: var(--pf-measure-page);
     margin-inline: auto;
     padding: var(--pf-space-3) var(--pf-space-5);
+    /* The seek control carries `padding-block: var(--pf-space-2)` of its own so
+       its hit area is a thumb-sized strip, and that padding lands BELOW the
+       visible track — against the bar's own bottom edge, where it adds to the
+       gap. At the top the same padding falls between two rows, where it reads
+       as spacing rather than as margin. So the top edge is short by exactly the
+       seek's block padding, and it is written as that value rather than as a
+       round number: change the seek's padding and this follows it. */
+    padding-top: calc(var(--pf-space-3) + var(--pf-space-2));
+    /* iOS reserves a strip at the foot of the window for its own bar. Without
+       this the scrub row sits under it and the last few pixels of the seek
+       control cannot be touched. Deliberately NOT mirrored at the top — that
+       inset is the OS's furniture, not the bar's breathing room. */
+    padding-bottom: calc(var(--pf-space-3) + env(safe-area-inset-bottom, 0px));
   }
 
+  /* Three groups, not eight controls in a row: what is playing, the transport,
+     and the panels. The groups are what the phone breakpoint re-flows — the
+     controls inside them are never taken away, which is the whole point of the
+     grouping. */
   .pf-player__top {
     display: flex;
     align-items: center;
     gap: var(--pf-space-3);
   }
 
+  .pf-player__transport,
+  .pf-player__panels {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--pf-space-2);
+  }
+
+  /* Light disc, dark glyph — the transport control every piece of playback
+     equipment has, and on this deck the only pairing that is guaranteed
+     legible: the accent is measured against the PAGE, not against the band, and
+     `--l-accent` on `--l-band` is two mid-tone blues on top of each other. Every
+     palette measures `--l-on-band` against `--l-band` at 7.7:1 or better, so
+     inverting is both the stronger look and the safe one. */
   .pf-player__play {
     display: flex;
     flex: none;
@@ -5045,28 +5454,84 @@
     height: 2.75rem;
     border: 0;
     border-radius: var(--pf-radius-pill);
-    background: var(--l-accent);
-    color: var(--l-on-accent);
+    background: var(--l-on-band);
+    color: var(--l-band);
     cursor: pointer;
-    transition: background var(--pf-motion);
+    transition:
+      background var(--pf-motion),
+      scale var(--pf-motion);
   }
 
   .pf-player__play:hover {
-    background: var(--l-accent-hover);
+    background: var(--l-band-ornament);
   }
 
-  /* The skip controls READ as buttons now. They were bare text on a bar full of
-     real controls, so the two things a listener reaches for most while an
-     episode runs — go back fifteen, go forward fifteen — looked like labels
-     printed beside the play button rather than things to press. */
-  .pf-player__nudge,
-  .pf-player__panel-tab {
+  .pf-player__play:active {
+    scale: 0.94;
+  }
+
+  /* Round, and the same 44px as play. They were pill-shaped text — "-15s" —
+     which needed more width than a phone's bar had, and the fix taken at the
+     time was to hide them below 640px: the two controls a listener reaches for
+     most, absent on the device the listening happens on (Asif, 2026-08-06). A
+     glyph with the numeral inside says the same thing in a circle, so they now
+     fit at every width and are held to the AAA target size at all of them. */
+  .pf-player__nudge {
+    position: relative;
+    display: flex;
     flex: none;
-    padding: var(--pf-space-1) var(--pf-space-3);
-    border: 1px solid var(--l-rule);
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, var(--l-on-band) 32%, transparent);
     border-radius: var(--pf-radius-pill);
     background: transparent;
-    color: var(--l-muted);
+    color: var(--l-on-band);
+    font-family: var(--l-font-ui);
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      border-color var(--pf-motion),
+      scale var(--pf-motion);
+  }
+
+  .pf-player__nudge:active {
+    scale: 0.94;
+  }
+
+  /* The rotating arrow is drawn AROUND the numeral rather than beside it, which
+     is what makes "fifteen seconds back" one mark instead of two things to
+     read. */
+  .pf-player__nudge .pf-icon {
+    width: 1.35em;
+    height: 1.35em;
+  }
+
+  .pf-player__nudge-n {
+    position: absolute;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    /* Optically centred inside the arrow's loop, which is not the button's own
+       centre — the glyph's arrowhead sits above the ring. */
+    padding-top: 0.15em;
+  }
+
+  .pf-player__panel-tab {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--pf-space-1);
+    /* Never below the AAA target height, whatever the label does. */
+    min-height: 2.75rem;
+    padding: var(--pf-space-1) var(--pf-space-3);
+    border: 1px solid color-mix(in srgb, var(--l-on-band) 32%, transparent);
+    border-radius: var(--pf-radius-pill);
+    background: transparent;
+    color: var(--l-on-band);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-sm);
     font-weight: 600;
@@ -5078,25 +5543,51 @@
       background var(--pf-motion);
   }
 
+  /* Lit rather than re-coloured. On a dark deck a hover that changes the text
+     colour is nearly invisible; filling the button is what the eye catches. */
   .pf-player__nudge:hover,
   .pf-player__panel-tab:hover {
-    color: var(--l-ink);
-    border-color: var(--l-accent);
+    border-color: var(--l-band-ornament);
+    background: color-mix(in srgb, var(--l-on-band) 14%, transparent);
+  }
+
+  /* How many notes are in THIS episode, on the button that opens them. Never
+     rendered as zero — an empty count reads as something to clear rather than
+     something not yet started, which is the same rule the reader's own tab
+     follows. */
+  .pf-player__badge {
+    min-width: 1.25rem;
+    padding: 0 var(--pf-space-1);
+    background: var(--l-band-ornament);
+    border-radius: var(--pf-radius-pill);
+    color: var(--l-band);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  /* Held down, the badge inverts with its button — a light pill on a light
+     button would otherwise disappear exactly when the panel it counts is
+     open. */
+  .pf-player__panel-tab[aria-expanded="true"] .pf-player__badge {
+    background: var(--l-band);
+    color: var(--l-on-band);
   }
 
   /* The open panel's button is held down, which is the only thing on screen
      saying which of the two is showing once the panel covers its own heading on
      a narrow window. */
   .pf-player__panel-tab[aria-expanded="true"] {
-    background: var(--l-accent);
-    border-color: var(--l-accent);
-    color: var(--l-on-accent);
+    background: var(--l-on-band);
+    border-color: var(--l-on-band);
+    color: var(--l-band);
   }
 
   .pf-player__close {
     border: 0;
     background: transparent;
-    color: var(--l-muted);
+    color: var(--l-band-muted);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-base);
     cursor: pointer;
@@ -5104,7 +5595,7 @@
   }
 
   .pf-player__close:hover {
-    color: var(--l-ink);
+    color: var(--l-on-band);
   }
 
   /* ---- The player's own side panel ---------------------------------------
@@ -5131,10 +5622,13 @@
     position: fixed;
     inset-inline-end: 0;
     top: 0;
-    /* The bar is two rows plus its padding. A magic number here would drift the
-       first time the bar changed, so it is measured from the same space scale
-       the bar is built from. */
-    bottom: calc(var(--pf-space-3) * 2 + 4.5rem);
+    /* The bar's ACTUAL height, published by the bar itself through a
+       ResizeObserver. It was worked out by hand from the space scale, which was
+       true for exactly one shape of bar: the phone layout is two rows and the
+       safe-area inset is per-device, so a constant here would leave a strip of
+       this drawer hidden behind the transport with nothing reporting it. The
+       fallback is only for the instant before the observer's first reading. */
+    bottom: var(--pf-player-h, 7rem);
     /* Above a PAGE's drawer (25), so a chapter's notes can be open underneath
        and the transcript still opens over it. */
     z-index: 41;
@@ -5168,18 +5662,18 @@
   .pf-player__title {
     font-family: var(--l-font-prose);
     font-size: var(--pf-text-base);
-    color: var(--l-ink);
+    color: var(--l-on-band);
   }
 
   .pf-player__book {
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
-    color: var(--l-muted);
+    color: var(--l-band-muted);
     text-decoration: none;
   }
 
   .pf-player__book:hover {
-    color: var(--l-ink);
+    color: var(--l-on-band);
   }
 
   .pf-player__rate {
@@ -5188,7 +5682,17 @@
     gap: var(--pf-space-1);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
-    color: var(--l-muted);
+    color: var(--l-band-muted);
+  }
+
+  /* The page's select carries the page's surface and ink, which on this deck is
+     a white chip in a navy bar. Re-dressed in the band's own values rather than
+     given a new control: the native menu it opens is drawn by the platform and
+     is unaffected either way. */
+  .pf-player__rate .pf-select {
+    background: color-mix(in srgb, var(--l-on-band) 12%, transparent);
+    border-color: color-mix(in srgb, var(--l-on-band) 32%, transparent);
+    color: var(--l-on-band);
   }
 
   .pf-player__scrub {
@@ -5198,13 +5702,62 @@
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
     font-variant-numeric: tabular-nums;
-    color: var(--l-muted);
+    color: var(--l-band-muted);
   }
 
+  /* The transport track, and the one thing here that most makes the bar read as
+     a player rather than a row of buttons.
+
+     `accent-color` alone was not enough: it colours the FILL and the thumb, and
+     leaves the unplayed remainder to whatever the platform derives — which on
+     this navy deck came out a muddy near-black with barely any separation from
+     the played part. So the track is painted here, from a `--pf-seek` scalar
+     the component measures, exactly as `.pf-meter` is driven by `--pf-meter`:
+     the component supplies a number and this file decides what a number looks
+     like. One gradient works in every engine, where `::-moz-range-progress`
+     has no WebKit counterpart and the two would have had to be maintained
+     apart.
+
+     Padded on the block axis so the hit area stays a comfortable strip while
+     the visible track stays thin — a 6px-tall control is a 6px-tall target
+     otherwise, which under a thumb is a miss. */
   .pf-player__seek {
     flex: 1;
-    height: 4px;
-    accent-color: var(--l-accent);
+    height: 6px;
+    box-sizing: content-box;
+    padding-block: var(--pf-space-2);
+    margin: 0;
+    appearance: none;
+    background: linear-gradient(
+        to right,
+        var(--l-band-ornament) calc(var(--pf-seek, 0) * 100%),
+        color-mix(in srgb, var(--l-on-band) 22%, transparent)
+          calc(var(--pf-seek, 0) * 100%)
+      )
+      center / 100% 6px no-repeat;
+    border-radius: var(--pf-radius-pill);
+    cursor: pointer;
+  }
+
+  /* One thumb, declared twice: WebKit and Gecko refuse a shared selector list —
+     an unknown pseudo-element invalidates the whole rule for both. */
+  .pf-player__seek::-webkit-slider-thumb {
+    appearance: none;
+    width: 0.875rem;
+    height: 0.875rem;
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-on-band);
+    cursor: pointer;
+  }
+
+  .pf-player__seek::-moz-range-thumb {
+    width: 0.875rem;
+    height: 0.875rem;
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-on-band);
+    cursor: pointer;
   }
 
   .pf-select--sm {
@@ -5214,13 +5767,23 @@
     font-size: var(--pf-text-xs);
   }
 
-  /* A phone's player bar has room for play, what is playing, the two panels and
-     close. The skip buttons and the speed control are the parts that go —
-     Transcript and Notes deliberately do NOT, because they are the reason the
-     bar is worth having on a phone at all. */
+  /* From a tablet up the three groups sit in one row, transport first, exactly
+     as the bar has always read. */
   @media (min-width: 640px) {
-    .pf-player__nudge {
-      display: block;
+    .pf-player__top {
+      flex-wrap: nowrap;
+    }
+
+    .pf-player__transport {
+      order: 1;
+    }
+
+    .pf-player__what {
+      order: 2;
+    }
+
+    .pf-player__panels {
+      order: 3;
     }
 
     .pf-player__rate {
@@ -5228,14 +5791,39 @@
     }
   }
 
+  /* On a phone the groups RE-FLOW; nothing is removed from them. The title
+     takes the first line on its own — it is the one thing here that needs the
+     full width and can be truncated — and the transport and the panels share
+     the second. Every control that exists at 1440px exists at 320px. */
   @media (max-width: 639px) {
-    .pf-player__nudge {
-      display: none;
+    .pf-player__top {
+      flex-wrap: wrap;
+      gap: var(--pf-space-2);
     }
 
-    /* Room for two of them beside the title. The padding goes rather than the
-       control: a smaller tap target on the thing a listener presses most on the
-       device they listen on is the wrong economy. */
+    .pf-player__inner {
+      padding-inline: var(--pf-space-4);
+    }
+
+    .pf-player__what {
+      order: 1;
+      flex: 1 1 100%;
+    }
+
+    .pf-player__transport {
+      order: 2;
+    }
+
+    .pf-player__panels {
+      order: 3;
+      /* Pushed to the trailing edge, so the transport keeps the thumb-side
+         corner it is reached from. */
+      margin-inline-start: auto;
+    }
+
+    /* The label shrinks; the 44px target does not. A smaller tap target on the
+       thing a listener presses most on the device they listen on is the wrong
+       economy. */
     .pf-player__panel-tab {
       padding-inline: var(--pf-space-2);
       font-size: var(--pf-text-xs);
@@ -6103,7 +6691,11 @@
     position: relative;
     overflow: hidden;
     background:
-      radial-gradient(120% 140% at 50% 100%, color-mix(in oklab, var(--l-accent) 55%, transparent) 0%, transparent 62%),
+      radial-gradient(
+        120% 140% at 50% 100%,
+        color-mix(in oklab, var(--l-accent) 55%, transparent) 0%,
+        transparent 62%
+      ),
       var(--l-band);
     color: var(--l-on-band);
   }
@@ -6127,7 +6719,11 @@
     inset-inline-start: -6%;
     width: clamp(14rem, 26vw, 26rem);
     aspect-ratio: 1;
-    background: radial-gradient(circle, color-mix(in oklab, var(--l-topic-cyan) 38%, transparent) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--l-topic-cyan) 38%, transparent) 0%,
+      transparent 70%
+    );
   }
 
   .pf-about-hero::after {
@@ -6135,7 +6731,11 @@
     inset-inline-end: -8%;
     width: clamp(16rem, 32vw, 32rem);
     aspect-ratio: 1;
-    background: radial-gradient(circle, color-mix(in oklab, var(--l-topic-coral) 34%, transparent) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--l-topic-coral) 34%, transparent) 0%,
+      transparent 70%
+    );
   }
 
   .pf-about-hero__inner {
@@ -6252,14 +6852,28 @@
      after, so a stated hue still wins. */
   .pf-about-hero,
   .pf-about-band,
-  .pf-about-card { --topic: var(--l-accent); }
+  .pf-about-card {
+    --topic: var(--l-accent);
+  }
 
-  [data-hue="coral"] { --topic: var(--l-topic-coral); }
-  [data-hue="cyan"] { --topic: var(--l-topic-cyan); }
-  [data-hue="violet"] { --topic: var(--l-topic-violet); }
-  [data-hue="green"] { --topic: var(--l-topic-green); }
-  [data-hue="amber"] { --topic: var(--l-topic-amber); }
-  [data-hue="blue"] { --topic: var(--l-topic-blue); }
+  [data-hue="coral"] {
+    --topic: var(--l-topic-coral);
+  }
+  [data-hue="cyan"] {
+    --topic: var(--l-topic-cyan);
+  }
+  [data-hue="violet"] {
+    --topic: var(--l-topic-violet);
+  }
+  [data-hue="green"] {
+    --topic: var(--l-topic-green);
+  }
+  [data-hue="amber"] {
+    --topic: var(--l-topic-amber);
+  }
+  [data-hue="blue"] {
+    --topic: var(--l-topic-blue);
+  }
 
   /* The dark band, mid-page. Paperclip's `section_inverse`: a run of pale
      sections needs one that is not, or the page reads as a single long sheet —
@@ -6286,8 +6900,11 @@
      above it. This one is the accent at low strength — enough to read as a
      deliberate ending rather than as the page running out. */
   .pf-about-band--close {
-    background:
-      linear-gradient(180deg, color-mix(in oklab, var(--l-accent) 12%, var(--l-bg)) 0%, var(--l-bg) 100%);
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--l-accent) 12%, var(--l-bg)) 0%,
+      var(--l-bg) 100%
+    );
     border-top: 1px solid var(--l-rule-soft);
   }
 

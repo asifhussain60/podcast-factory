@@ -1,7 +1,48 @@
 # Current work - status
 
-**Last updated:** 2026-08-05 (A cited book prints under its English name, every
-Arabic quotation looks like one, and an editorial note reads as a note)
+**Last updated:** 2026-08-06 (Full repo audit: three gates that could not fail,
+eleven files restored, and the three live books re-published locally)
+
+**Newest — a repo-wide audit across the pipeline, the Astro Site and the local
+Podcast Factory Library. Six commits on `develop`, pushed. Nothing deployed to production.**
+
+- **The recurring shape was a gate reporting clean over a rule it never ran.**
+  Three instances, all fixed and each one verified to FAIL before being trusted:
+  the two snapshot generators are documented byte-identical but the only test
+  read their SOURCE TEXT, so a divergence caused by the CONTENT they read was
+  invisible; the bucket list was pinned generator-to-generator and to nothing
+  else, so both agreed while both missed `Supplications`; and REQ-010's reading
+  floor had two documented config exceptions for a check that did not exist.
+- **A book config said two contradictory things.**
+  `the-master-and-the-disciple` declared `book_augmentation` twice — PyYAML
+  silently takes the last, js-yaml refuses the file outright. Consolidated to
+  the value actually in force (`none`, what the published edition was composed
+  under). Behaviour-preserving; the only file in the repo with duplicate keys.
+- **The dashboard had frozen every book's phase.** `books_in_flight` preferred
+  the previously-snapshotted value over disk, so the first phase a book was seen
+  in was the phase it displayed forever. Disk wins now; titles come from
+  `meta.yml` and `kind` from `content_profile`.
+- **Eleven destroyed episode sources restored** (RCA-010). A book-compose route
+  deleted them on 2026-07-16; the mechanism was fixed three days later and the
+  data never was, leaving 12 tests red for 21 days. Suite now 3,033 passing. The
+  8 bare-numbered files left in their place were stale duplicates of a LATER
+  book-lane compose and were removed.
+- **Runtime + visual QA:** `/quality` was returning a 500, two popover families
+  were clipped by an ancestor `overflow: hidden`, four surfaces had no keyboard
+  focus ring. Smoke 35→36 clean. New INV-6 catches clipped popovers at rest,
+  since neither clipping bug was visible to a screenshot nobody hovered.
+- **Ayyuha al-Walad had no print edition** — it predates the render phase.
+  Rendered (61pp) and all three live books re-published to the LOCAL Podcast Factory Library;
+  visibility columns untouched, Podcast Factory Library smoke 23 routes × 4 widths clear.
+- Open, reported not fixed: 25 reading-floor findings left VISIBLE rather than
+  waived (mostly the print-parity family — a per-view decision); `/wisdom`'s
+  lede claims "19 binders, 122 chapters" against genuinely empty tiles;
+  `inject_slide_deck()` still writes an artifact a plan doc records as retired.
+
+---
+
+**Previous — 2026-08-05 (A cited book prints under its English name, every
+Arabic quotation looks like one, and an editorial note reads as a note)**
 
 **Newest — three things Asif reported from the Book Composer, all fixed at the
 source. Not deployed; no PDF re-rendered.**
@@ -35,7 +76,7 @@ source. Not deployed; no PDF re-rendered.**
 
 **Previous — the Companion is in the reader, and only Asif can see it.**
 
-Asif: reading a chapter on the Listener should open the Ismaili Scholar Companion
+Asif: reading a chapter on the Podcast Factory Library should open the Ismaili Scholar Companion
 where the Notes drawer is, for `asifhussain60@gmail.com` and nobody else, with
 the Composer's behaviour — the explained sentence tinted, the card following the
 page.
@@ -273,13 +314,13 @@ type, and replace the L/S/D letters with dots.
 Gates: 229 tests · typecheck 0 · build clean · smoke 18 routes × 4 widths clean,
 zero page overflow at 390 / 768 / 1024 / 1440.
 
-**Previously that night — the Listener remembers who is reading, and the reader
+**Previously that night — the Podcast Factory Library remembers who is reading, and the reader
 has one row of controls instead of two surfaces.**
 
 Asif's ask: audit the whole site, redesign it on the theme from earlier the same
 day, keep progress across all views, rebuild the access screen for many people
 and many books, and put the reader's controls in a single compact toolbar with
-Kindle-style highlighting. Scope was the Listener only; `plan-dashboard/` was
+Kindle-style highlighting. Scope was the Podcast Factory Library only; `plan-dashboard/` was
 deliberately untouched.
 
 **Per-reader state is SERVER-side, with local storage as a cache.** He asked for
@@ -357,7 +398,7 @@ committed.
 Gates: 229 site tests · typecheck 0 · build clean · security-smoke clean ·
 smoke 18 routes × 4 widths clean. `content/` untouched throughout.
 
-**Previous — the Listener's book page is rebuilt as tabs on the theme from
+**Previous — the Podcast Factory Library's book page is rebuilt as tabs on the theme from
 earlier the same day; the book-lane note below is unchanged and still open**
 
 **Newest — a book page is three tabs and a panel, not two columns and a list.**
@@ -390,7 +431,7 @@ headless one can see it. What worked was rendering the real component tree with
 `renderToStaticMarkup` against the local D1 and the dev server's own compiled CSS
 (`/app/app.css?direct`), served out of `public/`, then screenshotting that.
 
-**Newest — the Listener now has a theme, where before it had class strings.**
+**Newest — the Podcast Factory Library now has a theme, where before it had class strings.**
 
 Every design decision on `podcast-factory.safinaverse.com` used to live in
 Tailwind utilities inside eighteen TSX files, which meant a new theme was an
@@ -410,7 +451,7 @@ Scheherazade New, which is engineered for the fully-vowelled prose this corpus
 carries. Three tests in `theme.test.ts` pin it — §7 may not reference
 `--l-font-arabic-display`, and `:lang(ar)` may not bind it.
 
-**Scope note:** this was the Listener (`listener/`). The Astro site
+**Scope note:** this was the Podcast Factory Library (`listener/`). The Astro site
 (`plan-dashboard/`) was deliberately untouched and still wears its own look.
 
 **Newest — the Arabic rule reached the other six books, and four defects came out
