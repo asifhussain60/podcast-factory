@@ -128,7 +128,7 @@
       "unverified": 12,
       "runs": [
         {
-          "text": "اَلرُّوحُ الْعَقْلُ",
+          "text": "الرُّوحُ الْعَقْلُ",
           "resolution": "unverified",
           "skeleton": "الروحالعقل"
         },
@@ -400,8 +400,8 @@
     },
     {
       "chapter": "6. A Sacred Conception of Justice",
-      "arabic_runs": 20,
-      "unverified": 18,
+      "arabic_runs": 21,
+      "unverified": 19,
       "runs": [
         {
           "text": "تَوْحِيد",
@@ -477,6 +477,11 @@
           "text": "نھج البلاغۃ",
           "resolution": "unverified",
           "skeleton": "نجالبلاغ"
+        },
+        {
+          "text": "شَیْطَان",
+          "resolution": "unverified",
+          "skeleton": "شطان"
         },
         {
           "text": "المُحسنین",
@@ -1078,385 +1083,379 @@
     "ocr": 0,
     "knowledge-base": 7,
     "honorific-formula": 0,
-    "unverified": 127,
-    "arabic_runs": 191
+    "unverified": 128,
+    "arabic_runs": 192
   },
   "note": "no OCR ground truth for this book — every run falls back to the knowledge base",
   "quran_coverage": {
     "measured": true,
-    "cited": 134,
+    "cited": 133,
     "with_arabic": 47,
-    "coverage": 0.351,
+    "coverage": 0.353,
     "uncovered": [
       {
         "ref": "57:3",
-        "line": 221,
+        "line": 195,
         "reason": "no-span-in-scan",
         "ayah_words": 10
       },
       {
         "ref": "23:91",
-        "line": 263,
+        "line": 237,
         "reason": "no-span-in-scan",
         "ayah_words": 26
       },
       {
         "ref": "8:24",
-        "line": 275,
+        "line": 249,
         "reason": "no-span-in-scan",
         "ayah_words": 21
       },
       {
         "ref": "3:19",
-        "line": 310,
+        "line": 271,
         "reason": "no-span-in-scan",
         "ayah_words": 28
       },
       {
         "ref": "83:14",
-        "line": 318,
+        "line": 279,
         "reason": "no-span-in-scan",
         "ayah_words": 9
       },
       {
         "ref": "53:3-4",
-        "line": 338,
+        "line": 299,
         "reason": "no-span-in-scan",
         "ayah_words": 9
       },
       {
         "ref": "79:40-41",
-        "line": 340,
+        "line": 301,
         "reason": "no-span-in-scan",
         "ayah_words": 13
       },
       {
         "ref": "6:162",
-        "line": 358,
+        "line": 319,
         "reason": "no-span-in-scan",
         "ayah_words": 9
       },
       {
         "ref": "15:99",
-        "line": 364,
+        "line": 325,
         "reason": "no-span-in-scan",
         "ayah_words": 5
       },
       {
         "ref": "107:1-7",
-        "line": 429,
+        "line": 377,
         "reason": "no-span-in-scan",
         "ayah_words": 25
       },
       {
         "ref": "2:155-157",
-        "line": 443,
+        "line": 391,
         "reason": "no-span-in-scan",
         "ayah_words": 33
       },
       {
         "ref": "103:1-3",
-        "line": 445,
+        "line": 395,
         "reason": "no-span-in-scan",
         "ayah_words": 14
       },
       {
         "ref": "113:2",
-        "line": 573,
+        "line": 523,
         "reason": "no-span-in-scan",
         "ayah_words": 4
       },
       {
         "ref": "12:53",
-        "line": 639,
+        "line": 608,
         "reason": "no-span-in-scan",
         "ayah_words": 17
       },
       {
         "ref": "30:30",
-        "line": 641,
+        "line": 610,
         "reason": "no-span-in-scan",
         "ayah_words": 25
       },
       {
         "ref": "8:17",
-        "line": 651,
+        "line": 620,
         "reason": "no-span-in-scan",
         "ayah_words": 24
       },
       {
         "ref": "40:16",
-        "line": 665,
+        "line": 634,
         "reason": "no-span-in-scan",
         "ayah_words": 15
       },
       {
         "ref": "38:71-74",
-        "line": 667,
+        "line": 636,
         "reason": "no-span-in-scan",
         "ayah_words": 28
       },
       {
         "ref": "28:88",
-        "line": 679,
+        "line": 648,
         "reason": "no-span-in-scan",
         "ayah_words": 22
       },
       {
         "ref": "9:85",
-        "line": 685,
+        "line": 654,
         "reason": "no-span-in-scan",
         "ayah_words": 17
       },
       {
         "ref": "7:156",
-        "line": 717,
+        "line": 686,
         "reason": "no-span-in-scan",
         "ayah_words": 33
       },
       {
         "ref": "4:135",
-        "line": 725,
+        "line": 694,
         "reason": "no-span-in-scan",
         "ayah_words": 40
       },
       {
         "ref": "48:29",
-        "line": 785,
+        "line": 754,
         "reason": "no-span-in-scan",
         "ayah_words": 61
       },
       {
         "ref": "104:1-4",
-        "line": 795,
+        "line": 764,
         "reason": "no-span-in-scan",
         "ayah_words": 17
       },
       {
         "ref": "108:1-2",
-        "line": 828,
+        "line": 797,
         "reason": "no-span-in-scan",
         "ayah_words": 6
       },
       {
         "ref": "92:17-21",
-        "line": 836,
+        "line": 805,
         "reason": "no-span-in-scan",
         "ayah_words": 19
       },
       {
         "ref": "76:8-9",
-        "line": 838,
+        "line": 807,
         "reason": "no-span-in-scan",
         "ayah_words": 17
       },
       {
-        "ref": "51:56",
-        "line": 854,
-        "reason": "no-span-in-scan",
-        "ayah_words": 6
-      },
-      {
         "ref": "24:36",
-        "line": 870,
+        "line": 825,
         "reason": "no-span-in-scan",
         "ayah_words": 14
       },
       {
         "ref": "24:35",
-        "line": 951,
+        "line": 906,
         "reason": "no-span-in-scan",
         "ayah_words": 55
       },
       {
         "ref": "92:1-2",
-        "line": 961,
+        "line": 916,
         "reason": "no-span-in-scan",
         "ayah_words": 6
       },
       {
         "ref": "22:46",
-        "line": 965,
+        "line": 920,
         "reason": "no-span-in-scan",
         "ayah_words": 24
       },
       {
         "ref": "39:23",
-        "line": 967,
+        "line": 922,
         "reason": "no-span-in-scan",
         "ayah_words": 36
       },
       {
         "ref": "85:3",
-        "line": 981,
+        "line": 936,
         "reason": "no-span-in-scan",
         "ayah_words": 2
       },
       {
         "ref": "57:3",
-        "line": 987,
+        "line": 942,
         "reason": "no-span-in-scan",
         "ayah_words": 10
       },
       {
         "ref": "50:16",
-        "line": 989,
+        "line": 944,
         "reason": "no-span-in-scan",
         "ayah_words": 15
       },
       {
         "ref": "112:1",
-        "line": 993,
+        "line": 948,
         "reason": "no-span-in-scan",
         "ayah_words": 4
       },
       {
         "ref": "7:172",
-        "line": 1005,
+        "line": 960,
         "reason": "no-span-in-scan",
         "ayah_words": 29
       },
       {
         "ref": "32:9",
-        "line": 1007,
+        "line": 962,
         "reason": "no-span-in-scan",
         "ayah_words": 16
       },
       {
         "ref": "57:16",
-        "line": 1009,
+        "line": 964,
         "reason": "no-span-in-scan",
         "ayah_words": 29
       },
       {
         "ref": "76:25",
-        "line": 1060,
+        "line": 1002,
         "reason": "no-span-in-scan",
         "ayah_words": 5
       },
       {
         "ref": "73:8",
-        "line": 1062,
+        "line": 1004,
         "reason": "no-span-in-scan",
         "ayah_words": 6
       },
       {
         "ref": "33:41",
-        "line": 1064,
+        "line": 1006,
         "reason": "no-span-in-scan",
         "ayah_words": 7
       },
       {
         "ref": "7:55",
-        "line": 1066,
+        "line": 1008,
         "reason": "no-span-in-scan",
         "ayah_words": 9
       },
       {
         "ref": "7:205",
-        "line": 1068,
+        "line": 1010,
         "reason": "no-span-in-scan",
         "ayah_words": 16
       },
       {
         "ref": "73:20",
-        "line": 1070,
+        "line": 1012,
         "reason": "no-span-in-scan",
         "ayah_words": 90
       },
       {
         "ref": "33:41-43",
-        "line": 1078,
+        "line": 1020,
         "reason": "no-span-in-scan",
         "ayah_words": 23
       },
       {
         "ref": "2:152",
-        "line": 1080,
+        "line": 1022,
         "reason": "no-span-in-scan",
         "ayah_words": 6
       },
       {
         "ref": "33:41-43",
-        "line": 1082,
+        "line": 1024,
         "reason": "no-span-in-scan",
         "ayah_words": 23
       },
       {
         "ref": "3:190-191",
-        "line": 1086,
+        "line": 1028,
         "reason": "no-span-in-scan",
         "ayah_words": 32
       },
       {
         "ref": "70:23",
-        "line": 1088,
+        "line": 1030,
         "reason": "no-span-in-scan",
         "ayah_words": 5
       },
       {
         "ref": "29:45",
-        "line": 1090,
+        "line": 1032,
         "reason": "no-span-in-scan",
         "ayah_words": 24
       },
       {
         "ref": "107:4-7",
-        "line": 1092,
+        "line": 1034,
         "reason": "no-span-in-scan",
         "ayah_words": 12
       },
       {
         "ref": "7:143",
-        "line": 1122,
+        "line": 1064,
         "reason": "no-span-in-scan",
         "ayah_words": 44
       },
       {
         "ref": "7:143",
-        "line": 1128,
+        "line": 1070,
         "reason": "no-span-in-scan",
         "ayah_words": 44
       },
       {
         "ref": "79:40-41",
-        "line": 1132,
+        "line": 1074,
         "reason": "no-span-in-scan",
         "ayah_words": 13
       },
       {
         "ref": "87:6-7",
-        "line": 1200,
+        "line": 1152,
         "reason": "no-span-in-scan",
         "ayah_words": 13
       },
       {
         "ref": "55:26-27",
-        "line": 1218,
+        "line": 1170,
         "reason": "no-span-in-scan",
         "ayah_words": 10
       },
       {
         "ref": "28:88",
-        "line": 1220,
+        "line": 1172,
         "reason": "no-span-in-scan",
         "ayah_words": 22
       },
       {
         "ref": "2:198",
-        "line": 1232,
+        "line": 1184,
         "reason": "no-span-in-scan",
         "ayah_words": 28
       },
       {
         "ref": "76:5-6",
-        "line": 1282,
+        "line": 1234,
         "reason": "no-span-in-scan",
         "ayah_words": 15
       },
       {
         "ref": "4:59",
-        "line": 1403,
+        "line": 1357,
         "reason": "no-span-in-scan",
         "ayah_words": 30
       }
@@ -1526,7 +1525,7 @@
       "3. Intellect, Not Reason": 20,
       "4. The Discourse to Kumayl": 8,
       "5. The Fruits of Certainty": 23,
-      "6. A Sacred Conception of Justice": 20,
+      "6. A Sacred Conception of Justice": 21,
       "7. Justice and the Tyrant's Pride": 33,
       "8. Conscience, Compassion, and the Ordering of Society": 26,
       "9. Justice for the Poor and the Sincerity of Intention": 0,
