@@ -1,44 +1,42 @@
 {
   "schema": "podcast.book-fluency/v5",
   "narrative_frame": "external_narrator",
-  "adapted": 13,
-  "reverted": 2,
+  "adapted": 14,
+  "reverted": 1,
   "overwritten_by_replay": 0,
   "chapters": [
     {
       "title": "In the Prophet's Shadow",
-      "base_words": 2842,
-      "output_words": 2842,
+      "base_words": 2071,
+      "output_words": 2122,
       "windows": 1,
-      "windows_kept": 0,
-      "status": "reverted",
-      "gates": [
-        "fluency-01: Arabic runs dropped (117<173)"
-      ],
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
       "warnings": [],
       "lecture_voice_before": {
-        "reader_address": 4,
+        "reader_address": 0,
         "stage_directions": 0
       },
       "lecture_voice_after": {
-        "reader_address": 4,
+        "reader_address": 0,
         "stage_directions": 0
       },
       "editorial_queries": [],
-      "comprehension_flags": [],
+      "comprehension_flags": [
+        "The abbreviation \"bt.\" in \"Fatima bt. Asad\" stands for \"bint\" (daughter of) and a general reader may not recognize it without a gloss this pass is not authorized to add."
+      ],
       "terminology_notes": []
     },
     {
       "title": "The People of the House and the Prophet's Witness",
       "base_words": 2516,
-      "output_words": 2519,
+      "output_words": 2498,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
-      "warnings": [
-        "fluency-02: output near-identical to base \u2014 copied, not re-voiced"
-      ],
+      "warnings": [],
       "lecture_voice_before": {
         "reader_address": 30,
         "stage_directions": 0
@@ -48,13 +46,15 @@
         "stage_directions": 0
       },
       "editorial_queries": [],
-      "comprehension_flags": [],
+      "comprehension_flags": [
+        "The dual date \"the year 10/632\" uses the Hijri/Gregorian convention, which a general reader may not recognize as two calendars for the same year."
+      ],
       "terminology_notes": []
     },
     {
       "title": "Intellect, Not Reason",
       "base_words": 6092,
-      "output_words": 6164,
+      "output_words": 6067,
       "windows": 2,
       "windows_kept": 2,
       "status": "adapted",
@@ -70,16 +70,16 @@
       },
       "editorial_queries": [],
       "comprehension_flags": [
-        "A general reader may stumble on the specialist vocabulary carried over untranslated \u2014 \"apophatic\", \"antinomies\", \"sublimated\", \"existentiation\", \"denouement\", and the Latin \"grosso modo\" (rendered here as \"wholesale\") \u2014 none of which this pass is authorized to gloss inline."
+        "The terms \"apophasis\" / \"apophatic discourse\" (the language of negation) carry the argument of several paragraphs but are never glossed in the source, and a general reader may stumble on them; this pass is not authorized to add an inline explanation."
       ],
       "terminology_notes": [
-        "'aql \u2014 the source alternates between \"'aql\" (with the ayn) and bare \"aql\"; standardized here to \"'aql\", and the bare-form intellectual \"'aqil\"/\"al-aqil\" should likewise be reconciled book-wide."
+        "signs / ayat \u2014 the source renders the same word as Arabic script (\u0622\u06cc\u0627\u062a) in one place and as a Latin transliteration (\"ayat\") in another; a book-wide decision on one consistent form would help."
       ]
     },
     {
       "title": "The Discourse to Kumayl",
       "base_words": 4271,
-      "output_words": 4213,
+      "output_words": 4277,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
@@ -93,20 +93,18 @@
         "reader_address": 5,
         "stage_directions": 0
       },
-      "editorial_queries": [
-        "The source's forward references to \"the second chapter\" and \"the third chapter\" were recast as direct statements (worship's role in the quest for justice; remembrance as the quintessence of worship's fruits), since this edition's chapter scheme may not match the source's numbering \u2014 an editor should confirm the neighboring chapters still carry those topics."
-      ],
+      "editorial_queries": [],
       "comprehension_flags": [
-        "The passage stacks many transliterated technical terms (zahir/batin, haqiqa/tahaqquq/tahqiq, tawhid, hawa, ikhlas) in close succession; each is glossed in place, but a first-time reader may still find the density demanding."
+        "The references to \"the second chapter\" and \"the third chapter\" assume the reader knows this edition's overall structure; a reader meeting this chapter on its own may not know which chapters are meant."
       ],
       "terminology_notes": [
-        "hamaj raa \u2014 the gloss \"the moth that hurls itself at any flame\" should be standardized against the rendering used elsewhere in the book."
+        "'aqil \u2014 the source alternates between \"'aqil\" and \"aqil\"; standardized here to \"'aqil\" throughout, and \"'alim rabbani\" likewise regularized, for one consistent spelling per term book-wide."
       ]
     },
     {
       "title": "The Fruits of Certainty",
       "base_words": 5978,
-      "output_words": 5976,
+      "output_words": 5977,
       "windows": 2,
       "windows_kept": 2,
       "status": "adapted",
@@ -121,17 +119,13 @@
         "stage_directions": 0
       },
       "editorial_queries": [],
-      "comprehension_flags": [
-        "A general reader may stumble on \"scientistic,\" which is retained because \"scientific\" would alter the author's meaning (a critique of scientism, not of science)."
-      ],
-      "terminology_notes": [
-        "epistemology \u2014 kept verbatim on both occurrences (\"epistemology of joy,\" \"joyous epistemology\") rather than paraphrased, to hold the technical term steady."
-      ]
+      "comprehension_flags": [],
+      "terminology_notes": []
     },
     {
       "title": "A Sacred Conception of Justice",
       "base_words": 5794,
-      "output_words": 5757,
+      "output_words": 5708,
       "windows": 2,
       "windows_kept": 2,
       "status": "adapted",
@@ -146,17 +140,15 @@
         "stage_directions": 0
       },
       "editorial_queries": [],
-      "comprehension_flags": [
-        "The Platonic soul-part vocabulary \u2014 \"concupiscent\" and \"irascible\" for the appetitive and spirited faculties \u2014 is obscure to a general reader, and this pass is not authorized to add a gloss."
-      ],
+      "comprehension_flags": [],
       "terminology_notes": [
-        "al-Haqq / \u0627\u0644\u062d\u0642 \u2014 the divine name appears variously as the transliteration alone (\"al-Haqq\"), the script alone (\"\u0627\u0644\u062d\u0642\"), and the two paired (\"al-Haqq, \u0627\u0644\u062d\u0642\"); a book-wide convention for when script, transliteration, or both are shown would keep this central term consistent."
+        "Plato's tripartite soul \u2014 the source's \"concupiscent\" and \"irascible\" were rendered as \"appetitive\" and \"spirited\" (paired with \"rational\") for lucidity; this triad should be standardized book-wide wherever the tripartition recurs."
       ]
     },
     {
       "title": "Justice and the Tyrant's Pride",
       "base_words": 4525,
-      "output_words": 4650,
+      "output_words": 4568,
       "windows": 2,
       "windows_kept": 2,
       "status": "adapted",
@@ -172,12 +164,14 @@
       },
       "editorial_queries": [],
       "comprehension_flags": [],
-      "terminology_notes": []
+      "terminology_notes": [
+        "fitra \u2014 the prose uses \"fitra\" throughout, while the parenthetical inside the 30:30 quotation reads \"firat Allah\"; the transliteration should be standardized book-wide, though it sits inside a verbatim quotation and so was left untouched here."
+      ]
     },
     {
       "title": "Conscience, Compassion, and the Ordering of Society",
       "base_words": 5857,
-      "output_words": 5723,
+      "output_words": 5788,
       "windows": 2,
       "windows_kept": 2,
       "status": "adapted",
@@ -188,17 +182,20 @@
         "stage_directions": 0
       },
       "lecture_voice_after": {
-        "reader_address": 47,
+        "reader_address": 59,
         "stage_directions": 0
       },
       "editorial_queries": [],
       "comprehension_flags": [],
-      "terminology_notes": []
+      "terminology_notes": [
+        "al-nafs al-ammara \u2014 the source prints both \"al-nafs al-ammara\" and \"nafs al-ammara\" (and once \"the soul which commands evil\") for the same term; a single form should be settled on book-wide.",
+        "su al-zann / su' zannihim bil-baqa \u2014 the source romanizes the same root (\u0633\u0648\u0621 \u0627\u0644\u0638\u0646) two ways; standardize the apostrophe/spelling of this transliteration book-wide."
+      ]
     },
     {
       "title": "Justice for the Poor and the Sincerity of Intention",
       "base_words": 2571,
-      "output_words": 2514,
+      "output_words": 2539,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
@@ -212,14 +209,16 @@
         "reader_address": 0,
         "stage_directions": 0
       },
-      "editorial_queries": [],
+      "editorial_queries": [
+        "The source sentence beginning \"If one speaks the truth without grasping the reason for it, that truth, \u0627\u0644\u062d\u0642, is the very nature of the Creator...\" is grammatically broken; it was read as \"without grasping the reason for it \u2014 namely that \u0627\u0644\u062d\u0642 is the Creator's nature and that the goal is to take on His qualities,\" which is the only coherent sense."
+      ],
       "comprehension_flags": [],
       "terminology_notes": []
     },
     {
       "title": "Prayer, Remembrance, and Gazing on the Good",
       "base_words": 3657,
-      "output_words": 3665,
+      "output_words": 3649,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
@@ -234,13 +233,17 @@
         "stage_directions": 0
       },
       "editorial_queries": [],
-      "comprehension_flags": [],
-      "terminology_notes": []
+      "comprehension_flags": [
+        "A general reader may stumble on \"supererogatory,\" which the source uses for voluntary devotions performed beyond the obligatory; the passage pairs it with \"voluntary prayer\" nearby, but a brief book-wide gloss on first use would help."
+      ],
+      "terminology_notes": [
+        "supererogatory \u2014 standardize as the book's single term for optional/voluntary acts of worship, rendered identically on every occurrence."
+      ]
     },
     {
       "title": "Dhikr: The Polish of the Heart",
       "base_words": 8467,
-      "output_words": 8478,
+      "output_words": 8466,
       "windows": 3,
       "windows_kept": 3,
       "status": "adapted",
@@ -254,29 +257,19 @@
         "reader_address": 11,
         "stage_directions": 0
       },
-      "editorial_queries": [
-        "In the al-Ghazali paragraph, a closing quotation mark appears at the end (\"...the practical acts of worship.'\") with no matching opening mark, so it is unclear where his direct quotation is meant to begin."
-      ],
-      "comprehension_flags": [
-        "A general reader may stumble on unglossed specialist words carried over from the source \u2014 \"gnosis\", \"prima facie\", \"re-ligare\", \"par excellence\" \u2014 which this pass is not authorized to explain inline.",
-        "One paragraph clusters several unexplained specialist terms in close succession \u2014 \"ontological reality,\" \"ontological infrastructure,\" \"principial realities,\" and \"theophanies\" \u2014 and a general reader may stumble where they arrive together without gloss."
-      ],
-      "terminology_notes": [
-        "Shii / Shiite / Shia / Shiism \u2014 the source alternates spellings for the same adjective; a single book-wide form should be standardized.",
-        "Ibn 'Ataillah / Ibn Ataillah \u2014 the source spells this name two ways within the same passage (with and without the apostrophe); a single spelling should be standardized book-wide."
-      ]
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
     },
     {
       "title": "Remembrance as the Quintessence of Worship",
       "base_words": 6452,
-      "output_words": 6452,
+      "output_words": 6460,
       "windows": 3,
       "windows_kept": 3,
       "status": "adapted",
       "gates": [],
-      "warnings": [
-        "fluency-12-part-01: output near-identical to base \u2014 copied, not re-voiced"
-      ],
+      "warnings": [],
       "lecture_voice_before": {
         "reader_address": 16,
         "stage_directions": 0
@@ -287,12 +280,15 @@
       },
       "editorial_queries": [],
       "comprehension_flags": [],
-      "terminology_notes": []
+      "terminology_notes": [
+        "dhikruLlah / dhikr Allah \u2014 the running form is dhikruLlah, but the al-Sadiq quotation prints 'dhikr Allah' (untouched as an artifact); a book-wide pass should confirm the running spelling is consistent throughout.",
+        "dhikr / al-haqiqa / tawhid / mazhar / tawajjuh / sultan / khutba \u2014 these transliterated technical terms recur throughout and should be rendered identically at every occurrence book-wide, matching the spellings already used here (no diacritics added)."
+      ]
     },
     {
       "title": "Extinction and the Name: The Death of the Saint",
       "base_words": 6697,
-      "output_words": 6566,
+      "output_words": 6592,
       "windows": 3,
       "windows_kept": 3,
       "status": "adapted",
@@ -307,15 +303,13 @@
         "stage_directions": 0
       },
       "editorial_queries": [],
-      "comprehension_flags": [
-        "The author's repeated term \"coagulations\" (individualistic and cosmic) is unusual and a modern reader may stumble on it, but this pass is not authorized to gloss it in the prose."
-      ],
+      "comprehension_flags": [],
       "terminology_notes": []
     },
     {
       "title": "The First Sermon of the Nahj al-Balagha",
       "base_words": 2266,
-      "output_words": 2296,
+      "output_words": 2303,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
@@ -330,7 +324,9 @@
         "stage_directions": 0
       },
       "editorial_queries": [],
-      "comprehension_flags": [],
+      "comprehension_flags": [
+        "The cosmogonic passage \u2014 the winds, the churned waters, and the foam raised into the seven heavens \u2014 is deliberately dense and figurative, and a modern reader may lose the thread of what is happening without orienting help this pass is not authorized to add."
+      ],
       "terminology_notes": []
     },
     {
@@ -341,8 +337,9 @@
       "windows_kept": 0,
       "status": "reverted",
       "gates": [
-        "fluency-15-part-01: lecture voice added \u2014 stage directions to an audience (2 vs 1 in source) under external_narrator frame",
-        "fluency-15-part-02: lecture voice added \u2014 narration addresses the reader (188 vs 187 in source) under external_narrator frame"
+        "fluency-15-part-01: lecture voice added \u2014 narration addresses the reader (111 vs 110 in source) under external_narrator frame",
+        "fluency-15-part-02: lecture voice added \u2014 narration addresses the reader (200 vs 187 in source) under external_narrator frame",
+        "fluency-15-part-02: lecture voice added \u2014 stage directions to an audience (4 vs 1 in source) under external_narrator frame"
       ],
       "warnings": [],
       "lecture_voice_before": {

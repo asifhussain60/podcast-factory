@@ -1,371 +1,377 @@
 {
-  "cited": 135,
+  "cited": 134,
   "inserted": 0,
-  "already": 49,
+  "already": 47,
   "uncovered": [
     {
       "ref": "57:3",
-      "line": 234,
+      "line": 221,
       "reason": "no-span-in-scan",
       "ayah_words": 10
     },
     {
       "ref": "23:91",
-      "line": 276,
+      "line": 263,
       "reason": "no-span-in-scan",
       "ayah_words": 26
     },
     {
       "ref": "8:24",
-      "line": 288,
+      "line": 275,
       "reason": "no-span-in-scan",
       "ayah_words": 21
     },
     {
       "ref": "3:19",
-      "line": 322,
+      "line": 310,
       "reason": "no-span-in-scan",
       "ayah_words": 28
     },
     {
       "ref": "83:14",
-      "line": 330,
+      "line": 318,
       "reason": "no-span-in-scan",
       "ayah_words": 9
     },
     {
       "ref": "53:3-4",
-      "line": 350,
+      "line": 338,
       "reason": "no-span-in-scan",
       "ayah_words": 9
     },
     {
       "ref": "79:40-41",
-      "line": 352,
+      "line": 340,
       "reason": "no-span-in-scan",
       "ayah_words": 13
     },
     {
       "ref": "6:162",
-      "line": 370,
+      "line": 358,
       "reason": "no-span-in-scan",
       "ayah_words": 9
     },
     {
       "ref": "15:99",
-      "line": 376,
+      "line": 364,
       "reason": "no-span-in-scan",
       "ayah_words": 5
     },
     {
       "ref": "107:1-7",
-      "line": 442,
+      "line": 429,
       "reason": "no-span-in-scan",
       "ayah_words": 25
     },
     {
       "ref": "2:155-157",
-      "line": 456,
+      "line": 443,
       "reason": "no-span-in-scan",
       "ayah_words": 33
     },
     {
       "ref": "103:1-3",
-      "line": 458,
+      "line": 445,
       "reason": "no-span-in-scan",
       "ayah_words": 14
     },
     {
       "ref": "113:2",
-      "line": 584,
+      "line": 573,
       "reason": "no-span-in-scan",
       "ayah_words": 4
     },
     {
       "ref": "12:53",
-      "line": 658,
+      "line": 639,
       "reason": "no-span-in-scan",
       "ayah_words": 17
     },
     {
       "ref": "30:30",
-      "line": 660,
+      "line": 641,
       "reason": "no-span-in-scan",
       "ayah_words": 25
     },
     {
       "ref": "8:17",
-      "line": 670,
+      "line": 651,
       "reason": "no-span-in-scan",
       "ayah_words": 24
     },
     {
       "ref": "40:16",
-      "line": 684,
+      "line": 665,
       "reason": "no-span-in-scan",
       "ayah_words": 15
     },
     {
       "ref": "38:71-74",
-      "line": 686,
+      "line": 667,
       "reason": "no-span-in-scan",
       "ayah_words": 28
     },
     {
       "ref": "28:88",
-      "line": 698,
+      "line": 679,
       "reason": "no-span-in-scan",
       "ayah_words": 22
     },
     {
       "ref": "9:85",
-      "line": 704,
+      "line": 685,
       "reason": "no-span-in-scan",
       "ayah_words": 17
     },
     {
       "ref": "7:156",
-      "line": 740,
+      "line": 717,
       "reason": "no-span-in-scan",
       "ayah_words": 33
     },
     {
       "ref": "4:135",
-      "line": 748,
+      "line": 725,
       "reason": "no-span-in-scan",
       "ayah_words": 40
     },
     {
       "ref": "48:29",
-      "line": 806,
+      "line": 785,
       "reason": "no-span-in-scan",
       "ayah_words": 61
     },
     {
       "ref": "104:1-4",
-      "line": 816,
+      "line": 795,
       "reason": "no-span-in-scan",
       "ayah_words": 17
     },
     {
       "ref": "108:1-2",
-      "line": 844,
+      "line": 828,
       "reason": "no-span-in-scan",
       "ayah_words": 6
     },
     {
       "ref": "92:17-21",
-      "line": 852,
+      "line": 836,
       "reason": "no-span-in-scan",
       "ayah_words": 19
     },
     {
       "ref": "76:8-9",
-      "line": 854,
+      "line": 838,
       "reason": "no-span-in-scan",
       "ayah_words": 17
     },
     {
+      "ref": "51:56",
+      "line": 854,
+      "reason": "no-span-in-scan",
+      "ayah_words": 6
+    },
+    {
       "ref": "24:36",
-      "line": 872,
+      "line": 870,
       "reason": "no-span-in-scan",
       "ayah_words": 14
     },
     {
       "ref": "24:35",
-      "line": 940,
+      "line": 951,
       "reason": "no-span-in-scan",
       "ayah_words": 55
     },
     {
       "ref": "92:1-2",
-      "line": 950,
+      "line": 961,
       "reason": "no-span-in-scan",
       "ayah_words": 6
     },
     {
       "ref": "22:46",
-      "line": 954,
+      "line": 965,
       "reason": "no-span-in-scan",
       "ayah_words": 24
     },
     {
       "ref": "39:23",
-      "line": 956,
+      "line": 967,
       "reason": "no-span-in-scan",
       "ayah_words": 36
     },
     {
       "ref": "85:3",
-      "line": 970,
+      "line": 981,
       "reason": "no-span-in-scan",
       "ayah_words": 2
     },
     {
       "ref": "57:3",
-      "line": 976,
+      "line": 987,
       "reason": "no-span-in-scan",
       "ayah_words": 10
     },
     {
       "ref": "50:16",
-      "line": 978,
+      "line": 989,
       "reason": "no-span-in-scan",
       "ayah_words": 15
     },
     {
       "ref": "112:1",
-      "line": 982,
+      "line": 993,
       "reason": "no-span-in-scan",
       "ayah_words": 4
     },
     {
       "ref": "7:172",
-      "line": 994,
+      "line": 1005,
       "reason": "no-span-in-scan",
       "ayah_words": 29
     },
     {
       "ref": "32:9",
-      "line": 996,
+      "line": 1007,
       "reason": "no-span-in-scan",
       "ayah_words": 16
     },
     {
       "ref": "57:16",
-      "line": 998,
+      "line": 1009,
       "reason": "no-span-in-scan",
       "ayah_words": 29
     },
     {
       "ref": "76:25",
-      "line": 1048,
+      "line": 1060,
       "reason": "no-span-in-scan",
       "ayah_words": 5
     },
     {
       "ref": "73:8",
-      "line": 1050,
+      "line": 1062,
       "reason": "no-span-in-scan",
       "ayah_words": 6
     },
     {
       "ref": "33:41",
-      "line": 1052,
+      "line": 1064,
       "reason": "no-span-in-scan",
       "ayah_words": 7
     },
     {
       "ref": "7:55",
-      "line": 1054,
+      "line": 1066,
       "reason": "no-span-in-scan",
       "ayah_words": 9
     },
     {
       "ref": "7:205",
-      "line": 1056,
+      "line": 1068,
       "reason": "no-span-in-scan",
       "ayah_words": 16
     },
     {
       "ref": "73:20",
-      "line": 1058,
+      "line": 1070,
       "reason": "no-span-in-scan",
       "ayah_words": 90
     },
     {
       "ref": "33:41-43",
-      "line": 1066,
+      "line": 1078,
       "reason": "no-span-in-scan",
       "ayah_words": 23
     },
     {
       "ref": "2:152",
-      "line": 1068,
+      "line": 1080,
       "reason": "no-span-in-scan",
       "ayah_words": 6
     },
     {
       "ref": "33:41-43",
-      "line": 1070,
+      "line": 1082,
       "reason": "no-span-in-scan",
       "ayah_words": 23
     },
     {
       "ref": "3:190-191",
-      "line": 1074,
+      "line": 1086,
       "reason": "no-span-in-scan",
       "ayah_words": 32
     },
     {
       "ref": "70:23",
-      "line": 1076,
+      "line": 1088,
       "reason": "no-span-in-scan",
       "ayah_words": 5
     },
     {
       "ref": "29:45",
-      "line": 1078,
+      "line": 1090,
       "reason": "no-span-in-scan",
       "ayah_words": 24
     },
     {
       "ref": "107:4-7",
-      "line": 1080,
+      "line": 1092,
       "reason": "no-span-in-scan",
       "ayah_words": 12
     },
     {
       "ref": "7:143",
-      "line": 1110,
+      "line": 1122,
       "reason": "no-span-in-scan",
       "ayah_words": 44
     },
     {
       "ref": "7:143",
-      "line": 1116,
+      "line": 1128,
       "reason": "no-span-in-scan",
       "ayah_words": 44
     },
     {
       "ref": "79:40-41",
-      "line": 1122,
+      "line": 1132,
       "reason": "no-span-in-scan",
       "ayah_words": 13
     },
     {
       "ref": "87:6-7",
-      "line": 1199,
+      "line": 1200,
       "reason": "no-span-in-scan",
       "ayah_words": 13
     },
     {
       "ref": "55:26-27",
-      "line": 1217,
+      "line": 1218,
       "reason": "no-span-in-scan",
       "ayah_words": 10
     },
     {
       "ref": "28:88",
-      "line": 1219,
+      "line": 1220,
       "reason": "no-span-in-scan",
       "ayah_words": 22
     },
     {
       "ref": "2:198",
-      "line": 1231,
+      "line": 1232,
       "reason": "no-span-in-scan",
       "ayah_words": 28
     },
     {
       "ref": "76:5-6",
-      "line": 1281,
+      "line": 1282,
       "reason": "no-span-in-scan",
       "ayah_words": 15
     },
     {
       "ref": "4:59",
-      "line": 1389,
+      "line": 1403,
       "reason": "no-span-in-scan",
       "ayah_words": 30
     }
@@ -373,15 +379,15 @@
   "inserted_detail": [],
   "invalid_reference": [
     {
-      "line": 704,
+      "line": 685,
       "ref": "(7:181–2)"
     },
     {
-      "line": 704,
+      "line": 685,
       "ref": "(7:181–2)"
     },
     {
-      "line": 944,
+      "line": 955,
       "ref": "(24: 36-7)"
     }
   ],
@@ -389,7 +395,7 @@
   "scan_arabic_words": 0,
   "uncited_review": [
     {
-      "line": 41,
+      "line": 13,
       "passage": "I am the city of knowledge and Ali (ع) is its gate; so whoever desires knowledge, let him enter the gate",
       "proposed_ref": "12:67",
       "english_similarity": 0.444,
@@ -397,7 +403,7 @@
       "agreed": false
     },
     {
-      "line": 85,
+      "line": 57,
       "passage": "Every day he would hold up for me a sign of his noble character and command me to follow it.",
       "proposed_ref": "30:58",
       "english_similarity": 0.375,
@@ -405,7 +411,7 @@
       "agreed": false
     },
     {
-      "line": 97,
+      "line": 69,
       "passage": "I saw the light of the revelation and the message, and I smelt the fragrance of prophecy...",
       "proposed_ref": "42:52",
       "english_similarity": 0.429,
@@ -413,23 +419,31 @@
       "agreed": false
     },
     {
-      "line": 111,
-      "passage": " in the pact of brotherhood he established between the ",
-      "proposed_ref": "18:95",
+      "line": 83,
+      "passage": " in the pact of brotherhood he made between the ",
+      "proposed_ref": "4:33",
       "english_similarity": 0.5,
       "corroborated_by_scan": false,
       "agreed": false
     },
     {
-      "line": 111,
-      "passage": " (al-muhajirun), the Muslims who had accompanied him on the hijra from Mecca, and the ",
-      "proposed_ref": "9:117",
+      "line": 83,
+      "passage": " (al-muhajirun), the Muslims who had come with him on the hijra from Mecca, and the ",
+      "proposed_ref": "62:3",
       "english_similarity": 0.5,
       "corroborated_by_scan": false,
       "agreed": false
     },
     {
-      "line": 324,
+      "line": 204,
+      "passage": "closeness to the Prophet in every respect",
+      "proposed_ref": "25:31",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 312,
       "passage": "Through them, knowledge penetrates the reality of insight.",
       "proposed_ref": "27:66",
       "english_similarity": 0.4,
@@ -437,7 +451,7 @@
       "agreed": false
     },
     {
-      "line": 336,
+      "line": 324,
       "passage": "Struggling against the soul through knowledge, such is the mark of the intellect.",
       "proposed_ref": "9:44",
       "english_similarity": 0.333,
@@ -445,7 +459,7 @@
       "agreed": false
     },
     {
-      "line": 374,
+      "line": 362,
       "passage": "God establishes well-being between him and mankind.",
       "proposed_ref": "42:15",
       "english_similarity": 0.8,
@@ -453,7 +467,7 @@
       "agreed": false
     },
     {
-      "line": 378,
+      "line": 366,
       "passage": " God. For it is the heart that sees Allah, not by eyesight, not by بصارۃ, but through the spiritual insight, the بصیرۃ, generated by the true principles of fait",
       "proposed_ref": "42:13",
       "english_similarity": 0.364,
@@ -461,7 +475,7 @@
       "agreed": false
     },
     {
-      "line": 400,
+      "line": 389,
       "passage": "the most joyous of mankind is the intellectual (*al-aqil*).",
       "proposed_ref": "17:89",
       "english_similarity": 0.4,
@@ -469,7 +483,15 @@
       "agreed": false
     },
     {
-      "line": 418,
+      "line": 393,
+      "passage": "he who does not make people despair of the mercy of God, and does not make them lose hope in the gracious spirit of God (*rawh Allah*).",
+      "proposed_ref": "12:87",
+      "english_similarity": 0.444,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 407,
       "passage": "Truly God is beautiful and He loves beauty,",
       "proposed_ref": "2:195",
       "english_similarity": 0.5,
@@ -477,7 +499,7 @@
       "agreed": false
     },
     {
-      "line": 450,
+      "line": 437,
       "passage": "Sleeping with certainty is better than praying with doubt.",
       "proposed_ref": "5:50",
       "english_similarity": 0.4,
@@ -485,7 +507,7 @@
       "agreed": false
     },
     {
-      "line": 452,
+      "line": 439,
       "passage": "is that by virtue of whose presence action is accepted by God.",
       "proposed_ref": "49:3",
       "english_similarity": 0.4,
@@ -493,7 +515,7 @@
       "agreed": false
     },
     {
-      "line": 470,
+      "line": 457,
       "passage": "I exhort you, O slaves of God, to *taqwa*, which is the provision,",
       "proposed_ref": "2:197",
       "english_similarity": 0.5,
@@ -501,7 +523,7 @@
       "agreed": false
     },
     {
-      "line": 470,
+      "line": 457,
       "passage": "whoso desireth that which hasteneth away, in that We hasten for him what We will",
       "proposed_ref": "16:1",
       "english_similarity": 0.333,
@@ -509,7 +531,7 @@
       "agreed": false
     },
     {
-      "line": 502,
+      "line": 489,
       "passage": "your soul would become averse to the marvels of this world, its passions, its pleasures and its embellished scenery.",
       "proposed_ref": "10:24",
       "english_similarity": 0.333,
@@ -517,7 +539,7 @@
       "agreed": false
     },
     {
-      "line": 510,
+      "line": 497,
       "passage": "With their bodies, they keep company with the world, while their spirits are tied to the transcendent realm.",
       "proposed_ref": "2:222",
       "english_similarity": 0.333,
@@ -525,7 +547,7 @@
       "agreed": false
     },
     {
-      "line": 512,
+      "line": 499,
       "passage": "their hearts are in the Gardens of Paradise while their bodies are at work.",
       "proposed_ref": "42:22",
       "english_similarity": 0.5,
@@ -533,7 +555,7 @@
       "agreed": false
     },
     {
-      "line": 550,
+      "line": 537,
       "passage": "The fruit of good action is like its root,",
       "proposed_ref": "14:24",
       "english_similarity": 0.6,
@@ -541,15 +563,23 @@
       "agreed": false
     },
     {
-      "line": 626,
-      "passage": " that is, of conducting and composing oneself in the consciousness of standing always in the divine presence, for even if one cannot see Him, ",
+      "line": 587,
+      "passage": " by its proper virtue, stand in their right place, the soul may be called ",
+      "proposed_ref": "28:30",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 601,
+      "passage": " — that is, conducting and composing oneself in the consciousness of standing constantly in the divine presence, for even if one cannot see Him, ",
       "proposed_ref": "11:5",
       "english_similarity": 0.333,
       "corroborated_by_scan": false,
       "agreed": false
     },
     {
-      "line": 630,
+      "line": 605,
       "passage": "Justice puts everything in its right place.",
       "proposed_ref": "16:76",
       "english_similarity": 0.4,
@@ -557,7 +587,7 @@
       "agreed": false
     },
     {
-      "line": 630,
+      "line": 605,
       "passage": "Be just with God and be just with people [giving them what is their due] from yourself.",
       "proposed_ref": "60:13",
       "english_similarity": 0.4,
@@ -565,7 +595,7 @@
       "agreed": false
     },
     {
-      "line": 696,
+      "line": 677,
       "passage": "I have been given authority, I order and am obeyed",
       "proposed_ref": "57:23",
       "english_similarity": 0.5,
@@ -573,7 +603,7 @@
       "agreed": false
     },
     {
-      "line": 848,
+      "line": 832,
       "passage": "I bear witness that He is Justice and He acts justly.",
       "proposed_ref": "16:90",
       "english_similarity": 0.6,
@@ -581,7 +611,7 @@
       "agreed": false
     },
     {
-      "line": 856,
+      "line": 840,
       "passage": "their hearts are in the Gardens [of Paradise] while their bodies are at work.",
       "proposed_ref": "42:22",
       "english_similarity": 0.5,
@@ -589,7 +619,7 @@
       "agreed": false
     },
     {
-      "line": 858,
+      "line": 842,
       "passage": "With men this is impossible, but with God all things are possible,",
       "proposed_ref": "5:116",
       "english_similarity": 0.75,
@@ -597,7 +627,7 @@
       "agreed": false
     },
     {
-      "line": 860,
+      "line": 844,
       "passage": "No act is negligible if it is accompanied by piety.",
       "proposed_ref": "2:44",
       "english_similarity": 0.5,
@@ -605,15 +635,15 @@
       "agreed": false
     },
     {
-      "line": 864,
-      "passage": "Know that your every act is dependent upon your prayer.",
+      "line": 862,
+      "passage": "Know that your every act is dependent upon your prayer",
       "proposed_ref": "62:9",
       "english_similarity": 0.6,
       "corroborated_by_scan": false,
       "agreed": false
     },
     {
-      "line": 870,
+      "line": 868,
       "passage": "is like one who shoots arrows without a bow.",
       "proposed_ref": "37:65",
       "english_similarity": 0.4,
@@ -621,7 +651,7 @@
       "agreed": false
     },
     {
-      "line": 888,
+      "line": 886,
       "passage": "But, Socrates, what is your account of the Good? Is it knowledge, or pleasure, or something else?",
       "proposed_ref": "9:62",
       "english_similarity": 0.429,
@@ -629,7 +659,7 @@
       "agreed": false
     },
     {
-      "line": 888,
+      "line": 886,
       "passage": "O Commander of the Faithful! How did you see Him?",
       "proposed_ref": "34:9",
       "english_similarity": 0.4,
@@ -637,7 +667,7 @@
       "agreed": false
     },
     {
-      "line": 990,
+      "line": 1001,
       "passage": "Foremost in religion is knowledge of Him (awwal al-din marifatuhu).",
       "proposed_ref": "51:28",
       "english_similarity": 0.429,
@@ -645,7 +675,7 @@
       "agreed": false
     },
     {
-      "line": 1002,
+      "line": 1013,
       "passage": "That which shows you the existence of His omnipotence is that He veiled you from Himself by that which has no existence alongside of Him.",
       "proposed_ref": "36:77",
       "english_similarity": 0.429,
@@ -653,15 +683,7 @@
       "agreed": false
     },
     {
-      "line": 1002,
-      "passage": " — both in the sense of coming into existence and in the sense of their ",
-      "proposed_ref": "24:31",
-      "english_similarity": 0.5,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 1010,
+      "line": 1021,
       "passage": "The veils do not veil Him (la tahjubuhu al-hujub).",
       "proposed_ref": "42:51",
       "english_similarity": 0.4,
@@ -669,15 +691,15 @@
       "agreed": false
     },
     {
-      "line": 1014,
-      "passage": " within creation and as creation. The world manifests the ",
+      "line": 1025,
+      "passage": " within the creation and as the creation. The world manifests the ",
       "proposed_ref": "23:14",
       "english_similarity": 0.5,
       "corroborated_by_scan": false,
       "agreed": false
     },
     {
-      "line": 1016,
+      "line": 1027,
       "passage": " It is the divine Names, qualities, and attributes that ",
       "proposed_ref": "29:47",
       "english_similarity": 0.5,
@@ -685,15 +707,15 @@
       "agreed": false
     },
     {
-      "line": 1016,
-      "passage": " there is only the one and only divine Reality. If the realization of this truth of identity is thus ",
+      "line": 1027,
+      "passage": " there is but the one and only divine Reality. If the realization of this truth of identity is thus ",
       "proposed_ref": "36:69",
       "english_similarity": 0.5,
       "corroborated_by_scan": false,
       "agreed": false
     },
     {
-      "line": 1016,
+      "line": 1027,
       "passage": " and it is against this that a vision of divine oneness must guard. One must always ",
       "proposed_ref": "48:27",
       "english_similarity": 0.4,
@@ -701,7 +723,7 @@
       "agreed": false
     },
     {
-      "line": 1018,
+      "line": 1029,
       "passage": "He is with every thing, but not through association; and other than every thing, but not through separation.",
       "proposed_ref": "62:9",
       "english_similarity": 0.5,
@@ -709,15 +731,15 @@
       "agreed": false
     },
     {
-      "line": 1022,
-      "passage": " the other. In the same way, a one-sided emphasis on God as ",
+      "line": 1033,
+      "passage": " the other. In the same way, a one-sided stress on God as ",
       "proposed_ref": "2:184",
       "english_similarity": 0.4,
       "corroborated_by_scan": false,
       "agreed": false
     },
     {
-      "line": 1022,
+      "line": 1033,
       "passage": " in the very heart of the created world. The ",
       "proposed_ref": "70:19",
       "english_similarity": 0.5,
@@ -725,7 +747,7 @@
       "agreed": false
     },
     {
-      "line": 1092,
+      "line": 1104,
       "passage": "My slave never ceases to draw near to Me through supererogatory acts (nawafil) until I love him.",
       "proposed_ref": "2:222",
       "english_similarity": 0.333,
@@ -733,15 +755,15 @@
       "agreed": false
     },
     {
-      "line": 1094,
-      "passage": " one with the acts of perception is to be understood as a reality ",
+      "line": 1106,
+      "passage": " one with the acts of perception must be understood as a reality ",
       "proposed_ref": "34:14",
       "english_similarity": 0.75,
       "corroborated_by_scan": false,
       "agreed": false
     },
     {
-      "line": 1104,
+      "line": 1116,
       "passage": "trace of the condition of the creature in the eye of the witness",
       "proposed_ref": "3:81",
       "english_similarity": 0.4,
@@ -749,7 +771,7 @@
       "agreed": false
     },
     {
-      "line": 1104,
+      "line": 1116,
       "passage": "It is to worship God as though you see Him, and if you see Him not, yet truly He sees you.",
       "proposed_ref": "6:100",
       "english_similarity": 0.571,
@@ -757,15 +779,15 @@
       "agreed": false
     },
     {
-      "line": 1106,
-      "passage": " in relation to the divine Names, are treated further on. The message of ",
+      "line": 1118,
+      "passage": " in relation to the divine Names, is treated further on. The message of ",
       "proposed_ref": "15:8",
       "english_similarity": 0.333,
       "corroborated_by_scan": false,
       "agreed": false
     },
     {
-      "line": 1114,
+      "line": 1126,
       "passage": "While (I was) dead. I did not see God until I had died.",
       "proposed_ref": "37:16",
       "english_similarity": 0.4,
@@ -773,15 +795,15 @@
       "agreed": false
     },
     {
-      "line": 1118,
-      "passage": " In his Tarjuman al-ashwaq, he refers to divine wisdom as a peacock that ",
+      "line": 1130,
+      "passage": " In his Tarjuman al-ashwaq he speaks of divine wisdom as a peacock that ",
       "proposed_ref": "31:2",
       "english_similarity": 0.333,
       "corroborated_by_scan": false,
       "agreed": false
     },
     {
-      "line": 1154,
+      "line": 1164,
       "passage": "Praise be to Him who engendered things from nothing, then negated it; and established their being through the orientation towards them of His Words.",
       "proposed_ref": "40:7",
       "english_similarity": 0.364,
@@ -789,15 +811,7 @@
       "agreed": false
     },
     {
-      "line": 1154,
-      "passage": " is the divine Name that gives it existence: ",
-      "proposed_ref": "12:39",
-      "english_similarity": 0.5,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 1174,
+      "line": 1184,
       "passage": " that the Creator manifests Himself, and yet also ",
       "proposed_ref": "55:29",
       "english_similarity": 0.6,
@@ -805,7 +819,7 @@
       "agreed": false
     },
     {
-      "line": 1176,
+      "line": 1186,
       "passage": " through the dhikr, and an unveiling or revelation from that ",
       "proposed_ref": "33:2",
       "english_similarity": 0.5,
@@ -813,7 +827,7 @@
       "agreed": false
     },
     {
-      "line": 1182,
+      "line": 1192,
       "passage": "you will not remember Him according to the true reality of the remembrance until you forget your own soul in your remembrance.",
       "proposed_ref": "89:23",
       "english_similarity": 0.333,
@@ -821,7 +835,7 @@
       "agreed": false
     },
     {
-      "line": 1261,
+      "line": 1262,
       "passage": "Whoso sees me has seen the Truth (al-Haqq).",
       "proposed_ref": "64:2",
       "english_similarity": 0.4,
@@ -829,31 +843,7 @@
       "agreed": false
     },
     {
-      "line": 1301,
-      "passage": " the knowledge of God is, by a kind of metaphysical reverberation, to ",
-      "proposed_ref": "22:3",
-      "english_similarity": 0.5,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 1303,
-      "passage": " the mirror — without the mirror ceasing to be a mirror, and without the Face ceasing to be absolutely independent of it. The ",
-      "proposed_ref": "67:22",
-      "english_similarity": 0.333,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 1305,
-      "passage": "hearts are in the Gardens [of Paradise] while their bodies are at work.",
-      "proposed_ref": "42:22",
-      "english_similarity": 0.5,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 1313,
+      "line": 1314,
       "passage": "That you die while your tongue is moistened with the invocation of God.",
       "proposed_ref": "16:103",
       "english_similarity": 0.4,
@@ -861,7 +851,7 @@
       "agreed": false
     },
     {
-      "line": 1367,
+      "line": 1381,
       "passage": "I have been given authority, so I command and am obeyed,",
       "proposed_ref": "17:33",
       "english_similarity": 0.5,
@@ -869,6 +859,6 @@
       "agreed": false
     }
   ],
-  "coverage": 0.363,
+  "coverage": 0.351,
   "cited_inserted": 0
 }

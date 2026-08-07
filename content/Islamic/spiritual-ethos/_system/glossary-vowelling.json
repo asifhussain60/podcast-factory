@@ -1,8 +1,8 @@
 {
-  "vowelled": 28,
-  "marks_added": 88,
-  "already": 79,
-  "refused": 61,
+  "vowelled": 3,
+  "marks_added": 12,
+  "already": 107,
+  "refused": 58,
   "refusals": [
     {
       "term": "یا أمیر المومنین",
@@ -10,7 +10,7 @@
     },
     {
       "term": "أنَّ علیٌ مع القرآن، و قرآن مع العلی",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"أن علی مع ال\" vs proposal \"القرآن\")"
     },
     {
       "term": "توحید",
@@ -33,10 +33,6 @@
       "reason": "empty"
     },
     {
-      "term": "العاقل",
-      "reason": "empty"
-    },
-    {
       "term": "العاقل من وضع شئی حق محلہ",
       "reason": "letters changed, not just marks (first difference at character 7: source \" من وضع شئی \" vs proposal \"\")"
     },
@@ -54,7 +50,7 @@
     },
     {
       "term": "ایمان",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ایمان\" vs proposal \"إيمان\")"
+      "reason": "letters changed, not just marks (first difference at character 2: source \"یمان\" vs proposal \"يمان\")"
     },
     {
       "term": "شیطان",
@@ -66,7 +62,7 @@
     },
     {
       "term": "سورۃ الفلق",
-      "reason": "letters changed, not just marks (first difference at character 4: source \"ۃ الفلق\" vs proposal \"ة الفلق\")"
+      "reason": "empty"
     },
     {
       "term": "جبرئیل",
@@ -75,10 +71,6 @@
     {
       "term": "قبیح",
       "reason": "letters changed, not just marks (first difference at character 3: source \"یح\" vs proposal \"يح\")"
-    },
-    {
-      "term": "نھج البلاغۃ",
-      "reason": "letters changed, not just marks (first difference at character 2: source \"ھج البلاغۃ\" vs proposal \"هج البلاغة\")"
     },
     {
       "term": "المُحسنین",
@@ -94,7 +86,7 @@
     },
     {
       "term": "الرحمن الرحیم",
-      "reason": "letters changed, not just marks (first difference at character 6: source \"ن الرحیم\" vs proposal \"ان الرحيم\")"
+      "reason": "empty"
     },
     {
       "term": "خلیفۃ اللہ",
@@ -114,15 +106,11 @@
     },
     {
       "term": "شرک الجلی",
-      "reason": "letters changed, not just marks (first difference at character 3: source \"ک الجلی\" vs proposal \"ك الجلي\")"
+      "reason": "empty"
     },
     {
       "term": "شرک الخفی",
       "reason": "letters changed, not just marks (first difference at character 3: source \"ک الخفی\" vs proposal \"ك الخفي\")"
-    },
-    {
-      "term": "ریا",
-      "reason": "letters changed, not just marks (first difference at character 2: source \"یا\" vs proposal \"يا\")"
     },
     {
       "term": "وضع کل شئی حق محلہ",
@@ -166,11 +154,11 @@
     },
     {
       "term": "النفس الامارۃ بالسوء",
-      "reason": "letters changed, not just marks (first difference at character 9: source \"امارۃ بالسوء\" vs proposal \"أمارة بالسوء\")"
+      "reason": "letters changed, not just marks (first difference at character 3: source \"نفس الامارۃ \" vs proposal \"امارة\")"
     },
     {
       "term": "مجاھدۃ النفس",
-      "reason": "letters changed, not just marks (first difference at character 6: source \"ۃ النفس\" vs proposal \"ة النفس\")"
+      "reason": "empty"
     },
     {
       "term": "محمد بن ابی بکر",
@@ -178,7 +166,7 @@
     },
     {
       "term": "مالک اشتر",
-      "reason": "letters changed, not just marks (first difference at character 4: source \"ک اشتر\" vs proposal \"ك أشتر\")"
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ک اشتر\" vs proposal \"ك اشتر\")"
     },
     {
       "term": "صلى الله عليه وآله",
@@ -190,7 +178,7 @@
     },
     {
       "term": "۱۹",
-      "reason": "adds no vowel marks"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"۱۹\" vs proposal \"تسعة عشر\")"
     },
     {
       "term": "۲۰",
@@ -198,7 +186,7 @@
     },
     {
       "term": "۳۴",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"۳۴\" vs proposal \"ثلاثون\")"
     },
     {
       "term": "حکما",
@@ -210,11 +198,11 @@
     },
     {
       "term": "لو کشف الغطاء ما ازدت یقینا",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"لو کشف الغطا\" vs proposal \"يقينا\")"
+      "reason": "empty"
     },
     {
       "term": "نھج البلاغہ",
-      "reason": "letters changed, not just marks (first difference at character 2: source \"ھج البلاغہ\" vs proposal \"هج البلاغہ\")"
+      "reason": "letters changed, not just marks (first difference at character 11: source \"ہ\" vs proposal \"\")"
     },
     {
       "term": "خطبۃ",
@@ -234,15 +222,15 @@
     },
     {
       "term": "لا الہ",
-      "reason": "letters changed, not just marks (first difference at character 6: source \"ہ\" vs proposal \"ه\")"
+      "reason": "letters changed, not just marks (first difference at character 6: source \"ہ\" vs proposal \"اه\")"
     },
     {
       "term": "نفی",
-      "reason": "letters changed, not just marks (first difference at character 3: source \"ی\" vs proposal \"ى\")"
+      "reason": "letters changed, not just marks (first difference at character 3: source \"ی\" vs proposal \"ي\")"
     },
     {
       "term": "الا اللہ",
-      "reason": "letters changed, not just marks (first difference at character 8: source \"ہ\" vs proposal \"ه\")"
+      "reason": "empty"
     },
     {
       "term": "سنۃ",
