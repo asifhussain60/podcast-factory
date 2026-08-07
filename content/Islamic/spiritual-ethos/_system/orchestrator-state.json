@@ -6,8 +6,8 @@
   "input_type": "page-images",
   "source_language": "en",
   "phase": "0book-render",
-  "phase_status": "failed",
-  "last_completed_phase": "0book-compose",
+  "phase_status": "pending",
+  "last_completed_phase": "0book-slide-import",
   "last_error": {
     "phase": "0book-render",
     "message": "Playwright chromium binary is not installed.",
@@ -372,14 +372,13 @@
       "reason": "book_visuals=manual_only"
     },
     "0book-render": {
-      "status": "failed",
-      "ts_started": "2026-08-07T16:08:49Z",
-      "ts_completed": "2026-08-07T16:09:01Z"
+      "status": "pending",
+      "ts_started": "2026-08-07T16:08:49Z"
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260807T124707Z-5431bf",
-  "ts_updated": "2026-08-07T16:09:01Z",
+  "ts_updated": "2026-08-07T16:10:19Z",
   "next_phase": "0book-illustrate",
   "unattended": true
 }
