@@ -1930,6 +1930,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "11e88bf",
+      "subject": "content(degrees-of-excellence): weave six slide decks in as raster candidates; local library gets its deck rows",
+      "date": "2026-08-07"
+    },
+    {
       "sha": "f9e10b5",
       "subject": "docs(listener): tell readers the listening speed is remembered",
       "date": "2026-08-07"
@@ -1972,11 +1977,6 @@
     {
       "sha": "ce13687",
       "subject": "docs(listener): what's new, for the paper sheet and the phone toolbar",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "33c0d69",
-      "subject": "style(listener): the reading sheet is a leaf of paper, not a card",
       "date": "2026-08-06"
     }
   ],
