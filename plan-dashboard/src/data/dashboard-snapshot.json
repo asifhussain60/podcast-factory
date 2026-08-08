@@ -1938,6 +1938,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "8bff09e5",
+      "subject": "fix(orchestrator): close eight resume dead ends, pinned by a new flow harness",
+      "date": "2026-08-08"
+    },
+    {
+      "sha": "6653ece7",
+      "subject": "chore(plan-dashboard): resync snapshot after the orchestrator refactor merge",
+      "date": "2026-08-08"
+    },
+    {
       "sha": "e469037a",
       "subject": "Merge: orchestrator efficiency + accuracy pass",
       "date": "2026-08-08"
@@ -1975,16 +1985,6 @@
     {
       "sha": "a0b51534",
       "subject": "fix(pipeline): calibrate the phase-review gates against a book's actual route",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "5e70c43a",
-      "subject": "feat(pipeline): per-step logs, per-phase review gates, and stop paying twice",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "f674dd30",
-      "subject": "chore(snag-list): close out kitab-al-riyad per Asif's call",
       "date": "2026-08-08"
     }
   ],
