@@ -26,6 +26,10 @@ from typing import Any
 import yaml
 
 SCOPE_PIPELINE = "pipeline"
+#: Repo-wide items that aren't book- or pipeline-specific (cross-machine
+#: conventions, tooling, process). Added 2026-08-08 -- always shown, on every
+#: card, the same way ``pipeline`` items are, since neither belongs to one book.
+SCOPE_GENERAL = "general"
 STATUS_OPEN = "open"
 STATUS_DOING = "doing"
 STATUS_DONE = "done"
@@ -58,7 +62,7 @@ def open_items(scope: str, path: Path | None = None) -> list[dict[str, Any]]:
     Both belong on a book's card: a pipeline gap and a book gap equally stand
     between this book and being done.
     """
-    wanted = {scope, SCOPE_PIPELINE}
+    wanted = {scope, SCOPE_PIPELINE, SCOPE_GENERAL}
     items = [
         i
         for i in read_items(path)
@@ -72,7 +76,7 @@ def write_items(items: list[dict[str, Any]], path: Path | None = None) -> Path:
     p = Path(path) if path else backlog_path()
     p.parent.mkdir(parents=True, exist_ok=True)
     body = {
-        "schema": "podcast.pending-work/v1",
+        "schema": "podcast.pending-work/v2",
         "items": items,
     }
     p.write_text(yaml.safe_dump(body, sort_keys=False, allow_unicode=True), encoding="utf-8")

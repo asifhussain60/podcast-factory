@@ -64,10 +64,12 @@ from _doctrinal import run_doctrinal_checks
 from _literary import teaching_loss_findings
 from _narrative import frame_findings, lecture_voice_counts
 from _pipeline_flags import narrative_frame, narrator_subject
-from _translation_text import _split_paragraphs, _trim_seam_overlap
+from _translation_text import _split_paragraphs, _trim_seam_overlap, subordinate_body_headings
 
 _VOICE_TIMEOUT = 900
 _CHAPTER_HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
+
+
 # Editorial asides (from 0book-augment) are NOT re-voiced — skip these spans.
 # Tolerant of the bare-marker form a Composer round-trip leaves behind: a span
 # this pass cannot see is a span the model rewrites into the narrator's voice.
@@ -457,7 +459,7 @@ def _run_pass(
         records.append(record)
         if asides:
             new_body = new_body.rstrip() + "\n\n" + "\n".join(a.strip() for a in asides)
-        out.append(head + "\n\n" + new_body.strip() + "\n")
+        out.append(head + "\n\n" + subordinate_body_headings(new_body).strip() + "\n")
     new_text = (out[0].rstrip() + "\n\n" + "\n".join(out[1:])).strip() + "\n" if len(out) > 1 else text
     return new_text, records
 

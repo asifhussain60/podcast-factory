@@ -32,6 +32,40 @@ _WATERMARK_RE = re.compile(r"notebook\s*lm", re.I)
 _MIN_PAGE_CHARS = 120
 _HALF_EMPTY_RATIO = 0.35
 
+# Unicode bidi control characters (RLE/LRE/PDF, isolates) that `pdftotext`
+# emits around right-to-left runs. A Qur'anic/Arabic verse quotation that
+# wraps mid-word across a line break can extract as two adjacent "lines" that
+# are each just one reordered letter+diacritic wrapped in these marks — not a
+# duplicated caption, a bidi-linearization artifact of the SAME line of
+# scripture. Caught on kitab-al-riyad pp.186/214/215/258, e.g. '‫ِإ‬'
+# (a lone kasra+hamza). A caption worth flagging is a real title, in Latin or
+# Arabic; stripping the control marks and requiring a few actual letters left
+# over is enough to tell the two apart without special-casing script.
+_BIDI_CTRL_RE = re.compile("[‪-‮⁦-⁩]")
+_MIN_CAPTION_CHARS = 4
+
+# REQ-BR-002 says it in words: "A chapter still opens on a fresh page — that
+# opener is not half-empty." A numbered opener prints "CHAPTER <WORD>"
+# (book-print.css .ch-eyebrow); front matter — the title page, Contents, and
+# the Source Crosswalk apparatus (first page and any continuation, since a
+# browser repeats a table's <thead> on every page it breaks across) — is the
+# same category of legitimately-sparse-by-design page, just never named in
+# REQ-BR-002 because it wasn't the page that was breaking. Both were flagged
+# on kitab-al-riyad (an opener at p.29, front matter at pp.2/3/5) before this
+# carve-out existed. BR-BLANK-PAGE is untouched — a front-matter page that is
+# ACTUALLY blank is still a defect; only the P1 fill-ratio comparison, which
+# was never meant to judge these pages against a body-chapter median, exempts
+# them.
+_CHAPTER_OPENER_RE = re.compile(r"CHAPTER\s+[A-Z][A-Za-z-]+")
+_FRONT_MATTER_RE = re.compile(
+    r"READING EDITION|^\s*CONTENTS\s*$|S\s*O\s*U\s*R\s*C\s*E\s*C\s*R\s*O\s*S|SOURCE SIGNAL",
+    re.M | re.I,
+)
+
+
+def _is_page_fill_exempt(text: str) -> bool:
+    return bool(_CHAPTER_OPENER_RE.search(text) or _FRONT_MATTER_RE.search(text))
+
 
 def scan_watermark(pages_text: list[str]) -> list[dict[str, Any]]:
     findings: list[dict[str, Any]] = []
@@ -55,7 +89,8 @@ def scan_duplicate_captions(pages_text: list[str]) -> list[dict[str, Any]]:
     for i, text in enumerate(pages_text, start=1):
         lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
         for a, b in zip(lines, lines[1:]):
-            if a == b and 0 < len(a.split()) <= 12:
+            stripped = _BIDI_CTRL_RE.sub("", a).strip()
+            if a == b and 0 < len(a.split()) <= 12 and len(stripped) >= _MIN_CAPTION_CHARS:
                 findings.append(
                     {
                         "check": "BR-CAPTION-DUP",
@@ -96,6 +131,8 @@ def scan_blank_and_halfempty(pages_text: list[str]) -> list[dict[str, Any]]:
         srt = sorted(non_blank)
         median = srt[len(srt) // 2]
         for p in interior:
+            if _is_page_fill_exempt(pages_text[p - 1]):
+                continue
             if _MIN_PAGE_CHARS <= lengths[p] < _HALF_EMPTY_RATIO * median:
                 findings.append(
                     {

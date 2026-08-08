@@ -128,7 +128,18 @@ async function main() {
     .map((ch) => {
       const n = /^\d+$/.test(String(ch.label || "")) ? Number(ch.label) : 0;
       const label = n ? `${n}. ` : "";
-      const head = cssString(`${label}${ch.title || ""}`) || runningHead;
+      // n === 0 is the unnumbered preface/"Introduction to the Book" chapter —
+      // front matter, same family as the title page / Contents / crosswalk,
+      // which already print no running head (see `@page bare` above). It was
+      // NOT bare: the numbered chapters distinguish their head from their h2
+      // by the "N. " prefix ("3. The Arbiter" head vs "The Arbiter" heading),
+      // but the preface has no number to prefix, so its head printed the exact
+      // same string as the h2 directly beneath it — a duplicate caption on the
+      // reader's first content page. Suppressing it (empty content, like the
+      // other bare pages) is consistent, not a special case.
+      const head = n
+        ? cssString(`${label}${ch.title || ""}`) || runningHead
+        : "";
       return (
         `@page chap-${n} { @top-center { content: "${head}"; } }\n` +
         `.ch-page-${n} { page: chap-${n}; }`

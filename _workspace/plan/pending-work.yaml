@@ -1,8 +1,23 @@
-schema: podcast.pending-work/v1
+schema: podcast.pending-work/v2
 
-# The backlog the status card prints. Scope is a book slug or `pipeline`.
-# Status is doing | open | done. Keep titles plain English — this is read on a
-# status card, not in a ticket system.
+# The backlog the status card prints, and the general issue/work-request list
+# for the repo (2026-08-08). Git-tracked on develop -- any machine that pulls
+# has the current list, any machine that pushes an edit updates it for every
+# other machine. Deliberately not a second system: extends the file that
+# already existed rather than adding a competing tracker.
+#
+# NO priority field, on purpose, matching this file's own stated design (see
+# _pending_work.py's docstring): "no owners, no priorities... a backlog that
+# needs its own workflow stops being written to." Urgency goes in the title
+# in plain English instead (several items already do this -- "HAZARD, carried
+# forward").
+#
+# Scope is a book slug, `pipeline`, or `general` (added v2 -- anything that
+# isn't book- or pipeline-specific: cross-repo conventions, tooling, process).
+# `general` items are always shown on every card, pipeline-wide, alongside
+# that card's own scope + `pipeline` -- see open_items() in _pending_work.py.
+# Status is doing | open | done. Keep titles plain English -- this is read on
+# a status card, not in a ticket system.
 
 items:
   - id: companion-cards
@@ -130,3 +145,33 @@ items:
     status: open
     title: "Two locked rules meet and the outcome is worth a decision. 'Zero English transliteration of Arabic terms in book.md' (2026-08-02) and 'annotate once and intelligently, never mechanically' (the four-class teach/familiar/name/silent policy) disagree about a term's SECOND mention. Today the annotation policy wins: a `teach` term gets its script once per book and every later mention prints bare romanization; a `familiar` term (halal, iman, nafs -- words the classifier judged naturalised) never gets script at all. That is why ayyuhal-walad still prints *mujahadah*, *marifah* and *zauq* with no Arabic beside them after the apparatus ran. Not a defect -- it is the policy behaving as written -- but Asif should decide whether a teach term's later mentions should also carry script."
     noticed: 2026-08-02
+
+  - id: stale-cross-machine-response-format
+    scope: general
+    status: open
+    title: "The global response-format rules (~/.claude/response-template.md) live in a folder with NO git repo and NO remote, so nothing Asif approves there reaches any other machine. Worse: this repo separately carries two TRACKED copies (_workspace/plan/conventions/response-template.md, response-conventions.md) that describe the 4-part template RETIRED 2026-05-26 -- and CLAUDE.md's own text falsely claims those copies 'had not existed for some time.' Any machine pulling develop today gets confidently-stated instructions that contradict how Asif actually wants responses written. Needs: version-control the global folder with a remote so every machine pulls the same rules, delete the two stale tracked copies, and correct the false line in CLAUDE.md. Found 2026-08-08 while locking the narrative-arc + nested-bullet response format."
+    noticed: 2026-08-08
+
+  - id: kitab-al-riyad-arabic-inline-formatting
+    scope: kitab-al-riyad
+    status: open
+    title: "Cosmetic, not a content defect: in the re-composed book.md, an Arabic name/title given beside its English (e.g. al-Nasafi, al-Kirmani, al-Islah) prints on its own indented block-quote line rather than inline with the romanization -- reads as a quotation interrupting the sentence rather than a name given in both scripts. Same shape across every chapter, so it is a one-place formatting decision, not per-chapter cleanup. Asif approved chapter 1's articulation and asked to raise this again once the book finishes rather than block the run on it."
+    noticed: 2026-08-08
+
+  - id: pipeline-refactor-efficiency-accuracy-checkpoints
+    scope: general
+    status: open
+    title: "Asif 2026-08-08: refactor the podcast-factory pipeline for efficiency and accuracy, with short checkpoints between phases rather than long uninterrupted runs. Two named parts: (1) a full test harness covering the pipeline end to end, not just per-module unit tests; (2) each phase re-checks the ACCURACY of every phase that ran before it, not only the one immediately prior -- e.g. phase 0c should evaluate the work of 0a and 0b as well as its own, not assume an earlier phase that already passed is still correct. Scope and sequencing not yet decided -- this is the request as given, not a plan."
+    noticed: 2026-08-08
+
+  - id: orchestrator-ai-reflection-quality
+    scope: general
+    status: open
+    title: "Asif 2026-08-08: the podcast-factory pipeline orchestrator and the AI driving it need better reflection and response quality during a run -- today's session found four real, book-blocking defects (chapter-count scaling, a heading-leak bug, a gate false-positive that aborted the whole compose twice, a stale metadata path) that a stricter self-check during the run could plausibly have caught earlier than a human reviewing the output after the fact. Not yet scoped to a concrete mechanism -- logged as the request, to be designed separately."
+    noticed: 2026-08-08
+
+  - id: chapter-grouping-for-long-books
+    scope: pipeline
+    status: open
+    title: "Asif 2026-08-08: now that chapter count scales with source length (fixed same day -- kitab-al-riyad went from 11 to 20), evaluate grouping chapters into a higher-level structure (working name: Parts) whenever a book's design exceeds roughly 10 chapters, rather than shipping a flat 15-25-item list. A flat list that long is harder to scan than a two-level one, in the printed table of contents, the in-browser reader, and the Book Composer's own chapter dropdown -- the exact dropdown Asif was looking at when this was raised. NOT the same thing as the source's own internal divisions (Kitab al-Riyad's 'Discourses' and numbered sections, already handled by today's heading-demotion fix) -- this is a NEW top-level layer the pipeline would introduce for readability, above chapters the pipeline itself designed. Open questions, not yet answered: where the grouping decision is made (inside 0book-design's own segmentation pass, since it already reasons about the book's thematic arc, versus a separate pass after chapters are set); what a group is called, chosen to avoid colliding with a source's own terminology (a source that already uses 'Part' or 'Book' internally would need a different pipeline term); how many groups is right for a 20-chapter book; and how a group renders (a PDF section-divider page, TOC nesting, Composer dropdown grouping, or some combination). Logged as the request -- no design decided."
+    noticed: 2026-08-08

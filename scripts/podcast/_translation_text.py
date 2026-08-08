@@ -207,6 +207,14 @@ def _compress_line_ranges(indices: list[int]) -> list[list[int]]:
     return ranges
 
 
+# A bare numbered-list marker: "1.", "2." at the head of a line — the format a
+# genuine enumerated argument uses in this corpus, distinct from the "(1)"
+# parenthesized style a footnote uses (see enumeration_findings in
+# _narrative.py, which relies on the same distinction). Used here only to
+# avoid CUTTING a window mid-list, not to judge apparatus.
+_BARE_LIST_MARKER_RE = re.compile(r"^\s*([0-9]{1,2})\.\s+\S")
+
+
 def _iter_source_windows(
     lines: list[str],
     ranges: list[list[int]],
@@ -223,12 +231,19 @@ def _iter_source_windows(
     if not pairs:
         return []
 
+    # A list is "active" only while its markers are still arriving close
+    # together; once this many words pass with no next marker, treat it as
+    # finished so an unrelated chapter containing an old, closed list is
+    # never held open until 2x target for no reason.
+    _LIST_ACTIVE_GAP_WORDS = 400
+
     windows: list[tuple[str, list[list[int]]]] = []
     cur: list[tuple[int, str]] = []
     cur_words = 0
+    words_since_marker = _LIST_ACTIVE_GAP_WORDS  # large = no active list yet
 
     def flush() -> None:
-        nonlocal cur, cur_words
+        nonlocal cur, cur_words, words_since_marker
         if not cur:
             return
         body = "\n".join(line for _, line in cur).strip()
@@ -236,11 +251,33 @@ def _iter_source_windows(
             windows.append((body, _compress_line_ranges([idx for idx, _ in cur])))
         cur = []
         cur_words = 0
+        words_since_marker = _LIST_ACTIVE_GAP_WORDS
 
     for idx, line in pairs:
+        line_words = len(line.split())
+        if _BARE_LIST_MARKER_RE.match(line):
+            words_since_marker = 0
+        else:
+            words_since_marker += line_words
         cur.append((idx, line))
-        cur_words += len(line.split())
-        if cur_words >= target_words and (not line.strip() or _PAGE_MARK.search(line)):
+        cur_words += line_words
+        at_boundary = not line.strip() or _PAGE_MARK.search(line)
+        if cur_words >= target_words and at_boundary:
+            # Kitab al-Riyad ships a genuine numbered argument list ("1. The
+            # author of al-Islah says...") that a plain word-count cut split
+            # mid-sequence: window 1 got items 1-4, window 2 opened on item 5
+            # with no numbering context, and the composer (correctly) could
+            # not reproduce a coherent numbered list from either half —
+            # enumeration_findings then failed the chapter's integrity gate on
+            # content that WAS real enumeration, unlike the apparatus false
+            # positives that gate now filters. Defer the flush, up to double
+            # the target, while a bare-marker sequence (1., 2., 3. ...) is
+            # still actively continuing (a marker within the last
+            # `_LIST_ACTIVE_GAP_WORDS` words) — a footnote's parenthesized
+            # "(1)" never sets `words_since_marker`, so ordinary chapters and
+            # footnote-heavy ones are unaffected.
+            if words_since_marker < _LIST_ACTIVE_GAP_WORDS and cur_words < target_words * 2:
+                continue
             flush()
     flush()
     return windows
@@ -308,6 +345,35 @@ def normalize_translation_prose(prose: str, *, title: str = "") -> str:
     return text.strip()
 
 
+#: Any `#`/`##` a MODEL emits inside a chapter body. Only the pipeline may own a
+#: chapter-level heading — it writes them itself as `## N. Title`.
+_BODY_HEADING_RE = re.compile(r"(?m)^#{1,2}(?=\s+\S)")
+
+
+def subordinate_body_headings(body: str) -> str:
+    """Demote model-emitted headings inside a chapter body to `###`.
+
+    The re-voice/fluency counterpart of the demotion in
+    ``normalize_translation_prose`` above, which does the same job for the compose
+    lane — kept in the same module so the rule "only the pipeline owns a chapter
+    heading" has one home rather than one per lane.
+
+    A source carrying its own numbered divisions (Kitab al-Riyad prints 113 of them:
+    "Chapter Two of Title IX") hands the model a plain line acting as a heading, and
+    the model formalises it as Markdown. At `##` that is indistinguishable from a
+    chapter, with two consequences: the reader's TOC and the Book Composer's chapter
+    list show sections as peers of chapters (kitab-al-riyad shipped chapter 10 as a
+    27-word stub with five sibling `##` sections carrying its body), and — worse —
+    ``_book_voice._CHAPTER_HEADING_RE`` splits `book.md` on `^## `, so on the NEXT
+    run a section would be re-voiced as if it were a chapter and the real chapter's
+    body truncated at the first one.
+
+    Demotion, never deletion: the heading is real structure the source printed, and
+    dropping it would lose a division the argument is organised by.
+    """
+    return _BODY_HEADING_RE.sub("###", body or "")
+
+
 def translation_output_findings(
     prose: str,
     *,
@@ -363,15 +429,49 @@ def _topic_hits(text: str) -> set[str]:
     return hits
 
 
+#: What it takes for a topic to be ESTABLISHED in a source span, rather than
+#: mentioned in passing. Measured from the fiqh books this detector exists for,
+#: where a chapter really is its topic: `oaths` (4 distinct/25 hits), `dress`
+#: (6/24), `hunting` (5/26), `food` (3/19), `marriage` (3/16), `sales` (3/6) —
+#: against incidental noise everywhere else, which is uniformly (1,1)-(2,3).
+_TOPIC_MIN_DISTINCT = 2
+_TOPIC_MIN_HITS = 4
+
+
+def _established_topics(text: str) -> set[str]:
+    """Topics a span is genuinely ABOUT — see the thresholds above."""
+    scan = (text or "").casefold()
+    established: set[str] = set()
+    for topic, words in _TOPIC_CLUSTERS.items():
+        counts = [len(re.findall(rf"\b{re.escape(w.casefold())}\b", scan)) for w in words]
+        distinct = sum(1 for n in counts if n)
+        if distinct >= _TOPIC_MIN_DISTINCT and sum(counts) >= _TOPIC_MIN_HITS:
+            established.add(topic)
+    return established
+
+
 def source_title_drift_findings(title: str, source: str) -> list[str]:
     """Cheap source/title drift detector for final-PDF acceptance.
 
-    It is intentionally deterministic and conservative: it only blocks when a
-    title has a recognizable legal/teaching topic and the assigned source has no
-    overlap but does have a different recognizable topic.
+    Blocks only when a title has a recognizable legal/teaching topic and the
+    assigned source is genuinely ABOUT a different one.
+
+    The title side stays single-hit — a title is a handful of words, and one
+    topical word is all the signal there is. The SOURCE side must clear
+    ``_TOPIC_MIN_DISTINCT``/``_TOPIC_MIN_HITS``, because a single incidental word
+    in a 5,000-character span is noise, and treating it as a topic made this gate
+    fire on one word against one word. It aborted the whole kitab-al-riyad compose
+    twice: "The Judge and His Cosmos" matched `judiciary` on *judge* (an arbiter,
+    not a chapter of fiqh) while its source — al-Kirmani's biography — matched
+    `sales` on a single *market*, in "flooding the market of innovation".
+
+    These clusters are fiqh topics, so on a philosophical or narrative work the
+    only honest answer is usually "no topic", which is what the thresholds now
+    produce. On the fiqh collections the gate was built for, every real chapter
+    topic clears them by a wide margin, so its power there is unchanged.
     """
     title_topics = _topic_hits(title)
-    source_topics = _topic_hits(source[:5000])
+    source_topics = _established_topics(source[:5000])
     if title_topics and source_topics and not (title_topics & source_topics):
         return [f"title/source topic drift: title {sorted(title_topics)} vs source {sorted(source_topics)}"]
     return []

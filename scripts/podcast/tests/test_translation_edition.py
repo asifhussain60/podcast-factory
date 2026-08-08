@@ -797,3 +797,27 @@ def test_arabic_coverage_hint_lists_source_spans() -> None:
     hint = arabic_coverage_hint(_OCR_GROUND_TRUTH)
     assert hint.count("\n- ") + hint.count("- ", 0, 2) >= 1  # bullet list
     assert "الصَّالِحَاتِ" in hint
+
+
+def test_source_title_drift_ignores_a_single_incidental_word() -> None:
+    """Kitab al-Riyad, 2026-08-08: this fired on ONE word against ONE word and
+    aborted the whole book compose — 'judge' (an arbiter) vs a lone 'market' in
+    'flooding the market of innovation'."""
+    findings = source_title_drift_findings(
+        "The Judge and His Cosmos",
+        "A philosopher whose thought reshaped the age, at a moment when new "
+        "movements were flooding the market of innovation with calls to error.",
+    )
+
+    assert findings == []
+
+
+def test_source_title_drift_still_fires_when_the_source_is_really_that_topic() -> None:
+    """The gate's power on the fiqh books it exists for must be unchanged."""
+    findings = source_title_drift_findings(
+        "What We Wear: Dress, Adornment, and Fragrance",
+        "On hunting: the game one may hunt, the slaughter of prey, the knife, "
+        "the sacrifice, and what game is lawful when the hunt is done.",
+    )
+
+    assert findings

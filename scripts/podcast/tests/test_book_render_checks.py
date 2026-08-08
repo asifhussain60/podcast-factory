@@ -38,6 +38,23 @@ def test_no_dup_for_long_repeated_lines() -> None:
     assert scan_duplicate_captions([f"{long}\n{long}"]) == []
 
 
+def test_no_dup_for_bidi_arabic_fragment() -> None:
+    # kitab-al-riyad pp.186/214/215/258: pdftotext linearizes a wrapped Qur'anic
+    # verse into two adjacent "lines" that are each a single reordered
+    # letter+diacritic wrapped in RTL embedding marks — not a duplicated
+    # caption, a bidi extraction artifact of one line of scripture.
+    frag = "‫ِإ‬"  # RLE + kasra + hamza-alif + PDF
+    page = f"body\n{frag}\n{frag}\nmore body"
+    assert scan_duplicate_captions([page]) == []
+
+
+def test_dup_still_flagged_for_short_arabic_caption() -> None:
+    # A genuine short Arabic caption/title duplicated verbatim must still fire.
+    page = "body\nكتاب الرياض\nكتاب الرياض\nmore body"
+    findings = scan_duplicate_captions([page])
+    assert findings and findings[0]["check"] == "BR-CAPTION-DUP"
+
+
 def test_blank_interior_page_flagged() -> None:
     pages = ["cover", "   ", "real content " * 30, "colophon"]  # page 2 blank
     findings = scan_blank_and_halfempty(pages)
