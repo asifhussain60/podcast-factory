@@ -1938,6 +1938,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "94f71388",
+      "subject": "chore(plan-dashboard): resync snapshot recent-commits tail",
+      "date": "2026-08-08"
+    },
+    {
       "sha": "f85833fb",
       "subject": "chore(plan-dashboard): regenerate snapshot after kitab-al-riyad merge",
       "date": "2026-08-08"
@@ -1980,11 +1985,6 @@
     {
       "sha": "161a910f",
       "subject": "feat(site): promote Snag List to its own top-level nav tab",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "129eaff7",
-      "subject": "book(kitab-al-riyad): re-compose progress — articulation pass",
       "date": "2026-08-08"
     }
   ],
