@@ -485,11 +485,19 @@ def _maybe_relaunch_under_watchdog(slug: str, *, retry_phase: str | None = None)
     print(f"  [watchdog] log: {log_path}")
     print("  [watchdog] this process exits; watchdog owns the run from here.")
 
+    # stdout is DISCARDED deliberately, and that is NOT dropped output: the watchdog
+    # already tees everything it and the orchestrator produce into this same log. Also
+    # passing it the log as stdout gave the file two writers per line, so every line was
+    # written twice (measured at 128 watchdog lines for 64 distinct ones) — most of the
+    # reason a run APPEARS to repeat itself, and it hid genuine repeats. stderr IS kept:
+    # tee does not carry it, so a crash inside the watchdog would otherwise vanish.
+    # Running the watchdog by hand still streams to the terminal — that path never had a
+    # second writer, which is why only this auto-spawn path (the default) doubled.
     with open(log_path, "a") as log_fh:
         subprocess.Popen(
             ["/bin/bash", str(watchdog), slug],
-            stdout=log_fh,
-            stderr=subprocess.STDOUT,
+            stdout=subprocess.DEVNULL,
+            stderr=log_fh,
             start_new_session=True,
         )
     sys.exit(0)

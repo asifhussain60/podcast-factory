@@ -1938,6 +1938,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "efc616a4",
+      "subject": "chore(plan-dashboard): resync snapshot before orchestrator refactor branch",
+      "date": "2026-08-08"
+    },
+    {
       "sha": "65a773de",
       "subject": "fix(plan-dashboard): gate the Snag List page + fix its type error",
       "date": "2026-08-08"
@@ -1980,11 +1985,6 @@
     {
       "sha": "cdd9d771",
       "subject": "Merge remote-tracking branch 'origin/develop' into Islamic/kitab-al-riyad",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "aea572b7",
-      "subject": "docs(backlog): log plan-viewer request for the Astro Site",
       "date": "2026-08-08"
     }
   ],

@@ -1,13 +1,27 @@
+/* Type scale on this page is intentionally smaller than the site's editorial
+   reading floor (1.2rem/REQ-010) -- Asif's explicit 2026-08-08 direction to
+   read as a dense, ordinary UI work-list (13-16px), not reading prose.
+   Scoped to this page only; every other view keeps the 1.2rem floor. */
+
 .snag-hero {
-  padding: 2rem 0 1rem;
+  padding: 1.75rem 0 1rem;
+}
+
+.snag-hero h1 {
+  font-size: 1.7rem;
+}
+
+.snag-hero .lede {
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .snag-stat-strip {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1rem;
   max-width: 1400px;
-  margin: 1.5rem auto 0;
+  margin: 1.25rem auto 0;
   padding: 0 2rem;
 }
 
@@ -15,25 +29,25 @@
   background: var(--c-bg-card);
   border: 1px solid var(--c-rule);
   border-radius: var(--radius-lg);
-  padding: 1rem 1.5rem;
-  min-width: 140px;
+  padding: 0.85rem 1.25rem;
+  min-width: 120px;
   text-align: center;
 }
 
 .snag-stat-value {
-  font-family: var(--font-display);
-  font-size: 2.2rem;
+  font-family: var(--font-body);
+  font-size: 1.5rem;
   font-weight: 700;
   line-height: 1;
   color: var(--c-ink);
 }
 
 .snag-stat-label {
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   color: var(--c-ink-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-top: 0.4rem;
+  margin-top: 0.35rem;
 }
 
 .snag-stat-open .snag-stat-value {
@@ -41,6 +55,9 @@
 }
 .snag-stat-doing .snag-stat-value {
   color: var(--c-accent);
+}
+.snag-stat-p0 .snag-stat-value {
+  color: var(--c-red);
 }
 .snag-stat-done .snag-stat-value {
   color: var(--c-green);
@@ -54,7 +71,7 @@
 }
 
 .snag-section {
-  padding: 2rem 0;
+  padding: 1.5rem 0;
   border-bottom: 1px solid var(--c-rule-soft);
 }
 .snag-section:last-child {
@@ -64,83 +81,134 @@
 .snag-section h2 {
   display: flex;
   align-items: baseline;
-  gap: 0.75rem;
-  font-family: var(--font-display);
-  margin-bottom: 1rem;
+  gap: 0.65rem;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.85rem;
 }
 
 .snag-num {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   color: var(--c-ink-muted);
   background: var(--c-bg-sunken);
   border-radius: var(--radius-sm);
   padding: 0.15rem 0.5rem;
 }
 
-.snag-table-container {
-  overflow-x: auto;
+/* ---- Accordion panels ------------------------------------------------- */
+
+.snag-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Panel: clear foreground/background contrast against the page (--c-bg) via
+   a raised card surface + a visible 1px border, per Asif's direction. */
+.snag-item {
+  background: var(--c-bg-card);
   border: 1px solid var(--c-rule);
   border-radius: var(--radius-md);
 }
 
-.snag-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 1.2rem;
+.snag-item[open] {
+  border-color: var(--c-ink-muted);
 }
 
-.snag-table th {
-  text-align: left;
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.snag-item-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.9rem;
+}
+
+.snag-item-summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Custom chevron replaces the native marker — a plain glyph, no inline SVG. */
+.snag-item-summary::before {
+  content: "▸";
   color: var(--c-ink-muted);
-  background: var(--c-bg-elev);
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--c-rule);
+  font-size: 0.8rem;
+  width: 0.9rem;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
 }
 
-.snag-table td {
-  padding: 0.9rem 1rem;
-  border-bottom: 1px solid var(--c-rule-soft);
-  vertical-align: top;
+.snag-item[open] > .snag-item-summary::before {
+  transform: rotate(90deg);
 }
 
-.snag-table tbody tr:last-child td {
-  border-bottom: none;
+@media (prefers-reduced-motion: reduce) {
+  .snag-item-summary::before {
+    transition: none;
+  }
 }
 
-.snag-item-id {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--c-ink-muted);
-  margin: 0 0 0.35rem;
+.snag-item-summary:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: -2px;
+  border-radius: var(--radius-sm);
 }
 
-.snag-item-title {
-  font-size: 1.2rem;
-  line-height: 1.5;
+.snag-item-headline {
+  flex: 1 1 auto;
   color: var(--c-ink);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.snag-item-body {
+  padding: 0 0.85rem 0.9rem 2.4rem;
+  background: var(--c-bg-sunken);
+  border-top: 1px solid var(--c-rule-soft);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.snag-item-body .snag-item-id {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--c-ink-muted);
+  margin: 0.6rem 0 0.4rem;
+}
+
+.snag-item-body ul {
   margin: 0;
-  max-width: 70ch;
+  padding-left: 1.1rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--c-ink-dim);
+}
+
+.snag-item-body li {
+  margin-bottom: 0.4rem;
+}
+.snag-item-body li:last-child {
+  margin-bottom: 0;
 }
 
 .snag-noticed {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   color: var(--c-ink-muted);
   white-space: nowrap;
 }
 
 .snag-badge {
   display: inline-block;
-  font-size: 0.78rem;
+  font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  padding: 0.25rem 0.6rem;
+  padding: 0.2rem 0.5rem;
   border-radius: var(--radius-sm);
+  flex-shrink: 0;
 }
 
 .snag-badge-open {
@@ -153,30 +221,98 @@
   background: color-mix(in srgb, var(--c-accent) 15%, transparent);
 }
 
+/* Priority/effort deliberately do NOT add new hues on top of the status
+   badges above -- they read through weight and a small glyph instead, so
+   the page stays inside its accent-color budget. */
+.snag-priority {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.snag-priority::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 2px;
+  border: 1.5px solid currentColor;
+}
+
+.snag-priority-P0 {
+  color: var(--c-ink);
+  font-weight: 700;
+}
+.snag-priority-P0::before {
+  background: currentColor;
+}
+
+.snag-priority-P1 {
+  color: var(--c-ink-dim);
+  font-weight: 600;
+}
+
+.snag-priority-P2 {
+  color: var(--c-ink-muted);
+  font-weight: 500;
+}
+
+.snag-effort {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--c-ink-dim);
+  flex-shrink: 0;
+}
+
+.snag-unset {
+  color: var(--c-ink-muted);
+  font-size: 0.72rem;
+  flex-shrink: 0;
+}
+
 .snag-empty {
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   color: var(--c-ink-muted);
   font-style: italic;
 }
 
 .snag-done-details {
-  margin-top: 1.25rem;
+  margin-top: 1rem;
 }
 
-.snag-done-details summary {
+.snag-done-details > summary {
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
   color: var(--c-ink-dim);
   padding: 0.5rem 0;
 }
 
-.snag-done-details summary:focus-visible {
+.snag-done-details > summary:focus-visible {
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;
 }
 
-.snag-table-done {
-  opacity: 0.75;
+.snag-done-details .snag-items {
+  margin-top: 0.5rem;
+}
+
+.snag-item-done {
+  opacity: 0.85;
+}
+
+.snag-item-done .snag-item-headline {
+  color: var(--c-ink-dim);
+}
+
+.snag-done-check {
+  display: inline-block;
+  color: var(--c-green);
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
@@ -186,5 +322,12 @@
   .snag-body {
     width: 100%;
     padding: 0 1rem 3rem;
+  }
+  .snag-item-summary {
+    flex-wrap: wrap;
+  }
+  .snag-item-headline {
+    flex-basis: 100%;
+    order: 10;
   }
 }

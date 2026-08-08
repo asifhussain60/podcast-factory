@@ -169,6 +169,7 @@ export function buildRoutes(slug) {
     "/pre-upload",
     "/wisdom",
     "/snag-list",
+    "/claude-plans",
   ].map((path) => ({ path, tier: 1 }));
 
   // Routes that legitimately redirect, and where to. Declared rather than

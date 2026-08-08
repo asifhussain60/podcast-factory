@@ -26,8 +26,15 @@ import _book_apparatus  # noqa: E402
 import _book_pipeline_v2  # noqa: E402
 
 _PIPELINE_SRC = (SCRIPT_DIR / "_book_pipeline_v2.py").read_text(encoding="utf-8")
-_APPARATUS_SRC = (SCRIPT_DIR / "_book_apparatus.py").read_text(encoding="utf-8")
 _CLI_SRC = (SCRIPT_DIR / "apply_book_apparatus.py").read_text(encoding="utf-8")
+
+# Every module that hosts apparatus step call sites, concatenated. Read from
+# `_apparatus_steps.APPARATUS_MODULES` rather than naming `_book_apparatus.py` alone:
+# when the report-only steps moved to `_book_reports` on 2026-08-08 this test, and two
+# others like it, silently stopped seeing three of the steps they exist to pin.
+from _apparatus_steps import APPARATUS_MODULES  # noqa: E402
+
+_APPARATUS_SRC = "\n".join((SCRIPT_DIR / name).read_text(encoding="utf-8") for name in APPARATUS_MODULES)
 
 
 def test_compose_delegates_the_tail_rather_than_owning_it():

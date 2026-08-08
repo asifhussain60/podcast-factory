@@ -1,0 +1,123 @@
+---
+/**
+ * /claude-plans — every plan Claude Code has written for this repo.
+ *
+ * Reads ~/.claude/plans/*.md LIVE on every request (same request-time `fs`
+ * pattern as /snag-list) and best-effort filters to plans that mention
+ * podcast-factory, since that folder is machine-global across every repo
+ * Claude Code has touched (Asif, 2026-08-08). Search is client-side over the
+ * full text of the filtered set — see ../../scripts/claude-plans.ts.
+ */
+import Base from "../../layouts/Base.astro";
+import AudienceBadge from "../../components/AudienceBadge.astro";
+import { listPlans, readPlan } from "../../lib/claude-plans";
+import "../../styles/claude-plans.css";
+
+const plans = listPlans();
+
+const searchIndex = plans.map((p) => {
+  const detail = readPlan(p.slug);
+  return { slug: p.slug, text: (detail?.raw ?? p.snippet).toLowerCase() };
+});
+
+function relativeDate(mtimeMs: number): string {
+  const days = Math.round((Date.now() - mtimeMs) / 86_400_000);
+  if (days <= 0) return "today";
+  if (days === 1) return "yesterday";
+  if (days < 30) return `${days} days ago`;
+  const months = Math.round(days / 30);
+  return `${months} month${months === 1 ? "" : "s"} ago`;
+}
+---
+
+<Base title="Plans" active="claude-plans">
+  <section class="cp-hero">
+    <header class="stack">
+      <span class="eyebrow">Plans</span>
+      <p class="home-hero-audience"><AudienceBadge tier="you" /></p>
+      <h1>What Claude Code has planned for this repo.</h1>
+      <p class="lede">
+        Every plan Claude Code has written before making a change here, newest
+        first. These files live in a folder shared across every project on this
+        machine, so the list below is filtered to the ones that are actually
+        about podcast-factory — a best-effort match, so an occasional plan may
+        be misfiled either way. Each one opens in a simplified view; the full
+        technical version is one click away.
+      </p>
+    </header>
+
+    <div class="cp-stat-strip">
+      <div class="cp-stat-card">
+        <div class="cp-stat-value">{plans.length}</div>
+        <div class="cp-stat-label" id="cp-search-count">
+          {plans.length} plan{plans.length === 1 ? "" : "s"}
+        </div>
+      </div>
+    </div>
+
+    <div class="cp-search">
+      <label for="cp-search-input" class="cp-search-label"
+        >Search by title or content</label
+      >
+      <input
+        id="cp-search-input"
+        type="search"
+        class="cp-search-input"
+        placeholder="e.g. snag list, orchestrator, book composer…"
+        autocomplete="off"
+      />
+    </div>
+  </section>
+
+  <main class="cp-body">
+    {
+      plans.length === 0 && (
+        <section id="s01-empty" class="cp-section">
+          <h2>
+            <span class="cp-num">01</span> No plans found
+          </h2>
+          <p>
+            Either <code>~/.claude/plans/</code> is empty, unreadable from this
+            server, or nothing in it currently mentions podcast-factory.
+          </p>
+        </section>
+      )
+    }
+
+    {
+      plans.length > 0 && (
+        <section id="s01-plans" class="cp-section">
+          <h2>
+            <span class="cp-num">01</span> All plans
+          </h2>
+          <div class="cp-grid">
+            {plans.map((plan) => (
+              <a
+                href={`/claude-plans/${plan.slug}`}
+                class="cp-card"
+                data-plan-slug={plan.slug}
+              >
+                <h3 class="cp-card-title">{plan.title}</h3>
+                <p class="cp-card-snippet">{plan.snippet}</p>
+                <p class="cp-card-meta">
+                  {relativeDate(plan.mtimeMs)} · {plan.wordCount} words
+                </p>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </main>
+
+  <script
+    is:inline
+    type="application/json"
+    id="cp-search-index"
+    set:html={JSON.stringify(searchIndex)}
+  />
+
+  <script>
+    import "../../scripts/claude-plans.ts";
+  </script>
+</Base>

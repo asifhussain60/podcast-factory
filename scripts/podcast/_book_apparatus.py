@@ -28,12 +28,17 @@ no-op rather than a doubling.
 
 from __future__ import annotations
 
-import json
 import subprocess
 import sys
 from pathlib import Path
 
-from _book_arabic_audit import stage_counts
+# The step vocabulary and its recorder live in `_apparatus_steps`: the review gate
+# needs the LIST and nothing else, and that list is a contract shared by this module,
+# `_compose_skips`' page-altering/advisory classification, and the gate. Both names are
+# re-exported here because callers and tests already reach for them at this path.
+from _apparatus_steps import APPARATUS_STEPS as APPARATUS_STEPS  # noqa: PLC0414
+from _apparatus_steps import record_ok as _ok
+from _book_reports import run_report_steps
 from _compose_skips import record_skip as _record_skip
 
 
@@ -89,6 +94,7 @@ def apply_book_apparatus(
     try:
         _replay_report = apply_composer_edits(book_dir, log=log, force=force)
         book_md = book_dir / "book" / "book.md"
+        _ok(book_dir, "composer-edits")
     except Exception as e:  # a bad sidecar must never destroy a good compose
         _record_skip(book_dir, "composer-edits", e, log)
 
@@ -107,6 +113,7 @@ def apply_book_apparatus(
                     "the pass reports now read 'adapted-then-overwritten'; that model spend bought text "
                     "the book does not carry"
                 )
+            _ok(book_dir, "report-reconcile", changed=int(_discarded or 0))
         except Exception as e:  # a truth-teller must never fail the compose it describes
             _record_skip(book_dir, "report-reconcile", e, log)
 
@@ -128,6 +135,7 @@ def apply_book_apparatus(
 
     try:
         clear_introduction(book_dir, log=log)
+        _ok(book_dir, "front-matter")
     except Exception as e:  # apparatus is never worth a finished translation
         _record_skip(book_dir, "front-matter", e, log)
 
@@ -150,6 +158,7 @@ def apply_book_apparatus(
 
     try:
         apply_opening_fold(book_dir, log=log)
+        _ok(book_dir, "opening-fold")
     except Exception as e:  # apparatus is never worth a finished translation
         _record_skip(book_dir, "opening-fold", e, log)
 
@@ -174,6 +183,7 @@ def apply_book_apparatus(
 
     try:
         apply_introduction(book_dir, log=log, force=force)
+        _ok(book_dir, "introduction")
     except Exception as e:  # apparatus is never worth a finished translation
         _record_skip(book_dir, "introduction", e, log)
 
@@ -196,6 +206,7 @@ def apply_book_apparatus(
             if _after != _before:
                 _md.write_text(_after, encoding="utf-8")
                 log("    translit: folded to plain transliteration")
+        _ok(book_dir, "translit")
     except Exception as e:  # never worth a finished translation
         _record_skip(book_dir, "translit", e, log)
 
@@ -219,6 +230,7 @@ def apply_book_apparatus(
         from _book_quran import inject_book as _inject_quran
 
         _inject_quran(book_dir, log=lambda m: log(f"    {m}"))
+        _ok(book_dir, "quran-arabic")
     except Exception as e:  # a missing verse must never fail a finished translation
         _record_skip(book_dir, "quran-arabic", e, log)
 
@@ -239,6 +251,7 @@ def apply_book_apparatus(
         from _book_citations import rename_book as _name_surahs
 
         _name_surahs(book_dir, log=lambda m: log(f"    {m}"))
+        _ok(book_dir, "citation-names")
     except Exception as e:  # a citation's spelling must never fail a translation
         _record_skip(book_dir, "citation-names", e, log)
 
@@ -307,6 +320,7 @@ def apply_book_apparatus(
                         log(f"    glossary-fill: {_line.strip()}")
                     if _fill.returncode != 0:
                         log(f"    glossary-fill: rc={_fill.returncode} — new terms stay romanized until filled")
+        _ok(book_dir, "glossary-harvest")
     except Exception as e:  # a starved glossary must never cost a finished book
         _record_skip(book_dir, "glossary-harvest", e, log)
 
@@ -321,6 +335,7 @@ def apply_book_apparatus(
 
     try:
         propose_annotation_policy(book_dir, log=log)
+        _ok(book_dir, "annotation-policy")
     except Exception as e:  # a policy miss must never cost a finished book
         _record_skip(book_dir, "annotation-policy", e, log)
 
@@ -342,6 +357,7 @@ def apply_book_apparatus(
             log("    etymology: report already present — skipped (delete _system/etymology-report.json to re-run)")
         else:
             build_etymology_atoms(book_dir, log=log)
+        _ok(book_dir, "etymology")
     except Exception as e:  # an apparatus miss must never cost a finished book
         _record_skip(book_dir, "etymology", e, log)
 
@@ -358,6 +374,7 @@ def apply_book_apparatus(
 
     try:
         vowel_glossary(book_dir, log=lambda m: log(f"    {m}"))
+        _ok(book_dir, "glossary-vowelling")
     except Exception as e:  # marks are never worth a finished book
         _record_skip(book_dir, "glossary-vowelling", e, log)
 
@@ -373,6 +390,7 @@ def apply_book_apparatus(
     try:
         apply_inline_arabic(book_dir, log=lambda m: log(f"    {m}"))
         book_md = book_dir / "book" / "book.md"
+        _ok(book_dir, "inline-arabic")
     except Exception as e:  # an overlay is never worth a finished translation
         _record_skip(book_dir, "inline-arabic", e, log)
 
@@ -383,6 +401,7 @@ def apply_book_apparatus(
 
     try:
         apply_book_shape(book_dir, log=lambda m: log(f"    {m}"))
+        _ok(book_dir, "text-shape")
     except Exception as e:  # a printed shape is never worth a finished book
         _record_skip(book_dir, "text-shape", e, log)
 
@@ -399,6 +418,7 @@ def apply_book_apparatus(
     try:
         vowel_book(book_dir, log=lambda m: log(f"    {m}"))
         book_md = book_dir / "book" / "book.md"
+        _ok(book_dir, "vowelling")
     except Exception as e:  # marks are never worth a finished book
         _record_skip(book_dir, "vowelling", e, log)
 
@@ -424,6 +444,7 @@ def apply_book_apparatus(
     try:
         apply_arabic_substitution(book_dir, log=lambda m: log(f"    {m}"))
         book_md = book_dir / "book" / "book.md"
+        _ok(book_dir, "arabic-substitution")
     except Exception as e:  # a script swap is never worth a finished book
         _record_skip(book_dir, "arabic-substitution", e, log)
 
@@ -443,60 +464,16 @@ def apply_book_apparatus(
             if _after != _before:
                 _md.write_text(_after, encoding="utf-8")
                 log("    spelling: normalized to American forms")
+        _ok(book_dir, "spelling")
     except Exception as e:  # a spelling pass is never worth a finished book
         _record_skip(book_dir, "spelling", e, log)
 
-    # 6. Arabic provenance audit over the FINAL edition. The gates upstream count
-    #    Arabic runs; this one asks whether each surviving run is the source's own
-    #    words. Report-only and last, so it judges exactly what will be printed.
-    from _book_arabic_audit import run_arabic_audit
-
-    stages["final"] = stage_counts(book_dir)
-    try:
-        run_arabic_audit(book_dir, log=log, stages=stages)
-    except Exception as e:  # never fail a good compose over its own audit
-        _record_skip(book_dir, "arabic-audit", e, log)
-
-    # 6b. Duplicated-passage sweep. The seam de-dup at step 5 drops a twin that
-    #     sits NEXT to its original; this finds the one that does not — a window
-    #     that ran past its own passage, so the whole scene prints twice several
-    #     paragraphs apart, in different words. Report-only by design: on
-    #     2026-07-20 each copy of such a pair turned out faithful where the other
-    #     was wrong, with two source sentences missing from both, so deleting
-    #     either automatically would have destroyed source text.
-    from _translation_edition import duplicate_passage_findings
-
-    try:
-        dup_path = book_dir / "_system" / "book-duplication-check.json"
-        dups = duplicate_passage_findings((book_dir / "book" / "book.md").read_text(encoding="utf-8"))
-        dup_path.parent.mkdir(parents=True, exist_ok=True)
-        dup_path.write_text(
-            json.dumps(
-                {"schema": "book.duplication-check/v1", "findings": dups},
-                indent=2,
-                ensure_ascii=False,
-            )
-            + "\n",
-            encoding="utf-8",
-        )
-        if dups:
-            log(f"    duplication: {len(dups)} passage(s) narrated twice — compare BOTH copies against the source")
-            for d in dups[:3]:
-                log(
-                    f"      {d['chapter'][:48]}: paragraphs {d['first_copy_paragraphs']} vs {d['second_copy_paragraphs']}"
-                )
-    except Exception as e:  # never fail a good compose over its own audit
-        _record_skip(book_dir, "duplication", e, log)
-
-    # 7. Visual policy. Skipping the generating phases states the intent; this
-    #    measures the artifact, because image markup can also reach book.md from a
-    #    model mid-prose, which no phase toggle would catch.
-    from _book_visual_policy import check_text_only
-
-    try:
-        check_text_only(book_dir, log=log)
-    except Exception as e:
-        _record_skip(book_dir, "visual-policy", e, log)
+    # 6-7. The report-only tail — Arabic provenance audit, duplicated-passage sweep,
+    #      visual policy. Lifted into _book_reports (2026-08-08): all three are
+    #      ADVISORY in _compose_skips and none alters the page, so this was the one
+    #      group whose extraction could not change a printed book. Same position in
+    #      the sequence, same order within it.
+    run_report_steps(book_dir, log=log, stages=stages)
 
     # 8. Comprehension bridges — LAST, so a fix from a prior review round survives
     #    this compose. Idempotent (strips its own previous output first), so a
@@ -506,6 +483,7 @@ def apply_book_apparatus(
 
     try:
         apply_bridges(book_dir, log=log)
+        _ok(book_dir, "bridges")
     except Exception as e:
         _record_skip(book_dir, "bridges", e, log)
 
@@ -535,6 +513,7 @@ def apply_book_apparatus(
                 log(f"    honorifics: {_unwrapped} doubly-bracketed honorific(s) collapsed to one pair")
             if _n:
                 log(f"    honorifics: {_n} first-use honorific(s) spelled out in full")
+        _ok(book_dir, "honorifics")
     except Exception as e:  # a convention is never worth a finished book
         _record_skip(book_dir, "honorifics", e, log)
 
@@ -554,6 +533,7 @@ def apply_book_apparatus(
 
     try:
         align_book(book_dir, log=lambda m: log(f"    {m}"), apply=True)
+        _ok(book_dir, "arabic-alignment")
     except Exception as e:  # an alignment is never worth a finished book
         _record_skip(book_dir, "arabic-alignment", e, log)
 
@@ -575,6 +555,7 @@ def apply_book_apparatus(
 
     try:
         mirror_book(book_dir, log=lambda m: log(f"    {m}"), apply=True)
+        _ok(book_dir, "paragraph-mirror")
     except Exception as e:  # paragraphing is never worth a finished book either
         _record_skip(book_dir, "paragraph-mirror", e, log)
 
@@ -594,6 +575,7 @@ def apply_book_apparatus(
 
     try:
         restamp_from_final_book(book_dir, log=lambda m: log(f"    {m}"))
+        _ok(book_dir, "substitution-restamp")
     except Exception as e:  # a stamp is never worth a finished book
         _record_skip(book_dir, "substitution-restamp", e, log)
 

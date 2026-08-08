@@ -285,6 +285,24 @@ def author_translation_edition_compose(
             previous_tail = " ".join(pf_prose.split()[-80:])
             prev_emitted_prose = pf_prose
 
+    # THIS LOOP IS SERIAL BY NECESSITY — do not parallelise it (noted 2026-08-08).
+    #
+    # Each iteration reads state the PREVIOUS one produced: `previous_tail` (the last
+    # eighty words of the preceding chapter, handed to this chapter's compose so the
+    # prose continues rather than restarting) and `prev_emitted_prose` (which
+    # `_trim_seam_overlap` compares against to delete a seam the source narrates
+    # twice). Both are assigned at the bottom of this loop and consumed at the top of
+    # the next.
+    #
+    # Running chapters concurrently would hand every one an empty or arbitrary tail.
+    # The failure mode is the dangerous kind: the book still renders, every chapter is
+    # present, the word counts are right, and EVERY GATE PASSES — because no gate
+    # inspects the join between two chapters. It would read wrong to a person and
+    # clean to the pipeline, which is the worst combination this repo has.
+    #
+    # The per-chapter podcast loop in `phases/chapter_driver.py` carries its own,
+    # different reasons for staying serial; see the comment above the loop there.
+    # A test pins both so a future well-meaning change fails loudly instead.
     for ch in toc.get("chapters", []):
         idx = int(ch.get("bk_index") or len(manifest) + 1)
         title = str(ch.get("title") or f"Chapter {idx}")
