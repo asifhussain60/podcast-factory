@@ -279,3 +279,4 @@
 {"ts": "2026-08-08T13:57:45Z", "phase": "0book-compose", "step": "translation-bk-17-part-02-integrity-retry", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 10204, "cache_read": 20129, "cache_create": 72716, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-08T14:04:41Z", "phase": "0book-compose", "step": "translation-bk-18", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 25150, "cache_read": 20129, "cache_create": 77873, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-08T14:08:57Z", "phase": "0book-compose", "step": "translation-bk-19", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 13636, "cache_read": 20129, "cache_create": 73976, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-08T14:18:21Z", "phase": "0book-compose", "step": "translation-bk-20", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 35588, "cache_read": 20129, "cache_create": 77789, "cost_usd": 0.0, "engine": "max"}
