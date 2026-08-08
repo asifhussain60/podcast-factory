@@ -89,7 +89,7 @@ def write_items(items: list[dict[str, Any]], path: Path | None = None) -> Path:
     p = Path(path) if path else backlog_path()
     p.parent.mkdir(parents=True, exist_ok=True)
     body = {
-        "schema": "podcast.pending-work/v3",
+        "schema": "podcast.pending-work/v4",
         "items": items,
     }
     p.write_text(yaml.safe_dump(body, sort_keys=False, allow_unicode=True), encoding="utf-8")

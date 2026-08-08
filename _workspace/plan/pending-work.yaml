@@ -1,4 +1,4 @@
-schema: podcast.pending-work/v3
+schema: podcast.pending-work/v4
 
 # THE SNAG LIST -- named 2026-08-08 (Asif asked for something more memorable
 # than "pending-work.yaml"; a snag list is the factory-floor term for the
@@ -10,6 +10,14 @@ schema: podcast.pending-work/v3
 # has the current list, any machine that pushes an edit updates it for every
 # other machine. Deliberately not a second system: extends the file that
 # already existed rather than adding a competing tracker.
+#
+# v4 (2026-08-08): `summary` is a short, plain-English headline (<=~70 chars),
+# separate from `title`, which stays the full descriptive record. The Snag
+# List view uses `summary` as the always-visible accordion header and `title`
+# as the expandable body -- added because a reader scanning the list needs a
+# clear one-line "what is this" before deciding whether to read the full
+# paragraph. Optional, like priority/effort/order below; a missing summary
+# just falls back to a truncated title in the view.
 #
 # v3 (2026-08-08): priority, effort and order are now first-class, per Asif's
 # explicit request -- the v2 design note below ("no priority field, on
@@ -37,6 +45,7 @@ items:
     status: done
     priority: P1
     effort: L
+    summary: Generate the reader's companion cards for all chapters
     title: "Generate the reader's companion cards for all 9 chapters -- 135 cards total, every chapter at the top of the 10-15 target, balance rule held, zero cards cite a narrator-policy-restricted name"
     noticed: 2026-07-19
 
@@ -45,6 +54,7 @@ items:
     status: done
     priority: P2
     effort: S
+    summary: Commit and merge the regenerated book content
     title: "Commit the regenerated book content and merge it to develop -- content commit 2af5241, merge 8a81c8e"
     noticed: 2026-07-19
 
@@ -53,6 +63,7 @@ items:
     status: done
     priority: P1
     effort: S
+    summary: Run a post-merge repo sweep
     title: "Post-merge sweep on develop@8a81c8e: clean, 0 P0/P1. One P2 (new modules + book-publication-reviewer agent missing from framework.md) found and fixed in fb96f66/cd36f92."
     noticed: 2026-07-19
 
@@ -61,6 +72,7 @@ items:
     status: done
     priority: P1
     effort: M
+    summary: Stop duplicating the book PDF on every render
     title: "RESOLVED: build_book_pdf now RENAMES the Playwright working file to the titled PDF (Path.replace, atomic) instead of copying -- one PDF per book folder. validate_book_ready/B2, _book_render_checks, and _book_comprehension all resolve through deliver_book._find_pdf (titled-preferred, book.pdf fallback) instead of a hardcoded path; export_distribution/deliver_book already did. A failed rename keeps book.pdf as the sole deliverable rather than losing the render. Verified live: removed the-master-and-the-disciple's now-redundant book.pdf (confirmed byte-identical to the titled copy first), re-ran all three gates against the titled-only folder -- all resolve correctly. 5 new tests."
     noticed: 2026-07-19
 
@@ -69,6 +81,7 @@ items:
     status: open
     priority: P1
     effort: M
+    summary: Podcast chapter files are missing Arabic script
     title: "Found while re-verifying gates post-fix (unrelated to the fix itself): validate_book_ready's B3 gate reports 20/20 podcast chapter files (chapters/ch01a-*.txt etc.) carry ZERO Arabic script. This is the PODCAST deliverable's own Arabic injection (inject_chapter_arabic.py / Phase 0e), a different subsystem from the reading edition's Arabic (verified extensively earlier -- 52 passages in book.md, traced to source). Non-blocking on the podcast ship (already live), but a real gap worth a look. No prior book-validation-report.json existed for this book, so unknown whether this predates today or was always the case for this book's podcast lane."
     noticed: 2026-07-19
 
@@ -77,6 +90,7 @@ items:
     status: done
     priority: P0
     effort: L
+    summary: Build the publication reviewer agent
     title: Build the publication reviewer agent and its fix-and-resubmit loop with durable bridges
     noticed: 2026-07-19
 
@@ -85,6 +99,7 @@ items:
     status: done
     priority: P1
     effort: S
+    summary: Verify the book's unconfirmed Quran quotations
     title: "CHECKED, no book edit needed. All 3 real quotations verified against quran.com (not from memory) and are accurate, correctly translated Quranic verses this book's own OCR simply doesn't happen to cover on these pages: (1) 'fa-la taghurrannakum al-hayat al-dunya' = Quran 35:5 (also echoed in 31:33), ch.6; (2) 'fa-man udturra ghayra baghin wa-la 'adin fa-la ithma 'alayhi' = Quran 2:173, ch.7; (3) 'ala fatratin min al-rusul' = Quran 5:19, ch.8. The 4th flag ('alayhim al-salam', ch.8) was never a quotation at all -- a standard honorific formula, a tool false positive, not a book problem -- fixed at the tool level (see arabic-audit-honorific-false-positive)."
     noticed: 2026-07-19
 
@@ -93,6 +108,7 @@ items:
     status: done
     priority: P2
     effort: S
+    summary: Check a flagged late character introduction
     title: "Salih/al-Bakhtari flagged as late-introduced was a false positive (tool fixed, not the book) -- confirmed via publication review"
     noticed: 2026-07-19
 
@@ -101,6 +117,7 @@ items:
     status: done
     priority: P2
     effort: M
+    summary: Grow the etymology corpus beyond one book
     title: "ASSESSED, then acted on. No new SOURCE ingestion was needed -- scripts/podcast/_etymology.py already exists as a real, accuracy-gated miner (term_index veto + adversarial self-consistency verification + doctrinal gate, no fabrication), it simply had zero callers anywhere in the pipeline and had only ever been run once, on one book. Ran it against the-master-and-the-disciple (already fully in context this session): 6 candidate terms found, 2 passed the accuracy gate and were written -- 'quwwa' (root q-w-y, strength/potency/faculty) and 'Umma' (root '-m-m, the same root as umm/imam -- a community bound by facing one shared source). Corpus grew 12 -> 14, now from 2 books instead of 1. NOT swept across the rest of the repo -- that is a real, separately-scoped content-generation campaign (which books, how many terms, real LLM time per book), not this assessment task's natural conclusion. The miner remains unwired into any live phase; wiring it as an automatic per-book step is a separate decision, not made here."
     noticed: 2026-07-19
 
@@ -109,6 +126,7 @@ items:
     status: done
     priority: P1
     effort: S
+    summary: Fix inconsistent "Sharia" spelling
     title: "RESOLVED: Asif chose 'Sharia' as the standard. Root cause was one level deeper than first found -- glossary.yml carried TWO entries for one term, and a second drifted spelling (line 334) existed beyond the one page the first review pass read. Both book.md occurrences corrected, duplicate glossary entry removed, PDF re-rendered (6/6 occurrences now read Sharia), comprehension re-run clean."
     noticed: 2026-07-19
 
@@ -117,6 +135,7 @@ items:
     status: done
     priority: P1
     effort: M
+    summary: Fix naming-drift detection missing a glossary fold
     title: "RESOLVED (the glossary-fold half of the gap): naming_drift()'s presence check now folds each glossary entry's spelling through simplify_transliteration (the same fold BK-A4 print already guarantees) before searching the page, instead of the entry's raw stored spelling. This is precisely what missed the-master-and-the-disciple's drift -- a glossary entry stored as 'Shariʿa' (scholarly ayn) never literally appears in a book that only prints plain transliteration, so it was invisible even though a second entry drifted from it. Two new regression tests pin this case and the 'do not invent drift that was never printed' guard."
     noticed: 2026-07-19
 
@@ -125,6 +144,7 @@ items:
     status: open
     priority: P2
     effort: L
+    summary: Naming drift can't catch a spelling with no glossary entry
     title: "Residual half of the naming-drift gap, deliberately NOT fixed: naming_drift() only ever compares spellings that exist as glossary entries. An ad hoc spelling a single augment note introduces, with no glossary entry of its own at all (e.g. the-master-and-the-disciple's 'Shari'ah', which had no entry before today's manual fix), stays invisible. Needs a fuzzy near-neighbor scan across raw page text -- real new infrastructure, not another fold, so it was not built under this pass."
     noticed: 2026-07-19
 
@@ -133,6 +153,7 @@ items:
     status: done
     priority: P0
     effort: S
+    summary: Confirm the narrator-attribution exclusion policy
     title: "CONFIRMED: augmentation excludes quotations attributed to Abu Bakr, Umar, Uthman, Aisha -- Ahl al-Bayt/Imam Ali/Ismail bin Muhammad and their followers remain approved. Verified: 3 Umar-attributed atoms now excluded from the live corpus load (428 -> 425); a doctrinal passage that only MENTIONS these names in prose was verified to survive untouched."
     noticed: 2026-07-19
 
@@ -141,6 +162,7 @@ items:
     status: done
     priority: P0
     effort: M
+    summary: Wire the narrator policy into every augmentation path
     title: "RESOLVED, and the risk was higher than first assessed. intelligence/augmenter.py::_fetch_matching_quotes is NOT dormant -- it's live-wired into phases/per_chapter.py, the real per-chapter podcast authoring phase; its own docstring says quote atoms are 'currently 0; wired for future runs', meaning the exclusion had to land BEFORE that data gap closes, not after. Fixed there. augment_book.py IS confirmed genuinely unwired (zero callers anywhere) -- fixed anyway in _load_atoms(), the single load point, so a future wiring inherits the policy rather than needing to rediscover it. Both reuse _narrator_policy, same module as the JSONL corpus. 4 new tests."
     noticed: 2026-07-19
 
@@ -149,6 +171,7 @@ items:
     status: done
     priority: P0
     effort: M
+    summary: Fix a chapter-file collision that blocked publishing
     title: "RESOLVED: publish was blocked -- _translation_edition.py wrote per-chapter .txt sidecars (ch01-<slug>.txt) into the SAME top-level chapters/ dir the podcast lane uses (ch01a-<slug>.txt, one per episode); the ship gate's ch*.txt glob read the book-lane files as chapters missing an episode. Root-caused (predates this session -- clean gate run on 2026-06-11, broke once book-pipeline-v2 started writing there) and fixed at the source: sidecars now write to book/_chapters/, alongside book/_chunks and book/_diagrams. This book's 8 existing files relocated via git mv; a regression test locks the new path. Ship gates G1-G4 now pass clean; book published live (status=published) with G5 (a state-bookkeeping check unrelated to content, unrecognized book-lane phase values) explicitly bypassed via its own documented --force flag, confirmed and authorized before running."
     noticed: 2026-07-19
 
@@ -157,6 +180,7 @@ items:
     status: done
     priority: P1
     effort: M
+    summary: Check other books for the same chapter-file collision
     title: "CORRECTED AND RESOLVED. The original count (8 other affected items, by bare-filename pattern alone) was wrong -- verified by checking for _system/translation-edition-manifest.json (the only proof the book-lane sidecar route ever actually ran) plus reading actual file content. Only mukhtasar-ul-asar-1 and mukhtasar-ul-asar-2 are genuine book-lane sidecars; RELOCATED to book/_chapters/ (18 files, manifests updated) -- zero collision risk today since neither has any podcast episodes yet, but now matches the fixed convention. The other 6 (healthequity, ayyuhal-walad, kitab-al-riyad, kunooz-al-hikmah, claude-code-training) have NO translation-edition-manifest.json -- their bare ch<NN>-<slug>.txt naming is genuine, correctly-shaped podcast chapter content (verified by reading it: episode-framing prose, not book-lane teaching text) that simply never needed a letter-suffix disambiguator. Confirmed untouched, left exactly as they were -- moving them would have been a real, incorrect edit to live content, including one already-published book (ayyuhal-walad)."
     noticed: 2026-07-19
 
@@ -165,6 +189,7 @@ items:
     status: done
     priority: P1
     effort: S
+    summary: Stop flagging honorific phrases as unverified Arabic
     title: "RESOLVED: _book_arabic_audit.py gained a fourth resolution tier, 'honorific-formula', for standard liturgical phrases ('alayhi/alayha/alayhim al-salam', 'radiya Allahu anhu', etc.) matched by normalized skeleton against a small canonical allowlist. These are the author's own religious practice, not a quoted source -- flagging them alongside a genuine mis-sourced verse buried the real finding in boilerplate. Found live checking the-master-and-the-disciple's 4 unverified passages: 1 of the 4 was exactly this. 3 new tests, including one confirming the allowlist cannot become a loophole for a real ungrounded quotation."
     noticed: 2026-07-19
 
@@ -173,6 +198,7 @@ items:
     status: open
     priority: P1
     effort: L
+    summary: Rewrite four Islamic books into the reference voice
     title: "Four Islamic books do not yet read like the reference editions (the-master-and-the-disciple, degrees-of-excellence). TWO PROBLEMS, two remedies. (a) mukhtasar-ul-asar-1 (99k words) and -2 (107k) are genuinely CALQUED -- Arabic masdar chains and isnad grammar carried straight into English -- which is exactly what the REQ-BA articulation pass is built to fix; run 0book-fluency or loop rearticulate_chapter.py over their chapter keys. (b) al-anwaar-al-lateefah/vol-01 and asaas-al-taveel/vol-01 are FLUENT but in the wrong voice (a lecturer addressing a congregation, a modern editor's preface 'I'). The articulation pass CANNOT fix those: REQ-BA-030 binds it to preserve meaning, so it would keep the added framing and only polish it. They need a re-compose from source, not articulation. Deferred by Asif 2026-08-02 in favour of pipeline + Arabic work."
     noticed: 2026-08-02
 
@@ -181,6 +207,7 @@ items:
     status: open
     priority: P0
     effort: S
+    summary: Declare narrative frame before any model pass touches two books
     title: "HAZARD, carried forward. al-anwaar-al-lateefah/vol-01 and asaas-al-taveel/vol-01 declare no narrative_frame, so both resolve to a conservative default (external_narrator / transmitted_report) while their prose narrates in the first person. No model pass has run on them -- the 2026-08-02 apparatus work is deterministic and deliberately avoided the model route for exactly this reason -- but ANY future compose will run 0book-fluency under the wrong frame and rewrite both books into the wrong grammatical person. Read how each SOURCE opens and declare narrative_frame in _system/series-config.yaml BEFORE any model pass touches either book."
     noticed: 2026-08-02
 
@@ -189,6 +216,7 @@ items:
     status: open
     priority: P2
     effort: L
+    summary: Translate the Kashkole Wisdom corpus into English
     title: "Asif 2026-08-06: the KASHKOLE Wisdom corpus must be rendered into articulate English so it can augment content, etymology and explanations as ONE unit with KSESSIONS -- a separate, systematic pass over the whole corpus, not a per-note translation. STATE TODAY: content/knowledge-base/mirror.db carries all 1347 topics (1055 with a substantial body_plain) and NONE of them carry English -- the source dump at content/_shared/source-library/Kashkole.sql (759 MB, gitignored) contains zero name_en occurrences, so this is Urdu at source, not a mirroring loss. That is why intelligence/ingest_kashkole.py deliberately mints no atoms from them (rule D8, never re-translate) and records them as a deferred note; the only English Kashkole material in the corpus today is the 93 doctrine atoms (tradition fatimid-ismaili) from the wisdom-binder pipeline. The new pass must target the SAME articulation standard the reading editions use (docs/standards/book-articulation.md, REQ-BA-*) so a translated topic reads like the books it will be cited beside, must be idempotent and re-runnable, and must record provenance per topic so a rendering can be traced and revised. It supersedes D8 for this corpus and D8's text must be updated in the same change rather than left contradicting it. Until it lands, the Companion student-reader lane cites Kashkole topics by binder and topic name WITHOUT rendering their Urdu, and draws its English from the 606 KSESSIONS transcripts and the 93 doctrine atoms. Re-importing needs Docker, which is NOT installed on this machine; no re-import is required for this work since the mirror already holds every topic."
     noticed: 2026-08-06
 
@@ -197,6 +225,7 @@ items:
     status: open
     priority: P2
     effort: S
+    summary: Decide how a teach-term's later mentions should print
     title: "Two locked rules meet and the outcome is worth a decision. 'Zero English transliteration of Arabic terms in book.md' (2026-08-02) and 'annotate once and intelligently, never mechanically' (the four-class teach/familiar/name/silent policy) disagree about a term's SECOND mention. Today the annotation policy wins: a `teach` term gets its script once per book and every later mention prints bare romanization; a `familiar` term (halal, iman, nafs -- words the classifier judged naturalised) never gets script at all. That is why ayyuhal-walad still prints *mujahadah*, *marifah* and *zauq* with no Arabic beside them after the apparatus ran. Not a defect -- it is the policy behaving as written -- but Asif should decide whether a teach term's later mentions should also carry script."
     noticed: 2026-08-02
 
@@ -205,6 +234,7 @@ items:
     status: open
     priority: P1
     effort: M
+    summary: Version-control the global response-format rules
     title: "The global response-format rules (~/.claude/response-template.md) live in a folder with NO git repo and NO remote, so nothing Asif approves there reaches any other machine. Worse: this repo separately carries two TRACKED copies (_workspace/plan/conventions/response-template.md, response-conventions.md) that describe the 4-part template RETIRED 2026-05-26 -- and CLAUDE.md's own text falsely claims those copies 'had not existed for some time.' Any machine pulling develop today gets confidently-stated instructions that contradict how Asif actually wants responses written. Needs: version-control the global folder with a remote so every machine pulls the same rules, delete the two stale tracked copies, and correct the false line in CLAUDE.md. Found 2026-08-08 while locking the narrative-arc + nested-bullet response format."
     noticed: 2026-08-08
 
@@ -213,6 +243,7 @@ items:
     status: open
     priority: P2
     effort: S
+    summary: Fix Arabic names printing on their own line
     title: "Cosmetic, not a content defect: in the re-composed book.md, an Arabic name/title given beside its English (e.g. al-Nasafi, al-Kirmani, al-Islah) prints on its own indented block-quote line rather than inline with the romanization -- reads as a quotation interrupting the sentence rather than a name given in both scripts. Same shape across every chapter, so it is a one-place formatting decision, not per-chapter cleanup. Asif approved chapter 1's articulation and asked to raise this again once the book finishes rather than block the run on it."
     noticed: 2026-08-08
 
@@ -221,6 +252,7 @@ items:
     status: open
     priority: P1
     effort: L
+    summary: Refactor the pipeline for efficiency and per-phase accuracy checks
     title: "Asif 2026-08-08: refactor the podcast-factory pipeline for efficiency and accuracy, with short checkpoints between phases rather than long uninterrupted runs. Two named parts: (1) a full test harness covering the pipeline end to end, not just per-module unit tests; (2) each phase re-checks the ACCURACY of every phase that ran before it, not only the one immediately prior -- e.g. phase 0c should evaluate the work of 0a and 0b as well as its own, not assume an earlier phase that already passed is still correct. Scope and sequencing not yet decided -- this is the request as given, not a plan."
     noticed: 2026-08-08
 
@@ -229,6 +261,7 @@ items:
     status: open
     priority: P1
     effort: L
+    summary: Improve the orchestrator's self-checking during a run
     title: "Asif 2026-08-08: the podcast-factory pipeline orchestrator and the AI driving it need better reflection and response quality during a run -- today's session found four real, book-blocking defects (chapter-count scaling, a heading-leak bug, a gate false-positive that aborted the whole compose twice, a stale metadata path) that a stricter self-check during the run could plausibly have caught earlier than a human reviewing the output after the fact. Not yet scoped to a concrete mechanism -- logged as the request, to be designed separately."
     noticed: 2026-08-08
 
@@ -237,6 +270,7 @@ items:
     status: open
     priority: P2
     effort: L
+    summary: Group chapters into higher-level parts for long books
     title: "Asif 2026-08-08: now that chapter count scales with source length (fixed same day -- kitab-al-riyad went from 11 to 20), evaluate grouping chapters into a higher-level structure (working name: Parts) whenever a book's design exceeds roughly 10 chapters, rather than shipping a flat 15-25-item list. A flat list that long is harder to scan than a two-level one, in the printed table of contents, the in-browser reader, and the Book Composer's own chapter dropdown -- the exact dropdown Asif was looking at when this was raised. NOT the same thing as the source's own internal divisions (Kitab al-Riyad's 'Discourses' and numbered sections, already handled by today's heading-demotion fix) -- this is a NEW top-level layer the pipeline would introduce for readability, above chapters the pipeline itself designed. Open questions, not yet answered: where the grouping decision is made (inside 0book-design's own segmentation pass, since it already reasons about the book's thematic arc, versus a separate pass after chapters are set); what a group is called, chosen to avoid colliding with a source's own terminology (a source that already uses 'Part' or 'Book' internally would need a different pipeline term); how many groups is right for a 20-chapter book; and how a group renders (a PDF section-divider page, TOC nesting, Composer dropdown grouping, or some combination). Logged as the request -- no design decided."
     noticed: 2026-08-08
 
@@ -245,6 +279,7 @@ items:
     status: open
     priority: P1
     effort: M
+    summary: Condense front-matter chapters into one introduction
     title: "Asif 2026-08-08, from a chapter-by-chapter read of kitab-al-riyad's 20-chapter design: chapters 1-4 (The Freedom to Disagree / The Two Rivals / The Judge and His Cosmos / Why I Wrote This Book) are ALL pre-teaching front matter -- the modern editor's history of the dispute, biographies of the two disputants and the arbiter, then al-Kirmani's own preface -- and should have been ONE condensed introduction chapter, not four. Locked principle going forward: the reading edition's Chapter 1 should always land where the SOURCE's own teaching begins, irrespective of the source's language or how many pages of editorial/historical framing precede it in the scan. Everything before that point (translator's notes, editor's introduction, biographical apparatus about the author or the work's disputants, the author's own preface/doxology) is front matter and belongs in a single condensed introduction, not spread across several numbered chapters competing for the reader's attention with the actual argument. 0book-design's existing rule 1 already says to drop front-matter from chapter COVERAGE (title page, source's own TOC) but stops short of this -- it still let four separate chapters of pre-teaching material stand as numbered peers of the real content. Needs a concrete rule addition to the design prompt (or a post-design consolidation pass) that detects where a source's actual teaching/argument begins and folds everything before it into one preface, verified against multiple books (not just kitab-al-riyad) before landing, since a book with almost no front matter (e.g. the-master-and-the-disciple) must not be forced into an artificial split."
     noticed: 2026-08-08
 
@@ -253,6 +288,7 @@ items:
     status: done
     priority: P1
     effort: M
+    summary: Build a plan viewer page on the Astro Site
     title: "RESOLVED: /claude-plans (list + search) and /claude-plans/[slug] (detail) ship on the Podcast Factory Astro Site, wired into the top nav as 'Plans'. Reads ~/.claude/plans/*.md live on every request, same pattern as the Snag List; best-effort filters to podcast-factory-relevant plans by keyword + live book-slug matching (31 of ~46 files matched, verified the excluded ones were genuinely other repos). Detail view defaults to a masked, non-technical rendering (prose inline, fenced code/path-heavy blocks collapsed per section under a toggle) via a new small markdown renderer built for this -- the existing book-prose renderer has no fenced-code support and is Arabic/book-specific. Client-side search filters by title or full content. Cleared html-view-challenger at Level 1 Conformant after one structural fix (missing numbered h2 on the index list, missing h1 on the detail page's not-found state)."
     noticed: 2026-08-08
 
@@ -261,6 +297,7 @@ items:
     status: open
     priority: P2
     effort: S
+    summary: Three podcast chapters are missing narration framing
     title: "Post-merge repo audit 2026-08-08: 3 of the book's 15 podcast-lane chapter sources (chapters/ch04-summary-perfection-of-the-soul.txt, ch13-prophets-as-teachers-monotheism-and-the-ranks.txt, ch15-book-summary.txt) never got the italic narration-framing paragraph NotebookLM is given -- the other 12 have it. ch04 and ch15 have NO chapter-contract file (unlike the other 13), so both read as synthesis/recap chapters ('Unified Summary', 'Book Summary') generated outside the normal per-chapter authoring path that adds framing -- plausible, not confirmed, root cause. ch13 DOES have a contract (prophets-as-teachers-monotheism-and-the-ranks.yml) yet is still missing it, so that one is a separate anomaly, not explained by the same theory. Test: scripts/podcast/tests/test_compose_lanes_distinct.py::test_podcast_chapters_keep_their_narration_framing. Left uninvestigated further and unfixed rather than re-running compose, since the book's chapter design is already under active reconsideration today (see chapter-grouping-for-long-books and front-matter-chapters-should-condense-to-one-introduction above) -- re-authoring these 3 before that settles would likely be redone."
     noticed: 2026-08-08
 
@@ -269,5 +306,6 @@ items:
     status: open
     priority: P1
     effort: M
+    summary: Three chapters were reverted by the fluency re-voice pass
     title: "Post-merge repo audit 2026-08-08: _system/book-fluency-report.json shows 3 reading-edition chapters reverted by the 0book-fluency re-voice pass -- 'The Freedom to Disagree' (852<974 words, re-voice too abridged), 'Decree and Destiny' (Arabic runs dropped, 57<58), 'The Creator of the Thing and the No-Thing' (3046->1174 words plus 8 Arabic script runs dropped: al-Awwal, al-Haqq, al-Salaam). This is the fluency gate working as designed -- it reverts rather than force-keeping a re-voice that lost content or Arabic script -- but it also means scripts/podcast/tests/test_compose_lanes_distinct.py::test_articulation_state_is_intact currently fails (it asserts reverted==0) and the Composer's articulationWarnings banner is live on this book. CORRECTION to the same-day audit that first surfaced this: these are a DIFFERENT 3 chapters than kitab-al-riyad-podcast-chapters-missing-framing above -- no shared title, no shared root cause confirmed; treat as two independent findings. Left un-re-run for the same reason: the book's chapter design is mid-reconsideration."
     noticed: 2026-08-08

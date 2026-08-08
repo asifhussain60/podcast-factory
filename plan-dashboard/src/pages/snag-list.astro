@@ -5,7 +5,13 @@
  * Reads _workspace/plan/pending-work.yaml LIVE on every request (server-rendered,
  * not a build-time snapshot) so it always reflects what's actually in the file —
  * the same file the per-book status card prints from (_pending_work.py). No JS:
- * open items are shown expanded per scope, done items collapse under <details>.
+ * every item is its own native <details> accordion panel — collapsed shows a
+ * plain-English headline, expanded shows the full record as bullets.
+ *
+ * Type sizes on this page intentionally sit below the site's REQ-010 reading
+ * floor (1.2rem) — Asif's explicit 2026-08-08 direction to bring a dense
+ * work-list closer to ordinary UI/dashboard scale (13–16px) rather than the
+ * editorial reading floor built for prose pages. Scoped to this page only.
  */
 import Base from "../layouts/Base.astro";
 import AudienceBadge from "../components/AudienceBadge.astro";
@@ -21,8 +27,38 @@ interface SnagItem {
   priority?: "P0" | "P1" | "P2";
   effort?: "S" | "M" | "L";
   order?: number;
+  summary?: string;
   title: string;
   noticed?: string;
+}
+
+/** A short, plain-English accordion header — the item's own `summary` field
+ *  when present, else the first clause of `title` (many titles open with a
+ *  loud prefix like "RESOLVED:"/"HAZARD," which reads fine as a fallback
+ *  headline on its own). */
+function headline(item: SnagItem): string {
+  if (item.summary) return item.summary;
+  const first = item.title.split(/(?<=[.?!])\s+| -- /)[0];
+  return first.length > 90 ? first.slice(0, 87) + "…" : first;
+}
+
+/** The full record, broken into bullet-sized fragments for the expanded
+ *  panel. These titles are hand-written prose, not a bullet list, so this is
+ *  a display transform, not a schema — split first on " -- ", the dominant
+ *  clause separator this prose already uses, then further split any
+ *  still-long fragment on sentence boundaries. */
+function splitIntoBullets(text: string): string[] {
+  const clauses = text.split(/\s+--\s+/);
+  const bullets: string[] = [];
+  for (const clause of clauses) {
+    if (clause.length <= 220) {
+      bullets.push(clause.trim());
+      continue;
+    }
+    const sentences = clause.split(/(?<=[.?!])\s+(?=[A-Z(0-9])/);
+    bullets.push(...sentences.map((s) => s.trim()));
+  }
+  return bullets.filter(Boolean);
 }
 
 function loadItems(): SnagItem[] {
@@ -108,9 +144,9 @@ function scopeLabel(scope: string): string {
         The factory-floor term for the punch list before a build ships — the
         same backlog every book's status card reads from (<code
           >_workspace/plan/pending-work.yaml</code
-        >), shown here in full. Each item now carries a priority (P0 urgent, P1
-        normal, P2 someday) and a rough size (S/M/L), so the most urgent work
-        sorts to the top of every group. Finished work stays visible, just
+        >), shown here in full. Each item is one line — click it to expand the
+        full detail. Priority (P0 urgent, P1 normal, P2 someday) sorts the most
+        urgent work to the top of every group; finished work stays visible, just
         collapsed out of the way.
       </p>
     </header>
@@ -164,56 +200,40 @@ function scopeLabel(scope: string): string {
             </h2>
 
             {open.length > 0 ? (
-              <div class="snag-table-container" role="region" tabindex="0">
-                <table class="snag-table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Status</th>
-                      <th scope="col">Item</th>
-                      <th scope="col" class="snag-th-narrow">
-                        Priority
-                      </th>
-                      <th scope="col" class="snag-th-narrow">
-                        Effort
-                      </th>
-                      <th scope="col">Noticed</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {open.map((item) => (
-                      <tr>
-                        <td>
-                          <span class={`snag-badge snag-badge-${item.status}`}>
-                            {item.status}
-                          </span>
-                        </td>
-                        <td>
-                          <p class="snag-item-id">{item.id}</p>
-                          <p class="snag-item-title">{item.title}</p>
-                        </td>
-                        <td>
-                          {item.priority ? (
-                            <span
-                              class={`snag-priority snag-priority-${item.priority}`}
-                            >
-                              {item.priority}
-                            </span>
-                          ) : (
-                            <span class="snag-unset">—</span>
-                          )}
-                        </td>
-                        <td>
-                          {item.effort ? (
-                            <span class="snag-effort">{item.effort}</span>
-                          ) : (
-                            <span class="snag-unset">—</span>
-                          )}
-                        </td>
-                        <td class="snag-noticed">{item.noticed ?? "—"}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div class="snag-items">
+                {open.map((item) => (
+                  <details class="snag-item">
+                    <summary class="snag-item-summary">
+                      <span class={`snag-badge snag-badge-${item.status}`}>
+                        {item.status}
+                      </span>
+                      {item.priority ? (
+                        <span
+                          class={`snag-priority snag-priority-${item.priority}`}
+                        >
+                          {item.priority}
+                        </span>
+                      ) : (
+                        <span class="snag-unset">—</span>
+                      )}
+                      {item.effort ? (
+                        <span class="snag-effort">{item.effort}</span>
+                      ) : (
+                        <span class="snag-unset">—</span>
+                      )}
+                      <span class="snag-item-headline">{headline(item)}</span>
+                      <span class="snag-noticed">{item.noticed ?? "—"}</span>
+                    </summary>
+                    <div class="snag-item-body">
+                      <p class="snag-item-id">{item.id}</p>
+                      <ul>
+                        {splitIntoBullets(item.title).map((bullet) => (
+                          <li>{bullet}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                ))}
               </div>
             ) : (
               <p class="snag-empty">Nothing open here.</p>
@@ -225,33 +245,26 @@ function scopeLabel(scope: string): string {
                   {done.length} closed item{done.length === 1 ? "" : "s"} in
                   this scope
                 </summary>
-                <div class="snag-table-container" role="region" tabindex="0">
-                  <table class="snag-table snag-table-done">
-                    <thead>
-                      <tr>
-                        <th scope="col">Item</th>
-                        <th scope="col">Noticed</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {done.map((item) => (
-                        <tr>
-                          <td>
-                            <p class="snag-item-id">
-                              <span class="snag-done-check" aria-hidden="true">
-                                ✓
-                              </span>
-                              {item.id}
-                            </p>
-                            <p class="snag-item-title snag-item-title-done">
-                              {item.title}
-                            </p>
-                          </td>
-                          <td class="snag-noticed">{item.noticed ?? "—"}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <div class="snag-items">
+                  {done.map((item) => (
+                    <details class="snag-item snag-item-done">
+                      <summary class="snag-item-summary">
+                        <span class="snag-done-check" aria-hidden="true">
+                          ✓
+                        </span>
+                        <span class="snag-item-headline">{headline(item)}</span>
+                        <span class="snag-noticed">{item.noticed ?? "—"}</span>
+                      </summary>
+                      <div class="snag-item-body">
+                        <p class="snag-item-id">{item.id}</p>
+                        <ul>
+                          {splitIntoBullets(item.title).map((bullet) => (
+                            <li>{bullet}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </details>
+                  ))}
                 </div>
               </details>
             )}
