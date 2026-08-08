@@ -429,15 +429,49 @@ def _topic_hits(text: str) -> set[str]:
     return hits
 
 
+#: What it takes for a topic to be ESTABLISHED in a source span, rather than
+#: mentioned in passing. Measured from the fiqh books this detector exists for,
+#: where a chapter really is its topic: `oaths` (4 distinct/25 hits), `dress`
+#: (6/24), `hunting` (5/26), `food` (3/19), `marriage` (3/16), `sales` (3/6) —
+#: against incidental noise everywhere else, which is uniformly (1,1)-(2,3).
+_TOPIC_MIN_DISTINCT = 2
+_TOPIC_MIN_HITS = 4
+
+
+def _established_topics(text: str) -> set[str]:
+    """Topics a span is genuinely ABOUT — see the thresholds above."""
+    scan = (text or "").casefold()
+    established: set[str] = set()
+    for topic, words in _TOPIC_CLUSTERS.items():
+        counts = [len(re.findall(rf"\b{re.escape(w.casefold())}\b", scan)) for w in words]
+        distinct = sum(1 for n in counts if n)
+        if distinct >= _TOPIC_MIN_DISTINCT and sum(counts) >= _TOPIC_MIN_HITS:
+            established.add(topic)
+    return established
+
+
 def source_title_drift_findings(title: str, source: str) -> list[str]:
     """Cheap source/title drift detector for final-PDF acceptance.
 
-    It is intentionally deterministic and conservative: it only blocks when a
-    title has a recognizable legal/teaching topic and the assigned source has no
-    overlap but does have a different recognizable topic.
+    Blocks only when a title has a recognizable legal/teaching topic and the
+    assigned source is genuinely ABOUT a different one.
+
+    The title side stays single-hit — a title is a handful of words, and one
+    topical word is all the signal there is. The SOURCE side must clear
+    ``_TOPIC_MIN_DISTINCT``/``_TOPIC_MIN_HITS``, because a single incidental word
+    in a 5,000-character span is noise, and treating it as a topic made this gate
+    fire on one word against one word. It aborted the whole kitab-al-riyad compose
+    twice: "The Judge and His Cosmos" matched `judiciary` on *judge* (an arbiter,
+    not a chapter of fiqh) while its source — al-Kirmani's biography — matched
+    `sales` on a single *market*, in "flooding the market of innovation".
+
+    These clusters are fiqh topics, so on a philosophical or narrative work the
+    only honest answer is usually "no topic", which is what the thresholds now
+    produce. On the fiqh collections the gate was built for, every real chapter
+    topic clears them by a wide margin, so its power there is unchanged.
     """
     title_topics = _topic_hits(title)
-    source_topics = _topic_hits(source[:5000])
+    source_topics = _established_topics(source[:5000])
     if title_topics and source_topics and not (title_topics & source_topics):
         return [f"title/source topic drift: title {sorted(title_topics)} vs source {sorted(source_topics)}"]
     return []
