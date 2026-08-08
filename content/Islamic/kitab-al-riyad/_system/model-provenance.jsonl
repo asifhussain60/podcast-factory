@@ -179,3 +179,4 @@
 {"phase": "0book-compose", "step": "translation-bk-10", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-compose", "step": "translation-bk-11", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-compose", "step": "translation-bk-11-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-12", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
