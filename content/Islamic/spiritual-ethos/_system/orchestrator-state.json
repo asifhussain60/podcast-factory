@@ -5,8 +5,8 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "0book-design",
-  "phase_status": "completed",
+  "phase": "0book-compose",
+  "phase_status": "running",
   "last_completed_phase": "0book-design",
   "last_error": null,
   "category": "books",
@@ -347,7 +347,7 @@
       "ts_completed": "2026-08-08T11:14:05Z"
     },
     "0book-compose": {
-      "status": "pending",
+      "status": "running",
       "ts_started": "2026-08-07T00:02:26Z"
     },
     "audio-ingest": {

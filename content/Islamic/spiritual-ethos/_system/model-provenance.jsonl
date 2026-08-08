@@ -531,3 +531,10 @@
 {"phase": "0book-student-reader", "step": "scholar-the letter to mali-the most sincere-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-student-reader", "step": "scholar-the letter to mali-that part of his", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-student-reader", "step": "scholar-the letter to mali-that part of his-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-03-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-03-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-05-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-05-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
