@@ -22,6 +22,35 @@ from ._core import AuthoringError, _run_claude_p_with_retry
 
 _DESIGN_TIMEOUT = 600
 
+#: Words of SOURCE per book chapter. Calibrated from `the-master-and-the-disciple`,
+#: the repo's reference edition for this route (docs/standards/book-articulation.md):
+#: 34,217 source words across 8 chapters = 4,277. Its own segmentation is therefore
+#: unchanged by this rule — that is the point of deriving the constant from it rather
+#: than picking one.
+#:
+#: This replaced a FLAT "roughly 6-9 chapters" instruction that did not scale with
+#: length, so every book landed in that band whatever its size: ayyuhal-walad at 1,656
+#: words/chapter and mukhtasar-ul-asar-2 at 12,255 both came out with 9. Kitab al-Riyad
+#: is what surfaced it — 86,817 words in 11 chapters, one of them 21,291 words, with
+#: the source's own numbered sections leaking to chapter level because a 33-section
+#: source discourse had been merged into a single book chapter and its internal
+#: divisions had nowhere else to go.
+_CHAPTER_TARGET_WORDS = 4300
+#: A hard ceiling stated to the model. ~2x the target: a chapter may run long when the
+#: argument genuinely does not break, but not unboundedly. The gold standard's own
+#: longest chapter (15,178 rendered words) exceeds this — deliberately: that chapter is
+#: a single continuous debate, and the rule is stated as "split at the next strongest
+#: internal seam", which such a chapter does not have.
+_CHAPTER_MAX_WORDS = 9000
+#: Never fewer than this many chapters, whatever the arithmetic says — a very short
+#: source still wants a readable spine rather than two enormous halves.
+_MIN_CHAPTERS = 6
+
+
+def _target_chapters(source_words: int) -> int:
+    """The chapter count modern book-craft puts a source of this length at."""
+    return max(_MIN_CHAPTERS, round(source_words / _CHAPTER_TARGET_WORDS))
+
 
 def _numbered(text: str) -> str:
     return "\n".join(f"{i:>4} | {ln}" for i, ln in enumerate(text.split("\n"), 1))
@@ -69,8 +98,20 @@ RULES
 contents, the translator's note, and any `<!-- PAGE n -->` markers are NOT chapters. \
 Real content begins at the book's introduction / the author's reply.
 2. Group the material into chapters that each make a satisfying, thematically coherent \
-read. For a work of this length modern book-craft typically yields roughly 6-9 chapters \
-plus a short preface — but YOU decide what serves the reader; explain each choice.
+read. This source runs about {SOURCE_WORDS} words, so modern book-craft puts it at \
+roughly {TARGET_CHAPTERS} chapters plus a short preface — a chapter of about \
+{WORDS_PER_CHAPTER} words. Treat that as the target, not a cap: YOU decide what serves \
+the reader, and explain each choice. What you must NOT do is return a handful of \
+enormous chapters. No chapter may exceed about {MAX_CHAPTER_WORDS} words of source; \
+if a thematic unit is bigger than that, it is not one chapter — split it at the next \
+strongest internal seam and title each part for what that part actually argues.
+2b. If the SOURCE carries its own major divisions (numbered discourses, parts, titles, \
+maqalas, or a run of numbered sections), those boundaries are real seams and you should \
+generally cut on them rather than across them. This does NOT mean copying the source's \
+table of contents: a source division far larger than the target chapter size MUST become \
+several chapters, and a run of very short sections may be gathered into one. You are \
+deciding where a modern reader wants to pause — the source's own joints are evidence \
+about where the argument turns, not a structure to reproduce.
 3. Every instructive line of the source (every teaching, argument, example, named person, \
 citation) MUST be covered by exactly one chapter's ranges — no teaching may fall in a gap. \
 Ranges are INCLUSIVE 1-based line numbers into the numbered source. A chapter may use \
@@ -114,8 +155,19 @@ def author_phase_book_design(book_dir: Path, *, log=print, force: bool = False) 
 
     source = _resolve_source(book_dir)
     n_lines = len(source.split("\n"))
-    prompt = _PROMPT.replace("{SOURCE}", _numbered(source))
-    log(f"    0book-design: {book_dir.name}: {n_lines} source lines -> Opus segmentation")
+    n_words = len(source.split())
+    target_chapters = _target_chapters(n_words)
+    prompt = (
+        _PROMPT.replace("{SOURCE_WORDS}", f"{n_words:,}")
+        .replace("{TARGET_CHAPTERS}", str(target_chapters))
+        .replace("{WORDS_PER_CHAPTER}", f"{_CHAPTER_TARGET_WORDS:,}")
+        .replace("{MAX_CHAPTER_WORDS}", f"{_CHAPTER_MAX_WORDS:,}")
+        .replace("{SOURCE}", _numbered(source))
+    )
+    log(
+        f"    0book-design: {book_dir.name}: {n_lines} source lines / {n_words:,} words "
+        f"-> target ~{target_chapters} chapters -> Opus segmentation"
+    )
 
     rc, stdout, stderr = _run_claude_p_with_retry(
         prompt, timeout=_DESIGN_TIMEOUT, book_dir=book_dir, phase="0book-design", step="segment", log=log

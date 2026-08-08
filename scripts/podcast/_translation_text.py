@@ -345,6 +345,35 @@ def normalize_translation_prose(prose: str, *, title: str = "") -> str:
     return text.strip()
 
 
+#: Any `#`/`##` a MODEL emits inside a chapter body. Only the pipeline may own a
+#: chapter-level heading — it writes them itself as `## N. Title`.
+_BODY_HEADING_RE = re.compile(r"(?m)^#{1,2}(?=\s+\S)")
+
+
+def subordinate_body_headings(body: str) -> str:
+    """Demote model-emitted headings inside a chapter body to `###`.
+
+    The re-voice/fluency counterpart of the demotion in
+    ``normalize_translation_prose`` above, which does the same job for the compose
+    lane — kept in the same module so the rule "only the pipeline owns a chapter
+    heading" has one home rather than one per lane.
+
+    A source carrying its own numbered divisions (Kitab al-Riyad prints 113 of them:
+    "Chapter Two of Title IX") hands the model a plain line acting as a heading, and
+    the model formalises it as Markdown. At `##` that is indistinguishable from a
+    chapter, with two consequences: the reader's TOC and the Book Composer's chapter
+    list show sections as peers of chapters (kitab-al-riyad shipped chapter 10 as a
+    27-word stub with five sibling `##` sections carrying its body), and — worse —
+    ``_book_voice._CHAPTER_HEADING_RE`` splits `book.md` on `^## `, so on the NEXT
+    run a section would be re-voiced as if it were a chapter and the real chapter's
+    body truncated at the first one.
+
+    Demotion, never deletion: the heading is real structure the source printed, and
+    dropping it would lose a division the argument is organised by.
+    """
+    return _BODY_HEADING_RE.sub("###", body or "")
+
+
 def translation_output_findings(
     prose: str,
     *,

@@ -3,7 +3,7 @@ title: Kitāb al-Riyāḍ
 title_arabic: "كتاب الرياض"
 short_name: kar
 archetype: scholarly-deep-dive
-source_pdf: ../../../raw/Kitab al-Riyad.pdf
+source_pdf: _source/Kitab al-Riyad.pdf
 
 series:
   enable_book_branch: true
