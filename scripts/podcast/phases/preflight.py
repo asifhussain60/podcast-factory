@@ -192,12 +192,23 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "/_system/status-velocity.json",
             "/_system/status-card.txt",
             "/_system/model-provenance.jsonl",
+            # Written by EVERY step of every phase (2026-08-08). Off this list they
+            # reproduce the exact deadlock the two entries above describe: the run
+            # dirties the tree, the next resume's clean-tree gate rejects it, and the
+            # watchdog reports "working tree dirty" about a file only the run wrote.
+            # Allowlisted rather than gitignored, following cost-ledger.jsonl: both are
+            # durable records worth committing, they just must not block a resume
+            # mid-run.
+            "/_system/step-ledger.jsonl",
             "scripts/podcast/tighten_source.py",
             ".code-workspace",
         )
         runtime_artifact_dirs = (
             f"{book_runtime_prefix}_system/episode-drafts/",
             f"{book_runtime_prefix}_system/per-chapter-reports/",
+            # One report per phase completion, so a run writes ~26 of these. Same
+            # reasoning as step-ledger.jsonl in the suffix list above.
+            f"{book_runtime_prefix}_system/phase-reviews/",
             f"{book_runtime_prefix}_system/slide-challenger-reports/",
             f"{book_runtime_prefix}_system/source/text/_chunks/",
             f"{book_runtime_prefix}chapter-contracts/",

@@ -52,6 +52,52 @@ class RuntimeAllowlistTests(unittest.TestCase):
         ):
             self.assertIn(f'"{artifact}"', self.text, f"{artifact} dropped off the runtime allowlist")
 
+    def test_the_observability_artifacts_are_allowlisted(self) -> None:
+        # Added 2026-08-08 with the step ledger and the phase reviews, and caught by
+        # this exact class of check before either had ever run: the ledger is appended
+        # by EVERY step of every phase and a review report is written at every phase
+        # completion (~26 per run). Neither is gitignored, so off this list they
+        # reproduce the 2026-07-31 deadlock through two new files — a run dirties the
+        # tree and the next resume rejects it over output only the run produced.
+        self.assertIn(
+            '"/_system/step-ledger.jsonl"',
+            self.text,
+            "the step ledger is appended by every step but would fail the clean-tree gate",
+        )
+        self.assertIn(
+            "_system/phase-reviews/",
+            self.text,
+            "phase-review reports are written at every phase completion but would fail the clean-tree gate",
+        )
+
+
+class AllowlistIsNotTooBroadTests(unittest.TestCase):
+    """The allowlist must not have grown into "ignore everything under _system".
+
+    Widening it far enough to cover the new artifacts by accident would silence the
+    gate for genuine source changes too, which is the opposite failure and much
+    quieter — a book would resume over uncommitted edits nobody meant to keep.
+    """
+
+    def setUp(self) -> None:
+        self.text = PREFLIGHT.read_text(encoding="utf-8")
+
+    def test_the_system_directory_is_not_wholesale_allowlisted(self) -> None:
+        for too_broad in ('"_system/"', '"/_system/"', '"/_system"'):
+            self.assertNotIn(
+                too_broad,
+                self.text,
+                f"{too_broad} would allowlist every _system file, including ones a human edits",
+            )
+
+    def test_tracked_source_paths_are_not_allowlisted(self) -> None:
+        for never in ("scripts/podcast/_rules.py", "book/book.md", "_system/series-config.yaml"):
+            self.assertNotIn(
+                f'"{never}"',
+                self.text,
+                f"{never} is human-authored and must always block a resume when dirty",
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
