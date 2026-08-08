@@ -245,8 +245,11 @@ def run_resume(args: argparse.Namespace) -> int:
         _info(f"phase: source-ready · ingesting pre-written .md sources (category={category!r})")
         return _drive_source_ready_through_0f(book_dir, state)
 
-    # Phase 06a approved — drive into 0f.
-    if current_phase == "06a" and current_status in ("pending", "failed"):
+    # Phase 06a approved — drive into 0f. "completed" is included because the gate
+    # writes it and then continues in-process: a run that dies in that window used
+    # to have no branch at all, and `_drive_authoring_through_0f` skips phases
+    # already completed, so re-entering costs nothing.
+    if current_phase == "06a" and current_status in ("pending", "failed", "completed"):
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         _info("Phase 06a cleared — resuming to 0f series plan.")
         return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
@@ -329,10 +332,21 @@ def run_resume(args: argparse.Namespace) -> int:
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 
-    if current_phase == "per-chapter" and current_status in ("failed", "halted", "running", "pending"):
+    if current_phase == "per-chapter" and current_status in ("failed", "halted", "running", "pending", "completed"):
         return _drive_per_chapter_and_after(book_dir)
 
-    if current_phase == "per-chapter-slides" and current_status in ("failed", "running", "pending"):
+    if current_phase == "per-chapter-optimize":
+        # EVERY status, and bounded to the chapter driver. The optimize phase writes
+        # running/failed/skipped/completed and had no branch at all, so a book
+        # blocked on a P0 finding was told by its own error message to "--resume" —
+        # which answered "No automated action" and let the watchdog spend its whole
+        # attempt budget re-asking. The chapter loop skips completed slugs and the
+        # driver skips an optimize already completed or skipped, so re-entry is cheap.
+        # Deliberately NOT the publish driver: see the book-lane comment below.
+        _info(f"Phase per-chapter-optimize status={current_status!r} — re-entering the per-chapter-and-after driver.")
+        return _drive_per_chapter_and_after(book_dir)
+
+    if current_phase == "per-chapter-slides" and current_status in ("failed", "running", "pending", "skipped"):
         return _drive_per_chapter_and_after(book_dir)
 
     if current_phase == "per-chapter-slides" and current_status == "completed":
@@ -387,7 +401,10 @@ def run_resume(args: argparse.Namespace) -> int:
         _info("Phase audio-render H1 spend gate cleared (human approved by re-invoking --resume) — rendering.")
         return _drive_per_chapter_and_after(book_dir, approve_audio_render=True)
 
-    if current_phase == "audio-render" and current_status in ("failed", "running", "pending", "completed"):
+    # "skipped" included: `audio_driver` stamps both audio phases skipped for a
+    # manual (NotebookLM) engine, which is the common case — audio-script already
+    # had a status-agnostic branch and audio-render did not.
+    if current_phase == "audio-render" and current_status in ("failed", "running", "pending", "completed", "skipped"):
         return _drive_per_chapter_and_after(book_dir)
 
     if current_phase == "0g" and current_status == "completed":
