@@ -18,6 +18,9 @@ interface SnagItem {
   id: string;
   scope: string;
   status: "doing" | "open" | "done";
+  priority?: "P0" | "P1" | "P2";
+  effort?: "S" | "M" | "L";
+  order?: number;
   title: string;
   noticed?: string;
 }
@@ -50,20 +53,41 @@ const openStatuses = new Set(["doing", "open"]);
 const openItems = items.filter((i) => openStatuses.has(i.status));
 const doneItems = items.filter((i) => i.status === "done");
 const doingCount = items.filter((i) => i.status === "doing").length;
+const p0OpenCount = openItems.filter((i) => i.priority === "P0").length;
 
 // Group by scope, open items first within each group, `doing` before `open`.
 const statusRank: Record<string, number> = { doing: 0, open: 1, done: 2 };
+const priorityRank: Record<string, number> = { P0: 0, P1: 1, P2: 2 };
 const scopes = Array.from(new Set(items.map((i) => i.scope))).sort((a, b) => {
   // pipeline and general first (repo-wide), then book slugs alphabetically.
   const rank = (s: string) => (s === "pipeline" ? 0 : s === "general" ? 1 : 2);
   return rank(a) - rank(b) || a.localeCompare(b);
 });
 
+// Open items: what's happening now first, then most urgent, then any manual
+// tie-breaker, then most recently noticed — so the top of the table is
+// always the thing most worth reading next.
+function openSort(a: SnagItem, b: SnagItem): number {
+  const byStatus = statusRank[a.status] - statusRank[b.status];
+  if (byStatus !== 0) return byStatus;
+  const byPriority =
+    priorityRank[a.priority ?? "P1"] - priorityRank[b.priority ?? "P1"];
+  if (byPriority !== 0) return byPriority;
+  const aOrder = a.order ?? Number.MAX_SAFE_INTEGER;
+  const bOrder = b.order ?? Number.MAX_SAFE_INTEGER;
+  if (aOrder !== bOrder) return aOrder - bOrder;
+  return (b.noticed ?? "").localeCompare(a.noticed ?? "");
+}
+
+// Done items: most recently closed first.
+function doneSort(a: SnagItem, b: SnagItem): number {
+  return (b.noticed ?? "").localeCompare(a.noticed ?? "");
+}
+
 function itemsForScope(scope: string, status: "open" | "done"): SnagItem[] {
   const pool = status === "open" ? openItems : doneItems;
-  return pool
-    .filter((i) => i.scope === scope)
-    .sort((a, b) => statusRank[a.status] - statusRank[b.status]);
+  const filtered = pool.filter((i) => i.scope === scope);
+  return status === "open" ? filtered.sort(openSort) : filtered.sort(doneSort);
 }
 
 function scopeLabel(scope: string): string {
@@ -84,8 +108,10 @@ function scopeLabel(scope: string): string {
         The factory-floor term for the punch list before a build ships — the
         same backlog every book's status card reads from (<code
           >_workspace/plan/pending-work.yaml</code
-        >), shown here in full. No priority field on purpose: urgency lives in
-        the title, in plain English.
+        >), shown here in full. Each item now carries a priority (P0 urgent, P1
+        normal, P2 someday) and a rough size (S/M/L), so the most urgent work
+        sorts to the top of every group. Finished work stays visible, just
+        collapsed out of the way.
       </p>
     </header>
 
@@ -97,6 +123,10 @@ function scopeLabel(scope: string): string {
       <div class="snag-stat-card snag-stat-doing">
         <div class="snag-stat-value">{doingCount}</div>
         <div class="snag-stat-label">In progress</div>
+      </div>
+      <div class="snag-stat-card snag-stat-p0">
+        <div class="snag-stat-value">{p0OpenCount}</div>
+        <div class="snag-stat-label">Urgent (P0)</div>
       </div>
       <div class="snag-stat-card snag-stat-done">
         <div class="snag-stat-value">{doneItems.length}</div>
@@ -140,6 +170,12 @@ function scopeLabel(scope: string): string {
                     <tr>
                       <th scope="col">Status</th>
                       <th scope="col">Item</th>
+                      <th scope="col" class="snag-th-narrow">
+                        Priority
+                      </th>
+                      <th scope="col" class="snag-th-narrow">
+                        Effort
+                      </th>
                       <th scope="col">Noticed</th>
                     </tr>
                   </thead>
@@ -154,6 +190,24 @@ function scopeLabel(scope: string): string {
                         <td>
                           <p class="snag-item-id">{item.id}</p>
                           <p class="snag-item-title">{item.title}</p>
+                        </td>
+                        <td>
+                          {item.priority ? (
+                            <span
+                              class={`snag-priority snag-priority-${item.priority}`}
+                            >
+                              {item.priority}
+                            </span>
+                          ) : (
+                            <span class="snag-unset">—</span>
+                          )}
+                        </td>
+                        <td>
+                          {item.effort ? (
+                            <span class="snag-effort">{item.effort}</span>
+                          ) : (
+                            <span class="snag-unset">—</span>
+                          )}
                         </td>
                         <td class="snag-noticed">{item.noticed ?? "—"}</td>
                       </tr>
@@ -183,8 +237,15 @@ function scopeLabel(scope: string): string {
                       {done.map((item) => (
                         <tr>
                           <td>
-                            <p class="snag-item-id">{item.id}</p>
-                            <p class="snag-item-title">{item.title}</p>
+                            <p class="snag-item-id">
+                              <span class="snag-done-check" aria-hidden="true">
+                                ✓
+                              </span>
+                              {item.id}
+                            </p>
+                            <p class="snag-item-title snag-item-title-done">
+                              {item.title}
+                            </p>
                           </td>
                           <td class="snag-noticed">{item.noticed ?? "—"}</td>
                         </tr>

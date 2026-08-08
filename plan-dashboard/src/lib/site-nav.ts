@@ -9,6 +9,7 @@ export type ActivePage =
   | "security"
   | "plan"
   | "snag-list"
+  | "claude-plans"
   | "library"
   | "wisdom"
   | "quality"
@@ -32,7 +33,7 @@ export type ActivePage =
  * Home is reached via the brand link, not a top section.
  */
 export type NavSection =
-  "studio" | "library" | "corpus" | "system" | "snaglist";
+  "studio" | "library" | "corpus" | "system" | "snaglist" | "claudeplans";
 
 export interface NavLink {
   href: string;
@@ -88,6 +89,15 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
     section: "snaglist",
     pages: ["snag-list"],
   },
+  // Same promotion logic as Snag List (Asif, 2026-08-08): the plans Claude
+  // Code writes for this repo are an actively-read work surface, not
+  // read-only docs, so they get their own top-level tab too.
+  {
+    href: "/claude-plans",
+    label: "Plans",
+    section: "claudeplans",
+    pages: ["claude-plans"],
+  },
 ];
 
 export const SUBNAV: Record<NavSection, NavLink[]> = {
@@ -133,6 +143,8 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
   ],
   // Its own top-level tab (2026-08-08) with no second-row subnav — a single page.
   snaglist: [],
+  // Same shape: one page, its own tab, no subnav.
+  claudeplans: [],
 };
 
 export function getNavSection(active: ActivePage): NavSection {

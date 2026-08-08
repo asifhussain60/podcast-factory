@@ -42,6 +42,9 @@
 .snag-stat-doing .snag-stat-value {
   color: var(--c-accent);
 }
+.snag-stat-p0 .snag-stat-value {
+  color: var(--c-red);
+}
 .snag-stat-done .snag-stat-value {
   color: var(--c-green);
 }
@@ -153,6 +156,59 @@
   background: color-mix(in srgb, var(--c-accent) 15%, transparent);
 }
 
+/* Priority/effort deliberately do NOT add new hues on top of the status
+   badges above -- they read through weight and a small glyph instead, so
+   the page stays inside its accent-color budget. */
+.snag-th-narrow {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.snag-priority {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
+.snag-priority::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 2px;
+  border: 1.5px solid currentColor;
+}
+
+.snag-priority-P0 {
+  color: var(--c-ink);
+  font-weight: 700;
+}
+.snag-priority-P0::before {
+  background: currentColor;
+}
+
+.snag-priority-P1 {
+  color: var(--c-ink-dim);
+  font-weight: 600;
+}
+
+.snag-priority-P2 {
+  color: var(--c-ink-muted);
+  font-weight: 500;
+}
+
+.snag-effort {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--c-ink-dim);
+}
+
+.snag-unset {
+  color: var(--c-ink-muted);
+}
+
 .snag-empty {
   font-size: 1.2rem;
   color: var(--c-ink-muted);
@@ -177,6 +233,17 @@
 
 .snag-table-done {
   opacity: 0.75;
+}
+
+.snag-done-check {
+  display: inline-block;
+  color: var(--c-green);
+  font-weight: 700;
+  margin-right: 0.4rem;
+}
+
+.snag-item-title-done {
+  color: var(--c-ink-dim);
 }
 
 @media (max-width: 768px) {
