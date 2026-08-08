@@ -396,3 +396,138 @@
 {"phase": "0book-augment", "step": "aug-the-first-sermon-of-the-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-augment", "step": "aug-the-letter-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-in the prophet's shadow", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the people of the house ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-intellect, not reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the discourse to kumayl", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the fruits of certainty", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-a sacred conception of j", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-justice and the tyrant's", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-conscience, compassion, ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-justice for the poor and", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-prayer, remembrance, and", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-dhikr: the polish of the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-remembrance as the quint", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-extinction and the name:", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the first sermon of the ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the letter to malik al-a", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-in the prophet's shadow", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-in the prophet's s-the kinship \u2014 an", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-in the prophet's s-the kinship \u2014 an-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the people of the house ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the people of the -the two lights o", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the people of the -the two lights o-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the people of the -the Christians l", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the people of the -the Christians l-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-intellect, not reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-the one the Imam", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-the one the Imam-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-just as he, the ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-just as he, the -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-These were not p", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-These were not p-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-in the world of ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-in the world of -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-this dhikr Allah", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-this dhikr Allah-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the discourse to kumayl", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the discourse to k-the debt his own", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the discourse to k-the debt his own-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the discourse to k-one who establis", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the discourse to k-one who establis-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the discourse to k-meaning both mar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the discourse to k-meaning both mar-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the fruits of certainty", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-They rejoice in ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-They rejoice in -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-the being of the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-the being of the-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-it belongs objec", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-it belongs objec-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-now understood a", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-now understood a-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-a sacred conception of j", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-which supplies t", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-which supplies t-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-which is wrong b", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-which is wrong b-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-It is only a tem", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-It is only a tem-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-that eye which t", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-that eye which t-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-it is the very e", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-it is the very e-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-justice and the tyrant's", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice and the ty-In the first ser", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice and the ty-In the first ser-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice and the ty-the actual subst", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice and the ty-the actual subst-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice and the ty-what one sees is", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice and the ty-what one sees is-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-conscience, compassion, ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-conscience, compas-a moment, or deg", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-conscience, compas-a moment, or deg-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-conscience, compas-A soul is theref", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-conscience, compas-A soul is theref-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-conscience, compas-to look into the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-conscience, compas-to look into the-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-justice for the poor and", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice for the po-His creation no ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice for the po-His creation no -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice for the po-a life governed ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice for the po-a life governed -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice for the po-even where they ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice for the po-even where they -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-prayer, remembrance, and", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-but it is chiefl", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-but it is chiefl-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-Dhilib al-Yamani", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-Dhilib al-Yamani-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-there is no ihsa", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-those most prone", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-those most prone-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-dhikr: the polish of the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -These Imams were", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -These Imams were-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -befriend that by", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -befriend that by-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -the remembrance ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -the remembrance -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -effected through", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -effected through-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -Know God through", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -Know God through-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-remembrance as the quint", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-the Imam, follow", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-the Imam, follow-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-God is the heari", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-God is the heari-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-that pause trans", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-that pause trans-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-contains the ess", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-contains the ess-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-why and how does", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-why and how does-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-extinction and the name:", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-The first respon", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-The first respon-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-so to negate thi", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-so to negate thi-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-I am the death o", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-I am the death o-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-the mustanad ila", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-the mustanad ila-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-the supreme sour", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-the supreme sour-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the first sermon of the ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the first sermon o-With that golden", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the first sermon o-With that golden-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the first sermon o-whoever makes Hi", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the first sermon o-whoever makes Hi-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the letter to malik al-a", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the letter to mali-yet a single bad", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the letter to mali-yet a single bad-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the letter to mali-the most sincere", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the letter to mali-the most sincere-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the letter to mali-that part of his", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the letter to mali-that part of his-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
