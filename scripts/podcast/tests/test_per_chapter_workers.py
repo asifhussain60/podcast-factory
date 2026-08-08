@@ -180,6 +180,33 @@ class ConsistentStateTests(_Fixture):
         overlap = set(block.get("completed_slugs", [])) & set(block.get("failed_slugs", []))
         self.assertEqual(overlap, set(), f"chapters recorded as both shipped and failed: {overlap}")
 
+    def test_the_shared_collections_are_only_ever_serialised_through_the_snapshot(self):
+        """No state write may build the chapter extras from the raw collections.
+
+        `_snapshot()` takes the lock and copies; an inline
+        `{"completed_slugs": sorted(...), "chapter_timings": chapter_timings}` does
+        neither. Three of the phase's writes were built that way until 2026-08-08.
+        They ran after the workers had joined, so nothing raced — but they were a
+        second way to build the same extras, sitting one edit away from being moved
+        somewhere a worker is still running, and `chapter_timings` was handed over
+        without even a copy.
+        """
+        src = Path(cd.__file__).read_text(encoding="utf-8")
+        # Counted rather than excluded by text: `_snapshot` itself contains the one
+        # legitimate occurrence, so "not present" would fail on the fix and "present"
+        # would pass on the defect.
+        self.assertEqual(
+            src.count('"completed_slugs": sorted('),
+            1,
+            "only _snapshot() may build completed_slugs — another site is serialising the "
+            "shared collections its own way",
+        )
+        self.assertEqual(
+            src.count('"chapter_timings": chapter_timings'),
+            0,
+            "a state write hands chapter_timings over uncopied and unlocked; use _snapshot()",
+        )
+
 
 class HaltStopsUnstartedChaptersTests(_Fixture):
     def test_a_systemic_halt_prevents_further_chapters_starting(self):

@@ -433,11 +433,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             phase="per-chapter",
             status="failed",
             error=_pre_start_halt,
-            extras={
-                "completed_slugs": sorted(completed_chapter_slugs),
-                "failed_slugs": sorted(failed_chapter_slugs),
-                "chapter_timings": chapter_timings,
-            },
+            extras=_snapshot(),
         )
         _err(f"per-chapter halted before starting further chapters: {_pre_start_halt}")
         return 2
@@ -453,11 +449,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                 f"{len(completed_chapter_slugs)} chapter(s) completed. "
                 f"Triage failures or raise per_chapter_cost_cap_usd and --resume."
             ),
-            extras={
-                "completed_slugs": sorted(completed_chapter_slugs),
-                "failed_slugs": sorted(failed_chapter_slugs),
-                "chapter_timings": chapter_timings,
-            },
+            extras=_snapshot(),
         )
         _err(
             f"per-chapter loop: {len(failed_chapter_slugs)} failed, "
@@ -465,16 +457,11 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         )
         return 2
 
-    update_phase(
-        book_dir,
-        phase="per-chapter",
-        status="completed",
-        extras={
-            "completed_slugs": sorted(completed_chapter_slugs),
-            "failed_slugs": [],
-            "chapter_timings": chapter_timings,
-        },
-    )
+    # `_snapshot()` rather than an inline dict, like every other write in this phase.
+    # `failed_slugs` used to be hardcoded `[]` here, which is the same value — the
+    # branch above returns when any chapter failed — but two ways of building the
+    # same extras is how the two drift.
+    update_phase(book_dir, phase="per-chapter", status="completed", extras=_snapshot())
 
     # Phase per-chapter-optimize (Wave I) — Sonnet arc/format/host-role check.
     # Guarded by optimize_enabled flag in meta.yml (default False — backward compat).
