@@ -677,3 +677,5 @@
 {"ts": "2026-08-08T11:37:05Z", "phase": "0book-fluency", "step": "fluency-04", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 30872, "cache_read": 20129, "cache_create": 58754, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-08T11:40:48Z", "phase": "0book-fluency", "step": "fluency-05-part-01", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 18380, "cache_read": 20129, "cache_create": 56491, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-08T11:46:29Z", "phase": "0book-fluency", "step": "fluency-05-part-02", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 26822, "cache_read": 20129, "cache_create": 58957, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-08T12:11:04Z", "phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "input_tokens": 371, "output_tokens": 585, "cache_read": 0, "cache_create": 0, "cost_usd": 0.001578, "engine": "api"}
+{"ts": "2026-08-08T13:41:51Z", "phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "input_tokens": 360, "output_tokens": 620, "cache_read": 0, "cache_create": 0, "cost_usd": 0.001663, "engine": "api"}

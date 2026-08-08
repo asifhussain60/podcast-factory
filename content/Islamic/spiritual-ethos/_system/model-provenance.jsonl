@@ -538,3 +538,5 @@
 {"phase": "0book-fluency", "step": "fluency-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-fluency", "step": "fluency-05-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-fluency", "step": "fluency-05-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}

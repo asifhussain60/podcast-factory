@@ -1,7 +1,7 @@
 {
   "cited": 133,
   "inserted": 0,
-  "already": 47,
+  "already": 36,
   "uncovered": [
     {
       "ref": "57:3",
@@ -74,6 +74,72 @@
       "line": 395,
       "reason": "no-span-in-scan",
       "ayah_words": 14
+    },
+    {
+      "ref": "17:18",
+      "line": 411,
+      "reason": "no-span-in-scan",
+      "ayah_words": 18
+    },
+    {
+      "ref": "12:20",
+      "line": 419,
+      "reason": "no-span-in-scan",
+      "ayah_words": 9
+    },
+    {
+      "ref": "28:88",
+      "line": 425,
+      "reason": "no-span-in-scan",
+      "ayah_words": 22
+    },
+    {
+      "ref": "17:44",
+      "line": 431,
+      "reason": "no-span-in-scan",
+      "ayah_words": 23
+    },
+    {
+      "ref": "24:41",
+      "line": 437,
+      "reason": "no-span-in-scan",
+      "ayah_words": 23
+    },
+    {
+      "ref": "89:27",
+      "line": 461,
+      "reason": "no-span-in-scan",
+      "ayah_words": 3
+    },
+    {
+      "ref": "87:17",
+      "line": 467,
+      "reason": "no-span-in-scan",
+      "ayah_words": 3
+    },
+    {
+      "ref": "38:46",
+      "line": 473,
+      "reason": "no-span-in-scan",
+      "ayah_words": 5
+    },
+    {
+      "ref": "73:20",
+      "line": 479,
+      "reason": "no-span-in-scan",
+      "ayah_words": 90
+    },
+    {
+      "ref": "55:60",
+      "line": 485,
+      "reason": "no-span-in-scan",
+      "ayah_words": 5
+    },
+    {
+      "ref": "2:25",
+      "line": 491,
+      "reason": "no-span-in-scan",
+      "ayah_words": 39
     },
     {
       "ref": "113:2",
@@ -374,15 +440,15 @@
   "invalid_reference": [
     {
       "line": 654,
-      "ref": "(7:181–2)"
+      "ref": "(Al-Araf: 181-2)"
     },
     {
       "line": 654,
-      "ref": "(7:181–2)"
+      "ref": "(Al-Araf: 181-2)"
     },
     {
       "line": 910,
-      "ref": "(24: 36-7)"
+      "ref": "(An-Nur: 36-7)"
     }
   ],
   "spans_in_scan": 0,
@@ -505,14 +571,6 @@
       "passage": "is that by virtue of whose presence action is accepted by God.",
       "proposed_ref": "49:3",
       "english_similarity": 0.4,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 407,
-      "passage": "I exhort you, O slaves of God, to *taqwa*, which is the provision,",
-      "proposed_ref": "2:197",
-      "english_similarity": 0.5,
       "corroborated_by_scan": false,
       "agreed": false
     },
@@ -654,9 +712,9 @@
     },
     {
       "line": 956,
-      "passage": "Foremost in religion is knowledge of Him (awwal al-din marifatuhu).",
+      "passage": "Foremost in religion is knowledge of Him (أَوَّلُ الدِّينِ مَعْرِفَتُهُ).",
       "proposed_ref": "51:28",
-      "english_similarity": 0.429,
+      "english_similarity": 0.75,
       "corroborated_by_scan": false,
       "agreed": false
     },
@@ -742,9 +800,9 @@
     },
     {
       "line": 1046,
-      "passage": "My slave never ceases to draw near to Me through supererogatory acts (nawafil) until I love him.",
+      "passage": "My slave never ceases to draw near to Me through supererogatory acts (نَوَافِلُ) until I love him.",
       "proposed_ref": "2:222",
-      "english_similarity": 0.333,
+      "english_similarity": 0.364,
       "corroborated_by_scan": false,
       "agreed": false
     },
@@ -798,7 +856,7 @@
     },
     {
       "line": 1106,
-      "passage": "Praise be to Him who engendered things from nothing, then negated it; and established their being through the orientation towards them of His Words.",
+      "passage": "Praise be to Him who engendered things from nothing, then negated it; and established their being through the orientation toward them of His Words.",
       "proposed_ref": "40:7",
       "english_similarity": 0.364,
       "corroborated_by_scan": false,
@@ -893,6 +951,6 @@
       "agreed": false
     }
   ],
-  "coverage": 0.353,
+  "coverage": 0.271,
   "cited_inserted": 0
 }

@@ -15,9 +15,14 @@
     },
     {
       "chapter": "1. In the Prophet's Shadow",
-      "arabic_runs": 11,
-      "unverified": 8,
+      "arabic_runs": 18,
+      "unverified": 14,
       "runs": [
+        {
+          "text": "عَلَيْهِ السَّلَامُ",
+          "resolution": "honorific-formula",
+          "skeleton": "عليهالسلام"
+        },
         {
           "text": "وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍۢ",
           "resolution": "canonical-mushaf",
@@ -34,6 +39,11 @@
           "skeleton": "عليمنيبمنزلهنفسي"
         },
         {
+          "text": "عليٌّ مِنِّي بِمَنْزِلَةِ نَفْسِي",
+          "resolution": "unverified",
+          "skeleton": "عليمنيبمنزلهنفسي"
+        },
+        {
           "text": "أنْتَ مِنِّی وَ أَنَا مِنْکَ",
           "resolution": "unverified",
           "skeleton": "انتمنوانامن"
@@ -42,6 +52,21 @@
           "text": "إِنَّ عَلِيًّا مَعَ الْقُرْآنِ وَالْقُرْآنُ مَعَ عَلِيٍّ، لَنْ يَفْتَرِقَا حَتَّى يَرِدَا عَلَيَّ الْحَوْضَ",
           "resolution": "unverified",
           "skeleton": "انعليامعالقرانوالقرانمععليلنيفترقاحتييرد"
+        },
+        {
+          "text": "تَفْسِيرٌ",
+          "resolution": "unverified",
+          "skeleton": "تفسير"
+        },
+        {
+          "text": "بَلَاغَةٌ",
+          "resolution": "unverified",
+          "skeleton": "بلاغه"
+        },
+        {
+          "text": "اَلْكِيمِيَاءُ",
+          "resolution": "unverified",
+          "skeleton": "الكيمياء"
         },
         {
           "text": "لَمَّا كُنْتُ وَلِيدًا ضَمَّنِي إِلَى صَدْرِهِ، فَكُنْتُ أتَّبِعُهُ اتّبَاعَ الفَصِيلِ أُمَّهُ",
@@ -72,18 +97,43 @@
           "text": "وَأَنذِرْ عَشِيرَتَكَ ٱلْأَقْرَبِينَ",
           "resolution": "canonical-mushaf",
           "skeleton": "وانذرعشيرتكالاقربين"
+        },
+        {
+          "text": "الْمُهَاجِرُونَ",
+          "resolution": "unverified",
+          "skeleton": "المهاجرون"
+        },
+        {
+          "text": "الْأَنْصَارُ",
+          "resolution": "unverified",
+          "skeleton": "الانصار"
         }
       ]
     },
     {
       "chapter": "2. The People of the House and the Prophet's Witness",
-      "arabic_runs": 8,
-      "unverified": 3,
+      "arabic_runs": 23,
+      "unverified": 18,
       "runs": [
+        {
+          "text": "وَلَايَة",
+          "resolution": "unverified",
+          "skeleton": "ولايه"
+        },
         {
           "text": "وَقَرْنَ فِى بُيُوتِكُنَّ وَلَا تَبَرَّجْنَ تَبَرُّجَ ٱلْجَهِلِيَّةِ ٱلْأُولَىٰۖ وَأَقِمْنَ ٱلصَّلَوٰةَ وَآتِينَ ٱلزَّكَوٰةَ وَأَطِعْنَ ٱللَّهَ وَرَسُولَهُۚۥٓ إِنَّمَا يُرِيدُ ٱللَّهُ لِيُذْهِبَ عَنكُمُ ٱلرِّجْسَ أَهْلَ ٱلْبَيْتِ وَيُطَهِّرَكُمْ تَطْهِيرًۭا",
           "resolution": "canonical-mushaf",
           "skeleton": "وقرنفيبيوتكنولاتبرجنتبرجالجهليهالاوليواق"
+        },
+        {
+          "text": "مُبَاهَلَة",
+          "resolution": "unverified",
+          "skeleton": "مباهله"
+        },
+        {
+          "text": "مُبَاهَلَة",
+          "resolution": "unverified",
+          "skeleton": "مباهله"
         },
         {
           "text": "ذَلِكَ ٱلَّذِى يُبَشِّرُ ٱللَّهُ عِبَادَهُ ٱلَّذِينَ آمَنُوا۟ وَعَمِلُوا۟ ٱلصَّلِحَتِ ۗ قُل لَّآ أَسْـَٔلُكُمْ عَلَيْهِ أَجْرًا إِلَّا ٱلْمَوَدَّةَ فِى ٱلْقُرْبَىٰ ۗ وَمَن يَقْتَرِفْ حَسَنَةًۭ نَّزِدْ لَهُۥ فِيهَا حُسْنًا ۚ إِنَّ ٱللَّهَ غَفُورٌۭ شَكُورٌ",
@@ -96,9 +146,44 @@
           "skeleton": "اناللهومليكتهيصلونعليالنبييايهاالذينامنو"
         },
         {
+          "text": "اَلثَّقَلَيْنِ",
+          "resolution": "unverified",
+          "skeleton": "الثقلين"
+        },
+        {
+          "text": "الْحَوْضَ",
+          "resolution": "unverified",
+          "skeleton": "الحوض"
+        },
+        {
+          "text": "اَلْكُتُبُ السِّتَّةُ",
+          "resolution": "unverified",
+          "skeleton": "الكتبالسته"
+        },
+        {
           "text": "إِنَّ عَلِيًّا مَعَ الْقُرْآنِ وَالْقُرْآنُ مَعَ عَلِيٍّ، لَنْ يَفْتَرِقَا حَتَّى يَرِدَا عَلَيَّ الْحَوْضَ",
           "resolution": "unverified",
           "skeleton": "انعليامعالقرانوالقرانمععليلنيفترقاحتييرد"
+        },
+        {
+          "text": "الْحَوْضَ",
+          "resolution": "unverified",
+          "skeleton": "الحوض"
+        },
+        {
+          "text": "النَّظَرُ إِلَى عَلِيٍّ عِبَادَةٌ",
+          "resolution": "unverified",
+          "skeleton": "النظراليعليعباده"
+        },
+        {
+          "text": "أَدِرِ الْحَقَّ مَعَهُ حَيْثُ دَارَ",
+          "resolution": "unverified",
+          "skeleton": "ادرالحقمعهحيثدار"
+        },
+        {
+          "text": "عليٌّ مِنِّي بِمَنْزِلَةِ نَفْسِي",
+          "resolution": "unverified",
+          "skeleton": "عليمنيبمنزلهنفسي"
         },
         {
           "text": "أنْتَ مِنِّی وَ أِنَا مِنْکَ",
@@ -116,17 +201,47 @@
           "skeleton": "علقاتلعلتاولماقاتلتعلتنزل"
         },
         {
+          "text": "الْحَوْضَ",
+          "resolution": "unverified",
+          "skeleton": "الحوض"
+        },
+        {
+          "text": "اَلْمَائِدَةُ",
+          "resolution": "unverified",
+          "skeleton": "المايده"
+        },
+        {
+          "text": "وَلَايَة",
+          "resolution": "unverified",
+          "skeleton": "ولايه"
+        },
+        {
           "text": "إِنَّ ٱلَّذِينَ آمَنُوا۟ وَعَمِلُوا۟ ٱلصَّلِحَتِ أُو۟لَٓئِكَ هُمْ خَيْرُ ٱلْبَرِيَّةِ",
           "resolution": "canonical-mushaf",
           "skeleton": "انالذينامنواوعملواالصلحتاوليكهمخيرالبريه"
+        },
+        {
+          "text": "وَلَايَة",
+          "resolution": "unverified",
+          "skeleton": "ولايه"
+        },
+        {
+          "text": "وَلَايَة",
+          "resolution": "unverified",
+          "skeleton": "ولايه"
         }
       ]
     },
     {
       "chapter": "3. Intellect, Not Reason",
-      "arabic_runs": 20,
-      "unverified": 12,
+      "arabic_runs": 36,
+      "unverified": 26,
       "runs": [
+        {
+          "text": "الْعَقْل",
+          "resolution": "unverified",
+          "skeleton": "العقل"
+        },
         {
           "text": "الرُّوحُ الْعَقْلُ",
           "resolution": "unverified",
@@ -153,14 +268,29 @@
           "skeleton": "علقاتلعلتاولماقتلعلتنزل"
         },
         {
+          "text": "اَلْجَمَلُ",
+          "resolution": "unverified",
+          "skeleton": "الجمل"
+        },
+        {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
         },
         {
+          "text": "اَلْجَمَلُ",
+          "resolution": "unverified",
+          "skeleton": "الجمل"
+        },
+        {
           "text": "یا أمیر المومنین",
           "resolution": "unverified",
           "skeleton": "اامرالمومنن"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
         },
         {
           "text": "تَأْوِيل",
@@ -178,6 +308,11 @@
           "skeleton": "هوالاولوالاخروالظهروالباطنوهوبكلشيءعليم"
         },
         {
+          "text": "سَنُرِيهِمْ آيَتِنَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنا"
+        },
+        {
           "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ",
           "resolution": "canonical-mushaf",
           "skeleton": "سنريهمايتنافيالافاقوفيانفسهمحتييتبينلهما"
@@ -193,9 +328,34 @@
           "skeleton": "انعلمعالقرانوقرانمعالعل"
         },
         {
+          "text": "رَسُولُ الرَّجُلِ تَرْجُمَانُ عَقْلِهِ",
+          "resolution": "unverified",
+          "skeleton": "رسولالرجلترجمانعقله"
+        },
+        {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
+        },
+        {
+          "text": "طَبِيعَة",
+          "resolution": "unverified",
+          "skeleton": "طبيعه"
+        },
+        {
+          "text": "تَقْلِيد",
+          "resolution": "unverified",
+          "skeleton": "تقليد"
+        },
+        {
+          "text": "تَحْقِيق",
+          "resolution": "unverified",
+          "skeleton": "تحقيق"
+        },
+        {
+          "text": "دَفَائِنُ الْعُقُولِ",
+          "resolution": "unverified",
+          "skeleton": "دفاينالعقول"
         },
         {
           "text": "آفَاق وَ أَنْفُس",
@@ -203,9 +363,39 @@
           "skeleton": "افاقوانفس"
         },
         {
+          "text": "حَقَائِقُ الْإِيمَان",
+          "resolution": "unverified",
+          "skeleton": "حقايقالايمان"
+        },
+        {
           "text": "حقائق الایمان",
           "resolution": "unverified",
           "skeleton": "حقايقالامان"
+        },
+        {
+          "text": "الصِّفَة",
+          "resolution": "unverified",
+          "skeleton": "الصفه"
+        },
+        {
+          "text": "مَوْصُوف",
+          "resolution": "unverified",
+          "skeleton": "موصوف"
+        },
+        {
+          "text": "إِخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
+        },
+        {
+          "text": "اِثْبَات",
+          "resolution": "unverified",
+          "skeleton": "اثبات"
+        },
+        {
+          "text": "إِخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
         },
         {
           "text": "ثُمَّ سَوَّىٰهُ وَنَفَخَ فِيهِ مِن رُّوحِهِ",
@@ -218,21 +408,21 @@
           "skeleton": "ثمجمعسبحانهمنحزنالارضوسهلهاوعذبهاوسبخهات"
         },
         {
-          "text": "الْعَاقِل",
-          "resolution": "unverified",
-          "skeleton": "العاقل"
-        },
-        {
           "text": "العاقل من وضع شئی حق محلہ",
           "resolution": "unverified",
           "skeleton": "العاقلمنوضعشيحقمحل"
+        },
+        {
+          "text": "الْعَاقِل",
+          "resolution": "unverified",
+          "skeleton": "العاقل"
         }
       ]
     },
     {
       "chapter": "4. The Discourse to Kumayl",
-      "arabic_runs": 8,
-      "unverified": 7,
+      "arabic_runs": 35,
+      "unverified": 32,
       "runs": [
         {
           "text": "يَا كُمَيْل بْن زِيَادٍ، إِنَّ هذهِ الْقُلُوبَ أَوْعِيَةٌ فَخَيْرُهَا أَوْعَاهَا فَاحْفَظْ عَنِّي مَا أَقُولُ لَكَ۔ النَّاسُ ثَلاَثَةٌ",
@@ -245,14 +435,89 @@
           "skeleton": "فعالمربانيومتعلمعليسبيلنجاهوهمجرعاعاتباع"
         },
         {
+          "text": "عَالِمٌ رَبَّانِيٌّ",
+          "resolution": "unverified",
+          "skeleton": "عالمرباني"
+        },
+        {
+          "text": "مُتَعَلِّمٌ",
+          "resolution": "knowledge-base",
+          "skeleton": "متعلم"
+        },
+        {
+          "text": "هَمَجٌ رَعَاعٌ",
+          "resolution": "unverified",
+          "skeleton": "همجرعاع"
+        },
+        {
+          "text": "مَعْرِفَةُ الْعِلْمِ",
+          "resolution": "unverified",
+          "skeleton": "معرفهالعلم"
+        },
+        {
+          "text": "عَالِمٌ رَبَّانِيٌّ",
+          "resolution": "unverified",
+          "skeleton": "عالمرباني"
+        },
+        {
           "text": "إِنَّ ٱلدِّينَ عِندَ ٱللَّهِ ٱلْإِسْلَمُ",
           "resolution": "canonical-mushaf",
           "skeleton": "انالدينعنداللهالاسلم"
         },
         {
+          "text": "قَلْبُ الْعَسْكَرِ",
+          "resolution": "unverified",
+          "skeleton": "قلبالعسكر"
+        },
+        {
+          "text": "تَحْقِيق",
+          "resolution": "unverified",
+          "skeleton": "تحقيق"
+        },
+        {
+          "text": "بِالتَّعَلُّمِ يُنَالُ الْعِلْمُ",
+          "resolution": "unverified",
+          "skeleton": "بالتعلمينالالعلم"
+        },
+        {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
+        },
+        {
+          "text": "الْعَاقِل",
+          "resolution": "unverified",
+          "skeleton": "العاقل"
+        },
+        {
+          "text": "الْعَاقِل",
+          "resolution": "unverified",
+          "skeleton": "العاقل"
+        },
+        {
+          "text": "النَّفْس",
+          "resolution": "unverified",
+          "skeleton": "النفس"
+        },
+        {
+          "text": "الْعَقْل",
+          "resolution": "unverified",
+          "skeleton": "العقل"
+        },
+        {
+          "text": "النَّفْس",
+          "resolution": "unverified",
+          "skeleton": "النفس"
+        },
+        {
+          "text": "مُتَجَاذِبَةٌ بَيْنَهُمَا",
+          "resolution": "unverified",
+          "skeleton": "متجاذبهبينهما"
+        },
+        {
+          "text": "الشِّرْكُ الْخَفِيُّ",
+          "resolution": "unverified",
+          "skeleton": "الشركالخفي"
         },
         {
           "text": "تَوْحِيد",
@@ -268,6 +533,66 @@
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
+        },
+        {
+          "text": "مَنْ عَرَفَ اللهَ تَوَحَّدَ",
+          "resolution": "unverified",
+          "skeleton": "منعرفاللهتوحد"
+        },
+        {
+          "text": "مَنْ عَرَفَ نَفْسَهُ تَجَرَّدَ",
+          "resolution": "unverified",
+          "skeleton": "منعرفنفسهتجرد"
+        },
+        {
+          "text": "مَنْ عَرَفَ النَّاسَ تَفَرَّدَ",
+          "resolution": "unverified",
+          "skeleton": "منعرفالناستفرد"
+        },
+        {
+          "text": "مَنْ عَرَفَ الدُّنْيَا تَزَهَّدَ",
+          "resolution": "unverified",
+          "skeleton": "منعرفالدنياتزهد"
+        },
+        {
+          "text": "إِخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
+        },
+        {
+          "text": "إِخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
+        },
+        {
+          "text": "أَخْلِصْ لِلَّهِ",
+          "resolution": "unverified",
+          "skeleton": "اخلصلله"
+        },
+        {
+          "text": "إِخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
+        },
+        {
+          "text": "إِخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
+        },
+        {
+          "text": "إِخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
+        },
+        {
+          "text": "إِخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
         },
         {
           "text": "حقائق الایمان",
@@ -278,13 +603,23 @@
     },
     {
       "chapter": "5. The Fruits of Certainty",
-      "arabic_runs": 23,
-      "unverified": 3,
+      "arabic_runs": 36,
+      "unverified": 15,
       "runs": [
+        {
+          "text": "رِضْوَان",
+          "resolution": "unverified",
+          "skeleton": "رضوان"
+        },
         {
           "text": "وَعَدَ ٱللَّهُ ٱلْمُؤْمِنِينَ وَٱلْمُؤْمِنَتِ جَنَّتٍۢ تَجْرِى مِن تَحْتِهَا ٱلْأَنْهَرُ خَلِدِينَ فِيهَا وَمَسَكِنَ طَيِّبَةًۭ فِى جَنَّتِ عَدْنٍۢ ۚ وَرِضْوَنٌۭ مِّنَ ٱللَّهِ أَكْبَرُ ۚ ذَلِكَ هُوَ ٱلْفَوْزُ ٱلْعَظِيمُ",
           "resolution": "canonical-mushaf",
           "skeleton": "وعداللهالمومنينوالمومنتجنتتجريمنتحتهاالا"
+        },
+        {
+          "text": "اَلْعَاقِل",
+          "resolution": "unverified",
+          "skeleton": "العاقل"
         },
         {
           "text": "قَالَ وَمَن يَقْنَطُ مِن رَّحْمَةِ رَبِّهِۦٓ إِلَّا ٱلضَّآلُّونَ",
@@ -302,9 +637,29 @@
           "skeleton": "واذاجاءكالذينيومنونبايتنافقلسلمعليكمكتبر"
         },
         {
+          "text": "فُقَهَاءُ",
+          "resolution": "unverified",
+          "skeleton": "فقهاء"
+        },
+        {
+          "text": "جَمَالُ الظَّوَاهِرِ وَالْبَوَاطِنِ",
+          "resolution": "unverified",
+          "skeleton": "جمالالظواهروالبواطن"
+        },
+        {
           "text": "قُلْ إِن كُنتُمْ تُحِبُّونَ ٱللَّهَ فَٱتَّبِعُونِى يُحْبِبْكُمُ ٱللَّهُ وَيَغْفِرْ لَكُمْ ذُنُوبَكُمْ ۗ وَٱللَّهُ غَفُورٌۭ رَّحِيمٌۭ",
           "resolution": "canonical-mushaf",
           "skeleton": "قلانكنتمتحبوناللهفاتبعونييحببكماللهويغفر"
+        },
+        {
+          "text": "أَوَّلُ الْعَقْلِ التَّوَدُّدُ",
+          "resolution": "unverified",
+          "skeleton": "اولالعقلالتودد"
+        },
+        {
+          "text": "تَوَدُّد",
+          "resolution": "unverified",
+          "skeleton": "تودد"
         },
         {
           "text": "تَوْحِيد",
@@ -322,14 +677,34 @@
           "skeleton": "افلميسيروافيالارضفتكونلهمقلوبيعقلونبهااو"
         },
         {
+          "text": "إِخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
+        },
+        {
+          "text": "إِخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
+        },
+        {
           "text": "لَن يَنَالَ ٱللَّهَ لُحُومُهَا وَلَا دِمَآؤُهَا وَلَكِن يَنَالُهُ ٱلتَّقْوَىٰ مِنكُمْ ۚ كَذَلِكَ سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا۟ ٱللَّهَ عَلَىٰ مَا هَدَىٰكُمْ ۗ وَبَشِّرِ ٱلْمُحْسِنِينَ",
           "resolution": "canonical-mushaf",
           "skeleton": "لنينالاللهلحومهاولادماوهاولكنينالهالتقوي"
         },
         {
+          "text": "الْعَاقِل",
+          "resolution": "unverified",
+          "skeleton": "العاقل"
+        },
+        {
           "text": "العاقل من وضع شئی حق محلہ",
           "resolution": "unverified",
           "skeleton": "العاقلمنوضعشيحقمحل"
+        },
+        {
+          "text": "اَلْفَنَاءُ فِي اللَّهِ",
+          "resolution": "unverified",
+          "skeleton": "الفناءفيالله"
         },
         {
           "text": "وَمَا هَذِهِ ٱلْحَيَوٰةُ ٱلدُّنْيَآ إِلَّا لَهْوٌۭ وَلَعِبٌۭ ۚ وَإِنَّ ٱلدَّارَ ٱلْآخِرَةَ لَهِىَ ٱلْحَيَوَانُ ۚ لَوْ كَانُوا۟ يَعْلَمُونَ",
@@ -340,6 +715,11 @@
           "text": "مَّن كَانَ يُرِيدُ ٱلْعَاجِلَةَ عَجَّلْنَا لَهُۥ فِيهَا مَا نَشَآءُ لِمَن نُّرِيدُ ثُمَّ جَعَلْنَا لَهُۥ جَهَنَّمَ يَصْلَىٰهَا مَذْمُومًۭا مَّدْحُورًۭا",
           "resolution": "canonical-mushaf",
           "skeleton": "منكانيريدالعاجلهعجلنالهفيهامانشاءلمننريد"
+        },
+        {
+          "text": "زَاهِدِينَ",
+          "resolution": "unverified",
+          "skeleton": "زاهدين"
         },
         {
           "text": "وَشَرَوْهُ بِثَمَنٍۭ بَخْسٍۢ دَرَهِمَ مَعْدُودَةٍۢ وَكَانُوا۟ فِيهِ مِنَ ٱلزَّهِدِينَ",
@@ -362,9 +742,19 @@
           "skeleton": "المتراناللهيسبحلهمنفيالسموتوالارضوالطيرص"
         },
         {
+          "text": "مُصَفَّى",
+          "resolution": "unverified",
+          "skeleton": "مصفي"
+        },
+        {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
+        },
+        {
+          "text": "اَلنَّفْسُ الْمُطْمَئِنَّةُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "النفسالمطمينه"
         },
         {
           "text": "يَٓأَيَّتُهَا ٱلنَّفْسُ ٱلْمُطْمَئِنَّةُ",
@@ -400,8 +790,8 @@
     },
     {
       "chapter": "6. A Sacred Conception of Justice",
-      "arabic_runs": 21,
-      "unverified": 19,
+      "arabic_runs": 36,
+      "unverified": 31,
       "runs": [
         {
           "text": "تَوْحِيد",
@@ -409,9 +799,24 @@
           "skeleton": "توحيد"
         },
         {
+          "text": "أَخْلَاق",
+          "resolution": "unverified",
+          "skeleton": "اخلاق"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
+        },
+        {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
         },
         {
           "text": "سورۃ الفلق",
@@ -434,19 +839,54 @@
           "skeleton": "وضعالشيحقمحل"
         },
         {
-          "text": "يَا مُحَمَّدُ، أخْبِرْنِي عَنْ الإسْلاَمِ",
-          "resolution": "unverified",
-          "skeleton": "يامحمداخبرنيعنالاسلام"
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
         },
         {
-          "text": "الإِسْلاَمُ أَنْ تَشْهَدَ أَنْ لاَ إِلهَ إِلاَ اللهُ وَأَنَّ مُحَمَّداً رَسُولُ اللهِ، وَتُقِيمَ الصَّلاَةَ، وَتُؤْتِيَ الزَّكَاةَ، وَتَصُومَ رَمَضَانَ، وَتَحُجَّ الْبَيتَ إِن اسْتَطَعْتَ إِلَيْهِ سَبِيلاً",
+          "text": "الْإِسْلَام",
           "resolution": "unverified",
-          "skeleton": "الاسلامانتشهدانلاالهالااللهوانمحمدارسولا"
+          "skeleton": "الاسلام"
+        },
+        {
+          "text": "، أخْبِرْنِي عَنْ الإسْلاَمِ",
+          "resolution": "unverified",
+          "skeleton": "اخبرنيعنالاسلام"
+        },
+        {
+          "text": "الإِسْلاَمُ أَنْ تَشْهَدَ أَنْ لاَ إِلهَ إِلاَ اللهُ وَأَنَّ",
+          "resolution": "unverified",
+          "skeleton": "الاسلامانتشهدانلاالهالااللهوان"
+        },
+        {
+          "text": "اً رَسُولُ اللهِ، وَتُقِيمَ الصَّلاَةَ، وَتُؤْتِيَ",
+          "resolution": "unverified",
+          "skeleton": "ارسولاللهوتقيمالصلاهوتوتي"
+        },
+        {
+          "text": "، وَتَصُومَ رَمَضَانَ، وَتَحُجَّ الْبَيتَ إِن اسْتَطَعْتَ إِلَيْهِ سَبِيلاً",
+          "resolution": "unverified",
+          "skeleton": "وتصومرمضانوتحجالبيتاناستطعتاليهسبيلا"
+        },
+        {
+          "text": "الْإِسْلَام",
+          "resolution": "unverified",
+          "skeleton": "الاسلام"
+        },
+        {
+          "text": "الزَّكَاةَ",
+          "resolution": "unverified",
+          "skeleton": "الزكاه"
         },
         {
           "text": "صَدَقْتَ",
           "resolution": "unverified",
           "skeleton": "صدقت"
+        },
+        {
+          "text": "الإِيْمَانِ",
+          "resolution": "unverified",
+          "skeleton": "الايمان"
         },
         {
           "text": "فَأَخْبِرْنِي عَنِ الإِيْمَانِ",
@@ -464,6 +904,11 @@
           "skeleton": "صدقت"
         },
         {
+          "text": "الإِحْسَانِ",
+          "resolution": "unverified",
+          "skeleton": "الاحسان"
+        },
+        {
           "text": "فَأَخْبِرْنِي عَنِ الإِحْسَانِ",
           "resolution": "unverified",
           "skeleton": "فاخبرنيعنالاحسان"
@@ -474,7 +919,22 @@
           "skeleton": "انتعبداللهكانكتراهفانلمتكنتراهفانهيراك"
         },
         {
-          "text": "نھج البلاغۃ",
+          "text": "فُقَهَاءُ",
+          "resolution": "unverified",
+          "skeleton": "فقهاء"
+        },
+        {
+          "text": "أَخْلَاق",
+          "resolution": "unverified",
+          "skeleton": "اخلاق"
+        },
+        {
+          "text": "مَقَامَات",
+          "resolution": "unverified",
+          "skeleton": "مقامات"
+        },
+        {
+          "text": "نَھْجُ الْبَلَاغَۃِ",
           "resolution": "unverified",
           "skeleton": "نجالبلاغ"
         },
@@ -504,17 +964,52 @@
           "skeleton": "امامالمتعصبنوسلفالمستبرن"
         },
         {
-          "text": "نھج البلاغۃ",
+          "text": "نَھْجُ الْبَلَاغَۃِ",
           "resolution": "unverified",
           "skeleton": "نجالبلاغ"
+        },
+        {
+          "text": "الَّذِي يَلْزَمُنِي مِنَ الْحَقِّ",
+          "resolution": "unverified",
+          "skeleton": "الذييلزمنيمنالحق"
         }
       ]
     },
     {
       "chapter": "7. Justice and the Tyrant's Pride",
-      "arabic_runs": 33,
-      "unverified": 26,
+      "arabic_runs": 42,
+      "unverified": 31,
       "runs": [
+        {
+          "text": "مَنْ مَلَكَ اسْتَأْثَرَ",
+          "resolution": "unverified",
+          "skeleton": "منملكاستاثر"
+        },
+        {
+          "text": "النَّفْسُ الْأَمَّارَةُ بِالسُّوءِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "النفسالامارهبالسوء"
+        },
+        {
+          "text": "ٱلدِّينُ ٱلْقَيِّمُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الدينالقيم"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
+        },
+        {
+          "text": "بِعَظَمَتِكَ",
+          "resolution": "unverified",
+          "skeleton": "بعظمتك"
+        },
+        {
+          "text": "تَخَلَّقُوا بِأَخْلَاقِ اللهِ",
+          "resolution": "unverified",
+          "skeleton": "تخلقواباخلاقالله"
+        },
         {
           "text": "تَوْحِيد",
           "resolution": "unverified",
@@ -544,6 +1039,16 @@
           "text": "يَٓأَيُّهَا ٱلنَّاسُ أَنتُمُ ٱلْفُقَرَآءُ إِلَى ٱللَّهِۖ وَٱللَّهُ هُوَ ٱلْغَنِىُّ ٱلْحَمِيدُ",
           "resolution": "canonical-mushaf",
           "skeleton": "يايهاالناسانتمالفقراءالياللهواللههوالغني"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
+        },
+        {
+          "text": "تَحْقِيق",
+          "resolution": "unverified",
+          "skeleton": "تحقيق"
         },
         {
           "text": "وَلاَ تَنْصِبَنَّ نَفْسَكَ لِحَرْبِ اللهِ",
@@ -576,9 +1081,14 @@
           "skeleton": "امامالمتعصبنوسلفالمستبرن"
         },
         {
-          "text": "الشِّرْكُ فِي هَذِهِ الْأُمَّةِ أَخْفَى مِنْ دَبِيبِ النَّمْلِ علی حَجَرِ الأَسوَد فِی لِیلَۃِ الظُّلْما",
+          "text": "الشِّرْكُ فِي هَذِهِ الْأُمَّةِ",
           "resolution": "unverified",
-          "skeleton": "الشركفيهذهالامهاخفيمندبيبالنملعلحجرالاسو"
+          "skeleton": "الشركفيهذهالامه"
+        },
+        {
+          "text": "مِنْ دَبِيبِ النَّمْلِ علی حَجَرِ الأَسوَد فِی لِیلَۃِ الظُّلْما",
+          "resolution": "unverified",
+          "skeleton": "مندبيبالنملعلحجرالاسودفللالظلما"
         },
         {
           "text": "شرک الجلی",
@@ -684,8 +1194,8 @@
     },
     {
       "chapter": "8. Conscience, Compassion, and the Ordering of Society",
-      "arabic_runs": 26,
-      "unverified": 21,
+      "arabic_runs": 39,
+      "unverified": 33,
       "runs": [
         {
           "text": "وَنَفْسٍۢ وَمَا سَوَّىٰهَا ۷ فَأَلْهَمَهَا فُجُورَهَا وَتَقْوَىٰهَا ۸",
@@ -696,6 +1206,11 @@
           "text": "وَإِذْ أَخَذَ رَبُّكَ مِنۢ بَنِىٓ آدَمَ مِن ظُهُورِهِمْ ذُرِّيَّتَهُمْ وَأَشْهَدَهُمْ عَلَىٰٓ أَنفُسِهِمْ أَلَسْتُ بِرَبِّكُمْ ۖ قَالُوا۟ بَلَىٰ ۛ شَهِدْنَآ ۛ أَن تَقُولُوا۟ يَوْمَ ٱلْقِيَمَةِ إِنَّا كُنَّا عَنْ هَذَا غَفِلِينَ ۱۷۲",
           "resolution": "canonical-mushaf",
           "skeleton": "واذاخذربكمنبنيادممنظهورهمذريتهمواشهدهمعل"
+        },
+        {
+          "text": "النَّفْس",
+          "resolution": "unverified",
+          "skeleton": "النفس"
         },
         {
           "text": "النفس الامارۃ بالسوء",
@@ -711,6 +1226,11 @@
           "text": "إِنِّي مُؤَمَّرٌ آمُرُ فَأُطَاعُ",
           "resolution": "unverified",
           "skeleton": "انيمومرامرفاطاع"
+        },
+        {
+          "text": "النَّفْس",
+          "resolution": "unverified",
+          "skeleton": "النفس"
         },
         {
           "text": "مجاھدۃ النفس",
@@ -741,6 +1261,41 @@
           "text": "يَٓأَيُّهَا ٱلنَّاسُ أَنتُمُ ٱلْفُقَرَآءُ إِلَى ٱللَّهِۖ وَٱللَّهُ هُوَ ٱلْغَنِىُّ ٱلْحَمِيدُ",
           "resolution": "canonical-mushaf",
           "skeleton": "يايهاالناسانتمالفقراءالياللهواللههوالغني"
+        },
+        {
+          "text": "الطَّيِّبَاتُ",
+          "resolution": "unverified",
+          "skeleton": "الطيبات"
+        },
+        {
+          "text": "أَئِمَّةُ الْحَقِّ",
+          "resolution": "unverified",
+          "skeleton": "ايمهالحق"
+        },
+        {
+          "text": "أَئِمَّةُ الْحَقِّ",
+          "resolution": "unverified",
+          "skeleton": "ايمهالحق"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
+        },
+        {
+          "text": "الْعَاقِل",
+          "resolution": "unverified",
+          "skeleton": "العاقل"
+        },
+        {
+          "text": "بَيْتُ الْمَالِ",
+          "resolution": "unverified",
+          "skeleton": "بيتالمال"
+        },
+        {
+          "text": "مَصْلَحَة",
+          "resolution": "unverified",
+          "skeleton": "مصلحه"
         },
         {
           "text": "وَلاَ تُدْخِلَنَّ فِي مَشُورَتِكَ بَخِيلاً يَعْدِلُ بِكَ عَنِ الْفَضْلِ، وَيَعِدُكَ الْفَقْرَ، وَلاَ جَبَاناً يُضعِّفُكَ عَنِ الاْمُورِ، وَلاَ حَرِيصاً يُزَيِّنُ لَكَ الشَّرَهَ بِالْجَوْرِ، فَإِنَّ الْبُخْلَ وَالْجُبْنَ وَالْحِرْصَ غَرَائِزُ شَتَّى يَجْمَعُهَا سُوءُ الظَّنِّ بِاللهِ",
@@ -803,9 +1358,24 @@
           "skeleton": "افمنيعلمانماانزلاليكمنربكالحقكمنهواعميان"
         },
         {
+          "text": "ٱلْمِيثَقَ",
+          "resolution": "unverified",
+          "skeleton": "الميثق"
+        },
+        {
           "text": "وَلَا تَقْرَبُوا۟ مَالَ ٱلْيَتِيمِ إِلَّا بِٱلَّتِى هِىَ أَحْسَنُ حَتَّىٰ يَبْلُغَ أَشُدَّهُۥ ۚ وَأَوْفُوا۟ بِٱلْعَهْدِ ۖ إِنَّ ٱلْعَهْدَ كَانَ مَسْـُٔولًۭا ۳۴",
           "resolution": "canonical-mushaf",
           "skeleton": "ولاتقربوامالاليتيمالابالتيهياحسنحتييبلغا"
+        },
+        {
+          "text": "الَعُلَمَاءِ",
+          "resolution": "unverified",
+          "skeleton": "العلماء"
+        },
+        {
+          "text": "الْحُكَمَاءِ",
+          "resolution": "unverified",
+          "skeleton": "الحكماء"
         },
         {
           "text": "وَأَكْثِرْ مُدَارَسَةَ الَعُلَمَاءِ، وَمُنَافَثَةَ الْحُكَمَاءِ، فِي تَثْبِيتِ مَا صَلَحَ عَلَيْهِ أَمْرُ بِلاَدِكَ، وَإِقَامَةِ مَا اسْتَقَامَ بِهِ النَّاسُ قَبْلَكَ",
@@ -816,6 +1386,11 @@
           "text": "عُلَمَاء",
           "resolution": "unverified",
           "skeleton": "علماء"
+        },
+        {
+          "text": "سُوءُ ظَنِّهِمْ بِالْبَقَاءِ",
+          "resolution": "unverified",
+          "skeleton": "سوءظنهمبالبقاء"
         }
       ]
     },
@@ -827,9 +1402,24 @@
     },
     {
       "chapter": "10. Prayer, Remembrance, and Gazing on the Good",
-      "arabic_runs": 3,
-      "unverified": 3,
+      "arabic_runs": 6,
+      "unverified": 4,
       "runs": [
+        {
+          "text": "أَخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
+        },
         {
           "text": "وَضَعَ الشَّئُی حَقَّ مَحَلِّہِ",
           "resolution": "unverified",
@@ -849,13 +1439,43 @@
     },
     {
       "chapter": "11. Dhikr: The Polish of the Heart",
-      "arabic_runs": 8,
-      "unverified": 7,
+      "arabic_runs": 51,
+      "unverified": 45,
       "runs": [
+        {
+          "text": "وَلَايَة",
+          "resolution": "unverified",
+          "skeleton": "ولايه"
+        },
         {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
+        },
+        {
+          "text": "وَلَايَة",
+          "resolution": "unverified",
+          "skeleton": "ولايه"
+        },
+        {
+          "text": "مُقْتَدَایِ أَوْلِيَاءِ وَالْأَصْفِيَاءِ",
+          "resolution": "unverified",
+          "skeleton": "مقتدااولياءوالاصفياء"
+        },
+        {
+          "text": "شَيْخُنَا فِي الْأُصُولِ وَالْبَلَاءِ",
+          "resolution": "unverified",
+          "skeleton": "شيخنافيالاصولوالبلاء"
+        },
+        {
+          "text": "إِحْرَاز",
+          "resolution": "unverified",
+          "skeleton": "احراز"
+        },
+        {
+          "text": "اِسْتِحْضَار",
+          "resolution": "unverified",
+          "skeleton": "استحضار"
         },
         {
           "text": "ٱتْلُ مَآ أُوحِىَ إِلَيْكَ مِنَ ٱلْكِتَبِ وَأَقِمِ ٱلصَّلَوٰةَ ۖ إِنَّ ٱلصَّلَوٰةَ تَنْهَىٰ عَنِ ٱلْفَحْشَآءِ وَٱلْمُنكَرِ ۗ وَلَذِكْرُ ٱللَّهِ أَكْبَرُ ۗ وَٱللَّهُ يَعْلَمُ مَا تَصْنَعُونَ",
@@ -863,9 +1483,174 @@
           "skeleton": "اتلمااوحياليكمنالكتبواقمالصلوهانالصلوهتن"
         },
         {
+          "text": "هُوَ أَفْضَلُ الْعِبَادَةِ",
+          "resolution": "unverified",
+          "skeleton": "هوافضلالعباده"
+        },
+        {
+          "text": "إِذَا خَلَوْا",
+          "resolution": "unverified",
+          "skeleton": "اذاخلوا"
+        },
+        {
+          "text": "خَلْوَتِ خَاصٍّ",
+          "resolution": "unverified",
+          "skeleton": "خلوتخاص"
+        },
+        {
+          "text": "أَذْكَارٌ كَلَامِيَّةٌ",
+          "resolution": "unverified",
+          "skeleton": "اذكاركلاميه"
+        },
+        {
+          "text": "عِلْمُ الْمُكَاشَفَةِ",
+          "resolution": "unverified",
+          "skeleton": "علمالمكاشفه"
+        },
+        {
+          "text": "عِلْمُ الْمُعَامَلَةِ",
+          "resolution": "unverified",
+          "skeleton": "علمالمعامله"
+        },
+        {
+          "text": "حُضُورُ الْقَلْبِ",
+          "resolution": "unverified",
+          "skeleton": "حضورالقلب"
+        },
+        {
+          "text": "الذِّكْر",
+          "resolution": "knowledge-base",
+          "skeleton": "الذكر"
+        },
+        {
+          "text": "إِذَا تَجَلَّى",
+          "resolution": "unverified",
+          "skeleton": "اذاتجلي"
+        },
+        {
+          "text": "إِذَا جَلَّىٰهَا",
+          "resolution": "unverified",
+          "skeleton": "اذاجلاها"
+        },
+        {
+          "text": "دَفَائِنُ الْعُقُولِ",
+          "resolution": "unverified",
+          "skeleton": "دفاينالعقول"
+        },
+        {
+          "text": "الْغَافِلُونَ",
+          "resolution": "unverified",
+          "skeleton": "الغافلون"
+        },
+        {
+          "text": "صِقَالَةٌ",
+          "resolution": "unverified",
+          "skeleton": "صقاله"
+        },
+        {
+          "text": "تَسْبِيح",
+          "resolution": "unverified",
+          "skeleton": "تسبيح"
+        },
+        {
+          "text": "تَمْجِيدٌ",
+          "resolution": "unverified",
+          "skeleton": "تمجيد"
+        },
+        {
+          "text": "تَحْمِيدٌ",
+          "resolution": "unverified",
+          "skeleton": "تحميد"
+        },
+        {
+          "text": "تَقْدِيس",
+          "resolution": "unverified",
+          "skeleton": "تقديس"
+        },
+        {
+          "text": "تَهْلِيلٌ",
+          "resolution": "unverified",
+          "skeleton": "تهليل"
+        },
+        {
+          "text": "الذِّكْر",
+          "resolution": "knowledge-base",
+          "skeleton": "الذكر"
+        },
+        {
+          "text": "الذِّكْر",
+          "resolution": "knowledge-base",
+          "skeleton": "الذكر"
+        },
+        {
+          "text": "نَوَافِلُ",
+          "resolution": "unverified",
+          "skeleton": "نوافل"
+        },
+        {
+          "text": "اِعْرِفُوا اللهَ بِاللهِ",
+          "resolution": "unverified",
+          "skeleton": "اعرفوااللهبالله"
+        },
+        {
+          "text": "مَشْهُود",
+          "resolution": "unverified",
+          "skeleton": "مشهود"
+        },
+        {
+          "text": "عَظَمَتِكَ",
+          "resolution": "unverified",
+          "skeleton": "عظمتك"
+        },
+        {
+          "text": "مَعِيَّة",
+          "resolution": "unverified",
+          "skeleton": "معيه"
+        },
+        {
+          "text": "مُقَارَنَةٌ",
+          "resolution": "unverified",
+          "skeleton": "مقارنه"
+        },
+        {
+          "text": "أَوَّلُ الدِّينِ مَعْرِفَتُهُ",
+          "resolution": "unverified",
+          "skeleton": "اولالدينمعرفته"
+        },
+        {
+          "text": "دَفَائِنُ الْعُقُولِ",
+          "resolution": "unverified",
+          "skeleton": "دفاينالعقول"
+        },
+        {
+          "text": "ٱلْمِيثَقَ",
+          "resolution": "unverified",
+          "skeleton": "الميثق"
+        },
+        {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
+        },
+        {
+          "text": "غَفْلَةٌ",
+          "resolution": "unverified",
+          "skeleton": "غفله"
+        },
+        {
+          "text": "غَفْلَةٌ",
+          "resolution": "unverified",
+          "skeleton": "غفله"
+        },
+        {
+          "text": "مَعْرُوف",
+          "resolution": "unverified",
+          "skeleton": "معروف"
+        },
+        {
+          "text": "لَا تَحْجُبُهُ الْحُجُبُ",
+          "resolution": "unverified",
+          "skeleton": "لاتحجبهالحجب"
         },
         {
           "text": "لو کشف الغطاء ما ازدت یقینا",
@@ -883,6 +1668,11 @@
           "skeleton": "توحيد"
         },
         {
+          "text": "جَمْعُهُ الضِّدَّيْنِ",
+          "resolution": "unverified",
+          "skeleton": "جمعهالضدين"
+        },
+        {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
@@ -891,18 +1681,128 @@
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
+        },
+        {
+          "text": "حَقَائِقُ الْإِيمَان",
+          "resolution": "unverified",
+          "skeleton": "حقايقالايمان"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
         }
       ]
     },
     {
       "chapter": "12. Remembrance as the Quintessence of Worship",
-      "arabic_runs": 13,
-      "unverified": 7,
+      "arabic_runs": 44,
+      "unverified": 35,
       "runs": [
+        {
+          "text": "اجْعَلْ لِسَانِي بِذِكْرِكَ لَاهِجًا",
+          "resolution": "unverified",
+          "skeleton": "اجعللسانيبذكركلاهجا"
+        },
+        {
+          "text": "غَفْلَةٌ",
+          "resolution": "unverified",
+          "skeleton": "غفله"
+        },
+        {
+          "text": "الْفَرَائِضُ",
+          "resolution": "unverified",
+          "skeleton": "الفرايض"
+        },
+        {
+          "text": "عَلَىٰ صَلَاتِهِمْ دَآئِمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "عليصلاتهمدايمون"
+        },
+        {
+          "text": "مِفْتَاحُ الصَّلَاةِ",
+          "resolution": "unverified",
+          "skeleton": "مفتاحالصلاه"
+        },
+        {
+          "text": "تَحْقِيق",
+          "resolution": "unverified",
+          "skeleton": "تحقيق"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
+        },
         {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
+        },
+        {
+          "text": "غَفْلَةٌ",
+          "resolution": "unverified",
+          "skeleton": "غفله"
+        },
+        {
+          "text": "اَلْفَنَاءُ فِي الذِّكْرِ",
+          "resolution": "unverified",
+          "skeleton": "الفناءفيالذكر"
+        },
+        {
+          "text": "سَاهِيًا",
+          "resolution": "unverified",
+          "skeleton": "ساهيا"
+        },
+        {
+          "text": "ذِكْرًا كَامِلًا",
+          "resolution": "unverified",
+          "skeleton": "ذكراكاملا"
+        },
+        {
+          "text": "حَقِيقَةُ الذِّكْرِ",
+          "resolution": "unverified",
+          "skeleton": "حقيقهالذكر"
+        },
+        {
+          "text": "مَقَامَات",
+          "resolution": "unverified",
+          "skeleton": "مقامات"
+        },
+        {
+          "text": "إِخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
+        },
+        {
+          "text": "إِخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
+        },
+        {
+          "text": "الْمَذْكُورُ",
+          "resolution": "unverified",
+          "skeleton": "المذكور"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
+        },
+        {
+          "text": "نَوَافِلُ",
+          "resolution": "unverified",
+          "skeleton": "نوافل"
+        },
+        {
+          "text": "نَوَافِلُ",
+          "resolution": "unverified",
+          "skeleton": "نوافل"
         },
         {
           "text": "وَٱللَّهُ خَلَقَكُمْ وَمَا تَعْمَلُونَ",
@@ -915,11 +1815,36 @@
           "skeleton": "ومارميتاذرميتولكناللهرمي"
         },
         {
+          "text": "مُحَمَّد",
+          "resolution": "unverified",
+          "skeleton": "محمد"
+        },
+        {
+          "text": "بَيْتُ خَلْوَتِهَا",
+          "resolution": "unverified",
+          "skeleton": "بيتخلوتها"
+        },
+        {
           "text": "لَّا مَلْجَأَ مِنَ ٱللَّهِ إِلَّآ إِلَيْهِ",
           "resolution": "canonical-mushaf",
           "skeleton": "لاملجامناللهالااليه"
         },
         {
+          "text": "أَوْلِيَائِهِ",
+          "resolution": "unverified",
+          "skeleton": "اوليايه"
+        },
+        {
+          "text": "أَخْلَصَ",
+          "resolution": "unverified",
+          "skeleton": "اخلص"
+        },
+        {
+          "text": "اِتَّصَلَ",
+          "resolution": "unverified",
+          "skeleton": "اتصل"
+        },
+        {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
@@ -928,6 +1853,11 @@
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
+        },
+        {
+          "text": "الْمَذْكُورُ",
+          "resolution": "unverified",
+          "skeleton": "المذكور"
         },
         {
           "text": "هَلْ أَتَىٰ عَلَى ٱلْإِنسَنِ حِينٌۭ مِّنَ ٱلدَّهْرِ لَمْ يَكُن شَيْـًۭٔا مَّذْكُورًا",
@@ -935,9 +1865,14 @@
           "skeleton": "هلاتيعليالانسنحينمنالدهرلميكنشيامذكورا"
         },
         {
-          "text": "تَوْحِيد",
+          "text": "الْمَوْهُومُ",
           "resolution": "unverified",
-          "skeleton": "توحيد"
+          "skeleton": "الموهوم"
+        },
+        {
+          "text": "الْمَعْلُومُ",
+          "resolution": "unverified",
+          "skeleton": "المعلوم"
         },
         {
           "text": "تَوْحِيد",
@@ -950,9 +1885,24 @@
           "skeleton": "توحيد"
         },
         {
+          "text": "أَعْيَانُ الْمَوْجُودَاتِ",
+          "resolution": "unverified",
+          "skeleton": "اعيانالموجودات"
+        },
+        {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
+        },
+        {
+          "text": "تَوْحِيد",
+          "resolution": "unverified",
+          "skeleton": "توحيد"
+        },
+        {
+          "text": "تَوَجُّه",
+          "resolution": "unverified",
+          "skeleton": "توجه"
         },
         {
           "text": "قُلِ ٱدْعُوا۟ ٱللَّهَ أَوِ ٱدْعُوا۟ ٱلرَّحْمَنَ ۖ أَيًّۭا مَّا تَدْعُوا۟ فَلَهُ ٱلْأَسْمَآءُ ٱلْحُسْنَىٰ ۚ وَلَا تَجْهَرْ بِصَلَاتِكَ وَلَا تُخَافِتْ بِهَا وَٱبْتَغِ بَيْنَ ذَلِكَ سَبِيلًۭا",
@@ -963,23 +1913,153 @@
           "text": "إِنْ هِىَ إِلَّآ أَسْمَآءٌۭ سَمَّيْتُمُوهَآ أَنتُمْ وَآبَآؤُكُم مَّآ أَنزَلَ ٱللَّهُ بِهَا مِن سُلْطَنٍ ۚ إِن يَتَّبِعُونَ إِلَّا ٱلظَّنَّ وَمَا تَهْوَى ٱلْأَنفُسُ ۖ وَلَقَدْ جَآءَهُم مِّن رَّبِّهِمُ ٱلْهُدَىٰٓ",
           "resolution": "canonical-mushaf",
           "skeleton": "انهيالااسماءسميتموهاانتمواباوكمماانزلالل"
+        },
+        {
+          "text": "سُلْطَان",
+          "resolution": "unverified",
+          "skeleton": "سلطان"
+        },
+        {
+          "text": "اَلِاسْمُ هُوَ الْمُسَمَّى",
+          "resolution": "unverified",
+          "skeleton": "الاسمهوالمسمي"
         }
       ]
     },
     {
       "chapter": "13. Extinction and the Name: The Death of the Saint",
-      "arabic_runs": 7,
-      "unverified": 4,
+      "arabic_runs": 36,
+      "unverified": 29,
       "runs": [
+        {
+          "text": "يَبْقَىٰ",
+          "resolution": "unverified",
+          "skeleton": "يبقي"
+        },
+        {
+          "text": "وَجْهَهُ",
+          "resolution": "unverified",
+          "skeleton": "وجهه"
+        },
+        {
+          "text": "النَّفْس",
+          "resolution": "unverified",
+          "skeleton": "النفس"
+        },
+        {
+          "text": "الْقَلْب",
+          "resolution": "unverified",
+          "skeleton": "القلب"
+        },
+        {
+          "text": "اَلسِّرُّ",
+          "resolution": "unverified",
+          "skeleton": "السر"
+        },
+        {
+          "text": "الْخَفِيُّ",
+          "resolution": "unverified",
+          "skeleton": "الخفي"
+        },
+        {
+          "text": "غَفْلَةٌ",
+          "resolution": "unverified",
+          "skeleton": "غفله"
+        },
+        {
+          "text": "الْمَذْكُورُ",
+          "resolution": "unverified",
+          "skeleton": "المذكور"
+        },
+        {
+          "text": "ٱلْأَسْمَآءُ ٱلْحُسْنَىٰ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الاسماءالحسني"
+        },
+        {
+          "text": "مِصْدَاقٌ",
+          "resolution": "unverified",
+          "skeleton": "مصداق"
+        },
+        {
+          "text": "الصِّفَة",
+          "resolution": "unverified",
+          "skeleton": "الصفه"
+        },
+        {
+          "text": "الصِّفَات",
+          "resolution": "unverified",
+          "skeleton": "الصفات"
+        },
+        {
+          "text": "الصِّفَة",
+          "resolution": "unverified",
+          "skeleton": "الصفه"
+        },
+        {
+          "text": "الصِّفَات",
+          "resolution": "unverified",
+          "skeleton": "الصفات"
+        },
         {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
         },
         {
+          "text": "اَلْأَوْلِيَاءُ",
+          "resolution": "unverified",
+          "skeleton": "الاولياء"
+        },
+        {
+          "text": "عَلَائِمِهِ الْعُظْمَى وَآيَاتِهِ الْكُبْرَى",
+          "resolution": "unverified",
+          "skeleton": "علايمهالعظميواياتهالكبري"
+        },
+        {
+          "text": "اَلْحَقّ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحق"
+        },
+        {
+          "text": "شَطْحِيَّاتٌ",
+          "resolution": "unverified",
+          "skeleton": "شطحيات"
+        },
+        {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
+        },
+        {
+          "text": "أَخْلَاص",
+          "resolution": "unverified",
+          "skeleton": "اخلاص"
+        },
+        {
+          "text": "الصِّفَات",
+          "resolution": "unverified",
+          "skeleton": "الصفات"
+        },
+        {
+          "text": "إِمْكَانٌ",
+          "resolution": "knowledge-base",
+          "skeleton": "امكان"
+        },
+        {
+          "text": "مَعَانِي",
+          "resolution": "unverified",
+          "skeleton": "معاني"
+        },
+        {
+          "text": "مُسَمَّى",
+          "resolution": "knowledge-base",
+          "skeleton": "مسمي"
+        },
+        {
+          "text": "نَوَافِلُ",
+          "resolution": "unverified",
+          "skeleton": "نوافل"
         },
         {
           "text": "تَوْحِيد",
@@ -1002,9 +2082,34 @@
           "skeleton": "المتراناللهيسبحلهمنفيالسموتوالارضوالطيرص"
         },
         {
+          "text": "أَسْرَارٌ",
+          "resolution": "unverified",
+          "skeleton": "اسرار"
+        },
+        {
+          "text": "اَلسِّرُّ",
+          "resolution": "unverified",
+          "skeleton": "السر"
+        },
+        {
           "text": "وَمَا هَذِهِ ٱلْحَيَوٰةُ ٱلدُّنْيَآ إِلَّا لَهْوٌۭ وَلَعِبٌۭ ۚ وَإِنَّ ٱلدَّارَ ٱلْآخِرَةَ لَهِىَ ٱلْحَيَوَانُ ۚ لَوْ كَانُوا۟ يَعْلَمُونَ",
           "resolution": "canonical-mushaf",
           "skeleton": "وماهذهالحيوهالدنياالالهوولعبوانالدارالاخ"
+        },
+        {
+          "text": "السِّلْسِلَةُ الْأُولَى",
+          "resolution": "unverified",
+          "skeleton": "السلسلهالاولي"
+        },
+        {
+          "text": "السِّلْسِلَةُ الثَّانِيَةُ",
+          "resolution": "unverified",
+          "skeleton": "السلسلهالثانيه"
+        },
+        {
+          "text": "الصِّدِّيقُ",
+          "resolution": "unverified",
+          "skeleton": "الصديق"
         }
       ]
     },
@@ -1014,7 +2119,7 @@
       "unverified": 8,
       "runs": [
         {
-          "text": "نھج البلاغہ",
+          "text": "نَھْجُ الْبَلَاغَہِ",
           "resolution": "unverified",
           "skeleton": "نجالبلاغ"
         },
@@ -1062,13 +2167,93 @@
     },
     {
       "chapter": "15. The Letter to Malik al-Ashtar",
-      "arabic_runs": 2,
-      "unverified": 0,
+      "arabic_runs": 18,
+      "unverified": 16,
       "runs": [
+        {
+          "text": "الْعَامَّةُ",
+          "resolution": "unverified",
+          "skeleton": "العامه"
+        },
+        {
+          "text": "الْخَاصَّةُ",
+          "resolution": "unverified",
+          "skeleton": "الخاصه"
+        },
+        {
+          "text": "الَعُلَمَاءِ",
+          "resolution": "unverified",
+          "skeleton": "العلماء"
+        },
+        {
+          "text": "الْحُكَمَاءِ",
+          "resolution": "unverified",
+          "skeleton": "الحكماء"
+        },
+        {
+          "text": "قُضَاةُ الْعَدْلِ",
+          "resolution": "unverified",
+          "skeleton": "قضاهالعدل"
+        },
+        {
+          "text": "أَهْلُ الذِّمَّةِ",
+          "resolution": "unverified",
+          "skeleton": "اهلالذمه"
+        },
+        {
+          "text": "سُبُلُ الْأَمْنِ",
+          "resolution": "unverified",
+          "skeleton": "سبلالامن"
+        },
+        {
+          "text": "الِاهْتِمَامُ وَالِاسْتِعَانَةُ",
+          "resolution": "unverified",
+          "skeleton": "الاهتماموالاستعانه"
+        },
+        {
+          "text": "السَّخَاءُ",
+          "resolution": "unverified",
+          "skeleton": "السخاء"
+        },
+        {
+          "text": "السَّمَاحَةُ",
+          "resolution": "unverified",
+          "skeleton": "السماحه"
+        },
+        {
+          "text": "دَاعِيَةٌ",
+          "resolution": "unverified",
+          "skeleton": "داعيه"
+        },
+        {
+          "text": "بَيْتُ الْمَالِ",
+          "resolution": "unverified",
+          "skeleton": "بيتالمال"
+        },
+        {
+          "text": "جَاهِلٌ شَقِيٌّ",
+          "resolution": "unverified",
+          "skeleton": "جاهلشقي"
+        },
+        {
+          "text": "المُحسنین",
+          "resolution": "unverified",
+          "skeleton": "المحسنن"
+        },
         {
           "text": "كَبُرَ مَقْتًا عِندَ ٱللَّهِ أَن تَقُولُوا۟ مَا لَا تَفْعَلُونَ",
           "resolution": "canonical-mushaf",
           "skeleton": "كبرمقتاعنداللهانتقولوامالاتفعلون"
+        },
+        {
+          "text": "اَلسَّعَادَةُ",
+          "resolution": "unverified",
+          "skeleton": "السعاده"
+        },
+        {
+          "text": "اَلشَّهَادَةُ",
+          "resolution": "unverified",
+          "skeleton": "الشهاده"
         },
         {
           "text": "ٱلَّذِينَ إِذَآ أَصَبَتْهُم مُّصِيبَةٌۭ قَالُوٓا۟ إِنَّا لِلَّهِ وَإِنَّآ إِلَيْهِ رَجِعُونَ",
@@ -1079,19 +2264,19 @@
     }
   ],
   "totals": {
-    "canonical-mushaf": 57,
+    "canonical-mushaf": 63,
     "ocr": 0,
-    "knowledge-base": 7,
-    "honorific-formula": 0,
-    "unverified": 128,
-    "arabic_runs": 192
+    "knowledge-base": 28,
+    "honorific-formula": 1,
+    "unverified": 337,
+    "arabic_runs": 429
   },
   "note": "no OCR ground truth for this book — every run falls back to the knowledge base",
   "quran_coverage": {
     "measured": true,
     "cited": 133,
-    "with_arabic": 47,
-    "coverage": 0.353,
+    "with_arabic": 36,
+    "coverage": 0.271,
     "uncovered": [
       {
         "ref": "57:3",
@@ -1164,6 +2349,72 @@
         "line": 395,
         "reason": "no-span-in-scan",
         "ayah_words": 14
+      },
+      {
+        "ref": "17:18",
+        "line": 411,
+        "reason": "no-span-in-scan",
+        "ayah_words": 18
+      },
+      {
+        "ref": "12:20",
+        "line": 419,
+        "reason": "no-span-in-scan",
+        "ayah_words": 9
+      },
+      {
+        "ref": "28:88",
+        "line": 425,
+        "reason": "no-span-in-scan",
+        "ayah_words": 22
+      },
+      {
+        "ref": "17:44",
+        "line": 431,
+        "reason": "no-span-in-scan",
+        "ayah_words": 23
+      },
+      {
+        "ref": "24:41",
+        "line": 437,
+        "reason": "no-span-in-scan",
+        "ayah_words": 23
+      },
+      {
+        "ref": "89:27",
+        "line": 461,
+        "reason": "no-span-in-scan",
+        "ayah_words": 3
+      },
+      {
+        "ref": "87:17",
+        "line": 467,
+        "reason": "no-span-in-scan",
+        "ayah_words": 3
+      },
+      {
+        "ref": "38:46",
+        "line": 473,
+        "reason": "no-span-in-scan",
+        "ayah_words": 5
+      },
+      {
+        "ref": "73:20",
+        "line": 479,
+        "reason": "no-span-in-scan",
+        "ayah_words": 90
+      },
+      {
+        "ref": "55:60",
+        "line": 485,
+        "reason": "no-span-in-scan",
+        "ayah_words": 5
+      },
+      {
+        "ref": "2:25",
+        "line": 491,
+        "reason": "no-span-in-scan",
+        "ayah_words": 39
       },
       {
         "ref": "113:2",
@@ -1463,78 +2714,24 @@
     "uncited_inserted": 0
   },
   "stages": {
-    "base": {
-      "(front matter)": 0,
-      "1. In the Prophet's Shadow": 11,
-      "2. The People of the House and the Prophet's Witness": 7,
-      "3. Intellect, Not Reason": 12,
-      "4. The Discourse to Kumayl": 4,
-      "5. The Fruits of Certainty": 21,
-      "6. A Sacred Conception of Justice": 16,
-      "7. Justice and the Tyrant's Pride": 30,
-      "8. Conscience, Compassion, and the Ordering of Society": 23,
-      "9. Justice for the Poor and the Sincerity of Intention": 0,
-      "10. Prayer, Remembrance, and Gazing on the Good": 1,
-      "11. Dhikr: The Polish of the Heart": 2,
-      "12. Remembrance as the Quintessence of Worship": 6,
-      "13. Extinction and the Name: The Death of the Saint": 3,
-      "14. The First Sermon of the Nahj al-Balagha": 9,
-      "15. The Letter to Malik al-Ashtar": 2
-    },
-    "fluency": {
-      "(front matter)": 0,
-      "1. In the Prophet's Shadow": 11,
-      "2. The People of the House and the Prophet's Witness": 7,
-      "3. Intellect, Not Reason": 12,
-      "4. The Discourse to Kumayl": 4,
-      "5. The Fruits of Certainty": 21,
-      "6. A Sacred Conception of Justice": 16,
-      "7. Justice and the Tyrant's Pride": 30,
-      "8. Conscience, Compassion, and the Ordering of Society": 23,
-      "9. Justice for the Poor and the Sincerity of Intention": 0,
-      "10. Prayer, Remembrance, and Gazing on the Good": 1,
-      "11. Dhikr: The Polish of the Heart": 2,
-      "12. Remembrance as the Quintessence of Worship": 6,
-      "13. Extinction and the Name: The Death of the Saint": 3,
-      "14. The First Sermon of the Nahj al-Balagha": 9,
-      "15. The Letter to Malik al-Ashtar": 2
-    },
-    "augment": {
-      "(front matter)": 0,
-      "1. In the Prophet's Shadow": 11,
-      "2. The People of the House and the Prophet's Witness": 7,
-      "3. Intellect, Not Reason": 12,
-      "4. The Discourse to Kumayl": 4,
-      "5. The Fruits of Certainty": 21,
-      "6. A Sacred Conception of Justice": 16,
-      "7. Justice and the Tyrant's Pride": 30,
-      "8. Conscience, Compassion, and the Ordering of Society": 23,
-      "9. Justice for the Poor and the Sincerity of Intention": 0,
-      "10. Prayer, Remembrance, and Gazing on the Good": 1,
-      "11. Dhikr: The Polish of the Heart": 2,
-      "12. Remembrance as the Quintessence of Worship": 6,
-      "13. Extinction and the Name: The Death of the Saint": 3,
-      "14. The First Sermon of the Nahj al-Balagha": 9,
-      "15. The Letter to Malik al-Ashtar": 2
-    },
     "final": {
       "(front matter)": 0,
       "Introduction to the Book": 0,
-      "1. In the Prophet's Shadow": 11,
-      "2. The People of the House and the Prophet's Witness": 8,
-      "3. Intellect, Not Reason": 20,
-      "4. The Discourse to Kumayl": 8,
-      "5. The Fruits of Certainty": 23,
-      "6. A Sacred Conception of Justice": 21,
-      "7. Justice and the Tyrant's Pride": 33,
-      "8. Conscience, Compassion, and the Ordering of Society": 26,
+      "1. In the Prophet's Shadow": 18,
+      "2. The People of the House and the Prophet's Witness": 23,
+      "3. Intellect, Not Reason": 36,
+      "4. The Discourse to Kumayl": 35,
+      "5. The Fruits of Certainty": 36,
+      "6. A Sacred Conception of Justice": 36,
+      "7. Justice and the Tyrant's Pride": 42,
+      "8. Conscience, Compassion, and the Ordering of Society": 39,
       "9. Justice for the Poor and the Sincerity of Intention": 0,
-      "10. Prayer, Remembrance, and Gazing on the Good": 3,
-      "11. Dhikr: The Polish of the Heart": 8,
-      "12. Remembrance as the Quintessence of Worship": 13,
-      "13. Extinction and the Name: The Death of the Saint": 7,
+      "10. Prayer, Remembrance, and Gazing on the Good": 6,
+      "11. Dhikr: The Polish of the Heart": 51,
+      "12. Remembrance as the Quintessence of Worship": 44,
+      "13. Extinction and the Name: The Death of the Saint": 36,
       "14. The First Sermon of the Nahj al-Balagha": 9,
-      "15. The Letter to Malik al-Ashtar": 2
+      "15. The Letter to Malik al-Ashtar": 18
     }
   },
   "stage_losses": []

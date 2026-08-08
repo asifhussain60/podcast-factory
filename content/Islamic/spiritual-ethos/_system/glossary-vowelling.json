@@ -1,16 +1,20 @@
 {
-  "vowelled": 2,
-  "marks_added": 6,
-  "already": 110,
-  "refused": 56,
+  "vowelled": 4,
+  "marks_added": 12,
+  "already": 334,
+  "refused": 59,
   "refusals": [
     {
+      "term": "عہد",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"ہد\" vs proposal \"هد\")"
+    },
+    {
       "term": "یا أمیر المومنین",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"یا أمیر المو\" vs proposal \"يا أمير المو\")"
     },
     {
       "term": "أنَّ علیٌ مع القرآن، و قرآن مع العلی",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"أن علی مع ال\" vs proposal \"قرآن\")"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"أن علی مع ال\" vs proposal \"القرآن\")"
     },
     {
       "term": "توحید",
@@ -30,7 +34,7 @@
     },
     {
       "term": "حقائق الایمان",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 10: source \"یمان\" vs proposal \"يمان\")"
     },
     {
       "term": "العاقل من وضع شئی حق محلہ",
@@ -42,7 +46,7 @@
     },
     {
       "term": "زکوۃ",
-      "reason": "letters changed, not just marks (first difference at character 2: source \"کوۃ\" vs proposal \"كوۃ\")"
+      "reason": "letters changed, not just marks (first difference at character 2: source \"کوۃ\" vs proposal \"كوة\")"
     },
     {
       "term": "احسان",
@@ -50,15 +54,15 @@
     },
     {
       "term": "ایمان",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ایمان\" vs proposal \"إيمان\")"
+      "reason": "empty"
     },
     {
       "term": "سورۃ الفلق",
-      "reason": "model error: HTTP Error 503: Service Unavailable"
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ۃ الفلق\" vs proposal \"ة الفلق\")"
     },
     {
       "term": "جبرئیل",
-      "reason": "model error: HTTP Error 503: Service Unavailable"
+      "reason": "letters changed, not just marks (first difference at character 5: source \"یل\" vs proposal \"يل\")"
     },
     {
       "term": "قبیح",
@@ -66,7 +70,7 @@
     },
     {
       "term": "المُحسنین",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 7: source \"ین\" vs proposal \"ين\")"
     },
     {
       "term": "سجدۃ",
@@ -74,7 +78,7 @@
     },
     {
       "term": "امام المتعصبین و سلف المستکبرین",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 2: source \"مام المتعصبی\" vs proposal \"لمستكبرين\")"
     },
     {
       "term": "الرحمن الرحیم",
@@ -102,7 +106,7 @@
     },
     {
       "term": "شرک الخفی",
-      "reason": "letters changed, not just marks (first difference at character 3: source \"ک الخفی\" vs proposal \"ك الخفي\")"
+      "reason": "empty"
     },
     {
       "term": "وضع کل شئی حق محلہ",
@@ -150,7 +154,7 @@
     },
     {
       "term": "مجاھدۃ النفس",
-      "reason": "letters changed, not just marks (first difference at character 4: source \"ھدۃ النفس\" vs proposal \"هدة النفس\")"
+      "reason": "letters changed, not just marks (first difference at character 6: source \"ۃ النفس\" vs proposal \"ة النفس\")"
     },
     {
       "term": "محمد بن ابی بکر",
@@ -165,20 +169,16 @@
       "reason": "letters changed, not just marks (first difference at character 4: source \" الله عليه و\" vs proposal \"\")"
     },
     {
-      "term": "عہد",
-      "reason": "letters changed, not just marks (first difference at character 2: source \"ہد\" vs proposal \"هد\")"
-    },
-    {
       "term": "۱۹",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"۱۹\" vs proposal \"تسعة عشر\")"
-    },
-    {
-      "term": "۲۰",
       "reason": "adds no vowel marks"
     },
     {
+      "term": "۲۰",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"۲۰\" vs proposal \"عشرون\")"
+    },
+    {
       "term": "۳۴",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"۳۴\" vs proposal \"ثلاثة وثلاثو\")"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"۳۴\" vs proposal \"ثلاثين\")"
     },
     {
       "term": "حکما",
@@ -191,10 +191,6 @@
     {
       "term": "لو کشف الغطاء ما ازدت یقینا",
       "reason": "letters changed, not just marks (first difference at character 1: source \"لو کشف الغطا\" vs proposal \"يقينا\")"
-    },
-    {
-      "term": "نھج البلاغہ",
-      "reason": "empty"
     },
     {
       "term": "خطبۃ",
@@ -214,7 +210,7 @@
     },
     {
       "term": "لا الہ",
-      "reason": "letters changed, not just marks (first difference at character 6: source \"ہ\" vs proposal \"اه\")"
+      "reason": "letters changed, not just marks (first difference at character 6: source \"ہ\" vs proposal \"ه\")"
     },
     {
       "term": "نفی",
@@ -222,11 +218,27 @@
     },
     {
       "term": "الا اللہ",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"الا اللہ\" vs proposal \"إلا اللاه\")"
+      "reason": "letters changed, not just marks (first difference at character 8: source \"ہ\" vs proposal \"اه\")"
     },
     {
       "term": "سنۃ",
       "reason": "letters changed, not just marks (first difference at character 3: source \"ۃ\" vs proposal \"ة\")"
+    },
+    {
+      "term": "نھج البلاغۃ",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"ھج البلاغۃ\" vs proposal \"هج البلاغة\")"
+    },
+    {
+      "term": "شیطان",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"یطان\" vs proposal \"يطان\")"
+    },
+    {
+      "term": "اسلام",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"اسلام\" vs proposal \"إسلام\")"
+    },
+    {
+      "term": "ابلیس",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"یس\" vs proposal \"يس\")"
     }
   ]
 }
