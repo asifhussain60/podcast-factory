@@ -27,6 +27,11 @@ from pathlib import Path
 from typing import Any
 
 _WATERMARK_RE = re.compile(r"notebook\s*lm", re.I)
+# Bidi isolate/embedding controls (LRM/RLM, LRE/RLE/PDF/LRO/RLO, LRI/RLI/FSI/PDI).
+# A justified Quranic verse can line-wrap so that pdftotext emits several
+# consecutive "lines" that are each just one Arabic glyph wrapped in these
+# controls — identical by construction, and not a caption.
+_BIDI_CONTROL_RE = re.compile("[‎‏‪-‮⁦-⁩]")
 # A "real" text page carries at least this many characters; interior pages far
 # below the interior median read as half-empty.
 _MIN_PAGE_CHARS = 120
@@ -55,25 +60,78 @@ def scan_duplicate_captions(pages_text: list[str]) -> list[dict[str, Any]]:
     for i, text in enumerate(pages_text, start=1):
         lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
         for a, b in zip(lines, lines[1:]):
-            if a == b and 0 < len(a.split()) <= 12:
-                findings.append(
-                    {
-                        "check": "BR-CAPTION-DUP",
-                        "severity": "P1",
-                        "page": i,
-                        "detail": f"caption printed twice: {a[:60]!r}",
-                    }
-                )
-                break
+            if a != b or not (0 < len(a.split()) <= 12):
+                continue
+            # A genuine duplicated caption is a real phrase (a title or
+            # figcaption echoed twice). A justified Quranic verse can
+            # line-wrap so pdftotext emits several consecutive "lines" that
+            # are each just one Arabic letter wrapped in bidi isolate marks —
+            # identical by construction, not a caption. Requiring at least
+            # two words once the bidi controls are stripped is what tells a
+            # real caption apart from that artifact.
+            stripped = _BIDI_CONTROL_RE.sub("", a).strip()
+            if len(stripped) < 4 or len(stripped.split()) < 2:
+                continue
+            findings.append(
+                {
+                    "check": "BR-CAPTION-DUP",
+                    "severity": "P1",
+                    "page": i,
+                    "detail": f"caption printed twice: {a[:60]!r}",
+                }
+            )
+            break
     return findings
+
+
+_TITLE_PAGE_MARKER = "Generated using podcast-factory AI"
+
+
+def _structurally_sparse_pages(pages_text: list[str]) -> set[int]:
+    """Pages that are legitimately short BY DESIGN, not by rendering defect.
+
+    Three cases, none of them a broken render:
+      - the interior title page (eyebrow + book title + author + the AI
+        disclaimer panel, printed by every book this template builds — matched
+        by the disclaimer's own fixed text rather than the book's own title so
+        it needs no per-book knowledge);
+      - the Contents page (a list of chapter titles is inherently sparser than
+        a page of running prose — that is what a table of contents IS);
+      - the last page of a chapter, immediately before a NEW numbered chapter
+        opens. Every chapter in this template opens on a fresh page
+        (`page-break-before`), so the page before it holds whatever was left
+        of the previous chapter's final paragraph — routinely a fraction of a
+        full page in ANY book, this one or one off a shelf, and not evidence
+        that the render dropped or shrank anything.
+    """
+    sparse: set[int] = set()
+    numbers: dict[int, int] = {}
+    for i, text in enumerate(pages_text, start=1):
+        stripped = text.strip()
+        first_line = (stripped.split("\n") or [""])[0].strip()
+        if _TITLE_PAGE_MARKER in text:
+            sparse.add(i)
+        if first_line == "CONTENTS":
+            sparse.add(i)
+        m = _HEAD_NUMBER_RE.match(first_line)
+        if m:
+            numbers[i] = int(m.group(1))
+    for i in range(1, len(pages_text)):
+        if i in numbers and (i + 1) in numbers and numbers[i + 1] > numbers[i]:
+            sparse.add(i)
+    return sparse
 
 
 def scan_blank_and_halfempty(pages_text: list[str]) -> list[dict[str, Any]]:
     """Blank interior pages (P0) and half-empty interior pages (P1).
 
-    First and last pages are exempt (cover/title/colophon legitimately sparse).
-    Half-empty is judged against the median fill of the interior pages, so a book
-    of naturally short pages is not penalized wholesale.
+    First and last pages are exempt (cover/title/colophon legitimately sparse),
+    and so — for the P1 fill check only — are the structurally-sparse-by-design
+    pages named in `_structurally_sparse_pages`. BR-BLANK-PAGE stays strict for
+    every interior page including those: a page that is not just short but
+    functionally empty is worth a look even where sparse is expected. Half-empty
+    is judged against the median fill of the (non-exempt) interior pages, so a
+    book of naturally short pages is not penalized wholesale.
     """
     findings: list[dict[str, Any]] = []
     n = len(pages_text)
@@ -91,11 +149,13 @@ def scan_blank_and_halfempty(pages_text: list[str]) -> list[dict[str, Any]]:
                     "detail": f"blank/near-blank interior page ({lengths[p]} chars)",
                 }
             )
-    non_blank = [v for v in lengths.values() if v >= _MIN_PAGE_CHARS]
+    sparse_by_design = _structurally_sparse_pages(pages_text)
+    fill_candidates = [p for p in interior if p not in sparse_by_design]
+    non_blank = [lengths[p] for p in fill_candidates if lengths[p] >= _MIN_PAGE_CHARS]
     if len(non_blank) >= 3:
         srt = sorted(non_blank)
         median = srt[len(srt) // 2]
-        for p in interior:
+        for p in fill_candidates:
             if _MIN_PAGE_CHARS <= lengths[p] < _HALF_EMPTY_RATIO * median:
                 findings.append(
                     {
@@ -165,8 +225,8 @@ def scan_crosswalk_present(pages_text: list[str], book_dir: Path) -> list[dict[s
 # so every rule was shifted by one and pages deep in chapter 8 carried chapter 7's
 # title — a defect invisible to every other gate, in a book that had just gated
 # RENDER-CLEAN.
-_CHAPTER_OPEN_RE = re.compile(r"CHAPTER\s+([A-Z][A-Za-z-]+)")
 _HEAD_NUMBER_RE = re.compile(r"^\s*(\d+)\.\s")
+_CHAPTER_OPEN_LINE_RE = re.compile(r"^CHAPTER([A-Z]+)$")
 _NUMBER_WORDS = {
     w: i
     for i, w in enumerate(
@@ -177,6 +237,27 @@ _NUMBER_WORDS = {
 }
 
 
+def _chapter_open_number(text: str) -> int | None:
+    """The spelled-out chapter number on this page's own "CHAPTER <WORD>"
+    eyebrow line, matched per LINE and tolerant of letter-spacing.
+
+    A wide-tracking eyebrow can extract from the PDF as "CHAPTER TWELVE",
+    "C H A P T E R T W E LV E" (a space — or nothing, where two glyphs kern
+    into a ligature-like run — between letters), or anything between; a plain
+    substring match on "CHAPTER\\s+WORD" only caught the first form. Collapsing
+    all whitespace out of the line before matching makes the three forms
+    identical. Anchored to the WHOLE line (not `.search`) so body prose that
+    happens to contain the word "chapter" can never match — the eyebrow is
+    printed alone on its own line by construction.
+    """
+    for line in text.splitlines():
+        compact = re.sub(r"\s+", "", line).upper()
+        m = _CHAPTER_OPEN_LINE_RE.match(compact)
+        if m and m.group(1) in _NUMBER_WORDS:
+            return _NUMBER_WORDS[m.group(1)]
+    return None
+
+
 def scan_running_heads(pages_text: list[str]) -> list[dict[str, Any]]:
     """Every numbered running head must name the chapter whose pages it sits on.
 
@@ -185,10 +266,9 @@ def scan_running_heads(pages_text: list[str]) -> list[dict[str, Any]]:
     """
     opens: list[tuple[int, int]] = []
     for i, text in enumerate(pages_text, start=1):
-        m = _CHAPTER_OPEN_RE.search(text)
-        if m and (n := _NUMBER_WORDS.get(m.group(1).upper())):
-            if not any(num == n for _, num in opens):
-                opens.append((i, n))
+        n = _chapter_open_number(text)
+        if n is not None and not any(num == n for _, num in opens):
+            opens.append((i, n))
     if not opens:
         return []
     opens.sort()

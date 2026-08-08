@@ -384,6 +384,13 @@ body {
   break-after: page;
   padding-top: 2.4cm;
 }
+/* The eyebrow is bound to what follows it (break-after: avoid) on BOTH pages,
+   for the same reason the crosswalk's h2 is bound to its table below: an
+   "avoid" that only covers the LATER pair (h2 <-> table) still lets the engine
+   break between the eyebrow and the h2 when the pair beneath doesn't fit where
+   the eyebrow landed — which is exactly what stranded "SOURCE CROSSWALK" alone
+   on its own near-blank page (BR-BLANK-PAGE) while the heading and table both
+   moved on together to the next one. */
 .toc-page .toc-eyebrow,
 .crosswalk-page .toc-eyebrow {
   text-transform: uppercase;
@@ -392,6 +399,8 @@ body {
   color: var(--c-accent, #8b4513);
   margin: 0 0 0.55rem;
   text-align: center;
+  break-after: avoid;
+  page-break-after: avoid;
 }
 .toc-page h2,
 .crosswalk-page h2 {
@@ -407,9 +416,17 @@ body {
   break-after: page;
   padding-top: 1.4cm;
 }
-/* Bind the heading to the (now atomic) table + trim its margin so eyebrow +
-   heading + all 8 rows fit on the crosswalk's single dedicated page — otherwise
-   `break-inside: avoid` on the table strands the heading alone on the page before. */
+/* Bind the heading to the table's first row so the heading is never stranded
+   alone. AFTER the table itself: a table-level `break-inside: avoid` assumed
+   every crosswalk was short enough to be one atomic block — true at 8 rows,
+   false at 15 (the excerpt column alone runs 3-4 lines per row), and a table
+   taller than one page cannot honor "avoid" at all: the engine drops the hint
+   and picks its own break point, which is how a 15-row crosswalk still split
+   mid-table even with this rule in place. A per-ROW `break-inside: avoid`
+   (kept below) is the correct, size-independent rule — no row ever splits
+   across a page, and the table flows across as many pages as it needs, like
+   an ordinary printed table, instead of demanding one page tall enough for
+   any book this template will ever typeset. */
 .crosswalk-page h2 {
   margin-bottom: 1rem;
   break-after: avoid;
@@ -420,11 +437,6 @@ body {
   border-collapse: collapse;
   font-size: 0.78rem;
   line-height: 1.28;
-  /* Keep the whole crosswalk on its dedicated page — no lone row dangling onto
-     the next page. The page is already isolated (page-break-after: always), so
-     the table has a full page minus the top padding to fit into. */
-  break-inside: avoid;
-  page-break-inside: avoid;
 }
 .crosswalk-page tr {
   break-inside: avoid;
