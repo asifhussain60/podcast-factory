@@ -132,6 +132,15 @@ items:
     title: "Asif 2026-08-08: the podcast-factory pipeline orchestrator and the AI driving it need better reflection and response quality during a run -- today's session found four real, book-blocking defects (chapter-count scaling, a heading-leak bug, a gate false-positive that aborted the whole compose twice, a stale metadata path) that a stricter self-check during the run could plausibly have caught earlier than a human reviewing the output after the fact. MECHANISM LANDED 2026-08-08, deliberately WITHOUT a model: the reflection is deterministic inspection of evidence the run already produced (_step_ledger.py + _phase_review.py), never a model asked whether it did well -- adding model spend to a pipeline whose main defect was paying twice would be the wrong trade. A phase can no longer report `completed` while having silently skipped its work: gate PC2 compares the steps that recorded against the 25 declared in APPARATUS_STEPS, which is the question no gate could ask before a step ledger existed. STILL OPEN: whether any of the four specific defects named above would actually have been caught -- each needs a gate written for its own failure shape, and only the gate-false-positive class is covered so far."
     noticed: 2026-08-08
 
+  - id: per-chapter-workers-unproven-on-a-real-book
+    scope: pipeline
+    status: open
+    priority: P1
+    effort: M
+    summary: The parallel chapter loop has never run against a real book
+    title: "Landed 2026-08-08 (commit ea5219e): the per-chapter loop can run chapters concurrently via PER_CHAPTER_MAX_WORKERS, which DEFAULTS TO 1 so nothing changed for any existing book. The measured prize is real -- 732 min (12.2 h) for the-master-and-the-disciple's 20 chapters, 261 min for spiritual-ethos, median 37 min a chapter; four workers should take 12.2 h to roughly 3.2. The three blockers that made concurrency unsafe are all cleared and tested (batched commits; the C3 breaker locked and asked BEFORE a chapter starts, in _chapter_breaker.py; the per-book ceiling admission-controlled in _chapter_cost_caps.py, deliberately NOT a reservation since a chapter's cost depends on unknowable convergence iterations). The CONCURRENT path is driven directly by tests/test_per_chapter_workers.py (15 cases: every chapter once, workers and serial agree on recorded state, one commit, timings never half-written, a halt stops unstarted chapters, a raising worker is reported). BUT IT HAS NEVER RUN AGAINST A REAL BOOK -- no model calls, no real convergence, no real git. Do NOT assume it is proven. Enabling it on a book Asif picks is the remaining validation, and the same run should answer the open question of where a chapter's 37 minutes actually goes (read duration_ms from _system/step-ledger.jsonl): if most of it is the convergence loop, that is inherently serial and a second optimisation is needed rather than more workers."
+    noticed: 2026-08-08
+
   - id: chapter-grouping-for-long-books
     scope: pipeline
     status: open
