@@ -136,3 +136,6 @@
 {"phase": "0book-etymology", "step": "generate", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-etymology", "step": "verify", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-arabic-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-design", "step": "segment", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

@@ -104,10 +104,10 @@
     "0book-design": {
       "status": "completed",
       "ts_started": "2026-08-07T20:15:26Z",
-      "ts_completed": "2026-08-08T09:57:19Z"
+      "ts_completed": "2026-08-08T10:28:43Z"
     },
     "0book-compose": {
-      "status": "completed",
+      "status": "running",
       "ts_started": "2026-08-07T20:19:19Z",
       "ts_completed": "2026-08-08T05:31:33Z",
       "manual_fallback": "Re-run 0book-design/0book-compose after inspecting the source range; the pipeline refused to persist model commentary or generated headings."
@@ -189,7 +189,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-08-08T09:57:19Z",
+  "ts_updated": "2026-08-08T10:28:43Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1",
   "reset_for_reemit": {
@@ -216,5 +216,5 @@
   ],
   "pipeline_mode": "orchestrated",
   "status": "draft",
-  "run_id": "20260808T095719Z-c8211d"
+  "run_id": "20260808T102843Z-bb5b99"
 }
