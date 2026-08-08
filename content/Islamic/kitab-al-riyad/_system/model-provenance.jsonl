@@ -194,3 +194,5 @@
 {"phase": "0book-compose", "step": "translation-bk-20", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-compose", "step": "translation-bk-20-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-fluency", "step": "fluency-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
