@@ -1930,6 +1930,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "b488dac",
+      "subject": "chore(plan-dashboard): regenerate snapshot after kitab-al-riyad Arabic recovery",
+      "date": "2026-08-07"
+    },
+    {
       "sha": "007ba6f",
       "subject": "content(kitab-al-riyad): recover Arabic OCR ground truth and backfill glossary",
       "date": "2026-08-07"
@@ -1972,11 +1977,6 @@
     {
       "sha": "5016a7f",
       "subject": "feat(listener): three page widths for desktops and tablets held sideways",
-      "date": "2026-08-06"
-    },
-    {
-      "sha": "3438515",
-      "subject": "content(the-master-and-the-disciple): published to production, verified",
       "date": "2026-08-06"
     }
   ],
