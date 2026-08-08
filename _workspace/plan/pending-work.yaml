@@ -24,6 +24,13 @@ schema: podcast.pending-work/v4
 # their record has served its purpose, but that's a judgment call each time,
 # not an automatic sweep.
 #
+# 2026-08-08 (same day, second pass): Asif called kitab-al-riyad "fine" and
+# removed its 3 remaining open items (arabic inline formatting, missing
+# podcast framing, articulation-reverted chapters) -- his own call on the
+# book's state, not a re-verification. The Islamic/kitab-al-riyad branch was
+# fast-forwarded to origin/develop's tip the same session to confirm nothing
+# was left stranded on it.
+#
 # v4 (2026-08-08): `summary` is a short, plain-English headline (<=~70 chars),
 # separate from `title`, which stays the full descriptive record. The Snag
 # List view uses `summary` as the always-visible accordion header and `title`
@@ -107,15 +114,6 @@ items:
     title: "The global response-format rules (~/.claude/response-template.md) live in a folder with NO git repo and NO remote, so nothing Asif approves there reaches any other machine. Worse: this repo separately carries two TRACKED copies (_workspace/plan/conventions/response-template.md, response-conventions.md) that describe the 4-part template RETIRED 2026-05-26 -- and CLAUDE.md's own text falsely claims those copies 'had not existed for some time.' Any machine pulling develop today gets confidently-stated instructions that contradict how Asif actually wants responses written. Needs: version-control the global folder with a remote so every machine pulls the same rules, delete the two stale tracked copies, and correct the false line in CLAUDE.md. RE-VERIFIED 2026-08-08: ~/.claude still has no .git, and both stale tracked copies still exist."
     noticed: 2026-08-08
 
-  - id: kitab-al-riyad-arabic-inline-formatting
-    scope: kitab-al-riyad
-    status: open
-    priority: P2
-    effort: S
-    summary: Fix Arabic names printing on their own line
-    title: "Cosmetic, not a content defect: in the re-composed book.md, an Arabic name/title given beside its English (e.g. al-Nasafi, al-Kirmani, al-Islah) prints on its own indented block-quote line rather than inline with the romanization -- reads as a quotation interrupting the sentence rather than a name given in both scripts. Same shape across every chapter, so it is a one-place formatting decision, not per-chapter cleanup. Asif approved chapter 1's articulation and asked to raise this again once the book finishes rather than block the run on it."
-    noticed: 2026-08-08
-
   - id: pipeline-refactor-efficiency-accuracy-checkpoints
     scope: general
     status: open
@@ -152,20 +150,3 @@ items:
     title: "Asif 2026-08-08, from a chapter-by-chapter read of kitab-al-riyad's 20-chapter design: chapters 1-4 (The Freedom to Disagree / The Two Rivals / The Judge and His Cosmos / Why I Wrote This Book) are ALL pre-teaching front matter -- the modern editor's history of the dispute, biographies of the two disputants and the arbiter, then al-Kirmani's own preface -- and should have been ONE condensed introduction chapter, not four. Locked principle going forward: the reading edition's Chapter 1 should always land where the SOURCE's own teaching begins, irrespective of the source's language or how many pages of editorial/historical framing precede it in the scan. Everything before that point (translator's notes, editor's introduction, biographical apparatus about the author or the work's disputants, the author's own preface/doxology) is front matter and belongs in a single condensed introduction, not spread across several numbered chapters competing for the reader's attention with the actual argument. 0book-design's existing rule 1 already says to drop front-matter from chapter COVERAGE (title page, source's own TOC) but stops short of this -- it still let four separate chapters of pre-teaching material stand as numbered peers of the real content. Needs a concrete rule addition to the design prompt (or a post-design consolidation pass) that detects where a source's actual teaching/argument begins and folds everything before it into one preface, verified against multiple books (not just kitab-al-riyad) before landing, since a book with almost no front matter (e.g. the-master-and-the-disciple) must not be forced into an artificial split."
     noticed: 2026-08-08
 
-  - id: kitab-al-riyad-podcast-chapters-missing-framing
-    scope: kitab-al-riyad
-    status: open
-    priority: P2
-    effort: S
-    summary: Three podcast chapters are missing narration framing
-    title: "Post-merge repo audit 2026-08-08: 3 of the book's 15 podcast-lane chapter sources (chapters/ch04-summary-perfection-of-the-soul.txt, ch13-prophets-as-teachers-monotheism-and-the-ranks.txt, ch15-book-summary.txt) never got the italic narration-framing paragraph NotebookLM is given -- the other 12 have it. ch04 and ch15 have NO chapter-contract file (unlike the other 13), so both read as synthesis/recap chapters ('Unified Summary', 'Book Summary') generated outside the normal per-chapter authoring path that adds framing -- plausible, not confirmed, root cause. ch13 DOES have a contract (prophets-as-teachers-monotheism-and-the-ranks.yml) yet is still missing it, so that one is a separate anomaly, not explained by the same theory. Test: scripts/podcast/tests/test_compose_lanes_distinct.py::test_podcast_chapters_keep_their_narration_framing. Left uninvestigated further and unfixed rather than re-running compose, since the book's chapter design is already under active reconsideration today (see chapter-grouping-for-long-books and front-matter-chapters-should-condense-to-one-introduction above) -- re-authoring these 3 before that settles would likely be redone. RE-VERIFIED 2026-08-08: all 3 files still open with plain headings, no framing paragraph."
-    noticed: 2026-08-08
-
-  - id: kitab-al-riyad-articulation-reverted
-    scope: kitab-al-riyad
-    status: open
-    priority: P1
-    effort: M
-    summary: Three chapters were reverted by the fluency re-voice pass
-    title: "Post-merge repo audit 2026-08-08: _system/book-fluency-report.json shows 3 reading-edition chapters reverted by the 0book-fluency re-voice pass -- 'The Freedom to Disagree' (852<974 words, re-voice too abridged), 'Decree and Destiny' (Arabic runs dropped, 57<58), 'The Creator of the Thing and the No-Thing' (3046->1174 words plus 8 Arabic script runs dropped: al-Awwal, al-Haqq, al-Salaam). This is the fluency gate working as designed -- it reverts rather than force-keeping a re-voice that lost content or Arabic script -- but it also means scripts/podcast/tests/test_compose_lanes_distinct.py::test_articulation_state_is_intact currently fails (it asserts reverted==0) and the Composer's articulationWarnings banner is live on this book. CORRECTION to the same-day audit that first surfaced this: these are a DIFFERENT 3 chapters than kitab-al-riyad-podcast-chapters-missing-framing above -- no shared title, no shared root cause confirmed; treat as two independent findings. Left un-re-run for the same reason: the book's chapter design is mid-reconsideration. RE-VERIFIED 2026-08-08: book-fluency-report.json still shows reverted_count 3."
-    noticed: 2026-08-08
