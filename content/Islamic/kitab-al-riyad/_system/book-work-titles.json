@@ -1,0 +1,174 @@
+{
+  "schema": "book.work-titles/v1",
+  "terms": [
+    "Mufasalat al-Khitab wa Tamthil al-Haqq al-Mutajalli min al-Shubha",
+    "al-Majalis al-Baghdadiyya wa al-Basriyya",
+    "Risalat al-Sharani fi al-Khawass",
+    "Risalat Usbu al-Dawr al-Mastur",
+    "al-Masabih fi Ithbat al-Imama",
+    "Tanbih al-Hadi wa al-Mustahdi",
+    "Risalat al-Tawhid fi al-Maad",
+    "Kitab al-Naqd wa al-Iltizam",
+    "al-Gharib fi Mana al-Iksir",
+    "al-Masaabeeh fi al-Imaamah",
+    "Thalath Rasail Ismailiyya",
+    "ar-Risaalah ad-Durriyyah",
+    "Khams Rasail Ismailiyya",
+    "al-Aqwal al-Dhahabiyya",
+    "al-Farq bayn al-Firaq",
+    "al-Risalah al-Bahirah",
+    "al-Fusul wa al-Akhbar",
+    "Risalat al-Mubashshir",
+    "al-Aqdar wa al-Haqaiq",
+    "al-Kifaya al-Nafsiyya",
+    "Tuhfat al-Mustajibin",
+    "al-Risala al-Nuriyya",
+    "al-Risala al-Hadiyya",
+    "Mawaiz fi al-Akhlaq",
+    "al-Risala al-Lazima",
+    "al-Risala al-Kafiya",
+    "Khazain al-Adillah",
+    "al-Risala al-Mudia",
+    "al-Risala al-Wadia",
+    "Risalat al-Fihrist",
+    "Riyaad / al-Riyaad",
+    "Ithbat al-Nubuwwat",
+    "Ithbat al-Nubuwwa",
+    "Yanabi al-Barakat",
+    "Risalat al-Awwabi",
+    "Kitab al-Iftikhar",
+    "Zad al-Musafirin",
+    "Risalat al-Waiza",
+    "Kitab al-Mawazin",
+    "Tafsir al-Sharia",
+    "Alam al-Nubuwwa",
+    "Kashf al-Mahjub",
+    "Tawil al-Sharai",
+    "Yanabi al-Najat",
+    "Sullam al-Najat",
+    "Salwat al-Ahzan",
+    "Tarkib al-Arwah",
+    "Aman al-Ihtidar",
+    "'Uyun al-Masail",
+    "Risalat al-Nazm",
+    "Kitab al-Mahsul",
+    "Tawil al-Sharia",
+    "Maaalim ad-Deen",
+    "Fusul wa Akhbar",
+    "Kitab al-Riyad",
+    "Uyun al-Masail",
+    "Maasim al-Huda",
+    "Sawsan al-Naam",
+    "Uyun al-Akhbar",
+    "Asas al-Dawah",
+    "Asrar al-Maad",
+    "Anis al-Qulub",
+    "Rahat al-Aql",
+    "Mizan al-Aql",
+    "Rahat al-Aql",
+    "al-Iftikhar",
+    "Taj al-Uqul",
+    "al-Ikhtisar",
+    "al-Wadiyyah",
+    "al-Haadiyah",
+    "al-Mawazin",
+    "al-Maqalid",
+    "al-Mabasim",
+    "al-Masabih",
+    "al-Isharat",
+    "al-Mahsul",
+    "al-Yanabi",
+    "al-Burhan",
+    "al-Munira",
+    "al-Nusrah",
+    "al-Kaafee",
+    "al-Islah",
+    "al-Nusra",
+    "al-Riyad",
+    "al-Rawda",
+    "al-Mudia",
+    "al-Waiza",
+    "al-Zina",
+    "al-Jami",
+    "al-Waiz",
+    "al-Idah",
+    "al-Kafi",
+    "Riyaad",
+    "Riyad"
+  ],
+  "changes": [
+    {
+      "title": "al-Islah",
+      "action": "dropped-second-name"
+    },
+    {
+      "title": "al-Nusra",
+      "action": "dropped-second-name"
+    },
+    {
+      "title": "al-Mahsul",
+      "action": "dropped-second-name"
+    },
+    {
+      "title": "al-Farq bayn al-Firaq",
+      "action": "dropped-second-name"
+    },
+    {
+      "title": "al-Islah",
+      "action": "dropped-second-name"
+    },
+    {
+      "title": "al-Nusra",
+      "action": "dropped-second-name"
+    },
+    {
+      "title": "al-Riyad",
+      "action": "dropped-second-name"
+    },
+    {
+      "title": "معاصم الهدى",
+      "action": "dropped-orphan-script"
+    },
+    {
+      "title": "تَاجُ الْعُقُول",
+      "action": "dropped-orphan-script"
+    },
+    {
+      "title": "al-Kafi",
+      "action": "dropped-second-name"
+    },
+    {
+      "title": "al-Masabih",
+      "action": "englished",
+      "printed": "The Lamps"
+    },
+    {
+      "title": "al-Mahsul",
+      "action": "englished",
+      "printed": "The Harvest"
+    },
+    {
+      "title": "al-Islah",
+      "action": "englished",
+      "printed": "The Reform"
+    },
+    {
+      "title": "al-Nusra",
+      "action": "englished",
+      "printed": "The Support"
+    },
+    {
+      "title": "al-Riyad",
+      "action": "englished",
+      "printed": "The Gardens"
+    },
+    {
+      "title": "اَلرِّسَالَةُ الْمُضِيئَة",
+      "action": "dropped-orphan-script"
+    },
+    {
+      "title": "تَأْوِيلُ الشَّرِيعَة",
+      "action": "dropped-orphan-script"
+    }
+  ]
+}

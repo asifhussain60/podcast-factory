@@ -1,0 +1,153 @@
+{
+  "schema": "podcast.translation-edition/v1",
+  "mode": "translation_edition",
+  "augmentation": "forbidden",
+  "visual_style": "black_white",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "The Age of Open Argument",
+      "chapter_file": "book/_chapters/ch01-the-age-of-open-argument.txt",
+      "source_line_ranges": [
+        [
+          36,
+          54
+        ]
+      ],
+      "source_words": 774,
+      "output_words": 1076,
+      "folded_opening_words": 183
+    },
+    {
+      "index": 2,
+      "title": "The Two Reformers",
+      "chapter_file": "book/_chapters/ch02-the-two-reformers.txt",
+      "source_line_ranges": [
+        [
+          56,
+          135
+        ]
+      ],
+      "source_words": 3181,
+      "output_words": 3081
+    },
+    {
+      "index": 3,
+      "title": "The Arbiter",
+      "chapter_file": "book/_chapters/ch03-the-arbiter.txt",
+      "source_line_ranges": [
+        [
+          137,
+          183
+        ]
+      ],
+      "source_words": 2213,
+      "output_words": 2222
+    },
+    {
+      "index": 4,
+      "title": "A Map of the Garden",
+      "chapter_file": "book/_chapters/ch04-a-map-of-the-garden.txt",
+      "source_line_ranges": [
+        [
+          185,
+          359
+        ]
+      ],
+      "source_words": 6319,
+      "output_words": 6680
+    },
+    {
+      "index": 5,
+      "title": "The Author's Purpose",
+      "chapter_file": "book/_chapters/ch05-the-author-s-purpose.txt",
+      "source_line_ranges": [
+        [
+          499,
+          566
+        ]
+      ],
+      "source_words": 1701,
+      "output_words": 1402
+    },
+    {
+      "index": 6,
+      "title": "Is the Soul the Equal of the Intellect?",
+      "chapter_file": "book/_chapters/ch06-is-the-soul-the-equal-of-the-intellect.txt",
+      "source_line_ranges": [
+        [
+          601,
+          1562
+        ]
+      ],
+      "source_words": 21928,
+      "output_words": 21948
+    },
+    {
+      "index": 7,
+      "title": "Soul, Spirit, and the Parts of the Whole",
+      "chapter_file": "book/_chapters/ch07-soul-spirit-and-the-parts-of-the-whole.txt",
+      "source_line_ranges": [
+        [
+          1565,
+          1813
+        ]
+      ],
+      "source_words": 5236,
+      "output_words": 5392
+    },
+    {
+      "index": 8,
+      "title": "The Human Microcosm",
+      "chapter_file": "book/_chapters/ch08-the-human-microcosm.txt",
+      "source_line_ranges": [
+        [
+          1817,
+          2165
+        ]
+      ],
+      "source_words": 8513,
+      "output_words": 8904
+    },
+    {
+      "index": 9,
+      "title": "Decree and Destiny",
+      "chapter_file": "book/_chapters/ch09-decree-and-destiny.txt",
+      "source_line_ranges": [
+        [
+          2168,
+          2542
+        ]
+      ],
+      "source_words": 8248,
+      "output_words": 8396
+    },
+    {
+      "index": 10,
+      "title": "Adam, Noah, and the Origin of the Law",
+      "chapter_file": "book/_chapters/ch10-adam-noah-and-the-origin-of-the-law.txt",
+      "source_line_ranges": [
+        [
+          2545,
+          3137
+        ]
+      ],
+      "source_words": 14087,
+      "output_words": 15089
+    },
+    {
+      "index": 11,
+      "title": "The Oneness of God and the Act of Creation",
+      "chapter_file": "book/_chapters/ch11-the-oneness-of-god-and-the-act-of-creation.txt",
+      "source_line_ranges": [
+        [
+          3140,
+          3384
+        ]
+      ],
+      "source_words": 6514,
+      "output_words": 7127
+    }
+  ],
+  "source_crosswalk": "book/source-crosswalk.json"
+}

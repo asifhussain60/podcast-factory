@@ -1,0 +1,318 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "first_person_author",
+  "adapted": 11,
+  "reverted": 0,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "The Age of Open Argument",
+      "base_words": 1076,
+      "output_words": 1005,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The chapter opens in al-Kirmani's own first-person preface voice, then shifts into a scholarly editorial framing that refers to al-Kirmani in the third person (including his full titles); this articulation converts all such references to first person per the narrative-frame instruction, but the original chapter may be a modern scholarly introduction that incorporates al-Kirmani's preface rather than a single continuous voice."
+      ],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The Two Reformers",
+      "base_words": 3081,
+      "output_words": 2694,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "\"the island of Rayy\" may puzzle general readers, as Rayy is known as a city and region rather than an island; in classical Arabic \"jazirat\" can denote a peninsula or geographical enclave, and a translator's footnote may be needed in the final edition.",
+        "\"the forty limits\" refers to the hierarchical offices (hudud) of the Ismaili dawa; the term \"limits\" carries a specialized technical sense that a glossary entry would clarify for general readers."
+      ],
+      "terminology_notes": []
+    },
+    {
+      "title": "The Arbiter",
+      "base_words": 2222,
+      "output_words": 2204,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "\"those permitted ones who have attained a high level in philosophy and science\" \u2014 a modern reader will not recognize that \"permitted ones\" refers to those authorized within the Ismaili hierarchy to undertake esoteric interpretation (ta\u02bewil); the term reads as arbitrary rather than as a technical rank designation."
+      ],
+      "terminology_notes": [
+        "\u0627\u0644\u062d\u062f\u0648\u062f \u2014 rendered throughout as \"the boundaries,\" but in Ismaili thought this term designates the ranked offices of the religious hierarchy; a book-wide decision on whether to gloss it (e.g., \"the boundaries (\u0627\u0644\u062d\u062f\u0648\u062f), the hierarchical offices of religion\") would prevent a reader from taking it for mere doctrinal limits.",
+        "\"apostolic statements\" \u2014 verify this rendering is used consistently across the book for the same Arabic source term; \"prophetic\" or \"transmitted\" statements may align better with adjacent chapters depending on which Arabic term underlies it."
+      ]
+    },
+    {
+      "title": "A Map of the Garden",
+      "base_words": 6680,
+      "output_words": 6676,
+      "windows": 3,
+      "windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The philosophical hinge of the first chapter \u2014 the distinction between \"the perfect\" as the thing bearing an attribute and \"perfection\" as the attribute itself \u2014 presupposes a grounding in Ismaili cosmology that a general reader may not bring; a brief note at this point in the book would prevent the argument from reading as circular."
+      ],
+      "terminology_notes": [
+        "*hayula* \u2014 glossed as \"(matter)\" within al-Razi's own quoted speech, left unglossed in the narrator's second-chapter summary, and rendered as \"the dark matter\" in the third-chapter translation; a single convention across the book would serve consistency.",
+        "qada and qadar \u2014 confirm whether the book uses these Arabic terms untranslated throughout, or translates them as \"judgment\" and \"destiny\" elsewhere, so the rendering is standardized on every occurrence."
+      ]
+    },
+    {
+      "title": "The Author's Purpose",
+      "base_words": 1402,
+      "output_words": 1400,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Is the Soul the Equal of the Intellect?",
+      "base_words": 21948,
+      "output_words": 21278,
+      "windows": 9,
+      "windows_kept": 9,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 6,
+        "stage_directions": 1
+      },
+      "lecture_voice_after": {
+        "reader_address": 6,
+        "stage_directions": 3
+      },
+      "editorial_queries": [
+        "The sentence \"And when the soul at last dispenses with thought \u2014\" is left incomplete before \"We say:\" resumes; it is unclear whether this is the source's intentional rhetorical break mid-argument or a lacuna in the manuscript tradition.",
+        "The phrase \"so long as he is a receiver standing in his right, when he wills, out of fear that he might rise to a rank\" is syntactically unclear \u2014 it is uncertain whether \"when he wills\" modifies the act of withholding (meaning: even if done deliberately) or qualifies the receiver's standing (when the receiver wills to receive), and whether \"out of fear\" gives the reason for the withholding or for its impermissibility."
+      ],
+      "comprehension_flags": [
+        "In Section Seven, \"the one that follows,\" \"the Foundation,\" and \"the Speaker\" are technical ranks within the Ismaili hierarchy of spiritual authorities; a reader unfamiliar with this cosmology will not understand why the argument about the Intellect maps onto these figures, or how the two worlds being compared relate to one another.",
+        "The Aristotelian terms \"prime matter,\" \"intellect in potentia,\" and \"intellect in act\" are used as foundational technical concepts throughout without explanation; a modern reader unfamiliar with this framework may lose the thread of the argument about the Intellect's position relative to the Soul.",
+        "The argument that \"the position of the author of al-Nusra, that the world should be complete, is refuted\" runs counter to what the author has just proved (that the world is complete); a modern reader may not follow that the author is turning al-Nusra's own reductio against him \u2014 al-Nusra presented the world's completeness as an absurd consequence, but the author has just demonstrated it is not absurd at all.",
+        "\"the higher letters\" is a technical term in Ismaili cosmology referring to entities in the hierarchy of origination above the material world; a modern reader encountering it without prior context may not know what it denotes.",
+        "In Chapter Thirty, both \"He said:\" and \"In sum I say:\" are the voice of the author of *al-Nusra* \u2014 a reader coming from the preceding \"We say:\" passages may not immediately register that the entire chapter is a sustained quotation from the opposing party, with the respondent's rebuttal yet to come.",
+        "\"The newborns\" in Chapter Thirty-Five is a technical term for a specific category of existents in this author's cosmological system \u2014 those that come into being through the overflow of the Second \u2014 and will be opaque to a modern reader without a note.",
+        "\"the horizons and the souls\" is a Quranic allusion (41:53) used here as a doctrinal touchstone closing an argument \u2014 a modern reader may read it as a vague description rather than a specific evidentiary appeal.",
+        "\"natiq (\u0639)\" appears without introduction; a reader unfamiliar with Ismaili hierarchical terminology will not know this is a technical rank \u2014 the speaking-prophet or authoritative spokesman \u2014 whose distinctive duties the passage then elaborates."
+      ],
+      "terminology_notes": [
+        "\"the limits\" \u2014 used throughout to render a technical term for the hierarchical spiritual authorities; confirm this is the rendering established elsewhere in the book and standardize accordingly.",
+        "\"the Next\" \u2014 used here as a name for the Soul; if the book uses another rendering elsewhere, this occurrence should be standardized to match.",
+        "the Following \u2014 this designation for the Second Intellect / Universal Soul appears throughout and should be standardized book-wide as \"the Following\" wherever the Arabic original uses al-Tali.",
+        "tawil \u2014 appears twice, once glossed as \"interpretation (tawil)\" in Chapter Twenty-Seven and once as a bare term in Chapter Twenty-Nine; the book may benefit from a uniform rendering throughout.",
+        "\"the eternal and the pre-eternal\" \u2014 these paired terms appear as technical markers of a doctrinal category and should be rendered identically wherever they occur throughout the book.",
+        "al-Bari \u2014 confirm whether the book also renders this divine name as \"the Creator\" or \"the Originator\" elsewhere, so the term is standardized consistently across all chapters."
+      ]
+    },
+    {
+      "title": "Soul, Spirit, and the Parts of the Whole",
+      "base_words": 5392,
+      "output_words": 5272,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 1,
+        "stage_directions": 1
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "In the Second Section, \"The side from which it resembles is its being emanated from it; and the side from which it resembles is its being a natural body\" repeats \"resembles\" twice, while the immediately preceding sentence establishes that the entity \"resembles the Second from one side and does not resemble it from another\" \u2014 the second instance likely should read \"does not resemble,\" and a careful reader will notice the apparent inconsistency.",
+        "In the Third Section, the clause \"the honor of the effect's proportion exceeds the cause's proportion: from the cause there results elevation, and from the effect there results only what is below the effect that exists from the cause\" appears to run counter to the argument elsewhere that the cause-proportion is the nobler of the two; a reader unfamiliar with this cosmological framework will find the precise claim counterintuitive and may need a bridge here.",
+        "\"the Following\" (in \"the souls are not parts of the Following\") is used as a proper name for a metaphysical entity but is left without explanation; a modern reader will not know which entity in the hierarchy it denotes.",
+        "\"the two worships\" is left unexplained; a modern reader will not know which two forms of worship are meant."
+      ],
+      "terminology_notes": [
+        "\"hayula\" \u2014 confirm this is the spelling used consistently throughout the book for the Arabicized Greek term for prime matter or the receptive substrate."
+      ]
+    },
+    {
+      "title": "The Human Microcosm",
+      "base_words": 8904,
+      "output_words": 8665,
+      "windows": 4,
+      "windows_kept": 4,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 4,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 4,
+        "stage_directions": 1
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The Seventh Section presents its central argument twice in sequence \u2014 first as a paraphrased attribution to al-Islah with the narrator's interjected response, then as a verbatim Arabic quotation followed by first-person commentary \u2014 a manuscript-editorial pattern that may initially disorient the reader."
+      ],
+      "terminology_notes": [
+        "\u062c\u0648\u0647\u0631 \u0627\u0644\u0634\u0631\u064a\u0641 \u2014 the key term in the al-Islah quotation renders as \"noble essence\" in the first presentation and \"noble substance\" in the second; the book should standardize on one English rendering throughout."
+      ]
+    },
+    {
+      "title": "Decree and Destiny",
+      "base_words": 8396,
+      "output_words": 8270,
+      "windows": 3,
+      "windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 15,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 15,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "Section Six opens \"As for the Qaim\" where the parallel structure of the preceding sections leads a reader to expect \"As for destiny\" \u2014 the author appears to treat the Qaim as the first referent of the word \"destiny\" (\u0642\u062f\u0631), a connection through the shared Arabic root that remains implicit in the passage.",
+        "\"This is the saying, and it is not well ordered\" \u2014 it is unclear whether this sentence closes al-Islah's own quoted speech or is the narrator's evaluation of al-Islah's interpretation before launching his own."
+      ],
+      "comprehension_flags": [
+        "\"The second worship\" in Section Nine is an unmarked technical term; a modern reader will not recognize it as referring to the interpretive summons and the spiritual discipline it establishes.",
+        "\"the Jadd\" and \"the Grandfather (\u0627\u0644\u062c\u062f)\" are used within the same passage for what appears to be the same cosmological figure; a reader who does not know these are one referent will read them as two distinct actors.",
+        "\"And he is the more eager for increase\" \u2014 al-Nusra's brief interjection is opaque; the sense in which al-Islah is said to be eager for increase is not explained in the surrounding text."
+      ],
+      "terminology_notes": [
+        "\"qaim-in-potency\" and \"qaim-in-act\" \u2014 these paired compounds should be standardized consistently throughout the book wherever the distinction is drawn."
+      ]
+    },
+    {
+      "title": "Adam, Noah, and the Origin of the Law",
+      "base_words": 15089,
+      "output_words": 14715,
+      "windows": 6,
+      "windows_kept": 6,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 24,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 24,
+        "stage_directions": 3
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The opening line \u2014 \"He spoke about it in the chapter of the Law of Adam and the wilayah of Noah (\u0639)\" \u2014 refers to a speaker identified in an earlier passage not present here; a reader meeting this chapter without context will not know who is speaking.",
+        "The Second Section opens with the attribution \"the words of the author of al-Islah\" but the content that follows is the narrator's response to the author of al-Nusrah's argument against al-Islah, not a direct quotation from al-Islah; a reader tracking the three-way debate may find the speaker attribution disorienting.",
+        "\"the Foundation\" (in \"by the obedience of the Speaker without the obedience of the Foundation\") is a technical Ismaili theological designation for the Asas, the ranked figure beneath the Speaker; a reader encountering it here without earlier exposition may not understand what \"the Foundation\" means.",
+        "\"the two worships\" in the Eleventh Section refers to the outward worship (works) and the inward worship (knowledge), defined explicitly earlier in the chapter; the phrase arrives without that anchor here and may read as obscure.",
+        "\"worshiped Allah upon an edge\" is a Quranic allusion (22:11) meaning a precarious or conditional worship \u2014 a modern reader may read it as praise rather than a subtle criticism of the angels' standing.",
+        "The extended analogy of lines and crosswise marks assumes the reader is picturing a specific geometric figure (intersecting straight lines forming an X pattern); without that visual anchor, the argument about counts of lines and marks may be difficult to follow on first reading."
+      ],
+      "terminology_notes": [
+        "\"the master of the cycle\" \u2014 confirm the book-wide standardized rendering of this title.",
+        "\"the limits\" (used throughout for the initiated ranks or functionaries in the hierarchy) \u2014 confirm whether the book elsewhere uses \"the limits\" or \"the hudud\" as the standard rendering, and standardize accordingly.",
+        "\"the confirming aids\" \u2014 this phrase appears once and its referent is not defined in context; confirm the book's standard term for this concept so it can be rendered consistently.",
+        "ardas \u2014 appears in variant forms (\"'ardas\" and \"ardas\") within the same passage; the book-wide spelling should be standardized to one form.",
+        "Jadd, Fath, Khayal \u2014 these three named limits appear without gloss; the book's existing rendering of each should be confirmed and held consistent across all occurrences."
+      ]
+    },
+    {
+      "title": "The Oneness of God and the Act of Creation",
+      "base_words": 7127,
+      "output_words": 7013,
+      "windows": 3,
+      "windows_kept": 2,
+      "status": "partial",
+      "gates": [
+        "fluency-11-part-01: abridged re-voice (1279<1510 words)",
+        "fluency-11-part-01: P1 large length drop: 2516->1279 words (50% of source \u2014 possible content loss)",
+        "fluency-11-part-01: Arabic runs dropped (14<18)",
+        "fluency-11-part-01: Arabic script dropped (2 run(s)) \u2014 replaced or removed: \u0627\u0644\u0633\u0644\u0627\u0645; \u0639\u0644\u064a\u0647\u0645"
+      ],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "\"shirk\" is used without gloss; readers unfamiliar with Islamic theology may not recognize it as the sin of associating partners with God \u2014 the specific error being named.",
+        "\"the two acts of worship\" in the closing passage are not named; if this is the book's first or only occurrence, a reader without prior context cannot identify which two are meant.",
+        "\"internally partitioned\" translates a scholastic claim that a self-subsisting thing is divided within itself (into essence and existence, or into parts) \u2014 the logical ground is implicit and a reader may find the assertion opaque."
+      ],
+      "terminology_notes": [
+        "overflow \u2014 verify this is the book's established rendering of the Arabic philosophical concept (fayd / emanation) and that it appears consistently across other chapters."
+      ]
+    }
+  ]
+}

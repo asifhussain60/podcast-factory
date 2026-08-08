@@ -1,0 +1,48 @@
+{
+  "schema": "podcast.etymology/v1",
+  "book": "kitab-al-riyad",
+  "candidates": 30,
+  "generated": 6,
+  "kept": 6,
+  "written": 6,
+  "dropped": 0,
+  "drop_reasons": [],
+  "entries": [
+    {
+      "term": "qada",
+      "root": "q-d-y",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "Hijra",
+      "root": "h-j-r",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "tawil",
+      "root": "ʾ-w-l",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "Qadar",
+      "root": "q-d-r",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "shirk",
+      "root": "sh-r-k",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "wasi",
+      "root": "w-s-y",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    }
+  ]
+}

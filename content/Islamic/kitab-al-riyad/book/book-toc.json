@@ -2,7 +2,7 @@
   "book_title": "Kitab al-Riyad: A Judgment Between the Two Reformers",
   "voice": "modern author first-person",
   "preface": {
-    "include": true,
+    "include": false,
     "title": "A Garden Between Two Reformers",
     "source_line_ranges": [
       [
@@ -16,6 +16,10 @@
       "bk_index": 1,
       "title": "The Age of Open Argument",
       "source_line_ranges": [
+        [
+          24,
+          29
+        ],
         [
           36,
           54

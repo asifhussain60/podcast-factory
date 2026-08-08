@@ -1,0 +1,414 @@
+{
+  "cited": 0,
+  "inserted": 0,
+  "already": 0,
+  "uncovered": [],
+  "inserted_detail": [],
+  "invalid_reference": [],
+  "spans_in_scan": 0,
+  "scan_arabic_words": 52069,
+  "uncited_review": [
+    {
+      "line": 167,
+      "passage": " stands higher and is more complete than ",
+      "proposed_ref": "17:21",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 261,
+      "passage": "I will take refuge on a mountain that will protect me from the water.",
+      "proposed_ref": "11:43",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 421,
+      "passage": "And among His signs are the night, and the day, and the sun, and the moon.",
+      "proposed_ref": "41:37",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 523,
+      "passage": "And there is nothing but that it glorifies Him with His praise.",
+      "proposed_ref": "17:44",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1045,
+      "passage": " we require that there be something of which it is the form, and the word has no such thing. When we say ",
+      "proposed_ref": "20:50",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1045,
+      "passage": " and mean what is above nature, we mean the abstracted form; when we say ",
+      "proposed_ref": "20:50",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1103,
+      "passage": "O reassured soul, return to your Lord, well-pleased and well-pleasing",
+      "proposed_ref": "89:28",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1179,
+      "passage": "The matter concerning which you two sought a verdict has been decreed,",
+      "proposed_ref": "44:4",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1263,
+      "passage": "Indeed, We have created everything according to a measure.",
+      "proposed_ref": "54:49",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1275,
+      "passage": "Indeed, We have created everything according to a measure,",
+      "proposed_ref": "54:49",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1285,
+      "passage": "Indeed, We have created everything according to a measure,",
+      "proposed_ref": "54:49",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1291,
+      "passage": " He intends the intellect, the totality of things; by ",
+      "proposed_ref": "2:185",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1291,
+      "passage": " an image is intended, one within which both worlds are contained; and by ",
+      "proposed_ref": "26:16",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1295,
+      "passage": "Indeed, We have created everything according to a measure.",
+      "proposed_ref": "54:49",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1301,
+      "passage": " signifies the intellect, the totality of things, does not hold; ",
+      "proposed_ref": "7:145",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1339,
+      "passage": "And they found in it a wall about to collapse, so he set it upright.",
+      "proposed_ref": "18:77",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1361,
+      "passage": "We shall show them Our signs upon the horizons and within themselves, until it becomes clear to them that it is the truth.",
+      "proposed_ref": "41:53",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1387,
+      "passage": "My Lord, show me, that I may look upon You. He said: You shall not see Me, but look at the mountain; if it holds firm in its place, then you shall see Me. But w",
+      "proposed_ref": "7:143",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1391,
+      "passage": "if it holds firm in its place, then you shall see Me",
+      "proposed_ref": "7:143",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1395,
+      "passage": "But when his Lord manifested Himself to the mountain, He made it crumble to dust, and Moses fell down senseless.",
+      "proposed_ref": "7:143",
+      "english_similarity": 0.7,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1409,
+      "passage": "My Lord, show me, that I may look upon You. He said, You will not see Me, but look at the mountain.",
+      "proposed_ref": "7:143",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1435,
+      "passage": "And when his Lord was manifested to the mountain, He made it crumble to dust,",
+      "proposed_ref": "7:143",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1449,
+      "passage": "And He created everything and measured it out with due measure,",
+      "proposed_ref": "54:49",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1453,
+      "passage": "and He created everything and measured it out with due measure,",
+      "proposed_ref": "54:49",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1453,
+      "passage": "and He created everything and measured it out with due measure",
+      "proposed_ref": "54:49",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1467,
+      "passage": "There is no blame upon those who believe and do righteous deeds for what they have eaten, so long as they fear God and believe and do righteous deeds; then fear",
+      "proposed_ref": "5:93",
+      "english_similarity": 0.636,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1481,
+      "passage": "There is no blame upon those who believe and do righteous deeds for what they have eaten, so long as they fear God and believe and do righteous deeds,",
+      "proposed_ref": "5:93",
+      "english_similarity": 0.571,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1527,
+      "passage": "And recite to them the tidings of the son of Adam in truth, when the two offered an offering, and it was accepted from one of them and not accepted from the oth",
+      "proposed_ref": "5:27",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1533,
+      "passage": "And for every nation We have appointed a rite, that they may mention the name of Allah over what He has provided them of the beasts of cattle.",
+      "proposed_ref": "22:34",
+      "english_similarity": 0.7,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1539,
+      "passage": "And for every nation We have appointed a rite which they perform, so let them not dispute with you",
+      "proposed_ref": "22:67",
+      "english_similarity": 0.571,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1557,
+      "passage": " The Shariah is thus established. The words of the author of *al-Nusrah* — ",
+      "proposed_ref": "18:109",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1583,
+      "passage": "and He sent down with them the Book in truth, that it might judge between the people in that wherein they differed",
+      "proposed_ref": "2:213",
+      "english_similarity": 0.778,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1599,
+      "passage": "So Allah sent a raven to scratch in the earth, to show him how to bury the corpse of his brother. He said: Woe to me, am I unable to be like this raven, that I ",
+      "proposed_ref": "5:31",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1607,
+      "passage": " — each brought forward what he believed he drew near to Allah Almighty and to His Messenger by. ",
+      "proposed_ref": "25:39",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1611,
+      "passage": "Indeed the most noble of you in the sight of Allah is the most God-fearing of you.",
+      "proposed_ref": "19:18",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1613,
+      "passage": "the most God-fearing of you is Abu Bakr.",
+      "proposed_ref": "19:18",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1629,
+      "passage": "If you stretch out your hand against me to kill me, I will not stretch out my hand against you to kill you. Indeed I fear Allah, the Lord of the worlds,",
+      "proposed_ref": "5:28",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1635,
+      "passage": "Worship is nothing but this outward observance, and not what this man says to you.",
+      "proposed_ref": "34:43",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1645,
+      "passage": "O woe to me! Was I unable to be like this raven?",
+      "proposed_ref": "5:31",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1703,
+      "passage": "Allah commands you to establish the prayer and to give the zakat to me,",
+      "proposed_ref": "22:41",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1717,
+      "passage": "He has laid down for you of the religion that which He enjoined upon Noah, and that which We have revealed to you, and that which We enjoined upon Abraham, Mose",
+      "proposed_ref": "42:13",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1727,
+      "passage": "Indeed We have revealed to you as We revealed to Noah and the prophets after him; and We revealed to Abraham, Ishmael, Isaac, Jacob, the tribes, Jesus, Job, Jon",
+      "proposed_ref": "4:163",
+      "english_similarity": 0.857,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1741,
+      "passage": "Will You place therein one who works corruption in it and sheds blood, while we glorify You with praise and sanctify You?",
+      "proposed_ref": "2:30",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1847,
+      "passage": "And when the heaven is cleft asunder, and when the planets are scattered.",
+      "proposed_ref": "82:1",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1851,
+      "passage": "When the sun is folded up, and when the stars fall, and when the mountains are set moving, and when the pregnant camels are abandoned.",
+      "proposed_ref": "22:18",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1936,
+      "passage": "Because of their sins they were drowned and made to enter the Fire.",
+      "proposed_ref": "71:25",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1950,
+      "passage": "And whenever a company of the chiefs of his people passed by him, they mocked him",
+      "proposed_ref": "11:38",
+      "english_similarity": 0.714,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1970,
+      "passage": "I will take refuge on a mountain that will protect me from the water,",
+      "proposed_ref": "11:43",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 2008,
+      "passage": "I will take refuge on a mountain that will protect me from the water.",
+      "proposed_ref": "11:43",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 2056,
+      "passage": "the Creator of things, not from anything, He and no thing with Him, from eternity,",
+      "proposed_ref": "40:62",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    }
+  ],
+  "coverage": 1.0,
+  "cited_inserted": 0
+}
