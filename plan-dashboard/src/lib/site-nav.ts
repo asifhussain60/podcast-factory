@@ -8,6 +8,7 @@ export type ActivePage =
   | "db-schema"
   | "security"
   | "plan"
+  | "snag-list"
   | "library"
   | "wisdom"
   | "quality"
@@ -68,6 +69,7 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
       "security",
       "quality",
       "plan",
+      "snag-list",
       "planner",
       "overview",
       "about",
@@ -117,6 +119,7 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
     { href: "/security", label: "Security", pages: ["security"] },
     { href: "/quality", label: "Quality", pages: ["quality"] },
     { href: "/plan", label: "Roadmap", pages: ["plan", "planner"] },
+    { href: "/snag-list", label: "Snag List", pages: ["snag-list"] },
     { href: "/about", label: "About & Help", pages: ["about"] },
   ],
 };
