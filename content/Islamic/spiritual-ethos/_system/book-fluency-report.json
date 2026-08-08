@@ -1,0 +1,365 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "external_narrator",
+  "adapted": 15,
+  "reverted": 0,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "In the Prophet's Shadow",
+      "base_words": 2071,
+      "output_words": 2109,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The People of the House and the Prophet's Witness",
+      "base_words": 2516,
+      "output_words": 2506,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 30,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 30,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Intellect, Not Reason",
+      "base_words": 6092,
+      "output_words": 6122,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 7,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 7,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The text opposes tawil (glossed in the prose as a return to the \"First\") with tanzil, but leaves tanzil unexplained, so a modern reader may not grasp that it means the literal \"sending down\" of the revelation.",
+        "A general reader may stumble on the unglossed specialist terms carried over from the source \u2014 apophasis, antinomies, existentiation, supra-rational, ontologically \u2014 which this pass is not authorized to explain inline."
+      ],
+      "terminology_notes": [
+        "The word for intellect appears in the source with varying transliteration ('aql, aql; al-aqil, 'aqil) \u2014 recommend standardizing one spelling of each book-wide."
+      ]
+    },
+    {
+      "title": "The Discourse to Kumayl",
+      "base_words": 4271,
+      "output_words": 4320,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 5,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 5,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": [
+        "The transliterations of the terms for the knower and the intellect appear in the source both with and without the initial ayn (\"'alim\"/\"alim\", \"'aqil\"/\"aqil\"); the source spellings were preserved at each occurrence, but the ayn should be standardized book-wide."
+      ]
+    },
+    {
+      "title": "The Fruits of Certainty",
+      "base_words": 5978,
+      "output_words": 5895,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 6,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 6,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The author's hyphenated coinage \"in-spiration of God's spirit\" deliberately evokes a breathing-in of spirit, which a reader may not parse on first sight; it has been preserved as written rather than glossed."
+      ],
+      "terminology_notes": [
+        "\"epistemology of joy\" \u2014 the source's coined phrase is rendered as \"a way of knowing steeped in joy\"; standardize whichever form the book adopts wherever the concept recurs."
+      ]
+    },
+    {
+      "title": "A Sacred Conception of Justice",
+      "base_words": 5794,
+      "output_words": 5793,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 6,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 6,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "A general reader may stumble on the unglossed specialist vocabulary the argument leans on (\"ontological principle,\" \"radical incommensurability,\" \"modes within being,\" \"existential orientation,\" \"the pure positivity of the Absolute\"), which this pass is not authorized to explain."
+      ],
+      "terminology_notes": [
+        "The divine name al-Haqq is rendered inconsistently across the source \u2014 sometimes script only (\u0627\u0644\u062d\u0642, \u062d\u0642), sometimes transliteration beside script (al-Haqq, \u0627\u0644\u062d\u0642 / haqq, \u062d\u0642) \u2014 and should be standardized book-wide."
+      ]
+    },
+    {
+      "title": "Justice and the Tyrant's Pride",
+      "base_words": 4525,
+      "output_words": 4513,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 25,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 25,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Conscience, Compassion, and the Ordering of Society",
+      "base_words": 5857,
+      "output_words": 5808,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 59,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 59,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": [
+        "al-nafs al-ammara / nafs al-ammara \u2014 the source uses both the full (\"al-nafs al-ammara\") and short (\"nafs al-ammara\") forms for the commanding soul; a book-wide pass should settle on one spelling.",
+        "the transliteration of \u0633\u0648\u0621 \u0627\u0644\u0638\u0646 \u2014 rendered 'su al-zann' in one place and 'su' zannihim' in another (against 'husn al-zann') \u2014 should be standardized book-wide."
+      ]
+    },
+    {
+      "title": "Justice for the Poor and the Sincerity of Intention",
+      "base_words": 2571,
+      "output_words": 2561,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The sentence beginning \"If one speaks the truth without grasping the reason for it...\" runs its conditional clause into two embedded \"that\" clauses, so it is not fully clear whether those clauses state the reason one fails to grasp or are freestanding assertions; it has been read as the reason (that truth is the Creator's nature, and that the aim is to take on His qualities)."
+      ],
+      "comprehension_flags": [],
+      "terminology_notes": [
+        "\"taste\" \u2014 used in scare quotes for the inward experiential grasp of grace; should be rendered the same way at every occurrence book-wide."
+      ]
+    },
+    {
+      "title": "Prayer, Remembrance, and Gazing on the Good",
+      "base_words": 3657,
+      "output_words": 3656,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Dhikr: The Polish of the Heart",
+      "base_words": 8467,
+      "output_words": 8448,
+      "windows": 3,
+      "windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 11,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 11,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The source's punctuation leaves the opening boundary of the al-Ghazali quotation unclear (only a closing quotation mark is present), so the quote was opened at the natural sentence boundary beginning 'This is the aim of the dhikr'."
+      ],
+      "comprehension_flags": [
+        "The word 'initiatic' recurs in several places unglossed, and a first-time reader may stumble on it, but this pass is not authorized to add an explanation the source does not supply.",
+        "The term \"apophasis\" appears unglossed, and a general reader may not know it means the way of negation \u2014 describing God by denying attributes rather than affirming them."
+      ],
+      "terminology_notes": [
+        "Shii \u2014 the adjective is standardized as 'Shii' throughout (the source's single 'Shiite 'Irfan' was regularized to match the spelling used everywhere else in the passage)."
+      ]
+    },
+    {
+      "title": "Remembrance as the Quintessence of Worship",
+      "base_words": 6452,
+      "output_words": 6406,
+      "windows": 3,
+      "windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 16,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 16,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Extinction and the Name: The Death of the Saint",
+      "base_words": 6697,
+      "output_words": 6655,
+      "windows": 3,
+      "windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 13,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 12,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The term haqiqa recurs as a keystone of the chapter (\"the haqiqa of the dhikr\") but is never plainly glossed, so a reader without Arabic must infer its sense of \"inner reality/truth\" from context.",
+        "A general reader may stumble on the unglossed specialist terms \"exoteric mentality\" and \"gnosis,\" which the passage uses without explanation."
+      ],
+      "terminology_notes": [
+        "haqiqa \u2014 recommend a consistent book-wide rendering or a single glossed first occurrence, since it carries the chapter's central claim about the dhikr."
+      ]
+    },
+    {
+      "title": "The First Sermon of the Nahj al-Balagha",
+      "base_words": 2266,
+      "output_words": 2327,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The negative-theology chain (every attribute affirmed only by being negated as the mind conceives it) is highly abstract and may lose a first-time reader, but no clarifying gloss beyond the source's own is authorized in this pass."
+      ],
+      "terminology_notes": [
+        "servants (\u0639\u0628\u0627\u062f) \u2014 the source alternates between \"His slaves\" and \"God's servants\" for the same term; standardized to \"servants\" throughout, matching the wording the later fiqh paragraph already uses."
+      ]
+    },
+    {
+      "title": "The Letter to Malik al-Ashtar",
+      "base_words": 5993,
+      "output_words": 5997,
+      "windows": 2,
+      "windows_kept": 1,
+      "status": "partial",
+      "gates": [
+        "fluency-15-part-02: lecture voice added \u2014 narration addresses the reader (204 vs 187 in source) under external_narrator frame",
+        "fluency-15-part-02: lecture voice added \u2014 stage directions to an audience (3 vs 1 in source) under external_narrator frame"
+      ],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 297,
+        "stage_directions": 2
+      },
+      "lecture_voice_after": {
+        "reader_address": 296,
+        "stage_directions": 2
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    }
+  ]
+}

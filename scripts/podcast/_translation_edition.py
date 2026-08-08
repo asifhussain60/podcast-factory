@@ -464,6 +464,9 @@ def author_translation_edition_compose(
         if folded_words:
             entry["folded_opening_words"] = folded_words
         manifest.append(entry)
+        # Persist after EVERY chapter, not just at the end — see
+        # _write_translation_manifest's docstring for why.
+        _write_translation_manifest(book_dir, manifest)
 
     # A toc that declares an opening and no chapters has nothing to fold it into.
     # Emit it rather than drop it: losing the source's words to an empty chapter
@@ -478,6 +481,25 @@ def author_translation_edition_compose(
     assembled = dedupe_seam_paragraphs(simplify_transliteration("\n".join(parts).rstrip() + "\n"), removed=seam_removed)
     book_md.write_text(assembled, encoding="utf-8")
     record_seam_removals(book_dir, "base", seam_removed, log)
+    _write_translation_manifest(book_dir, manifest)
+    log(f"    translation-edition-compose: assembled book.md with {len(manifest)} chapters")
+    return book_md
+
+
+def _write_translation_manifest(book_dir: Path, manifest: list[dict[str, Any]]) -> None:
+    """Persist the chunk-cache manifest — called after EVERY chapter, not just at
+    the end of a full compose.
+
+    Written only once, at the very end of the loop, a chapter that failed
+    integrity mid-book (a real, observed case: a flaky rewrite on chapter 11 of
+    15) meant the manifest never landed at all, so a retry's ``cache_matches_source``
+    check found no prior entry for ANY chapter and recomposed the whole book from
+    chapter 1 — redoing ten already-good chapters to get back to the one that
+    failed. Writing it incrementally makes each chapter's cache valid the moment
+    that chapter lands, survives a mid-book halt, and costs nothing extra: the
+    shape written here is identical to the final write, just with however many
+    chapters have completed so far.
+    """
     (book_dir / "_system" / "translation-edition-manifest.json").write_text(
         json.dumps(
             {
@@ -494,5 +516,3 @@ def author_translation_edition_compose(
         + "\n",
         encoding="utf-8",
     )
-    log(f"    translation-edition-compose: assembled book.md with {len(manifest)} chapters")
-    return book_md

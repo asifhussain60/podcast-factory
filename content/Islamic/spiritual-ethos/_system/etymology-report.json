@@ -1,0 +1,84 @@
+{
+  "schema": "podcast.etymology/v1",
+  "book": "spiritual-ethos",
+  "candidates": 30,
+  "generated": 12,
+  "kept": 12,
+  "written": 12,
+  "dropped": 0,
+  "drop_reasons": [],
+  "entries": [
+    {
+      "term": "dhikr",
+      "root": "dh-k-r",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "tawhid",
+      "root": "w-ḥ-d",
+      "confirmed_by_reference": false,
+      "corpus_grounded": false
+    },
+    {
+      "term": "ihsan",
+      "root": "ḥ-s-n",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "ikhlas",
+      "root": "kh-l-ṣ",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "fana",
+      "root": "f-n-y",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "shirk",
+      "root": "sh-r-k",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "hawa",
+      "root": "h-w-y",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "marifa",
+      "root": "ʿ-r-f",
+      "confirmed_by_reference": false,
+      "corpus_grounded": false
+    },
+    {
+      "term": "ghafla",
+      "root": "gh-f-l",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "ahd",
+      "root": "ʿ-h-d",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "aql",
+      "root": "ʿ-q-l",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "balagha",
+      "root": "b-l-gh",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    }
+  ]
+}

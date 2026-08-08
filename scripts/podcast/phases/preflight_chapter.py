@@ -91,13 +91,36 @@ def smoke_check_chapter(book_dir: Path, slug: str) -> tuple[bool, str]:
     #    loop at $0 before any framing/convergence spend on an over-dense
     #    chapter. Legacy books (no flag) are never blocked here — 26 of the
     #    pre-standard chapters would otherwise dead-halt on every retry.
+    #
+    #    max_concepts scales with the chapter's own declared length band —
+    #    audit_chapter's own default (EPISODE_MAX_CONCEPTS=3) is calibrated
+    #    for "default_deep_dive" (1,800-2,800 words) and was being applied
+    #    UNCHANGED to "extended" chapters (5,500-9,500+ words) with no regard
+    #    for length_target at all, exactly the mismatch _density_profiles.py
+    #    already corrects for "longer" (2,800-4,500 words -> 2x budget) via
+    #    its own "coherent pair budget" reasoning. A 9,000-word chapter
+    #    genuinely needs more than 3 sections to be well organized; that is
+    #    not the over-cramming this gate exists to catch. Mirrors the same
+    #    2x-per-tier-jump multiplier "longer" already uses, keyed off the
+    #    contract's own word band rather than a second hardcoded table.
     try:
         from _content_profile import density_standard_active
 
         if density_standard_active(book_dir):
-            from chapter_density_audit import audit_chapter
+            from chapter_density_audit import DEFAULT_MAX_CONCEPTS, audit_chapter
 
-            density = audit_chapter(chapter_file, book_dir.name, "")
+            band_lo = 0
+            length_target = str(contract.get("length_target") or "").strip()
+            m = __import__("re").match(r"^(\d+)\s*[-–]\s*(\d+)$", length_target)
+            if m:
+                band_lo = int(m.group(1))
+            elif length_target == "extended":
+                band_lo = 5500
+            elif length_target == "longer":
+                band_lo = 2800
+            max_concepts = DEFAULT_MAX_CONCEPTS * 2 if band_lo >= 4500 else DEFAULT_MAX_CONCEPTS
+
+            density = audit_chapter(chapter_file, book_dir.name, "", max_concepts=max_concepts)
             if density.status == "FAIL":
                 return False, (
                     f"density gate: {density.concept_count} concept sections "

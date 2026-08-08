@@ -102,6 +102,43 @@ class SmokeGateTests(unittest.TestCase):
             self.assertFalse(ok)
             self.assertIn("word count", reason)
 
+    def _make_dense_chapter(self, book: Path, slug: str, length_target: str, n_sections: int) -> None:
+        """Overwrite the fixture chapter with N labeled concept sections (no frame headings)."""
+        body = "\n\n".join(f"## Section {i}\n\n" + "word " * 150 for i in range(1, n_sections + 1))
+        chapter_path = next((book / "chapters").glob(f"ch*-{slug}.txt"))
+        chapter_path.write_text(body, encoding="utf-8")
+        contract_path = book / "chapter-contracts" / f"{slug}.yml"
+        contract_path.write_text(
+            contract_path.read_text(encoding="utf-8") + f"length_target: {length_target}\n",
+            encoding="utf-8",
+        )
+        (book / "_system" / "series-config.yaml").write_text("density_standard: 2\n", encoding="utf-8")
+
+    def test_extended_tier_chapter_gets_a_proportionate_concept_budget(self):
+        """A 5-section chapter must not be judged by the same 3-section ceiling
+        that fits a chapter a third its size — the gate exists to catch
+        over-cramming, not to penalize a long chapter for being long."""
+        from phases.preflight_chapter import smoke_check_chapter
+
+        with tempfile.TemporaryDirectory() as tmp:
+            book = _make_book(Path(tmp), ["alpha"])
+            self._make_dense_chapter(book, "alpha", "extended", 5)
+            ok, reason = smoke_check_chapter(book, "alpha")
+            self.assertTrue(ok, reason)
+
+    def test_default_tier_chapter_still_enforces_the_tight_budget(self):
+        """The same 5-section chapter must still fail at the short-chapter tier —
+        proves the fix scales the ceiling by length rather than raising it for
+        everyone."""
+        from phases.preflight_chapter import smoke_check_chapter
+
+        with tempfile.TemporaryDirectory() as tmp:
+            book = _make_book(Path(tmp), ["alpha"])
+            self._make_dense_chapter(book, "alpha", "default_deep_dive", 5)
+            ok, reason = smoke_check_chapter(book, "alpha")
+            self.assertFalse(ok)
+            self.assertIn("density gate", reason)
+
 
 class CostCeilingTests(unittest.TestCase):
     def _book_with_ledger(self, tmp: Path, rows: list[dict], config: dict | None = None) -> Path:

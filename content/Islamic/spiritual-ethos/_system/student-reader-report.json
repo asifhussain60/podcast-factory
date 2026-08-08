@@ -1,0 +1,911 @@
+{
+  "schema": "book.student-reader/v1",
+  "generated_at": "2026-08-07T22:03:01Z",
+  "dry_run": false,
+  "chapters": [
+    {
+      "chapter": "in the prophet's shadow",
+      "file": "1-in-the-prophets-shadow",
+      "title": "1. In the Prophet's Shadow",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [
+        {
+          "quote": "the later masters in every one of these fields look back to him as the first impulse behind their discipline",
+          "sources": [
+            "wikipedia.org",
+            "ismailimail.blog",
+            "iis.ac.uk",
+            "imamandscience.com",
+            "imamandscience.com",
+            "harvard.edu"
+          ]
+        }
+      ],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:e2a7e9947893e843",
+          "defect": "unexplained-leap",
+          "quote": "the kinship — and in the end the oneness — between every sanctified soul and the prophetic nature",
+          "question": "How do the Prophet's sayings about Ali specifically — that he is 'as my own soul' and 'you are from me' — establish oneness between EVERY sanctified soul and the prophetic nature, and what does 'oneness' mean here as distinct from the 'kinship' named just before it?",
+          "grounded": 3,
+          "researched": false
+        },
+        {
+          "id": "student:5e3d9325779eaa58",
+          "defect": "unexplained-leap",
+          "quote": "the later masters in every one of these fields look back to him as the first impulse behind their discipline",
+          "question": "If Ali's founding role in these sciences is granted to be 'open to debate,' how does the later masters' looking back to him establish his actual influence rather than reflect a reverence that could be projected onto him after the fact?",
+          "grounded": 0,
+          "researched": true
+        }
+      ]
+    },
+    {
+      "chapter": "the people of the house and the prophet's witness",
+      "file": "2-the-people-of-the-house-and-the-prophets-witness",
+      "title": "2. The People of the House and the Prophet's Witness",
+      "budget": 3,
+      "full_budget": 3,
+      "already_had": 0,
+      "proposed": 3,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [
+        {
+          "quote": "the first spiritual pole' (qutb) of Sufism after the Prophet himself",
+          "sources": [
+            "newageislam.com",
+            "almirajsuficentre.org.au",
+            "wikipedia.org",
+            "blogspot.com",
+            "newageislam.com",
+            "tehreekdawatefaqr.com",
+            "facebook.com",
+            "britannica.com",
+            "wikipedia.org",
+            "sloughislamictrust.org.uk",
+            "scribd.com",
+            "quora.com",
+            "alim.org"
+          ]
+        }
+      ],
+      "unanswered": 0,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:ff7b381241691d0a",
+          "defect": "unexplained-leap",
+          "quote": "the two lights of nubuwwa (prophecy) and walaya (sanctity)",
+          "question": "In what sense is Fatima the 'Confluence of the Two Lights' — through which relationships does she unite the light of prophecy and the light of sanctity, such that this epithet is bestowed on her specifically?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:a73c461be8f8f387",
+          "defect": "unexplained-leap",
+          "quote": "the Christians loved him so intensely that they ascribed to him a rank he did not possess",
+          "question": "The Prophet likens Ali to Jesus in being both bitterly hated and excessively loved — is this saying warning that Ali too would be ascribed a rank he did not possess, and if so, what rank is meant?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:0763738d6bac1954",
+          "defect": "undefined-term",
+          "quote": "the first spiritual pole' (qutb) of Sufism after the Prophet himself",
+          "question": "What is a 'spiritual pole' (qutb) in Sufism, and what does it mean for Ali to be the first one after the Prophet and to stand at the summit of every Sufi chain (silsila)?",
+          "grounded": 0,
+          "researched": true
+        }
+      ]
+    },
+    {
+      "chapter": "intellect, not reason",
+      "file": "3-intellect-not-reason",
+      "title": "3. Intellect, Not Reason",
+      "budget": 6,
+      "full_budget": 6,
+      "already_had": 0,
+      "proposed": 6,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [
+        {
+          "quote": "This final denouement, or fana, is the ultimate form of apophasis",
+          "sources": [
+            "thesubmitters.org",
+            "britannica.com",
+            "facebook.com",
+            "wikipedia.org",
+            "medium.com"
+          ]
+        }
+      ],
+      "unanswered": 0,
+      "filed": 6,
+      "created": 6,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:412c8bf55dda023b",
+          "defect": "unexplained-leap",
+          "quote": "the one the Imam gave to Kumayl b. Ziyad, among his closest disciples",
+          "question": "The chapter says its whole method turns chiefly on this discourse to Kumayl and promises it will be examined, yet never actually presents or quotes it — what does the discourse to Kumayl say, and why is it treated as the interpretive center?",
+          "grounded": 3,
+          "researched": false
+        },
+        {
+          "id": "student:12517aade5c823f7",
+          "defect": "undefined-term",
+          "quote": "just as he, the Prophet, had fought for its tanzil",
+          "question": "Tawil is glossed here as the return to the origin, but tanzil is set opposite it untranslated — what does tanzil mean, and how does fighting for a text's tanzil differ from fighting for its tawil?",
+          "grounded": 0,
+          "researched": false
+        },
+        {
+          "id": "student:033af09eb2aa682a",
+          "defect": "unsupported-claim",
+          "quote": "These were not political battles or mere struggles for power",
+          "question": "The chapter asserts that the wars of the Camel, Nahrawan, and Siffin were fought to clarify tawhid rather than for power — what specifically about each of these three conflicts shows it was waged over interpreting the Quran and not over political authority?",
+          "grounded": 0,
+          "researched": false
+        },
+        {
+          "id": "student:ec7073ee90a40b69",
+          "defect": "ambiguous-referent",
+          "quote": "in the world of the spirit it witnessed its Lord and testified to His lordship",
+          "question": "This 'world of the spirit' where the intellect witnessed its Lord and testified is treated as already known — what is this prior realm, when did this witnessing and testimony take place, and what is its scriptural basis?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:2794e044c67700eb",
+          "defect": "unresolved-double-reading",
+          "quote": "this dhikr Allah being, according to the Imam, the 'most excellent form of worship'",
+          "question": "Earlier the chapter calls revelation itself the dhikr that reminds the intellect of its primordial testimony, but here dhikr Allah is the worshipper's own act of remembrance and highest worship — are these the same dhikr, and if not, how do the two relate?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:7550a345a8d56d7c",
+          "defect": "undefined-term",
+          "quote": "This final denouement, or fana, is the ultimate form of apophasis",
+          "question": "Fana is introduced here as the negation of the individual soul, the locus of all cognition — what does fana actually mean in this tradition, and how can the soul negate itself when it is the very thing doing the knowing?",
+          "grounded": 0,
+          "researched": true
+        }
+      ]
+    },
+    {
+      "chapter": "the discourse to kumayl",
+      "file": "4-the-discourse-to-kumayl",
+      "title": "4. The Discourse to Kumayl",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [
+        {
+          "quote": "He who knows people isolates himself",
+          "question": "Why do these four parallel sayings pair each object of knowledge with a different verb — knowing God 'integrates,' knowing the soul 'disengages,' knowing people 'isolates,' knowing the world 'withholds' — and how do isolating and withholding differ from the integration that opens the set?"
+        }
+      ],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:4ba019b1f57b68f6",
+          "defect": "undefined-term",
+          "quote": "the debt his own intellect has incurred to its Maker",
+          "question": "What is the debt the intellect is said to owe its Maker, when was it incurred, and in what sense does acquiring knowledge repay it — is this the same wordplay between din and dayn, or a distinct claim about the intellect's origin?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:4e848dff52532bdb",
+          "defect": "ambiguous-referent",
+          "quote": "one who establishes the proof of God",
+          "question": "Who exactly are these 'guardians of the proof' who are fewest in number yet highest in God's sight — are they the Imams themselves, a hidden class of sages beneath them, or something else, and what makes one a bearer of 'the proof of God'?",
+          "grounded": 2,
+          "researched": false
+        },
+        {
+          "id": "student:06ba016ac07bcae6",
+          "defect": "unsupported-claim",
+          "quote": "meaning both martyr and witness, as in the original Greek sense of the word",
+          "question": "Which Greek word is meant, and how does the Arabic al-shahid carrying both 'martyr' and 'witness' derive from or parallel a Greek sense — is this an actual etymological link or only an analogy of meaning?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the fruits of certainty",
+      "file": "5-the-fruits-of-certainty",
+      "title": "5. The Fruits of Certainty",
+      "budget": 5,
+      "full_budget": 5,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 4,
+      "created": 4,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:5059a85c7a3011e6",
+          "defect": "undefined-term",
+          "quote": "They rejoice in their intimacy with the spirit of certainty",
+          "question": "What does 'the spirit of certainty' name as distinct from certainty itself — is the 'spirit' (ruh) of certainty a separate reality one comes into contact with, or another way of speaking of certainty, and why does Ali's discourse phrase it this way?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:64edbc26d6ccf51a",
+          "defect": "unexplained-leap",
+          "quote": "the being of the individual cannot finally differ from Being as such, however vast the difference in existence between the individual and God",
+          "question": "What is the distinction between 'being' and 'existence' being drawn here, and how can the individual's being be identical with Being as such while its existence differs from God's past all common measure?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:9a282b1a0655cb23",
+          "defect": "unsupported-claim",
+          "quote": "it belongs objectively to the intellect's own working",
+          "question": "On what grounds is the love of beauty said to belong 'objectively' to the intellect's own working rather than to private taste — what makes the perception of beauty a function of the intellect itself rather than a subjective preference?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:dcf87bc798f92296",
+          "defect": "unexplained-leap",
+          "quote": "now understood as a living process of spiritual unification demanded by the very idea of God's oneness",
+          "question": "How does the doctrine that God is one (tawhid) 'demand' an inner process by which the soul unifies itself — what is the link between affirming God's oneness and the soul gathering itself into a single integrating virtue?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "a sacred conception of justice",
+      "file": "6-a-sacred-conception-of-justice",
+      "title": "6. A Sacred Conception of Justice",
+      "budget": 5,
+      "full_budget": 5,
+      "already_had": 0,
+      "proposed": 5,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 5,
+      "created": 5,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:8df86ffeba5761f9",
+          "defect": "unexplained-leap",
+          "quote": "which supplies the outer aspects of morality",
+          "question": "Why is islam assigned specifically to 'the outer aspects of morality' and iman to 'the framework of ethics', rather than the reverse, and what makes their union ihsan the underlying principle of both rather than merely their sum?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:7ccbe3a7a12bc0a4",
+          "defect": "unsupported-claim",
+          "quote": "which is wrong both theologically and lexically",
+          "question": "The chapter gives a theological reason for reading 'min sharri ma khalaqa' as evil deriving from creation, but what are the LEXICAL grounds it claims, given that the same Arabic could be read as 'the evil which He created'?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:4e7ff94742de635a",
+          "defect": "unresolved-double-reading",
+          "quote": "It is only a temporary state of deviation",
+          "question": "If evil has no ontological principle and is 'an illusion' and 'unreal', in what sense is it real enough that the Quran commands seeking refuge from it and that moral effort against it matters — is evil something that exists or not?",
+          "grounded": 0,
+          "researched": false
+        },
+        {
+          "id": "student:e6fcce0f5505b68b",
+          "defect": "undefined-term",
+          "quote": "that eye which truly 'sees' God through",
+          "question": "What exactly is the 'eye of the heart', and how does it perceive evil as illusion and God as real when ordinary perception experiences evil as concretely real — is it a faculty everyone has or one that must be developed?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:1d1965add77b6a31",
+          "defect": "unsupported-claim",
+          "quote": "it is the very essence of His nature",
+          "question": "On what basis is justice singled out as the very essence of the divine nature, from which mercy, wrath, and love all flow — rather than mercy or another attribute being the essence — beyond the single sermon quoted that God 'is Justice'?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "justice and the tyrant's pride",
+      "file": "7-justice-and-the-tyrants-pride",
+      "title": "7. Justice and the Tyrant's Pride",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [
+        {
+          "quote": "The letter is addressed to one of the Imam's closest and most trusted companions",
+          "sources": [
+            "wikipedia.org",
+            "iis.ac.uk",
+            "wikishia.net",
+            "wikipedia.org",
+            "wikishia.net",
+            "misbah.info",
+            "tmj.news"
+          ]
+        }
+      ],
+      "unanswered": 0,
+      "filed": 4,
+      "created": 4,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:745e0f1302db16df",
+          "defect": "ambiguous-referent",
+          "quote": "The letter is addressed to one of the Imam's closest and most trusted companions",
+          "question": "Which Imam authored this letter of instruction, and who is the companion (Malik) it addresses — what office was he about to be given, and over which 'vast and wealthy country'?",
+          "grounded": 0,
+          "researched": true
+        },
+        {
+          "id": "student:a831d4e1d0656d3e",
+          "defect": "undefined-term",
+          "quote": "In the first sermon of the Nahj",
+          "question": "What is 'the Nahj' — the collection from which the Imam's sermons and this letter are drawn — and what is its standing as a source within the tradition?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:104261a05c46675a",
+          "defect": "unexplained-leap",
+          "quote": "the actual substance of all human virtue",
+          "question": "What is the difference the chapter draws between God being the 'source' of a human virtue and being its 'actual substance', and how can a divine quality be the very substance of a virtue a created person performs?",
+          "grounded": 3,
+          "researched": false
+        },
+        {
+          "id": "student:23df1348eb647485",
+          "defect": "unexplained-leap",
+          "quote": "what one sees is a reflection, but an inverted one",
+          "question": "Why is the reflection of divine transcendence described as inverted rather than faithful, and what does it mean for the soul to aim at catching an inverted reflection instead of a true likeness?",
+          "grounded": 2,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "conscience, compassion, and the ordering of society",
+      "file": "8-conscience-compassion-and-the-ordering-of-society",
+      "title": "8. Conscience, Compassion, and the Ordering of Society",
+      "budget": 5,
+      "full_budget": 5,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [
+        {
+          "quote": "at the head of every chapter of the Quran but one",
+          "sources": [
+            "aboutislam.net",
+            "quora.com",
+            "wikipedia.org",
+            "abuaminaelias.com",
+            "mathabah.org",
+            "stackexchange.com",
+            "youtube.com",
+            "wordpress.com",
+            "quran.com",
+            "seekersguidance.org"
+          ]
+        }
+      ],
+      "unanswered": 0,
+      "filed": 4,
+      "created": 4,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:04b409f234dc06d2",
+          "defect": "unresolved-double-reading",
+          "quote": "a moment, or degree of being, that comes before the human condition itself",
+          "question": "Is the covenant where God asked 'Am I not your Lord?' a single event that occurred in time before human life began, or an ever-present degree of being within every soul now — and if it is meant as both at once, how does one 'moment' function in both ways?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:d9eb909f12cd93d9",
+          "defect": "ambiguous-referent",
+          "quote": "at the head of every chapter of the Quran but one",
+          "question": "Which is the single chapter of the Quran that does not open with 'the infinitely Compassionate, the ever-Merciful,' and why does that one exception not weaken the point being made here about mercy's precedence over wrath?",
+          "grounded": 0,
+          "researched": true
+        },
+        {
+          "id": "student:021eae8f371f8bfd",
+          "defect": "undefined-term",
+          "quote": "A soul is therefore more 'real' the more it reflects this predominance of mercy",
+          "question": "In what sense can one soul be 'more real' than another — is reality being treated as a matter of degree here, and by what measure does a merciful soul possess more being than a wrathful one?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:90a905bd6624a734",
+          "defect": "ambiguous-referent",
+          "quote": "to look into the divine mirror is to see, on the human plane, that same inverted reflection of God's transcendence",
+          "question": "What is 'the divine mirror' in this image — is the human soul the mirror that reflects God reversed, or does one gaze into God as into a mirror and see one's own reversed image, and what precisely is the thing seen 'inverted'?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "justice for the poor and the sincerity of intention",
+      "file": "9-justice-for-the-poor-and-the-sincerity-of-intention",
+      "title": "9. Justice for the Poor and the Sincerity of Intention",
+      "budget": 3,
+      "full_budget": 3,
+      "already_had": 0,
+      "proposed": 3,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:96e00d913f70a216",
+          "defect": "unexplained-leap",
+          "quote": "His creation no less than His destruction, all proceed from His justice",
+          "question": "If justice is God's very essence and every other quality flows from it, how do wrath and destruction — which seem opposed to mercy — both proceed from justice as their source, and what does \"justice\" mean here that it can ground destruction as well as mercy?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:7ff09b506e4112e3",
+          "defect": "undefined-term",
+          "quote": "a life governed not by his نفس but entirely by the divine nature",
+          "question": "What is the نفس (nafs) that Ali's life was NOT governed by, and how does it differ from the \"soul\" the governor is earlier told to restrain in patience — are these the same faculty or two different things?",
+          "grounded": 0,
+          "researched": false
+        },
+        {
+          "id": "student:4e6308e499c95737",
+          "defect": "unexplained-leap",
+          "quote": "even where they coincide with the values of faith they do so only by coincidence",
+          "question": "If a secular theory arrives at exactly the same value that faith teaches, what makes faith's version \"rooted in the divine\" and the secular one a mere coincidence \"without spirit\" — how would a reader tell the two apart when the value itself looks identical?",
+          "grounded": 1,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "prayer, remembrance, and gazing on the good",
+      "file": "10-prayer-remembrance-and-gazing-on-the-good",
+      "title": "10. Prayer, Remembrance, and Gazing on the Good",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 1,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:d9d1fb73e40cca89",
+          "defect": "unexplained-leap",
+          "quote": "but it is chiefly through the latter that the slave comes to perceive and act through the divine",
+          "question": "The hadith says the obligatory acts are what God loves most, yet the chapter says the perceiving and acting through God comes chiefly through the supererogatory — why is it the voluntary acts specifically, rather than the obligatory, that open this divine perception?",
+          "grounded": 2,
+          "researched": false
+        },
+        {
+          "id": "student:e5d4472ad51126b2",
+          "defect": "ambiguous-referent",
+          "quote": "Dhilib al-Yamani provocatively asked Ali (ع) whether he had seen",
+          "question": "Who was Dhilib al-Yamani, and what is the source and setting of this recorded exchange with Ali about whether he had seen the object of his worship?",
+          "grounded": 3,
+          "researched": false
+        },
+        {
+          "id": "student:a038a96103bca4f5",
+          "defect": "unsupported-claim",
+          "quote": "those most prone to terrorism in the name of Islam have emerged from the currents most hostile to the ihsani",
+          "question": "On what basis is the claim made that those most prone to terrorism in Islam's name have come from the currents most hostile to the mystical tradition — which currents are meant, and what supports the causal link?",
+          "grounded": 2,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "dhikr: the polish of the heart",
+      "file": "11-dhikr-the-polish-of-the-heart",
+      "title": "11. Dhikr: The Polish of the Heart",
+      "budget": 8,
+      "full_budget": 8,
+      "already_had": 0,
+      "proposed": 7,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [
+        {
+          "quote": "the Sufi is a Shii, once he recognizes",
+          "sources": [
+            "wikipedia.org",
+            "euppublishing.com",
+            "wikipedia.org",
+            "mypluralist.com",
+            "youtube.com"
+          ]
+        },
+        {
+          "quote": "if He is delimited by His nondelimitation, then He is not He",
+          "sources": [
+            "thecollector.com",
+            "patheos.com",
+            "virginia.edu",
+            "stanford.edu",
+            "pu.edu.pk",
+            "stanford.edu"
+          ]
+        }
+      ],
+      "unanswered": 0,
+      "filed": 7,
+      "created": 7,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:8041fee2d8ebd863",
+          "defect": "unsupported-claim",
+          "quote": "the Sufi is a Shii, once he recognizes",
+          "question": "On what basis does Amuli hold that a Sufi necessarily 'is a Shii' once he traces Sufism's roots to the Imams — is this a claim about formal allegiance to the Imamate, or only about spiritual lineage, and would a Sunni Sufi accept it?",
+          "grounded": 0,
+          "researched": true
+        },
+        {
+          "id": "student:fabc6c574965b74d",
+          "defect": "undefined-term",
+          "quote": "These Imams were the first poles (aqtab, sing. qutb) of the spiritual tradition",
+          "question": "What is a spiritual 'Pole' (qutb), and in what sense were the Imams the 'first poles' after the Prophet — is the qutb a single office held by one person in each age, and how does an Imam occupy it?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:d3425521dea8573b",
+          "defect": "unresolved-double-reading",
+          "quote": "befriend that by which the ignorant are estranged",
+          "question": "The chapter offers 'one reading' of the sages befriending that from which the ignorant flee — namely prayer or pure concentration. What are the other readings this elliptical phrase admits, and why is prayer chosen as the one meant here?",
+          "grounded": 2,
+          "researched": false
+        },
+        {
+          "id": "student:4c93acfe2eeb086c",
+          "defect": "unresolved-double-reading",
+          "quote": "the remembrance of God is greater",
+          "question": "When the verse says the remembrance of God is 'greater' (akbar), greater than what — greater than prayer just named, or the greatest of all acts? And does the phrase mean the servant's remembrance of God, or God's remembrance of the servant?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:d3054c2923e34a72",
+          "defect": "unexplained-leap",
+          "quote": "effected through the individual's 'heart' rather than by it",
+          "question": "What is the difference between the vision of God being effected 'through' the heart and being effected 'by' it, and how can the heart be the site of a seeing that is not, in the end, its own act?",
+          "grounded": 2,
+          "researched": false
+        },
+        {
+          "id": "student:f5add668443a62d8",
+          "defect": "unexplained-leap",
+          "quote": "Know God through God",
+          "question": "What does 'Know God through God' (irafuLlah biLlah) mean concretely — by what means does one know God 'through God' rather than through reasoning or the senses, and how does this differ from the innate fitra-knowledge the chapter describes elsewhere?",
+          "grounded": 2,
+          "researched": false
+        },
+        {
+          "id": "student:146668c75cece586",
+          "defect": "unexplained-leap",
+          "quote": "if He is delimited by His nondelimitation, then He is not He",
+          "question": "How does insisting on God's absolute nondelimitation itself become a delimitation, such that Ibn al-Arabi can say that if He is delimited by His nondelimitation 'then He is not He'? What is the reader meant to conclude one should do instead?",
+          "grounded": 0,
+          "researched": true
+        }
+      ]
+    },
+    {
+      "chapter": "remembrance as the quintessence of worship",
+      "file": "12-remembrance-as-the-quintessence-of-worship",
+      "title": "12. Remembrance as the Quintessence of Worship",
+      "budget": 6,
+      "full_budget": 6,
+      "already_had": 0,
+      "proposed": 6,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [
+        {
+          "quote": "the immutable entity, al-ayn al-thabita, which, though inexistent in itself",
+          "sources": [
+            "ijicc.net",
+            "ibnarabisociety.org",
+            "iqraonline.net",
+            "academia.edu"
+          ]
+        }
+      ],
+      "unanswered": 0,
+      "filed": 6,
+      "created": 6,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:8d56854dc489ded1",
+          "defect": "ambiguous-referent",
+          "quote": "the Imam, following the Prophet and the Quran, presents dhikruLlah",
+          "question": "Throughout the chapter 'the Imam' is cited for sermons, supplications, and sayings on tawahhud and dhikr, while Ali is named separately with his own sayings — is 'the Imam' here Ali himself, or a specific later Imam, and how is a reader to tell the two apart?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:ae1f82f79b444cfb",
+          "defect": "unexplained-leap",
+          "quote": "God is the hearing and the seeing of the individual whom He loves",
+          "question": "The hadith is quoted only as far as 'until I love him,' yet the next sentence states that God becomes 'the hearing and the seeing' of the beloved servant — where does that further statement come from, and is it part of the same hadith?",
+          "grounded": 2,
+          "researched": false
+        },
+        {
+          "id": "student:030274e6bac8b541",
+          "defect": "unexplained-leap",
+          "quote": "that pause transforms the meaning entirely into",
+          "question": "How does the same Arabic phrase shift from 'if you see Him not' to 'if you are not, you see Him' when a pause is inserted — what change in the words themselves produces this second reading?",
+          "grounded": 3,
+          "researched": false
+        },
+        {
+          "id": "student:9a91921b96286806",
+          "defect": "undefined-term",
+          "quote": "the immutable entity, al-ayn al-thabita, which, though inexistent in itself",
+          "question": "What is al-ayn al-thabita, the 'immutable entity,' and how can something described as 'inexistent in itself' nevertheless determine the contours, form, and configuration of a being that comes to exist?",
+          "grounded": 0,
+          "researched": true
+        },
+        {
+          "id": "student:f7622d6e4d0f333b",
+          "defect": "undefined-term",
+          "quote": "contains the essence of the Akbari doctrine of the tajalli",
+          "question": "What does 'Akbari' mean here, and to whom or to what tradition does the 'Akbari doctrine of the tajalli of the unique Light of God' belong?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:af2b4e2dfa9f3aaa",
+          "defect": "unexplained-leap",
+          "quote": "why and how does the dhikr bring about this extinction of consciousness",
+          "question": "The chapter closes by asking why dhikr produces the extinction of consciousness when its work seems to be the opposite — awakening a heightened awareness; what is the resolution, and how does deepening consciousness lead to the effacement of individual being?",
+          "grounded": 3,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "extinction and the name: the death of the saint",
+      "file": "13-extinction-and-the-name-the-death-of-the-saint",
+      "title": "13. Extinction and the Name: The Death of the Saint",
+      "budget": 6,
+      "full_budget": 6,
+      "already_had": 0,
+      "proposed": 6,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [
+        {
+          "quote": "the Naqshabandi tariqa is the one exception to this rule",
+          "sources": [
+            "islamiccenter.org",
+            "imamghazali.org",
+            "britannica.com",
+            "inayatiyya.org",
+            "brill.com",
+            "academia.edu",
+            "facebook.com",
+            "chishtiyasufifoundation.com",
+            "szhmtrust.org",
+            "sunnirazvi.net",
+            "peerdilbar.com"
+          ]
+        }
+      ],
+      "unanswered": 0,
+      "filed": 6,
+      "created": 6,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:49c3bd49b330c153",
+          "defect": "ambiguous-referent",
+          "quote": "The first response to that question begins with a limit",
+          "question": "The chapter opens by answering 'that question' in two responses, but never states the question itself — what is the original question about the dhikr that these first and second responses are answering?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:15ca3baa915010e0",
+          "defect": "unexplained-leap",
+          "quote": "so to negate this negation amounts to pure affirmation",
+          "question": "Why does negating the limit that defines an individual yield specifically the affirmation of 'unconditional being that lies beyond the individual,' rather than simply another emptiness or a different limit?",
+          "grounded": 3,
+          "researched": false
+        },
+        {
+          "id": "student:df50648a6600ac8c",
+          "defect": "ambiguous-referent",
+          "quote": "I am the death of the dead",
+          "question": "In the Imam's saying 'I am the death of the dead,' who are 'the dead,' and in what sense is the Imam their death — is he the death of those already extinct in self, or the agent that brings that extinction about?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:bcbec8d8a31c6b6f",
+          "defect": "undefined-term",
+          "quote": "the mustanad ilahi that forms its essential reality",
+          "question": "What exactly is a mustanad ilahi, and in what sense does each individual soul 'have' one particular divine Name as its true being rather than another?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:1371e71fd9c309fb",
+          "defect": "undefined-term",
+          "quote": "the supreme source of the virtues of futuwwa",
+          "question": "What is futuwwa, and what are its 'virtues' and 'rites and practices' that the chapter traces to Ali, given the term is used repeatedly at the chapter's close without being defined?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:a61ccdafa2701dc3",
+          "defect": "unexplained-leap",
+          "quote": "the Naqshabandi tariqa is the one exception to this rule",
+          "question": "How does the closing discussion of futuwwa, the craft guilds, and which Sufi silsilas descend from Ali versus Abu Bakr bear on the chapter's subject — the saint's extinction in the Name — since the connection is never stated?",
+          "grounded": 0,
+          "researched": true
+        }
+      ]
+    },
+    {
+      "chapter": "the first sermon of the nahj al-balagha",
+      "file": "14-the-first-sermon-of-the-nahj-al-balagha",
+      "title": "14. The First Sermon of the Nahj al-Balagha",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:4a758eb901fb917b",
+          "defect": "ambiguous-referent",
+          "quote": "With that golden chain in view",
+          "question": "What is the 'golden chain' the chapter opens by invoking, and how does it connect to the First Sermon of the Nahj al-Balagha such that the sermon 'takes on its full weight' only once that chain is held in view?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:31d60da9200f350b",
+          "defect": "unexplained-leap",
+          "quote": "whoever makes Him two has broken Him into parts",
+          "question": "How does assigning God an attribute amount to joining Him to another, and how does that in turn make Him 'two' and then break Him 'into parts'—what is the reasoning that links attributing, doubling, and dividing at each step of this chain?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the letter to malik al-ashtar",
+      "file": "15-the-letter-to-malik-al-ashtar",
+      "title": "15. The Letter to Malik al-Ashtar",
+      "budget": 5,
+      "full_budget": 5,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [
+        {
+          "quote": "the discontent of the common folk (al-amma) cancels the contentment of the elite",
+          "question": "Why does the discontent of the common folk cancel the contentment of the elite, while the reverse merely gets absorbed — what is the principle behind this asymmetry, rather than treating both classes' discontent the same way?"
+        }
+      ],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:cee2be6c9390dffd",
+          "defect": "unsupported-claim",
+          "quote": "yet a single bad opinion of God unites them",
+          "question": "How does a single bad opinion of God give rise to all three of miserliness, cowardice, and greed — what is the connection between distrust of God and each of these separate traits?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:8ddf959c9bad0cc5",
+          "defect": "ambiguous-referent",
+          "quote": "the most sincere toward God, the Prophet, and your Imam",
+          "question": "Since Ali, the author of this letter, is himself the Commander of the Faithful, who is meant by 'your Imam' that Malik's commander should be sincere toward — Ali himself, or someone else in the line of authority?",
+          "grounded": 2,
+          "researched": false
+        },
+        {
+          "id": "student:498745a802129916",
+          "defect": "undefined-term",
+          "quote": "that part of his Sunna which unites rather than that which divides",
+          "question": "How is one to tell which part of the Prophet's Sunna 'unites' from the part that 'divides' — what makes a given practice fall into one category rather than the other when resolving a dispute?",
+          "grounded": 3,
+          "researched": false
+        }
+      ]
+    }
+  ],
+  "filed_total": 61
+}

@@ -1,0 +1,2582 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 428,
+  "skipped": 0,
+  "by_class": {
+    "teach": 96,
+    "familiar": 10,
+    "name": 1,
+    "silent": 317,
+    "work_title": 4
+  },
+  "proposals": [
+    {
+      "phonetic": "al-ansar",
+      "class": "familiar",
+      "english_equivalent": "the Ansar",
+      "reason": "Famous early-Islamic group with an established English form."
+    },
+    {
+      "phonetic": "al-kimiya",
+      "class": "familiar",
+      "english_equivalent": "alchemy",
+      "reason": "Ordinary English word 'alchemy' educated readers recognize."
+    },
+    {
+      "phonetic": "al-muhajirun",
+      "class": "familiar",
+      "english_equivalent": "the Muhajirun",
+      "reason": "Famous early-Islamic group with an established English form."
+    },
+    {
+      "phonetic": "al-shaytan",
+      "class": "familiar",
+      "english_equivalent": "Satan",
+      "reason": "Has an established English form educated readers recognize."
+    },
+    {
+      "phonetic": "al-zakat",
+      "class": "familiar",
+      "english_equivalent": "zakat",
+      "reason": "An established English loanword educated readers already recognize."
+    },
+    {
+      "phonetic": "hijra",
+      "class": "familiar",
+      "english_equivalent": "Hijra",
+      "reason": "Has an established English form (the Hijra/migration) educated readers recognize."
+    },
+    {
+      "phonetic": "islam",
+      "class": "familiar",
+      "english_equivalent": "Islam",
+      "reason": "The romanised term is universally recognised by educated readers; prints as plain English."
+    },
+    {
+      "phonetic": "Muhammad",
+      "class": "familiar",
+      "english_equivalent": "Muhammad",
+      "reason": "The Prophet of Islam, universally recognized in English."
+    },
+    {
+      "phonetic": "Satan",
+      "class": "familiar",
+      "english_equivalent": "Satan",
+      "reason": "The devil (Iblis), with an established English form."
+    },
+    {
+      "phonetic": "Yusuf",
+      "class": "familiar",
+      "english_equivalent": "Joseph",
+      "reason": "Famous prophet with an established English form."
+    },
+    {
+      "phonetic": "al-Maida",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Proper name of a Quran sura; the romanisation is retained and the script appears once."
+    },
+    {
+      "phonetic": "'adl",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'Justice' in a single quoted sermon phrase."
+    },
+    {
+      "phonetic": "'araba",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb glossed inline as 'enraptured'; too minor to introduce formally."
+    },
+    {
+      "phonetic": "'ayb",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A common word ('blame') translated in the running prose."
+    },
+    {
+      "phonetic": "'ayn",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'One Entity' in a single metaphysical aside; translated in prose."
+    },
+    {
+      "phonetic": "adhkar-i kalamiyya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A minor subtype of invocation, translated inline and mentioned once."
+    },
+    {
+      "phonetic": "adiril-haqq maahu haythu dara",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted saying already translated in the running prose."
+    },
+    {
+      "phonetic": "ahd",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Common word ('covenant') translated inline."
+    },
+    {
+      "phonetic": "ahl",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Common word ('people/group') translated in prose; a grammatical fragment."
+    },
+    {
+      "phonetic": "akhfa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An adjective ('more hidden') translated in the running prose."
+    },
+    {
+      "phonetic": "akhlasa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb ('devote purely') glossed inline; too minor to annotate."
+    },
+    {
+      "phonetic": "akhlis liLlah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted phrase from the Imam already translated in prose."
+    },
+    {
+      "phonetic": "al-amma",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'the common folk'; a minor paired term."
+    },
+    {
+      "phonetic": "al-aqil",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Participle 'the intellectual' translated inline in a quoted maxim, too minor to formalize."
+    },
+    {
+      "phonetic": "al-din al-qayyim",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic phrase already rendered in the running prose as 'the right religion'."
+    },
+    {
+      "phonetic": "al-faraid",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'religious duties' within a hadith quote; minor here."
+    },
+    {
+      "phonetic": "al-ghafilun",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic phrase ('the heedless') translated inside a cited verse."
+    },
+    {
+      "phonetic": "al-hukama",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Plural 'the sages' translated in prose, not a formal term to introduce."
+    },
+    {
+      "phonetic": "al-ihtimam wal-istiana",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase fully translated in the running prose."
+    },
+    {
+      "phonetic": "al-Jamal",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Battle name already rendered in prose as 'the Camel'."
+    },
+    {
+      "phonetic": "al-khassa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'the elite'; a minor paired term."
+    },
+    {
+      "phonetic": "al-malum",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'what is truly known' in a single epistemological contrast."
+    },
+    {
+      "phonetic": "al-mawham",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'what is erroneously imagined'; minor paired term."
+    },
+    {
+      "phonetic": "al-muhsinin",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'the virtuous' within a cited verse; minor."
+    },
+    {
+      "phonetic": "al-muhtadun",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Participle 'the rightly-guided' translated inline, appears once."
+    },
+    {
+      "phonetic": "al-nazar ila Ali ibada",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A saying fully translated in the prose beside it; annotation adds nothing."
+    },
+    {
+      "phonetic": "al-Rahman",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine name always rendered with its translation 'the All-Compassionate' in the running prose."
+    },
+    {
+      "phonetic": "al-sa'ada",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Fully translated as 'felicity' in the running prose and appears only in that phrase."
+    },
+    {
+      "phonetic": "al-sakha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'generosity'; a lexical gloss, not a term the book teaches."
+    },
+    {
+      "phonetic": "al-samaha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'tolerance'; a passing lexical gloss."
+    },
+    {
+      "phonetic": "al-shahada",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'martyrdom' and too incidental to introduce formally."
+    },
+    {
+      "phonetic": "al-siddiq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A minor honorific epithet of Abu Bakr, glossed in passing and used once."
+    },
+    {
+      "phonetic": "al-silsilat al-ula",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated in prose as 'the first chain'; a descriptive phrase, not doctrinal vocabulary."
+    },
+    {
+      "phonetic": "al-silsilatul-thaniya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated in prose as 'the second chain'; a descriptive phrase."
+    },
+    {
+      "phonetic": "al-tayyibat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'the good things'; a Quranic word glossed in passing."
+    },
+    {
+      "phonetic": "al-ulama",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Plural 'the scholars' translated in prose, no apparatus needed."
+    },
+    {
+      "phonetic": "ala imihil-uzma wa ayatihil-kubra",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted phrase already translated in the running prose."
+    },
+    {
+      "phonetic": "ala salatihim daimun",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic quotation translated in place; a grammatical fragment, not a term."
+    },
+    {
+      "phonetic": "alladhi yalzamani min al-haqq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted clause already rendered in the prose as 'my obligation to the Truth'."
+    },
+    {
+      "phonetic": "amara",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verbal root gloss ('orders') explaining another word; not a term to introduce."
+    },
+    {
+      "phonetic": "ana iyya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A one-off term translated in prose as 'egoity'; too minor to introduce formally."
+    },
+    {
+      "phonetic": "asrar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'mysteries'; glossed once in passing."
+    },
+    {
+      "phonetic": "awliyaihi",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An inflected form with pronoun suffix ('His friends'), translated in the running quotation."
+    },
+    {
+      "phonetic": "awwal al-aql al-tawaddud",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full sentence-fragment already translated in prose."
+    },
+    {
+      "phonetic": "awwal al-din marifatuhu",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted saying already translated as 'foremost in religion is knowledge of Him'."
+    },
+    {
+      "phonetic": "ayat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "General Quranic term glossed inline as 'signs', translated in running prose."
+    },
+    {
+      "phonetic": "azmatika",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An inflected form with pronoun suffix ('Thy tremendousness'), translated in the supplication."
+    },
+    {
+      "phonetic": "balagha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Discipline name 'rhetoric' in an enumeration of sciences, glossed inline."
+    },
+    {
+      "phonetic": "bashara",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A root-meaning discussion of one word; translated in the running prose."
+    },
+    {
+      "phonetic": "bayt khalwatiha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase translated in prose ('her solitary chamber'); not a formal term."
+    },
+    {
+      "phonetic": "bi-a matika",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A grammatical fragment ('By Thy tremendousness'), a variant transcription translated in place."
+    },
+    {
+      "phonetic": "bil-taallum yunalul-ilm",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full proverbial sentence already translated in the running prose."
+    },
+    {
+      "phonetic": "bu'd",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A one-word philosophical gloss ('dimension') translated in place."
+    },
+    {
+      "phonetic": "dafain al-uqul",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted phrase already translated in running prose as 'buried treasures of the intellects'."
+    },
+    {
+      "phonetic": "daiya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'a summoner'; used descriptively, once."
+    },
+    {
+      "phonetic": "dhaba",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb gloss ('dissolve') translated in the running prose."
+    },
+    {
+      "phonetic": "dhikra",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic word translated inline as 'a reminder'; glossed in passing."
+    },
+    {
+      "phonetic": "dhikran kamilan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase translated in prose ('perfect remembrance'); not a formal term."
+    },
+    {
+      "phonetic": "divine",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An ordinary English word, not an Arabic term; nothing to annotate."
+    },
+    {
+      "phonetic": "emphasis added",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An editorial citation phrase, not a term of the text."
+    },
+    {
+      "phonetic": "fan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic word glossed as 'perisheth' in the running translation."
+    },
+    {
+      "phonetic": "fiqh",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Discipline name 'jurisprudence' listed once among sciences and glossed inline."
+    },
+    {
+      "phonetic": "haraka",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A one-word philosophical gloss ('motion') translated in place."
+    },
+    {
+      "phonetic": "hifz",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A one-word gloss ('memory') translated in the running prose."
+    },
+    {
+      "phonetic": "huwa afdal al-ibada",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted phrase fully translated in the running prose as 'the most excellent form of worship.'"
+    },
+    {
+      "phonetic": "ibra",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A single glossed word already rendered as 'exemplary teachings' in place; too minor to introduce formally."
+    },
+    {
+      "phonetic": "idha jallaha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic quotation fragment translated in place, not a term to look up."
+    },
+    {
+      "phonetic": "idha khalau",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb phrase translated inline as 'when alone.'"
+    },
+    {
+      "phonetic": "idha tajalla",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic phrase translated inline as 'when it shineth forth in brightness.'"
+    },
+    {
+      "phonetic": "ihraz",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A one-off functional gloss ('acquisition') that the prose already translates."
+    },
+    {
+      "phonetic": "ijal lisani bi-dhikrika lahijan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted supplication already translated in the surrounding prose."
+    },
+    {
+      "phonetic": "irafuLlah biLlah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A saying of the Imam translated inline as 'Know God through God.'"
+    },
+    {
+      "phonetic": "istihdar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A one-off functional gloss ('rendering present') already translated in the prose."
+    },
+    {
+      "phonetic": "ittasala",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb translated inline as 'they are at one.'"
+    },
+    {
+      "phonetic": "jafr",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Minor term 'numerology' glossed inline in a list of arcane sciences."
+    },
+    {
+      "phonetic": "jahil shaqiyy",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A descriptive phrase translated inline as 'the ignorant and wretched.'"
+    },
+    {
+      "phonetic": "jamal al-zawahir wal-bawatin",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted phrase already translated as 'the beauty of things outward and inward'."
+    },
+    {
+      "phonetic": "jamuhu al-diddayn",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase translated inline as 'He brings opposites together.'"
+    },
+    {
+      "phonetic": "jewelled",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An English word in the translation, not an Arabic term to annotate."
+    },
+    {
+      "phonetic": "joie de vivre",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A French idiom already glossed in the prose; not Arabic vocabulary."
+    },
+    {
+      "phonetic": "ka-nafsi",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Grammatical fragment ('as my own soul') from a quoted saying, not a term."
+    },
+    {
+      "phonetic": "kalam",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Discipline name 'theology' in the sciences enumeration, glossed inline."
+    },
+    {
+      "phonetic": "karam",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "One item in an inline list of virtues, translated in place as 'generosity.'"
+    },
+    {
+      "phonetic": "khafa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verb glossed inline as 'feareth.'"
+    },
+    {
+      "phonetic": "khalasa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb translated inline as 'they are free.'"
+    },
+    {
+      "phonetic": "khatt",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Discipline name 'calligraphy' in the sciences enumeration, glossed inline."
+    },
+    {
+      "phonetic": "la tahjubuhu al-hujub",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A saying translated inline as 'The veils do not veil Him.'"
+    },
+    {
+      "phonetic": "lahiza",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A one-off term translated in prose as the divine 'glance'; too minor to introduce."
+    },
+    {
+      "phonetic": "man 'arafa nafsahu tajarrad",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A maxim translated inline as 'He who knows his soul disengages himself.'"
+    },
+    {
+      "phonetic": "man 'arafal-dunya tazahhad",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A maxim translated inline as 'He who knows the world withholds himself.'"
+    },
+    {
+      "phonetic": "man 'arafal-nas tafarrad",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A maxim translated inline as 'He who knows people isolates himself.'"
+    },
+    {
+      "phonetic": "man 'arafaLlah tawahhad",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A maxim translated inline as 'He who knows God integrates himself.'"
+    },
+    {
+      "phonetic": "man malaka istathara",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A saying translated inline as 'he who rules, appropriates.'"
+    },
+    {
+      "phonetic": "maruf",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A single glossed word ('well-known') translated in place."
+    },
+    {
+      "phonetic": "mashhud",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "One half of a witnesser/witnessed pair, translated inline as 'the witnessed.'"
+    },
+    {
+      "phonetic": "massa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An etymological root-meaning gloss ('to touch'), not a term to formally introduce."
+    },
+    {
+      "phonetic": "mawsuf",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A passing gloss ('described') already translated in the prose."
+    },
+    {
+      "phonetic": "men",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An ordinary English word captured by the extractor, not an Arabic term."
+    },
+    {
+      "phonetic": "miftah al-salat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A descriptive epithet translated inline as 'the key to prayer.'"
+    },
+    {
+      "phonetic": "misdaq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed as 'referent' in running prose; a minor technical aside used once."
+    },
+    {
+      "phonetic": "mithaq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'tryst' inside a Quran quotation, appears twice."
+    },
+    {
+      "phonetic": "muqarana",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'conjoining'; a one-off gloss, not book vocabulary."
+    },
+    {
+      "phonetic": "muqtada-yi awliya wal-asfiya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A descriptive phrase already rendered as 'leader of the saints and the pure ones'."
+    },
+    {
+      "phonetic": "musamma",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed inline as 'One Subject'; a single philosophical aside, not carried vocabulary."
+    },
+    {
+      "phonetic": "mutaallim",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated in prose as 'one who seeks knowledge'; used once."
+    },
+    {
+      "phonetic": "mutajadhiba baynahuma",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A grammatical phrase already rendered as 'pulled by both'."
+    },
+    {
+      "phonetic": "mutaqadan musaffaha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted phrase already translated as 'assimilated with conviction'."
+    },
+    {
+      "phonetic": "nafy",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'to strip', minor and glossed in prose."
+    },
+    {
+      "phonetic": "nahw",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Discipline name 'grammar' in the sciences enumeration, glossed inline."
+    },
+    {
+      "phonetic": "nifaq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'hypocrisy', appears once alongside its gloss."
+    },
+    {
+      "phonetic": "polytheism",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Already the English gloss for shirk; plain running-prose translation."
+    },
+    {
+      "phonetic": "prophecy",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Plain English gloss for nubuwwa; carries no apparatus of its own."
+    },
+    {
+      "phonetic": "qalb al-askar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase already rendered as 'the heart of the army'."
+    },
+    {
+      "phonetic": "qari",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Given only as the singular of qurra and translated as 'reader'."
+    },
+    {
+      "phonetic": "qawm",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Common word translated inline as 'a group of people'."
+    },
+    {
+      "phonetic": "qudat al-adl",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase already rendered as 'the judges who administer justice'."
+    },
+    {
+      "phonetic": "rasul al-rajul tarjuman aqlihi",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted maxim fully translated in the running prose."
+    },
+    {
+      "phonetic": "re-ligare",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Latin etymological aside already glossed as 'once again binds'."
+    },
+    {
+      "phonetic": "rida'",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'contentment' within a list of virtues."
+    },
+    {
+      "phonetic": "rifq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A one-off parenthetical gloss ('right of redress'); too minor to introduce formally."
+    },
+    {
+      "phonetic": "sa-nurihim ayatina",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted Quranic phrase already translated in prose."
+    },
+    {
+      "phonetic": "sabr",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'patience' within a list of virtues."
+    },
+    {
+      "phonetic": "sahiyan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'absent-mindedly'; a single incidental gloss."
+    },
+    {
+      "phonetic": "sakara",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'intoxicated'; a one-off word gloss."
+    },
+    {
+      "phonetic": "sanctity",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Plain English gloss for walaya; carries no apparatus of its own."
+    },
+    {
+      "phonetic": "sayyid",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Common noun 'leader' translated inline in a quoted address."
+    },
+    {
+      "phonetic": "shahid",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A transient wordplay gloss ('witnesser') used once."
+    },
+    {
+      "phonetic": "shaykhuna fil-usul wal-bala",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase already rendered as 'our teacher as regards principles and affliction'."
+    },
+    {
+      "phonetic": "shukr",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'gratitude' within a list of virtues."
+    },
+    {
+      "phonetic": "silm",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'reconciliation'; a one-off word gloss."
+    },
+    {
+      "phonetic": "siqala",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'a polish' within a quoted hadith; used once."
+    },
+    {
+      "phonetic": "source-citation-001",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-002",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-003",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-004",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-005",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-006",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-007",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-008",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-009",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-010",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-011",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-012",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-013",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-014",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-015",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-016",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-017",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-018",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-019",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-020",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-021",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-022",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-023",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-024",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-025",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-026",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-027",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-028",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-029",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-030",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-031",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-032",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Internal source-citation placeholder with no reader-facing term."
+    },
+    {
+      "phonetic": "source-citation-033",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-034",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-035",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-036",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-037",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-038",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-039",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-040",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-041",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-042",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-043",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-044",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-045",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-046",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-047",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-048",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-049",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-050",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-051",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-052",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-053",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-054",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-055",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-056",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-057",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-058",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-059",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-060",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-061",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-062",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-063",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-064",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-065",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-066",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-067",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-068",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-069",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-070",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-071",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-072",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Verbatim Arabic quotation run from the source, translated inline in running prose — not a term to annotate."
+    },
+    {
+      "phonetic": "source-citation-073",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-074",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-075",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-076",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-077",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-078",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-079",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-080",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-081",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-082",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-083",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-084",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-085",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-086",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-087",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-088",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-089",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-090",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-091",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-092",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-093",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-094",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-095",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-096",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-097",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-098",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-099",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-100",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-101",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-102",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-103",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-104",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-105",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-106",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-107",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-108",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-109",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-110",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-111",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-112",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Unidentified source fragment with no gloss, no context, and zero occurrences in the book."
+    },
+    {
+      "phonetic": "source-citation-113",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-114",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-115",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-116",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-117",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-118",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-119",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-120",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-121",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-122",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-123",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-124",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-125",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-126",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-127",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-128",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-129",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-130",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-131",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-132",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-133",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-134",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-135",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-136",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-137",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-138",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-139",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-140",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-141",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-142",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-143",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-144",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-145",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-146",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-147",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-148",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-149",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-150",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-151",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-152",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Opaque source-citation placeholder with no romanised term, no recorded sense, and zero occurrences in the book; an annotation cannot help a reader."
+    },
+    {
+      "phonetic": "source-citation-153",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-154",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-155",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-156",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-157",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-158",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-159",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-160",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-161",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-162",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-163",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-164",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-165",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "source-citation-166",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare source-citation fragment that never appears in the book."
+    },
+    {
+      "phonetic": "spiritual chivalry",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Already the English gloss for futuwwa; a plain running-prose rendering."
+    },
+    {
+      "phonetic": "su zannihim bil-baqa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted phrase already glossed in the prose as 'having doubts about what endures'."
+    },
+    {
+      "phonetic": "subul al-amn",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A phrase already rendered 'the pathways to security' in the running prose; no lookup value."
+    },
+    {
+      "phonetic": "sukun",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Appears once inside a translated list of negations ('nor rest'); annotation adds nothing."
+    },
+    {
+      "phonetic": "sulh",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated as 'peace' in prose and used once in passing."
+    },
+    {
+      "phonetic": "sultan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Used abstractly as 'authority' and translated inline; not the book's technical vocabulary."
+    },
+    {
+      "phonetic": "sunna",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Used here philosophically as 'convention', not the religious Sunna, so an equivalent would mislead."
+    },
+    {
+      "phonetic": "taba",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb ('they are blessed') in a rhyming sequence, translated in prose."
+    },
+    {
+      "phonetic": "tabia",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Rendered 'nature' inline as one half of a translated contrast."
+    },
+    {
+      "phonetic": "tafsir",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Discipline name 'Quranic exegesis' in the sciences enumeration, glossed inline."
+    },
+    {
+      "phonetic": "takhallaqu bi-akhlaqiLlah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full maxim quoted and translated in prose, not a single lookup term."
+    },
+    {
+      "phonetic": "talaba",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb ('they seek') in a rhyming sequence, translated in prose."
+    },
+    {
+      "phonetic": "tilba",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Rendered 'a reckoning from God' inline and used once; too minor to introduce formally."
+    },
+    {
+      "phonetic": "wa basharu ruh al-yaqin",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted phrase discussed etymologically in prose, not a lookup term."
+    },
+    {
+      "phonetic": "wajada",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb ('they find') in a rhyming sequence, translated in prose."
+    },
+    {
+      "phonetic": "wajh",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated 'face' inline and used adjectivally; not foregrounded as a taught term."
+    },
+    {
+      "phonetic": "wasala",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb ('they arrive') in a rhyming sequence, translated in prose."
+    },
+    {
+      "phonetic": "which prevents approach",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An English parenthetical gloss, not an Arabic term at all."
+    },
+    {
+      "phonetic": "yabqa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb ('there subsisteth') translated inline within a scriptural pairing."
+    },
+    {
+      "phonetic": "yaqaddiru anfusahum bi-dafatil-nas",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full clause quoted and translated in the running prose."
+    },
+    {
+      "phonetic": "zahid",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'the ascetic', a derivative of the taught principle zuhd."
+    },
+    {
+      "phonetic": "'ahd",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Named concept of the covenant/mandate that grounds the letter's argument and a reader may cite."
+    },
+    {
+      "phonetic": "'alim rabbani",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Doctrinal type the book itself introduces (the three kinds of people); a reader should be able to name it."
+    },
+    {
+      "phonetic": "'aqil",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for the true intellectual, used repeatedly."
+    },
+    {
+      "phonetic": "'ilm al-mukashafa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named science ('the science of unveiling') an interested reader would want to look up."
+    },
+    {
+      "phonetic": "ahl al-dhimma",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical legal category a reader may wish to cite or search."
+    },
+    {
+      "phonetic": "aimmat al-haqq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's doctrinal term for the true leaders/imams, used more than once."
+    },
+    {
+      "phonetic": "akhlaq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Names the Islamic discipline of ethics; a term a reader would want to look up."
+    },
+    {
+      "phonetic": "al-aql",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for the intellect, used repeatedly in its psychology."
+    },
+    {
+      "phonetic": "al-asma al-husna",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The doctrine of the most beautiful divine Names, a named concept the book develops."
+    },
+    {
+      "phonetic": "al-awliya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Central doctrinal vocabulary (the saints/Friends of God) a reader should be able to name."
+    },
+    {
+      "phonetic": "al-dhikr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's core teaching term for remembrance, used throughout."
+    },
+    {
+      "phonetic": "al-fana fil-dhikr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal principle ('extinction in remembrance') the book teaches."
+    },
+    {
+      "phonetic": "al-fana fiLlah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named Sufi doctrine ('extinction in God') a reader would want to cite."
+    },
+    {
+      "phonetic": "al-Haqq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Key term/Name of God (the Real) recurring throughout as doctrinal vocabulary."
+    },
+    {
+      "phonetic": "al-hawd",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The eschatological term for the paradisal Pool, a doctrinal object the book names."
+    },
+    {
+      "phonetic": "al-ihsan",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A key station of the hadith-of-Gabriel triad the book teaches technically."
+    },
+    {
+      "phonetic": "al-iman",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named station of the hadith-of-Gabriel triad the book teaches technically."
+    },
+    {
+      "phonetic": "al-islam",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Taught here in its technical sense 'submission' as one of the triad, not the religion's name."
+    },
+    {
+      "phonetic": "al-ism huwal-musamma",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal maxim ('the Name is the Named') the book teaches."
+    },
+    {
+      "phonetic": "al-khafi",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named stage in the book's taxonomy of dhikr that a reader should be able to cite."
+    },
+    {
+      "phonetic": "al-kutub al-sitta",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named hadith category ('the Six Books') a reader would want to look up."
+    },
+    {
+      "phonetic": "al-Madhkur",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for the Invoked, a doctrinal object of dhikr."
+    },
+    {
+      "phonetic": "al-nafs",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core term for the soul/lower self central to the book's teaching on jihad of the soul."
+    },
+    {
+      "phonetic": "al-nafs al-ammara bil-su",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named soul-state ('the soul that incites to evil') the book teaches."
+    },
+    {
+      "phonetic": "al-nafs al-mutmainna",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named Quranic soul-state ('the soul at peace') the book teaches."
+    },
+    {
+      "phonetic": "al-qalb",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for the heart in its soul/heart/intellect scheme."
+    },
+    {
+      "phonetic": "al-ruh",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for the spirit, worth naming and looking up."
+    },
+    {
+      "phonetic": "al-shirk al-khafi",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The doctrine of hidden idolatry, a technical concept the book warns against by name."
+    },
+    {
+      "phonetic": "al-sirr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical term for the subtle center 'the secret' the book explains among the lataif."
+    },
+    {
+      "phonetic": "al-thaqalayn",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal term (the two weighty things) a reader would want to cite and look up."
+    },
+    {
+      "phonetic": "alim rabbani",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical category the Imam names ('lordly knowers') that the book itself teaches."
+    },
+    {
+      "phonetic": "ayan al-mawjudat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical metaphysical term ('loci of the entities of existents') the book expounds."
+    },
+    {
+      "phonetic": "bayt al-mal",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical institution (the public treasury) a reader would want to name and look up."
+    },
+    {
+      "phonetic": "dhawq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical mystical term ('taste') the book names and expounds as its own vocabulary."
+    },
+    {
+      "phonetic": "dhikr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's central teaching term (remembrance), by far the most frequent."
+    },
+    {
+      "phonetic": "dhimma",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A substantive legal-doctrinal term (covenant of protection) a reader would want to cite and look up."
+    },
+    {
+      "phonetic": "falah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A term the book foregrounds and defines ('Deliverance, falah — a word...')."
+    },
+    {
+      "phonetic": "fana",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A core Sufi doctrine of self-extinction the book teaches and returns to repeatedly."
+    },
+    {
+      "phonetic": "faqih",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical term for the true jurist that the book distinguishes and teaches."
+    },
+    {
+      "phonetic": "fard",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A doctrinal-legal term ('obligation') a reader would want to name and look up."
+    },
+    {
+      "phonetic": "fuqaha",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The plural of faqih, the book's own vocabulary for the true jurists."
+    },
+    {
+      "phonetic": "ghafla",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Key technical term (heedlessness), the doctrinal opposite of dhikr."
+    },
+    {
+      "phonetic": "hamaj raa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named category from Ali's famous taxonomy of people ('the common folk') the book teaches."
+    },
+    {
+      "phonetic": "haqaiq al-iman",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical term ('the verities of faith') the book expounds as doctrine."
+    },
+    {
+      "phonetic": "haqiqat al-dhikr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical term ('the true reality of remembrance') the book teaches as its own vocabulary."
+    },
+    {
+      "phonetic": "hawa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Recurrent technical term for base whim/lower desire, part of the book's spiritual vocabulary."
+    },
+    {
+      "phonetic": "hilm",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Named virtue term (forbearance) in this ethical tradition that a reader may search."
+    },
+    {
+      "phonetic": "hudur",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for the presence of God in worship."
+    },
+    {
+      "phonetic": "hudur al-qalb",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named devotional state, presence of the heart, the book teaches as its own vocabulary."
+    },
+    {
+      "phonetic": "husn",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book itself unpacks the root sense of husn as beauty and recurs to it; a reader should be able to name it."
+    },
+    {
+      "phonetic": "ihsan",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A central ethical term the book explicitly teaches and uses throughout."
+    },
+    {
+      "phonetic": "ikhlas",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core doctrinal term for sincere devotion that the book develops and a reader would cite."
+    },
+    {
+      "phonetic": "ilm al-muamala",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named category of religious science the book invokes; a reader would want to cite it."
+    },
+    {
+      "phonetic": "imkan",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A doctrinal/philosophical term ('contingency') the book uses conceptually; worth naming and looking up."
+    },
+    {
+      "phonetic": "ithbat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Half of the dhikr formula of negation-and-affirmation, a citable technical concept the book teaches."
+    },
+    {
+      "phonetic": "khalwat-i khass",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named type of spiritual retreat the book introduces as its own technical vocabulary."
+    },
+    {
+      "phonetic": "kharaj",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical fiscal term (the land-tax) worth naming and citing."
+    },
+    {
+      "phonetic": "kun",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The creative divine command 'Be!'; a citable doctrinal term a reader should be able to name."
+    },
+    {
+      "phonetic": "lubb",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A Sufi term for the innermost kernel of the heart, used more than once as conceptual vocabulary."
+    },
+    {
+      "phonetic": "maani",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A doctrinal term for the inner realities behind outward things; worth naming and looking up."
+    },
+    {
+      "phonetic": "maiyya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A coined technical concept ('withness' of God) the book builds an argument on."
+    },
+    {
+      "phonetic": "maqamat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The classic Sufi term for spiritual stations, named as such and central to the book's teaching."
+    },
+    {
+      "phonetic": "marifa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Central epistemological term (gnosis) the book names and develops."
+    },
+    {
+      "phonetic": "marifat al-ilm",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named category ('wise apprehension of knowledge') the book draws from its source; worth citing."
+    },
+    {
+      "phonetic": "maslaha",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named Islamic principle of social welfare the book invokes; a reader would want to look it up."
+    },
+    {
+      "phonetic": "mubahila",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal practice (mutual imprecation) the book invokes; a reader should be able to name it."
+    },
+    {
+      "phonetic": "musaffa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book explicitly introduces and defines the word, so it should be nameable."
+    },
+    {
+      "phonetic": "nass",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A key doctrinal term (unambiguous designation) a reader would want to name and look up."
+    },
+    {
+      "phonetic": "nawafil",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical term for supererogatory acts, cited from a famous hadith and worth looking up."
+    },
+    {
+      "phonetic": "qurra",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The historically significant faction of Quran-reciters; a reader should be able to name the group."
+    },
+    {
+      "phonetic": "qutb",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Sufi technical term (spiritual pole) the book introduces as a concept."
+    },
+    {
+      "phonetic": "ridwan",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A distinct Quranic theological term (divine beatitude) the book highlights and explains."
+    },
+    {
+      "phonetic": "riya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Named technical vice (ostentation in worship) a reader would want to look up."
+    },
+    {
+      "phonetic": "shathiyyat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A recognized technical Sufi term (ecstatic utterances) with no simple English form; a reader should be able to look it up."
+    },
+    {
+      "phonetic": "shirk",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A central doctrinal term the book defines and uses throughout (ten times)."
+    },
+    {
+      "phonetic": "sifa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A recurring theological term (divine attribute) that a reader should be able to name."
+    },
+    {
+      "phonetic": "sifat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The theological term for the divine attributes, central enough to name and look up."
+    },
+    {
+      "phonetic": "sirr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A genuine technical term of Sufi psychology (the innermost secret) a reader would want to name."
+    },
+    {
+      "phonetic": "ta'wil",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical hermeneutic term the book introduces as drawing out inner meaning."
+    },
+    {
+      "phonetic": "tahlil",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named form of dhikr (declaration of divine unity) a reader would want to cite."
+    },
+    {
+      "phonetic": "tahmid",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named devotional form (praise) in the book's catalogue of remembrance practices."
+    },
+    {
+      "phonetic": "tahqiq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for verification, contrasted repeatedly with imitation."
+    },
+    {
+      "phonetic": "tamjid",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named form of dhikr (magnification) parallel to the other remembrance terms taught here."
+    },
+    {
+      "phonetic": "taqdis",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named devotional form (sanctification) a reader would want to name and search."
+    },
+    {
+      "phonetic": "taqlid",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for imitation, a paired concept a reader should be able to cite."
+    },
+    {
+      "phonetic": "taqwa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Central Islamic ethical term the book discusses and a reader would want to cite."
+    },
+    {
+      "phonetic": "tasbih",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The lead named form of dhikr (glorification) the book enumerates as methodic practice."
+    },
+    {
+      "phonetic": "tawaddud",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The text explicitly analyzes this form as the Imam's chosen word; a term the book teaches."
+    },
+    {
+      "phonetic": "tawajjuh",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical term for spiritual orientation/attention that a reader should be able to name."
+    },
+    {
+      "phonetic": "tawhid",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core doctrinal term the book teaches and returns to thirty times."
+    },
+    {
+      "phonetic": "walaya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A central, high-frequency doctrinal concept (sanctity/spiritual authority) the book builds on."
+    },
+    {
+      "phonetic": "waqt",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Sufi technical sense of the mystic's 'moment', a term a reader would want to cite."
+    },
+    {
+      "phonetic": "yaqaza",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for spiritual vigilance or wakefulness."
+    },
+    {
+      "phonetic": "zad",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The text foregrounds and questions this term ('what is this zad?'), teaching it as spiritual provision."
+    },
+    {
+      "phonetic": "zahidin",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Introduces the term for renunciants/ascetics as a category a reader may want to name."
+    },
+    {
+      "phonetic": "zuhd",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Named principle (asceticism) the book introduces and develops."
+    },
+    {
+      "phonetic": "Ihya 'ulum al-din",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "Al-Ghazali's book, cited with its English gloss 'Revival' beside it."
+    },
+    {
+      "phonetic": "Nahj",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "Shorthand for the cited work Nahj al-Balagha."
+    },
+    {
+      "phonetic": "Nahj al-balagha",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "The cited compilation of Ali's sermons and letters."
+    },
+    {
+      "phonetic": "Republic",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "Plato's dialogue, cited by title."
+    }
+  ]
+}

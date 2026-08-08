@@ -1,0 +1,412 @@
+{
+  "schema": "podcast.translation-edition.source-crosswalk/v1",
+  "book": "spiritual-ethos",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "In the Prophet's Shadow",
+      "source_line_ranges": [
+        [
+          5,
+          43
+        ]
+      ],
+      "source_pages": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "source_page_range": "pp. 1-5",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Introducing Ali (ع) and his Spiritual Ethos",
+        "Biographical Sketch"
+      ],
+      "source_excerpt": "## Introducing Ali (ع) and his Spiritual Ethos I am the city of knowledge and Ali (ع) is its gate; so whoever desires knowledge, let him enter the gate. (Ana madinatu'l-ilm wa 'Ali babuha; Fa-man arada'l-ilm fal-ya'ti'l-bab). To speak of Ali ibn Abi Talib (ع) — cousin and son-in-law of the Prophet Muhammad, fourth caliph of Islam and first in the line of Shi'i Imams — is to speak of the quintessential spirituality…",
+      "drift_findings": []
+    },
+    {
+      "index": 2,
+      "title": "The People of the House and the Prophet's Witness",
+      "source_line_ranges": [
+        [
+          44,
+          119
+        ]
+      ],
+      "source_pages": [
+        5,
+        6,
+        7,
+        22,
+        23
+      ],
+      "source_page_range": "pp. 5-23",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "The Prophet said that Ali (ع) was 'as my own soul' (ka-nafsi).",
+        "He said to Ali (ع), 'You are from me and I am from you (anta minnī wa anā minka), أنْتَ مِنِّی وَ أِنَا مِنْکَ.'"
+      ],
+      "source_excerpt": "Ali (ع)'s role as a warrior is only one of many factors that account for his unique place in the Islamic tradition. Far more significant is his closeness, in every respect, to the Prophet and the wisdom and sanctity that flowed from that proximity. Ali (ع) was accorded the immense honour of marrying the Prophet's daughter Fatima, considered alongside her mother Khadija — the Prophet's first wife — to be the most…",
+      "drift_findings": []
+    },
+    {
+      "index": 3,
+      "title": "Intellect, Not Reason",
+      "source_line_ranges": [
+        [
+          120,
+          185
+        ]
+      ],
+      "source_pages": [
+        22,
+        23
+      ],
+      "source_page_range": "pp. 22-23",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "The Spirit Of The Intellect"
+      ],
+      "source_excerpt": "### The Spirit Of The Intellect What we propose to do in this section is sketch some of the key dimensions of the spiritual ethos of Ali (ع), with particular emphasis on its intellectual aspects. Beyond demonstrating the pivotal role played by the intellect (al-'aql) in the elaboration and assimilation of the Imam's spiritual teachings, this exercise should help to ground more firmly the explorations of the ethos…",
+      "drift_findings": []
+    },
+    {
+      "index": 4,
+      "title": "The Discourse to Kumayl",
+      "source_line_ranges": [
+        [
+          186,
+          266
+        ]
+      ],
+      "source_pages": [
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "source_page_range": "pp. 22-26",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "The Discourse To Kumayl",
+        "One should take careful note here of the following sayings of Ali (ع) on the importance of this inner struggle"
+      ],
+      "source_excerpt": "### The Discourse To Kumayl This discourse has been the subject of numerous commentaries through the centuries. Its importance lies, among other things, in its highly esoteric character. The Imam mysteriously takes one of his disciples, Kumayl, by the hand and leads him outside Kufa to a graveyard; when the city lies behind them he draws a deep breath and imparts the following private counsel. يَا كُمَيْل بْن…",
+      "drift_findings": []
+    },
+    {
+      "index": 5,
+      "title": "The Fruits of Certainty",
+      "source_line_ranges": [
+        [
+          267,
+          347
+        ]
+      ],
+      "source_pages": [
+        26,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61
+      ],
+      "source_page_range": "pp. 26-61",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "\"They rejoice in their intimacy with the spirit of certainty.\" The next sentence in the discourse to Kumayl is of particular importance for appreciating the sheer happiness that flows from the \"life of the spirit.\" In the Arabic expression wa basharu ruh al-yaqin, the primary meaning of the word bashara is to have intimate experience of something, to come into direct physical contact with it. This form of the verb…",
+      "drift_findings": []
+    },
+    {
+      "index": 6,
+      "title": "A Sacred Conception of Justice",
+      "source_line_ranges": [
+        [
+          348,
+          399
+        ]
+      ],
+      "source_pages": [
+        61,
+        78
+      ],
+      "source_page_range": "pp. 61-78",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "A Sacred Conception of Justice in the Letter of Ali (ع) to Malik al-Ashtar"
+      ],
+      "source_excerpt": "## A Sacred Conception of Justice in the Letter of Ali (ع) to Malik al-Ashtar The discussion of justice in this chapter is not simply an exercise in theoretical speculation about what justice means in Ali (ع)'s letter to Malik al-Ashtar written fourteen centuries ago — the kind of definition one finds in a dictionary, where justice amounts to little more than fairness, equality, and fair play. The aim is, first and…",
+      "drift_findings": []
+    },
+    {
+      "index": 7,
+      "title": "Justice and the Tyrant's Pride",
+      "source_line_ranges": [
+        [
+          400,
+          467
+        ]
+      ],
+      "source_pages": [
+        22,
+        23,
+        24,
+        25,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83
+      ],
+      "source_page_range": "pp. 22-83",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Justice Versus Tyranny",
+        "Human virtue and ultimate reality"
+      ],
+      "source_excerpt": "### Justice Versus Tyranny The letter is addressed to one of the Imam's closest and most trusted companions, so his warnings about injustice and oppression carry a very precise force, in addition to expressing a universal theme. These warnings apply to all those who, while formally subject to Islam and its laws, and initially possessing every right intention, remain nonetheless vulnerable to the temptations of…",
+      "drift_findings": []
+    },
+    {
+      "index": 8,
+      "title": "Conscience, Compassion, and the Ordering of Society",
+      "source_line_ranges": [
+        [
+          468,
+          571
+        ]
+      ],
+      "source_pages": [
+        25
+      ],
+      "source_page_range": "pp. 25-25",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Moral Conscience And Spiritual Consciousness",
+        "The compassion of justice",
+        "State and society"
+      ],
+      "source_excerpt": "### Moral Conscience And Spiritual Consciousness Another form this enmity with God takes is the inner war against one's own conscience — what is called in Urdu the ⟪ar:ضمیر⟫. The voice of conscience — the very essence and sum total of secular ethics — can here be grasped in its fuller context, rather than merely as the somewhat hypertrophied foundation of individual morality to which secular ethical discourse has…",
+      "drift_findings": []
+    },
+    {
+      "index": 9,
+      "title": "Justice for the Poor and the Sincerity of Intention",
+      "source_line_ranges": [
+        [
+          572,
+          600
+        ]
+      ],
+      "source_pages": [
+        25,
+        115,
+        116,
+        117,
+        118
+      ],
+      "source_page_range": "pp. 25-118",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "The Imam now turns to a point in the letter he wants Malik to take especially to heart: the poor, those most in need of justice. He opens the passage with the exclamation 'Allah, Allah' to signal its urgency. The instruction concerns those with no resources whatsoever — the destitute, the crippled, orphans, the elderly — those who are 'most in need of justice from you' and who must be treated in a manner such that…",
+      "drift_findings": []
+    },
+    {
+      "index": 10,
+      "title": "Prayer, Remembrance, and Gazing on the Good",
+      "source_line_ranges": [
+        [
+          601,
+          657
+        ]
+      ],
+      "source_pages": [
+        116,
+        118
+      ],
+      "source_page_range": "pp. 116-118",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Gazing on the Good"
+      ],
+      "source_excerpt": "We now come to what is arguably the lynchpin of the entire epistle: the most important means by which the sacred substance of all the virtues is assimilated by the ruler — namely, prayer. We saw at the opening of the letter how the Imam began with a counsel to observe the obligatory prayers. At this point, after stressing the need to perform all administrative tasks at their proper times, the Imam instructs Malik to…",
+      "drift_findings": []
+    },
+    {
+      "index": 11,
+      "title": "Dhikr: The Polish of the Heart",
+      "source_line_ranges": [
+        [
+          658,
+          815
+        ]
+      ],
+      "source_pages": [
+        116,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        289,
+        290,
+        291,
+        292
+      ],
+      "source_page_range": "pp. 116-292",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Dhikru'Llah As A Polish For Hearts",
+        "After this verse come the following two",
+        "How can it be conceived that something veils Him, since He is the one who manifests everything?",
+        "How can it be conceived that something veils Him, since He is the one who is manifest through everything?",
+        "How can it be conceived that something veils Him, since He is the one who is manifest in everything?",
+        "How can it be conceived that something veils Him, since He is the Manifest to everything?",
+        "How can it be conceived that something veils Him, since He was the Manifest before the existence of everything?",
+        "How can it be conceived that something veils Him, since He is more manifest than anything?"
+      ],
+      "source_excerpt": "## Realization through Remembrance: Ali (ع) and the Mystical Tradition of Islam Realization through Remembrance: Ali (ع) and the Mystical Tradition of Islam This chapter addresses the meaning of dhikru'Llah — 'the remembrance of God' — one of the most fundamental principles in Islamic spirituality. It does so by focusing on the Imam's sayings, viewed essentially as commentaries on the Qur'anic notion of dhikru'Llah…",
+      "drift_findings": []
+    },
+    {
+      "index": 12,
+      "title": "Remembrance as the Quintessence of Worship",
+      "source_line_ranges": [
+        [
+          816,
+          935
+        ]
+      ],
+      "source_pages": [
+        229,
+        230,
+        231,
+        232,
+        233,
+        246,
+        292,
+        293,
+        294
+      ],
+      "source_page_range": "pp. 229-294",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Remembrance As The Quintessence Of Worship"
+      ],
+      "source_excerpt": "### Remembrance As The Quintessence Of Worship To focus on the actual practice of the dhikru'Llah, we should turn first to certain Qur'anic verses that allude to the dhikr as a devotional practice: And invoke the Name of thy Lord morning and evening (76: 25). And invoke the Name of thy Lord, devoting thyself to Him [or: it] with utter devotion (73: 8). O ye who believe! Invoke God with much invocation (33: 41). Call…",
+      "drift_findings": []
+    },
+    {
+      "index": 13,
+      "title": "Extinction and the Name: The Death of the Saint",
+      "source_line_ranges": [
+        [
+          936,
+          1046
+        ]
+      ],
+      "source_pages": [
+        246,
+        247,
+        248,
+        249,
+        250,
+        251
+      ],
+      "source_page_range": "pp. 246-251",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "He said, 'I am wielding the sword for God's sake, I am the servant of God, I am not under the command of the body.",
+        "I have removed the baggage of self out of the way, I have deemed (what is) other than God to be non-existence.",
+        "I am a shadow, the Sun is my lord; I am the chamberlain, I am not the curtain (which prevents approach) to Him."
+      ],
+      "source_excerpt": "The first point to be made by way of response is this: the individual cannot on his own make this leap from remembrance to forgetfulness. It is impossible for a conscious person, concentrating on the invocatory act, to render himself unconscious of himself in the course of that invocation. One should note carefully that the Imam says the soul is to be forgotten 'in' the remembrance. Any effort to will oneself into a…",
+      "drift_findings": []
+    },
+    {
+      "index": 14,
+      "title": "The First Sermon of the Nahj al-Balagha",
+      "source_line_ranges": [
+        [
+          1047,
+          1083
+        ]
+      ],
+      "source_pages": [
+        206,
+        207,
+        208,
+        209,
+        210,
+        251
+      ],
+      "source_page_range": "pp. 206-251",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "The First Sermon of Nahj al-Balagha"
+      ],
+      "source_excerpt": "## The First Sermon of Nahj al-Balagha This, the opening sermon of ⟪ar:نھج البلاغہ⟫, Maulana Ali (AS) delivered as a ⟪ar:خطبۃ⟫ proclaiming the oneness of God — a oneness, he teaches, that cannot fall into the category of numbers. It is built upon paradox, for the loftier the truth he means to reveal, the deeper the paradox he forms to reveal it: by negating the reach of human words and concepts he affirms the…",
+      "drift_findings": []
+    },
+    {
+      "index": 15,
+      "title": "The Letter to Malik al-Ashtar",
+      "source_line_ranges": [
+        [
+          1084,
+          1189
+        ]
+      ],
+      "source_pages": [
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        314,
+        315,
+        316,
+        317,
+        318,
+        319,
+        320,
+        321,
+        322,
+        323,
+        324
+      ],
+      "source_page_range": "pp. 211-324",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "The Letter of Ali (ع) to Malik al-Ashtar",
+        "In the Name of God, the Compassionate, the Merciful.",
+        "And peace be upon the Messenger of God—God bless him and his good and pure progeny."
+      ],
+      "source_excerpt": "## The Letter of Ali (ع) to Malik al-Ashtar This letter was written when the Imam appointed Malik as governor of Egypt and its regions, at a time when the rule of the previous governor, Muhammad b. Abi Bakr, had become unstable. It is the longest letter the Imam wrote and the most comprehensive in beauty of form and excellence of meaning. In the Name of God, the Compassionate, the Merciful. This is what the servant…",
+      "drift_findings": []
+    }
+  ]
+}

@@ -311,8 +311,19 @@ def _paragraphs(text: str) -> list[str]:
 
 
 def _attribution_zones(text: str) -> list[str]:
-    """The opening window of each paragraph, where speech tags live."""
-    return [p[:_ATTRIBUTION_WINDOW] for p in _paragraphs(text)]
+    """The opening window of each paragraph, where speech tags live.
+
+    Quoted spans are stripped first. Without this, a short attribution tag
+    ("Moses replies:") followed immediately by the character's own first-person
+    quote ("... when I asked Him for the vision ...") puts that quote inside the
+    first ``_ATTRIBUTION_WINDOW`` characters, and the first-person match fires on
+    the character's own reported speech — exactly the case the docstring below
+    already promises is safe under every frame, which this omission broke.
+    Observed live on spiritual-ethos (2026-08-07): a faithful rendering of
+    Moses's exchange with God (Q7:143) was rejected twice in a row on this
+    ground before being traced to the gate, not the prose.
+    """
+    return [_QUOTED_SPAN_RE.sub(" ", p)[:_ATTRIBUTION_WINDOW] for p in _paragraphs(text)]
 
 
 def narrative_person_findings(

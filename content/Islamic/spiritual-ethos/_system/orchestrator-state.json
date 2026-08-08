@@ -5,9 +5,9 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "0d",
-  "phase_status": "pending",
-  "last_completed_phase": "0ci",
+  "phase": "0book-compose",
+  "phase_status": "running",
+  "last_completed_phase": "0book-design",
   "last_error": null,
   "category": "books",
   "branch": "Islamic/spiritual-ethos",
@@ -46,12 +46,387 @@
       "ts_completed": "2026-08-05T21:21:20Z"
     },
     "0d": {
+      "status": "completed",
+      "ts_started": "2026-08-05T16:14:45Z",
+      "ts_completed": "2026-08-06T12:17:11Z"
+    },
+    "0e": {
+      "status": "completed",
+      "ts_started": "2026-08-06T13:14:35Z",
+      "ts_completed": "2026-08-06T16:34:24Z",
+      "manual_fallback": "Restore the affected Arabic from canonical source, or record the change as a glossary curation decision, then --resume."
+    },
+    "06a": {
+      "status": "halted",
+      "ts_started": "2026-08-06T16:34:25Z",
+      "ts_completed": "2026-08-06T16:34:31Z",
+      "gate_warnings": 5
+    },
+    "0f": {
+      "status": "halted",
+      "ts_started": "2026-08-06T18:12:00Z",
+      "ts_completed": "2026-08-06T18:12:00Z",
+      "series_plan_path": "content/Islamic/spiritual-ethos/_system/series-plan.md"
+    },
+    "per-chapter": {
+      "status": "completed",
+      "failed_slugs": [],
+      "ts_started": "2026-08-06T18:32:19Z",
+      "current_chapter": "the-letter-of-ali-to-malik-al-ashtar",
+      "last_beat": "2026-08-06T23:46:33Z",
+      "completed_slugs": [
+        "ali-and-the-prophet",
+        "dhikr-the-polish-for-hearts",
+        "forgetting-the-self-and-the-name",
+        "joy-virtue-and-the-hereafter",
+        "paradox-and-the-inner-struggle",
+        "prayer-as-the-source-of-justice",
+        "pride-and-conscience",
+        "the-classes-of-society-and-the-poor",
+        "the-first-sermon-of-nahj-al-balagha",
+        "the-letter-of-ali-to-malik-al-ashtar",
+        "the-sacred-conception-of-justice",
+        "the-veils-that-do-not-veil",
+        "why-intellect-not-reason"
+      ],
+      "chapter_timings": {
+        "ali-and-the-prophet": {
+          "started_ts": "2026-08-06T18:32:19Z",
+          "completed_ts": "2026-08-06T18:53:27Z",
+          "duration_sec": 1267.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "forgetting-the-self-and-the-name": {
+          "started_ts": "2026-08-06T19:01:56Z",
+          "completed_ts": "2026-08-06T19:22:10Z",
+          "duration_sec": 1214.5,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "joy-virtue-and-the-hereafter": {
+          "started_ts": "2026-08-06T19:22:11Z",
+          "completed_ts": "2026-08-06T19:50:34Z",
+          "duration_sec": 1703.1,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "dhikr-the-polish-for-hearts": {
+          "started_ts": "2026-08-06T20:01:00Z",
+          "completed_ts": "2026-08-06T20:21:23Z",
+          "duration_sec": 1223.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "paradox-and-the-inner-struggle": {
+          "started_ts": "2026-08-06T20:21:24Z",
+          "completed_ts": "2026-08-06T20:42:39Z",
+          "duration_sec": 1275.1,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "prayer-as-the-source-of-justice": {
+          "started_ts": "2026-08-06T20:42:40Z",
+          "completed_ts": "2026-08-06T21:01:00Z",
+          "duration_sec": 1100.5,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "pride-and-conscience": {
+          "started_ts": "2026-08-06T21:01:01Z",
+          "completed_ts": "2026-08-06T21:18:03Z",
+          "duration_sec": 1022.3,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-classes-of-society-and-the-poor": {
+          "started_ts": "2026-08-06T21:18:04Z",
+          "completed_ts": "2026-08-06T21:34:56Z",
+          "duration_sec": 1011.5,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-first-sermon-of-nahj-al-balagha": {
+          "started_ts": "2026-08-06T21:34:57Z",
+          "completed_ts": "2026-08-06T21:53:23Z",
+          "duration_sec": 1106.4,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-sacred-conception-of-justice": {
+          "started_ts": "2026-08-06T22:30:49Z",
+          "completed_ts": "2026-08-06T22:48:38Z",
+          "duration_sec": 1069.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-veils-that-do-not-veil": {
+          "started_ts": "2026-08-06T22:48:39Z",
+          "completed_ts": "2026-08-06T23:22:52Z",
+          "duration_sec": 2053.0,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "why-intellect-not-reason": {
+          "started_ts": "2026-08-06T23:22:53Z",
+          "completed_ts": "2026-08-06T23:38:55Z",
+          "duration_sec": 961.9,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-letter-of-ali-to-malik-al-ashtar": {
+          "started_ts": "2026-08-06T23:39:52Z",
+          "completed_ts": "2026-08-06T23:51:09Z",
+          "duration_sec": 676.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        }
+      },
+      "convergence_iter": 2,
+      "ts_completed": "2026-08-06T23:51:10Z"
+    },
+    "per-chapter-optimize": {
+      "status": "skipped",
+      "ts_started": "2026-08-06T23:51:10Z",
+      "ts_completed": "2026-08-06T23:51:10Z",
+      "reason": "optimize_enabled=false in meta.yml"
+    },
+    "0g": {
+      "status": "completed",
+      "ts_started": "2026-08-06T23:51:10Z",
+      "ts_completed": "2026-08-06T23:51:12Z",
+      "audit_outcomes": {
+        "ali-and-the-prophet": {
+          "status": "audited",
+          "ep_label": "EP01-ali-and-the-prophet",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "dhikr-the-polish-for-hearts": {
+          "status": "audited",
+          "ep_label": "EP09-dhikr-the-polish-for-hearts",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "forgetting-the-self-and-the-name": {
+          "status": "audited",
+          "ep_label": "EP11-forgetting-the-self-and-the-name",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "joy-virtue-and-the-hereafter": {
+          "status": "audited",
+          "ep_label": "EP04-joy-virtue-and-the-hereafter",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "paradox-and-the-inner-struggle": {
+          "status": "audited",
+          "ep_label": "EP03-paradox-and-the-inner-struggle",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "prayer-as-the-source-of-justice": {
+          "status": "audited",
+          "ep_label": "EP08-prayer-as-the-source-of-justice",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "pride-and-conscience": {
+          "status": "audited",
+          "ep_label": "EP06-pride-and-conscience",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-classes-of-society-and-the-poor": {
+          "status": "audited",
+          "ep_label": "EP07-the-classes-of-society-and-the-poor",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-first-sermon-of-nahj-al-balagha": {
+          "status": "audited",
+          "ep_label": "EP12-the-first-sermon-of-nahj-al-balagha",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-letter-of-ali-to-malik-al-ashtar": {
+          "status": "audited",
+          "ep_label": "EP13-the-letter-of-ali-to-malik-al-ashtar",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-sacred-conception-of-justice": {
+          "status": "audited",
+          "ep_label": "EP05-the-sacred-conception-of-justice",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-veils-that-do-not-veil": {
+          "status": "audited",
+          "ep_label": "EP10-the-veils-that-do-not-veil",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "why-intellect-not-reason": {
+          "status": "audited",
+          "ep_label": "EP02-why-intellect-not-reason",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        }
+      }
+    },
+    "per-chapter-slides": {
+      "status": "completed",
+      "ts_started": "2026-08-06T23:51:12Z",
+      "outcomes": {
+        "book": "AUTHORED"
+      },
+      "bad_outcomes": 0,
+      "total_outcomes": 1,
+      "ts_completed": "2026-08-06T23:57:50Z"
+    },
+    "audio-script": {
+      "status": "skipped",
+      "ts_completed": "2026-08-06T23:57:51Z",
+      "reason": "audio_engine=notebooklm (manual)"
+    },
+    "audio-render": {
+      "status": "skipped",
+      "ts_completed": "2026-08-06T23:57:51Z",
+      "reason": "audio_engine=notebooklm (manual)"
+    },
+    "finalize": {
+      "status": "halted",
+      "ts_started": "2026-08-06T23:57:51Z",
+      "ts_completed": "2026-08-06T23:57:56Z",
+      "verdict": "SHIP-READY"
+    },
+    "0book-design": {
+      "status": "completed",
+      "ts_started": "2026-08-06T23:57:56Z",
+      "ts_completed": "2026-08-08T11:14:05Z"
+    },
+    "0book-compose": {
       "status": "running",
-      "ts_started": "2026-08-05T16:14:45Z"
+      "ts_started": "2026-08-07T00:02:26Z"
+    },
+    "audio-ingest": {
+      "status": "halted",
+      "ts_started": "2026-08-07T09:38:07Z",
+      "ts_completed": "2026-08-07T09:47:49Z",
+      "reason": "awaiting NotebookLM audio drop"
+    },
+    "0book-illustrate": {
+      "status": "pending",
+      "reason": "book_visuals=manual_only"
+    },
+    "0book-slide-import": {
+      "status": "pending",
+      "reason": "book_visuals=manual_only"
+    },
+    "0book-render": {
+      "status": "pending",
+      "ts_started": "2026-08-07T16:08:49Z",
+      "book_validation": {
+        "slug": "spiritual-ethos",
+        "verdict": "BOOK-BROKEN",
+        "summary": "B7 book-gloss-coverage: 0/23 glossed terms carry Arabic (0%); glossary has 428 entries · 87 term(s) never given in Arabic script (110 uses): al-ruh, al-asma al-husna, al-khafi, al-Madhkur, al-shirk al-khafi, hudur — starved glossary; e.g. al-Madhkur, al-asma al-husna, al-din al-qayyim, al-khafi, al-nazar ila Ali ibada, al-ruh",
+        "gates": [
+          {
+            "gate": "B1",
+            "name": "book-md-complete",
+            "passed": true,
+            "note": "book.md: 441 KB, 16 sections ≥ 15 TOC chapters"
+          },
+          {
+            "gate": "B2",
+            "name": "book-pdf-renderable",
+            "passed": true,
+            "note": "book.pdf: 2637 KB, 247 pages ≥ 15 chapters"
+          },
+          {
+            "gate": "B3",
+            "name": "book-arabic-coverage",
+            "passed": true,
+            "note": "Arabic script present in all 13 chapters from 168 glossary terms · translation-edition Arabic preservation signal: 1923 rendered Arabic runs from 1201 source runs"
+          },
+          {
+            "gate": "B4",
+            "name": "book-prose-integrity",
+            "passed": true,
+            "note": "book.md: no model commentary or generated headings detected"
+          },
+          {
+            "gate": "B5",
+            "name": "book-chapter-body-coverage",
+            "passed": true,
+            "note": "book.md: 15 numbered chapters have body text"
+          },
+          {
+            "gate": "B6",
+            "name": "book-source-crosswalk",
+            "passed": true,
+            "note": "source-crosswalk.json: 15 chapters aligned"
+          },
+          {
+            "gate": "B7",
+            "name": "book-gloss-coverage",
+            "passed": false,
+            "note": "0/23 glossed terms carry Arabic (0%); glossary has 428 entries · 87 term(s) never given in Arabic script (110 uses): al-ruh, al-asma al-husna, al-khafi, al-Madhkur, al-shirk al-khafi, hudur — starved glossary; e.g. al-Madhkur, al-asma al-husna, al-din al-qayyim, al-khafi, al-nazar ila Ali ibada, al-ruh"
+          },
+          {
+            "gate": "B8",
+            "name": "compose-steps-complete",
+            "passed": true,
+            "note": "compose recorded no skipped steps"
+          }
+        ]
+      }
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
-  "run_id": "20260806T095849Z-0367f9",
-  "ts_updated": "2026-08-06T09:58:49Z",
-  "next_phase": "0e"
+  "run_id": "20260808T111405Z-c21ef1",
+  "ts_updated": "2026-08-08T11:14:05Z",
+  "next_phase": "0book-compose",
+  "unattended": true
 }

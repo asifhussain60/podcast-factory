@@ -361,6 +361,85 @@ def test_the_fold_is_idempotent_across_recomposes(tmp_path: Path, monkeypatch: p
     assert twice.count("thanksgiving") == 1
 
 
+def _two_chapter_fixture(tmp_path: Path) -> Path:
+    bd = tmp_path / "the-book"
+    (bd / "book").mkdir(parents=True)
+    (bd / "_system" / "source" / "text").mkdir(parents=True)
+    refined = "\n".join(
+        [
+            "The traveller set out at dawn toward the eastern gate.",  # 1
+            "He carried nothing but a lamp and a worn copy of the letters.",  # 2
+            "",  # 3
+            "The scribe in the far city kept a ledger of every debt forgiven.",  # 4
+            "None of the villagers ever learned who had paid it on their behalf.",  # 5
+        ]
+    )
+    (bd / "_system" / "source" / "text" / "refined-english.md").write_text(refined, encoding="utf-8")
+    toc: dict = {
+        "book_title": "The Book of Two Chapters",
+        "voice": "faithful",
+        "preface": {"include": False},
+        "chapters": [
+            {"bk_index": 1, "title": "Chapter One", "source_line_ranges": [[1, 2]]},
+            {"bk_index": 2, "title": "Chapter Two", "source_line_ranges": [[4, 5]]},
+        ],
+    }
+    (bd / "book" / "book-toc.json").write_text(json.dumps(toc), encoding="utf-8")
+    return bd
+
+
+def test_the_manifest_survives_a_mid_book_failure_so_a_retry_does_not_recompose_everything(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A chapter that fails integrity mid-book must not erase already-good work.
+
+    Regression for the 2026-08-07 spiritual-ethos incident: the manifest used
+    to be written ONLY after every chapter succeeded, so a chapter that failed
+    partway through (chapter 11 of 15, there) meant NO chapter's cache was
+    valid on retry — the whole book recomposed from chapter 1. Written after
+    every chapter instead, a retry must reuse the already-composed chapters and
+    call the composer only for the one that actually needs it.
+    """
+    import _translation_edition as te
+    from _authoring._core import AuthoringError
+
+    calls: list[str] = []
+
+    def _failing_compose(title, body, previous_tail, book_dir, label, log, **kw):
+        calls.append(title)
+        if title == "Chapter Two":
+            raise AuthoringError(phase="0book-compose", message="simulated integrity-gate failure")
+        return body.strip()
+
+    monkeypatch.setattr(te, "_compose_one", _failing_compose)
+    bd = _two_chapter_fixture(tmp_path)
+
+    with pytest.raises(AuthoringError):
+        te.author_translation_edition_compose(bd, log=lambda *a, **k: None, enforce_contract=False)
+
+    # Chapter one's cache-cache manifest entry survived the chapter-two failure.
+    manifest_path = bd / "_system" / "translation-edition-manifest.json"
+    assert manifest_path.exists(), "manifest must be written incrementally, not only at the end"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert [c["title"] for c in manifest["chapters"]] == ["Chapter One"]
+
+    # Retry with the failure fixed: chapter one must NOT be recomposed.
+    calls.clear()
+
+    def _fixed_compose(title, body, previous_tail, book_dir, label, log, **kw):
+        calls.append(title)
+        return body.strip()
+
+    monkeypatch.setattr(te, "_compose_one", _fixed_compose)
+    text = te.author_translation_edition_compose(bd, log=lambda *a, **k: None, enforce_contract=False).read_text(
+        encoding="utf-8"
+    )
+
+    assert calls == ["Chapter Two"], f"chapter one should have been served from cache, not recomposed: {calls}"
+    assert "The traveller set out at dawn" in text
+    assert "The scribe in the far city" in text
+
+
 def test_a_composer_edit_on_the_front_matter_heading_refuses_the_fold(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
