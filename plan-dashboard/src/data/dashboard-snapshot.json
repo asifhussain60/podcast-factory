@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 31.27
+    "burn_30d_usd": 31.32
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1896,6 +1896,14 @@
       "kind": "consumer_explainer"
     },
     {
+      "slug": "kitab-al-riyad",
+      "title": "Kitāb al-Riyāḍ",
+      "phase": "0book-render",
+      "phase_status": "failed",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_scholarly"
+    },
+    {
       "slug": "kunooz-al-hikmah",
       "title": "Kunooz al Hikmah",
       "phase": "finalize",
@@ -1914,8 +1922,8 @@
     {
       "slug": "spiritual-ethos",
       "title": "Spiritual Ethos",
-      "phase": "0d",
-      "phase_status": "pending",
+      "phase": "0book-compose",
+      "phase_status": "running",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },
@@ -1930,54 +1938,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "b488dac",
-      "subject": "chore(plan-dashboard): regenerate snapshot after kitab-al-riyad Arabic recovery",
-      "date": "2026-08-07"
+      "sha": "402b2152",
+      "subject": "Merge branch 'Islamic/kitab-al-riyad' into develop",
+      "date": "2026-08-08"
     },
     {
-      "sha": "007ba6f",
-      "subject": "content(kitab-al-riyad): recover Arabic OCR ground truth and backfill glossary",
-      "date": "2026-08-07"
+      "sha": "795339e1",
+      "subject": "chore(plan-dashboard): sync snapshot recent-commits list",
+      "date": "2026-08-08"
     },
     {
-      "sha": "2533af4",
-      "subject": "chore(plan-dashboard): regenerate snapshot after slide-deck default fix",
-      "date": "2026-08-07"
+      "sha": "34e63d61",
+      "subject": "book(kitab-al-riyad): 0book-render — book.pdf (validation failed)",
+      "date": "2026-08-08"
     },
     {
-      "sha": "955aaf3",
-      "subject": "fix(slides): make black-and-white minimal decks the pipeline default",
-      "date": "2026-08-07"
+      "sha": "3dec698b",
+      "subject": "book(kitab-al-riyad): 0book-compose — unified path",
+      "date": "2026-08-08"
     },
     {
-      "sha": "9ecd8b3",
-      "subject": "chore(plan-dashboard): regenerate snapshot after slide-deck commit",
-      "date": "2026-08-07"
+      "sha": "cdd9d771",
+      "subject": "Merge remote-tracking branch 'origin/develop' into Islamic/kitab-al-riyad",
+      "date": "2026-08-08"
     },
     {
-      "sha": "11e88bf",
-      "subject": "content(degrees-of-excellence): weave six slide decks in as raster candidates; local library gets its deck rows",
-      "date": "2026-08-07"
+      "sha": "aea572b7",
+      "subject": "docs(backlog): log plan-viewer request for the Astro Site",
+      "date": "2026-08-08"
     },
     {
-      "sha": "f9e10b5",
-      "subject": "docs(listener): tell readers the listening speed is remembered",
-      "date": "2026-08-07"
+      "sha": "094cb323",
+      "subject": "fix(podcast-pipeline): glossary Arabic-fill now logs its own cost",
+      "date": "2026-08-08"
     },
     {
-      "sha": "968d22f",
-      "subject": "chore(listener): drop the scratch persistence check",
-      "date": "2026-08-06"
+      "sha": "161a910f",
+      "subject": "feat(site): promote Snag List to its own top-level nav tab",
+      "date": "2026-08-08"
     },
     {
-      "sha": "4f9d889",
-      "subject": "fix(listener): remember the listening speed, and pin every setting's persistence",
-      "date": "2026-08-06"
+      "sha": "129eaff7",
+      "subject": "book(kitab-al-riyad): re-compose progress — articulation pass",
+      "date": "2026-08-08"
     },
     {
-      "sha": "5016a7f",
-      "subject": "feat(listener): three page widths for desktops and tablets held sideways",
-      "date": "2026-08-06"
+      "sha": "4801ea82",
+      "subject": "feat(site): browser viewer for The Snag List",
+      "date": "2026-08-08"
     }
   ],
   "wave_execution_events": [],
