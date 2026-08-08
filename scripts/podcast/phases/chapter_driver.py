@@ -132,43 +132,44 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     attempted = 0
     failure_signatures: dict[str, list[str]] = {}
 
-    # THIS LOOP IS SERIAL, AND MUST STAY SERIAL (investigated 2026-08-08).
+    #: One line per chapter that shipped this run, committed as a single commit after
+    #: the loop rather than one commit per chapter. See the note at the append site.
+    committed_chapter_lines: list[str] = []
+
+    def _commit_chapter_batch() -> None:
+        """Commit every chapter that shipped this run, as one commit.
+
+        Called on EVERY exit from the loop — normal completion, the circuit-breaker
+        halt and the systemic halt — because chapters that shipped before a halt are
+        finished work and must not be left uncommitted just because a later one broke.
+        Safe to call more than once and safe to call with nothing pending:
+        `phase_git_commit` already no-ops when `git status` comes back empty.
+        """
+        if not committed_chapter_lines:
+            return
+        n = len(committed_chapter_lines)
+        subject = f"podcast({book_slug}): per-chapter — {n} chapter(s) shipped"
+        phase_git_commit(book_dir, subject + "\n\n" + "\n".join(committed_chapter_lines))
+        committed_chapter_lines.clear()
+
+    # THIS LOOP IS STILL SERIAL, and must stay that way until two COST controls below
+    # can survive concurrency (investigated 2026-08-08; full record in git history).
     #
-    # It looks like the obvious parallelisation target in the whole pipeline: it is
-    # the longest phase by wall clock, and each chapter's extract -> frame -> build
-    # -> converge is logically independent of its neighbours. `update_phase` already
-    # holds a process-wide lock, so the state writes below are thread-safe. That is
-    # all true, and it is still the wrong change. Three blockers, each independently
-    # sufficient:
+    # It is the obvious target — the longest phase by wall clock (measured: 732 min for
+    # 20 chapters), and each chapter is logically independent. State writes are already
+    # thread-safe. Three blockers were found; one is cleared, two remain:
     #
-    #  1. `phase_git_commit` (below, once per chapter) runs `git add` + a REPO-WIDE
-    #     `git status --porcelain` + `git commit`. Two threads contend on
-    #     `.git/index.lock`, and worse than failing: thread B's repo-wide status sees
-    #     thread A's staged files and commits them under B's message. The per-chapter
-    #     commit ledger — one commit per chapter, carrying its verdict and iteration
-    #     count — would silently interleave.
+    #   1. CLEARED — commits are batched after the loop (`_commit_chapter_batch`).
+    #   2. The C3 circuit breaker is an ECONOMIC early exit: its value is halting
+    #      BEFORE the remaining chapters are paid for. Concurrently, every chapter is
+    #      already in flight when the signal appears, so it reports but saves nothing.
+    #   3. The per-book cost ceiling is checked at chapter boundaries, so concurrent
+    #      chapters overshoot it by however many are in flight.
     #
-    #  2. The C3 circuit breaker below is an ECONOMIC early exit. It halts the book
-    #     when the first attempted chapter dies in under five seconds (a
-    #     deterministic bug, not content) or when the same normalized failure hits a
-    #     second chapter — the archetype-over-rerun rule. Its whole value is
-    #     stopping BEFORE the remaining chapters are paid for. Run the chapters
-    #     concurrently and every one is already in flight by the time the signal
-    #     appears, so the breaker still reports but no longer saves anything.
-    #
-    #  3. The per-book cost ceiling is checked at chapter boundaries. Concurrent
-    #     chapters overshoot it by however many are in flight.
-    #
-    # Blockers 2 and 3 are the decisive ones, because they are about COST. The defect
-    # this pass exists to fix is the pipeline paying twice for the same work; a change
-    # that weakens two cost controls to buy wall-clock time would trade the actual
-    # problem for a lesser one. Fixing (1) alone (batch the commits) does not make
-    # the loop parallelisable — it only removes the corruption, leaving the money.
-    #
-    # If this is ever revisited, the order is: make the breaker evaluate on a shared
-    # signal that a worker checks BEFORE starting (so it can still decline to run),
-    # move the commits to one batched commit after the loop, and give the cost
-    # ceiling a reservation model. None of that is a comment-sized change.
+    # 2 and 3 are decisive because they are about money. Weakening two cost controls to
+    # buy wall-clock time would trade the defect this work exists to fix for a lesser
+    # one. Unblocking them means a breaker signal a worker checks BEFORE starting, and
+    # a reservation model on the ceiling — neither is a comment-sized change.
     for slug in chapter_slugs:
         if slug in completed_chapter_slugs:
             _info(f"phase: per-chapter[{slug}] · already shipped, skipping")
@@ -271,6 +272,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                 },
             )
             _err(f"{outcome.systemic_halt} — halting book (no relaunch).")
+            _commit_chapter_batch()  # chapters that shipped before the halt are finished work
             return 2
         if outcome.final_verdict == "FAILED":
             failed_chapter_slugs.add(slug)
@@ -316,6 +318,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                 )
                 _err(f"CIRCUIT-BREAKER halt: {_systemic}")
                 _err("Not grinding through remaining chapters — fix the root cause, then --resume.")
+                _commit_chapter_batch()  # chapters that shipped before the halt are finished work
                 return 2
 
             # Genuine per-chapter content failure → graceful-degrade (F33-second).
@@ -335,11 +338,22 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             continue
 
         completed_chapter_slugs.add(slug)
-        phase_git_commit(
-            book_dir,
-            f"podcast({book_slug})[{slug}]: {outcome.final_verdict} "
-            f"(iter={outcome.outer_iterations} · P0={outcome.p0_remaining} "
-            f"P1={outcome.p1_remaining})",
+        # Recorded now, COMMITTED after the loop (see the batched commit below).
+        # `phase_git_commit` runs a repo-wide `git status --porcelain`, so doing it
+        # per chapter meant N of those on a repo carrying a 30 MB mirror database —
+        # and it is the first of the three things that made this loop impossible to
+        # parallelise, because two threads would contend on .git/index.lock and each
+        # commit the other's staged files under its own message.
+        #
+        # Deferring is safe against a crash: the chapter's OUTPUT is already on disk
+        # and `completed_slugs` is already in the state file by the time we get here,
+        # so a resume skips it and the batched commit simply happens later. It is also
+        # safe against the clean-tree gate, which already allowlists every directory
+        # this loop writes (chapters/, episodes/, chapter-contracts/, episode-drafts/,
+        # per-chapter-reports/, slide-decks/) — verified in phases/preflight.py.
+        committed_chapter_lines.append(
+            f"  {slug}: {outcome.final_verdict} "
+            f"(iter={outcome.outer_iterations} · P0={outcome.p0_remaining} · P1={outcome.p1_remaining})"
         )
         update_phase(
             book_dir,
@@ -350,6 +364,10 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                 "chapter_timings": chapter_timings,
             },
         )
+
+    # ONE commit for the whole loop, before the failure handling below — a book where
+    # 18 of 20 chapters shipped must still commit those 18.
+    _commit_chapter_batch()
 
     if failed_chapter_slugs:
         update_phase(

@@ -88,13 +88,38 @@ class SerialDependencyStillExistsTests(unittest.TestCase):
                 f"longer be needed — re-open the decision rather than deleting this test.",
             )
 
-    def test_the_per_chapter_loop_still_commits_per_chapter(self):
+    def test_the_per_chapter_commits_are_batched_not_per_chapter(self):
+        # Blocker 1 was CLEARED on 2026-08-08: the commits moved to one batched commit
+        # after the loop. What must hold now is the opposite of what this test first
+        # asserted — no `phase_git_commit` inside the loop body, or the index.lock
+        # contention comes straight back the moment anyone adds workers.
         source = CHAPTER_DRIVER.read_text(encoding="utf-8")
-        self.assertIn(
-            "phase_git_commit",
-            source,
-            "the per-chapter git commit is gone — one of the three blockers to "
-            "parallelising this loop may have been removed; re-read the comment.",
+        self.assertIn("_commit_chapter_batch", source, "the batched commit helper is gone")
+
+        body = self._per_chapter_loop_body(source)
+        self.assertNotIn(
+            "phase_git_commit(",
+            body,
+            "a git commit was reintroduced INSIDE the per-chapter loop — two workers "
+            "would contend on .git/index.lock and commit each other's staged files "
+            "under the wrong message. Use the batched commit after the loop.",
+        )
+
+    @staticmethod
+    def _per_chapter_loop_body(source: str) -> str:
+        """The text between `for slug in chapter_slugs:` and the batched commit call."""
+        start = source.index("for slug in chapter_slugs:")
+        end = source.index("_commit_chapter_batch()\n\n    if failed_chapter_slugs:")
+        return source[start:end]
+
+    def test_the_batch_commits_on_every_halt_path_too(self):
+        # A book where 18 of 20 chapters shipped before a halt must still commit those
+        # 18 — finished work must not be lost because a later chapter broke.
+        source = CHAPTER_DRIVER.read_text(encoding="utf-8")
+        self.assertGreaterEqual(
+            source.count("_commit_chapter_batch()"),
+            4,  # definition + systemic halt + circuit breaker + after the loop
+            "the batched commit is not called on every exit path from the loop",
         )
 
     def test_the_per_chapter_loop_still_has_its_circuit_breaker(self):
@@ -107,11 +132,27 @@ class DecisionIsDocumentedTests(unittest.TestCase):
     """A tripwire with no explanation gets deleted by whoever trips it."""
 
     def test_both_loops_carry_their_reasoning_in_the_source(self):
-        for path, marker in ((COMPOSE, "SERIAL BY NECESSITY"), (CHAPTER_DRIVER, "MUST STAY SERIAL")):
+        # Matched on a short stable token rather than a whole sentence: the chapter
+        # driver's comment was condensed on 2026-08-08 to fit the DR-005 ceiling and a
+        # longer marker failed on the rewording alone, which is noise rather than a
+        # finding. What must not vanish is the word SERIAL next to a reason.
+        for path in (COMPOSE, CHAPTER_DRIVER):
+            text = path.read_text(encoding="utf-8")
             self.assertIn(
-                marker,
-                path.read_text(encoding="utf-8"),
+                "SERIAL",
+                text,
                 f"{path.name} lost the comment explaining why its loop is serial",
+            )
+
+    def test_the_chapter_driver_names_the_blockers_that_remain(self):
+        # The comment's job is to stop a future change being made blind, so it has to
+        # say WHAT is still in the way — not merely that something is.
+        text = CHAPTER_DRIVER.read_text(encoding="utf-8")
+        for token in ("circuit breaker", "cost ceiling"):
+            self.assertIn(
+                token,
+                text.lower(),
+                f"the serial-loop comment no longer names the {token!r} blocker",
             )
 
 
