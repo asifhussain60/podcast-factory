@@ -1,32 +1,24 @@
 {
-  "vowelled": 72,
-  "marks_added": 3544,
-  "already": 54,
-  "quranic": 4,
-  "from_mushaf": 45,
-  "refused": 81,
-  "recovered": 7,
-  "in_chars": 9467,
-  "out_chars": 15746,
+  "vowelled": 48,
+  "marks_added": 1891,
+  "already": 64,
+  "quranic": 3,
+  "from_mushaf": 32,
+  "refused": 30,
+  "recovered": 3,
+  "in_chars": 3081,
+  "out_chars": 5098,
   "mushaf_pairs": [
     [
-      "سآوي الى جبل يعصمني من الماء",
-      "سَـَٔاوِىٓ إِلَىٰ جَبَلٍۢ يَعْصِمُنِى مِنَ ٱلْمَآءِ"
-    ],
-    [
-      "لا عاصم اليوم من أمر الله",
-      "لَا عَاصِمَ ٱلْيَوْمَ مِنْ أَمْرِ ٱللَّهِ"
-    ],
-    [
-      "لا إله إلا الله",
-      "لَآ إِلَهَ إِلَّا ٱللَّهُ"
+      "بسم الله الرحمن الرحيم",
+      "بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ"
     ],
     [
       "سنريهم آياتنا في الآفاق وفي أنفسهم حتى يتبين لهم أنه الحق",
       "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ"
     ],
     [
-      "وان من شيء إلا يسبح بحمده",
+      "وإن من شيء إلا يسبح بحمده",
       "وَإِن مِّن شَىْءٍ إِلَّا يُسَبِّحُ بِحَمْدِهِۦ"
     ],
     [
@@ -42,44 +34,32 @@
       "فَإِنْ آنَسْتُم مِّنْهُمْ رُشْدًۭا فَٱدْفَعُوٓا۟ إِلَيْهِمْ أَمْوَلَهُمْ وَلَا تَأْكُلُوهَآ إِسْرَافًۭا وَبِدَارًا"
     ],
     [
-      "ومن يتولهم منكم فانه منهم",
-      "وَمَن يَتَوَلَّهُم مِّنكُمْ فَإِنَّهُۥ مِنْهُمْ"
-    ],
-    [
       "فاذا قضيت الصلاة",
       "فَإِذَا قُضِيَتِ ٱلصَّلَوٰةُ"
+    ],
+    [
+      "فوجدا فيها جدار يريد أن ينقض فأقامه",
+      "فَوَجَدَا فِيهَا جِدَارًۭا يُرِيدُ أَن يَنقَضَّ فَأَقَامَهُۥ"
+    ],
+    [
+      "سنريهم آياتنا في الآفاق وفي أنفسهم حتى يتبين لهم انه الحق",
+      "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ"
     ],
     [
       "ربنا ما خلقت هذا باطلاً",
       "رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا"
     ],
     [
-      "رب أرني أنظر إليك قال لن تراني ولكن انظر إلى الجبل فإن استقر مكانه فسوف تراني فلما تجلى ربه للجبل",
+      "رب ارني انظر اليك قال لن تراني ولكن انظر الى الجبل فان استقر مكانه فسوف تراني فلما تجلى ربه للجبل",
       "رَبِّ أَرِنِىٓ أَنظُرْ إِلَيْكَ قَالَ لَن تَرَىٰنِى وَلَكِنِ ٱنظُرْ إِلَى ٱلْجَبَلِ فَإِنِ ٱسْتَقَرَّ مَكَانَهُۥ فَسَوْفَ تَرَىٰنِى فَلَمَّا تَجَلَّىٰ رَبُّهُۥ لِلْجَبَلِ"
     ],
     [
-      "فلما تجلى ربه للجبل جعله دكا وخر موسى صعقاً",
-      "فَلَمَّا تَجَلَّىٰ رَبُّهُۥ لِلْجَبَلِ جَعَلَهُۥ دَكًّۭا وَخَرَّ مُوسَىٰ صَعِقًۭا"
+      "جعله دكا وخر موسى صعقا",
+      "جَعَلَهُۥ دَكًّۭا وَخَرَّ مُوسَىٰ صَعِقًۭا"
     ],
     [
       "سبحانك تبت إليك",
       "سُبْحَنَكَ تُبْتُ إِلَيْكَ"
-    ],
-    [
-      "رب ارني انظر اليك قال لن تراني ولكن انظر الى الجبل",
-      "رَبِّ أَرِنِىٓ أَنظُرْ إِلَيْكَ قَالَ لَن تَرَىٰنِى وَلَكِنِ ٱنظُرْ إِلَى ٱلْجَبَلِ"
-    ],
-    [
-      "رب ارني انظر اليك",
-      "رَبِّ أَرِنِىٓ أَنظُرْ إِلَيْكَ"
-    ],
-    [
-      "فان استقر مكانه فسوف تراني",
-      "فَإِنِ ٱسْتَقَرَّ مَكَانَهُۥ فَسَوْفَ تَرَىٰنِى"
-    ],
-    [
-      "فلما تجلى ربه للجبل جعله دكا",
-      "فَلَمَّا تَجَلَّىٰ رَبُّهُۥ لِلْجَبَلِ جَعَلَهُۥ دَكًّۭا"
     ],
     [
       "وخلق كل شيء فقدره تقديراً",
@@ -90,43 +70,11 @@
       "لَيْسَ عَلَى ٱلَّذِينَ آمَنُوا۟ وَعَمِلُوا۟ ٱلصَّلِحَتِ جُنَاحٌۭ فِيمَا طَعِمُوٓا۟ إِذَا مَا ٱتَّقَوا۟ وَّآمَنُوا۟ وَعَمِلُوا۟ ٱلصَّلِحَتِ"
     ],
     [
-      "ولكل امة جعلنا منسكاً ليذكروا اسم الله على ما رزقهم من بهيمة الأنعام",
-      "وَلِكُلِّ أُمَّةٍۢ جَعَلْنَا مَنسَكًۭا لِّيَذْكُرُوا۟ ٱسْمَ ٱللَّهِ عَلَىٰ مَا رَزَقَهُم مِّنۢ بَهِيمَةِ ٱلْأَنْعَمِ"
-    ],
-    [
-      "ولكل امة جعلنا منسكاً ليذكروا اسم الله",
-      "وَلِكُلِّ أُمَّةٍۢ جَعَلْنَا مَنسَكًۭا لِّيَذْكُرُوا۟ ٱسْمَ ٱللَّهِ"
-    ],
-    [
-      "كان الناس امة واحدة",
-      "كَانَ ٱلنَّاسُ أُمَّةًۭ وَحِدَةًۭ"
-    ],
-    [
-      "وانزل معهم الكتاب بالحق ليحكم بين الناس فيما اختلفوا فيه",
-      "وَأَنزَلَ مَعَهُمُ ٱلْكِتَبَ بِٱلْحَقِّ لِيَحْكُمَ بَيْنَ ٱلنَّاسِ فِيمَا ٱخْتَلَفُوا۟ فِيهِ"
-    ],
-    [
-      "اذ قربا قرباناً",
-      "إِذْ قَرَّبَا قُرْبَانًۭا"
-    ],
-    [
-      "ان أكرمكم عند الله اتقاكم",
-      "إِنَّ أَكْرَمَكُمْ عِندَ ٱللَّهِ أَتْقَىٰكُمْ"
-    ],
-    [
-      "انما يتقبل الله من المتقين",
-      "إِنَّمَا يَتَقَبَّلُ ٱللَّهُ مِنَ ٱلْمُتَّقِينَ"
-    ],
-    [
-      "لئن بسطت اليّ يدك لتقتلني ما انا بباسط يدي اليك لأقتلك اني اخاف الله رب العالمين",
-      "لَىِٕنۢ بَسَطتَ إِلَىَّ يَدَكَ لِتَقْتُلَنِى مَآ أَنَا۠ بِبَاسِطٍۢ يَدِىَ إِلَيْكَ لِأَقْتُلَكَ إِنِّىٓ أَخَافُ ٱللَّهَ رَبَّ ٱلْعَلَمِينَ"
-    ],
-    [
       "فبعث الله غراباً يبحث في الارض",
       "فَبَعَثَ ٱللَّهُ غُرَابًۭا يَبْحَثُ فِى ٱلْأَرْضِ"
     ],
     [
-      "ان الله اصطفى آدم ونوحا",
+      "إن الله اصطفى آدم ونوحاً",
       "إِنَّ ٱللَّهَ ٱصْطَفَىٰٓ آدَمَ وَنُوحًۭا"
     ],
     [
@@ -134,28 +82,16 @@
       "ٱسْجُدُوا۟ لِآدَمَ"
     ],
     [
-      "انا ارسلنا نوحاً",
+      "إنا أرسلنا نوحاً",
       "إِنَّآ أَرْسَلْنَا نُوحًا"
     ],
     [
-      "شرع لكم من الدين ما اوصى به نوحاً والذي اوحينا اليك وما وصينا به إبراهيم وموسى وعيسى ان اقيموا الدين ولا تتفرقوا",
+      "شرع لكم من الدين ما أوصى به نوحاً والذي أوحينا اليك وما وصينا به إبراهيم وموسى وعيسى أن أقيموا الدين ولا تتفرقوا",
       "شَرَعَ لَكُم مِّنَ ٱلدِّينِ مَا وَصَّىٰ بِهِۦ نُوحًۭا وَٱلَّذِىٓ أَوْحَيْنَآ إِلَيْكَ وَمَا وَصَّيْنَا بِهِۦٓ إِبْرَهِيمَ وَمُوسَىٰ وَعِيسَىٰٓ أَنْ أَقِيمُوا۟ ٱلدِّينَ وَلَا تَتَفَرَّقُوا۟"
     ],
     [
-      "انا أوحينا اليك كما اوحينا إلى نوح والنبين من بعده واوحينا الى ابراهيم واسماعيل واسحاق ويعقوب والأسباط وعيسى وأيوب ويونس وهرون وسليمان",
-      "إِنَّآ أَوْحَيْنَآ إِلَيْكَ كَمَآ أَوْحَيْنَآ إِلَىٰ نُوحٍۢ وَٱلنَّبِيِّۦنَ مِنۢ بَعْدِهِۦ وَأَوْحَيْنَآ إِلَىٰٓ إِبْرَهِيمَ وَإِسْمَعِيلَ وَإِسْحَقَ وَيَعْقُوبَ وَٱلْأَسْبَاطِ وَعِيسَىٰ وَأَيُّوبَ وَيُونُسَ وَهَرُونَ وَسُلَيْمَنَ"
-    ],
-    [
-      "اتجعل فيها من يفسد فيها ويسفك الدماء ونحن نسبح بحمدك ونقدس لك",
+      "أتجعل فيها من يفسد فيها ويسفك الدماء ونحن نسبح بحمدك ونقدس لك",
       "أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ"
-    ],
-    [
-      "حتى اذا جاءوا قال اكذبتم بآياتي ولم تحيطوا بها علماً",
-      "حَتَّىٰٓ إِذَا جَآءُو قَالَ أَكَذَّبْتُم بِـَٔايَتِى وَلَمْ تُحِيطُوا۟ بِهَا عِلْمًا"
-    ],
-    [
-      "اني أعلم ما لا تعلمون",
-      "إِنِّىٓ أَعْلَمُ مَا لَا تَعْلَمُونَ"
     ],
     [
       "ونحن نسبح بحمدك ونقدس لك",
@@ -164,6 +100,10 @@
     [
       "اني اعلم ما لا تعلمون",
       "إِنِّىٓ أَعْلَمُ مَا لَا تَعْلَمُونَ"
+    ],
+    [
+      "الم اقل لكم اني اعلم غيب السماوات والارض",
+      "أَلَمْ أَقُل لَّكُمْ إِنِّىٓ أَعْلَمُ غَيْبَ ٱلسَّمَوَتِ وَٱلْأَرْضِ"
     ],
     [
       "يوم يجعل الولدان شيباً",
@@ -182,189 +122,62 @@
       "وَكُلَّمَا مَرَّ عَلَيْهِ مَلَأٌۭ مِّن قَوْمِهِۦ سَخِرُوا۟ مِنْهُ"
     ],
     [
+      "سآوي الى جبل يعصمني من الماء",
+      "سَـَٔاوِىٓ إِلَىٰ جَبَلٍۢ يَعْصِمُنِى مِنَ ٱلْمَآءِ"
+    ],
+    [
       "لا عاصم اليوم من امر الله",
       "لَا عَاصِمَ ٱلْيَوْمَ مِنْ أَمْرِ ٱللَّهِ"
     ],
     [
       "اركبوا فيها",
       "ٱرْكَبُوا۟ فِيهَا"
+    ],
+    [
+      "شهد الله انه لا إله إلا هو",
+      "شَهِدَ ٱللَّهُ أَنَّهُۥ لَآ إِلَهَ إِلَّا هُوَ"
     ]
   ],
   "refusals": [
     {
-      "run": "عبدالقادر البغدادي",
-      "reason": "letters changed, not just marks (first difference at character 4: source \"القادر البغد\" vs proposal \" القادر البغ\")"
-    },
-    {
-      "run": "محمد بن احمد النسفي",
-      "reason": "letters changed, not just marks (first difference at character 9: source \"احمد النسفي\" vs proposal \"أحمد النسفي\")"
-    },
-    {
       "run": "حميد الدين احمد الكرماني",
       "reason": "letters changed, not just marks (first difference at character 12: source \"احمد الكرمان\" vs proposal \"أحمد الكرمان\")"
-    },
-    {
-      "run": "الفرق بين الفرق",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"الفرق بين ال\" vs proposal \"ألفرق بين ال\")"
     },
     {
       "run": "ابو حاتم احمد بن حمدان الليفي الورسناني الرازي",
       "reason": "letters changed, not just marks (first difference at character 1: source \"ابو حاتم احم\" vs proposal \"أبو حاتم أحم\")"
     },
     {
-      "run": "لو ان الدعوة الاسماعيلية لم تنتج غير الكرماني لكفاها فخراً و",
-      "reason": "letters changed, not just marks (first difference at character 4: source \"ان الدعوة ال\" vs proposal \"أن الدعوة ال\")"
+      "run": "الاصلاح والنصرة",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"اصلاح والنصر\" vs proposal \"إصلاح والنصر\")"
     },
     {
-      "run": "حفظ ادامة وجود الشيء الذي ليس وجوداً لذاته ادامة لا تتصل بشي",
-      "reason": "letters changed, not just marks (first difference at character 5: source \"ادامة وجود ا\" vs proposal \"إدامة وجود ا\")"
+      "run": "محمد بن احمد النسفي",
+      "reason": "letters changed, not just marks (first difference at character 9: source \"احمد النسفي\" vs proposal \"أحمد النسفي\")"
     },
     {
       "run": "اذ يوجد من الفعل الذي يحفظ الله به العالم وبين الفعل الذي خل",
       "reason": "letters changed, not just marks (first difference at character 1: source \"اذ يوجد من ا\" vs proposal \"إذ يوجد من ا\")"
     },
     {
-      "run": "ان التعطيل الصريح انما يكون بأن يتوجه فعل حرف النفي",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ان التعطيل ا\" vs proposal \"إن التعطيل ا\")"
+      "run": "كان من كبار دعاة الاسماعيلية ولعب دوراً هاماً في الشؤون السي",
+      "reason": "letters changed, not just marks (first difference at character 20: source \"اسماعيلية ول\" vs proposal \"إسماعيلية ول\")"
     },
     {
-      "run": "وليس هذا مما تقول به الاسماعيلية ، اذ ان النفي عندهم هو نفي ",
-      "reason": "letters changed, not just marks (first difference at character 24: source \"اسماعيلية ، \" vs proposal \"إسماعيلية ، \")"
+      "run": "حفظ ادامة وجود الشيء الذي ليس وجوداً لذاته ادامة لا تتصل بشي",
+      "reason": "letters changed, not just marks (first difference at character 5: source \"ادامة وجود ا\" vs proposal \"إدامة وجود ا\")"
     },
     {
-      "run": "ان أبا يعقوب كما يبدو قد دعم بعض النصوص مخالفاً أبا حاتم الر",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ان أبا يعقوب\" vs proposal \"إن أبا يعقوب\")",
-      "partial": true
+      "run": "ولا اقول كهاتين",
+      "reason": "letters changed, not just marks (first difference at character 5: source \"اقول كهاتين\" vs proposal \"أقول كهاتين\")"
     },
     {
-      "run": "انما ينصب عندهم على الصفات دون الهوية",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"انما ينصب عن\" vs proposal \"إنما ينصب عن\")"
+      "run": "لو ان الدعوة الاسماعيلية لم تنتج غير الكرماني لكفاها فخراً و",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ان الدعوة ال\" vs proposal \"أن الدعوة ال\")"
     },
     {
-      "run": "لقد رأيت أبا حاتم الرازي قد قوَّم الاخطاء الموجودة في كتاب",
-      "reason": "letters changed, not just marks (first difference at character 35: source \"اخطاء الموجو\" vs proposal \"أخطاء الموجو\")"
-    },
-    {
-      "run": "مؤكداً صواب حجته وقوة نظريته وان الأمور التي ناقشها ليست من ",
-      "reason": "letters changed, not just marks (first difference at character 30: source \"ان الأمور ال\" vs proposal \"أن الأمور ال\")"
-    },
-    {
-      "run": "ولهذا السبب قررت ان اورد هنا الاقوال الاصلية الواردة في كتاب",
-      "reason": "letters changed, not just marks (first difference at character 18: source \"ان اورد هنا \" vs proposal \"أن أورد هنا \")"
-    },
-    {
-      "run": "، ولقد كان ذلك ذا تأثير على نقاوة فكرة مسالك التوحيد وأفسادا",
-      "reason": "letters changed, not just marks (first difference at character 55: source \"أفسادا لأصول\" vs proposal \"إفسادا لأصول\")"
-    },
-    {
-      "run": "بعض النصوص التي تعالج التوحيد فكان من الواجب على ابي حاتم ان",
-      "reason": "letters changed, not just marks (first difference at character 50: source \"ابي حاتم ان \" vs proposal \"أبي حاتم أن \")",
-      "partial": true
-    },
-    {
-      "run": "بل فضل عليها تلك القصص الطويلة التي تعالج مواضيع اقل اهمية و",
-      "reason": "letters changed, not just marks (first difference at character 50: source \"ابي حاتم ان \" vs proposal \"أبي حاتم أن \")",
-      "partial": true
-    },
-    {
-      "run": "وقد ملأ كتابه بها فتركها غير مصححة مهملاً اياها وبذلك أوجد ن",
-      "reason": "letters changed, not just marks (first difference at character 50: source \"ابي حاتم ان \" vs proposal \"أبي حاتم أن \")",
-      "partial": true
-    },
-    {
-      "run": "وما ورد في اقوال",
-      "reason": "letters changed, not just marks (first difference at character 12: source \"اقوال\" vs proposal \"أقوال\")"
-    },
-    {
-      "run": "ان النفس تامة وهي مصدر تام كامل جاءت من الكمال لان العقل هو ",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ان النفس تام\" vs proposal \"إن النفس تام\")"
-    },
-    {
-      "run": "مقدماً رأيي وتعليقاتي عليها وغرضي من ذلك اظهار الاصول بالمعن",
-      "reason": "letters changed, not just marks (first difference at character 41: source \"اظهار الاصول\" vs proposal \"إظهار الأصول\")"
-    },
-    {
-      "run": "ولكانوا لآثار من جعل الله له نوراً في غوامض الامور يقنعون",
-      "reason": "letters changed, not just marks (first difference at character 46: source \"امور يقنعون\" vs proposal \"أمور يقنعون\")"
-    },
-    {
-      "run": "مورداً قول امباذقليس على سبيل الاحتجاج به انما صارت اما لأنه",
-      "reason": "letters changed, not just marks (first difference at character 11: source \"امباذقليس عل\" vs proposal \"إمباذقليس عل\")"
-    },
-    {
-      "run": "ان هذا الكلام من نوع الهذيان لان الحركة تتولد من قصد خاص",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ان هذا الكلا\" vs proposal \"إن هذا الكلا\")"
-    },
-    {
-      "run": "ان الحركة والسكون هما أثران متحدان بالأول والثاني لان الاول ",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ان الحركة وا\" vs proposal \"إن الحركة وا\")"
-    },
-    {
-      "run": "كما تهدف حركة الاجسام المادية لتغطية فراغ حركة اللهب الصاعدة",
-      "reason": "letters changed, not just marks (first difference at character 17: source \"اجسام المادي\" vs proposal \"أجسام المادي\")"
-    },
-    {
-      "run": "ان الفلاسفة المتقدمين منهم وان كانوا فضلاء في زمانهم فقد است",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ان الفلاسفة \" vs proposal \"إن الفلاسفة \")"
-    },
-    {
-      "run": "ان هذا غلط محض لانه لو كان ذلك العالم نورانياً لا ظلمة فيه و",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ان هذا غلط م\" vs proposal \"إن هذا غلط م\")"
-    },
-    {
-      "run": "ولا نقول ان الطبيعة والهيولى الظلمانية متولدة من الثاني لتؤك",
-      "reason": "letters changed, not just marks (first difference at character 10: source \"ان الطبيعة و\" vs proposal \"إن الطبيعة و\")",
-      "partial": true
-    },
-    {
-      "run": "والثاني وان كان متولداً من الاول فانه شبيه به ،",
-      "reason": "letters changed, not just marks (first difference at character 10: source \"ان الطبيعة و\" vs proposal \"إن الطبيعة و\")",
-      "partial": true
-    },
-    {
-      "run": "أنا لا اقول ان الحركة والسكون هما متولدان من النفس بفعل القو",
-      "reason": "letters changed, not just marks (first difference at character 8: source \"اقول ان الحر\" vs proposal \"أقول إن الحر\")"
-    },
-    {
-      "run": "ان العقل ليس إلا ذات الكلمة والكلمة ليست إلا ذات العقل يصحح ",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ان العقل ليس\" vs proposal \"إن العقل ليس\")"
-    },
-    {
-      "run": "حيث يتكلم عن العقليات ويشير بان الكلمة عبارة عن العقل وان هذ",
-      "reason": "letters changed, not just marks (first difference at character 30: source \"ان الكلمة عب\" vs proposal \"أن الكلمة عب\")"
-    },
-    {
-      "run": "سألتجىء الى لاحق",
-      "reason": "letters changed, not just marks (first difference at character 6: source \"ىء الى لاحق\" vs proposal \"ئ إلى لاحق\")"
-    },
-    {
-      "run": "ان العقل هو الانبعاث الاول بينما النفوس الناطقة هي الانبعاث ",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ان العقل هو \" vs proposal \"إن العقل هو \")"
-    },
-    {
-      "run": "ان الحركة والسكون هما كروح الهيولى والصورة وهذين الاخيرين كج",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ان الحركة وا\" vs proposal \"إن الحركة وا\")",
-      "partial": true
-    },
-    {
-      "run": "فانهم في ازمانهم اتبعوا آراءهم وعقولهم فيما نحوه فصار كل منه",
-      "reason": "letters changed, not just marks (first difference at character 2: source \"انهم في ازما\" vs proposal \"إنهم في أزما\")"
-    },
-    {
-      "run": "وفيما تقدم من الكلام على ذلك والبيان لأن اعتقاد الامر فيه عل",
-      "reason": "letters changed, not just marks (first difference at character 51: source \"امر فيه على \" vs proposal \"أمر فيه على \")"
-    },
-    {
-      "run": "وانما قلنا أثران لان الابداع والمبدع اثنان واحدهما الابداع و",
-      "reason": "letters changed, not just marks (first difference at character 2: source \"انما قلنا أث\" vs proposal \"إنما قلنا أث\")"
-    },
-    {
-      "run": "ان الانسان هو غرض الثاني ونهاية فعل الطبيعة",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ان الانسان ه\" vs proposal \"إن الإنسان ه\")"
-    },
-    {
-      "run": "حشرهم الله وایانا مع الموالي صلوات الله عليهم",
-      "reason": "letters changed, not just marks (first difference at character 13: source \"ایانا مع الم\" vs proposal \"إيانا مع الم\")"
+      "run": "صلوات الله عليهم اجمعين",
+      "reason": "letters changed, not just marks (first difference at character 18: source \"اجمعين\" vs proposal \"أجمعين\")"
     },
     {
       "run": "ولا تقتلوا اولادكم خشية املاق ومن فعل ذلك فقد أثم وتعدى طوره",
@@ -375,159 +188,82 @@
       "reason": "letters changed, not just marks (first difference at character 7: source \"امر الذي به \" vs proposal \"أمر الذي به \")"
     },
     {
-      "run": "ان البشر يفضل على العالم بالجوهر الشريف الذي ليس هو من هذا ا",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ان البشر يفض\" vs proposal \"إن البشر يفض\")"
-    },
-    {
-      "run": "والله تعالى يوفقنا الى موطن دينه ،",
-      "reason": "letters changed, not just marks (first difference at character 20: source \"الى موطن دين\" vs proposal \"إلى موطن دين\")",
+      "run": "حبل ممدود من السماء الى الأرض ،",
+      "reason": "letters changed, not just marks (first difference at character 66: source \"الى الأرض ، \" vs proposal \"إلى الأرض ، \")",
       "partial": true
     },
     {
-      "run": "ونسأل الله ان ينور عقولنا ،",
-      "reason": "letters changed, not just marks (first difference at character 12: source \"ان ينور عقول\" vs proposal \"أن ينور عقول\")",
+      "run": "طرف منه بيد الله وطرف منه بايديكم،",
+      "reason": "letters changed, not just marks (first difference at character 66: source \"الى الأرض ، \" vs proposal \"إلى الأرض ، \")",
       "partial": true
     },
     {
-      "run": "وللخيرات والاعمال الخيرات الصالحات يوفقنا ،",
-      "reason": "letters changed, not just marks (first difference at character 12: source \"ان ينور عقول\" vs proposal \"أن ينور عقول\")",
+      "run": "فتمسكوا بها لن تضلوا ما ان تمسكتم بهما،",
+      "reason": "letters changed, not just marks (first difference at character 66: source \"الى الأرض ، \" vs proposal \"إلى الأرض ، \")",
       "partial": true
     },
     {
-      "run": "بمنه وجوده ولطفه وكرمه",
-      "reason": "letters changed, not just marks (first difference at character 12: source \"ان ينور عقول\" vs proposal \"أن ينور عقول\")",
+      "run": "وقد سألت ربي ان يردا عليّ الحوض كهاتين",
+      "reason": "letters changed, not just marks (first difference at character 66: source \"الى الأرض ، \" vs proposal \"إلى الأرض ، \")",
       "partial": true
-    },
-    {
-      "run": "العرجاء تجر رجلها الى المنسك",
-      "reason": "letters changed, not just marks (first difference at character 19: source \"الى المنسك\" vs proposal \"إلى المنسك\")"
-    },
-    {
-      "run": "اتقاكم ابو بكر",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"اتقاكم ابو ب\" vs proposal \"أتقاكم أبو ب\")"
-    },
-    {
-      "run": "فبعث الله غراباً ليبحث في الارض ليريه كيف يواري سوأة اخيه قا",
-      "reason": "letters changed, not just marks (first difference at character 28: source \"ارض ليريه كي\" vs proposal \"أرض ليريه كي\")"
-    },
-    {
-      "run": "ليس على الذين آمنوا وعملوا الصالحات جناح فيما طعموا اذا ما ا",
-      "reason": "letters changed, not just marks (first difference at character 53: source \"اذا ما اتقوا\" vs proposal \"إذا ما اتقوا\")"
     },
     {
       "run": "إذا الشمس كورت واذا النجوم انكدرت واذا الجبال سيرت واذا العش",
       "reason": "letters changed, not just marks (first difference at character 17: source \"اذا النجوم ا\" vs proposal \"إذا النجوم ا\")"
     },
     {
-      "run": "واذا السماء انفطرت واذا الكواكب انتشرت",
+      "run": "ليس على الذين آمنوا وعملوا الصالحات جناح فيما طعموا اذا ما ا",
+      "reason": "letters changed, not just marks (first difference at character 53: source \"اذا ما اتقوا\" vs proposal \"إذا ما اتقوا\")"
+    },
+    {
+      "run": "الف، لام، فاء",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"الف، لام، فا\" vs proposal \"ألف، لام، فا\")"
+    },
+    {
+      "run": "إنا أوحينا اليك كما أوحينا إلى نوح والنبيين من بعده وأوحينا ",
+      "reason": "letters changed, not just marks (first difference at character 12: source \"اليك كما أوح\" vs proposal \"إليك كما أوح\")"
+    },
+    {
+      "run": "المبدع الأول",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"المبدع الأول\" vs proposal \"ألمبدع الأول\")"
+    },
+    {
+      "run": "يا بني اسرائيل اذكروا نعمتي التي انعمت عليكم وأوفوا بعهدي أو",
+      "reason": "letters changed, not just marks (first difference at character 8: source \"اسرائيل اذكر\" vs proposal \"إسرائيل اذكر\")",
+      "partial": true
+    },
+    {
+      "run": "واذا السماء انفطرت وإذا الكواكب انتشرت",
       "reason": "letters changed, not just marks (first difference at character 2: source \"اذا السماء ا\" vs proposal \"إذا السماء ا\")"
     },
     {
-      "run": "وعلم آدم الأسماء كلها ثم عرضهم على الملائكة فقال انبئوني بأس",
-      "reason": "letters changed, not just marks (first difference at character 50: source \"انبئوني بأسم\" vs proposal \"أنبئوني بأسم\")"
-    },
-    {
-      "run": "واتل عليهم نبأ ابن آدم بالحق اذ قرّبا قرباناً فتقبل من احدهم",
-      "reason": "letters changed, not just marks (first difference at character 30: source \"اذ قربا قربا\" vs proposal \"إذ قربا قربا\")"
-    },
-    {
-      "run": "واتل عليهم نبأ ابن آدم بالحق اذ قرّبا قرباناً",
-      "reason": "letters changed, not just marks (first difference at character 30: source \"اذ قربا قربا\" vs proposal \"إذ قربا قربا\")"
-    },
-    {
-      "run": "من خطيئاتهم اغرقوا فادخلوا النار",
-      "reason": "letters changed, not just marks (first difference at character 13: source \"اغرقوا فادخل\" vs proposal \"أغرقوا فأدخل\")"
-    },
-    {
-      "run": "فلما كان هكذا سمي تاماً بالمبدعية، وذلك أن الإبداع من المبدع",
-      "reason": "letters changed, not just marks (first difference at character 11: source \"كذا سمي تاما\" vs proposal \"اكذا سمي تام\")"
-    },
-    {
-      "run": "لا حول ولا قوة الا بالله العلي العظيم ،",
-      "reason": "letters changed, not just marks (first difference at character 16: source \"الا بالله ال\" vs proposal \"إلا بالله ال\")",
-      "partial": true
-    },
-    {
-      "run": "وافوض أمري الى الله ،",
-      "reason": "letters changed, not just marks (first difference at character 16: source \"الا بالله ال\" vs proposal \"إلا بالله ال\")",
-      "partial": true
-    },
-    {
-      "run": "يا بني اسرائيل اذكروا نعمتي التي انعمت عليكم وأوفوا بعهدي او",
-      "reason": "letters changed, not just marks (first difference at character 8: source \"اسرائيل اذكر\" vs proposal \"إسرائيل اذكر\")"
-    },
-    {
-      "run": "محمد بن احمد النسفي",
-      "reason": "letters changed, not just marks (first difference at character 9: source \"احمد النسفي\" vs proposal \"أحمد النسفي\")"
+      "run": "وعلم آدم الأسماء كلها ثم عرضهم على الملائكة فقال انبثوني بأس",
+      "reason": "letters changed, not just marks (first difference at character 50: source \"انبثوني بأسم\" vs proposal \"أنبئوني بأسم\")"
     },
     {
       "run": "ابو حاتم احمد بن حمدان الليفي الورسناني الرازي",
-      "reason": "letters changed, not just marks (first difference at character 2: source \"بو حاتم احمد\" vs proposal \"لرازي\")"
+      "reason": "empty"
     },
     {
       "run": "لو ان الدعوة الاسماعيلية لم تنتج غير الكرماني لكفاها فخراً ومجداً ولكان ذلك كافياً",
       "reason": "letters changed, not just marks (first difference at character 1: source \"لو ان الدعوة\" vs proposal \"الكرماني\")"
     },
     {
+      "run": "حفظ ادامة وجود الشيء الذي ليس وجوداً لذاته ادامة لا تتصل بشيء من العلل غير ذات المبدع",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" ادامة وجود \" vs proposal \"\")"
+    },
+    {
+      "run": "اذ يوجد من الفعل الذي يحفظ الله به العالم وبين الفعل الذي خلقه به",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"اذ يوجد من ا\" vs proposal \"إذ\")"
+    },
+    {
       "run": "لا اله",
       "reason": "empty"
     },
     {
-      "run": "الاصلاح",
-      "reason": "letters changed, not just marks (first difference at character 3: source \"اصلاح\" vs proposal \"إصلاح\")"
-    },
-    {
-      "run": "الروح",
-      "reason": "empty"
-    },
-    {
-      "run": "واتل عليهم نبأ ابن آدم بالحق اذ قرّبا قرباناً فتقبل من احدهما ولم يتقبل من الآخر",
-      "reason": "empty"
-    },
-    {
-      "run": "ولكل امة جعلنا منسكا هم ناسكوه فلا ينازعنك",
-      "reason": "empty"
-    },
-    {
-      "run": "العرجاء تجر رجلها الى المنسك",
-      "reason": "letters changed, not just marks (first difference at character 3: source \"عرجاء تجر رج\" vs proposal \"منسك\")"
-    },
-    {
-      "run": "واتل عليهم نبأ ابن آدم بالحق اذ قرّبا قرباناً",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"واتل عليهم ن\" vs proposal \"قربانا\")"
-    },
-    {
-      "run": "ولكل امة جعلنا منسكاً هم ناسكوه",
-      "reason": "empty"
-    },
-    {
-      "run": "فبعث الله غراباً ليبحث في الارض ليريه كيف يواري سوأة اخيه قال يا ويلتا أعجزت ان اكون مثل الغراب فأواري سوأة أخي فأصبح من النادمين",
-      "reason": "empty"
-    },
-    {
-      "run": "اتقاكم ابو بكر",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"اتقاكم ابو ب\" vs proposal \"أتقاكم\")"
-    },
-    {
-      "run": "وعلم آدم الأسماء كلها ثم عرضهم على الملائكة فقال انبئوني بأسماء هؤلاء ان كنتم صادقين قالوا سبحانك لا علم لنا إلا ما علمتنا انك انت العليم الحكيم قال يا آدم انبئهم باسمائهم فلما انبأهم باسمائهم قال الم اقل لكم اني اعلم غيب السماوات والارض",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"وعلم آدم الأ\" vs proposal \"الأسماء\")"
-    },
-    {
-      "run": "واذا السماء انفطرت واذا الكواكب انتشرت",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"واذا السماء \" vs proposal \"إنتشرت\")"
-    },
-    {
-      "run": "إذا الشمس كورت واذا النجوم انكدرت واذا الجبال سيرت واذا العشار عطلت",
-      "reason": "letters changed, not just marks (first difference at character 2: source \"ذا الشمس كور\" vs proposal \"نكدرت\")"
-    },
-    {
-      "run": "من خطيئاتهم اغرقوا فادخلوا النار",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"من خطيئاتهم \" vs proposal \"خطيئاتهم\")"
-    },
-    {
-      "run": "يا بني اركب معنا ولا تكن مع الكافرين",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"يا بني اركب \" vs proposal \"الكافرين\")"
+      "run": "إنا أوحينا اليك كما أوحينا إلى نوح والنبيين من بعده وأوحينا إلى إبراهيم وإسماعيل وإسحاق ويعقوب والأسباط وعيسى وأيوب ويونس وهرون وسليمان",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"إنا أوحينا ا\" vs proposal \"الأسباط\")"
     }
   ],
-  "lexical": 23
+  "lexical": 17
 }

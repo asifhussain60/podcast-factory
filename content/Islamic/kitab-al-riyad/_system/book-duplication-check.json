@@ -1,4 +1,22 @@
 {
   "schema": "book.duplication-check/v1",
-  "findings": []
+  "findings": [
+    {
+      "chapter": "1. The Freedom to Disagree",
+      "lag": 6,
+      "first_copy_paragraphs": [
+        0,
+        2
+      ],
+      "second_copy_paragraphs": [
+        6,
+        8
+      ],
+      "paragraphs": 3,
+      "min_ratio": 0.559,
+      "min_shared_words": 12,
+      "first_copy_opens": "The Islamic world at the close of the third century of the Muhammadan Hijra bore the stamp of its sciences, its philosophy, and its letters, and these shaped bo",
+      "second_copy_opens": "The Islamic world at the close of the third century of the Muhammadan Hijra bore, as I read it, the stamp of its sciences, its philosophy, and its literature. N"
+    }
+  ]
 }

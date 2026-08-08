@@ -2,7 +2,7 @@
   "book_title": "Kitab al-Riyad: A Judgment Between the Two Reformers",
   "voice": "modern author first-person",
   "preface": {
-    "include": true,
+    "include": false,
     "title": "Reading a Thousand-Year-Old Argument",
     "source_line_ranges": [
       [

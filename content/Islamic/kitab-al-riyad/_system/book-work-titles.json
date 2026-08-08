@@ -98,32 +98,52 @@
   ],
   "changes": [
     {
-      "title": "al-Islah",
-      "action": "dropped-second-name"
-    },
-    {
-      "title": "al-Nusra",
-      "action": "dropped-second-name"
-    },
-    {
       "title": "al-Mahsul",
-      "action": "dropped-second-name"
+      "action": "englished",
+      "printed": "The Harvest"
     },
     {
       "title": "al-Farq bayn al-Firaq",
-      "action": "dropped-second-name"
+      "action": "englished",
+      "printed": "The Difference Between the Sects"
     },
     {
       "title": "al-Islah",
-      "action": "dropped-second-name"
+      "action": "englished",
+      "printed": "The Correction"
     },
     {
       "title": "al-Nusra",
-      "action": "dropped-second-name"
+      "action": "englished",
+      "printed": "The Defense"
     },
     {
-      "title": "al-Riyad",
-      "action": "dropped-second-name"
+      "title": "Ithbat al-Nubuwwat",
+      "action": "stripped-brackets"
+    },
+    {
+      "title": "Fusul wa Akhbar",
+      "action": "englished",
+      "printed": "Chapters and Reports"
+    },
+    {
+      "title": "Risalat al-Waiza",
+      "action": "englished",
+      "printed": "the Preacher's Message"
+    },
+    {
+      "title": "al-Mabasim",
+      "action": "englished",
+      "printed": "the Good Tidings"
+    },
+    {
+      "title": "al-Masabih",
+      "action": "englished",
+      "printed": "the Lamps"
+    },
+    {
+      "title": "رَاحَةُ الْعَقْل",
+      "action": "dropped-orphan-script"
     },
     {
       "title": "معاصم الهدى",
@@ -138,36 +158,27 @@
       "action": "dropped-second-name"
     },
     {
-      "title": "al-Masabih",
-      "action": "englished",
-      "printed": "The Lamps"
+      "title": "اَلرَّوْضَة",
+      "action": "dropped-orphan-script"
     },
     {
-      "title": "al-Mahsul",
-      "action": "englished",
-      "printed": "The Harvest"
-    },
-    {
-      "title": "al-Islah",
-      "action": "englished",
-      "printed": "The Reform"
-    },
-    {
-      "title": "al-Nusra",
-      "action": "englished",
-      "printed": "The Support"
-    },
-    {
-      "title": "al-Riyad",
-      "action": "englished",
-      "printed": "The Gardens"
+      "title": "الْمَقَالِيد",
+      "action": "dropped-orphan-script"
     },
     {
       "title": "اَلرِّسَالَةُ الْمُضِيئَة",
       "action": "dropped-orphan-script"
     },
     {
-      "title": "تَأْوِيلُ الشَّرِيعَة",
+      "title": "رَاحَةُ الْعَقْل",
+      "action": "dropped-orphan-script"
+    },
+    {
+      "title": "الْمَصَابِيح",
+      "action": "dropped-orphan-script"
+    },
+    {
+      "title": "مَعَالِمُ الدِّين",
       "action": "dropped-orphan-script"
     }
   ]
