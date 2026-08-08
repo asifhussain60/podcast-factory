@@ -26,7 +26,7 @@ function loadItems(): SnagItem[] {
   const path = resolve(process.cwd(), "../_workspace/plan/pending-work.yaml");
   try {
     const doc = yaml.load(readFileSync(path, "utf-8")) as {
-      items?: SnagItem[];
+      items?: Array<Omit<SnagItem, "noticed"> & { noticed?: string | Date }>;
     };
     const items = Array.isArray(doc?.items) ? doc.items : [];
     // js-yaml parses an unquoted `noticed: 2026-07-18` scalar into a native Date

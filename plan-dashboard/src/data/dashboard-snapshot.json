@@ -1938,6 +1938,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "6f4857da",
+      "subject": "chore(plan-dashboard): resync snapshot recent-commits tail after repo-surgeon audit",
+      "date": "2026-08-08"
+    },
+    {
       "sha": "94f71388",
       "subject": "chore(plan-dashboard): resync snapshot recent-commits tail",
       "date": "2026-08-08"
@@ -1980,11 +1985,6 @@
     {
       "sha": "094cb323",
       "subject": "fix(podcast-pipeline): glossary Arabic-fill now logs its own cost",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "161a910f",
-      "subject": "feat(site): promote Snag List to its own top-level nav tab",
       "date": "2026-08-08"
     }
   ],
