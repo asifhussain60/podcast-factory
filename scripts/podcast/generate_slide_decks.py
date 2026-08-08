@@ -25,7 +25,7 @@ COST (approx, Gemini 2.5 Flash)
 OUTPUTS
     slide-decks/chNN-deck-<slug>.txt       — uploaded to NotebookLM slide notebook
     slide-decks/chNN-framing-<slug>.md     — pasted into NotebookLM Customize box
-    _system/cost-ledger.json               — running cost ledger (appended)
+    _system/cost-ledger.jsonl              — the one canonical cost ledger (appended)
 """
 
 from __future__ import annotations
@@ -41,6 +41,8 @@ _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
 from _paths import resolve_content
+from _tool_cost import append_tool_cost
+from cost_guard import real_spend_usd
 
 PRICE_IN = 0.000_000_1  # $/char Gemini 2.5 Flash input (approx)
 PRICE_OUT = 0.000_000_4  # $/char output
@@ -92,11 +94,12 @@ def _gemini(system: str, user: str, *, model: str = "gemini-2.5-flash") -> str:
 
 
 def _log_cost(slug: str, entry: dict) -> None:
-    p = resolve_content(slug) / "_system" / "cost-ledger.json"
-    led = json.loads(p.read_text()) if p.exists() else {"slug": slug, "entries": [], "total_usd": 0.0}
-    led["entries"].append(entry)
-    led["total_usd"] = round(sum(e.get("cost_usd", 0.0) for e in led["entries"]), 4)
-    p.write_text(json.dumps(led, indent=2) + "\n")
+    """Append this tool's real spend to the ONE canonical ledger.
+
+    Wrote a private ``_system/cost-ledger.json`` until 2026-08-08, which nothing read
+    — see ``_cost_ledger.append_tool_cost`` for the whole story and the mapping.
+    """
+    append_tool_cost(resolve_content(slug), entry)
 
 
 # ---------------------------------------------------------------------------
@@ -371,10 +374,8 @@ def main() -> None:
         if success:
             ok += 1
 
-    # Read updated total cost.
-    ledger_path = book_dir / "_system" / "cost-ledger.json"
-    if ledger_path.exists():
-        total_cost = json.loads(ledger_path.read_text()).get("total_usd", 0.0)
+    # Running total from the ONE ledger; `real_spend_usd` counts only real-money rows.
+    total_cost = real_spend_usd(book_dir)
 
     print(f"\nDone: {ok}/{len(entries)} chapters. Running total cost: ${total_cost:.2f}")
 
