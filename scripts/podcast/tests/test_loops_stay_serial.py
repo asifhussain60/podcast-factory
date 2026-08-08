@@ -123,9 +123,15 @@ class SerialDependencyStillExistsTests(unittest.TestCase):
         )
 
     def test_the_per_chapter_loop_still_has_its_circuit_breaker(self):
+        # The breaker's STATE moved to `_chapter_breaker` on 2026-08-08 so it can be
+        # shared safely once this loop gains workers, which is why this no longer looks
+        # for the old `failure_signatures` local. What must still hold is that the loop
+        # consults a breaker at all — both after a failure AND before a chapter starts,
+        # since the pre-start gate is the half that makes the economics survive workers.
         source = CHAPTER_DRIVER.read_text(encoding="utf-8")
         self.assertIn("CIRCUIT-BREAKER", source)
-        self.assertIn("failure_signatures", source)
+        self.assertIn("breaker.record_failure(", source, "the loop no longer records failures with the breaker")
+        self.assertIn("breaker.begin(", source, "the loop no longer asks the breaker BEFORE starting a chapter")
 
 
 class DecisionIsDocumentedTests(unittest.TestCase):

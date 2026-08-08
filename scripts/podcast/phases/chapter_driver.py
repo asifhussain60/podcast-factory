@@ -8,12 +8,12 @@ finalize halt. Called by resume_dispatcher after Phase 0f approval.
 
 from __future__ import annotations
 
-import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from _chapter_breaker import BreakerTripped, ChapterBreaker, failure_signature
 from _convergence import ChapterOutcome, render_outcome
 from _paths import REPO_ROOT
 from _progress import read_state, update_phase
@@ -47,19 +47,10 @@ def _phase_boundary_gate(book_dir: Path, boundary_name: str, projected_cost_usd:
     )
 
 
-def _failure_signature(reason: str) -> str:
-    """Normalize a failure reason so the same root cause across chapters matches.
-
-    Collapses digits and slug-like tokens to a stable shape: "word count 2
-    outside band" and "word count 5000 outside band" share a signature, while
-    two genuinely different findings stay distinct. Used by the C3 circuit
-    breaker to detect a systemic failure repeating across chapters.
-    """
-    s = reason.lower()
-    s = re.sub(r"[0-9]+", "#", s)
-    s = re.sub(r"[^a-z#\s]", " ", s)
-    s = re.sub(r"\s+", " ", s).strip()
-    return s[:80]
+# The C3 breaker's own logic moved to `_chapter_breaker` (2026-08-08) so its state can
+# be shared safely once this loop gains workers. Re-exported because importers and tests
+# still reach for the signature helper at this path.
+_failure_signature = failure_signature
 
 
 def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool = False) -> int:
@@ -126,11 +117,11 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     if book_cost_cap_usd > 0:
         _info(f"per-book cost ceiling: ${book_cost_cap_usd:.2f} (per series-plan)")
 
-    # C3 circuit breaker state: count chapters actually attempted this run and
-    # group failures by normalized signature, to halt on a systemic failure
-    # instead of grinding through every chapter with the same root cause.
-    attempted = 0
-    failure_signatures: dict[str, list[str]] = {}
+    # C3 circuit breaker: halt on a systemic failure instead of grinding through every
+    # chapter with the same root cause. State is behind a lock and the verdict is asked
+    # BEFORE a chapter starts as well as after one fails — see `_chapter_breaker`.
+    # Decisions are identical to the previous inline version under a single worker.
+    breaker = ChapterBreaker()
 
     #: One line per chapter that shipped this run, committed as a single commit after
     #: the loop rather than one commit per chapter. See the note at the append site.
@@ -160,16 +151,17 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     # thread-safe. Three blockers were found; one is cleared, two remain:
     #
     #   1. CLEARED — commits are batched after the loop (`_commit_chapter_batch`).
-    #   2. The C3 circuit breaker is an ECONOMIC early exit: its value is halting
-    #      BEFORE the remaining chapters are paid for. Concurrently, every chapter is
-    #      already in flight when the signal appears, so it reports but saves nothing.
+    #   2. CLEARED — the C3 breaker's state is locked and its verdict is asked at
+    #      `breaker.begin()`, BEFORE a chapter starts, so a worker that has not begun
+    #      can still decline. That is what preserves its economics: its value was
+    #      always halting before the remaining chapters are paid for.
     #   3. The per-book cost ceiling is checked at chapter boundaries, so concurrent
     #      chapters overshoot it by however many are in flight.
     #
-    # 2 and 3 are decisive because they are about money. Weakening two cost controls to
-    # buy wall-clock time would trade the defect this work exists to fix for a lesser
-    # one. Unblocking them means a breaker signal a worker checks BEFORE starting, and
-    # a reservation model on the ceiling — neither is a comment-sized change.
+    # 3 is decisive because it is about money. Weakening a cost control to buy
+    # wall-clock time would trade the defect this work exists to fix for a lesser one.
+    # Unblocking it means a reservation model — each worker claiming its budget before
+    # spending and releasing the remainder — which is not a comment-sized change.
     for slug in chapter_slugs:
         if slug in completed_chapter_slugs:
             _info(f"phase: per-chapter[{slug}] · already shipped, skipping")
@@ -177,7 +169,15 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         if slug in failed_chapter_slugs:
             _info(f"phase: per-chapter[{slug}] · prior FAILED, skipping (--retry-phase per-chapter re-attempts it)")
             continue
-        attempted += 1
+        # THE PRE-START GATE. Asking the breaker here — before any work — is what makes
+        # its economics survive workers: a chapter that has not begun can still decline
+        # to begin. Serially this can only fire if a previous chapter tripped it, and
+        # that path already returned below, so behaviour today is unchanged.
+        try:
+            _ordinal = breaker.begin(slug)
+        except BreakerTripped as _t:
+            _info(f"phase: per-chapter[{slug}] · not started — book is halting ({_t.reason[:80]})")
+            continue
         _info(f"phase: per-chapter[{slug}] · extract → frame → build → converge")
         _t_start = datetime.now(timezone.utc)
         _cost_at_start = _chapter_cost_so_far(book_dir, slug)
@@ -282,27 +282,17 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             chapter_timings[slug]["error"] = _reason
 
             # C3 circuit breaker: is this a SYSTEMIC failure (halt) or a genuine
-            # per-chapter content failure (graceful-degrade)? Two systemic signals:
-            #   (a) the FIRST attempted chapter failed in <5s — a deterministic
-            #       crash (path/contract/template bug), not content; or
-            #   (b) the SAME normalized failure has now hit >=2 chapters — paying
-            #       for the same lesson again is waste (archetype-over-rerun rule).
-            _sig = _failure_signature(_reason)
-            _sig_slugs = failure_signatures.setdefault(_sig, [])
-            if slug not in _sig_slugs:
-                _sig_slugs.append(slug)
-            _dur = chapter_timings[slug].get("duration_sec") or 0.0
-            _systemic: str | None = None
-            if attempted == 1 and _dur < 5.0:
-                _systemic = (
-                    f"first attempted chapter '{slug}' failed in {_dur:.1f}s — "
-                    f"deterministic/systemic (not content): {_reason}"
-                )
-            elif len(_sig_slugs) >= 2:
-                _systemic = (
-                    f"same failure across {len(_sig_slugs)} chapters "
-                    f"({', '.join(_sig_slugs)}) — systemic, not per-chapter: {_reason}"
-                )
+            # per-chapter content failure (graceful-degrade)? The two signals, the
+            # signature normalisation and the shared state all live in
+            # `_chapter_breaker` now — `_ordinal` is what `begin()` handed back, passed
+            # in rather than re-read because under workers "was this the first attempt"
+            # is a fact about when this chapter STARTED, not about the counter now.
+            _systemic = breaker.record_failure(
+                slug,
+                _reason,
+                chapter_timings[slug].get("duration_sec") or 0.0,
+                _ordinal,
+            )
 
             if _systemic:
                 update_phase(
