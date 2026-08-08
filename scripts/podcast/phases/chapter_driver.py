@@ -14,6 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _chapter_breaker import BreakerTripped, ChapterBreaker, failure_signature
+from _chapter_cost_caps import admit, read_caps
 from _convergence import ChapterOutcome, render_outcome
 from _paths import REPO_ROOT
 from _progress import read_state, update_phase
@@ -30,7 +31,6 @@ from phases.series_plan import (
     _book_cost_so_far,
     _chapter_cost_so_far,
     _series_flag,
-    _series_numeric,
     phase_0g_register,
 )
 from phases.slide_cohort import is_bad_slide_outcome, run_slide_cohort
@@ -104,18 +104,10 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     prior_state = read_state(book_dir) or {}
     chapter_timings.update(prior_state.get("phases", {}).get("per-chapter", {}).get("chapter_timings", {}))
     failed_chapter_slugs: set[str] = set(prior_state.get("phases", {}).get("per-chapter", {}).get("failed_slugs", []))
-    per_chapter_cost_cap_usd = _series_numeric(
-        book_dir,
-        "per_chapter_cost_cap_usd",
-        default=5.0,
-    )
-    if per_chapter_cost_cap_usd > 0:
-        _info(f"per-chapter cost cap: ${per_chapter_cost_cap_usd:.2f} (per series-plan)")
-    # F35: per-BOOK hard ceiling, checked mid-loop (default 0 = disabled, so
-    # existing books are unaffected unless they opt in via series-plan).
-    book_cost_cap_usd = _series_numeric(book_dir, "book_cost_cap_usd", default=0.0)
-    if book_cost_cap_usd > 0:
-        _info(f"per-book cost ceiling: ${book_cost_cap_usd:.2f} (per series-plan)")
+    # Both spend limits, and the admission check below, live in `_chapter_cost_caps` —
+    # they are different in KIND (one fails a chapter, one halts the book) and reading
+    # either without the other invites the wrong conclusion about a halt.
+    per_chapter_cost_cap_usd, book_cost_cap_usd = read_caps(book_dir, log=_info)
 
     # C3 circuit breaker: halt on a systemic failure instead of grinding through every
     # chapter with the same root cause. State is behind a lock and the verdict is asked
@@ -126,6 +118,12 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     #: One line per chapter that shipped this run, committed as a single commit after
     #: the loop rather than one commit per chapter. See the note at the append site.
     committed_chapter_lines: list[str] = []
+
+    #: Set when the loop DECLINED to start a chapter because the book is halting. Kept
+    #: because a run that stops this way must record WHY: without it the phase would
+    #: fall out of the loop looking like a book whose chapters were simply all done, and
+    #: the supervisor would relaunch straight into the same ceiling.
+    _pre_start_halt: str | None = None
 
     def _commit_chapter_batch() -> None:
         """Commit every chapter that shipped this run, as one commit.
@@ -143,25 +141,19 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         phase_git_commit(book_dir, subject + "\n\n" + "\n".join(committed_chapter_lines))
         committed_chapter_lines.clear()
 
-    # THIS LOOP IS STILL SERIAL, and must stay that way until two COST controls below
-    # can survive concurrency (investigated 2026-08-08; full record in git history).
+    # THIS LOOP IS SERIAL, but is now SAFE TO PARALLELISE — all three blockers found on
+    # 2026-08-08 are cleared (full record in git history). It is the biggest wall-clock
+    # lever in the pipeline: 732 min for 20 chapters, measured.
     #
-    # It is the obvious target — the longest phase by wall clock (measured: 732 min for
-    # 20 chapters), and each chapter is logically independent. State writes are already
-    # thread-safe. Three blockers were found; one is cleared, two remain:
+    #   1. commits are batched after the loop      (`_commit_chapter_batch`)
+    #   2. the C3 breaker is locked and asked BEFORE a chapter starts, so a worker that
+    #      has not begun can still decline        (`_chapter_breaker`)
+    #   3. the per-book ceiling admits or refuses a chapter before it spends
+    #                                             (`_chapter_cost_caps.admit`)
     #
-    #   1. CLEARED — commits are batched after the loop (`_commit_chapter_batch`).
-    #   2. CLEARED — the C3 breaker's state is locked and its verdict is asked at
-    #      `breaker.begin()`, BEFORE a chapter starts, so a worker that has not begun
-    #      can still decline. That is what preserves its economics: its value was
-    #      always halting before the remaining chapters are paid for.
-    #   3. The per-book cost ceiling is checked at chapter boundaries, so concurrent
-    #      chapters overshoot it by however many are in flight.
-    #
-    # 3 is decisive because it is about money. Weakening a cost control to buy
-    # wall-clock time would trade the defect this work exists to fix for a lesser one.
-    # Unblocking it means a reservation model — each worker claiming its budget before
-    # spending and releasing the remainder — which is not a comment-sized change.
+    # When workers are added: the compose loop in `_translation_edition` must stay serial
+    # regardless — it threads an 80-word continuity tail between chapters — and
+    # `test_loops_stay_serial` should be narrowed to cover that loop alone.
     for slug in chapter_slugs:
         if slug in completed_chapter_slugs:
             _info(f"phase: per-chapter[{slug}] · already shipped, skipping")
@@ -169,14 +161,20 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         if slug in failed_chapter_slugs:
             _info(f"phase: per-chapter[{slug}] · prior FAILED, skipping (--retry-phase per-chapter re-attempts it)")
             continue
+        # ADMISSION CONTROL on the per-book ceiling — refuse to START a chapter once the
+        # cap is reached. See `_chapter_cost_caps.admit` for why this is admission rather
+        # than a budget reservation.
+        admit(book_dir, book_cost_cap_usd, breaker)
+
         # THE PRE-START GATE. Asking the breaker here — before any work — is what makes
         # its economics survive workers: a chapter that has not begun can still decline
-        # to begin. Serially this can only fire if a previous chapter tripped it, and
-        # that path already returned below, so behaviour today is unchanged.
+        # to begin. Serially this can only fire if a previous chapter tripped it or the
+        # ceiling check above just did, so behaviour today is unchanged.
         try:
             _ordinal = breaker.begin(slug)
         except BreakerTripped as _t:
             _info(f"phase: per-chapter[{slug}] · not started — book is halting ({_t.reason[:80]})")
+            _pre_start_halt = _t.reason
             continue
         _info(f"phase: per-chapter[{slug}] · extract → frame → build → converge")
         _t_start = datetime.now(timezone.utc)
@@ -358,6 +356,25 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     # ONE commit for the whole loop, before the failure handling below — a book where
     # 18 of 20 chapters shipped must still commit those 18.
     _commit_chapter_batch()
+
+    # A halt that stopped chapters from STARTING is recorded before the per-chapter
+    # failure handling below, and returns 2 so the supervisor does not relaunch into the
+    # same wall. The reason carries its own marker (COST-CEILING for the ceiling), which
+    # is what supervise_run.py reads to decide that.
+    if _pre_start_halt and any(s not in completed_chapter_slugs for s in chapter_slugs):
+        update_phase(
+            book_dir,
+            phase="per-chapter",
+            status="failed",
+            error=_pre_start_halt,
+            extras={
+                "completed_slugs": sorted(completed_chapter_slugs),
+                "failed_slugs": sorted(failed_chapter_slugs),
+                "chapter_timings": chapter_timings,
+            },
+        )
+        _err(f"per-chapter halted before starting further chapters: {_pre_start_halt}")
+        return 2
 
     if failed_chapter_slugs:
         update_phase(

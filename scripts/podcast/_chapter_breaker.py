@@ -115,6 +115,28 @@ class ChapterBreaker:
         with self._lock:
             return self._tripped
 
+    def trip(self, reason: str) -> str:
+        """Halt the book for a reason found OUTSIDE a chapter failure. Returns the
+        reason in force (the first one, if already tripped).
+
+        The per-book cost ceiling uses this. A ceiling breach is already a systemic halt
+        in this pipeline — same `systemic_halt` field, same `COST-CEILING` marker that
+        tells the supervisor not to relaunch — so it belongs to the same gate rather than
+        a parallel mechanism: there should be exactly ONE answer to "may a new chapter
+        start", however many reasons it can say no.
+
+        Deliberately NOT a budget reservation. A reservation has to estimate what a
+        chapter will cost, and that depends on how many convergence iterations it needs,
+        which is unknowable before it runs — too low blocks work that would have fit, too
+        high wastes the ceiling. The live check inside the convergence loop already reads
+        ACTUAL spend and self-corrects; the only gap under workers was a NEW chapter
+        starting after the ceiling was already gone, and that is what this closes.
+        """
+        with self._lock:
+            if self._tripped is None:
+                self._tripped = reason
+            return self._tripped
+
     # ── recording ────────────────────────────────────────────────────────────
 
     def record_failure(self, slug: str, reason: str, duration_sec: float, ordinal: int) -> str | None:

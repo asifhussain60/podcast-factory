@@ -148,6 +148,112 @@ class PreStartGateTests(unittest.TestCase):
         self.assertEqual(self.b.tripped(), first)
 
 
+class ExternalTripTests(unittest.TestCase):
+    """`trip()` is how the per-book cost ceiling halts the book.
+
+    A ceiling breach is already a systemic halt in this pipeline — same `systemic_halt`
+    field, same COST-CEILING marker that tells the supervisor not to relaunch — so it
+    shares this gate rather than getting a parallel mechanism. There should be exactly
+    one answer to "may a new chapter start", however many reasons it can say no.
+    """
+
+    def setUp(self) -> None:
+        self.b = ChapterBreaker()
+
+    def test_tripping_stops_new_chapters_starting(self):
+        self.b.begin("ch01")
+        self.b.trip("COST-CEILING: book has spent $60.00 against a cap of $50.00")
+        with self.assertRaises(BreakerTripped) as ctx:
+            self.b.begin("ch02")
+        self.assertIn("COST-CEILING", ctx.exception.reason)
+
+    def test_the_first_reason_wins(self):
+        self.b.trip("first reason")
+        self.b.trip("second reason")
+        self.assertEqual(self.b.tripped(), "first reason")
+
+    def test_trip_returns_the_reason_in_force(self):
+        self.assertEqual(self.b.trip("mine"), "mine")
+        self.assertEqual(self.b.trip("later"), "mine", "trip must report what is actually in force")
+
+    def test_a_chapter_already_running_can_still_record_its_failure(self):
+        # The ceiling stops chapters STARTING; it must not stop one already in flight
+        # from reporting how it ended, or that chapter's outcome is lost.
+        ordinal = self.b.begin("ch01")
+        self.b.trip("COST-CEILING: out of budget")
+        self.b.record_failure("ch01", "some content failure", 90.0, ordinal)
+        self.assertIn(
+            "COST-CEILING",
+            self.b.tripped(),
+            "a later failure overwrote the ceiling diagnosis the operator needs to read",
+        )
+
+    def test_tripping_is_visible_to_every_thread(self):
+        b = ChapterBreaker()
+        refused: list[str] = []
+        lock = threading.Lock()
+        b.trip("COST-CEILING: out of budget")
+
+        def worker(i: int) -> None:
+            try:
+                b.begin(f"ch{i:02d}")
+            except BreakerTripped:
+                with lock:
+                    refused.append(f"ch{i:02d}")
+
+        threads = [threading.Thread(target=worker, args=(i,)) for i in range(20)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+        self.assertEqual(len(refused), 20, "a tripped breaker must refuse every worker")
+        self.assertEqual(b.attempted(), 0, "no refused start may consume an attempt")
+
+
+class CostCeilingAdmissionTests(unittest.TestCase):
+    """The driver must ASK before starting a chapter, not only mid-convergence.
+
+    The live check inside the convergence loop reads actual spend and self-corrects, so
+    the gap was never the accounting — it was that a NEW chapter could start after the
+    ceiling was already gone. Serially that is the next loop iteration; concurrently it
+    is every worker that has not begun.
+    """
+
+    def setUp(self) -> None:
+        self.source = (SCRIPTS_PODCAST / "phases" / "chapter_driver.py").read_text(encoding="utf-8")
+        self.caps = (SCRIPTS_PODCAST / "_chapter_cost_caps.py").read_text(encoding="utf-8")
+
+    def test_the_ceiling_is_checked_before_the_pre_start_gate(self):
+        admit_at = self.source.index("admit(book_dir, book_cost_cap_usd, breaker)")
+        begin_at = self.source.index("breaker.begin(slug)")
+        self.assertLess(admit_at, begin_at, "the ceiling must be consulted BEFORE a chapter is admitted")
+
+    def test_the_ceiling_breach_trips_the_shared_breaker(self):
+        # The check lives in `_chapter_cost_caps` now; what matters is that a breach
+        # trips the SAME breaker the systemic-failure path uses, so there is one answer
+        # to "may a new chapter start".
+        self.assertIn("breaker.trip(", self.caps)
+        self.assertIn("COST-CEILING", self.caps)
+
+    def test_the_admission_check_reads_live_spend_rather_than_estimating(self):
+        # The whole reason this is admission rather than a reservation: no estimate.
+        self.assertIn("_book_cost_so_far", self.caps)
+        for guessy in ("estimate", "projected_cost", "reserve("):
+            self.assertNotIn(f"{guessy} =", self.caps, f"{guessy} suggests a reservation crept back in")
+
+    def test_a_halt_before_starting_is_recorded_rather_than_falling_through(self):
+        # Without this the phase would exit the loop looking like a book whose chapters
+        # were simply all done, and the supervisor would relaunch into the same wall.
+        self.assertIn("_pre_start_halt", self.source)
+        self.assertIn("per-chapter halted before starting further chapters", self.source)
+
+    def test_the_mid_convergence_check_is_still_there(self):
+        # Admission control does not replace it: it is what stops work ALREADY running.
+        conv = (SCRIPTS_PODCAST / "_convergence.py").read_text(encoding="utf-8")
+        self.assertIn("COST-CEILING", conv)
+        self.assertIn("book_cost_fn", conv)
+
+
 class ConcurrencySafetyTests(unittest.TestCase):
     """The state must be correct under threads — the reason this class exists at all."""
 

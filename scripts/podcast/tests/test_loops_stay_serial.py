@@ -107,10 +107,25 @@ class SerialDependencyStillExistsTests(unittest.TestCase):
 
     @staticmethod
     def _per_chapter_loop_body(source: str) -> str:
-        """The text between `for slug in chapter_slugs:` and the batched commit call."""
-        start = source.index("for slug in chapter_slugs:")
-        end = source.index("_commit_chapter_batch()\n\n    if failed_chapter_slugs:")
-        return source[start:end]
+        """The source of the `for slug in chapter_slugs:` loop, located by AST.
+
+        Parsed rather than sliced between text markers. The first version of this keyed
+        on the line that follows the loop, and broke the moment a block was inserted
+        there — a brittle helper turns a real guard into noise, and the guard is the
+        point.
+        """
+        tree = ast.parse(source)
+        lines = source.splitlines(keepends=True)
+        for node in ast.walk(tree):
+            if (
+                isinstance(node, ast.For)
+                and isinstance(node.target, ast.Name)
+                and node.target.id == "slug"
+                and isinstance(node.iter, ast.Name)
+                and node.iter.id == "chapter_slugs"
+            ):
+                return "".join(lines[node.lineno - 1 : node.end_lineno])
+        raise AssertionError("could not find the `for slug in chapter_slugs:` loop")
 
     def test_the_batch_commits_on_every_halt_path_too(self):
         # A book where 18 of 20 chapters shipped before a halt must still commit those
@@ -150,15 +165,18 @@ class DecisionIsDocumentedTests(unittest.TestCase):
                 f"{path.name} lost the comment explaining why its loop is serial",
             )
 
-    def test_the_chapter_driver_names_the_blockers_that_remain(self):
-        # The comment's job is to stop a future change being made blind, so it has to
-        # say WHAT is still in the way — not merely that something is.
+    def test_the_chapter_driver_says_it_is_now_safe_to_parallelise(self):
+        # All three blockers were cleared on 2026-08-08, so this test's premise changed:
+        # it used to demand the comment NAME what was still in the way. Now the comment's
+        # job is to say the loop is ready and point at the three mechanisms that made it
+        # ready, so the next person adding workers knows what they are relying on.
         text = CHAPTER_DRIVER.read_text(encoding="utf-8")
-        for token in ("circuit breaker", "cost ceiling"):
+        self.assertIn("SAFE TO PARALLELISE", text, "the comment no longer records that the blockers are cleared")
+        for mechanism in ("_commit_chapter_batch", "_chapter_breaker", "_chapter_cost_caps"):
             self.assertIn(
-                token,
-                text.lower(),
-                f"the serial-loop comment no longer names the {token!r} blocker",
+                mechanism,
+                text,
+                f"the comment no longer points at {mechanism}, which a future parallelisation depends on",
             )
 
 
