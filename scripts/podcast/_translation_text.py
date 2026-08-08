@@ -207,6 +207,14 @@ def _compress_line_ranges(indices: list[int]) -> list[list[int]]:
     return ranges
 
 
+# A bare numbered-list marker: "1.", "2." at the head of a line — the format a
+# genuine enumerated argument uses in this corpus, distinct from the "(1)"
+# parenthesized style a footnote uses (see enumeration_findings in
+# _narrative.py, which relies on the same distinction). Used here only to
+# avoid CUTTING a window mid-list, not to judge apparatus.
+_BARE_LIST_MARKER_RE = re.compile(r"^\s*([0-9]{1,2})\.\s+\S")
+
+
 def _iter_source_windows(
     lines: list[str],
     ranges: list[list[int]],
@@ -223,12 +231,19 @@ def _iter_source_windows(
     if not pairs:
         return []
 
+    # A list is "active" only while its markers are still arriving close
+    # together; once this many words pass with no next marker, treat it as
+    # finished so an unrelated chapter containing an old, closed list is
+    # never held open until 2x target for no reason.
+    _LIST_ACTIVE_GAP_WORDS = 400
+
     windows: list[tuple[str, list[list[int]]]] = []
     cur: list[tuple[int, str]] = []
     cur_words = 0
+    words_since_marker = _LIST_ACTIVE_GAP_WORDS  # large = no active list yet
 
     def flush() -> None:
-        nonlocal cur, cur_words
+        nonlocal cur, cur_words, words_since_marker
         if not cur:
             return
         body = "\n".join(line for _, line in cur).strip()
@@ -236,11 +251,33 @@ def _iter_source_windows(
             windows.append((body, _compress_line_ranges([idx for idx, _ in cur])))
         cur = []
         cur_words = 0
+        words_since_marker = _LIST_ACTIVE_GAP_WORDS
 
     for idx, line in pairs:
+        line_words = len(line.split())
+        if _BARE_LIST_MARKER_RE.match(line):
+            words_since_marker = 0
+        else:
+            words_since_marker += line_words
         cur.append((idx, line))
-        cur_words += len(line.split())
-        if cur_words >= target_words and (not line.strip() or _PAGE_MARK.search(line)):
+        cur_words += line_words
+        at_boundary = not line.strip() or _PAGE_MARK.search(line)
+        if cur_words >= target_words and at_boundary:
+            # Kitab al-Riyad ships a genuine numbered argument list ("1. The
+            # author of al-Islah says...") that a plain word-count cut split
+            # mid-sequence: window 1 got items 1-4, window 2 opened on item 5
+            # with no numbering context, and the composer (correctly) could
+            # not reproduce a coherent numbered list from either half —
+            # enumeration_findings then failed the chapter's integrity gate on
+            # content that WAS real enumeration, unlike the apparatus false
+            # positives that gate now filters. Defer the flush, up to double
+            # the target, while a bare-marker sequence (1., 2., 3. ...) is
+            # still actively continuing (a marker within the last
+            # `_LIST_ACTIVE_GAP_WORDS` words) — a footnote's parenthesized
+            # "(1)" never sets `words_since_marker`, so ordinary chapters and
+            # footnote-heavy ones are unaffected.
+            if words_since_marker < _LIST_ACTIVE_GAP_WORDS and cur_words < target_words * 2:
+                continue
             flush()
     flush()
     return windows

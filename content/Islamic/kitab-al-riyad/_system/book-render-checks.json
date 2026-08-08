@@ -1,85 +1,19 @@
 {
   "schema": "podcast.book-render-checks/v1",
-  "verdict": "RENDER-BROKEN",
-  "pages": 267,
+  "verdict": "RENDER-CAUTION",
+  "pages": 265,
   "findings": [
     {
-      "check": "BR-BLANK-PAGE",
-      "severity": "P0",
-      "page": 4,
-      "detail": "blank/near-blank interior page (30 chars)"
-    },
-    {
-      "check": "BR-BLANK-PAGE",
-      "severity": "P0",
-      "page": 30,
-      "detail": "blank/near-blank interior page (85 chars)"
-    },
-    {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
-      "page": 2,
-      "detail": "half-empty interior page (146 vs median 1825 chars)"
-    },
-    {
-      "check": "BR-PAGE-FILL",
-      "severity": "P1",
-      "page": 3,
-      "detail": "half-empty interior page (367 vs median 1825 chars)"
-    },
-    {
-      "check": "BR-PAGE-FILL",
-      "severity": "P1",
-      "page": 6,
-      "detail": "half-empty interior page (235 vs median 1825 chars)"
-    },
-    {
-      "check": "BR-CAPTION-DUP",
-      "severity": "P1",
-      "page": 7,
-      "detail": "caption printed twice: 'Introduction to the Book'"
-    },
-    {
-      "check": "BR-PAGE-FILL",
-      "severity": "P1",
-      "page": 24,
+      "page": 23,
       "detail": "half-empty interior page (505 vs median 1825 chars)"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
-      "page": 31,
-      "detail": "half-empty interior page (244 vs median 1825 chars)"
-    },
-    {
-      "check": "BR-CAPTION-DUP",
-      "severity": "P1",
-      "page": 186,
-      "detail": "caption printed twice: '\\u202b\u0650\u0625\\u202c'"
-    },
-    {
-      "check": "BR-PAGE-FILL",
-      "severity": "P1",
-      "page": 195,
+      "page": 193,
       "detail": "half-empty interior page (415 vs median 1825 chars)"
-    },
-    {
-      "check": "BR-CAPTION-DUP",
-      "severity": "P1",
-      "page": 214,
-      "detail": "caption printed twice: '\\u202b\u064e\u0623\\u202c'"
-    },
-    {
-      "check": "BR-CAPTION-DUP",
-      "severity": "P1",
-      "page": 215,
-      "detail": "caption printed twice: '\\u202b\u064e\u0623\\u202c'"
-    },
-    {
-      "check": "BR-CAPTION-DUP",
-      "severity": "P1",
-      "page": 258,
-      "detail": "caption printed twice: '\\u202b\u064e\u0651\u064a\\u202c'"
     }
   ]
 }

@@ -1,137 +1,137 @@
 {
   "schema": "book.comprehension/v1",
-  "pages": 267,
+  "pages": 265,
   "terms_tracked": 303,
   "prerequisite_gaps": [
     {
       "term": "al-Masabih",
-      "first_use_page": 22,
-      "explained_page": 216,
-      "pages_carried": 194,
+      "first_use_page": 21,
+      "explained_page": 214,
+      "pages_carried": 193,
       "kind": "explained-late"
     },
     {
       "term": "Qāʾim",
-      "first_use_page": 13,
-      "explained_page": 171,
-      "pages_carried": 158,
+      "first_use_page": 12,
+      "explained_page": 169,
+      "pages_carried": 157,
       "kind": "explained-late"
     },
     {
       "term": "al-Iftikhar",
-      "first_use_page": 15,
-      "explained_page": 81,
-      "pages_carried": 66,
+      "first_use_page": 14,
+      "explained_page": 79,
+      "pages_carried": 65,
       "kind": "explained-late"
     },
     {
       "term": "Adam",
-      "first_use_page": 7,
-      "explained_page": 49,
+      "first_use_page": 5,
+      "explained_page": 47,
       "pages_carried": 42,
       "kind": "explained-late"
     },
     {
       "term": "al-Muʿizz",
-      "first_use_page": 16,
-      "explained_page": 43,
-      "pages_carried": 27,
+      "first_use_page": 15,
+      "explained_page": 41,
+      "pages_carried": 26,
       "kind": "explained-late"
     },
     {
       "term": "Shari'a",
-      "first_use_page": 33,
-      "explained_page": 48,
+      "first_use_page": 31,
+      "explained_page": 46,
       "pages_carried": 15,
       "kind": "explained-late"
     },
     {
       "term": "Sharia",
-      "first_use_page": 33,
-      "explained_page": 48,
+      "first_use_page": 31,
+      "explained_page": 46,
       "pages_carried": 15,
       "kind": "explained-late"
     },
     {
       "term": "Imamate",
-      "first_use_page": 12,
-      "explained_page": 26,
+      "first_use_page": 11,
+      "explained_page": 25,
       "pages_carried": 14,
       "kind": "explained-late"
     },
     {
       "term": "destiny",
-      "first_use_page": 7,
-      "explained_page": 19,
+      "first_use_page": 6,
+      "explained_page": 18,
       "pages_carried": 12,
       "kind": "explained-late"
     },
     {
       "term": "Baghdadi",
-      "first_use_page": 10,
-      "explained_page": 16,
+      "first_use_page": 9,
+      "explained_page": 15,
       "pages_carried": 6,
       "kind": "explained-late"
     },
     {
       "term": "al-Baghdadi",
-      "first_use_page": 10,
-      "explained_page": 16,
+      "first_use_page": 9,
+      "explained_page": 15,
       "pages_carried": 6,
       "kind": "explained-late"
     },
     {
       "term": "al-Quds",
-      "first_use_page": 119,
-      "explained_page": 125,
+      "first_use_page": 117,
+      "explained_page": 123,
       "pages_carried": 6,
       "kind": "explained-late"
     },
     {
       "term": "al-aql",
-      "first_use_page": 21,
-      "explained_page": 26,
+      "first_use_page": 20,
+      "explained_page": 25,
       "pages_carried": 5,
       "kind": "explained-late"
     },
     {
       "term": "Muhammad",
-      "first_use_page": 10,
-      "explained_page": 14,
+      "first_use_page": 9,
+      "explained_page": 13,
       "pages_carried": 4,
       "kind": "explained-late"
     },
     {
       "term": "al-Mahsul",
-      "first_use_page": 6,
-      "explained_page": 10,
+      "first_use_page": 5,
+      "explained_page": 9,
       "pages_carried": 4,
       "kind": "explained-late"
     },
     {
       "term": "Fatimid",
-      "first_use_page": 11,
-      "explained_page": 14,
+      "first_use_page": 10,
+      "explained_page": 13,
       "pages_carried": 3,
       "kind": "explained-late"
     },
     {
       "term": "Hijra",
-      "first_use_page": 7,
-      "explained_page": 10,
+      "first_use_page": 6,
+      "explained_page": 9,
       "pages_carried": 3,
       "kind": "explained-late"
     },
     {
       "term": "al-ruh",
-      "first_use_page": 41,
+      "first_use_page": 39,
       "explained_page": null,
       "pages_carried": 3,
       "kind": "never-explained"
     },
     {
       "term": "da'wa",
-      "first_use_page": 16,
+      "first_use_page": 15,
       "explained_page": null,
       "pages_carried": 3,
       "kind": "never-explained"
@@ -141,13 +141,11 @@
   "referent_collisions": [],
   "dense_pages": [
     {
-      "page": 5,
-      "term_count": 9,
+      "page": 4,
+      "term_count": 7,
       "terms": [
-        "Adam",
         "Hijra",
         "Riyad",
-        "Wilayah",
         "al-Kirmani",
         "al-Riyad",
         "destiny",
@@ -156,7 +154,7 @@
       ]
     },
     {
-      "page": 7,
+      "page": 6,
       "term_count": 10,
       "terms": [
         "Adam",
@@ -172,7 +170,7 @@
       ]
     },
     {
-      "page": 8,
+      "page": 7,
       "term_count": 6,
       "terms": [
         "Ismaili",
@@ -184,7 +182,7 @@
       ]
     },
     {
-      "page": 10,
+      "page": 9,
       "term_count": 11,
       "terms": [
         "Baghdadi",
@@ -200,7 +198,7 @@
       ]
     },
     {
-      "page": 11,
+      "page": 10,
       "term_count": 9,
       "terms": [
         "Fatimid",
@@ -215,7 +213,7 @@
       ]
     },
     {
-      "page": 12,
+      "page": 11,
       "term_count": 13,
       "terms": [
         "Baghdad",
@@ -231,7 +229,7 @@
       ]
     },
     {
-      "page": 13,
+      "page": 12,
       "term_count": 13,
       "terms": [
         "Daylam",
@@ -247,7 +245,7 @@
       ]
     },
     {
-      "page": 14,
+      "page": 13,
       "term_count": 10,
       "terms": [
         "Fatimid",
@@ -263,7 +261,7 @@
       ]
     },
     {
-      "page": 15,
+      "page": 14,
       "term_count": 14,
       "terms": [
         "Ismaili",
@@ -279,7 +277,7 @@
       ]
     },
     {
-      "page": 16,
+      "page": 15,
       "term_count": 18,
       "terms": [
         "Baghdadi",
@@ -295,7 +293,7 @@
       ]
     },
     {
-      "page": 22,
+      "page": 21,
       "term_count": 7,
       "terms": [
         "Fatimid",
@@ -308,7 +306,7 @@
       ]
     },
     {
-      "page": 28,
+      "page": 27,
       "term_count": 6,
       "terms": [
         "Baghdadi",
@@ -320,7 +318,7 @@
       ]
     },
     {
-      "page": 33,
+      "page": 31,
       "term_count": 6,
       "terms": [
         "Ismaili",
@@ -332,7 +330,7 @@
       ]
     },
     {
-      "page": 36,
+      "page": 34,
       "term_count": 6,
       "terms": [
         "Riyad",
@@ -344,7 +342,7 @@
       ]
     },
     {
-      "page": 45,
+      "page": 43,
       "term_count": 6,
       "terms": [
         "Riyad",
@@ -356,7 +354,7 @@
       ]
     },
     {
-      "page": 46,
+      "page": 44,
       "term_count": 6,
       "terms": [
         "al-Kirmani",
@@ -368,7 +366,7 @@
       ]
     },
     {
-      "page": 48,
+      "page": 46,
       "term_count": 10,
       "terms": [
         "Shari'a",
@@ -384,7 +382,7 @@
       ]
     },
     {
-      "page": 51,
+      "page": 49,
       "term_count": 6,
       "terms": [
         "Adam",
@@ -396,7 +394,7 @@
       ]
     },
     {
-      "page": 53,
+      "page": 51,
       "term_count": 8,
       "terms": [
         "Fatimid",
@@ -410,7 +408,7 @@
       ]
     },
     {
-      "page": 138,
+      "page": 136,
       "term_count": 8,
       "terms": [
         "Imamate",
@@ -424,7 +422,7 @@
       ]
     },
     {
-      "page": 142,
+      "page": 140,
       "term_count": 7,
       "terms": [
         "Isma'il",
@@ -437,7 +435,7 @@
       ]
     },
     {
-      "page": 171,
+      "page": 169,
       "term_count": 6,
       "terms": [
         "Adam",
@@ -449,7 +447,7 @@
       ]
     },
     {
-      "page": 219,
+      "page": 217,
       "term_count": 6,
       "terms": [
         "Adam",
@@ -461,7 +459,7 @@
       ]
     },
     {
-      "page": 228,
+      "page": 226,
       "term_count": 7,
       "terms": [
         "Adam",
@@ -474,7 +472,7 @@
       ]
     },
     {
-      "page": 232,
+      "page": 230,
       "term_count": 6,
       "terms": [
         "Adam",
@@ -486,7 +484,7 @@
       ]
     },
     {
-      "page": 233,
+      "page": 231,
       "term_count": 8,
       "terms": [
         "Adam",
@@ -500,7 +498,7 @@
       ]
     },
     {
-      "page": 234,
+      "page": 232,
       "term_count": 7,
       "terms": [
         "Adam",
@@ -513,7 +511,7 @@
       ]
     },
     {
-      "page": 235,
+      "page": 233,
       "term_count": 6,
       "terms": [
         "Adam",
@@ -525,7 +523,7 @@
       ]
     },
     {
-      "page": 238,
+      "page": 236,
       "term_count": 6,
       "terms": [
         "Adam",
@@ -537,7 +535,7 @@
       ]
     },
     {
-      "page": 251,
+      "page": 249,
       "term_count": 6,
       "terms": [
         "Imām",
@@ -551,102 +549,102 @@
   ],
   "long_sentences": [
     {
-      "page": 193,
+      "page": 30,
+      "words": 232,
+      "text": "A Map of the Garden‬‬ ‫لقد رأيت أبا حاتم الرازي قد قَّو م االخطاء الموجودة في كتاب‬ ‫((اْلَم ْح ُص ول)) َفَج ا َأُبو َيْع ُق و الِّس ِج ْس َتاِن َفَد اَفَع َع ْ"
+    },
+    {
+      "page": 191,
       "words": 227,
       "text": "He said: ‫َلْيَس َعَل َّل َن َمُن َوَع ُل‬ ‫َم َط ُمٓو َذ‬ ‫ُجَن‬ ‫َّص‬ ‫َم‬ ‫َح‬ ‫ى ٱ ِذي آ و۟ا ِم و۟ا ٱل ِل ِت اٌۭح ِفي ا ِع ۟ا ِإ ا ا‬ ‫َع ُل‬ ‫َّتَق‬ ‫َمُن‬"
     },
     {
-      "page": 32,
-      "words": 216,
-      "text": "He then says:‬‬ ‫لقد رأيت أبا حاتم الرازي قد قَّو م االخطاء الموجودة في كتاب‬ ‫((اْلَم ْح ُص ول)) َفَج ا َأُبو َيْع ُق و الِّس ِج ْس َتاِن َفَد اَفَع َع ْن ُم َ"
-    },
-    {
-      "page": 25,
+      "page": 24,
       "words": 187,
       "text": "The Arbiter possible and the necessary among the other existents, gives an account that clarifies the meaning of the continuity of existence among existents, sa"
     },
     {
-      "page": 262,
+      "page": 260,
       "words": 186,
       "text": "The Fourteenth Section of the Tenth Title The author of al-Mahsul said: ‫ َك َم ا َأَّن‬، ‫ِإَّن اْلَع ْق َل ِإَّنَم ا ُيِف يُد الُّص َو َر ِم ْن ِع َّلِتِه اَّ"
     },
     {
-      "page": 41,
+      "page": 39,
       "words": 182,
       "text": ": ))‫َو َقاَل َص اِح ُب ((االصالح)) َع َلى َم ا َأْثَبَتُه َص اِح ُب ((الُّنْص َر ة‬ ‫وال نقول ان الطبيعة والهيولى الظلمانية متولدة من الثاني لتؤكد‬ ‫ َأِلَّن ٰ"
     },
     {
-      "page": 259,
+      "page": 257,
       "words": 180,
       "text": "The intellects of those who follow them in truth realize this and substantiate it, as the author of alMahsul confirms in what follows what he mentioned: ‫َأْل ِ"
     },
     {
-      "page": 21,
+      "page": 20,
       "words": 172,
       "text": "The great preacher and Yemeni historian Idris Imad al-Din mentioned him in his book Uyun al-Akhbar, saying: ‫((ُه َأ ا الَّد ْع ِة اَّلِتي َع َل ِه ِع َم اُدَه "
     },
     {
-      "page": 159,
+      "page": 157,
       "words": 167,
       "text": "Rather, since the sensory soul — which is the bestial soul — is by its nature disposed to accept the ruling of the speaking soul when no impediment hinders it, "
     },
     {
-      "page": 215,
+      "page": 213,
       "words": 164,
       "text": "And if it were permissible to exclude Adam from the company of the possessors of the laws simply because his name does not appear alongside the five ( ‫)َع َلْي"
     },
     {
-      "page": 214,
+      "page": 212,
       "words": 161,
       "text": "Adam, Noah, and the Origin of the Law Furthermore, Allah Almighty did not mention in the Quran that Adam (‫)ع‬ had a people and followers, nor did He mention hi"
     },
     {
-      "page": 36,
+      "page": 34,
       "words": 160,
       "text": "He likens him to a newcomer who entered‬‬ ‫‪the world of the ideals with no goal but material vanity.‬‬ ‫قال صاحب ((الُّنْص َر ة)) موردًا قول امباذقليس على سبيل"
     },
     {
-      "page": 264,
+      "page": 262,
       "words": 158,
       "text": "The Oneness of God and the Act of Creation The Fifteenth Section of the Tenth Title The author of al-Mahsul said: ،‫َو اِإْل ْبَد اُع َو اِس َط ٌة َبْي َن اْلُم"
     },
     {
-      "page": 78,
+      "page": 76,
       "words": 156,
       "text": "Bearing witness to this is what the Prophet did in joining together the Book and the Progeny, whose existence is from him, when he said: ‫ِف‬ ‫ِم‬ ‫ِك‬ ‫ِه ِع ِ"
     },
     {
-      "page": 191,
+      "page": 189,
       "words": 146,
       "text": "Decree and Destiny God has granted the prophets license in the inner meaning of the sacred laws and in leaving off their outward use, in His words: ‫َلْي َس َع "
     },
     {
-      "page": 228,
+      "page": 226,
       "words": 144,
       "text": "This is the time of which Allah, exalted, said: ))‫((َيْو ًۭم ا َيْج َع ُل ٱ ْلِوْلَد َن ِش يًب ا‬ \"A day that will turn the children gray.\" But if what he mean"
     },
     {
-      "page": 260,
+      "page": 258,
       "words": 144,
       "text": "All this attaches to the intellects that proceed from potency into act in the abode of nature, which become so by receiving the effects of the Word — which is t"
     },
     {
-      "page": 241,
+      "page": 239,
       "words": 138,
       "text": "Chapter Thirty-Three of Title IX The author of al-Nusrah said: After his interpretation of what Allah, may He be exalted, related concerning the son of Noah: » "
     },
     {
-      "page": 34,
+      "page": 32,
       "words": 136,
       "text": "A Map of the Garden And so I see him continue: ‫ولهذا السبب قررت ان اورد هنا االقوال االصلية الواردة في كتاب‬ ))‫((االصالح)) ُم َص ِّح ًح ا َبْع َض َم ا َج اَء "
     },
     {
-      "page": 43,
+      "page": 41,
       "words": 135,
       "text": "A Map of the Garden I take issue with this view and refer the reader to my own writings, especially the epistles al-Waiza and al-Mudia, in which I say: ‫ان العق"
     },
     {
-      "page": 29,
+      "page": 28,
       "words": 130,
       "text": "Al-Kirmani published a number of works, the most important of which include the following: The Divine Treatise, The Treatise of the Systems, The Treatise of Lig"
     }

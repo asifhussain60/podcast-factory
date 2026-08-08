@@ -165,19 +165,6 @@ _INTERIOR_TAG_RE = re.compile(
 # Source-style enumeration markers at the head of a paragraph: "(a)", "(1)", "1.".
 _ENUM_MARKER_RE = re.compile(r"(?m)^\s*(?:\(([a-z]|[0-9]{1,2})\)|([0-9]{1,2})\.)\s+\S")
 
-# A manuscript-variant critical-apparatus line: "(3) It fell in copy (B).",
-# "(1) In copy (A), it reads 'and it required of us.'" — see enumeration_findings.
-_MANUSCRIPT_VARIANT_RE = re.compile(r"\b(?:in|into|from)\s+(?:copy|version)\s*\(?[ab]\)?\b", re.I)
-
-# A bibliographic/citation footnote: "(2) Philosophical Letters — Paul Kraus —
-# p. 291", "(1) This book is being edited by Dr. Hussein Hamdani of Cairo
-# University." — the modern editor citing where a REFERENCED work was
-# published, not the author's own argument. See enumeration_findings.
-_CITATION_FOOTNOTE_RE = re.compile(
-    r"\b(?:edited|published|translated|verified|composed|researched)\s+(?:and\s+\w+\s+)?by\b" r"|\bpp?\.\s*\d",
-    re.I,
-)
-
 # ─── LECTURE VOICE ───────────────────────────────────────────────────────────
 # A speaker addresses an audience; a book addresses nobody. Under a third-person
 # frame the narration must not turn and instruct the reader.
@@ -426,64 +413,64 @@ def enumeration_findings(base_text: str, candidate: str, *, minimum: int = 3) ->
     "(3) (4) (5)" — a consecutive ascending NUMERIC run that starts above 1,
     which no argument list ever does. A run starting above 1 is numbering
     continued from earlier text (apparatus at any length); a run starting AT 1
-    is apparatus only when it is long (6+ — a whole-document scan), because a
-    genuine numbered list also starts at 1 and stays short. Lettered markers
-    never qualify. Apparatus markers are subtracted; any real enumeration that
-    coexists with them (a lettered list inside numbered sections) stays
-    policed. A run-length gate alone was tried first and passed a whole-source
-    check while failing the per-chapter slices the pipeline actually judges —
-    its retry then "preserved" the section numbers into the translation.
+    is apparatus when it is long (6+ — a whole-document scan) OR when its
+    markers are PARENTHESIZED numeric and short — kitab-al-riyad's critical
+    edition carries dozens of independent footnotes ("(1) This imam lived in
+    Salamiyya...", "(2) Philosophical Letters — Paul Kraus — p. 291", "(3) It
+    fell in copy (B)"), each restarting at (1), each unrelated to its
+    neighbours, several short runs of which summed past `minimum` and read as
+    one lost list. Every genuine numbered ARGUMENT list found in this
+    pipeline's source material instead uses BARE "1." dot-style numbering
+    (the 9-item al-Mahsul/al-Islah dispute list, also in kitab-al-riyad): a
+    short parenthesized run is apparatus, a short bare-dot run is real.
+    Lettered markers never qualify, at any run length. Apparatus markers are
+    subtracted; any real enumeration coexisting with them stays policed. A
+    run-length gate alone was tried first and passed a whole-source check
+    while failing the per-chapter slices the pipeline actually judges — its
+    retry then "preserved" the section numbers into the translation.
     """
     # ONE scan, in document order, for both the total and the run detection.
     # (A paragraph-head scan under-counted: a section number that follows an
     # inline Arabic line sits mid-paragraph, so the run looked broken and the
-    # apparatus went half-detected.)
-    #
-    # Manuscript-variant footnotes are filtered out by CONTENT before the run
-    # detection ever sees them: a scholarly edition sometimes carries critical-
-    # apparatus notes comparing two source manuscripts -- "(3) It fell in copy
-    # (B)", "(4) In copy (A), it reads 'and it required of us'" -- keyed to a
-    # marker inline in the main text. That is the modern editor's apparatus,
-    # not the author's argument, and unlike the RCA-001 per-paragraph numbering
-    # (one long CONSECUTIVE run) it shows up as several SHORT runs restarting
-    # at (1) throughout a chapter -- kitab-al-riyad carried six separate such
-    # runs (length 2-5 each) in one composed window, none individually long
-    # enough to trip the run-shape apparatus rule below, but which together
-    # produced a false "10-item enumeration lost" finding on content a faithful
-    # edition is right to drop.
-    _text = base_text or ""
-    markers = []
-    for m in _ENUM_MARKER_RE.finditer(_text):
-        line_end = _text.find("\n", m.start())
-        line = _text[m.start() : line_end if line_end != -1 else None]
-        if _MANUSCRIPT_VARIANT_RE.search(line) or _CITATION_FOOTNOTE_RE.search(line):
-            continue
-        markers.append(m.group(1) or m.group(2))
+    # apparatus went half-detected.) Marker STYLE travels with each one —
+    # parenthesized vs. bare-dot vs. lettered — since the run classification
+    # below depends on it.
+    markers: list[tuple[str, str]] = []  # (digits, style) — style: "paren" | "dot" | "letter"
+    for m in _ENUM_MARKER_RE.finditer(base_text or ""):
+        if m.group(2):
+            markers.append((m.group(2), "dot"))
+        elif m.group(1).isdigit():
+            markers.append((m.group(1), "paren"))
+        else:
+            markers.append((m.group(1), "letter"))
     base_n = len(markers)
     if base_n < minimum:
         return []
-    # Maximal consecutive ascending numeric runs, in document order.
-    runs: list[tuple[int, int]] = []  # (start_number, length)
+    # Maximal consecutive ascending numeric runs, in document order. Style is
+    # the FIRST marker's — a run does not change style mid-sequence in
+    # practice, and classification only needs one answer per run.
+    runs: list[tuple[int, int, str]] = []  # (start_number, length, style)
     start = prev = None
     length = 0
-    for digits in markers:
+    run_style = ""
+    for digits, style in markers:
         if digits and digits.isdigit():
             number = int(digits)
             if prev is not None and number == prev + 1 and length:
                 length += 1
             else:
                 if length:
-                    runs.append((start, length))
-                start, length = number, 1
+                    runs.append((start, length, run_style))
+                start, length, run_style = number, 1, style
             prev = number
         else:
             if length:
-                runs.append((start, length))
-            start, length = None, 0
+                runs.append((start, length, run_style))
+            start, length, run_style = None, 0, ""
             prev = None
     if length:
-        runs.append((start, length))
-    apparatus = sum(n for s, n in runs if s > 1 or n >= 6)
+        runs.append((start, length, run_style))
+    apparatus = sum(n for s, n, st in runs if s > 1 or n >= 6 or (st == "paren" and s == 1))
     effective = base_n - apparatus
     if effective < minimum:
         return []
