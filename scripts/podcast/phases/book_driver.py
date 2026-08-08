@@ -131,6 +131,12 @@ def _drive_book_branch_body(book_dir: Path) -> int:
     # knobs (book_augmentation, book_voice). This is the only compose route.
     update_phase(book_dir, phase="0book-compose", status="running")
     try:
+        from _compose_scope import apparatus_only_retry_advice
+
+        _advice = apparatus_only_retry_advice(book_dir)
+        if _advice:
+            _err(f"WARNING: {_advice}")
+
         from _book_pipeline_v2 import compose_book_v2
 
         compose_book_v2(book_dir, log=_info)
