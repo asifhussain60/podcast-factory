@@ -5,14 +5,10 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "0book-render",
-  "phase_status": "failed",
-  "last_completed_phase": "0book-compose",
-  "last_error": {
-    "phase": "0book-render",
-    "message": "deliverable failed validation: B7 book-gloss-coverage: 0/23 glossed terms carry Arabic (0%); glossary has 428 entries · 87 term(s) never given in Arabic script (110 uses): al-ruh, al-asma al-husna, al-khafi, al-Madhkur, al-shirk al-khafi, hudur — starved glossary; e.g. al-Madhkur, al-asma al-husna, al-din al-qayyim, al-khafi, al-nazar ila Ali ibada, al-ruh",
-    "ts": "2026-08-07T20:08:42Z"
-  },
+  "phase": "0book-design",
+  "phase_status": "completed",
+  "last_completed_phase": "0book-design",
+  "last_error": null,
   "category": "books",
   "branch": "Islamic/spiritual-ethos",
   "status": "draft",
@@ -348,12 +344,11 @@
     "0book-design": {
       "status": "completed",
       "ts_started": "2026-08-06T23:57:56Z",
-      "ts_completed": "2026-08-07T18:09:53Z"
+      "ts_completed": "2026-08-08T11:14:05Z"
     },
     "0book-compose": {
-      "status": "completed",
-      "ts_started": "2026-08-07T00:02:26Z",
-      "ts_completed": "2026-08-07T20:07:29Z"
+      "status": "pending",
+      "ts_started": "2026-08-07T00:02:26Z"
     },
     "audio-ingest": {
       "status": "halted",
@@ -362,19 +357,16 @@
       "reason": "awaiting NotebookLM audio drop"
     },
     "0book-illustrate": {
-      "status": "skipped",
-      "ts_completed": "2026-08-07T20:07:29Z",
+      "status": "pending",
       "reason": "book_visuals=manual_only"
     },
     "0book-slide-import": {
-      "status": "skipped",
-      "ts_completed": "2026-08-07T20:07:29Z",
+      "status": "pending",
       "reason": "book_visuals=manual_only"
     },
     "0book-render": {
-      "status": "failed",
+      "status": "pending",
       "ts_started": "2026-08-07T16:08:49Z",
-      "ts_completed": "2026-08-07T20:08:42Z",
       "book_validation": {
         "slug": "spiritual-ethos",
         "verdict": "BOOK-BROKEN",
@@ -433,8 +425,8 @@
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
-  "run_id": "20260807T180953Z-abe076",
-  "ts_updated": "2026-08-07T20:08:42Z",
-  "next_phase": "0book-illustrate",
+  "run_id": "20260808T111405Z-c21ef1",
+  "ts_updated": "2026-08-08T11:14:05Z",
+  "next_phase": "0book-compose",
   "unattended": true
 }
