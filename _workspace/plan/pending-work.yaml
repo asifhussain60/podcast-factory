@@ -116,20 +116,20 @@ items:
 
   - id: pipeline-refactor-efficiency-accuracy-checkpoints
     scope: general
-    status: open
+    status: doing
     priority: P1
     effort: L
     summary: Refactor the pipeline for efficiency and per-phase accuracy checks
-    title: "Asif 2026-08-08: refactor the podcast-factory pipeline for efficiency and accuracy, with short checkpoints between phases rather than long uninterrupted runs. Two named parts: (1) a full test harness covering the pipeline end to end, not just per-module unit tests; (2) each phase re-checks the ACCURACY of every phase that ran before it, not only the one immediately prior -- e.g. phase 0c should evaluate the work of 0a and 0b as well as its own, not assume an earlier phase that already passed is still correct. Scope and sequencing not yet decided -- this is the request as given, not a plan."
+    title: "Asif 2026-08-08: refactor the podcast-factory pipeline for efficiency and accuracy, with short checkpoints between phases rather than long uninterrupted runs. Two named parts: (1) a full test harness covering the pipeline end to end, not just per-module unit tests; (2) each phase re-checks the ACCURACY of every phase that ran before it, not only the one immediately prior -- e.g. phase 0c should evaluate the work of 0a and 0b as well as its own, not assume an earlier phase that already passed is still correct. LANDED 2026-08-08 (part 2, and part 1 in part): _step_ledger.py gives every step a record whether or not it spent money (the cost ledger only ever recorded paid steps, so the 25 deterministic apparatus steps left no trace at all); _phase_review.py runs named gates at every phase completion, hooked centrally in _progress.update_phase so a new phase cannot be added without one, with a RECHECK tier that later phases re-run over earlier phases' artifacts -- exactly part 2 as asked. Reviews are ADVISORY unless declared in BLOCKING_GATES (only PC3 today, which merely moves an already-blocking ship gate earlier), because a new review layer that can halt a run can strand a finished book. STILL OPEN: the e2e harness reaches the book lane (tests/e2e/test_book_lane_pipeline.py) but per-chapter, finalize, publish, trainer and merge remain uncovered -- 8 of 29 phases before this work, ~12 now; and the gate set is thin (the 5 phases with declared gates), so more phases deserve their own."
     noticed: 2026-08-08
 
   - id: orchestrator-ai-reflection-quality
     scope: general
-    status: open
+    status: doing
     priority: P1
     effort: L
     summary: Improve the orchestrator's self-checking during a run
-    title: "Asif 2026-08-08: the podcast-factory pipeline orchestrator and the AI driving it need better reflection and response quality during a run -- today's session found four real, book-blocking defects (chapter-count scaling, a heading-leak bug, a gate false-positive that aborted the whole compose twice, a stale metadata path) that a stricter self-check during the run could plausibly have caught earlier than a human reviewing the output after the fact. Not yet scoped to a concrete mechanism -- logged as the request, to be designed separately."
+    title: "Asif 2026-08-08: the podcast-factory pipeline orchestrator and the AI driving it need better reflection and response quality during a run -- today's session found four real, book-blocking defects (chapter-count scaling, a heading-leak bug, a gate false-positive that aborted the whole compose twice, a stale metadata path) that a stricter self-check during the run could plausibly have caught earlier than a human reviewing the output after the fact. MECHANISM LANDED 2026-08-08, deliberately WITHOUT a model: the reflection is deterministic inspection of evidence the run already produced (_step_ledger.py + _phase_review.py), never a model asked whether it did well -- adding model spend to a pipeline whose main defect was paying twice would be the wrong trade. A phase can no longer report `completed` while having silently skipped its work: gate PC2 compares the steps that recorded against the 25 declared in APPARATUS_STEPS, which is the question no gate could ask before a step ledger existed. STILL OPEN: whether any of the four specific defects named above would actually have been caught -- each needs a gate written for its own failure shape, and only the gate-false-positive class is covered so far."
     noticed: 2026-08-08
 
   - id: chapter-grouping-for-long-books

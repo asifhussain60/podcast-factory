@@ -89,6 +89,26 @@ def record_path(book_dir: Path) -> Path:
 def record_skip(book_dir: Path, step: str, exc: BaseException, log) -> None:
     """Log a non-fatal step failure AND persist it, so it cannot scroll away."""
     log(f"    {step}: skipped (non-fatal): {exc}")
+    # Mirror the failure into the step ledger as well (2026-08-08). This file
+    # answers "what did compose drop", scoped to compose and reset each run; the
+    # step ledger answers "what did every step of every phase do", append-only and
+    # run-correlated. Recording here rather than at each of the twenty-five call
+    # sites means a step cannot fail WITHOUT the ledger knowing, which is what lets
+    # a review gate compare the steps that ran against the steps that should have.
+    # Guarded and non-raising by construction — a recorder must never become the
+    # failure it records.
+    try:
+        from _step_ledger import record_step as _record_step
+
+        _record_step(
+            book_dir,
+            phase="0book-compose",
+            step=step,
+            outcome="failed",
+            error=f"{type(exc).__name__}: {exc}",
+        )
+    except Exception:
+        pass
     try:
         path = record_path(book_dir)
         existing: list[dict] = []

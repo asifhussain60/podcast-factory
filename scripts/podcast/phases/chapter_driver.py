@@ -132,6 +132,43 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     attempted = 0
     failure_signatures: dict[str, list[str]] = {}
 
+    # THIS LOOP IS SERIAL, AND MUST STAY SERIAL (investigated 2026-08-08).
+    #
+    # It looks like the obvious parallelisation target in the whole pipeline: it is
+    # the longest phase by wall clock, and each chapter's extract -> frame -> build
+    # -> converge is logically independent of its neighbours. `update_phase` already
+    # holds a process-wide lock, so the state writes below are thread-safe. That is
+    # all true, and it is still the wrong change. Three blockers, each independently
+    # sufficient:
+    #
+    #  1. `phase_git_commit` (below, once per chapter) runs `git add` + a REPO-WIDE
+    #     `git status --porcelain` + `git commit`. Two threads contend on
+    #     `.git/index.lock`, and worse than failing: thread B's repo-wide status sees
+    #     thread A's staged files and commits them under B's message. The per-chapter
+    #     commit ledger — one commit per chapter, carrying its verdict and iteration
+    #     count — would silently interleave.
+    #
+    #  2. The C3 circuit breaker below is an ECONOMIC early exit. It halts the book
+    #     when the first attempted chapter dies in under five seconds (a
+    #     deterministic bug, not content) or when the same normalized failure hits a
+    #     second chapter — the archetype-over-rerun rule. Its whole value is
+    #     stopping BEFORE the remaining chapters are paid for. Run the chapters
+    #     concurrently and every one is already in flight by the time the signal
+    #     appears, so the breaker still reports but no longer saves anything.
+    #
+    #  3. The per-book cost ceiling is checked at chapter boundaries. Concurrent
+    #     chapters overshoot it by however many are in flight.
+    #
+    # Blockers 2 and 3 are the decisive ones, because they are about COST. The defect
+    # this pass exists to fix is the pipeline paying twice for the same work; a change
+    # that weakens two cost controls to buy wall-clock time would trade the actual
+    # problem for a lesser one. Fixing (1) alone (batch the commits) does not make
+    # the loop parallelisable — it only removes the corruption, leaving the money.
+    #
+    # If this is ever revisited, the order is: make the breaker evaluate on a shared
+    # signal that a worker checks BEFORE starting (so it can still decline to run),
+    # move the commits to one batched commit after the loop, and give the cost
+    # ceiling a reservation model. None of that is a comment-sized change.
     for slug in chapter_slugs:
         if slug in completed_chapter_slugs:
             _info(f"phase: per-chapter[{slug}] · already shipped, skipping")

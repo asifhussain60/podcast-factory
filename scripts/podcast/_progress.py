@@ -193,6 +193,56 @@ def read_state(book_dir: Path) -> dict[str, Any] | None:
 
 UNATTENDED_KEY = "unattended"
 
+#: Per-phase relaunch counts, keyed by phase id. Lives in the state file rather
+#: than in the watchdog's shell, for the reason the watchdog could not solve on
+#: its own: `watch_orchestrator.sh` counts attempts in a local variable, and
+#: `orchestrate_book.py` spawns a FRESH watchdog on every bare `--resume`. Each
+#: new watchdog therefore started counting from 1, so the documented
+#: "--max-retries 20" ceiling never bound across respawns. One real run
+#: (`orchestrator-the-master-and-the-disciple.log`) reached 201 attempts while
+#: every one of them reported itself as "attempt N/20".
+#:
+#: A count survives a respawn because it is on disk, and is cleared the moment
+#: the phase actually reaches `completed` (see `_update_phase_locked`) — so the
+#: budget bounds *failure to progress*, never total work. A book that legitimately
+#: advances through all 29 phases never accumulates a count at all.
+ATTEMPTS_KEY = "phase_attempts"
+
+
+def attempts_for(state: dict[str, Any], phase: str) -> int:
+    """How many times `phase` has been attempted without completing."""
+    return int((state.get(ATTEMPTS_KEY) or {}).get(phase, 0))
+
+
+def record_attempt(book_dir: Path, phase: str) -> int:
+    """Increment and persist `phase`'s attempt count. Returns the new count.
+
+    Called by the watchdog immediately before each relaunch, so the count
+    reflects attempts actually made even if the orchestrator dies without ever
+    writing state itself — which is the exact case the shell counter lost.
+    """
+    with _STATE_LOCK:
+        state = read_state(book_dir)
+        if state is None:
+            return 0
+        counts = dict(state.get(ATTEMPTS_KEY) or {})
+        counts[phase] = int(counts.get(phase, 0)) + 1
+        state[ATTEMPTS_KEY] = counts
+        write_state(book_dir, state)
+        return counts[phase]
+
+
+def clear_attempts(book_dir: Path, phase: str) -> None:
+    """Forget `phase`'s attempt count — it made progress, so the budget resets."""
+    with _STATE_LOCK:
+        state = read_state(book_dir)
+        if state is None:
+            return
+        counts = dict(state.get(ATTEMPTS_KEY) or {})
+        if counts.pop(phase, None) is not None:
+            state[ATTEMPTS_KEY] = counts
+            write_state(book_dir, state)
+
 
 def unattended_run(book_dir: Path) -> bool:
     """True when this book was launched with ``--unattended``.
@@ -351,6 +401,13 @@ def _update_phase_locked(
             state["next_phase"] = PHASES[idx + 1] if idx + 1 < len(PHASES) else None
         except (ValueError, IndexError):
             state["next_phase"] = None
+        # The phase made real progress, so its relaunch budget resets — the
+        # ceiling bounds failure-to-progress, not total work (see ATTEMPTS_KEY).
+        # Mutated in place rather than via `clear_attempts` so this shares the
+        # single `write_state` below instead of writing the file twice.
+        _counts = state.get(ATTEMPTS_KEY)
+        if isinstance(_counts, dict) and phase in _counts:
+            _counts.pop(phase, None)
 
     if error is not None:
         state["last_error"] = {"phase": phase, "message": error, "ts": now}
@@ -364,6 +421,32 @@ def _update_phase_locked(
     run_id = current_run_id() or init_run_log(book_dir, slug=state.get("book_slug"))
     if run_id:
         state["run_id"] = run_id
+
+    # Phase review (2026-08-08). Hooked HERE, at the single point every phase
+    # completion passes through, rather than at each driver's own
+    # `update_phase(..., status="completed")` call site. That is deliberate: the
+    # recurring defect in this repo is a gate that reports clean over a rule it
+    # never ran, and a per-driver hook is one a new phase can be added without.
+    # From here it cannot be forgotten.
+    #
+    # Runs only for phases that actually declare gates, so the other twenty-four
+    # phases pay nothing. Runs BEFORE the single `write_state` below so the summary
+    # rides along in one write instead of a second one. Fully guarded — a review is
+    # an observer, and must never turn a completed phase into a failed one.
+    if status == "completed":
+        try:
+            from _phase_review import phase_has_gates, review_phase
+
+            if phase_has_gates(phase):
+                _report = review_phase(book_dir, phase)
+                phase_block["review"] = {
+                    "verdict": _report["verdict"],
+                    "failed": _report["counts"]["failed"],
+                    "crashed": _report["counts"]["crashed"],
+                    "total": _report["counts"]["total"],
+                }
+        except Exception:
+            pass
 
     write_state(book_dir, state)
 
