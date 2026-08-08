@@ -82,6 +82,58 @@ def _steps(book_dir: Path, phase: str) -> dict[str, dict[str, Any]]:
     return last_by_step(latest_steps(book_dir, phase=phase))
 
 
+def _completed_phases(book_dir: Path) -> set[str] | None:
+    """Phases this book has actually completed, or None when state is unreadable.
+
+    None means "cannot tell", and every caller treats that as "check everything" —
+    a standalone review over a book with no state file must still report something.
+    """
+    try:
+        from _progress import read_state
+
+        state = read_state(book_dir)
+    except Exception:
+        return None
+    if not state:
+        return None
+    phases = state.get("phases")
+    if not isinstance(phases, dict):
+        return None
+    return {p for p, blk in phases.items() if isinstance(blk, dict) and blk.get("status") == "completed"}
+
+
+def _derives_from_container(book_dir: Path) -> bool:
+    """True when this book is a VOLUME that takes its source from a parent container.
+
+    The nested multi-volume series do not each own an OCR scan: the whole work is
+    scanned once at the container and each volume works from its own slice. Verified on
+    disk 2026-08-08 — `asaas-al-taveel/vol-02` and `al-anwaar-al-lateefah/vol-01` both
+    carry `refined-english.md` and legitimately no `raw-extract.md`, while the container
+    holds the scan (`asaas-al-taveel/_source/`).
+
+    TWO signals, because the two series do NOT declare it the same way and a single
+    check missed half of them on the first attempt:
+
+      * `content-range.md` — an explicit declaration of which pages this volume covers.
+        All six `asaas-al-taveel` volumes have one; no `al-anwaar-al-lateefah` volume
+        does.
+      * a `vol-*` directory with sibling `vol-*` directories beside it — structural, and
+        what catches the second series. The `vol-` prefix follows the one precedent in
+        the repo (`fill_glossary_cross_book.py:95`); requiring SIBLINGS is what keeps it
+        from firing on a coincidentally-named folder.
+    """
+    book_dir = Path(book_dir)
+    if (book_dir / "_system" / "source" / "text" / "content-range.md").exists():
+        return True
+    if not book_dir.name.startswith("vol-"):
+        return False
+    try:
+        siblings = [d for d in book_dir.parent.iterdir() if d.is_dir() and d.name.startswith("vol-")]
+    except OSError:
+        return False
+    return len(siblings) >= 2
+
+
 # ─── OWN gates ───────────────────────────────────────────────────────────────
 
 
@@ -89,6 +141,12 @@ def gate_source_text_present(book_dir: Path) -> tuple[bool, str]:
     p = book_dir / "_system" / "source" / "text" / "raw-extract.md"
     n = _size(p)
     if n <= 0:
+        # A volume of a nested series has no scan of its own — the whole work is
+        # scanned once at the container and each volume declares its slice. Reporting
+        # those as broken accounted for 22 of the 162 failures in the 2026-08-08 sweep,
+        # across eleven perfectly healthy volumes.
+        if _derives_from_container(book_dir):
+            return True, "no scan of its own — this volume slices a container's source (content-range.md)"
         return False, f"raw-extract.md is missing or empty ({p.name})"
     return True, f"raw-extract.md present ({n:,} bytes)"
 
@@ -379,8 +437,23 @@ def review_phase(book_dir: Path, phase: str, *, log=None) -> dict[str, Any]:
 
     # Every phase at or before this one re-verifies. `0book-compose` re-checks 0a,
     # 0b, 0d and 0book-design; `0b` re-checks only 0a.
+    #
+    # ONLY phases this book actually COMPLETED. A recheck asks "is the work of an
+    # earlier phase still intact", which is meaningless for a phase that never ran —
+    # and every route skips something: a `source-ready` book (explainers, sites) never
+    # does OCR, so demanding its `raw-extract.md` complains about work it was never
+    # asked to do. That accounted for 95 of the 162 failures in the 2026-08-08 sweep
+    # across 23 books, i.e. most of the noise, none of it a defect.
+    #
+    # `None` means the state file is unreadable or absent, and then EVERY recheck runs:
+    # a standalone review over a book with no orchestrator state must still report
+    # something rather than silently checking nothing. "Cannot tell" must never be the
+    # quiet path.
+    completed = _completed_phases(book_dir)
     for earlier in order[: cutoff + 1]:
         if earlier == phase:
+            continue
+        if completed is not None and earlier not in completed:
             continue
         for gid, name, fn in RECHECK_GATES.get(earlier, []):
             _run(gid, f"{name} (from {earlier})", fn, "recheck")
