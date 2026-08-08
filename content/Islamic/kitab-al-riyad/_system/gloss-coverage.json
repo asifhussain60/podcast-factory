@@ -1,166 +1,112 @@
 {
   "schema": "book.gloss-coverage/v2",
-  "candidates": 70,
-  "strong": 10,
-  "covered": 26,
+  "candidates": 38,
+  "strong": 2,
+  "covered": 20,
   "missing_strong": [
-    "Qutb al-Din",
-    "al-asas",
-    "al-mubdi al-awwal",
-    "al-nutaqa",
-    "murabbi",
-    "tanzil",
-    "wasi"
+    "al-Asas"
   ],
   "glossary_entries": 439,
-  "coverage": 0.371,
-  "strong_coverage": 0.3,
-  "bare_terms": 25,
-  "bare_uses": 37,
+  "coverage": 0.526,
+  "strong_coverage": 0.5,
+  "bare_terms": 17,
+  "bare_uses": 19,
   "bare": [
     {
-      "term": "al-asas",
+      "term": "al-Asas",
       "uses": 1,
       "confidence": "strong",
-      "first_seen_snippet": "e Speakers (al-nutaqa), the Foundations (al-asas), and thei"
+      "first_seen_snippet": "rmed by the condition of the Foundation (al-Asas), who is t"
     },
     {
-      "term": "al-mubdi al-awwal",
-      "uses": 1,
-      "confidence": "strong",
-      "first_seen_snippet": "ter of monotheism and the First Creator (al-mubdi al-awwal), apart fr"
-    },
-    {
-      "term": "al-nutaqa",
-      "uses": 1,
-      "confidence": "strong",
-      "first_seen_snippet": "from the world of nature: the Speakers (al-nutaqa), the Foun"
-    },
-    {
-      "term": "murabbi",
-      "uses": 1,
-      "confidence": "strong",
-      "first_seen_snippet": "rom the side of his greatest cultivator (murabbi), who is t"
-    },
-    {
-      "term": "Qutb al-Din",
-      "uses": 1,
-      "confidence": "strong",
-      "first_seen_snippet": "a prayer upon the Axis of the Religion (Qutb al-Din) and the p"
-    },
-    {
-      "term": "tanzil",
-      "uses": 1,
-      "confidence": "strong",
-      "first_seen_snippet": "mself, in a bodily mode, in the descent (tanzil), along th"
-    },
-    {
-      "term": "al-Nusrah",
-      "uses": 10,
-      "confidence": "weak",
-      "first_seen_snippet": "The author of *al-Nusrah* said:"
-    },
-    {
-      "term": "al-aql",
+      "term": "al-Maad",
       "uses": 2,
       "confidence": "weak",
-      "first_seen_snippet": "this contradicts the theory that reason (al-aql) is the fo"
+      "first_seen_snippet": "d emanation. Our epistles on the Return (al-Maad) contain t"
     },
     {
       "term": "Dar al-Hikma",
       "uses": 2,
       "confidence": "weak",
-      "first_seen_snippet": "e world. He was later appointed head of *Dar al-Hikma*, the Hous"
+      "first_seen_snippet": "e world. He was later appointed head of *Dar al-Hikma* — the Hou"
     },
     {
-      "term": "fayd",
-      "uses": 2,
-      "confidence": "weak",
-      "first_seen_snippet": "c principles. Motion is the benefaction (*fayd*) that the"
-    },
-    {
-      "term": "'aql",
+      "term": "al-fikr",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "perfection — namely the intellect, the *'aql* — which i"
+      "first_seen_snippet": "e thing, that seeking is called thought (al-fikr). When it"
     },
     {
-      "term": "al-dahr",
+      "term": "al-hifz",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "Al-Sijistani calls this a philosophy of *al-dahr*, one that"
-    },
-    {
-      "term": "al-la-shay",
-      "uses": 1,
-      "confidence": "weak",
-      "first_seen_snippet": "the thing (al-shay) and of the no-thing (al-la-shay), the rati"
-    },
-    {
-      "term": "al-malul",
-      "uses": 1,
-      "confidence": "weak",
-      "first_seen_snippet": "d it is the cause, and it is the effect (al-malul), and the"
+      "first_seen_snippet": "nce, that regarding is called retention (al-hifz). When it"
     },
     {
       "term": "al-Maqam",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "orner (al-Rukn (رُكْن)) and the Station (al-Maqam). He guide"
+      "first_seen_snippet": "orner (al-Rukn (رُكْن)) and the Station (al-Maqam), guided t"
     },
     {
       "term": "al-mashi",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "thing, the thing which is the \"thinged\" (al-mashi); and the"
+      "first_seen_snippet": "and the thing that is the willed-thing (al-mashi); and the"
     },
     {
-      "term": "al-qadiyya al-madula",
+      "term": "al-Natiq",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "they named it the privative proposition (al-qadiyya al-madula) and adduc"
+      "first_seen_snippet": "nd who is not distinct from the Speaker (al-Natiq). Everythi"
     },
     {
-      "term": "al-shay",
+      "term": "al-nuzu",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "otheism: He is the creator of the thing (al-shay) and of th"
+      "first_seen_snippet": "conceive, that will is called striving (al-nuzu) toward th"
     },
     {
       "term": "al-Suwaa",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "as the people of Wadd (اَلْوَدّ), Suwa (*al-Suwaa* (اَلسُّوَ"
+      "first_seen_snippet": "s, such as al-Wadd (اَلْوَدّ), al-Suwa (*al-Suwaa* (اَلسُّوَ"
     },
     {
-      "term": "al-wujud al-haqq",
+      "term": "al-tasawwur",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "tion (إِبْدَاع), and the true existence (al-wujud al-haqq) which is"
+      "first_seen_snippet": "nses, that imprint is called conception (al-tasawwur). And when"
     },
     {
-      "term": "rakahs",
+      "term": "fuad",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "another side as well, in the two units (rakahs) of the da"
+      "first_seen_snippet": "ng of the iron to the head of the heart (fuad) of the on"
     },
     {
-      "term": "sujud",
+      "term": "huwiyya",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "is upon the Foundation, and prostration (sujud) is upon t"
+      "first_seen_snippet": "simple and composite, from His identity (huwiyya); and we h"
     },
     {
-      "term": "sura",
+      "term": "mutakallimun",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "atever idea it may be, is a simple form (sura), and that"
+      "first_seen_snippet": "n this the Mutazila and the theologians (mutakallimun) agree, an"
     },
     {
       "term": "tatil",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "m likening (تَشْبِه) and from divesting (tatil), and it i"
+      "first_seen_snippet": "y from likening (تَشْبِه) and stripping (tatil), and is m"
+    },
+    {
+      "term": "walaya",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "to draw near to Him of the guardianship (walaya) that lead"
     },
     {
       "term": "Yaghooth",

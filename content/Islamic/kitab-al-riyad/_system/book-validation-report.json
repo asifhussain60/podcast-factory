@@ -7,13 +7,13 @@
       "gate": "B1",
       "name": "book-md-complete",
       "passed": true,
-      "note": "book.md: 453 KB, 17 sections \u2265 11 TOC chapters"
+      "note": "book.md: 413 KB, 21 sections \u2265 20 TOC chapters"
     },
     {
       "gate": "B2",
       "name": "book-pdf-renderable",
       "passed": true,
-      "note": "book.pdf: 2683 KB, 267 pages \u2265 11 chapters"
+      "note": "book.pdf: 2576 KB, 254 pages \u2265 20 chapters"
     },
     {
       "gate": "B3",
@@ -31,19 +31,19 @@
       "gate": "B5",
       "name": "book-chapter-body-coverage",
       "passed": true,
-      "note": "book.md: 11 numbered chapters have body text"
+      "note": "book.md: 20 numbered chapters have body text"
     },
     {
       "gate": "B6",
       "name": "book-source-crosswalk",
       "passed": true,
-      "note": "source-crosswalk.json: 11 chapters aligned"
+      "note": "source-crosswalk.json: 20 chapters aligned"
     },
     {
       "gate": "B7",
       "name": "book-gloss-coverage",
       "passed": true,
-      "note": "only 10 romanized glossed term(s) left \u2014 nothing to measure \u00b7 25 term(s) never given in Arabic script (37 uses): al-asas, al-mubdi al-awwal, al-nutaqa, murabbi, Qutb al-Din, tanzil"
+      "note": "only 2 romanized glossed term(s) left \u2014 nothing to measure \u00b7 17 term(s) never given in Arabic script (19 uses): al-Asas, al-Maad, Dar al-Hikma, al-fikr, al-hifz, al-Maqam"
     },
     {
       "gate": "B8",
