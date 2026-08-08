@@ -145,9 +145,17 @@ export function renderToc(items) {
   if (!items.length) return "";
   const rows = items
     .map((item) => {
-      const label = item.label
-        ? `<span class="toc-label">${escapeHtml(item.label)}</span>`
-        : "";
+      // The label span is ALWAYS emitted, even empty, for a label-less entry
+      // (the unnumbered "Introduction to the Book" row). `.toc-page li` is a
+      // two-column CSS grid (`3.2rem 1fr`); a `<li>` with only one child places
+      // that lone child in the FIRST (3.2rem) track, not the 1fr title track —
+      // there is nothing to push it into the second column. The title then
+      // wraps three words deep inside a number-column's width, which both looks
+      // wrong on its own page and, by costing two extra list-item lines, was
+      // exactly enough to overflow the Contents page: the last chapter row
+      // spilled onto its own near-blank page, and the Source Crosswalk that
+      // follows it lost its whole page in turn (BR-BLANK-PAGE on pages 4-5).
+      const label = `<span class="toc-label">${item.label ? escapeHtml(item.label) : ""}</span>`;
       return `<li>${label}<span class="toc-title">${renderInline(item.title)}</span></li>`;
     })
     .join("");

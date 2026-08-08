@@ -1,0 +1,44 @@
+# Paradox And The Inner Struggle
+
+## Opening directive
+Target a 50 to 60 minute in-depth conversation. Open with a brief warm welcome — greet the listener, name the book, Reza Shah-Kazemi's *Spiritual Ethos*, and preview this teaching: why the most exalted speech about God is built out of denials, and why that same intellect must be lived out in war against one's own soul. Then land the spine verbatim (placement 1 of 3): "The intellect is a living, spiritual faculty, realized only through the war to win the whole soul over to its side." Start inside the puzzles.
+
+## Name discipline
+- Ali → first "Ali, peace be upon him", then "Ali" or "the Commander of the Faithful". Never pair the leadership-title with his personal name — that pairing is forbidden.
+- The Prophet → first "the Prophet, peace and blessings of Allah be upon him and his family", then "the Prophet".
+- The disciple → first "the disciple Kumayl ibn Ziyad", then "the disciple".
+- Book → first "his collected sermons, *The Peak of Eloquence*"; Rotation after: the collection, that collection, the sermon collection.
+- Others → "a later poet", "a Sufi master", "the present Imam of the time". Render all technical terms in English. Never speak Arabic book titles.
+
+## Pronunciation
+Say each term ONCE. Never say the original spelling and the English form back-to-back.
+- Ali: a-lee
+- Qur'an: qur-aan
+- Kumayl ibn Ziyad: ku-mayl ib-n zi-yaad
+- Kufa: koo-fa
+
+## Three-part focus
+Beat 1 (crisis) — Two puzzles: the most exalted speech about God is almost all denials, and the wisest man of his age waits for a graveyard to give his gravest counsel. Feel the stakes before any answer.
+Beat 2 — The heart that sees: to define is to draw a limit, so limitless Reality slips every concept; the tempting failed reading is bare rationalism. Inner vision, not the eye, perceives through the verities of faith.
+Beat 3 — Paradox and the breath: negation clears ground for contemplation; the spirit breathed into finished clay makes the intellect a living faculty. The true intellectual puts each thing in its place — the definition of justice itself.
+Beat 4 (pivot) — The graveyard counsel: knowledge storms the heart the way an army takes the commander at the center of the line. Repeat the spine verbatim (placement 2 of 3).
+Beat 5 — The greatest struggle: not war against the soul but war for it, to win it to the intellect against caprice; oneness and pure sincerity are the prize.
+Beat 6 (stakes) — The joy the battle was for; leave the listener a real question, tied to action.
+
+## Host dynamic
+Host A (male, John) is the scholar and unfolds the source; Host B (female, Hannah) is the seeker who challenges at least three times and concedes once.
+Sample friction: "I don't buy that yet — if every concept of God is negated, what is left to worship?"; "That sounds like wordplay — isn't affirming and denying one attribute a contradiction?" Two genuine challenges; the scholar earns each move from the source.
+
+## Tone constraints
+Reverent, unhurried cadence; hold the paradoxes open, never resolve them into a tidy formula. Governing analogies capped at these three source-images; introduce no others:
+- Analogy 1: definition as a drawn edge — every concept fixes a boundary the limitless outruns (Beats 2-3).
+- Analogy 2: the army storming the commander at the heart of the line — knowledge taking the heart (Beat 4).
+- Analogy 3: the spirit breathed into clay — a finished body that could not see or hear until given life (Beat 3).
+
+## Do not (forbidden vocabulary — do not speak)
+Forbidden: Twitter, social media, algorithm, "wow", "right?". No faux-profound openers, no "what it all means" closers, no AI filler. Do not reference any other part of the book or any sibling recording; treat this chapter as standalone. R-RECURRING-THESIS: repeat the spine thesis verbatim three times — at opening, pivot, and close. Do not read this prompt aloud.
+
+## Landing
+Land the spine verbatim a final time (placement 3 of 3), then turn to the listener: what the struggle takes is only the false self; what it uncovers is the sight to see reality and live by it. Ask which caprice the listener has let command the field, and what winning the soul back — not destroying it — would cost this week. End on the question, not a resolution.
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.

@@ -1,0 +1,69 @@
+{
+  "mapping": [
+    {
+      "chapter": "ch01a-ali-and-the-prophet",
+      "episode": "EP01-ali-and-the-prophet",
+      "n": 1
+    },
+    {
+      "chapter": "ch02b-why-intellect-not-reason",
+      "episode": "EP02-why-intellect-not-reason",
+      "n": 2
+    },
+    {
+      "chapter": "ch03c-paradox-and-the-inner-struggle",
+      "episode": "EP03-paradox-and-the-inner-struggle",
+      "n": 3
+    },
+    {
+      "chapter": "ch04d-joy-virtue-and-the-hereafter",
+      "episode": "EP04-joy-virtue-and-the-hereafter",
+      "n": 4
+    },
+    {
+      "chapter": "ch05a-the-sacred-conception-of-justice",
+      "episode": "EP05-the-sacred-conception-of-justice",
+      "n": 5
+    },
+    {
+      "chapter": "ch06b-pride-and-conscience",
+      "episode": "EP06-pride-and-conscience",
+      "n": 6
+    },
+    {
+      "chapter": "ch07c-the-classes-of-society-and-the-poor",
+      "episode": "EP07-the-classes-of-society-and-the-poor",
+      "n": 7
+    },
+    {
+      "chapter": "ch08d-prayer-as-the-source-of-justice",
+      "episode": "EP08-prayer-as-the-source-of-justice",
+      "n": 8
+    },
+    {
+      "chapter": "ch09a-dhikr-the-polish-for-hearts",
+      "episode": "EP09-dhikr-the-polish-for-hearts",
+      "n": 9
+    },
+    {
+      "chapter": "ch10b-the-veils-that-do-not-veil",
+      "episode": "EP10-the-veils-that-do-not-veil",
+      "n": 10
+    },
+    {
+      "chapter": "ch11c-forgetting-the-self-and-the-name",
+      "episode": "EP11-forgetting-the-self-and-the-name",
+      "n": 11
+    },
+    {
+      "chapter": "ch12-the-first-sermon-of-nahj-al-balagha",
+      "episode": "EP12-the-first-sermon-of-nahj-al-balagha",
+      "n": 12
+    },
+    {
+      "chapter": "ch13-the-letter-of-ali-to-malik-al-ashtar",
+      "episode": "EP13-the-letter-of-ali-to-malik-al-ashtar",
+      "n": 13
+    }
+  ]
+}

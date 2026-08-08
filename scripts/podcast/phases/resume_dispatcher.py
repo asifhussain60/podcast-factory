@@ -340,21 +340,40 @@ def run_resume(args: argparse.Namespace) -> int:
         return _drive_per_chapter_and_after(book_dir)
 
     if current_phase in ("0book-design", "0book-compose", "0book-illustrate", "0book-render"):
-        _info(
-            f"Phase {current_phase} (PDF path book) — re-entering the publish driver; "
-            f"the 0book phases run post-finalize and are artifact-idempotent."
-        )
-        return _drive_publish_through_done(book_dir)
+        # BOUNDED re-entry — book lane only, never cascading to publish/trainer/merge.
+        #
+        # A book most commonly reaches these phases via the EARLY-BUILD path
+        # (`_book_preview.maybe_build_reading_edition_early`, fired while the
+        # finalize gate is still HALTED, i.e. before a human has reviewed
+        # anything) — see feedback-stop-at-the-reviewable-deliverable. That path
+        # calls `_drive_book_branch` directly and never touches audio-ingest or
+        # publish. Routing a RETRY of an in-progress book-lane phase through
+        # `_drive_publish_through_done` instead used to (a) wrongly gate on
+        # audio-ingest, a phase the early-build path never ran and never needs,
+        # and (b) — the more serious defect — fall straight through to publish
+        # and merge-to-develop with no re-check that finalize was ever actually
+        # approved by a human. On 2026-08-07 that was only prevented by (a)
+        # accidentally halting first. Publish stays reachable exactly where it
+        # already was: a genuine `--resume` while `current_phase == "finalize"`
+        # (below), or the direct `publish_to_library.py` invocation.
+        _info(f"Phase {current_phase} (PDF path book) — re-entering the book branch driver (bounded, no publish).")
+        from phases.book_driver import _drive_book_branch
+
+        return _drive_book_branch(book_dir)
 
     if current_phase == "0book-slide-import":
         # halted = NotebookLM deck PDFs were missing; the human has (presumably)
-        # dropped them now. Re-enter the publish driver — design/compose/illustrate
-        # skip on existing artifacts, slide-import re-runs its gate.
+        # dropped them now. Re-enter the SAME bounded book-branch driver — see the
+        # 0book-design/.../0book-render case above for why this must not cascade
+        # to publish. design/compose/illustrate skip on existing artifacts,
+        # slide-import re-runs its gate.
         _info(
             f"Phase 0book-slide-import status={current_status!r} — re-entering "
-            f"the publish driver (upstream 0book phases are idempotent)."
+            f"the book branch driver (bounded, no publish; upstream 0book phases are idempotent)."
         )
-        return _drive_publish_through_done(book_dir)
+        from phases.book_driver import _drive_book_branch
+
+        return _drive_book_branch(book_dir)
 
     # Audio Engine v2 phases (API engines only; notebooklm books never land here).
     if current_phase == "audio-script":

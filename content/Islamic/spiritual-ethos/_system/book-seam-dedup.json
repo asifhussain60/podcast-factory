@@ -1,0 +1,69 @@
+{
+  "schema": "book.seam-dedup/v1",
+  "removed": [
+    {
+      "pass": "base",
+      "rule": "boundary-echo",
+      "chapter": "11. Dhikr: The Polish of the Heart",
+      "words": 52,
+      "removed_text": "in the very substance of the intellect there stand principles by which all else is understood, principles rooted ultimately in the divine nature of the Creator. It is from this ground that the present chapter opens, turning from the foundation of remembrance to the spiritual realisation it is meant to bring about.",
+      "kept_neighbour_head": "This returns to the devotional practices that are all too often regarded as the preserve of a minority, viewed as either mystical or misguided depending on one's standpoint, rather than"
+    },
+    {
+      "pass": "base",
+      "rule": "adjacent-echo",
+      "chapter": "11. Dhikr: The Polish of the Heart",
+      "words": 19,
+      "removed_text": "How can it be conceived that something veils Him, since He is the one who is manifest through everything?",
+      "kept_neighbour_head": "How can it be conceived that something veils Him, since He is the one who manifests everything?"
+    },
+    {
+      "pass": "base",
+      "rule": "adjacent-echo",
+      "chapter": "11. Dhikr: The Polish of the Heart",
+      "words": 19,
+      "removed_text": "How can it be conceived that something veils Him, since He is the one who is manifest in everything?",
+      "kept_neighbour_head": "How can it be conceived that something veils Him, since He is the one who manifests everything?"
+    },
+    {
+      "pass": "base",
+      "rule": "adjacent-echo",
+      "chapter": "11. Dhikr: The Polish of the Heart",
+      "words": 16,
+      "removed_text": "How can it be conceived that something veils Him, since He is the Manifest to everything?",
+      "kept_neighbour_head": "How can it be conceived that something veils Him, since He is the one who manifests everything?"
+    },
+    {
+      "pass": "base",
+      "rule": "adjacent-echo",
+      "chapter": "11. Dhikr: The Polish of the Heart",
+      "words": 19,
+      "removed_text": "How can it be conceived that something veils Him, since He was the Manifest before the existence of everything?",
+      "kept_neighbour_head": "How can it be conceived that something veils Him, since He is the one who manifests everything?"
+    },
+    {
+      "pass": "base",
+      "rule": "adjacent-echo",
+      "chapter": "11. Dhikr: The Polish of the Heart",
+      "words": 16,
+      "removed_text": "How can it be conceived that something veils Him, since He is more manifest than anything?",
+      "kept_neighbour_head": "How can it be conceived that something veils Him, since He is the one who manifests everything?"
+    },
+    {
+      "pass": "base",
+      "rule": "adjacent-echo",
+      "chapter": "11. Dhikr: The Polish of the Heart",
+      "words": 20,
+      "removed_text": "How can it be conceived that something veils Him, since He is the One alongside of whom there is nothing?",
+      "kept_neighbour_head": "How can it be conceived that something veils Him, since He is the one who manifests everything?"
+    },
+    {
+      "pass": "base",
+      "rule": "adjacent-echo",
+      "chapter": "11. Dhikr: The Polish of the Heart",
+      "words": 18,
+      "removed_text": "How can it be conceived that something veils Him, since He is nearer to you than anything else?",
+      "kept_neighbour_head": "How can it be conceived that something veils Him, since He is the one who manifests everything?"
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+{
+  "schema": "podcast.translation-edition/v1",
+  "mode": "translation_edition",
+  "augmentation": "forbidden",
+  "visual_style": "black_white",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "In the Prophet's Shadow",
+      "chapter_file": "book/_chapters/ch01-in-the-prophet-s-shadow.txt",
+      "source_line_ranges": [
+        [
+          5,
+          43
+        ]
+      ],
+      "source_words": 2115,
+      "output_words": 2071
+    },
+    {
+      "index": 2,
+      "title": "The People of the House and the Prophet's Witness",
+      "chapter_file": "book/_chapters/ch02-the-people-of-the-house-and-the-prophet-s-witness.txt",
+      "source_line_ranges": [
+        [
+          44,
+          119
+        ]
+      ],
+      "source_words": 2504,
+      "output_words": 2516
+    },
+    {
+      "index": 3,
+      "title": "Intellect, Not Reason",
+      "chapter_file": "book/_chapters/ch03-intellect-not-reason.txt",
+      "source_line_ranges": [
+        [
+          120,
+          185
+        ]
+      ],
+      "source_words": 6250,
+      "output_words": 6092
+    },
+    {
+      "index": 4,
+      "title": "The Discourse to Kumayl",
+      "chapter_file": "book/_chapters/ch04-the-discourse-to-kumayl.txt",
+      "source_line_ranges": [
+        [
+          186,
+          266
+        ]
+      ],
+      "source_words": 4389,
+      "output_words": 4271
+    },
+    {
+      "index": 5,
+      "title": "The Fruits of Certainty",
+      "chapter_file": "book/_chapters/ch05-the-fruits-of-certainty.txt",
+      "source_line_ranges": [
+        [
+          267,
+          347
+        ]
+      ],
+      "source_words": 5397,
+      "output_words": 5978
+    },
+    {
+      "index": 6,
+      "title": "A Sacred Conception of Justice",
+      "chapter_file": "book/_chapters/ch06-a-sacred-conception-of-justice.txt",
+      "source_line_ranges": [
+        [
+          348,
+          399
+        ]
+      ],
+      "source_words": 5931,
+      "output_words": 5794
+    },
+    {
+      "index": 7,
+      "title": "Justice and the Tyrant's Pride",
+      "chapter_file": "book/_chapters/ch07-justice-and-the-tyrant-s-pride.txt",
+      "source_line_ranges": [
+        [
+          400,
+          467
+        ]
+      ],
+      "source_words": 4608,
+      "output_words": 4525
+    },
+    {
+      "index": 8,
+      "title": "Conscience, Compassion, and the Ordering of Society",
+      "chapter_file": "book/_chapters/ch08-conscience-compassion-and-the-ordering-of-society.txt",
+      "source_line_ranges": [
+        [
+          468,
+          571
+        ]
+      ],
+      "source_words": 5905,
+      "output_words": 5857
+    },
+    {
+      "index": 9,
+      "title": "Justice for the Poor and the Sincerity of Intention",
+      "chapter_file": "book/_chapters/ch09-justice-for-the-poor-and-the-sincerity-of-intention.txt",
+      "source_line_ranges": [
+        [
+          572,
+          600
+        ]
+      ],
+      "source_words": 2660,
+      "output_words": 2571
+    },
+    {
+      "index": 10,
+      "title": "Prayer, Remembrance, and Gazing on the Good",
+      "chapter_file": "book/_chapters/ch10-prayer-remembrance-and-gazing-on-the-good.txt",
+      "source_line_ranges": [
+        [
+          601,
+          657
+        ]
+      ],
+      "source_words": 4077,
+      "output_words": 3657
+    },
+    {
+      "index": 11,
+      "title": "Dhikr: The Polish of the Heart",
+      "chapter_file": "book/_chapters/ch11-dhikr-the-polish-of-the-heart.txt",
+      "source_line_ranges": [
+        [
+          658,
+          815
+        ]
+      ],
+      "source_words": 8975,
+      "output_words": 8646
+    },
+    {
+      "index": 12,
+      "title": "Remembrance as the Quintessence of Worship",
+      "chapter_file": "book/_chapters/ch12-remembrance-as-the-quintessence-of-worship.txt",
+      "source_line_ranges": [
+        [
+          816,
+          935
+        ]
+      ],
+      "source_words": 6665,
+      "output_words": 6452
+    },
+    {
+      "index": 13,
+      "title": "Extinction and the Name: The Death of the Saint",
+      "chapter_file": "book/_chapters/ch13-extinction-and-the-name-the-death-of-the-saint.txt",
+      "source_line_ranges": [
+        [
+          936,
+          1046
+        ]
+      ],
+      "source_words": 6908,
+      "output_words": 6697
+    },
+    {
+      "index": 14,
+      "title": "The First Sermon of the Nahj al-Balagha",
+      "chapter_file": "book/_chapters/ch14-the-first-sermon-of-the-nahj-al-balagha.txt",
+      "source_line_ranges": [
+        [
+          1047,
+          1083
+        ]
+      ],
+      "source_words": 2287,
+      "output_words": 2266
+    },
+    {
+      "index": 15,
+      "title": "The Letter to Malik al-Ashtar",
+      "chapter_file": "book/_chapters/ch15-the-letter-to-malik-al-ashtar.txt",
+      "source_line_ranges": [
+        [
+          1084,
+          1189
+        ]
+      ],
+      "source_words": 5943,
+      "output_words": 5993
+    }
+  ],
+  "source_crosswalk": "book/source-crosswalk.json"
+}

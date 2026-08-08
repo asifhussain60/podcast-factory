@@ -1,0 +1,338 @@
+{
+  "schema": "podcast.book-augment/v3",
+  "accepted": 7,
+  "dropped": 1,
+  "chapters_seen": 15,
+  "chapters_no_relevant_atom": 0,
+  "chapters_composer_authored": 0,
+  "atoms_per_chapter": 8,
+  "relevance_threshold": 0.08,
+  "per_chapter": [
+    {
+      "chapter": "The Fruits of Certainty",
+      "selected": [
+        {
+          "id": "etymology:sn",
+          "score": 0.2367
+        },
+        {
+          "id": "etymology:ry",
+          "score": 0.2117
+        },
+        {
+          "id": "etymology:rf",
+          "score": 0.2062
+        },
+        {
+          "id": "etymology:shrk",
+          "score": 0.2055
+        },
+        {
+          "id": "etymology:wd",
+          "score": 0.2047
+        },
+        {
+          "id": "etymology:ml",
+          "score": 0.198
+        },
+        {
+          "id": "etymology:khl",
+          "score": 0.1979
+        },
+        {
+          "id": "etymology:ql",
+          "score": 0.1944
+        }
+      ],
+      "used": [
+        "etymology:sn",
+        "etymology:ry",
+        "etymology:rf",
+        "etymology:shrk",
+        "etymology:wd",
+        "etymology:ml",
+        "etymology:khl",
+        "etymology:ql"
+      ]
+    },
+    {
+      "chapter": "A Sacred Conception of Justice",
+      "selected": [
+        {
+          "id": "etymology:slm",
+          "score": 0.3082
+        },
+        {
+          "id": "etymology:mn",
+          "score": 0.2912
+        },
+        {
+          "id": "etymology:dhkr",
+          "score": 0.2132
+        },
+        {
+          "id": "etymology:mm",
+          "score": 0.191
+        },
+        {
+          "id": "etymology:fny",
+          "score": 0.1757
+        },
+        {
+          "id": "doctrine:wisdom:1:78:6",
+          "score": 0.1698
+        },
+        {
+          "id": "etymology:whd",
+          "score": 0.1684
+        },
+        {
+          "id": "doctrine:wisdom:1:73:3",
+          "score": 0.168
+        }
+      ],
+      "used": [
+        "etymology:slm",
+        "etymology:mn",
+        "etymology:dhkr",
+        "etymology:mm",
+        "etymology:fny",
+        "doctrine:wisdom:1:78:6",
+        "etymology:whd",
+        "doctrine:wisdom:1:73:3"
+      ]
+    },
+    {
+      "chapter": "Conscience, Compassion, and the Ordering of Society",
+      "selected": [
+        {
+          "id": "etymology:hd",
+          "score": 0.1973
+        },
+        {
+          "id": "doctrine:wisdom:1:81:5",
+          "score": 0.1567
+        },
+        {
+          "id": "doctrine:wisdom:1:73:1",
+          "score": 0.1434
+        },
+        {
+          "id": "etymology:hll",
+          "score": 0.1433
+        },
+        {
+          "id": "etymology:nfs",
+          "score": 0.1423
+        },
+        {
+          "id": "doctrine:wisdom:1:84:3",
+          "score": 0.1416
+        },
+        {
+          "id": "doctrine:wisdom:1:74:8",
+          "score": 0.1404
+        },
+        {
+          "id": "doctrine:wisdom:1:74:10",
+          "score": 0.1387
+        }
+      ],
+      "used": [
+        "etymology:hd",
+        "doctrine:wisdom:1:81:5",
+        "doctrine:wisdom:1:73:1",
+        "etymology:nfs",
+        "doctrine:wisdom:1:84:3",
+        "doctrine:wisdom:1:74:8",
+        "doctrine:wisdom:1:74:10"
+      ]
+    },
+    {
+      "chapter": "Prayer, Remembrance, and Gazing on the Good",
+      "selected": [
+        {
+          "id": "etymology:khls",
+          "score": 0.1875
+        },
+        {
+          "id": "etymology:blgh",
+          "score": 0.1525
+        },
+        {
+          "id": "doctrine:wisdom:1:125:1",
+          "score": 0.1459
+        },
+        {
+          "id": "doctrine:wisdom:1:80:9",
+          "score": 0.1403
+        },
+        {
+          "id": "doctrine:wisdom:1:74:1",
+          "score": 0.1362
+        },
+        {
+          "id": "doctrine:wisdom:1:81:1",
+          "score": 0.135
+        },
+        {
+          "id": "doctrine:wisdom:1:84:6",
+          "score": 0.1295
+        },
+        {
+          "id": "doctrine:wisdom:1:74:6",
+          "score": 0.1287
+        }
+      ],
+      "used": [
+        "etymology:khls",
+        "etymology:blgh",
+        "doctrine:wisdom:1:125:1",
+        "doctrine:wisdom:1:80:9",
+        "doctrine:wisdom:1:74:1",
+        "doctrine:wisdom:1:81:1",
+        "doctrine:wisdom:1:84:6",
+        "doctrine:wisdom:1:74:6"
+      ]
+    },
+    {
+      "chapter": "Remembrance as the Quintessence of Worship",
+      "selected": [
+        {
+          "id": "etymology:ghfl",
+          "score": 0.1941
+        },
+        {
+          "id": "etymology:wly",
+          "score": 0.1685
+        },
+        {
+          "id": "etymology:jhd",
+          "score": 0.1544
+        },
+        {
+          "id": "doctrine:wisdom:1:74:7",
+          "score": 0.1531
+        },
+        {
+          "id": "doctrine:wisdom:1:78:4",
+          "score": 0.1517
+        },
+        {
+          "id": "etymology:thbt",
+          "score": 0.1513
+        },
+        {
+          "id": "etymology:khb",
+          "score": 0.1482
+        },
+        {
+          "id": "doctrine:wisdom:1:125:3",
+          "score": 0.1451
+        }
+      ],
+      "used": [
+        "etymology:ghfl",
+        "etymology:wly",
+        "etymology:jhd",
+        "doctrine:wisdom:1:74:7",
+        "doctrine:wisdom:1:78:4",
+        "doctrine:wisdom:1:125:3"
+      ]
+    },
+    {
+      "chapter": "The First Sermon of the Nahj al-Balagha",
+      "selected": [
+        {
+          "id": "doctrine:wisdom:1:84:1",
+          "score": 0.127
+        },
+        {
+          "id": "doctrine:wisdom:1:20:5",
+          "score": 0.1252
+        },
+        {
+          "id": "doctrine:wisdom:1:84:2",
+          "score": 0.1218
+        },
+        {
+          "id": "doctrine:wisdom:1:74:11",
+          "score": 0.1211
+        },
+        {
+          "id": "doctrine:wisdom:1:75:1",
+          "score": 0.1175
+        },
+        {
+          "id": "doctrine:wisdom:1:20:7",
+          "score": 0.1172
+        },
+        {
+          "id": "doctrine:wisdom:1:73:0",
+          "score": 0.1139
+        },
+        {
+          "id": "doctrine:wisdom:1:78:2",
+          "score": 0.1123
+        }
+      ],
+      "used": [
+        "doctrine:wisdom:1:84:1",
+        "doctrine:wisdom:1:20:5",
+        "doctrine:wisdom:1:84:2",
+        "doctrine:wisdom:1:74:11",
+        "doctrine:wisdom:1:75:1",
+        "doctrine:wisdom:1:20:7",
+        "doctrine:wisdom:1:73:0",
+        "doctrine:wisdom:1:78:2"
+      ]
+    },
+    {
+      "chapter": "The Letter to Malik al-Ashtar",
+      "selected": [
+        {
+          "id": "etymology:hll",
+          "score": 0.1579
+        },
+        {
+          "id": "doctrine:wisdom:1:20:3",
+          "score": 0.1365
+        },
+        {
+          "id": "doctrine:wisdom:1:78:1",
+          "score": 0.1286
+        },
+        {
+          "id": "doctrine:wisdom:1:20:6",
+          "score": 0.1281
+        },
+        {
+          "id": "doctrine:wisdom:1:80:19",
+          "score": 0.1262
+        },
+        {
+          "id": "doctrine:wisdom:1:20:0",
+          "score": 0.1195
+        },
+        {
+          "id": "doctrine:wisdom:1:78:5",
+          "score": 0.1182
+        },
+        {
+          "id": "doctrine:wisdom:1:20:2",
+          "score": 0.1141
+        }
+      ],
+      "used": [
+        "etymology:hll",
+        "doctrine:wisdom:1:20:3",
+        "doctrine:wisdom:1:78:1",
+        "doctrine:wisdom:1:20:6",
+        "doctrine:wisdom:1:80:19",
+        "doctrine:wisdom:1:20:0",
+        "doctrine:wisdom:1:78:5",
+        "doctrine:wisdom:1:20:2"
+      ]
+    }
+  ]
+}

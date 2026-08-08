@@ -1,0 +1,196 @@
+{
+  "book_title": "Spiritual Ethos",
+  "voice": "modern author first-person",
+  "preface": {
+    "include": false,
+    "title": "The Universal Ali",
+    "source_line_ranges": [
+      [
+        5,
+        19
+      ]
+    ]
+  },
+  "chapters": [
+    {
+      "bk_index": 1,
+      "title": "In the Prophet's Shadow",
+      "source_line_ranges": [
+        [
+          5,
+          43
+        ]
+      ],
+      "theme": "Formation and closeness",
+      "rationale": "Opens with the thesis that Ali interiorized both the Qur'an and the Prophet's own nature, then follows his life from birth in the Ka'ba through his boyhood in the Prophet's household to his undefeated feats at Uhud and Khaybar."
+    },
+    {
+      "bk_index": 2,
+      "title": "The People of the House and the Prophet's Witness",
+      "source_line_ranges": [
+        [
+          44,
+          119
+        ]
+      ],
+      "theme": "Household and testimony",
+      "rationale": "Gathers Ali's marriage to Fatima, the purified Ahl al-Bayt, and the sustained chain of prophetic sayings about him that culminates at Ghadir Khumm — the tradition's own testimony to his rank."
+    },
+    {
+      "bk_index": 3,
+      "title": "Intellect, Not Reason",
+      "source_line_ranges": [
+        [
+          120,
+          185
+        ]
+      ],
+      "theme": "Intellect versus reason",
+      "rationale": "Draws the distinction between the contemplative intellect ('aql) and discursive reason, and shows revelation's role in unearthing the 'buried treasures of the intellect.'"
+    },
+    {
+      "bk_index": 4,
+      "title": "The Discourse to Kumayl",
+      "source_line_ranges": [
+        [
+          186,
+          266
+        ]
+      ],
+      "theme": "Knowledge and struggle",
+      "rationale": "Centers on the graveyard counsel to Kumayl — the three types of people and how knowledge storms the heart — extending into the greater jihad against the soul and the demand for sincerity."
+    },
+    {
+      "bk_index": 5,
+      "title": "The Fruits of Certainty",
+      "source_line_ranges": [
+        [
+          267,
+          347
+        ]
+      ],
+      "theme": "Joy, beauty, detachment",
+      "rationale": "Traces the joy, beauty, and detachment from the world that flow from realized certainty, ending in the foretaste of the Hereafter that opens onto the question of justice."
+    },
+    {
+      "bk_index": 6,
+      "title": "A Sacred Conception of Justice",
+      "source_line_ranges": [
+        [
+          348,
+          399
+        ]
+      ],
+      "theme": "Justice and the sacred",
+      "rationale": "Grounds justice in the divine nature itself, reading it against MacIntyre's critique, Plato, and the hadith of Gabriel's ihsan, and framing the letter to Malik as its living expression."
+    },
+    {
+      "bk_index": 7,
+      "title": "Justice and the Tyrant's Pride",
+      "source_line_ranges": [
+        [
+          400,
+          467
+        ]
+      ],
+      "theme": "Tyranny and pride",
+      "rationale": "Examines how power corrupts through pride, with Iblis as the archetype of arrogance and istidraj as the slow, disguised punishment of the oppressor."
+    },
+    {
+      "bk_index": 8,
+      "title": "Conscience, Compassion, and the Ordering of Society",
+      "source_line_ranges": [
+        [
+          468,
+          571
+        ]
+      ],
+      "theme": "Soul, mercy, society",
+      "rationale": "Moves from the inner voice of conscience and the ruler's duty to identify with the poor, through the compassion intrinsic to justice, to the interdependent classes of the well-ordered state."
+    },
+    {
+      "bk_index": 9,
+      "title": "Justice for the Poor and the Sincerity of Intention",
+      "source_line_ranges": [
+        [
+          572,
+          600
+        ]
+      ],
+      "theme": "The poor and intention",
+      "rationale": "Focuses on the destitute as those most owed justice, and on why sincere intention rather than outward outcome measures the just act — with piety as the way out of every worldly injustice."
+    },
+    {
+      "bk_index": 10,
+      "title": "Prayer, Remembrance, and Gazing on the Good",
+      "source_line_ranges": [
+        [
+          601,
+          657
+        ]
+      ],
+      "theme": "Prayer and the Good",
+      "rationale": "Presents prayer and remembrance as the fountainhead of virtue, making explicit in devotional terms what Plato left implicit in his 'gazing upon the Good.'"
+    },
+    {
+      "bk_index": 11,
+      "title": "Dhikr: The Polish of the Heart",
+      "source_line_ranges": [
+        [
+          658,
+          815
+        ]
+      ],
+      "theme": "Remembrance polishes",
+      "rationale": "Presents remembrance as the polish that clears the heart's mirror to see God everywhere, developing the paradox that the veils of creation do not veil Him."
+    },
+    {
+      "bk_index": 12,
+      "title": "Remembrance as the Quintessence of Worship",
+      "source_line_ranges": [
+        [
+          816,
+          935
+        ]
+      ],
+      "theme": "Dhikr as practice",
+      "rationale": "Turns to the actual discipline of invoking the Name — abundant, unlimited, greater than formal prayer — and opens onto the self-forgetting at the heart of perfect remembrance."
+    },
+    {
+      "bk_index": 13,
+      "title": "Extinction and the Name: The Death of the Saint",
+      "source_line_ranges": [
+        [
+          936,
+          1046
+        ]
+      ],
+      "theme": "Fana and the Name",
+      "rationale": "Follows remembrance to its end in the extinction of the self, the identity of the Name and the Named, the Imams as the 'most beautiful Names,' and Ali's death with God's name on his tongue."
+    },
+    {
+      "bk_index": 14,
+      "title": "The First Sermon of the Nahj al-Balagha",
+      "source_line_ranges": [
+        [
+          1047,
+          1083
+        ]
+      ],
+      "theme": "The oneness sermon",
+      "rationale": "The first primary text: Ali's sermon proclaiming a divine oneness beyond number, and the creation of the cosmos, the angels, and man."
+    },
+    {
+      "bk_index": 15,
+      "title": "The Letter to Malik al-Ashtar",
+      "source_line_ranges": [
+        [
+          1084,
+          1189
+        ]
+      ],
+      "theme": "The governance mandate",
+      "rationale": "The second primary text: Ali's full charter of just governance to his governor of Egypt, from the soldiers and judges down to the destitute and the duty of prayer."
+    }
+  ]
+}

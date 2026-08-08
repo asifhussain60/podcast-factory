@@ -1,0 +1,187 @@
+{
+  "vowelled": 2,
+  "marks_added": 16,
+  "already": 276,
+  "quranic": 0,
+  "from_mushaf": 0,
+  "refused": 43,
+  "recovered": 0,
+  "in_chars": 360,
+  "out_chars": 620,
+  "mushaf_pairs": [],
+  "refusals": [
+    {
+      "run": "سورۃ الفلق",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ۃ الفلق\" vs proposal \"ة الفلق\")"
+    },
+    {
+      "run": "امام المتعصبین و سلف المستکبرین",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"امام المتعصب\" vs proposal \"إمام المتعصب\")"
+    },
+    {
+      "run": "المُحسنین",
+      "reason": "letters changed, not just marks (first difference at character 7: source \"ین\" vs proposal \"ين\")"
+    },
+    {
+      "run": "أنَّ علیٌ مع القرآن، و قرآن مع العلی",
+      "reason": "letters changed, not just marks (first difference at character 6: source \"ی مع القرآن،\" vs proposal \"ي مع القرآن،\")"
+    },
+    {
+      "run": "الرحمن الرحیم",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"الرحمن الرحی\" vs proposal \"ألرحمن الرحي\")"
+    },
+    {
+      "run": "حقائق الایمان",
+      "reason": "letters changed, not just marks (first difference at character 10: source \"یمان\" vs proposal \"يمان\")"
+    },
+    {
+      "run": "خلیفۃ اللہ",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یفۃ اللہ\" vs proposal \"يفة الله\")"
+    },
+    {
+      "run": "یا أمیر المومنین",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"یا أمیر المو\" vs proposal \"يا أمير المو\")"
+    },
+    {
+      "run": "خلقتنی من نار و خلقتہ من طین",
+      "reason": "letters changed, not just marks (first difference at character 6: source \"ی من نار و خ\" vs proposal \"ي من نار وخل\")"
+    },
+    {
+      "run": "عباد اللہ",
+      "reason": "letters changed, not just marks (first difference at character 9: source \"ہ\" vs proposal \"ه\")"
+    },
+    {
+      "run": "شرک الجلی",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"ک الجلی\" vs proposal \"ك الجلي\")"
+    },
+    {
+      "run": "مجاھدۃ النفس",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ھدۃ النفس\" vs proposal \"هدة النفس\")"
+    },
+    {
+      "run": "شرک الخفی",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"ک الخفی\" vs proposal \"ك الخفي\")"
+    },
+    {
+      "run": "مالک اشتر",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ک اشتر\" vs proposal \"ك أشتر\")"
+    },
+    {
+      "run": "محمد بن ابی بکر",
+      "reason": "letters changed, not just marks (first difference at character 9: source \"ابی بکر\" vs proposal \"أبي بكر\")"
+    },
+    {
+      "run": "نفی الصفۃ",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"ی الصفۃ\" vs proposal \"ي الصفة\")"
+    },
+    {
+      "run": "وضع کل شئی حق محلہ",
+      "reason": "letters changed, not just marks (first difference at character 5: source \"کل شئی حق مح\" vs proposal \"كل شيء حق مح\")"
+    },
+    {
+      "run": "النفس الامارۃ بالسوء",
+      "reason": "letters changed, not just marks (first difference at character 9: source \"امارۃ بالسوء\" vs proposal \"أمارة بالسوء\")"
+    },
+    {
+      "run": "لو کشف الغطاء ما ازدت یقینا",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"کشف الغطاء م\" vs proposal \"كشف الغطاء م\")"
+    },
+    {
+      "run": "درجہ بدرجہ",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ہ بدرجہ\" vs proposal \"ة بدرجة\")"
+    },
+    {
+      "run": "العاقل من وضع شئی حق محلہ",
+      "reason": "letters changed, not just marks (first difference at character 16: source \"ئی حق محلہ\" vs proposal \"يئا حق محله\")"
+    },
+    {
+      "run": "یا أمیر المومنین",
+      "reason": "empty"
+    },
+    {
+      "run": "آیات",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"یات\" vs proposal \"يات\")"
+    },
+    {
+      "run": "سنۃ",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"ۃ\" vs proposal \"ة\")"
+    },
+    {
+      "run": "نفی",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"ی\" vs proposal \"ي\")"
+    },
+    {
+      "run": "العاقل من وضع شئی حق محلہ",
+      "reason": "letters changed, not just marks (first difference at character 7: source \" من وضع شئی \" vs proposal \"\")"
+    },
+    {
+      "run": "احسان",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"احسان\" vs proposal \"إحسان\")"
+    },
+    {
+      "run": "معرفۃ",
+      "reason": "letters changed, not just marks (first difference at character 5: source \"ۃ\" vs proposal \"ة\")"
+    },
+    {
+      "run": "جبرئیل",
+      "reason": "empty"
+    },
+    {
+      "run": "المُحسنین",
+      "reason": "letters changed, not just marks (first difference at character 7: source \"ین\" vs proposal \"ين\")"
+    },
+    {
+      "run": "سجدۃ",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ۃ\" vs proposal \"ة\")"
+    },
+    {
+      "run": "امام المتعصبین و سلف المستکبرین",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"امام المتعصب\" vs proposal \"سلف\")"
+    },
+    {
+      "run": "القاسیۃ",
+      "reason": "letters changed, not just marks (first difference at character 6: source \"یۃ\" vs proposal \"ية\")"
+    },
+    {
+      "run": "ابلیس",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"ابلیس\" vs proposal \"إبليس\")"
+    },
+    {
+      "run": "خیال",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"یال\" vs proposal \"يال\")"
+    },
+    {
+      "run": "الرحمن الرحیم",
+      "reason": "letters changed, not just marks (first difference at character 6: source \"ن الرحیم\" vs proposal \"ان الرحيم\")"
+    },
+    {
+      "run": "عباد اللہ",
+      "reason": "letters changed, not just marks (first difference at character 9: source \"ہ\" vs proposal \"ه\")"
+    },
+    {
+      "run": "خلیفۃ اللہ",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یفۃ اللہ\" vs proposal \"يفة الله\")"
+    },
+    {
+      "run": "عہد",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"ہد\" vs proposal \"هد\")"
+    },
+    {
+      "run": "شریعۃ",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یعۃ\" vs proposal \"يعة\")"
+    },
+    {
+      "run": "حکما",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"کما\" vs proposal \"كما\")"
+    },
+    {
+      "run": "اسلام",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"اسلام\" vs proposal \"إسلام\")"
+    },
+    {
+      "run": "لو کشف الغطاء ما ازدت یقینا",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"لو کشف الغطا\" vs proposal \"يقينا\")"
+    }
+  ],
+  "lexical": 0
+}

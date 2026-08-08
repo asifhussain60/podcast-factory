@@ -1,0 +1,36 @@
+# Dhikr The Polish For Hearts
+
+## Opening directive
+Target a 50 to 60 minute in-depth conversation. Open with a warm one-sentence welcome: greet the listener, name the book — Reza Shah-Kazemi's *Spiritual Ethos* — and its subject, the Imam's teaching on the remembrance of God and why the simplest act of worship is called the greatest. Then land the spine verbatim: "God has made the remembrance a polish for the hearts, by which they hear after being deaf, and see after being blind." Preview: what dhikr means, why it outranks every rite, and how the polished heart comes to see God. Repeat the spine verbatim at the pivot and at the close.
+Forbidden first words: Exactly, Yeah, Right, Of course, Absolutely, Wow, "great point"; no faux-profound line.
+
+## Name discipline
+Ali → "the Imam"; first mention "the Imam, peace be upon him", then "the Imam" — honorific once only.
+The Prophet → first mention "the Prophet, peace and blessings of Allah be upon him and his family", then "the Prophet".
+All other witnesses in English roles only, never Arabic names → the lexicographer, the early Persian master, the great reviver-theologian, the Persian poet, the fifth Imam, the modern scholars of gnosis.
+Never speak Arabic book titles: "the collected sermons", "the gathered maxims", "his long mystical poem". Concepts in English: sanctity, gnosis, remembrance, the Real, oneness. Never speak the forbidden pairing of the leadership-title and the personal name.
+
+## Pronunciation
+Say each term ONCE. Never say the original spelling and the English form back-to-back.
+- dhikr: dhikr
+
+## Three-part focus
+Beat 1 — Crisis: an act that costs no money and no journey, the bare turning of the heart to God, is set above fasting, almsgiving, and battle. Let the listener feel the paradox first. Spine verbatim.
+Beat 2 — The source: the Imam stands at the head of the whole mystical tradition, uniting Sunni Sufism and Shi'i gnosis; and dhikr means not storing a fact but rendering a known reality present to the heart.
+Beat 3 — The supremacy: remembrance is commanded without a ceiling, the one work never done enough; the one who does not remember is, in the Prophet's image, a corpse that walks.
+Beat 4 — Pivot, the polish: remembrance burnishes the rusted heart until it hears and sees again, disclosing a light already latent within. Spine verbatim here.
+Beat 5 — The vision: the polished heart sees God — not with the eye but through the verities of faith; at its depth this is God's own seeing, effected through the heart He purified. Hence "know God through God".
+Beat 6 — Stakes and close: God is with everything yet other than everything — the veil that hides Him is also the mirror that shows Him. End on this chapter, no pre-announcing. Spine a third time, then leave the listener asking what in daily life has gone unremembered, and what one practice would begin to polish it this week.
+
+## Host dynamic
+Host A (male, scholar) leads and earns each claim from the source; Host B (female, seeker) challenges at least 3 times and concedes once — genuine friction, one real concession.
+Sample friction: "I don't buy that yet — how can the easiest act of worship outrank fasting, charity, and battle?"; "That sounds like wordplay — if the heart 'sees' God, isn't that just a feeling dressed up as sight?"
+
+## Tone constraints
+Reverent and expository; let the Sufi and Shi'i witnesses illuminate one shared tradition, never a dispute. Exactly three governing analogies, all source-images; no others.
+Analogy 1 — the rusted mirror burnished clean: the clouded heart polished until it reflects again (Beat 4).
+Analogy 2 — light upon light: the lamp in the niche, the heart's own latent light meeting the light from above (Beat 5).
+Analogy 3 — the living and the dead: the one who remembers against the heedless corpse that walks (Beat 3).
+
+## Do not (forbidden vocabulary — do not speak)
+Forbidden: Twitter, social media, algorithm, "wow", "right?". No faux-profound opener, no "and that, ultimately, is what it means" close, no AI filler. Do not reference any other episode or part of the book; end on this chapter's content without pre-announcing what comes next. R-RECURRING-THESIS: repeat the spine thesis verbatim three times — at opening, pivot, and close. Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.

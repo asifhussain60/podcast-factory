@@ -36,3 +36,507 @@
 {"phase": "0d", "step": "sc-004", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0d", "step": "sc-005", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0d", "step": "toc", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0d", "step": "toc", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0d", "step": "sc-001", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0d", "step": "sc-002", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0d", "step": "sc-003", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0d", "step": "sc-004", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0d", "step": "sc-005", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch01a-ali-and-the-prophet", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch02b-why-intellect-not-reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch03c-paradox-and-the-inner-struggle", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch04d-joy-virtue-and-the-hereafter", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch05a-the-sacred-conception-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch06b-pride-and-conscience", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch07c-the-classes-of-society-and-the-poor", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch08d-prayer-as-the-source-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch09a-dhikr-the-polish-for-hearts", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch10b-the-veils-that-do-not-veil", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch11c-forgetting-the-self-and-the-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch12-the-first-sermon-of-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch13-the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch13-the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/ali-and-the-prophet", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing-compress/ali-and-the-prophet", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/ali-and-the-prophet", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/ali-and-the-prophet/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/ali-and-the-prophet", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/dhikr-the-polish-for-hearts", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/forgetting-the-self-and-the-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/forgetting-the-self-and-the-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/forgetting-the-self-and-the-name/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/forgetting-the-self-and-the-name", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/joy-virtue-and-the-hereafter", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/joy-virtue-and-the-hereafter", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/joy-virtue-and-the-hereafter/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/joy-virtue-and-the-hereafter", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/paradox-and-the-inner-struggle", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/dhikr-the-polish-for-hearts", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/dhikr-the-polish-for-hearts", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/dhikr-the-polish-for-hearts/P0", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/dhikr-the-polish-for-hearts/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/dhikr-the-polish-for-hearts", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/paradox-and-the-inner-struggle", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/paradox-and-the-inner-struggle", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/paradox-and-the-inner-struggle/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/paradox-and-the-inner-struggle", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/prayer-as-the-source-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/prayer-as-the-source-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/prayer-as-the-source-of-justice/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/prayer-as-the-source-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/pride-and-conscience", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/pride-and-conscience", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/pride-and-conscience/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/pride-and-conscience", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-classes-of-society-and-the-poor", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-classes-of-society-and-the-poor", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-classes-of-society-and-the-poor/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-classes-of-society-and-the-poor", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-first-sermon-of-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-first-sermon-of-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-first-sermon-of-nahj-al-balagha/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-first-sermon-of-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P0", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P0", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P0", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-sacred-conception-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-sacred-conception-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-sacred-conception-of-justice/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-sacred-conception-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-veils-that-do-not-veil", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-veils-that-do-not-veil", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-veils-that-do-not-veil/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-veils-that-do-not-veil", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-veils-that-do-not-veil/P0", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-veils-that-do-not-veil/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-veils-that-do-not-veil", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/why-intellect-not-reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/why-intellect-not-reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/why-intellect-not-reason/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/why-intellect-not-reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-letter-of-ali-to-malik-al-ashtar/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-letter-of-ali-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "11b-slide-authoring", "step": "book-pair/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-design", "step": "segment", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-preface", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-preface-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-09", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-09-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-10", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-10-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-03-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "diag-translation-bk-11-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-04-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-09", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-10", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-03-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "diag2-translation-bk-11-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-12-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-12-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-12-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-12-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "diag-translation-bk-12-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-preface", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-preface-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-04-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-05-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-06-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "diag-translation-bk-07-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-07-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-08-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-09", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-10", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-10-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-03-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-11-part-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-12-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-12-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-12-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-13-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-13-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-13-part-02-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-13-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-13-part-03-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-14", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-14-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-15-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-15-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-15-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-03-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-03-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-05-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-05-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-06-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-06-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-07-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-07-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-08-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-08-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-09", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-10", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-11-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-11-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-11-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-12-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-12-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-12-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-13-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-13-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-13-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-14", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-15-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-15-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-in-the-prophet-s-shadow", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-people-of-the-house-and-the-prophet-", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-intellect-not-reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-discourse-to-kumayl", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-fruits-of-certainty", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-a-sacred-conception-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-justice-and-the-tyrant-s-pride", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-conscience-compassion-and-the-ordering-o", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-justice-for-the-poor-and-the-sincerity-o", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-prayer-remembrance-and-gazing-on-the-goo", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-dhikr-the-polish-of-the-heart", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-remembrance-as-the-quintessence-of-worsh", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-extinction-and-the-name-the-death-of-the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-first-sermon-of-the-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-letter-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-etymology", "step": "generate", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-etymology", "step": "verify", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-03-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-03-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-05-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-05-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-06-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-06-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-07-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-07-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-08-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-08-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-09", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-10", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-11-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-11-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-11-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-12-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-12-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-12-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-13-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-13-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-13-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-14", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-15-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-15-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-in-the-prophet-s-shadow", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-people-of-the-house-and-the-prophet-", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-intellect-not-reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-discourse-to-kumayl", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-fruits-of-certainty", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-a-sacred-conception-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-justice-and-the-tyrant-s-pride", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-conscience-compassion-and-the-ordering-o", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-justice-for-the-poor-and-the-sincerity-o", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-prayer-remembrance-and-gazing-on-the-goo", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-dhikr-the-polish-of-the-heart", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-remembrance-as-the-quintessence-of-worsh", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-extinction-and-the-name-the-death-of-the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-first-sermon-of-the-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-letter-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-03-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-03-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-05-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-05-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-06-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-06-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-07-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-07-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-08-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-08-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-09", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-10", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-11-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-11-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-11-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-12-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-12-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-12-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-13-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-13-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-13-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-14", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-15-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-15-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-in-the-prophet-s-shadow", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-people-of-the-house-and-the-prophet-", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-intellect-not-reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-discourse-to-kumayl", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-fruits-of-certainty", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-a-sacred-conception-of-justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-justice-and-the-tyrant-s-pride", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-conscience-compassion-and-the-ordering-o", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-justice-for-the-poor-and-the-sincerity-o", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-prayer-remembrance-and-gazing-on-the-goo", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-dhikr-the-polish-of-the-heart", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-remembrance-as-the-quintessence-of-worsh", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-extinction-and-the-name-the-death-of-the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-first-sermon-of-the-nahj-al-balagha", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-the-letter-to-malik-al-ashtar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-in the prophet's shadow", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the people of the house ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-intellect, not reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the discourse to kumayl", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the fruits of certainty", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-a sacred conception of j", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-justice and the tyrant's", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-conscience, compassion, ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-justice for the poor and", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-prayer, remembrance, and", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-dhikr: the polish of the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-remembrance as the quint", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-extinction and the name:", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the first sermon of the ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the letter to malik al-a", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-in the prophet's shadow", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-in the prophet's s-the kinship \u2014 an", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-in the prophet's s-the kinship \u2014 an-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the people of the house ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the people of the -the two lights o", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the people of the -the two lights o-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the people of the -the Christians l", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the people of the -the Christians l-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-intellect, not reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-the one the Imam", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-the one the Imam-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-just as he, the ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-just as he, the -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-These were not p", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-These were not p-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-in the world of ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-in the world of -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-this dhikr Allah", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-intellect, not rea-this dhikr Allah-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the discourse to kumayl", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the discourse to k-the debt his own", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the discourse to k-the debt his own-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the discourse to k-one who establis", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the discourse to k-one who establis-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the discourse to k-meaning both mar", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the discourse to k-meaning both mar-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the fruits of certainty", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-They rejoice in ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-They rejoice in -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-the being of the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-the being of the-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-it belongs objec", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-it belongs objec-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-now understood a", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the fruits of cert-now understood a-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-a sacred conception of j", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-which supplies t", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-which supplies t-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-which is wrong b", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-which is wrong b-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-It is only a tem", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-It is only a tem-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-that eye which t", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-that eye which t-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-it is the very e", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-a sacred conceptio-it is the very e-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-justice and the tyrant's", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice and the ty-In the first ser", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice and the ty-In the first ser-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice and the ty-the actual subst", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice and the ty-the actual subst-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice and the ty-what one sees is", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice and the ty-what one sees is-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-conscience, compassion, ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-conscience, compas-a moment, or deg", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-conscience, compas-a moment, or deg-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-conscience, compas-A soul is theref", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-conscience, compas-A soul is theref-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-conscience, compas-to look into the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-conscience, compas-to look into the-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-justice for the poor and", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice for the po-His creation no ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice for the po-His creation no -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice for the po-a life governed ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice for the po-a life governed -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice for the po-even where they ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-justice for the po-even where they -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-prayer, remembrance, and", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-but it is chiefl", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-but it is chiefl-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-Dhilib al-Yamani", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-Dhilib al-Yamani-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-there is no ihsa", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-those most prone", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-prayer, remembranc-those most prone-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-dhikr: the polish of the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -These Imams were", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -These Imams were-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -befriend that by", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -befriend that by-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -the remembrance ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -the remembrance -tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -effected through", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -effected through-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -Know God through", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-dhikr: the polish -Know God through-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-remembrance as the quint", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-the Imam, follow", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-the Imam, follow-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-God is the heari", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-God is the heari-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-that pause trans", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-that pause trans-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-contains the ess", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-contains the ess-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-why and how does", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-remembrance as the-why and how does-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-extinction and the name:", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-The first respon", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-The first respon-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-so to negate thi", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-so to negate thi-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-I am the death o", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-I am the death o-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-the mustanad ila", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-the mustanad ila-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-the supreme sour", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-extinction and the-the supreme sour-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the first sermon of the ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the first sermon o-With that golden", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the first sermon o-With that golden-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the first sermon o-whoever makes Hi", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the first sermon o-whoever makes Hi-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the letter to malik al-a", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the letter to mali-yet a single bad", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the letter to mali-yet a single bad-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the letter to mali-the most sincere", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the letter to mali-the most sincere-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the letter to mali-that part of his", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "scholar-the letter to mali-that part of his-tighten", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-03-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-03-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-05-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-05-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
