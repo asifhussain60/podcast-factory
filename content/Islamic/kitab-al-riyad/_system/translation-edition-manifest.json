@@ -1,0 +1,270 @@
+{
+  "schema": "podcast.translation-edition/v1",
+  "mode": "translation_edition",
+  "augmentation": "forbidden",
+  "visual_style": "black_white",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "The Freedom to Disagree",
+      "chapter_file": "book/_chapters/ch01-the-freedom-to-disagree.txt",
+      "source_line_ranges": [
+        [
+          34,
+          54
+        ]
+      ],
+      "source_words": 775,
+      "output_words": 1623,
+      "folded_opening_words": 806
+    },
+    {
+      "index": 2,
+      "title": "The Two Rivals",
+      "chapter_file": "book/_chapters/ch02-the-two-rivals.txt",
+      "source_line_ranges": [
+        [
+          56,
+          135
+        ]
+      ],
+      "source_words": 3181,
+      "output_words": 3264
+    },
+    {
+      "index": 3,
+      "title": "The Judge and His Cosmos",
+      "chapter_file": "book/_chapters/ch03-the-judge-and-his-cosmos.txt",
+      "source_line_ranges": [
+        [
+          137,
+          183
+        ]
+      ],
+      "source_words": 2213,
+      "output_words": 2245
+    },
+    {
+      "index": 4,
+      "title": "Why I Wrote This Book",
+      "chapter_file": "book/_chapters/ch04-why-i-wrote-this-book.txt",
+      "source_line_ranges": [
+        [
+          499,
+          567
+        ]
+      ],
+      "source_words": 1701,
+      "output_words": 1389
+    },
+    {
+      "index": 5,
+      "title": "The Perfect and Perfection",
+      "chapter_file": "book/_chapters/ch05-the-perfect-and-perfection.txt",
+      "source_line_ranges": [
+        [
+          601,
+          746
+        ]
+      ],
+      "source_words": 3238,
+      "output_words": 2989
+    },
+    {
+      "index": 6,
+      "title": "Nothing Stands Beside the First",
+      "chapter_file": "book/_chapters/ch06-nothing-stands-beside-the-first.txt",
+      "source_line_ranges": [
+        [
+          749,
+          1058
+        ]
+      ],
+      "source_words": 5750,
+      "output_words": 5798
+    },
+    {
+      "index": 7,
+      "title": "The Soul That Forgets",
+      "chapter_file": "book/_chapters/ch07-the-soul-that-forgets.txt",
+      "source_line_ranges": [
+        [
+          1059,
+          1405
+        ]
+      ],
+      "source_words": 9356,
+      "output_words": 9618
+    },
+    {
+      "index": 8,
+      "title": "Motion, Stillness, and the Bodiless Intellect",
+      "chapter_file": "book/_chapters/ch08-motion-stillness-and-the-bodiless-intellect.txt",
+      "source_line_ranges": [
+        [
+          1408,
+          1562
+        ]
+      ],
+      "source_words": 3584,
+      "output_words": 3641
+    },
+    {
+      "index": 9,
+      "title": "Light, Darkness, and the Matter Below",
+      "chapter_file": "book/_chapters/ch09-light-darkness-and-the-matter-below.txt",
+      "source_line_ranges": [
+        [
+          1565,
+          1687
+        ]
+      ],
+      "source_words": 2663,
+      "output_words": 2648
+    },
+    {
+      "index": 10,
+      "title": "Parts or Traces?",
+      "chapter_file": "book/_chapters/ch10-parts-or-traces.txt",
+      "source_line_ranges": [
+        [
+          1690,
+          1812
+        ]
+      ],
+      "source_words": 2565,
+      "output_words": 2647
+    },
+    {
+      "index": 11,
+      "title": "The Fruit of Two Worlds",
+      "chapter_file": "book/_chapters/ch11-the-fruit-of-two-worlds.txt",
+      "source_line_ranges": [
+        [
+          1817,
+          1927
+        ]
+      ],
+      "source_words": 2584,
+      "output_words": 2716
+    },
+    {
+      "index": 12,
+      "title": "Body, Form, and the Two Letters of 'Be'",
+      "chapter_file": "book/_chapters/ch12-body-form-and-the-two-letters-of-be.txt",
+      "source_line_ranges": [
+        [
+          1930,
+          2043
+        ]
+      ],
+      "source_words": 2290,
+      "output_words": 2414
+    },
+    {
+      "index": 13,
+      "title": "The Small World",
+      "chapter_file": "book/_chapters/ch13-the-small-world.txt",
+      "source_line_ranges": [
+        [
+          2046,
+          2165
+        ]
+      ],
+      "source_words": 3639,
+      "output_words": 3604
+    },
+    {
+      "index": 14,
+      "title": "Decree and Destiny",
+      "chapter_file": "book/_chapters/ch14-decree-and-destiny.txt",
+      "source_line_ranges": [
+        [
+          2168,
+          2361
+        ]
+      ],
+      "source_words": 3913,
+      "output_words": 4325
+    },
+    {
+      "index": 15,
+      "title": "Fleeing to God's Measure",
+      "chapter_file": "book/_chapters/ch15-fleeing-to-god-s-measure.txt",
+      "source_line_ranges": [
+        [
+          2362,
+          2542
+        ]
+      ],
+      "source_words": 4335,
+      "output_words": 4334
+    },
+    {
+      "index": 16,
+      "title": "Did Adam Bring a Law?",
+      "chapter_file": "book/_chapters/ch16-did-adam-bring-a-law.txt",
+      "source_line_ranges": [
+        [
+          2545,
+          2727
+        ]
+      ],
+      "source_words": 5434,
+      "output_words": 6138
+    },
+    {
+      "index": 17,
+      "title": "The Six Gates of Necessity",
+      "chapter_file": "book/_chapters/ch17-the-six-gates-of-necessity.txt",
+      "source_line_ranges": [
+        [
+          2728,
+          2935
+        ]
+      ],
+      "source_words": 5079,
+      "output_words": 5639
+    },
+    {
+      "index": 18,
+      "title": "Cycles, Prophets, and the Ark",
+      "chapter_file": "book/_chapters/ch18-cycles-prophets-and-the-ark.txt",
+      "source_line_ranges": [
+        [
+          2936,
+          3137
+        ]
+      ],
+      "source_words": 3574,
+      "output_words": 3447
+    },
+    {
+      "index": 19,
+      "title": "The Creator of the Thing and the No-Thing",
+      "chapter_file": "book/_chapters/ch19-the-creator-of-the-thing-and-the-no-thing.txt",
+      "source_line_ranges": [
+        [
+          3140,
+          3237
+        ]
+      ],
+      "source_words": 2622,
+      "output_words": 3046
+    },
+    {
+      "index": 20,
+      "title": "Creativity Is the Creator",
+      "chapter_file": "book/_chapters/ch20-creativity-is-the-creator.txt",
+      "source_line_ranges": [
+        [
+          3238,
+          3385
+        ]
+      ],
+      "source_words": 3894,
+      "output_words": 3648
+    }
+  ],
+  "source_crosswalk": "book/source-crosswalk.json"
+}

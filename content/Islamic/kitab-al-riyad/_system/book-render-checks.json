@@ -1,0 +1,13 @@
+{
+  "schema": "podcast.book-render-checks/v1",
+  "verdict": "RENDER-CAUTION",
+  "pages": 254,
+  "findings": [
+    {
+      "check": "BR-PAGE-FILL",
+      "severity": "P1",
+      "page": 4,
+      "detail": "half-empty interior page (164 vs median 1808 chars)"
+    }
+  ]
+}

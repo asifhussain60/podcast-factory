@@ -1,0 +1,202 @@
+---
+/**
+ * /snag-list — The Snag List: the repo's general issue/work-request backlog.
+ *
+ * Reads _workspace/plan/pending-work.yaml LIVE on every request (server-rendered,
+ * not a build-time snapshot) so it always reflects what's actually in the file —
+ * the same file the per-book status card prints from (_pending_work.py). No JS:
+ * open items are shown expanded per scope, done items collapse under <details>.
+ */
+import Base from "../layouts/Base.astro";
+import AudienceBadge from "../components/AudienceBadge.astro";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import yaml from "js-yaml";
+import "../styles/snag-list.css";
+
+interface SnagItem {
+  id: string;
+  scope: string;
+  status: "doing" | "open" | "done";
+  title: string;
+  noticed?: string;
+}
+
+function loadItems(): SnagItem[] {
+  const path = resolve(process.cwd(), "../_workspace/plan/pending-work.yaml");
+  try {
+    const doc = yaml.load(readFileSync(path, "utf-8")) as {
+      items?: SnagItem[];
+    };
+    const items = Array.isArray(doc?.items) ? doc.items : [];
+    // js-yaml parses an unquoted `noticed: 2026-07-18` scalar into a native Date
+    // (YAML 1.1 timestamp type), not a string -- left alone, `{item.noticed}`
+    // renders its full toString() ("Sat Jul 18 2026 20:00:00 GMT-0400 ...").
+    // Normalize back to plain YYYY-MM-DD here, once, rather than at every call site.
+    return items.map((i) => ({
+      ...i,
+      noticed:
+        i.noticed instanceof Date
+          ? i.noticed.toISOString().slice(0, 10)
+          : i.noticed,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+const items = loadItems();
+const openStatuses = new Set(["doing", "open"]);
+const openItems = items.filter((i) => openStatuses.has(i.status));
+const doneItems = items.filter((i) => i.status === "done");
+const doingCount = items.filter((i) => i.status === "doing").length;
+
+// Group by scope, open items first within each group, `doing` before `open`.
+const statusRank: Record<string, number> = { doing: 0, open: 1, done: 2 };
+const scopes = Array.from(new Set(items.map((i) => i.scope))).sort((a, b) => {
+  // pipeline and general first (repo-wide), then book slugs alphabetically.
+  const rank = (s: string) => (s === "pipeline" ? 0 : s === "general" ? 1 : 2);
+  return rank(a) - rank(b) || a.localeCompare(b);
+});
+
+function itemsForScope(scope: string, status: "open" | "done"): SnagItem[] {
+  const pool = status === "open" ? openItems : doneItems;
+  return pool
+    .filter((i) => i.scope === scope)
+    .sort((a, b) => statusRank[a.status] - statusRank[b.status]);
+}
+
+function scopeLabel(scope: string): string {
+  if (scope === "pipeline") return "Pipeline — the machinery itself";
+  if (scope === "general")
+    return "General — repo-wide, not book- or pipeline-specific";
+  return scope;
+}
+---
+
+<Base title="The Snag List" active="snag-list">
+  <section class="snag-hero">
+    <header class="stack">
+      <span class="eyebrow">The Snag List</span>
+      <p class="home-hero-audience"><AudienceBadge tier="you" /></p>
+      <h1>What's still open, and what's already closed.</h1>
+      <p class="lede">
+        The factory-floor term for the punch list before a build ships — the
+        same backlog every book's status card reads from (<code
+          >_workspace/plan/pending-work.yaml</code
+        >), shown here in full. No priority field on purpose: urgency lives in
+        the title, in plain English.
+      </p>
+    </header>
+
+    <div class="snag-stat-strip">
+      <div class="snag-stat-card snag-stat-open">
+        <div class="snag-stat-value">{openItems.length}</div>
+        <div class="snag-stat-label">Open</div>
+      </div>
+      <div class="snag-stat-card snag-stat-doing">
+        <div class="snag-stat-value">{doingCount}</div>
+        <div class="snag-stat-label">In progress</div>
+      </div>
+      <div class="snag-stat-card snag-stat-done">
+        <div class="snag-stat-value">{doneItems.length}</div>
+        <div class="snag-stat-label">Done</div>
+      </div>
+    </div>
+  </section>
+
+  <main class="snag-body">
+    {
+      items.length === 0 && (
+        <section id="s01-empty" class="snag-section">
+          <h2>
+            <span class="snag-num">01</span> The list couldn't be read
+          </h2>
+          <p>
+            Either <code>pending-work.yaml</code> is empty or the file couldn't
+            be parsed. Check <code>_workspace/plan/pending-work.yaml</code>{" "}
+            directly.
+          </p>
+        </section>
+      )
+    }
+
+    {
+      scopes.map((scope, idx) => {
+        const open = itemsForScope(scope, "open");
+        const done = itemsForScope(scope, "done");
+        if (open.length === 0 && done.length === 0) return null;
+        const num = String(idx + 1).padStart(2, "0");
+        return (
+          <section id={`s${num}-${scope}`} class="snag-section">
+            <h2>
+              <span class="snag-num">{num}</span> {scopeLabel(scope)}
+            </h2>
+
+            {open.length > 0 ? (
+              <div class="snag-table-container" role="region" tabindex="0">
+                <table class="snag-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Status</th>
+                      <th scope="col">Item</th>
+                      <th scope="col">Noticed</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {open.map((item) => (
+                      <tr>
+                        <td>
+                          <span class={`snag-badge snag-badge-${item.status}`}>
+                            {item.status}
+                          </span>
+                        </td>
+                        <td>
+                          <p class="snag-item-id">{item.id}</p>
+                          <p class="snag-item-title">{item.title}</p>
+                        </td>
+                        <td class="snag-noticed">{item.noticed ?? "—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <p class="snag-empty">Nothing open here.</p>
+            )}
+
+            {done.length > 0 && (
+              <details class="snag-done-details">
+                <summary>
+                  {done.length} closed item{done.length === 1 ? "" : "s"} in
+                  this scope
+                </summary>
+                <div class="snag-table-container" role="region" tabindex="0">
+                  <table class="snag-table snag-table-done">
+                    <thead>
+                      <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Noticed</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {done.map((item) => (
+                        <tr>
+                          <td>
+                            <p class="snag-item-id">{item.id}</p>
+                            <p class="snag-item-title">{item.title}</p>
+                          </td>
+                          <td class="snag-noticed">{item.noticed ?? "—"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            )}
+          </section>
+        );
+      })
+    }
+  </main>
+</Base>

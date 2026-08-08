@@ -1,0 +1,176 @@
+{
+  "vowelled": 19,
+  "marks_added": 152,
+  "already": 273,
+  "refused": 42,
+  "refusals": [
+    {
+      "term": "محمد بن احمد النسفي",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"محمد بن احمد\" vs proposal \"النسفي\")"
+    },
+    {
+      "term": "الفرق بين الفرق",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" بين الفرق\" vs proposal \"\")"
+    },
+    {
+      "term": "ابو حاتم احمد بن حمدان الليفي الورسناني الرازي",
+      "reason": "empty"
+    },
+    {
+      "term": "محمد المهدي بالله",
+      "reason": "letters changed, not just marks (first difference at character 5: source \" المهدي بالل\" vs proposal \"\")"
+    },
+    {
+      "term": "المروزي",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"المروزي\" vs proposal \"ألمروزي\")"
+    },
+    {
+      "term": "أسفر بن شيرويه",
+      "reason": "letters changed, not just marks (first difference at character 5: source \" بن شيرويه\" vs proposal \"\")"
+    },
+    {
+      "term": "أبو عبدالله الشيعي",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"أبو عبدالله \" vs proposal \"الشيعي\")"
+    },
+    {
+      "term": "أبو بكر محمد بن زكريا الرازي",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"أبو بكر محمد\" vs proposal \"الرازي\")"
+    },
+    {
+      "term": "نصر بن أحمد",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" بن أحمد\" vs proposal \"\")"
+    },
+    {
+      "term": "المؤيد في الدين هبة الله الشيرازي",
+      "reason": "letters changed, not just marks (first difference at character 7: source \" في الدين هب\" vs proposal \"\")"
+    },
+    {
+      "term": "الافتخار",
+      "reason": "empty"
+    },
+    {
+      "term": "المعز لدين الله الفاطمي",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" لدين الله ا\" vs proposal \"\")"
+    },
+    {
+      "term": "النعمان بن محمد بن حيون المغربي التميمي",
+      "reason": "letters changed, not just marks (first difference at character 8: source \" بن محمد بن \" vs proposal \"\")"
+    },
+    {
+      "term": "إسماعيل بن عبد الرسول بن متى خان الأبيني",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"إسماعيل بن ع\" vs proposal \"الأبيني\")"
+    },
+    {
+      "term": "إثبات النبوة",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" النبوة\" vs proposal \"\")"
+    },
+    {
+      "term": "مسليات الاحزان",
+      "reason": "letters changed, not just marks (first difference at character 7: source \" الاحزان\" vs proposal \"\")"
+    },
+    {
+      "term": "المواعظ في الاخلاق",
+      "reason": "letters changed, not just marks (first difference at character 8: source \" في الاخلاق\" vs proposal \"\")"
+    },
+    {
+      "term": "الغريب في معنى الاكسير",
+      "reason": "letters changed, not just marks (first difference at character 7: source \" في معنى الا\" vs proposal \"\")"
+    },
+    {
+      "term": "تأليف الأرواح",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" الأرواح\" vs proposal \"\")"
+    },
+    {
+      "term": "ادريس عماد الدين",
+      "reason": "empty"
+    },
+    {
+      "term": "المصابيح في اثبات الامامة",
+      "reason": "letters changed, not just marks (first difference at character 9: source \" في اثبات ال\" vs proposal \"\")"
+    },
+    {
+      "term": "تنبيه الهادي والمستهدي",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" الهادي والم\" vs proposal \"\")"
+    },
+    {
+      "term": "الايسية",
+      "reason": "empty"
+    },
+    {
+      "term": "الانبعاث",
+      "reason": "empty"
+    },
+    {
+      "term": "البغدادي",
+      "reason": "empty"
+    },
+    {
+      "term": "معاصم الهدى",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" الهدى\" vs proposal \"\")"
+    },
+    {
+      "term": "فصل الخطاب وانابة الحق المتجلي عن الارتياب",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" الخطاب وانا\" vs proposal \"\")"
+    },
+    {
+      "term": "المقادير والحقائق",
+      "reason": "letters changed, not just marks (first difference at character 9: source \" والحقائق\" vs proposal \"\")"
+    },
+    {
+      "term": "رسالة التوحيد في المعاد",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"رسالة التوحي\" vs proposal \"التوحيد\")"
+    },
+    {
+      "term": "كتاب النقد والالزام",
+      "reason": "letters changed, not just marks (first difference at character 15: source \"الزام\" vs proposal \"إلزام\")"
+    },
+    {
+      "term": "المجالس البغدادية والبصرية",
+      "reason": "letters changed, not just marks (first difference at character 8: source \" البغدادية و\" vs proposal \"\")"
+    },
+    {
+      "term": "رسالة الشعرى في الخواص",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"رسالة الشعرى\" vs proposal \"الشعراني\")"
+    },
+    {
+      "term": "المعز لدين الله",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"المعز لدين ا\" vs proposal \"ألمعز\")"
+    },
+    {
+      "term": "كتاب المحصول",
+      "reason": "empty"
+    },
+    {
+      "term": "الفوآد",
+      "reason": "empty"
+    },
+    {
+      "term": "محمد صلى الله عليه وسلم",
+      "reason": "letters changed, not just marks (first difference at character 5: source \" صلى الله عل\" vs proposal \"\")"
+    },
+    {
+      "term": "محمد بن أبي بكر",
+      "reason": "letters changed, not just marks (first difference at character 5: source \" بن أبي بكر\" vs proposal \"\")"
+    },
+    {
+      "term": "المصابيح في الامامة",
+      "reason": "letters changed, not just marks (first difference at character 9: source \" في الامامة\" vs proposal \"\")"
+    },
+    {
+      "term": "ندا سور أزبكية",
+      "reason": "empty"
+    },
+    {
+      "term": "سورة هود",
+      "reason": "letters changed, not just marks (first difference at character 5: source \" هود\" vs proposal \"\")"
+    },
+    {
+      "term": "أسفار بن شيرويه",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" بن شيرويه\" vs proposal \"\")"
+    },
+    {
+      "term": "النعمان بن حيون المغربي التميمي",
+      "reason": "letters changed, not just marks (first difference at character 8: source \" بن حيون الم\" vs proposal \"\")"
+    }
+  ]
+}

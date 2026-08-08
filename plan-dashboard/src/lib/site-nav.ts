@@ -8,6 +8,7 @@ export type ActivePage =
   | "db-schema"
   | "security"
   | "plan"
+  | "snag-list"
   | "library"
   | "wisdom"
   | "quality"
@@ -30,7 +31,8 @@ export type ActivePage =
  *   system  — read-only docs about the factory
  * Home is reached via the brand link, not a top section.
  */
-export type NavSection = "studio" | "library" | "corpus" | "system";
+export type NavSection =
+  "studio" | "library" | "corpus" | "system" | "snaglist";
 
 export interface NavLink {
   href: string;
@@ -76,6 +78,16 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
       "how-it-works",
     ],
   },
+  // Promoted out of System's subnav to its own top-level tab, right after
+  // System (Asif, 2026-08-08) — it's an actively-used work list, not read-only
+  // factory documentation, so it earns a first-class spot rather than being
+  // buried a click deep.
+  {
+    href: "/snag-list",
+    label: "Snag List",
+    section: "snaglist",
+    pages: ["snag-list"],
+  },
 ];
 
 export const SUBNAV: Record<NavSection, NavLink[]> = {
@@ -119,6 +131,8 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
     { href: "/plan", label: "Roadmap", pages: ["plan", "planner"] },
     { href: "/about", label: "About & Help", pages: ["about"] },
   ],
+  // Its own top-level tab (2026-08-08) with no second-row subnav — a single page.
+  snaglist: [],
 };
 
 export function getNavSection(active: ActivePage): NavSection {
