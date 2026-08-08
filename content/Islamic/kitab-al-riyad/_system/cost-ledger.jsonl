@@ -272,3 +272,4 @@
 {"ts": "2026-08-08T13:24:54Z", "phase": "0book-compose", "step": "translation-bk-14", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 21109, "cache_read": 20129, "cache_create": 79410, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-08T13:31:05Z", "phase": "0book-compose", "step": "translation-bk-15", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 20512, "cache_read": 20129, "cache_create": 80427, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-08T13:34:22Z", "phase": "0book-compose", "step": "translation-bk-16-part-01", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 8854, "cache_read": 20129, "cache_create": 74523, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-08T13:40:18Z", "phase": "0book-compose", "step": "translation-bk-16-part-02", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 19612, "cache_read": 20129, "cache_create": 74198, "cost_usd": 0.0, "engine": "max"}
