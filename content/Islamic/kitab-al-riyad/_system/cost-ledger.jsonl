@@ -254,3 +254,4 @@
 {"ts": "2026-08-08T12:05:13Z", "phase": "0book-compose", "step": "translation-bk-05", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 15672, "cache_read": 20129, "cache_create": 75571, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-08T12:09:05Z", "phase": "0book-compose", "step": "translation-bk-05-integrity-retry", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 12740, "cache_read": 20129, "cache_create": 75814, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-08T12:13:31Z", "phase": "0book-compose", "step": "translation-bk-06-part-01", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 14973, "cache_read": 20129, "cache_create": 75194, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-08T12:18:31Z", "phase": "0book-compose", "step": "translation-bk-06-part-02", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 17721, "cache_read": 20129, "cache_create": 73177, "cost_usd": 0.0, "engine": "max"}
