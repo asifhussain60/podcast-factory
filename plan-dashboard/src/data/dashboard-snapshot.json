@@ -1938,53 +1938,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "efc616a4",
-      "subject": "chore(plan-dashboard): resync snapshot before orchestrator refactor branch",
+      "sha": "e469037a",
+      "subject": "Merge: orchestrator efficiency + accuracy pass",
       "date": "2026-08-08"
     },
     {
-      "sha": "65a773de",
-      "subject": "fix(plan-dashboard): gate the Snag List page + fix its type error",
+      "sha": "4c80c787",
+      "subject": "chore(snag-list): record that the parallel chapter loop is unproven on a real book",
       "date": "2026-08-08"
     },
     {
-      "sha": "6f4857da",
-      "subject": "chore(plan-dashboard): resync snapshot recent-commits tail after repo-surgeon audit",
+      "sha": "ea5219e2",
+      "subject": "feat(pipeline): run chapters concurrently behind a worker count (default 1)",
       "date": "2026-08-08"
     },
     {
-      "sha": "94f71388",
-      "subject": "chore(plan-dashboard): resync snapshot recent-commits tail",
+      "sha": "663271e6",
+      "subject": "feat(pipeline): admission-control the per-book cost ceiling — blocker 3 of 3 cleared",
       "date": "2026-08-08"
     },
     {
-      "sha": "f85833fb",
-      "subject": "chore(plan-dashboard): regenerate snapshot after kitab-al-riyad merge",
+      "sha": "2f9bf781",
+      "subject": "refactor(pipeline): make the C3 breaker concurrency-safe — blocker 2 of 3",
       "date": "2026-08-08"
     },
     {
-      "sha": "402b2152",
-      "subject": "Merge branch 'Islamic/kitab-al-riyad' into develop",
+      "sha": "291e6fd7",
+      "subject": "refactor(pipeline): batch the per-chapter commits — blocker 1 of 3 for parallelism",
       "date": "2026-08-08"
     },
     {
-      "sha": "795339e1",
-      "subject": "chore(plan-dashboard): sync snapshot recent-commits list",
+      "sha": "3dc9d24f",
+      "subject": "fix(pipeline): allowlist the new observability artifacts before they strand a resume",
       "date": "2026-08-08"
     },
     {
-      "sha": "34e63d61",
-      "subject": "book(kitab-al-riyad): 0book-render — book.pdf (validation failed)",
+      "sha": "a0b51534",
+      "subject": "fix(pipeline): calibrate the phase-review gates against a book's actual route",
       "date": "2026-08-08"
     },
     {
-      "sha": "3dec698b",
-      "subject": "book(kitab-al-riyad): 0book-compose — unified path",
+      "sha": "5e70c43a",
+      "subject": "feat(pipeline): per-step logs, per-phase review gates, and stop paying twice",
       "date": "2026-08-08"
     },
     {
-      "sha": "cdd9d771",
-      "subject": "Merge remote-tracking branch 'origin/develop' into Islamic/kitab-al-riyad",
+      "sha": "f674dd30",
+      "subject": "chore(snag-list): close out kitab-al-riyad per Asif's call",
       "date": "2026-08-08"
     }
   ],
