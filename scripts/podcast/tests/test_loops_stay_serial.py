@@ -65,8 +65,23 @@ class NoConcurrencyIntroducedTests(unittest.TestCase):
     def test_the_book_compose_module_runs_no_workers(self):
         self._assert_serial(COMPOSE, "the book compose module")
 
-    def test_the_per_chapter_driver_runs_no_workers(self):
-        self._assert_serial(CHAPTER_DRIVER, "the per-chapter driver")
+    def test_the_per_chapter_driver_may_now_use_workers_but_defaults_to_one(self):
+        # NARROWED 2026-08-08. This used to assert the per-chapter driver ran no workers
+        # at all; all three blockers are now cleared and it takes a worker count, so the
+        # blanket ban would be wrong. What still matters is that concurrency is OPT-IN:
+        # the default must be one worker, so merging the capability changed nothing about
+        # how a book runs until someone chooses otherwise.
+        source = CHAPTER_DRIVER.read_text(encoding="utf-8")
+        self.assertIn(
+            'os.environ.get("PER_CHAPTER_MAX_WORKERS", "1")',
+            source,
+            "the worker count must default to 1 — concurrency here is opt-in, not the new normal",
+        )
+        self.assertIn(
+            "if _max_workers <= 1:",
+            source,
+            "the one-worker path must stay a plain loop rather than a pool of one",
+        )
 
 
 class SerialDependencyStillExistsTests(unittest.TestCase):
@@ -107,34 +122,36 @@ class SerialDependencyStillExistsTests(unittest.TestCase):
 
     @staticmethod
     def _per_chapter_loop_body(source: str) -> str:
-        """The source of the `for slug in chapter_slugs:` loop, located by AST.
+        """The source of the per-chapter work unit, located by AST.
 
-        Parsed rather than sliced between text markers. The first version of this keyed
-        on the line that follows the loop, and broke the moment a block was inserted
-        there — a brittle helper turns a real guard into noise, and the guard is the
-        point.
+        It was a `for slug in chapter_slugs:` loop until 2026-08-08 and is now the
+        `_run_one_chapter` function that dispatch calls once per chapter — the same body,
+        reshaped so it can run on a worker. Located structurally rather than sliced
+        between text markers, because the marker version broke on an unrelated insertion
+        and a brittle helper turns a real guard into noise.
         """
         tree = ast.parse(source)
         lines = source.splitlines(keepends=True)
         for node in ast.walk(tree):
-            if (
-                isinstance(node, ast.For)
-                and isinstance(node.target, ast.Name)
-                and node.target.id == "slug"
-                and isinstance(node.iter, ast.Name)
-                and node.iter.id == "chapter_slugs"
-            ):
+            if isinstance(node, ast.FunctionDef) and node.name == "_run_one_chapter":
                 return "".join(lines[node.lineno - 1 : node.end_lineno])
-        raise AssertionError("could not find the `for slug in chapter_slugs:` loop")
+        raise AssertionError("could not find `_run_one_chapter` — the per-chapter work unit")
 
-    def test_the_batch_commits_on_every_halt_path_too(self):
-        # A book where 18 of 20 chapters shipped before a halt must still commit those
-        # 18 — finished work must not be lost because a later chapter broke.
+    def test_the_batch_commit_happens_once_after_dispatch(self):
+        # A book where 18 of 20 chapters shipped before a halt must still commit those 18.
+        # Since 2026-08-08 the halt paths no longer commit themselves: they RECORD the
+        # halt and let dispatch finish, so there is exactly one call site and it runs on
+        # every path out of dispatch — which is strictly harder to get wrong than three.
         source = CHAPTER_DRIVER.read_text(encoding="utf-8")
-        self.assertGreaterEqual(
-            source.count("_commit_chapter_batch()"),
-            4,  # definition + systemic halt + circuit breaker + after the loop
-            "the batched commit is not called on every exit path from the loop",
+        calls = source.count("_commit_chapter_batch()")
+        self.assertEqual(calls, 2, f"expected the definition plus ONE call after dispatch, found {calls}")
+
+        body = self._per_chapter_loop_body(source)
+        self.assertNotIn(
+            "_commit_chapter_batch()",
+            body,
+            "a worker committed on its own — the commit must happen once, after every "
+            "chapter has finished, or two threads race .git/index.lock",
         )
 
     def test_the_per_chapter_loop_still_has_its_circuit_breaker(self):

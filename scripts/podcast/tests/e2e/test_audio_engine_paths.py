@@ -37,7 +37,7 @@ import _dialogue_convergence as dconv
 import _dialogue_script as dscript
 import _progress
 from _convergence import ChapterOutcome
-from phases import audio_driver, chapter_driver
+from phases import audio_driver, chapter_driver, post_chapter_driver
 
 FIXTURE_BOOK = Path(__file__).resolve().parents[1] / "fixtures" / "audio-engine-book"
 EPISODE_ID = "EP01-the-lamp-and-the-wick"
@@ -95,13 +95,19 @@ class AudioEnginePathE2E(unittest.TestCase):
 
         Returns (rc, stdout_text)."""
         out = io.StringIO()
+        # Patch targets follow the 2026-08-08 split: the per-chapter LOOP stayed in
+        # `chapter_driver`, while 0g, the slide cohort, the audio phases and the finalize
+        # halt moved to `post_chapter_driver`. A mock has to be applied where the name is
+        # LOOKED UP, so the 0g and finalize boundaries are patched on the new module —
+        # left on the old one they silently stopped intercepting and the real 0g ran.
         patches = [
             mock.patch.object(chapter_driver, "smoke_check_book", return_value=[]),
             mock.patch.object(chapter_driver, "per_chapter_pass", side_effect=_ship_ready_outcome),
             mock.patch.object(chapter_driver, "phase_git_commit"),
-            mock.patch.object(chapter_driver, "phase_0g_register"),
-            mock.patch.object(chapter_driver, "phase_0g_audit_bundles", return_value={CHAPTER_SLUG: "PASS"}),
-            mock.patch.object(chapter_driver, "_run", return_value=(0, "G1-G7 OK", "")),
+            mock.patch.object(post_chapter_driver, "phase_git_commit"),
+            mock.patch.object(post_chapter_driver, "phase_0g_register"),
+            mock.patch.object(post_chapter_driver, "phase_0g_audit_bundles", return_value={CHAPTER_SLUG: "PASS"}),
+            mock.patch.object(post_chapter_driver, "_run", return_value=(0, "G1-G7 OK", "")),
             mock.patch.object(audio_driver, "phase_git_commit"),
             mock.patch(
                 "phases.per_chapter_optimize.run_book_optimize", return_value={"skipped": True, "reason": "test"}
