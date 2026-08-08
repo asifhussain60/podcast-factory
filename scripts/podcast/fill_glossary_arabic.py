@@ -224,11 +224,24 @@ def build_lexicon_prompt(rows: list[dict[str, str]]) -> str:
     )
 
 
-def _run_llm_batches(rows: list[dict[str, str]], build, batch_size: int, *, label: str) -> dict[str, str]:
+def _run_llm_batches(
+    rows: list[dict[str, str]], build, batch_size: int, *, label: str, book_dir: Path | None = None
+) -> dict[str, str]:
     """Runs ``build(batch)`` through ``claude -p`` in chunks of ``batch_size``,
     merging ``{phonetic: arabic_script}`` across batches. Shared by the
     OCR-grounded pass and the lexicon-fallback pass so the two cannot drift on
-    batching, timeout, or failure handling — only the prompt differs."""
+    batching, timeout, or failure handling — only the prompt differs.
+
+    ``--output-format json`` + a cost-ledger append per call, when ``book_dir``
+    is given (AU-S3: this module's own COST section has claimed since before
+    the lexicon-fallback pass existed that "cost is logged to the book's
+    _system/cost-ledger.jsonl" — it never was, for either pass, so every real
+    spiritual-ethos run of this script left zero rows in the ledger. The
+    lexicon-fallback pass doubled the untracked spend rather than introducing
+    it). Mirrors the canonical wrapper's shape
+    (``_authoring/_core.py::_run_claude_p``) closely enough to stay
+    consistent, without pulling in that module's Write/Edit tool grants this
+    script never needs."""
     batches = [rows[i : i + batch_size] for i in range(0, len(rows), batch_size)]
     print(
         f"  {label}: calling {MODEL} for {len(rows)} entries in {len(batches)} batch(es) of ≤{batch_size} …",
@@ -241,7 +254,7 @@ def _run_llm_batches(rows: list[dict[str, str]], build, batch_size: int, *, labe
         t0 = time.monotonic()
         try:
             result = subprocess.run(
-                [CLAUDE_CMD, "-p", "--model", MODEL, prompt],
+                [CLAUDE_CMD, "-p", "--model", MODEL, "--output-format", "json", prompt],
                 capture_output=True,
                 text=True,
                 timeout=CLAUDE_TIMEOUT_S,
@@ -254,12 +267,32 @@ def _run_llm_batches(rows: list[dict[str, str]], build, batch_size: int, *, labe
             )
             break
         elapsed = time.monotonic() - t0
+        raw_stdout = result.stdout
+        if book_dir is not None:
+            try:
+                from _cost_ledger import append_from_claude_p_stdout
+
+                append_from_claude_p_stdout(
+                    book_dir,
+                    phase="0c-glossary-fill",
+                    step=f"{label}-b{i}",
+                    model=MODEL,
+                    stdout=raw_stdout,
+                )
+            except Exception as e:
+                sys.stderr.write(f"    {label} batch {i}: cost-ledger append failed: {e!r}\n")
         if result.returncode != 0:
             sys.stderr.write(
                 f"    {label} batch {i} claude -p failed (rc={result.returncode}):\n{result.stderr[:600]}\n"
             )
             break
-        batch_fills = parse_llm_yaml(result.stdout)
+        try:
+            from _cost_ledger import parse_text_from_json_stdout
+
+            reply_text = parse_text_from_json_stdout(raw_stdout)
+        except Exception:
+            reply_text = raw_stdout
+        batch_fills = parse_llm_yaml(reply_text)
         print(f"    {label} batch {i}/{len(batches)} → {len(batch_fills)} fills in {elapsed:.1f}s", file=sys.stderr)
         fills.update(batch_fills)
     return fills
@@ -474,7 +507,9 @@ def main() -> int:
 
     # Pass 2: OCR-grounded. May only report a script it can point to in the
     # book's own scan; refuses (empty string) rather than guess.
-    ocr_fills = _run_llm_batches(empty, lambda batch: build_prompt(batch, ocr_text), batch_size, label="ocr-grounded")
+    ocr_fills = _run_llm_batches(
+        empty, lambda batch: build_prompt(batch, ocr_text), batch_size, label="ocr-grounded", book_dir=book_dir
+    )
     n_filled, n_skipped_unknown = _merge(ocr_fills, mark_lexicon=False)
     if n_skipped_unknown:
         print(f"  ⚠ {n_skipped_unknown} ocr-grounded row(s) had unknown phonetics; dropped", file=sys.stderr)
@@ -485,7 +520,9 @@ def main() -> int:
     still_empty = [r for r in empty if not r.get("arabic_script", "")]
     n_lexicon = n_lexicon_skipped = 0
     if still_empty:
-        lexicon_fills = _run_llm_batches(still_empty, build_lexicon_prompt, batch_size, label="lexicon-fallback")
+        lexicon_fills = _run_llm_batches(
+            still_empty, build_lexicon_prompt, batch_size, label="lexicon-fallback", book_dir=book_dir
+        )
         n_lexicon, n_lexicon_skipped = _merge(lexicon_fills, mark_lexicon=True)
         if n_lexicon_skipped:
             print(f"  ⚠ {n_lexicon_skipped} lexicon-fallback row(s) had unknown phonetics; dropped", file=sys.stderr)
