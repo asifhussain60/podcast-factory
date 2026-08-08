@@ -182,6 +182,11 @@ def step(
     context manager deliberately does not swallow, so it can be dropped around a
     step whose caller already has its own error handling (as every apparatus step
     does) without changing that behaviour.
+
+    A step that reports failure by RETURNING rather than raising — which is how the
+    whole per-chapter lane works, each stage returning a FAILED outcome object —
+    calls `rec.failed("why")` before its return. Without it such a stage records
+    `ok`, and a ledger that calls a failed stage successful is worse than no ledger.
     """
 
     class _Rec:
@@ -189,11 +194,17 @@ def step(
             self.outcome = OUTCOME_OK
             self.evidence: dict[str, Any] = {}
             self.note: str | None = None
+            self.error: str | None = None
 
         def noop(self, why: str = "") -> None:
             self.outcome = OUTCOME_NOOP
             if why:
                 self.evidence["why"] = why
+
+        def failed(self, why: str = "") -> None:
+            self.outcome = OUTCOME_FAILED
+            if why:
+                self.error = why
 
         def skipped(self, why: str = "") -> None:
             self.outcome = OUTCOME_SKIPPED
@@ -234,6 +245,7 @@ def step(
         outcome=rec.outcome,
         duration_ms=int((time.monotonic() - t0) * 1000),
         evidence=rec.evidence,
+        error=rec.error,
     )
 
 

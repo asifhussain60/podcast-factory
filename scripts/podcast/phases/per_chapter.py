@@ -1,6 +1,13 @@
 """phases/per_chapter.py — per_chapter_pass: extract → frame → build → converge.
 
 Extracted from orchestrate_book.py (A4 split). Authority: plan.md §A4.
+
+Every stage records one step-ledger line (2026-08-08). The chapter loop already
+recorded a per-chapter TOTAL — a measured median of 37 minutes across 20 chapters —
+but nothing inside it, so "where do the 37 minutes go" was unanswerable and the
+plan to answer it by reading `duration_ms` after a real run could not have worked.
+The stages are recorded HERE rather than in `chapter_driver` because this is where
+they exist: the driver sees one opaque `per_chapter_pass` call.
 """
 
 from __future__ import annotations
@@ -13,11 +20,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _authoring import AuthoringError, author_framing
 from _convergence import ChapterOutcome, converge_chapter
 from _paths import REPO_ROOT
+from _step_ledger import step
 
 from phases.series_plan import _resolve_episode_id
 
 EXTRACT_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "extract_chapter.py"
 BUILD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "build_episode_txt.py"
+
+#: The phase these steps belong to. One name, so `read_steps(book_dir, phase=...)`
+#: returns the whole lane and the per-chapter breakdown is one query.
+PHASE = "per-chapter"
 
 # F32 framing cache: a sidecar written next to 00-framing.md after a successful
 # author_framing. Its presence + a matching chapter-input signature lets a
@@ -101,43 +113,11 @@ def per_chapter_pass(
                 cached_framing = _fp.read_text(encoding="utf-8")
 
     # 1. Extract — scaffold the episode-draft folder + bundle from the contract.
-    rc, out, err = _run([sys.executable, str(EXTRACT_SCRIPT), chapter_ref, "--force"])
-    if rc != 0:
-        return ChapterOutcome(
-            chapter_slug=chapter_slug,
-            final_verdict="FAILED",
-            outer_iterations=0,
-            fixer_attempts=0,
-            p0_remaining=0,
-            p1_remaining=0,
-            p2_remaining=0,
-            notes=[f"extract_chapter.py failed for {chapter_ref!r}: rc={rc}: {err.strip()[:200]}"],
-        )
-
-    # 2. Author framing — LLM call (or F32 cache hit: restore the prior authored
-    # framing that extract --force just overwrote, and skip the LLM re-authoring).
-    _draft = _draft_dir_for(book_dir, chapter_slug)
-    framing_cached = False
-    if cached_framing is not None and _draft is not None:
-        (_draft / "00-framing.md").write_text(cached_framing, encoding="utf-8")
-        framing_cached = True
-    else:
-        # Framing cache MISS → re-author via LLM. `claude -p` has no temperature/
-        # seed knob, so this output is non-deterministic and will differ from any
-        # prior run. Logged so "reproducible only via checkpoints" is observable:
-        # a no-signature (first author) or signature-mismatch (chapter text
-        # changed, e.g. after --force re-extract) re-enters the stochastic path.
-        _info(
-            f"      framing cache miss for {chapter_slug}: re-authoring via LLM "
-            f"(non-deterministic — output will differ from any prior run)"
-        )
-        # (The $0 deterministic smoke gate runs once at the loop level in
-        # chapter_driver, before any chapter is attempted — see smoke_check_book.
-        # It is intentionally NOT duplicated here: the extract step above already
-        # validates path/contract for direct single-chapter callers.)
-        try:
-            author_framing(book_dir, chapter_slug)
-        except AuthoringError as e:
+    with step(book_dir, PHASE, "extract") as rec:
+        rec.detail(chapter=chapter_slug)
+        rc, out, err = _run([sys.executable, str(EXTRACT_SCRIPT), chapter_ref, "--force"])
+        if rc != 0:
+            rec.failed(f"rc={rc}: {err.strip()[:200]}")
             return ChapterOutcome(
                 chapter_slug=chapter_slug,
                 final_verdict="FAILED",
@@ -146,8 +126,47 @@ def per_chapter_pass(
                 p0_remaining=0,
                 p1_remaining=0,
                 p2_remaining=0,
-                notes=[f"framing authoring failed: {e}"],
+                notes=[f"extract_chapter.py failed for {chapter_ref!r}: rc={rc}: {err.strip()[:200]}"],
             )
+
+    # 2. Author framing — LLM call (or F32 cache hit: restore the prior authored
+    # framing that extract --force just overwrote, and skip the LLM re-authoring).
+    _draft = _draft_dir_for(book_dir, chapter_slug)
+    framing_cached = False
+    with step(book_dir, PHASE, "framing") as rec:
+        rec.detail(chapter=chapter_slug)
+        if cached_framing is not None and _draft is not None:
+            (_draft / "00-framing.md").write_text(cached_framing, encoding="utf-8")
+            framing_cached = True
+            rec.noop("F32 cache hit — LLM re-authoring skipped")
+        else:
+            # Framing cache MISS → re-author via LLM. `claude -p` has no temperature/
+            # seed knob, so this output is non-deterministic and will differ from any
+            # prior run. Logged so "reproducible only via checkpoints" is observable:
+            # a no-signature (first author) or signature-mismatch (chapter text
+            # changed, e.g. after --force re-extract) re-enters the stochastic path.
+            _info(
+                f"      framing cache miss for {chapter_slug}: re-authoring via LLM "
+                f"(non-deterministic — output will differ from any prior run)"
+            )
+            # (The $0 deterministic smoke gate runs once at the loop level in
+            # chapter_driver, before any chapter is attempted — see smoke_check_book.
+            # It is intentionally NOT duplicated here: the extract step above already
+            # validates path/contract for direct single-chapter callers.)
+            try:
+                author_framing(book_dir, chapter_slug)
+            except AuthoringError as e:
+                rec.failed(f"framing authoring failed: {e}")
+                return ChapterOutcome(
+                    chapter_slug=chapter_slug,
+                    final_verdict="FAILED",
+                    outer_iterations=0,
+                    fixer_attempts=0,
+                    p0_remaining=0,
+                    p1_remaining=0,
+                    p2_remaining=0,
+                    notes=[f"framing authoring failed: {e}"],
+                )
     # Stamp the framing signature so a later restart can reuse this framing.
     if sig and _draft is not None:
         try:
@@ -160,64 +179,90 @@ def per_chapter_pass(
     # gates do. Deterministic, $0 cost.
     _episode_id = _resolve_episode_id(book_dir, chapter_file, chapter_slug)
     _lint_path = Path(__file__).resolve().parents[1] / "pipeline_lint.py"
-    _lint_rc, _lint_out, _lint_err = _run(
-        [sys.executable, str(_lint_path), "--book-dir", str(book_dir), "--episode", _episode_id]
-    )
-    if _lint_rc == 1:
-        return ChapterOutcome(
-            chapter_slug=chapter_slug,
-            final_verdict="FAILED",
-            outer_iterations=0,
-            fixer_attempts=0,
-            p0_remaining=1,
-            p1_remaining=0,
-            p2_remaining=0,
-            notes=[f"pipeline_lint P0: framing structural mismatch:\n{_lint_out.strip()[:600]}"],
+    with step(book_dir, PHASE, "lint") as rec:
+        rec.detail(chapter=chapter_slug)
+        _lint_rc, _lint_out, _lint_err = _run(
+            [sys.executable, str(_lint_path), "--book-dir", str(book_dir), "--episode", _episode_id]
         )
+        if _lint_rc == 1:
+            rec.failed(f"framing structural mismatch: {_lint_out.strip()[:200]}")
+            return ChapterOutcome(
+                chapter_slug=chapter_slug,
+                final_verdict="FAILED",
+                outer_iterations=0,
+                fixer_attempts=0,
+                p0_remaining=1,
+                p1_remaining=0,
+                p2_remaining=0,
+                notes=[f"pipeline_lint P0: framing structural mismatch:\n{_lint_out.strip()[:600]}"],
+            )
 
     # 3. Build the episode .txt — deterministic gate.
     episode_id = _resolve_episode_id(book_dir, chapter_file, chapter_slug)
-    rc, out, err = _run([sys.executable, str(BUILD_SCRIPT), str(book_dir), episode_id])
-    if rc != 0:
-        return ChapterOutcome(
-            chapter_slug=chapter_slug,
-            final_verdict="FAILED",
-            outer_iterations=0,
-            fixer_attempts=0,
-            p0_remaining=0,
-            p1_remaining=0,
-            p2_remaining=0,
-            notes=[f"build_episode_txt.py failed: rc={rc}: {err.strip()[:300]}"],
-        )
+    with step(book_dir, PHASE, "build") as rec:
+        rec.detail(chapter=chapter_slug, episode=episode_id)
+        rc, out, err = _run([sys.executable, str(BUILD_SCRIPT), str(book_dir), episode_id])
+        if rc != 0:
+            rec.failed(f"rc={rc}: {err.strip()[:200]}")
+            return ChapterOutcome(
+                chapter_slug=chapter_slug,
+                final_verdict="FAILED",
+                outer_iterations=0,
+                fixer_attempts=0,
+                p0_remaining=0,
+                p1_remaining=0,
+                p2_remaining=0,
+                notes=[f"build_episode_txt.py failed: rc={rc}: {err.strip()[:300]}"],
+            )
+        rec.outputs(book_dir / "episodes" / f"{episode_id}.txt")
 
     # 3.5. Knowledge augmentation — prepend prior-doctrine context block when enabled.
     # Gate: meta.yml series.enable_knowledge_augmenter must be True (default False).
     # Books without that flag are untouched; tradition-match guard is inside the augmenter.
     # Failure is non-fatal: the episode .txt remains as built.
     augmentation_note: str | None = None
-    try:
-        from intelligence.augmenter import augment_episode_text as _augment
+    with step(book_dir, PHASE, "augment") as rec:
+        rec.detail(chapter=chapter_slug)
+        try:
+            from intelligence.augmenter import augment_episode_text as _augment
 
-        episode_path = book_dir / "episodes" / f"{episode_id}.txt"
-        if episode_path.exists():
-            original = episode_path.read_text(encoding="utf-8")
-            augmented = _augment(original, book_dir, episode_slug=episode_id)
-            if augmented != original:
-                episode_path.write_text(augmented, encoding="utf-8")
-                augmentation_note = "knowledge augmentation applied"
-    except Exception as _aug_err:
-        augmentation_note = f"knowledge augmentation skipped ({_aug_err})"
+            episode_path = book_dir / "episodes" / f"{episode_id}.txt"
+            if episode_path.exists():
+                original = episode_path.read_text(encoding="utf-8")
+                augmented = _augment(original, book_dir, episode_slug=episode_id)
+                if augmented != original:
+                    episode_path.write_text(augmented, encoding="utf-8")
+                    augmentation_note = "knowledge augmentation applied"
+                else:
+                    rec.noop("augmenter returned the episode unchanged")
+            else:
+                rec.noop("no episode text to augment")
+        except Exception as _aug_err:
+            # Recorded as SKIPPED, not failed: the gate is off by default for most
+            # books and the episode text stands as built either way. The reason is
+            # kept so a book that silently never augments is visible in the ledger.
+            augmentation_note = f"knowledge augmentation skipped ({_aug_err})"
+            rec.skipped(str(_aug_err)[:200])
 
     # 4. Convergence loop (with Phase 3 safety rails threaded through).
-    outcome = converge_chapter(
-        book_dir,
-        chapter_slug,
-        per_chapter_cost_cap=per_chapter_cost_cap,
-        book_cost_cap=book_cost_cap,
-        chapter_cost_fn=chapter_cost_fn,
-        book_cost_fn=book_cost_fn,
-        heartbeat=heartbeat,
-    )
+    with step(book_dir, PHASE, "converge") as rec:
+        rec.detail(chapter=chapter_slug)
+        outcome = converge_chapter(
+            book_dir,
+            chapter_slug,
+            per_chapter_cost_cap=per_chapter_cost_cap,
+            book_cost_cap=book_cost_cap,
+            chapter_cost_fn=chapter_cost_fn,
+            book_cost_fn=book_cost_fn,
+            heartbeat=heartbeat,
+        )
+        rec.detail(
+            verdict=outcome.final_verdict,
+            outer_iterations=outcome.outer_iterations,
+            p0_remaining=outcome.p0_remaining,
+        )
+        if outcome.final_verdict == "FAILED":
+            rec.failed(outcome.notes[-1].strip().splitlines()[0][:200] if outcome.notes else "no reason captured")
     if framing_cached:
         outcome.notes.append("F32: framing cache hit — skipped LLM re-authoring")
     if augmentation_note:
