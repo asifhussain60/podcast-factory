@@ -1938,6 +1938,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "7e7e4bc2",
+      "subject": "fix(orchestrator): twelve review findings, and the two that lost real work",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "6b5f070e",
+      "subject": "chore(plan-dashboard): resync snapshot after the QA-findings commits",
+      "date": "2026-08-08"
+    },
+    {
       "sha": "539a1561",
       "subject": "test(phases): cover the two phase drivers no test named",
       "date": "2026-08-08"
@@ -1975,16 +1985,6 @@
     {
       "sha": "e469037a",
       "subject": "Merge: orchestrator efficiency + accuracy pass",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "4c80c787",
-      "subject": "chore(snag-list): record that the parallel chapter loop is unproven on a real book",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "ea5219e2",
-      "subject": "feat(pipeline): run chapters concurrently behind a worker count (default 1)",
       "date": "2026-08-08"
     }
   ],
