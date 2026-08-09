@@ -1938,6 +1938,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "0acc2556",
+      "subject": "feat(compose-fix): the four quotation cards are checked, not remembered",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "7829f8d3",
+      "subject": "fix(compose): the edit canvas draws a quotation in the card its book gives it",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "14689490",
+      "subject": "chore(plan-dashboard): resync the snapshot after the four commits above",
+      "date": "2026-08-09"
+    },
+    {
       "sha": "85b650f6",
       "subject": "fix(book): every romanized saying in Spiritual Ethos is in Arabic script or gone",
       "date": "2026-08-09"
@@ -1970,21 +1985,6 @@
     {
       "sha": "037375d6",
       "subject": "feat(book): every Arabic saying printed in English letters is back in Arabic script",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "d48f58de",
-      "subject": "fix(book): the Prophet carries his own honorific, in every book that had it wrong",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "f3365520",
-      "subject": "feat(book): guard the Prophet's ligature against the two faces that lack the glyph",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "0100061e",
-      "subject": "chore(plan-dashboard): resync snapshot after the skill-registry row",
       "date": "2026-08-09"
     }
   ],
