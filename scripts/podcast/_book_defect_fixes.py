@@ -44,6 +44,7 @@ from _book_defects import (
     blocks,
     duplicated_arabic,
     figure_key,
+    opens_a_longer_formula,
 )
 
 #: The Prophet's own honorific (U+FDFA). Set in the Arabic face at the size the rest of
@@ -139,6 +140,8 @@ def cap_honorifics(md: str, *, cap: int = 1) -> tuple[str, int]:
         rebuilt: list[str] = []
         cursor = 0
         for match in _HONORIFIC_RE.finditer(line):
+            if opens_a_longer_formula(line, match.start()):
+                continue
             # Keyed by `figure_key`, not by the label: "Ali" and "Ali ibn Abi Talib" are
             # one man, and counting them separately left three honorifics in the first
             # two paragraphs of a chapter capped at one.
@@ -146,17 +149,76 @@ def cap_honorifics(md: str, *, cap: int = 1) -> tuple[str, int]:
             counts[key] = counts.get(key, 0) + 1
             if counts[key] <= cap:
                 continue
-            # Take the honorific out along with the space that introduced it, so the
-            # sentence closes up rather than printing a double space before the comma.
-            start = match.start()
-            while start > cursor and line[start - 1] == " ":
-                start -= 1
+            start, end = _removal_span(line, match.start(), match.end())
+            if start < cursor:
+                continue
             rebuilt.append(line[cursor:start])
-            cursor = match.end()
+            # Close the sentence up: a space only where two WORDS would otherwise collide.
+            # Punctuation must not get one — `supplication , : O Allah` is how that reads.
+            if line[start - 1 : start].strip() and line[end : end + 1] not in ("", " ") and line[end] not in _CLOSERS:
+                rebuilt.append(" ")
+            cursor = end
             dropped += 1
         rebuilt.append(line[cursor:])
-        out.append("".join(rebuilt))
+        joined = "".join(rebuilt)
+        out.append(re.sub(r" +([,.;:!?)\]])", r"\1", joined) if len(rebuilt) > 1 else joined)
     return "\n".join(out), dropped
+
+
+#: Punctuation that closes what precedes it, so a removal must never leave a space before it.
+_CLOSERS = ",.;:!?)]}»"
+
+
+def _removal_span(line: str, start: int, end: int) -> tuple[int, int]:
+    """The span to delete so the sentence still reads.
+
+    A honorific is punctuated three ways in this corpus, and taking out only the brackets
+    breaks two of them — measured on 2026-08-09 over 1,674 instances:
+
+        `The Messenger of Allah, (ع), used to`   370x   an APPOSITIVE: both commas are
+                                                       the honorific's, and leaving them
+                                                       printed `Allah,, used`.
+        `Muhammad, (ع) and his family`            98x   a leading comma only.
+        `in his supplication, (ع): O Allah`       39x   leading comma, then a colon that
+                                                       belongs to the sentence and stays.
+        `Ali (ع) said`                           rest   no punctuation at all.
+
+    So: take a leading comma when there is one, and take a trailing comma ONLY when a
+    leading one was taken — that pairing is what makes it an appositive rather than the
+    sentence's own comma. `He said, (ع), "…"` is the case that proves the rule: both go,
+    and the quotation's own comma is the one the sentence re-supplies.
+    """
+    while start > 0 and line[start - 1] == " ":
+        start -= 1
+    had_lead = start > 0 and line[start - 1] == ","
+    if had_lead:
+        start -= 1
+        while start > 0 and line[start - 1] == " ":
+            start -= 1
+    if had_lead:
+        trail = end
+        while trail < len(line) and line[trail] == " ":
+            trail += 1
+        if trail < len(line) and line[trail] == "," and not _comma_belongs_to_a_quotation(line, trail):
+            end = trail + 1
+    return start, end
+
+
+#: What a comma introduces when it is the SENTENCE's rather than the appositive's.
+_QUOTE_OPENERS = "\"“'‘«"
+
+
+def _comma_belongs_to_a_quotation(line: str, comma: int) -> bool:
+    """`He said, (ع), "Do not…"` — that second comma is the quotation's, not the pair's.
+
+    Without this the appositive rule ate it and the sentence printed `He said "Do not"`.
+    The test is what FOLLOWS the comma: a quotation mark means the sentence needed it
+    regardless of the honorific, so it stays.
+    """
+    after = comma + 1
+    while after < len(line) and line[after] == " ":
+        after += 1
+    return after < len(line) and line[after] in _QUOTE_OPENERS
 
 
 def drop_duplicated_inline_arabic(md: str) -> tuple[str, int]:

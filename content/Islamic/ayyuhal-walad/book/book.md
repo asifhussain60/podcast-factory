@@ -567,7 +567,7 @@ The third is one who is seeking guidance, who traces whatever he does not unders
 
 As for the disease that does accept the cure: it is the one who is seeking guidance, intelligent and understanding, who is not overpowered by envy, anger, or love of appetite, rank, or wealth, and who is a seeker of the straight path — whose question and objection do not spring from envy, obstinacy, or a wish to test you. This one accepts the cure, so you may trouble yourself with answering his question. Indeed, it is your duty to answer him.
 
-The second thing you must leave is to guard against becoming a preacher and an admonisher, for there is much affliction in it — unless you first act upon what you say and then admonish others by it. Reflect on what was said to Isa (ع):
+The second thing you must leave is to guard against becoming a preacher and an admonisher, for there is much affliction in it — unless you first act upon what you say and then admonish others by it. Reflect on what was said to Isa:
 
 > يَا ابْنَ مَرْيَمَ عِظْ نَفْسَكَ فَإِنِ اتَّعَظْتَ فَعِظِ النَّاسَ وَإِلَّا فَاسْتَحِ مِنْ رَبِّكَ
 >

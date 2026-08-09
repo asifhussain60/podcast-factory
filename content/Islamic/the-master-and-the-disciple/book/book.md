@@ -517,7 +517,7 @@ O my father, I saw eleven planets, and the sun and the moon; I saw them prostrat
 
 > لَيُوسُفُ وأَخُوْهُ أَحَبُّ إلى أبينَا مِنَّا وَنَحْنُ عُصْبَة
 
-Truly Joseph and his brother are dearer to our father than we are, though we are a band (عُصْبَة) — meaning the twelve captains: let him choose out a man from among us. So there entered upon them in this a failure of right judgment concerning Joseph (ع), and the risings of envy toward him appeared in them when God favored him. Yet the command of God was fulfilled in Joseph, and the outcome of their affair was remorse and repentance before him."
+Truly Joseph and his brother are dearer to our father than we are, though we are a band (عُصْبَة) — meaning the twelve captains: let him choose out a man from among us. So there entered upon them in this a failure of right judgment concerning Joseph, and the risings of envy toward him appeared in them when God favored him. Yet the command of God was fulfilled in Joseph, and the outcome of their affair was remorse and repentance before him."
 
 The boy said: "Praise be to God, who cleansed them of impurity and returned them to the return of repentance and the ways of turning back. What, then, is the meaning of the king's saying,
 

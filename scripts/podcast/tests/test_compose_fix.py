@@ -238,3 +238,68 @@ class TestTheLigatureFontGuard:
         assert FACES_WITHOUT_LIGATURE <= offered, (
             f"a face is classified here that the Composer no longer offers: {sorted(FACES_WITHOUT_LIGATURE - offered)}"
         )
+
+
+class TestTheCapTakesThePunctuationWithIt:
+    """Removing the brackets alone breaks the sentence, and it broke 507 of them.
+
+    The first capping run over the corpus printed `The Messenger of Allah,, said` and
+    `He said,, "Do not"`. A honorific is punctuated four ways here, counted over all
+    1,674 instances on 2026-08-09, and only one of the four survives naive removal.
+    """
+
+    @staticmethod
+    def _capped(body: str) -> str:
+        text, _ = cap_honorifics(f"## A\n\n{body}\n")
+        return text.split("\n\n")[1].strip()
+
+    def test_an_appositive_loses_both_of_its_commas(self) -> None:
+        # 370 instances — the most common shape in the corpus.
+        got = self._capped("The Messenger of Allah (ع) spoke. The Messenger of Allah, (ع), used to observe.")
+        assert "The Messenger of Allah used to observe." in got
+        assert ",," not in got
+
+    def test_a_leading_comma_alone_is_taken(self) -> None:
+        # 98 instances.
+        got = self._capped("Muhammad (ع) spoke. He honored us with Muhammad, (ع) and his family.")
+        assert "with Muhammad and his family." in got
+
+    def test_a_colon_after_it_stays_and_gets_no_space_before(self) -> None:
+        # 39 instances. `in his supplication , : O Allah` is what a naive join prints.
+        got = self._capped("He said (ع) once. In his supplication, (ع): O Allah.")
+        assert "In his supplication: O Allah." in got
+        assert " :" not in got
+
+    def test_the_comma_a_quotation_needs_is_kept(self) -> None:
+        """The case that proves the appositive rule needs an exception.
+
+        In `He said, (ع), "Do not"` the second comma belongs to the quotation, not to the
+        honorific — the sentence needed it either way. Eating it printed `He said "Do not"`.
+        """
+        got = self._capped('He said (ع) once. He said, (ع), "Do not."')
+        assert 'He said, "Do not."' in got
+
+    def test_a_honorific_opening_a_longer_formula_is_left_alone(self) -> None:
+        """`((ع) and his family)` is one formula that happens to start with the compact form.
+
+        45 instances. Removing just the compact part leaves `(and his family)`, which says
+        something the author did not.
+        """
+        body = "Allah (ع) spoke. the Messenger of Allah ((ع) and his family) did not accept."
+        assert "((ع) and his family) did not accept." in self._capped(body)
+
+    def test_no_punctuation_at_all_still_closes_up(self) -> None:
+        got = self._capped("Ali (ع) spoke. Then Ali (ع) said: Prayer.")
+        assert "Then Ali said: Prayer." in got
+        assert "  " not in got
+
+    def test_a_figure_named_across_a_comma_is_still_that_figure(self) -> None:
+        """`The Messenger of Allah, (ع),` names him — the comma is not a sentence break.
+
+        Leaving the comma on made 507 instances UNATTRIBUTED, which is why one chapter
+        reported 78 honorifics attached to nobody and the cap left every one of them.
+        """
+        from _book_defects import honorific_overuse
+
+        body = "## A\n\nAli, (ع), spoke. Ali, (ع), spoke again.\n"
+        assert honorific_overuse(body) == [("A", "Ali", 2)]

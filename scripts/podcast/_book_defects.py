@@ -194,6 +194,21 @@ _PROPHET_NAME = (
 _PROPHET_HONORIFIC_RE = re.compile(_PROPHET_NAME + r"\s*" + _HONORIFIC_RE.pattern, re.IGNORECASE)
 
 
+def opens_a_longer_formula(text: str, start: int) -> bool:
+    """Is the honorific at ``start`` the FIRST thing inside another bracket?
+
+    `the Messenger of Allah ((ع) and his family)` is ONE formula — "peace be upon him and
+    his family" — that happens to open with the compact glyph. It is not the compact
+    honorific used after a name, so the cap does not govern it, and the repair cannot
+    touch it without leaving `(and his family)`, which says something the author did not.
+
+    Shared by the detector and the repair deliberately. While only the repair skipped it,
+    the check counted 47 instances the fixer would never reach, so four chapters of
+    Mukhtasar 2 stayed permanently over-cap and a second pass repaired nothing.
+    """
+    return start > 0 and text[start - 1] == "("
+
+
 def figure_key(figure: str) -> str:
     """The identity a figure label counts under.
 
@@ -209,7 +224,11 @@ def figure_key(figure: str) -> str:
 
 def _figure_before(text: str) -> str:
     """The figure a compact honorific at the end of ``text`` attaches to."""
-    tail = _SENTENCE_BREAK_RE.split(text)[-1][-80:]
+    # A trailing comma is the appositive's opener — `The Messenger of Allah, (ع), used
+    # to` — and it separates the name from the honorific in 507 of the corpus's 1,674
+    # instances. Leaving it on made every one of those UNATTRIBUTED, which is how one
+    # chapter reported 78 honorifics attached to nobody and why the cap left them alone.
+    tail = _SENTENCE_BREAK_RE.split(text)[-1][-80:].rstrip(", \t")
     match = _NAME_JOINED_RE.search(tail) or _NAME_SINGLE_RE.search(tail)
     if not match:
         return UNATTRIBUTED
@@ -381,6 +400,8 @@ def honorific_overuse(md: str, *, cap: int = 1) -> list[tuple[str, str, int]]:
         counts: dict[str, int] = {}
         labels: dict[str, str] = {}
         for match in _HONORIFIC_RE.finditer(body):
+            if opens_a_longer_formula(body, match.start()):
+                continue
             figure = _figure_before(body[: match.start()])
             key = figure_key(figure)
             counts[key] = counts.get(key, 0) + 1

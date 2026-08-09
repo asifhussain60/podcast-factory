@@ -51,10 +51,11 @@ HOW THIS FILE IS ARRANGED, AND WHY
   same answer — this file, the compose review gate, and the `pf-compose-fix` skill — and
   a private copy is how two of them start disagreeing about what a defect is.
 
-  A LIVE test per defect runs over every book and is ceilinged by `KNOWN`: it passes
-  today and fails on anything NEW. An XFAIL(strict) per defect records what still
-  stands, so the moment a repair lands the xfail turns into a hard failure — which is
-  the prompt to delete the `KNOWN` entry rather than let the list rot.
+  A LIVE test per defect runs over every book, ceilinged by `KNOWN`. That registry is
+  now EMPTY — every defect stands at zero — so each gate asserts zero and is end-to-end
+  proof over real content that its fix holds. A new instance, from a compose or an edit,
+  turns one of them red. `KNOWN` exists for the next defect recorded before it is fixed,
+  not as a list that rots.
 
   Nothing in this file mutates content.
 """
@@ -105,34 +106,22 @@ IDS = ["/".join(p.relative_to(CONTENT).parts[:-2]) for p in BOOKS]
 #: repaired without editing prose, and Asif's instruction of 2026-08-09 stands: no book
 #: goes back through the pipeline for now. So they are recorded, not fixed.
 KNOWN: dict[str, dict[str, int]] = {
-    # THREE of the five now stand at zero across every book, and each was cured a
-    # different way — which is why the live gates below assert zero for them rather than
-    # carrying a ceiling:
+    # EMPTY, and that is the point: all five defects now stand at zero across every book,
+    # so every gate above asserts zero rather than carrying a ceiling. Each is therefore
+    # end-to-end proof, over real content, that its fix holds — and each goes red the
+    # moment a compose or an edit reintroduces the defect.
     #
     #   english-rtl      a RENDERER defect, not a content one. Weighing which script a
-    #                    line is mostly in repaired all five instances across three books
-    #                    with no re-compose and no model spend.
-    #   duplicated       one instance, repaired in the Book Composer through
-    #                    `compose_fix.py` — the lead-in's inline copy deleted, the
-    #                    blockquote untouched.
+    #                    line is mostly in repaired all five instances across three books.
+    #   duplicated       one instance, repaired in the Book Composer.
     #   romanized        14 sayings across two books, put back into Arabic script by
     #                    `_book_romanization`'s ladder: nine confirmed against sourced
-    #                    wordings, five rendered from the transliteration the book
-    #                    itself printed. Every one agrees with those consonants.
-    #   prophet          130 mentions across five books, repaired the same way: the
-    #                    Prophet now carries his own ligature instead of the Imams'
-    #                    honorific. The count rose from 118 first, when the honorific
-    #                    pattern stopped depending on how a phrase happened to be
-    #                    vowelled — the expanded forms had been invisible.
-    #
-    # What remains is what needs Asif's judgment or a policy decision, not a mechanism.
-    "Islamic/ayyuhal-walad": {"honorific": 1},
-    "Islamic/degrees-of-excellence": {"honorific": 12},
-    "Islamic/kitab-al-riyad": {"honorific": 24},
-    "Islamic/mukhtasar-ul-asar-1": {"honorific": 54},
-    "Islamic/mukhtasar-ul-asar-2": {"honorific": 27},
-    "Islamic/spiritual-ethos": {"honorific": 11},
-    "Islamic/the-master-and-the-disciple": {"honorific": 1},
+    #                    wordings, five rendered from the transliteration the book itself
+    #                    printed. Every one agrees with those consonants.
+    #   prophet          130 mentions across six books; the Prophet now carries his own
+    #                    ligature instead of the Imams' honorific.
+    #   honorific        1,674 compact honorifics down to 327 — once per figure per
+    #                    chapter (Asif, 2026-08-09).
 }
 
 
@@ -142,10 +131,6 @@ def _known(book_id: str, key: str) -> int:
 
 def _book_id(book: Path) -> str:
     return "/".join(book.relative_to(CONTENT).parts[:-2])
-
-
-def _recorded(key: str) -> list[str]:
-    return [b for b, counts in KNOWN.items() if counts.get(key)]
 
 
 # ── live gates: pass today, fail on anything NEW ─────────────────────────────
@@ -199,38 +184,6 @@ def test_no_new_prophet_wrong_honorific(book: Path) -> None:
         f"{len(hits)} mention(s) give the Prophet a honorific that is not his, "
         f"{allowed} recorded: " + "; ".join(m for _, m in hits[:5])
     )
-
-
-# ── the recorded failures: what is broken RIGHT NOW ──────────────────────────
-
-
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "14 Arabic sayings print in the English character set, against the rule locked "
-        "2026-08-02. Two of them have no Arabic anywhere on disk — not in the book, not "
-        "in the source scan, not in the hadith corpus — so their script cannot be "
-        "sourced and must never be recalled by a model on a religious text."
-    ),
-)
-@pytest.mark.parametrize("book_id", _recorded("romanized"))
-def test_recorded_romanized_arabic_is_gone(book_id: str) -> None:
-    hits = romanized_arabic((CONTENT / book_id / "book" / "book.md").read_text(encoding="utf-8"))
-    assert hits == [], "; ".join(f"{t}: {r[:50]}" for t, r in hits)
-
-
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "The compact honorific follows every occurrence of every name — 54 for Ali in "
-        "one chapter of Spiritual Ethos. Capped at once per figure per chapter (Asif, "
-        "2026-08-09); the cap is not implemented yet."
-    ),
-)
-@pytest.mark.parametrize("book_id", _recorded("honorific"))
-def test_recorded_honorific_overuse_is_gone(book_id: str) -> None:
-    hits = honorific_overuse((CONTENT / book_id / "book" / "book.md").read_text(encoding="utf-8"))
-    assert hits == [], "; ".join(f"{t}/{f}×{n}" for t, f, n in hits[:5])
 
 
 def test_is_arabic_quote_line_matches_the_shared_fixtures() -> None:
