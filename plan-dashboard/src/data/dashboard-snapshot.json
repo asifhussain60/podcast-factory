@@ -1938,6 +1938,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "610ae7e8",
+      "subject": "feat(listener): the four quotation cards reach the Podcast Factory Library",
+      "date": "2026-08-09"
+    },
+    {
       "sha": "79a84458",
       "subject": "feat(book): a quotation is drawn as one of four cards, and the Qur'an names its verse",
       "date": "2026-08-09"
@@ -1980,11 +1985,6 @@
     {
       "sha": "4e8bde6c",
       "subject": "feat(book): five reading-edition defects, checked on every compose and repairable one chapter at a time",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "f01d3b09",
-      "subject": "fix(book): a quotation line's direction is decided by which script it is MOSTLY in",
       "date": "2026-08-09"
     }
   ],

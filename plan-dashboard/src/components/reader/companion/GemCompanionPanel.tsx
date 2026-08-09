@@ -158,17 +158,20 @@ const PENDING_HIGHLIGHT = "gcp-pending";
  *  native selection: focusing the textarea to type a question collapses
  *  `window.getSelection()` (see readSelection's docs) and would otherwise take
  *  the visible highlight with it. A Custom Highlight is independent of focus
- *  and never touches the DOM, so it is safe to use anywhere — but Chromium
- *  does not actually PAINT `::highlight()` inside `contenteditable`, which
- *  makes this Read-mode-only in practice.
+ *  and never touches the DOM.
  *
- *  The Edit canvas is deliberately left with NOTHING (Asif, 2026-08-09). It
- *  used to get an equivalent ProseMirror decoration through an `onPendingRange`
- *  callback, and because this panel captures every selection made anywhere in
- *  the host's prose container — which in the Composer is the whole editor —
- *  that painted a tint over every selection a writer made for any reason and
- *  left it lit after the selection collapsed. A writing surface selects text
- *  the way every other editor selects text. The passage is still held; the
+ *  THE EDIT CANVAS GETS NOTHING (Asif, 2026-08-09), and this function is what
+ *  has to enforce it. It used to get an equivalent ProseMirror decoration
+ *  through an `onPendingRange` callback, and because this panel captures every
+ *  selection made anywhere in the host's prose container — which in the Composer
+ *  is the whole editor — that painted a tint over every selection a writer made
+ *  for any reason and left it lit after the selection collapsed. That decoration
+ *  was deleted, and the tint came back anyway, from HERE: the note this replaces
+ *  asserted that Chromium will not paint `::highlight()` inside
+ *  `contenteditable`, and it does. So the rule is a CONDITION now rather than a
+ *  belief about the browser — a range inside an editing surface paints nothing,
+ *  whatever a browser is willing to draw. A writing surface selects text the way
+ *  every other editor selects text; the passage is still held, and the
  *  `gcp-held` chip is where you see which one.
  *
  *  No-op where unsupported (feature-detected — a visual nicety, never required
@@ -176,6 +179,15 @@ const PENDING_HIGHLIGHT = "gcp-pending";
 function paintPendingSelection(range: Range | null): void {
   if (typeof CSS === "undefined" || !("highlights" in CSS)) return;
   if (!range) {
+    CSS.highlights.delete(PENDING_HIGHLIGHT);
+    return;
+  }
+  const node = range.commonAncestorContainer;
+  const host = node instanceof Element ? node : node.parentElement;
+  // `delete` rather than an early return: a selection moving from a reading
+  // surface into an editor has to take the previous tint with it, or the last
+  // passage read stays lit on a page nobody is reading any more.
+  if (host?.closest('[contenteditable="true"]')) {
     CSS.highlights.delete(PENDING_HIGHLIGHT);
     return;
   }
