@@ -87,7 +87,7 @@
   text-align: left;
 }
 .cx-print blockquote.quran p.ar {
-  margin: 0 0 0.2rem;
+  margin: 0 0 var(--q-ar-gap, 0.2rem);
   color: var(--c-ink, #1f1d18);
   direction: rtl;
   /* The declared divergence that used to sit here is RESOLVED (2026-07-21).
@@ -141,10 +141,15 @@
   text-align: center;
 }
 .cx-print.style-plain blockquote.quran p.tr {
+  /* --q-tr-ink / --q-tr-size (2026-08-09): a per-card rule cannot outrank this
+     selector without duplicating it, so the two values it hard-wrote became
+     tokens. The fallback sits HERE rather than in a :root default, because a
+     `--q-tr-ink: var(--c-ink)` written at :root would freeze whatever --c-ink is
+     there and miss the dark paper's override further down the tree. */
   font-family: var(--q-tr-face);
-  font-size: 1.02rem;
+  font-size: var(--q-tr-size, 1.02rem);
   line-height: 1.45;
-  color: var(--c-ink, #1f1d18);
+  color: var(--q-tr-ink, var(--c-ink, #1f1d18));
   text-align: center;
 }
 .cx-print.style-plain blockquote:not(.quran):not(.aside) {

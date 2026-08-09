@@ -125,6 +125,7 @@ def run_defect_scan(book_dir: Path, *, log) -> dict:
     ask the only question a ceiling-less check can answer honestly: did THIS compose
     introduce something that was not there before.
     """
+    from _book_arabic_audit import provenance_drift
     from _book_defects import DETECTORS
 
     path = Path(book_dir) / "_system" / DEFECTS_NAME
@@ -136,6 +137,11 @@ def run_defect_scan(book_dir: Path, *, log) -> dict:
     try:
         md = (Path(book_dir) / "book" / "book.md").read_text(encoding="utf-8")
         found = {name: fn(md) for name, fn in DETECTORS.items()}
+        # Reported beside the five, and computed apart from them: `_book_defects`
+        # holds read-only detectors over chapter TEXT, and this one asks whether a
+        # FILE still describes that text. Same output shape, so a report or a gate
+        # reads all six the same way.
+        found["stale-provenance"] = provenance_drift(book_dir)
         payload = {
             "schema": "book.defects/v1",
             "counts": {name: len(hits) for name, hits in found.items()},

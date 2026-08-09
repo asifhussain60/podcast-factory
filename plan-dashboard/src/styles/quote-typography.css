@@ -25,10 +25,68 @@
      and any dark-scheme viewer). #7a1f1f on #201e1b is ~1.6:1 — unreadable — so
      dark contexts override the token rather than the rules that use it. */
   --q-maroon-dark: #e8a0a0;
+  /* The ink of a quoted passage that is NOT scripture — a hadith, an imam's
+     saying, a line of poetry (Asif, 2026-08-09). Deep forest, from the same
+     measured set as the four `ari-*` inks below, so it clears WCAG AA on cream,
+     sepia and dark alike; and far enough from the maroon that the two never read
+     as the same decision made twice.
+
+     WHAT THIS TIER IS NOT is as load-bearing as what it is. It is not "hadith":
+     what the audit knows is that the mushaf does not contain this run, and the
+     set that answer covers includes al-Shafi'i's verses and sayings of the Imams
+     alongside prophetic tradition. Naming the class for the largest member would
+     be a claim about every other passage in it that nobody has checked. */
+  --q-said-ink: #1d4d33;
+  --q-said-ink-dark: #93d7b0;
+
+  /* ── The other three cards' inks (Asif, 2026-08-09) ────────────────────────
+     SCRIPTURE IS GOLD, and it is the one ink a book cannot choose — the same
+     reason it cannot choose the Uthmanic face. Both values are KSESSIONS' own
+     (#978002 for the verse, #504302 for its English), with the verse darkened
+     one step: #978002 measures 3.8:1 on the cream page and 3.3:1 on sepia, below
+     the 4.5:1 this edition holds itself to at reading size. #7d6800 clears both
+     at 5.4:1 and 4.6:1 and still reads unmistakably as gold.
+
+     Hadith takes the indigo and poetry the maroon already measured for the
+     `ari-*` set below, rather than two new colours nobody has checked against
+     three papers. Every dark twin clears AA on #201e1b: 8.6, 7.6, 8.3, 7.9. */
+  --q-quran-ink: #7d6800;
+  --q-quran-ink-dark: #d3b965;
+  --q-quran-tr-ink: #504302;
+  --q-quran-tr-ink-dark: #bfae86;
+  --q-gold-rule: #d3b965;
+  --q-gold-line: linear-gradient(90deg, #d3b965 0%, #f7e8b7 50%, #d3b965 100%);
+  --q-hadith-ink: #23356b;
+  --q-hadith-ink-dark: #a8b6e8;
+  --q-poem-ink: #722727;
+  --q-poem-ink-dark: #e8a0a0;
+
+  /* Outlined marks, one per card. Strokes rather than fills (Asif, 2026-08-09),
+     shown through a mask so each takes the ink of the card it sits in. The
+     Qur'an's is the mushaf's own section sign; the Book's mark belongs to the
+     Book alone, so no other card carries it. */
+  --orn-hizb: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23000' stroke-width='6'%3E%3Cpath d='M50 8 92 50 50 92 8 50z'/%3E%3Crect x='21' y='21' width='58' height='58'/%3E%3C/g%3E%3C/svg%3E");
+  --orn-diamond: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 12 88 50 50 88 12 50z' fill='none' stroke='%23000' stroke-width='10'/%3E%3C/svg%3E");
+  --orn-circle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='36' fill='none' stroke='%23000' stroke-width='10'/%3E%3C/svg%3E");
+  --orn-petal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 8C50 31 69 50 92 50 69 50 50 69 50 92 50 69 31 50 8 50 31 50 50 31 50 8z' fill='none' stroke='%23000' stroke-width='8'/%3E%3C/svg%3E");
+
   /* Default translation face. A book with no `translation_font` recorded in
      book/citation-style.json gets EB Garamond, so the intended pairing needs no
      choice to be made. The four `tr-*` classes below override it. */
   --q-tr-face: "EB Garamond", "Iowan Old Style", Georgia, serif;
+  /* And the rendering of a NON-scripture quotation. DERIVED, never chosen: it has
+     to be a family the four `tr-*` options cannot also select, or a book would
+     print its verses and its hadith in one face by accident. Declared in
+     editor-fonts.css (screen) and book-print.css (print), like every other. */
+  --q-said-tr-face: "Spectral", "Source Serif 4", Georgia, serif;
+  /* And the Qur'an's rendering, which is a THIRD answer again. It must not be a
+     family the four `tr-*` options can select, or a book would print its verses
+     and its running translations in one face by accident, and it must not be the
+     saying face either. Literata is a book face with real weight — chosen over
+     the Charm at 2.5rem KSESSIONS uses, which is a display script that would not
+     survive a page of print. Declared in editor-fonts.css (screen) and
+     book-print.css (print), like every other. */
+  --q-quran-tr-face: "Literata", "Spectral", Georgia, serif;
 
   /* ── Arabic faces ──────────────────────────────────────────────────────────
      TWO faces, chosen by PROVENANCE rather than by markup (locked with Asif
@@ -40,13 +98,41 @@
      scripture", so the split needed the audit's per-run resolution to exist.
 
      Surfaces read --q-ar-face and never name a family, so the `.is-quranic`
-     override below is the ONLY place the two faces are chosen between. */
+     override below is the ONLY place the two faces are chosen between.
+
+     THE SILENT-LETTER MARK IS BROKEN IN THIS FACE, AND CANNOT BE FIXED HERE.
+     U+06DF ARABIC SMALL HIGH ROUNDED ZERO — the mark saying a letter is written
+     but not pronounced — is declared a BASE glyph by KFGQPC (advance 1442/2048,
+     outline y −210 to 1045), so it prints as a full-size circle taking its own
+     width and tearing the word open: `وَأُو۞لُوا۞`. It occurs 175 times across the
+     seven books. Two repairs were tried and neither is available:
+
+       - Editing the font. Forbidden by its licence in so many words ("cannot be
+         ... Modified, Altered"), and by this repo's own vendoring note.
+       - Redirecting the one character with `unicode-range` to Scheherazade New,
+         which draws it correctly (advance 0, GDEF mark, outline high at y 1454).
+         The face loads and `document.fonts.check` confirms coverage, but the
+         circle still prints: Chromium falls back per CLUSTER, not per codepoint,
+         and keeps a combining mark in the font of the base it attaches to. Do
+         not retry this — it looks like it should work and does not.
+
+     So the face changed instead, with Asif on 2026-08-09: scripture is now set in
+     AMIRI QURAN, which draws the mark correctly (advance 0, GDEF mark class,
+     outline high at y 828–1006 of a 1000 upem), is SIL OFL 1.1, and was already
+     vendored here for the print stylesheet. The KFGQPC names stay in the stack
+     behind it so a checkout missing the Amiri file still renders scripture in a
+     Qur'anic face rather than falling through to Scheherazade.
+
+     WHAT THIS COSTS: Amiri Quran is not the orthography quran.com serves, so a
+     verse looks different from the mushaf a reader may have beside them. That is
+     the trade Asif took, against a mark that breaks a word 175 times. */
   --q-ar-face:
     "ScheherazadeSized", "Scheherazade New", "Scheherazade", "Amiri",
     "DecoType Naskh", serif;
   --q-ar-face-quran:
-    "UthmanicHafsSized", "UthmanicHafs", "KFGQPC HAFS Uthmanic Script",
-    "ScheherazadeSized", "Scheherazade New", serif;
+    "Amiri Quran", "UthmanicHafsSized", "UthmanicHafs",
+    "KFGQPC HAFS Uthmanic Script", "ScheherazadeSized", "Scheherazade New",
+    serif;
 
   /* ── Arabic display size ───────────────────────────────────────────────────
      The face and the ink were tokenised here so six stylesheets could not
@@ -68,6 +154,15 @@
      defeats the surface. The PDF does get longer. */
   --q-ar-size: 1.4rem;
   --q-ar-leading: 1.9;
+
+  /* The gap between an Arabic line and the English under it. 0.2rem was written
+     into four stylesheets and is right for a run of Arabic inside running prose,
+     where the two belong to one thought. Inside a CARD they are two voices and
+     want air between them, so the cards raise it (Asif, 2026-08-09). Tokenised
+     rather than re-stated per card for the same reason the ink is: a declaration
+     on the consuming element wins whatever the specificity, and the four base
+     rules stay one line each. */
+  --q-ar-gap: 0.2rem;
 
   /* The size of a TERM woven into an English sentence — a different question
      from the display size above, and previously a bare `1.26em` written into
@@ -136,6 +231,13 @@
 .ari-forest {
   --q-maroon: #1d4d33;
   --q-maroon-dark: #93d7b0;
+  /* The one book that would have set scripture and saying in the same colour.
+     The pair swaps rather than the saying being nudged to a near-shade: two
+     greens a step apart read as an inconsistency, and the whole point of the
+     tier is that the difference is obvious to someone who cannot read either
+     passage. */
+  --q-said-ink: #7a1f1f;
+  --q-said-ink-dark: #e8a0a0;
 }
 .ari-brown {
   --q-maroon: #6b4423;
@@ -194,6 +296,276 @@
 .is-quranic {
   --q-ar-face: var(--q-ar-face-quran);
 }
+
+/* ── The second tier: a quoted passage that is not scripture ──────────────────
+   Everything below rests on ONE fact the markup already carries — the audit
+   marked this run, or it did not — and adds no inference of its own.
+
+   The INK is set by re-declaring the token ON THE RUN, which is the same
+   mechanism `.is-quranic` uses one rule above to swap the face. That is what
+   keeps this to a single file: seven stylesheets already ask `--q-maroon` what
+   colour Arabic is, and none of them needs to learn a second question. A
+   declaration on the element beats one inherited from `<body>`, so the book's
+   own `ari-*` choice still governs its scripture and this governs the rest.
+
+   The dark-paper guard at the foot of this file lifts `--q-maroon` on an
+   ANCESTOR, which this declaration would otherwise defeat — leaving a saying at
+   about 1.6:1 on the dark page. It is re-stated per paper below rather than
+   left to inheritance. */
+p.ar:not(.is-quranic) {
+  --q-maroon: var(--q-said-ink);
+}
+.cx-edit-host[data-paper="dark"] p.ar:not(.is-quranic),
+.studio-editor__editor[data-paper="dark"] p.ar:not(.is-quranic) {
+  --q-maroon: var(--q-said-ink-dark);
+}
+
+/* The RENDERING under it. `:has()` because the face belongs to a sibling of the
+   run that carries the provenance, and only the block can see both. Chromium is
+   the PDF renderer (render-book-pdf.mjs drives Playwright), so print and screen
+   support this identically. A block holding no Arabic at all — an ordinary
+   English quotation — has no `p.tr` and is untouched.
+
+   The TOKEN is redeclared, not `font-family` set. Setting the property directly
+   worked in print and lost everywhere else: `.cx-print.style-plain blockquote.quran
+   p.tr` and `.bookv-body.style-plain …` score exactly what this selector scores,
+   so the tie went to whichever file loaded second and the Composer showed a
+   saying's rendering in the scripture face. A custom property declared on the
+   element that consumes it wins over one inherited from an ancestor whatever the
+   specificity — which is the same reason the ink above is written this way, and
+   the reason `.is-quranic` has been able to swap the Arabic face since July. */
+blockquote:not(:has(p.ar.is-quranic)) p.tr {
+  --q-tr-face: var(--q-said-tr-face);
+}
+
+/* ── One card, four inks ──────────────────────────────────────────────────────
+   Asif, 2026-08-09. This REOPENS the plain family's founding rule (locked
+   2026-07-21: "where Scholarly says quotation with a gold hairline and Elegant
+   says it with a frame, Plain says it with typography alone"), and it is his
+   call to reopen. It also supersedes the two-panel version that stood for a few
+   hours the same day, in which scripture was enclosed on four sides and a saying
+   marked on one edge: he asked for the variations to share ONE format, so the
+   colour and the mark now do all of the distinguishing.
+
+   FOUR KINDS. Qur'an is decided by the audit and can never be declared by hand;
+   the other three are declared by a person and stored in `_system/quote-kind.json`
+   (scripts/lib/quote-kind.mjs). Both renderers stamp the class, so nothing here
+   has to infer anything: `.k-quran` `.k-hadith` `.k-poem` `.k-quote`.
+
+   NO BORDER, following KSESSIONS' own `.ayah-card`, which sets `border: none`
+   and defines the card by a plate plus the two gold rules of its header. An
+   outline around a quotation reads as a UI control; a tinted plate reads as a
+   page. Every plate is mixed from the card's own ink, so a book that changes an
+   ink moves its cards with it and nothing is kept in step by hand.
+
+   The `:not()` keeps this out of the two families whose whole identity is their
+   own ornament — Elegant's gold frame, Scholarly's hairline. Those are choices a
+   book makes explicitly, and quietly repainting them from here would delete two
+   of the three families rather than redefine one. No book sets either today, so
+   this guard is protecting a door rather than closing one. */
+blockquote.k-quran:not(.style-elegant *, .style-scholarly *),
+blockquote.k-hadith:not(.style-elegant *, .style-scholarly *),
+blockquote.k-quote:not(.style-elegant *, .style-scholarly *),
+blockquote.k-poem:not(.style-elegant *, .style-scholarly *) {
+  border: 0;
+  border-radius: 10px;
+  padding: 1.35rem 1.6rem 1.15rem;
+  margin-block: 2rem;
+}
+blockquote.k-quran:not(.style-elegant *, .style-scholarly *) {
+  background: color-mix(in oklab, var(--q-quran-ink) 4%, transparent);
+}
+blockquote.k-hadith:not(.style-elegant *, .style-scholarly *) {
+  background: color-mix(in oklab, var(--q-hadith-ink) 4%, transparent);
+}
+blockquote.k-quote:not(.style-elegant *, .style-scholarly *) {
+  background: color-mix(in oklab, var(--q-said-ink) 4%, transparent);
+}
+blockquote.k-poem:not(.style-elegant *, .style-scholarly *) {
+  background: color-mix(in oklab, var(--q-poem-ink) 4%, transparent);
+}
+
+/* The ink of each kind. Set by REDECLARING the token on the element that
+   consumes it, never by writing `color:` — a declaration on the consuming
+   element beats one inherited from an ancestor whatever the specificity, which
+   is the mechanism `.is-quranic` has used to swap the Arabic face since July.
+   Writing `color:` here instead was tried and lost to `.cx-print.style-plain
+   blockquote.quran p.ar`, which scores the same and loads later. */
+blockquote.k-quran p.ar,
+blockquote.k-hadith p.ar,
+blockquote.k-quote p.ar,
+blockquote.k-poem p.ar {
+  /* Air, in two directions. The GAP is the drop to the English below; the
+     LEADING is the space between two wrapped lines of the Arabic itself, which
+     at 1.9 left a long verse looking like one dense block. Both are declared on
+     the consuming element, so they beat whatever an ancestor set.
+
+     The poem stays roomier than this by construction rather than by a second
+     number: its lines are separate elements in the verse grid, so they carry the
+     same leading PLUS the grid's row gap. Raising this therefore never overtakes
+     it. */
+  --q-ar-gap: 1.05rem;
+  --q-ar-leading: 2.15;
+}
+blockquote.k-quran p.ar {
+  --q-maroon: var(--q-quran-ink);
+}
+blockquote.k-quran p.tr {
+  --q-tr-face: var(--q-quran-tr-face);
+  --q-tr-ink: var(--q-quran-tr-ink);
+  --q-tr-size: 1rem;
+}
+blockquote.k-hadith p.ar {
+  --q-maroon: var(--q-hadith-ink);
+}
+blockquote.k-quote p.ar {
+  --q-maroon: var(--q-said-ink);
+}
+blockquote.k-poem p.ar {
+  --q-maroon: var(--q-poem-ink);
+}
+blockquote.k-poem p.tr {
+  font-style: italic;
+}
+
+/* Dark paper. Restated per card rather than left to inheritance, for the same
+   reason the tier ink below is: the guard at the foot of this file lifts a token
+   on an ANCESTOR, and a declaration on the consuming element defeats it. */
+.cx-edit-host[data-paper="dark"] blockquote.k-quran p.ar,
+.studio-editor__editor[data-paper="dark"] blockquote.k-quran p.ar {
+  --q-maroon: var(--q-quran-ink-dark);
+}
+.cx-edit-host[data-paper="dark"] blockquote.k-quran p.tr,
+.studio-editor__editor[data-paper="dark"] blockquote.k-quran p.tr {
+  --q-tr-ink: var(--q-quran-tr-ink-dark);
+}
+.cx-edit-host[data-paper="dark"] blockquote.k-hadith p.ar,
+.studio-editor__editor[data-paper="dark"] blockquote.k-hadith p.ar {
+  --q-maroon: var(--q-hadith-ink-dark);
+}
+.cx-edit-host[data-paper="dark"] blockquote.k-quote p.ar,
+.studio-editor__editor[data-paper="dark"] blockquote.k-quote p.ar {
+  --q-maroon: var(--q-said-ink-dark);
+}
+.cx-edit-host[data-paper="dark"] blockquote.k-poem p.ar,
+.studio-editor__editor[data-paper="dark"] blockquote.k-poem p.ar {
+  --q-maroon: var(--q-poem-ink-dark);
+}
+
+/* ── The band ─────────────────────────────────────────────────────────────────
+   KSESSIONS' `golden-surah-header`, ported: a centred label with a rule running
+   out to each side. The Qur'an keeps their 2px gold gradient and carries the
+   chapter and verse the audit recorded — the edition has no Qur'an card without
+   one (Asif, 2026-08-09). The other three take a hairline in their own ink, so
+   the family reads as one decision rather than four.
+
+   Every mark is OUTLINED, drawn as a stroke and shown through a mask so it takes
+   the ink of the card it sits in rather than carrying a colour of its own. */
+.q-band {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.q-band::before,
+.q-band::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  min-width: 1.2rem;
+  background: color-mix(in oklab, currentcolor 26%, transparent);
+}
+.q-orn {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  background: currentcolor;
+  -webkit-mask: var(--q-orn-src) center / contain no-repeat;
+  mask: var(--q-orn-src) center / contain no-repeat;
+}
+.q-band--quran {
+  color: var(--q-quran-ink);
+  font-weight: 600;
+  --q-orn-src: var(--orn-hizb);
+}
+.q-band--quran::before,
+.q-band--quran::after {
+  height: 2px;
+  background: var(--q-gold-line);
+}
+.q-band--hadith {
+  color: var(--q-hadith-ink);
+  --q-orn-src: var(--orn-diamond);
+}
+.q-band--quote {
+  color: var(--q-said-ink);
+  --q-orn-src: var(--orn-circle);
+}
+.q-band--poem {
+  color: var(--q-poem-ink);
+  --q-orn-src: var(--orn-petal);
+}
+
+/* ── The verse grid ───────────────────────────────────────────────────────────
+   Classical Arabic verse is set in TWO COLUMNS of equal width: one line — a
+   bayt — is two hemistichs, the sadr on the right and the ajuz on the left, with
+   a gutter between them. Abyat stack as rows, and the gutter running straight
+   down the page is the whole point: it is what makes a poem legible AS a poem to
+   a reader who cannot read the words. This is the arrangement printed diwans use
+   and the one the LaTeX `bidipoem` package's `traditionalpoem` environment
+   produces.
+
+   THE SPLIT IS NEVER INFERRED. In `ayyuhal-walad` the asterisk inside an Arabic
+   quotation divides a line of verse at lines 59, 167, 289-291 and 538 — and
+   separates a Qur'anic verse from its own reference at lines 373, 498, 504, 510
+   and 516 (`… * الحجرات: ٥`). Splitting on the character would tear five
+   citations in half and print the surah name as a second hemistich, so the grid
+   only ever runs on a block a person has marked as verse.
+
+   A line with no second hemistich spans both columns. In a narrow column the
+   grid collapses to one and each hemistich takes its own row — the second
+   traditional arrangement, and the only one that fits a phone.
+
+   THE COLLAPSE IS KEYED TO THE COLUMN, NOT THE WINDOW. A viewport media query
+   was tried first and is wrong here: a poem sits in a narrow measure on a wide
+   screen all the time — the Composer's editor pane, a printed page, a two-up
+   spread — and the query never fired, so both hemistichs squeezed into half a
+   column each and wrapped into a ragged block. A container query asks the
+   question that actually decides the layout. Chromium renders the PDF, so print
+   and screen behave identically. */
+blockquote.k-poem {
+  container-type: inline-size;
+}
+.q-verse {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  direction: rtl;
+  column-gap: 2.25rem;
+  row-gap: 0.15rem;
+  margin: 0 0 0.9rem;
+}
+.q-verse p.ar {
+  margin: 0;
+}
+.q-verse .bayt-solo {
+  grid-column: 1 / -1;
+}
+@container (max-width: 34rem) {
+  .q-verse {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* NOTE — there is deliberately no attribution rule here. A `.q-cite` line was
+   drafted with the cards on 2026-08-09 and removed the same day: no renderer
+   emits one and no book records an attribution to emit, so it was styling markup
+   that cannot occur. Add it back the day a source for the name exists. */
 
 /* Per-book translation face. Stamped as a class on <body> (print) or on the
    chapter container (screen) from citation-style.json's `translation_font`.

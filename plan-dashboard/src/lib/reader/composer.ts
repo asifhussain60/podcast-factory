@@ -35,7 +35,12 @@ import {
   readArabicSize,
   readArabicInk,
   readQuranicRuns,
+  readQuranicRefs,
 } from "../../../scripts/lib/book-html.mjs";
+import {
+  readQuoteKind,
+  flattenQuoteKind,
+} from "../../../scripts/lib/quote-kind.mjs";
 
 export interface ComposerCitation {
   ar: string; // Arabic-script line (plain text)
@@ -324,6 +329,14 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
   // Which Arabic runs the audit resolved against the canonical mushaf — read ONCE
   // per page load and shared by every chapter's render.
   const quranicRuns = readQuranicRuns(ref.dir) as Set<string>;
+  // And which card each non-scriptural quotation is drawn in — declared by a
+  // person, read once per page load beside the provenance set.
+  const quoteKinds = flattenQuoteKind(readQuoteKind(ref.dir)) as Record<
+    string,
+    "hadith" | "poem" | "quote"
+  >;
+  // The chapter and verse each Qur'an card is headed by.
+  const quranicRefs = readQuranicRefs(ref.dir) as Record<string, string>;
 
   // Split into chapters on "## " headings.
   const chapters: ComposerChapter[] = [];
@@ -365,13 +378,15 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
         // Same provenance the PDF uses, so read mode sets scripture in the
         // Uthmanic face and everything else in Scheherazade exactly as it prints.
         quranicRuns,
+        quoteKinds,
+        quranicRefs,
       }),
     );
     // EDIT: the byte-faithful render — the TipTap-safe seed (see editHtml).
     // Never the default profile: its display-only transliteration fold ate
     // leading straight apostrophes, and a seed loss becomes a book.md loss on
     // the first autosave (see renderEditSeed in markdown.ts).
-    const editHtml = renderEditSeed(body);
+    const editHtml = renderEditSeed(body, quranicRuns, quoteKinds);
     chapters.push({
       anchor: heading,
       key,

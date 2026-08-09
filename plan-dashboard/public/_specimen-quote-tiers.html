@@ -1,0 +1,2490 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Four quotation cards — for approval</title>
+<style>
+/* ===== theme-tokens.css (verbatim from src/styles) ===== */
+/* theme-tokens.css — fonts, Arabic optical sizing, and the --c-* design
+   tokens. Split from theme.css (R2); theme.css remains the entry point
+   and imports this first so cascade order is unchanged. */
+/* ────────────────────────────────────────────────────────────────
+   plan-dashboard / theme.css
+   Single source of styling for ALL three views.
+   Zero inline styles allowed in components — if a new visual is
+   needed, add the class HERE and reference it from the component.
+   ──────────────────────────────────────────────────────────────── */
+
+/* The Google Fonts @import that used to open this file is GONE (2026-07-30), and
+   nothing changed on screen when it went — which is the point. theme.css imports
+   fonts.css before this file, so by the time the browser reached that line it had
+   already parsed @font-face rules; an @import after a rule is invalid and is
+   dropped, which the CSS optimizer said on every single build. A network trace of
+   a live page confirms it: every face served comes from /fonts/, not one request
+   leaves for fonts.googleapis.com. So it loaded nothing, and it was also the last
+   thing implying this site reaches out for type — the editorial system is
+   self-hosted Fraunces + Inter (fonts.css), locked 2026-07-18.
+
+   Two faces it NAMED are not self-hosted and never were: Lexend (chapter-viewer)
+   and Cinzel (library, book-composer, studio-pipeline). Those references have been
+   resolving to their fallbacks — Inter and Georgia — for as long as this import has
+   been misplaced. Left exactly as they are: picking a face is a design decision for
+   Asif, not a cleanup, and nothing about deleting a dead line should quietly change
+   how a page looks. */
+
+
+/* ── The Arabic faces ──────────────────────────────────────────────
+   These carried `size-adjust: 135%` from their introduction until 2026-07-31,
+   on the premise that "Arabic faces render ~35% smaller than Latin at the same
+   point size". Measured against the actual font files in Chromium, that premise
+   is FALSE of all four faces this repo ships. Comparing the base letter ب to a
+   19.2px Source Serif body (x-height 9.16px, cap height 12.86px), UNADJUSTED:
+
+     Scheherazade New  11.44px   1.25x the Latin x-height, 0.89x its cap
+     UthmanicHafs      10.58px   1.16x                     0.82x
+     Amiri             12.52px   1.37x                     0.97x
+     Amiri Quran       12.52px   1.37x                     0.97x
+
+   Every one already sits between the Latin x-height and cap height with no
+   adjustment at all, which is the proportion Arabic beside Latin wants. The
+   135% pushed the base letter to 1.11-1.31x the Latin CAPITAL height — before a
+   single vowel mark was stacked on top of it. In the reading edition a marked
+   run occupied 43px of ink where a whole Latin line from ascender to descender
+   occupies 18.8px, and the Arabic visibly towered over the English it sat in.
+
+   So the descriptor is gone and every Arabic `font-size` in the codebase now
+   means what its own comment always claimed: 1.05rem for a display quotation,
+   `inherit` for a term woven into prose, level with the Latin beside it.
+
+   The `*Sized` family names are kept — every Arabic stack in the editor, reader
+   and citation views names them first, and renaming is a rename, not a fix. They
+   are now plain self-hosted aliases carrying no optical adjustment.
+
+   MIRROR: book-print.css declares the same faces for the PDF (which does not
+   load this file) and was corrected in the same change. The two must move
+   together or the printed page stops matching the Composer it is verified in.
+   ──────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: "AmiriSized";
+  src: url("/fonts/amiri/Amiri-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AmiriSized";
+  src: url("/fonts/amiri/Amiri-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AmiriQuranSized";
+  src: url("/fonts/amiri/AmiriQuran.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* The two Arabic reading faces (2026-07-21). Scheherazade New carries every
+   non-Qur'anic run; the KFGQPC Uthmanic script carries scripture. Neither is
+   optically adjusted — see the measurement in the block above.
+
+   The KFGQPC file is vendored byte-for-byte from quran.com under an EULA that
+   grants free use/copy/distribution but forbids modification: never subset,
+   re-encode or otherwise alter public/fonts/uthmanic-hafs/*. */
+@font-face {
+  font-family: "ScheherazadeSized";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ScheherazadeSized";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-600-normal.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Scheherazade New";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "UthmanicHafsSized";
+  src: url("/fonts/uthmanic-hafs/UthmanicHafs1Ver18.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* The Qur'anic face (Asif, 2026-08-09). Amiri Quran replaces the KFGQPC Uthmanic
+   face for scripture, and the reason is one glyph: U+06DF, the mark saying a
+   letter is written but not pronounced, is declared a BASE glyph by KFGQPC and
+   prints as a full-size circle that tears the word open — 175 times across the
+   seven books. That font may not be edited (its licence forbids it) and the mark
+   cannot be redirected in CSS (see the note in quote-typography.css). Amiri
+   Quran draws it correctly, is SIL OFL 1.1, and was already vendored here for
+   the print stylesheet.
+   MIRROR: book-print.css already declares this face. */
+@font-face {
+  font-family: "Amiri Quran";
+  src: url("/fonts/amiri/AmiriQuran.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* The three MODERN Arabic faces a book may choose (2026-08-02), beside the two
+   naskh ones above. Self-hosted from @fontsource, all three SIL OFL 1.1. Named
+   plainly rather than with a `*Sized` alias: that suffix marks a face that once
+   carried an optical `size-adjust`, and these never did.
+
+   MIRROR: book-print.css declares the same three for the PDF, which does not
+   load this file. Adding a face to one and not the other is the failure this
+   note exists to prevent — it does not error, it just prints in the fallback. */
+@font-face {
+  font-family: "Cairo";
+  src: url("/fonts/cairo/cairo-arabic-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cairo";
+  src: url("/fonts/cairo/cairo-arabic-600-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/tajawal/tajawal-arabic-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/tajawal/tajawal-arabic-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("/fonts/ibm-plex-sans-arabic/ibm-plex-sans-arabic-arabic-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("/fonts/ibm-plex-sans-arabic/ibm-plex-sans-arabic-arabic-700-normal.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "UthmanicHafs";
+  src: url("/fonts/uthmanic-hafs/UthmanicHafs1Ver18.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Design tokens ─────────────────────────────────────────────── */
+
+:root {
+  /* Type scale — 16px hard floor, ~1.25× modular ratio
+     2xs / sm  → UI chrome: labels, badges, eyebrows, chips    = 16px
+     base      → body text, descriptions                        = 18px
+     lg        → lede / intro paragraphs                        = 21px
+     xl        → large numbers, metrics                         = 26px
+     h3        → sub-headings                                   = 24px
+     h2        → section headings                               = 32px
+     h1        → page headings                                  = 44px
+     hero      → hero metric display                            = 40px  */
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-urdu: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
+  --fs-label: 13px; /* UI chrome only — pills, chips, status badges */
+  --fs-2xs: 16px;
+  --fs-sm: 16px;
+  --fs-base: 19.2px; /* 1.2rem reading floor (REQ-010) — raised from 18px site-wide 2026-05-29 */
+  --fs-lg: 21px;
+  --fs-xl: 26px;
+  --fs-h3: 24px;
+  --fs-h2: 32px;
+  --fs-h1: 44px;
+  --fs-hero: 40px;
+  --lh-base: 1.65;
+  --lh-tight: 1.2;
+
+  /* Editorial-modern palette — warm parchment, deep ink */
+  --c-bg: #f7f4ee;
+  --c-bg-card: #fffdf8;
+  --c-bg-elev: #ffffff;
+  --c-bg-sunken: #efeae0;
+  --c-ink: #1f1d18;
+  --c-ink-dim: #4d4a42;
+  --c-ink-muted: #66625a; /* darkened from #87827a to clear WCAG AA 4.5:1 on all page/card/sunken surfaces; stays lighter than --c-ink-dim so the muted<dim<ink hierarchy holds */
+  --c-rule: #d9d3c4;
+  --c-rule-soft: #ebe6da;
+
+  /* Accents — three layers + vendor hues */
+  --c-accent: #8b4513; /* saddle brown — primary action */
+  --c-accent-soft: #d2b48c; /* tan — secondary */
+  --c-gold: #b8860b; /* dark goldenrod — highlight */
+  --c-green: #4a7c4a; /* status: ok / shipped */
+  --c-amber: #c08020; /* status: caution / in-flight */
+  --c-red: #a83232; /* status: blocked / failed */
+
+  --c-vendor-anthropic: #cc785c;
+  --c-vendor-google: #4285f4;
+  --c-vendor-azure: #0078d4;
+  --c-vendor-notebooklm: #1a73e8;
+  --c-vendor-github: #1f2328;
+
+  /* Section accent — Planner path (slate blue, not used elsewhere) */
+  --c-planner: #1a5c8a;
+
+  /* Diagram colour layer — architecture/security/trust-boundary diagrams */
+  --c-diag-local: #4a7c4a; /* teal-green: local / pipeline-controlled flow */
+  --c-diag-managed: #c08020; /* amber: managed external credential / service */
+  --c-diag-external: #a83232; /* red: outside pipeline control, risk surface */
+  --c-diag-verified: #2d6a2d; /* deep green: mitigated / passed gate */
+  --c-diag-gate: #7c4d14; /* dark amber-brown: human halt gate */
+  --c-diag-bg: #f2ede3; /* diagram card background */
+  --c-diag-zone: rgba(31, 29, 24, 0.05); /* trust-zone fill */
+  --c-diag-zone-stroke: rgba(31, 29, 24, 0.18);
+
+  /* Pipeline phase kind colours (swimlane) */
+  --c-kind-mechanical: #5a7fa0; /* steel blue: deterministic, zero LLM cost */
+  --c-kind-agentic: #7a4fa0; /* purple: LLM-driven */
+  --c-kind-hybrid: #3d7a5a; /* teal-green: mix of model + rules */
+  --c-kind-gate: #a0602d; /* terracotta: human halt */
+
+  /* Depth-level badge tokens — bg = background; fg = foreground text; bd = border.
+     Islamic scholarly: colours derived from Kashkole LevelColor / CategoryBackColor values.
+     Other profiles: purpose-matched palettes. */
+  /* islamic_scholarly */
+  --c-depth-general-bg: #e8eeff;
+  --c-depth-general-fg: #1a3a8a;
+  --c-depth-general-bd: #b0c4de;
+  --c-depth-advanced-bg: #f0e8ff;
+  --c-depth-advanced-fg: #5a2da0;
+  --c-depth-advanced-bd: #c4aadd;
+  --c-depth-taveel-bg: #e8f5e8;
+  --c-depth-taveel-fg: #1a5c1a;
+  --c-depth-taveel-bd: #a0c8a0;
+  --c-depth-mamsool-bg: #fffde8;
+  --c-depth-mamsool-fg: #7a5a00;
+  --c-depth-mamsool-bd: #ddc870;
+  --c-depth-mabda-bg: #fde8f5;
+  --c-depth-mabda-fg: #8c0066;
+  --c-depth-mabda-bd: #dda0c8;
+  --c-depth-haqaiq-bg: #ffe8e8;
+  --c-depth-haqaiq-fg: #8a0000;
+  --c-depth-haqaiq-bd: #dd8080;
+  /* consumer_explainer (site layers) */
+  --c-depth-site-website-bg: #e8f4fd;
+  --c-depth-site-website-fg: #1565c0;
+  --c-depth-site-website-bd: #90caf9;
+  --c-depth-site-application-bg: #e3f2fd;
+  --c-depth-site-application-fg: #0d47a1;
+  --c-depth-site-application-bd: #64b5f6;
+  --c-depth-site-platform-bg: #ede7f6;
+  --c-depth-site-platform-fg: #4527a0;
+  --c-depth-site-platform-bd: #9575cd;
+  --c-depth-site-api-bg: #e8eaf6;
+  --c-depth-site-api-fg: #283593;
+  --c-depth-site-api-bd: #7986cb;
+  /* technical */
+  --c-depth-tech-coding-bg: #e8f5e9;
+  --c-depth-tech-coding-fg: #1b5e20;
+  --c-depth-tech-coding-bd: #81c784;
+  --c-depth-tech-agentic-bg: #f3e5f5;
+  --c-depth-tech-agentic-fg: #4a148c;
+  --c-depth-tech-agentic-bd: #ce93d8;
+  --c-depth-tech-arch-bg: #fff3e0;
+  --c-depth-tech-arch-fg: #bf360c;
+  --c-depth-tech-arch-bd: #ffcc02;
+  --c-depth-tech-devops-bg: #eceff1;
+  --c-depth-tech-devops-fg: #263238;
+  --c-depth-tech-devops-bd: #90a4ae;
+  --c-depth-tech-security-bg: #ffebee;
+  --c-depth-tech-security-fg: #b71c1c;
+  --c-depth-tech-security-bd: #ef9a9a;
+  --c-depth-tech-data-bg: #e0f7fa;
+  --c-depth-tech-data-fg: #006064;
+  --c-depth-tech-data-bd: #80deea;
+  /* fiction */
+  --c-depth-fiction-character-bg: #fff8e1;
+  --c-depth-fiction-character-fg: #f57f17;
+  --c-depth-fiction-character-bd: #ffe082;
+  --c-depth-fiction-theme-bg: #fce4ec;
+  --c-depth-fiction-theme-fg: #880e4f;
+  --c-depth-fiction-theme-bd: #f48fb1;
+  --c-depth-fiction-world-bg: #f1f8e9;
+  --c-depth-fiction-world-fg: #33691e;
+  --c-depth-fiction-world-bd: #aed581;
+  --c-depth-fiction-conflict-bg: #fbe9e7;
+  --c-depth-fiction-conflict-fg: #bf360c;
+  --c-depth-fiction-conflict-bd: #ffab91;
+  --c-depth-fiction-voice-bg: #f3e5f5;
+  --c-depth-fiction-voice-fg: #6a1b9a;
+  --c-depth-fiction-voice-bd: #ba68c8;
+
+  /* Model tier colours (swimlane annotations) */
+  --c-model-opus: #5b2fa0; /* deep purple: Opus (highest cost) */
+  --c-model-sonnet: #2952a0; /* navy: Sonnet (mid-cost) */
+  --c-model-haiku: #1a7a5a; /* teal: Haiku (low-cost) */
+  --c-model-gemini: #1a62d4; /* Google blue: Gemini */
+  --c-model-azure: #0068b8; /* Azure blue */
+  --c-model-none: #87827a; /* muted: no model / mechanical */
+
+  /* Token volume gradient (swimlane) */
+  --c-tokens-low: rgba(74, 124, 74, 0.15);
+  --c-tokens-mid: rgba(192, 128, 32, 0.18);
+  --c-tokens-high: rgba(168, 50, 50, 0.18);
+
+  /* Spacing & shape */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --r-sm: 3px;
+  --r-md: 5px;
+  --r-lg: 6px;
+
+  --shadow-card:
+    0 1px 2px rgba(31, 29, 24, 0.04), 0 4px 12px rgba(31, 29, 24, 0.06);
+  --shadow-hover:
+    0 2px 4px rgba(31, 29, 24, 0.08), 0 8px 24px rgba(31, 29, 24, 0.12);
+
+  --maxw-prose: 920px;
+  --maxw-page: 1560px;
+
+  /* ── Cortex theme-adapter (Pattern B) — WC6d, 2026-05-29 ──────────
+     Aliases that map the Cortex HTML View Quality Standard's token NAMES
+     onto this theme's EXISTING --c-* values, plus the four tokens Cortex
+     names that we lacked. Per skills-staging/html-view-quality/SKILL.md §2.
+     HARD RULE: no existing colour value is changed here — these are pure
+     aliases so the editorial-modern palette stays byte-identical. New
+     additions (--font-display/--font-mono/--glass-*) are chosen to be
+     visually neutral against the current Lato-on-parchment look. */
+  --bg-primary: var(--c-bg);
+  --bg-secondary: var(--c-bg-card);
+  --bg-tertiary: var(--c-bg-elev);
+  --bg-card: var(--c-bg-card);
+  --text-primary: var(--c-ink);
+  --text-secondary: var(--c-ink-dim);
+  --text-tertiary: var(--c-ink-muted);
+  --text-muted: var(--c-ink-muted);
+  --accent-primary: var(--c-accent);
+  --accent-secondary: var(--c-accent-soft);
+  --accent-primary-dim: color-mix(in oklab, var(--c-accent) 12%, transparent);
+  --accent-secondary-dim: color-mix(
+    in oklab,
+    var(--c-accent-soft) 12%,
+    transparent
+  );
+  --color-success: var(--c-green);
+  --color-warning: var(--c-amber);
+  --color-error: var(--c-red);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --font-sans: var(--font-body);
+  /* --font-ui resolves site-wide (the reader-page scope overrides it where a
+     distinct UI face is wanted); keeps Studio chrome on the body sans. */
+  --font-ui: var(--font-body);
+  /* Display face — Fraunces (expressive editorial serif). Asif-approved switch
+     2026-07-18 (was = body font). Headings/hero/numerals now render in the serif
+     display face; body + UI stay on Inter. Palette unchanged. See
+     skills-staging/ui-designer/SKILL.md §1. */
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-mono:
+    ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  --glass-bg: var(--c-bg-card);
+  --glass-border: color-mix(in oklab, var(--c-ink) 12%, transparent);
+  --bg-glass: var(--c-bg-card);
+  --glass-border-hover: color-mix(in oklab, var(--c-ink) 22%, transparent);
+  --glass-border-accent: color-mix(in oklab, var(--c-accent) 30%, transparent);
+  --radius-xl: 24px;
+  /* Action-item badge accents (Studio editor) — bright-on-dark icon colours for
+     the deferred AI action marks, grouped by action family. New named tokens
+     (not aliases); no existing colour value is changed. */
+  --c-act-core: #fbbf24; /* amber  — rewrite / rephrase / improve */
+  --c-act-etymology: #a78bfa; /* violet — etymology (root-history) */
+  --c-act-transform: #38bdf8; /* sky    — expand / condense / simplify */
+  --c-act-knowledge: #2dd4bf; /* teal   — define / cross-ref / add-to-corpus */
+  --c-act-remove: #fb7185; /* rose   — mark for removal */
+}
+
+/* ===== editor-fonts.css (verbatim from src/styles) ===== */
+/* editor-fonts.css — self-hosted editor-view fonts (OFL), shared by every editor
+ * surface (Book Composer + Studio Edit & Enrich). Same self-hosting pattern as
+ * the print faces in book-print.css; files live under public/fonts/*. They load
+ * lazily — only when an editor actually selects one. Screen-only: the printed
+ * book keeps its own faces. */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter/inter-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter/inter-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lato";
+  src: url("/fonts/lato/lato-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lato";
+  src: url("/fonts/lato/lato-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("/fonts/opendyslexic/opendyslexic-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("/fonts/opendyslexic/opendyslexic-latin-700-normal.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Translation faces ────────────────────────────────────────────────────────
+ * The English rendering that sits under an Arabic verse/hadith/poem is set in a
+ * face DISTINCT from the body serif, so a reader can see at a glance which line
+ * is the book's prose and which is a rendering of the quoted Arabic. Chosen per
+ * book in the Composer's Citations tab and persisted to book/citation-style.json
+ * as `translation_font`; the renderer stamps it as a `tr-<font>` body class.
+ *
+ * MIRROR: book-print.css declares the SAME four families for the PDF. A face
+ * added here must be added there in the same commit, or a book previews in a
+ * face it cannot print. Files are the Fontsource woff2 builds under
+ * public/fonts/<family>/ (all four are SIL OFL; LICENSE ships beside them). */
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Spectral — the rendering of a quoted passage that is NOT scripture (2026-08-09).
+   Not one of the four a book can choose: it is DERIVED from provenance, so it has
+   to be a family none of those four can also be set to, or a book would render its
+   verses and its hadith in the same face by accident. Chosen because it is
+   structurally unlike both neighbours it has to sit between — the Source Serif of
+   the book's own prose and whichever Garamond the book set its scripture in — so
+   the difference reads as deliberate rather than as a near-miss. Also declared in
+   book-print.css; the PDF does not load this file. */
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* The Qur'an's English rendering (Asif, 2026-08-09). A THIRD translation face,
+   beside the four a book may choose and the Spectral a saying takes, so a verse,
+   a hadith and the book's own prose are three visibly different voices. Literata
+   is a book face with real weight, chosen over the Charm at 2.5rem KSESSIONS
+   uses — a display script that would not survive a page of print. Vendored from
+   @fontsource, SIL OFL 1.1. Also declared in book-print.css; the PDF does not
+   load this file. */
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== quote-typography.css (verbatim from src/styles) ===== */
+/* quote-typography.css — the VALUES behind the Plain family's quotation setting.
+ *
+ * Six stylesheets style an Arabic quotation block: book-print.css (the PDF),
+ * compose-print.css (Composer read mode), book-composer.css (.cx-body and the
+ * chapter editor), book-reader.css (.bookv-body) and book-styles.css (the
+ * Citations tab preview sheet). Their SELECTORS genuinely differ — each surface
+ * scopes the same markup differently — but their VALUES must not. When the
+ * maroon and the four translation stacks were copied into each file, a change in
+ * one meant the printed page and the screen quietly disagreed about what a verse
+ * looks like, which is exactly the defect the mirror-file comments exist to warn
+ * about. So the values live here, once, and every surface reads the tokens.
+ *
+ * Screen surfaces import this file. The PDF renderer (render-book-pdf.mjs)
+ * inlines it ahead of book-print.css, the same way it inlines the theme's :root.
+ *
+ * Colour policy: this file changes NO existing --c-* token. It adds two of its
+ * own, scoped to quotation blocks.
+ */
+:root {
+  /* Arabic scripture ink. Deep maroon — distinct from the accent brown
+     (--c-accent #8b4513) so a verse never reads as a UI element, and dark enough
+     to clear WCAG AA on the cream page (contrast ~9.6:1 on #fffdf8). */
+  --q-maroon: #7a1f1f;
+  /* The same maroon lifted for dark surfaces (the editor's Dark paper setting,
+     and any dark-scheme viewer). #7a1f1f on #201e1b is ~1.6:1 — unreadable — so
+     dark contexts override the token rather than the rules that use it. */
+  --q-maroon-dark: #e8a0a0;
+  /* The ink of a quoted passage that is NOT scripture — a hadith, an imam's
+     saying, a line of poetry (Asif, 2026-08-09). Deep forest, from the same
+     measured set as the four `ari-*` inks below, so it clears WCAG AA on cream,
+     sepia and dark alike; and far enough from the maroon that the two never read
+     as the same decision made twice.
+
+     WHAT THIS TIER IS NOT is as load-bearing as what it is. It is not "hadith":
+     what the audit knows is that the mushaf does not contain this run, and the
+     set that answer covers includes al-Shafi'i's verses and sayings of the Imams
+     alongside prophetic tradition. Naming the class for the largest member would
+     be a claim about every other passage in it that nobody has checked. */
+  --q-said-ink: #1d4d33;
+  --q-said-ink-dark: #93d7b0;
+
+  /* ── The other three cards' inks (Asif, 2026-08-09) ────────────────────────
+     SCRIPTURE IS GOLD, and it is the one ink a book cannot choose — the same
+     reason it cannot choose the Uthmanic face. Both values are KSESSIONS' own
+     (#978002 for the verse, #504302 for its English), with the verse darkened
+     one step: #978002 measures 3.8:1 on the cream page and 3.3:1 on sepia, below
+     the 4.5:1 this edition holds itself to at reading size. #7d6800 clears both
+     at 5.4:1 and 4.6:1 and still reads unmistakably as gold.
+
+     Hadith takes the indigo and poetry the maroon already measured for the
+     `ari-*` set below, rather than two new colours nobody has checked against
+     three papers. Every dark twin clears AA on #201e1b: 8.6, 7.6, 8.3, 7.9. */
+  --q-quran-ink: #7d6800;
+  --q-quran-ink-dark: #d3b965;
+  --q-quran-tr-ink: #504302;
+  --q-quran-tr-ink-dark: #bfae86;
+  --q-gold-rule: #d3b965;
+  --q-gold-line: linear-gradient(
+    90deg,
+    #d3b965 0%,
+    #f7e8b7 50%,
+    #d3b965 100%
+  );
+  --q-hadith-ink: #23356b;
+  --q-hadith-ink-dark: #a8b6e8;
+  --q-poem-ink: #722727;
+  --q-poem-ink-dark: #e8a0a0;
+
+  /* Outlined marks, one per card. Strokes rather than fills (Asif, 2026-08-09),
+     shown through a mask so each takes the ink of the card it sits in. The
+     Qur'an's is the mushaf's own section sign; the Book's mark belongs to the
+     Book alone, so no other card carries it. */
+  --orn-hizb: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23000' stroke-width='6'%3E%3Cpath d='M50 8 92 50 50 92 8 50z'/%3E%3Crect x='21' y='21' width='58' height='58'/%3E%3C/g%3E%3C/svg%3E");
+  --orn-diamond: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 12 88 50 50 88 12 50z' fill='none' stroke='%23000' stroke-width='10'/%3E%3C/svg%3E");
+  --orn-circle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='36' fill='none' stroke='%23000' stroke-width='10'/%3E%3C/svg%3E");
+  --orn-petal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 8C50 31 69 50 92 50 69 50 50 69 50 92 50 69 31 50 8 50 31 50 50 31 50 8z' fill='none' stroke='%23000' stroke-width='8'/%3E%3C/svg%3E");
+
+  /* Default translation face. A book with no `translation_font` recorded in
+     book/citation-style.json gets EB Garamond, so the intended pairing needs no
+     choice to be made. The four `tr-*` classes below override it. */
+  --q-tr-face: "EB Garamond", "Iowan Old Style", Georgia, serif;
+  /* And the rendering of a NON-scripture quotation. DERIVED, never chosen: it has
+     to be a family the four `tr-*` options cannot also select, or a book would
+     print its verses and its hadith in one face by accident. Declared in
+     editor-fonts.css (screen) and book-print.css (print), like every other. */
+  --q-said-tr-face: "Spectral", "Source Serif 4", Georgia, serif;
+  /* And the Qur'an's rendering, which is a THIRD answer again. It must not be a
+     family the four `tr-*` options can select, or a book would print its verses
+     and its running translations in one face by accident, and it must not be the
+     saying face either. Literata is a book face with real weight — chosen over
+     the Charm at 2.5rem KSESSIONS uses, which is a display script that would not
+     survive a page of print. Declared in editor-fonts.css (screen) and
+     book-print.css (print), like every other. */
+  --q-quran-tr-face: "Literata", "Spectral", Georgia, serif;
+
+  /* ── Arabic faces ──────────────────────────────────────────────────────────
+     TWO faces, chosen by PROVENANCE rather than by markup (locked with Asif
+     2026-07-21). Scripture — a run the audit resolved against the canonical
+     mushaf — is set in the Uthmanic script quran.com serves; every other Arabic
+     run (hadith, sayings, poetry, the book's own phrases) is set in Scheherazade
+     New. This is a distinction the markup could not previously make: the
+     `blockquote.quran` class has always meant "contains Arabic", not "is
+     scripture", so the split needed the audit's per-run resolution to exist.
+
+     Surfaces read --q-ar-face and never name a family, so the `.is-quranic`
+     override below is the ONLY place the two faces are chosen between.
+
+     THE SILENT-LETTER MARK IS BROKEN IN THIS FACE, AND CANNOT BE FIXED HERE.
+     U+06DF ARABIC SMALL HIGH ROUNDED ZERO — the mark saying a letter is written
+     but not pronounced — is declared a BASE glyph by KFGQPC (advance 1442/2048,
+     outline y −210 to 1045), so it prints as a full-size circle taking its own
+     width and tearing the word open: `وَأُو۞لُوا۞`. It occurs 175 times across the
+     seven books. Two repairs were tried and neither is available:
+
+       - Editing the font. Forbidden by its licence in so many words ("cannot be
+         ... Modified, Altered"), and by this repo's own vendoring note.
+       - Redirecting the one character with `unicode-range` to Scheherazade New,
+         which draws it correctly (advance 0, GDEF mark, outline high at y 1454).
+         The face loads and `document.fonts.check` confirms coverage, but the
+         circle still prints: Chromium falls back per CLUSTER, not per codepoint,
+         and keeps a combining mark in the font of the base it attaches to. Do
+         not retry this — it looks like it should work and does not.
+
+     So the face changed instead, with Asif on 2026-08-09: scripture is now set in
+     AMIRI QURAN, which draws the mark correctly (advance 0, GDEF mark class,
+     outline high at y 828–1006 of a 1000 upem), is SIL OFL 1.1, and was already
+     vendored here for the print stylesheet. The KFGQPC names stay in the stack
+     behind it so a checkout missing the Amiri file still renders scripture in a
+     Qur'anic face rather than falling through to Scheherazade.
+
+     WHAT THIS COSTS: Amiri Quran is not the orthography quran.com serves, so a
+     verse looks different from the mushaf a reader may have beside them. That is
+     the trade Asif took, against a mark that breaks a word 175 times. */
+  --q-ar-face:
+    "ScheherazadeSized", "Scheherazade New", "Scheherazade", "Amiri",
+    "DecoType Naskh", serif;
+  --q-ar-face-quran:
+    "Amiri Quran", "UthmanicHafsSized", "UthmanicHafs",
+    "KFGQPC HAFS Uthmanic Script", "ScheherazadeSized", "Scheherazade New",
+    serif;
+
+  /* ── Arabic display size ───────────────────────────────────────────────────
+     The face and the ink were tokenised here so six stylesheets could not
+     disagree about them. The SIZE was not, and 1.05rem was hand-written into
+     every one of them — book-print.css (the PDF), compose-print.css, the two
+     Composer surfaces, book-reader.css, and the Arabic reveal panel at 0.95rem.
+
+     Set to 1.4rem with Asif on 2026-08-01. The old value was nominally 5% above
+     the 16px Latin body and read as clearly SMALLER than it: Scheherazade New
+     and Amiri draw small letterforms for their point size, and `size-adjust`
+     was removed from their @font-face blocks on 2026-07-31, so every Arabic
+     size in the repo is now literal. It matters more than it did — since the
+     always-vowel rule (2026-07-29) every non-Qur'anic run carries tashkeel, and
+     marks that small are not legible to a reader who does not read Arabic
+     unaided, which is the reader this edition is printed for.
+
+     Screen and print move together, deliberately: the Composer is where a page
+     is verified, so a verse that looks one way there and another in the PDF
+     defeats the surface. The PDF does get longer. */
+  --q-ar-size: 1.4rem;
+  --q-ar-leading: 1.9;
+
+  /* The gap between an Arabic line and the English under it. 0.2rem was written
+     into four stylesheets and is right for a run of Arabic inside running prose,
+     where the two belong to one thought. Inside a CARD they are two voices and
+     want air between them, so the cards raise it (Asif, 2026-08-09). Tokenised
+     rather than re-stated per card for the same reason the ink is: a declaration
+     on the consuming element wins whatever the specificity, and the four base
+     rules stay one line each. */
+  --q-ar-gap: 0.2rem;
+
+  /* The size of a TERM woven into an English sentence — a different question
+     from the display size above, and previously a bare `1.26em` written into
+     book-print.css and book-composer.css as a pinned mirror pair. Tokenised so
+     the book's Arabic size setting can move BOTH: a reader asking for larger
+     Arabic means all of it, not only the quotations. Default unchanged, so a
+     book that never touches the setting prints exactly as it did.
+
+     `em`, not `rem`, and deliberately: a term scales against the sentence it
+     sits in, while a display quotation is sized against the page. */
+  --q-ar-inline-size: 1.26em;
+}
+
+/* ── Per-book Arabic SIZE ─────────────────────────────────────────────────────
+   Stamped as a class on <body> (print) or the page root (screen) from
+   citation-style.json's `arabic_size`, exactly like the faces below.
+
+   Steps rather than a free number, for three reasons that all point the same
+   way: the value has to reach the PDF, where it can only arrive as generated
+   CSS; a fixed set is checkable by the API against a list, the way `family` and
+   the two faces already are; and a book set to an arbitrary size is a book whose
+   pagination nobody chose. `standard` is the default and declares nothing — it
+   IS the :root value above, so an unset book and a book explicitly set to
+   standard render through the same declaration rather than two that must agree.
+
+   Both tokens move together on every step. Their RATIO is held roughly constant
+   (display ≈ 1.11× the inline term at every step), which is the proportion the
+   two were tuned to on 2026-08-01/02. */
+.ars-compact {
+  --q-ar-size: 1.2rem;
+  --q-ar-inline-size: 1.14em;
+}
+.ars-large {
+  --q-ar-size: 1.6rem;
+  --q-ar-inline-size: 1.38em;
+}
+.ars-generous {
+  --q-ar-size: 1.8rem;
+  --q-ar-inline-size: 1.5em;
+}
+
+/* ── Per-book Arabic INK ──────────────────────────────────────────────────────
+   The colour Arabic is set in, from citation-style.json's `arabic_ink`.
+   `maroon` is the default and declares nothing, for the same reason `standard`
+   above does not.
+
+   Every option here was measured against all three papers rather than picked by
+   eye — this edition is printed to be READ, and the standard the site holds
+   itself to is WCAG AA (4.5:1). On the cream page the five run 8.3:1 to 16.6:1;
+   on sepia, 7.2:1 to 14.3:1. That measurement is also why this is a fixed set
+   and not a free colour picker: a picker's most likely first use is a light
+   colour that looks pleasant on screen and is unreadable in print.
+
+   Each class sets the DARK-paper variant too. The existing paper guard at the
+   foot of this file swaps one token for the other, so an ink that forgot its
+   lifted twin would silently fall back to the maroon one on dark paper. Lifted
+   values clear AA on #201e1b at 7.9:1 to 13.1:1. */
+.ari-ink {
+  --q-maroon: #1f1d18;
+  --q-maroon-dark: #e8e4dc;
+}
+.ari-indigo {
+  --q-maroon: #23356b;
+  --q-maroon-dark: #a8b6e8;
+}
+.ari-forest {
+  --q-maroon: #1d4d33;
+  --q-maroon-dark: #93d7b0;
+  /* The one book that would have set scripture and saying in the same colour.
+     The pair swaps rather than the saying being nudged to a near-shade: two
+     greens a step apart read as an inconsistency, and the whole point of the
+     tier is that the difference is obvious to someone who cannot read either
+     passage. */
+  --q-said-ink: #7a1f1f;
+  --q-said-ink-dark: #e8a0a0;
+}
+.ari-brown {
+  --q-maroon: #6b4423;
+  --q-maroon-dark: #dbb08a;
+}
+
+/* Per-book NON-Qur'anic Arabic face. Stamped as a class on <body> (print) or on
+   the page root (screen) from citation-style.json's `arabic_font`, exactly like
+   the `tr-*` faces below. Two faces only, and adding a third means declaring it
+   in BOTH theme-tokens.css (screen) and book-print.css (print) — the PDF does not
+   load the screen's @font-face block.
+
+   These are body-level, so the `.is-quranic` rule below still wins for scripture:
+   a custom property declared on the element that consumes it beats one inherited
+   from an ancestor. That ordering is the whole mechanism — the book chooses the
+   face for its hadith, poetry and prose Arabic, and cannot choose one for the
+   mushaf. */
+.ar-scheherazade-new {
+  --q-ar-face:
+    "ScheherazadeSized", "Scheherazade New", "Scheherazade", "Amiri",
+    "DecoType Naskh", serif;
+}
+.ar-amiri {
+  --q-ar-face:
+    "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
+}
+
+/* Three MODERN faces (2026-08-02), beside the two naskh ones above. Chosen for a
+   reader who does not read Arabic unaided: all three are low-contrast, open-
+   countered and hold their vowel marks legibly at text size, which the always-
+   vowel rule makes the deciding property. Vendored from @fontsource, all three
+   OFL-1.1, and declared in BOTH theme-tokens.css (screen) and book-print.css
+   (print) — the PDF does not load the screen's @font-face block, so a face
+   added to only one renders in the fallback on the other.
+
+   Every stack falls back to Scheherazade rather than to `serif`: a missing file
+   should degrade to the book's own default face, not to whatever the renderer
+   happens to have. */
+.ar-cairo {
+  --q-ar-face:
+    "Cairo", "ScheherazadeSized", "Scheherazade New", "Amiri", sans-serif;
+}
+.ar-tajawal {
+  --q-ar-face:
+    "Tajawal", "ScheherazadeSized", "Scheherazade New", "Amiri", sans-serif;
+}
+.ar-ibm-plex-sans-arabic {
+  --q-ar-face:
+    "IBM Plex Sans Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
+    sans-serif;
+}
+
+/* Scripture. Set on the run itself by renderMd/renderMarkdown from the audit's
+   `canonical-mushaf` resolution — never inferred from the surrounding block, and
+   never overridable by the book's Arabic-face choice above. */
+.is-quranic {
+  --q-ar-face: var(--q-ar-face-quran);
+}
+
+/* ── The second tier: a quoted passage that is not scripture ──────────────────
+   Everything below rests on ONE fact the markup already carries — the audit
+   marked this run, or it did not — and adds no inference of its own.
+
+   The INK is set by re-declaring the token ON THE RUN, which is the same
+   mechanism `.is-quranic` uses one rule above to swap the face. That is what
+   keeps this to a single file: seven stylesheets already ask `--q-maroon` what
+   colour Arabic is, and none of them needs to learn a second question. A
+   declaration on the element beats one inherited from `<body>`, so the book's
+   own `ari-*` choice still governs its scripture and this governs the rest.
+
+   The dark-paper guard at the foot of this file lifts `--q-maroon` on an
+   ANCESTOR, which this declaration would otherwise defeat — leaving a saying at
+   about 1.6:1 on the dark page. It is re-stated per paper below rather than
+   left to inheritance. */
+p.ar:not(.is-quranic) {
+  --q-maroon: var(--q-said-ink);
+}
+.cx-edit-host[data-paper="dark"] p.ar:not(.is-quranic),
+.studio-editor__editor[data-paper="dark"] p.ar:not(.is-quranic) {
+  --q-maroon: var(--q-said-ink-dark);
+}
+
+/* The RENDERING under it. `:has()` because the face belongs to a sibling of the
+   run that carries the provenance, and only the block can see both. Chromium is
+   the PDF renderer (render-book-pdf.mjs drives Playwright), so print and screen
+   support this identically. A block holding no Arabic at all — an ordinary
+   English quotation — has no `p.tr` and is untouched.
+
+   The TOKEN is redeclared, not `font-family` set. Setting the property directly
+   worked in print and lost everywhere else: `.cx-print.style-plain blockquote.quran
+   p.tr` and `.bookv-body.style-plain …` score exactly what this selector scores,
+   so the tie went to whichever file loaded second and the Composer showed a
+   saying's rendering in the scripture face. A custom property declared on the
+   element that consumes it wins over one inherited from an ancestor whatever the
+   specificity — which is the same reason the ink above is written this way, and
+   the reason `.is-quranic` has been able to swap the Arabic face since July. */
+blockquote:not(:has(p.ar.is-quranic)) p.tr {
+  --q-tr-face: var(--q-said-tr-face);
+}
+
+/* ── One card, four inks ──────────────────────────────────────────────────────
+   Asif, 2026-08-09. This REOPENS the plain family's founding rule (locked
+   2026-07-21: "where Scholarly says quotation with a gold hairline and Elegant
+   says it with a frame, Plain says it with typography alone"), and it is his
+   call to reopen. It also supersedes the two-panel version that stood for a few
+   hours the same day, in which scripture was enclosed on four sides and a saying
+   marked on one edge: he asked for the variations to share ONE format, so the
+   colour and the mark now do all of the distinguishing.
+
+   FOUR KINDS. Qur'an is decided by the audit and can never be declared by hand;
+   the other three are declared by a person and stored in `_system/quote-kind.json`
+   (scripts/lib/quote-kind.mjs). Both renderers stamp the class, so nothing here
+   has to infer anything: `.k-quran` `.k-hadith` `.k-poem` `.k-quote`.
+
+   NO BORDER, following KSESSIONS' own `.ayah-card`, which sets `border: none`
+   and defines the card by a plate plus the two gold rules of its header. An
+   outline around a quotation reads as a UI control; a tinted plate reads as a
+   page. Every plate is mixed from the card's own ink, so a book that changes an
+   ink moves its cards with it and nothing is kept in step by hand.
+
+   The `:not()` keeps this out of the two families whose whole identity is their
+   own ornament — Elegant's gold frame, Scholarly's hairline. Those are choices a
+   book makes explicitly, and quietly repainting them from here would delete two
+   of the three families rather than redefine one. No book sets either today, so
+   this guard is protecting a door rather than closing one. */
+blockquote.k-quran:not(.style-elegant *, .style-scholarly *),
+blockquote.k-hadith:not(.style-elegant *, .style-scholarly *),
+blockquote.k-quote:not(.style-elegant *, .style-scholarly *),
+blockquote.k-poem:not(.style-elegant *, .style-scholarly *) {
+  border: 0;
+  border-radius: 10px;
+  padding: 1.35rem 1.6rem 1.15rem;
+  margin-block: 2rem;
+}
+blockquote.k-quran:not(.style-elegant *, .style-scholarly *) {
+  background: color-mix(in oklab, var(--q-quran-ink) 4%, transparent);
+}
+blockquote.k-hadith:not(.style-elegant *, .style-scholarly *) {
+  background: color-mix(in oklab, var(--q-hadith-ink) 4%, transparent);
+}
+blockquote.k-quote:not(.style-elegant *, .style-scholarly *) {
+  background: color-mix(in oklab, var(--q-said-ink) 4%, transparent);
+}
+blockquote.k-poem:not(.style-elegant *, .style-scholarly *) {
+  background: color-mix(in oklab, var(--q-poem-ink) 4%, transparent);
+}
+
+/* The ink of each kind. Set by REDECLARING the token on the element that
+   consumes it, never by writing `color:` — a declaration on the consuming
+   element beats one inherited from an ancestor whatever the specificity, which
+   is the mechanism `.is-quranic` has used to swap the Arabic face since July.
+   Writing `color:` here instead was tried and lost to `.cx-print.style-plain
+   blockquote.quran p.ar`, which scores the same and loads later. */
+blockquote.k-quran p.ar,
+blockquote.k-hadith p.ar,
+blockquote.k-quote p.ar,
+blockquote.k-poem p.ar {
+  /* Air, in two directions. The GAP is the drop to the English below; the
+     LEADING is the space between two wrapped lines of the Arabic itself, which
+     at 1.9 left a long verse looking like one dense block. Both are declared on
+     the consuming element, so they beat whatever an ancestor set.
+
+     The poem stays roomier than this by construction rather than by a second
+     number: its lines are separate elements in the verse grid, so they carry the
+     same leading PLUS the grid's row gap. Raising this therefore never overtakes
+     it. */
+  --q-ar-gap: 1.05rem;
+  --q-ar-leading: 2.15;
+}
+blockquote.k-quran p.ar {
+  --q-maroon: var(--q-quran-ink);
+}
+blockquote.k-quran p.tr {
+  --q-tr-face: var(--q-quran-tr-face);
+  --q-tr-ink: var(--q-quran-tr-ink);
+  --q-tr-size: 1rem;
+}
+blockquote.k-hadith p.ar {
+  --q-maroon: var(--q-hadith-ink);
+}
+blockquote.k-quote p.ar {
+  --q-maroon: var(--q-said-ink);
+}
+blockquote.k-poem p.ar {
+  --q-maroon: var(--q-poem-ink);
+}
+blockquote.k-poem p.tr {
+  font-style: italic;
+}
+
+/* Dark paper. Restated per card rather than left to inheritance, for the same
+   reason the tier ink below is: the guard at the foot of this file lifts a token
+   on an ANCESTOR, and a declaration on the consuming element defeats it. */
+.cx-edit-host[data-paper="dark"] blockquote.k-quran p.ar,
+.studio-editor__editor[data-paper="dark"] blockquote.k-quran p.ar {
+  --q-maroon: var(--q-quran-ink-dark);
+}
+.cx-edit-host[data-paper="dark"] blockquote.k-quran p.tr,
+.studio-editor__editor[data-paper="dark"] blockquote.k-quran p.tr {
+  --q-tr-ink: var(--q-quran-tr-ink-dark);
+}
+.cx-edit-host[data-paper="dark"] blockquote.k-hadith p.ar,
+.studio-editor__editor[data-paper="dark"] blockquote.k-hadith p.ar {
+  --q-maroon: var(--q-hadith-ink-dark);
+}
+.cx-edit-host[data-paper="dark"] blockquote.k-quote p.ar,
+.studio-editor__editor[data-paper="dark"] blockquote.k-quote p.ar {
+  --q-maroon: var(--q-said-ink-dark);
+}
+.cx-edit-host[data-paper="dark"] blockquote.k-poem p.ar,
+.studio-editor__editor[data-paper="dark"] blockquote.k-poem p.ar {
+  --q-maroon: var(--q-poem-ink-dark);
+}
+
+/* ── The band ─────────────────────────────────────────────────────────────────
+   KSESSIONS' `golden-surah-header`, ported: a centred label with a rule running
+   out to each side. The Qur'an keeps their 2px gold gradient and carries the
+   chapter and verse the audit recorded — the edition has no Qur'an card without
+   one (Asif, 2026-08-09). The other three take a hairline in their own ink, so
+   the family reads as one decision rather than four.
+
+   Every mark is OUTLINED, drawn as a stroke and shown through a mask so it takes
+   the ink of the card it sits in rather than carrying a colour of its own. */
+.q-band {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.q-band::before,
+.q-band::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  min-width: 1.2rem;
+  background: color-mix(in oklab, currentcolor 26%, transparent);
+}
+.q-orn {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  background: currentcolor;
+  -webkit-mask: var(--q-orn-src) center / contain no-repeat;
+  mask: var(--q-orn-src) center / contain no-repeat;
+}
+.q-band--quran {
+  color: var(--q-quran-ink);
+  font-weight: 600;
+  --q-orn-src: var(--orn-hizb);
+}
+.q-band--quran::before,
+.q-band--quran::after {
+  height: 2px;
+  background: var(--q-gold-line);
+}
+.q-band--hadith {
+  color: var(--q-hadith-ink);
+  --q-orn-src: var(--orn-diamond);
+}
+.q-band--quote {
+  color: var(--q-said-ink);
+  --q-orn-src: var(--orn-circle);
+}
+.q-band--poem {
+  color: var(--q-poem-ink);
+  --q-orn-src: var(--orn-petal);
+}
+
+/* ── The verse grid ───────────────────────────────────────────────────────────
+   Classical Arabic verse is set in TWO COLUMNS of equal width: one line — a
+   bayt — is two hemistichs, the sadr on the right and the ajuz on the left, with
+   a gutter between them. Abyat stack as rows, and the gutter running straight
+   down the page is the whole point: it is what makes a poem legible AS a poem to
+   a reader who cannot read the words. This is the arrangement printed diwans use
+   and the one the LaTeX `bidipoem` package's `traditionalpoem` environment
+   produces.
+
+   THE SPLIT IS NEVER INFERRED. In `ayyuhal-walad` the asterisk inside an Arabic
+   quotation divides a line of verse at lines 59, 167, 289-291 and 538 — and
+   separates a Qur'anic verse from its own reference at lines 373, 498, 504, 510
+   and 516 (`… * الحجرات: ٥`). Splitting on the character would tear five
+   citations in half and print the surah name as a second hemistich, so the grid
+   only ever runs on a block a person has marked as verse.
+
+   A line with no second hemistich spans both columns. In a narrow column the
+   grid collapses to one and each hemistich takes its own row — the second
+   traditional arrangement, and the only one that fits a phone.
+
+   THE COLLAPSE IS KEYED TO THE COLUMN, NOT THE WINDOW. A viewport media query
+   was tried first and is wrong here: a poem sits in a narrow measure on a wide
+   screen all the time — the Composer's editor pane, a printed page, a two-up
+   spread — and the query never fired, so both hemistichs squeezed into half a
+   column each and wrapped into a ragged block. A container query asks the
+   question that actually decides the layout. Chromium renders the PDF, so print
+   and screen behave identically. */
+blockquote.k-poem {
+  container-type: inline-size;
+}
+.q-verse {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  direction: rtl;
+  column-gap: 2.25rem;
+  row-gap: 0.15rem;
+  margin: 0 0 0.9rem;
+}
+.q-verse p.ar {
+  margin: 0;
+}
+.q-verse .bayt-solo {
+  grid-column: 1 / -1;
+}
+.q-verse--en {
+  grid-template-columns: 1fr;
+  direction: ltr;
+  row-gap: 0.1rem;
+}
+.q-verse--en p.tr {
+  margin: 0;
+}
+@container (max-width: 34rem) {
+  .q-verse {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* The attribution under a saying — above a hairline, so a card that carries one
+   closes on the name rather than trailing off. */
+.q-cite {
+  margin: 0.9rem 0 0;
+  padding-top: 0.65rem;
+  text-align: end;
+  border-top: 1px solid
+    color-mix(in oklab, var(--c-ink, #1f1d18) 10%, transparent);
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: color-mix(in oklab, var(--c-ink, #1f1d18) 62%, transparent);
+}
+
+/* Per-book translation face. Stamped as a class on <body> (print) or on the
+   chapter container (screen) from citation-style.json's `translation_font`.
+   Faces are self-hosted and declared in book-print.css (print) and
+   editor-fonts.css (screen) — adding a family here means adding it in BOTH. */
+.tr-eb-garamond {
+  --q-tr-face: "EB Garamond", "Iowan Old Style", Georgia, serif;
+}
+.tr-cormorant-garamond {
+  --q-tr-face: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+}
+.tr-crimson-pro {
+  --q-tr-face: "Crimson Pro", "EB Garamond", Georgia, serif;
+}
+.tr-lora {
+  --q-tr-face: "Lora", "EB Garamond", Georgia, serif;
+}
+
+/* ── Dark-paper contrast guard ────────────────────────────────────────────────
+   The site itself is light-only; "dark" exists solely as the Kindle-style paper
+   setting on two reading/editing surfaces — the Book Composer editor
+   (.cx-edit-host) and the Studio editor (.studio-editor__editor). On those,
+   #7a1f1f over #201e1b is about 1.6:1, which is not readable. Lifting the TOKEN
+   rather than re-stating the rules keeps every surface's Plain-family block
+   written once. Sepia (#f4ecd8) clears AA with the base maroon and is
+   deliberately left alone. (A third selector, .lsv, went with the LIVE Session
+   on 2026-08-01 — the Composer's Read mode is the reading surface now.) */
+.cx-edit-host[data-paper="dark"],
+.studio-editor__editor[data-paper="dark"] {
+  --q-maroon: var(--q-maroon-dark);
+}
+
+/* ── Per-selection text colour ────────────────────────────────────────────────
+   Applied to any run a human coloured in the Book Composer. The record lives in
+   `_system/text-colour.json` and is re-found and wrapped at RENDER time
+   (scripts/lib/text-colour.mjs) — book.md never carries it, so no Python phase
+   that reads that file as text can be disturbed by a colour.
+
+   `!important` on nothing, and `color` only: a coloured run keeps its face, its
+   size and its direction, so colouring an Arabic term does not quietly undo the
+   book's Arabic typography. The five values are the palette in
+   src/lib/reader/text-ink.ts, each measured to clear WCAG AA on the cream, sepia
+   and dark papers. */
+.ink-maroon {
+  color: #7a1f1f;
+}
+.ink-ink {
+  color: #1f1d18;
+}
+.ink-indigo {
+  color: #23356b;
+}
+.ink-forest {
+  color: #1d4d33;
+}
+.ink-brown {
+  color: #6b4423;
+}
+
+/* ── Per-paragraph alignment ──────────────────────────────────────────────────
+   Chosen in the Book Composer and recorded in `_system/text-align.json` by the
+   paragraph's own fingerprint, so book.md never carries it and no Python phase
+   that reads that file as text can be disturbed by it.
+
+   `left` has no rule and never will: it is what a paragraph does already, and a
+   class for it would be a second declaration that has to agree with the first.
+   Choosing Left removes the paragraph's entry instead.
+
+   `text-align` only. A centred paragraph keeps its face, size, leading and
+   direction, so centring an Arabic block does not quietly undo the book's Arabic
+   typography. */
+.align-center {
+  text-align: center;
+}
+.align-right {
+  text-align: right;
+}
+
+/* ===== book-print.css (verbatim from src/styles) ===== */
+/* book-print.css — print stylesheet for the reading-edition PDF.
+ *
+ * Consumed by scripts/render-book-pdf.mjs (inlined at render time; this file
+ * is the single source of truth — never style inside the script).
+ * Theme tokens (--c-*) are injected from theme.css :root by the renderer.
+ * Fonts: Amiri / Amiri Quran (Arabic) and Source Serif 4 (Latin body) are
+ * self-hosted and served by the renderer from plan-dashboard/public/fonts/
+ * (both SIL OFL). The body font is bundled — NOT a host-resolved fallback — so
+ * pagination and line breaks are identical on every machine for the same book.md.
+ */
+
+/* Source Serif 4 — Latin body. Variable fonts: one upright file covers all
+ * weights (100-900), one italic file covers all italic weights. */
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("/fonts/source-serif/SourceSerif4-VF.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("/fonts/source-serif/SourceSerif4-Italic-VF.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ── Translation faces ────────────────────────────────────────────────────────
+ * The English rendering under an Arabic verse/hadith/poem prints in a face
+ * DISTINCT from the Source Serif body, so the reader can tell the book's prose
+ * from a rendering of the quoted Arabic without reading a word of either. The
+ * face is chosen per book in the Composer's Citations tab, persisted to
+ * book/citation-style.json as `translation_font`, and stamped onto <body> as
+ * `tr-<font>` by buildBookHtml.
+ *
+ * A FIFTH family, Spectral, is declared here and is NOT one of the four a book
+ * can choose (2026-08-09). It renders a quoted passage the provenance audit did
+ * not resolve against the canonical mushaf — a hadith, an imam's saying, a poem —
+ * so that scripture's rendering and a man's are told apart by face as well as by
+ * ink. Derived rather than chosen, precisely so it can never collide with the
+ * book's own pick.
+ *
+ * MIRROR: editor-fonts.css declares the SAME families for every on-screen
+ * surface. Add a face in one file and you MUST add it in the other in the same
+ * commit, or a book previews in a face it cannot print. All are SIL OFL,
+ * self-hosted under public/fonts/<family>/ and served by render-book-pdf.mjs —
+ * so pagination is identical on every machine, as with Source Serif and Amiri. */
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+/* The Qur'an's English rendering (Asif, 2026-08-09). A THIRD translation face,
+   beside the four a book may choose and the Spectral a saying takes, so a verse,
+   a hadith and the book's own prose are three visibly different voices. Literata
+   is a book face with real weight, chosen over the Charm at 2.5rem KSESSIONS
+   uses — a display script that would not survive a page of print. Vendored from
+   @fontsource, SIL OFL 1.1. MIRROR: editor-fonts.css declares the same three for the screen. */
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* These carried `size-adjust: 135%` until 2026-07-31, to "enlarge the Arabic
+   glyphs so Arabic reads at the same visual size as the Latin body". Measured
+   against the real font files, the premise behind it is false of every Arabic
+   face this repo ships — unadjusted, each already sets its base letter between
+   the Latin x-height and cap height. The full measurement is recorded once, in
+   theme-tokens.css; that file is the MIRROR of this one and the two were
+   corrected together, because the printed page has to match the Composer it is
+   verified in.
+
+   With the descriptor gone, the sizes below finally mean what they say: a
+   display quotation at 1.05rem sets its base letter at 1.31x the Latin
+   x-height, and an inline term at the body size sets it at 1.25x. */
+@font-face {
+  font-family: "Amiri Quran";
+  src: url("/fonts/amiri/AmiriQuran.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Amiri";
+  src: url("/fonts/amiri/Amiri-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Amiri";
+  src: url("/fonts/amiri/Amiri-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* The two Arabic reading faces (2026-07-21). Which one a run gets is decided by
+   PROVENANCE, not markup: renderMd tags a run `is-quranic` when the Arabic audit
+   resolved it against the canonical mushaf, and quote-typography.css switches
+   --q-ar-face on that class alone. Neither is optically adjusted — see the note
+   above the Amiri block.
+ *
+ * The KFGQPC file is vendored byte-for-byte from quran.com. Its EULA grants free
+ * use, copy and distribution but forbids modification: never subset or re-encode
+ * public/fonts/uthmanic-hafs/*, and keep LICENSE.txt beside it. */
+@font-face {
+  font-family: "Scheherazade New";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Scheherazade New";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-600-normal.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "UthmanicHafs";
+  src: url("/fonts/uthmanic-hafs/UthmanicHafs1Ver18.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+/* The three MODERN Arabic faces a book may choose (2026-08-02). Self-hosted from
+   @fontsource, all three SIL OFL 1.1, served to the print renderer over its own
+   /fonts/** route like every other face here.
+   MIRROR: theme-tokens.css declares the same three for the screen. */
+@font-face {
+  font-family: "Cairo";
+  src: url("/fonts/cairo/cairo-arabic-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Cairo";
+  src: url("/fonts/cairo/cairo-arabic-600-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/tajawal/tajawal-arabic-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/tajawal/tajawal-arabic-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("/fonts/ibm-plex-sans-arabic/ibm-plex-sans-arabic-arabic-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("/fonts/ibm-plex-sans-arabic/ibm-plex-sans-arabic-arabic-700-normal.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Running head. A reader landing on page 60 of a 123-page book had no cue what
+   they were holding — the single largest gap between this and a commercial
+   reading edition, per the render challenger.
+
+   The book TITLE, not the chapter title: Chromium's print engine ignores
+   `string-set`/`string()`, so a margin box cannot carry per-chapter text (probed
+   on this book — the head simply did not render). Per-chapter recto heads would
+   mean rendering the PDF through Paged.js, which is a renderer swap with its own
+   pagination-parity risk, and the cue a lost reader actually needs first is the
+   book. `__BOOK_RUNNING_HEAD__` is substituted by render-book-pdf.mjs, which
+   already inlines this file; the stylesheet stays the single source of truth. */
+@page {
+  margin: 2.2cm 2cm;
+  @top-center {
+    content: "__BOOK_RUNNING_HEAD__";
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--c-ink-muted, #87827a);
+  }
+  @bottom-right {
+    content: counter(page);
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 0.72rem;
+    color: var(--c-ink-muted, #87827a);
+  }
+}
+/* Front matter and chapter openings carry no running head — a title page or a
+   Contents that announces the book title twice, and a chapter opening whose own
+   display title sits an inch below the head, both read as a mistake. Named pages
+   rather than :nth selectors, so the suppression follows the CONTENT wherever
+   pagination moves it. */
+@page bare {
+  @top-center {
+    content: "";
+  }
+}
+.title-page,
+.toc-page,
+.crosswalk-page {
+  page: bare;
+}
+
+@page:first {
+  margin: 0;
+  @top-center {
+    content: "";
+  }
+  @bottom-right {
+    content: "";
+  }
+}
+
+html {
+  font-size: 19.2px;
+}
+body {
+  font-family:
+    "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman",
+    serif;
+  font-size: 1rem;
+  line-height: 1.62;
+  color: var(--c-ink, #1f1d18);
+  background: #fff;
+  margin: 0;
+}
+
+/* ── Cover page (book/cover.png present) ─────────────────────────────────── */
+.cover {
+  position: relative;
+  width: 210mm;
+  height: 296mm;
+  page-break-after: always;
+  overflow: hidden;
+}
+.cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cover .cover-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 13%;
+  text-align: center;
+  padding: 1.6rem 2.4rem;
+  background: rgba(250, 246, 237, 0.88);
+}
+.cover .cover-panel h1 {
+  margin: 0 0 0.45rem;
+  font-size: 2.3rem;
+  line-height: 1.18;
+  color: var(--c-ink, #1f1d18);
+}
+.cover .cover-panel .cover-author {
+  margin: 0;
+  font-size: 1.02rem;
+  letter-spacing: 0.08em;
+  color: var(--c-ink-muted, #6f6a61);
+}
+
+/* ── Interior title page ─────────────────────────────────────────────────── */
+.title-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 0;
+  height: 220mm;
+  page-break-after: always;
+  break-after: page;
+}
+.title-page .eyebrow {
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  color: var(--c-accent, #8b4513);
+  margin-bottom: 0.8rem;
+}
+.title-page h1 {
+  font-size: 2.4rem;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--c-ink, #1f1d18);
+}
+.title-page .title-author {
+  margin-top: 1.1rem;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  color: var(--c-ink-muted, #6f6a61);
+}
+.title-page .title-rule {
+  width: 3.2rem;
+  border: 0;
+  border-top: 1px solid var(--c-accent, #8b4513);
+  margin: 1.4rem auto 0;
+}
+.title-page .disclaimer-panel {
+  max-width: 18rem;
+  margin: 2.2rem auto 0;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--c-rule-soft, #d8d0bf);
+  border-radius: 3px;
+  color: var(--c-ink-muted, #6f6a61);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+/* ── Contents page ──────────────────────────────────────────────────────── */
+.toc-page {
+  page-break-after: always;
+  break-after: page;
+  padding-top: 2.4cm;
+}
+/* The eyebrow is bound to what follows it (break-after: avoid) on BOTH pages,
+   for the same reason the crosswalk's h2 is bound to its table below: an
+   "avoid" that only covers the LATER pair (h2 <-> table) still lets the engine
+   break between the eyebrow and the h2 when the pair beneath doesn't fit where
+   the eyebrow landed — which is exactly what stranded "SOURCE CROSSWALK" alone
+   on its own near-blank page (BR-BLANK-PAGE) while the heading and table both
+   moved on together to the next one. */
+.toc-page .toc-eyebrow,
+.crosswalk-page .toc-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  color: var(--c-accent, #8b4513);
+  margin: 0 0 0.55rem;
+  text-align: center;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+.toc-page h2,
+.crosswalk-page h2 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 0 0 1.7rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.crosswalk-page {
+  page-break-after: always;
+  break-after: page;
+  padding-top: 1.4cm;
+}
+/* Bind the heading to the table's first row so the eyebrow+h2 never strands
+   alone — but the TABLE itself must stay free to flow across pages. It used
+   to also carry table-level `break-inside: avoid`, on the assumption (true at
+   ~8 rows) that eyebrow + heading + every row fits on one page. Both a
+   15-chapter crosswalk (spiritual-ethos) and an 11+-row one (kitab-al-riyad
+   p.4) break that assumption: a table taller than one page cannot honor
+   "avoid" at all, so the engine's only way to try was to push the WHOLE table
+   past the heading's page, stranding the crosswalk's own title page nearly
+   blank before the table split anyway, one page later than it needed to. A
+   per-ROW `break-inside: avoid` (kept below) is the correct, size-independent
+   rule — no row ever splits mid-content, and the table flows across as many
+   pages as it needs, like an ordinary printed table. */
+.crosswalk-page h2 {
+  margin-bottom: 1rem;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+.crosswalk-page table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  line-height: 1.28;
+}
+.crosswalk-page tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.crosswalk-page th,
+.crosswalk-page td {
+  padding: 0.28rem 0.45rem;
+  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+  vertical-align: top;
+}
+.crosswalk-page th {
+  color: var(--c-ink-muted, #6f6a61);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+}
+.crosswalk-page td:first-child {
+  width: 2rem;
+  color: var(--c-accent, #8b4513);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.toc-page ol {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 32rem;
+}
+.toc-page li {
+  display: grid;
+  grid-template-columns: 3.2rem 1fr;
+  column-gap: 0.9rem;
+  align-items: baseline;
+  padding: 0.44rem 0;
+  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.toc-page .toc-label {
+  color: var(--c-accent, #8b4513);
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.toc-page .toc-title {
+  line-height: 1.35;
+}
+
+/* ── Chapter openings — book-style ───────────────────────────────────────── */
+.chapter-open {
+  page-break-before: always;
+  padding-top: 0;
+  margin-bottom: 1.35rem;
+  text-align: center;
+}
+.chapter-open.first-chapter-open {
+  page-break-before: auto;
+  break-before: auto;
+}
+.chapter-open .ch-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.82rem;
+  color: var(--c-accent, #8b4513);
+  margin: 0 0 1rem;
+}
+.chapter-open h2 {
+  font-size: 2.05rem;
+  line-height: 1.22;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-weight: 600;
+}
+.chapter-open .ch-source {
+  margin: 0.55rem 0 0;
+  color: var(--c-ink-muted, #6f6a61);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+.chapter-open .ch-rule {
+  width: 3.2rem;
+  border: 0;
+  border-top: 1px solid var(--c-rule-soft, #d8d0bf);
+  margin: 1.5rem auto 0;
+}
+
+/* Drop cap on each chapter's opening paragraph. */
+p.ch-first::first-letter {
+  float: left;
+  font-size: 3.05em;
+  line-height: 0.83;
+  padding: 0.04em 0.1em 0 0;
+  color: var(--c-accent, #8b4513);
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin: 1.3rem 0 0.6rem;
+  page-break-after: avoid;
+}
+p {
+  margin: 0 0 0.8rem;
+}
+
+/* An Arabic quotation set on its own line — a DISPLAY block, not a sentence with a
+   term in it. Until 2026-07-30 there was no rule for one: it printed as a plain <p>
+   at the body's 1rem/1.62, and `.ar-inline` below pins every run inside it to that
+   same leading. That pinning is right for one Arabic word in an English line (it
+   stops the word inflating the line) and wrong for a whole paragraph of Arabic —
+   and once every run carried its vowel marks the stacks had nowhere to go. It read
+   as oversized and cramped at once.
+
+   The numbers are this file's OWN display-Arabic pair, already set on
+   `blockquote.quran p.ar` below and matched by the Composer's read view: 1.05rem
+   over 1.9. Beside a 1rem Latin body that reads a touch larger, as a display
+   quotation should; the 1.9 is what the marks need.
+
+   CENTERED, not right-aligned (2026-07-31). Right was inherited from `direction:
+   rtl` thinking — correct for a paragraph of running Arabic PROSE, wrong for
+   what this class actually matches, which is a display quotation standing alone
+   between English paragraphs. Right-aligned, every one of them hung off the
+   right margin with a ragged gap on the left while the 27 `blockquote.quran`
+   verses on the same pages sat centered: one book, two conventions. `direction`
+   stays rtl — that is bidi ordering, and only the alignment changed. */
+.ar-block {
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
+  direction: rtl;
+  text-align: center;
+  unicode-bidi: isolate;
+  margin: 0.9rem 0;
+}
+/* The runs inside it must NOT inherit the body leading that `.ar-inline` pins —
+   here the paragraph's own line-height is the correct one. */
+/* Also `blockquote.quran p.ar` (2026-08-02): once `.ar-inline` below carried a
+   1.26em term size, a verse marked up with inline runs multiplied its own
+   display size by it. `.ar-block` had this guard from the start; the Qur'anic
+   blockquote is the same shape and needed it too. */
+.ar-block .ar-inline,
+blockquote.quran .ar-inline {
+  line-height: inherit;
+  font-size: inherit;
+}
+
+.ar-inline {
+  /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
+     shearing the glyphs, which is wrong for the script and looked wrong on the
+     page; and an inherited bold would fake a weight the face does not have.
+     Pinned here so the run renders the same whatever prose it sits in. */
+  font-style: normal;
+  /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
+     descent are far taller than the Latin body face, so without an explicit
+     line-height a single Arabic word makes its line taller than its
+     neighbours and the column loses its rhythm. */
+  line-height: inherit;
+  direction: rtl;
+  unicode-bidi: isolate;
+  /* Inline terms woven into prose are never tagged is-quranic (a mid-sentence
+     word carries too little evidence to call scripture), so they always take the
+     non-Qur'anic face. */
+  font-family: var(--q-ar-face);
+  /* --q-ar-inline-size, default 1.26em — chosen by Asif on 2026-08-02 from three
+     candidates rendered side by side in the Composer, and moved onto a token the
+     same day so the book's Arabic-size setting could carry it. It was a bare
+     1.26em here and in book-composer.css, hand-mirrored; a token both files read
+     is what a "MIRROR" comment was standing in for, so the note stays but the
+     number no longer needs copying.
+
+     NOT a reinstatement of `size-adjust: 135%` (removed 2026-07-31). That scaled
+     the FACE and so inflated display quotations too, where it was measured and
+     correctly found to tower. This is one selector: a term woven into an English
+     sentence, the case that measurement never covered. A vowelled word stacks
+     three marks into the same ink as the letter, so at parity with the Latin it
+     reads as fine print rather than as a word. Display quotations
+     (`blockquote.quran p.ar`, `.ar-block`) keep --q-ar-size and are untouched. */
+  font-size: var(--q-ar-inline-size);
+}
+
+/* ── Quotation blocks ────────────────────────────────────────────────────── */
+/* Default (English-only) quotes keep the card style. */
+blockquote {
+  margin: 1rem 0;
+  padding: 0.6rem 1.1rem;
+  border-left: 3px solid var(--c-accent, #8b4513);
+  background: var(--c-bg-card, #fffdf8);
+  page-break-inside: avoid;
+}
+blockquote p {
+  margin: 0.3rem 0;
+}
+
+/* Quranic / Arabic quotation blocks — woven scholarly style (IIIT/Kube convention).
+   Arabic runs at body scale, left-border only, no box or gradient.
+   The verse integrates into the prose flow rather than interrupting as a display block. */
+blockquote.quran {
+  border: none;
+  border-left: 2px solid rgba(201, 165, 92, 0.65);
+  background: none;
+  text-align: left;
+  padding: 0.25rem 0 0.25rem 1.1rem;
+  margin: 0.85rem 0;
+  box-shadow: none;
+}
+blockquote.quran p.ar {
+  /* Face by provenance — see quote-typography.css. `is-quranic` (stamped by
+     renderMd from the Arabic audit) swaps this token to the Uthmanic script. */
+  font-family: var(--q-ar-face);
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
+  color: var(--c-ink, #1f1d18);
+  margin: 0 0 var(--q-ar-gap, 0.2rem);
+  text-align: center;
+  direction: rtl;
+}
+/* Keep an Arabic display line with whatever renders it into English. The block
+   already refuses to split internally, which is enough when the gloss is the
+   paired `p.tr` INSIDE it — but in several passages the English is a sibling
+   paragraph after the block, and there the Arabic ended a page while its meaning
+   opened the next (pages 39/40, 50/51 and 118/119 of the 122-page render). A
+   reader met scripture with no rendering and had to turn the page to learn what
+   it said.
+
+   `break-before` closes the seam the `break-after` alone relocated: with only
+   keep-with-next, nine pages came to end on a colon lead-in with the quotation
+   overleaf, up from two. That is the milder failure — a reader meets "The
+   Almighty said:" and turns the page, rather than meeting scripture with no
+   rendering — but it is nine times instead of twice, and carrying the lead-in
+   across costs a few lines of white at each seam. */
+blockquote.quran {
+  break-after: avoid;
+  page-break-after: avoid;
+  break-before: avoid;
+  page-break-before: avoid;
+}
+/* Exception: a Quran block that is the FIRST thing after a chapter's opening
+   paragraph. `.chapter-open` already carries `break-after: avoid` (keep the
+   heading with its first lines) and the rule above adds `break-before: avoid`
+   on this element — two "no break here" boundaries in a row glue
+   [heading + opening paragraph + quotation] into one atomic unit. When that
+   unit is taller than the space left under the heading, the engine's only way
+   to honor both avoids is to push the ENTIRE unit to the next page, stranding
+   the chapter's own opening page blank (kitab-al-riyad ch.4, p.30). Restore
+   the ordinary break point at just this one seam; the general "keep scripture
+   with its lead-in" rule two chapters into a chapter's body is untouched. */
+.chapter-open + p.ch-first + blockquote.quran {
+  break-before: auto;
+  page-break-before: auto;
+}
+
+blockquote.quran .quran-divider {
+  display: none;
+}
+blockquote.quran p.tr {
+  font-style: normal;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--c-ink-muted, #6f6a61);
+  margin: 0;
+}
+
+/* ── Citation & quote families (body.style-<family>) ─────────────────────────
+   One global family per book, chosen in /studio/<slug>/style and persisted to
+   book/citation-style.json; render-book-pdf.mjs stamps body.style-<family>.
+   `scholarly` is the default look defined above and needs no override. Plain
+   strips all ornament; Elegant frames the display blocks. Passage types beyond
+   verse/quotation (hadith, poetry, sayings) light up here once the tagging step
+   gives their text a class — the mirror of book-styles.css on the picker page. */
+
+/* Plain — no borders, no tint. The Arabic and its rendering are set apart by
+   CENTRING, by the maroon of the script and by a translation face distinct from
+   the body serif, rather than by a rule or a panel. This is the family's whole
+   definition (locked with Asif 2026-07-21): where Scholarly says "quotation" with
+   a gold hairline and Elegant says it with a frame, Plain says it with typography
+   alone. Values come from quote-typography.css; the mirrors are compose-print.css,
+   book-composer.css, book-reader.css and book-styles.css. */
+body.style-plain blockquote.quran {
+  border-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+body.style-plain blockquote.quran p.ar {
+  color: var(--q-maroon);
+  text-align: center;
+}
+/* The rendering steps up from 0.9rem and takes the book's ink rather than the
+   muted grey: it is the line a reader who has no Arabic actually reads, so it
+   should not be the faintest thing on the page. The face carries the distinction
+   the colour used to. */
+body.style-plain blockquote.quran p.tr {
+  /* --q-tr-ink / --q-tr-size (2026-08-09): a per-card rule cannot outrank this
+     selector without duplicating it, so the two values it hard-wrote became
+     tokens. The fallback sits HERE rather than in a :root default, because a
+     `--q-tr-ink: var(--c-ink)` written at :root would freeze whatever --c-ink is
+     there and miss the dark paper's override further down the tree. */
+  font-family: var(--q-tr-face);
+  font-size: var(--q-tr-size, 1.02rem);
+  line-height: 1.45;
+  color: var(--q-tr-ink, var(--c-ink, #1f1d18));
+  text-align: center;
+}
+/* The plain family strips ornament from the Qur'an blocks above, which is the
+   whole point of it. Zeroing the fence on EVERY other blockquote too was
+   collateral damage: the editorial notes and the reader notes then printed as
+   ordinary body paragraphs at the body margin, distinguishable only by their
+   bold run-in label — while the front matter of `the-master-and-the-disciple`
+   promises on page 6 that a reader "can always tell the book's voice from a note
+   about it". Caught by the render challenger, which is the only gate that sees
+   the page rather than the markup.
+
+   The fence restored here is the quietest one that still reads as a fence: a
+   hairline rule in the existing muted ink token and a single indent. No tint, no
+   radius, no colour outside the palette — the plain family's spirit is intact and
+   the theme is unchanged. */
+body.style-plain blockquote:not(.quran):not(.aside) {
+  border-left: 1px solid var(--c-rule, rgba(31, 29, 24, 0.18));
+  background: none;
+  padding-left: 0.9rem;
+  padding-right: 0;
+  /* Set one step below body. The fence alone created a hierarchy inversion the
+     render challenger flagged: an editorial aside carried a rule while scripture
+     carried none, which reads as emphasis. Smaller type says subordinate, and it
+     resolves the inversion WITHOUT ornamenting the Qur'an blocks — the plain
+     family exists precisely to leave those unornamented. Apparatus is marked as
+     apparatus; scripture is set apart by script, centring and its own face. */
+  font-size: 0.92rem;
+}
+
+/* Elegant — framed panels, gold detailing, centered display. */
+body.style-elegant blockquote.quran {
+  border: 1px solid rgba(201, 165, 92, 0.55);
+  border-radius: 8px;
+  background: rgba(201, 165, 92, 0.08);
+  padding: 0.9rem 1.2rem;
+  text-align: center;
+}
+body.style-elegant blockquote.quran p.ar {
+  text-align: center;
+}
+body.style-elegant blockquote.quran p.ar::after {
+  content: " \06DD"; /* ۝ end-of-ayah marker */
+  color: rgba(201, 165, 92, 0.9);
+  font-size: 0.9em;
+}
+body.style-elegant blockquote.quran p.tr {
+  text-align: center;
+  font-style: italic;
+  border-top: 1px solid rgba(201, 165, 92, 0.4);
+  padding-top: 0.45rem;
+  margin-top: 0.45rem;
+}
+body.style-elegant blockquote:not(.quran):not(.aside) {
+  position: relative;
+  border-left: 0;
+  border: 1px solid var(--c-rule, #e6e0d4);
+  border-radius: 8px;
+  padding-left: 2.2rem;
+}
+body.style-elegant blockquote:not(.quran):not(.aside)::before {
+  content: "\201C"; /* “ */
+  position: absolute;
+  left: 0.55rem;
+  top: 0.05rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: rgba(201, 165, 92, 0.9);
+}
+
+/* ── Figures ─────────────────────────────────────────────────────────────── */
+figure.book-diagram {
+  margin: 2em auto;
+  max-width: 100%;
+  page-break-inside: avoid;
+  text-align: center;
+}
+/* Vertical, uncapped: never shrink a diagram to fit an arbitrary height. */
+figure.book-diagram svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+figure.book-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+}
+figcaption {
+  margin-top: 0.5em;
+  font-size: 0.82rem;
+  color: var(--c-ink-muted, #87827a);
+  font-style: italic;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  text-align: center;
+}
+
+/* ── Book Pipeline v2 — contract-driven figures + professional page-fill ──── */
+/* Every rule is scoped under body.book-v2, applied ONLY when the renderer is
+   handed the flag. Flag OFF => none of this matches => byte-for-byte unchanged.
+   Figures are placed solely from book/visual-layout.json (book.md is diagram-
+   free); width is data-driven via the --fig-w custom property on each figure. */
+body.book-v2 .v2-fig {
+  --fig-w: 60%;
+  margin: 1.4rem auto;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+body.book-v2 .v2-fig img,
+body.book-v2 .v2-fig svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* standalone: a centered full block that clears any prior float. */
+body.book-v2 .v2-fig.flow-standalone {
+  width: var(--fig-w);
+  margin-left: auto;
+  margin-right: auto;
+  clear: both;
+}
+body.book-v2 .v2-fig.flow-standalone.align-left {
+  margin-left: 0;
+  margin-right: auto;
+}
+body.book-v2 .v2-fig.flow-standalone.align-right {
+  margin-left: auto;
+  margin-right: 0;
+}
+/* wrap: float with body text flowing beside it (width_pct<=50 enforced upstream). */
+body.book-v2 .v2-fig.flow-wrap {
+  width: var(--fig-w);
+}
+body.book-v2 .v2-fig.flow-wrap.align-left {
+  float: left;
+  margin: 0.2rem 1.1rem 0.8rem 0;
+}
+body.book-v2 .v2-fig.flow-wrap.align-right {
+  float: right;
+  margin: 0.2rem 0 0.8rem 1.1rem;
+}
+/* one-plate rule: page_fit drives pagination so a tall figure never splits. */
+body.book-v2 .v2-fig.page-fit-before {
+  break-before: page;
+  page-break-before: always;
+}
+body.book-v2 .v2-fig.page-fit-isolate-plate {
+  break-before: page;
+  break-after: page;
+  page-break-before: always;
+  page-break-after: always;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* Professional page-fill: widow/orphan control + keep the chapter heading with
+   its first lines. A chapter still opens on a fresh page (chapter-open keeps its
+   page-break-before), but interior pages fill like a real book — no stranded
+   lines, no figure-forced half-empty verso. */
+body.book-v2 p,
+body.book-v2 blockquote {
+  /* 3 is the conventional print-quality floor: it pulls at least three lines
+     together at a page break, cutting the two-line chapter-tail strand that
+     otherwise lands alone on an almost-empty verso. */
+  orphans: 3;
+  widows: 3;
+}
+body.book-v2 .chapter-open {
+  break-after: avoid;
+  page-break-after: avoid;
+  /* A prior chapter's unresolved wrap float must not bleed onto the next
+     chapter's opening page and shove its heading/drop-cap off-axis. */
+  clear: both;
+}
+
+/* ── Self-study layer ───────────────────────────────────────────────────────
+ * Opt-in (body.book-self-study, set by buildBookHtml when selfStudy is on). The
+ * render-time self-study format adds two labeled asides — a source-grounded
+ * Contextual note (from 0book-augment's editorial fences) and a Study summary —
+ * plus proper bullet lists. Token-only styling; the reading edition is untouched
+ * when the class is absent. */
+.book-self-study .study-note,
+.book-self-study .study-summary {
+  margin: 1.1rem 0;
+  padding: 0.7rem 0.95rem;
+  background: var(--c-bg-sunken, #f3efe7);
+  border-left: 3px solid var(--c-accent, #8b4513);
+  border-radius: 0 6px 6px 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.book-self-study .study-summary {
+  border-left-style: double;
+  border-left-width: 5px;
+}
+
+.book-self-study .study-aside-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--c-accent, #8b4513);
+}
+
+.book-self-study .study-note p,
+.book-self-study .study-summary p {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.book-self-study .study-note p:last-child,
+.book-self-study .study-summary p:last-child {
+  margin-bottom: 0;
+}
+
+/* Ordered lists in the reading edition. renderMd gained an ordered-list parser
+   on 2026-07-26 — before that a real enumeration printed as one run-together
+   paragraph with "1." "2." as literal text. The PDF inlines only theme.css,
+   quote-typography.css and this file, with no framework reset, so markers come
+   from the UA by default; these values are the book's own measure rather than
+   the browser's, and `list-style-position: outside` keeps a wrapped line aligned
+   to the text instead of under its own number. REQ-015 values, matching the
+   on-screen hosts. */
+.book-list {
+  margin: 0.85rem 0 1.1rem;
+  padding-inline-start: 2.25rem;
+  list-style-position: outside;
+  list-style-type: decimal;
+}
+.book-list li {
+  margin: 0.3rem 0;
+  line-height: 1.55;
+}
+
+.book-self-study .study-list {
+  margin: 0.7rem 0 0.9rem;
+  padding-left: 1.4rem;
+}
+
+.book-self-study .study-list li {
+  margin: 0.25rem 0;
+  line-height: 1.5;
+}
+
+/* ── Per-selection text colour ────────────────────────────────────────────────
+   The PRINT half. Applied to any run a human coloured in the Book Composer. The record lives in
+   `_system/text-colour.json` and is re-found and wrapped at RENDER time
+   (scripts/lib/text-colour.mjs) — book.md never carries it, so no Python phase
+   that reads that file as text can be disturbed by a colour.
+
+   `!important` on nothing, and `color` only: a coloured run keeps its face, its
+   size and its direction, so colouring an Arabic term does not quietly undo the
+   book's Arabic typography. The five values are the palette in
+   src/lib/reader/text-ink.ts, each measured to clear WCAG AA on the cream, sepia
+   and dark papers. */
+.ink-maroon {
+  color: #7a1f1f;
+}
+.ink-ink {
+  color: #1f1d18;
+}
+.ink-indigo {
+  color: #23356b;
+}
+.ink-forest {
+  color: #1d4d33;
+}
+.ink-brown {
+  color: #6b4423;
+}
+
+/* ── Per-paragraph alignment ──────────────────────────────────────────────────
+   Chosen in the Book Composer and recorded in `_system/text-align.json` by the
+   paragraph's own fingerprint, so book.md never carries it and no Python phase
+   that reads that file as text can be disturbed by it.
+
+   `left` has no rule and never will: it is what a paragraph does already, and a
+   class for it would be a second declaration that has to agree with the first.
+   Choosing Left removes the paragraph's entry instead.
+
+   `text-align` only. A centred paragraph keeps its face, size, leading and
+   direction, so centring an Arabic block does not quietly undo the book's Arabic
+   typography. */
+.align-center {
+  text-align: center;
+}
+.align-right {
+  text-align: right;
+}
+
+
+
+/* ── SPECIMEN SCAFFOLD ONLY ───────────────────────────────────────────────────
+   Variants cannot each own <body>, so the family/ink classes sit on a div and
+   the two consuming rules are re-scoped here VERBATIM from book-print.css
+   (`body.style-plain blockquote.quran p.ar|p.tr`). Same declarations, one
+   selector shorter — nothing about the tiering itself is restated.
+
+   The p.tr rule is the ONE place this page shows the adoption change described
+   in the proposed block: `1.02rem` and `var(--c-ink)` become the two new
+   tokens, which fall back to exactly those values. */
+.page.style-plain blockquote.quran p.ar { color: var(--q-maroon); text-align: center; }
+.page.style-plain blockquote.quran p.tr {
+  font-family: var(--q-tr-face); font-size: var(--q-tr-size, 1.02rem);
+  line-height: 1.45; color: var(--q-tr-ink, var(--c-ink, #1f1d18));
+  text-align: center;
+}
+/* The silent-letter comparison needs the SHIPPED stack, which the page no longer
+   has anywhere else now that the redirect is live. */
+@font-face {
+  font-family: "UthmanicShipped";
+  src: url("/fonts/uthmanic-hafs/UthmanicHafs1Ver18.woff2") format("woff2");
+}
+
+body { margin: 0; background: #efe9dd;
+       font-family: "Source Serif 4", "Iowan Old Style", Georgia, serif; color: #1f1d18; }
+.wrap { max-width: 64rem; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+h1 { font-size: 1.75rem; margin: 0 0 .3rem; letter-spacing: -0.01em; }
+.lede { color: #6f6a61; margin: 0 0 .6rem; max-width: 48rem; line-height: 1.55; }
+.rail { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 2.4rem; padding: 0; list-style: none; }
+.rail a { font-family: "Inter", system-ui, sans-serif; font-size: .78rem; letter-spacing: .04em;
+          text-decoration: none; color: #5a544a; border: 1px solid #ded7c8; border-radius: 999px;
+          padding: .3rem .8rem; background: #fffdf8; }
+.rail a:hover, .rail a:focus-visible { border-color: #b9a97e; color: #1f1d18; }
+section.spec { margin: 0 0 3rem; scroll-margin-top: 1rem; }
+.spec > h2 { font-size: 1.15rem; margin: 0 0 .2rem; }
+.kind-key { font-family: "Inter", system-ui, sans-serif; font-size: .7rem; font-weight: 600;
+            letter-spacing: .14em; text-transform: uppercase; color: #8a8375; margin: 0 0 .5rem; }
+.note { margin: 0 0 1rem; font-size: .95rem; color: #6f6a61; max-width: 50rem; line-height: 1.55; }
+.note b { color: #45403a; }
+.page { background: #fffdf8; border: 1px solid #ded7c8; border-radius: 10px;
+        padding: 1.7rem 2rem; box-shadow: 0 1px 3px rgb(0 0 0 / 5%); }
+.page + .page { margin-top: 1rem; }
+.page > p { line-height: 1.62; }
+.page.paper-sepia { background: #f4ecd8; }
+.page.paper-dark { background: #201e1b; color: #e6e1d8;
+                   --q-maroon: var(--q-maroon-dark); --q-said-ink: var(--q-said-ink-dark);
+                   --q-quran-ink: var(--q-quran-ink-dark); --q-quran-tr-ink: var(--q-quran-tr-ink-dark);
+                   --q-hadith-ink: var(--q-hadith-ink-dark); --q-poem-ink: var(--q-poem-ink-dark);
+                   --c-ink: #e6e1d8; }
+.narrow { max-width: 30rem; }
+.pair { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr)); }
+
+table.spectab { width: 100%; border-collapse: collapse; font-family: "Inter", system-ui, sans-serif;
+                font-size: .82rem; background: #fffdf8; border: 1px solid #ded7c8; border-radius: 8px; }
+table.spectab th, table.spectab td { text-align: left; padding: .55rem .7rem;
+                                     border-bottom: 1px solid #ece5d6; vertical-align: top; }
+table.spectab th { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: #8a8375;
+                   font-weight: 600; }
+table.spectab tr:last-child td { border-bottom: 0; }
+table.spectab td.val { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.swatch { display: inline-block; width: .8em; height: .8em; border-radius: 2px; margin-inline-end: .4em;
+          vertical-align: -0.05em; border: 1px solid rgb(0 0 0 / 18%); }
+.tabwrap { overflow-x: auto; }
+.grp td { background: #f6f1e5; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+          font-size: .68rem; color: #6f6a61; }
+
+.glyphdemo { font-family: "UthmanicShipped", serif; font-size: 1.9rem; line-height: 2.1;
+             color: #7d6800; direction: rtl; }
+.glyphdemo.fixed { font-family: "AmiriQuranDemo", serif; }
+@font-face { font-family: "AmiriQuranDemo"; src: url("/fonts/amiri/AmiriQuran.ttf") format("truetype"); }
+.ab { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.ab > div { background: #fffdf8; border: 1px solid #ded7c8; border-radius: 8px; padding: 1rem 1.2rem; }
+.ab h3 { margin: 0 0 .5rem; font-family: "Inter", system-ui, sans-serif; font-size: .7rem;
+         letter-spacing: .14em; text-transform: uppercase; color: #8a8375; font-weight: 600; }
+.q { margin: 1.4rem 0 0; padding: .9rem 1.1rem; background: #fff8e8; border: 1px solid #e6d5a8;
+     border-radius: 8px; font-size: .93rem; color: #5a4a20; max-width: 50rem; line-height: 1.55; }
+.q b { color: #3d3212; }
+.warn { background: #fdf2ee; border-color: #e8c3b4; color: #6b3a28; }
+.warn b { color: #4a2317; }
+
+</style></head><body><div class="wrap"><h1>Four quotation cards &mdash; live from src/styles</h1><p class="lede">Every rule on this page is now the real stylesheet from <code>src/styles</code> &mdash; nothing is proposed here any more. Every passage is lifted verbatim from your books.</p><ul class="rail"><li><a href="#quran">Qur'an</a></li><li><a href="#hadith">Hadith</a></li><li><a href="#quote">Quote</a></li><li><a href="#poem">Poem</a></li><li><a href="#together">All four together</a></li><li><a href="#papers">Sepia &amp; dark</a></li><li><a href="#circles">The circles</a></li><li><a href="#spec">Type spec</a></li></ul><section class="spec" id="quran"><h2>1 &middot; Qur'an</h2><p class="kind-key">Chosen by the mushaf, never declared by hand</p><p class="note">Gold ink for the verse, a darker gold for its English, and the mushaf's own section mark between two gold rules across the top. <b>No border</b>, following your own Qur'an card, which sets none. <b>Chapter and verse always show</b> &mdash; there is no card without them, so the audit has to record which ayah it matched. It already finds it; it just does not write it down.</p><div class="page style-plain "><p>The Prophet's nearness to the believer is stated by the Book itself:</p><blockquote class="quran k-quran"><span class="q-band q-band--quran"><span class="q-orn" aria-hidden="true"></span><span>Al-Ahzab · 6</span></span><p class="ar is-quranic" dir="rtl" lang="ar">ٱلنَّبِىُّ أَوْلَىٰ بِٱلْمُؤْمِنِينَ مِنْ أَنفُسِهِمْ ۖ وَأَزْوَجُهُۥٓ أُمَّهَتُهُمْ ۗ وَأُو۟لُوا۟ ٱلْأَرْحَامِ بَعْضُهُمْ أَوْلَىٰ بِبَعْضٍۢ فِى كِتَبِ ٱللَّهِ مِنَ ٱلْمُؤْمِنِينَ وَٱلْمُهَجِرِينَ إِلَّآ أَن تَفْعَلُوٓا۟ إِلَىٰٓ أَوْلِيَآئِكُم مَّعْرُوفًۭا ۚ كَانَ ذَلِكَ فِى ٱلْكِتَبِ مَسْطُورًۭا</p><p class="tr">The Prophet has a higher claim on the believers than [they have on] their own selves, [seeing that he is as a father to them] and his wives are their mothers: and they who are [thus] closely related have, in accordance with God’s decree, a higher claim upon one another than [was even the case between] the believers [of Yathrib] and those who had migrated [there for the sake of God]. None the less, you are to act with utmost goodness towards your [other] close friends as well: this [too] is written down in God’s decree.</p></blockquote><p>And where the verse is short, the card closes up around it:</p><blockquote class="quran k-quran"><span class="q-band q-band--quran"><span class="q-orn" aria-hidden="true"></span><span>Al-Furqan · 70</span></span><p class="ar is-quranic" dir="rtl" lang="ar">إِلَّا مَن تَابَ وَآمَنَ وَعَمِلَ صَلِحًۭا</p><p class="tr">Excepted, however, shall be they who repent and attain to faith and do righteous deeds: for it is they whose [erstwhile] bad deeds God will transform into good ones - seeing that God is indeed much-forgiving, a dispenser of grace,</p></blockquote></div><div class="page style-plain "><p><b>Which English.</b> Above is the canonical rendering already tracked in this repo. Below is the same verse as the book itself renders it &mdash; the thing your instruction replaces:</p><blockquote class="quran k-quran"><span class="q-band q-band--quran"><span class="q-orn" aria-hidden="true"></span><span>Al-Ahzab · 6</span></span><p class="ar is-quranic" dir="rtl" lang="ar">ٱلنَّبِىُّ أَوْلَىٰ بِٱلْمُؤْمِنِينَ مِنْ أَنفُسِهِمْ ۖ وَأَزْوَجُهُۥٓ أُمَّهَتُهُمْ ۗ وَأُو۟لُوا۟ ٱلْأَرْحَامِ بَعْضُهُمْ أَوْلَىٰ بِبَعْضٍۢ فِى كِتَبِ ٱللَّهِ مِنَ ٱلْمُؤْمِنِينَ وَٱلْمُهَجِرِينَ إِلَّآ أَن تَفْعَلُوٓا۟ إِلَىٰٓ أَوْلِيَآئِكُم مَّعْرُوفًۭا ۚ كَانَ ذَلِكَ فِى ٱلْكِتَبِ مَسْطُورًۭا</p><p class="tr">The Prophet is closer to the believers than they are to themselves, and his wives are their mothers. Blood relations are closer to one another in the Book of God than the believers and the emigrants, except that you do some kindness to your allies; that is written in the Book.</p></blockquote></div></section><section class="spec" id="hadith"><h2>2 &middot; Hadith</h2><p class="kind-key">Declared on the block by a person</p><p class="note">The same card in indigo, with an outlined diamond instead of the Qur'an's mark &mdash; which belongs to the Book alone. Both examples carry their vowel marks, so the two read as one format rather than two.</p><div class="page style-plain "><p>Does he not know that the Prophet said:</p><blockquote class="quran k-hadith"><span class="q-band q-band--hadith"><span class="q-orn" aria-hidden="true"></span><span>Prophetic tradition</span></span><p class="ar" dir="rtl" lang="ar">أَشَدُّ النَّاسِ عَذَابًا يَوْمَ الْقِيَامَةِ عَالِمٌ لَا يَنْفَعُهُ اللَّهُ بِعِلْمِهِ</p><p class="tr">&quot;The most severely punished of people on the Day of Resurrection is a scholar whom Allah did not benefit through his knowledge.&quot;</p></blockquote><p>My dear son, hear this prophetic tradition:</p><blockquote class="quran k-hadith"><span class="q-band q-band--hadith"><span class="q-orn" aria-hidden="true"></span><span>Prophetic tradition</span></span><p class="ar" dir="rtl" lang="ar">عِشْ مَا شِئْتَ فَإِنَّكَ مَيِّتٌ، وَ أَحْبِبْ مَا شِئْتَ فَإِنَّكَ مُفَارِقُهُ؛ وَ اِعْمَلْ مَا شِئْتَ فَإِنَّكَ مَجْزِيٌّ بِهِ</p><p class="tr">&quot;Live as you wish, for you shall surely die. Love what you wish, for you shall surely be parted from it. And do what you wish, for you shall surely be recompensed for it.&quot;</p></blockquote><p>Among the counsels the Prophet gave to his community is this saying of his &mdash; the long form, wrapped over several lines:</p><blockquote class="quran k-hadith"><span class="q-band q-band--hadith"><span class="q-orn" aria-hidden="true"></span><span>Prophetic tradition</span></span><p class="ar" dir="rtl" lang="ar">عَلَامَةُ إِعْرَاضِ اللَّهِ تَعَالَىٰ عَنِ الْعَبْدِ اشْتِغَالُهُ بِمَا لَا يَعْنِيهِ، وَ إِنَّ امْرَأً ذَهَبَتْ سَاعَةٌ مِنْ عُمْرِهِ فِي غَيْرِ مَا خُلِقَ لَهُ مِنَ الْعِبَادَةِ، جدير ان تطول عليه حسرته</p><p class="tr">&quot;A servant&#x27;s busying himself with matters that do not concern him is a sign that Allah has turned His special favor away from him. And if a single hour of a servant&#x27;s life passes in the pursuit of anything other than that for which Allah created him, then it is fitting that his sorrow over it should be long.&quot;</p></blockquote></div></section><section class="spec" id="quote"><h2>3 &middot; Quote &mdash; the default</h2><p class="kind-key">What any unmarked quotation gets</p><p class="note">The same card again, in forest green, with the attribution set off below a hairline. <b>The bare left rule is gone</b>: with all four sharing one shape, the colour and the mark do the distinguishing.</p><div class="page style-plain "><p>Hasan al-Basri said:</p><blockquote class="quran k-quote"><span class="q-band q-band--quote"><span class="q-orn" aria-hidden="true"></span><span>Saying</span></span><p class="ar" dir="rtl" lang="ar">طَلَبُ الْجَنَّةِ بِلَا عَمَلٍ ذَنْبٌ مِنَ الذُّنُوبِ</p><p class="tr">&quot;To seek Paradise without deeds is a sin among the sins.&quot;</p><p class="q-cite">&mdash; Hasan al-Basri</p></blockquote><p>Sufyan al-Thawri said:</p><blockquote class="quran k-quote"><span class="q-band q-band--quote"><span class="q-orn" aria-hidden="true"></span><span>Saying</span></span><p class="ar" dir="rtl" lang="ar">إِنَّ اللَّهَ تَبَارَكَ وَتَعَالَىٰ خَلَقَ رِيحًا تَهُبُّ بِالْأَسْحَارِ تَحْمِلُ الْأَذْكَارَ وَالِاسْتِغْفَارَ إِلَىٰ الْمَلِكِ الْجَبَّارِ</p><p class="tr">&quot;Allah, blessed and exalted, created a wind that blows in the hours before dawn, carrying the words of remembrance and the seeking of forgiveness up to the Sovereign, the Compeller.&quot;</p><p class="q-cite">&mdash; Sufyan al-Thawri</p></blockquote><p>And he also said &mdash; the longest Arabic run in the book, five lines of it:</p><blockquote class="quran k-quote"><span class="q-band q-band--quote"><span class="q-orn" aria-hidden="true"></span><span>Saying</span></span><p class="ar" dir="rtl" lang="ar">إِذَا كَانَ أَوَّلُ اللَّيْلِ نَادَىٰ مُنَادٍ مِنْ تَحْتِ الْعَرْشِ: أَلَا لِيَقُمِ الْعَابِدُونَ. فَيَقُومُونَ وَيُصَلُّونَ مَا شَاءَ اللَّهُ. ثُمَّ يُنَادِي مُنَادٍ فِي شَطْرِ اللَّيْلِ: أَلَا لِيَقُمِ الْقَانِتُونَ. فَيَقُومُونَ وَيُصَلُّونَ إِلَى السَّحَرِ. فَإِذَا كَانَ السَّحَرُ نَادَى مُنَادٍ: أَلَا لِيَقُمِ الْمُسْتَغْفِرُونَ. فَيَقُومُونَ وَيَسْتَغْفِرُونَ. فَإِذَا طَلَعَ الْفَجْرُ نَادَى مُنَادٍ: أَلَا لِيَقُمِ الْغَافِلُونَ. فَيَقُومُونَ مِنْ فُرُشِهِمْ كَالْمَوْتَى نُشِرُوا مِنْ قُبُورِهِمْ</p><p class="tr">&quot;When the first part of the night comes, a caller cries out from beneath the Throne: Let the worshippers arise. So they arise and pray as long as Allah wills. Then, at the middle of the night, a caller cries out: Let the devout arise. So they arise and pray until the hour before dawn. When that hour arrives, a caller cries out: Let those who seek forgiveness arise. So they arise and seek forgiveness. And when dawn breaks, a caller cries out: Let the heedless arise. So they rise from their beds like the dead raised up from their graves.&quot;</p><p class="q-cite">&mdash; Sufyan al-Thawri</p></blockquote></div></section><section class="spec" id="poem"><h2>4 &middot; Poem</h2><p class="kind-key">Declared on the block &mdash; and it cannot be guessed</p><p class="note">Classical Arabic verse is set in <b>two equal columns</b>: one line is two hemistichs, the first on the right and the second on the left, with a gutter between. Lines stack as rows and the gutter runs straight down the page &mdash; that vertical alignment is what makes a poem look like a poem to someone who cannot read the words. It is what printed diwans do and what the standard LaTeX package for Arabic verse produces. On a phone the two columns become two rows.</p><div class="page style-plain "><p>One line &mdash; two hemistichs, and the gutter falls between them:</p><blockquote class="quran k-poem"><span class="q-band q-band--poem"><span class="q-orn" aria-hidden="true"></span><span>Verse</span></span><div class="q-verse"><p class="ar bayt-a" dir="rtl" lang="ar">سَهَرُ الْعُيُونِ لِغَيْرِ وَجْهِكَ ضَائِعٌ</p><p class="ar bayt-b" dir="rtl" lang="ar">وَ بُكَاؤُهُنَّ لِغَيْرِ فَقْدِكَ بَاطِلٌ</p></div><p class="tr">&quot;The wakefulness of the eyes for anything but Your Countenance is wasted, and their weeping for the loss of anything but You is in vain.&quot;</p></blockquote><p>Three lines. The gutter runs straight down the page, which is what makes the shape read as verse:</p><blockquote class="quran k-poem"><span class="q-band q-band--poem"><span class="q-orn" aria-hidden="true"></span><span>Verse</span></span><div class="q-verse"><p class="ar bayt-a" dir="rtl" lang="ar">لَقَدْ هَتَفَتْ فِي جُنْحِ لَيْلٍ حَمَامَةٌ</p><p class="ar bayt-b" dir="rtl" lang="ar">على فننٍ وهناً، وإنّي لنائم</p><p class="ar bayt-a" dir="rtl" lang="ar">كذبتُ، وبيتِ الله، لو كنتُ عاشقاً</p><p class="ar bayt-b" dir="rtl" lang="ar">لَمَّا سَبَقَتْنِي بِالْبُكَاءِ الْحَمَائِمُ</p><p class="ar bayt-a" dir="rtl" lang="ar">وأزعم أنّي هائمٌ ذو صبابةٍ</p><p class="ar bayt-b" dir="rtl" lang="ar">لِرَبِّي، فَلَا أَبْكِي وَتَبْكِي الْبَهَائِمُ</p></div><p class="tr">&quot;In the dark of night a dove cried out upon a swaying branch, while I lay fast asleep. I have lied, by the House of Allah! Had I truly been a lover, the doves would never have outstripped me in weeping. I claim to be one distracted, consumed with yearning for my Lord, yet I do not weep, while the very beasts weep on.&quot;</p></blockquote><p>A Persian couplet takes the same grid:</p><blockquote class="quran k-poem"><span class="q-band q-band--poem"><span class="q-orn" aria-hidden="true"></span><span>Verse</span></span><div class="q-verse"><p class="ar bayt-a" dir="rtl" lang="ar">كَرَمِي دُو هَزَارْ رَطْلْ هَمِي بِيْمَائِي</p><p class="ar bayt-b" dir="rtl" lang="ar">تَا مَيْ نَخُورِي نَبَاشَدَتْ شَيْدَائِي</p></div><p class="tr">&quot;Even if you were to buy two thousand pounds of wine, it would not make you drunk until you drink it.&quot;</p></blockquote><p>No book here contains a line with only one half. This is the line above with its second half removed, so you can see what the grid does when one arrives &mdash; it spans the full measure rather than sitting in one column:</p><blockquote class="quran k-poem"><span class="q-band q-band--poem"><span class="q-orn" aria-hidden="true"></span><span>Verse</span></span><div class="q-verse"><p class="ar bayt-solo" dir="rtl" lang="ar">كُلُّ الْعَدَاوَةِ قَدْ تُرْجَى إِزَالَتُهَا</p></div><p class="tr">&quot;Every enmity may be hoped to be removed, save the enmity of one who bears you enmity out of envy.&quot;</p></blockquote><p>Verse that reaches the page in English alone keeps the card and drops the grid:</p><blockquote class="quran k-poem"><span class="q-band q-band--poem"><span class="q-orn" aria-hidden="true"></span><span>Imam al-Shafii</span></span><div class="q-verse q-verse--en"><p class="tr">Loving you, O family of the household of the Prophet of God, is an obligation (<span class='ar-inline' dir='rtl' lang='ar'>فَرْضٌ</span>) from God in the Quran which He revealed;</p><p class="tr">Sufficient to show the grandeur of your dignity is that one who blesses you not, no prayer has he.</p></div></blockquote><p>And in a narrow column &mdash; a phone, or a two-up spread &mdash; the two columns become two rows, which is the other arrangement printed diwans use:</p><div class="narrow"><blockquote class="quran k-poem"><span class="q-band q-band--poem"><span class="q-orn" aria-hidden="true"></span><span>Verse</span></span><div class="q-verse"><p class="ar bayt-a" dir="rtl" lang="ar">لَقَدْ هَتَفَتْ فِي جُنْحِ لَيْلٍ حَمَامَةٌ</p><p class="ar bayt-b" dir="rtl" lang="ar">على فننٍ وهناً، وإنّي لنائم</p><p class="ar bayt-a" dir="rtl" lang="ar">كذبتُ، وبيتِ الله، لو كنتُ عاشقاً</p><p class="ar bayt-b" dir="rtl" lang="ar">لَمَّا سَبَقَتْنِي بِالْبُكَاءِ الْحَمَائِمُ</p><p class="ar bayt-a" dir="rtl" lang="ar">وأزعم أنّي هائمٌ ذو صبابةٍ</p><p class="ar bayt-b" dir="rtl" lang="ar">لِرَبِّي، فَلَا أَبْكِي وَتَبْكِي الْبَهَائِمُ</p></div><p class="tr">&quot;In the dark of night a dove cried out upon a swaying branch, while I lay fast asleep. I have lied, by the House of Allah! Had I truly been a lover, the doves would never have outstripped me in weeping. I claim to be one distracted, consumed with yearning for my Lord, yet I do not weep, while the very beasts weep on.&quot;</p></blockquote></div></div></section><section class="spec" id="together"><h2>5 &middot; All four on one page</h2><p class="kind-key">The test that actually matters</p><p class="note">One shape, four inks, four marks. If they cannot be told apart at a glance by someone who reads neither language, a colour is wrong.</p><div class="page style-plain "><p>Read down a page, the four have to be told apart at a glance without reading a word of either language:</p><blockquote class="quran k-quran"><span class="q-band q-band--quran"><span class="q-orn" aria-hidden="true"></span><span>Al-Furqan · 70</span></span><p class="ar is-quranic" dir="rtl" lang="ar">إِلَّا مَن تَابَ وَآمَنَ وَعَمِلَ صَلِحًۭا</p><p class="tr">&quot;Except for those who repented, and believed, and did righteous work.&quot;</p></blockquote><blockquote class="quran k-hadith"><span class="q-band q-band--hadith"><span class="q-orn" aria-hidden="true"></span><span>Prophetic tradition</span></span><p class="ar" dir="rtl" lang="ar">أَشَدُّ النَّاسِ عَذَابًا يَوْمَ الْقِيَامَةِ عَالِمٌ لَا يَنْفَعُهُ اللَّهُ بِعِلْمِهِ</p><p class="tr">&quot;The most severely punished of people on the Day of Resurrection is a scholar whom Allah did not benefit through his knowledge.&quot;</p></blockquote><blockquote class="quran k-quote"><span class="q-band q-band--quote"><span class="q-orn" aria-hidden="true"></span><span>Saying</span></span><p class="ar" dir="rtl" lang="ar">طَلَبُ الْجَنَّةِ بِلَا عَمَلٍ ذَنْبٌ مِنَ الذُّنُوبِ</p><p class="tr">&quot;To seek Paradise without deeds is a sin among the sins.&quot;</p><p class="q-cite">&mdash; Hasan al-Basri</p></blockquote><blockquote class="quran k-poem"><span class="q-band q-band--poem"><span class="q-orn" aria-hidden="true"></span><span>Verse</span></span><div class="q-verse"><p class="ar bayt-a" dir="rtl" lang="ar">سَهَرُ الْعُيُونِ لِغَيْرِ وَجْهِكَ ضَائِعٌ</p><p class="ar bayt-b" dir="rtl" lang="ar">وَ بُكَاؤُهُنَّ لِغَيْرِ فَقْدِكَ بَاطِلٌ</p></div><p class="tr">&quot;The wakefulness of the eyes for anything but Your Countenance is wasted, and their weeping for the loss of anything but You is in vain.&quot;</p></blockquote></div></section><section class="spec" id="papers"><h2>6 &middot; The other two papers</h2><p class="kind-key">Sepia and dark, in the Composer</p><p class="note">Every colour has a lifted twin measured for the dark page. Sepia uses the same inks as cream.</p><div class="pair"><div class="page style-plain paper-sepia"><blockquote class="quran k-quran"><span class="q-band q-band--quran"><span class="q-orn" aria-hidden="true"></span><span>Al-Furqan · 70</span></span><p class="ar is-quranic" dir="rtl" lang="ar">إِلَّا مَن تَابَ وَآمَنَ وَعَمِلَ صَلِحًۭا</p><p class="tr">&quot;Except for those who repented, and believed, and did righteous work.&quot;</p></blockquote><blockquote class="quran k-hadith"><span class="q-band q-band--hadith"><span class="q-orn" aria-hidden="true"></span><span>Prophetic tradition</span></span><p class="ar" dir="rtl" lang="ar">أَشَدُّ النَّاسِ عَذَابًا يَوْمَ الْقِيَامَةِ عَالِمٌ لَا يَنْفَعُهُ اللَّهُ بِعِلْمِهِ</p><p class="tr">&quot;The most severely punished of people on the Day of Resurrection is a scholar whom Allah did not benefit through his knowledge.&quot;</p></blockquote><blockquote class="quran k-poem"><span class="q-band q-band--poem"><span class="q-orn" aria-hidden="true"></span><span>Verse</span></span><div class="q-verse"><p class="ar bayt-a" dir="rtl" lang="ar">سَهَرُ الْعُيُونِ لِغَيْرِ وَجْهِكَ ضَائِعٌ</p><p class="ar bayt-b" dir="rtl" lang="ar">وَ بُكَاؤُهُنَّ لِغَيْرِ فَقْدِكَ بَاطِلٌ</p></div><p class="tr">&quot;The wakefulness of the eyes for anything but Your Countenance is wasted, and their weeping for the loss of anything but You is in vain.&quot;</p></blockquote></div><div class="page style-plain paper-dark"><blockquote class="quran k-quran"><span class="q-band q-band--quran"><span class="q-orn" aria-hidden="true"></span><span>Al-Furqan · 70</span></span><p class="ar is-quranic" dir="rtl" lang="ar">إِلَّا مَن تَابَ وَآمَنَ وَعَمِلَ صَلِحًۭا</p><p class="tr">&quot;Except for those who repented, and believed, and did righteous work.&quot;</p></blockquote><blockquote class="quran k-hadith"><span class="q-band q-band--hadith"><span class="q-orn" aria-hidden="true"></span><span>Prophetic tradition</span></span><p class="ar" dir="rtl" lang="ar">أَشَدُّ النَّاسِ عَذَابًا يَوْمَ الْقِيَامَةِ عَالِمٌ لَا يَنْفَعُهُ اللَّهُ بِعِلْمِهِ</p><p class="tr">&quot;The most severely punished of people on the Day of Resurrection is a scholar whom Allah did not benefit through his knowledge.&quot;</p></blockquote><blockquote class="quran k-poem"><span class="q-band q-band--poem"><span class="q-orn" aria-hidden="true"></span><span>Verse</span></span><div class="q-verse"><p class="ar bayt-a" dir="rtl" lang="ar">سَهَرُ الْعُيُونِ لِغَيْرِ وَجْهِكَ ضَائِعٌ</p><p class="ar bayt-b" dir="rtl" lang="ar">وَ بُكَاؤُهُنَّ لِغَيْرِ فَقْدِكَ بَاطِلٌ</p></div><p class="tr">&quot;The wakefulness of the eyes for anything but Your Countenance is wasted, and their weeping for the loss of anything but You is in vain.&quot;</p></blockquote></div></div></section><section class="spec" id="circles"><h2>7 &middot; The circles</h2><p class="kind-key">Not stops &mdash; a silent-letter mark</p><p class="note">The mark says the letter beneath it is written but not pronounced. <b>The shipped font declares it as a full-size letter rather than as a mark</b>, so it takes its own width and breaks the word apart. <b>The font may not be edited</b> &mdash; its licence forbids it in so many words, and so does this repo's own vendoring note. Redirecting just that character in CSS was tried and does not work: the browser keeps a mark in the font of the letter it sits on. What is left is a different face. Amiri Quran is already in the book, is freely licensed, and draws the mark correctly &mdash; but it changes how every verse looks, which is your call.</p><div class="ab"><div><h3>Today &mdash; shipped font</h3><p class="glyphdemo" dir="rtl" lang="ar">ٱلنَّبِىُّ أَوْلَىٰ بِٱلْمُؤْمِنِينَ مِنْ أَنفُسِهِمْ ۖ وَأَزْوَجُهُۥٓ أُمَّهَتُهُمْ ۗ وَأُو۟لُوا۟ ٱلْأَرْحَامِ بَعْضُهُمْ أَوْلَىٰ بِبَعْضٍۢ فِى كِتَبِ ٱللَّهِ مِنَ ٱلْمُؤْمِنِينَ وَٱلْمُهَجِرِينَ إِلَّآ أَن تَفْعَلُوٓا۟ إِلَىٰٓ أَوْلِيَآئِكُم مَّعْرُوفًۭا ۚ كَانَ ذَلِكَ فِى ٱلْكِتَبِ مَسْطُورًۭا</p></div><div><h3>Amiri Quran &mdash; the same text, a licence-clean face</h3><p class="glyphdemo fixed" dir="rtl" lang="ar">ٱلنَّبِىُّ أَوْلَىٰ بِٱلْمُؤْمِنِينَ مِنْ أَنفُسِهِمْ ۖ وَأَزْوَجُهُۥٓ أُمَّهَتُهُمْ ۗ وَأُو۟لُوا۟ ٱلْأَرْحَامِ بَعْضُهُمْ أَوْلَىٰ بِبَعْضٍۢ فِى كِتَبِ ٱللَّهِ مِنَ ٱلْمُؤْمِنِينَ وَٱلْمُهَجِرِينَ إِلَّآ أَن تَفْعَلُوٓا۟ إِلَىٰٓ أَوْلِيَآئِكُم مَّعْرُوفًۭا ۚ كَانَ ذَلِكَ فِى ٱلْكِتَبِ مَسْطُورًۭا</p></div></div></section><section class="spec" id="spec"><h2>8 &middot; Every font, size and colour</h2><p class="kind-key">Change anything here by naming the row</p><p class="note">Swatches are the exact values. A size in <b>rem</b> is a multiple of the page's body text, so 1.4rem means the Arabic is set 40 per cent larger than the English around it. Every colour is contrast-checked against the cream, sepia and dark pages.</p><div class="tabwrap"><table class="spectab"><thead><tr><th>Element</th><th>Font family</th><th>Size / leading</th><th>Colour</th><th>Note</th></tr></thead><tbody><tr class="grp"><td colspan="5">Shared by all four cards</td></tr><tr><td>Card</td><td>&mdash;</td><td class='val'>radius 10px, pad 1.35/1.6rem</td><td class='val'>its ink at 4%</td><td><b>No border</b> &mdash; a tinted plate, as your own Qur'an card does</td></tr><tr><td>Band label</td><td>Inter</td><td class='val'>0.72rem, tracked 0.14em</td><td class='val'>its ink</td><td>Uppercase, hairline rule to each side</td></tr><tr><td>Band mark</td><td>&mdash;</td><td class='val'>1.05em</td><td class='val'>its ink</td><td>Outlined, never filled</td></tr><tr><td>Attribution</td><td>Inter</td><td class='val'>0.78rem</td><td class='val'><span class="swatch" style="background:#1f1d18"></span>#1f1d18 at 62%</td><td>Above a hairline, right-aligned</td></tr><tr class="grp"><td colspan="5">Qur'an</td></tr><tr><td>Arabic verse</td><td>UthmanicHafs (KFGQPC)</td><td class='val'>1.4rem / 1.9</td><td class='val'><span class="swatch" style="background:#7d6800"></span>#7d6800</td><td>Face fixed by the audit; ink darkened from #978002 to clear AA</td></tr><tr><td>English rendering</td><td>Literata</td><td class='val'>1rem / 1.45</td><td class='val'><span class="swatch" style="background:#504302"></span>#504302</td><td>New face &mdash; the only one added</td></tr><tr><td>Band rules</td><td>&mdash;</td><td class='val'>2px</td><td class='val'><span class="swatch" style="background:#d3b965"></span>#d3b965 gradient</td><td>Your own gold line</td></tr><tr><td>Mark</td><td>&mdash;</td><td class='val'>&mdash;</td><td class='val'><span class="swatch" style="background:#7d6800"></span>#7d6800</td><td>Rub' al-hizb, outlined</td></tr><tr class="grp"><td colspan="5">Hadith</td></tr><tr><td>Arabic</td><td>Scheherazade New</td><td class='val'>1.4rem / 1.9</td><td class='val'><span class="swatch" style="background:#23356b"></span>#23356b</td><td>Book's own Arabic face</td></tr><tr><td>English rendering</td><td>Spectral</td><td class='val'>1.02rem / 1.45</td><td class='val'><span class="swatch" style="background:#1f1d18"></span>#1f1d18</td><td>Unchanged from today</td></tr><tr><td>Mark</td><td>&mdash;</td><td class='val'>&mdash;</td><td class='val'><span class="swatch" style="background:#23356b"></span>#23356b</td><td>Diamond, outlined</td></tr><tr class="grp"><td colspan="5">Quote &mdash; the default</td></tr><tr><td>Arabic</td><td>Scheherazade New</td><td class='val'>1.4rem / 1.9</td><td class='val'><span class="swatch" style="background:#1d4d33"></span>#1d4d33</td><td>Unchanged from today</td></tr><tr><td>English rendering</td><td>Spectral</td><td class='val'>1.02rem / 1.45</td><td class='val'><span class="swatch" style="background:#1f1d18"></span>#1f1d18</td><td>Unchanged from today</td></tr><tr><td>Mark</td><td>&mdash;</td><td class='val'>&mdash;</td><td class='val'><span class="swatch" style="background:#1d4d33"></span>#1d4d33</td><td>Circle, outlined</td></tr><tr class="grp"><td colspan="5">Poem</td></tr><tr><td>Arabic verse</td><td>Scheherazade New</td><td class='val'>1.4rem / 1.9</td><td class='val'><span class="swatch" style="background:#722727"></span>#722727</td><td>Two equal columns, 2.25rem gutter, one row per line</td></tr><tr><td>English rendering</td><td>Spectral Italic</td><td class='val'>1.02rem / 1.45</td><td class='val'><span class="swatch" style="background:#1f1d18"></span>#1f1d18</td><td>Below the grid, or one line per verse in English-only poems</td></tr><tr><td>Mark</td><td>&mdash;</td><td class='val'>&mdash;</td><td class='val'><span class="swatch" style="background:#722727"></span>#722727</td><td>Four-point flourish, outlined</td></tr><tr class="grp"><td colspan="5">The page around them</td></tr><tr><td>Body prose</td><td>Source Serif 4</td><td class='val'>1rem / 1.62</td><td class='val'><span class="swatch" style="background:#1f1d18"></span>#1f1d18</td><td>Unchanged</td></tr><tr><td>Inline Arabic term</td><td>Scheherazade New</td><td class='val'>1.26em</td><td class='val'>inherits</td><td>Unchanged</td></tr><tr class="grp"><td colspan="5">On the dark page &mdash; the lifted twins</td></tr><tr><td>Qur'an Arabic</td><td>&mdash;</td><td class='val'>&mdash;</td><td class='val'><span class="swatch" style="background:#d3b965"></span>#d3b965</td><td>8.6:1 on the dark paper</td></tr><tr><td>Qur'an English</td><td>&mdash;</td><td class='val'>&mdash;</td><td class='val'><span class="swatch" style="background:#bfae86"></span>#bfae86</td><td>7.6:1</td></tr><tr><td>Hadith Arabic</td><td>&mdash;</td><td class='val'>&mdash;</td><td class='val'><span class="swatch" style="background:#a8b6e8"></span>#a8b6e8</td><td>8.3:1</td></tr><tr><td>Quote Arabic</td><td>&mdash;</td><td class='val'>&mdash;</td><td class='val'><span class="swatch" style="background:#93d7b0"></span>#93d7b0</td><td>10.0:1</td></tr><tr><td>Poem Arabic</td><td>&mdash;</td><td class='val'>&mdash;</td><td class='val'><span class="swatch" style="background:#e8a0a0"></span>#e8a0a0</td><td>7.9:1</td></tr></tbody></table></div></section><div class="q warn"><b>One thing I checked in your books before designing the poem, because it decides the whole approach.</b> The asterisk inside an Arabic quotation means two different things on the page today. In <i>Ayyuhal Walad</i> it splits a line of verse at lines 59, 167, 289&ndash;291 and 538 &mdash; but at lines 373, 498, 504, 510 and 516 it separates a Qur'anic verse from its own reference, as in <span dir='rtl' lang='ar'>الحجرات: ٥</span>. <b>A renderer that split on the asterisk would tear five citations in half and print the surah name as a second hemistich.</b> So the two-column grid can only ever run on a block a person has marked as verse &mdash; the same rule the hadith and quote cards already follow. Across all seven books there is exactly one poem longer than a single line: the three lines above.</div><div class="q warn"><b>The literal-translation bug, traced to one line.</b> Nothing stops a quotation's English from being improved: the articulation pass sends the whole chapter, blockquotes and all, and not one of its fidelity gates freezes what is inside a quote. The problem is the instruction. The ONLY thing the prompt says about a quotation's English sits in its <i>YOU MAY NOT</i> list &mdash; “Touch the artifacts … inside a quote, de-calque the wording only”. A permission written as an exception to a ban is read as a ban, so hadith, sayings and verse keep whatever literal English the translator first produced while the prose around them is rewritten. The fix is a positive instruction, not a new gate.</div><div class="q"><b>Three things I still need you to settle.</b> <br>1. The gold: the verse ink is <b>#7d6800</b>, darkened from the #978002 in your other project so it stays readable at book size. Too dark, or right?<br>2. The Qur'an's English is <b>Literata</b> at 1rem. Your other project uses Charm at 2.5rem, which is a display face and would not hold up over a page of print.<br>3. The Qur'an's English above comes from the complete rendering already tracked in this repo &mdash; no network, no new dependency. Its bracketed asides are the translator's own and cannot be stripped without changing his sentences. Accept them, or fetch a plainer translation instead?<br>4. Books can currently pick their own Arabic ink. With all four cards fixed, that setting would govern nothing. Retire it, or keep it for the Quote card only?</div></div></body></html>

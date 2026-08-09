@@ -119,6 +119,23 @@
   font-display: swap;
 }
 
+/* The Qur'anic face (Asif, 2026-08-09). Amiri Quran replaces the KFGQPC Uthmanic
+   face for scripture, and the reason is one glyph: U+06DF, the mark saying a
+   letter is written but not pronounced, is declared a BASE glyph by KFGQPC and
+   prints as a full-size circle that tears the word open — 175 times across the
+   seven books. That font may not be edited (its licence forbids it) and the mark
+   cannot be redirected in CSS (see the note in quote-typography.css). Amiri
+   Quran draws it correctly, is SIL OFL 1.1, and was already vendored here for
+   the print stylesheet.
+   MIRROR: book-print.css already declares this face. */
+@font-face {
+  font-family: "Amiri Quran";
+  src: url("/fonts/amiri/AmiriQuran.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* The three MODERN Arabic faces a book may choose (2026-08-02), beside the two
    naskh ones above. Self-hosted from @fontsource, all three SIL OFL 1.1. Named
    plainly rather than with a `*Sized` alias: that suffix marks a face that once

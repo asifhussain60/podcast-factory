@@ -163,3 +163,50 @@ def test_stage_counts_reads_the_book_as_it_stands(tmp_path: Path) -> None:
 
 def test_missing_book_is_not_an_error(tmp_path: Path) -> None:
     assert run_arabic_audit(tmp_path, log=lambda *a: None) == {}
+
+
+class TestTheStandaloneReauditKeepsWhatOnlyAComposeKnows:
+    """`stages` / `stage_losses` measure Arabic loss BETWEEN compose passes.
+
+    Only a compose can produce them. Re-auditing a finished book from the CLI has
+    none to offer, and until 2026-08-09 it wrote the report without them — so
+    running the command printed in the module's own usage line deleted the
+    compose's record from every book it touched.
+    """
+
+    def _book(self, tmp_path):
+        d = tmp_path / "bk"
+        (d / "book").mkdir(parents=True)
+        (d / "_system").mkdir(parents=True)
+        (d / "book" / "book.md").write_text("## One\n\nPlain English.\n", encoding="utf-8")
+        return d
+
+    def test_a_prior_report_s_stages_survive_a_re_audit(self, tmp_path) -> None:
+        from _book_arabic_audit import run_arabic_audit
+
+        book = self._book(tmp_path)
+        run_arabic_audit(book, log=lambda *_: None, stages={"a": {"runs": 2}, "b": {"runs": 1}})
+        first = json.loads((book / "_system" / "book-arabic-audit.json").read_text())
+        assert first["stages"] and first["stage_losses"]
+
+        run_arabic_audit(book, log=lambda *_: None)  # the standalone CLI's call
+        again = json.loads((book / "_system" / "book-arabic-audit.json").read_text())
+        assert again["stages"] == first["stages"]
+        assert again["stage_losses"] == first["stage_losses"]
+
+    def test_a_fresh_book_simply_has_none(self, tmp_path) -> None:
+        from _book_arabic_audit import run_arabic_audit
+
+        book = self._book(tmp_path)
+        run_arabic_audit(book, log=lambda *_: None)
+        report = json.loads((book / "_system" / "book-arabic-audit.json").read_text())
+        assert "stages" not in report and "stage_losses" not in report
+
+    def test_a_compose_still_overwrites_them(self, tmp_path) -> None:
+        from _book_arabic_audit import run_arabic_audit
+
+        book = self._book(tmp_path)
+        run_arabic_audit(book, log=lambda *_: None, stages={"a": {"runs": 9}})
+        run_arabic_audit(book, log=lambda *_: None, stages={"a": {"runs": 4}})
+        report = json.loads((book / "_system" / "book-arabic-audit.json").read_text())
+        assert report["stages"] == {"a": {"runs": 4}}

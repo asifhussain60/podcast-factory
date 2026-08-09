@@ -34,9 +34,16 @@
  * book/citation-style.json as `translation_font`, and stamped onto <body> as
  * `tr-<font>` by buildBookHtml.
  *
- * MIRROR: editor-fonts.css declares the SAME four families for every on-screen
+ * A FIFTH family, Spectral, is declared here and is NOT one of the four a book
+ * can choose (2026-08-09). It renders a quoted passage the provenance audit did
+ * not resolve against the canonical mushaf — a hadith, an imam's saying, a poem —
+ * so that scripture's rendering and a man's are told apart by face as well as by
+ * ink. Derived rather than chosen, precisely so it can never collide with the
+ * book's own pick.
+ *
+ * MIRROR: editor-fonts.css declares the SAME families for every on-screen
  * surface. Add a face in one file and you MUST add it in the other in the same
- * commit, or a book previews in a face it cannot print. All four are SIL OFL,
+ * commit, or a book previews in a face it cannot print. All are SIL OFL,
  * self-hosted under public/fonts/<family>/ and served by render-book-pdf.mjs —
  * so pagination is identical on every machine, as with Source Serif and Amiri. */
 @font-face {
@@ -117,6 +124,48 @@
 @font-face {
   font-family: "Lora";
   src: url("/fonts/lora/lora-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+/* The Qur'an's English rendering (Asif, 2026-08-09). A THIRD translation face,
+   beside the four a book may choose and the Spectral a saying takes, so a verse,
+   a hadith and the book's own prose are three visibly different voices. Literata
+   is a book face with real weight, chosen over the Charm at 2.5rem KSESSIONS
+   uses — a display script that would not survive a page of print. Vendored from
+   @fontsource, SIL OFL 1.1. MIRROR: editor-fonts.css declares the same three for the screen. */
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-600-normal.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
 }
@@ -651,7 +700,7 @@ blockquote.quran p.ar {
   font-size: var(--q-ar-size);
   line-height: var(--q-ar-leading);
   color: var(--c-ink, #1f1d18);
-  margin: 0 0 0.2rem;
+  margin: 0 0 var(--q-ar-gap, 0.2rem);
   text-align: center;
   direction: rtl;
 }
@@ -732,10 +781,15 @@ body.style-plain blockquote.quran p.ar {
    should not be the faintest thing on the page. The face carries the distinction
    the colour used to. */
 body.style-plain blockquote.quran p.tr {
+  /* --q-tr-ink / --q-tr-size (2026-08-09): a per-card rule cannot outrank this
+     selector without duplicating it, so the two values it hard-wrote became
+     tokens. The fallback sits HERE rather than in a :root default, because a
+     `--q-tr-ink: var(--c-ink)` written at :root would freeze whatever --c-ink is
+     there and miss the dark paper's override further down the tree. */
   font-family: var(--q-tr-face);
-  font-size: 1.02rem;
+  font-size: var(--q-tr-size, 1.02rem);
   line-height: 1.45;
-  color: var(--c-ink, #1f1d18);
+  color: var(--q-tr-ink, var(--c-ink, #1f1d18));
   text-align: center;
 }
 /* The plain family strips ornament from the Qur'an blocks above, which is the

@@ -35,6 +35,11 @@ import path from "node:path";
 import { readTextColours, applyTextColours } from "./text-colour.mjs";
 import { anchorKey } from "./anchor-key.mjs";
 import { readTextAlign, flattenAlign } from "./text-align.mjs";
+import {
+  readQuoteKind,
+  flattenQuoteKind,
+  quoteKindKey,
+} from "./quote-kind.mjs";
 import { paraFingerprint } from "./para-blocks.mjs";
 import { loadLayout, applyLayout } from "../visual-layout.mjs";
 
@@ -417,6 +422,39 @@ export function readQuranicRuns(bookContentDir) {
 /** Map visual_id -> { src, embeddedTitle } from book/visuals/index.json (v2).
  *  Absent index (today's state) yields an empty map — the layout applier then
  *  no-ops, so rendering is unchanged. */
+/** Each mushaf-resolved run's printable citation — `"Al-Ahzab: 6"` — by the run's
+ *  exact text, from the same audit file and the same `runs` array readQuranicRuns
+ *  walks. The label is FORMATTED IN PYTHON (`_mushaf.mushaf_reference_label`),
+ *  where the surah names already live, so no JavaScript copy of that table has to
+ *  be kept in step for the sake of a header line.
+ *
+ *  A Qur'an card has no state without one: the reference always shows (Asif,
+ *  2026-08-09). An audit written before this field existed yields an empty map
+ *  and the band falls back to its ornament alone — which is why
+ *  `provenance_drift` reports a scripture run with no reference as drift, so
+ *  `--refresh-provenance` fills it. */
+export function readQuranicRefs(bookContentDir) {
+  const p = path.join(bookContentDir, "_system", "book-arabic-audit.json");
+  const map = {};
+  if (!existsSync(p)) return map;
+  try {
+    const data = JSON.parse(readFileSync(p, "utf-8"));
+    for (const ch of data?.chapters || []) {
+      for (const run of ch?.runs || []) {
+        if (
+          run?.resolution === "canonical-mushaf" &&
+          run?.text &&
+          run?.reference
+        )
+          map[String(run.text).trim()] = String(run.reference);
+      }
+    }
+  } catch {
+    /* tolerant: no reference just means the band shows its mark alone */
+  }
+  return map;
+}
+
 export function readVisualAssets(bookContentDir) {
   const p = path.join(bookContentDir, "book", "visuals", "index.json");
   const map = new Map();
@@ -611,10 +649,116 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
   // ARABIC_RE). Nothing in the markup distinguished a verse from a hadith until
   // now, which is why the face could not be split without this.
   const quranicRuns = opts.quranicRuns instanceof Set ? opts.quranicRuns : null;
+  // quoteKinds (opt-in): first-line -> "hadith" | "poem" | "quote", from
+  // _system/quote-kind.json. It answers the question `quranicRuns` cannot: a
+  // block holding Arabic the mushaf does not carry is a hadith, a saying or a
+  // line of verse, and only a person knows which. A block the map does not
+  // mention takes the default card, so a caller that never passes this renders
+  // exactly as it did before the map existed.
+  //
+  // Scripture always wins: a block whose Arabic the audit resolved is a Qur'an
+  // card whatever the map says, because the mushaf is not a matter of opinion.
+  const quoteKinds = opts.quoteKinds ?? null;
+  // quranicRefs (opt-in): run text -> "Al-Ahzab: 6". Only the Qur'an card names
+  // itself from the text; the other three take a fixed word, because "which
+  // hadith" is a question the audit cannot answer and a person has not been
+  // asked.
+  const quranicRefs = opts.quranicRefs ?? null;
+  // bands (opt-in, default ON): the header strip. The Composer's EDIT seed turns
+  // it OFF, and that is load-bearing rather than cosmetic — TipTap would hold the
+  // band as content and `docToMarkdown` writes a blockquote from its CONTENT, so
+  // a band inside the editor could be serialised into book.md on the next
+  // autosave. Read mode and the PDF, which never round-trip, get it.
+  const bands = opts.bands !== false;
+  const BAND_LABEL = {
+    hadith: "Prophetic tradition",
+    poem: "Verse",
+    quote: "Saying",
+  };
+  const band = (kind, paras) => {
+    if (!bands || !kind) return "";
+    let label = BAND_LABEL[kind] ?? "";
+    if (kind === "quran") {
+      const line = paras.find((x) => isArabicQuoteLine(x));
+      label = (line && quranicRefs?.[line.trim().replace(/\.\s*$/, "")]) || "";
+    }
+    return (
+      `<span class="q-band q-band--${kind}">` +
+      '<span class="q-orn" aria-hidden="true"></span>' +
+      (label ? `<span>${escapeHtml(label)}</span>` : "") +
+      "</span>"
+    );
+  };
+  // A CARD NEEDS AN ARABIC LINE, not merely Arabic somewhere: a blockquote whose
+  // English glosses one term has no quotation to draw, and the default card
+  // would put a tinted plate around an ordinary note. An aside is never a card.
+  // `lines` are the block's RAW lines and `paras` are those lines joined. The
+  // declaration is filed under the first LINE, so the two cannot be conflated —
+  // see quoteKindKey.
+  const kindClass = (lines, paras, hasScripture, isAside) => {
+    if (isAside) return "";
+    if (hasScripture) return " k-quran";
+    const kind = quoteKinds?.[quoteKindKey(lines)];
+    if (kind) return ` k-${kind}`;
+    return paras.some(isArabicQuoteLine) ? " k-quote" : "";
+  };
   const arClass = (text) =>
     quranicRuns && quranicRuns.has(String(text).trim())
       ? "ar is-quranic"
       : "ar";
+  // A declared poem's Arabic, set as the two-column grid printed diwans use: one
+  // bayt is a sadr on the right and an ajuz on the left, and the gutter running
+  // straight down the block is what makes the shape read as verse to someone who
+  // cannot read the words. Mirrors `verseGrid` in src/lib/reader/markdown.ts.
+  //
+  // ` * ` is the hemistich separator, and splitting on it is safe HERE and
+  // nowhere else: the same character separates a Qur'anic verse from its own
+  // reference five times in ayyuhal-walad (`… * الحجرات: ٥`), so the rule runs
+  // only inside a block a person marked as verse.
+  // IT TAKES THE RAW LINES, not the paragraphs, and that is what lets it work at
+  // all: one bayt is one LINE, and every other quotation here joins its lines
+  // into paragraphs first. Three abyat joined into `A * B C * D E * F` cannot be
+  // divided back into hemistichs by any rule — the boundaries are gone.
+  const verseGrid = (lines) => {
+    const parts = [];
+    let cells = [];
+    let prose = [];
+    const flushCells = () => {
+      if (cells.length === 0) return;
+      parts.push(`<div class="q-verse">${cells.join("")}</div>`);
+      cells = [];
+    };
+    const flushProse = () => {
+      const text = prose.join(" ").trim();
+      prose = [];
+      if (text) parts.push(`<p class="tr">${renderInline(text)}</p>`);
+    };
+    for (const raw of lines) {
+      const line = raw.trim();
+      if (!line) {
+        flushProse();
+        continue;
+      }
+      if (isArabicQuoteLine(line)) {
+        flushProse();
+        const halves = line.replace(/\.\s*$/, "").split(/\s+\*\s+/);
+        // A line with no second hemistich spans both columns — alone in one it
+        // reads as a missing line rather than a whole one.
+        const solo = halves.length < 2 ? " bayt-solo" : "";
+        for (const half of halves) {
+          cells.push(
+            `<p class="ar${solo}" dir="rtl" lang="ar">${renderInline(half)}</p>`,
+          );
+        }
+      } else {
+        flushCells();
+        prose.push(line);
+      }
+    }
+    flushCells();
+    flushProse();
+    return parts.join("");
+  };
   // sawH2 (opt-in): seed the "have we already opened a chapter?" state. Whole-book
   // callers (buildBookHtml) leave it false, so their output is byte-for-byte
   // unchanged. A caller rendering ONE chapter in isolation (the Book Composer's
@@ -737,28 +881,50 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
     // is where the defect was.
     const hasArabic = paras.some((p) => ARABIC_RE.test(p));
     if (hasArabic) {
+      const scripture = paras.some(
+        (p) =>
+          isArabicQuoteLine(p) &&
+          arClass(p.trim().replace(/\.\s*$/, "")).includes("is-quranic"),
+      );
+      // The kind is decided BEFORE the markup because verse is SET differently,
+      // not merely coloured differently: a poem's lines are grid cells and every
+      // other kind's are paragraphs. Asked once rather than the three times this
+      // line used to ask it.
+      const kind = kindClass(quote, paras, scripture, !!asideCls())
+        .trim()
+        .replace(/^k-/, "");
       // Mushaf treatment: Arabic lines RTL + Amiri, translations centered below.
       const inner = [];
-      paras.forEach((p, i) => {
-        if (isArabicQuoteLine(p)) {
-          // Strip a stray trailing ASCII period — Latin punctuation has no
-          // place at the end of an Arabic line (bidi renders it mid-air).
-          const cleaned = p.trim().replace(/\.\s*$/, "");
-          inner.push(
-            `<p class="${arClass(cleaned)}" dir="rtl" lang="ar">${renderInline(cleaned)}</p>`,
-          );
-          if (i < paras.length - 1) inner.push('<hr class="quran-divider">');
-        } else {
-          inner.push(`<p class="tr">${renderInline(p)}</p>`);
-        }
-      });
+      if (kind === "poem") {
+        inner.push(verseGrid(quote));
+      } else {
+        paras.forEach((p, i) => {
+          if (isArabicQuoteLine(p)) {
+            // Strip a stray trailing ASCII period — Latin punctuation has no
+            // place at the end of an Arabic line (bidi renders it mid-air).
+            const cleaned = p.trim().replace(/\.\s*$/, "");
+            inner.push(
+              `<p class="${arClass(cleaned)}" dir="rtl" lang="ar">${renderInline(cleaned)}</p>`,
+            );
+            if (i < paras.length - 1) inner.push('<hr class="quran-divider">');
+          } else {
+            inner.push(`<p class="tr">${renderInline(p)}</p>`);
+          }
+        });
+      }
       out.push(
-        `<blockquote class="quran${asideCls()}">${inner.join("")}</blockquote>`,
+        `<blockquote class="quran${kind ? ` k-${kind}` : ""}${asideCls()}">${band(kind, quote)}${inner.join("")}</blockquote>`,
       );
     } else {
-      const cls = asideCls().trim();
+      // No Arabic, so no `quran` class — that word has always meant "this block
+      // contains Arabic". A kind still applies when a person declared one: verse
+      // reaches the page in English alone (Imam al-Shafii's lines in Spiritual
+      // Ethos), and it is a poem whichever language it arrives in. An undeclared
+      // English blockquote gets nothing, exactly as before.
+      const declared = asideCls() ? null : quoteKinds?.[quoteKindKey(quote)];
+      const cls = `${declared ? `k-${declared}` : ""}${asideCls()}`.trim();
       out.push(
-        `<blockquote${cls ? ` class="${cls}"` : ""}>${paras.map((p) => `<p>${renderInline(p)}</p>`).join("") || "<p></p>"}</blockquote>`,
+        `<blockquote${cls ? ` class="${cls}"` : ""}>${band(declared, quote)}${paras.map((p) => `<p>${renderInline(p)}</p>`).join("") || "<p></p>"}</blockquote>`,
       );
     }
     quote = [];
@@ -1021,6 +1187,12 @@ export function buildBookHtml(mdPath, { v2 = false, selfStudy = false } = {}) {
     // Scripture gets the Uthmanic face, the rest Scheherazade New. Sourced from
     // the Arabic audit's own provenance rather than re-derived here.
     quranicRuns: readQuranicRuns(assetRoot),
+    // Which card a non-scriptural quotation is drawn in. Flat for the same
+    // reason alignByPara is: this render walks the whole book at once and the
+    // key is the quotation's own text — see flattenQuoteKind.
+    quoteKinds: flattenQuoteKind(readQuoteKind(assetRoot)),
+    // The chapter and verse each Qur'an card is headed by.
+    quranicRefs: readQuranicRefs(assetRoot),
   });
   // Per-selection text colours (_system/text-colour.json). Applied per CHAPTER
   // rather than to the whole body: a stored quote is matched by its text, and

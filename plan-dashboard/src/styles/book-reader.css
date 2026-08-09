@@ -213,6 +213,9 @@
   color: var(--c-ink);
   direction: rtl;
   text-align: center;
+  /* The gap to the English below. Reads the shared token so a card can open it
+     up — the other three surfaces do the same. */
+  margin: 0 0 var(--q-ar-gap, 0.2rem);
 }
 .bookv-body blockquote.quran p.tr {
   font-size: 0.95rem;
@@ -238,10 +241,15 @@
   text-align: center;
 }
 .bookv-body.style-plain blockquote.quran p.tr {
+  /* --q-tr-ink / --q-tr-size (2026-08-09): a per-card rule cannot outrank this
+     selector without duplicating it, so the two values it hard-wrote became
+     tokens. The fallback sits HERE rather than in a :root default, because a
+     `--q-tr-ink: var(--c-ink)` written at :root would freeze whatever --c-ink is
+     there and miss the dark paper's override further down the tree. */
   font-family: var(--q-tr-face);
-  font-size: 1.02rem;
+  font-size: var(--q-tr-size, 1.02rem);
   line-height: 1.45;
-  color: var(--c-ink);
+  color: var(--q-tr-ink, var(--c-ink));
   text-align: center;
 }
 

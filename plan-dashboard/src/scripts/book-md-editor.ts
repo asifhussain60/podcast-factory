@@ -31,6 +31,13 @@ export const PRESERVED_CLASSES = new Set([
   "quran",
   "ar",
   "tr",
+  // Scripture, resolved against the canonical mushaf. Joined the list on
+  // 2026-08-09, with `renderEditSeed` finally being handed the provenance set:
+  // dropped here the class could not survive the parse even once it was emitted,
+  // so the edit canvas would still have shown a verse and a hadith as the same
+  // thing. Same guarantee as the three above — docToMarkdown names no class, so
+  // this is presentation and cannot reach book.md.
+  "is-quranic",
   "aside",
   "editorial",
   "bridge",
