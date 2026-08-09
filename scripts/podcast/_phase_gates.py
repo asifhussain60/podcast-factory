@@ -259,6 +259,40 @@ def gate_no_page_altering_step_failed(book_dir: Path) -> tuple[bool, str]:
     return verdict(book_dir)
 
 
+def gate_no_new_reading_edition_defects(book_dir: Path) -> tuple[bool, str]:
+    """Did THIS compose introduce a reading-edition defect that was not there before?
+
+    Not "are there none" — there are 118 recorded across six shipped books and a gate
+    asserting zero would halt every run without telling anyone anything new. What a
+    compose can be held to is that it did not make the page worse, which is exactly the
+    comparison `run_defect_scan` writes into its own report as `previous`.
+
+    Silent when the scan has never run (a first compose has nothing to compare) and when
+    the report is unreadable — a gate is not the place to discover a corrupt sidecar, and
+    `PC2` already fails when a step leaves no record at all.
+    """
+    import json
+
+    from _book_reports import DEFECTS_NAME
+
+    path = book_dir / "_system" / DEFECTS_NAME
+    if not path.is_file():
+        return True, "no defect scan on disk yet"
+    try:
+        report = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as e:  # noqa: BLE001 - a corrupt report is PC2's business, not this gate's
+        return True, f"defect report unreadable ({type(e).__name__})"
+    counts = report.get("counts") or {}
+    previous = report.get("previous") or {}
+    if not previous:
+        return True, f"first scan — {sum(counts.values())} defect(s) recorded as the baseline"
+    grew = {name: (previous.get(name, 0), n) for name, n in counts.items() if n > previous.get(name, 0)}
+    if not grew:
+        return True, f"{sum(counts.values())} recorded defect(s), none new this compose"
+    detail = ", ".join(f"{name} {was}->{now}" for name, (was, now) in sorted(grew.items()))
+    return False, f"this compose introduced reading-edition defect(s): {detail}"
+
+
 def gate_no_step_failed(book_dir: Path) -> tuple[bool, str]:
     """Any failed step in the most recent run, across every phase. Advisory."""
     from _step_ledger import latest_steps

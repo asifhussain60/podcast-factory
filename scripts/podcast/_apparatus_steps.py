@@ -62,6 +62,7 @@ APPARATUS_STEPS: tuple[str, ...] = (
     "spelling",
     "arabic-audit",
     "duplication",
+    "defect-scan",
     "visual-policy",
     "bridges",
     "honorifics",

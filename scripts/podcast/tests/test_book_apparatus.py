@@ -83,6 +83,10 @@ def test_every_apparatus_step_lives_in_the_apparatus():
         "arabic-audit",
         "duplication",
         "visual-policy",
+        # Added 2026-08-09. Scans the FINISHED page for the five defects Asif found by
+        # eye; called after step 11 rather than with the three report steps above,
+        # because the honorific convention and the paragraph mirror both run between.
+        "defect-scan",
         "bridges",
         "honorifics",
         "arabic-alignment",

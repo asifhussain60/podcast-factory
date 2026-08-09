@@ -71,6 +71,7 @@ ADVISORY_STEPS = frozenset(
         "etymology",  # persists atoms under _system/, never into book.md
         "arabic-audit",
         "duplication",
+        "defect-scan",
         "visual-policy",
         # Re-stamps the substitution sidecar from the finished page. Advisory and
         # not page-altering because the page it stamps is already correct — and

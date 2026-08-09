@@ -187,6 +187,24 @@ The per-chapter loop is **serial by default**. It is the biggest wall-clock cost
 
 ---
 
+## The five reading-edition defects, and repairing one without a re-compose (2026-08-09)
+
+Asif found five defects by eye in shipped editions, every one of them after each automatic gate had passed the book. They are now checked on every compose and repairable one chapter at a time.
+
+- **One module defines them, three callers read it.** [scripts/podcast/\_book_defects.py](scripts/podcast/_book_defects.py) holds all five detectors; the compose apparatus's `defect-scan` step, the recorded-defect tests, and the `pf-compose-fix` skill all call it. A private copy in any of the three is how two of them start disagreeing about what a defect is.
+  - **duplicated-arabic** — a blockquote repeats the Arabic its lead-in already gave.
+  - **english-rtl** — an English translation set in the Arabic face, right to left. Fixed at the renderer; the check is end-to-end proof over real content that the fix holds.
+  - **romanized-arabic** — a whole Arabic saying printed in the English character set. `_book_substitution` implements the 2026-08-02 rule for glossary TERMS, gated on a term being classed `teach`, so a whole SENTENCE matches nothing and fourteen ran in two shipped editions.
+  - **honorific-overuse** — a figure's compact honorific after every occurrence of the name. Capped at once per figure per chapter.
+  - **prophet-wrong-honorific** — the Prophet carrying `(ع)`, which is the honorific of the Imams. His is the ligature `ﷺ`. 118 mentions across six books.
+- **`defect-scan` runs LAST in the apparatus, not with the other report steps.** The three report-only steps sit at 6-7 with four page-altering steps still to come, and two of these checks read exactly what those steps write — the honorific convention is applied at step 9 and the paragraph mirror rewrites quotations at step 11. Scanning up there would report the honorifics of a page that never reaches disk.
+- **The gate asks whether THIS compose made it worse**, not whether the count is zero. Gate `PC5` compares against the counts the previous scan recorded in the same file; with 118 instances already standing, a zero-assertion would halt every run without saying anything new. Advisory, because the detectors are heuristics and the repo's line is that a heuristic never blocks.
+- **Repair goes through the Composer, never through a re-compose.** [scripts/podcast/compose_fix.py](scripts/podcast/compose_fix.py) repairs the three deterministic defects for named chapters and records each as a Composer edit quoting the pipeline's own fingerprint — so it survives a re-compose and marks the chapter as one no model may regenerate. It refuses to write while the Composer is running, because a live one has autosaved a truncated verse into a shipped book.
+- **Two defects are never repaired automatically, and that is a statement rather than caution.** `romanized-arabic` is only proposed: the honest fix is the Arabic, and for two of the fourteen it exists nowhere on disk — not in the book, not in the source scan, not in the hadith corpus — so supplying it would mean a model recalling scripture onto a religious edition. `english-rtl` has no content repair because the renderer already has one.
+- **Chapters are addressed by their printed number here, and nowhere else.** The rest of the pipeline bans it because counting sections makes "chapter 3" land on section 4 past the unnumbered introduction. This reads the number off the heading, which is a different operation — verified across all seven reading editions — and refuses with the chapter list rather than guessing.
+
+---
+
 ## Setup stage — pre-pipeline system check (added 2026-06-07)
 
 Before any pipeline work runs, the orchestrator executes a **Setup stage** that resolves machine-readiness problems up front instead of crashing deep inside a phase. Two parts:

@@ -87,6 +87,7 @@ from _phase_gates import (  # noqa: F401  - re-exported for callers and tests
     gate_contracts_have_chapter_files,
     gate_enrichment_recorded,
     gate_every_chapter_has_an_episode,
+    gate_no_new_reading_edition_defects,
     gate_no_page_altering_step_failed,
     gate_no_step_failed,
     gate_publication_status_flipped,
@@ -137,6 +138,7 @@ OWN_GATES: dict[str, list[Gate]] = {
         ("PC2", "apparatus-steps-all-ran", gate_apparatus_steps_all_ran),
         ("PC3", "no-page-altering-step-failed", gate_no_page_altering_step_failed),
         ("PC4", "book-md-covers-toc", gate_book_md_covers_toc),
+        ("PC5", "no-new-reading-edition-defects", gate_no_new_reading_edition_defects),
     ],
     # Added 2026-08-09. Until then twenty-four of the twenty-nine phases checked
     # nothing about the work they had just done; the review layer only re-verified

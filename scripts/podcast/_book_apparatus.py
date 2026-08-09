@@ -38,7 +38,7 @@ from pathlib import Path
 # re-exported here because callers and tests already reach for them at this path.
 from _apparatus_steps import APPARATUS_STEPS as APPARATUS_STEPS  # noqa: PLC0414
 from _apparatus_steps import record_ok as _ok
-from _book_reports import run_report_steps
+from _book_reports import run_defect_scan, run_report_steps
 from _compose_skips import record_skip as _record_skip
 
 
@@ -558,6 +558,18 @@ def apply_book_apparatus(
         _ok(book_dir, "paragraph-mirror")
     except Exception as e:  # paragraphing is never worth a finished book either
         _record_skip(book_dir, "paragraph-mirror", e, log)
+
+    # 11b. Scan the FINISHED page for the five reading-edition defects Asif found by
+    #      eye in shipped editions, every one of them after each automatic gate here
+    #      had passed the book (2026-08-09). Report-only: the repair is prose, and prose
+    #      bound for the PDF belongs to the Book Composer, not to a compose step.
+    #
+    #      HERE and not with the other three report steps, which run at 6-7. Two of
+    #      these checks read what the steps between then and now WRITE — the honorific
+    #      convention is applied at 9, the paragraph mirror rewrites quotations at 11 —
+    #      so scanning up there would report the honorifics of a page that never reaches
+    #      disk. Placed after 11 and before 12, which alters no text.
+    run_defect_scan(book_dir, log=log)
 
     # 12. Re-stamp the substitution sidecar from the FINISHED page, exactly as
     #     5a-replay stamps `composer-base.json`. A fingerprint is only useful if
