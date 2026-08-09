@@ -4,7 +4,8 @@
 The engine behind the `pf-compose-fix` skill. It answers two questions about the reading
 edition and nothing else:
 
-    check   which of the five reading-edition defects do these chapters carry
+    check   which reading-edition defects these chapters carry, and whether the four
+            quotation cards can still be drawn at all
     fix     repair the ones that have a deterministic repair, through the Composer
 
 WHY IT EXISTS. The agent that runs the final checks after articulation — `book-challenger`
@@ -184,6 +185,16 @@ def check(book_dir: Path, selection: list[dict]) -> dict:
     from _book_arabic_audit import provenance_drift
 
     report["stale_provenance"] = [list(hit) for hit in provenance_drift(book_dir)]
+    # The seventh and eighth, and neither is chapter text either. A quotation is drawn
+    # as one of four cards, and BOTH halves of that design fail silently: the rules can
+    # go missing from the stylesheet or the renderers, and a person's declaration of
+    # which kind a quotation is can stop matching the line it is filed under. Either way
+    # the page still renders — with the card gone or reverted — so nothing but a check
+    # reports it. Repo-wide and book-wide respectively; see `_quote_cards`.
+    from _quote_cards import card_rule_findings, orphaned_quote_kinds
+
+    report["quote_card_rules"] = [list(hit) for hit in card_rule_findings()]
+    report["orphaned_quote_kind"] = [list(hit) for hit in orphaned_quote_kinds(book_dir)]
     return report
 
 
@@ -397,8 +408,13 @@ def _print_provenance(report: dict) -> None:
 
 
 def _print_report(report: dict, proposals: list[tuple[str, str]]) -> None:
+    from _quote_cards import print_quote_card_findings
+
     print(f"\n{report['book']} — {len(report['chapters'])} chapter(s) checked")
     _print_provenance(report)
+    # Printed by the module that owns the contract, so the wording of a rule and the
+    # wording of the finding cannot drift apart.
+    print_quote_card_findings(report)
     any_found = False
     for chapter in report["chapters"]:
         if not chapter["defects"]:
@@ -411,8 +427,11 @@ def _print_report(report: dict, proposals: list[tuple[str, str]]) -> None:
             for hit in hits[:3]:
                 print(f"          {str(hit[0])[:88]}")
     if not any_found:
-        if not report.get("stale_provenance"):
-            print("\n  clean — none of the six defects in these chapters")
+        # "Clean" has to mean every check, not the chapter-scoped ones: a run that
+        # printed the card findings above and then said "clean" would read as though it
+        # had found nothing.
+        if not (report.get("stale_provenance") or report.get("quote_card_rules") or report.get("orphaned_quote_kind")):
+            print("\n  clean — none of the eight defects in these chapters")
         return
     if report["repairable"]:
         print(f"\n  --fix would repair: {', '.join(report['repairable'])}")

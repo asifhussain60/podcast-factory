@@ -49,7 +49,7 @@ numbers every chapter heading and leaves exactly one section (the introduction)
 unnumbered. A book that ever numbers inconsistently gets the chapter list printed and no
 write. Never hand-resolve a number yourself; call `--list`.
 
-## What it checks — six defects
+## What it checks — eight defects
 
 Five come from `_book_defects`, which the compose apparatus's `defect-scan` step and the
 recorded-defect tests also read. There is no second copy of the rule.
@@ -62,6 +62,8 @@ recorded-defect tests also read. There is no second copy of the rule.
 | `stale-provenance` — the record of which Arabic is scripture no longer matches the page | `--refresh-provenance` |
 | `romanized-arabic` — a whole Arabic saying in the English character set | `--resolve-romanization`, and it chooses between two cures |
 | `english-rtl` — an English translation set in the Arabic face | **none — fixed at the renderer** |
+| `quote-card-rules` — part of the approved four-card design is no longer on disk | none — reported |
+| `orphaned-quote-kind` — a person's declaration of a quotation's kind matches nothing | none — reported |
 
 ### The sixth is a RECORD, not a string
 
@@ -98,6 +100,41 @@ adjacency would have erased the only record of the wording the romanization carr
 
 Bare `--fix` still never touches this defect — the two cures both need the ladder or the
 adjacency test, and neither is a string transform.
+
+### The seventh and eighth guard the four quotation cards
+
+A quotation is drawn as one of four cards — Qur'an, prophetic tradition, verse, and the
+saying that is the default. Asif converged that design over a sample page before anything
+touched the site, and that page is still the approved reference:
+`http://localhost:4322/_specimen-quote-tiers.html`. What it shows is what the reading
+edition owes its reader, and until 2026-08-09 nothing checked that it still held.
+
+The design is spread over six files that nothing held together — the rules in one
+stylesheet, the markup in the two renderers that must agree, the step that inlines the
+stylesheet into the PDF, and a per-book JSON in which a person says which quotation is
+which. **Every one of them fails silently and in the same direction**: the card degrades
+to the default plate, or to no plate at all, and the page still renders. So a chapter
+could be reported clean while every quotation in it had lost its card.
+
+`quote-card-rules` (`QC-NNN` in `_quote_cards`) checks the design, not the file. The
+specimen's stylesheets are inlined copies taken the day it was approved and they have
+already drifted in ways that mean nothing — a gradient reformatted onto one line, a
+`.q-cite` rule deleted the same day it was drafted — so a byte comparison would fire on
+formatting forever and be switched off within a week. What is checked is what a reader
+would see go missing: four cards, four inks, no border on any of them, a header and an
+outlined mark per kind, the Qur'an's gold rules, the two-column verse grid and its
+collapse on the CONTAINER rather than the window. It is repo-wide, so it prints once.
+
+`orphaned-quote-kind` checks this book. A declaration is filed under its quotation's own
+first line, inside its chapter's Composer key; edit either and it stops matching, the
+block reverts to the default card and a verse loses its two columns. **This tool is one of
+the things that causes that** — `--fix` deleting a duplicated Arabic run off the top of a
+blockquote re-keys the declaration under it — which is the argument for checking it here
+rather than in a site gate: the repair and the damage are one command apart.
+
+Neither is repaired. A missing CSS rule is a design change and belongs to whoever is
+changing the design; re-keying a declaration means choosing which quotation a person
+meant, and on a religious edition an inferred attribution is a claim nobody made.
 
 ### Why `english-rtl` is never repaired
 
