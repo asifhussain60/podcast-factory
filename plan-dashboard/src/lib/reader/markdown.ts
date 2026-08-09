@@ -210,6 +210,27 @@ export function isArabicOnlyParagraph(s: string): boolean {
 }
 
 /**
+ * Is this line of a quotation block ARABIC, or the translation beside it?
+ *
+ * MIRROR of `isArabicQuoteLine` in scripts/lib/book-html.mjs, pinned by
+ * `arabic-quote-line.fixtures.json`. Deliberately duplicated for the same reason
+ * `isArabicOnlyParagraph` above is: the canonical copy reads the filesystem and
+ * cannot be pulled into this client-bundled module.
+ *
+ * The rule is which script the line is MOSTLY in. Until 2026-08-09 both copies
+ * asked only whether the line CONTAINED Arabic, so an English translation carrying
+ * the `(ع)` honorific was set right-to-left in the Arabic face. Drift here is the
+ * one divergence no gate could see: the printed page and this reader would give the
+ * same paragraph different directions.
+ */
+export function isArabicQuoteLine(s: string): boolean {
+  const arabic = (s.match(/[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/g) || []).length;
+  if (arabic === 0) return false;
+  const latin = (s.match(/[A-Za-z]/g) || []).length;
+  return arabic > latin;
+}
+
+/**
  * Every inline Arabic run in a chunk of plain text (no tags — the caller has
  * already split those out), as `[start, end)` character offsets with the
  * bracketing whitespace trimmed off each end.
@@ -365,6 +386,8 @@ export function renderMarkdown(
       // like the print renderer does — body-ink Arabic at body scale, no box.
       // Emission stays one line so the Composer's paragraph mirror
       // (`:scope > p`) is unaffected.
+      // The BLOCK decision stays "contains Arabic" (it chooses the mushaf card); only
+      // the per-line direction below weighs proportion. See `isArabicQuoteLine`.
       const hasArabic = paras.some((p) => ARABIC_SCRIPT_RE.test(p));
       const inner =
         paras.length === 0
@@ -372,7 +395,7 @@ export function renderMarkdown(
           : paras
               .map((p) => {
                 if (!hasArabic) return `<p>${renderInline(p, opts)}</p>`;
-                return ARABIC_SCRIPT_RE.test(p)
+                return isArabicQuoteLine(p)
                   ? `<p class="${opts.quranicRuns?.has(p.trim()) ? "ar is-quranic" : "ar"}" dir="rtl" lang="ar">${renderInline(p, opts)}</p>`
                   : `<p class="tr">${renderInline(p, opts)}</p>`;
               })

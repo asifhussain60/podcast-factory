@@ -40,6 +40,10 @@ import { loadLayout, applyLayout } from "../visual-layout.mjs";
 
 const ARABIC_RE = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
 const ARABIC_INLINE_RE = /[﴿«]?[\s؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]+[﴾»]?/g;
+// The same class, global, for COUNTING rather than testing. Kept beside its source
+// so the two can never describe different alphabets; `ARABIC_RE` must stay non-global
+// because a global regex carries `lastIndex` between `.test()` calls.
+const ARABIC_COUNT_RE = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/g;
 const NUMBER_WORDS = [
   "",
   "One",
@@ -101,6 +105,37 @@ export function isArabicOnlyParagraph(s) {
   const arabic = (s.match(/[ؠ-يٱ-ۓ]/g) || []).length;
   const latin = (s.match(/[A-Za-z]/g) || []).length;
   return arabic > 20 && arabic > 2 * latin;
+}
+
+/**
+ * Is this line of a quotation block ARABIC, or is it the translation beside it?
+ *
+ * The rule is which script the line is MOSTLY in. Until 2026-08-09 it was
+ * `ARABIC_RE.test(p)` — true on a single Arabic character — so an English
+ * translation carrying the `(ع)` honorific after Ali's name was emitted as
+ * `<p class="ar" dir="rtl" lang="ar">` and set in the Arabic face, right to left,
+ * with its quotation marks thrown to the wrong ends of the line. The worst cases
+ * were whole editorial notes: 626 Latin characters flipped by three Arabic ones
+ * naming a root like `ح-س-ن`.
+ *
+ * NOT `isArabicOnlyParagraph`, which needs more than twenty Arabic characters and
+ * would demote a short quotation — `> بَاب` is three — to a translation. Inside a
+ * quotation block the question is only which script wins.
+ *
+ * MIRROR, pinned by `arabic-quote-line.fixtures.json`:
+ *   - here (the PDF and the Composer's Read view),
+ *   - `isArabicQuoteLine` in src/lib/reader/markdown.ts (the reader; it is
+ *     client-bundled and cannot import this Node-only module),
+ *   - `english_set_right_to_left` in scripts/podcast/tests/test_book_articulation_defects.py.
+ * Neither renderer was pinned to the other before this: a one-sided change would
+ * have given the printed page and the on-screen reader different directions for the
+ * same paragraph, which is the one divergence no gate here could see.
+ */
+export function isArabicQuoteLine(s) {
+  const arabic = (s.match(ARABIC_COUNT_RE) || []).length;
+  if (arabic === 0) return false;
+  const latin = (s.match(/[A-Za-z]/g) || []).length;
+  return arabic > latin;
 }
 
 export function escapeHtml(s) {
@@ -696,12 +731,16 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
       } else cur.push(l);
     }
     if (cur.length) paras.push(cur.join(" "));
+    // The BLOCK decision stays "contains Arabic": it chooses the mushaf CARD, and a
+    // quotation whose one line runs Arabic straight into its English gloss is still a
+    // scripture quotation. Only the per-line direction below weighs proportion — that
+    // is where the defect was.
     const hasArabic = paras.some((p) => ARABIC_RE.test(p));
     if (hasArabic) {
       // Mushaf treatment: Arabic lines RTL + Amiri, translations centered below.
       const inner = [];
       paras.forEach((p, i) => {
-        if (ARABIC_RE.test(p)) {
+        if (isArabicQuoteLine(p)) {
           // Strip a stray trailing ASCII period — Latin punctuation has no
           // place at the end of an Arabic line (bidi renders it mid-air).
           const cleaned = p.trim().replace(/\.\s*$/, "");

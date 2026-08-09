@@ -1,0 +1,63 @@
+{
+  "_comment": [
+    "Pins `isArabicQuoteLine` across its copies: scripts/lib/book-html.mjs (the PDF and",
+    "the Composer's Read view), src/lib/reader/markdown.ts (the on-screen reader), and",
+    "english_set_right_to_left in scripts/podcast/tests/test_book_articulation_defects.py.",
+    "",
+    "Neither renderer was pinned to the other before 2026-08-09. Both asked only whether",
+    "a quotation line CONTAINED Arabic, so an English translation carrying the (ع)",
+    "honorific after Ali's name was set right-to-left in the Arabic face. A one-sided fix",
+    "would have given the printed page and the reader different directions for the same",
+    "paragraph, which is the one divergence no gate here could see.",
+    "",
+    "`arabic` is the expected answer: true means the line is set RTL in the Arabic face,",
+    "false means it is a translation."
+  ],
+  "cases": [
+    {
+      "why": "a pure Arabic quotation",
+      "text": "إِنَّ عَلِيًّا مَعَ الْقُرْآنِ وَالْقُرْآنُ مَعَ عَلِيٍّ، لَنْ يَفْتَرِقَا حَتَّى يَرِدَا عَلَيَّ الْحَوْضَ",
+      "arabic": true
+    },
+    {
+      "why": "a SHORT Arabic quotation — isArabicOnlyParagraph would demote this to a translation",
+      "text": "بَاب",
+      "arabic": true
+    },
+    {
+      "why": "the defect: an English translation carrying the (ع) honorific",
+      "text": "\"Ali is with the Quran and the Quran is with Ali (ع). They will not separate from each other until they return to me at the pool.\"",
+      "arabic": false
+    },
+    {
+      "why": "the worst instance found: an editorial note flipped by three root letters",
+      "text": "**Editorial note (tradition-grounded).** A related teaching names ihsan as the highest form of a single root, ح-س-ن, in which goodness and beauty are one word.",
+      "arabic": false
+    },
+    {
+      "why": "the mandated Prophet ligature must not flip an English line either",
+      "text": "The Prophet Muhammad ﷺ said this to his companions on the day of the farewell.",
+      "arabic": false
+    },
+    {
+      "why": "plain English with no Arabic at all",
+      "text": "They will not separate from each other until they return to me at the pool.",
+      "arabic": false
+    },
+    {
+      "why": "an Arabic line carrying a bare verse locator — digits are not Latin letters",
+      "text": "ٱلنَّبِىُّ أَوْلَىٰ بِٱلْمُؤْمِنِينَ مِنْ أَنفُسِهِمْ (33:6)",
+      "arabic": true
+    },
+    {
+      "why": "an Arabic run beside a long transliteration reads as the translation line",
+      "text": "قول (qawl) is the word used here, and it carries the sense of an utterance rather than a mere sound",
+      "arabic": false
+    },
+    {
+      "why": "empty",
+      "text": "",
+      "arabic": false
+    }
+  ]
+}
