@@ -1938,6 +1938,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "85b650f6",
+      "subject": "fix(book): every romanized saying in Spiritual Ethos is in Arabic script or gone",
+      "date": "2026-08-09"
+    },
+    {
       "sha": "7e4a1216",
       "subject": "fix(compose): a selection in the editor is painted by the editor, and nothing else",
       "date": "2026-08-09"
@@ -1980,11 +1985,6 @@
     {
       "sha": "0100061e",
       "subject": "chore(plan-dashboard): resync snapshot after the skill-registry row",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "9a0d704e",
-      "subject": "chore(skills): register pf-compose-fix and resync the site snapshot",
       "date": "2026-08-09"
     }
   ],
