@@ -251,3 +251,4 @@
 {"phase": "0book-slide-import", "step": "slide-manifest/worship-alms-and-war-void-without-the-imam/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-slide-import", "step": "slide-manifest/prophets-as-symbols-and-the-first-caliphs/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-slide-import", "step": "slide-manifest/the-virtues-of-ali-the-imam-who-mirrors-god/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "romanization", "step": "render", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

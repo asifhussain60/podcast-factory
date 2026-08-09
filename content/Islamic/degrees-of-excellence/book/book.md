@@ -533,7 +533,7 @@ We also observe that the gifts of other monarchs are seen by people as given in 
 
 Rather, he bestows upon them freely, out of generosity, nobility, and virtue, following the actions of God the Exalted with His creation.
 
-Were people to view the actions of the Commander of the Faithful in this light, they would not fall into confusion. Yet some look at him with short sight, judging his actions by the standard of other human beings, while others look at him with excess, claiming divinity for him. The actions of the Commander of the Faithful rise above both of these positions. He is, rather, the Universal Vicegerent of God among His worshippers (al-khalifat al-kulli lillah taala ala ibadihi).
+Were people to view the actions of the Commander of the Faithful in this light, they would not fall into confusion. Yet some look at him with short sight, judging his actions by the standard of other human beings, while others look at him with excess, claiming divinity for him. The actions of the Commander of the Faithful rise above both of these positions. He is, rather, the Universal Vicegerent of God among His worshippers (الْخَلِيفَةُ الْكُلِّيُّ لِلَّهِ تَعَالَى عَلَى عِبَادِهِ).
 
 Just as God the Exalted has hidden from mankind the reasons for creating the world while making plain the reasons of religion and the means of attaining it, He also made plain the ways of attaining His pleasure, clarifying it through the words of His Prophet. He gave knowledge and wisdom to those who deserved it and denied it to those who did not, and
 

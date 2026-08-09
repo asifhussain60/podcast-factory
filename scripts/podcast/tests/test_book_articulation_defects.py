@@ -115,6 +115,10 @@ KNOWN: dict[str, dict[str, int]] = {
     #   duplicated       one instance, repaired in the Book Composer through
     #                    `compose_fix.py` — the lead-in's inline copy deleted, the
     #                    blockquote untouched.
+    #   romanized        14 sayings across two books, put back into Arabic script by
+    #                    `_book_romanization`'s ladder: nine confirmed against sourced
+    #                    wordings, five rendered from the transliteration the book
+    #                    itself printed. Every one agrees with those consonants.
     #   prophet          130 mentions across five books, repaired the same way: the
     #                    Prophet now carries his own ligature instead of the Imams'
     #                    honorific. The count rose from 118 first, when the honorific
@@ -123,11 +127,11 @@ KNOWN: dict[str, dict[str, int]] = {
     #
     # What remains is what needs Asif's judgment or a policy decision, not a mechanism.
     "Islamic/ayyuhal-walad": {"honorific": 1},
-    "Islamic/degrees-of-excellence": {"romanized": 1, "honorific": 12},
+    "Islamic/degrees-of-excellence": {"honorific": 12},
     "Islamic/kitab-al-riyad": {"honorific": 24},
     "Islamic/mukhtasar-ul-asar-1": {"honorific": 54},
     "Islamic/mukhtasar-ul-asar-2": {"honorific": 27},
-    "Islamic/spiritual-ethos": {"romanized": 13, "honorific": 11},
+    "Islamic/spiritual-ethos": {"honorific": 11},
     "Islamic/the-master-and-the-disciple": {"honorific": 1},
 }
 

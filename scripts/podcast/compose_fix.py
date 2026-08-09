@@ -234,6 +234,102 @@ def fix(book_dir: Path, selection: list[dict], *, kinds: list[str], log=print) -
     return {"applied": applied, "chapters_changed": len(applied)}
 
 
+def resolve_romanizations(
+    book_dir: Path,
+    selection: list[dict],
+    *,
+    allow_research: bool = True,
+    log=print,
+) -> dict:
+    """Put every romanized saying in the selected chapters back into Arabic script.
+
+    Its own function rather than an entry in `FIXES`, because it is the one repair that
+    is not a pure string transform: it reads the book's scanned source, the cross-book
+    library and — when neither holds the saying — the open web, and it needs the English
+    beside each saying as disambiguating context. The three-rung ladder lives in
+    `_book_romanization`; this applies what it returns.
+
+    The English rendering is left exactly where it was. Only the bracketed romanization
+    is replaced, so the author's sentence is untouched and the reader keeps the
+    translation that was always beside it.
+    """
+    from _book_defects import romanized_arabic
+    from _book_romanization import write_record
+
+    book_md = book_dir / "book" / "book.md"
+    md = book_md.read_text(encoding="utf-8")
+    wanted = {c["heading"]: c for c in selection}
+    title = book_dir.name.replace("-", " ").title()
+    resolutions = []
+    applied: list[dict] = []
+
+    for heading, run in romanized_arabic(md):
+        chapter = wanted.get(heading)
+        if chapter is None:
+            continue
+        start, end = _section_text(md, heading)
+        resolution = _resolve_one(book_dir, md[start:end], run, title, allow_research, log)
+        resolutions.append(resolution)
+        if not resolution.ok:
+            log(f"      UNRESOLVED: {run[:60]}")
+            continue
+        # Replace only the FIRST occurrence, inside this chapter, so an identical saying
+        # quoted in two chapters is resolved once per chapter rather than all at once.
+        section = md[start:end].replace(run, resolution.arabic, 1)
+        md = md[:start] + section + md[end:]
+        applied.append(
+            {
+                "heading": heading,
+                "romanization": run,
+                "arabic": resolution.arabic,
+                "provenance": resolution.provenance,
+                "sources": resolution.sources,
+            }
+        )
+        log(f"      {resolution.provenance:14} {run[:52]}")
+
+    if applied:
+        tmp = book_md.with_suffix(".md.tmp")
+        tmp.write_text(md, encoding="utf-8")
+        os.replace(tmp, book_md)
+        _record_chapter_edits(book_dir, md, {a["heading"] for a in applied})
+    if resolutions:
+        write_record(book_dir, resolutions)
+    return {"applied": applied, "resolved": len(applied), "unresolved": len(resolutions) - len(applied)}
+
+
+def _resolve_one(book_dir: Path, section: str, run: str, title: str, allow_research: bool, log):
+    """One saying's ladder walk, with the English beside it as context."""
+    from _book_romanization import resolve
+
+    # The sentence the romanization sits in, which is where its English rendering is.
+    line = next((ln for ln in section.split("\n") if run in ln), "")
+    context = line.replace(run, "").strip()[:400]
+    return resolve(
+        run,
+        book_dir=book_dir,
+        context=context,
+        book_title=title,
+        allow_research=allow_research,
+        log=log,
+    )
+
+
+def _record_chapter_edits(book_dir: Path, md: str, headings: set[str]) -> None:
+    """Record each changed chapter as a Composer save, so the change survives a compose."""
+    for heading in headings:
+        start, end = _section_text(md, heading)
+        section = md[start:end]
+        body = section.split("\n", 1)[1].strip() if "\n" in section else ""
+        record_edit(
+            book_dir,
+            chapter_key=anchor_key(heading),
+            body_md=body,
+            base_fingerprint=base_fingerprint_for(book_dir, anchor_key(heading)),
+            saved_at=datetime.now(timezone.utc).isoformat(),
+        )
+
+
 def _print_report(report: dict, proposals: list[tuple[str, str]]) -> None:
     print(f"\n{report['book']} — {len(report['chapters'])} chapter(s) checked")
     any_found = False
@@ -267,6 +363,16 @@ def main() -> int:
     parser.add_argument("--chapters", default="all", help="printed numbers (1,3,9 or 3-5), a title, or 'all'")
     parser.add_argument("--fix", action="store_true", help="apply the deterministic repairs")
     parser.add_argument("--only", help="comma-separated defect names to repair (default: all repairable)")
+    parser.add_argument(
+        "--resolve-romanization",
+        action="store_true",
+        help="put romanized Arabic sayings back into script (library -> grounded search -> render)",
+    )
+    parser.add_argument(
+        "--no-research",
+        action="store_true",
+        help="skip the one metered rung; the library and the rendering are both free",
+    )
     parser.add_argument("--list", action="store_true", help="print the chapter list and exit")
     parser.add_argument("--json", action="store_true", help="emit the report as JSON")
     parser.add_argument(
@@ -310,6 +416,21 @@ def main() -> int:
         for p in proposed_romanization_deletions(book_md.read_text(encoding="utf-8"))
         if p[0] in {c["heading"] for c in selection}
     ]
+
+    if args.resolve_romanization:
+        pid = composer_is_open()
+        if pid and not args.allow_composer_open:
+            print(
+                f"REFUSED: the Book Composer is running (pid {pid}) and autosaves the file this would "
+                "write.\nClose the tab, or pass --allow-composer-open if you know it is not on this book.",
+                file=sys.stderr,
+            )
+            return 1
+        print(f"\n{book_dir.name} — resolving romanized sayings")
+        report["romanization"] = resolve_romanizations(
+            book_dir, selection, allow_research=not args.no_research, log=print
+        )
+        report["after"] = check(book_dir, selection)["totals"]
 
     if args.fix:
         kinds = [k.strip() for k in args.only.split(",")] if args.only else report["repairable"]

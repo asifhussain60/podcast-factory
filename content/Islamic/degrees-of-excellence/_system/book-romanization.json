@@ -1,0 +1,17 @@
+{
+  "schema": "book.romanization/v1",
+  "counts": {
+    "library": 0,
+    "researched": 0,
+    "reconstructed": 1
+  },
+  "resolutions": [
+    {
+      "romanization": "al-khalifat al-kulli lillah taala ala ibadihi",
+      "arabic": "الْخَلِيفَةُ الْكُلِّيُّ لِلَّهِ تَعَالَى عَلَى عِبَادِهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    }
+  ]
+}
