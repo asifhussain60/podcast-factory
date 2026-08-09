@@ -19,6 +19,7 @@ phase. Two properties matter and both are pinned here:
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 import tempfile
@@ -38,6 +39,30 @@ from _progress import (
     update_phase,
     write_state,
 )
+
+_ORIG_GATES: str | None = None
+
+
+def setUpModule() -> None:
+    """This file is about the attempt BUDGET, not about the phase-review gates.
+
+    Its fixtures complete phases like 0b and 0d in a bare temp dir to move the budget
+    along. Since 2026-08-09 a completed phase is reviewed, and completing a gated phase
+    with none of its deliverables on disk correctly fails it — which would make every
+    assertion here about `completed` fail for a reason that has nothing to do with the
+    budget. Blocking is turned off through its own documented control surface rather
+    than by fabricating artifacts these tests never read.
+    """
+    global _ORIG_GATES
+    _ORIG_GATES = os.environ.get("PODCAST_PHASE_GATES")
+    os.environ["PODCAST_PHASE_GATES"] = "off"
+
+
+def tearDownModule() -> None:
+    if _ORIG_GATES is None:
+        os.environ.pop("PODCAST_PHASE_GATES", None)
+    else:
+        os.environ["PODCAST_PHASE_GATES"] = _ORIG_GATES
 
 
 class AttemptBudgetTests(unittest.TestCase):

@@ -75,7 +75,14 @@ class _Fixture(unittest.TestCase):
         def _pass(book_dir, slug, **kw):
             with self._lock:
                 self.ran.append(slug)
-            return (pass_fn or (lambda s: _outcome()))(slug)
+            result = (pass_fn or (lambda s: _outcome()))(slug)
+            # The real pass leaves an episode text behind, and the per-chapter review
+            # gate checks for exactly that. A mock that skips it makes the phase fail
+            # for a reason that has nothing to do with what these tests are about.
+            if result.final_verdict != "FAILED":
+                (Path(book_dir) / "episodes").mkdir(parents=True, exist_ok=True)
+                (Path(book_dir) / "episodes" / f"EP-{slug}.txt").write_text("framing\n", encoding="utf-8")
+            return result
 
         def _commit(book_dir, subject):
             with self._lock:

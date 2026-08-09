@@ -24,12 +24,28 @@ WHY THIS EXISTS
 
 BLOCKING POLICY (deliberate)
 
-  Every gate is ADVISORY unless its id is in `BLOCKING_GATES`. A brand-new review
-  layer that can halt a run is a layer that can strand a finished book, and the
-  cost of a false positive here is a human unblocking a book that was fine. This
-  mirrors the split `_compose_skips` already draws between page-altering steps
-  (which fail gate B8) and advisory ones (which only report). Gates get promoted
-  one at a time, after being watched reporting correctly on real books.
+  Every gate is ADVISORY unless its id is in `BLOCKING_GATES`. A blocking gate
+  REWRITES the phase as failed — `_progress.update_phase` runs this review at every
+  phase completion and applies the verdict — so the run stops at the phase that did
+  not do its job instead of advancing over it.
+
+  The line is drawn at judgement. A gate blocks when its failure means the phase
+  provably did not produce its own required output: a missing file, a chapter never
+  shipped, a status never flipped. A gate stays advisory when it applies a HEURISTIC
+  — a word-count ratio, a heading count, a re-run shape — because a threshold can be
+  wrong about a healthy book, and the first false positive would be a finished book
+  halted over a rule nobody can argue with at 2am.
+
+  A blocking gate can delay a book but never strand one: the phase is recorded
+  `failed` with the gate's own reason, and `--resume <slug> --retry-phase <phase>`
+  resets it and everything downstream. `PODCAST_PHASE_GATES=off` withdraws blocking
+  for a run without withdrawing the review.
+
+  Until 2026-08-09 this layer could not block at all — it recorded its verdict beside
+  a `completed` phase and the run carried on, which made it a report nobody was
+  obliged to read. Promotion was gated on watching the gates report correctly on real
+  books; that evidence was gathered at once instead, by sweeping every gate across all
+  22 books on disk over each book that had actually completed the phase.
 
 SHAPE
 
@@ -57,29 +73,31 @@ VERDICT_SOUND = "PHASE-SOUND"
 VERDICT_CONCERNS = "PHASE-CONCERNS"
 VERDICT_BROKEN = "PHASE-BROKEN"
 
-
-# ─── helpers ─────────────────────────────────────────────────────────────────
-
-
-def _size(path: Path) -> int:
-    try:
-        return path.stat().st_size
-    except OSError:
-        return -1
-
-
-def _words(path: Path) -> int:
-    try:
-        return len(path.read_text(encoding="utf-8").split())
-    except OSError:
-        return -1
-
-
-def _steps(book_dir: Path, phase: str) -> dict[str, dict[str, Any]]:
-    """The latest record per step for `phase`, from the most recent run."""
-    from _step_ledger import last_by_step, latest_steps
-
-    return last_by_step(latest_steps(book_dir, phase=phase))
+# The gates themselves live in `_phase_gates` (DR-005 split, 2026-08-09). Re-exported
+# here because every caller and test reaches for them at this path, and because the
+# registries below read as a table of contents only when the names are in scope.
+from _phase_gates import (  # noqa: F401  - re-exported for callers and tests
+    gate_apparatus_steps_all_ran,
+    gate_audit_bundle_written,
+    gate_book_md_covers_toc,
+    gate_book_md_present,
+    gate_book_toc_parses,
+    gate_chapter_contracts_exist,
+    gate_completed_slugs_cover_contracts,
+    gate_contracts_have_chapter_files,
+    gate_enrichment_recorded,
+    gate_every_chapter_has_an_episode,
+    gate_no_page_altering_step_failed,
+    gate_no_step_failed,
+    gate_publication_status_flipped,
+    gate_refined_covers_source,
+    gate_refined_text_present,
+    gate_rendered_pdf_present,
+    gate_slide_decks_present,
+    gate_source_text_present,
+    gate_window_cache_intact,
+    gate_windows_not_repaid,
+)
 
 
 def _completed_phases(book_dir: Path) -> set[str] | None:
@@ -102,227 +120,6 @@ def _completed_phases(book_dir: Path) -> set[str] | None:
     return {p for p, blk in phases.items() if isinstance(blk, dict) and blk.get("status") == "completed"}
 
 
-def _derives_from_container(book_dir: Path) -> bool:
-    """True when this book is a VOLUME that takes its source from a parent container.
-
-    The nested multi-volume series do not each own an OCR scan: the whole work is
-    scanned once at the container and each volume works from its own slice. Verified on
-    disk 2026-08-08 — `asaas-al-taveel/vol-02` and `al-anwaar-al-lateefah/vol-01` both
-    carry `refined-english.md` and legitimately no `raw-extract.md`, while the container
-    holds the scan (`asaas-al-taveel/_source/`).
-
-    TWO signals, because the two series do NOT declare it the same way and a single
-    check missed half of them on the first attempt:
-
-      * `content-range.md` — an explicit declaration of which pages this volume covers.
-        All six `asaas-al-taveel` volumes have one; no `al-anwaar-al-lateefah` volume
-        does.
-      * a `vol-*` directory with sibling `vol-*` directories beside it — structural, and
-        what catches the second series. The `vol-` prefix follows the one precedent in
-        the repo (`fill_glossary_cross_book.py:95`); requiring SIBLINGS is what keeps it
-        from firing on a coincidentally-named folder.
-    """
-    book_dir = Path(book_dir)
-    if (book_dir / "_system" / "source" / "text" / "content-range.md").exists():
-        return True
-    if not book_dir.name.startswith("vol-"):
-        return False
-    try:
-        siblings = [d for d in book_dir.parent.iterdir() if d.is_dir() and d.name.startswith("vol-")]
-    except OSError:
-        return False
-    return len(siblings) >= 2
-
-
-# ─── OWN gates ───────────────────────────────────────────────────────────────
-
-
-def gate_source_text_present(book_dir: Path) -> tuple[bool, str]:
-    p = book_dir / "_system" / "source" / "text" / "raw-extract.md"
-    n = _size(p)
-    if n <= 0:
-        # A volume of a nested series has no scan of its own — the whole work is
-        # scanned once at the container and each volume declares its slice. Reporting
-        # those as broken accounted for 22 of the 162 failures in the 2026-08-08 sweep,
-        # across eleven perfectly healthy volumes.
-        if _derives_from_container(book_dir):
-            return True, "no scan of its own — this volume slices a container's source (content-range.md)"
-        return False, f"raw-extract.md is missing or empty ({p.name})"
-    return True, f"raw-extract.md present ({n:,} bytes)"
-
-
-def gate_refined_text_present(book_dir: Path) -> tuple[bool, str]:
-    p = book_dir / "_system" / "source" / "text" / "refined-english.md"
-    n = _size(p)
-    if n <= 0:
-        return False, "refined-english.md is missing or empty"
-    return True, f"refined-english.md present ({n:,} bytes)"
-
-
-def gate_refined_covers_source(book_dir: Path) -> tuple[bool, str]:
-    """Refinement rewrites prose; it must not LOSE most of it.
-
-    A generous floor on purpose (60% of the source's words). Refinement legitimately
-    drops OCR apparatus, headers and page furniture, so a strict ratio would cry
-    wolf on every book. What this catches is the failure that actually happens: a
-    windowed run that stitched only some of its windows, so the refined text is a
-    fraction of the source and every later phase works from a truncated book.
-    """
-    src = book_dir / "_system" / "source" / "text" / "raw-extract.md"
-    out = book_dir / "_system" / "source" / "text" / "refined-english.md"
-    sw, ow = _words(src), _words(out)
-    if sw <= 0 or ow <= 0:
-        return True, "cannot compare (one side missing) — see the presence gates"
-    ratio = ow / sw
-    if ratio < 0.60:
-        return False, f"refined text is {ratio:.0%} of the source ({ow:,} of {sw:,} words) — likely truncated"
-    return True, f"refined text is {ratio:.0%} of the source ({ow:,} of {sw:,} words)"
-
-
-def gate_windows_not_repaid(book_dir: Path) -> tuple[bool, str]:
-    """Did this windowed phase pay again for windows it already had?
-
-    The evidence is the step ledger's own distinction between a window that was
-    COMPUTED (`ok`) and one served from cache (`noop`). Phase 0b re-refined all 28
-    windows of `spiritual-ethos` five times on 2026-08-05 — $8.38, 81% of that
-    book's entire real spend — and nothing on disk afterwards said so.
-
-    Advisory: a first run legitimately computes every window. What this surfaces is
-    the SHAPE of a re-run, for a human reading the review.
-    """
-    rows = _steps(book_dir, "0b")
-    wins = {k: v for k, v in rows.items() if k.startswith("win-")}
-    if not wins:
-        return True, "no window records for this run"
-    computed = [k for k, v in wins.items() if v.get("outcome") == "ok"]
-    cached = [k for k, v in wins.items() if v.get("outcome") == "noop"]
-    if computed and not cached:
-        return True, f"computed all {len(computed)} window(s) — consistent with a first run"
-    if computed and cached:
-        return True, f"{len(cached)} window(s) from cache, {len(computed)} recomputed"
-    return True, f"all {len(cached)} window(s) served from cache — no spend"
-
-
-def gate_window_cache_intact(book_dir: Path) -> tuple[bool, str]:
-    """The window cache must not vanish while its source is unchanged.
-
-    On 2026-08-05 the 0b cache was absent at the start of five separate runs on the
-    same unchanged source, and each run re-paid for all 28 windows. Nothing in this
-    repo deletes it and the `Cleanup Mac` script cannot reach `~/PROJECTS`, so the
-    cause is still unidentified — which is exactly why the CONDITION is worth
-    reporting rather than the cause worth guessing. `**/_chunks/` is gitignored, so
-    a hand-typed `git clean -fdx` removes it.
-    """
-    src = book_dir / "_system" / "source" / "text" / "raw-extract.md"
-    out = book_dir / "_system" / "source" / "text" / "refined-english.md"
-    cache = book_dir / "_system" / "source" / "text" / "_chunks" / "0b"
-    if _size(out) <= 0:
-        return True, "0b has not produced output yet — nothing to cache"
-    present = sorted(cache.glob("win-*.out.md")) if cache.is_dir() else []
-    if present:
-        return True, f"window cache intact ({len(present)} window(s))"
-    if _size(src) <= 0:
-        return True, "no source on disk — cache absence is expected"
-    return (
-        False,
-        "0b produced refined text but its window cache is GONE while the source is "
-        "still present — a re-run will re-pay for every window (~$8 on a 28-window "
-        "book). Nothing in this repo deletes it; `**/_chunks/` is gitignored, so a "
-        "`git clean -fdx` would.",
-    )
-
-
-def gate_chapter_contracts_exist(book_dir: Path) -> tuple[bool, str]:
-    d = book_dir / "chapter-contracts"
-    n = len(list(d.glob("*.yml"))) if d.is_dir() else 0
-    if n == 0:
-        return False, "no chapter contracts — phase 0d produced nothing"
-    return True, f"{n} chapter contract(s)"
-
-
-def gate_book_toc_parses(book_dir: Path) -> tuple[bool, str]:
-    p = book_dir / "book" / "book-toc.json"
-    if _size(p) <= 0:
-        return False, "book-toc.json is missing or empty"
-    try:
-        toc = json.loads(p.read_text(encoding="utf-8"))
-    except Exception as e:
-        return False, f"book-toc.json does not parse: {e}"
-    chapters = toc.get("chapters") or []
-    if not chapters:
-        return False, "book-toc.json parses but declares no chapters"
-    return True, f"book-toc.json declares {len(chapters)} chapter(s)"
-
-
-def gate_book_md_present(book_dir: Path) -> tuple[bool, str]:
-    p = book_dir / "book" / "book.md"
-    n = _size(p)
-    if n <= 0:
-        return False, "book/book.md is missing or empty"
-    return True, f"book.md present ({n:,} bytes)"
-
-
-def gate_book_md_covers_toc(book_dir: Path) -> tuple[bool, str]:
-    """Every chapter the design declared must have a heading in the composed book."""
-    toc_path = book_dir / "book" / "book-toc.json"
-    md_path = book_dir / "book" / "book.md"
-    if _size(toc_path) <= 0 or _size(md_path) <= 0:
-        return True, "cannot compare (toc or book.md missing) — see the presence gates"
-    try:
-        toc = json.loads(toc_path.read_text(encoding="utf-8"))
-        md = md_path.read_text(encoding="utf-8")
-    except Exception as e:
-        return True, f"cannot compare ({e})"
-    declared = [str(c.get("title") or "") for c in (toc.get("chapters") or [])]
-    headings = md.count("\n## ")
-    if not declared:
-        return True, "toc declares no chapters"
-    if headings < len(declared):
-        return False, f"book.md has {headings} chapter heading(s) for {len(declared)} declared chapter(s)"
-    return True, f"{headings} heading(s) for {len(declared)} declared chapter(s)"
-
-
-def gate_apparatus_steps_all_ran(book_dir: Path) -> tuple[bool, str]:
-    """Every declared apparatus step must have left a record.
-
-    This is the question no gate could ask before the step ledger existed: not
-    "did anything fail" but "did each step that was supposed to run actually run".
-    A step deleted from the sequence, or never reached because an earlier one
-    returned early, used to be undetectable — nothing failed, so nothing reported.
-    """
-    from _book_apparatus import APPARATUS_STEPS
-
-    recorded = _steps(book_dir, "0book-compose")
-    if not recorded:
-        return True, "no step records for this run (compose may not have run yet)"
-    missing = [s for s in APPARATUS_STEPS if s not in recorded]
-    if missing:
-        return False, f"{len(missing)} apparatus step(s) left no record: {', '.join(missing)}"
-    return True, f"all {len(APPARATUS_STEPS)} apparatus step(s) recorded"
-
-
-def gate_no_page_altering_step_failed(book_dir: Path) -> tuple[bool, str]:
-    """Delegates the classification to `_compose_skips`, which already owns it.
-
-    Re-deriving "which steps change the printed page" here would be a second
-    answer to a question that already has one, and the two would drift.
-    """
-    from _compose_skips import verdict
-
-    return verdict(book_dir)
-
-
-def gate_no_step_failed(book_dir: Path) -> tuple[bool, str]:
-    """Any failed step in the most recent run, across every phase. Advisory."""
-    from _step_ledger import latest_steps
-
-    failed = [r for r in latest_steps(book_dir) if r.get("outcome") == "failed"]
-    if not failed:
-        return True, "no step failed in this run"
-    names = ", ".join(dict.fromkeys(str(r.get("step")) for r in failed))
-    return False, f"{len(failed)} step(s) failed: {names}"
-
-
 # ─── registries ──────────────────────────────────────────────────────────────
 
 #: Gates about a phase's OWN work, run when that phase completes.
@@ -341,6 +138,59 @@ OWN_GATES: dict[str, list[Gate]] = {
         ("PC3", "no-page-altering-step-failed", gate_no_page_altering_step_failed),
         ("PC4", "book-md-covers-toc", gate_book_md_covers_toc),
     ],
+    # Added 2026-08-09. Until then twenty-four of the twenty-nine phases checked
+    # nothing about the work they had just done; the review layer only re-verified
+    # that the five gated phases' outputs still existed.
+    "0e": [("PE1", "enrichment-recorded", gate_enrichment_recorded)],
+    "0g": [("PGG1", "audit-bundle-written", gate_audit_bundle_written)],
+    "per-chapter": [
+        ("PPC1", "every-chapter-has-an-episode", gate_every_chapter_has_an_episode),
+        ("PPC2", "completed-slugs-cover-contracts", gate_completed_slugs_cover_contracts),
+    ],
+    "per-chapter-slides": [("PPS1", "slide-decks-present", gate_slide_decks_present)],
+    "0book-render": [("PBR1", "rendered-pdf-present", gate_rendered_pdf_present)],
+    "publish": [("PP1", "publication-status-flipped", gate_publication_status_flipped)],
+}
+
+#: Why a phase has no gate of its own. EXHAUSTIVE with `OWN_GATES` over `_progress.PHASES`
+#: — a test asserts every phase appears in exactly one of the two, so a new phase cannot
+#: quietly join the pipeline unexamined. "No gate" is then a decision on the record
+#: rather than an oversight, which is the whole difference between the two.
+NO_OWN_GATE_REASON: dict[str, str] = {
+    # Bookkeeping — these move git or state and produce no artifact to inspect. Their
+    # failure mode is an exception, which already fails the phase.
+    "pre-flight": "environment check; produces nothing to inspect",
+    "branch": "creates the content branch; git is the record",
+    "scaffold": "creates empty directories; 0a is the first phase with output",
+    "merge": "merges the content branch; git is the record",
+    "done": "terminal marker, not work",
+    "trainer": "proposes spec refinements on a branch; its own regression suite is the gate",
+    # Human halts — these deliberately stop for review and record `halted`, not
+    # `completed`, so a completion gate would never run. Verified on disk: of the books
+    # with a 0f block, six are `halted` and none is `completed`.
+    "06a": "human approval halt",
+    "0f": "series-plan review halt — records `halted`, never `completed`",
+    "finalize": "the reviewable-deliverable halt — records `halted`, never `completed`",
+    # No dependable universal artifact. Each of these was probed against all 22 books
+    # and the candidate gate failed on healthy ones, so it was dropped rather than
+    # softened into something that passes everything.
+    "0c": (
+        "phonetic pass; candidate gates on unified-book.md and glossary.yml both failed "
+        "on healthy books (6 of 8 and 1 of 8) — it rewrites in place and its artifacts "
+        "are route-dependent"
+    ),
+    "0ci": "book-intelligence gap analysis; advisory output, no required artifact",
+    "0literary": "literary pass; rewrites in place, no artifact of its own",
+    # Optional or engine-dependent, and no book has ever COMPLETED them — every book on
+    # disk records `skipped` (the manual NotebookLM engine) or has no block at all. A
+    # gate written against zero evidence is a guess, and the first book to reach the
+    # phase would be the one it cried wolf on.
+    "audio-script": "no book has completed this phase; manual-engine books record `skipped`",
+    "audio-render": "no book has completed this phase; manual-engine books record `skipped`",
+    "audio-ingest": "no book has completed this phase; manual-engine books record `skipped`",
+    "0book-illustrate": "no book has completed this phase; gate it when one has",
+    "0book-slide-import": "no book has completed this phase; gate it when one has",
+    "per-chapter-optimize": "opt-in Sonnet pass, default off; records `skipped` for most books",
 }
 
 #: CHEAP, read-only gates that every LATER phase re-runs. This is the cross-phase
@@ -359,11 +209,62 @@ RECHECK_GATES: dict[str, list[Gate]] = {
 }
 
 #: Only these gate ids may fail a phase. Everything else reports and is ignored.
-#: Deliberately small to begin with — see the module docstring on blocking policy.
-#: PC3 is here because it delegates to gate B8, which was already blocking at ship
-#: time; promoting it to the compose boundary changes WHEN it is enforced, not
-#: WHETHER, so it introduces no new way to strand a book.
-BLOCKING_GATES: frozenset[str] = frozenset({"PC3"})
+#:
+#: THE LINE (2026-08-09). A gate blocks when its failure means the phase provably did
+#: not produce its own required output — a missing file, a chapter never shipped, a
+#: status never flipped. Those cannot be wrong about a healthy book: there is no
+#: judgement in "the PDF is not there".
+#:
+#: A gate stays ADVISORY when it applies a HEURISTIC — a word-count ratio, a heading
+#: count, a re-run shape. Those are worth reporting and must never strand a book,
+#: because the threshold is a guess and the first false positive would be a finished
+#: book halted for a rule nobody can argue with at 2am.
+#:
+#: Every id below was run against all 22 books on disk, over each book that actually
+#: completed that phase: 17 gates, zero failures, zero crashes. That sweep is the
+#: evidence for promotion — the policy this replaces asked for gates to be watched
+#: reporting correctly on real books first, and this is that check done at once
+#: rather than one gate at a time.
+#:
+#: A promoted gate can never permanently strand a book: it records the phase `failed`
+#: with the gate's own reason, and `--resume <slug> --retry-phase <phase>` resets that
+#: phase and everything downstream. Blocking can also be turned off wholesale for a
+#: run — see `blocking_enabled`.
+BLOCKING_GATES: frozenset[str] = frozenset(
+    {
+        "PA1",  # source text present
+        "PB1",  # refined text present
+        "PD1",  # chapter contracts exist
+        "PG1",  # book toc parses
+        "PC1",  # book.md present
+        "PC3",  # no page-altering compose step failed (was blocking before this list grew)
+        "PE1",  # enrichment recorded
+        "PGG1",  # audit bundle written
+        "PPC1",  # every chapter has an episode
+        "PPC2",  # completed slugs cover contracts
+        "PPS1",  # slide decks present
+        "PBR1",  # rendered pdf present
+        "PP1",  # publication status flipped
+    }
+)
+
+#: Advisory by deliberate choice, listed so the split is legible rather than implied by
+#: absence: PB2 (60% word-count floor), PB3 (re-run shape), PC2 (depends on the ledger
+#: being complete), PC4 (heading count vs declared chapters).
+
+#: Set to any of these to turn blocking off for a run. The review still runs and still
+#: records everything it finds — only the ability to fail a phase is withdrawn. Exists so
+#: a false positive can never be a reason to wait for a code change, and so a book can be
+#: pushed through under supervision.
+_OFF_VALUES = frozenset({"0", "off", "false", "no"})
+BLOCKING_ENV = "PODCAST_PHASE_GATES"
+
+
+def blocking_enabled() -> bool:
+    """False when the operator has turned blocking off for this run."""
+    import os
+
+    return os.environ.get(BLOCKING_ENV, "on").strip().lower() not in _OFF_VALUES
 
 
 #: Phase order, used to decide which recheck tiers a phase inherits. Read from

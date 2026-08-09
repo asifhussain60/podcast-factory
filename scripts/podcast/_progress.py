@@ -365,6 +365,51 @@ def update_phase(
         return _update_phase_locked(book_dir, phase=phase, status=status, error=error, extras=extras)
 
 
+def _previous_completed(state: dict[str, Any], phase: str) -> str | None:
+    """The last phase before `phase` that this book actually completed, or None.
+
+    Used to walk `last_completed_phase` back when a phase's own review fails it, so the
+    run points at the phase that needs fixing rather than at the one after it.
+    """
+    try:
+        idx = PHASES.index(phase)
+    except ValueError:
+        return state.get("last_completed_phase")
+    blocks = state.get("phases") or {}
+    for earlier in reversed(PHASES[:idx]):
+        blk = blocks.get(earlier)
+        if isinstance(blk, dict) and blk.get("status") == "completed":
+            return earlier
+    return None
+
+
+def _phase_review_for(book_dir: Path, phase: str, status: str) -> dict[str, Any] | None:
+    """Review `phase` if it just completed and declares gates. Never raises.
+
+    Returns the report, or None when there was nothing to review. Fully guarded for the
+    same reason the reviewer's own gates are: a review is an OBSERVER, and a fault in
+    the observing must not decide the fate of the phase it was watching. A crash here
+    therefore yields None, which means the phase completes exactly as it did before this
+    layer existed.
+
+    `blocking_fail` is left set on the returned report ONLY when blocking is enabled, so
+    the caller has one thing to test and the escape hatch cannot be half-applied.
+    """
+    if status != "completed":
+        return None
+    try:
+        from _phase_review import blocking_enabled, phase_has_gates, review_phase
+
+        if not phase_has_gates(phase):
+            return None
+        report = review_phase(book_dir, phase)
+        if report.get("blocking_fail") and not blocking_enabled():
+            report = {**report, "blocking_fail": None, "blocking_suppressed": True}
+        return report
+    except Exception:
+        return None
+
+
 def _update_phase_locked(
     book_dir: Path,
     *,
@@ -382,6 +427,7 @@ def _update_phase_locked(
         )
 
     now = _utc_now()
+
     state["phase"] = phase
     state["phase_status"] = status
     phase_block = state["phases"].setdefault(phase, {"status": "pending"})
@@ -422,33 +468,47 @@ def _update_phase_locked(
     if run_id:
         state["run_id"] = run_id
 
-    # Phase review (2026-08-08). Hooked HERE, at the single point every phase
-    # completion passes through, rather than at each driver's own
-    # `update_phase(..., status="completed")` call site. That is deliberate: the
-    # recurring defect in this repo is a gate that reports clean over a rule it
-    # never ran, and a per-driver hook is one a new phase can be added without.
-    # From here it cannot be forgotten.
-    #
-    # Runs only for phases that actually declare gates, so the other twenty-four
-    # phases pay nothing. Runs BEFORE the single `write_state` below so the summary
-    # rides along in one write instead of a second one. Fully guarded — a review is
-    # an observer, and must never turn a completed phase into a failed one.
-    if status == "completed":
-        try:
-            from _phase_review import phase_has_gates, review_phase
-
-            if phase_has_gates(phase):
-                _report = review_phase(book_dir, phase)
-                phase_block["review"] = {
-                    "verdict": _report["verdict"],
-                    "failed": _report["counts"]["failed"],
-                    "crashed": _report["counts"]["crashed"],
-                    "total": _report["counts"]["total"],
-                }
-        except Exception:
-            pass
-
     write_state(book_dir, state)
+
+    # Phase review (2026-08-08; able to BLOCK since 2026-08-09). Hooked HERE, at the
+    # single point every phase completion passes through, rather than at each driver's
+    # own `update_phase(..., status="completed")` call site. That is deliberate: the
+    # recurring defect in this repo is a gate that reports clean over a rule it never
+    # ran, and a per-driver hook is one a new phase can be added without. From here it
+    # cannot be forgotten.
+    #
+    # It runs AFTER the state is written, and that ordering is load-bearing: the gates
+    # read the book's state from disk, and the extras of THIS call — `completed_slugs`
+    # for the per-chapter lane, the publication status for publish — are how a phase
+    # reports what it did. Reviewing before the write asked the gates about the previous
+    # call's state and made them report a phase short of work it had just recorded.
+    #
+    # A blocking failure then rewrites the phase as failed. Only gates in
+    # `BLOCKING_GATES` can do that, only when blocking is enabled, and the result is an
+    # ordinary phase failure: `--resume <slug> --retry-phase <phase>` resets it and
+    # everything downstream, so a gate can delay a book but never strand one.
+    _review = _phase_review_for(book_dir, phase, status)
+    if _review is not None:
+        _blocking = _review.get("blocking_fail")
+        if _blocking:
+            status = "failed"
+            error = f"phase review: {_blocking}"
+            state["phase_status"] = status
+            phase_block["status"] = status
+            state["last_error"] = {"phase": phase, "message": error, "ts": now}
+            # Undo the advancement the completed path had just recorded: a phase whose
+            # own review says it did not do its job must not leave the run pointing at
+            # the next one, or a resume walks straight past the problem.
+            state["last_completed_phase"] = _previous_completed(state, phase)
+            state["next_phase"] = phase
+        phase_block["review"] = {
+            "verdict": _review["verdict"],
+            "failed": _review["counts"]["failed"],
+            "crashed": _review["counts"]["crashed"],
+            "total": _review["counts"]["total"],
+            "blocking_fail": _review.get("blocking_fail"),
+        }
+        write_state(book_dir, state)
 
     # Timeline + failure dump. Both are internally guarded: observability must
     # never turn a working phase into a failed one.

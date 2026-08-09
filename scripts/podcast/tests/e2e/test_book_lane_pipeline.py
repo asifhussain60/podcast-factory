@@ -99,7 +99,11 @@ class BookLaneE2ETests(unittest.TestCase):
 
     def _mock_build_book(self, book_dir: Path, log=print, **_kw) -> Path:
         out = Path(book_dir) / "book" / "book.pdf"
-        out.write_bytes(b"%PDF-1.4 mocked\n")
+        # Padded past the render gate's 10 kB floor. That floor exists because a failed
+        # render can leave a structurally valid but essentially empty PDF behind, which
+        # a presence check waves through — so a mock that stands in for a SUCCESSFUL
+        # render has to be big enough to be one.
+        out.write_bytes(b"%PDF-1.4 mocked\n" + b"%mock page content\n" * 700)
         return out
 
     def _mock_validate(self, book_dir: Path, **_kw) -> dict:

@@ -106,7 +106,7 @@ class AudioEnginePathE2E(unittest.TestCase):
             mock.patch.object(chapter_driver, "phase_git_commit"),
             mock.patch.object(post_chapter_driver, "phase_git_commit"),
             mock.patch.object(post_chapter_driver, "phase_0g_register"),
-            mock.patch.object(post_chapter_driver, "phase_0g_audit_bundles", return_value={CHAPTER_SLUG: "PASS"}),
+            mock.patch.object(post_chapter_driver, "phase_0g_audit_bundles", side_effect=self._audit_bundles),
             mock.patch.object(post_chapter_driver, "_run", return_value=(0, "G1-G7 OK", "")),
             mock.patch.object(audio_driver, "phase_git_commit"),
             mock.patch(
@@ -131,6 +131,18 @@ class AudioEnginePathE2E(unittest.TestCase):
                 # addCleanup will call stop again; make it harmless.
                 patches.clear()
         return rc, out.getvalue()
+
+    def _audit_bundles(self, book_dir, slugs, *a, **kw):
+        """Stand in for the real 0g sweep, INCLUDING the audit files it writes.
+
+        The phase's review gate checks `audits/` on disk, because the state key it
+        would otherwise read was added later and one healthy book predates it. A mock
+        that returns outcomes without writing anything is a 0g that swept nothing.
+        """
+        audits = Path(book_dir) / "audits"
+        audits.mkdir(parents=True, exist_ok=True)
+        (audits / f"{CHAPTER_SLUG}-bundle-audit.md").write_text("mocked audit\n", encoding="utf-8")
+        return {CHAPTER_SLUG: "PASS"}
 
     def _phase(self, phase):
         return (_progress.read_state(self.book) or {})["phases"][phase]

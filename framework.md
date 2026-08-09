@@ -162,6 +162,20 @@ The pipeline is **machine-agnostic**. Most work is done by Anthropic + Azure rem
 
 ---
 
+## Every phase checks its own work, and a failed check stops the run (2026-08-09)
+
+A phase records `completed` when its code reached the end without raising, which is not the same as having done the work. Since 2026-08-08 each completion is reviewed against recorded evidence; since 2026-08-09 that review can **fail the phase** rather than leave a note beside a completed one.
+
+- **Two registries, exhaustive between them.** Eleven of the twenty-nine phases now have a gate on their own output, and the other eighteen carry a written reason for having none — bookkeeping (git and state, nothing to inspect), human halts (which record `halted`, never `completed`), phases that rewrite in place with no dependable artifact, and phases no book has ever completed. A test asserts every phase appears in exactly one registry, so a new phase cannot join the pipeline unexamined.
+- **A gate blocks only when its failure is a fact, never a judgement.** Blocking gates assert the phase's required output exists — a file, a chapter shipped, a status flipped. Heuristics stay advisory: the refinement word-count floor, the heading count against the declared chapters, the re-run shape, the apparatus-ledger completeness. A threshold can be wrong about a healthy book; a missing PDF cannot.
+- **Every promoted gate was swept across all 22 books on disk first**, over each book that had actually completed that phase — seventeen gates, zero failures, zero crashes. A candidate that failed on a healthy book was dropped rather than softened; three were, and their reasons are recorded beside the phases they would have covered.
+- **A gate can delay a book but never strand one.** A blocking failure records the phase `failed` with the gate's own reason and walks the run's pointers back to that phase, so `--resume <slug> --retry-phase <phase>` resets it and everything downstream — the same recovery path every other phase failure already uses.
+- **`PODCAST_PHASE_GATES=off`** withdraws blocking for a run without withdrawing the review: findings are still recorded, they simply cannot fail a phase. It exists so a false positive is never a reason to wait for a code change.
+- **The review is an observer and cannot break a phase.** It is fully guarded — a crash in reviewing leaves the run exactly as it was before this layer existed — and phases with no gates pay nothing at all.
+- **Ordering is load-bearing:** the review runs *after* the state write, because a phase reports what it did through the `extras` of the call that completes it. Reviewing first asked the gates about the previous call's state.
+
+---
+
 ## Per-chapter concurrency and the two spend limits (2026-08-09)
 
 The per-chapter loop is **serial by default**. It is the biggest wall-clock cost in the pipeline — a measured 732 minutes for the 20 chapters of `the-master-and-the-disciple`, a median of 37 minutes each — and it can run chapters concurrently, but only when the book's spend limits can still be enforced.

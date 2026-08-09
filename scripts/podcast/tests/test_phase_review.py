@@ -344,8 +344,11 @@ class VerdictAndBlockingTests(_BookFixture):
         self.assertEqual(pr.review_phase(self.book, "0b")["verdict"], pr.VERDICT_SOUND)
 
     def test_a_failing_advisory_gate_yields_concerns_not_broken(self):
-        (self.text / "refined-english.md").unlink()
-        report = pr.review_phase(self.book, "0b")
+        # An id deliberately NOT in BLOCKING_GATES. PB2/PB3/PC2/PC4 are the real ones;
+        # a synthetic id keeps this test about the advisory MECHANISM rather than about
+        # which particular gate happens to be advisory today.
+        with mock.patch.dict(pr.OWN_GATES, {"0b": [("PZ9", "advisory", lambda _bd: (False, "advisory failure"))]}):
+            report = pr.review_phase(self.book, "0b")
         self.assertEqual(report["verdict"], pr.VERDICT_CONCERNS)
         self.assertIsNone(report["blocking_fail"], "an advisory gate must never block")
 
@@ -355,10 +358,72 @@ class VerdictAndBlockingTests(_BookFixture):
         self.assertEqual(report["verdict"], pr.VERDICT_BROKEN)
         self.assertIn("forced failure", report["blocking_fail"])
 
-    def test_only_declared_gates_can_block(self):
+    def test_the_blocking_set_is_exactly_what_was_promoted(self):
+        """Widening this set is a deliberate decision, not a drift.
+
+        Every id here was swept across all 22 books on disk, over each book that had
+        actually completed that phase, before being promoted: 17 gates, zero failures.
+        Adding an id without doing that sweep is how a review layer starts stranding
+        healthy books.
+        """
         self.assertEqual(
-            pr.BLOCKING_GATES, frozenset({"PC3"}), "widening this set is a deliberate decision, not a drift"
+            pr.BLOCKING_GATES,
+            frozenset({"PA1", "PB1", "PD1", "PG1", "PC1", "PC3", "PE1", "PGG1", "PPC1", "PPC2", "PPS1", "PBR1", "PP1"}),
         )
+
+    def test_the_heuristic_gates_stay_advisory(self):
+        """The line: a gate blocks on a missing DELIVERABLE, never on a judgement call.
+
+        These four apply a threshold — a word-count floor, a re-run shape, a heading
+        count, a ledger-completeness check. A threshold can be wrong about a healthy
+        book, and the first time one is, it would halt a finished book over a rule
+        nobody can argue with at 2am.
+        """
+        for advisory in ("PB2", "PB3", "PC2", "PC4"):
+            self.assertNotIn(advisory, pr.BLOCKING_GATES, f"{advisory} applies a heuristic and must not block")
+
+    def test_every_gate_id_is_unique_across_the_registries(self):
+        ids = [g[0] for gates in pr.OWN_GATES.values() for g in gates]
+        ids += [g[0] for gates in pr.RECHECK_GATES.values() for g in gates]
+        self.assertEqual(
+            len(ids), len(set(ids)), f"duplicate gate id(s): {sorted({i for i in ids if ids.count(i) > 1})}"
+        )
+
+    def test_every_blocking_id_is_a_gate_that_exists(self):
+        # A typo here would be a gate that silently never blocks.
+        declared = {g[0] for gates in pr.OWN_GATES.values() for g in gates}
+        self.assertEqual(pr.BLOCKING_GATES - declared, set(), "blocking ids that match no declared gate")
+
+
+class PhaseCoverageTests(unittest.TestCase):
+    """Every phase is either gated or has its reason on the record — never neither.
+
+    Until 2026-08-09 twenty-four of twenty-nine phases checked nothing about their own
+    work, and nothing said whether that was a decision or an oversight. Splitting them
+    into two exhaustive registries is what makes a new phase impossible to add without
+    someone answering the question.
+    """
+
+    def _phases(self):
+        from _progress import PHASES
+
+        return PHASES
+
+    def test_every_phase_is_accounted_for_exactly_once(self):
+        for phase in self._phases():
+            gated = phase in pr.OWN_GATES
+            reasoned = phase in pr.NO_OWN_GATE_REASON
+            self.assertTrue(gated or reasoned, f"phase {phase!r} has no gate and no recorded reason for having none")
+            self.assertFalse(gated and reasoned, f"phase {phase!r} is both gated and excused")
+
+    def test_neither_registry_names_something_that_is_not_a_phase(self):
+        known = set(self._phases())
+        self.assertEqual(set(pr.OWN_GATES) - known, set())
+        self.assertEqual(set(pr.NO_OWN_GATE_REASON) - known, set())
+
+    def test_every_recorded_reason_actually_says_something(self):
+        for phase, why in pr.NO_OWN_GATE_REASON.items():
+            self.assertGreater(len(why.strip()), 15, f"{phase} has a placeholder reason")
 
 
 class RobustnessTests(_BookFixture):
