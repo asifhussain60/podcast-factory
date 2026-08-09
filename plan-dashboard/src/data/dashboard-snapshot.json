@@ -1938,6 +1938,31 @@
   ],
   "recent_commits": [
     {
+      "sha": "4e8bde6c",
+      "subject": "feat(book): five reading-edition defects, checked on every compose and repairable one chapter at a time",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "f01d3b09",
+      "subject": "fix(book): a quotation line's direction is decided by which script it is MOSTLY in",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "fe0e8bfa",
+      "subject": "test(book): record the two reading-edition defects the articulation route lets through",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "a4edfb91",
+      "subject": "feat(pipeline): every phase checks its own work, and a failed check stops the run",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "94e715c8",
+      "subject": "chore(plan-dashboard): resync snapshot after the orchestrator review fixes",
+      "date": "2026-08-09"
+    },
+    {
       "sha": "7e7e4bc2",
       "subject": "fix(orchestrator): twelve review findings, and the two that lost real work",
       "date": "2026-08-09"
@@ -1960,31 +1985,6 @@
     {
       "sha": "362d8d07",
       "subject": "fix(cost): one ledger, and it is the one the spend ceiling reads",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "48eeae35",
-      "subject": "feat(per-chapter): record a step per stage so 37 min/chapter is explainable",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "03493556",
-      "subject": "chore(plan-dashboard): resync snapshot after the flow-harness commit",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "8bff09e5",
-      "subject": "fix(orchestrator): close eight resume dead ends, pinned by a new flow harness",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "6653ece7",
-      "subject": "chore(plan-dashboard): resync snapshot after the orchestrator refactor merge",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "e469037a",
-      "subject": "Merge: orchestrator efficiency + accuracy pass",
       "date": "2026-08-08"
     }
   ],
