@@ -41,8 +41,6 @@ from __future__ import annotations
 
 import re
 
-from _book_defects import blocks, chapters, is_arabic_quote_line, quote_paragraphs
-
 #: The paragraph is the rendering AND NOTHING ELSE: it opens on a quotation mark, closes
 #: on one, may carry a citation, and holds EXACTLY ONE quoted span. That last clause is
 #: what makes the whole-paragraph fold safe — without it, `"…sport and play," says the
@@ -60,13 +58,32 @@ _LEADING_RENDERING_RE = re.compile(r'^(["“][^"“”]*["”]\s*(?:\([^)]*\))?\
 _MIN_SENTENCE_WORDS = 4
 
 
+#: The three shapes, in the order the module docstring explains them. Exported so a
+#: caller — and the import-order test — can name them without retyping the strings.
+QUOTE_SHAPES = (
+    "translation-outside-card",
+    "translation-leads-a-paragraph",
+    "translation-fused-with-prose",
+)
+
+
 def cards_missing_their_rendering(md: str):
     """(chapter, quotation lines, following paragraph) for every stranded rendering.
 
     The shape all three detectors share: a blockquote holding ONLY Arabic — so it has no
     English inside it — immediately followed by a paragraph that opens on a quotation
     mark. Read once here so the three cannot disagree about what they are classifying.
+
+    THE IMPORT IS DEFERRED, AND IT HAS TO BE. `_book_defects` imports the three detectors
+    from this module to build its registry, so a module-level import back would be a
+    cycle — one that resolves fine when `_book_defects` is imported first (which is what
+    every caller and every test happened to do) and raises ImportError the moment anything
+    imports THIS module first. Deferring it here breaks the cycle at the only place it can
+    be broken without moving the block readers out of the module that owns them.
+    `tests/test_translation_card.py` imports this module first in a fresh interpreter.
     """
+    from _book_defects import blocks, chapters, is_arabic_quote_line, quote_paragraphs
+
     for title, body in chapters(md):
         blks = blocks(body)
         for index, (kind, lines) in enumerate(blks):

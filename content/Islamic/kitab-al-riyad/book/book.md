@@ -123,8 +123,10 @@ He is an extraordinary scholarly figure whose life-history is enveloped in obscu
 The great preacher and Yemeni historian Idris Imad al-Din mentioned him in his book, saying:
 
 > "هُوَ أَسَاسُ الدَّعْوَةِ الَّتِي عَلَيْهِ عِمَادُهَا وَبِهِ عَلَا وَاسْتَقَامَ مَنَارُهَا وَبِهِ اسْتَبَانَتِ الْمُشْكِلَاتُ وَانْفَرَجَتِ الْمُعْضِلَاتُ"
+>
+> "He is the foundation of the دَعْوَة upon which it rests and by which it is raised up; through him its beacon was set straight, and by him problems were identified and dilemmas resolved."
 
-"He is the foundation of the دَعْوَة upon which it rests and by which it is raised up; through him its beacon was set straight, and by him problems were identified and dilemmas resolved." The Syrian Ismaili preacher Nur al-Din Ahmad (نُورُ الدِّينِ اَحْمَد) described him in his book Chapters and Reports, saying:
+The Syrian Ismaili preacher Nur al-Din Ahmad (نُورُ الدِّينِ اَحْمَد) described him in his book Chapters and Reports, saying:
 
 > "لو ان الدعوة الاسماعيلية لم تنتج غير الكرماني لكفاها فخراً ومجداً ولكان ذلك كافياً"
 >
@@ -139,16 +141,22 @@ In these pages, I will not present the philosopher al-Kirmani merely as one of t
 Returning to al-Kirmani's writings and reading them with careful attention, I find that he resolved that there is contradiction, disharmony, and an attempt on the part of some existents to erase others — and yet that these existents persist in spite of this dissonance and contradiction. None of them is lost by the presence of an opposite; all are preserved under existence. This is identical to the Second Teacher's theory on creation, in which he says:
 
 > "حفظ ادامة وجود الشيء الذي ليس وجوداً لذاته ادامة لا تتصل بشيء من العلل غير ذات المبدع"
+>
+> "The preservation of the continuance of the existence of a thing that does not possess, in itself, a permanence unrelated to any of the contingents, other than the Creator."
 
-"The preservation of the continuance of the existence of a thing that does not possess, in itself, a permanence unrelated to any of the contingents, other than the Creator." And Ibn Sina, in speaking of the possible and the necessary among the other existents, gives an account that clarifies the meaning of the continuity of existence among existents, saying:
+And Ibn Sina, in speaking of the possible and the necessary among the other existents, gives an account that clarifies the meaning of the continuity of existence among existents, saying:
 
 > "أَمَّا كَوْنَ الْعِلَلِ مُمْكِنَ الْوُجُودِ فِي نَفْسِهِ وَاجِبَ الْوُجُودِ لِغَيْرِهِ فَلَيْسَ يُنَاقِضُ كَوْنَهُ دَائِمَ الْوُجُودِ بِغَيْرِهِ"
+>
+> "As for the fact that the contingents can exist in themselves, while not being obligated by the existence of others, this does not contradict their being always present in others."
 
-"As for the fact that the contingents can exist in themselves, while not being obligated by the existence of others, this does not contradict their being always present in others." What these three philosophers — the Second Teacher, the Chief Sheikh, and the حُجَّة of the Two Iraqs — arrived at in this regard closely approaches what the philosopher Descartes said in the modern era:
+What these three philosophers — the Second Teacher, the Chief Sheikh, and the حُجَّة of the Two Iraqs — arrived at in this regard closely approaches what the philosopher Descartes said in the modern era:
 
 > "اذ يوجد من الفعل الذي يحفظ الله به العالم وبين الفعل الذي خلقه به"
+>
+> "There is, between the act by which God preserves the world and the act by which He created it, no real difference."
 
-"There is, between the act by which God preserves the world and the act by which He created it, no real difference." This is what is known in his philosophy as the theory of continuous creation.
+This is what is known in his philosophy as the theory of continuous creation.
 
 Al-Kirmani shared certain things with the Muslim philosophers and was influenced by some of them, especially those who engaged with Greek philosophy. What distinguishes him from them, however, is that when he presented these philosophies, he stamped them with the marks of novelty, wit, and innovation, and proved to be the precursor of the modern European philosophers and the ancient Oriental renewers. I can therefore say that al-Kirmani left behind books and produced ideas that should be seen not only as Ismaili intellectual views, but as Islamic philosophical views of a high, public-facing order — looking into the essence of things and into the deep intellectual dimensions of existence in a steady, elaborated manner in which genius and brilliance are manifest.
 
@@ -233,8 +241,10 @@ In sum, the existence of what lies below the First Intellect, in relation to it,
 For this reason Allah, exalted, said:
 
 > سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ
+>
+> "We shall show them Our signs in the horizons and within themselves until it becomes clear to them that it is the truth."
 
-"We shall show them Our signs in the horizons and within themselves until it becomes clear to them that it is the truth." That is: We shall establish for them the Imams and the limits, in the manifest and the hidden, that they may be guided to what the state of the observable bodies is, and of the souls whose actions exist — upon what had been hidden from them of the knowledge of the limits of Allah, which are the truth — so that the truth of the form may become clear to them.
+That is: We shall establish for them the Imams and the limits, in the manifest and the hidden, that they may be guided to what the state of the observable bodies is, and of the souls whose actions exist — upon what had been hidden from them of the knowledge of the limits of Allah, which are the truth — so that the truth of the form may become clear to them.
 
 ### Section Five
 
@@ -255,8 +265,10 @@ The author of *al-Nusra* said: were it not for the Intellect's denial of divinit
 We say: that may not be believed of the Following one. The power flowing through all the noble existents in the world of unity gives them knowledge that they have an Originator. Were it not for that power, nothing would have existence or subsistence, and all would vanish away. For this reason every thing deserves the name of oneness: though it be multiple in its essence, its share of that power is unseen, while the justice in it is evident. It is impossible to conceive of a single one of the human kind not knowing that it has a Creator, or imagining that it has no Creator — let alone that this should be thought of that great and majestic Limit. We say rather: it apprehends that from which its existence came, knowing it as the True Object of worship, even if there be a god within it. If we then apply to the First Intellect what the author of *al-Nusra* mentioned, and to the Following one what he said of it, it would be obligatory that the Asas — whose standing is in the world of body — stand in the place of the Following one in the world of Intellect, since without the Speaker one would not know one has a god. But the matter is not so, for each of the two has a portion from Allah, and the Speaker precedes it in rank only by his nearness to the First and his coming after it. For this reason Allah said:
 
 > لَا الشَّمْسُ يَنْبَغِي لَهَا أَنْ تُدْرِكَ الْقَمَرَ وَلَا اللَّيْلُ سَابِقُ النَّهَارِ وَكُلٌّ فِي فَلَكٍ يَسْبَحُونَ
+>
+> "It is not for the sun to overtake the moon, nor does the night outstrip the day; and each is swimming in an orbit."
 
-"It is not for the sun to overtake the moon, nor does the night outstrip the day; and each is swimming in an orbit." All, from the side of movement, are one; and by ranks they differ.
+All, from the side of movement, are one; and by ranks they differ.
 
 ### Section Eight
 
@@ -1033,8 +1045,10 @@ The author of al-Islah said:
 The First Cause — which is origination, and which the learned name the word of the Maker, mighty and exalted — has for its form:
 
 > كن
+>
+> "Be."
 
-"Be." This is two letters: a كاف (kaf) in motion and a نون (nun) at rest. The كاف and the نون of the word occupy the place of the body, while motion and stillness occupy the place of the soul. On this pattern the likeness lies in motion and stillness as the two things effected by the word, and the First Cause — which is the word — is the hyle of the whole world. On this same pattern it must be said of motion and stillness in all substances, from hyle and form down to what is below them, throughout all the worlds. The sum of the discourse on the three hyles is this:
+This is two letters: a كاف (kaf) in motion and a نون (nun) at rest. The كاف and the نون of the word occupy the place of the body, while motion and stillness occupy the place of the soul. On this pattern the likeness lies in motion and stillness as the two things effected by the word, and the First Cause — which is the word — is the hyle of the whole world. On this same pattern it must be said of motion and stillness in all substances, from hyle and form down to what is below them, throughout all the worlds. The sum of the discourse on the three hyles is this:
 
 1. The first hyle is imaginary, and it is motion and stillness; it is the very substance of hyle and its form.
 2. The second hyle comprises the individuals and the things generated from the first hyle.
@@ -1129,8 +1143,10 @@ In sum we say:
 The true pair of humankind can only be the angels. And what we mean by "humankind" here are those possessed of all the virtues — the prophets, the guardians, and the imams (عَلَيْهِمُ السَّلَامُ), and those who follow in their footsteps, who uphold their obedience and worship Allah with both acts of worship. Not those beneath them among the people who bear the outward form of humankind while their souls are the souls of beasts and predators — like the monkeys, the donkeys, the foxes, the beasts of prey, and the wolves, as we have said and shown. Those who follow the traces of the Imams (عَلَيْهِمُ السَّلَامُ), and above them the prophets and the guardians, are distinguished from the beasts by their striving in obedience through the two acts of worship and their holding fast to command and prohibition, though they resemble the beasts in form. In this way they come to resemble the guardians, and so they are saved in their company and among them and none other. This accords with the verse:
 
 > وَمَنْ يَتَوَلَّهُمْ مِنْكُمْ فَإِنَّهُ مِنْهُمْ
+>
+> "And whoever takes them as guardian from among you, he is one of them."
 
-"And whoever takes them as guardian from among you, he is one of them." May Allah place us among those whose gathering and raising is with the prophets, the guardians, and the pure Imams.
+May Allah place us among those whose gathering and raising is with the prophets, the guardians, and the pure Imams.
 
 **The Fourth Section**
 
@@ -1145,8 +1161,10 @@ We say:
 Had the author of al-Nusrah drawn his evidence from the Book of Allah, Lord of the Worlds, and from the words of our masters the pure Imams, for what he intends concerning the matter of the soul by way of interpretation, what is found there would have freed him from clinging to the words of Bandhaqlis. For had Bandhaqlis and those like him among the ancients lived in our time, they would have needed to draw from the seas of the knowledge of the House of Revelation, overflowing from the treasuries of Allah in His earth, and from our pure masters; and they would have turned back from much of what they believed concerning what is hidden from the senses — of which they spoke: the intellects and their ranks, the soul and its principles — and believed otherwise. For what Bandhaqlis intended in his saying, once his statement is weighed rightly and read in the sound sense, is other than what the author of al-Nusrah took it to be — namely, that the bestial soul is the horse and the rational soul is humankind. Rather, since the sensory soul, which is the bestial one, accepts the ruling of the rational soul when no obstacle hinders it, and the rational soul, when it sees the other accepting its ruling, inclines toward it with benefit and sets it right, we say: by "the sensory soul" he means whoever bears the form of humankind, whose nature it is to accept teaching, discipline, and reason — and not the horse; and by "the rational soul" he means the teachers, who are the prophets, the guardians, the imams, and their followers, whose nature it is to incline toward whoever bears the form of humankind, to teach them their interests in their religion and their world, to benefit them in their right guidance, and to raise them in degrees according to their acceptance — they being in truth humankind, and not every one of the people. This accords with what is indicated by the interpretation of the saying of Allah Almighty:
 
 > يَا أَيَّتُهَا النَّفْسُ الْمُطْمَئِنَّةُ ارْجِعِي إِلَى رَبِّكِ رَاضِيَةً مَرْضِيَّةً
+>
+> "O reassured soul, return to your Lord, pleased and pleasing" (the verse).
 
-"O reassured soul, return to your Lord, pleased and pleasing" (the verse). And to carry his statement upon the sound face is preferable to carrying it upon the unsound one. The horse is no more receptive than one who bears the form of humankind, nor is the horse's image finer; nor are the guardians, the imams, and their followers less compassionate toward those beneath them than men are in the sport and gentling of the horse — rather, they are far more so. Since this is so, and since there is nothing in the plain words of Bandhaqlis to establish that no image among the bestial souls is more beautiful than the image of the horse — nor is it the case, among the animal images that exist, that the horse's image surpasses all others, nor is the matter as he said — to single out the horse as the pair of humankind on the grounds of teaching and beauty of image, and to argue by it, is therefore impossible.
+And to carry his statement upon the sound face is preferable to carrying it upon the unsound one. The horse is no more receptive than one who bears the form of humankind, nor is the horse's image finer; nor are the guardians, the imams, and their followers less compassionate toward those beneath them than men are in the sport and gentling of the horse — rather, they are far more so. Since this is so, and since there is nothing in the plain words of Bandhaqlis to establish that no image among the bestial souls is more beautiful than the image of the horse — nor is it the case, among the animal images that exist, that the horse's image surpasses all others, nor is the matter as he said — to single out the horse as the pair of humankind on the grounds of teaching and beauty of image, and to argue by it, is therefore impossible.
 
 **The Fifth Section**
 
@@ -1181,12 +1199,14 @@ The author of al-Islah said:
 As for the saying that the decree is prior and the destiny posterior, this is an error, because destiny is before decree, and the prior is before the posterior. It is not permissible that the decree, which comes after destiny, should be identified with that which is before the posterior. Decree and destiny are two words whose meaning is known from ordinary speech: destiny is estimation, and decree is elaboration, and there is no elaboration except after estimation, so the first is before the second by the farthest reach of priority. The witnesses to this from the Book of God are His words:
 
 > قضي الامر الذي به تستفتيان
-"The matter concerning which you two sought counsel has been decreed."
+>
+> "The matter concerning which you two sought counsel has been decreed."
 
 meaning that it has been separated out and brought to an end; and His words:
 
 > فَإِذَا قُضِيَتِ ٱلصَّلَوٰةُ
-"When you have finished the prayer,"
+>
+> "When you have finished the prayer,"
 
 meaning, when you have completed it. The decree is like a garment that the tailor first estimates: before he cuts it he estimates it, and he adds and subtracts, widens and narrows; but once he has cut it he has decreed it and made an end of it, and after that no increase in it is possible. That is the likeness of decree and destiny. The upshot of his saying is this: decree is not predicated of the prior, for it comes after destiny; and destiny is not predicated of the posterior, for it comes before decree. Destiny is estimation and decree is elaboration, and as long as the thing remains within estimation it can be increased, decreased, and widened, but once it has passed into elaboration and been decreed, no increase in it and no decrease from it is possible.
 
@@ -1232,7 +1252,8 @@ Destiny points, second, to what the Prophet ﷺ and his family brought from the 
 Destiny points, third, to the world with all its parts, which has within its power to come forth into being and act through the passage of days, months, years, events, and the coming-to-be whose existence proceeds from it by the perpetual movement of the movers over what is beneath them, of necessity, since these are appointed within it. For this reason it is said: what God has appointed will be, for its coming-to-be is by way of the necessity of its existence; and though the term be long, it is as one already existing in act. So God, exalted be He, said:
 
 > إِنَّهُمْ يَرَوْنَهُۥ بَعِيدًۭا وَنَرَاهُ قَرِيبًا
-"They see it as far off, but We see it as near."
+>
+> "They see it as far off, but We see it as near."
 
 Whatever was in estimation, appointed to exist, is decree once it exists, since the word "decree" signals what was in potency and then came out into act. These are the meanings of decree and destiny.
 
@@ -1263,12 +1284,14 @@ The author of al-Islah said:
 It is only the error of those who made decree the prior and destiny the posterior. For they found that the learned had named the posterior by the name of destiny, which is indeed its true name, because all the essences surged from the prior in an appointed measure, and that surging was destiny itself, so the sages named it destiny. Then in the speech of the people "decree and destiny" came to be uttered together, and they were found to place decree ahead of destiny in speech, so that one says "this is decree and destiny." The meaning of decree and destiny was hidden from them, so they assigned decree to the first and destiny to the second, and from this side the error occurred. This is as we said: that all the essences surged from the prior in an appointed measure, and that surging was destiny itself, and it is the compendium of the essences. Confirming this is the saying of God, exalted be He:
 
 > إِنَّا كُلَّ شَىْءٍ خَلَقْنَهُ بِقَدَرٍۢ
-"Indeed, We have created everything according to a measure."
+>
+> "Indeed, We have created everything according to a measure."
 
 For just as all the essences surged from the First, which is the command in appointed potency, and were destiny itself, so likewise there appeared from the second, in act, out of matter and form, and that act was decree itself. And within destiny there occurs change and alteration, and it is the book of which God, exalted be He, said:
 
 > يَمْحُوا۟ ٱللَّهُ مَا يَشَآءُ وَيُثْبِتُ
-"Allah erases what He wills and confirms."
+>
+> "Allah erases what He wills and confirms."
 
 Destiny is the essence of the posterior, as we have said, and decree is its act, because the posterior is what is appointed in measure from the prior. The upshot of his saying in this section is: destiny is the name of the posterior, because all the essences surged from the prior in an appointed measure, as God, exalted be He, said, "Indeed, We have created everything according to a measure," and decree is its act.
 
@@ -1319,14 +1342,16 @@ The author of al-Islah said:
 As for the interpretation of the saying of the Messenger of God ﷺ:
 
 > أَفِرُّ مِنْ قَضَاءِ اللَّهِ إِلَى قَدَرِهِ
-"I flee from the decree of God to His destiny,"
+>
+> "I flee from the decree of God to His destiny,"
 
 he meant only to flee from the subtle support of the prior to the exposition of the posterior, as a man flees from fire, which is a sign of support, to water, which is a sign of exposition. For he wished to flee from the thing that has already been sealed and decreed, whose repelling cannot be contrived, to destiny, which has not yet been decreed.
 
 This is the account, and it is not well-ordered. For the Messenger of God ﷺ fled from the decree of God to His destiny for a cause, and the cause was the leaning wall whose falling he feared, so he hastened his step and said, "I flee from the decree of God to His destiny," and he wished to strike for them a parable. The leaning wall is a structure that has leaned so as to fall, and it stands for one of the ranks who has resolved upon some breaking of covenant and hypocrisy and has inclined from obedience to transgression; for when he breaks his covenant he falls from his station, as God, exalted be He, said:
 
 > فَوَجَدَا فِيهَا جِدَارًۭا يُرِيدُ أَن يَنقَضَّ فَأَقَامَهُۥ
-"So the two of them found in it a wall about to fall, and he set it up straight,"
+>
+> "So the two of them found in it a wall about to fall, and he set it up straight,"
 
 meaning one of the ranks who had resolved upon hypocrisy and rupture, and he set him upright until he stood firm and did not fall to ruin and did not collapse. Just so was the leaning wall past which the Messenger of God ﷺ hastened his step: he had recognized one of the ranks who had sensed
 
@@ -1484,7 +1509,8 @@ Anyone who studies what the other Pronouncers laid down in their apparent laws �
 No one should suppose that this great cycle — the longest of all these cycles — passed away with no work accomplished, that its people departed without benefit, and that there were no apparent statutes by whose rulings they conducted themselves. For if there were no work, no benefit, and no apparent statutes, there can be no interpretation, no inward, and no true summons. The summons rests upon the Shariah; interpretation requires a revelation; the inward requires the outward; the meaning requires the parable. And if there is no outward, there is no inward, no summons, and no Shariah — which would leave creation neglected and the people in ignorance. Knowledge is joined with work, and that is the root of wisdom among the wise, as they have said:
 
 > الْحِكْمَةُ هِيَ عَمَلٌ مَعَ عِلْمٍ
-"Wisdom is action with knowledge."
+>
+> "Wisdom is action with knowledge."
 
 It is impossible to say that the people of that cycle were in such a state.
 
@@ -1493,22 +1519,26 @@ Rather, we say:
 The first Pronouncer merited the name of "speaker" by virtue of composing a Shariah. Without that, he would not have been counted among the six Pronouncers, even if his commission had required no more than laying a foundation that calls to the التَّوْحِيد of Allah Almighty. And if he had no Shariah and no summons, there was no statute by which those who belonged to him in his cycle might affiliate after him — no basis upon which to raise the appended ranks after the pattern of the rest of the Pronouncers. This is a sickly belief. It is not permissible to say that in that cycle there was no revelation and no Shariah, for command and prohibition come only through the inspiration of Allah, and the manifesting of Allah's command is revelation. When command, prohibition, and revelation are established, the Shariah is established as the manifestation of the statutes. This indicates that the first Speaker had a Shariah — over and above what the compelling proof indicates, according to what the wise have said. Allah Almighty said:
 
 > وَاتْلُ عَلَيْهِمْ نَبَأَ ابْنَيْ آدَمَ بِالْحَقِّ إِذْ قَرَّبَا قُرْبَانًا فَتُقُبِّلَ مِنْ أَحَدِهِمَا وَلَمْ يُتَقَبَّلْ مِنَ الْآخَرِ
-"And recite to them the news of the two sons of Adam in truth, when they offered a sacrifice, and it was accepted from one of them and not accepted from the other" (the verse).
+>
+> "And recite to them the news of the two sons of Adam in truth, when they offered a sacrifice, and it was accepted from one of them and not accepted from the other" (the verse).
 
 The offering is one of the laws, and it is the most firmly established of the causes of the Shariah. Allah has commanded it in every Shariah and has made it the root of devotion and purity; for this reason the offering is called a rite. Allah Almighty said:
 
 > وَلِكُلِّ أُمَّةٍ جَعَلْنَا مَنْسَكًا لِيَذْكُرُوا اسْمَ اللَّهِ عَلَى مَا رَزَقَهُمْ مِنْ بَهِيمَةِ الْأَنْعَامِ
-"And for every nation We have appointed a rite, that they may pronounce the name of Allah over what He has provided them of the beasts of cattle."
+>
+> "And for every nation We have appointed a rite, that they may pronounce the name of Allah over what He has provided them of the beasts of cattle."
 
 And He said:
 
 > وَلِكُلِّ أُمَّةٍ جَعَلْنَا مَنْسَكًا هُمْ نَاسِكُوهُ فَلَا يُنَازِعُنَّكَ
-"And to every nation We have appointed an act of devotion which they perform, so let them not dispute with you" (the verse).
+>
+> "And to every nation We have appointed an act of devotion which they perform, so let them not dispute with you" (the verse).
 
 The rite is the place where the offering is brought near. In the hadith:
 
 > اَلْعَرْجَاءُ تَجُرُّ رِجْلَهَا إِلَى اَلْمَنْسَكِ
-"The lame ewe drags her leg to the rite."
+>
+> "The lame ewe drags her leg to the rite."
 
 The rite itself is the offering. A man is called a rite-keeper when he is known for religion, scrupulousness, and purity. The offering is called devotion because it is the summit of the statutes of religion and the summit of nearness to Allah Almighty in every Shariah and among all the nations — the most firmly established of the causes of the Shariah. It is called an offering because by it they draw near to Allah Almighty; and through their nearness to Allah Almighty arise the first causes of obedience and disobedience, of disbelief and faith, of command and prohibition. It is the first of the statutes of the Shariah.
 
@@ -1550,7 +1580,8 @@ Since the need for the prophets was for the teaching of the nation what would ma
 "The people were one nation" — that is, in ignorance —
 
 > فَبَعَثَ اللَّهُ النَّبِيِّينَ مُبَشِّرِينَ وَمُنْذِرِينَ وَأَنْزَلَ مَعَهُمُ الْكِتَابَ بِالْحَقِّ لِيَحْكُمَ بَيْنَ النَّاسِ فِيمَا اخْتَلَفُوا فِيهِ
-"so Allah sent the prophets as bearers of good tidings and warners, and sent down with them the Book in truth, to judge between the people in that wherein they differed" (the verse).
+>
+> "so Allah sent the prophets as bearers of good tidings and warners, and sent down with them the Book in truth, to judge between the people in that wherein they differed" (the verse).
 
 Adam is one of the prophets, and if he was a prophet, Allah did not send him except to give good tidings, to warn, to judge, and to decide. And good tidings, warning, judgment, and decision come only through the statutes and ordinances. So the statutes, which are the Shariah, are fixed.
 
@@ -1569,7 +1600,8 @@ Had the author of al-Islah relied upon sophistry, as the author of al-Nusrah did
 The verse contains no indication that the son of Adam, when the raven scratched in the earth and he saw it, covered his brother and buried him, so that the proof by it should stand for him. The verse is:
 
 > فَبَعَثَ اللَّهُ غُرَابًا يَبْحَثُ فِي الْأَرْضِ لِيُرِيَهُ كَيْفَ يُوَارِي سَوْأَةَ أَخِيهِ قَالَ يَا وَيْلَتَا أَعَجَزْتُ أَنْ أَكُونَ مِثْلَ هَذَا الْغُرَابِ فَأُوَارِيَ سَوْأَةَ أَخِي فَأَصْبَحَ مِنَ النَّادِمِينَ
-"So Allah sent a raven scratching in the earth, to show him how to hide the corpse of his brother. He said, 'Woe to me! Am I unable to be like this raven and hide the corpse of my brother?' And he became one of the regretful."
+>
+> "So Allah sent a raven scratching in the earth, to show him how to hide the corpse of his brother. He said, 'Woe to me! Am I unable to be like this raven and hide the corpse of my brother?' And he became one of the regretful."
 
 It mentions that he saw, but it gives no indication that he buried him.
 
@@ -1578,17 +1610,20 @@ Chapter Six
 Moreover, the interpretation of the verse, inward and outward alike, does not point to any of that. Each of the adversary and the friend had, in his worship of Allah Almighty, something that was his own offering — something by which he drew near to Allah Almighty. The adversary held that worship is nothing but the outward works alone, and that deliverance comes only through them, and that by this belief, and by sincerity in it, he would become the one who stands in the place of the Messenger (ع). The friend held that the worship of Allah Almighty is nothing but the outward — which is the work — together with the inward — which is the knowledge — and that deliverance comes only through both together, and that the one who stands in the place of the Messenger is the one whom the Messenger has advanced and been pleased with. So the two of them contended over this one day and disputed before the Prophet, each making plain his belief concerning that by which he worshipped Allah. That is the meaning of His saying, "when they offered a sacrifice" — that is, each of them held to something concerning what draws him near to Allah Almighty and to His Messenger. "And it was accepted from one of them" — the wasi — meaning the Speaker who stands in the place of Allah was pleased with his belief concerning Allah and concerning His worship. "And it was not accepted from the other" — the adversary — meaning the Speaker was not pleased with his belief, for it was not in its right form. The Speaker (ع) was content with the belief of the wasi and content with him, yet without declaring it openly, out of fear that the adversary would accuse him of inclining toward the friend over himself. So he said:
 
 > إِنَّ أَكْرَمَكُمْ عِنْدَ اللَّهِ أَتْقَاكُمْ
-"Indeed, the most honored of you before Allah is the most God-fearing of you."
+>
+> "Indeed, the most honored of you before Allah is the most God-fearing of you."
 
 The adversary had heard him say, "The most God-fearing of you is Abu Bakr." Hearing that from the Messenger, he reckoned that the verse just recited had been recited only out of contentment with the belief and the way of the wasi — and that this was the one who would stand after him. He rose up with the conviction that he had overcome the friend, and said to him, "I will surely slay you" — meaning: I will surely drive you from this belief, which he was not pleased with in you, and from the affair you reckon to be yours. The friend said to him:
 
 > إِنَّمَا يَتَقَبَّلُ اللَّهُ مِنَ الْمُتَّقِينَ
-"Allah accepts only from the God-fearing,"
+>
+> "Allah accepts only from the God-fearing,"
 
 meaning that the one who stands in the place of Allah — the Messenger — sets no one in his place and is pleased with the belief of no one save the God-fearing: those who join knowledge with work and draw near to Allah Almighty by upholding the marks of both together. Then the adversary turned to slander and revilement of the friend, and to the claim that he knew nothing; so the two of them brought their case before the Prophet ﷺ concerning their belief, and he was pleased with the friend's belief over the belief of the other. The friend said:
 
 > لَئِنْ بَسَطْتَ إِلَيَّ يَدَكَ لِتَقْتُلَنِي مَا أَنَا بِبَاسِطٍ يَدِيَ إِلَيْكَ لِأَقْتُلَكَ إِنِّي أَخَافُ اللَّهَ رَبَّ الْعَالَمِينَ
-"If you stretch out your hand against me to slay me, I will not stretch out my hand against you to slay you; indeed, I fear Allah, the Lord of the worlds,"
+>
+> "If you stretch out your hand against me to slay me, I will not stretch out my hand against you to slay you; indeed, I fear Allah, the Lord of the worlds,"
 
 meaning: if you assault me, loose your tongue against me, diminish my standing, speak of me otherwise than is due, and refuse to accept what I believe concerning the worship of Allah, the Lord of the worlds — I will not do the like to you, nor slander you, for I am under the authority of the Speaker who stands in the place of Allah, who is the master of the cycle and the lord of the Imams, and under his obedience. I fear him, and I do not go before him.
 
@@ -1719,8 +1754,10 @@ The true cause of a Law's obligatory existence is other than what the author of 
 The author of al-Nusrah held that we must also understand why the Law exists, so that we may rightly claim Adam (عَلَيْهِ السَّلَامُ) had no law of his own. His argument was this: the ground of the Law's obligation is the neglect of proper limits, their disruption, and creation's pursuit of their opposites, together with creatures claiming for themselves what Allah did not place in them. This condition, he said, neither existed nor appeared in Adam's time, for the learned beings who preceded him, and his own people, steadily kept those limits without exception — not one of them transgressed a single limit. They themselves testified to this when they said:
 
 > ( أَتَجْعَلُ فِيهَا مَنْ يُفْسِدُ فِيهَا وَيَسْفِكُ الدِّمَاءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ )
+>
+> "Will You place in it one who corrupts it and sheds blood, while we glorify You with praise and sanctify You?"
 
-"Will You place in it one who corrupts it and sheds blood, while we glorify You with praise and sanctify You?" No obligation therefore fell upon Adam to establish the Law. That is his argument.
+No obligation therefore fell upon Adam to establish the Law. That is his argument.
 
 We say that the true reason the Law must exist is other than what the author of al-Nusrah identified. The neglect of limits, their disruption, and creation's following of their opposites do not in themselves make a law obligatory or establish one. We answer for ourselves. As for why the Law must exist — the Law being the ordinances governing deeds — we have treated this in our book known as al-Masabih fi al-Imamah. The nearest of these reasons is this: people need, first of all and according to their station, the very means of their survival — the ordinances that guard them from destruction. These are the ordinances by which blood is protected, by which homes, women, and wealth are made secure, and by which disputes in necessary matters are settled. Without such ordinances, life would grind to a halt: the strong would prey upon the weak, drawn by rage at what they possessed, and the fires of discord would be lit. Since it is impossible in the wisdom of the Maker, the Most High, that He deprive His creation of what guards them from destruction, the ordinances that constitute the Law are of necessary existence.
 
@@ -1762,14 +1799,18 @@ The author of al-Nusrah said that in the composition of the world and its orderi
 We say that this position renders the sending of the messengers a superfluity of which there is no need. If the world is itself firm and wrought and points to the divine unity, and the messengers (عَلَيْهِمُ السَّلَامُ) were sent to call toward and point to the divine unity, then to send them when a proof already stands — doing precisely what they were sent to do — is a needless redundancy. I do not know how this escaped him, since it is plain that the world's being firm and wrought is not sufficient in pointing to the divine unity if there is no one present who knows it and makes it clear. One benefits from the knowledge of the world's composition, its ordering, and the arrangement of its existents only when there is one whose rank has risen in knowledge because the limits have taught him the manner of the deeds and signs that revelation and the Law gather together — so that he reflects, draws out, and infers what he seeks of the knowledge of the limits of Allah, the Most High, and of His signs whose knowledge is made obligatory upon human beings. Allah, the Most High, says:
 
 > [ حَتَّى إِذَا جَاءُوا قَالَ أَكَذَّبْتُمْ بِآيَاتِي وَلَمْ تُحِيطُوا بِهَا عِلْمًا ]
+>
+> "Until, when they come, He says: Did you deny My signs when you did not encompass them in knowledge?"
 
-"Until, when they come, He says: Did you deny My signs when you did not encompass them in knowledge?" Now if you did know, then the foremost in existence are the noble substances that are the angels brought near. So it is also when deeds, signs, alerting, and teaching are needed — for not everyone who has knowledge, works, and is alerted is able to draw from existing things the true inference; and how much less is the one who has no knowledge at all. In sum, any position that leads to the nullifying of the ranks of the limits is not our belief, nor the way of our masters, may. Perhaps this position was only planted by adversaries in the book, to be ascribed to its author, and Allah knows best.
+Now if you did know, then the foremost in existence are the noble substances that are the angels brought near. So it is also when deeds, signs, alerting, and teaching are needed — for not everyone who has knowledge, works, and is alerted is able to draw from existing things the true inference; and how much less is the one who has no knowledge at all. In sum, any position that leads to the nullifying of the ranks of the limits is not our belief, nor the way of our masters, may. Perhaps this position was only planted by adversaries in the book, to be ascribed to its author, and Allah knows best.
 
 Furthermore, the deeds are not laid down for pointing to the divine unity alone, but for the setting straight of the soul in worship, for its likeness to the highest assembly, and for the acquiring, through discipline, of the noble morals and generous habits by which the soul is made ready for union with what is above it and drawn out of the baseness of potency — so that the honor of the intellect may be rescued by devotion to its obligations and attention to its marks. Were it not for the deeds and rites within the community, and for the completeness of souls through persevering in them and holding to them, souls would perish. It is for this that Allah, the Most High, did not grant the angels their claim when they supposed that the worship they were engaged in was sufficient in the matter of nearness to Allah, the Most High, and of completeness for them — that they had no need, in what they were upon, of a vicegerent to teach them anything or to command them to work. He said:
 
 > [ إِنِّي أَعْلَمُ مَا لَا تَعْلَمُونَ ]
+>
+> "Indeed, I know what you do not know."
 
-"Indeed, I know what you do not know." Allah, the Most High, said this because the states of being, by His decree and His wisdom, are held wavering between potency and act — standing at one time in potency, at another in act. A thing, therefore, when it reaches the uttermost limit of what it may attain in potency or act, returns backward: if it was in potency, toward act, and if it was in act, toward potency. It is like the hot thing that, when it reaches the limit of heat, the heat subsides and coldness appears, as with what dissolves among bodies and the like; and like the cold thing that, when it reaches the limit of coldness, the coldness subsides and heat appears, as with snow; and like the congealed thing whose parts are gathered from the mountains, which, when it reaches the end of that for which it congealed — namely dryness — dissolution appears in its parts, so that they scatter and return to sand; and so too with the other existents in the abode of nature. Knowledge and ignorance in the world of coming-to-be and passing-away follow the same law: at one time ignorance stands in act and knowledge in potency, meaning that ignorance is widespread through the abundance of its people, and knowledge is lost through the scarcity of its people.
+Allah, the Most High, said this because the states of being, by His decree and His wisdom, are held wavering between potency and act — standing at one time in potency, at another in act. A thing, therefore, when it reaches the uttermost limit of what it may attain in potency or act, returns backward: if it was in potency, toward act, and if it was in act, toward potency. It is like the hot thing that, when it reaches the limit of heat, the heat subsides and coldness appears, as with what dissolves among bodies and the like; and like the cold thing that, when it reaches the limit of coldness, the coldness subsides and heat appears, as with snow; and like the congealed thing whose parts are gathered from the mountains, which, when it reaches the end of that for which it congealed — namely dryness — dissolution appears in its parts, so that they scatter and return to sand; and so too with the other existents in the abode of nature. Knowledge and ignorance in the world of coming-to-be and passing-away follow the same law: at one time ignorance stands in act and knowledge in potency, meaning that ignorance is widespread through the abundance of its people, and knowledge is lost through the scarcity of its people.
 
 This was the time when ignorance held full dominion and had run its course in act, while knowledge had retreated inward and reached the furthest limit of its potency. Both had come about through the effacing of the teachers' traces and the disruption of the signs of the laws and the deeds, worn down by the length of the age and the passage of time. By the laws I mean here those ordinances and rites whose existence is not necessary.
 
@@ -1820,8 +1861,10 @@ As for his saying and his affirmation that the creation was not ignorant of mono
 As for his saying "nor in the cycle of the الْقَائِم are they ignorant": if what he means is the state of the summons in the cycle of the الْقَائِم before his manifestation and before his existence from the world of nature — when it is preserved by his caliphs and his summoners after the completion of the cycle of Muhammad al-Mustafa (ع) and his House, up to his time and the appearance of his signs in the world — then it is true. For knowledge at that time has raised high the beacon of its manifestation through the multitude of the learned. It is the time of which Allah, exalted be He, said,
 
 > يَوْمًۭا يَجْعَلُ ٱلْوِلْدَنَ شِيبًا
+>
+> "A day that will make the children gray-haired."
 
-"A day that will make the children gray-haired." But if what he means by his saying "in the cycle of the الْقَائِم they are not ignorant" is the state after the الْقَائِم — the one who is the possessor of the seventh cycle, and of the decisive utterance, and of the distinguishing of the people of the Garden from the people of the Fire, and of the closing of the door of teaching and of repentance — then it is not sound. For they do not remain knowing, nor are they of the people of knowledge, since that time is the time for the waters to overflow and be swallowed inward, and the time for dryness and barrenness to prevail and appear. And the words of the author of al-Nusrah on that matter are not those of one who has examined it to its end.
+But if what he means by his saying "in the cycle of the الْقَائِم they are not ignorant" is the state after the الْقَائِم — the one who is the possessor of the seventh cycle, and of the decisive utterance, and of the distinguishing of the people of the Garden from the people of the Fire, and of the closing of the door of teaching and of repentance — then it is not sound. For they do not remain knowing, nor are they of the people of knowledge, since that time is the time for the waters to overflow and be swallowed inward, and the time for dryness and barrenness to prevail and appear. And the words of the author of al-Nusrah on that matter are not those of one who has examined it to its end.
 
 ---
 
@@ -1856,8 +1899,10 @@ after He has established a decree in the souls of any from whom there would run 
 "And when the heaven is cleft asunder, and when the planets are scattered." And He said,
 
 > إذا الشمس كورت واذا النجوم انكدرت واذا الجبال سيرت واذا العشار عطلت
+>
+> "When the sun is folded up, and when the stars fall, and when the mountains are set moving, and when the pregnant camels are left untended."
 
-"When the sun is folded up, and when the stars fall, and when the mountains are set moving, and when the pregnant camels are left untended." All these likenesses are struck upon the limits and the summonses in their passing away from their ranks, not upon the laws and the customs of the works, whose landmarks — with the passing of time — are effaced by the absence of teachers, except what was necessary in its existence, according to what we have already mentioned. And that time in which this act appears — the closing of the door of teaching and the ceasing of the summonses on the part of the possessor of the greatest Resurrection — is the beginning of the return of knowledge to potentiality, so that it is swallowed inward, and the beginning of the increase of ignorance and its standing in act. So the appearance of the signs in that manner suffices the one who is sufficient and has come of age. May Allah make us and the community of the believers of the people of the divine graces, by the following of His friends, and may He gather us with Muhammad and Ali and the pure Imams (عَلَيْهِمُ السَّلَامُ), the lights of His purity, by His bounty and His mercy.
+All these likenesses are struck upon the limits and the summonses in their passing away from their ranks, not upon the laws and the customs of the works, whose landmarks — with the passing of time — are effaced by the absence of teachers, except what was necessary in its existence, according to what we have already mentioned. And that time in which this act appears — the closing of the door of teaching and the ceasing of the summonses on the part of the possessor of the greatest Resurrection — is the beginning of the return of knowledge to potentiality, so that it is swallowed inward, and the beginning of the increase of ignorance and its standing in act. So the appearance of the signs in that manner suffices the one who is sufficient and has come of age. May Allah make us and the community of the believers of the people of the divine graces, by the following of His friends, and may He gather us with Muhammad and Ali and the pure Imams (عَلَيْهِمُ السَّلَامُ), the lights of His purity, by His bounty and His mercy.
 
 ---
 
@@ -1911,7 +1956,8 @@ The author of al-Nusrah said:
 By way of example, the words of Allah the Exalted:
 
 > كَمَا بَدَأَكُمْ تَعُودُونَ
-"As He originated you, so shall you return."
+>
+> "As He originated you, so shall you return."
 
 That is: as the beginning of the matter was — which was not from the side of the realities — so shall the end of the matter be.
 
@@ -1940,14 +1986,16 @@ We say:
 Noah was singled out by the ark because he was the first of the Possessors of Resolve and the first to undertake the abrogation of the laws and to compose a new law. His law stood in the station of the ship, and that by which he abrogated the former law stood in the station of the flood — for by the flood he destroyed the people of the earth, save those who answered his law and boarded his ship, that is, who established obedience to his foundation. The meaning is that his law endured through his lifetime; and when he had perfected it, he committed the matter to his foundation, commanded him to raise up the summons upon his law, and commanded the appendages to hearken to him, so that they attained the flowing grace only through him. Whoever obeyed his foundation was in the ship, and whoever disobeyed him and held to the first law was drowned. Do you not see that those who worshipped Wadd, Suwa, Yaghuth, Yauq, and Nasr (وَدّاً، وَسُوَاعاً، وَيَغُوثَ، وَيَعُوقَ، وَنَسْراً) were described as drowned by the flood? For He said:
 
 > مِنْ خَطِيئَاتِهِمْ اُغْرِقُوا فَاُدْخِلُوا النَّارَ
-"Because of their sins they were drowned, then made to enter the Fire."
+>
+> "Because of their sins they were drowned, then made to enter the Fire."
 
 The author of al-Nusrah said, and we say:
 
 If the station of the ship is like the station of the outward law, then whoever held to it from among the people of the outward was saved — and the veiled, true summons is annulled. Moreover, what is outward in the Book of Allah the Exalted is other than what the author of al-Islah maintained. For Allah the Exalted described the beginning of the command of Noah, his being sent to his people, his calling them to his law, and then commanded him to fashion the Ark. This account is set down in the Sura of Hud; and had the ship been the outward law, Allah would have commanded him first to fashion the Ark. But the story turns upon the fact that Noah first composed the outward law and called creation to make use of it, and only then was commanded to fashion the Ark — meaning, to raise up his legatee. The evidence of this is the words of Allah the Exalted:
 
 > وَٱصْنَعِ ٱلْفُلْكَ
-"And fashion the Ark,"
+>
+> "And fashion the Ark,"
 
 up to His words:
 
@@ -1971,7 +2019,8 @@ The author of al-Nusrah said:
 Following his interpretation of what Allah the Exalted related concerning the son of Noah:
 
 > سَـَٔاوِىٓ إِلَىٰ جَبَلٍۢ يَعْصِمُنِى مِنَ ٱلْمَآءِ
-"I shall take refuge on a mountain that will shield me from the water,"
+>
+> "I shall take refuge on a mountain that will shield me from the water,"
 
 and Noah's reply:
 
@@ -1987,7 +2036,8 @@ This saying of his contradicts what he himself said in the chapter of the cycles
 The interpretation of "the son of Noah" is that this son ascribed to Noah was not of his loins. Rather, he was a man of great worldly standing whom Noah had advanced — like the adversary in the cycle of Muhammad our Prophet ﷺ. He took his benefit from Noah, learned what Noah had, and by his own strength became a son to him in rank, so that he reckoned it within himself, and the people too imagined that he would be his legatee. But when the command of Allah the Exalted came — that Noah fashion the Ark, that is, that he confer the legateeship upon another below him in accordance with what Allah had commanded — Noah called the people who followed him to enter beneath his command and obedience. That is His saying:
 
 > ٱرْكَبُوا۟ فِيهَا
-"Embark in it."
+>
+> "Embark in it."
 
 So this man held back from what the others had entered into — obedience to his foundation — refusing to enter the ship. Noah called him with these words:
 
@@ -1997,12 +2047,14 @@ So this man held back from what the others had entered into — obedience to his
 calling him to obedience and to binding himself to the command, especially with the desire that he return to his beginning, reckoning that he would act as Noah had seen of his former goodly compliance with his commands. But upon Noah's calling him, and his despairing utterly of that rank he had hoped for, he grew hypocritical and arrogant and refused to obey his foundation in what had come to pass. Noah said that the command of Allah lay upon him: were he not to relinquish his headship, it would be nullified; and the like of this adversary inclined against our guardian. Noah admonished him at one time and warned him at another, saying that the command of Allah lay in it, and that if he did not heed the admonition his headship would depart and abasement would encompass him, and he would see none to take his part nor to help him in his affair; and that is His saying:
 
 > لَا عَاصِمَ ٱلْيَوْمَ مِنْ أَمْرِ ٱللَّهِ
-"There is no shield today from the command of Allah."
+>
+> "There is no shield today from the command of Allah."
 
 When the son heard this from him, he showed rebellion and said, in his ignorance, that this matter would not be brought to completion for Noah, that he should set the whole of the headship within his own house; and that even if constraint and injury and harm appeared, he would be supported by chiefs who would strengthen his hand and help him to ward off abasement from himself; and that is his saying:
 
 > سَـَٔاوِىٓ إِلَىٰ جَبَلٍۢ يَعْصِمُنِى مِنَ ٱلْمَآءِ
-"I shall take refuge on a mountain that will shield me from the water."
+>
+> "I shall take refuge on a mountain that will shield me from the water."
 
 The water here is that which is poured out upon the force that slays, and the mountain is that which he clings to of men and partisans. So he set his purpose, and he and his like took up his cause, and they perished in his cycle, and there remained only those who bound themselves to obedience to his foundation.
 

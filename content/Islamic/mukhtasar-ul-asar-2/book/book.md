@@ -1587,14 +1587,14 @@ Mourning belongs to the widow whose husband has died. It is not required of the 
 Allah, mighty and majestic, said:
 
 > لَا جُنَاحَ عَلَيْكُمْ إِنْ طَلَّقْتُمُ النِّسَاءَ مَا لَمْ تَمَسُّوهُنَّ أَوْ تَفْرِضُوا لَهُنَّ فَرِيضَةً ۚ وَمَتِّعُوهُنَّ عَلَى الْمُوسِعِ قَدَرُهُ وَعَلَى الْمُقْتِرِ قَدَرُهُ مَتَاعًا بِالْمَعْرُوفِ ۖ حَقًّا عَلَى الْمُحْسِنِينَ
-
-"There is no blame upon you if you divorce women whom you have not touched, or for whom you have not specified an obligation. And make provision for them, the wealthy according to his means and the straitened according to his means, a provision in kindness, a duty upon those who do good." (Al-Baqarah 236)
+>
+> "There is no blame upon you if you divorce women whom you have not touched, or for whom you have not specified an obligation. And make provision for them, the wealthy according to his means and the straitened according to his means, a provision in kindness, a duty upon those who do good." (Al-Baqarah 236)
 
 And so the provision is obligatory. He also said:
 
 > وَلِلْمُطَلَّقَاتِ مَتَاعٌ بِالْمَعْرُوفِ ۖ حَقًّا عَلَى الْمُتَّقِينَ
-
-"And for divorced women there is a provision in kindness, a duty upon the God-fearing." (Al-Baqarah 241)
+>
+> "And for divorced women there is a provision in kindness, a duty upon the God-fearing." (Al-Baqarah 241)
 
 > لَّا جُنَاحَ عَلَيْكُمْ إِن طَلَّقْتُمُ ٱلنِّسَآءَ مَا لَمْ تَمَسُّوهُنَّ أَوْ تَفْرِضُوا۟ لَهُنَّ فَرِيضَةًۭ
 

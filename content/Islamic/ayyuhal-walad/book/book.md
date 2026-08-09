@@ -141,14 +141,18 @@ Hasan al-Basri said:
 And another intimate of Allah said:
 
 > عَلَامَةُ الْحَقِيقَةِ تَرْكُ مُلَاحَظَةِ الْعَمَلِ لَا تَرْكُ الْعَمَلِ
+>
+> "The mark of realized truth is to leave off admiring one's own action, not to leave off the action itself."
 
-"The mark of realized truth is to leave off admiring one's own action, not to leave off the action itself." One acts without regarding one's own act with pride, yet one must never abandon the doing of good deeds, even where the danger of self-admiration is present.
+One acts without regarding one's own act with pride, yet one must never abandon the doing of good deeds, even where the danger of self-admiration is present.
 
 Our master of both worlds, the Prophet Muhammad, expresses this truth more eloquently, more clearly, and more beautifully than any of the sayings above:
 
 > الْكَيِّسُ مَنْ دَانَ نَفْسَهُ وَ عَمِلَ لِمَا بَعْدَ الْمَوْتِ، وَ الْأَحْمَقُ مَنِ اتَّبَعَ هَوَاهُ وَتَمَنَّى عَلَى اللَّهِ تَعَالَى الْأَمَانِيَّ
+>
+> "The intelligent one is he who calls his own soul to account and works for what lies after death; and the fool is he who follows the desires of his soul and yet indulges vain hopes upon Allah the Exalted."
 
-"The intelligent one is he who calls his own soul to account and works for what lies after death; and the fool is he who follows the desires of his soul and yet indulges vain hopes upon Allah the Exalted." Some narrations add the words: and hopes for Allah's forgiveness.
+Some narrations add the words: and hopes for Allah's forgiveness.
 
 My dear son, how many nights have you stayed awake, going over your knowledge and poring over books, denying yourself sleep? I do not know what your motive was. If it was to grasp some share of this world, to draw in its worthless goods, to secure its offices, and to boast over your peers and equals, then:
 
@@ -197,8 +201,10 @@ My dear son, every day He looks into your heart and says:
 My dear son, knowledge without action is madness, and action without knowledge cannot stand. Know this well: the knowledge that does not keep you far from disobedience today, and does not carry you toward obedience, will not keep you far from the Fire of Hell tomorrow. If you do not act on your knowledge today, and do not make good the days that have already slipped away from you, then on the Day of Resurrection you will cry out:
 
 > فَٱرْجِعْنَا نَعْمَلْ صَلِحًا
+>
+> "Send us back, that we may do righteous deeds!"
 
-"Send us back, that we may do righteous deeds!" And you will be answered:
+And you will be answered:
 
 > يَا أَحْمَقُ أَنْتَ مِنْ هُنَاكَ تَجِيءُ
 >
@@ -233,8 +239,10 @@ My dear son, if bare knowledge were enough for you, and you needed no deed besid
 Once a group of Companions were praising Abdullah ibn Umar (رض) in the presence of the Messenger of Allah ﷺ, and he said:
 
 > نِعْمَ الرَّجُلُ هُوَ لَوْ كَانَ يُصَلِّي بِاللَّيْلِ
+>
+> "He is an excellent man, if only he would pray in the night."
 
-"He is an excellent man, if only he would pray in the night." And on another occasion he said to one of his Companions:
+And on another occasion he said to one of his Companions:
 
 > لَا تُكْثِرِ النَّوْمَ بِاللَّيْلِ فَإِنَّ كَثْرَةَ النَّوْمِ بِاللَّيْلِ يَدَعُ صَاحِبَهُ فَقِيرًا يَوْمَ الْقِيَامَةِ
 >
@@ -245,20 +253,26 @@ My dear son, weigh these three verses and what is placed within each of them.
 The first:
 
 > وَمِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ نَافِلَةً لَكَ
+>
+> "And in part of the night, keep vigil in prayer with it, as a voluntary act for you." (al-Isra: 79)
 
-"And in part of the night, keep vigil in prayer with it, as a voluntary act for you." (al-Isra: 79) In this there is a command.
+In this there is a command.
 
 The second:
 
 > وَبِالْأَسْحَارِ هُمْ يَسْتَغْفِرُونَ
+>
+> "And in the hours before dawn they would seek forgiveness." (al-Dhariyat: 18)
 
-"And in the hours before dawn they would seek forgiveness." (al-Dhariyat: 18) In this there is the giving of thanks.
+In this there is the giving of thanks.
 
 The third:
 
 > وَالْمُسْتَغْفِرِينَ بِالْأَسْحَارِ
+>
+> "And those who seek forgiveness in the hours before dawn." (Al Imran: 17)
 
-"And those who seek forgiveness in the hours before dawn." (Al Imran: 17) In this there is honorable mention.
+In this there is honorable mention.
 
 The Messenger of Allah ﷺ said:
 

@@ -29,8 +29,8 @@ It is related from Jafar al-Sadiq (عليه السلام) that he said: "God cho
 Many works composed by the elders of the dawa to affirm the imamate rely on deduction and on evidence drawn from the well-known Quranic verses revealed concerning the imamate and the imams (عَلَيْهِمُ السَّلَامُ), and on the traditions reported from the Prophet. Those who came before have left nothing in this matter for those who come after, and there is little use in restating the same ideas in other words. I wish, therefore, to write a treatise that affirms the imamate by way of evidence (اِسْتَشْهَد) and deduction (اَلْاِسْتِدْلَال) drawn from the outer horizons (اَلْآفَاق) and from our own selves (نَفْس), from politics and governance (اَلسِّيَاسَة) and from established norms (اَلرُّسُوم); by way of intellect (اَلْعَقْل), self-evidence (اَلضَّرُورَة), innate constitution (اَلْفِطْرَة), and natural disposition (الْجِبْلَة); and by the agreement (اَلْاِتِّفَاق) of every religious community (أهل كل ملة), as well as of the philosophers (اَلْفَلَاسِفَة) and those who reckon with numbers (أَهْلُ الْحِسَاب). In this I follow the way of God, the Exalted, who said:
 
 > سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ ۗ أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ شَهِيدٌ
-
-"We shall show them Our signs on the horizons and within themselves until it becomes manifest to them that it is the truth. Does it not suffice concerning your Lord that He is witness over all things?"
+>
+> "We shall show them Our signs on the horizons and within themselves until it becomes manifest to them that it is the truth. Does it not suffice concerning your Lord that He is witness over all things?"
 
 I shall draw further evidence from the very structure of the religious duties (اَلْفَرَائِض) and practices, in a manner the elders of the dawa never attempted. If what follows proves sound, that is owing to the excellent support of the master of the age and the time (ولي العصر والزمان); and if any error appears in it, that is from my own weakness and shortcoming — and that is the most fitting thing for one such as me.
 
@@ -65,28 +65,28 @@ We also say that everything God, the Exalted, has created in this order, and hum
 God, the Exalted, established these elements, means, and natural causes so firmly that no one can deny them, argue them away, alter them, or change them in any way. This stands in sharp contrast to what certain people did with the religious law and with the testimony the Prophet had called them to bear: the affirmation of the imamate and the imams, the obligation to follow them, devotion to them, obedience to them, the condemnation of those who disobey them, and the promise of reward for those who obey. They distorted all of this, just as they altered and distorted the Quran. God, the Exalted, has told us of this in His words:
 
 > يُحَرِّفُونَ ٱلْكَلِمَ عَن مَّوَاضِعِهِۦ ۙ وَنَسُوا۟ حَظًّۭا مِّمَّا ذُكِّرُوا۟ بِهِۦ
-
-"…changing words from their context while they forgot a portion of what We have reminded them of." (Al-Maidah: 13)
+>
+> "…changing words from their context while they forgot a portion of what We have reminded them of." (Al-Maidah: 13)
 
 And God, Whose mention is exalted, has also said:
 
 > إِنَّمَا ٱلنَّسِىٓءُ زِيَادَةٌۭ فِى ٱلْكُفْرِ
-
-"Indeed, forgetfulness is only an excess of disbelief…" (At-Tawbah: 37)
+>
+> "Indeed, forgetfulness is only an excess of disbelief…" (At-Tawbah: 37)
 
 Yet what they committed was not forgetfulness at all. They abandoned the testimony deliberately, as though they had never seen it and never heard it.
 
 Just as the testimony of the outer horizons and the inner selves is compulsory rather than chosen, and therefore impossible for anyone to alter, to replace, or to suppress, so too did the Messenger, may God bless him, make testimony compulsory, leaving the witnesses no choice to change it, alter it, or conceal it. He threatened whoever would change or conceal it with a painful punishment. God, the Exalted, commanded that judgment be rendered upon the testimony of two witnesses, saying:
 
 > تَضِلَّ إِحْدَىٰهُمَا فَتُذَكِّرَ إِحْدَىٰهُمَا ٱلْأُخْرَىٰ ۚ وَلَا يَأْبَ ٱلشُّهَدَآءُ إِذَا مَا دُعُوا۟
-
-"If one of them falls into error, the other will remind. And the witnesses must not refuse when they are summoned." (Al-Baqarah: 282)
+>
+> "If one of them falls into error, the other will remind. And the witnesses must not refuse when they are summoned." (Al-Baqarah: 282)
 
 By this He meant that true judgment in religion, and in affirming the imamate and the hierarchies, rests upon two witnesses: one established by law and the other compelled by nature. When people deny the legally established testimony, the one bound by nature — namely the horizons and our own inner selves — steps in to remind, to enforce, and to verify the conventional witnesses, just as God, the Exalted, says:
 
 > سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ
-
-"We shall show them Our signs on the horizons and within themselves until it becomes manifest to them that it is the Truth." (Fussilat: 53)
+>
+> "We shall show them Our signs on the horizons and within themselves until it becomes manifest to them that it is the Truth." (Fussilat: 53)
 
 And in the same way, when the Prophet was asked, "Who is the witness of your prophethood?" he answered:
 
@@ -147,22 +147,22 @@ I say, too, that among plants certain gentle medicines have reached so fine a de
 The imam and his word become an antidote for souls, a means of healing and of relief from death, sickness, doubt, and discord. The opponents who seize the station of the imams (عَلَيْهِمُ السَّلَامُ) by force are like the fatal poisons and harmful substances found among medicines. They are deadly poisons that destroy anyone who listens to them, keeps their company, or leans toward them, unless the imam reaches such people with the great antidote that rescues their souls from ruin. These opponents are also like useless, worthless stones. It is for this reason that God, the Exalted, said:
 
 > حَصَبُ جَهَنَّمَ أَنتُمْ لَهَا وَرِدُونَ
-
-"... pebble-covered hell where you will return." (Al-Anbiya: 98)
+>
+> "... pebble-covered hell where you will return." (Al-Anbiya: 98)
 
 And His words:
 
 > فَٱتَّقُوا۟ ٱلنَّارَ ٱلَّتِى وَقُودُهَا ٱلنَّاسُ وَٱلْحِجَارَةُ ۖ أُعِدَّتْ لِلْكَفِرِينَ
-
-"... and guard yourself against the Fire that has been ignited for the people and the stones that have been prepared for the non-believers." (Al-Baqarah: 24)
+>
+> "... and guard yourself against the Fire that has been ignited for the people and the stones that have been prepared for the non-believers." (Al-Baqarah: 24)
 
 I say, too, that among animals the horse is the finest, among birds the eagle, and among beasts of prey the lion holds the first place. The differences among these various kinds — in strength, usefulness, capacity to be trained, and the height each reaches within its own species — point to the fact that there is a summit within the genus of animals, just as within the human species that summit is the imam.
 
 I say further that some plants are sweet, delicious, and pleasing, and people benefit from them. Others are bitter, giving neither nourishment nor pleasure. Still others bear no fruit and are covered with thorns, wounding those who come near them. The sweet and pleasant plants are like the imams, a symbol of their speech and knowledge, which win the soul and delight the eye. The bitter, foul, and thorny ones stand for the leaders of the literalists (أَهْلُ الظَّاهِر). For this reason God, the Exalted, said:
 
 > أَلَمْ تَرَ كَيْفَ ضَرَبَ ٱللَّهُ مَثَلًۭا كَلِمَةًۭ طَيِّبَةًۭ كَشَجَرَةٍۢ طَيِّبَةٍ أَصْلُهَا ثَابِتٌۭ وَفَرْعُهَا فِى ٱلسَّمَآءِ تُؤْتِىٓ أُكُلَهَا كُلَّ حِينٍۭ بِإِذْنِ رَبِّهَا ۗ وَيَضْرِبُ ٱللَّهُ ٱلْأَمْثَالَ لِلنَّاسِ لَعَلَّهُمْ يَتَذَكَّرُونَ وَمَثَلُ كَلِمَةٍ خَبِيثَةٍۢ كَشَجَرَةٍ خَبِيثَةٍ ٱجْتُثَّتْ مِن فَوْقِ ٱلْأَرْضِ مَا لَهَا مِن قَرَارٍۢ
-
-"The example of a good word is like a good tree whose roots are firmly established and whose branches reach the heavens, giving its fruit perpetually in every season by the permission of its Lord. So God sets forth similitudes for mankind in order that they may reflect. And the similitude of a bad word is like that of a bad tree uprooted from the top of the earth, having no stability." (Ibrahim: 24-26)
+>
+> "The example of a good word is like a good tree whose roots are firmly established and whose branches reach the heavens, giving its fruit perpetually in every season by the permission of its Lord. So God sets forth similitudes for mankind in order that they may reflect. And the similitude of a bad word is like that of a bad tree uprooted from the top of the earth, having no stability." (Ibrahim: 24-26)
 
 I say, too, that some plants are sweet-smelling, their fragrance reviving people and healing them of every disease and ailment. The height of their goodness and fragrance is a symbol of the imam and his words, which revive people and bring them ease, while the foul, repellent, and offensive plants point to the imams of error, whose speech harms souls and may even destroy them.
 
@@ -173,8 +173,8 @@ I say that the gazelle that yields musk and the bee that yields honey — indeed
 And God, the Exalted, said:
 
 > وَأَوْحَىٰ رَبُّكَ إِلَى ٱلنَّحْلِ أَنِ ٱتَّخِذِى مِنَ ٱلْجِبَالِ بُيُوتًۭا وَمِنَ ٱلشَّجَرِ وَمِمَّا يَعْرِشُونَ ثُمَّ كُلِى مِن كُلِّ ٱلثَّمَرَتِ فَٱسْلُكِى سُبُلَ رَبِّكِ ذُلُلًۭا ۚ يَخْرُجُ مِنۢ بُطُونِهَا شَرَابٌۭ مُّخْتَلِفٌ أَلْوَنُهُۥ فِيهِ شِفَآءٌۭ لِّلنَّاسِ
-
-"And your Lord inspired the bee to choose its homes in the mountains and on the trees and on that which they thatch; then eat from all the fruits and follow the path of your Lord skillfully, that He has made smooth for you. From within its bellies a drink of varying colors comes forth in which there is healing for mankind ..." (An-Nahl: 68-69)
+>
+> "And your Lord inspired the bee to choose its homes in the mountains and on the trees and on that which they thatch; then eat from all the fruits and follow the path of your Lord skillfully, that He has made smooth for you. From within its bellies a drink of varying colors comes forth in which there is healing for mankind ..." (An-Nahl: 68-69)
 
 In the same way, I say that humankind is the highest among the animals and within all the realms of nature. Whatever advantage lies in everything created before mankind — principles, derivatives, and the realms of nature alike — returns in the end to humankind. The merits of the world, of animals, of plants, and of all other things are held within the human being; their benefit, their glory, their value, and their goodness all become plain through mankind. Were it not for mankind, the merit of all things would never appear, nor would the order of the world hold together. Nothing would be complete, no benefit would come, and nothing would be preserved, whether from plants or from animals. It is the human being who masters water and irrigates the land, bringing it under rational control and drawing it out of valleys, rivers, and wells. It is man who tills the earth, cultivates it, raises dwellings upon it, and waters plants and fields, bringing the land under his rational governance.
 
@@ -183,22 +183,22 @@ Beyond this, it is the human being who has put wind and air to use; it is man wh
 Just as the benefit of all animals and of everything before them returns to mankind, so that man became their leader, so too the benefit of all human beings returns to the imams, who became their leaders, their commanders, and their restrainers. Were it not for the imams — for the direction and guidance they give humanity, for their protection of human welfare in this life and the next, and for their urging people to gain virtues and to shun vices and the habits of animals — there would be no difference between beasts and human beings; indeed, the animals would be the better of the two. If man did not accept the training he needs in order to gain virtues for his soul, and did not learn to rouse his intellect through the imams, he would be worse off than the animals, since animals are not as inclined to evil as human beings are, and animals hold many benefits. Without intellect and religion, man would be given over wholly to evil and corruption. It is on this account that God, the Exalted and Glorious, said:
 
 > إِنَّ شَرَّ ٱلدَّوَآبِّ عِندَ ٱللَّهِ ٱلصُّمُّ ٱلْبُكْمُ ٱلَّذِينَ لَا يَعْقِلُونَ
-
-"For the worst of beasts in the sight of God are the deaf and dumb, those who understand not." (Al-Anfal: 22)
+>
+> "For the worst of beasts in the sight of God are the deaf and dumb, those who understand not." (Al-Anfal: 22)
 
 The Exalted also said:
 
 > أُو۟لَٓئِكَ كَٱلْأَنْعَمِ بَلْ هُمْ أَضَلُّ ۚ أُو۟لَٓئِكَ هُمُ ٱلْغَفِلُونَ
-
-"They are like cattle, nay, more misguided, for they are heedless of warning." (Al-A'raf: 179)
+>
+> "They are like cattle, nay, more misguided, for they are heedless of warning." (Al-A'raf: 179)
 
 Were there no humanity, there would be no wisdom in the creation of animals and plants, for there would be no one to benefit from them. In the same way, were it not for the imams, there would be no wisdom in the creation of humanity, and their superiority would never become plain. Human beings have been created for religion and for the gaining of virtues and knowledge. So learn knowledge and religion from the imams, for through them religion is established and made complete. If the excellence of man were not made plain through religion, then the value of plants and animals would not become known either, and there would be no wisdom in the creation of humanity, plants, and animals. And if there were no wisdom in their creation, there would be no wisdom in the creation of all the worlds.
 
 It is therefore true to say that all the worlds, the whole of natural creation, have been created for humanity, and that humanity has been created for the imams: to receive religion from them, to be perfected through them, and to make plain their virtues, their order, and their foundation. Since all the worlds and all creatures were created for the imams, and all the benefits of the worlds belong to them, and the rest of creation depends on them and stands to them as children stand to a parent, whatever they bestow upon creation is given by their favor, their generosity, and their mercy. If they withhold anything, they are under no obligation to give it, nor do they owe any gratitude for it. Whoever takes anything from this world and what it holds without the permission and approval of the imam has taken what is haram, forbidden, and has committed an act of usurpation. Thus God said:
 
 > أَفَآءَ ٱللَّهُ عَلَىٰ رَسُولِهِۦ مِنْ أَهْلِ ٱلْقُرَىٰ فَلِلَّهِ وَلِلرَّسُولِ
-
-"And that which God bestows on the Messenger from the people of the villages, it is for God and His Messenger." (Al-Hashr: 7)
+>
+> "And that which God bestows on the Messenger from the people of the villages, it is for God and His Messenger." (Al-Hashr: 7)
 
 The word "bestowal" (اَلْفَيْء) means "return," and it is for this reason that a shadow is called اَلْفَيْء, because it returns to the place from which it first came. The whole world comes from the fortune and property of the imams, and whatever returns to their property is, in truth, a اَلْفَيْء, a return.
 

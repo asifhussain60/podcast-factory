@@ -202,3 +202,21 @@ def test_the_live_corpus_splits_the_way_the_repair_assumes():
     # The three are mutually exclusive by construction; this is the guard that they stay
     # so, and that the fused bucket never empties into a repair by a pattern going greedy.
     assert seen["fused"] > 0, "nothing is fused any more — a repair pattern has widened"
+
+
+def test_this_module_can_be_imported_before_book_defects():
+    """A circular import that only bites in ONE order, which is why it survived a green
+    suite: `_book_defects` imports the three detectors for its registry, so a module-level
+    import back is a cycle that resolves when `_book_defects` goes first — as every caller
+    and every test above happens to do — and raises ImportError otherwise. Run in a fresh
+    interpreter because this one has both modules loaded already."""
+    import subprocess
+
+    proc = subprocess.run(
+        [sys.executable, "-c", "import _book_translation_cards as T; print(len(T.QUOTE_SHAPES))"],
+        cwd=REPO / "scripts" / "podcast",
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 0, proc.stderr
+    assert proc.stdout.strip() == "3"
