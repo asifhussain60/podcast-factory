@@ -24,7 +24,7 @@ from tempfile import TemporaryDirectory
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-from _tool_cost import append_precomputed_cost  # noqa: E402
+from _tool_cost import append_precomputed_cost, append_tool_cost  # noqa: E402
 from cost_guard import real_spend_usd  # noqa: E402
 
 #: The tools that used to keep their own ledger.
@@ -127,6 +127,67 @@ class SpendReachesTheCeilingTests(unittest.TestCase):
             row = json.loads((book / "_system" / "cost-ledger.jsonl").read_text(encoding="utf-8").strip())
             self.assertEqual(row["engine"], "api")
             self.assertEqual(row["cost_usd"], 2.0)
+
+
+class ToolEntryUnitMappingTests(unittest.TestCase):
+    """The one mapping from a tool's `_log_cost` dict to a ledger row.
+
+    Five copies of this mapping is how the private second ledger survived, so the units
+    it picks are worth pinning: every consumer that sums `input_tokens` reads whatever
+    this function decided.
+    """
+
+    def _row(self, entry: dict) -> dict:
+        with TemporaryDirectory() as td:
+            book = Path(td) / "a-book"
+            (book / "_system").mkdir(parents=True)
+            append_tool_cost(book, entry)
+            return json.loads((book / "_system" / "cost-ledger.jsonl").read_text(encoding="utf-8").strip())
+
+    def test_char_counts_are_preferred_when_present(self) -> None:
+        row = self._row({"op": "denoise", "service": "gemini", "cost_usd": 0.1, "in_chars": 900, "out_chars": 400})
+        self.assertEqual(row["input_tokens"], 900)
+        self.assertEqual(row["output_tokens"], 400)
+
+    def test_word_counts_are_the_fallback(self) -> None:
+        row = self._row(
+            {"op": "segment", "service": "claude", "cost_usd": 0.2, "word_count_before": 50, "word_count_after": 40}
+        )
+        self.assertEqual(row["input_tokens"], 50)
+        self.assertEqual(row["output_tokens"], 40)
+
+    def test_a_genuine_zero_is_recorded_as_zero(self) -> None:
+        """The falsy-zero trap, stated once.
+
+        `entry.get("in_chars") or entry.get("word_count_before")` reads naturally and is
+        wrong: `0` is falsy, so a call that genuinely sent nothing fell through to the
+        word count and a call that consumed nothing was recorded as having consumed the
+        whole book.
+        """
+        row = self._row(
+            {
+                "op": "denoise",
+                "service": "gemini",
+                "cost_usd": 0.0,
+                "in_chars": 0,
+                "out_chars": 0,
+                "word_count_before": 12_000,
+                "word_count_after": 11_000,
+            }
+        )
+        self.assertEqual(row["input_tokens"], 0, "a zero char count fell through to the word count")
+        self.assertEqual(row["output_tokens"], 0)
+
+    def test_missing_and_unparseable_values_fall_back_rather_than_raising(self) -> None:
+        self.assertEqual(self._row({"op": "x", "service": "y", "cost_usd": 0.0})["input_tokens"], 0)
+        row = self._row({"op": "x", "service": "y", "cost_usd": 0.0, "in_chars": "abc", "word_count_before": 7})
+        self.assertEqual(row["input_tokens"], 7, "an unparseable value must fall through to the next key")
+
+    def test_the_step_and_model_come_from_the_entry(self) -> None:
+        row = self._row({"op": "triage", "service": "gemini-2.5-flash", "cost_usd": 0.01})
+        self.assertEqual(row["phase"], "standalone")
+        self.assertEqual(row["step"], "triage")
+        self.assertEqual(row["model"], "gemini-2.5-flash")
 
 
 if __name__ == "__main__":

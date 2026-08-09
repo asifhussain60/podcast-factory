@@ -174,6 +174,36 @@ class LedgerBackedGateTests(_BookFixture):
         self.assertFalse(ok)
         self.assertIn("win-002", note)
 
+    def test_a_deliberate_skip_is_not_a_failure(self):
+        # `skipped` means a config knob turned the step off, which most books do for
+        # most optional steps. It must stay invisible to this gate or the gate is noise.
+        record_step(self.book, phase="per-chapter", step="augment", outcome="skipped", evidence={"why": "gate off"})
+        self.assertTrue(pr.gate_no_step_failed(self.book)[0])
+
+    def test_a_step_that_crashed_reaches_this_gate(self):
+        """The payoff of recording a crash as `failed` rather than `skipped`.
+
+        The per-chapter augment stage caught every exception and recorded `skipped` —
+        the same value a book records for having the feature switched off — so this
+        gate, which filters on `failed`, never saw it. An augmenter broken for months
+        was indistinguishable from one nobody had enabled.
+        """
+        record_step(self.book, phase="per-chapter", step="augment", outcome="failed", error="DB unavailable")
+        ok, note = pr.gate_no_step_failed(self.book)
+        self.assertFalse(ok, "a crashing step must reach the review gate")
+        self.assertIn("augment", note)
+
+    def test_a_per_chapter_failure_is_reported_even_when_later_chapters_pass(self):
+        # The gate scans every row rather than the per-step summary, so it was never
+        # subject to the collapse `last_by_step` had — pinned here because the two read
+        # the same records and a future consolidation must not lose this property.
+        record_step(self.book, phase="per-chapter", step="build", outcome="failed", evidence={"chapter": "ch03"})
+        for n in range(4, 21):
+            record_step(self.book, phase="per-chapter", step="build", outcome="ok", evidence={"chapter": f"ch{n:02d}"})
+        ok, note = pr.gate_no_step_failed(self.book)
+        self.assertFalse(ok)
+        self.assertIn("build", note)
+
     def test_repaid_windows_gate_distinguishes_cache_from_recompute(self):
         record_step(self.book, phase="0b", step="win-001", outcome="noop", evidence={"why": "cache hit"})
         record_step(self.book, phase="0b", step="win-002", outcome="ok", evidence={"why": "computed"})

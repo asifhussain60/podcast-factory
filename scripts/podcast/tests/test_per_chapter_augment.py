@@ -125,8 +125,20 @@ class PerChapterAugmentStepTests(unittest.TestCase):
             self.assertEqual(episode_path.read_text(encoding="utf-8"), "episode framing")
             # Pipeline still succeeded.
             self.assertEqual(outcome.final_verdict, "SHIP-READY")
-            # A skip note is recorded.
-            self.assertTrue(any("skipped" in n for n in outcome.notes))
+            # A FAILURE note is recorded — not a skip. `augment_episode_text` returns the
+            # text unchanged when the gate is off and never raises, so reaching the except
+            # means something genuinely broke. Calling that "skipped" filed it under the
+            # same word most books legitimately record for having the feature switched
+            # off, so an augmenter broken for months was indistinguishable from one nobody
+            # had enabled. Non-fatal either way: the episode text stands as built.
+            self.assertTrue(
+                any("failed" in n for n in outcome.notes),
+                f"a crashing augmenter must be reported as a failure, got {outcome.notes!r}",
+            )
+            self.assertFalse(
+                any("skipped" in n for n in outcome.notes),
+                "a crash must not be filed as a deliberate skip",
+            )
 
 
 if __name__ == "__main__":

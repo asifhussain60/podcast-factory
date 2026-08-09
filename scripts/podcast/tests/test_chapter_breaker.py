@@ -36,6 +36,11 @@ from _chapter_breaker import (
     ChapterBreaker,
     failure_signature,
 )
+from _chapter_cost_caps import BookCeiling
+
+#: Admission never touches the filesystem — spend is supplied by the injected function —
+#: so a placeholder path is enough and keeps these tests free of temp dirs.
+BOOK = Path("/nonexistent-book")
 
 
 class SignatureTests(unittest.TestCase):
@@ -224,22 +229,39 @@ class CostCeilingAdmissionTests(unittest.TestCase):
         self.caps = (SCRIPTS_PODCAST / "_chapter_cost_caps.py").read_text(encoding="utf-8")
 
     def test_the_ceiling_is_checked_before_the_pre_start_gate(self):
-        admit_at = self.source.index("admit(book_dir, book_cost_cap_usd, breaker)")
+        admit_at = self.source.index("ceiling.admit(book_dir)")
         begin_at = self.source.index("breaker.begin(slug)")
         self.assertLess(admit_at, begin_at, "the ceiling must be consulted BEFORE a chapter is admitted")
 
     def test_the_ceiling_breach_trips_the_shared_breaker(self):
-        # The check lives in `_chapter_cost_caps` now; what matters is that a breach
-        # trips the SAME breaker the systemic-failure path uses, so there is one answer
-        # to "may a new chapter start".
-        self.assertIn("breaker.trip(", self.caps)
+        # A breach must trip the SAME breaker the systemic-failure path uses, so there is
+        # one answer to "may a new chapter start". The trip now happens at the CALL SITE
+        # from the returned refusal (see the returns-its-refusal test below), so this
+        # asserts against the driver rather than the caps module.
+        self.assertIn("breaker.trip(_refusal)", self.source)
         self.assertIn("COST-CEILING", self.caps)
 
     def test_the_admission_check_reads_live_spend_rather_than_estimating(self):
-        # The whole reason this is admission rather than a reservation: no estimate.
-        self.assertIn("_book_cost_so_far", self.caps)
+        # The whole reason this is admission rather than a reservation: no estimate of
+        # what a chapter WILL cost. Counting an in-flight chapter at the per-chapter cap
+        # is a different thing — that cap is a limit the loop already enforces, so it is
+        # a bound, not a forecast.
+        self.assertIn("_spend_fn", self.caps)
         for guessy in ("estimate", "projected_cost", "reserve("):
             self.assertNotIn(f"{guessy} =", self.caps, f"{guessy} suggests a reservation crept back in")
+
+    def test_admission_returns_its_refusal_rather_than_only_tripping(self):
+        """The refusal must reach the caller as a VALUE.
+
+        It used to be communicated only by tripping the breaker, with the returned reason
+        discarded — so the chapter was actually stopped by `breaker.begin()` re-reading
+        the flag a few lines later. Enforcement by side effect at a distance is one
+        reordering away from silently doing nothing.
+        """
+        ceiling = BookCeiling(10.0, 5.0, lambda _bd: 99.0)
+        refusal = ceiling.admit(Path("/nonexistent"))
+        self.assertIsInstance(refusal, str)
+        self.assertIn("COST-CEILING", refusal)
 
     def test_a_halt_before_starting_is_recorded_rather_than_falling_through(self):
         # Without this the phase would exit the loop looking like a book whose chapters
@@ -252,6 +274,119 @@ class CostCeilingAdmissionTests(unittest.TestCase):
         conv = (SCRIPTS_PODCAST / "_convergence.py").read_text(encoding="utf-8")
         self.assertIn("COST-CEILING", conv)
         self.assertIn("book_cost_fn", conv)
+
+
+class BookCeilingAdmissionTests(unittest.TestCase):
+    """`BookCeiling` — the admission decision itself, exercised rather than grepped."""
+
+    def _ceiling(self, *, cap=50.0, per_chapter=5.0, spent=0.0) -> BookCeiling:
+        return BookCeiling(cap, per_chapter, lambda _bd: spent)
+
+    def test_a_disabled_ceiling_admits_everything(self):
+        c = BookCeiling(0.0, 5.0, lambda _bd: 10_000.0)
+        for _ in range(10):
+            self.assertIsNone(c.admit(BOOK))
+
+    def test_a_chapter_is_admitted_while_the_book_has_headroom(self):
+        self.assertIsNone(self._ceiling(spent=10.0).admit(BOOK))
+
+    def test_a_chapter_is_refused_once_spend_reaches_the_ceiling(self):
+        refusal = self._ceiling(spent=50.0).admit(BOOK)
+        self.assertIsNotNone(refusal)
+        self.assertIn("COST-CEILING", refusal)
+
+    def test_in_flight_chapters_are_counted_against_the_ceiling(self):
+        """The overshoot fix, stated as one assertion.
+
+        $46 spent against a $50 ceiling with a $5 per-chapter cap: ONE chapter fits,
+        because a second could take the book to $56. Before 2026-08-09 every worker read
+        the same $46, saw headroom, and started.
+        """
+        c = self._ceiling(cap=50.0, per_chapter=5.0, spent=46.0)
+        self.assertIsNone(c.admit(BOOK), "the first chapter fits and must be admitted")
+        self.assertIsNotNone(c.admit(BOOK), "a second in-flight chapter could breach the ceiling")
+
+    def test_concurrent_admissions_cannot_overshoot_the_ceiling(self):
+        """Twenty threads racing on the same ceiling admit only what the cap allows.
+
+        The defect this pins was a genuine race: the read of live spend and the decision
+        to start were not under one lock, so N workers each read the same figure and all
+        admitted. Worst case measured at the time: 4 workers, $50 ceiling, $49 spent,
+        book reached ~$69.
+        """
+        # $50 ceiling, $5 per chapter, nothing spent yet -> at most 10 may be in flight.
+        c = self._ceiling(cap=50.0, per_chapter=5.0, spent=0.0)
+        admitted: list[bool] = []
+        lock = threading.Lock()
+        barrier = threading.Barrier(20)
+
+        def worker() -> None:
+            barrier.wait()  # maximise the overlap on the decision
+            ok = c.admit(BOOK) is None
+            with lock:
+                admitted.append(ok)
+
+        threads = [threading.Thread(target=worker) for _ in range(20)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+        self.assertEqual(
+            sum(admitted),
+            10,
+            f"expected exactly 10 admissions under a $50 ceiling at $5/chapter, got {sum(admitted)} "
+            f"— concurrent admissions are overshooting the ceiling",
+        )
+        self.assertEqual(c.in_flight(), 10)
+
+    def test_releasing_frees_the_slot(self):
+        c = self._ceiling(cap=10.0, per_chapter=5.0, spent=0.0)
+        self.assertIsNone(c.admit(BOOK))
+        self.assertIsNone(c.admit(BOOK))
+        self.assertIsNotNone(c.admit(BOOK), "two in flight already commits the whole ceiling")
+        c.release()
+        self.assertIsNone(c.admit(BOOK), "a finished chapter must free its slot")
+
+    def test_release_never_goes_negative(self):
+        c = self._ceiling()
+        for _ in range(5):
+            c.release()
+        self.assertEqual(c.in_flight(), 0)
+
+    def test_a_ceiling_without_a_per_chapter_cap_forces_serial_execution(self):
+        """No bound on in-flight spend means concurrency cannot be made safe.
+
+        Refusing to widen is the correct direction to be wrong: the alternative is
+        overshooting a spend limit by an amount nothing in the system bounds.
+        """
+        c = BookCeiling(50.0, 0.0, lambda _bd: 0.0)
+        self.assertEqual(c.concurrency_limit(4), 1)
+
+    def test_a_book_with_both_caps_may_use_the_requested_workers(self):
+        self.assertEqual(BookCeiling(50.0, 5.0, lambda _bd: 0.0).concurrency_limit(4), 4)
+
+    def test_a_book_with_no_ceiling_may_use_the_requested_workers(self):
+        self.assertEqual(BookCeiling(0.0, 0.0, lambda _bd: 0.0).concurrency_limit(4), 4)
+
+    def test_a_nonsense_worker_count_is_floored_at_one(self):
+        c = BookCeiling(0.0, 0.0, lambda _bd: 0.0)
+        for value in (0, -4):
+            self.assertEqual(c.concurrency_limit(value), 1)
+
+    def test_an_admitted_chapter_is_always_released_however_it_ends(self):
+        """The driver must pair every admission with a release.
+
+        Releasing only on the success path leaks the in-flight count, and since that
+        count is charged against the ceiling the book would refuse every chapter after
+        the first failure — a spend limit that tightens itself as the run goes on.
+        """
+        source = (SCRIPTS_PODCAST / "phases" / "chapter_driver.py").read_text(encoding="utf-8")
+        self.assertIn("finally:", source)
+        self.assertIn("ceiling.release()", source)
+        release_at = source.index("ceiling.release()")
+        finally_at = source.rindex("finally:", 0, release_at)
+        between = source[finally_at:release_at]
+        self.assertNotIn("def ", between, "the release must sit directly under a `finally:`")
 
 
 class ConcurrencySafetyTests(unittest.TestCase):

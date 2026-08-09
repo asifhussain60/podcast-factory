@@ -32,7 +32,7 @@ sys.path.insert(0, str(SCRIPTS_PODCAST))
 
 import phases.per_chapter as per_chapter  # noqa: E402
 from _convergence import ChapterOutcome  # noqa: E402
-from _step_ledger import last_by_step, read_steps  # noqa: E402
+from _step_ledger import last_by_step, read_steps, record_step  # noqa: E402
 
 STAGES = ("extract", "framing", "lint", "build", "augment", "converge")
 
@@ -91,7 +91,16 @@ class PerChapterStepLedgerTests(unittest.TestCase):
             return per_chapter.per_chapter_pass(self.book_dir, "a-chapter")
 
     def _rows(self) -> dict[str, dict]:
-        return last_by_step(read_steps(self.book_dir, phase=per_chapter.PHASE))
+        """{stage: its final record} for this single-chapter fixture.
+
+        `last_by_step` keys per CHAPTER (`build[a-chapter]`) since 2026-08-09, so one
+        chapter's success can no longer overwrite another's failure. This fixture drives
+        exactly one chapter, so the discriminator is stripped back off here and every
+        assertion below stays about the stages themselves. The per-chapter keying is
+        pinned by `ChaptersDoNotCollapseTests` at the bottom of this file.
+        """
+        rows = last_by_step(read_steps(self.book_dir, phase=per_chapter.PHASE))
+        return {key.split("[", 1)[0]: row for key, row in rows.items()}
 
     # ── the records exist, and carry what makes them useful ──────────────────
 
@@ -137,6 +146,31 @@ class PerChapterStepLedgerTests(unittest.TestCase):
         out = self._run_pass(run_rc={"pipeline_lint.py": 1})
         self.assertEqual(out.final_verdict, "FAILED")
         self.assertEqual(self._rows()["lint"]["outcome"], "failed")
+
+    def test_a_lint_that_could_not_run_is_not_recorded_as_a_pass(self) -> None:
+        """Exit 1 is the gate speaking; anything else non-zero is it never having run.
+
+        `pipeline_lint.main` returns 2 for a missing book-dir and argparse exits 2 for a
+        bad `--episode`. Only exit 1 was handled, so a validator that never started fell
+        through, the step recorded `ok`, and the chapter proceeded as though its framing
+        had been checked — the exact silent-failure shape this ledger exists to expose.
+        """
+        out = self._run_pass(run_rc={"pipeline_lint.py": 2})
+        self.assertEqual(self._rows()["lint"]["outcome"], "failed", "a gate that could not run reported a pass")
+        self.assertEqual(out.final_verdict, "FAILED")
+        self.assertTrue(
+            any("could not run" in n for n in out.notes),
+            f"the reason must say the gate did not run, got {out.notes!r}",
+        )
+
+    def test_a_lint_that_could_not_run_is_distinguished_from_a_real_mismatch(self) -> None:
+        # Both fail the chapter, but a human triaging them does completely different
+        # things: one is a framing to fix, the other is a broken invocation.
+        could_not_run = self._run_pass(run_rc={"pipeline_lint.py": 2})
+        self.setUp()
+        mismatch = self._run_pass(run_rc={"pipeline_lint.py": 1})
+        self.assertNotIn("could not run", " ".join(mismatch.notes))
+        self.assertIn("could not run", " ".join(could_not_run.notes))
 
     def test_framing_that_raises_records_failed_with_its_message(self) -> None:
         from _authoring import AuthoringError
@@ -187,6 +221,68 @@ class PerChapterStepLedgerTests(unittest.TestCase):
             out = self._run_pass()
         self.assertEqual(out.final_verdict, "SHIP-READY")
         self.assertEqual(self._rows(), {}, "nothing should have been recorded")
+
+
+class ChaptersDoNotCollapseTests(unittest.TestCase):
+    """One chapter's success must never overwrite another chapter's failure.
+
+    Every chapter records the same six stage names under one phase, with the chapter
+    only in the evidence. `last_by_step` keyed on the NAME alone until 2026-08-09, so a
+    twenty-chapter book collapsed to six records — the LAST chapter's. Chapter three
+    failing at `build` was overwritten by chapter twenty succeeding at it, and the review
+    gate that reads this summary called the phase healthy.
+
+    Those rows are different CHAPTERS, not retries of one step. Retry semantics are still
+    correct and are pinned separately below.
+    """
+
+    def setUp(self) -> None:
+        self.tmp = TemporaryDirectory()
+        self.book_dir = Path(self.tmp.name) / "a-book"
+        (self.book_dir / "_system").mkdir(parents=True)
+
+    def tearDown(self) -> None:
+        self.tmp.cleanup()
+
+    def _record(self, step_name: str, chapter: str, outcome: str) -> None:
+        record_step(
+            self.book_dir,
+            phase=per_chapter.PHASE,
+            step=step_name,
+            outcome=outcome,
+            evidence={"chapter": chapter},
+        )
+
+    def test_a_failed_chapter_survives_a_later_chapters_success(self) -> None:
+        self._record("build", "ch03", "failed")
+        for n in range(4, 21):
+            self._record("build", f"ch{n:02d}", "ok")
+        rows = last_by_step(read_steps(self.book_dir, phase=per_chapter.PHASE))
+        self.assertEqual(len(rows), 18, "each chapter must keep its own record")
+        self.assertEqual(rows["build[ch03]"]["outcome"], "failed", "chapter three's failure was overwritten")
+
+    def test_every_chapter_keeps_every_stage(self) -> None:
+        for chapter in ("ch01", "ch02", "ch03"):
+            for stage in STAGES:
+                self._record(stage, chapter, "ok")
+        rows = last_by_step(read_steps(self.book_dir, phase=per_chapter.PHASE))
+        self.assertEqual(len(rows), 3 * len(STAGES))
+
+    def test_a_retry_of_the_same_chapter_still_reports_its_final_outcome(self) -> None:
+        # The property the original keying was built for, and which must not be lost:
+        # a stage that failed and was retried WITHIN one chapter reports the retry.
+        self._record("build", "ch01", "failed")
+        self._record("build", "ch01", "ok")
+        rows = last_by_step(read_steps(self.book_dir, phase=per_chapter.PHASE))
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows["build[ch01]"]["outcome"], "ok")
+
+    def test_a_phase_whose_steps_name_no_chapter_keeps_the_bare_step_name(self) -> None:
+        # Every other phase records one instance per step and reads its keys by bare
+        # name — `_phase_review` looks up apparatus steps and `win-*` windows that way.
+        record_step(self.book_dir, phase="0book-compose", step="inline-arabic", outcome="ok")
+        rows = last_by_step(read_steps(self.book_dir, phase="0book-compose"))
+        self.assertEqual(list(rows), ["inline-arabic"])
 
 
 if __name__ == "__main__":

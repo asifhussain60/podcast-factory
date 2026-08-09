@@ -29,6 +29,8 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest import mock
 
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
@@ -290,6 +292,64 @@ class ApparatusDeclarationTests(unittest.TestCase):
             set(),
             "these steps record a failure but never a success — the ledger would only ever show them when they break",
         )
+
+
+class LedgerReadCostTests(unittest.TestCase):
+    """The ledger is append-only across every run a book has ever had.
+
+    `latest_steps` used to call `latest_run_id` — a full read and a full JSON parse of
+    every line — and then `read_steps`, doing the same again, for ONE query. The
+    per-chapter lane appends six rows per chapter, and the review gates call this once
+    per phase.
+    """
+
+    def setUp(self) -> None:
+        self.tmp = TemporaryDirectory()
+        self.book_dir = Path(self.tmp.name) / "a-book"
+        (self.book_dir / "_system").mkdir(parents=True)
+
+    def tearDown(self) -> None:
+        self.tmp.cleanup()
+
+    def _seed(self, n: int = 40) -> None:
+        for i in range(n):
+            record_step(self.book_dir, phase="per-chapter", step="build", outcome="ok", evidence={"chapter": f"c{i}"})
+
+    def test_latest_steps_reads_the_file_once(self) -> None:
+        self._seed()
+        real_read = Path.read_text
+        reads: list[str] = []
+
+        def _counting_read(self_path, *a, **k):
+            if self_path.name == "step-ledger.jsonl":
+                reads.append(str(self_path))
+            return real_read(self_path, *a, **k)
+
+        with mock.patch.object(Path, "read_text", _counting_read):
+            rows = latest_steps(self.book_dir, phase="per-chapter")
+        self.assertEqual(len(reads), 1, f"the ledger was read {len(reads)} times for one query")
+        self.assertEqual(len(rows), 40)
+
+    def test_latest_steps_still_returns_only_the_newest_run(self) -> None:
+        # The behaviour the double read was paying for must be unchanged.
+        with mock.patch("_step_ledger._run_id", return_value="run-a"):
+            record_step(self.book_dir, phase="p", step="s", outcome="ok")
+        with mock.patch("_step_ledger._run_id", return_value="run-b"):
+            record_step(self.book_dir, phase="p", step="s2", outcome="ok")
+        rows = latest_steps(self.book_dir)
+        self.assertEqual([r["step"] for r in rows], ["s2"])
+
+    def test_records_without_a_run_id_still_report_something(self) -> None:
+        with mock.patch("_step_ledger._run_id", return_value=None):
+            record_step(self.book_dir, phase="p", step="s", outcome="ok")
+        self.assertEqual(len(latest_steps(self.book_dir)), 1)
+
+    def test_a_malformed_line_does_not_blind_the_reader(self) -> None:
+        self._seed(3)
+        path = self.book_dir / "_system" / "step-ledger.jsonl"
+        with path.open("a", encoding="utf-8") as f:
+            f.write("{not json at all\n")
+        self.assertEqual(len(read_steps(self.book_dir)), 3)
 
 
 if __name__ == "__main__":

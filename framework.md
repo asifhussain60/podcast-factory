@@ -162,6 +162,17 @@ The pipeline is **machine-agnostic**. Most work is done by Anthropic + Azure rem
 
 ---
 
+## Per-chapter concurrency and the two spend limits (2026-08-09)
+
+The per-chapter loop is **serial by default**. It is the biggest wall-clock cost in the pipeline — a measured 732 minutes for the 20 chapters of `the-master-and-the-disciple`, a median of 37 minutes each — and it can run chapters concurrently, but only when the book's spend limits can still be enforced.
+
+- **`PER_CHAPTER_MAX_WORKERS`** (environment variable, default `1`) is how many chapters run at once. `0`, a negative, or anything unparseable falls back to `1`. Read in [scripts/podcast/phases/chapter_driver.py](scripts/podcast/phases/chapter_driver.py); nothing else sets it, so a book runs serially unless the operator opts in for that run.
+- **The two limits are different in KIND** and live together in [scripts/podcast/\_chapter_cost_caps.py](scripts/podcast/_chapter_cost_caps.py) precisely so neither is read without the other. `per_chapter_cost_cap_usd` fails one chapter and degrades to the next — an expensive chapter is a content problem. `book_cost_cap_usd` halts the whole book, and its halt carries the `COST-CEILING` marker that tells `supervise_run.py` **not** to relaunch.
+- **Admission is bounded, not estimated.** A chapter already running may still spend up to the per-chapter cap, so `BookCeiling` counts `in_flight × per_chapter_cap` as committed when deciding whether the next chapter may start. That is the loop's own enforced limit, not a forecast of what a chapter will cost — the no-estimates rule the module was built on is intact. The cost is conservatism near the ceiling, which is the correct direction to be wrong about a spend limit.
+- **A ceiling with no per-chapter cap forces serial execution.** With nothing bounding an in-flight chapter's remaining spend, admission cannot be made safe concurrently, so `concurrency_limit` returns `1` and the requested worker count is logged as declined. Raising workers on such a book is a silent way to overshoot the ceiling — before 2026-08-09 four workers under a `$50` ceiling with `$49` spent started four chapters and took the book to roughly `$69`.
+
+---
+
 ## Setup stage — pre-pipeline system check (added 2026-06-07)
 
 Before any pipeline work runs, the orchestrator executes a **Setup stage** that resolves machine-readiness problems up front instead of crashing deep inside a phase. Two parts:

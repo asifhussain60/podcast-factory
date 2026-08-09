@@ -16,7 +16,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _chapter_breaker import BreakerTripped, ChapterBreaker, failure_signature
-from _chapter_cost_caps import admit, read_caps
+from _chapter_cost_caps import BookCeiling, read_caps
 from _convergence import ChapterOutcome, render_outcome
 from _progress import read_state, update_phase
 from _subprocess import err as _err
@@ -120,6 +120,11 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     # either without the other invites the wrong conclusion about a halt.
     per_chapter_cost_cap_usd, book_cost_cap_usd = read_caps(book_dir, log=_info)
 
+    #: Owns the admission decision AND the count of chapters currently in flight, both
+    #: under one lock — see `BookCeiling` for why those cannot be separated. `_book_cost_so_far`
+    #: is passed in rather than imported there so this module's binding is the one used.
+    ceiling = BookCeiling(book_cost_cap_usd, per_chapter_cost_cap_usd, _book_cost_so_far)
+
     # C3 circuit breaker: halt on a systemic failure instead of grinding through every
     # chapter with the same root cause. State is behind a lock and the verdict is asked
     # BEFORE a chapter starts as well as after one fails — see `_chapter_breaker`.
@@ -159,10 +164,31 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                 "chapter_timings": {k: dict(v) for k, v in chapter_timings.items()},
             }
 
+    def _final_extras() -> dict:
+        """`_snapshot()` plus the clearing of the in-flight markers.
+
+        `update_phase` MERGES extras into the phase block, so `current_chapter` and
+        `convergence_iter` — written by every progress beat — survive into the terminal
+        record unless something clears them. A finished book otherwise still reports the
+        last chapter as the one it is working on, which is what a supervisor or status
+        card reads to answer exactly that question.
+        """
+        return {**_snapshot(), "current_chapter": None, "convergence_iter": None}
+
     # How many chapters run at once. ONE by default, so this change is inert until a book
     # opts in — the measured prize is 732 min of serial chapters becoming ~185 at four
     # workers, but the first book to try it should be one Asif chose.
-    _max_workers = max(1, int(os.environ.get("PER_CHAPTER_MAX_WORKERS", "1")))
+    _requested_workers = max(1, int(os.environ.get("PER_CHAPTER_MAX_WORKERS", "1")))
+    #: Clamped by the ceiling: a book with a per-book cap but NO per-chapter cap has no
+    #: bound on what an in-flight chapter may still spend, so admission cannot be made
+    #: safe concurrently and the only honest width is one. Refusing to widen is the
+    #: correct direction to be wrong — the alternative is overshooting a spend limit.
+    _max_workers = ceiling.concurrency_limit(_requested_workers)
+    if _max_workers < _requested_workers:
+        _info(
+            f"per-chapter: {_requested_workers} workers requested but this book sets a per-book "
+            f"ceiling with no per-chapter cap — running serially so the ceiling stays enforceable"
+        )
 
     def _commit_chapter_batch() -> None:
         """Commit every chapter that shipped this run, as one commit.
@@ -203,12 +229,32 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         is identical to the previous in-loop `return 2`, reached a few cheap iterations
         later.
         """
-        nonlocal _halt_reason, _pre_start_halt
+        nonlocal _pre_start_halt
 
         # ADMISSION CONTROL on the per-book ceiling — refuse to START a chapter once the
-        # cap is reached. See `_chapter_cost_caps.admit` for why this is admission rather
-        # than a budget reservation.
-        admit(book_dir, book_cost_cap_usd, breaker)
+        # cap is reached. The refusal is RETURNED and acted on here: it used to be
+        # communicated only by tripping the breaker, which meant the ceiling was enforced
+        # by `breaker.begin()` re-reading that flag below, and any reordering of these two
+        # calls would have disabled it silently.
+        _refusal = ceiling.admit(book_dir)
+        if _refusal is not None:
+            breaker.trip(_refusal)
+            _info(f"phase: per-chapter[{slug}] · not started — book is halting ({_refusal[:80]})")
+            with _shared:
+                _pre_start_halt = _refusal
+            return
+
+        # Admitted, so this chapter is counted in flight until it finishes — however it
+        # finishes. Releasing only on the success path would leak the count and make the
+        # ceiling refuse everything after the first failure.
+        try:
+            _run_admitted_chapter(slug)
+        finally:
+            ceiling.release()
+
+    def _run_admitted_chapter(slug: str) -> None:
+        """The body of a chapter that has already passed admission control."""
+        nonlocal _halt_reason, _pre_start_halt
 
         # THE PRE-START GATE. Asking the breaker here — before any work — is what makes
         # its economics survive workers: a chapter that has not begun can still decline.
@@ -312,6 +358,11 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             with _shared:
                 failed_chapter_slugs.add(slug)
                 chapter_timings[slug]["error"] = _reason
+                # Read UNDER the lock and passed by value below. Reading it at the call
+                # site instead took it from a dict other workers are inserting into, and
+                # the breaker uses this duration to decide systemic-vs-content — the one
+                # access in this function that escaped the discipline the rest follows.
+                _duration_sec = chapter_timings[slug].get("duration_sec") or 0.0
 
             # C3 circuit breaker: is this a SYSTEMIC failure (halt) or a genuine
             # per-chapter content failure (graceful-degrade)? The two signals, the
@@ -319,12 +370,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             # `_chapter_breaker` now — `_ordinal` is what `begin()` handed back, passed
             # in rather than re-read because under workers "was this the first attempt"
             # is a fact about when this chapter STARTED, not about the counter now.
-            _systemic = breaker.record_failure(
-                slug,
-                _reason,
-                chapter_timings[slug].get("duration_sec") or 0.0,
-                _ordinal,
-            )
+            _systemic = breaker.record_failure(slug, _reason, _duration_sec, _ordinal)
 
             if _systemic:
                 with _shared:
@@ -380,28 +426,47 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         elif _s in failed_chapter_slugs:
             _info(f"phase: per-chapter[{_s}] · prior FAILED, skipping (--retry-phase per-chapter re-attempts it)")
 
+    def _record_chapter_crash(slug: str, exc: BaseException) -> None:
+        """A chapter that died of an unexpected exception becomes this phase's halt.
+
+        ONE handler for both dispatch paths. It used to exist only inside the executor
+        loop, so the DEFAULT (serial) path let an exception escape the whole phase —
+        taking the batched commit below with it and leaving every chapter that had
+        already shipped uncommitted. Per-chapter commits used to make that harmless; the
+        batched commit made it lossy, and only the path nobody runs was protected.
+        """
+        nonlocal _halt_reason
+        _err(f"chapter {slug} raised {type(exc).__name__}: {exc}")
+        with _shared:
+            failed_chapter_slugs.add(slug)
+            if _halt_reason is None:
+                _halt_reason = f"chapter {slug} raised {type(exc).__name__}: {exc}"
+
+    def _dispatch_one(slug: str) -> None:
+        """Run one chapter, converting an unexpected exception into a recorded halt."""
+        try:
+            _run_one_chapter(slug)
+        except Exception as _e:  # noqa: BLE001 - recorded, then the phase decides
+            _record_chapter_crash(slug, _e)
+
     if _max_workers <= 1:
         for _s in _pending_slugs:
-            _run_one_chapter(_s)
+            _dispatch_one(_s)
     else:
         from concurrent.futures import ThreadPoolExecutor, as_completed
 
         _info(f"per-chapter: running {len(_pending_slugs)} chapter(s) with {_max_workers} workers")
         with ThreadPoolExecutor(max_workers=_max_workers) as _ex:
-            _futures = {_ex.submit(_run_one_chapter, _s): _s for _s in _pending_slugs}
+            _futures = {_ex.submit(_dispatch_one, _s): _s for _s in _pending_slugs}
             for _f in as_completed(_futures):
-                # Surface a worker crash as this phase's halt rather than letting it
-                # vanish into the future. One chapter dying of an unexpected exception
-                # must not look like a chapter that quietly did nothing.
+                # `_dispatch_one` already caught anything an ordinary chapter can raise;
+                # this is the backstop for what it deliberately does not catch (a
+                # BaseException such as a worker killed mid-flight), which would otherwise
+                # vanish into the future object unread.
                 try:
                     _f.result()
-                except Exception as _e:  # noqa: BLE001 - recorded, then the phase decides
-                    _bad = _futures[_f]
-                    _err(f"chapter {_bad} raised {type(_e).__name__}: {_e}")
-                    with _shared:
-                        failed_chapter_slugs.add(_bad)
-                        if _halt_reason is None:
-                            _halt_reason = f"chapter {_bad} raised {type(_e).__name__}: {_e}"
+                except BaseException as _e:  # noqa: BLE001 - recorded, then the phase decides
+                    _record_chapter_crash(_futures[_f], _e)
 
     # ONE commit for the whole loop, before the failure handling below — a book where
     # 18 of 20 chapters shipped must still commit those 18.
@@ -418,7 +483,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             phase="per-chapter",
             status="failed",
             error=_halt_reason,
-            extras=_snapshot(),
+            extras=_final_extras(),
         )
         _err(f"per-chapter halted: {_halt_reason}")
         return 2
@@ -433,7 +498,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             phase="per-chapter",
             status="failed",
             error=_pre_start_halt,
-            extras=_snapshot(),
+            extras=_final_extras(),
         )
         _err(f"per-chapter halted before starting further chapters: {_pre_start_halt}")
         return 2
@@ -449,7 +514,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                 f"{len(completed_chapter_slugs)} chapter(s) completed. "
                 f"Triage failures or raise per_chapter_cost_cap_usd and --resume."
             ),
-            extras=_snapshot(),
+            extras=_final_extras(),
         )
         _err(
             f"per-chapter loop: {len(failed_chapter_slugs)} failed, "
@@ -461,7 +526,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     # `failed_slugs` used to be hardcoded `[]` here, which is the same value — the
     # branch above returns when any chapter failed — but two ways of building the
     # same extras is how the two drift.
-    update_phase(book_dir, phase="per-chapter", status="completed", extras=_snapshot())
+    update_phase(book_dir, phase="per-chapter", status="completed", extras=_final_extras())
 
     # Phase per-chapter-optimize (Wave I) — Sonnet arc/format/host-role check.
     # Guarded by optimize_enabled flag in meta.yml (default False — backward compat).

@@ -252,8 +252,8 @@ def step(
 # ─── Readers ─────────────────────────────────────────────────────────────────
 
 
-def read_steps(book_dir: Path, *, phase: str | None = None, run_id: str | None = None) -> list[dict[str, Any]]:
-    """Every recorded step, oldest first. Filters are AND-ed.
+def _all_rows(book_dir: Path) -> list[dict[str, Any]]:
+    """Every well-formed record in the ledger, oldest first, parsed ONCE.
 
     A malformed line is skipped rather than raising: this feeds review gates, and
     one bad line must not blind a gate to the rest of the run.
@@ -261,11 +261,11 @@ def read_steps(book_dir: Path, *, phase: str | None = None, run_id: str | None =
     path = ledger_path(book_dir)
     if not path.exists():
         return []
-    rows: list[dict[str, Any]] = []
     try:
         text = path.read_text(encoding="utf-8")
     except OSError:
         return []
+    rows: list[dict[str, Any]] = []
     for line in text.splitlines():
         line = line.strip()
         if not line:
@@ -274,19 +274,22 @@ def read_steps(book_dir: Path, *, phase: str | None = None, run_id: str | None =
             row = json.loads(line)
         except Exception:
             continue
-        if not isinstance(row, dict):
-            continue
-        if phase is not None and row.get("phase") != phase:
-            continue
-        if run_id is not None and row.get("run_id") != run_id:
-            continue
-        rows.append(row)
+        if isinstance(row, dict):
+            rows.append(row)
     return rows
 
 
-def latest_run_id(book_dir: Path) -> str | None:
-    """The run_id of the most recent recorded step, or None."""
-    rows = read_steps(book_dir)
+def _filter(rows: list[dict[str, Any]], *, phase: str | None = None, run_id: str | None = None) -> list[dict[str, Any]]:
+    """Rows matching every filter given. Filters are AND-ed; None means 'any'."""
+    out = rows
+    if phase is not None:
+        out = [r for r in out if r.get("phase") == phase]
+    if run_id is not None:
+        out = [r for r in out if r.get("run_id") == run_id]
+    return list(out)
+
+
+def _newest_run_id(rows: list[dict[str, Any]]) -> str | None:
     for row in reversed(rows):
         rid = row.get("run_id")
         if rid:
@@ -294,16 +297,29 @@ def latest_run_id(book_dir: Path) -> str | None:
     return None
 
 
+def read_steps(book_dir: Path, *, phase: str | None = None, run_id: str | None = None) -> list[dict[str, Any]]:
+    """Every recorded step, oldest first. Filters are AND-ed."""
+    return _filter(_all_rows(book_dir), phase=phase, run_id=run_id)
+
+
+def latest_run_id(book_dir: Path) -> str | None:
+    """The run_id of the most recent recorded step, or None."""
+    return _newest_run_id(_all_rows(book_dir))
+
+
 def latest_steps(book_dir: Path, *, phase: str | None = None) -> list[dict[str, Any]]:
     """Steps from the most recent run only — 'what did THIS run do'.
 
     Falls back to every record when nothing carries a run_id, so a book whose
     steps predate run correlation still reports something rather than nothing.
+
+    Reads and parses the file ONCE. It used to call `latest_run_id` (a full read and
+    a full JSON parse of every line) and then `read_steps` (the same again) for one
+    query — and the per-chapter lane appends six rows per chapter to an append-only
+    file that keeps every run a book has ever had.
     """
-    rid = latest_run_id(book_dir)
-    if rid is None:
-        return read_steps(book_dir, phase=phase)
-    return read_steps(book_dir, phase=phase, run_id=rid)
+    rows = _all_rows(book_dir)
+    return _filter(rows, phase=phase, run_id=_newest_run_id(rows))
 
 
 def outcome_counts(rows: list[dict[str, Any]]) -> dict[str, int]:
@@ -315,12 +331,38 @@ def outcome_counts(rows: list[dict[str, Any]]) -> dict[str, int]:
     return counts
 
 
+def instance_key(row: dict[str, Any]) -> str:
+    """The identity of the thing a record describes: its step, per chapter.
+
+    A step that names a chapter in its evidence is keyed `step[chapter]`; everything
+    else keeps the bare step name, so every phase that records one instance per step
+    is untouched.
+
+    WHY (2026-08-09). `last_by_step` keyed on the step NAME alone, which is right for
+    a phase whose steps happen once — a retry then correctly reports its final
+    outcome rather than its first. The per-chapter lane broke that assumption: all
+    twenty chapters record `extract`/`framing`/`lint`/`build`/`augment`/`converge`
+    under one phase, with the chapter only in the evidence. Keyed by name, a
+    twenty-chapter book collapsed to six records — the LAST chapter's — so chapter
+    three failing at `build` was overwritten by chapter twenty succeeding at it, and
+    the gate read the phase as healthy. Those rows are different chapters, not
+    retries of one step, and the key has to say so.
+    """
+    name = str(row.get("step") or "")
+    evidence = row.get("evidence")
+    chapter = evidence.get("chapter") if isinstance(evidence, dict) else None
+    return f"{name}[{chapter}]" if name and chapter else name
+
+
 def last_by_step(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
-    """{step: its most recent record} — a step retried within one run reports its
-    final outcome, not its first, so a recovered failure is not read as a defect."""
+    """{step instance: its most recent record} — a step retried within one run reports
+    its final outcome, not its first, so a recovered failure is not read as a defect.
+
+    Keyed by `instance_key`, so per-chapter steps stay distinct per chapter.
+    """
     out: dict[str, dict[str, Any]] = {}
     for row in rows:
-        name = str(row.get("step") or "")
-        if name:
-            out[name] = row
+        key = instance_key(row)
+        if key:
+            out[key] = row
     return out

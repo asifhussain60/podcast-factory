@@ -78,6 +78,24 @@ def append_precomputed_cost(
     return row
 
 
+def _first_number(entry: dict, *keys: str) -> int:
+    """The first key PRESENT with a non-null value, as an int. Zero counts as present.
+
+    An `or` chain reads naturally here and is wrong: a call that genuinely sent zero
+    characters would fall through to the next key, so `{"in_chars": 0,
+    "word_count_before": 12000}` recorded twelve thousand — a call that consumed
+    nothing reported as having consumed the whole book.
+    """
+    for key in keys:
+        value = entry.get(key)
+        if value is not None:
+            try:
+                return int(value)
+            except (TypeError, ValueError):
+                continue
+    return 0
+
+
 def append_tool_cost(book_dir: Path, entry: dict) -> CostRow:
     """Append one standalone tool's ``_log_cost`` entry to the canonical ledger.
 
@@ -95,7 +113,7 @@ def append_tool_cost(book_dir: Path, entry: dict) -> CostRow:
         step=str(entry.get("op") or "unknown"),
         model=str(entry.get("service") or "unknown"),
         cost_usd=float(entry.get("cost_usd") or 0.0),
-        in_units=int(entry.get("in_chars") or entry.get("word_count_before") or 0),
-        out_units=int(entry.get("out_chars") or entry.get("word_count_after") or 0),
+        in_units=_first_number(entry, "in_chars", "word_count_before"),
+        out_units=_first_number(entry, "out_chars", "word_count_after"),
         ts=entry.get("ts"),
     )

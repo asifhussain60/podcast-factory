@@ -278,6 +278,106 @@ class WorkerCrashTests(_Fixture):
         self.assertIn("worker exploded", err)
 
 
+class SerialCrashTests(_Fixture):
+    """The DEFAULT path must survive a chapter that raises — it was the unguarded one.
+
+    `WorkerCrashTests` above covers the executor, which has caught worker exceptions
+    since it was written. The serial loop — the path every book actually takes, since
+    `PER_CHAPTER_MAX_WORKERS` defaults to 1 — called the chapter with no guard at all, so
+    an exception escaped the whole phase.
+
+    That was harmless while each chapter committed itself. Batching the commit to after
+    the loop (2026-08-08) made it lossy: the exception skipped the one commit call, and
+    every chapter that had already shipped was left uncommitted on disk. Nineteen shipped
+    chapters could be discarded by a crash on the twentieth.
+    """
+
+    def _crash_on_ch03(self):
+        def _pass(slug):
+            if slug == "ch03":
+                raise RuntimeError("serial explosion")
+            return _outcome()
+
+        return _pass
+
+    def test_a_crash_does_not_lose_the_commit_for_chapters_that_shipped(self):
+        self._drive(workers=1, pass_fn=self._crash_on_ch03())
+        commits = [c for c in self.commits if "per-chapter —" in c]
+        self.assertEqual(
+            len(commits),
+            1,
+            "chapters that shipped before the crash were never committed — the exception "
+            "escaped the phase and took the batched commit with it",
+        )
+        for shipped in ("ch01", "ch02"):
+            self.assertIn(shipped, commits[0], f"{shipped} shipped but is missing from the commit")
+
+    def test_a_crash_fails_the_phase_rather_than_propagating(self):
+        rc = self._drive(workers=1, pass_fn=self._crash_on_ch03())
+        self.assertEqual(rc, 2, "a chapter crash must be reported as this phase's failure")
+
+    def test_the_crash_reaches_the_state_file(self):
+        self._drive(workers=1, pass_fn=self._crash_on_ch03())
+        block = read_state(self.book)["phases"]["per-chapter"]
+        self.assertIn("ch03", block.get("failed_slugs", []))
+        err = str((read_state(self.book).get("last_error") or {}).get("message", ""))
+        self.assertIn("serial explosion", err)
+
+    def test_serial_and_workers_agree_about_a_crash(self):
+        """One handler serves both paths, so the outcome must not depend on the path."""
+        serial_rc = self._drive(workers=1, pass_fn=self._crash_on_ch03())
+        serial = read_state(self.book)["phases"]["per-chapter"]
+
+        self.setUp()
+        worker_rc = self._drive(workers=4, pass_fn=self._crash_on_ch03())
+        parallel = read_state(self.book)["phases"]["per-chapter"]
+
+        self.assertEqual(serial_rc, worker_rc)
+        self.assertEqual(sorted(serial.get("failed_slugs", [])), sorted(parallel.get("failed_slugs", [])))
+
+
+class InFlightMarkersTests(_Fixture):
+    """`current_chapter` must not outlive the phase.
+
+    `update_phase` MERGES extras into the phase block, and every progress beat writes
+    `current_chapter` (and `convergence_iter` during convergence). Nothing cleared them,
+    so a FINISHED book still reported the last chapter as the one it was working on —
+    and `current_chapter` is exactly what a supervisor or status card reads to answer
+    that question.
+    """
+
+    def test_a_completed_phase_reports_no_chapter_in_flight(self):
+        self._drive(workers=1)
+        block = read_state(self.book)["phases"]["per-chapter"]
+        self.assertEqual(block["status"], "completed")
+        self.assertIsNone(block.get("current_chapter"), "a finished phase still names a chapter in flight")
+        self.assertIsNone(block.get("convergence_iter"))
+
+    def test_a_failed_phase_also_clears_the_markers(self):
+        def _pass(slug):
+            return _outcome("FAILED") if slug == "ch02" else _outcome()
+
+        self._drive(workers=1, pass_fn=_pass)
+        block = read_state(self.book)["phases"]["per-chapter"]
+        self.assertEqual(block["status"], "failed")
+        self.assertIsNone(block.get("current_chapter"))
+
+    def test_the_marker_is_still_written_while_the_phase_runs(self):
+        """Clearing it at the end must not stop it being set during the run.
+
+        Without the beat a supervisor cannot tell "moved to a new chapter" from "stuck on
+        the same one", which is the whole reason the field exists.
+        """
+        seen: list[object] = []
+
+        def _pass(slug):
+            seen.append((read_state(self.book)["phases"]["per-chapter"] or {}).get("current_chapter"))
+            return _outcome()
+
+        self._drive(workers=1, pass_fn=_pass)
+        self.assertIn("ch01", seen, "no progress beat recorded a chapter in flight")
+
+
 class WorkerCountTests(_Fixture):
     def test_the_default_is_one_worker(self):
         # The capability is OPT-IN: merging it must not change how any book runs until
