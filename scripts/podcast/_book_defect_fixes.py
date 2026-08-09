@@ -52,11 +52,50 @@ PROPHET_LIGATURE = "ﷺ"
 #: A parenthesised Arabic run in running prose — the shape the lead-in duplicate takes.
 _INLINE_ARABIC_PAREN_RE = re.compile(f"\\s*\\(([{ARABIC_BODY}][{ARABIC_BODY}\\s،؛]*)\\)")
 
-#: Arabic faces that DO NOT CONTAIN U+FDFA. A book set to one of these would print an
-#: empty box on every mandated mention, which on this rule is every page. Verified by
-#: reading the font files 2026-08-09: Amiri, Scheherazade New and IBM Plex Sans Arabic
-#: carry the glyph; these two do not.
-FACES_WITHOUT_LIGATURE = ("Cairo", "Tajawal")
+#: Arabic faces that DO NOT CONTAIN U+FDFA. A book set to one of these prints an empty
+#: box wherever the ligature lands — and since the Prophet's honorific is mandatory on
+#: every mention of him by name, that is most pages. Verified by reading the font files
+#: 2026-08-09: Amiri, Scheherazade New and IBM Plex Sans Arabic carry the glyph; these
+#: two do not. Both are selectable in the Composer's own font list, so this is a live
+#: setting a book can already be on, not a hypothetical.
+FACES_WITHOUT_LIGATURE = frozenset({"cairo", "tajawal"})
+
+#: What a book with no style artifact reads as. Mirrors DEFAULT_ARABIC in
+#: `plan-dashboard/src/pages/api/studio/citation-style.ts`; four of the seven reading
+#: editions have no artifact at all and are on this face by omission.
+DEFAULT_ARABIC_FACE = "scheherazade-new"
+
+
+def arabic_face(book_dir) -> str:
+    """The non-Qur'anic Arabic face this book prints in."""
+    import json
+    from pathlib import Path
+
+    artifact = Path(book_dir) / "book" / "citation-style.json"
+    if not artifact.is_file():
+        return DEFAULT_ARABIC_FACE
+    try:
+        return str(json.loads(artifact.read_text(encoding="utf-8")).get("arabic_font") or DEFAULT_ARABIC_FACE)
+    except Exception:  # noqa: BLE001 - an unreadable style file is not a font decision
+        return DEFAULT_ARABIC_FACE
+
+
+def ligature_is_printable(book_dir) -> tuple[bool, str]:
+    """Would `ﷺ` render, or would this book print a box? Checked BEFORE writing one.
+
+    The guard exists because the failure is silent in exactly the wrong direction: the
+    write succeeds, the tests pass, the markdown is correct, and the printed page carries
+    a missing-glyph box on every page. Nothing downstream reads a font file.
+    """
+    face = arabic_face(book_dir)
+    if face.lower() in FACES_WITHOUT_LIGATURE:
+        return False, (
+            f"this book is set in {face}, which has no glyph for the Prophet's honorific — "
+            "every mention would print an empty box. Change the Arabic face on the Compose "
+            "tab first (Amiri, Scheherazade New and IBM Plex Sans Arabic all carry it)."
+        )
+    return True, f"{face} carries the glyph"
+
 
 _PROPHET_HONORIFIC_SUB_RE = re.compile("(" + _PROPHET_NAME + r")\s*" + _HONORIFIC_RE.pattern, re.IGNORECASE)
 

@@ -50,7 +50,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _book_defect_fixes import FIXES, proposed_romanization_deletions
+from _book_defect_fixes import FIXES, ligature_is_printable, proposed_romanization_deletions
 from _book_defects import DETECTORS, chapters
 from _book_edits import anchor_key, base_fingerprint_for, record_edit
 
@@ -320,6 +320,11 @@ def main() -> int:
         if not kinds:
             print("nothing to repair in the selected chapters")
             return 0
+        if "prophet-wrong-honorific" in kinds:
+            printable, why = ligature_is_printable(book_dir)
+            if not printable:
+                print(f"REFUSED: {why}", file=sys.stderr)
+                return 1
         pid = composer_is_open()
         if pid and not args.allow_composer_open:
             print(

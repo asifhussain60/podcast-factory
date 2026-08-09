@@ -177,3 +177,64 @@ class TestTheEngineRefuses:
         from _book_defects import DETECTORS
 
         assert set(FIXES) <= set(DETECTORS), "a repair for a defect nothing detects"
+
+
+class TestTheLigatureFontGuard:
+    """A book set in a face without U+FDFA prints a box, and nothing downstream notices.
+
+    The write succeeds, the tests pass and the markdown is correct — the defect is only
+    visible on the printed page, on every page, because the Prophet's honorific is
+    mandatory on every mention of him by name.
+    """
+
+    def test_the_default_face_carries_the_glyph(self, tmp_path) -> None:
+        from _book_defect_fixes import ligature_is_printable
+
+        (tmp_path / "book").mkdir()
+        ok, why = ligature_is_printable(tmp_path)
+        assert ok and "scheherazade-new" in why
+
+    @pytest.mark.parametrize("face", ["cairo", "tajawal"])
+    def test_the_two_faces_without_the_glyph_are_refused(self, tmp_path, face) -> None:
+        import json
+
+        from _book_defect_fixes import ligature_is_printable
+
+        (tmp_path / "book").mkdir()
+        (tmp_path / "book" / "citation-style.json").write_text(json.dumps({"arabic_font": face}), encoding="utf-8")
+        ok, why = ligature_is_printable(tmp_path)
+        assert not ok
+        assert "empty box" in why and face in why
+
+    @pytest.mark.parametrize("face", ["amiri", "scheherazade-new", "ibm-plex-sans-arabic"])
+    def test_the_three_faces_that_carry_it_are_allowed(self, tmp_path, face) -> None:
+        import json
+
+        from _book_defect_fixes import ligature_is_printable
+
+        (tmp_path / "book").mkdir()
+        (tmp_path / "book" / "citation-style.json").write_text(json.dumps({"arabic_font": face}), encoding="utf-8")
+        assert ligature_is_printable(tmp_path)[0]
+
+    def test_an_unreadable_style_file_is_not_a_font_decision(self, tmp_path) -> None:
+        from _book_defect_fixes import ligature_is_printable
+
+        (tmp_path / "book").mkdir()
+        (tmp_path / "book" / "citation-style.json").write_text("{ not json", encoding="utf-8")
+        assert ligature_is_printable(tmp_path)[0], "a corrupt sidecar must not block the repair"
+
+    def test_every_face_the_composer_offers_is_classified(self) -> None:
+        """The list here must not fall behind the one the Composer actually offers."""
+        from pathlib import Path
+
+        from _book_defect_fixes import FACES_WITHOUT_LIGATURE
+
+        source = (
+            Path(__file__).resolve().parents[3] / "plan-dashboard/src/pages/api/studio/citation-style.ts"
+        ).read_text(encoding="utf-8")
+        block = source.split("const ARABIC_FONTS = [", 1)[1].split("]", 1)[0]
+        offered = {line.strip().strip('",') for line in block.splitlines() if line.strip().startswith('"')}
+        assert offered, "could not read the Composer's font list"
+        assert FACES_WITHOUT_LIGATURE <= offered, (
+            f"a face is classified here that the Composer no longer offers: {sorted(FACES_WITHOUT_LIGATURE - offered)}"
+        )
