@@ -41,21 +41,91 @@ from __future__ import annotations
 
 import re
 
-#: The paragraph is the rendering AND NOTHING ELSE: it opens on a quotation mark, closes
-#: on one, may carry a citation, and holds EXACTLY ONE quoted span. That last clause is
-#: what makes the whole-paragraph fold safe — without it, `"…sport and play," says the
-#: Quran, "and verily…"` would fold the author's interjection into the card with it.
-ONLY_THE_RENDERING_RE = re.compile(r'^["“][^"“”]+["”]\s*(\([^)]*\))?\s*\.?\s*$')
+#: BOTH quotation styles, because the corpus uses both and reading only one is how four
+#: cards in chapter 2 of Spiritual Ethos sat with no English at all while the check called
+#: the chapter clean (found 2026-08-09 by looking at what the Library had actually stored).
+#: `'God only wisheth to remove from you all impurity…' (Al-Ahzab: 33)` is the same defect
+#: as its double-quoted neighbour and has to be read as one.
+_QUOTATION_MARKS = "\"“”'‘’"
 
-#: A rendering at the head of a paragraph: the quoted span, then its citation, then the
-#: sentence-ending period the author wrote. Everything after the match is his own prose.
-_LEADING_RENDERING_RE = re.compile(r'^(["“][^"“”]*["”]\s*(?:\([^)]*\))?\s*\.?)\s*(.*)$', re.S)
+#: What may follow the closing mark and still belong to the quotation: its citation, and
+#: the period that ends the sentence the author built around it.
+_CITATION_TAIL = r"\s*(?:\([^)]*\))?\s*[.,]?"
 
-#: What must be true of the remainder for the split to decide nothing: it has to stand as
-#: a sentence. Deliberately BLUNT — a capital and at least four words. A cleverer rule
-#: would start reaching for the cases below it, and the cost of being wrong there is an
-#: author's words sitting inside a quotation panel in a religious text.
+#: What must be true of the remainder for a split to decide nothing: it has to stand as a
+#: sentence. Deliberately BLUNT — a capital and at least four words. A cleverer rule would
+#: start reaching for the shapes it must never touch, and the cost of being wrong there is
+#: an author's words sitting inside a quotation panel in a religious text.
 _MIN_SENTENCE_WORDS = 4
+
+
+def quotation_marks(text: str) -> list[int]:
+    """Where the quotation marks are — an apostrophe INSIDE a word is not one.
+
+    Single quotes carry both jobs in English, so `'God only wisheth…'` opens and closes a
+    quotation while `God's` and `the Prophet's` do not. A mark flanked by letters on both
+    sides is an apostrophe; anything else is a mark. That distinction is what lets the
+    single-quoted style be read with the same rules as the double-quoted one instead of a
+    parallel set that would drift.
+    """
+    marks: list[int] = []
+    for index, char in enumerate(text):
+        if char not in _QUOTATION_MARKS:
+            continue
+        if char in "'‘’":
+            before = text[index - 1] if index else ""
+            after = text[index + 1] if index + 1 < len(text) else ""
+            if before.isalpha() and after.isalpha():
+                continue  # God's, wouldn't, Prophet's
+        marks.append(index)
+    return marks
+
+
+def opens_on_a_quotation(text: str) -> bool:
+    """The paragraph begins on a quotation mark — the precondition for all three shapes."""
+    return bool(text) and text[0] in _QUOTATION_MARKS
+
+
+def _closing_mark(text: str) -> int | None:
+    """Where the quotation the paragraph OPENS with actually closes, or None.
+
+    THE MARK MUST BE OF THE SAME FAMILY AS THE OPENER — single closes single, double
+    closes double — and getting that wrong cut a verse in half. Spiritual Ethos renders
+    Al-Araf 172 in single quotes with God's speech quoted in double ones INSIDE it:
+
+        'And when thy Lord brought forth … [saying], "Am I not your Lord?" They said …'
+
+    Taking simply the next mark stopped at that inner `"`, and because the remainder began
+    on a capital ("Am") it passed the sentence test and was split there — half the verse in
+    the card, half outside. Matching families instead makes the whole verse ONE rendering,
+    with its inner quotation carried along inside it, which is what it is.
+
+    RETURNING None ON AN UNCLOSED QUOTATION IS THE POINT, not a gap. That same passage as
+    the book actually prints it opens on `'` and never closes one — the verse ends on a
+    double mark. Where the author's own punctuation does not say where the quotation ends,
+    neither can this, so the instance falls through to `translation_fused_with_prose` and
+    waits for a person. Refusing is always available; guessing is not.
+    """
+    if not opens_on_a_quotation(text):
+        return None
+    single = text[0] in "'‘’"
+    for index in quotation_marks(text)[1:]:
+        if (text[index] in "'‘’") == single:
+            return index
+    return None
+
+
+def only_the_rendering(text: str) -> bool:
+    """The paragraph is the rendering AND NOTHING ELSE.
+
+    Nothing after its closing mark but a citation and a full stop. Marks INSIDE it are
+    fine — a verse may quote speech — but the mark that closes it has to be the last thing
+    on the line. That is what still stops `"…sport and play," says the Quran, "and
+    verily…"` from folding the author's aside into the card: the quotation closes after
+    `play,` and his words follow it.
+    """
+    closing = _closing_mark(text)
+    return closing is not None and re.fullmatch(_CITATION_TAIL, text[closing + 1 :]) is not None
 
 
 #: The three shapes, in the order the module docstring explains them. Exported so a
@@ -96,7 +166,7 @@ def cards_missing_their_rendering(md: str):
             if not following or following[0] != "para":
                 continue
             text = " ".join(line.strip() for line in following[1]).strip()
-            if not text.startswith('"') and not text.startswith("“"):
+            if not opens_on_a_quotation(text):
                 continue
             yield title, lines, text
 
@@ -108,11 +178,17 @@ def split_rendering_from_gloss(text: str) -> tuple[str, str] | None:
     None is the answer for both of the other two shapes, which is what makes this one
     function the boundary: `translation_leads_a_paragraph` fires when it returns a pair,
     `translation_fused_with_prose` fires when it does not and the fold does not either.
+
+    The rendering ends at the FIRST closing mark, plus whatever citation and full stop the
+    author put after it. A later quotation in the remainder is his own — chapter 5 of
+    Spiritual Ethos introduces a second saying that way — and it stays outside.
     """
-    match = _LEADING_RENDERING_RE.match(text)
-    if not match:
+    closing = _closing_mark(text)
+    if closing is None:
         return None
-    rendering, rest = match.group(1).strip(), match.group(2).strip()
+    tail = re.match(_CITATION_TAIL, text[closing + 1 :])
+    cut = closing + 1 + (tail.end() if tail else 0)
+    rendering, rest = text[:cut].strip(), text[cut:].strip()
     if not rest or not rest[0].isupper() or len(rest.split()) < _MIN_SENTENCE_WORDS:
         return None
     return rendering, rest
@@ -120,7 +196,7 @@ def split_rendering_from_gloss(text: str) -> tuple[str, str] | None:
 
 def translation_outside_card(md: str) -> list[tuple[str, str]]:
     """(chapter, rendering) where the English belongs in the card and can simply move."""
-    return [(title, text) for title, _, text in cards_missing_their_rendering(md) if ONLY_THE_RENDERING_RE.match(text)]
+    return [(title, text) for title, _, text in cards_missing_their_rendering(md) if only_the_rendering(text)]
 
 
 def translation_leads_a_paragraph(md: str) -> list[tuple[str, str]]:
@@ -128,7 +204,7 @@ def translation_leads_a_paragraph(md: str) -> list[tuple[str, str]]:
     return [
         (title, split_rendering_from_gloss(text)[0])
         for title, _, text in cards_missing_their_rendering(md)
-        if not ONLY_THE_RENDERING_RE.match(text) and split_rendering_from_gloss(text)
+        if not only_the_rendering(text) and split_rendering_from_gloss(text)
     ]
 
 
@@ -137,5 +213,5 @@ def translation_fused_with_prose(md: str) -> list[tuple[str, str]]:
     return [
         (title, text)
         for title, _, text in cards_missing_their_rendering(md)
-        if not ONLY_THE_RENDERING_RE.match(text) and not split_rendering_from_gloss(text)
+        if not only_the_rendering(text) and not split_rendering_from_gloss(text)
     ]

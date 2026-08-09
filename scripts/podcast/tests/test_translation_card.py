@@ -220,3 +220,81 @@ def test_this_module_can_be_imported_before_book_defects():
     )
     assert proc.returncode == 0, proc.stderr
     assert proc.stdout.strip() == "3"
+
+
+# ── nested quotations: the case that cut a verse in half ─────────────────────
+
+NESTED = (
+    "'And when thy Lord brought forth from the children of Adam, from their loins, "
+    'their seed, and made them testify against their souls [saying], "Am I not your '
+    'Lord?" They said, "Yea, we testify"\' (Al-Araf: 172).'
+)
+
+
+def test_a_verse_quoting_speech_inside_it_is_one_rendering():
+    """Al-Araf 172 in Spiritual Ethos: single-quoted, with God's speech in double quotes
+    INSIDE it. Taking simply the next mark stopped at that inner quote, and because the
+    remainder began on a capital ("Am") it passed the sentence test and was SPLIT there —
+    half the verse in the card, half outside. Caught 2026-08-09 by a prose-invariance
+    check after the run, and reverted."""
+    md = chapter(f"> {ARABIC}", NESTED)
+    # the whole verse is the rendering: it folds, it never splits
+    assert [t[1] for t in translation_outside_card(md)] == [NESTED]
+    assert translation_leads_a_paragraph(md) == []
+    assert translation_fused_with_prose(md) == []
+    out, folded = fold_translation_into_card(md)
+    assert folded == 1
+    assert out.count("Am I not your Lord?") == 1
+    assert split_translation_into_card(md)[1] == 0
+
+
+def test_the_inner_quotation_survives_the_fold_intact():
+    md = chapter(f"> {ARABIC}", NESTED)
+    out, _ = fold_translation_into_card(md)
+    assert f"> {NESTED}" in out
+
+
+# ── the single-quoted style reads by the same rules ──────────────────────────
+
+
+def test_a_single_quoted_rendering_folds_like_a_double_quoted_one():
+    """Four cards in chapter 2 of Spiritual Ethos sat with no English at all because the
+    rule only accepted double quotes — found by reading what the Library had stored."""
+    rendering = "'Say: I ask you for no reward, save love of the near of kin' (Ash-Shura: 23)."
+    md = chapter(f"> {ARABIC}", rendering)
+    assert [t[1] for t in translation_outside_card(md)] == [rendering]
+    assert fold_translation_into_card(md)[1] == 1
+
+
+def test_an_apostrophe_inside_a_word_is_not_a_quotation_mark():
+    rendering = "'God's mercy encompasseth all that the Prophet's people sought' (Al-Araf: 156)."
+    md = chapter(f"> {ARABIC}", rendering)
+    assert [t[1] for t in translation_outside_card(md)] == [rendering]
+
+
+def test_a_single_quoted_rendering_splits_when_a_sentence_follows():
+    rendering = "'Truly man is rebellious, in that he deemeth himself independent' (Al-Alaq: 6-7)."
+    gloss = "The conscience is what answers that rebellion."
+    md = chapter(f"> {ARABIC}", f"{rendering} {gloss}")
+    assert [t[1] for t in translation_leads_a_paragraph(md)] == [rendering]
+    out, split = split_translation_into_card(md)
+    assert split == 1
+    assert f"> {rendering}\n\n{gloss}" in out
+
+
+def test_an_unclosed_quotation_is_refused_rather_than_guessed():
+    """How the same Al-Araf 172 passage is actually printed: it opens on a single mark and
+    never closes one. Where the author's punctuation does not say where the quotation ends,
+    neither can the tool — it falls through to the shape a person resolves."""
+    unclosed = (
+        "'And when thy Lord brought forth from the children of Adam their seed, "
+        '[saying], "Am I not your Lord?" They said, "Yes, verily, we testify." '
+        '[This was] lest ye say, "Truly, of this we were unaware" (Al-Araf: 172). '
+        "The moment He created them He made them witness His glory."
+    )
+    md = chapter(f"> {ARABIC}", unclosed)
+    assert translation_outside_card(md) == []
+    assert translation_leads_a_paragraph(md) == []
+    assert len(translation_fused_with_prose(md)) == 1
+    assert fold_translation_into_card(md)[1] == 0
+    assert split_translation_into_card(md)[1] == 0

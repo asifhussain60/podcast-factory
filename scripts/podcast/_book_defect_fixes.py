@@ -325,12 +325,12 @@ def fold_translation_into_card(md: str) -> tuple[str, int]:
     yielding it and a second run finds nothing.
 
     Only the paragraphs `translation_outside_card` accepts are moved — see
-    `ONLY_THE_RENDERING_RE` for why the rest are left where they are.
+    `only_the_rendering` for why the rest are left where they are.
     """
-    from _book_translation_cards import ONLY_THE_RENDERING_RE
+    from _book_translation_cards import only_the_rendering
 
     def whole_paragraph(paragraph: list[str], text: str) -> list[str] | None:
-        if not ONLY_THE_RENDERING_RE.match(text):
+        if not only_the_rendering(text):
             return None
         return [">"] + ["> " + line.strip() for line in paragraph]
 
