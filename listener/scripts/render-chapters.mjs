@@ -28,7 +28,8 @@
  *     | node scripts/render-chapters.mjs
  *
  * stdin  {"chapters":[{"anchor_key":…,"heading"?:…,"markdown":…}, …],
- *         "cards"?:[{"id":…,"markdown":…}, …]}
+ *         "cards"?:[{"id":…,"markdown":…}, …],
+ *         "book_dir"?:…}
  * stdout {"chapters":[{"anchor_key":…,"html":…,"section_key"?:…}, …],
  *         "cards":[{"id":…,"html":…}, …]}
  *
@@ -70,17 +71,63 @@ async function loadRenderers() {
   return import(`data:text/javascript;base64,${Buffer.from(source).toString("base64")}`);
 }
 
-/** @type {{chapters: {anchor_key: string, heading?: string, markdown: string}[], cards?: {id: string, markdown: string}[]}} */
+/**
+ * The three readers that say how a book's quotations are set.
+ *
+ * Plain .mjs with no sibling TypeScript, so unlike the three functions above
+ * they need no bundling — but they are still loaded through a computed
+ * specifier rather than a static `import`. That is deliberate: this project
+ * type-checks its scripts with `checkJs`, and a literal path would pull the
+ * admin site's untyped JavaScript into THIS app's compile and fail it on files
+ * nobody here maintains. A URL the checker cannot resolve keeps the boundary
+ * where the rest of this file already puts it.
+ */
+const ADMIN_LIB_SCRIPTS = new URL("../../plan-dashboard/scripts/lib/", import.meta.url);
+const { readQuranicRuns, readQuranicRefs } = await import(
+  new URL("book-html.mjs", ADMIN_LIB_SCRIPTS).href
+);
+const { readQuoteKind, flattenQuoteKind } = await import(
+  new URL("quote-kind.mjs", ADMIN_LIB_SCRIPTS).href
+);
+
+/** @type {{chapters: {anchor_key: string, heading?: string, markdown: string}[], cards?: {id: string, markdown: string}[], book_dir?: string}} */
 const payload = JSON.parse(readFileSync(0, "utf8"));
 const { renderMarkdown, cardMarkdownToHtml, sectionKeyFromHeading } = await loadRenderers();
+
+/**
+ * How this book's quotations are set.
+ *
+ * The reading edition draws four cards — Qur'an, prophetic tradition, verse, and
+ * the saying that is the default — and NONE of that is in the markdown. Which
+ * Arabic runs the mushaf carries is the audit's answer, which card each of the
+ * others takes is a person's, and a Qur'an card is headed by the chapter and
+ * verse the audit recorded. All three live in the book's `_system/` folder.
+ *
+ * These are passed HERE because the print edition passes exactly the same three,
+ * from the same three readers. That is the opposite of the rule this file used to
+ * state — "defaults throughout, and any option passed only here would be a way
+ * for the two to differ" — and it is the same rule underneath: the two surfaces
+ * must render one book the same way. Once the printed page started asking these
+ * questions, matching it meant asking them too. Without this every quotation in
+ * the library publishes as an undifferentiated saying, with no scripture and no
+ * references.
+ *
+ * A caller that sends no `book_dir` gets the old defaults, which is what the
+ * contract fixture renders with.
+ */
+const quoteOptions = payload.book_dir
+  ? {
+      quranicRuns: readQuranicRuns(payload.book_dir),
+      quoteKinds: flattenQuoteKind(readQuoteKind(payload.book_dir)),
+      quranicRefs: readQuranicRefs(payload.book_dir),
+    }
+  : {};
 
 process.stdout.write(
   JSON.stringify({
     chapters: payload.chapters.map((c) => ({
       anchor_key: c.anchor_key,
-      // Defaults throughout. The print edition renders with the same defaults,
-      // and any option passed only here would be a way for the two to differ.
-      html: renderMarkdown(c.markdown),
+      html: renderMarkdown(c.markdown, quoteOptions),
       // Only for callers that sent a heading. The blurb has none, and an empty
       // key for it would be a key that could collide with a real one.
       ...(typeof c.heading === "string"

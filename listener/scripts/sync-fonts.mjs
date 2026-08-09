@@ -130,6 +130,23 @@ const MANIFEST = [
     to: "amiri-LICENSE.txt",
     note: "SIL OFL 1.1",
   },
+  // Arabic SCRIPTURE — Amiri Quran, and it is a different file from Amiri above,
+  // not a weight of it. It draws U+06DF, the mark saying a letter is written but
+  // not pronounced, as a mark: the Qur'anic face this corpus used until
+  // 2026-08-09 declares that character a BASE glyph, so it printed as a full-size
+  // circle that tore the word open, 175 times across the seven books. That font
+  // may not be edited — its licence forbids it in so many words — and the one
+  // character cannot be redirected in CSS, because a browser falls back per
+  // cluster and keeps a combining mark in the font of the letter it sits on.
+  //
+  // Copied from the admin site rather than a package, which is where it is
+  // vendored, and as TTF because that is the form it ships in there. Only
+  // scripture uses it; every other Arabic run stays on Scheherazade.
+  {
+    from: "../plan-dashboard/public/fonts/amiri/AmiriQuran.ttf",
+    to: "AmiriQuran.ttf",
+    note: "Amiri Quran (scripture only)",
+  },
   // ---- The reader's font picker ------------------------------------------
   //
   // Three faces beyond Literata and Inter, chosen because each is drawn for

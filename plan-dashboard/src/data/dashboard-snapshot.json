@@ -1938,6 +1938,41 @@
   ],
   "recent_commits": [
     {
+      "sha": "79a84458",
+      "subject": "feat(book): a quotation is drawn as one of four cards, and the Qur'an names its verse",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "7c0e2de2",
+      "subject": "fix(compose): selecting text stops being coloured, and the explanation tint gets a switch",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "fc0c2f17",
+      "subject": "fix(book): the compact honorific once per figure per chapter, across every book",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "037375d6",
+      "subject": "feat(book): every Arabic saying printed in English letters is back in Arabic script",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "d48f58de",
+      "subject": "fix(book): the Prophet carries his own honorific, in every book that had it wrong",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "f3365520",
+      "subject": "feat(book): guard the Prophet's ligature against the two faces that lack the glyph",
+      "date": "2026-08-09"
+    },
+    {
+      "sha": "0100061e",
+      "subject": "chore(plan-dashboard): resync snapshot after the skill-registry row",
+      "date": "2026-08-09"
+    },
+    {
       "sha": "9a0d704e",
       "subject": "chore(skills): register pf-compose-fix and resync the site snapshot",
       "date": "2026-08-09"
@@ -1951,41 +1986,6 @@
       "sha": "f01d3b09",
       "subject": "fix(book): a quotation line's direction is decided by which script it is MOSTLY in",
       "date": "2026-08-09"
-    },
-    {
-      "sha": "fe0e8bfa",
-      "subject": "test(book): record the two reading-edition defects the articulation route lets through",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "a4edfb91",
-      "subject": "feat(pipeline): every phase checks its own work, and a failed check stops the run",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "94e715c8",
-      "subject": "chore(plan-dashboard): resync snapshot after the orchestrator review fixes",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "7e7e4bc2",
-      "subject": "fix(orchestrator): twelve review findings, and the two that lost real work",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "6b5f070e",
-      "subject": "chore(plan-dashboard): resync snapshot after the QA-findings commits",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "539a1561",
-      "subject": "test(phases): cover the two phase drivers no test named",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "94889a34",
-      "subject": "refactor(per-chapter): one place owns how the shared chapter state is serialised",
-      "date": "2026-08-08"
     }
   ],
   "wave_execution_events": [],
