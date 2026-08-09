@@ -28,7 +28,11 @@ Object.assign(globalThis, {
 
 import { generateJSON, getSchema } from "@tiptap/core";
 import { Node as PMNode } from "@tiptap/pm/model";
-import { docToMarkdown, editorExtensions } from "./book-md-editor";
+import {
+  PRESERVED_CLASSES,
+  docToMarkdown,
+  editorExtensions,
+} from "./book-md-editor";
 import { renderEditSeed } from "../lib/reader/markdown";
 
 /** Parse a doc from ProseMirror JSON with the live schema — for asserting on
@@ -180,4 +184,46 @@ test("a Quranic quotation the toolbar inserts is a serialization fixed point", (
   ]);
   const once = docToMarkdown(doc);
   assert.equal(roundTrip(once), once, "second pass must equal the first");
+});
+
+test("the four card classes survive the parse, and nothing else does", () => {
+  // Asif photographed a Qur'anic verse in Edit set in the plain maroon this repo
+  // used before the cards, while Read and the PDF drew it in gold on its own
+  // plate. The seed was emitting `k-quran`; this allowlist was dropping it, and
+  // it is the one place that can.
+  for (const kind of ["k-quran", "k-hadith", "k-poem", "k-quote"]) {
+    assert.ok(
+      PRESERVED_CLASSES.has(kind),
+      `${kind} must reach the edit canvas or a card renders as a plain quotation`,
+    );
+  }
+  // The allowlist is still an allowlist: a hand-pasted class cannot ride in.
+  for (const forged of ["k-anything", "onclick", "hljs", "q-band"]) {
+    assert.ok(
+      !PRESERVED_CLASSES.has(forged),
+      `${forged} must not be preserved`,
+    );
+  }
+});
+
+test("a card class never reaches book.md", () => {
+  // The whole reason a class is safe to carry: docToMarkdown dispatches on the
+  // node type and reads exactly one attribute (heading.level), so the card is
+  // presentation on the canvas and cannot be serialized into the book.
+  const doc = docFromJSON([
+    {
+      type: "blockquote",
+      attrs: { class: "quran k-quran" },
+      content: [
+        {
+          type: "paragraph",
+          attrs: { class: "ar is-quranic" },
+          content: [{ type: "text", text: "ٱرْجِعِىٓ إِلَىٰ رَبِّكِ" }],
+        },
+      ],
+    },
+  ]);
+  const md = docToMarkdown(doc);
+  assert.ok(!md.includes("k-quran"), md);
+  assert.equal(md.trim(), "> ٱرْجِعِىٓ إِلَىٰ رَبِّكِ");
 });
