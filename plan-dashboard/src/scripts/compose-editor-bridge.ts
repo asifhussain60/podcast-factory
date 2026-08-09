@@ -39,11 +39,15 @@ export function createComposeEditorBridge(
     runAiFnRef: { current: () => {} },
     removeActionFnRef: { current: () => {} },
     showPrevDiffRef: { current: false },
-    // Human track changes are OFF by default here (2026-07-27). Compose is a
-    // WRITING surface: accepting an AI rewrite repainted the whole paragraph as
+    // Human track changes are OFF in the Composer, and since 2026-08-09 there is
+    // no control that turns them on here. Compose is a WRITING surface:
+    // accepting an AI rewrite repainted the whole paragraph as
     // strikethrough-plus-underline, so the version just chosen was the hardest
-    // to read. The "Show changes" toggle in the editor toolbar turns them on for
-    // as long as they are wanted, and the choice persists per browser.
+    // to read. A toolbar toggle offered it from 2026-07-27 and went unused,
+    // while the slot it occupied was wanted for something that is in the way
+    // every day — the Highlights switch. The field stays because the bag is
+    // shared with Edit & Enrich (StudioEditor.tsx), where the view IS the point
+    // and is on by default; here it is simply never true.
     showEditDiffRef: { current: false },
     prevStageTextsRef: { current: [] },
     // OFF in the Composer (Asif, 2026-08-02). This decoration replaces a

@@ -833,30 +833,25 @@ textarea.xpl-ety-text:focus {
 
 /* The passage you just highlighted, painted while you type a question about
    it in the Companion box — survives focusing the textarea, which collapses
-   the browser's own text selection. Two mechanisms, same visual result, split
-   because Chromium does not paint `::highlight()` inside `contenteditable`
-   (verified 2026-08-05):
-     Read mode  — a CSS Custom Highlight (`gcp-pending`), painted below,
-                  registered from the panel's DOM Range. Never touches the DOM.
-     Edit mode  — a ProseMirror decoration (`.cx-pending-hl`, this rule),
-                  same reason `.cx-note-hl` below is a decoration there —
-                  see pending-selection-decos.ts.
-   `::highlight()` only accepts a handful of properties (no border, no
-   padding, no radius); `.cx-pending-hl` has no such limit, but is kept
-   visually identical on purpose — the accent tint rather than the filed-note
-   yellow, since this is provisional, not yet a saved explanation. */
+   the browser's own text selection. A CSS Custom Highlight registered from the
+   panel's DOM Range, so it never touches the DOM. The accent tint rather than
+   the filed-note yellow, since this is provisional, not yet a saved
+   explanation.
+
+   READ MODE ONLY, and that is now deliberate rather than a limitation of
+   Chromium's (Asif, 2026-08-09). The Edit canvas had an equivalent ProseMirror
+   decoration until today, because `::highlight()` is not painted inside
+   `contenteditable`; it has none now. The panel captures every selection inside
+   the host's prose container, which in the Composer is the entire editor, so
+   that decoration coloured every selection a writer made for any reason and
+   stayed lit once the selection had gone. Selecting text in a writing surface
+   must look like selecting text. */
 ::highlight(gcp-pending) {
   background-color: color-mix(
     in srgb,
     var(--c-accent, #8b4513) 28%,
     transparent
   );
-}
-.cx-pending-hl {
-  background: color-mix(in srgb, var(--c-accent, #8b4513) 28%, transparent);
-  border-radius: 2px;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
 }
 
 .cx-note-hl:hover,
