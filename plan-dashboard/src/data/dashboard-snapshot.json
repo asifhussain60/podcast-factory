@@ -1938,6 +1938,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "9a0d704e",
+      "subject": "chore(skills): register pf-compose-fix and resync the site snapshot",
+      "date": "2026-08-09"
+    },
+    {
       "sha": "4e8bde6c",
       "subject": "feat(book): five reading-edition defects, checked on every compose and repairable one chapter at a time",
       "date": "2026-08-09"
@@ -1980,11 +1985,6 @@
     {
       "sha": "94889a34",
       "subject": "refactor(per-chapter): one place owns how the shared chapter state is serialised",
-      "date": "2026-08-08"
-    },
-    {
-      "sha": "362d8d07",
-      "subject": "fix(cost): one ledger, and it is the one the spend ceiling reads",
       "date": "2026-08-08"
     }
   ],
