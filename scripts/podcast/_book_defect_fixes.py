@@ -32,11 +32,16 @@ WHAT IS REPAIRED HERE, AND WHAT IS NEVER
                             it. Nothing is reworded and nothing is deleted — the same
                             sentence moves one level in.
 
-  translation-fused-with-  NEVER. Same defect, but the rendering and the author's gloss
-  prose                     share a paragraph, so a repair would have to decide where the
-                            quotation ends. On a religious edition that is an editorial
-                            judgment about somebody's sentence, and 48 of the 100 live
-                            instances are this shape.
+  translation-leads-a-      REPAIRED. The paragraph OPENS on the rendering and continues
+  paragraph                 into a sentence of the author's own. The rendering joins the
+                            card and the sentence stays where it is — the boundary is the
+                            author's own punctuation, so nothing is decided here either.
+
+  translation-fused-with-  NEVER. What follows the rendering is not a sentence but a
+  prose                     connective the author's sentence depends on — `(Al-Araf: 156),
+                            and` — or an interjection between two halves of one verse.
+                            Moving the rendering out leaves prose that no longer parses, so
+                            the repair would have to WRITE something. That is authorship.
 
 Every function is idempotent: running it twice changes nothing the first run did not.
 """
@@ -320,14 +325,65 @@ def fold_translation_into_card(md: str) -> tuple[str, int]:
     yielding it and a second run finds nothing.
 
     Only the paragraphs `translation_outside_card` accepts are moved — see
-    `_ONLY_THE_RENDERING_RE` for why the other 48 are left where they are.
+    `ONLY_THE_RENDERING_RE` for why the rest are left where they are.
     """
-    from _book_defects import _ONLY_THE_RENDERING_RE, is_arabic_quote_line, quote_paragraphs
+    from _book_translation_cards import ONLY_THE_RENDERING_RE
+
+    def whole_paragraph(paragraph: list[str], text: str) -> list[str] | None:
+        if not ONLY_THE_RENDERING_RE.match(text):
+            return None
+        return [">"] + ["> " + line.strip() for line in paragraph]
+
+    return _rewrite_stranded_renderings(md, whole_paragraph)
+
+
+def split_translation_into_card(md: str) -> tuple[str, int]:
+    """Move the rendering that OPENS a paragraph in, and leave the author's sentence out.
+
+    The second tier (2026-08-09). Where `fold_translation_into_card` moves a paragraph that
+    is nothing but the rendering, this one handles a paragraph that BEGINS with the
+    rendering and continues into a sentence of the author's own:
+
+        "…except those who stray in error?" (Al-Hijr: 56). The Quran's assurances of
+        mercy come fully alive in souls that…
+
+    The first part joins the card; the second stays exactly where it was, as its own
+    paragraph. NOTHING IS REWORDED HERE EITHER — the boundary is the author's own
+    punctuation, and `split_rendering_from_gloss` refuses any paragraph where the remainder
+    would not stand as a sentence. Those are the ones a person has to resolve.
+
+    The paragraph is re-emitted as two lines where it was one. Every book here writes a
+    paragraph on a single line, so that is the house shape rather than a reflow.
+    """
+    from _book_translation_cards import split_rendering_from_gloss
+
+    def leading_rendering(paragraph: list[str], text: str) -> list[str] | None:
+        parts = split_rendering_from_gloss(text)
+        if not parts:
+            return None
+        rendering, rest = parts
+        return [">", "> " + rendering, "", rest]
+
+    return _rewrite_stranded_renderings(md, leading_rendering)
+
+
+def _rewrite_stranded_renderings(md: str, decide) -> tuple[str, int]:
+    """Walk every Arabic-only blockquote and offer `decide` the paragraph beneath it.
+
+    `decide(paragraph_lines, joined_text)` returns the lines to emit AFTER the quotation —
+    which is how the two repairs above differ while sharing one reading of the markdown.
+    Returning None leaves the blockquote and its paragraph exactly as they were.
+
+    Both repairs are idempotent by construction rather than by a guard: whatever `decide`
+    moves inside means the blockquote no longer holds only Arabic, so the next pass does
+    not offer it again.
+    """
+    from _book_defects import is_arabic_quote_line, quote_paragraphs
 
     lines = md.split("\n")
     out: list[str] = []
     index = 0
-    folded = 0
+    changed = 0
 
     while index < len(lines):
         if not lines[index].startswith(">"):
@@ -349,23 +405,18 @@ def fold_translation_into_card(md: str) -> tuple[str, int]:
         paragraph = lines[para_start:after]
 
         quoted = quote_paragraphs(quote)
-        rendering = " ".join(line.strip() for line in paragraph).strip()
-        if (
-            quoted
-            and paragraph
-            and all(is_arabic_quote_line(p) for p in quoted)
-            and _ONLY_THE_RENDERING_RE.match(rendering)
-        ):
-            out.extend(quote)
-            out.append(">")
-            out.extend("> " + line.strip() for line in paragraph)
-            folded += 1
-            index = after
-            continue
-
+        text = " ".join(line.strip() for line in paragraph).strip()
+        emitted = (
+            decide(paragraph, text) if quoted and paragraph and all(is_arabic_quote_line(p) for p in quoted) else None
+        )
         out.extend(quote)
+        if emitted is None:
+            continue
+        out.extend(emitted)
+        changed += 1
+        index = after
 
-    return "\n".join(out), folded
+    return "\n".join(out), changed
 
 
 #: Repairs by the defect name `_book_defects.DETECTORS` uses, so a caller can ask for a
@@ -378,4 +429,5 @@ FIXES = {
     "prophet-wrong-honorific": use_prophet_ligature,
     "honorific-overuse": cap_honorifics,
     "translation-outside-card": fold_translation_into_card,
+    "translation-leads-a-paragraph": split_translation_into_card,
 }

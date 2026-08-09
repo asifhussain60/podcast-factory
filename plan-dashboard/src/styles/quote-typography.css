@@ -370,7 +370,28 @@ blockquote.k-poem:not(.style-elegant *, .style-scholarly *) {
   border: 0;
   border-radius: 10px;
   padding: 1.35rem 1.6rem 1.15rem;
-  margin-block: 2rem;
+  /* Asif, 2026-08-09: "reduce the white spacing above and below, close to 10px
+     or less". Was 2rem (38.4px on each side, and the card won the collapse
+     against the lead-in's own 15.36px, so 38px is what the page actually showed).
+     0.5rem is 9.6px. The card carries its OWN generous padding — a plate does not
+     also need a margin to be read as set apart, and the lead-in almost always
+     ends on a colon, so tightening it to the quotation it introduces is what the
+     sentence already says. */
+  margin-block: 0.5rem;
+}
+/* Shrinking the card's margin alone would have left 15.36px above it and 9.6px
+   below — adjacent siblings collapse to the LARGER margin, and the lead-in
+   paragraph's own bottom margin is the larger one. An asymmetric gap round a
+   centred plate reads as a mistake, so the paragraph that introduces a card gives
+   up its own spacing for the same 0.5rem. Scoped by `:has(+ …)`, so it applies to
+   the one paragraph immediately before a card and to no other prose on the page —
+   the body rhythm is untouched. Chromium renders every surface here (screen,
+   Composer and the PDF), so `:has()` is safe on all three. */
+p:has(+ blockquote.k-quran),
+p:has(+ blockquote.k-hadith),
+p:has(+ blockquote.k-quote),
+p:has(+ blockquote.k-poem) {
+  margin-bottom: 0.5rem;
 }
 blockquote.k-quran:not(.style-elegant *, .style-scholarly *) {
   background: color-mix(in oklab, var(--q-quran-ink) 4%, transparent);

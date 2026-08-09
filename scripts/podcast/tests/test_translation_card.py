@@ -6,11 +6,20 @@ translation printed underneath, outside the panel. It is a CONTENT defect — `b
 carries the rendering as the next paragraph of body prose — and every card on the
 approved specimen page carries it inside the blockquote.
 
-WHAT THESE TESTS ARE REALLY PROTECTING is the line between the two detectors. Of the 100
-live instances, 48 run the rendering straight into the author's own commentary in the
-same paragraph. Folding one of those in would carry authorial prose inside a quotation
-panel on a religious edition — a worse defect than the one being repaired — so the split
-is asserted from both sides, with the real shapes taken out of the books.
+WHAT THESE TESTS ARE REALLY PROTECTING are the two lines between three shapes, because
+carrying the author's prose inside a quotation panel on a religious edition would be a
+worse defect than the one being repaired:
+
+  FOLD   the paragraph is the rendering and nothing else — it moves in whole.
+  SPLIT  the paragraph OPENS on the rendering and continues into a sentence of the
+         author's own — the rendering moves in, the sentence stays, and the boundary is
+         punctuation he already placed.
+  NEVER  what follows is a connective his sentence depends on (`(Al-Araf: 156), and`) or
+         an interjection between two halves of one verse. Separating those means WRITING
+         something, which is authorship rather than repair.
+
+Every shape below is real text lifted out of the books, and each is asserted from both
+sides: the repair that should take it fires, and the ones that should not stay silent.
 """
 
 from __future__ import annotations
@@ -21,10 +30,15 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO / "scripts" / "podcast"))
 
-from _book_defect_fixes import FIXES, fold_translation_into_card  # noqa: E402
+from _book_defect_fixes import (  # noqa: E402
+    FIXES,
+    fold_translation_into_card,
+    split_translation_into_card,
+)
 from _book_defects import (  # noqa: E402
     DETECTORS,
     translation_fused_with_prose,
+    translation_leads_a_paragraph,
     translation_outside_card,
 )
 
@@ -79,20 +93,47 @@ def test_a_multi_line_rendering_keeps_every_line_inside():
     assert '> and its second line" (Al-Baqarah: 2).' in out
 
 
-# ── the shape that must NEVER be folded ──────────────────────────────────────
+# ── the shape that is SPLIT rather than folded ───────────────────────────────
 
 
-def test_a_rendering_that_runs_into_commentary_is_reported_not_repaired():
-    """The 48-instance shape. Real text from spiritual-ethos."""
-    fused = (
-        '"And who despaireth of the mercy of his Lord except those who stray in error?" '
-        "(Al-Hijr: 56). The Quran's assurances of mercy come fully alive in souls like his."
-    )
-    md = chapter(f"> {ARABIC}", fused)
+def test_a_rendering_followed_by_a_whole_sentence_is_split_not_folded():
+    """Real text from spiritual-ethos. The rendering opens the paragraph and the author's
+    own sentence follows it, so the boundary is punctuation he already placed."""
+    rendering = '"And who despaireth of the mercy of his Lord except those who stray in error?" (Al-Hijr: 56).'
+    gloss = "The Quran's assurances of mercy come fully alive in souls like his."
+    md = chapter(f"> {ARABIC}", f"{rendering} {gloss}")
     assert translation_outside_card(md) == []
-    assert [t[1] for t in translation_fused_with_prose(md)] == [fused]
-    out, folded = fold_translation_into_card(md)
-    assert (out, folded) == (md, 0)
+    assert translation_fused_with_prose(md) == []
+    assert [t[1] for t in translation_leads_a_paragraph(md)] == [rendering]
+    # the WHOLE-paragraph fold must refuse it — that repair would carry the gloss inside
+    assert fold_translation_into_card(md)[1] == 0
+
+    out, split = split_translation_into_card(md)
+    assert split == 1
+    assert f"> {ARABIC}\n>\n> {rendering}\n\n{gloss}" in out
+    assert out.count(gloss) == 1
+
+
+def test_the_split_is_idempotent():
+    md = chapter(f"> {ARABIC}", '"A rendering." (Al-Hijr: 56). And then a sentence of his own.')
+    once, first = split_translation_into_card(md)
+    twice, second = split_translation_into_card(once)
+    assert (first, second) == (1, 0)
+    assert twice == once
+
+
+# ── the shape that must NEVER be touched by either repair ────────────────────
+
+
+def test_a_dangling_connective_is_never_repaired():
+    """The author strung two verses together across two blockquotes. Moving the rendering
+    out leaves `, and` — prose that no longer parses, so a repair would have to write."""
+    md = chapter(f"> {ARABIC}", '"My mercy encompasseth all things" (Al-Araf: 156), and')
+    assert translation_outside_card(md) == []
+    assert translation_leads_a_paragraph(md) == []
+    assert len(translation_fused_with_prose(md)) == 1
+    assert fold_translation_into_card(md)[1] == 0
+    assert split_translation_into_card(md)[1] == 0
 
 
 def test_an_interjection_between_two_quoted_spans_is_not_repaired():
@@ -103,8 +144,10 @@ def test_an_interjection_between_two_quoted_spans_is_not_repaired():
     )
     md = chapter(f"> {ARABIC}", fused)
     assert translation_outside_card(md) == []
+    assert translation_leads_a_paragraph(md) == []
     assert len(translation_fused_with_prose(md)) == 1
     assert fold_translation_into_card(md)[1] == 0
+    assert split_translation_into_card(md)[1] == 0
 
 
 def test_a_card_that_already_holds_its_rendering_is_left_alone():
@@ -138,8 +181,10 @@ def test_a_card_followed_by_a_heading_is_left_alone():
 
 def test_both_detectors_are_registered_and_only_one_has_a_repair():
     assert "translation-outside-card" in DETECTORS
+    assert "translation-leads-a-paragraph" in DETECTORS
     assert "translation-fused-with-prose" in DETECTORS
     assert "translation-outside-card" in FIXES
+    assert "translation-leads-a-paragraph" in FIXES
     assert "translation-fused-with-prose" not in FIXES
 
 
@@ -147,10 +192,13 @@ def test_the_live_corpus_splits_the_way_the_repair_assumes():
     """A guard on the real books, not a fixture: the fused shape must stay the larger
     half, because that is the evidence for refusing to repair it. If a future edit made
     the repairable pattern greedy enough to swallow those, this is what would notice."""
-    repairable = fused = 0
+    seen = {"fold": 0, "split": 0, "fused": 0}
     for book in sorted((REPO / "content").glob("*/*/book/book.md")):
         md = book.read_text(encoding="utf-8")
-        repairable += len(translation_outside_card(md))
-        fused += len(translation_fused_with_prose(md))
-    assert repairable + fused > 0, "no book in the corpus shows the defect — has the shape changed?"
-    assert fused >= 40, f"only {fused} fused instances — the pattern may have become greedy"
+        seen["fold"] += len(translation_outside_card(md))
+        seen["split"] += len(translation_leads_a_paragraph(md))
+        seen["fused"] += len(translation_fused_with_prose(md))
+    assert sum(seen.values()) > 0, "no book shows the defect at all — has the shape changed?"
+    # The three are mutually exclusive by construction; this is the guard that they stay
+    # so, and that the fused bucket never empties into a repair by a pattern going greedy.
+    assert seen["fused"] > 0, "nothing is fused any more — a repair pattern has widened"

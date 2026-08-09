@@ -49,9 +49,9 @@ numbers every chapter heading and leaves exactly one section (the introduction)
 unnumbered. A book that ever numbers inconsistently gets the chapter list printed and no
 write. Never hand-resolve a number yourself; call `--list`.
 
-## What it checks — ten defects
+## What it checks — eleven defects
 
-Seven come from `_book_defects`, which the compose apparatus's `defect-scan` step and the
+Eight come from `_book_defects`, which the compose apparatus's `defect-scan` step and the
 recorded-defect tests also read. There is no second copy of the rule.
 
 | Defect | Repair |
@@ -63,7 +63,8 @@ recorded-defect tests also read. There is no second copy of the rule.
 | `romanized-arabic` — a whole Arabic saying in the English character set | `--resolve-romanization`, and it chooses between two cures |
 | `english-rtl` — an English translation set in the Arabic face | **none — fixed at the renderer** |
 | `translation-outside-card` — the English rendering prints below the card, not inside it | automatic |
-| `translation-fused-with-prose` — the rendering and the author's gloss share a paragraph | none — reported |
+| `translation-leads-a-paragraph` — the rendering opens the paragraph, a whole sentence follows | automatic |
+| `translation-fused-with-prose` — separating the rendering would leave prose that no longer parses | none — reported |
 | `quote-card-rules` — part of the approved four-card design is no longer on disk | none — reported |
 | `orphaned-quote-kind` — a person's declaration of a quotation's kind matches nothing | none — reported |
 
@@ -103,7 +104,7 @@ adjacency would have erased the only record of the wording the romanization carr
 Bare `--fix` still never touches this defect — the two cures both need the ladder or the
 adjacency test, and neither is a string transform.
 
-### The seventh and eighth guard the four quotation cards
+### The last two guard the four quotation cards themselves
 
 A quotation is drawn as one of four cards — Qur'an, prophetic tradition, verse, and the
 saying that is the default. Asif converged that design over a sample page before anything
@@ -145,15 +146,23 @@ translation printed underneath, outside the panel. It is a CONTENT defect — `b
 carries the rendering as the next paragraph of body prose — and there are 100 of them
 across all seven books.
 
-**Only 52 are repairable, and the split is the important part.** A paragraph that is the
-rendering AND NOTHING ELSE folds into the blockquote above it: nothing is reworded,
-nothing is deleted, the same sentence moves one level in. The other 48 run the rendering
-straight into the author's own commentary in the same paragraph — *"…(Al-Hijr: 56). The
-Quran's assurances of mercy come fully alive in…"* — or put an interjection between two
-quoted spans. Folding one of those in would carry authorial prose inside a quotation
-panel on a religious edition, which is a worse defect than the one being repaired, and
-splitting the sentence is an editorial judgment about somebody's wording. They are
-reported as `translation-fused-with-prose` and left for a person.
+**There are three shapes and only the third needs a person.** The line between them is
+where the repair stops being a move and starts being authorship — because carrying the
+author's prose inside a quotation panel on a religious edition would be a worse defect
+than the one being repaired.
+
+1. **The paragraph is the rendering and nothing else.** It folds into the blockquote
+   whole: nothing reworded, nothing deleted, the same sentence one level in.
+2. **The paragraph OPENS on the rendering and continues into a sentence of the author's
+   own** — *"…(Al-Hijr: 56). The Quran's assurances of mercy come fully alive in…"*. The
+   rendering moves in and the sentence stays where it is. Nothing is decided: the boundary
+   is punctuation the author already placed, and the test for "a sentence of its own" is
+   deliberately blunt — it must begin on a capital and run to at least four words.
+3. **What follows is not a sentence.** It is a connective the author's own sentence
+   depends on — *"…encompasseth all things" (Al-Araf: 156), and* — where he strung two
+   verses together across two blockquotes, or an interjection between two halves of one
+   verse. Moving the rendering out leaves prose that no longer parses, so the repair would
+   have to WRITE something. Reported as `translation-fused-with-prose` and left standing.
 
 ### Why `english-rtl` is never repaired
 
