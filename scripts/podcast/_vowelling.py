@@ -48,7 +48,12 @@ from _arabic_coverage import ARABIC_RE as _ARABIC_RE
 # read as already vowelled and be skipped. Both directions are closed here.
 # U+06D6-U+06ED (the Qur'anic annotation signs) were in the JS half of this pair
 # and not in this one; unified rather than left to diverge silently.
-MARKS_RE = re.compile("[\u064b-\u065f\u0670\u06d6-\u06ed\u0640]")
+# The class BODY is exported so a second reader interpolates it rather than retyping it.
+# `_book_defects` needs the same set to match a honorific however it happens to be
+# vowelled \u2014 the marks-only gate and the honorific matcher have to agree about what a
+# mark IS, or one of them is wrong about a phrase the other accepted.
+MARKS_BODY = "\u064b-\u065f\u0670\u06d6-\u06ed\u0640"
+MARKS_RE = re.compile(f"[{MARKS_BODY}]")
 
 # Arabic script, for asking whether a string contains Arabic at all.
 ARABIC_RE = _ARABIC_RE  # the one definition — see _arabic_coverage

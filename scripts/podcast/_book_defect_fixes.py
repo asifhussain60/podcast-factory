@@ -43,6 +43,7 @@ from _book_defects import (
     _figure_before,
     blocks,
     duplicated_arabic,
+    figure_key,
 )
 
 #: The Prophet's own honorific (U+FDFA). Set in the Arabic face at the size the rest of
@@ -138,9 +139,12 @@ def cap_honorifics(md: str, *, cap: int = 1) -> tuple[str, int]:
         rebuilt: list[str] = []
         cursor = 0
         for match in _HONORIFIC_RE.finditer(line):
-            figure = _figure_before(line[: match.start()])
-            counts[figure] = counts.get(figure, 0) + 1
-            if counts[figure] <= cap:
+            # Keyed by `figure_key`, not by the label: "Ali" and "Ali ibn Abi Talib" are
+            # one man, and counting them separately left three honorifics in the first
+            # two paragraphs of a chapter capped at one.
+            key = figure_key(_figure_before(line[: match.start()]))
+            counts[key] = counts.get(key, 0) + 1
+            if counts[key] <= cap:
                 continue
             # Take the honorific out along with the space that introduced it, so the
             # sentence closes up rather than printing a double space before the comma.

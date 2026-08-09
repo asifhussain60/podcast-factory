@@ -1,13 +1,22 @@
 #!/usr/bin/env python3
-"""Four reading-edition defects the post-articulation route lets through (2026-08-09).
+"""Five reading-edition defects the post-articulation route lets through (2026-08-09).
 
 Asif found every one of them BY EYE in a shipped edition, which is the failure each
 records: the student-reader pass reads each chapter after articulation and flagged none
 of them. They are executable here so the next book cannot introduce them silently.
 
+THREE OF THE FIVE NOW STAND AT ZERO across every book — see `KNOWN` for how each was
+cured. Their gates assert zero rather than carrying a ceiling, which makes each one
+end-to-end proof, over real content, that its fix holds.
+
   DUPLICATED ARABIC       a lead-in gives an Arabic quotation inline and the blockquote
                           under it repeats the identical run — the same words twice in
-                          two consecutive lines.
+                          two consecutive lines. One instance, repaired in the Composer.
+
+  PROPHET'S HONORIFIC     the Prophet carrying `(ع)`, the honorific of the Imams —
+                          `The Messenger of Allah (ع)`, 52 times in one book. Wrong under
+                          any reading of the convention, so it did not wait on the cap
+                          policy. 130 repaired; his own ligature now stands in its place.
 
   ENGLISH SET RIGHT-TO-LEFT
                           FIXED at the renderer 2026-08-09, and this file is now the
@@ -96,16 +105,29 @@ IDS = ["/".join(p.relative_to(CONTENT).parts[:-2]) for p in BOOKS]
 #: repaired without editing prose, and Asif's instruction of 2026-08-09 stands: no book
 #: goes back through the pipeline for now. So they are recorded, not fixed.
 KNOWN: dict[str, dict[str, int]] = {
-    # The five misdirected-English instances that stood here on 2026-08-09 are GONE:
-    # they were a renderer defect, not a content one, and weighing proportion repaired
-    # all five across three books with no re-compose. `test_no_new_english_set_right_to_left`
-    # now asserts zero everywhere, which is the end-to-end proof of that fix.
-    "Islamic/ayyuhal-walad": {"honorific": 7, "prophet": 21},
-    "Islamic/degrees-of-excellence": {"romanized": 1, "honorific": 8, "prophet": 1},
-    "Islamic/kitab-al-riyad": {"honorific": 16, "prophet": 14},
-    "Islamic/mukhtasar-ul-asar-1": {"honorific": 43, "prophet": 27},
-    "Islamic/mukhtasar-ul-asar-2": {"honorific": 27, "prophet": 52},
-    "Islamic/spiritual-ethos": {"duplicated": 1, "romanized": 13, "honorific": 14, "prophet": 3},
+    # THREE of the five now stand at zero across every book, and each was cured a
+    # different way — which is why the live gates below assert zero for them rather than
+    # carrying a ceiling:
+    #
+    #   english-rtl      a RENDERER defect, not a content one. Weighing which script a
+    #                    line is mostly in repaired all five instances across three books
+    #                    with no re-compose and no model spend.
+    #   duplicated       one instance, repaired in the Book Composer through
+    #                    `compose_fix.py` — the lead-in's inline copy deleted, the
+    #                    blockquote untouched.
+    #   prophet          130 mentions across five books, repaired the same way: the
+    #                    Prophet now carries his own ligature instead of the Imams'
+    #                    honorific. The count rose from 118 first, when the honorific
+    #                    pattern stopped depending on how a phrase happened to be
+    #                    vowelled — the expanded forms had been invisible.
+    #
+    # What remains is what needs Asif's judgment or a policy decision, not a mechanism.
+    "Islamic/ayyuhal-walad": {"honorific": 1},
+    "Islamic/degrees-of-excellence": {"romanized": 1, "honorific": 12},
+    "Islamic/kitab-al-riyad": {"honorific": 24},
+    "Islamic/mukhtasar-ul-asar-1": {"honorific": 54},
+    "Islamic/mukhtasar-ul-asar-2": {"honorific": 27},
+    "Islamic/spiritual-ethos": {"romanized": 13, "honorific": 11},
     "Islamic/the-master-and-the-disciple": {"honorific": 1},
 }
 
@@ -181,20 +203,6 @@ def test_no_new_prophet_wrong_honorific(book: Path) -> None:
 @pytest.mark.xfail(
     strict=True,
     reason=(
-        "Spiritual Ethos ch.1 gives the same Arabic twice — inline in the lead-in and "
-        "again in the blockquote under it. Repairable in the Book Composer without a "
-        "re-compose; delete the KNOWN entry when it lands."
-    ),
-)
-@pytest.mark.parametrize("book_id", _recorded("duplicated"))
-def test_recorded_duplicated_arabic_is_gone(book_id: str) -> None:
-    hits = duplicated_arabic((CONTENT / book_id / "book" / "book.md").read_text(encoding="utf-8"))
-    assert hits == [], "; ".join(f"{t}: {r}" for t, r in hits)
-
-
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
         "14 Arabic sayings print in the English character set, against the rule locked "
         "2026-08-02. Two of them have no Arabic anywhere on disk — not in the book, not "
         "in the source scan, not in the hadith corpus — so their script cannot be "
@@ -219,21 +227,6 @@ def test_recorded_romanized_arabic_is_gone(book_id: str) -> None:
 def test_recorded_honorific_overuse_is_gone(book_id: str) -> None:
     hits = honorific_overuse((CONTENT / book_id / "book" / "book.md").read_text(encoding="utf-8"))
     assert hits == [], "; ".join(f"{t}/{f}×{n}" for t, f, n in hits[:5])
-
-
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "118 mentions across six books give the Prophet the honorific of the Imams — "
-        "`The Messenger of Allah (ع)`, 52 times in Mukhtasar 2 alone. His is the "
-        "ligature (Asif, 2026-08-09), and this is wrong under any reading of the "
-        "convention, so it does not wait on the cap policy."
-    ),
-)
-@pytest.mark.parametrize("book_id", _recorded("prophet"))
-def test_recorded_prophet_wrong_honorific_is_gone(book_id: str) -> None:
-    hits = prophet_wrong_honorific((CONTENT / book_id / "book" / "book.md").read_text(encoding="utf-8"))
-    assert hits == [], "; ".join(m for _, m in hits[:5])
 
 
 def test_is_arabic_quote_line_matches_the_shared_fixtures() -> None:

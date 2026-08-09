@@ -1,6 +1,6 @@
 """_book_defects.py — reading-edition defects the post-articulation route lets through.
 
-Four checks over a finished `book/book.md`, each one a defect Asif found BY EYE in a
+Five checks over a finished `book/book.md`, each one a defect Asif found BY EYE in a
 shipped edition after every automatic gate had passed it. They live here, in a module,
 rather than inside the test that first recorded them, because three callers need the
 same answer and a second copy is how two of them start disagreeing:
@@ -11,7 +11,7 @@ same answer and a second copy is how two of them start disagreeing:
 
 Nothing here mutates a book. Every function reads markdown and returns findings.
 
-THE FOUR DEFECTS
+THE FIVE DEFECTS
 
   DUPLICATED ARABIC       a lead-in sentence carries an Arabic quotation inline, in
                           parentheses, and the blockquote immediately under it repeats
@@ -41,8 +41,12 @@ THE FOUR DEFECTS
                           nothing reached it and 14 ran in two shipped editions.
 
   HONORIFIC OVERUSE       `(ع)` after every occurrence of every name. Capped per figure
-                          per chapter (Asif, 2026-08-09); the Prophet's is the one that
-                          is mandatory rather than capped, and it is a separate rule.
+                          per chapter (Asif, 2026-08-09), and counted under `figure_key`
+                          so "Ali" and "Ali ibn Abi Talib" are one man rather than two.
+
+  PROPHET'S HONORIFIC     the Prophet carrying `(ع)`, which belongs to the Imams. His is
+                          the ligature. A SEPARATE rule from the cap, and not subject to
+                          it: his is mandatory on every mention by name.
 
 WHY POSITIVE CONDITIONS, EVERYWHERE
 
@@ -58,6 +62,7 @@ from __future__ import annotations
 import re
 
 from _arabic_coverage import ARABIC_BODY, normalize_arabic
+from _vowelling import MARKS_BODY as _MARKS_BODY
 
 #: An Arabic run long enough to be a QUOTATION rather than a glossed term. A short run
 #: legitimately repeats — `(بَاب)` beside "bab" is the house annotation style — and
@@ -109,10 +114,49 @@ _NOT_ARABIC_PROSE = re.compile(
 #: so a whole paragraph of English in brackets is never a candidate.
 _PARENTHETICAL_RE = re.compile(r"\(([^()]{12,300})\)")
 
+#: Arabic diacritics — imported, never retyped. `_vowelling` owns this set because it
+#: is the marks-only gate's own definition of a mark, and the honorific matcher below
+#: has to agree with it: a second spelling would let one of the two accept a phrase the
+#: other rejected. (A test also refuses a module that respells an Arabic range.)
+_TASHKEEL = _MARKS_BODY
+
+
+def _tolerant(bare: str) -> str:
+    """A pattern matching ``bare`` however it is vowelled.
+
+    A hardcoded vowelled literal is a trap and it sprang immediately: `(عَلَيْهِ السَّلَامُ)`
+    written with the shadda before the fatha did not match the same phrase written the
+    other way round, so the expanded honorific opening chapter 1 of Spiritual Ethos was
+    invisible to a check whose whole subject is honorifics. Since 2026-07-29 every Arabic
+    run on the page is vowelled by a model, so the marks are exactly the part that cannot
+    be predicted — and the consonantal skeleton is exactly the part that can.
+    """
+    marks = f"[{_TASHKEEL}]*"
+    # Leading and TRAILING marks matter as much as the ones between letters: the final
+    # damma on `السَّلَامُ` sits between the last letter and the closing bracket, and a
+    # pattern that stopped at the letter matched nothing at all.
+    return marks + marks.join((r"\s+" if ch == " " else re.escape(ch)) for ch in bare) + marks
+
+
 #: The compact honorifics a figure other than the Prophet carries. The Prophet's own
 #: form is deliberately absent — it is mandatory rather than capped, so counting it
 #: here would report the convention working as though it were the defect.
-_HONORIFIC_RE = re.compile(r"\((?:ع|عَلَيْهِ\s+السَّلَامُ|رضي\s+الله\s+عنه|as|a\.s\.)\)", re.IGNORECASE)
+_HONORIFIC_RE = re.compile(
+    r"\((?:"
+    + "|".join(
+        [
+            _tolerant("ع"),
+            _tolerant("عليه السلام"),
+            _tolerant("عليها السلام"),
+            _tolerant("عليهم السلام"),
+            _tolerant("رضي الله عنه"),
+            r"as",
+            r"a\.s\.",
+        ]
+    )
+    + r")\)",
+    re.IGNORECASE,
+)
 
 #: The name a compact honorific attaches to, read BACKWARD from the honorific. Two
 #: patterns rather than one, because the thing that distinguishes a name from a
@@ -148,6 +192,19 @@ _PROPHET_NAME = (
 
 #: The Prophet named, then a honorific that belongs to somebody else.
 _PROPHET_HONORIFIC_RE = re.compile(_PROPHET_NAME + r"\s*" + _HONORIFIC_RE.pattern, re.IGNORECASE)
+
+
+def figure_key(figure: str) -> str:
+    """The identity a figure label counts under.
+
+    "Ali" and "Ali ibn Abi Talib" are one man, and a cap of once per figure per chapter
+    that treated them as two would leave the reader three honorifics in two paragraphs —
+    which is what chapter 1 of Spiritual Ethos did on the first repair run. The given
+    name is what a reader recognises across the variants, so it is the key; the fuller
+    label is still what gets REPORTED, because "Ali ×54" is the finding a human reads.
+    """
+    first = figure.split()[0].lower() if figure.split() else figure.lower()
+    return first.strip(",.;:'’-") or figure.lower()
 
 
 def _figure_before(text: str) -> str:
@@ -322,12 +379,18 @@ def honorific_overuse(md: str, *, cap: int = 1) -> list[tuple[str, str, int]]:
     hits: list[tuple[str, str, int]] = []
     for title, body in chapters(md):
         counts: dict[str, int] = {}
+        labels: dict[str, str] = {}
         for match in _HONORIFIC_RE.finditer(body):
             figure = _figure_before(body[: match.start()])
-            counts[figure] = counts.get(figure, 0) + 1
-        for figure, count in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])):
+            key = figure_key(figure)
+            counts[key] = counts.get(key, 0) + 1
+            # Report the FULLEST label the chapter used for this person — "Ali ibn Abi
+            # Talib" tells a reader who is meant where the key "ali" does not.
+            if len(figure) > len(labels.get(key, "")):
+                labels[key] = figure
+        for key, count in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])):
             if count > cap:
-                hits.append((title, figure, count))
+                hits.append((title, labels[key], count))
     return hits
 
 
