@@ -95,10 +95,19 @@ ARABIC_COUNT_RE = re.compile(f"[{ARABIC_BODY}]")
 #: Arabic function words and morphology, transliterated. Evidence FOR Arabic.
 #: Deliberately excludes `ibn`/`abu`/`umm`/`bint` — those are name particles and appear
 #: below as evidence AGAINST, because a name is the one thing that stays romanized.
+#:
+#: THE APOSTROPHE ALTERNATIVE IS CASE-SENSITIVE, and it has to be spelled that way
+#: because the whole pattern is compiled `IGNORECASE`. It is there for a transliterated
+#: hamza or ayn — `ta'wil`, `bala'` — which is always followed by a lower-case letter.
+#: Left case-insensitive it also matched an opening single quotation mark before an
+#: English word, so `('Glory to me')` scored as Arabic evidence. And `'s` is excluded
+#: outright: an English possessive is not a transliteration, and counting it made every
+#: `(may Allah's blessings be upon him)` in Mukhtasar ul-Asar — forty of them — read as
+#: a romanized Arabic sentence.
 _ROMANIZATION_MARKERS = re.compile(
     r"(?:^|[\s\-'’])(?:al|wa|bi|fi|min|ila|ma|man|fa|la|lil|li|ya|an|inna|anna|qala|kana|hadha|dhu)(?=[\s\-'’])"
     r"|-(?:ul|al|il|ah|at|un|in|hu|ha|ka|ni)\b"
-    r"|['’][a-z]",
+    r"|['’](?-i:(?!s\b)[a-z])",
     re.IGNORECASE,
 )
 
@@ -108,6 +117,18 @@ _NOT_ARABIC_PROSE = re.compile(
     r"\b(?:the|and|of|is|are|was|were|that|this|which|with|from|see|page|chapter|vol|ibn|bin|abu|umm|bint)\b",
     re.IGNORECASE,
 )
+
+#: Evidence AGAINST, second kind: a digit means the bracket is a REFERENCE. Every book
+#: here cites in the shape `(Ali 'Imran: 190-191)` or `(Surah al-Talaq, 65:1)`, whose
+#: surah name is transliterated Arabic and therefore scores exactly like a saying. No
+#: saying anywhere in this corpus contains a digit, so the rule costs nothing.
+_CITATION_DIGIT = re.compile(r"\d")
+
+#: Evidence AGAINST, third kind: the bracket is wholly italic. That is the books' own
+#: mark for a technical TERM — `(*ribh ma lam yudman*)` — and which terms carry an inline
+#: annotation is the annotation policy's decision, not this check's. A quoted saying is
+#: never set in italics here.
+_WHOLLY_ITALIC = re.compile(r"^([*_])(?!\1).+\1$", re.S)
 
 #: Where a romanized sentence actually appears: inside a parenthetical beside its
 #: English, which is the shape every one of the 14 live instances takes. Bounded length
@@ -352,7 +373,7 @@ def english_set_right_to_left(md: str) -> list[tuple[str, str]]:
     return hits
 
 
-def is_romanized_arabic(text: str) -> bool:
+def is_romanized_arabic(text: str, *, arabic_beside: bool = False) -> bool:
     """Is this run an Arabic sentence written in the English character set?
 
     Both conditions are POSITIVE and both are required, because the denylist version of
@@ -360,6 +381,18 @@ def is_romanized_arabic(text: str) -> bool:
     with one. Evidence FOR: Arabic function words, the article, a construct ending.
     Evidence AGAINST: an English function word, or a name particle — a person's name
     stays romanized by the annotation policy and must never be reported here.
+
+    `arabic_beside` IS A PIECE OF EVIDENCE, and the strongest one available. The word
+    list needs two hits before it will call a bracket Arabic, which is what keeps the
+    English out; but a saying set in Latin letters immediately beside its own Arabic
+    script needs no word list to identify it, because the book has already said what the
+    words are. Eleven passages in Spiritual Ethos sat one hit under the bar for months
+    for want of this — including `(anta minni wa ana minka)`, whose Arabic is the display
+    line directly beneath it, and which the whole-book romanization pass of 2026-08-09
+    walked past while rewriting the same chapter. The caller decides adjacency; see
+    `romanized_arabic`. Lowering the bar to one hit INSTEAD was measured and rejected: it
+    returns 58 findings across the seven books, 47 of them blessings, verse citations and
+    glossed terms.
     """
     if ARABIC_COUNT_RE.search(text):
         return False
@@ -367,7 +400,8 @@ def is_romanized_arabic(text: str) -> bool:
         return False
     if _NOT_ARABIC_PROSE.search(text):
         return False
-    return len(_ROMANIZATION_MARKERS.findall(text)) >= MIN_ROMANIZATION_MARKERS
+    needed = 1 if arabic_beside else MIN_ROMANIZATION_MARKERS
+    return len(_ROMANIZATION_MARKERS.findall(text)) >= needed
 
 
 def romanized_arabic(md: str) -> list[tuple[str, str]]:
@@ -377,12 +411,36 @@ def romanized_arabic(md: str) -> list[tuple[str, str]]:
     translation followed by the saying in romanization. Running it over free prose would
     reach single terms, and which terms carry an inline annotation is the annotation
     policy's decision, not this check's.
+
+    "BESIDE" IS THE PARAGRAPH AND ITS TWO NEIGHBOURS, which is where a saying's own
+    script actually sits: in the same sentence in one chapter of Spiritual Ethos, and as
+    the display line under the lead-in everywhere else. Wider than that and a chapter
+    that merely contains Arabic somewhere would vouch for every bracket in it.
     """
     hits: list[tuple[str, str]] = []
     for title, body in chapters(md):
+        paragraphs = body.split("\n\n")
+        # Where each paragraph starts, so a match offset can be placed in one of them
+        # without searching the text a second time.
+        spans: list[tuple[int, int]] = []
+        at = 0
+        for para in paragraphs:
+            spans.append((at, at + len(para)))
+            at += len(para) + 2
+
         for match in _PARENTHETICAL_RE.finditer(body):
-            inner = match.group(1).strip().strip("*_")
-            if is_romanized_arabic(inner):
+            raw = match.group(1).strip()
+            if _WHOLLY_ITALIC.match(raw) or _CITATION_DIGIT.search(raw):
+                continue
+            index = next(
+                (i for i, (start, end) in enumerate(spans) if start <= match.start() <= end),
+                None,
+            )
+            beside = index is not None and any(
+                ARABIC_COUNT_RE.search(paragraphs[i]) for i in (index - 1, index, index + 1) if 0 <= i < len(paragraphs)
+            )
+            inner = raw.strip("*_")
+            if is_romanized_arabic(inner, arabic_beside=beside):
                 hits.append((title, inner))
     return hits
 

@@ -377,6 +377,81 @@ def resolve(
 RECORD_NAME = "book-romanization.json"
 
 
+# ---------------------------------------------------------------------------
+# Is the repair a substitution, or a deletion?
+#
+# The ladder above answers "what is this saying in Arabic". These two answer the
+# question that comes first: whether the page ALREADY prints it, in which case the
+# romanization is a duplicate and substituting would set the Arabic twice.
+# ---------------------------------------------------------------------------
+
+
+def already_in_script(section: str, run: str, arabic: str) -> bool:
+    """Does this saying's OWN Arabic already print beside the romanization?
+
+    Compared by consonantal skeleton, because the two copies genuinely differ: the same
+    saying appears in Spiritual Ethos once as `أَنَا` and once as `أِنَا`, and a book that
+    prints a saying twice may vowel it twice differently. The skeleton is the thing that
+    identifies a wording; the marks are not.
+
+    "Beside" is the paragraph the bracket sits in and its two neighbours — the same window
+    `_book_defects.romanized_arabic` uses to decide the run is a saying at all, and where
+    a display quotation actually goes. It must NOT be the whole chapter: nine of the
+    eleven findings in Spiritual Ethos have Arabic within a line or two that belongs to a
+    DIFFERENT saying, and treating those as duplicates would delete the only record of
+    the wording that romanization carries.
+    """
+    from _book_defects import ARABIC_ONLY_RE
+
+    skeleton = _skeleton(arabic)
+    if not skeleton:
+        return False
+    paragraphs = section.split("\n\n")
+    index = next((i for i, p in enumerate(paragraphs) if f"({run})" in p or run in p), None)
+    if index is None:
+        return False
+    window = "\n\n".join(paragraphs[i] for i in (index - 1, index, index + 1) if 0 <= i < len(paragraphs))
+    return any(_skeleton(found.group(0)) == skeleton for found in ARABIC_ONLY_RE.finditer(window))
+
+
+#: Perso-Arabic letters folded to the Arabic they stand for, BEFORE the shared skeleton
+#: is taken. `_arabic_coverage.normalize_arabic` keeps only U+0621–U+064A, so it does not
+#: fold these — it DROPS them, and a dropped letter is worse than an unfolded one because
+#: the two spellings then differ in length as well as in content.
+#:
+#: This is not hypothetical and it is not rare: Spiritual Ethos prints the same saying of
+#: the Prophet twice, once in Arabic letters and once in Persian ones — `أَنْتَ مِنِّي وَأَنَا
+#: مِنْكَ` beside `أنْتَ مِنِّی وَ أِنَا مِنْکَ` — and without this fold the first run of the repair
+#: read them as different sayings and printed the Arabic twice on one line.
+#:
+#: Folded HERE rather than in `normalize_arabic`, deliberately. That function is what the
+#: mushaf matcher and the fabricated-Arabic gate compare with, and widening what it keeps
+#: changes two answers that have nothing to do with this repair. That it silently drops
+#: Persian letters is worth fixing on its own terms, with those gates in front of it.
+_PERSO_ARABIC_FOLD = str.maketrans({"ی": "ي", "ک": "ك", "ھ": "ه", "ہ": "ه"})
+
+
+def _skeleton(text: str) -> str:
+    """The consonantal skeleton, with Perso-Arabic letters folded in first."""
+    from _arabic_coverage import normalize_arabic
+
+    return normalize_arabic((text or "").translate(_PERSO_ARABIC_FOLD))
+
+
+def drop_romanization(section: str, run: str) -> tuple[str, bool]:
+    """Remove one bracketed romanization, and the space that introduced it.
+
+    Returns the section and whether anything was removed, so a caller never records a
+    repair that did not happen. Only the bracket goes: the author's sentence and the
+    English rendering beside it are untouched, which is the whole reason deleting is
+    safe where the script is already on the page.
+    """
+    for pattern in (f" ({run})", f"({run})"):
+        if pattern in section:
+            return section.replace(pattern, "", 1), True
+    return section, False
+
+
 def write_record(book_dir: Path, resolutions: list[Resolution]) -> Path:
     """Persist where every saying's Arabic came from. The audit trail, not a gate."""
     path = Path(book_dir) / "_system" / RECORD_NAME

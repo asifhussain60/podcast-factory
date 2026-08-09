@@ -1938,6 +1938,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "7e4a1216",
+      "subject": "fix(compose): a selection in the editor is painted by the editor, and nothing else",
+      "date": "2026-08-09"
+    },
+    {
       "sha": "610ae7e8",
       "subject": "feat(listener): the four quotation cards reach the Podcast Factory Library",
       "date": "2026-08-09"
@@ -1980,11 +1985,6 @@
     {
       "sha": "9a0d704e",
       "subject": "chore(skills): register pf-compose-fix and resync the site snapshot",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "4e8bde6c",
-      "subject": "feat(book): five reading-edition defects, checked on every compose and repairable one chapter at a time",
       "date": "2026-08-09"
     }
   ],

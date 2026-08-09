@@ -303,3 +303,69 @@ class TestTheCapTakesThePunctuationWithIt:
 
         body = "## A\n\nAli, (ع), spoke. Ali, (ع), spoke again.\n"
         assert honorific_overuse(body) == [("A", "Ali", 2)]
+
+
+class TestTheRomanizationRepairChoosesBetweenTwoCures:
+    """Substitute the Arabic, or delete a duplicate romanization (Asif, 2026-08-09).
+
+    The resolver's only move used to be substitution. Run against a saying whose Arabic
+    the page ALREADY prints — the display line under the lead-in, or the same sentence —
+    that put the Arabic on the page twice, which is a worse defect than the romanization
+    it repaired. The choice between the two cures is made here.
+    """
+
+    ARABIC = "أَنْتَ مِنِّي وَأَنَا مِنْكَ"
+    RUN = "anta minni wa ana minka"
+
+    def test_a_display_line_under_the_lead_in_is_the_same_saying(self) -> None:
+        from _book_romanization import already_in_script
+
+        section = f'He said, "I am from you ({self.RUN})":\n\n> {self.ARABIC}\n'
+        assert already_in_script(section, self.RUN, self.ARABIC) is True
+
+    def test_persian_letters_do_not_make_it_a_different_saying(self) -> None:
+        """Spiritual Ethos prints this saying in Persian letters in one chapter.
+
+        `normalize_arabic` keeps only U+0621–U+064A, so it DROPS the farsi yeh and the
+        keheh rather than folding them — the two spellings then differ in length as well
+        as in content. Without the fold the first repair run read them as two different
+        sayings and printed the Arabic twice on one line, in a shipped book.
+        """
+        from _book_romanization import already_in_script
+
+        persian = "أنْتَ مِنِّی وَ أِنَا مِنْکَ"
+        section = f"He said, 'I am from you ({self.RUN}), {persian}.'\n"
+        assert already_in_script(section, self.RUN, self.ARABIC) is True
+
+    def test_a_different_saying_nearby_is_not_a_duplicate(self) -> None:
+        """The nine findings that must NOT be deleted.
+
+        Every one has Arabic within a line or two, and every one of those belongs to
+        another saying. Deleting on mere adjacency would erase the only record of the
+        wording the romanization carries.
+        """
+        from _book_romanization import already_in_script
+
+        section = f"'Ali is from me ({self.RUN}).'\n\n> النَّظَرُ إِلَى عَلِيٍّ عِبَادَةٌ\n"
+        assert already_in_script(section, self.RUN, self.ARABIC) is False
+
+    def test_arabic_elsewhere_in_the_chapter_does_not_vouch_for_it(self) -> None:
+        from _book_romanization import already_in_script
+
+        far = "\n\n".join(["filler paragraph"] * 4)
+        section = f"He said ({self.RUN}).\n\n{far}\n\n> {self.ARABIC}\n"
+        assert already_in_script(section, self.RUN, self.ARABIC) is False
+
+    def test_dropping_takes_the_space_that_introduced_the_bracket(self) -> None:
+        from _book_romanization import drop_romanization
+
+        section = f'"You are from me, and I am from you ({self.RUN})":'
+        got, dropped = drop_romanization(section, self.RUN)
+        assert dropped is True
+        assert got == '"You are from me, and I am from you":'
+
+    def test_dropping_reports_when_it_found_nothing(self) -> None:
+        from _book_romanization import drop_romanization
+
+        got, dropped = drop_romanization("nothing to remove here", self.RUN)
+        assert dropped is False and got == "nothing to remove here"

@@ -176,6 +176,14 @@ def check(book_dir: Path, selection: list[dict]) -> dict:
     report["totals"] = {name: n for name, n in totals.items() if n}
     report["repairable"] = sorted(set(report["totals"]) & set(FIXES))
     report["needs_judgment"] = sorted(set(report["totals"]) - set(FIXES))
+    # The sixth check, and the only one that is not chapter-scoped: a record is
+    # stale for the whole book or not at all, so it is reported beside the
+    # chapters rather than inside one. Reported on every run, not only when
+    # `--refresh-provenance` is passed — a check nobody sees until they ask for
+    # the repair is a check that does not find anything.
+    from _book_arabic_audit import provenance_drift
+
+    report["stale_provenance"] = [list(hit) for hit in provenance_drift(book_dir)]
     return report
 
 
@@ -234,6 +242,36 @@ def fix(book_dir: Path, selection: list[dict], *, kinds: list[str], log=print) -
     return {"applied": applied, "chapters_changed": len(applied)}
 
 
+def refresh_provenance(book_dir: Path, *, log=print) -> dict:
+    """Re-file which Arabic runs are scripture, against the book as it now stands.
+
+    Its own function rather than an entry in `FIXES`, for the same reason
+    `resolve_romanizations` below is: it repairs a RECORD, not a string. Nothing in
+    `book.md` is touched — `_system/book-arabic-audit.json` is rewritten from the
+    current text.
+
+    That record decides the Arabic face, the Arabic ink, the panel a quotation is
+    drawn in and the face of its English rendering, and it is written by a compose
+    while the book goes on being edited afterwards. On 2026-08-09 all seven books
+    had drifted from it. Deterministic and free: no model, no network, and the
+    compose's own `stages` record is carried forward rather than dropped.
+    """
+    from _book_arabic_audit import provenance_drift, run_arabic_audit
+
+    before = provenance_drift(book_dir)
+    if not before:
+        log("    provenance: the record already matches the page")
+        return {"refiled": 0, "runs": []}
+    run_arabic_audit(book_dir, log=lambda *_: None)
+    after = provenance_drift(book_dir)
+    log(f"    provenance: {len(before)} run(s) re-filed as scripture")
+    for _, run in before[:8]:
+        log(f"      {run[:56]}")
+    if after:  # the refresh is the whole repair; anything left is a real finding
+        log(f"    provenance: {len(after)} still disagree after the refresh")
+    return {"refiled": len(before) - len(after), "runs": [list(r) for r in before]}
+
+
 def resolve_romanizations(
     book_dir: Path,
     selection: list[dict],
@@ -254,7 +292,7 @@ def resolve_romanizations(
     translation that was always beside it.
     """
     from _book_defects import romanized_arabic
-    from _book_romanization import write_record
+    from _book_romanization import already_in_script, drop_romanization, write_record
 
     book_md = book_dir / "book" / "book.md"
     md = book_md.read_text(encoding="utf-8")
@@ -275,18 +313,31 @@ def resolve_romanizations(
             continue
         # Replace only the FIRST occurrence, inside this chapter, so an identical saying
         # quoted in two chapters is resolved once per chapter rather than all at once.
-        section = md[start:end].replace(run, resolution.arabic, 1)
+        section = md[start:end]
+        if already_in_script(section, run, resolution.arabic):
+            # The page ALREADY prints this saying in Arabic, right beside the bracket —
+            # as the display line under the lead-in, or in the same sentence. Substituting
+            # would print it twice. What is wrong here is the duplicate, so the duplicate
+            # goes and the script that was always there stays.
+            section, dropped = drop_romanization(section, run)
+            if not dropped:
+                log(f"      UNRESOLVED: {run[:60]}")
+                continue
+            outcome = "dropped-duplicate"
+        else:
+            section = section.replace(run, resolution.arabic, 1)
+            outcome = resolution.provenance
         md = md[:start] + section + md[end:]
         applied.append(
             {
                 "heading": heading,
                 "romanization": run,
                 "arabic": resolution.arabic,
-                "provenance": resolution.provenance,
+                "provenance": outcome,
                 "sources": resolution.sources,
             }
         )
-        log(f"      {resolution.provenance:14} {run[:52]}")
+        log(f"      {outcome:18} {run[:52]}")
 
     if applied:
         tmp = book_md.with_suffix(".md.tmp")
@@ -330,8 +381,24 @@ def _record_chapter_edits(book_dir: Path, md: str, headings: set[str]) -> None:
         )
 
 
+def _print_provenance(report: dict) -> None:
+    """Book-scoped, so it prints once — above the per-chapter findings."""
+    stale = report.get("stale_provenance") or []
+    if not stale:
+        return
+    print(
+        f"\n  stale-provenance: {len(stale)} Arabic run(s) that this book's own record does not\n"
+        "  describe — either it does not call them scripture, or it cannot name the ayah. That\n"
+        "  record decides their face, their ink, the card they print in and the header of that\n"
+        "  card. Repair with --refresh-provenance (free, no model)."
+    )
+    for _, run in stale[:5]:
+        print(f"      {run[:72]}")
+
+
 def _print_report(report: dict, proposals: list[tuple[str, str]]) -> None:
     print(f"\n{report['book']} — {len(report['chapters'])} chapter(s) checked")
+    _print_provenance(report)
     any_found = False
     for chapter in report["chapters"]:
         if not chapter["defects"]:
@@ -344,7 +411,8 @@ def _print_report(report: dict, proposals: list[tuple[str, str]]) -> None:
             for hit in hits[:3]:
                 print(f"          {str(hit[0])[:88]}")
     if not any_found:
-        print("\n  clean — none of the five defects in these chapters")
+        if not report.get("stale_provenance"):
+            print("\n  clean — none of the six defects in these chapters")
         return
     if report["repairable"]:
         print(f"\n  --fix would repair: {', '.join(report['repairable'])}")
@@ -367,6 +435,11 @@ def main() -> int:
         "--resolve-romanization",
         action="store_true",
         help="put romanized Arabic sayings back into script (library -> grounded search -> render)",
+    )
+    parser.add_argument(
+        "--refresh-provenance",
+        action="store_true",
+        help="re-file which Arabic runs are scripture against the current text (free, no model)",
     )
     parser.add_argument(
         "--no-research",
@@ -416,6 +489,12 @@ def main() -> int:
         for p in proposed_romanization_deletions(book_md.read_text(encoding="utf-8"))
         if p[0] in {c["heading"] for c in selection}
     ]
+
+    if args.refresh_provenance:
+        # No Composer guard: this writes `_system/`, never `book/book.md`, so the
+        # autosave the other two repairs have to fear cannot collide with it.
+        print(f"\n{book_dir.name} — re-filing Arabic provenance")
+        report["provenance"] = refresh_provenance(book_dir, log=print)
 
     if args.resolve_romanization:
         pid = composer_is_open()

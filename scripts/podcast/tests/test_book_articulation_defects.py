@@ -264,6 +264,59 @@ class TestTheDetectorsWork:
     def test_arabic_script_is_never_reported_as_romanized(self) -> None:
         assert is_romanized_arabic("أنا مدينة العلم وعليٌّ بابها") is False
 
+    # ---- The saying's own script beside the bracket (Asif, 2026-08-09) --------------
+    #
+    # Eleven passages in Spiritual Ethos sat one word-list hit under the bar for months,
+    # including the one he photographed — `(anta minni wa ana minka)`, whose Arabic is
+    # the display line immediately beneath it, and which the whole-book romanization pass
+    # rewrote the surrounding chapter without touching. Adjacent script is the strongest
+    # evidence available that a bracket holds a saying, so it stands in for the second
+    # hit. Lowering the bar to one hit instead returns 58 findings across the seven
+    # books, 47 of them blessings, citations and glossed terms.
+
+    def test_one_marker_is_enough_when_the_arabic_stands_beside_it(self) -> None:
+        assert is_romanized_arabic("anta minni wa ana minka") is False
+        assert is_romanized_arabic("anta minni wa ana minka", arabic_beside=True) is True
+
+    def test_one_marker_alone_is_still_not_enough(self) -> None:
+        # Without the script beside it the word list is all there is, and one hit is
+        # exactly what the English in this corpus produces by accident.
+        md = "## One\n\nHe said it plainly (anta minni wa ana minka).\n"
+        assert romanized_arabic(md) == []
+
+    def test_the_photographed_sentence_is_detected(self) -> None:
+        md = (
+            '## One\n\nThe Prophet said to Ali, "You are from me, and I am from you '
+            '(anta minni wa ana minka)":\n\n> أنْتَ مِنِّی وَ أَنَا مِنْکَ\n'
+        )
+        hits = romanized_arabic(md)
+        assert [h[1] for h in hits] == ["anta minni wa ana minka"], hits
+
+    def test_an_english_possessive_is_not_arabic_evidence(self) -> None:
+        # `'s` counted as a transliterated hamza, so every `(may Allah's blessings be
+        # upon him)` in Mukhtasar ul-Asar — forty of them, each beside real Arabic —
+        # scored as a romanized sentence the moment adjacency counted.
+        md = "## One\n\n> رَبَّنَا\n\nThe Prophet (may Allah's blessings be upon him) said.\n"
+        assert romanized_arabic(md) == []
+
+    def test_an_opening_quote_before_an_english_word_is_not_a_hamza(self) -> None:
+        # The apostrophe rule is for `ta'wil`, always lower-case after. Compiled
+        # case-insensitively it also matched `('Glory to me')`.
+        md = "## One\n\n> سُبْحَانِي\n\nHe cried out ('Glory to me') in that state.\n"
+        assert romanized_arabic(md) == []
+        assert is_romanized_arabic("ta'wil of the verse", arabic_beside=True) is False
+
+    def test_a_verse_citation_is_never_a_saying(self) -> None:
+        # Every book cites in this shape, and the surah name is transliterated Arabic.
+        md = "## One\n\n> رَبَّنَا\n\nThe verse is plain (Surah al-Talaq, 65:1) on the point.\n"
+        assert romanized_arabic(md) == []
+
+    def test_a_wholly_italic_bracket_is_a_term_gloss(self) -> None:
+        # The books' own mark for a technical term. Which terms carry an annotation is
+        # the annotation policy's decision, not this check's.
+        md = "## One\n\n> رَبَّنَا\n\nThe forbidden sale (*ribh ma lam yudman*) is named.\n"
+        assert romanized_arabic(md) == []
+
     def test_honorific_overuse_is_detected_and_capped_per_chapter(self) -> None:
         md = "## One\n\nAli (ع) said. Later Ali (ع) said again.\n\n## Two\n\nAli (ع) said once.\n"
         hits = honorific_overuse(md)

@@ -49,30 +49,60 @@ numbers every chapter heading and leaves exactly one section (the introduction)
 unnumbered. A book that ever numbers inconsistently gets the chapter list printed and no
 write. Never hand-resolve a number yourself; call `--list`.
 
-## What it checks — five defects, one module
+## What it checks — six defects
 
-Every check comes from `_book_defects`, which the compose apparatus's `defect-scan` step
-and the recorded-defect tests also read. There is no second copy of the rule.
+Five come from `_book_defects`, which the compose apparatus's `defect-scan` step and the
+recorded-defect tests also read. There is no second copy of the rule.
 
 | Defect | Repair |
 |---|---|
 | `duplicated-arabic` — a blockquote repeats the Arabic its lead-in already gave | automatic |
 | `prophet-wrong-honorific` — the Prophet carries `(ع)`, the honorific of the Imams | automatic |
 | `honorific-overuse` — a figure's compact honorific after every occurrence | automatic |
-| `romanized-arabic` — a whole Arabic saying in the English character set | **proposed only** |
+| `stale-provenance` — the record of which Arabic is scripture no longer matches the page | `--refresh-provenance` |
+| `romanized-arabic` — a whole Arabic saying in the English character set | `--resolve-romanization`, and it chooses between two cures |
 | `english-rtl` — an English translation set in the Arabic face | **none — fixed at the renderer** |
 
-### Why two of them are never repaired automatically
+### The sixth is a RECORD, not a string
 
-- **`romanized-arabic`.** The honest fix is the Arabic, and the script has to come from
-  somewhere. For two of the fourteen live instances it exists nowhere on disk — not in the
-  book, not in the source scan, not in the hadith corpus — so supplying it would mean a
-  model recalling scripture onto the page of a religious edition. Deleting the
-  romanization satisfies the rule locked 2026-08-02 and costs the reader nothing, because
-  the English translation always sits beside it — but that is Asif's call, so the engine
-  proposes and stops.
-- **`english-rtl`.** It was a renderer defect and it is fixed there. A content repair
-  would be a workaround for a bug that is gone.
+`stale-provenance` lives in `_book_arabic_audit.provenance_drift`, not in `_book_defects`,
+because that module holds read-only detectors over chapter TEXT and this one asks whether
+a FILE still describes that text. Its repair writes `_system/`, never `book/book.md`, so
+it needs no Composer guard and records no Composer edit.
+
+Why it matters more than it reads: `_system/book-arabic-audit.json` decides the Arabic
+face, the Arabic ink, the panel a quotation is drawn in and the face of its English
+rendering. It is written by a COMPOSE and read at RENDER time, and everything this skill
+does in between edits the book underneath it. On 2026-08-09 all seven books had drifted,
+and fifteen Qur'anic passages across three of them were filed as somebody's words —
+harmless while provenance chose only a typeface, a doctrinal misstatement the moment it
+chose a colour. Deterministic and free: no model, no network.
+
+### A romanized saying has TWO cures, and the engine picks between them
+
+`--resolve-romanization` asks, before it writes anything, whether the page ALREADY prints
+this saying's Arabic beside the bracket — the display line under the lead-in, or the same
+sentence. If it does, the romanization is a duplicate and it goes. If it does not, the
+ladder in `_book_romanization` finds the script and puts it in.
+
+The check is `compose_fix._already_in_script`, and it compares consonantal skeletons over
+the paragraph and its two neighbours. It has to fold Perso-Arabic letters first: the
+shared `normalize_arabic` keeps only U+0621–U+064A, so it DROPS a farsi yeh rather than
+folding it, and Spiritual Ethos prints the same saying of the Prophet once in Arabic
+letters and once in Persian ones. Without the fold the first repair run read them as two
+different sayings and printed the Arabic twice on one line.
+
+Deleting is safe ONLY under that condition. Nine of the eleven findings in Spiritual Ethos
+had Arabic within a line or two that belonged to a DIFFERENT saying; deleting on mere
+adjacency would have erased the only record of the wording the romanization carries.
+
+Bare `--fix` still never touches this defect — the two cures both need the ladder or the
+adjacency test, and neither is a string transform.
+
+### Why `english-rtl` is never repaired
+
+It was a renderer defect and it is fixed there. A content repair would be a workaround for
+a bug that is gone.
 
 ## Non-negotiables
 
