@@ -15,14 +15,14 @@ In relation to the Prophet, Ali (عَلَيْهِ السَّلَامُ) was both
 To speak of Ali ibn Abi Talib — cousin and son-in-law of the Prophet Muhammad, fourth caliph of Islam, and first in the line of Shii Imams — is to speak of the very heart of Islamic spiritual life. In this central figure of Islam's earliest days, both of its two great sources come together: the revelation of the Quran and the inspired Sunna of the Prophet. Sunna here does not mean simply copying the Prophet's outward actions — a narrow view that is all too common today — but rather the inner spiritual substance of prophetic perfection, the perfection to which the Quran itself points:
 
 > وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍۢ
-
-"Verily, thou art of a tremendous nature" (Al-Qalam: 4).
+>
+> "Verily, thou art of a tremendous nature" (Al-Qalam: 4).
 
 The Prophet's words and deeds give voice to that spiritual substance, yet they do not exhaust it. To take this substance inwardly into oneself, rather than merely copy its outward forms, is the aim of every Muslim drawn to the spiritual life. Between the believer's soul and the prophetic nature there is a deep kinship, a mysterious closeness that reaches across time and space, as the following verse expresses:
 
 > ٱلنَّبِىُّ أَوْلَىٰ بِٱلْمُؤْمِنِينَ مِنْ أَنفُسِهِمْ ۖ وَأَزْوَجُهُۥٓ أُمَّهَتُهُمْ ۗ وَأُو۟لُوا۟ ٱلْأَرْحَامِ بَعْضُهُمْ أَوْلَىٰ بِبَعْضٍۢ فِى كِتَبِ ٱللَّهِ مِنَ ٱلْمُؤْمِنِينَ وَٱلْمُهَجِرِينَ إِلَّآ أَن تَفْعَلُوٓا۟ إِلَىٰٓ أَوْلِيَآئِكُم مَّعْرُوفًۭا ۚ كَانَ ذَلِكَ فِى ٱلْكِتَبِ مَسْطُورًۭا
-
-"The Prophet is closer to the believers than they are to themselves, and his wives are their mothers; and by the ordinance of God, blood relatives are more entitled to one another than other believers and emigrants, unless you would show kindness to your close associates. This is decreed in the Record" (Al-Ahzab: 6).
+>
+> "The Prophet is closer to the believers than they are to themselves, and his wives are their mothers; and by the ordinance of God, blood relatives are more entitled to one another than other believers and emigrants, unless you would show kindness to your close associates. This is decreed in the Record" (Al-Ahzab: 6).
 
 The Prophet thus shows outwardly the very perfection that the spiritually sensitive believer senses, in some measure, at the core of his or her own soul.
 
@@ -369,8 +369,8 @@ In this perspective, sinful and immoral qualities are seen not only as vices but
 "In their hearts is a disease and God increased them in disease" (Al-Baqarah: 10), and
 
 > أَفَلَمْ يَسِيرُوا۟ فِى ٱلْأَرْضِ فَتَكُونَ لَهُمْ قُلُوبٌۭ يَعْقِلُونَ بِهَآ أَوْ آذَانٌۭ يَسْمَعُونَ بِهَا ۖ فَإِنَّهَا لَا تَعْمَى ٱلْأَبْصَرُ وَلَكِن تَعْمَى ٱلْقُلُوبُ ٱلَّتِى فِى ٱلصُّدُورِ
-
-"It is not the sights that are blind, but blind are the hearts" (Al-Hajj: 46).
+>
+> "It is not the sights that are blind, but blind are the hearts" (Al-Hajj: 46).
 
 All the vices are contained within egotism, which in turn is often called simply caprice (هَوَى). In one saying the Imam treats the conquest of caprice as the same as salvation: "He attains deliverance whose intellect dominates his caprice." Deliverance, فَلَاحٌ, which carries the sense both of salvation and of blessedness, is thus within reach to some degree here and now; it is not a grace granted only after death. Such deliverance means tasting the joy that flows from certainty, from intimate contact with the spirit of that certainty. As for how to cultivate an openness to this spirit of certainty: beyond obedience to the rules and regulations of the revealed Law, what is required is that union of pure intention and sincere devotion that the word إِخْلَاص expresses. Without this sincerity, this purity, obedience to formal rules is nothing but hypocrisy (نِفَاقٌ) and pretension (رِيَاء) — which the Imam in turn calls the gravest of all sins, شِرْك, the setting-up of partners to God: "Know that the slightest pretension (رِيَاء) is polytheism." This saying can be read as a commentary on one of the Quran's weightiest condemnations of hypocrisy. The verses speak of those who deny the essence of faith while outwardly keeping to it:
 
@@ -379,8 +379,8 @@ All the vices are contained within egotism, which in turn is often called simply
 This short sura makes plain that formal acts of devotion have no value at all unless they are woven into a life of virtue and performed with the right intention — that is, with إِخْلَاص. It also helps explain why the Imam's ethos is called here not merely religious but spiritual: it carries the ideals of religion to their deepest application. To be spiritual in this sense is precisely to be true to one's intellect, true to the treasures buried deep within it, and not merely to the reasoning that works on its surface. Without this depth, religion is empty. "There is no religion for one who has no intellect," says the Imam. And likewise: "Action without knowledge is error." What counts is the intention behind the action, for "action, all action, is dust, except what is purified within it." This turning away from the action in itself, toward an inner state of being from which good actions must flow, clearly reflects the Quranic teaching:
 
 > لَن يَنَالَ ٱللَّهَ لُحُومُهَا وَلَا دِمَآؤُهَا وَلَكِن يَنَالُهُ ٱلتَّقْوَىٰ مِنكُمْ ۚ كَذَلِكَ سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا۟ ٱللَّهَ عَلَىٰ مَا هَدَىٰكُمْ ۗ وَبَشِّرِ ٱلْمُحْسِنِينَ
-
-"It is not their sacrificed flesh nor their blood that reacheth God, but it is piety from you that reacheth Him" (Al-Hajj: 37).
+>
+> "It is not their sacrificed flesh nor their blood that reacheth God, but it is piety from you that reacheth Him" (Al-Hajj: 37).
 
 "There is no religion for one who has no intellect." Perhaps no group shows the truth of this saying better than the Kharijites. Among those who rebelled against the Imam were many readers (قُرَّاء, sing. *qari*) of the Quran — men who enjoyed considerable religious prestige for their Quranic knowledge and their intense worship. Their piety, though, was more apparent than real; it was in fact a zeal born of bitterness, a caricature of true piety. When his supporters spoke of the long night vigils kept by members of this group, the Imam answered sharply: "Sleeping with certainty is better than praying with doubt." Certainty brings peace and joy. So for one immersed in what the Imam calls the spirit of certainty, sleep is a rest of the body that only deepens the happiness flowing from a good conscience and from spiritual certitude — a certitude that is itself a kind of unbroken wakefulness, an awakeness to higher realities. Sleep of the body, then, does not contradict wakefulness of the spirit. As the hadith of the Prophet has it: "My eyes sleep, but my heart sleeps not."
 
@@ -1052,8 +1052,8 @@ His "becoming" one with the acts of perception must be understood as a reality "
 "God hath created you and what ye do" (As-Saffat: 96), and:
 
 > وَمَا رَمَيْتَ إِذْ رَمَيْتَ وَلَكِنَّ ٱللَّهَ رَمَىٰ
-
-"thou didst not throw when thou threwest [the stones], but God threw" (Al-Anfal: 17).
+>
+> "thou didst not throw when thou threwest [the stones], but God threw" (Al-Anfal: 17).
 
 The kind of "vision" the dhikr makes possible is illuminated by the very title of one of Ibn al-Arabi's treatises, Kitab al-fana fil-mushahada (The Book of Extinction in Contemplation). The title seems to point directly at the Imam's paradox of forgetting at the very heart of remembrance, for to be extinguished in contemplation is akin to being forgotten in invocation. At the opening of this treatise, Ibn al-Arabi writes that the divine Reality is too exalted to be witnessed by the creaturely eye. The vision of God is impossible so long as any "trace of the condition of the creature in the eye of the witness" remains. Only toward the end of the treatise is this seemingly insuperable barrier removed. Ibn al-Arabi resolves the problem by means of the Prophet's definition of احسان: "It is to worship God as though you see Him, and if you see Him not, yet truly He sees you." The Arabic wording allows a pause to be placed in the middle of the phrase "if you see Him not (in lam takun: tarahu)," and that pause transforms the meaning entirely into: "if you are not, you see Him."
 
@@ -1074,8 +1074,8 @@ This divine "glance" (لَحْظَة) returns the discussion to Ibn al-Arabi's e
 Realization through remembrance, then, strictly implies the extinction of individual consciousness, the perishing of egoistic self-awareness before the Absolute. This principle is far from merely speculative. Quite apart from the wealth of Sufi literature on the states of consciousness (ahwal, sing. hal) through which the mystic passes, there is the evidence of the Imam's own immersion in such states. Abul-Darda, an eminent companion of the Prophet, reported that he once found Ali lying in one of the palm orchards of Medina, his body seemingly lifeless, as stiff as wood. He went to condole with Ali 's family, but was told by his wife Fatima, "My cousin has not died. Rather, in fear of God he has fainted. This condition overcomes him often." The "fear" in question is to be understood as "awe." It relates to the heavenly aspect of khawf — heavenly because Paradise is said to be the fruit of realizing this kind of fear to perfection, as the Quran indicates: "But whoso feareth (خَافَ) the station of his Lord and restraineth his soul from caprice, verily, the Garden will be his abode" (An-Naziat: 40-41). "Fear of God," in the spiritual rather than the moralistic sense, does not so much terrify as beatify. It produces not merely quaking awe before the transcendent Absolute, but also an intimate absorption within the immanent divine presence. As is often quoted in Sufism: when one fears creatures one flees from them, but when one fears God one flees to Him:
 
 > لَّا مَلْجَأَ مِنَ ٱللَّهِ إِلَّآ إِلَيْهِ
-
-"There is no refuge from God except [fleeing] to Him" (At-Tawbah: 118).
+>
+> "There is no refuge from God except [fleeing] to Him" (At-Tawbah: 118).
 
 This report also shows that the following saying of the Imam is not mere extravagant rhetoric. It appears, rather, to allude to an authentic state of spiritual intoxication — a total re-absorption of consciousness within its divine source, and a description of the conditions leading up to the state that "overcomes him often," as Fatima put it:
 
@@ -1112,14 +1112,14 @@ Earlier the Imam had spoken of the Names of God "which have filled the foundatio
 One clear answer is given in the following verse:
 
 > قُلِ ٱدْعُوا۟ ٱللَّهَ أَوِ ٱدْعُوا۟ ٱلرَّحْمَنَ ۖ أَيًّۭا مَّا تَدْعُوا۟ فَلَهُ ٱلْأَسْمَآءُ ٱلْحُسْنَىٰ ۚ وَلَا تَجْهَرْ بِصَلَاتِكَ وَلَا تُخَافِتْ بِهَا وَٱبْتَغِ بَيْنَ ذَلِكَ سَبِيلًۭا
-
-"Call upon Allah or call upon al-Rahman. By whatever Name you call upon Him, His are the most beautiful Names" (Al-Isra: 110).
+>
+> "Call upon Allah or call upon al-Rahman. By whatever Name you call upon Him, His are the most beautiful Names" (Al-Isra: 110).
 
 The Quran itself commands believers to invoke these specific, revealed Names, and not others. These Names are therefore utterly unlike the names of the idolaters' gods:
 
 > إِنْ هِىَ إِلَّآ أَسْمَآءٌۭ سَمَّيْتُمُوهَآ أَنتُمْ وَآبَآؤُكُم مَّآ أَنزَلَ ٱللَّهُ بِهَا مِن سُلْطَنٍ ۚ إِن يَتَّبِعُونَ إِلَّا ٱلظَّنَّ وَمَا تَهْوَى ٱلْأَنفُسُ ۖ وَلَقَدْ جَآءَهُم مِّن رَّبِّهِمُ ٱلْهُدَىٰٓ
-
-"They are but names that ye have named, ye and your fathers, for which God hath revealed no authority" (An-Najm: 23).
+>
+> "They are but names that ye have named, ye and your fathers, for which God hath revealed no authority" (An-Najm: 23).
 
 The names of idols are like the ordinary names given to things: arbitrary labels or signs with no real bond to the things themselves, and still less to the principles beneath those things. The Names of God, revealed by God, belong to another order. They are steeped in the very substance of the reality they name. For this reason they carry "authority" (سُلْطَان), and by virtue of that authority they have the power to transform and not merely to inform. They are, in other words, charged with a theurgic power, the capacity to render present to mind and heart the indwelling reality of God.
 
@@ -1240,12 +1240,12 @@ At this level of realization a measure of perplexity inevitably attends the reve
 Realization through remembrance, however, means not only "forgetting" everything in existence except God, but also discovering that in reality there is nothing in being but God. In the Imam's image of the "polish" worked by remembrance, the heart — once blind and deaf — is made able to "see" and to "hear." It sees the Face of God wherever it turns, and it hears the cosmic hymn of remembrance and praise that the whole of creation sings, for every creature proclaims the boundless creativity of its Creator. As the Quran says:
 
 > وَلِلَّهِ ٱلْمَشْرِقُ وَٱلْمَغْرِبُ ۚ فَأَيْنَمَا تُوَلُّوا۟ فَثَمَّ وَجْهُ ٱللَّهِ ۚ إِنَّ ٱللَّهَ وَسِعٌ عَلِيمٌۭ
-
-"Wherever ye turn, there is the Face of God" (Al-Baqarah: 115).
+>
+> "Wherever ye turn, there is the Face of God" (Al-Baqarah: 115).
 
 > أَلَمْ تَرَ أَنَّ ٱللَّهَ يُسَبِّحُ لَهُۥ مَن فِى ٱلسَّمَوَتِ وَٱلْأَرْضِ وَٱلطَّيْرُ صَٓفَّتٍۢ ۖ كُلٌّۭ قَدْ عَلِمَ صَلَاتَهُۥ وَتَسْبِيحَهُۥ ۗ وَٱللَّهُ عَلِيمٌۢ بِمَا يَفْعَلُونَ
-
-"Do you not see that God is the one who is glorified by everything in the heavens and the earth, and the birds with wings outstretched; each one indeed knows its prayer and its glorification, and God is All-Aware of what they do" (An-Nur: 41).
+>
+> "Do you not see that God is the one who is glorified by everything in the heavens and the earth, and the birds with wings outstretched; each one indeed knows its prayer and its glorification, and God is All-Aware of what they do" (An-Nur: 41).
 
 A final reflection turns to a passage from the Imam's famous and much-disputed Khutbat al-bayan, "The Sermon of Clarifying Expression":
 
@@ -1260,8 +1260,8 @@ Yet this leads to another paradox: the deepest effacement of individuality goes 
 Such souls have not merely understood this principle; they have been seized by it, in their very existence, at the root of their being. It is the principle voiced in the Quranic verse:
 
 > وَمَا هَذِهِ ٱلْحَيَوٰةُ ٱلدُّنْيَآ إِلَّا لَهْوٌۭ وَلَعِبٌۭ ۚ وَإِنَّ ٱلدَّارَ ٱلْآخِرَةَ لَهِىَ ٱلْحَيَوَانُ ۚ لَوْ كَانُوا۟ يَعْلَمُونَ
-
-"And the life of this world is naught but sport and play; and truly, the abode of the Hereafter, that is true life" (Al-Ankabut: 64).
+>
+> "And the life of this world is naught but sport and play; and truly, the abode of the Hereafter, that is true life" (Al-Ankabut: 64).
 
 Their instincts are therefore always attuned to that higher reality. When Ali was struck by the poisoned sword of Ibn Muljam, the cry that broke from him was not one of pain but of triumph: "I have triumphed, by the Lord of the Kaba!" At the very moment of death there was in him nothing but the remembrance of God, and the Imam passed away, it is said, with his tongue still repeating the words la ilaha illaLlah. His death was thus completed exactly as his life had been lived, in accord with the wisdom of the Prophet, who, when asked which of all acts is the most meritorious, replied: "That you die while your tongue is moistened with the invocation of God."
 
