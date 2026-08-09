@@ -766,7 +766,13 @@ blockquote.quran p.tr {
    a gold hairline and Elegant says it with a frame, Plain says it with typography
    alone. Values come from quote-typography.css; the mirrors are compose-print.css,
    book-composer.css, book-reader.css and book-styles.css. */
-body.style-plain blockquote.quran {
+/* NOT A CARD (2026-08-09). `.quran` means "contains Arabic", never "is a card",
+   so this sets the box of a quotation with NO card class and stands down for one
+   that has. In the PDF the card's tint survived the tie (nothing here writes a
+   background) but its 1.6rem side inset did not, so a printed card sat flush to
+   its own plate edge. The kinds are listed because the list is a contract
+   (quote-typography.css, checked by `_quote_cards` QC-010). */
+body.style-plain blockquote.quran:not(.k-quran, .k-hadith, .k-poem, .k-quote) {
   border-left: 0;
   padding-left: 0;
   padding-right: 0;

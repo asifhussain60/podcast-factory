@@ -168,7 +168,13 @@
 /* Arabic-bearing verses read as part of the page, not a boxed placard: no card
    fill, minimal padding, a thin neutral rule, and Arabic at body scale in body
    ink (matches book-print.css blockquote.quran). */
-.bookv-body blockquote.quran {
+/* NOT A CARD (2026-08-09). `.quran` means "contains Arabic", never "is a card",
+   so this sets the box of a quotation with NO card class and stands down for one
+   that has — otherwise `background: none` beats the card's tint on a tie this
+   file wins by loading later, and the reader shows the pre-card treatment. The
+   kinds are listed because the list is a contract (quote-typography.css, checked
+   by `_quote_cards` QC-010). */
+.bookv-body blockquote.quran:not(.k-quran, .k-hadith, .k-poem, .k-quote) {
   background: none;
   border-radius: 0;
   border-left: 2px solid var(--c-rule, #d9d3c4);
@@ -230,7 +236,9 @@
    chosen. Only `plain` is redefined here — Scholarly IS the base look above, and
    Elegant's framed treatment is a print/compose concern the reader does not
    need. Values come from quote-typography.css. */
-.bookv-body.style-plain blockquote.quran {
+/* NOT A CARD — see the note above. */
+.bookv-body.style-plain
+  blockquote.quran:not(.k-quran, .k-hadith, .k-poem, .k-quote) {
   border-left: 0;
   padding-left: 0;
   padding-right: 0;

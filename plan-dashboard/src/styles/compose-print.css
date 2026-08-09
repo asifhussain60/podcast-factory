@@ -76,8 +76,15 @@
   font-size: 1.25rem;
 }
 
-/* ── Quranic / Arabic quotation ── mirrors book-print.css:348-375. */
-.cx-print blockquote.quran {
+/* ── Quranic / Arabic quotation ── mirrors book-print.css:348-375.
+   NOT A CARD (2026-08-09). `.quran` means "contains Arabic", never "is a card",
+   so this sets the box of a quotation with NO card class and stands down for one
+   that has. This was the worst instance of the tie: `background: none` here beat
+   the card's tint outright, so Read mode — the surface the book is verified in —
+   showed the pre-card treatment while the editor beside it showed a card. The
+   kinds are listed because the list is a contract (quote-typography.css,
+   checked by `_quote_cards` QC-010). */
+.cx-print blockquote.quran:not(.k-quran, .k-hadith, .k-poem, .k-quote) {
   margin: 0.85rem 0;
   padding: 0.25rem 0 0.25rem 1.1rem;
   background: none;
@@ -130,7 +137,9 @@
    book's chosen translation face. Mirrors book-print.css body.style-plain
    rule-for-rule; the values are the shared tokens from quote-typography.css, so
    this pair cannot drift the way the literal gold ramp above could. */
-.cx-print.style-plain blockquote.quran {
+/* NOT A CARD — see the note above. */
+.cx-print.style-plain
+  blockquote.quran:not(.k-quran, .k-hadith, .k-poem, .k-quote) {
   border-left: 0;
   padding-left: 0;
   padding-right: 0;

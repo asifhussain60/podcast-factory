@@ -27,6 +27,17 @@ WHAT IS REPAIRED HERE, AND WHAT IS NEVER
   english-rtl               NEVER. It was a renderer defect and it is fixed there. A
                             content repair would be a workaround for a bug that is gone.
 
+  translation-outside-card  REPAIRED. The rendering is folded into the blockquote above
+                            it, where every card on the approved specimen page carries
+                            it. Nothing is reworded and nothing is deleted — the same
+                            sentence moves one level in.
+
+  translation-fused-with-  NEVER. Same defect, but the rendering and the author's gloss
+  prose                     share a paragraph, so a repair would have to decide where the
+                            quotation ends. On a religious edition that is an editorial
+                            judgment about somebody's sentence, and 48 of the 100 live
+                            instances are this shape.
+
 Every function is idempotent: running it twice changes nothing the first run did not.
 """
 
@@ -292,12 +303,79 @@ def proposed_romanization_deletions(md: str) -> list[tuple[str, str]]:
     return romanized_arabic(md)
 
 
+def fold_translation_into_card(md: str) -> tuple[str, int]:
+    """Move a stranded English rendering into the quotation card above it.
+
+    The card is a blockquote holding only Arabic; the rendering is the paragraph under it.
+    Markdown has no way to say "this paragraph belongs to that quotation" other than being
+    inside it, so the repair is exactly that: the paragraph is re-emitted as a second
+    paragraph of the same blockquote, separated by a bare `>`.
+
+    NOTHING IS REWORDED AND NOTHING IS DELETED. The same sentence, character for
+    character, moves one level in — which is what makes this safe to run across finished
+    books, and what makes it reversible by hand if a single instance reads wrong.
+
+    Idempotent by construction rather than by a guard: once the rendering is inside, the
+    blockquote no longer holds only Arabic, so `_cards_missing_their_rendering` stops
+    yielding it and a second run finds nothing.
+
+    Only the paragraphs `translation_outside_card` accepts are moved — see
+    `_ONLY_THE_RENDERING_RE` for why the other 48 are left where they are.
+    """
+    from _book_defects import _ONLY_THE_RENDERING_RE, is_arabic_quote_line, quote_paragraphs
+
+    lines = md.split("\n")
+    out: list[str] = []
+    index = 0
+    folded = 0
+
+    while index < len(lines):
+        if not lines[index].startswith(">"):
+            out.append(lines[index])
+            index += 1
+            continue
+
+        start = index
+        while index < len(lines) and lines[index].startswith(">"):
+            index += 1
+        quote = lines[start:index]
+
+        after = index
+        while after < len(lines) and not lines[after].strip():
+            after += 1
+        para_start = after
+        while after < len(lines) and lines[after].strip() and not lines[after].startswith((">", "#")):
+            after += 1
+        paragraph = lines[para_start:after]
+
+        quoted = quote_paragraphs(quote)
+        rendering = " ".join(line.strip() for line in paragraph).strip()
+        if (
+            quoted
+            and paragraph
+            and all(is_arabic_quote_line(p) for p in quoted)
+            and _ONLY_THE_RENDERING_RE.match(rendering)
+        ):
+            out.extend(quote)
+            out.append(">")
+            out.extend("> " + line.strip() for line in paragraph)
+            folded += 1
+            index = after
+            continue
+
+        out.extend(quote)
+
+    return "\n".join(out), folded
+
+
 #: Repairs by the defect name `_book_defects.DETECTORS` uses, so a caller can ask for a
 #: fix by the same word the check reported. A defect absent from this map has no
 #: automatic repair, and that is a statement rather than an omission — see the module
-#: docstring for why `romanized-arabic` and `english-rtl` are not here.
+#: docstring for why `romanized-arabic`, `english-rtl` and `translation-fused-with-prose`
+#: are not here.
 FIXES = {
     "duplicated-arabic": drop_duplicated_inline_arabic,
     "prophet-wrong-honorific": use_prophet_ligature,
     "honorific-overuse": cap_honorifics,
+    "translation-outside-card": fold_translation_into_card,
 }

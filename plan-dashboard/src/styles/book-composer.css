@@ -1451,7 +1451,16 @@ body:has(.composer-grid) .to-top {
    `dir`/`lang` are NOT preserved as attributes (fewer things to carry through the
    schema); direction is CSS here, and the isolate stops the RTL run from
    disturbing the Latin around it. */
-.cx-prose blockquote.quran {
+/* NOT A CARD (2026-08-09). `.quran` means "contains Arabic", never "is a card" —
+   quote-typography.css says so of the class itself — so every rule below this
+   comment sets the box of a quotation that has NO card class, and stands down for
+   one that has. Without the guard the two tie on specificity (a class plus a
+   class plus an element, both ways) and this file loads later, so the pre-card
+   treatment quietly won: the card kept its tint here and lost its 1.6rem side
+   inset, and in Read mode lost the tint as well. The kinds are listed rather than
+   matched loosely because the list is a contract — it lives in
+   quote-typography.css and is checked by `_quote_cards` (QC-010). */
+.cx-prose blockquote.quran:not(.k-quran, .k-hadith, .k-poem, .k-quote) {
   border-left: 0;
   padding-left: 0;
   padding-right: 0;
@@ -2266,7 +2275,8 @@ body:has(.composer-grid) .to-top {
 
 /* Arabic verses in the preview mirror the printed page: no box, body-ink Arabic
    at body scale (matches book-print.css / book-reader.css blockquote.quran). */
-.cx-body blockquote.quran {
+/* NOT A CARD — see the note at `.cx-prose blockquote.quran` above. */
+.cx-body blockquote.quran:not(.k-quran, .k-hadith, .k-poem, .k-quote) {
   border-left: 2px solid var(--c-rule, #d9d3c4);
   padding: 0.25rem 0 0.25rem 1.1rem;
 }

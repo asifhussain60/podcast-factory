@@ -49,9 +49,9 @@ numbers every chapter heading and leaves exactly one section (the introduction)
 unnumbered. A book that ever numbers inconsistently gets the chapter list printed and no
 write. Never hand-resolve a number yourself; call `--list`.
 
-## What it checks — eight defects
+## What it checks — ten defects
 
-Five come from `_book_defects`, which the compose apparatus's `defect-scan` step and the
+Seven come from `_book_defects`, which the compose apparatus's `defect-scan` step and the
 recorded-defect tests also read. There is no second copy of the rule.
 
 | Defect | Repair |
@@ -62,6 +62,8 @@ recorded-defect tests also read. There is no second copy of the rule.
 | `stale-provenance` — the record of which Arabic is scripture no longer matches the page | `--refresh-provenance` |
 | `romanized-arabic` — a whole Arabic saying in the English character set | `--resolve-romanization`, and it chooses between two cures |
 | `english-rtl` — an English translation set in the Arabic face | **none — fixed at the renderer** |
+| `translation-outside-card` — the English rendering prints below the card, not inside it | automatic |
+| `translation-fused-with-prose` — the rendering and the author's gloss share a paragraph | none — reported |
 | `quote-card-rules` — part of the approved four-card design is no longer on disk | none — reported |
 | `orphaned-quote-kind` — a person's declaration of a quotation's kind matches nothing | none — reported |
 
@@ -135,6 +137,23 @@ rather than in a site gate: the repair and the damage are one command apart.
 Neither is repaired. A missing CSS rule is a design change and belongs to whoever is
 changing the design; re-keying a declaration means choosing which quotation a person
 meant, and on a religious edition an inferred attribution is a claim nobody made.
+
+### The English rendering belongs INSIDE the card, and only half of them can be moved
+
+Asif reported it from the Compose tab on 2026-08-09: the verse drew as a card and its
+translation printed underneath, outside the panel. It is a CONTENT defect — `book.md`
+carries the rendering as the next paragraph of body prose — and there are 100 of them
+across all seven books.
+
+**Only 52 are repairable, and the split is the important part.** A paragraph that is the
+rendering AND NOTHING ELSE folds into the blockquote above it: nothing is reworded,
+nothing is deleted, the same sentence moves one level in. The other 48 run the rendering
+straight into the author's own commentary in the same paragraph — *"…(Al-Hijr: 56). The
+Quran's assurances of mercy come fully alive in…"* — or put an interjection between two
+quoted spans. Folding one of those in would carry authorial prose inside a quotation
+panel on a religious edition, which is a worse defect than the one being repaired, and
+splitting the sentence is an editorial judgment about somebody's wording. They are
+reported as `translation-fused-with-prose` and left for a person.
 
 ### Why `english-rtl` is never repaired
 

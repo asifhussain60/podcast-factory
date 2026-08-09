@@ -488,6 +488,70 @@ def prophet_wrong_honorific(md: str) -> list[tuple[str, str]]:
     return hits
 
 
+#: A paragraph that is the quotation's English rendering AND NOTHING ELSE: it opens on a
+#: quotation mark, closes on one, may carry a citation after it, and holds exactly one
+#: quoted span. The last clause is what makes the repair safe. Asif, 2026-08-09, reported
+#: the translation printing outside its card; of the 100 places that happens, 48 continue
+#: straight into the author's own commentary in the SAME paragraph — "…(Al-Hijr: 56). The
+#: Quran's assurances of mercy come fully alive in…" — and six more put an interjection
+#: between two quoted spans ("…sport and play," says the Quran, "and verily…"). Folding
+#: those in would carry authorial prose inside a quotation panel on a religious edition,
+#: which is a worse defect than the one being repaired.
+_ONLY_THE_RENDERING_RE = re.compile(r'^["“][^"“”]+["”]\s*(\([^)]*\))?\s*\.?\s*$')
+
+
+def _cards_missing_their_rendering(md: str):
+    """(chapter, quotation lines, following paragraph) for every stranded rendering.
+
+    The shape both detectors below share: a blockquote holding ONLY Arabic — so it has no
+    English inside it — immediately followed by a paragraph that opens on a quotation
+    mark. Every card on the approved specimen page carries its rendering inside the
+    blockquote; these carry it as the next paragraph of body prose, so it prints outside
+    the panel.
+    """
+    for title, body in chapters(md):
+        blks = blocks(body)
+        for index, (kind, lines) in enumerate(blks):
+            if kind != "quote":
+                continue
+            paras = quote_paragraphs(lines)
+            if not paras or not all(is_arabic_quote_line(p) for p in paras):
+                continue
+            following = blks[index + 1] if index + 1 < len(blks) else None
+            if not following or following[0] != "para":
+                continue
+            text = " ".join(line.strip() for line in following[1]).strip()
+            if not text.startswith('"') and not text.startswith("“"):
+                continue
+            yield title, lines, text
+
+
+def translation_outside_card(md: str) -> list[tuple[str, str]]:
+    """(chapter, rendering) where the English belongs in the card and can simply move.
+
+    Repairable: the paragraph is the rendering and nothing else, so folding it into the
+    blockquote above moves it without deciding where anybody's sentence ends.
+    """
+    return [
+        (title, text) for title, _, text in _cards_missing_their_rendering(md) if _ONLY_THE_RENDERING_RE.match(text)
+    ]
+
+
+def translation_fused_with_prose(md: str) -> list[tuple[str, str]]:
+    """(chapter, paragraph) where the rendering and the author's gloss share a paragraph.
+
+    NOT repairable, and the reason is the whole point: the rendering has to move into the
+    card and the commentary has to stay outside it, so a repair would have to decide where
+    the quotation ends. On a religious edition that is an editorial judgment about the
+    author's sentence, not a string operation. Reported so a person can split it in the
+    Composer — the reader currently gets no separation at all between what scripture says
+    and what the author says about it.
+    """
+    return [
+        (title, text) for title, _, text in _cards_missing_their_rendering(md) if not _ONLY_THE_RENDERING_RE.match(text)
+    ]
+
+
 #: Every detector, by the name a report and a gate address it under. One registry so a
 #: caller cannot know about four of five — which is how the romanization defect ran in
 #: two shipped editions while the other checks were being written.
@@ -497,4 +561,6 @@ DETECTORS = {
     "romanized-arabic": romanized_arabic,
     "honorific-overuse": honorific_overuse,
     "prophet-wrong-honorific": prophet_wrong_honorific,
+    "translation-outside-card": translation_outside_card,
+    "translation-fused-with-prose": translation_fused_with_prose,
 }

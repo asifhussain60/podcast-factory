@@ -407,6 +407,23 @@ blockquote.k-poem p.ar {
   --q-ar-gap: 1.05rem;
   --q-ar-leading: 2.15;
 }
+/* …and only while there IS an English below (Asif, 2026-08-09: "too much space
+   around the verse"). The gap's whole job is that drop, so on a card whose Arabic
+   is the last thing in it the 1.05rem becomes trailing air — 20px of a 126px card
+   holding one 58px line. Written as `:last-child` rather than as a second token
+   because the condition is structural, not a per-kind choice, and a card that
+   later gains its rendering gets the gap back with no rule to remember.
+
+   This is the presentation half of one defect. The other half is content: the
+   translation belongs INSIDE the card, as every card on the specimen page has it,
+   and 100 quotations across seven books currently print theirs as the paragraph
+   after the blockquote (`translation-outside-card` in `_book_defects`). */
+blockquote.k-quran p.ar:last-child,
+blockquote.k-hadith p.ar:last-child,
+blockquote.k-quote p.ar:last-child,
+blockquote.k-poem p.ar:last-child {
+  --q-ar-gap: 0rem;
+}
 blockquote.k-quran p.ar {
   --q-maroon: var(--q-quran-ink);
 }

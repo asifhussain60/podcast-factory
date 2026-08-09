@@ -906,7 +906,17 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
             inner.push(
               `<p class="${arClass(cleaned)}" dir="rtl" lang="ar">${renderInline(cleaned)}</p>`,
             );
-            if (i < paras.length - 1) inner.push('<hr class="quran-divider">');
+            // Between two Arabic RUNS, which is what the divider is for — never
+            // between a run and its English rendering. "Not the last paragraph"
+            // used to stand in for that, and it was true while a card's rendering
+            // lived outside it as body prose. Folding the rendering back in
+            // (`translation-outside-card`, 2026-08-09) made the two differ, and
+            // the divider landed between the verse and its translation on every
+            // repaired card. It was invisible — a legacy `.quran` descendant rule
+            // hides it on both surfaces that see it — but invisible-by-accident is
+            // not the same as absent, and the approved specimen has none there.
+            if (isArabicQuoteLine(paras[i + 1] ?? ""))
+              inner.push('<hr class="quran-divider">');
           } else {
             inner.push(`<p class="tr">${renderInline(p)}</p>`);
           }
