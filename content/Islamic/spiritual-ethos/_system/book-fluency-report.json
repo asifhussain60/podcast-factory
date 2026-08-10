@@ -1,7 +1,7 @@
 {
   "schema": "podcast.book-fluency/v5",
   "narrative_frame": "external_narrator",
-  "adapted": 15,
+  "adapted": 14,
   "reverted": 0,
   "overwritten_by_replay": 0,
   "chapters": [
@@ -343,7 +343,7 @@
       "output_words": 5997,
       "windows": 2,
       "windows_kept": 1,
-      "status": "partial",
+      "status": "composer-edit",
       "gates": [
         "fluency-15-part-02: lecture voice added \u2014 narration addresses the reader (204 vs 187 in source) under external_narrator frame",
         "fluency-15-part-02: lecture voice added \u2014 stage directions to an audience (3 vs 1 in source) under external_narrator frame"
@@ -359,7 +359,8 @@
       },
       "editorial_queries": [],
       "comprehension_flags": [],
-      "terminology_notes": []
+      "terminology_notes": [],
+      "superseded_status": "adapted"
     }
   ]
 }
