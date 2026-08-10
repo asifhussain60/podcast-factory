@@ -1,11 +1,24 @@
 #!/usr/bin/env python3
-"""Put one book live on the Podcast Factory Library, in one act, and PROVE it.
+"""Put one book on BOTH Podcast Factory Libraries, in one act, and PROVE it.
 
-This is what the "Publish to production" button on the Book Composer runs. It
-carries a finished book the whole way — accepts its Companion cards, transcribes
-any new episode, pushes its text and recordings to the deployed database and
-bucket, turns the book's visibility on, and then reads the live database back to
-confirm every one of those things actually happened.
+This is what the Publish button on the Book Composer runs. It carries a finished
+book the whole way — accepts its Companion cards, transcribes any new episode,
+pushes its text and recordings to a database and bucket, turns the book's
+visibility on, and then reads that database back to confirm every one of those
+things actually happened.
+
+IT DOES ALL OF THAT TWICE (Asif, 2026-08-10): once against localhost and once
+against the deployed site, so the copy he reviews on `localhost:5273` and the
+copy his readers open are the same book. LOCALHOST GOES FIRST, and that order is
+the safety property rather than a preference — everything that can fail fails
+against the copy nobody reads, and a run that was going to break never touches
+the live site. A local failure stops the run; publishing to production after the
+rehearsal failed would make the rehearsal pointless.
+
+VERIFIED MEANS BOTH. The stamp derives it from every check in the merged list, so
+a book that reached production but not localhost leaves the Composer's button
+lit. The two are meant to hold the same book, and a button that went dark while
+they disagreed would be reporting something untrue.
 
 WHY THE VERIFICATION STEP IS NOT OPTIONAL
 -----------------------------------------
@@ -35,6 +48,7 @@ USAGE
         [--no-accept]        leave unreviewed Companion cards unreviewed
         [--skip-transcripts] do not transcribe new episodes
         [--skip-media]       text, cards and print edition only — no recordings
+        [--skip-local]       production only, skipping the rehearsal
         [--rebuild-pdf]      re-render the reading edition before pushing it
         [--dry-run]          say what would happen; change nothing, anywhere
         [--json]             one NDJSON event per line (what the button reads)
@@ -135,13 +149,101 @@ def run(argv: list[str], report: Reporter, *, cwd: Path = REPO_ROOT) -> int:
     return proc.wait()
 
 
-def d1_execute(sql: str, report: Reporter) -> int:
-    """One statement against the DEPLOYED database."""
+def d1_execute(sql: str, report: Reporter, *, remote: bool) -> int:
+    """One statement against one of the two databases.
+
+    The flag is a parameter rather than a constant because the same book now goes
+    to both (Asif, 2026-08-10) and a hardcoded `--remote` in the shared path is
+    the way a "publish locally" run silently writes to the live site instead.
+    """
     return run(
-        ["npx", "wrangler", "d1", "execute", "podcast-listener", "--remote", "--command", sql, "--yes"],
+        [
+            "npx",
+            "wrangler",
+            "d1",
+            "execute",
+            "podcast-listener",
+            "--remote" if remote else "--local",
+            "--command",
+            sql,
+            "--yes",
+        ],
         report,
         cwd=LISTENER,
     )
+
+
+#: The two places a book goes, in the order it goes to them. LOCAL FIRST, and that
+#: order is the safety property: everything that can fail — a malformed chapter, a
+#: missing recording, a verification that does not add up — fails against the copy
+#: nobody reads, and the live site is never touched by a run that was going to
+#: break anyway. `label` is what the progress panel shows; `url` is where the book
+#: can be looked at afterwards.
+TARGETS = (
+    {"remote": False, "label": "localhost", "url": "http://localhost:5273"},
+    {"remote": True, "label": "production", "url": "https://podcast-factory.safinaverse.com"},
+)
+
+
+def push(target: dict, slug: str, book_dir: Path, args, report: Reporter, *, now: str) -> tuple[bool, list[dict]]:
+    """Put the book into ONE of the two databases and prove it landed there.
+
+    Content, then recordings, then visibility, then the read-back — the same four
+    steps against either site, because a difference between them is a difference
+    nobody would find until a reader did. `--remote` is the only thing that
+    changes, and the checks are the same checks.
+
+    Visibility is written LAST and only if everything above it succeeded, so a
+    failed run leaves a book that is incomplete AND invisible rather than
+    incomplete and readable. That is what makes a failed run safe to simply run
+    again.
+    """
+    remote, label = target["remote"], target["label"]
+    flag = ["--remote"] if remote else []
+    dry = ["--dry-run"] if args.dry_run else []
+
+    report.step(f"Content · {label}")
+    if run([sys.executable, "scripts/podcast/publish_to_listener.py", slug, *flag, *dry], report) != 0:
+        report.error(f"the content push to {label} failed — nothing was made visible there")
+        return False, []
+
+    report.step(f"Media · {label}")
+    if args.skip_media:
+        report.log("skipped, as asked — recordings already in the bucket are untouched")
+    elif run([sys.executable, "scripts/podcast/upload_listener_media.py", slug, *flag, *dry], report) != 0:
+        report.error(f"uploading to {label} failed — the book is there but incomplete, and still not visible")
+        return False, []
+
+    report.step(f"Visibility · {label}")
+    if args.dry_run:
+        report.log(f"would run: {publish_sql(slug)}")
+        return True, []
+
+    if d1_execute(publish_sql(slug), report, remote=remote) != 0:
+        report.error(f"the book reached {label} but could not be made visible there")
+        return False, []
+    state = visibility(slug, remote=remote)
+    if state is not None:
+        report.log(f"status is now '{state.get('status')}'")
+        if not state.get("open_to_all"):
+            report.log("not open to everyone — only people you have granted it can read it")
+
+    report.step(f"Verifying · {label}")
+    expected: dict[str, object] = {"cards": count_cards(book_dir), "since": now}
+    if args.skip_media:
+        # Nothing was uploaded this run, so an incomplete bucket is the state we
+        # were asked to leave alone rather than a failure of this publish.
+        expected["skip_media"] = True
+    checks = verify(slug, book_dir, remote=remote, expected=expected)
+    if args.skip_media:
+        checks = [c for c in checks if c["name"] != "media uploaded"]
+    # The site's name travels WITH the check, because both sites report the same
+    # check names and a merged list that did not say which one failed would be
+    # unreadable in the stamp and in the panel.
+    checks = [{**c, "name": f"{c['name']} ({label})", "target": label} for c in checks]
+    for c in checks:
+        report.emit("check", name=c["name"], ok=c["ok"], detail=c["detail"])
+    return bool(checks) and all(c["ok"] for c in checks), checks
 
 
 def parse_args(argv: list[str] | None) -> argparse.Namespace:
@@ -150,6 +252,11 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--no-accept", action="store_true", help="leave unreviewed Companion cards unreviewed")
     parser.add_argument("--skip-transcripts", action="store_true", help="do not transcribe new episodes")
     parser.add_argument("--skip-media", action="store_true", help="text, cards and print edition only")
+    parser.add_argument(
+        "--skip-local",
+        action="store_true",
+        help="production only — skip the localhost copy (which is the rehearsal, so prefer not to)",
+    )
     parser.add_argument("--rebuild-pdf", action="store_true", help="re-render the reading edition first")
     parser.add_argument("--dry-run", action="store_true", help="say what would happen; change nothing")
     parser.add_argument("--json", action="store_true", help="one NDJSON event per line")
@@ -269,52 +376,39 @@ def main(argv: list[str] | None = None) -> int:
         if run([sys.executable, "scripts/podcast/ensure_transcripts.py", slug, *dry], report) != 0:
             report.warn("transcription failed — continuing; those episodes ship without one")
 
-    # --- 4. Text, cards, recordings -----------------------------------------
-    report.step("Content")
-    if run([sys.executable, "scripts/podcast/publish_to_listener.py", slug, "--remote", *dry], report) != 0:
-        report.error("the content push failed — nothing was made visible")
-        return 1
-
-    report.step("Media")
-    if args.skip_media:
-        report.log("skipped, as asked — recordings already in the bucket are untouched")
-    elif run([sys.executable, "scripts/podcast/upload_listener_media.py", slug, "--remote", *dry], report) != 0:
-        report.error("uploading failed — the book is live but incomplete, and still not visible")
-        return 1
-
-    # --- 5. Visibility -------------------------------------------------------
+    # --- 4. Both sites, in order --------------------------------------------
     #
-    # LAST of the writes, and only if everything above succeeded. A book becomes
-    # readable at the moment it is complete, never before — which is what makes a
-    # failed run safe to simply run again.
-    report.step("Visibility")
+    # ONE BOOK GOES TO BOTH (Asif, 2026-08-10). Localhost first: everything that
+    # can fail fails against the copy nobody reads, and a run that was going to
+    # break never touches the live site. A local failure therefore RETURNS rather
+    # than continuing — publishing to production after the rehearsal failed would
+    # make the rehearsal pointless.
+    targets = [t for t in TARGETS if t["remote"] or not args.skip_local]
+    checks: list[dict] = []
+    for target in targets:
+        ok, target_checks = push(target, slug, book_dir, args, report, now=now)
+        checks.extend(target_checks)
+        if not ok and not args.dry_run:
+            write_stamp(book_dir, now=now, fingerprint=book_fingerprint(book_dir), checks=checks)
+            report.emit(
+                "done",
+                text=f"stopped at {target['label']} — the book was not published everywhere",
+                slug=slug,
+                verified=False,
+                checks=checks,
+                dryRun=False,
+            )
+            return 1
+
     if args.dry_run:
-        report.log(f"would run: {publish_sql(slug)}")
         report.emit("done", text="dry run — nothing changed", slug=slug, dryRun=True, verified=False, checks=[])
         return 0
 
-    if d1_execute(publish_sql(slug), report) != 0:
-        report.error("the book is live but could not be made visible")
-        return 1
-    state = visibility(slug, remote=True)
-    if state is not None:
-        report.log(f"status is now '{state.get('status')}'")
-        if not state.get("open_to_all"):
-            report.log("not open to everyone — only people you have granted it can read it")
-
-    # --- 6. Prove it ---------------------------------------------------------
-    report.step("Verifying")
-    expected: dict[str, object] = {"cards": count_cards(book_dir), "since": now}
-    if args.skip_media:
-        # Nothing was uploaded this run, so an incomplete bucket is the state we
-        # were asked to leave alone rather than a failure of this publish.
-        expected["skip_media"] = True
-    checks = verify(slug, book_dir, remote=True, expected=expected)
-    if args.skip_media:
-        checks = [c for c in checks if c["name"] != "media uploaded"]
-    for c in checks:
-        report.emit("check", name=c["name"], ok=c["ok"], detail=c["detail"])
-
+    # --- 5. Prove it ---------------------------------------------------------
+    #
+    # VERIFIED MEANS BOTH. `write_stamp` derives it from every check in the list,
+    # so a book that reached production but not localhost leaves the Composer's
+    # button lit — which is correct: the two are meant to hold the same book.
     verified = bool(checks) and all(c["ok"] for c in checks)
     write_stamp(book_dir, now=now, fingerprint=book_fingerprint(book_dir), checks=checks)
 
@@ -334,7 +428,8 @@ def main(argv: list[str] | None = None) -> int:
     report.emit(
         "done",
         text=(
-            f"{slug} is live and verified at https://podcast-factory.safinaverse.com"
+            f"{slug} is live and verified on {' and '.join(t['label'] for t in targets)} — "
+            + ", ".join(t["url"] for t in targets)
             if verified
             else f"{slug} was published but could NOT be verified — see the failed checks above"
         ),

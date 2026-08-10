@@ -50,8 +50,11 @@ function paint(state: PublishState): void {
   const reason =
     state.reason ??
     (pending ? "there are changes to publish" : "live and up to date");
+  // "both sites" rather than "to production" (Asif, 2026-08-10): one press now
+  // publishes to localhost AND the live site, and a tooltip naming only one of
+  // them would understate what the button is about to do.
   btn.title = pending
-    ? `Publish to production — ${reason}`
+    ? `Publish to localhost and the live site — ${reason}`
     : `Published${state.publishedAt ? ` ${state.publishedAt.slice(0, 10)}` : ""} — ${reason}`;
   const label = btn.querySelector<HTMLElement>(".cx-hdr-btn-label");
   if (label) label.textContent = pending ? "Publish" : "Published";
