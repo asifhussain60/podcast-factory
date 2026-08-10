@@ -82,12 +82,24 @@ Proved by shimming `security` and logging every lookup on 2026-08-10: the pipeli
 nine-check connectivity run made **zero** keychain calls, while resolving these two
 made exactly two.
 
-> **A live defect, found the same way.** `pull-secrets.sh` writes the Anthropic key
-> to **`anthropic_api_key`** (underscore). `claude-client.ts` reads
-> **`anthropic-api-key`** (hyphen). They have never matched. This Mac works only
-> because the hyphenated item was created by hand — the underscore one does not
-> exist here at all. **On a fresh Mac, `pull-secrets.sh` leaves `api/ai/claude.ts`
-> broken.** Fixing one character in `pull-secrets.sh:146` closes it.
+> **A live defect, found the same way — now fixed.** `pull-secrets.sh` wrote the
+> Anthropic key to **`anthropic_api_key`** (underscore) while `claude-client.ts`
+> reads **`anthropic-api-key`** (hyphen). They had never matched: this Mac worked
+> only because the hyphenated item had been created by hand, and on a fresh Mac the
+> script left `api/ai/claude.ts` broken. Corrected 2026-08-10 at
+> `pull-secrets.sh:146`.
+
+**Verified end to end on 2026-08-10.** A full `pull-secrets.sh` run reported `SAME`
+for all twenty Azure entries and for `gemini_api_key` — confirming the script really
+is the Astro Site's Gemini provisioning path — and `OK` for `anthropic-api-key`,
+writing the corrected name. Both keys were then resolved exactly as
+`gemini-server.ts` and `claude-client.ts` resolve them and used for one minimal live
+request each: **HTTP 200 from both**.
+
+One consequence worth knowing: the vault's Anthropic value differed from the
+hand-made keychain entry, so that entry was replaced. Both are valid keys — the live
+call above is against the new one — but the hand-made value is gone, and the vault is
+now the single copy.
 
 ### `pull-secrets.sh` is therefore NOT legacy
 
