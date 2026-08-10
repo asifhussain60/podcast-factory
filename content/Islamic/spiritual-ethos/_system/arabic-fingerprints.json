@@ -4,7 +4,7 @@
   "rule_id": "R-ARABIC-INTEGRITY",
   "fingerprint_version": "1.0",
   "snapshot_phase": "pre-0a",
-  "ts_created": "2026-08-05T20:34:31Z",
+  "ts_created": "2026-08-06T16:25:45Z",
   "spans": [
     {
       "hash": "290cf0e1c9aaffad1e1daad2440db32c348e95e961e52adff10670e9283c64e8",
@@ -2207,64 +2207,2237 @@
       "context_excerpt": "Beware of self-admiration, of leaning upon whatever pleases you in yourself, and"
     },
     {
-      "hash": "ba67ab07dd2f4903e03ecfb4e3859d374e2d8c2c65d68d5adb1ac0a0dca66a84",
-      "skeleton_hash": "647fe5bd2705df9cbeb800f2cc7078282bd8b36ee6e1510d5a497a1de404a5be",
-      "nfc_text": "كَلَامُ الْمُلُوكِ مُلُوكُ الْكَلَامِ",
-      "source_artifact": "atom:quote:quote:qadi-al-numan:47f25cdaa2",
+      "hash": "290cf0e1c9aaffad1e1daad2440db32c348e95e961e52adff10670e9283c64e8",
+      "skeleton_hash": "d25c4eb24bd345b65fbd1fa0439ee1ba3f0da83f0a35dc2d4b502555f3b50097",
+      "nfc_text": "وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍۢ",
+      "source_artifact": "_system/source/text/refined-english.md",
       "anchor": {
-        "atom_id": "quote:qadi-al-numan:47f25cdaa2",
-        "atom_type": "quote"
+        "line": 11
       },
-      "provenance": "atom-sdk-verified",
-      "context_excerpt": "Maulana, this is Kalam al-muluk, muluk al-kalam. What can I say about your words"
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "To speak of Ali ibn Abi Talib (ع) — cousin and son-in-law of the Prophet Muhamma"
     },
     {
-      "hash": "7627960258073e27348d2d6951548fb593ae7954bfac6897240d1f6882efaf94",
-      "skeleton_hash": "0d794320ad96ff118056450db691d9a8e4672453db353d24ff8978381fad56ed",
-      "nfc_text": "إِلَّا جَعْفَرَ",
-      "source_artifact": "atom:quote:quote:qadi-al-numan:add5785f92",
+      "hash": "53afd029d879e589ae13f0e3e5c988a8576459655890f6feb1e7ef6b962c2a93",
+      "skeleton_hash": "630e018e9cb1d6b1b424dcec7cc7363b3d914a8b0678314c650ebf76a847174c",
+      "nfc_text": "ٱلنَّبِىُّ أَوْلَىٰ بِٱلْمُؤْمِنِينَ مِنْ أَنفُسِهِمْ ۖ وَأَزْوَٰجُهُۥٓ أُمَّهَٰتُهُمْ ۗ وَأُو۟لُوا۟ ٱلْأَرْحَامِ بَعْضُهُمْ أَوْلَىٰ بِبَعْضٍۢ فِى كِتَٰبِ ٱللَّهِ مِنَ ٱلْمُؤْمِنِينَ وَٱلْمُهَٰجِرِينَ إِلَّآ أَن تَفْعَلُوٓا۟ إِلَىٰٓ أَوْلِيَآئِكُم مَّعْرُوفًۭا ۚ كَانَ ذَٰلِكَ فِى ٱلْكِتَٰبِ مَسْطُورًۭا",
+      "source_artifact": "_system/source/text/refined-english.md",
       "anchor": {
-        "atom_id": "quote:qadi-al-numan:add5785f92",
-        "atom_type": "quote"
+        "line": 11
       },
-      "provenance": "atom-sdk-verified",
-      "context_excerpt": "Everyone came, illa Ja‘far. Except for Ja‘far, everyone came."
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "To speak of Ali ibn Abi Talib (ع) — cousin and son-in-law of the Prophet Muhamma"
     },
     {
-      "hash": "11bdf4a33eef3fb73733029602b3e88b7162147fc2ee58937e6856478b66b5bc",
-      "skeleton_hash": "087738a5e28838c4091fbb2906b6a15b04490d1e92ac533a2d12e4d0e9b63618",
-      "nfc_text": "كُنْتُ نَبِيًّا وَآدَمُ بَيْنَ الْمَاءِ وَالطِّينِ",
-      "source_artifact": "atom:quote:quote:the-prophet-muhammad:0b4f786082",
+      "hash": "8369d5ccd5d940075b4caed9e3e39925e22c5087233e966b47a67c46e87e0588",
+      "skeleton_hash": "eeb438941262ffdc5307ee4e8f132b8f0d2ef0c782dd196a11a53e620115e41b",
+      "nfc_text": "عليٌّ مِنِّي بِمَنْزِلَةِ نَفْسِي",
+      "source_artifact": "_system/source/text/refined-english.md",
       "anchor": {
-        "atom_id": "quote:the-prophet-muhammad:0b4f786082",
-        "atom_type": "quote"
+        "line": 13
       },
-      "provenance": "atom-sdk-verified",
-      "context_excerpt": "I was a Prophet when Adam was between water and clay."
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "It is not surprising, therefore, to find the Prophet saying that Ali (ع) 'is as "
     },
     {
-      "hash": "2747cec30cb789d81cf5246cfdb39813fa56e2475d805dc2c86c163aedc3160a",
-      "skeleton_hash": "5ee63248e1bc2132129204c7c73d8b707fc479742b8435733b91c7922f4d4bd3",
-      "nfc_text": "مَنْ قَالَ لَا إِلَهَ إِلَّا اللهُ دَخَلَ الْجَنَّةَ",
-      "source_artifact": "atom:quote:quote:the-prophet-muhammad:81bb121181",
+      "hash": "532b10765a075e160729a052d97093d0e85531c3f634df693d788c764c503f99",
+      "skeleton_hash": "5bda0c41d3dda3f06f2fa7eb58646d788a18ec17d2b2b37871a38881de60466e",
+      "nfc_text": "أنْتَ مِنِّی وَ أَنَا مِنْکَ",
+      "source_artifact": "_system/source/text/refined-english.md",
       "anchor": {
-        "atom_id": "quote:the-prophet-muhammad:81bb121181",
-        "atom_type": "quote"
+        "line": 13
       },
-      "provenance": "atom-sdk-verified",
-      "context_excerpt": "Whoever says there is no god but Allah will enter Paradise."
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "It is not surprising, therefore, to find the Prophet saying that Ali (ع) 'is as "
     },
     {
-      "hash": "7b5584adbf8ea8fac9959769bcae1574140e1bb479eba39280edc7f56a33074b",
-      "skeleton_hash": "58374040da9e04a87a2ed175b61b037df10f86beb32623db04a7871fa4ce619c",
-      "nfc_text": "قُولُوا لَا إِلَهَ إِلَّا اللهُ تُفْلِحُوا",
-      "source_artifact": "atom:quote:quote:the-prophet-muhammad:ee10e61ef8",
+      "hash": "13e514ada76bdb3ab62ee280d13cbeb1db863ea4336a3caefa8096a1f8ade8c9",
+      "skeleton_hash": "13e514ada76bdb3ab62ee280d13cbeb1db863ea4336a3caefa8096a1f8ade8c9",
+      "nfc_text": "مواد",
+      "source_artifact": "_system/source/text/refined-english.md",
       "anchor": {
-        "atom_id": "quote:the-prophet-muhammad:ee10e61ef8",
-        "atom_type": "quote"
+        "line": 13
       },
-      "provenance": "atom-sdk-verified",
-      "context_excerpt": "Say there is no god but Allah and you will be successful."
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "It is not surprising, therefore, to find the Prophet saying that Ali (ع) 'is as "
+    },
+    {
+      "hash": "6396fdafe8178c3c4a287f5dbc1c80dc070d3c7d7195f615b329cd52ccfb402b",
+      "skeleton_hash": "e629845a2fd55da78934771fe6555ad5b1077ea104ed54c1ef8705c6a7293573",
+      "nfc_text": "إِنَّ عَلِيًّا مَعَ الْقُرْآنِ وَالْقُرْآنُ مَعَ عَلِيٍّ، لَنْ يَفْتَرِقَا حَتَّى يَرِدَا عَلَيَّ الْحَوْضَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 13
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "It is not surprising, therefore, to find the Prophet saying that Ali (ع) 'is as "
+    },
+    {
+      "hash": "9f242399c7d061c28a528e6c5fdb11ef0414b586e6d91d8e889d643fd3866a62",
+      "skeleton_hash": "490fdf3f75757d137c84cd059f6ee68b9c1247bd3b7670c7f80a486d1fde88c5",
+      "nfc_text": "لَمَّا كُنْتُ وَلِيدًا ضَمَّنِي إِلَى صَدْرِهِ، فَكُنْتُ أتَّبِعُهُ اتّبَاعَ الفَصِيلِ أُمَّهُ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 25
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "⟪ar:لَمَّا كُنْتُ وَلِيدًا ضَمَّنِي إِلَى صَدْرِهِ، فَكُنْتُ أتَّبِعُهُ اتّبَاعَ"
+    },
+    {
+      "hash": "e78f8cd995ada1e29772a965308bc685b00ecd1f5dd11480a12e023552720133",
+      "skeleton_hash": "4bf95bfb5f9e4148dccdafb31c554d2ca145fa82f8bef3d77a2dda129f8dd005",
+      "nfc_text": "يَرْفَعُ لِي فِي كُلِّ يَوْمٍ عَلَمًا مِنْ أَخْلاقِهِ الْكَرِيمَةِ وَيَأمُرُنِي بِالاِقْتِدَاءِ بِهِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 25
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "⟪ar:لَمَّا كُنْتُ وَلِيدًا ضَمَّنِي إِلَى صَدْرِهِ، فَكُنْتُ أتَّبِعُهُ اتّبَاعَ"
+    },
+    {
+      "hash": "ada40024d785379f2c702b9298ec57e226ba6ca5287c132bb3a21ae8e738800e",
+      "skeleton_hash": "1234223c81c1332c5d29be2d776431a16ca51e983b733c64b2547ff9c3351740",
+      "nfc_text": "وَكَانَ يَتَعَاهَدُ غَارَ حِرَاءٍ فِي كُلِّ سَنَةٍ، فَأَرَاهُ وَلَا يَرَاهُ غَيْرِي",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 25
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "⟪ar:لَمَّا كُنْتُ وَلِيدًا ضَمَّنِي إِلَى صَدْرِهِ، فَكُنْتُ أتَّبِعُهُ اتّبَاعَ"
+    },
+    {
+      "hash": "811a268c23052feb3545c10c259a9b698fac5a1478159c14c3de0961663fb4d3",
+      "skeleton_hash": "00089d6e0e7a6965051695007de72cc62528b986226c7f173effb89eae8d6403",
+      "nfc_text": "وَلَمْ يَجْمَعْ بَيْتٌ وَاحِدٌ يَوْمَئِذٍ فِي الإِسْلامِ غَيْرَ رَسُولِ اللهِ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ وَخَدِيجَةَ وَأَنَا ثَالِثُهُمَا",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 25
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "⟪ar:لَمَّا كُنْتُ وَلِيدًا ضَمَّنِي إِلَى صَدْرِهِ، فَكُنْتُ أتَّبِعُهُ اتّبَاعَ"
+    },
+    {
+      "hash": "90ee86afb0238394519e2614239abcd591a1c33e35d7388b903394b8b4b34268",
+      "skeleton_hash": "453cda6827cd9a1d522dba85ba3cc39ae51682edb4cbae1f5ab7fa32b8cfd9f1",
+      "nfc_text": "أَرَى نُورَ الْوَحْيِ وَالرِّسَالَةِ، وَأَشُمُّ رِيحَ النُّبُوَّةِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 25
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "⟪ar:لَمَّا كُنْتُ وَلِيدًا ضَمَّنِي إِلَى صَدْرِهِ، فَكُنْتُ أتَّبِعُهُ اتّبَاعَ"
+    },
+    {
+      "hash": "6396fdafe8178c3c4a287f5dbc1c80dc070d3c7d7195f615b329cd52ccfb402b",
+      "skeleton_hash": "e629845a2fd55da78934771fe6555ad5b1077ea104ed54c1ef8705c6a7293573",
+      "nfc_text": "إِنَّ عَلِيًّا مَعَ الْقُرْآنِ وَالْقُرْآنُ مَعَ عَلِيٍّ، لَنْ يَفْتَرِقَا حَتَّى يَرِدَا عَلَيَّ الْحَوْضَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 70
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'Ali (ع) is with the Qur'an and the Qur'an is with Ali (ع), إِنَّ عَلِيًّا مَعَ "
+    },
+    {
+      "hash": "0ae9d9496583e51ae8ea164a80742a3077af19bae694e1f21fccd51628d980d0",
+      "skeleton_hash": "5bda0c41d3dda3f06f2fa7eb58646d788a18ec17d2b2b37871a38881de60466e",
+      "nfc_text": "أنْتَ مِنِّی وَ أِنَا مِنْکَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 86
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "He said to Ali (ع), 'You are from me and I am from you (anta minnī wa anā minka)"
+    },
+    {
+      "hash": "66bab660c9b3c0750d2cab4947b1b706a6a366bd74180cad84784a52f71be6f6",
+      "skeleton_hash": "ad4ee78dbf4b11e86ba26192863ae9fbca22d1fd52c27f97c1ea05287185ce97",
+      "nfc_text": "عَلِیٌّ یُقَاتِلُ عَلیٰ تَاوِیلِہِ کَما قَاتَلْتُ عَلیٰ تَنزِیلِہِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 92
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'There is one amongst you who will fight for the ta'wil [spiritual interpretatio"
+    },
+    {
+      "hash": "a6e9f154a5dea721c7f5eddc93639fd9cb54429443e83bafb5fa9a6ea2870655",
+      "skeleton_hash": "a6e9f154a5dea721c7f5eddc93639fd9cb54429443e83bafb5fa9a6ea2870655",
+      "nfc_text": "الروح العقل",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 123
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "What we propose to do in this section is sketch some of the key dimensions of th"
+    },
+    {
+      "hash": "3a0de9ec453b533bb40dd41a1aedf12f6092d53179c56a6b71d8d3012b7e408f",
+      "skeleton_hash": "42335b6c925a2b16638d2bc7f1ac68027d68dc981307f6d65360f82644788045",
+      "nfc_text": "عَلِیُّ یُقَاتِلُ عَلیٰ تَاوِیلِہ کَما قَتَلُ عَلیَ تَنزِیلِہِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 129
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Beginning with the first: everything about the Imam's life and teachings is cent"
+    },
+    {
+      "hash": "da4c76ea306730a277179055f207922639d837126381ce551e89f7108503de0a",
+      "skeleton_hash": "da4c76ea306730a277179055f207922639d837126381ce551e89f7108503de0a",
+      "nfc_text": "یا أمیر المومنین",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 129
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Beginning with the first: everything about the Imam's life and teachings is cent"
+    },
+    {
+      "hash": "cf89e1834e0b5981eb97c4a4bc7ace6b3f2d63873c0cc77456847ac1a90a7d2f",
+      "skeleton_hash": "06d23accfa7226b4aaefa3af69f4161b94edf5d0118ff09f9e1279db25af81cb",
+      "nfc_text": "عَودَۃ الی الاول",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 133
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'That which has no second' is not merely a divinity to which no partner can be a"
+    },
+    {
+      "hash": "3770bdb6a8c7a557d20a6a0d537cb598d0c83c092018dd0b6e6636a6291b8f01",
+      "skeleton_hash": "0c039080750d418f4518627e41d460d376a98349ae75989311468a83a2612064",
+      "nfc_text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 133
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'That which has no second' is not merely a divinity to which no partner can be a"
+    },
+    {
+      "hash": "1ebe36daae3e774f9c5ce1edc6d827ec3a06e87d0aa7ba4946497057b7f31590",
+      "skeleton_hash": "0001e2e8fc983eee7e1eb3b1c360cb89656c820961718a4635def0830281579d",
+      "nfc_text": "أنَّ علیٌ مع القرآن، و قرآن مع العلی",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 135
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "In one saying attributed to Ali (ع), the Prophet is described as the first of th"
+    },
+    {
+      "hash": "c67219ff07134ca80b31740a03e4ef4c08a0112ef26edfc50cde586ee0b9ab30",
+      "skeleton_hash": "c67219ff07134ca80b31740a03e4ef4c08a0112ef26edfc50cde586ee0b9ab30",
+      "nfc_text": "توحید",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 148
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This saying is one of the keys to the spiritual ethos we are considering, and we"
+    },
+    {
+      "hash": "2c3d7acfbd480127161ee73f0954073c184c46560945fdd50d8f68e537db40c5",
+      "skeleton_hash": "2c3d7acfbd480127161ee73f0954073c184c46560945fdd50d8f68e537db40c5",
+      "nfc_text": "ذکر",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 148
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This saying is one of the keys to the spiritual ethos we are considering, and we"
+    },
+    {
+      "hash": "d83f4af983aa91574944d96ea02cede5db3a08ab62e2ae9227c082726bcc2041",
+      "skeleton_hash": "d83f4af983aa91574944d96ea02cede5db3a08ab62e2ae9227c082726bcc2041",
+      "nfc_text": "آیات",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 148
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This saying is one of the keys to the spiritual ethos we are considering, and we"
+    },
+    {
+      "hash": "da588cf8d5a15e574bb644a8dbc5f12a7311e64a1698834a59c03ac85396f2dd",
+      "skeleton_hash": "da588cf8d5a15e574bb644a8dbc5f12a7311e64a1698834a59c03ac85396f2dd",
+      "nfc_text": "آفاق و أنفس",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 148
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This saying is one of the keys to the spiritual ethos we are considering, and we"
+    },
+    {
+      "hash": "45da83176920de94327ed35c49877f59a352476e78b55e41cbf5f46777dda604",
+      "skeleton_hash": "45da83176920de94327ed35c49877f59a352476e78b55e41cbf5f46777dda604",
+      "nfc_text": "قلب",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 150
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The intellect, then, holds unsuspected depths — 'buried treasures' — and is far "
+    },
+    {
+      "hash": "c601c4601df2781d228f6503017d0f2e6768b834b3a9219cf573d94167068543",
+      "skeleton_hash": "c601c4601df2781d228f6503017d0f2e6768b834b3a9219cf573d94167068543",
+      "nfc_text": "بصارۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 150
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The intellect, then, holds unsuspected depths — 'buried treasures' — and is far "
+    },
+    {
+      "hash": "d83095b32b270470c6745fa24b567193bc173b6b3e472d59b217dc03654d295a",
+      "skeleton_hash": "d83095b32b270470c6745fa24b567193bc173b6b3e472d59b217dc03654d295a",
+      "nfc_text": "بصیرۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 150
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The intellect, then, holds unsuspected depths — 'buried treasures' — and is far "
+    },
+    {
+      "hash": "dbab09622014b1a77d1525afc23350e40b7db64c81935922da2a81f88b20b0e7",
+      "skeleton_hash": "dbab09622014b1a77d1525afc23350e40b7db64c81935922da2a81f88b20b0e7",
+      "nfc_text": "حقائق الایمان",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 150
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The intellect, then, holds unsuspected depths — 'buried treasures' — and is far "
+    },
+    {
+      "hash": "4436fe0558a2c98876a9f0a79180138e38101906a44316d543c4b6ed43838746",
+      "skeleton_hash": "4436fe0558a2c98876a9f0a79180138e38101906a44316d543c4b6ed43838746",
+      "nfc_text": "حد",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 152
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "To return to the relationship between intellect and reason: one can say that bet"
+    },
+    {
+      "hash": "714f40185e5c6ddc053214b52182dfb0df28ea16b2f5d770dbb6f0c5517df32f",
+      "skeleton_hash": "33a45c3fe3a528f534a1323b5568f5b769369a3fb8618bdacb102a765f5cb073",
+      "nfc_text": "ثُمَّ سَوَّىٰهُ وَنَفَخَ فِيهِ مِن رُّوحِهِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 172
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "These considerations have been offered to show the extent to which the spirit of"
+    },
+    {
+      "hash": "072d2671092ac16e15f62d9af544e5d79b9694e486fba9acca68d6aaee5ec410",
+      "skeleton_hash": "d3f28668b1f9f5e0f7ebd4ff4f37140daeaa83e64f994d8c5a49e839c9013b2c",
+      "nfc_text": "ثُمَّ جَمَعَ سُبْحَانَهُ مِنْ حَزْنِ الاْرْضِ وَسَهْلِهَا، وَعَذْبِهَا وَسَبَخِهَا۔ تُرْبَةً سَنَّهَا بالمَاءِ حَتَّى خَلَصَتْ۔ وَلاَطَهَا بِالبَلَّةِ حَتَّى لَزَبَتْ۔ فَجَبَلَ مِنْها صُورَةً ذَاتَ أَحْنَاءَ وَوُصُولَ، وَأَعْضَاءَ وَفُصُول۔ أَجْمَدَهَا حَتَّى اسْتَمْسَكَتْ، وَأَصْلَدَهَا حَتَّى صَلْصَلَتْ۔ لِوَقْت مَعْدُود، وَأجَل مَعْلُوم۔ ثُمَّ نَفَخَ فِيها مِنْ رُوحِهِ فَمَثُلَتْ إِنْساناً ذَا أَذْهَانُ يُجيلُهَا، وَفِكَر يَتَصَرَّفُ بِهَا، وَجَوَارِحَ يَخْتَدِمُهَا، وَأَدَوَات يُقَلِّبُهَا، وَمَعْرِفَة يَفْرُقُ بِهَا بَيْنَ الحَقِّ وَالبَاطِلِ۔",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 176
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "ثُمَّ جَمَعَ سُبْحَانَهُ مِنْ حَزْنِ الاْرْضِ وَسَهْلِهَا، وَعَذْبِهَا وَسَبَخِه"
+    },
+    {
+      "hash": "570c2d91853c5921422a56708fbe4d7684e6241a152b81aba4709c10530d666d",
+      "skeleton_hash": "570c2d91853c5921422a56708fbe4d7684e6241a152b81aba4709c10530d666d",
+      "nfc_text": "العاقل",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 185
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Existentiation is the bestowal of the spirit, which is consciousness; hence the "
+    },
+    {
+      "hash": "8ad76a686da7a1e2418d96ba53ee5cf472984ed6321dda3250f1da5041822dad",
+      "skeleton_hash": "8ad76a686da7a1e2418d96ba53ee5cf472984ed6321dda3250f1da5041822dad",
+      "nfc_text": "العاقل من وضع شئی حق محلہ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 185
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Existentiation is the bestowal of the spirit, which is consciousness; hence the "
+    },
+    {
+      "hash": "dd4d6de15163a3053b1196c3688b54e250555a3a721d038045abb15b4f1e1934",
+      "skeleton_hash": "dd4d6de15163a3053b1196c3688b54e250555a3a721d038045abb15b4f1e1934",
+      "nfc_text": "عدل",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 185
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Existentiation is the bestowal of the spirit, which is consciousness; hence the "
+    },
+    {
+      "hash": "285264e5fe3ed7996be576e9b29d9d509a678ae8cc1729d3821255abdf58eb6d",
+      "skeleton_hash": "285264e5fe3ed7996be576e9b29d9d509a678ae8cc1729d3821255abdf58eb6d",
+      "nfc_text": "عادل",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 185
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Existentiation is the bestowal of the spirit, which is consciousness; hence the "
+    },
+    {
+      "hash": "8941ff6c30e48b00a24c29df2a212582ca161fb05e54f5cdf669483332d209ab",
+      "skeleton_hash": "9e8d0e67df6e0dcedebbb9d475bf4f001badff374d38fff8f9cee3ce16f08eaa",
+      "nfc_text": "يَا كُمَيْل بْن زِيَادٍ، إِنَّ هذهِ الْقُلُوبَ أَوْعِيَةٌ فَخَيْرُهَا أَوْعَاهَا فَاحْفَظْ عَنِّي مَا أَقُولُ لَكَ۔ النَّاسُ ثَلاَثَةٌ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 191
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "يَا كُمَيْل بْن زِيَادٍ، إِنَّ هذهِ الْقُلُوبَ أَوْعِيَةٌ فَخَيْرُهَا أَوْعَاهَا"
+    },
+    {
+      "hash": "d8082cc677c17bd05d1d97da7073e235caadc433920e75bf474a4dad783d3392",
+      "skeleton_hash": "00198abf2d8d30d22364f183e218762b2ca65873c10a82205e996908254570b1",
+      "nfc_text": "فَعَالِمٌ رَبَّانِيٌّ وَمُتَعَلِّمٌ عَلَى سَبِيلِ نَجَاةٍ، وَهَمَجٌ رَعَاعٌ أَتْبَاعُ كُلِّ نَاعِقٍ يَمِيلُونَ مَعَ كُلِّ رِيحٍ، لَمْ يَسْتَضِيئُوا بِنُورِ الْعِلْمِ، وَلَمْ يَلْجَؤُوا إِلَى رُكْنٍ وَثِيقٍ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 191
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "يَا كُمَيْل بْن زِيَادٍ، إِنَّ هذهِ الْقُلُوبَ أَوْعِيَةٌ فَخَيْرُهَا أَوْعَاهَا"
+    },
+    {
+      "hash": "764511e9771b10d9262cd9656152cf962300522c18cb102e236415006417c8b4",
+      "skeleton_hash": "734cf815d9e13e54013fb0dd6e24a96ba32f4e88d9514dbd3704e37c0c62d7ab",
+      "nfc_text": "إِنَّ ٱلدِّينَ عِندَ ٱللَّهِ ٱلْإِسْلَمُ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 205
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "For our purposes here it suffices to reflect upon the four sentences of the penu"
+    },
+    {
+      "hash": "c601c4601df2781d228f6503017d0f2e6768b834b3a9219cf573d94167068543",
+      "skeleton_hash": "c601c4601df2781d228f6503017d0f2e6768b834b3a9219cf573d94167068543",
+      "nfc_text": "بصارۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 266
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The same idea is expressed more forcefully in this saying of the Imam: \"When you"
+    },
+    {
+      "hash": "d83095b32b270470c6745fa24b567193bc173b6b3e472d59b217dc03654d295a",
+      "skeleton_hash": "d83095b32b270470c6745fa24b567193bc173b6b3e472d59b217dc03654d295a",
+      "nfc_text": "بصیرۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 266
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The same idea is expressed more forcefully in this saying of the Imam: \"When you"
+    },
+    {
+      "hash": "dbab09622014b1a77d1525afc23350e40b7db64c81935922da2a81f88b20b0e7",
+      "skeleton_hash": "dbab09622014b1a77d1525afc23350e40b7db64c81935922da2a81f88b20b0e7",
+      "nfc_text": "حقائق الایمان",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 266
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The same idea is expressed more forcefully in this saying of the Imam: \"When you"
+    },
+    {
+      "hash": "8ad76a686da7a1e2418d96ba53ee5cf472984ed6321dda3250f1da5041822dad",
+      "skeleton_hash": "8ad76a686da7a1e2418d96ba53ee5cf472984ed6321dda3250f1da5041822dad",
+      "nfc_text": "العاقل من وضع شئی حق محلہ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 298
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "In relation to formal worship, the true intellectual—the *'aqil*, whom the Imam "
+    },
+    {
+      "hash": "3c40da9b6dd19819f2d1a21a9efdcf38ab48b67837905cbd197fce2681acd534",
+      "skeleton_hash": "3c40da9b6dd19819f2d1a21a9efdcf38ab48b67837905cbd197fce2681acd534",
+      "nfc_text": "القدس",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 351
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The discussion of justice in this chapter is not simply an exercise in theoretic"
+    },
+    {
+      "hash": "2a21c5ac558e73a865b51dbe5bbef137591bf97cd86a899a14ae886570f3409c",
+      "skeleton_hash": "2a21c5ac558e73a865b51dbe5bbef137591bf97cd86a899a14ae886570f3409c",
+      "nfc_text": "شریعۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 351
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The discussion of justice in this chapter is not simply an exercise in theoretic"
+    },
+    {
+      "hash": "a44b52cdbe2634d31a1e315b2d2bb0d80bf697230f7203881f195db8419d1405",
+      "skeleton_hash": "a44b52cdbe2634d31a1e315b2d2bb0d80bf697230f7203881f195db8419d1405",
+      "nfc_text": "زکوۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 351
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The discussion of justice in this chapter is not simply an exercise in theoretic"
+    },
+    {
+      "hash": "2a21c5ac558e73a865b51dbe5bbef137591bf97cd86a899a14ae886570f3409c",
+      "skeleton_hash": "2a21c5ac558e73a865b51dbe5bbef137591bf97cd86a899a14ae886570f3409c",
+      "nfc_text": "شریعۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 351
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The discussion of justice in this chapter is not simply an exercise in theoretic"
+    },
+    {
+      "hash": "c67219ff07134ca80b31740a03e4ef4c08a0112ef26edfc50cde586ee0b9ab30",
+      "skeleton_hash": "c67219ff07134ca80b31740a03e4ef4c08a0112ef26edfc50cde586ee0b9ab30",
+      "nfc_text": "توحید",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 351
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The discussion of justice in this chapter is not simply an exercise in theoretic"
+    },
+    {
+      "hash": "0a75e1e0844103b4e954ab5641dee6194143c8cd2bba6338e2c1bc6f69c3be94",
+      "skeleton_hash": "0a75e1e0844103b4e954ab5641dee6194143c8cd2bba6338e2c1bc6f69c3be94",
+      "nfc_text": "موحد",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 351
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The discussion of justice in this chapter is not simply an exercise in theoretic"
+    },
+    {
+      "hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "skeleton_hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "nfc_text": "الحق",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 353
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Secondly, the reflections offered here are intended to be read against the backg"
+    },
+    {
+      "hash": "aa05f1718ec27f8550233129b76558efdf433fa94745035a0d9ad72dbbf64f28",
+      "skeleton_hash": "aa05f1718ec27f8550233129b76558efdf433fa94745035a0d9ad72dbbf64f28",
+      "nfc_text": "نفس",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 355
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "It is at this level, in particular, that the insights of Ali (ع) and other sages"
+    },
+    {
+      "hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "skeleton_hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "nfc_text": "الحق",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 355
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "It is at this level, in particular, that the insights of Ali (ع) and other sages"
+    },
+    {
+      "hash": "bb5198e37a30aa6d08c0e4b151677c01c5573ef0ac08de80f0315c46020d1b30",
+      "skeleton_hash": "bb5198e37a30aa6d08c0e4b151677c01c5573ef0ac08de80f0315c46020d1b30",
+      "nfc_text": "باطن",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 357
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "In other words, one is ethically inspired by 'the Good' in direct proportion to "
+    },
+    {
+      "hash": "c626d2db7679a18b819189d18f984ae7d986643c6f2d209dc7ac5f36fdd6cf15",
+      "skeleton_hash": "c626d2db7679a18b819189d18f984ae7d986643c6f2d209dc7ac5f36fdd6cf15",
+      "nfc_text": "احسان",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 357
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "In other words, one is ethically inspired by 'the Good' in direct proportion to "
+    },
+    {
+      "hash": "f55a24947785f8670f99f7a1099bd76c4e4cde9d4a1a8e36e7e65e32796bc9bc",
+      "skeleton_hash": "f55a24947785f8670f99f7a1099bd76c4e4cde9d4a1a8e36e7e65e32796bc9bc",
+      "nfc_text": "اسلام",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 357
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "In other words, one is ethically inspired by 'the Good' in direct proportion to "
+    },
+    {
+      "hash": "1573ef1b776644b473cafebea32333699b801802fe8dbfa92d86fc3aa6044a12",
+      "skeleton_hash": "1573ef1b776644b473cafebea32333699b801802fe8dbfa92d86fc3aa6044a12",
+      "nfc_text": "ایمان",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 357
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "In other words, one is ethically inspired by 'the Good' in direct proportion to "
+    },
+    {
+      "hash": "c626d2db7679a18b819189d18f984ae7d986643c6f2d209dc7ac5f36fdd6cf15",
+      "skeleton_hash": "c626d2db7679a18b819189d18f984ae7d986643c6f2d209dc7ac5f36fdd6cf15",
+      "nfc_text": "احسان",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 357
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "In other words, one is ethically inspired by 'the Good' in direct proportion to "
+    },
+    {
+      "hash": "f363ce22dad3bde3b4e0dea57c11507c0c6a4513d224ac89d941187ac3f45916",
+      "skeleton_hash": "f363ce22dad3bde3b4e0dea57c11507c0c6a4513d224ac89d941187ac3f45916",
+      "nfc_text": "شیطان",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 359
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "We should bear in mind here the discussion in the previous chapter on the deeper"
+    },
+    {
+      "hash": "1dfaa1d0b75170303e054e8e25c0418ae8cab04ce73878a4e5c52f13d0742c60",
+      "skeleton_hash": "1dfaa1d0b75170303e054e8e25c0418ae8cab04ce73878a4e5c52f13d0742c60",
+      "nfc_text": "ابلیس",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 359
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "We should bear in mind here the discussion in the previous chapter on the deeper"
+    },
+    {
+      "hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "skeleton_hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "nfc_text": "الحق",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 359
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "We should bear in mind here the discussion in the previous chapter on the deeper"
+    },
+    {
+      "hash": "54604934fd5946ad39e65f121a6f0d443a20eba766ea54d22eb85215fb1c9aab",
+      "skeleton_hash": "54604934fd5946ad39e65f121a6f0d443a20eba766ea54d22eb85215fb1c9aab",
+      "nfc_text": "سورۃ الفلق",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 359
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "We should bear in mind here the discussion in the previous chapter on the deeper"
+    },
+    {
+      "hash": "3646da7f8f61a86ef079c8faffea667f5d5f67c0b6369db5c7819ab0b321bb95",
+      "skeleton_hash": "dd804b5149ce8245f527d02a47638b6a4acfdb283fdca16956374dcd6d6a5416",
+      "nfc_text": "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۱ مِن شَرِّ مَا خَلَقَ ۲",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 359
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "We should bear in mind here the discussion in the previous chapter on the deeper"
+    },
+    {
+      "hash": "d32e9c709ebc5af1e748de00998b7374522ebec9fe48b907a62c87cd951445d9",
+      "skeleton_hash": "b60883138e391fc73aa00cc8492b22e298c160c75d654242c802a3b434ebfcb4",
+      "nfc_text": "مِن شَرِّ مَا خَلَقَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 359
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "We should bear in mind here the discussion in the previous chapter on the deeper"
+    },
+    {
+      "hash": "aa7202e749b3e902ad87184912caf0a9c077fc1cd382a17cb3c8082a427a552f",
+      "skeleton_hash": "aa7202e749b3e902ad87184912caf0a9c077fc1cd382a17cb3c8082a427a552f",
+      "nfc_text": "حق",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 361
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The verse, then, can be understood as a call to seek refuge in the Real from the"
+    },
+    {
+      "hash": "85a9dfd6d635a28b02386fbfeb9e657ef5e18df587fae07b5ff10a774bff38d3",
+      "skeleton_hash": "b1fa5d566bb978bae75465a58a62958f3b6f72ed85aae23e61058bd5428ca852",
+      "nfc_text": "وَضَعَ الشَّئُی حَقَّ مَحَلِّہِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 363
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This duty to give what is due to each and every being relates to the most explic"
+    },
+    {
+      "hash": "2c3d7acfbd480127161ee73f0954073c184c46560945fdd50d8f68e537db40c5",
+      "skeleton_hash": "2c3d7acfbd480127161ee73f0954073c184c46560945fdd50d8f68e537db40c5",
+      "nfc_text": "ذکر",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 370
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "What has not been given sufficient attention, however, is the degree to which th"
+    },
+    {
+      "hash": "c626d2db7679a18b819189d18f984ae7d986643c6f2d209dc7ac5f36fdd6cf15",
+      "skeleton_hash": "c626d2db7679a18b819189d18f984ae7d986643c6f2d209dc7ac5f36fdd6cf15",
+      "nfc_text": "احسان",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 372
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "In the Islamic tradition, the realms of ethics and spirituality are intimately c"
+    },
+    {
+      "hash": "ee8effc89d515a94bb9d705d28b084f20c8e74cd583d9dc05148456a6c5fc293",
+      "skeleton_hash": "ee8effc89d515a94bb9d705d28b084f20c8e74cd583d9dc05148456a6c5fc293",
+      "nfc_text": "جبرئیل",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 372
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "In the Islamic tradition, the realms of ethics and spirituality are intimately c"
+    },
+    {
+      "hash": "1028067217d7fe5a36153ead61953e434a12841424cacee90b5849dda2076fcb",
+      "skeleton_hash": "fa673cc7aa1ba03534cdcc0c6dd2bdd56aa65c40087afc8da54b4fe50041b52f",
+      "nfc_text": "يَا مُحَمَّدُ، أخْبِرْنِي عَنْ الإسْلاَمِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 374
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'O Muhammad, tell me about submission (al-islam)' — يَا مُحَمَّدُ، أخْبِرْنِي عَ"
+    },
+    {
+      "hash": "eb762cbc13faebcc730344a0d3c1ddfe5c19bbb6956dc00c44a8e73b4f454000",
+      "skeleton_hash": "baaccffa9fb1e247d6466d81a4ae9423a7ec59f0f09b95c37b535d1cda0d673d",
+      "nfc_text": "الإِسْلاَمُ أَنْ تَشْهَدَ أَنْ لاَ إِلهَ إِلاَ اللهُ وَأَنَّ مُحَمَّداً رَسُولُ اللهِ، وَتُقِيمَ الصَّلاَةَ، وَتُؤْتِيَ الزَّكَاةَ، وَتَصُومَ رَمَضَانَ، وَتَحُجَّ الْبَيتَ إِن اسْتَطَعْتَ إِلَيْهِ سَبِيلاً",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 374
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'O Muhammad, tell me about submission (al-islam)' — يَا مُحَمَّدُ، أخْبِرْنِي عَ"
+    },
+    {
+      "hash": "923ab887367ce0a6a10c33dd3f111fd9d1f3ed09e9ec2c0b8edc0b4fc59d1438",
+      "skeleton_hash": "e418eae368e889d727aae8ad2fc553152a028a2188ef0e1646e3814e1d3ef214",
+      "nfc_text": "صَدَقْتَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 374
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'O Muhammad, tell me about submission (al-islam)' — يَا مُحَمَّدُ، أخْبِرْنِي عَ"
+    },
+    {
+      "hash": "d230660f1c6222ed388db2927d31a55ef45e0c9f1e5a360ea7776558c83e840a",
+      "skeleton_hash": "2efbaad9fd29388da108dedc36841e2bf26336dcced50b4bbe5d23bd5872c600",
+      "nfc_text": "فَأَخْبِرْنِي عَنِ الإِيْمَانِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 374
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'O Muhammad, tell me about submission (al-islam)' — يَا مُحَمَّدُ، أخْبِرْنِي عَ"
+    },
+    {
+      "hash": "7b08963c50ceeb2b1c044209864c0879d555673aeba499fa33fdf0cbf81276a1",
+      "skeleton_hash": "21bbb2de94093ce375c08c2ba3e88dde9c7a89223b77d44a2a58ebb541b01973",
+      "nfc_text": "أَنْ تُؤْمِنَ بِاللهِ، وَمَلاَئِكَتِهِ، وَكُتُبِهِ، وَرُسُلِهِ، وَالْيَوْمِ الآخِرِ، وَتُؤْمِنَ بِالْقَدَرِ خَيْرِهِ وَشَرِّهِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 374
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'O Muhammad, tell me about submission (al-islam)' — يَا مُحَمَّدُ، أخْبِرْنِي عَ"
+    },
+    {
+      "hash": "923ab887367ce0a6a10c33dd3f111fd9d1f3ed09e9ec2c0b8edc0b4fc59d1438",
+      "skeleton_hash": "e418eae368e889d727aae8ad2fc553152a028a2188ef0e1646e3814e1d3ef214",
+      "nfc_text": "صَدَقْتَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 374
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'O Muhammad, tell me about submission (al-islam)' — يَا مُحَمَّدُ، أخْبِرْنِي عَ"
+    },
+    {
+      "hash": "bb98d6509a8ae63c6fc765d1b54553e62cfcae695ed961cd1361db4b1e25c8d2",
+      "skeleton_hash": "b38da13fe52e8db253d11f04504a5cdc0a31996c696b4a149b7173a35f069caf",
+      "nfc_text": "فَأَخْبِرْنِي عَنِ الإِحْسَانِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 374
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'O Muhammad, tell me about submission (al-islam)' — يَا مُحَمَّدُ، أخْبِرْنِي عَ"
+    },
+    {
+      "hash": "b276f3a09e68cb8f7fc11af675341d80ffa084961fe9ef4ce34bc5512a285bce",
+      "skeleton_hash": "8bf862524daeca5bf9528873afd58351103b89b2b21a0de3e0608ba102efdf78",
+      "nfc_text": "أَنْ تَعْبُدَ اللهَ كَأَنَّكَ تَرَاهُ، فَإِنْ لَمْ تَكُنْ تَرَاهُ فَإِنَّهُ يَرَاكَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 374
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'O Muhammad, tell me about submission (al-islam)' — يَا مُحَمَّدُ، أخْبِرْنِي عَ"
+    },
+    {
+      "hash": "a136f7972839652dcb4badb3af5b4528b9d09e0304c2133905fb4281fd45acd0",
+      "skeleton_hash": "0ebd899420d9244b0cb3fb0f579756c859aa32f70b8f2277fc50ffa1d64166bf",
+      "nfc_text": "حَسَنَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 376
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The word ihsan can also be literally translated as \"doing what is beautiful,\" it"
+    },
+    {
+      "hash": "139408b11140706baf1b7cad086057b1ab31de0d20ff8550d90242d753145dff",
+      "skeleton_hash": "139408b11140706baf1b7cad086057b1ab31de0d20ff8550d90242d753145dff",
+      "nfc_text": "قبح",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 376
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The word ihsan can also be literally translated as \"doing what is beautiful,\" it"
+    },
+    {
+      "hash": "06f5f6db8bbc87f19c53bd75c8ca68f400139ac24015253a0719a66b05443e1c",
+      "skeleton_hash": "06f5f6db8bbc87f19c53bd75c8ca68f400139ac24015253a0719a66b05443e1c",
+      "nfc_text": "قبیح",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 376
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The word ihsan can also be literally translated as \"doing what is beautiful,\" it"
+    },
+    {
+      "hash": "be033f8f76ffe29c7dce8bc7c9fa5420c39f46171970dc77121f1825a2892b25",
+      "skeleton_hash": "be033f8f76ffe29c7dce8bc7c9fa5420c39f46171970dc77121f1825a2892b25",
+      "nfc_text": "نھج البلاغۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 382
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The thread running through all these \"stations\" is a transformative awareness of"
+    },
+    {
+      "hash": "f363ce22dad3bde3b4e0dea57c11507c0c6a4513d224ac89d941187ac3f45916",
+      "skeleton_hash": "f363ce22dad3bde3b4e0dea57c11507c0c6a4513d224ac89d941187ac3f45916",
+      "nfc_text": "شیطان",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 382
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The thread running through all these \"stations\" is a transformative awareness of"
+    },
+    {
+      "hash": "ccf03a7be6acf2b58f882a0c7ba69a89a80991fd45ea63b8868a80697fef138b",
+      "skeleton_hash": "90b9e200754ae18646fd91301241e7e720d8ae03c524d767de690fb2152b3e3a",
+      "nfc_text": "المُحسنین",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 382
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The thread running through all these \"stations\" is a transformative awareness of"
+    },
+    {
+      "hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "skeleton_hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "nfc_text": "الحق",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 382
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The thread running through all these \"stations\" is a transformative awareness of"
+    },
+    {
+      "hash": "9ef0e4aa4fdc1e59438045e9b3fc4b1beee5d70f758ac6252b4483f3eb594f2c",
+      "skeleton_hash": "9ef0e4aa4fdc1e59438045e9b3fc4b1beee5d70f758ac6252b4483f3eb594f2c",
+      "nfc_text": "سجدۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 382
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The thread running through all these \"stations\" is a transformative awareness of"
+    },
+    {
+      "hash": "aa05f1718ec27f8550233129b76558efdf433fa94745035a0d9ad72dbbf64f28",
+      "skeleton_hash": "aa05f1718ec27f8550233129b76558efdf433fa94745035a0d9ad72dbbf64f28",
+      "nfc_text": "نفس",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 382
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The thread running through all these \"stations\" is a transformative awareness of"
+    },
+    {
+      "hash": "1dfaa1d0b75170303e054e8e25c0418ae8cab04ce73878a4e5c52f13d0742c60",
+      "skeleton_hash": "1dfaa1d0b75170303e054e8e25c0418ae8cab04ce73878a4e5c52f13d0742c60",
+      "nfc_text": "ابلیس",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 382
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The thread running through all these \"stations\" is a transformative awareness of"
+    },
+    {
+      "hash": "b39f6e6773ce95cef83e234d38e5bc62a9cc3ead0e6ada123802254f665bf62b",
+      "skeleton_hash": "b39f6e6773ce95cef83e234d38e5bc62a9cc3ead0e6ada123802254f665bf62b",
+      "nfc_text": "امام المتعصبین و سلف المستکبرین",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 382
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The thread running through all these \"stations\" is a transformative awareness of"
+    },
+    {
+      "hash": "3c40da9b6dd19819f2d1a21a9efdcf38ab48b67837905cbd197fce2681acd534",
+      "skeleton_hash": "3c40da9b6dd19819f2d1a21a9efdcf38ab48b67837905cbd197fce2681acd534",
+      "nfc_text": "القدس",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 386
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Let us return to the Imam's definition of justice noted earlier: \"Justice puts e"
+    },
+    {
+      "hash": "c626d2db7679a18b819189d18f984ae7d986643c6f2d209dc7ac5f36fdd6cf15",
+      "skeleton_hash": "c626d2db7679a18b819189d18f984ae7d986643c6f2d209dc7ac5f36fdd6cf15",
+      "nfc_text": "احسان",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 425
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "From this vantage point, every virtue can be regarded as the reflection on the h"
+    },
+    {
+      "hash": "5e56bb84fa89000037b6c29a2fc99e328217c36412f5b829f34f277a38db81f9",
+      "skeleton_hash": "5e56bb84fa89000037b6c29a2fc99e328217c36412f5b829f34f277a38db81f9",
+      "nfc_text": "الکریم",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 427
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The relationship between human virtue and divine reality is altogether indispens"
+    },
+    {
+      "hash": "24a8fb250db48187a939bdc081d7b90801fc1e1c4eabfd0f4bd1a87092d6d626",
+      "skeleton_hash": "24a8fb250db48187a939bdc081d7b90801fc1e1c4eabfd0f4bd1a87092d6d626",
+      "nfc_text": "الرحمن الرحیم",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 427
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The relationship between human virtue and divine reality is altogether indispens"
+    },
+    {
+      "hash": "552c9a8c0431589ce4c2d5a5bfabaa312b182e4e47cb6044deecbbc1e6a349f0",
+      "skeleton_hash": "552c9a8c0431589ce4c2d5a5bfabaa312b182e4e47cb6044deecbbc1e6a349f0",
+      "nfc_text": "خلیفۃ اللہ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 427
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The relationship between human virtue and divine reality is altogether indispens"
+    },
+    {
+      "hash": "9a2de2d251ac9d04feb3f04d6203154bd4195e9ce3fd62774dceb17e5d44abba",
+      "skeleton_hash": "9a2de2d251ac9d04feb3f04d6203154bd4195e9ce3fd62774dceb17e5d44abba",
+      "nfc_text": "عباد اللہ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 427
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The relationship between human virtue and divine reality is altogether indispens"
+    },
+    {
+      "hash": "0d62de75a534667926a4dba5a08eb7904dd3c3cb289bc4108098525ebf15a762",
+      "skeleton_hash": "bccaa852841378a40c466e68fd77a5204ae12a91891b331868b2e7da9c1a0717",
+      "nfc_text": "يَٓأَيُّهَا ٱلنَّاسُ أَنتُمُ ٱلْفُقَرَآءُ إِلَى ٱللَّهِۖ وَٱللَّهُ هُوَ ٱلْغَنِىُّ ٱلْحَمِيدُ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 427
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The relationship between human virtue and divine reality is altogether indispens"
+    },
+    {
+      "hash": "e671a3a00803943ca9d8b09ac38fb3f6bfff36f1179ef23099cec09503df4bbc",
+      "skeleton_hash": "76d6b8d54bba638f703fdfe5d62489589b87c53e759537203b2d077007c60844",
+      "nfc_text": "وَلاَ تَنْصِبَنَّ نَفْسَكَ لِحَرْبِ اللهِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 445
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The Imam then issues a stern warning: وَلاَ تَنْصِبَنَّ نَفْسَكَ لِحَرْبِ اللهِ "
+    },
+    {
+      "hash": "95e0c38de2cddc3bcbda160e72ca041e211a57c3d03d45133fe720d598b22338",
+      "skeleton_hash": "9f387b0bd2b513afbb123cc160ef617557a50e9e27a530327d912744c542c8cf",
+      "nfc_text": "الْكِبْرِيَاءُ رِدَائِي، وَالْعَظَمَةُ إِزَارِي، فَمَنْ نَازَعَنِي وَاحِدًا مِنْهُمَا، قَذَفْتُهُ فِي النَّارِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 445
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The Imam then issues a stern warning: وَلاَ تَنْصِبَنَّ نَفْسَكَ لِحَرْبِ اللهِ "
+    },
+    {
+      "hash": "2fe198c38b970c327ba8f9b08b4f6a42eca3ddabaff046afb7ff28b57cdae992",
+      "skeleton_hash": "3a1584278bfa554615a95c69b125a5aefec9062da19228a54d28da00d350529c",
+      "nfc_text": "لِّمَنِ ٱلْمُلْكُ ٱلْيَوْم لِلَّهِ ٱلْوَحِدِ ٱلْقَهَّارِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 447
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The paradox here, one that only a sense of spiritual values can illuminate, is t"
+    },
+    {
+      "hash": "6c616f57de6fcc30134387591eface8807d3d9b433af7452c6e4414b6c3e85d7",
+      "skeleton_hash": "6c616f57de6fcc30134387591eface8807d3d9b433af7452c6e4414b6c3e85d7",
+      "nfc_text": "القاسیۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 447
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The paradox here, one that only a sense of spiritual values can illuminate, is t"
+    },
+    {
+      "hash": "ccc16ea7d2c2ce42e3ce9330e57bbb2c30fe1d96aa346e527968e00fb82decaf",
+      "skeleton_hash": "69738a14eb8a580b2e1c9c260435a59ea59345031c5e6c173f8e878e2dea57df",
+      "nfc_text": "إِذْ قَالَ رَبُّكَ لِلْمَلَٓئِكَةِ إِنِّى خَلِقٌۢ بَشَرًۭا مِّن طِينٍۢ ۝ فَإِذَا سَوَّيْتُهُۥ وَنَفَخْتُ فِيهِ مِن رُّوحِى فَقَعُوا۟ لَهُ سَجِدِينَ ۝ فَسَجَدَ ٱلْمَلَٓئِكَةُ كُلُّهُمْ أَجْمَعُونَ ۝ إِلَّآ إِبْلِيسَ ٱسْتَكْبَرَ وَكَانَ مِنَ ٱلْكَفِرِينَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 447
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The paradox here, one that only a sense of spiritual values can illuminate, is t"
+    },
+    {
+      "hash": "2e89bc11413fbb0c14c2cb0b3ede355232461fa581ff79d93d94b4ee8de220af",
+      "skeleton_hash": "2e89bc11413fbb0c14c2cb0b3ede355232461fa581ff79d93d94b4ee8de220af",
+      "nfc_text": "خلقتنی من نار و خلقتہ من طین",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 447
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The paradox here, one that only a sense of spiritual values can illuminate, is t"
+    },
+    {
+      "hash": "d6b44770e7792c2b04a80c209d2ec9f63c82d0b5acb4cec9cc9f01b8b0caf1ee",
+      "skeleton_hash": "b39f6e6773ce95cef83e234d38e5bc62a9cc3ead0e6ada123802254f665bf62b",
+      "nfc_text": "امام المُتَعَصِّبِین و سلف المستکبرین",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 447
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The paradox here, one that only a sense of spiritual values can illuminate, is t"
+    },
+    {
+      "hash": "d43f2f0e13379b4f67561984fb62e837ec34b3b0517f677e3c0e6fef753655c4",
+      "skeleton_hash": "741e37e219e34160a47661dd8e3cc5ef094f6d2010793b1d3421fafcab8325c0",
+      "nfc_text": "الشِّرْكُ فِي هَذِهِ الْأُمَّةِ أَخْفَى مِنْ دَبِيبِ النَّمْلِ علی حَجَرِ الأَسوَد فِی لِیلَۃِ الظُّلْما",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 452
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Taken together, these statements constitute a commentary on the Qur'anic account"
+    },
+    {
+      "hash": "e8087c2491f21eb1930660cca5108f5de4c8842dc1a1470c1eaa3131f34aba0c",
+      "skeleton_hash": "e8087c2491f21eb1930660cca5108f5de4c8842dc1a1470c1eaa3131f34aba0c",
+      "nfc_text": "شرک الجلی",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 452
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Taken together, these statements constitute a commentary on the Qur'anic account"
+    },
+    {
+      "hash": "5d5e6009269642ab22d6d675bbd7f9668e67668d3b519468f43d88f44897cdf1",
+      "skeleton_hash": "5d5e6009269642ab22d6d675bbd7f9668e67668d3b519468f43d88f44897cdf1",
+      "nfc_text": "شرک الخفی",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 452
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Taken together, these statements constitute a commentary on the Qur'anic account"
+    },
+    {
+      "hash": "be612a6b1f98ed48eed8c5e93c1766990c51bdbfde3d639d2ca91762bab6d1eb",
+      "skeleton_hash": "be612a6b1f98ed48eed8c5e93c1766990c51bdbfde3d639d2ca91762bab6d1eb",
+      "nfc_text": "ریا",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 452
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Taken together, these statements constitute a commentary on the Qur'anic account"
+    },
+    {
+      "hash": "648fce816bb8d44d2cb604cb56810500ee658666a0a6bc3c2850f74918a1ac65",
+      "skeleton_hash": "29a55eb06bbdb30b69c39dda65bffb831958935856df0afcbd6c6cd3096f027d",
+      "nfc_text": "وَلاَ تَقُولَنَّ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 457
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Returning to the pride of those in power, the Imam succinctly expresses the trai"
+    },
+    {
+      "hash": "9de00a981d8debe3f99641b858fc9fd638e9e789f4a7afa12bc03cac0715d41b",
+      "skeleton_hash": "7c2b108e48603dfec196cd5678809d0eacd3c9ab0162f2032312bdca3b6b492b",
+      "nfc_text": "إِنِّي مُؤَمَّرٌ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 457
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Returning to the pride of those in power, the Imam succinctly expresses the trai"
+    },
+    {
+      "hash": "05202095ff591db0b2005791c9e8be667c17715daaa33cf1921b4b0d965fbe22",
+      "skeleton_hash": "4a21a3ffe25bc7a42eafa4f382dd2038332200595eaabaabff839d09d735fc4f",
+      "nfc_text": "آمُرُ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 457
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Returning to the pride of those in power, the Imam succinctly expresses the trai"
+    },
+    {
+      "hash": "2c3bcf3dfa4b2eade9c5eba28a82e331cc87e0be6798aa6cdb8994acaf7aaee8",
+      "skeleton_hash": "097802c90018de5b009b5725b7d03c22cf6623f679d56d1d94dcef133947ad17",
+      "nfc_text": "فَأُطَاعُ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 457
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Returning to the pride of those in power, the Imam succinctly expresses the trai"
+    },
+    {
+      "hash": "806731d7a4b3653d475cc3c0359d4d7eaebee7714cca6e98cf5a8f0ff5b21f47",
+      "skeleton_hash": "d68a60fddf10c6606b6bd481cf6fe20084d5f610348038f48655585001758b84",
+      "nfc_text": "إِنَّ ذلِكَ إِدْغَالٌ فِي الْقَلْبِ، وَمَنْهَكَةٌ لِلدِّينِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 457
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Returning to the pride of those in power, the Imam succinctly expresses the trai"
+    },
+    {
+      "hash": "1b1b9bb4dd2fe3d5cc53ba3d031e29631a462aa3098e0c77855dfcb4ce9f6d72",
+      "skeleton_hash": "1b1b9bb4dd2fe3d5cc53ba3d031e29631a462aa3098e0c77855dfcb4ce9f6d72",
+      "nfc_text": "وضع کل شئی حق محلہ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 457
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Returning to the pride of those in power, the Imam succinctly expresses the trai"
+    },
+    {
+      "hash": "8429070587ef7b400ff3d9af60e47839e18bcf91eb5f5c668b99b514a8755755",
+      "skeleton_hash": "370b1e4b49ba759d7a4ca7385b92c61ccfec8ad3667eca838bebe1e3553c53c7",
+      "nfc_text": "وَإِذَا أَحْدَثَ لَكَ مَا أَنْتَ فِيهِ مِنْ سُلْطَانِكَ أُبَّهَةً أَوْ مَخِيلَةً، فَانْظُرْ إِلَى عِظَمِ مُلْكِ اللهِ فَوْقَكَ، فَإِنَّ ذلِكَ يُطَامِنُ إِلَيْكَ مِنْ طِمَاحِكَ، وَيَكُفُّ عَنْكَ مِنْ غَرْبِكَ،يَفِيءُ إِلَيْكَ بِمَا عَزَبَ عَنْكَ مِنْ عَقْلِكَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 459
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The Imam continues: وَإِذَا أَحْدَثَ لَكَ مَا أَنْتَ فِيهِ مِنْ سُلْطَانِكَ أُبَ"
+    },
+    {
+      "hash": "d9453fa5279cfa67f60cb5d663913de295f315b2e56e98df20cbf1a7e4ebefe3",
+      "skeleton_hash": "f90cb09af5e017788a8f2565efe04db1d86978e94db5bb26e4070ce60a64a659",
+      "nfc_text": "مَخِيلَةً",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 459
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The Imam continues: وَإِذَا أَحْدَثَ لَكَ مَا أَنْتَ فِيهِ مِنْ سُلْطَانِكَ أُبَ"
+    },
+    {
+      "hash": "5060d5618d9b65d0ea94c4b90be59d03f8a7be40ff562fddcbc9a85354223865",
+      "skeleton_hash": "5060d5618d9b65d0ea94c4b90be59d03f8a7be40ff562fddcbc9a85354223865",
+      "nfc_text": "خیال",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 459
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The Imam continues: وَإِذَا أَحْدَثَ لَكَ مَا أَنْتَ فِيهِ مِنْ سُلْطَانِكَ أُبَ"
+    },
+    {
+      "hash": "8bc3eb94c6b6893c4d1c1f44abc09f2773107d873f459f14d612b4c50824ce1a",
+      "skeleton_hash": "8bc3eb94c6b6893c4d1c1f44abc09f2773107d873f459f14d612b4c50824ce1a",
+      "nfc_text": "مخیلۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 459
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The Imam continues: وَإِذَا أَحْدَثَ لَكَ مَا أَنْتَ فِيهِ مِنْ سُلْطَانِكَ أُبَ"
+    },
+    {
+      "hash": "b3623f5422263219b16af80bbae79b90144ec3646259c1b2e0ebebc0b9e7732d",
+      "skeleton_hash": "d7fc78f0b6bf79874e8d11287f957de485973c7d9e46b27f34fb0aec1a3c077c",
+      "nfc_text": "كُلُّ شَىْءٍ هَالِكٌ إِلَّا وَجْهَهُ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 459
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The Imam continues: وَإِذَا أَحْدَثَ لَكَ مَا أَنْتَ فِيهِ مِنْ سُلْطَانِكَ أُبَ"
+    },
+    {
+      "hash": "ff79bb49ae8829347112ebc39458972ec84daea681358d18e180bcad1cba0961",
+      "skeleton_hash": "8722551a81713cd401906cbbc1017db71dc4371bfee262ec74078212e4b18c79",
+      "nfc_text": "كُلُّ مَنْ عَلَيْهَا فَانٍۢ ۝ وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو ٱلْجَلَلِ وَٱلْإِكْرَامِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 459
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The Imam continues: وَإِذَا أَحْدَثَ لَكَ مَا أَنْتَ فِيهِ مِنْ سُلْطَانِكَ أُبَ"
+    },
+    {
+      "hash": "2274d5e5919dd5432c9bf27843f397cf44c387d8e2bbba5ade2d005525c6086b",
+      "skeleton_hash": "5a1153386b570574e2498980226cc0aeb360156786421141043fbf92ae70e4f9",
+      "nfc_text": "وَقُلْ جَآءَ ٱلْحَقُّ وَزَهَقَ ٱلْبَطِلُ ۚ إِنَّ ٱلْبَطِلَ كَانَ زَهُوقًۭا",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 459
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The Imam continues: وَإِذَا أَحْدَثَ لَكَ مَا أَنْتَ فِيهِ مِنْ سُلْطَانِكَ أُبَ"
+    },
+    {
+      "hash": "76d8956979803140aea60590700d188d2b306da9a9d4cf4b3cf8a1957a7bb395",
+      "skeleton_hash": "19a8bd9f6eadf59f125f5386a52e3a2908c80fdf4be89e218e91da7373a08352",
+      "nfc_text": "إِيَّاكَ وَمُسَامَةَ اللهِ فِي عَظَمَتِهِ، وَالتَّشَبُّهَ بِهِ فِي جَبَرُوتِهِ، فَإِنَّ اللهَ يُذِلُّ كُلَّ جَبَّار، وَيُهِينُ كُلَّ مُخْتَال",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 462
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "One can now better appreciate the Imam's warning: إِيَّاكَ وَمُسَامَةَ اللهِ فِي"
+    },
+    {
+      "hash": "91e5e87d70e8f894ef1b849704da67fa9baa1a5d99d5d27685e795d67c67dafd",
+      "skeleton_hash": "503425bc0d35707edefe64c8ad331e8bb1b427adee9a1a631276d2c0a8e04bcc",
+      "nfc_text": "أَنْصِفِ اللهَ وَأَنْصِفِ النَّاسَ مِنْ نَفْسِكَ، وَمِنْ خَاصَّةِ أَهْلِكَ، وَمَنْ لَكَ فِيهِ هَوىً مِنْ رَعِيَّتِكَ، فَإِنَّكَ إِلاَّ تَفْعَلْ تَظْلِمْ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 462
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "One can now better appreciate the Imam's warning: إِيَّاكَ وَمُسَامَةَ اللهِ فِي"
+    },
+    {
+      "hash": "00871dc0481b0f937f486bd04f5d4fdf3da3a3efd7aaec7e2d7a54ddcc124537",
+      "skeleton_hash": "6455c5a0c820594f2df7da9d7680cc3999a73cb92b274b841e8034879feefd73",
+      "nfc_text": "وَمَنْ ظَلَمَ عِبَادَ اللهِ كَانَ اللهُ خَصْمَهُ دُونَ عِبَادِهِ، وَمَنْ خَاصَمَهُ اللهُ أَدْحَضَ حُجَّتَهُ، وَكَانَ لله حَرْباً حَتَّى يَنْزعَ وَيَتُوبَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 462
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "One can now better appreciate the Imam's warning: إِيَّاكَ وَمُسَامَةَ اللهِ فِي"
+    },
+    {
+      "hash": "380bfd634486c33d5d4e68f6e3db430669cd4a8e09189a30dc4c3d4606c2bdbb",
+      "skeleton_hash": "380bfd634486c33d5d4e68f6e3db430669cd4a8e09189a30dc4c3d4606c2bdbb",
+      "nfc_text": "فطرۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 464
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "As for the nature of the tyrant's war against God in this world — that is, befor"
+    },
+    {
+      "hash": "1fad6250a1de815add5e25e3429aae9d35228634ccd29d367af1fcc1e31b056f",
+      "skeleton_hash": "1fad6250a1de815add5e25e3429aae9d35228634ccd29d367af1fcc1e31b056f",
+      "nfc_text": "استدراج",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 466
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "One form is constituted by the very persistence of tyranny itself, for the longe"
+    },
+    {
+      "hash": "bc06b03be870c0eedb4e2cae06d8040867c77e8b0e65f819f9aea52f00cd57d1",
+      "skeleton_hash": "bc06b03be870c0eedb4e2cae06d8040867c77e8b0e65f819f9aea52f00cd57d1",
+      "nfc_text": "درج",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 466
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "One form is constituted by the very persistence of tyranny itself, for the longe"
+    },
+    {
+      "hash": "d2f710285892bb75011f8b535b3bddce188ad37437812a172c9c1d899a0977ff",
+      "skeleton_hash": "d2f710285892bb75011f8b535b3bddce188ad37437812a172c9c1d899a0977ff",
+      "nfc_text": "درجہ بدرجہ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 466
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "One form is constituted by the very persistence of tyranny itself, for the longe"
+    },
+    {
+      "hash": "14211f8c123868f2f991946fa4f4a1c7848524def22da7a2e29873a0b2b1a31c",
+      "skeleton_hash": "4a993754ab92699c405c79dd99fee746b9a2839f31bd388ecab3dd3953fa3b26",
+      "nfc_text": "وَمِمَّنْ خَلَقْنَآ أُمَّةٌۭ يَهْدُونَ بِٱلْحَقِّ وَبِهِ يَعْدِلُونَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 466
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "One form is constituted by the very persistence of tyranny itself, for the longe"
+    },
+    {
+      "hash": "a49b8840d160e7d6e540702ae0cd6d68ae7ebcd6cb5c293a008f0b8f2c1d201e",
+      "skeleton_hash": "a49b8840d160e7d6e540702ae0cd6d68ae7ebcd6cb5c293a008f0b8f2c1d201e",
+      "nfc_text": "۱۸۱",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 466
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "One form is constituted by the very persistence of tyranny itself, for the longe"
+    },
+    {
+      "hash": "a9d0ef468538b7abba54c4dc0330a50f0f50d034efc15b3098a77ec7e624ee76",
+      "skeleton_hash": "dead5e18ba805da2a21cefcb22a88a100774990f6f783304b3b52083bbccdd2f",
+      "nfc_text": "وَٱلَّذِينَ كَذَّبُوا۟ بِـَٔايَتِنَا سَنَسْتَدْرِجُهُم مِّنْ حَيْثُ لَا يَعْلَمُونَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 466
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "One form is constituted by the very persistence of tyranny itself, for the longe"
+    },
+    {
+      "hash": "8cd4ac453cfc64715887f4500d5df809e68b93975c0c52462a02ab6bbe367ba0",
+      "skeleton_hash": "8cd4ac453cfc64715887f4500d5df809e68b93975c0c52462a02ab6bbe367ba0",
+      "nfc_text": "۱۸۲",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 466
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "One form is constituted by the very persistence of tyranny itself, for the longe"
+    },
+    {
+      "hash": "d0bec8e7baa7e9a3b0de0ddf87e467da14ebca30008b2930b3635f7e4ab67bfd",
+      "skeleton_hash": "46444116b5bb3e71f4b0daeac65a09b2bd3dd5019f60a5d3c7630878b31f49bc",
+      "nfc_text": "وَلَا تُعْجِبْكَ أَمْوَلُهُمْ وَأَوْلَدُهُمْ ۚ إِنَّمَا يُرِيدُ ٱللَّهُ أَن يُعَذِّبَهُم بِهَا فِى ٱلدُّنْيَا وَتَزْهَقَ أَنفُسُهُمْ وَهُمْ كَفِرُونَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 466
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "One form is constituted by the very persistence of tyranny itself, for the longe"
+    },
+    {
+      "hash": "12d56e72fabbb5044072160a1c28e6b4f976f0925028ef880ccbbdddadee2a7b",
+      "skeleton_hash": "12d56e72fabbb5044072160a1c28e6b4f976f0925028ef880ccbbdddadee2a7b",
+      "nfc_text": "۸۵",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 466
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "One form is constituted by the very persistence of tyranny itself, for the longe"
+    },
+    {
+      "hash": "44ed25188f2cb6036e997c0fe6bad809cc27c1e006c3a5c8158f06e3c282e301",
+      "skeleton_hash": "44ed25188f2cb6036e997c0fe6bad809cc27c1e006c3a5c8158f06e3c282e301",
+      "nfc_text": "ضمیر",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 471
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Another form this enmity with God takes is the inner war against one's own consc"
+    },
+    {
+      "hash": "760ad12dd8da369f56778de06be7ea1aa2afc75dbf025beb5ffd404b0c078723",
+      "skeleton_hash": "067c38d01deb8c6f239226052cd78481ea3b99cbed58cb791ed3fefdf8f218b5",
+      "nfc_text": "وَنَفْسٍۢ وَمَا سَوَّىٰهَا",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 471
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Another form this enmity with God takes is the inner war against one's own consc"
+    },
+    {
+      "hash": "16306088fc3cfd6cdad6124e470bfef77bfffeb336fbf14030580acbbe5b95d3",
+      "skeleton_hash": "ae07ce1ca5b6dc61434763af3bee3980177a9ea0ef352468eb0c5583de1f4911",
+      "nfc_text": "فَأَلْهَمَهَا فُجُورَهَا وَتَقْوَىٰهَا",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 471
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Another form this enmity with God takes is the inner war against one's own consc"
+    },
+    {
+      "hash": "e6d902e0a51c13e0420f9f94d1fbc528853644fb3e72354b58239152a43a2467",
+      "skeleton_hash": "cc957a23c58cd211a1afb2c109394aaf99157d3c4824efdeb7ae2dbf24a2e49e",
+      "nfc_text": "وَإِذْ أَخَذَ رَبُّكَ مِنۢ بَنِىٓ آدَمَ مِن ظُهُورِهِمْ ذُرِّيَّتَهُمْ وَأَشْهَدَهُمْ عَلَىٰٓ أَنفُسِهِمْ أَلَسْتُ بِرَبِّكُمْ ۖ قَالُوا۟ بَلَىٰ ۛ شَهِدْنَآ ۛ أَن تَقُولُوا۟ يَوْمَ ٱلْقِيَمَةِ إِنَّا كُنَّا عَنْ هَذَا غَفِلِينَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 473
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "At a deeper level, then, this war against God stands revealed as a war against t"
+    },
+    {
+      "hash": "8cd8910b2344e907de451471a8c5afe906fdf9a94bfa82a7c167d4dc43601b90",
+      "skeleton_hash": "8cd8910b2344e907de451471a8c5afe906fdf9a94bfa82a7c167d4dc43601b90",
+      "nfc_text": "۱۷۲",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 473
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "At a deeper level, then, this war against God stands revealed as a war against t"
+    },
+    {
+      "hash": "7844e89e07b5b416e3f7a9f639ae717dbc90e33510911e2c42e3d9c87206ba93",
+      "skeleton_hash": "7844e89e07b5b416e3f7a9f639ae717dbc90e33510911e2c42e3d9c87206ba93",
+      "nfc_text": "النفس الامارۃ بالسوء",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 475
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "What we observe here is that the source of morality transcends the human level e"
+    },
+    {
+      "hash": "648fce816bb8d44d2cb604cb56810500ee658666a0a6bc3c2850f74918a1ac65",
+      "skeleton_hash": "29a55eb06bbdb30b69c39dda65bffb831958935856df0afcbd6c6cd3096f027d",
+      "nfc_text": "وَلاَ تَقُولَنَّ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 475
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "What we observe here is that the source of morality transcends the human level e"
+    },
+    {
+      "hash": "d478a4c0af9cc538cd2147da5cc600be99c3d791d60a20e163d22e559ccc4b85",
+      "skeleton_hash": "321cf4e18bd820655466f55d77a494f94db79f1489c309409008acbb341ae6d5",
+      "nfc_text": "إِنِّي مُؤَمَّرٌ آمُرُ فَأُطَاعُ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 475
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "What we observe here is that the source of morality transcends the human level e"
+    },
+    {
+      "hash": "f73c7b5a95daf927271c10ac986cf5cd770ecfae615fa26234f7a9ec474709a0",
+      "skeleton_hash": "f73c7b5a95daf927271c10ac986cf5cd770ecfae615fa26234f7a9ec474709a0",
+      "nfc_text": "مجاھدۃ النفس",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 477
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The combat against one's own soul (mujahadat al-nafs, ⟪ar:مجاھدۃ النفس⟫) is a th"
+    },
+    {
+      "hash": "d4504e48ad137847f28719abf0ff1975fe76318f499827c9aec0add348eb9805",
+      "skeleton_hash": "d4504e48ad137847f28719abf0ff1975fe76318f499827c9aec0add348eb9805",
+      "nfc_text": "محمد بن ابی بکر",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 477
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The combat against one's own soul (mujahadat al-nafs, ⟪ar:مجاھدۃ النفس⟫) is a th"
+    },
+    {
+      "hash": "476f562e2f66f934735784179dbda07dd8f75fc94e6c7b3ce8074f27dadb4e40",
+      "skeleton_hash": "476f562e2f66f934735784179dbda07dd8f75fc94e6c7b3ce8074f27dadb4e40",
+      "nfc_text": "مالک اشتر",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 477
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The combat against one's own soul (mujahadat al-nafs, ⟪ar:مجاھدۃ النفس⟫) is a th"
+    },
+    {
+      "hash": "8afc49612174b4cd393362afcbade702263cbfecb9859a87a21b4af97565e79e",
+      "skeleton_hash": "0979308e13fb32e2bc3f4fa7f6cac423227748afcdf4c1aecec673fdb4d3f0ec",
+      "nfc_text": "كَلَّآ إِنَّ ٱلْإِنسَنَ لَيَطْغَىٰٓ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 477
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The combat against one's own soul (mujahadat al-nafs, ⟪ar:مجاھدۃ النفس⟫) is a th"
+    },
+    {
+      "hash": "b47be19b99c7de0b978e5dded06d77f83c2a1500f97a86307083f05dcb972767",
+      "skeleton_hash": "317971f506a9c86eac36bb2c61f381d05f28108e98594e8816180d48a148384f",
+      "nfc_text": "أَن رَّآهُ ٱسْتَغْنَىٰٓ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 477
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The combat against one's own soul (mujahadat al-nafs, ⟪ar:مجاھدۃ النفس⟫) is a th"
+    },
+    {
+      "hash": "128c22ed9523f1031f784e62fab6da3589f05737d9596aa37eadf8b90e452246",
+      "skeleton_hash": "ca05731b94d7e396c679a4069ed119d8e93b88198fe5a5dcc117b208b7b7b4c0",
+      "nfc_text": "أَفَرَءَيْتَ مَنِ ٱتَّخَذَ إِلَهَهُۥ هَوَىٰهُ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 477
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The combat against one's own soul (mujahadat al-nafs, ⟪ar:مجاھدۃ النفس⟫) is a th"
+    },
+    {
+      "hash": "0d62de75a534667926a4dba5a08eb7904dd3c3cb289bc4108098525ebf15a762",
+      "skeleton_hash": "bccaa852841378a40c466e68fd77a5204ae12a91891b331868b2e7da9c1a0717",
+      "nfc_text": "يَٓأَيُّهَا ٱلنَّاسُ أَنتُمُ ٱلْفُقَرَآءُ إِلَى ٱللَّهِۖ وَٱللَّهُ هُوَ ٱلْغَنِىُّ ٱلْحَمِيدُ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 479
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This principle emerges clearly from the following words of the Imam: 'Let the mo"
+    },
+    {
+      "hash": "20d5368f4a9515f67f4c5d353a7123cd37ad7086e3c262620e78cbb1513cd48e",
+      "skeleton_hash": "74e123f231f44f836e7ad4d2df104f20afa9312ba6b1c034d1ce8f4cef40ed58",
+      "nfc_text": "وَلاَ تُدْخِلَنَّ فِي مَشُورَتِكَ بَخِيلاً يَعْدِلُ بِكَ عَنِ الْفَضْلِ، وَيَعِدُكَ الْفَقْرَ، وَلاَ جَبَاناً يُضعِّفُكَ عَنِ الاْمُورِ، وَلاَ حَرِيصاً يُزَيِّنُ لَكَ الشَّرَهَ بِالْجَوْرِ، فَإِنَّ الْبُخْلَ وَالْجُبْنَ وَالْحِرْصَ غَرَائِزُ شَتَّى يَجْمَعُهَا سُوءُ الظَّنِّ بِاللهِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 516
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "وَلاَ تُدْخِلَنَّ فِي مَشُورَتِكَ بَخِيلاً يَعْدِلُ بِكَ عَنِ الْفَضْلِ، وَيَعِد"
+    },
+    {
+      "hash": "9a8e61e6a6b3b84ad8cda9f073bbead18611edc8469bec323f5bc14216e58745",
+      "skeleton_hash": "575846adac57aae6d82631845ffcfd44ea2b0d1d7eb234de501102783185c079",
+      "nfc_text": "سُوءُ الظَّنِّ بِاللهِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 520
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The phrase 'a bad opinion' (⟪ar:سُوءُ الظَّنِّ بِاللهِ⟫, sū' al-zann) points to "
+    },
+    {
+      "hash": "b138c436ec2df51866b68a543944afaf942f242dc7807061b90f05475b613d73",
+      "skeleton_hash": "b138c436ec2df51866b68a543944afaf942f242dc7807061b90f05475b613d73",
+      "nfc_text": "حسن الظن",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 520
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The phrase 'a bad opinion' (⟪ar:سُوءُ الظَّنِّ بِاللهِ⟫, sū' al-zann) points to "
+    },
+    {
+      "hash": "5e56bb84fa89000037b6c29a2fc99e328217c36412f5b829f34f277a38db81f9",
+      "skeleton_hash": "5e56bb84fa89000037b6c29a2fc99e328217c36412f5b829f34f277a38db81f9",
+      "nfc_text": "الکریم",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 522
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This is the very opposite, it should be noted, of 'comparing oneself with God in"
+    },
+    {
+      "hash": "24a8fb250db48187a939bdc081d7b90801fc1e1c4eabfd0f4bd1a87092d6d626",
+      "skeleton_hash": "24a8fb250db48187a939bdc081d7b90801fc1e1c4eabfd0f4bd1a87092d6d626",
+      "nfc_text": "الرحمن الرحیم",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 522
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This is the very opposite, it should be noted, of 'comparing oneself with God in"
+    },
+    {
+      "hash": "0d62de75a534667926a4dba5a08eb7904dd3c3cb289bc4108098525ebf15a762",
+      "skeleton_hash": "bccaa852841378a40c466e68fd77a5204ae12a91891b331868b2e7da9c1a0717",
+      "nfc_text": "يَٓأَيُّهَا ٱلنَّاسُ أَنتُمُ ٱلْفُقَرَآءُ إِلَى ٱللَّهِۖ وَٱللَّهُ هُوَ ٱلْغَنِىُّ ٱلْحَمِيدُ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 524
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "يَٓأَيُّهَا ٱلنَّاسُ أَنتُمُ ٱلْفُقَرَآءُ إِلَى ٱللَّهِۖ وَٱللَّهُ هُوَ ٱلْغَنِى"
+    },
+    {
+      "hash": "9a2de2d251ac9d04feb3f04d6203154bd4195e9ce3fd62774dceb17e5d44abba",
+      "skeleton_hash": "9a2de2d251ac9d04feb3f04d6203154bd4195e9ce3fd62774dceb17e5d44abba",
+      "nfc_text": "عباد اللہ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 526
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'O mankind, ye are the poor before God, and God, He is the Rich, the absolutely "
+    },
+    {
+      "hash": "552c9a8c0431589ce4c2d5a5bfabaa312b182e4e47cb6044deecbbc1e6a349f0",
+      "skeleton_hash": "552c9a8c0431589ce4c2d5a5bfabaa312b182e4e47cb6044deecbbc1e6a349f0",
+      "nfc_text": "خلیفۃ اللہ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 526
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "'O mankind, ye are the poor before God, and God, He is the Rich, the absolutely "
+    },
+    {
+      "hash": "14af85e3cbd4240063feffa98d797e68617c9d875a6fd19cb737658d4aa57a39",
+      "skeleton_hash": "7105bedbdaa6c427b9f112d189cbc02e36ba2701a635a761143005f8dd99a081",
+      "nfc_text": "وَكُلٌّ قَدْ سَمَّى اللهُ سَهْمَهُ، وَوَضَعَ عَلَى حَدِّهِ وَفَرِيضَتِهِ فِي كِتَابِهِ أَوْ سُنَّةِ نَبِيِّهِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 532
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "وَكُلٌّ قَدْ سَمَّى اللهُ سَهْمَهُ، وَوَضَعَ عَلَى حَدِّهِ وَفَرِيضَتِهِ فِي كِت"
+    },
+    {
+      "hash": "95b5036e888d8d8b685826455332e3af684459775c4b0e911595f8f413e2b5bf",
+      "skeleton_hash": "95b5036e888d8d8b685826455332e3af684459775c4b0e911595f8f413e2b5bf",
+      "nfc_text": "صلى الله عليه وآله",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 532
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "وَكُلٌّ قَدْ سَمَّى اللهُ سَهْمَهُ، وَوَضَعَ عَلَى حَدِّهِ وَفَرِيضَتِهِ فِي كِت"
+    },
+    {
+      "hash": "74b18b4b4ee7df87dee91f3303a278382d308dc2b56dc3983d901128eeb7d7fc",
+      "skeleton_hash": "99fc7251372b30f5b9246ddc4eb09427828198dc99b3d9b76ccc04db3e5ea38f",
+      "nfc_text": "عَهْداً مِنْهُ عِنْدَنَا مَحْفُوظاً",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 532
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "وَكُلٌّ قَدْ سَمَّى اللهُ سَهْمَهُ، وَوَضَعَ عَلَى حَدِّهِ وَفَرِيضَتِهِ فِي كِت"
+    },
+    {
+      "hash": "0e5ae5659e6f946ee0e03c3d991cd5aafc379dd94c686b8e4c7747e4b62c5510",
+      "skeleton_hash": "0e5ae5659e6f946ee0e03c3d991cd5aafc379dd94c686b8e4c7747e4b62c5510",
+      "nfc_text": "عہد",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 536
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The governor's duty to society is therefore part of the universal covenant betwe"
+    },
+    {
+      "hash": "470e903399787f30166a5022744f81f7f61637ed2a73006bbe79aa79436a9c7b",
+      "skeleton_hash": "3ff3d983d83dbf298dbe1fb89038fc1bfe9fc1f82bcb4c0710361957648d55e6",
+      "nfc_text": "أَفَمَن يَعْلَمُ أَنَّمَآ أُنزِلَ إِلَيْكَ مِن رَّبِّكَ ٱلْحَقُّ كَمَنْ هُوَ أَعْمَىٰٓ ۚ إِنَّمَا يَتَذَكَّرُ أُو۟لُوا۟ ٱلْأَلْبَبِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 538
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "‏ أَفَمَن يَعْلَمُ أَنَّمَآ أُنزِلَ إِلَيْكَ مِن رَّبِّكَ ٱلْحَقُّ كَمَنْ هُوَ أ"
+    },
+    {
+      "hash": "593a298ac8e59358cdcac43a42babba7d7c4059fbf236c20ec1ffb6ceeaae6ca",
+      "skeleton_hash": "593a298ac8e59358cdcac43a42babba7d7c4059fbf236c20ec1ffb6ceeaae6ca",
+      "nfc_text": "۱۹",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 538
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "‏ أَفَمَن يَعْلَمُ أَنَّمَآ أُنزِلَ إِلَيْكَ مِن رَّبِّكَ ٱلْحَقُّ كَمَنْ هُوَ أ"
+    },
+    {
+      "hash": "d852de01a7d9ccd6bdf5ad146006e7c50ae5120c79a5bc364f432cd5f09caa2b",
+      "skeleton_hash": "ace7debf5ed76526dc8c9dc01b4a425870208080ef24d3d081d11ac5647ac003",
+      "nfc_text": "ٱلَّذِينَ يُوفُونَ بِعَهْدِ ٱللَّهِ وَلَا يَنقُضُونَ ٱلْمِيثَقَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 538
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "‏ أَفَمَن يَعْلَمُ أَنَّمَآ أُنزِلَ إِلَيْكَ مِن رَّبِّكَ ٱلْحَقُّ كَمَنْ هُوَ أ"
+    },
+    {
+      "hash": "59b3401e22895c3958f655dbdbd3d407b61dc4a9e0b4e5324bc64dc54a637ff6",
+      "skeleton_hash": "59b3401e22895c3958f655dbdbd3d407b61dc4a9e0b4e5324bc64dc54a637ff6",
+      "nfc_text": "۲۰",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 538
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "‏ أَفَمَن يَعْلَمُ أَنَّمَآ أُنزِلَ إِلَيْكَ مِن رَّبِّكَ ٱلْحَقُّ كَمَنْ هُوَ أ"
+    },
+    {
+      "hash": "eb1a4ab7d3eae131144ec48ec1ed075b3468d17e0a80edc13d5309237572cc9d",
+      "skeleton_hash": "d24d9ec8bc8e2f7d60d55286ef1bcb4b190c1fac92ce4f66e8210672a4339d33",
+      "nfc_text": "وَلَا تَقْرَبُوا۟ مَالَ ٱلْيَتِيمِ إِلَّا بِٱلَّتِى هِىَ أَحْسَنُ حَتَّىٰ يَبْلُغَ أَشُدَّهُۥ ۚ وَأَوْفُوا۟ بِٱلْعَهْدِ ۖ إِنَّ ٱلْعَهْدَ كَانَ مَسْـُٔولًۭا",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 542
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "‏ وَلَا تَقْرَبُوا۟ مَالَ ٱلْيَتِيمِ إِلَّا بِٱلَّتِى هِىَ أَحْسَنُ حَتَّىٰ يَبْ"
+    },
+    {
+      "hash": "4d7042518eaa719727085fbebca8f9dc06943586030c7a2f5ecec77615cad06c",
+      "skeleton_hash": "4d7042518eaa719727085fbebca8f9dc06943586030c7a2f5ecec77615cad06c",
+      "nfc_text": "۳۴",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 542
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "‏ وَلَا تَقْرَبُوا۟ مَالَ ٱلْيَتِيمِ إِلَّا بِٱلَّتِى هِىَ أَحْسَنُ حَتَّىٰ يَبْ"
+    },
+    {
+      "hash": "9d162eb736d84bad805509ae76dd00ae8036e5de631b5fdfecb89bf8490cc5c2",
+      "skeleton_hash": "3a0a9d9a2b8f2fac37c26b6c5421a7af15b058b315742baaa3597f0a7eef4301",
+      "nfc_text": "وَأَكْثِرْ مُدَارَسَةَ الَعُلَمَاءِ، وَمُنَافَثَةَ الْحُكَمَاءِ، فِي تَثْبِيتِ مَا صَلَحَ عَلَيْهِ أَمْرُ بِلاَدِكَ، وَإِقَامَةِ مَا اسْتَقَامَ بِهِ النَّاسُ قَبْلَكَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 548
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "وَأَكْثِرْ مُدَارَسَةَ الَعُلَمَاءِ، وَمُنَافَثَةَ الْحُكَمَاءِ، فِي تَثْبِيتِ م"
+    },
+    {
+      "hash": "f3bbd8a2f7f2fbed2e3e5576992eec610b39edcc25662ec88bcaf69b0e38b683",
+      "skeleton_hash": "f3bbd8a2f7f2fbed2e3e5576992eec610b39edcc25662ec88bcaf69b0e38b683",
+      "nfc_text": "علماء",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 550
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This should be done so as to 'consolidate that which brings well-being to your l"
+    },
+    {
+      "hash": "2a21c5ac558e73a865b51dbe5bbef137591bf97cd86a899a14ae886570f3409c",
+      "skeleton_hash": "2a21c5ac558e73a865b51dbe5bbef137591bf97cd86a899a14ae886570f3409c",
+      "nfc_text": "شریعۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 550
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This should be done so as to 'consolidate that which brings well-being to your l"
+    },
+    {
+      "hash": "d1ffbaca8835bfea7c6ec1b1b06b53012125ec3fa1c01b0f5f1157611802e4c3",
+      "skeleton_hash": "d1ffbaca8835bfea7c6ec1b1b06b53012125ec3fa1c01b0f5f1157611802e4c3",
+      "nfc_text": "حکما",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 550
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This should be done so as to 'consolidate that which brings well-being to your l"
+    },
+    {
+      "hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "skeleton_hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "nfc_text": "الحق",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 587
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Furthermore, the just person is liberated from the material consequences of his "
+    },
+    {
+      "hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "skeleton_hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "nfc_text": "الحق",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 587
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Furthermore, the just person is liberated from the material consequences of his "
+    },
+    {
+      "hash": "aa05f1718ec27f8550233129b76558efdf433fa94745035a0d9ad72dbbf64f28",
+      "skeleton_hash": "aa05f1718ec27f8550233129b76558efdf433fa94745035a0d9ad72dbbf64f28",
+      "nfc_text": "نفس",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 587
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Furthermore, the just person is liberated from the material consequences of his "
+    },
+    {
+      "hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "skeleton_hash": "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3",
+      "nfc_text": "الحق",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 587
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Furthermore, the just person is liberated from the material consequences of his "
+    },
+    {
+      "hash": "2c3d7acfbd480127161ee73f0954073c184c46560945fdd50d8f68e537db40c5",
+      "skeleton_hash": "2c3d7acfbd480127161ee73f0954073c184c46560945fdd50d8f68e537db40c5",
+      "nfc_text": "ذکر",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 631
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "We are reminded here of the 'polishing' of the heart effected by remembrance — b"
+    },
+    {
+      "hash": "85a9dfd6d635a28b02386fbfeb9e657ef5e18df587fae07b5ff10a774bff38d3",
+      "skeleton_hash": "b1fa5d566bb978bae75465a58a62958f3b6f72ed85aae23e61058bd5428ca852",
+      "nfc_text": "وَضَعَ الشَّئُی حَقَّ مَحَلِّہِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 636
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "We also hope to have demonstrated here that the Imam's letters and discourses ar"
+    },
+    {
+      "hash": "e52b77d2c6fdc5c308b0b92740779277fadec4734d462e16976b3839cda8a55d",
+      "skeleton_hash": "e52b77d2c6fdc5c308b0b92740779277fadec4734d462e16976b3839cda8a55d",
+      "nfc_text": "معرفۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 768
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The following aphorisms of one of the great masters of Sufi gnosis or ma'rifa (⟪"
+    },
+    {
+      "hash": "7d24c0eb78d67305e68607ec1c950829272384f0b63beb2fb1d00c06b2aacb87",
+      "skeleton_hash": "7d24c0eb78d67305e68607ec1c950829272384f0b63beb2fb1d00c06b2aacb87",
+      "nfc_text": "لو کشف الغطاء ما ازدت یقینا",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 793
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "The import of all these sayings can be grasped within a paradox tersely expresse"
+    },
+    {
+      "hash": "070ac9a3443b86a13dd9128d5610289b3eb6875c1a5e89ab801a3f25b6d821b8",
+      "skeleton_hash": "070ac9a3443b86a13dd9128d5610289b3eb6875c1a5e89ab801a3f25b6d821b8",
+      "nfc_text": "عقل",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 815
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "It is spiritual intuition that imparts the capacity to see as one — in the unify"
+    },
+    {
+      "hash": "13eb23b8db46219a5d79576f703d162029ebd9b18b8123bc9610497728134d2f",
+      "skeleton_hash": "8b7ec3a64e0cb93884454b89960af8e34a02017d758ddd3b5e62e704059f5a4b",
+      "nfc_text": "فنیٰ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1001
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This metaphysical conception of the relationship between the Name, the sifa, and"
+    },
+    {
+      "hash": "55c4f6f1ee00aa05ba6622f35c0a6a9669459216a36e86a62293c74fd8353594",
+      "skeleton_hash": "55c4f6f1ee00aa05ba6622f35c0a6a9669459216a36e86a62293c74fd8353594",
+      "nfc_text": "نھج البلاغہ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1050
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This, the opening sermon of ⟪ar:نھج البلاغہ⟫, Maulana Ali (AS) delivered as a ⟪a"
+    },
+    {
+      "hash": "e9420c40febad3212a25df08609e4c2b76428291cbafc086fb4b710ea39eb7c4",
+      "skeleton_hash": "e9420c40febad3212a25df08609e4c2b76428291cbafc086fb4b710ea39eb7c4",
+      "nfc_text": "خطبۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1050
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This, the opening sermon of ⟪ar:نھج البلاغہ⟫, Maulana Ali (AS) delivered as a ⟪a"
+    },
+    {
+      "hash": "1c82d57c788e36d7bc4415f63d857fd303f30083a374d879986a749e85ef1e1b",
+      "skeleton_hash": "d6486c76d7c9313e517eef29b8f93027a9b8f427bff3ccea82d25155b32f260f",
+      "nfc_text": "الحَمْدُ للهِ الَّذَي لاَ يَبْلُغُ مِدْحَتَهُ القَائِلُونَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1050
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This, the opening sermon of ⟪ar:نھج البلاغہ⟫, Maulana Ali (AS) delivered as a ⟪a"
+    },
+    {
+      "hash": "d48a626c9f1611f88e87c4c839d023a42a31300dc6274d4e5ead2dd485b647d3",
+      "skeleton_hash": "dd9b6b10a43141fe72611e6f19897dc497ae1d0854fdf193c91b243a3f613187",
+      "nfc_text": "وَلاِ يُحْصِي نَعْمَاءَهُ العَادُّونَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1050
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This, the opening sermon of ⟪ar:نھج البلاغہ⟫, Maulana Ali (AS) delivered as a ⟪a"
+    },
+    {
+      "hash": "e666de54aa585e9b022a4d161d1082516cf6adbff012e2bfdcdffff967951e83",
+      "skeleton_hash": "ce7b84a21e6dbd80203686f71a3c335779147eab7c3d3be9fd920b680f8d740a",
+      "nfc_text": "ولاَ يُؤَدِّي حَقَّهُ الُمجْتَهِدُونَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1050
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This, the opening sermon of ⟪ar:نھج البلاغہ⟫, Maulana Ali (AS) delivered as a ⟪a"
+    },
+    {
+      "hash": "f5d438618bbc9a2fa96717f30163a8e301f80b2a22d5097df224026c948a7fc6",
+      "skeleton_hash": "406897918ed133be479dd80de7a93964b41a2bb5edccf3fe399c3c5a5e6bd92c",
+      "nfc_text": "الَّذِي لاَ يُدْركُهُ بُعْدُ الهِمَمِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1050
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This, the opening sermon of ⟪ar:نھج البلاغہ⟫, Maulana Ali (AS) delivered as a ⟪a"
+    },
+    {
+      "hash": "75b21ecbb3352bd49dd08e7b06684fc9400a7ed5b4ecefd6ddbe5f729c75d5f1",
+      "skeleton_hash": "c8b84accb65fd17bd9956fb33b0e3d9e9692c9d19a5bfd898551030e3fbebb55",
+      "nfc_text": "وَلاَ يَنَالُهُ غَوْصُ الفِطَنِ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1050
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This, the opening sermon of ⟪ar:نھج البلاغہ⟫, Maulana Ali (AS) delivered as a ⟪a"
+    },
+    {
+      "hash": "e4d47bd4c97891da4512f04e74be3e32143158a01cec1910d3516a5fc34bf21a",
+      "skeleton_hash": "84209ff693a8cb56e3373f5ae3c6a80cefca10da8454d7ba6e34df1a285fe1db",
+      "nfc_text": "الَّذِي لَيْسَ لِصِفَتِهِ حَدٌّ مَحْدُودٌ، وَلاَ نَعْتٌ مَوْجُودٌ، وَلا وَقْتٌ مَعْدُودٌ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1050
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "This, the opening sermon of ⟪ar:نھج البلاغہ⟫, Maulana Ali (AS) delivered as a ⟪a"
+    },
+    {
+      "hash": "02cce9bdcaae87c83ee59887ebf7234924c92f55199fcb82b06991ca74215c07",
+      "skeleton_hash": "02cce9bdcaae87c83ee59887ebf7234924c92f55199fcb82b06991ca74215c07",
+      "nfc_text": "أخلاص",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1052
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Foremost in religion is knowledge of Him; the perfection of this knowledge is be"
+    },
+    {
+      "hash": "c6dffd7d78a569d751e83f00641568ef331e46be822f5f678a2033193479abb0",
+      "skeleton_hash": "c6dffd7d78a569d751e83f00641568ef331e46be822f5f678a2033193479abb0",
+      "nfc_text": "نفی الصفۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1052
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Foremost in religion is knowledge of Him; the perfection of this knowledge is be"
+    },
+    {
+      "hash": "8cadf7b1b28bc34cee4f519dc1808f0681d859275fcec01f8bf0e8888ec201aa",
+      "skeleton_hash": "8cadf7b1b28bc34cee4f519dc1808f0681d859275fcec01f8bf0e8888ec201aa",
+      "nfc_text": "رحمن",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1052
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Foremost in religion is knowledge of Him; the perfection of this knowledge is be"
+    },
+    {
+      "hash": "4379de33b853aacd4dbac5457bdd8bcb357b8522a26277c5147454e8e40a86d4",
+      "skeleton_hash": "4379de33b853aacd4dbac5457bdd8bcb357b8522a26277c5147454e8e40a86d4",
+      "nfc_text": "رحیم",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1052
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Foremost in religion is knowledge of Him; the perfection of this knowledge is be"
+    },
+    {
+      "hash": "0bc24cac839e34ac1cf0c79d102cc549a82691fa6e25eafde108d9747b4a3c12",
+      "skeleton_hash": "0bc24cac839e34ac1cf0c79d102cc549a82691fa6e25eafde108d9747b4a3c12",
+      "nfc_text": "عزیز",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1052
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Foremost in religion is knowledge of Him; the perfection of this knowledge is be"
+    },
+    {
+      "hash": "4436fe0558a2c98876a9f0a79180138e38101906a44316d543c4b6ed43838746",
+      "skeleton_hash": "4436fe0558a2c98876a9f0a79180138e38101906a44316d543c4b6ed43838746",
+      "nfc_text": "حد",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1052
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Foremost in religion is knowledge of Him; the perfection of this knowledge is be"
+    },
+    {
+      "hash": "f6b0f71d694a8f4c37f6dc0be51fc37e0d1b998d5ec70aef24946ac90d482051",
+      "skeleton_hash": "f6b0f71d694a8f4c37f6dc0be51fc37e0d1b998d5ec70aef24946ac90d482051",
+      "nfc_text": "لا الہ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1052
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Foremost in religion is knowledge of Him; the perfection of this knowledge is be"
+    },
+    {
+      "hash": "333f0d2372916f99d5376e4c41c8a13377ceb7031d234b81c953b2be7edd541b",
+      "skeleton_hash": "333f0d2372916f99d5376e4c41c8a13377ceb7031d234b81c953b2be7edd541b",
+      "nfc_text": "نفی",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1052
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Foremost in religion is knowledge of Him; the perfection of this knowledge is be"
+    },
+    {
+      "hash": "87fdb734e1f972fec64b59a8c48853c468f3e0af1b94b2da411fd3a8d85ae558",
+      "skeleton_hash": "87fdb734e1f972fec64b59a8c48853c468f3e0af1b94b2da411fd3a8d85ae558",
+      "nfc_text": "الا اللہ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1052
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Foremost in religion is knowledge of Him; the perfection of this knowledge is be"
+    },
+    {
+      "hash": "95ffd0ccdb55b01a7623d84e574b04f1c83332c9a0c59494db33a106ac75e692",
+      "skeleton_hash": "95ffd0ccdb55b01a7623d84e574b04f1c83332c9a0c59494db33a106ac75e692",
+      "nfc_text": "اثبات",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1052
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Foremost in religion is knowledge of Him; the perfection of this knowledge is be"
+    },
+    {
+      "hash": "ae8e5e173e999fa7d02a5cde1ace3b3ec1896062057f2e5726ad17b5a30fce26",
+      "skeleton_hash": "c08748b8021fe1289e20f6591c90b74b8a76b77ca36b4e6b4444ecea46648fb7",
+      "nfc_text": "سُبْحَنَ ٱللَّهِ عَمَّا يَصِفُونَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1052
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Foremost in religion is knowledge of Him; the perfection of this knowledge is be"
+    },
+    {
+      "hash": "96873157837fb2b6e39e09907ff20236dccb58d85a59524bbdc17588e03db301",
+      "skeleton_hash": "96873157837fb2b6e39e09907ff20236dccb58d85a59524bbdc17588e03db301",
+      "nfc_text": "جزیۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1118
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Know that the subjects are made up of several classes, none of which can be soun"
+    },
+    {
+      "hash": "a8bbb033d89b048489b457ad1be615e8abc8b7d19319884e4c12c4b9bde1c242",
+      "skeleton_hash": "d952a7c8ef41d61b72d091a222de5fe764a3c3e1faa37cb8ce9fdc1a99968f55",
+      "nfc_text": "خَرَج",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1118
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Know that the subjects are made up of several classes, none of which can be soun"
+    },
+    {
+      "hash": "2146eed81f5ec51f5caa4a13872face76d065e8cd5cb0adddbfb92e8ebf43697",
+      "skeleton_hash": "2146eed81f5ec51f5caa4a13872face76d065e8cd5cb0adddbfb92e8ebf43697",
+      "nfc_text": "سنۃ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1118
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Know that the subjects are made up of several classes, none of which can be soun"
+    },
+    {
+      "hash": "2301cb21ddf8f208b95748f33253339fc378fbc219eebc799cc48d50198f12f8",
+      "skeleton_hash": "609502112e611921aa63ae49712e30f3cdda1a15efab1501ba366d655a25aa8c",
+      "nfc_text": "كَبُرَ مَقْتًا عِندَ ٱللَّهِ أَن تَقُولُوا۟ مَا لَا تَفْعَلُونَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 1183
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Beware of self-admiration, of leaning on whatever pleases you in yourself, and o"
+    },
+    {
+      "hash": "96873157837fb2b6e39e09907ff20236dccb58d85a59524bbdc17588e03db301",
+      "skeleton_hash": "96873157837fb2b6e39e09907ff20236dccb58d85a59524bbdc17588e03db301",
+      "nfc_text": "جزیۃ",
+      "source_artifact": "chapters/ch13-the-letter-of-ali-to-malik-al-ashtar.txt",
+      "anchor": {
+        "line": 49
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Only now, its foundations laid, does the letter turn to the machinery of the sta"
+    },
+    {
+      "hash": "7b19797572b7691d8f5ef890042940a53cc150a22df70a7e81a20d4db69a3355",
+      "skeleton_hash": "7b19797572b7691d8f5ef890042940a53cc150a22df70a7e81a20d4db69a3355",
+      "nfc_text": "توحيد",
+      "source_artifact": "glossary.yml#arabic_script",
+      "anchor": {
+        "entry_phonetic": "tawhid"
+      },
+      "provenance": "glossary-curated",
+      "context_excerpt": "tawhid"
+    },
+    {
+      "hash": "db9f5494913a2905587a085c3677172bb55f5e57c087a003f8a0c4b7e2178732",
+      "skeleton_hash": "db9f5494913a2905587a085c3677172bb55f5e57c087a003f8a0c4b7e2178732",
+      "nfc_text": "تأويل",
+      "source_artifact": "glossary.yml#arabic_script",
+      "anchor": {
+        "entry_phonetic": "ta'wil"
+      },
+      "provenance": "glossary-curated",
+      "context_excerpt": "ta'wil"
     },
     {
       "hash": "29b41d33ed1c2b62cbd1b347c437e494ebef297cf59ad05e4850f0894ba48a1f",
@@ -2315,6 +4488,30 @@
       "context_excerpt": "ma la `aynun ra'at wa la uzunun sami`at wa la khatara `ala qalbi bashar (what no"
     },
     {
+      "hash": "ba67ab07dd2f4903e03ecfb4e3859d374e2d8c2c65d68d5adb1ac0a0dca66a84",
+      "skeleton_hash": "647fe5bd2705df9cbeb800f2cc7078282bd8b36ee6e1510d5a497a1de404a5be",
+      "nfc_text": "كَلَامُ الْمُلُوكِ مُلُوكُ الْكَلَامِ",
+      "source_artifact": "atom:quote:quote:qadi-al-numan:47f25cdaa2",
+      "anchor": {
+        "atom_id": "quote:qadi-al-numan:47f25cdaa2",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "Maulana, this is Kalam al-muluk, muluk al-kalam. What can I say about your words"
+    },
+    {
+      "hash": "7627960258073e27348d2d6951548fb593ae7954bfac6897240d1f6882efaf94",
+      "skeleton_hash": "0d794320ad96ff118056450db691d9a8e4672453db353d24ff8978381fad56ed",
+      "nfc_text": "إِلَّا جَعْفَرَ",
+      "source_artifact": "atom:quote:quote:qadi-al-numan:add5785f92",
+      "anchor": {
+        "atom_id": "quote:qadi-al-numan:add5785f92",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "Everyone came, illa Ja‘far. Except for Ja‘far, everyone came."
+    },
+    {
       "hash": "faa0948237ce86711d0d7e3787bdf5500a0dfaed9527a1b41796e33a946cb2b5",
       "skeleton_hash": "f8f4cad980d08eed1b605db32ab00fa7c520510c9da8c75f510dfff70ba946c2",
       "nfc_text": "مَا لَا عَيْنٌ رَأَتْ وَلَا أُذُنٌ سَمِعَتْ وَلَا خَطَرَ عَلَى قَلْبِ بَشَرٍ",
@@ -2325,6 +4522,42 @@
       },
       "provenance": "atom-sdk-verified",
       "context_excerpt": "jannah (paradise) is that house where ma la 'aynun ra'at wa la udhunun sami'at w"
+    },
+    {
+      "hash": "11bdf4a33eef3fb73733029602b3e88b7162147fc2ee58937e6856478b66b5bc",
+      "skeleton_hash": "087738a5e28838c4091fbb2906b6a15b04490d1e92ac533a2d12e4d0e9b63618",
+      "nfc_text": "كُنْتُ نَبِيًّا وَآدَمُ بَيْنَ الْمَاءِ وَالطِّينِ",
+      "source_artifact": "atom:quote:quote:the-prophet-muhammad:0b4f786082",
+      "anchor": {
+        "atom_id": "quote:the-prophet-muhammad:0b4f786082",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "I was a Prophet when Adam was between water and clay."
+    },
+    {
+      "hash": "2747cec30cb789d81cf5246cfdb39813fa56e2475d805dc2c86c163aedc3160a",
+      "skeleton_hash": "5ee63248e1bc2132129204c7c73d8b707fc479742b8435733b91c7922f4d4bd3",
+      "nfc_text": "مَنْ قَالَ لَا إِلَهَ إِلَّا اللهُ دَخَلَ الْجَنَّةَ",
+      "source_artifact": "atom:quote:quote:the-prophet-muhammad:81bb121181",
+      "anchor": {
+        "atom_id": "quote:the-prophet-muhammad:81bb121181",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "Whoever says there is no god but Allah will enter Paradise."
+    },
+    {
+      "hash": "7b5584adbf8ea8fac9959769bcae1574140e1bb479eba39280edc7f56a33074b",
+      "skeleton_hash": "58374040da9e04a87a2ed175b61b037df10f86beb32623db04a7871fa4ce619c",
+      "nfc_text": "قُولُوا لَا إِلَهَ إِلَّا اللهُ تُفْلِحُوا",
+      "source_artifact": "atom:quote:quote:the-prophet-muhammad:ee10e61ef8",
+      "anchor": {
+        "atom_id": "quote:the-prophet-muhammad:ee10e61ef8",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "Say there is no god but Allah and you will be successful."
     },
     {
       "hash": "29bc64aafce79e5c66860c5f81267901b34da95d04ddeb66002d6963a4cd89e2",
@@ -2363,6 +4596,42 @@
       "context_excerpt": "Indeed, it is We who sent down the Reminder, and indeed, We will be its guardian"
     },
     {
+      "hash": "b28fb54507587eeaf65f8ecd16e12e9b6846568afca8360351540035949931c3",
+      "skeleton_hash": "8f53a423ebe4f540ee017355e33bf5414c600623e2fb2e47af3ffcd36b058240",
+      "nfc_text": "ثُمَّ نُنَجِّى ٱلَّذِينَ ٱتَّقَوا۟ وَّنَذَرُ ٱلظَّلِمِينَ فِيهَا جِثِيًّۭا",
+      "source_artifact": "atom:quran:quran:19:72",
+      "anchor": {
+        "atom_id": "quran:19:72",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "summa-n-najji-l-ladhina-t-taqaw wa nadharu-z-zalimina fiha jithiyya (Then We wil"
+    },
+    {
+      "hash": "6b10d2dd31fdd36352d1b1101cbb6a0badb229764d4a96d59077469e76850e91",
+      "skeleton_hash": "bed8c6810e1efee763f5f807843c78a7f837cf563939d67cc9a4f2ab8aad3826",
+      "nfc_text": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ",
+      "source_artifact": "atom:quran:quran:1:2",
+      "anchor": {
+        "atom_id": "quran:1:2",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "All praise is for Allah, Lord of the worlds."
+    },
+    {
+      "hash": "5f606fcddc26ebddad203471f32e65003596215ffa1293d8e8880e1d1de294e5",
+      "skeleton_hash": "66eb64ad0455b985a096398a8de734895f3cfdb57ec2fa737c2a87fab4235d8b",
+      "nfc_text": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "source_artifact": "atom:quran:quran:1:4",
+      "anchor": {
+        "atom_id": "quran:1:4",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Master of the Day of Judgment."
+    },
+    {
       "hash": "6c89ca1a3f0ce15326087f9e05d46520488d49ab0c98bdbe3666360df2bfaf0e",
       "skeleton_hash": "02cc4cc80d3d14c5519341b23e33542c63557c2cf63914050206b7cde1b4cdea",
       "nfc_text": "ٱهْدِنَا ٱلصِّرَطَ ٱلْمُسْتَقِيمَ",
@@ -2375,6 +4644,30 @@
       "context_excerpt": "Guide us to the straight path"
     },
     {
+      "hash": "461b6993a3cfc78fb54cc6728befdea376e82596b3ed9692b62a82a4879cb0df",
+      "skeleton_hash": "469c7d6349c38dd08eda36df4c8f13eab3bb1f20e3eeac1f8de1592b9abc37c3",
+      "nfc_text": "إِذْ قَالَ لِأَبِيهِ وَقَوْمِهِۦ مَا هَذِهِ ٱلتَّمَاثِيلُ ٱلَّتِىٓ أَنتُمْ لَهَا عَكِفُونَ",
+      "source_artifact": "atom:quran:quran:21:52",
+      "anchor": {
+        "atom_id": "quran:21:52",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "What are these statues to which you are devoted?"
+    },
+    {
+      "hash": "50c08420112bdd290796f9d07930121ea7f2ce9072f604bcc6f55cceacb08b2f",
+      "skeleton_hash": "193a126b40802586eba21968fc5a5458e734ac0a7c251c0de964f8e867b21e03",
+      "nfc_text": "فَتَقَطَّعُوٓا۟ أَمْرَهُم بَيْنَهُمْ زُبُرًۭا ۖ كُلُّ حِزْبٍۭ بِمَا لَدَيْهِمْ فَرِحُونَ",
+      "source_artifact": "atom:quran:quran:23:53",
+      "anchor": {
+        "atom_id": "quran:23:53",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "`Kullu hizbin bima ladayhim farihun` (Each party rejoicing in that which is with"
+    },
+    {
       "hash": "4906420a277ea39f578efe12a19e61e24ee78378b930dff36596927cf1ad3f84",
       "skeleton_hash": "faf550a222775bd81272e3508249f66e20619a9826a7a7f2e7ec215f06b419c8",
       "nfc_text": "وَأَنذِرْ عَشِيرَتَكَ ٱلْأَقْرَبِينَ",
@@ -2385,6 +4678,30 @@
       },
       "provenance": "canonical-quran",
       "context_excerpt": "wa-andhir 'ashirataka 'l-aqrabin (And warn your nearest kindred)"
+    },
+    {
+      "hash": "8e9b4aaa953b42874bb7cd7536dc17bcfe54688126c76e07093c5f8efb65ff93",
+      "skeleton_hash": "c625f767a1587128d2ba011174590ed3ca2b925c7b68ce97e189fa4ab63accef",
+      "nfc_text": "وَقَالُوا۟ لَن يَدْخُلَ ٱلْجَنَّةَ إِلَّا مَن كَانَ هُودًا أَوْ نَصَرَىٰ ۗ تِلْكَ أَمَانِيُّهُمْ ۗ قُلْ هَاتُوا۟ بُرْهَنَكُمْ إِن كُنتُمْ صَدِقِينَ",
+      "source_artifact": "atom:quran:quran:2:111",
+      "anchor": {
+        "atom_id": "quran:2:111",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "`haatu burhanakum in kuntum sadiqin` (Bring forth your proof, if you are truthfu"
+    },
+    {
+      "hash": "9effd5bc9063ee7111ac66d0a6199503e9c8d7bdd4d5d0d76954a01ecf0719e6",
+      "skeleton_hash": "ef76cb43936f77678b4396995d24bcd2ba422fd92897e1064e1326aeec70df41",
+      "nfc_text": "وَإِذِ ٱبْتَلَىٰٓ إِبْرَهِۦمَ رَبُّهُۥ بِكَلِمَتٍۢ فَأَتَمَّهُنَّ ۖ قَالَ إِنِّى جَاعِلُكَ لِلنَّاسِ إِمَامًۭا ۖ قَالَ وَمِن ذُرِّيَّتِى ۖ قَالَ لَا يَنَالُ عَهْدِى ٱلظَّلِمِينَ",
+      "source_artifact": "atom:quran:quran:2:124",
+      "anchor": {
+        "atom_id": "quran:2:124",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And We made him an Imam for mankind"
     },
     {
       "hash": "00451ae0a8ed181fdd21a81bd72073dc535321ebe06a6624ce9935ac70399b74",
@@ -2457,6 +4774,18 @@
       },
       "provenance": "canonical-quran",
       "context_excerpt": "So prostrate... so they prostrated, except for Iblis. He refused and was arrogan"
+    },
+    {
+      "hash": "e52dcdba1b4248c5693eca3bcf7677a7040332c86bae9b596bc7300c3c82cb09",
+      "skeleton_hash": "7637e4fa95b8188cd5b7eaec5359c03305a2708f3466ca58aa57080e0828fede",
+      "nfc_text": "فَأَزَلَّهُمَا ٱلشَّيْطَنُ عَنْهَا فَأَخْرَجَهُمَا مِمَّا كَانَا فِيهِ ۖ وَقُلْنَا ٱهْبِطُوا۟ بَعْضُكُمْ لِبَعْضٍ عَدُوٌّۭ ۖ وَلَكُمْ فِى ٱلْأَرْضِ مُسْتَقَرٌّۭ وَمَتَعٌ إِلَىٰ حِينٍۢ",
+      "source_artifact": "atom:quran:quran:2:36",
+      "anchor": {
+        "atom_id": "quran:2:36",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "`aduwwun ba`dukum li-ba`din `aduww` (You are enemies, one to another)"
     },
     {
       "hash": "862e82e4b6195407318aceb7f1d9fc511ce5849703cafcc4dd16417f0215bee5",
@@ -2699,6 +5028,18 @@
       "context_excerpt": "Then whoever invents falsehood about Allah after that - it is those who are the "
     },
     {
+      "hash": "b2e55c84720dab66aa6be1ff2f30c2ff97cc9749ea4543060fa1b47e9dd3a873",
+      "skeleton_hash": "fc1d63965c877441159532dffea80e1e07cbcff24fa75f93fecbdf3eb459e107",
+      "nfc_text": "وَقَالَ رَبُّكُمُ ٱدْعُونِىٓ أَسْتَجِبْ لَكُمْۚ إِنَّ ٱلَّذِينَ يَسْتَكْبِرُونَ عَنْ عِبَادَتِى سَيَدْخُلُونَ جَهَنَّمَ دَاخِرِينَ",
+      "source_artifact": "atom:quran:quran:40:60",
+      "anchor": {
+        "atom_id": "quran:40:60",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Call upon Me; I will respond to you. Indeed, those who are too arrogant to worsh"
+    },
+    {
       "hash": "2b0bf56bc380006530bef37fc0cffbd09b21e5cad423cef95b7678fa355fa931",
       "skeleton_hash": "41dad195031d4f18b1c18e85d31ab1bcee57ab47d72f237326e43989735b3697",
       "nfc_text": "وَقَوْلِهِمْ إِنَّا قَتَلْنَا ٱلْمَسِيحَ عِيسَى ٱبْنَ مَرْيَمَ رَسُولَ ٱللَّهِ وَمَا قَتَلُوهُ وَمَا صَلَبُوهُ وَلَكِن شُبِّهَ لَهُمْ ۚ وَإِنَّ ٱلَّذِينَ ٱخْتَلَفُوا۟ فِيهِ لَفِى شَكٍّۢ مِّنْهُ ۚ مَا لَهُم بِهِۦ مِنْ عِلْمٍ إِلَّا ٱتِّبَاعَ ٱلظَّنِّ ۚ وَمَا قَتَلُوهُ يَقِينًۢا",
@@ -2709,6 +5050,30 @@
       },
       "provenance": "canonical-quran",
       "context_excerpt": "They did not kill him, nor did they crucify him, but it was made to appear so to"
+    },
+    {
+      "hash": "4992b6dcbfe166c60fc92e4d04e4d22941cffe5065bde65c83422084e4a30c50",
+      "skeleton_hash": "81c612023d0b35b520e461e31ef11de6c60617b8a1bcbd791470a0dfcf055177",
+      "nfc_text": "وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ",
+      "source_artifact": "atom:quran:quran:51:21",
+      "anchor": {
+        "atom_id": "quran:51:21",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Wa fi anfusikum afala tubsirun (And in your own selves. Will you not then see?)"
+    },
+    {
+      "hash": "82add524ec842049c4c3d970ca6c932942ff859d6ff3422c56815bdc8762bce7",
+      "skeleton_hash": "cc18efaeaa5f1466037aac50210521dac0ffa7400294797a6d42d44637d3e7be",
+      "nfc_text": "وَأَن لَّيْسَ لِلْإِنسَنِ إِلَّا مَا سَعَىٰ",
+      "source_artifact": "atom:quran:quran:53:39",
+      "anchor": {
+        "atom_id": "quran:53:39",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "laysa lil-insani illa ma sa'a"
     },
     {
       "hash": "700068778788e225a194a6286e69997bf5306252d853c82e16690536f9fb39ac",
@@ -2795,138 +5160,6 @@
       "context_excerpt": "Nun. By the pen and what they inscribe"
     },
     {
-      "hash": "b28fb54507587eeaf65f8ecd16e12e9b6846568afca8360351540035949931c3",
-      "skeleton_hash": "8f53a423ebe4f540ee017355e33bf5414c600623e2fb2e47af3ffcd36b058240",
-      "nfc_text": "ثُمَّ نُنَجِّى ٱلَّذِينَ ٱتَّقَوا۟ وَّنَذَرُ ٱلظَّلِمِينَ فِيهَا جِثِيًّۭا",
-      "source_artifact": "atom:quran:quran:19:72",
-      "anchor": {
-        "atom_id": "quran:19:72",
-        "atom_type": "quran"
-      },
-      "provenance": "canonical-quran",
-      "context_excerpt": "summa-n-najji-l-ladhina-t-taqaw wa nadharu-z-zalimina fiha jithiyya (Then We wil"
-    },
-    {
-      "hash": "6b10d2dd31fdd36352d1b1101cbb6a0badb229764d4a96d59077469e76850e91",
-      "skeleton_hash": "bed8c6810e1efee763f5f807843c78a7f837cf563939d67cc9a4f2ab8aad3826",
-      "nfc_text": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ",
-      "source_artifact": "atom:quran:quran:1:2",
-      "anchor": {
-        "atom_id": "quran:1:2",
-        "atom_type": "quran"
-      },
-      "provenance": "canonical-quran",
-      "context_excerpt": "All praise is for Allah, Lord of the worlds."
-    },
-    {
-      "hash": "5f606fcddc26ebddad203471f32e65003596215ffa1293d8e8880e1d1de294e5",
-      "skeleton_hash": "66eb64ad0455b985a096398a8de734895f3cfdb57ec2fa737c2a87fab4235d8b",
-      "nfc_text": "مَلِكِ يَوْمِ ٱلدِّينِ",
-      "source_artifact": "atom:quran:quran:1:4",
-      "anchor": {
-        "atom_id": "quran:1:4",
-        "atom_type": "quran"
-      },
-      "provenance": "canonical-quran",
-      "context_excerpt": "Master of the Day of Judgment."
-    },
-    {
-      "hash": "461b6993a3cfc78fb54cc6728befdea376e82596b3ed9692b62a82a4879cb0df",
-      "skeleton_hash": "469c7d6349c38dd08eda36df4c8f13eab3bb1f20e3eeac1f8de1592b9abc37c3",
-      "nfc_text": "إِذْ قَالَ لِأَبِيهِ وَقَوْمِهِۦ مَا هَذِهِ ٱلتَّمَاثِيلُ ٱلَّتِىٓ أَنتُمْ لَهَا عَكِفُونَ",
-      "source_artifact": "atom:quran:quran:21:52",
-      "anchor": {
-        "atom_id": "quran:21:52",
-        "atom_type": "quran"
-      },
-      "provenance": "canonical-quran",
-      "context_excerpt": "What are these statues to which you are devoted?"
-    },
-    {
-      "hash": "50c08420112bdd290796f9d07930121ea7f2ce9072f604bcc6f55cceacb08b2f",
-      "skeleton_hash": "193a126b40802586eba21968fc5a5458e734ac0a7c251c0de964f8e867b21e03",
-      "nfc_text": "فَتَقَطَّعُوٓا۟ أَمْرَهُم بَيْنَهُمْ زُبُرًۭا ۖ كُلُّ حِزْبٍۭ بِمَا لَدَيْهِمْ فَرِحُونَ",
-      "source_artifact": "atom:quran:quran:23:53",
-      "anchor": {
-        "atom_id": "quran:23:53",
-        "atom_type": "quran"
-      },
-      "provenance": "canonical-quran",
-      "context_excerpt": "`Kullu hizbin bima ladayhim farihun` (Each party rejoicing in that which is with"
-    },
-    {
-      "hash": "8e9b4aaa953b42874bb7cd7536dc17bcfe54688126c76e07093c5f8efb65ff93",
-      "skeleton_hash": "c625f767a1587128d2ba011174590ed3ca2b925c7b68ce97e189fa4ab63accef",
-      "nfc_text": "وَقَالُوا۟ لَن يَدْخُلَ ٱلْجَنَّةَ إِلَّا مَن كَانَ هُودًا أَوْ نَصَرَىٰ ۗ تِلْكَ أَمَانِيُّهُمْ ۗ قُلْ هَاتُوا۟ بُرْهَنَكُمْ إِن كُنتُمْ صَدِقِينَ",
-      "source_artifact": "atom:quran:quran:2:111",
-      "anchor": {
-        "atom_id": "quran:2:111",
-        "atom_type": "quran"
-      },
-      "provenance": "canonical-quran",
-      "context_excerpt": "`haatu burhanakum in kuntum sadiqin` (Bring forth your proof, if you are truthfu"
-    },
-    {
-      "hash": "9effd5bc9063ee7111ac66d0a6199503e9c8d7bdd4d5d0d76954a01ecf0719e6",
-      "skeleton_hash": "ef76cb43936f77678b4396995d24bcd2ba422fd92897e1064e1326aeec70df41",
-      "nfc_text": "وَإِذِ ٱبْتَلَىٰٓ إِبْرَهِۦمَ رَبُّهُۥ بِكَلِمَتٍۢ فَأَتَمَّهُنَّ ۖ قَالَ إِنِّى جَاعِلُكَ لِلنَّاسِ إِمَامًۭا ۖ قَالَ وَمِن ذُرِّيَّتِى ۖ قَالَ لَا يَنَالُ عَهْدِى ٱلظَّلِمِينَ",
-      "source_artifact": "atom:quran:quran:2:124",
-      "anchor": {
-        "atom_id": "quran:2:124",
-        "atom_type": "quran"
-      },
-      "provenance": "canonical-quran",
-      "context_excerpt": "And We made him an Imam for mankind"
-    },
-    {
-      "hash": "e52dcdba1b4248c5693eca3bcf7677a7040332c86bae9b596bc7300c3c82cb09",
-      "skeleton_hash": "7637e4fa95b8188cd5b7eaec5359c03305a2708f3466ca58aa57080e0828fede",
-      "nfc_text": "فَأَزَلَّهُمَا ٱلشَّيْطَنُ عَنْهَا فَأَخْرَجَهُمَا مِمَّا كَانَا فِيهِ ۖ وَقُلْنَا ٱهْبِطُوا۟ بَعْضُكُمْ لِبَعْضٍ عَدُوٌّۭ ۖ وَلَكُمْ فِى ٱلْأَرْضِ مُسْتَقَرٌّۭ وَمَتَعٌ إِلَىٰ حِينٍۢ",
-      "source_artifact": "atom:quran:quran:2:36",
-      "anchor": {
-        "atom_id": "quran:2:36",
-        "atom_type": "quran"
-      },
-      "provenance": "canonical-quran",
-      "context_excerpt": "`aduwwun ba`dukum li-ba`din `aduww` (You are enemies, one to another)"
-    },
-    {
-      "hash": "b2e55c84720dab66aa6be1ff2f30c2ff97cc9749ea4543060fa1b47e9dd3a873",
-      "skeleton_hash": "fc1d63965c877441159532dffea80e1e07cbcff24fa75f93fecbdf3eb459e107",
-      "nfc_text": "وَقَالَ رَبُّكُمُ ٱدْعُونِىٓ أَسْتَجِبْ لَكُمْۚ إِنَّ ٱلَّذِينَ يَسْتَكْبِرُونَ عَنْ عِبَادَتِى سَيَدْخُلُونَ جَهَنَّمَ دَاخِرِينَ",
-      "source_artifact": "atom:quran:quran:40:60",
-      "anchor": {
-        "atom_id": "quran:40:60",
-        "atom_type": "quran"
-      },
-      "provenance": "canonical-quran",
-      "context_excerpt": "Call upon Me; I will respond to you. Indeed, those who are too arrogant to worsh"
-    },
-    {
-      "hash": "4992b6dcbfe166c60fc92e4d04e4d22941cffe5065bde65c83422084e4a30c50",
-      "skeleton_hash": "81c612023d0b35b520e461e31ef11de6c60617b8a1bcbd791470a0dfcf055177",
-      "nfc_text": "وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ",
-      "source_artifact": "atom:quran:quran:51:21",
-      "anchor": {
-        "atom_id": "quran:51:21",
-        "atom_type": "quran"
-      },
-      "provenance": "canonical-quran",
-      "context_excerpt": "Wa fi anfusikum afala tubsirun (And in your own selves. Will you not then see?)"
-    },
-    {
-      "hash": "82add524ec842049c4c3d970ca6c932942ff859d6ff3422c56815bdc8762bce7",
-      "skeleton_hash": "cc18efaeaa5f1466037aac50210521dac0ffa7400294797a6d42d44637d3e7be",
-      "nfc_text": "وَأَن لَّيْسَ لِلْإِنسَنِ إِلَّا مَا سَعَىٰ",
-      "source_artifact": "atom:quran:quran:53:39",
-      "anchor": {
-        "atom_id": "quran:53:39",
-        "atom_type": "quran"
-      },
-      "provenance": "canonical-quran",
-      "context_excerpt": "laysa lil-insani illa ma sa'a"
-    },
-    {
       "hash": "61be5a07a3823687eb2f89de274491e35933dd32b8fe94f0c91ccee12ed8aaf4",
       "skeleton_hash": "f9c0d56fdcb48df04d519bd005d97512e79cf31487c15eb637ce9e5557aeb229",
       "nfc_text": "وَإِذْ قَالَ إِبْرَهِيمُ لِأَبِيهِ آزَرَ أَتَتَّخِذُ أَصْنَامًا آلِهَةً ۖ إِنِّىٓ أَرَىٰكَ وَقَوْمَكَ فِى ضَلَلٍۢ مُّبِينٍۢ",
@@ -2940,192 +5173,202 @@
     }
   ],
   "by_hash": {
-    "290cf0e1c9aaffad1e1daad2440db32c348e95e961e52adff10670e9283c64e8": 1,
-    "53afd029d879e589ae13f0e3e5c988a8576459655890f6feb1e7ef6b962c2a93": 1,
-    "8369d5ccd5d940075b4caed9e3e39925e22c5087233e966b47a67c46e87e0588": 1,
-    "532b10765a075e160729a052d97093d0e85531c3f634df693d788c764c503f99": 1,
-    "13e514ada76bdb3ab62ee280d13cbeb1db863ea4336a3caefa8096a1f8ade8c9": 1,
-    "6396fdafe8178c3c4a287f5dbc1c80dc070d3c7d7195f615b329cd52ccfb402b": 2,
-    "9f242399c7d061c28a528e6c5fdb11ef0414b586e6d91d8e889d643fd3866a62": 1,
-    "e78f8cd995ada1e29772a965308bc685b00ecd1f5dd11480a12e023552720133": 1,
-    "ada40024d785379f2c702b9298ec57e226ba6ca5287c132bb3a21ae8e738800e": 1,
-    "811a268c23052feb3545c10c259a9b698fac5a1478159c14c3de0961663fb4d3": 1,
-    "90ee86afb0238394519e2614239abcd591a1c33e35d7388b903394b8b4b34268": 1,
-    "0ae9d9496583e51ae8ea164a80742a3077af19bae694e1f21fccd51628d980d0": 1,
-    "66bab660c9b3c0750d2cab4947b1b706a6a366bd74180cad84784a52f71be6f6": 1,
-    "a6e9f154a5dea721c7f5eddc93639fd9cb54429443e83bafb5fa9a6ea2870655": 1,
-    "3a0de9ec453b533bb40dd41a1aedf12f6092d53179c56a6b71d8d3012b7e408f": 1,
-    "da4c76ea306730a277179055f207922639d837126381ce551e89f7108503de0a": 1,
-    "cf89e1834e0b5981eb97c4a4bc7ace6b3f2d63873c0cc77456847ac1a90a7d2f": 1,
-    "3770bdb6a8c7a557d20a6a0d537cb598d0c83c092018dd0b6e6636a6291b8f01": 1,
-    "1ebe36daae3e774f9c5ce1edc6d827ec3a06e87d0aa7ba4946497057b7f31590": 1,
-    "c67219ff07134ca80b31740a03e4ef4c08a0112ef26edfc50cde586ee0b9ab30": 2,
-    "2c3d7acfbd480127161ee73f0954073c184c46560945fdd50d8f68e537db40c5": 3,
-    "d83f4af983aa91574944d96ea02cede5db3a08ab62e2ae9227c082726bcc2041": 1,
-    "da588cf8d5a15e574bb644a8dbc5f12a7311e64a1698834a59c03ac85396f2dd": 1,
-    "45da83176920de94327ed35c49877f59a352476e78b55e41cbf5f46777dda604": 1,
-    "c601c4601df2781d228f6503017d0f2e6768b834b3a9219cf573d94167068543": 2,
-    "d83095b32b270470c6745fa24b567193bc173b6b3e472d59b217dc03654d295a": 2,
-    "dbab09622014b1a77d1525afc23350e40b7db64c81935922da2a81f88b20b0e7": 2,
-    "4436fe0558a2c98876a9f0a79180138e38101906a44316d543c4b6ed43838746": 2,
-    "714f40185e5c6ddc053214b52182dfb0df28ea16b2f5d770dbb6f0c5517df32f": 1,
-    "072d2671092ac16e15f62d9af544e5d79b9694e486fba9acca68d6aaee5ec410": 1,
-    "570c2d91853c5921422a56708fbe4d7684e6241a152b81aba4709c10530d666d": 1,
-    "8ad76a686da7a1e2418d96ba53ee5cf472984ed6321dda3250f1da5041822dad": 2,
-    "dd4d6de15163a3053b1196c3688b54e250555a3a721d038045abb15b4f1e1934": 1,
-    "285264e5fe3ed7996be576e9b29d9d509a678ae8cc1729d3821255abdf58eb6d": 1,
-    "8941ff6c30e48b00a24c29df2a212582ca161fb05e54f5cdf669483332d209ab": 1,
-    "d8082cc677c17bd05d1d97da7073e235caadc433920e75bf474a4dad783d3392": 1,
-    "764511e9771b10d9262cd9656152cf962300522c18cb102e236415006417c8b4": 1,
-    "3c40da9b6dd19819f2d1a21a9efdcf38ab48b67837905cbd197fce2681acd534": 2,
-    "2a21c5ac558e73a865b51dbe5bbef137591bf97cd86a899a14ae886570f3409c": 3,
-    "a44b52cdbe2634d31a1e315b2d2bb0d80bf697230f7203881f195db8419d1405": 1,
-    "0a75e1e0844103b4e954ab5641dee6194143c8cd2bba6338e2c1bc6f69c3be94": 1,
-    "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3": 7,
-    "aa05f1718ec27f8550233129b76558efdf433fa94745035a0d9ad72dbbf64f28": 3,
-    "bb5198e37a30aa6d08c0e4b151677c01c5573ef0ac08de80f0315c46020d1b30": 1,
-    "c626d2db7679a18b819189d18f984ae7d986643c6f2d209dc7ac5f36fdd6cf15": 4,
-    "f55a24947785f8670f99f7a1099bd76c4e4cde9d4a1a8e36e7e65e32796bc9bc": 1,
-    "1573ef1b776644b473cafebea32333699b801802fe8dbfa92d86fc3aa6044a12": 1,
-    "f363ce22dad3bde3b4e0dea57c11507c0c6a4513d224ac89d941187ac3f45916": 2,
-    "1dfaa1d0b75170303e054e8e25c0418ae8cab04ce73878a4e5c52f13d0742c60": 2,
-    "54604934fd5946ad39e65f121a6f0d443a20eba766ea54d22eb85215fb1c9aab": 1,
-    "3646da7f8f61a86ef079c8faffea667f5d5f67c0b6369db5c7819ab0b321bb95": 1,
-    "d32e9c709ebc5af1e748de00998b7374522ebec9fe48b907a62c87cd951445d9": 1,
-    "aa7202e749b3e902ad87184912caf0a9c077fc1cd382a17cb3c8082a427a552f": 1,
-    "85a9dfd6d635a28b02386fbfeb9e657ef5e18df587fae07b5ff10a774bff38d3": 2,
-    "ee8effc89d515a94bb9d705d28b084f20c8e74cd583d9dc05148456a6c5fc293": 1,
-    "1028067217d7fe5a36153ead61953e434a12841424cacee90b5849dda2076fcb": 1,
-    "eb762cbc13faebcc730344a0d3c1ddfe5c19bbb6956dc00c44a8e73b4f454000": 1,
-    "923ab887367ce0a6a10c33dd3f111fd9d1f3ed09e9ec2c0b8edc0b4fc59d1438": 2,
-    "d230660f1c6222ed388db2927d31a55ef45e0c9f1e5a360ea7776558c83e840a": 1,
-    "7b08963c50ceeb2b1c044209864c0879d555673aeba499fa33fdf0cbf81276a1": 1,
-    "bb98d6509a8ae63c6fc765d1b54553e62cfcae695ed961cd1361db4b1e25c8d2": 1,
-    "b276f3a09e68cb8f7fc11af675341d80ffa084961fe9ef4ce34bc5512a285bce": 1,
-    "a136f7972839652dcb4badb3af5b4528b9d09e0304c2133905fb4281fd45acd0": 1,
-    "139408b11140706baf1b7cad086057b1ab31de0d20ff8550d90242d753145dff": 1,
-    "06f5f6db8bbc87f19c53bd75c8ca68f400139ac24015253a0719a66b05443e1c": 1,
-    "be033f8f76ffe29c7dce8bc7c9fa5420c39f46171970dc77121f1825a2892b25": 1,
-    "ccf03a7be6acf2b58f882a0c7ba69a89a80991fd45ea63b8868a80697fef138b": 1,
-    "9ef0e4aa4fdc1e59438045e9b3fc4b1beee5d70f758ac6252b4483f3eb594f2c": 1,
-    "b39f6e6773ce95cef83e234d38e5bc62a9cc3ead0e6ada123802254f665bf62b": 1,
-    "5e56bb84fa89000037b6c29a2fc99e328217c36412f5b829f34f277a38db81f9": 2,
-    "24a8fb250db48187a939bdc081d7b90801fc1e1c4eabfd0f4bd1a87092d6d626": 2,
-    "552c9a8c0431589ce4c2d5a5bfabaa312b182e4e47cb6044deecbbc1e6a349f0": 2,
-    "9a2de2d251ac9d04feb3f04d6203154bd4195e9ce3fd62774dceb17e5d44abba": 2,
-    "0d62de75a534667926a4dba5a08eb7904dd3c3cb289bc4108098525ebf15a762": 3,
-    "e671a3a00803943ca9d8b09ac38fb3f6bfff36f1179ef23099cec09503df4bbc": 1,
-    "95e0c38de2cddc3bcbda160e72ca041e211a57c3d03d45133fe720d598b22338": 1,
-    "2fe198c38b970c327ba8f9b08b4f6a42eca3ddabaff046afb7ff28b57cdae992": 1,
-    "6c616f57de6fcc30134387591eface8807d3d9b433af7452c6e4414b6c3e85d7": 1,
-    "ccc16ea7d2c2ce42e3ce9330e57bbb2c30fe1d96aa346e527968e00fb82decaf": 1,
-    "2e89bc11413fbb0c14c2cb0b3ede355232461fa581ff79d93d94b4ee8de220af": 1,
-    "d6b44770e7792c2b04a80c209d2ec9f63c82d0b5acb4cec9cc9f01b8b0caf1ee": 1,
-    "d43f2f0e13379b4f67561984fb62e837ec34b3b0517f677e3c0e6fef753655c4": 1,
-    "e8087c2491f21eb1930660cca5108f5de4c8842dc1a1470c1eaa3131f34aba0c": 1,
-    "5d5e6009269642ab22d6d675bbd7f9668e67668d3b519468f43d88f44897cdf1": 1,
-    "be612a6b1f98ed48eed8c5e93c1766990c51bdbfde3d639d2ca91762bab6d1eb": 1,
-    "648fce816bb8d44d2cb604cb56810500ee658666a0a6bc3c2850f74918a1ac65": 2,
-    "9de00a981d8debe3f99641b858fc9fd638e9e789f4a7afa12bc03cac0715d41b": 1,
-    "05202095ff591db0b2005791c9e8be667c17715daaa33cf1921b4b0d965fbe22": 1,
-    "2c3bcf3dfa4b2eade9c5eba28a82e331cc87e0be6798aa6cdb8994acaf7aaee8": 1,
-    "806731d7a4b3653d475cc3c0359d4d7eaebee7714cca6e98cf5a8f0ff5b21f47": 1,
-    "1b1b9bb4dd2fe3d5cc53ba3d031e29631a462aa3098e0c77855dfcb4ce9f6d72": 1,
-    "8429070587ef7b400ff3d9af60e47839e18bcf91eb5f5c668b99b514a8755755": 1,
-    "d9453fa5279cfa67f60cb5d663913de295f315b2e56e98df20cbf1a7e4ebefe3": 1,
-    "5060d5618d9b65d0ea94c4b90be59d03f8a7be40ff562fddcbc9a85354223865": 1,
-    "8bc3eb94c6b6893c4d1c1f44abc09f2773107d873f459f14d612b4c50824ce1a": 1,
-    "b3623f5422263219b16af80bbae79b90144ec3646259c1b2e0ebebc0b9e7732d": 1,
-    "ff79bb49ae8829347112ebc39458972ec84daea681358d18e180bcad1cba0961": 1,
-    "2274d5e5919dd5432c9bf27843f397cf44c387d8e2bbba5ade2d005525c6086b": 1,
-    "76d8956979803140aea60590700d188d2b306da9a9d4cf4b3cf8a1957a7bb395": 1,
-    "91e5e87d70e8f894ef1b849704da67fa9baa1a5d99d5d27685e795d67c67dafd": 1,
-    "00871dc0481b0f937f486bd04f5d4fdf3da3a3efd7aaec7e2d7a54ddcc124537": 1,
-    "380bfd634486c33d5d4e68f6e3db430669cd4a8e09189a30dc4c3d4606c2bdbb": 1,
-    "1fad6250a1de815add5e25e3429aae9d35228634ccd29d367af1fcc1e31b056f": 1,
-    "bc06b03be870c0eedb4e2cae06d8040867c77e8b0e65f819f9aea52f00cd57d1": 1,
-    "d2f710285892bb75011f8b535b3bddce188ad37437812a172c9c1d899a0977ff": 1,
-    "14211f8c123868f2f991946fa4f4a1c7848524def22da7a2e29873a0b2b1a31c": 1,
-    "a49b8840d160e7d6e540702ae0cd6d68ae7ebcd6cb5c293a008f0b8f2c1d201e": 1,
-    "a9d0ef468538b7abba54c4dc0330a50f0f50d034efc15b3098a77ec7e624ee76": 1,
-    "8cd4ac453cfc64715887f4500d5df809e68b93975c0c52462a02ab6bbe367ba0": 1,
-    "d0bec8e7baa7e9a3b0de0ddf87e467da14ebca30008b2930b3635f7e4ab67bfd": 1,
-    "12d56e72fabbb5044072160a1c28e6b4f976f0925028ef880ccbbdddadee2a7b": 1,
-    "44ed25188f2cb6036e997c0fe6bad809cc27c1e006c3a5c8158f06e3c282e301": 1,
-    "760ad12dd8da369f56778de06be7ea1aa2afc75dbf025beb5ffd404b0c078723": 1,
-    "16306088fc3cfd6cdad6124e470bfef77bfffeb336fbf14030580acbbe5b95d3": 1,
-    "e6d902e0a51c13e0420f9f94d1fbc528853644fb3e72354b58239152a43a2467": 1,
-    "8cd8910b2344e907de451471a8c5afe906fdf9a94bfa82a7c167d4dc43601b90": 1,
-    "7844e89e07b5b416e3f7a9f639ae717dbc90e33510911e2c42e3d9c87206ba93": 1,
-    "d478a4c0af9cc538cd2147da5cc600be99c3d791d60a20e163d22e559ccc4b85": 1,
-    "f73c7b5a95daf927271c10ac986cf5cd770ecfae615fa26234f7a9ec474709a0": 1,
-    "d4504e48ad137847f28719abf0ff1975fe76318f499827c9aec0add348eb9805": 1,
-    "476f562e2f66f934735784179dbda07dd8f75fc94e6c7b3ce8074f27dadb4e40": 1,
-    "8afc49612174b4cd393362afcbade702263cbfecb9859a87a21b4af97565e79e": 1,
-    "b47be19b99c7de0b978e5dded06d77f83c2a1500f97a86307083f05dcb972767": 1,
-    "128c22ed9523f1031f784e62fab6da3589f05737d9596aa37eadf8b90e452246": 1,
-    "20d5368f4a9515f67f4c5d353a7123cd37ad7086e3c262620e78cbb1513cd48e": 1,
-    "9a8e61e6a6b3b84ad8cda9f073bbead18611edc8469bec323f5bc14216e58745": 1,
-    "b138c436ec2df51866b68a543944afaf942f242dc7807061b90f05475b613d73": 1,
-    "14af85e3cbd4240063feffa98d797e68617c9d875a6fd19cb737658d4aa57a39": 1,
-    "95b5036e888d8d8b685826455332e3af684459775c4b0e911595f8f413e2b5bf": 1,
-    "74b18b4b4ee7df87dee91f3303a278382d308dc2b56dc3983d901128eeb7d7fc": 1,
-    "0e5ae5659e6f946ee0e03c3d991cd5aafc379dd94c686b8e4c7747e4b62c5510": 1,
-    "470e903399787f30166a5022744f81f7f61637ed2a73006bbe79aa79436a9c7b": 1,
-    "593a298ac8e59358cdcac43a42babba7d7c4059fbf236c20ec1ffb6ceeaae6ca": 1,
-    "d852de01a7d9ccd6bdf5ad146006e7c50ae5120c79a5bc364f432cd5f09caa2b": 1,
-    "59b3401e22895c3958f655dbdbd3d407b61dc4a9e0b4e5324bc64dc54a637ff6": 1,
-    "eb1a4ab7d3eae131144ec48ec1ed075b3468d17e0a80edc13d5309237572cc9d": 1,
-    "4d7042518eaa719727085fbebca8f9dc06943586030c7a2f5ecec77615cad06c": 1,
-    "9d162eb736d84bad805509ae76dd00ae8036e5de631b5fdfecb89bf8490cc5c2": 1,
-    "f3bbd8a2f7f2fbed2e3e5576992eec610b39edcc25662ec88bcaf69b0e38b683": 1,
-    "d1ffbaca8835bfea7c6ec1b1b06b53012125ec3fa1c01b0f5f1157611802e4c3": 1,
-    "e52b77d2c6fdc5c308b0b92740779277fadec4734d462e16976b3839cda8a55d": 1,
-    "7d24c0eb78d67305e68607ec1c950829272384f0b63beb2fb1d00c06b2aacb87": 1,
-    "070ac9a3443b86a13dd9128d5610289b3eb6875c1a5e89ab801a3f25b6d821b8": 1,
-    "13eb23b8db46219a5d79576f703d162029ebd9b18b8123bc9610497728134d2f": 1,
-    "55c4f6f1ee00aa05ba6622f35c0a6a9669459216a36e86a62293c74fd8353594": 1,
-    "e9420c40febad3212a25df08609e4c2b76428291cbafc086fb4b710ea39eb7c4": 1,
-    "1c82d57c788e36d7bc4415f63d857fd303f30083a374d879986a749e85ef1e1b": 1,
-    "d48a626c9f1611f88e87c4c839d023a42a31300dc6274d4e5ead2dd485b647d3": 1,
-    "e666de54aa585e9b022a4d161d1082516cf6adbff012e2bfdcdffff967951e83": 1,
-    "f5d438618bbc9a2fa96717f30163a8e301f80b2a22d5097df224026c948a7fc6": 1,
-    "75b21ecbb3352bd49dd08e7b06684fc9400a7ed5b4ecefd6ddbe5f729c75d5f1": 1,
-    "e4d47bd4c97891da4512f04e74be3e32143158a01cec1910d3516a5fc34bf21a": 1,
-    "02cce9bdcaae87c83ee59887ebf7234924c92f55199fcb82b06991ca74215c07": 1,
-    "c6dffd7d78a569d751e83f00641568ef331e46be822f5f678a2033193479abb0": 1,
-    "8cadf7b1b28bc34cee4f519dc1808f0681d859275fcec01f8bf0e8888ec201aa": 1,
-    "4379de33b853aacd4dbac5457bdd8bcb357b8522a26277c5147454e8e40a86d4": 1,
-    "0bc24cac839e34ac1cf0c79d102cc549a82691fa6e25eafde108d9747b4a3c12": 1,
-    "f6b0f71d694a8f4c37f6dc0be51fc37e0d1b998d5ec70aef24946ac90d482051": 1,
-    "333f0d2372916f99d5376e4c41c8a13377ceb7031d234b81c953b2be7edd541b": 1,
-    "87fdb734e1f972fec64b59a8c48853c468f3e0af1b94b2da411fd3a8d85ae558": 1,
-    "95ffd0ccdb55b01a7623d84e574b04f1c83332c9a0c59494db33a106ac75e692": 1,
-    "ae8e5e173e999fa7d02a5cde1ace3b3ec1896062057f2e5726ad17b5a30fce26": 1,
-    "96873157837fb2b6e39e09907ff20236dccb58d85a59524bbdc17588e03db301": 1,
-    "a8bbb033d89b048489b457ad1be615e8abc8b7d19319884e4c12c4b9bde1c242": 1,
-    "2146eed81f5ec51f5caa4a13872face76d065e8cd5cb0adddbfb92e8ebf43697": 1,
-    "2301cb21ddf8f208b95748f33253339fc378fbc219eebc799cc48d50198f12f8": 1,
+    "290cf0e1c9aaffad1e1daad2440db32c348e95e961e52adff10670e9283c64e8": 2,
+    "53afd029d879e589ae13f0e3e5c988a8576459655890f6feb1e7ef6b962c2a93": 2,
+    "8369d5ccd5d940075b4caed9e3e39925e22c5087233e966b47a67c46e87e0588": 2,
+    "532b10765a075e160729a052d97093d0e85531c3f634df693d788c764c503f99": 2,
+    "13e514ada76bdb3ab62ee280d13cbeb1db863ea4336a3caefa8096a1f8ade8c9": 2,
+    "6396fdafe8178c3c4a287f5dbc1c80dc070d3c7d7195f615b329cd52ccfb402b": 4,
+    "9f242399c7d061c28a528e6c5fdb11ef0414b586e6d91d8e889d643fd3866a62": 2,
+    "e78f8cd995ada1e29772a965308bc685b00ecd1f5dd11480a12e023552720133": 2,
+    "ada40024d785379f2c702b9298ec57e226ba6ca5287c132bb3a21ae8e738800e": 2,
+    "811a268c23052feb3545c10c259a9b698fac5a1478159c14c3de0961663fb4d3": 2,
+    "90ee86afb0238394519e2614239abcd591a1c33e35d7388b903394b8b4b34268": 2,
+    "0ae9d9496583e51ae8ea164a80742a3077af19bae694e1f21fccd51628d980d0": 2,
+    "66bab660c9b3c0750d2cab4947b1b706a6a366bd74180cad84784a52f71be6f6": 2,
+    "a6e9f154a5dea721c7f5eddc93639fd9cb54429443e83bafb5fa9a6ea2870655": 2,
+    "3a0de9ec453b533bb40dd41a1aedf12f6092d53179c56a6b71d8d3012b7e408f": 2,
+    "da4c76ea306730a277179055f207922639d837126381ce551e89f7108503de0a": 2,
+    "cf89e1834e0b5981eb97c4a4bc7ace6b3f2d63873c0cc77456847ac1a90a7d2f": 2,
+    "3770bdb6a8c7a557d20a6a0d537cb598d0c83c092018dd0b6e6636a6291b8f01": 2,
+    "1ebe36daae3e774f9c5ce1edc6d827ec3a06e87d0aa7ba4946497057b7f31590": 2,
+    "c67219ff07134ca80b31740a03e4ef4c08a0112ef26edfc50cde586ee0b9ab30": 4,
+    "2c3d7acfbd480127161ee73f0954073c184c46560945fdd50d8f68e537db40c5": 6,
+    "d83f4af983aa91574944d96ea02cede5db3a08ab62e2ae9227c082726bcc2041": 2,
+    "da588cf8d5a15e574bb644a8dbc5f12a7311e64a1698834a59c03ac85396f2dd": 2,
+    "45da83176920de94327ed35c49877f59a352476e78b55e41cbf5f46777dda604": 2,
+    "c601c4601df2781d228f6503017d0f2e6768b834b3a9219cf573d94167068543": 4,
+    "d83095b32b270470c6745fa24b567193bc173b6b3e472d59b217dc03654d295a": 4,
+    "dbab09622014b1a77d1525afc23350e40b7db64c81935922da2a81f88b20b0e7": 4,
+    "4436fe0558a2c98876a9f0a79180138e38101906a44316d543c4b6ed43838746": 4,
+    "714f40185e5c6ddc053214b52182dfb0df28ea16b2f5d770dbb6f0c5517df32f": 2,
+    "072d2671092ac16e15f62d9af544e5d79b9694e486fba9acca68d6aaee5ec410": 2,
+    "570c2d91853c5921422a56708fbe4d7684e6241a152b81aba4709c10530d666d": 2,
+    "8ad76a686da7a1e2418d96ba53ee5cf472984ed6321dda3250f1da5041822dad": 4,
+    "dd4d6de15163a3053b1196c3688b54e250555a3a721d038045abb15b4f1e1934": 2,
+    "285264e5fe3ed7996be576e9b29d9d509a678ae8cc1729d3821255abdf58eb6d": 2,
+    "8941ff6c30e48b00a24c29df2a212582ca161fb05e54f5cdf669483332d209ab": 2,
+    "d8082cc677c17bd05d1d97da7073e235caadc433920e75bf474a4dad783d3392": 2,
+    "764511e9771b10d9262cd9656152cf962300522c18cb102e236415006417c8b4": 2,
+    "3c40da9b6dd19819f2d1a21a9efdcf38ab48b67837905cbd197fce2681acd534": 4,
+    "2a21c5ac558e73a865b51dbe5bbef137591bf97cd86a899a14ae886570f3409c": 6,
+    "a44b52cdbe2634d31a1e315b2d2bb0d80bf697230f7203881f195db8419d1405": 2,
+    "0a75e1e0844103b4e954ab5641dee6194143c8cd2bba6338e2c1bc6f69c3be94": 2,
+    "f6dc42f73265ec52672cf48f32de3d1cd3dccec9c3de4142c9ada2ecbabbdfe3": 14,
+    "aa05f1718ec27f8550233129b76558efdf433fa94745035a0d9ad72dbbf64f28": 6,
+    "bb5198e37a30aa6d08c0e4b151677c01c5573ef0ac08de80f0315c46020d1b30": 2,
+    "c626d2db7679a18b819189d18f984ae7d986643c6f2d209dc7ac5f36fdd6cf15": 8,
+    "f55a24947785f8670f99f7a1099bd76c4e4cde9d4a1a8e36e7e65e32796bc9bc": 2,
+    "1573ef1b776644b473cafebea32333699b801802fe8dbfa92d86fc3aa6044a12": 2,
+    "f363ce22dad3bde3b4e0dea57c11507c0c6a4513d224ac89d941187ac3f45916": 4,
+    "1dfaa1d0b75170303e054e8e25c0418ae8cab04ce73878a4e5c52f13d0742c60": 4,
+    "54604934fd5946ad39e65f121a6f0d443a20eba766ea54d22eb85215fb1c9aab": 2,
+    "3646da7f8f61a86ef079c8faffea667f5d5f67c0b6369db5c7819ab0b321bb95": 2,
+    "d32e9c709ebc5af1e748de00998b7374522ebec9fe48b907a62c87cd951445d9": 2,
+    "aa7202e749b3e902ad87184912caf0a9c077fc1cd382a17cb3c8082a427a552f": 2,
+    "85a9dfd6d635a28b02386fbfeb9e657ef5e18df587fae07b5ff10a774bff38d3": 4,
+    "ee8effc89d515a94bb9d705d28b084f20c8e74cd583d9dc05148456a6c5fc293": 2,
+    "1028067217d7fe5a36153ead61953e434a12841424cacee90b5849dda2076fcb": 2,
+    "eb762cbc13faebcc730344a0d3c1ddfe5c19bbb6956dc00c44a8e73b4f454000": 2,
+    "923ab887367ce0a6a10c33dd3f111fd9d1f3ed09e9ec2c0b8edc0b4fc59d1438": 4,
+    "d230660f1c6222ed388db2927d31a55ef45e0c9f1e5a360ea7776558c83e840a": 2,
+    "7b08963c50ceeb2b1c044209864c0879d555673aeba499fa33fdf0cbf81276a1": 2,
+    "bb98d6509a8ae63c6fc765d1b54553e62cfcae695ed961cd1361db4b1e25c8d2": 2,
+    "b276f3a09e68cb8f7fc11af675341d80ffa084961fe9ef4ce34bc5512a285bce": 2,
+    "a136f7972839652dcb4badb3af5b4528b9d09e0304c2133905fb4281fd45acd0": 2,
+    "139408b11140706baf1b7cad086057b1ab31de0d20ff8550d90242d753145dff": 2,
+    "06f5f6db8bbc87f19c53bd75c8ca68f400139ac24015253a0719a66b05443e1c": 2,
+    "be033f8f76ffe29c7dce8bc7c9fa5420c39f46171970dc77121f1825a2892b25": 2,
+    "ccf03a7be6acf2b58f882a0c7ba69a89a80991fd45ea63b8868a80697fef138b": 2,
+    "9ef0e4aa4fdc1e59438045e9b3fc4b1beee5d70f758ac6252b4483f3eb594f2c": 2,
+    "b39f6e6773ce95cef83e234d38e5bc62a9cc3ead0e6ada123802254f665bf62b": 2,
+    "5e56bb84fa89000037b6c29a2fc99e328217c36412f5b829f34f277a38db81f9": 4,
+    "24a8fb250db48187a939bdc081d7b90801fc1e1c4eabfd0f4bd1a87092d6d626": 4,
+    "552c9a8c0431589ce4c2d5a5bfabaa312b182e4e47cb6044deecbbc1e6a349f0": 4,
+    "9a2de2d251ac9d04feb3f04d6203154bd4195e9ce3fd62774dceb17e5d44abba": 4,
+    "0d62de75a534667926a4dba5a08eb7904dd3c3cb289bc4108098525ebf15a762": 6,
+    "e671a3a00803943ca9d8b09ac38fb3f6bfff36f1179ef23099cec09503df4bbc": 2,
+    "95e0c38de2cddc3bcbda160e72ca041e211a57c3d03d45133fe720d598b22338": 2,
+    "2fe198c38b970c327ba8f9b08b4f6a42eca3ddabaff046afb7ff28b57cdae992": 2,
+    "6c616f57de6fcc30134387591eface8807d3d9b433af7452c6e4414b6c3e85d7": 2,
+    "ccc16ea7d2c2ce42e3ce9330e57bbb2c30fe1d96aa346e527968e00fb82decaf": 2,
+    "2e89bc11413fbb0c14c2cb0b3ede355232461fa581ff79d93d94b4ee8de220af": 2,
+    "d6b44770e7792c2b04a80c209d2ec9f63c82d0b5acb4cec9cc9f01b8b0caf1ee": 2,
+    "d43f2f0e13379b4f67561984fb62e837ec34b3b0517f677e3c0e6fef753655c4": 2,
+    "e8087c2491f21eb1930660cca5108f5de4c8842dc1a1470c1eaa3131f34aba0c": 2,
+    "5d5e6009269642ab22d6d675bbd7f9668e67668d3b519468f43d88f44897cdf1": 2,
+    "be612a6b1f98ed48eed8c5e93c1766990c51bdbfde3d639d2ca91762bab6d1eb": 2,
+    "648fce816bb8d44d2cb604cb56810500ee658666a0a6bc3c2850f74918a1ac65": 4,
+    "9de00a981d8debe3f99641b858fc9fd638e9e789f4a7afa12bc03cac0715d41b": 2,
+    "05202095ff591db0b2005791c9e8be667c17715daaa33cf1921b4b0d965fbe22": 2,
+    "2c3bcf3dfa4b2eade9c5eba28a82e331cc87e0be6798aa6cdb8994acaf7aaee8": 2,
+    "806731d7a4b3653d475cc3c0359d4d7eaebee7714cca6e98cf5a8f0ff5b21f47": 2,
+    "1b1b9bb4dd2fe3d5cc53ba3d031e29631a462aa3098e0c77855dfcb4ce9f6d72": 2,
+    "8429070587ef7b400ff3d9af60e47839e18bcf91eb5f5c668b99b514a8755755": 2,
+    "d9453fa5279cfa67f60cb5d663913de295f315b2e56e98df20cbf1a7e4ebefe3": 2,
+    "5060d5618d9b65d0ea94c4b90be59d03f8a7be40ff562fddcbc9a85354223865": 2,
+    "8bc3eb94c6b6893c4d1c1f44abc09f2773107d873f459f14d612b4c50824ce1a": 2,
+    "b3623f5422263219b16af80bbae79b90144ec3646259c1b2e0ebebc0b9e7732d": 2,
+    "ff79bb49ae8829347112ebc39458972ec84daea681358d18e180bcad1cba0961": 2,
+    "2274d5e5919dd5432c9bf27843f397cf44c387d8e2bbba5ade2d005525c6086b": 2,
+    "76d8956979803140aea60590700d188d2b306da9a9d4cf4b3cf8a1957a7bb395": 2,
+    "91e5e87d70e8f894ef1b849704da67fa9baa1a5d99d5d27685e795d67c67dafd": 2,
+    "00871dc0481b0f937f486bd04f5d4fdf3da3a3efd7aaec7e2d7a54ddcc124537": 2,
+    "380bfd634486c33d5d4e68f6e3db430669cd4a8e09189a30dc4c3d4606c2bdbb": 2,
+    "1fad6250a1de815add5e25e3429aae9d35228634ccd29d367af1fcc1e31b056f": 2,
+    "bc06b03be870c0eedb4e2cae06d8040867c77e8b0e65f819f9aea52f00cd57d1": 2,
+    "d2f710285892bb75011f8b535b3bddce188ad37437812a172c9c1d899a0977ff": 2,
+    "14211f8c123868f2f991946fa4f4a1c7848524def22da7a2e29873a0b2b1a31c": 2,
+    "a49b8840d160e7d6e540702ae0cd6d68ae7ebcd6cb5c293a008f0b8f2c1d201e": 2,
+    "a9d0ef468538b7abba54c4dc0330a50f0f50d034efc15b3098a77ec7e624ee76": 2,
+    "8cd4ac453cfc64715887f4500d5df809e68b93975c0c52462a02ab6bbe367ba0": 2,
+    "d0bec8e7baa7e9a3b0de0ddf87e467da14ebca30008b2930b3635f7e4ab67bfd": 2,
+    "12d56e72fabbb5044072160a1c28e6b4f976f0925028ef880ccbbdddadee2a7b": 2,
+    "44ed25188f2cb6036e997c0fe6bad809cc27c1e006c3a5c8158f06e3c282e301": 2,
+    "760ad12dd8da369f56778de06be7ea1aa2afc75dbf025beb5ffd404b0c078723": 2,
+    "16306088fc3cfd6cdad6124e470bfef77bfffeb336fbf14030580acbbe5b95d3": 2,
+    "e6d902e0a51c13e0420f9f94d1fbc528853644fb3e72354b58239152a43a2467": 2,
+    "8cd8910b2344e907de451471a8c5afe906fdf9a94bfa82a7c167d4dc43601b90": 2,
+    "7844e89e07b5b416e3f7a9f639ae717dbc90e33510911e2c42e3d9c87206ba93": 2,
+    "d478a4c0af9cc538cd2147da5cc600be99c3d791d60a20e163d22e559ccc4b85": 2,
+    "f73c7b5a95daf927271c10ac986cf5cd770ecfae615fa26234f7a9ec474709a0": 2,
+    "d4504e48ad137847f28719abf0ff1975fe76318f499827c9aec0add348eb9805": 2,
+    "476f562e2f66f934735784179dbda07dd8f75fc94e6c7b3ce8074f27dadb4e40": 2,
+    "8afc49612174b4cd393362afcbade702263cbfecb9859a87a21b4af97565e79e": 2,
+    "b47be19b99c7de0b978e5dded06d77f83c2a1500f97a86307083f05dcb972767": 2,
+    "128c22ed9523f1031f784e62fab6da3589f05737d9596aa37eadf8b90e452246": 2,
+    "20d5368f4a9515f67f4c5d353a7123cd37ad7086e3c262620e78cbb1513cd48e": 2,
+    "9a8e61e6a6b3b84ad8cda9f073bbead18611edc8469bec323f5bc14216e58745": 2,
+    "b138c436ec2df51866b68a543944afaf942f242dc7807061b90f05475b613d73": 2,
+    "14af85e3cbd4240063feffa98d797e68617c9d875a6fd19cb737658d4aa57a39": 2,
+    "95b5036e888d8d8b685826455332e3af684459775c4b0e911595f8f413e2b5bf": 2,
+    "74b18b4b4ee7df87dee91f3303a278382d308dc2b56dc3983d901128eeb7d7fc": 2,
+    "0e5ae5659e6f946ee0e03c3d991cd5aafc379dd94c686b8e4c7747e4b62c5510": 2,
+    "470e903399787f30166a5022744f81f7f61637ed2a73006bbe79aa79436a9c7b": 2,
+    "593a298ac8e59358cdcac43a42babba7d7c4059fbf236c20ec1ffb6ceeaae6ca": 2,
+    "d852de01a7d9ccd6bdf5ad146006e7c50ae5120c79a5bc364f432cd5f09caa2b": 2,
+    "59b3401e22895c3958f655dbdbd3d407b61dc4a9e0b4e5324bc64dc54a637ff6": 2,
+    "eb1a4ab7d3eae131144ec48ec1ed075b3468d17e0a80edc13d5309237572cc9d": 2,
+    "4d7042518eaa719727085fbebca8f9dc06943586030c7a2f5ecec77615cad06c": 2,
+    "9d162eb736d84bad805509ae76dd00ae8036e5de631b5fdfecb89bf8490cc5c2": 2,
+    "f3bbd8a2f7f2fbed2e3e5576992eec610b39edcc25662ec88bcaf69b0e38b683": 2,
+    "d1ffbaca8835bfea7c6ec1b1b06b53012125ec3fa1c01b0f5f1157611802e4c3": 2,
+    "e52b77d2c6fdc5c308b0b92740779277fadec4734d462e16976b3839cda8a55d": 2,
+    "7d24c0eb78d67305e68607ec1c950829272384f0b63beb2fb1d00c06b2aacb87": 2,
+    "070ac9a3443b86a13dd9128d5610289b3eb6875c1a5e89ab801a3f25b6d821b8": 2,
+    "13eb23b8db46219a5d79576f703d162029ebd9b18b8123bc9610497728134d2f": 2,
+    "55c4f6f1ee00aa05ba6622f35c0a6a9669459216a36e86a62293c74fd8353594": 2,
+    "e9420c40febad3212a25df08609e4c2b76428291cbafc086fb4b710ea39eb7c4": 2,
+    "1c82d57c788e36d7bc4415f63d857fd303f30083a374d879986a749e85ef1e1b": 2,
+    "d48a626c9f1611f88e87c4c839d023a42a31300dc6274d4e5ead2dd485b647d3": 2,
+    "e666de54aa585e9b022a4d161d1082516cf6adbff012e2bfdcdffff967951e83": 2,
+    "f5d438618bbc9a2fa96717f30163a8e301f80b2a22d5097df224026c948a7fc6": 2,
+    "75b21ecbb3352bd49dd08e7b06684fc9400a7ed5b4ecefd6ddbe5f729c75d5f1": 2,
+    "e4d47bd4c97891da4512f04e74be3e32143158a01cec1910d3516a5fc34bf21a": 2,
+    "02cce9bdcaae87c83ee59887ebf7234924c92f55199fcb82b06991ca74215c07": 2,
+    "c6dffd7d78a569d751e83f00641568ef331e46be822f5f678a2033193479abb0": 2,
+    "8cadf7b1b28bc34cee4f519dc1808f0681d859275fcec01f8bf0e8888ec201aa": 2,
+    "4379de33b853aacd4dbac5457bdd8bcb357b8522a26277c5147454e8e40a86d4": 2,
+    "0bc24cac839e34ac1cf0c79d102cc549a82691fa6e25eafde108d9747b4a3c12": 2,
+    "f6b0f71d694a8f4c37f6dc0be51fc37e0d1b998d5ec70aef24946ac90d482051": 2,
+    "333f0d2372916f99d5376e4c41c8a13377ceb7031d234b81c953b2be7edd541b": 2,
+    "87fdb734e1f972fec64b59a8c48853c468f3e0af1b94b2da411fd3a8d85ae558": 2,
+    "95ffd0ccdb55b01a7623d84e574b04f1c83332c9a0c59494db33a106ac75e692": 2,
+    "ae8e5e173e999fa7d02a5cde1ace3b3ec1896062057f2e5726ad17b5a30fce26": 2,
+    "96873157837fb2b6e39e09907ff20236dccb58d85a59524bbdc17588e03db301": 3,
+    "a8bbb033d89b048489b457ad1be615e8abc8b7d19319884e4c12c4b9bde1c242": 2,
+    "2146eed81f5ec51f5caa4a13872face76d065e8cd5cb0adddbfb92e8ebf43697": 2,
+    "2301cb21ddf8f208b95748f33253339fc378fbc219eebc799cc48d50198f12f8": 2,
+    "7b19797572b7691d8f5ef890042940a53cc150a22df70a7e81a20d4db69a3355": 1,
+    "db9f5494913a2905587a085c3677172bb55f5e57c087a003f8a0c4b7e2178732": 1,
+    "29b41d33ed1c2b62cbd1b347c437e494ebef297cf59ad05e4850f0894ba48a1f": 1,
+    "39304a77bc2da96e52f63c15219e48e6779d5591d17c14c4b728d2332cae9e5c": 1,
+    "d36800b6067edcaf841a830a3a7f0d6ad7069124dda3eff721e8d12952822651": 1,
+    "faa0948237ce86711d0d7e3787bdf5500a0dfaed9527a1b41796e33a946cb2b5": 2,
     "ba67ab07dd2f4903e03ecfb4e3859d374e2d8c2c65d68d5adb1ac0a0dca66a84": 1,
     "7627960258073e27348d2d6951548fb593ae7954bfac6897240d1f6882efaf94": 1,
     "11bdf4a33eef3fb73733029602b3e88b7162147fc2ee58937e6856478b66b5bc": 1,
     "2747cec30cb789d81cf5246cfdb39813fa56e2475d805dc2c86c163aedc3160a": 1,
     "7b5584adbf8ea8fac9959769bcae1574140e1bb479eba39280edc7f56a33074b": 1,
-    "29b41d33ed1c2b62cbd1b347c437e494ebef297cf59ad05e4850f0894ba48a1f": 1,
-    "39304a77bc2da96e52f63c15219e48e6779d5591d17c14c4b728d2332cae9e5c": 1,
-    "d36800b6067edcaf841a830a3a7f0d6ad7069124dda3eff721e8d12952822651": 1,
-    "faa0948237ce86711d0d7e3787bdf5500a0dfaed9527a1b41796e33a946cb2b5": 2,
     "29bc64aafce79e5c66860c5f81267901b34da95d04ddeb66002d6963a4cd89e2": 1,
     "8227f914c5b9894e7186844d5d73dca36d97b675289b534de231e7a9ce5b92aa": 1,
     "3fae4fb47d8931a8f0f7b63fad30f83f511784ad5efaa245b886230e01839152": 1,
+    "b28fb54507587eeaf65f8ecd16e12e9b6846568afca8360351540035949931c3": 1,
+    "6b10d2dd31fdd36352d1b1101cbb6a0badb229764d4a96d59077469e76850e91": 1,
+    "5f606fcddc26ebddad203471f32e65003596215ffa1293d8e8880e1d1de294e5": 1,
     "6c89ca1a3f0ce15326087f9e05d46520488d49ab0c98bdbe3666360df2bfaf0e": 1,
+    "461b6993a3cfc78fb54cc6728befdea376e82596b3ed9692b62a82a4879cb0df": 1,
+    "50c08420112bdd290796f9d07930121ea7f2ce9072f604bcc6f55cceacb08b2f": 1,
     "4906420a277ea39f578efe12a19e61e24ee78378b930dff36596927cf1ad3f84": 1,
+    "8e9b4aaa953b42874bb7cd7536dc17bcfe54688126c76e07093c5f8efb65ff93": 1,
+    "9effd5bc9063ee7111ac66d0a6199503e9c8d7bdd4d5d0d76954a01ecf0719e6": 1,
     "00451ae0a8ed181fdd21a81bd72073dc535321ebe06a6624ce9935ac70399b74": 1,
     "a4fb96c296bff3bc730b25dfea4f9ba090f116c589b1386de381ca1f584274eb": 1,
     "7f6ac7d74f21b0fc2161e4120eeb48f64da0163a36581870b6037bb7cc80ccf5": 1,
     "a5d1eb382ec7deccd866e156f05e7365ca0d82eb6a5324d25b95668f5e17b64e": 1,
     "567247b37b5990260224784e31f3f4e07c59b17ee597a228a70ffe52226a573e": 1,
     "4af6b4bd11ed0ae38aeca2ad29b09a9183afd75a09032f0f7b2151d00c8ea7b6": 1,
+    "e52dcdba1b4248c5693eca3bcf7677a7040332c86bae9b596bc7300c3c82cb09": 1,
     "862e82e4b6195407318aceb7f1d9fc511ce5849703cafcc4dd16417f0215bee5": 1,
     "7620d33835a22637a6fb623e9a486c9b8d5f39215cd8b4f60dc1744343576574": 1,
     "1adc8f39fb31ee73c453e880f6807e544606e04c6225569859031cb6738d507a": 1,
@@ -3146,7 +5389,10 @@
     "291730790d897ad7e30da4bc2fd000ddeb1ba3de35cc925d2550cae612f854c2": 1,
     "52238e9498b2baa5774eaf4ba6889d55b437ce43e858cf833c105bb037a0a978": 1,
     "ed7ced0a76808862249a549b6ca4430d779c0aa4213e94477227aa0d724c5698": 1,
+    "b2e55c84720dab66aa6be1ff2f30c2ff97cc9749ea4543060fa1b47e9dd3a873": 1,
     "2b0bf56bc380006530bef37fc0cffbd09b21e5cad423cef95b7678fa355fa931": 1,
+    "4992b6dcbfe166c60fc92e4d04e4d22941cffe5065bde65c83422084e4a30c50": 1,
+    "82add524ec842049c4c3d970ca6c932942ff859d6ff3422c56815bdc8762bce7": 1,
     "700068778788e225a194a6286e69997bf5306252d853c82e16690536f9fb39ac": 1,
     "fe3b1f5bfcaf72a5599d147789b8cbd19a7abc232fa8d1994adb249cc352dc37": 1,
     "f3220fee47bcb49ec91518010335d44928009beb11adb4b641c00f22fd8c6166": 1,
@@ -3154,17 +5400,6 @@
     "b8702861706dce9d650a2b14626b4118798d60b0a49e75949338de66098a8941": 1,
     "1daf254970ca20d3e5cf2e49ecc8e8e3aea891dd35d9a1c763d18110d24b5c5f": 1,
     "488dbc41adc9a08289a3de40b2acf8ce5baa2979617ae76322d877cbbd2bc802": 1,
-    "b28fb54507587eeaf65f8ecd16e12e9b6846568afca8360351540035949931c3": 1,
-    "6b10d2dd31fdd36352d1b1101cbb6a0badb229764d4a96d59077469e76850e91": 1,
-    "5f606fcddc26ebddad203471f32e65003596215ffa1293d8e8880e1d1de294e5": 1,
-    "461b6993a3cfc78fb54cc6728befdea376e82596b3ed9692b62a82a4879cb0df": 1,
-    "50c08420112bdd290796f9d07930121ea7f2ce9072f604bcc6f55cceacb08b2f": 1,
-    "8e9b4aaa953b42874bb7cd7536dc17bcfe54688126c76e07093c5f8efb65ff93": 1,
-    "9effd5bc9063ee7111ac66d0a6199503e9c8d7bdd4d5d0d76954a01ecf0719e6": 1,
-    "e52dcdba1b4248c5693eca3bcf7677a7040332c86bae9b596bc7300c3c82cb09": 1,
-    "b2e55c84720dab66aa6be1ff2f30c2ff97cc9749ea4543060fa1b47e9dd3a873": 1,
-    "4992b6dcbfe166c60fc92e4d04e4d22941cffe5065bde65c83422084e4a30c50": 1,
-    "82add524ec842049c4c3d970ca6c932942ff859d6ff3422c56815bdc8762bce7": 1,
     "61be5a07a3823687eb2f89de274491e35933dd32b8fe94f0c91ccee12ed8aaf4": 1
   }
 }

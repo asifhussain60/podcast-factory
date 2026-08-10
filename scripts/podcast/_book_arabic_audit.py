@@ -29,7 +29,7 @@ from pathlib import Path
 from typing import Any
 
 from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded, normalize_arabic
-from _mushaf import is_quranic
+from _mushaf import is_quranic_sequence, mushaf_reference_label
 
 # Resolution ladder, strongest provenance first. ``ocr`` means the run is the
 # source's own words. ``knowledge-base`` means it is not in THIS book's pages but
@@ -136,7 +136,12 @@ def audit_book_arabic(book_md: str, arabic_src: str, kb_arabic: str = "") -> dic
             # Canonical FIRST: a Quranic verse is verified against the mushaf, never
             # against the OCR (the scan can carry an OCR error; the mushaf cannot).
             # The corpus is content/knowledge-base/mirror.db, tracked in git.
-            if is_quranic(span):
+            #
+            # `_sequence`, because a display quotation is very often SEVERAL ayat
+            # run together with their numbers between them, and the single-verse
+            # check can never match across two of them. See its docstring for why
+            # the promotion is unanimous.
+            if is_quranic_sequence(span):
                 resolution = RESOLUTION_MUSHAF
             elif arabic_span_is_grounded(span, arabic_src):
                 resolution = RESOLUTION_OCR
@@ -147,7 +152,23 @@ def audit_book_arabic(book_md: str, arabic_src: str, kb_arabic: str = "") -> dic
             else:
                 resolution = RESOLUTION_UNVERIFIED
             totals[resolution] += 1
-            runs.append({"text": span, "resolution": resolution, "skeleton": normalize_arabic(span)[:40]})
+            run: dict[str, str] = {
+                "text": span,
+                "resolution": resolution,
+                "skeleton": normalize_arabic(span)[:40],
+            }
+            # WHICH ayah, not merely whether. The reading edition prints a Qur'an
+            # card headed by its chapter and verse and has no card without one
+            # (Asif, 2026-08-09), so the matcher's answer is recorded here instead
+            # of being recomputed at render time in a second language. Every one of
+            # the 497 mushaf-resolved runs across the seven books answers, so this
+            # is not a best-effort field — an empty one means the ladder and the
+            # reference lookup have drifted apart and is worth investigating.
+            if resolution == RESOLUTION_MUSHAF:
+                label = mushaf_reference_label(span)
+                if label:
+                    run["reference"] = label
+            runs.append(run)
         chapters.append(
             {
                 "chapter": title,
@@ -199,6 +220,58 @@ def stage_losses(stages: dict[str, dict[str, int]]) -> list[dict[str, Any]]:
     return losses
 
 
+def provenance_drift(book_dir: Path) -> list[tuple[str, str]]:
+    """(chapter, run) where the stored record disagrees with the page about scripture.
+
+    The record is written by a COMPOSE and read at RENDER time, and between those
+    two moments the book can be edited — by the Composer, by ``compose_fix.py``, by
+    anything. Nothing has ever checked that it still describes the text it is
+    filed beside, and on 2026-08-09 every one of the seven books had drifted: runs
+    the record still listed had been edited out days earlier.
+
+    Only the SCRIPTURE question is reported, because that is the only part of the
+    answer anything acts on — the Arabic face, the Arabic ink, the card a
+    quotation is drawn in and the face of its English rendering all key off
+    `canonical-mushaf` and nothing keys off the difference between `ocr` and
+    `knowledge-base`. A run the page no longer carries is silence rather than a
+    finding: it costs nothing at render time, where the set is matched by exact
+    text.
+
+    A SCRIPTURE RUN THAT CANNOT NAME ITSELF IS ALSO DRIFT (2026-08-09). The
+    edition prints a Qur'an card headed by its chapter and verse and has no card
+    without one, so a stored run filed as scripture with no `reference` describes
+    the page less completely than the page now requires — which is exactly what
+    this function exists to notice. Reporting it here is what makes the field
+    self-healing through the door that already exists (`--refresh-provenance`)
+    rather than needing a migration nobody would remember to run.
+
+    Pure: reads two files and returns findings. Refreshing the record is
+    ``run_arabic_audit``, which the caller invokes if it wants the repair.
+    """
+    book_dir = Path(book_dir)
+    book_md = book_dir / "book" / "book.md"
+    report = book_dir / "_system" / "book-arabic-audit.json"
+    if not book_md.exists() or not report.exists():
+        return []
+    try:
+        stored = json.loads(report.read_text(encoding="utf-8"))
+    except Exception:  # an unreadable record is a different problem from a stale one
+        return []
+    scripture = {
+        (r.get("text") or "").strip()
+        for ch in stored.get("chapters", [])
+        for r in ch.get("runs", [])
+        if r.get("resolution") == RESOLUTION_MUSHAF and r.get("reference")
+    }
+    fresh = audit_book_arabic(book_md.read_text(encoding="utf-8"), arabic_src="")
+    return [
+        (ch.get("chapter", ""), (r.get("text") or "").strip())
+        for ch in fresh.get("chapters", [])
+        for r in ch.get("runs", [])
+        if r.get("resolution") == RESOLUTION_MUSHAF and (r.get("text") or "").strip() not in scripture
+    ]
+
+
 def run_arabic_audit(book_dir: Path, *, log=print, stages: dict[str, dict[str, int]] | None = None) -> dict[str, Any]:
     """Audit ``book/book.md`` in place and write ``_system/book-arabic-audit.json``.
 
@@ -248,10 +321,26 @@ def run_arabic_audit(book_dir: Path, *, log=print, stages: dict[str, dict[str, i
             quran = {"measured": False}
     report["quran_coverage"] = quran
 
+    out = book_dir / "_system" / "book-arabic-audit.json"
     if stages:
         report["stages"] = stages
         report["stage_losses"] = stage_losses(stages)
-    out = book_dir / "_system" / "book-arabic-audit.json"
+    elif out.exists():
+        # Only a COMPOSE can measure per-stage Arabic loss — it is the only caller
+        # that sees the text between passes. Re-auditing a finished book on the
+        # standalone CLI has no stages to offer, and writing the report without
+        # them threw away the compose's own record: every book lost `stages` and
+        # `stage_losses` the first time the documented one-line command was run
+        # (found 2026-08-09, before the refresh those keys were about to be
+        # deleted from all seven books). Carried forward instead, exactly as
+        # `quran_coverage` above is read from its sidecar rather than recomputed.
+        try:
+            prior = json.loads(out.read_text(encoding="utf-8"))
+            for key in ("stages", "stage_losses"):
+                if key in prior:
+                    report[key] = prior[key]
+        except Exception:  # a malformed prior report must not fail the audit
+            pass
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     t = report["totals"]

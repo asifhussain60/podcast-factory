@@ -1,0 +1,1698 @@
+{
+  "schema": "book.arabic-audit/v1",
+  "chapters": [
+    {
+      "chapter": "(front matter)",
+      "arabic_runs": 0,
+      "unverified": 0,
+      "runs": []
+    },
+    {
+      "chapter": "Introduction to the Book",
+      "arabic_runs": 4,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "اَلْكِرْمَانِيّ",
+          "resolution": "ocr",
+          "skeleton": "الكرماني"
+        },
+        {
+          "text": "حُجَّةُ الْعِرَاقَيْن",
+          "resolution": "ocr",
+          "skeleton": "حجهالعراقين"
+        },
+        {
+          "text": "اَلنَّسَفِيّ",
+          "resolution": "ocr",
+          "skeleton": "النسفي"
+        },
+        {
+          "text": "أَبُو يَعْقُوبِ السِّجِسْتَانِي",
+          "resolution": "ocr",
+          "skeleton": "ابويعقوبالسجستاني"
+        }
+      ]
+    },
+    {
+      "chapter": "1. The Freedom to Disagree",
+      "arabic_runs": 13,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "مُحَمَّدُ بْنُ اَحْمَدَ النَّسَفِي",
+          "resolution": "ocr",
+          "skeleton": "محمدبناحمدالنسفي"
+        },
+        {
+          "text": "عَبْدُالقَادِرِ البَغْدَادِي",
+          "resolution": "ocr",
+          "skeleton": "عبدالقادرالبغدادي"
+        },
+        {
+          "text": "حَمِيد الدِّين أَحْمَد الْكِرْمَانِي",
+          "resolution": "ocr",
+          "skeleton": "حميدالديناحمدالكرماني"
+        },
+        {
+          "text": "أَبُو حَاتِم الرَّازِي",
+          "resolution": "ocr",
+          "skeleton": "ابوحاتمالرازي"
+        },
+        {
+          "text": "اَلرَّازِي",
+          "resolution": "ocr",
+          "skeleton": "الرازي"
+        },
+        {
+          "text": "اَلسِّجِسْتَانِي",
+          "resolution": "ocr",
+          "skeleton": "السجستاني"
+        },
+        {
+          "text": "محمد بن احمد النسفي",
+          "resolution": "ocr",
+          "skeleton": "محمدبناحمدالنسفي"
+        },
+        {
+          "text": "اَلْفَرْقُ بَيْنَ الْفَرْقِ",
+          "resolution": "ocr",
+          "skeleton": "الفرقبينالفرق"
+        },
+        {
+          "text": "حميد الدين احمد الكرماني",
+          "resolution": "ocr",
+          "skeleton": "حميدالديناحمدالكرماني"
+        },
+        {
+          "text": "أَبِي حَاتِمٍ الرَّازِي ، وَأَبِي يَعْقُوبَ السِّجِسْتَانِي",
+          "resolution": "ocr",
+          "skeleton": "ابيحاتمالرازيوابييعقوبالسجستاني"
+        },
+        {
+          "text": "الاصلاح والنصرة",
+          "resolution": "ocr",
+          "skeleton": "الاصلاحوالنصره"
+        },
+        {
+          "text": "قَانُونُ الدَّعْوَةِ الْهَادِيَةِ",
+          "resolution": "ocr",
+          "skeleton": "قانونالدعوهالهاديه"
+        },
+        {
+          "text": "الْمَحْصُولُ وَالنُّصْرَةُ",
+          "resolution": "ocr",
+          "skeleton": "المحصولوالنصره"
+        }
+      ]
+    },
+    {
+      "chapter": "2. The Two Rivals",
+      "arabic_runs": 29,
+      "unverified": 2,
+      "runs": [
+        {
+          "text": "الاصلاح والنصرة",
+          "resolution": "ocr",
+          "skeleton": "الاصلاحوالنصره"
+        },
+        {
+          "text": "قَانُونُ الدَّعْوَةِ الْهَادِيَةِ",
+          "resolution": "ocr",
+          "skeleton": "قانونالدعوهالهاديه"
+        },
+        {
+          "text": "الْمَحْصُولُ وَالنُّصْرَةُ",
+          "resolution": "ocr",
+          "skeleton": "المحصولوالنصره"
+        },
+        {
+          "text": "ابو حاتم احمد بن حمدان الليفي الورسناني الرازي",
+          "resolution": "ocr",
+          "skeleton": "ابوحاتماحمدبنحمدانالليفيالورسنانيالرازي"
+        },
+        {
+          "text": "أَبُو حَاتِم",
+          "resolution": "ocr",
+          "skeleton": "ابوحاتم"
+        },
+        {
+          "text": "مُحَمَّدُ الْمَهْدِيُّ بِاللَّهِ",
+          "resolution": "ocr",
+          "skeleton": "محمدالمهديبالله"
+        },
+        {
+          "text": "عُبَيْدُ اللّٰه",
+          "resolution": "ocr",
+          "skeleton": "عبيدالله"
+        },
+        {
+          "text": "الْمَرْوَزِي",
+          "resolution": "ocr",
+          "skeleton": "المروزي"
+        },
+        {
+          "text": "كان من كبار دعاة الاسماعيلية ولعب دوراً هاماً في الشؤون السياسية في طبرستان والديلم ولا سيما في الري واصفهان حتى استجاب له كبار رجال الدولة مثل اسفار بن شيرويه ومرداويخ القائد وغيرهما",
+          "resolution": "ocr",
+          "skeleton": "كانمنكباردعاهالاسماعيليهولعبدوراهامافيال"
+        },
+        {
+          "text": "أَسْفَرُ بْنُ شِيرَوَيْهِ",
+          "resolution": "unverified",
+          "skeleton": "اسفربنشيرويه"
+        },
+        {
+          "text": "مَرْدَاوِيجْ",
+          "resolution": "unverified",
+          "skeleton": "مرداويج"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "أَبُو بَكْرٍ مُحَمَّدُ بْنُ زَكَرِيَّا الرَّازِيُّ",
+          "resolution": "ocr",
+          "skeleton": "ابوبكرمحمدبنزكرياالرازي"
+        },
+        {
+          "text": "أَبُو بَكْرٍ الرَّازِي",
+          "resolution": "ocr",
+          "skeleton": "ابوبكرالرازي"
+        },
+        {
+          "text": "أَبُو يَعْقُوب اِسْحَاق اَلسِّجِسْتَانِي",
+          "resolution": "ocr",
+          "skeleton": "ابويعقوباسحاقالسجستاني"
+        },
+        {
+          "text": "اَلسِّجْزِي",
+          "resolution": "ocr",
+          "skeleton": "السجزي"
+        },
+        {
+          "text": "حَمِيد الدِّين أَحْمَد الْكِرْمَانِي",
+          "resolution": "ocr",
+          "skeleton": "حميدالديناحمدالكرماني"
+        },
+        {
+          "text": "التَّقِيَّة",
+          "resolution": "ocr",
+          "skeleton": "التقيه"
+        },
+        {
+          "text": "نَصْرُ بْنُ أَحْمَدَ",
+          "resolution": "ocr",
+          "skeleton": "نصربناحمد"
+        },
+        {
+          "text": "أَبُو الْعَلَاءِ الْمَعَرِّي",
+          "resolution": "ocr",
+          "skeleton": "ابوالعلاءالمعري"
+        },
+        {
+          "text": "سِجِسْتَان",
+          "resolution": "ocr",
+          "skeleton": "سجستان"
+        },
+        {
+          "text": "الْمُعِزُّ الدِّينِ الْفَاطِمِيُّ",
+          "resolution": "ocr",
+          "skeleton": "المعزالدينالفاطمي"
+        },
+        {
+          "text": "جَعْفَرُ بْنُ مَنْصُورِ الْيَمَنِيِّ",
+          "resolution": "ocr",
+          "skeleton": "جعفربنمنصوراليمني"
+        },
+        {
+          "text": "اَلنُّعْمَانُ بْنُ مُحَمَّدٍ بْنِ حَيُّونٍ اَلْمَغْرِبِيُّ اَلتَّمِيمِيُّ",
+          "resolution": "ocr",
+          "skeleton": "النعمانبنمحمدبنحيونالمغربيالتميمي"
+        },
+        {
+          "text": "اَلْقَاضِي",
+          "resolution": "ocr",
+          "skeleton": "القاضي"
+        },
+        {
+          "text": "نَاصِرِي خُسْرَو",
+          "resolution": "ocr",
+          "skeleton": "ناصريخسرو"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "يَتَنَفَّس",
+          "resolution": "ocr",
+          "skeleton": "يتنفس"
+        },
+        {
+          "text": "الْاَصْلَان",
+          "resolution": "ocr",
+          "skeleton": "الاصلان"
+        }
+      ]
+    },
+    {
+      "chapter": "3. The Judge and His Cosmos",
+      "arabic_runs": 16,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "هُوَ أَسَاسُ الدَّعْوَةِ الَّتِي عَلَيْهِ عِمَادُهَا وَبِهِ عَلَا وَاسْتَقَامَ مَنَارُهَا وَبِهِ اسْتَبَانَتِ الْمُشْكِلَاتُ وَانْفَرَجَتِ الْمُعْضِلَاتُ",
+          "resolution": "ocr",
+          "skeleton": "هواساسالدعوهالتيعليهعمادهاوبهعلاواستقامم"
+        },
+        {
+          "text": "نُورُ الدِّينِ اَحْمَد",
+          "resolution": "ocr",
+          "skeleton": "نورالديناحمد"
+        },
+        {
+          "text": "لو ان الدعوة الاسماعيلية لم تنتج غير الكرماني لكفاها فخراً ومجداً ولكان ذلك كافياً",
+          "resolution": "ocr",
+          "skeleton": "لوانالدعوهالاسماعيليهلمتنتجغيرالكرمانيلك"
+        },
+        {
+          "text": "اَلْحَاكِمُ بِأَمْرِ اَللّٰه",
+          "resolution": "ocr",
+          "skeleton": "الحاكمبامرالله"
+        },
+        {
+          "text": "اَلصَّاْدِق اَلْمَأْمُوْن",
+          "resolution": "ocr",
+          "skeleton": "الصادقالمامون"
+        },
+        {
+          "text": "الْحَسَنُ الْفَرْغَانِي",
+          "resolution": "ocr",
+          "skeleton": "الحسنالفرغاني"
+        },
+        {
+          "text": "اَلْفَارَابِي",
+          "resolution": "ocr",
+          "skeleton": "الفارابي"
+        },
+        {
+          "text": "حفظ ادامة وجود الشيء الذي ليس وجوداً لذاته ادامة لا تتصل بشيء من العلل غير ذات المبدع",
+          "resolution": "ocr",
+          "skeleton": "حفظادامهوجودالشيءالذيليسوجودالذاتهادامهل"
+        },
+        {
+          "text": "أَمَّا كَوْنَ الْعِلَلِ مُمْكِنَ الْوُجُودِ فِي نَفْسِهِ وَاجِبَ الْوُجُودِ لِغَيْرِهِ فَلَيْسَ يُنَاقِضُ كَوْنَهُ دَائِمَ الْوُجُودِ بِغَيْرِهِ",
+          "resolution": "ocr",
+          "skeleton": "اماكونالعللممكنالوجودفينفسهواجبالوجودلغي"
+        },
+        {
+          "text": "اذ يوجد من الفعل الذي يحفظ الله به العالم وبين الفعل الذي خلقه به",
+          "resolution": "ocr",
+          "skeleton": "اذيوجدمنالفعلالذييحفظاللهبهالعالموبينالف"
+        },
+        {
+          "text": "التَّوْحِيد",
+          "resolution": "ocr",
+          "skeleton": "التوحيد"
+        },
+        {
+          "text": "اَلْكِنْدِي",
+          "resolution": "ocr",
+          "skeleton": "الكندي"
+        },
+        {
+          "text": "اَلْبَاقِلَّانِي",
+          "resolution": "ocr",
+          "skeleton": "الباقلاني"
+        },
+        {
+          "text": "اَلْبَغْدَادِيُّ",
+          "resolution": "ocr",
+          "skeleton": "البغدادي"
+        },
+        {
+          "text": "اَلْغَزَالِي",
+          "resolution": "ocr",
+          "skeleton": "الغزالي"
+        },
+        {
+          "text": "مَشَارِع",
+          "resolution": "ocr",
+          "skeleton": "مشارع"
+        }
+      ]
+    },
+    {
+      "chapter": "4. Why I Wrote This Book",
+      "arabic_runs": 14,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "بسماللهالرحمنالرحيم",
+          "reference": "Al-Fatihah: 1"
+        },
+        {
+          "text": "اَلْحَنِيْفِي",
+          "resolution": "ocr",
+          "skeleton": "الحنيفي"
+        },
+        {
+          "text": "اَلْعُرْوَةُ الْوُثْقَى",
+          "resolution": "canonical-mushaf",
+          "skeleton": "العروهالوثقي",
+          "reference": "Al-Baqarah: 256"
+        },
+        {
+          "text": "التَّوْحِيد",
+          "resolution": "ocr",
+          "skeleton": "التوحيد"
+        },
+        {
+          "text": "الشِّرْك",
+          "resolution": "ocr",
+          "skeleton": "الشرك"
+        },
+        {
+          "text": "يَوْمَ لَا يَنْفَعُ مَالٌ وَلَا بَنُونَ ، إِلَّا مَنْ أَتَى اللَّهَ بِقَلْبٍ سَلِيمٍ",
+          "resolution": "ocr",
+          "skeleton": "يوملاينفعمالولابنونالامناتياللهبقلبسليم"
+        },
+        {
+          "text": "عليه السلام",
+          "resolution": "ocr",
+          "skeleton": "عليهالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "أَبَا يَعْقُوبَ السِّجْزِي",
+          "resolution": "ocr",
+          "skeleton": "ابايعقوبالسجزي"
+        },
+        {
+          "text": "التَّوْحِيد",
+          "resolution": "ocr",
+          "skeleton": "التوحيد"
+        },
+        {
+          "text": "التَّوْحِيد",
+          "resolution": "ocr",
+          "skeleton": "التوحيد"
+        },
+        {
+          "text": "أَوْلِيَاء",
+          "resolution": "ocr",
+          "skeleton": "اولياء"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "وَهُوَ حَسْبُنَا وَنِعْمَ الْوَكِيلُ",
+          "resolution": "ocr",
+          "skeleton": "وهوحسبناونعمالوكيل"
+        }
+      ]
+    },
+    {
+      "chapter": "5. The Perfect and Perfection",
+      "arabic_runs": 3,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنافيالافاقوفيانفسهمحتييتبينلهما",
+          "reference": "Fussilat: 53"
+        },
+        {
+          "text": "رَاحَةُ الْعَقْلِ",
+          "resolution": "ocr",
+          "skeleton": "راحهالعقل"
+        },
+        {
+          "text": "لَا الشَّمْسُ يَنْبَغِي لَهَا أَنْ تُدْرِكَ الْقَمَرَ وَلَا اللَّيْلُ سَابِقُ النَّهَارِ وَكُلٌّ فِي فَلَكٍ يَسْبَحُونَ",
+          "resolution": "ocr",
+          "skeleton": "لاالشمسينبغيلهاانتدركالقمرولاالليلسابقال"
+        }
+      ]
+    },
+    {
+      "chapter": "6. Nothing Stands Beside the First",
+      "arabic_runs": 17,
+      "unverified": 1,
+      "runs": [
+        {
+          "text": "وَمِنْ آيَاتِهِ اللَّيْلُ، وَالنَّهَارُ، وَالشَّمْسُ، وَالْقَمَرُ",
+          "resolution": "ocr",
+          "skeleton": "ومناياتهالليلوالنهاروالشمسوالقمر"
+        },
+        {
+          "text": "أَبُو زَكَرِيَّا الرَّازِي",
+          "resolution": "unverified",
+          "skeleton": "ابوزكرياالرازي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "إِلَّا أَنِّي تَارِكٌ فِيكُمُ الثَّقَلَيْنِ كِتَابَ اللَّهِ وَعِتْرَتِي ، حبل ممدود من السماء الى الأرض ، طرف منه بيد الله وطرف منه بايديكم، فتمسكوا بها لن تضلوا ما ان تمسكتم بهما، وقد سألت ربي ان يردا عليّ الحوض كهاتين",
+          "resolution": "ocr",
+          "skeleton": "الاانيتاركفيكمالثقلينكتاباللهوعترتيحبلمم"
+        },
+        {
+          "text": "ولا اقول كهاتين",
+          "resolution": "ocr",
+          "skeleton": "ولااقولكهاتين"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "وَصُورَةُ اسْتِغْنَاءِ الْعَالَمِ بِكُلِّيَّتِهِ عَنْ غَيْرِ سِوَاهُ عَدَمُ الْغَيْرِ ، وَاكْتِفَاءُ الْحِكْمَةِ بِمَا فِي كُلِّيَّةِ الْعَالَمِ مِنَ الْغِنْيَةِ وَالْكَمَالِ",
+          "resolution": "ocr",
+          "skeleton": "وصورهاستغناءالعالمبكليتهعنغيرسواهعدمالغي"
+        }
+      ]
+    },
+    {
+      "chapter": "7. The Soul That Forgets",
+      "arabic_runs": 17,
+      "unverified": 1,
+      "runs": [
+        {
+          "text": "الدُّلْفِين",
+          "resolution": "ocr",
+          "skeleton": "الدلفين"
+        },
+        {
+          "text": "الْمُضِيْئَة",
+          "resolution": "ocr",
+          "skeleton": "المضييه"
+        },
+        {
+          "text": "وَإِن مِّن شَىْءٍ إِلَّا يُسَبِّحُ بِحَمْدِهِۦ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وانمنشيءالايسبحبحمده",
+          "reference": "Al-Isra: 44"
+        },
+        {
+          "text": "وَأَرْسَلْنَا ٱلرِّيَحَ لَوَقِحَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وارسلناالريحلوقح",
+          "reference": "Al-Hijr: 22"
+        },
+        {
+          "text": "اَلنَّاطِق",
+          "resolution": "ocr",
+          "skeleton": "الناطق"
+        },
+        {
+          "text": "النَّحْر",
+          "resolution": "ocr",
+          "skeleton": "النحر"
+        },
+        {
+          "text": "اَلذَّبْح",
+          "resolution": "ocr",
+          "skeleton": "الذبح"
+        },
+        {
+          "text": "سُبْحَانَ رَبِّي الْعَظِيمِ وَبِحَمْدِهِ",
+          "resolution": "ocr",
+          "skeleton": "سبحانربيالعظيموبحمده"
+        },
+        {
+          "text": "سُبْحَانَ رَبِّي الْأَعْلَى وَبِحَمْدِهِ",
+          "resolution": "unverified",
+          "skeleton": "سبحانربيالاعليوبحمده"
+        },
+        {
+          "text": "ثُمَّ دَنَا فَتَدَلَّىٰ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ثمدنافتدلي",
+          "reference": "An-Najm: 8"
+        },
+        {
+          "text": "قَابَ قَوْسَيْنِ",
+          "resolution": "ocr",
+          "skeleton": "قابقوسين"
+        },
+        {
+          "text": "حَذْوَ النَّعْلِ بِالنَّعْلِ",
+          "resolution": "ocr",
+          "skeleton": "حذوالنعلبالنعل"
+        },
+        {
+          "text": "لِأَهْلِ الْعِلْمِ",
+          "resolution": "ocr",
+          "skeleton": "لاهلالعلم"
+        },
+        {
+          "text": "بِرَاحَةِ الْعَقْلِ",
+          "resolution": "ocr",
+          "skeleton": "براحهالعقل"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلْبَارِئ",
+          "resolution": "ocr",
+          "skeleton": "الباري"
+        },
+        {
+          "text": "بَانْذَقْلِيس",
+          "resolution": "ocr",
+          "skeleton": "بانذقليس"
+        }
+      ]
+    },
+    {
+      "chapter": "8. Motion, Stillness, and the Bodiless Intellect",
+      "arabic_runs": 10,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "بِرَاحَةِ الْعَقْلِ",
+          "resolution": "ocr",
+          "skeleton": "براحهالعقل"
+        },
+        {
+          "text": "صَلَوَاتُ اللَّهِ عَلَيْهِمْ اجمعين",
+          "resolution": "ocr",
+          "skeleton": "صلواتاللهعليهماجمعين"
+        },
+        {
+          "text": "بِرَاحَةِ الْعَقْلِ",
+          "resolution": "ocr",
+          "skeleton": "براحهالعقل"
+        },
+        {
+          "text": "صَلَّى اللَّهُ عَلَيْهِ وَآلِهِ",
+          "resolution": "ocr",
+          "skeleton": "صلياللهعليهواله"
+        },
+        {
+          "text": "عَلَيْهِ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهالسلام"
+        },
+        {
+          "text": "صَلَّى اللَّهُ عَلَيْهِ وَآلِهِ",
+          "resolution": "ocr",
+          "skeleton": "صلياللهعليهواله"
+        },
+        {
+          "text": "صَلَّى اللَّهُ عَلَيْهِ وَآلِهِ",
+          "resolution": "ocr",
+          "skeleton": "صلياللهعليهواله"
+        },
+        {
+          "text": "ولا تقتلوا اولادكم خشية املاق ومن فعل ذلك فقد أثم وتعدى طوره واسقط نفسه عن مرتبة الفاضلين",
+          "resolution": "ocr",
+          "skeleton": "ولاتقتلوااولادكمخشيهاملاقومنفعلذلكفقداثم"
+        },
+        {
+          "text": "فَإِنْ آنَسْتُم مِّنْهُمْ رُشْدًۭا فَٱدْفَعُوٓا۟ إِلَيْهِمْ أَمْوَلَهُمْ وَلَا تَأْكُلُوهَآ إِسْرَافًۭا وَبِدَارًا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فانانستممنهمرشدافادفعوااليهمامولهمولاتاك",
+          "reference": "An-Nisa: 6"
+        },
+        {
+          "text": "صَلَوَاتُ اللَّهِ عَلَيْهِمْ",
+          "resolution": "ocr",
+          "skeleton": "صلواتاللهعليهم"
+        }
+      ]
+    },
+    {
+      "chapter": "9. Light, Darkness, and the Matter Below",
+      "arabic_runs": 16,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "السَّابِق",
+          "resolution": "ocr",
+          "skeleton": "السابق"
+        },
+        {
+          "text": "اَلْقُدْس",
+          "resolution": "ocr",
+          "skeleton": "القدس"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "الْكَلِمَة",
+          "resolution": "ocr",
+          "skeleton": "الكلمه"
+        }
+      ]
+    },
+    {
+      "chapter": "10. Parts or Traces?",
+      "arabic_runs": 7,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "التَّوْحِيد",
+          "resolution": "ocr",
+          "skeleton": "التوحيد"
+        },
+        {
+          "text": "التَّوْحِيد",
+          "resolution": "ocr",
+          "skeleton": "التوحيد"
+        },
+        {
+          "text": "التَّوْحِيد",
+          "resolution": "ocr",
+          "skeleton": "التوحيد"
+        },
+        {
+          "text": "تَأْوِيل",
+          "resolution": "ocr",
+          "skeleton": "تاويل"
+        }
+      ]
+    },
+    {
+      "chapter": "11. The Fruit of Two Worlds",
+      "arabic_runs": 10,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلْمَعَاد",
+          "resolution": "ocr",
+          "skeleton": "المعاد"
+        },
+        {
+          "text": "كِتَابُ تَأْوِيلِ الشَّرِيعَةِ",
+          "resolution": "ocr",
+          "skeleton": "كتابتاويلالشريعه"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "اَلْهَيُولَى",
+          "resolution": "ocr",
+          "skeleton": "الهيولي"
+        },
+        {
+          "text": "مَا جَرَى فِي أَوَّلِهِمْ، جَرَى فِي آخِرِهِمْ",
+          "resolution": "ocr",
+          "skeleton": "ماجريفياولهمجريفياخرهم"
+        }
+      ]
+    },
+    {
+      "chapter": "12. Body, Form, and the Two Letters of 'Be'",
+      "arabic_runs": 0,
+      "unverified": 0,
+      "runs": []
+    },
+    {
+      "chapter": "13. The Small World",
+      "arabic_runs": 4,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "وَمَنْ يَتَوَلَّهُمْ مِنْكُمْ فَإِنَّهُ مِنْهُمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومنيتولهممنكمفانهمنهم",
+          "reference": "Al-Ma'idah: 51"
+        },
+        {
+          "text": "يَا أَيَّتُهَا النَّفْسُ الْمُطْمَئِنَّةُ ارْجِعِي إِلَى رَبِّكِ رَاضِيَةً مَرْضِيَّةً",
+          "resolution": "ocr",
+          "skeleton": "ياايتهاالنفسالمطمينهارجعياليربكراضيهمرضي"
+        }
+      ]
+    },
+    {
+      "chapter": "14. Decree and Destiny",
+      "arabic_runs": 14,
+      "unverified": 1,
+      "runs": [
+        {
+          "text": "قضي الامر الذي به تستفتيان",
+          "resolution": "ocr",
+          "skeleton": "قضيالامرالذيبهتستفتيان"
+        },
+        {
+          "text": "فَإِذَا قُضِيَتِ ٱلصَّلَوٰةُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فاذاقضيتالصلوه",
+          "reference": "Al-Jumu'ah: 10"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "إِنَّهُمْ يَرَوْنَهُۥ بَعِيدًۭا وَنَرَاهُ قَرِيبًا",
+          "resolution": "ocr",
+          "skeleton": "انهميرونهبعيداونراهقريبا"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "إِنَّا كُلَّ شَىْءٍ خَلَقْنَهُ بِقَدَرٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اناكلشيءخلقنهبقدر",
+          "reference": "Al-Qamar: 49"
+        },
+        {
+          "text": "يَمْحُوا۟ ٱللَّهُ مَا يَشَآءُ وَيُثْبِتُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يمحوااللهمايشاءويثبت",
+          "reference": "Ar-Ra'd: 39"
+        },
+        {
+          "text": "كُلَّ شَىْءٍ",
+          "resolution": "ocr",
+          "skeleton": "كلشيء"
+        },
+        {
+          "text": "خَلَقْنَهُ",
+          "resolution": "unverified",
+          "skeleton": "خلقنه"
+        },
+        {
+          "text": "بِقَدَرٍ",
+          "resolution": "ocr",
+          "skeleton": "بقدر"
+        },
+        {
+          "text": "أَفِرُّ مِنْ قَضَاءِ اللَّهِ إِلَى قَدَرِهِ",
+          "resolution": "ocr",
+          "skeleton": "افرمنقضاءاللهاليقدره"
+        },
+        {
+          "text": "فَوَجَدَا فِيهَا جِدَارًۭا يُرِيدُ أَن يَنقَضَّ فَأَقَامَهُۥ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فوجدافيهاجدارايريدانينقضفاقامه",
+          "reference": "Al-Kahf: 77"
+        }
+      ]
+    },
+    {
+      "chapter": "15. Fleeing to God's Measure",
+      "arabic_runs": 18,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلْجَدّْ",
+          "resolution": "ocr",
+          "skeleton": "الجد"
+        },
+        {
+          "text": "اَلْجَدّْ",
+          "resolution": "ocr",
+          "skeleton": "الجد"
+        },
+        {
+          "text": "اَلْجَدّْ",
+          "resolution": "ocr",
+          "skeleton": "الجد"
+        },
+        {
+          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنافيالافاقوفيانفسهمحتييتبينلهما",
+          "reference": "Fussilat: 53"
+        },
+        {
+          "text": "رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ربناماخلقتهذابطلا",
+          "reference": "Ali 'Imran: 191"
+        },
+        {
+          "text": "اَلْجَدّْ",
+          "resolution": "ocr",
+          "skeleton": "الجد"
+        },
+        {
+          "text": "اَلْجَدّْ",
+          "resolution": "ocr",
+          "skeleton": "الجد"
+        },
+        {
+          "text": "رَبِّ أَرِنِىٓ أَنظُرْ إِلَيْكَ قَالَ لَن تَرَىٰنِى وَلَكِنِ ٱنظُرْ إِلَى ٱلْجَبَلِ فَإِنِ ٱسْتَقَرَّ مَكَانَهُۥ فَسَوْفَ تَرَىٰنِى فَلَمَّا تَجَلَّىٰ رَبُّهُۥ لِلْجَبَلِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ربارنيانظراليكقاللنترانيولكنانظراليالجبل",
+          "reference": "Al-A'raf: 143"
+        },
+        {
+          "text": "جَعَلَهُۥ دَكًّۭا وَخَرَّ مُوسَىٰ صَعِقًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "جعلهدكاوخرموسيصعقا",
+          "reference": "Al-A'raf: 143"
+        },
+        {
+          "text": "اَلْجَدّْ",
+          "resolution": "ocr",
+          "skeleton": "الجد"
+        },
+        {
+          "text": "سُبْحَنَكَ تُبْتُ إِلَيْكَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سبحنكتبتاليك",
+          "reference": "Al-A'raf: 143"
+        },
+        {
+          "text": "اَلْجَدّْ",
+          "resolution": "ocr",
+          "skeleton": "الجد"
+        },
+        {
+          "text": "اَلْجَدّْ",
+          "resolution": "ocr",
+          "skeleton": "الجد"
+        },
+        {
+          "text": "وَخَلَقَ كُلَّ شَىْءٍۢ فَقَدَّرَهُۥ تَقْدِيرًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وخلقكلشيءفقدرهتقديرا",
+          "reference": "Al-Furqan: 2"
+        },
+        {
+          "text": "لَيْسَ عَلَى ٱلَّذِينَ آمَنُوا۟ وَعَمِلُوا۟ ٱلصَّلِحَتِ جُنَاحٌۭ فِيمَا طَعِمُوٓا۟ إِذَا مَا ٱتَّقَوا۟ وَّآمَنُوا۟ وَعَمِلُوا۟ ٱلصَّلِحَتِ ثم اتقوا وآمنوا واحسنوا ان الله يحب المحسنين",
+          "resolution": "ocr",
+          "skeleton": "ليسعليالذينامنواوعملواالصلحتجناحفيماطعمو"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "لَيْسَ عَلَى ٱلَّذِينَ آمَنُوا۟ وَعَمِلُوا۟ ٱلصَّلِحَتِ جُنَاحٌۭ فِيمَا طَعِمُوٓا۟ إِذَا مَا ٱتَّقَوا۟ وَّآمَنُوا۟ وَعَمِلُوا۟ ٱلصَّلِحَتِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ليسعليالذينامنواوعملواالصلحتجناحفيماطعمو",
+          "reference": "Al-Ma'idah: 93"
+        }
+      ]
+    },
+    {
+      "chapter": "16. Did Adam Bring a Law?",
+      "arabic_runs": 25,
+      "unverified": 1,
+      "runs": [
+        {
+          "text": "اَلْوِلَايَة",
+          "resolution": "ocr",
+          "skeleton": "الولايه"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "الْحِكْمَةُ هِيَ عَمَلٌ مَعَ عِلْمٍ",
+          "resolution": "ocr",
+          "skeleton": "الحكمههيعملمععلم"
+        },
+        {
+          "text": "التَّوْحِيد",
+          "resolution": "ocr",
+          "skeleton": "التوحيد"
+        },
+        {
+          "text": "وَاتْلُ عَلَيْهِمْ نَبَأَ ابْنَيْ آدَمَ بِالْحَقِّ إِذْ قَرَّبَا قُرْبَانًا فَتُقُبِّلَ مِنْ أَحَدِهِمَا وَلَمْ يُتَقَبَّلْ مِنَ الْآخَرِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واتلعليهمنباابنيادمبالحقاذقرباقربانافتقب",
+          "reference": "Al-Ma'idah: 27"
+        },
+        {
+          "text": "وَلِكُلِّ أُمَّةٍ جَعَلْنَا مَنْسَكًا لِيَذْكُرُوا اسْمَ اللَّهِ عَلَى مَا رَزَقَهُمْ مِنْ بَهِيمَةِ الْأَنْعَامِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولكلامهجعلنامنسكاليذكروااسماللهعليمارزقه",
+          "reference": "Al-Hajj: 34"
+        },
+        {
+          "text": "وَلِكُلِّ أُمَّةٍ جَعَلْنَا مَنْسَكًا هُمْ نَاسِكُوهُ فَلَا يُنَازِعُنَّكَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولكلامهجعلنامنسكاهمناسكوهفلاينازعنك",
+          "reference": "Al-Hajj: 67"
+        },
+        {
+          "text": "اَلْعَرْجَاءُ تَجُرُّ رِجْلَهَا إِلَى اَلْمَنْسَكِ",
+          "resolution": "ocr",
+          "skeleton": "العرجاءتجررجلهااليالمنسك"
+        },
+        {
+          "text": "كَانَ النَّاسُ أُمَّةً وَاحِدَةً",
+          "resolution": "canonical-mushaf",
+          "skeleton": "كانالناسامهواحده",
+          "reference": "Al-Baqarah: 213"
+        },
+        {
+          "text": "فَبَعَثَ اللَّهُ النَّبِيِّينَ مُبَشِّرِينَ وَمُنْذِرِينَ وَأَنْزَلَ مَعَهُمُ الْكِتَابَ بِالْحَقِّ لِيَحْكُمَ بَيْنَ النَّاسِ فِيمَا اخْتَلَفُوا فِيهِ",
+          "resolution": "ocr",
+          "skeleton": "فبعثاللهالنبيينمبشرينومنذرينوانزلمعهمالك"
+        },
+        {
+          "text": "فَبَعَثَ اللَّهُ غُرَابًا يَبْحَثُ فِي الْأَرْضِ لِيُرِيَهُ كَيْفَ يُوَارِي سَوْأَةَ أَخِيهِ قَالَ يَا وَيْلَتَا أَعَجَزْتُ أَنْ أَكُونَ مِثْلَ هَذَا الْغُرَابِ فَأُوَارِيَ سَوْأَةَ أَخِي فَأَصْبَحَ مِنَ النَّادِمِينَ",
+          "resolution": "ocr",
+          "skeleton": "فبعثاللهغرابايبحثفيالارضليريهكيفيواريسوا"
+        },
+        {
+          "text": "إِنَّ أَكْرَمَكُمْ عِنْدَ اللَّهِ أَتْقَاكُمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اناكرمكمعنداللهاتقاكم",
+          "reference": "Al-Hujurat: 13"
+        },
+        {
+          "text": "إِنَّمَا يَتَقَبَّلُ اللَّهُ مِنَ الْمُتَّقِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انمايتقبلاللهمنالمتقين",
+          "reference": "Al-Ma'idah: 27"
+        },
+        {
+          "text": "لَئِنْ بَسَطْتَ إِلَيَّ يَدَكَ لِتَقْتُلَنِي مَا أَنَا بِبَاسِطٍ يَدِيَ إِلَيْكَ لِأَقْتُلَكَ إِنِّي أَخَافُ اللَّهَ رَبَّ الْعَالَمِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لينبسطتالييدكلتقتلنيماانابباسطيدياليكلاق",
+          "reference": "Al-Ma'idah: 28"
+        },
+        {
+          "text": "فَبَعَثَ ٱللَّهُ غُرَابًۭا يَبْحَثُ فِى ٱلْأَرْضِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فبعثاللهغرابايبحثفيالارض",
+          "reference": "Al-Ma'idah: 31"
+        },
+        {
+          "text": "مُحَمَّدُ بْنُ أَبِي بَكْرٍ",
+          "resolution": "ocr",
+          "skeleton": "محمدبنابيبكر"
+        },
+        {
+          "text": "يَا وَيْلَتَا أَعَجَزْتُ أَنْ أَكُونَ مِثْلَ هَٰذَا الْغُرَابِ",
+          "resolution": "unverified",
+          "skeleton": "ياويلتااعجزتاناكونمثلهذاالغراب"
+        },
+        {
+          "text": "إِنَّ ٱللَّهَ ٱصْطَفَىٰٓ آدَمَ وَنُوحًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اناللهاصطفيادمونوحا",
+          "reference": "Ali 'Imran: 33"
+        },
+        {
+          "text": "ٱسْجُدُوا۟ لِآدَمَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اسجدوالادم",
+          "reference": "Al-Baqarah: 34"
+        },
+        {
+          "text": "يا بني اسرائيل اذكروا نعمتي التي انعمت عليكم وأوفوا بعهدي أوف بعهدكم وإياي فارهبون وآمنوا بما انزلت مصدقاً لما معكم ولا تكونوا أول كافر ولا تشتروا بآياتي ثمناً قليلاً وإياي فاتقون، وَلَا تَلْبِسُوا الْحَقَّ بِالْبَاطِلِ وَتَكْتُمُوا الْحَقَّ وَأَنْتُمْ تَعْلَمُونَ وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ وَارْكَعُوا مَعَ الرَّاكِعِينَ",
+          "resolution": "ocr",
+          "skeleton": "يابنياسراييلاذكروانعمتيالتيانعمتعليكمواو"
+        },
+        {
+          "text": "إِنَّآ أَرْسَلْنَا نُوحًا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اناارسلنانوحا",
+          "reference": "Nuh: 1"
+        },
+        {
+          "text": "شَرَعَ لَكُم مِّنَ ٱلدِّينِ مَا وَصَّىٰ بِهِۦ نُوحًۭا وَٱلَّذِىٓ أَوْحَيْنَآ إِلَيْكَ وَمَا وَصَّيْنَا بِهِۦٓ إِبْرَهِيمَ وَمُوسَىٰ وَعِيسَىٰٓ أَنْ أَقِيمُوا۟ ٱلدِّينَ وَلَا تَتَفَرَّقُوا۟",
+          "resolution": "canonical-mushaf",
+          "skeleton": "شرعلكممنالدينماوصيبهنوحاوالذياوحينااليكو",
+          "reference": "Ash-Shura: 13"
+        },
+        {
+          "text": "يَا آدَمُ أَنْبِئْهُمْ بِأَسْمَائِهِمْ",
+          "resolution": "ocr",
+          "skeleton": "ياادمانبيهمباسمايهم"
+        },
+        {
+          "text": "إنا أوحينا اليك كما أوحينا إلى نوح والنبيين من بعده وأوحينا إلى إبراهيم وإسماعيل وإسحاق ويعقوب والأسباط وعيسى وأيوب ويونس وهرون وسليمان",
+          "resolution": "ocr",
+          "skeleton": "انااوحينااليككمااوحيناالينوحوالنبيينمنبع"
+        },
+        {
+          "text": "أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اتجعلفيهامنيفسدفيهاويسفكالدماءونحننسبحبح",
+          "reference": "Al-Baqarah: 30"
+        }
+      ]
+    },
+    {
+      "chapter": "17. The Six Gates of Necessity",
+      "arabic_runs": 27,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهالسلام"
+        },
+        {
+          "text": "أَتَجْعَلُ فِيهَا مَنْ يُفْسِدُ فِيهَا وَيَسْفِكُ الدِّمَاءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اتجعلفيهامنيفسدفيهاويسفكالدماءونحننسبحبح",
+          "reference": "Al-Baqarah: 30"
+        },
+        {
+          "text": "عَلَيْهِ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهالسلام"
+        },
+        {
+          "text": "اَلْوَدّ",
+          "resolution": "ocr",
+          "skeleton": "الود"
+        },
+        {
+          "text": "اَلسُّوَاع",
+          "resolution": "ocr",
+          "skeleton": "السواع"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "حَتَّى إِذَا جَاءُوا قَالَ أَكَذَّبْتُمْ بِآيَاتِي وَلَمْ تُحِيطُوا بِهَا عِلْمًا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "حتياذاجاءواقالاكذبتمباياتيولمتحيطوابهاعل",
+          "reference": "An-Naml: 84"
+        },
+        {
+          "text": "إِنِّي أَعْلَمُ مَا لَا تَعْلَمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انياعلممالاتعلمون",
+          "reference": "Al-Baqarah: 30"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ونحننسبحبحمدكونقدسلك",
+          "reference": "Al-Baqarah: 30"
+        },
+        {
+          "text": "إِنِّىٓ أَعْلَمُ مَا لَا تَعْلَمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انياعلممالاتعلمون",
+          "reference": "Al-Baqarah: 30"
+        },
+        {
+          "text": "وعلم آدم الأسماء كلها ثم عرضهم على الملائكة فقال انبثوني بأسماء هؤلاء ان كنتم صادقين قالوا سبحانك لا علم لنا إلا ما علمتنا انك انت العليم الحكيم قال يا آدم انبئهم باسمائهم فلمًا انبأم باسمائهم قال",
+          "resolution": "ocr",
+          "skeleton": "وعلمادمالاسماءكلهاثمعرضهمعليالملايكهفقال"
+        },
+        {
+          "text": "أَلَمْ أَقُل لَّكُمْ إِنِّىٓ أَعْلَمُ غَيْبَ ٱلسَّمَوَتِ وَٱلْأَرْضِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الماقللكمانياعلمغيبالسموتوالارض",
+          "reference": "Al-Baqarah: 33"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "يَوْمًۭا يَجْعَلُ ٱلْوِلْدَنَ شِيبًا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يومايجعلالولدنشيبا",
+          "reference": "Al-Muzzammil: 17"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "بَلْ هُمْ لَيْسَ مِنْ خَلْقٍ جَدِيدٍ",
+          "resolution": "ocr",
+          "skeleton": "بلهمليسمنخلقجديد"
+        },
+        {
+          "text": "واذا السماء انفطرت وإذا الكواكب انتشرت",
+          "resolution": "ocr",
+          "skeleton": "واذاالسماءانفطرتواذاالكواكبانتشرت"
+        },
+        {
+          "text": "إذا الشمس كورت واذا النجوم انكدرت واذا الجبال سيرت واذا العشار عطلت",
+          "resolution": "ocr",
+          "skeleton": "اذاالشمسكورتواذاالنجومانكدرتواذاالجبالسي"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلْجَدّْ",
+          "resolution": "ocr",
+          "skeleton": "الجد"
+        },
+        {
+          "text": "الْفَتْح",
+          "resolution": "ocr",
+          "skeleton": "الفتح"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        }
+      ]
+    },
+    {
+      "chapter": "18. Cycles, Prophets, and the Ark",
+      "arabic_runs": 22,
+      "unverified": 3,
+      "runs": [
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "كَمَا بَدَأَكُمْ تَعُودُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "كمابداكمتعودون",
+          "reference": "Al-A'raf: 29"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "اَلِفٌ، دَالٌ، مِيمٌ",
+          "resolution": "unverified",
+          "skeleton": "الفدالميم"
+        },
+        {
+          "text": "نُوحٌ، إِبْرَاهِيمُ، مُوسَى، عِيسَى، مُحَمَّدٌ",
+          "resolution": "ocr",
+          "skeleton": "نوحابراهيمموسيعيسيمحمد"
+        },
+        {
+          "text": "اَلِف، لَام، فَاء",
+          "resolution": "unverified",
+          "skeleton": "الفلامفاء"
+        },
+        {
+          "text": "مِيمٌ، بَاءٌ، مِيمٌ",
+          "resolution": "unverified",
+          "skeleton": "ميمباءميم"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "الْقَائِم",
+          "resolution": "ocr",
+          "skeleton": "القايم"
+        },
+        {
+          "text": "وَدّاً، وَسُوَاعاً، وَيَغُوثَ، وَيَعُوقَ، وَنَسْراً",
+          "resolution": "ocr",
+          "skeleton": "وداوسواعاويغوثويعوقونسرا"
+        },
+        {
+          "text": "مِنْ خَطِيئَاتِهِمْ اُغْرِقُوا فَاُدْخِلُوا النَّارَ",
+          "resolution": "ocr",
+          "skeleton": "منخطيياتهماغرقوافادخلواالنار"
+        },
+        {
+          "text": "وَٱصْنَعِ ٱلْفُلْكَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واصنعالفلك",
+          "reference": "Hud: 37"
+        },
+        {
+          "text": "وَكُلَّمَا مَرَّ عَلَيْهِ مَلَأٌۭ مِّن قَوْمِهِۦ سَخِرُوا۟ مِنْهُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وكلمامرعليهملامنقومهسخروامنه",
+          "reference": "Hud: 38"
+        },
+        {
+          "text": "سَـَٔاوِىٓ إِلَىٰ جَبَلٍۢ يَعْصِمُنِى مِنَ ٱلْمَآءِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ساوياليجبليعصمنيمنالماء",
+          "reference": "Hud: 43"
+        },
+        {
+          "text": "لَا عَاصِمَ ٱلْيَوْمَ مِنْ أَمْرِ ٱللَّهِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لاعاصماليوممنامرالله",
+          "reference": "Hud: 43"
+        },
+        {
+          "text": "ٱرْكَبُوا۟ فِيهَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اركبوافيها",
+          "reference": "Hud: 41"
+        },
+        {
+          "text": "يا بني اركب معنا ولا تكن مع الكافرين",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يابنياركبمعناولاتكنمعالكافرين",
+          "reference": "Hud: 42"
+        },
+        {
+          "text": "لَا عَاصِمَ ٱلْيَوْمَ مِنْ أَمْرِ ٱللَّهِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لاعاصماليوممنامرالله",
+          "reference": "Hud: 43"
+        },
+        {
+          "text": "سَـَٔاوِىٓ إِلَىٰ جَبَلٍۢ يَعْصِمُنِى مِنَ ٱلْمَآءِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ساوياليجبليعصمنيمنالماء",
+          "reference": "Hud: 43"
+        }
+      ]
+    },
+    {
+      "chapter": "19. The Creator of the Thing and the No-Thing",
+      "arabic_runs": 6,
+      "unverified": 1,
+      "runs": [
+        {
+          "text": "الْمُبْدِع الْأَوَّل",
+          "resolution": "ocr",
+          "skeleton": "المبدعالاول"
+        },
+        {
+          "text": "إِبْدَاع",
+          "resolution": "ocr",
+          "skeleton": "ابداع"
+        },
+        {
+          "text": "اَلْوُجُودُ الْحَقُّ",
+          "resolution": "unverified",
+          "skeleton": "الوجودالحق"
+        },
+        {
+          "text": "الشِّرْك",
+          "resolution": "ocr",
+          "skeleton": "الشرك"
+        },
+        {
+          "text": "شَهِدَ ٱللَّهُ أَنَّهُۥ لَآ إِلَهَ إِلَّا هُوَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "شهداللهانهلاالهالاهو",
+          "reference": "Ali 'Imran: 18"
+        },
+        {
+          "text": "تَأْوِيل",
+          "resolution": "ocr",
+          "skeleton": "تاويل"
+        }
+      ]
+    },
+    {
+      "chapter": "20. Creativity Is the Creator",
+      "arabic_runs": 7,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "النُّطَقَاءُ",
+          "resolution": "ocr",
+          "skeleton": "النطقاء"
+        },
+        {
+          "text": "الْأُسُس",
+          "resolution": "ocr",
+          "skeleton": "الاسس"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "النُّطَقَاءُ",
+          "resolution": "ocr",
+          "skeleton": "النطقاء"
+        },
+        {
+          "text": "الْأُسُس",
+          "resolution": "ocr",
+          "skeleton": "الاسس"
+        },
+        {
+          "text": "وحسبنا الله ونعم الوكيل",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وحسبنااللهونعمالوكيل",
+          "reference": "Ali 'Imran: 173"
+        },
+        {
+          "text": "لَا حَوْلَ وَلَا قُوَّةَ اِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ، مَا شَاءَ اللَّهُ، وَاسْتَغْفِرِ اللَّهَ، وَاُفَوِّضُ أَمْرِي اِلَى اللَّهِ، حَسْبِيَ اللَّهُ نِعْمَ الْوَكِيلُ، نِعْمَ الْمَوْلَى وَنِعْمَ النَّصِيرُ",
+          "resolution": "ocr",
+          "skeleton": "لاحولولاقوهالاباللهالعليالعظيمماشاءاللهو"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "canonical-mushaf": 50,
+    "ocr": 219,
+    "knowledge-base": 0,
+    "honorific-formula": 0,
+    "unverified": 10,
+    "arabic_runs": 279
+  },
+  "quran_coverage": {
+    "measured": true,
+    "cited": 0,
+    "with_arabic": 0,
+    "coverage": 1.0,
+    "uncovered": [],
+    "uncited_inserted": 0
+  },
+  "stages": {
+    "base": {
+      "(front matter)": 0,
+      "1. The Freedom to Disagree": 7,
+      "2. The Two Rivals": 11,
+      "3. The Judge and His Cosmos": 5,
+      "4. Why I Wrote This Book": 6,
+      "5. The Perfect and Perfection": 3,
+      "6. Nothing Stands Beside the First": 5,
+      "7. The Soul That Forgets": 15,
+      "8. Motion, Stillness, and the Bodiless Intellect": 10,
+      "9. Light, Darkness, and the Matter Below": 1,
+      "10. Parts or Traces?": 7,
+      "11. The Fruit of Two Worlds": 5,
+      "12. Body, Form, and the Two Letters of 'Be'": 3,
+      "13. The Small World": 11,
+      "14. Decree and Destiny": 16,
+      "15. Fleeing to God's Measure": 13,
+      "16. Did Adam Bring a Law?": 25,
+      "17. The Six Gates of Necessity": 25,
+      "18. Cycles, Prophets, and the Ark": 17,
+      "19. The Creator of the Thing and the No-Thing": 6,
+      "20. Creativity Is the Creator": 5
+    },
+    "fluency": {
+      "(front matter)": 0,
+      "1. The Freedom to Disagree": 7,
+      "2. The Two Rivals": 11,
+      "3. The Judge and His Cosmos": 5,
+      "4. Why I Wrote This Book": 6,
+      "5. The Perfect and Perfection": 3,
+      "6. Nothing Stands Beside the First": 5,
+      "7. The Soul That Forgets": 15,
+      "8. Motion, Stillness, and the Bodiless Intellect": 10,
+      "9. Light, Darkness, and the Matter Below": 1,
+      "10. Parts or Traces?": 7,
+      "11. The Fruit of Two Worlds": 5,
+      "12. Body, Form, and the Two Letters of 'Be'": 3,
+      "13. The Small World": 11,
+      "14. Decree and Destiny": 16,
+      "15. Fleeing to God's Measure": 13,
+      "16. Did Adam Bring a Law?": 25,
+      "17. The Six Gates of Necessity": 25,
+      "18. Cycles, Prophets, and the Ark": 17,
+      "19. The Creator of the Thing and the No-Thing": 6,
+      "20. Creativity Is the Creator": 5
+    },
+    "final": {
+      "(front matter)": 0,
+      "Introduction to the Book": 4,
+      "1. The Freedom to Disagree": 13,
+      "2. The Two Rivals": 29,
+      "3. The Judge and His Cosmos": 16,
+      "4. Why I Wrote This Book": 13,
+      "5. The Perfect and Perfection": 3,
+      "6. Nothing Stands Beside the First": 17,
+      "7. The Soul That Forgets": 19,
+      "8. Motion, Stillness, and the Bodiless Intellect": 10,
+      "9. Light, Darkness, and the Matter Below": 16,
+      "10. Parts or Traces?": 9,
+      "11. The Fruit of Two Worlds": 12,
+      "12. Body, Form, and the Two Letters of 'Be'": 0,
+      "13. The Small World": 11,
+      "14. Decree and Destiny": 16,
+      "15. Fleeing to God's Measure": 21,
+      "16. Did Adam Bring a Law?": 28,
+      "17. The Six Gates of Necessity": 37,
+      "18. Cycles, Prophets, and the Ark": 24,
+      "19. The Creator of the Thing and the No-Thing": 8,
+      "20. Creativity Is the Creator": 9
+    }
+  },
+  "stage_losses": [
+    {
+      "chapter": "12. Body, Form, and the Two Letters of 'Be'",
+      "stage": "final",
+      "before": 3,
+      "after": 0
+    }
+  ]
+}

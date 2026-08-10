@@ -1,8 +1,9 @@
 # Cloudflare — canonical reference
 
 Everything needed to understand, deploy to, or recover this repo's Cloudflare
-setup. **Last verified against the live API: 2026-08-03.** Every table below was
-read from Cloudflare, not copied from an earlier document.
+setup. **Last verified against the live API: 2026-08-03**; §§9–10 added and the
+account tables re-checked 2026-08-10. Every table below was read from Cloudflare,
+not copied from an earlier document.
 
 ---
 
@@ -315,7 +316,99 @@ npx wrangler login
 
 ---
 
-## 8. What used to be in this directory
+## 9. Running the Podcast Factory Library locally
+
+Local development touches Cloudflare not at all: Miniflare conjures its own D1 and
+its own R2 bucket, and the `database_id` in `wrangler.jsonc` is ignored entirely — a
+wrong value there fails at deploy rather than diverging quietly in development.
+
+```bash
+cd listener
+node scripts/dev-vars.mjs      # rebuild .dev.vars from the keychain (writes mode-600, prints nothing)
+npm run db:migrate             # apply migrations/*.sql to the LOCAL D1
+npm run dev                    # http://localhost:5273
+```
+
+Port **5273** is the Podcast Factory Library. 4322 is the Astro Site; they are
+different applications and must not be confused.
+
+`.dev.vars` is gitignored and holds `BETTER_AUTH_SECRET` and
+`GOOGLE_CLIENT_SECRET`, read from the keychain services named in §3.
+`.dev.vars.example` is the tracked shape. **Never delete
+`listener/.wrangler/state/v3/d1` to fix something** — it holds the `session` table,
+so wiping it signs Asif out of localhost and the site looks like nothing shipped.
+
+### The schema, and who writes it
+
+Ten migrations in `listener/migrations/`, applied locally by the command above and
+remotely by `wrangler d1 migrations apply podcast-listener --remote`. The
+`post-commit` / `post-merge` / `post-checkout` git hooks run the **local** apply
+automatically whenever `develop` moves, so a pull that brings a new migration leaves
+the local database current without anyone remembering.
+
+`publish_to_listener.py` is the only writer of the content tables, and it never
+names `content_unit.status` or `open_to_all` — that is what keeps a freshly
+published book invisible until a human turns it on.
+
+### Gate scripts, and what each one actually proves
+
+Run from `listener/`. They are not interchangeable, and the distinctions were each
+learned from a defect:
+
+| Command | What it proves |
+|---|---|
+| `npm run check` | typecheck + unit tests + build |
+| `npm run smoke` | pages load |
+| `npm run shots` | what they look like |
+| `npm run controls` | every control, when **pressed**, navigates, writes, or changes the page. Local only — it presses Delete and flips `open_to_all`, snapshotting and restoring both |
+| `npm run security` | the access gates hold — fires each bypass request with an authorised control request beside it |
+
+Run `npm run security` after any change under `app/middleware/`, `app/routes.ts`, or
+`app/server/access.server.ts`.
+
+### Two things in `wrangler.jsonc` worth knowing before you read it
+
+- **`PUBLISH_TOKEN` and `MEDIA_TOKEN_SECRET` are named in a comment there and used
+  by nothing.** Verified 2026-08-10: no code references either. Treat them as a
+  reservation, not as secrets you must provision.
+- **A `staging` environment is declared** (`podcast-listener-staging`, workers.dev
+  enabled) with a placeholder all-zeros `database_id`. It has never been deployed;
+  deploying it would require creating that D1 first. Named environments do not
+  inherit top-level `vars`, which is why every security-relevant value is repeated
+  in full inside it.
+
+---
+
+## 10. Going live, and the gate that is not a green check
+
+One command, and it is Tier 2:
+
+```bash
+scripts/podcast/deploy_listener.sh <slug> [<slug> …]     # or --all
+```
+
+It verifies the token resolves to the gmail account and refuses otherwise, sweeps
+other branches for `listener/` commits that never reached `develop`, merges
+`develop` into `main` and pushes, uploads the Worker, then publishes each named
+book and its media. `publish_to_library.py` calls it at the end of every publish
+unless `--skip-listener`.
+
+`--all` means every book the site **has already been sent**, which is a row in
+`unit_detail` — not every book this repo calls published. A first send is always by
+name, so an afternoon of Companion-note writing can be pushed with `--all` without
+uploading several gigabytes of recordings for a book that has never shipped.
+
+**The gate is Asif's own local test, not a passing suite.** Nothing reaches the live
+site until he has opened `http://localhost:5273`, tried it, and said it is right.
+Automated checks prove the code does what its author intended; only he can say it
+does what he wanted. Do not offer "deploy" as an option before that has happened.
+
+`listener/.deployed-commit` (untracked) records what the live Worker is running;
+`publish_to_production.py` reads it to report how many commits production is behind.
+
+---
+
+## 11. What used to be in this directory
 
 Until 2026-08-03 this held a deployment record for **`salty-lamps-proposal`**, a
 separate personal project unrelated to podcast-factory. It was removed because

@@ -14,7 +14,6 @@ import { createElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { attach } from "@asifhussain/prose-editor";
 import type { ProseEditor } from "@asifhussain/prose-editor";
-import { quranQuotationButton } from "./compose-quran-command";
 import { textColourButton } from "./compose-colour-command";
 import { alignButtons } from "./compose-align-command";
 import { DEFAULT_TEXT_ALIGN } from "../lib/reader/text-align";
@@ -26,6 +25,7 @@ import {
   createAlignDecos,
   alignablePositions,
 } from "../components/studio/editor/align-decos";
+import { createArabicDecos } from "../components/studio/editor/arabic-decos";
 import { TOOLBAR_ICONS } from "./toolbar-icons";
 import { initPublishToProduction } from "./publish-to-production";
 import {
@@ -75,10 +75,6 @@ import {
   companionRanges,
   type CompanionMark,
 } from "../components/studio/editor/companion-decos";
-import {
-  createPendingSelectionDecos,
-  type PendingRange,
-} from "../components/studio/editor/pending-selection-decos";
 import {
   markPassages,
   normalizeQuote,
@@ -249,7 +245,6 @@ const COMPOSE_TOOLBAR_ITEMS = [
   "bulletList",
   "orderedList",
   "blockquote",
-  quranQuotationButton(),
   "|",
   // What to insert
   "link",
@@ -263,10 +258,7 @@ const COMPOSE_TOOLBAR_ITEMS = [
  * dependency-free 16px stroke set so it renders standing alone, and those
  * strokes were being read wrong on this bar — the divider's three stacked lines
  * say "align", and the mark-stripper's slashed J says nothing at all. Font
- * Awesome's editor set is the one everyone already knows, and `book-quran` is
- * what separates the two quotation buttons at a glance: the generic quote mark
- * stays with the generic blockquote, and scripture gets a glyph that says
- * scripture.
+ * Awesome's editor set is the one everyone already knows.
  *
  * ALL of them are overridden, deliberately. Font Awesome's solid set is filled
  * and the package's is stroked; re-skinning half a bar would put two drawing
@@ -316,12 +308,7 @@ const COMPOSE_TOOLBAR_TIPS = {
   blockquote: {
     title: "Quotation",
     detail:
-      "Sets the selected paragraphs as an indented quotation — for a passage quoted from elsewhere. For scripture use the one to the right.",
-  },
-  quranQuotation: {
-    title: "Qur'anic quotation",
-    detail:
-      "Select the Arabic first, then click: it drops in as a centred Arabic line with an empty line beneath for the English rendering. Prints as the book's verse style.",
+      "Sets the selected paragraphs as an indented quotation — for a passage quoted from elsewhere. An Arabic line above its English rendering prints as the book's verse style; the two are told apart by what they contain, so no separate control is needed.",
   },
   link: {
     title: "Link",
@@ -827,8 +814,6 @@ function boot(): void {
   let disposeToolbarTips: (() => void) | null = null;
   /** Teardown for the paper picker's tooltips — same lifecycle as the bar's. */
   let disposePaperTips: (() => void) | null = null;
-  /** Teardown for the Show-changes tooltip — same lifecycle as the bar's. */
-  let disposeDiffTip: (() => void) | null = null;
 
   // Companion/AI-tools/Details tools (Studio-decos + the reused hooks) — one
   // shared bridge + two imperatively-mounted React roots per open chapter.
@@ -868,12 +853,12 @@ function boot(): void {
   // the page disagreeing about which sentences are annotated.
   let scholarRoot: Root | null = null;
   const companionNotes: { current: CompanionMark[] } = { current: [] };
-  /** The passage highlighted in the Companion panel right now, not yet filed —
-   *  read by pending-selection-decos.ts. Chromium does not paint the panel's
-   *  own CSS Custom Highlight inside this contenteditable canvas, so Edit mode
-   *  needs its own decoration; Read mode already works via the panel's DOM
-   *  highlight and does not use this box. */
-  const pendingSelection: { current: PendingRange | null } = { current: null };
+  /** Whether the explanation tint is drawn in the edit canvas. The Highlights
+   *  switch on the toolbar writes it; companion-decos.ts reads it on every
+   *  repaint. A live box rather than a rebuild, because the tint must keep
+   *  TRACKING your edits while it is hidden — that mapped position is what
+   *  re-points the note when the chapter saves. */
+  const showNoteTint: { current: boolean } = { current: true };
   /** The OPEN chapter's coloured runs. A live box, read by the decoration
    *  plugin on every repaint, so colouring a selection shows at once. */
   const colourSpans: { current: ColourSpan[] } = { current: [] };
@@ -993,32 +978,17 @@ function boot(): void {
     markCompanionPassages();
   };
 
-  /** The Companion panel just highlighted (or cleared) a passage it has not
-   *  filed yet. Read mode has no ProseMirror doc to map into — this is an
-   *  Edit-mode-only concern, silently a no-op otherwise, since Read mode's own
-   *  CSS Custom Highlight already shows the same thing there. */
-  const onPendingRange = (range: Range | null): void => {
-    const ed = activeEditor?.editor;
-    if (!ed || ed.isDestroyed) return;
-    if (!range) {
-      pendingSelection.current = null;
-    } else {
-      try {
-        const from = ed.view.posAtDOM(range.startContainer, range.startOffset);
-        const to = ed.view.posAtDOM(range.endContainer, range.endOffset);
-        // -1 is `posAtDOM`'s own "not found" — the range's container wasn't
-        // inside this view's DOM (e.g. captured a beat before a chapter
-        // switch tore the old view down). No tint rather than a wrong one.
-        pendingSelection.current =
-          from < 0 || to < 0 || from === to
-            ? null
-            : { from: Math.min(from, to), to: Math.max(from, to) };
-      } catch {
-        pendingSelection.current = null;
-      }
-    }
-    ed.view.dispatch(ed.state.tr);
-  };
+  // Nothing tints the passage you are selecting in the EDIT canvas any more
+  // (Asif, 2026-08-09). Between 2026-08-05 and today the panel painted a
+  // decoration over every selection made anywhere in `.cx-chapter` — which is
+  // the whole editor — and left it lit after the native selection collapsed.
+  // Selecting a sentence to bold it therefore came back doubly coloured, broken
+  // into a chip per inline run, and still glowing once you had clicked away.
+  // Selecting text in a writing surface must do what it does in every other
+  // editor: paint the browser's own selection and nothing else. The panel still
+  // HOLDS the passage — `lastSelectionRef`, shown as the chip you can clear — so
+  // highlight-then-ask is unchanged. Read mode keeps its CSS Custom Highlight,
+  // which is not an editing surface and was never in the way.
 
   function renderScholar(): void {
     const host = root.querySelector<HTMLElement>("#cx-scholar-mount");
@@ -1037,7 +1007,6 @@ function boot(): void {
         readOnly: scholarReadOnly,
         onNotesChanged,
         onReveal: revealPassage,
-        onPendingRange,
       }),
     );
   }
@@ -1540,8 +1509,6 @@ function boot(): void {
     disposeToolbarTips = null;
     disposePaperTips?.();
     disposePaperTips = null;
-    disposeDiffTip?.();
-    disposeDiffTip = null;
     // The Arabic controls live in the toolbar being removed below. Dropped here
     // so a later sync repaints nothing rather than a detached element.
     arabicFaceSel = null;
@@ -1700,16 +1667,24 @@ function boot(): void {
       applySize();
     });
     sizeWrap.append(sizeDown, sizeVal, sizeUp);
-    // Deliberately NOT labelled, though its Arabic neighbour is. Naming the
-    // exception is enough: everything on this row is a screen preference EXCEPT
-    // the Arabic pair, so one accent-coloured "ARABIC" plus the hairline between
-    // the groups draws the line, and a matching "SCREEN" only spent 63px saying
-    // the same thing twice — which was the difference between this cluster
-    // fitting on one row and spilling onto a third. Each control still carries
-    // its own name and tooltip.
+    // LABELLED, since 2026-08-09 (Asif). It had been left bare on the argument
+    // that naming the exception was enough — one accent "ARABIC" for the pair
+    // that changes the edition, and everything else understood to be a view
+    // preference. Read left to right that is not what the row says: it shows one
+    // named cluster and then an unnamed run of controls, which invites the guess
+    // that the second pair is the ENGLISH counterpart of the first. It is not.
+    // The font applies to the whole chapter, Arabic included, and reaches
+    // nothing but this screen — so the honest word is SCREEN, and it now leads
+    // the run it governs (font, size, paper, and the Highlights switch) exactly
+    // as ARABIC leads the pair that prints.
+    const screenLabel = document.createElement("span");
+    screenLabel.className = "cx-tb-label";
+    screenLabel.textContent = "Screen";
+    screenLabel.title =
+      "How this editing view looks — none of it is saved with the book or printed";
     fontGroup.title =
       "Font and size for this editing view only — never the printed book";
-    fontGroup.append(fontSel, sizeWrap);
+    fontGroup.append(screenLabel, fontSel, sizeWrap);
 
     // Font, size and paper are all VIEW preferences — none of them reaches
     // book.md. Grouping them into one cluster, pushed to the trailing edge,
@@ -1810,68 +1785,73 @@ function boot(): void {
       dropNativeTitle: true,
     });
 
-    // ── Show changes ─────────────────────────────────────────────────────────
-    // Word-level track changes for HUMAN edits, off by default. Compose is a
-    // writing surface: with it always on, accepting an AI rewrite repainted the
-    // whole paragraph as strikethrough-plus-underline, so the version you had
-    // just chosen was the hardest one to read. The edited blocks still carry the
-    // para-dirty tint, so "changed and unsaved" never depended on this.
-    const diffToggle = document.createElement("button");
-    diffToggle.type = "button";
-    diffToggle.className = "cx-diff-toggle";
-    // Icon-only, like the paper swatches: the words cost 126px on the row that
-    // the colour button had just pushed back to three lines, and this is a
-    // toggle whose meaning a tooltip carries as well as a caption does. The
-    // caption survives off-screen as the accessible name.
-    diffToggle.innerHTML = TOOLBAR_ICONS.showChanges.svg;
-    const diffName = document.createElement("span");
-    diffName.className = "cx-vh";
-    diffName.textContent = "Show changes";
-    diffToggle.append(diffName);
-    let showDiff = false;
+    // ── Highlights ───────────────────────────────────────────────────────────
+    // Draws (or withdraws) the yellow tint over every passage that carries a
+    // Scholar explanation, so an annotated sentence can be rewritten with
+    // nothing painted over the words. Replaced "Show changes" here on 2026-08-09
+    // (Asif): word-level track changes were a working view nobody turned on,
+    // while a highlight sitting on top of the text you are trying to fix is in
+    // the way every time. The track-changes machinery itself is untouched — it
+    // is shared with the Edit & Enrich screen, where it stays on by default.
+    //
+    // A SWITCH, not a pressed-looking button (Asif, 2026-08-09). This is a
+    // standing on/off state rather than an action, and `role="switch"` is what
+    // says so to a screen reader as well as to the eye — a toggle button
+    // announces "pressed", which describes the control, and a switch announces
+    // "on", which describes the book.
+    //
+    // What it does NOT do is stop the editor tracking where each explanation
+    // sits: hiding is a paint decision inside companion-decos.ts, and the
+    // mapped positions go on following your edits underneath. That is what lets
+    // the tint come back over the NEW wording, and what keeps the save's
+    // re-anchor able to file that wording into the note.
+    const notesSwitch = document.createElement("button");
+    notesSwitch.type = "button";
+    notesSwitch.className = "cx-switch";
+    notesSwitch.setAttribute("role", "switch");
+    notesSwitch.title =
+      "The yellow tint over passages that carry a Scholar explanation. Turn it off to edit an explained sentence cleanly; back on and it returns over the words as they now read.";
+    const notesSwitchText = document.createElement("span");
+    notesSwitchText.className = "cx-switch-text";
+    notesSwitchText.textContent = "Highlights";
+    const notesTrack = document.createElement("span");
+    notesTrack.className = "cx-switch-track";
+    notesTrack.setAttribute("aria-hidden", "true");
+    const notesKnob = document.createElement("span");
+    notesKnob.className = "cx-switch-knob";
+    notesTrack.append(notesKnob);
+    notesSwitch.append(notesSwitchText, notesTrack);
+    // ON unless it was turned off — the tint is the point of writing the notes,
+    // so its absence is the state that has to be chosen.
     try {
-      showDiff = localStorage.getItem("cx-editor-show-changes") === "1";
+      showNoteTint.current =
+        localStorage.getItem("cx-editor-note-tint") !== "0";
     } catch {
       /* preference is best-effort */
     }
-    const paintDiffToggle = (): void => {
-      bridge.showEditDiffRef.current = showDiff;
-      diffToggle.setAttribute("aria-pressed", String(showDiff));
+    const paintNotesSwitch = (): void => {
+      notesSwitch.setAttribute("aria-checked", String(showNoteTint.current));
       // `decorations()` reads the box live, so ANY dispatch repaints. An empty
       // transaction is the cheapest one that is not an edit — it must not touch
       // the document, or toggling a VIEW would dirty the chapter.
       const ed = activeEditor?.editor;
       if (ed && !ed.isDestroyed) ed.view.dispatch(ed.state.tr);
     };
-    diffToggle.addEventListener("click", () => {
-      showDiff = !showDiff;
+    notesSwitch.addEventListener("click", () => {
+      showNoteTint.current = !showNoteTint.current;
       try {
-        localStorage.setItem("cx-editor-show-changes", showDiff ? "1" : "0");
+        localStorage.setItem(
+          "cx-editor-note-tint",
+          showNoteTint.current ? "1" : "0",
+        );
       } catch {
         /* preference is best-effort */
       }
-      paintDiffToggle();
+      paintNotesSwitch();
     });
-    // Row 2, with the view preferences — which is what it is. It sat on row 1
-    // between 2026-08-02 morning and afternoon, to buy the preference cluster
-    // the width it needed for one line; the three alignment buttons then took
-    // row 1 past its own width, and this is the 45px that brings it back. The
-    // toggle is a display preference either way, so the row it lives on is a
-    // budget question rather than a semantic one.
-    viewPrefs.append(diffToggle);
-    disposeDiffTip = mountIconTooltips(toolbar, {
-      trigger: ".cx-diff-toggle",
-      content: {
-        diff: {
-          title: "Show changes",
-          detail:
-            "Marks what you have changed in this chapter since it loaded, word by word. A working view — it never reaches the book.",
-        },
-      },
-      keyOf: () => "diff",
-      delayIn: 120,
-      dropNativeTitle: true,
-    });
+    // Row 2, with the view preferences — which is what it is: what you can see
+    // while you work, never what the book says.
+    viewPrefs.append(notesSwitch);
 
     shell.append(toolbar, host);
     bodyEl.insertAdjacentElement("afterend", shell);
@@ -1886,13 +1866,10 @@ function boot(): void {
       createStudioDecos(bridge),
       createFigureDecos({ figuresRef: editorFigures }),
       // The Companion tint, as a DECORATION: an annotated passage is visible
-      // while you edit, and cannot reach book.md on the next autosave.
-      createCompanionDecos({ notesRef: companionNotes }),
-      // The Companion panel's PENDING (not yet filed) highlight — same reason,
-      // and the only way it can show at all inside this contenteditable
-      // canvas (Chromium does not paint the panel's CSS Custom Highlight
-      // there). See pending-selection-decos.ts.
-      createPendingSelectionDecos({ rangeRef: pendingSelection }),
+      // while you edit, and cannot reach book.md on the next autosave. The
+      // Highlights switch withdraws the PAINT only — the positions keep
+      // tracking, so hiding it never loses where a note belongs.
+      createCompanionDecos({ notesRef: companionNotes, showRef: showNoteTint }),
       // Per-selection text colour, from the sidecar. A decoration for the same
       // reason the Companion tint is one: it is visible while you edit and
       // cannot reach book.md on the next autosave.
@@ -1904,8 +1881,15 @@ function boot(): void {
       // HTML-comment node) and must STAY in the document for preserveFences to
       // restore it — so it is decorated, never removed. See fence-decos.ts.
       createFenceDecos(),
+      // The seed's `.ar-inline` span (isolateInlineArabic, markdown.ts) is
+      // stripped on parse — TipTap has no span node — so a term woven into
+      // English prose otherwise renders in the browser's fallback serif at
+      // parity with the Latin, which a vowelled Arabic word reads as fine
+      // print against. Repaints it as `.ar-raw`, which book-composer.css
+      // already sizes and faces for exactly this run. See arabic-decos.ts.
+      createArabicDecos(),
     ]);
-    paintDiffToggle();
+    paintNotesSwitch();
 
     // ── The formatting toolbar ────────────────────────────────────────────────
     // attach(), never mount(): mountChapterEditor above stays the sole owner of
@@ -3732,8 +3716,7 @@ function boot(): void {
    * It replaces the selection in the OPEN EDITOR rather than writing book.md
    * directly, which is what puts it on the Composer's own edit path: the prose
    * autosave records it in composer-edits.json, the replay restores it after a
-   * re-compose, "Show changes" displays it as a human edit, and Cmd+Z undoes it
-   * like any other.
+   * re-compose, and Cmd+Z undoes it like any other.
    */
   async function runDiacritics(sel: {
     text: string;

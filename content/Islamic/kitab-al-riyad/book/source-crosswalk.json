@@ -1,0 +1,955 @@
+{
+  "schema": "podcast.translation-edition.source-crosswalk/v1",
+  "book": "kitab-al-riyad",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "The Freedom to Disagree",
+      "source_line_ranges": [
+        [
+          34,
+          54
+        ]
+      ],
+      "source_pages": [
+        7,
+        8,
+        9
+      ],
+      "source_page_range": "pp. 7-9",
+      "arabic_source_pages": [
+        7,
+        8,
+        9
+      ],
+      "arabic_source_page_range": "pp. 7-9",
+      "source_headings": [
+        "Introduction"
+      ],
+      "source_excerpt": "Introduction The Islamic world at the end of the third century of the Muhammadan Hijra was distinguished by the character of its sciences, philosophy, and literature, which shaped its cultural sphere and society. New international currents, complex doctrinal disagreements, and prolonged debate did not come to rest with any single party nor settle in any single place. How useful it is, then, for the researcher who…",
+      "drift_findings": []
+    },
+    {
+      "index": 2,
+      "title": "The Two Rivals",
+      "source_line_ranges": [
+        [
+          56,
+          135
+        ]
+      ],
+      "source_pages": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "source_page_range": "pp. 9-17",
+      "arabic_source_pages": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "arabic_source_page_range": "pp. 9-17",
+      "source_headings": [
+        "Al-Razi",
+        "Al-Sijistani",
+        "In what follows we summarize al-Sijistani's views on theology as expressed across most of his writings.",
+        "Al-Sijistani then moves on to the existents in their order and sequence, saying"
+      ],
+      "source_excerpt": "*Kitab al-Riyad* Al-Kirmani's book *al-Riyad* is considered one of the important works that express the philosophical theories of Ismailism in the fourth century AH. I have obtained two copies of it: the first from India, and the second from Tehran, sent to me by the Orientalist W. Ivanow, on behalf of the Ismaili Society in India (The Ismaili Society), which wished me to investigate and explain the book and to…",
+      "drift_findings": []
+    },
+    {
+      "index": 3,
+      "title": "The Judge and His Cosmos",
+      "source_line_ranges": [
+        [
+          137,
+          183
+        ]
+      ],
+      "source_pages": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "source_page_range": "pp. 17-23",
+      "arabic_source_pages": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "arabic_source_page_range": "pp. 17-23",
+      "source_headings": [
+        "Hamid al-Din Ahmad al-Kirmani",
+        "The philosophers of the Islamic world consider him the greatest mind produced by the Ismaili school"
+      ],
+      "source_excerpt": "**Hamid al-Din Ahmad al-Kirmani** A scholarly master whose life history is shrouded in mystery, and a great philosopher who lived in a flourishing scientific age — leaving behind a glorious farewell written across the pages of thought. He undertook deep researches and the most penetrating lines of inquiry, and left to the following generations a body of writings that, at the very least, may be called a precious…",
+      "drift_findings": []
+    },
+    {
+      "index": 4,
+      "title": "Why I Wrote This Book",
+      "source_line_ranges": [
+        [
+          499,
+          567
+        ]
+      ],
+      "source_pages": [
+        49,
+        50,
+        51,
+        52
+      ],
+      "source_page_range": "pp. 49-52",
+      "arabic_source_pages": [
+        49,
+        50,
+        51,
+        52
+      ],
+      "arabic_source_page_range": "pp. 49-52",
+      "source_headings": [
+        "Accordingly, (1) *Tawakkali* — may God grant mercy — *Labis N*.",
+        "Riyadh Book [4]"
+      ],
+      "source_excerpt": "Accordingly, (1) *Tawakkali* — may God grant mercy — *Labis N*. Praise be to Allah, Lord of fathers and mothers, Creator of animals and plants, who praises — to Him belongs all that is in the earth and the heavens, and He bestows favor upon His creation with blessings. Beings have no existence except by His command, and beings have no existence except by His decree. His destiny is firm, so that the minds do not deny…",
+      "drift_findings": []
+    },
+    {
+      "index": 5,
+      "title": "The Perfect and Perfection",
+      "source_line_ranges": [
+        [
+          601,
+          746
+        ]
+      ],
+      "source_pages": [
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "source_page_range": "pp. 55-63",
+      "arabic_source_pages": [
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "arabic_source_page_range": "pp. 55-63",
+      "source_headings": [
+        "Chapter One",
+        "Section One",
+        "Section Two",
+        "Section Three",
+        "Chapter Four",
+        "We say, in consideration of this",
+        "Chapter Five",
+        "The author of al-Islah said"
+      ],
+      "source_excerpt": "**Chapter One** From the book *al-Riyad*, on the ruling between the hunters, in the chapter on what he spoke about the soul, which is the first emanator. **Section One** The author of *al-Islah* said: the soul is complete in itself, because it was emitted from the Intellect. The First is perfection, which is the emancipation of the perfect, because the Intellect is perfect. The author of *al-Nusra* said concerning…",
+      "drift_findings": []
+    },
+    {
+      "index": 6,
+      "title": "Nothing Stands Beside the First",
+      "source_line_ranges": [
+        [
+          749,
+          1058
+        ]
+      ],
+      "source_pages": [
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78
+      ],
+      "source_page_range": "pp. 64-78",
+      "arabic_source_pages": [
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78
+      ],
+      "arabic_source_page_range": "pp. 64-78",
+      "source_headings": [
+        "Chapter Nine",
+        "On Emanation",
+        "The author of al-Nusra said",
+        "Chapter Ten",
+        "The author of al-Nusra said",
+        "We say",
+        "There is a deficiency in it only in addition to that which is higher than it, so it has a degree of rank.",
+        "What is not found for this additive — and if it is related to that — is the aspect of"
+      ],
+      "source_excerpt": "Chapter Nine On Emanation The author of al-Nusra said: The Intellect is the first mean, the Soul is the second mean, and the first mean is closer to the Cause than the second mean. The proximity and rank of one thing to another can arise only from perfection and nobility, and distance can arise only from lack and absence of nobility. We say: (2) This statement is not true with regard to the creative and emanative…",
+      "drift_findings": []
+    },
+    {
+      "index": 7,
+      "title": "The Soul That Forgets",
+      "source_line_ranges": [
+        [
+          1059,
+          1405
+        ]
+      ],
+      "source_pages": [
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102
+      ],
+      "source_page_range": "pp. 78-102",
+      "arabic_source_pages": [
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102
+      ],
+      "arabic_source_page_range": "pp. 78-102",
+      "source_headings": [
+        "Chapter Twenty-One of Part One",
+        "The author of al-Nusra said",
+        "One of the clearest signs of the deficiency of the Soul and the perfection of the First Intellect is that",
+        "Abu Zakariyya said",
+        "Chapter Twenty-Two of Part One",
+        "The author of al-Nusrah said",
+        "We say",
+        "Chapter Twenty-Three of Part One"
+      ],
+      "source_excerpt": "Chapter Twenty-One of Part One The author of al-Nusra said: One of the clearest signs of the deficiency of the Soul and the perfection of the First Intellect is that - 76 the First and the author of al-Islah all said that the act belongs to the Second, and they did not attribute to the First anything — because action is always a sign of deficiency and need, and the abandonment of action is evidence of perfection and…",
+      "drift_findings": []
+    },
+    {
+      "index": 8,
+      "title": "Motion, Stillness, and the Bodiless Intellect",
+      "source_line_ranges": [
+        [
+          1408,
+          1562
+        ]
+      ],
+      "source_pages": [
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112
+      ],
+      "source_page_range": "pp. 103-112",
+      "arabic_source_pages": [
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112
+      ],
+      "arabic_source_page_range": "pp. 103-112",
+      "source_headings": [
+        "The Second Chapter of Kitab al-Riyad",
+        "Chapter One of Part Two",
+        "The author of al-Islah said",
+        "We say",
+        "The author of al-Nusra said",
+        "We say",
+        "Chapter Two of Part Two",
+        "The author of al-Islah said"
+      ],
+      "source_excerpt": "The Second Chapter of Kitab al-Riyad On the adjudication between (the disputants) in the chapter concerning what was said about the intellect that is the first creation. Chapter One of Part Two The author of al-Islah said: We say: Motion and stillness are two effects united in the first and the second. For the first, when it became creative, united with creativity, and that union had two effects upon it in…",
+      "drift_findings": []
+    },
+    {
+      "index": 9,
+      "title": "Light, Darkness, and the Matter Below",
+      "source_line_ranges": [
+        [
+          1565,
+          1687
+        ]
+      ],
+      "source_pages": [
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120
+      ],
+      "source_page_range": "pp. 113-120",
+      "arabic_source_pages": [
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120
+      ],
+      "arabic_source_page_range": "pp. 113-120",
+      "source_headings": [
+        "The Third Chapter of the Book of Riyadh",
+        "Chapter One",
+        "The author of al-Islah said",
+        "The author of al-Nusrah said",
+        "He said",
+        "This is what he said.",
+        "We say",
+        "Then we say"
+      ],
+      "source_excerpt": "**The Third Chapter of the Book of Riyadh** On the judgment among the *hudud* concerning what was discussed about the soul and the lower soul: are they similar to the First or not? **Chapter One** The author of al-Islah said: Regarding what the author of al-Nusrah has proved: we do not say that nature and darkness are born from the Second, just as the Second is born from the First — because that world is the world…",
+      "drift_findings": []
+    },
+    {
+      "index": 10,
+      "title": "Parts or Traces?",
+      "source_line_ranges": [
+        [
+          1690,
+          1812
+        ]
+      ],
+      "source_pages": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128
+      ],
+      "source_page_range": "pp. 121-128",
+      "arabic_source_pages": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128
+      ],
+      "arabic_source_page_range": "pp. 121-128",
+      "source_headings": [
+        "Chapter Four of the Book of Riyadh",
+        "On the judgment between *the hunters* — so the discussion concerning it, on the soul being parts and effects.",
+        "Chapter One of Chapter Four",
+        "The author of the Reform said",
+        "The author of al-Nusrah said",
+        "This statement is confused and contradictory in appearance, because he said",
+        "We say",
+        "Chapter Two of Chapter Four"
+      ],
+      "source_excerpt": "Chapter Four of the Book of Riyadh On the judgment between *the hunters* — so the discussion concerning it, on the soul being parts and effects. Chapter One of Chapter Four The author of the Reform said: According to what the author of al-Nusrah has proved: as for the parts that are in us, they are traces of the first essence, not parts of it. Our union is with the effects of the first essence, not with its parts…",
+      "drift_findings": []
+    },
+    {
+      "index": 11,
+      "title": "The Fruit of Two Worlds",
+      "source_line_ranges": [
+        [
+          1817,
+          1927
+        ]
+      ],
+      "source_pages": [
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136
+      ],
+      "source_page_range": "pp. 129-136",
+      "arabic_source_pages": [
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136
+      ],
+      "arabic_source_page_range": "pp. 129-136",
+      "source_headings": [
+        "Chapter Five of the Book of Riyad",
+        "On the judgment between the two disputants — I speak of him — since human beings are the fruit of the physical world.",
+        "Chapter One of Chapter Five",
+        "The author of al-Islah said",
+        "The author of al-Nusrah said",
+        "But we would say",
+        "We say",
+        "Chapter Two of Chapter Five"
+      ],
+      "source_excerpt": "Chapter Five of the Book of Riyad On the judgment between the two disputants — I speak of him — since human beings are the fruit of the physical world. Chapter One of Chapter Five The author of al-Islah said: Man is the fruit of this whole world, and it is for him that this world has been created in all its parts: its origins, its foundations, the first of which are the principles of the individuals that are born of…",
+      "drift_findings": []
+    },
+    {
+      "index": 12,
+      "title": "Body, Form, and the Two Letters of 'Be'",
+      "source_line_ranges": [
+        [
+          1930,
+          2043
+        ]
+      ],
+      "source_pages": [
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_page_range": "pp. 137-144",
+      "arabic_source_pages": [
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "arabic_source_page_range": "pp. 137-144",
+      "source_headings": [
+        "Chapter Six of the Book of al-Riyad",
+        "In which he speaks of motion, stillness, hyle, and form.",
+        "Chapter One of Chapter Six",
+        "The author of al-Islah said",
+        "The author of al-Nusrah said",
+        "This is not the case of the soul and the body, where the measure between them is only the gentler and the denser.",
+        "We say",
+        "Chapter Two of Chapter Six"
+      ],
+      "source_excerpt": "**Chapter Six of the Book of al-Riyad** In which he speaks of motion, stillness, hyle, and form. **Chapter One of Chapter Six** The author of al-Islah said: As for the saying about bodies and form: they are the spirit of motion and stillness, just as the body is for them. The first hyle is the imagined motion in the vehicles, and the hyles in the second [rank] are in the third. What has been said about that in this…",
+      "drift_findings": []
+    },
+    {
+      "index": 13,
+      "title": "The Small World",
+      "source_line_ranges": [
+        [
+          2046,
+          2165
+        ]
+      ],
+      "source_pages": [
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154
+      ],
+      "source_page_range": "pp. 145-154",
+      "arabic_source_pages": [
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154
+      ],
+      "arabic_source_page_range": "pp. 145-154",
+      "source_headings": [
+        "Chapter Seven of the Book of al-Riyad",
+        "On the ruling between the two.",
+        "I now speak of it in the sections that follow on the world.",
+        "Section One of Chapter Seven",
+        "The author of al-Islah said",
+        "We say",
+        "The author of al-Nusrah said",
+        "The state of pairing is not only the state of sexual union; the state of pairing is also the state of acceptance."
+      ],
+      "source_excerpt": "Chapter Seven of the Book of al-Riyad On the ruling between the two. I now speak of it in the sections that follow on the world. Section One of Chapter Seven The author of al-Islah said: The whole world is composed of four jewels, four structures, and four classes of beings — three of them without humankind, the fourth being humankind. The knotted and the dissolved are all one essence. We do not say that the pair of…",
+      "drift_findings": []
+    },
+    {
+      "index": 14,
+      "title": "Decree and Destiny",
+      "source_line_ranges": [
+        [
+          2168,
+          2361
+        ]
+      ],
+      "source_pages": [
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166
+      ],
+      "source_page_range": "pp. 155-166",
+      "arabic_source_pages": [
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166
+      ],
+      "arabic_source_page_range": "pp. 155-166",
+      "source_headings": [
+        "Chapter Eight of the Book of Riyad",
+        "On the Judgment between the Two Sages",
+        "Chapter One of Section Eight",
+        "The author of al-Islah said",
+        "The author of al-Nusrah said",
+        "We say",
+        "Chapter Two of Section Eight",
+        "Chapter Three of Section Eight"
+      ],
+      "source_excerpt": "Chapter Eight of the Book of Riyad On the Judgment between the Two Sages (He spoke about this in the chapter of Decree and Destiny.) Chapter One of Section Eight The author of al-Islah said: As for the saying that the decree is prior and the destiny posterior — this is wrong, because destiny is before decree, and the prior is before the posterior. It is not permissible that the decree, which is after destiny, should…",
+      "drift_findings": []
+    },
+    {
+      "index": 15,
+      "title": "Fleeing to God's Measure",
+      "source_line_ranges": [
+        [
+          2362,
+          2542
+        ]
+      ],
+      "source_pages": [
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177
+      ],
+      "source_page_range": "pp. 166-177",
+      "arabic_source_pages": [
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177
+      ],
+      "arabic_source_page_range": "pp. 166-177",
+      "source_headings": [
+        "Section Sixteen of Chapter Eight",
+        "The author of al-Islah said",
+        "The author of al-Nusrah said",
+        "It is to multiply, be careful.",
+        "We say",
+        "Thy",
+        "Chapter Seventeen of Chapter Eight",
+        "Chapter Eighteen of Chapter Eight"
+      ],
+      "source_excerpt": "Section Sixteen of Chapter Eight The author of al-Islah said: As for the interpretation of the words of the Messenger of Allah, *\"Flee from Allah's qada' to His qadar,\"* rather, he wanted to flee from the latter of the prior endorsement to the posterior statement, like the flight of a man from the fire — which is the proof of the endorsement — to the water, which is the proof of the statement. He wanted to flee from…",
+      "drift_findings": []
+    },
+    {
+      "index": 16,
+      "title": "Did Adam Bring a Law?",
+      "source_line_ranges": [
+        [
+          2545,
+          2727
+        ]
+      ],
+      "source_pages": [
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192
+      ],
+      "source_page_range": "pp. 178-192",
+      "arabic_source_pages": [
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192
+      ],
+      "arabic_source_page_range": "pp. 178-192",
+      "source_headings": [
+        "Chapter Nine of the Book of Riyadh",
+        "On Ruling Between the Two",
+        "Chapter One",
+        "The author of al-Islah said",
+        "Rather, we say",
+        "The Book of Riyadh [12]",
+        "The author of al-Nusrah said",
+        "We say"
+      ],
+      "source_excerpt": "Chapter Nine of the Book of Riyadh On Ruling Between the Two (He spoke about it in the chapter of the Law of Adam and the wilayah of Noah, peace be upon him.) Chapter One The author of al-Islah said: Whoever claims that the beginning of the speaker-prophets (peace be upon them) had no Shari'ah is mistaken. He is also mistaken when he counts them among those who are \"determined\" (mutimmun), according to what we have…",
+      "drift_findings": []
+    },
+    {
+      "index": 17,
+      "title": "The Six Gates of Necessity",
+      "source_line_ranges": [
+        [
+          2728,
+          2935
+        ]
+      ],
+      "source_pages": [
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205
+      ],
+      "source_page_range": "pp. 192-205",
+      "arabic_source_pages": [
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205
+      ],
+      "arabic_source_page_range": "pp. 192-205",
+      "source_headings": [
+        "Chapter XIV of Title IX",
+        "The author of al-Nusrah said",
+        "We say",
+        "We say",
+        "Chapter XV of Title IX",
+        "Then we say",
+        "We say",
+        "Chapter Sixteen of Title IX"
+      ],
+      "source_excerpt": "**Chapter XIV of Title IX** The author of al-Nusrah said: We must also know the reason for the existence of sharee'ah, so that it may be true. We can then say that Adam (peace be upon him) did not have a law. We say: The reason for the obligation of the Shari'ah is the neglect of the limits, their disruption, and the pursuit of their opposites by creation — but their claim to this is something Allah did not bring…",
+      "drift_findings": []
+    },
+    {
+      "index": 18,
+      "title": "Cycles, Prophets, and the Ark",
+      "source_line_ranges": [
+        [
+          2936,
+          3137
+        ]
+      ],
+      "source_pages": [
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214
+      ],
+      "source_page_range": "pp. 205-214",
+      "arabic_source_pages": [
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214
+      ],
+      "arabic_source_page_range": "pp. 205-214",
+      "source_headings": [
+        "Chapter Twenty-Seven of Title IX",
+        "The author of al-Islah said",
+        "The first line is not obligatory until the second line appears, because the line",
+        "The author of al-Nusrah said",
+        "Concerning the chapter on the six ʿarḍas between the seven lines, and his inference from the lines",
+        "Rather, the seven lines stand for the higher letters, since every Prophet wrote a letter",
+        "Qā'ims save the cycle of their successors and their substitutes in the world. So six",
+        "Adam — Noah — Abraham — Moses — Jesus — Muhammad — al-Qā'im."
+      ],
+      "source_excerpt": "Chapter Twenty-Seven of Title IX The author of al-Islah said: The first line is not obligatory until the second line appears, because the line indicates the Speaker (nāṭiq), and the ʿarḍa indicates the Sharī'a, and a form should not appear of a thing except after it has been completed. So, just as the ʿarḍa appeared after the second line, likewise the law of the first was not fulfilled until the appearance of the…",
+      "drift_findings": []
+    },
+    {
+      "index": 19,
+      "title": "The Creator of the Thing and the No-Thing",
+      "source_line_ranges": [
+        [
+          3140,
+          3237
+        ]
+      ],
+      "source_pages": [
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222
+      ],
+      "source_page_range": "pp. 215-222",
+      "arabic_source_pages": [
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222
+      ],
+      "arabic_source_page_range": "pp. 215-222",
+      "source_headings": [
+        "Chapter Ten of the Book of Riyadh",
+        "Chapter One of Chapter Ten",
+        "We say",
+        "Chapter Two of Chapter Ten",
+        "The author of al-Mahsul said",
+        "We say",
+        "Chapter Three of Title Ten",
+        "Then we say"
+      ],
+      "source_excerpt": "Chapter Ten of the Book of Riyadh On what is more sound, of his correction (islah), from the book of al-Mahsul, in the chapter of monotheism and creativity (al-ibdaʿ), which is the first thing in what was first to fix, of what he discussed and corrected. Chapter One of Chapter Ten We say: The author of al-Mahsul, may Allah have mercy on him, did not exert himself, exaggerate, and apply his mind to the right of the…",
+      "drift_findings": []
+    },
+    {
+      "index": 20,
+      "title": "Creativity Is the Creator",
+      "source_line_ranges": [
+        [
+          3238,
+          3385
+        ]
+      ],
+      "source_pages": [
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232
+      ],
+      "source_page_range": "pp. 222-232",
+      "arabic_source_pages": [
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232
+      ],
+      "arabic_source_page_range": "pp. 222-232",
+      "source_headings": [
+        "Chapter Eight of Title X",
+        "The owner of the crop said",
+        "We say",
+        "Chapter Nine of Title Ten",
+        "The owner of the crop said",
+        "When the mind's cause was the unity of the Almighty and the unity of eternity, the mind became eternal.",
+        "Based on that, we say",
+        "Chapter Ten of Chapter Ten"
+      ],
+      "source_excerpt": "Chapter Eight of Title X The owner of the crop said: In the first chapter of the creator, the Almighty created the world all at once. This is because he created the mind in one sentence, and in it the images of the two worlds emerged, and what is within them — without those images being referred to by their identities at the intellect. But the science of the mind is based on it, and it has information, except that…",
+      "drift_findings": []
+    }
+  ]
+}

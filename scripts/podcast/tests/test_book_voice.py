@@ -409,3 +409,42 @@ def test_record_rearticulation_ignores_a_chapter_the_report_never_named(tmp_path
     bd = _fluency_report(tmp_path, [{"title": "T", "status": "adapted"}])
     assert record_rearticulation(bd, "9. Somewhere Else", "adapted", log=lambda _m: None) == 0
     assert _read(bd)["chapters"][0]["status"] == "adapted"
+
+
+# ─── model-emitted headings inside a chapter body ────────────────────────────
+# Kitab al-Riyad, 2026-08-08: the source prints 113 of its own numbered divisions
+# ("Chapter Two of Title IX"). The model formalised those plain lines as Markdown
+# `##`, which made them indistinguishable from chapters — chapter 10 shipped as a
+# 27-word stub with five sibling `##` sections carrying its body.
+def test_model_emitted_body_headings_are_demoted_not_deleted() -> None:
+    from _translation_text import subordinate_body_headings as _subordinate_body_headings
+
+    body = "Opening prose.\n\n## The First Section\n\nIts prose.\n\n# A Title\n\nMore."
+    out = _subordinate_body_headings(body)
+
+    lines = out.splitlines()
+    assert "## The First Section" not in lines, "must not stay at chapter level"
+    assert "### The First Section" in lines, "the heading must survive, demoted"
+    assert "### A Title" in lines
+    assert not [ln for ln in lines if ln.startswith("## ") or ln.startswith("# ")]
+
+
+def test_body_heading_demotion_leaves_prose_and_hashes_alone() -> None:
+    from _translation_text import subordinate_body_headings as _subordinate_body_headings
+
+    body = "He wrote #1 on the tablet.\n\nA line ending in #\n\n#### Already deep"
+    assert _subordinate_body_headings(body) == body
+
+
+def test_a_demoted_body_heading_no_longer_splits_as_a_chapter() -> None:
+    """The compounding failure: `_CHAPTER_HEADING_RE` would treat a section as a
+    chapter boundary on the NEXT run, truncating the real chapter's body."""
+    from _book_voice import _CHAPTER_HEADING_RE
+    from _translation_text import subordinate_body_headings as _subordinate_body_headings
+
+    book = "## 10. Adam and the Law\n\nStub.\n\n" + _subordinate_body_headings(
+        "## The First Section\n\nThe body that belongs to chapter 10."
+    )
+    heads = _CHAPTER_HEADING_RE.findall(book)
+
+    assert heads == ["## 10. Adam and the Law"], "only the real chapter may split"

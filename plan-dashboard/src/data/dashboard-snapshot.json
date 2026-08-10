@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 27.78
+    "burn_30d_usd": 31.32
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1896,6 +1896,14 @@
       "kind": "consumer_explainer"
     },
     {
+      "slug": "kitab-al-riyad",
+      "title": "Kitāb al-Riyāḍ",
+      "phase": "0book-render",
+      "phase_status": "failed",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_scholarly"
+    },
+    {
       "slug": "kunooz-al-hikmah",
       "title": "Kunooz al Hikmah",
       "phase": "finalize",
@@ -1914,8 +1922,8 @@
     {
       "slug": "spiritual-ethos",
       "title": "Spiritual Ethos",
-      "phase": "0d",
-      "phase_status": "pending",
+      "phase": "0book-compose",
+      "phase_status": "running",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },
@@ -1930,54 +1938,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "c512a55",
-      "subject": "feat(compose): publish one book to production, and prove it landed",
-      "date": "2026-08-06"
+      "sha": "94d3bead",
+      "subject": "fix(books): book-title cards render without diacritics, consistently",
+      "date": "2026-08-10"
     },
     {
-      "sha": "ce13687",
-      "subject": "docs(listener): what's new, for the paper sheet and the phone toolbar",
-      "date": "2026-08-06"
+      "sha": "bc5e681b",
+      "subject": "docs(infra): the vault is authoritative for the Anthropic key",
+      "date": "2026-08-10"
     },
     {
-      "sha": "33c0d69",
-      "subject": "style(listener): the reading sheet is a leaf of paper, not a card",
-      "date": "2026-08-06"
+      "sha": "021a1584",
+      "subject": "docs(infra): pull-secrets verified end to end, both Astro keys live",
+      "date": "2026-08-10"
     },
     {
-      "sha": "e6b2811",
-      "subject": "fix(listener): every control fits the screen it is on, at every viewport",
-      "date": "2026-08-06"
+      "sha": "35d3c159",
+      "subject": "fix(infra): the Astro Site reads the keychain, and pull-secrets wrote the wrong name",
+      "date": "2026-08-10"
     },
     {
-      "sha": "2f2a442",
-      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
-      "date": "2026-08-06"
+      "sha": "c971dd57",
+      "subject": "docs(infra): the ElevenLabs key is gone, and the deletion proved the rest",
+      "date": "2026-08-10"
     },
     {
-      "sha": "e3b61ca",
-      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
-      "date": "2026-08-06"
+      "sha": "ed9b77ac",
+      "subject": "docs: retire ElevenLabs from infra, and record the Azure tenant",
+      "date": "2026-08-10"
     },
     {
-      "sha": "de33ba8",
-      "subject": "fix(composer): the visual palette offers only assets that exist",
-      "date": "2026-08-06"
+      "sha": "87dccbb3",
+      "subject": "docs(infra): the credential story the pipeline actually follows, not the one from June",
+      "date": "2026-08-10"
     },
     {
-      "sha": "b722db9",
-      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
-      "date": "2026-08-06"
+      "sha": "74791b8f",
+      "subject": "podcast(kitab-al-riyad): last chapter cleared the articulation gate",
+      "date": "2026-08-10"
     },
     {
-      "sha": "351a9bb",
-      "subject": "fix(book-composer): the pipeline's fence markers stop showing in the editor",
-      "date": "2026-08-06"
+      "sha": "4b9dc528",
+      "subject": "podcast(kitab-al-riyad): two more chapters cleared the articulation gate",
+      "date": "2026-08-10"
     },
     {
-      "sha": "6af29fb",
-      "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
-      "date": "2026-08-06"
+      "sha": "80417def",
+      "subject": "feat(media): --drop-local-audio reclaims the disk a local bucket spent on duplicates",
+      "date": "2026-08-10"
     }
   ],
   "wave_execution_events": [],

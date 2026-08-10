@@ -24,15 +24,15 @@ In answer to his letter, Imam Ghazali (رض) sent him the counsel that follows.
 
 In the Name of Allah, the Most Compassionate, the Most Merciful. All praise belongs to Allah alone, the Lord of all the worlds, and may the blessings and peace of Allah be upon His Messenger Muhammad and upon all of his descendants and his followers.
 
-My dear beloved son and true friend, may Allah the Exalted grant you a long life spent in His worship and obedience, and may He set you upon the path of His beloved ones. Know that the wellspring of all good counsel is the holy person of the Prophet Muhammad (عَلَيْهِ السَّلَامُ), for every counsel is founded upon his sayings and his way, upon his outward conduct and his inward states alike. Any counsel that runs against his sayings and his way carries no benefit at all. Countless words of advice have already been written and passed down in the light of his sayings and his way. If they have guided you, then you have no need of any counsel from me. But if you have drawn no benefit from the counsels of the Prophet (ع), then tell me: in all the years now gone, what knowledge have you truly gained from me?
+My dear beloved son and true friend, may Allah the Exalted grant you a long life spent in His worship and obedience, and may He set you upon the path of His beloved ones. Know that the wellspring of all good counsel is the holy person of the Prophet Muhammad ﷺ, for every counsel is founded upon his sayings and his way, upon his outward conduct and his inward states alike. Any counsel that runs against his sayings and his way carries no benefit at all. Countless words of advice have already been written and passed down in the light of his sayings and his way. If they have guided you, then you have no need of any counsel from me. But if you have drawn no benefit from the counsels of the Prophet ﷺ, then tell me: in all the years now gone, what knowledge have you truly gained from me?
 
-My dear beloved son, among the counsels the Prophet (ع) gave to his community is this saying of his:
+My dear beloved son, among the counsels the Prophet ﷺ gave to his community is this saying of his:
 
 > عَلَامَةُ إِعْرَاضِ اللَّهِ تَعَالَىٰ عَنِ الْعَبْدِ اشْتِغَالُهُ بِمَا لَا يَعْنِيهِ، وَ إِنَّ امْرَأً ذَهَبَتْ سَاعَةٌ مِنْ عُمْرِهِ فِي غَيْرِ مَا خُلِقَ لَهُ مِنَ الْعِبَادَةِ، جدير ان تطول عليه حسرته
 >
 > "A servant's busying himself with matters that do not concern him is a sign that Allah has turned His special favor away from him. And if a single hour of a servant's life passes in the pursuit of anything other than that for which Allah created him, then it is fitting that his sorrow over it should be long."
 
-The Prophet (ع) has also said:
+The Prophet ﷺ has also said:
 
 > مَنْ جَاوَزَ الْأَرْبَعِينَ وَلَمْ يَغْلِبْ خَيْرُهُ عَلَىٰ شَرِّهِ فَلْيَتَجَهَّزْ إِلَىٰ النَّارِ
 >
@@ -40,7 +40,7 @@ The Prophet (ع) has also said:
 
 In this counsel there is enough for the people of knowledge.
 
-My dear beloved son, giving such advice is easy, but accepting it is hard, for to the taste of those who follow their desires it is bitter, since forbidden things are dear to their hearts. This is all the more true of the one who seeks formal learning, busy with the advancement of his own self and with the distinctions of this world. Such a man supposes that bare knowledge alone will be his salvation and his deliverance, and that he has no need of action. This is the belief of the philosophers. Glory be to Allah the Mighty. This deluded one does not even see that once he has gained knowledge, if he does not act upon it, the proof against him only stands the firmer. Does he not know that the Prophet (ع) said:
+My dear beloved son, giving such advice is easy, but accepting it is hard, for to the taste of those who follow their desires it is bitter, since forbidden things are dear to their hearts. This is all the more true of the one who seeks formal learning, busy with the advancement of his own self and with the distinctions of this world. Such a man supposes that bare knowledge alone will be his salvation and his deliverance, and that he has no need of action. This is the belief of the philosophers. Glory be to Allah the Mighty. This deluded one does not even see that once he has gained knowledge, if he does not act upon it, the proof against him only stands the firmer. Does he not know that the Prophet ﷺ said:
 
 > أَشَدُّ النَّاسِ عَذَابًا يَوْمَ الْقِيَامَةِ عَالِمٌ لَا يَنْفَعُهُ اللَّهُ بِعِلْمِهِ
 >
@@ -84,7 +84,7 @@ And in another place the Exalted has said:
 >
 > "Except for those who repented, and believed, and did righteous work."
 
-And what do you say about these noble sayings of the Prophet (ع)? He said:
+And what do you say about these noble sayings of the Prophet ﷺ? He said:
 
 "Islam is built upon five things: to testify that there is none worthy of worship but Allah and that Muhammad is the Messenger of Allah; to establish the prayer; to give the alms; to fast the month of Ramadan; and to perform the pilgrimage to the House for whoever is able to find a way to it."
 
@@ -141,14 +141,18 @@ Hasan al-Basri said:
 And another intimate of Allah said:
 
 > عَلَامَةُ الْحَقِيقَةِ تَرْكُ مُلَاحَظَةِ الْعَمَلِ لَا تَرْكُ الْعَمَلِ
+>
+> "The mark of realized truth is to leave off admiring one's own action, not to leave off the action itself."
 
-"The mark of realized truth is to leave off admiring one's own action, not to leave off the action itself." One acts without regarding one's own act with pride, yet one must never abandon the doing of good deeds, even where the danger of self-admiration is present.
+One acts without regarding one's own act with pride, yet one must never abandon the doing of good deeds, even where the danger of self-admiration is present.
 
 Our master of both worlds, the Prophet Muhammad, expresses this truth more eloquently, more clearly, and more beautifully than any of the sayings above:
 
 > الْكَيِّسُ مَنْ دَانَ نَفْسَهُ وَ عَمِلَ لِمَا بَعْدَ الْمَوْتِ، وَ الْأَحْمَقُ مَنِ اتَّبَعَ هَوَاهُ وَتَمَنَّى عَلَى اللَّهِ تَعَالَى الْأَمَانِيَّ
+>
+> "The intelligent one is he who calls his own soul to account and works for what lies after death; and the fool is he who follows the desires of his soul and yet indulges vain hopes upon Allah the Exalted."
 
-"The intelligent one is he who calls his own soul to account and works for what lies after death; and the fool is he who follows the desires of his soul and yet indulges vain hopes upon Allah the Exalted." Some narrations add the words: and hopes for Allah's forgiveness.
+Some narrations add the words: and hopes for Allah's forgiveness.
 
 My dear son, how many nights have you stayed awake, going over your knowledge and poring over books, denying yourself sleep? I do not know what your motive was. If it was to grasp some share of this world, to draw in its worthless goods, to secure its offices, and to boast over your peers and equals, then:
 
@@ -197,8 +201,10 @@ My dear son, every day He looks into your heart and says:
 My dear son, knowledge without action is madness, and action without knowledge cannot stand. Know this well: the knowledge that does not keep you far from disobedience today, and does not carry you toward obedience, will not keep you far from the Fire of Hell tomorrow. If you do not act on your knowledge today, and do not make good the days that have already slipped away from you, then on the Day of Resurrection you will cry out:
 
 > فَٱرْجِعْنَا نَعْمَلْ صَلِحًا
+>
+> "Send us back, that we may do righteous deeds!"
 
-"Send us back, that we may do righteous deeds!" And you will be answered:
+And you will be answered:
 
 > يَا أَحْمَقُ أَنْتَ مِنْ هُنَاكَ تَجِيءُ
 >
@@ -210,7 +216,7 @@ My dear son, fix your resolve upon the spirit, defeat upon the lower self, and d
 >
 > "These bodies are either cages for birds or stables for beasts."
 
-Reflect, then, upon yourself: which of the two are you? If you are among the birds of the higher world, then when you hear the call sounded, «ٱرْجِعِىٓ إِلَىٰ رَبِّكِ», "Return to your Lord," you will take flight upward until you settle in the highest towers of the Gardens. So the Messenger of Allah (ع) said:
+Reflect, then, upon yourself: which of the two are you? If you are among the birds of the higher world, then when you hear the call sounded, «ٱرْجِعِىٓ إِلَىٰ رَبِّكِ», "Return to your Lord," you will take flight upward until you settle in the highest towers of the Gardens. So the Messenger of Allah ﷺ said:
 
 > اِهْتَزَّ عَرْشُ الرَّحْمَنِ مِنْ مَوْتِ سَعْدٍ بْنِ مُعَاذٍ
 >
@@ -230,11 +236,13 @@ If that is your state, then do not feel safe from being carried from the زَا�
 
 My dear son, if bare knowledge were enough for you, and you needed no deed beside it, then the call, «هَلْ مِنْ سَائِلٍ؟ هَلْ مِنْ مُسْتَغْفِرٍ؟ هَلْ مِنْ تَائِبٍ؟», "Is there any who asks? Is there any who seeks forgiveness? Is there any who repents?", would be a thing sent out in vain, with no purpose. But it is not so.
 
-Once a group of Companions were praising Abdullah ibn Umar (رض) in the presence of the Messenger of Allah (ع), and he said:
+Once a group of Companions were praising Abdullah ibn Umar (رض) in the presence of the Messenger of Allah ﷺ, and he said:
 
 > نِعْمَ الرَّجُلُ هُوَ لَوْ كَانَ يُصَلِّي بِاللَّيْلِ
+>
+> "He is an excellent man, if only he would pray in the night."
 
-"He is an excellent man, if only he would pray in the night." And on another occasion he said to one of his Companions:
+And on another occasion he said to one of his Companions:
 
 > لَا تُكْثِرِ النَّوْمَ بِاللَّيْلِ فَإِنَّ كَثْرَةَ النَّوْمِ بِاللَّيْلِ يَدَعُ صَاحِبَهُ فَقِيرًا يَوْمَ الْقِيَامَةِ
 >
@@ -245,22 +253,28 @@ My dear son, weigh these three verses and what is placed within each of them.
 The first:
 
 > وَمِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ نَافِلَةً لَكَ
+>
+> "And in part of the night, keep vigil in prayer with it, as a voluntary act for you." (al-Isra: 79)
 
-"And in part of the night, keep vigil in prayer with it, as a voluntary act for you." (al-Isra: 79) In this there is a command.
+In this there is a command.
 
 The second:
 
 > وَبِالْأَسْحَارِ هُمْ يَسْتَغْفِرُونَ
+>
+> "And in the hours before dawn they would seek forgiveness." (al-Dhariyat: 18)
 
-"And in the hours before dawn they would seek forgiveness." (al-Dhariyat: 18) In this there is the giving of thanks.
+In this there is the giving of thanks.
 
 The third:
 
 > وَالْمُسْتَغْفِرِينَ بِالْأَسْحَارِ
+>
+> "And those who seek forgiveness in the hours before dawn." (Al Imran: 17)
 
-"And those who seek forgiveness in the hours before dawn." (Al Imran: 17) In this there is honorable mention.
+In this there is honorable mention.
 
-The Messenger of Allah (ع) said:
+The Messenger of Allah ﷺ said:
 
 > ثَلَاثَةُ أَصْوَاتٍ يُحِبُّهَا اللَّهُ تَعَالَى: صَوْتُ الدِّيكِ، وَصَوْتُ الَّذِي يَقْرَأُ الْقُرْآنَ، وَصَوْتُ الْمُسْتَغْفِرِينَ بِالْأَسْحَارِ
 >
@@ -294,11 +308,11 @@ How well the poet spoke who said:
 
 ## 4. Worship Is Obedience, Nothing Less
 
-My dear beloved son! What I want here is for you to understand truly what obedience and worship are. Obedience and worship mean following the *Shariah*, the Divine Law of the Prophet Muhammad (ع) — whether its commandments call for doing righteous deeds or for holding back from evil, and whether they concern his words or his example. In short, whatever you do or do not do, whatever you say or leave unsaid, all of it must accord fully with his teaching. If you speak, speak according to his teaching. If you keep silent, keep silent according to his guidance. If you act or refrain from acting, do so in keeping with his example.
+My dear beloved son! What I want here is for you to understand truly what obedience and worship are. Obedience and worship mean following the *Shariah*, the Divine Law of the Prophet Muhammad ﷺ — whether its commandments call for doing righteous deeds or for holding back from evil, and whether they concern his words or his example. In short, whatever you do or do not do, whatever you say or leave unsaid, all of it must accord fully with his teaching. If you speak, speak according to his teaching. If you keep silent, keep silent according to his guidance. If you act or refrain from acting, do so in keeping with his example.
 
-Understand this well: if you do something believing it to be worship, yet you do not do it in obedience to his command, it will not count as worship at all. It will count as a sin, even when it wears the outward form of prayer or fasting. Do you not know that a person who fasts on either of the two days of Eid, or on the days of Hajj, commits a sin? It has the outward shape of fasting, but it is not done in accordance with the command, and so the one who does it is a wrongdoer. In the same way, whoever prays at a forbidden time — such as after the عَصْر prayer before sunset, or after the فَجْر prayer before the sun has risen far enough — or prays upon unlawfully occupied ground, is called أَثِيْم, a sinner, and فَاسِقْ, a transgressor. Though the act resembles worship, it is not sound, because it was not done according to the guidance of the Prophet (ع). Yet when a husband and wife come together in lawful intimacy, this is no sin, however it may look to the uninformed, for it falls within his guidance and is therefore *halal*, permissible. So it is established that worship is only another name for obedience. Worship means obedience.
+Understand this well: if you do something believing it to be worship, yet you do not do it in obedience to his command, it will not count as worship at all. It will count as a sin, even when it wears the outward form of prayer or fasting. Do you not know that a person who fasts on either of the two days of Eid, or on the days of Hajj, commits a sin? It has the outward shape of fasting, but it is not done in accordance with the command, and so the one who does it is a wrongdoer. In the same way, whoever prays at a forbidden time — such as after the عَصْر prayer before sunset, or after the فَجْر prayer before the sun has risen far enough — or prays upon unlawfully occupied ground, is called أَثِيْم, a sinner, and فَاسِقْ, a transgressor. Though the act resembles worship, it is not sound, because it was not done according to the guidance of the Prophet ﷺ. Yet when a husband and wife come together in lawful intimacy, this is no sin, however it may look to the uninformed, for it falls within his guidance and is therefore *halal*, permissible. So it is established that worship is only another name for obedience. Worship means obedience.
 
-In the very same way, prayer and fasting count as worship only when they are offered according to the Divine guidelines. Therefore, my dear beloved son, let all your words and all your deeds conform to the commandments of the Prophet (ع). Whatever you do and whatever you say must accord with the *Shariah*, for any knowledge or action of God's creation that falls outside the *Shariah* is plain misguidance, and it draws a human being away from the truth. This is why the Prophet (ع) abrogated all the religious dispensations that came before him.
+In the very same way, prayer and fasting count as worship only when they are offered according to the Divine guidelines. Therefore, my dear beloved son, let all your words and all your deeds conform to the commandments of the Prophet ﷺ. Whatever you do and whatever you say must accord with the *Shariah*, for any knowledge or action of God's creation that falls outside the *Shariah* is plain misguidance, and it draws a human being away from the truth. This is why the Prophet ﷺ abrogated all the religious dispensations that came before him.
 
 So do nothing without his guidance, and be certain of this: you cannot advance upon the Path of Allah the Exalted through accumulated knowledge alone. This Path is traveled by earnest effort and مُجَاهَدَة, the intense inner struggle and disciplined exercise of the soul. The pleasures and demands of the lower self must be cut away with the sword of مُجَاهَدَة. These desires cannot be uprooted through immorality, nor through the deceptions of false Sufis — those who claim the station of Sufism and imitate its outward language and appearance while remaining hollow and devious within. The true Sufis are those who have attained an intimate nearness to God through the emergence of purified souls, having driven evil out of the deepest recesses of their being by genuine مُجَاهَدَة. Allah the Exalted takes no delight in subtleties of philosophy spun amid a life engulfed in sin and darkness. A tongue that utters words of profound wisdom and beauty while the heart stays enslaved to heedlessness and the appetites of the lower self is a mark of the gravest misfortune.
 
@@ -310,7 +324,7 @@ My dear beloved son! Some of your questions are of this first kind. As for those
 
 Secondly, you have asked what is required of those who walk upon the Path of Allah the Exalted, the sincere seekers of Him. Four things are obligatory upon such a seeker.
 
-The first condition is that you hold a conviction and fear of Allah so firm that you never fall into innovation, بِدْعَة, which is any matter contrary to the established principles of the Quran and the Sunnah. The Sunnah encompasses the teachings, actions, outward conduct, and inner states of the Prophet Muhammad (ع) — such as contentment, patience, gratitude, certitude in God, intimacy with Him, الْمَعْرِفَة, the deep and intimate knowledge and recognition of God, intense love of God, and the like.
+The first condition is that you hold a conviction and fear of Allah so firm that you never fall into innovation, بِدْعَة, which is any matter contrary to the established principles of the Quran and the Sunnah. The Sunnah encompasses the teachings, actions, outward conduct, and inner states of the Prophet Muhammad ﷺ — such as contentment, patience, gratitude, certitude in God, intimacy with Him, الْمَعْرِفَة, the deep and intimate knowledge and recognition of God, intense love of God, and the like.
 
 The second condition is that you make a true and complete repentance, تَوْبَةٌ نَصُوح, of such a kind that you will never return to the humiliation of sins.
 
@@ -320,13 +334,13 @@ The fourth condition is that you acquire enough knowledge of the *Shariah* to be
 
 Know that it has been narrated in the traditions of the intimate friends of Allah, the saints, that Shibli (رض) said:
 
-"I served four hundred spiritual masters and guides, and out of the four thousand traditions of the Prophet Muhammad (ع) that they narrated to me, I adopted and acted upon only one, and I left the rest aside. For when I reflected upon this single hadith, I found my salvation within it. I found in this one hadith the knowledge of all who came first and all who came last:
+"I served four hundred spiritual masters and guides, and out of the four thousand traditions of the Prophet Muhammad ﷺ that they narrated to me, I adopted and acted upon only one, and I left the rest aside. For when I reflected upon this single hadith, I found my salvation within it. I found in this one hadith the knowledge of all who came first and all who came last:
 
 > إِعْمَلْ لِدُنْيَاكَ بِقَدْرِ مَقَامِكَ فِيهَا، وَاعْمَلْ لِآخِرَتِكَ بِقَدْرِ بَقَائِكَ فِيهَا، وَاعْمَلْ لِلَّهِ بِقَدْرِ حَاجَتِكَ إِلَيْهِ، وَاعْمَلْ لِلنَّارِ بِقَدْرِ صَبْرِكَ عَلَيْهَا
 
 Work for this world as much as you will live in it, and work for the life hereafter as much as you wish to live there, and work for Allah the Exalted as much as you are in need of Him, and work toward avoiding the Fire as much as you can bear its pain. "
 
-The Prophet (ع) spoke these words to one of his companions.
+The Prophet ﷺ spoke these words to one of his companions.
 
 My dear beloved son! It is plain from this hadith that you do not need a vast store of knowledge, for studying and acquiring knowledge beyond one's personal obligation is فَرْضُ كِفَايَة, a communal obligation discharged once enough members of the Muslim community fulfill it; but if no one discharges it, the whole community bears the sin of that neglect. Give your closest attention to what follows, so that you may attain a high degree of certitude.
 
@@ -545,7 +559,7 @@ You should turn away from him and leave him to his disease. Allah, the Exalted, 
 >
 > "So turn away from him who turns his back on Our remembrance and desires nothing but the life of this world."
 
-With everything he says and does, the envier kindles a fire in the standing crop of his own deeds, for the Prophet (ع) said:
+With everything he says and does, the envier kindles a fire in the standing crop of his own deeds, for the Prophet ﷺ said:
 
 > الْحَسَدُ يَأْكُلُ الْحَسَنَاتِ كَمَا تَأْكُلُ النَّارُ الْحَطَبَ
 >
@@ -559,7 +573,7 @@ The second is the one whose malady is foolishness, and this too does not accept 
 
 This is a man who applies himself to seeking knowledge for a short while, learns some small portion of the rational and religious sciences, and then, out of his foolishness, questions and objects against the great scholar who has spent his life in those sciences. This fool does not realize his own ignorance; he imagines that what is obscure to him is obscure to the great scholar as well. Since he cannot grasp even this much, his question springs from foolishness, and you should not trouble yourself with answering him.
 
-The third is one who is seeking guidance, who traces whatever he does not understand of the words of the great back to the shortcoming of his own understanding, and who asks in order to benefit; yet he is dull and does not perceive realities. It is not fitting to trouble yourself with answering him either, for the Messenger of Allah (ع) said:
+The third is one who is seeking guidance, who traces whatever he does not understand of the words of the great back to the shortcoming of his own understanding, and who asks in order to benefit; yet he is dull and does not perceive realities. It is not fitting to trouble yourself with answering him either, for the Messenger of Allah ﷺ said:
 
 > نحن معاشر الْأَنْبِيَاءُ أمرنا أن نكلّم النّاس على قدر عقولهم
 >
@@ -567,7 +581,7 @@ The third is one who is seeking guidance, who traces whatever he does not unders
 
 As for the disease that does accept the cure: it is the one who is seeking guidance, intelligent and understanding, who is not overpowered by envy, anger, or love of appetite, rank, or wealth, and who is a seeker of the straight path — whose question and objection do not spring from envy, obstinacy, or a wish to test you. This one accepts the cure, so you may trouble yourself with answering his question. Indeed, it is your duty to answer him.
 
-The second thing you must leave is to guard against becoming a preacher and an admonisher, for there is much affliction in it — unless you first act upon what you say and then admonish others by it. Reflect on what was said to Isa (ع):
+The second thing you must leave is to guard against becoming a preacher and an admonisher, for there is much affliction in it — unless you first act upon what you say and then admonish others by it. Reflect on what was said to Isa:
 
 > يَا ابْنَ مَرْيَمَ عِظْ نَفْسَكَ فَإِنِ اتَّعَظْتَ فَعِظِ النَّاسَ وَإِلَّا فَاسْتَحِ مِنْ رَبِّكَ
 >
@@ -607,7 +621,7 @@ The second is that whatever you do with people, make it such as you would be ple
 
 The third is that when you read knowledge or study it, your knowledge should be such as reforms your heart and purifies your soul. Consider it as though you knew that your life would last no longer than a week; then of necessity you would not busy yourself in it with the science of jurisprudence, ethics, principles, theology, and the like, for you would know that these sciences would not avail you. Rather, you would busy yourself with watching over the heart, with knowing the qualities of the soul, with turning away from the attachments of this world, with purifying your soul of blameworthy traits, and with the love of Allah, the Exalted, His worship, and the adorning of yourself with beautiful qualities. And let no day and night pass over a servant but that it is possible his death may fall within it.
 
-My dear son, hear from me another word and reflect upon it, that you may find deliverance. If you were told that the sultan would come to visit you after a week, I know that in that span you would busy yourself with nothing but putting right whatever you knew the sultan's gaze would fall upon — the garments, the body, the house, the furnishings, and the rest. Now consider what I am pointing you toward, for you are a man of understanding, and a single word suffices the discerning. The Messenger of Allah (ع) said:
+My dear son, hear from me another word and reflect upon it, that you may find deliverance. If you were told that the sultan would come to visit you after a week, I know that in that span you would busy yourself with nothing but putting right whatever you knew the sultan's gaze would fall upon — the garments, the body, the house, the furnishings, and the rest. Now consider what I am pointing you toward, for you are a man of understanding, and a single word suffices the discerning. The Messenger of Allah ﷺ said:
 
 > إِنَّ اللَّهَ لَا يَنْظُرُ إِلَى صُوَرِكُمْ وَلَا إِلَى أَعْمَالِكُمْ وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَنِيَّاتِكُمْ
 >
@@ -615,7 +629,7 @@ My dear son, hear from me another word and reflect upon it, that you may find de
 
 If you desire the knowledge of the states of the heart, then look into the Ihya and the others of my writings, for this knowledge is an individual obligation, while other knowledge is a communal obligation, save for the measure by which the ordinances of Allah, the Exalted, are discharged. And He it is who gives you the ability to attain it.
 
-The fourth is that you should not gather of this world more than a year's sufficiency, as the Messenger of Allah (ع) would set that aside for some of his chambers, and said:
+The fourth is that you should not gather of this world more than a year's sufficiency, as the Messenger of Allah ﷺ would set that aside for some of his chambers, and said:
 
 > أَللَّهُمَّ اجْعَلْ قُوتَ آلِ مُحَمَّدٍ كَفَافًا
 >
@@ -627,7 +641,7 @@ He did not set it aside for all his chambers; rather he set it aside for the one
 
 My dear son, I have now answered in this book every question you put to me. Gather your resolve, act upon all that it contains, and do not forget me in your supplications, your دُعَاء.
 
-You also asked me to write out a prayer that you might keep upon your tongue at all times. For that, turn to the supplications preserved in the books of hadith, the traditions of the Prophet Muhammad (ع), and above all in the اَلصِّحَاحُ اَلسِّتَّة, the six most trustworthy of his collections, and commit them to memory. Many supplications have likewise come down to us through the أَهْلُ الْبَيْت, the family of the Prophet (ع); seek them there as well. And recite this supplication in particular at all times, and especially in the moments that follow each of your prayers:
+You also asked me to write out a prayer that you might keep upon your tongue at all times. For that, turn to the supplications preserved in the books of hadith, the traditions of the Prophet Muhammad ﷺ, and above all in the اَلصِّحَاحُ اَلسِّتَّة, the six most trustworthy of his collections, and commit them to memory. Many supplications have likewise come down to us through the أَهْلُ الْبَيْت, the family of the Prophet ﷺ; seek them there as well. And recite this supplication in particular at all times, and especially in the moments that follow each of your prayers:
 
 > «أَلَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ النِّعْمَةِ تَمَامَهَا، وَ مِنَ الْعِصْمَةِ دَوَامُهَا، وَ مِنَ الرَّحْمَةِ شُمُولُهَا، وَ مِنَ الْعَافِيَةِ حُصُولُهَا، و من العيش ارغده، وَ مِنَ الْعُمْرِ أَسْعَدُهُ، وَ مِنَ الْإِحْسَانِ أَتَمَّهُ، وَمِنَ الْإِنْعَامِ أَعَمُّهُ، وَ مِنَ الْفَضْلِ أَعْذَبُهُ، وَ مِنَ اللُّطْفِ أَنْفَعُهُ
 >

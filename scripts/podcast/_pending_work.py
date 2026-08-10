@@ -6,10 +6,12 @@ the moment the session ends and unverifiable while it lasts — the reader has t
 trust a recollection. This module gives that backlog a file, so the status card
 can print it and anyone can read it without asking.
 
-Deliberately small. An item is a line of plain English, a scope, and a state:
-no owners, no priorities, no dates beyond when it was noticed. A backlog that
-needs its own workflow stops being written to, and an unwritten backlog is worse
-than none because it looks maintained.
+Deliberately small. An item is a line of plain English, a scope, and a state --
+plus, as of v3, an optional priority and effort so a longer list can be scanned
+by what matters most rather than read top to bottom. Still no owners, no
+due dates beyond when it was noticed. A backlog that needs its own workflow
+stops being written to, and an unwritten backlog is worse than none because it
+looks maintained.
 
 Scope is either a book slug (work on one book) or ``pipeline`` (work on the
 machinery). A card for a book shows that book's items plus the pipeline-wide
@@ -26,10 +28,25 @@ from typing import Any
 import yaml
 
 SCOPE_PIPELINE = "pipeline"
+#: Repo-wide items that aren't book- or pipeline-specific (cross-machine
+#: conventions, tooling, process). Added 2026-08-08 -- always shown, on every
+#: card, the same way ``pipeline`` items are, since neither belongs to one book.
+SCOPE_GENERAL = "general"
 STATUS_OPEN = "open"
 STATUS_DOING = "doing"
 STATUS_DONE = "done"
 _OPEN_STATUSES = (STATUS_DOING, STATUS_OPEN)  # doing first — it is what is happening now
+
+#: v3 (2026-08-08): optional per-item scoring, additive — a reader that
+#: predates these (or an item that never set them) just sees them absent.
+PRIORITY_P0 = "P0"  # urgent / blocking
+PRIORITY_P1 = "P1"  # normal
+PRIORITY_P2 = "P2"  # someday
+PRIORITIES = (PRIORITY_P0, PRIORITY_P1, PRIORITY_P2)
+EFFORT_S = "S"
+EFFORT_M = "M"
+EFFORT_L = "L"
+EFFORTS = (EFFORT_S, EFFORT_M, EFFORT_L)
 
 _BACKLOG = Path(__file__).resolve().parents[2] / "_workspace" / "plan" / "pending-work.yaml"
 
@@ -58,7 +75,7 @@ def open_items(scope: str, path: Path | None = None) -> list[dict[str, Any]]:
     Both belong on a book's card: a pipeline gap and a book gap equally stand
     between this book and being done.
     """
-    wanted = {scope, SCOPE_PIPELINE}
+    wanted = {scope, SCOPE_PIPELINE, SCOPE_GENERAL}
     items = [
         i
         for i in read_items(path)
@@ -72,7 +89,7 @@ def write_items(items: list[dict[str, Any]], path: Path | None = None) -> Path:
     p = Path(path) if path else backlog_path()
     p.parent.mkdir(parents=True, exist_ok=True)
     body = {
-        "schema": "podcast.pending-work/v1",
+        "schema": "podcast.pending-work/v4",
         "items": items,
     }
     p.write_text(yaml.safe_dump(body, sort_keys=False, allow_unicode=True), encoding="utf-8")

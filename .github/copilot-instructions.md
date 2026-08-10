@@ -24,7 +24,7 @@ The session log at the bottom of [copilot-handoff.md](../_workspace/plan/copilot
 ## What this repo is
 
 - A **podcast-authoring pipeline** driving scholarly Arabic books through Claude + Azure → NotebookLM Audio Overview episodes. Live state lives under `scripts/podcast/`; every book lives at `content/<Bucket>/<slug>/` (Islamic/Technical/Fiction/Guides) with `draft` vs `published` as a status FIELD, not a folder (type-first layout, 2026-06-04).
-- The **Azure stack** (OCR / translation / speech) under `infra/azure/`, `infra/launchd/`, `infra/llm-apis/`.
+- The **Azure stack** (OCR / translation / speech) under `infra/azure/` and `infra/llm-apis/`. What every phase reaches for, and where each credential lives: `infra/pipeline-runtime.md`.
 - A handful of general-utility skills + agents (duplicated from the sibling `journal` repo as of the 2026-05-22 split).
 
 The memoir, the static journal site, and the Anthropic API proxy moved to (or were retired from) the sibling **[journal](https://github.com/asifhussain60/journal)** repo on 2026-05-22 — never reach into those paths from here.

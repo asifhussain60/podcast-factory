@@ -1,0 +1,125 @@
+{
+  "schema": "book.romanization/v1",
+  "counts": {
+    "library": 0,
+    "researched": 5,
+    "reconstructed": 6
+  },
+  "resolutions": [
+    {
+      "romanization": "anta minni wa ana minka",
+      "arabic": "أَنْتَ مِنِّي وَأَنَا مِنْكَ",
+      "provenance": "researched",
+      "sources": [
+        "hdith.com",
+        "fnoor.com",
+        "alsaqifh.com",
+        "islamweb.net",
+        "facebook.com",
+        "ismailimail.blog",
+        "facebook.com"
+      ],
+      "detail": ""
+    },
+    {
+      "romanization": "sayyidul-muslimin, imamul-muttaqin, wa qaidul-ghurral-muhajjalin",
+      "arabic": "سَيِّدُ الْمُسْلِمِينَ، إِمَامُ الْمُتَّقِينَ، وَقَائِدُ الْغُرِّ الْمُحَجَّلِينَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "anta minni wa ana minka",
+      "arabic": "أَنْتَ مِنِّي وَأَنَا مِنْكَ",
+      "provenance": "researched",
+      "sources": [
+        "mahajjah.com",
+        "sunnah.com",
+        "tohed.com",
+        "youtube.com",
+        "fnoor.com",
+        "islamweb.net",
+        "youtube.com",
+        "facebook.com"
+      ],
+      "detail": ""
+    },
+    {
+      "romanization": "anta tubayyinu li-ummati makhtalafu fihi badi",
+      "arabic": "أَنْتَ تُبَيِّنُ لِأُمَّتِي مَا اخْتَلَفُوا فِيهِ مِنْ بَعْدِي",
+      "provenance": "researched",
+      "sources": [
+        "fnoor.com",
+        "islamweb.net",
+        "kingoflinks.net",
+        "wiktionary.org",
+        "wiktionary.org"
+      ],
+      "detail": ""
+    },
+    {
+      "romanization": "Ali minni wa ana minhu",
+      "arabic": "عَلِيٌّ مِنِّي وَأَنَا مِنْهُ",
+      "provenance": "researched",
+      "sources": [
+        "sunnah.com",
+        "alrasd.net",
+        "alsaqifh.com",
+        "facebook.com",
+        "surahquran.com"
+      ],
+      "detail": ""
+    },
+    {
+      "romanization": "dafa in al-uqul",
+      "arabic": "دَفْعُ الْعُقُولِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "yaqaddiru anfusahum bi-dafatil-nas",
+      "arabic": "يُقَدِّرُ أَنْفُسَهُمْ بِضَعَفَةِ النَّاسِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ghariq-i bahr-i bala' wa hariq-i nar-i wala",
+      "arabic": "غَرِيقِ بَحْرِ بَلَاءٍ وَحَرِيقِ نَارِ وَلَاءٍ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "dhikruLlah azza wa jalla daiman",
+      "arabic": "ذِكْرُ اللَّهِ عَزَّ وَجَلَّ دَائِمًا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "lahija bihu lisani min dhikrika",
+      "arabic": "مَا لَهِجَ بِهِ لِسَانِي مِنْ ذِكْرِكَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "alladhi laysa li-sifatihi hadd mahdud",
+      "arabic": "الَّذِي لَيْسَ لِصِفَتِهِ حَدٌّ مَحْدُودٌ",
+      "provenance": "researched",
+      "sources": [
+        "medium.com",
+        "al-islam.org",
+        "wordpress.com",
+        "alkafeel.net",
+        "youtube.com",
+        "islam4u.com",
+        "ablibrary.net",
+        "imamali.net"
+      ],
+      "detail": ""
+    }
+  ]
+}

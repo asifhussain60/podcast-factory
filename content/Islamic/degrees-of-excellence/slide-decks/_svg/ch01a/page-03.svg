@@ -1,0 +1,28 @@
+<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <defs><marker id="arw" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#8b4513"/></marker></defs>
+  <rect x="0" y="0" width="760" height="360" fill="#ffffff"/>
+  <text x="40" y="34" font-size="20" font-weight="700" fill="#8b4513">The Conduit of the Three Truths</text>
+
+  <rect x="30" y="70" width="290" height="60" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text font-size="13" fill="#2b2117"><tspan x="44" y="98">Tawhid: Knowledge of God&#8217;s absolute </tspan><tspan x="44" y="116">unity (The Summit)</tspan></text>
+
+  <rect x="30" y="150" width="290" height="60" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text font-size="13" fill="#2b2117"><tspan x="44" y="178">The Message: The historical fact of </tspan><tspan x="44" y="196">revelation (The Event)</tspan></text>
+
+  <rect x="30" y="230" width="290" height="60" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text font-size="13" fill="#2b2117"><tspan x="44" y="258">Ta&#8217;wil: The sacred law and its hidden </tspan><tspan x="44" y="276">interpretation (The Practice)</tspan></text>
+
+  <line x1="320" y1="100" x2="356" y2="175" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="320" y1="180" x2="356" y2="180" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="320" y1="260" x2="356" y2="185" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+
+  <rect x="360" y="122" width="210" height="116" rx="6" fill="#f7f1e6" stroke="#8b4513" stroke-width="1.5"/>
+  <text font-size="13" fill="#2b2117" text-anchor="middle"><tspan x="465" y="152" font-size="15" font-weight="700" fill="#8b4513">The Imam&#10;</tspan><tspan x="465" y="180">(The living guardian lashed </tspan><tspan x="465" y="198">to the Book &#8212; Thaqalayn)</tspan></text>
+
+  <line x1="570" y1="180" x2="606" y2="180" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+
+  <rect x="610" y="150" width="120" height="60" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <text x="670" y="185" font-size="14" font-weight="700" fill="#2b2117" text-anchor="middle">Realized Faith</text>
+
+  <text x="380" y="335" font-size="13" font-style="italic" fill="#7a6a58" text-anchor="middle">Remove the central axis, and the entire structure from the peak to the floor goes dark.</text>
+</svg>

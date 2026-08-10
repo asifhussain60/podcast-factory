@@ -565,6 +565,23 @@
   outline: none;
 }
 
+/* An Arabic run, repainted by arabic-decos.ts (explanation-card.ts's
+   unsafeTiptapExtensions). The seed carries no span for the editor to lose —
+   `.xpl-prose` above is the parity size the run would otherwise inherit — so
+   this is the SAME defect `.xpl-ar` below exists to fix on the read-only path,
+   reached the same way arabic-decos.ts reaches it in the chapter editor: a
+   decoration, since the schema has no node for a bare run to sit in. Matches
+   `.xpl-ar`'s own 1.08em nudge (line ~430) rather than the chapter's 1.26em —
+   this is the card's face and size, not the book's. */
+.xpl-prose .ar-raw {
+  font-family:
+    "ScheherazadeSized", "Scheherazade New", "Noto Naskh Arabic", serif;
+  font-size: 1.08em;
+  color: var(--c-accent);
+  font-style: normal;
+  font-weight: 500;
+}
+
 .xpl-prose p {
   margin: 0;
   padding: 0 0.7rem 0.55rem;
@@ -816,30 +833,25 @@ textarea.xpl-ety-text:focus {
 
 /* The passage you just highlighted, painted while you type a question about
    it in the Companion box — survives focusing the textarea, which collapses
-   the browser's own text selection. Two mechanisms, same visual result, split
-   because Chromium does not paint `::highlight()` inside `contenteditable`
-   (verified 2026-08-05):
-     Read mode  — a CSS Custom Highlight (`gcp-pending`), painted below,
-                  registered from the panel's DOM Range. Never touches the DOM.
-     Edit mode  — a ProseMirror decoration (`.cx-pending-hl`, this rule),
-                  same reason `.cx-note-hl` below is a decoration there —
-                  see pending-selection-decos.ts.
-   `::highlight()` only accepts a handful of properties (no border, no
-   padding, no radius); `.cx-pending-hl` has no such limit, but is kept
-   visually identical on purpose — the accent tint rather than the filed-note
-   yellow, since this is provisional, not yet a saved explanation. */
+   the browser's own text selection. A CSS Custom Highlight registered from the
+   panel's DOM Range, so it never touches the DOM. The accent tint rather than
+   the filed-note yellow, since this is provisional, not yet a saved
+   explanation.
+
+   READ MODE ONLY, and that is now deliberate rather than a limitation of
+   Chromium's (Asif, 2026-08-09). The Edit canvas had an equivalent ProseMirror
+   decoration until today, because `::highlight()` is not painted inside
+   `contenteditable`; it has none now. The panel captures every selection inside
+   the host's prose container, which in the Composer is the entire editor, so
+   that decoration coloured every selection a writer made for any reason and
+   stayed lit once the selection had gone. Selecting text in a writing surface
+   must look like selecting text. */
 ::highlight(gcp-pending) {
   background-color: color-mix(
     in srgb,
     var(--c-accent, #8b4513) 28%,
     transparent
   );
-}
-.cx-pending-hl {
-  background: color-mix(in srgb, var(--c-accent, #8b4513) 28%, transparent);
-  border-radius: 2px;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
 }
 
 .cx-note-hl:hover,

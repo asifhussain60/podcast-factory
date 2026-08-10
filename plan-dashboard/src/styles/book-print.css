@@ -34,9 +34,16 @@
  * book/citation-style.json as `translation_font`, and stamped onto <body> as
  * `tr-<font>` by buildBookHtml.
  *
- * MIRROR: editor-fonts.css declares the SAME four families for every on-screen
+ * A FIFTH family, Spectral, is declared here and is NOT one of the four a book
+ * can choose (2026-08-09). It renders a quoted passage the provenance audit did
+ * not resolve against the canonical mushaf — a hadith, an imam's saying, a poem —
+ * so that scripture's rendering and a man's are told apart by face as well as by
+ * ink. Derived rather than chosen, precisely so it can never collide with the
+ * book's own pick.
+ *
+ * MIRROR: editor-fonts.css declares the SAME families for every on-screen
  * surface. Add a face in one file and you MUST add it in the other in the same
- * commit, or a book previews in a face it cannot print. All four are SIL OFL,
+ * commit, or a book previews in a face it cannot print. All are SIL OFL,
  * self-hosted under public/fonts/<family>/ and served by render-book-pdf.mjs —
  * so pagination is identical on every machine, as with Source Serif and Amiri. */
 @font-face {
@@ -117,6 +124,48 @@
 @font-face {
   font-family: "Lora";
   src: url("/fonts/lora/lora-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+/* The Qur'an's English rendering (Asif, 2026-08-09). A THIRD translation face,
+   beside the four a book may choose and the Spectral a saying takes, so a verse,
+   a hadith and the book's own prose are three visibly different voices. Literata
+   is a book face with real weight, chosen over the Charm at 2.5rem KSESSIONS
+   uses — a display script that would not survive a page of print. Vendored from
+   @fontsource, SIL OFL 1.1. MIRROR: editor-fonts.css declares the same three for the screen. */
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-600-normal.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
 }
@@ -384,6 +433,13 @@ body {
   break-after: page;
   padding-top: 2.4cm;
 }
+/* The eyebrow is bound to what follows it (break-after: avoid) on BOTH pages,
+   for the same reason the crosswalk's h2 is bound to its table below: an
+   "avoid" that only covers the LATER pair (h2 <-> table) still lets the engine
+   break between the eyebrow and the h2 when the pair beneath doesn't fit where
+   the eyebrow landed — which is exactly what stranded "SOURCE CROSSWALK" alone
+   on its own near-blank page (BR-BLANK-PAGE) while the heading and table both
+   moved on together to the next one. */
 .toc-page .toc-eyebrow,
 .crosswalk-page .toc-eyebrow {
   text-transform: uppercase;
@@ -392,6 +448,8 @@ body {
   color: var(--c-accent, #8b4513);
   margin: 0 0 0.55rem;
   text-align: center;
+  break-after: avoid;
+  page-break-after: avoid;
 }
 .toc-page h2,
 .crosswalk-page h2 {
@@ -407,9 +465,18 @@ body {
   break-after: page;
   padding-top: 1.4cm;
 }
-/* Bind the heading to the (now atomic) table + trim its margin so eyebrow +
-   heading + all 8 rows fit on the crosswalk's single dedicated page — otherwise
-   `break-inside: avoid` on the table strands the heading alone on the page before. */
+/* Bind the heading to the table's first row so the eyebrow+h2 never strands
+   alone — but the TABLE itself must stay free to flow across pages. It used
+   to also carry table-level `break-inside: avoid`, on the assumption (true at
+   ~8 rows) that eyebrow + heading + every row fits on one page. Both a
+   15-chapter crosswalk (spiritual-ethos) and an 11+-row one (kitab-al-riyad
+   p.4) break that assumption: a table taller than one page cannot honor
+   "avoid" at all, so the engine's only way to try was to push the WHOLE table
+   past the heading's page, stranding the crosswalk's own title page nearly
+   blank before the table split anyway, one page later than it needed to. A
+   per-ROW `break-inside: avoid` (kept below) is the correct, size-independent
+   rule — no row ever splits mid-content, and the table flows across as many
+   pages as it needs, like an ordinary printed table. */
 .crosswalk-page h2 {
   margin-bottom: 1rem;
   break-after: avoid;
@@ -420,11 +487,6 @@ body {
   border-collapse: collapse;
   font-size: 0.78rem;
   line-height: 1.28;
-  /* Keep the whole crosswalk on its dedicated page — no lone row dangling onto
-     the next page. The page is already isolated (page-break-after: always), so
-     the table has a full page minus the top padding to fit into. */
-  break-inside: avoid;
-  page-break-inside: avoid;
 }
 .crosswalk-page tr {
   break-inside: avoid;
@@ -638,7 +700,7 @@ blockquote.quran p.ar {
   font-size: var(--q-ar-size);
   line-height: var(--q-ar-leading);
   color: var(--c-ink, #1f1d18);
-  margin: 0 0 0.2rem;
+  margin: 0 0 var(--q-ar-gap, 0.2rem);
   text-align: center;
   direction: rtl;
 }
@@ -661,6 +723,20 @@ blockquote.quran {
   page-break-after: avoid;
   break-before: avoid;
   page-break-before: avoid;
+}
+/* Exception: a Quran block that is the FIRST thing after a chapter's opening
+   paragraph. `.chapter-open` already carries `break-after: avoid` (keep the
+   heading with its first lines) and the rule above adds `break-before: avoid`
+   on this element — two "no break here" boundaries in a row glue
+   [heading + opening paragraph + quotation] into one atomic unit. When that
+   unit is taller than the space left under the heading, the engine's only way
+   to honor both avoids is to push the ENTIRE unit to the next page, stranding
+   the chapter's own opening page blank (kitab-al-riyad ch.4, p.30). Restore
+   the ordinary break point at just this one seam; the general "keep scripture
+   with its lead-in" rule two chapters into a chapter's body is untouched. */
+.chapter-open + p.ch-first + blockquote.quran {
+  break-before: auto;
+  page-break-before: auto;
 }
 
 blockquote.quran .quran-divider {
@@ -690,7 +766,13 @@ blockquote.quran p.tr {
    a gold hairline and Elegant says it with a frame, Plain says it with typography
    alone. Values come from quote-typography.css; the mirrors are compose-print.css,
    book-composer.css, book-reader.css and book-styles.css. */
-body.style-plain blockquote.quran {
+/* NOT A CARD (2026-08-09). `.quran` means "contains Arabic", never "is a card",
+   so this sets the box of a quotation with NO card class and stands down for one
+   that has. In the PDF the card's tint survived the tie (nothing here writes a
+   background) but its 1.6rem side inset did not, so a printed card sat flush to
+   its own plate edge. The kinds are listed because the list is a contract
+   (quote-typography.css, checked by `_quote_cards` QC-010). */
+body.style-plain blockquote.quran:not(.k-quran, .k-hadith, .k-poem, .k-quote) {
   border-left: 0;
   padding-left: 0;
   padding-right: 0;
@@ -705,10 +787,15 @@ body.style-plain blockquote.quran p.ar {
    should not be the faintest thing on the page. The face carries the distinction
    the colour used to. */
 body.style-plain blockquote.quran p.tr {
+  /* --q-tr-ink / --q-tr-size (2026-08-09): a per-card rule cannot outrank this
+     selector without duplicating it, so the two values it hard-wrote became
+     tokens. The fallback sits HERE rather than in a :root default, because a
+     `--q-tr-ink: var(--c-ink)` written at :root would freeze whatever --c-ink is
+     there and miss the dark paper's override further down the tree. */
   font-family: var(--q-tr-face);
-  font-size: 1.02rem;
+  font-size: var(--q-tr-size, 1.02rem);
   line-height: 1.45;
-  color: var(--c-ink, #1f1d18);
+  color: var(--q-tr-ink, var(--c-ink, #1f1d18));
   text-align: center;
 }
 /* The plain family strips ornament from the Qur'an blocks above, which is the

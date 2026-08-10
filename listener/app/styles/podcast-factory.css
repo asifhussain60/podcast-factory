@@ -174,6 +174,27 @@
   src: url("/fonts/amiri-arabic-400-normal.woff2") format("woff2");
 }
 
+/* Amiri Quran — SCRIPTURE only, and a different file from Amiri above rather
+   than a weight of it. A run the audit resolved against the canonical mushaf is
+   set in it and nothing else is, which is the same rule the printed edition
+   follows: which face a passage takes is decided by where the passage came from,
+   never by the markup around it.
+   The reason it is this face and not the Qur'anic one the corpus used until
+   2026-08-09 is a single character. U+06DF — the mark saying a letter is written
+   but not pronounced — is declared a BASE glyph by that font, so it printed as a
+   full-size circle that tore the word open, 175 times across the seven books.
+   Editing the font is forbidden by its licence, and the character cannot be
+   redirected to another face in CSS: a browser falls back per cluster and keeps
+   a combining mark in the font of the letter it attaches to.
+   TTF rather than woff2 because that is the form it is vendored in. */
+@font-face {
+  font-family: "Amiri Quran";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/AmiriQuran.ttf") format("truetype");
+}
+
 /* ---- The reader's font picker -------------------------------------------
    Four faces the reading column can be set in besides Literata and Inter, each
    drawn for reading rather than for looking different: a second serif, one face
@@ -267,6 +288,14 @@
   /* Titles and other display Arabic ONLY. Never the reading column — see the
      @font-face note in §1. */
   --l-font-arabic-display: "Amiri", "Scheherazade New", serif;
+  /* SCRIPTURE, and only scripture: a run the audit resolved against the
+     canonical mushaf. Reached from exactly one rule in §7, keyed off the
+     `is-quranic` class the renderer stamps from that resolution — so the face
+     follows the passage's provenance rather than the markup around it, the same
+     way the printed edition sets it. Falls back to the reading face, so a
+     checkout missing the file renders scripture in Scheherazade rather than in
+     whatever the browser has. */
+  --l-font-arabic-quran: "Amiri Quran", "Scheherazade New", serif;
 
   /* Reading-column choices. Only `lib/reading.ts` names these — nothing in the
      stylesheet sets a reading face directly, so adding a fifth is one token
@@ -462,6 +491,35 @@
   --l-hl-sky: #cadef6; /* ink 11.33:1 · page 1.35:1 */
   --l-hl-rose: #f9d3dc; /* ink 11.40:1 · page 1.34:1 */
 
+  /* The four quotation cards — see §7.
+     A quotation is one of four things, and which one it is has to be legible to
+     a reader who cannot read Arabic: scripture, a prophetic tradition, a line of
+     verse, or a saying. Colour is what carries that, so every ink is held to the
+     body floor of 4.5:1 on the reading surface by test/theme.test.ts.
+
+     THESE ARE THE PRINTED EDITION'S OWN INKS, re-measured for this paper rather
+     than copied: plan-dashboard/src/styles/quote-typography.css picked them
+     against a cream page. The gold is the one a book cannot choose, exactly as
+     it cannot choose the Qur'anic face. */
+  --l-quote-quran: #7d6800; /* 5.37:1 on surface */
+  --l-quote-quran-tr: #504302; /* 9.64:1 */
+  --l-quote-hadith: #23356b; /* 11.53:1 */
+  --l-quote-poem: #722727; /* 10.16:1 */
+  --l-quote-saying: #1d4d33; /* 9.56:1 */
+  /* The Qur'an band's rule, and its highlight. DECORATION, deliberately not in
+     the measured pairs: a 2px gold rule carries no information a reader needs,
+     the header's words and its mark are the card's ink and are measured, and the
+     lift is the shine at the centre of a gradient — a value light enough to read
+     as gilding can never clear 3:1 on paper, so holding it there would only
+     replace the gold with a brown. Identical in all three palettes: gold is
+     gold, and it reads on cream, on sepia and on near-black alike. */
+  --l-quote-gold: #d3b965;
+  --l-quote-gold-lift: #f7e8b7;
+  /* How strongly a card's plate is tinted with its own ink. A palette property
+     rather than a system one: the same 5% that reads as a tinted page on paper
+     is invisible on the dark theme's near-black. */
+  --l-quote-tint: 5%;
+
   /* Warm-tinted, so a shadow on warm paper does not go grey. */
   --l-shadow-near: rgb(46 38 24 / 0.07);
   --l-shadow-far: rgb(46 38 24 / 0.1);
@@ -522,6 +580,20 @@
   --l-hl-sky: #1e3450; /* ink 10.88:1 · page 1.31:1 */
   --l-hl-rose: #452433; /* ink 11.65:1 · page 1.22:1 */
 
+  /* The four quotation cards, lifted for near-black. The hues are held — a
+     reader who learns that gold is scripture on paper must not have to learn it
+     again in the dark — and only the lightness moves. */
+  --l-quote-quran: #d3b965; /* 8.56:1 on surface */
+  --l-quote-quran-tr: #bfae86; /* 7.55:1 */
+  --l-quote-hadith: #a8b6e8; /* 8.26:1 */
+  --l-quote-poem: #e8a0a0; /* 7.83:1 */
+  --l-quote-saying: #93d7b0; /* 9.89:1 */
+  --l-quote-gold: #d3b965;
+  --l-quote-gold-lift: #f7e8b7;
+  /* Twice the light theme's. A 5% tint of a pale ink over near-black is not
+     visible at all; a card with no plate is not a card. */
+  --l-quote-tint: 10%;
+
   --l-shadow-near: rgb(0 0 0 / 0.55);
   --l-shadow-far: rgb(0 0 0 / 0.45);
 }
@@ -573,6 +645,16 @@
   --l-hl-sage: #d1e1c2; /* ink 11.01:1 · page 1.23:1 */
   --l-hl-sky: #ced9e7; /* ink 10.61:1 · page 1.28:1 */
   --l-hl-rose: #efcccb; /* ink 10.23:1 · page 1.33:1 */
+
+  /* The four quotation cards, warmed a step for the sepia sheet. */
+  --l-quote-quran: #75620a; /* 5.37:1 on surface */
+  --l-quote-quran-tr: #4b3f05; /* 9.36:1 */
+  --l-quote-hadith: #22335f; /* 11.04:1 */
+  --l-quote-poem: #6b2525; /* 9.83:1 */
+  --l-quote-saying: #1b482f; /* 9.35:1 */
+  --l-quote-gold: #d3b965;
+  --l-quote-gold-lift: #f7e8b7;
+  --l-quote-tint: 5%;
 
   --l-shadow-near: rgb(51 41 28 / 0.09);
   --l-shadow-far: rgb(51 41 28 / 0.12);
@@ -6476,8 +6558,19 @@
     vertical-align: baseline;
   }
 
+  /* Scripture takes the Qur'anic face, from the audit's own resolution rather
+     than from the block it sits in. Its COLOUR is the page accent only outside a
+     card; inside one it is gold, set further down. */
   .reader blockquote .ar.is-quranic {
+    font-family: var(--l-font-arabic-quran);
     color: var(--l-accent);
+  }
+  /* The renderer nests the run in a span of its own, and that span names the
+     reading Arabic face — so without this the line above chooses a face for a
+     paragraph whose only child immediately chooses a different one, and every
+     verse in the library sets in Scheherazade while appearing to be handled. */
+  .reader blockquote .ar.is-quranic > .ar-inline {
+    font-family: inherit;
   }
 
   .reader blockquote .tr {
@@ -6515,6 +6608,219 @@
     font-size: 0.72em;
     color: var(--l-muted);
     vertical-align: 0.15em;
+  }
+
+  /* ── The four quotation cards ───────────────────────────────────────────────
+   * A quotation in these books is one of four things — scripture, a prophetic
+   * tradition, a line of verse, or a saying — and the renderer says which:
+   * `k-quran` `k-hadith` `k-poem` `k-quote`, with a `.q-band` header inside.
+   * Only the first is decided by machine, against the canonical mushaf; the
+   * other three are declared by a person, because nothing in a text can tell an
+   * imam's saying from a prophetic tradition and an inferred attribution on a
+   * religious edition is a claim nobody made.
+   *
+   * The VALUES are the printed edition's, from
+   * plan-dashboard/src/styles/quote-typography.css, re-expressed here in this
+   * site's tokens and in `em` so the reader's font-size setting still moves
+   * everything. Copied rather than imported, like the fonts: this app has no
+   * runtime coupling to the admin site by design. What stops the two drifting is
+   * not an import but test/markdown-contract.test.ts, which reads every class the
+   * renderer actually emits out of the golden fixture and fails when one of them
+   * has no rule in this file.
+   *
+   * NO BORDER, on Asif's instruction and following his own Qur'an card, which
+   * sets none: an outline around a quotation reads as a UI control, while a
+   * tinted plate reads as a page. Every plate is mixed from the card's own ink,
+   * so an ink that moves takes its plate with it. */
+  .reader blockquote.k-quran,
+  .reader blockquote.k-hadith,
+  .reader blockquote.k-quote,
+  .reader blockquote.k-poem {
+    border: 0;
+    border-radius: 10px;
+    padding: 1.1em 1.25em 0.95em;
+    margin-block: 1.8em;
+  }
+
+  .reader blockquote.k-quran {
+    background: color-mix(
+      in oklab,
+      var(--l-quote-quran) var(--l-quote-tint),
+      transparent
+    );
+  }
+  .reader blockquote.k-hadith {
+    background: color-mix(
+      in oklab,
+      var(--l-quote-hadith) var(--l-quote-tint),
+      transparent
+    );
+  }
+  .reader blockquote.k-quote {
+    background: color-mix(
+      in oklab,
+      var(--l-quote-saying) var(--l-quote-tint),
+      transparent
+    );
+  }
+  .reader blockquote.k-poem {
+    background: color-mix(
+      in oklab,
+      var(--l-quote-poem) var(--l-quote-tint),
+      transparent
+    );
+    /* The verse grid collapses on the COLUMN's width, not the window's — see
+       `.q-verse` below. */
+    container-type: inline-size;
+  }
+
+  /* The ink of each kind.
+     `.is-quranic` is named on the scripture selector rather than left out: the
+     rule above it paints a mushaf-resolved run in the page accent, and it scores
+     exactly what a bare `.k-quran p.ar` would, so the tie would be settled by
+     source order alone. Inside a card the verse is gold. */
+  .reader blockquote.k-quran .ar,
+  .reader blockquote.k-quran .ar.is-quranic {
+    color: var(--l-quote-quran);
+  }
+  .reader blockquote.k-quran .tr {
+    color: var(--l-quote-quran-tr);
+  }
+  .reader blockquote.k-hadith .ar {
+    color: var(--l-quote-hadith);
+  }
+  .reader blockquote.k-quote .ar {
+    color: var(--l-quote-saying);
+  }
+  .reader blockquote.k-poem .ar {
+    color: var(--l-quote-poem);
+  }
+  .reader blockquote.k-poem .tr {
+    font-style: italic;
+  }
+
+  /* Air, in two directions: the drop from the Arabic to its English, and the
+     leading between two wrapped lines of the Arabic itself. Both open up inside
+     a card, where the two languages are two voices rather than one thought.
+     A poem stays roomier by construction rather than by a second number — its
+     lines are grid cells and carry the row gap on top of this. */
+  .reader blockquote.k-quran .ar,
+  .reader blockquote.k-hadith .ar,
+  .reader blockquote.k-quote .ar,
+  .reader blockquote.k-poem .ar {
+    line-height: 2.2;
+  }
+  .reader blockquote.k-quran .tr,
+  .reader blockquote.k-hadith .tr,
+  .reader blockquote.k-quote .tr,
+  .reader blockquote.k-poem .tr {
+    margin-top: 1em;
+  }
+
+  /* The card's header: a centred label with a rule running out to each side. The
+     Qur'an keeps a 2px gold gradient and names its chapter and verse — there is
+     no Qur'an card without one — and the other three take a hairline in their
+     own ink so the family reads as one decision rather than four.
+     Every mark is OUTLINED, drawn as a stroke and shown through a mask, so it
+     takes the ink of the card it sits in rather than carrying a colour. */
+  .reader .q-band {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-bottom: 0.9em;
+    font-family: var(--l-font-ui);
+    font-size: 0.66em;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .reader .q-band::before,
+  .reader .q-band::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    min-width: 1.2em;
+    background: color-mix(in oklab, currentcolor 26%, transparent);
+  }
+  .reader .q-orn {
+    display: inline-block;
+    width: 1.05em;
+    height: 1.05em;
+    background: currentcolor;
+    -webkit-mask: var(--l-orn-src) center / contain no-repeat;
+    mask: var(--l-orn-src) center / contain no-repeat;
+  }
+  .reader .q-band--quran {
+    color: var(--l-quote-quran);
+    font-weight: 600;
+    /* The mushaf's own section sign. */
+    --l-orn-src: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23000' stroke-width='6'%3E%3Cpath d='M50 8 92 50 50 92 8 50z'/%3E%3Crect x='21' y='21' width='58' height='58'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .reader .q-band--quran::before,
+  .reader .q-band--quran::after {
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      var(--l-quote-gold) 0%,
+      var(--l-quote-gold-lift) 50%,
+      var(--l-quote-gold) 100%
+    );
+  }
+  .reader .q-band--hadith {
+    color: var(--l-quote-hadith);
+    --l-orn-src: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 12 88 50 50 88 12 50z' fill='none' stroke='%23000' stroke-width='10'/%3E%3C/svg%3E");
+  }
+  .reader .q-band--quote {
+    color: var(--l-quote-saying);
+    --l-orn-src: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='36' fill='none' stroke='%23000' stroke-width='10'/%3E%3C/svg%3E");
+  }
+  .reader .q-band--poem {
+    color: var(--l-quote-poem);
+    --l-orn-src: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 8C50 31 69 50 92 50 69 50 50 69 50 92 50 69 31 50 8 50 31 50 50 31 50 8z' fill='none' stroke='%23000' stroke-width='8'/%3E%3C/svg%3E");
+  }
+
+  /* Classical Arabic verse is set in TWO EQUAL COLUMNS: one bayt is two
+     hemistichs, the sadr on the right and the ajuz on the left, with a gutter
+     between. Abyat stack as rows, and the gutter running straight down the block
+     is the whole point — it is what makes a poem legible AS a poem to a reader
+     who cannot read the words. This is what printed diwans do.
+
+     THE COLLAPSE IS KEYED TO THE COLUMN, NOT THE WINDOW. A poem sits in a narrow
+     measure on a wide screen all the time, and a viewport query never fires for
+     it: both hemistichs then squeeze into half a column each and wrap into a
+     ragged block. */
+  .reader .q-verse {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    direction: rtl;
+    /* Narrower than the printed page's gutter, because this column is narrower
+       than a page. Two columns only pay for themselves while a hemistich still
+       fits one of them on a single line; every character spent on the gutter is
+       one taken from both halves. */
+    column-gap: 1.25em;
+    row-gap: 0.15em;
+    margin-bottom: 0.8em;
+  }
+  /* A step down from the 1.4em a display quotation takes, and only inside the
+     grid. A hemistich has half the measure a quotation has, and at the display
+     size the longest lines in this library wrap — which turns one bayt into what
+     looks like three, and the gutter, the whole reason for the arrangement, stops
+     reading as a line down the block. Setting verse a shade smaller than display
+     type is what printed diwans do for the same reason. */
+  .reader .q-verse .ar {
+    margin: 0;
+    font-size: 1.25em;
+  }
+  /* A line with no second hemistich spans both columns. Left in one it reads as
+     a missing line rather than a whole one. */
+  .reader .q-verse .bayt-solo {
+    grid-column: 1 / -1;
+  }
+  @container (max-width: 34rem) {
+    .reader .q-verse {
+      grid-template-columns: 1fr;
+    }
   }
 
   .reader hr {

@@ -1,132 +1,161 @@
-schema: podcast.pending-work/v1
+schema: podcast.pending-work/v4
 
-# The backlog the status card prints. Scope is a book slug or `pipeline`.
-# Status is doing | open | done. Keep titles plain English — this is read on a
-# status card, not in a ticket system.
+# THE SNAG LIST -- named 2026-08-08 (Asif asked for something more memorable
+# than "pending-work.yaml"; a snag list is the factory-floor term for the
+# punch list of unfinished items before a build is signed off, which is
+# exactly what this repo's status cards print from).
+#
+# The backlog the status card prints, and the general issue/work-request list
+# for the repo (2026-08-08). Git-tracked on develop -- any machine that pulls
+# has the current list, any machine that pushes an edit updates it for every
+# other machine. Deliberately not a second system: extends the file that
+# already existed rather than adding a competing tracker.
+#
+# Cleanup pass (2026-08-08): 30 items audited against the CURRENT repo state,
+# not just re-read. 17 removed -- 16 already `done` (a punch list tracks what's
+# OUTSTANDING; a closed item's lasting record belongs in its commit message or
+# an RCA doc, not here forever) and one open item, `narrative-frame-undeclared`,
+# whose premise turned out to be FALSE on inspection: both books it named now
+# declare `narrative_frame` in their series-config.yaml, so the hazard it
+# warned about no longer exists. Everything else that stayed was individually
+# re-checked against the files/state it references, not assumed still true.
+# Going forward: an item earns removal by being verified stale or resolved,
+# not by simply reaching `status: done` -- `done` items ARE still deleted once
+# their record has served its purpose, but that's a judgment call each time,
+# not an automatic sweep.
+#
+# 2026-08-08 (same day, second pass): Asif called kitab-al-riyad "fine" and
+# removed its 3 remaining open items (arabic inline formatting, missing
+# podcast framing, articulation-reverted chapters) -- his own call on the
+# book's state, not a re-verification. The Islamic/kitab-al-riyad branch was
+# fast-forwarded to origin/develop's tip the same session to confirm nothing
+# was left stranded on it.
+#
+# v4 (2026-08-08): `summary` is a short, plain-English headline (<=~70 chars),
+# separate from `title`, which stays the full descriptive record. The Snag
+# List view uses `summary` as the always-visible accordion header and `title`
+# as the expandable body -- added because a reader scanning the list needs a
+# clear one-line "what is this" before deciding whether to read the full
+# paragraph. Optional, like priority/effort/order below; a missing summary
+# just falls back to a truncated title in the view.
+#
+# v3 (2026-08-08): priority, effort and order are now first-class, per Asif's
+# explicit request -- the v2 design note below ("no priority field, on
+# purpose") is reversed. All three are OPTIONAL and additive; a reader that
+# doesn't know them (the Python status card, an older snapshot) ignores them
+# safely.
+#   priority: P0 (urgent/blocking) | P1 (normal) | P2 (someday) -- three tiers,
+#     matching the status-badge budget in the Snag List view.
+#   effort:   S | M | L -- rough size, not hours.
+#   order:    optional integer, a manual tie-breaker within one (scope,
+#     priority) group for the rare case the default sort (priority, then
+#     order, then noticed date) isn't right. Hand-edited in this file like
+#     every other field here -- no drag-and-drop UI.
+#
+# Scope is a book slug, `pipeline`, or `general` (added v2 -- anything that
+# isn't book- or pipeline-specific: cross-repo conventions, tooling, process).
+# `general` items are always shown on every card, pipeline-wide, alongside
+# that card's own scope + `pipeline` -- see open_items() in _pending_work.py.
+# Status is doing | open | done. Keep titles plain English -- this is read on
+# a status card, not in a ticket system.
 
 items:
-  - id: companion-cards
-    scope: the-master-and-the-disciple
-    status: done
-    title: "Generate the reader's companion cards for all 9 chapters -- 135 cards total, every chapter at the top of the 10-15 target, balance rule held, zero cards cite a narrator-policy-restricted name"
-    noticed: 2026-07-19
-
-  - id: commit-and-merge-content
-    scope: the-master-and-the-disciple
-    status: done
-    title: "Commit the regenerated book content and merge it to develop -- content commit 2af5241, merge 8a81c8e"
-    noticed: 2026-07-19
-
-  - id: post-merge-sweep
-    scope: pipeline
-    status: done
-    title: "Post-merge sweep on develop@8a81c8e: clean, 0 P0/P1. One P2 (new modules + book-publication-reviewer agent missing from framework.md) found and fixed in fb96f66/cd36f92."
-    noticed: 2026-07-19
-
-  - id: collapse-duplicate-pdf
-    scope: pipeline
-    status: done
-    title: "RESOLVED: build_book_pdf now RENAMES the Playwright working file to the titled PDF (Path.replace, atomic) instead of copying -- one PDF per book folder. validate_book_ready/B2, _book_render_checks, and _book_comprehension all resolve through deliver_book._find_pdf (titled-preferred, book.pdf fallback) instead of a hardcoded path; export_distribution/deliver_book already did. A failed rename keeps book.pdf as the sole deliverable rather than losing the render. Verified live: removed the-master-and-the-disciple's now-redundant book.pdf (confirmed byte-identical to the titled copy first), re-ran all three gates against the titled-only folder -- all resolve correctly. 5 new tests."
-    noticed: 2026-07-19
-
   - id: book-podcast-chapters-missing-arabic
     scope: the-master-and-the-disciple
     status: open
-    title: "Found while re-verifying gates post-fix (unrelated to the fix itself): validate_book_ready's B3 gate reports 20/20 podcast chapter files (chapters/ch01a-*.txt etc.) carry ZERO Arabic script. This is the PODCAST deliverable's own Arabic injection (inject_chapter_arabic.py / Phase 0e), a different subsystem from the reading edition's Arabic (verified extensively earlier -- 52 passages in book.md, traced to source). Non-blocking on the podcast ship (already live), but a real gap worth a look. No prior book-validation-report.json existed for this book, so unknown whether this predates today or was always the case for this book's podcast lane."
-    noticed: 2026-07-19
-
-  - id: publication-reviewer-agent
-    scope: pipeline
-    status: done
-    title: Build the publication reviewer agent and its fix-and-resubmit loop with durable bridges
-    noticed: 2026-07-19
-
-  - id: unverified-arabic
-    scope: the-master-and-the-disciple
-    status: done
-    title: "CHECKED, no book edit needed. All 3 real quotations verified against quran.com (not from memory) and are accurate, correctly translated Quranic verses this book's own OCR simply doesn't happen to cover on these pages: (1) 'fa-la taghurrannakum al-hayat al-dunya' = Quran 35:5 (also echoed in 31:33), ch.6; (2) 'fa-man udturra ghayra baghin wa-la 'adin fa-la ithma 'alayhi' = Quran 2:173, ch.7; (3) 'ala fatratin min al-rusul' = Quran 5:19, ch.8. The 4th flag ('alayhim al-salam', ch.8) was never a quotation at all -- a standard honorific formula, a tool false positive, not a book problem -- fixed at the tool level (see arabic-audit-honorific-false-positive)."
-    noticed: 2026-07-19
-
-  - id: late-introductions
-    scope: the-master-and-the-disciple
-    status: done
-    title: "Salih/al-Bakhtari flagged as late-introduced was a false positive (tool fixed, not the book) -- confirmed via publication review"
-    noticed: 2026-07-19
-
-  - id: thin-etymology-corpus
-    scope: pipeline
-    status: done
-    title: "ASSESSED, then acted on. No new SOURCE ingestion was needed -- scripts/podcast/_etymology.py already exists as a real, accuracy-gated miner (term_index veto + adversarial self-consistency verification + doctrinal gate, no fabrication), it simply had zero callers anywhere in the pipeline and had only ever been run once, on one book. Ran it against the-master-and-the-disciple (already fully in context this session): 6 candidate terms found, 2 passed the accuracy gate and were written -- 'quwwa' (root q-w-y, strength/potency/faculty) and 'Umma' (root '-m-m, the same root as umm/imam -- a community bound by facing one shared source). Corpus grew 12 -> 14, now from 2 books instead of 1. NOT swept across the rest of the repo -- that is a real, separately-scoped content-generation campaign (which books, how many terms, real LLM time per book), not this assessment task's natural conclusion. The miner remains unwired into any live phase; wiring it as an automatic per-book step is a separate decision, not made here."
-    noticed: 2026-07-19
-
-  - id: sharia-spelling-drift
-    scope: the-master-and-the-disciple
-    status: done
-    title: "RESOLVED: Asif chose 'Sharia' as the standard. Root cause was one level deeper than first found -- glossary.yml carried TWO entries for one term, and a second drifted spelling (line 334) existed beyond the one page the first review pass read. Both book.md occurrences corrected, duplicate glossary entry removed, PDF re-rendered (6/6 occurrences now read Sharia), comprehension re-run clean."
-    noticed: 2026-07-19
-
-  - id: naming-drift-scope-limit
-    scope: pipeline
-    status: done
-    title: "RESOLVED (the glossary-fold half of the gap): naming_drift()'s presence check now folds each glossary entry's spelling through simplify_transliteration (the same fold BK-A4 print already guarantees) before searching the page, instead of the entry's raw stored spelling. This is precisely what missed the-master-and-the-disciple's drift -- a glossary entry stored as 'Shariʿa' (scholarly ayn) never literally appears in a book that only prints plain transliteration, so it was invisible even though a second entry drifted from it. Two new regression tests pin this case and the 'do not invent drift that was never printed' guard."
+    priority: P1
+    effort: M
+    summary: Podcast chapter files are missing Arabic script
+    title: "Found while re-verifying gates post-fix (unrelated to the fix itself): validate_book_ready's B3 gate reports 20/20 podcast chapter files (chapters/ch01a-*.txt etc.) carry ZERO Arabic script. This is the PODCAST deliverable's own Arabic injection (inject_chapter_arabic.py / Phase 0e), a different subsystem from the reading edition's Arabic (verified extensively earlier -- 52 passages in book.md, traced to source). Non-blocking on the podcast ship (already live), but a real gap worth a look. No prior book-validation-report.json existed for this book, so unknown whether this predates today or was always the case for this book's podcast lane. RE-VERIFIED 2026-08-08: still 0/20 files carry Arabic script."
     noticed: 2026-07-19
 
   - id: naming-drift-no-glossary-entry
     scope: pipeline
     status: open
-    title: "Residual half of the naming-drift gap, deliberately NOT fixed: naming_drift() only ever compares spellings that exist as glossary entries. An ad hoc spelling a single augment note introduces, with no glossary entry of its own at all (e.g. the-master-and-the-disciple's 'Shari'ah', which had no entry before today's manual fix), stays invisible. Needs a fuzzy near-neighbor scan across raw page text -- real new infrastructure, not another fold, so it was not built under this pass."
-    noticed: 2026-07-19
-
-  - id: narrator-attribution-policy
-    scope: pipeline
-    status: done
-    title: "CONFIRMED: augmentation excludes quotations attributed to Abu Bakr, Umar, Uthman, Aisha -- Ahl al-Bayt/Imam Ali/Ismail bin Muhammad and their followers remain approved. Verified: 3 Umar-attributed atoms now excluded from the live corpus load (428 -> 425); a doctrinal passage that only MENTIONS these names in prose was verified to survive untouched."
-    noticed: 2026-07-19
-
-  - id: narrator-policy-unwired-paths
-    scope: pipeline
-    status: done
-    title: "RESOLVED, and the risk was higher than first assessed. intelligence/augmenter.py::_fetch_matching_quotes is NOT dormant -- it's live-wired into phases/per_chapter.py, the real per-chapter podcast authoring phase; its own docstring says quote atoms are 'currently 0; wired for future runs', meaning the exclusion had to land BEFORE that data gap closes, not after. Fixed there. augment_book.py IS confirmed genuinely unwired (zero callers anywhere) -- fixed anyway in _load_atoms(), the single load point, so a future wiring inherits the policy rather than needing to rediscover it. Both reuse _narrator_policy, same module as the JSONL corpus. 4 new tests."
-    noticed: 2026-07-19
-
-  - id: book-chapters-shared-folder-collision
-    scope: the-master-and-the-disciple
-    status: done
-    title: "RESOLVED: publish was blocked -- _translation_edition.py wrote per-chapter .txt sidecars (ch01-<slug>.txt) into the SAME top-level chapters/ dir the podcast lane uses (ch01a-<slug>.txt, one per episode); the ship gate's ch*.txt glob read the book-lane files as chapters missing an episode. Root-caused (predates this session -- clean gate run on 2026-06-11, broke once book-pipeline-v2 started writing there) and fixed at the source: sidecars now write to book/_chapters/, alongside book/_chunks and book/_diagrams. This book's 8 existing files relocated via git mv; a regression test locks the new path. Ship gates G1-G4 now pass clean; book published live (status=published) with G5 (a state-bookkeeping check unrelated to content, unrecognized book-lane phase values) explicitly bypassed via its own documented --force flag, confirmed and authorized before running."
-    noticed: 2026-07-19
-
-  - id: book-chapters-collision-other-books
-    scope: pipeline
-    status: done
-    title: "CORRECTED AND RESOLVED. The original count (8 other affected items, by bare-filename pattern alone) was wrong -- verified by checking for _system/translation-edition-manifest.json (the only proof the book-lane sidecar route ever actually ran) plus reading actual file content. Only mukhtasar-ul-asar-1 and mukhtasar-ul-asar-2 are genuine book-lane sidecars; RELOCATED to book/_chapters/ (18 files, manifests updated) -- zero collision risk today since neither has any podcast episodes yet, but now matches the fixed convention. The other 6 (healthequity, ayyuhal-walad, kitab-al-riyad, kunooz-al-hikmah, claude-code-training) have NO translation-edition-manifest.json -- their bare ch<NN>-<slug>.txt naming is genuine, correctly-shaped podcast chapter content (verified by reading it: episode-framing prose, not book-lane teaching text) that simply never needed a letter-suffix disambiguator. Confirmed untouched, left exactly as they were -- moving them would have been a real, incorrect edit to live content, including one already-published book (ayyuhal-walad)."
-    noticed: 2026-07-19
-
-  - id: arabic-audit-honorific-false-positive
-    scope: pipeline
-    status: done
-    title: "RESOLVED: _book_arabic_audit.py gained a fourth resolution tier, 'honorific-formula', for standard liturgical phrases ('alayhi/alayha/alayhim al-salam', 'radiya Allahu anhu', etc.) matched by normalized skeleton against a small canonical allowlist. These are the author's own religious practice, not a quoted source -- flagging them alongside a genuine mis-sourced verse buried the real finding in boilerplate. Found live checking the-master-and-the-disciple's 4 unverified passages: 1 of the 4 was exactly this. 3 new tests, including one confirming the allowlist cannot become a loophole for a real ungrounded quotation."
+    priority: P2
+    effort: L
+    summary: Naming drift can't catch a spelling with no glossary entry
+    title: "Residual half of the naming-drift gap, deliberately NOT fixed: naming_drift() only ever compares spellings that exist as glossary entries. An ad hoc spelling a single augment note introduces, with no glossary entry of its own at all (e.g. the-master-and-the-disciple's 'Shari'ah', which had no entry before today's manual fix), stays invisible. Needs a fuzzy near-neighbor scan across raw page text -- real new infrastructure, not another fold, so it was not built under this pass. RE-VERIFIED 2026-08-08: no fuzzy/near-neighbor scan exists anywhere in scripts/podcast/."
     noticed: 2026-07-19
 
   - id: articulation-backfill
     scope: pipeline
     status: open
+    priority: P1
+    effort: L
+    summary: Rewrite four Islamic books into the reference voice
     title: "Four Islamic books do not yet read like the reference editions (the-master-and-the-disciple, degrees-of-excellence). TWO PROBLEMS, two remedies. (a) mukhtasar-ul-asar-1 (99k words) and -2 (107k) are genuinely CALQUED -- Arabic masdar chains and isnad grammar carried straight into English -- which is exactly what the REQ-BA articulation pass is built to fix; run 0book-fluency or loop rearticulate_chapter.py over their chapter keys. (b) al-anwaar-al-lateefah/vol-01 and asaas-al-taveel/vol-01 are FLUENT but in the wrong voice (a lecturer addressing a congregation, a modern editor's preface 'I'). The articulation pass CANNOT fix those: REQ-BA-030 binds it to preserve meaning, so it would keep the added framing and only polish it. They need a re-compose from source, not articulation. Deferred by Asif 2026-08-02 in favour of pipeline + Arabic work."
-    noticed: 2026-08-02
-
-  - id: narrative-frame-undeclared
-    scope: pipeline
-    status: open
-    title: "HAZARD, carried forward. al-anwaar-al-lateefah/vol-01 and asaas-al-taveel/vol-01 declare no narrative_frame, so both resolve to a conservative default (external_narrator / transmitted_report) while their prose narrates in the first person. No model pass has run on them -- the 2026-08-02 apparatus work is deterministic and deliberately avoided the model route for exactly this reason -- but ANY future compose will run 0book-fluency under the wrong frame and rewrite both books into the wrong grammatical person. Read how each SOURCE opens and declare narrative_frame in _system/series-config.yaml BEFORE any model pass touches either book."
     noticed: 2026-08-02
 
   - id: kashkole-urdu-to-english
     scope: pipeline
     status: open
+    priority: P2
+    effort: L
+    summary: Translate the Kashkole Wisdom corpus into English
     title: "Asif 2026-08-06: the KASHKOLE Wisdom corpus must be rendered into articulate English so it can augment content, etymology and explanations as ONE unit with KSESSIONS -- a separate, systematic pass over the whole corpus, not a per-note translation. STATE TODAY: content/knowledge-base/mirror.db carries all 1347 topics (1055 with a substantial body_plain) and NONE of them carry English -- the source dump at content/_shared/source-library/Kashkole.sql (759 MB, gitignored) contains zero name_en occurrences, so this is Urdu at source, not a mirroring loss. That is why intelligence/ingest_kashkole.py deliberately mints no atoms from them (rule D8, never re-translate) and records them as a deferred note; the only English Kashkole material in the corpus today is the 93 doctrine atoms (tradition fatimid-ismaili) from the wisdom-binder pipeline. The new pass must target the SAME articulation standard the reading editions use (docs/standards/book-articulation.md, REQ-BA-*) so a translated topic reads like the books it will be cited beside, must be idempotent and re-runnable, and must record provenance per topic so a rendering can be traced and revised. It supersedes D8 for this corpus and D8's text must be updated in the same change rather than left contradicting it. Until it lands, the Companion student-reader lane cites Kashkole topics by binder and topic name WITHOUT rendering their Urdu, and draws its English from the 606 KSESSIONS transcripts and the 93 doctrine atoms. Re-importing needs Docker, which is NOT installed on this machine; no re-import is required for this work since the mirror already holds every topic."
     noticed: 2026-08-06
 
   - id: annotation-policy-vs-zero-translit
     scope: pipeline
     status: open
+    priority: P2
+    effort: S
+    summary: Decide how a teach-term's later mentions should print
     title: "Two locked rules meet and the outcome is worth a decision. 'Zero English transliteration of Arabic terms in book.md' (2026-08-02) and 'annotate once and intelligently, never mechanically' (the four-class teach/familiar/name/silent policy) disagree about a term's SECOND mention. Today the annotation policy wins: a `teach` term gets its script once per book and every later mention prints bare romanization; a `familiar` term (halal, iman, nafs -- words the classifier judged naturalised) never gets script at all. That is why ayyuhal-walad still prints *mujahadah*, *marifah* and *zauq* with no Arabic beside them after the apparatus ran. Not a defect -- it is the policy behaving as written -- but Asif should decide whether a teach term's later mentions should also carry script."
     noticed: 2026-08-02
+
+  - id: stale-cross-machine-response-format
+    scope: general
+    status: open
+    priority: P1
+    effort: M
+    summary: Version-control the global response-format rules
+    title: "The global response-format rules (~/.claude/response-template.md) live in a folder with NO git repo and NO remote, so nothing Asif approves there reaches any other machine. Worse: this repo separately carries two TRACKED copies (_workspace/plan/conventions/response-template.md, response-conventions.md) that describe the 4-part template RETIRED 2026-05-26 -- and CLAUDE.md's own text falsely claims those copies 'had not existed for some time.' Any machine pulling develop today gets confidently-stated instructions that contradict how Asif actually wants responses written. Needs: version-control the global folder with a remote so every machine pulls the same rules, delete the two stale tracked copies, and correct the false line in CLAUDE.md. RE-VERIFIED 2026-08-08: ~/.claude still has no .git, and both stale tracked copies still exist."
+    noticed: 2026-08-08
+
+  - id: pipeline-refactor-efficiency-accuracy-checkpoints
+    scope: general
+    status: doing
+    priority: P1
+    effort: L
+    summary: Refactor the pipeline for efficiency and per-phase accuracy checks
+    title: "Asif 2026-08-08: refactor the podcast-factory pipeline for efficiency and accuracy, with short checkpoints between phases rather than long uninterrupted runs. Two named parts: (1) a full test harness covering the pipeline end to end, not just per-module unit tests; (2) each phase re-checks the ACCURACY of every phase that ran before it, not only the one immediately prior -- e.g. phase 0c should evaluate the work of 0a and 0b as well as its own, not assume an earlier phase that already passed is still correct. LANDED 2026-08-08 (part 2, and part 1 in part): _step_ledger.py gives every step a record whether or not it spent money (the cost ledger only ever recorded paid steps, so the 25 deterministic apparatus steps left no trace at all); _phase_review.py runs named gates at every phase completion, hooked centrally in _progress.update_phase so a new phase cannot be added without one, with a RECHECK tier that later phases re-run over earlier phases' artifacts -- exactly part 2 as asked. Reviews are ADVISORY unless declared in BLOCKING_GATES (only PC3 today, which merely moves an already-blocking ship gate earlier), because a new review layer that can halt a run can strand a finished book. STILL OPEN: the e2e harness reaches the book lane (tests/e2e/test_book_lane_pipeline.py) but per-chapter, finalize, publish, trainer and merge remain uncovered -- 8 of 29 phases before this work, ~12 now; and the gate set is thin (the 5 phases with declared gates), so more phases deserve their own."
+    noticed: 2026-08-08
+
+  - id: orchestrator-ai-reflection-quality
+    scope: general
+    status: doing
+    priority: P1
+    effort: L
+    summary: Improve the orchestrator's self-checking during a run
+    title: "Asif 2026-08-08: the podcast-factory pipeline orchestrator and the AI driving it need better reflection and response quality during a run -- today's session found four real, book-blocking defects (chapter-count scaling, a heading-leak bug, a gate false-positive that aborted the whole compose twice, a stale metadata path) that a stricter self-check during the run could plausibly have caught earlier than a human reviewing the output after the fact. MECHANISM LANDED 2026-08-08, deliberately WITHOUT a model: the reflection is deterministic inspection of evidence the run already produced (_step_ledger.py + _phase_review.py), never a model asked whether it did well -- adding model spend to a pipeline whose main defect was paying twice would be the wrong trade. A phase can no longer report `completed` while having silently skipped its work: gate PC2 compares the steps that recorded against the 25 declared in APPARATUS_STEPS, which is the question no gate could ask before a step ledger existed. STILL OPEN: whether any of the four specific defects named above would actually have been caught -- each needs a gate written for its own failure shape, and only the gate-false-positive class is covered so far."
+    noticed: 2026-08-08
+
+  - id: per-chapter-workers-unproven-on-a-real-book
+    scope: pipeline
+    status: open
+    priority: P1
+    effort: M
+    summary: The parallel chapter loop has never run against a real book
+    title: "Landed 2026-08-08 (commit ea5219e): the per-chapter loop can run chapters concurrently via PER_CHAPTER_MAX_WORKERS, which DEFAULTS TO 1 so nothing changed for any existing book. The measured prize is real -- 732 min (12.2 h) for the-master-and-the-disciple's 20 chapters, 261 min for spiritual-ethos, median 37 min a chapter; four workers should take 12.2 h to roughly 3.2. The three blockers that made concurrency unsafe are all cleared and tested (batched commits; the C3 breaker locked and asked BEFORE a chapter starts, in _chapter_breaker.py; the per-book ceiling admission-controlled in _chapter_cost_caps.py, deliberately NOT a reservation since a chapter's cost depends on unknowable convergence iterations). The CONCURRENT path is driven directly by tests/test_per_chapter_workers.py (15 cases: every chapter once, workers and serial agree on recorded state, one commit, timings never half-written, a halt stops unstarted chapters, a raising worker is reported). BUT IT HAS NEVER RUN AGAINST A REAL BOOK -- no model calls, no real convergence, no real git. Do NOT assume it is proven. Enabling it on a book Asif picks is the remaining validation, and the same run should answer the open question of where a chapter's 37 minutes actually goes (read duration_ms from _system/step-ledger.jsonl): if most of it is the convergence loop, that is inherently serial and a second optimisation is needed rather than more workers."
+    noticed: 2026-08-08
+
+  - id: chapter-grouping-for-long-books
+    scope: pipeline
+    status: open
+    priority: P2
+    effort: L
+    summary: Group chapters into higher-level parts for long books
+    title: "Asif 2026-08-08: now that chapter count scales with source length (fixed same day -- kitab-al-riyad went from 11 to 20), evaluate grouping chapters into a higher-level structure (working name: Parts) whenever a book's design exceeds roughly 10 chapters, rather than shipping a flat 15-25-item list. A flat list that long is harder to scan than a two-level one, in the printed table of contents, the in-browser reader, and the Book Composer's own chapter dropdown -- the exact dropdown Asif was looking at when this was raised. NOT the same thing as the source's own internal divisions (Kitab al-Riyad's 'Discourses' and numbered sections, already handled by today's heading-demotion fix) -- this is a NEW top-level layer the pipeline would introduce for readability, above chapters the pipeline itself designed. Open questions, not yet answered: where the grouping decision is made (inside 0book-design's own segmentation pass, since it already reasons about the book's thematic arc, versus a separate pass after chapters are set); what a group is called, chosen to avoid colliding with a source's own terminology (a source that already uses 'Part' or 'Book' internally would need a different pipeline term); how many groups is right for a 20-chapter book; and how a group renders (a PDF section-divider page, TOC nesting, Composer dropdown grouping, or some combination). Logged as the request -- no design decided."
+    noticed: 2026-08-08
+
+  - id: front-matter-chapters-should-condense-to-one-introduction
+    scope: pipeline
+    status: open
+    priority: P1
+    effort: M
+    summary: Condense front-matter chapters into one introduction
+    title: "Asif 2026-08-08, from a chapter-by-chapter read of kitab-al-riyad's 20-chapter design: chapters 1-4 (The Freedom to Disagree / The Two Rivals / The Judge and His Cosmos / Why I Wrote This Book) are ALL pre-teaching front matter -- the modern editor's history of the dispute, biographies of the two disputants and the arbiter, then al-Kirmani's own preface -- and should have been ONE condensed introduction chapter, not four. Locked principle going forward: the reading edition's Chapter 1 should always land where the SOURCE's own teaching begins, irrespective of the source's language or how many pages of editorial/historical framing precede it in the scan. Everything before that point (translator's notes, editor's introduction, biographical apparatus about the author or the work's disputants, the author's own preface/doxology) is front matter and belongs in a single condensed introduction, not spread across several numbered chapters competing for the reader's attention with the actual argument. 0book-design's existing rule 1 already says to drop front-matter from chapter COVERAGE (title page, source's own TOC) but stops short of this -- it still let four separate chapters of pre-teaching material stand as numbered peers of the real content. Needs a concrete rule addition to the design prompt (or a post-design consolidation pass) that detects where a source's actual teaching/argument begins and folds everything before it into one preface, verified against multiple books (not just kitab-al-riyad) before landing, since a book with almost no front matter (e.g. the-master-and-the-disciple) must not be forced into an artificial split."
+    noticed: 2026-08-08
+

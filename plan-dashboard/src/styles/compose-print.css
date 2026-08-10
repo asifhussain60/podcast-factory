@@ -76,8 +76,15 @@
   font-size: 1.25rem;
 }
 
-/* ── Quranic / Arabic quotation ── mirrors book-print.css:348-375. */
-.cx-print blockquote.quran {
+/* ── Quranic / Arabic quotation ── mirrors book-print.css:348-375.
+   NOT A CARD (2026-08-09). `.quran` means "contains Arabic", never "is a card",
+   so this sets the box of a quotation with NO card class and stands down for one
+   that has. This was the worst instance of the tie: `background: none` here beat
+   the card's tint outright, so Read mode — the surface the book is verified in —
+   showed the pre-card treatment while the editor beside it showed a card. The
+   kinds are listed because the list is a contract (quote-typography.css,
+   checked by `_quote_cards` QC-010). */
+.cx-print blockquote.quran:not(.k-quran, .k-hadith, .k-poem, .k-quote) {
   margin: 0.85rem 0;
   padding: 0.25rem 0 0.25rem 1.1rem;
   background: none;
@@ -87,7 +94,7 @@
   text-align: left;
 }
 .cx-print blockquote.quran p.ar {
-  margin: 0 0 0.2rem;
+  margin: 0 0 var(--q-ar-gap, 0.2rem);
   color: var(--c-ink, #1f1d18);
   direction: rtl;
   /* The declared divergence that used to sit here is RESOLVED (2026-07-21).
@@ -130,7 +137,9 @@
    book's chosen translation face. Mirrors book-print.css body.style-plain
    rule-for-rule; the values are the shared tokens from quote-typography.css, so
    this pair cannot drift the way the literal gold ramp above could. */
-.cx-print.style-plain blockquote.quran {
+/* NOT A CARD — see the note above. */
+.cx-print.style-plain
+  blockquote.quran:not(.k-quran, .k-hadith, .k-poem, .k-quote) {
   border-left: 0;
   padding-left: 0;
   padding-right: 0;
@@ -141,10 +150,15 @@
   text-align: center;
 }
 .cx-print.style-plain blockquote.quran p.tr {
+  /* --q-tr-ink / --q-tr-size (2026-08-09): a per-card rule cannot outrank this
+     selector without duplicating it, so the two values it hard-wrote became
+     tokens. The fallback sits HERE rather than in a :root default, because a
+     `--q-tr-ink: var(--c-ink)` written at :root would freeze whatever --c-ink is
+     there and miss the dark paper's override further down the tree. */
   font-family: var(--q-tr-face);
-  font-size: 1.02rem;
+  font-size: var(--q-tr-size, 1.02rem);
   line-height: 1.45;
-  color: var(--c-ink, #1f1d18);
+  color: var(--q-tr-ink, var(--c-ink, #1f1d18));
   text-align: center;
 }
 .cx-print.style-plain blockquote:not(.quran):not(.aside) {

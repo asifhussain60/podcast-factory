@@ -3,11 +3,15 @@
   "book_slug": "kitab-al-riyad",
   "category": "books",
   "branch": "book/kitab-al-riyad",
-  "phase": "done",
-  "phase_status": "ship-with-caution",
-  "last_completed_phase": "merge",
-  "next_phase": null,
-  "last_error": null,
+  "phase": "0book-render",
+  "phase_status": "failed",
+  "last_completed_phase": "0book-compose",
+  "next_phase": "0book-illustrate",
+  "last_error": {
+    "phase": "0book-render",
+    "message": "deliverable failed validation: B3 book-arabic-coverage: 15/15 chapters have no Arabic script: ch01-the-perfect-and-the-perfection-of-the-soul.txt, ch02-soul-intellect-and-the-power-of-emanation.txt, ch03-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt, ch04-summary-perfection-of-the-soul.txt, ch05-the-intellect-as-the-first-creation.txt, +10 more",
+    "ts": "2026-08-08T17:40:23Z"
+  },
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -100,6 +104,87 @@
     "done": {
       "status": "completed",
       "ts_completed": "2026-05-23T00:00:00Z"
+    },
+    "0book-design": {
+      "status": "completed",
+      "ts_started": "2026-08-07T20:15:26Z",
+      "ts_completed": "2026-08-08T11:33:01Z"
+    },
+    "0book-compose": {
+      "status": "completed",
+      "ts_started": "2026-08-07T20:19:19Z",
+      "ts_completed": "2026-08-08T17:39:16Z",
+      "manual_fallback": "Fix book/book-toc.json source_line_ranges or chapter titles, then rerun translation edition compose. OCR/refinement/audio do not need to rerun."
+    },
+    "0book-illustrate": {
+      "status": "skipped",
+      "ts_completed": "2026-08-08T17:39:19Z",
+      "reason": "book_visuals=manual_only"
+    },
+    "0book-slide-import": {
+      "status": "skipped",
+      "ts_completed": "2026-08-08T17:39:19Z",
+      "reason": "book_visuals=manual_only"
+    },
+    "0book-render": {
+      "status": "failed",
+      "ts_started": "2026-08-08T05:31:34Z",
+      "ts_completed": "2026-08-08T17:40:23Z",
+      "book_validation": {
+        "slug": "kitab-al-riyad",
+        "verdict": "BOOK-BROKEN",
+        "summary": "B3 book-arabic-coverage: 15/15 chapters have no Arabic script: ch01-the-perfect-and-the-perfection-of-the-soul.txt, ch02-soul-intellect-and-the-power-of-emanation.txt, ch03-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt, ch04-summary-perfection-of-the-soul.txt, ch05-the-intellect-as-the-first-creation.txt, +10 more",
+        "gates": [
+          {
+            "gate": "B1",
+            "name": "book-md-complete",
+            "passed": true,
+            "note": "book.md: 413 KB, 21 sections ≥ 20 TOC chapters"
+          },
+          {
+            "gate": "B2",
+            "name": "book-pdf-renderable",
+            "passed": true,
+            "note": "book.pdf: 2576 KB, 254 pages ≥ 20 chapters"
+          },
+          {
+            "gate": "B3",
+            "name": "book-arabic-coverage",
+            "passed": false,
+            "note": "15/15 chapters have no Arabic script: ch01-the-perfect-and-the-perfection-of-the-soul.txt, ch02-soul-intellect-and-the-power-of-emanation.txt, ch03-the-soul-in-time-and-the-rejoinder-to-al-nusra.txt, ch04-summary-perfection-of-the-soul.txt, ch05-the-intellect-as-the-first-creation.txt, +10 more"
+          },
+          {
+            "gate": "B4",
+            "name": "book-prose-integrity",
+            "passed": true,
+            "note": "book.md: no model commentary or generated headings detected"
+          },
+          {
+            "gate": "B5",
+            "name": "book-chapter-body-coverage",
+            "passed": true,
+            "note": "book.md: 20 numbered chapters have body text"
+          },
+          {
+            "gate": "B6",
+            "name": "book-source-crosswalk",
+            "passed": true,
+            "note": "source-crosswalk.json: 20 chapters aligned"
+          },
+          {
+            "gate": "B7",
+            "name": "book-gloss-coverage",
+            "passed": true,
+            "note": "only 2 romanized glossed term(s) left — nothing to measure · 17 term(s) never given in Arabic script (19 uses): al-Asas, al-Maad, Dar al-Hikma, al-fikr, al-hifz, al-Maqam"
+          },
+          {
+            "gate": "B8",
+            "name": "compose-steps-complete",
+            "passed": true,
+            "note": "compose recorded no skipped steps"
+          }
+        ]
+      }
     }
   },
   "cost": {
@@ -108,7 +193,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-05-23T00:00:00Z",
+  "ts_updated": "2026-08-08T17:40:23Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1",
   "reset_for_reemit": {
@@ -134,5 +219,6 @@
     "book-summary"
   ],
   "pipeline_mode": "orchestrated",
-  "status": "draft"
+  "status": "draft",
+  "run_id": "20260808T113301Z-fcef1c"
 }

@@ -12,6 +12,14 @@ prose.
         [--remote]     the deployed bucket and database, not the local ones
         [--dry-run]    list what would be uploaded, upload nothing
         [--force]      re-upload even rows already marked uploaded
+        [--no-audio]   covers, deck pages and the print edition only
+        [--drop-local-audio]  delete local recordings and reclaim the disk
+
+`--no-audio` exists for the LOCAL bucket (Asif, 2026-08-10). A recording pushed
+there is a second copy of a file already on the same disk — 0.98 GB of the 1.04 GB
+the local bucket held — and nothing about playing an episode locally is worth a
+duplicate of every recording. The small assets still go, because a local page
+missing its cover and deck pages is not the page it is standing in for.
 
 `uploaded_at` is the whole contract. A row without it means "this file exists on
 Asif's disk"; a row with it means "this object is in R2". The site links only the
@@ -67,12 +75,18 @@ def d1(sql: str, *, remote: bool) -> list[dict]:
     return json.loads(out[start:])[0]["results"]
 
 
-def pending(slugs: list[str], *, remote: bool, force: bool) -> list[dict]:
+def pending(slugs: list[str], *, remote: bool, force: bool, no_audio: bool = False) -> list[dict]:
     where = "" if force else "uploaded_at IS NULL"
     if slugs:
         listed = ", ".join("'" + s.replace("'", "''") + "'" for s in slugs)
         clause = f"slug IN ({listed})"
         where = f"{where} AND {clause}" if where else clause
+    if no_audio:
+        # The recordings are the whole weight — 0.98 GB of the 1.04 GB in the
+        # local bucket on 2026-08-10, in 30 files against 159 of everything else.
+        # Covers, deck pages and the print edition are 60 MB and are what make a
+        # local page look like the real one, so they are NOT what gets dropped.
+        where = f"{where} AND kind != 'audio'" if where else "kind != 'audio'"
 
     return d1(
         "SELECT key, slug, kind, content_type, bytes, source_path FROM media_asset"
@@ -157,6 +171,69 @@ def stamp(key: str, when: str, *, remote: bool) -> None:
     d1(f"UPDATE media_asset SET uploaded_at = '{when}' WHERE key = '{escaped}'", remote=remote)
 
 
+def unstamp(key: str, *, remote: bool) -> None:
+    """Say the object is no longer there. The inverse of `stamp`, and the reason
+    dropping a recording is safe: the row survives, so the file is still
+    INVENTORIED — the site simply reports it as not uploaded yet instead of
+    linking an object that has gone. Deleting the row would lose the record that
+    the recording exists on disk at all."""
+    escaped = key.replace("'", "''")
+    d1(f"UPDATE media_asset SET uploaded_at = NULL WHERE key = '{escaped}'", remote=remote)
+
+
+def local_audio_objects(slugs: list[str]) -> list[dict]:
+    """Recordings currently duplicated into the LOCAL bucket."""
+    where = "kind = 'audio' AND uploaded_at IS NOT NULL"
+    if slugs:
+        listed = ", ".join("'" + s.replace("'", "''") + "'" for s in slugs)
+        where += f" AND slug IN ({listed})"
+    return d1(
+        f"SELECT key, slug, bytes FROM media_asset WHERE {where} ORDER BY slug, key",
+        remote=False,
+    )
+
+
+def drop_local_audio(slugs: list[str], *, dry_run: bool) -> int:
+    """Reclaim the disk a local bucket spent on second copies of local files.
+
+    LOCAL ONLY, and `main` refuses to combine it with `--remote`: the live site
+    serves from R2 and has no other copy to fall back on, so the same operation
+    there would take a book's recordings off the internet.
+
+    Reversible in one command — `upload_listener_media.py <slug> --local-audio`
+    is not needed, plain `upload_listener_media.py <slug>` re-uploads anything
+    whose stamp is NULL — which is what makes this a cache eviction rather than a
+    deletion of anything that matters.
+    """
+    rows = local_audio_objects(slugs)
+    if not rows:
+        print("no recordings are duplicated in the local bucket")
+        return 0
+
+    total = sum(int(r["bytes"]) for r in rows)
+    print(f"{len(rows)} recording(s), {megabytes(total)} to reclaim\n")
+    for row in rows:
+        print(f"  {megabytes(int(row['bytes'])):>9}  {row['key']}")
+    if dry_run:
+        print("\ndry run — nothing deleted")
+        return 0
+
+    failed = 0
+    for i, row in enumerate(rows, 1):
+        print(f"\n[{i}/{len(rows)}] {row['key']}")
+        if delete_object(row["key"], remote=False):
+            # The stamp is cleared ONLY after the object is actually gone, so an
+            # interrupted run never claims a file is missing while it is still
+            # taking up the disk this is trying to reclaim.
+            unstamp(row["key"], remote=False)
+            print("  removed")
+        else:
+            failed += 1
+            print("  FAILED — left in place and still marked uploaded")
+    print(f"\nreclaimed {megabytes(total)}" + (f"; {failed} could not be removed" if failed else ""))
+    return 1 if failed else 0
+
+
 def megabytes(n: int) -> str:
     return f"{n / 1_000_000:.1f} MB"
 
@@ -167,9 +244,29 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--remote", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument(
+        "--no-audio",
+        action="store_true",
+        help="skip the recordings; upload covers, deck pages and the print edition only",
+    )
+    parser.add_argument(
+        "--drop-local-audio",
+        action="store_true",
+        help="delete recordings from the LOCAL bucket and mark them not-uploaded (reclaims disk)",
+    )
     args = parser.parse_args(argv)
 
-    rows = pending(args.slugs, remote=args.remote, force=args.force)
+    if args.drop_local_audio:
+        if args.remote:
+            print(
+                "refused: --drop-local-audio is local only.\n"
+                "The live site serves from R2 and has no other copy — deleting there would take\n"
+                "a book's recordings off the internet."
+            )
+            return 2
+        return drop_local_audio(args.slugs, dry_run=args.dry_run)
+
+    rows = pending(args.slugs, remote=args.remote, force=args.force, no_audio=args.no_audio)
     if not rows:
         print("nothing to upload — every known file is already in R2")
         return 0

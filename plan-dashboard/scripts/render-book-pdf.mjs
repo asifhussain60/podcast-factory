@@ -124,11 +124,25 @@ async function main() {
   // no gate reads margin-box text against chapter boundaries — so it is worth
   // saying plainly: the number in the class and the number in the rule must come
   // from one source, and that source is the heading.
+  // Numbered chapters ONLY. The unnumbered preface (`ch.label === ""`, n === 0)
+  // is deliberately excluded — every numbered chapter's own head carries an
+  // "N. " prefix its `<h2>` does not, so the two read as related but distinct;
+  // the preface's head has no number to prefix, so a rule here would print its
+  // bare title as the running head on the SAME page as an `<h2>` reading that
+  // same title verbatim (BR-CAPTION-DUP on the reading edition's own page 8).
+  // Skipping it is what makes the comment above ("the preface... falls back to
+  // book title") actually true rather than aspirational.
   const chapterHeadCss = (bookChapters || [])
+    .filter((ch) => /^\d+$/.test(String(ch.label || "")))
     .map((ch) => {
-      const n = /^\d+$/.test(String(ch.label || "")) ? Number(ch.label) : 0;
-      const label = n ? `${n}. ` : "";
-      const head = cssString(`${label}${ch.title || ""}`) || runningHead;
+      // The .filter above already guarantees ch.label is numeric here — the
+      // unnumbered preface/"Introduction to the Book" chapter (front matter,
+      // same family as the title page / Contents / crosswalk) never reaches
+      // this map body at all, which is what makes it fall back to the plain
+      // book running head instead of repeating its own h2 as a duplicate
+      // caption (see the comment above).
+      const n = Number(ch.label);
+      const head = cssString(`${n}. ${ch.title || ""}`) || runningHead;
       return (
         `@page chap-${n} { @top-center { content: "${head}"; } }\n` +
         `.ch-page-${n} { page: chap-${n}; }`

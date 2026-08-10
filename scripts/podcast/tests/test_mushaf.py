@@ -16,7 +16,13 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from _mushaf import is_quranic, mushaf_available  # noqa: E402
+from _mushaf import (  # noqa: E402
+    is_quranic,
+    is_quranic_sequence,
+    mushaf_available,
+    mushaf_reference,
+    mushaf_reference_label,
+)
 
 pytestmark = pytest.mark.skipif(not mushaf_available(), reason="mirror.db absent in this checkout")
 
@@ -135,3 +141,125 @@ def test_audit_resolves_canonical_verses_to_the_mushaf_tier() -> None:
     result = audit_book_arabic(book, arabic_src="")
     runs = result["chapters"][0]["runs"]
     assert runs and runs[0]["resolution"] == RESOLUTION_MUSHAF
+
+
+# ── Several ayat quoted in one breath ─────────────────────────────────────────
+# Real text from the three books that carried the defect. Fifteen passages were
+# filed as somebody's words because the corpus is searched one verse at a time
+# and these runs cross two. Harmless while provenance chose only a typeface;
+# a doctrinal misstatement the moment it chose a colour (2026-08-09).
+
+#: Surah al-Falaq 113:1-2, as Spiritual Ethos prints it — Extended Arabic-Indic
+#: ayah numbers between the verses.
+FALAQ = "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۱ مِن شَرِّ مَا خَلَقَ ۲"
+#: Ar-Rahman 55:26-27, separated by the end-of-ayah rosette instead of a digit.
+RAHMAN = "كُلُّ مَنْ عَلَيْهَا فَانٍۢ ۝ وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو ٱلْجَلَلِ وَٱلْإِكْرَامِ"
+#: A saying of the Prophet about Ali. Not scripture, and must never become so.
+HADITH = "عليٌّ مِنِّي بِمَنْزِلَةِ نَفْسِي"
+
+
+@pytest.mark.skipif(not mushaf_available(), reason="mirror.db unavailable")
+class TestSeveralAyatQuotedTogether:
+    def test_the_single_verse_check_cannot_see_across_an_ayah_number(self) -> None:
+        """The premise. If this ever passes, the sequence check is redundant."""
+        assert not is_quranic(FALAQ)
+        assert not is_quranic(RAHMAN)
+
+    @pytest.mark.parametrize("run", [FALAQ, RAHMAN])
+    def test_but_the_sequence_check_recognises_them(self, run: str) -> None:
+        assert is_quranic_sequence(run)
+
+    def test_a_single_verse_still_resolves(self) -> None:
+        assert is_quranic_sequence("لَيْسَ كَمِثْلِهِ شَيْءٌ")
+
+    def test_a_saying_is_not_promoted(self) -> None:
+        assert not is_quranic_sequence(HADITH)
+
+    def test_one_scriptural_half_is_not_enough(self) -> None:
+        """The error splitting invites: a saying that quotes a verse in passing.
+
+        Torn at the number, one half is scripture and one half is a man's words.
+        Unanimity is what refuses it.
+        """
+        mixed = f"{'لَيْسَ كَمِثْلِهِ شَيْءٌ'} ۝ {HADITH}"
+        assert is_quranic(mixed.split("۝")[0].strip())
+        assert not is_quranic_sequence(mixed)
+
+    def test_a_fragment_too_short_to_be_evidence_refuses_for_all_of_it(self) -> None:
+        """Each part faces `is_quranic`'s own floors; one refusal sinks the run."""
+        assert not is_quranic_sequence("قُلْ ۝ هُوَ")
+
+    def test_ascii_digits_are_not_ayah_numbers(self) -> None:
+        """A year or a page reference must not tear a run into pieces."""
+        assert not is_quranic_sequence(f"{HADITH} 1966 {HADITH}")
+
+
+@pytest.mark.skipif(not mushaf_available(), reason="mirror.db unavailable")
+def test_the_audit_files_a_multi_verse_quotation_as_scripture() -> None:
+    from _book_arabic_audit import RESOLUTION_MUSHAF, audit_book_arabic
+
+    result = audit_book_arabic(f"## One\n\n> {FALAQ}\n\nSay: I seek refuge.\n", arabic_src="")
+    runs = result["chapters"][0]["runs"]
+    assert runs and runs[0]["resolution"] == RESOLUTION_MUSHAF
+
+
+class TestTheReference:
+    """WHICH ayah, not merely whether — the reading edition has no card without it.
+
+    Every test here is a fact about the corpus in `content/knowledge-base/mirror.db`,
+    not about a model's recollection of where a verse sits.
+    """
+
+    def test_it_names_the_verse(self) -> None:
+        assert mushaf_reference("ٱلنَّبِىُّ أَوْلَىٰ بِٱلْمُؤْمِنِينَ مِنْ أَنفُسِهِمْ") == (33, 6)
+
+    def test_the_label_is_the_form_the_edition_already_prints(self) -> None:
+        assert mushaf_reference_label("وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍۢ") == "Al-Qalam: 4"
+
+    def test_a_phrase_in_several_ayat_takes_the_earliest(self) -> None:
+        """The basmala opens 114 chapters; a header can print one citation."""
+        assert mushaf_reference("بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ") == (1, 1)
+
+    def test_a_saying_has_no_reference(self) -> None:
+        assert mushaf_reference(HADITH) is None
+        assert mushaf_reference_label(HADITH) is None
+
+    def test_several_ayat_in_one_breath_come_back_as_a_range(self) -> None:
+        assert mushaf_reference_label(FALAQ) == "Al-Falaq: 1-2"
+
+    def test_a_run_that_quotes_a_verse_in_passing_gets_no_range(self) -> None:
+        """`is_quranic_sequence` refuses it; the label must refuse it too."""
+        mixed = f"{'لَيْسَ كَمِثْلِهِ شَيْءٌ'} ۝ {HADITH}"
+        assert not is_quranic_sequence(mixed)
+        assert mushaf_reference_label(mixed) is None
+
+    def test_every_verse_this_function_accepts_can_name_itself(self) -> None:
+        """The invariant the Qur'an card depends on, stated as a test.
+
+        A card headed by nothing is not a state the design allows, so anything the
+        audit files as scripture must resolve here. Checked against the verses this
+        file already pins rather than against the books, so it holds in a checkout
+        with no content.
+        """
+        for run, _why in _QURANIC:
+            assert is_quranic(run)
+            assert mushaf_reference_label(run), run
+
+
+@pytest.mark.skipif(not mushaf_available(), reason="mirror.db unavailable")
+def test_the_audit_records_the_reference_beside_the_resolution() -> None:
+    from _book_arabic_audit import RESOLUTION_MUSHAF, audit_book_arabic
+
+    verse = "وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍۢ"
+    result = audit_book_arabic(f"## One\n\n> {verse}\n\nAnd so it was.\n", arabic_src="")
+    run = result["chapters"][0]["runs"][0]
+    assert run["resolution"] == RESOLUTION_MUSHAF
+    assert run["reference"] == "Al-Qalam: 4"
+
+
+@pytest.mark.skipif(not mushaf_available(), reason="mirror.db unavailable")
+def test_a_non_scriptural_run_carries_no_reference_key() -> None:
+    from _book_arabic_audit import audit_book_arabic
+
+    result = audit_book_arabic(f"## One\n\n> {HADITH}\n\nHe said it.\n", arabic_src="")
+    assert "reference" not in result["chapters"][0]["runs"][0]

@@ -15,7 +15,7 @@ USAGE
 
 OUTPUTS
     _system/source/multi/denoised/{arabic,english,scholarly}.md
-    _system/cost-ledger.json  (appended)
+    _system/cost-ledger.jsonl  (appended — the one canonical ledger)
 
 COST (approx, Gemini 2.5 Flash, thinking disabled)
     Arabic:   ~$0.011  (27K chars, ~70% retention — dense, clean text)
@@ -37,6 +37,8 @@ _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 from _paths import resolve_content
 from _rules import R_NOISE_APPARATUS_DIRECTIVE, strip_noise_reference_attributions
+from _tool_cost import append_tool_cost
+from cost_guard import real_spend_usd
 
 PRICE_IN = 0.000_000_1  # $/char Gemini Flash input
 PRICE_OUT = 0.000_000_4  # $/char output
@@ -168,11 +170,12 @@ def _gemini(system: str, text: str, *, model: str = "gemini-2.5-flash") -> str:
 
 
 def _log_cost(slug: str, entry: dict) -> None:
-    p = resolve_content(slug) / "_system" / "cost-ledger.json"
-    led = json.loads(p.read_text()) if p.exists() else {"slug": slug, "entries": [], "total_usd": 0.0}
-    led["entries"].append(entry)
-    led["total_usd"] = round(sum(e.get("cost_usd", 0.0) for e in led["entries"]), 4)
-    p.write_text(json.dumps(led, indent=2) + "\n")
+    """Append this tool's real spend to the ONE canonical ledger.
+
+    Wrote a private ``_system/cost-ledger.json`` until 2026-08-08, which nothing read
+    — see ``_cost_ledger.append_tool_cost`` for the whole story and the mapping.
+    """
+    append_tool_cost(resolve_content(slug), entry)
 
 
 def denoise_source(slug: str, source: str, *, force: bool = False) -> Path:
@@ -247,10 +250,8 @@ def main() -> None:
         except Exception as e:
             print(f"  vowelling failed (continuing): {e}", file=sys.stderr)
 
-    ledger = resolve_content(args.slug) / "_system" / "cost-ledger.json"
-    if ledger.exists():
-        total = json.loads(ledger.read_text()).get("total_usd", 0.0)
-        print(f"\nRunning total cost: ${total:.2f}")
+    # Running total from the ONE ledger; `real_spend_usd` counts only real-money rows.
+    print(f"\nRunning total cost: ${real_spend_usd(resolve_content(args.slug)):.2f}")
 
 
 if __name__ == "__main__":

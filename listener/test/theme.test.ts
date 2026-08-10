@@ -108,6 +108,18 @@ const PAIRS: [string, string, number][] = [
   ["l-topic-green", "l-surface", 4.5],
   ["l-topic-amber", "l-surface", 4.5],
   ["l-topic-blue", "l-surface", 4.5],
+  // The four quotation cards. Colour is what tells a reader which of the four a
+  // quotation is — scripture, a prophetic tradition, verse, a saying — and for a
+  // reader who cannot read the Arabic it is the ONLY thing that tells them, so
+  // every ink is held to the body floor on the surface the prose sits on.
+  // `--l-quote-gold` is deliberately absent: it is a 2px rule and a gradient
+  // highlight, decoration carrying nothing, and a gold light enough to read as
+  // gilding cannot clear 3:1 on paper without turning brown.
+  ["l-quote-quran", "l-surface", 4.5],
+  ["l-quote-quran-tr", "l-surface", 4.5],
+  ["l-quote-hadith", "l-surface", 4.5],
+  ["l-quote-poem", "l-surface", 4.5],
+  ["l-quote-saying", "l-surface", 4.5],
   // Shapes, not words: the card's ornament, and the focus ring where it lands
   // on the most difficult surface.
   ["l-band-ornament", "l-band", 3],

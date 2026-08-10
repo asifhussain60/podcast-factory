@@ -180,3 +180,75 @@
 {"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
 {"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
 {"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the pole and foundation ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-by nature and by reason", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-degrees of excellence", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the ladder of creation", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the physician of souls", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-governance and the first", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the imam in the pillars ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-from adam to ali", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-god's vicegerent in his ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-student-reader", "step": "student-the pole and foundation ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pole and found-he becomes the s", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pole and found-he becomes the s-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-by nature and by reason", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-by nature and by r-the imams are th", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-by nature and by r-the imams are th-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-by nature and by r-the imams stand ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-by nature and by r-the imams stand -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-degrees of excellence", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-degrees of excelle-that interpretat", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-degrees of excelle-that interpretat-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the ladder of creation", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the ladder of crea-The word \"bestow", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the ladder of crea-The word \"bestow-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the ladder of crea-the furthest hap", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the ladder of crea-the furthest hap-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the ladder of crea-the creative spi", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the ladder of crea-the creative spi-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the physician of souls", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the physician of s-those who requir", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the physician of s-those who requir-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the physician of s-It is therefore ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the physician of s-It is therefore -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-governance and the first", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-governance and the-this in turn mak", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-governance and the-this in turn mak-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-governance and the-the dot, which t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-governance and the-the dot, which t-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the imam in the pillars ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the imam in the pi-to direct people", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the imam in the pi-to direct people-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the imam in the pi-For that reason ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the imam in the pi-For that reason -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the imam in the pi-the verse in que", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the imam in the pi-the verse in que-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the imam in the pi-even if the cong", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the imam in the pi-even if the cong-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-from adam to ali", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-from adam to ali-in the appointme", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-from adam to ali-in the appointme-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-from adam to ali-he commanded tha", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-from adam to ali-he commanded tha-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-god's vicegerent in his ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-god's vicegerent i-He is the sixth,", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-god's vicegerent i-He is the sixth,-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-god's vicegerent i-Life in the here", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-god's vicegerent i-Life in the here-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-god's vicegerent i-the reported jud", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-god's vicegerent i-the reported jud-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-god's vicegerent i-Everything found", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-god's vicegerent i-Everything found-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-slide-import", "step": "slide-analysis/ch01a", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-slide-import", "step": "slide-svg/ch01a/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-slide-import", "step": "slide-manifest/the-imamate-pole-and-foundation-of-religion/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-slide-import", "step": "slide-analysis/ch02b", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-slide-import", "step": "slide-svg/ch02b/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-slide-import", "step": "slide-manifest/degrees-of-excellence-the-peak-of-every-kind/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-slide-import", "step": "slide-analysis/ch03c", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-slide-import", "step": "slide-manifest/the-imam-and-the-authority-over-sacred-law/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-slide-import", "step": "slide-manifest/worship-alms-and-war-void-without-the-imam/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-slide-import", "step": "slide-manifest/prophets-as-symbols-and-the-first-caliphs/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-slide-import", "step": "slide-manifest/the-virtues-of-ali-the-imam-who-mirrors-god/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "romanization", "step": "render", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

@@ -31,6 +31,28 @@ export const PRESERVED_CLASSES = new Set([
   "quran",
   "ar",
   "tr",
+  // Scripture, resolved against the canonical mushaf. Joined the list on
+  // 2026-08-09, with `renderEditSeed` finally being handed the provenance set:
+  // dropped here the class could not survive the parse even once it was emitted,
+  // so the edit canvas would still have shown a verse and a hadith as the same
+  // thing. Same guarantee as the three above — docToMarkdown names no class, so
+  // this is presentation and cannot reach book.md.
+  "is-quranic",
+  // Which CARD a quotation is drawn in (2026-08-09). Asif photographed a Qur'anic
+  // verse in Edit set in the plain maroon this repo used before the cards, while
+  // Read and the PDF drew it in gold on its own plate — the same chapter, the same
+  // book, two answers. The class was being emitted and dropped HERE, which is the
+  // one place that can strip it.
+  //
+  // The card's HEADER is a separate question and stays out of Edit deliberately:
+  // `renderEditSeed` passes `quoteBands: false` because the band is a span INSIDE
+  // the blockquote, and `docToMarkdown` writes a blockquote from its CONTENT — so
+  // a band in the editor could be saved into book.md as text. A class cannot: it
+  // dispatches on `node.type.name` and reads exactly one attribute.
+  "k-quran",
+  "k-hadith",
+  "k-poem",
+  "k-quote",
   "aside",
   "editorial",
   "bridge",

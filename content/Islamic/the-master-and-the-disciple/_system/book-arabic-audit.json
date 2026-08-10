@@ -9,9 +9,14 @@
     },
     {
       "chapter": "Introduction to the Book",
-      "arabic_runs": 2,
+      "arabic_runs": 3,
       "unverified": 0,
       "runs": [
+        {
+          "text": "كِتَابُ الْعَالِمِ وَالْغُلَام",
+          "resolution": "ocr",
+          "skeleton": "كتابالعالموالغلام"
+        },
         {
           "text": "جَعْفَر بْن مَنْصُور اَلْيَمَن",
           "resolution": "ocr",
@@ -30,14 +35,15 @@
       "unverified": 0,
       "runs": [
         {
-          "text": "اَلطُّور",
+          "text": "اَلطُّور",
           "resolution": "ocr",
           "skeleton": "الطور"
         },
         {
           "text": "اَلْبَيْتُ الْمَعْمُور",
           "resolution": "canonical-mushaf",
-          "skeleton": "البيتالمعمور"
+          "skeleton": "البيتالمعمور",
+          "reference": "At-Tur: 4"
         },
         {
           "text": "إِنَّ أَفْضَلَ الْحَسَنَاتِ إِحْيَاءُ الْأَمْوَاتِ",
@@ -108,7 +114,8 @@
         {
           "text": "بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ",
           "resolution": "canonical-mushaf",
-          "skeleton": "بسماللهالرحمنالرحيم"
+          "skeleton": "بسماللهالرحمنالرحيم",
+          "reference": "Al-Fatihah: 1"
         },
         {
           "text": "النُّطَقَاءُ",
@@ -178,17 +185,17 @@
           "skeleton": "فكذلكجميعماخلقاللهمنالاشياء"
         },
         {
-          "text": "الْإِمَامُ النَّاطِق",
+          "text": "الْإِمَامُ النَّاطِق",
           "resolution": "ocr",
           "skeleton": "الامامالناطق"
         },
         {
-          "text": "اَلنُّقَبَاء",
+          "text": "اَلنُّقَبَاء",
           "resolution": "ocr",
           "skeleton": "النقباء"
         },
         {
-          "text": "الدُّعَاة",
+          "text": "الدُّعَاة",
           "resolution": "ocr",
           "skeleton": "الدعاه"
         },
@@ -198,7 +205,7 @@
           "skeleton": "الوصي"
         },
         {
-          "text": "اَلتَّأْوِيل",
+          "text": "اَلتَّأْوِيل",
           "resolution": "ocr",
           "skeleton": "التاويل"
         },
@@ -208,24 +215,26 @@
           "skeleton": "الحجج"
         },
         {
-          "text": "الدُّعَاة",
+          "text": "الدُّعَاة",
           "resolution": "ocr",
           "skeleton": "الدعاه"
         },
         {
-          "text": "اَلنَّاطِق",
+          "text": "اَلنَّاطِق",
           "resolution": "ocr",
           "skeleton": "الناطق"
         },
         {
           "text": "فلا تضربُوا للهِ الأمثالَ",
           "resolution": "canonical-mushaf",
-          "skeleton": "فلاتضربواللهالامثال"
+          "skeleton": "فلاتضربواللهالامثال",
+          "reference": "An-Nahl: 74"
         },
         {
           "text": "وَللهِ المَثْلُ الأعْلَى",
           "resolution": "canonical-mushaf",
-          "skeleton": "وللهالمثلالاعلي"
+          "skeleton": "وللهالمثلالاعلي",
+          "reference": "An-Nahl: 60"
         },
         {
           "text": "هَٰذَا مَثَلُ الْإِمَامِ",
@@ -245,7 +254,8 @@
         {
           "text": "وَللهِ المَثَلُ الأعْلَى",
           "resolution": "canonical-mushaf",
-          "skeleton": "وللهالمثلالاعلي"
+          "skeleton": "وللهالمثلالاعلي",
+          "reference": "An-Nahl: 60"
         },
         {
           "text": "يَا بَنِي آدَمَ قَدْ أَنْزَلْنَا عَلَيْكُمْ لِبَاساً يُوَارِي سَوْآتِكُمْ وَرِيشًا وَلِبَاسُ التَّقْوَى ذَلِكَ خَيرٌ",
@@ -275,17 +285,18 @@
         {
           "text": "وَذَرُوْا ظَاهِرَ الإِثْمِ وَبَاطِنْهُ",
           "resolution": "canonical-mushaf",
-          "skeleton": "وذرواظاهرالاثموباطنه"
+          "skeleton": "وذرواظاهرالاثموباطنه",
+          "reference": "Al-An'am: 120"
         }
       ]
     },
     {
       "chapter": "6. Three Layers of Knowledge",
-      "arabic_runs": 14,
+      "arabic_runs": 22,
       "unverified": 0,
       "runs": [
         {
-          "text": "الْحُجَّة",
+          "text": "الْحُجَّة",
           "resolution": "ocr",
           "skeleton": "الحجه"
         },
@@ -300,9 +311,15 @@
           "skeleton": "الحول"
         },
         {
+          "text": "اَلْحَوْل",
+          "resolution": "ocr",
+          "skeleton": "الحول"
+        },
+        {
           "text": "حَوْلَيْنِ كَامِلَيْنِ",
           "resolution": "canonical-mushaf",
-          "skeleton": "حولينكاملين"
+          "skeleton": "حولينكاملين",
+          "reference": "Al-Baqarah: 233"
         },
         {
           "text": "وَآتَيْنَاهُ مِنَ الكُنُوْزِ مَا إِنَّ مَفَاتِحَهُ لَتَنُوْءُ بِالْعُصْبَةِ أُولِي القُوَّةِ",
@@ -310,9 +327,39 @@
           "skeleton": "واتيناهمنالكنوزماانمفاتحهلتنوءبالعصبهاول"
         },
         {
-          "text": "الدُّعَاة",
+          "text": "اَلْحَوْل",
+          "resolution": "ocr",
+          "skeleton": "الحول"
+        },
+        {
+          "text": "اَلْحَوْل",
+          "resolution": "ocr",
+          "skeleton": "الحول"
+        },
+        {
+          "text": "اَلْحَوْل",
+          "resolution": "ocr",
+          "skeleton": "الحول"
+        },
+        {
+          "text": "الْحُجَّة",
+          "resolution": "ocr",
+          "skeleton": "الحجه"
+        },
+        {
+          "text": "الدُّعَاة",
           "resolution": "ocr",
           "skeleton": "الدعاه"
+        },
+        {
+          "text": "الْحُجَّة",
+          "resolution": "ocr",
+          "skeleton": "الحجه"
+        },
+        {
+          "text": "الْحُجَّة",
+          "resolution": "ocr",
+          "skeleton": "الحجه"
         },
         {
           "text": "عَلَيْهِ السَّلَامُ",
@@ -322,17 +369,25 @@
         {
           "text": "يَا أَبَتِ إني رأيْتُ أَحَدَ عَشَرَ كَوْكَباً وَالشَّمْسَ وَالقَمَرَ رَأَيْتُهُمْ لِي سَاجِدِيْنَ",
           "resolution": "canonical-mushaf",
-          "skeleton": "ياابتانيرايتاحدعشركوكباوالشمسوالقمررايته"
+          "skeleton": "ياابتانيرايتاحدعشركوكباوالشمسوالقمررايته",
+          "reference": "Yusuf: 4"
+        },
+        {
+          "text": "الْحُجَّة",
+          "resolution": "ocr",
+          "skeleton": "الحجه"
         },
         {
           "text": "لَيُوسُفُ وأَخُوْهُ أَحَبُّ إلى أبينَا مِنَّا وَنَحْنُ عُصْبَة",
           "resolution": "canonical-mushaf",
-          "skeleton": "ليوسفواخوهاحباليابينامناونحنعصبه"
+          "skeleton": "ليوسفواخوهاحباليابينامناونحنعصبه",
+          "reference": "Yusuf: 8"
         },
         {
           "text": "إني أَرَى سَبْعَ بَقَرَاتٍ سِمَانِ يَأْكُلُهُنَّ سَبْعٌ عِجَافٌ وَسَبْعَ سُنْبُلاَتٍ خُضْرِ وَأَخَرَ يَابِسَاتٍ",
           "resolution": "canonical-mushaf",
-          "skeleton": "انياريسبعبقراتسمانياكلهنسبععجافوسبعسنبلا"
+          "skeleton": "انياريسبعبقراتسمانياكلهنسبععجافوسبعسنبلا",
+          "reference": "Yusuf: 43"
         },
         {
           "text": "النُّطَقَاءُ",
@@ -347,7 +402,8 @@
         {
           "text": "فَلا تَغُرَّنَّكُمُ الحَيَاةُ الدُّنْيَا",
           "resolution": "canonical-mushaf",
-          "skeleton": "فلاتغرنكمالحياهالدنيا"
+          "skeleton": "فلاتغرنكمالحياهالدنيا",
+          "reference": "Luqman: 33"
         },
         {
           "text": "يَا لَيْتَنِي قَدَّمْتُ لِحَيَاتِي",
@@ -364,7 +420,8 @@
         {
           "text": "لَهُمْ قُلُوبٌ لَا يَفْقَهُونَ بِهَا وَلَهُمْ أَعْيُنٌ لَا يُبْصِرُونَ بِهَا وَلَهُمْ آذَانٌ لَا يَسْمَعُونَ بِهَا",
           "resolution": "canonical-mushaf",
-          "skeleton": "لهمقلوبلايفقهونبهاولهماعينلايبصرونبهاوله"
+          "skeleton": "لهمقلوبلايفقهونبهاولهماعينلايبصرونبهاوله",
+          "reference": "Al-A'raf: 179"
         },
         {
           "text": "وَمَنْ يُطِعِ اللهَ وَالرَّسُولَ فَأُولَئِكَ مَعَ الَّذِينَ أَنْعَمَ اللهُ عَلَيْهِمْ مِنَ النَّبِيِّينَ وَالصِّدِّيقِينَ وَالشُّهَدَاءِ وَالصَّالِحِينَ وَحَسُنَ أُولَئِكَ رَفِيقًا ذَلِكَ الفَضْلُ مِنَ اللهِ",
@@ -374,12 +431,14 @@
         {
           "text": "فَمَنِ اضْطُرَّ غَيْرَ بَاغٍ وَلَا عَادٍ فَلَا إِثْمَ عَلَيْهِ",
           "resolution": "canonical-mushaf",
-          "skeleton": "فمناضطرغيرباغولاعادفلااثمعليه"
+          "skeleton": "فمناضطرغيرباغولاعادفلااثمعليه",
+          "reference": "Al-Baqarah: 173"
         },
         {
           "text": "وَمَا يُلَقَّىٰهَآ إِلَّا ٱلَّذِينَ صَبَرُوا۟ وَمَا يُلَقَّىٰهَآ إِلَّا ذُو حَظٍّ عَظِيمٍۢ",
           "resolution": "canonical-mushaf",
-          "skeleton": "ومايلقاهاالاالذينصبرواومايلقاهاالاذوحظعظ"
+          "skeleton": "ومايلقاهاالاالذينصبرواومايلقاهاالاذوحظعظ",
+          "reference": "Fussilat: 35"
         },
         {
           "text": "عُبَيْدُ اللَّهِ",
@@ -436,7 +495,8 @@
         {
           "text": "إِنَّا لِلَّهِ وَإِنَّآ إِلَيْهِ رَجِعُونَ",
           "resolution": "canonical-mushaf",
-          "skeleton": "اناللهوانااليهرجعون"
+          "skeleton": "اناللهوانااليهرجعون",
+          "reference": "Al-Baqarah: 156"
         },
         {
           "text": "أَبَا الْخَيْرِ",
@@ -446,7 +506,8 @@
         {
           "text": "لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ",
           "resolution": "canonical-mushaf",
-          "skeleton": "ليسكمثلهشيء"
+          "skeleton": "ليسكمثلهشيء",
+          "reference": "Ash-Shura: 11"
         },
         {
           "text": "الْأَلِف",
@@ -456,7 +517,8 @@
         {
           "text": "لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ",
           "resolution": "canonical-mushaf",
-          "skeleton": "ليسكمثلهشيء"
+          "skeleton": "ليسكمثلهشيء",
+          "reference": "Ash-Shura: 11"
         },
         {
           "text": "لَيْسَ كَهُوَ شَيْءٌ",
@@ -466,12 +528,14 @@
         {
           "text": "لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ",
           "resolution": "canonical-mushaf",
-          "skeleton": "ليسكمثلهشيء"
+          "skeleton": "ليسكمثلهشيء",
+          "reference": "Ash-Shura: 11"
         },
         {
           "text": "كُلَّ يَوْمٍ هُوَ فِى شَأْنٍۢ",
           "resolution": "canonical-mushaf",
-          "skeleton": "كليومهوفيشان"
+          "skeleton": "كليومهوفيشان",
+          "reference": "Ar-Rahman: 29"
         },
         {
           "text": "شَهِدَ فُلَانٌ وَهُوَ عَدْلٌ مِنَ الْعُدُولِ",
@@ -481,22 +545,26 @@
         {
           "text": "عَلَى فَتْرَةٍ مِنَ الرُّسُل",
           "resolution": "canonical-mushaf",
-          "skeleton": "عليفترهمنالرسل"
+          "skeleton": "عليفترهمنالرسل",
+          "reference": "Al-Ma'idah: 19"
         },
         {
           "text": "وَلاَ تَرْكَنُوْا إِلَى الذِيْنَ ظَلَمُوْا فَتَمَسَّكُمُ النَّارُ",
           "resolution": "canonical-mushaf",
-          "skeleton": "ولاتركنوااليالذينظلموافتمسكمالنار"
+          "skeleton": "ولاتركنوااليالذينظلموافتمسكمالنار",
+          "reference": "Hud: 113"
         },
         {
           "text": "أَطِيْعُوْا اللهَ وَأَطِيْعُوْا الرَّسُوْلَ وَأُولِي الأَمْرِ مِنْكُمْ",
           "resolution": "canonical-mushaf",
-          "skeleton": "اطيعوااللهواطيعواالرسولواوليالامرمنكم"
+          "skeleton": "اطيعوااللهواطيعواالرسولواوليالامرمنكم",
+          "reference": "An-Nisa: 59"
         },
         {
           "text": "قَاتِلُوا الذِيْنَ يَلُونَكُمْ مِنَ الكُفَّار",
           "resolution": "canonical-mushaf",
-          "skeleton": "قاتلواالذينيلونكممنالكفار"
+          "skeleton": "قاتلواالذينيلونكممنالكفار",
+          "reference": "At-Tawbah: 123"
         },
         {
           "text": "تَعْزِير",
@@ -513,11 +581,11 @@
   ],
   "totals": {
     "canonical-mushaf": 23,
-    "ocr": 65,
+    "ocr": 74,
     "knowledge-base": 0,
     "honorific-formula": 0,
     "unverified": 0,
-    "arabic_runs": 88
+    "arabic_runs": 97
   },
   "quran_coverage": {
     "measured": true,

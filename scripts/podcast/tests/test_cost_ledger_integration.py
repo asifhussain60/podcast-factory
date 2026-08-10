@@ -62,6 +62,49 @@ class AuthoringRunClaudePIntegrationTests(unittest.TestCase):
         self.assertEqual(row["cost_usd"], 0.0)
         self.assertEqual(row["engine"], "max")
 
+    def test_gated_phase_gets_its_declared_model_without_a_caller_flag(self):
+        """A phase listed in PHASE_MODEL_OVERRIDE is passed --model even when
+        the caller sends no model_flag — 0book-fluency is gated (a bad window
+        reverts to its base), so it runs Sonnet by default."""
+        with mock.patch("subprocess.run") as run_mock:
+            run_mock.return_value = mock.MagicMock(returncode=0, stdout=CANNED_STDOUT, stderr="")
+            _authoring._run_claude_p(
+                "test prompt",
+                book_dir=self.book,
+                phase="0book-fluency",
+                step="ch01",
+            )
+        argv = run_mock.call_args[0][0]
+        self.assertIn("--model", argv)
+        self.assertEqual(argv[argv.index("--model") + 1], _authoring.PHASE_MODEL_OVERRIDE["0book-fluency"])
+
+    def test_ungated_phase_gets_no_model_flag_and_inherits_the_cli_default(self):
+        """0d (chapter design) is judgment, not gated — nothing here should
+        force a model; the CLI's own ambient default runs."""
+        with mock.patch("subprocess.run") as run_mock:
+            run_mock.return_value = mock.MagicMock(returncode=0, stdout=CANNED_STDOUT, stderr="")
+            _authoring._run_claude_p(
+                "test prompt",
+                book_dir=self.book,
+                phase="0d",
+                step="toc",
+            )
+        argv = run_mock.call_args[0][0]
+        self.assertNotIn("--model", argv)
+
+    def test_explicit_model_flag_wins_over_the_phase_table(self):
+        with mock.patch("subprocess.run") as run_mock:
+            run_mock.return_value = mock.MagicMock(returncode=0, stdout=CANNED_STDOUT, stderr="")
+            _authoring._run_claude_p(
+                "test prompt",
+                book_dir=self.book,
+                phase="0book-fluency",
+                step="ch01-retry",
+                model_flag="claude-opus-4-8",
+            )
+        argv = run_mock.call_args[0][0]
+        self.assertEqual(argv[argv.index("--model") + 1], "claude-opus-4-8")
+
     def test_no_book_dir_means_no_ledger_write(self):
         """Back-compat — callers that don't pass book_dir don't get a ledger."""
         with mock.patch("subprocess.run") as run_mock:

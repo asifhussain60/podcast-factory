@@ -1,0 +1,18 @@
+<svg viewBox="0 0 760 345" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <rect x="0" y="0" width="760" height="345" fill="#ffffff"/>
+  <text x="40" y="34" font-size="20" font-weight="700" fill="#8b4513">The Disrupted Center</text>
+  <rect x="40" y="60" width="680" height="200" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="380" y1="60" x2="380" y2="260" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="40" y1="100" x2="720" y2="100" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="40" y1="160" x2="720" y2="160" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="40" y1="200" x2="720" y2="200" stroke="#d9cdbd" stroke-width="1"/>
+  <text x="60" y="86" font-size="15" font-weight="700" fill="#2b2117">The Assumed Paradigm</text>
+  <text x="400" y="86" font-size="15" font-weight="700" fill="#8b4513">The True Paradigm (Al-Naysaburi)</text>
+  <text x="60" y="135" font-size="14" fill="#2b2117">The Messenger &amp; The Book</text>
+  <text font-size="14" fill="#2b2117"><tspan x="400" y="125">Qutb (The Pole) &amp;&#10;</tspan><tspan x="400" y="145">Asas al-Din (The Foundation)</tspan></text>
+  <text x="60" y="185" font-size="14" fill="#2b2117">The origin point of the religion</text>
+  <text x="400" y="185" font-size="14" fill="#2b2117">The axis around which the religion revolves</text>
+  <text x="60" y="235" font-size="14" fill="#2b2117">Affirming the Messenger leads to the Book</text>
+  <text font-size="14" fill="#2b2117"><tspan x="400" y="225">Affirming the Imam carries the </tspan><tspan x="400" y="245">Messenger inside it</tspan></text>
+  <text font-size="13" font-style="italic" fill="#7a6a58"><tspan x="40" y="295">A religion does not merely begin; it turns. The foundational axis is not the one who </tspan><tspan x="40" y="314">initiates the law, but the one who sustains its revolution.</tspan></text>
+</svg>

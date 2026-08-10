@@ -1,0 +1,13 @@
+{
+  "schema": "book.seam-dedup/v1",
+  "removed": [
+    {
+      "pass": "base",
+      "rule": "boundary-echo",
+      "chapter": "3. The Judge and His Cosmos",
+      "words": 163,
+      "removed_text": "I turn now to Hamid al-Din Ahmad al-Kirmani, a scholarly master whose life history is shrouded in mystery, a great philosopher who lived in a flourishing scientific age and left behind a glorious farewell written across the pages of thought. He undertook deep researches and the most penetrating lines of inquiry, and left to the generations that followed a body of writings that, at the very least, I may call a precious treasure and an immortal heritage. The philosophers of the Islamic world consider him the greatest mind the Ismaili school of thought produced in the era of the Fatimid state. His book *Rahat al-Aql* (Rest of the Mind) is one of those precious works that scarcely finds an equal among the books of the philosophers, or among what remains of their legacy, in strength, durability, and depth. Demand for it was small, its popularity slow, and its readership limited to a special class of brilliant scholars and philosophers capable of mastering it.",
+      "kept_neighbour_head": "He is an extraordinary scholarly figure whose life-history is enveloped in obscurity, a great philosopher who lived in a radiant scholarly age, a noble preacher who traced across the pages"
+    }
+  ]
+}

@@ -71,8 +71,8 @@ Then he said: "He who created the creation by His power made each thing equal to
 "Its outward is a remembrance and a proof for those who are guided, and its inward is a sure drink, whose sky is brought low for those who behold, whose land is paved for those who seek, and whose falling stars are stations for those who study. It has watering places for those who journey to Him, and signs whose wonders come one after another, pointing by their likenesses to Him. Its course is an advancement and its method a full unfolding. Its rulings are obligations and its practice is law. Truthfulness has ennobled its doctrines, and justice has refined its gains, so that He made it a leader and a way to every good, and made it a shield and a guide to its own inner chamber. Then, by ignorance and by want, He compelled minds to seek knowledge and capacity.
 
 > فَتَبَارَكَ الَّذِي جَعَلَ اللَّيْلَ وَالنَّهَارَ خِلْفَةً لِمَنْ أَرَادَ أَنْ يَذَّكَّرَ أَوْ أَرَادَ شُكُورًا، وَصَلَّى اللَّهُ عَلَى مَنِ اخْتَارَهُ مِنْ عِبَادِهِ وَجَعَلَهُ لِلْعَالَمِينَ نَذِيرًا.
-
-"Blessed is He who made the night and the day a succession for whoever would be reminded or would give thanks. And may Allah bless the one He chose from among His servants and made a warner to the worlds."
+>
+> "Blessed is He who made the night and the day a succession for whoever would be reminded or would give thanks. And may Allah bless the one He chose from among His servants and made a warner to the worlds."
 
 Then he said, "Fear Allah with the fear of one who dreads Him, and fear Him with the fear of one who hopes in Him. Seek knowledge, and you will come to know. Act, and you will be shown mercy."
 
@@ -380,8 +380,10 @@ The Master said: Everything has a meaning, and the meaning of the parables is th
 "This is like the proof," or
 
 > هَٰذَا مَثَلُ الدَّاعِي
+>
+> "This is like the summoner."
 
-"This is like the summoner." For their likenesses became indications pointing to them and to the differences of rank among them. It is not permitted, in the matter of His greatness, that the Creator be measured against anything of His creation by word or by deed, so that one should say, "This is like God." Rather the parables are taken according to their meanings, for their meanings carry indications: the small of them points to the great, and the great points to the higher meanings, and the higher points to the Highest of the high. Therefore He said,
+For their likenesses became indications pointing to them and to the differences of rank among them. It is not permitted, in the matter of His greatness, that the Creator be measured against anything of His creation by word or by deed, so that one should say, "This is like God." Rather the parables are taken according to their meanings, for their meanings carry indications: the small of them points to the great, and the great points to the higher meanings, and the higher points to the Highest of the high. Therefore He said,
 
 > وَللهِ المَثَلُ الأعْلَى
 
@@ -420,16 +422,20 @@ The boy said: I did not think there was, beyond what I had reached, any doctrine
 The Master said: As for the Book of God Almighty, it is His saying,
 
 > يَا بَنِي آدَمَ قَدْ أَنْزَلْنَا عَلَيْكُمْ لِبَاساً يُوَارِي سَوْآتِكُمْ وَرِيشًا وَلِبَاسُ التَّقْوَى ذَلِكَ خَيرٌ
+>
+> "O children of Adam, We have sent down upon you a garment that hides your nakedness, and feathers for adornment; and the garment of piety — that is better."
 
-"O children of Adam, We have sent down upon you a garment that hides your nakedness, and feathers for adornment; and the garment of piety — that is better." These are three: an outward, an inward, and the inward of the inward.
+These are three: an outward, an inward, and the inward of the inward.
 
 The boy said: You have spoken truly.
 
 The Master said: As for the proof of the intellect, a thing is not known except by a name, or an attribute, or a meaning. The meaning is the very essence of the thing; the name is what it is called; and the attribute is an indication of it. So too is the religion of God: it has an outward, which is a name, and an inward, which is an indication of it, and it stands only by the two together. Nothing indicates a thing except a name or an attribute. Consider the saying of one who says "طَلَعَ الْقَمَرُ," "the moon has risen." The meaning is the disk; "اَلْقَمَر," "the moon," is its name; and "طَلَع," "has risen," is its attribute. Were he to say "قُرْص," "a disk," and then fall silent, it would carry no meaning. And were he to say "قَمَر," "a moon," and then fall silent, it would carry no meaning — until he joins the name to the attribute and says "طَلَعَ الْقَمَرُ," "the moon has risen," and then the meaning is made clear and the speech is sound. In the same way, if you say "ظَاهِر," "an outward," it calls for an answer, that one should ask, "an outward of what?" And if you say "بَاطِن," "an inward," it calls for an answer, that one should ask, "an inward of what?" But if you say "ظَاهِرُ الدِّينِ وَبَاطِنُهُ," "the outward of the religion and its inward," the speech is understood, and it becomes a religion having an outward and an inward, just as a thing has a name and an attribute. So He said,
 
 > وَذَرُوْا ظَاهِرَ الإِثْمِ وَبَاطِنْهُ
+>
+> "And forsake the outward of sin and its inward."
 
-"And forsake the outward of sin and its inward." So sin became a thing having an outward and an inward. Such too is the greater religion of God, of which it is said that the laws are its outward and the inward is its inward, and it subsists by itself. And for the knowing of its meaning there are many parables that point to it, such as the guarded egg, which has an outward that shelters it, an inward which is the white within it, and an inward of its inward which is the yellow yolk — and that is its essence and its meaning.
+So sin became a thing having an outward and an inward. Such too is the greater religion of God, of which it is said that the laws are its outward and the inward is its inward, and it subsists by itself. And for the knowing of its meaning there are many parables that point to it, such as the guarded egg, which has an outward that shelters it, an inward which is the white within it, and an inward of its inward which is the yellow yolk — and that is its essence and its meaning.
 
 <!-- editorial:begin -->
 > **Editorial note (tradition-grounded).** 
@@ -482,8 +488,8 @@ The Master said: "That is the end of your guidance and the utmost of the worlds.
 The boy said:
 
 > لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ
-
-"There is no might and no power except by God. He who has no guide has drowned in the depths of ignorance, just as he who has no ship has drowned in the seas of the world."
+>
+> "There is no might and no power except by God. He who has no guide has drowned in the depths of ignorance, just as he who has no ship has drowned in the seas of the world."
 
 The Master said: "And what are the might and the power you have mentioned, which cannot be except by God?"
 
@@ -517,7 +523,7 @@ O my father, I saw eleven planets, and the sun and the moon; I saw them prostrat
 
 > لَيُوسُفُ وأَخُوْهُ أَحَبُّ إلى أبينَا مِنَّا وَنَحْنُ عُصْبَة
 
-Truly Joseph and his brother are dearer to our father than we are, though we are a band (عُصْبَة) — meaning the twelve captains: let him choose out a man from among us. So there entered upon them in this a failure of right judgment concerning Joseph (ع), and the risings of envy toward him appeared in them when God favored him. Yet the command of God was fulfilled in Joseph, and the outcome of their affair was remorse and repentance before him."
+Truly Joseph and his brother are dearer to our father than we are, though we are a band (عُصْبَة) — meaning the twelve captains: let him choose out a man from among us. So there entered upon them in this a failure of right judgment concerning Joseph, and the risings of envy toward him appeared in them when God favored him. Yet the command of God was fulfilled in Joseph, and the outcome of their affair was remorse and repentance before him."
 
 The boy said: "Praise be to God, who cleansed them of impurity and returned them to the return of repentance and the ways of turning back. What, then, is the meaning of the king's saying,
 
@@ -934,8 +940,8 @@ Al-Bakhtari said, "Salih today is my father, and I am the son of Salih; and Sali
 Abu Malik, supposing that Salih had died — for his father had said he was with his Lord — said,
 
 > إِنَّا لِلَّهِ وَإِنَّآ إِلَيْهِ رَجِعُونَ
-
-"To God we belong, and to Him we return. Has Salih died?"
+>
+> "To God we belong, and to Him we return. Has Salih died?"
 
 Al-Bakhtari said, "Salih has not died and never will. He endures as long as time itself endures."
 

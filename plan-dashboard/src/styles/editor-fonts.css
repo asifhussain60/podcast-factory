@@ -152,3 +152,62 @@
   font-style: normal;
   font-display: swap;
 }
+
+/* Spectral — the rendering of a quoted passage that is NOT scripture (2026-08-09).
+   Not one of the four a book can choose: it is DERIVED from provenance, so it has
+   to be a family none of those four can also be set to, or a book would render its
+   verses and its hadith in the same face by accident. Chosen because it is
+   structurally unlike both neighbours it has to sit between — the Source Serif of
+   the book's own prose and whichever Garamond the book set its scripture in — so
+   the difference reads as deliberate rather than as a near-miss. Also declared in
+   book-print.css; the PDF does not load this file. */
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("/fonts/spectral/spectral-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* The Qur'an's English rendering (Asif, 2026-08-09). A THIRD translation face,
+   beside the four a book may choose and the Spectral a saying takes, so a verse,
+   a hadith and the book's own prose are three visibly different voices. Literata
+   is a book face with real weight, chosen over the Charm at 2.5rem KSESSIONS
+   uses — a display script that would not survive a page of print. Vendored from
+   @fontsource, SIL OFL 1.1. Also declared in book-print.css; the PDF does not
+   load this file. */
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Literata";
+  src: url("/fonts/literata/literata-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

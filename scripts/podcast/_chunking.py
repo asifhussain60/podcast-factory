@@ -73,9 +73,32 @@ try:
 except ImportError:
     _anthropic = None  # type: ignore[assignment]
 
+# Step ledger (2026-08-08). Imported at module level rather than per call so the
+# per-window records cost nothing beyond the write itself, and guarded so this
+# module keeps working if it is ever vendored somewhere the ledger is absent —
+# `run_windowed` is the hot path for 0b/0c and must not gain a hard dependency
+# on an observability helper.
+import _window_cache
+
+# Re-exported: callers and tests already reach for it at this path.
+from _window_cache import cache_fingerprint as cache_fingerprint  # noqa: PLC0414
+
+try:
+    from _step_ledger import OUTCOME_FAILED as _OUTCOME_FAILED
+    from _step_ledger import OUTCOME_NOOP as _OUTCOME_NOOP
+    from _step_ledger import OUTCOME_OK as _OUTCOME_OK
+    from _step_ledger import record_step as _record_step
+except ImportError:  # pragma: no cover - defensive
+    _OUTCOME_OK, _OUTCOME_NOOP, _OUTCOME_FAILED = "ok", "noop", "failed"
+
+    def _record_step(*_a, **_k):  # type: ignore[misc]
+        return None
+
+
 # Callable type for the SDK-based invocation path.
 # Signature: (instructions, body, timeout_secs) -> output_text
 InvokeFn = Callable[[str, str, int], str]
+
 
 DEFAULT_TARGET_WORDS = 3000
 DEFAULT_OVERLAP_WORDS = 120
@@ -350,6 +373,25 @@ def run_windowed(
         raise ChunkingError("no windows produced — input text is empty")
 
     total = len(windows)
+
+    # Cache freshness. The rule, and why it is a content fingerprint rather than an
+    # mtime comparison, lives in `_window_cache` — it is the second freshness rule in
+    # this repo and deliberately not the same as `_translation_cache`'s.
+    _decision = _window_cache.evaluate(
+        chunks_dir, text, target_words=target_words, overlap_words=overlap_words, total=total
+    )
+    _cache_stale = _decision.stale
+    if _decision.message:
+        log(_decision.message)
+    if _decision.outcome and book_dir is not None:
+        _record_step(
+            book_dir,
+            phase=phase or "(unspecified)",
+            step="window-cache",
+            outcome=_decision.outcome,
+            evidence={"why": _decision.reason, "windows": total},
+        )
+
     if max_workers > 1:
         log(
             f"    chunking: {total} windows · target={target_words} words · overlap={overlap_words} · parallel={max_workers}"
@@ -365,9 +407,24 @@ def run_windowed(
         in_path = chunks_dir / f"win-{idx:03d}.in.md"  # noqa: F841
         out_path = chunks_dir / f"win-{idx:03d}.out.md"
         out_paths.append(out_path)
-        # Resume: if the output already exists and is non-empty, skip queueing.
-        if out_path.exists() and out_path.stat().st_size > 0:
+        # Resume: reuse the output only if it exists, is non-empty, AND was written
+        # against this same source (see the fingerprint block above).
+        if not _cache_stale and out_path.exists() and out_path.stat().st_size > 0:
             log(f"    win {idx:03d}/{total} · skip (already done, {out_path.stat().st_size} bytes)")
+            # Recorded, not just logged. A cache HIT and a cache MISS cost wildly
+            # different amounts of real money here — 0b re-refined all 28 windows of
+            # `spiritual-ethos` five times on 2026-08-05 for $8.38, which was 81% of
+            # that book's entire spend — and nothing on disk distinguished the two
+            # afterwards. The ledger now says which happened, per window, so a review
+            # gate can report "this phase re-paid for work it already had".
+            if book_dir is not None:
+                _record_step(
+                    book_dir,
+                    phase=phase or "(unspecified)",
+                    step=f"win-{idx:03d}",
+                    outcome=_OUTCOME_NOOP,
+                    evidence={"why": "cache hit", "bytes": out_path.stat().st_size},
+                )
             continue
         work_items.append((idx, body, out_path))
 
@@ -395,6 +452,14 @@ def run_windowed(
             with state_lock:
                 failures.append((idx, "SDK returned empty output"))
             log(f"    win {idx:03d}/{total} · FAILED (empty SDK response)")
+            if book_dir is not None:
+                _record_step(
+                    book_dir,
+                    phase=phase or "(unspecified)",
+                    step=f"win-{idx:03d}",
+                    outcome=_OUTCOME_FAILED,
+                    error="SDK returned empty output",
+                )
             return
         _atomic_write(out_path, output_text)
         if book_dir is not None:
@@ -412,6 +477,17 @@ def run_windowed(
                 )
             except Exception:
                 pass
+        if book_dir is not None:
+            # `ok` here means the window was actually (re)computed at cost, as
+            # opposed to the `noop` a cache hit records above. The pair is what
+            # makes repeated spend visible.
+            _record_step(
+                book_dir,
+                phase=phase or "(unspecified)",
+                step=f"win-{idx:03d}",
+                outcome=_OUTCOME_OK,
+                evidence={"why": "computed", "bytes": out_path.stat().st_size, "words_in": _word_count(body)},
+            )
         log(f"    win {idx:03d}/{total} · OK ({out_path.stat().st_size} bytes)")
 
     # Dispatch — sequential (max_workers==1) or parallel (>1).

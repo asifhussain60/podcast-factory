@@ -1,0 +1,61 @@
+---
+/**
+ * /claude-plans/[slug] — one plan, masked by default.
+ *
+ * Dynamic SSR route (this site has no getStaticPaths anywhere — `output:
+ * 'server'` renders every page per request), reading the same live file the
+ * index page lists. Masked = prose inline, technical blocks (code, file
+ * paths) collapsed per section; a toggle reveals the full plan untouched.
+ */
+import Base from "../../layouts/Base.astro";
+import { readPlan } from "../../lib/claude-plans";
+import { renderMasked, renderFull } from "../../lib/claude-plans-markdown";
+import "../../styles/claude-plans.css";
+
+const { slug } = Astro.params;
+const plan = slug ? readPlan(slug) : null;
+
+const maskedHtml = plan ? renderMasked(plan.raw) : "";
+const fullHtml = plan ? renderFull(plan.raw) : "";
+---
+
+<Base title={plan ? plan.title : "Plan not found"} active="claude-plans">
+  <main class="cp-body cp-detail-body">
+    {
+      !plan ? (
+        <div id="s01-missing" class="cp-section">
+          <h1 class="cp-detail-title">This plan couldn't be found</h1>
+          <p>
+            It may have been renamed or removed from{" "}
+            <code>~/.claude/plans/</code>.{" "}
+            <a href="/claude-plans">Back to all plans</a>.
+          </p>
+        </div>
+      ) : (
+        <article id="s01-detail" class="cp-section cp-detail">
+          <a href="/claude-plans" class="cp-back">
+            ← All plans
+          </a>
+          <h1 class="cp-detail-title">{plan.title}</h1>
+          <p class="cp-detail-meta">{plan.wordCount} words</p>
+
+          <button
+            id="cp-toggle-full"
+            type="button"
+            class="cp-toggle"
+            aria-pressed="false"
+          >
+            Show the full technical plan
+          </button>
+
+          <div id="cp-masked" class="cp-prose" set:html={maskedHtml} />
+          <div id="cp-full" class="cp-prose" hidden set:html={fullHtml} />
+        </article>
+      )
+    }
+  </main>
+
+  <script>
+    import "../../scripts/claude-plans.ts";
+  </script>
+</Base>

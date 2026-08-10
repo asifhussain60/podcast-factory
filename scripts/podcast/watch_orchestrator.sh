@@ -204,7 +204,28 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
     PHASE="$(_state '.phase')"
     STATUS="$(_state '.phase_status')"
 
-    _log "--- attempt $attempt/$MAX_RETRIES · phase=$PHASE · status=$STATUS ---"
+    # PERSISTENT budget, checked before every relaunch. The `$attempt` counter
+    # above is local to THIS watchdog, and orchestrate_book.py spawns a fresh
+    # watchdog on every bare --resume — so that counter resets to 1 each time and
+    # the ceiling it prints never actually bound. One real run reached 201
+    # attempts, all of them logged as "attempt N/20". The real count lives in
+    # orchestrator-state.json, keyed by phase, and is cleared the moment the
+    # phase completes; see watchdog_budget.py.
+    #
+    # Exit 3 = this phase has burned its budget, stop. Exit 2 = the book or its
+    # state could not be resolved, which must NOT stop a run the old code would
+    # have made, so it degrades to the local counter alone.
+    BUDGET_LINE="$("$PYTHON" "$REPO_ROOT/scripts/podcast/watchdog_budget.py" "$SLUG" --max "$MAX_RETRIES" 2>&1)"
+    BUDGET_RC=$?
+    _log "--- ${BUDGET_LINE%%$'\n'*} · status=$STATUS (local attempt $attempt) ---"
+    if [[ "$BUDGET_RC" -eq 3 ]]; then
+        _log "=== BUDGET EXHAUSTED: phase $PHASE attempted too many times without completing. ==="
+        _log "Nothing is retried further — a repeat would reproduce the same failure."
+        _log "1. Check: jq '.last_error, .phase_attempts' $STATE"
+        _log "2. Fix the cause, then: python3 scripts/podcast/orchestrate_book.py --resume $SLUG --retry-phase $PHASE"
+        rm -f "$SENTINEL"
+        exit 1
+    fi
 
     # PODCAST_WATCHDOG=1 tells orchestrate_book.py not to auto-relaunch
     # (preventing an infinite spawn loop).

@@ -22,7 +22,12 @@ import {
   readTranslationFont,
   readArabicFont,
   readQuranicRuns,
+  readQuranicRefs,
 } from "../../../scripts/lib/book-html.mjs";
+import {
+  readQuoteKind,
+  flattenQuoteKind,
+} from "../../../scripts/lib/quote-kind.mjs";
 
 export interface BookTocEntry {
   id: string; // anchor id, matches renderMarkdown's heading slug
@@ -79,6 +84,11 @@ export async function loadBook(slug: string): Promise<BookView | null> {
     // from the same audit provenance the printed page uses.
     html: renderMarkdown(body, {
       quranicRuns: readQuranicRuns(ref.dir) as Set<string>,
+      quoteKinds: flattenQuoteKind(readQuoteKind(ref.dir)) as Record<
+        string,
+        "hadith" | "poem" | "quote"
+      >,
+      quranicRefs: readQuranicRefs(ref.dir) as Record<string, string>,
     }),
     toc,
     citationFamily: String(readCitationFamily(bookDir) ?? ""),

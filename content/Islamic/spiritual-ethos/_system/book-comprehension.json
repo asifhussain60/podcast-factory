@@ -1,0 +1,523 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 245,
+  "terms_tracked": 352,
+  "prerequisite_gaps": [
+    {
+      "term": "al-Rahman",
+      "first_use_page": 52,
+      "explained_page": 195,
+      "pages_carried": 143,
+      "kind": "explained-late"
+    },
+    {
+      "term": "qutb",
+      "first_use_page": 25,
+      "explained_page": 157,
+      "pages_carried": 132,
+      "kind": "explained-late"
+    },
+    {
+      "term": "marifa",
+      "first_use_page": 71,
+      "explained_page": 154,
+      "pages_carried": 83,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Muhammad",
+      "first_use_page": 6,
+      "explained_page": 88,
+      "pages_carried": 82,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Nahj",
+      "first_use_page": 5,
+      "explained_page": 67,
+      "pages_carried": 62,
+      "kind": "explained-late"
+    },
+    {
+      "term": "balagha",
+      "first_use_page": 5,
+      "explained_page": 67,
+      "pages_carried": 62,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-dhikr",
+      "first_use_page": 142,
+      "explained_page": 184,
+      "pages_carried": 42,
+      "kind": "explained-late"
+    },
+    {
+      "term": "dhikr",
+      "first_use_page": 5,
+      "explained_page": 41,
+      "pages_carried": 36,
+      "kind": "explained-late"
+    },
+    {
+      "term": "ghafla",
+      "first_use_page": 170,
+      "explained_page": 198,
+      "pages_carried": 28,
+      "kind": "explained-late"
+    },
+    {
+      "term": "divine",
+      "first_use_page": 6,
+      "explained_page": 29,
+      "pages_carried": 23,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-nafs",
+      "first_use_page": 52,
+      "explained_page": 74,
+      "pages_carried": 22,
+      "kind": "explained-late"
+    },
+    {
+      "term": "nawafil",
+      "first_use_page": 164,
+      "explained_page": 186,
+      "pages_carried": 22,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-Madhkur",
+      "first_use_page": 185,
+      "explained_page": 204,
+      "pages_carried": 19,
+      "kind": "explained-late"
+    },
+    {
+      "term": "tahqiq",
+      "first_use_page": 32,
+      "explained_page": 49,
+      "pages_carried": 17,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Satan",
+      "first_use_page": 90,
+      "explained_page": 106,
+      "pages_carried": 16,
+      "kind": "explained-late"
+    },
+    {
+      "term": "ikhlas",
+      "first_use_page": 38,
+      "explained_page": 54,
+      "pages_carried": 16,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-hawd",
+      "first_use_page": 9,
+      "explained_page": 20,
+      "pages_carried": 11,
+      "kind": "explained-late"
+    },
+    {
+      "term": "men",
+      "first_use_page": 15,
+      "explained_page": 22,
+      "pages_carried": 7,
+      "kind": "explained-late"
+    },
+    {
+      "term": "ahd",
+      "first_use_page": 125,
+      "explained_page": 130,
+      "pages_carried": 5,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-iman",
+      "first_use_page": 35,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "hilm",
+      "first_use_page": 62,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "kharaj",
+      "first_use_page": 232,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    }
+  ],
+  "naming_drift": [],
+  "referent_collisions": [],
+  "dense_pages": [
+    {
+      "page": 10,
+      "term_count": 9,
+      "terms": [
+        "al-kimiya",
+        "balagha",
+        "fiqh",
+        "jafr",
+        "kalam",
+        "khatt",
+        "nahw",
+        "prophecy",
+        "tafsir"
+      ]
+    },
+    {
+      "page": 39,
+      "term_count": 6,
+      "terms": [
+        "bu'd",
+        "divine",
+        "haraka",
+        "ithbat",
+        "nafy",
+        "sukun"
+      ]
+    },
+    {
+      "page": 52,
+      "term_count": 8,
+      "terms": [
+        "al-Rahman",
+        "al-aql",
+        "al-khafi",
+        "al-nafs",
+        "al-shaytan",
+        "divine",
+        "hawa",
+        "shirk"
+      ]
+    },
+    {
+      "page": 63,
+      "term_count": 6,
+      "terms": [
+        "falah",
+        "hawa",
+        "ikhlas",
+        "nifaq",
+        "riya",
+        "shirk"
+      ]
+    },
+    {
+      "page": 67,
+      "term_count": 6,
+      "terms": [
+        "Nahj",
+        "balagha",
+        "divine",
+        "fana",
+        "zahid",
+        "zuhd"
+      ]
+    },
+    {
+      "page": 88,
+      "term_count": 7,
+      "terms": [
+        "Muhammad",
+        "al-iman",
+        "al-islam",
+        "al-zakat",
+        "divine",
+        "husn",
+        "ihsan"
+      ]
+    },
+    {
+      "page": 90,
+      "term_count": 8,
+      "terms": [
+        "Satan",
+        "divine",
+        "ihsan",
+        "karam",
+        "maqamat",
+        "rida'",
+        "sabr",
+        "shukr"
+      ]
+    },
+    {
+      "page": 152,
+      "term_count": 7,
+      "terms": [
+        "Muhammad",
+        "ahl",
+        "dhikr",
+        "qutb",
+        "sanctity",
+        "sayyid",
+        "walaya"
+      ]
+    },
+    {
+      "page": 154,
+      "term_count": 6,
+      "terms": [
+        "dhikr",
+        "divine",
+        "hifz",
+        "ihraz",
+        "istihdar",
+        "marifa"
+      ]
+    },
+    {
+      "page": 163,
+      "term_count": 10,
+      "terms": [
+        "ahl",
+        "al-dhikr",
+        "dhikr",
+        "divine",
+        "qawm",
+        "tahlil",
+        "tahmid",
+        "tamjid",
+        "taqdis",
+        "tasbih"
+      ]
+    },
+    {
+      "page": 164,
+      "term_count": 6,
+      "terms": [
+        "dhikr",
+        "divine",
+        "mashhud",
+        "nawafil",
+        "shahid",
+        "sirr"
+      ]
+    },
+    {
+      "page": 166,
+      "term_count": 7,
+      "terms": [
+        "Nahj",
+        "balagha",
+        "dhikr",
+        "divine",
+        "ikhlas",
+        "maiyya",
+        "muqarana"
+      ]
+    },
+    {
+      "page": 183,
+      "term_count": 6,
+      "terms": [
+        "al-Haqq",
+        "dhikr",
+        "fana",
+        "ghafla",
+        "sahiyan",
+        "tahqiq"
+      ]
+    },
+    {
+      "page": 185,
+      "term_count": 6,
+      "terms": [
+        "al-Haqq",
+        "al-Madhkur",
+        "dhikr",
+        "divine",
+        "fana",
+        "marifa"
+      ]
+    },
+    {
+      "page": 190,
+      "term_count": 12,
+      "terms": [
+        "akhlasa",
+        "awliyaihi",
+        "dhaba",
+        "divine",
+        "ittasala",
+        "khalasa",
+        "sakara",
+        "taba",
+        "talaba",
+        "wajada"
+      ]
+    },
+    {
+      "page": 203,
+      "term_count": 9,
+      "terms": [
+        "al-khafi",
+        "al-nafs",
+        "al-qalb",
+        "al-ruh",
+        "al-sirr",
+        "dhikr",
+        "divine",
+        "fana",
+        "sirr"
+      ]
+    },
+    {
+      "page": 204,
+      "term_count": 6,
+      "terms": [
+        "al-Madhkur",
+        "dhikr",
+        "divine",
+        "ghafla",
+        "hudur",
+        "yaqaza"
+      ]
+    },
+    {
+      "page": 209,
+      "term_count": 8,
+      "terms": [
+        "Nahj",
+        "al-Haqq",
+        "balagha",
+        "divine",
+        "ikhlas",
+        "shathiyyat",
+        "shirk",
+        "sifat"
+      ]
+    },
+    {
+      "page": 232,
+      "term_count": 6,
+      "terms": [
+        "ahd",
+        "ahl",
+        "al-ulama",
+        "kharaj",
+        "rifq",
+        "sunna"
+      ]
+    }
+  ],
+  "long_sentences": [
+    {
+      "page": 76,
+      "words": 283,
+      "text": "The Fruits of Certainty deeds, and such well-being is proportioned to the depth of one's belief that \"Whatever good ye send before for your souls, ye will find "
+    },
+    {
+      "page": 42,
+      "words": 260,
+      "text": "Intellect, Not Reason The following lines, from the first sermon, form one of the many passages in which this infusion of the divine spirit into man is commente"
+    },
+    {
+      "page": 60,
+      "words": 217,
+      "text": "The Quran's assurances of mercy come fully alive in souls that possess a deep knowledge of the blessed nature of the divine Reality — a knowledge lived, not mer"
+    },
+    {
+      "page": 112,
+      "words": 174,
+      "text": "The Quran describes how this spiritual consciousness dwells within each soul in terms that stress its nature before and beyond existence, calling up a 'moment' "
+    },
+    {
+      "page": 8,
+      "words": 165,
+      "text": "Between the believer's soul and the prophetic nature there is a deep kinship, a mysterious closeness that reaches across time and space, as the following verse "
+    },
+    {
+      "page": 121,
+      "words": 158,
+      "text": "It comes as the Imam instructs Malik about the kind of advisers he should keep near him, telling him to avoid misers and cowards: ‫ َو َيِع ُد َك‬، ‫َو َال ُتْد"
+    },
+    {
+      "page": 109,
+      "words": 147,
+      "text": "Justice and the Tyrant's Pride creatures — for the Imam commands, ‫َأْنِص ِف اللَه َو َأْنِص ِف الَّناَس ِم ْن‬ ‫ َفِإَّنَك ِإَّال َتْف َع ْل‬، ‫ َو َم ْن َلَك "
+    },
+    {
+      "page": 64,
+      "words": 144,
+      "text": "And likewise: \"Action without knowledge is error.\" What counts is the intention behind the action, for \"action, all action, is dust, except what is purified wit"
+    },
+    {
+      "page": 67,
+      "words": 144,
+      "text": "The Imam's intimacy with death can be understood in relation to this death while still alive, which he touches on in another saying: \"I am the death of the dead"
+    },
+    {
+      "page": 77,
+      "words": 144,
+      "text": "Fitting to close is the following verse of the Quran, which also serves as an introduction to what follows: ‫َو َب َّل َن َمُن َوَع ُل‬ ‫َّص َح َأَّن َلُهْم َجّ"
+    },
+    {
+      "page": 63,
+      "words": 143,
+      "text": "As the Quran says: ‫ُقُل‬ ‫َّم َر َفَز َدُه ُم ُهَّلل َم َر َو َلُهْم َع َذ ٌب َأ ٌۢم َم َك ُن َيْك ُب َن‬ ‫ا ِلي ِب ا ا و۟ا ِذ و‬ ۖ‫ًۭض ا‬ ‫ا ٱ‬ ‫م‬ ‫و‬ ‫ِفى ِ"
+    },
+    {
+      "page": 106,
+      "words": 142,
+      "text": "They grasp a simple act of disobedience at its spiritual root, and in doing so bring home the ever-present danger of falling prey to that 'hidden' form of shirk"
+    },
+    {
+      "page": 68,
+      "words": 140,
+      "text": "\"By God, this world of yours is more contemptible in my eyes than a chewedup bone of a pig in the hand of a leper.\" \"An image of the world is the snake, soft to"
+    },
+    {
+      "page": 11,
+      "words": 137,
+      "text": "I saw him there, and no one else did.\" ‫ِه‬ ‫ٍذ ِف‬ ‫ِح‬ ‫َو َلْم َيْج َم ْع َبْي ٌت َو ا ٌد َيْو َم ِئ ي اِإل ْس الِم َغ ْي َر َرُس وِل الل َص َّلى اللُه‬ ‫َع "
+    },
+    {
+      "page": 107,
+      "words": 133,
+      "text": "The Imam continues: ‫َو ِإَذ ا َأْح َد َث َلَك َم ا َأْنَت ِفيِه ِم ْن ُس ْل َط اِنَك ُأَّبَه ًة َأْو‬ ، ‫ َفِإَّن ذِلَك ُيَط اِم ُن ِإَلْي َك ِم ْن ِط َم اِح َ"
+    },
+    {
+      "page": 124,
+      "words": 133,
+      "text": "Conscience, Compassion, and the Ordering of Society has assigned each class its share, and who has laid down, as a binding covenant from Him, the limits and dut"
+    },
+    {
+      "page": 108,
+      "words": 132,
+      "text": "The sage alone fully assimilates the truth expressed in such Quranic verses as: ‫' — ُك ُّل َش ْى ٍء َه اِلٌك ِإاَّل َو ْج َه ُه‬Everything is dying away except"
+    },
+    {
+      "page": 171,
+      "words": 131,
+      "text": "Ibn Ataillah writes: \"That which shows you the existence of His omnipotence is that He veiled you from Himself by that which has no existence alongside of Him.\""
+    },
+    {
+      "page": 68,
+      "words": 130,
+      "text": "This provision for the next world is won only in the measure of one's detachment from the perishable side of the life of this world, for \"whoso desireth that wh"
+    },
+    {
+      "page": 22,
+      "words": 129,
+      "text": "The People of the House and the Prophet's Witness he did not possess.' 'O Ali (‫)ع‬, whoever separates himself from me separates himself from God, and whoever s"
+    }
+  ],
+  "summary": {
+    "never_explained": 3,
+    "explained_late": 19,
+    "referent_collisions": 0
+  }
+}

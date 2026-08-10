@@ -1,0 +1,313 @@
+{
+  "schema": "book.student-reader/v1",
+  "generated_at": "2026-08-07T16:48:49Z",
+  "dry_run": false,
+  "chapters": [
+    {
+      "chapter": "knowledge that will not save you",
+      "file": "1-knowledge-that-will-not-save-you",
+      "title": "1. Knowledge That Will Not Save You",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:d9e814516a86fc1b",
+          "defect": "unexplained-leap",
+          "quote": "I know you may have read that this verse was abrogated. Let us grant that it was.",
+          "question": "Which scholars held that the verse 'man shall have nothing but that for which he strives' was abrogated, by what verse was it superseded, and if the abrogation is conceded, does the argument that striving is required still hold?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:4dff3e915392a50e",
+          "defect": "unexplained-leap",
+          "quote": "unless that servant makes himself deserving of Allah's mercy through worship and obedience, he will not stand in a position to receive that mercy and favor",
+          "question": "What does it mean for worship to place a servant 'in a position to receive' divine mercy — is this a matter of inner capacity, worthiness, or some other relationship between human action and grace that the chapter does not explain?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the striving that mercy meets",
+      "file": "2-the-striving-that-mercy-meets",
+      "title": "2. The Striving That Mercy Meets",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:97828ebd7c329c1e",
+          "defect": "unexplained-leap",
+          "quote": "whoever supposes that he will arrive by his own effort alone presumes himself in no need",
+          "question": "If effort alone does not secure arrival, what is the quality or act — beyond the striving itself — that draws the mercy which completes the journey, and how do the two work together?",
+          "grounded": 0,
+          "researched": false
+        },
+        {
+          "id": "student:1b613bb1754ca4bf",
+          "defect": "unresolved-double-reading",
+          "quote": "do what you wish, for you shall surely be recompensed for it",
+          "question": "Does 'do what you wish, for you shall be recompensed' function here as a warning against evil acts, an encouragement toward good ones, or both simultaneously, and which reading does the chapter intend as its closing word?",
+          "grounded": 0,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the hours before dawn",
+      "file": "3-the-hours-before-dawn",
+      "title": "3. The Hours Before Dawn",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [
+        {
+          "quote": "وَبِالْأَسْحَارِ هُمْ يَسْتَغْفِرُونَ … In this there is the giving of thanks",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        }
+      ],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 1,
+      "created": 1,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:7cddf49f52b78d5e",
+          "defect": "unexplained-leap",
+          "quote": "The Throne of the Most Merciful trembled at the death of Sa'd ibn Muadh",
+          "question": "The hadith about the Throne trembling is offered as evidence that souls among 'the birds of the higher world' ascend to the Gardens — but what is the connection between the Throne trembling and a soul's upward flight, and what does the trembling signify about the manner of Sa'd's death?",
+          "grounded": 0,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "worship is obedience, nothing less",
+      "file": "4-worship-is-obedience-nothing-less",
+      "title": "4. Worship Is Obedience, Nothing Less",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:9ea3e355b4be564b",
+          "defect": "unresolved-double-reading",
+          "quote": "is another name for love and for the fervent longing to seek the Beloved, which is ذَوْق",
+          "question": "If 'ishq is defined here as another name for dhawq — the fervent longing to seek the Beloved — why does the chapter then pair them as two separate things in \"Love and dhawq can be conveyed neither in speech nor in writing\"? Are they the same state under two names, or two distinct stations?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:cfcf28f0c05b7709",
+          "defect": "unexplained-leap",
+          "quote": "I found in this one hadith the knowledge of all who came first and all who came last",
+          "question": "The hadith instructs proportional effort across four areas — this world, the hereafter, Allah, and the Fire — what is the principle within it that Shibli understood as containing the totality of all human knowledge?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "eight lessons from thirty-three years",
+      "file": "5-eight-lessons-from-thirty-three-years",
+      "title": "5. Eight Lessons from Thirty-Three Years",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:ea8cecb3ef5dcef4",
+          "defect": "unexplained-leap",
+          "quote": "I disciplined it so thoroughly that I refused to satisfy any of its cravings, until at last it found its peace and its contentment in the worship of Allah",
+          "question": "How does sustained refusal to satisfy the nafs's cravings transform it from a force driving toward evil desires into one that finds its own peace and contentment in worship — what is the mechanism by which opposition becomes settled contentment?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:c7290629e231db3c",
+          "defect": "unsupported-claim",
+          "quote": "all four of these Books of God turn upon these very eight benefits. Whoever acts upon these eight principles is as one who has acted upon all four holy Books",
+          "question": "What is the connection between these eight personal life-resolutions — about righteous deeds, the nafs, spending, honor, envy, enmity, sustenance, and trust — and the whole of four complete scriptures, such that acting on them equals acting on all four Books?",
+          "grounded": 2,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "finding a true guide",
+      "file": "6-finding-a-true-guide",
+      "title": "6. Finding a True Guide",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:46fa29837876b2a0",
+          "defect": "unexplained-leap",
+          "quote": "Such spiritual guides are exceedingly hard to find. But if a man has been granted this wealth and blessing, so that he has found such a guide",
+          "question": "The chapter warns that impostors are many and genuine guides exceedingly rare, yet it moves immediately to etiquettes for a disciple who has already found one: by what practical means can a seeker actually distinguish a true perfected guide from a false one?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:a435aabf9e55f343",
+          "defect": "unexplained-leap",
+          "quote": "He should not perform lengthy supererogatory prayers before the Shaykh after each obligatory prayer",
+          "question": "Why is the disciple specifically forbidden from performing extended voluntary prayers in the presence of the Shaykh—what is this etiquette guarding against?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "sufism, servitude, trust, sincerity",
+      "file": "7-sufism-servitude-trust-sincerity",
+      "title": "7. Sufism, Servitude, Trust, Sincerity",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:6ed2b2781fd47c83",
+          "defect": "unexplained-leap",
+          "quote": "some are such that to write their answers is not permitted",
+          "question": "Why are some answers not permitted to be written — who or what forbids it, and on what basis is that distinction made?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:ca121916fbde5247",
+          "defect": "undefined-term",
+          "quote": "do not ask me about what is difficult for you except through the tongue of the heart",
+          "question": "What is the \"tongue of the heart\" as a method of questioning — how does a student actually use it, and how is it different from asking in words?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "four to avoid, four to embrace",
+      "file": "8-four-to-avoid-four-to-embrace",
+      "title": "8. Four to Avoid, Four to Embrace",
+      "budget": 3,
+      "full_budget": 3,
+      "already_had": 0,
+      "proposed": 3,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:0c8eaee9664bcafa",
+          "defect": "unsupported-claim",
+          "quote": "the corruption that this speaker works in their religion, not even the devil can work its like",
+          "question": "What is the mechanism by which a preacher who seeks audience applause rather than genuine reform damages religion beyond what the devil — whose entire purpose is to lead people astray — is capable of doing?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:67e6a74052d9a2db",
+          "defect": "ambiguous-referent",
+          "quote": "would set that aside for some of his chambers",
+          "question": "Who or what are \"his chambers\" — are they the Prophet's wives, his households, or another group — and why does the very next sentence shift without explanation to \"her who was a possessor of certainty,\" naming a woman the chapter never introduced?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:b90283d83dd32e06",
+          "defect": "unresolved-double-reading",
+          "quote": "As for her who was a possessor of certainty, he would set aside for her no more than the provision of a day, or half of it",
+          "question": "The counsel tells this reader to gather no more than a year's sufficiency, but the example closes by showing the Prophet gave only a day's — or half a day's — to those with certainty: is the year's provision the actual target for this reader, or a concession for spiritual weakness that the reader should aim to outgrow?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "a prayer for the road",
+      "file": "9-a-prayer-for-the-road",
+      "title": "9. A Prayer for the Road",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 0,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 0,
+      "created": 0,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": []
+    }
+  ],
+  "filed_total": 16
+}

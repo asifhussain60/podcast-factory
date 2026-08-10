@@ -140,10 +140,23 @@ PREFIX="azure-${APP_NAME}"
 }
 
 # ── LLM API keys ─────────────────────────────────────────────────────────────
+#
+# These two are the reason this script still matters. The PIPELINE reads neither
+# — it resolves straight from the vault (_secrets.py, 2026-06-04). The Podcast
+# Factory Astro Site reads BOTH, from the keychain, with no vault fallback:
+#   src/lib/reader/gemini-server.ts -> gemini_api_key      (queried with -a $USER)
+#   src/lib/ai/claude-client.ts     -> anthropic-api-key   (hyphens, no -a)
+# So run this on any machine that will serve the Astro Site.
+#
+# The service names below MUST match those two call sites character for character.
+# They did not until 2026-08-10: this wrote `anthropic_api_key` with an underscore
+# while claude-client.ts has always read `anthropic-api-key` with a hyphen, so a
+# freshly bootstrapped Mac had api/ai/claude.ts failing on a key that was sitting
+# right there under a name nothing looked up.
 
 echo "==> LLM API keys"
 pull "llm-gemini-api-key"    "gemini_api_key"
-pull "llm-anthropic-api-key" "anthropic_api_key"
+pull "llm-anthropic-api-key" "anthropic-api-key"
 
 # ── Summary ───────────────────────────────────────────────────────────────────
 

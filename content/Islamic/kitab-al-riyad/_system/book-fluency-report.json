@@ -1,0 +1,492 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "first_person_author",
+  "adapted": 17,
+  "reverted": 3,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "The Freedom to Disagree",
+      "base_words": 1623,
+      "output_words": 1623,
+      "windows": 1,
+      "windows_kept": 0,
+      "status": "composer-edit",
+      "gates": [
+        "fluency-01: abridged re-voice (852<974 words)",
+        "fluency-01: P1 large length drop: 1623->852 words (52% of source \u2014 possible content loss)"
+      ],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": [],
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "The Two Rivals",
+      "base_words": 3264,
+      "output_words": 3213,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "\"The preachers of the islands\" \u2014 \"islands\" (jaz\u0101\u02beir) was the Ismaili mission's technical term for its regional administrative jurisdictions; a modern reader unfamiliar with this usage may take the word geographically and miss that Syria, Iran, and Yemen are being named as three such regions."
+      ],
+      "terminology_notes": []
+    },
+    {
+      "title": "The Judge and His Cosmos",
+      "base_words": 2082,
+      "output_words": 2054,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The paragraph describing al-Kirmani's cosmological framework \u2014 the Active Intellect, Universal Soul, ten Platonic intellects, and the nested worlds from origination down to religion \u2014 uses terms without gloss that a non-specialist reader is unlikely to follow, but adding explanation here would exceed this pass's authorization."
+      ],
+      "terminology_notes": [
+        "\"al-tatil\" is rendered \"invalidity\" in the source; the Arabic theological literature more commonly glosses it as \"divesting\" or \"stripping\" (God of attributes) \u2014 worth confirming the book-wide rendering before this chapter goes to final."
+      ]
+    },
+    {
+      "title": "Why I Wrote This Book",
+      "base_words": 1389,
+      "output_words": 1373,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The Perfect and Perfection",
+      "base_words": 2989,
+      "output_words": 2934,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "Section 1, al-Nusra's opening statement \u2014 \"he does not recognize that perfection is better and more complete than the perfect\" \u2014 the reasoning that immediately follows establishes the perfect (bearer, what is described) as superior to perfection (attribute, borne), which suggests the intended order of the two terms may be reversed in this sentence.",
+        "Section 2's closing principle \u2014 \"that existence by which it exists is below it in nobility and precedence\" \u2014 is rendered to mean the effect (the perfect) is below its cause (perfection), which the argument requires; the surface grammar may suggest the reverse, and the Arabic source would resolve the question."
+      ],
+      "comprehension_flags": [
+        "\"the Following one,\" \"the Preceding one,\" \"the Asas,\" \"the Speaker,\" and \"the Limit\" are Ismaili cosmological ranks used without gloss throughout; a modern reader unfamiliar with this hierarchy will find several passages in Sections 7 and 8 difficult to follow.",
+        "Section 7's phrase \"even if there be in it a god\" \u2014 \"it\" refers to the Limit (a specific rank), and the statement turns on an Ismaili theological distinction between the Limit's self-knowledge and the divine itself, which is not explained in the passage."
+      ],
+      "terminology_notes": []
+    },
+    {
+      "title": "Nothing Stands Beside the First",
+      "base_words": 5798,
+      "output_words": 5452,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 2
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The chapter ends mid-sentence (\"since there is not\") \u2014 this is deliberate, as the argument continues in the next section; a reader may assume it is a transcription error rather than an intentional stopping point."
+      ],
+      "terminology_notes": [
+        "\"the Following\" \u2014 technical name for the Soul as the second emanation, used as a proper noun throughout; ensure spelling is standardized across the book.",
+        "\"the Word\" \u2014 used as an alternative name for the First Intellect; ensure consistency with the book's established usage elsewhere."
+      ]
+    },
+    {
+      "title": "The Soul That Forgets",
+      "base_words": 9618,
+      "output_words": 9432,
+      "windows": 4,
+      "windows_kept": 4,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 1
+      },
+      "editorial_queries": [
+        "In Chapter Twenty-One, \"the First, and the author of al-Islah, all said\" names two parties but uses \"all,\" which may indicate a third authority is implied or that the phrasing is an artifact of the source's formulation.",
+        "The heading \"Chapter Thirty-Seven of Part One\" appears twice in sequence \u2014 once for a shorter version of the exchange and once for an extended version concluded by \"We say:\" \u2014 which may reflect a deliberate structural feature of the source or a textual duplication; the passage has been rendered exactly as given."
+      ],
+      "comprehension_flags": [
+        "\"The upper letters\" in the abode of origination is a technical term in this philosophical system referring to cosmological entities; a reader without grounding in Ismaili cosmology will not know what \"letters\" designates here.",
+        "The phrase \"the horizons and the souls\" functions as a technical criterion of doctrinal reliability with a Quranic resonance (41:53) that a general reader unfamiliar with the tradition will not recognize."
+      ],
+      "terminology_notes": [
+        "\"the Follower\" \u2014 should be confirmed as the consistent book-wide rendering for this figure in the cosmological hierarchy, as the source capitalizes it and uses it as a proper term."
+      ]
+    },
+    {
+      "title": "Motion, Stillness, and the Bodiless Intellect",
+      "base_words": 3641,
+      "output_words": 3449,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "In Chapter Two, the chapter heading attributes the whole passage to \"the author of al-Islah,\" but the phrase \"contrary to what he mentioned\" refers to al-Islah in the third person, suggesting the narrator's commentary begins at \"This is a picture that may not be held as a literal belief\" \u2014 the boundary of the direct quotation is unclear."
+      ],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Light, Darkness, and the Matter Below",
+      "base_words": 2648,
+      "output_words": 2476,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 1
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Parts or Traces?",
+      "base_words": 2647,
+      "output_words": 2578,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The Fruit of Two Worlds",
+      "base_words": 2716,
+      "output_words": 2719,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "In the opponent's rebuttal in the second section, the phrase \"would not let him return to these persons, so that he should forget\" is elliptical \u2014 \"these persons\" appears to refer to embodied human beings in the world, but the referent is unstated, and the causal link between that return and the forgetting may stop a modern reader."
+      ],
+      "terminology_notes": []
+    },
+    {
+      "title": "Body, Form, and the Two Letters of 'Be'",
+      "base_words": 2414,
+      "output_words": 2342,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The Small World",
+      "base_words": 3604,
+      "output_words": 3589,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "\"jewels\" is used as a technical term for fundamental categories or classes of being \u2014 an unusual usage that may stop a modern reader on first encounter."
+      ],
+      "terminology_notes": [
+        "\"knotted\" (First Section, in the voice of al-Islah) and \"contracted\" (Fifth Section onward, in the voice of al-Nusrah and in the subsequent analysis) appear to be the same technical term rendered two different ways; a single consistent English choice should be applied to both throughout the book."
+      ]
+    },
+    {
+      "title": "Decree and Destiny",
+      "base_words": 4325,
+      "output_words": 4325,
+      "windows": 1,
+      "windows_kept": 0,
+      "status": "composer-edit",
+      "gates": [
+        "fluency-14: Arabic runs dropped (57<58)"
+      ],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": [],
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "Fleeing to God's Measure",
+      "base_words": 4334,
+      "output_words": 4170,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 30,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 30,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "\"al-Jadd\" is used throughout as a named cosmic figure without definition in this passage; a reader new to the book's technical hierarchy will not know what he is or his place among the Preceder, Follower, Speaker, and Foundation.",
+        "\"the master of the affair\" in the Moses section refers to Shuayb (\u0639), but the identification is given only mid-passage; the antecedent is unclear on first reading before the gloss appears."
+      ],
+      "terminology_notes": []
+    },
+    {
+      "title": "Did Adam Bring a Law?",
+      "base_words": 6138,
+      "output_words": 6022,
+      "windows": 3,
+      "windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 9,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 8,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "\"In the Hereafter and in the beginning\" \u2014 the phrase \"the beginning\" (mabda') is a technical Ismaili theological term for the primordial origin of existence, paired with \"the return\" (ma'ad, rendered here as \"the Hereafter\"); a modern reader may take \"in the beginning\" as a temporal reference rather than a cosmological one, which would invert its meaning.",
+        "\"the Speakers\" is a specialist term for prophets who proclaimed a formal Law and strove in its cause; modern readers may also stumble on \"possessors of firm resolve,\" which refers to the five major prophets \u2014 Noah, Abraham, Moses, Jesus, and Muhammad \u2014 recognized in the Quran as those who bore especially demanding missions; both terms may benefit from a gloss elsewhere in the book."
+      ],
+      "terminology_notes": [
+        "rite-keeper \u2014 the term for one devoted to the rite (mansak); confirm this rendering is consistent wherever the same Arabic concept recurs in the book.",
+        "private parts \u2014 this phrase renders a specific Islamic legal category (the domain the Law protects in matters of chastity and lineage); its rendering should be confirmed and standardized book-wide."
+      ]
+    },
+    {
+      "title": "The Six Gates of Necessity",
+      "base_words": 5639,
+      "output_words": 5474,
+      "windows": 2,
+      "windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"their claiming for Him what Allah did not place in him\" \u2014 the antecedents conflict: \"Him\" (capitalized, apparently referring to Allah) and \"him\" (lowercase, apparently referring to creation or Adam), leaving unclear whether creation makes false theological claims about God or false claims about their own endowments."
+      ],
+      "comprehension_flags": [],
+      "terminology_notes": [
+        "speaker-prophets \u2014 this is a specialized technical term (likely rendering Arabic nutaqa') and its spelling and hyphenation should be standardized throughout the book."
+      ]
+    },
+    {
+      "title": "Cycles, Prophets, and the Ark",
+      "base_words": 3447,
+      "output_words": 3436,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The Creator of the Thing and the No-Thing",
+      "base_words": 3046,
+      "output_words": 3046,
+      "windows": 1,
+      "windows_kept": 0,
+      "status": "composer-edit",
+      "gates": [
+        "fluency-19: abridged re-voice (1174<1828 words)",
+        "fluency-19: P1 large length drop: 3046->1174 words (38% of source \u2014 possible content loss)",
+        "fluency-19: Arabic runs dropped (13<26)",
+        "fluency-19: Arabic script dropped (8 run(s)) \u2014 replaced or removed: \u0627\u0644\u0623\u0648\u0644; \u0627\u0644\u062d\u0642; \u0627\u0644\u0633\u0644\u0627\u0645"
+      ],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": [],
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "Creativity Is the Creator",
+      "base_words": 3648,
+      "output_words": 3666,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "\"the two acts of worship\" in the concluding section is left unnamed; a modern reader unfamiliar with the Ismaili tradition may not know what these two practices are, since the text describes their observance in detail but does not state them."
+      ],
+      "terminology_notes": [
+        "\"void\" \u2014 used throughout to mean \"impossible\" or \"excluded from being\" \u2014 may read as \"empty\" to modern readers unfamiliar with this philosophical usage; book-wide standardization of this rendering would prevent confusion."
+      ]
+    }
+  ]
+}

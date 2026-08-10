@@ -39,7 +39,17 @@ Phases live in [scripts/podcast/_progress.py](scripts/podcast/_progress.py) `PHA
 
 ---
 
-## Audio engines — manual NotebookLM (default) vs autonomous ElevenLabs (2026-06-12)
+## Audio engines — manual NotebookLM (the only one in use) vs autonomous ElevenLabs (retired)
+
+> **ElevenLabs is RETIRED (Asif, 2026-08-10), superseding the 2026-06-13 "dormant"
+> status below.** Every book's audio is produced by hand in NotebookLM. Do not
+> propose ElevenLabs, do not offer it as an option, and do not provision a key for
+> it — infra stopped documenting it on 2026-08-10. Verified the same day: no book
+> sets `audio_engine: elevenlabs`, so `audio-script` and `audio-render` skip on
+> every book and always have. The registry entry, the two phases, the voice library
+> and the pronunciation-dictionary lane all remain in the code as the
+> one-engine-among-many seam — a seam, not a dependency. Everything below describes
+> that unexercised path and is retained for the day it might be revisited.
 
 The podcast path's AUDIO step is engine-pluggable. A book declares `audio_engine: notebooklm | elevenlabs` in `_system/series-config.yaml`; a missing field means `notebooklm`, and every pre-existing book behaves byte-identically (golden-fixture regression in [scripts/podcast/tests/test_audio_engines.py](scripts/podcast/tests/test_audio_engines.py)). The registry — capability flags (`supports_arabic_script`, `supports_audio_tags`, `max_chunk_chars`, `credit_rate`, `render_mode`), pinned model id, default voice casting — is [scripts/podcast/_audio_engines.py](scripts/podcast/_audio_engines.py); adding an engine is one entry there (extensibility-first), and validators / cost estimator / orchestrator read capabilities from it, never from hardcoded conditionals. Voice casting resolves through the **voice library** ([scripts/podcast/voice-library.yaml](scripts/podcast/voice-library.yaml) + [scripts/podcast/_voice_library.py](scripts/podcast/_voice_library.py)) — the Asif-approved male/female pools (2026-06-12 casting rounds; clear English + correct Arabic phonetics on native script): each book gets a deterministic per-slug pair, overridable per book via series-config `voice_cast:` (library names) or `elevenlabs_voices:` (explicit IDs, highest priority). Adding a voice is one YAML entry.
 
@@ -159,6 +169,49 @@ The pipeline is **machine-agnostic**. Most work is done by Anthropic + Azure rem
 - **Per-content branches, grouped by content bucket (locked 2026-06-07, supersedes the 2026-06-04 bare-slug model).** Every new piece of content is processed on its own branch off `develop`, named `<Bucket>/<full-slug>` (e.g. `Fiction/journey-to-the-west-vol-1`, `Islamic/ayyuhal-walad`) via [scripts/podcast/_branching.py](scripts/podcast/_branching.py) — `branch_name(category, slug, *, profile=None, bucket=None)` returns `<Bucket>/<slug>`, resolving the bucket from `content_profile` (via the shared `_paths.resolve_bucket`, so branch bucket == folder bucket) and falling back to a coarse `category` map (defaulting to Islamic). Type prefixes (`book/`/`lecture/`…) were retired 2026-06-04; `branch_prefix()` was removed 2026-07-16 as dead code (unreferenced except by its own tests). Slugs are always full kebab-case (never abbreviated). Branches merge back to `develop` only after `podcast-publisher` flips the item's `status` to `published`.
 - **No per-machine coordination.** The earlier two-machine model (operator files, `~/.machine-id` detection, book-queue mutex, coordination-protocol §15) was retired 2026-05-23. The cross-machine assignment layer is gone; content branches now serve only as isolation, not as work assignment.
 - **`scripts/start-session.sh`** is the simplified session bootstrap — fetches origin, fast-forwards develop, surfaces in-flight content branches + next-action commands.
+
+---
+
+## Every phase checks its own work, and a failed check stops the run (2026-08-09)
+
+A phase records `completed` when its code reached the end without raising, which is not the same as having done the work. Since 2026-08-08 each completion is reviewed against recorded evidence; since 2026-08-09 that review can **fail the phase** rather than leave a note beside a completed one.
+
+- **Two registries, exhaustive between them.** Eleven of the twenty-nine phases now have a gate on their own output, and the other eighteen carry a written reason for having none — bookkeeping (git and state, nothing to inspect), human halts (which record `halted`, never `completed`), phases that rewrite in place with no dependable artifact, and phases no book has ever completed. A test asserts every phase appears in exactly one registry, so a new phase cannot join the pipeline unexamined.
+- **A gate blocks only when its failure is a fact, never a judgement.** Blocking gates assert the phase's required output exists — a file, a chapter shipped, a status flipped. Heuristics stay advisory: the refinement word-count floor, the heading count against the declared chapters, the re-run shape, the apparatus-ledger completeness. A threshold can be wrong about a healthy book; a missing PDF cannot.
+- **Every promoted gate was swept across all 22 books on disk first**, over each book that had actually completed that phase — seventeen gates, zero failures, zero crashes. A candidate that failed on a healthy book was dropped rather than softened; three were, and their reasons are recorded beside the phases they would have covered.
+- **A gate can delay a book but never strand one.** A blocking failure records the phase `failed` with the gate's own reason and walks the run's pointers back to that phase, so `--resume <slug> --retry-phase <phase>` resets it and everything downstream — the same recovery path every other phase failure already uses.
+- **`PODCAST_PHASE_GATES=off`** withdraws blocking for a run without withdrawing the review: findings are still recorded, they simply cannot fail a phase. It exists so a false positive is never a reason to wait for a code change.
+- **The review is an observer and cannot break a phase.** It is fully guarded — a crash in reviewing leaves the run exactly as it was before this layer existed — and phases with no gates pay nothing at all.
+- **Ordering is load-bearing:** the review runs *after* the state write, because a phase reports what it did through the `extras` of the call that completes it. Reviewing first asked the gates about the previous call's state.
+
+---
+
+## Per-chapter concurrency and the two spend limits (2026-08-09)
+
+The per-chapter loop is **serial by default**. It is the biggest wall-clock cost in the pipeline — a measured 732 minutes for the 20 chapters of `the-master-and-the-disciple`, a median of 37 minutes each — and it can run chapters concurrently, but only when the book's spend limits can still be enforced.
+
+- **`PER_CHAPTER_MAX_WORKERS`** (environment variable, default `1`) is how many chapters run at once. `0`, a negative, or anything unparseable falls back to `1`. Read in [scripts/podcast/phases/chapter_driver.py](scripts/podcast/phases/chapter_driver.py); nothing else sets it, so a book runs serially unless the operator opts in for that run.
+- **The two limits are different in KIND** and live together in [scripts/podcast/\_chapter_cost_caps.py](scripts/podcast/_chapter_cost_caps.py) precisely so neither is read without the other. `per_chapter_cost_cap_usd` fails one chapter and degrades to the next — an expensive chapter is a content problem. `book_cost_cap_usd` halts the whole book, and its halt carries the `COST-CEILING` marker that tells `supervise_run.py` **not** to relaunch.
+- **Admission is bounded, not estimated.** A chapter already running may still spend up to the per-chapter cap, so `BookCeiling` counts `in_flight × per_chapter_cap` as committed when deciding whether the next chapter may start. That is the loop's own enforced limit, not a forecast of what a chapter will cost — the no-estimates rule the module was built on is intact. The cost is conservatism near the ceiling, which is the correct direction to be wrong about a spend limit.
+- **A ceiling with no per-chapter cap forces serial execution.** With nothing bounding an in-flight chapter's remaining spend, admission cannot be made safe concurrently, so `concurrency_limit` returns `1` and the requested worker count is logged as declined. Raising workers on such a book is a silent way to overshoot the ceiling — before 2026-08-09 four workers under a `$50` ceiling with `$49` spent started four chapters and took the book to roughly `$69`.
+
+---
+
+## The five reading-edition defects, and repairing one without a re-compose (2026-08-09)
+
+Asif found five defects by eye in shipped editions, every one of them after each automatic gate had passed the book. They are now checked on every compose and repairable one chapter at a time.
+
+- **One module defines them, three callers read it.** [scripts/podcast/\_book_defects.py](scripts/podcast/_book_defects.py) holds all five detectors; the compose apparatus's `defect-scan` step, the recorded-defect tests, and the `pf-compose-fix` skill all call it. A private copy in any of the three is how two of them start disagreeing about what a defect is.
+  - **duplicated-arabic** — a blockquote repeats the Arabic its lead-in already gave.
+  - **english-rtl** — an English translation set in the Arabic face, right to left. Fixed at the renderer; the check is end-to-end proof over real content that the fix holds.
+  - **romanized-arabic** — a whole Arabic saying printed in the English character set. `_book_substitution` implements the 2026-08-02 rule for glossary TERMS, gated on a term being classed `teach`, so a whole SENTENCE matches nothing and fourteen ran in two shipped editions.
+  - **honorific-overuse** — a figure's compact honorific after every occurrence of the name. Capped at once per figure per chapter.
+  - **prophet-wrong-honorific** — the Prophet carrying `(ع)`, which is the honorific of the Imams. His is the ligature `ﷺ`. 118 mentions across six books.
+- **`defect-scan` runs LAST in the apparatus, not with the other report steps.** The three report-only steps sit at 6-7 with four page-altering steps still to come, and two of these checks read exactly what those steps write — the honorific convention is applied at step 9 and the paragraph mirror rewrites quotations at step 11. Scanning up there would report the honorifics of a page that never reaches disk.
+- **The gate asks whether THIS compose made it worse**, not whether the count is zero. Gate `PC5` compares against the counts the previous scan recorded in the same file; with 118 instances already standing, a zero-assertion would halt every run without saying anything new. Advisory, because the detectors are heuristics and the repo's line is that a heuristic never blocks.
+- **Repair goes through the Composer, never through a re-compose.** [scripts/podcast/compose_fix.py](scripts/podcast/compose_fix.py) repairs the three deterministic defects for named chapters and records each as a Composer edit quoting the pipeline's own fingerprint — so it survives a re-compose and marks the chapter as one no model may regenerate. It refuses to write while the Composer is running, because a live one has autosaved a truncated verse into a shipped book.
+- **Two defects are never repaired automatically, and that is a statement rather than caution.** `romanized-arabic` is only proposed: the honest fix is the Arabic, and for two of the fourteen it exists nowhere on disk — not in the book, not in the source scan, not in the hadith corpus — so supplying it would mean a model recalling scripture onto a religious edition. `english-rtl` has no content repair because the renderer already has one.
+- **Chapters are addressed by their printed number here, and nowhere else.** The rest of the pipeline bans it because counting sections makes "chapter 3" land on section 4 past the unnumbered introduction. This reads the number off the heading, which is a different operation — verified across all seven reading editions — and refuses with the chapter list rather than guessing.
 
 ---
 

@@ -285,6 +285,24 @@ def author_translation_edition_compose(
             previous_tail = " ".join(pf_prose.split()[-80:])
             prev_emitted_prose = pf_prose
 
+    # THIS LOOP IS SERIAL BY NECESSITY — do not parallelise it (noted 2026-08-08).
+    #
+    # Each iteration reads state the PREVIOUS one produced: `previous_tail` (the last
+    # eighty words of the preceding chapter, handed to this chapter's compose so the
+    # prose continues rather than restarting) and `prev_emitted_prose` (which
+    # `_trim_seam_overlap` compares against to delete a seam the source narrates
+    # twice). Both are assigned at the bottom of this loop and consumed at the top of
+    # the next.
+    #
+    # Running chapters concurrently would hand every one an empty or arbitrary tail.
+    # The failure mode is the dangerous kind: the book still renders, every chapter is
+    # present, the word counts are right, and EVERY GATE PASSES — because no gate
+    # inspects the join between two chapters. It would read wrong to a person and
+    # clean to the pipeline, which is the worst combination this repo has.
+    #
+    # The per-chapter podcast loop in `phases/chapter_driver.py` carries its own,
+    # different reasons for staying serial; see the comment above the loop there.
+    # A test pins both so a future well-meaning change fails loudly instead.
     for ch in toc.get("chapters", []):
         idx = int(ch.get("bk_index") or len(manifest) + 1)
         title = str(ch.get("title") or f"Chapter {idx}")
@@ -464,6 +482,9 @@ def author_translation_edition_compose(
         if folded_words:
             entry["folded_opening_words"] = folded_words
         manifest.append(entry)
+        # Persist after EVERY chapter, not just at the end — see
+        # _write_translation_manifest's docstring for why.
+        _write_translation_manifest(book_dir, manifest)
 
     # A toc that declares an opening and no chapters has nothing to fold it into.
     # Emit it rather than drop it: losing the source's words to an empty chapter
@@ -478,6 +499,25 @@ def author_translation_edition_compose(
     assembled = dedupe_seam_paragraphs(simplify_transliteration("\n".join(parts).rstrip() + "\n"), removed=seam_removed)
     book_md.write_text(assembled, encoding="utf-8")
     record_seam_removals(book_dir, "base", seam_removed, log)
+    _write_translation_manifest(book_dir, manifest)
+    log(f"    translation-edition-compose: assembled book.md with {len(manifest)} chapters")
+    return book_md
+
+
+def _write_translation_manifest(book_dir: Path, manifest: list[dict[str, Any]]) -> None:
+    """Persist the chunk-cache manifest — called after EVERY chapter, not just at
+    the end of a full compose.
+
+    Written only once, at the very end of the loop, a chapter that failed
+    integrity mid-book (a real, observed case: a flaky rewrite on chapter 11 of
+    15) meant the manifest never landed at all, so a retry's ``cache_matches_source``
+    check found no prior entry for ANY chapter and recomposed the whole book from
+    chapter 1 — redoing ten already-good chapters to get back to the one that
+    failed. Writing it incrementally makes each chapter's cache valid the moment
+    that chapter lands, survives a mid-book halt, and costs nothing extra: the
+    shape written here is identical to the final write, just with however many
+    chapters have completed so far.
+    """
     (book_dir / "_system" / "translation-edition-manifest.json").write_text(
         json.dumps(
             {
@@ -494,5 +534,3 @@ def author_translation_edition_compose(
         + "\n",
         encoding="utf-8",
     )
-    log(f"    translation-edition-compose: assembled book.md with {len(manifest)} chapters")
-    return book_md

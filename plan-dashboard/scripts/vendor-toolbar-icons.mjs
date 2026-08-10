@@ -60,13 +60,9 @@ const ICONS = {
   bulletList: "list-ul",
   orderedList: "list-ol",
   blockquote: "quote-right",
-  quranQuotation: "book-quran",
   link: "link",
   horizontalRule: "minus",
   more: "ellipsis",
-  // Not a toolbar control — the host's "Show changes" toggle, which lost its
-  // words to keep the bar at two rows.
-  showChanges: "code-compare",
   // The three alignment buttons.
   alignLeft: "align-left",
   alignCenter: "align-center",
@@ -109,7 +105,9 @@ const entries = Object.entries(ICONS).map(([id, name]) => {
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" ` +
     `width="16" height="16" fill="currentColor" aria-hidden="true" ` +
     `focusable="false"><path d="${d}"/></svg>`;
-  return `  /** fa-${name} */\n  ${id}: { svg:\n    "${svg.replace(/"/g, '\\"')}" },`;
+  // Single quotes, so the SVG's own double quotes need no escaping — and so the
+  // shape written here is the shape Prettier would settle on. See below.
+  return `  /** fa-${name} */\n  ${id}: {\n    svg: '${svg}',\n  },`;
 });
 
 const out = `/**
@@ -120,6 +118,12 @@ const out = `/**
  * Copyright Fonticons, Inc.
  *
  * Regenerate with: node scripts/vendor-toolbar-icons.mjs
+ *
+ * The output is written Prettier-clean, so that command is the whole procedure.
+ * It was not, until 2026-08-09: the generator emitted escaped double quotes and
+ * a hanging \`{ svg:\` and the committed file had been hand-formatted after the
+ * fact, so following the line above left every icon reformatted and the
+ * pre-commit hook refusing the result.
  *
  * Inline SVG rather than the CDN stylesheet's classes, so the Book Composer's
  * formatting bar renders with no network and before any font has loaded. See the

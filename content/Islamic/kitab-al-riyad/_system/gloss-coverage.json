@@ -1,0 +1,118 @@
+{
+  "schema": "book.gloss-coverage/v2",
+  "candidates": 38,
+  "strong": 2,
+  "covered": 20,
+  "missing_strong": [
+    "al-Asas"
+  ],
+  "glossary_entries": 439,
+  "coverage": 0.526,
+  "strong_coverage": 0.5,
+  "bare_terms": 17,
+  "bare_uses": 19,
+  "bare": [
+    {
+      "term": "al-Asas",
+      "uses": 1,
+      "confidence": "strong",
+      "first_seen_snippet": "rmed by the condition of the Foundation (al-Asas), who is t"
+    },
+    {
+      "term": "al-Maad",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "d emanation. Our epistles on the Return (al-Maad) contain t"
+    },
+    {
+      "term": "Dar al-Hikma",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "e world. He was later appointed head of *Dar al-Hikma* — the Hou"
+    },
+    {
+      "term": "al-fikr",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "e thing, that seeking is called thought (al-fikr). When it"
+    },
+    {
+      "term": "al-hifz",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "nce, that regarding is called retention (al-hifz). When it"
+    },
+    {
+      "term": "al-Maqam",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "orner (al-Rukn (رُكْن)) and the Station (al-Maqam), guided t"
+    },
+    {
+      "term": "al-mashi",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "and the thing that is the willed-thing (al-mashi); and the"
+    },
+    {
+      "term": "al-Natiq",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "nd who is not distinct from the Speaker (al-Natiq). Everythi"
+    },
+    {
+      "term": "al-nuzu",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "conceive, that will is called striving (al-nuzu) toward th"
+    },
+    {
+      "term": "al-Suwaa",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "s, such as al-Wadd (اَلْوَدّ), al-Suwa (*al-Suwaa* (اَلسُّوَ"
+    },
+    {
+      "term": "al-tasawwur",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "nses, that imprint is called conception (al-tasawwur). And when"
+    },
+    {
+      "term": "fuad",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ng of the iron to the head of the heart (fuad) of the on"
+    },
+    {
+      "term": "huwiyya",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "simple and composite, from His identity (huwiyya); and we h"
+    },
+    {
+      "term": "mutakallimun",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "n this the Mutazila and the theologians (mutakallimun) agree, an"
+    },
+    {
+      "term": "tatil",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "y from likening (تَشْبِه) and stripping (tatil), and is m"
+    },
+    {
+      "term": "walaya",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "to draw near to Him of the guardianship (walaya) that lead"
+    },
+    {
+      "term": "Yaghooth",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "uwa (*al-Suwaa* (اَلسُّوَاع)), Yaghuth (*Yaghooth* (يَغُوث))"
+    }
+  ]
+}

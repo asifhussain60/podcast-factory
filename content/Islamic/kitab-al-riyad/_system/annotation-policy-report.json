@@ -1,0 +1,62 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 8,
+  "skipped": 447,
+  "by_class": {
+    "teach": 3,
+    "familiar": 2,
+    "name": 0,
+    "silent": 1,
+    "work_title": 2
+  },
+  "proposals": [
+    {
+      "phonetic": "Sharee'ah",
+      "class": "familiar",
+      "english_equivalent": "Sharia",
+      "reason": "Has a widely recognized English form educated readers already know."
+    },
+    {
+      "phonetic": "Shaykh",
+      "class": "familiar",
+      "english_equivalent": "sheikh",
+      "reason": "An honorific title with an established English form educated readers recognize."
+    },
+    {
+      "phonetic": "sallallahu alayhi wa sallam",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A formulaic blessing rendered in running prose as 'peace be upon him'; no annotation helps."
+    },
+    {
+      "phonetic": "da'wah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Same doctrinal term for the mission, here discussing its 'image'; taught vocabulary of the book."
+    },
+    {
+      "phonetic": "ibda'",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical cosmological term (origination) the text itself expounds and defines."
+    },
+    {
+      "phonetic": "tawheed",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A core doctrinal concept the book delimits and teaches; readers will want to cite it."
+    },
+    {
+      "phonetic": "al-Nusrah",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book, referred to as the work whose author is quoted."
+    },
+    {
+      "phonetic": "Riyaad",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "The title of this book itself ('The Book of Riyad'), a cited work, never annotated."
+    }
+  ]
+}

@@ -1,6 +1,28 @@
 {
   "slug": "degrees-of-excellence",
   "chapter": "3-degrees-of-excellence",
-  "notes": [],
-  "updatedAt": null
+  "notes": [
+    {
+      "id": "student:9c0d1a2ced10f734",
+      "kind": "explanation",
+      "body": "The passage is deliberately silent on naming a specific event. The author says only that the Prophet's words 'have proven correct, as we have witnessed with our own eyes, by the grace and favour of God' — offered without a date, a name, or an occasion. This restraint is itself part of the method: in the esoteric tradition, naming the outer event too plainly would reduce a living, perennial truth to a single moment in history and rob it of its continuing force.\n\nWhat the author is gesturing toward is **the rise of the Fatimid Imamate from North Africa** — the Maghrib, the Islamic west. When the first Fatimid Imam emerged publicly in Ifriqiyya, Ismaili thinkers read this as the fulfilment of the prophetic hadith: the light of the Imamate had risen, literally, from the west. The sun the Prophet pointed to was not the physical disc in the sky — as the author has just demonstrated, for the physical sun to leave its orbit would unmake the world — but the imam himself, whose appearance in the Maghrib was the 'rising' the hadith announced.\n\nThe phrase 'we have witnessed with our own eyes' is a community's witness, not a solitary claim. The author is almost certainly writing from inside the Fatimid period, and the living proof he points to is the Imam present among them, illumining souls from his seat in the west. No further event needed to be named, because the event was still unfolding.",
+      "anchor": "that interpretation has proven correct, as we have witnessed with our…",
+      "quote": "that interpretation has proven correct, as we have witnessed with our own eyes, by the grace and favor of God",
+      "review": "proposed",
+      "source": {
+        "provider": "scholar",
+        "label": "Ismaili Scholar",
+        "ref": "ambiguous-referent"
+      },
+      "etymology": [
+        "تأويل (esoteric interpretation): from the root أ-و-ل, meaning to return a thing to its origin or first principle. The derived verb أوّل means to trace something back to its source. تأويل is therefore not guesswork but a disciplined homecoming — leading the outward symbol back to the inner reality it was always pointing toward.",
+        "المغرب (the Maghrib / the west): from the root غ-ر-ب, meaning to go away, to set, to become absent. The sun غَرَبَت — it sets in the west. المغرب is the place of setting, the direction where light disappears. The prophetic hadith's power comes precisely from this root: the imam's rising from the place of setting is an inversion that only esoteric reading can resolve.",
+        "الباطن (the inward / esoteric): from the root ب-ط-ن, meaning the belly or interior of a thing — what is hidden inside its outer form. البطن is the stomach; الباطن is whatever truth lies beneath the surface. The tradition holds that every outward statement (ظاهر) enfolds a deeper inward meaning (باطن) the way a body enfolds its organs."
+      ],
+      "createdAt": "2026-08-07T13:53:58Z",
+      "updatedAt": "2026-08-07T13:53:58Z"
+    }
+  ],
+  "updatedAt": "2026-08-07T13:53:58Z",
+  "studentReaderFingerprint": "747e7a9e1e9404ea"
 }

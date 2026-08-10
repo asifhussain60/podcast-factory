@@ -94,18 +94,31 @@ python3 scripts/podcast/orchestrate_book.py <pdf>
 
 ## Step 5 — Wire Azure credentials (ONLY if this Mac drives pipeline phases)
 
-All credentials are stored in Azure Key Vault (`podcast-factory-vault`). A single command pulls everything into the local Keychain.
+All credentials are stored in Azure Key Vault (`podcast-factory-vault`), and the
+pipeline reads them **from the vault directly**. `az login` is the whole step.
 
 ```bash
-cd ~/PROJECTS/podcast-factory/infra/azure
-az login
+cd ~/PROJECTS/podcast-factory
+az login                 # sign in as asifhussain60@msn.com — NOT the gmail account
 az account set --subscription "Journal AI — primary"
-bash pull-secrets.sh
+python3 scripts/podcast/test_azure_connectivity.py
 ```
 
-`pull-secrets.sh` pulls all 14+ secrets (Translator, Document Intelligence, Speech, Storage, Gemini, Anthropic keys) from Key Vault into the local Keychain, then runs the connectivity test automatically.
+Expect `pass 9  fail 0  ✓ Azure connectivity OK`.
 
-Expect the script to end with `pass 9  fail 0  ✓ Azure connectivity OK` (9 checks: Azure services + Anthropic + Gemini).
+> **The Azure identity is a different account from everything else.** Claude,
+> Google and Cloudflare are `asifhussain60@gmail.com`; Azure is
+> `asifhussain60@msn.com`. Confirm with `az account show --query user.name -o tsv`.
+
+**Then run `bash infra/azure/pull-secrets.sh` if this Mac will serve the Podcast
+Factory Astro Site.** The book pipeline does not need it — the keychain tier was
+removed from its credential resolution on 2026-06-04. The Astro Site is the
+exception: its AI endpoints read `gemini_api_key` and `anthropic-api-key` from the
+keychain with no vault fallback, and this script is what puts them there.
+
+The credentials that live only in the keychain and cannot be restored by any script —
+the Cloudflare token and the two Podcast Factory Library dev secrets — are listed with
+their recovery paths in [infra/pipeline-runtime.md](../../infra/pipeline-runtime.md).
 
 **First-time Azure provisioning only** (blank Azure subscription — not a new Mac):
 ```bash
@@ -118,9 +131,11 @@ Full reference: [docs/setup/azure-stack.md](azure-stack.md).
 
 ## Step 5.5 — Wire LLM APIs (Claude + Gemini)
 
-Anthropic Claude runs off the Max subscription (no API key needed on operator Macs — `claude login` in Step 3 covers it). Google Gemini and the Anthropic API key are already included in the Key Vault pull from Step 5.
+Anthropic Claude runs off the Max subscription (`claude login` in Step 3 covers it). The Gemini key and the separate Anthropic API key both come from the Key Vault reached in Step 5 — nothing extra to install.
 
-Verify both providers:
+There is no third provider to wire. Audio is produced by hand in NotebookLM and needs no key.
+
+Verify both:
 
 ```bash
 cd ~/PROJECTS/podcast-factory

@@ -1,0 +1,21 @@
+<svg viewBox="0 0 760 520" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <text x="380" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#8b4513">Pretenders Are Disqualified at the Innermost Gate of Governance</text>
+
+  <!-- concentric rings -->
+  <circle cx="380" cy="270" r="170" fill="#faf6ee" stroke="#d9cdbd" stroke-width="1.5"/>
+  <circle cx="380" cy="270" r="112" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1.5"/>
+  <circle cx="380" cy="270" r="58" fill="#efe2d0" stroke="#8b4513" stroke-width="1.5"/>
+
+  <text x="380" y="132" text-anchor="middle" font-size="14" font-weight="700" fill="#8b4513">Governance of the Public</text>
+  <text x="380" y="186" text-anchor="middle" font-size="13" font-weight="700" fill="#7a6a58">Governance of the Household</text>
+  <text x="380" y="274" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">Governance of the Self</text>
+
+  <!-- pretender blocked path -->
+  <text x="70" y="266" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2117">Pretender</text>
+  <line x1="98" y1="270" x2="304" y2="270" stroke="#7a6a58" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <line x1="308" y1="258" x2="332" y2="282" stroke="#b23b3b" stroke-width="3"/>
+  <line x1="332" y1="258" x2="308" y2="282" stroke="#b23b3b" stroke-width="3"/>
+
+  <!-- caption -->
+  <text x="380" y="474" text-anchor="middle" font-size="14" fill="#2b2117"><tspan x="380" dy="0">Because they cannot command their own appetites, the outer domains remain </tspan><tspan x="380" dy="22">structurally locked to them. The field is empty but for one.</tspan></text>
+</svg>

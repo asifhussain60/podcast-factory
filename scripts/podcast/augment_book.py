@@ -27,7 +27,7 @@ USAGE
 OUTPUTS
     _system/unified-augmented.md       — enriched unified text
     _system/augmentation-ledger.json   — per-section atom usage log
-    _system/cost-ledger.json           — appended
+    _system/cost-ledger.jsonl          — appended (the one canonical ledger)
 
 COST (~$0.07 Gemini)
     Triage call (1 × Gemini Flash):         ~$0.005
@@ -51,6 +51,8 @@ sys.path.insert(0, str(_HERE))
 from _narrator_policy import atom_narrator, disallowed_narrator
 from _paths import REPO_ROOT, resolve_content
 from _rules import allowed_content_levels
+from _tool_cost import append_tool_cost
+from cost_guard import real_spend_usd
 
 PRICE_IN = 0.000_000_1  # $/char Gemini Flash input
 PRICE_OUT = 0.000_000_4  # $/char output
@@ -407,11 +409,12 @@ def _enrich_section(section_text: str, candidates: list[dict]) -> tuple[str, lis
 
 
 def _log_cost(slug: str, entry: dict) -> None:
-    p = resolve_content(slug) / "_system" / "cost-ledger.json"
-    led = json.loads(p.read_text()) if p.exists() else {"slug": slug, "entries": [], "total_usd": 0.0}
-    led["entries"].append(entry)
-    led["total_usd"] = round(sum(e.get("cost_usd", 0.0) for e in led["entries"]), 4)
-    p.write_text(json.dumps(led, indent=2) + "\n")
+    """Append this tool's real spend to the ONE canonical ledger.
+
+    Wrote a private ``_system/cost-ledger.json`` until 2026-08-08, which nothing read
+    — see ``_cost_ledger.append_tool_cost`` for the whole story and the mapping.
+    """
+    append_tool_cost(resolve_content(slug), entry)
 
 
 # ---------------------------------------------------------------------------
@@ -609,10 +612,8 @@ def main() -> None:
 
     out = augment(args.slug, dry_run=args.dry_run, force=args.force)
 
-    ledger = resolve_content(args.slug) / "_system" / "cost-ledger.json"
-    if ledger.exists():
-        total = json.loads(ledger.read_text()).get("total_usd", 0.0)
-        print(f"Running total cost: ${total:.2f}")
+    # Running total from the ONE ledger; `real_spend_usd` counts only real-money rows.
+    print(f"Running total cost: ${real_spend_usd(resolve_content(args.slug)):.2f}")
     if not args.dry_run:
         print(f"Output: {out.relative_to(REPO_ROOT)}")
 

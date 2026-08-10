@@ -8,20 +8,20 @@ finalize halt. Called by resume_dispatcher after Phase 0f approval.
 
 from __future__ import annotations
 
-import re
+import os
 import sys
+import threading
 from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from _chapter_breaker import BreakerTripped, ChapterBreaker, failure_signature
+from _chapter_cost_caps import BookCeiling, read_caps
 from _convergence import ChapterOutcome, render_outcome
-from _paths import REPO_ROOT
 from _progress import read_state, update_phase
 from _subprocess import err as _err
 from _subprocess import info as _info
-from _subprocess import run as _run
 
-from phases.bundle_audit import phase_0g_audit_bundles
 from phases.per_chapter import per_chapter_pass
 from phases.preflight import _sweep_orphan_episode_drafts
 from phases.preflight_chapter import smoke_check_book
@@ -29,15 +29,26 @@ from phases.scaffold import phase_git_commit
 from phases.series_plan import (
     _book_cost_so_far,
     _chapter_cost_so_far,
-    _series_flag,
-    _series_numeric,
-    phase_0g_register,
 )
-from phases.slide_cohort import is_bad_slide_outcome, run_slide_cohort
+from phases.slide_cohort import is_bad_slide_outcome
 
 # Moved to phases/slide_cohort.py with the rest of Phase 11b (2026-07-31).
 # Re-exported here because importers still reach for it at this path.
 _is_bad_slide_outcome = is_bad_slide_outcome
+
+
+def _discover_episode_mapping(book_dir: Path):
+    """Re-export — the implementation moved to `post_chapter_driver` (2026-08-08).
+
+    `phases/audio_ingest_driver` imports it from THIS path, and its failure mode when the
+    import broke was quiet in the worst way: the import sat inside a `try` whose except
+    reported "could not resolve audio engine", so a moved function looked like a book
+    with a broken engine config. A function rather than an alias, so the import stays
+    lazy and the two modules do not become mutually dependent at import time.
+    """
+    from phases.post_chapter_driver import _discover_episode_mapping as _impl
+
+    return _impl(book_dir)
 
 
 def _phase_boundary_gate(book_dir: Path, boundary_name: str, projected_cost_usd: float | None = None) -> None:
@@ -47,19 +58,10 @@ def _phase_boundary_gate(book_dir: Path, boundary_name: str, projected_cost_usd:
     )
 
 
-def _failure_signature(reason: str) -> str:
-    """Normalize a failure reason so the same root cause across chapters matches.
-
-    Collapses digits and slug-like tokens to a stable shape: "word count 2
-    outside band" and "word count 5000 outside band" share a signature, while
-    two genuinely different findings stay distinct. Used by the C3 circuit
-    breaker to detect a systemic failure repeating across chapters.
-    """
-    s = reason.lower()
-    s = re.sub(r"[0-9]+", "#", s)
-    s = re.sub(r"[^a-z#\s]", " ", s)
-    s = re.sub(r"\s+", " ", s).strip()
-    return s[:80]
+# The C3 breaker's own logic moved to `_chapter_breaker` (2026-08-08) so its state can
+# be shared safely once this loop gains workers. Re-exported because importers and tests
+# still reach for the signature helper at this path.
+_failure_signature = failure_signature
 
 
 def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool = False) -> int:
@@ -113,43 +115,167 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     prior_state = read_state(book_dir) or {}
     chapter_timings.update(prior_state.get("phases", {}).get("per-chapter", {}).get("chapter_timings", {}))
     failed_chapter_slugs: set[str] = set(prior_state.get("phases", {}).get("per-chapter", {}).get("failed_slugs", []))
-    per_chapter_cost_cap_usd = _series_numeric(
-        book_dir,
-        "per_chapter_cost_cap_usd",
-        default=5.0,
-    )
-    if per_chapter_cost_cap_usd > 0:
-        _info(f"per-chapter cost cap: ${per_chapter_cost_cap_usd:.2f} (per series-plan)")
-    # F35: per-BOOK hard ceiling, checked mid-loop (default 0 = disabled, so
-    # existing books are unaffected unless they opt in via series-plan).
-    book_cost_cap_usd = _series_numeric(book_dir, "book_cost_cap_usd", default=0.0)
-    if book_cost_cap_usd > 0:
-        _info(f"per-book cost ceiling: ${book_cost_cap_usd:.2f} (per series-plan)")
+    # Both spend limits, and the admission check below, live in `_chapter_cost_caps` —
+    # they are different in KIND (one fails a chapter, one halts the book) and reading
+    # either without the other invites the wrong conclusion about a halt.
+    per_chapter_cost_cap_usd, book_cost_cap_usd = read_caps(book_dir, log=_info)
 
-    # C3 circuit breaker state: count chapters actually attempted this run and
-    # group failures by normalized signature, to halt on a systemic failure
-    # instead of grinding through every chapter with the same root cause.
-    attempted = 0
-    failure_signatures: dict[str, list[str]] = {}
+    #: Owns the admission decision AND the count of chapters currently in flight, both
+    #: under one lock — see `BookCeiling` for why those cannot be separated. `_book_cost_so_far`
+    #: is passed in rather than imported there so this module's binding is the one used.
+    ceiling = BookCeiling(book_cost_cap_usd, per_chapter_cost_cap_usd, _book_cost_so_far)
 
-    for slug in chapter_slugs:
-        if slug in completed_chapter_slugs:
-            _info(f"phase: per-chapter[{slug}] · already shipped, skipping")
-            continue
-        if slug in failed_chapter_slugs:
-            _info(f"phase: per-chapter[{slug}] · prior FAILED, skipping (--retry-phase per-chapter re-attempts it)")
-            continue
-        attempted += 1
+    # C3 circuit breaker: halt on a systemic failure instead of grinding through every
+    # chapter with the same root cause. State is behind a lock and the verdict is asked
+    # BEFORE a chapter starts as well as after one fails — see `_chapter_breaker`.
+    # Decisions are identical to the previous inline version under a single worker.
+    breaker = ChapterBreaker()
+
+    #: One line per chapter that shipped this run, committed as a single commit after
+    #: the loop rather than one commit per chapter. See the note at the append site.
+    committed_chapter_lines: list[str] = []
+
+    #: Set when the loop DECLINED to start a chapter because the book is halting. Kept
+    #: because a run that stops this way must record WHY: without it the phase would
+    #: fall out of the loop looking like a book whose chapters were simply all done, and
+    #: the supervisor would relaunch straight into the same ceiling.
+    _pre_start_halt: str | None = None
+
+    #: A systemic halt recorded by any chapter. Handled once after dispatch rather than
+    #: by an in-loop return, so one writer owns the exit however many chapters are
+    #: finishing as it lands. First reason wins — it is the diagnosis a human reads.
+    _halt_reason: str | None = None
+
+    #: Guards every collection above. `update_phase` has its own lock for the state FILE,
+    #: but these are this function's own mutable state and nothing else protects them.
+    _shared = threading.Lock()
+
+    def _snapshot() -> dict:
+        """A consistent view of the shared collections, for a state write.
+
+        Taken under the lock and deep-ish copied: `update_phase` serialises these into
+        JSON, and handing it a dict a worker is still mutating is how you get a state
+        file describing a moment that never existed.
+        """
+        with _shared:
+            return {
+                "completed_slugs": sorted(completed_chapter_slugs),
+                "failed_slugs": sorted(failed_chapter_slugs),
+                "chapter_timings": {k: dict(v) for k, v in chapter_timings.items()},
+            }
+
+    def _final_extras() -> dict:
+        """`_snapshot()` plus the clearing of the in-flight markers.
+
+        `update_phase` MERGES extras into the phase block, so `current_chapter` and
+        `convergence_iter` — written by every progress beat — survive into the terminal
+        record unless something clears them. A finished book otherwise still reports the
+        last chapter as the one it is working on, which is what a supervisor or status
+        card reads to answer exactly that question.
+        """
+        return {**_snapshot(), "current_chapter": None, "convergence_iter": None}
+
+    # How many chapters run at once. ONE by default, so this change is inert until a book
+    # opts in — the measured prize is 732 min of serial chapters becoming ~185 at four
+    # workers, but the first book to try it should be one Asif chose.
+    _requested_workers = max(1, int(os.environ.get("PER_CHAPTER_MAX_WORKERS", "1")))
+    #: Clamped by the ceiling: a book with a per-book cap but NO per-chapter cap has no
+    #: bound on what an in-flight chapter may still spend, so admission cannot be made
+    #: safe concurrently and the only honest width is one. Refusing to widen is the
+    #: correct direction to be wrong — the alternative is overshooting a spend limit.
+    _max_workers = ceiling.concurrency_limit(_requested_workers)
+    if _max_workers < _requested_workers:
+        _info(
+            f"per-chapter: {_requested_workers} workers requested but this book sets a per-book "
+            f"ceiling with no per-chapter cap — running serially so the ceiling stays enforceable"
+        )
+
+    def _commit_chapter_batch() -> None:
+        """Commit every chapter that shipped this run, as one commit.
+
+        Called on EVERY exit from the loop — normal completion, the circuit-breaker
+        halt and the systemic halt — because chapters that shipped before a halt are
+        finished work and must not be left uncommitted just because a later one broke.
+        Safe to call more than once and safe to call with nothing pending:
+        `phase_git_commit` already no-ops when `git status` comes back empty.
+        """
+        if not committed_chapter_lines:
+            return
+        n = len(committed_chapter_lines)
+        subject = f"podcast({book_slug}): per-chapter — {n} chapter(s) shipped"
+        phase_git_commit(book_dir, subject + "\n\n" + "\n".join(committed_chapter_lines))
+        committed_chapter_lines.clear()
+
+    # THIS LOOP IS SERIAL, but is now SAFE TO PARALLELISE — all three blockers found on
+    # 2026-08-08 are cleared (full record in git history). It is the biggest wall-clock
+    # lever in the pipeline: 732 min for 20 chapters, measured.
+    #
+    #   1. commits are batched after the loop      (`_commit_chapter_batch`)
+    #   2. the C3 breaker is locked and asked BEFORE a chapter starts, so a worker that
+    #      has not begun can still decline        (`_chapter_breaker`)
+    #   3. the per-book ceiling admits or refuses a chapter before it spends
+    #                                             (`_chapter_cost_caps.admit`)
+    #
+    # When workers are added: the compose loop in `_translation_edition` must stay serial
+    # regardless — it threads an 80-word continuity tail between chapters — and
+    # `test_loops_stay_serial` should be narrowed to cover that loop alone.
+    def _run_one_chapter(slug: str) -> None:
+        """Everything one chapter needs, safe to call from a worker thread.
+
+        Mutates the shared collections only under `_shared`, and NEVER returns early
+        with a decision of its own: a halt is RECORDED (`_halt_reason`) and the breaker
+        is tripped, so chapters that have not begun decline at their own pre-start gate
+        and the single post-dispatch handler owns the exit. Under one worker the outcome
+        is identical to the previous in-loop `return 2`, reached a few cheap iterations
+        later.
+        """
+        nonlocal _pre_start_halt
+
+        # ADMISSION CONTROL on the per-book ceiling — refuse to START a chapter once the
+        # cap is reached. The refusal is RETURNED and acted on here: it used to be
+        # communicated only by tripping the breaker, which meant the ceiling was enforced
+        # by `breaker.begin()` re-reading that flag below, and any reordering of these two
+        # calls would have disabled it silently.
+        _refusal = ceiling.admit(book_dir)
+        if _refusal is not None:
+            breaker.trip(_refusal)
+            _info(f"phase: per-chapter[{slug}] · not started — book is halting ({_refusal[:80]})")
+            with _shared:
+                _pre_start_halt = _refusal
+            return
+
+        # Admitted, so this chapter is counted in flight until it finishes — however it
+        # finishes. Releasing only on the success path would leak the count and make the
+        # ceiling refuse everything after the first failure.
+        try:
+            _run_admitted_chapter(slug)
+        finally:
+            ceiling.release()
+
+    def _run_admitted_chapter(slug: str) -> None:
+        """The body of a chapter that has already passed admission control."""
+        nonlocal _halt_reason, _pre_start_halt
+
+        # THE PRE-START GATE. Asking the breaker here — before any work — is what makes
+        # its economics survive workers: a chapter that has not begun can still decline.
+        try:
+            _ordinal = breaker.begin(slug)
+        except BreakerTripped as _t:
+            _info(f"phase: per-chapter[{slug}] · not started — book is halting ({_t.reason[:80]})")
+            with _shared:
+                _pre_start_halt = _t.reason
+            return
         _info(f"phase: per-chapter[{slug}] · extract → frame → build → converge")
         _t_start = datetime.now(timezone.utc)
         _cost_at_start = _chapter_cost_so_far(book_dir, slug)
-        chapter_timings[slug] = {
-            "started_ts": _t_start.strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "completed_ts": None,
-            "duration_sec": None,
-            "verdict": None,
-            "cost_usd": None,
-        }
+        with _shared:
+            chapter_timings[slug] = {
+                "started_ts": _t_start.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "completed_ts": None,
+                "duration_sec": None,
+                "verdict": None,
+                "cost_usd": None,
+            }
         # C5: per-chapter progress beat. Refreshes ts_updated and records the
         # chapter in flight so a supervisor can tell "moved to a new chapter"
         # from "stuck on the same one" without guessing PIDs. (Intra-chapter
@@ -159,13 +285,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             book_dir,
             phase="per-chapter",
             status="running",
-            extras={
-                "current_chapter": slug,
-                "last_beat": _t_start.strftime("%Y-%m-%dT%H:%M:%SZ"),
-                "completed_slugs": sorted(completed_chapter_slugs),
-                "failed_slugs": sorted(failed_chapter_slugs),
-                "chapter_timings": chapter_timings,
-            },
+            extras={"current_chapter": slug, "last_beat": _t_start.strftime("%Y-%m-%dT%H:%M:%SZ"), **_snapshot()},
         )
 
         # Phase 3: thread the mid-loop safety rails. Closures read the live ledger
@@ -201,17 +321,18 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         _t_end = datetime.now(timezone.utc)
         _cost_end = _chapter_cost_so_far(book_dir, slug)
         _chapter_cost = round(_cost_end - _cost_at_start, 4)
-        chapter_timings[slug]["completed_ts"] = _t_end.strftime("%Y-%m-%dT%H:%M:%SZ")
-        chapter_timings[slug]["duration_sec"] = round((_t_end - _t_start).total_seconds(), 1)
-        chapter_timings[slug]["verdict"] = outcome.final_verdict
-        chapter_timings[slug]["cost_usd"] = _chapter_cost
-        if per_chapter_cost_cap_usd > 0 and _chapter_cost > per_chapter_cost_cap_usd:
-            cost_msg = f"COST-CAPPED: chapter spent ${_chapter_cost:.2f} > cap ${per_chapter_cost_cap_usd:.2f}"
-            _err(f"  [{slug}] {cost_msg}")
-            outcome.notes.append(cost_msg)
-            outcome.final_verdict = "FAILED"
-            chapter_timings[slug]["verdict"] = "FAILED-COST-CAPPED"
-        outcomes.append(outcome)
+        with _shared:
+            chapter_timings[slug]["completed_ts"] = _t_end.strftime("%Y-%m-%dT%H:%M:%SZ")
+            chapter_timings[slug]["duration_sec"] = round((_t_end - _t_start).total_seconds(), 1)
+            chapter_timings[slug]["verdict"] = outcome.final_verdict
+            chapter_timings[slug]["cost_usd"] = _chapter_cost
+            if per_chapter_cost_cap_usd > 0 and _chapter_cost > per_chapter_cost_cap_usd:
+                cost_msg = f"COST-CAPPED: chapter spent ${_chapter_cost:.2f} > cap ${per_chapter_cost_cap_usd:.2f}"
+                _err(f"  [{slug}] {cost_msg}")
+                outcome.notes.append(cost_msg)
+                outcome.final_verdict = "FAILED"
+                chapter_timings[slug]["verdict"] = "FAILED-COST-CAPPED"
+            outcomes.append(outcome)
         _info(render_outcome(outcome))
         if outcome.episode_rebuild_failed:
             _err(f"  [{slug}] episode.txt rebuild failed during convergence — review framing/build")
@@ -220,66 +341,44 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         # burn through the ceiling again). Distinct from a per-chapter cap (below),
         # which only fails the one chapter and degrades to the next.
         if outcome.systemic_halt:
-            chapter_timings[slug]["error"] = outcome.systemic_halt
-            failed_chapter_slugs.add(slug)
-            update_phase(
-                book_dir,
-                phase="per-chapter",
-                status="failed",
-                error=outcome.systemic_halt,
-                extras={
-                    "completed_slugs": sorted(completed_chapter_slugs),
-                    "failed_slugs": sorted(failed_chapter_slugs),
-                    "chapter_timings": chapter_timings,
-                },
-            )
+            with _shared:
+                chapter_timings[slug]["error"] = outcome.systemic_halt
+                failed_chapter_slugs.add(slug)
+                if _halt_reason is None:
+                    _halt_reason = outcome.systemic_halt
+            # Trip the breaker so chapters that have not begun decline at their own
+            # pre-start gate; the post-dispatch handler owns the exit.
+            breaker.trip(outcome.systemic_halt)
             _err(f"{outcome.systemic_halt} — halting book (no relaunch).")
-            return 2
+            return
         if outcome.final_verdict == "FAILED":
-            failed_chapter_slugs.add(slug)
             # C1: capture the real reason into durable state (was swallowed —
             # only outcome.notes held it, and render_outcome dropped it).
             _reason = outcome.notes[-1].strip().splitlines()[0][:300] if outcome.notes else "no reason captured"
-            chapter_timings[slug]["error"] = _reason
+            with _shared:
+                failed_chapter_slugs.add(slug)
+                chapter_timings[slug]["error"] = _reason
+                # Read UNDER the lock and passed by value below. Reading it at the call
+                # site instead took it from a dict other workers are inserting into, and
+                # the breaker uses this duration to decide systemic-vs-content — the one
+                # access in this function that escaped the discipline the rest follows.
+                _duration_sec = chapter_timings[slug].get("duration_sec") or 0.0
 
             # C3 circuit breaker: is this a SYSTEMIC failure (halt) or a genuine
-            # per-chapter content failure (graceful-degrade)? Two systemic signals:
-            #   (a) the FIRST attempted chapter failed in <5s — a deterministic
-            #       crash (path/contract/template bug), not content; or
-            #   (b) the SAME normalized failure has now hit >=2 chapters — paying
-            #       for the same lesson again is waste (archetype-over-rerun rule).
-            _sig = _failure_signature(_reason)
-            _sig_slugs = failure_signatures.setdefault(_sig, [])
-            if slug not in _sig_slugs:
-                _sig_slugs.append(slug)
-            _dur = chapter_timings[slug].get("duration_sec") or 0.0
-            _systemic: str | None = None
-            if attempted == 1 and _dur < 5.0:
-                _systemic = (
-                    f"first attempted chapter '{slug}' failed in {_dur:.1f}s — "
-                    f"deterministic/systemic (not content): {_reason}"
-                )
-            elif len(_sig_slugs) >= 2:
-                _systemic = (
-                    f"same failure across {len(_sig_slugs)} chapters "
-                    f"({', '.join(_sig_slugs)}) — systemic, not per-chapter: {_reason}"
-                )
+            # per-chapter content failure (graceful-degrade)? The two signals, the
+            # signature normalisation and the shared state all live in
+            # `_chapter_breaker` now — `_ordinal` is what `begin()` handed back, passed
+            # in rather than re-read because under workers "was this the first attempt"
+            # is a fact about when this chapter STARTED, not about the counter now.
+            _systemic = breaker.record_failure(slug, _reason, _duration_sec, _ordinal)
 
             if _systemic:
-                update_phase(
-                    book_dir,
-                    phase="per-chapter",
-                    status="failed",
-                    error=f"CIRCUIT-BREAKER: {_systemic}",
-                    extras={
-                        "completed_slugs": sorted(completed_chapter_slugs),
-                        "failed_slugs": sorted(failed_chapter_slugs),
-                        "chapter_timings": chapter_timings,
-                    },
-                )
+                with _shared:
+                    if _halt_reason is None:
+                        _halt_reason = f"CIRCUIT-BREAKER: {_systemic}"
                 _err(f"CIRCUIT-BREAKER halt: {_systemic}")
                 _err("Not grinding through remaining chapters — fix the root cause, then --resume.")
-                return 2
+                return
 
             # Genuine per-chapter content failure → graceful-degrade (F33-second).
             update_phase(
@@ -287,32 +386,122 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                 phase="per-chapter",
                 status="running",
                 error=f"[{slug}] {_reason}",
-                extras={
-                    "completed_slugs": sorted(completed_chapter_slugs),
-                    "failed_slugs": sorted(failed_chapter_slugs),
-                    "chapter_timings": chapter_timings,
-                },
+                extras=_snapshot(),
             )
             _err(f"chapter {slug} failed: {_reason}")
             _err(f"chapter {slug} — continuing to next chapter (F33-second graceful-degrade).")
-            continue
+            return
 
-        completed_chapter_slugs.add(slug)
-        phase_git_commit(
-            book_dir,
-            f"podcast({book_slug})[{slug}]: {outcome.final_verdict} "
-            f"(iter={outcome.outer_iterations} · P0={outcome.p0_remaining} "
-            f"P1={outcome.p1_remaining})",
-        )
+        # Both mutations under ONE acquisition: a reader taking `_snapshot()` between them
+        # would see a chapter marked complete that the batched commit does not yet name.
+        #
+        # The commit LINE is recorded here and committed after the loop. Per-chapter
+        # commits ran a repo-wide `git status` each time, and under workers two threads
+        # would contend on .git/index.lock and commit each other's staged files. Deferring
+        # is crash-safe: the chapter's output is on disk and `completed_slugs` is in the
+        # state file, so a resume skips it and the commit happens later. It is also safe
+        # against the clean-tree gate, which allowlists every directory this loop writes
+        # — verified in phases/preflight.py.
+        with _shared:
+            completed_chapter_slugs.add(slug)
+            committed_chapter_lines.append(
+                f"  {slug}: {outcome.final_verdict} "
+                f"(iter={outcome.outer_iterations} · P0={outcome.p0_remaining} · P1={outcome.p1_remaining})"
+            )
+        update_phase(book_dir, phase="per-chapter", status="running", extras=_snapshot())
+
+    # ── dispatch ────────────────────────────────────────────────────────────
+    # Serial by DEFAULT (one worker), so merging this changed nothing about how a book
+    # runs. Set PER_CHAPTER_MAX_WORKERS to opt a book in; the three blockers that made
+    # concurrency unsafe are cleared (see the comment above `_run_one_chapter`).
+    #
+    # The one-worker path deliberately does NOT go through the executor: a pool of one is
+    # not quite the same thing (exception timing, thread identity, and the ordering of
+    # interleaved log lines), and the default path should be the one that has been
+    # running for months rather than a new arrangement of it.
+    _pending_slugs = [s for s in chapter_slugs if s not in completed_chapter_slugs and s not in failed_chapter_slugs]
+    for _s in chapter_slugs:
+        if _s in completed_chapter_slugs:
+            _info(f"phase: per-chapter[{_s}] · already shipped, skipping")
+        elif _s in failed_chapter_slugs:
+            _info(f"phase: per-chapter[{_s}] · prior FAILED, skipping (--retry-phase per-chapter re-attempts it)")
+
+    def _record_chapter_crash(slug: str, exc: BaseException) -> None:
+        """A chapter that died of an unexpected exception becomes this phase's halt.
+
+        ONE handler for both dispatch paths. It used to exist only inside the executor
+        loop, so the DEFAULT (serial) path let an exception escape the whole phase —
+        taking the batched commit below with it and leaving every chapter that had
+        already shipped uncommitted. Per-chapter commits used to make that harmless; the
+        batched commit made it lossy, and only the path nobody runs was protected.
+        """
+        nonlocal _halt_reason
+        _err(f"chapter {slug} raised {type(exc).__name__}: {exc}")
+        with _shared:
+            failed_chapter_slugs.add(slug)
+            if _halt_reason is None:
+                _halt_reason = f"chapter {slug} raised {type(exc).__name__}: {exc}"
+
+    def _dispatch_one(slug: str) -> None:
+        """Run one chapter, converting an unexpected exception into a recorded halt."""
+        try:
+            _run_one_chapter(slug)
+        except Exception as _e:  # noqa: BLE001 - recorded, then the phase decides
+            _record_chapter_crash(slug, _e)
+
+    if _max_workers <= 1:
+        for _s in _pending_slugs:
+            _dispatch_one(_s)
+    else:
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+
+        _info(f"per-chapter: running {len(_pending_slugs)} chapter(s) with {_max_workers} workers")
+        with ThreadPoolExecutor(max_workers=_max_workers) as _ex:
+            _futures = {_ex.submit(_dispatch_one, _s): _s for _s in _pending_slugs}
+            for _f in as_completed(_futures):
+                # `_dispatch_one` already caught anything an ordinary chapter can raise;
+                # this is the backstop for what it deliberately does not catch (a
+                # BaseException such as a worker killed mid-flight), which would otherwise
+                # vanish into the future object unread.
+                try:
+                    _f.result()
+                except BaseException as _e:  # noqa: BLE001 - recorded, then the phase decides
+                    _record_chapter_crash(_futures[_f], _e)
+
+    # ONE commit for the whole loop, before the failure handling below — a book where
+    # 18 of 20 chapters shipped must still commit those 18.
+    _commit_chapter_batch()
+
+    # A systemic halt recorded by any chapter. Handled HERE, once, rather than by an
+    # in-loop return: under workers several chapters may be finishing as the halt lands,
+    # and a single writer keeps the recorded state consistent. Under one worker this is
+    # the same outcome the old in-loop `return 2` produced, reached a few cheap
+    # iterations later.
+    if _halt_reason:
         update_phase(
             book_dir,
             phase="per-chapter",
-            status="running",
-            extras={
-                "completed_slugs": sorted(completed_chapter_slugs),
-                "chapter_timings": chapter_timings,
-            },
+            status="failed",
+            error=_halt_reason,
+            extras=_final_extras(),
         )
+        _err(f"per-chapter halted: {_halt_reason}")
+        return 2
+
+    # A halt that stopped chapters from STARTING is recorded before the per-chapter
+    # failure handling below, and returns 2 so the supervisor does not relaunch into the
+    # same wall. The reason carries its own marker (COST-CEILING for the ceiling), which
+    # is what supervise_run.py reads to decide that.
+    if _pre_start_halt and any(s not in completed_chapter_slugs for s in chapter_slugs):
+        update_phase(
+            book_dir,
+            phase="per-chapter",
+            status="failed",
+            error=_pre_start_halt,
+            extras=_final_extras(),
+        )
+        _err(f"per-chapter halted before starting further chapters: {_pre_start_halt}")
+        return 2
 
     if failed_chapter_slugs:
         update_phase(
@@ -325,11 +514,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                 f"{len(completed_chapter_slugs)} chapter(s) completed. "
                 f"Triage failures or raise per_chapter_cost_cap_usd and --resume."
             ),
-            extras={
-                "completed_slugs": sorted(completed_chapter_slugs),
-                "failed_slugs": sorted(failed_chapter_slugs),
-                "chapter_timings": chapter_timings,
-            },
+            extras=_final_extras(),
         )
         _err(
             f"per-chapter loop: {len(failed_chapter_slugs)} failed, "
@@ -337,16 +522,11 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         )
         return 2
 
-    update_phase(
-        book_dir,
-        phase="per-chapter",
-        status="completed",
-        extras={
-            "completed_slugs": sorted(completed_chapter_slugs),
-            "failed_slugs": [],
-            "chapter_timings": chapter_timings,
-        },
-    )
+    # `_snapshot()` rather than an inline dict, like every other write in this phase.
+    # `failed_slugs` used to be hardcoded `[]` here, which is the same value — the
+    # branch above returns when any chapter failed — but two ways of building the
+    # same extras is how the two drift.
+    update_phase(book_dir, phase="per-chapter", status="completed", extras=_final_extras())
 
     # Phase per-chapter-optimize (Wave I) — Sonnet arc/format/host-role check.
     # Guarded by optimize_enabled flag in meta.yml (default False — backward compat).
@@ -399,299 +579,16 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                 f"  per-chapter-optimize: {opt_results.get('chapters', 0)} chapters checked, {opt_results.get('warn', 0)} warnings."
             )
 
-    # Phase 0g — register + dual-auditor bundle sweep.
-    _0g_done = (read_state(book_dir) or {}).get("phases", {}).get("0g", {}).get("status") == "completed"
-    if _0g_done:
-        _info("phase: 0g · already completed, skipping")
-    else:
-        _info("phase: 0g · register series + dual-auditor bundle sweep")
-        update_phase(book_dir, phase="0g", status="running")
-        try:
-            phase_0g_register(book_dir)
-            _info("phase: 0g · register done; starting per-chapter audit sweep")
-            audit_outcomes = phase_0g_audit_bundles(book_dir, sorted(completed_chapter_slugs))
-        except RuntimeError as e:
-            update_phase(book_dir, phase="0g", status="failed", error=str(e))
-            _err(str(e))
-            return 2
-        update_phase(
-            book_dir,
-            phase="0g",
-            status="completed",
-            extras={"audit_outcomes": audit_outcomes},
-        )
-        phase_git_commit(
-            book_dir,
-            f"podcast({book_slug}): phase 0g register series + dual-auditor bundle sweep",
-        )
+    # Everything after the chapter loop — 0g, slides, audio, finalize — lives in
+    # `post_chapter_driver`. It shares no mutable state with the loop above: it needs
+    # only the slug, which chapters completed, their outcomes, and the audio-render
+    # approval, so it takes those four as arguments.
+    from phases.post_chapter_driver import drive_post_chapter
 
-    # Phase 11b — slide-deck cohort.
-    enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=True)
-    _slides_already_done = (read_state(book_dir) or {}).get("phases", {}).get("per-chapter-slides", {}).get(
-        "status"
-    ) in ("completed", "skipped")
-    if _slides_already_done:
-        _info("phase: per-chapter-slides · already completed/skipped, advancing to finalize")
-    elif enable_slide_decks:
-        run_slide_cohort(book_dir, completed_chapter_slugs)
-        phase_git_commit(book_dir, f"podcast({book_slug}): phase 11b slide-deck cohort")
-    else:
-        update_phase(
-            book_dir, phase="per-chapter-slides", status="skipped", extras={"reason": "enable_slide_decks=false"}
-        )
-
-    # Audio Engine v2 phases — autonomous (API) engines author + gate dialogue
-    # scripts, halt ONCE at H1 with the exact credit estimate, then render
-    # into the canonical m4a layout. NotebookLM books mark both phases
-    # skipped and continue to the manual finalize halt unchanged.
-    from phases.audio_driver import drive_audio_phases
-
-    _audio_outcome, _audio_rc = drive_audio_phases(book_dir, approve_render=approve_audio_render)
-    if _audio_outcome == "halted":
-        return 0  # clean stop at the H1 spend gate; --resume approves
-    if _audio_outcome == "failed":
-        return _audio_rc
-
-    # Finalize phase — run G1-G7 gates, halt for human review before publish.
-    # NOTE: the PDF companion-book path (0book-*) runs AFTER this halt, inside
-    # publish_driver._drive_publish_through_done, so that any issues caught at
-    # the podcast review gate are fixed before the book branch is generated.
-    _phase_boundary_gate(book_dir, "per-chapter→finalize")
-    _info("phase: finalize · run G1-G7 gates via validate_ship_ready.py")
-    update_phase(book_dir, phase="finalize", status="running")
-
-    # P3 (Stage 4): auto-run the zero-LLM Arabic-script restoration for
-    # audio-sourced Islamic books before the gate. repair_glossary is idempotent
-    # and free — it recovers any misassigned Arabic into arabic_script so the
-    # reader "Show Arabic" toggle has content. The deterministic canonical/passage
-    # restoration (steps 2b/3) and the reader-rendering feature are deferred;
-    # until they land the G13 ship-gate only REPORTS coverage, it does not block.
-    try:
-        import json as _json
-
-        from _content_profile import is_islamic_scholarly
-
-        _state_p = book_dir / "_system" / "orchestrator-state.json"
-        _st = _json.loads(_state_p.read_text()) if _state_p.exists() else {}
-        if _st.get("source_kind") == "audio" and is_islamic_scholarly(book_dir):
-            from restore_arabic import repair_glossary
-
-            _rep = repair_glossary(book_dir)
-            _info(f"phase: finalize · auto Arabic-restore (audio Islamic): {_rep}")
-    except Exception as _e:  # never block finalize on a best-effort restore
-        _err(f"finalize: Arabic auto-restore skipped (non-fatal): {_e}")
-
-    validate_script = Path(__file__).resolve().parents[1] / "validate_ship_ready.py"
-    rc, vout, verr = _run([sys.executable, str(validate_script), book_slug])
-    print(vout)
-    if rc != 0:
-        update_phase(
-            book_dir,
-            phase="finalize",
-            status="failed",
-            error="G1-G7 gates failed; see stdout for the failing gate",
-            extras={"validator_stdout": vout[-2000:], "validator_stderr": verr[-1000:]},
-        )
-        _err(
-            "finalize halt — at least one G1-G7 gate failed. "
-            "Fix the cause, then re-invoke `orchestrate_book.py --resume`."
-        )
-        return 2
-    update_phase(book_dir, phase="finalize", status="halted", extras={"verdict": "SHIP-READY"})
-
-    # The reading edition, built HERE rather than only after publish. Its input is
-    # _system/source/text/refined-english.md, which has existed since 0b — it never
-    # depended on the audio, only sat after it in the phase order. Building it now
-    # means the articulated book.md and its PDF are in the Composer at the same
-    # stopping point as the chapters and the slide-deck prompts, which is what a
-    # human actually reviews. Self-skips unless the book lane can complete without
-    # a human artifact; the publish-time call remains the path for the rest.
-    from _book_preview import maybe_build_reading_edition_early
-
-    maybe_build_reading_edition_early(book_dir, log=_info)
-
-    # Non-blocking advisories. Emitters live in `_halt_advisories` so this file
-    # (grandfathered by the line-count gate) stays their caller, not their home.
-    from _halt_advisories import emit_decision_ledger, emit_transcription_advisories
-
-    emit_transcription_advisories(book_dir, _info)
-    emit_decision_ledger(book_dir, _info)
-
-    _info("")
-    _info("─" * 72)
-    _info("Phase finalize complete · halted for human review (SHIP-READY).")
-    _info("")
-    _info("Review the clean version in the Podcast Factory Astro Site:")
-    _info("  cd plan-dashboard && npm run dev")
-    _info("  open http://localhost:4321/develop/" + book_slug + "/")
-    _info("")
-    # Engine-aware halt card. Per-episode routing: a book may be autonomous
-    # (ElevenLabs) yet flip individual episodes to NotebookLM via
-    # episode_engine_overrides — so the card may show BOTH an "already rendered"
-    # note (for the API episodes) AND the NotebookLM upload ritual (for the
-    # overridden ones). The no-overrides path is byte-identical to before (the
-    # golden-test latch): pure-NotebookLM books print the full unfiltered table,
-    # pure-ElevenLabs books print only the rendered note.
-    # Shared filter: the SAME `notebooklm_episode_filter` the audio-ingest phase
-    # uses, so the halt card and the phase agree on which episodes need the ritual.
-    # None = pure-NotebookLM (all episodes); empty set = pure-API (none); a subset
-    # = mixed-engine book.
-    try:
-        from _audio_engines import notebooklm_episode_filter
-
-        _all_eps = [e["episode"] for e in _discover_episode_mapping(book_dir)]
-        _nlm_filter: set[str] | None = notebooklm_episode_filter(book_dir, _all_eps)
-    except Exception:
-        _all_eps, _nlm_filter = [], None
-
-    if _nlm_filter is None:
-        _has_api = False
-    elif not _nlm_filter:
-        _has_api = True
-    else:
-        _has_api = any(ep not in _nlm_filter for ep in _all_eps)
-
-    if _has_api:
-        _info("Audio engine: elevenlabs — those episodes are ALREADY rendered into")
-        _info("m4a/ with script-derived transcripts (no NotebookLM step, no")
-        _info("normalize/transcribe needed). Review the audio with the reader.")
-        _info("")
-    # NotebookLM upload ritual: for a pure-NotebookLM book (_nlm_filter is None)
-    # or any episode overridden to NotebookLM (non-empty set).
-    if _nlm_filter is None or _nlm_filter:
-        try:
-            _print_notebooklm_table(book_dir, filter_episode_ids=_nlm_filter)
-        except Exception as _tbl_exc:
-            _info(f"  [notebooklm table error: {_tbl_exc}]")
-        _info("")
-        _info("After downloading the generated .m4a files, drop them anywhere under")
-        _info("m4a/ — names don't matter. The next --resume normalizes them to canonical")
-        _info("chapter order and transcribes via Azure Speech automatically (the")
-        _info("audio-ingest phase) — no manual CLI step needed.")
-        _info("")
-        # Durable worklist file — the operator works ONE checklist across sessions
-        # (it survives terminal scroll); audio-ingest + 0book-slide-import consume
-        # the drops automatically on --resume.
-        try:
-            from _notebooklm_table import build_worklist_lines
-            from assemble_bundle import build_upload_rows
-
-            _wl_rows = build_upload_rows(book_dir, _discover_episode_mapping(book_dir), filter_episode_ids=_nlm_filter)
-            _resume_cmd = f"python3 scripts/podcast/orchestrate_book.py --resume {book_slug}"
-            _wl_path = book_dir / "_system" / "notebooklm-worklist.md"
-            _wl_path.parent.mkdir(parents=True, exist_ok=True)
-            _wl_path.write_text(
-                "\n".join(build_worklist_lines(book_dir, upload_rows=_wl_rows, resume_cmd=_resume_cmd)) + "\n",
-                encoding="utf-8",
-            )
-            _info(f"Durable worklist written: {_wl_path.relative_to(REPO_ROOT)}")
-            _info("")
-        except Exception as _wl_exc:
-            _info(f"  [worklist file skipped: {_wl_exc}]")
-    # Slide-deck generation always runs through NotebookLM's Slide-deck tool,
-    # independent of the audio engine — print the card on EVERY path (it
-    # self-skips when no chapter has a converged deck).
-    try:
-        _print_slide_deck_card(book_dir)
-    except Exception as _card_exc:
-        _info(f"  [slide-deck card error: {_card_exc}]")
-    _info("")
-    _info("When satisfied, authorize publish + trainer + merge:")
-    _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
-    _info("─" * 72)
-    return 0
-
-
-def _print_slide_deck_card(book_dir: Path) -> None:
-    """Print the slide-deck generation card at the finalize halt.
-
-    One row per chapter with a converged deck pair in slide-decks/ — the human
-    generates each deck in NotebookLM's Slide deck tool during the SAME visit
-    as the episode uploads, then drops the exported PDFs at the printed paths
-    so 0book-slide-import can weave them into the reading edition on --resume.
-    Prints nothing when no chapter participates (deck-less books)."""
-    parent = Path(__file__).resolve().parents[1]
-    if str(parent) not in sys.path:
-        sys.path.insert(0, str(parent))
-    from _notebooklm_table import build_slide_deck_card
-
-    lines = build_slide_deck_card(book_dir)
-    if not lines:
-        return
-    _info("")
-    for line in lines:
-        _info(line)
-
-
-def _discover_episode_mapping(book_dir: Path) -> list[dict]:
-    """[{episode, chapter, n}] for every episode, in order.
-
-    Prefers the Phase-0g episode map; falls back to discovering directly from
-    episodes/ for books where the map isn't generated yet. Shared by the
-    NotebookLM table and the per-episode engine routing at finalize so both see
-    the SAME episode set.
-    """
-    parent = Path(__file__).resolve().parents[1]
-    if str(parent) not in sys.path:
-        sys.path.insert(0, str(parent))
-    from assemble_bundle import _load_episode_map
-
-    mapping = _load_episode_map(book_dir)
-    if mapping:
-        return mapping
-    import re as _re
-
-    ep_pat = _re.compile(r"^(EP(\d+)-(.*))\.txt$")
-    ep_dir = book_dir / "episodes"
-    if not ep_dir.exists():
-        return []
-    out: list[dict] = []
-    for ep_file in sorted(ep_dir.glob("EP*.txt")):
-        m = ep_pat.match(ep_file.name)
-        if not m:
-            continue
-        ep_slug, ep_num_str, ch_slug = m.group(1), m.group(2), m.group(3)
-        out.append({"episode": ep_slug, "chapter": f"ch{ep_num_str}-{ch_slug}", "n": int(ep_num_str)})
-    return out
-
-
-def _print_notebooklm_table(book_dir: Path, filter_episode_ids: set[str] | None = None) -> None:
-    """Print the NotebookLM upload table at finalize halt.
-
-    Reuses discovery + formatting helpers from assemble_bundle.py.
-    Prints per-episode rows: EP | Title | Upload source | Customize paste |
-    NotebookLM Format setting | Length setting.
-
-    *filter_episode_ids*: when None (the default), ALL episodes are listed —
-    byte-identical to the pre-override behavior (the golden-test latch). When a
-    set is given (mixed-engine books), only those episode ids are listed, so the
-    operator uploads exactly the per-episode NotebookLM overrides.
-    """
-    try:
-        # Import helpers from sibling script (same scripts/podcast/ parent).
-        parent = Path(__file__).resolve().parents[1]
-        if str(parent) not in sys.path:
-            sys.path.insert(0, str(parent))
-        from _notebooklm_table import render_upload_table_lines
-        from assemble_bundle import build_upload_rows
-    except ImportError as exc:
-        _info(f"  [notebooklm table skipped — import error: {exc}]")
-        return
-
-    mapping = _discover_episode_mapping(book_dir)
-    if not mapping:
-        _info("  [notebooklm table skipped — no episodes found]")
-        return
-
-    # SINGLE row constructor — shared with the durable worklist so both render
-    # from identical data (byte-identical to the prior inline loop: the latch).
-    rows = build_upload_rows(book_dir, mapping, filter_episode_ids=filter_episode_ids)
-
-    _info("─" * 72)
-    _info("NOTEBOOKLM UPLOAD TABLE")
-    _info("")
-    _info("Per row: click the CHAPTER cell to open the SOURCE to upload, and the")
-    _info("EPISODE cell to open the FRAMING to paste into NotebookLM's Customize box.")
-    _info("")
-    for line in render_upload_table_lines(rows):
-        _info(f"  {line}")
+    return drive_post_chapter(
+        book_dir,
+        book_slug=book_slug,
+        completed_chapter_slugs=completed_chapter_slugs,
+        outcomes=outcomes,
+        approve_audio_render=approve_audio_render,
+    )

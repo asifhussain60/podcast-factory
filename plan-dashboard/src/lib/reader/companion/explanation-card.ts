@@ -26,6 +26,7 @@ import type { EtymologyMorphology } from "./types";
 import { cardHeadingButtons } from "./card-heading-buttons";
 import { cardMarkdownToHtml } from "./card-markdown";
 import { PANEL_TEXT_SIZE_EVENT } from "../../../scripts/panel-text-size";
+import { createArabicDecos } from "../../../components/studio/editor/arabic-decos";
 
 export interface CardNote {
   id: string;
@@ -659,6 +660,15 @@ export function renderExplanationCard(
         // tokens. A private prefix here would ship an unstyled toolbar.
       },
       editorAttributes: { class: "rte-prose xpl-prose" },
+      // The seed above carries no Arabic span (arabicSpans: false — the schema
+      // has no node for one), so without this an Arabic term sits at parity with
+      // the Latin around it: legible face, no size, reading as fine print under
+      // its own vowel marks. A DECORATION, not a mark — same reasoning as
+      // arabic-decos.ts, which this reuses rather than re-deriving: it defines
+      // no node or mark, so the package's own serializer-coverage assertion
+      // (attach.ts) has nothing to see it. companion-card.css sizes `.ar-raw`
+      // inside `.xpl-prose` to the card's own 1.08em, matching its read-only view.
+      unsafeTiptapExtensions: [createArabicDecos()],
     });
     if (editor.toolbarEl) bodyEl.prepend(editor.toolbarEl);
   }

@@ -1,0 +1,9 @@
+{
+  "_note": "Which card a quotation takes, when the mushaf cannot answer. Keyed by the quotation's own first line, verbatim — the same key the pipeline writes. The poem line is ayyuhal-walad's, hemistichs and all.",
+  "chapters": {
+    "a fixture chapter": {
+      "قَالَ النَّبِيُّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ": "hadith",
+      "لَقَدْ هَتَفَتْ فِي جُنْحِ لَيْلٍ حَمَامَةٌ * على فننٍ وهناً، وإنّي لنائم": "poem"
+    }
+  }
+}

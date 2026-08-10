@@ -1034,10 +1034,10 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   margin-inline: auto;
   /* Wraps, exactly as the formatting bar above it already does. The cluster is
      610px of controls; at a 390px viewport the composer column gives it 340px,
-     and nowrap put the size stepper, the whole Paper picker and "Show changes"
-     past the right edge of a container that clips rather than scrolls — three
-     controls with no way to reach them. Centred when it wraps so a short second
-     line reads as the same deliberate tier, not as a leftover. */
+     and nowrap put the size stepper, the whole Paper picker and the trailing
+     switch past the right edge of a container that clips rather than scrolls —
+     three controls with no way to reach them. Centred when it wraps so a short
+     second line reads as the same deliberate tier, not as a leftover. */
   flex-wrap: wrap;
   justify-content: center;
   row-gap: 0.4rem;
@@ -1140,55 +1140,103 @@ body:has(.composer-grid) .to-top {
   color: var(--c-accent, #8b4513);
 }
 
-/* Show-changes toggle — the word-level track-change view for human edits, off by
-   default (2026-07-27). Sits with the other view preferences because that is what
-   it is: it changes how the chapter is DISPLAYED, never what it contains. Styled
-   as a sibling of .cx-paper-btn so the group reads as one control strip. */
-.cx-diff-toggle {
+/* The Highlights switch — draws or withdraws the yellow tint over passages that
+   carry a Scholar explanation (2026-08-09, replacing the Show-changes toggle in
+   the same slot). Sits with the other view preferences because that is what it
+   is: it changes how the chapter is DISPLAYED, never what it contains.
+
+   A SWITCH rather than a pressed-looking button, on Asif's call: this is a
+   standing on/off state, and the difference matters twice over — a switch shows
+   its state without needing you to compare it against its unpressed neighbours,
+   and `role="switch"` announces "on"/"off" where a toggle button announces
+   "pressed", which describes the control rather than the book.
+
+   The CAPTION is visible, unlike the paper swatches beside it. Three colour
+   chips are self-describing; a track and a knob are not, and the row has the
+   width now that the Qur'anic-quotation button has left the bar above. */
+.cx-switch {
   display: inline-flex;
   align-items: center;
-  /* Icon-only since 2026-08-02 — the caption moved off-screen (see .cx-vh) and
-     into the tooltip, which is what keeps the bar at two rows now that the
-     colour button shares the first one. */
-  justify-content: center;
+  gap: 0.4rem;
   font: inherit;
   font-size: 0.75rem;
-  height: 100%;
+  height: 1.9rem;
   padding: 0 0.55rem;
-  border: 0;
-  border-inline-start: 1px solid
-    var(--cx-control-border, var(--c-rule, #d9d3c4));
-  background: transparent;
+  border: 1px solid var(--cx-control-border, var(--c-rule, #d9d3c4));
+  border-radius: 6px;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 4%);
   color: var(--c-ink-muted, #66625a);
   cursor: pointer;
-  transition:
-    background-color 120ms ease,
-    color 120ms ease;
+  white-space: nowrap;
+  transition: color 120ms ease;
 }
 
-/* The glyph, on the package's own 16px box so it sits level with the formatting
-   bar's icons beside it. */
-.cx-diff-toggle svg {
-  display: block;
-  width: 1rem;
-  height: 1rem;
-}
-.cx-diff-toggle:hover {
-  background: color-mix(in oklab, var(--c-ink, #1f1d18) 6%, transparent);
+.cx-switch:hover {
   color: var(--c-ink, #1f1d18);
 }
 
-/* ON reads as ON at a glance: the accent, and the same warm wash the toggle's
-   own output (para-dirty) uses, so the control and its effect share a colour. */
-.cx-diff-toggle[aria-pressed="true"] {
-  background: color-mix(in oklab, var(--c-accent, #8b4513) 12%, transparent);
+/* ON takes the accent — the same "this is doing something" colour the rest of
+   the composer's active controls use. The word changes weight as well as
+   colour, so the state is never carried by hue alone. */
+.cx-switch[aria-checked="true"] {
   color: var(--c-accent, #8b4513);
+}
+
+.cx-switch[aria-checked="true"] .cx-switch-text {
   font-weight: 600;
 }
 
-.cx-diff-toggle:focus-visible {
+.cx-switch:focus-visible {
   outline: 2px solid var(--c-accent, #8b4513);
   outline-offset: -2px;
+}
+
+/* The track. Sized in em so it follows the caption if the row's type ever
+   changes, and given a real border so it reads as a control in the OFF state
+   rather than as a grey smudge. */
+.cx-switch-track {
+  position: relative;
+  flex: none;
+  width: 1.9em;
+  height: 1.05em;
+  border-radius: 1em;
+  border: 1px solid var(--cx-control-border, var(--c-rule, #d9d3c4));
+  background: color-mix(in oklab, var(--c-ink, #1f1d18) 8%, transparent);
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease;
+}
+
+.cx-switch[aria-checked="true"] .cx-switch-track {
+  background: var(--c-accent, #8b4513);
+  border-color: var(--c-accent, #8b4513);
+}
+
+/* The knob, inset so it never touches the track's own border. */
+.cx-switch-knob {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 0.1em;
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: 50%;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 25%);
+  transform: translateY(-50%);
+  transition: inset-inline-start 140ms ease;
+}
+
+.cx-switch[aria-checked="true"] .cx-switch-knob {
+  inset-inline-start: 0.95em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-switch,
+  .cx-switch-track,
+  .cx-switch-knob {
+    transition: none;
+  }
 }
 
 .cx-paper-btn[data-paper="light"] {
@@ -1403,7 +1451,16 @@ body:has(.composer-grid) .to-top {
    `dir`/`lang` are NOT preserved as attributes (fewer things to carry through the
    schema); direction is CSS here, and the isolate stops the RTL run from
    disturbing the Latin around it. */
-.cx-prose blockquote.quran {
+/* NOT A CARD (2026-08-09). `.quran` means "contains Arabic", never "is a card" —
+   quote-typography.css says so of the class itself — so every rule below this
+   comment sets the box of a quotation that has NO card class, and stands down for
+   one that has. Without the guard the two tie on specificity (a class plus a
+   class plus an element, both ways) and this file loads later, so the pre-card
+   treatment quietly won: the card kept its tint here and lost its 1.6rem side
+   inset, and in Read mode lost the tint as well. The kinds are listed rather than
+   matched loosely because the list is a contract — it lives in
+   quote-typography.css and is checked by `_quote_cards` (QC-010). */
+.cx-prose blockquote.quran:not(.k-quran, .k-hadith, .k-poem, .k-quote) {
   border-left: 0;
   padding-left: 0;
   padding-right: 0;
@@ -1492,11 +1549,14 @@ body:has(.composer-grid) .to-top {
   direction: rtl;
   unicode-bidi: isolate;
   text-align: center;
-  margin: 0 0 0.2rem;
+  margin: 0 0 var(--q-ar-gap, 0.2rem);
 }
 .cx-prose p.tr {
   font-family: var(--q-tr-face);
-  font-size: 1.02rem;
+  /* Tokenised with the other surfaces (2026-08-09) so a Qur'an card sets its
+     rendering one size down here too. `color: inherit` below already lets the
+     per-card ink through, so only the size needed a token. */
+  font-size: var(--q-tr-size, 1.02rem);
   line-height: 1.45;
   color: inherit;
   text-align: center;
@@ -2215,7 +2275,8 @@ body:has(.composer-grid) .to-top {
 
 /* Arabic verses in the preview mirror the printed page: no box, body-ink Arabic
    at body scale (matches book-print.css / book-reader.css blockquote.quran). */
-.cx-body blockquote.quran {
+/* NOT A CARD — see the note at `.cx-prose blockquote.quran` above. */
+.cx-body blockquote.quran:not(.k-quran, .k-hadith, .k-poem, .k-quote) {
   border-left: 2px solid var(--c-rule, #d9d3c4);
   padding: 0.25rem 0 0.25rem 1.1rem;
 }

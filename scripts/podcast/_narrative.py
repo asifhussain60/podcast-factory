@@ -311,8 +311,19 @@ def _paragraphs(text: str) -> list[str]:
 
 
 def _attribution_zones(text: str) -> list[str]:
-    """The opening window of each paragraph, where speech tags live."""
-    return [p[:_ATTRIBUTION_WINDOW] for p in _paragraphs(text)]
+    """The opening window of each paragraph, where speech tags live.
+
+    Quoted spans are stripped first. Without this, a short attribution tag
+    ("Moses replies:") followed immediately by the character's own first-person
+    quote ("... when I asked Him for the vision ...") puts that quote inside the
+    first ``_ATTRIBUTION_WINDOW`` characters, and the first-person match fires on
+    the character's own reported speech — exactly the case the docstring below
+    already promises is safe under every frame, which this omission broke.
+    Observed live on spiritual-ethos (2026-08-07): a faithful rendering of
+    Moses's exchange with God (Q7:143) was rejected twice in a row on this
+    ground before being traced to the gate, not the prose.
+    """
+    return [_QUOTED_SPAN_RE.sub(" ", p)[:_ATTRIBUTION_WINDOW] for p in _paragraphs(text)]
 
 
 def narrative_person_findings(
@@ -413,44 +424,64 @@ def enumeration_findings(base_text: str, candidate: str, *, minimum: int = 3) ->
     "(3) (4) (5)" — a consecutive ascending NUMERIC run that starts above 1,
     which no argument list ever does. A run starting above 1 is numbering
     continued from earlier text (apparatus at any length); a run starting AT 1
-    is apparatus only when it is long (6+ — a whole-document scan), because a
-    genuine numbered list also starts at 1 and stays short. Lettered markers
-    never qualify. Apparatus markers are subtracted; any real enumeration that
-    coexists with them (a lettered list inside numbered sections) stays
-    policed. A run-length gate alone was tried first and passed a whole-source
-    check while failing the per-chapter slices the pipeline actually judges —
-    its retry then "preserved" the section numbers into the translation.
+    is apparatus when it is long (6+ — a whole-document scan) OR when its
+    markers are PARENTHESIZED numeric and short — kitab-al-riyad's critical
+    edition carries dozens of independent footnotes ("(1) This imam lived in
+    Salamiyya...", "(2) Philosophical Letters — Paul Kraus — p. 291", "(3) It
+    fell in copy (B)"), each restarting at (1), each unrelated to its
+    neighbours, several short runs of which summed past `minimum` and read as
+    one lost list. Every genuine numbered ARGUMENT list found in this
+    pipeline's source material instead uses BARE "1." dot-style numbering
+    (the 9-item al-Mahsul/al-Islah dispute list, also in kitab-al-riyad): a
+    short parenthesized run is apparatus, a short bare-dot run is real.
+    Lettered markers never qualify, at any run length. Apparatus markers are
+    subtracted; any real enumeration coexisting with them stays policed. A
+    run-length gate alone was tried first and passed a whole-source check
+    while failing the per-chapter slices the pipeline actually judges — its
+    retry then "preserved" the section numbers into the translation.
     """
     # ONE scan, in document order, for both the total and the run detection.
     # (A paragraph-head scan under-counted: a section number that follows an
     # inline Arabic line sits mid-paragraph, so the run looked broken and the
-    # apparatus went half-detected.)
-    markers = [(m.group(1) or m.group(2)) for m in _ENUM_MARKER_RE.finditer(base_text or "")]
+    # apparatus went half-detected.) Marker STYLE travels with each one —
+    # parenthesized vs. bare-dot vs. lettered — since the run classification
+    # below depends on it.
+    markers: list[tuple[str, str]] = []  # (digits, style) — style: "paren" | "dot" | "letter"
+    for m in _ENUM_MARKER_RE.finditer(base_text or ""):
+        if m.group(2):
+            markers.append((m.group(2), "dot"))
+        elif m.group(1).isdigit():
+            markers.append((m.group(1), "paren"))
+        else:
+            markers.append((m.group(1), "letter"))
     base_n = len(markers)
     if base_n < minimum:
         return []
-    # Maximal consecutive ascending numeric runs, in document order.
-    runs: list[tuple[int, int]] = []  # (start_number, length)
+    # Maximal consecutive ascending numeric runs, in document order. Style is
+    # the FIRST marker's — a run does not change style mid-sequence in
+    # practice, and classification only needs one answer per run.
+    runs: list[tuple[int, int, str]] = []  # (start_number, length, style)
     start = prev = None
     length = 0
-    for digits in markers:
+    run_style = ""
+    for digits, style in markers:
         if digits and digits.isdigit():
             number = int(digits)
             if prev is not None and number == prev + 1 and length:
                 length += 1
             else:
                 if length:
-                    runs.append((start, length))
-                start, length = number, 1
+                    runs.append((start, length, run_style))
+                start, length, run_style = number, 1, style
             prev = number
         else:
             if length:
-                runs.append((start, length))
-            start, length = None, 0
+                runs.append((start, length, run_style))
+            start, length, run_style = None, 0, ""
             prev = None
     if length:
-        runs.append((start, length))
-    apparatus = sum(n for s, n in runs if s > 1 or n >= 6)
+        runs.append((start, length, run_style))
+    apparatus = sum(n for s, n, st in runs if s > 1 or n >= 6 or (st == "paren" and s == 1))
     effective = base_n - apparatus
     if effective < minimum:
         return []

@@ -105,12 +105,6 @@ interface Props {
   onNotesChanged?: (notes: CompanionNote[]) => void;
   /** A card wants its passage shown in the prose. */
   onReveal?: (noteId: string) => void;
-  /** A passage was highlighted (or the highlight was cleared/consumed) — the
-   *  host paints it as a ProseMirror decoration in Edit mode, where the CSS
-   *  Custom Highlight this panel paints itself has no effect (Chromium does
-   *  not render `::highlight()` inside `contenteditable`). Read mode ignores
-   *  this prop; its own DOM highlight already works there. */
-  onPendingRange?: (range: Range | null) => void;
 }
 
 /** The element a selection boundary sits in (a text node reports its parent). */
@@ -164,16 +158,36 @@ const PENDING_HIGHLIGHT = "gcp-pending";
  *  native selection: focusing the textarea to type a question collapses
  *  `window.getSelection()` (see readSelection's docs) and would otherwise take
  *  the visible highlight with it. A Custom Highlight is independent of focus
- *  and never touches the DOM, so it is safe to use anywhere — but Chromium
- *  does not actually PAINT `::highlight()` inside `contenteditable`, so this
- *  is Read-mode-only in practice; the Edit canvas gets its visible tint from
- *  `onPendingRange` → pending-selection-decos.ts instead. Registering it
- *  everywhere regardless costs nothing and keeps this function ignorant of
- *  which mode it's running in. No-op where unsupported (feature-detected —
- *  this is a visual nicety, never required for the flow to work). */
+ *  and never touches the DOM.
+ *
+ *  THE EDIT CANVAS GETS NOTHING (Asif, 2026-08-09), and this function is what
+ *  has to enforce it. It used to get an equivalent ProseMirror decoration
+ *  through an `onPendingRange` callback, and because this panel captures every
+ *  selection made anywhere in the host's prose container — which in the Composer
+ *  is the whole editor — that painted a tint over every selection a writer made
+ *  for any reason and left it lit after the selection collapsed. That decoration
+ *  was deleted, and the tint came back anyway, from HERE: the note this replaces
+ *  asserted that Chromium will not paint `::highlight()` inside
+ *  `contenteditable`, and it does. So the rule is a CONDITION now rather than a
+ *  belief about the browser — a range inside an editing surface paints nothing,
+ *  whatever a browser is willing to draw. A writing surface selects text the way
+ *  every other editor selects text; the passage is still held, and the
+ *  `gcp-held` chip is where you see which one.
+ *
+ *  No-op where unsupported (feature-detected — a visual nicety, never required
+ *  for the flow to work). */
 function paintPendingSelection(range: Range | null): void {
   if (typeof CSS === "undefined" || !("highlights" in CSS)) return;
   if (!range) {
+    CSS.highlights.delete(PENDING_HIGHLIGHT);
+    return;
+  }
+  const node = range.commonAncestorContainer;
+  const host = node instanceof Element ? node : node.parentElement;
+  // `delete` rather than an early return: a selection moving from a reading
+  // surface into an editor has to take the previous tint with it, or the last
+  // passage read stays lit on a page nobody is reading any more.
+  if (host?.closest('[contenteditable="true"]')) {
     CSS.highlights.delete(PENDING_HIGHLIGHT);
     return;
   }
@@ -192,7 +206,6 @@ export default function GemCompanionPanel({
   readOnly = false,
   onNotesChanged,
   onReveal,
-  onPendingRange,
 }: Props) {
   const [open, setOpen] = useState(docked);
   const [input, setInput] = useState("");
@@ -237,7 +250,6 @@ export default function GemCompanionPanel({
   // Read by card callbacks, which outlive the render that created them.
   const openIdsRef = useRef<string[]>([]);
   const onRevealRef = useRef(onReveal);
-  const onPendingRangeRef = useRef(onPendingRange);
   const saveRef = useRef<(id: string, edit: CardEdit) => void>(() => {});
   const removeRef = useRef<(id: string) => void>(() => {});
   const acceptRef = useRef<(id: string) => void>(() => {});
@@ -259,12 +271,13 @@ export default function GemCompanionPanel({
   }, [open, docked]);
 
   /** Show (or clear) the pending-selection tint on every surface that has
-   *  one: this panel's own CSS Custom Highlight, and — the host's job,
-   *  because only the host can reach the ProseMirror view — the Edit canvas
-   *  decoration, via `onPendingRange`. */
+   *  one — which since 2026-08-09 is this panel's own CSS Custom Highlight and
+   *  nothing else. See `paintPendingSelection` for why the Edit canvas has none.
+   *  Kept as a named step rather than folded into its one caller: clearing the
+   *  tint is a thing the panel does at four separate moments, and a second
+   *  surface may want it again. */
   const setPendingHighlight = useCallback((range: Range | null) => {
     paintPendingSelection(range);
-    onPendingRangeRef.current?.(range);
   }, []);
 
   /** Let the passage go without explaining it.
@@ -292,18 +305,36 @@ export default function GemCompanionPanel({
   // clicking into the textarea to type a question collapses `window.getSelection()`
   // (see readSelection's docs), so without this a highlight-then-type-a-question
   // flow would lose the highlight the instant the reader starts typing.
+  //
+  // The REF is written on every event and the STATE only once the selection
+  // settles (Asif, 2026-08-09 — "not a smooth, easy experience"). Dragging
+  // across a paragraph fires `selectionchange` on almost every frame, each with
+  // a longer string than the last, so mirroring it straight into state
+  // re-rendered the whole card list dozens of times mid-drag and the selection
+  // stuttered under the cursor. Nothing reads `held` except the chip that shows
+  // which passage is held, and submit() reads the ref — so the delay is
+  // invisible and the render is paid once.
   useEffect(() => {
     if (!open) return;
+    let settle = 0;
     const onSelectionChange = () => {
       const picked = readSelection();
       if (!picked) return;
       lastSelectionRef.current = picked;
-      setHeld(picked.text);
+      window.clearTimeout(settle);
+      // Reads the REF when it fires, never the value captured here: `release()`
+      // clears the held passage synchronously and cannot reach this timer, so a
+      // timer holding its own copy would put the passage straight back.
+      settle = window.setTimeout(
+        () => setHeld(lastSelectionRef.current?.text ?? ""),
+        120,
+      );
       const sel = window.getSelection();
       setPendingHighlight(sel?.rangeCount ? sel.getRangeAt(0) : null);
     };
     document.addEventListener("selectionchange", onSelectionChange);
     return () => {
+      window.clearTimeout(settle);
       document.removeEventListener("selectionchange", onSelectionChange);
       setPendingHighlight(null);
     };
@@ -318,8 +349,7 @@ export default function GemCompanionPanel({
   useEffect(() => {
     notify.current = onNotesChanged;
     onRevealRef.current = onReveal;
-    onPendingRangeRef.current = onPendingRange;
-  }, [onNotesChanged, onReveal, onPendingRange]);
+  }, [onNotesChanged, onReveal]);
   useEffect(() => {
     openIdsRef.current = openIds;
   }, [openIds]);

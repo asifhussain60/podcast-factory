@@ -640,8 +640,12 @@ def test_every_record_skip_label_is_classified_exactly_once():
     import re
 
     import _compose_skips as P
+    from _apparatus_steps import APPARATUS_MODULES
 
-    src = (SCRIPT_DIR / "_book_apparatus.py").read_text(encoding="utf-8")
+    # Every module hosting step call sites, not just `_book_apparatus.py`: when the
+    # report-only steps moved to `_book_reports` on 2026-08-08 this scan silently lost
+    # three of them, and a classification-drift pin that cannot see a step is not a pin.
+    src = "\n".join((SCRIPT_DIR / name).read_text(encoding="utf-8") for name in APPARATUS_MODULES)
     labels = set(re.findall(r'_record_skip\(book_dir,\s*"([^"]+)"', src))
     assert labels, "no _record_skip call sites found — did the helper get renamed?"
     classified = P.PAGE_ALTERING_STEPS | P.ADVISORY_STEPS

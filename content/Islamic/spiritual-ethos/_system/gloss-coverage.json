@@ -1,0 +1,15 @@
+{
+  "schema": "book.gloss-coverage/v2",
+  "candidates": 26,
+  "strong": 1,
+  "covered": 9,
+  "missing_strong": [
+    "ana iyya"
+  ],
+  "glossary_entries": 428,
+  "coverage": 0.346,
+  "strong_coverage": 0.0,
+  "bare_terms": 0,
+  "bare_uses": 0,
+  "bare": []
+}

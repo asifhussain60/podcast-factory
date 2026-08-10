@@ -1,0 +1,25 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <rect x="0" y="0" width="760" height="290" fill="#ffffff"/>
+  <text x="40" y="34" font-size="20" font-weight="700" fill="#8b4513">The Matrix of Precedence</text>
+  <rect x="40" y="60" width="680" height="216" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="165" y1="60" x2="165" y2="276" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="350" y1="60" x2="350" y2="276" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="535" y1="60" x2="535" y2="276" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="40" y1="96" x2="720" y2="96" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="40" y1="180" x2="720" y2="180" stroke="#d9cdbd" stroke-width="1"/>
+
+  <text x="175" y="84" font-size="14" font-weight="700" fill="#8b4513">Containment</text>
+  <text x="360" y="84" font-size="14" font-weight="700" fill="#8b4513">Audience</text>
+  <text x="545" y="84" font-size="14" font-weight="700" fill="#8b4513">Permanence</text>
+
+  <text x="50" y="136" font-size="14" font-weight="700" fill="#2b2117">The Messenger</text>
+  <text x="50" y="230" font-size="14" font-weight="700" fill="#2b2117">The Imam</text>
+
+  <text font-size="13" fill="#2b2117"><tspan x="175" y="124">Acknowledging the Messenger </tspan><tspan x="175" y="142">does not guarantee the Imam.</tspan></text>
+  <text font-size="13" fill="#2b2117"><tspan x="360" y="124">Outward-facing; a settled </tspan><tspan x="360" y="142">argument against external </tspan><tspan x="360" y="160">polytheists.</tspan></text>
+  <text font-size="13" fill="#2b2117"><tspan x="545" y="124">Intermittent; historical </tspan><tspan x="545" y="142">speakers who arise and depart.</tspan></text>
+
+  <text font-size="13" fill="#2b2117"><tspan x="175" y="200">Folds the Messengership </tspan><tspan x="175" y="216">inside it; guarding implies </tspan><tspan x="175" y="232">a revelation to be guarded.</tspan></text>
+  <text font-size="13" fill="#2b2117"><tspan x="360" y="200">Inward-facing; the live, </tspan><tspan x="360" y="216">urgent intellectual labor </tspan><tspan x="360" y="232">among believers.</tspan></text>
+  <text font-size="13" fill="#2b2117"><tspan x="545" y="200">Continuous; a permanent </tspan><tspan x="545" y="216">fixture as necessary as </tspan><tspan x="545" y="232">breath to a body.</tspan></text>
+</svg>

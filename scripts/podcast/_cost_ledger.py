@@ -490,6 +490,42 @@ def parse_usage_from_stdout(stdout: str) -> dict[str, int]:
     return out
 
 
+def actual_model_from_stdout(stdout: str) -> str | None:
+    """Which model actually answered this call, per the CLI's own report.
+
+    `claude -p --output-format json` carries a `modelUsage` object keyed by
+    model id (e.g. `"claude-opus-4-8[1m]"` — the `[1m]` marks the 1-hour
+    context beta, not part of the id, and is stripped). Every caller that
+    passes `model`/`model_flag` to `_run_claude_p` is naming what it ASKED
+    for, not what answered — the CLI's own ambient default, a mid-session
+    model switch, or an internal fallback can all differ. This is the one
+    place that reads the truth back. Picks the key with the most output
+    tokens when more than one appears; returns None on legacy text-format
+    stdout or anything unparseable, so callers fall back to the requested
+    model rather than a guess dressed as fact.
+    """
+    if not stdout:
+        return None
+    stripped = stdout.strip()
+    if not (stripped.startswith("{") and stripped.endswith("}")):
+        return None
+    try:
+        data = json.loads(stripped)
+        usage = data.get("modelUsage")
+        if not isinstance(usage, dict) or not usage:
+            return None
+        best_id, best_tokens = None, -1
+        for model_id, stats in usage.items():
+            tokens = int((stats or {}).get("outputTokens", 0) or 0)
+            if tokens > best_tokens:
+                best_id, best_tokens = model_id, tokens
+        if not best_id:
+            return None
+        return best_id.split("[", 1)[0]
+    except (ValueError, TypeError, AttributeError):
+        return None
+
+
 def parse_text_from_json_stdout(stdout: str) -> str:
     """Extract the LLM's text response from `claude -p --output-format json` stdout.
 
@@ -519,8 +555,14 @@ def append_from_claude_p_stdout(
 
     This is the canonical call site for the call-site wrappers in
     `_chunking.py` and `_authoring.py` once P6.1 integrates with those.
+
+    `model` is what the caller requested; when stdout's own `modelUsage`
+    names who actually answered, that truth wins (see
+    `actual_model_from_stdout`) and `model` is only the fallback for
+    legacy/unparseable stdout.
     """
     usage = parse_usage_from_stdout(stdout)
+    model = actual_model_from_stdout(stdout) or model
     # Claude Max (`claude -p`) is flat-rate — real marginal cost is $0.
     # We record token counts for usage tracking but cost_usd is always 0.0.
     # The notional price from Claude's own JSON (usage["cost_usd"]) is what

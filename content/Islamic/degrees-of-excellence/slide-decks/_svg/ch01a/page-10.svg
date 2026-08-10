@@ -1,0 +1,22 @@
+<svg viewBox="0 0 760 296" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <rect x="0" y="0" width="760" height="296" fill="#ffffff"/>
+  <text x="40" y="34" font-size="20" font-weight="700" fill="#8b4513">The Courtroom of Reality: The Two Witnesses</text>
+  <rect x="40" y="60" width="680" height="180" rx="6" fill="#f7f1e6" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="180" y1="60" x2="180" y2="240" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="450" y1="60" x2="450" y2="240" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="40" y1="96" x2="720" y2="96" stroke="#d9cdbd" stroke-width="1"/>
+  <line x1="40" y1="168" x2="720" y2="168" stroke="#d9cdbd" stroke-width="1"/>
+
+  <text x="190" y="84" font-size="14" font-weight="700" fill="#8b4513">The Medium</text>
+  <text x="460" y="84" font-size="14" font-weight="700" fill="#8b4513">Vulnerability</text>
+
+  <text x="50" y="136" font-size="14" font-weight="700" fill="#2b2117">The Legal Witness</text>
+  <text x="50" y="208" font-size="14" font-weight="700" fill="#2b2117">The Natural Witness</text>
+
+  <text font-size="13" fill="#2b2117"><tspan x="190" y="124">Revelation, scripture, and historical </tspan><tspan x="190" y="142">reported testimony.</tspan></text>
+  <text font-size="13" fill="#2b2117"><tspan x="460" y="124">Subject to human tampering, distortion, </tspan><tspan x="460" y="142">and suppressed translation.</tspan></text>
+  <text font-size="13" fill="#2b2117"><tspan x="190" y="196">The outer horizons and the inner selves </tspan><tspan x="190" y="214">(Surah 41:53).</tspan></text>
+  <text font-size="13" fill="#2b2117"><tspan x="460" y="196">Unforgeable, immutable. Cannot be </tspan><tspan x="460" y="214">edited by human hands.</tspan></text>
+
+  <text font-size="13" font-style="italic" fill="#7a6a58"><tspan x="40" y="266">When the legal testimony is corrupted, the mute creation itself&#8212;the geometry of nature&#8212;steps in </tspan><tspan x="40" y="284">to verify what the tampered law can no longer securely say.</tspan></text>
+</svg>

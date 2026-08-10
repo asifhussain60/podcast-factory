@@ -29,6 +29,7 @@ model-vowelling scripture is the one outcome worse than leaving it bare.
 
 from __future__ import annotations
 
+import re
 from functools import lru_cache
 
 from _arabic_coverage import normalize_arabic
@@ -322,3 +323,162 @@ def is_quranic(span: str) -> bool:
         if " " + " ".join(retry) + " " in word_haystack:
             return True
     return False
+
+
+# What a book puts BETWEEN two verses it quotes in one breath: the end-of-ayah
+# rosette ۝ (U+06DD), and the Arabic-Indic or Extended Arabic-Indic digits that
+# number them. Deliberately NOT ASCII digits — those appear in a run for reasons
+# that are not verse numbering (a year, a page, a chapter reference), and
+# splitting on them would hand `is_quranic` fragments of something it should be
+# judging whole.
+_AYAH_SEPARATOR_RE = re.compile(r"[۝٠-٩۰-۹]+")
+
+
+def is_quranic_sequence(span: str) -> bool:
+    """True when ``span`` is scripture, INCLUDING several ayat quoted together.
+
+    ``is_quranic`` asks its corpus for one verse at a time, and a haystack of
+    verses joined by newlines can never contain a needle that spans two of them.
+    A book quoting `قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۱ مِن شَرِّ مَا خَلَقَ ۲` therefore fails
+    every path in that function while each half passes, so Surah al-Falaq read as
+    somebody's words. Fifteen passages across three books were filed that way
+    (found 2026-08-09), which cost nothing while provenance only chose a typeface
+    and would have been a doctrinal misstatement the moment it chose a colour.
+
+    THE PROMOTION IS UNANIMOUS OR IT DOES NOT HAPPEN. Splitting on ayah numbers
+    invites the opposite error — a saying that quotes a verse in passing, torn
+    into a scriptural half and a human one and then called scripture on the
+    strength of the half. So every part must resolve, and a run with fewer than
+    two parts is simply the single-verse question ``is_quranic`` already answered.
+    Each part still faces that function's own floors, so a fragment too short to
+    be evidence refuses on its own account and takes the whole run down with it.
+    """
+    if is_quranic(span):
+        return True
+    parts = [p.strip() for p in _AYAH_SEPARATOR_RE.split(span or "")]
+    parts = [p for p in parts if normalize_arabic(p)]
+    if len(parts) < 2:
+        return False
+    return all(is_quranic(p) for p in parts)
+
+
+@lru_cache(maxsize=1)
+def _mushaf_index() -> tuple[tuple[int, int, str, str, str], ...]:
+    """Every ayah as ``(surah, ayat, skeleton, defective, padded_words)``.
+
+    The three haystacks above concatenate the corpus to answer "is this
+    scripture" as fast as possible, and in doing so throw away WHICH ayah
+    answered. This keeps the same three forms per verse instead, so a reference
+    can be found by exactly the tests ``is_quranic`` already applies rather than
+    by a fourth, looser rule of its own.
+    """
+    try:
+        from source_library_mirror import open_mirror
+    except Exception:
+        return ()
+    conn = open_mirror()
+    if conn is None:
+        return ()
+    try:
+        rows = conn.execute("SELECT surah, ayat, arabic FROM fts_quran").fetchall()
+    except Exception:
+        return ()
+    finally:
+        conn.close()
+    out = []
+    for surah, ayat, arabic in rows:
+        skeleton = normalize_arabic(arabic or "")
+        if not skeleton:
+            continue
+        words = [_defective(normalize_arabic(w)) for w in (arabic or "").split()]
+        words = [w for w in words if w]
+        padded = (" " + " ".join(words) + " ") if words else ""
+        out.append((int(surah), int(ayat), skeleton, _defective(skeleton), padded))
+    return tuple(out)
+
+
+def mushaf_reference(span: str) -> tuple[int, int] | None:
+    """``(surah, ayah)`` for ``span``, or ``None`` when the mushaf does not carry it.
+
+    THE TESTS ARE ``is_quranic``'S OWN, applied one verse at a time and in the same
+    order. That equivalence is the point: a run the audit has already filed as
+    scripture must be able to name itself, or the reading edition ends up printing
+    a Qur'an card with nothing in its header — which the design does not allow.
+    The concatenated haystacks are joined per verse (newline for the plain form,
+    one padded line per verse for the word form) and a span never contains a
+    newline, so no match there can straddle two ayat and none is lost here.
+
+    A SPAN IN SEVERAL AYAT RESOLVES TO THE EARLIEST. The basmala opens 114 chapters
+    and `الرحمن الرحيم` closes more; returning every hit would be a list nobody can
+    print in a header, and returning the last would be arbitrary. The first in
+    mushaf order is also the conventional citation for a repeated formula, so this
+    picks it and says so rather than pretending the question has one answer.
+    """
+    skeleton = normalize_arabic(span or "")
+    if not skeleton:
+        return None
+    index = _mushaf_index()
+    if not index:
+        return None
+
+    if len(skeleton) >= _MIN_SKELETON:
+        for surah, ayat, verse_skeleton, _defective_verse, _padded in index:
+            if skeleton in verse_skeleton:
+                return (surah, ayat)
+        defective = _defective(skeleton)
+        if len(defective) >= _MIN_DEFECTIVE_SKELETON:
+            for surah, ayat, _sk, defective_verse, _padded in index:
+                if defective in defective_verse:
+                    return (surah, ayat)
+
+    words = [_defective(normalize_arabic(w)) for w in (span or "").split()]
+    words = [w for w in words if w]
+    if len(words) < _MIN_ALIGNED_WORDS:
+        return None
+    needles = [" " + " ".join(words) + " "]
+    # The same single-proclitic retry `is_quranic` allows, and no other: a
+    # quotation very often picks up a `و` or `ف` the mushaf does not carry.
+    if words[0][:1] in ("و", "ف") and len(words[0]) > 1:
+        needles.append(" " + " ".join([words[0][1:]] + words[1:]) + " ")
+    for needle in needles:
+        for surah, ayat, _sk, _def, padded in index:
+            if padded and needle in padded:
+                return (surah, ayat)
+    return None
+
+
+def mushaf_reference_label(span: str) -> str | None:
+    """A printable citation for ``span`` — ``"Al-Ahzab: 6"``, or a range.
+
+    Formatted HERE rather than in the renderer because the surah names already
+    live on this side, in `_book_citations.SURAH_NAMES`, and the reading edition
+    already prints `(Al-Baqarah: 24)` from that same table. A second copy in
+    JavaScript would be a fifth mirror pair to keep in step for the sake of a
+    header line.
+
+    Several ayat quoted in one breath — the `is_quranic_sequence` case — resolve
+    part by part and come back as a range when they are consecutive in one surah,
+    because that is what a book quoting them is citing. Parts that scatter across
+    surahs are listed instead of being collapsed into a range that would claim
+    verses lying between them.
+    """
+    from _book_citations import surah_name
+
+    def _fmt(refs: list[tuple[int, int]]) -> str:
+        first, last = refs[0], refs[-1]
+        if len(refs) > 1 and first[0] == last[0] and last[1] - first[1] == len(refs) - 1:
+            return f"{surah_name(first[0])}: {first[1]}-{last[1]}"
+        return ", ".join(f"{surah_name(s)}: {a}" for s, a in refs)
+
+    single = mushaf_reference(span)
+    if single:
+        return _fmt([single])
+
+    parts = [p.strip() for p in _AYAH_SEPARATOR_RE.split(span or "")]
+    parts = [p for p in parts if normalize_arabic(p)]
+    if len(parts) < 2:
+        return None
+    refs = [mushaf_reference(p) for p in parts]
+    if not all(refs):
+        return None
+    return _fmt([r for r in refs if r])

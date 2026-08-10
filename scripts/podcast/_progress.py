@@ -193,6 +193,56 @@ def read_state(book_dir: Path) -> dict[str, Any] | None:
 
 UNATTENDED_KEY = "unattended"
 
+#: Per-phase relaunch counts, keyed by phase id. Lives in the state file rather
+#: than in the watchdog's shell, for the reason the watchdog could not solve on
+#: its own: `watch_orchestrator.sh` counts attempts in a local variable, and
+#: `orchestrate_book.py` spawns a FRESH watchdog on every bare `--resume`. Each
+#: new watchdog therefore started counting from 1, so the documented
+#: "--max-retries 20" ceiling never bound across respawns. One real run
+#: (`orchestrator-the-master-and-the-disciple.log`) reached 201 attempts while
+#: every one of them reported itself as "attempt N/20".
+#:
+#: A count survives a respawn because it is on disk, and is cleared the moment
+#: the phase actually reaches `completed` (see `_update_phase_locked`) — so the
+#: budget bounds *failure to progress*, never total work. A book that legitimately
+#: advances through all 29 phases never accumulates a count at all.
+ATTEMPTS_KEY = "phase_attempts"
+
+
+def attempts_for(state: dict[str, Any], phase: str) -> int:
+    """How many times `phase` has been attempted without completing."""
+    return int((state.get(ATTEMPTS_KEY) or {}).get(phase, 0))
+
+
+def record_attempt(book_dir: Path, phase: str) -> int:
+    """Increment and persist `phase`'s attempt count. Returns the new count.
+
+    Called by the watchdog immediately before each relaunch, so the count
+    reflects attempts actually made even if the orchestrator dies without ever
+    writing state itself — which is the exact case the shell counter lost.
+    """
+    with _STATE_LOCK:
+        state = read_state(book_dir)
+        if state is None:
+            return 0
+        counts = dict(state.get(ATTEMPTS_KEY) or {})
+        counts[phase] = int(counts.get(phase, 0)) + 1
+        state[ATTEMPTS_KEY] = counts
+        write_state(book_dir, state)
+        return counts[phase]
+
+
+def clear_attempts(book_dir: Path, phase: str) -> None:
+    """Forget `phase`'s attempt count — it made progress, so the budget resets."""
+    with _STATE_LOCK:
+        state = read_state(book_dir)
+        if state is None:
+            return
+        counts = dict(state.get(ATTEMPTS_KEY) or {})
+        if counts.pop(phase, None) is not None:
+            state[ATTEMPTS_KEY] = counts
+            write_state(book_dir, state)
+
 
 def unattended_run(book_dir: Path) -> bool:
     """True when this book was launched with ``--unattended``.
@@ -315,6 +365,51 @@ def update_phase(
         return _update_phase_locked(book_dir, phase=phase, status=status, error=error, extras=extras)
 
 
+def _previous_completed(state: dict[str, Any], phase: str) -> str | None:
+    """The last phase before `phase` that this book actually completed, or None.
+
+    Used to walk `last_completed_phase` back when a phase's own review fails it, so the
+    run points at the phase that needs fixing rather than at the one after it.
+    """
+    try:
+        idx = PHASES.index(phase)
+    except ValueError:
+        return state.get("last_completed_phase")
+    blocks = state.get("phases") or {}
+    for earlier in reversed(PHASES[:idx]):
+        blk = blocks.get(earlier)
+        if isinstance(blk, dict) and blk.get("status") == "completed":
+            return earlier
+    return None
+
+
+def _phase_review_for(book_dir: Path, phase: str, status: str) -> dict[str, Any] | None:
+    """Review `phase` if it just completed and declares gates. Never raises.
+
+    Returns the report, or None when there was nothing to review. Fully guarded for the
+    same reason the reviewer's own gates are: a review is an OBSERVER, and a fault in
+    the observing must not decide the fate of the phase it was watching. A crash here
+    therefore yields None, which means the phase completes exactly as it did before this
+    layer existed.
+
+    `blocking_fail` is left set on the returned report ONLY when blocking is enabled, so
+    the caller has one thing to test and the escape hatch cannot be half-applied.
+    """
+    if status != "completed":
+        return None
+    try:
+        from _phase_review import blocking_enabled, phase_has_gates, review_phase
+
+        if not phase_has_gates(phase):
+            return None
+        report = review_phase(book_dir, phase)
+        if report.get("blocking_fail") and not blocking_enabled():
+            report = {**report, "blocking_fail": None, "blocking_suppressed": True}
+        return report
+    except Exception:
+        return None
+
+
 def _update_phase_locked(
     book_dir: Path,
     *,
@@ -332,6 +427,7 @@ def _update_phase_locked(
         )
 
     now = _utc_now()
+
     state["phase"] = phase
     state["phase_status"] = status
     phase_block = state["phases"].setdefault(phase, {"status": "pending"})
@@ -351,6 +447,13 @@ def _update_phase_locked(
             state["next_phase"] = PHASES[idx + 1] if idx + 1 < len(PHASES) else None
         except (ValueError, IndexError):
             state["next_phase"] = None
+        # The phase made real progress, so its relaunch budget resets — the
+        # ceiling bounds failure-to-progress, not total work (see ATTEMPTS_KEY).
+        # Mutated in place rather than via `clear_attempts` so this shares the
+        # single `write_state` below instead of writing the file twice.
+        _counts = state.get(ATTEMPTS_KEY)
+        if isinstance(_counts, dict) and phase in _counts:
+            _counts.pop(phase, None)
 
     if error is not None:
         state["last_error"] = {"phase": phase, "message": error, "ts": now}
@@ -366,6 +469,46 @@ def _update_phase_locked(
         state["run_id"] = run_id
 
     write_state(book_dir, state)
+
+    # Phase review (2026-08-08; able to BLOCK since 2026-08-09). Hooked HERE, at the
+    # single point every phase completion passes through, rather than at each driver's
+    # own `update_phase(..., status="completed")` call site. That is deliberate: the
+    # recurring defect in this repo is a gate that reports clean over a rule it never
+    # ran, and a per-driver hook is one a new phase can be added without. From here it
+    # cannot be forgotten.
+    #
+    # It runs AFTER the state is written, and that ordering is load-bearing: the gates
+    # read the book's state from disk, and the extras of THIS call — `completed_slugs`
+    # for the per-chapter lane, the publication status for publish — are how a phase
+    # reports what it did. Reviewing before the write asked the gates about the previous
+    # call's state and made them report a phase short of work it had just recorded.
+    #
+    # A blocking failure then rewrites the phase as failed. Only gates in
+    # `BLOCKING_GATES` can do that, only when blocking is enabled, and the result is an
+    # ordinary phase failure: `--resume <slug> --retry-phase <phase>` resets it and
+    # everything downstream, so a gate can delay a book but never strand one.
+    _review = _phase_review_for(book_dir, phase, status)
+    if _review is not None:
+        _blocking = _review.get("blocking_fail")
+        if _blocking:
+            status = "failed"
+            error = f"phase review: {_blocking}"
+            state["phase_status"] = status
+            phase_block["status"] = status
+            state["last_error"] = {"phase": phase, "message": error, "ts": now}
+            # Undo the advancement the completed path had just recorded: a phase whose
+            # own review says it did not do its job must not leave the run pointing at
+            # the next one, or a resume walks straight past the problem.
+            state["last_completed_phase"] = _previous_completed(state, phase)
+            state["next_phase"] = phase
+        phase_block["review"] = {
+            "verdict": _review["verdict"],
+            "failed": _review["counts"]["failed"],
+            "crashed": _review["counts"]["crashed"],
+            "total": _review["counts"]["total"],
+            "blocking_fail": _review.get("blocking_fail"),
+        }
+        write_state(book_dir, state)
 
     # Timeline + failure dump. Both are internally guarded: observability must
     # never turn a working phase into a failed one.

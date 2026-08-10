@@ -257,7 +257,8 @@ def author_deck_pair(
         if requires_monochrome_visuals(book_dir):
             visual_constraints = (
                 "BLACK-AND-WHITE VISUAL STYLE (hard):\n"
-                "- The NotebookLM deck must be black and white only: black ink, white background, gray shading only when needed.\n"
+                "- The NotebookLM deck must be black and white only, minimal and elegant: black ink, "
+                "white background, gray shading only when needed. NEVER a dark or coloured background.\n"
                 "- Ask for line-art diagrams, tables, hierarchy trees, contrast panels, and process flows.\n"
                 "- No color fills, no color-coded categories, no gradients, no photographs, no stock imagery.\n"
                 "- Include this requirement in the framing's `## Prohibited Patterns` and `## Steering Phrases` sections.\n\n"

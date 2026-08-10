@@ -1,0 +1,15 @@
+{
+  "_note": "A fixture book, not a real one. The publish step sends the renderer a book's folder so it can read how that book's quotations are set; this is the smallest folder that answers all three questions. The run and its reference are lifted verbatim from ayyuhal-walad's own audit, so the shape here is the shape the pipeline writes.",
+  "chapters": [
+    {
+      "chapter": "a fixture chapter",
+      "runs": [
+        {
+          "text": "ٱرْجِعِىٓ إِلَىٰ رَبِّكِ",
+          "resolution": "canonical-mushaf",
+          "reference": "Al-Fajr: 28"
+        }
+      ]
+    }
+  ]
+}

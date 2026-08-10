@@ -49,6 +49,12 @@ class _RunLogCase(unittest.TestCase):
         # suite from writing into a real _workspace/). Force it on for these.
         self._orig_flag = os.environ.get("PODCAST_RUN_LOG")
         os.environ["PODCAST_RUN_LOG"] = "1"
+        # This suite is about the run log, not about the phase-review gates. Completing a
+        # GATED phase in a bare temp dir would now fail it (correctly — the deliverable
+        # really is absent), so blocking is turned off here through its own documented
+        # control surface rather than by fabricating artifacts these tests never read.
+        self._orig_gates = os.environ.get("PODCAST_PHASE_GATES")
+        os.environ["PODCAST_PHASE_GATES"] = "off"
         self._tmp = tempfile.TemporaryDirectory()
         self.tmp = Path(self._tmp.name)
         self.runs_root = self.tmp / "runs"
@@ -67,6 +73,10 @@ class _RunLogCase(unittest.TestCase):
             os.environ.pop("PODCAST_RUN_LOG", None)
         else:
             os.environ["PODCAST_RUN_LOG"] = self._orig_flag
+        if self._orig_gates is None:
+            os.environ.pop("PODCAST_PHASE_GATES", None)
+        else:
+            os.environ["PODCAST_PHASE_GATES"] = self._orig_gates
         reset_run_log()
         self._tmp.cleanup()
 

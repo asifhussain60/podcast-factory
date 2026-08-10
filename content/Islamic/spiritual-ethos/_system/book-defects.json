@@ -1,0 +1,160 @@
+{
+  "schema": "book.defects/v1",
+  "counts": {
+    "duplicated-arabic": 1,
+    "english-rtl": 0,
+    "romanized-arabic": 13,
+    "honorific-overuse": 14,
+    "prophet-wrong-honorific": 3
+  },
+  "previous": {},
+  "findings": {
+    "duplicated-arabic": [
+      [
+        "1. In the Prophet's Shadow",
+        "عليٌّ مِنِّي بِمَنْزِلَةِ نَفْسِي"
+      ]
+    ],
+    "english-rtl": [],
+    "romanized-arabic": [
+      [
+        "1. In the Prophet's Shadow",
+        "Ana madinatul-ilm wa 'Ali babuha; Fa-man aradal-ilm fal-yatil-bab"
+      ],
+      [
+        "1. In the Prophet's Shadow",
+        "la fata illa 'Ali, la sayf illa dhul-faqar"
+      ],
+      [
+        "2. The People of the House and the Prophet's Witness",
+        "inna Ali minni wa ana minhu"
+      ],
+      [
+        "2. The People of the House and the Prophet's Witness",
+        "man kuntu mawlahu fa-Ali mawlahu"
+      ],
+      [
+        "3. Intellect, Not Reason",
+        "la budda lahu min tarjuman"
+      ],
+      [
+        "4. The Discourse to Kumayl",
+        "man fahima 'alima ghawr al-ilm"
+      ],
+      [
+        "5. The Fruits of Certainty",
+        "kana yuazzimuhu fi 'ayni sighar al-dunya fi aynihi"
+      ],
+      [
+        "9. Justice for the Poor and the Sincerity of Intention",
+        "man yattiqiLlah yajal lahu makhrajan min al-fitan wa nuran min al-zulam"
+      ],
+      [
+        "10. Prayer, Remembrance, and Gazing on the Good",
+        "balighan min badanika ma balagha"
+      ],
+      [
+        "11. Dhikr: The Polish of the Heart",
+        "andar 'ilm wa muamalat imam-i in tariqat"
+      ],
+      [
+        "11. Dhikr: The Polish of the Heart",
+        "jila 'an lil-qulub"
+      ],
+      [
+        "12. Remembrance as the Quintessence of Worship",
+        "man ahabba shayan lahija bi-dhikrihi"
+      ],
+      [
+        "12. Remembrance as the Quintessence of Worship",
+        "ya man ismuhu dawa' wa dhikruhu shafa"
+      ]
+    ],
+    "honorific-overuse": [
+      [
+        "1. In the Prophet's Shadow",
+        "Ali",
+        30
+      ],
+      [
+        "2. The People of the House and the Prophet's Witness",
+        "Ali",
+        59
+      ],
+      [
+        "2. The People of the House and the Prophet's Witness",
+        "Ali ibn Abi Talib",
+        3
+      ],
+      [
+        "3. Intellect, Not Reason",
+        "Ali",
+        17
+      ],
+      [
+        "4. The Discourse to Kumayl",
+        "Ali",
+        3
+      ],
+      [
+        "5. The Fruits of Certainty",
+        "Ali",
+        4
+      ],
+      [
+        "6. A Sacred Conception of Justice",
+        "Ali",
+        9
+      ],
+      [
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "Ali",
+        3
+      ],
+      [
+        "9. Justice for the Poor and the Sincerity of Intention",
+        "Ali",
+        2
+      ],
+      [
+        "10. Prayer, Remembrance, and Gazing on the Good",
+        "Ali",
+        3
+      ],
+      [
+        "11. Dhikr: The Polish of the Heart",
+        "Ali",
+        10
+      ],
+      [
+        "12. Remembrance as the Quintessence of Worship",
+        "Ali",
+        7
+      ],
+      [
+        "13. Extinction and the Name: The Death of the Saint",
+        "Ali",
+        8
+      ],
+      [
+        "15. The Letter to Malik al-Ashtar",
+        "Messenger of God",
+        3
+      ]
+    ],
+    "prophet-wrong-honorific": [
+      [
+        "15. The Letter to Malik al-Ashtar",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "15. The Letter to Malik al-Ashtar",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "15. The Letter to Malik al-Ashtar",
+        "the Messenger of God (ع)"
+      ]
+    ]
+  }
+}

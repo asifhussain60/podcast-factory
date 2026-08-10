@@ -1,0 +1,17 @@
+<svg viewBox="0 0 760 384" xmlns="http://www.w3.org/2000/svg" font-family="'Lato', system-ui, sans-serif">
+  <defs><marker id="arw" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#8b4513"/></marker></defs>
+  <rect x="0" y="0" width="760" height="384" fill="#ffffff"/>
+  <text x="40" y="34" font-size="20" font-weight="700" fill="#8b4513">The Engine of Excellence</text>
+
+  <line x1="150" y1="258" x2="372" y2="118" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="380" y1="258" x2="380" y2="116" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="610" y1="258" x2="388" y2="118" stroke="#8b4513" stroke-width="1.5" marker-end="url(#arw)"/>
+
+  <rect x="250" y="56" width="260" height="54" rx="6" fill="#f7f1e6" stroke="#8b4513" stroke-width="1.5"/>
+  <text text-anchor="middle"><tspan x="380" y="80" font-size="14" font-weight="700" fill="#8b4513">The Summit of the Human World&#10;</tspan><tspan x="380" y="98" font-size="13" fill="#2b2117">(The Imam).</tspan></text>
+
+  <line x1="80" y1="260" x2="680" y2="260" stroke="#d9cdbd" stroke-width="1"/>
+  <text x="380" y="284" font-size="13" fill="#2b2117" text-anchor="middle">Elements resolving to heat, planets resolving to the sun, bodies resolving to the soul.</text>
+
+  <text font-size="13" font-style="italic" fill="#7a6a58"><tspan x="40" y="330">The universe is not a collection of random hierarchies. Every ordered domain of creation operates </tspan><tspan x="40" y="348">on a single geometric law, pointing to a final summit. The imamate is not a theological anomaly; it </tspan><tspan x="40" y="366">is the inevitable resolution of the architecture of reality.</tspan></text>
+</svg>

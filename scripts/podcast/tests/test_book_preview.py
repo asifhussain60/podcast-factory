@@ -135,7 +135,10 @@ class IdempotenceTests(unittest.TestCase):
 
 class WiringTests(unittest.TestCase):
     def test_the_finalize_halt_calls_it(self) -> None:
-        text = (SCRIPTS_PODCAST / "phases" / "chapter_driver.py").read_text(encoding="utf-8")
+        # The finalize halt moved to `post_chapter_driver` on 2026-08-08, when the
+        # per-chapter loop's parallelisation pushed `chapter_driver` past its line ceiling
+        # and the two unrelated halves were split. Same call, new home.
+        text = (SCRIPTS_PODCAST / "phases" / "post_chapter_driver.py").read_text(encoding="utf-8")
         self.assertIn("maybe_build_reading_edition_early", text)
 
     def test_publish_skips_a_book_already_built(self) -> None:

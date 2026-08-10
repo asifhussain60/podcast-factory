@@ -569,7 +569,8 @@ def render(book: Book) -> None:
     The same call answers a second question: which chapter each companion file
     belongs to. Every chapter's HEADING goes over with it and comes back with the
     `section_key` the notes are filed under, so the ordinal-keeping rule stays in
-    the one module that owns it and this side only ever compares two strings.
+    the one module that owns it and this side only ever compares two strings. The
+    FOLDER goes over for the same reason: the bridge reads its quotation maps.
     """
     items = [{"anchor_key": c.anchor, "heading": c.title, "markdown": c.markdown} for c in book.chapters]
     if book.blurb is not None:
@@ -583,7 +584,7 @@ def render(book: Book) -> None:
     result = subprocess.run(
         ["node", "scripts/render-chapters.mjs"],
         cwd=LISTENER,
-        input=json.dumps({"chapters": items, "cards": cards}),
+        input=json.dumps({"chapters": items, "cards": cards, "book_dir": str(book.directory)}),
         capture_output=True,
         text=True,
         check=True,

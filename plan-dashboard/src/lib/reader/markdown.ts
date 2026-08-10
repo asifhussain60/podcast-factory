@@ -79,6 +79,141 @@ export interface RenderOptions {
    *  same set, same class, so the reader and the printed page agree. Omitted
    *  means nothing is tagged, which renders exactly as before. */
   quranicRuns?: Set<string>;
+  /** Which CARD a non-scriptural quotation is drawn in, keyed by the quotation's
+   *  own first line. Answers what `quranicRuns` cannot: a block holding Arabic
+   *  the mushaf does not carry is a hadith, a saying or a line of verse, and only
+   *  a person knows which — so the map is written by hand, never inferred.
+   *  Mirrors the `quoteKinds` option of renderMd (scripts/lib/book-html.mjs).
+   *  Omitted means every quotation takes the default card, exactly as before. */
+  quoteKinds?: Record<string, "hadith" | "poem" | "quote">;
+  /** Each mushaf-resolved run's printable citation, by the run's exact text. The
+   *  Qur'an card is headed by its chapter and verse and has no state without one.
+   *  Formatted in Python where the surah names already live. */
+  quranicRefs?: Record<string, string>;
+  /** Emit the card's header strip. Default true. The Composer's EDIT seed turns
+   *  it OFF, and that is load-bearing rather than cosmetic: TipTap would hold the
+   *  band as content and `docToMarkdown` writes a blockquote from its CONTENT, so
+   *  a band inside the editor could be serialised into book.md on the next
+   *  autosave. Read mode and the PDF, which never round-trip, get it. */
+  quoteBands?: boolean;
+  /** Set a declared poem's Arabic as the two-column verse grid. Default true.
+   *  The Composer's EDIT seed turns it OFF, and for a harder reason than the
+   *  band above: the grid is not decoration around the text, it RESTRUCTURES it.
+   *  One source line — one bayt — becomes two paragraphs inside a `<div>`, and a
+   *  blockquote in the editor is a list of paragraphs that `docToMarkdown`
+   *  writes back one per line. Seeding the editor with the grid would therefore
+   *  offer to save a poem whose every bayt had been cut in half, and would ask
+   *  TipTap to hold a `<div>` it has no node for. The editor shows the source:
+   *  one line per bayt, exactly as book.md holds it. */
+  quoteVerseGrid?: boolean;
+}
+
+/** The key one quotation is stored under: its first non-empty line, trimmed.
+ *  Mirrors `quoteKindKey` in scripts/lib/quote-kind.mjs — a plain string rather
+ *  than a hash, so the two renderers cannot drift on it. */
+const QUOTE_BAND_LABEL: Record<string, string> = {
+  hadith: "Prophetic tradition",
+  poem: "Verse",
+  quote: "Saying",
+};
+
+/** The card's header strip. Mirrors `band` in scripts/lib/book-html.mjs. Only the
+ *  Qur'an card names itself from the text; the other three take a fixed word,
+ *  because "which hadith" is a question the audit cannot answer. */
+function quoteBand(kind: string, lines: string[], opts: RenderOptions): string {
+  if (kind === "" || opts.quoteBands === false) return "";
+  let label = QUOTE_BAND_LABEL[kind] ?? "";
+  if (kind === "quran") {
+    const line = lines.find((x) => isArabicQuoteLine(x));
+    label = (line && opts.quranicRefs?.[line.trim()]) || "";
+  }
+  return (
+    `<span class="q-band q-band--${kind}">` +
+    '<span class="q-orn" aria-hidden="true"></span>' +
+    (label ? `<span>${escapeHtml(label)}</span>` : "") +
+    "</span>"
+  );
+}
+
+/** THE BLOCK'S OWN FIRST LINE, and it must be given the RAW LINES rather than
+ *  the paragraphs. A quotation's paragraphs are its lines JOINED — three abyat
+ *  with no blank line between them are one paragraph — so keying on a paragraph
+ *  asked for a string no human wrote and no store holds. The three-line poem in
+ *  `ayyuhal-walad` was declared verse and rendered as a saying for exactly that
+ *  reason: the declaration was filed under its first line, and the renderer
+ *  looked up all three joined together. */
+function quoteKindKey(lines: string[]): string {
+  for (const p of lines) {
+    const line = p.trim();
+    if (line) return line;
+  }
+  return "";
+}
+
+/** ` * ` inside a line of DECLARED VERSE separates the two hemistichs of one
+ *  bayt — the sadr, which is set on the right, and the ajuz on the left.
+ *
+ *  Splitting on it is safe here and nowhere else. In `ayyuhal-walad` the same
+ *  character separates a Qur'anic verse from its own reference five times
+ *  (`… * الحجرات: ٥`), so a renderer that split every Arabic line would tear
+ *  those citations in half and print a surah name as a second hemistich. It runs
+ *  only inside a block a person marked as verse. */
+const HEMISTICH = /\s+\*\s+/;
+
+/** A declared poem's Arabic set as a two-column grid, the arrangement printed
+ *  diwans use. Mirrors `verseGrid` in scripts/lib/book-html.mjs.
+ *
+ *  IT TAKES THE RAW LINES, not the paragraphs, and that is the whole reason it
+ *  can work: one bayt is one LINE, and every other quotation in this renderer
+ *  joins its lines into paragraphs before anything looks at them. Three abyat
+ *  joined into `A * B C * D E * F` cannot be divided back into hemistichs by any
+ *  rule — the bayt boundaries are gone.
+ *
+ *  Arabic lines accumulate into one grid however many blank lines fall between
+ *  them, so the gutter runs unbroken down the block; the English closes the grid
+ *  and is set beneath it as prose. Document order is preserved either way, so a
+ *  book that translates each bayt reads the same as one that translates them all
+ *  at once. */
+function verseGrid(lines: string[], opts: RenderOptions): string {
+  const out: string[] = [];
+  let cells: string[] = [];
+  let prose: string[] = [];
+  const flushCells = () => {
+    if (cells.length === 0) return;
+    out.push(`<div class="q-verse">${cells.join("")}</div>`);
+    cells = [];
+  };
+  const flushProse = () => {
+    const text = prose.join(" ").trim();
+    prose = [];
+    if (text) out.push(`<p class="tr">${renderInline(text, opts)}</p>`);
+  };
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) {
+      flushProse();
+      continue;
+    }
+    if (isArabicQuoteLine(line)) {
+      flushProse();
+      const halves = line.split(HEMISTICH);
+      // A line with no second hemistich spans both columns. Left in one column
+      // it would sit against the gutter as a half-empty row, which reads as a
+      // missing line rather than as a whole one.
+      const solo = halves.length < 2 ? " bayt-solo" : "";
+      for (const half of halves) {
+        cells.push(
+          `<p class="ar${solo}" dir="rtl" lang="ar">${renderInline(half, opts)}</p>`,
+        );
+      }
+    } else {
+      flushCells();
+      prose.push(line);
+    }
+  }
+  flushCells();
+  flushProse();
+  return out.join("");
 }
 
 /**
@@ -210,6 +345,53 @@ export function isArabicOnlyParagraph(s: string): boolean {
 }
 
 /**
+ * Is this line of a quotation block ARABIC, or the translation beside it?
+ *
+ * MIRROR of `isArabicQuoteLine` in scripts/lib/book-html.mjs, pinned by
+ * `arabic-quote-line.fixtures.json`. Deliberately duplicated for the same reason
+ * `isArabicOnlyParagraph` above is: the canonical copy reads the filesystem and
+ * cannot be pulled into this client-bundled module.
+ *
+ * The rule is which script the line is MOSTLY in. Until 2026-08-09 both copies
+ * asked only whether the line CONTAINED Arabic, so an English translation carrying
+ * the `(ع)` honorific was set right-to-left in the Arabic face. Drift here is the
+ * one divergence no gate could see: the printed page and this reader would give the
+ * same paragraph different directions.
+ */
+export function isArabicQuoteLine(s: string): boolean {
+  const arabic = (s.match(/[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/g) || []).length;
+  if (arabic === 0) return false;
+  const latin = (s.match(/[A-Za-z]/g) || []).length;
+  return arabic > latin;
+}
+
+/**
+ * Every inline Arabic run in a chunk of plain text (no tags — the caller has
+ * already split those out), as `[start, end)` character offsets with the
+ * bracketing whitespace trimmed off each end.
+ *
+ * Factored out of `isolateInlineArabic` so the live Book Composer editor can
+ * find the SAME runs over ProseMirror text nodes that this function finds over
+ * an HTML string — see `arabic-decos.ts`'s header for why that decoration
+ * exists and why it has to match this, not a second regex of its own.
+ */
+export function findArabicRuns(
+  text: string,
+): Array<{ start: number; end: number }> {
+  if (!ARABIC_SCRIPT_RE.test(text)) return [];
+  const runs: Array<{ start: number; end: number }> = [];
+  for (const m of text.matchAll(ARABIC_INLINE_RE)) {
+    if (!ARABIC_SCRIPT_RE.test(m[0])) continue;
+    const leading = m[0].match(/^\s*/)?.[0] ?? "";
+    const trailing = m[0].match(/\s*$/)?.[0] ?? "";
+    const start = m.index + leading.length;
+    const end = m.index + m[0].length - trailing.length;
+    if (end > start) runs.push({ start, end });
+  }
+  return runs;
+}
+
+/**
  * Wrap each inline Arabic run in the same `.ar-inline` span the PRINT renderer
  * emits (book-html.mjs `renderInline`).
  *
@@ -229,13 +411,17 @@ function isolateInlineArabic(html: string): string {
   // Only rewrite text, never the inside of a tag.
   return html.replace(/<[^>]+>|[^<]+/g, (chunk) => {
     if (chunk.startsWith("<")) return chunk;
-    return chunk.replace(ARABIC_INLINE_RE, (match) => {
-      if (!ARABIC_SCRIPT_RE.test(match)) return match;
-      const leading = match.match(/^\s*/)?.[0] ?? "";
-      const trailing = match.match(/\s*$/)?.[0] ?? "";
-      const body = match.slice(leading.length, match.length - trailing.length);
-      return `${leading}<span class="ar-inline" dir="rtl" lang="ar">${body}</span>${trailing}`;
-    });
+    const runs = findArabicRuns(chunk);
+    if (!runs.length) return chunk;
+    let out = "";
+    let last = 0;
+    for (const r of runs) {
+      out += chunk.slice(last, r.start);
+      out += `<span class="ar-inline" dir="rtl" lang="ar">${chunk.slice(r.start, r.end)}</span>`;
+      last = r.end;
+    }
+    out += chunk.slice(last);
+    return out;
   });
 }
 
@@ -335,21 +521,51 @@ export function renderMarkdown(
       // like the print renderer does — body-ink Arabic at body scale, no box.
       // Emission stays one line so the Composer's paragraph mirror
       // (`:scope > p`) is unaffected.
+      // The BLOCK decision stays "contains Arabic" (it chooses the mushaf card); only
+      // the per-line direction below weighs proportion. See `isArabicQuoteLine`.
       const hasArabic = paras.some((p) => ARABIC_SCRIPT_RE.test(p));
+      // Scripture always wins the card: a block whose Arabic the audit resolved
+      // is a Qur'an card whatever the map says, because the mushaf is not a
+      // matter of opinion. Everything else takes the declared kind, or the
+      // default when nobody declared one.
+      // A CARD NEEDS AN ARABIC LINE, not merely Arabic somewhere. A blockquote
+      // whose English glosses one term — `<span class="ar-inline">` inside a
+      // translation paragraph — has no quotation to draw, and giving it the
+      // default card would put a tinted plate around an ordinary note. And an
+      // editorial or bridge aside is never a quotation card whatever it holds.
+      const hasArabicLine =
+        hasArabic && paras.some((p) => isArabicQuoteLine(p));
+      const scripture =
+        hasArabicLine &&
+        paras.some(
+          (p) => isArabicQuoteLine(p) && opts.quranicRuns?.has(p.trim()),
+        );
+      const kind = asideCls
+        ? ""
+        : scripture
+          ? "quran"
+          : (opts.quoteKinds?.[quoteKindKey(quoteBuffer)] ??
+            (hasArabicLine ? "quote" : ""));
+      // The kind is decided BEFORE the markup because verse is SET differently,
+      // not merely coloured differently: a poem's lines are grid cells, and every
+      // other kind's are paragraphs.
       const inner =
         paras.length === 0
           ? "<p></p>"
-          : paras
-              .map((p) => {
-                if (!hasArabic) return `<p>${renderInline(p, opts)}</p>`;
-                return ARABIC_SCRIPT_RE.test(p)
-                  ? `<p class="${opts.quranicRuns?.has(p.trim()) ? "ar is-quranic" : "ar"}" dir="rtl" lang="ar">${renderInline(p, opts)}</p>`
-                  : `<p class="tr">${renderInline(p, opts)}</p>`;
-              })
-              .join("");
-      const cls = `${hasArabic ? "quran" : ""}${asideCls}`.trim();
+          : kind === "poem" && hasArabicLine && opts.quoteVerseGrid !== false
+            ? verseGrid(quoteBuffer, opts)
+            : paras
+                .map((p) => {
+                  if (!hasArabic) return `<p>${renderInline(p, opts)}</p>`;
+                  return isArabicQuoteLine(p)
+                    ? `<p class="${opts.quranicRuns?.has(p.trim()) ? "ar is-quranic" : "ar"}" dir="rtl" lang="ar">${renderInline(p, opts)}</p>`
+                    : `<p class="tr">${renderInline(p, opts)}</p>`;
+                })
+                .join("");
+      const cls =
+        `${hasArabic ? "quran" : ""}${kind ? ` k-${kind}` : ""}${asideCls}`.trim();
       out.push(
-        `<blockquote${cls ? ` class="${cls}"` : ""}>${inner}</blockquote>`,
+        `<blockquote${cls ? ` class="${cls}"` : ""}>${quoteBand(kind, quoteBuffer, opts)}${inner}</blockquote>`,
       );
     } else {
       const inner = paras
@@ -358,9 +574,16 @@ export function renderMarkdown(
           return t ? `<p>${renderInline(t, opts)}</p>` : "";
         })
         .join("");
-      const cls = asideCls.trim();
+      // No Arabic, so no `quran` class. A kind still applies when a person
+      // declared one — verse reaches the page in English alone, and it is a poem
+      // whichever language it arrives in. An undeclared English blockquote gets
+      // nothing, exactly as before.
+      const declared = asideCls
+        ? undefined
+        : opts.quoteKinds?.[quoteKindKey(quoteBuffer)];
+      const cls = `${declared ? `k-${declared}` : ""}${asideCls}`.trim();
       out.push(
-        `<blockquote${cls ? ` class="${cls}"` : ""}>${inner}</blockquote>`,
+        `<blockquote${cls ? ` class="${cls}"` : ""}>${quoteBand(declared ?? "", quoteBuffer, opts)}${inner}</blockquote>`,
       );
     }
     quoteBuffer = [];
@@ -642,14 +865,45 @@ export function renderSourceMarkdown(input: string): string {
  * corrupted the round trip before the author typed a single character.
  * Display surfaces keep folding; the editor sees the file's actual bytes.
  */
-export function renderEditSeed(input: string): string {
+export function renderEditSeed(
+  input: string,
+  quranicRuns?: Set<string> | null,
+  quoteKinds?: Record<string, "hadith" | "poem" | "quote"> | null,
+): string {
   // keepMachineFences: the editor MUST receive the fence marker lines. TipTap
   // has no comment node, so they arrive as bare text, which is exactly what
   // `preserveFences` step 1 reads to put the comment form back on save. Skipping
   // them here would strip every fence on the first save of that chapter.
+  //
+  // quranicRuns (optional, added 2026-08-09): the same provenance set Read mode
+  // and the PDF are already given. Without it the edit canvas could not tell
+  // scripture from a saying AT ALL — every Arabic run arrived unmarked, so the
+  // face split locked on 2026-07-21 was invisible on the one surface the printed
+  // book is verified on, and any treatment keyed to provenance would have dressed
+  // every verse as somebody's words. Omitted (the default, and what every test
+  // caller passes) renders exactly as it did before.
+  //
+  // The class cannot reach book.md: `docToMarkdown` writes the blockquote from
+  // its CONTENT and names no class, which is the same reason `quran`/`ar`/`tr`
+  // are safe to carry here.
+  // quoteKinds rides along for the same reason: without it the edit canvas
+  // would draw every non-scriptural quotation in the default card while Read
+  // mode and the PDF drew three different ones, and the Composer is the surface
+  // the printed book is verified on.
   return renderMarkdown(input, {
     simplifyTranslit: false,
     keepMachineFences: true,
+    quranicRuns: quranicRuns ?? undefined,
+    quoteKinds: quoteKinds ?? undefined,
+    // NEVER in the edit seed — see the option's own note. The card's plate and
+    // ink still show, because those come from the class; only the header strip,
+    // which is markup TipTap would hold as content, is withheld.
+    quoteBands: false,
+    // Also NEVER in the edit seed, and this one is not cosmetic at all: the
+    // grid splits one source line into two paragraphs, and the editor writes a
+    // blockquote back one paragraph per line. Seeding it would offer to save a
+    // poem with every bayt cut in half.
+    quoteVerseGrid: false,
   });
 }
 

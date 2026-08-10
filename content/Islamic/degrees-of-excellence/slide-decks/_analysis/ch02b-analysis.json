@@ -1,0 +1,274 @@
+[
+  {
+    "page": 1,
+    "title": "The Peak of Every Kind",
+    "content_summary": "Cover slide with the deck title and subtitle over a graph-paper background.",
+    "text_blocks": [
+      "The Peak of Every Kind",
+      "Al-Naysaburi's Natural Witness to the Imamate"
+    ],
+    "diagram_type": "none",
+    "arabic_terms": [
+      "Al-Naysaburi"
+    ],
+    "value_class": "low",
+    "illegible": false,
+    "llm_value_class": "low",
+    "final_value_class": "low",
+    "rubric_reasons": [
+      "diagram_type 'none' not replicable"
+    ]
+  },
+  {
+    "page": 2,
+    "title": "The Architecture of a Domain",
+    "content_summary": "A hub-and-spoke diagram showing a central summit radiating to five ranked members of a domain.",
+    "text_blocks": [
+      "The Architecture of a Domain",
+      "A domain is crowned not by the member most acted upon, but by the one that originates and quickens.",
+      "Originator I",
+      "Conductor II",
+      "Integrator III",
+      "Animator IV",
+      "Manifestor V",
+      "Among the four physical elements, fire alone is placed at the summit. While cold and dryness receive and take on qualities, fire acts. It illumines, elevates, and stirs the inert into life. The summit is always the giver."
+    ],
+    "diagram_type": "hierarchy",
+    "arabic_terms": [],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable hierarchy, 8 blocks, 409 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 3,
+    "title": "The Grand Catalogue of Peaks",
+    "content_summary": "A four-column table mapping each material domain to its specimen, hidden criterion, and spiritual proof.",
+    "text_blocks": [
+      "The Grand Catalogue of Peaks",
+      "Domain (Matter)",
+      "The Specimen",
+      "The Hidden Criterion",
+      "The Proof (Spirit)",
+      "Element",
+      "Fire",
+      "The Quickener (gives light, lifts, sustains)",
+      "The highest religious pillar giving light to souls.",
+      "Planet",
+      "The Sun",
+      "The Source (without which nothing grows)",
+      "The sun of religion through whom insight shines.",
+      "Metal",
+      "Gold",
+      "The Measure (fixes value, indestructible)",
+      "The intellectual substance settling the dealings of creation.",
+      "Grain",
+      "Wheat",
+      "The Builder (most balanced, nourishes bodies)",
+      "The peak from whom souls draw livelihood and knowledge.",
+      "Tree",
+      "Date Palm",
+      "Total Utility (mirrors the human, nothing wasted)",
+      "The ultimate figure of benefit received."
+    ],
+    "diagram_type": "table",
+    "arabic_terms": [],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "low",
+    "rubric_reasons": [
+      "25 text blocks > 22"
+    ]
+  },
+  {
+    "page": 4,
+    "title": "The Ruby's Criterion",
+    "content_summary": "A central ruby withstanding fire and flood, contrasted with three lesser gems that alter under pressure.",
+    "text_blocks": [
+      "The Ruby's Criterion",
+      "Excellence is endurance under assault.",
+      "Fire",
+      "Flood",
+      "Fire",
+      "Flood",
+      "The Red Ruby: Purity, radiance, and weight remain entirely unchanged. The natural proxy for an authority that cannot be corrupted.",
+      "Emerald",
+      "Diamond",
+      "Turquoise",
+      "Prized, yet vulnerable to alteration under pressure."
+    ],
+    "diagram_type": "other",
+    "arabic_terms": [],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "low",
+    "rubric_reasons": [
+      "diagram_type 'other' not replicable"
+    ]
+  },
+  {
+    "page": 5,
+    "title": "The Divergence of Medicine",
+    "content_summary": "A two-column contrast between the True Imam as antidote and the Usurper as poison.",
+    "text_blocks": [
+      "The Divergence of Medicine",
+      "The Antidote",
+      "The Poison",
+      "The True Imam (Tiryaq)",
+      "Revelation as cure. Rescues souls dying of doubt when mild remedies fail.",
+      "Keywords: Healing, Restoration, Rescue",
+      "The Usurper",
+      "Fatal poisons and worthless stones. Counterfeits that destroy the souls of those who trust them.",
+      "Keywords: Fatal, Destructive, Hellfire Fuel"
+    ],
+    "diagram_type": "other",
+    "arabic_terms": [
+      "Tiryaq"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "low",
+    "rubric_reasons": [
+      "diagram_type 'other' not replicable"
+    ]
+  },
+  {
+    "page": 6,
+    "title": "The Sensory Sorting of Guides",
+    "content_summary": "A three-column table sorting guides by sensory trait, spiritual output, and archetype.",
+    "text_blocks": [
+      "The Sensory Sorting of Guides",
+      "Sensory Trait (Input)",
+      "Spiritual Output",
+      "The Archetype",
+      "Sweet / Fragrant",
+      "Delights the eye, heals disease",
+      "The True Imams (Deep roots, endless fruit)",
+      "Bitter / Foul",
+      "Gives neither food nor delight; sickens",
+      "Imams of Error (Uprooted tree, no footing)",
+      "Thorned / Fruitless",
+      "Wounds whoever comes near",
+      "The Literalists (Ahl al-Zahir, clinging only to the outer husk)"
+    ],
+    "diagram_type": "table",
+    "arabic_terms": [
+      "Ahl al-Zahir"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable table, 13 blocks, 369 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 7,
+    "title": "The Escalation of the Animal Kingdom",
+    "content_summary": "A three-step ascending flow from mastery to generosity to organized leadership under the lead bee.",
+    "text_blocks": [
+      "The Escalation of the Animal Kingdom",
+      "1. Mastery: Horse, Eagle, Lion. Excellence achieved via physical dominance, speed, or mastery of the hunt.",
+      "2. Generosity: Gazelle, Bee. Excellence refined via yielding a precious product the world could not otherwise have (musk, honey).",
+      "3. Organized Leadership: The Ya'sub (Lead Bee). The ultimate natural image: a community ordered entirely around its Chief to produce a cure for mankind."
+    ],
+    "diagram_type": "flow",
+    "arabic_terms": [
+      "Ya'sub"
+    ],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable flow, 4 blocks, 423 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 8,
+    "title": "The Human Paradox",
+    "content_summary": "A flow diagram showing plants, metals, and animals feeding into Human Reason, which processes and steers them.",
+    "text_blocks": [
+      "The Human Paradox",
+      "The Trap: Man redirects nature, but this mastery is an engine that must be steered.",
+      "Human Reason",
+      "The Processor: Reason. Without the human capacity to extract, crossbreed, and cultivate, the latent excellence of the cosmos remains invisible.",
+      "Plants",
+      "Metals",
+      "Animals",
+      "System Input: The merits of the whole world are gathered and enfolded into the human frame."
+    ],
+    "diagram_type": "flow",
+    "arabic_terms": [],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable flow, 8 blocks, 365 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 9,
+    "title": "The Ultimate Ruin vs. The Ultimate Summit",
+    "content_summary": "A diverging line chart from Human Reason: one path rises to the Imam-governed summit, the other plummets below the Baseline of Beasts.",
+    "text_blocks": [
+      "The Ultimate Ruin vs. The Ultimate Summit",
+      "Governed by the Imam: Reason steered by the summit. Virtues acquired, latent excellence unlocked, creation justified.",
+      "Human Reason",
+      "Baseline of Beasts",
+      "Ungoverned Reason: Refusing the guide turns the mastery of reason into an instrument of profound corruption. Plummets below the beast, which only acts on use and does not scheme its own ruin.",
+      "WORSE THAN CATTLE."
+    ],
+    "diagram_type": "flow",
+    "arabic_terms": [],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable flow, 6 blocks, 397 chars"
+    ],
+    "svg_verified": true
+  },
+  {
+    "page": 10,
+    "title": "The Teleological Loop",
+    "content_summary": "A circular flow linking Nature, Humanity, the Imam, and the Creator, with a synthesis and conclusion panel.",
+    "text_blocks": [
+      "The Teleological Loop",
+      "The Creator",
+      "The Imam",
+      "Justifies and fulfills the wisdom of...",
+      "Guides and steers...",
+      "Humanity",
+      "(Extracts latent value)",
+      "Nature",
+      "Synthesis:",
+      "The catalogue was never merely about nature. It is a structural proof that without the Imam, human excellence remains hidden. Without human excellence, nature's worth is never known.",
+      "Conclusion:",
+      "The natural order terminates not in an abstraction, but in an absolute obligation: to receive religion from the guides for whose sake the cosmos was made."
+    ],
+    "diagram_type": "flow",
+    "arabic_terms": [],
+    "value_class": "high",
+    "illegible": false,
+    "llm_value_class": "high",
+    "final_value_class": "high",
+    "rubric_reasons": [
+      "replicable flow, 12 blocks, 493 chars"
+    ],
+    "svg_verified": true
+  }
+]

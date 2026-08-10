@@ -1,19 +1,19 @@
 {
   "schema": "podcast.ingest-source/v1",
-  "generated_at": "2026-05-18T22:51:00.220048+00:00",
+  "generated_at": "2026-08-07T19:05:14.200976+00:00",
   "source": {
-    "path": "/Users/asifhussain/PROJECTS/journal/_workspace/Books/Kitab-al-Riyad.pdf",
+    "path": "/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/kitab-al-riyad/_source/Kitab al-Riyad.pdf",
     "byte_size": 4620222
   },
   "book_slug": "kitab-al-riyad",
-  "book_dir": "content/podcast/library/books/kitab-al-riyad",
+  "book_dir": "content/Islamic/kitab-al-riyad",
   "doc_intelligence": {
     "endpoint": "https://journal-docintel.cognitiveservices.azure.com",
     "api_version": "2023-07-31",
     "model": "prebuilt-read",
     "page_count": 260,
-    "ocr_char_count": 310234,
-    "elapsed_seconds": 18.63,
+    "ocr_char_count": 310232,
+    "elapsed_seconds": 19.75,
     "operation_id": "succeeded"
   },
   "translator": {
@@ -21,11 +21,12 @@
     "src_lang": "ar",
     "tgt_lang": "en",
     "region": "eastus",
-    "output_char_count": 461941,
-    "elapsed_seconds": 9.26
+    "output_char_count": 461936,
+    "elapsed_seconds": 31.01
   },
   "outputs": {
-    "raw_extract": "content/podcast/library/books/kitab-al-riyad/_system/source/text/raw-extract.md",
-    "extraction_notes": "content/podcast/library/books/kitab-al-riyad/_system/source/text/_extraction-notes.md"
+    "raw_extract": "content/Islamic/kitab-al-riyad/_system/source/text/raw-extract.md",
+    "ocr_raw_extract": "content/Islamic/kitab-al-riyad/_system/source/ocr/raw-extract.md",
+    "extraction_notes": "content/Islamic/kitab-al-riyad/_system/source/text/_extraction-notes.md"
   }
 }
