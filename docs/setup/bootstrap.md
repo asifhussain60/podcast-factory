@@ -110,13 +110,15 @@ Expect `pass 9  fail 0  ✓ Azure connectivity OK`.
 > Google and Cloudflare are `asifhussain60@gmail.com`; Azure is
 > `asifhussain60@msn.com`. Confirm with `az account show --query user.name -o tsv`.
 
-`infra/azure/pull-secrets.sh` also exists and copies the vault into the local
-keychain. It is **not** required: the keychain tier was removed from credential
-resolution on 2026-06-04, so nothing in the pipeline reads what it writes. The
-credentials that genuinely live only in the keychain — the Cloudflare token and the
-two Podcast Factory Library dev secrets, all three for the audience site rather than
-the book pipeline — are listed with their recovery paths in
-[infra/pipeline-runtime.md](../../infra/pipeline-runtime.md).
+**Then run `bash infra/azure/pull-secrets.sh` if this Mac will serve the Podcast
+Factory Astro Site.** The book pipeline does not need it — the keychain tier was
+removed from its credential resolution on 2026-06-04. The Astro Site is the
+exception: its AI endpoints read `gemini_api_key` and `anthropic-api-key` from the
+keychain with no vault fallback, and this script is what puts them there.
+
+The credentials that live only in the keychain and cannot be restored by any script —
+the Cloudflare token and the two Podcast Factory Library dev secrets — are listed with
+their recovery paths in [infra/pipeline-runtime.md](../../infra/pipeline-runtime.md).
 
 **First-time Azure provisioning only** (blank Azure subscription — not a new Mac):
 ```bash

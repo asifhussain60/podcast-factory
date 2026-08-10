@@ -90,13 +90,16 @@ The pipeline uses Gemini as a **second-opinion auditor** running alongside the C
 - **Key format:** newer AI Studio format (53 chars, prefix `AQ.Ab8…`). Created 2026-05-25.
 - **Project:** `gen-lang-client-0688822319` (Paid tier, linked to AHHOME billing 2026-05-25).
 - **Where the pipeline reads it:** Key Vault secret **`llm-gemini-api-key`**, via `_secrets.get_gemini_key()`. Env override: `GEMINI_API_KEY` or `GOOGLE_API_KEY`.
-- **Keychain entry `gemini_api_key`:** still present on this Mac, still written by the bootstrap script — and **not read by anything**. Harmless; not a bootstrap step.
+- **Where the Astro Site reads it:** keychain service **`gemini_api_key`**, queried with `-a $USER`, by `src/lib/reader/gemini-server.ts`. **No vault fallback** — env `GEMINI_API_KEY`, else the keychain, else the endpoint fails.
 
 ### Bootstrap on a new Mac
 
-`az login` is the whole step — the key comes from the vault. `bootstrap-llm-apis.sh`
-remains available for the secure-paste flow if you want a local keychain copy for
-ad-hoc use, but the pipeline does not need it.
+Two steps, and which you need depends on what the machine does:
+
+- **`az login`** — enough for the book pipeline, which resolves the key from the vault.
+- **`bash infra/azure/pull-secrets.sh`** — also required if the machine serves the Astro Site. It copies `llm-gemini-api-key` into the keychain as `gemini_api_key`, which is the only way those fourteen AI surfaces get a key.
+
+`bootstrap-llm-apis.sh` remains available for a manual secure-paste of the same value.
 
 To get the key value itself: open [aistudio.google.com/apikey](https://aistudio.google.com/apikey), find the `podcast-factory` row, click the copy icon.
 
@@ -168,14 +171,19 @@ security find-generic-password -s "Claude Code-credentials" >/dev/null 2>&1 \
 | Service | Status |
 |---|---|
 | `Claude Code-credentials` | **The only one required.** Written by `claude login`; carries the Max OAuth token every `claude -p` call uses. `preflight_doctor.py` reads its `expiresAt` as an advisory pre-check |
-| `gemini_api_key` | Leftover, still present. Nothing reads it — the vault supplies the key. Safe to delete |
+| `gemini_api_key` | **Required by the Astro Site** — fourteen AI surfaces read it from the keychain with no vault fallback. Restorable with `pull-secrets.sh`. **Do not delete** |
+| `anthropic-api-key` | **Required by the Astro Site** — `api/ai/claude.ts`. Note the hyphens. **Do not delete** |
 | `elevenlabs_api_key` | **Deleted 2026-08-10**, when ElevenLabs was retired |
-| `azure-podcast-factory-*` | Leftovers, still present. Nothing reads them — `verify-azure.sh` checks them anyway, which is why it reports failures on a working machine |
+| `azure-podcast-factory-*` | Unread leftovers. Safe to delete and restorable with `pull-secrets.sh`; doing so makes `verify-azure.sh` report failures, since it checks exactly these |
 
-Proof that the leftovers really are unread, rather than merely believed to be:
-`test_azure_connectivity.py` passed all nine checks — Azure, Anthropic and Gemini —
-immediately after `elevenlabs_api_key` was deleted from the keychain on 2026-08-10.
-Every credential in that run came from the vault.
+**How the two "required" rows were established, after this table briefly said the
+opposite.** On 2026-08-10 `security` was replaced with a logging shim for the
+duration of a run. The pipeline's nine-check connectivity probe made **zero**
+keychain calls — every credential came from the vault, and the run passed 9 of 9 even
+with all twenty `azure-podcast-factory-*` lookups actively denied. Resolving the two
+Astro Site keys the way their own modules do made exactly two calls, both successful.
+Absence of a call is the proof; a passing test alone is not, because it only
+exercises the surface it covers.
 
 An earlier version of this table listed the Azure entries under the prefix
 `azure-podcast-*`. That prefix has never been correct for this repo: the app

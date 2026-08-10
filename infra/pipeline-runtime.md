@@ -41,12 +41,19 @@ The practical consequence for a migration is the whole point of this section:
 | `cloudflare_api_token` | macOS keychain **only** | ⚠ nothing — re-issue in the Cloudflare dashboard | `deploy_listener.sh`, `publish_to_production.py` |
 | `listener_better_auth_secret` | macOS keychain **only** | ⚠ nothing — regenerate, `openssl rand -base64 32` | Podcast Factory Library local dev |
 | `safina_google_client_secret` | macOS keychain **only** | ⚠ nothing — re-copy from the Google Cloud console | Podcast Factory Library local dev |
+| `gemini_api_key` | macOS keychain | `pull-secrets.sh` (from `llm-gemini-api-key`) | **The Astro Site** — 14 AI surfaces. See below |
+| `anthropic-api-key` | macOS keychain **only** | ⚠ nothing — `pull-secrets.sh` writes the wrong name | **The Astro Site** — `api/ai/claude.ts`. See below |
 
-**The known gap, stated plainly.** The three keychain-only rows are *not* in the
-vault and are *not* recoverable from anything in this repo. All three are cheap to
-replace — re-issue, regenerate, or re-copy from a console — and all three belong to
-the Podcast Factory Library rather than to the book pipeline, so a machine that only
-processes books never needs them.
+**The known gaps, stated plainly.** Four rows are *not* recoverable from anything in
+this repo. Three — the Cloudflare token and the two Podcast Factory Library dev
+secrets — belong to the audience site and are cheap to replace by re-issuing,
+regenerating, or re-copying from a console. The fourth, **`anthropic-api-key`**, is
+not cheap in the same way: nothing writes it, `pull-secrets.sh` writes a
+differently-spelled name, and its absence is invisible until someone presses a
+button. See the Astro Site section below.
+
+**A machine that only runs the book pipeline needs none of the keychain rows** — just
+`az login` and `claude login`.
 
 **No audio credential appears in this table, deliberately.** Audio is produced by
 hand in NotebookLM. The ElevenLabs engine was evaluated and abandoned, and its
@@ -54,9 +61,48 @@ keychain entry was deleted on 2026-08-10 — after which
 `test_azure_connectivity.py` still passed all nine checks, which is the proof that
 nothing was reading it.
 
-Two sets of leftovers remain in the keychain and are equally unread: `gemini_api_key`
-and the `azure-podcast-factory-*` entries. Both are safe to delete; neither is worth
-a migration reproducing.
+### The Astro Site does NOT use the vault — it reads the keychain, and only the keychain
+
+Everything above describes the **pipeline**. The Podcast Factory Astro Site is a
+second consumer with a completely separate resolution path, and it was missing from
+this document until Asif caught it on 2026-08-10.
+
+| Consumer | Keychain service | Env override | Vault fallback |
+|---|---|---|---|
+| `src/lib/reader/gemini-server.ts` | **`gemini_api_key`** (queried with `-a $USER`) | `GEMINI_API_KEY` | **none** |
+| `src/lib/ai/claude-client.ts` | **`anthropic-api-key`** (hyphens, no `-a`) | `ANTHROPIC_API_KEY` | **none** |
+
+Twelve API endpoints plus the gems engine and the Companion articulator run on the
+Gemini key — Explain, Define, Etymology, Rewrite, Instruct, Research, the Arabic and
+English term helpers, the gem cards, `phonetic-generate`, and Studio `vowelling`.
+`api/ai/claude.ts` runs on the Anthropic one. **Delete either key and those endpoints
+fail**, with the error surfacing only when a button is pressed.
+
+Proved by shimming `security` and logging every lookup on 2026-08-10: the pipeline's
+nine-check connectivity run made **zero** keychain calls, while resolving these two
+made exactly two.
+
+> **A live defect, found the same way.** `pull-secrets.sh` writes the Anthropic key
+> to **`anthropic_api_key`** (underscore). `claude-client.ts` reads
+> **`anthropic-api-key`** (hyphen). They have never matched. This Mac works only
+> because the hyphenated item was created by hand — the underscore one does not
+> exist here at all. **On a fresh Mac, `pull-secrets.sh` leaves `api/ai/claude.ts`
+> broken.** Fixing one character in `pull-secrets.sh:146` closes it.
+
+### `pull-secrets.sh` is therefore NOT legacy
+
+It is the only thing that provisions the Astro Site's Gemini key on a new machine
+(`llm-gemini-api-key` → `gemini_api_key`, line 145). An earlier version of this
+document called it legacy on the strength of the pipeline alone. That was wrong: run
+it if this machine will serve the Astro Site. It remains unnecessary for a machine
+that only runs the book pipeline.
+
+### What is genuinely safe to delete
+
+Only the twenty `azure-podcast-factory-*` keychain entries. They are unread — proved
+by the zero-call run above, which additionally **denied** every one of them and still
+passed 9 of 9 — and they are fully restorable with `pull-secrets.sh`. Deleting them
+will make `verify-azure.sh` report failures, since it checks exactly these.
 
 ### Vault inventory — 22 secrets, read from the vault on 2026-08-10
 

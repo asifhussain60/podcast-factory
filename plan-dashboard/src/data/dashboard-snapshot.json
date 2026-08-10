@@ -1938,6 +1938,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "c971dd57",
+      "subject": "docs(infra): the ElevenLabs key is gone, and the deletion proved the rest",
+      "date": "2026-08-10"
+    },
+    {
       "sha": "ed9b77ac",
       "subject": "docs: retire ElevenLabs from infra, and record the Azure tenant",
       "date": "2026-08-10"
@@ -1980,11 +1985,6 @@
     {
       "sha": "d33981ae",
       "subject": "fix(books): sixty-five English renderings move inside their cards across five books",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "08422ee3",
-      "subject": "feat(compose-fix): the rendering that opens a paragraph splits into its card, and the card sits tight",
       "date": "2026-08-09"
     }
   ],

@@ -65,18 +65,22 @@ needs them. Recovery paths: [pipeline-runtime.md §1](pipeline-runtime.md).
 | `provision-azure.sh` | Create the Azure resources | Once, on a blank subscription |
 | `store-keychain-keys.sh` | Azure → local keychain | After a rotation, on the primary Mac |
 | `migrate-to-keyvault.sh` | Local keychain → Key Vault | After a rotation, on the primary Mac |
-| `pull-secrets.sh` | Key Vault → local keychain | Legacy — see the caveat below |
+| `pull-secrets.sh` | Key Vault → local keychain | **Required on any machine serving the Astro Site** — see below |
 | `verify-azure.sh` | Read-only health check | Troubleshooting — see the caveat below |
 | `azure-config.env` | Live non-secret config, tracked | Read by every script above |
 | `azure-config.template.env` | Template for a different app | Standing up a parallel stack |
 | `transcription-runbook.md` | Azure Speech transcription, and its failure log | `audio-ingest`, lecture transcription |
 
-**Caveat on the last two.** `pull-secrets.sh` writes a keychain cache the pipeline no
-longer reads, and `verify-azure.sh` checks that same cache — so on a correct,
-vault-only machine it reports missing keys for a stack that works. Neither is wrong
-about what it claims to do; they are simply no longer how a machine is made to work.
-Use `preflight_doctor.py` or `test_azure_connectivity.py`, which resolve credentials
-the way the pipeline does.
+**The pipeline reads none of what `pull-secrets.sh` writes** — it resolves straight
+from the vault. **The Podcast Factory Astro Site reads two of them**, from the
+keychain, with no vault fallback: `gemini_api_key` behind fourteen AI surfaces, and
+`anthropic-api-key` behind `api/ai/claude.ts`. So run it on any machine that will
+serve the Astro Site, and skip it on one that only processes books.
+
+**Caveat on `verify-azure.sh`.** It checks the `azure-podcast-factory-*` keychain
+entries, which the pipeline stopped reading in June — so on a correct, vault-only
+machine it reports missing keys for a stack that works. Use `preflight_doctor.py` or
+`test_azure_connectivity.py`, which resolve credentials the way the pipeline does.
 
 Key Vault `podcast-factory-vault` holds **22** secrets and has been the source of
 truth since 2026-06-02. Full resource inventory and the recreate-from-scratch
