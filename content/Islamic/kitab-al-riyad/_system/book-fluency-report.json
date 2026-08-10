@@ -320,7 +320,7 @@
       "output_words": 4325,
       "windows": 1,
       "windows_kept": 0,
-      "status": "reverted",
+      "status": "composer-edit",
       "gates": [
         "fluency-14: Arabic runs dropped (57<58)"
       ],
@@ -335,7 +335,8 @@
       },
       "editorial_queries": [],
       "comprehension_flags": [],
-      "terminology_notes": []
+      "terminology_notes": [],
+      "superseded_status": "adapted"
     },
     {
       "title": "Fleeing to God's Measure",
@@ -440,7 +441,7 @@
       "output_words": 3046,
       "windows": 1,
       "windows_kept": 0,
-      "status": "reverted",
+      "status": "composer-edit",
       "gates": [
         "fluency-19: abridged re-voice (1174<1828 words)",
         "fluency-19: P1 large length drop: 3046->1174 words (38% of source \u2014 possible content loss)",
@@ -458,7 +459,8 @@
       },
       "editorial_queries": [],
       "comprehension_flags": [],
-      "terminology_notes": []
+      "terminology_notes": [],
+      "superseded_status": "adapted"
     },
     {
       "title": "Creativity Is the Creator",
