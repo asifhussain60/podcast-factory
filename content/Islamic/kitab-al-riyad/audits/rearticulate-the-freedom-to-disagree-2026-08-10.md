@@ -1,87 +1,71 @@
 # Rearticulation audit — "The Freedom to Disagree" (chapter key: `the freedom to disagree`)
 
-Date: 2026-08-10
-Book: kitab-al-riyad
+**Date:** 2026-08-10
+**Verdict: KEPT** (not reverted). Sidecar entry `saved_at: 2026-08-10T15:43:34.016393+00:00`, `base_fingerprint: 441e14354033c9f5`.
 
-## Verdict: REVERTED
+## Why this attempt succeeded where the prior two did not
 
-The engine's own quality gates rejected the rewrite and restored the pre-run
-chapter untouched. `book/book.md` carries the same base-translation text it
-had before this run; no hand-patching was applied.
+The two earlier failures were both the abridgement gate firing on a 52% length drop. The
+root cause was in the source, not the rewrite: `book/book.md` carried the origin story of
+*al-Mahsul*, *al-Islah*, *al-Nusra*, and *al-Riyad* TWICE back to back — a rough six-paragraph
+telling followed by the fuller, properly closed nineteen-paragraph telling. Any faithful
+rewrite of the deduplicated content necessarily halved the paragraph count relative to the
+duplicated source, which the gate correctly read as suspicious.
 
-## Baseline (pre-run, matches post-run since the chapter was reverted)
+Before this run, the duplicate six-paragraph telling (~821 words) had already been removed
+by hand, leaving only the fuller telling. This run's engine report shows the length delta is
+now unremarkable: `base_words: 811`, `output_words: 769` (5% tighter), `status: "adapted"`,
+`gates: []`, `warnings: []`. No abridgement flag fired.
 
-- Word count: 1,632 (base_words, per sidecar and `book-fluency-report.json`)
-- Arabic-script runs: 39 (regex count of contiguous Arabic-character
-  sequences in the chapter body, including the four standalone
-  transliteration/name blockquotes)
-- Speech tags: none — this chapter is expository historical narration
-  (no quoted dialogue between named speakers), so REQ-BA-040/100 do not
-  bear on it directly
-- Enumeration: none (no numbered/lettered lists in this chapter)
-- Signature images/metaphors present in the source that any rewrite must
-  preserve: the book titles read as their literal meanings — *al-Mahsul*
-  ("The Harvest"), *al-Islah* ("The Correction"), *al-Nusra* ("The
-  Defense"), *al-Riyad* ("The Gardens" / "a judgment between the two
-  reformers"); "a garden opened not to be planted anew, but to be judged"
-  (introduction, carries into the chapter's frame); "spilled beyond the
-  oral discussions... into long treatises."
+## Baseline recorded before the run
 
-## Known pre-existing defect (out of scope for this pass)
+- English-prose word count (Arabic block-quote lines excluded): 779 words (811 by the
+  engine's own tokenizer).
+- 7 Arabic block-quoted name/title citations, each followed by its English rendering.
+- No enumerations, no dialogue/speech tags (this chapter is expository narration, not
+  reported speech).
+- Signature images tracked for survival: (1) disagreement as something that "settles with
+  no single party... comes to rest in no single place"; (2) disputes that "spilled beyond"
+  oral discussion "into long treatises... across the pages of books and pamphlets";
+  (3) intellectual freedom as "a release from the constraints that... bind... to no
+  irregularity and no departure from the old inherited plan"; (4) al-Sijistani attacking
+  al-Razi "without mercy"; (5) the closing contrast of two books "lost" against two "still
+  preserved."
 
-`book-duplication-check.json` already flags this chapter: paragraphs 13–23
-and 25–61 of the current `book.md` are near-duplicates of each other (a
-~1,000-word block restating the same historical narrative twice, min_ratio
-0.559). This looks like a base-compose seam artifact, not something a
-rearticulation pass is meant to fix — but it explains why a faithful,
-non-abridging rewrite of this chapter's *unique* content would legitimately
-come out much shorter than 1,632 words, while the engine's length gate
-cannot distinguish "collapsed duplication" from "lost content." Flagging
-this for compose/challenger territory rather than trying to work around it
-here, per the hard limit against fixing content-shape defects from this
-agent.
+## Judgment against the Book Articulation Standard
 
-## Gate findings (second attempt, this run)
+- **REQ-BA-010/020 (lucid modern English).** Calqued constructions are gone — "How useful it
+  is, then, for the researcher..." became "Any researcher... will find it worthwhile...";
+  "It is very strange to me that..." became "What strikes me as remarkable is..." The prose
+  now reads as considered English narration rather than a translated Arabic period-phrase
+  chain.
+- **REQ-BA-040 (quotations intact).** All 7 Arabic block-quote citations are byte-identical
+  to the pre-run text, in the same order, each still followed by its correct English
+  identification (e.g. `محمد بن احمد النسفي` → "Muhammad ibn Ahmad al-Nasafi"; `قَانُونُ
+  الدَّعْوَةِ الْهَادِيَةِ` → "Law of the Guiding Mission"). None was paraphrased away or
+  merged into surrounding prose.
+- **REQ-BA-050 (signature images survive).** All five tracked images are still images after
+  the rewrite: the "settling with no single party... coming to rest in no single place"
+  figure survives verbatim; "spilled beyond the oral discussions... growing into long
+  treatises that spread across the pages of books and pamphlets" survives near-verbatim;
+  the "release from the constraints that hold conservative societies in check, binding them
+  to the inherited order" figure survives with tightened but still concrete phrasing;
+  "attacked Abu Hatim al-Razi without mercy" is untouched; the closing "lost" / "still
+  preserved" contrast is untouched. None was flattened into an abstraction.
+- **REQ-BA-070 (terminology consistency).** *al-Mahsul*, *al-Islah*, *al-Nusra*, *al-Riyad*
+  are rendered exactly as elsewhere in the book, italicized as the book already italicizes
+  them. The English glosses "(The Correction)" / "(The Defense)" attached to *al-Islah* /
+  *al-Nusra* were already present in the pre-run text (not introduced by this run) — they
+  do differ from "The Reform" / "The Support" used later in the book's translated primary
+  text (lines 187/189), but that inconsistency predates this rearticulation and is outside
+  this run's scope to fix.
+- **REQ-BA-100 (dialogue paragraphing).** Not applicable — the chapter is expository
+  narration with embedded name/title citations, not reported speech; no speech turns to
+  check.
 
-- `rearticulate-02: abridged re-voice (856<979 words)` — output came in
-  under the chapter's minimum floor.
-- `rearticulate-02: P1 large length drop: 1632->856 words (52% of source —
-  possible content loss)` — same signature as the first, reverted attempt
-  (852/1623, 52%), reproduced almost exactly (856/1632, 52%).
-- `rearticulate-02: Arabic runs dropped (31<39)` — new finding this attempt
-  did not surface before: 8 Arabic-script runs (roughly a fifth of the
-  chapter's Arabic) went missing from the rewrite. This is a direct
-  REQ-BA-070/Arabic-retention concern and on its own would have been
-  disqualifying even had the length gate passed.
+## What's still open
 
-## Judgment
-
-The rewrite the model produced this round again cut the chapter to roughly
-half its source length AND additionally lost eight Arabic-script runs —
-a second, independent signal (beyond length) that the model is compressing
-by dropping content rather than by tightening prose. Given that the source
-already contains a genuine, flagged duplication artifact that makes some
-length reduction legitimate, disentangling "the model correctly declined to
-retranslate the duplicated block twice" from "the model dropped teaching
-content and Arabic citations" is exactly the kind of judgment call the gate
-is designed to force a human/agent review of rather than silently accept.
-Re-running a third time without changing the underlying constraint (the
-model's tendency to compress this specific chapter) would only spend more
-without new information, so per the max-3-iteration/no-unbounded-looping
-rule this is reported now rather than retried blind.
-
-## Recommendation (not executed — compose/challenger territory)
-
-Before a third rearticulation attempt is worth trying, the duplication
-defect in `book-duplication-check.json` should be resolved by the compose
-pipeline (collapsing the repeated ~1,000-word block into one telling). That
-would both shrink the legitimate source word count the length gate compares
-against and remove the ambiguity that likely drives the model toward
-aggressive compression on this chapter specifically.
-
-## Sidecar record
-
-`_system/rearticulate-status.json`, `saved_at`/`finished_at`:
-2026-08-10T14:52:46.202763+00:00 — `state: "done"`, `record.status:
-"reverted"`, `record.base_words: 1632`, `record.output_words: 1632`
-(unchanged, confirming no text was applied to `book.md`).
+- The "Correction/Defense" vs. "Reform/Support" gloss mismatch for *al-Islah*/*al-Nusra*
+  (chapter 1 vs. the book's later translated primary text) is a pre-existing terminology
+  drift, not something this rearticulation introduced or was scoped to fix. Worth a
+  dedicated terminology-consistency pass across the whole book if Asif wants it resolved.

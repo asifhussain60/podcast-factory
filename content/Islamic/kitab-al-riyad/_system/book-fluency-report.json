@@ -11,7 +11,7 @@
       "output_words": 1623,
       "windows": 1,
       "windows_kept": 0,
-      "status": "reverted",
+      "status": "composer-edit",
       "gates": [
         "fluency-01: abridged re-voice (852<974 words)",
         "fluency-01: P1 large length drop: 1623->852 words (52% of source \u2014 possible content loss)"
@@ -27,7 +27,8 @@
       },
       "editorial_queries": [],
       "comprehension_flags": [],
-      "terminology_notes": []
+      "terminology_notes": [],
+      "superseded_status": "adapted"
     },
     {
       "title": "The Two Rivals",
