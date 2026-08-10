@@ -1938,6 +1938,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "021a1584",
+      "subject": "docs(infra): pull-secrets verified end to end, both Astro keys live",
+      "date": "2026-08-10"
+    },
+    {
       "sha": "35d3c159",
       "subject": "fix(infra): the Astro Site reads the keychain, and pull-secrets wrote the wrong name",
       "date": "2026-08-10"
@@ -1981,11 +1986,6 @@
       "sha": "7e3c7335",
       "subject": "feat(compose): one press publishes to both libraries, localhost first",
       "date": "2026-08-10"
-    },
-    {
-      "sha": "e63088ad",
-      "subject": "fix(books): single-quoted renderings are read too, and a nested quotation is one rendering",
-      "date": "2026-08-09"
     }
   ],
   "wave_execution_events": [],
