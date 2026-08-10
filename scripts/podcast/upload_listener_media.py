@@ -12,6 +12,13 @@ prose.
         [--remote]     the deployed bucket and database, not the local ones
         [--dry-run]    list what would be uploaded, upload nothing
         [--force]      re-upload even rows already marked uploaded
+        [--no-audio]   covers, deck pages and the print edition only
+
+`--no-audio` exists for the LOCAL bucket (Asif, 2026-08-10). A recording pushed
+there is a second copy of a file already on the same disk — 0.98 GB of the 1.04 GB
+the local bucket held — and nothing about playing an episode locally is worth a
+duplicate of every recording. The small assets still go, because a local page
+missing its cover and deck pages is not the page it is standing in for.
 
 `uploaded_at` is the whole contract. A row without it means "this file exists on
 Asif's disk"; a row with it means "this object is in R2". The site links only the
@@ -67,12 +74,18 @@ def d1(sql: str, *, remote: bool) -> list[dict]:
     return json.loads(out[start:])[0]["results"]
 
 
-def pending(slugs: list[str], *, remote: bool, force: bool) -> list[dict]:
+def pending(slugs: list[str], *, remote: bool, force: bool, no_audio: bool = False) -> list[dict]:
     where = "" if force else "uploaded_at IS NULL"
     if slugs:
         listed = ", ".join("'" + s.replace("'", "''") + "'" for s in slugs)
         clause = f"slug IN ({listed})"
         where = f"{where} AND {clause}" if where else clause
+    if no_audio:
+        # The recordings are the whole weight — 0.98 GB of the 1.04 GB in the
+        # local bucket on 2026-08-10, in 30 files against 159 of everything else.
+        # Covers, deck pages and the print edition are 60 MB and are what make a
+        # local page look like the real one, so they are NOT what gets dropped.
+        where = f"{where} AND kind != 'audio'" if where else "kind != 'audio'"
 
     return d1(
         "SELECT key, slug, kind, content_type, bytes, source_path FROM media_asset"
@@ -167,9 +180,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--remote", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument(
+        "--no-audio",
+        action="store_true",
+        help="skip the recordings; upload covers, deck pages and the print edition only",
+    )
     args = parser.parse_args(argv)
 
-    rows = pending(args.slugs, remote=args.remote, force=args.force)
+    rows = pending(args.slugs, remote=args.remote, force=args.force, no_audio=args.no_audio)
     if not rows:
         print("nothing to upload — every known file is already in R2")
         return 0

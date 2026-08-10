@@ -49,6 +49,7 @@ USAGE
         [--skip-transcripts] do not transcribe new episodes
         [--skip-media]       text, cards and print edition only — no recordings
         [--skip-local]       production only, skipping the rehearsal
+        [--local-audio]      copy recordings to the local bucket too
         [--rebuild-pdf]      re-render the reading edition before pushing it
         [--dry-run]          say what would happen; change nothing, anywhere
         [--json]             one NDJSON event per line (what the button reads)
@@ -201,6 +202,14 @@ def push(target: dict, slug: str, book_dir: Path, args, report: Reporter, *, now
     remote, label = target["remote"], target["label"]
     flag = ["--remote"] if remote else []
     dry = ["--dry-run"] if args.dry_run else []
+    # RECORDINGS ARE NOT COPIED TO LOCALHOST (Asif, 2026-08-10: "I do not want
+    # content copied twice for books"). A recording in the local bucket is a
+    # second copy of a file already on the same disk — 0.98 GB of the 1.04 GB it
+    # held, in 30 files. Covers, deck pages and the print edition still go, all
+    # 60 MB of them, because a local page missing its cover is not the page it is
+    # standing in for. `--local-audio` puts them back for the rare case of
+    # actually playing an episode locally.
+    no_audio = ["--no-audio"] if (not remote and not args.local_audio) else []
 
     report.step(f"Content · {label}")
     if run([sys.executable, "scripts/podcast/publish_to_listener.py", slug, *flag, *dry], report) != 0:
@@ -210,9 +219,12 @@ def push(target: dict, slug: str, book_dir: Path, args, report: Reporter, *, now
     report.step(f"Media · {label}")
     if args.skip_media:
         report.log("skipped, as asked — recordings already in the bucket are untouched")
-    elif run([sys.executable, "scripts/podcast/upload_listener_media.py", slug, *flag, *dry], report) != 0:
-        report.error(f"uploading to {label} failed — the book is there but incomplete, and still not visible")
-        return False, []
+    else:
+        if no_audio:
+            report.log("recordings are not copied here — they play from the live bucket, not a duplicate")
+        if run([sys.executable, "scripts/podcast/upload_listener_media.py", slug, *flag, *no_audio, *dry], report) != 0:
+            report.error(f"uploading to {label} failed — the book is there but incomplete, and still not visible")
+            return False, []
 
     report.step(f"Visibility · {label}")
     if args.dry_run:
@@ -230,12 +242,16 @@ def push(target: dict, slug: str, book_dir: Path, args, report: Reporter, *, now
 
     report.step(f"Verifying · {label}")
     expected: dict[str, object] = {"cards": count_cards(book_dir), "since": now}
-    if args.skip_media:
-        # Nothing was uploaded this run, so an incomplete bucket is the state we
-        # were asked to leave alone rather than a failure of this publish.
+    # The media check asks whether every inventoried file is in the bucket. On
+    # localhost the recordings deliberately are not, so asking would fail a
+    # correct run — and a check that fails when nothing is wrong is how a
+    # verification stops being read. Dropped for the same reason `--skip-media`
+    # drops it: the bucket is in the state we asked for, not a broken one.
+    skip_media_check = args.skip_media or bool(no_audio)
+    if skip_media_check:
         expected["skip_media"] = True
     checks = verify(slug, book_dir, remote=remote, expected=expected)
-    if args.skip_media:
+    if skip_media_check:
         checks = [c for c in checks if c["name"] != "media uploaded"]
     # The site's name travels WITH the check, because both sites report the same
     # check names and a merged list that did not say which one failed would be
@@ -252,6 +268,11 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--no-accept", action="store_true", help="leave unreviewed Companion cards unreviewed")
     parser.add_argument("--skip-transcripts", action="store_true", help="do not transcribe new episodes")
     parser.add_argument("--skip-media", action="store_true", help="text, cards and print edition only")
+    parser.add_argument(
+        "--local-audio",
+        action="store_true",
+        help="copy recordings to the local bucket too (a second copy of files already on this disk)",
+    )
     parser.add_argument(
         "--skip-local",
         action="store_true",

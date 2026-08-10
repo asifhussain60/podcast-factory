@@ -41,7 +41,9 @@ class Recorder(P.Reporter):
             self.errors.append(str(fields.get("text")))
 
 
-ARGS = SimpleNamespace(dry_run=False, skip_media=True, skip_local=False)
+ARGS = SimpleNamespace(dry_run=False, skip_media=True, skip_local=False, local_audio=False)
+ARGS_MEDIA = SimpleNamespace(dry_run=False, skip_media=False, skip_local=False, local_audio=False)
+ARGS_LOCAL_AUDIO = SimpleNamespace(dry_run=False, skip_media=False, skip_local=False, local_audio=True)
 
 
 @pytest.fixture()
@@ -162,3 +164,80 @@ def test_a_book_that_reached_only_one_site_is_not_verified(tmp_path):
 def test_skip_local_leaves_exactly_one_target():
     kept = [t for t in P.TARGETS if t["remote"] or not True]
     assert [t["label"] for t in kept] == ["production"]
+
+
+# ── recordings are not copied twice onto the same disk ───────────────────────
+
+
+def _media_argv(spies):
+    return next(a for a in spies["argv"] if "upload_listener_media.py" in " ".join(a))
+
+
+def test_the_local_pass_does_not_copy_recordings(spies, tmp_path):
+    """Asif, 2026-08-10: "I do not want content copied twice for books." A
+    recording in the local bucket is a second copy of a file already on the same
+    disk — 0.98 GB of the 1.04 GB it held, in 30 files."""
+    P.push(P.TARGETS[0], "a-book", tmp_path, ARGS_MEDIA, Recorder(), now="2026-08-10T00:00:00Z")
+    assert "--no-audio" in _media_argv(spies)
+
+
+def test_the_small_assets_still_go_to_localhost(spies, tmp_path):
+    """Covers, deck pages and the print edition are 60 MB of the duplication and
+    are what make a local page look like the one it stands in for — so the media
+    step still RUNS locally rather than being skipped wholesale."""
+    P.push(P.TARGETS[0], "a-book", tmp_path, ARGS_MEDIA, Recorder(), now="2026-08-10T00:00:00Z")
+    argv = _media_argv(spies)
+    assert "--no-audio" in argv and "--remote" not in argv
+
+
+def test_production_always_gets_the_recordings(spies, tmp_path):
+    """The live site serves from its bucket and has no other copy to fall back on."""
+    P.push(P.TARGETS[1], "a-book", tmp_path, ARGS_MEDIA, Recorder(), now="2026-08-10T00:00:00Z")
+    argv = _media_argv(spies)
+    assert "--no-audio" not in argv and "--remote" in argv
+
+
+def test_local_audio_puts_the_recordings_back(spies, tmp_path):
+    P.push(P.TARGETS[0], "a-book", tmp_path, ARGS_LOCAL_AUDIO, Recorder(), now="2026-08-10T00:00:00Z")
+    assert "--no-audio" not in _media_argv(spies)
+
+
+def test_localhost_is_not_failed_for_the_recordings_it_was_told_to_skip(monkeypatch, tmp_path):
+    """The media check asks whether every inventoried file is in the bucket. On
+    localhost the recordings deliberately are not, so asking would fail a correct
+    run — and a check that fails when nothing is wrong is how a verification stops
+    being read."""
+    seen: dict = {}
+    monkeypatch.setattr(P, "run", lambda argv, report, cwd=None: 0)
+    monkeypatch.setattr(P, "d1_execute", lambda sql, report, *, remote: 0)
+    monkeypatch.setattr(P, "visibility", lambda slug, *, remote: None)
+    monkeypatch.setattr(P, "count_cards", lambda book_dir: 0)
+
+    def fake_verify(slug, book_dir, *, remote, expected):
+        seen["expected"] = expected
+        return [
+            {"name": "chapters", "ok": True, "detail": "16"},
+            {"name": "media uploaded", "ok": False, "detail": "0 of 30"},
+        ]
+
+    monkeypatch.setattr(P, "verify", fake_verify)
+    ok, checks = P.push(P.TARGETS[0], "a-book", tmp_path, ARGS_MEDIA, Recorder(), now="2026-08-10T00:00:00Z")
+    assert seen["expected"]["skip_media"] is True
+    assert [c["name"] for c in checks] == ["chapters (localhost)"]
+    assert ok is True
+
+
+def test_production_is_still_failed_for_media_that_did_not_arrive(monkeypatch, tmp_path):
+    """The same check must keep its teeth where it matters."""
+    monkeypatch.setattr(P, "run", lambda argv, report, cwd=None: 0)
+    monkeypatch.setattr(P, "d1_execute", lambda sql, report, *, remote: 0)
+    monkeypatch.setattr(P, "visibility", lambda slug, *, remote: None)
+    monkeypatch.setattr(P, "count_cards", lambda book_dir: 0)
+    monkeypatch.setattr(
+        P,
+        "verify",
+        lambda slug, book_dir, *, remote, expected: [{"name": "media uploaded", "ok": False, "detail": "0 of 30"}],
+    )
+    ok, checks = P.push(P.TARGETS[1], "a-book", tmp_path, ARGS_MEDIA, Recorder(), now="2026-08-10T00:00:00Z")
+    assert ok is False
+    assert checks[0]["name"] == "media uploaded (production)"
