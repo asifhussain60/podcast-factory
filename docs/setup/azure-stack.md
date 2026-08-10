@@ -30,13 +30,20 @@ Source of truth: [infra/azure/azure-config.env](../../infra/azure/azure-config.e
 
 > **SKU note:** Document Intelligence was upgraded F0 → S0 on 2026-05-18 because F0 has a 4 MB binary cap that blocked Kitab-al-Riyad.pdf (4.4 MB). S0 cap is 500 MB.
 
-## Keychain entries (per machine)
+## Secret names
 
-Naming convention: `azure-podcast-factory-<resource>-<field>`.
+Naming convention: `azure-podcast-factory-<resource>-<field>`. These are the **Key
+Vault secret names** — the same strings were once keychain service names, which is
+why the table below is titled for both.
 
-Resolution priority in [scripts/podcast/_azure.py](../../scripts/podcast/_azure.py) `_resolve()`:
+Resolution priority in [scripts/podcast/_azure_creds.py](../../scripts/podcast/_azure_creds.py) `_resolve()`:
 1. Environment variable (for CI) — `AZURE_DOCINTEL_KEY`, `AZURE_TRANSLATOR_KEY`, etc.
-2. macOS Keychain (local-Mac fallback) — the names below
+2. **Azure Key Vault** `podcast-factory-vault`, via the `az` CLI.
+
+> **There is no keychain tier.** It was removed on 2026-06-04 so a drifted local
+> cache could not shadow the vault. A machine needs `az login`, not
+> `pull-secrets.sh`. Full detail, including which secrets are *not* in the vault:
+> [infra/pipeline-runtime.md](../../infra/pipeline-runtime.md).
 
 | Service name | Required for |
 |---|---|
@@ -59,10 +66,18 @@ Resolution priority in [scripts/podcast/_azure.py](../../scripts/podcast/_azure.
 | `azure-podcast-factory-openai-endpoint` | Image generation |
 | `azure-podcast-factory-openai-region` | Image generation |
 | `azure-podcast-factory-openai-dalle-deployment` | Image generation (deployment name) |
-| `gemini_api_key` | Gemini tasks (revoice, denoise, audit, reconcile) |
-| `anthropic_api_key` | All Claude pipeline phases |
+| `llm-gemini-api-key` | Gemini tasks (literary pass, second-opinion audit, Composer buttons) |
+| `llm-anthropic-api-key` | The Anthropic **SDK** refinement path only — `claude -p` uses the Max subscription and no key |
 
-All entries are stored in Key Vault (`podcast-factory-vault`). After provisioning `journal-openai` (see below), run `store-keychain-keys.sh` then `migrate-to-keyvault.sh` to add the new secrets. New Macs pull everything with `pull-secrets.sh`.
+That is 22 secrets in the vault, verified 2026-08-10. The last two rows were
+previously listed under their old keychain names (`gemini_api_key`,
+`anthropic_api_key`); the vault names are the ones above, and the vault is what the
+pipeline reads.
+
+After provisioning a new resource, run `store-keychain-keys.sh` then
+`migrate-to-keyvault.sh` on the primary Mac to get its secrets INTO the vault. New
+Macs need only `az login` — `pull-secrets.sh` writes a keychain cache that nothing
+reads any more.
 
 ## Multi-Mac secret workflow (ACTIVE since 2026-06-02)
 

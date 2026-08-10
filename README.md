@@ -41,7 +41,8 @@ cd plan-dashboard && npm run lint && npm run check && npm test && npm run lint:v
 ```
 
 Git hooks enforce a subset of these on every commit — install them once with
-`bash infra/git-hooks/install.sh`.
+`bash scripts/install-git-hooks.sh`. What each hook does:
+[infra/git-hooks/README.md](infra/git-hooks/README.md).
 
 ## Read next
 

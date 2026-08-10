@@ -1,20 +1,34 @@
 # LLM API stack — canonical reference
 
-Everything Asif's `podcast-factory` Macs need to talk to Anthropic (Claude) and Google (Gemini), with the exact accounts, billing settings, keychain entries, and spend guardrails currently in effect.
+The accounts, billing settings, spend guardrails and rotation paths for the three
+model providers the pipeline talks to: Anthropic (Claude), Google (Gemini) and
+ElevenLabs.
 
-**Source of truth.** Anything that contradicts this file is stale and should be deleted or updated to match.
+**Source of truth for accounts and billing.** For *where a credential is resolved
+from at runtime*, the source of truth is
+[infra/pipeline-runtime.md §1](../pipeline-runtime.md) — that changed on 2026-06-04
+and this file described the old behaviour until 2026-08-10.
 
-**Last reconciled:** 2026-05-25.
+**Last reconciled:** 2026-08-10.
 
 ---
 
 ## TL;DR (skip to here if you're bringing a new Mac up)
 
-1. Install Claude Code, run `claude login`, authenticate as **asifhussain60@gmail.com** with the **Claude Max** subscription (no API key on this machine).
-2. Run [`infra/llm-apis/bootstrap-llm-apis.sh`](bootstrap-llm-apis.sh) — it walks you through pasting the Gemini API key into the keychain (the key value is NOT stored in this repo).
-3. Run [`infra/llm-apis/verify-llm-apis.sh`](verify-llm-apis.sh) — confirms both Claude and Gemini are reachable from this machine.
+1. Install Claude Code, run `claude login`, authenticate as **asifhussain60@gmail.com** with the **Claude Max** subscription.
+2. Run `az login` as **asifhussain60@msn.com** (a different account — the Azure one). That is what gives this machine the Gemini and Anthropic API keys: both live in Key Vault as `llm-gemini-api-key` and `llm-anthropic-api-key`, and the pipeline reads them from there.
+3. Store the **ElevenLabs** key in the keychain by hand — it is in no vault and nothing in this repo can restore it:
+   ```bash
+   security add-generic-password -U -a "$USER" -s elevenlabs_api_key -w
+   ```
+4. Run [`infra/llm-apis/verify-llm-apis.sh`](verify-llm-apis.sh) — confirms Claude and Gemini are reachable.
 
-That's it. The Anthropic API key is intentionally NOT used on operator Macs; the pipeline runs entirely off the Max subscription. See §"Anthropic — auth model" below for why.
+> **Correction, 2026-08-10.** This file used to say the pipeline reads the keychain
+> for the Gemini key, and that `bootstrap-llm-apis.sh` is how a new Mac gets it. The
+> keychain tier was removed from `_secrets.resolve_secret` on 2026-06-04; resolution
+> is now environment variable → Azure Key Vault, full stop. `bootstrap-llm-apis.sh`
+> still works and still writes a valid keychain entry — but nothing in the pipeline
+> reads it, so it is no longer a bootstrap step.
 
 ---
 
@@ -23,8 +37,8 @@ That's it. The Anthropic API key is intentionally NOT used on operator Macs; the
 ### Account
 
 - **Email:** asifhussain60@gmail.com
-- **Subscription tier:** **Claude Max** (the $200/month plan that includes Opus 4.7 with 1M-context).
-- **Organization (for API):** "Asif's Individual Org" — a separate Anthropic API account that exists for occasional standalone API use; **NOT used by the podcast pipeline.**
+- **Subscription tier:** **Claude Max** (the $200/month plan).
+- **Organization (for API):** "Asif's Individual Org" — a separate Anthropic API account with its own $25 cap. **`claude -p` never touches it.** One pipeline path does: the SDK refinement route, via `_secrets.get_anthropic_key()`, which resolves the vault secret `llm-anthropic-api-key`. That key is pulled on demand at the call site and is deliberately never loaded into the process environment, because doing so would divert every `claude -p` call off the flat-rate subscription and onto metered billing — a P0 cost violation the code comments in `_secrets.py` call out by name.
 
 ### Auth model on operator Macs
 
@@ -32,12 +46,17 @@ The pipeline shells out to `claude -p` (Claude Code's headless mode) from `scrip
 
 **Empirically verified 2026-05-25** by running `audit_bundle.py` against EP07 while the separate "Asif's Individual Org" API account was paused at its $25 monthly cap: the call succeeded (exit 0, 15 findings), confirming the pipeline never touched the API account.
 
-### Why no Anthropic API key in keychain
+### Why the API key is kept out of the environment
 
 Three reasons:
-1. **Cost.** The Max subscription covers unlimited Opus 4.7 / Sonnet 4.6 / Haiku 4.5 calls via Claude Code. Routing through the API would be billed per-token and would double-pay for the same work.
-2. **Isolation.** The separate "Asif's Individual Org" API account is for ad-hoc programmatic use (one-off scripts, third-party tools). Keeping it OUT of the pipeline means its $25/month soft cap (see §Budgets) can never block podcast-factory work.
-3. **Simplicity.** Zero per-machine secret rotation. `claude login` once per Mac.
+1. **Cost.** The Max subscription covers Claude Code calls at a flat rate. Routing the same work through the API would be billed per token — double-paying for it.
+2. **Isolation.** The API org's $25/month cap can never block podcast-factory work if the pipeline's main path cannot reach it.
+3. **Simplicity.** `claude login` once per Mac; no per-machine secret to rotate for the reasoning path.
+
+`_secrets.py` enforces this structurally: there is no `hydrate_env()`, and it actively
+scrubs the *empty* `ANTHROPIC_AUTH_TOKEN` / `ANTHROPIC_CUSTOM_HEADERS` that the
+Claude-desktop runtime injects, which otherwise make the SDK raise
+`APIConnectionError` even with a valid key.
 
 ### Bootstrap on a new Mac
 
@@ -72,21 +91,14 @@ The pipeline uses Gemini as a **second-opinion auditor** running alongside the C
 - **Key name (in AI Studio):** `podcast-factory`
 - **Key format:** newer AI Studio format (53 chars, prefix `AQ.Ab8…`). Created 2026-05-25.
 - **Project:** `gen-lang-client-0688822319` (Paid tier, linked to AHHOME billing 2026-05-25).
-- **Keychain entry:** service=`gemini_api_key`, account=`<your USER>`. Read with:
-
-  ```bash
-  security find-generic-password -s gemini_api_key -a "$USER" -w
-  ```
+- **Where the pipeline reads it:** Key Vault secret **`llm-gemini-api-key`**, via `_secrets.get_gemini_key()`. Env override: `GEMINI_API_KEY` or `GOOGLE_API_KEY`.
+- **Keychain entry `gemini_api_key`:** still present on this Mac, still written by the bootstrap script — and **not read by anything**. Harmless; not a bootstrap step.
 
 ### Bootstrap on a new Mac
 
-Use the helper script — it walks you through the secure-paste flow that avoids writing the key to disk or shell history:
-
-```bash
-bash infra/llm-apis/bootstrap-llm-apis.sh
-```
-
-The script will prompt you to paste the key (silent — nothing echoes to terminal) and store it under the canonical keychain service name.
+`az login` is the whole step — the key comes from the vault. `bootstrap-llm-apis.sh`
+remains available for the secure-paste flow if you want a local keychain copy for
+ad-hoc use, but the pipeline does not need it.
 
 To get the key value itself: open [aistudio.google.com/apikey](https://aistudio.google.com/apikey), find the `podcast-factory` row, click the copy icon.
 
@@ -103,7 +115,42 @@ Confirms Gemini lists 50+ models and `gemini-2.5-pro` is reachable on Paid tier 
 If the key needs to be rotated:
 1. AI Studio → API keys → `podcast-factory` → ⋮ → Revoke.
 2. Create new key in the same `gen-lang-client-0688822319` project (so billing stays linked).
-3. Re-run `bootstrap-llm-apis.sh` to re-paste into keychain.
+3. **Put it in the vault** — that is the step that actually changes what the pipeline uses:
+   ```bash
+   az keyvault secret set --vault-name podcast-factory-vault \
+     --name llm-gemini-api-key --value "<new key>"
+   ```
+   `_secrets` caches per process, so any already-running orchestrator keeps the old value until it exits.
+
+---
+
+## Provider 3 — ElevenLabs (audio synthesis)
+
+Used by the `audio-script` and `audio-render` phases on books whose audio engine is
+ElevenLabs rather than NotebookLM. Voice cast for Islamic books is pinned in each
+book's `series-config.yaml` under `elevenlabs_voices` (HOST_A "Mohammed - Arabic" at
+speed 1.2, HOST_B "Sarah").
+
+**Its key is the one credential with no recovery path in this repo.** Resolution
+order, from [`scripts/podcast/_elevenlabs.py`](../../scripts/podcast/_elevenlabs.py):
+
+1. `ELEVENLABS_API_KEY` in the environment
+2. an `ELEVENLABS_API_KEY=` line in the repo-root `.env` (gitignored)
+3. macOS keychain, service `elevenlabs_api_key`
+
+It is **not in Key Vault**, so `az login` does not supply it and a fresh machine has
+no way to obtain it — the failure surfaces only when an `audio-render` phase runs.
+Store it by hand:
+
+```bash
+security add-generic-password -U -a "$USER" -s elevenlabs_api_key -w
+```
+
+Adding it to the vault alongside the other two LLM keys would close the gap. That has
+not been done.
+
+**Spend is gated by a human, not a budget.** The `audio-render` phase halts with an
+exact credit estimate before synthesising anything.
 
 ---
 
@@ -122,44 +169,42 @@ If the key needs to be rotated:
 
 ---
 
-## What's in keychain on a fully-set-up Mac
+## What must be in the keychain, and what merely may be
 
-Run this audit (it reads only service names, no secrets):
+Check presence without reading any value:
 
 ```bash
-security dump-keychain 2>/dev/null | grep '"svce"' | grep -E "gemini|azure-podcast" | sort -u
+for s in "Claude Code-credentials" elevenlabs_api_key gemini_api_key; do
+  security find-generic-password -s "$s" >/dev/null 2>&1 \
+    && echo "ok      $s" || echo "MISSING $s"
+done
 ```
 
-Expected entries (post-bootstrap):
+| Service | Status |
+|---|---|
+| `Claude Code-credentials` | **Required.** Written by `claude login`; carries the Max OAuth token every `claude -p` call uses. `preflight_doctor.py` reads its `expiresAt` as an advisory pre-check |
+| `elevenlabs_api_key` | **Required for ElevenLabs books**, and irreplaceable from within this repo |
+| `gemini_api_key` | Optional leftover. Nothing reads it |
+| `azure-podcast-factory-*` | Optional leftovers. Nothing reads them — `verify-azure.sh` checks them anyway, which is why it reports failures on a working machine |
 
-```
-"svce"<blob>="gemini_api_key"
-"svce"<blob>="azure-podcast-docintel-endpoint"
-"svce"<blob>="azure-podcast-docintel-key1"
-"svce"<blob>="azure-podcast-docintel-region"
-"svce"<blob>="azure-podcast-speech-endpoint"
-"svce"<blob>="azure-podcast-speech-key1"
-"svce"<blob>="azure-podcast-speech-region"
-"svce"<blob>="azure-podcast-translator-endpoint-document"
-"svce"<blob>="azure-podcast-translator-endpoint-text"
-"svce"<blob>="azure-podcast-translator-key1"
-"svce"<blob>="azure-podcast-translator-region"
-```
-
-If you see anything ELSE prefixed `gemini`, `anthropic`, or `claude` — it's stale and can be deleted. The pipeline only consumes the entries listed above.
+An earlier version of this table listed the Azure entries under the prefix
+`azure-podcast-*`. That prefix has never been correct for this repo: the app
+namespace is `podcast-factory`, so both the (unread) keychain names and the (live)
+vault secret names are `azure-podcast-factory-*`.
 
 ---
 
 ## What is intentionally NOT here
 
-The following are explicitly NOT documented, NOT scripted, and NOT in keychain — because the pipeline doesn't need them. If you find references elsewhere, treat them as legacy and remove:
-
-- ❌ `ANTHROPIC_API_KEY` env var
+- ❌ `ANTHROPIC_API_KEY` as an exported env var — see §"Why the API key is kept out of the environment". The key exists, in the vault, read on demand.
 - ❌ `~/.anthropic/` config file with an API key
 - ❌ Any `claude` config pointing to an API key instead of the OAuth subscription
-- ❌ `OPENAI_API_KEY` (the pipeline does not use OpenAI)
-- ❌ `.env` / `.env.local` files with LLM credentials (the pipeline reads keychain only)
-- ❌ Vertex AI / Google Cloud service-account JSON (we use AI Studio API keys, not Vertex)
+- ❌ `OPENAI_API_KEY` — the pipeline does not use OpenAI. (Azure OpenAI is a separate resource and is currently used for nothing; DALL-E 3 was deprecated and image generation stayed on Gemini.)
+- ❌ Vertex AI / Google Cloud service-account JSON — AI Studio API keys, not Vertex
+
+One qualifier on a rule this file used to state absolutely: a repo-root `.env` **is**
+a supported source for `ELEVENLABS_API_KEY`, and only for that. No other provider
+reads a `.env` file.
 
 ---
 

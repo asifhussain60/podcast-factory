@@ -7,7 +7,8 @@
 #   2. Reject any staged filename matching `*v[0-9]*.md` or `*v[0-9]*.yaml`,
 #      except files under `_archive/`.
 #
-# Install via `bash infra/git-hooks/install.sh`.
+# Install via `bash scripts/install-git-hooks.sh` (installs EVERY hook in this
+# directory, not just this one). See infra/git-hooks/README.md.
 
 set -e
 

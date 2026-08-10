@@ -3,7 +3,16 @@
 Canonical reference for running `scripts/podcast/transcribe_episode.py` against downloaded
 NotebookLM audio files. Covers what works, what fails, and why.
 
-**Last verified:** 2026-06-01 — EP01/EP02/EP03 for `sites/healthequity`.
+**Last verified end-to-end:** 2026-06-01 — EP01/EP02/EP03 for `content/Guides/healthequity`.
+**Credential sections corrected against the running code and the live vault:** 2026-08-10.
+
+> **Read this before the quick-start.** Everything this runbook said about
+> `AZURE_APP_NAME` was correct in June and is **inverted today**. The keychain tier
+> was removed from credential resolution on 2026-06-04; `_azure_creds.APP_NAME` now
+> defaults to `podcast-factory`, and the live Key Vault holds
+> `azure-podcast-factory-*` secrets and no `azure-journal-*` secret at all. Exporting
+> `AZURE_APP_NAME=journal` today makes every lookup miss. The old §"Critical:
+> APP_NAME mismatch" has been replaced below with what is actually true.
 
 ---
 
@@ -22,7 +31,8 @@ export AZURE_SPEECH_ENDPOINT="https://eastus.api.cognitive.microsoft.com/"
 export AZURE_SPEECH_REGION="eastus"
 export AZURE_SPEECH_KEY=$(az cognitiveservices account keys list \
   --name journal-speech --resource-group rg-journal-ai --query "key1" -o tsv)
-export AZURE_APP_NAME=journal
+# Do NOT set AZURE_APP_NAME. The default (podcast-factory) is correct, and the
+# three exports above short-circuit the lookup entirely anyway.
 
 BOOK_DIR="$1"
 shift
@@ -58,38 +68,45 @@ bash /tmp/run_transcriptions.sh "$BOOK" \
 
 ---
 
-## Critical: APP_NAME mismatch
+## AZURE_APP_NAME — leave it alone
 
-`scripts/podcast/_azure.py` has this hard-coded default:
+`scripts/podcast/_azure_creds.py` (split out of `_azure.py` on 2026-07-18, behaviour
+unchanged) resolves each credential as **environment variable → Azure Key Vault**,
+building the vault secret name as `azure-{APP_NAME}-{suffix}`:
 
 ```python
-APP_NAME = os.environ.get("AZURE_APP_NAME", "journal")
+APP_NAME = os.environ.get("AZURE_APP_NAME", "podcast-factory")
 ```
 
-The keychain lookup constructs service names as `azure-{APP_NAME}-speech-key1`, etc.
-**The actual keychain entries use the `journal` prefix** — even though the repo was renamed
-to `podcast-factory` in 2026-05-22. The Azure resources themselves retain `journal-*` names.
+The vault holds `azure-podcast-factory-speech-key1` and friends — twenty-two secrets,
+none of them prefixed `azure-journal-`. So the default is the only value that
+resolves, and setting `AZURE_APP_NAME=journal` (which this runbook told you to do
+until 2026-08-10) turns every lookup into a miss.
 
-`llm-apis/README.md` documents expected keychain entries as `azure-podcast-*` — **this is
-wrong**. The actual entries are `azure-journal-*`. Do not try to populate `azure-podcast-*`
-entries; they will be read by nothing.
+Nothing here contradicts the resource names: the Azure *resources* are still called
+`journal-speech`, `journal-docintel` and so on, and always will be. Only the app
+namespace that builds secret names became `podcast-factory`.
 
-Always pass `AZURE_APP_NAME=journal` when calling `_azure.py` directly or any script that
-imports it. The helper script above does this automatically.
+**Two ways the helper script above stays correct regardless.** It exports
+`AZURE_SPEECH_KEY`, `AZURE_SPEECH_ENDPOINT` and `AZURE_SPEECH_REGION` directly, and
+environment variables are checked first — so `APP_NAME` is never consulted at all. It
+also fetches the key through `az` rather than reading the keychain, which is why it
+survived the keychain tier's removal without anyone noticing.
 
 ---
 
-## Env vars consumed by `_azure.py`
+## Env vars consumed by `_azure_creds.py`
 
-| Env var | Value |
-|---|---|
-| `AZURE_SPEECH_KEY` | from `az cognitiveservices account keys list --name journal-speech ...` |
-| `AZURE_SPEECH_ENDPOINT` | `https://eastus.api.cognitive.microsoft.com/` |
-| `AZURE_SPEECH_REGION` | `eastus` |
-| `AZURE_APP_NAME` | `journal` — never `podcast-factory` |
+| Env var | Value | Needed? |
+|---|---|---|
+| `AZURE_SPEECH_KEY` | from `az cognitiveservices account keys list --name journal-speech …` | Only for the direct-export pattern above |
+| `AZURE_SPEECH_ENDPOINT` | `https://eastus.api.cognitive.microsoft.com/` | Same |
+| `AZURE_SPEECH_REGION` | `eastus` | Same |
+| `AZURE_APP_NAME` | `podcast-factory` (the default) | **Never set it** — only when standing up a parallel stack under a different namespace |
 
-Env vars win over keychain (`_resolve()` checks env first). The helper-script pattern
-exploits this: fetch key via `az`, export as env var, run Python — no keychain read needed.
+With `az login` alone and none of these set, the vault supplies all three Speech
+values and transcription works. The export pattern exists because it is explicit and
+because it predates the vault, not because it is required.
 
 ---
 
@@ -141,32 +158,32 @@ AZURE_SPEECH_KEY="<value>" AZURE_APP_NAME=journal python3 scripts/podcast/transc
 
 ---
 
-### FAIL 4 — Wrong APP_NAME
+### FAIL 4 and FAIL 5 — REVERSED on 2026-06-04, kept as history
 
-**What was tried:**
-```bash
-AZURE_APP_NAME=podcast-factory python3 scripts/podcast/transcribe_episode.py ...
+These two entries recorded that `AZURE_APP_NAME=podcast-factory` failed and
+`journal` was required. **Both were true in June and both are now backwards.**
+Credential resolution moved to env-var → Key Vault, and the vault is populated under
+`azure-podcast-factory-*` exclusively. The failing command is now the fix and the fix
+is now the failing command.
+
+They are not deleted because the *symptom* they document is still what you will see:
+
+```
+AzureCredsError: Speech credentials missing: endpoint, key, region.
 ```
 
-**Result:** `AzureCredsError: Speech credentials missing: endpoint, key, region.`
+The 2026-08-10 causes of that message, in the order worth checking:
 
-**Why:** The keychain entries are `azure-journal-*`, not `azure-podcast-factory-*`. The
-`podcast-factory` APP_NAME was never used to populate keychain entries. Always use `journal`.
+1. **No `az login`**, or logged in as the wrong identity. The Azure account is
+   `asifhussain60@msn.com` — not the gmail one everything else uses.
+   `az account show --query user.name -o tsv` settles it.
+2. **`AZURE_APP_NAME` is set** to anything, usually `journal`, usually by an old
+   helper script following this runbook's earlier advice. Unset it.
+3. The subscription is not `3440564d-c056-4173-bec6-7af92dbece77`.
+   `az account set --subscription "Journal AI — primary"`.
 
----
-
-### FAIL 5 — Running transcribe_episode.py without AZURE_APP_NAME
-
-**What was tried:**
-```bash
-python3 scripts/podcast/transcribe_episode.py <BOOK_DIR> <EP> <audio> --locale en-US
-```
-
-**Result:** `AzureCredsError: Speech credentials missing: endpoint, key, region.`
-
-**Why:** The script defaults APP_NAME to `"journal"`, which should work IF the keychain is
-readable. In Claude Code sessions the keychain isn't readable (see FAIL 1), so all three
-credentials resolve to `None`. Must combine with env-var approach (FAIL 3 workaround).
+An empty keychain is **not** a cause any more, which is what makes the old entries
+misleading rather than merely dated.
 
 ---
 
