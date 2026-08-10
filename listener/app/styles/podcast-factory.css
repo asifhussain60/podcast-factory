@@ -497,15 +497,19 @@
      verse, or a saying. Colour is what carries that, so every ink is held to the
      body floor of 4.5:1 on the reading surface by test/theme.test.ts.
 
-     THESE ARE THE PRINTED EDITION'S OWN INKS, re-measured for this paper rather
-     than copied: plan-dashboard/src/styles/quote-typography.css picked them
-     against a cream page. The gold is the one a book cannot choose, exactly as
-     it cannot choose the Qur'anic face. */
-  --l-quote-quran: #7d6800; /* 5.37:1 on surface */
-  --l-quote-quran-tr: #504302; /* 9.64:1 */
-  --l-quote-hadith: #23356b; /* 11.53:1 */
-  --l-quote-poem: #722727; /* 10.16:1 */
-  --l-quote-saying: #1d4d33; /* 9.56:1 */
+     THESE ARE THE PRINTED EDITION'S OWN INKS, and they are now COPIED FROM IT
+     rather than transcribed: a card's colour belongs to the edition, not to a
+     surface, so scripture is the same gold in the PDF, in the Book Composer and
+     here. The ratios that used to sit on these lines are gone with the hand
+     transcription; the 4.5:1 floor they recorded is enforced for every palette
+     by test/theme.test.ts, which is a stronger guarantee than a comment. */
+  /* >>> quote-inks-light — generated from plan-dashboard/src/styles/quote-typography.css by scripts/sync-quote-inks.mjs. Change a value THERE, then run `npm run quote-inks`. */
+  --l-quote-quran: #7d6800;
+  --l-quote-quran-tr: #504302;
+  --l-quote-hadith: #23356b;
+  --l-quote-poem: #722727;
+  --l-quote-saying: #1d4d33;
+  /* <<< quote-inks-light */
   /* The Qur'an band's rule, and its highlight. DECORATION, deliberately not in
      the measured pairs: a 2px gold rule carries no information a reader needs,
      the header's words and its mark are the card's ink and are measured, and the
@@ -513,8 +517,10 @@
      as gilding can never clear 3:1 on paper, so holding it there would only
      replace the gold with a brown. Identical in all three palettes: gold is
      gold, and it reads on cream, on sepia and on near-black alike. */
+  /* >>> quote-gold-light — generated from plan-dashboard/src/styles/quote-typography.css by scripts/sync-quote-inks.mjs. Change a value THERE, then run `npm run quote-inks`. */
   --l-quote-gold: #d3b965;
   --l-quote-gold-lift: #f7e8b7;
+  /* <<< quote-gold-light */
   /* How strongly a card's plate is tinted with its own ink. A palette property
      rather than a system one: the same 5% that reads as a tinted page on paper
      is invisible on the dark theme's near-black. */
@@ -583,13 +589,17 @@
   /* The four quotation cards, lifted for near-black. The hues are held — a
      reader who learns that gold is scripture on paper must not have to learn it
      again in the dark — and only the lightness moves. */
-  --l-quote-quran: #d3b965; /* 8.56:1 on surface */
-  --l-quote-quran-tr: #bfae86; /* 7.55:1 */
-  --l-quote-hadith: #a8b6e8; /* 8.26:1 */
-  --l-quote-poem: #e8a0a0; /* 7.83:1 */
-  --l-quote-saying: #93d7b0; /* 9.89:1 */
+  /* >>> quote-inks-dark — generated from plan-dashboard/src/styles/quote-typography.css by scripts/sync-quote-inks.mjs. Change a value THERE, then run `npm run quote-inks`. */
+  --l-quote-quran: #d3b965;
+  --l-quote-quran-tr: #bfae86;
+  --l-quote-hadith: #a8b6e8;
+  --l-quote-poem: #e8a0a0;
+  --l-quote-saying: #93d7b0;
+  /* <<< quote-inks-dark */
+  /* >>> quote-gold-dark — generated from plan-dashboard/src/styles/quote-typography.css by scripts/sync-quote-inks.mjs. Change a value THERE, then run `npm run quote-inks`. */
   --l-quote-gold: #d3b965;
   --l-quote-gold-lift: #f7e8b7;
+  /* <<< quote-gold-dark */
   /* Twice the light theme's. A 5% tint of a pale ink over near-black is not
      visible at all; a card with no plate is not a card. */
   --l-quote-tint: 10%;
@@ -646,14 +656,19 @@
   --l-hl-sky: #ced9e7; /* ink 10.61:1 · page 1.28:1 */
   --l-hl-rose: #efcccb; /* ink 10.23:1 · page 1.33:1 */
 
-  /* The four quotation cards, warmed a step for the sepia sheet. */
+  /* The four quotation cards, warmed a step for the sepia sheet. HAND-AUTHORED
+     and deliberately not generated: the print stylesheet measures against a
+     cream page and a near-black one, and this sheet is neither. A shared ink
+     that should also move here has to be moved here on purpose. */
   --l-quote-quran: #75620a; /* 5.37:1 on surface */
   --l-quote-quran-tr: #4b3f05; /* 9.36:1 */
   --l-quote-hadith: #22335f; /* 11.04:1 */
   --l-quote-poem: #6b2525; /* 9.83:1 */
   --l-quote-saying: #1b482f; /* 9.35:1 */
+  /* >>> quote-gold-sepia — generated from plan-dashboard/src/styles/quote-typography.css by scripts/sync-quote-inks.mjs. Change a value THERE, then run `npm run quote-inks`. */
   --l-quote-gold: #d3b965;
   --l-quote-gold-lift: #f7e8b7;
+  /* <<< quote-gold-sepia */
   --l-quote-tint: 5%;
 
   --l-shadow-near: rgb(51 41 28 / 0.09);

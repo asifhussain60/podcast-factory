@@ -55,7 +55,18 @@
   --q-quran-tr-ink: #504302;
   --q-quran-tr-ink-dark: #bfae86;
   --q-gold-rule: #d3b965;
-  --q-gold-line: linear-gradient(90deg, #d3b965 0%, #f7e8b7 50%, #d3b965 100%);
+  /* The shine at the centre of the rule's gradient. Named rather than left as a
+     literal inside `--q-gold-line` so the gold is TWO values in one place: the
+     Podcast Factory Library copies both from here (listener/scripts/sync-quote-inks.mjs),
+     and a mid-stop buried in a gradient string is not something another surface
+     can ask for without parsing CSS. */
+  --q-gold-lift: #f7e8b7;
+  --q-gold-line: linear-gradient(
+    90deg,
+    var(--q-gold-rule) 0%,
+    var(--q-gold-lift) 50%,
+    var(--q-gold-rule) 100%
+  );
   --q-hadith-ink: #23356b;
   --q-hadith-ink-dark: #a8b6e8;
   --q-poem-ink: #722727;

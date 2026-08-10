@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Podcast Factory Library — the audience-facing site. Independent of the admin site in plan-dashboard/.",
+  "description": "Podcast Factory Library \u2014 the audience-facing site. Independent of the admin site in plan-dashboard/.",
   "scripts": {
     "dev": "node scripts/dev-vars.mjs && react-router dev",
     "build": "react-router build",
@@ -21,7 +21,8 @@
     "db:migrate": "wrangler d1 migrations apply podcast-listener --local",
     "dev-vars": "node scripts/dev-vars.mjs",
     "seed:people": "node scripts/seed-people.mjs",
-    "controls": "node scripts/controls.mjs"
+    "controls": "node scripts/controls.mjs",
+    "quote-inks": "node scripts/sync-quote-inks.mjs"
   },
   "dependencies": {
     "@fontsource-variable/roboto-condensed": "^5.3.0",
