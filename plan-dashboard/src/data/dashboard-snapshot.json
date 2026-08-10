@@ -1938,6 +1938,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "ed9b77ac",
+      "subject": "docs: retire ElevenLabs from infra, and record the Azure tenant",
+      "date": "2026-08-10"
+    },
+    {
       "sha": "87dccbb3",
       "subject": "docs(infra): the credential story the pipeline actually follows, not the one from June",
       "date": "2026-08-10"
@@ -1980,11 +1985,6 @@
     {
       "sha": "08422ee3",
       "subject": "feat(compose-fix): the rendering that opens a paragraph splits into its card, and the card sits tight",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "a0bad921",
-      "subject": "fix(spiritual-ethos): eleven English renderings move inside the cards they belong to",
       "date": "2026-08-09"
     }
   ],

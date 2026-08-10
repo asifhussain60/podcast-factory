@@ -168,9 +168,14 @@ security find-generic-password -s "Claude Code-credentials" >/dev/null 2>&1 \
 | Service | Status |
 |---|---|
 | `Claude Code-credentials` | **The only one required.** Written by `claude login`; carries the Max OAuth token every `claude -p` call uses. `preflight_doctor.py` reads its `expiresAt` as an advisory pre-check |
-| `gemini_api_key` | Leftover. Nothing reads it — the vault supplies the key |
-| `elevenlabs_api_key` | Leftover from the abandoned ElevenLabs evaluation. Nothing reads it; safe to delete |
-| `azure-podcast-factory-*` | Leftovers. Nothing reads them — `verify-azure.sh` checks them anyway, which is why it reports failures on a working machine |
+| `gemini_api_key` | Leftover, still present. Nothing reads it — the vault supplies the key. Safe to delete |
+| `elevenlabs_api_key` | **Deleted 2026-08-10**, when ElevenLabs was retired |
+| `azure-podcast-factory-*` | Leftovers, still present. Nothing reads them — `verify-azure.sh` checks them anyway, which is why it reports failures on a working machine |
+
+Proof that the leftovers really are unread, rather than merely believed to be:
+`test_azure_connectivity.py` passed all nine checks — Azure, Anthropic and Gemini —
+immediately after `elevenlabs_api_key` was deleted from the keychain on 2026-08-10.
+Every credential in that run came from the vault.
 
 An earlier version of this table listed the Azure entries under the prefix
 `azure-podcast-*`. That prefix has never been correct for this repo: the app

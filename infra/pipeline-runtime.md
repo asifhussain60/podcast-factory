@@ -49,8 +49,14 @@ the Podcast Factory Library rather than to the book pipeline, so a machine that 
 processes books never needs them.
 
 **No audio credential appears in this table, deliberately.** Audio is produced by
-hand in NotebookLM. The ElevenLabs engine was evaluated and abandoned; a stale
-`elevenlabs_api_key` may still sit in the keychain on this Mac and nothing reads it.
+hand in NotebookLM. The ElevenLabs engine was evaluated and abandoned, and its
+keychain entry was deleted on 2026-08-10 — after which
+`test_azure_connectivity.py` still passed all nine checks, which is the proof that
+nothing was reading it.
+
+Two sets of leftovers remain in the keychain and are equally unread: `gemini_api_key`
+and the `azure-podcast-factory-*` entries. Both are safe to delete; neither is worth
+a migration reproducing.
 
 ### Vault inventory — 22 secrets, read from the vault on 2026-08-10
 
