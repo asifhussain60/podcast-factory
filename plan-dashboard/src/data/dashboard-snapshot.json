@@ -1938,6 +1938,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "94d3bead",
+      "subject": "fix(books): book-title cards render without diacritics, consistently",
+      "date": "2026-08-10"
+    },
+    {
+      "sha": "bc5e681b",
+      "subject": "docs(infra): the vault is authoritative for the Anthropic key",
+      "date": "2026-08-10"
+    },
+    {
       "sha": "021a1584",
       "subject": "docs(infra): pull-secrets verified end to end, both Astro keys live",
       "date": "2026-08-10"
@@ -1975,16 +1985,6 @@
     {
       "sha": "80417def",
       "subject": "feat(media): --drop-local-audio reclaims the disk a local bucket spent on duplicates",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "c8668aaa",
-      "subject": "feat(publish): localhost gets the book, not a second copy of every recording",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "7e3c7335",
-      "subject": "feat(compose): one press publishes to both libraries, localhost first",
       "date": "2026-08-10"
     }
   ],
