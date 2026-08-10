@@ -8,7 +8,7 @@ running code: 2026-08-10.**
 
 **[pipeline-runtime.md](pipeline-runtime.md) is the migration document.** It maps all
 29 orchestrator phases to the external services they reach, states where every secret
-actually lives (and which four are not recoverable from anything in this repo), lists
+actually lives (and which three are not recoverable from anything in this repo), lists
 the software a machine must have, and names the three steps only a human can do. If
 you are standing up a new machine or answering "what would we have to reproduce",
 read that first and treat this file as its index.
@@ -19,7 +19,7 @@ read that first and treat this file as its index.
 |---|---|---|
 | [`pipeline-runtime.md`](pipeline-runtime.md) | The end-to-end runtime + credential map | Migration; "what does phase X touch" |
 | [`azure/`](azure/) | Azure resource provisioning, Key Vault sync, the transcription runbook | New subscription, key rotation, Speech transcription |
-| [`llm-apis/`](llm-apis/) | Anthropic, Google and ElevenLabs accounts, keys, budgets | New Mac, key rotation, spend questions |
+| [`llm-apis/`](llm-apis/) | Anthropic and Google accounts, keys, budgets | New Mac, key rotation, spend questions |
 | [`cloudflare/`](cloudflare/) | The Cloudflare account, what is deployed, and how to deploy | Anything touching the Podcast Factory Library or a Pages site |
 | [`git-hooks/`](git-hooks/) | Five tracked hooks — the commit gate, and the develop↔localhost sync | Post-clone; a blocked commit you do not understand |
 | [`claude-agents/`](claude-agents/) | Canonical specs for all 22 agents | Agent authoring |
@@ -53,10 +53,10 @@ python3 scripts/podcast/preflight_doctor.py
 > keychain for Azure or Gemini credentials is describing the system as it was before
 > that date.
 
-The keychain is still the *only* home of four values — the ElevenLabs key, the
-Cloudflare token, and the two Podcast Factory Library development secrets. Those must
-be stored by hand and are listed with their recovery paths in
-[pipeline-runtime.md §1](pipeline-runtime.md).
+The keychain is still the only home of three values — the Cloudflare token and the
+two Podcast Factory Library development secrets. All three belong to the audience
+site rather than the book pipeline, so a machine that only processes books never
+needs them. Recovery paths: [pipeline-runtime.md §1](pipeline-runtime.md).
 
 ## azure/ — resources and secret lifecycle
 
@@ -103,8 +103,9 @@ Per-hook detail, what each check means, and the bypass rule:
   billing.
 - **Gemini** — paid tier, key `llm-gemini-api-key` in the vault. Second-opinion
   auditor, literary pass, image generation, and the Composer's Explain button.
-- **ElevenLabs** — keychain-only, used by the `audio-script` and `audio-render`
-  phases on API-voiced books.
+- **No audio provider.** Every book's audio is produced by hand in NotebookLM.
+  ElevenLabs was evaluated and abandoned; the `audio-script` and `audio-render`
+  phases skip on every book, and no audio credential is provisioned.
 
 Accounts, billing IDs, budgets and rotation: [llm-apis/README.md](llm-apis/README.md).
 

@@ -1938,53 +1938,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "0acc2556",
-      "subject": "feat(compose-fix): the four quotation cards are checked, not remembered",
+      "sha": "87dccbb3",
+      "subject": "docs(infra): the credential story the pipeline actually follows, not the one from June",
+      "date": "2026-08-10"
+    },
+    {
+      "sha": "74791b8f",
+      "subject": "podcast(kitab-al-riyad): last chapter cleared the articulation gate",
+      "date": "2026-08-10"
+    },
+    {
+      "sha": "4b9dc528",
+      "subject": "podcast(kitab-al-riyad): two more chapters cleared the articulation gate",
+      "date": "2026-08-10"
+    },
+    {
+      "sha": "80417def",
+      "subject": "feat(media): --drop-local-audio reclaims the disk a local bucket spent on duplicates",
+      "date": "2026-08-10"
+    },
+    {
+      "sha": "c8668aaa",
+      "subject": "feat(publish): localhost gets the book, not a second copy of every recording",
+      "date": "2026-08-10"
+    },
+    {
+      "sha": "7e3c7335",
+      "subject": "feat(compose): one press publishes to both libraries, localhost first",
+      "date": "2026-08-10"
+    },
+    {
+      "sha": "e63088ad",
+      "subject": "fix(books): single-quoted renderings are read too, and a nested quotation is one rendering",
       "date": "2026-08-09"
     },
     {
-      "sha": "7829f8d3",
-      "subject": "fix(compose): the edit canvas draws a quotation in the card its book gives it",
+      "sha": "d33981ae",
+      "subject": "fix(books): sixty-five English renderings move inside their cards across five books",
       "date": "2026-08-09"
     },
     {
-      "sha": "14689490",
-      "subject": "chore(plan-dashboard): resync the snapshot after the four commits above",
+      "sha": "08422ee3",
+      "subject": "feat(compose-fix): the rendering that opens a paragraph splits into its card, and the card sits tight",
       "date": "2026-08-09"
     },
     {
-      "sha": "85b650f6",
-      "subject": "fix(book): every romanized saying in Spiritual Ethos is in Arabic script or gone",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "7e4a1216",
-      "subject": "fix(compose): a selection in the editor is painted by the editor, and nothing else",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "610ae7e8",
-      "subject": "feat(listener): the four quotation cards reach the Podcast Factory Library",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "79a84458",
-      "subject": "feat(book): a quotation is drawn as one of four cards, and the Qur'an names its verse",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "7c0e2de2",
-      "subject": "fix(compose): selecting text stops being coloured, and the explanation tint gets a switch",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "fc0c2f17",
-      "subject": "fix(book): the compact honorific once per figure per chapter, across every book",
-      "date": "2026-08-09"
-    },
-    {
-      "sha": "037375d6",
-      "subject": "feat(book): every Arabic saying printed in English letters is back in Arabic script",
+      "sha": "a0bad921",
+      "subject": "fix(spiritual-ethos): eleven English renderings move inside the cards they belong to",
       "date": "2026-08-09"
     }
   ],

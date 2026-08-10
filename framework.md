@@ -39,7 +39,17 @@ Phases live in [scripts/podcast/_progress.py](scripts/podcast/_progress.py) `PHA
 
 ---
 
-## Audio engines — manual NotebookLM (default) vs autonomous ElevenLabs (2026-06-12)
+## Audio engines — manual NotebookLM (the only one in use) vs autonomous ElevenLabs (retired)
+
+> **ElevenLabs is RETIRED (Asif, 2026-08-10), superseding the 2026-06-13 "dormant"
+> status below.** Every book's audio is produced by hand in NotebookLM. Do not
+> propose ElevenLabs, do not offer it as an option, and do not provision a key for
+> it — infra stopped documenting it on 2026-08-10. Verified the same day: no book
+> sets `audio_engine: elevenlabs`, so `audio-script` and `audio-render` skip on
+> every book and always have. The registry entry, the two phases, the voice library
+> and the pronunciation-dictionary lane all remain in the code as the
+> one-engine-among-many seam — a seam, not a dependency. Everything below describes
+> that unexercised path and is retained for the day it might be revisited.
 
 The podcast path's AUDIO step is engine-pluggable. A book declares `audio_engine: notebooklm | elevenlabs` in `_system/series-config.yaml`; a missing field means `notebooklm`, and every pre-existing book behaves byte-identically (golden-fixture regression in [scripts/podcast/tests/test_audio_engines.py](scripts/podcast/tests/test_audio_engines.py)). The registry — capability flags (`supports_arabic_script`, `supports_audio_tags`, `max_chunk_chars`, `credit_rate`, `render_mode`), pinned model id, default voice casting — is [scripts/podcast/_audio_engines.py](scripts/podcast/_audio_engines.py); adding an engine is one entry there (extensibility-first), and validators / cost estimator / orchestrator read capabilities from it, never from hardcoded conditionals. Voice casting resolves through the **voice library** ([scripts/podcast/voice-library.yaml](scripts/podcast/voice-library.yaml) + [scripts/podcast/_voice_library.py](scripts/podcast/_voice_library.py)) — the Asif-approved male/female pools (2026-06-12 casting rounds; clear English + correct Arabic phonetics on native script): each book gets a deterministic per-slug pair, overridable per book via series-config `voice_cast:` (library names) or `elevenlabs_voices:` (explicit IDs, highest priority). Adding a voice is one YAML entry.
 

@@ -1,8 +1,7 @@
 # LLM API stack — canonical reference
 
-The accounts, billing settings, spend guardrails and rotation paths for the three
-model providers the pipeline talks to: Anthropic (Claude), Google (Gemini) and
-ElevenLabs.
+The accounts, billing settings, spend guardrails and rotation paths for the two model
+providers the pipeline talks to: Anthropic (Claude) and Google (Gemini).
 
 **Source of truth for accounts and billing.** For *where a credential is resolved
 from at runtime*, the source of truth is
@@ -17,11 +16,10 @@ and this file described the old behaviour until 2026-08-10.
 
 1. Install Claude Code, run `claude login`, authenticate as **asifhussain60@gmail.com** with the **Claude Max** subscription.
 2. Run `az login` as **asifhussain60@msn.com** (a different account — the Azure one). That is what gives this machine the Gemini and Anthropic API keys: both live in Key Vault as `llm-gemini-api-key` and `llm-anthropic-api-key`, and the pipeline reads them from there.
-3. Store the **ElevenLabs** key in the keychain by hand — it is in no vault and nothing in this repo can restore it:
-   ```bash
-   security add-generic-password -U -a "$USER" -s elevenlabs_api_key -w
-   ```
-4. Run [`infra/llm-apis/verify-llm-apis.sh`](verify-llm-apis.sh) — confirms Claude and Gemini are reachable.
+3. Run [`infra/llm-apis/verify-llm-apis.sh`](verify-llm-apis.sh) — confirms Claude and Gemini are reachable.
+
+That is the whole provider setup. Audio is produced in NotebookLM, by hand, and needs
+no key.
 
 > **Correction, 2026-08-10.** This file used to say the pipeline reads the keychain
 > for the Gemini key, and that `bootstrap-llm-apis.sh` is how a new Mac gets it. The
@@ -124,33 +122,22 @@ If the key needs to be rotated:
 
 ---
 
-## Provider 3 — ElevenLabs (audio synthesis)
+## Audio needs no provider — and ElevenLabs is not one
 
-Used by the `audio-script` and `audio-render` phases on books whose audio engine is
-ElevenLabs rather than NotebookLM. Voice cast for Islamic books is pinned in each
-book's `series-config.yaml` under `elevenlabs_voices` (HOST_A "Mohammed - Arabic" at
-speed 1.2, HOST_B "Sarah").
+Every book's audio comes from **NotebookLM**, produced by hand: a person uploads the
+chapter, pastes the framing, and drops the resulting `.m4a` into the book folder. No
+API, no key, no metered spend.
 
-**Its key is the one credential with no recovery path in this repo.** Resolution
-order, from [`scripts/podcast/_elevenlabs.py`](../../scripts/podcast/_elevenlabs.py):
+**ElevenLabs was evaluated and is not used.** Verified 2026-08-10: no book sets
+`audio_engine: elevenlabs`, two set `notebooklm` explicitly, and every other book
+takes the `notebooklm` default. `_audio_engines.py` has carried the entry as
+explicitly dormant since 2026-06-14, kept only so the registry keeps more than one
+engine in it — the extensibility seam, not a live path.
 
-1. `ELEVENLABS_API_KEY` in the environment
-2. an `ELEVENLABS_API_KEY=` line in the repo-root `.env` (gitignored)
-3. macOS keychain, service `elevenlabs_api_key`
-
-It is **not in Key Vault**, so `az login` does not supply it and a fresh machine has
-no way to obtain it — the failure surfaces only when an `audio-render` phase runs.
-Store it by hand:
-
-```bash
-security add-generic-password -U -a "$USER" -s elevenlabs_api_key -w
-```
-
-Adding it to the vault alongside the other two LLM keys would close the gap. That has
-not been done.
-
-**Spend is gated by a human, not a budget.** The `audio-render` phase halts with an
-exact credit estimate before synthesising anything.
+Nothing here needs an ElevenLabs key, and this file no longer documents how to
+provision one. If the engine is ever reactivated for a book, the resolution order
+lives in `scripts/podcast/_elevenlabs.py` and that decision should re-add a section
+here rather than rely on this note.
 
 ---
 
@@ -174,18 +161,16 @@ exact credit estimate before synthesising anything.
 Check presence without reading any value:
 
 ```bash
-for s in "Claude Code-credentials" elevenlabs_api_key gemini_api_key; do
-  security find-generic-password -s "$s" >/dev/null 2>&1 \
-    && echo "ok      $s" || echo "MISSING $s"
-done
+security find-generic-password -s "Claude Code-credentials" >/dev/null 2>&1 \
+  && echo "ok      Claude Code-credentials" || echo "MISSING Claude Code-credentials"
 ```
 
 | Service | Status |
 |---|---|
-| `Claude Code-credentials` | **Required.** Written by `claude login`; carries the Max OAuth token every `claude -p` call uses. `preflight_doctor.py` reads its `expiresAt` as an advisory pre-check |
-| `elevenlabs_api_key` | **Required for ElevenLabs books**, and irreplaceable from within this repo |
-| `gemini_api_key` | Optional leftover. Nothing reads it |
-| `azure-podcast-factory-*` | Optional leftovers. Nothing reads them — `verify-azure.sh` checks them anyway, which is why it reports failures on a working machine |
+| `Claude Code-credentials` | **The only one required.** Written by `claude login`; carries the Max OAuth token every `claude -p` call uses. `preflight_doctor.py` reads its `expiresAt` as an advisory pre-check |
+| `gemini_api_key` | Leftover. Nothing reads it — the vault supplies the key |
+| `elevenlabs_api_key` | Leftover from the abandoned ElevenLabs evaluation. Nothing reads it; safe to delete |
+| `azure-podcast-factory-*` | Leftovers. Nothing reads them — `verify-azure.sh` checks them anyway, which is why it reports failures on a working machine |
 
 An earlier version of this table listed the Azure entries under the prefix
 `azure-podcast-*`. That prefix has never been correct for this repo: the app
@@ -202,9 +187,9 @@ vault secret names are `azure-podcast-factory-*`.
 - ❌ `OPENAI_API_KEY` — the pipeline does not use OpenAI. (Azure OpenAI is a separate resource and is currently used for nothing; DALL-E 3 was deprecated and image generation stayed on Gemini.)
 - ❌ Vertex AI / Google Cloud service-account JSON — AI Studio API keys, not Vertex
 
-One qualifier on a rule this file used to state absolutely: a repo-root `.env` **is**
-a supported source for `ELEVENLABS_API_KEY`, and only for that. No other provider
-reads a `.env` file.
+The `.env` rule holds for every provider in use. The one exception in the codebase —
+`_elevenlabs.py` reading `ELEVENLABS_API_KEY` from a repo-root `.env` — belongs to
+the dormant audio engine above and is not a live path.
 
 ---
 

@@ -113,9 +113,10 @@ Expect `pass 9  fail 0  ✓ Azure connectivity OK`.
 `infra/azure/pull-secrets.sh` also exists and copies the vault into the local
 keychain. It is **not** required: the keychain tier was removed from credential
 resolution on 2026-06-04, so nothing in the pipeline reads what it writes. The
-credentials that genuinely live only in the keychain — ElevenLabs, Cloudflare, and
-the two Podcast Factory Library dev secrets — are listed with their recovery paths
-in [infra/pipeline-runtime.md](../../infra/pipeline-runtime.md).
+credentials that genuinely live only in the keychain — the Cloudflare token and the
+two Podcast Factory Library dev secrets, all three for the audience site rather than
+the book pipeline — are listed with their recovery paths in
+[infra/pipeline-runtime.md](../../infra/pipeline-runtime.md).
 
 **First-time Azure provisioning only** (blank Azure subscription — not a new Mac):
 ```bash
@@ -130,13 +131,9 @@ Full reference: [docs/setup/azure-stack.md](azure-stack.md).
 
 Anthropic Claude runs off the Max subscription (`claude login` in Step 3 covers it). The Gemini key and the separate Anthropic API key both come from the Key Vault reached in Step 5 — nothing extra to install.
 
-**One key comes from neither**: ElevenLabs, needed only by books whose audio is synthesised rather than produced in NotebookLM. It is in no vault and cannot be restored from this repo — store it by hand (the command prompts, so it never enters shell history):
+There is no third provider to wire. Audio is produced by hand in NotebookLM and needs no key.
 
-```bash
-security add-generic-password -U -a "$USER" -s elevenlabs_api_key -w
-```
-
-Verify the two that matter for every book:
+Verify both:
 
 ```bash
 cd ~/PROJECTS/podcast-factory

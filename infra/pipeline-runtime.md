@@ -6,7 +6,7 @@ Azure subscription, the live Key Vault, and the running code on 2026-08-10.** Ev
 table below was read from the system, not copied from an earlier document.
 
 The companion documents are narrower on purpose: [`azure/`](azure/) is the Azure
-resources, [`llm-apis/`](llm-apis/) is the Anthropic + Google + ElevenLabs accounts,
+resources, [`llm-apis/`](llm-apis/) is the Anthropic + Google accounts,
 [`cloudflare/`](cloudflare/) is what is deployed. This file is the one that says
 which of them a given pipeline step actually reaches for.
 
@@ -38,17 +38,19 @@ The practical consequence for a migration is the whole point of this section:
 | `llm-anthropic-api-key` | Key Vault | `az login` | Anthropic **SDK** path only — never `claude -p` |
 | `llm-gemini-api-key` | Key Vault | `az login` | Gemini auditors, literary pass, Composer buttons |
 | Claude Max OAuth token | macOS keychain, service `Claude Code-credentials` | `claude login` | Every `claude -p` call — the bulk of pipeline reasoning |
-| `elevenlabs_api_key` | macOS keychain **only**, or repo `.env` | ⚠ **nothing** — see the gap below | `audio-script`, `audio-render` |
 | `cloudflare_api_token` | macOS keychain **only** | ⚠ nothing — re-issue in the Cloudflare dashboard | `deploy_listener.sh`, `publish_to_production.py` |
 | `listener_better_auth_secret` | macOS keychain **only** | ⚠ nothing — regenerate, `openssl rand -base64 32` | Podcast Factory Library local dev |
 | `safina_google_client_secret` | macOS keychain **only** | ⚠ nothing — re-copy from the Google Cloud console | Podcast Factory Library local dev |
 
-**The known gap, stated plainly.** The four keychain-only rows are *not* in the vault
-and are *not* recoverable from anything in this repo. Three of them are cheap to
-replace (regenerate, or re-copy from a console). **`elevenlabs_api_key` is the one
-that is not** — losing it means re-issuing a key at elevenlabs.io. Nothing in the
-repo will tell you it is missing until an `audio-render` phase fails. Putting it in
-the vault would close this; it has not been done.
+**The known gap, stated plainly.** The three keychain-only rows are *not* in the
+vault and are *not* recoverable from anything in this repo. All three are cheap to
+replace — re-issue, regenerate, or re-copy from a console — and all three belong to
+the Podcast Factory Library rather than to the book pipeline, so a machine that only
+processes books never needs them.
+
+**No audio credential appears in this table, deliberately.** Audio is produced by
+hand in NotebookLM. The ElevenLabs engine was evaluated and abandoned; a stale
+`elevenlabs_api_key` may still sit in the keychain on this Mac and nothing reads it.
 
 ### Vault inventory — 22 secrets, read from the vault on 2026-08-10
 
@@ -79,9 +81,29 @@ This trips people up because they are all "Asif":
 | **Anthropic + Google + Cloudflare (correct)** | `asifhussain60@gmail.com` | — |
 | **Cloudflare (wrong, and `wrangler` is logged into it)** | `asifhussain60@hotmail.com` | A deploy succeeds and the site does not change; see [cloudflare/README.md §7](cloudflare/README.md) |
 
-The Azure resources are all still named `journal-*` from before the 2026-05-22 repo
-rename. That is deliberate and permanent — only the *app namespace* that drives
-secret naming became `podcast-factory`.
+### The Azure coordinates in full
+
+Read from the live subscription on 2026-08-10. Everything needed to reach it from a
+machine that has never seen it:
+
+| | |
+|---|---|
+| **Sign-in** | `asifhussain60@msn.com` |
+| **Tenant / directory** | `55e453ce-cca7-4cf9-a1e1-c2a2f98a202b` — "Default Directory", a personal-Microsoft-account tenant with no custom domain |
+| **Subscription** | `Journal AI — primary`, `3440564d-c056-4173-bec6-7af92dbece77`, Enabled |
+| **Resource group** | `rg-journal-ai`, region `eastus` |
+| **Portal** | <https://portal.azure.com> |
+
+This identity sees **exactly one subscription in one tenant**, so `az login` needs no
+`--tenant` and there is no wrong subscription to land in by accident. Record the
+tenant id anyway: an account that later joins a work or school directory starts
+seeing several, and `az login --tenant 55e453ce-…` is then the disambiguator.
+
+The seven resources in the group are inventoried in
+[docs/setup/azure-stack.md](../docs/setup/azure-stack.md); three of them are idle
+(see §3). They are all still named `journal-*` from before the 2026-05-22 repo
+rename — deliberate and permanent. Only the *app namespace* that drives secret naming
+became `podcast-factory`.
 
 ---
 
@@ -120,7 +142,7 @@ The canonical list is `PHASES` in
 [`scripts/podcast/_progress.py`](../scripts/podcast/_progress.py) — never re-declare
 it anywhere. Plain-English names come from `book_status_card._PHASE_NAMES`. "Claude"
 below means `claude -p` on the flat-rate Max subscription, which costs no money;
-only the Azure and Gemini and ElevenLabs rows are real dollars.
+only the Azure and Gemini rows are real dollars.
 
 | # | Phase id | What it is called on screen | Reaches out to |
 |---|---|---|---|
@@ -140,10 +162,10 @@ only the Azure and Gemini and ElevenLabs rows are real dollars.
 | 14 | `per-chapter` | Writing each chapter | Claude; Gemini (second-opinion audit) |
 | 15 | `per-chapter-optimize` | Chapter polish | Claude |
 | 16 | `per-chapter-slides` | Slide decks | Claude. Skipped unless `enable_slide_decks` |
-| 17 | `audio-script` | Dialogue scripts | Claude. Skipped on NotebookLM books |
-| 18 | `audio-render` | Audio render | **ElevenLabs** — halts first for an exact credit estimate. Skipped on NotebookLM books |
+| 17 | `audio-script` | Dialogue scripts | **Always skipped** — see below |
+| 18 | `audio-render` | Audio render | **Always skipped** — see below |
 | 19 | `finalize` | Quality review | **Human gate** — this is the `phase_status=halted` you look for |
-| 20 | `audio-ingest` | Audio ingest | **NotebookLM (manual)** then **Azure Speech**. Skipped on ElevenLabs books |
+| 20 | `audio-ingest` | Audio ingest | **NotebookLM (manual)** then **Azure Speech** — the real audio path for every book |
 | 21 | `0book-design` | Book structure | Claude |
 | 22 | `0book-compose` | Writing the book | Claude; the mushaf; Gemini |
 | 23 | `0book-illustrate` | Diagrams | Claude (proposes ≤3 diagrams); Playwright, to render Mermaid to SVG. No image model |
@@ -153,6 +175,20 @@ only the Azure and Gemini and ElevenLabs rows are real dollars.
 | 27 | `trainer` | Learning pass | Claude |
 | 28 | `merge` | Merging to develop | git / `origin` |
 | 29 | `done` | Done | — |
+
+### Phases 17 and 18 never run, and that is settled
+
+`audio-script` and `audio-render` belong to the API audio path, which means
+ElevenLabs — the only non-manual engine there has ever been. **No book uses it.**
+Verified 2026-08-10: nothing in `content/` sets `audio_engine: elevenlabs`, two books
+set `notebooklm` explicitly, and every other book takes the `notebooklm` default from
+`_rules.audio_engine_default_for_profile`. Both phases skip via `is_autonomous()` and
+record `status="skipped"`.
+
+The registry entry in `_audio_engines.py` has been marked dormant since 2026-06-14
+and is kept on purpose: it is what stops the audio engine from being a hardcoded
+assumption rather than a choice. **It is a seam, not a dependency** — a migration
+provisions no audio credential and installs nothing for it.
 
 ### Three Azure resources that are provisioned and idle
 
@@ -230,7 +266,7 @@ bash scripts/start-session.sh
 ```
 
 Then, by hand, because nothing can restore them for you: store
-`elevenlabs_api_key`, `cloudflare_api_token`, `listener_better_auth_secret` and
+`cloudflare_api_token`, `listener_better_auth_secret` and
 `safina_google_client_secret` in the keychain (§1), each with
 
 ```bash
@@ -267,7 +303,6 @@ into the environment. Real money is only ever these:
 | Azure (all resources) | Azure portal budget `journal-ai-monthly-cap` | $50/month, alerts at 50/80/100% |
 | Google Gemini | Cloud billing budget on `generativelanguage.googleapis.com` | $10/month tripwire |
 | Anthropic API (separate org, unused by the pipeline) | Anthropic console | $25/month |
-| ElevenLabs | The `audio-render` phase halts for an exact credit estimate before spending | Per-run human gate |
 | Cloudflare | Free tier; R2 has no egress charge | ~1.4% of the 10 GB allowance |
 
 Standing authorization: Azure and Gemini spend needs no per-run ask. Report real

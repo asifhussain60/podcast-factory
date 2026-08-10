@@ -8,6 +8,8 @@ Source of truth: [infra/azure/azure-config.env](../../infra/azure/azure-config.e
 
 | Field | Value |
 |---|---|
+| Sign-in account | `asifhussain60@msn.com` — **not** the gmail account the rest of the stack uses |
+| Tenant / directory | `55e453ce-cca7-4cf9-a1e1-c2a2f98a202b` ("Default Directory"; no custom domain) |
 | Subscription | `Journal AI — primary` (ID `3440564d-c056-4173-bec6-7af92dbece77`) |
 | Resource group | `rg-journal-ai` |
 | Region | `eastus` |
