@@ -46,7 +46,17 @@ const FINITE_PARAMS = new Map([
 // Routes that are gated only when their fixture exists on this checkout. The
 // wisdom corpus (content/_shared/wisdom-corpus/) is absent on some machines;
 // discoverWisdomLeaf() omits the leaf rather than emitting a permanent skip.
-const FIXTURE_CONDITIONAL = new Set(["wisdom/[shelf]/[book].astro"]);
+//
+// `claude-plans/[slug]` joined them 2026-08-11. Its fixture is `~/.claude/plans/`,
+// which is machine-global and OUTSIDE the repo, so no checkout can be made to
+// carry it and a CI runner never will. It shipped with the Plan Viewer and was
+// never added to the manifest, which is exactly the drift this file exists to
+// catch — the test did its job; the entry was simply never made. It is gated
+// wherever the directory has a plan in it, via discoverPlanLeaf().
+const FIXTURE_CONDITIONAL = new Set([
+  "wisdom/[shelf]/[book].astro",
+  "claude-plans/[slug].astro",
+]);
 
 /** Every file under src/pages/, excluding the api/ tree (endpoints, not views). */
 function pageFiles(dir = PAGES_DIR, acc = []) {

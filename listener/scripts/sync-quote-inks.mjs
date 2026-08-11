@@ -34,10 +34,22 @@ const TARGET = join(LISTENER, "app", "styles", "podcast-factory.css");
 const SOURCE_LABEL = "plan-dashboard/src/styles/quote-typography.css";
 
 /**
+ * One generated region: its marker id, and the target token -> source token map.
+ *
+ * The pair is spelled as a fixed-length tuple rather than `string[]` so that a
+ * mapping written with a missing or extra element is a type error here instead
+ * of an undefined value reaching the stylesheet.
+ *
+ * @typedef {{ id: string, tokens: [string, string][] }} Region
+ */
+
+/**
  * Each generated region: its marker id, and the target token -> source token map.
  *
  * The ids name a PALETTE and a group rather than a line range, so the regions
  * survive edits to the prose around them — which is most of that file.
+ *
+ * @type {Region[]}
  */
 const REGIONS = [
   {
@@ -96,6 +108,9 @@ const REGIONS = [
  * win, so this copied one book's variant into every book on the audience site,
  * turning a green saying card maroon. Caught by diffing the values on the first
  * run; the scope is what stops it recurring.
+ *
+ * @param {string} css
+ * @returns {Record<string, string>}
  */
 function readTokens(css) {
   const at = css.indexOf(":root {");
@@ -110,11 +125,18 @@ function readTokens(css) {
   return out;
 }
 
+/** @param {string} id */
 const open = (id) =>
   `  /* >>> ${id} — generated from ${SOURCE_LABEL} by scripts/sync-quote-inks.mjs. ` +
   `Change a value THERE, then run \`npm run quote-inks\`. */`;
+/** @param {string} id */
 const close = (id) => `  /* <<< ${id} */`;
 
+/**
+ * @param {Region} region
+ * @param {Record<string, string>} tokens
+ * @returns {string}
+ */
 function body(region, tokens) {
   return region.tokens
     .map(([target, source]) => {
