@@ -17,7 +17,13 @@ import {
   faTag,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import { useId, useRef, type KeyboardEvent, type ReactNode } from "react";
+import {
+  useId,
+  useRef,
+  type KeyboardEvent,
+  type MouseEvent as ReactMouseEvent,
+  type ReactNode,
+} from "react";
 import {
   Link,
   useFetcher,
@@ -207,6 +213,19 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
             fraction: marks.progress.fraction,
           };
 
+  /* ---- …and only while the reading edition is the open tab ----
+     "Continue reading" sat above the tab strip, so it stayed on screen while
+     you were looking at the episodes and the slides — offering to take you out
+     of the panel you had just chosen (Asif, 2026-08-11). It belongs to the Read
+     tab, so it is shown with the Read tab.
+
+     Read from `?tab` rather than from the tab strip's own state, which is the
+     same source the strip itself uses: no tab named means the first panel this
+     book HAS is open, which is Read whenever there is anything to read. */
+  const [openParams] = useSearchParams();
+  const openTab = openParams.get("tab");
+  const readingIsOpen = canRead && (openTab === null || openTab === "read");
+
   // Offered ONLY when the file is actually in R2. The row exists as soon as the
   // PDF is on the author's disk, and linking to that would promise a download
   // that 404s.
@@ -335,7 +354,7 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
           Only the ways this book actually offers get a tab, and a book with
           just one of them gets no tab strip at all — a tablist with a single
           tab is a control that cannot be used. */}
-      {resume === null ? null : (
+      {resume === null || !readingIsOpen ? null : (
         <Link
           to={`/book/${unit.slug}/read/${encodeURIComponent(resume.anchorKey)}`}
           className="pf-resume"
@@ -790,10 +809,56 @@ function Podcast({
   markedEpisodes: Map<number, number>;
   alongsideAnEdition: boolean;
 }) {
+  const player = usePlayer();
   const titleOf = new Map(chapters.map((c) => [c.anchorKey, c.title]));
   const episodes = sessions.flatMap((s) => s.episodes);
   const withAudio = episodes.filter((e) => e.hasAudio).length;
   const grouped = sessions.some((s) => s.title !== "");
+
+  /* ---- What playing THIS episode means -----------------------------------
+     One description of the track, handed to the player from either place it can
+     be started — the transport button at the end of the row, and the row itself.
+     Two copies of this object is two answers to "what is playing", and the one
+     the row started would be the one missing the transcript. */
+  const track = (episode: Session["episodes"][number]) => ({
+    slug,
+    bookTitle,
+    number: episode.number,
+    title: episode.title,
+    src: `/media/${episode.audioKey}`,
+    // Handed over WITH the audio, so the player can load the words alongside it
+    // rather than when somebody asks to see them. Null for an episode with no
+    // transcript, which is what hides the panel's button.
+    transcriptSrc:
+      episode.transcriptKey === null ? null : `/media/${episode.transcriptKey}`,
+    durationS: episode.durationS,
+    // Handed over with the audio for the same reason the transcript is: the bar
+    // outlives this page.
+    collection,
+  });
+
+  /* ---- The whole row plays it (Asif, 2026-08-11) --------------------------
+     Pressing a track in a list of tracks is what every player a person has ever
+     used does, and a 44px circle at the far end of a wide row is a small target
+     for what the row is FOR.
+
+     An enhancement on top of the button, deliberately, not a replacement for
+     it: the row stays a `div`, the transport button stays the real control with
+     the real name, and the keyboard path is unchanged. Making the row itself
+     the button would swallow the two controls inside it — a button cannot
+     contain a button — and would put "Play <episode>" in the tab order twice.
+
+     Clicks that landed on something that is already a control are left alone,
+     or pressing the notes count would start half an hour of audio. A drag that
+     ends inside the row is not a press either: a reader selecting the title to
+     copy it is not asking to play it. */
+  const pressRow = (episode: Session["episodes"][number]) =>
+    (event: ReactMouseEvent<HTMLDivElement>) => {
+      if ((event.target as HTMLElement).closest("button, a")) return;
+      if (!window.getSelection()?.isCollapsed) return;
+      if (player.current?.src === `/media/${episode.audioKey}`) player.toggle();
+      else player.play(track(episode));
+    };
 
   // Named `summary`, not `count` — `count` is the shared plural helper now, and a
   // local of that name would shadow it in exactly the place it is needed.
@@ -856,7 +921,18 @@ function Podcast({
           <ol className="pf-rows pf-deck__list pf-session__list">
             {session.episodes.map((episode) => (
               <li key={episode.number}>
-                <div className="pf-row pf-track">
+                <div
+                  className={`pf-row pf-track${
+                    episode.hasAudio && episode.audioKey !== null
+                      ? " pf-track--playable"
+                      : ""
+                  }`}
+                  onClick={
+                    episode.hasAudio && episode.audioKey !== null
+                      ? pressRow(episode)
+                      : undefined
+                  }
+                >
                   {/* A PLAY GLYPH where the ordinal used to be (Asif,
                       2026-08-11): a reader scanning this list should be able to
                       tell it is audio without reading a word of it, and a
@@ -925,25 +1001,7 @@ function Podcast({
                     {episode.hasAudio && episode.audioKey !== null ? (
                       <PlayButton
                         episode={episode}
-                        onPlay={(p) => p.play({
-                          slug,
-                          bookTitle,
-                          number: episode.number,
-                          title: episode.title,
-                          src: `/media/${episode.audioKey}`,
-                          // Handed over WITH the audio, so the player can load
-                          // the words alongside it rather than when somebody
-                          // asks to see them. Null for an episode with no
-                          // transcript, which is what hides the panel's button.
-                          transcriptSrc:
-                            episode.transcriptKey === null
-                              ? null
-                              : `/media/${episode.transcriptKey}`,
-                          durationS: episode.durationS,
-                          // Handed over with the audio for the same reason the
-                          // transcript is: the bar outlives this page.
-                          collection,
-                        })}
+                        onPlay={(p) => p.play(track(episode))}
                       />
                     ) : (
                       <span className="pf-row__meta pf-row__action">

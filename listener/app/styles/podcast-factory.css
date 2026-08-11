@@ -2382,19 +2382,26 @@
     pointer-events: none;
   }
 
-  /* A hairline between tracks, not a stripe. The chapter list is striped
-     because its rows carry a title at one edge and a number at the other and
-     the eye has to hold the line; a track is a title with its own facts stacked
-     under it, so the pairs are already visually grouped and a stripe would fight
-     that grouping. What is still needed is a place where one track ends. */
+  /* STRIPED, like the chapter list opposite (Asif, 2026-08-11). It was a
+     hairline between tracks, on the reasoning that a track's facts sit under its
+     own title and are therefore already grouped. They do not any more — the
+     facts moved into one pill at the far right of the row — so a track is now
+     exactly the shape the chapters are: a title at one edge, its facts and its
+     transport at the other, with the width of the panel in between for the eye
+     to lose the line across.
+
+     The stripe REPLACES the hairline rather than joining it: both together is
+     two separators doing one job. Mixed from `--l-accent` for the same reason
+     the panel under it is, so a session's list is violet and a book's is blue
+     with no second rule anywhere. Eight percent over a panel already tinted six,
+     which is a band you see without reading it. */
   .pf-deck__list > li {
     position: relative;
-    border-bottom: 1px solid
-      color-mix(in srgb, var(--l-accent) 14%, transparent);
+    border-radius: var(--pf-radius-sm);
   }
 
-  .pf-deck__list > li:last-child {
-    border-bottom: 0;
+  .pf-deck__list > li:nth-of-type(even) {
+    background: color-mix(in srgb, var(--l-accent) 8%, transparent);
   }
 
   .pf-track {
@@ -2406,6 +2413,13 @@
       background var(--pf-motion),
       transform var(--pf-motion),
       box-shadow var(--pf-motion);
+  }
+
+  /* The whole row starts the recording, so the whole row says so under the
+     pointer. The transport button keeps its own cursor and its own name — this
+     is the row admitting it is pressable, not a second control. */
+  .pf-track--playable {
+    cursor: pointer;
   }
 
   .pf-track:hover {
@@ -2439,6 +2453,19 @@
     flex: none;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    /* ONE WIDTH FOR EVERY ROW (Asif, 2026-08-11). Sized by its contents, these
+       pills came out four different widths down a list of five — an hour-long
+       episode is wider than a forty-minute one, and an episode with no
+       transcript is narrower than both. Four ragged right edges in a column read
+       as four different KINDS of thing rather than as the same fact about five
+       recordings.
+
+       A floor, not a fixed width, and in `em` so it tracks the pill's own type:
+       it holds the widest pair this list can produce — the word, the seam and a
+       clock that has gone past an hour — and a longer one would still grow
+       rather than clip. */
+    min-width: 13.5em;
     gap: var(--pf-space-2);
     padding: var(--pf-pill-sm-y) var(--pf-pill-x);
     border-radius: var(--pf-radius-pill);
@@ -2459,6 +2486,13 @@
      need a seam, and a dot at this size is a speck. */
   .pf-track__fact--time {
     font-variant-numeric: tabular-nums;
+    /* The clock gets a column of its own inside the pill, wide enough for an
+       hour-plus running time and flushed right. Without it, equal-width pills
+       still put the seam in a different place on every row, because `45:27` and
+       `1:02:26` are not the same width — which is the ragged edge one step in
+       from the one that was there before. */
+    min-width: 4.6em;
+    justify-content: flex-end;
   }
 
   .pf-track__fact + .pf-track__fact--time {
@@ -4628,21 +4662,45 @@
      columns and stay there; the controls take the row beneath, aligned to the
      title's own column rather than to the card. Nothing can overlap because
      tracks do not overlap. */
+  /* EVERY CHILD IS PLACED, which is the half that was missing. The facts pill
+     moved into the row as a fourth child on 2026-08-11 and nothing here named
+     it, so on a phone the grid auto-placed it: the pill took the free cell in
+     column one and pushed the title into column two of the row below, hard
+     against the right edge, under nothing. A grid with three of its four
+     children placed is a wrapping flex row again, with the same failure the
+     comment above says a grid cannot have.
+
+     So: the glyph and the title on the first line, the transport in a column of
+     its own down the right where the thumb already is, and the pill under the
+     title in the title's own column — which is where an episode's facts sat
+     before they became a pill, and the shape a phone has room for. */
   @media (max-width: 639px) {
     .pf-session__list .pf-row {
       display: grid;
-      grid-template-columns: auto 1fr;
+      grid-template-columns: auto 1fr auto;
       align-items: baseline;
       column-gap: var(--pf-space-4);
       row-gap: var(--pf-space-2);
     }
 
-    .pf-session__list .pf-row__main {
-      grid-column: 2;
+    .pf-session__list .pf-row__mark {
+      grid-area: 1 / 1;
     }
 
+    .pf-session__list .pf-row__main {
+      grid-area: 1 / 2;
+    }
+
+    .pf-session__list .pf-track__facts {
+      grid-area: 2 / 2;
+      justify-self: start;
+    }
+
+    /* Spanning both lines and centred against them, so the button sits beside
+       the pair rather than against the title's baseline. */
     .pf-session__list .pf-row__actions {
-      grid-column: 2;
+      grid-area: 1 / 3 / span 2;
+      align-self: center;
       justify-content: flex-end;
     }
   }
