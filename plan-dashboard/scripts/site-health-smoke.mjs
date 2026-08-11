@@ -27,6 +27,7 @@
 
 import { spawn } from "node:child_process";
 import { readdirSync, existsSync } from "node:fs";
+import { homedir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { dirname, join, resolve } from "node:path";
 import { chromium } from "playwright";
@@ -129,6 +130,47 @@ function discoverWisdomLeaf() {
           return { shelf, book };
         }
       }
+    }
+  }
+  return null;
+}
+
+/**
+ * A plan slug from `~/.claude/plans/`, or null when this checkout has none.
+ *
+ * Same fixture-conditional shape as discoverWisdomLeaf() above, for the same
+ * reason: `/claude-plans/[slug]` reads a MACHINE-GLOBAL directory that lives
+ * outside the repo entirely, so it is populated on Asif's machine and empty on
+ * every CI runner. Gating it unconditionally would fail a runner for a file it
+ * cannot have; leaving it out of the manifest entirely left it unswept from the
+ * day it shipped. Discovered, so the sweep covers it exactly where it is real.
+ *
+ * Mirrors readPlanFiles() in src/lib/claude-plans.ts — top level plus ONE level
+ * of subdirectory (the harness's `_done/` archive), slug = filename minus `.md`.
+ * Walked with `fs` rather than imported because that module is TypeScript and
+ * this script is plain `.mjs`; the wisdom leaf resolves the same way.
+ */
+function discoverPlanLeaf() {
+  const root = join(homedir(), ".claude", "plans");
+  if (!existsSync(root)) return null;
+  let entries;
+  try {
+    entries = readdirSync(root, { withFileTypes: true });
+  } catch {
+    return null;
+  }
+  for (const entry of entries) {
+    if (entry.isFile() && entry.name.endsWith(".md"))
+      return entry.name.slice(0, -3);
+  }
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    try {
+      for (const sub of readdirSync(join(root, entry.name))) {
+        if (sub.endsWith(".md")) return sub.slice(0, -3);
+      }
+    } catch {
+      // unreadable subdirectory — skip it, exactly as the page does.
     }
   }
   return null;
@@ -238,7 +280,13 @@ export function buildRoutes(slug) {
     ? [{ path: `/wisdom/${wisdom.shelf}/${wisdom.book}`, tier: 2 }]
     : [];
 
-  const all = [...tier1, ...tier2, ...tier2Wisdom].map((r) =>
+  // Present only where `~/.claude/plans/` holds a plan — see discoverPlanLeaf().
+  const planSlug = discoverPlanLeaf();
+  const tier2Plans = planSlug
+    ? [{ path: `/claude-plans/${encodeURIComponent(planSlug)}`, tier: 2 }]
+    : [];
+
+  const all = [...tier1, ...tier2, ...tier2Wisdom, ...tier2Plans].map((r) =>
     EXPECTED_REDIRECTS[r.path]
       ? { ...r, redirectsTo: EXPECTED_REDIRECTS[r.path] }
       : r,

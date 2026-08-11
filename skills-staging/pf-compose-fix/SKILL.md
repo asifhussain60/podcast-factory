@@ -33,6 +33,7 @@ python3 scripts/podcast/compose_fix.py <slug> --list              # the chapter 
 python3 scripts/podcast/compose_fix.py <slug> --chapters 1,3,9
 python3 scripts/podcast/compose_fix.py <slug> --chapters 3-5 --fix
 python3 scripts/podcast/compose_fix.py <slug> --chapters "Kumayl" --fix --only honorific-overuse
+python3 scripts/podcast/compose_fix.py <slug> --chapters 3 --vowel      # asks a model
 python3 scripts/podcast/compose_fix.py <slug> --json
 ```
 
@@ -49,9 +50,9 @@ numbers every chapter heading and leaves exactly one section (the introduction)
 unnumbered. A book that ever numbers inconsistently gets the chapter list printed and no
 write. Never hand-resolve a number yourself; call `--list`.
 
-## What it checks — eleven defects
+## What it checks — twelve defects
 
-Eight come from `_book_defects`, which the compose apparatus's `defect-scan` step and the
+Nine come from `_book_defects`, which the compose apparatus's `defect-scan` step and the
 recorded-defect tests also read. There is no second copy of the rule.
 
 | Defect | Repair |
@@ -65,6 +66,7 @@ recorded-defect tests also read. There is no second copy of the rule.
 | `translation-outside-card` — the English rendering prints below the card, not inside it | automatic |
 | `translation-leads-a-paragraph` — the rendering opens the paragraph, a whole sentence follows | automatic |
 | `translation-fused-with-prose` — separating the rendering would leave prose that no longer parses | none — reported |
+| `bare-arabic` — an Arabic passage still carries no vowel marks | `--vowel`, which ASKS rather than searches |
 | `quote-card-rules` — part of the approved four-card design is no longer on disk | none — reported |
 | `orphaned-quote-kind` — a person's declaration of a quotation's kind matches nothing | none — reported |
 
@@ -124,9 +126,15 @@ specimen's stylesheets are inlined copies taken the day it was approved and they
 already drifted in ways that mean nothing — a gradient reformatted onto one line, a
 `.q-cite` rule deleted the same day it was drafted — so a byte comparison would fire on
 formatting forever and be switched off within a week. What is checked is what a reader
-would see go missing: four cards, four inks, no border on any of them, a header and an
-outlined mark per kind, the Qur'an's gold rules, the two-column verse grid and its
-collapse on the CONTAINER rather than the window. It is repo-wide, so it prints once.
+would see go missing: four cards, four inks, a mark per kind, the two-column verse grid
+and its collapse on the CONTAINER rather than the window, and — since 2026-08-11 — the
+shape Asif approved on the specimen that day. Every card is a tinted plate inside a 2px
+frame in its own ink, and every header is CENTRED between two hairlines. The Qur'an's is
+not a header but a filled brown bar heading the panel, its chapter and verse set in white.
+The other three name their kind, and a saying or a verse adds the speaker beside it as one
+string — `Saying: Hasan al-Basri` — which is why the renderers stamp the kind in a span of
+its own. A prophetic tradition never names one: it is already the claim that the Prophet
+said it. It is repo-wide, so it prints once.
 
 `orphaned-quote-kind` checks this book. A declaration is filed under its quotation's own
 first line, inside its chapter's Composer key; edit either and it stops matching, the
@@ -138,6 +146,38 @@ rather than in a site gate: the repair and the damage are one command apart.
 Neither is repaired. A missing CSS rule is a design change and belongs to whoever is
 changing the design; re-keying a declaration means choosing which quotation a person
 meant, and on a religious edition an inferred attribution is a claim nobody made.
+
+### Bare Arabic is ASKED about, never searched for
+
+Arabic in these editions always carries its marks (Asif, 2026-07-29), and the pipeline puts
+them there at compose time. So a bare passage on the Compose tab is not a missing feature —
+it is a compose that did not finish, and until 2026-08-11 that happened routinely and
+invisibly. A model normalising ONE letter while vowelling correctly around it had its whole
+answer discarded by the marks-only gate, and the run stayed bare with nothing but a line in
+`_system/book-vowelling.json` to say so. Across the seven composed books that was 71 of 75
+refusals.
+
+**The root fix is in the pipeline, not here.** `_vowelling.transfer_marks` now carries the
+model's MARKS onto the source's own LETTERS whenever every difference is one letter in two
+shapes — the alif that gained a hamza, the Perso-Arabic yeh, kaf, heh and teh marbuta the
+Urdu-set passages use. The result's skeleton is source-identical by construction, so the
+gate's guarantee is strengthened rather than relaxed. It runs in the compose-time pass, in
+the Composer's Diacritics button, and here, from one definition pinned across the mirror
+pair by `vowelling.fixtures.json`.
+
+**This check is the second line.** `--vowel` asks the same engine the pipeline uses. It
+does NOT hunt the scan, the OCR or the knowledge base the way `--resolve-romanization`
+does, and the difference is not an oversight: a spelling is written down somewhere to be
+found, a vocalisation is not. It is asked for, from a model told to read the passage as the
+Ismaili tradition reads it — the vocabulary of the da'wa as the tradition's own scholars
+give it, names and titles as the Ismaili sources have them, and classical Islamic
+scholarship where the tradition is silent — under the gate that admits marks and nothing
+else. Scripture is never asked at all: `_mushaf` answers a Qur'anic run out of the
+canonical text in the repo.
+
+A passage that still refuses after all that is a real one — the source spells the word a
+way the model will not vowel without changing it — and it is reported and left bare rather
+than rewritten.
 
 ### The English rendering belongs INSIDE the card, and only half of them can be moved
 
@@ -184,12 +224,15 @@ a bug that is gone.
    book. After a fix run, offer `apply_book_apparatus.py <slug>` — the pipeline's own
    deterministic tail, runnable standalone — and say plainly that it will touch chapters
    outside the selection.
-4. **No prose is rewritten by a model here.** For a chapter that reads badly rather than
+4. **`--vowel` is the only flag here that spends money, and it is never implied.** Plain
+   `--fix` will not vowel anything, for the same reason it will not resolve a romanization:
+   both need a model, and a check must stay free and instant.
+5. **No prose is rewritten by a model here.** For a chapter that reads badly rather than
    one carrying a defect, the tool is `rearticulate_chapter.py` under the
    `book-articulation` skill — a different job with a different contract.
-5. **Verify in the Composer, not the PDF** (`/studio/<slug>/compose`), per the standing
+6. **Verify in the Composer, not the PDF** (`/studio/<slug>/compose`), per the standing
    rule. Show the repaired passage on screen.
-6. **Cite rule ids, never restate them.** `REQ-BA-NNN` for articulation,
+7. **Cite rule ids, never restate them.** `REQ-BA-NNN` for articulation,
    `BK-*` for the challenger's probes.
 
 ## After a run

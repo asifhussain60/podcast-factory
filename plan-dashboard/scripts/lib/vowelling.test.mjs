@@ -21,6 +21,7 @@ import {
   rejectionReason,
   reflowToSourceWhitespace,
   reflowWordsToSourceWhitespace,
+  transferMarks,
   isVowellingCandidate,
   isArabicPassage,
 } from "./vowelling.mjs";
@@ -200,6 +201,28 @@ test("a mushaf verse keeps the line break the book printed", () => {
   assert.equal(out.split("\n").length, source.split("\n").length);
   assert.deepEqual(out.split(/\s+/), canonical.split(/\s+/));
   assert.equal(reflowWordsToSourceWhitespace(source, "لَيْسَ"), "لَيْسَ");
+});
+
+test("mirror: transferMarks matches the shared fixtures", () => {
+  // Each case is a real refusal recorded by a book before this recovery existed.
+  // A null is as load-bearing as a string: the gate still refusing where it must.
+  for (const c of FX.transfer)
+    assert.equal(
+      transferMarks(c.source, c.candidate),
+      c.out,
+      c._why ?? c.source,
+    );
+});
+
+test("a transferred vowelling always passes the gate", () => {
+  // Structural, not a second check that could disagree: the result carries the
+  // SOURCE's letters, so its skeleton is source-identical by construction.
+  for (const c of FX.transfer) {
+    const got = transferMarks(c.source, c.candidate);
+    if (got === null) continue;
+    assert.equal(skeleton(got), skeleton(c.source));
+    assert.equal(rejectionReason(c.source, got), null);
+  }
 });
 
 test("mirror: reflowWordsToSourceWhitespace matches the shared fixtures", () => {

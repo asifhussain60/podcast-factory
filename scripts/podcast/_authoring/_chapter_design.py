@@ -26,7 +26,6 @@ from _validator_constants import (
 from ._core import (
     ARABIC_SCHOLARLY_CATEGORIES,
     DEFAULT_TIMEOUT,
-    PHASE_0D_SC_TIMEOUT,
     PHASE_0D_TOC_TIMEOUT,
     AuthoringError,
     _assert_artifact,
@@ -449,8 +448,9 @@ def author_phase_0d(
     length_tier: str = "extended",
     unit_mode: str = "auto",
     timeout: int = DEFAULT_TIMEOUT,
+    # `sc_timeout` removed 2026-08-11 — superseded by the word-count-aware
+    # `_compute_sc_timeout(slice_wc)` below, and passed by no caller since.
     toc_timeout: int = PHASE_0D_TOC_TIMEOUT,
-    sc_timeout: int = PHASE_0D_SC_TIMEOUT,
     log=print,
     category: str | None = None,
 ) -> str:

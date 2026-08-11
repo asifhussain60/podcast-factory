@@ -34,12 +34,46 @@ import path from "node:path";
  *  a human explicitly sets a block back to it. */
 export const QUOTE_KIND_IDS = ["hadith", "poem", "quote"];
 
+/** Kinds whose card never names a speaker, however a book declares one. Scripture
+ *  heads itself with the surah the audit resolved, and a prophetic tradition is
+ *  already the claim that the Prophet said it — printing a name under either is a
+ *  second answer to a question the card has already answered (Asif, 2026-08-11). */
+const ANON_KINDS = new Set(["quran", "hadith"]);
+
+/** The speaker a card prints beside its kind, or "" — the whole decision, so the
+ *  two renderers cannot answer it differently and neither has to remember which
+ *  kinds are exempt. `declared` is a flattened first-line -> declaration map. */
+export function speakerFor(declared, lines, kind) {
+  if (ANON_KINDS.has(kind)) return "";
+  return declared?.[quoteKindKey(lines)]?.by ?? "";
+}
+
+/** What each kind is CALLED on its card's header. Here rather than in either
+ *  renderer because both draw the header and a book cannot have a tradition
+ *  labelled two ways. The Qur'an is absent: its header carries the chapter and
+ *  verse the audit resolved, which is not a fixed word. */
+export const QUOTE_KIND_LABEL = {
+  hadith: "Prophetic tradition",
+  poem: "Verse",
+  quote: "Saying",
+};
+
 /**
- * `_system/quote-kind.json` → { chapterKey: { firstLine: kind } }.
+ * `_system/quote-kind.json` → { chapterKey: { firstLine: { kind, by? } } }.
  *
  * `bookDir` is the book's root (the folder holding `_system/` and `book/`).
  * Anything unreadable, absent or malformed yields {} — an edition renders every
  * quotation in the default card rather than failing to render.
+ *
+ * TWO FORMS OF A DECLARATION, and both stay valid. `"…": "hadith"` is the whole
+ * of schema v1 and is what the one book with declarations holds today;
+ * `"…": {"kind": "hadith", "by": "The Prophet"}` adds WHO SAID IT, which the
+ * card prints at the right of its header. The speaker is optional and is only
+ * ever typed by a person: nothing infers it from the prose, for the reason at
+ * the top of this file. A malformed entry is dropped rather than guessed at, so
+ * the block falls back to the default card and never to an attribution nobody
+ * wrote. Normalised to the object form HERE so neither renderer has to ask
+ * which shape it was given.
  */
 export function readQuoteKind(bookDir) {
   const p = path.join(bookDir, "_system", "quote-kind.json");
@@ -50,8 +84,13 @@ export function readQuoteKind(bookDir) {
     for (const [chapter, blocks] of Object.entries(raw?.chapters ?? {})) {
       if (!blocks || typeof blocks !== "object") continue;
       const kept = {};
-      for (const [line, kind] of Object.entries(blocks)) {
-        if (QUOTE_KIND_IDS.includes(kind)) kept[String(line).trim()] = kind;
+      for (const [line, declared] of Object.entries(blocks)) {
+        const kind =
+          typeof declared === "string" ? declared : (declared?.kind ?? "");
+        if (!QUOTE_KIND_IDS.includes(kind)) continue;
+        const by =
+          typeof declared === "string" ? "" : String(declared?.by ?? "").trim();
+        kept[String(line).trim()] = by ? { kind, by } : { kind };
       }
       if (Object.keys(kept).length) out[chapter] = kept;
     }

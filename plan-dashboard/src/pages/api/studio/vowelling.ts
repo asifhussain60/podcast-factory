@@ -50,6 +50,7 @@ import {
   loadProposals,
   saveProposals,
   rejectionReason,
+  transferMarks,
   isVowellingCandidate,
   markCount,
   skeleton,
@@ -252,13 +253,19 @@ async function vowelOneRun(body: Record<string, unknown>): Promise<Response> {
     .split("\n")
     .find((l) => ARABIC_LINE_RE.test(l))
     ?.trim();
-  const reason = rejectionReason(source, cleaned ?? "");
+  // Keep the marks, drop the letters. The commonest refusal by far is a model
+  // normalising one letter into another form of the same letter while vowelling
+  // correctly around it; carrying its marks onto the source's own characters
+  // makes the skeleton source-identical by construction. The gate still judges
+  // the result — see `transferMarks` in scripts/lib/vowelling.mjs.
+  const settled = transferMarks(source, cleaned ?? "") ?? cleaned;
+  const reason = rejectionReason(source, settled ?? "");
   if (reason) return apiError(`Refused: ${reason}`);
 
   return apiOk({
     source,
-    vowelled: cleaned,
-    marksAdded: markCount(cleaned ?? "") - markCount(source),
+    vowelled: settled,
+    marksAdded: markCount(settled ?? "") - markCount(source),
   });
 }
 
@@ -319,7 +326,9 @@ async function propose(
       .split("\n")
       .find((l) => ARABIC_LINE_RE.test(l))
       ?.trim();
-    const reason = rejectionReason(c.source, cleaned ?? "");
+    // Same recovery as the single-selection path above.
+    const settled = transferMarks(c.source, cleaned ?? "") ?? cleaned;
+    const reason = rejectionReason(c.source, settled ?? "");
     if (reason) {
       // Refusals are REPORTED, not swallowed. A passage the model keeps failing on
       // is a passage a human should look at directly.
@@ -331,10 +340,10 @@ async function propose(
       chapter_key: c.chapterKey,
       chapter_title: c.chapterTitle,
       source: c.source,
-      proposed: cleaned,
-      resolved: cleaned,
+      proposed: settled,
+      resolved: settled,
       status: "pending",
-      marks_added: markCount(cleaned) - markCount(c.source),
+      marks_added: markCount(settled ?? "") - markCount(c.source),
       model: MODEL,
       proposed_at: new Date().toISOString(),
       decided_at: "",

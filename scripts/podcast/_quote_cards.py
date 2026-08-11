@@ -96,12 +96,20 @@ def _card_rules() -> list[dict]:
         ),
         _rule(
             "QC-020",
-            "every card is a plate and NOT a frame — an outline round a quotation reads as "
-            "a UI control, a tinted plate reads as a page",
+            "every card is a tinted plate inside a frame in its OWN ink — the plate is what "
+            "makes it read as a page rather than a UI control, and the frame is what closes "
+            "it (Asif, 2026-08-11; until then the rule here was plate and NEVER frame)",
             CSS,
             [
                 ("all four selectors share one plate rule", rf"(?s)({plate}).{{0,400}}border:\s*0\b"),
                 ("the plate is rounded", r"border-radius:\s*\d"),
+            ]
+            + [
+                (
+                    f".k-{kind} is framed in its own ink",
+                    rf"blockquote\.k-{kind}[^{{]*\{{[^}}]*border:\s*2px solid",
+                )
+                for kind in KINDS
             ],
         ),
         _rule(
@@ -139,9 +147,35 @@ def _card_rules() -> list[dict]:
         ),
         _rule(
             "QC-070",
-            "the Qur'an card keeps the gold rules that set it above the other three",
+            "the Qur'an card keeps the filled bar that heads it, carrying the chapter and "
+            "verse — what set that card above the other three until 2026-08-11 was a pair of "
+            "gold rules, and the bar replaced them",
             CSS,
-            [("the band's rules take --q-gold-line", r"(?s)\.q-band--quran::(before|after).{0,200}--q-gold-line")],
+            [
+                (
+                    "the bar is filled from --q-quran-bar",
+                    r"\.q-band--quran[^{]*\{[^}]*background:\s*var\(--q-quran-bar\)",
+                ),
+                ("and reads in its own ink", r"\.q-band--quran[^{]*\{[^}]*color:\s*var\(--q-quran-bar-ink\)"),
+                ("it bleeds to the card's edge", r"\.q-band--quran[^{]*\{[^}]*margin:\s*-"),
+                ("and rounds off the card's top", r"\.q-band--quran[^{]*\{[^}]*border-radius:\s*8px 8px 0 0"),
+                (
+                    "the panel is framed in the same brown a step lighter",
+                    r"blockquote\.k-quran[^{]*\{[^}]*border:\s*2px solid var\(--q-quran-bar-edge\)",
+                ),
+            ],
+        ),
+        _rule(
+            "QC-075",
+            "a card's header is CENTRED and carries its kind and, for the two kinds that may "
+            "name one, the speaker beside it — `Saying: Hasan al-Basri`, one string, never a "
+            "second attribution line under the card, and never a name nobody wrote down",
+            CSS,
+            [
+                ("the header is centred", r"\.q-band[^{]*\{[^}]*justify-content:\s*center"),
+                ("the speaker follows the kind's colon", r"\.q-band:has\(\.q-by\) \.q-kind::after"),
+                ("the rule runs between the two", r"\.q-band::after[^{]*\{[^}]*flex:\s*1"),
+            ],
         ),
         _rule(
             "QC-080",
@@ -183,6 +217,8 @@ def _card_rules() -> list[dict]:
                 ("the card class", r'`\s*k-\$\{kind\}`|" k-quran"'),
                 ("the header band", r"q-band q-band--\$\{kind\}"),
                 ("the outlined mark", r'class="q-orn"'),
+                ("the kind's own span", r'class="q-kind"'),
+                ("the speaker", r'class="q-by"'),
                 ("the verse grid", r'class="q-verse"'),
                 ("the lone hemistich", r"bayt-solo"),
             ],
@@ -195,6 +231,8 @@ def _card_rules() -> list[dict]:
             [
                 ("the header band", r"q-band q-band--\$\{kind\}"),
                 ("the outlined mark", r'class="q-orn"'),
+                ("the kind's own span", r'class="q-kind"'),
+                ("the speaker", r'class="q-by"'),
                 ("the verse grid", r'class="q-verse"'),
                 ("the lone hemistich", r"bayt-solo"),
             ],
@@ -309,6 +347,15 @@ def read_quote_kind(book_dir: Path) -> dict[str, dict[str, str]]:
     Unreadable, absent or malformed yields {} — the same tolerance the reader has, and
     for the same reason: an edition draws every quotation in the default card rather
     than failing to render.
+
+    TWO FORMS, and both are read: `"…": "hadith"` is schema v1, and
+    `"…": {"kind": "hadith", "by": "The Prophet"}` adds the speaker the card prints at
+    the right of its header. MIRRORS `readQuoteKind` in
+    plan-dashboard/scripts/lib/quote-kind.mjs, which is where the two forms are
+    described at length. Only the KIND is kept here: everything downstream of this
+    function asks which card a quotation is drawn in, and nothing asks who said it —
+    but a reader that understood only the old form would have dropped every declaration
+    written in the new one and reported the whole book as un-declared.
     """
     path = book_dir / "_system" / "quote-kind.json"
     try:
@@ -319,7 +366,11 @@ def read_quote_kind(book_dir: Path) -> dict[str, dict[str, str]]:
     for chapter, declarations in (raw.get("chapters") or {}).items():
         if not isinstance(declarations, dict):
             continue
-        kept = {str(line).strip(): kind for line, kind in declarations.items() if kind in DECLARABLE}
+        kept = {}
+        for line, declared in declarations.items():
+            kind = declared if isinstance(declared, str) else (declared or {}).get("kind")
+            if kind in DECLARABLE:
+                kept[str(line).strip()] = kind
         if kept:
             out[str(chapter)] = kept
     return out

@@ -132,6 +132,80 @@ export function rejectionReason(source, candidate) {
 }
 
 /**
+ * Letters the model rewrites into "correct" Arabic while vowelling, and the form
+ * the books actually print. One LETTER in two shapes per entry, never two
+ * letters: the fold is what makes a mark transferable onto the source's own
+ * character, so a genuine spelling difference must not appear here. `ه` and `ة`
+ * are deliberately absent for that reason.
+ *
+ * The Python mirror is `_vowelling.LETTER_FAMILY`, where the evidence behind each
+ * pair is recorded.
+ */
+const LETTER_FAMILY = {
+  أ: "ا",
+  إ: "ا",
+  آ: "ا",
+  ٱ: "ا",
+  ؤ: "و",
+  ی: "ي",
+  ى: "ي",
+  ئ: "ي",
+  ک: "ك",
+  ہ: "ه",
+  ھ: "ه",
+  ۃ: "ة",
+};
+
+const sameLetter = (a, b) =>
+  a === b || (LETTER_FAMILY[a] ?? a) === (LETTER_FAMILY[b] ?? b);
+
+/**
+ * `source`'s letters wearing `candidate`'s marks, or null if they disagree.
+ *
+ * THE CURE FOR THE ONLY REFUSAL THAT EVER HAPPENS: a model normalising one letter
+ * into another form of the same letter while vowelling correctly around it, after
+ * which the whole answer — marks and all — used to be discarded. Emitting the
+ * SOURCE's character with the CANDIDATE's marks makes the result's skeleton
+ * source-identical by construction, so the gate's guarantee is strengthened
+ * rather than relaxed: no letter a model chose can reach the page even by
+ * accident.
+ *
+ * Null when the letter counts differ or a difference falls outside the family
+ * table — those still fail the gate, because a mark placed on a word the model
+ * misread is a wrong reading printed confidently.
+ *
+ * The Python mirror is `_vowelling.transfer_marks`.
+ */
+export function transferMarks(source, candidate) {
+  if (!source || !candidate) return null;
+  const src = [...source].filter((c) => !MARK_RE_ONE.test(c) && !/\s/.test(c));
+  const cand = [];
+  for (const ch of candidate) {
+    if (/\s/.test(ch)) continue;
+    if (MARK_RE_ONE.test(ch)) {
+      if (cand.length) cand[cand.length - 1][1] += ch;
+      continue;
+    }
+    cand.push([ch, ""]);
+  }
+  if (src.length !== cand.length || src.length === 0) return null;
+  for (let i = 0; i < src.length; i++)
+    if (!sameLetter(src[i], cand[i][0])) return null;
+  const out = [];
+  let i = 0;
+  for (const ch of source) {
+    if (MARK_RE_ONE.test(ch)) continue;
+    if (/\s/.test(ch)) {
+      out.push(ch);
+      continue;
+    }
+    out.push(ch + cand[i][1]);
+    i++;
+  }
+  return out.join("");
+}
+
+/**
  * `candidate`'s letters and marks, carrying `source`'s exact whitespace.
  *
  * A model asked to vowel one passage hands back one line however many lines the

@@ -3,7 +3,7 @@
   "narrative_frame": "transmitted_report",
   "adapted": 1,
   "reverted": 0,
-  "overwritten_by_replay": 1,
+  "overwritten_by_replay": 0,
   "chapters": [
     {
       "title": "The Persian Who Was Dead and Revived",
@@ -41,7 +41,7 @@
       "output_words": 3344,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted-then-overwritten",
+      "status": "composer-edit",
       "gates": [],
       "warnings": [],
       "editorial_queries": [],
@@ -49,7 +49,7 @@
       "terminology_notes": [
         "\"Party of God\" \u2014 the rendering of \u062d\u0632\u0628 \u0627\u0644\u0644\u0647 should be standardized book-wide, as it recurs as a fixed term for the community of the Friends of God."
       ],
-      "pre_replay_status": "adapted"
+      "superseded_status": "adapted"
     },
     {
       "title": "How the World Was Made",

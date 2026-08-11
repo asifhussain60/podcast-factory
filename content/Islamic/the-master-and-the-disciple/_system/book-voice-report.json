@@ -34,12 +34,12 @@
       "output_words": 3406,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted-then-overwritten",
+      "status": "composer-edit",
       "gates": [],
       "warnings": [
         "voice-04: output near-identical to base \u2014 copied, not re-voiced"
       ],
-      "pre_replay_status": "adapted"
+      "superseded_status": "adapted"
     },
     {
       "title": "How the World Was Made",
@@ -107,5 +107,5 @@
       "superseded_status": "adapted"
     }
   ],
-  "overwritten_by_replay": 1
+  "overwritten_by_replay": 0
 }

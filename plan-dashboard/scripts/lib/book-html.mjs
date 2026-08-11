@@ -39,6 +39,8 @@ import {
   readQuoteKind,
   flattenQuoteKind,
   quoteKindKey,
+  QUOTE_KIND_LABEL,
+  speakerFor,
 } from "./quote-kind.mjs";
 import { paraFingerprint } from "./para-blocks.mjs";
 import { loadLayout, applyLayout } from "../visual-layout.mjs";
@@ -670,22 +672,19 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
   // a band inside the editor could be serialised into book.md on the next
   // autosave. Read mode and the PDF, which never round-trip, get it.
   const bands = opts.bands !== false;
-  const BAND_LABEL = {
-    hadith: "Prophetic tradition",
-    poem: "Verse",
-    quote: "Saying",
-  };
   const band = (kind, paras) => {
     if (!bands || !kind) return "";
-    let label = BAND_LABEL[kind] ?? "";
+    let label = QUOTE_KIND_LABEL[kind] ?? "";
     if (kind === "quran") {
       const line = paras.find((x) => isArabicQuoteLine(x));
       label = (line && quranicRefs?.[line.trim().replace(/\.\s*$/, "")]) || "";
     }
+    const by = speakerFor(quoteKinds, paras, kind);
     return (
       `<span class="q-band q-band--${kind}">` +
       '<span class="q-orn" aria-hidden="true"></span>' +
-      (label ? `<span>${escapeHtml(label)}</span>` : "") +
+      (label ? `<span class="q-kind">${escapeHtml(label)}</span>` : "") +
+      (by ? `<span class="q-by" dir="auto">${escapeHtml(by)}</span>` : "") +
       "</span>"
     );
   };
@@ -698,7 +697,7 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
   const kindClass = (lines, paras, hasScripture, isAside) => {
     if (isAside) return "";
     if (hasScripture) return " k-quran";
-    const kind = quoteKinds?.[quoteKindKey(lines)];
+    const kind = quoteKinds?.[quoteKindKey(lines)]?.kind;
     if (kind) return ` k-${kind}`;
     return paras.some(isArabicQuoteLine) ? " k-quote" : "";
   };
@@ -931,10 +930,10 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
       // reaches the page in English alone (Imam al-Shafii's lines in Spiritual
       // Ethos), and it is a poem whichever language it arrives in. An undeclared
       // English blockquote gets nothing, exactly as before.
-      const declared = asideCls() ? null : quoteKinds?.[quoteKindKey(quote)];
-      const cls = `${declared ? `k-${declared}` : ""}${asideCls()}`.trim();
+      const dec = asideCls() ? null : quoteKinds?.[quoteKindKey(quote)];
+      const cls = `${dec ? `k-${dec.kind}` : ""}${asideCls()}`.trim();
       out.push(
-        `<blockquote${cls ? ` class="${cls}"` : ""}>${band(declared, quote)}${paras.map((p) => `<p>${renderInline(p)}</p>`).join("") || "<p></p>"}</blockquote>`,
+        `<blockquote${cls ? ` class="${cls}"` : ""}>${band(dec?.kind, quote)}${paras.map((p) => `<p>${renderInline(p)}</p>`).join("") || "<p></p>"}</blockquote>`,
       );
     }
     quote = [];

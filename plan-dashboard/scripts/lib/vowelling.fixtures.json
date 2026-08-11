@@ -5,15 +5,27 @@
       "in": "فَإِنَّهُ مَنْ عَمِلَ لِلَّهِ",
       "out": "فإنه من عمل لله"
     },
-    { "in": "فإنه من عمل لله", "out": "فإنه من عمل لله" },
-    { "in": "  ragged   spacing  ", "out": "ragged spacing" },
-    { "in": "الرحـــمن", "out": "الرحمن" },
+    {
+      "in": "فإنه من عمل لله",
+      "out": "فإنه من عمل لله"
+    },
+    {
+      "in": "  ragged   spacing  ",
+      "out": "ragged spacing"
+    },
+    {
+      "in": "الرحـــمن",
+      "out": "الرحمن"
+    },
     {
       "_why": "Arabic-Indic digits must SURVIVE the skeleton. They sit inside the U+0653-U+0670 span an earlier literal character class used, so they were being stripped as if they were marks — which let a vowelling that deleted every footnote and verse number pass as marks-only.",
       "in": "تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣",
       "out": "تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣"
     },
-    { "in": "", "out": "" }
+    {
+      "in": "",
+      "out": ""
+    }
   ],
   "markCount": [
     {
@@ -21,7 +33,10 @@
       "in": "فَإِنَّهُ",
       "out": 5
     },
-    { "in": "فإنه", "out": 0 },
+    {
+      "in": "فإنه",
+      "out": 0
+    },
     {
       "_why": "digits are not marks — a bare line of them counts zero, or mark_density reads it as already vowelled and skips it",
       "in": "٥٩",
@@ -37,7 +52,10 @@
       "in": "ۖۗ",
       "out": 2
     },
-    { "in": "", "out": 0 }
+    {
+      "in": "",
+      "out": 0
+    }
   ],
   "isCandidate": [
     {
@@ -50,11 +68,22 @@
       "in": "لَهُمْ قُلُوبٌ لَا يَفْقَهُونَ بِهَا",
       "out": false
     },
-    { "_why": "no Arabic at all", "in": "The Master said", "out": false },
-    { "_why": "too short to be a passage", "in": "الله", "out": false }
+    {
+      "_why": "no Arabic at all",
+      "in": "The Master said",
+      "out": false
+    },
+    {
+      "_why": "too short to be a passage",
+      "in": "الله",
+      "out": false
+    }
   ],
   "isArabicPassage": [
-    { "in": "فإنه من عمل لله بما يعلم", "out": true },
+    {
+      "in": "فإنه من عمل لله بما يعلم",
+      "out": true
+    },
     {
       "_why": "English prose quoting Arabic is not a passage to vowel",
       "in": "The Master said, quoting فإنه من عمل لله, that knowledge is given",
@@ -156,6 +185,51 @@
       "source": "ليس كمثله\nشيء",
       "candidate": "لَيْسَ كَمِثْلِهِۦ",
       "out": "لَيْسَ كَمِثْلِهِۦ"
+    }
+  ],
+  "_transferComment": "transferMarks / transfer_marks: the source's letters wearing the candidate's marks. Every 'out' here is a REAL refusal recorded in content/*/_system/book-vowelling.json before 2026-08-11, when a refusal was terminal and the run stayed bare. null means the two cannot be aligned and the gate must still refuse — a mark placed on a word the model misread is a wrong reading printed confidently.",
+  "transfer": [
+    {
+      "_why": "the Urdu teh marbuta the model normalised to the Arabic one — spiritual-ethos",
+      "source": "سورۃ الفلق",
+      "candidate": "سُورَةُ الفَلَق",
+      "out": "سُورَۃُ الفَلَق"
+    },
+    {
+      "_why": "a hamza the source does not carry, plus two Perso-Arabic letters — the commonest refusal of all",
+      "source": "امام المتعصبین",
+      "candidate": "إِمَامُ المُتَعَصِّبِينَ",
+      "out": "اِمَامُ المُتَعَصِّبِینَ"
+    },
+    {
+      "_why": "a hamza the model puts on a waw — the same class as the alif above, found by re-running the backfill",
+      "source": "یا أمیر المومنین",
+      "candidate": "يَا أَمِيرَ المُؤْمِنِينَ",
+      "out": "یَا أَمِیرَ المُوْمِنِینَ"
+    },
+    {
+      "_why": "nothing to fold: the candidate already agrees, so the marks land unchanged",
+      "source": "قال العالم",
+      "candidate": "قَالَ الْعَالِمُ",
+      "out": "قَالَ الْعَالِمُ"
+    },
+    {
+      "_why": "a different word, same length — refused, or a mark would land on a misreading",
+      "source": "قال العالم",
+      "candidate": "قَالَ الغُلَام",
+      "out": null
+    },
+    {
+      "_why": "a dropped clause — refused on the letter count alone",
+      "source": "قال العالم",
+      "candidate": "قَالَ",
+      "out": null
+    },
+    {
+      "_why": "he and teh marbuta are NOT one family: in Arabic that is a spelling difference",
+      "source": "رحمہ",
+      "candidate": "رَحْمَة",
+      "out": null
     }
   ]
 }

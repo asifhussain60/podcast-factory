@@ -1936,58 +1936,6 @@
       "kind": "islamic_scholarly"
     }
   ],
-  "recent_commits": [
-    {
-      "sha": "94d3bead",
-      "subject": "fix(books): book-title cards render without diacritics, consistently",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "bc5e681b",
-      "subject": "docs(infra): the vault is authoritative for the Anthropic key",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "021a1584",
-      "subject": "docs(infra): pull-secrets verified end to end, both Astro keys live",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "35d3c159",
-      "subject": "fix(infra): the Astro Site reads the keychain, and pull-secrets wrote the wrong name",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "c971dd57",
-      "subject": "docs(infra): the ElevenLabs key is gone, and the deletion proved the rest",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "ed9b77ac",
-      "subject": "docs: retire ElevenLabs from infra, and record the Azure tenant",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "87dccbb3",
-      "subject": "docs(infra): the credential story the pipeline actually follows, not the one from June",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "74791b8f",
-      "subject": "podcast(kitab-al-riyad): last chapter cleared the articulation gate",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "4b9dc528",
-      "subject": "podcast(kitab-al-riyad): two more chapters cleared the articulation gate",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "80417def",
-      "subject": "feat(media): --drop-local-audio reclaims the disk a local bucket spent on duplicates",
-      "date": "2026-08-10"
-    }
-  ],
   "wave_execution_events": [],
   "books_shipped": [
     {

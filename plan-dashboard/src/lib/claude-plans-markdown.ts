@@ -17,6 +17,8 @@
  * disclosure — nothing deleted, just layered, "a masked view on top of that."
  */
 
+import { escapeHtml } from "./html-escape";
+
 type BlockType = "heading" | "code" | "list" | "para" | "blockquote";
 
 interface Block {
@@ -30,14 +32,6 @@ const TECHNICAL_HEADING_RE =
   /\b(files?|implementation|verification|schema|new files|route|nav wiring|gating)\b/i;
 const CODE_SPAN_RE = /`[^`]+`/g;
 const PATH_TOKEN_RE = /\b[\w.-]+\/[\w./-]+\b/g;
-
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
 
 /** Bold/italic/inline-code/links — the inline subset a plan actually uses. */
 function renderInline(text: string): string {

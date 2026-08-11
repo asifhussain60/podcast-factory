@@ -73,6 +73,7 @@ verify:
   - bash scripts/podcast/sync-agent-wrappers.sh --check # agent mirrors, both directions
   - cd plan-dashboard && npm run lint && npm run format:check
   - cd plan-dashboard && npm run check && npm test && npm run lint:views
+  - cd plan-dashboard && npm run ratchets # shrink-only lint-warning + file-size ratchets
   - cd plan-dashboard && npm run smoke # boots a dev server + headless chromium
   #
   # On the probe (added to this list 2026-07-27, catalog:
@@ -94,9 +95,23 @@ size_gates:
       Verified 2026-07-26: the gate is CORRECT and has no hole. Four files that look
       over-limit are grandfathered and two have already shrunk against their ceiling,
       which is the ratchet working. Do not "fix" this and do not add entries.
-  # The TS/Astro side has NO size gate. Six files exceed the Python limit, the largest
-  # at 3,228 lines. Deliberately not added yet: the right ceiling for JSX is not 600,
-  # and the number is the owner's call, not the audit's.
+  - glob: "plan-dashboard/{src,scripts,packages}/**/*.{ts,tsx,astro,mjs}"
+    limit: 1000 # ENFORCED. Chosen by Asif 2026-08-11 over the 800 the audit proposed.
+    ratchet: plan-dashboard/frontend-ratchets.json
+    note: >-
+      Added 2026-08-11, closing the gap this entry used to record as deliberate ("the
+      TS/Astro side has NO size gate ... the number is the owner's call"). It was, and
+      he made it: 1000, over the 800 proposed, which grandfathers 8 files instead of 12
+      and leaves a legitimately large page more room. Context either way: across 324
+      non-test source files the median is 123 lines and p95 is 709.
+      Every file is governed by exactly ONE rule — at or under the ceiling, the ceiling
+      governs; above it, its own recorded pin does, which it may fall below and never
+      exceed. Scope is TRACKED files, so an unstaged scratch file is invisible; that
+      matches where this runs (CI and pre-commit) and is documented in the script.
+      The same file carries a per-RULE eslint WARNING budget, which also binds: warnings
+      are advisory in eslint by design, which is how 93 accumulated where no gate had
+      to look at them. Per rule rather than one total, so a new `any` cannot hide
+      behind someone else's fixed hook warning.
 
 mirrors:
   # Files that MUST change together. `pinned_by` names the shared fixture proving they

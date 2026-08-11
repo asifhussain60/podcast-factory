@@ -497,24 +497,30 @@
      verse, or a saying. Colour is what carries that, so every ink is held to the
      body floor of 4.5:1 on the reading surface by test/theme.test.ts.
 
-     THESE ARE THE PRINTED EDITION'S OWN INKS, re-measured for this paper rather
-     than copied: plan-dashboard/src/styles/quote-typography.css picked them
-     against a cream page. The gold is the one a book cannot choose, exactly as
-     it cannot choose the Qur'anic face. */
-  --l-quote-quran: #7d6800; /* 5.37:1 on surface */
-  --l-quote-quran-tr: #504302; /* 9.64:1 */
-  --l-quote-hadith: #23356b; /* 11.53:1 */
-  --l-quote-poem: #722727; /* 10.16:1 */
-  --l-quote-saying: #1d4d33; /* 9.56:1 */
-  /* The Qur'an band's rule, and its highlight. DECORATION, deliberately not in
-     the measured pairs: a 2px gold rule carries no information a reader needs,
-     the header's words and its mark are the card's ink and are measured, and the
-     lift is the shine at the centre of a gradient — a value light enough to read
-     as gilding can never clear 3:1 on paper, so holding it there would only
-     replace the gold with a brown. Identical in all three palettes: gold is
-     gold, and it reads on cream, on sepia and on near-black alike. */
-  --l-quote-gold: #d3b965;
-  --l-quote-gold-lift: #f7e8b7;
+     THESE ARE THE PRINTED EDITION'S OWN INKS, and they are now COPIED FROM IT
+     rather than transcribed: a card's colour belongs to the edition, not to a
+     surface, so scripture is the same gold in the PDF, in the Book Composer and
+     here. The ratios that used to sit on these lines are gone with the hand
+     transcription; the 4.5:1 floor they recorded is enforced for every palette
+     by test/theme.test.ts, which is a stronger guarantee than a comment. */
+  /* >>> quote-inks-light — generated from plan-dashboard/src/styles/quote-typography.css by scripts/sync-quote-inks.mjs. Change a value THERE, then run `npm run quote-inks`. */
+  --l-quote-quran: #7d6800;
+  --l-quote-quran-tr: #504302;
+  --l-quote-hadith: #23356b;
+  --l-quote-poem: #722727;
+  --l-quote-saying: #1d4d33;
+  /* <<< quote-inks-light */
+  /* The bar that closes the Qur'an card, and the ink that reads on it. A PAIR,
+     unlike the gold rule these replaced on 2026-08-11: that rule was decoration
+     and carried no information, while this plate carries the chapter and verse
+     at 0.66em uppercase, so its two values are measured together (about 6.4:1)
+     and neither may move without the other. Identical in all three palettes — a
+     filled plate carries its own contrast rather than borrowing the page's. */
+  /* >>> quote-bar-light — generated from plan-dashboard/src/styles/quote-typography.css by scripts/sync-quote-inks.mjs. Change a value THERE, then run `npm run quote-inks`. */
+  --l-quote-bar: #8a5f33;
+  --l-quote-bar-ink: #ffffff;
+  --l-quote-bar-edge: #b18853;
+  /* <<< quote-bar-light */
   /* How strongly a card's plate is tinted with its own ink. A palette property
      rather than a system one: the same 5% that reads as a tinted page on paper
      is invisible on the dark theme's near-black. */
@@ -583,13 +589,18 @@
   /* The four quotation cards, lifted for near-black. The hues are held — a
      reader who learns that gold is scripture on paper must not have to learn it
      again in the dark — and only the lightness moves. */
-  --l-quote-quran: #d3b965; /* 8.56:1 on surface */
-  --l-quote-quran-tr: #bfae86; /* 7.55:1 */
-  --l-quote-hadith: #a8b6e8; /* 8.26:1 */
-  --l-quote-poem: #e8a0a0; /* 7.83:1 */
-  --l-quote-saying: #93d7b0; /* 9.89:1 */
-  --l-quote-gold: #d3b965;
-  --l-quote-gold-lift: #f7e8b7;
+  /* >>> quote-inks-dark — generated from plan-dashboard/src/styles/quote-typography.css by scripts/sync-quote-inks.mjs. Change a value THERE, then run `npm run quote-inks`. */
+  --l-quote-quran: #d3b965;
+  --l-quote-quran-tr: #bfae86;
+  --l-quote-hadith: #a8b6e8;
+  --l-quote-poem: #e8a0a0;
+  --l-quote-saying: #93d7b0;
+  /* <<< quote-inks-dark */
+  /* >>> quote-bar-dark — generated from plan-dashboard/src/styles/quote-typography.css by scripts/sync-quote-inks.mjs. Change a value THERE, then run `npm run quote-inks`. */
+  --l-quote-bar: #8a5f33;
+  --l-quote-bar-ink: #ffffff;
+  --l-quote-bar-edge: #b18853;
+  /* <<< quote-bar-dark */
   /* Twice the light theme's. A 5% tint of a pale ink over near-black is not
      visible at all; a card with no plate is not a card. */
   --l-quote-tint: 10%;
@@ -646,14 +657,20 @@
   --l-hl-sky: #ced9e7; /* ink 10.61:1 · page 1.28:1 */
   --l-hl-rose: #efcccb; /* ink 10.23:1 · page 1.33:1 */
 
-  /* The four quotation cards, warmed a step for the sepia sheet. */
+  /* The four quotation cards, warmed a step for the sepia sheet. HAND-AUTHORED
+     and deliberately not generated: the print stylesheet measures against a
+     cream page and a near-black one, and this sheet is neither. A shared ink
+     that should also move here has to be moved here on purpose. */
   --l-quote-quran: #75620a; /* 5.37:1 on surface */
   --l-quote-quran-tr: #4b3f05; /* 9.36:1 */
   --l-quote-hadith: #22335f; /* 11.04:1 */
   --l-quote-poem: #6b2525; /* 9.83:1 */
   --l-quote-saying: #1b482f; /* 9.35:1 */
-  --l-quote-gold: #d3b965;
-  --l-quote-gold-lift: #f7e8b7;
+  /* >>> quote-bar-sepia — generated from plan-dashboard/src/styles/quote-typography.css by scripts/sync-quote-inks.mjs. Change a value THERE, then run `npm run quote-inks`. */
+  --l-quote-bar: #8a5f33;
+  --l-quote-bar-ink: #ffffff;
+  --l-quote-bar-edge: #b18853;
+  /* <<< quote-bar-sepia */
   --l-quote-tint: 5%;
 
   --l-shadow-near: rgb(51 41 28 / 0.09);
@@ -6642,12 +6659,21 @@
     margin-block: 1.8em;
   }
 
+  /* THE ONE CARD WITH A FRAME (Asif, 2026-08-11), a deliberate exception to the
+     no-border rule the four share above. It does not read as a UI outline
+     because it is the bar's own colour a step lighter: the card reads as one
+     object with a header rather than a plate with a stripe across it.
+     `border-box` keeps it the same width as the three that have none, and
+     `overflow: hidden` is what makes the bar's bleed stop at the frame. */
   .reader blockquote.k-quran {
     background: color-mix(
       in oklab,
       var(--l-quote-quran) var(--l-quote-tint),
       transparent
     );
+    border: 2px solid var(--l-quote-bar-edge);
+    box-sizing: border-box;
+    overflow: hidden;
   }
   .reader blockquote.k-hadith {
     background: color-mix(
@@ -6655,6 +6681,8 @@
       var(--l-quote-hadith) var(--l-quote-tint),
       transparent
     );
+    border: 2px solid
+      color-mix(in oklab, var(--l-quote-hadith) 30%, transparent);
   }
   .reader blockquote.k-quote {
     background: color-mix(
@@ -6662,6 +6690,8 @@
       var(--l-quote-saying) var(--l-quote-tint),
       transparent
     );
+    border: 2px solid
+      color-mix(in oklab, var(--l-quote-saying) 30%, transparent);
   }
   .reader blockquote.k-poem {
     background: color-mix(
@@ -6669,6 +6699,7 @@
       var(--l-quote-poem) var(--l-quote-tint),
       transparent
     );
+    border: 2px solid color-mix(in oklab, var(--l-quote-poem) 30%, transparent);
     /* The verse grid collapses on the COLUMN's width, not the window's — see
        `.q-verse` below. */
     container-type: inline-size;
@@ -6708,24 +6739,29 @@
   .reader blockquote.k-hadith .ar,
   .reader blockquote.k-quote .ar,
   .reader blockquote.k-poem .ar {
-    line-height: 2.2;
+    /* Asif, 2026-08-11: too much space between a passage and its rendering. */
+    line-height: 1.9;
   }
   .reader blockquote.k-quran .tr,
   .reader blockquote.k-hadith .tr,
   .reader blockquote.k-quote .tr,
   .reader blockquote.k-poem .tr {
-    margin-top: 1em;
+    margin-top: 0.5em;
   }
 
-  /* The card's header: a centred label with a rule running out to each side. The
-     Qur'an keeps a 2px gold gradient and names its chapter and verse — there is
-     no Qur'an card without one — and the other three take a hairline in their
-     own ink so the family reads as one decision rather than four.
+  /* The card's header: what KIND of quotation it is at the left, and — when the
+     book's declaration file names one — WHO SAID IT at the right, with a
+     hairline between them in the card's own ink. A speaker is printed only when
+     a person wrote one down; nothing here infers it, and a card without one lets
+     the rule run to the edge.
+     The Qur'an is not drawn this way at all: its chapter and verse sit in the
+     filled bar that closes the card, below.
      Every mark is OUTLINED, drawn as a stroke and shown through a mask, so it
      takes the ink of the card it sits in rather than carrying a colour. */
   .reader .q-band {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5em;
     margin-bottom: 0.9em;
     font-family: var(--l-font-ui);
@@ -6735,6 +6771,8 @@
     text-transform: uppercase;
     white-space: nowrap;
   }
+  /* A rule to EACH side of the centred label, so the header is symmetrical
+     whether or not the quotation names anybody. */
   .reader .q-band::before,
   .reader .q-band::after {
     content: "";
@@ -6742,6 +6780,20 @@
     height: 1px;
     min-width: 1.2em;
     background: color-mix(in oklab, currentcolor 26%, transparent);
+  }
+  /* WHO SAID IT, folded into the header beside the kind rather than set on a
+     line of its own: one centred string, `Saying: Hasan al-Basri`. The name
+     keeps its own case, and the colon is drawn by the KIND so the flex gap
+     falls after it rather than before it. */
+  .reader .q-by {
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: none;
+    font-style: italic;
+    opacity: 0.9;
+  }
+  .reader .q-band:has(.q-by) .q-kind::after {
+    content: ":";
   }
   .reader .q-orn {
     display: inline-block;
@@ -6751,33 +6803,52 @@
     -webkit-mask: var(--l-orn-src) center / contain no-repeat;
     mask: var(--l-orn-src) center / contain no-repeat;
   }
+  /* The Qur'an's bar (Asif, 2026-08-11): its chapter and verse set in the middle
+     of a filled brown plate that HEADS the card, in place of the gold rules that
+     used to. The markup already puts the header first, so nothing is reordered —
+     which is what lets this reach books already published here without
+     re-publishing one of them. The negative margins bleed the plate out to the
+     card's padding edge (they apply because `.q-band` is a flex container and so
+     block-level), and the top radius matches the card's own. */
+  /* THE FOUR MARKS ARE FONT AWESOME FREE 6.5.0 (Asif, 2026-08-11), the same four
+     the printed edition wears — a star and crescent, a mosque, an outlined speech
+     bubble and a quill — copied here rather than imported, like the inks and the
+     faces above. Licence CC BY 4.0. They replace four shapes drawn by hand, one of
+     which read as an indistinct circle at this size. */
   .reader .q-band--quran {
-    color: var(--l-quote-quran);
+    justify-content: center;
+    margin: -1.1em -1.25em 0.9em;
+    padding: 0.55em 1.25em;
+    /* 8px, not the card's 10px: the frame is 2px thick and the bar sits inside
+       it, so the inner corner has to be that much tighter. */
+    border-radius: 8px 8px 0 0;
+    background: var(--l-quote-bar);
+    color: var(--l-quote-bar-ink);
     font-weight: 600;
-    /* The mushaf's own section sign. */
-    --l-orn-src: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23000' stroke-width='6'%3E%3Cpath d='M50 8 92 50 50 92 8 50z'/%3E%3Crect x='21' y='21' width='58' height='58'/%3E%3C/g%3E%3C/svg%3E");
+    /* A MUSHAF: Font Awesome Free 6.5.0's `book-quran`, CC BY 4.0 — the same set
+       the admin site vendors its toolbar glyphs from, and taken from the copy
+       already in its node_modules rather than downloaded. It replaced a hizb
+       sign that read at this size as an indistinct circle. Mirrors
+       `--orn-mushaf` in plan-dashboard/src/styles/quote-typography.css; unlike
+       the other three marks here it is a filled glyph, which masks identically. */
+    --l-orn-src: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cpath%20d%3D%22M0%20256C0%20114.6%20114.6%200%20256%200c33%200%2064.6%206.3%2093.6%2017.7c7.4%202.9%2011.5%2010.7%209.8%2018.4s-8.8%2013-16.7%2012.4c-4.8-.3-9.7-.5-14.6-.5c-114.9%200-208%2093.1-208%20208s93.1%20208%20208%20208c4.9%200%209.8-.2%2014.6-.5c7.9-.5%2015%204.7%2016.7%2012.4s-2.4%2015.5-9.8%2018.4C320.6%20505.7%20289%20512%20256%20512C114.6%20512%200%20397.4%200%20256zM375.4%20137.4c3.5-7.1%2013.7-7.1%2017.2%200l31.5%2063.8c1.4%202.8%204.1%204.8%207.2%205.3l70.4%2010.2c7.9%201.1%2011%2010.8%205.3%2016.4l-50.9%2049.6c-2.3%202.2-3.3%205.4-2.8%208.5l12%2070.1c1.3%207.8-6.9%2013.8-13.9%2010.1l-63-33.1c-2.8-1.5-6.1-1.5-8.9%200l-63%2033.1c-7%203.7-15.3-2.3-13.9-10.1l12-70.1c.5-3.1-.5-6.3-2.8-8.5L261%20233.1c-5.7-5.6-2.6-15.2%205.3-16.4l70.4-10.2c3.1-.5%205.8-2.4%207.2-5.3l31.5-63.8z%22%2F%3E%3C%2Fsvg%3E");
   }
+  /* No hairline inside the bar — the plate is the separation. */
   .reader .q-band--quran::before,
   .reader .q-band--quran::after {
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      var(--l-quote-gold) 0%,
-      var(--l-quote-gold-lift) 50%,
-      var(--l-quote-gold) 100%
-    );
+    content: none;
   }
   .reader .q-band--hadith {
     color: var(--l-quote-hadith);
-    --l-orn-src: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 12 88 50 50 88 12 50z' fill='none' stroke='%23000' stroke-width='10'/%3E%3C/svg%3E");
+    --l-orn-src: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20640%20512%22%3E%3Cpath%20d%3D%22M400%200c5%200%209.8%202.4%2012.8%206.4c34.7%2046.3%2078.1%2074.9%20133.5%20111.5l0%200%200%200c5.2%203.4%2010.5%207%2016%2010.6c28.9%2019.2%2045.7%2051.7%2045.7%2086.1c0%2028.6-11.3%2054.5-29.8%2073.4H221.8c-18.4-19-29.8-44.9-29.8-73.4c0-34.4%2016.7-66.9%2045.7-86.1c5.4-3.6%2010.8-7.1%2016-10.6l0%200%200%200C309.1%2081.3%20352.5%2052.7%20387.2%206.4c3-4%207.8-6.4%2012.8-6.4zM288%20512V440c0-13.3-10.7-24-24-24s-24%2010.7-24%2024v72H192c-17.7%200-32-14.3-32-32V352c0-17.7%2014.3-32%2032-32H608c17.7%200%2032%2014.3%2032%2032V480c0%2017.7-14.3%2032-32%2032H560V440c0-13.3-10.7-24-24-24s-24%2010.7-24%2024v72H448V454c0-19-8.4-37-23-49.2L400%20384l-25%2020.8C360.4%20417%20352%20435%20352%20454v58H288zM70.4%205.2c5.7-4.3%2013.5-4.3%2019.2%200l16%2012C139.8%2042.9%20160%2083.2%20160%20126v2H0v-2C0%2083.2%2020.2%2042.9%2054.4%2017.2l16-12zM0%20160H160V296.6c-19.1%2011.1-32%2031.7-32%2055.4V480c0%209.6%202.1%2018.6%205.8%2026.8c-6.6%203.4-14%205.2-21.8%205.2H48c-26.5%200-48-21.5-48-48V176%20160z%22%2F%3E%3C%2Fsvg%3E");
   }
   .reader .q-band--quote {
     color: var(--l-quote-saying);
-    --l-orn-src: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='36' fill='none' stroke='%23000' stroke-width='10'/%3E%3C/svg%3E");
+    --l-orn-src: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cpath%20d%3D%22M123.6%20391.3c12.9-9.4%2029.6-11.8%2044.6-6.4c26.5%209.6%2056.2%2015.1%2087.8%2015.1c124.7%200%20208-80.5%20208-160s-83.3-160-208-160S48%20160.5%2048%20240c0%2032%2012.4%2062.8%2035.7%2089.2c8.6%209.7%2012.8%2022.5%2011.8%2035.5c-1.4%2018.1-5.7%2034.7-11.3%2049.4c17-7.9%2031.1-16.7%2039.4-22.7zM21.2%20431.9c1.8-2.7%203.5-5.4%205.1-8.1c10-16.6%2019.5-38.4%2021.4-62.9C17.7%20326.8%200%20285.1%200%20240C0%20125.1%20114.6%2032%20256%2032s256%2093.1%20256%20208s-114.6%20208-256%20208c-37.1%200-72.3-6.4-104.1-17.9c-11.9%208.7-31.3%2020.6-54.3%2030.6c-15.1%206.6-32.3%2012.6-50.1%2016.1c-.8%20.2-1.6%20.3-2.4%20.5c-4.4%20.8-8.7%201.5-13.2%201.9c-.2%200-.5%20.1-.7%20.1c-5.1%20.5-10.2%20.8-15.3%20.8c-6.5%200-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8%203.4-17.4c4.1-4.2%207.8-8.7%2011.3-13.5c1.7-2.3%203.3-4.6%204.8-6.9c.1-.2%20.2-.3%20.3-.5z%22%2F%3E%3C%2Fsvg%3E");
   }
   .reader .q-band--poem {
     color: var(--l-quote-poem);
-    --l-orn-src: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 8C50 31 69 50 92 50 69 50 50 69 50 92 50 69 31 50 8 50 31 50 50 31 50 8z' fill='none' stroke='%23000' stroke-width='8'/%3E%3C/svg%3E");
+    --l-orn-src: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cpath%20d%3D%22M278.5%20215.6L23%20471c-9.4%209.4-9.4%2024.6%200%2033.9s24.6%209.4%2033.9%200l74.8-74.8c7.4%204.6%2015.3%208.2%2023.8%2010.5C200.3%20452.8%20270%20454.5%20338%20409.4c12.2-8.1%205.8-25.4-8.8-25.4l-16.1%200c-5.1%200-9.2-4.1-9.2-9.2c0-4.1%202.7-7.6%206.5-8.8l97.7-29.3c3.4-1%206.4-3.1%208.4-6.1c4.4-6.4%208.6-12.9%2012.6-19.6c6.2-10.3-1.5-23-13.5-23l-38.6%200c-5.1%200-9.2-4.1-9.2-9.2c0-4.1%202.7-7.6%206.5-8.8l80.9-24.3c4.6-1.4%208.4-4.8%2010.2-9.3C494.5%20163%20507.8%2086.1%20511.9%2036.8c.8-9.9-3-19.6-10-26.6s-16.7-10.8-26.6-10C391.5%207%20228.5%2040.5%20137.4%20131.6C57.3%20211.7%2056.7%20302.3%2071.3%20356.4c2.1%207.9%2012%209.6%2017.8%203.8L253.6%20195.8c6.2-6.2%2016.4-6.2%2022.6%200c5.4%205.4%206.1%2013.6%202.2%2019.8z%22%2F%3E%3C%2Fsvg%3E");
   }
 
   /* Classical Arabic verse is set in TWO EQUAL COLUMNS: one bayt is two
@@ -6799,8 +6870,10 @@
        fits one of them on a single line; every character spent on the gutter is
        one taken from both halves. */
     column-gap: 1.25em;
-    row-gap: 0.15em;
-    margin-bottom: 0.8em;
+    /* Asif, 2026-08-11: too much air in the verse card. A bayt's lines carry the
+       Arabic leading already, so the row gap is the second space between them. */
+    row-gap: 0.1em;
+    margin-bottom: 0.5em;
   }
   /* A step down from the 1.4em a display quotation takes, and only inside the
      grid. A hemistich has half the measure a quotation has, and at the display

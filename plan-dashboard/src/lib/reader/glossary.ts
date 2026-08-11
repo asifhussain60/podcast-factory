@@ -192,24 +192,6 @@ export function emitGlossaryYaml(
   return lines.join("\n") + "\n";
 }
 
-/**
- * Wrap phonetic tokens in HTML with an Arabic-script overlay span.
- *
- * BUG FIX 2025-05-26: the prior loop split HTML once outside the entries
- * loop, then applied every entry's regex to the SAME chunks — so later
- * (shorter) entries would match inside the data-* attributes of already-
- * inserted ar-overlay spans, corrupting the HTML (raw attribute text
- * leaked into the page). Fix: re-split after each entry so subsequent
- * matches only see text-not-tags. Also escape `&` and `<` in attribute
- * values + the arabic_script inner HTML.
- */
-function escapeAttr(s: string): string {
-  return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
-}
-function escapeHtml(s: string): string {
-  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
 export interface GlossaryDecisionPatch {
   decision: GlossaryDecision;
   corrected_phonetic?: string;

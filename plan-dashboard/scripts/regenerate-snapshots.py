@@ -170,23 +170,6 @@ def burn_30d_usd():
     return cents / 100
 
 
-def recent_commits():
-    try:
-        out = subprocess.check_output(
-            ["git", "-C", str(REPO), "log", "-n", "10", "--pretty=format:%h|%s|%ad", "--date=short"],
-            text=True,
-            stderr=subprocess.DEVNULL,
-        ).strip()
-        rows = []
-        for line in out.splitlines():
-            parts = line.split("|", 2)
-            if len(parts) == 3:
-                rows.append({"sha": parts[0], "subject": parts[1], "date": parts[2]})
-        return rows
-    except Exception:
-        return []
-
-
 def recent_wave_events(limit=15):
     try:
         lines = Path(WAVE_EVENTS).read_text().splitlines()
@@ -497,7 +480,6 @@ def merge_dashboard():
         "books_in_flight": in_flight,
         "metrics": {**(existing.get("metrics") or {}), "burn_30d_usd": burn_30d_usd()},
         "books_shipped": books_shipped(),
-        "recent_commits": recent_commits(),
         "wave_execution_events": recent_wave_events(),
     }
     # Legacy fields from before 2026-08-05 — see head_commit_iso()'s docstring.
@@ -605,7 +587,6 @@ def main():
     print(f"  source_commit: {current_commit()}")
     print(f"  books in flight: {len(dash['books_in_flight'])}")
     print(f"  roadmap steps: {len(dash['roadmap'])}")
-    print(f"  recent commits: {len(dash['recent_commits'])}")
 
 
 if __name__ == "__main__":

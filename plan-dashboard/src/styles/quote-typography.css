@@ -54,21 +54,53 @@
   --q-quran-ink-dark: #d3b965;
   --q-quran-tr-ink: #504302;
   --q-quran-tr-ink-dark: #bfae86;
-  --q-gold-rule: #d3b965;
-  --q-gold-line: linear-gradient(90deg, #d3b965 0%, #f7e8b7 50%, #d3b965 100%);
+  /* The bar that heads the Qur'an card, its label, and the frame round the panel
+     (Asif, 2026-08-11). The bar REPLACES the two gold-gradient tokens that drew
+     the card's header rules until that day — those had no second user and were
+     deleted with the rules themselves rather than left declared.
+
+     THE THREE VALUES ARE ONE DECISION, taken together because the label is
+     0.72rem uppercase and has to be readable. Asif asked for a white label, and
+     white on the brown he sampled from myislam.org (#b18853) measures 3.2:1 —
+     below the 4.5:1 this edition holds itself to at small sizes. So the bar is
+     that brown darkened one step, which carries white at 5.6:1, and the colour
+     he sampled becomes the 2px frame he asked for round the panel: lighter than
+     the header, in the header's own family, and derived from nothing — it is
+     the value that was already here.
+
+     All three are copied to the Podcast Factory Library by
+     listener/scripts/sync-quote-inks.mjs and are identical in all three of its
+     palettes, for the reason the gold was: a filled plate carries its own
+     contrast and does not need the page's. */
+  --q-quran-bar: #8a5f33;
+  --q-quran-bar-ink: #ffffff;
+  --q-quran-bar-edge: #b18853;
   --q-hadith-ink: #23356b;
   --q-hadith-ink-dark: #a8b6e8;
   --q-poem-ink: #722727;
   --q-poem-ink-dark: #e8a0a0;
 
-  /* Outlined marks, one per card. Strokes rather than fills (Asif, 2026-08-09),
-     shown through a mask so each takes the ink of the card it sits in. The
-     Qur'an's is the mushaf's own section sign; the Book's mark belongs to the
-     Book alone, so no other card carries it. */
-  --orn-hizb: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23000' stroke-width='6'%3E%3Cpath d='M50 8 92 50 50 92 8 50z'/%3E%3Crect x='21' y='21' width='58' height='58'/%3E%3C/g%3E%3C/svg%3E");
-  --orn-diamond: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 12 88 50 50 88 12 50z' fill='none' stroke='%23000' stroke-width='10'/%3E%3C/svg%3E");
-  --orn-circle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='36' fill='none' stroke='%23000' stroke-width='10'/%3E%3C/svg%3E");
-  --orn-petal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 8C50 31 69 50 92 50 69 50 50 69 50 92 50 69 31 50 8 50 31 50 50 31 50 8z' fill='none' stroke='%23000' stroke-width='8'/%3E%3C/svg%3E");
+  /* One mark per card, shown through a mask so each takes the ink of the card it
+     sits in rather than carrying a colour of its own.
+
+     ALL FOUR ARE FONT AWESOME FREE 6.5.0 (Asif, 2026-08-11), chosen by him from a
+     sheet of twenty at `/_specimen-quote-icons.html`, which now shows only what he
+     picked. That version is the one this repo already vendors and the one its own
+     CDN link serves, so these and the Composer's toolbar glyphs are the same
+     drawings. Licence CC BY 4.0.
+
+     He chose ACROSS the sheet's rows rather than down them: the prophetic
+     tradition takes a mosque rather than anything from the speech-bubble family,
+     and the saying takes the outlined bubble. The mosque is the busiest of the
+     four at 1.05em — its dome, minaret and arcade compress — which is a known
+     trade and his call, recorded rather than smoothed over. The three stroked
+     shapes drawn by hand until this day (a hizb sign, a diamond, a circle and a
+     petal) are gone: the hizb read as an indistinct circle at header size, which
+     is what started this. */
+  --orn-crescent: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cpath%20d%3D%22M0%20256C0%20114.6%20114.6%200%20256%200c33%200%2064.6%206.3%2093.6%2017.7c7.4%202.9%2011.5%2010.7%209.8%2018.4s-8.8%2013-16.7%2012.4c-4.8-.3-9.7-.5-14.6-.5c-114.9%200-208%2093.1-208%20208s93.1%20208%20208%20208c4.9%200%209.8-.2%2014.6-.5c7.9-.5%2015%204.7%2016.7%2012.4s-2.4%2015.5-9.8%2018.4C320.6%20505.7%20289%20512%20256%20512C114.6%20512%200%20397.4%200%20256zM375.4%20137.4c3.5-7.1%2013.7-7.1%2017.2%200l31.5%2063.8c1.4%202.8%204.1%204.8%207.2%205.3l70.4%2010.2c7.9%201.1%2011%2010.8%205.3%2016.4l-50.9%2049.6c-2.3%202.2-3.3%205.4-2.8%208.5l12%2070.1c1.3%207.8-6.9%2013.8-13.9%2010.1l-63-33.1c-2.8-1.5-6.1-1.5-8.9%200l-63%2033.1c-7%203.7-15.3-2.3-13.9-10.1l12-70.1c.5-3.1-.5-6.3-2.8-8.5L261%20233.1c-5.7-5.6-2.6-15.2%205.3-16.4l70.4-10.2c3.1-.5%205.8-2.4%207.2-5.3l31.5-63.8z%22%2F%3E%3C%2Fsvg%3E");
+  --orn-mosque: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20640%20512%22%3E%3Cpath%20d%3D%22M400%200c5%200%209.8%202.4%2012.8%206.4c34.7%2046.3%2078.1%2074.9%20133.5%20111.5l0%200%200%200c5.2%203.4%2010.5%207%2016%2010.6c28.9%2019.2%2045.7%2051.7%2045.7%2086.1c0%2028.6-11.3%2054.5-29.8%2073.4H221.8c-18.4-19-29.8-44.9-29.8-73.4c0-34.4%2016.7-66.9%2045.7-86.1c5.4-3.6%2010.8-7.1%2016-10.6l0%200%200%200C309.1%2081.3%20352.5%2052.7%20387.2%206.4c3-4%207.8-6.4%2012.8-6.4zM288%20512V440c0-13.3-10.7-24-24-24s-24%2010.7-24%2024v72H192c-17.7%200-32-14.3-32-32V352c0-17.7%2014.3-32%2032-32H608c17.7%200%2032%2014.3%2032%2032V480c0%2017.7-14.3%2032-32%2032H560V440c0-13.3-10.7-24-24-24s-24%2010.7-24%2024v72H448V454c0-19-8.4-37-23-49.2L400%20384l-25%2020.8C360.4%20417%20352%20435%20352%20454v58H288zM70.4%205.2c5.7-4.3%2013.5-4.3%2019.2%200l16%2012C139.8%2042.9%20160%2083.2%20160%20126v2H0v-2C0%2083.2%2020.2%2042.9%2054.4%2017.2l16-12zM0%20160H160V296.6c-19.1%2011.1-32%2031.7-32%2055.4V480c0%209.6%202.1%2018.6%205.8%2026.8c-6.6%203.4-14%205.2-21.8%205.2H48c-26.5%200-48-21.5-48-48V176%20160z%22%2F%3E%3C%2Fsvg%3E");
+  --orn-comment: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cpath%20d%3D%22M123.6%20391.3c12.9-9.4%2029.6-11.8%2044.6-6.4c26.5%209.6%2056.2%2015.1%2087.8%2015.1c124.7%200%20208-80.5%20208-160s-83.3-160-208-160S48%20160.5%2048%20240c0%2032%2012.4%2062.8%2035.7%2089.2c8.6%209.7%2012.8%2022.5%2011.8%2035.5c-1.4%2018.1-5.7%2034.7-11.3%2049.4c17-7.9%2031.1-16.7%2039.4-22.7zM21.2%20431.9c1.8-2.7%203.5-5.4%205.1-8.1c10-16.6%2019.5-38.4%2021.4-62.9C17.7%20326.8%200%20285.1%200%20240C0%20125.1%20114.6%2032%20256%2032s256%2093.1%20256%20208s-114.6%20208-256%20208c-37.1%200-72.3-6.4-104.1-17.9c-11.9%208.7-31.3%2020.6-54.3%2030.6c-15.1%206.6-32.3%2012.6-50.1%2016.1c-.8%20.2-1.6%20.3-2.4%20.5c-4.4%20.8-8.7%201.5-13.2%201.9c-.2%200-.5%20.1-.7%20.1c-5.1%20.5-10.2%20.8-15.3%20.8c-6.5%200-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8%203.4-17.4c4.1-4.2%207.8-8.7%2011.3-13.5c1.7-2.3%203.3-4.6%204.8-6.9c.1-.2%20.2-.3%20.3-.5z%22%2F%3E%3C%2Fsvg%3E");
+  --orn-quill: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cpath%20d%3D%22M278.5%20215.6L23%20471c-9.4%209.4-9.4%2024.6%200%2033.9s24.6%209.4%2033.9%200l74.8-74.8c7.4%204.6%2015.3%208.2%2023.8%2010.5C200.3%20452.8%20270%20454.5%20338%20409.4c12.2-8.1%205.8-25.4-8.8-25.4l-16.1%200c-5.1%200-9.2-4.1-9.2-9.2c0-4.1%202.7-7.6%206.5-8.8l97.7-29.3c3.4-1%206.4-3.1%208.4-6.1c4.4-6.4%208.6-12.9%2012.6-19.6c6.2-10.3-1.5-23-13.5-23l-38.6%200c-5.1%200-9.2-4.1-9.2-9.2c0-4.1%202.7-7.6%206.5-8.8l80.9-24.3c4.6-1.4%208.4-4.8%2010.2-9.3C494.5%20163%20507.8%2086.1%20511.9%2036.8c.8-9.9-3-19.6-10-26.6s-16.7-10.8-26.6-10C391.5%207%20228.5%2040.5%20137.4%20131.6C57.3%20211.7%2056.7%20302.3%2071.3%20356.4c2.1%207.9%2012%209.6%2017.8%203.8L253.6%20195.8c6.2-6.2%2016.4-6.2%2022.6%200c5.4%205.4%206.1%2013.6%202.2%2019.8z%22%2F%3E%3C%2Fsvg%3E");
 
   /* Default translation face. A book with no `translation_font` recorded in
      book/citation-style.json gets EB Garamond, so the intended pairing needs no
@@ -393,17 +425,34 @@ p:has(+ blockquote.k-quote),
 p:has(+ blockquote.k-poem) {
   margin-bottom: 0.5rem;
 }
+/* THE ONE CARD WITH A FRAME (Asif, 2026-08-11), which is a deliberate exception
+   to the family rule three rules above — "an outline round a quotation reads as
+   a UI control, a tinted plate reads as a page" — and the exception is his call.
+   It is not a UI outline here because the frame is the bar's own colour a step
+   lighter: the card reads as one object with a header, rather than as a plate
+   with a stripe laid across it. `border-box` so the 2px does not widen the card
+   past the three that have none, and the bar's bleed still lands on the frame. */
 blockquote.k-quran:not(.style-elegant *, .style-scholarly *) {
   background: color-mix(in oklab, var(--q-quran-ink) 4%, transparent);
+  border: 2px solid var(--q-quran-bar-edge);
+  box-sizing: border-box;
+  overflow: hidden;
 }
+/* The other three take a frame too (Asif, 2026-08-11), drawn from the card's own
+   ink rather than from one shared grey — the same rule the plate follows, so a
+   book that changes an ink moves its frame with it. Mixed at 30%, because a
+   full-strength ink outlines the card more strongly than the card's own words. */
 blockquote.k-hadith:not(.style-elegant *, .style-scholarly *) {
   background: color-mix(in oklab, var(--q-hadith-ink) 4%, transparent);
+  border: 2px solid color-mix(in oklab, var(--q-hadith-ink) 30%, transparent);
 }
 blockquote.k-quote:not(.style-elegant *, .style-scholarly *) {
   background: color-mix(in oklab, var(--q-said-ink) 4%, transparent);
+  border: 2px solid color-mix(in oklab, var(--q-said-ink) 30%, transparent);
 }
 blockquote.k-poem:not(.style-elegant *, .style-scholarly *) {
   background: color-mix(in oklab, var(--q-poem-ink) 4%, transparent);
+  border: 2px solid color-mix(in oklab, var(--q-poem-ink) 30%, transparent);
 }
 
 /* The ink of each kind. Set by REDECLARING the token on the element that
@@ -425,8 +474,13 @@ blockquote.k-poem p.ar {
      number: its lines are separate elements in the verse grid, so they carry the
      same leading PLUS the grid's row gap. Raising this therefore never overtakes
      it. */
-  --q-ar-gap: 1.05rem;
-  --q-ar-leading: 2.15;
+  /* Asif, 2026-08-11: "too much space" between the Arabic and its English. Was
+     1.05rem for the gap and 2.15 for the leading, which on a two-line quotation
+     put more air inside the card than the card had round its own words. The
+     Arabic still breathes — 1.85 is well above the body's 1.6 — but the passage
+     now reads as one thought with its rendering beneath it. */
+  --q-ar-gap: 0.5rem;
+  --q-ar-leading: 1.85;
 }
 /* …and only while there IS an English below (Asif, 2026-08-09: "too much space
    around the verse"). The gap's whole job is that drop, so on a card whose Arabic
@@ -491,17 +545,20 @@ blockquote.k-poem p.tr {
 }
 
 /* ── The band ─────────────────────────────────────────────────────────────────
-   KSESSIONS' `golden-surah-header`, ported: a centred label with a rule running
-   out to each side. The Qur'an keeps their 2px gold gradient and carries the
-   chapter and verse the audit recorded — the edition has no Qur'an card without
-   one (Asif, 2026-08-09). The other three take a hairline in their own ink, so
-   the family reads as one decision rather than four.
+   The kind at the LEFT and, when a person recorded one, WHO SAID IT at the
+   right, with a hairline between them (Asif, 2026-08-11 — supersedes the
+   centred `golden-surah-header` port of 2026-08-09 for these three; the Qur'an's
+   header became the bar below on the same day). A speaker is printed only when
+   the book's declaration file carries one, and a card without one simply lets
+   the rule run to the edge — nothing is inferred from the prose, so an absent
+   name stays absent rather than being guessed.
 
    Every mark is OUTLINED, drawn as a stroke and shown through a mask so it takes
    the ink of the card it sits in rather than carrying a colour of its own. */
 .q-band {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.6rem;
   margin: 0 0 1rem;
   font-family: "Inter", system-ui, sans-serif;
@@ -511,6 +568,10 @@ blockquote.k-poem p.tr {
   text-transform: uppercase;
   white-space: nowrap;
 }
+/* A rule to EACH side of the centred label. The kind sat at the left with the
+   speaker opposite it for a few hours on 2026-08-11, between Asif's two
+   instructions; both rules are back, so the header is symmetrical whether or not
+   the quotation names anybody. */
 .q-band::before,
 .q-band::after {
   content: "";
@@ -518,6 +579,21 @@ blockquote.k-poem p.tr {
   height: 1px;
   min-width: 1.2rem;
   background: color-mix(in oklab, currentcolor 26%, transparent);
+}
+/* WHO SAID IT, folded into the header beside the kind rather than set on a line
+   of its own: one centred string, `Saying: Hasan al-Basri`. The name keeps its
+   own case — a person's name in the label's all-caps reads as a headline rather
+   than an attribution — and the colon is drawn by the KIND so the flex gap falls
+   after it rather than before it. */
+.q-by {
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  font-style: italic;
+  opacity: 0.9;
+}
+.q-band:has(.q-by) .q-kind::after {
+  content: ":";
 }
 .q-orn {
   display: inline-block;
@@ -527,27 +603,56 @@ blockquote.k-poem p.tr {
   -webkit-mask: var(--q-orn-src) center / contain no-repeat;
   mask: var(--q-orn-src) center / contain no-repeat;
 }
+
+/* ── The Qur'an's bar ─────────────────────────────────────────────────────────
+   Asif, 2026-08-11, after myislam.org's own ayah card: the chapter and verse the
+   audit resolved are set in the middle of a filled brown plate, in place of the
+   gold-ruled header that carried them until that day. It HEADS the card (his
+   call on seeing it set at the foot) — which is also where the markup already
+   puts it, so nothing has to be reordered and the change reaches every book
+   already published rather than only the ones composed after it.
+
+   THE INK IS DARK ON THE BROWN, not cream. `#fffbf4` on `#b18853` is about
+   2.9:1 and this is 0.72rem uppercase — small text, so it would fail AA on the
+   one element of the card that names its source. `#3a2712` on the same brown is
+   about 6.4:1 and keeps the colour sampled from the reference.
+
+   The negative margins bleed the plate out to the card's padding edge — which
+   works because `.q-band` is itself a flex container and therefore block-level;
+   vertical margins on a bare inline span would do nothing. The top radius
+   matches the card's own 10px so the two corners agree. */
 .q-band--quran {
-  color: var(--q-quran-ink);
+  justify-content: center;
+  margin: -1.35rem -1.6rem 1.15rem;
+  padding: 0.5rem 1.6rem;
+  /* 8px, not the card's 10px: the frame below is 2px thick and the bar sits
+     inside it, so an inner corner has to be that much tighter or the brown
+     shows through the arc as two horns. */
+  border-radius: 8px 8px 0 0;
+  background: var(--q-quran-bar);
+  color: var(--q-quran-bar-ink);
   font-weight: 600;
-  --q-orn-src: var(--orn-hizb);
+  --q-orn-src: var(--orn-crescent);
 }
+/* No rule inside the bar: the plate is the separation, and a hairline across a
+   filled band reads as a mistake. */
+/* No rules inside the bar — the filled plate is the separation, and a hairline
+   across it reads as a mistake. */
 .q-band--quran::before,
 .q-band--quran::after {
-  height: 2px;
-  background: var(--q-gold-line);
+  content: none;
 }
 .q-band--hadith {
   color: var(--q-hadith-ink);
-  --q-orn-src: var(--orn-diamond);
+  --q-orn-src: var(--orn-mosque);
 }
 .q-band--quote {
   color: var(--q-said-ink);
-  --q-orn-src: var(--orn-circle);
+  --q-orn-src: var(--orn-comment);
 }
 .q-band--poem {
   color: var(--q-poem-ink);
-  --q-orn-src: var(--orn-petal);
+  --q-orn-src: var(--orn-quill);
 }
 
 /* ── The verse grid ───────────────────────────────────────────────────────────
@@ -585,8 +690,12 @@ blockquote.k-poem {
   grid-template-columns: 1fr 1fr;
   direction: rtl;
   column-gap: 2.25rem;
-  row-gap: 0.15rem;
-  margin: 0 0 0.9rem;
+  /* Asif, 2026-08-11: too much air in the verse card. A bayt's lines carry the
+     Arabic leading already, so the row gap is the SECOND space between them and
+     it was doubling the drop; the margin closes the grid up to the English by
+     the same amount every other card closed up. */
+  row-gap: 0.1rem;
+  margin: 0 0 0.5rem;
 }
 .q-verse p.ar {
   margin: 0;

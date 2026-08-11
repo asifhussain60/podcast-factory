@@ -1,0 +1,42 @@
+{
+  "_comment": [
+    "Shrink-only ratchets for the Podcast Factory Astro Site. Numbers here are a",
+    "RECORD of today's debt, not a target: each may fall and none may rise.",
+    "Enforced by scripts/check-frontend-ratchets.mjs (npm run ratchets), wired into CI.",
+    "After genuinely improving a number: npm run ratchets:update, which refuses to",
+    "record a regression.",
+    "",
+    "lintWarnings is per RULE, not one total, so a new `any` cannot hide behind",
+    "someone else's fixed hook warning and still read as progress.",
+    "",
+    "fileSize: every file is governed by exactly ONE rule. A file at or under the",
+    "ceiling is governed by the ceiling; a file above it is governed by its own",
+    "recorded pin, which it may fall below and may never exceed. So the grandfathered",
+    "list holds only genuine outliers and shrinks as they are split.",
+    "1000 chosen by Asif 2026-08-11 over the 800 the audit proposed. Context: across",
+    "324 non-test source files the median is 123 lines and p95 is 709, so either",
+    "number leaves the great majority clear; 1000 grandfathers 8 files where 800",
+    "would have grandfathered 12, and gives a legitimately large page more room",
+    "before it has to argue with the gate."
+  ],
+  "lintWarnings": {
+    "@typescript-eslint/no-explicit-any": 43,
+    "react-hooks/exhaustive-deps": 22,
+    "react-hooks/refs": 11,
+    "react-hooks/set-state-in-effect": 17
+  },
+  "fileSize": {
+    "ceiling": 1000,
+    "enforced": true,
+    "grandfathered": {
+      "scripts/lib/book-html.mjs": 1316,
+      "src/components/DbArchitecture.tsx": 1566,
+      "src/components/NarrativeScroll.tsx": 3229,
+      "src/components/studio/editor/StudioEditor.tsx": 2315,
+      "src/pages/intelligence.astro": 1271,
+      "src/pages/pipeline-paths.astro": 2684,
+      "src/pages/studio/[slug]/compose.astro": 1045,
+      "src/scripts/book-composer.ts": 4367
+    }
+  }
+}

@@ -252,3 +252,4 @@
 {"phase": "0book-slide-import", "step": "slide-manifest/prophets-as-symbols-and-the-first-caliphs/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-slide-import", "step": "slide-manifest/the-virtues-of-ali-the-imam-who-mirrors-god/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "romanization", "step": "render", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}

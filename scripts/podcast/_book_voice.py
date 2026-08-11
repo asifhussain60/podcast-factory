@@ -57,7 +57,7 @@ from _book_articulation_notes import EMPTY_NOTES, extract_articulation_notes, le
 from _book_compose import _arabic_run_count
 from _book_edits import anchor_key, edited_chapter_keys
 from _book_fences import span_re
-from _book_pass_reports import KEPT_STATUSES, STATUS_OVERWRITTEN, load_prior_records, merge_records
+from _book_pass_reports import load_prior_records, merge_records, restamp_counts
 from _book_voice_prompts import _articulation_prompt, _voice_prompt
 from _content_profile import source_language as _source_language
 from _doctrinal import run_doctrinal_checks
@@ -509,25 +509,21 @@ def apply_fluency_adapt(
     book_md.write_text(new_text, encoding="utf-8")
     report_path = book_dir / "_system" / "book-fluency-report.json"
     records = merge_records(load_prior_records(report_path), records, edited_keys=edited_chapter_keys(book_dir))
-    adapted = sum(1 for r in records if r["status"] in KEPT_STATUSES)
-    reverted = sum(1 for r in records if r["status"] == "reverted")
-    overwritten = sum(1 for r in records if r["status"] == STATUS_OVERWRITTEN)
-    report_path.write_text(
-        json.dumps(
-            {
-                "schema": "podcast.book-fluency/v5",
-                "narrative_frame": frame,
-                "adapted": adapted,
-                "reverted": reverted,
-                "overwritten_by_replay": overwritten,
-                "chapters": records,
-            },
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-    log(f"    0book-fluency: {adapted} chapters de-calqued, {reverted} reverted to base")
+    # Counted by the SAME function the re-stamp paths use, so the pass and every
+    # later correction can never disagree about what a counter means. Keys are
+    # pre-declared to fix their order in the JSON — restamp_counts assigns into
+    # them, so routing through it does not churn the diff of every book's report.
+    report = {
+        "schema": "",
+        "narrative_frame": frame,
+        "adapted": 0,
+        "reverted": 0,
+        "overwritten_by_replay": 0,
+        "chapters": records,
+    }
+    restamp_counts(report, records, schema="podcast.book-fluency/v5", count_key="adapted")
+    report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    log(f"    0book-fluency: {report['adapted']} chapters de-calqued, {report['reverted']} reverted to base")
     return book_md
 
 
@@ -575,23 +571,16 @@ def apply_author_companion_voice(
     book_md.write_text(new_text, encoding="utf-8")
     report_path = book_dir / "_system" / "book-voice-report.json"
     records = merge_records(load_prior_records(report_path), records, edited_keys=edited_chapter_keys(book_dir))
-    revoiced = sum(1 for r in records if r["status"] in KEPT_STATUSES)
-    reverted = sum(1 for r in records if r["status"] == "reverted")
-    overwritten = sum(1 for r in records if r["status"] == STATUS_OVERWRITTEN)
-    report_path.write_text(
-        json.dumps(
-            {
-                "schema": "podcast.book-voice/v5",
-                "narrative_frame": frame,
-                "revoiced": revoiced,
-                "reverted": reverted,
-                "overwritten_by_replay": overwritten,
-                "chapters": records,
-            },
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-    log(f"    0book-voice: {revoiced} chapters re-voiced, {reverted} reverted to base")
+    # Same single counter as the fluency report above — see restamp_counts().
+    report = {
+        "schema": "",
+        "narrative_frame": frame,
+        "revoiced": 0,
+        "reverted": 0,
+        "overwritten_by_replay": 0,
+        "chapters": records,
+    }
+    restamp_counts(report, records, schema="podcast.book-voice/v5", count_key="revoiced")
+    report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    log(f"    0book-voice: {report['revoiced']} chapters re-voiced, {report['reverted']} reverted to base")
     return book_md

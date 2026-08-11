@@ -230,8 +230,15 @@ def apply_to_framing(
     entry is how *imamate* reached the audio with no guidance at all and came
     back garbled in 33 of 34 utterances. If the framing is over the ceiling the
     build's own character gate says so, and the fix is to compress the prose.
-    ``char_max`` is accepted so callers can pass their ceiling and is used only
-    to report the overflow, never to act on it.
+    ``char_max`` is accepted so a caller can pass its ceiling without a
+    conditional at the call site, and is DELIBERATELY never read: this function
+    has no length behaviour at all. The docstring claimed until 2026-08-11 that
+    it was "used only to report the overflow", which was never true — nothing
+    here reports anything — and a parameter documented to do something it does
+    not is worse than one documented to do nothing, because the next reader
+    goes looking for the report. The overflow is the build's own character gate
+    to raise; the two tests named for this behaviour pin that passing a ceiling
+    of 10, or of 1, changes the output not at all.
 
     The framing is returned unchanged — no exception, no partial edit — when
     there is no book dir, no chapter, no `## Pronunciation` section, or nothing

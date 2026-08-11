@@ -22,19 +22,13 @@
  * on a page that also hosts the book's prose.
  */
 
+import { escapeHtml } from "../../html-escape";
+
 const ARABIC_RUN = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿][؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿\sً-ْ]*/g;
 
 export interface CardMarkdownOptions {
   /** Wrap Arabic runs in `<span class="xpl-ar">`. Off for the editor seed. */
   arabicSpans?: boolean;
-}
-
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 }
 
 /** Escape, then wrap Arabic runs. Order matters: the wrapper emits real tags. */

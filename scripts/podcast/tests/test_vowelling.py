@@ -26,6 +26,7 @@ from _vowelling import (  # noqa: E402
     reflow_words_to_source_whitespace,
     rejection_reason,
     skeleton,
+    transfer_marks,
 )
 
 FIXTURES = Path(__file__).resolve().parents[3] / "plan-dashboard" / "scripts" / "lib" / "vowelling.fixtures.json"
@@ -61,6 +62,35 @@ def test_reflow_matches_shared_fixtures(fx: dict) -> None:
     for case in fx["reflow"]:
         got = reflow_to_source_whitespace(case["source"], case["candidate"])
         assert got == case["out"], case.get("_why", case["source"])
+
+
+def test_transfer_marks_matches_shared_fixtures(fx: dict) -> None:
+    """The recovery, on the refusals that actually happened.
+
+    Each case is a real entry from a book's recorded refusals, when a refusal was
+    terminal and the passage stayed bare. A `None` is as load-bearing as a string:
+    it is the gate still refusing where it must.
+    """
+    for case in fx["transfer"]:
+        got = transfer_marks(case["source"], case["candidate"])
+        assert got == case["out"], case.get("_why", case["source"])
+
+
+def test_a_transferred_vowelling_always_passes_the_gate(fx: dict) -> None:
+    """The guarantee is structural, not a second check that could disagree.
+
+    Whatever comes back carries the SOURCE's letters, so its skeleton is
+    source-identical by construction — `rejection_reason` can only refuse it for
+    adding no marks, which a real vowelling never does.
+    """
+    from _vowelling import rejection_reason, skeleton
+
+    for case in fx["transfer"]:
+        got = transfer_marks(case["source"], case["candidate"])
+        if got is None:
+            continue
+        assert skeleton(got) == skeleton(case["source"])
+        assert rejection_reason(case["source"], got) is None
 
 
 def test_reflow_words_matches_shared_fixtures(fx: dict) -> None:

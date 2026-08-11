@@ -164,7 +164,13 @@ export function isAdminEmail(env: Env, sessionEmail: string | null | undefined):
   return actual === configured;
 }
 
-/** Normalized admin address, for seeding an invite row on first boot. */
-export function adminEmail(env: Env): string {
-  return normalizeEmail(env.ADMIN_EMAIL);
-}
+// `adminEmail(env)` lived here until 2026-08-11, documented as "for seeding an
+// invite row on first boot". Nothing called it: the admin's invite is seeded by
+// migrations/0001, and `test/config.test.ts` pins that the wrangler var, the
+// seeded row and the 0002 triggers all name the SAME normalized address. It was
+// the last survivor of a TypeScript seeding path the migration replaced, and the
+// live check above (`isAdmin`, which fails closed) is the only resolver.
+//
+// Removed rather than left: it normalized with `normalizeEmail` where `isAdmin`
+// uses `tryNormalizeEmail`, so a second, throwing answer to "who is the admin"
+// sat one import away from anyone looking for one.

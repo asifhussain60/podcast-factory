@@ -1,9 +1,17 @@
 {
-  "_note": "Which card a quotation takes, when the mushaf cannot answer. Keyed by the quotation's own first line, verbatim — the same key the pipeline writes. The poem line is ayyuhal-walad's, hemistichs and all.",
+  "_note": "Which card a quotation takes, when the mushaf cannot answer. Keyed by the quotation's own first line, verbatim — the same key the pipeline writes. The poem line is ayyuhal-walad's, hemistichs and all. BOTH DECLARATION FORMS are here on purpose: the bare word is schema v1 and every book on disk still uses it, and the object adds the speaker the card prints at the right of its header. A renderer that understood only one of them would fail here rather than in a book.",
   "chapters": {
     "a fixture chapter": {
       "قَالَ النَّبِيُّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ": "hadith",
-      "لَقَدْ هَتَفَتْ فِي جُنْحِ لَيْلٍ حَمَامَةٌ * على فننٍ وهناً، وإنّي لنائم": "poem"
+      "لَقَدْ هَتَفَتْ فِي جُنْحِ لَيْلٍ حَمَامَةٌ * على فننٍ وهناً، وإنّي لنائم": "poem",
+      "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ": {
+        "kind": "quote",
+        "by": "Imam Ali"
+      },
+      "لَا يُؤْمِنُ أَحَدُكُمْ حَتَّىٰ يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ": {
+        "kind": "hadith",
+        "by": "The Prophet"
+      }
     }
   }
 }

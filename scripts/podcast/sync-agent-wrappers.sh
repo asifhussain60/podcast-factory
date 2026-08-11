@@ -70,6 +70,12 @@ for canonical in "${CANONICAL_DIR}"/*.md; do
   [[ "$name" == "_README" ]] && continue
   wrapper="${WRAPPER_DIR}/${name}.agent.md"
 
+  # `elif`, NOT an early `continue`. Until 2026-08-11 a missing wrapper skipped the
+  # rest of the iteration, so the activation copy below was never written on the run
+  # that CREATED the wrapper — a brand-new agent got its .github mirror and no runtime
+  # copy, and stayed uninvokable by Claude Code until someone happened to run sync a
+  # second time. The two mirrors are independent destinations; neither one's state
+  # should decide whether the other is written.
   if [[ ! -f "$wrapper" ]]; then
     if [[ "$mode" == "check" ]]; then
       echo "MISSING: ${wrapper#${REPO_ROOT}/}" >&2
@@ -79,10 +85,7 @@ for canonical in "${CANONICAL_DIR}"/*.md; do
       echo "created  ${wrapper#${REPO_ROOT}/}"
       created_count=$((created_count + 1))
     fi
-    continue
-  fi
-
-  if ! cmp -s "$canonical" "$wrapper"; then
+  elif ! cmp -s "$canonical" "$wrapper"; then
     if [[ "$mode" == "check" ]]; then
       echo "DRIFT:   ${wrapper#${REPO_ROOT}/}" >&2
       drift_count=$((drift_count + 1))
@@ -97,13 +100,28 @@ for canonical in "${CANONICAL_DIR}"/*.md; do
   # Agent(subagent_type=...). Without this sync, edits to the canonical
   # /infra/claude-agents/ copy never reach the runtime — silently using the
   # stale activation file.
+  #
+  # SKIPPED IN CHECK MODE WHEN THE DIRECTORY IS ABSENT, which is the same guard
+  # the reverse sweep below already applies. `.claude/` is gitignored, so this
+  # copy cannot exist on a fresh clone and never exists on a CI runner — and a
+  # runner has no Claude Code runtime for a stale copy to mislead. Without the
+  # guard, check mode reported all 22 specs as drifted on every CI run from the
+  # day the gate was wired (2026-08-05), so the pipeline job was unconditionally
+  # red: a gate that always fails carries exactly as much signal as one that
+  # always passes, and this one masked a real listener typecheck break for a day.
+  # Sync mode still creates the directory; only the check stays silent.
+  # The mkdir moved out of check mode with it — a check that writes to the tree
+  # it is auditing was also why re-running it never cleared the drift.
   activation="${ACTIVATION_DIR}/${name}.md"
-  mkdir -p "${ACTIVATION_DIR}"
-  if [[ ! -f "$activation" ]] || ! cmp -s "$canonical" "$activation"; then
-    if [[ "$mode" == "check" ]]; then
+  if [[ "$mode" == "check" ]]; then
+    [[ -d "$ACTIVATION_DIR" ]] || continue
+    if [[ ! -f "$activation" ]] || ! cmp -s "$canonical" "$activation"; then
       echo "DRIFT:   ${activation#${REPO_ROOT}/} (activation copy)" >&2
       drift_count=$((drift_count + 1))
-    else
+    fi
+  else
+    mkdir -p "${ACTIVATION_DIR}"
+    if [[ ! -f "$activation" ]] || ! cmp -s "$canonical" "$activation"; then
       cp "$canonical" "$activation"
       echo "synced   ${activation#${REPO_ROOT}/}"
     fi

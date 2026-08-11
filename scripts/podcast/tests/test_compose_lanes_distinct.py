@@ -78,6 +78,30 @@ def _podcasted_books() -> list[Path]:
     return found
 
 
+#: Long enough that a shared occurrence cannot be coincidence between two
+#: independent translations of one source.
+_COPY_SENTENCE_CHARS = 120
+
+
+def _long_sentences(text: str) -> list[str]:
+    flat = re.sub(r"\s+", " ", text)
+    return [s.strip() for s in re.split(r"(?<=[.!?])\s+", flat) if len(s.strip()) >= _COPY_SENTENCE_CHARS]
+
+
+def _reading_edition_sentences(book: Path) -> set[str]:
+    return set(_long_sentences((book / "book" / "book.md").read_text(encoding="utf-8")))
+
+
+def _shared_with_reading_edition(txt: Path, book_sentences: set[str]) -> int:
+    """How many of this chapter source's long sentences are verbatim in book.md.
+
+    The module's one measurement of "this lane was overwritten by the other",
+    shared by both tests that ask the question so they cannot disagree about
+    what counts as a copy.
+    """
+    return sum(1 for s in _long_sentences(txt.read_text(encoding="utf-8")) if s in book_sentences)
+
+
 BOOKS = _podcasted_books()
 IDS = [f"{b.parent.name}/{b.name}" for b in BOOKS]
 
@@ -106,14 +130,37 @@ def test_podcast_chapters_keep_their_narration_framing(book: Path) -> None:
     # NOT asserted universally. An earlier pipeline generation authored chapters
     # with no narration framing at all (see the sibling citation test), so a book
     # with none is a legacy shape, not a defect — and a gate that reds for a
-    # non-defect is a gate that stops being believed. What IS a defect is a book
-    # that had the framing and lost it in SOME chapters, which is the shape "book
-    # prose copied over a chapter source" leaves behind.
+    # non-defect is a gate that stops being believed.
     if not framed:
         pytest.skip("this book's chapter sources predate narration framing")
-    assert not missing, (
-        f"{len(missing)} of {len(chapters)} chapter sources lost their narration "
-        f"framing while {len(framed)} kept it (book prose copied over them?): {missing}"
+
+    # Absence of framing is NOT the defect — being overwritten is, and framing
+    # loss was only ever a proxy for it. The proxy was wrong: kitab-al-riyad
+    # carries 12 framed chapter sources and 3 deliberately unframed ones, and its
+    # own series plan says why — ch04 is a chapter-group summary, ch15 a book-end
+    # summary, and ch13 the second segment of a split source chapter, which opens
+    # with a "where this chapter picks up" bridge instead. None is a chapter of
+    # the source in the ordinary sense, none ever had framing (single commit each,
+    # unframed from the day they were authored), and none shares a single long
+    # sentence with the reading edition. The test was red for that book while the
+    # thing it protects was perfectly intact.
+    #
+    # So the assertion is now the invariant itself, measured directly and shared
+    # with the sibling copy test: an unframed chapter source is a defect only when
+    # it is ALSO reading-edition prose — which is exactly what "book prose copied
+    # over a chapter source" leaves behind, and the only way framing gets deleted.
+    if not missing:
+        return
+    book_sentences = _reading_edition_sentences(book)
+    overwritten = {
+        name: shared
+        for name in missing
+        if (shared := _shared_with_reading_edition(book / "chapters" / name, book_sentences)) > 3
+    }
+    assert not overwritten, (
+        f"{len(overwritten)} chapter source(s) have no narration framing AND read as "
+        f"reading-edition prose — the lane was overwritten, which is what deletes the "
+        f"framing: {overwritten} (shared long sentences with book.md, per file)"
     )
 
 
@@ -188,20 +235,13 @@ def test_podcast_lane_prose_is_not_a_copy_of_the_reading_edition(book: Path) -> 
     Compared as long shared runs rather than word overlap: two translations of
     one source share vocabulary everywhere, but a COPY shares whole sentences.
     """
-    book_md = (book / "book" / "book.md").read_text(encoding="utf-8")
-    book_sentences = {
-        s.strip()
-        for s in re.split(r"(?<=[.!?])\s+", re.sub(r"\s+", " ", book_md))
-        if len(s.strip()) >= 120  # long enough that a match cannot be chance
-    }
+    book_sentences = _reading_edition_sentences(book)
     assert book_sentences, "the reading edition has no long sentences to compare"
 
     duplicated: list[str] = []
     for txt in sorted((book / "chapters").glob("*.txt")):
-        flat = re.sub(r"\s+", " ", txt.read_text("utf-8"))
-        for s in re.split(r"(?<=[.!?])\s+", flat):
-            s = s.strip()
-            if len(s) >= 120 and s in book_sentences:
+        for s in _long_sentences(txt.read_text(encoding="utf-8")):
+            if s in book_sentences:
                 duplicated.append(f"{txt.name}: {s[:80]}…")
 
     # A handful of shared long sentences is possible where both lanes quote the

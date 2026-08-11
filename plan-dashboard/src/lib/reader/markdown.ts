@@ -20,6 +20,15 @@
 import { FENCE_KINDS } from "./book-fences";
 import { sectionKeyFromHeading } from "./companion/keys";
 import { simplifyTransliteration } from "../translit";
+import { escapeHtml } from "../html-escape";
+
+/** One quotation's declaration, as `readQuoteKind` normalises it: which card it
+ *  is drawn in, and — when a person typed one beside it — whose words they are.
+ *  `by` is never inferred from the prose (scripts/lib/quote-kind.mjs). */
+export interface QuoteDeclaration {
+  kind: "hadith" | "poem" | "quote";
+  by?: string;
+}
 
 /** A pipeline fence marker line. Built from the contract in book-fences.ts —
  *  imported, not copied, because this module is TypeScript in the same directory
@@ -85,7 +94,7 @@ export interface RenderOptions {
    *  a person knows which — so the map is written by hand, never inferred.
    *  Mirrors the `quoteKinds` option of renderMd (scripts/lib/book-html.mjs).
    *  Omitted means every quotation takes the default card, exactly as before. */
-  quoteKinds?: Record<string, "hadith" | "poem" | "quote">;
+  quoteKinds?: Record<string, QuoteDeclaration>;
   /** Each mushaf-resolved run's printable citation, by the run's exact text. The
    *  Qur'an card is headed by its chapter and verse and has no state without one.
    *  Formatted in Python where the surah names already live. */
@@ -111,7 +120,14 @@ export interface RenderOptions {
 /** The key one quotation is stored under: its first non-empty line, trimmed.
  *  Mirrors `quoteKindKey` in scripts/lib/quote-kind.mjs — a plain string rather
  *  than a hash, so the two renderers cannot drift on it. */
-const QUOTE_BAND_LABEL: Record<string, string> = {
+/** What each kind is called on its header. A COPY of `QUOTE_KIND_LABEL` in
+ *  scripts/lib/quote-kind.mjs, which is its home, and copied rather than
+ *  imported for a reason that is not laziness: that module reads the filesystem,
+ *  and this one is bundled into the browser by the Studio editor's client
+ *  scripts (arabic-decos.ts, compose-lane.ts). Importing it would put `node:fs`
+ *  in a browser bundle. The golden fixture in listener/test pins the rendered
+ *  words, so a divergence between the two fails a test rather than shipping. */
+const QUOTE_KIND_LABEL: Record<string, string> = {
   hadith: "Prophetic tradition",
   poem: "Verse",
   quote: "Saying",
@@ -119,18 +135,27 @@ const QUOTE_BAND_LABEL: Record<string, string> = {
 
 /** The card's header strip. Mirrors `band` in scripts/lib/book-html.mjs. Only the
  *  Qur'an card names itself from the text; the other three take a fixed word,
- *  because "which hadith" is a question the audit cannot answer. */
+ *  because "which hadith" is a question the audit cannot answer.
+ *
+ *  WHO SAID IT sits beside the kind in that centred header when a person
+ *  recorded it, and only then — an attribution nobody wrote is a claim nobody
+ *  made. TWO KINDS never name one: scripture's header carries the surah and
+ *  verse the audit resolved, and a prophetic tradition is already the claim
+ *  that the Prophet said it (Asif, 2026-08-11). */
 function quoteBand(kind: string, lines: string[], opts: RenderOptions): string {
   if (kind === "" || opts.quoteBands === false) return "";
-  let label = QUOTE_BAND_LABEL[kind] ?? "";
+  let label = QUOTE_KIND_LABEL[kind] ?? "";
   if (kind === "quran") {
     const line = lines.find((x) => isArabicQuoteLine(x));
     label = (line && opts.quranicRefs?.[line.trim()]) || "";
   }
+  const anon = kind === "quran" || kind === "hadith";
+  const by = anon ? "" : opts.quoteKinds?.[quoteKindKey(lines)]?.by;
   return (
     `<span class="q-band q-band--${kind}">` +
     '<span class="q-orn" aria-hidden="true"></span>' +
-    (label ? `<span>${escapeHtml(label)}</span>` : "") +
+    (label ? `<span class="q-kind">${escapeHtml(label)}</span>` : "") +
+    (by ? `<span class="q-by" dir="auto">${escapeHtml(by)}</span>` : "") +
     "</span>"
   );
 }
@@ -262,18 +287,6 @@ const SOURCE_PROFILE: RenderOptions = {
   imageBlocks: true,
   simplifyTranslit: false,
 };
-
-function escapeHtml(s: string): string {
-  // Don't escape apostrophes — they're safe in HTML text content and inside
-  // double-quoted attributes. Escaping them as &#39; breaks downstream
-  // pattern matching (e.g. "Abu Ya'qub" → "Abu Ya&#39;qub" which the Arabic
-  // detector can't see through). Only escape what's actually unsafe.
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
 
 /** ⟪…⟫ marker pass: escape text OUTSIDE markers, emit marker tags directly. */
 function renderAngleMarkers(text: string): string {
@@ -544,7 +557,7 @@ export function renderMarkdown(
         ? ""
         : scripture
           ? "quran"
-          : (opts.quoteKinds?.[quoteKindKey(quoteBuffer)] ??
+          : (opts.quoteKinds?.[quoteKindKey(quoteBuffer)]?.kind ??
             (hasArabicLine ? "quote" : ""));
       // The kind is decided BEFORE the markup because verse is SET differently,
       // not merely coloured differently: a poem's lines are grid cells, and every
@@ -580,7 +593,7 @@ export function renderMarkdown(
       // nothing, exactly as before.
       const declared = asideCls
         ? undefined
-        : opts.quoteKinds?.[quoteKindKey(quoteBuffer)];
+        : opts.quoteKinds?.[quoteKindKey(quoteBuffer)]?.kind;
       const cls = `${declared ? `k-${declared}` : ""}${asideCls}`.trim();
       out.push(
         `<blockquote${cls ? ` class="${cls}"` : ""}>${quoteBand(declared ?? "", quoteBuffer, opts)}${inner}</blockquote>`,
@@ -868,7 +881,7 @@ export function renderSourceMarkdown(input: string): string {
 export function renderEditSeed(
   input: string,
   quranicRuns?: Set<string> | null,
-  quoteKinds?: Record<string, "hadith" | "poem" | "quote"> | null,
+  quoteKinds?: Record<string, QuoteDeclaration> | null,
 ): string {
   // keepMachineFences: the editor MUST receive the fence marker lines. TipTap
   // has no comment node, so they arrive as bare text, which is exactly what
