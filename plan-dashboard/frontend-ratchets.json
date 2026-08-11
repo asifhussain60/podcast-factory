@@ -9,14 +9,15 @@
     "lintWarnings is per RULE, not one total, so a new `any` cannot hide behind",
     "someone else's fixed hook warning and still read as progress.",
     "",
-    "fileSize.enforced is false until the ceiling is confirmed by the repo owner:",
-    ".repo-audit/profile.yaml records that the right number for JSX is deliberately",
-    "his call, not the audit's. The grandfathered list is live either way, so files",
-    "that are already large cannot grow while the ceiling is being decided.",
-    "800 is proposed: across 324 non-test source files the median is 123 lines and",
-    "p95 is 709, so 800 leaves 95% of the site comfortably clear and catches only",
-    "the genuine outliers. 12 files sit above it today and burn down as the",
-    "decomposition phase proceeds."
+    "fileSize: every file is governed by exactly ONE rule. A file at or under the",
+    "ceiling is governed by the ceiling; a file above it is governed by its own",
+    "recorded pin, which it may fall below and may never exceed. So the grandfathered",
+    "list holds only genuine outliers and shrinks as they are split.",
+    "1000 chosen by Asif 2026-08-11 over the 800 the audit proposed. Context: across",
+    "324 non-test source files the median is 123 lines and p95 is 709, so either",
+    "number leaves the great majority clear; 1000 grandfathers 8 files where 800",
+    "would have grandfathered 12, and gives a legitimately large page more room",
+    "before it has to argue with the gate."
   ],
   "lintWarnings": {
     "@typescript-eslint/no-explicit-any": 43,
@@ -25,17 +26,13 @@
     "react-hooks/set-state-in-effect": 17
   },
   "fileSize": {
-    "ceiling": 800,
-    "enforced": false,
+    "ceiling": 1000,
+    "enforced": true,
     "grandfathered": {
       "scripts/lib/book-html.mjs": 1316,
-      "scripts/site-health-smoke.mjs": 834,
-      "src/components/corpus/CorpusExplorer.tsx": 803,
       "src/components/DbArchitecture.tsx": 1566,
       "src/components/NarrativeScroll.tsx": 3229,
-      "src/components/reader/companion/GemCompanionPanel.tsx": 994,
       "src/components/studio/editor/StudioEditor.tsx": 2315,
-      "src/lib/reader/markdown.ts": 918,
       "src/pages/intelligence.astro": 1271,
       "src/pages/pipeline-paths.astro": 2684,
       "src/pages/studio/[slug]/compose.astro": 1045,

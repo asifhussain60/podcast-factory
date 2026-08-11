@@ -20,6 +20,7 @@
 import { FENCE_KINDS } from "./book-fences";
 import { sectionKeyFromHeading } from "./companion/keys";
 import { simplifyTransliteration } from "../translit";
+import { escapeHtml } from "../html-escape";
 
 /** A pipeline fence marker line. Built from the contract in book-fences.ts —
  *  imported, not copied, because this module is TypeScript in the same directory
@@ -262,18 +263,6 @@ const SOURCE_PROFILE: RenderOptions = {
   imageBlocks: true,
   simplifyTranslit: false,
 };
-
-function escapeHtml(s: string): string {
-  // Don't escape apostrophes — they're safe in HTML text content and inside
-  // double-quoted attributes. Escaping them as &#39; breaks downstream
-  // pattern matching (e.g. "Abu Ya'qub" → "Abu Ya&#39;qub" which the Arabic
-  // detector can't see through). Only escape what's actually unsafe.
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
 
 /** ⟪…⟫ marker pass: escape text OUTSIDE markers, emit marker tags directly. */
 function renderAngleMarkers(text: string): string {

@@ -96,17 +96,19 @@ size_gates:
       over-limit are grandfathered and two have already shrunk against their ceiling,
       which is the ratchet working. Do not "fix" this and do not add entries.
   - glob: "plan-dashboard/{src,scripts,packages}/**/*.{ts,tsx,astro,mjs}"
-    limit: 800 # PROPOSED, not yet enforced — see `enforced: false` in the baseline
+    limit: 1000 # ENFORCED. Chosen by Asif 2026-08-11 over the 800 the audit proposed.
     ratchet: plan-dashboard/frontend-ratchets.json
     note: >-
-      Added 2026-08-11, and only half live. The GRANDFATHERED list binds now: the 12
-      files already over 800 lines may shrink and may never grow. The ceiling for NEW
-      files does NOT bind yet, because the number is still the owner's call — this
-      entry previously recorded that gap as deliberate and it remains so; what changed
-      is that the mechanism now exists and the existing outliers are pinned. Basis for
-      800: across 324 non-test source files the median is 123 lines and p95 is 709.
-      Flip `fileSize.enforced` to true in the baseline to make it bind.
-      The same file carries a per-RULE eslint WARNING budget, which DOES bind: warnings
+      Added 2026-08-11, closing the gap this entry used to record as deliberate ("the
+      TS/Astro side has NO size gate ... the number is the owner's call"). It was, and
+      he made it: 1000, over the 800 proposed, which grandfathers 8 files instead of 12
+      and leaves a legitimately large page more room. Context either way: across 324
+      non-test source files the median is 123 lines and p95 is 709.
+      Every file is governed by exactly ONE rule — at or under the ceiling, the ceiling
+      governs; above it, its own recorded pin does, which it may fall below and never
+      exceed. Scope is TRACKED files, so an unstaged scratch file is invisible; that
+      matches where this runs (CI and pre-commit) and is documented in the script.
+      The same file carries a per-RULE eslint WARNING budget, which also binds: warnings
       are advisory in eslint by design, which is how 93 accumulated where no gate had
       to look at them. Per rule rather than one total, so a new `any` cannot hide
       behind someone else's fixed hook warning.

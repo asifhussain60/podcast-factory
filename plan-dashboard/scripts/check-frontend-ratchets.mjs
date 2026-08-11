@@ -76,7 +76,16 @@ function lintCounts() {
   return counts;
 }
 
-/** Line counts for every tracked, sized source file. */
+/**
+ * Line counts for every TRACKED, sized source file.
+ *
+ * Tracked, which means `git ls-files` — so a brand-new file is invisible here
+ * until it is staged. That is the right scope for the two places this actually
+ * runs (CI, where everything is committed, and a pre-commit hook, where the
+ * work is staged by definition) and it keeps a scratch file in the working tree
+ * from failing someone's gate. Worth knowing before testing it by hand: an
+ * unstaged probe file passes, and that is not the gate being broken.
+ */
 function fileSizes() {
   const tracked = execFileSync("git", ["ls-files", ...LINT_TARGETS], {
     cwd: SITE_DIR,
