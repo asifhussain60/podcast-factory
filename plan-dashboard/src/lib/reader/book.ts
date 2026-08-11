@@ -10,7 +10,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { findContent } from "../content-paths";
-import { renderMarkdown } from "./markdown";
+import { renderMarkdown, type QuoteDeclaration } from "./markdown";
 // The TOC id IS the key Companion notes are filed under — one rule, one module,
 // so a note can never be written under a key this reader does not look up.
 import { sectionKeyFromHeading } from "./companion/keys";
@@ -86,7 +86,7 @@ export async function loadBook(slug: string): Promise<BookView | null> {
       quranicRuns: readQuranicRuns(ref.dir) as Set<string>,
       quoteKinds: flattenQuoteKind(readQuoteKind(ref.dir)) as Record<
         string,
-        "hadith" | "poem" | "quote"
+        QuoteDeclaration
       >,
       quranicRefs: readQuranicRefs(ref.dir) as Record<string, string>,
     }),

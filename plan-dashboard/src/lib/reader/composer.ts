@@ -20,7 +20,7 @@ import { articulationWarningsFrom } from "./articulation";
 import { editionIntroDelta } from "./book-fences";
 import { findContent } from "../content-paths";
 import { loadGlossary, loadGlossaryAll, type GlossaryEntry } from "./glossary";
-import { renderEditSeed } from "./markdown";
+import { renderEditSeed, type QuoteDeclaration } from "./markdown";
 // The PDF's own renderer. Importing it here (rather than re-implementing the
 // book-craft layer in TypeScript) is what makes the Composer's read mode and
 // the printed page ONE code path — the same consolidation render-book-pdf.mjs
@@ -333,7 +333,7 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
   // person, read once per page load beside the provenance set.
   const quoteKinds = flattenQuoteKind(readQuoteKind(ref.dir)) as Record<
     string,
-    "hadith" | "poem" | "quote"
+    QuoteDeclaration
   >;
   // The chapter and verse each Qur'an card is headed by.
   const quranicRefs = readQuranicRefs(ref.dir) as Record<string, string>;

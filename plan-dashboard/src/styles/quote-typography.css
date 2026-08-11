@@ -54,29 +54,45 @@
   --q-quran-ink-dark: #d3b965;
   --q-quran-tr-ink: #504302;
   --q-quran-tr-ink-dark: #bfae86;
-  --q-gold-rule: #d3b965;
-  /* The shine at the centre of the rule's gradient. Named rather than left as a
-     literal inside `--q-gold-line` so the gold is TWO values in one place: the
-     Podcast Factory Library copies both from here (listener/scripts/sync-quote-inks.mjs),
-     and a mid-stop buried in a gradient string is not something another surface
-     can ask for without parsing CSS. */
-  --q-gold-lift: #f7e8b7;
-  --q-gold-line: linear-gradient(
-    90deg,
-    var(--q-gold-rule) 0%,
-    var(--q-gold-lift) 50%,
-    var(--q-gold-rule) 100%
-  );
+  /* The bar that heads the Qur'an card, its label, and the frame round the panel
+     (Asif, 2026-08-11). The bar REPLACES the two gold-gradient tokens that drew
+     the card's header rules until that day — those had no second user and were
+     deleted with the rules themselves rather than left declared.
+
+     THE THREE VALUES ARE ONE DECISION, taken together because the label is
+     0.72rem uppercase and has to be readable. Asif asked for a white label, and
+     white on the brown he sampled from myislam.org (#b18853) measures 3.2:1 —
+     below the 4.5:1 this edition holds itself to at small sizes. So the bar is
+     that brown darkened one step, which carries white at 5.6:1, and the colour
+     he sampled becomes the 2px frame he asked for round the panel: lighter than
+     the header, in the header's own family, and derived from nothing — it is
+     the value that was already here.
+
+     All three are copied to the Podcast Factory Library by
+     listener/scripts/sync-quote-inks.mjs and are identical in all three of its
+     palettes, for the reason the gold was: a filled plate carries its own
+     contrast and does not need the page's. */
+  --q-quran-bar: #8a5f33;
+  --q-quran-bar-ink: #ffffff;
+  --q-quran-bar-edge: #b18853;
   --q-hadith-ink: #23356b;
   --q-hadith-ink-dark: #a8b6e8;
   --q-poem-ink: #722727;
   --q-poem-ink-dark: #e8a0a0;
 
-  /* Outlined marks, one per card. Strokes rather than fills (Asif, 2026-08-09),
-     shown through a mask so each takes the ink of the card it sits in. The
-     Qur'an's is the mushaf's own section sign; the Book's mark belongs to the
-     Book alone, so no other card carries it. */
-  --orn-hizb: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23000' stroke-width='6'%3E%3Cpath d='M50 8 92 50 50 92 8 50z'/%3E%3Crect x='21' y='21' width='58' height='58'/%3E%3C/g%3E%3C/svg%3E");
+  /* One mark per card, shown through a mask so each takes the ink of the card it
+     sits in rather than carrying a colour of its own.
+
+     THREE ARE OUTLINES and one is not (Asif, 2026-08-11). The other three are
+     strokes drawn here; the Qur'an's is a MUSHAF — Font Awesome Free 6.5.0's
+     `book-quran`, taken from the copy already in node_modules rather than
+     downloaded, which is the same package and licence (CC BY 4.0) the Composer's
+     toolbar glyphs are vendored from by scripts/vendor-toolbar-icons.mjs. It
+     replaced a hizb sign that read at 1.05em as an indistinct circle: the mark
+     on the one card whose source is not a matter of opinion should be legible
+     as what it names. A filled glyph is what that set draws, and a filled mask
+     takes the ink exactly as a stroked one does. */
+  --orn-mushaf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M352 0c53 0 96 43 96 96V416c0 53-43 96-96 96H64 32c-17.7 0-32-14.3-32-32s14.3-32 32-32V384c-17.7 0-32-14.3-32-32V32C0 14.3 14.3 0 32 0H64 352zm0 384H96v64H352c17.7 0 32-14.3 32-32s-14.3-32-32-32zM274.1 150.2l-8.9 21.4-23.1 1.9c-5.7 .5-8 7.5-3.7 11.2L256 199.8l-5.4 22.6c-1.3 5.5 4.7 9.9 9.6 6.9L280 217.2l19.8 12.1c4.9 3 10.9-1.4 9.6-6.9L304 199.8l17.6-15.1c4.3-3.7 2-10.8-3.7-11.2l-23.1-1.9-8.9-21.4c-2.2-5.3-9.6-5.3-11.8 0zM96 192c0 70.7 57.3 128 128 128c25.6 0 49.5-7.5 69.5-20.5c3.2-2.1 4.5-6.2 3.1-9.7s-5.2-5.6-9-4.8c-6.1 1.2-12.5 1.9-19 1.9c-52.4 0-94.9-42.5-94.9-94.9s42.5-94.9 94.9-94.9c6.5 0 12.8 .7 19 1.9c3.8 .8 7.5-1.3 9-4.8s.2-7.6-3.1-9.7C273.5 71.5 249.6 64 224 64C153.3 64 96 121.3 96 192z'/%3E%3C/svg%3E");
   --orn-diamond: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 12 88 50 50 88 12 50z' fill='none' stroke='%23000' stroke-width='10'/%3E%3C/svg%3E");
   --orn-circle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='36' fill='none' stroke='%23000' stroke-width='10'/%3E%3C/svg%3E");
   --orn-petal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 8C50 31 69 50 92 50 69 50 50 69 50 92 50 69 31 50 8 50 31 50 50 31 50 8z' fill='none' stroke='%23000' stroke-width='8'/%3E%3C/svg%3E");
@@ -404,8 +420,18 @@ p:has(+ blockquote.k-quote),
 p:has(+ blockquote.k-poem) {
   margin-bottom: 0.5rem;
 }
+/* THE ONE CARD WITH A FRAME (Asif, 2026-08-11), which is a deliberate exception
+   to the family rule three rules above — "an outline round a quotation reads as
+   a UI control, a tinted plate reads as a page" — and the exception is his call.
+   It is not a UI outline here because the frame is the bar's own colour a step
+   lighter: the card reads as one object with a header, rather than as a plate
+   with a stripe laid across it. `border-box` so the 2px does not widen the card
+   past the three that have none, and the bar's bleed still lands on the frame. */
 blockquote.k-quran:not(.style-elegant *, .style-scholarly *) {
   background: color-mix(in oklab, var(--q-quran-ink) 4%, transparent);
+  border: 2px solid var(--q-quran-bar-edge);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 blockquote.k-hadith:not(.style-elegant *, .style-scholarly *) {
   background: color-mix(in oklab, var(--q-hadith-ink) 4%, transparent);
@@ -502,11 +528,13 @@ blockquote.k-poem p.tr {
 }
 
 /* ── The band ─────────────────────────────────────────────────────────────────
-   KSESSIONS' `golden-surah-header`, ported: a centred label with a rule running
-   out to each side. The Qur'an keeps their 2px gold gradient and carries the
-   chapter and verse the audit recorded — the edition has no Qur'an card without
-   one (Asif, 2026-08-09). The other three take a hairline in their own ink, so
-   the family reads as one decision rather than four.
+   The kind at the LEFT and, when a person recorded one, WHO SAID IT at the
+   right, with a hairline between them (Asif, 2026-08-11 — supersedes the
+   centred `golden-surah-header` port of 2026-08-09 for these three; the Qur'an's
+   header became the bar below on the same day). A speaker is printed only when
+   the book's declaration file carries one, and a card without one simply lets
+   the rule run to the edge — nothing is inferred from the prose, so an absent
+   name stays absent rather than being guessed.
 
    Every mark is OUTLINED, drawn as a stroke and shown through a mask so it takes
    the ink of the card it sits in rather than carrying a colour of its own. */
@@ -522,13 +550,28 @@ blockquote.k-poem p.tr {
   text-transform: uppercase;
   white-space: nowrap;
 }
-.q-band::before,
+/* One rule, and it sits BETWEEN the two labels. There is no `::before` any
+   more: a rule to the left of the kind would push it off the edge it is now
+   aligned to. */
 .q-band::after {
   content: "";
   flex: 1;
   height: 1px;
   min-width: 1.2rem;
   background: color-mix(in oklab, currentcolor 26%, transparent);
+}
+/* The speaker rides AFTER the rule. `order` rather than markup order because a
+   pseudo-element is always last in the box tree — the name is a real element
+   and would otherwise print on the wrong side of the line it is separated by.
+   Set in the card's own ink at a lower weight than the kind: it answers a
+   second question, so it should not compete with the first. */
+.q-by {
+  order: 1;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: none;
+  font-style: italic;
+  opacity: 0.85;
 }
 .q-orn {
   display: inline-block;
@@ -538,15 +581,41 @@ blockquote.k-poem p.tr {
   -webkit-mask: var(--q-orn-src) center / contain no-repeat;
   mask: var(--q-orn-src) center / contain no-repeat;
 }
+
+/* ── The Qur'an's bar ─────────────────────────────────────────────────────────
+   Asif, 2026-08-11, after myislam.org's own ayah card: the chapter and verse the
+   audit resolved are set in the middle of a filled brown plate, in place of the
+   gold-ruled header that carried them until that day. It HEADS the card (his
+   call on seeing it set at the foot) — which is also where the markup already
+   puts it, so nothing has to be reordered and the change reaches every book
+   already published rather than only the ones composed after it.
+
+   THE INK IS DARK ON THE BROWN, not cream. `#fffbf4` on `#b18853` is about
+   2.9:1 and this is 0.72rem uppercase — small text, so it would fail AA on the
+   one element of the card that names its source. `#3a2712` on the same brown is
+   about 6.4:1 and keeps the colour sampled from the reference.
+
+   The negative margins bleed the plate out to the card's padding edge — which
+   works because `.q-band` is itself a flex container and therefore block-level;
+   vertical margins on a bare inline span would do nothing. The top radius
+   matches the card's own 10px so the two corners agree. */
 .q-band--quran {
-  color: var(--q-quran-ink);
+  justify-content: center;
+  margin: -1.35rem -1.6rem 1.15rem;
+  padding: 0.5rem 1.6rem;
+  /* 8px, not the card's 10px: the frame below is 2px thick and the bar sits
+     inside it, so an inner corner has to be that much tighter or the brown
+     shows through the arc as two horns. */
+  border-radius: 8px 8px 0 0;
+  background: var(--q-quran-bar);
+  color: var(--q-quran-bar-ink);
   font-weight: 600;
-  --q-orn-src: var(--orn-hizb);
+  --q-orn-src: var(--orn-mushaf);
 }
-.q-band--quran::before,
+/* No rule inside the bar: the plate is the separation, and a hairline across a
+   filled band reads as a mistake. */
 .q-band--quran::after {
-  height: 2px;
-  background: var(--q-gold-line);
+  content: none;
 }
 .q-band--hadith {
   color: var(--q-hadith-ink);

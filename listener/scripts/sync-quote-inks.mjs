@@ -72,28 +72,35 @@ const REGIONS = [
       ["--l-quote-saying", "--q-said-ink-dark"],
     ],
   },
-  // Gold is the one ink identical in all three palettes — it reads on cream, on
-  // sepia and on near-black alike — so the sepia carve-out above does not apply
-  // to it and all three take it from the same pair of source tokens.
+  // The Qur'an card's heading bar: a filled plate, the ink that reads on it, and
+  // the lighter frame round the panel below it.
+  // Identical in all three palettes, so the sepia carve-out above does not apply
+  // and all three take the same pair — a filled plate carries its own contrast
+  // rather than borrowing the page's. (These regions carried the gold gradient
+  // that drew the card's header rules until 2026-08-11, when the header became
+  // this bar; the ids were renamed with the values they hold.)
   {
-    id: "quote-gold-light",
+    id: "quote-bar-light",
     tokens: [
-      ["--l-quote-gold", "--q-gold-rule"],
-      ["--l-quote-gold-lift", "--q-gold-lift"],
+      ["--l-quote-bar", "--q-quran-bar"],
+      ["--l-quote-bar-ink", "--q-quran-bar-ink"],
+      ["--l-quote-bar-edge", "--q-quran-bar-edge"],
     ],
   },
   {
-    id: "quote-gold-dark",
+    id: "quote-bar-dark",
     tokens: [
-      ["--l-quote-gold", "--q-gold-rule"],
-      ["--l-quote-gold-lift", "--q-gold-lift"],
+      ["--l-quote-bar", "--q-quran-bar"],
+      ["--l-quote-bar-ink", "--q-quran-bar-ink"],
+      ["--l-quote-bar-edge", "--q-quran-bar-edge"],
     ],
   },
   {
-    id: "quote-gold-sepia",
+    id: "quote-bar-sepia",
     tokens: [
-      ["--l-quote-gold", "--q-gold-rule"],
-      ["--l-quote-gold-lift", "--q-gold-lift"],
+      ["--l-quote-bar", "--q-quran-bar"],
+      ["--l-quote-bar-ink", "--q-quran-bar-ink"],
+      ["--l-quote-bar-edge", "--q-quran-bar-edge"],
     ],
   },
 ];

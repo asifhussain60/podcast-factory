@@ -37,6 +37,10 @@
     {
       "anchor_key": "a quotation a person declared verse, set as two columns",
       "markdown": "> لَقَدْ هَتَفَتْ فِي جُنْحِ لَيْلٍ حَمَامَةٌ * على فننٍ وهناً، وإنّي لنائم\n> كذبتُ، وبيتِ الله، لو كنتُ عاشقاً * لَمَّا سَبَقَتْنِي بِالْبُكَاءِ الْحَمَائِمُ\n> سَهَرُ الْعُيُونِ لِغَيْرِ وَجْهِكَ ضَائِعٌ\n>\n> \"In the dark of night a dove cried out upon a swaying branch, while I lay fast asleep.\""
+    },
+    {
+      "anchor_key": "a quotation whose speaker a person recorded",
+      "markdown": "> إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ\n>\n> Deeds are by intentions."
     }
   ],
   "//": "The book's own folder. Three things about a quotation are recorded there and not in the markdown — which Arabic the mushaf carries, which card a person declared for the rest, and each verse's citation — and the printed edition passes all three. The verse block is ayyuhal-walad's own, and it is THREE LINES on purpose: the renderers join a quotation's lines into paragraphs, so a multi-line poem is where the declaration used to be looked up under a string nobody wrote. Its third line deliberately carries no hemistich separator, which pins the whole-width line beside the split ones.",
