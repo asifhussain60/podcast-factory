@@ -740,6 +740,11 @@ function ReadingEdition({
               aria-current={progress?.anchorKey === chapter.anchorKey ? "true" : undefined}
               className="pf-row"
             >
+              {/* A mark of what the row IS, which every other list on this
+                  page now has and this one did not: the deck has its artwork
+                  tile, the slides tab its thumbnails. An open book, in the
+                  accent, at the head of every chapter. */}
+              <Icon icon={faBookOpen} className="pf-row__mark" />
               <span className="pf-row__main">{chapter.title}</span>
               {markedChapters.get(chapter.anchorKey) ? (
                 <span className="pf-row__meta pf-row__marks">
@@ -800,15 +805,26 @@ function Podcast({
     .join(" · ");
 
   return (
-    <section className="pf-section">
+    <section className="pf-section pf-deck">
       <p className="pf-section__count">{summary}</p>
 
       {/* Only worth saying when both lists are on screen. On a page with no
-          reading edition there is nothing for the reader to be confused with. */}
+          reading edition there is nothing for the reader to be confused with.
+
+          WHICH sentence depends on what the recordings ARE, because the two
+          collections stand in opposite relations to their text. A podcast book's
+          episodes were generated from the chapters and re-segmented along their
+          own lines, so a reader who expects chapter 3 to be episode 3 needs
+          warning. A lecture is the other way round entirely: the recording came
+          first and the chapter is its transcript, so they are one thing filed
+          twice. Printing the podcast sentence over a lecture would assert
+          something plainly untrue about where the audio came from — which is
+          the one thing this page must never do. */}
       {alongsideAnEdition ? (
         <p className="pf-note pf-note--quiet pf-section__intro">
-          The episodes are drawn along different lines from the chapters — they
-          are two readings of the same book, not two halves of one.
+          {collection === "sessions"
+            ? "These are the recordings of the sessions themselves. Each chapter is what was said in the recording beside it."
+            : "The episodes are drawn along different lines from the chapters — they are two readings of the same book, not two halves of one."}
         </p>
       ) : null}
 
@@ -835,11 +851,37 @@ function Podcast({
             </h3>
           ) : null}
 
-          <ol className="pf-rows pf-rows--striped pf-session__list">
+          <ol className="pf-rows pf-deck__list pf-session__list">
             {session.episodes.map((episode) => (
               <li key={episode.number}>
-                <div className="pf-row">
-                  <span className="pf-row__index">{episode.number}</span>
+                <div className="pf-row pf-track">
+                  {/* ARTWORK, which is what a track list has and a chapter list
+                      does not. These recordings have no cover art and never
+                      will — there is nothing to photograph — so the tile is
+                      generated: a wash of THIS book's accent whose depth steps
+                      with the track's position, which gives the column the
+                      rhythm a row of identical rectangles was missing.
+
+                      A scalar, not a colour. `--pf-art` is a number the
+                      stylesheet mixes with `--l-accent`, so a session's deck
+                      comes out violet and a book's blue with no second rule and
+                      no palette repeated outside §3.
+
+                      Two digits, tabular: a ragged 1/2/…/10 breaks the column
+                      the tiles just made. */}
+                  <span
+                    className="pf-track__art"
+                    aria-hidden="true"
+                    style={
+                      {
+                        "--pf-art": String(
+                          0.55 + (0.45 * (episode.number - 1)) / Math.max(1, episodes.length - 1),
+                        ),
+                      } as React.CSSProperties
+                    }
+                  >
+                    {String(episode.number).padStart(2, "0")}
+                  </span>
 
                   <div className="pf-row__main">
                     {/* Not a link. An episode has no page of its own: what is
@@ -848,13 +890,22 @@ function Podcast({
                         a page you would have to know to visit. */}
                     <p>{episode.title}</p>
 
-                    {episode.chapters.length > 0 ? (
-                      <p className="pf-note pf-note--quiet">
-                        <Icon icon={faBookOpen} />
-                        Read along:{" "}
-                        {episode.chapters.map((key) => titleOf.get(key) ?? key).join(", ")}
-                      </p>
-                    ) : null}
+                    <p className="pf-note pf-note--quiet pf-track__meta">
+                      {episode.durationS ? (
+                        <span className="pf-track__time">
+                          <Icon icon={faClock} />
+                          {clock(episode.durationS)}
+                        </span>
+                      ) : null}
+
+                      {episode.chapters.length > 0 ? (
+                        <span>
+                          <Icon icon={faBookOpen} />
+                          Read along:{" "}
+                          {episode.chapters.map((key) => titleOf.get(key) ?? key).join(", ")}
+                        </span>
+                      ) : null}
+                    </p>
                   </div>
 
                   {/* The row's controls, as ONE group rather than as siblings
@@ -993,19 +1044,34 @@ function PlayButton({
 }) {
   const player = usePlayer();
   const isCurrent = player.current?.src === `/media/${episode.audioKey}`;
+  const isPlaying = isCurrent && player.playing;
+
+  /* A circular transport button, not a labelled pill.
+     The pill carried the word "Play" and the running time, which put the same
+     word down the list as many times as there were episodes and set a clock in
+     a control rather than in the row's own facts. Both moved: the duration to
+     the meta line under the title, where the rest of what is true about an
+     episode already sits, and the word into the accessible name.
+
+     So the visible label is a glyph — and that is only safe because the name
+     below is a full sentence naming the episode. A row of identical "Play"
+     buttons is what a screen-reader user would otherwise hear. */
+  const label = isPlaying
+    ? `Pause ${episode.title}`
+    : isCurrent
+      ? `Resume ${episode.title}`
+      : `Play ${episode.title}${episode.durationS ? `, ${clock(episode.durationS)}` : ""}`;
 
   return (
     <button
       type="button"
       onClick={() => (isCurrent ? player.toggle() : onPlay(player))}
       aria-pressed={isCurrent}
-      className={`pf-button pf-button--sm pf-row__action ${
-        isCurrent ? "pf-button--primary" : "pf-button--soft"
-      }`}
+      aria-label={label}
+      title={label}
+      className={`pf-track__play${isPlaying ? " is-playing" : ""}`}
     >
-      <Icon icon={isCurrent && player.playing ? faPause : faPlay} />
-      {isCurrent && player.playing ? "Pause" : "Play"}{" "}
-      {episode.durationS ? clock(episode.durationS) : ""}
+      <Icon icon={isPlaying ? faPause : faPlay} />
     </button>
   );
 }

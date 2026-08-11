@@ -23,7 +23,10 @@ import { describe, expect, it } from "vitest";
  * are shapes rather than words — the card ornament and the focus ring.
  */
 
-const CSS = readFileSync(new URL("../app/styles/podcast-factory.css", import.meta.url), "utf8");
+const CSS = readFileSync(
+  new URL("../app/styles/podcast-factory.css", import.meta.url),
+  "utf8",
+);
 
 type Palette = { name: string; colors: Record<string, string> };
 
@@ -46,7 +49,9 @@ function palettes(css: string): Palette[] {
     if (themed === null) continue;
 
     const colors: Record<string, string> = {};
-    for (const decl of body.matchAll(/--(l-[a-z-]+)\s*:\s*(#[0-9a-fA-F]{6})\s*;/g)) {
+    for (const decl of body.matchAll(
+      /--(l-[a-z-]+)\s*:\s*(#[0-9a-fA-F]{6})\s*;/g,
+    )) {
       colors[decl[1]] = decl[2].toLowerCase();
     }
     found.push({ name: themed[1], colors });
@@ -189,7 +194,10 @@ describe("the two Arabic faces", () => {
   /** Everything inside §7, where the reading column is styled. */
   const readingColumn = (() => {
     const start = CSS.indexOf("* 7. READER");
-    expect(start, "the stylesheet must still have a §7 reading column").toBeGreaterThan(-1);
+    expect(
+      start,
+      "the stylesheet must still have a §7 reading column",
+    ).toBeGreaterThan(-1);
     return CSS.slice(start);
   })();
 
@@ -210,7 +218,10 @@ describe("the two Arabic faces", () => {
 
   it("never binds the display face to :lang(ar)", () => {
     // That selector drives every Arabic run on the site, prose included.
-    const langRule = CSS.slice(CSS.indexOf(":lang(ar)"), CSS.indexOf(":lang(ar)") + 260);
+    const langRule = CSS.slice(
+      CSS.indexOf(":lang(ar)"),
+      CSS.indexOf(":lang(ar)") + 260,
+    );
     expect(langRule).not.toContain("--l-font-arabic-display");
   });
 });
@@ -264,7 +275,11 @@ describe.each(FOUND)("$name", ({ name, colors }) => {
  * as the blue it replaces, in all three modes.
  * ------------------------------------------------------------------------- */
 
-type Overlay = { theme: string; collection: string; colors: Record<string, string> };
+type Overlay = {
+  theme: string;
+  collection: string;
+  colors: Record<string, string>;
+};
 
 function overlays(css: string): Overlay[] {
   const found: Overlay[] = [];
@@ -274,11 +289,15 @@ function overlays(css: string): Overlay[] {
     // A collection overlay, not a palette: `data-collection` present and no
     // `color-scheme`, which is the line between the two.
     if (/color-scheme\s*:/.test(body)) continue;
-    const scoped = selector.match(/\[data-theme="([a-z-]+)"\][^,{]*?\[data-collection="([a-z-]+)"\]/);
+    const scoped = selector.match(
+      /\[data-theme="([a-z-]+)"\][^,{]*?\[data-collection="([a-z-]+)"\]/,
+    );
     if (scoped === null) continue;
 
     const colors: Record<string, string> = {};
-    for (const decl of body.matchAll(/--(l-[a-z-]+)\s*:\s*(#[0-9a-fA-F]{6})\s*;/g)) {
+    for (const decl of body.matchAll(
+      /--(l-[a-z-]+)\s*:\s*(#[0-9a-fA-F]{6})\s*;/g,
+    )) {
       colors[decl[1]] = decl[2].toLowerCase();
     }
     if (Object.keys(colors).length === 0) continue;
@@ -294,7 +313,10 @@ const MERGED = (() => {
 
   for (const overlay of overlays(CSS)) {
     const base = FOUND.find((p) => p.name === overlay.theme);
-    expect(base, `overlay [data-collection="${overlay.collection}"] names an unknown theme "${overlay.theme}"`).toBeDefined();
+    expect(
+      base,
+      `overlay [data-collection="${overlay.collection}"] names an unknown theme "${overlay.theme}"`,
+    ).toBeDefined();
     seen.set(`${overlay.collection} on ${overlay.theme}`, {
       name: `${overlay.collection} on ${overlay.theme}`,
       colors: { ...base!.colors, ...overlay.colors },
@@ -329,7 +351,8 @@ describe("the collection overlays", () => {
     // The page's surfaces and inks belong to the reader's THEME. A collection
     // that moved them would be a fourth theme reached by a different attribute,
     // and the two would then disagree about what the site looks like.
-    const allowed = /^l-(accent|accent-hover|accent-soft|on-accent|display|band|on-band|band-muted|band-ornament)$/;
+    const allowed =
+      /^l-(accent|accent-hover|accent-soft|on-accent|display|band|on-band|band-muted|band-ornament)$/;
 
     for (const overlay of overlays(CSS)) {
       for (const token of Object.keys(overlay.colors)) {
@@ -355,4 +378,69 @@ describe.each(MERGED)("$name", ({ name, colors }) => {
       ).toBeGreaterThanOrEqual(min);
     });
   }
+});
+
+/* ---------------------------------------------------------------------------
+ * §6 — the deck, which must be the COLLECTION's colour and not a grey.
+ *
+ * The Listen tab's panel was first filled with `--l-sunken`, the palette's
+ * recessed surface. It only looked right in the dark: on paper `--l-sunken` is a
+ * warm grey a shade off the page, so the deck read as a dull slab with the
+ * artwork tiles as the one coloured thing on it (Asif, 2026-08-11).
+ *
+ * The fix was to derive every surface in it from `--l-accent`, which the
+ * collection overlay in §3b has already redefined by the time these resolve —
+ * so a session's deck is violet and a book's is blue with no second rule
+ * anywhere and no palette value repeated outside §3.
+ *
+ * That is a property of the STYLESHEET, not of one screenshot, so it is asserted
+ * here: a later "tidy" that puts a neutral back would pass every rendering test
+ * and quietly undo it.
+ * ------------------------------------------------------------------------- */
+
+describe("the deck takes its colour from the collection", () => {
+  /**
+   * One rule's DECLARATIONS, by selector — comments stripped.
+   *
+   * Stripped because the assertions below are about what the rule DOES, and
+   * every one of these rules explains in a comment which neutral it replaced.
+   * A test that reads the explanation as the thing it forbids fails on the
+   * sentence saying the failure was fixed.
+   */
+  const ruleFor = (selector: string): string => {
+    const at = CSS.indexOf(`\n  ${selector} {`);
+    expect(at, `the stylesheet has no rule for ${selector}`).toBeGreaterThan(
+      -1,
+    );
+    return CSS.slice(at, CSS.indexOf("\n  }", at)).replace(
+      /\/\*[\s\S]*?\*\//g,
+      "",
+    );
+  };
+
+  for (const selector of [
+    ".pf-deck__list",
+    ".pf-track__art",
+    ".pf-track:hover",
+  ]) {
+    it(`${selector} is painted from --l-accent`, () => {
+      expect(ruleFor(selector)).toContain("--l-accent");
+    });
+
+    it(`${selector} uses no neutral fill and no literal colour`, () => {
+      const body = ruleFor(selector);
+      // `--l-sunken` is the grey this replaced. A hex here would be a colour
+      // declared outside §3, which is the one thing the theme forbids.
+      expect(body).not.toContain("--l-sunken");
+      expect(body).not.toMatch(/#[0-9a-fA-F]{3,8}\b/);
+    });
+  }
+
+  it("the artwork's depth is a scalar the page sets, never a colour", () => {
+    // `--pf-art` carries a NUMBER. If a future change passed a colour instead,
+    // a session's tiles would stop following the collection overlay.
+    const body = ruleFor(".pf-track__art");
+    expect(body).toContain("var(--pf-art");
+    expect(body).toContain("calc(var(--pf-art");
+  });
 });
