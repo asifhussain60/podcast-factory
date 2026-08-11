@@ -1,4 +1,5 @@
 import {
+  faBookOpen,
   faMicrophoneLines,
   faPause,
   faPlay,
@@ -13,7 +14,17 @@ import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
 import { clock, usePlayer } from "~/components/player/Player";
 import { megabytes } from "~/lib/facts";
-import { downloads, removeAll, removeBook, remove, subscribe, type DownloadMeta } from "~/lib/offline";
+import {
+  books,
+  downloads,
+  removeAll,
+  removeBook,
+  remove,
+  removeText,
+  subscribe,
+  type DownloadMeta,
+  type TextMeta,
+} from "~/lib/offline";
 import { count } from "~/lib/plural";
 import { session } from "~/middleware/session";
 
@@ -57,33 +68,62 @@ function useDownloads(): DownloadMeta[] {
   );
 }
 
+const NO_TEXT: TextMeta[] = [];
+
+function useTexts(): TextMeta[] {
+  return useSyncExternalStore(subscribe, books, () => NO_TEXT);
+}
+
 export default function Downloads({ loaderData }: Route.ComponentProps) {
   const kept = useDownloads();
+  const texts = useTexts();
   const player = usePlayer();
 
-  // Grouped by book, in the order the books were most recently added to — the
-  // list is a record of what you did, so the thing you just downloaded is where
-  // you look first.
-  const books = new Map<string, DownloadMeta[]>();
+  /* ONE SECTION PER BOOK, whichever of the two things is here.
+     Episodes and text were two lists at first, and that put "Ayyuha al-Walad"
+     on the page twice under two headings — a book is one thing to the person
+     who downloaded it, and which halves of it are on the device is a fact
+     ABOUT it rather than a way of sorting it. In the order most recently added
+     to, so what you just kept is where you look first. */
+  const grouped = new Map<
+    string,
+    { bookTitle: string; episodes: DownloadMeta[]; text: TextMeta | null }
+  >();
   for (const item of kept) {
-    const bucket = books.get(item.slug);
-    if (bucket === undefined) books.set(item.slug, [item]);
-    else bucket.push(item);
+    const found = grouped.get(item.slug);
+    if (found === undefined)
+      grouped.set(item.slug, { bookTitle: item.bookTitle, episodes: [item], text: null });
+    else found.episodes.push(item);
+  }
+  for (const item of texts) {
+    const found = grouped.get(item.slug);
+    if (found === undefined)
+      grouped.set(item.slug, { bookTitle: item.bookTitle, episodes: [], text: item });
+    else found.text = item;
   }
 
-  const bytes = kept.reduce((sum, item) => sum + item.bytes, 0);
+  const nothing = grouped.size === 0;
+
+  const bytes =
+    kept.reduce((sum, item) => sum + item.bytes, 0) +
+    texts.reduce((sum, item) => sum + item.bytes, 0);
 
   return (
     <AppShell here="downloads" isAdmin={loaderData.isAdmin}>
       <section className="pf-masthead pf-masthead--tight">
         <h1 className="pf-title">Downloads</h1>
         <p className="pf-lede">
-          {kept.length === 0
-            ? "Episodes you keep here play with no signal. Nothing is kept yet."
-            : `${count(kept.length, "episode")} on this device, taking ${megabytes(bytes)}. These play with no signal.`}
+          {kept.length === 0 && texts.length === 0
+            ? "What you keep here works with no signal. Nothing is kept yet."
+            : `${[
+                kept.length > 0 ? count(kept.length, "episode") : null,
+                texts.length > 0 ? `${count(texts.length, "book")} to read` : null,
+              ]
+                .filter(Boolean)
+                .join(" and ")} on this device, taking ${megabytes(bytes)}. These work with no signal.`}
         </p>
 
-        {kept.length === 0 ? null : (
+        {nothing ? null : (
           <p className="pf-masthead__action">
             <button
               type="button"
@@ -97,41 +137,79 @@ export default function Downloads({ loaderData }: Route.ComponentProps) {
         )}
       </section>
 
-      {kept.length === 0 ? (
+      {nothing ? (
         <EmptyState>
           Open a book and press <strong className="pf-strong">Download</strong> beside an
-          episode. It stays here until you remove it, or until the book stops being
-          shared with you.
+          episode, or <strong className="pf-strong">Keep the text</strong> above its
+          chapters. What you keep stays here until you remove it, or until the book
+          stops being shared with you.
         </EmptyState>
       ) : (
-        [...books].map(([slug, episodes]) => (
+        [...grouped].map(([slug, book]) => (
           <section key={slug} className="pf-section pf-downloads__book">
             <div className="pf-downloads__head">
               <h2 className="pf-section__title">
                 <Link to={`/book/${slug}`} className="pf-link">
-                  {episodes[0].bookTitle}
+                  {book.bookTitle}
                 </Link>
               </h2>
               <p className="pf-section__count">
-                {count(episodes.length, "episode")} ·{" "}
-                {megabytes(episodes.reduce((sum, e) => sum + e.bytes, 0))}
+                {[
+                  book.episodes.length > 0 ? count(book.episodes.length, "episode") : null,
+                  book.text !== null ? count(book.text.chapters, "chapter") : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}{" "}
+                ·{" "}
+                {megabytes(
+                  book.episodes.reduce((sum, e) => sum + e.bytes, 0) +
+                    (book.text?.bytes ?? 0),
+                )}
               </p>
               <button
                 type="button"
-                onClick={() => void removeBook(slug)}
+                onClick={() => {
+                  void removeBook(slug);
+                  void removeText(slug);
+                }}
                 className="pf-button pf-button--soft pf-button--sm"
-                aria-label={`Remove every download from ${episodes[0].bookTitle}`}
+                aria-label={`Remove everything downloaded from ${book.bookTitle}`}
               >
                 <Icon icon={faTrash} />
                 Remove
               </button>
             </div>
 
+            {/* The text, when it is here. Above the episodes because reading is
+                what a chapter list is FOR, and because this row is one line
+                where the episodes are many. */}
+            {book.text === null ? null : (
+              <p className="pf-downloads__text">
+                <Link
+                  to={`/read-offline?book=${encodeURIComponent(slug)}`}
+                  className="pf-button pf-button--soft"
+                >
+                  <Icon icon={faBookOpen} />
+                  Read with no signal
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => void removeText(slug)}
+                  className="pf-download"
+                  aria-label={`Remove the downloaded text of ${book.bookTitle}`}
+                  title="Remove the text from this device"
+                >
+                  <Icon icon={faTrash} />
+                </button>
+              </p>
+            )}
+
             {/* The same row this episode has on its book's page — same classes,
                 same shape — so a downloaded episode does not become a different
                 looking thing by being downloaded. */}
+            {book.episodes.length === 0 ? null : (
             <ol className="pf-rows pf-rows--striped">
-              {episodes
+              {book.episodes
                 .slice()
                 .sort((a, b) => a.number - b.number)
                 .map((episode) => {
@@ -207,6 +285,7 @@ export default function Downloads({ loaderData }: Route.ComponentProps) {
                   );
                 })}
             </ol>
+            )}
           </section>
         ))
       )}

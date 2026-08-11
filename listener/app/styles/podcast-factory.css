@@ -2698,6 +2698,88 @@
     margin: 0;
   }
 
+  /* The text row, above a book's episodes. One line, so it wraps rather than
+     stacking on a phone. */
+  .pf-downloads__text {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-2);
+    margin: 0 0 var(--pf-space-4);
+  }
+
+  /* ---- Reading with no signal --------------------------------------------
+     A plainer surface than the reader, deliberately. It is the prose, the
+     chapter list and the way between them — no marks, no Companion — and
+     dressing it to look like the full reader would promise controls that are
+     not there. What it DOES share is the measure and the type: `.pf-page` and
+     `.pf-chapter-body` are the reader's own, so a chapter read here is set
+     exactly as it is online. */
+
+  .pf-offline-read__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-3);
+    margin-bottom: var(--pf-space-5);
+  }
+
+  .pf-offline-read__where {
+    margin: 0;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+  }
+
+  .pf-offline-read__contents {
+    margin-bottom: var(--pf-space-6);
+    padding: var(--pf-space-4);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-md);
+  }
+
+  .pf-offline-read__contents ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pf-offline-read__link {
+    display: block;
+    inline-size: 100%;
+    min-block-size: 2.75rem;
+    padding: var(--pf-space-2) var(--pf-space-3);
+    border: 0;
+    border-radius: var(--pf-radius-sm);
+    background: transparent;
+    color: var(--l-ink);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .pf-offline-read__link:hover {
+    background: var(--l-sunken);
+  }
+
+  .pf-offline-read__link[aria-current="true"] {
+    color: var(--l-accent);
+    font-weight: 600;
+  }
+
+  /* Previous and next, pushed to opposite ends. The empty `<span>` the page
+     renders at either end of the book is what holds the other one in place —
+     `space-between` with one child would centre it. */
+  .pf-offline-read__move {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--pf-space-3);
+    margin-top: var(--pf-space-7);
+  }
+
   /* The row that is PLAYING is marked on the row, not only on its button: the
      button is 44px at the end of a wide row and the eye looking for "where am
      I" scans the left edge. A rule down that edge answers it at a glance. */

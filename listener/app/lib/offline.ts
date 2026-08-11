@@ -27,12 +27,22 @@
  */
 
 const DB_NAME = "pf-offline";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 /** Metadata only. Read to draw a list, so it must never carry the audio. */
 const META = "meta";
 /** key -> Blob. Read once at startup and otherwise only written. */
 const BLOBS = "blobs";
+
+/**
+ * A downloaded book's TEXT, split the same way the audio is and for the same
+ * reason: `TEXT_META` is read at startup to know what is here, `TEXT_BODY` holds
+ * the chapters and is read only when somebody opens one. A book runs to
+ * megabytes of HTML, and loading every book's prose to draw a list of titles
+ * would make startup scale with the library.
+ */
+const TEXT_META = "textMeta";
+const TEXT_BODY = "textBody";
 
 /**
  * Chunk size while downloading.
@@ -61,21 +71,118 @@ export interface DownloadMeta {
 
 /* ---- The database ------------------------------------------------------- */
 
-function idb(): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
+/**
+ * ONE connection, reused.
+ *
+ * Not a micro-optimisation — a correctness fix, found the first time this file
+ * needed a second version. Every call used to open its own connection and none
+ * of them ever closed, so by the time the schema changed there were a dozen
+ * live handles pinned at the old version. An upgrade cannot run while ANY
+ * connection is open at the previous one, so `onupgradeneeded` never fired, the
+ * new stores were never created, and every read of them threw NotFoundError —
+ * on a device that had used the feature before. A fresh device, with no
+ * connections and no database, upgraded perfectly. That is the worst shape a
+ * migration bug can have: it works for whoever is testing it and fails for
+ * everyone who already used the thing.
+ */
+let connection: Promise<IDBDatabase> | null = null;
+
+/** Every store this version expects to exist. */
+const STORES = [META, BLOBS, TEXT_META, TEXT_BODY];
+
+function openAt(version: number | undefined): Promise<IDBDatabase> {
+  return new Promise<IDBDatabase>((resolve, reject) => {
     if (typeof indexedDB === "undefined") {
       reject(new Error("no IndexedDB"));
       return;
     }
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    const request = indexedDB.open(DB_NAME, version);
+
     request.onupgradeneeded = () => {
       const db = request.result;
+      // EVERY store, guarded, on every upgrade — never a per-version migration
+      // step. An upgrade runs from whatever version the device is actually on:
+      // 0 for a new device, 1 for anyone who downloaded an episode before the
+      // text stores existed, and — see `idb` below — sometimes a version that
+      // is nominally current but missing a store. One idempotent block serves
+      // all three; a ladder of `if (oldVersion < n)` steps serves only the
+      // paths somebody thought of.
       if (!db.objectStoreNames.contains(META)) db.createObjectStore(META, { keyPath: "src" });
       if (!db.objectStoreNames.contains(BLOBS)) db.createObjectStore(BLOBS);
+      if (!db.objectStoreNames.contains(TEXT_META))
+        db.createObjectStore(TEXT_META, { keyPath: "slug" });
+      if (!db.objectStoreNames.contains(TEXT_BODY)) db.createObjectStore(TEXT_BODY);
     };
-    request.onsuccess = () => resolve(request.result);
+
+    request.onsuccess = () => {
+      const db = request.result;
+      // Another TAB is upgrading. Close so it can, and forget the handle so the
+      // next call opens a fresh one at the new version. Without this, a second
+      // tab left open blocks the first tab's upgrade exactly as the leaked
+      // connections did.
+      db.onversionchange = () => {
+        db.close();
+        connection = null;
+      };
+      // A connection that dies under us — the browser evicting storage, mostly.
+      // Forgetting it lets the next call reopen instead of handing back a dead
+      // handle for the rest of the session.
+      db.onclose = () => {
+        connection = null;
+      };
+      resolve(db);
+    };
+
     request.onerror = () => reject(request.error ?? new Error("IndexedDB refused to open"));
+
+    // Something else is still holding the old version and did not respond to
+    // `versionchange`. Fail rather than hang: the caller treats it as "no
+    // offline store", which is degraded but honest, where an unresolved promise
+    // would leave the download button spinning forever.
+    request.onblocked = () =>
+      reject(new Error("another tab is holding the offline store open"));
   });
+}
+
+/**
+ * The connection, opened once and REPAIRED if the schema is not what it claims.
+ *
+ * The repair is not defensive padding. A database can sit at the current version
+ * with a store missing: an upgrade whose `onupgradeneeded` did not create it
+ * still commits the version bump, and after that no amount of reopening at the
+ * SAME version will ever run an upgrade again — the device is permanently broken
+ * for the feature, and reinstalling the app does not clear it. That state was
+ * reached on this machine within an hour of the text stores being added.
+ *
+ * WHY IT OPENS WITH NO VERSION FIRST. The obvious repair — notice the missing
+ * store, reopen at `version + 1` — leaves the database ABOVE the constant this
+ * file asks for, and `indexedDB.open` with a version lower than the one on disk
+ * fails outright with VersionError. So the first repair works and every load
+ * afterwards throws, which is a worse break than the one being repaired, and it
+ * is exactly what happened here before this was written. Opening with no version
+ * asks the database what it is rather than telling it, and the target is then
+ * never below what is already there.
+ */
+function idb(): Promise<IDBDatabase> {
+  if (connection !== null) return connection;
+
+  connection = openAt(undefined)
+    .then((db) => {
+      const complete = STORES.every((name) => db.objectStoreNames.contains(name));
+      if (complete && db.version >= DB_VERSION) return db;
+
+      // Never below what is on disk, and at least one higher when a store is
+      // missing — an upgrade only runs when the version actually increases.
+      const target = Math.max(DB_VERSION, db.version + (complete ? 0 : 1));
+      db.close();
+      return openAt(target);
+    })
+    .catch((error: unknown) => {
+      connection = null;
+      throw error;
+    });
+
+  return connection;
 }
 
 /** One transaction, promisified. `mode` decides whether it may write. */
@@ -166,11 +273,20 @@ export function totalBytes(): number {
  */
 export async function hydrate(): Promise<void> {
   try {
-    const [meta, blobs] = await tx([META, BLOBS], "readonly", async (t) => {
-      const m = await done(t.objectStore(META).getAll() as IDBRequest<DownloadMeta[]>);
-      const b = await done(t.objectStore(BLOBS).getAll() as IDBRequest<Blob[]>);
-      const keys = await done(t.objectStore(BLOBS).getAllKeys() as IDBRequest<IDBValidKey[]>);
-      return [m, new Map(keys.map((k, i) => [String(k), b[i]]))] as const;
+    const [meta, blobs] = await tx([META, BLOBS], "readonly", (t) => {
+      /* All three requests ISSUED before anything is awaited.
+         A transaction commits as soon as it goes idle, and awaiting between
+         requests hands control back to the event loop with none outstanding —
+         so the second request lands on a finished transaction and throws
+         TransactionInactiveError. Chrome is forgiving about this and Safari is
+         not, which on an iPhone is the difference between the downloads being
+         there and the page saying there are none. */
+      const m = done(t.objectStore(META).getAll() as IDBRequest<DownloadMeta[]>);
+      const b = done(t.objectStore(BLOBS).getAll() as IDBRequest<Blob[]>);
+      const keys = done(t.objectStore(BLOBS).getAllKeys() as IDBRequest<IDBValidKey[]>);
+      return Promise.all([m, b, keys]).then(
+        ([mv, bv, kv]) => [mv, new Map(kv.map((k, i) => [String(k), bv[i]]))] as const,
+      );
     });
 
     for (const url of urls.values()) URL.revokeObjectURL(url);
@@ -188,6 +304,16 @@ export async function hydrate(): Promise<void> {
     index = meta
       .filter((item) => urls.has(item.src))
       .sort((a, b) => b.savedAt - a.savedAt);
+
+    // Which books' text is here — the metadata only, never the prose. See the
+    // store comment: loading every book's chapters to draw a list of titles
+    // would make startup scale with the library.
+    texts = (
+      await tx([TEXT_META], "readonly", (t) =>
+        done(t.objectStore(TEXT_META).getAll() as IDBRequest<TextMeta[]>),
+      )
+    ).sort((a, b) => b.savedAt - a.savedAt);
+
     announce();
   } catch {
     // No IndexedDB, or the browser refused it (private browsing on some
@@ -325,9 +451,128 @@ export function removeBook(slug: string): Promise<void> {
   return forget(index.filter((item) => item.slug === slug).map((item) => item.src));
 }
 
-/** Remove everything. */
-export function removeAll(): Promise<void> {
-  return forget(index.map((item) => item.src));
+/** Remove everything — the audio AND the text. "Everything" has to mean it. */
+export async function removeAll(): Promise<void> {
+  await forget(index.map((item) => item.src));
+  await forgetTexts(texts.map((item) => item.slug));
+}
+
+/* ---- A book's text ------------------------------------------------------ */
+
+export interface StoredChapter {
+  anchorKey: string;
+  idx: number;
+  title: string;
+  html: string;
+  wordCount: number;
+}
+
+export interface TextMeta {
+  slug: string;
+  bookTitle: string;
+  bucket: string;
+  chapters: number;
+  words: number;
+  bytes: number;
+  savedAt: number;
+}
+
+/** What text is on the device. Metadata only — see the store comment. */
+let texts: TextMeta[] = [];
+
+export function books(): TextMeta[] {
+  return texts;
+}
+
+export function hasText(slug: string): boolean {
+  return texts.some((t) => t.slug === slug);
+}
+
+/**
+ * Fetch a whole book's prose and keep it.
+ *
+ * The chapters arrive already rendered to HTML, because that is what the
+ * database holds: prose is rendered ONCE at publish time so the on-screen reader
+ * and the print edition cannot diverge. Reading offline therefore needs no
+ * markdown implementation on the device, which is the same reason the Worker has
+ * none.
+ *
+ * NO COMPANION, by construction rather than by filtering: `/book/:slug/text`
+ * does not query it. The Scholar Companion is readable by one account through
+ * one function with the gate inside it, and a copy of its cards sitting in a
+ * device store no such gate guards would be a second way to reach them.
+ */
+export async function downloadText(slug: string): Promise<void> {
+  const response = await fetch(`/book/${encodeURIComponent(slug)}/text`, {
+    credentials: "same-origin",
+  });
+  if (!response.ok || response.redirected) {
+    throw new Error(`Could not fetch this book (${response.status})`);
+  }
+
+  const body = (await response.json()) as {
+    bookTitle: string;
+    bucket: string;
+    chapters: StoredChapter[];
+  };
+
+  const bytes = body.chapters.reduce((n, c) => n + c.html.length, 0);
+  const meta: TextMeta = {
+    slug,
+    bookTitle: body.bookTitle,
+    bucket: body.bucket,
+    chapters: body.chapters.length,
+    words: body.chapters.reduce((n, c) => n + c.wordCount, 0),
+    bytes,
+    savedAt: Date.now(),
+  };
+
+  await tx([TEXT_META, TEXT_BODY], "readwrite", (t) => {
+    t.objectStore(TEXT_BODY).put(body.chapters, slug);
+    t.objectStore(TEXT_META).put(meta);
+  });
+
+  texts = [meta, ...texts.filter((t) => t.slug !== slug)].sort((a, b) => b.savedAt - a.savedAt);
+  announce();
+}
+
+/**
+ * The chapters of one downloaded book.
+ *
+ * Async, unlike `localUrl` for audio, and that is fine: this is read when a page
+ * opens, not inside the tap that has to start playback before the browser
+ * refuses it.
+ */
+export async function readBook(slug: string): Promise<StoredChapter[] | null> {
+  try {
+    const chapters = await tx([TEXT_BODY], "readonly", (t) =>
+      done(t.objectStore(TEXT_BODY).get(slug) as IDBRequest<StoredChapter[] | undefined>),
+    );
+    return chapters ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function removeText(slug: string): Promise<void> {
+  await tx([TEXT_META, TEXT_BODY], "readwrite", (t) => {
+    t.objectStore(TEXT_BODY).delete(slug);
+    t.objectStore(TEXT_META).delete(slug);
+  });
+  texts = texts.filter((t) => t.slug !== slug);
+  announce();
+}
+
+async function forgetTexts(slugs: string[]): Promise<void> {
+  if (slugs.length === 0) return;
+  await tx([TEXT_META, TEXT_BODY], "readwrite", (t) => {
+    for (const slug of slugs) {
+      t.objectStore(TEXT_BODY).delete(slug);
+      t.objectStore(TEXT_META).delete(slug);
+    }
+  });
+  texts = texts.filter((t) => !slugs.includes(t.slug));
+  announce();
 }
 
 /**
@@ -345,8 +590,12 @@ export function removeAll(): Promise<void> {
  * change nothing at all. Making the caller choose the shape is what keeps a
  * network error from wiping a library on a plane.
  */
-export function purgeExcept(allowed: string[] | null): Promise<void> {
-  return forget(sourcesToPurge(index, allowed));
+export async function purgeExcept(allowed: string[] | null): Promise<void> {
+  await forget(sourcesToPurge(index, allowed));
+  // The book's TEXT goes with its audio. Withdrawing access to a book and
+  // leaving its prose readable would make the lease depend on which of the two
+  // somebody happened to download.
+  await forgetTexts(slugsToPurge(texts, allowed));
 }
 
 /**
@@ -369,4 +618,11 @@ export function sourcesToPurge(
   if (allowed === null) return [];
   const keep = new Set(allowed);
   return held.filter((item) => !keep.has(item.slug)).map((item) => item.src);
+}
+
+/** The same decision for downloaded TEXT, which is keyed by slug already. */
+export function slugsToPurge(held: readonly TextMeta[], allowed: string[] | null): string[] {
+  if (allowed === null) return [];
+  const keep = new Set(allowed);
+  return held.filter((item) => !keep.has(item.slug)).map((item) => item.slug);
 }

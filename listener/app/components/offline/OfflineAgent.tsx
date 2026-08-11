@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+import { flushPositions } from "~/lib/listening";
 import { hydrate, purgeExcept } from "~/lib/offline";
 
 /**
@@ -62,10 +63,23 @@ export function OfflineAgent({ simulating }: { simulating: boolean }) {
       if (!cancelled) await purgeExcept(slugs);
     }
 
-    void lease();
+    /*
+     * 4. Positions listened to with no network.
+     *
+     * AFTER the lease, not before, and not in parallel. A position for a book
+     * whose access was withdrawn is a request the server will refuse; sending it
+     * first would mean every launch fires a burst of rejections before the queue
+     * that produced them is cleared.
+     */
+    async function catchUp() {
+      await lease();
+      if (!cancelled) await flushPositions();
+    }
+
+    void catchUp();
     // Also when the device comes back: the app is open for hours at a time on a
     // phone, and the launch that matters may be the one that had no signal.
-    const onOnline = () => void lease();
+    const onOnline = () => void catchUp();
     window.addEventListener("online", onOnline);
 
     return () => {

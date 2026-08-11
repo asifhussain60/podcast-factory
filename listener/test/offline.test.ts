@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-import { sourcesToPurge, type DownloadMeta } from "../app/lib/offline";
+import { slugsToPurge, sourcesToPurge, type DownloadMeta, type TextMeta } from "../app/lib/offline";
 
 /**
  * Offline listening has exactly two rules that can lose something.
@@ -56,6 +56,66 @@ describe("the lease", () => {
 
   it("is unaffected by a slug it was told about but does not hold", () => {
     expect(sourcesToPurge(HELD, ["wisdom", "ayyuha-al-walad", "never-downloaded"])).toEqual([]);
+  });
+});
+
+describe("the lease over downloaded text", () => {
+  const text = (slug: string): TextMeta => ({
+    slug,
+    bookTitle: slug,
+    bucket: "Islamic",
+    chapters: 9,
+    words: 21000,
+    bytes: 400_000,
+    savedAt: 1,
+  });
+
+  const HELD_TEXT = [text("ayyuha-al-walad"), text("wisdom")];
+
+  it("deletes nothing when the answer is unknown", () => {
+    expect(slugsToPurge(HELD_TEXT, null)).toEqual([]);
+  });
+
+  it("deletes everything when the viewer holds nothing", () => {
+    expect(slugsToPurge(HELD_TEXT, [])).toEqual(["ayyuha-al-walad", "wisdom"]);
+  });
+
+  it("takes a book's text when its audio goes, and on the same rule", () => {
+    // The two must not be able to disagree: a book whose access was withdrawn
+    // must not stay readable because the reader downloaded the prose and not the
+    // episodes. Same allowed list, same answer.
+    const allowed = ["wisdom"];
+    expect(slugsToPurge(HELD_TEXT, allowed)).toEqual(["ayyuha-al-walad"]);
+    expect(sourcesToPurge(HELD, allowed)).toEqual([
+      "/media/ayyuha-al-walad/m4a/ep1.m4a",
+      "/media/ayyuha-al-walad/m4a/ep2.m4a",
+    ]);
+  });
+});
+
+describe("the book-text endpoint", () => {
+  const SOURCE = readFileSync(
+    new URL("../app/routes/book.$slug.text.ts", import.meta.url),
+    "utf8",
+  );
+
+  it("never reaches for the Scholar Companion", () => {
+    // Not "filters it out" — never asks. Its cards are readable by one account
+    // through one function with the gate inside it, and a copy in a device store
+    // that no `viewer.isAdmin` check guards would be a second way to reach them.
+    // The same shape of grep that watches publish_to_listener.py for the two
+    // privilege bits.
+    //
+    // COMMENTS STRIPPED FIRST. The module's own header explains at length why
+    // the Companion is absent, and a grep over the raw text fails on that
+    // explanation — which would leave the only way to pass being to delete the
+    // reasoning. What is asserted is the CODE.
+    const code = SOURCE.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
+    expect(code).not.toMatch(/companion/i);
+  });
+
+  it("runs the same access gate the reading page runs", () => {
+    expect(SOURCE).toContain("requireUnitAccess");
   });
 });
 

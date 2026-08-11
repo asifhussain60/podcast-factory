@@ -22,6 +22,7 @@ import { NotesList } from "~/components/reader/NotesList";
 import { RichNoteEditor } from "~/components/notes/RichNoteEditor";
 import { Transcript, parseVtt, type Cue } from "~/components/player/Transcript";
 import { newId, refresh, type EpisodeNote } from "~/lib/marks";
+import { queuePosition } from "~/lib/listening";
 import { localTranscript, localUrl } from "~/lib/offline";
 
 /**
@@ -196,6 +197,17 @@ function savePosition(episode: NowPlaying, seconds: number) {
     // the server copy below is unaffected, which is the point of having both.
   }
 
+  /* NO NETWORK: queue it, and queue it on every tick rather than once a minute.
+     The throttle below exists to spare the SERVER 1,400 requests; a local write
+     costs nothing, and it is what makes the position a listener stops at on a
+     plane the one they resume from — the minute-granular alternative loses up to
+     a minute of an episode they were mid-sentence in. Sent by lib/listening's
+     flush when the device comes back. */
+  if (typeof navigator !== "undefined" && navigator.onLine === false) {
+    queuePosition(episode.slug, episode.number, whole);
+    return;
+  }
+
   // Throttled to one write a minute, and deliberately not more. A position is
   // only useful to within a few seconds, this fires every five, and a listener
   // going through a two-hour episode would otherwise post 1,400 times.
@@ -212,8 +224,11 @@ function savePosition(episode: NowPlaying, seconds: number) {
       seconds: String(whole),
     }),
     // The listener is mid-episode; a failed bookkeeping write must not surface
-    // as an unhandled rejection in their console.
-  }).catch(() => {});
+    // as an unhandled rejection in their console. It DOES get queued: `onLine`
+    // is a hint rather than a guarantee — it reports the link, not whether
+    // anything is reachable over it — so this is where a captive wifi or a
+    // dropped connection mid-flight actually lands.
+  }).catch(() => queuePosition(episode.slug, episode.number, whole));
 }
 
 let lastServerWrite = 0;
