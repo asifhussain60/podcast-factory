@@ -282,7 +282,7 @@ There is a well-known Hadith in which جبرئیل (AS) appears before Rasul All
 
 Islam is to bear witness that there is no god but Allah, and that Muhammad is the messenger of Allah, and to establish the prayer, and to give the charity, and to fast the month of Ramadan, and to perform pilgrimage to the House if you are able to find a way to it.
 
-What is remarkable about this Hadith is that Rasul Allah (SWS) did not define Islam philosophically — he described it as a set of practices. We must remember, however, that this is not how Islam began for him. As a profound human and spiritual phenomenon, Islam began for Rasul Allah (SWS) with an overwhelming experience, and only later culminated in these practices. His journey opened with a direct encounter with the noumenal realm — the world of the unseen, or عالم الغیب, which contains metaphysical realities such as Allah, angels, heaven, and hell. This stands in contrast to the phenomenal realm, or عَالَمُ الشَّھَادَۃِ: the physical, visible world of appearances.
+What is remarkable about this Hadith is that Rasul Allah (SWS) did not define Islam philosophically — he described it as a set of practices. We must remember, however, that this is not how Islam began for him. As a profound human and spiritual phenomenon, Islam began for Rasul Allah (SWS) with an overwhelming experience, and only later culminated in these practices. His journey opened with a direct encounter with the noumenal realm — the world of the unseen, or عَالَمُ الْغَیْبِ, which contains metaphysical realities such as Allah, angels, heaven, and hell. This stands in contrast to the phenomenal realm, or عَالَمُ الشَّھَادَۃِ: the physical, visible world of appearances.
 
 The Prophet's life was a testament to his connection to both realms. He had his phenomenal experience in the Cave of حرا, and his noumenal experience during his ascension, the معراج. Today, we seek to connect with both of these experiences — to step into his shoes and imagine what it must have felt like. His journey sets a precedent for us, showing what Islam is meant to feel like from the inside, and that feeling is what makes the practices easy and full of meaning.
 
@@ -290,7 +290,7 @@ The Prophet's life was a testament to his connection to both realms. He had his 
 
 The year is 620 AD. Rasul Allah (SWS) is 40 years old. He is deeply troubled by the social and cultural norms of his time — particularly the behavior of the جاھلی Arabs and their idol worship. With a natural disinclination toward superstition and animism, he seeks solitude and escape. He would regularly retreat to a cave on a mountain called جَبَلُ النُّورِ, the "Mountain of Light." The cave itself is known as حرا, a word meaning "darkness" — an arresting juxtaposition: a cave of darkness within a mountain of light. Here, he engaged in deep contemplation and reflection, a state we might today call meditation, or تَحَنُّث: the emptying of the mind.
 
-The word تَحَنُّث is derived from حنث, which in Arabic means شرک — attributing partners to Allah. In سُورَۃُ الْوَاقِعَۃِ, Allah (Subhanahu wa Ta'ala) says:
+The word تَحَنُّث is derived from حنث, which in Arabic means شرک — attributing partners to Allah. In سُورَۃُ الْوَاقِعَۃِ, Allah (سُبْحَانَهُ وَتَعَالَىٰ) says:
 
 > ‏ ‏وَكَانُوا۟ يُصرُّونَ عَلَى ٱلْحنث ٱلْعَظيم ‎ ‎
 >
@@ -358,7 +358,7 @@ The second divine experience of Rasul Allah (SWS) was the night journey (اسر�
 
 The word أَسری — to take someone by night — underscores that a journey which would have taken the Arabs 40 nights was completed in a single night. The journey had two parts. The first was a physical passage from Mecca to Jerusalem, made on a steed named بُراق — a creature smaller than a horse but larger than a mule. The name بُراق comes from برق (lightning) and بَرَاقۃ (luminous). This steed moved at the speed of light, covering the distance from one horizon to the next in a single stride, making the physical leg of the journey virtually instantaneous.
 
-Upon reaching the mosque of اقصی, the second phase — the معراج — began. This was a metaphysical journey beyond the confines of time and space, faster even than light. The word معراج means "an instrument of ascension" or "a ladder," from the root عرج. During this journey, Rasul Allah (SWS) had a direct witnessing of Allah (Subhanahu wa Ta'ala). The Quran describes this nearness:
+Upon reaching the mosque of اقصی, the second phase — the معراج — began. This was a metaphysical journey beyond the confines of time and space, faster even than light. The word معراج means "an instrument of ascension" or "a ladder," from the root عرج. During this journey, Rasul Allah (SWS) had a direct witnessing of Allah (سُبْحَانَهُ وَتَعَالَىٰ). The Quran describes this nearness:
 
 > ‏ ‏ثُمَّ دَنَا فَتَدَلَّىٰ ‎ ‏فَكَانَ قَابَ قَوْسَيْن أَوْ أَدْنَىٰ ‎ ‎
 >
@@ -372,7 +372,7 @@ The Quran's description of this experience is profoundly telling:
 >
 > Then he approached and descended (8) And was at a distance of two bow lengths or nearer. (9).
 
-Why would his vision not deviate? He was traveling through the seven heavens, witnessing the unveiling of the unseen world (عالم الغیب). For an ordinary person, that unveiling would be unbearable — it would likely lead to madness. We know from modern science that we perceive less than a billionth of the material stimuli around us, and that 95% of the physical universe is dark matter, invisible to us. The Quran, 1400 years ago, pointed to this reality:
+Why would his vision not deviate? He was traveling through the seven heavens, witnessing the unveiling of the unseen world (عَالَمُ الْغَیْبِ). For an ordinary person, that unveiling would be unbearable — it would likely lead to madness. We know from modern science that we perceive less than a billionth of the material stimuli around us, and that 95% of the physical universe is dark matter, invisible to us. The Quran, 1400 years ago, pointed to this reality:
 
 > ‏ ‏وَٱلسَّمَاء وَٱلطَّارق ‎ ‏وَمَا أَدْرَىٰكَ مَا ٱلطَّارقُ ‎ ‏ٱلنَّجْمُ ٱلثَّاقبُ ‎ ‎
 >
@@ -388,13 +388,13 @@ Despite all these breathtaking sights, the vision of Rasul Allah (SWS) did not d
 
 Everything that you can ever desire exists in your beloved.
 
-Upon his return, Rasul Allah (SWS) was completely transformed. The world was no longer a distraction; he now saw reality as it truly is. Our tradition calls this "right understanding," and our lack of it is the cause of our pain. The Arabic word for "desire" and for "oppression" — بغی — is one and the same. Desires oppress us. Islam does not demand the elimination of desire — that is impossible — but its management: to redirect desire toward its highest object, which is Allah (Subhanahu wa Ta'ala).
+Upon his return, Rasul Allah (SWS) was completely transformed. The world was no longer a distraction; he now saw reality as it truly is. Our tradition calls this "right understanding," and our lack of it is the cause of our pain. The Arabic word for "desire" and for "oppression" — بغی — is one and the same. Desires oppress us. Islam does not demand the elimination of desire — that is impossible — but its management: to redirect desire toward its highest object, which is Allah (سُبْحَانَهُ وَتَعَالَىٰ).
 
 ### Islam is a Journey and a Choice
 
 These two extraordinary experiences — the revelation through جبرئیل and the direct witnessing of his Lord — represent the summit of Rasul Allah's (SWS) Islam. Yet his journey did not begin with a direct encounter. It began with an intermediary, with extreme constriction of the heart, with fear, doubt, and physical pain. Thirteen years of persecution, trial, and hardship followed, and only then did the unveiling of the unseen realm occur.
 
-The Prophet's experience sets an archetype for all of us as Muslims. Our path is a journey toward our Master. Just as his journey began with تخلیۃ (emptying out) and تحنث (detachment from worldly distractions), so too must we undertake the same exercise. We must work to manage our desires, not eliminate them, and make our ultimate desire Allah (Subhanahu wa Ta'ala).
+The Prophet's experience sets an archetype for all of us as Muslims. Our path is a journey toward our Master. Just as his journey began with تخلیۃ (emptying out) and تحنث (detachment from worldly distractions), so too must we undertake the same exercise. We must work to manage our desires, not eliminate them, and make our ultimate desire Allah (سُبْحَانَهُ وَتَعَالَىٰ).
 
 It all begins with a choice. Do you even want to make this journey? If not, then Islam is not for you. Enjoy the fleeting pleasures of this world, knowing they will not last and will ultimately lead to misery. Before setting out on any worldly journey, you research it to judge whether it is worth the effort. Do the same for Islam. Study it, learn what it offers in the end, and decide whether you want it. As Allah says:
 
@@ -506,7 +506,7 @@ Allah also described him as a رحمة — a mercy — a manifestation of mercy 
 >
 > And we have not sent you, [o Muhammad], except as a mercy to the worlds.
 
-Maulana Ali (AS) described him as the kindest of people by nature. His mission was to make life easier (تیسیر), not harder, by lifting the burdens and shackles imposed by earlier systems and by people's own lower selves. The character of our Prophet (SWS) was an ocean of mercy. Allah Himself reveals this reality in a remarkable verse — not simply describing His Messenger, but unveiling the very nature of Divine love as it manifests in a human soul.
+Maulana Ali (AS) described him as the kindest of people by nature. His mission was to make life easier (تَیْسِیر), not harder, by lifting the burdens and shackles imposed by earlier systems and by people's own lower selves. The character of our Prophet (SWS) was an ocean of mercy. Allah Himself reveals this reality in a remarkable verse — not simply describing His Messenger, but unveiling the very nature of Divine love as it manifests in a human soul.
 
 > ‏ ‏فَبِمَا رَحْمَةٍۢ مِّنَ ٱللَّهِ لِنتَ لَهُمْ ۖ وَلَوْ كُنتَ فَظًّا غَلِيظَ ٱلْقَلْبِ لَٱنفَضُّوا۟ مِنْ حَوْلِكَ ۖ فَٱعْفُ عَنْهُمْ وَٱسْتَغْفِرْ لَهُمْ وَشَاوِرْهُمْ فِى ٱلْأَمْرِ ۖ فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى ٱللَّهِ إِنَّ ٱللَّهَ يُحِبُّ ٱلْمُتَوَكِّلِينَ ‏‏
 >

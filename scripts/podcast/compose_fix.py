@@ -524,6 +524,13 @@ def main() -> int:
         report["romanization"] = resolve_romanizations(
             book_dir, selection, allow_research=not args.no_research, log=print
         )
+        # Re-checked, like `--vowel` above and for the reason that flag learned
+        # it: `report` was computed BEFORE the repair, so a run that resolved
+        # every saying still printed the four it started with and then explained
+        # at length that it had not touched them. The run must end by describing
+        # the book it leaves behind.
+        report.update(check(book_dir, selection))
+        report["preface"] = preface_check(book_dir)
         report["after"] = check(book_dir, selection)["totals"]
 
     if args.fix:
