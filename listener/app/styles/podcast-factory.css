@@ -2311,98 +2311,26 @@
     }
   }
 
-  /* ---- The deck ---------------------------------------------------------
-     The Listen tab, made to read as a PLAYER rather than as a second document.
+  /* ---- The recordings ----------------------------------------------------
+     The Listen tab is the SAME LIST as the reading edition (Asif, 2026-08-11),
+     and that is a reversal of what stood here for a day.
 
-     Both tabs used to be the same list of striped rows with a pill on the right,
-     so switching between Read and Listen changed the words on screen and nothing
-     else — a reader had to check the tab to know which one they were looking at.
-     A recording is a different kind of thing from a chapter and should announce
-     itself as one.
+     It had been made to read as a PLAYER: an inlaid panel with its own border,
+     its own accent tint, a wash along the top edge and hairline-separated rows
+     inside it, on the reasoning that a recording is a different kind of thing
+     from a chapter and should announce itself as one. What it announced instead
+     was a TABLE — a boxed grid of cells sitting on a page where every other
+     list is loose striped rows printed straight onto the card. Two lists of the
+     same book in two different idioms read as two different products.
 
-     What makes it read as a device is the GROUND, not ornament: the list sits on
-     the palette's recessed surface with an inset edge, so it reads as inlaid into
-     the page instead of printed on it. Everything else follows from that — the
-     track number is tabular, the control is a circle, and the row lifts under the
-     pointer.
+     So the panel is gone and the `ol` carries `--striped`, which is the reading
+     edition's own treatment: rounded rows, a step of space between them, and
+     every other one washed in the collection's accent. What still says this is
+     audio is what BELONGS to the audio — the microphone at the head of the row,
+     the transport at the end of it, and the pill of facts between.
 
-     WHAT WAS TAKEN FROM THE REFERENCE AND WHAT WAS NOT (Asif, 2026-08-11).
-     Taken: the recessed panel, the two-digit track number, the circular play
-     button that fills on hover, the row that lifts, and a soft accent wash at the
-     head of the panel. Not taken: the literal backdrop blur, which needs a busy
-     backdrop to be anything and reads as a smudge on paper; the fixed gold and
-     cyan, which are not this site's colours — every accent here is `--l-accent`,
-     so the deck is blue for a book and violet for a session with no rule of its
-     own; and the toast on play, because this site has a persistent player bar
-     that already says what is playing and a toast would be a second answer to
-     that in the corner of the screen. */
-
-  .pf-deck__list {
-    position: relative;
-    margin-top: var(--pf-space-3);
-    padding: var(--pf-space-2);
-    border: 1px solid color-mix(in srgb, var(--l-accent) 20%, transparent);
-    border-radius: var(--pf-radius-md);
-    /* TINTED WITH THE BOOK'S OWN ACCENT, not filled with the palette's grey.
-       `--l-sunken` was the first answer and it only worked in the dark: on paper
-       it is a warm grey a shade off the page, so the deck read as a dull slab
-       with the tiles as the one coloured thing on it (Asif, 2026-08-11).
-
-       Six percent. Enough that the surface is plainly a different material from
-       the page, nowhere near enough to compete with the artwork or to drop the
-       contrast of the ink on it — every text colour here is still measured
-       against `--l-surface`, which is what this mixes into.
-
-       And because it mixes `--l-accent`, a session's deck is violet and a book's
-       is blue with no second rule anywhere: the collection overlay in §3b has
-       already changed what that token means by the time this resolves. */
-    background: color-mix(in srgb, var(--l-accent) 6%, var(--l-surface));
-    /* Inset rather than dropped: the panel is set INTO the page, which is the
-       whole difference between a device and a card lying on top of one. Tinted
-       too, or the edge is a grey line on a coloured field. */
-    box-shadow: inset 0 1px 4px
-      color-mix(in srgb, var(--l-accent) 14%, transparent);
-    overflow: hidden;
-  }
-
-  /* The reference's animated aura, reduced to what survives three palettes: a
-     wash of the accent along the top edge, mixed rather than named so it is the
-     collection's own colour and is nearly nothing on paper. */
-  .pf-deck__list::before {
-    content: "";
-    position: absolute;
-    inset-inline: 0;
-    top: 0;
-    height: 4rem;
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--l-accent) 9%, transparent),
-      transparent
-    );
-    pointer-events: none;
-  }
-
-  /* STRIPED, like the chapter list opposite (Asif, 2026-08-11). It was a
-     hairline between tracks, on the reasoning that a track's facts sit under its
-     own title and are therefore already grouped. They do not any more — the
-     facts moved into one pill at the far right of the row — so a track is now
-     exactly the shape the chapters are: a title at one edge, its facts and its
-     transport at the other, with the width of the panel in between for the eye
-     to lose the line across.
-
-     The stripe REPLACES the hairline rather than joining it: both together is
-     two separators doing one job. Mixed from `--l-accent` for the same reason
-     the panel under it is, so a session's list is violet and a book's is blue
-     with no second rule anywhere. Eight percent over a panel already tinted six,
-     which is a band you see without reading it. */
-  .pf-deck__list > li {
-    position: relative;
-    border-radius: var(--pf-radius-sm);
-  }
-
-  .pf-deck__list > li:nth-of-type(even) {
-    background: color-mix(in srgb, var(--l-accent) 8%, transparent);
-  }
+     Kept from the player idiom: the circular transport, the row that lifts
+     under the pointer, and the accent edge down the row that is playing. */
 
   .pf-track {
     align-items: center;
@@ -2413,6 +2341,22 @@
       background var(--pf-motion),
       transform var(--pf-motion),
       box-shadow var(--pf-motion);
+  }
+
+  /* THE TWO ENDS OF THE ROW, THE SAME WEIGHT (Asif, 2026-08-11). The mark was
+     set at `1em` — the size a chapter's book icon is, in a row whose other end
+     is a 44px circle — so a track opened with a speck and closed with a button
+     and read as lopsided all the way down the list. It is sized against the
+     transport now rather than against the text.
+
+     Not the transport's full 44px: that is a RING around a glyph, and a
+     microphone drawn at the ring's diameter would be twice the height of the
+     title beside it. It matches the button optically — the same visual mass at
+     each end — which is what "the same size" means for two marks of different
+     shape. */
+  .pf-track .pf-row__mark {
+    width: 1.75rem;
+    opacity: 0.75;
   }
 
   /* The whole row starts the recording, so the whole row says so under the
@@ -2547,7 +2491,7 @@
   /* The row that is PLAYING is marked on the row, not only on its button: the
      button is 44px at the end of a wide row and the eye looking for "where am
      I" scans the left edge. A rule down that edge answers it at a glance. */
-  .pf-deck__list > li:has(.pf-track__play.is-playing) .pf-track {
+  .pf-session__list > li:has(.pf-track__play.is-playing) .pf-track {
     background: color-mix(in srgb, var(--l-accent) 4%, var(--l-elev));
     box-shadow: inset 3px 0 0 var(--l-accent);
   }
@@ -4517,65 +4461,6 @@
     font-size: var(--pf-text-xs);
     font-variant-numeric: tabular-nums;
     color: var(--l-faint);
-  }
-
-  /* ---- Continue reading --------------------------------------------------
-     The one call to action on a book page that is about THIS reader rather than
-     about the book. In the accent's soft fill so it is findable above a list of
-     nine near-identical chapter rows, without becoming a solid slab — the print
-     edition button beside it already learned that lesson. */
-
-  /* Where you left off, standing on its own ABOVE the panel rather than as the
-     first thing inside it. Between the chapter count and the first chapter row
-     it read as another row of the list; out here it is the first thing under
-     the title. The bottom margin is the separation that makes it read as its
-     own object and not as the panel's lid. */
-  .pf-resume {
-    display: flex;
-    flex-direction: column;
-    gap: var(--pf-space-1);
-    margin-block: var(--pf-space-5) var(--pf-space-6);
-    padding: var(--pf-space-4) var(--pf-space-5);
-    background: var(--l-accent-soft);
-    border: 1px solid color-mix(in srgb, var(--l-accent) 30%, transparent);
-    border-radius: var(--pf-radius);
-    text-decoration: none;
-    transition:
-      border-color var(--pf-motion),
-      transform var(--pf-motion);
-  }
-
-  .pf-resume:hover {
-    border-color: var(--l-accent);
-    transform: translateY(var(--pf-lift));
-  }
-
-  /* Its own label rather than the shared `.pf-eyebrow`: this one names an
-     action the reader is being offered, and at the eyebrow's weight it read as
-     a section caption of the kind that labels a fact. */
-  .pf-resume__label {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--pf-space-2);
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-xs);
-    font-weight: 700;
-    letter-spacing: var(--pf-tracking-eyebrow);
-    text-transform: uppercase;
-    color: var(--l-accent);
-  }
-
-  .pf-resume__title {
-    font-family: var(--l-font-prose);
-    font-size: var(--pf-text-md);
-    color: var(--l-ink);
-  }
-
-  .pf-resume__meta {
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-xs);
-    font-variant-numeric: tabular-nums;
-    color: var(--l-muted);
   }
 
   /* How many marks sit in a chapter, in its row. Quieter than the reading time

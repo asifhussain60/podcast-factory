@@ -381,17 +381,22 @@ describe.each(MERGED)("$name", ({ name, colors }) => {
 });
 
 /* ---------------------------------------------------------------------------
- * §6 — the deck, which must be the COLLECTION's colour and not a grey.
+ * §6 — the recordings list, which must be the COLLECTION's colour and not a grey.
  *
- * The Listen tab's panel was first filled with `--l-sunken`, the palette's
+ * The Listen tab's surfaces were first filled with `--l-sunken`, the palette's
  * recessed surface. It only looked right in the dark: on paper `--l-sunken` is a
- * warm grey a shade off the page, so the deck read as a dull slab with the
- * artwork tiles as the one coloured thing on it (Asif, 2026-08-11).
+ * warm grey a shade off the page, so the list read as a dull slab with the
+ * accent pills as the one coloured thing on it (Asif, 2026-08-11).
  *
- * The fix was to derive every surface in it from `--l-accent`, which the
- * collection overlay in §3b has already redefined by the time these resolve —
- * so a session's deck is violet and a book's is blue with no second rule
- * anywhere and no palette value repeated outside §3.
+ * The fix was to derive every surface from `--l-accent`, which the collection
+ * overlay in §3b has already redefined by the time these resolve — so a
+ * session's list is violet and a book's is blue with no second rule anywhere
+ * and no palette value repeated outside §3.
+ *
+ * `.pf-deck__list` was the boxed panel these rows used to sit in, and it is
+ * deliberately NOT in the list below any more: the panel was retired the same
+ * day for reading as a table, and the rows now take the reading edition's own
+ * `--striped` treatment, which is asserted here in its place.
  *
  * That is a property of the STYLESHEET, not of one screenshot, so it is asserted
  * here: a later "tidy" that puts a neutral back would pass every rendering test
@@ -419,7 +424,6 @@ describe("the deck takes its colour from the collection", () => {
   };
 
   for (const selector of [
-    ".pf-deck__list",
     ".pf-track__facts",
     ".pf-track:hover",
     ".pf-rows--striped > li:nth-of-type(even)",

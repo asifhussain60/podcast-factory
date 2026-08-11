@@ -3,7 +3,6 @@ import {
   faBookOpen,
   faCircleInfo,
   faCircleMinus,
-  faCirclePlay,
   faClosedCaptioning,
   faClock,
   faDownload,
@@ -11,6 +10,7 @@ import {
   faHeadphones,
   faImages,
   faLayerGroup,
+  faMicrophoneLines,
   faNoteSticky,
   faPause,
   faPlay,
@@ -186,46 +186,6 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     markedEpisodes.set(n.number, (markedEpisodes.get(n.number) ?? 0) + 1);
   }
 
-  /* ---- Where you left off ----
-     Computed HERE rather than inside the reading edition, because it is shown
-     ABOVE the panel now (Asif, 2026-08-04). Inside, sandwiched between the
-     chapter count and the first chapter row, it read as another row of the list
-     — the thing it exists not to be. Out on the page it is the first thing
-     under the title, which is what "continue" should be for a book you are
-     part-way through.
-
-     Offered only when there IS somewhere to go back to, and not when that place
-     is simply the first chapter — "continue from the beginning" is a second
-     Start button wearing a different word. Null too when the chapter no longer
-     exists, which a re-compose can do by renaming one. */
-  const startedIn =
-    marks.progress === null
-      ? undefined
-      : chapters.find((c) => c.anchorKey === marks.progress!.anchorKey);
-  const resume =
-    startedIn === undefined || marks.progress === null
-      ? null
-      : chapters[0]?.anchorKey === startedIn.anchorKey && marks.progress.fraction < 0.05
-        ? null
-        : {
-            anchorKey: startedIn.anchorKey,
-            title: startedIn.title,
-            fraction: marks.progress.fraction,
-          };
-
-  /* ---- …and only while the reading edition is the open tab ----
-     "Continue reading" sat above the tab strip, so it stayed on screen while
-     you were looking at the episodes and the slides — offering to take you out
-     of the panel you had just chosen (Asif, 2026-08-11). It belongs to the Read
-     tab, so it is shown with the Read tab.
-
-     Read from `?tab` rather than from the tab strip's own state, which is the
-     same source the strip itself uses: no tab named means the first panel this
-     book HAS is open, which is Read whenever there is anything to read. */
-  const [openParams] = useSearchParams();
-  const openTab = openParams.get("tab");
-  const readingIsOpen = canRead && (openTab === null || openTab === "read");
-
   // Offered ONLY when the file is actually in R2. The row exists as soon as the
   // PDF is on the author's disk, and linking to that would promise a download
   // that 404s.
@@ -354,20 +314,6 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
           Only the ways this book actually offers get a tab, and a book with
           just one of them gets no tab strip at all — a tablist with a single
           tab is a control that cannot be used. */}
-      {resume === null || !readingIsOpen ? null : (
-        <Link
-          to={`/book/${unit.slug}/read/${encodeURIComponent(resume.anchorKey)}`}
-          className="pf-resume"
-        >
-          <span className="pf-resume__label">
-            <Icon icon={faBookOpen} />
-            Continue reading
-          </span>
-          <span className="pf-resume__title">{resume.title}</span>
-          <span className="pf-resume__meta">{Math.round(resume.fraction * 100)}% through</span>
-        </Link>
-      )}
-
       <Tabs
         panels={[
           canRead
@@ -918,7 +864,15 @@ function Podcast({
             </h3>
           ) : null}
 
-          <ol className="pf-rows pf-deck__list pf-session__list">
+          {/* ---- The same list the chapters are (Asif, 2026-08-11) ----
+              It was a bordered, tinted, inset panel with hairline-separated
+              rows inside it — a device, borrowed from a music player, sitting
+              on a page whose every other list is loose striped rows on the
+              card itself. Two lists of the same book in two different idioms
+              read as two different products, and the boxed one read as a table.
+              `--striped` is the reading edition's own treatment, so Read and
+              Listen are now one list shape with different contents. */}
+          <ol className="pf-rows pf-rows--striped pf-session__list">
             {session.episodes.map((episode) => (
               <li key={episode.number}>
                 <div
@@ -933,17 +887,22 @@ function Podcast({
                       : undefined
                   }
                 >
-                  {/* A PLAY GLYPH where the ordinal used to be (Asif,
+                  {/* A MICROPHONE where the ordinal used to be (Asif,
                       2026-08-11): a reader scanning this list should be able to
                       tell it is audio without reading a word of it, and a
                       number told them nothing the chapter list opposite does not
                       also carry.
 
+                      A microphone rather than the play glyph it was for one
+                      afternoon, because the play glyph is what the TRANSPORT at
+                      the other end of the row already is — the same mark twice
+                      on one row, one of which does nothing. These are recorded
+                      sessions, so the mark says "this was spoken", which is the
+                      counterpart of the open book on a chapter.
+
                       Decorative, and aria-hidden: the control that actually
-                      plays is at the other end of the row and names the episode
-                      in full. This is the row's genre mark, the counterpart of
-                      the open book on a chapter. */}
-                  <Icon icon={faCirclePlay} className="pf-row__mark" />
+                      plays names the episode in full. */}
+                  <Icon icon={faMicrophoneLines} className="pf-row__mark" />
 
                   <div className="pf-row__main">
                     {/* Not a link. An episode has no page of its own: what is
