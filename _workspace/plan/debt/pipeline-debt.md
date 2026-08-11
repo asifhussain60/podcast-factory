@@ -1386,3 +1386,25 @@ family — the ligature is only one glyph, `صلى الله عليه وآله و
 Arabic; (b) the existing `ﷺ` with the loss accepted; (c) leave them romanized and record
 197 against this book in `test_book_articulation_defects.KNOWN`, which is the first
 non-zero entry that table would carry since it was emptied.
+
+## `--refresh-provenance` cannot write the FIRST Arabic audit — 2026-08-11
+
+**Severity:** Medium. It silently no-ops on exactly the books that need it most, and it
+is the command whose stated job is "re-file which Arabic runs are scripture".
+
+`compose_fix.refresh_provenance` opens with `provenance_drift(book_dir)` and returns
+early when that is empty, printing "the record already matches the page". A book with no
+`_system/book-arabic-audit.json` at all has no record to drift from, so the check is
+empty and `run_arabic_audit` is never called — the tool reports agreement between a page
+and a record that does not exist.
+
+Both Sessions books were in that state, because the audit is written by a compose and
+this route never runs one. The consequence is not subtle: `quranicRuns` is read from that
+file, so with no audit NO verse in either book could be recognised as scripture, whatever
+the text said. Both were repaired by calling `run_arabic_audit` directly.
+
+The fix is one condition, but which condition is a decision: `--refresh-provenance` could
+generate a missing audit (making it "make the record right", the reading its name
+suggests), or it could report the absence and refuse (making it strictly a repair, and
+putting the first write somewhere else). The first is what every caller appears to
+expect. Either way the silent success has to go.
