@@ -7032,9 +7032,52 @@
     font-weight: 600;
   }
 
+  /* ---- Enumerations ---------------------------------------------------
+     THE MARKERS HAVE TO BE PUT BACK. Tailwind's preflight sets
+     `list-style: none` on every `ul` and `ol` — the right default for an app
+     built out of nav lists and card grids, and exactly wrong for a reading
+     column, where a list is prose the author chose to enumerate.
+
+     Nothing restored it, so every enumeration in every reading edition on this
+     site has been rendering as a pair of indented paragraphs: correct HTML,
+     correct source markdown, and no bullet on the page. Asif found it on
+     2026-08-11 in a passage of Arabic morphology where two worked examples had
+     silently stopped looking like two worked examples.
+
+     `ol` takes decimals and `ul` discs, because the SOURCE decides which: the
+     KSESSIONS transcripts carry both, `renderMarkdown` preserves both, and the
+     page must not flatten that choice into one shape.
+
+     The marker is set in the muted ink rather than the body ink. At the reading
+     column's size a full-strength disc is a heavier mark than the sentence it
+     introduces. */
   .reader ul,
   .reader ol {
-    padding-left: 1.4em;
+    padding-left: 1.6em;
+    /* The list is a block of prose, not a run inside one — it wants the same
+       space above and below that a paragraph gets. */
+    margin-block: 1em;
+  }
+
+  .reader ul {
+    list-style: disc outside;
+  }
+
+  .reader ol {
+    list-style: decimal outside;
+  }
+
+  /* A list inside a list is a sub-point, and it says so by changing shape. */
+  .reader ul ul {
+    list-style: circle outside;
+  }
+
+  .reader ol ol {
+    list-style: lower-alpha outside;
+  }
+
+  .reader li::marker {
+    color: var(--l-muted);
   }
 
   .reader li + li {

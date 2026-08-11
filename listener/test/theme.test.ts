@@ -444,3 +444,56 @@ describe("the deck takes its colour from the collection", () => {
     expect(ruleFor(".pf-row__mark")).toContain("--l-accent");
   });
 });
+
+/* ---------------------------------------------------------------------------
+ * §7 — enumerations keep their markers.
+ *
+ * Tailwind's preflight sets `list-style: none` on every `ul` and `ol`. That is
+ * the right default for an app built out of nav lists and card grids, and
+ * exactly wrong for a reading column, where a list is prose the author chose to
+ * enumerate.
+ *
+ * Nothing restored it, so every enumeration in every reading edition rendered as
+ * indented paragraphs with no bullet: correct source markdown, correct HTML in
+ * the database, and nothing on the page to say it was a list. Asif found it on
+ * 2026-08-11 in a passage of Arabic morphology whose two worked examples had
+ * silently stopped looking like two worked examples.
+ *
+ * A rendering test cannot catch this — the markup is right. Only the stylesheet
+ * can be asked.
+ * ------------------------------------------------------------------------- */
+
+describe("the reading column's lists", () => {
+  const readingColumn = CSS.slice(CSS.indexOf("* 7. READER"));
+
+  it("gives ul a disc and ol a decimal", () => {
+    // Both, separately: the SOURCE decides which, the KSESSIONS transcripts
+    // carry both kinds, and a page that flattened the choice into one shape
+    // would be overruling the author.
+    expect(readingColumn).toMatch(/\.reader ul\s*\{[^}]*list-style:\s*disc/);
+    expect(readingColumn).toMatch(/\.reader ol\s*\{[^}]*list-style:\s*decimal/);
+  });
+
+  it("never sets list-style: none on a reader list", () => {
+    const noneOnAList =
+      /\.reader\s+(ul|ol)[^{]*\{[^}]*list-style(-type)?:\s*none/;
+    expect(readingColumn).not.toMatch(noneOnAList);
+  });
+
+  it("changes shape for a nested list, so a sub-point reads as one", () => {
+    expect(readingColumn).toMatch(
+      /\.reader ul ul\s*\{[^}]*list-style:\s*circle/,
+    );
+    expect(readingColumn).toMatch(
+      /\.reader ol ol\s*\{[^}]*list-style:\s*lower-alpha/,
+    );
+  });
+
+  it("sets the marker in a palette ink rather than a literal", () => {
+    const marker =
+      readingColumn.match(/\.reader li::marker\s*\{[^}]*\}/)?.[0] ?? "";
+    expect(marker, "the reading column must style ::marker").not.toBe("");
+    expect(marker).toContain("var(--l-");
+    expect(marker).not.toMatch(/#[0-9a-fA-F]{3,8}\b/);
+  });
+});
