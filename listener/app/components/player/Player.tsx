@@ -22,7 +22,11 @@ import { NotesList } from "~/components/reader/NotesList";
 import { RichNoteEditor } from "~/components/notes/RichNoteEditor";
 import { Transcript, parseVtt, type Cue } from "~/components/player/Transcript";
 import { newId, refresh, type EpisodeNote } from "~/lib/marks";
-import { queuePosition } from "~/lib/listening";
+import {
+  queueMoment,
+  queuePosition,
+  withPendingMoments,
+} from "~/lib/listening";
 import { localTranscript, localUrl } from "~/lib/offline";
 
 /**
@@ -244,9 +248,12 @@ let lastServerWrite = 0;
  * note under the wrong work. `savePosition` above already writes this way, for
  * the same reason.
  *
- * The cost is that this one write has no offline outbox. That is the right trade:
- * a note is made in a moment the listener can see happen, and the alternative is
- * a queue that can attribute it to the wrong book.
+ * IT NOW HAS AN OUTBOX, and the objection recorded here — that a queue could
+ * attribute a note to the wrong book — is answered the way the position queue
+ * answers it: `lib/listening.ts` carries the slug on every entry rather than
+ * having a current book. A write that cannot go out is kept and replayed, and
+ * until it lands the note is shown FROM the queue, so marking a moment on a
+ * plane looks like marking one anywhere else.
  */
 function markMoment(
   episode: NowPlaying,
@@ -260,22 +267,30 @@ function markMoment(
   // real content.
   note: string = "",
 ): Promise<boolean> {
+  const fields = {
+    id,
+    number: String(episode.number),
+    // Floor, not round: the stored value is where the line STARTS, and the
+    // site plays back from a little before it anyway.
+    seconds: String(Math.floor(seconds)),
+    note,
+    quote,
+  };
+
   return fetch(`/book/${encodeURIComponent(episode.slug)}/marks`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      intent: "episode-note",
-      id,
-      number: String(episode.number),
-      // Floor, not round: the stored value is where the line STARTS, and the
-      // site plays back from a little before it anyway.
-      seconds: String(Math.floor(seconds)),
-      note,
-      quote,
-    }),
+    body: new URLSearchParams({ intent: "episode-note", ...fields }),
   })
+    // A REFUSAL is not a failure to reach the server and is never queued: a
+    // malformed note would be refused again on every launch for as long as the
+    // app is installed. It is reported as the failure it is.
     .then((response) => response.ok)
-    .catch(() => false);
+    .catch(() => {
+      // No network. Kept, replayed when there is one, and visible meanwhile.
+      queueMoment({ slug: episode.slug, intent: "episode-note", fields });
+      return true;
+    });
 }
 
 /** What the marks endpoint gives back, as much of it as the player uses. */
@@ -358,11 +373,17 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   /** Re-read the playing book's notes. Used after a note is kept or removed. */
   const reloadNotes = useCallback(() => {
     const slug = current?.slug ?? null;
-    if (slug === null) return;
+    const number = current?.number ?? null;
+    if (slug === null || number === null) return;
     notesFor.current = slug;
     void fetchMarks(slug).then((marks) => {
       if (notesFor.current !== slug) return;
-      setNotes(marks?.episodeNotes ?? []);
+      // The QUEUE replayed over the server's answer — see lib/listening. With
+      // no network `fetchMarks` returns null and this is the whole list; with
+      // one it is what has not landed yet. Either way a moment kept a second
+      // ago is on screen, which is the difference between marking a moment on a
+      // plane and pressing a button that appears to do nothing.
+      setNotes(withPendingMoments(slug, number, marks?.episodeNotes ?? []) as EpisodeNote[]);
     });
   }, [current]);
 
@@ -457,7 +478,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       notesFor.current = episode.slug;
       void fetchMarks(episode.slug).then((marks) => {
         if (notesFor.current === episode.slug)
-          setNotes(marks?.episodeNotes ?? []);
+          setNotes(
+            withPendingMoments(
+              episode.slug,
+              episode.number,
+              marks?.episodeNotes ?? [],
+            ) as EpisodeNote[],
+          );
 
         // Jump forward only if another device got further, and only if the
         // listener has not moved in the meantime: seeking under someone who has
@@ -1208,11 +1235,22 @@ function PlayerPanelDrawer() {
                       }),
                     },
                   )
+                    .catch(() => {
+                      // No network. Queued like the keeping of it was, and in
+                      // the SAME queue: a note added and then withdrawn with no
+                      // signal has to be sent in that order, or the withdrawal
+                      // lands on a row that does not exist yet and the note
+                      // survives its own deletion.
+                      queueMoment({
+                        slug: current.slug,
+                        intent: "un-episode-note",
+                        fields: { id },
+                      });
+                    })
                     .then(() => {
                       void refresh(current.slug);
                       reload();
-                    })
-                    .catch(() => {});
+                    });
                 }}
                 onEditEpisodeNote={(id, note) => {
                   const existing = here.find((n) => n.id === id);

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { flushPositions } from "~/lib/listening";
+import { flushMoments, flushPositions } from "~/lib/listening";
 import { hydrate, purgeExcept } from "~/lib/offline";
 
 /**
@@ -64,16 +64,23 @@ export function OfflineAgent({ simulating }: { simulating: boolean }) {
     }
 
     /*
-     * 4. Positions listened to with no network.
+     * 4. What was listened to and marked with no network.
      *
-     * AFTER the lease, not before, and not in parallel. A position for a book
+     * AFTER the lease, not before, and not in parallel. A write against a book
      * whose access was withdrawn is a request the server will refuse; sending it
      * first would mean every launch fires a burst of rejections before the queue
      * that produced them is cleared.
+     *
+     * Positions before moments, and both sequential: a position is one request
+     * per episode and a moment queue can be long, so the cheap one goes first
+     * and the progress bars are right even if the device drops again mid-flush.
      */
     async function catchUp() {
       await lease();
-      if (!cancelled) await flushPositions();
+      if (cancelled) return;
+      await flushPositions();
+      if (cancelled) return;
+      await flushMoments();
     }
 
     void catchUp();
