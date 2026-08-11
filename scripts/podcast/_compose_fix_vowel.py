@@ -34,7 +34,7 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-from _book_edits import base_fingerprint_for, record_edit
+from _book_edits import anchor_key, base_fingerprint_for, record_edit
 
 # The numeric half of a `vowel_text` run's stats. Named here so the accumulation
 # below sums exactly what the engine counts and silently invents nothing when the
@@ -109,7 +109,21 @@ def vowel_chapters(
         # gate refused outright is the one whose refusals a person most needs to
         # read. Recording after the check is how this pass came to be invisible
         # in both ledgers while `record_spend` sat one import away.
-        record_spend(book_dir, phase="compose-fix", step=f"vowel/{chapter['number']:02d}", stats=stats)
+        # The step NAMES the chapter, and `number` is None whenever the heading
+        # carries no ordinal — which is every chapter of Love Of The Prophet, the
+        # very book whose unrecorded spend this ledger was added for. Formatting
+        # None with `:02d` raises, so the pass that had merely been invisible
+        # became one that crashed outright on the first book it was pointed at.
+        #
+        # The anchor key is the fallback rather than a running index: it is the
+        # identifier the whole Composer path already addresses a chapter by, so a
+        # ledger row can still be matched to a chapter after a re-compose moves it.
+        step = (
+            f"vowel/{chapter['number']:02d}"
+            if chapter["number"] is not None
+            else f"vowel/{anchor_key(chapter['heading'])}"
+        )
+        record_spend(book_dir, phase="compose-fix", step=step, stats=stats)
         run["scope"].append(chapter["heading"])
         run["refusals"].extend(stats.get("refusals", []))
         for key in _COUNTERS:

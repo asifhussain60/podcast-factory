@@ -86,6 +86,30 @@ def test_a_chapter_that_changed_nothing_still_records_its_spend(tmp_path, monkey
     assert all(r["phase"] == "compose-fix" for r in rows)
 
 
+def test_an_unnumbered_chapter_still_gets_a_ledger_row(tmp_path, monkeypatch) -> None:
+    """`number` is None whenever the heading carries no ordinal — which is EVERY chapter
+    of Love Of The Prophet, the one book whose unrecorded spend this ledger was added
+    for. Formatting None with `:02d` raises, so the first version of this fix turned a
+    pass that had merely been invisible into one that crashed on the book it was written
+    for. The step falls back to the anchor key: the identifier the whole Composer path
+    already addresses a chapter by, so the row survives a re-compose that moves it."""
+    book_dir = _book(tmp_path)
+    # The Sessions lane numbers nothing: its headings are the lecture titles.
+    (book_dir / "book" / "book.md").write_text("# Title\n\n## One\n\nBody one.\n", encoding="utf-8")
+    monkeypatch.setattr(vowel_book, "vowel_text", _refuses_everything)
+    unnumbered = [{"number": None, "heading": "One", "key": "one"}]
+
+    vowel_chapters(book_dir, unnumbered, section_text=_section_text, log=lambda *_: None)
+
+    rows = [
+        json.loads(line)
+        for line in (book_dir / "_system" / "cost-ledger.jsonl").read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    assert len(rows) == 1
+    assert rows[0]["step"] == "vowel/one", "the anchor key names the chapter when the ordinal cannot"
+
+
 def test_the_model_that_answered_is_named_in_the_provenance_ledger(tmp_path, monkeypatch) -> None:
     book_dir = _book(tmp_path)
     monkeypatch.setattr(vowel_book, "vowel_text", _refuses_everything)
