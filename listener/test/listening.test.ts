@@ -1,6 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { flushPositions, pendingCount, queuePosition } from "../app/lib/listening";
+import {
+  flushMoments,
+  flushPositions,
+  pendingCount,
+  pendingMoments,
+  queueMoment,
+  queuePosition,
+  withPendingMoments,
+} from "../app/lib/listening";
 
 /**
  * Positions listened to with no network.
@@ -128,5 +136,126 @@ describe("the listening outbox", () => {
 
     await flushPositions();
     expect(pendingCount()).toBe(0);
+  });
+});
+
+describe("the moment outbox", () => {
+  const keep = (id: string, seconds: number, note = "") => ({
+    slug: "wisdom",
+    intent: "episode-note" as const,
+    fields: { id, number: "2", seconds: String(seconds), note, quote: "" },
+  });
+
+  it("preserves ORDER, unlike the position queue", () => {
+    // The whole reason moments are a list and positions are a map. Two writes
+    // against the same note are two events, not one value.
+    queueMoment(keep("a", 10));
+    queueMoment({ slug: "wisdom", intent: "un-episode-note", fields: { id: "a" } });
+
+    expect(pendingMoments().map((m) => m.intent)).toEqual([
+      "episode-note",
+      "un-episode-note",
+    ]);
+  });
+
+  it("shows a moment kept with no network, before it has been sent", () => {
+    // Otherwise marking a moment on a plane is indistinguishable from a button
+    // that does nothing.
+    queueMoment(keep("a", 30, "a thought"));
+
+    const shown = withPendingMoments("wisdom", 2, []);
+    expect(shown).toHaveLength(1);
+    expect(shown[0]).toMatchObject({ id: "a", seconds: 30, note: "a thought" });
+  });
+
+  it("replays an add-then-withdraw to nothing", () => {
+    queueMoment(keep("a", 30));
+    queueMoment({ slug: "wisdom", intent: "un-episode-note", fields: { id: "a" } });
+
+    expect(withPendingMoments("wisdom", 2, [])).toEqual([]);
+  });
+
+  it("replays an edit over what the server already has", () => {
+    const server = [{ id: "a", number: 2, seconds: 30, note: "old", quote: null }];
+    queueMoment(keep("a", 30, "new"));
+
+    expect(withPendingMoments("wisdom", 2, server)).toEqual([
+      { id: "a", number: 2, seconds: 30, note: "new", quote: null },
+    ]);
+  });
+
+  it("shows nothing from another book", () => {
+    // The objection that kept the player from having an outbox at all: a queue
+    // with no per-entry book files a note under whatever is open.
+    queueMoment(keep("a", 30));
+    expect(withPendingMoments("ayyuha-al-walad", 2, [])).toEqual([]);
+  });
+
+  it("sends in order and never reaches past a failure", async () => {
+    /* THE rule. Three writes: the first lands, the second cannot go out, and
+       the third must NOT be attempted — sending it would put a later write
+       against this note ahead of an earlier one, which for an add followed by a
+       withdrawal means the note survives its own deletion. */
+    queueMoment(keep("a", 10));
+    queueMoment({ slug: "wisdom", intent: "un-episode-note", fields: { id: "a" } });
+    queueMoment(keep("c", 30));
+
+    const attempted: string[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (_url: string, init: RequestInit) => {
+        const body = String(init.body);
+        attempted.push(body);
+        if (attempted.length === 1)
+          return new Response(JSON.stringify({ ok: true }), { status: 200 });
+        throw new Error("offline");
+      }),
+    );
+
+    await flushMoments();
+
+    // Two attempts: the one that landed, and the one that could not. Never the
+    // third.
+    expect(attempted).toHaveLength(2);
+    expect(attempted[0]).toContain("intent=episode-note");
+    expect(attempted[1]).toContain("intent=un-episode-note");
+
+    // What is left is the failure and everything behind it, in order.
+    expect(pendingMoments().map((m) => m.intent)).toEqual([
+      "un-episode-note",
+      "episode-note",
+    ]);
+  });
+
+  it("drops a write the server will never accept", async () => {
+    // A malformed note refused as permanent would otherwise block every write
+    // behind it for as long as the app is installed.
+    queueMoment(keep("a", 10));
+    queueMoment(keep("b", 20));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(
+        async () =>
+          new Response(JSON.stringify({ error: "bad id", permanent: true }), { status: 200 }),
+      ),
+    );
+
+    await flushMoments();
+    expect(pendingMoments()).toEqual([]);
+  });
+
+  it("keeps everything when the gate bounced us to sign-in", async () => {
+    queueMoment(keep("a", 10));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => {
+        const response = new Response("", { status: 200 });
+        Object.defineProperty(response, "redirected", { value: true });
+        return response;
+      }),
+    );
+
+    await flushMoments();
+    expect(pendingMoments()).toHaveLength(1);
   });
 });

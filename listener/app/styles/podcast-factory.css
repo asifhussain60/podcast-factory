@@ -2769,6 +2769,28 @@
     font-weight: 600;
   }
 
+  /* The notes panel, inline rather than a docked drawer. The reader's SidePanel
+     stands beside the text and shifts the whole shell to make room; here the
+     page is one column and a panel that pushed it would move the prose out from
+     under the reader's eye mid-chapter. */
+  .pf-offline-read__notes {
+    margin-bottom: var(--pf-space-6);
+    padding: var(--pf-space-4);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-md);
+  }
+
+  /* Says what this panel can and cannot do, where the limit is met rather than
+     in a help page nobody opens with no signal. */
+  .pf-offline-read__caveat {
+    margin: var(--pf-space-4) 0 0;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    line-height: 1.6;
+  }
+
   /* Previous and next, pushed to opposite ends. The empty `<span>` the page
      renders at either end of the book is what holds the other one in place —
      `space-between` with one child would centre it. */
