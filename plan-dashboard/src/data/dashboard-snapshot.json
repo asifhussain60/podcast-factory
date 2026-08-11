@@ -1938,6 +1938,31 @@
   ],
   "recent_commits": [
     {
+      "sha": "c4b41bf8",
+      "subject": "fix(ci): the three gates that made develop permanently red, and the two bugs one of them hid",
+      "date": "2026-08-11"
+    },
+    {
+      "sha": "5344f9c4",
+      "subject": "fix(book): spiritual-ethos's Letter to Malik al-Ashtar was complete, and the state now says so",
+      "date": "2026-08-10"
+    },
+    {
+      "sha": "4c5cb799",
+      "subject": "fix(book): the-master-and-the-disciple's chapter 3 was articulated, and the state now says so",
+      "date": "2026-08-10"
+    },
+    {
+      "sha": "3cbd96ff",
+      "subject": "refactor(quotes): the four cards' inks live in one file, and drift cannot be committed",
+      "date": "2026-08-10"
+    },
+    {
+      "sha": "383c1f04",
+      "subject": "chore(dashboard): refresh the recent-commits snapshot",
+      "date": "2026-08-10"
+    },
+    {
       "sha": "94d3bead",
       "subject": "fix(books): book-title cards render without diacritics, consistently",
       "date": "2026-08-10"
@@ -1960,31 +1985,6 @@
     {
       "sha": "c971dd57",
       "subject": "docs(infra): the ElevenLabs key is gone, and the deletion proved the rest",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "ed9b77ac",
-      "subject": "docs: retire ElevenLabs from infra, and record the Azure tenant",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "87dccbb3",
-      "subject": "docs(infra): the credential story the pipeline actually follows, not the one from June",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "74791b8f",
-      "subject": "podcast(kitab-al-riyad): last chapter cleared the articulation gate",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "4b9dc528",
-      "subject": "podcast(kitab-al-riyad): two more chapters cleared the articulation gate",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "80417def",
-      "subject": "feat(media): --drop-local-audio reclaims the disk a local bucket spent on duplicates",
       "date": "2026-08-10"
     }
   ],
