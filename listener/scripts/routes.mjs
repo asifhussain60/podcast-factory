@@ -39,6 +39,13 @@ export const STATIC_ROUTES = [
   { path: "/about", who: "nobody", expect: 200, label: "about-no-books" },
   { path: "/about", who: "anon", expect: 302, label: "about-signed-out" },
 
+  // Advanced search. Reached from a button on the library, so it is visited as
+  // the identities that see that button — including the reader granted one book,
+  // since the page must not depend on holding more than that.
+  { path: "/search", who: "admin", expect: 200, label: "search" },
+  { path: "/search", who: "reader", expect: 200, label: "search-reader" },
+  { path: "/search", who: "anon", expect: 302, label: "search-signed-out" },
+
   // `/admin` IS the people screen — the Overview tab it used to open on was
   // retired, and its numbers now sit above both tabs.
   { path: "/admin", who: "admin", expect: 200, label: "admin-people" },

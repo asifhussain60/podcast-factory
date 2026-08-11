@@ -1,9 +1,12 @@
+import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import { useMemo, useState } from "react";
+import { Link } from "react-router";
 
 import type { Route } from "./+types/home";
 import { AppShell } from "~/components/AppShell";
 import { BookCard } from "~/components/BookCard";
 import { EmptyState } from "~/components/EmptyState";
+import { Icon } from "~/components/Icon";
 import { SearchBox } from "~/components/SearchBox";
 import { collectionOf } from "~/lib/collection";
 import { count, plural } from "~/lib/plural";
@@ -134,7 +137,12 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         </p>
 
         {units.length === 0 ? null : (
-          <>
+          /* One row: type, narrow, or go and ask a harder question.
+             They were stacked — the box on its own line, the chips on the next
+             — which read as three unrelated controls and pushed the first card
+             below the fold on a laptop. They are three ways of narrowing ONE
+             grid, so they sit on one line and wrap together on a phone. */
+          <div className="pf-library-find">
             <SearchBox
               id="library-search"
               label="Search the library"
@@ -166,7 +174,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 ))}
               </div>
             ) : null}
-          </>
+
+            {/* A LINK, not a button: it goes to a page, so it must open in a new
+                tab on a middle-click and be copyable like any other address. */}
+            <Link to="/search" className="pf-button pf-button--soft pf-library-find__more">
+              <Icon icon={faSliders} />
+              Advanced search
+            </Link>
+          </div>
         )}
       </section>
 

@@ -49,6 +49,13 @@ export default [
     // its own beyond this position.
     route("about", "routes/about.tsx"),
 
+    // Advanced search. Its own page rather than more controls on the library,
+    // because the library's box narrows a grid it is already holding and this
+    // asks the catalogue a question — a different act, and one that wants room.
+    // Gated like everything else: what it can find is what `visibleUnits`
+    // returns for the person asking, never the catalogue.
+    route("search", "routes/search.tsx"),
+
     route("book/:slug", "routes/book.$slug.tsx"),
     route("book/:slug/read/:chapter", "routes/book.$slug.read.$chapter.tsx"),
     route("book/:slug/slides", "routes/book.$slug.slides.tsx"),

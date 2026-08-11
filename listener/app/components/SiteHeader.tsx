@@ -20,7 +20,7 @@ export function SiteHeader({
   here,
   isAdmin = false,
 }: {
-  here: "library" | "admin" | "book" | "about";
+  here: "library" | "admin" | "book" | "about" | "search";
   isAdmin?: boolean;
 }) {
   return (
