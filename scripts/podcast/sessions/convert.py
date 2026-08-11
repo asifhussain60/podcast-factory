@@ -60,6 +60,17 @@ _CHROME = (
     # AND the diagram it labels: `<span …>A vs THE<img src="…"></span>`. The
     # label is a caption, not chrome.
     "sessionguide-letter",
+    # The ayah number the Quran widget prints inside the verse — `۲۵۷`, in Arabic-Indic
+    # digits, appended to the Arabic itself. Dropped, and the reason is not tidiness:
+    # a verse is recognised as scripture by MATCHING the canonical mushaf exactly, and
+    # five trailing characters make the match fail. 64 of Surah Al-Fateha's 75 quotations
+    # were drawn as generic quote cards instead of Quran cards because of it — no Uthmani
+    # face, no citation chip, no `is-quranic`.
+    #
+    # Nothing is lost by dropping it. The reader resolves the reference from the mushaf
+    # itself and prints `Al-Baqarah: 257` on the card's band, which is more than the bare
+    # numeral said and is what every other book in the library shows.
+    "ayatcircle",
 )
 
 # Font Awesome. 508 of them, 496 being the `fa-ban` on the admin's own row-delete

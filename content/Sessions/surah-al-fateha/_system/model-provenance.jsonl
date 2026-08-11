@@ -32,3 +32,14 @@
 {"phase": "0book-student-reader", "step": "student-master slave relationshi", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "0book-student-reader", "step": "student-understanding rab al-ala", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "0book-student-reader", "step": "student-the divine formula for r", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the horizons and the sou", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the womb of afterlife", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-allah - being vs attribu", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the ism of allah", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-in the name of allah the", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-linguistic perfection of", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-abundant and consistent ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-day of judgment - lingui", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-motivating factors for p", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-worship and assistance", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-guidance to the straight", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}

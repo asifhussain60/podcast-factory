@@ -156,7 +156,7 @@ A common misunderstanding among modern Muslims is that anyone outside of Islam i
 
 There are many ways to conceal the truth, and sadly, many Muslims are in fact doing so. A person may fulfill every outward obligation of Islam and yet be concealing the truth from themselves. At the heart of truth concealment is ingratitude. A کافر is also, by the very word, an ingrate. Allah says:
 
-> ‏ ‏وَآتَىٰكُم مّن كُلّ مَا سَأَلْتُمُوهُ وَإن تَعُدُّوا۟ نعْمَتَ ٱللَّه لَا تُحْصُوهَا إنَّ ٱلْإنسَنَ لَظَلُومٌۭ كَفَّارٌۭ ‎ ‎
+> وَآتَىٰكُم مّن كُلّ مَا سَأَلْتُمُوهُ وَإن تَعُدُّوا۟ نعْمَتَ ٱللَّه لَا تُحْصُوهَا إنَّ ٱلْإنسَنَ لَظَلُومٌۭ كَفَّارٌۭ
 >
 > And he gave you from all you asked of him. And if you should count the favor of Allah, you could not enumerate them. Indeed, mankind is [generally] most unjust and ungrateful.
 
@@ -188,7 +188,7 @@ Plato meant this as an analogy for the trials that messengers face. The cave rep
 
 Allah describes such individuals as مُّقْمَحُونَ. The term مُقمَح derives from the behavior of camels: قَمَحَ الجَمَل فَھُوَ قَامِحُون. When a camel is led to water, it may raise its head and refuse to drink. That is the essence of a مقمح. The messenger brings such a person to the river of knowledge to quench their thirst, but they are too proud to lower their head and drink. They ask, "The Quran? Why should I read that book?"—even though one in every four people on earth believes it comes from Allah, which is itself a compelling reason to be interested. It is precisely because of this heedlessness that the Quran always sets غفلۃ (heedlessness) against ذکر (remembrance). As Allah says:
 
-> ‏ ‏يَعْلَمُونَ ظَهرًۭا مّنَ ٱلْحَيَوٰة ٱلدُّنْيَا وَهُمْ عَن ٱلْآخرَة هُمْ غَفلُونَ ‎ ‎
+> يَعْلَمُونَ ظَهرًۭا مّنَ ٱلْحَيَوٰة ٱلدُّنْيَا وَهُمْ عَن ٱلْآخرَة هُمْ غَفلُونَ
 >
 > They know what is apparent of the worldly life, but they, of the Hereafter, are unaware.
 
@@ -198,7 +198,7 @@ The universal message of every prophet is لَا اِلَٰہَ اِلَّا ا�
 
 Our religion is called دِینُ الْاِسْلَامِ. The word اسلام comes from the root سلم, meaning to submit—specifically, to submit willingly, out of love for Allah. The word دین comes from دَیْن, which means debt. Our religion, دِینُ الْاِسْلَامِ, therefore literally means "the debt of willing submission." The idea is that we have been given blessings beyond counting by our Lord, and for those blessings we owe Him a debt of gratitude through our willing submission.
 
-> ‏ ‏أَفَغَيْرَ دين ٱللَّه يَبْغُونَ وَلَهُ أَسْلَمَ مَن فى ٱلسَّمَوَت وَٱلْأَرْض طَوْعًۭا وَكَرْهًۭا وَإلَيْه يُرْجَعُونَ ‎ ‎
+> أَفَغَيْرَ دين ٱللَّه يَبْغُونَ وَلَهُ أَسْلَمَ مَن فى ٱلسَّمَوَت وَٱلْأَرْض طَوْعًۭا وَكَرْهًۭا وَإلَيْه يُرْجَعُونَ
 >
 > So is it other than the religion of Allah they desire, while to him have submitted [all] those within the heavens and earth, willingly or by compulsion, and to him they will be returned?
 
@@ -216,13 +216,13 @@ What is remarkable is that while we owe a debt to Allah, Allah also holds, in a 
 
 Allah is asking for a loan, so that He may multiply its reward and return it to His slave many times over. The ultimate recompense for this beautiful loan is described as:
 
-> ‏ ‏مَّن ذَا ٱلَّذى يُقْرضُ ٱللَّهَ قَرْضًا حَسَنًۭا فَيُضَعفَهُ لَهُ وَلَهُ أَجْرٌۭ كَريمٌۭ ‎ ‎
+> مَّن ذَا ٱلَّذى يُقْرضُ ٱللَّهَ قَرْضًا حَسَنًۭا فَيُضَعفَهُ لَهُ وَلَهُ أَجْرٌۭ كَريمٌۭ
 >
 > Who is it that would loan Allah a goodly loan so he will multiply it for him and he will have a noble reward?
 
 This wake-up call is the very purpose of the messengers: to rouse humanity from its غفلۃ. The word غفلۃ repays close attention. In Arabic, words beginning with the letter غین often carry the sense of covering, hiding, or veiling—غاب means to be absent, غفر means to forgive. In a state of غفلۃ, the intellect is veiled by the temptations of this دنیا. A simpleton is called a مُغَفَّل because he is easily deceived. The term غفلۃ also means lactose intolerance—an inability to digest the most beneficial thing for mankind—and this is powerful imagery for a person's refusal to receive divine benefit. The scholars have said that all sin and wrongdoing are rooted in غفلۃ, because if Allah were truly present in the heart, sin would be impossible. Allah asks in the Quran:
 
-> ‏ ‏يَأَيُّهَا ٱلْإنسَنُ مَا غَرَّكَ برَبّكَ ٱلْكَريم ‎ ‎
+> يَأَيُّهَا ٱلْإنسَنُ مَا غَرَّكَ برَبّكَ ٱلْكَريم
 >
 > O mankind, what has deceived you concerning your lord, the generous.
 
@@ -260,7 +260,7 @@ When he approaches Me, I rush from afar to welcome him; and whoever turns away f
 
 Do you have a Lord better than Me?
 
-> ‏ ‏مَن جَاءَ بٱلْحَسَنَة فَلَهُ عَشْرُ أَمْثَالهَا ۖ وَمَن جَاءَ بٱلسَّيّئَة فَلَا يُجْزَىٰ إلَّا مثْلَهَا وَهُمْ لَا يُظْلَمُونَ ‎ ‎
+> مَن جَاءَ بٱلْحَسَنَة فَلَهُ عَشْرُ أَمْثَالهَا ۖ وَمَن جَاءَ بٱلسَّيّئَة فَلَا يُجْزَىٰ إلَّا مثْلَهَا وَهُمْ لَا يُظْلَمُونَ
 >
 > Whoever comes [on the Day of Judgement] with a good deed will have ten times the like thereof [to his credit], and whoever comes with an evil deed will not be recompensed except the like thereof; and they will not be wronged.
 
@@ -268,7 +268,7 @@ Do you not see that when you come to Me with one good deed, I reward you ten tim
 
 This is our Lord, our loving, merciful Creator. Who told us that He is a cruel being just waiting to burn us in hell? He created us with His own hands and honored us by having the angels prostrate to us. Do we truly believe He enjoys causing us pain? We would never wish harm on our own children—whom we did not even create in their mothers' wombs, for that was Allah. So who has painted this profoundly loving Creator as a monster for us?
 
-> ‏ ‏يَأَيُّهَا ٱلْإنسَنُ مَا غَرَّكَ برَبّكَ ٱلْكَريم ‎ ‎
+> يَأَيُّهَا ٱلْإنسَنُ مَا غَرَّكَ برَبّكَ ٱلْكَريم
 >
 > O my human being! What has put you in this state of delusion about your generous Lord?
 
@@ -292,7 +292,7 @@ The year is 620 AD. Rasul Allah ﷺ is 40 years old. He is deeply troubled by th
 
 The word تَحَنُّث is derived from حنث, which in Arabic means شرک — attributing partners to Allah. In سُورَۃُ الْوَاقِعَۃِ, Allah (سُبْحَانَهُ وَتَعَالَىٰ) says:
 
-> ‏ ‏وَكَانُوا۟ يُصرُّونَ عَلَى ٱلْحنث ٱلْعَظيم ‎ ‎
+> وَكَانُوا۟ يُصرُّونَ عَلَى ٱلْحنث ٱلْعَظيم
 >
 > And they used to persist in the great violation.
 
@@ -306,7 +306,7 @@ In Arabic morphology, adding a ت to a word in the باب التَّفَاعَل
 
 As this 40-year-old man sat in meditation, he was working to empty his heart of every form and attachment this world had placed in it. And what is the greatest شرک of all? The worship of the self. Idolatry pales beside self-worship — egocentricity is the most destructive force for the soul. Allah speaks of those who take their own desires as their god:
 
-> ‏ ‏أَرَءَيْتَ مَن ٱتَّخَذَ إلَهَهُ هَوَىٰهُ أَفَأَنتَ تَكُونُ عَلَيْه وَكيلًا ‎ ‎
+> أَرَءَيْتَ مَن ٱتَّخَذَ إلَهَهُ هَوَىٰهُ أَفَأَنتَ تَكُونُ عَلَيْه وَكيلًا
 >
 > Have you seen the one who takes as his Allah his own desire? Then would you be responsible for him?
 
@@ -324,7 +324,7 @@ The emptying out must precede the ornaments.
 
 One must first be stripped of what is ugly before being adorned with the beautiful. After the squeezing, جبرئیل once again commanded him:
 
-> ‏ ‏ٱقْرَأْ بٱسْم رَبّكَ ٱلَّذى خَلَقَ ‎ ‏خَلَقَ ٱلْإنسَنَ منْ عَلَقٍ ‎ ‏ٱقْرَأْ وَرَبُّكَ ٱلْأَكْرَمُ ‎ ‏ٱلَّذى عَلَّمَ بٱلْقَلَم ‎ ‏عَلَّمَ ٱلْإنسَنَ مَا لَمْ يَعْلَمْ ‎ ‎
+> ٱقْرَأْ بٱسْم رَبّكَ ٱلَّذى خَلَقَ ‎ ‏خَلَقَ ٱلْإنسَنَ منْ عَلَقٍ ‎ ‏ٱقْرَأْ وَرَبُّكَ ٱلْأَكْرَمُ ‎ ‏ٱلَّذى عَلَّمَ بٱلْقَلَم ‎ ‏عَلَّمَ ٱلْإنسَنَ مَا لَمْ يَعْلَمْ
 >
 > Recite in the name of your lord who created-(1) Created man from a clinging substance. (2) Recite, and your lord is the most generous-(3) Who taught by the pen-(4) Taught man that which he knew not. (5).
 
@@ -338,7 +338,7 @@ A true spiritual experience is precisely the opposite. Its opening phase is one 
 
 This pattern holds across the experiences of all the prophets. The Quran tells us that the first divine words to Musa (AS) were "do not be afraid" — his initial encounter was saturated with fear. Ibrahim (AS) passed through a similar trial, as did Maryam (AS), the mother of Isa (AS), who was terrified by the angel's presence:
 
-> ‏ ‏قَالَتْ إنّى أَعُوذُ بٱلرَّحْمَن منكَ إن كُنتَ تَقيًّۭا ‎ ‎
+> قَالَتْ إنّى أَعُوذُ بٱلرَّحْمَن منكَ إن كُنتَ تَقيًّۭا
 >
 > She said, "indeed, I seek refuge in the Most Merciful from you, [so leave me], if you should be fearing of Allah.".
 
@@ -352,7 +352,7 @@ In this state of shock, he returned to his wife, Khadijah (AS), and said, "زَ�
 
 The second divine experience of Rasul Allah ﷺ was the night journey (اسری) and the ascension (مِعْرَاج). The first experience had established his connection with the noumenal realm; the second was a journey from the phenomenal into the noumenal. Allah says in the Quran:
 
-> ‏ ‏سُبْحَنَ ٱلَّذى أَسْرَىٰ بعَبْده لَيْلًۭا مّنَ ٱلْمَسْجد ٱلْحَرَام إلَى ٱلْمَسْجد ٱلْأَقْصَا ٱلَّذى بَرَكْنَا حَوْلَهُ لنُريَهُ منْ آيَتنَا إنَّهُ هُوَ ٱلسَّميعُ ٱلْبَصيرُ ‎ ‎
+> سُبْحَنَ ٱلَّذى أَسْرَىٰ بعَبْده لَيْلًۭا مّنَ ٱلْمَسْجد ٱلْحَرَام إلَى ٱلْمَسْجد ٱلْأَقْصَا ٱلَّذى بَرَكْنَا حَوْلَهُ لنُريَهُ منْ آيَتنَا إنَّهُ هُوَ ٱلسَّميعُ ٱلْبَصيرُ
 >
 > Exalted is He who took His Servant by night from al-Masjid al-Haram to al-Masjid al-Aqsa, whose surroundings We have blessed, to show him of Our signs. Indeed, He is the Hearing, the Seeing.
 
@@ -360,7 +360,7 @@ The word أَسری — to take someone by night — underscores that a journey 
 
 Upon reaching the mosque of اقصی, the second phase — the معراج — began. This was a metaphysical journey beyond the confines of time and space, faster even than light. The word معراج means "an instrument of ascension" or "a ladder," from the root عرج. During this journey, Rasul Allah ﷺ had a direct witnessing of Allah (سُبْحَانَهُ وَتَعَالَىٰ). The Quran describes this nearness:
 
-> ‏ ‏ثُمَّ دَنَا فَتَدَلَّىٰ ‎ ‏فَكَانَ قَابَ قَوْسَيْن أَوْ أَدْنَىٰ ‎ ‎
+> ثُمَّ دَنَا فَتَدَلَّىٰ ‎ ‏فَكَانَ قَابَ قَوْسَيْن أَوْ أَدْنَىٰ
 >
 > Then he approached and descended (8) And was at a distance of two bow lengths or nearer. (9).
 
@@ -368,13 +368,13 @@ Scholars state that the image of two bows is an honorific expression of the Prop
 
 The Quran's description of this experience is profoundly telling:
 
-> ‏ ‏ثُمَّ دَنَا فَتَدَلَّىٰ ‎ ‏فَكَانَ قَابَ قَوْسَيْن أَوْ أَدْنَىٰ ‎ ‎
+> ثُمَّ دَنَا فَتَدَلَّىٰ ‎ ‏فَكَانَ قَابَ قَوْسَيْن أَوْ أَدْنَىٰ
 >
 > Then he approached and descended (8) And was at a distance of two bow lengths or nearer. (9).
 
 Why would his vision not deviate? He was traveling through the seven heavens, witnessing the unveiling of the unseen world (عَالَمُ الْغَیْبِ). For an ordinary person, that unveiling would be unbearable — it would likely lead to madness. We know from modern science that we perceive less than a billionth of the material stimuli around us, and that 95% of the physical universe is dark matter, invisible to us. The Quran, 1400 years ago, pointed to this reality:
 
-> ‏ ‏وَٱلسَّمَاء وَٱلطَّارق ‎ ‏وَمَا أَدْرَىٰكَ مَا ٱلطَّارقُ ‎ ‏ٱلنَّجْمُ ٱلثَّاقبُ ‎ ‎
+> وَٱلسَّمَاء وَٱلطَّارق ‎ ‏وَمَا أَدْرَىٰكَ مَا ٱلطَّارقُ ‎ ‏ٱلنَّجْمُ ٱلثَّاقبُ
 >
 > By the sky and the night comer-(1) And what can make you know what is the night comer? (2) It is the piercing star-(3).
 
@@ -398,7 +398,7 @@ The Prophet's experience sets an archetype for all of us as Muslims. Our path is
 
 It all begins with a choice. Do you even want to make this journey? If not, then Islam is not for you. Enjoy the fleeting pleasures of this world, knowing they will not last and will ultimately lead to misery. Before setting out on any worldly journey, you research it to judge whether it is worth the effort. Do the same for Islam. Study it, learn what it offers in the end, and decide whether you want it. As Allah says:
 
-> ‏ ‏وَقُل ٱلْحَقُّ من رَّبّكُمْ ۖ فَمَن شَاءَ فَلْيُؤْمن وَمَن شَاءَ فَلْيَكْفُرْ إنَّا أَعْتَدْنَا للظَّلمينَ نَارًا أَحَاطَ بهمْ سُرَادقُهَا وَإن يَسْتَغيثُوا۟ يُغَاثُوا۟ بمَاءٍۢ كَٱلْمُهْل يَشْوى ٱلْوُجُوهَ بئْسَ ٱلشَّرَابُ وَسَاءَتْ مُرْتَفَقًا ‎ ‎
+> وَقُل ٱلْحَقُّ من رَّبّكُمْ ۖ فَمَن شَاءَ فَلْيُؤْمن وَمَن شَاءَ فَلْيَكْفُرْ إنَّا أَعْتَدْنَا للظَّلمينَ نَارًا أَحَاطَ بهمْ سُرَادقُهَا وَإن يَسْتَغيثُوا۟ يُغَاثُوا۟ بمَاءٍۢ كَٱلْمُهْل يَشْوى ٱلْوُجُوهَ بئْسَ ٱلشَّرَابُ وَسَاءَتْ مُرْتَفَقًا
 >
 > And say, "the truth is from your lord, so whoever wills-let him believe; and whoever wills-let him disbelieve." indeed, we have prepared for the wrongdoers a fire whose walls will surround them. And if they call for relief, they will be relieved with water like murky oil, which scalds [their] faces. Wretched is the drink, and evil is the resting place.
 
@@ -406,7 +406,7 @@ Islam is not for everyone. It is an enormous gift that must be earned, a privile
 
 This is your choice. The red pill or the blue pill — as in the Matrix. Take the blue pill and remain in the comfortable shadows of delusion, or take the red pill and awaken. If you choose the red pill and decide to take this journey, prepare for hard work. Athletes and bodybuilders achieve greatness through countless hours of training and dedication. They will tell you the effort was absolutely worth it. So too is the path of spiritual ascension. Focus, stay vigilant, and be consistent.
 
-> ‏ ‏مَا زَاغَ ٱلْبَصَرُ وَمَا طَغَىٰ ‎ ‎
+> مَا زَاغَ ٱلْبَصَرُ وَمَا طَغَىٰ
 >
 > The sight [of the Prophet] did not swerve, nor did it transgress [its limit].
 
@@ -420,7 +420,7 @@ My own journey with Islam began with difficulty, but the more I learned and prac
 
 Today, I have the profound honor of speaking about the one beloved by Allah — our Prophet, Rasul Allah ﷺ. His very name, محمد, comes from the root حمد, which means **"the one who is constantly praised"** and **"worthy of eternal gratitude."** Just as Allah is رَبِّ الْعَالَمِینَ — the Cherisher and Sustainer of all existence — His Messenger is رَحْمَةٌ لِلْعَالَمِینَ, a boundless mercy to all of existence. Allah made love for him a prerequisite for His own love, as if to say: you cannot truly claim to love Me without first loving My beloved Messenger.
 
-> ‏ ‏قُلْ إن كُنتُمْ تُحبُّونَ ٱللَّهَ فَٱتَّبعُونى يُحْببْكُمُ ٱللَّهُ وَيَغْفرْ لَكُمْ ذُنُوبَكُمْ وَٱللَّهُ غَفُورٌۭ رَّحيمٌۭ ‎ ‎
+> قُلْ إن كُنتُمْ تُحبُّونَ ٱللَّهَ فَٱتَّبعُونى يُحْببْكُمُ ٱللَّهُ وَيَغْفرْ لَكُمْ ذُنُوبَكُمْ وَٱللَّهُ غَفُورٌۭ رَّحيمٌۭ
 >
 > Say, [O Muhammad], "If you should love Allah, then follow me, [so] Allah will love you and forgive you your sins. And Allah is Forgiving and Merciful.".
 
@@ -484,7 +484,7 @@ For example, the Arabs have:
 
 These are names the Arabs use for a lion alone. This richness of language is why they regarded other peoples as عجم. The miracle of the Quran lies, beyond doubt, in the linguistic perfection of its Arabic. But what about us, as non-Arabs? How does the non-Arab come to know that Islam is indeed a revelation from Allah? When we read the Quran in English or Urdu, we struggle with it, because the Quran is not a linear book like other books of revelation. The Bible opens with a clear statement in Genesis: "In the beginning, Allah created the heavens and the earth." The Quran, by contrast, after الفاتحۃ, begins with the verse:
 
-> ‏ ‏الم ‏‏ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ فِيهِ هُدًۭى لِّلْمُتَّقِينَ ‏‏
+> الم ‏‏ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ فِيهِ هُدًۭى لِّلْمُتَّقِينَ
 >
 > Alif, Lam, Meem. (1) This is the Book about which there is no doubt, a guidance for those conscious of Allah-(2).
 
@@ -494,7 +494,7 @@ What does الم mean? We do not even know. Then it says ذَلكَ ٱلْكتَ
 
 The answer lies in how these non-Arabs became Muslim. Wherever the Arabs went, the deciding factor that led non-Arabs to embrace Islam was not the linguistic miracle of the Quran (اِعْجَازُ الْقُرْآنِ) — because they could not understand it. It was the miracle of the Prophet's character (اعجاز الخُلُق). This is what struck the non-Arab's heart, and this is why the gift Allah gave to the non-Arabs is His Messenger ﷺ. Allah Almighty Himself declares in the Quran:
 
-> ‏ ‏وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍۢ ‏‏
+> وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍۢ
 >
 > And indeed, you are of a great moral character.
 
@@ -502,13 +502,13 @@ This profound verse was revealed very early in Rasul Allah's ﷺ mission. It ref
 
 Allah also described him as a رحمة — a mercy — a manifestation of mercy itself, not merely a person who showed mercy.
 
-> ‏ ‏وَمَا أَرْسَلْنَٰكَ إِلَّا رَحْمَةًۭ لِّلْعَٰلَمِينَ ‏‏
+> وَمَا أَرْسَلْنَٰكَ إِلَّا رَحْمَةًۭ لِّلْعَٰلَمِينَ
 >
 > And we have not sent you, [o Muhammad], except as a mercy to the worlds.
 
 Maulana Ali (AS) described him as the kindest of people by nature. His mission was to make life easier (تیسیر), not harder, by lifting the burdens and shackles imposed by earlier systems and by people's own lower selves. The character of our Prophet ﷺ was an ocean of mercy. Allah Himself reveals this reality in a remarkable verse — not simply describing His Messenger, but unveiling the very nature of Divine love as it manifests in a human soul.
 
-> ‏ ‏فَبِمَا رَحْمَةٍۢ مِّنَ ٱللَّهِ لِنتَ لَهُمْ ۖ وَلَوْ كُنتَ فَظًّا غَلِيظَ ٱلْقَلْبِ لَٱنفَضُّوا۟ مِنْ حَوْلِكَ ۖ فَٱعْفُ عَنْهُمْ وَٱسْتَغْفِرْ لَهُمْ وَشَاوِرْهُمْ فِى ٱلْأَمْرِ ۖ فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى ٱللَّهِ إِنَّ ٱللَّهَ يُحِبُّ ٱلْمُتَوَكِّلِينَ ‏‏
+> فَبِمَا رَحْمَةٍۢ مِّنَ ٱللَّهِ لِنتَ لَهُمْ ۖ وَلَوْ كُنتَ فَظًّا غَلِيظَ ٱلْقَلْبِ لَٱنفَضُّوا۟ مِنْ حَوْلِكَ ۖ فَٱعْفُ عَنْهُمْ وَٱسْتَغْفِرْ لَهُمْ وَشَاوِرْهُمْ فِى ٱلْأَمْرِ ۖ فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى ٱللَّهِ إِنَّ ٱللَّهَ يُحِبُّ ٱلْمُتَوَكِّلِينَ
 >
 > So by mercy from Allah, [o Muhammad], you were lenient with them. And if you had been rude [in speech] and harsh in heart, they would have disbanded from about you. So pardon them, ask forgiveness for them, and consult them in the matter. And when you have decided, then rely upon Allah. Indeed, Allah loves those who rely [upon him].
 
@@ -586,7 +586,7 @@ Then, with compassion, the Prophet ﷺ approached the man. He did not scold or c
 
 Our Prophet ﷺ taught that every human being matters, and that an act of injustice against a single believer is more grievous than the destruction of the Ka'bah itself. He honored every person, regardless of their color, race, or creed. Allah says in the Quran:
 
-> ‏ ‏أَيَحْسَبُ ٱلْإِنسَٰنُ أَن يُتْرَكَ سُدًى ‏‏
+> أَيَحْسَبُ ٱلْإِنسَٰنُ أَن يُتْرَكَ سُدًى
 >
 > Does man think that he will be left neglected?
 
@@ -642,7 +642,7 @@ And that is the problem — the way we think about success and failure. When we 
 
 So what, then, is success? The Quran uses several words. One is توفيق, as in وَمَا تَوْفِيقٌ إِلَّا بِاللّٰہِ — "And my success/divine help is only with Allah." توفيق comes from the root word وفق, which means to agree, to be in harmony, to be in conformity — to have our actions in perfect harmony with the will and providence of Allah. Another word is فوز, which means victory, often one that carries a reward with it. Allah describes the reward for obedience as ٱلْفَوْزُ ٱلْعَظِيمُ — the greatest victory.
 
-> ‏ ‏تلْكَ حُدُودُ ٱللَّه وَمَن يُطع ٱللَّهَ وَرَسُولَهُ يُدْخلْهُ جَنَّتٍۢ تَجْرى من تَحْتهَا ٱلْأَنْهَرُ خَلدينَ فيهَا وَذَلكَ ٱلْفَوْزُ ٱلْعَظيمُ ‎ ‎
+> تلْكَ حُدُودُ ٱللَّه وَمَن يُطع ٱللَّهَ وَرَسُولَهُ يُدْخلْهُ جَنَّتٍۢ تَجْرى من تَحْتهَا ٱلْأَنْهَرُ خَلدينَ فيهَا وَذَلكَ ٱلْفَوْزُ ٱلْعَظيمُ
 >
 > These are the limits [set by] Allah, and whoever obeys Allah and his Messenger will be admitted by him to gardens [in Paradise] under which rivers flow, abiding eternally therein; and that is the great attainment.
 
@@ -652,7 +652,7 @@ This is precisely why, five times a day, we hear the most beautiful call, حَی
 
 And what of failure? The Quran calls the losers خاسرون. The greatest losers are described in Surah Al-Kahf:
 
-> ‏ ‏ٱلَّذينَ ضَلَّ سَعْيُهُمْ فى ٱلْحَيَوٰة ٱلدُّنْيَا وَهُمْ يَحْسَبُونَ أَنَّهُمْ يُحْسنُونَ صُنْعًا ‎ ‏أُو۟لَئكَ ٱلَّذينَ كَفَرُوا۟ بـَٔايَت رَبّهمْ وَلِقَائِهِ فَحَبِطَتْ أَعْمَلُهُمْ فَلَا نُقيمُ لَهُمْ يَوْمَ ٱلْقيَمَة وَزْنًۭا ‎ ‎
+> ٱلَّذينَ ضَلَّ سَعْيُهُمْ فى ٱلْحَيَوٰة ٱلدُّنْيَا وَهُمْ يَحْسَبُونَ أَنَّهُمْ يُحْسنُونَ صُنْعًا ‎ ‏أُو۟لَئكَ ٱلَّذينَ كَفَرُوا۟ بـَٔايَت رَبّهمْ وَلِقَائِهِ فَحَبِطَتْ أَعْمَلُهُمْ فَلَا نُقيمُ لَهُمْ يَوْمَ ٱلْقيَمَة وَزْنًۭا
 >
 > [They are] those whose effort is lost in worldly life, while they think that they are doing well in work. " (104) Those are the ones who disbelieve in the verses of their Lord and in [their] meeting Him, so their deeds have become worthless; and We will not assign no weight to their actions on the Day of Resurrection (105).
 
@@ -662,13 +662,13 @@ The essence of success — this فلاح — is tied to the purification of the 
 
 In سُورَۃُ الشَّمْسِ (Surah Ash-Shams), He swears:
 
-> ‏ ‏وَٱلشَّمْس وَضُحَىٰهَا ‎ ‏وَٱلْقَمَر إذَا تَلَىٰهَا ‎ ‏وَٱلنَّهَار إذَا جَلَّىٰهَا ‎ ‏وَٱلَّيْل إذَا يَغْشَىٰهَا ‎ ‏وَٱلسَّمَاء وَمَا بَنَىٰهَا ‎ ‏وَٱلْأَرْض وَمَا طَحَىٰهَا ‎ ‏وَنَفْسٍۢ وَمَا سَوَّىٰهَا ‎ ‎
+> وَٱلشَّمْس وَضُحَىٰهَا ‎ ‏وَٱلْقَمَر إذَا تَلَىٰهَا ‎ ‏وَٱلنَّهَار إذَا جَلَّىٰهَا ‎ ‏وَٱلَّيْل إذَا يَغْشَىٰهَا ‎ ‏وَٱلسَّمَاء وَمَا بَنَىٰهَا ‎ ‏وَٱلْأَرْض وَمَا طَحَىٰهَا ‎ ‏وَنَفْسٍۢ وَمَا سَوَّىٰهَا
 >
 > By the sun and its brightness (1) And [by] the moon when it follows it (2) And [by] the day when it displays it (3) And [by] the night when it covers it (4) And [by] the sky and he who constructed it (5) And [by] the earth and he who spread it (6) And [by] the soul and he who proportioned it (7).
 
 After seven oaths over fourteen objects, Allah makes His point. How vital must that point be? He continues:
 
-> ‏ ‏فَأَلْهَمَهَا فُجُورَهَا وَتَقْوَىٰهَا ‎ ‏قَدْ أَفْلَحَ مَن زَكَّىٰهَا ‎ ‏وَقَدْ خَابَ مَن دَسَّىٰهَا ‎ ‎
+> فَأَلْهَمَهَا فُجُورَهَا وَتَقْوَىٰهَا ‎ ‏قَدْ أَفْلَحَ مَن زَكَّىٰهَا ‎ ‏وَقَدْ خَابَ مَن دَسَّىٰهَا
 >
 > And inspired it [with discernment of] its wickedness and its righteousness, (8) He has succeeded who purifies himself, (9) And he has failed who instills it [with corruption]. (10).
 
@@ -682,13 +682,13 @@ This path of purification and success is not abstract. Distinct qualities mark i
 
 **First**, a successful person has a strong sense of purpose. What greater purpose could there be than to know our ultimate destination?
 
-> ‏ ‏وَأَنَّ إلَىٰ رَبّكَ ٱلْمُنتَهَىٰ ‎ ‎
+> وَأَنَّ إلَىٰ رَبّكَ ٱلْمُنتَهَىٰ
 >
 > And towards your your Master is your final destiny.
 
 Our Lord is our ultimate purpose. Our purpose is the recognition of our Creator and willing submission to Him.
 
-> ‏ ‏وَمَا خَلَقْتُ ٱلْجنَّ وَٱلْإنسَ إلَّا ليَعْبُدُون ‎ ‎
+> وَمَا خَلَقْتُ ٱلْجنَّ وَٱلْإنسَ إلَّا ليَعْبُدُون
 >
 > "We have not created Jinn and man except to recognize Allah as the only one worthy of our devotion."
 
@@ -702,7 +702,7 @@ Not long ago, a Turkish show named "Erturul" became enormously popular. It featu
 
 But here is the real question: why are we so drawn to the characters they portray? The answer, if we reflect carefully, is that our attraction is not to the actors themselves but to the noble qualities they reflect from our beloved Prophet ﷺ. It is these prophetic virtues — love, courage, generosity — that captivate us through their portrayal on screen. So why not go to the genuine source? Rather than be entertained by performers playing roles for a fee, we can draw our inspiration from the living truth. Our Prophet ﷺ was not performing or pretending; he was the living embodiment of truth.
 
-> ‏ ‏لَّقَدْ كَانَ لَكُمْ فى رَسُول ٱللَّه أُسْوَةٌ حَسَنَةٌۭ لّمَن كَانَ يَرْجُوا۟ ٱللَّهَ وَٱلْيَوْمَ ٱلْآخرَ وَذَكَرَ ٱللَّهَ كَثيرًۭا ‎ ‎
+> لَّقَدْ كَانَ لَكُمْ فى رَسُول ٱللَّه أُسْوَةٌ حَسَنَةٌۭ لّمَن كَانَ يَرْجُوا۟ ٱللَّهَ وَٱلْيَوْمَ ٱلْآخرَ وَذَكَرَ ٱللَّهَ كَثيرًۭا
 >
 > There has certainly been for you in the Messenger of Allah an excellent pattern for anyone whose hope is in Allah and the last day and [who] remembers Allah often.
 
@@ -718,7 +718,7 @@ Let us visualize ourselves in the presence of Allah, of Rasul Allah ﷺ, of Maul
 
 **Fourth** is a positive orientation — dwelling on past successes, not failures. We must never give up hope or stop striving. This is why Allah reminds us:
 
-> ‏ ‏وَلَقَدْ نَصَرَكُمُ ٱللَّهُ ببَدْرٍۢ وَأَنتُمْ أَذلَّةٌۭ ۖ فَٱتَّقُوا۟ ٱللَّهَ لَعَلَّكُمْ تَشْكُرُونَ ‎ ‎
+> وَلَقَدْ نَصَرَكُمُ ٱللَّهُ ببَدْرٍۢ وَأَنتُمْ أَذلَّةٌۭ ۖ فَٱتَّقُوا۟ ٱللَّهَ لَعَلَّكُمْ تَشْكُرُونَ
 >
 > And already had Allah given you victory at [the battle of] Badr while you were few in number. Then fear Allah; perhaps you will be grateful.
 
@@ -728,7 +728,7 @@ Remember your victory at Badr, when you were few and weak. Allah will grant us v
 
 **Fifth** is self-assurance — knowing that you can succeed.
 
-> ‏ ‏وَلَا تَهنُوا۟ وَلَا تَحْزَنُوا۟ وَأَنتُمُ ٱلْأَعْلَوْنَ إن كُنتُم مُّؤْمنينَ ‎ ‎
+> وَلَا تَهنُوا۟ وَلَا تَحْزَنُوا۟ وَأَنتُمُ ٱلْأَعْلَوْنَ إن كُنتُم مُّؤْمنينَ
 >
 > "Do not feel weak, and do not grieve, for you are the superior ones if you are true believers."
 
@@ -738,7 +738,7 @@ We have an everlasting life of joy ahead of us, إِن كُنتُم مُّؤْم
 
 **Sixth and Seventh**, successful people plan and organize. They know how to prioritize. Let us each begin our day with a spiritual plan. Will we follow Rasul Allah ﷺ today, or Netflix? Will we prioritize our صلوۃ (prayer), or will we prioritize entertainment? Let us establish our priorities and build everything else around them. Let us not be caught up in trivial matters — arguing over the permissibility of toothpaste ingredients, for instance — while neglecting our daily prayers. Let us attend to the essentials, the great matters, before troubling ourselves with what is small. This is the disease of a Talmudic, rabbinical mind that asks, "What kind of cow? What color?" The devil is in the details, they say. Rasul Allah ﷺ was a universal man who lifted us above triviality. He focused us on the matter that truly counts:
 
-> ‏ ‏يَوْمَ لَا يَنفَعُ مَالٌۭ وَلَا بَنُونَ ‎ ‏إلَّا مَنْ أَتَى ٱللَّهَ بقَلْبٍۢ سَليمٍۢ ‎ ‎
+> يَوْمَ لَا يَنفَعُ مَالٌۭ وَلَا بَنُونَ ‎ ‏إلَّا مَنْ أَتَى ٱللَّهَ بقَلْبٍۢ سَليمٍۢ
 >
 > The day when there will not benefit [anyone] wealth or children (88) But only one who comes to Allah with a sound heart. " (89).
 
@@ -754,19 +754,19 @@ A story is told of a male sparrow trying to impress a female on the dome of Prop
 
 **Ninth**, successful people are patient. They possess صبر.
 
-> ‏ ‏وَٱصْبرْ وَمَا صَبْرُكَ إلَّا بٱللَّه وَلَا تَحْزَنْ عَلَيْهمْ وَلَا تَكُ فى ضَيْقٍۢ مّمَّا يَمْكُرُونَ ‎ ‎
+> وَٱصْبرْ وَمَا صَبْرُكَ إلَّا بٱللَّه وَلَا تَحْزَنْ عَلَيْهمْ وَلَا تَكُ فى ضَيْقٍۢ مّمَّا يَمْكُرُونَ
 >
 > And be patient, [o Muhammad], and your patience is not but through Allah. And do not grieve over them, nor be in distress over what they conspire.
 
 Be patient, and encourage others to be patient. Almost all our tribulations seem to stem from two things: کبر (arrogance) and a lack of patience. Until we remove this superiority complex from our hearts and recognize that it is humility which elevates us, we will never succeed. We must learn to be patient. The craving for instant gratification is destroying our spirituality. Islam is the religion of delayed gratification. Our ultimate reward is in the آخرہ (Hereafter), not this دنیا (world). We must persevere.
 
-> ‏ ‏وَأَن لَّيْسَ للْإنسَن إلَّا مَا سَعَىٰ ‎ ‎
+> وَأَن لَّيْسَ للْإنسَن إلَّا مَا سَعَىٰ
 >
 > No one has anything except what they endeavor for.
 
 Indeed, you will see your endeavor. And on that Day, it will be said:
 
-> ‏ ‏إنَّ هَذَا كَانَ لَكُمْ جَزَاءًۭ وَكَانَ سَعْيُكُم مَّشْكُورًا ‎ ‎
+> إنَّ هَذَا كَانَ لَكُمْ جَزَاءًۭ وَكَانَ سَعْيُكُم مَّشْكُورًا
 >
 > [and it will be said], "indeed, this is for you a reward, and your effort has been appreciated.".
 
@@ -774,7 +774,7 @@ Indeed, you will see your endeavor. And on that Day, it will be said:
 
 **Finally** — and this is what binds all the others together — successful people love what they are doing. We must love what we are doing.
 
-> رَّضىَ ٱللَّهُ عَنْهُمْ وَرَضُوا۟ عَنْهُ ذَلكَ لمَنْ خَشىَ رَبَّهُ ‎ ‎
+> رَّضىَ ٱللَّهُ عَنْهُمْ وَرَضُوا۟ عَنْهُ ذَلكَ لمَنْ خَشىَ رَبَّهُ
 >
 > Allah is pleased with them, and they are pleased with Allah. That is for whoever has feared his lord.
 
@@ -796,7 +796,7 @@ To the young adults in this gathering: know this — your light is the brightest
 
 The path to emulating these models of success begins with waking from our spiritual laziness, our غفلة (heedlessness). Allah says in the Quran:
 
-> ‏ ‏وَلَقَدْ ذَرَأْنَا لجَهَنَّمَ كَثيرًۭا مّنَ ٱلْجنّ وَٱلْإنس ۖ لَهُمْ قُلُوبٌۭ لَّا يَفْقَهُونَ بهَا وَلَهُمْ أَعْيُنٌۭ لَّا يُبْصرُونَ بهَا وَلَهُمْ آذَانٌۭ لَّا يَسْمَعُونَ بهَا أُو۟لَئكَ كَٱلْأَنْعَم بَلْ هُمْ أَضَلُّ أُو۟لَئكَ هُمُ ٱلْغَفلُونَ ‎ ‎
+> وَلَقَدْ ذَرَأْنَا لجَهَنَّمَ كَثيرًۭا مّنَ ٱلْجنّ وَٱلْإنس ۖ لَهُمْ قُلُوبٌۭ لَّا يَفْقَهُونَ بهَا وَلَهُمْ أَعْيُنٌۭ لَّا يُبْصرُونَ بهَا وَلَهُمْ آذَانٌۭ لَّا يَسْمَعُونَ بهَا أُو۟لَئكَ كَٱلْأَنْعَم بَلْ هُمْ أَضَلُّ أُو۟لَئكَ هُمُ ٱلْغَفلُونَ
 >
 > And we have certainly created for Hell many of the jinn and mankind. hey have hearts with which they do not understand, they have eyes with which they do not see, and they have ears with which they do not hear. Those are like livestock; rather, they are more astray. It is they who are the heedless.
 
@@ -804,7 +804,7 @@ He says: ‏وَلَقَدْ ذَرَأْنَا لجَهَنَّمَ كَثير�
 
 Animals are not heedless. A rabbit moves its ears constantly, alert to every threat. A mouse does not simply wander out of its hole — it surveys its surroundings. That is a lesson in تقوى (God-consciousness). Animals live in a state of vigilance because their existence is at stake; they understand that heedlessness costs them their lives. We human beings, by contrast, are in a perpetual state of heedlessness about our spiritual survival. Animals flee from fire; we run toward it, pausing to take photographs. We are submerged in entertainment, not seeing that we are dying spiritually. When will we wake up and answer the call of Allah and His Messenger?
 
-> ‏ ‏يَأَيُّهَا ٱلَّذينَ آمَنُوا۟ ٱسْتَجيبُوا۟ للَّه وَللرَّسُول إذَا دَعَاكُمْ لمَا يُحْييكُمْ ۖ وَٱعْلَمُوا۟ أَنَّ ٱللَّهَ يَحُولُ بَيْنَ ٱلْمَرْء وَقَلْبه وَأَنَّهُ إلَيْه تُحْشَرُونَ ‎ ‎
+> يَأَيُّهَا ٱلَّذينَ آمَنُوا۟ ٱسْتَجيبُوا۟ للَّه وَللرَّسُول إذَا دَعَاكُمْ لمَا يُحْييكُمْ ۖ وَٱعْلَمُوا۟ أَنَّ ٱللَّهَ يَحُولُ بَيْنَ ٱلْمَرْء وَقَلْبه وَأَنَّهُ إلَيْه تُحْشَرُونَ
 >
 > O you who have believed, respond to Allah and to the Messenger when he calls you to that which gives you life. And know that Allah intervenes between a man and his heart and that to him you will be gathered.
 
@@ -828,7 +828,7 @@ When you rise in the quiet of the night to worship Allah while the rest of the w
 
 This is not a message of despair. It is a message of profound hope and dignity. It is a reminder that the true measure of success is not popularity or the world's approval — it is a deeper, more lasting connection. Because it is far better to be a stranger in this temporary world than to be a stranger to Allah and His Messenger in the next. We have a choice. We can live in conformity, flowing with the crowds rushing toward a destination that will ultimately leave them hollow. Or we can be among the blessed strangers — those who walk a different path, guided by the light of the Prophet's character. We do not want to be among those who cry out on the Day of Judgment, "Woe to us! This is the Day of Judgment!" We do not want to plead, "My Lord, if only You would delay me for a brief term so that I might give charity and be among the righteous." No. We aspire to be the ones welcomed with the most beautiful words ever spoken. We want to be the ones who hear:
 
-> ‏ ‏يَأَيَّتُهَا ٱلنَّفْسُ ٱلْمُطْمَئنَّةُ ‎ ‏ٱرْجعى إلَىٰ رَبّك رَاضيَةًۭ مَّرْضيَّةًۭ ‎ ‏فَٱدْخُلى فى عبَدى ‎ ‏وَٱدْخُلى جَنَّتى ‎ ‎
+> يَأَيَّتُهَا ٱلنَّفْسُ ٱلْمُطْمَئنَّةُ ‎ ‏ٱرْجعى إلَىٰ رَبّك رَاضيَةًۭ مَّرْضيَّةًۭ ‎ ‏فَٱدْخُلى فى عبَدى ‎ ‏وَٱدْخُلى جَنَّتى
 >
 > [To the righteous it will be said], "O reassured soul, (27) Return to your lord, well-pleased and pleasing [to him], (28) And enter among my [righteous] servants (29) And enter my Paradise." (30).
 

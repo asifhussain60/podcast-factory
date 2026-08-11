@@ -1,0 +1,5508 @@
+{
+  "schema": "book.arabic-audit/v1",
+  "chapters": [
+    {
+      "chapter": "(front matter)",
+      "arabic_runs": 0,
+      "unverified": 0,
+      "runs": []
+    },
+    {
+      "chapter": "Introduction to the Book",
+      "arabic_runs": 0,
+      "unverified": 0,
+      "runs": []
+    },
+    {
+      "chapter": "Quranic Friendship",
+      "arabic_runs": 51,
+      "unverified": 14,
+      "runs": [
+        {
+          "text": "قُوَّۃُ الشَّھْوَانِیَّۃِ",
+          "resolution": "unverified",
+          "skeleton": "قوالشوان"
+        },
+        {
+          "text": "سمعنا و اطعنا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سمعناواطعنا",
+          "reference": "Al-Baqarah: 285"
+        },
+        {
+          "text": "مُوَالات",
+          "resolution": "unverified",
+          "skeleton": "موالات"
+        },
+        {
+          "text": "ٱللَّهُ وَلِىُّ ٱلَّذِينَ آمَنُوا۟ يُخْرِجُهُم مِّنَ ٱلظُّلُمَتِ إِلَى ٱلنُّورِ ۖ وَٱلَّذِينَ كَفَرُوٓا۟ أَوْلِيَآؤُهُمُ ٱلطَّغُوتُ يُخْرِجُونَهُم مِّنَ ٱلنُّورِ إِلَى ٱلظُّلُمَتِ ۗ أُو۟لَٓئِكَ أَصْحَبُ ٱلنَّارِ ۖ هُمْ فِيهَا خَلِدُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اللهوليالذينامنوايخرجهممنالظلمتاليالنورو",
+          "reference": "Al-Baqarah: 257"
+        },
+        {
+          "text": "أللَّهُ وَلِىُّ ٱلَّذِينَ آمَنُوا۟",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اللهوليالذينامنوا",
+          "reference": "Al-Baqarah: 257"
+        },
+        {
+          "text": "مَوْلَانَا عَلِیٌّ",
+          "resolution": "unverified",
+          "skeleton": "مولاناعل"
+        },
+        {
+          "text": "وَلَا تَسْتَوِى ٱلْحَسَنَةُ وَلَا ٱلسَّيِّئَةُ ۚ ٱدْفَعْ بِٱلَّتِى هِىَ أَحْسَنُ فَإِذَا ٱلَّذِى بَيْنَكَ وَبَيْنَهُۥ عَدَوَةٌۭ كَأَنَّهُۥ وَلِىٌّ حَمِيمٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولاتستويالحسنهولاالسييهادفعبالتيهياحسنفا",
+          "reference": "Fussilat: 34"
+        },
+        {
+          "text": "الصَّدِیقُکَ مَن صَدَقَت",
+          "resolution": "unverified",
+          "skeleton": "الصدقمنصدقت"
+        },
+        {
+          "text": "وَمَآ أَضَلَّنَآ إِلَّا ٱلْمُجْرِمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومااضلناالاالمجرمون",
+          "reference": "Ash-Shu'ara: 99"
+        },
+        {
+          "text": "فَمَا لَنَا مِن شَفِعِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فمالنامنشفعين",
+          "reference": "Ash-Shu'ara: 100"
+        },
+        {
+          "text": "وَلَا صَدِيقٍ حَمِيمٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولاصديقحميم",
+          "reference": "Ash-Shu'ara: 101"
+        },
+        {
+          "text": "صَدِيقٍ حَمِيمٍۢ",
+          "resolution": "unverified",
+          "skeleton": "صديقحميم"
+        },
+        {
+          "text": "وَمَا صَاحِبُكُم بِمَجْنُونٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وماصاحبكمبمجنون",
+          "reference": "At-Takwir: 22"
+        },
+        {
+          "text": "وَلَجَ، یَلِجُو",
+          "resolution": "unverified",
+          "skeleton": "ولجلجو"
+        },
+        {
+          "text": "يَعْلَمُ مَا يَلِجُ فِى ٱلْأَرْضِ وَمَا يَخْرُجُ مِنْهَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يعلممايلجفيالارضومايخرجمنها",
+          "reference": "Saba: 2"
+        },
+        {
+          "text": "أَمْ حَسِبْتُمْ أَن تُتْرَكُوا۟ وَلَمَّا يَعْلَمِ ٱللَّهُ ٱلَّذِينَ جَهَدُوا۟ مِنكُمْ وَلَمْ يَتَّخِذُوا۟ مِن دُونِ ٱللَّهِ وَلَا رَسُولِهِۦ وَلَا ٱلْمُؤْمِنِينَ وَلِيجَةًۭ ۚ وَٱللَّهُ خَبِيرٌۢ بِمَا تَعْمَلُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "امحسبتمانتتركواولمايعلماللهالذينجهدوامنك",
+          "reference": "At-Tawbah: 16"
+        },
+        {
+          "text": "أَمْ حَسِبْتُمْ أَن تُتْرَكُوا۟",
+          "resolution": "canonical-mushaf",
+          "skeleton": "امحسبتمانتتركوا",
+          "reference": "At-Tawbah: 16"
+        },
+        {
+          "text": "وَلَمَّا يَعْلَمِ ٱللَّهُ ٱلَّذِينَ جَهَدُوا۟ مِنكُمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولمايعلماللهالذينجهدوامنكم",
+          "reference": "Ali 'Imran: 142"
+        },
+        {
+          "text": "وَلَمْ يَتَّخِذُوا۟ مِن دُونِ ٱللَّهِ وَلَا رَسُولِهِۦ وَلَا ٱلْمُؤْمِنِينَ وَلِيجَةًۭ ۚ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولميتخذوامندوناللهولارسولهولاالمومنينولي",
+          "reference": "At-Tawbah: 16"
+        },
+        {
+          "text": "ٱلْمُؤْمِنِينَ",
+          "resolution": "unverified",
+          "skeleton": "المومنين"
+        },
+        {
+          "text": "يَٓأَيُّهَا ٱلَّذِينَ آمَنُوا۟ لَا تَتَّخِذُوا۟ بِطَانَةًۭ مِّن دُونِكُمْ لَا يَأْلُونَكُمْ خَبَالًۭا وَدُّوا۟ مَا عَنِتُّمْ قَدْ بَدَتِ ٱلْبَغْضَآءُ مِنْ أَفْوَهِهِمْ وَمَا تُخْفِى صُدُورُهُمْ أَكْبَرُ ۚ قَدْ بَيَّنَّا لَكُمُ ٱلْآيَتِ ۖ إِن كُنتُمْ تَعْقِلُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يايهاالذينامنوالاتتخذوابطانهمندونكملايال",
+          "reference": "Ali 'Imran: 118"
+        },
+        {
+          "text": "سُورَۃُ آلِ عِمْرَانَ",
+          "resolution": "unverified",
+          "skeleton": "سورالعمران"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَٱتَّخَذَ ٱللَّهُ إِبْرَهِيمَ خَلِيلًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واتخذاللهابرهيمخليلا",
+          "reference": "An-Nisa: 125"
+        },
+        {
+          "text": "اِبْرَاھِیْمُ عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "ابرامعلالسلام"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "يَٓأَيُّهَا ٱلَّذِينَ آمَنُوٓا۟ أَنفِقُوا۟ مِمَّا رَزَقْنَكُم مِّن قَبْلِ أَن يَأْتِىَ يَوْمٌۭ لَّا بَيْعٌۭ فِيهِ وَلَا خُلَّةٌۭ وَلَا شَفَعَةٌۭ ۗ وَٱلْكَفِرُونَ هُمُ ٱلظَّلِمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يايهاالذينامنواانفقواممارزقنكممنقبلانيات",
+          "reference": "Al-Baqarah: 254"
+        },
+        {
+          "text": "ٱلْأَخِلَّآءُ يَوْمَئِذٍۭ بَعْضُهُمْ لِبَعْضٍ عَدُوٌّ إِلَّا ٱلْمُتَّقِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الاخلاءيوميذبعضهملبعضعدوالاالمتقين",
+          "reference": "Az-Zukhruf: 67"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَيَوْمَ يَعَضُّ ٱلظَّالِمُ عَلَىٰ يَدَيْهِ يَقُولُ يَلَيْتَنِى ٱتَّخَذْتُ مَعَ ٱلرَّسُولِ سَبِيلًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ويوميعضالظالمعلييديهيقوليليتنياتخذتمعالر",
+          "reference": "Al-Furqan: 27"
+        },
+        {
+          "text": "يَوَيْلَتَىٰ لَيْتَنِى لَمْ أَتَّخِذْ فُلَانًا خَلِيلًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يويلتيليتنيلماتخذفلاناخليلا",
+          "reference": "Al-Furqan: 28"
+        },
+        {
+          "text": "يَوَيْلَتَىٰ لَيْتَنِى لَمْ أَتَّخِذْ فُلَانًا خَلِيلًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يويلتيليتنيلماتخذفلاناخليلا",
+          "reference": "Al-Furqan: 28"
+        },
+        {
+          "text": "يَوَيْلَتَىٰ لَيْتَنِى",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يويلتيليتني",
+          "reference": "Al-Furqan: 28"
+        },
+        {
+          "text": "لَمْ أَتَّخِذْ فُلَانًا خَلِيلًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لماتخذفلاناخليلا",
+          "reference": "Al-Furqan: 28"
+        },
+        {
+          "text": "فُلَانًا خَلِيلًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فلاناخليلا",
+          "reference": "Al-Furqan: 28"
+        },
+        {
+          "text": "مِرفِقَۃ",
+          "resolution": "unverified",
+          "skeleton": "مرفق"
+        },
+        {
+          "text": "وَمَن يُطِعِ ٱللَّهَ وَٱلرَّسُولَ فَأُو۟لَٓئِكَ مَعَ ٱلَّذِينَ أَنْعَمَ ٱللَّهُ عَلَيْهِم مِّنَ ٱلنَّبِيِّۦنَ وَٱلصِّدِّيقِينَ وَٱلشُّهَدَآءِ وَٱلصَّلِحِينَ ۚ وَحَسُنَ أُو۟لَٓئِكَ رَفِيقًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومنيطعاللهوالرسولفاوليكمعالذينانعماللهعل",
+          "reference": "An-Nisa: 69"
+        },
+        {
+          "text": "وَحَسُنَ أُو۟لَٓئِكَ رَفِيقًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وحسناوليكرفيقا",
+          "reference": "An-Nisa: 69"
+        },
+        {
+          "text": "سُورَۃُ صِفَاتِ",
+          "resolution": "unverified",
+          "skeleton": "سورصفات"
+        },
+        {
+          "text": "فَأَقْبَلَ بَعْضُهُمْ عَلَىٰ بَعْضٍۢ يَتَسَآءَلُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فاقبلبعضهمعليبعضيتساءلون",
+          "reference": "As-Saffat: 50"
+        },
+        {
+          "text": "قَالَ قَآئِلٌۭ مِّنْهُمْ إِنِّى كَانَ لِى قَرِينٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قالقايلمنهمانيكانليقرين",
+          "reference": "As-Saffat: 51"
+        },
+        {
+          "text": "يَقُولُ أَءِنَّكَ لَمِنَ ٱلْمُصَدِّقِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يقولاءنكلمنالمصدقين",
+          "reference": "As-Saffat: 52"
+        },
+        {
+          "text": "أَءِذَا مِتْنَا وَكُنَّا تُرَابًۭا وَعِظَمًا أَءِنَّا لَمَدِينُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اءذامتناوكناتراباوعظمااءنالمدينون",
+          "reference": "As-Saffat: 53"
+        },
+        {
+          "text": "قَالَ هَلْ أَنتُم مُّطَّلِعُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قالهلانتممطلعون",
+          "reference": "As-Saffat: 54"
+        },
+        {
+          "text": "فَٱطَّلَعَ فَرَآهُ فِى سَوَآءِ ٱلْجَحِيمِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فاطلعفراهفيسواءالجحيم",
+          "reference": "As-Saffat: 55"
+        },
+        {
+          "text": "وَمَن يَعْشُ عَن ذِكْرِ ٱلرَّحْمَنِ نُقَيِّضْ لَهُۥ شَيْطَنًۭا فَهُوَ لَهُۥ قَرِينٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومنيعشعنذكرالرحمننقيضلهشيطنافهولهقرين",
+          "reference": "Az-Zukhruf: 36"
+        },
+        {
+          "text": "سُورَۃُ الزُّخْرُفِ",
+          "resolution": "unverified",
+          "skeleton": "سورالزخرف"
+        },
+        {
+          "text": "صِیغَۃُ مُبَالَغَہِ",
+          "resolution": "unverified",
+          "skeleton": "صغمبالغ"
+        },
+        {
+          "text": "لَّقَدْ أَضَلَّنِى عَنِ ٱلذِّكْرِ بَعْدَ إِذْ جَآءَنِى ۗ وَكَانَ ٱلشَّيْطَنُ لِلْإِنسَنِ خَذُولًۭا\n\nوَكَانَ ٱلشَّيْطَنُ لِلْإِنسَنِ خَذُولًۭا\n\nشیطان",
+          "resolution": "unverified",
+          "skeleton": "لقداضلنيعنالذكربعداذجاءنيوكانالشيطنللانس"
+        },
+        {
+          "text": "وَمَا كَانَ لِىَ عَلَيْكُم مِّن سُلْطَنٍ\n\nإِلَّآ أَن دَعَوْتُكُمْ فَٱسْتَجَبْتُمْ لِى",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وماكانليعليكممنسلطنالااندعوتكمفاستجبتملي",
+          "reference": "Ibrahim: 22"
+        },
+        {
+          "text": "فَلَا تَلُومُونِى وَلُومُوٓا۟ أَنفُسَكُم",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فلاتلومونيولومواانفسكم",
+          "reference": "Ibrahim: 22"
+        }
+      ]
+    },
+    {
+      "chapter": "The Stages Of Love",
+      "arabic_runs": 53,
+      "unverified": 43,
+      "runs": [
+        {
+          "text": "مَرَاتِبُ الْحُبِّ",
+          "resolution": "unverified",
+          "skeleton": "مراتبالحب"
+        },
+        {
+          "text": "تَعَلُّقِ القَلب بِی المحبُوب",
+          "resolution": "unverified",
+          "skeleton": "تعلقالقلببالمحبوب"
+        },
+        {
+          "text": "تُرِیدُہُ",
+          "resolution": "knowledge-base",
+          "skeleton": "ترد"
+        },
+        {
+          "text": "سَبَّ الماءُ",
+          "resolution": "unverified",
+          "skeleton": "سبالماء"
+        },
+        {
+          "text": "اِنسِباب",
+          "resolution": "unverified",
+          "skeleton": "انسباب"
+        },
+        {
+          "text": "وَٱلَّذِينَ يَقُولُونَ رَبَّنَا ٱصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ ۖ إِنَّ عَذَابَهَا كَانَ غَرَامًا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "والذينيقولونربنااصرفعناعذابجهنمانعذابهاك",
+          "reference": "Al-Furqan: 65"
+        },
+        {
+          "text": "لا یَنْفَکّ",
+          "resolution": "unverified",
+          "skeleton": "لانف"
+        },
+        {
+          "text": "مُغْرَم بہ",
+          "resolution": "unverified",
+          "skeleton": "مغرمب"
+        },
+        {
+          "text": "صَفوَۃُ المَحَبَّۃ",
+          "resolution": "unverified",
+          "skeleton": "صفوالمحب"
+        },
+        {
+          "text": "تَزَوِّج الوَلُود الوَدُود",
+          "resolution": "unverified",
+          "skeleton": "تزوجالولودالودود"
+        },
+        {
+          "text": "مفحوم المُخالَفۃ",
+          "resolution": "unverified",
+          "skeleton": "مفحومالمخالف"
+        },
+        {
+          "text": "وَٱسْتَغْفِرُوا۟ رَبَّكُمْ ثُمَّ تُوبُوٓا۟ إِلَيْهِ ۚ إِنَّ رَبِّى رَحِيمٌۭ وَدُودٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واستغفرواربكمثمتوبوااليهانربيرحيمودود",
+          "reference": "Hud: 90"
+        },
+        {
+          "text": "الوَادُّ فی عِبادِہِ والمَودُود",
+          "resolution": "unverified",
+          "skeleton": "الوادفعبادوالمودود"
+        },
+        {
+          "text": "وَمِنْ آيَتِهِۦٓ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَجًۭا لِّتَسْكُنُوٓا۟ إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةًۭ وَرَحْمَةً ۚ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومنايتهانخلقلكممنانفسكمازوجالتسكنوااليها",
+          "reference": "Ar-Rum: 21"
+        },
+        {
+          "text": "حُبِّبَ الییَّ النِّساء",
+          "resolution": "unverified",
+          "skeleton": "حببالالنساء"
+        },
+        {
+          "text": "وَالتِّیْب وَالمِسوَاک",
+          "resolution": "unverified",
+          "skeleton": "والتبوالمسوا"
+        },
+        {
+          "text": "الَجنَّۃُ تَحتَ الاَقدَامِ الاُمَّھَات",
+          "resolution": "unverified",
+          "skeleton": "الجنتحتالاقدامالامات"
+        },
+        {
+          "text": "ُشَقَقْتُ الرَّحَم مِن أِسمِیَ الرَّحمٰن ۔ فمََنْ قَطَعَہُ فَقَد قَطَعْتُہ",
+          "resolution": "unverified",
+          "skeleton": "شققتالرحممناسمالرحمنفمنقطعفقدقطعت"
+        },
+        {
+          "text": "رَحْمَۃً لِی الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "رحملالعالمن"
+        },
+        {
+          "text": "وَمَآ أَرْسَلْنَكَ إِلَّا رَحْمَةًۭ لِّلْعَلَمِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وماارسلنكالارحمهللعلمين",
+          "reference": "Al-Anbiya: 107"
+        },
+        {
+          "text": "شَغَافُ الْقَلْبِ",
+          "resolution": "unverified",
+          "skeleton": "شغافالقلب"
+        },
+        {
+          "text": "جِدَھرْ دِیکھْتَا ہُوں تُو ہِی تُو ہَےْ",
+          "resolution": "unverified",
+          "skeleton": "جدردتاوتوتو"
+        },
+        {
+          "text": "دَعَا الْعِشْقُ الْاِتِّصَالَ",
+          "resolution": "unverified",
+          "skeleton": "دعاالعشقالاتصال"
+        },
+        {
+          "text": "بَیْتُ الْمُقَدَّسِ",
+          "resolution": "unverified",
+          "skeleton": "بتالمقدس"
+        },
+        {
+          "text": "تَتَیَُم",
+          "resolution": "unverified",
+          "skeleton": "تتم"
+        },
+        {
+          "text": "تُعصِی اِلٰہَ وَ تُظْھِرُ حُبُّہُ\n\nھَذا الامْرُکَ فِی قِیَاسِ بَدِیعُ",
+          "resolution": "unverified",
+          "skeleton": "تعصالوتظرحبذاالامرفقاسبدع"
+        },
+        {
+          "text": "سُبْحَنَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِ لَيْلًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سبحنالذياسريبعبدهليلا",
+          "reference": "Al-Isra: 1"
+        },
+        {
+          "text": "ان اللہ أِتَّخَذَنِی خَلِیلاً کَمَا التَّخَذَ ابراھیمَ خلیلا",
+          "resolution": "unverified",
+          "skeleton": "اناللاتخذنخللاماالتخذابرامخللا"
+        },
+        {
+          "text": "تَتَخَلَّلُو خَلَایَ الجَسَد",
+          "resolution": "unverified",
+          "skeleton": "تتخللوخلاالجسد"
+        },
+        {
+          "text": "تخلیل الشَّعَر",
+          "resolution": "unverified",
+          "skeleton": "تخللالشعر"
+        },
+        {
+          "text": "حَبِیبُ اللَّہِ",
+          "resolution": "unverified",
+          "skeleton": "حببالل"
+        },
+        {
+          "text": "سَفِیرُ اللَّہِ",
+          "resolution": "unverified",
+          "skeleton": "سفرالل"
+        },
+        {
+          "text": "خَلِیلُ اللَّہِ",
+          "resolution": "unverified",
+          "skeleton": "خللالل"
+        },
+        {
+          "text": "کَلِیمُ اللّٰہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "لمالل"
+        },
+        {
+          "text": "حَبِیبُ اللَّہِ",
+          "resolution": "unverified",
+          "skeleton": "حببالل"
+        },
+        {
+          "text": "ﷺ\n\nوَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰٓ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولسوفيعطيكربكفترضي",
+          "reference": "Ad-Duha: 5"
+        },
+        {
+          "text": "قُلْ إِن كُنتُمْ تُحِبُّونَ ٱللَّهَ فَٱتَّبِعُونِى يُحْبِبْكُمُ ٱللَّهُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قلانكنتمتحبوناللهفاتبعونييحببكمالله",
+          "reference": "Ali 'Imran: 31"
+        },
+        {
+          "text": "وللہ لا تَدْخُلَ الجَنَّۃ حتی تؤمنُ۔ ولا تُؤمن حتی تَحابُّ",
+          "resolution": "unverified",
+          "skeleton": "ولللاتدخلالجنحتتومنولاتومنحتتحاب"
+        },
+        {
+          "text": "لَن تَنَالُوا۟ ٱلْبِرَّ حَتَّىٰ تُنفِقُوا۟ مِمَّا تُحِبُّونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لنتنالواالبرحتيتنفقوامماتحبون",
+          "reference": "Ali 'Imran: 92"
+        },
+        {
+          "text": "والذین امنو أشدو حب لی اللہ",
+          "resolution": "unverified",
+          "skeleton": "والذنامنواشدوحبلالل"
+        },
+        {
+          "text": "سَلْمَانُ الْفَارِسِیُّ",
+          "resolution": "unverified",
+          "skeleton": "سلمانالفارس"
+        },
+        {
+          "text": "سَلْمَانُ مِنَّا اَھْلَ الْبَیْتِ",
+          "resolution": "unverified",
+          "skeleton": "سلمانمناالالبت"
+        },
+        {
+          "text": "اَبُو اَیُّوبَ الْاَنْصَارِیُّ",
+          "resolution": "unverified",
+          "skeleton": "ابواوبالانصار"
+        },
+        {
+          "text": "یَا رَسُولَ اللّٰہِ",
+          "resolution": "unverified",
+          "skeleton": "ارسولالل"
+        },
+        {
+          "text": "تَـتَـبُّـعُ الْآثَارِ",
+          "resolution": "unverified",
+          "skeleton": "تتبعالاثار"
+        },
+        {
+          "text": "لَا یُؤْمِنُ اَحَدُکُمْ حَتَّی یُحِبَّ اَخِی",
+          "resolution": "unverified",
+          "skeleton": "لاومناحدمحتحباخ"
+        },
+        {
+          "text": "قل ان کنتم تحبون اللہ فتبعونی",
+          "resolution": "unverified",
+          "skeleton": "قلاننتمتحبوناللفتبعون"
+        },
+        {
+          "text": "عَلَامَۃُ الْحُبِّ اتِّبَاعُ الْحَبِیبِ",
+          "resolution": "unverified",
+          "skeleton": "علامالحباتباعالحبب"
+        },
+        {
+          "text": "عویس القرنی",
+          "resolution": "unverified",
+          "skeleton": "عوسالقرن"
+        },
+        {
+          "text": "أَمُرُّ بِدِّیارِ دِیَارِ لَیلَۃ أُقَبْلُ لم جِدَارُ وَلا الجِدَارَۃ\n\nمَا حُبُّ الدِّیَارِ شَغَفْنَا قَلبِی؛ وَلاکِنْ حُبُّ مَنْ سَکَنَ الدِّیَارَۃ",
+          "resolution": "unverified",
+          "skeleton": "امربداردارللاقبللمجدارولاالجدارماحبالدار"
+        },
+        {
+          "text": "مَا حُبُّ الدِّیَارِ شَغَفْنَا قَلبِی",
+          "resolution": "unverified",
+          "skeleton": "ماحبالدارشغفناقلب"
+        },
+        {
+          "text": "اللَّہُ اَکْبَرُ",
+          "resolution": "unverified",
+          "skeleton": "اللابر"
+        },
+        {
+          "text": "لا نُحْصِی الثَّنَاء عَلیکَ۔ اَنتَ کَمَا اَثْنَیتُ عَلی نَفسِکَ",
+          "resolution": "unverified",
+          "skeleton": "لانحصالثناءعلانتمااثنتعلنفس"
+        }
+      ]
+    },
+    {
+      "chapter": "Linguistic Meaning Of Allah",
+      "arabic_runs": 28,
+      "unverified": 21,
+      "runs": [
+        {
+          "text": "سُورَۃُ الْفَاتِحَۃِ",
+          "resolution": "unverified",
+          "skeleton": "سورالفاتح"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "اَلَہَ یَعلُہُ",
+          "resolution": "knowledge-base",
+          "skeleton": "العل"
+        },
+        {
+          "text": "مُوَلَّا",
+          "resolution": "knowledge-base",
+          "skeleton": "مولا"
+        },
+        {
+          "text": "مُوَلَّا",
+          "resolution": "knowledge-base",
+          "skeleton": "مولا"
+        },
+        {
+          "text": "وَالِھَانَہَ مُحَبَّتْ",
+          "resolution": "unverified",
+          "skeleton": "والانمحبت"
+        },
+        {
+          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
+          "resolution": "unverified",
+          "skeleton": "قالرسولاللصلاللعلوالوسلم"
+        },
+        {
+          "text": "الشِّرکُ فِی أُمَّتِی أَخفٰی مِن سَیرِ النَّمَلِ فِی لَیلَۃِ الظُّلمَۃِ عَلی سَخْرَۃِ السَّوْدَا",
+          "resolution": "unverified",
+          "skeleton": "الشرفامتاخفمنسرالنملفللالظلمعلسخرالسودا"
+        },
+        {
+          "text": "أَرَءَيْتَ مَنِ ٱتَّخَذَ إِلَهَهُۥ هَوَىٰهُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ارءيتمناتخذالهههواه",
+          "reference": "Al-Furqan: 43"
+        },
+        {
+          "text": "أَفَأَنتَ تَكُونُ عَلَيْهِ وَكِيلًا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "افانتتكونعليهوكيلا",
+          "reference": "Al-Furqan: 43"
+        },
+        {
+          "text": "لَا اِلَہَ اِلَّا",
+          "resolution": "unverified",
+          "skeleton": "لاالالا"
+        },
+        {
+          "text": "لَا اِلَٰہَ اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "لَا اِلَٰہَ اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "لَا اِلَٰہَ اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "لَا یُعْلَی اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاعلالاالل"
+        },
+        {
+          "text": "لَا اِلَٰہَ اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "لا أَلَہَ الا اللہ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "أَسْبَاب",
+          "resolution": "unverified",
+          "skeleton": "اسباب"
+        },
+        {
+          "text": "لَا اِلَٰہَ اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "لا وَلَہَ الا اللہ",
+          "resolution": "unverified",
+          "skeleton": "لاولالاالل"
+        },
+        {
+          "text": "مُوَلَّا",
+          "resolution": "knowledge-base",
+          "skeleton": "مولا"
+        },
+        {
+          "text": "لَا اِلَٰہَ اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "لا أَلِہَ الا اللہ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "لَا اِلَٰہَ اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "لا وَلِہَ الا اللہ",
+          "resolution": "unverified",
+          "skeleton": "لاولالاالل"
+        },
+        {
+          "text": "لَا اِلَٰہَ اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "لَا اِلَٰہَ اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "وَإِذْ تَأَذَّنَ رَبُّكُمْ لَىِٕن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَىِٕن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذتاذنربكملينشكرتملازيدنكمولينكفرتمانعذ",
+          "reference": "Ibrahim: 7"
+        }
+      ]
+    },
+    {
+      "chapter": "What is Worship?",
+      "arabic_runs": 22,
+      "unverified": 10,
+      "runs": [
+        {
+          "text": "وَهُوَ ٱلَّذِى خَلَقَ ٱلسَّمَوَتِ وَٱلْأَرْضَ بِٱلْحَقِّ ۖ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وهوالذيخلقالسموتوالارضبالحق",
+          "reference": "Al-An'am: 73"
+        },
+        {
+          "text": "وَيَوْمَ يَقُولُ كُن فَيَكُونُ ۚ قَوْلُهُ ٱلْحَقُّ ۚ وَلَهُ ٱلْمُلْكُ يَوْمَ يُنفَخُ فِى ٱلصُّورِ ۚ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ويوميقولكنفيكونقولهالحقولهالملكيومينفخفي",
+          "reference": "Al-An'am: 73"
+        },
+        {
+          "text": "عَلِمُ ٱلْغَيْبِ وَٱلشَّهَدَةِ ۚ وَهُوَ ٱلْحَكِيمُ ٱلْخَبِيرُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "علمالغيبوالشهدهوهوالحكيمالخبير",
+          "reference": "Al-An'am: 73"
+        },
+        {
+          "text": "وَإِمَّا يَنزَغَنَّكَ مِنَ ٱلشَّيْطَنِ نَزْغٌۭ فَٱسْتَعِذْ بِٱللَّهِ ۚ إِنَّهُۥ سَمِيعٌ عَلِيمٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واماينزغنكمنالشيطننزغفاستعذباللهانهسميعع",
+          "reference": "Al-A'raf: 200"
+        },
+        {
+          "text": "وَآتَىٰكُم مِّن كُلِّ مَا سَأَلْتُمُوهُ ۚ وَإِن تَعُدُّوا۟ نِعْمَتَ ٱللَّهِ لَا تُحْصُوهَآ ۗ إِنَّ ٱلْإِنسَنَ لَظَلُومٌۭ كَفَّارٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واتاكممنكلماسالتموهوانتعدوانعمتاللهلاتحص",
+          "reference": "Ibrahim: 34"
+        },
+        {
+          "text": "قُل لَّوْ كَانَ ٱلْبَحْرُ مِدَادًۭا لِّكَلِمَتِ رَبِّى لَنَفِدَ ٱلْبَحْرُ قَبْلَ أَن تَنفَدَ كَلِمَتُ رَبِّى وَلَوْ جِئْنَا بِمِثْلِهِ مَدَدًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قللوكانالبحرمدادالكلمتربيلنفدالبحرقبلانت",
+          "reference": "Al-Kahf: 109"
+        },
+        {
+          "text": "إِن يَنصُرْكُمُ ٱللَّهُ فَلَا غَالِبَ لَكُمْ ۖ وَإِن يَخْذُلْكُمْ فَمَن ذَا ٱلَّذِى يَنصُرُكُم مِّنۢ بَعْدِهِۦ ۗ وَعَلَى ٱللَّهِ فَلْيَتَوَكَّلِ ٱلْمُؤْمِنُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انينصركماللهفلاغالبلكموانيخذلكمفمنذاالذي",
+          "reference": "Ali 'Imran: 160"
+        },
+        {
+          "text": "وَمَا خَلَقْتُ ٱلْجِنَّ وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وماخلقتالجنوالانسالاليعبدون",
+          "reference": "Adh-Dhariyat: 56"
+        },
+        {
+          "text": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اياكنعبدواياكنستعين",
+          "reference": "Al-Fatihah: 5"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "تُعْصِی أِلہ وَ تُظْھِرُ حُبُّہُ",
+          "resolution": "unverified",
+          "skeleton": "تعصالوتظرحب"
+        },
+        {
+          "text": "ھٰذا مُحالٌ فی القِیاسِ بدیع",
+          "resolution": "unverified",
+          "skeleton": "ذامحالفالقاسبدع"
+        },
+        {
+          "text": "محمود الوَرَّاق",
+          "resolution": "unverified",
+          "skeleton": "محمودالوراق"
+        },
+        {
+          "text": "لَو کانَ حُبُّک صادقُ لَطاعَتُہُ",
+          "resolution": "unverified",
+          "skeleton": "لوانحبصادقلطاعت"
+        },
+        {
+          "text": "فَاِنَّ المُحِبَّ لِمَن یُحِبُّ مُطیعُ",
+          "resolution": "unverified",
+          "skeleton": "فانالمحبلمنحبمطع"
+        },
+        {
+          "text": "وَقائِلتُ قَد سَأَلَت عن حَارِ عاشِقِھا",
+          "resolution": "unverified",
+          "skeleton": "وقايلتقدسالتعنحارعاشقا"
+        },
+        {
+          "text": "دَوَاءُ الْعِشْقِ الْاِتِّصَالُ",
+          "resolution": "unverified",
+          "skeleton": "دواءالعشقالاتصال"
+        },
+        {
+          "text": "للہِ صِفہُ ولا تَنقُص وَلا تَزِدِ",
+          "resolution": "unverified",
+          "skeleton": "للصفولاتنقصولاتزد"
+        },
+        {
+          "text": "لَو کانَ رَھلِ الموت بالضمأٍ",
+          "resolution": "unverified",
+          "skeleton": "لوانرلالموتبالضما"
+        },
+        {
+          "text": "وَ قُطی قَفّعاً وُرُودَ المآءِ لَم یَرِدِ",
+          "resolution": "unverified",
+          "skeleton": "وقطقفعاورودالماءلمرد"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        }
+      ]
+    },
+    {
+      "chapter": "Linguistic Meaning Of REHMA",
+      "arabic_runs": 42,
+      "unverified": 36,
+      "runs": [
+        {
+          "text": "اَلَہَ یَعلُہُ",
+          "resolution": "knowledge-base",
+          "skeleton": "العل"
+        },
+        {
+          "text": "لَا اِلٰہَ اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ\n\nالمَالِکُ",
+          "resolution": "unverified",
+          "skeleton": "المالوالسدوالمربوالمرشدوالمنعموالقمالمال"
+        },
+        {
+          "text": "السَّیِّد",
+          "resolution": "unverified",
+          "skeleton": "السد"
+        },
+        {
+          "text": "المُرَبِّی",
+          "resolution": "unverified",
+          "skeleton": "المرب"
+        },
+        {
+          "text": "المُرْشَدُ",
+          "resolution": "unverified",
+          "skeleton": "المرشد"
+        },
+        {
+          "text": "المُنعِمُ",
+          "resolution": "unverified",
+          "skeleton": "المنعم"
+        },
+        {
+          "text": "القَیِّمُ",
+          "resolution": "unverified",
+          "skeleton": "القم"
+        },
+        {
+          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
+          "resolution": "unverified",
+          "skeleton": "قالرسولاللصلاللعلوالوسلم"
+        },
+        {
+          "text": "إنَّ الله لَمَّا قَضٰى الخَلق،كَتَبَ فَوقَ عَرْشُه اِنَّ رَحمَتِی تَغلِبُ غَضَبِی",
+          "resolution": "unverified",
+          "skeleton": "اناللهلماقضيالخلقكتبفوقعرشهانرحمتتغلبغضب"
+        },
+        {
+          "text": "ُإنَّ الله لَمَّا قَضٰى الخَلق،كَتَبَ فَوقَ عَرْشُه",
+          "resolution": "unverified",
+          "skeleton": "اناللهلماقضيالخلقكتبفوقعرشه"
+        },
+        {
+          "text": "اِنَّ رَحمَتِی تَغلِبُ غَضَبِی",
+          "resolution": "unverified",
+          "skeleton": "انرحمتتغلبغضب"
+        },
+        {
+          "text": "نَعُوذُ بِاللّٰہِ",
+          "resolution": "unverified",
+          "skeleton": "نعوذبالل"
+        },
+        {
+          "text": "الرحمۃُ، رِقَّۃٌ تَقتَدِ الأحسانُ أِلی المَرحوم\n\nرحمۃ",
+          "resolution": "unverified",
+          "skeleton": "الرحمرقتقتدالاحسانالالمرحومرحم"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَٰنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "وَمِن رَّحْمَتِهِۦ جَعَلَ لَكُمُ ٱلَّيْلَ وَٱلنَّهَارَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومنرحمتهجعللكماليلوالنهار",
+          "reference": "Al-Qasas: 73"
+        },
+        {
+          "text": "مِّن رَّحْمَتِهِۦ وَيُهَيِّئْ لَكُم مِّنْ أَمْرِكُم مِّرْفَقًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "منرحمتهويهييلكممنامركممرفقا",
+          "reference": "Al-Kahf: 16"
+        },
+        {
+          "text": "وَمِنْ آيَتِهِۦٓ أَن يُرْسِلَ ٱلرِّيَاحَ مُبَشِّرَتٍۢ وَلِيُذِيقَكُم مِّن رَّحْمَتِهِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومنايتهانيرسلالرياحمبشرتوليذيقكممنرحمته",
+          "reference": "Ar-Rum: 46"
+        },
+        {
+          "text": "مَّا يَفْتَحِ ٱللَّهُ لِلنَّاسِ مِن رَّحْمَةٍۢ فَلَا مُمْسِكَ لَهَاۖ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "مايفتحاللهللناسمنرحمهفلاممسكلها",
+          "reference": "Fatir: 2"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَٰنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "أو میرا بیٹا",
+          "resolution": "unverified",
+          "skeleton": "اومرابا"
+        },
+        {
+          "text": "أو میری بیٹی",
+          "resolution": "unverified",
+          "skeleton": "اومرب"
+        },
+        {
+          "text": "أو میرا بیٹا",
+          "resolution": "unverified",
+          "skeleton": "اومرابا"
+        },
+        {
+          "text": "أو میری بیٹی",
+          "resolution": "unverified",
+          "skeleton": "اومرب"
+        },
+        {
+          "text": "کَرِیمٌ، سَلِیمٌ، حَکِیمٌ، جَمِیلٌ، جَلِیلٌ",
+          "resolution": "unverified",
+          "skeleton": "رمسلمحمجملجلل"
+        },
+        {
+          "text": "أَبْنُ عَبَّاسٍ رَضِیَ اللہُ عَنْہُ",
+          "resolution": "unverified",
+          "skeleton": "ابنعباسرضاللعن"
+        },
+        {
+          "text": "رَحْمَتِی وَسِعَتْ عَلَیٰ کُلِّ شَیْءٍ",
+          "resolution": "unverified",
+          "skeleton": "رحمتوسعتعللشء"
+        },
+        {
+          "text": "َما مِن یَوم اِلاَّوالبَحرُ یَستَئذِنُ رَبَّہُ فی اَن یورِقُ ابن آدم\n\nوالارضُ یَستَئذِنُ فی أَن تَبتَلِعَہُ\n\nوالملائکۃ یَستَئذِنُ فی ان تُعاَجِلَہُ وَ تُھلِکُہ",
+          "resolution": "unverified",
+          "skeleton": "مامنومالاوالبحرستيذنربفانورقابنادموالارض"
+        },
+        {
+          "text": "والارضُ یَستَئذِنُ فی أَن تَبتَلِعَہُ",
+          "resolution": "unverified",
+          "skeleton": "والارضستيذنفانتبتلع"
+        },
+        {
+          "text": "والملائکۃ یَستَئذِنُ فی ان تُعاَجِلَہُ وَ تُھلِکُہ",
+          "resolution": "unverified",
+          "skeleton": "والملايستيذنفانتعاجلوتل"
+        },
+        {
+          "text": "دَعُو عَبدِی فأنا أَعلَمُ بِعَبدِی مِنکُم ۔ ان کان عبدَکم فَشَأنَکم بِہِ۔ وأن کان عبدی فَمِنِّی وأِلیَّ عبدی",
+          "resolution": "unverified",
+          "skeleton": "دعوعبدفانااعلمبعبدمنمانانعبدمفشانمبوانان"
+        },
+        {
+          "text": "یَسْأَلُ الْمَلَائِکَۃَ",
+          "resolution": "unverified",
+          "skeleton": "سالالملاي"
+        },
+        {
+          "text": "فلماذا عقدُہُ؟",
+          "resolution": "unverified",
+          "skeleton": "فلماذاعقد"
+        },
+        {
+          "text": "یَسْتَجِیبُ اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "ستجبالل"
+        },
+        {
+          "text": "إنني أتطَّلِع إلى التوبتَہُ",
+          "resolution": "unverified",
+          "skeleton": "اننياتطلعاليالتوبت"
+        },
+        {
+          "text": "أِنْ اَتَانِی نَھَارًا قَبِلْتُہُ أِنْ اَتَانِی لَیْلًا قَبِلْتُہُ",
+          "resolution": "unverified",
+          "skeleton": "اناتانناراقبلتاناتانللاقبلت"
+        },
+        {
+          "text": "مَن تَقَرَّبَ أِلَیَّ تَلَقَّیتُہُ مِن بَعِید",
+          "resolution": "unverified",
+          "skeleton": "منتقربالتلقتمنبعد"
+        },
+        {
+          "text": "وَ مَن أَعرَضَ عَنِّی ناَدَیتُہُ عَن قَرِیب",
+          "resolution": "unverified",
+          "skeleton": "ومناعرضعننادتعنقرب"
+        },
+        {
+          "text": "أَوَلَکَ رَبٌّ غَیرِی؟",
+          "resolution": "unverified",
+          "skeleton": "اولربغر"
+        },
+        {
+          "text": "الحَسَنَۃُ عِندِی بِعَشرِأَمثَالِھَا وَ أَزِید",
+          "resolution": "unverified",
+          "skeleton": "الحسنعندبعشرامثالاوازد"
+        },
+        {
+          "text": "وَوَصَّیَّتُ عِندِی بِمِثلِھَا وأَعفُو و أغْفَر",
+          "resolution": "unverified",
+          "skeleton": "ووصتعندبمثلاواعفوواغفر"
+        },
+        {
+          "text": "فَأَيْنَ تَذْهَبُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فاينتذهبون",
+          "reference": "At-Takwir: 26"
+        }
+      ]
+    },
+    {
+      "chapter": "Womb - The Source Of Mercy",
+      "arabic_runs": 6,
+      "unverified": 2,
+      "runs": [
+        {
+          "text": "اِنِّی سَمَّیتُکَ بِاسْمی",
+          "resolution": "unverified",
+          "skeleton": "انسمتباسم"
+        },
+        {
+          "text": "لَّا تُدْرِكُهُ ٱلْأَبْصَرُ وَهُوَ يُدْرِكُ ٱلْأَبْصَرَ ۖ وَهُوَ ٱللَّطِيفُ ٱلْخَبِيرُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لاتدركهالابصروهويدركالابصروهواللطيفالخبي",
+          "reference": "Al-An'am: 103"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "كُلَّ يَوْمٍ هُوَ فِى شَأْنٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "كليومهوفيشان",
+          "reference": "Ar-Rahman: 29"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "اِنِّی سَمَّیتُکَ بِاسْمی",
+          "resolution": "unverified",
+          "skeleton": "انسمتباسم"
+        }
+      ]
+    },
+    {
+      "chapter": "Manifestations of REHMA",
+      "arabic_runs": 40,
+      "unverified": 13,
+      "runs": [
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "رَحْمَۃُ اللہِ عَلَیْہِ",
+          "resolution": "unverified",
+          "skeleton": "رحماللعل"
+        },
+        {
+          "text": "رَحْمَۃً لِی الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "رحملالعالمن"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "قُلْ يَعِبَادِىَ ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ ۚ إِنَّ ٱللَّهَ يَغْفِرُ ٱلذُّنُوبَ جَمِيعًا ۚ إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قليعباديالذيناسرفواعليانفسهملاتقنطوامنرح",
+          "reference": "Az-Zumar: 53"
+        },
+        {
+          "text": "قُلْ يَعِبَادِىَ ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قليعباديالذيناسرفواعليانفسهم",
+          "reference": "Az-Zumar: 53"
+        },
+        {
+          "text": "يَعِبَادِىَ",
+          "resolution": "unverified",
+          "skeleton": "يعبادي"
+        },
+        {
+          "text": "یَا أَیُّھَا الْعِبَادُ",
+          "resolution": "unverified",
+          "skeleton": "اااالعباد"
+        },
+        {
+          "text": "يَعِبَادِىَ",
+          "resolution": "unverified",
+          "skeleton": "يعبادي"
+        },
+        {
+          "text": "ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الذيناسرفواعليانفسهم",
+          "reference": "Az-Zumar: 53"
+        },
+        {
+          "text": "يَعِبَادِىَ",
+          "resolution": "unverified",
+          "skeleton": "يعبادي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "يَعِبَادِىَ",
+          "resolution": "unverified",
+          "skeleton": "يعبادي"
+        },
+        {
+          "text": "ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الذيناسرفواعليانفسهم",
+          "reference": "Az-Zumar: 53"
+        },
+        {
+          "text": "لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لاتقنطوامنرحمهالله",
+          "reference": "Az-Zumar: 53"
+        },
+        {
+          "text": "لَا اِلَہَ اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "إِنَّ ٱللَّهَ يَغْفِرُ ٱلذُّنُوبَ جَمِيعًا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اناللهيغفرالذنوبجميعا",
+          "reference": "Az-Zumar: 53"
+        },
+        {
+          "text": "إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انههوالغفورالرحيم",
+          "reference": "Yusuf: 98"
+        },
+        {
+          "text": "غَافِرِ الذَّنْبِ",
+          "resolution": "unverified",
+          "skeleton": "غافرالذنب"
+        },
+        {
+          "text": "تَنزِيلُ ٱلْكِتَبِ مِنَ ٱللَّهِ ٱلْعَزِيزِ ٱلْعَلِيمِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "تنزيلالكتبمناللهالعزيزالعليم",
+          "reference": "Ghafir: 2"
+        },
+        {
+          "text": "غَافِرِ ٱلذَّنۢبِ وَقَابِلِ ٱلتَّوْبِ شَدِيدِ ٱلْعِقَابِ ذِى ٱلطَّوْلِۖ لَآ إِلَهَ إِلَّا هُوَۖ إِلَيْهِ ٱلْمَصِيرُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "غافرالذنبوقابلالتوبشديدالعقابذيالطوللاال",
+          "reference": "Ghafir: 3"
+        },
+        {
+          "text": "فَقُلْتُ ٱسْتَغْفِرُوا۟ رَبَّكُمْ إِنَّهُۥ كَانَ غَفَّارًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فقلتاستغفرواربكمانهكانغفارا",
+          "reference": "Nuh: 10"
+        },
+        {
+          "text": "إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انههوالغفورالرحيم",
+          "reference": "Yusuf: 98"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "مَنِ اعْتَكَفَ يَوْماً ابْتِغَاءَ وَجْهِ اللهِ بَاعَدَ اللهُ بَيْنَهُ وَبَيْنَ النَّارِ ثَلَاثَةَ خَنَادِقَ كُلُّ خَنْدَقٍ كَمَا بَيْنَ الْخَافِقَيْنِ",
+          "resolution": "unverified",
+          "skeleton": "مناعتكفيوماابتغاءوجهاللهباعداللهبينهوبين"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "اِبْنُ عَبَّاسٍ رَضِیَ اللَّہُ تَعَالَیٰ عَنْہُ",
+          "resolution": "unverified",
+          "skeleton": "ابنعباسرضاللتعالعن"
+        },
+        {
+          "text": "یَا ابْنَ عَبَّاسٍ",
+          "resolution": "unverified",
+          "skeleton": "اابنعباس"
+        },
+        {
+          "text": "یَا ابْنَ عَبَّاسٍ",
+          "resolution": "unverified",
+          "skeleton": "اابنعباس"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَمَآ أَصَبَكُم مِّن مُّصِيبَةٍۢ فَبِمَا كَسَبَتْ أَيْدِيكُمْ وَيَعْفُوا۟ عَن كَثِيرٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومااصبكممنمصيبهفبماكسبتايديكمويعفواعنكثي",
+          "reference": "Ash-Shura: 30"
+        }
+      ]
+    },
+    {
+      "chapter": "Linguistic Meaning Of Rabb",
+      "arabic_runs": 60,
+      "unverified": 32,
+      "runs": [
+        {
+          "text": "بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "بسماللهالرحمنالرحيم",
+          "reference": "Al-Fatihah: 1"
+        },
+        {
+          "text": "ٱلْحَمْدُ لِلَّهِرَبِّ ٱلْعَلَمِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الحمدللهربالعلمين",
+          "reference": "Al-Fatihah: 2"
+        },
+        {
+          "text": "ٱلرَّحْمَنِ ٱلرَّحِيمِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الرحمنالرحيم",
+          "reference": "Al-Fatihah: 1"
+        },
+        {
+          "text": "مَلِكِ يَوْمِ ٱلدِّينِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ملكيومالدين",
+          "reference": "Al-Fatihah: 4"
+        },
+        {
+          "text": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اياكنعبدواياكنستعين",
+          "reference": "Al-Fatihah: 5"
+        },
+        {
+          "text": "ٱهْدِنَا ٱلصِّرَطَ ٱلْمُسْتَقِيمَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اهدناالصرطالمستقيم",
+          "reference": "Al-Fatihah: 6"
+        },
+        {
+          "text": "صِرَطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "صرطالذينانعمتعليهمغيرالمغضوبعليهمولاالضا",
+          "reference": "Al-Fatihah: 7"
+        },
+        {
+          "text": "سُورَۃُ الْفَاتِحَۃِ",
+          "resolution": "unverified",
+          "skeleton": "سورالفاتح"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلَّہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "ربالعلمن"
+        },
+        {
+          "text": "سُورَۃُ النَّاسِ",
+          "resolution": "unverified",
+          "skeleton": "سورالناس"
+        },
+        {
+          "text": "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قلاعوذبربالناس",
+          "reference": "An-Nas: 1"
+        },
+        {
+          "text": "سُورَۃُ النَّاسِ",
+          "resolution": "unverified",
+          "skeleton": "سورالناس"
+        },
+        {
+          "text": "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قلاعوذبربالناس",
+          "reference": "An-Nas: 1"
+        },
+        {
+          "text": "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قلاعوذبربالفلق",
+          "reference": "Al-Falaq: 1"
+        },
+        {
+          "text": "سُورَۃُ الْفَلَقِ",
+          "resolution": "unverified",
+          "skeleton": "سورالفلق"
+        },
+        {
+          "text": "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قلاعوذبربالفلق",
+          "reference": "Al-Falaq: 1"
+        },
+        {
+          "text": "قُلْ هُوَ ٱللَّهُ أَحَدٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قلهواللهاحد",
+          "reference": "Al-Ikhlas: 1"
+        },
+        {
+          "text": "سُورَۃُ الْاِخْلَاصِ",
+          "resolution": "unverified",
+          "skeleton": "سورالاخلاص"
+        },
+        {
+          "text": "قُلْ ھُوَ اللَّہُ اَحَدٌ",
+          "resolution": "unverified",
+          "skeleton": "قلواللاحد"
+        },
+        {
+          "text": "سُورَۃُ الْفَاتِحَۃِ",
+          "resolution": "unverified",
+          "skeleton": "سورالفاتح"
+        },
+        {
+          "text": "سُورَۃُ اِخْلَاصِ",
+          "resolution": "unverified",
+          "skeleton": "سوراخلاص"
+        },
+        {
+          "text": "الرَبُّ ھُوَ المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ",
+          "resolution": "unverified",
+          "skeleton": "الربوالمالوالسدوالمربوالمرشدوالمنعموالقم"
+        },
+        {
+          "text": "مِلکِیَّۃ",
+          "resolution": "knowledge-base",
+          "skeleton": "مل"
+        },
+        {
+          "text": "مُرَبَّی",
+          "resolution": "knowledge-base",
+          "skeleton": "مرب"
+        },
+        {
+          "text": "مُرَبَّی",
+          "resolution": "knowledge-base",
+          "skeleton": "مرب"
+        },
+        {
+          "text": "مُرَبَّی",
+          "resolution": "knowledge-base",
+          "skeleton": "مرب"
+        },
+        {
+          "text": "مِن دُرَّۃٍ بَیضَآءَ صَافِیَۃً",
+          "resolution": "unverified",
+          "skeleton": "مندربضاءصاف"
+        },
+        {
+          "text": "مِمَّا تَرَبَّبَ حَائِرَ البَحرٍ",
+          "resolution": "unverified",
+          "skeleton": "مماترببحايرالبحر"
+        },
+        {
+          "text": "تَرْبِیَۃُ الْاَوْلَادِ",
+          "resolution": "unverified",
+          "skeleton": "تربالاولاد"
+        },
+        {
+          "text": "اَللّٰھُمَّ مَغْفَرٌلِی",
+          "resolution": "unverified",
+          "skeleton": "اللممغفرل"
+        },
+        {
+          "text": "وَالرَّحْمُھُمَا کَمَا رَبَّیَانِی صَغِیرَۃً",
+          "resolution": "unverified",
+          "skeleton": "والرحمماماربانصغر"
+        },
+        {
+          "text": "رَضِیَ اللَّہُ عَنْہُ",
+          "resolution": "unverified",
+          "skeleton": "رضاللعن"
+        },
+        {
+          "text": "رَضِیَ اللَّہُ عَنْہُ",
+          "resolution": "unverified",
+          "skeleton": "رضاللعن"
+        },
+        {
+          "text": "رَضِیَ اللَّہُ عَنْہُ",
+          "resolution": "unverified",
+          "skeleton": "رضاللعن"
+        },
+        {
+          "text": "حِجَّۃُ الْوَدَاعِ",
+          "resolution": "unverified",
+          "skeleton": "حجالوداع"
+        },
+        {
+          "text": "یا أُمَّتَی لا تُسَوِّدَ وَجْھِی یوم القیامۃ",
+          "resolution": "unverified",
+          "skeleton": "اامتلاتسودوجومالقام"
+        },
+        {
+          "text": "یا أُمَّتَی لا تُسَوِّدَ وَجْھِی یوم القیامۃ",
+          "resolution": "unverified",
+          "skeleton": "اامتلاتسودوجومالقام"
+        },
+        {
+          "text": "ثُمَّ لَتُسْـَٔلُنَّ يَوْمَئِذٍ عَنِ ٱلنَّعِيمِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ثملتسلنيوميذعنالنعيم",
+          "reference": "At-Takathur: 8"
+        },
+        {
+          "text": "اللَّہُ لَا اِلَٰہَ ھُوَ الْحَیُّ الْقَیُّومُ",
+          "resolution": "unverified",
+          "skeleton": "الللاالوالحالقوم"
+        },
+        {
+          "text": "الرب ھو المالک والسَّیِّد و المُرَبِّی والمُرشِد وَالمُنعِم والقَیِّم",
+          "resolution": "unverified",
+          "skeleton": "الربوالمالوالسدوالمربوالمرشدوالمنعموالقم"
+        },
+        {
+          "text": "اُولُو الْاَلْبَابِ",
+          "resolution": "unverified",
+          "skeleton": "اولوالالباب"
+        },
+        {
+          "text": "إِنَّ فِى خَلْقِ ٱلسَّمَوَتِ وَٱلْأَرْضِ وَٱخْتِلَفِ ٱلَّيْلِ وَٱلنَّهَارِ لَآيَتٍۢ لِّأُو۟لِى ٱلْأَلْبَبِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انفيخلقالسموتوالارضواختلفاليلوالنهارلايت",
+          "reference": "Ali 'Imran: 190"
+        },
+        {
+          "text": "ٱلَّذِينَ يَذْكُرُونَ ٱللَّهَ قِيَمًۭا وَقُعُودًۭا وَعَلَىٰ جُنُوبِهِمْ وَيَتَفَكَّرُونَ فِى خَلْقِ ٱلسَّمَوَتِ وَٱلْأَرْضِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الذينيذكروناللهقيماوقعوداوعليجنوبهمويتفك",
+          "reference": "Ali 'Imran: 191"
+        },
+        {
+          "text": "رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا سُبْحَنَكَ فَقِنَا عَذَابَ ٱلنَّارِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ربناماخلقتهذابطلاسبحنكفقناعذابالنار",
+          "reference": "Ali 'Imran: 191"
+        },
+        {
+          "text": "رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ربناماخلقتهذابطلا",
+          "reference": "Ali 'Imran: 191"
+        },
+        {
+          "text": "ٱقْرَأْ بِٱسْمِ رَبِّكَ ٱلَّذِى خَلَقَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اقراباسمربكالذيخلق",
+          "reference": "Al-'Alaq: 1"
+        },
+        {
+          "text": "ٱقْرَأْ بِٱسْمِ اللہِ ٱلَّذِى خَلَقَ",
+          "resolution": "unverified",
+          "skeleton": "اقراباسماللالذيخلق"
+        },
+        {
+          "text": "السَّلَامُ عَلَیْکُمْ",
+          "resolution": "unverified",
+          "skeleton": "السلامعلم"
+        },
+        {
+          "text": "السَّلَامُ عَلَیْکُمْ",
+          "resolution": "unverified",
+          "skeleton": "السلامعلم"
+        },
+        {
+          "text": "وَعَلَیْکُمُ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "وعلمالسلام"
+        },
+        {
+          "text": "ٱقْرَأْ بِٱسْمِ اللہِ ٱلَّذِى خَلَقَ",
+          "resolution": "unverified",
+          "skeleton": "اقراباسماللالذيخلق"
+        },
+        {
+          "text": "ٱقْرَأْ بِٱسْمِ رَبِّكَ ٱلَّذِى خَلَقَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اقراباسمربكالذيخلق",
+          "reference": "Al-'Alaq: 1"
+        },
+        {
+          "text": "ٱلْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِى وَرَضِيتُ لَكُمُ ٱلْإِسْلَمَ دِينًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اليوماكملتلكمدينكمواتممتعليكمنعمتيورضيتل",
+          "reference": "Al-Ma'idah: 3"
+        },
+        {
+          "text": "فَمَنِ ٱضْطُرَّ فِى مَخْمَصَةٍ غَيْرَ مُتَجَانِفٍۢ لِّإِثْمٍ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فمناضطرفيمخمصهغيرمتجانفلاثم",
+          "reference": "Al-Ma'idah: 3"
+        },
+        {
+          "text": "فَإِنَّ ٱللَّهَ غَفُورٌۭ رَّحِيمٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فاناللهغفوررحيم",
+          "reference": "Al-Baqarah: 192"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "الرحمنالرحم"
+        },
+        {
+          "text": "غَفُورٌۭ رَّحِيمٌۭ",
+          "resolution": "knowledge-base",
+          "skeleton": "غفوررحيم"
+        }
+      ]
+    },
+    {
+      "chapter": "Master Slave Relationship",
+      "arabic_runs": 35,
+      "unverified": 26,
+      "runs": [
+        {
+          "text": "المالک والسَّیِّد و المُرَبِّی والمُرشَد وَالمُنعِم والقَیِّم",
+          "resolution": "unverified",
+          "skeleton": "المالوالسدوالمربوالمرشدوالمنعموالقم"
+        },
+        {
+          "text": "الرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ",
+          "resolution": "unverified",
+          "skeleton": "الرحمنعلمالقران"
+        },
+        {
+          "text": "اَلْجَبَّارُ عَلَّمَ اَلْقُرْآنَ",
+          "resolution": "unverified",
+          "skeleton": "الجبارعلمالقران"
+        },
+        {
+          "text": "رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا\n\nرَبَّنَآ إِنَّكَ مَن تُدْخِلِ ٱلنَّارَ فَقَدْ أَخْزَيْتَهُۥ\n\nرَّبَّنَآ إِنَّنَا سَمِعْنَا مُنَادِيًۭا يُنَادِى لِلْإِيمَنِ أَنْ آمِنُوا۟ بِرَبِّكُمْ فَـَٔامَنَّا",
+          "resolution": "unverified",
+          "skeleton": "ربناماخلقتهذابطلاربناانكمنتدخلالنارفقداخ"
+        },
+        {
+          "text": "تُسَبِّحُ لَهُ ٱلسَّمَوَتُ ٱلسَّبْعُ وَٱلْأَرْضُ وَمَن فِيهِنَّ ۚ وَإِن مِّن شَىْءٍ إِلَّا يُسَبِّحُ بِحَمْدِهِۦ وَلَكِن لَّا تَفْقَهُونَ تَسْبِيحَهُمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "تسبحلهالسموتالسبعوالارضومنفيهنوانمنشيءال",
+          "reference": "Al-Isra: 44"
+        },
+        {
+          "text": "اِقْرَأْ بِسْمِ رَبِّکَ الَّذِی خَلَقَ",
+          "resolution": "unverified",
+          "skeleton": "اقرابسمربالذخلق"
+        },
+        {
+          "text": "اِقْرَأْ بِسْمِ رَبِّ الَّذِی خَلَقَ",
+          "resolution": "unverified",
+          "skeleton": "اقرابسمربالذخلق"
+        },
+        {
+          "text": "اِقْرَأْ بِسْمِ رَبِّکَ الَّذِی خَلَقَ",
+          "resolution": "unverified",
+          "skeleton": "اقرابسمربالذخلق"
+        },
+        {
+          "text": "عُبُودِیَّۃُ وَ الطَّاعَۃُ",
+          "resolution": "unverified",
+          "skeleton": "عبودوالطاع"
+        },
+        {
+          "text": "وِلَایَۃٌ، طَھَارَۃٌ ، صَلَوَاۃٌ، زَکَوَاۃٌ، حَجٌّ، جِھَادٌ",
+          "resolution": "unverified",
+          "skeleton": "ولاطارصلوازواحججاد"
+        },
+        {
+          "text": "اِمَامُ جَعْفَرٍ الصَّادِقِ",
+          "resolution": "unverified",
+          "skeleton": "امامجعفرالصادق"
+        },
+        {
+          "text": "ھَلِ الدِّینُ؟",
+          "resolution": "unverified",
+          "skeleton": "لالدن"
+        },
+        {
+          "text": "اِلَّا الطَّاعَۃُ",
+          "resolution": "unverified",
+          "skeleton": "الاالطاع"
+        },
+        {
+          "text": "ھَلِ الطَّاعَۃُ؟",
+          "resolution": "unverified",
+          "skeleton": "لالطاع"
+        },
+        {
+          "text": "الا الحُب",
+          "resolution": "unverified",
+          "skeleton": "الاالحب"
+        },
+        {
+          "text": "وَکُلٌّ فِی فَلَکٍ یَسْبَحُونَ",
+          "resolution": "unverified",
+          "skeleton": "ولففلسبحون"
+        },
+        {
+          "text": "وَقُلِ ٱلْحَقُّ مِن رَّبِّكُمْ ۖ فَمَن شَآءَ فَلْيُؤْمِن وَمَن شَآءَ فَلْيَكْفُرْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وقلالحقمنربكمفمنشاءفليومنومنشاءفليكفر",
+          "reference": "Al-Kahf: 29"
+        },
+        {
+          "text": "يُرِيدُ ٱللَّهُ بِكُمُ ٱلْيُسْرَ وَلَا يُرِيدُ بِكُمُ ٱلْعُسْرَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يريداللهبكماليسرولايريدبكمالعسر",
+          "reference": "Al-Baqarah: 185"
+        },
+        {
+          "text": "وَإِذَا سَأَلَكَ عِبَادِى عَنِّى فَإِنِّى قَرِيبٌ ۖ أُجِيبُ دَعْوَةَ ٱلدَّاعِ إِذَا دَعَانِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاسالكعباديعنيفانيقريباجيبدعوهالداعاذا",
+          "reference": "Al-Baqarah: 186"
+        },
+        {
+          "text": "إِن يُرِدْنِ ٱلرَّحْمَنُ بِضُرٍّۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انيردنالرحمنبضر",
+          "reference": "Ya-Sin: 23"
+        },
+        {
+          "text": "لَّا تُغْنِ عَنِّى شَفَعَتُهُمْ شَيْـًۭٔا وَلَا يُنقِذُونِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لاتغنعنيشفعتهمشياولاينقذون",
+          "reference": "Ya-Sin: 23"
+        },
+        {
+          "text": "إِن يُرِدْنِ ٱلرَّحْمَنُ بِضُرٍّۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انيردنالرحمنبضر",
+          "reference": "Ya-Sin: 23"
+        },
+        {
+          "text": "إِن يُرِدْنِ الجبار",
+          "resolution": "unverified",
+          "skeleton": "انيردنالجبار"
+        },
+        {
+          "text": "إِن يُرِدْنِ القھار",
+          "resolution": "unverified",
+          "skeleton": "انيردنالقار"
+        },
+        {
+          "text": "إِن يُرِدْنِ ذوالنتقام",
+          "resolution": "unverified",
+          "skeleton": "انيردنذوالنتقام"
+        },
+        {
+          "text": "إِن يُرِدْنِ ٱلرَّحْمَنُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انيردنالرحمن",
+          "reference": "Ya-Sin: 23"
+        },
+        {
+          "text": "جاھلی عرب",
+          "resolution": "unverified",
+          "skeleton": "جالعرب"
+        },
+        {
+          "text": "وَإِذْ تَأَذَّنَ رَبُّكُمْ لَىِٕن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَىِٕن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذتاذنربكملينشكرتملازيدنكمولينكفرتمانعذ",
+          "reference": "Ibrahim: 7"
+        },
+        {
+          "text": "الحُرُّ عَبْدٌ مَا طَمَع",
+          "resolution": "unverified",
+          "skeleton": "الحرعبدماطمع"
+        },
+        {
+          "text": "والعَبْدُ حُرُّ مَا طَمَع",
+          "resolution": "unverified",
+          "skeleton": "والعبدحرماطمع"
+        },
+        {
+          "text": "فَلَيـتَكَ تَحلُو وَالحَيـاةُ مَـرِيرَةٌ",
+          "resolution": "unverified",
+          "skeleton": "فليتكتحلووالحياهمريره"
+        },
+        {
+          "text": "وَلَيـتَكَ تَرضـى وَالأنـامُ غِضَـابُ\n\nوَلَيـتَ الَّذِي بَيـنِي وَ بَينَـكَ عَامِرٌ",
+          "resolution": "unverified",
+          "skeleton": "وليتكترضيوالانامغضابوليتالذيبينيوبينكعام"
+        },
+        {
+          "text": "وَبَـينِي وَبَيـنَ العــالَمِينَ خَـرَابُ\n\nفَيالَيـتَ شُـربِي مِن وِدَادِكَ صَافِياً",
+          "resolution": "unverified",
+          "skeleton": "وبينيوبينالعالمينخرابفياليتشربيمنودادكصا"
+        },
+        {
+          "text": "وَشُـربِي مِن مَـاء الفُراتِ سَـرَابُ\n\nإذا نِلتُ مِنكَ الوُدَّ فَالكُلُّ هَيِّـنٌ",
+          "resolution": "unverified",
+          "skeleton": "وشربيمنماءالفراتسراباذانلتمنكالودفالكلهي"
+        },
+        {
+          "text": "وَكُـلَّ الَّذي فَوقَ الـتُّرابِ تُـرابُ",
+          "resolution": "unverified",
+          "skeleton": "وكلالذيفوقالترابتراب"
+        }
+      ]
+    },
+    {
+      "chapter": "Understanding RAB Al-ALAMEEN",
+      "arabic_runs": 59,
+      "unverified": 41,
+      "runs": [
+        {
+          "text": "الرَبُّ ھُوَ المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ",
+          "resolution": "unverified",
+          "skeleton": "الربوالمالوالسدوالمربوالمرشدوالمنعموالقم"
+        },
+        {
+          "text": "سُورَۃُ الْفَاتِحَۃِ",
+          "resolution": "unverified",
+          "skeleton": "سورالفاتح"
+        },
+        {
+          "text": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الحمدللهربالعلمين",
+          "reference": "Al-Fatihah: 2"
+        },
+        {
+          "text": "رَبِّ ٱلْعَلَمِينَ",
+          "resolution": "knowledge-base",
+          "skeleton": "ربالعلمين"
+        },
+        {
+          "text": "ٱلْعَلَمِينَ",
+          "resolution": "knowledge-base",
+          "skeleton": "العلمين"
+        },
+        {
+          "text": "رَبِّ ٱلْعَلَمِينَ",
+          "resolution": "knowledge-base",
+          "skeleton": "ربالعلمين"
+        },
+        {
+          "text": "الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "العالمن"
+        },
+        {
+          "text": "الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "العالمن"
+        },
+        {
+          "text": "اِمَامُ جَعْفَرٍ الصَّادِقِ عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "امامجعفرالصادقعلالسلام"
+        },
+        {
+          "text": "اَللّٰہُ اَکْبَرُ مِنْ اَنْ یُحَدَّ وَ یُحْسَرَ",
+          "resolution": "unverified",
+          "skeleton": "اللابرمنانحدوحسر"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وُجُودُہُ لَہُ دَلِیلُ قَاطِعٌ\n\nحَاجَتُ کُلِّ مُحدَثٍ لِصَانعٌ",
+          "resolution": "unverified",
+          "skeleton": "وجودلدللقاطعحاجتلمحدثلصانع"
+        },
+        {
+          "text": "وَلِکُلِّ عالَمُ لِحَاجَّتاً الی العَالِمٌ",
+          "resolution": "unverified",
+          "skeleton": "وللعالملحاجتاالالعالم"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "بِمَ عَرَفتَ رَبُّك؟",
+          "resolution": "unverified",
+          "skeleton": "بمعرفتربك"
+        },
+        {
+          "text": "إن البِعرَةُ تَدُلُّ علی البَعِیر",
+          "resolution": "unverified",
+          "skeleton": "انالبعرهتدلعلالبعر"
+        },
+        {
+          "text": "والرَّوثَةُ تَدُلُّ علی الحمیر",
+          "resolution": "unverified",
+          "skeleton": "والروثهتدلعلالحمر"
+        },
+        {
+          "text": "و آثارُ القدمُ تَدُلُّ علی المَسِیر",
+          "resolution": "unverified",
+          "skeleton": "واثارالقدمتدلعلالمسر"
+        },
+        {
+          "text": "فسمآءُ ذاتُ اَبرَاج",
+          "resolution": "unverified",
+          "skeleton": "فسماءذاتابراج"
+        },
+        {
+          "text": "وَالْاَرْضَ ذَاتَ الْفِجَاجِ",
+          "resolution": "unverified",
+          "skeleton": "والارضذاتالفجاج"
+        },
+        {
+          "text": "واَبحَرُ ذَاتَ الامواج",
+          "resolution": "unverified",
+          "skeleton": "وابحرذاتالامواج"
+        },
+        {
+          "text": "اَلَا تَدُلُّ عَلَی لَطِیفِ الْخَبِیرِ؟",
+          "resolution": "unverified",
+          "skeleton": "الاتدلعللطفالخبر"
+        },
+        {
+          "text": "الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "العالمن"
+        },
+        {
+          "text": "الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "العالمن"
+        },
+        {
+          "text": "رَبُّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "ربالعالمن"
+        },
+        {
+          "text": "رَبُّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "ربالعالمن"
+        },
+        {
+          "text": "رَبُّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "ربالعالمن"
+        },
+        {
+          "text": "يَبَنِىٓ إِسْرَٓءِيلَ ٱذْكُرُوا۟ نِعْمَتِىَ ٱلَّتِىٓ أَنْعَمْتُ عَلَيْكُمْ وَأَنِّى فَضَّلْتُكُمْ عَلَى ٱلْعَلَمِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يبنياسرءيلاذكروانعمتيالتيانعمتعليكموانيف",
+          "reference": "Al-Baqarah: 47"
+        },
+        {
+          "text": "رَبُّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "ربالعالمن"
+        },
+        {
+          "text": "رَبُّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "ربالعالمن"
+        },
+        {
+          "text": "رَبُّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "ربالعالمن"
+        },
+        {
+          "text": "رَبُّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "ربالعالمن"
+        },
+        {
+          "text": "نَہْجُ الْبَلَاغَۃِ",
+          "resolution": "unverified",
+          "skeleton": "نجالبلاغ"
+        },
+        {
+          "text": "رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "ربالعلمن"
+        },
+        {
+          "text": "إِنَّ أَكْرَمَكُمْ عِندَ اللَّهِ أَتْقَاكُمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اناكرمكمعنداللهاتقاكم",
+          "reference": "Al-Hujurat: 13"
+        },
+        {
+          "text": "اشھد ان محمد عبدہ و رسولہ",
+          "resolution": "unverified",
+          "skeleton": "اشدانمحمدعبدورسول"
+        },
+        {
+          "text": "أَنَا۠ خَيْرٌۭ مِّنْهُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اناخيرمنه",
+          "reference": "Al-A'raf: 12"
+        },
+        {
+          "text": "خَلَقْتَنِى مِن نَّارٍۢ وَخَلَقْتَهُۥ مِن طِينٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "خلقتنيمنناروخلقتهمنطين",
+          "reference": "Al-A'raf: 12"
+        },
+        {
+          "text": "رَبُّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "ربالعالمن"
+        },
+        {
+          "text": "أَنَا۠ خَيْرٌۭ مِّنْهُ خَلَقْتَنِى مِن نَّارٍۢ وَخَلَقْتَهُۥ مِن طِينٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اناخيرمنهخلقتنيمنناروخلقتهمنطين",
+          "reference": "Al-A'raf: 12"
+        },
+        {
+          "text": "اَنَا رَبُّکُمُ الْاَعْلَی",
+          "resolution": "unverified",
+          "skeleton": "اناربمالاعل"
+        },
+        {
+          "text": "وَلَقَدْ خَلَقْنَا ٱلْإِنسَنَ مِن سُلَلَةٍۢ مِّن طِينٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولقدخلقناالانسنمنسللهمنطين",
+          "reference": "Al-Mu'minun: 12"
+        },
+        {
+          "text": "ثُمَّ جَعَلَ نَسْلَهُۥ مِن سُلَلَةٍۢ مِّن مَّآءٍۢ مَّهِينٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ثمجعلنسلهمنسللهمنماءمهين",
+          "reference": "As-Sajdah: 8"
+        },
+        {
+          "text": "ِرَجَلَ عن فَرِسِہ",
+          "resolution": "unverified",
+          "skeleton": "رجلعنفرس"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "رَبُّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "ربالعالمن"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "مَنْ تَوَاضَعَ لِی اللَّہُ، رَفَعَ اللَّہُ لَہُ",
+          "resolution": "unverified",
+          "skeleton": "منتواضعلاللرفعاللل"
+        },
+        {
+          "text": "مُحَمَّدٌ مُصْطَفَی ﷺ",
+          "resolution": "unverified",
+          "skeleton": "محمدمصطف"
+        },
+        {
+          "text": "یُریدُ أَنَّ یَبعَثُ أُمِیِّ مِنَ الأُمِّیِّن۔وأجعل السكينةَ لباسُهُ ، والبِرَّ شَعارُهُ ، والتقوى ضَميرَهُ ، والحِكمَةَ مَنطِقَهُ ، والصِّدقَ والوفاءَ طَبِيعَتُهُ ، والعَفوَ وَالمَعرُوفَ خُلقُهُ ، والَحقَّ شَريعَتَهُ ، والعَدلَ سيرَتَهُ ، والهَدِىُ إمامُهُ ، والإسلامَ مِلَّتُهُ ، وأحمد أِسمُهُ",
+          "resolution": "unverified",
+          "skeleton": "ردانبعثاممنالامنواجعلالسكينهلباسهوالبرشع"
+        },
+        {
+          "text": "أَهدِي بِهِ بَعدَ الضَّلالَة ، وأعلَمُ بِهِ مِنَ الجَهالة ، وأَرفَعُ به بعد الخَمالَة ، وأعرِفُ به بعد النَّكِرَة ، وأكثَرُ بِهِ بعدَ القِلَّة ، وأغنِي به بعد العَيلَة ، وأَجمِعُ به بعد الفُرقَة",
+          "resolution": "unverified",
+          "skeleton": "اهديبهبعدالضلالهواعلمبهمنالجهالهوارفعبهب"
+        },
+        {
+          "text": "أَهدِي بِهِ بَعدَ الضَّلالَة ، وأعلَمُ بِهِ مِنَ الجَهالة ، وأَرفَعُ به بعد الخَمالَة ، وأعرِفُ به بعد النَّكِرَة ، وأكثَرُ بِهِ بعدَ القِلَّة ، وأغنِي به بعد العَيلَة",
+          "resolution": "unverified",
+          "skeleton": "اهديبهبعدالضلالهواعلمبهمنالجهالهوارفعبهب"
+        },
+        {
+          "text": "لَو یَمشِی عَلی القَصَبِ الیَابِس۔۔۔ لَم یُسمَع مِن تَحتِ قَدَمَیہِ مِن سَکِینَتِہِ",
+          "resolution": "unverified",
+          "skeleton": "لومشعلالقصبالابسلمسمعمنتحتقدممنسنت"
+        },
+        {
+          "text": "وکُلُّکُم مِن آدَم",
+          "resolution": "unverified",
+          "skeleton": "ولممنادم"
+        },
+        {
+          "text": "وَ آدَم مِن تُرَاب",
+          "resolution": "unverified",
+          "skeleton": "وادممنتراب"
+        },
+        {
+          "text": "رَبَّنَآ إِنَّكَ جَامِعُ ٱلنَّاسِ لِيَوْمٍۢ لَّا رَيْبَ فِيهِ ۚ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ربناانكجامعالناسليوملاريبفيه",
+          "reference": "Ali 'Imran: 9"
+        },
+        {
+          "text": "إِنَّ ٱللَّهَ لَا يُخْلِفُ ٱلْمِيعَادَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اناللهلايخلفالميعاد",
+          "reference": "Ali 'Imran: 9"
+        },
+        {
+          "text": "وآخر الدعوانا عن الحمد للہ رَبُّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "واخرالدعواناعنالحمدللربالعالمن"
+        }
+      ]
+    },
+    {
+      "chapter": "The Divine Formula For Recognizing Allah",
+      "arabic_runs": 49,
+      "unverified": 19,
+      "runs": [
+        {
+          "text": "رَبُّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "ربالعالمن"
+        },
+        {
+          "text": "اُولُو الْاَلْبَابِ",
+          "resolution": "unverified",
+          "skeleton": "اولوالالباب"
+        },
+        {
+          "text": "الحُکمُ علی شَیء فرحٌ عَن تَصَوُّرِہِ",
+          "resolution": "unverified",
+          "skeleton": "الحمعلشءفرحعنتصور"
+        },
+        {
+          "text": "عَالَمُ الشَّھَادَۃِ",
+          "resolution": "unverified",
+          "skeleton": "عالمالشاد"
+        },
+        {
+          "text": "عَالَمُ الْغَیْبِ",
+          "resolution": "unverified",
+          "skeleton": "عالمالغب"
+        },
+        {
+          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنافيالافاقوفيانفسهم",
+          "reference": "Fussilat: 53"
+        },
+        {
+          "text": "فِى ٱلأٓفَاقِ",
+          "resolution": "unverified",
+          "skeleton": "فيالافاق"
+        },
+        {
+          "text": "وَفِىٓ أَنفُسِهِمْ",
+          "resolution": "unverified",
+          "skeleton": "وفيانفسهم"
+        },
+        {
+          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنافيالافاقوفيانفسهم",
+          "reference": "Fussilat: 53"
+        },
+        {
+          "text": "حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "حتييتبينلهمانهالحق",
+          "reference": "Fussilat: 53"
+        },
+        {
+          "text": "اللہ الذی خلق السماوت و الارض",
+          "resolution": "unverified",
+          "skeleton": "اللالذخلقالسماوتوالارض"
+        },
+        {
+          "text": "إِنَّ فِى خَلْقِ ٱلسَّمَوَتِ وَٱلْأَرْضِ وَٱخْتِلَفِ ٱلَّيْلِ وَٱلنَّهَارِ لَآيَتٍۢ لِّأُو۟لِى ٱلْأَلْبَبِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انفيخلقالسموتوالارضواختلفاليلوالنهارلايت",
+          "reference": "Ali 'Imran: 190"
+        },
+        {
+          "text": "لَا تَفَکَّرْ فِی اللہِ",
+          "resolution": "unverified",
+          "skeleton": "لاتفرفالل"
+        },
+        {
+          "text": "ولاکن تفکر فی خلق اللہ",
+          "resolution": "unverified",
+          "skeleton": "ولانتفرفخلقالل"
+        },
+        {
+          "text": "أَنَا اللَّـهُ الْعَزِيزُ الْحَكِيمُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انااللهالعزيزالحكيم",
+          "reference": "An-Naml: 9"
+        },
+        {
+          "text": "ٱلرَّحْمَنُ",
+          "resolution": "unverified",
+          "skeleton": "الرحمن"
+        },
+        {
+          "text": "عَلَّمَ ٱلْقُرْآنَ",
+          "resolution": "unverified",
+          "skeleton": "علمالقران"
+        },
+        {
+          "text": "خَلَقَ ٱلْإِنسَنَ",
+          "resolution": "unverified",
+          "skeleton": "خلقالانسن"
+        },
+        {
+          "text": "عَلَّمَهُ ٱلْبَيَانَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "علمهالبيان",
+          "reference": "Ar-Rahman: 4"
+        },
+        {
+          "text": "ٱلرَّحْمَنُ",
+          "resolution": "unverified",
+          "skeleton": "الرحمن"
+        },
+        {
+          "text": "اللَّهُ لا إِلَهَ إِلا هُوَ الْحَيُّ الْقَيُّومُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اللهلاالهالاهوالحيالقيوم",
+          "reference": "Al-Baqarah: 255"
+        },
+        {
+          "text": "لا تَأْخُذُهُ سِنَةٌ وَلا نَوْمٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لاتاخذهسنهولانوم",
+          "reference": "Al-Baqarah: 255"
+        },
+        {
+          "text": "لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لهمافيالسماواتومافيالارض",
+          "reference": "Al-Baqarah: 255"
+        },
+        {
+          "text": "مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلا بِإِذْنِهِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "منذاالذييشفععندهالاباذنه",
+          "reference": "Al-Baqarah: 255"
+        },
+        {
+          "text": "يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلا بِمَا شَاءَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يعلممابينايديهموماخلفهمولايحيطونبشيءمنعل",
+          "reference": "Al-Baqarah: 255"
+        },
+        {
+          "text": "وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلا يَئُودُهُ حِفْظُهُمَا",
+          "resolution": "unverified",
+          "skeleton": "وسعكرسيهالسماواتوالارضولاييودهحفظهما"
+        },
+        {
+          "text": "وَهُوَ الْعَلِيُّ الْعَظِيمُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وهوالعليالعظيم",
+          "reference": "Al-Baqarah: 255"
+        },
+        {
+          "text": "اللَّهُ لا إِلَهَ إِلا هُوَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اللهلاالهالاهو",
+          "reference": "Al-Baqarah: 255"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَإِذْ قَالَ رَبُّكَ لِلْمَلَٓئِكَةِ إِنِّى جَاعِلٌۭ فِى ٱلْأَرْضِ خَلِيفَةًۭ ۖ قَالُوٓا۟ أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ ۖ قَالَ إِنِّىٓ أَعْلَمُ مَا لَا تَعْلَمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذقالربكللمليكهانيجاعلفيالارضخليفهقالوا",
+          "reference": "Al-Baqarah: 30"
+        },
+        {
+          "text": "وَعَلَّمَ آدَمَ ٱلْأَسْمَآءَ كُلَّهَا ثُمَّ عَرَضَهُمْ عَلَى ٱلْمَلَٓئِكَةِ فَقَالَ أَنۢبِـُٔونِى بِأَسْمَآءِ هَٓؤُلَآءِ إِن كُنتُمْ صَدِقِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وعلمادمالاسماءكلهاثمعرضهمعليالمليكهفقالا",
+          "reference": "Al-Baqarah: 31"
+        },
+        {
+          "text": "قَالُوا۟ سُبْحَنَكَ لَا عِلْمَ لَنَآ إِلَّا مَا عَلَّمْتَنَآ ۖ إِنَّكَ أَنتَ ٱلْعَلِيمُ ٱلْحَكِيمُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قالواسبحنكلاعلملناالاماعلمتناانكانتالعلي",
+          "reference": "Al-Baqarah: 32"
+        },
+        {
+          "text": "وَإِذْ قَالَ رَبُّكَ لِلْمَلَٓئِكَةِ إِنِّى جَاعِلٌۭ فِى ٱلْأَرْضِ خَلِيفَةًۭ ۖ قَالُوٓا۟ أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ ۖ قَالَ إِنِّىٓ أَعْلَمُ مَا لَا تَعْلَمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذقالربكللمليكهانيجاعلفيالارضخليفهقالوا",
+          "reference": "Al-Baqarah: 30"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَٱللَّهُ بِمَا تَعْمَلُونَ بَصِيرٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واللهبماتعملونبصير",
+          "reference": "Al-Baqarah: 265"
+        },
+        {
+          "text": "وَهُوَ ٱلسَّمِيعُ ٱلْعَلِيمُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وهوالسميعالعليم",
+          "reference": "Al-Baqarah: 137"
+        },
+        {
+          "text": "كُلَّ يَوْمٍ هُوَ فِى شَأْنٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "كليومهوفيشان",
+          "reference": "Ar-Rahman: 29"
+        },
+        {
+          "text": "إِنَّ ٱللَّهَ يُحِبُّ ٱلتَّوَّبِينَ وَيُحِبُّ ٱلْمُتَطَهِّرِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اناللهيحبالتوبينويحبالمتطهرين",
+          "reference": "Al-Baqarah: 222"
+        },
+        {
+          "text": "وَٱللَّهُ لَا يُحِبُّ ٱلْفَسَادَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واللهلايحبالفساد",
+          "reference": "Al-Baqarah: 205"
+        },
+        {
+          "text": "وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وفيانفسكمافلاتبصرون",
+          "reference": "Adh-Dhariyat: 21"
+        },
+        {
+          "text": "مَنْ عَرَفَ نَفْسَہُ فَقَدْ عَرَفَ رَبَّہُ",
+          "resolution": "unverified",
+          "skeleton": "منعرفنفسفقدعرفرب"
+        },
+        {
+          "text": "وَاللَّـهُ أَخْرَجَكُم مِّن بُطُونِ أُمَّهَاتِكُمْ لَا تَعْلَمُونَ شَيْئًا",
+          "resolution": "unverified",
+          "skeleton": "واللهاخرجكممنبطونامهاتكملاتعلمونشييا"
+        },
+        {
+          "text": "وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَارَ وَالْأَفْئِدَةَۙ",
+          "resolution": "unverified",
+          "skeleton": "وجعللكمالسمعوالابصاروالافيده"
+        },
+        {
+          "text": "لَعَلَّكُمْ تَشْكُرُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لعلكمتشكرون",
+          "reference": "Al-Baqarah: 52"
+        },
+        {
+          "text": "لَا نَسْأَلُكَ رِزْقًاۖ نَّحْنُ نَرْزُقُكَۗوَ",
+          "resolution": "unverified",
+          "skeleton": "لانسالكرزقانحننرزقكو"
+        },
+        {
+          "text": "وَمَا بِكُم مِّن نِّعْمَةٍ فَمِنَ اللَّـهِۖثُمَّ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومابكممننعمهفمناللهثم",
+          "reference": "An-Nahl: 53"
+        },
+        {
+          "text": "وَمَا خَلَقْتُ الْجِنَّ وَالْإِنسَ إِلَّا لِيَعْبُدُونِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وماخلقتالجنوالانسالاليعبدون",
+          "reference": "Adh-Dhariyat: 56"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنافيالافاقوفيانفسهم",
+          "reference": "Fussilat: 53"
+        }
+      ]
+    },
+    {
+      "chapter": "The Horizons And The Soul",
+      "arabic_runs": 69,
+      "unverified": 35,
+      "runs": [
+        {
+          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ ۗ أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ شَهِيدٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنافيالافاقوفيانفسهمحتييتبينلهما",
+          "reference": "Fussilat: 53"
+        },
+        {
+          "text": "اِنَّا اللہ اَسَّسَ دِینَہُ عَلیَ مِثاَلِ خَلقِہِ لِیَستَدِلَّ بِالدِّینِ عَلَی الدُّنیَا ؛ وَ الدُّنیَا عَلَی الدِّین",
+          "resolution": "unverified",
+          "skeleton": "انااللاسسدنعلمثالخلقلستدلبالدنعلالدناوال"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "اللہ نور السموت والارض",
+          "resolution": "unverified",
+          "skeleton": "اللنورالسموتوالارض"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "هُوَ أَنشَأَكُم مِّنَ ٱلْأَرْضِ وَٱسْتَعْمَرَكُمْ فِيهَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "هوانشاكممنالارضواستعمركمفيها",
+          "reference": "Hud: 61"
+        },
+        {
+          "text": "عبادۃ\n\nوَمَا خَلَقْتُ ٱلْجِنَّ وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ",
+          "resolution": "unverified",
+          "skeleton": "عبادوماخلقتالجنوالانسالاليعبدون"
+        },
+        {
+          "text": "وَيَسْتَخْلِفَكُمْ فِى ٱلْأَرْضِ فَيَنظُرَ كَيْفَ تَعْمَلُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ويستخلفكمفيالارضفينظركيفتعملون",
+          "reference": "Al-A'raf: 129"
+        },
+        {
+          "text": "ُخَلَفَہ",
+          "resolution": "knowledge-base",
+          "skeleton": "خلف"
+        },
+        {
+          "text": "فَيَنظُرَ كَيْفَ تَعْمَلُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فينظركيفتعملون",
+          "reference": "Al-A'raf: 129"
+        },
+        {
+          "text": "وَإِذْ قَالَ رَبُّكَ لِلْمَلَٓئِكَةِ إِنِّى جَاعِلٌۭ فِى ٱلْأَرْضِ خَلِيفَةًۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذقالربكللمليكهانيجاعلفيالارضخليفه",
+          "reference": "Al-Baqarah: 30"
+        },
+        {
+          "text": "سُورَۃُ الصَّوَادِ",
+          "resolution": "unverified",
+          "skeleton": "سورالصواد"
+        },
+        {
+          "text": "داود علیہ السلام",
+          "resolution": "unverified",
+          "skeleton": "داودعلالسلام"
+        },
+        {
+          "text": "يَدَاوُۥدُ إِنَّا جَعَلْنَكَ خَلِيفَةًۭ فِى ٱلْأَرْضِ فَٱحْكُم بَيْنَ ٱلنَّاسِ بِٱلْحَقِّ وَلَا تَتَّبِعِ ٱلْهَوَىٰ فَيُضِلَّكَ عَن سَبِيلِ ٱللَّهِ ۚ إِنَّ ٱلَّذِينَ يَضِلُّونَ عَن سَبِيلِ ٱللَّهِ لَهُمْ عَذَابٌۭ شَدِيدٌۢ بِمَا نَسُوا۟ يَوْمَ ٱلْحِسَابِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يداوداناجعلنكخليفهفيالارضفاحكمبينالناسبا",
+          "reference": "Sad: 26"
+        },
+        {
+          "text": "بَنِی اِسْرَائِیلَ",
+          "resolution": "unverified",
+          "skeleton": "بناسرايل"
+        },
+        {
+          "text": "فَٱحْكُم بَيْنَ ٱلنَّاسِ بِٱلْحَقِّ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فاحكمبينالناسبالحق",
+          "reference": "Sad: 26"
+        },
+        {
+          "text": "وَلَا تَتَّبِعِ ٱلْهَوَىٰ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولاتتبعالهوي",
+          "reference": "Sad: 26"
+        },
+        {
+          "text": "فَيُضِلَّكَ عَن سَبِيلِ ٱللَّهِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فيضلكعنسبيلالله",
+          "reference": "Sad: 26"
+        },
+        {
+          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ ۗ أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ شَهِيدٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنافيالافاقوفيانفسهمحتييتبينلهما",
+          "reference": "Fussilat: 53"
+        },
+        {
+          "text": "سُورَۃُ الرُّومِ",
+          "resolution": "unverified",
+          "skeleton": "سورالروم"
+        },
+        {
+          "text": "ظَهَرَ ٱلْفَسَادُ فِى ٱلْبَرِّ وَٱلْبَحْرِ بِمَا كَسَبَتْ أَيْدِى ٱلنَّاسِ لِيُذِيقَهُم بَعْضَ ٱلَّذِى عَمِلُوا۟ لَعَلَّهُمْ يَرْجِعُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ظهرالفسادفيالبروالبحربماكسبتايديالناسليذ",
+          "reference": "Ar-Rum: 41"
+        },
+        {
+          "text": "لِيُذِيقَهُم",
+          "resolution": "unverified",
+          "skeleton": "ليذيقهم"
+        },
+        {
+          "text": "لِيُذِيقَهُم بَعْضَ ٱلَّذِى عَمِلُوا۟ لَعَلَّهُمْ يَرْجِعُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ليذيقهمبعضالذيعملوالعلهميرجعون",
+          "reference": "Ar-Rum: 41"
+        },
+        {
+          "text": "ظَهَرَ ٱلْفَسَادُ",
+          "resolution": "unverified",
+          "skeleton": "ظهرالفساد"
+        },
+        {
+          "text": "النقص فِى ٱلْبَرِّ وَٱلْبَحْرِ",
+          "resolution": "unverified",
+          "skeleton": "النقصفيالبروالبحر"
+        },
+        {
+          "text": "قَالُوٓا۟ أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قالوااتجعلفيهامنيفسدفيهاويسفكالدماء",
+          "reference": "Al-Baqarah: 30"
+        },
+        {
+          "text": "بِمَا كَسَبَتْ أَيْدِى ٱلنَّاسِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "بماكسبتايديالناس",
+          "reference": "Ar-Rum: 41"
+        },
+        {
+          "text": "بِمَا كَسَبَتْ أَيْدِى ٱلنَّاسِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "بماكسبتايديالناس",
+          "reference": "Ar-Rum: 41"
+        },
+        {
+          "text": "بنو حِلاؤ",
+          "resolution": "unverified",
+          "skeleton": "بنوحلاو"
+        },
+        {
+          "text": "بِمَا كَسَبَتْ أَيْدِى ٱلنَّاسِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "بماكسبتايديالناس",
+          "reference": "Ar-Rum: 41"
+        },
+        {
+          "text": "وَٱلْأَرْضَ وَضَعَهَا لِلْأَنَامِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "والارضوضعهاللانام",
+          "reference": "Ar-Rahman: 10"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَمَا مِن دَآبَّةٍۢ فِى ٱلْأَرْضِ وَلَا طَٓئِرٍۢ يَطِيرُ بِجَنَاحَيْهِ إِلَّآ أُمَمٌ أَمْثَالُكُم ۚ مَّا فَرَّطْنَا فِى ٱلْكِتَبِ مِن شَىْءٍۢ ۚ ثُمَّ إِلَىٰ رَبِّهِمْ يُحْشَرُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومامندابهفيالارضولاطيريطيربجناحيهالاامما",
+          "reference": "Al-An'am: 38"
+        },
+        {
+          "text": "وَمَا مِن دَآبَّةٍۢ فِى ٱلْأَرْضِ وَلَا طَٓئِرٍۢ يَطِيرُ بِجَنَاحَيْهِ إِلَّآ أُمَمٌ أَمْثَالُكُم",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومامندابهفيالارضولاطيريطيربجناحيهالاامما",
+          "reference": "Al-An'am: 38"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "مَّا فَرَّطْنَا فِى ٱلْكِتَبِ مِن شَىْءٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "مافرطنافيالكتبمنشيء",
+          "reference": "Al-An'am: 38"
+        },
+        {
+          "text": "مُفْتَرِسَات",
+          "resolution": "unverified",
+          "skeleton": "مفترسات"
+        },
+        {
+          "text": "وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وفيانفسكمافلاتبصرون",
+          "reference": "Adh-Dhariyat: 21"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَ أَنشَأَكُم مِّنَ ٱلْأَرْضِ وَٱسْتَعْمَرَكُمْ فِيهَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وانشاكممنالارضواستعمركمفيها",
+          "reference": "Hud: 61"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "خَلِیفَۃُ اللَّہِ",
+          "resolution": "unverified",
+          "skeleton": "خلفالل"
+        },
+        {
+          "text": "أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اتجعلفيهامنيفسدفيهاويسفكالدماء",
+          "reference": "Al-Baqarah: 30"
+        },
+        {
+          "text": "حُقُوقُ اللَّہِ",
+          "resolution": "unverified",
+          "skeleton": "حقوقالل"
+        },
+        {
+          "text": "حُقُوقُ النَّفْسِ",
+          "resolution": "unverified",
+          "skeleton": "حقوقالنفس"
+        },
+        {
+          "text": "حقوق العباد",
+          "resolution": "unverified",
+          "skeleton": "حقوقالعباد"
+        },
+        {
+          "text": "حقوق العباد",
+          "resolution": "unverified",
+          "skeleton": "حقوقالعباد"
+        },
+        {
+          "text": "حقوق العباد",
+          "resolution": "unverified",
+          "skeleton": "حقوقالعباد"
+        },
+        {
+          "text": "یَا رَسُولَ اللہِ",
+          "resolution": "unverified",
+          "skeleton": "ارسولالل"
+        },
+        {
+          "text": "اَصِلُ اَخِیہِ وَ یَقطَعُنِی",
+          "resolution": "unverified",
+          "skeleton": "اصلاخوقطعن"
+        },
+        {
+          "text": "وَ اُعطِیہِ وَ یَمنَعُنِی",
+          "resolution": "unverified",
+          "skeleton": "واعطومنعن"
+        },
+        {
+          "text": "صلۃ الرحم",
+          "resolution": "unverified",
+          "skeleton": "صلالرحم"
+        },
+        {
+          "text": "وَلَقَدْ كَرَّمْنَا بَنِىٓ آدَمَ وَحَمَلْنَهُمْ فِى ٱلْبَرِّ وَٱلْبَحْرِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولقدكرمنابنيادموحملنهمفيالبروالبحر",
+          "reference": "Al-Isra: 70"
+        },
+        {
+          "text": "حُقُوقُ اللَّہِ",
+          "resolution": "unverified",
+          "skeleton": "حقوقالل"
+        },
+        {
+          "text": "حُقُوقُ النَّفْسِ",
+          "resolution": "unverified",
+          "skeleton": "حقوقالنفس"
+        },
+        {
+          "text": "حُقُوقُ الْعِبَاد",
+          "resolution": "unverified",
+          "skeleton": "حقوقالعباد"
+        },
+        {
+          "text": "أتخذو من أخلاق اللہ",
+          "resolution": "unverified",
+          "skeleton": "اتخذومناخلاقالل"
+        },
+        {
+          "text": "یَا رَسُولَ اللہِ",
+          "resolution": "unverified",
+          "skeleton": "ارسولالل"
+        },
+        {
+          "text": "یا ربِّ فَلا تَجعَل حَیَاتی مَذِلَّۃُ ولا مَوتَتِی بَینَ النِّسآءِ نوائِحِ\n\nولاکن قَتیلاً تَمزَقُ الطَّیرِ حَولَہُ",
+          "resolution": "unverified",
+          "skeleton": "اربفلاتجعلحاتمذلولاموتتبنالنساءنوايحولان"
+        },
+        {
+          "text": "و تَشرُبُ غِربانُ الدَّم من جوارح",
+          "resolution": "unverified",
+          "skeleton": "وتشربغربانالدممنجوارح"
+        },
+        {
+          "text": "رحمۃ اللہ علیہ",
+          "resolution": "unverified",
+          "skeleton": "رحماللعل"
+        },
+        {
+          "text": "رحمۃ اللہ علیہ",
+          "resolution": "unverified",
+          "skeleton": "رحماللعل"
+        },
+        {
+          "text": "اَلَسْتُ اَوْلَاکُمْ مِنْ اَنْفُسِکُمْ؟",
+          "resolution": "unverified",
+          "skeleton": "الستاولاممنانفسم"
+        },
+        {
+          "text": "بلیٰ یَا رَسُولَ اللہِ",
+          "resolution": "unverified",
+          "skeleton": "بلارسولالل"
+        },
+        {
+          "text": "كنا الحيوانات",
+          "resolution": "unverified",
+          "skeleton": "كناالحيوانات"
+        },
+        {
+          "text": "كُنتُ جعلنا البشر",
+          "resolution": "unverified",
+          "skeleton": "كنتجعلناالبشر"
+        },
+        {
+          "text": "وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وانكلعليخلقعظيم",
+          "reference": "Al-Qalam: 4"
+        }
+      ]
+    },
+    {
+      "chapter": "The Womb Of Afterlife",
+      "arabic_runs": 48,
+      "unverified": 27,
+      "runs": [
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "الرَبُّ ھُوَ المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ",
+          "resolution": "unverified",
+          "skeleton": "الربوالمالوالسدوالمربوالمرشدوالمنعموالقم"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
+          "resolution": "unverified",
+          "skeleton": "قالرسولاللصلاللعلوالوسلم"
+        },
+        {
+          "text": "الدُّنْیا رَحْمُ الآخِرَۃ",
+          "resolution": "unverified",
+          "skeleton": "الدنارحمالاخر"
+        },
+        {
+          "text": "مَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ",
+          "resolution": "unverified",
+          "skeleton": "مالوالسدوالمربوالمرشدوالمنعموالقم"
+        },
+        {
+          "text": "اَلدُّنْیَا رَحِمُ اَلْاَخِرَۃِ",
+          "resolution": "unverified",
+          "skeleton": "الدنارحمالاخر"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "إِذَا زُلْزِلَتِ ٱلْأَرْضُ زِلْزَالَهَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اذازلزلتالارضزلزالها",
+          "reference": "Az-Zalzalah: 1"
+        },
+        {
+          "text": "وَأَخْرَجَتِ ٱلْأَرْضُ أَثْقَالَهَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واخرجتالارضاثقالها",
+          "reference": "Az-Zalzalah: 2"
+        },
+        {
+          "text": "وَقَالَ ٱلْإِنسَنُ مَا لَهَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وقالالانسنمالها",
+          "reference": "Az-Zalzalah: 3"
+        },
+        {
+          "text": "يَوْمَئِذٍۢ تُحَدِّثُ أَخْبَارَهَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يوميذتحدثاخبارها",
+          "reference": "Az-Zalzalah: 4"
+        },
+        {
+          "text": "بِأَنَّ رَبَّكَ أَوْحَىٰ لَهَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "بانربكاوحيلها",
+          "reference": "Az-Zalzalah: 5"
+        },
+        {
+          "text": "يَوْمَئِذٍۢ يَصْدُرُ ٱلنَّاسُ أَشْتَاتًۭا لِّيُرَوْا۟ أَعْمَلَهُمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يوميذيصدرالناساشتاتاليروااعملهم",
+          "reference": "Az-Zalzalah: 6"
+        },
+        {
+          "text": "فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فمنيعملمثقالذرهخيرا",
+          "reference": "Az-Zalzalah: 7"
+        },
+        {
+          "text": "وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍۢ شَرًّۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومنيعملمثقالذرهشرا",
+          "reference": "Az-Zalzalah: 8"
+        },
+        {
+          "text": "الدُّنْیَا رَحِمُ الْآخِرَۃِ",
+          "resolution": "unverified",
+          "skeleton": "الدنارحمالاخر"
+        },
+        {
+          "text": "الْجَنَّۃُ حَقٌّ وَالنَّارُ حَقٌّ وَالْمَوْتُ حَقٌّ وَالْبَعْثُ حَقٌّ وَالْمِیزَانُ حَقٌّ وَالصِّرَاطُ حَقٌّ",
+          "resolution": "unverified",
+          "skeleton": "الجنحقوالنارحقوالموتحقوالبعثحقوالمزانحقو"
+        },
+        {
+          "text": "وَاَنَّ السَّاعَۃَ آتِیَۃٌ لَا رَیْبَ فِیھَا",
+          "resolution": "unverified",
+          "skeleton": "وانالساعاتلاربفا"
+        },
+        {
+          "text": "إِذَا ٱلشَّمْسُ كُوِّرَت\n\nوَإِذَا ٱلنُّجُومُ ٱنكَدَرَتْ\n\nوَإِذَا ٱلْجِبَالُ سُيِّرَتْ\n\nوَإِذَا ٱلْعِشَارُ عُطِّلَتْ\n\nوَإِذَا ٱلْوُحُوشُ حُشِرَتْ\n\nوَإِذَا ٱلْبِحَارُ سُجِّرَتْ",
+          "resolution": "unverified",
+          "skeleton": "اذاالشمسكورتواذاالنجومانكدرتواذاالجبالسي"
+        },
+        {
+          "text": "وَإِذَا ٱلنُّفُوسُ زُوِّجَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاالنفوسزوجت",
+          "reference": "At-Takwir: 7"
+        },
+        {
+          "text": "وَإِذَا ٱلْمَوْءُۥدَةُ سُئِلَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاالموءدهسيلت",
+          "reference": "At-Takwir: 8"
+        },
+        {
+          "text": "بِأَىِّ ذَنۢبٍۢ قُتِلَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "بايذنبقتلت",
+          "reference": "At-Takwir: 9"
+        },
+        {
+          "text": "وَإِذَا ٱلصُّحُفُ نُشِرَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاالصحفنشرت",
+          "reference": "At-Takwir: 10"
+        },
+        {
+          "text": "وَإِذَا ٱلسَّمَآءُ كُشِطَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاالسماءكشطت",
+          "reference": "At-Takwir: 11"
+        },
+        {
+          "text": "وَإِذَا ٱلْجَحِيمُ سُعِّرَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاالجحيمسعرت",
+          "reference": "At-Takwir: 12"
+        },
+        {
+          "text": "وَإِذَا ٱلْجَنَّةُ أُزْلِفَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاالجنهازلفت",
+          "reference": "At-Takwir: 13"
+        },
+        {
+          "text": "عَلِمَتْ نَفْسٌۭ مَّآ أَحْضَرَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "علمتنفسمااحضرت",
+          "reference": "At-Takwir: 14"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "مَنِ الْمُفْلِسُ؟",
+          "resolution": "unverified",
+          "skeleton": "منالمفلس"
+        },
+        {
+          "text": "المُفلِسُ",
+          "resolution": "unverified",
+          "skeleton": "المفلس"
+        },
+        {
+          "text": "مَن لا دِینارُ ولا دَرھَمُ عِندَنَا یا رسول اللہ",
+          "resolution": "unverified",
+          "skeleton": "منلادنارولادرمعندناارسولالل"
+        },
+        {
+          "text": "أِنَّ المُفلِسَ مِن أُمَّتِی",
+          "resolution": "unverified",
+          "skeleton": "انالمفلسمنامت"
+        },
+        {
+          "text": "مَن یَأتِی یَومَ القِیَامَۃِ بِصلاۃٍ",
+          "resolution": "unverified",
+          "skeleton": "مناتومالقامبصلا"
+        },
+        {
+          "text": "وَصِیَامٍ",
+          "resolution": "unverified",
+          "skeleton": "وصام"
+        },
+        {
+          "text": "وَ زَکَاۃٍ",
+          "resolution": "unverified",
+          "skeleton": "وزا"
+        },
+        {
+          "text": "وَیأتِی قَدْ شَتَمْ ھذا",
+          "resolution": "unverified",
+          "skeleton": "واتقدشتمذا"
+        },
+        {
+          "text": "وَقُذِفَ ھٰذا",
+          "resolution": "unverified",
+          "skeleton": "وقذفذا"
+        },
+        {
+          "text": "وَأَکَلَ مَالَ ھٰذا",
+          "resolution": "unverified",
+          "skeleton": "والمالذا"
+        },
+        {
+          "text": "وَسَفَکَ الدَّمَّ ھذا",
+          "resolution": "unverified",
+          "skeleton": "وسفالدمذا"
+        },
+        {
+          "text": "وَضَرَبَ ھذا",
+          "resolution": "unverified",
+          "skeleton": "وضربذا"
+        },
+        {
+          "text": "فَیُعطٰی ھٰذا مِن حَسَنَاتِہِ وَ ھٰذا مِن حَسَنَاتِہِ",
+          "resolution": "unverified",
+          "skeleton": "فعطذامنحسناتوذامنحسنات"
+        },
+        {
+          "text": "فَأِن فَنَیتُ حَسَنَاتُہُ قبَلَ أَنْ یُقضٰی مَا عَلیہ",
+          "resolution": "unverified",
+          "skeleton": "فانفنتحسناتقبلانقضماعل"
+        },
+        {
+          "text": "أَخِذَ مِن خَطَایَاھُم",
+          "resolution": "unverified",
+          "skeleton": "اخذمنخطاام"
+        },
+        {
+          "text": "فَطُرِحَت عَلَیہِ",
+          "resolution": "unverified",
+          "skeleton": "فطرحتعل"
+        },
+        {
+          "text": "ثُمَّ طُرِحَ فِی النَّار",
+          "resolution": "unverified",
+          "skeleton": "ثمطرحفالنار"
+        },
+        {
+          "text": "نَعُوذُ بِاللَّہِ مِنْ ذَالِکَ",
+          "resolution": "unverified",
+          "skeleton": "نعوذباللمنذال"
+        }
+      ]
+    },
+    {
+      "chapter": "Allah - Being vs Attributes",
+      "arabic_runs": 47,
+      "unverified": 29,
+      "runs": [
+        {
+          "text": "سُورَۃُ الْفَاتِحَۃِ",
+          "resolution": "unverified",
+          "skeleton": "سورالفاتح"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "لَا حَوْلَ وَلَا قُوَّۃَ اِلَّا بِاللَّہِ",
+          "resolution": "unverified",
+          "skeleton": "لاحولولاقوالابالل"
+        },
+        {
+          "text": "الحمد للہ رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعلمن"
+        },
+        {
+          "text": "إِنَّنِىٓ أَنَا ٱللَّهُ لَآ إِلَهَ إِلَّآ أَنَا۠",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اننيانااللهلاالهالاانا",
+          "reference": "Ta-Ha: 14"
+        },
+        {
+          "text": "الرحمن، الرحيم، الملك، القدوس، السلام، المؤمن، المهيمن، العزيز، الجبار، المتكبر، الخالق، البارئ، المصور، الغفَّار، القهَّار، الوهَّاب ، الرزَّاق ، الفتَّاح ، العليم، القابض، الباسط، الخافض، الرافع، المعز، المذل، السميع، البصير، الحكم، الحکیم، العادل، اللطيف، الحلیم، الخبير، العظيم، الغفور، الشكور، العلي، الكبير، الحفيظ، الحسيب، الكريم، المقیم، الرقیب، الجلیل، المجيب، الواسع، الودود، المجيد، الباعث، الشهيد، الوكيل، القوى، المتين، الولي، الحميد، المحصى، المبدئ ، المعيد، المحيي، المميت، الحي، القيوم، الواجد، الماجد، الواحد، الصمد، القادر، المقتدر، المقدِّم، المؤخر، الأول، الآخر، الظاهر، الباطن، الوالي، المتعال، البِر، التواب، المنتقم، العفو، الرؤوف، اَلْمَالِكُ الْمَلِكُ، ذُو الْجَلَالِ وَ الْإِكْرَامِ، المقسط، الجامع، الغني، المغني، المانع، الضار، النافع، النور، الهادي، البديع، الباقي، الوارث، الرشيد، الصبور ، الحنان، المنان، الدیان، البرھان",
+          "resolution": "unverified",
+          "skeleton": "الرحمنالرحيمالملكالقدوسالسلامالمومنالمهي"
+        },
+        {
+          "text": "اللَّہُ نُورُ السَّمَوَاتِ وَ الْاَرْضِ",
+          "resolution": "unverified",
+          "skeleton": "اللنورالسمواتوالارض"
+        },
+        {
+          "text": "لَا تُفَکِّرْ فِی اللَّہِ",
+          "resolution": "unverified",
+          "skeleton": "لاتفرفالل"
+        },
+        {
+          "text": "وَلَاکِنْ تَفَکَّرْ فِی خَلْقِ اللَّہِ",
+          "resolution": "unverified",
+          "skeleton": "ولانتفرفخلقالل"
+        },
+        {
+          "text": "لا حُدودَ لہ",
+          "resolution": "unverified",
+          "skeleton": "لاحدودل"
+        },
+        {
+          "text": "لیس کمثلہ شئی",
+          "resolution": "unverified",
+          "skeleton": "لسمثلشي"
+        },
+        {
+          "text": "لا یُشْبِحُ ذاتُہُ الذَّوات ولا مُتَعَاطِلَۃُ الصِّفات",
+          "resolution": "unverified",
+          "skeleton": "لاشبحذاتالذواتولامتعاطلالصفات"
+        },
+        {
+          "text": "الغَنیُ عَنِ الجَمِیعُ و الجمیعُ مفتَقِرٌ الیہ",
+          "resolution": "unverified",
+          "skeleton": "الغنعنالجمعوالجمعمفتقرال"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "تَعَالَی اللَّہُ عَنْ مَا یَصِفُونَ",
+          "resolution": "unverified",
+          "skeleton": "تعالاللعنماصفون"
+        },
+        {
+          "text": "اِمَامُ جَعْفَرٍ الصَّادِقِ عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "امامجعفرالصادقعلالسلام"
+        },
+        {
+          "text": "الْمَعْضُوبِ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "المعضوبعلم"
+        },
+        {
+          "text": "تَعَالَی اللَّہُ عَنْ مَا یَصِفُونَ",
+          "resolution": "unverified",
+          "skeleton": "تعالاللعنماصفون"
+        },
+        {
+          "text": "رضی اللہ عنہ و رضو عنھم",
+          "resolution": "unverified",
+          "skeleton": "رضاللعنورضوعنم"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "اللھم لا نُحثِنَ الثَّناءَ عَلَیکَ",
+          "resolution": "unverified",
+          "skeleton": "اللملانحثنالثناءعل"
+        },
+        {
+          "text": "أَنتَ کَما أِثنَیتَ عَلَی نَفسِکَ",
+          "resolution": "unverified",
+          "skeleton": "انتمااثنتعلنفس"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى حَدَثَ",
+          "resolution": "unverified",
+          "skeleton": "سبحانهوتعاليحدث"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "الْعَجْزُ عَنْ دَرْكِ الْإِدْرَاكِ إِدْرَاكٌ",
+          "resolution": "unverified",
+          "skeleton": "العجزعندركالادراكادراك"
+        },
+        {
+          "text": "والبحث عن ذاتِهِ كُفرُ وإشراك",
+          "resolution": "unverified",
+          "skeleton": "والبحثعنذاتهكفرواشراك"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "لَيْسَ كَمِثْلِهِ شَىْءٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ليسكمثلهشيء",
+          "reference": "Ash-Shura: 11"
+        },
+        {
+          "text": "لَيْسَ كَمِثْلِهِ شَىْءٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ليسكمثلهشيء",
+          "reference": "Ash-Shura: 11"
+        },
+        {
+          "text": "لَيْسَ كَمِثْلِهِ شَىْءٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ليسكمثلهشيء",
+          "reference": "Ash-Shura: 11"
+        },
+        {
+          "text": "كَمِثْلِهِ",
+          "resolution": "unverified",
+          "skeleton": "كمثله"
+        },
+        {
+          "text": "زیدٌ کل أسدِ",
+          "resolution": "unverified",
+          "skeleton": "زدلاسد"
+        },
+        {
+          "text": "اَلشِّبْلُ مِثْلُ الْاَسَدِ",
+          "resolution": "unverified",
+          "skeleton": "الشبلمثلالاسد"
+        },
+        {
+          "text": "کل بحرِ یَقذِفُ لِلقریبِ لآلیۃ جوداً و یبَعَثُ لِلبَعیدِ سحائِبا",
+          "resolution": "unverified",
+          "skeleton": "لبحرقذفللقربلالجوداوبعثللبعدسحايبا"
+        },
+        {
+          "text": "أنا السُّروجِیُّ وَ ھذا وَلدی و الشِّبلُ فی الِمخبَرِ مِثلُ الاسد",
+          "resolution": "unverified",
+          "skeleton": "اناالسروجوذاولدوالشبلفالمخبرمثلالاسد"
+        },
+        {
+          "text": "لَيْسَ كَمِثْلِهِ شَىْءٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ليسكمثلهشيء",
+          "reference": "Ash-Shura: 11"
+        },
+        {
+          "text": "لَيْسَ كَمِثْلِهِ شَىْءٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ليسكمثلهشيء",
+          "reference": "Ash-Shura: 11"
+        },
+        {
+          "text": "لَيْسَ كَمِثْلِهِ شَىْءٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ليسكمثلهشيء",
+          "reference": "Ash-Shura: 11"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        }
+      ]
+    },
+    {
+      "chapter": "The ISM Of Allah",
+      "arabic_runs": 16,
+      "unverified": 10,
+      "runs": [
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "لیس کمثلہ شئی",
+          "resolution": "unverified",
+          "skeleton": "لسمثلشي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَعَلَّمَ آدَمَ ٱلْأَسْمَآءَ كُلَّهَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وعلمادمالاسماءكلها",
+          "reference": "Al-Baqarah: 31"
+        },
+        {
+          "text": "حرف تَفَشِّی",
+          "resolution": "unverified",
+          "skeleton": "حرفتفش"
+        },
+        {
+          "text": "حرف الشِّدَّۃ",
+          "resolution": "unverified",
+          "skeleton": "حرفالشد"
+        },
+        {
+          "text": "حَرْفُ تَکْرَارٍ",
+          "resolution": "unverified",
+          "skeleton": "حرفترار"
+        },
+        {
+          "text": "سُورَۃُ الرُّومِ",
+          "resolution": "unverified",
+          "skeleton": "سورالروم"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَمِنْ آيَتِهِۦ خَلْقُ ٱلسَّمَوَتِ وَٱلْأَرْضِ وَٱخْتِلَفُ أَلْسِنَتِكُمْ وَأَلْوَنِكُمْ ۚ إِنَّ فِى ذَلِكَ لَآيَتٍۢ لِّلْعَلِمِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومنايتهخلقالسموتوالارضواختلفالسنتكموالون",
+          "reference": "Ar-Rum: 22"
+        },
+        {
+          "text": "عَلَّمَ آدَمَ اَسْمَاءَ کَلَّھَا",
+          "resolution": "unverified",
+          "skeleton": "علمادماسماءلا"
+        },
+        {
+          "text": "الرحمن علم القرآن",
+          "resolution": "unverified",
+          "skeleton": "الرحمنعلمالقران"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "الْحَیَوَانُ النَّاطِقُ",
+          "resolution": "unverified",
+          "skeleton": "الحوانالناطق"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        }
+      ]
+    },
+    {
+      "chapter": "In the Name Of Allah The Merciful",
+      "arabic_runs": 29,
+      "unverified": 20,
+      "runs": [
+        {
+          "text": "مَحْضُوفٌ مُقَدَّرٌ",
+          "resolution": "unverified",
+          "skeleton": "محضوفمقدر"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَإِذَا قَضَىٰٓ أَمْرًۭا فَإِنَّمَا يَقُولُ لَهُۥ كُن فَيَكُونُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاقضيامرافانمايقوللهكنفيكون",
+          "reference": "Al-Baqarah: 117"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ االرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللاالرحمنالرحم"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "أنی اذا اُطِعتُ رَضِیتُ",
+          "resolution": "unverified",
+          "skeleton": "اناذااطعترضت"
+        },
+        {
+          "text": "وأذا رَضِیتُ بَارَکتُ",
+          "resolution": "unverified",
+          "skeleton": "واذارضتبارت"
+        },
+        {
+          "text": "وَ لَیسَ لِبَرَکَتِی نِھَایَۃ",
+          "resolution": "unverified",
+          "skeleton": "ولسلبرتنا"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سورۃ الرحمن",
+          "resolution": "unverified",
+          "skeleton": "سورالرحمن"
+        },
+        {
+          "text": "تَبَرَكَ ٱسْمُ رَبِّكَ ذِى ٱلْجَلَلِ وَٱلْإِكْرَامِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "تبركاسمربكذيالجللوالاكرام",
+          "reference": "Ar-Rahman: 78"
+        },
+        {
+          "text": "فَتَبَارَكَ ٱللَّهُ أَحْسَنُ ٱلْخَلِقِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فتباركاللهاحسنالخلقين",
+          "reference": "Al-Mu'minun: 14"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "البرکۃُ النَّماَءُ وَ الزِّیَادَۃ",
+          "resolution": "unverified",
+          "skeleton": "البرالنماءوالزاد"
+        },
+        {
+          "text": "فَوْقَ التَّوَقُّعِ",
+          "resolution": "unverified",
+          "skeleton": "فوقالتوقع"
+        },
+        {
+          "text": "أَبْتَرَکْتَ السَّمَآءَ",
+          "resolution": "unverified",
+          "skeleton": "ابترتالسماء"
+        },
+        {
+          "text": "أِذا أَناَخَ الْجَمَل",
+          "resolution": "unverified",
+          "skeleton": "اذااناخالجمل"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "کل شئی أبتر بدون بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "لشيابتربدونبسماللالرحمنالرحم"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        }
+      ]
+    },
+    {
+      "chapter": "Linguistic Perfection Of HAMD",
+      "arabic_runs": 45,
+      "unverified": 25,
+      "runs": [
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعلمن"
+        },
+        {
+          "text": "مُوسَی عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "موسعلالسلام"
+        },
+        {
+          "text": "مُوسَی عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "موسعلالسلام"
+        },
+        {
+          "text": "قَالَ أَلَمْ نُرَبِّكَ فِينَا وَلِيدًۭا وَلَبِثْتَ فِينَا مِنْ عُمُرِكَ سِنِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قالالمنربكفيناوليداولبثتفينامنعمركسنين",
+          "reference": "Ash-Shu'ara: 18"
+        },
+        {
+          "text": "مُوسَی عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "موسعلالسلام"
+        },
+        {
+          "text": "وَتِلْكَ نِعْمَةٌۭ تَمُنُّهَا عَلَىَّ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وتلكنعمهتمنهاعلي",
+          "reference": "Ash-Shu'ara: 22"
+        },
+        {
+          "text": "وَوَصَّيْنَا ٱلْإِنسَنَ بِوَلِدَيْهِ حَمَلَتْهُ أُمُّهُۥ وَهْنًا عَلَىٰ وَهْنٍۢ وَفِصَلُهُۥ فِى عَامَيْنِ أَنِ ٱشْكُرْ لِى وَلِوَلِدَيْكَ إِلَىَّ ٱلْمَصِيرُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ووصيناالانسنبولديهحملتهامهوهناعليوهنوفصل",
+          "reference": "Luqman: 14"
+        },
+        {
+          "text": "وَإِن جَهَدَاكَ عَلَىٰٓ أَن تُشْرِكَ بِى مَا لَيْسَ لَكَ بِهِۦ عِلْمٌۭ فَلَا تُطِعْهُمَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وانجهداكعليانتشركبيماليسلكبهعلمفلاتطعهما",
+          "reference": "Luqman: 15"
+        },
+        {
+          "text": "اِبْرَاھِیمُ عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "ابرامعلالسلام"
+        },
+        {
+          "text": "الشُّکْرُ وَ الْمَدْحُ",
+          "resolution": "unverified",
+          "skeleton": "الشروالمدح"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "اَلْمَدْحُ لِلَّہِ رَبِّ اَلْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "المدحللربالعالمن"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "اَلشُّکْرُ لِلّٰہِ رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "الشرللربالعلمن"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "اَلْمَدْحُ لِلَّہِ",
+          "resolution": "unverified",
+          "skeleton": "المدحلل"
+        },
+        {
+          "text": "اَلشُّکْرُ لِلّٰہِ",
+          "resolution": "unverified",
+          "skeleton": "الشرلل"
+        },
+        {
+          "text": "الْمَدْحُ وَ الشُّکْرُ لِلَّہِ رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "المدحوالشرللربالعلمن"
+        },
+        {
+          "text": "الْمَدْحُ وَ الشُّکْرُ لِلَّہِ",
+          "resolution": "unverified",
+          "skeleton": "المدحوالشرلل"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "اَحْمَدُ اللَّہَ",
+          "resolution": "unverified",
+          "skeleton": "احمدالل"
+        },
+        {
+          "text": "نَحْمَدُ اللّٰہَ",
+          "resolution": "unverified",
+          "skeleton": "نحمدالل"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعلمن"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "أِحمد اللہ رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "احمداللربالعلمن"
+        },
+        {
+          "text": "انَّا اَلْحَمْدُ لِلّٰہِ رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "اناالحمدللربالعلمن"
+        },
+        {
+          "text": "انَّا اَلْحَمْدُ لِلّٰہِ رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "اناالحمدللربالعلمن"
+        },
+        {
+          "text": "جُمْلَۃٌ اِنْشَائِیَّۃٌ",
+          "resolution": "unverified",
+          "skeleton": "جملانشاي"
+        },
+        {
+          "text": "جُمْلَۃٌ خَبَرِیَّۃٌ",
+          "resolution": "unverified",
+          "skeleton": "جملخبر"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعلمن"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلّٰہِ رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعلمن"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلَّہِ رَبِّ اَلْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعالمن"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلَّہِ رَبِّ اَلْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعالمن"
+        }
+      ]
+    },
+    {
+      "chapter": "Abundant and Consistent Mercy",
+      "arabic_runs": 56,
+      "unverified": 34,
+      "runs": [
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "الرحمن الرحیم",
+          "resolution": "unverified",
+          "skeleton": "الرحمنالرحم"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "رَبُّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "ربالعالمن"
+        },
+        {
+          "text": "وَقَلِیلٌ مِنْ عِبَادِیَ الشَّکُورُ",
+          "resolution": "unverified",
+          "skeleton": "وقللمنعبادالشور"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلَّہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "عجباً لِأمْرِ المُؤمِن فَأِنَّ أمرَہُ لَہُ کُلُّہُ خَیر",
+          "resolution": "unverified",
+          "skeleton": "عجبالامرالمومنفانامرللخر"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلَّہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَإِن تَعُدُّوا۟ نِعْمَتَ ٱللَّهِ لَا تُحْصُوهَآ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وانتعدوانعمتاللهلاتحصوها",
+          "reference": "Ibrahim: 34"
+        },
+        {
+          "text": "لَا تُحْصُوهَآ",
+          "resolution": "unverified",
+          "skeleton": "لاتحصوها"
+        },
+        {
+          "text": "اَللّٰھُمَّ جَعَلَ الْقُرْآنَ رَبِیعَ قَلْبِی",
+          "resolution": "unverified",
+          "skeleton": "اللمجعلالقرانربعقلب"
+        },
+        {
+          "text": "نِعْمَۃُ الْعَیْنِ",
+          "resolution": "unverified",
+          "skeleton": "نعمالعن"
+        },
+        {
+          "text": "نظرُہُ عِبرۃ و کلامُہُ حِکمَۃ",
+          "resolution": "unverified",
+          "skeleton": "نظرعبرولامحم"
+        },
+        {
+          "text": "لَا وَللہِ یَا رَسُولَ اللہِ",
+          "resolution": "unverified",
+          "skeleton": "لاوللارسولالل"
+        },
+        {
+          "text": "اللہ أرحمُ بِعِبادِہِ مِن ھٰذہِ الأُم لِوَلَدِھا",
+          "resolution": "unverified",
+          "skeleton": "اللارحمبعبادمنذالاملولدا"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "نُوحٌ عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "نوحعلالسلام"
+        },
+        {
+          "text": "إِنَّهُۥ كَانَ عَبْدًۭا شَكُورًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انهكانعبداشكورا",
+          "reference": "Al-Isra: 3"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "نُوحٌ عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "نوحعلالسلام"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلَّہِ الذی اذھب عنی الازا",
+          "resolution": "unverified",
+          "skeleton": "الحمدللالذاذبعنالازا"
+        },
+        {
+          "text": "ھَارُونُ رَشِیدٌ",
+          "resolution": "unverified",
+          "skeleton": "ارونرشد"
+        },
+        {
+          "text": "ھَارُونُ الرَّشِیدُ",
+          "resolution": "unverified",
+          "skeleton": "ارونالرشد"
+        },
+        {
+          "text": "اَللّٰہُ اَکْبَرُ",
+          "resolution": "unverified",
+          "skeleton": "اللابر"
+        },
+        {
+          "text": "لَا قَدَّرَ اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاقدرالل"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلَّہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "الْحَمْدُ لِلَّہِ لِنِعْمَۃِ الْمَاءِ",
+          "resolution": "unverified",
+          "skeleton": "الحمدلللنعمالماء"
+        },
+        {
+          "text": "نِعْمَۃُ الْعَافِیَۃِ",
+          "resolution": "unverified",
+          "skeleton": "نعمالعاف"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "لَا اِلَہَ اِلَّا اللَّہُ",
+          "resolution": "unverified",
+          "skeleton": "لاالالاالل"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "يَٓأَيُّهَا ٱلْإِنسَنُ مَا غَرَّكَ بِرَبِّكَ ٱلْكَرِيمِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يايهاالانسنماغركبربكالكريم",
+          "reference": "Al-Infitar: 6"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "نَعُوذُ بِاللَّہِ",
+          "resolution": "unverified",
+          "skeleton": "نعوذبالل"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "اِبْرَاھِیمُ عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "ابرامعلالسلام"
+        },
+        {
+          "text": "اِبْرَاھِیمُ عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "ابرامعلالسلام"
+        },
+        {
+          "text": "اِبْرَاھِیمُ عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "ابرامعلالسلام"
+        },
+        {
+          "text": "اِبْرَاھِیمُ عَلَیْہِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "ابرامعلالسلام"
+        },
+        {
+          "text": "لَا اِکْرَاہَ فِی الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "لاارافالدن"
+        },
+        {
+          "text": "دَارُ الْاِسْلَامِ",
+          "resolution": "unverified",
+          "skeleton": "دارالاسلام"
+        },
+        {
+          "text": "تَعْظِیمُ الْمَخْلُوقَاتِ",
+          "resolution": "unverified",
+          "skeleton": "تعظمالمخلوقات"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "ما رأیت عالماً الا عَظَّمتُہُ لعَلمِہِ الذی یَحمِلُہُ",
+          "resolution": "unverified",
+          "skeleton": "ماراتعالماالاعظمتلعلمالذحمل"
+        },
+        {
+          "text": "ما رأیتُ مؤمناً او مسلماً مَھْمَا کان حالُہُ الَّا عظَّمتَہُ لی أِنتِسابِہِ العُبُودِیَۃِ اللہ",
+          "resolution": "unverified",
+          "skeleton": "ماراتمومنااومسلمامماانحالالاعظمتلانتسابا"
+        },
+        {
+          "text": "الا عَظَّمتَہُ لِأَنَّہُ مَحَلَّ الاِرَادَۃِ اللہ سبحانہ و تعالی حَیثُ أَوجَدُہُ بِقَولِہِ کُن فَیَکُون",
+          "resolution": "unverified",
+          "skeleton": "الاعظمتلانمحلالاراداللسبحانوتعالحثاوجدبق"
+        },
+        {
+          "text": "وَمَن یُعَظِّمْ حُرُماتِ اللہ فَھُوَ خَیرُ لَّہُ عِندَ رَبِّہ",
+          "resolution": "unverified",
+          "skeleton": "ومنعظمحرماتاللفوخرلعندرب"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "عَبَّادُ الشَّمْسِ",
+          "resolution": "unverified",
+          "skeleton": "عبادالشمس"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "مَاغَرَّکَ بِرَبِّ الْکَرِیمِ",
+          "resolution": "unverified",
+          "skeleton": "ماغربربالرم"
+        }
+      ]
+    },
+    {
+      "chapter": "Day Of Judgment - Linguistics",
+      "arabic_runs": 41,
+      "unverified": 22,
+      "runs": [
+        {
+          "text": "الحمد للہ رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعلمن"
+        },
+        {
+          "text": "اَلرَّحْمَٰنِ اَلرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "الرحمنالرحم"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "مَلِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "ملومالدن"
+        },
+        {
+          "text": "مِیمٌ لَامٌ کَافٌ",
+          "resolution": "unverified",
+          "skeleton": "مملاماف"
+        },
+        {
+          "text": "وَمَا قَدَرُوا۟ ٱللَّهَ حَقَّ قَدْرِهِۦ وَٱلْأَرْضُ جَمِيعًۭا قَبْضَتُهُۥ يَوْمَ ٱلْقِيَمَةِ وَٱلسَّمَوَتُ مَطْوِيَّتٌۢ بِيَمِينِهِۦ ۚ سُبْحَنَهُۥ وَتَعَلَىٰ عَمَّا يُشْرِكُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وماقدروااللهحققدرهوالارضجميعاقبضتهيومالق",
+          "reference": "Az-Zumar: 67"
+        },
+        {
+          "text": "قُلِ ٱللَّهُمَّ مَلِكَ ٱلْمُلْكِ تُؤْتِى ٱلْمُلْكَ مَن تَشَآءُ وَتَنزِعُ ٱلْمُلْكَ مِمَّن تَشَآءُ وَتُعِزُّ مَن تَشَآءُ وَتُذِلُّ مَن تَشَآءُ ۖ بِيَدِكَ ٱلْخَيْرُ ۖ إِنَّكَ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قلاللهمملكالملكتوتيالملكمنتشاءوتنزعالملك",
+          "reference": "Ali 'Imran: 26"
+        },
+        {
+          "text": "مَلِكَ ٱلْمُلْكِ",
+          "resolution": "knowledge-base",
+          "skeleton": "ملكالملك"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "تَعْرُجُ ٱلْمَلَٓئِكَةُ وَٱلرُّوحُ إِلَيْهِ فِى يَوْمٍۢ كَانَ مِقْدَارُهُۥ خَمْسِينَ أَلْفَ سَنَةٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "تعرجالمليكهوالروحاليهفييومكانمقدارهخمسين",
+          "reference": "Al-Ma'arij: 4"
+        },
+        {
+          "text": "يَوْمَ تَرْجُفُ ٱلْأَرْضُ وَٱلْجِبَالُ وَكَانَتِ ٱلْجِبَالُ كَثِيبًۭا مَّهِيلًا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يومترجفالارضوالجبالوكانتالجبالكثيبامهيلا",
+          "reference": "Al-Muzzammil: 14"
+        },
+        {
+          "text": "سُورَۃُ الْفَاتِحَۃِ",
+          "resolution": "unverified",
+          "skeleton": "سورالفاتح"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "مَنْ دَانَ نَفْسَہُ",
+          "resolution": "unverified",
+          "skeleton": "منداننفس"
+        },
+        {
+          "text": "لَکُمْ دِینُکُمْ وَلِیَدِینِ",
+          "resolution": "unverified",
+          "skeleton": "لمدنمولدن"
+        },
+        {
+          "text": "دِینُ الْاِسْلَامِ",
+          "resolution": "unverified",
+          "skeleton": "دنالاسلام"
+        },
+        {
+          "text": "أَفَغَيْرَ دِينِ ٱللَّهِ يَبْغُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "افغيرديناللهيبغون",
+          "reference": "Ali 'Imran: 83"
+        },
+        {
+          "text": "وَلَهُۥٓ أَسْلَمَ مَن فِى ٱلسَّمَوَتِ وَٱلْأَرْضِ طَوْعًۭا وَكَرْهًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولهاسلممنفيالسموتوالارضطوعاوكرها",
+          "reference": "Ali 'Imran: 83"
+        },
+        {
+          "text": "طَوْعًۭا وَكَرْهًۭا",
+          "resolution": "knowledge-base",
+          "skeleton": "طوعاوكرها"
+        },
+        {
+          "text": "وَإِلَيْهِ يُرْجَعُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واليهيرجعون",
+          "reference": "Ali 'Imran: 83"
+        },
+        {
+          "text": "دِینُ الْاِسْلَامِ",
+          "resolution": "unverified",
+          "skeleton": "دنالاسلام"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "یَوْمُ الدِّیْنِ",
+          "resolution": "unverified",
+          "skeleton": "ومالدن"
+        },
+        {
+          "text": "کیف ما تُدِینُ تُدان",
+          "resolution": "unverified",
+          "skeleton": "فماتدنتدان"
+        },
+        {
+          "text": "یَوْمُ الْحِسَابِ",
+          "resolution": "unverified",
+          "skeleton": "ومالحساب"
+        },
+        {
+          "text": "حاسِبُ قبل اَن تُحاسَبُ",
+          "resolution": "unverified",
+          "skeleton": "حاسبقبلانتحاسب"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "یَوْمُ الدِّیْنِ",
+          "resolution": "unverified",
+          "skeleton": "ومالدن"
+        },
+        {
+          "text": "مَّن ذَا ٱلَّذِى يُقْرِضُ ٱللَّهَ قَرْضًا حَسَنًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "منذاالذييقرضاللهقرضاحسنا",
+          "reference": "Al-Baqarah: 245"
+        },
+        {
+          "text": "فَيُضَعِفَهُۥ لَهُۥٓ أَضْعَافًۭا كَثِيرَةًۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فيضعفهلهاضعافاكثيره",
+          "reference": "Al-Baqarah: 245"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَلَهُۥٓ أَجْرٌۭ كَرِيمٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولهاجركريم",
+          "reference": "Al-Hadid: 11"
+        },
+        {
+          "text": "وَلَنَبْلُوَنَّكُم بِشَىْءٍۢ مِّنَ ٱلْخَوْفِ وَٱلْجُوعِ وَنَقْصٍۢ مِّنَ ٱلْأَمْوَلِ وَٱلْأَنفُسِ وَٱلثَّمَرَتِ ۗ وَبَشِّرِ ٱلصَّبِرِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولنبلونكمبشيءمنالخوفوالجوعونقصمنالامولوا",
+          "reference": "Al-Baqarah: 155"
+        },
+        {
+          "text": "وَبَشِّرِ ٱلصَّبِرِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وبشرالصبرين",
+          "reference": "Al-Baqarah: 155"
+        },
+        {
+          "text": "تَبَرَكَ ٱلَّذِى بِيَدِهِ ٱلْمُلْكُ وَهُوَ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "تبركالذيبيدهالملكوهوعليكلشيءقدير",
+          "reference": "Al-Mulk: 1"
+        },
+        {
+          "text": "ٱلَّذِى خَلَقَ ٱلْمَوْتَ وَٱلْحَيَوٰةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًۭا ۚ وَهُوَ ٱلْعَزِيزُ ٱلْغَفُورُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الذيخلقالموتوالحيوهليبلوكمايكماحسنعملاوه",
+          "reference": "Al-Mulk: 2"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "اَلرَّحْمَٰنِ اَلرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "الرحمنالرحم"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        }
+      ]
+    },
+    {
+      "chapter": "Motivating Factors For Piety",
+      "arabic_runs": 43,
+      "unverified": 34,
+      "runs": [
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "الْحَمْدُ لِلَّہِ رَبِّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعالمن"
+        },
+        {
+          "text": "الرحمن الرحیم",
+          "resolution": "unverified",
+          "skeleton": "الرحمنالرحم"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "وَمَا تَدْرِى نَفْسٌۭ مَّاذَا تَكْسِبُ غَدًۭا ۖ وَمَا تَدْرِى نَفْسٌۢ بِأَىِّ أَرْضٍۢ تَمُوتُ ۚ إِنَّ ٱللَّهَ عَلِيمٌ خَبِيرٌۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وماتدرينفسماذاتكسبغداوماتدرينفسبايارضتمو",
+          "reference": "Luqman: 34"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "كَلَّا بَلْ تُحِبُّونَ ٱلْعَاجِلَةَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "كلابلتحبونالعاجله",
+          "reference": "Al-Qiyamah: 20"
+        },
+        {
+          "text": "وَتَذَرُونَ ٱلْآخِرَةَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وتذرونالاخره",
+          "reference": "Al-Qiyamah: 21"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "خَوْفُ الْعِقَابِ الْأُخْرَوِیِّ",
+          "resolution": "unverified",
+          "skeleton": "خوفالعقابالاخرو"
+        },
+        {
+          "text": "مَاءُ الْوَجْہِ",
+          "resolution": "unverified",
+          "skeleton": "ماءالوج"
+        },
+        {
+          "text": "یا الھی ما عبدتک بشوق جنتک ولا من خوف نارک بل وجۃ مستحقا لعبادۃ فلعبدتک",
+          "resolution": "unverified",
+          "skeleton": "االماعبدتبشوقجنتولامنخوفناربلوجمستحقالعب"
+        },
+        {
+          "text": "يَسْـَٔلُونَكَ عَنِ ٱلْخَمْرِ وَٱلْمَيْسِرِ ۖ قُلْ فِيهِمَآ إِثْمٌۭ كَبِيرٌۭ وَمَنَفِعُ لِلنَّاسِ وَإِثْمُهُمَآ أَكْبَرُ مِن نَّفْعِهِمَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يسلونكعنالخمروالميسرقلفيهمااثمكبيرومنفعل",
+          "reference": "Al-Baqarah: 219"
+        },
+        {
+          "text": "ﷺ\n\nحُفَّۃُ الجَنَّۃ بِمَکارِہ و حُفَّۃُ النارُ بالشھوات",
+          "resolution": "unverified",
+          "skeleton": "حفالجنبماروحفالناربالشوات"
+        },
+        {
+          "text": "اَفَلَا تَدَبَّرُونَ",
+          "resolution": "unverified",
+          "skeleton": "افلاتدبرون"
+        },
+        {
+          "text": "مُحاسَبَۃ",
+          "resolution": "unverified",
+          "skeleton": "محاسب"
+        },
+        {
+          "text": "حاسِبو قبل ان تُحاسَبُ",
+          "resolution": "unverified",
+          "skeleton": "حاسبوقبلانتحاسب"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "لِکُلِّ دینٍ خُلُق و خُلُق الاسلام الحیاء",
+          "resolution": "unverified",
+          "skeleton": "للدنخلقوخلقالاسلامالحاء"
+        },
+        {
+          "text": "مَقَامُ الْمُرَاقَبَۃِ",
+          "resolution": "unverified",
+          "skeleton": "مقامالمراقب"
+        },
+        {
+          "text": "إِنَّ ٱللَّهَ كَانَ عَلَيْكُمْ رَقِيبًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اناللهكانعليكمرقيبا",
+          "reference": "An-Nisa: 1"
+        },
+        {
+          "text": "لا تُسَوِّدَ وجھی یوم القیامۃ",
+          "resolution": "unverified",
+          "skeleton": "لاتسودوجومالقام"
+        },
+        {
+          "text": "لا تُسَوِّدَ وجھی یوم القیامۃ",
+          "resolution": "unverified",
+          "skeleton": "لاتسودوجومالقام"
+        },
+        {
+          "text": "وُہ جُو گِیت تُم نِے سُنَا نَہِیں، مِیرِی عُمر بَھر کَا رِیَاض تھَا\n\nمِیرے دَرد کِی تھِی وُہ دَاستَاں جِسِے تُم ہَنسِی مِیں اُڑَا گَئے",
+          "resolution": "unverified",
+          "skeleton": "وجوتتمنسنانمرعمربراراضتامردردتوداستاجستم"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "لَا یُرْضِی کُفْرٌ لِعِبَادِہِ",
+          "resolution": "unverified",
+          "skeleton": "لارضفرلعباد"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "إِنَّمَا يَخْشَى ٱللَّهَ مِنْ عِبَادِهِ ٱلْعُلَمَٓؤُا۟ۗ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انمايخشياللهمنعبادهالعلموا",
+          "reference": "Fatir: 28"
+        },
+        {
+          "text": "تَعْظِیمُ جَلَالِ اللَّہِ",
+          "resolution": "unverified",
+          "skeleton": "تعظمجلالالل"
+        },
+        {
+          "text": "مَقَامُ الْھَیْبَۃِ",
+          "resolution": "unverified",
+          "skeleton": "مقامالب"
+        },
+        {
+          "text": "صِدْقُ الْمَحَبَّۃِ",
+          "resolution": "unverified",
+          "skeleton": "صدقالمحب"
+        },
+        {
+          "text": "مَحْمُودُ الْوَرَّاقُ",
+          "resolution": "unverified",
+          "skeleton": "محمودالوراق"
+        },
+        {
+          "text": "تَعصِی الہَ وَتُظھِرُ حُبُّہُ ؛ ھذا مَحالٌ فی القِ",
+          "resolution": "unverified",
+          "skeleton": "تعصالوتظرحبذامحالفالق"
+        },
+        {
+          "text": "یاسِ بَدِیعُ",
+          "resolution": "unverified",
+          "skeleton": "اسبدع"
+        },
+        {
+          "text": "لَو کان حُبُّکَ صَادِقاً لَطاعَتُہُ ؛ أِنَّ المُحِبَّ لِمَن یُحِبُّ مُطِیعُ",
+          "resolution": "unverified",
+          "skeleton": "لوانحبصادقالطاعتانالمحبلمنحبمطع"
+        },
+        {
+          "text": "وَقَائِلَۃً قَدْ سَأَلَتْ عَلَیَّ اَنَّ حَالَ عَاشِقِھَا",
+          "resolution": "unverified",
+          "skeleton": "وقايلقدسالتعلانحالعاشقا"
+        },
+        {
+          "text": "للہ صفہ ولا تنقص ولا تزد",
+          "resolution": "unverified",
+          "skeleton": "للصفولاتنقصولاتزد"
+        },
+        {
+          "text": "لَوْکَانَ رَحْلُ الْمَوْتِ مِنْ ضَمَأٍ",
+          "resolution": "unverified",
+          "skeleton": "لوانرحلالموتمنضما"
+        },
+        {
+          "text": "وَقَطَعَ قُفٌّ عَنْ وُرُودِ الْمَآءِ لَمْ یَرِدْ",
+          "resolution": "unverified",
+          "skeleton": "وقطعقفعنورودالماءلمرد"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "الحمد للہ رب العلمین الرحمن الرحیم مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعلمنالرحمنالرحممالومالدن"
+        }
+      ]
+    },
+    {
+      "chapter": "Worship and Assistance",
+      "arabic_runs": 57,
+      "unverified": 50,
+      "runs": [
+        {
+          "text": "اِیَّاکَ نَعْبُدُ وَ أِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبدواانستعن"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "الْحَمْدُ لِلَّہِ رَبِّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعالمن"
+        },
+        {
+          "text": "اَلرَّحْمَٰنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "الرحمنالرحم"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبدواانستعن"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبدواانستعن"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبدواانستعن"
+        },
+        {
+          "text": "أِسْتِعْبَادُ أَنْفُسِكُمْ لِي",
+          "resolution": "unverified",
+          "skeleton": "استعبادانفسكملي"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبد"
+        },
+        {
+          "text": "الْحَمْدُ لِلَّہِ رَبِّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعالمن"
+        },
+        {
+          "text": "اَلرَّحْمَٰنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "الرحمنالرحم"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبدواانستعن"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبد"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبد"
+        },
+        {
+          "text": "عَبْدُ الْھَوَی",
+          "resolution": "unverified",
+          "skeleton": "عبدالو"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبد"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبد"
+        },
+        {
+          "text": "اِیَّاکَ أَعْبُدُ",
+          "resolution": "unverified",
+          "skeleton": "اااعبد"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبد"
+        },
+        {
+          "text": "اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانستعن"
+        },
+        {
+          "text": "مُساعَدۃ",
+          "resolution": "unverified",
+          "skeleton": "مساعد"
+        },
+        {
+          "text": "نَصْرٌۭ مِّنَ ٱللَّهِ وَفَتْحٌۭ قَرِيبٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "نصرمناللهوفتحقريب",
+          "reference": "As-Saff: 13"
+        },
+        {
+          "text": "إِذَا جَآءَ نَصْرُ ٱللَّهِ وَٱلْفَتْحُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اذاجاءنصراللهوالفتح",
+          "reference": "An-Nasr: 1"
+        },
+        {
+          "text": "وَثَبِّتْ أَقْدَامَنَا وَٱنصُرْنَا عَلَى ٱلْقَوْمِ ٱلْكَفِرِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وثبتاقدامناوانصرناعليالقومالكفرين",
+          "reference": "Al-Baqarah: 250"
+        },
+        {
+          "text": "سُورَۃُ الْفَاتِحَۃِ",
+          "resolution": "unverified",
+          "skeleton": "سورالفاتح"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "الْحَمْدُ لِلَّہِ الَّذِی اَحْیَانَا بَعْدَ اَمَاتَنَا وَ اِلَیْہِ النُّشُورُ",
+          "resolution": "unverified",
+          "skeleton": "الحمدللالذاحانابعداماتناوالالنشور"
+        },
+        {
+          "text": "اعوذ بللہ من الرجس النجس الخبیث المخبث الشیطان الرجیم",
+          "resolution": "unverified",
+          "skeleton": "اعوذبللمنالرجسالنجسالخبثالمخبثالشطانالرج"
+        },
+        {
+          "text": "سُبْحَانَ الَّذِی سَخَّرَ لَنَا ھَٰذَا",
+          "resolution": "unverified",
+          "skeleton": "سبحانالذسخرلناذا"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلَّہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ تَوَکُّلٌ عَلَیْہِ اللَّہِ وَلَا حَوْلَ وَلَا قُوَّۃَ اِلَّا بِاللَّہِ الْعَلِیِّ الْعَظِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللتولعلاللولاحولولاقوالاباللالعلالعظ"
+        },
+        {
+          "text": "رب العلمین",
+          "resolution": "unverified",
+          "skeleton": "ربالعلمن"
+        },
+        {
+          "text": "اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانستعن"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبد"
+        },
+        {
+          "text": "اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانستعن"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبدواانستعن"
+        },
+        {
+          "text": "حَدِیثٌ قُدْسِیٌّ",
+          "resolution": "unverified",
+          "skeleton": "حدثقدس"
+        },
+        {
+          "text": "عَبْدُ اللَّہِ ابْنُ مَسْعُودٍ",
+          "resolution": "unverified",
+          "skeleton": "عبداللابنمسعود"
+        },
+        {
+          "text": "أِحْمَلُو حَوائجَکُم عَلی المکتُوبَۃ",
+          "resolution": "unverified",
+          "skeleton": "احملوحوايجمعلالمتوب"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبد"
+        },
+        {
+          "text": "اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانستعن"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ وَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبدونستعن"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ وَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبدونستعن"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبدواانستعن"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبد"
+        },
+        {
+          "text": "اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانستعن"
+        },
+        {
+          "text": "اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبد"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلَّہِ رب العلمین؛ اَلرَّحْمَٰنِ الرَّحِیمِ؛ مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعلمنالرحمنالرحممالومالدن"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبد"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبدواانستعن"
+        }
+      ]
+    },
+    {
+      "chapter": "Guidance To The Straight Path",
+      "arabic_runs": 47,
+      "unverified": 46,
+      "runs": [
+        {
+          "text": "اِھْدِنَا الصِّرَاطَ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراط"
+        },
+        {
+          "text": "اِھْدِنَا اِلَی صِرَاطِ الْمُسْتَقِیمِ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "اِھْدِنَا بِالصِّرَاطِ الْمُسْتَقِیمِ",
+          "resolution": "unverified",
+          "skeleton": "ادنابالصراطالمستقم"
+        },
+        {
+          "text": "اِھْدِنَا عَلَی صِرَاطِ الْمُسْتَقِیمِ",
+          "resolution": "unverified",
+          "skeleton": "ادناعلصراطالمستقم"
+        },
+        {
+          "text": "اِھْدِنَا اِلَی صِرَاطِ الْمُسْتَقِیمِ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "اِھْدِنَابِالصِّرَاطِ الْمُسْتَقِیمِ",
+          "resolution": "unverified",
+          "skeleton": "ادنابالصراطالمستقم"
+        },
+        {
+          "text": "اِھْدِنَا عَلَی صِرَاطِ الْمُسْتَقِیمِ",
+          "resolution": "unverified",
+          "skeleton": "ادناعلصراطالمستقم"
+        },
+        {
+          "text": "اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "اِنَّا لِلَّہِ وَ اِنَّا اِلَیْہِ رَاجِعُونَ",
+          "resolution": "unverified",
+          "skeleton": "اناللواناالراجعون"
+        },
+        {
+          "text": "الصِّرَاطُ الْمُسْتَقِیمُ",
+          "resolution": "unverified",
+          "skeleton": "الصراطالمستقم"
+        },
+        {
+          "text": "اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "صِرَاطَ الَّذِینَ اَنْعَمْتَ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "صراطالذنانعمتعلم"
+        },
+        {
+          "text": "صِرَاطَ الَّذِینَ اَنْعَمْتَ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "صراطالذنانعمتعلم"
+        },
+        {
+          "text": "اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "صِرَاطَ الَّذِینَ اَنْعَمْتَ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "صراطالذنانعمتعلم"
+        },
+        {
+          "text": "غَیْرِ الْمَغْضُوبِ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "غرالمغضوبعلم"
+        },
+        {
+          "text": "وَلَا الضَّالِّینَ",
+          "resolution": "unverified",
+          "skeleton": "ولاالضالن"
+        },
+        {
+          "text": "الْمَغْضُوبِ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "المغضوبعلم"
+        },
+        {
+          "text": "اَنْعَمْ تَ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "انعمتعلم"
+        },
+        {
+          "text": "غَیْرِ الْمَغْضُوبِ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "غرالمغضوبعلم"
+        },
+        {
+          "text": "صِرَاطَ الَّذِینَ اَنْعَمْتَ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "صراطالذنانعمتعلم"
+        },
+        {
+          "text": "صِرَاطَ الَّذِینَ اَنْعَمْتَ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "صراطالذنانعمتعلم"
+        },
+        {
+          "text": "غَیْرِ الْمَغْضُوبِ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "غرالمغضوبعلم"
+        },
+        {
+          "text": "وَلَاضَالِّینَ",
+          "resolution": "unverified",
+          "skeleton": "ولاضالن"
+        },
+        {
+          "text": "مَغْضُوبٌ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "مغضوبعلم"
+        },
+        {
+          "text": "مَغْضُوبٌ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "مغضوبعلم"
+        },
+        {
+          "text": "مَغْضُوبٌ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "مغضوبعلم"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "مَغْضُوبٌ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "مغضوبعلم"
+        },
+        {
+          "text": "غَیْرِ الْمَغْضُوبِ عَلَیْھِمْ وَلَضَّالِّینَ",
+          "resolution": "unverified",
+          "skeleton": "غرالمغضوبعلمولضالن"
+        },
+        {
+          "text": "اَنْعَمْتَ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "انعمتعلم"
+        },
+        {
+          "text": "بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "بسماللالرحمنالرحم"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلَّہِ رَبِّ الْعَالَمِینَ",
+          "resolution": "unverified",
+          "skeleton": "الحمدللربالعالمن"
+        },
+        {
+          "text": "اَلرَّحْمَٰنِ الرَّحِیمِ",
+          "resolution": "unverified",
+          "skeleton": "الرحمنالرحم"
+        },
+        {
+          "text": "مَالِکِ یَوْمِ الدِّینِ",
+          "resolution": "unverified",
+          "skeleton": "مالومالدن"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبدواانستعن"
+        },
+        {
+          "text": "اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "صِرَاطَ الَّذِینَ اَنْعَمْتَ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "صراطالذنانعمتعلم"
+        },
+        {
+          "text": "غَیْرِ الْمَغْضُوبِ عَلَیْھِمْ",
+          "resolution": "unverified",
+          "skeleton": "غرالمغضوبعلم"
+        },
+        {
+          "text": "وَلَا الضَّالِّینَ",
+          "resolution": "unverified",
+          "skeleton": "ولاالضالن"
+        },
+        {
+          "text": "سُورَۃُ الْفَاتِحَۃِ",
+          "resolution": "unverified",
+          "skeleton": "سورالفاتح"
+        },
+        {
+          "text": "اَلعِلمُ بِدُونِ العَمَل وَبَالٌ",
+          "resolution": "unverified",
+          "skeleton": "العلمبدونالعملوبال"
+        },
+        {
+          "text": "وَالعَمَلُ بِدُونِ العِلمِ ضَلالٌ",
+          "resolution": "unverified",
+          "skeleton": "والعملبدونالعلمضلال"
+        }
+      ]
+    },
+    {
+      "chapter": "Staying Steadfast On The Path",
+      "arabic_runs": 72,
+      "unverified": 33,
+      "runs": [
+        {
+          "text": "سُورَۃُ الْفَاتِحَۃِ",
+          "resolution": "unverified",
+          "skeleton": "سورالفاتح"
+        },
+        {
+          "text": "سُورَۃُ الْفَاتِحَۃِ",
+          "resolution": "unverified",
+          "skeleton": "سورالفاتح"
+        },
+        {
+          "text": "اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ",
+          "resolution": "unverified",
+          "skeleton": "ادناالصراطالمستقم"
+        },
+        {
+          "text": "صِرَاطُ الْمُسْتَقِیمِ",
+          "resolution": "unverified",
+          "skeleton": "صراطالمستقم"
+        },
+        {
+          "text": "وَأَنِ ٱعْبُدُونِى ۚ هَذَا صِرَطٌۭ مُّسْتَقِيمٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واناعبدونيهذاصرطمستقيم",
+          "reference": "Ya-Sin: 61"
+        },
+        {
+          "text": "اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ",
+          "resolution": "unverified",
+          "skeleton": "اانعبدواانستعن"
+        },
+        {
+          "text": "سُورَۃُ الْبَقَرَۃِ",
+          "resolution": "unverified",
+          "skeleton": "سورالبقر"
+        },
+        {
+          "text": "وَٱسْتَعِينُوا۟ بِٱلصَّبْرِ وَٱلصَّلَوٰةِ ۚ وَإِنَّهَا لَكَبِيرَةٌ إِلَّا عَلَى ٱلْخَشِعِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واستعينوابالصبروالصلوهوانهالكبيرهالاعليا",
+          "reference": "Al-Baqarah: 45"
+        },
+        {
+          "text": "ٱسْتَعِينُوا۟",
+          "resolution": "unverified",
+          "skeleton": "استعينوا"
+        },
+        {
+          "text": "صِرَاطُ الْمُسْتَقِیمِ",
+          "resolution": "unverified",
+          "skeleton": "صراطالمستقم"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "بِٱلصَّبْرِ وَٱلصَّلَوٰةِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "بالصبروالصلوه",
+          "reference": "Al-Baqarah: 45"
+        },
+        {
+          "text": "وَإِنَّهَا لَكَبِيرَةٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وانهالكبيره",
+          "reference": "Al-Baqarah: 45"
+        },
+        {
+          "text": "ٱلْخَشِعِينَ",
+          "resolution": "unverified",
+          "skeleton": "الخشعين"
+        },
+        {
+          "text": "أِستَقِم",
+          "resolution": "unverified",
+          "skeleton": "استقم"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "وَأَقِيمُوا۟ ٱلصَّلَوٰةَ وَآتُوا۟ ٱلزَّكَوٰةَ وَٱرْكَعُوا۟ مَعَ ٱلرَّكِعِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واقيمواالصلوهواتواالزكوهواركعوامعالركعين",
+          "reference": "Al-Baqarah: 43"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "الَّذِينَ آمَنُوا۟ وعمل الصلحات",
+          "resolution": "unverified",
+          "skeleton": "الذينامنواوعملالصلحات"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
+          "resolution": "unverified",
+          "skeleton": "قالرسولاللصلاللعلوالوسلم"
+        },
+        {
+          "text": "أِنَّ فِی الجَسَدِ مُضْغَۃ۔ أِذَا صَلُحَتْ صَلَحَ الجَسَدُ کُلُّہ وَ أِذَا فَسَدَتْ فَسَدَ الجَسَدُ کُلُّہ۔ أَلا وَھِیَ القَلْبٌ",
+          "resolution": "unverified",
+          "skeleton": "انفالجسدمضغاذاصلحتصلحالجسدلواذافسدتفسدال"
+        },
+        {
+          "text": "اِنَّ فِی الْجَسَدِ مُضْغَۃً",
+          "resolution": "unverified",
+          "skeleton": "انفالجسدمضغ"
+        },
+        {
+          "text": "اِذَا صَلُحَتْ صَلُحَ الْجَسَدُ کُلُّہُ",
+          "resolution": "unverified",
+          "skeleton": "اذاصلحتصلحالجسدل"
+        },
+        {
+          "text": "وَاِذَا فَسَدَتْ فَدَسَ الْجَسَدُ کُلُّ",
+          "resolution": "unverified",
+          "skeleton": "واذافسدتفدسالجسدل"
+        },
+        {
+          "text": "اَلَا وَھِیَ الْقَلْبُ",
+          "resolution": "unverified",
+          "skeleton": "الاوالقلب"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "أَلَمْ تَرَ كَيْفَ ضَرَبَ ٱللَّهُ مَثَلًۭا كَلِمَةًۭ طَيِّبَةًۭ كَشَجَرَةٍۢ طَيِّبَةٍ أَصْلُهَا ثَابِتٌۭ وَفَرْعُهَا فِى ٱلسَّمَآءِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "المتركيفضرباللهمثلاكلمهطيبهكشجرهطيبهاصله",
+          "reference": "Ibrahim: 24"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سورۃ الفاتحہ",
+          "resolution": "unverified",
+          "skeleton": "سورالفاتح"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الحمدللهربالعلمين",
+          "reference": "Al-Fatihah: 2"
+        },
+        {
+          "text": "ٱلرَّحْمَنِ ٱلرَّحِيمِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الرحمنالرحيم",
+          "reference": "Al-Fatihah: 1"
+        },
+        {
+          "text": "مَلِكِ يَوْمِ ٱلدِّينِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ملكيومالدين",
+          "reference": "Al-Fatihah: 4"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اياكنعبدواياكنستعين",
+          "reference": "Al-Fatihah: 5"
+        },
+        {
+          "text": "ٱهْدِنَا ٱلصِّرَطَ ٱلْمُسْتَقِيمَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اهدناالصرطالمستقيم",
+          "reference": "Al-Fatihah: 6"
+        },
+        {
+          "text": "صِرَطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "صرطالذينانعمتعليهمغيرالمغضوبعليهمولاالضا",
+          "reference": "Al-Fatihah: 7"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "أَمْ حَسِبْتُمْ أَن تَدْخُلُوا۟ ٱلْجَنَّةَ وَلَمَّا يَأْتِكُم مَّثَلُ ٱلَّذِينَ خَلَوْا۟ مِن قَبْلِكُم ۖ مَّسَّتْهُمُ ٱلْبَأْسَآءُ وَٱلضَّرَّآءُ وَزُلْزِلُوا۟ حَتَّىٰ يَقُولَ ٱلرَّسُولُ وَٱلَّذِينَ آمَنُوا۟ مَعَهُۥ مَتَىٰ نَصْرُ ٱللَّهِ ۗ أَلَآ إِنَّ نَصْرَ ٱللَّهِ قَرِيبٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "امحسبتمانتدخلواالجنهولماياتكممثلالذينخلو",
+          "reference": "Al-Baqarah: 214"
+        },
+        {
+          "text": "أَمْ حَسِبْتُمْ أَن تَدْخُلُوا۟ ٱلْجَنَّةَ وَلَمَّا يَأْتِكُم مَّثَلُ ٱلَّذِينَ خَلَوْا۟ مِن قَبْلِكُم",
+          "resolution": "canonical-mushaf",
+          "skeleton": "امحسبتمانتدخلواالجنهولماياتكممثلالذينخلو",
+          "reference": "Al-Baqarah: 214"
+        },
+        {
+          "text": "مَّسَّتْهُمُ ٱلْبَأْسَآءُ وَٱلضَّرَّآءُ وَزُلْزِلُوا۟",
+          "resolution": "canonical-mushaf",
+          "skeleton": "مستهمالباساءوالضراءوزلزلوا",
+          "reference": "Al-Baqarah: 214"
+        },
+        {
+          "text": "حَتَّىٰ يَقُولَ ٱلرَّسُولُ وَٱلَّذِينَ آمَنُوا۟ مَعَهُۥ مَتَىٰ نَصْرُ ٱللَّهِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "حتييقولالرسولوالذينامنوامعهمتينصرالله",
+          "reference": "Al-Baqarah: 214"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى\n\nأَلَآ إِنَّ نَصْرَ ٱللَّهِ قَرِيبٌۭ",
+          "resolution": "unverified",
+          "skeleton": "سبحانهوتعاليالااننصراللهقريب"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "نعوذ بللہ",
+          "resolution": "unverified",
+          "skeleton": "نعوذبلل"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
+          "resolution": "unverified",
+          "skeleton": "قالرسولاللصلاللعلوالوسلم"
+        },
+        {
+          "text": "كُلُّ بَنِي آدَمَ خَطَّاءٌ",
+          "resolution": "unverified",
+          "skeleton": "كلبنيادمخطاء"
+        },
+        {
+          "text": "وَخَيْرُ اَلْخَطَّائِينَ اَلتَّوَّابُونَ",
+          "resolution": "unverified",
+          "skeleton": "وخيرالخطايينالتوابون"
+        },
+        {
+          "text": "خَلَقَ ٱلْإِنسَنَ مِن صَلْصَلٍۢ كَٱلْفَخَّارِ\n\nخَلَقَ ٱلْإِنسَنَ مِن صَلْصَلٍۢ كَٱلْفَخَّارِ\n\nوَخُلِقَ ٱلْإِنسَنُ ضَعِيفًۭا\n\nخُلِقَ ٱلْإِنسَنُ مِنْ عَجَلٍۢ\n\nإِنَّ ٱلْإِنسَنَ خُلِقَ هَلُوعًا",
+          "resolution": "unverified",
+          "skeleton": "خلقالانسنمنصلصلكالفخارخلقالانسنمنصلصلكال"
+        },
+        {
+          "text": "قُلْ يَعِبَادِىَ ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ ۚ إِنَّ ٱللَّهَ يَغْفِرُ ٱلذُّنُوبَ جَمِيعًا ۚ إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قليعباديالذيناسرفواعليانفسهملاتقنطوامنرح",
+          "reference": "Az-Zumar: 53"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "قُلْ يَعِبَادِىَ ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قليعباديالذيناسرفواعليانفسهم",
+          "reference": "Az-Zumar: 53"
+        },
+        {
+          "text": "لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لاتقنطوامنرحمهالله",
+          "reference": "Az-Zumar: 53"
+        },
+        {
+          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
+          "resolution": "unverified",
+          "skeleton": "قالرسولاللصلاللعلوالوسلم"
+        },
+        {
+          "text": "قَالَ اللهُ تَعَالَى",
+          "resolution": "unverified",
+          "skeleton": "قالاللهتعالي"
+        },
+        {
+          "text": "يَا ابْنَ ادَمَ ، إِنَّكَ مَا دَعَوْتََنِي وَرَجَوْتَنِي ، غَفَرْتُ لَكَ عَلَى مَا كَانَ مِنْكَ وَلَا أُبالِي",
+          "resolution": "unverified",
+          "skeleton": "ياابنادمانكمادعوتنيورجوتنيغفرتلكعليماكان"
+        },
+        {
+          "text": "يا ابْنَ ادَمَ",
+          "resolution": "unverified",
+          "skeleton": "ياابنادم"
+        },
+        {
+          "text": "لَوْ بَلَغَتْ ذُنُوبُكَ عَنانَ السَّماءِ ثُم َّ اسْتَغْفَرْتَني ، غَفَرْتُ لَكَ",
+          "resolution": "unverified",
+          "skeleton": "لوبلغتذنوبكعنانالسماءثماستغفرتنيغفرتلك"
+        },
+        {
+          "text": "يَا ابْنَ ادَمَ",
+          "resolution": "unverified",
+          "skeleton": "ياابنادم"
+        },
+        {
+          "text": "إِنَّكَ لَوْ أَتَيْتَنِي بِقُرَابِ الأَرْضِ خَطَايا ثُمَّ لَقِيتَني لَا تُشْرِكُ بِي شَيْأً ، لَأَتيتُكَ بِقُرَابِها مَغْفِرَةً",
+          "resolution": "unverified",
+          "skeleton": "انكلواتيتنيبقرابالارضخطاياثملقيتنيلاتشرك"
+        },
+        {
+          "text": "عَمَلُ الصَّالِحَاتِ",
+          "resolution": "unverified",
+          "skeleton": "عملالصالحات"
+        },
+        {
+          "text": "اَلْحَمْدُ لِلَّہِ",
+          "resolution": "knowledge-base",
+          "skeleton": "الحمدلل"
+        },
+        {
+          "text": "صِرَاطُ الْمُسْتَقِیمِ",
+          "resolution": "unverified",
+          "skeleton": "صراطالمستقم"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "canonical-mushaf": 243,
+    "ocr": 0,
+    "knowledge-base": 34,
+    "honorific-formula": 116,
+    "unverified": 622,
+    "arabic_runs": 1015
+  },
+  "note": "no OCR ground truth for this book — every run falls back to the knowledge base",
+  "quran_coverage": {
+    "measured": false
+  }
+}

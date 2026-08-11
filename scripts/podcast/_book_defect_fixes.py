@@ -17,6 +17,11 @@ WHAT IS REPAIRED HERE, AND WHAT IS NEVER
 
   honorific-overuse         REPAIRED. The first use in a chapter stays, the rest go.
 
+  quote-line-noise          REPAIRED. The ayah number the Quran widget prints inside
+                            the verse, and the bidi marks it wraps around it, are
+                            removed — both invisible, both breaking the exact match
+                            that makes the reader draw a Qur'an card.
+
   stray-emphasis            REPAIRED. A `**` whose partner is in another paragraph of
                             the same quotation never pairs — both renderers set each
                             paragraph separately — so both markers print. The opener
@@ -67,7 +72,9 @@ from _book_defects import (
     ARABIC_ONLY_RE,
     MIN_QUOTATION_CHARS,
     blocks,
+    clean_verse_line,
     duplicated_arabic,
+    is_arabic_quote_line,
 )
 from _book_honorific_defects import (
     _HONORIFIC_RE,
@@ -182,6 +189,33 @@ def set_honorifics_in_script(md: str) -> tuple[str, int]:
         return f" {script}"
 
     return _ROMANIZED_HONORIFIC_RE.sub(_swap, md), replaced
+
+
+def clean_verse_lines(md: str) -> tuple[str, int]:
+    """Give a quoted verse back the exact text the mushaf holds.
+
+    Removes the two things the KSESSIONS Quran widget attached to it — its own ayah
+    number, and the bidi marks that made the Arabic lay out correctly inside the admin's
+    left-to-right page. Both are invisible on the page and both break the exact match
+    that decides whether the reader draws a Qur'an card. 67 of Surah Al-Fateha's 75
+    quotations were losing it.
+
+    Nothing meaningful goes: the reader sets `dir="rtl"` itself, and it resolves the
+    reference from the mushaf and prints `Al-Baqarah: 257` on the card's band.
+
+    Idempotent, and a no-op on a verse that carries neither.
+    """
+    dropped = 0
+    out: list[str] = []
+    for line in md.split("\n"):
+        text = line[1:].strip() if line.startswith(">") else line
+        cleaned = clean_verse_line(text) if is_arabic_quote_line(text) else text
+        if cleaned != text:
+            out.append(("> " if line.startswith(">") else "") + cleaned)
+            dropped += 1
+            continue
+        out.append(line)
+    return "\n".join(out), dropped
 
 
 def balance_paragraph_emphasis(md: str) -> tuple[str, int]:
@@ -531,6 +565,7 @@ FIXES = {
     "prophet-wrong-honorific": use_prophet_ligature,
     "romanized-honorific": set_honorifics_in_script,
     "stray-emphasis": balance_paragraph_emphasis,
+    "quote-line-noise": clean_verse_lines,
     "honorific-overuse": cap_honorifics,
     "translation-outside-card": fold_translation_into_card,
     "translation-leads-a-paragraph": split_translation_into_card,

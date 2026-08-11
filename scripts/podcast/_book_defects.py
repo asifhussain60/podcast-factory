@@ -279,6 +279,51 @@ def is_romanized_arabic(text: str, *, arabic_beside: bool = False) -> bool:
     return len(_ROMANIZATION_MARKERS.findall(text)) >= needed
 
 
+#: Bidi control marks. The KSESSIONS Quran widget wraps each verse in `&rlm;`/`&lrm;`
+#: so it would lay out correctly inside the admin's left-to-right page. The reader sets
+#: `dir="rtl"` on the paragraph itself, so they do nothing here but sit invisibly at the
+#: ends of the run.
+_BIDI_MARKS = "\u200e\u200f\u061c\u202a\u202b\u202c\u202d\u202e\u2066\u2067\u2068\u2069"
+
+#: A quotation line closing on an ayah number in Arabic-Indic digits. Anchored to the
+#: END: a digit inside a verse is part of the text, and no mushaf verse ends in one.
+_TRAILING_AYAH_NUMBER_RE = re.compile(rf"[\s{_BIDI_MARKS}]*[\u0660-\u0669\u06f0-\u06f9]+[\s{_BIDI_MARKS}]*$")
+
+
+def clean_verse_line(text: str) -> str:
+    """The quotation as the mushaf holds it — no widget numeral, no invisible marks."""
+    return _TRAILING_AYAH_NUMBER_RE.sub("", text).strip(_BIDI_MARKS + " ").strip()
+
+
+def quote_line_noise(md: str) -> list[tuple[str, str]]:
+    """(chapter, line) for each quoted verse carrying the widget's presentation debris.
+
+    A VERSE IS RECOGNISED BY MATCHING THE CANONICAL MUSHAF EXACTLY, so anything the
+    KSESSIONS Quran widget attached to the run decides whether the reader draws a Qur'an
+    card or a generic quotation. Two things did, and both are invisible on the page:
+
+      the ayah number   `۲۵۷` in Arabic-Indic digits, appended inside the verse
+      bidi marks        `&rlm;` / `&lrm;` wrapped around it so the admin's own
+                        left-to-right page would lay the Arabic out correctly
+
+    In Surah Al-Fateha they cost 67 of the 75 quotations their match: no Uthmani face,
+    no citation band, no `is-quranic`. Neither carries meaning here — the reader sets
+    `dir="rtl"` itself, and it resolves the reference from the mushaf and prints
+    `Al-Baqarah: 257` on the card's band, which says more than the bare numeral did.
+
+    Scoped to Arabic-MAJORITY quotation lines. A digit inside a verse belongs to the
+    text, and an English line's trailing number is a citation somebody wrote.
+    """
+    hits: list[tuple[str, str]] = []
+    for title, body in chapters(md):
+        for _kind, lines in blocks(body):
+            for line in lines:
+                text = line[1:].strip() if line.startswith(">") else line
+                if is_arabic_quote_line(text) and clean_verse_line(text) != text:
+                    hits.append((title, text))
+    return hits
+
+
 def stray_emphasis(md: str) -> list[tuple[str, str]]:
     """(chapter, paragraph) for each paragraph carrying an unpaired `**`.
 
@@ -435,6 +480,7 @@ DETECTORS = {
     "romanized-arabic": romanized_arabic,
     "romanized-honorific": romanized_honorific,
     "stray-emphasis": stray_emphasis,
+    "quote-line-noise": quote_line_noise,
     "honorific-overuse": honorific_overuse,
     "prophet-wrong-honorific": prophet_wrong_honorific,
     "translation-outside-card": translation_outside_card,
