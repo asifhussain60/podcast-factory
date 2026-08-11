@@ -3,6 +3,8 @@ import {
   faBookOpen,
   faCircleInfo,
   faCircleMinus,
+  faCirclePlay,
+  faClosedCaptioning,
   faClock,
   faDownload,
   faFileLines,
@@ -855,33 +857,17 @@ function Podcast({
             {session.episodes.map((episode) => (
               <li key={episode.number}>
                 <div className="pf-row pf-track">
-                  {/* ARTWORK, which is what a track list has and a chapter list
-                      does not. These recordings have no cover art and never
-                      will — there is nothing to photograph — so the tile is
-                      generated: a wash of THIS book's accent whose depth steps
-                      with the track's position, which gives the column the
-                      rhythm a row of identical rectangles was missing.
+                  {/* A PLAY GLYPH where the ordinal used to be (Asif,
+                      2026-08-11): a reader scanning this list should be able to
+                      tell it is audio without reading a word of it, and a
+                      number told them nothing the chapter list opposite does not
+                      also carry.
 
-                      A scalar, not a colour. `--pf-art` is a number the
-                      stylesheet mixes with `--l-accent`, so a session's deck
-                      comes out violet and a book's blue with no second rule and
-                      no palette repeated outside §3.
-
-                      Two digits, tabular: a ragged 1/2/…/10 breaks the column
-                      the tiles just made. */}
-                  <span
-                    className="pf-track__art"
-                    aria-hidden="true"
-                    style={
-                      {
-                        "--pf-art": String(
-                          0.55 + (0.45 * (episode.number - 1)) / Math.max(1, episodes.length - 1),
-                        ),
-                      } as React.CSSProperties
-                    }
-                  >
-                    {String(episode.number).padStart(2, "0")}
-                  </span>
+                      Decorative, and aria-hidden: the control that actually
+                      plays is at the other end of the row and names the episode
+                      in full. This is the row's genre mark, the counterpart of
+                      the open book on a chapter. */}
+                  <Icon icon={faCirclePlay} className="pf-row__mark" />
 
                   <div className="pf-row__main">
                     {/* Not a link. An episode has no page of its own: what is
@@ -890,22 +876,7 @@ function Podcast({
                         a page you would have to know to visit. */}
                     <p>{episode.title}</p>
 
-                    <p className="pf-note pf-note--quiet pf-track__meta">
-                      {episode.durationS ? (
-                        <span className="pf-track__time">
-                          <Icon icon={faClock} />
-                          {clock(episode.durationS)}
-                        </span>
-                      ) : null}
 
-                      {episode.chapters.length > 0 ? (
-                        <span>
-                          <Icon icon={faBookOpen} />
-                          Read along:{" "}
-                          {episode.chapters.map((key) => titleOf.get(key) ?? key).join(", ")}
-                        </span>
-                      ) : null}
-                    </p>
                   </div>
 
                   {/* The row's controls, as ONE group rather than as siblings
@@ -914,6 +885,35 @@ function Podcast({
                       under the count's pill. Grouped, they drop to a line of
                       their own at that width, which is the same answer the
                       player bar's crowding got: re-flow, never remove. */}
+                  {/* ONE pill, on the right, carrying both facts (Asif,
+                      2026-08-11). They were two lines under the title: a clock
+                      and a "Read along: <chapter>" that repeated the title
+                      immediately above it on every row of a lecture series,
+                      where the episode and the chapter ARE the same session.
+                      What a listener needs from that line is not which chapter
+                      it is — it is whether there are words to follow, and how
+                      long this will take.
+
+                      Rendered only for what is TRUE of this episode: the
+                      transcript half appears when a VTT exists, which is what
+                      the player's Transcript panel needs, and never because a
+                      chapter happens to be linked. */}
+                  {episode.transcriptKey !== null || episode.durationS ? (
+                    <span className="pf-track__facts">
+                      {episode.transcriptKey === null ? null : (
+                        <span className="pf-track__fact">
+                          <Icon icon={faClosedCaptioning} />
+                          Transcript
+                        </span>
+                      )}
+                      {episode.durationS ? (
+                        <span className="pf-track__fact pf-track__fact--time">
+                          {clock(episode.durationS)}
+                        </span>
+                      ) : null}
+                    </span>
+                  ) : null}
+
                   <div className="pf-row__actions">
                     <EpisodeNotes
                       slug={slug}

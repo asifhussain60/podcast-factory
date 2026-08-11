@@ -2422,60 +2422,59 @@
     color: var(--l-accent);
   }
 
-  /* ---- The artwork tile -------------------------------------------------
-     What a track list has and a chapter list does not.
+  /* ---- What is true of one recording -----------------------------------
+     ONE pill on the right holding both facts, beside the transport.
 
-     These recordings have no cover art and never will — there is nothing to
-     photograph. So the tile is GENERATED from the one colour this collection
-     already owns: `--pf-art` is a scalar the page sets per track (see
-     book.$slug.tsx) and everything here mixes it with `--l-accent`, so a
-     session's deck comes out violet and a book's blue with no second rule.
-     Stepping the depth down the column is what gives the list its rhythm — five
-     identical tiles would be the same flatness in a different shape.
+     They were two lines under the title: a clock, and a "Read along: <chapter>"
+     that on a lecture series repeated the title immediately above it on every
+     single row — because for a lecture the episode and the chapter ARE the same
+     session (Asif, 2026-08-11). What a listener wants from that line is not
+     which chapter it is; it is whether there are words to follow and how long
+     this will take.
 
-     The number is inside the tile rather than beside it: two elements where one
-     will do, and the tile is the thing the eye lands on. */
-  .pf-track__art {
+     A pill rather than plain text, so it reads as a property of the row rather
+     than as a second title, and grouped so the two facts do not have to be found
+     separately at opposite ends. */
+  .pf-track__facts {
     flex: none;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    border-radius: var(--pf-radius-sm);
-    background: linear-gradient(
-      140deg,
-      color-mix(
-        in srgb,
-        var(--l-accent) calc(var(--pf-art, 0.7) * 100%),
-        var(--l-elev)
-      ),
-      color-mix(
-        in srgb,
-        var(--l-accent) calc(var(--pf-art, 0.7) * 55%),
-        var(--l-elev)
-      )
-    );
-    color: var(--l-on-accent);
+    gap: var(--pf-space-2);
+    padding: var(--pf-pill-sm-y) var(--pf-pill-x);
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--l-accent) 10%, transparent);
+    color: var(--l-accent);
     font-family: var(--l-font-ui);
-    font-size: var(--pf-text-sm);
-    font-variant-numeric: tabular-nums;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    box-shadow: 0 2px 8px var(--l-shadow-near);
+    font-size: var(--pf-text-xs);
+    white-space: nowrap;
   }
 
-  .pf-track__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--pf-space-1) var(--pf-space-4);
-  }
-
-  .pf-track__time {
+  .pf-track__fact {
     display: inline-flex;
     align-items: center;
     gap: 0.4em;
+  }
+
+  /* Tabular, and separated by a rule rather than a bullet: two facts in one pill
+     need a seam, and a dot at this size is a speck. */
+  .pf-track__fact--time {
     font-variant-numeric: tabular-nums;
+  }
+
+  .pf-track__fact + .pf-track__fact--time {
+    padding-inline-start: var(--pf-space-2);
+    border-inline-start: 1px solid
+      color-mix(in srgb, var(--l-accent) 30%, transparent);
+  }
+
+  @media (max-width: 40rem) {
+    /* The word goes; the icon and the running time stay. On a phone the row is
+       the title and its two smallest facts, and "Transcript" spelled out is what
+       pushes the title onto a second line. */
+    .pf-track__fact:not(.pf-track__fact--time) span,
+    .pf-track__facts {
+      font-size: var(--pf-text-xs);
+    }
   }
 
   /* The transport. A circle, because that is what a play control looks like
@@ -2517,17 +2516,6 @@
   .pf-deck__list > li:has(.pf-track__play.is-playing) .pf-track {
     background: color-mix(in srgb, var(--l-accent) 4%, var(--l-elev));
     box-shadow: inset 3px 0 0 var(--l-accent);
-  }
-
-  /* The playing track's tile goes to full strength, whatever its position in
-     the column would otherwise give it. */
-  .pf-deck__list > li:has(.pf-track__play.is-playing) .pf-track__art {
-    background: linear-gradient(
-      140deg,
-      var(--l-accent),
-      color-mix(in srgb, var(--l-accent) 60%, var(--l-elev))
-    );
-    box-shadow: 0 4px 14px color-mix(in srgb, var(--l-accent) 35%, transparent);
   }
 
   @media (max-width: 40rem) {

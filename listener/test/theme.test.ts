@@ -420,8 +420,9 @@ describe("the deck takes its colour from the collection", () => {
 
   for (const selector of [
     ".pf-deck__list",
-    ".pf-track__art",
+    ".pf-track__facts",
     ".pf-track:hover",
+    ".pf-rows--striped > li:nth-of-type(even)",
   ]) {
     it(`${selector} is painted from --l-accent`, () => {
       expect(ruleFor(selector)).toContain("--l-accent");
@@ -436,11 +437,10 @@ describe("the deck takes its colour from the collection", () => {
     });
   }
 
-  it("the artwork's depth is a scalar the page sets, never a colour", () => {
-    // `--pf-art` carries a NUMBER. If a future change passed a colour instead,
-    // a session's tiles would stop following the collection overlay.
-    const body = ruleFor(".pf-track__art");
-    expect(body).toContain("var(--pf-art");
-    expect(body).toContain("calc(var(--pf-art");
+  it("the row's genre mark is the accent too", () => {
+    // The open book on a chapter and the play glyph on a track share one rule.
+    // Painted from anything else, the two lists would stop agreeing about which
+    // book they belong to.
+    expect(ruleFor(".pf-row__mark")).toContain("--l-accent");
   });
 });
