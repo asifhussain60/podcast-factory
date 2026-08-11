@@ -243,3 +243,116 @@ describe.each(FOUND)("$name", ({ name, colors }) => {
     });
   }
 });
+
+/* ---------------------------------------------------------------------------
+ * §3b — the collection overlays.
+ *
+ * These would otherwise ship UNMEASURED, and the reason is worth stating: the
+ * parser above admits a block only if it declares `color-scheme`, which is
+ * exactly right for telling a palette from the token `:root` — and exactly
+ * wrong here, because a collection overlay deliberately declares no scheme. It
+ * is not a scheme. It repaints the accent and the band on a subtree of a page
+ * that is already in one.
+ *
+ * So an overlay is measured as what it actually is at runtime: its base palette
+ * with a handful of tokens replaced. Merging is what makes that honest — an
+ * overlay setting `--l-accent` and not `--l-on-accent` really does put the new
+ * violet under the old palette's on-accent ink, and only the merged view can
+ * fail on it.
+ *
+ * The SAME pair list runs, so a violet accent is held to the identical AA floor
+ * as the blue it replaces, in all three modes.
+ * ------------------------------------------------------------------------- */
+
+type Overlay = { theme: string; collection: string; colors: Record<string, string> };
+
+function overlays(css: string): Overlay[] {
+  const found: Overlay[] = [];
+
+  for (const match of css.matchAll(/([^{}]*?)\{([^{}]*?)\}/g)) {
+    const [, selector, body] = match;
+    // A collection overlay, not a palette: `data-collection` present and no
+    // `color-scheme`, which is the line between the two.
+    if (/color-scheme\s*:/.test(body)) continue;
+    const scoped = selector.match(/\[data-theme="([a-z-]+)"\][^,{]*?\[data-collection="([a-z-]+)"\]/);
+    if (scoped === null) continue;
+
+    const colors: Record<string, string> = {};
+    for (const decl of body.matchAll(/--(l-[a-z-]+)\s*:\s*(#[0-9a-fA-F]{6})\s*;/g)) {
+      colors[decl[1]] = decl[2].toLowerCase();
+    }
+    if (Object.keys(colors).length === 0) continue;
+    found.push({ theme: scoped[1], collection: scoped[2], colors });
+  }
+
+  return found;
+}
+
+/** One entry per (theme, collection), with the overlay merged over its base. */
+const MERGED = (() => {
+  const seen = new Map<string, Palette>();
+
+  for (const overlay of overlays(CSS)) {
+    const base = FOUND.find((p) => p.name === overlay.theme);
+    expect(base, `overlay [data-collection="${overlay.collection}"] names an unknown theme "${overlay.theme}"`).toBeDefined();
+    seen.set(`${overlay.collection} on ${overlay.theme}`, {
+      name: `${overlay.collection} on ${overlay.theme}`,
+      colors: { ...base!.colors, ...overlay.colors },
+    });
+  }
+
+  return [...seen.values()];
+})();
+
+describe("the collection overlays", () => {
+  it("covers every theme it appears in", () => {
+    // A collection painted on two of three themes is worse than one painted on
+    // none: the reader who picks the third gets a violet page with a blue
+    // accent, and nothing in the build says so.
+    const byCollection = new Map<string, Set<string>>();
+    for (const overlay of overlays(CSS)) {
+      const themes = byCollection.get(overlay.collection) ?? new Set<string>();
+      themes.add(overlay.theme);
+      byCollection.set(overlay.collection, themes);
+    }
+
+    const every = FOUND.map((p) => p.name).sort();
+    for (const [collection, themes] of byCollection) {
+      expect(
+        [...themes].sort(),
+        `[data-collection="${collection}"] is declared for some themes but not all`,
+      ).toEqual(every);
+    }
+  });
+
+  it("repaints only the accent and the band, never the page", () => {
+    // The page's surfaces and inks belong to the reader's THEME. A collection
+    // that moved them would be a fourth theme reached by a different attribute,
+    // and the two would then disagree about what the site looks like.
+    const allowed = /^l-(accent|accent-hover|accent-soft|on-accent|display|band|on-band|band-muted|band-ornament)$/;
+
+    for (const overlay of overlays(CSS)) {
+      for (const token of Object.keys(overlay.colors)) {
+        expect(
+          token,
+          `[data-collection="${overlay.collection}"] sets --${token}; a collection may set only accent and band tokens`,
+        ).toMatch(allowed);
+      }
+    }
+  });
+});
+
+describe.each(MERGED)("$name", ({ name, colors }) => {
+  for (const [fg, bg, min] of PAIRS) {
+    it(`${fg} on ${bg} clears ${min}:1`, () => {
+      expect(colors[fg], `${name} is missing --${fg}`).toBeDefined();
+      expect(colors[bg], `${name} is missing --${bg}`).toBeDefined();
+
+      const ratio = contrast(colors[fg], colors[bg]);
+      expect(
+        Number(ratio.toFixed(2)),
+        `${colors[fg]} on ${colors[bg]} is ${ratio.toFixed(2)}:1`,
+      ).toBeGreaterThanOrEqual(min);
+    });
+  }
+});

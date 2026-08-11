@@ -25,6 +25,7 @@ import {
 
 import type { Route } from "./+types/book.$slug";
 import { AppShell } from "~/components/AppShell";
+import { collectionOf } from "~/lib/collection";
 import { DeckShelf } from "~/components/DeckViewer";
 import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
@@ -223,7 +224,7 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     ) : null;
 
   return (
-    <AppShell here="book" isAdmin={isAdmin}>
+    <AppShell here="book" isAdmin={isAdmin} collection={collectionOf(unit.bucket)}>
       {/* ---- Identity ----
           The same two-part identity the library card carries, opened out: the
           English name, the work's own Arabic beneath it, both held in one
@@ -375,6 +376,7 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                   <Podcast
                     slug={unit.slug}
                     bookTitle={unit.title}
+                    collection={collectionOf(unit.bucket)}
                     sessions={sessions}
                     chapters={chapters}
                     markedEpisodes={markedEpisodes}
@@ -766,6 +768,7 @@ function ReadingEdition({
 function Podcast({
   slug,
   bookTitle,
+  collection,
   sessions,
   chapters,
   markedEpisodes,
@@ -773,6 +776,8 @@ function Podcast({
 }: {
   slug: string;
   bookTitle: string;
+  /** Which collection this book belongs to, for the bar it hands the audio to. */
+  collection: "sessions" | undefined;
   sessions: Session[];
   chapters: Route.ComponentProps["loaderData"]["chapters"];
   markedEpisodes: Map<number, number>;
@@ -884,6 +889,9 @@ function Podcast({
                               ? null
                               : `/media/${episode.transcriptKey}`,
                           durationS: episode.durationS,
+                          // Handed over with the audio for the same reason the
+                          // transcript is: the bar outlives this page.
+                          collection,
                         })}
                       />
                     ) : (

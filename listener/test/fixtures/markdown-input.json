@@ -45,6 +45,11 @@
     {
       "anchor_key": "a tradition whose speaker was declared, which the card must not print",
       "markdown": "> لَا يُؤْمِنُ أَحَدُكُمْ حَتَّىٰ يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ\n>\n> None of you believes until he loves for his brother what he loves for himself."
+    },
+    {
+      "anchor_key": "an illustration the lecturer put on the screen",
+      "heading": "A Session's Own Plate",
+      "markdown": "He pointed at the board while he said it:\n\n![](images/213/66560670-7213-4cba-b2eb-e49a0af49bd3.jpg)\n\nAn image that is only part of a line stays literal: ![](x.jpg) mid-sentence.\n\n![The three ranks, as he drew them](images/213/447012f0-26e8-4372-8644-f4d5a20d6582.jpg)"
     }
   ],
   "//": "The book's own folder. Three things about a quotation are recorded there and not in the markdown — which Arabic the mushaf carries, which card a person declared for the rest, and each verse's citation — and the printed edition passes all three. The verse block is ayyuhal-walad's own, and it is THREE LINES on purpose: the renderers join a quotation's lines into paragraphs, so a multi-line poem is where the declaration used to be looked up under a string nobody wrote. Its third line deliberately carries no hemistich separator, which pins the whole-width line beside the split ones.",

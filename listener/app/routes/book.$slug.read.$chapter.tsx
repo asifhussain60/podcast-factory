@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router";
 
 import type { Route } from "./+types/book.$slug.read.$chapter";
 import { AppShell } from "~/components/AppShell";
+import { collectionOf } from "~/lib/collection";
 import { Icon } from "~/components/Icon";
 import { CompanionList } from "~/components/reader/CompanionList";
 import { NotesList } from "~/components/reader/NotesList";
@@ -84,6 +85,10 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 
   return {
     bookTitle: unit.title,
+    // Carried through so the reading page takes the same collection accent as
+    // the book page it was opened from — a chapter that reverted to blue would
+    // read as having left the collection.
+    bucket: unit.bucket,
     slug,
     chapter,
     contents: all,
@@ -109,6 +114,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   const {
     bookTitle,
+    bucket,
     slug,
     chapter,
     contents,
@@ -524,6 +530,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     <AppShell
       here="book"
       isAdmin={isAdmin}
+      collection={collectionOf(bucket)}
       reader
       docked={isCompanion && notesOpen}
       overlays={

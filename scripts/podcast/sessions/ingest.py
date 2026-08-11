@@ -28,11 +28,13 @@ and silently drops two lectures.
 
 from __future__ import annotations
 
+import json
 import os
 import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from _book_edits import apply_composer_edits
 from _paths import content_dir, ensure_book_skeleton
 
 from .convert import convert, localise_images
@@ -65,6 +67,12 @@ class Series:
     # 215, so publishing it verbatim would put a different lecture under its
     # title; the recording is the only witness to what was actually said.
     transcript_from_audio: frozenset[int] = field(default_factory=frozenset)
+    # Chapter titles the database gets wrong, by sequence. Corrected HERE rather
+    # than in book.md, because book.md is regenerated and a fix made downstream
+    # of the generator is a fix that comes back. Every entry is a defect in the
+    # stored name — a dropped letter, a sentence-cased title — never a retitling:
+    # renaming a lecture Asif delivered is his call, not the lane's.
+    title_fixes: dict[int, str] = field(default_factory=dict)
 
 
 SERIES: dict[str, Series] = {
@@ -84,6 +92,11 @@ SERIES: dict[str, Series] = {
             "05 Model For Success.mp3": 6,
         },
         transcript_from_audio=frozenset({2}),
+        title_fixes={
+            3: "Need For Messengers",  # stored as "eed For Messengers"
+            4: "Islam As An Experience",  # stored sentence-cased
+            5: "Character Of The Prophet",  # stored sentence-cased
+        },
     ),
 }
 
@@ -99,6 +112,7 @@ class Report:
     chrome_dropped: int = 0
     images_copied: int = 0
     images_missing: list[str] = field(default_factory=list)
+    from_audio: list[int] = field(default_factory=list)
     awaiting_transcription: list[int] = field(default_factory=list)
     unmapped_audio: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
@@ -113,13 +127,41 @@ class Report:
         ]
         if self.images_missing:
             lines.append(f"    images MISSING ({len(self.images_missing)}): {', '.join(self.images_missing[:4])}")
+        if self.from_audio:
+            seqs = ", ".join(str(n) for n in self.from_audio)
+            lines.append(f"    reading text taken from the recording for session(s): {seqs}")
         if self.awaiting_transcription:
             seqs = ", ".join(str(n) for n in self.awaiting_transcription)
-            lines.append(f"    reading text awaiting transcription for session(s): {seqs}")
+            lines.append(f"    NO reading text at all for session(s): {seqs}")
         if self.unmapped_audio:
             lines.append(f"    audio with no session: {', '.join(self.unmapped_audio)}")
         lines.extend(f"    note: {n}" for n in self.notes)
         return "\n".join(lines)
+
+
+def _title_of(series: Series, session: Session) -> str:
+    return series.title_fixes.get(session.sequence, session.name)
+
+
+def _heard_text(book_dir: Path, episode: int | None) -> str:
+    """What the recording says, as paragraphs, or "" when there is no transcript.
+
+    The cues are grouped into paragraphs rather than emitted one per line: a VTT
+    cue is a breath, not a sentence, and one line per breath reads as a subtitle
+    file rather than as a chapter. Twelve is the smallest grouping that produced
+    paragraphs of ordinary length across all five of these recordings — it is a
+    rhythm, and the articulation pass repunctuates and re-breaks it afterwards.
+    """
+    if episode is None:
+        return ""
+    path = book_dir / "transcripts" / f"ep{episode:02d}.vtt"
+    if not path.exists():
+        return ""
+
+    from _transcript import from_vtt  # local: only this branch needs it
+
+    lines = [cue.text.strip() for cue in from_vtt(path.read_text(encoding="utf-8")) if cue.text.strip()]
+    return "\n\n".join(" ".join(lines[i : i + 12]) for i in range(0, len(lines), 12))
 
 
 def _meta_yml(series: Series, chapters: int) -> str:
@@ -173,7 +215,7 @@ def _contract(series: Series, session: Session, number: int) -> str:
     return (
         f"book_slug: {series.slug}\n"
         f"episode_number: {number}\n"
-        f'title: "{session.name}"\n'
+        f'title: "{_title_of(series, session)}"\n'
         f"source_session_id: {session.session_id}\n"
         f"source_sequence: {session.sequence}\n"
         "episode_format: lecture\n"
@@ -204,6 +246,15 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
         (book_dir / "m4a" / "Episodes").mkdir(parents=True, exist_ok=True)
         (book_dir / "book" / "images").mkdir(parents=True, exist_ok=True)
 
+    # Which recording carries which session. Computed once, before the chapters,
+    # because a chapter with no usable stored transcript has to be able to ask
+    # for its own recording's transcription — the two loops read the same map
+    # rather than each deriving the pairing.
+    episode_of = {
+        sequence: number
+        for number, (_, sequence) in enumerate(sorted(series.audio_map.items(), key=lambda kv: kv[1]), start=1)
+    }
+
     # --- chapters -----------------------------------------------------------
     parts = [f"# {series.title}", ""]
     for session in sessions:
@@ -211,15 +262,24 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
         converted = convert("" if use_audio else session.transcript_html)
         body, wanted = localise_images(converted.markdown, slug)
 
+        # No usable stored text: take what the recording says instead. The VTT
+        # is written by `ensure_transcripts.py` before this runs, and it is read
+        # rather than re-derived — the cues on disk are what the Listen panel
+        # follows, so the Read tab and the transcript panel cannot disagree
+        # about what was said. Absent, the chapter stays empty and is reported.
+        if use_audio or not body.strip():
+            heard = _heard_text(book_dir, episode_of.get(session.sequence))
+            if heard:
+                body = heard
+                report.from_audio.append(session.sequence)
+            else:
+                report.awaiting_transcription.append(session.sequence)
+
         report.chapters += 1
         report.quotes += converted.quotes
         report.badges_dropped += converted.dropped_badges
         report.chrome_dropped += converted.dropped_chrome
         report.words += len(body.split())
-
-        if use_audio or not body.strip():
-            report.awaiting_transcription.append(session.sequence)
-            body = body or ""
 
         for session_id, filename in wanted:
             source = IMAGE_ROOT / session_id / filename
@@ -232,12 +292,51 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
                 shutil.copy2(source, target)
             report.images_copied += 1
 
-        parts.extend([f"## {session.name}", "", body, ""])
+        parts.extend([f"## {_title_of(series, session)}", "", body, ""])
+
+    # The episode-to-chapter bridge, WRITTEN OUT rather than derived at read
+    # time — `read_bridge` refuses to infer, and it is right to for a book.
+    #
+    # A book's episodes are a re-segmentation: NotebookLM was given chapters and
+    # produced episodes along its own lines, so which chapter an episode covers
+    # is a judgement somebody has to make. A lecture has no such gap. The
+    # recording IS the session and the chapter is that same session's transcript
+    # — they are one thing filed twice, so the pairing is an identity, and it is
+    # the SAME `audio_map` the recordings themselves were placed by. This writes
+    # the file `read_bridge` already reads; it does not teach it a new rule.
+    bridge = {
+        str(number): [_title_of(series, by_sequence[sequence])]
+        for sequence, number in sorted(episode_of.items())
+        if sequence in by_sequence
+    }
 
     if not dry_run:
+        (book_dir / "_system" / "listener-episode-chapters.json").write_text(
+            json.dumps(bridge, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
         (book_dir / "book" / "book.md").write_text("\n".join(parts).rstrip() + "\n", encoding="utf-8")
         (book_dir / "meta.yml").write_text(_meta_yml(series, report.chapters), encoding="utf-8")
         (book_dir / "_system" / "series-config.yaml").write_text(_series_config(series), encoding="utf-8")
+
+        # The human's text goes back on top, LAST — the same final step, and the
+        # same function, that `compose_book_v2` ends with.
+        #
+        # Without this, running the ingest a second time would silently discard
+        # every articulated chapter and every Composer save, and the run would
+        # report success while doing it. That is precisely the failure the
+        # singular-edit rule exists to prevent, and a lane that regenerates
+        # book.md is a lane that has to honour it.
+        #
+        # A chapter is re-converted whether it carries an edit or not, unlike the
+        # book route which skips regenerating an edited chapter. It can afford
+        # to: conversion here is a deterministic HTML walk with no model behind
+        # it, so there is no cost to pay and nothing to protect from being
+        # re-derived. Only the OUTCOME has to match, and the replay decides that.
+        replayed = apply_composer_edits(book_dir, log=lambda *_: None)
+        if replayed["applied"]:
+            report.notes.append(f"{replayed['applied']} authored chapter(s) replayed over the fresh text")
+        if replayed["orphaned"]:
+            report.notes.append(f"{replayed['orphaned']} saved edit(s) name a chapter this ingest did not produce")
 
     # --- episodes -----------------------------------------------------------
     # Flat layout: five recordings sit directly in m4a/Episodes/ with no

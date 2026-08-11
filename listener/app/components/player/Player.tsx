@@ -46,6 +46,17 @@ export interface NowPlaying {
   durationS: number | null;
   /** The media URL of this episode's WebVTT, or null when none was made. */
   transcriptSrc: string | null;
+  /**
+   * Which collection the book being played belongs to — see `lib/collection.ts`.
+   *
+   * Carried on the EPISODE rather than read from the page, and that is the whole
+   * point of it being here. The player is mounted in `_authed`, above every book
+   * route, so that sound survives navigation: a listener can start a session and
+   * walk into a book's page while it plays. An attribute taken from the page
+   * would then paint the bar for whatever is on screen instead of for what is
+   * coming out of the speakers.
+   */
+  collection?: "sessions";
 }
 
 /** Which side panel the player is showing, or none. */
@@ -729,7 +740,13 @@ function PlayerBar() {
   const here = notes.filter((n) => n.number === current.number).length;
 
   return (
-    <div ref={bar} role="region" aria-label="Now playing" className="pf-player">
+    <div
+      ref={bar}
+      role="region"
+      aria-label="Now playing"
+      className="pf-player"
+      data-collection={current.collection}
+    >
       <div className="pf-player__inner">
         <div className="pf-player__top">
           <div className="pf-player__what">

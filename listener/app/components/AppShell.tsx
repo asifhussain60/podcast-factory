@@ -32,6 +32,7 @@ export function AppShell({
   flush = false,
   docked = false,
   overlays,
+  collection,
   children,
 }: {
   /** Which page this is, so the masthead never offers a link to where you are. */
@@ -73,6 +74,18 @@ export function AppShell({
    * content, and because the docked rule reaches for the scrim from `.pf-shell`.
    */
   overlays?: React.ReactNode;
+  /**
+   * Which collection this page is showing, or undefined for the library's own
+   * pages — see `lib/collection.ts`.
+   *
+   * On the SHELL rather than on `main`, because a page belongs to a collection
+   * whole: its masthead title, its tabs, its pills and the links in its header
+   * are all part of the one thing being looked at, and colouring the middle
+   * while the edges stayed blue would read as a mistake rather than as a scheme.
+   * The library grid is the one place both collections appear at once, and there
+   * the attribute is per CARD instead.
+   */
+  collection?: "sessions";
   children: React.ReactNode;
 }) {
   // Undefined only where there is no `_authed` match at all, which off the real
@@ -81,7 +94,10 @@ export function AppShell({
   const authed = useRouteLoaderData<typeof authedLoader>("routes/_authed");
 
   return (
-    <div className={`pf-shell${docked ? " pf-shell--docked" : ""}`}>
+    <div
+      className={`pf-shell${docked ? " pf-shell--docked" : ""}`}
+      data-collection={collection}
+    >
       <SiteHeader here={here} isAdmin={isAdmin} />
 
       {overlays}

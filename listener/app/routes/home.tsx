@@ -5,6 +5,7 @@ import { AppShell } from "~/components/AppShell";
 import { BookCard } from "~/components/BookCard";
 import { EmptyState } from "~/components/EmptyState";
 import { SearchBox } from "~/components/SearchBox";
+import { collectionOf } from "~/lib/collection";
 import { count, plural } from "~/lib/plural";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
@@ -71,23 +72,55 @@ function fold(value: string): string {
   return value.normalize("NFKD").replace(/\p{M}/gu, "").toLowerCase().trim();
 }
 
+/**
+ * The two collections, and the control that picks between them.
+ *
+ * "Books" is defined as NOT sessions rather than as a list of buckets, so a
+ * bucket added later lands with the books instead of vanishing from a library
+ * that offers no way to reach it. The failure mode of getting this backwards is
+ * silent — the card simply is not there under any filter.
+ */
+const COLLECTIONS = ["all", "books", "sessions"] as const;
+type Collection = (typeof COLLECTIONS)[number];
+
+const COLLECTION_LABELS: Record<Collection, string> = {
+  all: "Everything",
+  books: "Books",
+  sessions: "Sessions",
+};
+
+const inCollection = (bucket: string, choice: Collection): boolean =>
+  choice === "all" || (collectionOf(bucket) === "sessions") === (choice === "sessions");
+
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { units, viewer } = loaderData;
   const [query, setQuery] = useState("");
+  const [collection, setCollection] = useState<Collection>("all");
+
+  // The control is drawn only when there is something to choose BETWEEN. A
+  // reader with books and no sessions is offered nothing to press, which is
+  // right: a filter whose every option shows the same grid teaches the reader
+  // that the control does not work.
+  const mixed = useMemo(() => {
+    const kinds = new Set(units.map((unit) => collectionOf(unit.bucket) ?? "books"));
+    return kinds.size > 1;
+  }, [units]);
 
   const needle = fold(query);
   const shown = useMemo(
     () =>
-      needle === ""
-        ? units
-        : units.filter((unit) =>
+      units
+        .filter((unit) => inCollection(unit.bucket, collection))
+        .filter(
+          (unit) =>
+            needle === "" ||
             // Title, Arabic title and bucket: the three things actually printed
             // on a card, so nothing matches for a reason the reader cannot see.
             [unit.title, unit.card?.titleArabic ?? "", unit.bucket].some((field) =>
               fold(field).includes(needle),
             ),
-          ),
-    [units, needle],
+        ),
+    [units, needle, collection],
   );
 
   return (
@@ -101,26 +134,62 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         </p>
 
         {units.length === 0 ? null : (
-          <SearchBox
-            id="library-search"
-            label="Search the library"
-            placeholder="Search by title"
-            action={{ kind: "filter", value: query, onChange: setQuery }}
-          />
+          <>
+            <SearchBox
+              id="library-search"
+              label="Search the library"
+              placeholder="Search by title"
+              action={{ kind: "filter", value: query, onChange: setQuery }}
+            />
+
+            {/* The same segmented control the theme picker uses, for the same
+                reason it does: three choices, mutually exclusive, and pressing
+                one is the whole interaction. `aria-pressed` rather than a
+                tablist — nothing here is a tab panel; it is one grid being
+                narrowed. */}
+            {mixed ? (
+              <div
+                className="pf-swatches pf-collections"
+                role="group"
+                aria-label="Show which part of the library"
+              >
+                {COLLECTIONS.map((choice) => (
+                  <button
+                    key={choice}
+                    type="button"
+                    className="pf-swatch"
+                    aria-pressed={collection === choice}
+                    onClick={() => setCollection(choice)}
+                  >
+                    {COLLECTION_LABELS[choice]}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+          </>
         )}
       </section>
 
       {/* Announced rather than only drawn: filtering happens with no page
           change, so a screen reader is otherwise never told the grid moved. */}
       <p aria-live="polite" className="sr-only">
-        {needle === ""
+        {needle === "" && collection === "all"
           ? count(units.length, "book")
           : `${shown.length} of ${count(units.length, "book")} ${plural(shown.length, "matches", "match")}`}
       </p>
 
       {units.length === 0 ? null : shown.length === 0 ? (
         <EmptyState>
-          Nothing matches <strong className="pf-strong">{query.trim()}</strong>.
+          {query.trim() === "" ? (
+            <>
+              Nothing in{" "}
+              <strong className="pf-strong">{COLLECTION_LABELS[collection]}</strong> yet.
+            </>
+          ) : (
+            <>
+              Nothing matches <strong className="pf-strong">{query.trim()}</strong>.
+            </>
+          )}
         </EmptyState>
       ) : (
         <ul className="pf-grid pf-grid--spaced">

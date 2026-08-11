@@ -10,6 +10,7 @@
  *   1. Faces .............. the four self-hosted families
  *   2. System tokens ...... spacing, radius, elevation, type, pills, motion
  *   3. Palettes ........... light / dark / sepia   <-- THE EXTENSION POINT
+ *  3b. Collections ....... accent overlays by content kind, not by theme
  *   4. Tailwind bridge .... @theme inline
  *   5. Base ............... element defaults, Arabic, focus, skip link
  *   6. Components ......... the site's own vocabulary, all .pf-*
@@ -675,6 +676,94 @@
 
   --l-shadow-near: rgb(51 41 28 / 0.09);
   --l-shadow-far: rgb(51 41 28 / 0.12);
+}
+
+/* ==========================================================================
+ * 3b. COLLECTIONS
+ *
+ * A collection is NOT a theme, and the difference is the whole reason this is
+ * its own section rather than a fourth block in §3.
+ *
+ * A theme answers "how does this reader want the site to look" — one answer at
+ * a time, for the whole document, chosen in the picker. A collection answers
+ * "what KIND of thing is this" — many at once, on the same page, decided by the
+ * content. The library grid shows blue books and violet sessions side by side;
+ * no value of `data-theme` can express that.
+ *
+ * So violet is deliberately NOT added to THEMES in app/lib/theme.ts. That array
+ * says of itself that it is the only list, and it is — of themes. Adding violet
+ * there would have offered "Violet" in the Light/Sepia/Dark picker as a fourth
+ * way to paint the whole site, which is not what a session is.
+ *
+ * WHAT AN OVERLAY MAY CONTAIN. Only the accent and band tokens — the colours
+ * that say whose collection this is. Never a surface, an ink or a rule: those
+ * belong to the reader's theme, and a collection that repainted the page would
+ * be a theme wearing a different attribute. Sessions and books are the same
+ * site in the same mode; one is violet.
+ *
+ * DECLARED ONCE PER PALETTE, because a single violet cannot serve all three —
+ * an accent that clears AA on warm paper is invisible on near-black. Same
+ * discipline as §3, same measured ratios in the comments, and test/theme.test.ts
+ * re-derives them: it merges each overlay over its base palette and runs the
+ * SAME pair list, so a violet that fails contrast fails the build exactly as a
+ * new theme would. (The overlays declare no `color-scheme` — they are not
+ * schemes — so they would otherwise have escaped that gate entirely.)
+ * ========================================================================== */
+
+/* Sessions — lectures Asif delivered himself, as opposed to the books the
+   pipeline produced. Violet by his choice, and the choice is load-bearing: the
+   two collections are read the same way and differ only in where the audio came
+   from, so the accent is the only thing telling them apart at a glance. */
+[data-theme="light"] [data-collection="sessions"],
+[data-theme="light"][data-collection="sessions"] {
+  --l-accent: #6a26c2; /* 7.16:1 on bg */
+  --l-accent-hover: #521a99;
+  --l-accent-soft: #e7ddfa; /* accent reads 6.04:1 on this */
+  --l-on-accent: #ffffff; /* 7.87:1 on accent */
+
+  --l-display: #4a2d70; /* 10.05:1 on bg */
+
+  --l-band: #4a2d70;
+  --l-on-band: #f6f4ef; /* 10.05:1 */
+  --l-band-muted: #c3b0dd; /* 5.56:1 */
+  --l-band-ornament: #ab8bec; /* 4.02:1 */
+}
+
+[data-theme="dark"] [data-collection="sessions"],
+[data-theme="dark"][data-collection="sessions"] {
+  --l-accent: #c2a0fa; /* 8.44:1 on bg */
+  --l-accent-hover: #d6c0ff;
+  --l-accent-soft: #2b2044; /* accent reads 6.97:1 on this */
+  --l-on-accent: #1a0a36; /* 8.51:1 on accent */
+
+  --l-display: #cbb6f2; /* 10.01:1 on bg */
+
+  /* Lighter than the page, like the blue band here and for the same reason: on
+     a dark sheet a band darker than the card reads as a hole in it. */
+  --l-band: #3a2c58;
+  --l-on-band: #eceef3; /* 10.76:1 */
+  --l-band-muted: #b8a9d4; /* 5.75:1 */
+  --l-band-ornament: #c2a0fa; /* 5.77:1 */
+}
+
+[data-theme="sepia"] [data-collection="sessions"],
+[data-theme="sepia"][data-collection="sessions"] {
+  /* The same violet the About page already uses on this sheet: sepia had a
+     measured warm violet before this collection existed, and a second one
+     three points away would only be a near-miss of it. */
+  --l-accent: #5f3199; /* 7.23:1 on bg */
+  --l-accent-hover: #48227a;
+  --l-accent-soft: #ded0ee; /* accent reads 6.02:1 on this */
+  --l-on-accent: #f8f2e6; /* 7.89:1 on accent */
+
+  --l-display: #4b3a63; /* 8.27:1 on bg */
+
+  /* Greyed towards the paper, exactly as the sepia navy is. A saturated violet
+     band on parchment reads as a sticker laid on the page. */
+  --l-band: #4b3a63;
+  --l-on-band: #f3ede1; /* 8.64:1 */
+  --l-band-muted: #c0b4cf; /* 5.12:1 */
+  --l-band-ornament: #a992d0; /* 3.70:1 */
 }
 
 /* ==========================================================================
@@ -5976,6 +6065,14 @@
     color: var(--l-on-accent);
   }
 
+  /* The library's collection filter — the swatch control with somewhere to
+     stand. It sits under the search box in the masthead, which is centred, so
+     the only thing it needs of its own is the gap and its own line. */
+  .pf-collections {
+    display: inline-flex;
+    margin-top: var(--pf-space-4);
+  }
+
   /* The reader toolbar's version: a DOT per theme, painted in that theme's own
      paper colour, because "Light Sepia Dark" written out is a third of a phone's
      width for a setting most readers touch once.
@@ -6409,6 +6506,7 @@
  *   p.ar.is-quranic     an Arabic line the mushaf resolved
  *   span.quran-cite     a verse reference chip
  *   div.md-comment      a pipeline comment; never shown
+ *   figure.md-figure    a plate the prose points at, with an optional caption
  *
  * Renaming any of them is a change to the renderer, not to this file.
  * Everything sizes from the four `--l-reading-*` properties, which the reader
@@ -6916,6 +7014,46 @@
   /* A comment the pipeline left in the prose. Never shown to a reader. */
   .reader .md-comment {
     display: none;
+  }
+
+  /* ---- Plates ---------------------------------------------------------
+     A figure the prose points at — for the Sessions collection, the diagram or
+     scan the lecturer had on screen at that moment in the talk.
+
+     Sized to the MEASURE, not to the image. These arrive at whatever pixel
+     dimensions a screenshot happened to have — one is 1600px wide and one is
+     420 — and letting them keep it would put a plate wider than the column
+     beside one the size of a stamp. `width: 100%` up to the image's own size is
+     the compromise the print edition already makes: fill the column, never
+     upscale past what the file actually contains.
+
+     Centred with a rule under it rather than framed. A frame would compete with
+     the quotation cards, which are the only bordered thing in the reading
+     column and are bordered because the border MEANS something there. */
+  .reader .md-figure {
+    margin: var(--pf-space-6) auto;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .reader .md-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-inline: auto;
+    border-radius: var(--pf-radius-sm);
+    /* A hairline, so a scan on a white ground does not bleed into the page. */
+    border: 1px solid var(--l-rule-soft);
+    background: var(--l-surface);
+  }
+
+  .reader .md-figure figcaption {
+    margin-top: var(--pf-space-2);
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: 0.8em;
+    line-height: 1.5;
+    text-align: center;
   }
 
   /* ---- Chapter progress ---------------------------------------------- */
