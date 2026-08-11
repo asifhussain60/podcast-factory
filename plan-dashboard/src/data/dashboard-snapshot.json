@@ -1938,6 +1938,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "3ed7f2fe",
+      "subject": "chore(dashboard): refresh the recent-commits snapshot",
+      "date": "2026-08-11"
+    },
+    {
       "sha": "c4b41bf8",
       "subject": "fix(ci): the three gates that made develop permanently red, and the two bugs one of them hid",
       "date": "2026-08-11"
@@ -1980,11 +1985,6 @@
     {
       "sha": "35d3c159",
       "subject": "fix(infra): the Astro Site reads the keychain, and pull-secrets wrote the wrong name",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "c971dd57",
-      "subject": "docs(infra): the ElevenLabs key is gone, and the deletion proved the rest",
       "date": "2026-08-10"
     }
   ],

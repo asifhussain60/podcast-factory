@@ -110,6 +110,41 @@ _RECONCILED_REPORTS = (
 )
 
 
+def restamp_counts(data: dict, records: list, *, schema: str, count_key: str) -> None:
+    """Recompute EVERY status-derived top-level count from ``records``.
+
+    ONE function because there were three copies, and all three were wrong in the
+    same way: each re-derived ``adapted``/``revoiced`` and ``overwritten_by_replay``
+    and none of them touched ``reverted``. A re-stamp that moved a chapter OFF
+    ``reverted`` therefore left the summary frozen at the old number while the
+    per-chapter record beside it told the truth — the report contradicting itself
+    inside one file.
+
+    That is not hypothetical. On kitab-al-riyad three chapters were reverted by the
+    fidelity gates on 2026-08-08, then rearticulated one at a time over the next two
+    days; each rearticulation correctly restamped its record to ``composer-edit`` and
+    correctly recomputed ``adapted``, and ``reverted`` stayed at 3 through all of it.
+    The book was never damaged — ``output_words == base_words`` on all three, so the
+    faithful base was what stood — but `test_articulation_state_is_intact` reads the
+    summary and had been red for a day, reporting a regression that had already been
+    repaired. A gate that cries wolf about work already done is one people learn to
+    silence.
+
+    Writing every count from one place is what stops the next counter being added to
+    two of three call sites. The tally is over the records the caller is about to
+    persist, so the drop-a-section path passes its filtered list rather than the
+    original.
+    """
+
+    def tally(predicate) -> int:
+        return sum(1 for r in records if isinstance(r, dict) and predicate(r))
+
+    data["schema"] = schema
+    data[count_key] = tally(lambda r: r.get("status") in KEPT_STATUSES)
+    data["reverted"] = tally(lambda r: r.get("status") == "reverted")
+    data["overwritten_by_replay"] = tally(lambda r: r.get("status") == STATUS_OVERWRITTEN)
+
+
 def reconcile_reports_after_replay(book_dir: Path, replay_report: dict | None, *, log=print) -> int:
     """Re-stamp the pass reports after the Composer-edit replay. Returns how many
     adapted chapters the replay discarded.
@@ -157,11 +192,7 @@ def reconcile_reports_after_replay(book_dir: Path, replay_report: dict | None, *
                 changed += 1
         if not changed:
             continue
-        data["schema"] = schema
-        data[count_key] = sum(1 for r in records if isinstance(r, dict) and r.get("status") in KEPT_STATUSES)
-        data["overwritten_by_replay"] = sum(
-            1 for r in records if isinstance(r, dict) and r.get("status") == STATUS_OVERWRITTEN
-        )
+        restamp_counts(data, records, schema=schema, count_key=count_key)
         path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
         log(f"    {name[: -len('.json')]}: {changed} chapter(s) re-stamped '{STATUS_OVERWRITTEN}'")
         total += changed
@@ -222,11 +253,7 @@ def record_rearticulation(book_dir: Path, title: str, status: str, *, log=print)
             changed = True
         if not changed:
             continue
-        data["schema"] = schema
-        data[count_key] = sum(1 for r in records if isinstance(r, dict) and r.get("status") in KEPT_STATUSES)
-        data["overwritten_by_replay"] = sum(
-            1 for r in records if isinstance(r, dict) and r.get("status") == STATUS_OVERWRITTEN
-        )
+        restamp_counts(data, records, schema=schema, count_key=count_key)
         path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
         log(f"    {name[: -len('.json')]}: {title!r} re-stamped 'composer-edit' (superseded '{status}')")
         total += 1
@@ -270,12 +297,8 @@ def drop_section_from_reports(book_dir: Path, title: str, *, log=print) -> int:
         kept = [r for r in records if not (isinstance(r, dict) and anchor_key(str(r.get("title") or "")) == key)]
         if len(kept) == len(records):
             continue
-        data["schema"] = schema
         data["chapters"] = kept
-        data[count_key] = sum(1 for r in kept if isinstance(r, dict) and r.get("status") in KEPT_STATUSES)
-        data["overwritten_by_replay"] = sum(
-            1 for r in kept if isinstance(r, dict) and r.get("status") == STATUS_OVERWRITTEN
-        )
+        restamp_counts(data, kept, schema=schema, count_key=count_key)
         path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
         log(f"    {name[: -len('.json')]}: dropped {title!r} — it is no longer a section of the edition")
         total += len(records) - len(kept)
