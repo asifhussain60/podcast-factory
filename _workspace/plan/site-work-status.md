@@ -33,9 +33,23 @@ Factory Library. Five commits on `develop`, pushed. Nothing deployed to producti
   forcing a follow-up "refresh the snapshot" commit that dirtied it again.
   Removed from both generators and the artifact; the tree now stays clean.
 
-**Open for Asif:** confirm or change the proposed 800-line ceiling (one flag in
-`plan-dashboard/frontend-ratchets.json` turns it on), and decide whether to
-consolidate the five diverging `escapeHtml` copies on the Astro site.
+- **Both open decisions are now closed.** The size ceiling is **1000** and
+  enforced (Asif's call over the proposed 800) — 8 files grandfathered, and a
+  staged file over the limit was confirmed to fail it. And the escaper was
+  consolidated: there were SIX copies in two behaviours, not the five first
+  reported; the three identical ones behind the chapter renderer, the Companion
+  cards and the plan viewer are now one module, and the three that differ are
+  deliberately left where they are (a `.mjs` behind the print renderer, one
+  inside a browser bundle, one in a React island — absorbing them would change
+  emitted output to fix a harmless duplication).
+- **The renderer change was verified by rendering, not by reasoning**, because
+  it feeds both the printed PDF and the audience site: all 30 outputs across a
+  whole book, its chapters, its Companion cards and seven escaping probes hash
+  identically before and after — and the comparison was proved able to detect a
+  change before that result was trusted.
+
+**Open for Asif:** nothing from this audit. The larger decomposition and
+packaging phases remain where the refactor plan has them.
 
 ---
 
