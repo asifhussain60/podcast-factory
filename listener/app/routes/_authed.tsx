@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 
 import type { Route } from "./+types/_authed";
+import { OfflineAgent } from "~/components/offline/OfflineAgent";
 import { PlayerProvider } from "~/components/player/Player";
 import { SimulationBanner } from "~/components/SimulationBanner";
 import { cloudflare } from "~/context";
@@ -50,6 +51,12 @@ export function loader({ context }: Route.LoaderArgs) {
 export default function AuthedLayout({ loaderData }: Route.ComponentProps) {
   return (
     <PlayerProvider>
+      {/* Beside the player and for the same reason: it has to outlive every
+          navigation, and it must not run for somebody who is not signed in.
+          It is told whether a simulation is running because the lease it
+          enforces would otherwise delete the administrator's own downloads
+          while he is looking at the site as somebody else. */}
+      <OfflineAgent simulating={loaderData.simulating !== null} />
       {loaderData.simulating ? <SimulationBanner as={loaderData.simulating.as} /> : null}
       <Outlet />
     </PlayerProvider>

@@ -56,6 +56,15 @@ export default [
     // returns for the person asking, never the catalogue.
     route("search", "routes/search.tsx"),
 
+    // What is kept on this device, and the check that keeps it honest.
+    //
+    // `/downloads` is the ONE page the service worker keeps a copy of, so it is
+    // what a listener with no signal reaches. It renders its list on the client
+    // from IndexedDB rather than from its loader, which is what lets the stale
+    // cached copy still be correct.
+    route("downloads", "routes/downloads.tsx"),
+    route("offline/allowed", "routes/offline.allowed.ts"),
+
     route("book/:slug", "routes/book.$slug.tsx"),
     route("book/:slug/read/:chapter", "routes/book.$slug.read.$chapter.tsx"),
     route("book/:slug/slides", "routes/book.$slug.slides.tsx"),

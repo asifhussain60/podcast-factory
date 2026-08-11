@@ -33,6 +33,11 @@ export const links: Route.LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "icon", href: "/brand/icon-32.png", type: "image/png", sizes: "32x32" },
   { rel: "apple-touch-icon", href: "/brand/icon-180.png" },
+  // Installable, which on iOS is not a nicety: a site added to the home screen
+  // is treated as an app and its storage is durable, while an ordinary site's is
+  // evicted after a stretch of not being visited. Downloaded episodes that
+  // quietly disappear before the flight are worse than no downloads at all.
+  { rel: "manifest", href: "/manifest.webmanifest" },
   // The two faces above the fold. Arabic and OpenDyslexic load on demand.
   {
     rel: "preload",

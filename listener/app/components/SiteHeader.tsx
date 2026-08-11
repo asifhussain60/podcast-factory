@@ -1,4 +1,9 @@
-import { faCircleQuestion, faRightFromBracket, faUserShield } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleDown,
+  faCircleQuestion,
+  faRightFromBracket,
+  faUserShield,
+} from "@fortawesome/free-solid-svg-icons";
 import { Form, Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
@@ -20,7 +25,7 @@ export function SiteHeader({
   here,
   isAdmin = false,
 }: {
-  here: "library" | "admin" | "book" | "about" | "search";
+  here: "library" | "admin" | "book" | "about" | "search" | "downloads";
   isAdmin?: boolean;
 }) {
   return (
@@ -46,6 +51,22 @@ export function SiteHeader({
           </Link>
         ) : null}
 
+        {/* Offered on every page, because the moment somebody wants it is the
+            moment they have no signal — and a link they have to remember the
+            address of is not reachable then. The service worker redirects any
+            failed navigation here, so this is also where the app lands when it
+            opens on a plane. */}
+        {here !== "downloads" ? (
+          <Link
+            to="/downloads"
+            className="pf-navlink"
+            aria-label="Downloads"
+            title="Downloads"
+          >
+            <Icon icon={faCircleDown} />
+          </Link>
+        ) : null}
+
         <ThemePicker />
 
         {/* Right before Sign out, and offered to everyone. It answers the
@@ -67,7 +88,16 @@ export function SiteHeader({
             A POST, not a link — see routes/sign-out.tsx. Styled as a nav item so
             the header does not grow a second visual weight for what is just
             another way out. */}
-        <Form method="post" action="/sign-out">
+        {/* Signing out drops the cached Downloads document. The page tells the
+            worker rather than the worker watching for the POST: what a worker
+            would see is the redirect, not whether the session actually ended.
+            The episodes themselves are NOT dropped — they are this device's, and
+            the lease is what withdraws them. */}
+        <Form
+          method="post"
+          action="/sign-out"
+          onSubmit={() => navigator.serviceWorker?.controller?.postMessage("pf-signed-out")}
+        >
           <button
             type="submit"
             className="pf-navlink pf-navlink--button"

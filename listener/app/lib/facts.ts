@@ -10,6 +10,23 @@ import {
 import { count } from "~/lib/plural";
 import { readingMinutes } from "~/lib/reading";
 
+/**
+ * A file size, in the unit a person judges a download by.
+ *
+ * Decimal megabytes, not binary: it is the number the operating system's own
+ * storage screen shows, and a listener deciding whether to pull 97 MB over
+ * cellular is comparing against that, not against a definition.
+ *
+ * Lives here rather than beside the print-edition button it was written for,
+ * because the download controls ask the same question of an episode and a second
+ * copy would be a second answer to how big something is.
+ */
+export function megabytes(bytes: number | null | undefined): string {
+  if (!bytes) return "";
+  if (bytes >= 1_000_000_000) return `${(bytes / 1_000_000_000).toFixed(1)} GB`;
+  return `${(bytes / 1_000_000).toFixed(1)} MB`;
+}
+
 /** One fact about a book: an icon that speeds recognition, and the word that carries it. */
 export interface Fact {
   icon: IconDefinition;
