@@ -181,11 +181,42 @@ def test_injection_is_idempotent_and_the_strip_leaves_no_orphan() -> None:
     assert strip_introduction(once) == book
 
 
-def test_no_numbered_chapter_means_no_introduction(tmp_path: Path) -> None:
-    """Refusing beats guessing a position in a book whose shape we do not know."""
+def test_the_introduction_goes_above_the_first_section_numbered_or_not() -> None:
+    """REPLACES "no numbered chapter means no introduction" (2026-08-11).
+
+    That rule read "unnumbered" as "a book whose shape we do not know", and on
+    the translated routes the two coincide: the introduction is the only
+    unnumbered section, so looking for the first NUMBERED heading finds the top
+    of the book proper. Numbering is a convention of those routes, though, not a
+    property of being a chapter — the Sessions lane numbers nothing.
+
+    There the old rule matched no heading at all and took the refusal branch, so
+    `inject_introduction` handed back a book with no introduction in it while
+    `apply_introduction` reported a word count and cached the text a model had
+    just been paid to write. A silent no-op that read as success everywhere it
+    was logged. The position is now "above the first section that is not the
+    introduction", which finds the same place on a numbered book.
+    """
     from _book_frontmatter import INTRO_HEADING, inject_introduction
 
-    assert INTRO_HEADING not in inject_introduction("# T\n\n## Appendix\n\nText.\n", _SHORT)
+    for book in (
+        "# T\n\n## Appendix\n\nText.\n",
+        "# T\n\n## Love Based Religion\n\nText.\n",
+        "# T\n\n## 1. On Knowledge\n\nText.\n",
+    ):
+        out = inject_introduction(book, _SHORT)
+        headings = [line for line in out.splitlines() if line.startswith("## ")]
+        assert headings[0] == INTRO_HEADING, f"not placed first in: {book!r}"
+        assert len(headings) == 2
+
+
+def test_a_book_with_no_sections_at_all_still_refuses() -> None:
+    """The one case the refusal branch is genuinely for. There is no position to
+    place an introduction ABOVE, and inventing the book's first heading is not
+    this function's job."""
+    from _book_frontmatter import INTRO_HEADING, inject_introduction
+
+    assert INTRO_HEADING not in inject_introduction("# T\n\nLoose prose, no sections.\n", _SHORT)
 
 
 def test_the_register_comes_from_the_articulation_standard_not_a_second_copy() -> None:

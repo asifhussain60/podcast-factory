@@ -200,6 +200,66 @@ def _heard_text(book_dir: Path, episode: int | None) -> str:
     return "\n\n".join(" ".join(lines[i : i + 12]) for i in range(0, len(lines), 12))
 
 
+# The lane's own steps, in the order it runs them. Written into the state file so
+# every tool that asks "how far along is this book" — the status card, the
+# cross-book dashboard, `_paths.status_for` — gets an answer, instead of reading
+# a book with no state file as a fresh orchestrator run stalled at 0% of a
+# twenty-nine-step sequence it does not run.
+#
+# Deliberately the SAME file the orchestrator writes, under the same key. A
+# second progress file for a second lane would be a second answer to one
+# question, and the first tool to read the wrong one would be silently wrong.
+LANE_STEPS: tuple[str, ...] = (
+    "sessions-ingest",
+    "sessions-transcribe",
+    "sessions-articulate",
+    "sessions-preface",
+    "sessions-apparatus",
+)
+
+
+def _write_state(book_dir: Path, series: Series, *, done_through: str) -> None:
+    """Record what this lane has actually finished, and claim nothing else.
+
+    `status` is `draft` and stays `draft`: publishing is a decision a person
+    makes, and nothing here may make a book audience-facing by running.
+    """
+    path = book_dir / "_system" / "orchestrator-state.json"
+    prior = {}
+    if path.exists():
+        try:
+            prior = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            prior = {}
+
+    cut = LANE_STEPS.index(done_through)
+    phases = {step: {"status": "completed" if i <= cut else "pending"} for i, step in enumerate(LANE_STEPS)}
+
+    path.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "book_slug": series.slug,
+                "category": "lectures",
+                "branch": f"Sessions/{series.slug}",
+                "pipeline_mode": "sessions_lane",
+                "phase": done_through,
+                "phase_status": "completed",
+                "last_completed_phase": done_through,
+                "next_phase": LANE_STEPS[cut + 1] if cut + 1 < len(LANE_STEPS) else None,
+                "last_error": None,
+                "phases": phases,
+                # Never promoted here. `publish_to_library.py` is what flips it,
+                # and only after a person has looked at the book.
+                "status": prior.get("status", "draft"),
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
 def _meta_yml(series: Series, chapters: int) -> str:
     return (
         f"slug: {series.slug}\n"
@@ -393,6 +453,12 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
             report.notes.append(f"edition introduction NOT written: {intro['reason']}")
 
         replayed = apply_composer_edits(book_dir, log=lambda *_: None)
+
+        # LAST, so it describes the run that just happened rather than the one
+        # that was about to. `sessions-preface` is the furthest step this
+        # function performs; transcription runs before it and the apparatus
+        # after, each stamping its own.
+        _write_state(book_dir, series, done_through="sessions-preface")
         if replayed["applied"]:
             report.notes.append(f"{replayed['applied']} authored chapter(s) replayed over the fresh text")
         if replayed["orphaned"]:

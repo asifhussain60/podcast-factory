@@ -297,15 +297,28 @@ def style_exemplar(book_dir: Path, *, words: int = 220) -> str:
     The register clause says what the voice is; this shows it. Asif's rule is that
     the introduction must not stand out as different prose, and a rule stated in
     the abstract is weaker evidence of a house voice than a page of the house
-    voice. Taken from the first numbered chapter, whose text has been through the
-    same articulation pass every other chapter has.
+    voice. Taken from the first chapter of the book proper, whose text has been
+    through the same articulation pass every other chapter has.
+
+    "The book proper" used to be spelled "the first NUMBERED heading", and on the
+    translated routes those are the same thing — the introduction is the one
+    unnumbered section, so skipping unnumbered headings skipped exactly it. They
+    are not the same thing everywhere. Numbering is a convention of those routes,
+    not a property of being a chapter, and the Sessions lane numbers nothing:
+    there the old test matched no heading at all and returned "", so the
+    introduction was written with no sample of this book's voice to match —
+    silently, and against the one rule this exemplar exists to enforce.
+
+    So the test is now what it always meant: skip the introduction, take the next
+    section. A numbered heading still qualifies, because it is not that.
     """
     book_md = Path(book_dir) / "book" / "book.md"
     if not book_md.exists():
         return ""
+    skip = INTRO_HEADING[3:].strip().lower()
     parts = _HEADING_RE.split(book_md.read_text(encoding="utf-8"))
     for i in range(1, len(parts), 2):
-        if not _NUMBERED_HEADING_RE.match(parts[i].strip()):
+        if parts[i].strip()[3:].strip().lower() == skip:
             continue
         prose = [
             p.strip()
@@ -506,8 +519,19 @@ def inject_introduction(book_md: str, text: str, *, gated: bool = True) -> str:
         return stripped
     if not (text or "").strip():
         return stripped
+    # Above the first section of the book proper — which is every section except
+    # the one this function is about to write. It used to look for the first
+    # NUMBERED heading, and on the translated routes that finds the same place,
+    # because there the introduction is the only unnumbered section.
+    #
+    # Off those routes it finds NOTHING. The Sessions lane numbers no heading, so
+    # this returned `None`, took the early exit below, and handed back a book with
+    # no introduction in it — while `apply_introduction` reported a word count and
+    # cached the text it had just paid a model to write. A silent no-op that read
+    # as a success everywhere it was logged.
+    skip = INTRO_HEADING[3:].strip().lower()
     match = next(
-        (m for m in _HEADING_RE.finditer(stripped) if _NUMBERED_HEADING_RE.match(m.group(1).strip())),
+        (m for m in _HEADING_RE.finditer(stripped) if m.group(1).strip()[3:].strip().lower() != skip),
         None,
     )
     if match is None:
