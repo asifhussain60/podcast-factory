@@ -131,8 +131,8 @@ waves:
               - "plan.yaml (this file)"
               - "progress.json (Wave D dashboard reads)"
             "_workspace/plan/conventions/":
-              - "response-template.md (moved from root)"
-              - "response-conventions.md (moved from root)"
+              - "response-template.md (DELETED 2026-08-11 — stale copy of a template retired 2026-05-26; ~/.claude is the one home)"
+              - "response-conventions.md (DELETED 2026-08-11 — same reason)"
               - "general.md (renamed from conventions.md)"
               - "authoring.md (NEW — extracted items 3-6 of podcast-intelligence-enhancements.md)"
             "_workspace/plan/debt/":
