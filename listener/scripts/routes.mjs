@@ -46,6 +46,20 @@ export const STATIC_ROUTES = [
   { path: "/search", who: "reader", expect: 200, label: "search-reader" },
   { path: "/search", who: "anon", expect: 302, label: "search-signed-out" },
 
+  // What is kept on this device. Visited as somebody holding nothing too — the
+  // page has to be reachable and empty rather than absent, or a listener whose
+  // last book was withdrawn meets a 404 where their downloads used to be.
+  { path: "/downloads", who: "admin", expect: 200, label: "downloads" },
+  { path: "/downloads", who: "reader", expect: 200, label: "downloads-reader" },
+  { path: "/downloads", who: "nobody", expect: 200, label: "downloads-empty" },
+  { path: "/downloads", who: "anon", expect: 302, label: "downloads-signed-out" },
+
+  // The lease. Signed out it must REDIRECT rather than answer: the client reads
+  // a redirect as "could not find out" and deletes nothing, which is what stops
+  // a signed-out moment from wiping a library.
+  { path: "/offline/allowed", who: "reader", expect: 200, label: "offline-allowed" },
+  { path: "/offline/allowed", who: "anon", expect: 302, label: "offline-allowed-signed-out" },
+
   // `/admin` IS the people screen — the Overview tab it used to open on was
   // retired, and its numbers now sit above both tabs.
   { path: "/admin", who: "admin", expect: 200, label: "admin-people" },

@@ -22,6 +22,7 @@ import { NotesList } from "~/components/reader/NotesList";
 import { RichNoteEditor } from "~/components/notes/RichNoteEditor";
 import { Transcript, parseVtt, type Cue } from "~/components/player/Transcript";
 import { newId, refresh, type EpisodeNote } from "~/lib/marks";
+import { localTranscript, localUrl } from "~/lib/offline";
 
 /**
  * One <audio> element for the whole site.
@@ -382,7 +383,16 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       }
 
       setCurrent(episode);
-      element.src = episode.src;
+      /* The copy on this device if there is one, otherwise the network.
+         A SYNCHRONOUS lookup, and that is the constraint that shaped
+         lib/offline.ts: `element.play()` below has to run inside the gesture
+         that asked for it, so resolving a source cannot await a database read.
+         The blob URLs are minted once at startup for exactly this.
+
+         `current.src` stays the MEDIA KEY throughout — every "is this the one
+         playing" comparison on the site is against `/media/…`, and swapping in
+         the blob URL here would break all of them. */
+      element.src = localUrl(episode.src) ?? episode.src;
       // Setting a new source resets `playbackRate` to 1. Without this, choosing
       // 1.5x and then playing the next episode silently dropped back to normal
       // speed while the control still showed 1.5x.
@@ -393,7 +403,14 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       // while this one arrives.
       setCues(null);
       cuesFor.current = episode.src;
-      if (episode.transcriptSrc !== null) {
+      // Kept beside the audio when the episode was downloaded, so the panel
+      // works on a plane. Checked FIRST rather than as a fallback: with no
+      // network the fetch below does not fail fast, it hangs until it gives up,
+      // and the words are already here.
+      const offline = localTranscript(episode.src);
+      if (offline !== null) {
+        setCues(parseVtt(offline));
+      } else if (episode.transcriptSrc !== null) {
         const wanted = episode.src;
         void fetch(episode.transcriptSrc)
           .then((response) =>

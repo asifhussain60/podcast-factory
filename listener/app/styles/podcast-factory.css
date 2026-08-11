@@ -2555,6 +2555,149 @@
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--l-accent) 18%, transparent);
   }
 
+  /* ---- Keeping an episode on the device ---------------------------------
+     The counterpart of `.pf-track__play` at the other end of the row, and
+     deliberately QUIETER than it: playing is what this row is for, keeping is a
+     thing you do occasionally. So the transport is a ringed circle in the accent
+     and this is a soft pill that only takes the accent once it has something to
+     say.
+
+     One control with three states rather than two controls — see
+     components/offline/DownloadButton.tsx. The states are: offer, in progress,
+     held. */
+
+  .pf-download {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pf-space-2);
+    /* 44px BOTH ways. Height alone left the compact form — an icon and no label,
+       which is what the book page's rows use — 37px wide: the AAA target size
+       met on one axis is not met. With a label the padding carries it past this
+       anyway, so the rule costs the labelled form nothing. */
+    min-block-size: 2.75rem;
+    min-inline-size: 2.75rem;
+    padding-inline: var(--pf-space-3);
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    background: transparent;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    line-height: 1.6;
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  .pf-download:hover {
+    background: var(--l-sunken);
+    color: var(--l-ink);
+  }
+
+  /* Held: it is ON the device, so it takes the accent — this is a fact about
+     the row now, not an offer. */
+  .pf-download--held {
+    color: var(--l-accent);
+  }
+
+  .pf-download--held:hover {
+    background: var(--l-accent-soft);
+  }
+
+  /* The check says what is true; the bin says what pressing does. Swapped on
+     hover and on focus rather than shown together, because two glyphs in a
+     44px control is a smudge — and swapped only where a pointer can hover, so
+     a touch device (which cannot) keeps the truthful one.
+
+     THE PARENT IS IN THE SELECTOR ON PURPOSE. `.pf-icon` sets `display:
+     inline-flex` on every icon and is declared further down this file, so a
+     bare `.pf-download__drop { display: none }` is the same specificity and
+     loses on order — both glyphs then show at once, which is exactly how this
+     shipped for one iteration. */
+  .pf-download .pf-download__drop {
+    display: none;
+  }
+
+  @media (hover: hover) {
+    .pf-download--held:hover .pf-download__held,
+    .pf-download--held:focus-visible .pf-download__held {
+      display: none;
+    }
+
+    .pf-download--held:hover .pf-download__drop,
+    .pf-download--held:focus-visible .pf-download__drop {
+      display: inline-flex;
+    }
+  }
+
+  /* In progress. Not a button — there is nothing to press while it runs — so it
+     carries no hover and no pointer. */
+  .pf-download--busy {
+    cursor: default;
+    color: var(--l-muted);
+  }
+
+  .pf-download__label {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* A native <progress>, reset to this site's shapes. Both vendor pseudo
+     elements are needed and cannot be combined into one rule: a selector list
+     containing an unknown pseudo-element is dropped WHOLE by every engine, so
+     `::-webkit-progress-value, ::-moz-progress-bar` would style neither. */
+  .pf-download__bar {
+    inline-size: 4rem;
+    block-size: 0.375rem;
+    appearance: none;
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-sunken);
+    overflow: hidden;
+  }
+
+  .pf-download__bar::-webkit-progress-bar {
+    background: var(--l-sunken);
+    border-radius: var(--pf-radius-pill);
+  }
+
+  .pf-download__bar::-webkit-progress-value {
+    background: var(--l-accent);
+    border-radius: var(--pf-radius-pill);
+  }
+
+  .pf-download__bar::-moz-progress-bar {
+    background: var(--l-accent);
+    border-radius: var(--pf-radius-pill);
+  }
+
+  /* ---- The Downloads page ------------------------------------------------
+     One block per book. The heading, the size and the way to clear the whole
+     book sit on one line, wrapping together on a phone — the same argument as
+     the library's find row. */
+
+  .pf-downloads__book + .pf-downloads__book {
+    margin-top: var(--pf-space-7);
+  }
+
+  .pf-downloads__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--pf-space-2) var(--pf-space-4);
+    margin-bottom: var(--pf-space-4);
+  }
+
+  /* The size pushes the Remove control to the far end, so every book's control
+     lands in the same place down the page rather than trailing its own title. */
+  .pf-downloads__head .pf-section__count {
+    flex: 1;
+    margin: 0;
+  }
+
   /* The row that is PLAYING is marked on the row, not only on its button: the
      button is 44px at the end of a wide row and the eye looking for "where am
      I" scans the left edge. A rule down that edge answers it at a glance. */
