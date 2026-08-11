@@ -73,6 +73,7 @@ verify:
   - bash scripts/podcast/sync-agent-wrappers.sh --check # agent mirrors, both directions
   - cd plan-dashboard && npm run lint && npm run format:check
   - cd plan-dashboard && npm run check && npm test && npm run lint:views
+  - cd plan-dashboard && npm run ratchets # shrink-only lint-warning + file-size ratchets
   - cd plan-dashboard && npm run smoke # boots a dev server + headless chromium
   #
   # On the probe (added to this list 2026-07-27, catalog:
@@ -94,9 +95,21 @@ size_gates:
       Verified 2026-07-26: the gate is CORRECT and has no hole. Four files that look
       over-limit are grandfathered and two have already shrunk against their ceiling,
       which is the ratchet working. Do not "fix" this and do not add entries.
-  # The TS/Astro side has NO size gate. Six files exceed the Python limit, the largest
-  # at 3,228 lines. Deliberately not added yet: the right ceiling for JSX is not 600,
-  # and the number is the owner's call, not the audit's.
+  - glob: "plan-dashboard/{src,scripts,packages}/**/*.{ts,tsx,astro,mjs}"
+    limit: 800 # PROPOSED, not yet enforced — see `enforced: false` in the baseline
+    ratchet: plan-dashboard/frontend-ratchets.json
+    note: >-
+      Added 2026-08-11, and only half live. The GRANDFATHERED list binds now: the 12
+      files already over 800 lines may shrink and may never grow. The ceiling for NEW
+      files does NOT bind yet, because the number is still the owner's call — this
+      entry previously recorded that gap as deliberate and it remains so; what changed
+      is that the mechanism now exists and the existing outliers are pinned. Basis for
+      800: across 324 non-test source files the median is 123 lines and p95 is 709.
+      Flip `fileSize.enforced` to true in the baseline to make it bind.
+      The same file carries a per-RULE eslint WARNING budget, which DOES bind: warnings
+      are advisory in eslint by design, which is how 93 accumulated where no gate had
+      to look at them. Per rule rather than one total, so a new `any` cannot hide
+      behind someone else's fixed hook warning.
 
 mirrors:
   # Files that MUST change together. `pinned_by` names the shared fixture proving they

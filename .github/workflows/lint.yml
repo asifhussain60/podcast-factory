@@ -107,6 +107,16 @@ jobs:
         run: npm test
       - name: HTML-view quality gate (Cortex MUST rules)
         run: npm run lint:views
+      # Shrink-only ratchets (2026-08-11). ESLint warnings are advisory by design,
+      # which is how 93 of them accumulated where no gate had to look, and the site
+      # had no size rule at all. This makes today's numbers a ceiling: they may
+      # fall, they may not rise. Budgets are per RULE so a new `any` cannot hide
+      # behind someone else's fixed hook warning. The file-size half reports but
+      # does not yet block on the ceiling for NEW files — that number is the repo
+      # owner's call per .repo-audit/profile.yaml — while the grandfathered list
+      # is live, so the already-large files cannot grow meanwhile.
+      - name: Front-end ratchets (lint-warning budget + file size)
+        run: npm run ratchets
 
   listener:
     name: typecheck + tests + build (listener)

@@ -535,7 +535,6 @@ def _generate_images(
     images_dir: Path,
     book_dir: Path,
     ep_id: str,
-    fast: bool = False,  # kept for API compat; currently unused
 ) -> int:
     from _engine import ENGINE_GEMINI, TASK_IMAGE_GEN, engine_guard
 

@@ -1938,6 +1938,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "33fb910d",
+      "subject": "chore(dashboard): refresh the recent-commits snapshot",
+      "date": "2026-08-11"
+    },
+    {
       "sha": "7b6e3b56",
       "subject": "fix(reports): one counter for the pass reports, and the two gates it was making lie",
       "date": "2026-08-11"
@@ -1980,11 +1985,6 @@
     {
       "sha": "bc5e681b",
       "subject": "docs(infra): the vault is authoritative for the Anthropic key",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "021a1584",
-      "subject": "docs(infra): pull-secrets verified end to end, both Astro keys live",
       "date": "2026-08-10"
     }
   ],
