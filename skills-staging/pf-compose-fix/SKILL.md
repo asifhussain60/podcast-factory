@@ -34,6 +34,8 @@ python3 scripts/podcast/compose_fix.py <slug> --chapters 1,3,9
 python3 scripts/podcast/compose_fix.py <slug> --chapters 3-5 --fix
 python3 scripts/podcast/compose_fix.py <slug> --chapters "Kumayl" --fix --only honorific-overuse
 python3 scripts/podcast/compose_fix.py <slug> --chapters 3 --vowel      # asks a model
+python3 scripts/podcast/compose_fix.py <slug> --preface                 # write the missing preface
+python3 scripts/podcast/compose_fix.py <slug> --preface force           # re-ask a cached one
 python3 scripts/podcast/compose_fix.py <slug> --json
 ```
 
@@ -50,7 +52,43 @@ numbers every chapter heading and leaves exactly one section (the introduction)
 unnumbered. A book that ever numbers inconsistently gets the chapter list printed and no
 write. Never hand-resolve a number yourself; call `--list`.
 
-## What it checks — twelve defects
+## The first thing it checks is how the book OPENS
+
+Before any chapter, and whatever `--chapters` was asked for, every run reports whether the
+book begins with a preface written **to the reader**: what this is, and what is in it.
+
+Asif's rule, 2026-08-11: **every book is prefaced.** Build it from the original source
+where there is one; where there is not, read the content and build one from that.
+
+It is book-level, so it cannot be scoped to a selection — "is there a preface" is not a
+property of chapter 3, and a run that checked chapters 3–5 and said nothing about a book
+with no opening at all would be reporting on the wrong thing.
+
+| Finding | What it means |
+|---|---|
+| `spoken-opening` | The book opens with the speaker opening an OCCASION — greeting the room, introducing himself, asking leave to begin. Real, rightly said aloud, and not a preface. This is what the first Sessions book shipped with. |
+| `missing-preface` | The book opens straight into its first chapter. |
+| `empty-preface` | The heading is there with almost nothing under it. |
+| `no-sections` | The book has no `##` sections at all. |
+
+**`--preface` writes one**, from the book's own chapters, through the SAME
+`_book_frontmatter.apply_introduction` every other route uses — the 250-word cap, the
+honest `## Introduction to the Book` title, the book's own voice, and the rule that every
+fact comes from a file. Asked of a model **once per book, ever**; `--preface force` re-asks
+it. It never overwrites a preface Asif has written in the Composer — that guard lives
+inside `apply_introduction`, so every caller gets it.
+
+The chapter list it works from is `book/book-toc.json` where one exists and the book's own
+`##` headings where one does not. That fallback is what makes "build one from the content"
+possible at all: the TOC is a compose artifact carrying the source lines each chapter was
+translated from, so a route that translates nothing never writes one, and the Sessions lane
+is the first such route.
+
+A book whose `series-config.yaml` says `source_medium: audio_lecture` is briefed
+differently — a series of talks that were delivered, never a treatise or a dialogue. Only
+the shape clause changes; the cap, the prohibitions and the register are identical.
+
+## What else it checks — twelve defects
 
 Nine come from `_book_defects`, which the compose apparatus's `defect-scan` step and the
 recorded-defect tests also read. There is no second copy of the rule.

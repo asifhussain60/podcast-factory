@@ -6,7 +6,8 @@
  * when the on-disk layout changes.
  *
  * LAYOUT (type-first, locked 2026-06-04):
- *   content/<Bucket>/<slug>/        Bucket ∈ {Islamic, Technical, Fiction, Guides}
+ *   content/<Bucket>/<slug>/        Bucket ∈ {Islamic, Technical, Fiction, Guides,
+ *                                            Supplications, Sessions}
  *   content/_system/                cross-cutting plumbing (shared/archive/knowledge-base/podcast/catalog)
  * Draft-vs-published is a `status` field in <slug>/_system/orchestrator-state.json
  * (default 'draft'), NOT a folder. Legacy content/<stage>/<category>/<slug>/ is
@@ -51,6 +52,7 @@ export const BUCKETS = [
   "Fiction",
   "Guides",
   "Supplications",
+  "Sessions",
 ] as const;
 export type Bucket = (typeof BUCKETS)[number];
 

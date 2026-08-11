@@ -1,0 +1,19 @@
+# series-config.yaml — Love Of The Prophet
+# Delivered lecture sessions ingested from KSESSIONS_DEV.
+
+content_profile: islamic_session
+
+# The speaker is the author and the transcript records him saying "I".
+# Declared rather than inherited so the route stays readable here.
+narrative_frame: first_person_author
+
+# The source is a lecture, not a printed text. Gates that exist to catch a
+# translation reading like a calque do not apply to speech.
+source_medium: audio_lecture
+source_language: en
+
+book_voice: faithful
+book_augmentation: none
+book_visuals: manual_only
+
+enable_video: false

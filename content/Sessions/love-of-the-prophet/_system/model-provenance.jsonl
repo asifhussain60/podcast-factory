@@ -1,0 +1,12 @@
+{"phase": "rearticulate", "step": "rearticulate-02-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-02-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-05-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-05-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "romanization", "step": "render", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "romanization", "step": "render", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

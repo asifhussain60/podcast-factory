@@ -44,77 +44,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _paths import find_content  # noqa: E402
 from _pending_work import open_items  # noqa: E402
+from _phase_vocabulary import _PHASE_NAMES, _PHASE_WEIGHTS  # noqa: E402
 from _progress import PHASES, read_state  # noqa: E402
-
-# Relative wall-clock weight per phase. A phase absent here weighs 1. These are
-# deliberately coarse — the point is that the long phases dominate the number the
-# way they dominate the wait, not that any single figure is precise.
-_PHASE_WEIGHTS: dict[str, int] = {
-    "pre-flight": 1,
-    "branch": 1,
-    "scaffold": 1,
-    "0a": 6,
-    "0b": 8,
-    "0c": 4,
-    "0ci": 4,
-    "0d": 8,
-    "0e": 8,
-    "0literary": 4,
-    "06a": 1,
-    "0f": 1,
-    "0g": 1,
-    "per-chapter": 40,
-    "per-chapter-optimize": 8,
-    "per-chapter-slides": 12,
-    "audio-script": 8,
-    "audio-render": 8,
-    "finalize": 2,
-    "audio-ingest": 4,
-    "0book-design": 3,
-    "0book-compose": 20,
-    "0book-illustrate": 6,
-    "0book-slide-import": 4,
-    "0book-render": 3,
-    "publish": 1,
-    "trainer": 2,
-    "merge": 1,
-    "done": 1,
-}
-
-# Plain-English name per phase. The card is read by a human, so it must never
-# show the pipeline's internal ids — a step called "0ci" tells the reader nothing.
-# The ids stay in the JSON, where machines read them.
-_PHASE_NAMES: dict[str, str] = {
-    "pre-flight": "Pre-flight checks",
-    "branch": "Branch created",
-    "scaffold": "Folders prepared",
-    "0a": "Scanning and translating",
-    "0b": "English refinement",
-    "0c": "Arabic pronunciation",
-    "0ci": "Source gap analysis",
-    "0d": "Chapter design",
-    "0e": "Enrichment",
-    "0literary": "Literary pass",
-    "06a": "Source review",
-    "0f": "Series plan review",
-    "0g": "Series registered",
-    "per-chapter": "Writing each chapter",
-    "per-chapter-optimize": "Chapter polish",
-    "per-chapter-slides": "Slide decks",
-    "audio-script": "Dialogue scripts",
-    "audio-render": "Audio render",
-    "finalize": "Quality review",
-    "audio-ingest": "Audio ingest",
-    "0book-design": "Book structure",
-    "0book-compose": "Writing the book",
-    "0book-illustrate": "Diagrams",
-    "0book-slide-import": "Slide import",
-    "0book-render": "Rendering the PDF",
-    "publish": "Publishing",
-    "trainer": "Learning pass",
-    "merge": "Merging to develop",
-    "done": "Done",
-}
 
 
 def step_name(phase: str | None) -> str:
@@ -243,6 +174,20 @@ def compute_progress(state: dict[str, Any], book_dir: Path | None = None) -> dic
     that passes state alone keeps its prior behavior unchanged.
     """
     blocks = state.get("phases") or {}
+    # WHICH SEQUENCE THIS BOOK RUNS, from the book rather than from a constant.
+    #
+    # `PHASES` is the podcast orchestrator's twenty-nine, and for years it was
+    # the only sequence there was. The Sessions lane runs five of its own and
+    # shares none of them, so iterating the constant reported a finished lecture
+    # series as 0% with twenty-nine steps left — every one of them a step it does
+    # not run and never will.
+    #
+    # The constant still wins wherever it applies, and that matters: an
+    # orchestrator book's state file lists only the phases it has REACHED, so
+    # trusting its keys would shrink the denominator as the run progressed and
+    # the percentage would climb for the wrong reason. The state's own order is
+    # used only when it names a sequence the constant does not contain.
+    order = PHASES if any(p in blocks for p in PHASES) or not blocks else tuple(blocks)
     rows: list[dict[str, Any]] = []
     earned = 0.0
     total = 0
@@ -263,11 +208,11 @@ def compute_progress(state: dict[str, Any], book_dir: Path | None = None) -> dic
     # permanently unfinished. They are not swallowed: any bypassed phase that
     # failed or halted is collected and surfaced on the card.
     frontier = max(
-        (i for i, p in enumerate(PHASES) if str((blocks.get(p) or {}).get("status") or "") in _DONE_STATUSES),
+        (i for i, p in enumerate(order) if str((blocks.get(p) or {}).get("status") or "") in _DONE_STATUSES),
         default=-1,
     )
     bypassed: list[dict[str, str]] = []
-    for index, phase in enumerate(PHASES):
+    for index, phase in enumerate(order):
         block = blocks.get(phase) or {}
         status = str(block.get("status") or "pending")
         if index < frontier and status not in _DONE_STATUSES:

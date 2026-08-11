@@ -79,6 +79,9 @@ _PROFILE_TO_STRATEGY: dict[str, str] = {
     "technical": STRATEGY_TECHNICAL,
     "fiction": STRATEGY_FICTION,
     "guides": STRATEGY_GUIDES,
+    # A delivered lecture is already finished teaching. Augmentation exists to add
+    # material the source lacks; here it would put words into a talk Asif gave.
+    "islamic_session": STRATEGY_SKIP,
 }
 
 

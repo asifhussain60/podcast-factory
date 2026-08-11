@@ -338,6 +338,14 @@ export interface Release {
  */
 export const RELEASES: Release[] = [
   {
+    date: "2026-08-11",
+    items: [
+      "Sessions. The library now also holds the lecture series Asif delivered himself: the recording is his own voice from the evening it was given, and the reading edition is that same session written out. They carry a violet cover so you can tell them from the books at a glance, and a control above the library shows you either collection on its own.",
+      "The Listen tab reads as a player rather than a list — each recording is a card you can start from anywhere on the row, and on a phone the player fills the screen while it plays.",
+      "Bulleted and numbered lists in the reading edition show their bullets and numbers. Every list in every book had been rendering flat, so a passage the author set out as three points read as three paragraphs.",
+    ],
+  },
+  {
     date: "2026-08-06",
     items: [
       "On a laptop, a tablet held sideways, or any wide screen, three buttons in the reading controls set how wide the page runs. The narrowest is what you have been reading; the other two use the space that was empty on either side. They do not appear on a phone or a tablet held upright, where the page already fills the screen.",

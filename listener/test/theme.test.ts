@@ -23,7 +23,10 @@ import { describe, expect, it } from "vitest";
  * are shapes rather than words — the card ornament and the focus ring.
  */
 
-const CSS = readFileSync(new URL("../app/styles/podcast-factory.css", import.meta.url), "utf8");
+const CSS = readFileSync(
+  new URL("../app/styles/podcast-factory.css", import.meta.url),
+  "utf8",
+);
 
 type Palette = { name: string; colors: Record<string, string> };
 
@@ -46,7 +49,9 @@ function palettes(css: string): Palette[] {
     if (themed === null) continue;
 
     const colors: Record<string, string> = {};
-    for (const decl of body.matchAll(/--(l-[a-z-]+)\s*:\s*(#[0-9a-fA-F]{6})\s*;/g)) {
+    for (const decl of body.matchAll(
+      /--(l-[a-z-]+)\s*:\s*(#[0-9a-fA-F]{6})\s*;/g,
+    )) {
       colors[decl[1]] = decl[2].toLowerCase();
     }
     found.push({ name: themed[1], colors });
@@ -189,7 +194,10 @@ describe("the two Arabic faces", () => {
   /** Everything inside §7, where the reading column is styled. */
   const readingColumn = (() => {
     const start = CSS.indexOf("* 7. READER");
-    expect(start, "the stylesheet must still have a §7 reading column").toBeGreaterThan(-1);
+    expect(
+      start,
+      "the stylesheet must still have a §7 reading column",
+    ).toBeGreaterThan(-1);
     return CSS.slice(start);
   })();
 
@@ -210,7 +218,10 @@ describe("the two Arabic faces", () => {
 
   it("never binds the display face to :lang(ar)", () => {
     // That selector drives every Arabic run on the site, prose included.
-    const langRule = CSS.slice(CSS.indexOf(":lang(ar)"), CSS.indexOf(":lang(ar)") + 260);
+    const langRule = CSS.slice(
+      CSS.indexOf(":lang(ar)"),
+      CSS.indexOf(":lang(ar)") + 260,
+    );
     expect(langRule).not.toContain("--l-font-arabic-display");
   });
 });
@@ -242,4 +253,251 @@ describe.each(FOUND)("$name", ({ name, colors }) => {
       ).toBeGreaterThanOrEqual(min);
     });
   }
+});
+
+/* ---------------------------------------------------------------------------
+ * §3b — the collection overlays.
+ *
+ * These would otherwise ship UNMEASURED, and the reason is worth stating: the
+ * parser above admits a block only if it declares `color-scheme`, which is
+ * exactly right for telling a palette from the token `:root` — and exactly
+ * wrong here, because a collection overlay deliberately declares no scheme. It
+ * is not a scheme. It repaints the accent and the band on a subtree of a page
+ * that is already in one.
+ *
+ * So an overlay is measured as what it actually is at runtime: its base palette
+ * with a handful of tokens replaced. Merging is what makes that honest — an
+ * overlay setting `--l-accent` and not `--l-on-accent` really does put the new
+ * violet under the old palette's on-accent ink, and only the merged view can
+ * fail on it.
+ *
+ * The SAME pair list runs, so a violet accent is held to the identical AA floor
+ * as the blue it replaces, in all three modes.
+ * ------------------------------------------------------------------------- */
+
+type Overlay = {
+  theme: string;
+  collection: string;
+  colors: Record<string, string>;
+};
+
+function overlays(css: string): Overlay[] {
+  const found: Overlay[] = [];
+
+  for (const match of css.matchAll(/([^{}]*?)\{([^{}]*?)\}/g)) {
+    const [, selector, body] = match;
+    // A collection overlay, not a palette: `data-collection` present and no
+    // `color-scheme`, which is the line between the two.
+    if (/color-scheme\s*:/.test(body)) continue;
+    const scoped = selector.match(
+      /\[data-theme="([a-z-]+)"\][^,{]*?\[data-collection="([a-z-]+)"\]/,
+    );
+    if (scoped === null) continue;
+
+    const colors: Record<string, string> = {};
+    for (const decl of body.matchAll(
+      /--(l-[a-z-]+)\s*:\s*(#[0-9a-fA-F]{6})\s*;/g,
+    )) {
+      colors[decl[1]] = decl[2].toLowerCase();
+    }
+    if (Object.keys(colors).length === 0) continue;
+    found.push({ theme: scoped[1], collection: scoped[2], colors });
+  }
+
+  return found;
+}
+
+/** One entry per (theme, collection), with the overlay merged over its base. */
+const MERGED = (() => {
+  const seen = new Map<string, Palette>();
+
+  for (const overlay of overlays(CSS)) {
+    const base = FOUND.find((p) => p.name === overlay.theme);
+    expect(
+      base,
+      `overlay [data-collection="${overlay.collection}"] names an unknown theme "${overlay.theme}"`,
+    ).toBeDefined();
+    seen.set(`${overlay.collection} on ${overlay.theme}`, {
+      name: `${overlay.collection} on ${overlay.theme}`,
+      colors: { ...base!.colors, ...overlay.colors },
+    });
+  }
+
+  return [...seen.values()];
+})();
+
+describe("the collection overlays", () => {
+  it("covers every theme it appears in", () => {
+    // A collection painted on two of three themes is worse than one painted on
+    // none: the reader who picks the third gets a violet page with a blue
+    // accent, and nothing in the build says so.
+    const byCollection = new Map<string, Set<string>>();
+    for (const overlay of overlays(CSS)) {
+      const themes = byCollection.get(overlay.collection) ?? new Set<string>();
+      themes.add(overlay.theme);
+      byCollection.set(overlay.collection, themes);
+    }
+
+    const every = FOUND.map((p) => p.name).sort();
+    for (const [collection, themes] of byCollection) {
+      expect(
+        [...themes].sort(),
+        `[data-collection="${collection}"] is declared for some themes but not all`,
+      ).toEqual(every);
+    }
+  });
+
+  it("repaints only the accent and the band, never the page", () => {
+    // The page's surfaces and inks belong to the reader's THEME. A collection
+    // that moved them would be a fourth theme reached by a different attribute,
+    // and the two would then disagree about what the site looks like.
+    const allowed =
+      /^l-(accent|accent-hover|accent-soft|on-accent|display|band|on-band|band-muted|band-ornament)$/;
+
+    for (const overlay of overlays(CSS)) {
+      for (const token of Object.keys(overlay.colors)) {
+        expect(
+          token,
+          `[data-collection="${overlay.collection}"] sets --${token}; a collection may set only accent and band tokens`,
+        ).toMatch(allowed);
+      }
+    }
+  });
+});
+
+describe.each(MERGED)("$name", ({ name, colors }) => {
+  for (const [fg, bg, min] of PAIRS) {
+    it(`${fg} on ${bg} clears ${min}:1`, () => {
+      expect(colors[fg], `${name} is missing --${fg}`).toBeDefined();
+      expect(colors[bg], `${name} is missing --${bg}`).toBeDefined();
+
+      const ratio = contrast(colors[fg], colors[bg]);
+      expect(
+        Number(ratio.toFixed(2)),
+        `${colors[fg]} on ${colors[bg]} is ${ratio.toFixed(2)}:1`,
+      ).toBeGreaterThanOrEqual(min);
+    });
+  }
+});
+
+/* ---------------------------------------------------------------------------
+ * §6 — the recordings list, which must be the COLLECTION's colour and not a grey.
+ *
+ * The Listen tab's surfaces were first filled with `--l-sunken`, the palette's
+ * recessed surface. It only looked right in the dark: on paper `--l-sunken` is a
+ * warm grey a shade off the page, so the list read as a dull slab with the
+ * accent pills as the one coloured thing on it (Asif, 2026-08-11).
+ *
+ * The fix was to derive every surface from `--l-accent`, which the collection
+ * overlay in §3b has already redefined by the time these resolve — so a
+ * session's list is violet and a book's is blue with no second rule anywhere
+ * and no palette value repeated outside §3.
+ *
+ * `.pf-deck__list` was the boxed panel these rows used to sit in, and it is
+ * deliberately NOT in the list below any more: the panel was retired the same
+ * day for reading as a table, and the rows now take the reading edition's own
+ * `--striped` treatment, which is asserted here in its place.
+ *
+ * That is a property of the STYLESHEET, not of one screenshot, so it is asserted
+ * here: a later "tidy" that puts a neutral back would pass every rendering test
+ * and quietly undo it.
+ * ------------------------------------------------------------------------- */
+
+describe("the deck takes its colour from the collection", () => {
+  /**
+   * One rule's DECLARATIONS, by selector — comments stripped.
+   *
+   * Stripped because the assertions below are about what the rule DOES, and
+   * every one of these rules explains in a comment which neutral it replaced.
+   * A test that reads the explanation as the thing it forbids fails on the
+   * sentence saying the failure was fixed.
+   */
+  const ruleFor = (selector: string): string => {
+    const at = CSS.indexOf(`\n  ${selector} {`);
+    expect(at, `the stylesheet has no rule for ${selector}`).toBeGreaterThan(
+      -1,
+    );
+    return CSS.slice(at, CSS.indexOf("\n  }", at)).replace(
+      /\/\*[\s\S]*?\*\//g,
+      "",
+    );
+  };
+
+  for (const selector of [
+    ".pf-track__facts",
+    ".pf-track:hover",
+    ".pf-rows--striped > li:nth-of-type(even)",
+  ]) {
+    it(`${selector} is painted from --l-accent`, () => {
+      expect(ruleFor(selector)).toContain("--l-accent");
+    });
+
+    it(`${selector} uses no neutral fill and no literal colour`, () => {
+      const body = ruleFor(selector);
+      // `--l-sunken` is the grey this replaced. A hex here would be a colour
+      // declared outside §3, which is the one thing the theme forbids.
+      expect(body).not.toContain("--l-sunken");
+      expect(body).not.toMatch(/#[0-9a-fA-F]{3,8}\b/);
+    });
+  }
+
+  it("the row's genre mark is the accent too", () => {
+    // The open book on a chapter and the play glyph on a track share one rule.
+    // Painted from anything else, the two lists would stop agreeing about which
+    // book they belong to.
+    expect(ruleFor(".pf-row__mark")).toContain("--l-accent");
+  });
+});
+
+/* ---------------------------------------------------------------------------
+ * §7 — enumerations keep their markers.
+ *
+ * Tailwind's preflight sets `list-style: none` on every `ul` and `ol`. That is
+ * the right default for an app built out of nav lists and card grids, and
+ * exactly wrong for a reading column, where a list is prose the author chose to
+ * enumerate.
+ *
+ * Nothing restored it, so every enumeration in every reading edition rendered as
+ * indented paragraphs with no bullet: correct source markdown, correct HTML in
+ * the database, and nothing on the page to say it was a list. Asif found it on
+ * 2026-08-11 in a passage of Arabic morphology whose two worked examples had
+ * silently stopped looking like two worked examples.
+ *
+ * A rendering test cannot catch this — the markup is right. Only the stylesheet
+ * can be asked.
+ * ------------------------------------------------------------------------- */
+
+describe("the reading column's lists", () => {
+  const readingColumn = CSS.slice(CSS.indexOf("* 7. READER"));
+
+  it("gives ul a disc and ol a decimal", () => {
+    // Both, separately: the SOURCE decides which, the KSESSIONS transcripts
+    // carry both kinds, and a page that flattened the choice into one shape
+    // would be overruling the author.
+    expect(readingColumn).toMatch(/\.reader ul\s*\{[^}]*list-style:\s*disc/);
+    expect(readingColumn).toMatch(/\.reader ol\s*\{[^}]*list-style:\s*decimal/);
+  });
+
+  it("never sets list-style: none on a reader list", () => {
+    const noneOnAList =
+      /\.reader\s+(ul|ol)[^{]*\{[^}]*list-style(-type)?:\s*none/;
+    expect(readingColumn).not.toMatch(noneOnAList);
+  });
+
+  it("changes shape for a nested list, so a sub-point reads as one", () => {
+    expect(readingColumn).toMatch(
+      /\.reader ul ul\s*\{[^}]*list-style:\s*circle/,
+    );
+    expect(readingColumn).toMatch(
+      /\.reader ol ol\s*\{[^}]*list-style:\s*lower-alpha/,
+    );
+  });
+
+  it("sets the marker in a palette ink rather than a literal", () => {
+    const marker =
+      readingColumn.match(/\.reader li::marker\s*\{[^}]*\}/)?.[0] ?? "";
+    expect(marker, "the reading column must style ::marker").not.toBe("");
+    expect(marker).toContain("var(--l-");
+    expect(marker).not.toMatch(/#[0-9a-fA-F]{3,8}\b/);
+  });
 });

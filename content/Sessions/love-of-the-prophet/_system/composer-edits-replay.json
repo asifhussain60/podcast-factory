@@ -1,0 +1,36 @@
+{
+  "schema": "podcast.composer-edits-replay/v1",
+  "applied": 5,
+  "conflicts": 0,
+  "orphaned": 1,
+  "chapters": [
+    {
+      "chapter_key": "love based religion",
+      "title": "## Love Based Religion",
+      "conflict": false
+    },
+    {
+      "chapter_key": "need for messengers",
+      "title": "## Need For Messengers",
+      "conflict": false
+    },
+    {
+      "chapter_key": "islam as an experience",
+      "title": "## Islam As An Experience",
+      "conflict": false
+    },
+    {
+      "chapter_key": "character of the prophet",
+      "title": "## Character Of The Prophet",
+      "conflict": false
+    },
+    {
+      "chapter_key": "a model for success",
+      "title": "## A Model For Success",
+      "conflict": false
+    }
+  ],
+  "orphaned_keys": [
+    "personal intro"
+  ]
+}
