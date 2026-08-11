@@ -1328,3 +1328,50 @@ KAL-LAMUM Ranks and Ascension · Falling From Grace · Design Of Human Being · 
 Physical Impurity · Recognizing The Creator · Recognizing The Self · Unity, Transcendence,
 Abstraction · Knowledge & Action. Session ids `68, 69, 70, 71, 72, 73, 95, 115, 1243,
 1244, 1247, 1248, 1249, 1250`.
+
+## Live blemish — eight quotations in Love Of The Prophet end with a stray `**` — 2026-08-11
+
+**Severity:** Low, and visible to readers on the production site today.
+
+The cause is fixed and cannot recur. Font Awesome writes its icons as `<i class="fa …">`,
+which the Sessions converter read as markdown emphasis; 508 of them across the corpus are
+EMPTY elements, so each emitted `*` open and `*` close with nothing between. Inside a
+quoted block the odd marker triggered `_close_quote`'s balancer, which appends a closing
+`**` at the very end of the quotation — where it prints. Icons are now dropped as chrome
+and every group converts with balanced markers.
+
+What the fix cannot reach is Book 1's text, because all five of its chapters carry
+Composer edits and a chapter with an edit is deliberately never regenerated. The eight
+lines are in `content/Sessions/love-of-the-prophet/book/book.md` at 213, 387, 453, 549,
+559, 571, 581 and 821 — each a blockquote whose last characters are `**`.
+
+Clearing them is one Composer save per chapter, or a re-articulation of the five chapters
+(which would cost a model run and re-open every gate). It is a two-character deletion in
+eight places and needs no judgment, so the Composer route is the cheap one — but it edits
+a published reading edition, so it waits for Asif.
+
+## Snag — the romanized honorific is not a romanized saying — 2026-08-11
+
+**Severity:** Medium. It blocks Surah Al-Fateha from joining the zero-defect corpus and it
+will recur on every remaining Sessions book, because Asif typed the honorifics this way in
+the KSESSIONS admin throughout.
+
+`test_no_new_romanized_arabic` reports 197 hits in Surah Al-Fateha, and every one is a
+parenthetical honorific rather than a saying: `Rasul Allah(Salallahu alayhi wa aalihee wa
+sallam)`, `the prophet (Salallahu alayhi wa aalihee wa sallam)`, `Allah (Subhanahu wa
+Ta'ala)`. `_book_romanization` correctly refuses them — its ladder looks for an Arabic
+original on disk and there is none, and supplying one would be a model recalling
+scripture.
+
+But the repo already HAS a decision for the Prophet's honorific: `PROPHET_LIGATURE = ﷺ`,
+his own form, chosen by Asif on 2026-08-09, with `honorific-overuse` cutting repeats to
+one per figure per chapter. Applying it here is one line of code and it is NOT being
+applied, deliberately: `ﷺ` is *sallallahu alayhi wa sallam* and omits **wa aalihee** — and
+his family. Dropping that from an Ismaili text is a doctrinal edit wearing the clothes of
+a formatting rule, and it would be made 197 times in one commit.
+
+Three answers are available and all three are Asif's: (a) a distinct form that keeps the
+family — the ligature is only one glyph, `صلى الله عليه وآله وسلم` is the spelled-out
+Arabic; (b) the existing `ﷺ` with the loss accepted; (c) leave them romanized and record
+197 against this book in `test_book_articulation_defects.KNOWN`, which is the first
+non-zero entry that table would carry since it was emptied.

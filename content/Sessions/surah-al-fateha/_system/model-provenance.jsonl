@@ -1,0 +1,23 @@
+{"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "compose-fix", "step": "vowel/quranic friendship", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/the stages of love", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/linguistic meaning of allah", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/what is worship?", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/linguistic meaning of rehma", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/manifestations of rehma", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/linguistic meaning of rabb", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/master slave relationship", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/understanding rab al-alameen", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/the divine formula for recognizing allah", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/the horizons and the soul", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/the womb of afterlife", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/allah - being vs attributes", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/the ism of allah", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/in the name of allah the merciful", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/linguistic perfection of hamd", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/abundant and consistent mercy", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/day of judgment - linguistics", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/motivating factors for piety", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/worship and assistance", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/guidance to the straight path", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-fix", "step": "vowel/staying steadfast on the path", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}

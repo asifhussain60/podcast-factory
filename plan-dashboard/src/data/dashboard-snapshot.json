@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 32.68
+    "burn_30d_usd": 34.88
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1934,6 +1934,14 @@
       "phase_status": "running",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
+    },
+    {
+      "slug": "surah-al-fateha",
+      "title": "Surah Al-Fateha",
+      "phase": "sessions-preface",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_session"
     },
     {
       "slug": "the-master-and-the-disciple",

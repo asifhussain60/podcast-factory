@@ -13,17 +13,17 @@ WHAT THIS DOES NOT DO
 
 THE AUDIO MAP IS WRITTEN OUT, NOT INFERRED
 
-Recording order and session order agree for every series here, but they are not
-the same list: Love Of The Prophet has five recordings against six sessions, and
-the one without a recording is the opener, so position alone puts the whole
-series off by one. Rather than encode an offset that is right once and wrong
-everywhere else, each series states which file belongs to which session. A
-pairing Asif confirmed is data; a pairing a rule derived is a guess wearing the
-same clothes.
+Recording order and session order agree nowhere near well enough to derive. Love
+Of The Prophet has five recordings against six sessions and the one without a
+recording is the opener, so position alone puts the series off by one; Surah
+Al-Fateha's files are numbered 003-014 against sessions 4 and 13-23, so `003` is
+session 14 and `007` is session 4 and reading the filename as a sequence puts
+eleven of its twelve lectures under the wrong title.
 
-The filenames are also taken from disk rather than from Drive, which reports
-older titles for two of these five — a map built from the API finds three files
-and silently drops two lectures.
+So each series STATES which file belongs to which session, in `series.py`. A
+pairing Asif confirmed is data; a pairing a rule derived is a guess wearing the
+same clothes. That module holds every per-series fact for the same reason, and
+this one holds the procedure that is identical for all of them.
 """
 
 from __future__ import annotations

@@ -506,7 +506,7 @@ Allah also described him as a رحمة — a mercy — a manifestation of mercy 
 >
 > And we have not sent you, [o Muhammad], except as a mercy to the worlds.
 
-Maulana Ali (AS) described him as the kindest of people by nature. His mission was to make life easier (تَیْسِیر), not harder, by lifting the burdens and shackles imposed by earlier systems and by people's own lower selves. The character of our Prophet (SWS) was an ocean of mercy. Allah Himself reveals this reality in a remarkable verse — not simply describing His Messenger, but unveiling the very nature of Divine love as it manifests in a human soul.
+Maulana Ali (AS) described him as the kindest of people by nature. His mission was to make life easier (تیسیر), not harder, by lifting the burdens and shackles imposed by earlier systems and by people's own lower selves. The character of our Prophet (SWS) was an ocean of mercy. Allah Himself reveals this reality in a remarkable verse — not simply describing His Messenger, but unveiling the very nature of Divine love as it manifests in a human soul.
 
 > ‏ ‏فَبِمَا رَحْمَةٍۢ مِّنَ ٱللَّهِ لِنتَ لَهُمْ ۖ وَلَوْ كُنتَ فَظًّا غَلِيظَ ٱلْقَلْبِ لَٱنفَضُّوا۟ مِنْ حَوْلِكَ ۖ فَٱعْفُ عَنْهُمْ وَٱسْتَغْفِرْ لَهُمْ وَشَاوِرْهُمْ فِى ٱلْأَمْرِ ۖ فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى ٱللَّهِ إِنَّ ٱللَّهَ يُحِبُّ ٱلْمُتَوَكِّلِينَ ‏‏
 >
