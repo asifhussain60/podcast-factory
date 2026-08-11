@@ -24,7 +24,7 @@ sys.path.insert(0, str(SCRIPTS_PODCAST))
 import pytest  # noqa: E402
 from sessions.convert import convert, localise_images  # noqa: E402
 from sessions.dump import INGESTABLE_GROUPS, Session, duplicate_transcripts, load_sessions, strip_markup  # noqa: E402
-from sessions.ingest import SERIES, _heard_text, _title_of  # noqa: E402
+from sessions.ingest import SERIES, _heard_text, _title_of, _without_image  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # The dump's allow-list
@@ -176,9 +176,110 @@ def test_third_party_verse_badges_are_dropped_and_counted() -> None:
 
 def test_an_image_is_rewritten_to_the_books_own_path_and_asked_for_by_name() -> None:
     markdown = "![](Resources/IMAGES/213/66560670-7213-4CBA-B2EB-E49A0AF49BD3.JPG)"
-    out, wanted = localise_images(markdown, "love-of-the-prophet")
+    out, wanted = localise_images(markdown)
     assert out == "![](images/213/66560670-7213-4cba-b2eb-e49a0af49bd3.jpg)"
     assert wanted == [("213", "66560670-7213-4cba-b2eb-e49a0af49bd3.jpg")]
+
+
+# ---------------------------------------------------------------------------
+# Where the picture lives, versus where the editor's browser once fetched it
+# ---------------------------------------------------------------------------
+#
+# 47 of the corpus's image references across the seven ingestable groups carry a
+# host in front of the path — 31 the live admin, 16 Asif's own dev server on
+# port 786. Every one of them names a file that is sitting in `Resources Images/`
+# right now. Reading the host as meaningful cost all 47 of them, and cost them in
+# the worst way available: the file was still copied and uploaded, so nothing
+# anywhere reported a problem and the page simply showed a broken picture.
+
+
+@pytest.mark.parametrize(
+    "src",
+    [
+        "Resources/IMAGES/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg",
+        "https://session.kashkole.com/Resources/IMAGES/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg",
+        "http://localhost:786/Resources/IMAGES/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg",
+        "/Resources/IMAGES/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg",
+        "Resources/IMAGES/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg?v=2",
+    ],
+)
+def test_the_same_picture_localises_the_same_way_however_it_was_referenced(src: str) -> None:
+    """The host is where a browser once fetched it, never where the file lives."""
+    out, wanted = localise_images(f"![]({src})")
+    assert out == "![](images/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg)"
+    assert wanted == [("87", "21ac5722-564f-4aed-beeb-4f61c600508f.jpg")]
+
+
+def test_a_host_prefixed_reference_is_counted_as_recovered_not_as_unreachable() -> None:
+    """It is an ordinary corpus image, and the count is how a regression shows."""
+    out = convert(
+        "<p><img src='https://session.kashkole.com/Resources/IMAGES/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg'></p>"
+    )
+    assert len(out.images) == 1
+    assert len(out.hosted_images) == 1
+    assert out.external_images == []
+    assert out.unmappable_images == []
+
+
+def test_the_whole_target_is_replaced_so_a_host_cannot_survive_the_rewrite() -> None:
+    """Substituting the path fragment alone left the host in place and produced
+    `https://session.kashkole.com/images/87/…` — a URL that has never existed on
+    that host, pointing away from a file that was correctly in the bucket."""
+    out, _ = localise_images(
+        "![](https://session.kashkole.com/Resources/IMAGES/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg)"
+    )
+    assert "kashkole" not in out
+    assert "http" not in out
+
+
+def test_a_reference_naming_no_corpus_file_is_reported_and_not_rendered() -> None:
+    """Seven references in the dump are `Resources/IMAGES/1278/01.jpg` — a real
+    folder, a filename that is not a GUID. Emitting one guarantees a broken icon
+    on the page and nothing anywhere says why."""
+    out = convert("<p><img src='Resources/IMAGES/1278/01.jpg'></p>")
+    assert out.unmappable_images == ["Resources/IMAGES/1278/01.jpg"]
+    assert out.images == []
+    assert "![" not in out.markdown
+
+
+def test_a_picture_genuinely_on_another_site_is_reported_and_not_rendered() -> None:
+    """A gated chapter must not send the reader's browser to a third party, and
+    a hotlink breaks the day that site does."""
+    out = convert("<p><img src='https://example.com/diagram.png'></p>")
+    assert out.external_images == ["https://example.com/diagram.png"]
+    assert out.images == []
+    assert "![" not in out.markdown
+
+
+# ---------------------------------------------------------------------------
+# A picture the corpus has lost
+# ---------------------------------------------------------------------------
+#
+# Four references across the seven groups name a GUID that is not in
+# `Resources Images/` — two in Surah Al-Fateha, two in Wise Reminder. The file
+# was lost years before this repo existed. The only decision left is whether the
+# reader meets a broken icon or the sentence that surrounded it; the name goes in
+# the report either way, which is what makes the removal the opposite of silent.
+
+
+def test_a_lost_picture_is_lifted_out_and_the_prose_closes_over_it() -> None:
+    body = "He drew this on the board.\n\n![](images/159/81ac3f0e-8abb-46bf-a82c-2e0023146ef2.jpg)\n\nThen he explained it."
+    out = _without_image(body, "images/159/81ac3f0e-8abb-46bf-a82c-2e0023146ef2.jpg")
+    assert out == "He drew this on the board.\n\nThen he explained it."
+
+
+def test_lifting_one_picture_leaves_every_other_where_it_was() -> None:
+    """A chapter carries up to nine of these. Removing the one that is missing
+    must not disturb the eight that are present."""
+    body = "![](images/87/a.jpg)\n\ntext\n\n![](images/87/b.jpg)"
+    assert _without_image(body, "images/87/a.jpg") == "text\n\n![](images/87/b.jpg)"
+
+
+def test_lifting_a_picture_keeps_its_alt_text_from_leaking_into_the_prose() -> None:
+    """The alt is inside the construct being removed, not beside it."""
+    body = "before\n\n![the seven heavens](images/87/a.jpg)\n\nafter"
+    out = _without_image(body, "images/87/a.jpg")
+    assert "seven heavens" not in out
 
 
 def test_an_empty_transcript_converts_to_nothing_rather_than_to_whitespace() -> None:

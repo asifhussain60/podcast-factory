@@ -60,7 +60,14 @@ _BLOCK = {"p", "div", "section", "article", "blockquote", "h1", "h2", "h3", "h4"
 class Converted:
     markdown: str
     images: list[str] = field(default_factory=list)  # src values, as authored
-    external_images: list[str] = field(default_factory=list)  # http(s) — cannot be localised
+    # Corpus images the author wrote with a host in front of them. Counted apart
+    # from `images` only so the report can say how many were recovered that way —
+    # they are the same files and they localise identically.
+    hosted_images: list[str] = field(default_factory=list)
+    external_images: list[str] = field(default_factory=list)  # http(s) — genuinely somewhere else
+    # Relative srcs that name no file in the corpus. Reported, never emitted: an
+    # `<img>` that cannot resolve is a broken icon in a reading edition.
+    unmappable_images: list[str] = field(default_factory=list)
     dropped_chrome: int = 0
     dropped_badges: int = 0  # third-party verse-number graphics
     quotes: int = 0  # blocks promoted to blockquotes for the renderer to classify
@@ -84,6 +91,46 @@ def _is(classes: str, needles: tuple[str, ...]) -> bool:
 _BADGE_SRC = re.compile(r"/ayat/ayah-\d+\.\w+$", re.I)
 
 
+# THE ONE SHAPE A SESSION ILLUSTRATION IS FILED UNDER, wherever the reference to
+# it happens to have been typed: `Resources/IMAGES/<session>/<guid>.<ext>`.
+#
+# The tail is anchored and the head is not, which is the whole point. The same
+# picture is referenced three ways in these transcripts, because the admin was
+# authored over ten years on whatever machine was in front of Asif:
+#
+#     Resources/IMAGES/87/<guid>.jpg                      relative
+#     https://session.kashkole.com/Resources/IMAGES/…     the live admin
+#     http://localhost:786/Resources/IMAGES/…             his own dev server
+#
+# All three name the SAME file in `Resources Images/`, and 47 of the corpus's
+# image references across the seven ingestable groups are one of the last two.
+# Reading the host as meaningful is what made them "external, cannot be
+# localised" — a description of where the editor's browser once fetched a
+# picture from, mistaken for where the picture lives.
+_CORPUS_IMAGE_RE = re.compile(r"(?:.*/)?Resources/IMAGES/(\d+)/([0-9a-fA-F-]{36})\.(\w+)$", re.I)
+
+_SCHEME_HOST_RE = re.compile(r"^[a-z][a-z0-9+.\-]*://[^/]*", re.I)
+
+
+def corpus_ref(src: str) -> tuple[str, str] | None:
+    """The `(session folder, filename)` a reference names, or None if it names none.
+
+    The single answer to "which file is this?", asked by the classifier when the
+    HTML is read and again by `localise_images` when the markdown is rewritten.
+    One function because they must never disagree: a src the classifier counts as
+    an image and the rewriter does not recognise is copied to disk, uploaded to
+    R2, given a database row — and then pointed at by nothing.
+
+    Case is folded into the returned name, so a `.JPG` written in 2016 and a
+    `.jpg` written in 2021 are one file rather than two.
+    """
+    path = src.split("?", 1)[0].split("#", 1)[0]
+    match = _CORPUS_IMAGE_RE.match(_SCHEME_HOST_RE.sub("", path))
+    if match is None:
+        return None
+    return match.group(1), f"{match.group(2).lower()}.{match.group(3).lower()}"
+
+
 class _Walker(HTMLParser):
     """Emit markdown while tracking which enclosing element we are inside."""
 
@@ -91,7 +138,9 @@ class _Walker(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.out: list[str] = []
         self.images: list[str] = []
+        self.hosted: list[str] = []
         self.external: list[str] = []
+        self.unmappable: list[str] = []
         self.badges_dropped = 0
         self.quotes = 0
         self.chrome_dropped = 0
@@ -161,10 +210,19 @@ class _Walker(HTMLParser):
             if _BADGE_SRC.search(src):
                 self.badges_dropped += 1
                 return
-            if src.startswith(("http://", "https://")):
-                self.external.append(src)
-            else:
-                self.images.append(src)
+            if corpus_ref(src) is None:
+                # Nothing in `Resources Images/` answers to this reference. It is
+                # recorded by name and NOT emitted, because the alternative is a
+                # broken-image icon in a printed reading edition — and, when the
+                # src carries a host, a reader's browser reaching out to somebody
+                # else's server from inside a chapter they were granted access to.
+                # Same argument the verse badges above are dropped under.
+                target = self.external if _SCHEME_HOST_RE.match(src) else self.unmappable
+                target.append(src)
+                return
+            if _SCHEME_HOST_RE.match(src):
+                self.hosted.append(src)
+            self.images.append(src)
             alt = next((v for k, v in attrs if k.lower() == "alt" and v), "") or ""
             self._newblock()
             self._emit(f"![{alt}]({src})")
@@ -285,28 +343,49 @@ def convert(session_html: str) -> Converted:
     return Converted(
         markdown="\n\n".join(blocks),
         images=walker.images,
+        hosted_images=walker.hosted,
         external_images=walker.external,
+        unmappable_images=walker.unmappable,
         dropped_chrome=walker.chrome_dropped,
         dropped_badges=walker.badges_dropped,
         quotes=walker.quotes,
     )
 
 
-IMAGE_SRC_RE = re.compile(r"Resources/IMAGES/(\d+)/([0-9a-fA-F-]{36})\.(\w+)", re.I)
+# A markdown image, matched WHOLE. The rewrite below replaces the entire target,
+# never a substring of it.
+#
+# Substituting on the path fragment alone is what turned
+# `https://session.kashkole.com/Resources/IMAGES/87/<guid>.jpg` into
+# `https://session.kashkole.com/images/87/<guid>.jpg` — a URL that has never
+# existed on that host, on a page whose file was sitting correctly in the bucket
+# the whole time. The file was copied, uploaded and given a row; only the src
+# still pointed at the internet.
+_MD_IMAGE_RE = re.compile(r"!\[([^\]]*)\]\(\s*(\S+?)\s*\)")
 
 
-def localise_images(markdown: str, slug: str) -> tuple[str, list[tuple[str, str]]]:
-    """Rewrite `Resources/IMAGES/<sid>/<guid>.jpg` to the book's own asset path.
+def localise_images(markdown: str) -> tuple[str, list[tuple[str, str]]]:
+    """Point every illustration at the book's own asset folder.
 
-    Returns the rewritten markdown and the (session_id, filename) pairs it wants,
-    so the caller can copy exactly those out of the Drive folder and report any it
-    cannot find rather than shipping a broken image.
+    Returns the rewritten markdown and the `(session_id, filename)` pairs it
+    wants, so the caller copies exactly those out of the Drive folder and reports
+    any it cannot find rather than shipping a broken image.
+
+    The path written is `images/<sid>/<file>`, relative to `book/`, which is where
+    the print edition is built and therefore resolves for the PDF as written. The
+    site has no such folder, so `_listener_book._media_image_srcs` rewrites the
+    rendered `<img src>` a second time onto the gated `/media/<slug>/image/…`
+    route. Those two are pinned against each other by a test, because between
+    them they are the only reason a picture appears on the page.
     """
     wanted: list[tuple[str, str]] = []
 
     def _swap(match: re.Match[str]) -> str:
-        session_id, guid, ext = match.group(1), match.group(2).lower(), match.group(3).lower()
-        wanted.append((session_id, f"{guid}.{ext}"))
-        return f"images/{session_id}/{guid}.{ext}"
+        ref = corpus_ref(match.group(2))
+        if ref is None:
+            return match.group(0)
+        session_id, filename = ref
+        wanted.append((session_id, filename))
+        return f"![{match.group(1)}](images/{session_id}/{filename})"
 
-    return IMAGE_SRC_RE.sub(_swap, markdown), wanted
+    return _MD_IMAGE_RE.sub(_swap, markdown), wanted

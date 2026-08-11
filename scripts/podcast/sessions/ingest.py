@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -148,6 +149,13 @@ class Report:
     chrome_dropped: int = 0
     images_copied: int = 0
     images_missing: list[str] = field(default_factory=list)
+    # Corpus images the author referenced through a host — the live admin, or his
+    # own dev server. Counted because they were classified as unreachable for as
+    # long as this lane existed, and the number is how anyone would notice if the
+    # classification regressed.
+    images_recovered: int = 0
+    images_external: list[str] = field(default_factory=list)  # genuinely elsewhere; not emitted
+    images_unmappable: list[str] = field(default_factory=list)  # name no file in the corpus
     from_audio: list[int] = field(default_factory=list)
     awaiting_transcription: list[int] = field(default_factory=list)
     unmapped_audio: list[str] = field(default_factory=list)
@@ -161,8 +169,23 @@ class Report:
             f"    dropped: {self.badges_dropped} verse badges, {self.chrome_dropped} editor controls",
             f"    images copied {self.images_copied}",
         ]
+        if self.images_recovered:
+            lines.append(f"    images recovered from a host-prefixed reference: {self.images_recovered}")
         if self.images_missing:
-            lines.append(f"    images MISSING ({len(self.images_missing)}): {', '.join(self.images_missing[:4])}")
+            lines.append(
+                f"    images MISSING from the corpus, lifted out of the prose "
+                f"({len(self.images_missing)}): {', '.join(self.images_missing[:4])}"
+            )
+        if self.images_unmappable:
+            lines.append(
+                f"    image references naming no corpus file, not rendered "
+                f"({len(self.images_unmappable)}): {', '.join(self.images_unmappable[:3])}"
+            )
+        if self.images_external:
+            lines.append(
+                f"    images on another site, not rendered "
+                f"({len(self.images_external)}): {', '.join(self.images_external[:3])}"
+            )
         if self.from_audio:
             seqs = ", ".join(str(n) for n in self.from_audio)
             lines.append(f"    reading text taken from the recording for session(s): {seqs}")
@@ -173,6 +196,23 @@ class Report:
             lines.append(f"    audio with no session: {', '.join(self.unmapped_audio)}")
         lines.extend(f"    note: {n}" for n in self.notes)
         return "\n".join(lines)
+
+
+def _without_image(body: str, path: str) -> str:
+    """Lift one illustration out of the prose, leaving the paragraphs around it.
+
+    Called for a reference the corpus cannot answer — 2 of Surah Al-Fateha's 65,
+    2 of Wise Reminder's 131. The picture was lost years before this repo existed
+    and no code here can bring it back; the only choice is whether the reader
+    meets a broken icon or the sentence that surrounded it. The name is in the
+    report either way.
+
+    The blank line left behind is collapsed, because `convert` separates blocks
+    with exactly one and a stray double gap is a visible hole where a figure used
+    to be.
+    """
+    without = re.sub(rf"!\[[^\]]*\]\(\s*{re.escape(path)}\s*\)", "", body)
+    return re.sub(r"\n{3,}", "\n\n", without).strip()
 
 
 def _title_of(series: Series, session: Session) -> str:
@@ -363,7 +403,32 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
             continue
         use_audio = session.sequence in series.transcript_from_audio
         converted = convert("" if use_audio else session.transcript_html)
-        body, wanted = localise_images(converted.markdown, slug)
+        body, wanted = localise_images(converted.markdown)
+
+        # The illustrations, resolved BEFORE the chapter is written, because a
+        # reference the corpus cannot answer must not reach the page.
+        #
+        # `wanted` is what the prose now points at; each one is copied into the
+        # book's own `book/images/` so the print edition and the site read the
+        # same file. One that is not on disk is named in the report AND lifted
+        # out of the prose: reporting alone would still leave a broken-image icon
+        # in a printed reading edition, and "report, do not silently drop" is
+        # satisfied by the report — the drop is the opposite of silent.
+        for session_id, filename in wanted:
+            source = IMAGE_ROOT / session_id / filename
+            target = book_dir / "book" / "images" / session_id / filename
+            if not source.exists():
+                report.images_missing.append(f"{session_id}/{filename}")
+                body = _without_image(body, f"images/{session_id}/{filename}")
+                continue
+            if not dry_run:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, target)
+            report.images_copied += 1
+
+        report.images_recovered += len(converted.hosted_images)
+        report.images_external.extend(converted.external_images)
+        report.images_unmappable.extend(converted.unmappable_images)
 
         # No usable stored text: take what the recording says instead. The VTT
         # is written by `ensure_transcripts.py` before this runs, and it is read
@@ -383,17 +448,6 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
         report.badges_dropped += converted.dropped_badges
         report.chrome_dropped += converted.dropped_chrome
         report.words += len(body.split())
-
-        for session_id, filename in wanted:
-            source = IMAGE_ROOT / session_id / filename
-            target = book_dir / "book" / "images" / session_id / filename
-            if not source.exists():
-                report.images_missing.append(f"{session_id}/{filename}")
-                continue
-            if not dry_run:
-                target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(source, target)
-            report.images_copied += 1
 
         parts.extend([f"## {_title_of(series, session)}", "", body, ""])
 
