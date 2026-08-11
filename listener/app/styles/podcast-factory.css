@@ -2072,6 +2072,52 @@
     color: var(--l-accent);
   }
 
+  /* ---- The library's find row ---------------------------------------------
+     The box, the collection chips and the way to the advanced page, on ONE
+     line. They were three stacked blocks, which read as three unrelated
+     controls when they are three ways of narrowing the same grid — and the
+     stack cost enough height to push the first card under the fold.
+
+     `flex-wrap` rather than a breakpoint: the row folds when the things in it
+     stop fitting, which is a different width on a phone with two collections
+     than on one with three. `justify-content: center` keeps the folded state
+     centred under a centred masthead instead of hanging off the left. */
+
+  .pf-library-find {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pf-space-3) var(--pf-space-4);
+    margin-top: var(--pf-space-6);
+  }
+
+  /* `.pf-search` carries its own `margin: var(--pf-space-6) auto 0` — the
+     spacing it needs when it is the only control on the page and centres
+     itself. In this row the ROW owns both, so the margin is zeroed at the call
+     site rather than lifted off the base class, which the about page and the
+     admin header also depend on. Same reason, same shape, as
+     `.pf-about-find__inner > .pf-search`.
+
+     It grows and shrinks; the chips and the button do not. A search field is
+     the only thing here that gets better with more room. */
+  .pf-library-find > .pf-search {
+    flex: 1 1 18rem;
+    margin: 0;
+  }
+
+  .pf-library-find > .pf-collections {
+    margin-top: 0;
+  }
+
+  /* Matches the pill height of the two controls beside it, so the row has one
+     baseline rather than three. */
+  .pf-library-find__more {
+    flex: none;
+    min-height: 2.75rem;
+    border-radius: var(--pf-radius-pill);
+  }
+
   .pf-empty {
     margin-top: var(--pf-space-7);
   }
