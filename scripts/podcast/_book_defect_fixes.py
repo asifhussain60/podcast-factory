@@ -431,3 +431,21 @@ FIXES = {
     "translation-outside-card": fold_translation_into_card,
     "translation-leads-a-paragraph": split_translation_into_card,
 }
+
+
+def print_romanization_proposals(proposals: list[tuple[str, str]]) -> None:
+    """Say why a romanized saying is proposed rather than repaired.
+
+    Here rather than in the tool that prints it, matching `_quote_cards`,
+    `_book_preface` and `_book_arabic_audit`: the module that decides what the
+    defect is owns the sentence explaining it, so the rule and its explanation
+    cannot drift into disagreement.
+    """
+    if not proposals:
+        return
+    print(
+        f"\n  {len(proposals)} Arabic saying(s) print in the English character set. Nothing here "
+        "applies a repair:\n  the honest fix is the Arabic, and where it exists nowhere on disk "
+        "supplying it would mean\n  a model recalling scripture. Deleting the romanization is "
+        "yours to approve — the English\n  translation always sits beside it."
+    )

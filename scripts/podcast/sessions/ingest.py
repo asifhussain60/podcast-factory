@@ -35,6 +35,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from _book_edits import apply_composer_edits
+from _book_frontmatter import apply_introduction
 from _paths import content_dir, ensure_book_skeleton
 
 from .convert import convert, localise_images
@@ -60,6 +61,20 @@ class Series:
     group_id: int
     slug: str
     title: str
+    # The series' name in Arabic, for the card's band — the same field every
+    # book in this library fills, and the reason a Sessions card is shaped like
+    # the rest of the grid rather than falling back to a Latin band with an
+    # empty body beneath it.
+    #
+    # COINED, not recovered, and that is the honest description: these lectures
+    # were delivered in English and titled in English, so there is no Arabic name
+    # to find. Each one is the ordinary scholarly rendering of the English title
+    # — `حُبُّ النَّبِيِّ` is precisely "love of the Prophet" — carried here as
+    # data so it is reviewable beside the title it renders, never derived.
+    #
+    # Vowelled, per the standing rule: Asif does not read unvowelled Arabic, and
+    # newly authored Arabic in this repo carries its marks.
+    title_arabic: str
     audio_dir: str  # relative to AUDIO_ROOT
     audio_map: dict[str, int]  # audio filename -> session Sequence
     # Sessions whose stored transcript must be ignored in favour of the
@@ -73,6 +88,24 @@ class Series:
     # stored name — a dropped letter, a sentence-cased title — never a retitling:
     # renaming a lecture Asif delivered is his call, not the lane's.
     title_fixes: dict[int, str] = field(default_factory=dict)
+    # Sessions that are the speaker OPENING AN OCCASION rather than teaching: who
+    # he is, why he runs these, greetings to the elders in the room, asking his
+    # own teacher's permission to begin. Real, and rightly said aloud — but a
+    # reader who opens the book meets it as chapter one and is told nothing about
+    # what is in the book.
+    #
+    # These are not made into chapters. What stands in their place is the
+    # edition's own introduction, authored by `_book_frontmatter` from this
+    # book's chapter list under the same 250-word cap and the same voice every
+    # other edition's introduction is written under (Asif, 2026-08-03). The
+    # spoken opening is not lost: it is in the database it came from, and in this
+    # repo's history.
+    #
+    # Declared per series rather than detected, because "this session is the
+    # speaker introducing himself" is a judgement about content. A rule that
+    # guessed it from the title would eventually drop a lecture called
+    # "Introduction" that is the first teaching session of its series.
+    preface_sessions: frozenset[int] = field(default_factory=frozenset)
 
 
 SERIES: dict[str, Series] = {
@@ -80,6 +113,7 @@ SERIES: dict[str, Series] = {
         group_id=14,
         slug="love-of-the-prophet",
         title="Love Of The Prophet",
+        title_arabic="حُبُّ النَّبِيِّ",
         audio_dir="Love Of The Prophet",  # the 2025/ re-delivery is deliberately excluded
         # Filenames exactly as they sit on disk, including the missing space in
         # "02cNeed" — the Drive API reports older titles for two of these, so a
@@ -92,6 +126,8 @@ SERIES: dict[str, Series] = {
             "05 Model For Success.mp3": 6,
         },
         transcript_from_audio=frozenset({2}),
+        # Session 1 is Asif introducing himself and the series to the room.
+        preface_sessions=frozenset({1}),
         title_fixes={
             3: "Need For Messengers",  # stored as "eed For Messengers"
             4: "Islam As An Experience",  # stored sentence-cased
@@ -168,6 +204,7 @@ def _meta_yml(series: Series, chapters: int) -> str:
     return (
         f"slug: {series.slug}\n"
         f"title: {series.title}\n"
+        f'title_arabic: "{series.title_arabic}"\n'
         "\n"
         "series:\n"
         "  # Sessions are delivered lectures: the reading edition is the transcript,\n"
@@ -258,6 +295,12 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
     # --- chapters -----------------------------------------------------------
     parts = [f"# {series.title}", ""]
     for session in sessions:
+        if session.sequence in series.preface_sessions:
+            report.notes.append(
+                f"session {session.sequence} ({session.name}) is a spoken opening — "
+                "replaced by the edition's own introduction"
+            )
+            continue
         use_audio = session.sequence in series.transcript_from_audio
         converted = convert("" if use_audio else session.transcript_html)
         body, wanted = localise_images(converted.markdown, slug)
@@ -332,6 +375,23 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
         # to: conversion here is a deterministic HTML walk with no model behind
         # it, so there is no cost to pay and nothing to protect from being
         # re-derived. Only the OUTCOME has to match, and the replay decides that.
+        # The edition's own introduction, before the replay so a human edit to it
+        # still wins. Authored ONCE per book and cached — `apply_introduction` is
+        # idempotent and asks the model again only under `force`, so re-running
+        # the ingest costs nothing and cannot rewrite a preface Asif has read.
+        #
+        # The SAME function every other route uses. A lecture series needs the
+        # same thing a translated treatise needs — a short, honestly titled page
+        # saying what this is and what is in it — and a second implementation of
+        # it here would be a second answer to that question, drifting from the
+        # first the moment either changed. What the lane supplies is the fact
+        # that this book is spoken; the brief adapts on `source_medium`.
+        intro = apply_introduction(book_dir, log=lambda *_: None)
+        if intro.get("words"):
+            report.notes.append(f"edition introduction: {intro['words']} words")
+        elif intro.get("reason"):
+            report.notes.append(f"edition introduction NOT written: {intro['reason']}")
+
         replayed = apply_composer_edits(book_dir, log=lambda *_: None)
         if replayed["applied"]:
             report.notes.append(f"{replayed['applied']} authored chapter(s) replayed over the fresh text")

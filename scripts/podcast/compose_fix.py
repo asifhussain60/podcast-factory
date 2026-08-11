@@ -51,9 +51,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _book_defect_fixes import FIXES, ligature_is_printable, proposed_romanization_deletions
+from _book_defect_fixes import (  # noqa: E402
+    FIXES,
+    ligature_is_printable,
+    proposed_romanization_deletions,
+)
 from _book_defects import DETECTORS, chapters
 from _book_edits import anchor_key, base_fingerprint_for, record_edit
+from _book_preface import preface_check, write_preface
+from _compose_fix_report import print_report
 from _compose_fix_vowel import vowel_chapters
 
 #: A `## ` heading that opens with a printed chapter number.
@@ -393,56 +399,22 @@ def _record_chapter_edits(book_dir: Path, md: str, headings: set[str]) -> None:
         )
 
 
-def _print_provenance(report: dict) -> None:
-    """Book-scoped, so it prints once — above the per-chapter findings."""
-    stale = report.get("stale_provenance") or []
-    if not stale:
-        return
+def _refuse_if_composer_open(args) -> bool:
+    """True when a write must not go ahead — one copy, so all four writers agree.
+
+    The Composer autosaves the file every repair below writes and has already
+    clobbered a verse once. `--allow-composer-open` is the way past it, for a tab
+    open on a different book.
+    """
+    pid = composer_is_open()
+    if pid is None or args.allow_composer_open:
+        return False
     print(
-        f"\n  stale-provenance: {len(stale)} Arabic run(s) that this book's own record does not\n"
-        "  describe — either it does not call them scripture, or it cannot name the ayah. That\n"
-        "  record decides their face, their ink, the card they print in and the header of that\n"
-        "  card. Repair with --refresh-provenance (free, no model)."
+        f"REFUSED: the Book Composer is running (pid {pid}) and autosaves the file this would "
+        "write.\nClose the tab, or pass --allow-composer-open if you know it is not on this book.",
+        file=sys.stderr,
     )
-    for _, run in stale[:5]:
-        print(f"      {run[:72]}")
-
-
-def _print_report(report: dict, proposals: list[tuple[str, str]]) -> None:
-    from _quote_cards import print_quote_card_findings
-
-    print(f"\n{report['book']} — {len(report['chapters'])} chapter(s) checked")
-    _print_provenance(report)
-    # Printed by the module that owns the contract, so the wording of a rule and the
-    # wording of the finding cannot drift apart.
-    print_quote_card_findings(report)
-    any_found = False
-    for chapter in report["chapters"]:
-        if not chapter["defects"]:
-            continue
-        any_found = True
-        print(f"\n  {chapter['heading']}  ({chapter['words']} words)")
-        for name, hits in chapter["defects"].items():
-            mark = "repairable" if name in FIXES else "needs your judgment"
-            print(f"      {name:26} {len(hits):>4}   {mark}")
-            for hit in hits[:3]:
-                print(f"          {str(hit[0])[:88]}")
-    if not any_found:
-        # "Clean" has to mean every check, not the chapter-scoped ones: a run that
-        # printed the card findings above and then said "clean" would read as though it
-        # had found nothing.
-        if not (report.get("stale_provenance") or report.get("quote_card_rules") or report.get("orphaned_quote_kind")):
-            print("\n  clean — none of the eight defects in these chapters")
-        return
-    if report["repairable"]:
-        print(f"\n  --fix would repair: {', '.join(report['repairable'])}")
-    if proposals:
-        print(
-            f"\n  {len(proposals)} Arabic saying(s) print in the English character set. Nothing here "
-            "applies a repair:\n  the honest fix is the Arabic, and where it exists nowhere on disk "
-            "supplying it would mean\n  a model recalling scripture. Deleting the romanization is "
-            "yours to approve — the English\n  translation always sits beside it."
-        )
+    return True
 
 
 def main() -> int:
@@ -470,6 +442,13 @@ def main() -> int:
         "--no-research",
         action="store_true",
         help="skip the one metered rung; the library and the rendering are both free",
+    )
+    parser.add_argument(
+        "--preface",
+        nargs="?",
+        const="once",
+        choices=("once", "force"),
+        help="write the missing introduction from the book's own chapters; 'force' re-asks a cached one",
     )
     parser.add_argument("--list", action="store_true", help="print the chapter list and exit")
     parser.add_argument("--json", action="store_true", help="emit the report as JSON")
@@ -509,11 +488,21 @@ def main() -> int:
         return 0
 
     report = check(book_dir, selection)
+    report["preface"] = preface_check(book_dir)
     proposals = [
         p
         for p in proposed_romanization_deletions(book_md.read_text(encoding="utf-8"))
         if p[0] in {c["heading"] for c in selection}
     ]
+
+    if args.preface:
+        if _refuse_if_composer_open(args):
+            return 1
+        print(f"\n{book_dir.name} — writing the edition's introduction")
+        report["preface_written"] = write_preface(book_dir, force=args.preface == "force", log=print)
+        # Re-asked after the write, so the run ENDS by saying whether the book now
+        # opens properly rather than reporting the state it started in.
+        report["preface"] = preface_check(book_dir)
 
     if args.refresh_provenance:
         # No Composer guard: this writes `_system/`, never `book/book.md`, so the
@@ -522,26 +511,14 @@ def main() -> int:
         report["provenance"] = refresh_provenance(book_dir, log=print)
 
     if args.vowel:
-        pid = composer_is_open()
-        if pid and not args.allow_composer_open:
-            print(
-                f"REFUSED: the Book Composer is running (pid {pid}) and autosaves the file this would "
-                "write.\nClose the tab, or pass --allow-composer-open if you know it is not on this book.",
-                file=sys.stderr,
-            )
+        if _refuse_if_composer_open(args):
             return 1
         print(f"\n{book_dir.name} — vowelling bare Arabic")
         report["vowelling"] = vowel_chapters(book_dir, selection, section_text=_section_text, log=print)
         report["after"] = check(book_dir, selection)["totals"]
 
     if args.resolve_romanization:
-        pid = composer_is_open()
-        if pid and not args.allow_composer_open:
-            print(
-                f"REFUSED: the Book Composer is running (pid {pid}) and autosaves the file this would "
-                "write.\nClose the tab, or pass --allow-composer-open if you know it is not on this book.",
-                file=sys.stderr,
-            )
+        if _refuse_if_composer_open(args):
             return 1
         print(f"\n{book_dir.name} — resolving romanized sayings")
         report["romanization"] = resolve_romanizations(
@@ -563,13 +540,7 @@ def main() -> int:
             if not printable:
                 print(f"REFUSED: {why}", file=sys.stderr)
                 return 1
-        pid = composer_is_open()
-        if pid and not args.allow_composer_open:
-            print(
-                f"REFUSED: the Book Composer is running (pid {pid}) and autosaves the file this would "
-                "write.\nClose the tab, or pass --allow-composer-open if you know it is not on this book.",
-                file=sys.stderr,
-            )
+        if _refuse_if_composer_open(args):
             return 1
         result = fix(book_dir, selection, kinds=kinds, log=print)
         report["fixed"] = result
@@ -578,7 +549,7 @@ def main() -> int:
     if args.json:
         print(json.dumps(report, indent=2, ensure_ascii=False))
     else:
-        _print_report(report, proposals)
+        print_report(report, proposals, FIXES)
         if args.fix:
             print(
                 f"\n  repaired {report['fixed']['chapters_changed']} chapter(s); remaining: {report['after'] or 'none'}"
