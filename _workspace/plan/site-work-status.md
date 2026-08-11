@@ -1,5 +1,47 @@
 # Current work - status
 
+**Last updated:** 2026-08-11 (Repo audit: CI had been red for six days and that
+hid everything else; four jobs green, four real bugs fixed, two new ratchets)
+
+**Newest — a holistic audit across the pipeline, the Astro Site and the Podcast
+Factory Library. Five commits on `develop`, pushed. Nothing deployed to production.**
+
+- **CI had failed on EVERY push since 2026-08-05, and that was the real finding.**
+  The agent-spec mirror gate compared against `.claude/agents/`, which is
+  gitignored and so cannot exist on a runner — all 22 specs reported as drifted,
+  every run. A gate that always fails carries exactly as much signal as one that
+  always passes, and this one masked a genuine listener typecheck break for a
+  day. It also called `mkdir` on the directory it was auditing, so re-running it
+  could never clear the drift.
+- **Fixing that surfaced a second bug in the same loop.** The branch that created
+  a missing `.github` wrapper skipped the runtime activation copy below it, so a
+  brand-new agent stayed uninvokable until sync happened to run twice.
+- **Both remaining red tests were false alarms on `kitab-al-riyad`, and the book
+  was never damaged.** Three re-stamp paths each carried their own copy of the
+  report tally and none recomputed `reverted`, so the summary stayed frozen at 3
+  while the per-chapter records correctly said the chapters had been repaired.
+  One counter function now serves every path. Separately, the narration-framing
+  gate treated "some chapters unframed" as proof of an overwrite; that book has
+  two summaries and a split-chapter continuation that were authored unframed.
+  It now measures the overwrite directly.
+- **The browser side got the two gates it never had**, both shrink-only ratchets:
+  a per-RULE eslint warning budget (93 today, may only fall) and a file-size
+  ratchet. The size ceiling for NEW files is proposed at 800 and is NOT yet
+  enforced — that number is Asif's call. The 12 files already above it are
+  pinned and may not grow.
+- **A snapshot field nothing read was dirtying the tree on every commit**,
+  forcing a follow-up "refresh the snapshot" commit that dirtied it again.
+  Removed from both generators and the artifact; the tree now stays clean.
+
+**Open for Asif:** confirm or change the proposed 800-line ceiling (one flag in
+`plan-dashboard/frontend-ratchets.json` turns it on), and decide whether to
+consolidate the five diverging `escapeHtml` copies on the Astro site.
+
+---
+
+## Earlier
+
+
 **Last updated:** 2026-08-06 (Full repo audit: three gates that could not fail,
 eleven files restored, and the three live books re-published locally)
 
