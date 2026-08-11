@@ -19,9 +19,13 @@
  *   anything      a redirect to /sign-in is what a signed-out request looks
  *   redirected    like; caching one serves it back to a session that is fine.
  *
- * So exactly two things are kept: hashed build assets, which are immutable and
- * carry no one's data, and the Downloads document, which is the page a listener
- * with no signal actually needs.
+ * So exactly two KINDS of thing are kept: hashed build assets, which are
+ * immutable and carry no one's data, and the two shell documents — /downloads
+ * and /read-offline. Both shells are safe to keep for the same reason, and it is
+ * the reason they exist as separate pages at all: their documents say nothing
+ * about anybody. Everything on either one is read from IndexedDB after it loads,
+ * so a stored copy discloses nothing that a signed-out visitor could not already
+ * see, and there is no Companion card anywhere in them.
  */
 
 const VERSION = "v1";
@@ -30,6 +34,22 @@ const DOCS = `pf-docs-${VERSION}`;
 
 /** The one page that has to work with no network. */
 const OFFLINE_PATH = "/downloads";
+
+/**
+ * The offline READING shell.
+ *
+ * A page whose document says nothing about anybody — everything on it is read
+ * from IndexedDB after it loads — which is what makes it safe to keep when a
+ * /book document is not. The book and chapter travel in the QUERY, and this
+ * cache is keyed by path, so one stored copy serves every chapter of every
+ * downloaded book. Keyed by path is not an implementation detail here: a
+ * per-chapter key would mean only the chapters already opened online could be
+ * opened offline, which is exactly backwards.
+ */
+const READ_PATH = "/read-offline";
+
+/** /book/<slug>/read/<chapter> — the page we cannot cache, and can redirect. */
+const READER_URL = /^\/book\/([^/]+)\/read\/([^/]+)\/?$/;
 
 /** Immutable, hashed, and nobody's private data. */
 const CACHEABLE_ASSET = /^\/(assets|fonts|brand)\//;
@@ -73,30 +93,25 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (isDownloadsRequest(url)) {
-    event.respondWith(downloadsDocument(request));
+  if (isShellRequest(url)) {
+    event.respondWith(shellDocument(request));
     return;
   }
 
-  // Any OTHER navigation, offline: send them to the page that works instead of
-  // the browser's error. A redirect rather than serving the Downloads document
-  // under the wrong URL — the document carries its own route data, and handing
-  // it back for /book/x would hydrate a page that disagrees with the address.
+  // Any OTHER navigation, offline: send them to a page that works instead of
+  // the browser's error. A redirect rather than serving a cached document under
+  // the wrong URL — a document carries its own route data, and handing the
+  // Downloads page back for /book/x would hydrate a page that disagrees with
+  // the address.
   if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request).catch(async () => {
-        const saved = await caches.match(OFFLINE_PATH, { cacheName: DOCS });
-        return saved === undefined
-          ? new Response("Offline.", { status: 503, headers: { "Content-Type": "text/plain" } })
-          : Response.redirect(OFFLINE_PATH, 302);
-      }),
-    );
+    event.respondWith(fetch(request).catch(() => fallback(url)));
   }
 });
 
-/** The Downloads page, and the data React Router fetches when navigating to it. */
-function isDownloadsRequest(url) {
-  return url.pathname === OFFLINE_PATH || url.pathname === `${OFFLINE_PATH}.data`;
+/** The two shells that must survive with no network, and their route data. */
+function isShellRequest(url) {
+  const path = url.pathname.replace(/\.data$/, "");
+  return path === OFFLINE_PATH || path === READ_PATH;
 }
 
 /**
@@ -123,7 +138,7 @@ async function asset(request) {
  * fresh one. `response.redirected` is the signed-out case and must never be the
  * copy we keep.
  */
-async function downloadsDocument(request) {
+async function shellDocument(request) {
   try {
     const response = await fetch(request);
     if (response.ok && !response.redirected) {
@@ -139,4 +154,30 @@ async function downloadsDocument(request) {
     if (cached !== undefined) return cached;
     throw error;
   }
+}
+
+/**
+ * Where a failed navigation goes.
+ *
+ * A reader who tapped a CHAPTER is sent to the offline reader for that same
+ * chapter, not to a list — the URL already says what they wanted, and throwing
+ * that away to show them an index is making them ask twice. Everything else
+ * goes to Downloads, which is the page that can always say what is here.
+ */
+async function fallback(url) {
+  const reader = READER_URL.exec(url.pathname);
+  if (reader !== null && (await caches.match(READ_PATH, { cacheName: DOCS })) !== undefined) {
+    const to = new URL(READ_PATH, url.origin);
+    // Decoded before re-encoding: the chapter key is percent-encoded in the
+    // path, and carrying it across as-is would double-encode it and match no
+    // chapter at all.
+    to.searchParams.set("book", decodeURIComponent(reader[1]));
+    to.searchParams.set("chapter", decodeURIComponent(reader[2]));
+    return Response.redirect(to.toString(), 302);
+  }
+
+  const saved = await caches.match(OFFLINE_PATH, { cacheName: DOCS });
+  return saved === undefined
+    ? new Response("Offline.", { status: 503, headers: { "Content-Type": "text/plain" } })
+    : Response.redirect(OFFLINE_PATH, 302);
 }

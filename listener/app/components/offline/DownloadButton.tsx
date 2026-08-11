@@ -1,9 +1,23 @@
-import { faCheck, faDownload, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBookOpen,
+  faCheck,
+  faDownload,
+  faTrash,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { useCallback, useState, useSyncExternalStore } from "react";
 
 import { Icon } from "~/components/Icon";
 import { megabytes } from "~/lib/facts";
-import { download, isDownloaded, remove, subscribe } from "~/lib/offline";
+import {
+  download,
+  downloadText,
+  hasText,
+  isDownloaded,
+  remove,
+  removeText,
+  subscribe,
+} from "~/lib/offline";
 
 /**
  * Keep this episode on the device, or let it go.
@@ -115,6 +129,70 @@ export function DownloadButton({
       {compact ? null : (
         <span className="pf-download__label">{failed ? "Try again" : "Download"}</span>
       )}
+    </button>
+  );
+}
+
+/**
+ * Keep this BOOK'S TEXT on the device.
+ *
+ * A book rather than a chapter, because nobody wants chapter four on a plane —
+ * they want the book — and because the prose of a whole book is smaller than
+ * twenty seconds of its audio, so there is nothing to ration.
+ */
+export function KeepTextButton({ slug, title }: { slug: string; title: string }) {
+  const held = useSyncExternalStore(
+    subscribe,
+    () => hasText(slug),
+    () => false,
+  );
+  const [busy, setBusy] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  async function start() {
+    setFailed(false);
+    setBusy(true);
+    try {
+      await downloadText(slug);
+    } catch {
+      setFailed(true);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (busy) {
+    return (
+      <span className="pf-button pf-button--soft pf-download--busy" role="status">
+        <progress className="pf-download__bar" max={100} />
+        Keeping the text
+      </span>
+    );
+  }
+
+  if (held) {
+    return (
+      <button
+        type="button"
+        onClick={() => void removeText(slug)}
+        className="pf-button pf-button--soft"
+        aria-label={`Remove the downloaded text of ${title}`}
+      >
+        <Icon icon={faCheck} />
+        Text on this device
+      </button>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => void start()}
+      className="pf-button pf-button--soft"
+      aria-label={`Keep the text of ${title} on this device`}
+    >
+      <Icon icon={failed ? faXmark : faBookOpen} />
+      {failed ? "Try again" : "Keep the text"}
     </button>
   );
 }

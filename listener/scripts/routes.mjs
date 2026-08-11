@@ -60,6 +60,14 @@ export const STATIC_ROUTES = [
   { path: "/offline/allowed", who: "reader", expect: 200, label: "offline-allowed" },
   { path: "/offline/allowed", who: "anon", expect: 302, label: "offline-allowed-signed-out" },
 
+  // The offline reading shell. Its document carries nothing about anybody — the
+  // chapters are read from the device after it loads — which is what makes it
+  // safe for the service worker to keep. Visited with no book named, which is
+  // the state the worker's own fallback can land somebody in.
+  { path: "/read-offline", who: "admin", expect: 200, label: "read-offline" },
+  { path: "/read-offline", who: "reader", expect: 200, label: "read-offline-reader" },
+  { path: "/read-offline", who: "anon", expect: 302, label: "read-offline-signed-out" },
+
   // `/admin` IS the people screen — the Overview tab it used to open on was
   // retired, and its numbers now sit above both tabs.
   { path: "/admin", who: "admin", expect: 200, label: "admin-people" },
@@ -88,6 +96,10 @@ export const BOOK_ROUTES = [
   { path: "/book/:slug/read/:chapter", who: "reader", expect: 200, label: "reader" },
   { path: "/book/:slug/marks", who: "reader", expect: 200, label: "marks" },
 
+  // A whole book's prose, for keeping on the device. Same gate as the page, so
+  // the denied case must be a 404 exactly like the page's.
+  { path: "/book/:slug/text", who: "reader", expect: 200, label: "book-text" },
+
   // The same chapter, to the one account whose right-hand drawer is the Scholar
   // Companion rather than its own notes. Shot separately because it is a
   // DIFFERENT PAGE — a different panel, and tinted sentences in the prose — and
@@ -103,6 +115,7 @@ export const BOOK_ROUTES = [
   { path: "/book/:slug", who: "nobody", expect: 404, label: "book-denied" },
   { path: "/book/:slug/read/:chapter", who: "nobody", expect: 404, label: "reader-denied" },
   { path: "/book/:slug/marks", who: "nobody", expect: 404, label: "marks-denied" },
+  { path: "/book/:slug/text", who: "nobody", expect: 404, label: "book-text-denied" },
 ];
 
 /** Routes only worth visiting when the book has the thing they show. */

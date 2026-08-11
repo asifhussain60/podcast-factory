@@ -48,7 +48,7 @@ import { marksFor } from "~/server/marks.server";
 import { describeContents } from "~/lib/facts";
 import { count, plural } from "~/lib/plural";
 import { megabytes } from "~/lib/facts";
-import { DownloadButton } from "~/components/offline/DownloadButton";
+import { DownloadButton, KeepTextButton } from "~/components/offline/DownloadButton";
 import { readingMinutes } from "~/lib/reading";
 import {
   chaptersOf,
@@ -330,7 +330,17 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                     chapters={chapters}
                     progress={marks.progress}
                     markedChapters={markedChapters}
-                    download={printEdition}
+                    download={
+                      /* Two ways to take this book away with you, side by side
+                         because they answer the same question and a reader
+                         choosing between them should see both at once: the PDF
+                         is the typeset edition to keep, and this is the same
+                         chapters readable in the site with no signal. */
+                      <>
+                        <KeepTextButton slug={unit.slug} title={unit.title} />
+                        {printEdition}
+                      </>
+                    }
                   />
                 ),
               }
