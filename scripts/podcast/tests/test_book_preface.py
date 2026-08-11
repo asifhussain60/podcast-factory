@@ -20,8 +20,14 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-from _book_frontmatter import INTRO_HEADING, facts_for_introduction, introduction_prompt  # noqa: E402
-from _book_preface import preface_findings, sections, spoken_opening_markers  # noqa: E402
+from _book_frontmatter import (  # noqa: E402
+    INTRO_CLOSE,
+    INTRO_HEADING,
+    INTRO_OPEN,
+    facts_for_introduction,
+    introduction_prompt,
+)
+from _book_preface import fenced_introduction, preface_findings, sections, spoken_opening_markers  # noqa: E402
 
 SPOKEN = """# Love Of The Prophet
 
@@ -99,6 +105,69 @@ def test_deeper_headings_are_not_sections() -> None:
     the first `###` of chapter one look like the book's opening."""
     nested = "# A Book\n\n## One\n\n### Inside\n\nBody.\n"
     assert [t for t, _ in sections(nested)] == ["One"]
+
+
+# ---------------------------------------------------------------------------
+# The fence is the authority, not the heading
+#
+# Found 2026-08-11, by opening the two books this check had just accused. Both
+# volumes of Mukhtasar al-Athar carry a full edition introduction — written by
+# this same machinery — under `## Introduction`, not today's `## Introduction to
+# the Book`. Reading only the heading called them BOTH `missing-preface`, and the
+# cure this module names is "write one", so acting on the finding would have
+# stacked a second introduction over a good one in two printed editions already
+# in front of readers.
+# ---------------------------------------------------------------------------
+
+DRIFTED = f"""# An Older Book
+
+{INTRO_OPEN}
+## Introduction
+
+{"This volume gathers the transmitted reports subject by subject. " * 8}
+{INTRO_CLOSE}
+
+## 1. The First Teaching
+
+The argument begins here.
+"""
+
+
+def test_a_preface_under_an_older_heading_is_still_a_preface() -> None:
+    assert preface_findings(DRIFTED) == []
+
+
+def test_the_fence_is_found_whatever_heading_sits_inside_it() -> None:
+    inside = fenced_introduction(DRIFTED)
+    assert inside is not None
+    assert "## Introduction" in inside
+    assert "The argument begins here" not in inside, "the fence ends where it says it ends"
+
+
+def test_a_book_with_no_fence_falls_back_to_the_heading_rule() -> None:
+    """The fence is newer than some of the corpus. Removing the fallback would let
+    a genuinely prefaceless book pass merely by having no markers."""
+    assert fenced_introduction(SPOKEN) is None
+    assert _codes(SPOKEN) == ["spoken-opening"]
+
+
+def test_an_empty_fence_is_still_reported() -> None:
+    """The heading no longer has to be right, but the CONTENT still does — an
+    edition introduction nobody wrote is the failure this check exists for."""
+    hollow = f"# A Book\n\n{INTRO_OPEN}\n## Introduction\n\nShort.\n{INTRO_CLOSE}\n\n## One\n\nBody.\n"
+    assert _codes(hollow) == ["empty-preface"]
+
+
+def test_the_fenced_heading_does_not_count_toward_the_word_floor() -> None:
+    """Otherwise a fence holding nothing but a long heading would read as a preface."""
+    padded = f"# A Book\n\n{INTRO_OPEN}\n## {'Introduction ' * 30}\n{INTRO_CLOSE}\n\n## One\n\nBody.\n"
+    assert _codes(padded) == ["empty-preface"]
+
+
+def test_an_unclosed_fence_is_not_treated_as_a_preface() -> None:
+    """A half-written marker must not silence the check for the whole book."""
+    broken = f"# A Book\n\n{INTRO_OPEN}\n## Introduction\n\nWords.\n\n## One\n\nBody.\n"
+    assert fenced_introduction(broken) is None
 
 
 # ---------------------------------------------------------------------------

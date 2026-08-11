@@ -81,6 +81,32 @@ def _heading() -> str:
     return INTRO_HEADING[3:].strip().lower()
 
 
+def fenced_introduction(book_md: str) -> str | None:
+    """The text inside the `edition-intro` fence, or None when there is no fence.
+
+    THE FENCE IS THE AUTHORITY, NOT THE HEADING (2026-08-11). `_book_frontmatter`
+    writes both, but only the markers are machine-written and stable: the heading
+    inside them is a convention that has already drifted once. Both volumes of
+    Mukhtasar al-Athar carry a full, well-written edition introduction under
+    `## Introduction` rather than today's `## Introduction to the Book`, and a
+    check that read only the heading called them BOTH `missing-preface`.
+
+    That is the expensive direction to be wrong in. The cure this module names is
+    "write one", so acting on that finding would have stacked a second
+    introduction on top of a good one — in a printed reading edition, on two books
+    already in front of readers.
+    """
+    from _book_frontmatter import INTRO_CLOSE, INTRO_OPEN
+
+    start = book_md.find(INTRO_OPEN)
+    if start == -1:
+        return None
+    end = book_md.find(INTRO_CLOSE, start)
+    if end == -1:
+        return None
+    return book_md[start + len(INTRO_OPEN) : end]
+
+
 def sections(book_md: str) -> list[tuple[str, str]]:
     """Every `##` section as (title, body), in the order the book prints them."""
     parts = _SECTION_RE.split(book_md)
@@ -105,6 +131,21 @@ def preface_findings(book_md: str) -> list[tuple[str, str]]:
     found = sections(book_md)
     if not found:
         return [("no-sections", "the book has no `##` sections at all — nothing to open with")]
+
+    # The fence first: a book carrying one has an edition introduction whatever
+    # the heading inside it says. Only its emptiness is still worth reporting.
+    fenced = fenced_introduction(book_md)
+    if fenced is not None:
+        words = len(_SECTION_RE.sub(" ", fenced).split())
+        if words < _MIN_USEFUL_WORDS:
+            return [
+                (
+                    "empty-preface",
+                    f"the book carries an edition-introduction fence holding only {words} words — "
+                    "a marker with nothing under it, not a preface",
+                )
+            ]
+        return []
 
     wanted = _heading()
     title, body = found[0]
