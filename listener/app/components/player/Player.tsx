@@ -1,4 +1,5 @@
 import {
+  faChevronDown,
   faPlus,
   faRotateLeft,
   faRotateRight,
@@ -46,6 +47,17 @@ export interface NowPlaying {
   durationS: number | null;
   /** The media URL of this episode's WebVTT, or null when none was made. */
   transcriptSrc: string | null;
+  /**
+   * Which collection the book being played belongs to — see `lib/collection.ts`.
+   *
+   * Carried on the EPISODE rather than read from the page, and that is the whole
+   * point of it being here. The player is mounted in `_authed`, above every book
+   * route, so that sound survives navigation: a listener can start a session and
+   * walk into a book's page while it plays. An attribute taken from the page
+   * would then paint the bar for whatever is on screen instead of for what is
+   * coming out of the speakers.
+   */
+  collection?: "sessions";
 }
 
 /** Which side panel the player is showing, or none. */
@@ -88,6 +100,21 @@ interface PlayerState {
   reloadNotes: () => void;
   panel: PlayerPanel;
   openPanel: (panel: PlayerPanel) => void;
+  /**
+   * Whether the player has taken over the screen.
+   *
+   * ONE flag, read by CSS rather than by JS, and that is the whole design: the
+   * expanded player is the SAME markup as the bar with a different layout, so
+   * there is no second player to keep in step, no second transport, and nothing
+   * that can be playing in one and stopped in the other. `data-expanded` on the
+   * root is what the stylesheet switches on.
+   *
+   * It only takes over on a phone. On a desktop the bar is already out of the
+   * way at the foot of a wide page, and a full-screen player there would hide
+   * the book somebody is reading along with.
+   */
+  expanded: boolean;
+  setExpanded: (expanded: boolean) => void;
   play: (episode: NowPlaying) => void;
   toggle: () => void;
   seek: (seconds: number) => void;
@@ -290,6 +317,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [cues, setCues] = useState<Cue[] | null>(null);
   const [notes, setNotes] = useState<EpisodeNote[]>([]);
   const [panel, setPanel] = useState<PlayerPanel>(null);
+  const [expanded, setExpanded] = useState(false);
 
   /**
    * Which episode the cues in state belong to.
@@ -578,6 +606,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       reloadNotes,
       panel,
       openPanel,
+      expanded,
+      setExpanded,
       play,
       toggle,
       seek,
@@ -596,6 +626,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       reloadNotes,
       panel,
       openPanel,
+      expanded,
+      setExpanded,
       play,
       toggle,
       seek,
@@ -683,6 +715,8 @@ function PlayerBar() {
     notes,
     panel,
     openPanel,
+    expanded,
+    setExpanded,
     toggle,
     seek,
     nudge,
@@ -729,13 +763,42 @@ function PlayerBar() {
   const here = notes.filter((n) => n.number === current.number).length;
 
   return (
-    <div ref={bar} role="region" aria-label="Now playing" className="pf-player">
+    <div
+      ref={bar}
+      role="region"
+      aria-label="Now playing"
+      className="pf-player"
+      data-collection={current.collection}
+      /* ONE attribute, and everything about the full-screen player follows from
+         it in CSS. There is no second component: the expanded view is this bar
+         re-laid-out, so the transport, the scrubber and the panels are the same
+         elements and cannot disagree with a compact copy of themselves. */
+      data-expanded={expanded ? "true" : undefined}
+    >
       <div className="pf-player__inner">
+        {/* The artwork, which only the expanded player draws. Generated from the
+            accent exactly as the deck's track tiles are — these recordings have
+            no cover art to show and never will. */}
+        <div className="pf-player__art" aria-hidden="true">
+          {String(current.number).padStart(2, "0")}
+        </div>
+
         <div className="pf-player__top">
           <div className="pf-player__what">
-            <p className="pf-player__title">
-              {current.number}. {current.title}
-            </p>
+            {/* Tapping what is playing is how every phone player opens its full
+                screen. It is a BUTTON on a phone and inert above that width —
+                `pointer-events` in the stylesheet — because on a desktop there
+                is nothing to expand into. */}
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              className="pf-player__grow"
+              aria-label={`Open the player for ${current.title}`}
+            >
+              <p className="pf-player__title">
+                {current.number}. {current.title}
+              </p>
+            </button>
             <Link to={`/book/${current.slug}`} className="pf-player__book">
               {current.bookTitle}
             </Link>
@@ -840,6 +903,17 @@ function PlayerBar() {
               className="pf-player__close"
             >
               &times;
+            </button>
+
+            {/* Collapse. Drawn only while expanded — see the stylesheet — so it
+                is never a control on a bar that has nothing to collapse. */}
+            <button
+              type="button"
+              onClick={() => setExpanded(false)}
+              aria-label="Shrink the player"
+              className="pf-player__shrink"
+            >
+              <Icon icon={faChevronDown} />
             </button>
           </div>
         </div>

@@ -54,7 +54,14 @@ const CONTENT = path.join(REPO, "content");
 // first supplication book lands, at which point it would have been invisible to
 // every snapshot JSON. Restated rather than imported because this script runs
 // under plain node with no TS resolver; the test is what keeps the restatement true.
-const BUCKETS = ["Islamic", "Technical", "Fiction", "Guides", "Supplications"];
+const BUCKETS = [
+  "Islamic",
+  "Technical",
+  "Fiction",
+  "Guides",
+  "Supplications",
+  "Sessions",
+];
 const BOOK_ROOTS = [
   ...BUCKETS.map((b) => path.join(CONTENT, b)),
   path.join(CONTENT, "drafts"),

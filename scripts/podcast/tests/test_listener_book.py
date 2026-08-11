@@ -21,13 +21,13 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _listener_book import (  # noqa: E402
+from _listener_book import Book  # noqa: E402
+from _listener_decks import deck_title  # noqa: E402
+from _listener_media import (  # noqa: E402
     AUDIO_NUMBER_RE,
     SESSION_DIR_RE,
-    Book,
     collect_audio,
     collect_media,
-    deck_title,
 )
 
 
@@ -42,7 +42,7 @@ def make_book(tmp_path: Path, *, episodes: int = 4) -> Book:
         blurb=None,
         edition_note=None,
     )
-    from _listener_book import Episode
+    from _listener_media import Episode
 
     for n in range(1, episodes + 1):
         book.episodes.append(Episode(number=n, title=f"Episode {n}", blurb=None, style=None))

@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
+import { collectionOf } from "~/lib/collection";
 import { describeContents } from "~/lib/facts";
 import type { LibraryCard } from "~/server/catalog.server";
 
@@ -57,7 +58,14 @@ export function BookCard({
         );
 
   return (
-    <Link to={`/book/${slug}`} className="pf-card pf-card--link pf-book">
+    <Link
+      to={`/book/${slug}`}
+      className="pf-card pf-card--link pf-book"
+      /* The card is the whole subtree the overlay has to cover — band, pills,
+         meter and all — so the attribute goes on the link rather than on the
+         band it most obviously colours. */
+      data-collection={collectionOf(bucket)}
+    >
       <div className="pf-book__band">
         <span className="pf-pill pf-pill--pinned">{bucket}</span>
 

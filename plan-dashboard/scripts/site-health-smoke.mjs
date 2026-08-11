@@ -83,6 +83,7 @@ function discoverSlug() {
     "Fiction",
     "Guides",
     "Supplications",
+    "Sessions",
   ];
   const candidates = [];
   for (const b of buckets) {

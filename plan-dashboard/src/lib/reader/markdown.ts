@@ -835,6 +835,40 @@ export function renderMarkdown(
       continue;
     }
 
+    // A markdown image standing alone on its line — `![alt](src)`.
+    //
+    // A FIGURE, not an inline `<img>` inside a paragraph, and the reason is what
+    // these images are. They arrive from the Sessions lane: the diagrams and
+    // scans Asif put on screen while delivering a lecture, which his transcript
+    // then points at. That is a plate the prose refers to, which is what a
+    // figure element means; an inline image would be an emoji-sized picture
+    // wedged into a sentence.
+    //
+    // Only when the line is NOTHING BUT the image. An `![…]` mid-sentence stays
+    // literal, exactly as it did before this existed — the alternative is a
+    // block element opened inside a `<p>`, which browsers close for you in a
+    // place you did not choose.
+    //
+    // `alt` is usually empty here, because the authored HTML these come from
+    // carried no alt text and inventing one would be describing a picture this
+    // code cannot see. An empty alt on a figure is the correct declaration for
+    // "no text alternative was written", not a missing one.
+    const image = /^!\[([^\]]*)\]\(([^)\s]+)\)$/.exec(trimmed);
+    if (image !== null) {
+      flushAll();
+      const src = escapeHtml(image[2]).replace(/"/g, "&quot;");
+      const alt = escapeHtml(image[1]).replace(/"/g, "&quot;");
+      out.push(
+        `<figure class="md-figure"><img src="${src}" alt="${alt}" loading="lazy" />` +
+          (image[1]
+            ? `<figcaption>${renderInline(image[1], opts)}</figcaption>`
+            : "") +
+          `</figure>`,
+      );
+      i++;
+      continue;
+    }
+
     // Image-block markers from the source-extractor finalize stage.
     if (
       opts.imageBlocks &&

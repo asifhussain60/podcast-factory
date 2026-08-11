@@ -39,6 +39,12 @@ class ContentType:
     skip_enrichment: bool  # skip Phase 0e (doctrinal enrichment)
     skip_ocr: bool  # skip Phase 0a Azure OCR (source already digital English/text)
     literary_voice: dict  # revoice defaults consumed by _literary.py
+    # Who narrates a book of this type when it declares no `narrative_frame` of
+    # its own. A property of the content type, so it is declared here beside the
+    # bucket rather than in a second hand-maintained table; `_rules.py` derives
+    # PROFILE_DEFAULT_NARRATIVE_FRAME from these. None means "no type-level
+    # default" and falls through to _rules.DEFAULT_NARRATIVE_FRAME.
+    narrative_frame: str | None = None
     # Default audio engine for a NEW book of this profile, stamped into
     # series-config.yaml at intake (intake_launch._write_series_config). NEW-book
     # default ONLY — never applied retroactively, so existing books with no
@@ -63,6 +69,7 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
             "addressee": "the reader",
             "scene_source": "text_only",
         },
+        narrative_frame="transmitted_report",
         # All Islamic books use NotebookLM (Google conversational AI — approved
         # fingerprint from the-master-and-the-disciple, confirmed 2026-06-13).
         # ElevenLabs scripted dialogue was tried for Vol 1 and rejected.
@@ -81,6 +88,7 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
             "addressee": "a fellow developer",
             "scene_source": "text_only",
         },
+        narrative_frame="first_person_author",
     ),
     "fiction": ContentType(
         profile="fiction",
@@ -94,6 +102,7 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
             "addressee": "the reader",
             "scene_source": "text_only",
         },
+        narrative_frame="external_narrator",
     ),
     "consumer_explainer": ContentType(
         profile="consumer_explainer",
@@ -143,12 +152,52 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
             "addressee": "the reader",
             "scene_source": "text_only",
         },
+        narrative_frame="transmitted_report",
+    ),
+    # Delivered lecture sessions — Asif's own recordings, with transcripts already
+    # written by hand in KSESSIONS_DEV. A sibling lane like islamic_supplication:
+    # registered here purely so the shared resolvers (_paths.resolve_bucket,
+    # _branching.branch_name) derive `Sessions/<slug>` for free. The podcast phase
+    # machinery never runs for this profile — the lane has its own driver
+    # (scripts/podcast/sessions/) and produces no NotebookLM episodes, because the
+    # audio already exists and is the lecture itself.
+    #
+    # Every skip is load-bearing, not conservative padding:
+    #   skip_ocr        source is HTML out of a database, already digital text
+    #   skip_phonetics  0c exists so NotebookLM says Arabic terms correctly; nothing
+    #                   here is spoken by a model, so it has nothing to correct
+    #   skip_enrichment 0e injects outside doctrinal material, which would put words
+    #                   into a lecture Asif already delivered
+    #
+    # Appended LAST on purpose: CONTENT_PROFILES is derived from insertion order,
+    # so adding here leaves every existing profile's position untouched.
+    "islamic_session": ContentType(
+        profile="islamic_session",
+        bucket="Sessions",
+        skip_phonetics=True,
+        skip_enrichment=True,
+        skip_ocr=True,
+        literary_voice={
+            "narrator_voice": "author_first_person",
+            "narrator_subject": "the speaker",
+            "addressee": "the reader",
+            "scene_source": "text_only",
+        },
+        narrative_frame="first_person_author",
     ),
 }
 
 # Ordered top-level bucket folders under content/ (type-first layout, 2026-06-04).
 # "Supplications" appended 2026-07-19 (PDF-only facing-column lane).
-BUCKETS: tuple[str, ...] = ("Islamic", "Technical", "Fiction", "Guides", "Supplications")
+# "Sessions" appended 2026-08-11 (delivered-lecture lane).
+BUCKETS: tuple[str, ...] = (
+    "Islamic",
+    "Technical",
+    "Fiction",
+    "Guides",
+    "Supplications",
+    "Sessions",
+)
 
 # CONTENT_PROFILES is now DERIVED from the registry (was a hand-maintained tuple
 # of 3; technical + fiction are now first-class). Order: registry insertion order.

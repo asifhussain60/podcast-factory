@@ -371,3 +371,25 @@ if __name__ == "__main__":  # pragma: no cover - thin CLI
         print("usage: _book_arabic_audit.py <BOOK_DIR>", file=sys.stderr)
         raise SystemExit(2)
     raise SystemExit(0 if run_arabic_audit(Path(sys.argv[1])) else 1)
+
+
+def print_provenance_findings(report: dict) -> None:
+    """Say which runs this book's own Arabic record no longer describes.
+
+    Lives here rather than in the tool that prints it, for the reason
+    `_quote_cards` and `_book_preface` both give: the module that decides what
+    the defect IS also owns the sentence describing it, so a change to one
+    cannot leave the other saying something no longer true. Book-scoped, so it
+    prints once — above the per-chapter findings.
+    """
+    stale = report.get("stale_provenance") or []
+    if not stale:
+        return
+    print(
+        f"\n  stale-provenance: {len(stale)} Arabic run(s) that this book's own record does not\n"
+        "  describe — either it does not call them scripture, or it cannot name the ayah. That\n"
+        "  record decides their face, their ink, the card they print in and the header of that\n"
+        "  card. Repair with --refresh-provenance (free, no model)."
+    )
+    for _, run in stale[:5]:
+        print(f"      {run[:72]}")

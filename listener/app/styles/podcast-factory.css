@@ -10,6 +10,7 @@
  *   1. Faces .............. the four self-hosted families
  *   2. System tokens ...... spacing, radius, elevation, type, pills, motion
  *   3. Palettes ........... light / dark / sepia   <-- THE EXTENSION POINT
+ *  3b. Collections ....... accent overlays by content kind, not by theme
  *   4. Tailwind bridge .... @theme inline
  *   5. Base ............... element defaults, Arabic, focus, skip link
  *   6. Components ......... the site's own vocabulary, all .pf-*
@@ -675,6 +676,94 @@
 
   --l-shadow-near: rgb(51 41 28 / 0.09);
   --l-shadow-far: rgb(51 41 28 / 0.12);
+}
+
+/* ==========================================================================
+ * 3b. COLLECTIONS
+ *
+ * A collection is NOT a theme, and the difference is the whole reason this is
+ * its own section rather than a fourth block in §3.
+ *
+ * A theme answers "how does this reader want the site to look" — one answer at
+ * a time, for the whole document, chosen in the picker. A collection answers
+ * "what KIND of thing is this" — many at once, on the same page, decided by the
+ * content. The library grid shows blue books and violet sessions side by side;
+ * no value of `data-theme` can express that.
+ *
+ * So violet is deliberately NOT added to THEMES in app/lib/theme.ts. That array
+ * says of itself that it is the only list, and it is — of themes. Adding violet
+ * there would have offered "Violet" in the Light/Sepia/Dark picker as a fourth
+ * way to paint the whole site, which is not what a session is.
+ *
+ * WHAT AN OVERLAY MAY CONTAIN. Only the accent and band tokens — the colours
+ * that say whose collection this is. Never a surface, an ink or a rule: those
+ * belong to the reader's theme, and a collection that repainted the page would
+ * be a theme wearing a different attribute. Sessions and books are the same
+ * site in the same mode; one is violet.
+ *
+ * DECLARED ONCE PER PALETTE, because a single violet cannot serve all three —
+ * an accent that clears AA on warm paper is invisible on near-black. Same
+ * discipline as §3, same measured ratios in the comments, and test/theme.test.ts
+ * re-derives them: it merges each overlay over its base palette and runs the
+ * SAME pair list, so a violet that fails contrast fails the build exactly as a
+ * new theme would. (The overlays declare no `color-scheme` — they are not
+ * schemes — so they would otherwise have escaped that gate entirely.)
+ * ========================================================================== */
+
+/* Sessions — lectures Asif delivered himself, as opposed to the books the
+   pipeline produced. Violet by his choice, and the choice is load-bearing: the
+   two collections are read the same way and differ only in where the audio came
+   from, so the accent is the only thing telling them apart at a glance. */
+[data-theme="light"] [data-collection="sessions"],
+[data-theme="light"][data-collection="sessions"] {
+  --l-accent: #6a26c2; /* 7.16:1 on bg */
+  --l-accent-hover: #521a99;
+  --l-accent-soft: #e7ddfa; /* accent reads 6.04:1 on this */
+  --l-on-accent: #ffffff; /* 7.87:1 on accent */
+
+  --l-display: #4a2d70; /* 10.05:1 on bg */
+
+  --l-band: #4a2d70;
+  --l-on-band: #f6f4ef; /* 10.05:1 */
+  --l-band-muted: #c3b0dd; /* 5.56:1 */
+  --l-band-ornament: #ab8bec; /* 4.02:1 */
+}
+
+[data-theme="dark"] [data-collection="sessions"],
+[data-theme="dark"][data-collection="sessions"] {
+  --l-accent: #c2a0fa; /* 8.44:1 on bg */
+  --l-accent-hover: #d6c0ff;
+  --l-accent-soft: #2b2044; /* accent reads 6.97:1 on this */
+  --l-on-accent: #1a0a36; /* 8.51:1 on accent */
+
+  --l-display: #cbb6f2; /* 10.01:1 on bg */
+
+  /* Lighter than the page, like the blue band here and for the same reason: on
+     a dark sheet a band darker than the card reads as a hole in it. */
+  --l-band: #3a2c58;
+  --l-on-band: #eceef3; /* 10.76:1 */
+  --l-band-muted: #b8a9d4; /* 5.75:1 */
+  --l-band-ornament: #c2a0fa; /* 5.77:1 */
+}
+
+[data-theme="sepia"] [data-collection="sessions"],
+[data-theme="sepia"][data-collection="sessions"] {
+  /* The same violet the About page already uses on this sheet: sepia had a
+     measured warm violet before this collection existed, and a second one
+     three points away would only be a near-miss of it. */
+  --l-accent: #5f3199; /* 7.23:1 on bg */
+  --l-accent-hover: #48227a;
+  --l-accent-soft: #ded0ee; /* accent reads 6.02:1 on this */
+  --l-on-accent: #f8f2e6; /* 7.89:1 on accent */
+
+  --l-display: #4b3a63; /* 8.27:1 on bg */
+
+  /* Greyed towards the paper, exactly as the sepia navy is. A saturated violet
+     band on parchment reads as a sticker laid on the page. */
+  --l-band: #4b3a63;
+  --l-on-band: #f3ede1; /* 8.64:1 */
+  --l-band-muted: #c0b4cf; /* 5.12:1 */
+  --l-band-ornament: #a992d0; /* 3.70:1 */
 }
 
 /* ==========================================================================
@@ -2009,6 +2098,440 @@
     margin-inline: auto;
   }
 
+  /* ---- The full-screen player -------------------------------------------
+     On a phone, pressing what is playing opens the player over the whole
+     screen — the shape every phone audio app has, and the reason is the same
+     one: a 4.5rem strip at the foot of a phone is enough to say WHAT is playing
+     and not enough to do anything with it. The scrub target is the width of a
+     thumb, the rate control and the two panel buttons are crowded against each
+     other, and reading a transcript through a slot that size is not reading.
+
+     THE SAME MARKUP, RE-LAID-OUT. There is no second player component. Every
+     element below is the one the bar already had; `data-expanded` on the root
+     changes where each sits. A separate "expanded player" would be a second
+     transport, a second scrubber and a second set of panel buttons, and the
+     first bug would be one of them disagreeing with the other about whether
+     sound is coming out.
+
+     PHONE ONLY. Above 40rem the flag is ignored entirely and the bar stays a
+     bar: a desktop page is wide enough that the strip is out of the way, and
+     taking the screen there would hide the chapter somebody is reading along
+     with. That is also why the expand control is inert at those widths rather
+     than hidden — a button that vanishes when the window grows is a control the
+     reader has to re-learn. */
+
+  .pf-player__art,
+  .pf-player__shrink {
+    display: none;
+  }
+
+  /* Inert above the phone breakpoint: the title still looks like a title, and
+     nothing happens if it is pressed, because there is nowhere to expand to. */
+  .pf-player__grow {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+    pointer-events: none;
+  }
+
+  @media (max-width: 40rem) {
+    .pf-player__grow {
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .pf-player[data-expanded="true"] {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      border-radius: 0;
+      border: 0;
+      /* THE BAND, not the page — and this is the whole reason the expanded
+         player can be built out of the bar's own markup.
+
+         Every ink in this component is measured against `--l-band`:
+         `--l-on-band` for the title, the nudge outlines, the panel buttons and
+         the scrubber's track. Painting the expanded view on `--l-bg` kept all of
+         them and changed the ground beneath them, and on the LIGHT palette the
+         result was a screen with the episode title, both nudges, the scrubber
+         and the two panel buttons all invisible — white on white. Keeping the
+         band means one surface changes and not one of a dozen inks above it has
+         to be restated.
+
+         The accent wash falls from the top, where the artwork is, instead of
+         rising from a corner as it does on a 4.5rem strip. */
+      background:
+        radial-gradient(
+          120% 70% at 50% 0%,
+          color-mix(in oklab, var(--l-accent) 55%, transparent) 0%,
+          transparent 70%
+        ),
+        var(--l-band);
+      overflow-y: auto;
+      /* Clears the notch and the home indicator on the devices that have them. */
+      padding: max(var(--pf-space-5), env(safe-area-inset-top))
+        var(--pf-space-5) max(var(--pf-space-5), env(safe-area-inset-bottom));
+    }
+
+    .pf-player[data-expanded="true"] .pf-player__inner {
+      display: flex;
+      flex-direction: column;
+      /* Centred in the screen rather than stacked from the top. A phone player
+         with its transport two thirds up and a hand's width of nothing beneath
+         reads as a page that failed to finish loading. */
+      justify-content: center;
+      gap: var(--pf-space-5);
+      min-height: 100%;
+      max-width: 30rem;
+      margin-inline: auto;
+    }
+
+    /* The artwork leads, at the size a phone gives it: as wide as the column,
+       square, capped so it never pushes the transport off a short screen. */
+    .pf-player[data-expanded="true"] .pf-player__art {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      order: -1;
+      width: 100%;
+      max-width: 18rem;
+      aspect-ratio: 1;
+      margin-inline: auto;
+      border-radius: var(--pf-radius-md);
+      background: linear-gradient(
+        140deg,
+        var(--l-accent),
+        color-mix(in srgb, var(--l-accent) 55%, var(--l-elev))
+      );
+      color: var(--l-on-accent);
+      font-family: var(--l-font-ui);
+      font-size: 3rem;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      box-shadow: 0 24px 48px var(--l-shadow-far);
+    }
+
+    .pf-player[data-expanded="true"] .pf-player__top {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--pf-space-4);
+    }
+
+    .pf-player[data-expanded="true"] .pf-player__what {
+      text-align: center;
+    }
+
+    .pf-player[data-expanded="true"] .pf-player__title {
+      /* The one place on this site a title is allowed to be this large: it is
+         the only thing on the screen. */
+      font-size: var(--pf-text-xl);
+      line-height: 1.25;
+      white-space: normal;
+    }
+
+    .pf-player[data-expanded="true"] .pf-player__grow {
+      text-align: center;
+    }
+
+    /* Transport at thumb size, centred, with the two nudges either side of a
+       play button big enough to hit without looking. */
+    .pf-player[data-expanded="true"] .pf-player__transport {
+      justify-content: center;
+      gap: var(--pf-space-5);
+    }
+
+    .pf-player[data-expanded="true"] .pf-player__play {
+      width: 4.5rem;
+      height: 4.5rem;
+      font-size: var(--pf-text-lg);
+    }
+
+    .pf-player[data-expanded="true"] .pf-player__nudge {
+      width: 3.25rem;
+      height: 3.25rem;
+    }
+
+    /* The scrubber goes above the transport and gets a real target height —
+       the strip's 4px line is not a control on a touchscreen. */
+    .pf-player[data-expanded="true"] .pf-player__scrub {
+      order: -1;
+      gap: var(--pf-space-3);
+      font-size: var(--pf-text-sm);
+    }
+
+    .pf-player[data-expanded="true"] .pf-player__seek {
+      height: 2rem;
+    }
+
+    /* `align-self`, not `justify-content`: the group is `flex: none`, so in the
+       expanded column it is content-width rather than stretched, and centring
+       its CONTENTS centres nothing. Centring the group is the actual ask. */
+    /* `margin-inline: auto`, not `align-self`. The group is `flex: none`, so in
+       the expanded column it is content-width rather than stretched — and it
+       inherits the bar's own end-alignment, which put it hard against the right
+       edge of a centred screen. An auto margin either side is the one form that
+       centres a content-width flex item whatever the parent's alignment says. */
+    .pf-player[data-expanded="true"] .pf-player__panels {
+      margin-inline: auto;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Collapse, top-left, where a phone's back affordance lives. */
+    .pf-player[data-expanded="true"] .pf-player__shrink {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      inset-block-start: max(var(--pf-space-4), env(safe-area-inset-top));
+      inset-inline-start: var(--pf-space-4);
+      width: 2.75rem;
+      height: 2.75rem;
+      /* On the band, like everything else here. `--l-on-band` clears 7.7:1
+         against it in every palette; `--l-ink` on `--l-surface` was a white disc
+         on a navy screen. */
+      border: 1px solid color-mix(in srgb, var(--l-on-band) 35%, transparent);
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--l-on-band) 12%, transparent);
+      color: var(--l-on-band);
+      cursor: pointer;
+    }
+
+    /* Closing the player entirely is a different intention from putting it away,
+       and on a full screen the two would sit next to each other as a pair of
+       round buttons. Only the one that collapses is drawn. */
+    .pf-player[data-expanded="true"] .pf-player__close {
+      display: none;
+    }
+  }
+
+  /* ---- The recordings ----------------------------------------------------
+     The Listen tab is the SAME LIST as the reading edition (Asif, 2026-08-11),
+     and that is a reversal of what stood here for a day.
+
+     It had been made to read as a PLAYER: an inlaid panel with its own border,
+     its own accent tint, a wash along the top edge and hairline-separated rows
+     inside it, on the reasoning that a recording is a different kind of thing
+     from a chapter and should announce itself as one. What it announced instead
+     was a TABLE — a boxed grid of cells sitting on a page where every other
+     list is loose striped rows printed straight onto the card. Two lists of the
+     same book in two different idioms read as two different products.
+
+     So the panel is gone and the `ol` carries `--striped`, which is the reading
+     edition's own treatment: rounded rows, a step of space between them, and
+     every other one washed in the collection's accent. What still says this is
+     audio is what BELONGS to the audio — the microphone at the head of the row,
+     the transport at the end of it, and the pill of facts between.
+
+     Kept from the player idiom: the circular transport, the row that lifts
+     under the pointer, and the accent edge down the row that is playing. */
+
+  .pf-track {
+    align-items: center;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-3);
+    border-radius: var(--pf-radius-sm);
+    transition:
+      background var(--pf-motion),
+      transform var(--pf-motion),
+      box-shadow var(--pf-motion);
+  }
+
+  /* ---- The row's genre mark, in a ring ---------------------------------
+     THE TWO ENDS OF THE ROW, THE SAME SHAPE (Asif, 2026-08-11). The mark was
+     set at `1em` — the size a chapter's book icon is, in a row whose other end
+     is a 44px circle — so a track opened with a speck and closed with a button
+     and read as lopsided all the way down the list.
+
+     The ring is DRAWN here rather than found in the icon set: Font Awesome's
+     free styles have no microphone in a circle, and the circle is wanted for
+     something a glyph could not supply anyway — it answers the transport at the
+     other end, so a track begins and ends on the same shape.
+
+     Smaller than that transport on purpose. These are the row's two ends, not
+     its two buttons: one is a label and the other is the thing you press, and
+     at the same diameter the label would read as a control that does nothing. */
+  .pf-row__mark.pf-row__badge {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid color-mix(in srgb, var(--l-accent) 35%, transparent);
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--l-accent) 8%, transparent);
+    color: var(--l-accent);
+    font-size: 1.15rem;
+    opacity: 1;
+  }
+
+  /* Full strength inside the ring. `.pf-icon` fades every glyph to 0.7 so an
+     icon never outweighs the words beside it; here the ring is doing that job,
+     and a faded microphone inside a solid circle reads as disabled. */
+  .pf-row__badge .pf-icon {
+    opacity: 1;
+  }
+
+  /* The whole row starts the recording, so the whole row says so under the
+     pointer. The transport button keeps its own cursor and its own name — this
+     is the row admitting it is pressable, not a second control. */
+  .pf-track--playable {
+    cursor: pointer;
+  }
+
+  .pf-track:hover {
+    /* Lighter than the deck it sits on, in the same hue. `--l-surface` was flat
+       white here and read as a hole punched in a tinted panel. */
+    background: color-mix(in srgb, var(--l-accent) 2%, var(--l-elev));
+    /* One pixel. Enough to read as a lift under the pointer; more and a list of
+       twenty rows ripples as the mouse crosses it. */
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px var(--l-shadow-near);
+  }
+
+  .pf-track:hover .pf-row__main > p:first-child {
+    color: var(--l-accent);
+  }
+
+  /* ---- What is true of one recording -----------------------------------
+     ONE pill on the right holding both facts, beside the transport.
+
+     They were two lines under the title: a clock, and a "Read along: <chapter>"
+     that on a lecture series repeated the title immediately above it on every
+     single row — because for a lecture the episode and the chapter ARE the same
+     session (Asif, 2026-08-11). What a listener wants from that line is not
+     which chapter it is; it is whether there are words to follow and how long
+     this will take.
+
+     A pill rather than plain text, so it reads as a property of the row rather
+     than as a second title, and grouped so the two facts do not have to be found
+     separately at opposite ends. */
+  .pf-track__facts {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* ONE WIDTH FOR EVERY ROW (Asif, 2026-08-11). Sized by its contents, these
+       pills came out four different widths down a list of five — an hour-long
+       episode is wider than a forty-minute one, and an episode with no
+       transcript is narrower than both. Four ragged right edges in a column read
+       as four different KINDS of thing rather than as the same fact about five
+       recordings.
+
+       A floor, not a fixed width, and in `em` so it tracks the pill's own type:
+       it holds the widest pair this list can produce — the word, the seam and a
+       clock that has gone past an hour — and a longer one would still grow
+       rather than clip. */
+    min-width: 13.5em;
+    gap: var(--pf-space-2);
+    padding: var(--pf-pill-sm-y) var(--pf-pill-x);
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--l-accent) 10%, transparent);
+    color: var(--l-accent);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    white-space: nowrap;
+  }
+
+  .pf-track__fact {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+  }
+
+  /* Tabular, and separated by a rule rather than a bullet: two facts in one pill
+     need a seam, and a dot at this size is a speck. */
+  .pf-track__fact--time {
+    font-variant-numeric: tabular-nums;
+    /* The clock gets a column of its own inside the pill, wide enough for an
+       hour-plus running time and flushed right. Without it, equal-width pills
+       still put the seam in a different place on every row, because `45:27` and
+       `1:02:26` are not the same width — which is the ragged edge one step in
+       from the one that was there before. */
+    min-width: 4.6em;
+    justify-content: flex-end;
+  }
+
+  .pf-track__fact + .pf-track__fact--time {
+    padding-inline-start: var(--pf-space-2);
+    border-inline-start: 1px solid
+      color-mix(in srgb, var(--l-accent) 30%, transparent);
+  }
+
+  @media (max-width: 40rem) {
+    /* The word goes; the icon and the running time stay. On a phone the row is
+       the title and its two smallest facts, and "Transcript" spelled out is what
+       pushes the title onto a second line. */
+    .pf-track__fact:not(.pf-track__fact--time) span,
+    .pf-track__facts {
+      font-size: var(--pf-text-xs);
+    }
+  }
+
+  /* The transport. A circle, because that is what a play control looks like
+     everywhere a person has ever met one, and because the word it replaced was
+     the same word on every row.
+
+     44px: the AAA target size, held for the same reason the theme swatches are —
+     this is the control on this page most likely to be pressed with a thumb. */
+  .pf-track__play {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--l-accent);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--l-accent);
+    font-size: var(--pf-text-sm);
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion),
+      box-shadow var(--pf-motion);
+  }
+
+  .pf-track__play:hover,
+  .pf-track__play.is-playing {
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--l-accent) 18%, transparent);
+  }
+
+  /* The row that is PLAYING is marked on the row, not only on its button: the
+     button is 44px at the end of a wide row and the eye looking for "where am
+     I" scans the left edge. A rule down that edge answers it at a glance. */
+  .pf-session__list > li:has(.pf-track__play.is-playing) .pf-track {
+    background: color-mix(in srgb, var(--l-accent) 4%, var(--l-elev));
+    box-shadow: inset 3px 0 0 var(--l-accent);
+  }
+
+  @media (max-width: 40rem) {
+    .pf-track {
+      padding: var(--pf-space-2);
+      gap: var(--pf-space-2);
+    }
+  }
+
+  /* A lift is motion. Someone who has asked for less of it keeps the colour and
+     the marked edge, which are what actually carry the state. */
+  @media (prefers-reduced-motion: reduce) {
+    .pf-track:hover {
+      transform: none;
+    }
+  }
+
   .pf-session {
     margin-top: var(--pf-space-6);
   }
@@ -2731,13 +3254,63 @@
     border-top: 0;
   }
 
+  /* EVERY ROW IS ITS OWN CARD (Asif, 2026-08-11). The stripe alone left the
+     boundary between two rows as a change of tint and nothing else — and
+     between two consecutive UN-striped rows, as nothing at all. An outline and
+     a gap give each one an edge whether or not the stripe falls on it.
+
+     The border is the palette's soft rule rather than a mix of the accent: at
+     the accent it competed with the pill and the transport, which are the two
+     things on a row that are SUPPOSED to be in the collection's colour.
+
+     On `--striped` itself, not on one list: the chapters and the recordings are
+     one list shape, and a card on one tab and a bare row on the other is two
+     shapes wearing one name. */
   .pf-rows--striped > li {
-    border-bottom: 0;
+    border: 1px solid var(--l-rule-soft);
     border-radius: var(--pf-radius-sm);
   }
 
+  /* THE COLLECTION'S OWN COLOUR, not a neutral. `--l-sunken` mixed at 50% is a
+     warm grey on paper, so a striped list read as beige on beige and the book it
+     belonged to was nowhere in it (Asif, 2026-08-11). Mixing `--l-accent`
+     instead makes the stripe a wash of the same colour as the card band above
+     it: violet for a session, blue for a book, decided by the collection overlay
+     in §3b before this ever resolves.
+
+     Seven percent, which is a stripe you notice only when you look for it. The
+     ink on it is unchanged and still measured against `--l-surface` — a tint
+     this faint moves the contrast ratio in the third decimal place. */
   .pf-rows--striped > li:nth-of-type(even) {
-    background: color-mix(in srgb, var(--l-sunken) 50%, transparent);
+    background: color-mix(in srgb, var(--l-accent) 7%, transparent);
+  }
+
+  /* Room to breathe. The rows were a hairline apart at 44px tall, which is a
+     table of contents; a list somebody chooses a chapter from wants the space
+     between the choices to be visible (Asif, 2026-08-11) — and with an outline
+     on each one, a gap is what stops five cards reading as one grid. */
+  .pf-rows--striped > li + li {
+    margin-top: var(--pf-space-2);
+  }
+
+  .pf-rows--striped .pf-row {
+    padding-block: var(--pf-space-4);
+  }
+
+  /* The mark at the head of a chapter row. Sized against the text rather than
+     fixed, so it tracks the reader's own type scale, and in the accent so the
+     eye reads the column of them as one thing. */
+  .pf-row__mark {
+    flex: none;
+    align-self: center;
+    width: 1em;
+    color: var(--l-accent);
+    opacity: 0.55;
+  }
+
+  .pf-row:hover .pf-row__mark,
+  .pf-row[aria-current="true"] .pf-row__mark {
+    opacity: 1;
   }
 
   /* Pulled out by exactly the row's own inline padding.
@@ -2768,16 +3341,6 @@
     flex: none;
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
-    color: var(--l-faint);
-  }
-
-  .pf-row__index {
-    flex: none;
-    width: 1.5rem;
-    text-align: end;
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-xs);
-    font-variant-numeric: tabular-nums;
     color: var(--l-faint);
   }
 
@@ -3934,65 +4497,6 @@
     color: var(--l-faint);
   }
 
-  /* ---- Continue reading --------------------------------------------------
-     The one call to action on a book page that is about THIS reader rather than
-     about the book. In the accent's soft fill so it is findable above a list of
-     nine near-identical chapter rows, without becoming a solid slab — the print
-     edition button beside it already learned that lesson. */
-
-  /* Where you left off, standing on its own ABOVE the panel rather than as the
-     first thing inside it. Between the chapter count and the first chapter row
-     it read as another row of the list; out here it is the first thing under
-     the title. The bottom margin is the separation that makes it read as its
-     own object and not as the panel's lid. */
-  .pf-resume {
-    display: flex;
-    flex-direction: column;
-    gap: var(--pf-space-1);
-    margin-block: var(--pf-space-5) var(--pf-space-6);
-    padding: var(--pf-space-4) var(--pf-space-5);
-    background: var(--l-accent-soft);
-    border: 1px solid color-mix(in srgb, var(--l-accent) 30%, transparent);
-    border-radius: var(--pf-radius);
-    text-decoration: none;
-    transition:
-      border-color var(--pf-motion),
-      transform var(--pf-motion);
-  }
-
-  .pf-resume:hover {
-    border-color: var(--l-accent);
-    transform: translateY(var(--pf-lift));
-  }
-
-  /* Its own label rather than the shared `.pf-eyebrow`: this one names an
-     action the reader is being offered, and at the eyebrow's weight it read as
-     a section caption of the kind that labels a fact. */
-  .pf-resume__label {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--pf-space-2);
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-xs);
-    font-weight: 700;
-    letter-spacing: var(--pf-tracking-eyebrow);
-    text-transform: uppercase;
-    color: var(--l-accent);
-  }
-
-  .pf-resume__title {
-    font-family: var(--l-font-prose);
-    font-size: var(--pf-text-md);
-    color: var(--l-ink);
-  }
-
-  .pf-resume__meta {
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-xs);
-    font-variant-numeric: tabular-nums;
-    color: var(--l-muted);
-  }
-
   /* How many marks sit in a chapter, in its row. Quieter than the reading time
      beside it: one is a fact about the book, the other is a fact about you. */
   .pf-row__marks {
@@ -4077,21 +4581,45 @@
      columns and stay there; the controls take the row beneath, aligned to the
      title's own column rather than to the card. Nothing can overlap because
      tracks do not overlap. */
+  /* EVERY CHILD IS PLACED, which is the half that was missing. The facts pill
+     moved into the row as a fourth child on 2026-08-11 and nothing here named
+     it, so on a phone the grid auto-placed it: the pill took the free cell in
+     column one and pushed the title into column two of the row below, hard
+     against the right edge, under nothing. A grid with three of its four
+     children placed is a wrapping flex row again, with the same failure the
+     comment above says a grid cannot have.
+
+     So: the glyph and the title on the first line, the transport in a column of
+     its own down the right where the thumb already is, and the pill under the
+     title in the title's own column — which is where an episode's facts sat
+     before they became a pill, and the shape a phone has room for. */
   @media (max-width: 639px) {
     .pf-session__list .pf-row {
       display: grid;
-      grid-template-columns: auto 1fr;
+      grid-template-columns: auto 1fr auto;
       align-items: baseline;
       column-gap: var(--pf-space-4);
       row-gap: var(--pf-space-2);
     }
 
-    .pf-session__list .pf-row__main {
-      grid-column: 2;
+    .pf-session__list .pf-row__mark {
+      grid-area: 1 / 1;
     }
 
+    .pf-session__list .pf-row__main {
+      grid-area: 1 / 2;
+    }
+
+    .pf-session__list .pf-track__facts {
+      grid-area: 2 / 2;
+      justify-self: start;
+    }
+
+    /* Spanning both lines and centred against them, so the button sits beside
+       the pair rather than against the title's baseline. */
     .pf-session__list .pf-row__actions {
-      grid-column: 2;
+      grid-area: 1 / 3 / span 2;
+      align-self: center;
       justify-content: flex-end;
     }
   }
@@ -5976,6 +6504,14 @@
     color: var(--l-on-accent);
   }
 
+  /* The library's collection filter — the swatch control with somewhere to
+     stand. It sits under the search box in the masthead, which is centred, so
+     the only thing it needs of its own is the gap and its own line. */
+  .pf-collections {
+    display: inline-flex;
+    margin-top: var(--pf-space-4);
+  }
+
   /* The reader toolbar's version: a DOT per theme, painted in that theme's own
      paper colour, because "Light Sepia Dark" written out is a third of a phone's
      width for a setting most readers touch once.
@@ -6409,6 +6945,7 @@
  *   p.ar.is-quranic     an Arabic line the mushaf resolved
  *   span.quran-cite     a verse reference chip
  *   div.md-comment      a pipeline comment; never shown
+ *   figure.md-figure    a plate the prose points at, with an optional caption
  *
  * Renaming any of them is a change to the renderer, not to this file.
  * Everything sizes from the four `--l-reading-*` properties, which the reader
@@ -6472,9 +7009,52 @@
     font-weight: 600;
   }
 
+  /* ---- Enumerations ---------------------------------------------------
+     THE MARKERS HAVE TO BE PUT BACK. Tailwind's preflight sets
+     `list-style: none` on every `ul` and `ol` — the right default for an app
+     built out of nav lists and card grids, and exactly wrong for a reading
+     column, where a list is prose the author chose to enumerate.
+
+     Nothing restored it, so every enumeration in every reading edition on this
+     site has been rendering as a pair of indented paragraphs: correct HTML,
+     correct source markdown, and no bullet on the page. Asif found it on
+     2026-08-11 in a passage of Arabic morphology where two worked examples had
+     silently stopped looking like two worked examples.
+
+     `ol` takes decimals and `ul` discs, because the SOURCE decides which: the
+     KSESSIONS transcripts carry both, `renderMarkdown` preserves both, and the
+     page must not flatten that choice into one shape.
+
+     The marker is set in the muted ink rather than the body ink. At the reading
+     column's size a full-strength disc is a heavier mark than the sentence it
+     introduces. */
   .reader ul,
   .reader ol {
-    padding-left: 1.4em;
+    padding-left: 1.6em;
+    /* The list is a block of prose, not a run inside one — it wants the same
+       space above and below that a paragraph gets. */
+    margin-block: 1em;
+  }
+
+  .reader ul {
+    list-style: disc outside;
+  }
+
+  .reader ol {
+    list-style: decimal outside;
+  }
+
+  /* A list inside a list is a sub-point, and it says so by changing shape. */
+  .reader ul ul {
+    list-style: circle outside;
+  }
+
+  .reader ol ol {
+    list-style: lower-alpha outside;
+  }
+
+  .reader li::marker {
+    color: var(--l-muted);
   }
 
   .reader li + li {
@@ -6916,6 +7496,46 @@
   /* A comment the pipeline left in the prose. Never shown to a reader. */
   .reader .md-comment {
     display: none;
+  }
+
+  /* ---- Plates ---------------------------------------------------------
+     A figure the prose points at — for the Sessions collection, the diagram or
+     scan the lecturer had on screen at that moment in the talk.
+
+     Sized to the MEASURE, not to the image. These arrive at whatever pixel
+     dimensions a screenshot happened to have — one is 1600px wide and one is
+     420 — and letting them keep it would put a plate wider than the column
+     beside one the size of a stamp. `width: 100%` up to the image's own size is
+     the compromise the print edition already makes: fill the column, never
+     upscale past what the file actually contains.
+
+     Centred with a rule under it rather than framed. A frame would compete with
+     the quotation cards, which are the only bordered thing in the reading
+     column and are bordered because the border MEANS something there. */
+  .reader .md-figure {
+    margin: var(--pf-space-6) auto;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .reader .md-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-inline: auto;
+    border-radius: var(--pf-radius-sm);
+    /* A hairline, so a scan on a white ground does not bleed into the page. */
+    border: 1px solid var(--l-rule-soft);
+    background: var(--l-surface);
+  }
+
+  .reader .md-figure figcaption {
+    margin-top: var(--pf-space-2);
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: 0.8em;
+    line-height: 1.5;
+    text-align: center;
   }
 
   /* ---- Chapter progress ---------------------------------------------- */

@@ -218,16 +218,65 @@ def facts_for_introduction(book_dir: Path) -> dict[str, Any]:
     except Exception:
         pass
 
+    # What this text IS, where the book declares it. A lecture series and a
+    # translated treatise want different opening sentences from the same brief,
+    # and the difference is knowable from a file rather than guessable from the
+    # prose — see the source-medium clause in `introduction_prompt`.
+    series_config = book_dir / "_system" / "series-config.yaml"
+    if series_config.exists():
+        try:
+            import yaml
+
+            config = yaml.safe_load(series_config.read_text(encoding="utf-8")) or {}
+            if isinstance(config, dict):
+                for key in ("source_medium", "content_profile"):
+                    if config.get(key):
+                        facts[key] = str(config[key])
+        except Exception:
+            pass
+
+    # THE CHAPTER LIST, which is the one fact the brief leans on hardest: "what
+    # it is about — the argument or the journey it actually makes, FROM THE
+    # CHAPTER LIST". Without it the introduction can say what a book is and who
+    # wrote it, and nothing at all about what is in it.
+    #
+    # Two sources, in this order, because the first is not always there.
+    # `book-toc.json` is a COMPOSE artifact — it carries the source lines each
+    # chapter was translated from, which is what the crosswalk gates need — and a
+    # route that never translates anything never writes one. The Sessions lane is
+    # the first such route: its chapters are transcripts of talks, so there are no
+    # source lines and there is no TOC. It still has chapters, and they are
+    # exactly the `##` headings of the book that is about to be printed.
+    #
+    # Falling back to the headings rather than requiring the TOC is also the more
+    # honest read for every other route: book.md is what goes to the printer, and
+    # a TOC that had drifted from it would describe a book nobody is holding.
     toc = book_dir / "book" / "book-toc.json"
+    chapters: list[dict[str, Any]] = []
     if toc.exists():
         try:
             data = json.loads(toc.read_text(encoding="utf-8"))
-            facts["chapters"] = [
+            chapters = [
                 {"index": c.get("bk_index") or c.get("index"), "title": c.get("title")}
                 for c in data.get("chapters", [])
             ]
         except Exception:
-            pass
+            chapters = []
+
+    if not chapters:
+        book_md = book_dir / "book" / "book.md"
+        if book_md.exists():
+            headings = _HEADING_RE.findall(book_md.read_text(encoding="utf-8"))
+            chapters = [
+                {"index": i, "title": h[3:].strip()}
+                for i, h in enumerate(headings, start=1)
+                # The introduction is what we are about to write. Listing it as a
+                # chapter would show the model its own output as source material.
+                if h[3:].strip().lower() != "introduction to the book"
+            ]
+
+    if chapters:
+        facts["chapters"] = chapters
 
     glossary = book_dir / "_system" / "glossary.yml"
     if glossary.exists():
@@ -248,15 +297,28 @@ def style_exemplar(book_dir: Path, *, words: int = 220) -> str:
     The register clause says what the voice is; this shows it. Asif's rule is that
     the introduction must not stand out as different prose, and a rule stated in
     the abstract is weaker evidence of a house voice than a page of the house
-    voice. Taken from the first numbered chapter, whose text has been through the
-    same articulation pass every other chapter has.
+    voice. Taken from the first chapter of the book proper, whose text has been
+    through the same articulation pass every other chapter has.
+
+    "The book proper" used to be spelled "the first NUMBERED heading", and on the
+    translated routes those are the same thing — the introduction is the one
+    unnumbered section, so skipping unnumbered headings skipped exactly it. They
+    are not the same thing everywhere. Numbering is a convention of those routes,
+    not a property of being a chapter, and the Sessions lane numbers nothing:
+    there the old test matched no heading at all and returned "", so the
+    introduction was written with no sample of this book's voice to match —
+    silently, and against the one rule this exemplar exists to enforce.
+
+    So the test is now what it always meant: skip the introduction, take the next
+    section. A numbered heading still qualifies, because it is not that.
     """
     book_md = Path(book_dir) / "book" / "book.md"
     if not book_md.exists():
         return ""
+    skip = INTRO_HEADING[3:].strip().lower()
     parts = _HEADING_RE.split(book_md.read_text(encoding="utf-8"))
     for i in range(1, len(parts), 2):
-        if not _NUMBERED_HEADING_RE.match(parts[i].strip()):
+        if parts[i].strip()[3:].strip().lower() == skip:
             continue
         prose = [
             p.strip()
@@ -304,6 +366,25 @@ def introduction_prompt(facts: dict[str, Any], *, exemplar: str = "", draft: str
         if exemplar
         else ""
     )
+    # A lecture series is not a treatise, and the brief below asks in several
+    # places what KIND of text this is. Answered from `source_medium`, which the
+    # book declares in its own series-config, rather than left to the model to
+    # infer from prose that reads like speech because it WAS speech.
+    #
+    # Only the shape changes. The word cap, the prohibitions, the register and
+    # the facts-are-exhaustive rule are identical — an introduction to a set of
+    # talks is still front matter under the same contract, not a second kind of
+    # document with its own rules.
+    spoken = (
+        "\nWHAT THIS PARTICULAR BOOK IS\nThese chapters are TRANSCRIPTS OF TALKS THAT WERE DELIVERED — a series of\n"
+        "sessions given aloud to an audience, transcribed and then articulated into\nprose. So:\n"
+        "- Call it what it is: a series of sessions, or talks, never a treatise or a\n  dialogue.\n"
+        "- The speaker is the author. Where the facts name him, he delivered these; he\n  did not write them at a desk.\n"
+        "- Say who the sessions were FOR if the facts support it, and what the series\n  walks the listener through, session by session, from the chapter list.\n"
+        "- Do not apologise for the spoken origin or explain the transcription. A reader\n  wants to know what is in the book, not how the file was made.\n"
+        if facts.get("source_medium") == "audio_lecture"
+        else ""
+    )
     raw = (
         f"\nRAW MATERIAL — an earlier, longer introduction to this same book\nUse what is accurate in it. It ran well "
         f"past the limit and was written to a different\nbrief, so compress rather than copy, and drop anything the "
@@ -321,7 +402,7 @@ should learn what it is, what it is about, and who wrote it. AIM FOR ABOUT {_INT
 
 FACTS YOU MAY USE — this list is exhaustive. Every one was read from a file in this book.
 {json.dumps(facts, ensure_ascii=False, indent=2)}
-{voice}{raw}
+{voice}{spoken}{raw}
 ABSOLUTE PROHIBITIONS
 1. Do NOT invent an author, a date, a school, a place or a scholarly judgment that is not
    in the FACTS. If no author is recorded, write about the book without naming one — an
@@ -438,8 +519,19 @@ def inject_introduction(book_md: str, text: str, *, gated: bool = True) -> str:
         return stripped
     if not (text or "").strip():
         return stripped
+    # Above the first section of the book proper — which is every section except
+    # the one this function is about to write. It used to look for the first
+    # NUMBERED heading, and on the translated routes that finds the same place,
+    # because there the introduction is the only unnumbered section.
+    #
+    # Off those routes it finds NOTHING. The Sessions lane numbers no heading, so
+    # this returned `None`, took the early exit below, and handed back a book with
+    # no introduction in it — while `apply_introduction` reported a word count and
+    # cached the text it had just paid a model to write. A silent no-op that read
+    # as a success everywhere it was logged.
+    skip = INTRO_HEADING[3:].strip().lower()
     match = next(
-        (m for m in _HEADING_RE.finditer(stripped) if _NUMBERED_HEADING_RE.match(m.group(1).strip())),
+        (m for m in _HEADING_RE.finditer(stripped) if m.group(1).strip()[3:].strip().lower() != skip),
         None,
     )
     if match is None:

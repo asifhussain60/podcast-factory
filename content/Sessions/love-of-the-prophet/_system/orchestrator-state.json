@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "book_slug": "love-of-the-prophet",
+  "category": "lectures",
+  "branch": "Sessions/love-of-the-prophet",
+  "pipeline_mode": "sessions_lane",
+  "phase": "sessions-preface",
+  "phase_status": "completed",
+  "last_completed_phase": "sessions-preface",
+  "next_phase": "sessions-apparatus",
+  "last_error": null,
+  "phases": {
+    "sessions-ingest": {
+      "status": "completed"
+    },
+    "sessions-transcribe": {
+      "status": "completed"
+    },
+    "sessions-articulate": {
+      "status": "completed"
+    },
+    "sessions-preface": {
+      "status": "completed"
+    },
+    "sessions-apparatus": {
+      "status": "pending"
+    }
+  },
+  "status": "draft"
+}
