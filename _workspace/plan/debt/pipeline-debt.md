@@ -1329,9 +1329,12 @@ Physical Impurity · Recognizing The Creator · Recognizing The Self · Unity, T
 Abstraction · Knowledge & Action. Session ids `68, 69, 70, 71, 72, 73, 95, 115, 1243,
 1244, 1247, 1248, 1249, 1250`.
 
-## Live blemish — eight quotations in Love Of The Prophet end with a stray `**` — 2026-08-11
+## RESOLVED — eight quotations in Love Of The Prophet ended with a stray `**` — 2026-08-11
 
-**Severity:** Low, and visible to readers on the production site today.
+**Severity:** Low, and it was visible to readers on the production site. **Cleared the same
+day** (Asif, 2026-08-11, option 2a): `stray-emphasis` is now a defect class with a repair,
+and `compose_fix --fix` cleared all sixteen markers through the Composer's own save path.
+The entry is kept rather than deleted because the diagnosis below is the part worth having.
 
 The cause is fixed and cannot recur. Font Awesome writes its icons as `<i class="fa …">`,
 which the Sessions converter read as markdown emphasis; 508 of them across the corpus are
@@ -1350,9 +1353,17 @@ Clearing them is one Composer save per chapter, or a re-articulation of the five
 eight places and needs no judgment, so the Composer route is the cheap one — but it edits
 a published reading edition, so it waits for Asif.
 
-## Snag — the romanized honorific is not a romanized saying — 2026-08-11
+## RESOLVED — the romanized honorific is not a romanized saying — 2026-08-11
 
-**Severity:** Medium. It blocks Surah Al-Fateha from joining the zero-defect corpus and it
+**Answered by Asif the same day: option (b), the existing ligature, with the loss of
+*wa aalihee* accepted in exchange for consistency with the six books already using it.**
+He added two conditions: no Arabic anywhere in the reading section may stay in Roman
+letters, and the verse, hadith and poetry cards must survive the change. Both hold —
+`romanized-honorific` is now its own detector with its own repair, `(SWS)` went in beside
+the spelled-out forms once all 81 were checked to follow the Prophet by name, and every
+gate reads zero across the corpus. The analysis below is why it needed asking.
+
+**Severity was:** Medium. It blocks Surah Al-Fateha from joining the zero-defect corpus and it
 will recur on every remaining Sessions book, because Asif typed the honorifics this way in
 the KSESSIONS admin throughout.
 
