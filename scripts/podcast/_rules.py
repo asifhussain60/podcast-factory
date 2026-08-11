@@ -307,11 +307,10 @@ NARRATIVE_FRAMES: dict[str, dict[str, object]] = {
 # Fallback when a book does not declare `narrative_frame`. Conservative on
 # purpose: a translated classical text is third-person until proven otherwise,
 # because inventing a narrator is unrecoverable while failing to invent one is not.
+# DERIVED from CONTENT_TYPE_REGISTRY — a frame is a property of the content type,
+# declared once beside its bucket. Profiles leaving it None fall through below.
 PROFILE_DEFAULT_NARRATIVE_FRAME: dict[str, str] = {
-    "islamic_scholarly": "transmitted_report",
-    "islamic_supplication": "transmitted_report",
-    "fiction": "external_narrator",
-    "technical": "first_person_author",
+    p: ct.narrative_frame for p, ct in CONTENT_TYPE_REGISTRY.items() if ct.narrative_frame
 }
 DEFAULT_NARRATIVE_FRAME: str = "external_narrator"
 
