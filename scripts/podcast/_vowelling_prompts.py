@@ -38,8 +38,21 @@ ABSOLUTE CONSTRAINTS - a response that breaks any of these is discarded:
   Mark the vowels on the letters you are given; do not re-spell the word to suit
   them.
 - Do not translate, explain, or add commentary. Return only the vowelled Arabic.
-- Where the vocalisation is genuinely ambiguous, choose the reading that the
-  surrounding sense supports and still return only the passage.
+
+WHICH READING TO CHOOSE, where the letters admit more than one. Resolve it as the
+ISMAILI tradition reads it, not as general modern Arabic would guess:
+- The technical vocabulary of the da'wa carries the vocalisation the tradition's
+  own scholars give it - da'i, hujja, lahiq, mustajib, natiq, asas, imam, mahdi,
+  ta'wil, zahir, batin, wilaya, and the ranks and titles around them. Vowel them
+  as an Ismaili scholar reading this text aloud would, including the case ending
+  the sentence's own syntax requires.
+- Names and honorifics of the Imams, the du'at and the authors of this literature
+  take the form the Ismaili sources use for them.
+- Where the Ismaili tradition is silent on a word, follow classical Islamic
+  scholarship - the standard lexica and the grammarians - rather than modern
+  usage. This is a classical text and its register is classical.
+- Only where all of that is silent does the surrounding sense decide.
+Return only the passage, whichever reading you chose.
 
 Return the vowelled Arabic on a single line, with no quotes and no preamble."""
 
@@ -60,4 +73,9 @@ ABSOLUTE CONSTRAINTS - a response that breaks any of these is discarded:
   case ending; a citation form is what belongs there.
 - The English tells you which reading is meant - a noun or a verb, this sense or
   that one. Follow it.
+- A term of the da'wa takes the vocalisation the ISMAILI tradition's own scholars
+  give it - da'i, hujja, natiq, asas, ta'wil, zahir, batin, wilaya and the ranks
+  around them - and a name or title of an Imam or a da'i takes the form the
+  Ismaili sources use. Where the tradition is silent, follow classical Islamic
+  scholarship and the standard lexica rather than modern usage.
 - Return only the vowelled Arabic term: no quotes, no commentary, no translation."""

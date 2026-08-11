@@ -81,6 +81,7 @@ from _vowelling import (  # noqa: E402
     reflow_to_source_whitespace,
     reflow_words_to_source_whitespace,
     rejection_reason,
+    transfer_marks,
 )
 from _vowelling_prompts import CITATION_SYSTEM, SYSTEM  # noqa: E402
 
@@ -210,6 +211,10 @@ def vowel_runs(
         # Runs that a refusal would have left completely bare and the salvage pass
         # got most of the marks onto anyway.
         "recovered": 0,
+        # Runs saved by carrying the model's marks onto the source's own letters,
+        # rather than by asking again. Counted apart from `vowelled` because it is
+        # the number that says whether the gate is still costing the reader marks.
+        "transferred": 0,
         "in_chars": 0,
         "out_chars": 0,
     }
@@ -273,6 +278,18 @@ def vowel_runs(
                 # `skeleton` normalises whitespace, so the collapse would sail
                 # through the gate. Put the source's own whitespace back first.
                 candidate = reflow_to_source_whitespace(run, candidate)
+                # KEEP THE MARKS, DROP THE LETTERS. The one refusal that actually
+                # happens is a model normalising a letter while vowelling correctly
+                # around it, and the answer used to be discarded whole. Taking the
+                # marks onto the source's own characters makes the skeleton
+                # source-identical by construction, so this runs BEFORE the gate and
+                # the gate still judges the result. See `_vowelling.transfer_marks`.
+                transferred = transfer_marks(run, candidate)
+                if transferred is not None and not rejection_reason(run, transferred):
+                    if transferred != candidate:
+                        stats["transferred"] += 1
+                    replacements.append((run, transferred))
+                    continue
                 reason = rejection_reason(run, candidate)
                 if reason:
                     # Refusals are RECORDED, not swallowed. A passage the model keeps

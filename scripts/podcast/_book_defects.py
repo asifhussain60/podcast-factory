@@ -499,6 +499,34 @@ from _book_translation_cards import (  # noqa: E402
     translation_outside_card,
 )
 
+
+def bare_arabic(md: str) -> list[tuple[str, str]]:
+    """(chapter, run) where an Arabic passage still carries no vowel marks.
+
+    THE PIPELINE'S RULE, CHECKED A SECOND TIME. Arabic in these editions always
+    carries its marks (Asif, 2026-07-29) and `vowel_book` puts them there at
+    compose time — so a bare passage here is not a missing feature, it is a compose
+    that did not finish the job. Until 2026-08-11 that happened routinely and
+    invisibly: a model normalising one letter while vowelling correctly around it
+    had its whole answer discarded by the marks-only gate, and the run stayed bare
+    with nothing but a line in `_system/book-vowelling.json` to say so.
+
+    The QUESTION is asked with `_vowelling.is_vowelling_candidate` — the very test
+    the compose-time pass uses to choose what to vowel — so the check and the pass
+    can never disagree about what counts as bare. Scripture is included on purpose:
+    a Qur'anic run takes its marks from the canonical mushaf rather than a model,
+    and a bare one means that lookup missed, which is worth seeing.
+    """
+    from _vowelling import is_vowelling_candidate
+
+    hits: list[tuple[str, str]] = []
+    for heading, body in chapters(md):
+        for run in quotation_runs(body):
+            if is_vowelling_candidate(run):
+                hits.append((heading, run))
+    return hits
+
+
 #: Every detector, by the name a report and a gate address it under. One registry so a
 #: caller cannot know about four of five — which is how the romanization defect ran in
 #: two shipped editions while the other checks were being written.
@@ -511,4 +539,5 @@ DETECTORS = {
     "translation-outside-card": translation_outside_card,
     "translation-leads-a-paragraph": translation_leads_a_paragraph,
     "translation-fused-with-prose": translation_fused_with_prose,
+    "bare-arabic": bare_arabic,
 }

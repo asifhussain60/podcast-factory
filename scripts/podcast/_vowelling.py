@@ -116,6 +116,103 @@ def rejection_reason(source: str, candidate: str) -> str | None:
     return None
 
 
+# Letters the model rewrites into "correct" Arabic while vowelling, and the form
+# the books actually print. Each entry is one LETTER in two shapes, never two
+# letters: the fold is what makes a mark transferable onto the source's own
+# character, so a pair that is a genuine spelling difference must not be here.
+#
+# EVERY PAIR IS EVIDENCE, counted across the seven composed books' recorded
+# refusals: alif carrying a hamza it does not have in the source (33), the
+# Perso-Arabic yeh, kaf, heh and teh marbuta the Urdu-set passages use (28), and
+# the yeh whose hamza seat the model drops (1). Four refusals in that corpus are
+# NOT in any family — a lam read as an alif, a noon as an alif — and they stay
+# refused, which is the whole reason this is a table and not a rule about hamzas.
+#
+# `ه` and `ة` are deliberately NOT one family. In Urdu orthography they overlap,
+# and one refusal in the corpus is exactly that; in Arabic they are a real
+# spelling distinction, and admitting the swap would let a mark transfer change
+# what a word means. That one run stays bare and is reported.
+#
+# RELATED BUT NOT THE SAME as `_book_romanization._PERSO_ARABIC_FOLD`, which
+# folds letters in order to MATCH two spellings of one saying. This decides what
+# a mark may be carried across, which is a stricter question, so the two tables
+# are written separately and neither imports the other.
+LETTER_FAMILY = {
+    "أ": "ا",  # alef with hamza above -> alef
+    "إ": "ا",  # alef with hamza below -> alef
+    "آ": "ا",  # alef with madda      -> alef
+    "ٱ": "ا",  # alef wasla           -> alef
+    "ؤ": "و",  # waw with hamza above -> waw
+    "ی": "ي",  # farsi yeh            -> yeh
+    "ى": "ي",  # alef maksura         -> yeh
+    "ئ": "ي",  # yeh with hamza above -> yeh
+    "ک": "ك",  # keheh                -> kaf
+    "ہ": "ه",  # heh goal             -> heh
+    "ھ": "ه",  # heh doachashmee      -> heh
+    "ۃ": "ة",  # teh marbuta goal     -> teh marbuta
+}
+
+
+def _same_letter(a: str, b: str) -> bool:
+    """One letter in two shapes — the difference a mark may be carried across."""
+    return a == b or LETTER_FAMILY.get(a, a) == LETTER_FAMILY.get(b, b)
+
+
+def transfer_marks(source: str, candidate: str) -> str | None:
+    """``source``'s letters wearing ``candidate``'s marks, or None if they disagree.
+
+    THE CURE FOR THE ONLY REFUSAL THAT EVER HAPPENS (Asif, 2026-08-11). Across the
+    seven composed books, 71 of 75 recorded refusals are a model normalising ONE
+    letter into another form of the same letter while vowelling correctly around
+    it — `ا` into `إ`, the Urdu `ی` into `ي` — and `rejection_reason` then discards
+    the whole answer, marks and all. The salvage pass in `vowel_book` re-asks the
+    same model, which normalises the same letter again, which is why `recovered`
+    stands at 0 in every book. Asking differently was never going to fix it.
+
+    So the marks are taken and the letters are not. Walking both sides letter by
+    letter, this emits the SOURCE's character with the CANDIDATE's marks attached,
+    which makes the result's skeleton byte-identical to the source BY
+    CONSTRUCTION rather than by a check that could be wrong. The guarantee the
+    gate exists to give is therefore strengthened here, not relaxed: after this,
+    no letter a model chose can reach `book.md` even by accident.
+
+    None when the two cannot be aligned: a different letter count (a dropped
+    clause, an added word), or a difference outside `LETTER_FAMILY` (a lam read as
+    an alif). Those still fail the gate and are still reported, because a mark
+    placed on a word the model misread is a wrong reading printed confidently.
+
+    The source's own whitespace is emitted verbatim, so this doubles as the reflow
+    `reflow_to_source_whitespace` performs for the candidates that do align.
+    """
+    if not source or not candidate:
+        return None
+    src = [c for c in source if not MARKS_RE.match(c) and not c.isspace()]
+    cand: list[tuple[str, str]] = []  # (letter, its trailing marks)
+    for ch in candidate:
+        if ch.isspace():
+            continue
+        if MARKS_RE.match(ch):
+            if cand:
+                cand[-1] = (cand[-1][0], cand[-1][1] + ch)
+            continue
+        cand.append((ch, ""))
+    if len(src) != len(cand) or not src:
+        return None
+    if any(not _same_letter(s, c) for s, (c, _) in zip(src, cand)):
+        return None
+    out: list[str] = []
+    i = 0
+    for ch in source:
+        if MARKS_RE.match(ch):
+            continue  # the candidate re-supplies every mark
+        if ch.isspace():
+            out.append(ch)
+            continue
+        out.append(ch + cand[i][1])
+        i += 1
+    return "".join(out)
+
+
 def reflow_to_source_whitespace(source: str, candidate: str) -> str:
     """``candidate``'s letters and marks, carrying ``source``'s exact whitespace.
 

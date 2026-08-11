@@ -54,6 +54,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _book_defect_fixes import FIXES, ligature_is_printable, proposed_romanization_deletions
 from _book_defects import DETECTORS, chapters
 from _book_edits import anchor_key, base_fingerprint_for, record_edit
+from _compose_fix_vowel import vowel_chapters
 
 #: A `## ` heading that opens with a printed chapter number.
 _NUMBERED_HEADING_RE = re.compile(r"^\s*(\d+)\s*[.):]\s*(.+)$")
@@ -461,6 +462,11 @@ def main() -> int:
         help="re-file which Arabic runs are scripture against the current text (free, no model)",
     )
     parser.add_argument(
+        "--vowel",
+        action="store_true",
+        help="put the vowel marks on the selected chapters' bare Arabic (asks a model)",
+    )
+    parser.add_argument(
         "--no-research",
         action="store_true",
         help="skip the one metered rung; the library and the rendering are both free",
@@ -514,6 +520,19 @@ def main() -> int:
         # autosave the other two repairs have to fear cannot collide with it.
         print(f"\n{book_dir.name} — re-filing Arabic provenance")
         report["provenance"] = refresh_provenance(book_dir, log=print)
+
+    if args.vowel:
+        pid = composer_is_open()
+        if pid and not args.allow_composer_open:
+            print(
+                f"REFUSED: the Book Composer is running (pid {pid}) and autosaves the file this would "
+                "write.\nClose the tab, or pass --allow-composer-open if you know it is not on this book.",
+                file=sys.stderr,
+            )
+            return 1
+        print(f"\n{book_dir.name} — vowelling bare Arabic")
+        report["vowelling"] = vowel_chapters(book_dir, selection, section_text=_section_text, log=print)
+        report["after"] = check(book_dir, selection)["totals"]
 
     if args.resolve_romanization:
         pid = composer_is_open()
