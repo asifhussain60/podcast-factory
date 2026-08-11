@@ -398,24 +398,6 @@ async function burn30dUsd() {
   return cents / 100;
 }
 
-function recentCommits() {
-  try {
-    const out = execSync(
-      "git -C " + REPO + ' log -n 10 --pretty=format:"%h|%s|%ad" --date=short',
-      { encoding: "utf-8" },
-    );
-    return out
-      .trim()
-      .split("\n")
-      .map((line) => {
-        const [sha, subject, date] = line.split("|");
-        return { sha, subject, date };
-      });
-  } catch {
-    return [];
-  }
-}
-
 function currentCommit() {
   try {
     return execSync("git -C " + REPO + " rev-parse --short HEAD", {
@@ -609,7 +591,6 @@ async function mergeDashboard() {
     books_in_flight: inFlight,
     metrics: { ...(existing.metrics ?? {}), burn_30d_usd: await burn30dUsd() },
     books_shipped: await booksShipped(),
-    recent_commits: recentCommits(),
     wave_execution_events: await recentWaveEvents(),
   };
   // Legacy fields from before 2026-08-05: a tracked file can never contain its
@@ -736,7 +717,6 @@ async function main() {
   console.log(`  source_commit: ${currentCommit()}`);
   console.log(`  books in flight: ${dash.books_in_flight.length}`);
   console.log(`  roadmap steps: ${dash.roadmap.length}`);
-  console.log(`  recent commits: ${dash.recent_commits.length}`);
 }
 
 main().catch((err) => {

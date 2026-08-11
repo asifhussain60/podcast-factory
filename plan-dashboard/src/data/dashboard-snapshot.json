@@ -1936,58 +1936,6 @@
       "kind": "islamic_scholarly"
     }
   ],
-  "recent_commits": [
-    {
-      "sha": "da56e23f",
-      "subject": "feat(gates): shrink-only ratchets for the browser side, and the dead code they found",
-      "date": "2026-08-11"
-    },
-    {
-      "sha": "33fb910d",
-      "subject": "chore(dashboard): refresh the recent-commits snapshot",
-      "date": "2026-08-11"
-    },
-    {
-      "sha": "7b6e3b56",
-      "subject": "fix(reports): one counter for the pass reports, and the two gates it was making lie",
-      "date": "2026-08-11"
-    },
-    {
-      "sha": "3ed7f2fe",
-      "subject": "chore(dashboard): refresh the recent-commits snapshot",
-      "date": "2026-08-11"
-    },
-    {
-      "sha": "c4b41bf8",
-      "subject": "fix(ci): the three gates that made develop permanently red, and the two bugs one of them hid",
-      "date": "2026-08-11"
-    },
-    {
-      "sha": "5344f9c4",
-      "subject": "fix(book): spiritual-ethos's Letter to Malik al-Ashtar was complete, and the state now says so",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "4c5cb799",
-      "subject": "fix(book): the-master-and-the-disciple's chapter 3 was articulated, and the state now says so",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "3cbd96ff",
-      "subject": "refactor(quotes): the four cards' inks live in one file, and drift cannot be committed",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "383c1f04",
-      "subject": "chore(dashboard): refresh the recent-commits snapshot",
-      "date": "2026-08-10"
-    },
-    {
-      "sha": "94d3bead",
-      "subject": "fix(books): book-title cards render without diacritics, consistently",
-      "date": "2026-08-10"
-    }
-  ],
   "wave_execution_events": [],
   "books_shipped": [
     {
