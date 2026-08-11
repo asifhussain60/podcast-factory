@@ -40,6 +40,7 @@ import {
   flattenQuoteKind,
   quoteKindKey,
   QUOTE_KIND_LABEL,
+  speakerFor,
 } from "./quote-kind.mjs";
 import { paraFingerprint } from "./para-blocks.mjs";
 import { loadLayout, applyLayout } from "../visual-layout.mjs";
@@ -678,13 +679,11 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
       const line = paras.find((x) => isArabicQuoteLine(x));
       label = (line && quranicRefs?.[line.trim().replace(/\.\s*$/, "")]) || "";
     }
-    // WHO SAID IT, when a person recorded it beside the kind. Never scripture:
-    // that header carries the surah the audit resolved, not a speaker.
-    const by = kind === "quran" ? "" : quoteKinds?.[quoteKindKey(paras)]?.by;
+    const by = speakerFor(quoteKinds, paras, kind);
     return (
       `<span class="q-band q-band--${kind}">` +
       '<span class="q-orn" aria-hidden="true"></span>' +
-      (label ? `<span>${escapeHtml(label)}</span>` : "") +
+      (label ? `<span class="q-kind">${escapeHtml(label)}</span>` : "") +
       (by ? `<span class="q-by" dir="auto">${escapeHtml(by)}</span>` : "") +
       "</span>"
     );

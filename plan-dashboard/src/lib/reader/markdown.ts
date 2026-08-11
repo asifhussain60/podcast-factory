@@ -137,10 +137,11 @@ const QUOTE_KIND_LABEL: Record<string, string> = {
  *  Qur'an card names itself from the text; the other three take a fixed word,
  *  because "which hadith" is a question the audit cannot answer.
  *
- *  WHO SAID IT sits at the right of that header when a person recorded it
- *  beside the kind, and only then — an attribution nobody wrote is a claim
- *  nobody made. Scripture is deliberately exempt: its header carries the surah
- *  and verse the audit resolved, which is the same question already answered. */
+ *  WHO SAID IT sits beside the kind in that centred header when a person
+ *  recorded it, and only then — an attribution nobody wrote is a claim nobody
+ *  made. TWO KINDS never name one: scripture's header carries the surah and
+ *  verse the audit resolved, and a prophetic tradition is already the claim
+ *  that the Prophet said it (Asif, 2026-08-11). */
 function quoteBand(kind: string, lines: string[], opts: RenderOptions): string {
   if (kind === "" || opts.quoteBands === false) return "";
   let label = QUOTE_KIND_LABEL[kind] ?? "";
@@ -148,11 +149,12 @@ function quoteBand(kind: string, lines: string[], opts: RenderOptions): string {
     const line = lines.find((x) => isArabicQuoteLine(x));
     label = (line && opts.quranicRefs?.[line.trim()]) || "";
   }
-  const by = kind === "quran" ? "" : opts.quoteKinds?.[quoteKindKey(lines)]?.by;
+  const anon = kind === "quran" || kind === "hadith";
+  const by = anon ? "" : opts.quoteKinds?.[quoteKindKey(lines)]?.by;
   return (
     `<span class="q-band q-band--${kind}">` +
     '<span class="q-orn" aria-hidden="true"></span>' +
-    (label ? `<span>${escapeHtml(label)}</span>` : "") +
+    (label ? `<span class="q-kind">${escapeHtml(label)}</span>` : "") +
     (by ? `<span class="q-by" dir="auto">${escapeHtml(by)}</span>` : "") +
     "</span>"
   );

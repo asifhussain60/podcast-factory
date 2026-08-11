@@ -126,12 +126,15 @@ specimen's stylesheets are inlined copies taken the day it was approved and they
 already drifted in ways that mean nothing — a gradient reformatted onto one line, a
 `.q-cite` rule deleted the same day it was drafted — so a byte comparison would fire on
 formatting forever and be switched off within a week. What is checked is what a reader
-would see go missing: four cards, four inks, a header and a mark per kind, the two-column
-verse grid and its collapse on the CONTAINER rather than the window, and — since
-2026-08-11 — the Qur'an card's own shape: the chapter and verse set in white in the middle
-of a filled brown bar that HEADS the panel, the 2px frame a step lighter than that bar
-which is the one deliberate exception to the plate-not-outline rule, and the speaker slot
-at the right of the other three headers. It is repo-wide, so it prints once.
+would see go missing: four cards, four inks, a mark per kind, the two-column verse grid
+and its collapse on the CONTAINER rather than the window, and — since 2026-08-11 — the
+shape Asif approved on the specimen that day. Every card is a tinted plate inside a 2px
+frame in its own ink, and every header is CENTRED between two hairlines. The Qur'an's is
+not a header but a filled brown bar heading the panel, its chapter and verse set in white.
+The other three name their kind, and a saying or a verse adds the speaker beside it as one
+string — `Saying: Hasan al-Basri` — which is why the renderers stamp the kind in a span of
+its own. A prophetic tradition never names one: it is already the claim that the Prophet
+said it. It is repo-wide, so it prints once.
 
 `orphaned-quote-kind` checks this book. A declaration is filed under its quotation's own
 first line, inside its chapter's Composer key; edit either and it stops matching, the

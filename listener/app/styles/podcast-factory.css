@@ -6681,6 +6681,8 @@
       var(--l-quote-hadith) var(--l-quote-tint),
       transparent
     );
+    border: 2px solid
+      color-mix(in oklab, var(--l-quote-hadith) 30%, transparent);
   }
   .reader blockquote.k-quote {
     background: color-mix(
@@ -6688,6 +6690,8 @@
       var(--l-quote-saying) var(--l-quote-tint),
       transparent
     );
+    border: 2px solid
+      color-mix(in oklab, var(--l-quote-saying) 30%, transparent);
   }
   .reader blockquote.k-poem {
     background: color-mix(
@@ -6695,6 +6699,7 @@
       var(--l-quote-poem) var(--l-quote-tint),
       transparent
     );
+    border: 2px solid color-mix(in oklab, var(--l-quote-poem) 30%, transparent);
     /* The verse grid collapses on the COLUMN's width, not the window's — see
        `.q-verse` below. */
     container-type: inline-size;
@@ -6734,13 +6739,14 @@
   .reader blockquote.k-hadith .ar,
   .reader blockquote.k-quote .ar,
   .reader blockquote.k-poem .ar {
-    line-height: 2.2;
+    /* Asif, 2026-08-11: too much space between a passage and its rendering. */
+    line-height: 1.9;
   }
   .reader blockquote.k-quran .tr,
   .reader blockquote.k-hadith .tr,
   .reader blockquote.k-quote .tr,
   .reader blockquote.k-poem .tr {
-    margin-top: 1em;
+    margin-top: 0.5em;
   }
 
   /* The card's header: what KIND of quotation it is at the left, and — when the
@@ -6755,6 +6761,7 @@
   .reader .q-band {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5em;
     margin-bottom: 0.9em;
     font-family: var(--l-font-ui);
@@ -6764,8 +6771,9 @@
     text-transform: uppercase;
     white-space: nowrap;
   }
-  /* One rule, BETWEEN the two labels — a second one to the left of the kind
-     would push it off the edge it is now aligned to. */
+  /* A rule to EACH side of the centred label, so the header is symmetrical
+     whether or not the quotation names anybody. */
+  .reader .q-band::before,
   .reader .q-band::after {
     content: "";
     flex: 1;
@@ -6773,16 +6781,19 @@
     min-width: 1.2em;
     background: color-mix(in oklab, currentcolor 26%, transparent);
   }
-  /* The speaker rides AFTER that rule, which takes `order` rather than markup
-     order: a pseudo-element is always last in the box tree, so without this the
-     name would print on the wrong side of the line meant to separate it. */
+  /* WHO SAID IT, folded into the header beside the kind rather than set on a
+     line of its own: one centred string, `Saying: Hasan al-Basri`. The name
+     keeps its own case, and the colon is drawn by the KIND so the flex gap
+     falls after it rather than before it. */
   .reader .q-by {
-    order: 1;
     font-weight: 400;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: none;
     font-style: italic;
-    opacity: 0.85;
+    opacity: 0.9;
+  }
+  .reader .q-band:has(.q-by) .q-kind::after {
+    content: ":";
   }
   .reader .q-orn {
     display: inline-block;
@@ -6818,6 +6829,7 @@
     --l-orn-src: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M352 0c53 0 96 43 96 96V416c0 53-43 96-96 96H64 32c-17.7 0-32-14.3-32-32s14.3-32 32-32V384c-17.7 0-32-14.3-32-32V32C0 14.3 14.3 0 32 0H64 352zm0 384H96v64H352c17.7 0 32-14.3 32-32s-14.3-32-32-32zM274.1 150.2l-8.9 21.4-23.1 1.9c-5.7 .5-8 7.5-3.7 11.2L256 199.8l-5.4 22.6c-1.3 5.5 4.7 9.9 9.6 6.9L280 217.2l19.8 12.1c4.9 3 10.9-1.4 9.6-6.9L304 199.8l17.6-15.1c4.3-3.7 2-10.8-3.7-11.2l-23.1-1.9-8.9-21.4c-2.2-5.3-9.6-5.3-11.8 0zM96 192c0 70.7 57.3 128 128 128c25.6 0 49.5-7.5 69.5-20.5c3.2-2.1 4.5-6.2 3.1-9.7s-5.2-5.6-9-4.8c-6.1 1.2-12.5 1.9-19 1.9c-52.4 0-94.9-42.5-94.9-94.9s42.5-94.9 94.9-94.9c6.5 0 12.8 .7 19 1.9c3.8 .8 7.5-1.3 9-4.8s.2-7.6-3.1-9.7C273.5 71.5 249.6 64 224 64C153.3 64 96 121.3 96 192z'/%3E%3C/svg%3E");
   }
   /* No hairline inside the bar — the plate is the separation. */
+  .reader .q-band--quran::before,
   .reader .q-band--quran::after {
     content: none;
   }
@@ -6853,8 +6865,10 @@
        fits one of them on a single line; every character spent on the gutter is
        one taken from both halves. */
     column-gap: 1.25em;
-    row-gap: 0.15em;
-    margin-bottom: 0.8em;
+    /* Asif, 2026-08-11: too much air in the verse card. A bayt's lines carry the
+       Arabic leading already, so the row gap is the second space between them. */
+    row-gap: 0.1em;
+    margin-bottom: 0.5em;
   }
   /* A step down from the 1.4em a display quotation takes, and only inside the
      grid. A hemistich has half the measure a quotation has, and at the display

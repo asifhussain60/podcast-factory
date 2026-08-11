@@ -29,7 +29,14 @@ import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const LISTENER = resolve(HERE, "..");
-const SOURCE = resolve(LISTENER, "..", "plan-dashboard", "src", "styles", "quote-typography.css");
+const SOURCE = resolve(
+  LISTENER,
+  "..",
+  "plan-dashboard",
+  "src",
+  "styles",
+  "quote-typography.css",
+);
 const TARGET = join(LISTENER, "app", "styles", "podcast-factory.css");
 const SOURCE_LABEL = "plan-dashboard/src/styles/quote-typography.css";
 
@@ -123,7 +130,8 @@ function readTokens(css) {
   const at = css.indexOf(":root {");
   if (at === -1) throw new Error(`${SOURCE_LABEL} has no :root block`);
   const end = css.indexOf("\n}", at);
-  if (end === -1) throw new Error(`${SOURCE_LABEL}'s :root block is unterminated`);
+  if (end === -1)
+    throw new Error(`${SOURCE_LABEL}'s :root block is unterminated`);
   /** @type {Record<string, string>} */
   const out = {};
   for (const m of css.slice(at, end).matchAll(/^\s*(--[\w-]+):\s*([^;]+);/gm)) {
@@ -148,7 +156,10 @@ function body(region, tokens) {
   return region.tokens
     .map(([target, source]) => {
       const value = tokens[source];
-      if (!value) throw new Error(`${SOURCE_LABEL} has no ${source} (needed by ${region.id})`);
+      if (!value)
+        throw new Error(
+          `${SOURCE_LABEL} has no ${source} (needed by ${region.id})`,
+        );
       return `  ${target}: ${value};`;
     })
     .join("\n");

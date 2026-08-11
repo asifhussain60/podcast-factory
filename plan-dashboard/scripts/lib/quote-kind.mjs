@@ -34,6 +34,20 @@ import path from "node:path";
  *  a human explicitly sets a block back to it. */
 export const QUOTE_KIND_IDS = ["hadith", "poem", "quote"];
 
+/** Kinds whose card never names a speaker, however a book declares one. Scripture
+ *  heads itself with the surah the audit resolved, and a prophetic tradition is
+ *  already the claim that the Prophet said it — printing a name under either is a
+ *  second answer to a question the card has already answered (Asif, 2026-08-11). */
+const ANON_KINDS = new Set(["quran", "hadith"]);
+
+/** The speaker a card prints beside its kind, or "" — the whole decision, so the
+ *  two renderers cannot answer it differently and neither has to remember which
+ *  kinds are exempt. `declared` is a flattened first-line -> declaration map. */
+export function speakerFor(declared, lines, kind) {
+  if (ANON_KINDS.has(kind)) return "";
+  return declared?.[quoteKindKey(lines)]?.by ?? "";
+}
+
 /** What each kind is CALLED on its card's header. Here rather than in either
  *  renderer because both draw the header and a book cannot have a tradition
  *  labelled two ways. The Qur'an is absent: its header carries the chapter and

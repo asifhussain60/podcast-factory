@@ -433,14 +433,21 @@ blockquote.k-quran:not(.style-elegant *, .style-scholarly *) {
   box-sizing: border-box;
   overflow: hidden;
 }
+/* The other three take a frame too (Asif, 2026-08-11), drawn from the card's own
+   ink rather than from one shared grey — the same rule the plate follows, so a
+   book that changes an ink moves its frame with it. Mixed at 30%, because a
+   full-strength ink outlines the card more strongly than the card's own words. */
 blockquote.k-hadith:not(.style-elegant *, .style-scholarly *) {
   background: color-mix(in oklab, var(--q-hadith-ink) 4%, transparent);
+  border: 2px solid color-mix(in oklab, var(--q-hadith-ink) 30%, transparent);
 }
 blockquote.k-quote:not(.style-elegant *, .style-scholarly *) {
   background: color-mix(in oklab, var(--q-said-ink) 4%, transparent);
+  border: 2px solid color-mix(in oklab, var(--q-said-ink) 30%, transparent);
 }
 blockquote.k-poem:not(.style-elegant *, .style-scholarly *) {
   background: color-mix(in oklab, var(--q-poem-ink) 4%, transparent);
+  border: 2px solid color-mix(in oklab, var(--q-poem-ink) 30%, transparent);
 }
 
 /* The ink of each kind. Set by REDECLARING the token on the element that
@@ -462,8 +469,13 @@ blockquote.k-poem p.ar {
      number: its lines are separate elements in the verse grid, so they carry the
      same leading PLUS the grid's row gap. Raising this therefore never overtakes
      it. */
-  --q-ar-gap: 1.05rem;
-  --q-ar-leading: 2.15;
+  /* Asif, 2026-08-11: "too much space" between the Arabic and its English. Was
+     1.05rem for the gap and 2.15 for the leading, which on a two-line quotation
+     put more air inside the card than the card had round its own words. The
+     Arabic still breathes — 1.85 is well above the body's 1.6 — but the passage
+     now reads as one thought with its rendering beneath it. */
+  --q-ar-gap: 0.5rem;
+  --q-ar-leading: 1.85;
 }
 /* …and only while there IS an English below (Asif, 2026-08-09: "too much space
    around the verse"). The gap's whole job is that drop, so on a card whose Arabic
@@ -541,6 +553,7 @@ blockquote.k-poem p.tr {
 .q-band {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.6rem;
   margin: 0 0 1rem;
   font-family: "Inter", system-ui, sans-serif;
@@ -550,9 +563,11 @@ blockquote.k-poem p.tr {
   text-transform: uppercase;
   white-space: nowrap;
 }
-/* One rule, and it sits BETWEEN the two labels. There is no `::before` any
-   more: a rule to the left of the kind would push it off the edge it is now
-   aligned to. */
+/* A rule to EACH side of the centred label. The kind sat at the left with the
+   speaker opposite it for a few hours on 2026-08-11, between Asif's two
+   instructions; both rules are back, so the header is symmetrical whether or not
+   the quotation names anybody. */
+.q-band::before,
 .q-band::after {
   content: "";
   flex: 1;
@@ -560,18 +575,20 @@ blockquote.k-poem p.tr {
   min-width: 1.2rem;
   background: color-mix(in oklab, currentcolor 26%, transparent);
 }
-/* The speaker rides AFTER the rule. `order` rather than markup order because a
-   pseudo-element is always last in the box tree — the name is a real element
-   and would otherwise print on the wrong side of the line it is separated by.
-   Set in the card's own ink at a lower weight than the kind: it answers a
-   second question, so it should not compete with the first. */
+/* WHO SAID IT, folded into the header beside the kind rather than set on a line
+   of its own: one centred string, `Saying: Hasan al-Basri`. The name keeps its
+   own case — a person's name in the label's all-caps reads as a headline rather
+   than an attribution — and the colon is drawn by the KIND so the flex gap falls
+   after it rather than before it. */
 .q-by {
-  order: 1;
   font-weight: 400;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: none;
   font-style: italic;
-  opacity: 0.85;
+  opacity: 0.9;
+}
+.q-band:has(.q-by) .q-kind::after {
+  content: ":";
 }
 .q-orn {
   display: inline-block;
@@ -614,6 +631,9 @@ blockquote.k-poem p.tr {
 }
 /* No rule inside the bar: the plate is the separation, and a hairline across a
    filled band reads as a mistake. */
+/* No rules inside the bar — the filled plate is the separation, and a hairline
+   across it reads as a mistake. */
+.q-band--quran::before,
 .q-band--quran::after {
   content: none;
 }
@@ -665,8 +685,12 @@ blockquote.k-poem {
   grid-template-columns: 1fr 1fr;
   direction: rtl;
   column-gap: 2.25rem;
-  row-gap: 0.15rem;
-  margin: 0 0 0.9rem;
+  /* Asif, 2026-08-11: too much air in the verse card. A bayt's lines carry the
+     Arabic leading already, so the row gap is the SECOND space between them and
+     it was doubling the drop; the margin closes the grid up to the English by
+     the same amount every other card closed up. */
+  row-gap: 0.1rem;
+  margin: 0 0 0.5rem;
 }
 .q-verse p.ar {
   margin: 0;
