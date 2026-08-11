@@ -62,7 +62,6 @@ from __future__ import annotations
 import re
 
 from _arabic_coverage import ARABIC_BODY, normalize_arabic
-from _vowelling import MARKS_BODY as _MARKS_BODY
 
 #: An Arabic run long enough to be a QUOTATION rather than a glossed term. A short run
 #: legitimately repeats — `(بَاب)` beside "bab" is the house annotation style — and
@@ -134,130 +133,6 @@ _WHOLLY_ITALIC = re.compile(r"^([*_])(?!\1).+\1$", re.S)
 #: English, which is the shape every one of the 14 live instances takes. Bounded length
 #: so a whole paragraph of English in brackets is never a candidate.
 _PARENTHETICAL_RE = re.compile(r"\(([^()]{12,300})\)")
-
-#: Arabic diacritics — imported, never retyped. `_vowelling` owns this set because it
-#: is the marks-only gate's own definition of a mark, and the honorific matcher below
-#: has to agree with it: a second spelling would let one of the two accept a phrase the
-#: other rejected. (A test also refuses a module that respells an Arabic range.)
-_TASHKEEL = _MARKS_BODY
-
-
-def _tolerant(bare: str) -> str:
-    """A pattern matching ``bare`` however it is vowelled.
-
-    A hardcoded vowelled literal is a trap and it sprang immediately: `(عَلَيْهِ السَّلَامُ)`
-    written with the shadda before the fatha did not match the same phrase written the
-    other way round, so the expanded honorific opening chapter 1 of Spiritual Ethos was
-    invisible to a check whose whole subject is honorifics. Since 2026-07-29 every Arabic
-    run on the page is vowelled by a model, so the marks are exactly the part that cannot
-    be predicted — and the consonantal skeleton is exactly the part that can.
-    """
-    marks = f"[{_TASHKEEL}]*"
-    # Leading and TRAILING marks matter as much as the ones between letters: the final
-    # damma on `السَّلَامُ` sits between the last letter and the closing bracket, and a
-    # pattern that stopped at the letter matched nothing at all.
-    return marks + marks.join((r"\s+" if ch == " " else re.escape(ch)) for ch in bare) + marks
-
-
-#: The compact honorifics a figure other than the Prophet carries. The Prophet's own
-#: form is deliberately absent — it is mandatory rather than capped, so counting it
-#: here would report the convention working as though it were the defect.
-_HONORIFIC_RE = re.compile(
-    r"\((?:"
-    + "|".join(
-        [
-            _tolerant("ع"),
-            _tolerant("عليه السلام"),
-            _tolerant("عليها السلام"),
-            _tolerant("عليهم السلام"),
-            _tolerant("رضي الله عنه"),
-            r"as",
-            r"a\.s\.",
-        ]
-    )
-    + r")\)",
-    re.IGNORECASE,
-)
-
-#: The name a compact honorific attaches to, read BACKWARD from the honorific. Two
-#: patterns rather than one, because the thing that distinguishes a name from a
-#: sentence-initial word is a CONNECTOR: "Ali ibn Abi Talib" is one figure, "Later Ali"
-#: is an adverb followed by a figure, and both are two capitalised tokens in a row.
-#: So a multi-word figure is accepted only when a connector joins it, and everything
-#: else falls back to the single capitalised token immediately before.
-_NAME_JOINED_RE = re.compile(
-    r"([A-Z][\w'’-]*(?:\s+(?:ibn|bin|bint|abi|abu|of|the|al-[\w'’-]+)(?:\s+[A-Z][\w'’-]*)+)+)\s*$"
-)
-_NAME_SINGLE_RE = re.compile(r"([A-Z][\w'’-]*)\s*$")
-
-#: A figure's name never runs across one of these, so the backward read stops here.
-_SENTENCE_BREAK_RE = re.compile(r"[.!?;:\n\"“”(]")
-
-#: Words that look like a name to the patterns above but are not one.
-_NOT_A_FIGURE = frozenset(
-    {"he", "him", "his", "she", "her", "they", "them", "it", "the", "and", "said", "from", "may", "a", "an"}
-)
-
-#: The label a compact honorific gets when no name precedes it. `He (ع)` names nobody,
-#: and reporting it as a figure called "He" would make the count unreadable.
-UNATTRIBUTED = "(no name attached)"
-
-
-#: How the edition names the Prophet, in either script. Deliberately does NOT include a
-#: bare "Muhammad": the corpus also carries Jafar ibn Muhammad and Abu Jafar Muhammad
-#: ibn Ali, for whom `(ع)` is correct, so a bare-name rule would report those as defects.
-_PROPHET_NAME = (
-    r"(?:the\s+)?(?:Holy\s+)?(?:Prophet(?:\s+Muhammad)?|Messenger\s+of\s+(?:Allah|God)"
-    r"|Rasul\s*[- ]?\s*Allah|\u0631\u0633\u0648\u0644\s+\u0627\u0644\u0644\u0647|\u0627\u0644\u0646\u0628\u064a)"
-)
-
-#: The Prophet named, then a honorific that belongs to somebody else.
-_PROPHET_HONORIFIC_RE = re.compile(_PROPHET_NAME + r"\s*" + _HONORIFIC_RE.pattern, re.IGNORECASE)
-
-
-def opens_a_longer_formula(text: str, start: int) -> bool:
-    """Is the honorific at ``start`` the FIRST thing inside another bracket?
-
-    `the Messenger of Allah ((ع) and his family)` is ONE formula — "peace be upon him and
-    his family" — that happens to open with the compact glyph. It is not the compact
-    honorific used after a name, so the cap does not govern it, and the repair cannot
-    touch it without leaving `(and his family)`, which says something the author did not.
-
-    Shared by the detector and the repair deliberately. While only the repair skipped it,
-    the check counted 47 instances the fixer would never reach, so four chapters of
-    Mukhtasar 2 stayed permanently over-cap and a second pass repaired nothing.
-    """
-    return start > 0 and text[start - 1] == "("
-
-
-def figure_key(figure: str) -> str:
-    """The identity a figure label counts under.
-
-    "Ali" and "Ali ibn Abi Talib" are one man, and a cap of once per figure per chapter
-    that treated them as two would leave the reader three honorifics in two paragraphs —
-    which is what chapter 1 of Spiritual Ethos did on the first repair run. The given
-    name is what a reader recognises across the variants, so it is the key; the fuller
-    label is still what gets REPORTED, because "Ali ×54" is the finding a human reads.
-    """
-    first = figure.split()[0].lower() if figure.split() else figure.lower()
-    return first.strip(",.;:'’-") or figure.lower()
-
-
-def _figure_before(text: str) -> str:
-    """The figure a compact honorific at the end of ``text`` attaches to."""
-    # A trailing comma is the appositive's opener — `The Messenger of Allah, (ع), used
-    # to` — and it separates the name from the honorific in 507 of the corpus's 1,674
-    # instances. Leaving it on made every one of those UNATTRIBUTED, which is how one
-    # chapter reported 78 honorifics attached to nobody and why the cap left them alone.
-    tail = _SENTENCE_BREAK_RE.split(text)[-1][-80:].rstrip(", \t")
-    match = _NAME_JOINED_RE.search(tail) or _NAME_SINGLE_RE.search(tail)
-    if not match:
-        return UNATTRIBUTED
-    words = [w for w in match.group(1).split() if w.lower() not in _NOT_A_FIGURE]
-    return " ".join(words) if words else UNATTRIBUTED
-
-
-# ── document structure ───────────────────────────────────────────────────────
 
 
 def chapters(md: str) -> list[tuple[str, str]]:
@@ -404,6 +279,61 @@ def is_romanized_arabic(text: str, *, arabic_beside: bool = False) -> bool:
     return len(_ROMANIZATION_MARKERS.findall(text)) >= needed
 
 
+def stray_emphasis(md: str) -> list[tuple[str, str]]:
+    """(chapter, paragraph) for each paragraph carrying an unpaired `**`.
+
+    An emphasis marker with no partner IN ITS OWN PARAGRAPH does not italicise anything —
+    it prints, as two asterisks, in the middle of a reading edition. Sixteen of them show
+    in Love Of The Prophet on the live site.
+
+    THE PARAGRAPH IS THE UNIT, and that is the whole subtlety. Every one of the eight
+    live blockquotes has an EVEN number of markers, so a block-level count sees nothing:
+
+        > **Muhammad Ibn Abdullah — Accountability, Deeds
+        >
+        > حَاسِبُوا أَنْفُسَكُمْ …
+        >
+        > Hold yourselves accountable … before they are weighed**
+
+    An opener on the attribution line and a closer four paragraphs later. Both renderers
+    set each paragraph of a quotation as its own `<p>`, so neither marker ever meets its
+    partner and both reach the page as text. Counting the block would call that balanced.
+
+    The cause is upstream and is fixed — the Sessions converter read Font Awesome's `<i>`
+    icons as emphasis, and the quotation builder balanced the odd count by appending a
+    closer at the very end. This finds what that already wrote into chapters which are
+    frozen by Composer edits and will never be regenerated.
+    """
+    hits: list[tuple[str, str]] = []
+    for title, body in chapters(md):
+        for _kind, lines in blocks(body):
+            for para in _quote_paragraphs(lines):
+                if para.count("**") % 2:
+                    hits.append((title, para.strip()))
+    return hits
+
+
+def _quote_paragraphs(lines: list[str]) -> list[str]:
+    """The paragraphs of one block, as the renderers divide them.
+
+    A blockquote's `>` lines are split on its blank `>` lines, which is exactly where
+    both renderers start a new `<p>`. A plain paragraph is one paragraph.
+    """
+    out: list[str] = []
+    cur: list[str] = []
+    for line in lines:
+        stripped = line[1:].strip() if line.startswith(">") else line
+        if not stripped.strip():
+            if cur:
+                out.append(" ".join(cur))
+                cur = []
+            continue
+        cur.append(stripped)
+    if cur:
+        out.append(" ".join(cur))
+    return out
+
+
 def romanized_arabic(md: str) -> list[tuple[str, str]]:
     """(chapter, run) for each Arabic sentence printed in the English character set.
 
@@ -440,64 +370,13 @@ def romanized_arabic(md: str) -> list[tuple[str, str]]:
                 ARABIC_COUNT_RE.search(paragraphs[i]) for i in (index - 1, index, index + 1) if 0 <= i < len(paragraphs)
             )
             inner = raw.strip("*_")
+            # A devotional formula is `romanized_honorific`'s, and it has a repair.
+            # Reported by both, it would be listed as needing judgment it does not need.
+            if honorific_script(inner) is not None:
+                continue
             if is_romanized_arabic(inner, arabic_beside=beside):
                 hits.append((title, inner))
     return hits
-
-
-def honorific_overuse(md: str, *, cap: int = 1) -> list[tuple[str, str, int]]:
-    """(chapter, figure, count) where a figure carries more compact honorifics than `cap`.
-
-    Asif, 2026-08-09: once per figure per chapter, used where it adds value rather than
-    after every occurrence of the name. The Prophet's own honorific is NOT counted — it
-    is mandatory on every mention by name, so counting it here would report the
-    convention working as though it were the defect.
-    """
-    hits: list[tuple[str, str, int]] = []
-    for title, body in chapters(md):
-        counts: dict[str, int] = {}
-        labels: dict[str, str] = {}
-        for match in _HONORIFIC_RE.finditer(body):
-            if opens_a_longer_formula(body, match.start()):
-                continue
-            figure = _figure_before(body[: match.start()])
-            key = figure_key(figure)
-            counts[key] = counts.get(key, 0) + 1
-            # Report the FULLEST label the chapter used for this person — "Ali ibn Abi
-            # Talib" tells a reader who is meant where the key "ali" does not.
-            if len(figure) > len(labels.get(key, "")):
-                labels[key] = figure
-        for key, count in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])):
-            if count > cap:
-                hits.append((title, labels[key], count))
-    return hits
-
-
-def prophet_wrong_honorific(md: str) -> list[tuple[str, str]]:
-    """(chapter, mention) where the Prophet carries a honorific that is not his.
-
-    True under any reading of the convention, so it does not wait on the cap policy:
-    `(ع)` is the honorific of the Imams and the other figures, and `The Messenger of
-    Allah (ع)` — 21 times in one chapter of Mukhtasar 2 — gives the Prophet somebody
-    else's. His own form is the ligature `ﷺ` (Asif, 2026-08-09).
-    """
-    hits: list[tuple[str, str]] = []
-    for title, body in chapters(md):
-        for match in _PROPHET_HONORIFIC_RE.finditer(body):
-            hits.append((title, " ".join(match.group(0).split())))
-    return hits
-
-
-# The three "rendering outside its card" detectors live in `_book_translation_cards`,
-# which owns the shape they share and the two boundary rules between them. Imported here
-# so `DETECTORS` stays the ONE registry a caller reads — the whole reason this file has a
-# registry at all. The import sits at the bottom because that module imports the block
-# readers from this one.
-from _book_translation_cards import (  # noqa: E402
-    translation_fused_with_prose,
-    translation_leads_a_paragraph,
-    translation_outside_card,
-)
 
 
 def bare_arabic(md: str) -> list[tuple[str, str]]:
@@ -530,10 +409,32 @@ def bare_arabic(md: str) -> list[tuple[str, str]]:
 #: Every detector, by the name a report and a gate address it under. One registry so a
 #: caller cannot know about four of five — which is how the romanization defect ran in
 #: two shipped editions while the other checks were being written.
+# The three "rendering outside its card" detectors live in `_book_translation_cards`,
+# and everything about WHO a book names and how it honours them lives in
+# `_book_honorific_defects`. Both are imported here so `DETECTORS` stays the ONE
+# registry a caller reads — the whole reason this file has a registry at all.
+#
+# The imports sit at the BOTTOM because both of those modules read the block and
+# chapter helpers from this one. By this line those helpers are defined, so the cycle
+# resolves; at the top of the file it would not.
+from _book_honorific_defects import (  # noqa: E402
+    honorific_overuse,
+    honorific_script,
+    prophet_wrong_honorific,
+    romanized_honorific,
+)
+from _book_translation_cards import (  # noqa: E402
+    translation_fused_with_prose,
+    translation_leads_a_paragraph,
+    translation_outside_card,
+)
+
 DETECTORS = {
     "duplicated-arabic": duplicated_arabic,
     "english-rtl": english_set_right_to_left,
     "romanized-arabic": romanized_arabic,
+    "romanized-honorific": romanized_honorific,
+    "stray-emphasis": stray_emphasis,
     "honorific-overuse": honorific_overuse,
     "prophet-wrong-honorific": prophet_wrong_honorific,
     "translation-outside-card": translation_outside_card,

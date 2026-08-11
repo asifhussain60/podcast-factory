@@ -17,6 +17,18 @@ WHAT IS REPAIRED HERE, AND WHAT IS NEVER
 
   honorific-overuse         REPAIRED. The first use in a chapter stays, the rest go.
 
+  stray-emphasis            REPAIRED. A `**` whose partner is in another paragraph of
+                            the same quotation never pairs — both renderers set each
+                            paragraph separately — so both markers print. The opener
+                            is closed in its own paragraph and the orphan deleted. Not
+                            one word changes.
+
+  romanized-honorific       REPAIRED. `Rasul Allah(Salallahu alayhi wa aalihee wa
+                            sallam)` becomes `Rasul Allah ﷺ`, and `Allah (Subhanahu wa
+                            Ta'ala)` becomes `Allah سُبْحَانَهُ وَتَعَالَى`. Split from the row
+                            below because the two have OPPOSITE repairs and reporting
+                            them together made 197 fixable instances read as unfixable.
+
   romanized-arabic          NEVER, not here. Two of the fourteen live instances have no
                             Arabic anywhere on disk — not in the book, not in the source
                             scan, not in the hadith corpus — so the only way to supply
@@ -52,14 +64,18 @@ import re
 
 from _arabic_coverage import ARABIC_BODY, normalize_arabic
 from _book_defects import (
-    _HONORIFIC_RE,
-    _PROPHET_NAME,
     ARABIC_ONLY_RE,
     MIN_QUOTATION_CHARS,
-    _figure_before,
     blocks,
     duplicated_arabic,
+)
+from _book_honorific_defects import (
+    _HONORIFIC_RE,
+    _PROPHET_NAME,
+    _ROMANIZED_HONORIFIC_RE,
+    _figure_before,
     figure_key,
+    honorific_script,
     opens_a_longer_formula,
 )
 
@@ -132,6 +148,92 @@ def use_prophet_ligature(md: str) -> tuple[str, int]:
         return f"{match.group(1)} {PROPHET_LIGATURE}"
 
     return _PROPHET_HONORIFIC_SUB_RE.sub(_swap, md), replaced
+
+
+def set_honorifics_in_script(md: str) -> tuple[str, int]:
+    """Put a spelled-out devotional formula into the script it belongs in.
+
+    `Rasul Allah(Salallahu alayhi wa aalihee wa sallam)` becomes `Rasul Allah ﷺ`;
+    `Allah (Subhanahu wa Ta'ala)` becomes `Allah سُبْحَانَهُ وَتَعَالَى`.
+
+    WHY THIS IS A REPAIR WHEN `romanized-arabic` IS NOT. That refusal is about a SAYING:
+    a specific Arabic wording that is not on disk, which only a model recalling scripture
+    could supply. A honorific is one fixed formula said the same way by everyone who says
+    it — and this module already hardcodes one of them, `PROPHET_LIGATURE`, on exactly
+    that reasoning. The two cases were being reported together, which is what made 197
+    instances in Surah Al-Fateha read as unfixable when 197 of them were the easy kind.
+
+    THE BRACKETS GO WITH THE ROMANIZATION, because a honorific in script is not
+    parenthetical in this library: `the Prophet ﷺ` is how every other book sets it. The
+    leading whitespace is consumed and one space written back, so `Allah(...)` — no space,
+    as the transcripts often have it — does not come out as `Allahﷺ`.
+
+    Idempotent: the pattern matches Latin letters inside brackets, and neither the
+    ligature nor the vowelled Arabic is that, so a second run finds nothing.
+    """
+    replaced = 0
+
+    def _swap(match: re.Match[str]) -> str:
+        nonlocal replaced
+        script = honorific_script(match.group(0).strip().strip("()"))
+        if script is None:  # unreachable while the two regexes share one table
+            return match.group(0)
+        replaced += 1
+        return f" {script}"
+
+    return _ROMANIZED_HONORIFIC_RE.sub(_swap, md), replaced
+
+
+def balance_paragraph_emphasis(md: str) -> tuple[str, int]:
+    """Make each paragraph's `**` markers pair inside that paragraph, as they must.
+
+    Both renderers set every paragraph of a quotation as its own `<p>`, so a marker whose
+    partner is in a different paragraph never pairs and both print. The repair is decided
+    by which end the orphan is:
+
+      opens and never closes   the closer is written at the end of ITS OWN paragraph, so
+                               the emphasis the author started is kept and confined
+      closes and never opened  the marker is deleted — it is the orphan the quotation
+                               builder appended, and there is nothing for it to close
+
+    On the eight live blockquotes in Love Of The Prophet that keeps the bold attribution
+    line the author wrote and removes the stray pair at the far end of the quotation. Two
+    characters move and two are deleted; not one word changes.
+
+    Idempotent: after one pass every paragraph's count is even.
+    """
+    fixed = 0
+    chunks: list[str] = []
+    for chunk in md.split("\n\n"):
+        lines = chunk.split("\n")
+        groups: list[list[int]] = []
+        cur: list[int] = []
+        for index, line in enumerate(lines):
+            body = line[1:] if line.startswith(">") else line
+            if not body.strip():
+                if cur:
+                    groups.append(cur)
+                    cur = []
+                continue
+            cur.append(index)
+        if cur:
+            groups.append(cur)
+
+        for group in groups:
+            text = " ".join(lines[i] for i in group)
+            if text.count("**") % 2 == 0:
+                continue
+            opens = text.lstrip().lstrip(">").lstrip().startswith("**")
+            last = group[-1]
+            body = lines[last].rstrip()
+            trailing = lines[last][len(body) :]
+            if body.endswith("**") and not opens:
+                lines[last] = body[:-2].rstrip() + trailing
+            else:
+                lines[last] = body + "**" + trailing
+            fixed += 1
+        chunks.append("\n".join(lines))
+    return "\n\n".join(chunks), fixed
 
 
 def cap_honorifics(md: str, *, cap: int = 1) -> tuple[str, int]:
@@ -427,6 +529,8 @@ def _rewrite_stranded_renderings(md: str, decide) -> tuple[str, int]:
 FIXES = {
     "duplicated-arabic": drop_duplicated_inline_arabic,
     "prophet-wrong-honorific": use_prophet_ligature,
+    "romanized-honorific": set_honorifics_in_script,
+    "stray-emphasis": balance_paragraph_emphasis,
     "honorific-overuse": cap_honorifics,
     "translation-outside-card": fold_translation_into_card,
     "translation-leads-a-paragraph": split_translation_into_card,

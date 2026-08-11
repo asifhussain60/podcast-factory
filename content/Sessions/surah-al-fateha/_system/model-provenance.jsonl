@@ -21,3 +21,14 @@
 {"phase": "compose-fix", "step": "vowel/worship and assistance", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
 {"phase": "compose-fix", "step": "vowel/guidance to the straight path", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
 {"phase": "compose-fix", "step": "vowel/staying steadfast on the path", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-quranic friendship", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the stages of love", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-linguistic meaning of al", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-what is worship?", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-linguistic meaning of re", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-womb - the source of mer", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-manifestations of rehma", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-linguistic meaning of ra", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-master slave relationshi", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-understanding rab al-ala", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the divine formula for r", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}

@@ -150,7 +150,7 @@ The purpose of sending messengers and the need for them are bound together, yet 
 
 The word کفر is often rendered as "disbelief," and کافر as "disbeliever," but neither translation is quite accurate. The root کَفَرَ means to conceal or to cover. The active participle کافر is also used for a farmer, because he buries a seed in soil and sets it in darkness. In that sense, کفر is not the absence of belief—it is the concealment of truth. Our worldview holds that every person, at the deepest level, already recognizes the truth. One cannot truly be a non-believer; one can only accept the truth (ایمان) or conceal it (کفر). This is why the supreme truth-concealer is ابلیس. He stood among the closest of all beings to Allah, he knew the truth, and he acknowledged Adam's superiority—yet he buried it beneath the rationalization that fire was nobler than clay.
 
-A common misunderstanding among modern Muslims is that anyone outside of Islam is automatically a کافر. The Quranic verses that speak of the کفار do not describe all non-Muslims. They describe a specific type: the arrogant, the proud, the inflated with self-regard. Read how Allah characterizes the کفار in the Quran—they are متکبر, مُخْتَالٌ فَخُورٌ, and ظالمون. These are the precise attributes He assigns to them. Most people are simply الناس—mankind. Many have not heard the message, have not properly understood it, or are living in a state of heedlessness, غفلۃ. This is why Allah first calls to people as یَا اَیُّھَا النَّاسُ before ever addressing them as یَا اَیُّھَا الْکَافِرُونَ or یا ایھا الذین کفرو. In the beginning, Allah did not call the Arabs یَا اَیُّھَا الْکَافِرُونَ because they were not truth-concealers by nature. But after they had witnessed miracle upon miracle and treated Rasul Allah (SWS) with open contempt—for no reason other than that he called them to their own salvation—Allah declared حقَّ القول: their conduct had gone too far to pass unremarked.
+A common misunderstanding among modern Muslims is that anyone outside of Islam is automatically a کافر. The Quranic verses that speak of the کفار do not describe all non-Muslims. They describe a specific type: the arrogant, the proud, the inflated with self-regard. Read how Allah characterizes the کفار in the Quran—they are متکبر, مُخْتَالٌ فَخُورٌ, and ظالمون. These are the precise attributes He assigns to them. Most people are simply الناس—mankind. Many have not heard the message, have not properly understood it, or are living in a state of heedlessness, غفلۃ. This is why Allah first calls to people as یَا اَیُّھَا النَّاسُ before ever addressing them as یَا اَیُّھَا الْکَافِرُونَ or یا ایھا الذین کفرو. In the beginning, Allah did not call the Arabs یَا اَیُّھَا الْکَافِرُونَ because they were not truth-concealers by nature. But after they had witnessed miracle upon miracle and treated Rasul Allah ﷺ with open contempt—for no reason other than that he called them to their own salvation—Allah declared حقَّ القول: their conduct had gone too far to pass unremarked.
 
 ### Truth Concealment as Ingratitude
 
@@ -204,13 +204,13 @@ Our religion is called دِینُ الْاِسْلَامِ. The word اسلام 
 
 Allah asks whether we truly seek to avoid this debt, when everything in existence is already paying it—willingly or otherwise. The sun, vast beyond measure, rises and sets according to its decree, fulfilling its purpose without deviation. It is in submission; yet the human being, negligible in comparison, is not. The same is true of galaxies, mountains, rivers, and the animal kingdom: they all exist in a state of submission to their Creator. Even human beings must submit to their own nature—eating, drinking, sleeping—and to the limits of their physical bodies. Everything in existence pays back its debt of submission to its Creator, willingly or unwillingly—except the human being.
 
-The crucial difference is that humanity is asked for willing submission (طَوْعًۭا), out of love, not by force (كَرْهًۭا). We will be held accountable for this debt on the Day of Judgment, یَوْمُ الدِّیْنِ—the day this debt of willing submission falls due. It is also called یَوْمُ الْحِسَابِ, the Day of Accountability. Rasul Allah (SWS) said in a Hadith:
+The crucial difference is that humanity is asked for willing submission (طَوْعًۭا), out of love, not by force (كَرْهًۭا). We will be held accountable for this debt on the Day of Judgment, یَوْمُ الدِّیْنِ—the day this debt of willing submission falls due. It is also called یَوْمُ الْحِسَابِ, the Day of Accountability. Rasul Allah ﷺ said in a Hadith:
 
-> **Muhammad Ibn Abdullah (SWS)- Accountability, Deeds
+> **Muhammad Ibn Abdullah ﷺ- Accountability, Deeds**
 >
 > حَاسِبُوا أَنْفُسَكُمْ قَبْلَ أَنْ تُحَاسَبُوا، وَزِنُوا أَعْمَالَكُمْ قَبْلَ أَنْ تُوزَنُوا
 >
-> Hold yourselves accountable before you are held accountable, and weigh your deeds before they are weighed**
+> Hold yourselves accountable before you are held accountable, and weigh your deeds before they are weighed
 
 What is remarkable is that while we owe a debt to Allah, Allah also holds, in a sense, a debt to us. When a master gives a command to a slave and the slave fulfills it, the master now owes the slave a reward. If the slave disobeys, the slave owes a penalty. This is the essence of یَوْمُ الدِّیْنِ—the day when the reckoning falls due on both sides. This is why Allah says in the Quran:
 
@@ -276,19 +276,19 @@ This is our Lord, our loving, merciful Creator. Who told us that He is a cruel b
 
 ### The Foundations of Faith: The Prophet's Inner and Outer Journey
 
-There is a well-known Hadith in which جبرئیل (AS) appears before Rasul Allah (SWS) in the form of a man and poses four questions: What is السلام (peace); what is ایمان (faith); what is احسان (excellence); and lastly, he asks about the signs of the end of time. When asked about Islam, Rasul Allah (SWS) replied with a beautiful articulation of its core pillars:
+There is a well-known Hadith in which جبرئیل (AS) appears before Rasul Allah ﷺ in the form of a man and poses four questions: What is السلام (peace); what is ایمان (faith); what is احسان (excellence); and lastly, he asks about the signs of the end of time. When asked about Islam, Rasul Allah ﷺ replied with a beautiful articulation of its core pillars:
 
 الإِسْلاَمُ أَنْ تَشْهَدَ أَنْ لاَ إِلَهَ إِلاَّ اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ، وَتُقِيمَ الصَّلاَةَ، وَتُؤْتِيَ الزَّكَاةَ، وَتَصُومَ رَمَضَانَ، وَتَحُجَّ الْبَيْتَ إِنِ اسْتَطَعْتَ إِلَيْهِ سَبِيلاً
 
 Islam is to bear witness that there is no god but Allah, and that Muhammad is the messenger of Allah, and to establish the prayer, and to give the charity, and to fast the month of Ramadan, and to perform pilgrimage to the House if you are able to find a way to it.
 
-What is remarkable about this Hadith is that Rasul Allah (SWS) did not define Islam philosophically — he described it as a set of practices. We must remember, however, that this is not how Islam began for him. As a profound human and spiritual phenomenon, Islam began for Rasul Allah (SWS) with an overwhelming experience, and only later culminated in these practices. His journey opened with a direct encounter with the noumenal realm — the world of the unseen, or عَالَمُ الْغَیْبِ, which contains metaphysical realities such as Allah, angels, heaven, and hell. This stands in contrast to the phenomenal realm, or عَالَمُ الشَّھَادَۃِ: the physical, visible world of appearances.
+What is remarkable about this Hadith is that Rasul Allah ﷺ did not define Islam philosophically — he described it as a set of practices. We must remember, however, that this is not how Islam began for him. As a profound human and spiritual phenomenon, Islam began for Rasul Allah ﷺ with an overwhelming experience, and only later culminated in these practices. His journey opened with a direct encounter with the noumenal realm — the world of the unseen, or عَالَمُ الْغَیْبِ, which contains metaphysical realities such as Allah, angels, heaven, and hell. This stands in contrast to the phenomenal realm, or عَالَمُ الشَّھَادَۃِ: the physical, visible world of appearances.
 
 The Prophet's life was a testament to his connection to both realms. He had his phenomenal experience in the Cave of حرا, and his noumenal experience during his ascension, the معراج. Today, we seek to connect with both of these experiences — to step into his shoes and imagine what it must have felt like. His journey sets a precedent for us, showing what Islam is meant to feel like from the inside, and that feeling is what makes the practices easy and full of meaning.
 
 ### The First Experience of Revelation
 
-The year is 620 AD. Rasul Allah (SWS) is 40 years old. He is deeply troubled by the social and cultural norms of his time — particularly the behavior of the جاھلی Arabs and their idol worship. With a natural disinclination toward superstition and animism, he seeks solitude and escape. He would regularly retreat to a cave on a mountain called جَبَلُ النُّورِ, the "Mountain of Light." The cave itself is known as حرا, a word meaning "darkness" — an arresting juxtaposition: a cave of darkness within a mountain of light. Here, he engaged in deep contemplation and reflection, a state we might today call meditation, or تَحَنُّث: the emptying of the mind.
+The year is 620 AD. Rasul Allah ﷺ is 40 years old. He is deeply troubled by the social and cultural norms of his time — particularly the behavior of the جاھلی Arabs and their idol worship. With a natural disinclination toward superstition and animism, he seeks solitude and escape. He would regularly retreat to a cave on a mountain called جَبَلُ النُّورِ, the "Mountain of Light." The cave itself is known as حرا, a word meaning "darkness" — an arresting juxtaposition: a cave of darkness within a mountain of light. Here, he engaged in deep contemplation and reflection, a state we might today call meditation, or تَحَنُّث: the emptying of the mind.
 
 The word تَحَنُّث is derived from حنث, which in Arabic means شرک — attributing partners to Allah. In سُورَۃُ الْوَاقِعَۃِ, Allah (سُبْحَانَهُ وَتَعَالَىٰ) says:
 
@@ -310,13 +310,13 @@ As this 40-year-old man sat in meditation, he was working to empty his heart of 
 >
 > Have you seen the one who takes as his Allah his own desire? Then would you be responsible for him?
 
-Rasul Allah (SWS) was in this state of deep reflection, working to empty his heart so that it could receive something new. The soul must first be stripped of all its attachments before it can truly come to know the One who has no form. It was in that very act of emptying that he suddenly saw the horizons filled with the presence of an angelic being. The being said, "Muhammad, I am جبرئیل, and you are the messenger of Allah!"
+Rasul Allah ﷺ was in this state of deep reflection, working to empty his heart so that it could receive something new. The soul must first be stripped of all its attachments before it can truly come to know the One who has no form. It was in that very act of emptying that he suddenly saw the horizons filled with the presence of an angelic being. The being said, "Muhammad, I am جبرئیل, and you are the messenger of Allah!"
 
 Consider this for a moment. If we were to step outside and see an angelic presence filling the sky from one horizon to the other, how would we react? Would we be terrified? Shocked? This moment points to an important distinction: experience is not a logical proposition. It cannot be proven or disproven — it can only be discussed and interpreted. The challenge is to determine whether an experience is objectively real or subjectively generated — whether it is a true divine encounter or a form of psychosis.
 
-Rasul Allah (SWS) was, naturally, filled with the very human emotions of fear and shock. He turned his face away, but no matter where he looked, he saw the angel in the exact same form. جبرئیل then commanded, "Recite" (أقرأ), to which Rasul Allah (SWS) replied, "مَا أَنَا بِقَارِیٍ؟" (What should I recite? I do not know how to recite).
+Rasul Allah ﷺ was, naturally, filled with the very human emotions of fear and shock. He turned his face away, but no matter where he looked, he saw the angel in the exact same form. جبرئیل then commanded, "Recite" (أقرأ), to which Rasul Allah ﷺ replied, "مَا أَنَا بِقَارِیٍ؟" (What should I recite? I do not know how to recite).
 
-At this, جبرئیل embraced him and squeezed him three times. According to Rasul Allah (SWS), the pressure was so intense that he felt as though he would die. Scholars explain that this was a physical manifestation of a spiritual reality: the removal of every remnant of this world from his soul. This was the process of تخلیۃ — a complete emptying out before the filling could begin. As the Arabs say:
+At this, جبرئیل embraced him and squeezed him three times. According to Rasul Allah ﷺ, the pressure was so intense that he felt as though he would die. Scholars explain that this was a physical manifestation of a spiritual reality: the removal of every remnant of this world from his soul. This was the process of تخلیۃ — a complete emptying out before the filling could begin. As the Arabs say:
 
 التَّخلِیَّۃُ تَسبِق التَّحلِیَّۃ
 
@@ -342,15 +342,15 @@ This pattern holds across the experiences of all the prophets. The Quran tells u
 >
 > She said, "indeed, I seek refuge in the Most Merciful from you, [so leave me], if you should be fearing of Allah.".
 
-These experiences were so overwhelming that they incapacitated the self. For Rasul Allah (SWS), receiving the first revelation was a painful process. The words were not fed to him through rote memorization; their meanings were breathed directly into him. The Arabic words for "breath" and "spirit" share the same root: روح. The enormous pressure of that divine breath made him feel as though he were suffocating under a tremendous weight, even as it gave him life. He later described the process as "the message being engraved in my heart" — the sensation of a sharp blade carving deep inside. Initially, he would convulse upon receiving revelation, a fact that the disbelievers used to accuse him of being possessed by a jinn. Over time, however, the process became far easier, until his companions could not even tell when revelation came upon him.
+These experiences were so overwhelming that they incapacitated the self. For Rasul Allah ﷺ, receiving the first revelation was a painful process. The words were not fed to him through rote memorization; their meanings were breathed directly into him. The Arabic words for "breath" and "spirit" share the same root: روح. The enormous pressure of that divine breath made him feel as though he were suffocating under a tremendous weight, even as it gave him life. He later described the process as "the message being engraved in my heart" — the sensation of a sharp blade carving deep inside. Initially, he would convulse upon receiving revelation, a fact that the disbelievers used to accuse him of being possessed by a jinn. Over time, however, the process became far easier, until his companions could not even tell when revelation came upon him.
 
-Following this first encounter, Rasul Allah (SWS) was in a state of extreme shock. Leslie Hazleton, in her book "The First Muslim," describes how he fled the mountain trembling with a raw, primordial fear — not with joy or elation. He was overwhelmed not by conviction but by doubt, fearing he had been hallucinating or had been possessed. This deeply human response — free of psychosis and manic euphoria — is, as scholars note, one of the strongest arguments for the historical reality of the event.
+Following this first encounter, Rasul Allah ﷺ was in a state of extreme shock. Leslie Hazleton, in her book "The First Muslim," describes how he fled the mountain trembling with a raw, primordial fear — not with joy or elation. He was overwhelmed not by conviction but by doubt, fearing he had been hallucinating or had been possessed. This deeply human response — free of psychosis and manic euphoria — is, as scholars note, one of the strongest arguments for the historical reality of the event.
 
 In this state of shock, he returned to his wife, Khadijah (AS), and said, "زَمِّلُونِی زَمِّلُونِی" — "Wrap me up, wrap me up." This is a human instinct when the self feels shattered: a loss of inner coherence, the moment when a person's inner and outer worlds collide. That he retained perfect clarity in that moment — the ability to articulate his need for containment — is another testament to the divine, spiritual nature of the experience.
 
 ### The Second Experience: Ascension (Mi'raj)
 
-The second divine experience of Rasul Allah (SWS) was the night journey (اسری) and the ascension (مِعْرَاج). The first experience had established his connection with the noumenal realm; the second was a journey from the phenomenal into the noumenal. Allah says in the Quran:
+The second divine experience of Rasul Allah ﷺ was the night journey (اسری) and the ascension (مِعْرَاج). The first experience had established his connection with the noumenal realm; the second was a journey from the phenomenal into the noumenal. Allah says in the Quran:
 
 > ‏ ‏سُبْحَنَ ٱلَّذى أَسْرَىٰ بعَبْده لَيْلًۭا مّنَ ٱلْمَسْجد ٱلْحَرَام إلَى ٱلْمَسْجد ٱلْأَقْصَا ٱلَّذى بَرَكْنَا حَوْلَهُ لنُريَهُ منْ آيَتنَا إنَّهُ هُوَ ٱلسَّميعُ ٱلْبَصيرُ ‎ ‎
 >
@@ -358,7 +358,7 @@ The second divine experience of Rasul Allah (SWS) was the night journey (اسر�
 
 The word أَسری — to take someone by night — underscores that a journey which would have taken the Arabs 40 nights was completed in a single night. The journey had two parts. The first was a physical passage from Mecca to Jerusalem, made on a steed named بُراق — a creature smaller than a horse but larger than a mule. The name بُراق comes from برق (lightning) and بَرَاقۃ (luminous). This steed moved at the speed of light, covering the distance from one horizon to the next in a single stride, making the physical leg of the journey virtually instantaneous.
 
-Upon reaching the mosque of اقصی, the second phase — the معراج — began. This was a metaphysical journey beyond the confines of time and space, faster even than light. The word معراج means "an instrument of ascension" or "a ladder," from the root عرج. During this journey, Rasul Allah (SWS) had a direct witnessing of Allah (سُبْحَانَهُ وَتَعَالَىٰ). The Quran describes this nearness:
+Upon reaching the mosque of اقصی, the second phase — the معراج — began. This was a metaphysical journey beyond the confines of time and space, faster even than light. The word معراج means "an instrument of ascension" or "a ladder," from the root عرج. During this journey, Rasul Allah ﷺ had a direct witnessing of Allah (سُبْحَانَهُ وَتَعَالَىٰ). The Quran describes this nearness:
 
 > ‏ ‏ثُمَّ دَنَا فَتَدَلَّىٰ ‎ ‏فَكَانَ قَابَ قَوْسَيْن أَوْ أَدْنَىٰ ‎ ‎
 >
@@ -380,19 +380,19 @@ Why would his vision not deviate? He was traveling through the seven heavens, wi
 
 The Quran tells us that starlight makes a journey to reach us — like a visitor arriving in the night. The word ثُقُب means to put a hole through a pearl: the light pierces a passage through the celestial sphere to arrive here.
 
-Despite all these breathtaking sights, the vision of Rasul Allah (SWS) did not deviate, because his heart's sole concern was to meet his Lord. He was a lover on a journey to meet his beloved. As the saying goes:
+Despite all these breathtaking sights, the vision of Rasul Allah ﷺ did not deviate, because his heart's sole concern was to meet his Lord. He was a lover on a journey to meet his beloved. As the saying goes:
 
-> **Anonymous
+> **Anonymous**
 >
-> کلُّ ما تَھوَاہُ مَوجُودٌ فِی ذَاتِ المحبوب**
+> کلُّ ما تَھوَاہُ مَوجُودٌ فِی ذَاتِ المحبوب
 
 Everything that you can ever desire exists in your beloved.
 
-Upon his return, Rasul Allah (SWS) was completely transformed. The world was no longer a distraction; he now saw reality as it truly is. Our tradition calls this "right understanding," and our lack of it is the cause of our pain. The Arabic word for "desire" and for "oppression" — بغی — is one and the same. Desires oppress us. Islam does not demand the elimination of desire — that is impossible — but its management: to redirect desire toward its highest object, which is Allah (سُبْحَانَهُ وَتَعَالَىٰ).
+Upon his return, Rasul Allah ﷺ was completely transformed. The world was no longer a distraction; he now saw reality as it truly is. Our tradition calls this "right understanding," and our lack of it is the cause of our pain. The Arabic word for "desire" and for "oppression" — بغی — is one and the same. Desires oppress us. Islam does not demand the elimination of desire — that is impossible — but its management: to redirect desire toward its highest object, which is Allah (سُبْحَانَهُ وَتَعَالَىٰ).
 
 ### Islam is a Journey and a Choice
 
-These two extraordinary experiences — the revelation through جبرئیل and the direct witnessing of his Lord — represent the summit of Rasul Allah's (SWS) Islam. Yet his journey did not begin with a direct encounter. It began with an intermediary, with extreme constriction of the heart, with fear, doubt, and physical pain. Thirteen years of persecution, trial, and hardship followed, and only then did the unveiling of the unseen realm occur.
+These two extraordinary experiences — the revelation through جبرئیل and the direct witnessing of his Lord — represent the summit of Rasul Allah's ﷺ Islam. Yet his journey did not begin with a direct encounter. It began with an intermediary, with extreme constriction of the heart, with fear, doubt, and physical pain. Thirteen years of persecution, trial, and hardship followed, and only then did the unveiling of the unseen realm occur.
 
 The Prophet's experience sets an archetype for all of us as Muslims. Our path is a journey toward our Master. Just as his journey began with تخلیۃ (emptying out) and تحنث (detachment from worldly distractions), so too must we undertake the same exercise. We must work to manage our desires, not eliminate them, and make our ultimate desire Allah (سُبْحَانَهُ وَتَعَالَىٰ).
 
@@ -402,7 +402,7 @@ It all begins with a choice. Do you even want to make this journey? If not, then
 >
 > And say, "the truth is from your lord, so whoever wills-let him believe; and whoever wills-let him disbelieve." indeed, we have prepared for the wrongdoers a fire whose walls will surround them. And if they call for relief, they will be relieved with water like murky oil, which scalds [their] faces. Wretched is the drink, and evil is the resting place.
 
-Islam is not for everyone. It is an enormous gift that must be earned, a privilege that demands hard work. If you doubt this, study the life of Rasul Allah (SWS). Did Allah abase him for his hard work, or elevate him? As Maulana Ali (AS) says, "If you are looking for glory and greatness, look at the life of the Prophet for his name and his efforts will shine on the sky of Islam till the end of time."
+Islam is not for everyone. It is an enormous gift that must be earned, a privilege that demands hard work. If you doubt this, study the life of Rasul Allah ﷺ. Did Allah abase him for his hard work, or elevate him? As Maulana Ali (AS) says, "If you are looking for glory and greatness, look at the life of the Prophet for his name and his efforts will shine on the sky of Islam till the end of time."
 
 This is your choice. The red pill or the blue pill — as in the Matrix. Take the blue pill and remain in the comfortable shadows of delusion, or take the red pill and awaken. If you choose the red pill and decide to take this journey, prepare for hard work. Athletes and bodybuilders achieve greatness through countless hours of training and dedication. They will tell you the effort was absolutely worth it. So too is the path of spiritual ascension. Focus, stay vigilant, and be consistent.
 
@@ -412,19 +412,19 @@ This is your choice. The red pill or the blue pill — as in the Matrix. Take th
 
 His vision did not deviate, nor did it rebel against him.
 
-Do not let this world or its temptations distract you. You will make mistakes, for perfection is not demanded of us. The Quran, with over 6000 verses, demands only sincere effort. The goal is not to be perfect, but to meet Allah and Rasul Allah (SWS) as a better version of who we were. We are human, and we will err. But like a bodybuilder who misses a day or an athlete who makes a mistake, we do not simply give up. We continue the training; we stay in the game.
+Do not let this world or its temptations distract you. You will make mistakes, for perfection is not demanded of us. The Quran, with over 6000 verses, demands only sincere effort. The goal is not to be perfect, but to meet Allah and Rasul Allah ﷺ as a better version of who we were. We are human, and we will err. But like a bodybuilder who misses a day or an athlete who makes a mistake, we do not simply give up. We continue the training; we stay in the game.
 
-My own journey with Islam began with difficulty, but the more I learned and practiced, the easier it became. I love my Islam because I have experienced the contentment and freedom it brings. I know what I want and what I must do to achieve it, and I am at peace with the sacrifices required. May Allah help us all follow in the footsteps of our Prophet (SWS), and enable us to truly experience the beauty of Islam.
+My own journey with Islam began with difficulty, but the more I learned and practiced, the easier it became. I love my Islam because I have experienced the contentment and freedom it brings. I know what I want and what I must do to achieve it, and I am at peace with the sacrifices required. May Allah help us all follow in the footsteps of our Prophet ﷺ, and enable us to truly experience the beauty of Islam.
 
 ## Character Of The Prophet
 
-Today, I have the profound honor of speaking about the one beloved by Allah — our Prophet, Rasul Allah (SWS). His very name, محمد, comes from the root حمد, which means **"the one who is constantly praised"** and **"worthy of eternal gratitude."** Just as Allah is رَبِّ الْعَالَمِینَ — the Cherisher and Sustainer of all existence — His Messenger is رَحْمَةٌ لِلْعَالَمِینَ, a boundless mercy to all of existence. Allah made love for him a prerequisite for His own love, as if to say: you cannot truly claim to love Me without first loving My beloved Messenger.
+Today, I have the profound honor of speaking about the one beloved by Allah — our Prophet, Rasul Allah ﷺ. His very name, محمد, comes from the root حمد, which means **"the one who is constantly praised"** and **"worthy of eternal gratitude."** Just as Allah is رَبِّ الْعَالَمِینَ — the Cherisher and Sustainer of all existence — His Messenger is رَحْمَةٌ لِلْعَالَمِینَ, a boundless mercy to all of existence. Allah made love for him a prerequisite for His own love, as if to say: you cannot truly claim to love Me without first loving My beloved Messenger.
 
 > ‏ ‏قُلْ إن كُنتُمْ تُحبُّونَ ٱللَّهَ فَٱتَّبعُونى يُحْببْكُمُ ٱللَّهُ وَيَغْفرْ لَكُمْ ذُنُوبَكُمْ وَٱللَّهُ غَفُورٌۭ رَّحيمٌۭ ‎ ‎
 >
 > Say, [O Muhammad], "If you should love Allah, then follow me, [so] Allah will love you and forgive you your sins. And Allah is Forgiving and Merciful.".
 
-In the vast ocean of human emotion, our scholars have identified three sources of love, and all three find their perfection in the Messenger of Allah (SWS).
+In the vast ocean of human emotion, our scholars have identified three sources of love, and all three find their perfection in the Messenger of Allah ﷺ.
 
 1. The first is **physical love** — the immediate, sensory appreciation of outward beauty. A beautiful sight or a handsome face can draw the heart in an instant. The narrations of our tradition are filled with detailed and loving descriptions of the Prophet's physical form, a testament to his outward perfection. He was of medium stature, neither overly tall nor short. His build was **broad-shouldered** and robust. His hair was **wavy** — neither straight nor too curly — and would often reach his earlobes or his shoulders. His complexion was **fair**, with a slight rosy hue. His face was frequently compared to the **moon**, full of light and radiance. He had a **broad forehead**, a prominent nose, and a thick beard. His eyes were very **dark and wide**, with long eyelashes. He possessed a natural beauty and a distinct presence that commanded both respect and love.
 
@@ -444,13 +444,13 @@ The science of Arabic phonetics reveals a remarkable subtlety here. Both words, 
 
 ![](images/213/447012f0-26e8-4372-8644-f4d5a20d6582.jpg)
 
-This is why our faith, Islam, is composed of two essential parts: worship (عبادۃ) and the development of character (اخلاق). And this is precisely why our Prophet (SWS) was sent. He himself said:
+This is why our faith, Islam, is composed of two essential parts: worship (عبادۃ) and the development of character (اخلاق). And this is precisely why our Prophet ﷺ was sent. He himself said:
 
-> **Muhammad Ibn Abdullah (SWS)- Character
+> **Muhammad Ibn Abdullah ﷺ- Character**
 >
 > إِنَّمَا بُعِثْتُ لِأُتَمِّمَ مَكَارِمَ الْأَخْلَاقِ
 >
-> I was only sent to perfect a noble character.**
+> I was only sent to perfect a noble character.
 
 His mission was to perfect the very essence of what it means to be human. If you ask any Muslim what the Prophet's miracle was, the unanimous answer is always the **Quran**. The gift and miracle to the Arabs, in particular, was indeed the Quran — for the non-Arabs could not understand it. The Arabic word for a non-Arab is عجم, which means "dumb" or "mute." In the same way that the Greeks referred to non-Greeks as بَربَر — the source of the word "barbarian" — because they could not speak their language, the Arabs did not use the term as an insult. They had a reason for it. When they encountered other cultures, they would ask — for example, the Persians — "How many words do you have for a lion?" The Persians would reply, "One word." The Arabs would say, "One word for a lion? We have over 300 words for it."
 
@@ -492,13 +492,13 @@ What does الم mean? We do not even know. Then it says ذَلكَ ٱلْكتَ
 
 ### A Character Praised by Allah
 
-The answer lies in how these non-Arabs became Muslim. Wherever the Arabs went, the deciding factor that led non-Arabs to embrace Islam was not the linguistic miracle of the Quran (اِعْجَازُ الْقُرْآنِ) — because they could not understand it. It was the miracle of the Prophet's character (اعجاز الخُلُق). This is what struck the non-Arab's heart, and this is why the gift Allah gave to the non-Arabs is His Messenger (SWS). Allah Almighty Himself declares in the Quran:
+The answer lies in how these non-Arabs became Muslim. Wherever the Arabs went, the deciding factor that led non-Arabs to embrace Islam was not the linguistic miracle of the Quran (اِعْجَازُ الْقُرْآنِ) — because they could not understand it. It was the miracle of the Prophet's character (اعجاز الخُلُق). This is what struck the non-Arab's heart, and this is why the gift Allah gave to the non-Arabs is His Messenger ﷺ. Allah Almighty Himself declares in the Quran:
 
 > ‏ ‏وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍۢ ‏‏
 >
 > And indeed, you are of a great moral character.
 
-This profound verse was revealed very early in Rasul Allah's (SWS) mission. It refers not to his character as a prophet but to his character as a person — a member of that society for forty years. A message is empty if it is not backed by credibility, and one of the strongest forms of credibility is character. In deeply corrupt pre-Islamic Mecca, where the law of the jungle prevailed, he earned the title الصَّادِقُ وَ الْأَمِینُ — "The Truthful and the Trustworthy." This was the highest testimony to his credibility: a character so immense that even his enemies, who would not accept his message, could not deny the greatness of his person.
+This profound verse was revealed very early in Rasul Allah's ﷺ mission. It refers not to his character as a prophet but to his character as a person — a member of that society for forty years. A message is empty if it is not backed by credibility, and one of the strongest forms of credibility is character. In deeply corrupt pre-Islamic Mecca, where the law of the jungle prevailed, he earned the title الصَّادِقُ وَ الْأَمِینُ — "The Truthful and the Trustworthy." This was the highest testimony to his credibility: a character so immense that even his enemies, who would not accept his message, could not deny the greatness of his person.
 
 Allah also described him as a رحمة — a mercy — a manifestation of mercy itself, not merely a person who showed mercy.
 
@@ -506,13 +506,13 @@ Allah also described him as a رحمة — a mercy — a manifestation of mercy 
 >
 > And we have not sent you, [o Muhammad], except as a mercy to the worlds.
 
-Maulana Ali (AS) described him as the kindest of people by nature. His mission was to make life easier (تیسیر), not harder, by lifting the burdens and shackles imposed by earlier systems and by people's own lower selves. The character of our Prophet (SWS) was an ocean of mercy. Allah Himself reveals this reality in a remarkable verse — not simply describing His Messenger, but unveiling the very nature of Divine love as it manifests in a human soul.
+Maulana Ali (AS) described him as the kindest of people by nature. His mission was to make life easier (تیسیر), not harder, by lifting the burdens and shackles imposed by earlier systems and by people's own lower selves. The character of our Prophet ﷺ was an ocean of mercy. Allah Himself reveals this reality in a remarkable verse — not simply describing His Messenger, but unveiling the very nature of Divine love as it manifests in a human soul.
 
 > ‏ ‏فَبِمَا رَحْمَةٍۢ مِّنَ ٱللَّهِ لِنتَ لَهُمْ ۖ وَلَوْ كُنتَ فَظًّا غَلِيظَ ٱلْقَلْبِ لَٱنفَضُّوا۟ مِنْ حَوْلِكَ ۖ فَٱعْفُ عَنْهُمْ وَٱسْتَغْفِرْ لَهُمْ وَشَاوِرْهُمْ فِى ٱلْأَمْرِ ۖ فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى ٱللَّهِ إِنَّ ٱللَّهَ يُحِبُّ ٱلْمُتَوَكِّلِينَ ‏‏
 >
 > So by mercy from Allah, [o Muhammad], you were lenient with them. And if you had been rude [in speech] and harsh in heart, they would have disbanded from about you. So pardon them, ask forgiveness for them, and consult them in the matter. And when you have decided, then rely upon Allah. Indeed, Allah loves those who rely [upon him].
 
-Let me first set out the context of this verse's revelation. After the Muslim army faced a severe defeat at the Battle of Uhud — largely because some archers disobeyed the Prophet's (SWS) clear instructions and abandoned their positions — the entire force was left devastated and disheartened. This verse was revealed at that critical moment, not to criticize the companions for their error, but to offer guidance for healing and renewal. With that context in mind, let us look closely at this verse and experience the love it embodies.
+Let me first set out the context of this verse's revelation. After the Muslim army faced a severe defeat at the Battle of Uhud — largely because some archers disobeyed the Prophet's ﷺ clear instructions and abandoned their positions — the entire force was left devastated and disheartened. This verse was revealed at that critical moment, not to criticize the companions for their error, but to offer guidance for healing and renewal. With that context in mind, let us look closely at this verse and experience the love it embodies.
 
 The verse begins by establishing that the Prophet's gentleness was not simply a personality trait — it was a direct gift, a manifestation of Allah's own mercy (رَحْمَة). This mercy flows from the same root as the word for the womb, رحم: a nurturing, all-encompassing, life-giving compassion. Allah's mercy enveloped the Prophet's heart, and from that vessel it flowed out to all of creation. The word used to describe this quality is لِنتَ, from a root signifying softness, pliability, and gentleness.
 
@@ -524,13 +524,13 @@ His profound selflessness (ایثار) meant he always preferred the comfort of 
 
 فَٱعْفُ عَنْهُمْ وَٱسْتَغْفرْ لَهُمْ وَشَاورْهُمْ فى ٱلْأَمْر
 
-Consider what Allah commands here, in light of the context. The Muslims have just suffered defeat because some companions disobeyed the Prophet (SWS). In this moment of pain and disappointment, Allah guides His beloved:
+Consider what Allah commands here, in light of the context. The Muslims have just suffered defeat because some companions disobeyed the Prophet ﷺ. In this moment of pain and disappointment, Allah guides His beloved:
 
-- فَاعْفُ عَنْهُمْ (So pardon them): The word used is عفو, which is more than simple forgiveness. It means to efface — to wipe away the trace of a wrongdoing so completely that no resentment remains. Allah was commanding His Prophet (SWS) to purify his own heart of any lingering hurt.
+- فَاعْفُ عَنْهُمْ (So pardon them): The word used is عفو, which is more than simple forgiveness. It means to efface — to wipe away the trace of a wrongdoing so completely that no resentment remains. Allah was commanding His Prophet ﷺ to purify his own heart of any lingering hurt.
 
 - وَاسْتَغْفِرْ لَهُمْ (and ask forgiveness for them): This elevates the Prophet's role from personal pardoner to Divine intercessor. Allah tells him: your pardon cleanses their slate with you — but now turn to Me and seek My forgiveness for them, so that they may be cleansed in My eyes as well. He is made the very means of their redemption, a conduit for Allah's forgiveness (غُفْرَان).
 
-- وَشَاوِرْهُمْ فِى ٱلْأَمْرِ (and consult them in the matter): This is the most astonishing command. After their error, reason would suggest they should not be consulted again. Yet Allah commands the opposite. This is the Divine method for restoring dignity: by instructing the Prophet (SWS) to continue seeking their counsel, Allah rebuilt their confidence and re-wove their hearts into the fabric of the community, proving that their worth was not diminished by their mistake.
+- وَشَاوِرْهُمْ فِى ٱلْأَمْرِ (and consult them in the matter): This is the most astonishing command. After their error, reason would suggest they should not be consulted again. Yet Allah commands the opposite. This is the Divine method for restoring dignity: by instructing the Prophet ﷺ to continue seeking their counsel, Allah rebuilt their confidence and re-wove their hearts into the fabric of the community, proving that their worth was not diminished by their mistake.
 
 فَإذَا عَزَمْتَ فَتَوَكَّلْ عَلَى ٱللَّه إنَّ ٱللَّهَ يُحبُّ ٱلْمُتَوَكّلينَ
 
@@ -538,71 +538,71 @@ After these acts of mercy, the verse concludes: فَإِذَا عَزَمْتَ 
 
 ### A Mercy for a Sinner
 
-The Prophet (SWS) was profoundly merciful and forgiving. A man came to him in deep distress, crying out, "يا رسول الله، هَلَكْتُ، هَلَكْتُ!" — O Messenger of Allah, I have been destroyed! "What has destroyed you?" the Prophet (SWS) asked gently. The man confessed, "وَقَعْتُ عَلَى زَوْجَتِي فِي رَمَضَانَ" — I had relations with my wife during the daytime in Ramadan. "And what made you do that?" the Prophet (SWS) inquired. The man replied with candid honesty: "يا رسول الله، رَأَيْتُ بَيَاضَ حِجْلَيْهَا فِي القَمَرِ فَوَقَعْتُ عَلَيْهَا" — O Messenger of Allah, I saw the whiteness of her ankles in the moonlight and I could not help myself. Hearing this, the Prophet (SWS) laughed. He did not condemn the man's sin but acknowledged his human struggle. He simply instructed him to perform the expiation (كَفِّر). "Free a slave," the Prophet (SWS) said. The man replied that he had no means to do so. "Then fast for two consecutive months," the Prophet (SWS) continued. The man confessed, "O Messenger of Allah, I cannot even fast for one month in Ramadan!" At this, the Prophet (SWS) changed course. "Then feed sixty poor people." The man once again expressed his poverty: "O Messenger of Allah, I have nothing to give!" The Prophet (SWS) then called for a basket of dates and gave it to the man as a gift. "Take this," he said, "and give it in charity to the people." The man, astonished, asked, "O Messenger of Allah, is there anyone poorer than my family and me?" Hearing this, the Prophet (SWS) laughed and said, "Go and feed your family with it."
+The Prophet ﷺ was profoundly merciful and forgiving. A man came to him in deep distress, crying out, "يا رسول الله، هَلَكْتُ، هَلَكْتُ!" — O Messenger of Allah, I have been destroyed! "What has destroyed you?" the Prophet ﷺ asked gently. The man confessed, "وَقَعْتُ عَلَى زَوْجَتِي فِي رَمَضَانَ" — I had relations with my wife during the daytime in Ramadan. "And what made you do that?" the Prophet ﷺ inquired. The man replied with candid honesty: "يا رسول الله، رَأَيْتُ بَيَاضَ حِجْلَيْهَا فِي القَمَرِ فَوَقَعْتُ عَلَيْهَا" — O Messenger of Allah, I saw the whiteness of her ankles in the moonlight and I could not help myself. Hearing this, the Prophet ﷺ laughed. He did not condemn the man's sin but acknowledged his human struggle. He simply instructed him to perform the expiation (كَفِّر). "Free a slave," the Prophet ﷺ said. The man replied that he had no means to do so. "Then fast for two consecutive months," the Prophet ﷺ continued. The man confessed, "O Messenger of Allah, I cannot even fast for one month in Ramadan!" At this, the Prophet ﷺ changed course. "Then feed sixty poor people." The man once again expressed his poverty: "O Messenger of Allah, I have nothing to give!" The Prophet ﷺ then called for a basket of dates and gave it to the man as a gift. "Take this," he said, "and give it in charity to the people." The man, astonished, asked, "O Messenger of Allah, is there anyone poorer than my family and me?" Hearing this, the Prophet ﷺ laughed and said, "Go and feed your family with it."
 
 This entire incident illustrates تيسير — the practice of making things easy. The Prophet's nature was to simplify and to make the faith accessible. When a sinner came to him, he did not compound the man's guilt. Instead, he helped him feel that he was human, that he had erred, and that the door to Allah's mercy stood wide open. The Prophet's purpose was to draw people toward Allah, not to drive them into despair. This is why those who cause people to lose hope in Allah's mercy are doing evil, however much they worship. We have no right to judge others or to presume knowledge of their fate. As Allah says in a Hadith Qudsi:
 
-> **Allah
+> **Allah**
 >
 > مَنْ ذَا الَّذِي يَتَأَلَّى عَلَيَّ أَنْ لَا أَغْفِرَ لِفُلَانٍ؟ قَدْ غَفَرْتُ لِفُلَانٍ وَأَحْبَطْتُ عَمَلَكَ
 >
-> Who swore by Me that I would not forgive so-and-so? I have forgiven so-and-so, and I have invalidated your deeds.**
+> Who swore by Me that I would not forgive so-and-so? I have forgiven so-and-so, and I have invalidated your deeds.
 
 ### A Master Teacher
 
-Our Prophet (SWS) was an exemplary teacher who never shamed or scolded. A companion, new to Islam, narrated that one day during prayer, another man sneezed. By habit, this companion said aloud, "یَرْحَمُکُمُ اللَّہُ" — may Allah have mercy on you — a natural phrase of kindness. The congregation was shocked and struck their thighs in frustration, trying to silence him. Realizing his error, he fell immediately quiet. When the prayer ended, he was terrified, certain the Prophet (SWS) would be angry. But when he approached him, the Prophet (SWS) said: "ما كَهَرَني ولا ضَرَبَني ولا شَتَمَني" — he neither scowled at me, nor struck me, nor cursed at me. He did not make him feel small. Instead, he gently explained:
+Our Prophet ﷺ was an exemplary teacher who never shamed or scolded. A companion, new to Islam, narrated that one day during prayer, another man sneezed. By habit, this companion said aloud, "یَرْحَمُکُمُ اللَّہُ" — may Allah have mercy on you — a natural phrase of kindness. The congregation was shocked and struck their thighs in frustration, trying to silence him. Realizing his error, he fell immediately quiet. When the prayer ended, he was terrified, certain the Prophet ﷺ would be angry. But when he approached him, the Prophet ﷺ said: "ما كَهَرَني ولا ضَرَبَني ولا شَتَمَني" — he neither scowled at me, nor struck me, nor cursed at me. He did not make him feel small. Instead, he gently explained:
 
-> **Muhammad Ibn Abdullah (SWS)- Prayer
+> **Muhammad Ibn Abdullah ﷺ- Prayer**
 >
 > إِنَّ هذه الصلاة لا يَصلُحُ فيها شيءٌ من كلامِ الناس، إنما هي التَّسبيحُ والتَّحميدُ والتَّكبيرُ
 >
-> Indeed, this prayer is not suitable for any of the speech of people. It is only for glorifying Allah, praising Him, and exalting Him**
+> Indeed, this prayer is not suitable for any of the speech of people. It is only for glorifying Allah, praising Him, and exalting Him
 
 Deeply moved, the companion concluded: "واللہ ما رأيتُ مُعلِّمًا قبلَهُ ولا بعدَهُ أحسنَ منه.." — by Allah, I have never seen a teacher better than him, before him or after him. This reflects something essential about his character. He taught with love and compassion rather than harshness or rebuke, turning a moment of confusion into a lesson that endured. True education, as he embodied it, is rooted in mercy, patience, and dignity. His character was not a theory; it was a living reality that transformed people.
 
-Consider the man who came to him with a deeply personal struggle. He said, "O Messenger of Allah, everything in Islam makes sense to me except one thing: I love زنا — fornication." This man felt safe enough to admit what he carried privately. The Prophet (SWS) did not scold or condemn him. He drew near to the man's heart with gentleness and wisdom. He asked, "Would you like it for your own mother?" The man replied at once, "No, by Allah!" He continued: "And for your daughter? Your sister? Your aunt?" — each time receiving the same firm reply. He then said, "The women you desire are someone's mother, someone's daughter, someone's sister, someone's aunt." By asking the man to place those he pursued in the position of those he loved, the Prophet (SWS) appealed to his innate sense of honor. He did not simply tell the man that what he was doing was wrong; he allowed the man to **discover the moral truth for himself**, making the abstract notion of **respect** tangible and personal. The man, who had arrived in spiritual disarray, was wholly transformed by that conversation. He said: "واللہ, I entered his presence with زنا being the most beloved thing to me. When I left, it was the most **hateful** thing to me." The Prophet (SWS) then placed his hand on the man's chest and prayed for him.
+Consider the man who came to him with a deeply personal struggle. He said, "O Messenger of Allah, everything in Islam makes sense to me except one thing: I love زنا — fornication." This man felt safe enough to admit what he carried privately. The Prophet ﷺ did not scold or condemn him. He drew near to the man's heart with gentleness and wisdom. He asked, "Would you like it for your own mother?" The man replied at once, "No, by Allah!" He continued: "And for your daughter? Your sister? Your aunt?" — each time receiving the same firm reply. He then said, "The women you desire are someone's mother, someone's daughter, someone's sister, someone's aunt." By asking the man to place those he pursued in the position of those he loved, the Prophet ﷺ appealed to his innate sense of honor. He did not simply tell the man that what he was doing was wrong; he allowed the man to **discover the moral truth for himself**, making the abstract notion of **respect** tangible and personal. The man, who had arrived in spiritual disarray, was wholly transformed by that conversation. He said: "واللہ, I entered his presence with زنا being the most beloved thing to me. When I left, it was the most **hateful** thing to me." The Prophet ﷺ then placed his hand on the man's chest and prayed for him.
 
 This story shows his method. He did not command or forbid from a distance; he met the human heart where it stood, appealing to its sense of honor and empathy. He taught the man to see the humanity in others by reflecting on his love for his own family, turning an abstract religious prohibition into something the man felt in his own chest. This was how he changed people — not through force or condemnation, but by nurturing love and self-awareness. His concern was always to elevate human beings, to remind them of their worth. As Maulana Ali said:
 
-> **Ali Ibn Abu Talib- Human Potential, Universe, Macrocosm
+> **Ali Ibn Abu Talib- Human Potential, Universe, Macrocosm**
 >
 > وَ تَحْسَبُ أَنَّكَ‏ جِرْمٌ‏ صَغِيرٌ وَ فِيكَ انْطَوَى الْعَالَمُ الْأَكْبَرُ
 >
-> You may see yourself as insignificant, but inside you lies the most incredible universe.**
+> You may see yourself as insignificant, but inside you lies the most incredible universe.
 
 ### Humility and Temperance
 
-The Prophet (SWS) was rarely moved to anger — a quality powerfully illustrated in the story of a Jewish Bedouin who, consumed by hatred for the Prophet (SWS) and for Islam, deliberately urinated in the sacred space of Masjid an-Nabawi. The companions were furious and drew their swords. The Prophet (SWS), with great wisdom and mercy, stopped them. He said: **"دَعُوهُ حَتَّىٰ يَقْضِيَ حَاجَتَهُ"** — leave him until he finishes his need. He placed the man's immediate physical need before the sanctity of the place, knowing how difficult it is to stop once one has begun. When the man had finished, the Prophet (SWS) told his companions:
+The Prophet ﷺ was rarely moved to anger — a quality powerfully illustrated in the story of a Jewish Bedouin who, consumed by hatred for the Prophet ﷺ and for Islam, deliberately urinated in the sacred space of Masjid an-Nabawi. The companions were furious and drew their swords. The Prophet ﷺ, with great wisdom and mercy, stopped them. He said: **"دَعُوهُ حَتَّىٰ يَقْضِيَ حَاجَتَهُ"** — leave him until he finishes his need. He placed the man's immediate physical need before the sanctity of the place, knowing how difficult it is to stop once one has begun. When the man had finished, the Prophet ﷺ told his companions:
 
-> **Anonymous
+> **Anonymous**
 >
 > أَرِيقُوا عَلَى بَوْلِهِ دَلْوًا مِنْ مَاءٍ
 >
-> Pour a bucket of water over his urine.**
+> Pour a bucket of water over his urine.
 
-Then, with compassion, the Prophet (SWS) approached the man. He did not scold or condemn him. He spoke gently: "This place is not meant for urination or for filth. It is only for the remembrance of Allah and for prayer." The man had expected to be killed. Overwhelmed by this act of mercy, he immediately embraced Islam, declaring his faith on the spot: **"أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا ٱللَّٰهُ وَأَشْهَدُ أَنَّكَ مُحَمَّدٌ رَسُولُ ٱللَّٰهِ"**. Overcome with feeling, he then said: **"فِدَاكَ أَبِي وَأُمِّي يَا رَسُولَ اللَّهِ"** — may my father and mother be a ransom for you, O Messenger of Allah. He promised the Prophet (SWS) that he would not return until he had brought his entire tribe to Islam. This story shows what mercy can accomplish where anger cannot, and how a single act of genuine compassion can turn a life around. That was the very character of the Prophet, and the nature of the mission he carried.
+Then, with compassion, the Prophet ﷺ approached the man. He did not scold or condemn him. He spoke gently: "This place is not meant for urination or for filth. It is only for the remembrance of Allah and for prayer." The man had expected to be killed. Overwhelmed by this act of mercy, he immediately embraced Islam, declaring his faith on the spot: **"أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا ٱللَّٰهُ وَأَشْهَدُ أَنَّكَ مُحَمَّدٌ رَسُولُ ٱللَّٰهِ"**. Overcome with feeling, he then said: **"فِدَاكَ أَبِي وَأُمِّي يَا رَسُولَ اللَّهِ"** — may my father and mother be a ransom for you, O Messenger of Allah. He promised the Prophet ﷺ that he would not return until he had brought his entire tribe to Islam. This story shows what mercy can accomplish where anger cannot, and how a single act of genuine compassion can turn a life around. That was the very character of the Prophet, and the nature of the mission he carried.
 
 ### Additional Virtues and Conduct
 
-Our Prophet (SWS) taught that every human being matters, and that an act of injustice against a single believer is more grievous than the destruction of the Ka'bah itself. He honored every person, regardless of their color, race, or creed. Allah says in the Quran:
+Our Prophet ﷺ taught that every human being matters, and that an act of injustice against a single believer is more grievous than the destruction of the Ka'bah itself. He honored every person, regardless of their color, race, or creed. Allah says in the Quran:
 
 > ‏ ‏أَيَحْسَبُ ٱلْإِنسَٰنُ أَن يُتْرَكَ سُدًى ‏‏
 >
 > Does man think that he will be left neglected?
 
-Every human being is precious to Allah. A human being in submission is more precious still. This is why Rasul Allah (SWS) said that killing a believer unjustly is more grievous before Allah than destroying the entire Ka'bah brick by brick. We are not insignificant — and this is what he let people know. A scholar once remarked that if the Prophet (SWS) had performed no miracle other than the men and women he produced, that alone would have been enough. He took simple, unlettered people and transformed them into towering figures of intellect and faith: a shepherd, عَبْدُ اللَّہِ ابْنُ مَسْعُودٍ, became a teacher for an entire generation; an Abyssinian slave, Bilal, became a pillar of faith and a giant among men.
+Every human being is precious to Allah. A human being in submission is more precious still. This is why Rasul Allah ﷺ said that killing a believer unjustly is more grievous before Allah than destroying the entire Ka'bah brick by brick. We are not insignificant — and this is what he let people know. A scholar once remarked that if the Prophet ﷺ had performed no miracle other than the men and women he produced, that alone would have been enough. He took simple, unlettered people and transformed them into towering figures of intellect and faith: a shepherd, عَبْدُ اللَّہِ ابْنُ مَسْعُودٍ, became a teacher for an entire generation; an Abyssinian slave, Bilal, became a pillar of faith and a giant among men.
 
 His presence was so formidable that those who first met him were left speechless, yet those who spent time with him fell deeply in love. He drew out the potential of the forgotten and the humble, showing them that their worth lay not in wealth or rank, but in character and love for Allah.
 
-Consider the story of Bilal. A young man, sick and exhausted, is forced to grind a sack of wheat as punishment. As he suffers, a man approaches him — not with words, but with warm milk and medicine. This man tells Bilal to rest, and with his own hands grinds the entire sack of wheat for three nights running, until Bilal has recovered. That man was our beloved Prophet (SWS). He took on the work of a servant to show him the true meaning of unconditional love. This is the root of Bilal's immense love for him: the Prophet transformed an ordinary man into a giant of faith. The same power is visible in the story of **Abu Dharr al-Ghifari**. His tribe was known for ruthless robbery, yet the Prophet's guidance purified him and made him one of the most distinguished scholars of his time. He was brought to live by a new law — one of justice and piety, not vengeance.
+Consider the story of Bilal. A young man, sick and exhausted, is forced to grind a sack of wheat as punishment. As he suffers, a man approaches him — not with words, but with warm milk and medicine. This man tells Bilal to rest, and with his own hands grinds the entire sack of wheat for three nights running, until Bilal has recovered. That man was our beloved Prophet ﷺ. He took on the work of a servant to show him the true meaning of unconditional love. This is the root of Bilal's immense love for him: the Prophet transformed an ordinary man into a giant of faith. The same power is visible in the story of **Abu Dharr al-Ghifari**. His tribe was known for ruthless robbery, yet the Prophet's guidance purified him and made him one of the most distinguished scholars of his time. He was brought to live by a new law — one of justice and piety, not vengeance.
 
-The Prophet (SWS) was also known for a gentle and playful sense of humor. His wives said that he was always joking with them at home. He himself said: أَمْزَحُ وَلَا أَقُولُ إِلَّا حَقًّا — I joke, but I speak nothing but the truth. This balance between lightness and integrity was characteristic of him. The story of the man who asked to borrow a camel illustrates it well. When the man made his request, the Prophet (SWS) replied: أُعْطِيكَ وَلَدَ نَاقَةٍ — I will give you the baby of a she-camel. When the man looked confused, the Prophet smiled and said: "Is every camel not the baby of a she-camel?" Another instance involves an old woman who asked: أَأَدْخُلُ الْجَنَّةَ يَا رَسُولَ اللَّهِ — O Messenger of Allah, will I enter Paradise? The Prophet (SWS) replied: لَا تَدْخُلُ الْجَنَّةَ عَجُوزٌ — no old woman will enter Paradise. When he saw that this saddened her, he laughed and added: إِنَّهَا سَتَدْخُلُهَا شَابَّةً — you will enter it as a young woman. It was his way of conveying a deeper truth gently, turning a moment of sadness into one of happiness and hope.
+The Prophet ﷺ was also known for a gentle and playful sense of humor. His wives said that he was always joking with them at home. He himself said: أَمْزَحُ وَلَا أَقُولُ إِلَّا حَقًّا — I joke, but I speak nothing but the truth. This balance between lightness and integrity was characteristic of him. The story of the man who asked to borrow a camel illustrates it well. When the man made his request, the Prophet ﷺ replied: أُعْطِيكَ وَلَدَ نَاقَةٍ — I will give you the baby of a she-camel. When the man looked confused, the Prophet smiled and said: "Is every camel not the baby of a she-camel?" Another instance involves an old woman who asked: أَأَدْخُلُ الْجَنَّةَ يَا رَسُولَ اللَّهِ — O Messenger of Allah, will I enter Paradise? The Prophet ﷺ replied: لَا تَدْخُلُ الْجَنَّةَ عَجُوزٌ — no old woman will enter Paradise. When he saw that this saddened her, he laughed and added: إِنَّهَا سَتَدْخُلُهَا شَابَّةً — you will enter it as a young woman. It was his way of conveying a deeper truth gently, turning a moment of sadness into one of happiness and hope.
 
 ### Love for Children
 
-The Prophet (SWS) was kind and loving to children. He once visited the house of اَنَسُ ابْنُ مَالِکٍ, whose little brother, ابو عمیر, had a small bird — a نُغَر — that he loved to play with. When the Prophet (SWS) noticed that the boy was sad, he asked his parents what was troubling him. They told him: "مات نُغَرَہُ" — his little bird died. The Prophet (SWS) went to the boy and said: یَا أَبُو عُمَیْرٍ مَا فَعَلَ النُّغَیْرُ — O ابو عمیر, what happened to your bird? He is the Messenger of Allah, entrusted with guiding all of humanity, yet he stopped to console a small child over the death of his pet. That act of tenderness was no ornament to his character — it was the character itself.
+The Prophet ﷺ was kind and loving to children. He once visited the house of اَنَسُ ابْنُ مَالِکٍ, whose little brother, ابو عمیر, had a small bird — a نُغَر — that he loved to play with. When the Prophet ﷺ noticed that the boy was sad, he asked his parents what was troubling him. They told him: "مات نُغَرَہُ" — his little bird died. The Prophet ﷺ went to the boy and said: یَا أَبُو عُمَیْرٍ مَا فَعَلَ النُّغَیْرُ — O ابو عمیر, what happened to your bird? He is the Messenger of Allah, entrusted with guiding all of humanity, yet he stopped to console a small child over the death of his pet. That act of tenderness was no ornament to his character — it was the character itself.
 
-He was also known for the honor he showed children. He once carried his grandson, Imam Husayn, on his shoulders. A man, seeing this, called out to the young boy: "نِعْمَ الْمَرْكَبُ مَرْكَبُكَ!" — what an excellent riding vehicle you have! The Prophet (SWS), hearing this, smiled and replied: "وَنِعْمَ الرَّاكِبُ هُوَ" — and what an excellent rider he is! That brief exchange is a lesson in تشریف — the act of honoring another. By praising the child as a good rider, the Prophet (SWS) did not merely accept the man's compliment; he elevated Imam Husayn's (AS) standing and gave him a sense of dignity and importance. He was attending to souls, teaching by example that every person, regardless of age, deserves to be treated with respect and made to feel that they matter.
+He was also known for the honor he showed children. He once carried his grandson, Imam Husayn, on his shoulders. A man, seeing this, called out to the young boy: "نِعْمَ الْمَرْكَبُ مَرْكَبُكَ!" — what an excellent riding vehicle you have! The Prophet ﷺ, hearing this, smiled and replied: "وَنِعْمَ الرَّاكِبُ هُوَ" — and what an excellent rider he is! That brief exchange is a lesson in تشریف — the act of honoring another. By praising the child as a good rider, the Prophet ﷺ did not merely accept the man's compliment; he elevated Imam Husayn's (AS) standing and gave him a sense of dignity and importance. He was attending to souls, teaching by example that every person, regardless of age, deserves to be treated with respect and made to feel that they matter.
 
 ### A Prophet Foretold
 
@@ -616,7 +616,7 @@ After naming all these qualities, Allah then states what is most prominent in th
 
 لَوْ يَمْشِي عَلَى الْقَصَبِ الْيَابِسِ لَمْ يُسْمَعْ تَحْتَ قَدَمَيْهِ مِن سَكِينَتِهِ
 
-You will see him walk with **such** humility that if he walked on dry leaves, you would not hear the sound of them cracking under his feet. That is the essence of his character. May Allah strengthen us and our children with the character of our incredible Prophet Rasul Allah (SWS).
+You will see him walk with **such** humility that if he walked on dry leaves, you would not hear the sound of them cracking under his feet. That is the essence of his character. May Allah strengthen us and our children with the character of our incredible Prophet Rasul Allah ﷺ.
 
 ### Concluding Remarks:
 
@@ -692,27 +692,27 @@ Our Lord is our ultimate purpose. Our purpose is the recognition of our Creator 
 >
 > "We have not created Jinn and man except to recognize Allah as the only one worthy of our devotion."
 
-What greater purpose than to emulate the beautiful character of Rasul Allah (SWS), the essence of which was humility before the Creator and with His creation?
+What greater purpose than to emulate the beautiful character of Rasul Allah ﷺ, the essence of which was humility before the Creator and with His creation?
 
 ### 2. Role Models
 
-**Second**, successful people seek out role models or mentors who give them a sense of what is possible. This is why Allah gave Rasul Allah (SWS) the stories of the prophets before him — to give him تثبيت (firmness), so his heart would be certain of success despite every tribulation. Yet consider the role models followed today: Hollywood and Bollywood stars, singers, and actors. These are false idols held up for imitation, not people of character. Historically, actors and musicians were counted among the lowest rungs of society; today these same figures — many of them known for alcohol, drug abuse, and fornication — are celebrated and exalted.
+**Second**, successful people seek out role models or mentors who give them a sense of what is possible. This is why Allah gave Rasul Allah ﷺ the stories of the prophets before him — to give him تثبيت (firmness), so his heart would be certain of success despite every tribulation. Yet consider the role models followed today: Hollywood and Bollywood stars, singers, and actors. These are false idols held up for imitation, not people of character. Historically, actors and musicians were counted among the lowest rungs of society; today these same figures — many of them known for alcohol, drug abuse, and fornication — are celebrated and exalted.
 
 Not long ago, a Turkish show named "Erturul" became enormously popular. It featured actors portraying immensely pious characters — yet in their real lives, these same individuals are often photographed on beaches with little regard for modesty. They are simply performers.
 
-But here is the real question: why are we so drawn to the characters they portray? The answer, if we reflect carefully, is that our attraction is not to the actors themselves but to the noble qualities they reflect from our beloved Prophet (SWS). It is these prophetic virtues — love, courage, generosity — that captivate us through their portrayal on screen. So why not go to the genuine source? Rather than be entertained by performers playing roles for a fee, we can draw our inspiration from the living truth. Our Prophet (SWS) was not performing or pretending; he was the living embodiment of truth.
+But here is the real question: why are we so drawn to the characters they portray? The answer, if we reflect carefully, is that our attraction is not to the actors themselves but to the noble qualities they reflect from our beloved Prophet ﷺ. It is these prophetic virtues — love, courage, generosity — that captivate us through their portrayal on screen. So why not go to the genuine source? Rather than be entertained by performers playing roles for a fee, we can draw our inspiration from the living truth. Our Prophet ﷺ was not performing or pretending; he was the living embodiment of truth.
 
 > ‏ ‏لَّقَدْ كَانَ لَكُمْ فى رَسُول ٱللَّه أُسْوَةٌ حَسَنَةٌۭ لّمَن كَانَ يَرْجُوا۟ ٱللَّهَ وَٱلْيَوْمَ ٱلْآخرَ وَذَكَرَ ٱللَّهَ كَثيرًۭا ‎ ‎
 >
 > There has certainly been for you in the Messenger of Allah an excellent pattern for anyone whose hope is in Allah and the last day and [who] remembers Allah often.
 
-We have the best example and role model in the character of our beloved Prophet (SWS). Follow his Seerah instead of chasing these performers.
+We have the best example and role model in the character of our beloved Prophet ﷺ. Follow his Seerah instead of chasing these performers.
 
 ### 3. Visualization
 
-**Third** is the strength of visualizing one's goals. No one had a clearer grasp of his goal than Rasul Allah (SWS). He described to Suraqa ibn Malik, in precise terms, the day he would put on the bracelets of Kisra — and it came to pass. On the Day of the Trench, when the hypocrites saw nothing but delusion, Rasul Allah (SWS) was instilling in his companions a vision of entering the palaces of Kisra and of the security that Islam would bring.
+**Third** is the strength of visualizing one's goals. No one had a clearer grasp of his goal than Rasul Allah ﷺ. He described to Suraqa ibn Malik, in precise terms, the day he would put on the bracelets of Kisra — and it came to pass. On the Day of the Trench, when the hypocrites saw nothing but delusion, Rasul Allah ﷺ was instilling in his companions a vision of entering the palaces of Kisra and of the security that Islam would bring.
 
-Let us visualize ourselves in the presence of Allah, of Rasul Allah (SWS), of Maulana Ali (AS) — welcomed with happiness and pride, not disappointment. In the film *The Lord of the Rings*, a dying king says to his daughter, "I go to my fathers, in whose mighty company I shall not feel ashamed." What a powerful vision. When we leave this world, we should aspire to feel no shame in the company of our righteous predecessors. Death is inevitable. The question is not whether we will die. The question is whether we are ready for it. If tonight were the night we had to spend in our graves or stand before the Prophet, would we be prepared?
+Let us visualize ourselves in the presence of Allah, of Rasul Allah ﷺ, of Maulana Ali (AS) — welcomed with happiness and pride, not disappointment. In the film *The Lord of the Rings*, a dying king says to his daughter, "I go to my fathers, in whose mighty company I shall not feel ashamed." What a powerful vision. When we leave this world, we should aspire to feel no shame in the company of our righteous predecessors. Death is inevitable. The question is not whether we will die. The question is whether we are ready for it. If tonight were the night we had to spend in our graves or stand before the Prophet, would we be prepared?
 
 ### 4. Positive Orientation
 
@@ -722,7 +722,7 @@ Let us visualize ourselves in the presence of Allah, of Rasul Allah (SWS), of Ma
 >
 > And already had Allah given you victory at [the battle of] Badr while you were few in number. Then fear Allah; perhaps you will be grateful.
 
-Remember your victory at Badr, when you were few and weak. Allah will grant us victory if we keep striving. With that in mind, it is wise to begin small. Do not attempt to bench press three hundred pounds on your first day at the gym. If you do not pray at all, begin with one prayer. Take on one quality of Rasul Allah (SWS) and work on it. Then celebrate that success rather than reproaching yourself for what you have not yet done. Once, Rasul Allah (SWS) asked his companions to gather whatever twigs and branches they could find. A large pile soon formed. He said, "This is how good deeds accumulate, and this is also how bad deeds accumulate." Let us all begin collecting these small twigs of good deeds, of prayer, of good character — and soon we will have a mountain.
+Remember your victory at Badr, when you were few and weak. Allah will grant us victory if we keep striving. With that in mind, it is wise to begin small. Do not attempt to bench press three hundred pounds on your first day at the gym. If you do not pray at all, begin with one prayer. Take on one quality of Rasul Allah ﷺ and work on it. Then celebrate that success rather than reproaching yourself for what you have not yet done. Once, Rasul Allah ﷺ asked his companions to gather whatever twigs and branches they could find. A large pile soon formed. He said, "This is how good deeds accumulate, and this is also how bad deeds accumulate." Let us all begin collecting these small twigs of good deeds, of prayer, of good character — and soon we will have a mountain.
 
 ### 5. Self-Assurance
 
@@ -736,7 +736,7 @@ We have an everlasting life of joy ahead of us, إِن كُنتُم مُّؤْم
 
 ### 6 and 7. Plan and Organize
 
-**Sixth and Seventh**, successful people plan and organize. They know how to prioritize. Let us each begin our day with a spiritual plan. Will we follow Rasul Allah (SWS) today, or Netflix? Will we prioritize our صلوۃ (prayer), or will we prioritize entertainment? Let us establish our priorities and build everything else around them. Let us not be caught up in trivial matters — arguing over the permissibility of toothpaste ingredients, for instance — while neglecting our daily prayers. Let us attend to the essentials, the great matters, before troubling ourselves with what is small. This is the disease of a Talmudic, rabbinical mind that asks, "What kind of cow? What color?" The devil is in the details, they say. Rasul Allah (SWS) was a universal man who lifted us above triviality. He focused us on the matter that truly counts:
+**Sixth and Seventh**, successful people plan and organize. They know how to prioritize. Let us each begin our day with a spiritual plan. Will we follow Rasul Allah ﷺ today, or Netflix? Will we prioritize our صلوۃ (prayer), or will we prioritize entertainment? Let us establish our priorities and build everything else around them. Let us not be caught up in trivial matters — arguing over the permissibility of toothpaste ingredients, for instance — while neglecting our daily prayers. Let us attend to the essentials, the great matters, before troubling ourselves with what is small. This is the disease of a Talmudic, rabbinical mind that asks, "What kind of cow? What color?" The devil is in the details, they say. Rasul Allah ﷺ was a universal man who lifted us above triviality. He focused us on the matter that truly counts:
 
 > ‏ ‏يَوْمَ لَا يَنفَعُ مَالٌۭ وَلَا بَنُونَ ‎ ‏إلَّا مَنْ أَتَى ٱللَّهَ بقَلْبٍۢ سَليمٍۢ ‎ ‎
 >
@@ -814,11 +814,11 @@ O you who believe — answer Allah and the Messenger when they call you to that 
 
 We have explored the beautiful character of our Prophet — his immense mercy, the way he transformed lives through his sheer authenticity. As we draw toward the close, I want to leave you with a profound and perhaps challenging idea from his own words. He said:
 
-> **Muhammad Ibn Abdullah (SWS)- Islam, Stranger, Blessed
+> **Muhammad Ibn Abdullah ﷺ- Islam, Stranger, Blessed**
 >
 > بَدَأَ الْإِسْلَامُ غَرِيبًا وَسَيَعُودُ غَرِيبًا كَمَا بَدَأَ، فَطُوبَى لِلْغُرَبَاءِ
 >
-> Islam began as a stranger, and it will return as a stranger just as it began. So, blessed are the strangers.**
+> Islam began as a stranger, and it will return as a stranger just as it began. So, blessed are the strangers.
 
 Consider that word — "stranger." It does not mean being odd or an outcast. It means a person whose way of life, beliefs, and values differ from those of the world around them. When Islam first appeared, it was strange. In a society that worshiped idols and its own desires, a small group of believers worshiped one God. In a world where might was right, they were humble. In a world of cruelty, they were compassionate. Their way of life was foreign, and the world saw them as strangers. And our Prophet is telling us that we are coming full circle.
 
