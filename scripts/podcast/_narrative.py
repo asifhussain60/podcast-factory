@@ -59,9 +59,8 @@ import unicodedata
 
 from _arabic_coverage import ARABIC_BODY
 from _rules import (
-    DEFAULT_NARRATIVE_FRAME,
-    NARRATIVE_FRAMES,
     R_ARABIC_TASHKEEL,
+    addresses_reader_for,
     narrative_person_for,
 )
 
@@ -238,13 +237,13 @@ _NAVIGATION_RE = re.compile(
 
 
 def navigation_findings(base_text: str, candidate: str, *, frame: str) -> list[str]:
-    """Flag a rewrite that ADDS navigation apparatus to a third-person book.
+    """Flag a rewrite that ADDS navigation apparatus to a book that addresses nobody.
 
     Differential for the same reason ``lecture_voice_findings`` is: a lecture
     transcript is full of these, and an absolute check would revert every window
     before the pass could remove one.
     """
-    if narrative_person_for(frame) != "third":
+    if addresses_reader_for(frame):
         return []
     base_n = len(_NAVIGATION_RE.findall(_narration_only(base_text)))
     cand_n = len(_NAVIGATION_RE.findall(_narration_only(candidate)))
@@ -275,7 +274,7 @@ def lecture_voice_counts(text: str) -> tuple[int, int]:
 
 
 def lecture_voice_findings(base_text: str, candidate: str, *, frame: str) -> list[str]:
-    """Flag a rewrite that ADDS lecture voice to a third-person book.
+    """Flag a rewrite that ADDS lecture voice to a book that addresses nobody.
 
     DIFFERENTIAL, like ``narrative_opening_findings`` and for the same reason: a
     lecture-derived source is saturated with these, so an absolute check would
@@ -285,10 +284,12 @@ def lecture_voice_findings(base_text: str, candidate: str, *, frame: str) -> lis
     model — the module's standing contract that a gate and its prompt are worded
     once, together.
 
-    Silent under a first-person frame: *Ayyuhal Walad* is a letter to a disciple,
-    where addressing the reader is not a defect but the form itself.
+    Silent where the address IS the form: *Ayyuhal Walad* is a letter to a
+    disciple, and stripping the second person would leave nothing. Keyed to
+    ``addresses_reader_for`` rather than to grammatical person (2026-08-11) —
+    a delivered lecture is genuinely first-person and must still lose its room.
     """
-    if narrative_person_for(frame) != "third":
+    if addresses_reader_for(frame):
         return []
     base_address, base_stage = lecture_voice_counts(base_text)
     cand_address, cand_stage = lecture_voice_counts(candidate)
@@ -491,90 +492,11 @@ def enumeration_findings(base_text: str, candidate: str, *, minimum: int = 3) ->
     return []
 
 
-def frame_prompt_directive(frame: str, narrator_subject: str = "") -> str:
-    """The instruction block that makes a model PRODUCE what the guards enforce.
-
-    Gates alone would simply revert every chapter: a model told to write an
-    intimate first-person companion and then failed for doing so burns a pass and
-    ships the base. The prompt and the gate must state the same rule, so this is
-    the single place that rule is worded for both.
-    """
-    spec = NARRATIVE_FRAMES.get(frame) or NARRATIVE_FRAMES[DEFAULT_NARRATIVE_FRAME]
-    if spec["person"] == "third":
-        who = (
-            "an anonymous transmitter reporting what passed between other people"
-            if frame == "transmitted_report"
-            else "a narrator outside the story who never appears in it"
-        )
-        return f"""
-NARRATIVE FRAME (binding — this is the source's structure, not a style preference)
-Narrate in the THIRD PERSON. The narrator is {who}, and is NOT a character.
-Write "The Master said", "The boy said", "he asked" — never "my Master", "he told
-me", "I said to him", or "the boy came to me". First person appears ONLY inside a
-character's own quoted speech, where it belongs.
-Do NOT add, remove, or re-point a speech tag. If the source attributes a passage
-to a speaker, keep that attribution; if the source leaves a paragraph untagged,
-leave it untagged. An invented tag hands one person's words to another.
-
-NO LECTURE VOICE (binding — a book addresses nobody)
-This source may be transcribed from a spoken lecture. The narration must not turn
-and address the reader, or direct an audience. RECAST every such move into
-exposition — never delete the thought it carries:
-  "Hold that frame, and step now inside it"     -> "Within that frame stands..."
-  "Do not pass over that phrase lightly"        -> "The phrase carries weight."
-  "so consider the grammar, because it sharpens" -> "The grammar sharpens..."
-  "you should expect nothing else from these pages" -> "The book does no more."
-  "Think of an enclosing canopy"                -> "The image is of a canopy."
-Forbidden in narration: "you", "your", and imperatives aimed at the reader
-(consider, notice, note, observe, recall, remember, imagine, picture, hold, look,
-mark, listen). Also drop commentary about the discourse itself — "this is the
-heart of it", "before we go on", "as we shall see" — and state the matter instead.
-Second person and imperatives are UNTOUCHED inside a character's quoted speech,
-inside a Quran verse, hadith, or prayer, and inside any block quotation: there
-they are one person speaking to another, which every frame keeps.
-
-NO NAVIGATION APPARATUS (binding — this edition has its own chapters)
-Do not locate the prose inside the SOURCE's division scheme. This edition prints
-numbered chapters; it has no canopies, gates, babs or fasls a reader can turn to,
-so a sentence announcing "we now come to the fourth chapter of the first gate of
-the first canopy" points at nothing they can find. Drop the locator and keep
-whatever the sentence teaches:
-  "And so the next hanging in the tent opens onto the fourth chapter of the
-   first gate of the first canopy — the fourth *fasl*."   -> drop entirely
-  "The ascent was named in the last gate; now a second gate opens, and behind
-   it lies something quieter."  -> "What follows is quieter."
-Also drop the scheme itself when it is being recited rather than used — "five
-canopies, each of five gates", "one hundred and twenty-five sections in all" —
-and any second explanation of what a suradiq, bab or fasl IS. Naming the source's
-own term once, where the source's argument turns on it, is fine.
-KEEP the division word wherever the TEXT QUOTED beside it uses it: a heading the
-source prints, or an Arabic line naming itself, stays exactly as it is.
-"""
-    named = f" You are {narrator_subject}." if narrator_subject else ""
-    return f"""
-NARRATIVE FRAME (binding — this is the source's structure, not a style preference)
-Narrate in the FIRST PERSON throughout, consistently, from the opening word.{named}
-Never lapse into reporting yourself from outside{f' as "{narrator_subject} said"' if narrator_subject else ""}.
-Do NOT add, remove, or re-point a speech tag. If the source attributes a passage
-to a speaker, keep that attribution; if the source leaves a paragraph untagged,
-leave it untagged. An invented tag hands one person's words to another.
-"""
-
-
-ARABIC_DIRECTIVE = """
-ARABIC (binding)
-Reproduce every Arabic-script run EXACTLY as given, character for character.
-Never replace Arabic script with a Latin transliteration. Where the passage
-discusses the Arabic AS LETTERS, keep the script and add the transliteration
-beside it in parentheses.
-Keep whatever vowel marks (tashkeel) a run already carries, and do not strip them.
-Adding marks is not your job here — a later pass vowels the Arabic under a gate
-that checks the letters are unchanged — so reproduce each run as given.
-
-STRUCTURE (binding)
-If the source enumerates — lettered or numbered items — keep the enumeration as
-enumeration. Do not dissolve it into running prose.
-"""
+# The prompt side of this contract lives in `_narrative_prompts` (split 2026-08-11,
+# DR-005) and is re-exported here: `frame_prompt_directive` and `ARABIC_DIRECTIVE`
+# are imported from `_narrative` by four routes, and the guards and the wording
+# they enforce belong behind one name.
+from _narrative_prompts import ARABIC_DIRECTIVE, frame_prompt_directive  # noqa: E402,F401
 
 
 def frame_findings(

@@ -1,0 +1,199 @@
+#!/usr/bin/env python3
+"""`sessions-articulate` was a step name with nothing behind it.
+
+It sat in `LANE_STEPS` and in the phase vocabulary as "Refining the language", and
+because `_write_state` marked every step at or before the one it finished, running
+the ingest through the preface marked it complete purely by POSITION. Both Sessions
+books reported that pass as done for weeks. No code had ever run it.
+
+The tests here cover the two halves of the fix: the state file stops claiming it,
+and there is now a driver that actually does it. The driver's model calls are
+injected — nothing here spends anything — because what is worth pinning is the
+bookkeeping around them: which chapters are selected, what is skipped on a resume,
+and that an interrupted run does not re-pay for the chapters it finished.
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from sessions import articulate as art  # noqa: E402
+from sessions.ingest import ARTICULATE_STEP, LANE_STEPS  # noqa: E402
+
+BOOK = """# A Series
+
+## Introduction to the Book
+
+Apparatus, authored under the articulation register already.
+
+## Love Based Religion
+
+He spoke about love, and you should notice how the word turns.
+
+## Need For Messengers
+
+In the last session I talked about mercy.
+"""
+
+
+@pytest.fixture()
+def book_dir(tmp_path: Path) -> Path:
+    (tmp_path / "book").mkdir()
+    (tmp_path / "_system").mkdir()
+    (tmp_path / "book" / "book.md").write_text(BOOK, encoding="utf-8")
+    return tmp_path
+
+
+# ---------------------------------------------------------------------------
+# What the pass is asked to do
+# ---------------------------------------------------------------------------
+
+
+def test_the_introduction_is_not_a_chapter(book_dir: Path) -> None:
+    """It is apparatus: authored in the register already, with no source to be
+    faithful to. The pass engine skips it, and the lane must not report touching
+    what the engine passed through."""
+    keys = art.chapter_keys(book_dir / "book" / "book.md")
+    assert [title for _, title in keys] == ["Love Based Religion", "Need For Messengers"]
+
+
+def test_the_introduction_key_comes_from_the_engine_not_a_second_copy(book_dir: Path) -> None:
+    """Two answers to "which section is apparatus" would drift the first time
+    either changed, and this module would claim work the engine never did."""
+    from _book_voice import _INTRODUCTION_KEY
+    from sessions.articulate import _INTRODUCTION_KEY as imported
+
+    assert imported is _INTRODUCTION_KEY
+
+
+# ---------------------------------------------------------------------------
+# Resume
+# ---------------------------------------------------------------------------
+
+
+def test_a_composer_edit_is_not_the_resume_signal(book_dir: Path) -> None:
+    """EVERY chapter of both Sessions books already carries one, written by the
+    mechanical repairs (honorifics, verse cards, stray emphasis) that ran before
+    this step existed. Reading edits as "already articulated" would skip all 29
+    chapters and report a finished run."""
+    (book_dir / "_system" / "composer-edits.json").write_text(
+        json.dumps([{"chapter_key": "love based religion", "body_md": "x"}]), encoding="utf-8"
+    )
+    plan = art.articulate_book(book_dir, dry_run=True, log=lambda *_: None)
+    assert plan["planned"] == 2
+
+
+def test_a_chapter_this_lane_articulated_is_skipped(book_dir: Path) -> None:
+    art._record(book_dir, "love based religion", "Love Based Religion", "adapted")
+    plan = art.articulate_book(book_dir, dry_run=True, log=lambda *_: None)
+    assert plan["planned"] == 1
+    assert plan["skipped"] == 1
+
+
+def test_force_re_runs_what_the_ledger_records(book_dir: Path) -> None:
+    art._record(book_dir, "love based religion", "Love Based Religion", "adapted")
+    plan = art.articulate_book(book_dir, dry_run=True, force=True, log=lambda *_: None)
+    assert plan["planned"] == 2
+
+
+def test_a_failed_chapter_is_retried_on_the_next_run(book_dir: Path) -> None:
+    """A crash is not a result. Recording it as done would silently leave a
+    chapter un-articulated in a book reported complete."""
+    art._record(book_dir, "love based religion", "Love Based Religion", "failed")
+    plan = art.articulate_book(book_dir, dry_run=True, log=lambda *_: None)
+    assert plan["planned"] == 2
+
+
+def test_the_ledger_is_written_per_chapter_not_at_the_end(book_dir: Path, monkeypatch) -> None:
+    """A run interrupted at chapter 19 of 23 must not re-pay for the eighteen
+    that succeeded, so the record lands as each one finishes."""
+    seen: list[str] = []
+
+    def fake(bd, key, log=print):
+        seen.append(key)
+        if len(seen) == 2:
+            raise RuntimeError("interrupted")
+        return {"status": "adapted"}
+
+    monkeypatch.setattr(art, "rearticulate", fake)
+    art.articulate_book(book_dir, log=lambda *_: None)
+    ledger = art.read_ledger(book_dir)["chapters"]
+    assert ledger["love based religion"]["status"] == "adapted"
+    assert ledger["need for messengers"]["status"] == "failed"
+
+
+def test_one_bad_chapter_does_not_end_the_run(book_dir: Path, monkeypatch) -> None:
+    def fake(bd, key, log=print):
+        if key == "love based religion":
+            raise RuntimeError("model timeout")
+        return {"status": "adapted"}
+
+    monkeypatch.setattr(art, "rearticulate", fake)
+    summary = art.articulate_book(book_dir, log=lambda *_: None)
+    assert summary["adapted"] == 1
+    assert [f["key"] for f in summary["failed"]] == ["love based religion"]
+
+
+# ---------------------------------------------------------------------------
+# The state file stops lying
+# ---------------------------------------------------------------------------
+
+
+def test_finishing_the_preface_no_longer_marks_articulation_done() -> None:
+    """The original defect, pinned: the ingest does not run this step, so
+    finishing a LATER step must not complete it by sitting earlier in a tuple."""
+    import tempfile
+
+    from sessions.ingest import _write_state
+    from sessions.series import SERIES
+
+    with tempfile.TemporaryDirectory() as tmp:
+        book_dir = Path(tmp)
+        (book_dir / "_system").mkdir()
+        series = next(iter(SERIES.values()))
+        _write_state(book_dir, series, done_through="sessions-preface")
+        state = json.loads((book_dir / "_system" / "orchestrator-state.json").read_text())
+        assert state["phases"][ARTICULATE_STEP]["status"] == "pending"
+        assert state["phases"]["sessions-preface"]["status"] == "completed"
+
+
+def test_a_re_ingest_does_not_forget_that_articulation_ran(book_dir: Path, monkeypatch) -> None:
+    """The carry-over is in both directions: the ingest must not claim the step,
+    and must not erase it either."""
+    from sessions.ingest import _write_state
+    from sessions.series import SERIES
+
+    state_path = book_dir / "_system" / "orchestrator-state.json"
+    state_path.write_text(json.dumps({"phases": {ARTICULATE_STEP: {"status": "completed"}}}), encoding="utf-8")
+    _write_state(book_dir, next(iter(SERIES.values())), done_through="sessions-preface")
+    state = json.loads(state_path.read_text())
+    assert state["phases"][ARTICULATE_STEP]["status"] == "completed"
+
+
+def test_the_step_completes_without_dragging_the_lane_backwards(book_dir: Path, monkeypatch) -> None:
+    """Articulation legitimately runs AFTER the preface — the introduction it
+    writes is apparatus this pass skips. Writing `phase: sessions-articulate`
+    here would report a finished book as three steps from done."""
+    state_path = book_dir / "_system" / "orchestrator-state.json"
+    state_path.write_text(
+        json.dumps(
+            {
+                "phase": "sessions-preface",
+                "last_completed_phase": "sessions-preface",
+                "phases": {step: {"status": "pending"} for step in LANE_STEPS},
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: {"status": "adapted"})
+    art.articulate_book(book_dir, log=lambda *_: None)
+    state = json.loads(state_path.read_text())
+    assert state["phase"] == "sessions-preface"
+    assert state["phases"][ARTICULATE_STEP]["status"] == "completed"
+    assert state["phases"][ARTICULATE_STEP]["chapters"] == 2

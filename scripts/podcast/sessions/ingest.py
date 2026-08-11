@@ -162,6 +162,10 @@ LANE_STEPS: tuple[str, ...] = (
     "sessions-apparatus",
 )
 
+#: The one lane step this module does not run. Named so `_write_state` and
+#: `articulate.py` cannot disagree about which step that is.
+ARTICULATE_STEP = "sessions-articulate"
+
 
 def _write_state(book_dir: Path, series: Series, *, done_through: str) -> None:
     """Record what this lane has actually finished, and claim nothing else.
@@ -179,6 +183,16 @@ def _write_state(book_dir: Path, series: Series, *, done_through: str) -> None:
 
     cut = LANE_STEPS.index(done_through)
     phases = {step: {"status": "completed" if i <= cut else "pending"} for i, step in enumerate(LANE_STEPS)}
+
+    # `sessions-articulate` is the one step in this list the ingest does not
+    # perform — `articulate.py` does, on its own, because it is hours of model
+    # time and re-running the ingest must stay a cheap deterministic walk. So its
+    # status is carried over rather than derived from position (2026-08-11).
+    # Until this, finishing the preface marked it complete purely by sitting
+    # earlier in the tuple, and both Sessions books reported "Refining the
+    # language ✓" for a pass that had no code behind it at all.
+    prior_articulate = (prior.get("phases") or {}).get(ARTICULATE_STEP) or {}
+    phases[ARTICULATE_STEP] = {"status": str(prior_articulate.get("status") or "pending")}
 
     path.write_text(
         json.dumps(
@@ -232,9 +246,12 @@ def _series_config(series: Series) -> str:
         "\n"
         f"content_profile: {PROFILE}\n"
         "\n"
-        '# The speaker is the author and the transcript records him saying "I".\n'
-        "# Declared rather than inherited so the route stays readable here.\n"
-        "narrative_frame: first_person_author\n"
+        '# The speaker is the author and the transcript records him saying "I", so the\n'
+        "# frame is first person. EXPOSITORY, not `first_person_author`: that frame means\n"
+        "# the address to a reader IS the form, as in a letter, and it switches the\n"
+        "# lecture-voice and navigation guards off. A lecture becoming a book is the\n"
+        '# opposite case — his "I" is kept, and the room he spoke it in is not.\n'
+        "narrative_frame: first_person_expository\n"
         "\n"
         "# The source is a lecture, not a printed text. Gates that exist to catch a\n"
         "# translation reading like a calque do not apply to speech.\n"
