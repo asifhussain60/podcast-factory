@@ -1291,3 +1291,40 @@ would be gold-plating); recorded so they aren't lost.
 
 Acceptance for building any of F-AUD1..3: a concrete observed failure on a real book,
 not speculative. Until then they stay Low backlog.
+
+---
+
+## Metering and provenance gaps — 2026-08-11 (Sessions route, Book 1 review)
+
+Found by reading Book 1's own ledgers after `love-of-the-prophet` finished, not by a
+failure. Both are repo-wide, not Sessions-specific: they affect every book on every
+route that uses `compose_fix` or a phase-declared model.
+
+| ID | Gap | Severity | Note |
+|---|---|---|---|
+| F-MET1 | `compose_fix --vowel` spends Gemini and records nothing | Medium | `_compose_fix_vowel.vowel_chapters` calls `vowel_book.vowel_text` directly and never calls `vowel_book.record_spend`, so neither `cost-ledger.jsonl` nor `model-provenance.jsonl` sees the pass. `record_spend`'s own docstring exists because this was already fixed once on the whole-book path. The Book Composer's Diacritics button reaches the same engine and should be checked with it. `stats` already carries `in_chars`/`out_chars`, so the fix is one call per chapter. A concrete instance of the class F-AUD3 described speculatively. |
+| F-MET2 | The provenance `divergence` flag is true for every deliberate model override | Low | `record_model_provenance` computes `fallback = model != DEFAULT_MODEL_LABEL`, but `PHASE_MODEL_OVERRIDE` deliberately assigns `claude-sonnet-4-6` to `rearticulate`, `0book-fluency` and `0book-student-reader`. All nine of Book 1's articulation rows read `fallback: true, divergence: true` when nothing fell back, so a genuine timeout-fallback — the thing the field exists to make visible — is indistinguishable. Fix: compare against the phase's DECLARED model, and reserve `fallback` for a call that did not get the model it asked for. |
+
+Acceptance: F-MET1 before the next Sessions book, because the plan's vowelling-cost
+probe cannot be satisfied without it. F-MET2 whenever the provenance audit is next
+touched.
+
+## Snag — MABDA MA'AD belongs in the al-anwaar reading panel — 2026-08-11
+
+**Severity:** Low. Deferred deliberately; recorded here because the Sessions plan cites
+this file as the place it was written down and it was not.
+
+KSESSIONS group G5 has **14 sessions, all with substantive transcripts, and no audio at
+all**, so it gets no Listen tab and no Sessions card — it is excluded from the Sessions
+lane by `INGESTABLE_GROUPS`. Its notes belong in the reading panel of
+`content/Islamic/al-anwaar-al-lateefah`, which is already absorbing this material: the
+book carries `augmentation/mabda-maad-gh-2022` and `augmentation/mabda-maad-2002` today,
+so the database sessions are an additional source for a six-volume work already part-way
+through integrating it.
+
+Sessions to integrate, in sequence: Conditions Prior To Islam · The Spiritual Creation ·
+The First Intellect · The Two Emanators · The Seven Intellects · ASHIR & KAL-LAMUM ·
+KAL-LAMUM Ranks and Ascension · Falling From Grace · Design Of Human Being · Layers of
+Physical Impurity · Recognizing The Creator · Recognizing The Self · Unity, Transcendence,
+Abstraction · Knowledge & Action. Session ids `68, 69, 70, 71, 72, 73, 95, 115, 1243,
+1244, 1247, 1248, 1249, 1250`.
