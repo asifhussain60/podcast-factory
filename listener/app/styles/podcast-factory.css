@@ -2343,20 +2343,41 @@
       box-shadow var(--pf-motion);
   }
 
-  /* THE TWO ENDS OF THE ROW, THE SAME WEIGHT (Asif, 2026-08-11). The mark was
+  /* ---- The row's genre mark, in a ring ---------------------------------
+     THE TWO ENDS OF THE ROW, THE SAME SHAPE (Asif, 2026-08-11). The mark was
      set at `1em` — the size a chapter's book icon is, in a row whose other end
      is a 44px circle — so a track opened with a speck and closed with a button
-     and read as lopsided all the way down the list. It is sized against the
-     transport now rather than against the text.
+     and read as lopsided all the way down the list.
 
-     Not the transport's full 44px: that is a RING around a glyph, and a
-     microphone drawn at the ring's diameter would be twice the height of the
-     title beside it. It matches the button optically — the same visual mass at
-     each end — which is what "the same size" means for two marks of different
-     shape. */
-  .pf-track .pf-row__mark {
-    width: 1.75rem;
-    opacity: 0.75;
+     The ring is DRAWN here rather than found in the icon set: Font Awesome's
+     free styles have no microphone in a circle, and the circle is wanted for
+     something a glyph could not supply anyway — it answers the transport at the
+     other end, so a track begins and ends on the same shape.
+
+     Smaller than that transport on purpose. These are the row's two ends, not
+     its two buttons: one is a label and the other is the thing you press, and
+     at the same diameter the label would read as a control that does nothing. */
+  .pf-row__mark.pf-row__badge {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid color-mix(in srgb, var(--l-accent) 35%, transparent);
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--l-accent) 8%, transparent);
+    color: var(--l-accent);
+    font-size: 1.15rem;
+    opacity: 1;
+  }
+
+  /* Full strength inside the ring. `.pf-icon` fades every glyph to 0.7 so an
+     icon never outweighs the words beside it; here the ring is doing that job,
+     and a faded microphone inside a solid circle reads as disabled. */
+  .pf-row__badge .pf-icon {
+    opacity: 1;
   }
 
   /* The whole row starts the recording, so the whole row says so under the
@@ -3233,8 +3254,20 @@
     border-top: 0;
   }
 
+  /* EVERY ROW IS ITS OWN CARD (Asif, 2026-08-11). The stripe alone left the
+     boundary between two rows as a change of tint and nothing else — and
+     between two consecutive UN-striped rows, as nothing at all. An outline and
+     a gap give each one an edge whether or not the stripe falls on it.
+
+     The border is the palette's soft rule rather than a mix of the accent: at
+     the accent it competed with the pill and the transport, which are the two
+     things on a row that are SUPPOSED to be in the collection's colour.
+
+     On `--striped` itself, not on one list: the chapters and the recordings are
+     one list shape, and a card on one tab and a bare row on the other is two
+     shapes wearing one name. */
   .pf-rows--striped > li {
-    border-bottom: 0;
+    border: 1px solid var(--l-rule-soft);
     border-radius: var(--pf-radius-sm);
   }
 
@@ -3254,9 +3287,10 @@
 
   /* Room to breathe. The rows were a hairline apart at 44px tall, which is a
      table of contents; a list somebody chooses a chapter from wants the space
-     between the choices to be visible (Asif, 2026-08-11). */
+     between the choices to be visible (Asif, 2026-08-11) — and with an outline
+     on each one, a gap is what stops five cards reading as one grid. */
   .pf-rows--striped > li + li {
-    margin-top: var(--pf-space-1);
+    margin-top: var(--pf-space-2);
   }
 
   .pf-rows--striped .pf-row {

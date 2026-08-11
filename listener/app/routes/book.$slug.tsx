@@ -710,8 +710,15 @@ function ReadingEdition({
               {/* A mark of what the row IS, which every other list on this
                   page now has and this one did not: the deck has its artwork
                   tile, the slides tab its thumbnails. An open book, in the
-                  accent, at the head of every chapter. */}
-              <Icon icon={faBookOpen} className="pf-row__mark" />
+                  accent, at the head of every chapter.
+
+                  In the SAME ring as the microphone on a recording, at the same
+                  diameter (Asif, 2026-08-11). Read and Listen are one list
+                  shape, and a shape that is one size on one tab and another on
+                  the other is two shapes wearing one name. */}
+              <span className="pf-row__mark pf-row__badge" aria-hidden="true">
+                <Icon icon={faBookOpen} />
+              </span>
               <span className="pf-row__main">{chapter.title}</span>
               {markedChapters.get(chapter.anchorKey) ? (
                 <span className="pf-row__meta pf-row__marks">
@@ -900,9 +907,18 @@ function Podcast({
                       sessions, so the mark says "this was spoken", which is the
                       counterpart of the open book on a chapter.
 
+                      IN A RING (Asif, 2026-08-11), which is drawn here rather
+                      than found: Font Awesome's free set has no microphone in a
+                      circle, and the ring is wanted for a reason the glyph
+                      cannot supply — it answers the circular transport at the
+                      other end of the row, so a track opens and closes on the
+                      same shape.
+
                       Decorative, and aria-hidden: the control that actually
                       plays names the episode in full. */}
-                  <Icon icon={faMicrophoneLines} className="pf-row__mark" />
+                  <span className="pf-row__mark pf-row__badge" aria-hidden="true">
+                    <Icon icon={faMicrophoneLines} />
+                  </span>
 
                   <div className="pf-row__main">
                     {/* Not a link. An episode has no page of its own: what is
