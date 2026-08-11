@@ -252,6 +252,90 @@ def test_a_picture_genuinely_on_another_site_is_reported_and_not_rendered() -> N
 
 
 # ---------------------------------------------------------------------------
+# Constructs Book 1 was too small to carry
+# ---------------------------------------------------------------------------
+#
+# Love Of The Prophet exercised six sessions and two illustrations, so none of
+# the three below ever ran. All three were found by looking at a RENDERED page of
+# Book 2 rather than at the markdown, which is the rule step 4b already states:
+# four of the five links in the chain were correct when the list markers were
+# lost, and the same is true here.
+
+
+def test_a_font_awesome_icon_is_not_emphasis() -> None:
+    """Font Awesome's tag of choice is `<i>`, which is also markdown emphasis.
+
+    508 icons in the corpus, every one EMPTY, so each emitted `*` open and `*`
+    close with nothing between: 133 pairs of literal asterisks printed in Surah
+    Al-Fateha's prose and 16 in Love Of The Prophet, which is live on the site.
+    """
+    out = convert("<p>Before <i class='fa fa-ban text-danger fa-2x' aria-hidden='true'></i> after.</p>")
+    assert "*" not in out.markdown
+    assert "Before" in out.markdown and "after." in out.markdown
+
+
+def test_a_real_italic_is_still_emphasis() -> None:
+    """The icon rule keys on the CLASS, not on the tag — an `<i>` with no Font
+    Awesome class is what the author meant it to be."""
+    out = convert("<p>He called it <i>ilm</i>.</p>")
+    assert "*ilm*" in out.markdown
+
+
+def test_a_quran_widget_becomes_a_quotation_with_its_translation_beneath() -> None:
+    """370 of these in the corpus, and the reason it matters most on a book about
+    a surah: unlisted, the verse, its number and its English fell out as three
+    loose paragraphs and the page set scripture like ordinary prose."""
+    html = (
+        "<div class='hq-container quranWidget'>"
+        "<div class='quran-surah inlineArabic'><div class='quran-english-name'>The Cow</div></div>"
+        "<div><div class='quran-ayats'><span>ٱللَّهُ وَلِىُّ ٱلَّذِينَ آمَنُوا۟</span></div>"
+        "<div class='quran-ayat-translation'><span>Allah is the protector of those who believe.</span></div>"
+        "</div></div>"
+    )
+    out = convert(html)
+    lines = [line for line in out.markdown.splitlines() if line.strip()]
+
+    assert out.quotes == 1
+    assert all(line.startswith(">") for line in lines)
+    assert out.markdown.index("ٱللَّهُ") < out.markdown.index("Allah is the protector")
+
+
+def test_the_translation_is_asked_about_before_the_arabic() -> None:
+    """`quran-ayat-translation` CONTAINS `quran-ayat`. Asking about the Arabic
+    first files every English gloss as Arabic and the card comes out with the
+    translation stacked inside the verse."""
+    html = (
+        "<div class='quranWidget'>"
+        "<div class='quran-ayats-single'>ٱلْحَمْدُ لِلَّهِ</div>"
+        "<div class='quran-ayat-translation-single'>All praise is due to Allah.</div>"
+        "</div>"
+    )
+    out = convert(html)
+    assert out.markdown.index("ٱلْحَمْدُ") < out.markdown.index("All praise")
+
+
+def test_the_guide_chips_letter_goes_and_its_caption_and_diagram_stay() -> None:
+    """This is the correction, and it cost a run to find.
+
+    Dropping the whole chip read as obviously right — it is the admin's own
+    index furniture — and took 36 of Surah Al-Fateha's 63 illustrations with it,
+    because the description span holds the label AND the diagram it labels.
+    """
+    html = (
+        "<div class='box box2 shadow2 box-hub'><div class='box-inner'>"
+        "<span class='sessionGuide-letter'>W</span>"
+        "<span class='sessionGuide-desc'>A vs THE"
+        "<img src='Resources/IMAGES/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg'>"
+        "</span></div></div>"
+    )
+    out = convert(html)
+
+    assert "WA vs THE" not in out.markdown  # the badge ran into the label
+    assert "A vs THE" in out.markdown
+    assert len(out.images) == 1
+
+
+# ---------------------------------------------------------------------------
 # A picture the corpus has lost
 # ---------------------------------------------------------------------------
 #
