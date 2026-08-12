@@ -381,6 +381,80 @@ d1(`
   DELETE FROM access_grant WHERE user_email = '${OUTSIDER}';
 `);
 
+console.log("\nsearch cannot reach a book you were not given");
+// The dangerous identity for a search box is not the stranger, who is stopped at
+// the door: it is the LEGITIMATE reader, signed in and holding one book, whose
+// query runs against an index built from every book in the library.
+//
+// THIS SECTION GRANTS ITS OWN BOOK rather than inheriting the grant the marks
+// section made — that section deletes it on the way out, so these checks ran
+// against a reader holding nothing and every denial passed for the wrong reason.
+// The control below is what caught it, which is the argument for always firing
+// one: "the reader found nothing" means nothing on its own.
+d1(`
+  INSERT INTO access_grant (user_email, scope_type, scope_id, granted_by, granted_at)
+    VALUES ('${OUTSIDER}', 'unit', 'ayyuhal-walad', 'smoke', 'now')
+    ON CONFLICT(user_email, scope_type, scope_id) DO UPDATE SET revoked_at = NULL;
+`);
+
+const OTHER_BOOK = "Spiritual Ethos"; // published, and OUTSIDER holds no grant to it
+
+const adminSearch = await get("/search?q=intellect", admin);
+const adminSearchBody = await adminSearch.text();
+check("control: the administrator's search finds the other book", adminSearchBody.includes(OTHER_BOOK), true);
+
+const readerSearch = await get("/search?q=intellect", outsider);
+const readerSearchBody = await readerSearch.text();
+check("the page loads for a reader holding one book", readerSearch.status, 200);
+check("but the other book is not in their results", readerSearchBody.includes(OTHER_BOOK), false);
+// The facet rail lists book titles with counts, so a leak there is a leak even
+// when no passage is rendered: it would tell this reader the book exists and how
+// much of it matches.
+check("nor in their facet counts", readerSearchBody.includes(OTHER_BOOK), false);
+// Control on the reader's own side: their search is working, not merely empty.
+const ownSearch = await get("/search?q=knowledge", outsider);
+check("their own book is still searchable", (await ownSearch.text()).includes("Ayyuha"), true);
+
+// The single-fetch endpoint with the `_routes` filter, which is the bypass the
+// gates are middleware to survive.
+const searchData = await get("/search.data?_routes=routes%2Fsearch&q=intellect", outsider);
+check("the data endpoint leaks nothing either", (await searchData.text()).includes(OTHER_BOOK), false);
+
+// A passage id is a small integer and therefore guessable. Reaching one from a
+// book you do not hold must return nothing, whatever id you name.
+// Read as JSON rather than scraped out of wrangler's text output: a regex over
+// that would happily match the first number in the banner and then "test" an id
+// that is not a passage at all.
+const stolenId = (() => {
+  const out = String(
+    execFileSync(
+      "npx",
+      [
+        "wrangler", "d1", "execute", "podcast-listener", "--local", "--json",
+        "--command", "SELECT id FROM search_passage WHERE slug = 'spiritual-ethos' LIMIT 1",
+      ],
+      { encoding: "utf8" },
+    ),
+  );
+  return JSON.parse(out.slice(out.indexOf("[")))[0]?.results?.[0]?.id;
+})();
+if (stolenId === undefined) {
+  console.log("  ok   (no spiritual-ethos passages indexed locally; skipped)");
+} else {
+  const lifted = await get(
+    `/book/ayyuhal-walad/read/${CHAPTER}?find=${stolenId}`,
+    outsider,
+  );
+  check("a passage id from another book paints nothing", lifted.status, 200);
+  check(
+    "and the other book's text is not in that page",
+    (await lifted.text()).includes(OTHER_BOOK),
+    false,
+  );
+}
+
+d1(`DELETE FROM access_grant WHERE user_email = '${OUTSIDER}'`);
+
 console.log("\nrevocation takes effect on the next request");
 d1(`UPDATE invite SET revoked_at = 'now' WHERE email = '${OUTSIDER}'`);
 check("revoked person is sent to no-access", (await get("/", outsider)).status, 302);

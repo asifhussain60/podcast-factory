@@ -58,6 +58,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _listener_book import LISTENER, Book, load_book, render  # noqa: E402
+from _listener_search import IndexReport, Passage, passages_for  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
 
 # The bucket belongs to the uploader; the publish step borrows two of its
@@ -77,6 +78,25 @@ def sql_str(value: object) -> str:
     if isinstance(value, int):
         return str(value)
     return "'" + str(value).replace("'", "''") + "'"
+
+
+_SEARCH_CACHE: dict[str, tuple[list[Passage], IndexReport]] = {}
+
+
+def search_index(book: Book) -> tuple[list[Passage], IndexReport]:
+    """The book's search rows, computed once.
+
+    Cached because `build_sql` and `describe` both want them and naming a verse
+    means matching its skeleton against all 6,236 ayat — cheap once per book,
+    wasteful twice.
+    """
+    if book.slug not in _SEARCH_CACHE:
+        _SEARCH_CACHE[book.slug] = passages_for(book)
+    return _SEARCH_CACHE[book.slug]
+
+
+def search_passages(book: Book) -> list[Passage]:
+    return search_index(book)[0]
 
 
 def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
@@ -155,6 +175,30 @@ def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
             f"{card.idx}, {sql_str(card.title)}, {sql_str(card.quote)}, "
             f"{sql_str(card.body_html)}, "
             f"{sql_str(json.dumps(card.etymology, ensure_ascii=False) if card.etymology else None)});"
+        )
+
+    # The search index. Cleared and rewritten with the chapters it describes,
+    # which is what stops it describing a passage the edition no longer has.
+    #
+    # NOTHING TOUCHES `search_fts` HERE, deliberately. It is an external-content
+    # FTS5 table kept in step by three triggers declared in 0012_search.sql, so
+    # these two statements maintain it for free. A second write here would be the
+    # copy that drifts the first time somebody changed one and not the other.
+    add(f"DELETE FROM search_passage WHERE slug = {sql_str(book.slug)};")
+    for passage in search_passages(book):
+        add(
+            "INSERT INTO search_passage "
+            "(slug, kind, anchor_key, heading, ordinal, episode_number, quote, prefix, "
+            "arabic, label, surah, ayah, heading_fold, body_fold, arabic_fold) VALUES "
+            f"({sql_str(passage.slug)}, {sql_str(passage.kind)}, {sql_str(passage.anchor_key)}, "
+            f"{sql_str(passage.heading)}, {passage.ordinal}, "
+            f"{passage.episode_number if passage.episode_number is not None else 'NULL'}, "
+            f"{sql_str(passage.quote)}, {sql_str(passage.prefix)}, {sql_str(passage.arabic)}, "
+            f"{sql_str(passage.label)}, "
+            f"{passage.surah if passage.surah is not None else 'NULL'}, "
+            f"{passage.ayah if passage.ayah is not None else 'NULL'}, "
+            f"{sql_str(passage.heading_fold)}, {sql_str(passage.body_fold)}, "
+            f"{sql_str(passage.arabic_fold)});"
         )
 
     # Media is the ONE table not cleared and rewritten, because `uploaded_at` is
@@ -271,7 +315,18 @@ def session_concerns(book: Book) -> list[str]:
 
 def describe(book: Book) -> dict:
     with_audio = sum(1 for e in book.episodes if e.audio)
+    _rows, index = search_index(book)
     return {
+        # What the advanced search will be able to find. `verses_named` is the
+        # honest number: the Arabic runs the canonical mushaf could put a
+        # reference on, out of every run that IS a quotation. The gap is not a
+        # failure — most quotation in this library is hadith, poetry or a book
+        # title, none of which is scripture and none of which gets a citation.
+        "search_passages": index.passages,
+        "search_by_kind": index.per_kind,
+        "arabic_quotations": index.verses,
+        "verses_named": index.named_verses,
+        "mushaf_available": index.mushaf,
         "slug": book.slug,
         "bucket": book.bucket,
         "title": book.title,

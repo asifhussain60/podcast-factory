@@ -62,8 +62,15 @@ const toUnit = (r: UnitRow): ContentUnit => ({
  * chapters — they exist to be *granted*, not read.
  *
  * `?1` is the normalized email, bound once and reused.
+ *
+ * EXPORTED so that a new reader of content — search, at the time of writing — can
+ * JOIN to it rather than re-state it. That is the whole point: this expression is
+ * the only place the entitlement rule is written, and a second query that decided
+ * for itself which books to look in would be a second rule to keep in step. Any
+ * module that reads passages, chapters or media MUST join to this and bind the
+ * viewer's normalized email to `?1`. Nothing else may filter by slug alone.
  */
-const VISIBLE_SQL = `
+export const VISIBLE_SQL = `
   SELECT u.slug, u.bucket, u.title, u.kind, u.work_slug, u.status, u.open_to_all
   FROM content_unit u
   WHERE u.status = 'published'
