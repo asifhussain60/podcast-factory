@@ -83,6 +83,19 @@ function fileEpisodeNumber(name: string): number | null {
   return m ? Number(m[1]) : null;
 }
 
+/** `## ` headings in book/book.md — the Chapters tab's fallback count for a
+ *  book whose chapters were never written as the orchestrator's chapters/*.txt
+ *  upload bundle (the Sessions lane, or any book earlier in its own pipeline
+ *  than that phase). 0 when there is no composed book.md yet; never throws. */
+async function countBookMdHeadings(bookDir: string): Promise<number> {
+  try {
+    const md = await readFile(`${bookDir}/book/book.md`, "utf-8");
+    return (md.match(/^##\s+/gm) ?? []).length;
+  } catch {
+    return 0;
+  }
+}
+
 export interface StudioIndexView {
   fileViewHref: (relPath: string) => string;
   episodeGroups: RenderGroup[];
@@ -286,9 +299,21 @@ export async function buildStudioIndexView(
     (state.phaseStatus === "halted" || state.phaseStatus === "pending");
 
   const mediaCount = audio.length + slideDecks.length;
+  // `chapters` counts chapters/*.txt — the orchestrator's NotebookLM
+  // upload-bundle files. A Sessions-lane book (a lecture transcript
+  // articulated through scripts/podcast/sessions/*.py) never produces that
+  // directory at all — its chapters live only as `## ` headings in a
+  // composed book/book.md, the same file the Chapters tab already links to
+  // (it jumps straight into the Composer). Falling back to a heading count
+  // there means "Chapters 0" only when a book genuinely has neither, not
+  // whenever a book took a different lane to get its chapters written.
+  const chapterCount =
+    chapters.length > 0
+      ? chapters.length
+      : await countBookMdHeadings(summary.ref.dir);
   const tabs = [
     { id: "overview", label: "Overview", count: null },
-    { id: "chapters", label: "Chapters", count: chapters.length },
+    { id: "chapters", label: "Chapters", count: chapterCount },
     { id: "episodes", label: "Episodes", count: episodes.length },
     { id: "media", label: "Media", count: mediaCount },
     { id: "audits", label: "Audits", count: audits.length },
