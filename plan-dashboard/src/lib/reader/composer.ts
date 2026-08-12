@@ -12,6 +12,7 @@
  * /api/studio/visual-layout (PUT); the renderer (render-book-pdf.mjs) consumes
  * that contract. Read-only here — persistence is the API route's job.
  */
+import { existsSync } from "node:fs";
 import { open, readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { anchorKey } from "../../../scripts/lib/anchor-key.mjs";
@@ -236,6 +237,14 @@ export interface ComposerView {
    *  these as a durable human edit. Empty when the book has no fluency report
    *  (the articulation contract does not apply) or every chapter is safe. */
   articulationWarnings: Record<string, string>;
+  /** True when this book is on the Sessions lane (a lecture transcript
+   *  Asif marked up himself) rather than a translation edition — the
+   *  Compose tab's "Paste & Fix Chapter" action only ever appears for
+   *  these, since its engine (compose_articulate.py) checks a hand-off
+   *  rewrite's faithfulness to the book's OWN English, not to a foreign
+   *  source. Mirrors compose_articulate._require_sessions_lane exactly:
+   *  presence of _system/sessions-articulation.json. */
+  sessionsLane: boolean;
 }
 
 // anchorKey is re-exported, not redefined: it had four byte-identical copies and
@@ -304,6 +313,9 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
       glossary: [],
       glossaryAll: [],
       articulationWarnings: {},
+      sessionsLane: existsSync(
+        join(ref.dir, "_system", "sessions-articulation.json"),
+      ),
     };
   }
 
@@ -514,5 +526,8 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     glossary,
     glossaryAll,
     articulationWarnings,
+    sessionsLane: existsSync(
+      join(ref.dir, "_system", "sessions-articulation.json"),
+    ),
   };
 }

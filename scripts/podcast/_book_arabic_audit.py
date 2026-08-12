@@ -367,10 +367,15 @@ def run_arabic_audit(book_dir: Path, *, log=print, stages: dict[str, dict[str, i
 if __name__ == "__main__":  # pragma: no cover - thin CLI
     import sys
 
-    if len(sys.argv) != 2:
-        print("usage: _book_arabic_audit.py <BOOK_DIR>", file=sys.stderr)
+    argv = [a for a in sys.argv[1:] if a != "--json"]
+    as_json = "--json" in sys.argv[1:]
+    if len(argv) != 1:
+        print("usage: _book_arabic_audit.py <BOOK_DIR> [--json]", file=sys.stderr)
         raise SystemExit(2)
-    raise SystemExit(0 if run_arabic_audit(Path(sys.argv[1])) else 1)
+    report = run_arabic_audit(Path(argv[0]), log=(lambda *_a, **_k: None) if as_json else print)
+    if as_json:
+        print(json.dumps(report, ensure_ascii=False))
+    raise SystemExit(0 if report else 1)
 
 
 def print_provenance_findings(report: dict) -> None:

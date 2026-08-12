@@ -366,3 +366,41 @@ def test_install_writes_the_restored_images_to_book_md(book_dir_with_images: Pat
     assert IMG_A in text
     assert IMG_B in text
     assert "## Next Chapter" in text  # untouched
+
+
+# ─── CLI --json exit code: a finding is data, not a script failure ─────────
+
+
+def test_json_check_exits_zero_even_with_findings() -> None:
+    """The Compose tab's Paste & Fix action shells out to this CLI over stdin
+    and reads `clean`/`findings` from the JSON body it asked for. Before this
+    fix, a finding made the process exit nonzero — indistinguishable, to a
+    caller that only checks the exit code, from the check itself crashing —
+    and a perfectly good report was discarded as an error. --json must exit 0
+    whenever it successfully printed one; the human/non-JSON exit code still
+    reflects clean vs not, unchanged, for shell/script use.
+
+    A real subprocess against the real surah-al-fateha book already in this
+    repo, not an isolated tmp_path fixture: main()'s slug resolver goes
+    through find_content(), and revoice_gates reads the shared doctrinal data
+    tree (content/_shared/islam/) — both only ever resolve against a real
+    content root, which an isolated fake repo would have to fully replicate.
+    """
+    import subprocess
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPT_DIR / "compose_articulate.py"),
+            "surah-al-fateha",
+            "The Stages Of Love",
+            "--json",
+            "--stdin",
+        ],
+        input=b"Something else entirely, unfaithful to the source.",
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr.decode()
+    report = json.loads(result.stdout)
+    assert report["clean"] is False
+    assert report["findings"]

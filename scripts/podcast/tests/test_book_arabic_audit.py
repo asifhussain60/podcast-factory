@@ -119,6 +119,28 @@ def test_run_arabic_audit_writes_a_report_beside_the_book(tmp_path: Path) -> Non
     assert report["totals"][RESOLUTION_OCR] == 1
 
 
+def test_cli_json_flag_prints_the_report_and_stays_quiet_otherwise(tmp_path: Path) -> None:
+    """The Compose tab's Paste & Fix action shells out to this CLI after a
+    save so a restored citation's gold header is correct immediately —
+    --json is what lets it parse the result instead of scraping log lines."""
+    import subprocess
+
+    bd = tmp_path / "slug"
+    (bd / "book").mkdir(parents=True)
+    (bd / "book" / "book.md").write_text(f"## One\n\n> {SAME_SAYING_RESET}\n", encoding="utf-8")
+
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT_DIR / "_book_arabic_audit.py"), str(bd), "--json"],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0
+    assert result.stdout.strip()  # exactly one JSON line, nothing else
+    report = json.loads(result.stdout)
+    assert report["totals"]["arabic_runs"] == 1
+    assert result.stderr == ""
+
+
 def test_audit_without_ocr_ground_truth_says_so(tmp_path: Path) -> None:
     bd = tmp_path / "slug"
     (bd / "book").mkdir(parents=True)

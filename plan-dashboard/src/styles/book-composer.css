@@ -3186,6 +3186,91 @@ body:has(.composer-grid) .to-top {
   color: var(--c-ink-muted, #66625a);
 }
 
+/* ── Paste & Fix Chapter: a wide variant of the confirm dialog, sized for a
+   full chapter of prose rather than a yes/no question ───────────────────── */
+.cx-paste-fix-box {
+  width: min(52rem, 92vw);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+}
+.cx-paste-fix-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 45vh;
+  max-height: 60vh;
+  margin: 0 0 0.75rem;
+  padding: 0.85rem 0.95rem;
+  resize: vertical;
+  font: inherit;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--c-ink, #1f1d18);
+  background: var(--c-bg, #fdfbf6);
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+}
+.cx-paste-fix-textarea:focus {
+  outline: none;
+  border-color: var(--c-accent, #8b4513);
+  box-shadow: 0 0 0 3px
+    color-mix(in oklab, var(--c-accent, #8b4513) 18%, transparent);
+}
+.cx-paste-fix-review {
+  margin: 0 0 0.75rem;
+  overflow-y: auto;
+}
+.cx-paste-fix-summary {
+  list-style: none;
+  margin: 0 0 0.7rem;
+  padding: 0.75rem 0.85rem;
+  display: grid;
+  gap: 0.4rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 8px;
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 4%,
+    var(--c-bg-card, #fffdf8)
+  );
+  font-size: 0.88rem;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-paste-fix-clean {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--c-green, #3f7d3f);
+}
+.cx-paste-fix-clean i {
+  margin-right: 0.35rem;
+}
+.cx-paste-fix-findings {
+  padding: 0.75rem 0.85rem;
+  border: 1px solid
+    color-mix(in oklab, var(--c-red, #a83232) 35%, var(--c-rule, #d9d3c4));
+  border-radius: 8px;
+  background: color-mix(
+    in oklab,
+    var(--c-red, #a83232) 6%,
+    var(--c-bg-card, #fffdf8)
+  );
+}
+.cx-paste-fix-findings p {
+  margin: 0 0 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-paste-fix-findings ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--c-ink-dim, #5c574d);
+}
+
 /* ── Busy modal: blocking progress while an AI action runs ────────────────── */
 /* Sits over everything the confirm scrim covers; slightly darker so the page
    clearly reads as inert, with the box floated on a deep two-layer shadow. */

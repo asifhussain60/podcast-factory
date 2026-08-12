@@ -151,6 +151,8 @@ interface ComposerData {
   /** The read-only Podcast lane's chapter list (metadata only). Mirrors
    *  ComposerView.podcastChapters; absent for a book with no podcast source. */
   podcastChapters?: PodcastChapterMeta[];
+  /** Gates the "Paste & Fix Chapter" action. Mirrors ComposerView.sessionsLane. */
+  sessionsLane?: boolean;
 }
 
 const WRAP_MAX = 50;
@@ -359,6 +361,7 @@ function boot(): void {
   const root: HTMLElement = rootMaybe; // narrowed once; nested closures keep non-null
   const data = JSON.parse(dataEl.textContent) as ComposerData;
   const slug = data.slug;
+  const sessionsLane = !!data.sessionsLane;
   const visualsById = new Map(data.visuals.map((v) => [v.id, v]));
   const chapterByKey = new Map(data.chapters.map((c) => [c.key, c]));
 
@@ -3263,11 +3266,12 @@ function boot(): void {
     const sel = selectionText();
     const ok = !!sel;
     const arabic = ok && isBareArabic(sel.text);
-    // Two actions work on the WHOLE chapter rather than the selection, so both
-    // opt out of the selection gate: Rearticulate and Replace with Arabic.
+    // Three actions work on the WHOLE chapter rather than the selection, so all
+    // three opt out of the selection gate: Rearticulate, Replace with Arabic,
+    // and Paste & Fix.
     root
       .querySelectorAll<HTMLButtonElement>(
-        ".cx-ai-btn:not(.cx-rearticulate):not(.cx-replace-arabic)",
+        ".cx-ai-btn:not(.cx-rearticulate):not(.cx-replace-arabic):not(.cx-paste-fix)",
       )
       .forEach((b) => {
         b.disabled = b.classList.contains("cx-ai-arabic") ? !arabic : !ok;
@@ -3319,6 +3323,19 @@ function boot(): void {
       runReplaceArabic(replaceArabic),
     );
     row.appendChild(replaceArabic);
+    // Paste & Fix — whole-chapter, selection-independent, Sessions-lane only.
+    // Runs pf-compose-articulator's own engine (image restoration, house-style
+    // citation/heading normalization, the fidelity gate) against text pasted
+    // into a dedicated box — never the live editor, so a broken paste can
+    // never reach book.md through autosave before it has been fixed.
+    if (sessionsLane) {
+      const pasteFix = document.createElement("button");
+      pasteFix.type = "button";
+      pasteFix.className = "cx-ai-btn cx-paste-fix";
+      pasteFix.textContent = "Paste & fix chapter";
+      pasteFix.addEventListener("click", () => openPasteFixModal());
+      row.appendChild(pasteFix);
+    }
     controlsEl.appendChild(row);
 
     aiStatusEl = document.createElement("p");
@@ -3402,6 +3419,220 @@ function boot(): void {
       substituting = false;
       btn.disabled = false;
     }
+  }
+
+  // ── Paste & Fix: pf-compose-articulator's engine, run against a paste ──────
+  // The paste NEVER touches the live editor. It lands in a dedicated box; the
+  // server checks it (image restoration, house-style formatting, the fidelity
+  // gate — the exact same compose_articulate.py the CLI skill uses) and hands
+  // back a fixed body for review; only on explicit Apply does that fixed body
+  // reach book.md, through the same writer every other Compose save uses. A
+  // raw, broken paste is never in a position for autosave to persist before
+  // it has been fixed — see paste-fix.ts's own docstring for why that matters.
+  interface PasteFixCheckResult {
+    heading: string;
+    base_words: number;
+    new_words: number;
+    ratio: number;
+    findings: string[];
+    images_restored: { path: string; anchor: string; placement: string }[];
+    format_changes: { kind: string }[];
+    body: string;
+    clean: boolean;
+  }
+
+  let pasteFixOpen = false;
+
+  function renderPasteFixReview(
+    container: HTMLElement,
+    result: PasteFixCheckResult,
+  ): void {
+    container.textContent = "";
+    const summary = document.createElement("ul");
+    summary.className = "cx-paste-fix-summary";
+    const words = document.createElement("li");
+    words.textContent = `${result.base_words} → ${result.new_words} words (${result.ratio}×)`;
+    summary.appendChild(words);
+    if (result.images_restored.length > 0) {
+      const li = document.createElement("li");
+      const n = result.images_restored.length;
+      li.textContent = `${n} image${n === 1 ? "" : "s"} restored`;
+      summary.appendChild(li);
+    }
+    if (result.format_changes.length > 0) {
+      const li = document.createElement("li");
+      const n = result.format_changes.length;
+      li.textContent = `${n} formatting fix${n === 1 ? "" : "es"} applied`;
+      summary.appendChild(li);
+    }
+    container.appendChild(summary);
+
+    if (result.findings.length > 0) {
+      const warn = document.createElement("div");
+      warn.className = "cx-paste-fix-findings";
+      const head = document.createElement("p");
+      head.textContent = "The fidelity gates flagged this rewrite:";
+      warn.appendChild(head);
+      const ul = document.createElement("ul");
+      for (const f of result.findings) {
+        const li = document.createElement("li");
+        li.textContent = f;
+        ul.appendChild(li);
+      }
+      warn.appendChild(ul);
+      container.appendChild(warn);
+    } else {
+      const clean = document.createElement("p");
+      clean.className = "cx-paste-fix-clean";
+      clean.innerHTML =
+        '<i class="fa-solid fa-circle-check" aria-hidden="true"></i> Clean — every deterministic gate passed.';
+      container.appendChild(clean);
+    }
+  }
+
+  function openPasteFixModal(): void {
+    if (!activeEditor || pasteFixOpen) return;
+    pasteFixOpen = true;
+    const title = chapterByKey.get(selectedChapter)?.title ?? selectedChapter;
+
+    const scrim = document.createElement("div");
+    scrim.className = "cx-confirm-scrim cx-paste-fix-scrim";
+    const box = document.createElement("div");
+    box.className = "cx-confirm-box cx-paste-fix-box";
+    scrim.appendChild(box);
+
+    const heading = document.createElement("h2");
+    heading.className = "cx-confirm-title";
+    heading.textContent = `Paste & fix “${title}”`;
+    box.appendChild(heading);
+
+    const hint = document.createElement("p");
+    hint.className = "cx-confirm-body";
+    hint.textContent =
+      "Paste the edited chapter below. Dropped images and legacy citation or heading formatting are restored automatically before anything is saved.";
+    box.appendChild(hint);
+
+    const textarea = document.createElement("textarea");
+    textarea.className = "cx-paste-fix-textarea";
+    textarea.placeholder = "Paste the edited chapter text here…";
+    box.appendChild(textarea);
+
+    const reviewEl = document.createElement("div");
+    reviewEl.className = "cx-paste-fix-review";
+    reviewEl.hidden = true;
+    box.appendChild(reviewEl);
+
+    const statusEl = document.createElement("p");
+    statusEl.className = "cx-status";
+    statusEl.setAttribute("role", "status");
+    statusEl.setAttribute("aria-live", "polite");
+    box.appendChild(statusEl);
+
+    const actions = document.createElement("div");
+    actions.className = "cx-confirm-actions";
+    box.appendChild(actions);
+
+    const cancelBtn = document.createElement("button");
+    cancelBtn.type = "button";
+    cancelBtn.className = "cx-confirm-btn";
+    cancelBtn.textContent = "Cancel";
+
+    const backBtn = document.createElement("button");
+    backBtn.type = "button";
+    backBtn.className = "cx-confirm-btn";
+    backBtn.textContent = "Back";
+    backBtn.hidden = true;
+
+    const fixBtn = document.createElement("button");
+    fixBtn.type = "button";
+    fixBtn.className = "cx-confirm-btn cx-confirm-btn--primary";
+    fixBtn.textContent = "Fix";
+
+    actions.append(cancelBtn, backBtn, fixBtn);
+    box.appendChild(actions);
+
+    let fixedBody = "";
+
+    function close(): void {
+      document.removeEventListener("keydown", onKey);
+      scrim.remove();
+      pasteFixOpen = false;
+    }
+    function onKey(e: KeyboardEvent): void {
+      if (e.key === "Escape") close();
+    }
+    document.addEventListener("keydown", onKey);
+    cancelBtn.addEventListener("click", close);
+    scrim.addEventListener("click", (e) => {
+      if (e.target === scrim) close();
+    });
+
+    function showPasteStep(): void {
+      textarea.hidden = false;
+      reviewEl.hidden = true;
+      backBtn.hidden = true;
+      fixBtn.textContent = "Fix";
+      fixBtn.disabled = false;
+      statusEl.textContent = "";
+      textarea.focus();
+    }
+    backBtn.addEventListener("click", showPasteStep);
+
+    fixBtn.addEventListener("click", async () => {
+      const applying =
+        fixBtn.textContent === "Apply" || fixBtn.textContent === "Apply anyway";
+      if (applying) {
+        fixBtn.disabled = true;
+        backBtn.disabled = true;
+        statusEl.textContent = "Saving…";
+        try {
+          await apiFetch("/api/studio/paste-fix", {
+            method: "PUT",
+            body: { slug, chapterKey: selectedChapter, markdown: fixedBody },
+          });
+          statusEl.textContent = "Saved — reloading the chapter…";
+          setAiStatus("Paste & Fix applied. Reloading the chapter…");
+          reloadPreservingChapter();
+        } catch (e) {
+          statusEl.textContent = `Save failed: ${(e as Error).message}`;
+          fixBtn.disabled = false;
+          backBtn.disabled = false;
+        }
+        return;
+      }
+
+      const pasted = textarea.value;
+      if (!pasted.trim()) {
+        statusEl.textContent = "Paste the chapter text first.";
+        return;
+      }
+      fixBtn.disabled = true;
+      statusEl.textContent = "Checking — restoring images and formatting…";
+      try {
+        const result = await apiFetch<PasteFixCheckResult>(
+          "/api/studio/paste-fix",
+          {
+            method: "POST",
+            body: { slug, chapterTitle: title, pastedMarkdown: pasted },
+          },
+        );
+        fixedBody = result.body;
+        renderPasteFixReview(reviewEl, result);
+        textarea.hidden = true;
+        reviewEl.hidden = false;
+        backBtn.hidden = false;
+        backBtn.disabled = false;
+        fixBtn.textContent = result.findings.length ? "Apply anyway" : "Apply";
+        fixBtn.disabled = false;
+        statusEl.textContent = "";
+      } catch (e) {
+        statusEl.textContent = `Check failed: ${(e as Error).message}`;
+        fixBtn.disabled = false;
+      }
+    });
+
+    document.body.appendChild(scrim);
+    textarea.focus();
   }
 
   async function runRearticulate(btn: HTMLButtonElement): Promise<void> {

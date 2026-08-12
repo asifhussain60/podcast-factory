@@ -373,7 +373,21 @@ def main() -> int:
     ap.add_argument("--force", action="store_true", help="install despite a gate finding")
     ap.add_argument("--allow-composer-open", action="store_true")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument(
+        "--stdin",
+        action="store_true",
+        help="read the hand-off body from stdin instead of md_file (the Compose tab's Paste & Fix uses this)",
+    )
     args = ap.parse_args()
+
+    if args.stdin:
+        import atexit
+        import tempfile
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False, encoding="utf-8") as f:
+            f.write(sys.stdin.read())
+            args.md_file = Path(f.name)
+        atexit.register(args.md_file.unlink, missing_ok=True)
 
     try:
         book_dir = _resolve_book_dir(args.slug)
@@ -428,7 +442,13 @@ def main() -> int:
         return 1
 
     if args.json:
+        # A machine caller (the Compose tab's Paste & Fix action) reads
+        # `clean`/`findings` from the body it already asked for — a nonzero
+        # exit here would mean "the check itself failed to run," which a
+        # finding is not. Human/shell use (no --json) keeps the exit code as
+        # the signal, unchanged below.
         print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
     if not result.get("clean", True) and not result.get("installed", False) and not args.install:
         return 1
     return 0 if result.get("clean") or result.get("installed") else 1
