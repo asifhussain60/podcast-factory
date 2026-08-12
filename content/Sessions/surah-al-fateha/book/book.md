@@ -293,55 +293,77 @@ Don't be that kind of friend. If you're going to be a friend with someone, be a 
 
 ## The Stages Of Love
 
-The Arabs have what they call مَرَاتِبُ الْحُبِّ, the stages of love. As opposed to what we learnt about friendship, that in order to be the perfect friend you have to possess all of those qualities, when it comes to love, they have 10 stages, or 10 levels of love. Generally people look at these stages in the worldly sense; which is perfectly acceptable, but the true goal of understanding these stages is to love Allah.
+The Arabs have what they call مَرَاتِبُ الْحُبِّ, the stages of love. Unlike friendship, where we learned that the perfect friend must possess all the relevant qualities, love is described as having ten stages, or ten levels. People generally understand these stages in a worldly sense, which is perfectly acceptable, but the true purpose of understanding them is to learn how to love Allah.
 
 ### 1 - ILAQAH
 
-The first level is what they call علاقۃ and that is
+The first level is what they call علاقۃ, and it is:
 
 تَعَلُّقِ القَلب بِی المحبُوب
 
-The connection of the heart with the beloved. This is where the heart becomes connected or attached to the beloved. So this is what we call attachment or "crush" in our terms. This is why we say I've got a crush on that person, or "I am attached to this person or that person. That is علاقۃ. And this type of attachment could mean something or it could be very temporary. Its just a connection or an attraction without anything else.
+The connection of the heart to the beloved. This is the point at which the heart becomes connected or attached to the beloved. In our terms, we might call it attachment or a “crush.” We say, “I have a crush on that person,” or, “I am attached to this person or that person.” That is علاقۃ.
+
+This kind of attachment may develop into something deeper, or it may be very temporary. At this stage, it is simply a connection or attraction, without anything more.
 
 ### 2 - IRADAH
 
-The second level is called ارادۃ, which is willful love. This is where you actually begin looking for the beloved- تُرِیدُہُ. You make an effort to seek out the beloved. At this stage the lover is called مُرید because he sets out with a goal or purpose to find the beloved. The first level was a simple connection of the heart. At this stage, there is a pursuit of what the heart desires. It’s considered the beginning of the path. So ارادۃ is the stage where you begin to desire the company of the beloved.
+The second level is called ارادۃ, which is willful love. This is where you actually begin to seek the beloved—تُرِیدُہُ. You make an effort to find the beloved. At this stage, the lover is called مُرید because he sets out with a goal and a purpose: to find the beloved.
+
+The first level was simply a connection of the heart. At this stage, there is an active pursuit of what the heart desires. It is considered the beginning of the path. Thus, ارادۃ is the stage at which you begin to desire the company of the beloved.
 
 ### 3 - SABABAH
 
-The third level is سبابۃ. This سبابۃ is from the Arabic expression - سَبَّ الماءُ. The Arabs use this term to describe a waterfall. So we can think of this stage in English as "Falling in love". It's where you begin to lose control. That's the اِنسِباب. So سبابۃ is where you begin to lose control and you know that you're falling in love with this person.
+The third level is سبابۃ. This سبابۃ comes from the Arabic expression سَبَّ الماءُ. The Arabs use this term to describe a waterfall. In English, we can think of this stage as “falling in love.” It is the point at which you begin to lose control. That is the اِنسِباب.
+
+So سبابۃ is the stage at which you begin to lose control, and you realize that you are falling in love with this person.
 
 ### 4 - GHARAAM
 
-Then they have غَرام which is a مُلازمۃ ; the punishment in the hell fire is
+Then comes غَرام, which carries the sense of مُلازمۃ. The punishment of the Hellfire is described as:
 
 وَٱلَّذِينَ يَقُولُونَ رَبَّنَا ٱصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ ۖ إِنَّ عَذَابَهَا كَانَ غَرَامًا
 
-Indeed the punishment in hell fire is a never ending one. The punishment doesn’t stop. So the idea here is لا یَنْفَکّ- never ending. This غَرام is the state what the Arabs refer to as مُغْرَم بہ - which means that they just want to be with the beloved. It's a very strong desire to be with the beloved all the time; and distance becomes painful at this stage. A sign of people at this stage is when you'll find them constantly staring at their beloved's pictures, or they keep going back and reading their letters, emails or text messages over and over. Because it gives them a sense of being close to their beloved and it reduces the pain of distance for them.
+Indeed, the punishment of the Hellfire is unceasing. It does not stop. The idea here is لا یَنْفَکّ—something that does not let go, something never-ending.
+
+This غَرام is the state the Arabs refer to as مُغْرَم بہ. It means that the lover simply wants to be with the beloved. There is a very strong desire to remain with the beloved at all times, and distance becomes painful at this stage.
+
+One sign of people at this stage is that they constantly look at pictures of their beloved, or repeatedly return to read their letters, emails, or text messages. Doing so gives them a sense of closeness to the beloved and reduces the pain of separation.
 
 ### 5 - WUD
 
-The fifth one is وُد and the lover is called الوِداد at this stage. The word وُد means pure love. It is صَفوَۃُ المَحَبَّۃ - the purity of love. It is a love that is pure from the inclinations of the self. In these previous states there was still some نفس involved. There was still some selfish reasons for loving the beloved; for wanting to see them, for desiring them, for thinking about them. At these previous stages it is really more about **you** than it is about the beloved. But when you move into the stage of وُد it starts becoming pure - it starts becoming selfless. This is why the Messenger of Allah ﷺ said:
+The fifth stage is وُد, and the lover at this stage is called الوِداد. The word وُد means pure love. It is صَفوَۃُ المَحَبَّۃ—the purity of love. It is a love purified of the inclinations of the self.
+
+In the previous stages, there was still some نفس involved. There were still selfish reasons for loving the beloved: wanting to see them, desiring them, thinking about them. At those earlier stages, it is really more about **you** than about the beloved. But when you enter the stage of وُد, love begins to become pure. It begins to become selfless.
+
+This is why the Messenger of Allah ﷺ said:
 
 تَزَوِّج الوَلُود الوَدُود
 
-Marry a fertile woman who is ودود. Marry a woman who has this type of pure love. A woman who's love is not selfish; and obviously in Arabic there is always مفحوم المُخالَفۃ; which means the opposite is also true - that a woman should look for a husband with that quality also. So الوُد is the pure kind of love.
+Marry a fertile woman who is ودود. Marry a woman who possesses this kind of pure love, a woman whose love is not selfish. And, obviously, in Arabic there is always مفحوم المُخالَفۃ, which means that the converse is also true: a woman should likewise look for a husband who possesses this quality.
 
-Now interestingly, this is also one of the names of Allah. He is الودود -
+So الوُد is pure love.
+
+Interestingly, this is also one of the names of Allah. He is الودود:
 
 وَٱسْتَغْفِرُوا۟ رَبَّكُمْ ثُمَّ تُوبُوٓا۟ إِلَيْهِ ۚ إِنَّ رَبِّى رَحِيمٌۭ وَدُودٌۭ
 
-Ask forgiveness of your master and turn to Him in repentance. Indeed my master is Most Merciful, Most Loving. Because he is selfless in his love. So الودود has 2 meanings:
+Ask forgiveness of your master and turn to Him in repentance. Indeed, my master is Most Merciful, Most Loving.
+
+He is selfless in His love. Thus, الودود has two meanings:
 
 الوَادُّ فی عِبادِہِ والمَودُود
 
-Allah is the one who loves his servants and he is the one who his servants love. So its a relationship of pure love both ways. Allah has a pure, selfless love for his creation and the creation has a pure selfless love for their master. That's الوُد. And this is also how Allah describe the true purpose of a man and a woman coming together.
+Allah is the One who loves His servants, and He is the One whom His servants love. It is a relationship of pure love in both directions. Allah has a pure, selfless love for His creation, and creation has a pure, selfless love for its master. That is الوُد.
+
+This is also how Allah describes the true purpose of a man and a woman coming together:
 
 > وَمِنْ آيَتِهِۦٓ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَجًۭا لِّتَسْكُنُوٓا۟ إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةًۭ وَرَحْمَةً ۚ
 >
-> And among His Signs is that He created for you wives from among yourselves, that you may find سکون repose in them, and He has put between you pure love and mercy. Verily, in that are indeed signs for a people who reflect.
+> And among His Signs is that He created for you wives from among yourselves, that you may find سکون, repose, in them, and He has placed between you pure love and mercy. Verily, in that are indeed signs for a people who reflect.
 
-So Allah says he put مودۃ between a man and woman - which is pure love. This is the type of love where the husband won't divorce his wife when she gets sick; when she's no longer beautiful; when she becomes fat. If you have مودۃ for your wife, even after she gets fat, you'll still love her. Seriously! If she gets sick you'll still love her; because she'll still love you even though you're fat; you're ugly. She'll still love you! A woman's love is quite amazing - it doesn't change the way a man's love changes.
+Allah says that He placed مودۃ between a man and a woman, which is pure love. This is the kind of love in which a husband will not divorce his wife when she becomes sick, when she is no longer beautiful, or when she becomes fat. If you have مودۃ for your wife, then even if she becomes fat, you will still love her. Seriously. If she becomes sick, you will still love her, because she will still love you even if you become fat or ugly. She will still love you.
+
+A woman’s love is quite remarkable; it does not change in the same way a man’s love can change.
 
 Shakespeare said:
 
@@ -349,181 +371,369 @@ Love is not love which alters when it alteration finds; or bends with the remove
 
 O no! it is an ever-fixed mark that looks on tempests and is never shaken
 
-That’s real love - that's الوُد. What he meant by that is that love is not love, that when things change; or when the situation changes your love changes. Your wife is beautiful today so you love her; but if she's no longer beautiful one day, it doesn't change your love. If it does then that's not love, that's lust!
+That is real love. That is الوُد. What he means is that love is not truly love if it changes merely because circumstances change. Your wife may be beautiful today, and you love her. But if one day she is no longer beautiful, that should not change your love. If it does, then that is not love. That is lust.
 
-I know this woman who got into an accident where her face got burnt on one side; and the husband just divorced her! Just because she didn't look beautiful anymore. So he just divorced her and sent her back to her parents. That's not love! That's just sick! But that's the state of some people. That’s not real love. This is why if you look, women have a much deeper capacity for love than most men do. If that same accident happened to him where his face got burnt, she would have spent the rest of her life with him; taking care of him, loving him the same way. Because that's real love; and women have a much greater capacity to love in this way:
+I know of a woman who was in an accident and suffered burns on one side of her face. Her husband simply divorced her because she was no longer beautiful. He divorced her and sent her back to her parents. That is not love. That is sick. Yet that is the state of some people.
 
-This why Rasul Allah ﷺ said:
+That is not real love. This is why, if you observe carefully, women often have a much deeper capacity for this kind of love than most men do. If the same accident had happened to the husband and his face had been burned, she might have spent the rest of her life with him, caring for him and loving him in the same way. That is real love, and women have a much greater capacity to love in this way.
+
+This is why Rasul Allah ﷺ said:
 
 حُبِّبَ الییَّ النِّساء
 
-I was made to love women - That statement there has nothing to do with lust.
+I was made to love women.
+
+That statement has nothing to do with lust.
 
 وَالتِّیْب وَالمِسوَاک
 
 And I was made to love perfume and to love flossing.
 
-What's the connection between women and perfume and a floss? Perfume just gives! Perfume dissipates its own existence for others; for us! When you put on perfume, it diffuses and it gives up its own existence to make you smell nice. A floss goes into a filthy mouth and cleans it at the expense of ruining its own existence. It sacrifices itself to clean our mouths. What does the floss get out of that experience? Nothing. What does the perfume gets out of its application? Nothing. That's the quality of women that the prophet loved. It was that sacrifice that comes so natural to a woman and men find it so difficult. And that's why love is what we learn from our mothers. That's why Rasul Allah ﷺ said:
+What is the connection between women, perfume, and floss? Perfume simply gives. Perfume dissipates its own existence for others—for us. When you put on perfume, it diffuses and gives up its own existence in order to make you smell pleasant.
+
+Floss enters a filthy mouth and cleans it at the expense of its own existence. It sacrifices itself to clean our mouths. What does the floss gain from that experience? Nothing. What does perfume gain from being applied? Nothing.
+
+That is the quality in women that the Prophet loved: the capacity for sacrifice that comes so naturally to a woman and that men often find so difficult. That is why love is what we learn from our mothers. That is why Rasul Allah ﷺ said:
 
 الَجنَّۃُ تَحتَ الاَقدَامِ الاُمَّھَات
 
-Paradise is UNDER the feet of mothers. UNDER the feet of mothers. Cause that's where we learn it best. That’s where we see it most embodied. That’s why in a HADEES, Rasul Allah ﷺ said:
+Paradise is UNDER the feet of mothers. UNDER the feet of mothers.
+
+That is where we learn love best. That is where we see it most fully embodied.
+
+That is why, in a HADEES, Rasul Allah ﷺ said:
 
 ُشَقَقْتُ الرَّحَم مِن أِسمِیَ الرَّحمٰن ۔ فمََنْ قَطَعَہُ فَقَد قَطَعْتُہ
 
-I have derived the womb - شققت literally means to split. He says I have split the womb from my name of الرحمن the merciful. That's unique to women. Men don't have wombs. Allah gave that only to women. It's that space in the center of a woman that is the source of all mercy in the world. It was our first abode - all of us - we were all there in that abode of رحمہ. And its incredible mercy that the womb grows to facilitate what is in it. That's what mercy is. It is that emotion that grows with the need of the slave. It expands to satisfy the needs of others. That’s what mercy is. That’s what love is. That is why our prophet is رَحْمَۃً لِی الْعَالَمِینَ.
+I have derived the womb—شققت literally means “to split.” He says, “I have split the womb from My name الرحمن, the Merciful.”
+
+That is unique to women. Men do not have wombs. Allah gave that only to women. It is that space at the center of a woman that becomes the source of all mercy in the world. It was our first abode. All of us were once in that abode of رحمہ.
+
+And the mercy of the womb is extraordinary: it grows in order to accommodate what is inside it. That is what mercy is. It is an emotion that grows according to the need of the servant. It expands to meet the needs of others. That is mercy. That is love.
+
+That is why our Prophet is رَحْمَۃً لِی الْعَالَمِینَ:
 
 وَمَآ أَرْسَلْنَكَ إِلَّا رَحْمَةًۭ لِّلْعَلَمِينَ
 
-We have not sent you but as a mercy to all of humanity - because he expanded for the needs of others. That's وُد - pure love. It is not a utilitarian kind of love! a love tainted by one's own selfish needs. It's not a type of love where - I'm going get something out of this. What's in it for me? It’s a love that transcends that. It's the kind of love that when there is beauty there, the love is there; but when the beauty goes the love is still there. If the service is no longer there because of a stroke or because of some incapacity, the love is still there. That's real love! Its not love when there is just usefulness for me. That's not love. That’s something else.
+We have not sent you but as a mercy to all of humanity—because he expanded himself to meet the needs of others.
 
-And we have become a society that is void of this kind of love. Everything in our lives is about us. What's in it for me? Why should I help you?
+That is وُد: pure love. It is not a utilitarian kind of love, a love tainted by one’s own selfish needs. It is not the kind of love that asks, “What am I going to get out of this? What is in it for me?”
 
-After the battle of سفین was over, a water man narrates that he was on the battlefield searching for dying soldiers. In those days they used to have a man who's duty was to carry around a مشکیزۃ ; a water container to quench the thirst of dying soldiers. Because they say that at the moment of death one becomes extremely thirsty, and so water helps with the transition. Anyway, so this man narrates that he was carrying water on the battle ground of سفین searching for thirsty soldiers, when he came upon one whose lower part of his body had been severed from his body. Just his torso was sitting on the scorching ground and he was sighing for water. The man says he walked up to him and as he brought the cup of water close to his lips they heard another cry asking for water. He says this dying man closed his lips and refused to drink to water so that I could quench the thirst of his brother first. He says I rushed towards the other man and as I brought the cup close to his lips they heard another man sigh for water. So this man closes his lips and refuse to drink water. He says, I rushed to the third person to give him water but by the time I reached him he had died. So then I returned to the second person, but he had died by then also. He says I returned to the first and he too had died of thirst by that time. That was love! That was وُد that these people had for each other. Where's our love? How do we compare?
+It is a love that transcends all of that. It is the kind of love that remains when beauty is present and remains when beauty is gone. If service is no longer possible because of a stroke or some other incapacity, the love remains. That is real love.
+
+It is not love when the beloved matters only because they are useful to me. That is not love. That is something else.
+
+And we have become a society largely devoid of this kind of love. Everything in our lives is about us: What is in it for me? Why should I help you?
+
+After the battle of سفین was over, a water carrier narrated that he went across the battlefield searching for dying soldiers. In those days, there would be a man whose duty was to carry a مشکیزۃ, a water container, in order to quench the thirst of dying soldiers. They say that at the moment of death a person becomes extremely thirsty, and water helps ease the transition.
+
+The man narrated that he was carrying water across the battlefield of سفین, searching for thirsty soldiers, when he came upon a man whose lower body had been severed. Only his torso remained on the scorching ground, and he was crying out for water.
+
+The water carrier approached him and brought the cup close to his lips. At that moment, they heard another man calling for water. The dying man closed his lips and refused to drink so that his brother could be given water first.
+
+The water carrier rushed to the second man. As he brought the cup close to his lips, they heard a third man calling for water. The second man likewise closed his lips and refused to drink.
+
+The water carrier hurried to the third man, but by the time he reached him, the man had died. He then returned to the second man, but he too had died. Finally, he returned to the first man, and by then he also had died of thirst.
+
+That was love. That was وُد—the love these people had for one another. Where is our love? How do we compare?
 
 ### 6 - SHAGHAF
 
-The next stage is called شغف. This is what they call شَغَافُ الْقَلْبِ is the pericardium. Its the stage when the heart is surrounded by this love. It encompasses the heart. This is the state of obsession! Where you are, whatever you see, it reminds you of the beloved.
+The next stage is called شغف. What they call شَغَافُ الْقَلْبِ is the pericardium. This is the stage at which the heart is surrounded by love. Love encompasses the heart.
+
+This is the state of obsession. Wherever you are, whatever you see, it reminds you of the beloved.
 
 جِدَھرْ دِیکھْتَا ہُوں تُو ہِی تُو ہَےْ
 
-You see the beloved everywhere! In the sunrise, the sunset, the rose, the birds, the music. It all reminds you of the beloved.
+You see the beloved everywhere: in the sunrise, the sunset, the rose, the birds, the music. Everything reminds you of the beloved.
 
 ### 7 - ISHQ
 
-Then comes the stage of العشق, which is a very dangerous state of love. People who go into this state of love for someone or for God, end up going insane. It is actually a very dangerous phase. Its where they can literally go crazy. This is the stage in which the lover enjoys pain and suffering for the sake of the beloved. It is a state of insane love.
+Then comes the stage of العشق, which is a very dangerous state of love. People who enter this state of love for another person, or for God, can end up losing their sanity. It is an extremely dangerous phase. This is the stage in which the lover takes pleasure in pain and suffering for the sake of the beloved. It is a state of insane love.
 
-The word عشق actually comes from a vine name عَشَقَ. This vine when it surrounds a tree, it sucks out the life of that tree and eventually kills it. The image is that the tree destroys itself to nourish and feed this vine. It kills itself so that its beloved can love. So عشق is that type of love where there is total constriction; and the lover begins to suffer in the love of the beloved and actually enjoys that suffering. Arabs say:
+The word عشق actually comes from the name of a vine, عَشَقَ. When this vine surrounds a tree, it draws the life out of the tree and eventually kills it. The image is of the tree destroying itself in order to nourish and sustain the vine. It kills itself so that its beloved can live.
+
+So عشق is the kind of love in which there is total constriction. The lover begins to suffer for love of the beloved and actually takes pleasure in that suffering.
+
+The Arabs say:
 
 دَعَا الْعِشْقُ الْاِتِّصَالَ
 
-The only cure for this intense level is finally meeting the beloved.
+The only cure for this intense level of love is finally meeting the beloved.
 
-During the time of فرعون there was a woman who had turned Muslim but she did not disclose her Islam to anyone. فرعون eventually found out and summoned this woman to his court. She was arrested and brought to the court of along with her 2 daughters. The older one was 10 years old and the younger one was a few months old. فرعون said to this woman, "I have heard that you now believe in the god of Moses! I give you 2 choices. The first choice is that you reject the God of موسی and accept me as your god. If you do that I will grant you a palace in which you and your daughters will reside as royalty. You will have all the comforts you can imagine for the rest of your lives. The second choice is that you reject my offer, in which case I will burn both your daughters alive in front of you and then burn you alive as well.
+During the time of فرعون, there was a woman who had become Muslim but had not disclosed her Islam to anyone. فرعون eventually discovered this and summoned her to his court. She was arrested and brought before him with her two daughters. The older daughter was ten years old, and the younger was only a few months old.
 
-She rejected his offer. So فرعون ordered his men to fill a large cauldron with oil, and it was heated till it started boiling. فرعون asked her again, do you accept my offer? She said I am already in love with Moosa's God. How can I deceive him for you? This is عشق. So by فرعون command his soldiers dragged her 10 years old daughter and threw her in the boiling oil. There are mothers in the group - Only a mother can understand what befalls on a mother heart when she sees her child burn to death in front of her. فرعون asked her again... do you accept my offer? She again refused. So they took her few months old daughter and threw her in the boiling oil as well. She still did not say a word. Right then it is said that the veils of the sky were removed before her eyes and she saw her two daughters in paradise saying to her... Mother, just be patient a little while longer - we are soon going to be united in heaven. Then came the woman's turn. She said to فرعون I have one last request. That after you kill be, bury my bones and the bones of my daughter together. فرعون said your wish will be granted. And they finally threw this woman in the burning oil as well and she was united with her children. Her last wish was fulfilled and their bones were buried together.
+فرعون said to the woman, “I have heard that you now believe in the God of Moses. I give you two choices. The first is that you reject the God of موسی and accept me as your god. If you do so, I will grant you a palace in which you and your daughters will live as royalty. You will enjoy every comfort you can imagine for the rest of your lives.
 
-2000 years later Rasul Allah ﷺ is being taken to معراج . When براق flew over بَیْتُ الْمُقَدَّسِ , the prophet smelled the fragrance of paradise. He asked جبرئیل where is this fragrance coming from? جبرئیل narrated this entire incident to the prophet and said, since the day the bones of that woman and her daughters were buried this fragrance has been rising from their graves; and only the angels enjoy this fragrance. We don't possess the sense to smell that kind of fragrance. But this was our prophet ﷺ who sensed that fragrance and asked the question. This is عشق . This is the story of عشق of how this woman loved Allah and how Allah loved her back. That 2000 years later the messenger ﷺ is sensing the fragrance of paradise rising from their graves. SubhanAllah!
+“The second choice is that you reject my offer. If you do, I will burn both of your daughters alive before your eyes, and then I will burn you alive as well.”
 
-The story of کربلا is the story of عشق. Every محرم we listen to that tale of عشق. Karbala is the tale of this insane love. You must have heard of that woman in Imam Hussain's camp whose son goes to battle and returns back to her completely covered in blood and wounds. He returns to the camp and calls out to his mother and asks her... "Are you pleased with me mother?" What mother could bear watching her son covered in wounds and bleeding from head to toe?! Yet this mother tells her, "Not yet my son! I will not be pleased with you until you sacrifice yourself for Imam Hussain". This is عشق. He goes back into battle and fights till his martyred. They cut off his head and toss it towards the camp. His mother comes out takes his head, puts it in her lap and begins kissing his forehead; and then screams and dies. This is عشق.
+She rejected his offer.
+
+So فرعون ordered his men to fill a large cauldron with oil and heat it until it began to boil. فرعون asked her again, “Do you accept my offer?”
+
+She said, “I am already in love with Moosa’s God. How can I betray Him for you?”
+
+This is عشق.
+
+At فرعون’s command, his soldiers dragged her ten-year-old daughter forward and threw her into the boiling oil. There are mothers in the group. Only a mother can understand what befalls a mother’s heart when she sees her child burned to death before her eyes.
+
+فرعون asked her again, “Do you accept my offer?”
+
+Again, she refused.
+
+So they took her infant daughter, only a few months old, and threw her into the boiling oil as well. Still, she did not say a word.
+
+At that moment, it is said that the veils of the sky were removed before her eyes, and she saw her two daughters in Paradise saying to her, “Mother, be patient just a little while longer. We are soon going to be reunited in Heaven.”
+
+Then came the woman’s turn. She said to فرعون, “I have one final request: after you kill me, bury my bones together with the bones of my daughters.”
+
+فرعون said, “Your wish will be granted.”
+
+Then they threw the woman into the burning oil as well, and she was reunited with her children. Her final wish was fulfilled, and their bones were buried together.
+
+Two thousand years later, Rasul Allah ﷺ is being taken on معراج. When براق flew over بَیْتُ الْمُقَدَّسِ, the Prophet smelled the fragrance of Paradise. He asked جبرئیل, “Where is this fragrance coming from?”
+
+جبرئیل narrated this entire incident to the Prophet and said that, from the day the bones of that woman and her daughters were buried, this fragrance had been rising from their graves. Only the angels enjoy this fragrance; we do not possess the sense by which such a fragrance can be perceived. But this was our Prophet ﷺ, who sensed that fragrance and asked about it.
+
+This is عشق. This is the story of عشق: how this woman loved Allah and how Allah loved her in return. Two thousand years later, the Messenger ﷺ was sensing the fragrance of Paradise rising from their graves. SubhanAllah!
+
+The story of کربلا is the story of عشق. Every محرم, we hear that tale of عشق. Karbala is the tale of this extraordinary, consuming love.
+
+You may have heard of the woman in Imam Hussain’s camp whose son went into battle and returned to her covered in blood and wounds. He came back to the camp, called out to his mother, and asked, “Are you pleased with me, Mother?”
+
+What mother could bear to see her son covered in wounds and bleeding from head to toe? Yet his mother told him, “Not yet, my son. I will not be pleased with you until you sacrifice yourself for Imam Hussain.”
+
+This is عشق.
+
+He returned to the battle and fought until he was martyred. They cut off his head and threw it toward the camp. His mother came out, took his head, placed it in her lap, and began kissing his forehead. Then she screamed and died.
+
+This is عشق.
 
 ### 8 - TAIM
 
-The next phase is called تَتَیَُم. The تیم is a word used for a slave, but its not at the level of an عبد. It is a high degree of love where there is a type of servitude that goes with it. This is where you are now in the service of the beloved. This is where the love reaches the stage of, "What can I do for you?, How can I serve you?" At this stage pleasure comes from serving the beloved.
+The next phase is called تَتَیَُم. The word تیم is used for a slave, though not at the level of an عبد. It describes a high degree of love accompanied by a kind of servitude. This is the stage at which you enter the service of the beloved.
+
+Love has now reached the point of asking, “What can I do for you? How can I serve you?” At this stage, the lover finds pleasure in serving the beloved.
 
 ### 9 - TA'ABBUD
 
-The next stage is تعبد where the lover becomes a complete slave to the beloved. At this stage there is complete obedience in addition to servitude. This is where when the beloved says "jump", the lover asks, "how high?" There is unquestioned obedience of the beloved at this stage. This is why the poet says:
+The next stage is تعبد, where the lover becomes a complete slave to the beloved. At this stage, servitude is joined by complete obedience. It is the point at which, when the beloved says, “Jump,” the lover asks, “How high?” There is unquestioning obedience to the beloved.
+
+This is why the poet says:
 
 تُعصِی اِلٰہَ وَ تُظْھِرُ حُبُّہُ
 
 ھَذا الامْرُکَ فِی قِیَاسِ بَدِیعُ
 
-You claim to love of your God and yet you disobey him? This kind of love does not make sense to my imagination
+You claim to love your God, and yet you disobey Him? Such a love makes no sense to me.
 
-So عبد is the stage of complete obedience in love. And this is an honorific title of the Messenger of Allah ﷺ.
+So عبد is the stage of complete obedience in love. And this is an honorific title of the Messenger of Allah ﷺ:
 
 سُبْحَنَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِ لَيْلًۭا
 
-Glorious is the one who took his slave for a journey in the night. Not messenger, not prophet! But عبد - his slave. This is the title of the prophet that is greater than the prophet of رسول. This is عبودیۃ.
+Glorious is the One who took His slave on a journey by night.
 
-تعبد is adoration. That's why the عابد is the one who adores. It is adoration - adore' ; it’s a Latin word for love. So عبودیۃis where you move into the realm of adoration where there is complete stillness and unconditional obedience of the beloved.
+Not “messenger,” not “prophet,” but عبد—His slave. This title of the Prophet is even greater than the title of رسول. This is عبودیۃ.
+
+تعبد is adoration. That is why the عابد is the one who adores. “Adore” is a Latin word connected with love. Thus, عبودیۃ is the realm of adoration, where there is complete stillness before the beloved and unconditional obedience to the beloved.
 
 ### 10 - KHULLAH
 
-The next stage of love is called خُلۃ and it is the level of the خلیل. The prophet said
+The next stage of love is called خُلۃ, and it is the level of the خلیل. The Prophet said:
 
 ان اللہ أِتَّخَذَنِی خَلِیلاً کَمَا التَّخَذَ ابراھیمَ خلیلا
 
-Allah took me as a خلیلjust as he took Ibrahim as a خلیل. This is the highest level of the love where the love:
+Allah took me as a خلیل just as He took Ibrahim as a خلیل.
+
+This is the highest level of love, where love:
 
 تَتَخَلَّلُو خَلَایَ الجَسَد
 
-Where the love completely permeates every cell of the body. تخلیل is where you penetrate deeply. Like when you do تخلیل الشَّعَر in the احکام of غُسُل. You have to get to every hair follicle. That's خُلَّۃ. That's a very high degree of love, where the love has permeated the entire soul.
+The love completely permeates every cell of the body.
 
-### MUHABBAH - Combination of all
+تخلیل means to penetrate deeply. For example, in the احکام of غُسُل, when you do تخلیل الشَّعَر, you must reach every hair follicle. That is خُلَّۃ. It is a very high degree of love, where love has permeated the entire soul.
 
-The final stage of love is called محبۃ and there really is no word in the English language that can encompass the depth of this love. The word محبۃ comes from the root word حُب which means seed. It is a never ending, eternal kind of love. What happens when you sow a seed? You get a harvest. You get an exponential amount of return. And what happens after you harvest? It grows back again. You harvest again and it grows back again. That's حُب. That's an internal love. And this is the مقام of the prophet. He is حَبِیبُ اللَّہِ. He is the one that Allah loves. Adam is سَفِیرُ اللَّہِ, the one Allah sent; نوح is نجی اللہ , the one Allah saved. ابراھیم is خَلِیلُ اللَّہِ, the one Allah befriended. ‏موسی is کَلِیمُ اللّٰہِ the one Allah conversed with. عیسی is روح اللہ, the one Allah breath his spirit into, but Rasul Allah ﷺ is حَبِیبُ اللَّہِ. He is the one Allah loved! And this is an extremely astonishing thing if you think about it. The creator is in love with his created thing! What does that say about the character of our prophet ﷺ, where the creator falls in love with him. The entire creation is worried about pleasing Allah, and Allah is worried about pleasing Rasul Allah ﷺ
+### MUHABBAH - Combination of All
+
+The final stage of love is called محبۃ, and there is really no single word in the English language that can encompass the depth of this love. The word محبۃ comes from the root word حُب, which means seed. It is a never-ending, eternal kind of love.
+
+What happens when you sow a seed? You reap a harvest. You receive an exponential return. And what happens after the harvest? It grows again. You harvest again, and it grows again. That is حُب. That is an enduring love.
+
+And this is the مقام of the Prophet. He is حَبِیبُ اللَّہِ—the one whom Allah loves.
+
+Adam is سَفِیرُ اللَّہِ, the one Allah sent; نوح is نجی اللہ, the one Allah saved; ابراھیم is خَلِیلُ اللَّہِ, the one Allah befriended; موسی is کَلِیمُ اللّٰہِ, the one with whom Allah conversed; عیسی is روح اللہ, the one into whom Allah breathed His spirit; but Rasul Allah ﷺ is حَبِیبُ اللَّہِ. He is the one Allah loved.
+
+And this is an astonishing thing if you reflect on it: the Creator is in love with His created being. What does that say about the character of our Prophet ﷺ, that the Creator loves him in this way? The entire creation is concerned with pleasing Allah, while Allah is concerned with pleasing Rasul Allah ﷺ:
 
 وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰٓ
 
-And indeed your master will give you so much that "you" will be well pleased. Allah is promising his messenger that he will give him and keep giving him until HE is well pleased. That's the kind of love Allah has for the messenger; and that's the kind of love the messenger has for Allah. This is why to love the Messenger of Allah is to love Allah and to love Allah is to love the Messenger of Allah.
+And indeed your master will give you so much that “you” will be well pleased.
+
+Allah promises His Messenger that He will give him and continue giving him until HE is well pleased. That is the kind of love Allah has for the Messenger, and that is the kind of love the Messenger has for Allah.
+
+This is why to love the Messenger of Allah is to love Allah, and to love Allah is to love the Messenger of Allah:
 
 قُلْ إِن كُنتُمْ تُحِبُّونَ ٱللَّهَ فَٱتَّبِعُونِى يُحْبِبْكُمُ ٱللَّهُ
 
-Say :"If you love Allah then follow me, Allah will love you". May Allah give us the مقام of محبۃ and may he increase us in محبۃ and make us people of محبۃ. The prophet said:
+Say: “If you love Allah, then follow me; Allah will love you.”
+
+May Allah grant us the مقام of محبۃ, increase us in محبۃ, and make us people of محبۃ.
+
+The Prophet said:
 
 وللہ لا تَدْخُلَ الجَنَّۃ حتی تؤمنُ۔ ولا تُؤمن حتی تَحابُّ
 
-You will not enter paradise until you believe and you will not believe until you love one another; until you spend on one another; take care of one another.
+You will not enter Paradise until you believe, and you will not believe until you love one another—until you spend on one another and care for one another.
 
 لَن تَنَالُوا۟ ٱلْبِرَّ حَتَّىٰ تُنفِقُوا۟ مِمَّا تُحِبُّونَ
 
-you will not achieve any good until you spend from that which you love. How much do we spend in the way of Allah? Because those who love believe love Allah more than they love their دنیا.
+You will not attain any good until you spend from that which you love.
+
+How much do we spend in the way of Allah? Those who truly believe love Allah more than they love their دنیا:
 
 والذین امنو أشدو حب لی اللہ
 
-Those who believe love Allah more than they love their دنیا. And we should think about what people are out there doing for their دنیا. Cause its amazing! We really have to ask yourself if we're doing 1/10th for our آخرۃ what they're doing out there for their دنیا. Just 1/10th! They're working 12 hours a day, 7 days a week; amassing all these goods. People learn about the most bizarre things because they're interested in them. They'll learn all about . We don't learn Arabic to understand our creators book.
+Those who believe love Allah more than they love their دنیا.
 
-You know they have this advertisement for learning Italian. It shows a farm boy and he's in love with an Italian celebrity. She's going to be in his town for one evening, so he has this one shot; one chance when he meets her, right? This is a TV advertisement. Because they know they are talking to people who understand that when you are in love you will do anything for the beloved. You'll do anything, right? So this kid gets this Italian software to learn Italian in one night just so that he can speak with that celebrity. This is what love will do. This is what lovers will do for the Beloved. We are loveless people. We just want to talk about love, we don't want to **do **anything; we don't want to make any effort in the name of love, right? We don't learn Arabic. We don't take the time to understand the language of our beloved. We don't want to make the effort to understand the language in which he speaks to his creation. We are lazy people! We claim love, but none of it is true! We are fake lovers
+And we should think about what people are doing for their دنیا. It is remarkable. We have to ask ourselves whether we are doing even one-tenth for our آخرۃ of what they are doing for their دنیا. Just one-tenth.
 
-But there are lovers... there are true lovers. So if we are not in love, if we cannot be true lovers, we should at the very least be in awe of these lovers like Rasul Allah ﷺ and Maulana Ali. At least we should wish to be in love with them, right?
+They work twelve hours a day, seven days a week, amassing all these goods. People learn the most unusual things simply because they are interested in them. Yet we do not learn Arabic in order to understand our Creator’s Book.
 
-The Arabs say that sometimes the ear falls in love before the eyes do. Sometimes you hear about someone and you fall in love with them. At some point I hope we all experience true love. Because Allah made this عشق, this love in the world a sign to show us what divine love is. It is a حجۃ against us. Romeo Juliet is a حجۃ against us! LAILA and MAJNOON is a حجۃ against us. Because if this is the love of a created thing for another created thing, then what kind of love should a creature have for his creator? If these are the depths that you will go to in love for another human being, right? What should be the depth of your efforts for your creator?
+There is an advertisement for learning Italian. It shows a farm boy who is in love with an Italian celebrity. She will be in his town for one evening, so he has one opportunity, one chance to meet her. It is a television advertisement.
 
-This pure love is a beautiful thing. You know people long to be in love. There are people who want it so bad, they keep falling in love over and over again; just for that experience of love. These are foolish people - عُشَّاق , because as I said, عشق is a disease. But the cure of love is meeting the beloved. So you will want to meet somebody so badly that you will go to the ends of the earth to meet that person.
+The point is that the advertisers know they are speaking to people who understand that, when you are in love, you will do anything for the beloved. So this boy gets Italian-learning software and tries to learn Italian in a single night just so that he can speak to that celebrity.
 
-سَلْمَانُ الْفَارِسِیُّ- look at his love! Look at his love! Look what he did! He was someone who was sold into slavery unjustly. He was a slave. He traveled all over just to find the messenger. If he heard of any righteous man, he would go up to him and ask him about the prophet. His journey is an amazing journey to the prophet ﷺ! And because if his sincerity, Allah gave him the signs. He knew what to look for. The first time he met the prophet he brought him dates and said this is صدقۃ ; and then he watched the prophet not eat from it; because he knew; he was told that the prophet will not eat from charity. The next time he came he brought him some dates, and said this is ھدیۃ; it is a gift! And then the prophet ate from it. and Salman knew! Ahh! Just like I was told, right? and then Salman became Muslim.
+This is what love does. This is what lovers do for the Beloved.
+
+We are loveless people. We want to talk about love, but we do not want to **do** anything. We do not want to make any effort in the name of love. We do not learn Arabic. We do not take the time to understand the language of our Beloved. We do not want to make the effort to understand the language in which He speaks to His creation.
+
+We are lazy people. We claim love, but none of it is true. We are false lovers.
+
+But there are lovers. There are true lovers.
+
+So if we are not in love, if we cannot be true lovers, then at the very least we should stand in awe of these lovers, such as Rasul Allah ﷺ and Maulana Ali. At least we should wish to love them.
+
+The Arabs say that sometimes the ear falls in love before the eyes do. Sometimes you hear about someone and fall in love with them.
+
+I hope that, at some point, we all experience true love. Allah made this عشق, this love in the world, a sign showing us what divine love is. It is a حجۃ against us. Romeo and Juliet are a حجۃ against us. LAILA and MAJNOON are a حجۃ against us.
+
+If this is the love of one created being for another created being, then what kind of love should a creature have for his Creator? If these are the depths to which you will go out of love for another human being, then what should be the depth of your efforts for your Creator?
+
+This pure love is a beautiful thing. People long to be in love. Some want it so badly that they keep falling in love again and again simply for the experience of love. These are foolish people—عُشَّاق—because, as I said, عشق is a disease.
+
+But the cure for love is meeting the beloved. You may long to meet someone so intensely that you will go to the ends of the earth to find that person.
+
+سَلْمَانُ الْفَارِسِیُّ—look at his love. Look at what he did.
+
+He was a man who was unjustly sold into slavery. He was a slave. He traveled far and wide simply to find the Messenger. Whenever he heard of a righteous man, he would go to him and ask about the Prophet. His journey to the Prophet ﷺ is extraordinary.
+
+Because of his sincerity, Allah gave him the signs by which he would recognize the Prophet. The first time he met the Prophet, he brought him dates and said, “This is صدقۃ.” Then he watched as the Prophet did not eat from them, because he had been told that the Prophet would not eat from charity.
+
+The next time he came, he brought dates and said, “This is ھدیۃ; it is a gift.” Then the Prophet ate from them. Salman knew. “Ah! Just as I was told.”
+
+Then Salman became Muslim.
 
 سَلْمَانُ مِنَّا اَھْلَ الْبَیْتِ
 
-Look where love gets you! Salman is from my family. He is part of our family! He was an amazing man of love!
+Look where love takes you. Salman is from my family. He is part of our family.
 
-اَبُو اَیُّوبَ الْاَنْصَارِیُّ - When the prophet came to Medina and he let the reins of the camel go - Because everyone wanted the prophet to stay with them. The prophet was an extremely diplomatic person. He didn't want to upset or offend anyone. So he said I'll leave the reins of my camel and wherever she stops, I will live with that person. The camel stopped in front of the house of Hz Abu Ayyub Al-Ansari. He rushed forward and took his bags. The prophet said, a man is with his luggage.
+He was an extraordinary man of love.
 
-So he took the prophet in the house and put him on the bottom floor because he wanted to honor him. It is easier to be on the bottom floor than on the top floor. You don't have to walk up the stairs; you can easily go outside. He wanted to give the prophet utmost ease, so he housed him on the bottom floor and he and his wife took the floor above. But then he became so constricted. He couldn't walk on the floor - because I don't want to put my foot where the prophet might have rested his head! This is ادب. We don’t have any ادب anymore. So he went and begged the prophet - please یَا رَسُولَ اللّٰہِ ! We can't stay above you. And so the prophet changed places with him.
+اَبُو اَیُّوبَ الْاَنْصَارِیُّ—when the Prophet came to Medina, he let go of the reins of his camel because everyone wanted the Prophet to stay with them. The Prophet was an extremely diplomatic person. He did not want to upset or offend anyone. So he said, “I will leave the reins of my camel, and wherever she stops, I will stay with that person.”
 
-His wife would take food upstairs for the prophet and after he ate when his wife brought the food back he would ask her - show me where the messengers fingers ate from - and then he would eat from that place. This is تَـتَـبُّـعُ الْآثَارِ following the traces. This was from love. These people had so much love for him.
+The camel stopped in front of the house of Hz Abu Ayyub Al-Ansari. He rushed forward and took the Prophet’s luggage. The Prophet said, “A man is with his luggage.”
 
-Look at میمونۃ, the prophets wife. 30 years after she married the prophet; as she was nearing death, you know where she wanted to go? To the place where she spent the first night with the prophet ﷺ. That is where she is buried. Look at the love! Look at that love! This is what these people had.
+So Abu Ayyub brought the Prophet into his house and placed him on the lower floor because he wanted to honor him. It was easier to stay on the ground floor than upstairs: there were no stairs to climb, and one could go outside more easily. He wanted to give the Prophet the greatest possible ease, so he housed him downstairs while he and his wife stayed on the floor above.
 
-Today we just want to take love out of Islam and make it something else. This religion is nothing if its not about love
+But then Abu Ayyub became deeply uneasy. He could hardly walk on the floor above, thinking, “I do not want to place my foot where the Prophet may have rested his head below.”
+
+This is ادب. We no longer have this kind of ادب.
+
+So he went and begged the Prophet: “Please, یَا رَسُولَ اللّٰہِ! We cannot stay above you.”
+
+And so the Prophet changed places with him.
+
+His wife would take food upstairs to the Prophet, and after he had eaten, she would bring the food back. Abu Ayyub would ask her, “Show me where the Messenger’s fingers touched the food,” and then he would eat from that spot.
+
+This is تَـتَـبُّـعُ الْآثَارِ—following the traces. It came from love. These people had so much love for him.
+
+Look at میمونۃ, the Prophet’s wife. Thirty years after she married the Prophet, as she was nearing death, do you know where she wanted to go? To the place where she had spent her first night with the Prophet ﷺ. That is where she is buried.
+
+Look at the love. Look at that love. This is what these people had.
+
+Today, we want to remove love from Islam and turn the religion into something else. But this religion is nothing if it is not about love:
 
 لَا یُؤْمِنُ اَحَدُکُمْ حَتَّی یُحِبَّ اَخِی
 
-No one is a believer until he love his brother. He did not use any other word there - until you love!
+No one is a believer until he loves his brother.
+
+He did not use another word there. He said: until you love.
 
 قل ان کنتم تحبون اللہ فتبعونی
 
-Say if you love Allah, then follow me and God will love you. Because
+Say: If you love Allah, then follow me, and God will love you.
+
+Because:
 
 عَلَامَۃُ الْحُبِّ اتِّبَاعُ الْحَبِیبِ
 
-The sign of Love is that you follow the Beloved. You will do what the Beloved says.
+The sign of love is that you follow the Beloved. You do what the Beloved says.
 
-Look at the love of عویس القرنی. Look at that man's love! When he heard that the prophets tooth broke in the battle of احد , he got so constricted. What did my messenger feel? How much pain did my messenger feel when they struck him! To experience that love he pulled out his own tooth. Just to experience what his beloved experienced. But that was not enough! What if it was not this tooth but another tooth? So he pulled out another tooth. What if it was this one? He pulled out another tooth. What if this one? He kept doing that till he pulled out all his teeth. That is love! These were insane people! They had عشق - how are we ever going to compare to their love.
+Look at the love of عویس القرنی. Look at that man’s love.
 
-And this is why I say that if we cannot love Allah, we should try to love the ones who loved Allah. And if we cannot love them, we should love the ones who loved those that loved Allah. And love is struggle. When you love you struggle, you sacrifice; that's the nature of love - you sacrifice for the one you love. If you're not sacrificing there is no love. That is not real love, when it's only me me me. People have gone to the extremes of loving....
+When he heard that the Prophet’s tooth had been broken in the battle of احد, he became overwhelmed. What had his Messenger felt? How much pain had his Messenger experienced when they struck him?
+
+To experience that pain himself, he pulled out one of his own teeth. But that was not enough. What if it had not been that tooth, but another? So he pulled out another. What if it had been this one? He pulled out another. What if it had been that one? He continued until he had pulled out all of his teeth.
+
+That is love.
+
+These were people of extraordinary intensity. They had عشق. How are we ever going to compare with their love?
+
+This is why I say that, if we cannot love Allah, we should try to love those who loved Allah. And if we cannot love them, then we should love those who loved those who loved Allah.
+
+Love is struggle. When you love, you struggle and you sacrifice. That is the nature of love: you sacrifice for the one you love. If you are not sacrificing, there is no love. It is not real love when everything is only me, me, me.
+
+People have gone to extraordinary lengths in love:
 
 أَمُرُّ بِدِّیارِ دِیَارِ لَیلَۃ أُقَبْلُ لم جِدَارُ وَلا الجِدَارَۃ
 
 مَا حُبُّ الدِّیَارِ شَغَفْنَا قَلبِی؛ وَلاکِنْ حُبُّ مَنْ سَکَنَ الدِّیَارَۃ
 
-the poet says, didn't you ask about that place? About that neighborhood that is not there anymore, Didn't you ask about that place where لیلۃ used to live; and he said indeed I asked. But how do dead stones give me answers? Where did everybody go?
+The poet says, did you not ask about that place? About that neighborhood that no longer exists? Did you not ask about the place where لیلۃ used to live?
 
-Then he says I go by the stones - the dwelling places of my beloved; and I kiss this wall and I kiss that wall; and then he says...
+He says: Indeed, I asked. But how can dead stones answer me? Where did everyone go?
+
+Then he says: I pass by the stones, the dwelling places of my beloved, and I kiss this wall and I kiss that wall.
+
+And then he says:
 
 مَا حُبُّ الدِّیَارِ شَغَفْنَا قَلبِی
 
-It is not the love of the walls that has enraptured my heart; but the love of the one who used to live in these walls. This is why we go and visit these places. It's not the places! It's the beloved! He was there! That is why we go there! Because he walked there.
+It is not love of the walls that has enraptured my heart, but love of the one who used to live within those walls.
 
-Our religion is a religion of love. And everything we do in our religion has to be out of love. Not because of fear. Allah is worthy of fear; but even the fear of Allah should be rooted in love. Its like the fear - that a child has in upsetting or disappointing the parent. Its really rooted in pure love. They love the parents so much that they are afraid of upsetting them. That should be the fear of Allah. It should be rooted in love. Allah is- اللَّہُ اَکْبَرُ - He is greater than anything that can be said in his praise
+This is why we go and visit these places. It is not the places themselves. It is the Beloved. He was there. That is why we go there: because he walked there.
+
+Our religion is a religion of love. Everything we do in our religion must be done out of love, not merely out of fear.
+
+Allah is worthy of fear, but even the fear of Allah should be rooted in love. It is like the fear a child feels at the thought of upsetting or disappointing a parent. That fear is really rooted in pure love. The child loves the parents so deeply that he or she is afraid to upset them.
+
+That should be our fear of Allah. It should be rooted in love.
+
+Allah is—اللَّہُ اَکْبَرُ—greater than anything that can be said in His praise:
 
 لا نُحْصِی الثَّنَاء عَلیکَ۔ اَنتَ کَمَا اَثْنَیتُ عَلی نَفسِکَ
 
-We cant praise you as you've praised yourself. You are as you praised yourself. Anything I say about Allah will be deficient. So we all need to think about lives. This is our time. And what we do with this time is going to determine what happens when we leave this time. Cause were all going to depart from this world. So it is really important that we all ask ourselves - How are we spending our time? What are we doing with our time? Are we doing useful worthwhile things? Beneficial things? Are we getting close to Allah? Are we coming to know our prophet better? Because he is worth knowing; He is worth studying. The stories about him are worth knowing. His HADDES, his family, is etiquette, his character is worth knowing. It is worth knowing about his family members. who they are and what they went through.
+We cannot praise You as You have praised Yourself. You are as You have praised Yourself.
 
-May Allah guide us all! May he open our hearts and put us all on the path of love!
+Anything I say about Allah will be deficient.
+
+So we all need to think about our lives. This is our time, and what we do with this time will determine what happens when we leave it. We are all going to depart from this world.
+
+It is therefore essential that we ask ourselves: How are we spending our time? What are we doing with it? Are we doing useful and worthwhile things? Beneficial things? Are we drawing closer to Allah? Are we coming to know our Prophet better?
+
+Because he is worth knowing. He is worth studying. The stories about him are worth knowing. His HADDES, his family, his etiquette, and his character are worth knowing. It is worth knowing about his family members—who they were and what they went through.
+
+May Allah guide us all. May He open our hearts and place us all on the path of love.
 
 ## Linguistic Meaning Of Allah
 
