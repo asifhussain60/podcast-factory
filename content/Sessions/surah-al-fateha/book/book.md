@@ -10,79 +10,88 @@ The speaker is the author of these sessions; he gave them, and they carry his vo
 
 ## Quranic Friendship
 
-In the flow of our conversation, we've discussed the self in detail. We've discussed the theme of Quran. Today InshaAllah we're starting a new group of topics that I'm going to categorize as "Know Thy Master". In these topics, we will take a closer look at Allah and his various attributes; as well as his relationship and expectations from us. We'll cover some very interesting topics such as his proof of existence, his mercy, fate and destiny etc.
+The self has already received close attention, as has the theme of the Quran. What opens now is a new group of topics, gathered under the heading "Know Thy Master." Within this group, the focus falls on Allah — His various attributes, His relationship with us, and what He expects of us. The ground to be covered includes His proof of existence, His mercy, and the matter of fate and destiny.
 
-The discussion of Allah usually begins with the understanding of the word الہ. Because the name Allah comes from the root word الہ. But in order to properly understand the depth of this word, we first need to understand the Quranic concept of love, which is وِلع. The Islamic concept of love is very different from the Bollywood and Hollywood concepts of love. So in order to understand الہ, we first need to have a clear understanding of love; and in order to understand love, we need to first understand friendship. Because love always begins with friendship. You cannot fall in love with someone unless and until you develop a friendship with that person first. Real friendships develop into pure love.
+Any serious discussion of Allah begins with the word الہ, because the name Allah grows from the root الہ. To grasp the depth of that root, however, requires first understanding the Quranic concept of love: وِلع. The Islamic conception of love differs sharply from what Bollywood and Hollywood offer under that name. Understanding الہ therefore demands a clear account of love — and understanding love, in turn, demands starting with friendship. Love always begins there. No genuine love for a person takes root until friendship with that person has first been established. Real friendship, when it deepens, flowers into pure love.
 
-See, you don't need friendship for lust. This is why today we see all these one-night stands and casual, meaningless sex all around us in society; because it is based on lust. It stems from the base "animal" instinct of قُوَّۃُ الشَّھْوَانِیَّۃِ that we studied earlier. Animals don't need to first become friends in order to mate, right? You see the difference? But love always begins with the sentiments of friendship. The Arabs say that whenever the plant of love will grow, it always grows in the soil of friendship. So before we look at the term الہ, we must first look at the various shades of love; and before we can do that, we must first understand the different types of friendships that the Quran talks about.
+Lust needs no friendship. This is why one-night stands and casual, meaningless sex spread through society — they are rooted in lust, in the base animal instinct of قُوَّۃُ الشَّھْوَانِیَّۃِ studied earlier. Animals do not need to become friends before they mate. Love, however, always begins in the sentiments of friendship. The Arabs say that whenever the plant of love grows, it grows in the soil of friendship. Before turning to the term الہ, then, the various shades of love must first be laid out — and before that, the different types of friendship the Quran speaks of must be understood.
 
-In today's day and age, it has become extremely difficult to create genuine and real friendships; especially for you kids! Today the world has moved towards virtual friendships like the ones we see on Facebook, Twitter, Instagram, right? Today friendships require, and are sustained by phones or some sort of an electronic device. We have become so enslaved to our phones and our devices that for us to have a 15 minute conversation with another human being without checking our phones or texts has become almost impossible. So the more connected we have become to our devices, the less connected we have become with each other. We are no longer able to have genuine, "real" connections and conversations with one another. So instead of us owning these devices, they have started to own us. Our devices are now our masters and we are its obedient slaves. The second it goes "ding", we have to drop anything and everything we're doing in order to turn to our devices in abject obedience - سمعنا و اطعنا - I hear and I obey!
+In the present age, genuine friendship has grown extraordinarily difficult to form. The world has moved toward virtual connections — the kind sustained by social media platforms and electronic devices. Human beings have grown so enslaved to their phones that a simple fifteen-minute conversation between two people, uninterrupted by the pull of a screen, has become nearly impossible. The more tightly connected people have become to their devices, the more disconnected they have become from one another. Real, unhurried conversation between human beings has all but vanished. Instead of owning these devices, people are owned by them. The device has become the master; its user, the obedient slave. The moment it sounds, everything else is dropped and attention snaps to the screen in total submission — سمعنا و اطعنا — I hear and I obey.
 
-You know how people who have asthma they have to take an inhaler every few minutes, because they have a problem in breathing. It has become pretty much the same things with our phones today! I need Wi-Fi! I need Wi-Fi. Is there Wi-Fi in here? How can there not be Wi-Fi in here? Today we gasp for Wi-Fi just as an asthma patient gasps for breath, right? The other day I was telling my daughter about the کعبۃ and about going for عمرۃ. So I asked her what she would like to know about Mecca? You know the first thing she asked me? Do they have Wi-Fi there? So as sad as it is, this is what our lives have been reduced to.
+The parallel is almost comic. People with asthma reach for an inhaler every few minutes because they cannot breathe. Phones have made us the same way. The frantic search for a signal — the inability to simply sit without one — has become its own kind of respiratory crisis. Not long ago, I was telling my daughter about the کعبۃ and about going for عمرۃ. I asked her what she would like to know about Mecca. The first thing she asked was whether they have Wi-Fi there. As sad as it is, that is what life has been reduced to.
 
-So today I want to throw some light on the Quranic concept of friendship. Now we can go into this conversation with two mindsets. We can approach this topic in two ways. The first is what kind of friends we should look for - that's the first kind of mindset that we can have when having this conversation. But that's a selfish way of looking at things according to the Quran. The correct and proper way of looking at this conversation is: what kind of friend should you and I be to others? Not what kind of friends we should **have**, but rather what kind of friend we should **be** to others. Because when you become the right kind of friend to others, Allah will put the right kind of people in your path.
+The Quranic concept of friendship, then, deserves serious attention — and the angle from which it is approached makes all the difference. There are two ways to enter this subject:
 
-There are at least 10 words used in the Quran for the different kinds and shades of friends. Each term presents its own nuances in terms of how Allah brings it up in different verses. So let's go through some of these terms, and try to understand how Allah uses these terms in the Quran, and what he is trying to teach us about these various kinds of friends.
+- The first is to ask what kind of friends one should look for.
+- The second is to ask what kind of friend one should be to others.
+
+The first approach is the selfish one, and the Quran does not endorse it. The correct approach is the second: not what kind of friends to have, but what kind of friend to be. The distinction matters enormously. When a person becomes the right kind of friend to others, Allah places the right kind of people in that person's path.
+
+The Quran uses at least ten distinct words for friendship, each carrying its own shade of meaning and appearing in contexts that illuminate something specific about the relationship. Moving through some of these terms reveals what Allah is teaching about the different kinds of bonds between people.
 
 ### Protective Friend (ولی)
 
-The first of those friends is ولی. This word in the Arabic language comes from مُوَالات which is a kind of protection. A ولی is someone who takes care of your matters; who always has your back. A ولی is a friend who, in some sense, when trouble hits you, no matter what kind of trouble it is, is always there to guard and protect you. He handles your situation. So a ولی is used for friend, but not just any kind of friend. It is used for a strong friend that you can always count on to not only get your out of any mess, but also protect you from getting into trouble in the first place. One of the names of Allah is الولی.
+The first term is ولی. It derives from مُوَالات, which conveys the idea of protection. A ولی is someone who manages another's affairs and always has that person's back. When trouble strikes — of any kind — the ولی is there to guard and shield. He does not merely help after the fact; he handles the situation entirely. A ولی therefore denotes not friendship in a general sense but something stronger: a dependable ally who can be counted on both to pull someone out of a crisis and to keep that person from falling into one in the first place. One of the names of Allah is الولی.
 
 > ٱللَّهُ وَلِىُّ ٱلَّذِينَ آمَنُوا۟ يُخْرِجُهُم مِّنَ ٱلظُّلُمَتِ إِلَى ٱلنُّورِ ۖ وَٱلَّذِينَ كَفَرُوٓا۟ أَوْلِيَآؤُهُمُ ٱلطَّغُوتُ يُخْرِجُونَهُم مِّنَ ٱلنُّورِ إِلَى ٱلظُّلُمَتِ ۗ أُو۟لَٓئِكَ أَصْحَبُ ٱلنَّارِ ۖ هُمْ فِيهَا خَلِدُونَ
 >
-> Allah is the *Walî *of those who believe. He brings them out from darkness into light. But as for those who disbelieve, their *Auliya *are *Taghut;* they bring them out from light into darkness. Those are the dwellers of the Fire, and they will abide therein forever.
+> Allah is the *Walî * of those who believe. He brings them out from darkness into light. But as for those who disbelieve, their *Auliya * are *Taghut *, they bring them out from light into darkness. Those are the dwellers of the Fire, and they will abide therein forever.
 
-> أللَّهُ وَلِىُّ ٱلَّذِينَ آمَنُوا۟
->
-> Allah is the ولی of those who believe. He is a protective friend to those who believe
+أللَّهُ وَلِىُّ ٱلَّذِينَ آمَنُوا۟
 
-Another variation of this same root is the word مولا. This is used for that same caring and concerned friend who has the ability to protect you, when he takes on an authoritative role. In other words, when we are 100% convinced that someone truly cares for us; that someone truly has our best interests at heart; and if we simply submit to this person's authority over us; if we just listen to him; he will protect us from getting into trouble, or he will help us get out of trouble when we're in it. That's when that person, in that position of authority over our affairs is called مولا. You understand? This is why we say مَوْلَانَا عَلِیٌّ. We use that word مولا not only to attest to his authority over our affairs, but more so to substantiate the fact that we believe him to be our caring and concerned friend, who is there to protect us; who's teachings are there to protect us and keep us out of trouble. He is someone who always has our back; he is someone who's teachings always have our best interests at heart. You understand? So by adding the word مولا before his name, we testify for his ولایۃ, his genuine and sincere love, care and concern for us, in order to protect us.
+Allah is the ولی of those who believe. He is a protective friend to those who believe.
 
-Now there is an interesting adjective that the Quran uses for this word ولی in a verse. That word is حمیم. Allah says:
+A related form of this same root is the word مولا. It describes that same caring, concerned friend who also holds the ability to protect — specifically when he takes on a position of authority. The idea is this: when someone is entirely convinced that another person truly cares for them, truly has their best interests at heart, and they simply submit to that person's authority and heed what he says, that person will protect them from trouble, or help them out of it when they are already in it. The one who stands in that position of authority over their affairs is called مولا.
+
+This is precisely why the phrase مَوْلَانَا عَلِیٌّ carries such weight. The word مولا is used there not only to affirm his authority over our affairs, but, more fundamentally, to establish that he is our caring and concerned friend — the one who is there to protect us, whose teachings exist to protect us and keep us from harm. He is someone who always has our back; his teachings always have our best interests at heart. By placing the word مولا before his name, the testimony affirms his ولایۃ — his genuine, sincere love, care, and concern for us — precisely in order to protect us.
+
+There is a striking adjective the Quran applies to this word ولی in one verse. That word is حمیم. Allah says:
 
 > وَلَا تَسْتَوِى ٱلْحَسَنَةُ وَلَا ٱلسَّيِّئَةُ ۚ ٱدْفَعْ بِٱلَّتِى هِىَ أَحْسَنُ فَإِذَا ٱلَّذِى بَيْنَكَ وَبَيْنَهُۥ عَدَوَةٌۭ كَأَنَّهُۥ وَلِىٌّ حَمِيمٌۭ
->
+
 > The good deed and the evil deed cannot be equal. Repel with one which is better, then verily! he, between whom and you there was enmity, as though he was a close friend.
 
-Even if there is animosity between you and someone else - so imagine you're talking to this guy and he's responding back to you with the most aggressive language! You're being kind and respectful and this guy is being a complete ass in response... Allah says act with him as a protective friend. Continue behaving with him as if you are looking out for him. In other words, respond in the most gentle way possible; like a protective friend. But then he adds the adjective حمیم.
+Even where there is open hostility between two people — where one speaks with the most aggressive language imaginable while the other remains kind and respectful — Allah's instruction is to respond as a protective friend would: to continue behaving as though genuinely looking out for that person, to answer in the gentlest way possible. Then Allah adds the adjective حمیم.
 
-The word حمیم comes from حُمَّۃ, which means fever. It is a word used for intense heat in the Arabic language. In this verse, this word is used to describe the intimacy of friendship. حمیم is when you are that close with someone that there is heat in your friendship; there is closeness and intimacy in that friendship. I'm not talking about heat in the romantic sense. I'm talking about it in the sense that you feel so strongly towards someone that it heats you up on the inside. A حمیم is a friend that when you are in their company, you feel all warm and fuzzy inside. And the Quran is saying that you have to be like that towards who? Towards someone who is being aggressive towards you. Someone who is acting like a jackass with you! So then imagine how you are to be with a believer? SubhanAllah! Just look at the beautiful standards the Quran sets for us as believers. It's really incredible! And they call Islam a violent religion, huh!?
+The word حمیم comes from حُمَّۃ, which means fever — a word Arabic uses for intense heat. In this verse, that heat describes the intimacy of friendship. حمیم is the closeness in which there is a warmth between two people, a felt nearness. The heat here is not romantic; it is the inner warmth that rises when someone's company moves a person deeply. A حمیم is a friend whose presence leaves one feeling all warm and fuzzy inside. And the Quran places this standard precisely where it is hardest to meet: toward someone who is being aggressive, someone acting with the coarsest hostility imaginable. If that is how a believer must conduct himself toward an enemy, the standard toward a fellow believer is higher still. SubhanAllah — the Quran sets a breathtaking measure for what it means to live as a believer. And yet Islam is called a violent religion.
 
-So this is the first kind of friend we're supposed to be with each other - ولی حمیم.
+That, then, is the first kind of friend a believer is called to be toward another — ولی حمیم.
 
 ### Sincere Friend (صدیق)
 
-The second kind of friend is a صدیق. The word صدیق comes from صدق, which means two things! It means sincerity and it means truthfulness. So a صدیق is actually an extremely sincere and truthful friend. So when you are a صدیق to someone, what that means is, that you are friends with that person for no reason other than a genuine intention of just wanting to be with that person. You are not friends with them because being friends with them will make you feel more popular at school or work; or being friends with them will make other people think more highly of you; Or because they are really rich and you want to get some advantage out of that. Or they are very knowledgeable, so hanging out with them will make you look like a scholar. In other words, when you're a صدیق you have no hidden agenda. Your friendship has no strings attached. It's the most genuine and sincere kind of friendship. You are friends with them for who they are - not because for the things they own, or the status they have, not for the artificial and superficial stuff. But if you have a genuine friendship without all of these things, then that is truly صدقۃ. You are going to be there for this person no matter what.
+The second kind of friend is a صدیق. The word صدیق comes from صدق, which carries two meanings: sincerity and truthfulness. A صدیق, then, is a friend of the most genuine and truthful kind. To be a صدیق to someone means the friendship rests on nothing but a sincere desire to be with that person. It is not friendship pursued because the association raises one's standing at school or at work, or because others will think more highly of the company one keeps, or because the friend is wealthy and some advantage might follow, or because the friend is learned and proximity to learning lends an air of scholarship. A صدیق carries no hidden agenda. The friendship has no strings attached. It is grounded in who the person is — not in what they own, not in the status they hold, not in anything artificial or superficial. Strip all of that away, and what remains — a bond that endures for its own sake alone — is صدقۃ. That friend will be there, no matter what.
 
-So you can see that being a صدیق, is not easy. Having a صدیق. is even more difficult. It is easy to have people that you casually chat with, or gossip with - that's easy. But having a صدیق is really difficult. Because these are the kinds of friends that never give up on you no matter how many times you fail. So that's the first nuance - sincerity. The second is truthfulness. The Arabs have a saying:
+Being a صدیق is not easy. Having a صدیق is even more difficult. Casual acquaintances — people to chat with, to gossip with — are easy to find. But a صدیق is something rarer and harder, because this is the kind of friend who never gives up, no matter how many times one fails.
+
+That is the first nuance: sincerity. The second is truthfulness. The Arabs have a saying:
 
 الصَّدِیقُکَ مَن صَدَقَت
 
-Your friend is someone who is true to you; who is honest with you; and not just someone who is **friendly **with you. They are completely honest with you. When you are falling off, they will say: Listen! I care about you! I don't want you to do this because I believe this is going to hurt you! You need to stop this! A صدیق is not there just to look good and give you that warm-and-fuzzy feeling you crave. He'll tell you the harsh truth - the truth that you **don't **want to hear. That's why the word comes from the root صدق - truthfulness.
+A friend is someone who is true — genuinely honest — not merely someone who is *friendly*. When things are going wrong, a true friend speaks plainly: "Listen! I care about you. I don't want you to do this, because I believe it will hurt you. Stop." A صدیق is not there simply to look good or to supply the warm, comfortable feeling one craves. He tells the harsh truth — the truth one does not want to hear. That is precisely why the word grows from the root صدق, meaning truthfulness.
 
-So now, if you are a صدیق to someone else, then whatever it takes, no matter the consequences, you are going to be genuinely honest with your friend. As a صدیق, you will not simply agree with your friend, knowing well that the path they've chosen is going to lead them to their destruction. You're not afraid that if you say something to them, or they say something to you, the friendship will come to an end. *I don't want to say anything because he might get really upset*. That's not a صدیق. That is why we usually lose our friends, isn't it? We are honest with our friends, and they don't want to hear that. But you don't do that! Be the صدیق who never gives up on his friends no matter how painful it gets.
+A صدیق to someone, then, is a person who will be genuinely honest with his friend whatever the cost. A صدیق does not simply agree, knowing full well that the path his friend has chosen leads to ruin. He is not paralyzed by the fear that speaking plainly will shatter the friendship. *I don't want to say anything because he might get really upset* — that is not a صدیق. It is precisely that silence, that comfortable evasion, that costs people their friendships. Honesty is offered, and it is not wanted. But the صدیق does not surrender to that. He does not give up on his friend, however painful the truth becomes.
 
-Now interestingly, if we look at this word in the Quranic context, Allah says that on the day of judgment there are some people who will find themselves on the wrong side of the fence. These are people who are heading towards hellfire. Allah says about them in the Quran
+There is a striking dimension to this word when it appears in the Quran. Allah describes certain people who, on the Day of Judgment, find themselves on the wrong side — people heading toward the Fire. He records what they say, in verses 26:99–101:
 
-> وَمَآ أَضَلَّنَآ إِلَّا ٱلْمُجْرِمُونَ
+وَمَآ أَضَلَّنَآ إِلَّا ٱلْمُجْرِمُونَ
 
-So they're saying it is not our fault that we are going to hell. It is not our fault that we are in trouble on this day of judgment. We're here because these other criminals misled us. It is their fault! These evil people people misled us. And Allah describes what they say:
+Their claim is that the fault is not theirs. They did not end up in this state through their own choices alone — these criminals, these evil people, misled them. The blame, they insist, belongs elsewhere. And Allah then records more of what they say:
 
 فَمَا لَنَا مِن شَفِعِينَ
 
-We have nobody on our side to make a case for us. شافعی is someone who likes you and when you are getting in trouble, they stand in the way and say no no no no no... He's good. He's okay. He's with me! Like imagine you're in trouble with the principal, and your teacher comes in and says... No he's a good student! Don't worry about him, it I'll take care of him. That's شفاعۃ. These people are saying, today nobody is coming to back us up. Nobody has our back today. And then they say:
+There is nobody on our side to plead for us. شافعی is one who cares for a person and, when trouble comes, steps forward and says: he is good, he is fine, he is with me. The way a teacher might walk into the principal's office and say: this is a good student — do not worry about him, I will answer for him. That is شفاعۃ. These people are saying that on this day, no one has come to speak for them. No one is standing in their corner. And then they say:
 
 وَلَا صَدِيقٍ حَمِيمٍۢ
 
-This is the only time the word صدیق is used like this directly in the Quran. They say today we have no true sincere honest friends, that are close to us. We have no loving close friends today. SubhanAllah! And by saying this, Allah is reminding us that the converse is also true. If people on the wrong side are complaining that they have no close friends on this day, that means that the people on the right side of Judgment Day; people of heaven; will actually have a close friend to back them up. Who is that ultimate صَدِيقٍ حَمِيمٍۢ that believers will have access to? The شفاعۃ of Rasul Allah ﷺ InshaAllah. May Allah qualify all of us for that.
+This is the only place in the Quran where صدیق is used in quite this direct way. They are saying that today they have no true, sincere, close friends — no one near to them who loves them. SubhanAllah. And in recording that complaint, Allah reminds us that the opposite is equally true. If those on the wrong side of Judgment Day are lamenting the absence of close friends, then those on the right side — the people of paradise — will indeed have a close friend standing with them. Who is that ultimate صَدِيقٍ حَمِيمٍۢ available to the believers? The شفاعۃ of Rasul Allah ﷺ, insha'Allah. May Allah qualify all of us for that.
 
 What those disbelievers — those destined for the Fire — lament on that day is the absence of a صَدِيقٍ. In the world, whenever someone offered them sincere and honest counsel, they turned it away. They mocked. They ridiculed. They broke off those very friendships. And now, at the hour of judgment, they wish they had kept those صَدِيقٍ close. A صَدِيقٍ is worth holding — however harsh and painful their truth may be — because they prove to be the truest of friends in the آخرۃ.
 
 ### Companion (صاحب)
 
-صاحب is among the most comprehensive words the Quran uses for a friend. It can describe the most casual of acquaintances — someone seated beside a traveler on a train or a bus for a few hours on a journey. At that minimal level of contact, the word already applies.
+صاحب is among the most comprehensive words the Quran uses for a friend. It can describe the most casual of acquaintances — someone seated beside a traveler on a train or a bus for a few hours. At that minimal level of contact, the word already applies.
 
-Yet a lifetime companion is equally a صاحب. What the term holds in common across all its uses is this: a صاحب always means well. They want something good for the one they accompany. When trouble comes, they help to whatever degree they can. And the better they know a person, the greater their capacity to help — and the more genuine their concern. This is why one of the names Allah gives to Rasul Allah ﷺ in the Quran is صاحب:
+Yet a lifetime companion is equally a صاحب. What the term holds in common across all its uses is a single quality: a صاحب always means well. They want something good for the one they accompany. When trouble comes, they help to whatever degree they can. And the better they know a person, the greater their capacity to help — and the deeper their concern. This is why one of the names Allah gives to Rasul Allah ﷺ in the Quran is صاحب:
 
 > وَمَا صَاحِبُكُم بِمَجْنُونٍۢ
 >
@@ -96,23 +105,21 @@ The performance of false modesty — "Oh, this old thing? It's Gucci. It was on 
 
 ### Trustworthy Friend (ولیجۃ)
 
-The next word the Quran uses for a friend is ولیجۃ. This term occurs once in the Quran. ولیجۃ comes from the verb وَلَجَ، یَلِجُو, which in Arabic means to penetrate deeply. Allah says:
+The next word the Quran uses for a friend is ولیجۃ. It appears only once in the Quran. ولیجۃ comes from the verb وَلَجَ، یَلِجُو, which in Arabic means to penetrate deeply. Allah says:
 
 يَعْلَمُ مَا يَلِجُ فِى ٱلْأَرْضِ وَمَا يَخْرُجُ مِنْهَا
 
 Allah knows what goes into the earth and what comes out of it.
 
-ولیجۃ, then, is a friend who is deeply immersed in one's affairs. They know everything that is happening in a person's life and are actively involved in it day to day. The trust extended to a ولیجۃ is total — not merely someone to confide in, but someone genuinely present in the workings of one's life.
+ولیجۃ, then, is a friend who is deeply immersed in one's affairs — someone who knows everything happening in a person's life and is actively present in it, day to day. The trust extended to a ولیجۃ is total. This is not merely someone to confide in; it is someone genuinely involved in the workings of one's life.
 
-This is not an ordinary friendship — not the kind built on pleasantries and occasional contact. It is close, rare, and exceptionally demanding of trust. A ولیجۃ is the friend trusted with a bank account, with children, with all one's gold and jewelry, without a second thought. They can be trusted in any affair of life. The signed blank check handed over before a long journey — *I'm traveling for a couple of months; please write out these checks for my bills* — with no anxiety about it whatsoever: that is the trust of a ولیجۃ. This kind of friendship is extremely rare today.
+This is not an ordinary friendship built on pleasantries and occasional contact. It is close, rare, and exceptionally demanding of trust. A ولیجۃ is the friend trusted with a bank account, with children, with all one's gold and jewelry, without a second thought — trusted in any affair of life. The signed blank check handed over before a long journey, *I'm traveling for a couple of months; please write out these checks for my bills*, with no anxiety whatsoever: that is the trust of a ولیجۃ. Such friendship is extremely rare today.
 
 What makes the Quranic use of this word remarkable is that Allah limits the ولیجۃ relationship to three specific entities. He says:
 
 > أَمْ حَسِبْتُمْ أَن تُتْرَكُوا۟ وَلَمَّا يَعْلَمِ ٱللَّهُ ٱلَّذِينَ جَهَدُوا۟ مِنكُمْ وَلَمْ يَتَّخِذُوا۟ مِن دُونِ ٱللَّهِ وَلَا رَسُولِهِۦ وَلَا ٱلْمُؤْمِنِينَ وَلِيجَةًۭ ۚ وَٱللَّهُ خَبِيرٌۢ بِمَا تَعْمَلُونَ
 >
 > Do you think that you shall be left alone while Allah has not yet tested those among you who have striven hard and fought and have not taken *Walîjah* besides Allah and His Messenger, and the believers. Allah is Well-Acquainted with what you do.
-
-أَمْ حَسِبْتُمْ أَن تُتْرَكُوا۟
 
 Do you think that you shall be left alone
 
@@ -124,19 +131,19 @@ while Allah has not yet tested those among you who have striven hard and fought
 
 and have not taken ولیجۃ besides Allah and His Messenger, and the believers
 
-Here Allah is calling Himself a ولیج to us. Life brings trials, and through them He tests how deeply His love and His commands have penetrated the most personal matters of a person's life. What is His role in family decisions? What is His role in financial decisions, in business decisions, in choices of career and education? What is His role in one's life? Is He a ولیج — genuinely intimate in those innermost concerns?
+In this verse, Allah calls Himself a ولیج to us. Life brings trials, and through those trials He tests how deeply His love and His commands have penetrated the most personal corners of a person's life. What is His role in family decisions? What is His role in financial decisions, in business decisions, in choices of career and education? Is He a ولیج — genuinely intimate in those innermost concerns?
 
-The verse adds the Messenger ﷺ alongside Allah. How much does one consult the legacy of the Prophet in the most personal matters of life? When trouble comes, how much does one turn to his life and سیرۃ, to his example? When difficulties arise with people, with Islam, how much does one seek the counsel of Rasul Allah ﷺ? How deeply involved is he in the most intimate matters?
+The verse places the Messenger ﷺ alongside Allah. The question, then, is how much a person consults the Prophet's legacy in the most personal matters of life. When trouble comes, how much does one turn to his life and سیرۃ, to his example? When difficulties arise — with people, with Islam — how much does one seek the counsel of Rasul Allah ﷺ? How deeply is he involved in the most intimate matters?
 
-When the سنۃ of the Messenger comes up today, what tends to be celebrated and emphasized are its most outward forms — the سنۃ of prayer, of keeping a beard, of being the first to say سلام, the mannerisms and etiquette passed down from our beloved Messenger ﷺ. In many respects, these remain public forms. But the most intimate decisions are another matter: whether to enter a particular financial transaction, what clothes to buy, whether to go along with friends to a certain gathering, whether to go along at all. Have I brought the Messenger into those decisions — the ones touching my most private affairs? Where does the سنۃ reach in those matters? Even in the ways I speak, in my أخلاق, in the way I carry myself — does the Prophet's example guide me?
+When the سنۃ of the Messenger comes up today, what tends to be celebrated and emphasized are its most outward forms — the سنۃ of prayer, of keeping a beard, of being the first to say سلام, the mannerisms and etiquette passed down from our beloved Messenger ﷺ. In many respects, these remain public forms. The most intimate decisions are another matter entirely: whether to enter a particular financial transaction, what clothes to buy, whether to go along with friends to a certain gathering, whether to go along at all. The question is whether the Messenger has been brought into those decisions — the ones touching the most private affairs. How far does the سنۃ reach in such matters? Even in the ways one speaks, in one's أخلاق, in the way one carries oneself — does the Prophet's example give guidance?
 
-The way people speak to one another today is deeply disordered. There is no سنۃ in it. There is no respect for elders. There is no humility in mutual conversation. The Quran tells us that speech should be respectful and kind — that of a ولی حمیم, a protective and warm friend — even toward enemies. And yet even among believers, the moment there is any disagreement, the instinct is to bludgeon with evidence, to demean, to mock. Even in something as simple as a conversation, there is a profound departure from the سنۃ of Rasul Allah ﷺ.
+The way people speak to one another today is deeply disordered. There is no سنۃ in it. There is no respect for elders. There is no humility in mutual conversation. The Quran tells us that speech should be respectful and kind — that of a ولی حمیم, a protective and warm friend — even toward enemies. And yet even among believers, the moment any disagreement arises, the instinct is to bludgeon with evidence, to demean, to mock. Even in something as simple as a conversation, there is a profound departure from the سنۃ of Rasul Allah ﷺ.
 
-The verse then includes the believers — ٱلْمُؤْمِنِينَ — within this same relationship of ولیجۃ. When Allah is truly intimate in one's life, and when the teachings of the Prophet are truly intimate in one's personal affairs, then Allah gives the gift of the finest kind of believers — those who can be trusted to the very depths of the personal life. What a gift that is, especially now, when trust has all but disappeared. People cannot be trusted in the workplace; even those called closest friends carry doubt. That kind of trust is gone from life. And Allah (Azza Wa Jal) is giving, in this verse, the secret to finding it again: when He is admitted into the intimate life, and when the Messenger ﷺ is admitted alongside Him, then the gift that follows is true believers worthy of exactly that trust. SubhanAllah!
+The verse then includes the believers — ٱلْمُؤْمِنِينَ — within this same relationship of ولیجۃ. When Allah is truly intimate in one's life, and when the teachings of the Prophet are truly intimate in one's personal affairs, Allah gives the gift of the finest kind of believers — those who can be trusted to the very depths of one's personal life. What a gift that is, especially now, when trust has all but disappeared. People cannot be trusted in the workplace; even those called closest friends carry doubt. That kind of trust is gone from life. And Allah (Azza Wa Jal) gives, in this verse, the secret to finding it again: when He is admitted into the intimate life, and when the Messenger ﷺ is admitted alongside Him, the gift that follows is true believers worthy of exactly that trust. SubhanAllah!
 
 ### Confidant (بِطانۃ)
 
-Another kind of friendship is بِطانۃ, which comes from the root بطن — the Arabic word for stomach. A بِطانۃ is a friend who guards secrets. Where the ولیجۃ is immersed in all one's personal matters, the بِطانۃ protects what is entrusted to them. A secret shared with a بِطانۃ goes with them to their grave.
+Another kind of friendship is بِطانۃ, which comes from the root بطن — the Arabic word for stomach. A بِطانۃ is a friend who guards secrets. Where the ولیجۃ is immersed in all of one's personal matters, the بِطانۃ protects what is entrusted to them. A secret shared with a بِطانۃ goes with them to their grave.
 
 The contrast is painfully familiar. A secret is shared — "please don't tell anyone" — and the friend puts the call on speaker and begins texting it along. "Hey, listen up! Don't tell anyone, but —" That is not a بِطانۃ. There are people with what one might call a very light stomach — they simply cannot hold a secret.
 
@@ -144,109 +151,110 @@ The verse in which this word appears in the Quran is:
 
 > يَٓأَيُّهَا ٱلَّذِينَ آمَنُوا۟ لَا تَتَّخِذُوا۟ بِطَانَةًۭ مِّن دُونِكُمْ لَا يَأْلُونَكُمْ خَبَالًۭا وَدُّوا۟ مَا عَنِتُّمْ قَدْ بَدَتِ ٱلْبَغْضَآءُ مِنْ أَفْوَهِهِمْ وَمَا تُخْفِى صُدُورُهُمْ أَكْبَرُ ۚ قَدْ بَيَّنَّا لَكُمُ ٱلْآيَتِ ۖ إِن كُنتُمْ تَعْقِلُونَ
 >
-> O you who believe! Take not as *Bitanah* those outside your religion since they will not fail to do their best to corrupt you. They desire to harm you severely. Hatred has already appeared from their mouths, but what their breasts conceal is far worse. Indeed We have made plain to you the signs if you understand.
+> O you who believe!
 
-This verse belongs to the context of the Battle of Uhud, in سُورَۃُ آلِ عِمْرَانَ. The Battle of Uhud was a difficult military situation for the Muslims. Medina was home to different communities — Christians and Jews among them — and some were cooperating with the enemy. In that context, the Quranic instruction was clear: do not share secrets with those outside the faith who carry this propensity, because in a state of war the chain of disclosure is unpredictable. Many would leave no stone unturned and would actively seek to cause harm. The verse is not a blanket judgment on all Christians and Jews — it addresses those who carry that specific intent.
+Do not take as *Bitanah* those outside your religion, for they will not fail to do their best to corrupt you. They desire to harm you severely. Hatred has already appeared from their mouths, but what their breasts conceal is far worse. Indeed, We have made plain to you the signs if you understand.
 
-The context is a state of war, where a casual word can cost lives. I might mention in passing that I had seen the Prophet that day, that he would be at such a place at such a time — innocent in intent, but for someone plotting against the Messenger, that information is gold. The one I confided in may not intend harm — but the one they speak to might. The disclosure moves down the chain. The instruction, therefore, is to keep intimate secrets within the innermost circle. That is the context of this word.
+This verse belongs to the context of the Battle of Uhud, in سُورَۃُ آلِ عِمْرَانَ. The Battle of Uhud was a difficult military situation for the Muslims. Medina was home to different communities — Christians and Jews among them — and some were cooperating with the enemy. In that context, the Quranic instruction was clear: do not share secrets with those outside the faith who carry this propensity, because in a state of war the chain of disclosure is unpredictable. Many would leave no stone unturned and actively seek to cause harm. The verse is not a blanket judgment on all Christians and Jews — it addresses those who carry that specific intent.
+
+The context is a state of war, where a casual word can cost lives. A passing remark — that I had seen the Prophet that day, that he would be at a certain place at a certain time — may be innocent in intent, yet for someone plotting against the Messenger, that information is gold. The one confided in may mean no harm, but the one they speak to next might. The disclosure travels down the chain. The instruction, therefore, is to keep intimate secrets within the innermost circle. That is the context of this word.
 
 Beyond that context, the verse illuminates another shade of friendship — the بطانۃ, the one who knows the deepest and darkest secrets.
 
 ### Deep Seated Friendship (خلیل)
 
-The next word the Quran uses for a friend is خلیل. خلیل comes from the root word خلۃ. Another word from the same root is خلال, which means flossing — what passes in between one thing and another. When the thread is drawn between teeth, that is خلال in Arabic.
+The next word the Quran uses for a friend is خلیل. خلیل comes from the root word خلۃ. Another word from the same root is خلال, which means flossing — what passes in between one thing and another. When thread is drawn between teeth, that action is خلال in Arabic.
 
-A خلیل, then, is someone whose friendship has penetrated deep within the heart. The love for them is of such depth that one is constantly thinking of them, constantly missing them in their absence, and wishing to be with them at any given moment. That is a خلیل. It is, again, a very rare kind of friendship. And it is this kind of friendship that Allah سُبْحَانَهُ وَتَعَالَى had with Ibrahim عَلَیْہِ السَّلَامُ:
+A خلیل, then, is someone whose friendship has penetrated deep within the heart. The love for them runs so deep that one thinks of them constantly, feels their absence constantly, and wishes to be with them at any given moment. That is a خلیل. It is, again, a very rare kind of friendship — and it is precisely this kind of friendship that Allah سُبْحَانَهُ وَتَعَالَى had with Ibrahim عَلَیْہِ السَّلَامُ:
 
 وَٱتَّخَذَ ٱللَّهُ إِبْرَهِيمَ خَلِيلًۭا
 
 Allah took اِبْرَاھِیْمُ عَلَیْہِ السَّلَامُ as a خلیل.
 
-Allah سُبْحَانَهُ وَتَعَالَى uses the word خلیل in interesting ways in the Quran
+Allah سُبْحَانَهُ وَتَعَالَى uses the word خلیل in remarkable ways throughout the Quran.
 
-> يَٓأَيُّهَا ٱلَّذِينَ آمَنُوٓا۟ أَنفِقُوا۟ مِمَّا رَزَقْنَكُم مِّن قَبْلِ أَن يَأْتِىَ يَوْمٌۭ لَّا بَيْعٌۭ فِيهِ وَلَا خُلَّةٌۭ وَلَا شَفَعَةٌۭ ۗ وَٱلْكَفِرُونَ هُمُ ٱلظَّلِمُونَ
->
-> O Believers! Spend from that which we have provided for you, before a Day comes when there will be no bargaining, nor friendship, nor intercession. And it is the disbelievers who are the *Zalimun *.
+يَٓأَيُّهَا ٱلَّذِينَ آمَنُوٓا۟ أَنفِقُوا۟ مِمَّا رَزَقْنَكُم مِّن قَبْلِ أَن يَأْتِىَ يَوْمٌۭ لَّا بَيْعٌۭ فِيهِ وَلَا خُلَّةٌۭ وَلَا شَفَعَةٌۭ ۗ وَٱلْكَفِرُونَ هُمُ ٱلظَّلِمُونَ
 
-He also says :
+> O Believers! Spend from that which we have provided for you, before a Day comes when there will be no bargaining, nor friendship, nor intercession. And it is the disbelievers who are the *Zalimun*.
 
-> ٱلْأَخِلَّآءُ يَوْمَئِذٍۭ بَعْضُهُمْ لِبَعْضٍ عَدُوٌّ إِلَّا ٱلْمُتَّقِينَ
+He also says:
 
-That really close friends, who had so much love for each other; أخلاء is the plural of خلیل. Allah say that really really close and intimate friends, who were extremely close to each other in this world; when Judgment Day comes, they turn into each others enemies. The only exception there is المتقین, the pious ones. And this is grammatically a very strong form of exception - which means that the only possible exception to that is people who protected themselves from making the wrong kinds of friends. Everyone else that you think you are best friends with; as we in America say, That's my DAWG! Those kinds of friend, when Judgment Day comes along, they are no longer your friends. In other words make your friends based on how conscious they are of Allah سُبْحَانَهُ وَتَعَالَى. Based on how responsible they are with their religion. Don't let the wrong kind of person be your خلیل. You understand?
+ٱلْأَخِلَّآءُ يَوْمَئِذٍۭ بَعْضُهُمْ لِبَعْضٍ عَدُوٌّ إِلَّا ٱلْمُتَّقِينَ
 
-Because when the day of judgment comes around, the wrongdoer says:
+The closest of friends — those who shared deep love and intimacy in this world — will become each other's enemies on the Day of Judgment. أخلاء is the plural of خلیل. Allah declares that no matter how close two people were in this life, that bond turns to enmity when the Day arrives. The sole exception is المتقین, the pious. And grammatically, this is the strongest form of exception the language permits: the only ones spared are those who were careful, in this world, about the kind of friends they kept. Every other friendship — however fierce and devoted it felt — dissolves on that Day.
+
+The lesson is clear: friendship must be chosen on the basis of a person's consciousness of Allah, سُبْحَانَهُ وَتَعَالَى, and on the seriousness with which they carry their religious responsibility. The wrong person must never become one's خلیل.
+
+Because when the Day of Judgment arrives, the wrongdoer says:
 
 > وَيَوْمَ يَعَضُّ ٱلظَّالِمُ عَلَىٰ يَدَيْهِ يَقُولُ يَلَيْتَنِى ٱتَّخَذْتُ مَعَ ٱلرَّسُولِ سَبِيلًۭا ‎۲۷‏يَوَيْلَتَىٰ لَيْتَنِى لَمْ أَتَّخِذْ فُلَانًا خَلِيلًۭا
->
-> And the Day when the ظالم will chew up his own hands, He will say: "if only I took on a path alongside the messenger ﷺ""Ah! Woe to me! Would that I had never taken so-and-so as a friend!
 
-The word سبیل means a path, which is a very beautiful linguistic illustration of a lifestyle. If I only had chosen the lifestyle of the messenger, I would not be in this mess today. This is a really powerful verse in the Quran because the next verse says:
+> And the Day when the ظالم will chew up his own hands,
+> He will say: "If only I took on a path alongside the messenger ﷺ." "Ah! Woe to me! Would that I had never taken so-and-so as a friend!"
 
-> يَوَيْلَتَىٰ لَيْتَنِى لَمْ أَتَّخِذْ فُلَانًا خَلِيلًۭا
->
-> "Ah! Woe to me! Would that I had never taken so-and-so as a friend!
+The word سبیل means a path — a beautifully precise linguistic image for an entire way of life. The wrongdoer is not lamenting a single decision but a whole direction of living: had he chosen the lifestyle of the messenger ﷺ, he would not stand in ruin on that Day. The verse carries extraordinary force, and the one that follows it sharpens it further.
 
-I don't know if there's any other verse in the Quran that has more despair in it than this one. Because it combines two words of regret together
+No other verse in the Quran concentrates despair quite like this one. It binds two words of regret together:
 
 يَوَيْلَتَىٰ لَيْتَنِى
 
-This is exaggerated حسرۃ. But then on top of that لیتنی is used which is even more حسرۃ. The word حسرۃ means deep regret. This verse is one of the آیات that is filled with the most regret. And what is it about? I wish I did not take this guy is a friend.
+حسرۃ is already an exaggerated form of lament. Then لیتنی is layered on top of it — an expression even more intense, carrying the weight of حسرۃ. The word حسرۃ means deep regret. This verse stands among the آیات most saturated with sorrow in the entire Book. And what does all that sorrow come down to? A man wishing he had never taken a certain person as a friend.
 
 لَمْ أَتَّخِذْ فُلَانًا خَلِيلًۭا
 
-And what's so interesting is that the verse is actually saying, I wish I did not take so and so is my friend. خلیل is someone that you have a lot of love for, yes? And if you have so much love for them you would at the very least know their name right? But judgment day comes and you have so much regret; and the hate fills your heart so much that you cannot even remember their name. So the verse says فُلَانًا خَلِيلًۭا. This is the level of regret this person has on the day of judgment.
+There is something striking in the phrasing. The verse does not say "I wish I had chosen better friends" — it says I wish I had not taken *this person* as my friend. خلیل is someone held with profound love. A person loved that deeply would at the very least be known by name. Yet on the Day of Judgment, regret floods the heart and hatred fills it so completely that the name is gone. The verse therefore reads فُلَانًا خَلِيلًۭا — "so-and-so," an unnamed, anonymous figure. That is the depth of this person's regret on the Day of Judgment.
 
 ### Comforting Friend (رفیق)
 
-Then you have the word رفیق in Arabic, which comes from رفقۃ or رفق and it means comfort. مِرفِقَۃ is the pillow that you place behind your back when it's hurting. Also those small cushions on the couch, they're also called مِرفَاق; because you lean on them and they take the pressure off your back and help you relax.
+The word رفیق in Arabic comes from رفقۃ or رفق, and it means comfort. مِرفِقَۃ is the pillow placed behind an aching back. Those small cushions on a couch are also called مِرفَاق, because a person leans on them and they take the pressure away, allowing the body to relax.
 
-So a رفیق is a friend, that when you are stressed out, when you are in serious trouble; when you are going through a difficult time - you turn to them for comfort. They're like a pillow that you can lean on at any time. And by the way when people are reclining on a pillow are they sitting formally or informally ? Always informally, right? They are relaxed. This is a friend you don't have to act with in a certain way, or behave a certain way with. You don't have to be super formal with them; you don't have to constantly watch what you are saying around them. These are the people that you can chill with - you can completely be yourself - that's a رفیق
+A رفیق, then, is the friend one turns to in stress, in serious trouble, in difficult times — for comfort. The image is of a pillow one can lean on at any moment. And there is something telling in that image: a person reclining on a pillow is always at ease, never sitting formally. A رفیق is a friend with whom no performance is required. There is no need for stiff formality, no need to measure every word. This is someone in whose company a person can simply be themselves — completely, without pretense. That is a رفیق.
 
 Now Allah says:
 
-> وَمَن يُطِعِ ٱللَّهَ وَٱلرَّسُولَ فَأُو۟لَٓئِكَ مَعَ ٱلَّذِينَ أَنْعَمَ ٱللَّهُ عَلَيْهِم مِّنَ ٱلنَّبِيِّۦنَ وَٱلصِّدِّيقِينَ وَٱلشُّهَدَآءِ وَٱلصَّلِحِينَ ۚ وَحَسُنَ أُو۟لَٓئِكَ رَفِيقًۭا
+وَمَن يُطِعِ ٱللَّهَ وَٱلرَّسُولَ فَأُو۟لَٓئِكَ مَعَ ٱلَّذِينَ أَنْعَمَ ٱللَّهُ عَلَيْهِم مِّنَ ٱلنَّبِيِّۦنَ وَٱلصِّدِّيقِينَ وَٱلشُّهَدَآءِ وَٱلصَّلِحِينَ ۚ وَحَسُنَ أُو۟لَٓئِكَ رَفِيقًۭا
 
-Those who obey God and obey the prophet, they will receive special favors from Allah. They will be counted among the elite categories; and they will find comfort in the company of prophets, and those who did righteous deeds; and those who gave up their lives for the sake of Allah. And he ends the verse by saying:
+Those who obey God and obey the Prophet will receive special favors from Allah. They will be counted among the elect: they will find themselves in the company of prophets, of those who did righteous deeds, and of those who gave their lives for the sake of Allah. The verse closes:
 
 وَحَسُنَ أُو۟لَٓئِكَ رَفِيقًۭا
 
-What an awesome group of comforting friends these people are! Can you imagine being in the company of Rasul Allah ﷺ? And not feel nervous? Can you imagine being comfortable around Maulana Ali (AS)? around the IMAMS? SubhanAllah!
+What an awesome company of comforting friends. To be in the presence of Rasul Allah ﷺ and feel no anxiety — to be at ease in the company of Maulana Ali (AS), in the company of the Imams. SubhanAllah.
 
-So رفیق is another kind of friend we should all strive to be for others. A comforting friend!
+رفیق, then, is another kind of friend — one whose presence brings comfort, in whose company there is no unease. It is a quality worth striving to offer others.
 
 ### Compatible Friend (قرین)
 
-The next kind of friend is a قرین, which is a very cool type of friend. قرن is actually used in Arabic for a rope that is used to hold two camels together. When two camels are standing side-by-side and you tie them with one single rope, that rope is called قرن. So قرین is someone who is always side-by-side with you; he is joined-to-the-hop as they say. If one moves, the other one is forced to move. They're always moving together.
+The next kind of friend is a قرین, and it is a remarkable category. The word قرن is used in Arabic for the rope that holds two camels together. When two camels stand side by side and a single rope binds them, that rope is called قرن. A قرین, then, is someone who is always at one's side — joined at the hip, as the expression goes. When one moves, the other is pulled along. They move as one.
 
-So your قرین is the friend that you are always hanging out with; you're always on the phone with them; you're always on whats-app with; you're constantly putting likes on their Facebook! You're constantly with this person. When you are happy, he or she becomes happy; When he or she becomes sad, you become sad; that is قرین.
+The قرین is the friend who is a constant presence: always nearby, always at the other end of the line, always the first to receive a message, always there. When one is happy, the other becomes happy; when one grieves, the other feels that grief. That inseparability is قرین.
 
-And قرین is also someone that you have a lot in common with. Because you cannot tie two camels together where one is very tall and the other is very short. You have to have some equivalence between them. You cannot tie two camels together in which one is really fast and the other is really slow. You understand? So a قرین is someone that you pretty much share a brain and a heart with. You think like them and they think like you. You feel like them, and they feel like you. That relationship is a قرین.
+A قرین is also someone with whom one shares a great deal — because a rope cannot bind two camels of wildly different height or speed. There must be some equivalence between them; the pairing only holds when they are well matched. So a قرین is someone who shares one's mind and one's heart. They think as one thinks; they feel as one feels. That deep correspondence, that mirroring of thought and feeling, is the relationship of قرین.
 
-قرین can also mean people of the same community. Like we're all a قرین in the sense that we're all tied together by the same rope of عہد شریف. You see? We all belong to the same creed. That makes us all a قرین as well. And Quran presents this word in a very scary way in the Quran. In سُورَۃُ صِفَاتِ he talks about some of us who make it to جنۃ and we inquire about the other people in our families and community.
+قرین can also mean people of the same community — all bound together by the rope of قرین عہد شریف, all belonging to the same creed. That shared belonging makes them a قرین as well. The Quran presents this word in a striking and sobering way. In سُورَۃُ صِفَاتِ, some of those who make it to جنۃ begin to inquire about others — family members, people from their community — who are not there with them.
 
 > فَأَقْبَلَ بَعْضُهُمْ عَلَىٰ بَعْضٍۢ يَتَسَآءَلُونَ ‎۵۰‏قَالَ قَآئِلٌۭ مِّنْهُمْ إِنِّى كَانَ لِى قَرِينٌۭ ‎۵۱‏يَقُولُ أَءِنَّكَ لَمِنَ ٱلْمُصَدِّقِينَ ‎۵۲‏أَءِذَا مِتْنَا وَكُنَّا تُرَابًۭا وَعِظَمًا أَءِنَّا لَمَدِينُونَ ‎۵۳‏قَالَ هَلْ أَنتُم مُّطَّلِعُونَ ‎۵۴‏فَٱطَّلَعَ فَرَآهُ فِى سَوَآءِ ٱلْجَحِيمِ
 >
-> Then they will turn to one another, and question each otherA speaker of them will say: "Indeed, I had a companion, Who used to mock me! Who used to make fun of me and say: "Are you among those who believe?" Are you among those idiots who call themselves Muslims?Are you among those fools who say that when we die and become dust and bones, we shall indeed to receive reward or punishment?!In response he will answered: "Look down?"So he will look down and see that person in the midst of hell Fire.
+> Then they will turn to one another, and question each otherA speaker of them will say: "Indeed, I had a companion, Who used to mock me!
 
-May Allah protect us from being one of them. So be very careful who you choose as your قرین. Your قرین can make you a shining star and get you to the doorsteps of heaven; or he can ensure hell fire for you. So be very careful who you hang out with.
+who used to mock me and say: "Are you among those who believe? Are you among those fools who call themselves Muslims? Are you among those idiots who say that when we die and become dust and bones, we shall indeed receive reward or punishment?!" In response he will answer: "Look down." So he will look down and see that person in the midst of the Hellfire.
+
+May Allah protect us from being among them. The choice of قرین is therefore one of the most consequential a person can make. A قرین can elevate a person to the doorsteps of Paradise, or he can be the very means of his ruin in the Hellfire.
 
 > وَمَن يَعْشُ عَن ذِكْرِ ٱلرَّحْمَنِ نُقَيِّضْ لَهُۥ شَيْطَنًۭا فَهُوَ لَهُۥ قَرِينٌۭ
 >
 > And whosoever turns away from the remembrance of the intensely merciful, We shall appoint for him a شیطان to be a قرین to him.
 
-This is Allah telling us in سُورَۃُ الزُّخْرُفِ. These are not idle threats! Can you imagine having شیطان as a قرین? May Allah protect us all from that
+This is Allah speaking in سُورَۃُ الزُّخْرُفِ. These are not idle words. The prospect of having شیطان as a قرین is a grave one. May Allah protect us all from that.
 
 ### Deceptive Friend (خذول)
 
-So far we looked at the good friends that the Quran describes. But Quran also talks about bad friends; and the word used to describe this evil friend is خزول. The word خزل in Arabic is close to the meaning of خضع which means deception. خزولis a friend who only **acts **like your friend, until the moment of truth arrives; and then you see their true colors. So they were with you and they were just like you; and they were right by your side when times were convenient. They always hung out with you! They were you قرین. But then when times became tough, all of a sudden they disappear on you. And you were relying on them to be there for you, but then there are nowhere to be found. This kind of friend is called خزول. And this is what's called صِیغَۃُ مُبَالَغَہِ. So this is not just any ordinary deception, this is the extreme kind of deception. an extremely disappointing friend who leaves you hanging at the worst possible time. This is the one who gains your trust to the point that you write him a blank check. The next morning he's gone with all your money. This kind of deception is خزول. It takes years of consistent effort to خزول-ofy someone.
+The Quran describes good friends, but it also describes bad ones. The word for this evil friend is خزول. خزل in Arabic is close in meaning to خضع, which means deception. خزول is a friend who only acts like a friend — until the moment of truth arrives and the true colors show. This person was present through the easy times, right there at every turn, always around, a genuine قرین. But when things grew difficult, he vanished. The one who depended on him found no one there. That is خزول, and it is what is called صِیغَۃُ مُبَالَغَہِ — not ordinary deception, but deception of the most extreme kind. This is the profoundly disappointing friend who abandons at the worst possible moment. He earns trust so completely, so patiently, that a blank check is handed over without hesitation — and by morning he is gone with everything. That level of betrayal is خزول. It takes years of sustained, consistent effort to خزول-ofy someone to that degree.
 
-And this actually is the description of شیطان in the Quran. What is his ultimate deception? To prevent us from Allah's remembrance! That's his game! To distract us and divert our attention towards دنیا.
+This is precisely how the Quran characterizes شیطان. His ultimate deception is to keep us from the remembrance of Allah — that is his entire game. He works to distract and divert attention toward دنیا.
 
 > لَّقَدْ أَضَلَّنِى عَنِ ٱلذِّكْرِ بَعْدَ إِذْ جَآءَنِى ۗ وَكَانَ ٱلشَّيْطَنُ لِلْإِنسَنِ خَذُولًۭا
 
-وَكَانَ ٱلشَّيْطَنُ لِلْإِنسَنِ خَذُولًۭا
-
-شیطان is a خزول to human being. Why is Allah saying that? Because man he is going to act like your friend in this life. He's going to make you get into things and he will convince you that those things are for your own good; and they're for your own entertainment. He will make you watch movies and enjoy filth. He will make you buy stuff; he will make you go places; he will make you say things; he will make you build the wrong kinds of friendships; all of it, and you will think that life is good! I am living it up. This is all خزل. Because when you get to Judgment Day he is nowhere to be found. When Judgment Day comes around he says, Look! Hey hey hey! I'm not an authority over you, and you are not an authority over me.
+شیطان is a خزول to human beings. Allah says this because شیطان acts like a friend throughout this life. He draws a person into things while convincing them that those things serve their own good, their own enjoyment. He makes a person watch films and delight in filth. He makes them buy, travel, speak, and build the wrong kinds of friendships — all of it — and all the while that person believes life is good, that they are living it fully. Every last bit of it is خزل. Because when Judgment Day arrives, شیطان is nowhere to be found. He steps forward and says:
 
 وَمَا كَانَ لِىَ عَلَيْكُم مِّن سُلْطَنٍ
 
@@ -256,13 +264,15 @@ I simply suggested that you do these things! I didn't hold a gun to your head! Y
 
 فَلَا تَلُومُونِى وَلُومُوٓا۟ أَنفُسَكُم
 
-So now don't blame me! Blame your self for the situation you're in; and let's just enjoy the barbecue together. This is خذول - That's what is going to happen on Judgment Day.
+So now don't blame me! Blame yourself for the situation you're in; and let's just enjoy the barbecue together.
 
-This is خزول! Now we have to ask ourselves, are we this kind of people? Are we the kind of friends who desert and abandon our friends in their time of need? Oh you called, I didn't even know. Just saw my phone! My phone was dead!
+That is خذول — and that is precisely what will happen on Judgment Day.
 
-Yeah! you knew! But you were just KHAZOOLING it.
+This is خزول. The question it forces is whether any of us are that kind of person — the kind of friend who deserts and abandons in the moment of need. The phone was dead. The call was missed. The message went unseen.
 
-Don't be that kind of friend. If you're going to be a friend with someone, be a reliable person. Reliability is an extremely important quality in friendship. And not being reliable is one of the easiest ways to lose friends. You have some really good friends in your life, and you do not want to mess that up simply by being irresponsible; just because you weren't doing your part and that friendship. Because that is the MO of شیطان SubhanAllah!
+The recognition was there — but the moment passed without action. That is شیطان.
+
+Reliability is among the most important qualities a friend can possess, and its absence is one of the surest ways to lose a friendship. A person may have genuine and rare friendships — and lose them not through malice but through sheer irresponsibility, through failing to hold up their end. That neglect is precisely the character of شیطان.
 
 ## The Stages Of Love
 
@@ -710,135 +720,93 @@ May Allah guide us all. May He open our hearts and place us all on the path of l
 
 ## Linguistic Meaning Of Allah
 
-Now let us begin with the Surah. The first آیۃ of سُورَۃُ الْفَاتِحَۃِ is:
-
-بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ
+Now let's begin with the Surah. The first آیۃ of سُورَۃُ الْفَاتِحَۃِ is بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ
 
 ### ILAH
 
-Let us begin with the word اللہ. The word Allah comes from the root word الہ. We generally use this term to mean “God,” but in reality الہ is a very generic term, much like “book” or “car.” There are many kinds of books and many kinds of cars; the word itself is not specific. In the same way, there can be many kinds of الہ.
+Let's begin with the word اللہ. The word Allah comes from the root word الہ. Generally we use this term to mean God. But in reality الہ is a very generic term - like a "book" or a "car". You can have many types of books; and you can have many types of car. It's not specific. Similarly, there can be many types of الہ. In the English language we have 2 types of articles - we have the indefinite article which is "a", like "a book", "a car"; and then there is the definite article "the" - "the book", "the car".
 
-In English, we have two types of articles. There is the indefinite article “a,” as in “a book” or “a car,” and there is the definite article “the,” as in “the book” or “the car.”
+A vs THE
 
-### A vs. THE
+![](images/87/983c2f7d-5f31-4f45-b5bf-27da233a43c0.jpg)
 
-What is the difference between “a book” and “the book”? “A book” is generic; it could refer to any book. But when I say “the book,” I am no longer speaking about just any book. I am referring to a particular book. The same principle applies to the word الہ.
+What's the difference between "a" book and "the" book? "A book" is a generic term, it could mean any book. But when I say "the" book, I'm no longer talking about just any book, I'm now referring to a very specific book. You understand? It's the same with this word الہ.
 
-### ILAH vs. AL-ILAH
+ILAH vs AL-ILAH
 
-The word الہ is generic and indefinite, and it can be applied to many things. There can be many kinds of الہ, just as there can be many kinds of books. But when I apply the definite article “the” to it, represented by ال in Arabic, and say ال + الہ, that combination gives us the word اللہ.
+![](images/87/1b3198d2-bb3f-48d3-ac49-05f97e515554.jpg)
 
-In other words, “اللہ” is the specific form of the generic word الہ. Allah is ال + الہ. According to the rules of Arabic grammar, the الف of اللہ is dropped, and the ال merges with the ل and the ہ to become Allah.
-
-Therefore, in order to understand the linguistic meaning of the word Allah, we must first understand the meaning of الہ.
+The word الہ is a generic, indefinite term that can be used for many things. There can be many types of الہ, just as there can be many types of books. But when I apply the definite article "the" to it, which is ال in Arabic; when I say ال + الہ , that combination generates the word اللہ. In other words, "اللہ" is the specific form of the generic word الہ. Allah is actually ال + الہ. And so based on the rules of Arabic grammar the الف of اللہ is dropped, and the ال merges with the ل ad the ہ to become Allah. Therefore in order to understand the linguistic meaning of the word Allah, we must first understand the meaning of the word الہ.
 
 ### Composite Words
 
-The word الہ is a composite word. It carries a range of meanings. Before examining them, we need to understand what is meant by a composite word, because we will encounter many such words.
+Now the word الہ is a composite word. It has a slew of meanings. Let's first understand what I mean by a composite word. It's important to understand the meaning of Arabic composite words before we proceed because we'll be dealing with many such words.
 
-Think of a composite word as a jigsaw puzzle. Each piece of the puzzle has its own distinct meaning, but together they form a complete image.
+Composite Word
 
-Suppose, for example, that the word الہ has four different meanings: A, B, C, and D. The complete meaning of الہ is not simply A, or B, or C, or D. It is the sum of all of them: A + B + C + D. Only when those meanings are brought together do we begin to see the complete picture.
+![](images/87/3187e204-def2-4bcb-bfbf-e9a3c6e4224c.jpg)
 
-### Meanings of the Word ILAH
+Think of a composite word like a jigsaw puzzle. Every piece of the puzzle has a separate independent meaning. And then all those meanings come together to create a complete image of what the word means. So let's say, if the word الہ has 4 different meanings (A, B, C and D), then the sum of those meanings will give us the complete understanding of the word الہ, you understand? The meaning of الہ is not "A" or "B" or "C" or "D". It is the sum of all those meanings. It is A + B + C + D. You understand?
 
-#### YALAA
+### Meanings Of Word ILAH
 
-Let us now examine the different meanings of the word الہ.
+YALAA
 
-Primarily, the word الہ comes from اَلَہَ یَعلُہُ, and the verb اَلَہَ literally means “to worship.” The first meaning of اَلَہَ, then, refers to the entity that becomes the focus of our worship and obedience.
+Now let's understand all the different meanings of the word الہ. Primarily the word الہ comes from اَلَہَ یَعلُہُ, and the verb اَلَہَ literally means to worship. So the first meaning of اَلَہَ is the entity that is the focus of our worship and obedience. What is worship? It is an extreme form of gratitude. It is that highest form of a sense of gratitude, where the benefactor becomes so desirable, and so important in your life, that you are forced down on your knees in humility. When you completely succumb and surrender your will to the will of the beloved. When that happens, that beloved becomes your الہ. That is the first meaning of the word اَلَہَ.
 
-What is worship? It is an extreme form of gratitude. It is the highest state of gratitude, in which the benefactor becomes so desirable and so important in your life that you are brought to your knees in humility. You completely surrender your will to the will of the beloved. When that happens, that beloved becomes your الہ.
+So for instance if you are so obsessed about your job; if you are obsessed your career to the degree that you put it above and beyond everything and everyone else in your life; then you've made your career your الہ, you understand? If your video games, your sports, your TV shows, your children, your wealth is what commands and rules your heart; if those are the things that make you bow down before them, then by definition these things are your الہ. If you're madly love with someone to the point where that person controls and dominates your every thought, every action, every decision, then that beloved is now your الہ. Because الہ is the one you worship; the one you submit and obey to without question.
 
-That is the first meaning of the word اَلَہَ.
+ALAHA
 
-For example, if you are so obsessed with your job or career that you place it above everything and everyone else in your life, then you have made your career your الہ. If your video games, sports, television shows, children, or wealth are what command and rule your heart—if these are the things before which you effectively bow—then, by definition, they have become your الہ.
+This word أَلَہَ is used for a child that is thirsty for the milk of its mother, and is desperately crying for it - that's also اَلِہَ. Parents know what I'm talking about. Have you seen a baby crying for milk? Do you remember the desperation on the baby's face? And at that point how does the baby take the breast of its mother? With this hungry passion, right? That's أَلَہَ. It is the entity that you desperately and inevitably turn to with a passion, with a desperation. It is what you desperately and uncontrollably turn to, in your every single moment of happiness and grief. That is also an أَلَہَ.
 
-If you are madly in love with someone to the point that the person controls and dominates your every thought, action, and decision, then that beloved has become your الہ. An الہ is the one you worship, the one to whom you submit and whom you obey without question.
+Some people have sugar addictions. Some are addicted to smoking, some to drugs, some to parties, some to movies. Anytime you feel happy or depressed, the thing that you desperately and uncontrollably turn to for comfort, by definition, is your الہ. Because you find peace and comfort in the arms of these masters. You are their obedient slaves. When these masters commands, you have to obey. When the desire commands you to smoke, you have to obey! When you can't stop yourself from eating that tub of ice cream, or watching that episode of your TV show; or if you must watch a movie every night, or play video games for hours every day; then you are completely loyal and devoted to those things, because you feel you must absolutely do these things in order to feel happy and satisfied again; and you turn to them in the same desperation that a baby turns to its mother out of its thirst for milk.
 
-### ALAHA
+This applies to each and everyone of us. We all have such الہ in our lives. Doesn't make us horrible people - just makes us human. What we're doing today, but by learning these meanings, we're in a sense waking up to see these masters for what they really are. And that's the first step towards any change, right? So don't feel overwhelmed by these definitions.
 
-The word أَلَہَ is also used for a child who is thirsty for its mother’s milk and cries desperately for it. That, too, is اَلِہَ. Parents know this sight well. Have you seen a baby crying for milk? Do you remember the desperation on the baby’s face, and the hungry intensity with which the baby reaches for the mother’s breast? That is أَلَہَ.
+WALAHA
 
-In this sense, an الہ is the entity to which you desperately and inevitably turn, with passion and urgency. It is what you turn to, almost uncontrollably, in moments of happiness and grief alike.
+The next word is وَلَہَ . This is someone you are passionately in love with. Someone you cannot stop thinking about. Someone you are obsessed about. The derivative وَلَہَ is used when someone goes insane by the loss of a beloved. The mother who loses her child is called مُوَلَّا. This is a mother who is suffering that extremely excruciating pain and grief over the loss of her child. She is called مُوَلَّا. It's that kind of passionate and obsessive love. In Urdu we say. وَالِھَانَہَ مُحَبَّتْ . Mad love; crazy love. That's also from وَلَہَ. So if there is someone in your life that you're obsessed about, you're always thinking about it; you're madly in love with; being apart from him or her drives you insane - you can't stop texting or calling this person - you're constantly looking at their pictures, reading their old emails, texts - missing them with a passion - then you are in a state of وَلَہَ and by definition, that person is your الہ.
 
-Some people are addicted to sugar. Some are addicted to smoking, drugs, parties, or movies. Whenever you feel happy or depressed, whatever you desperately and uncontrollably turn to for comfort is, by definition, your الہ. You find peace and comfort in the arms of these masters, and you become their obedient servant.
+ALIHA
 
-When these masters command, you obey. When the desire to smoke commands you, you obey. When you cannot stop yourself from eating that tub of ice cream, watching that episode of your television show, watching a movie every night, or playing video games for hours each day, you display a deep loyalty and devotion to those things. You feel that you absolutely must have them in order to feel happy or satisfied again. You turn to them with the same desperation with which a thirsty baby turns to its mother for milk.
+The next meaning أَلِہَ is literally (not linguistically) used for something that you lean on. Something that you put your entire weight on. When you're exhausted and you lean on something and put your entire weight on it, that thing that is supporting you is literally called أَلِہَ. So in your life if you're banking on your finances, your property, your houses, your cars, your job, your social status, your friends, your neighbors, your children, then any of those things that you psychology lean on, are all your الہ. If you're putting all your eggs in one basket, metaphorically speaking, then that basket, that person is your الہ.
 
-This applies to every one of us. We all have such الہ in our lives. That does not make us horrible people; it simply makes us human. What we are doing today, by learning these meanings, is beginning to recognize these masters for what they really are. That recognition is the first step toward change. So there is no need to feel overwhelmed by these definitions.
+WALIHA
 
-### WALAHA
+Another derivative of the word الہ comes from وَلِہَ which means to become astounded; to become astonished; to become mesmerized. You know how we create role models in actors and musicians and hip hop artists? Especially kids these days. You know how you kids want to be like them, live like them, think like them, dress like them, talk like them, walk like them? When you feel you have to go out and shave your head to look like Amir Khan from the movie Gajni, you've made Amir Khan your الہ. By definition الہ is the one you're completely and utterly impressed by. The one you want to imitate. The one you want to be like. Now it could be a person, or it could be a thing, it could be a profession - it can be anything. Anything that mesmerizes you, grips you, takes complete control of your decisions is your الہ.
 
-The next word is وَلَہَ. This refers to someone with whom you are passionately in love—someone you cannot stop thinking about, someone who consumes your thoughts.
+![](images/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg)
 
-The derivative وَلَہَ is used when a person is driven almost insane by the loss of a beloved. A mother who loses her child is called مُوَلَّا. She is experiencing the most excruciating grief and pain over the loss of her child. She is called مُوَلَّا.
+So these are the various meanings of the word الہ. Let's go over them again. Who or what is an الہ?
 
-It is this kind of passionate, overwhelming love. In Urdu, we say وَالِھَانَہَ مُحَبَّتْ: mad love, almost crazy love. That, too, comes from وَلَہَ.
+- The one we worship and obey is our الہ. -
 
-So if there is someone in your life with whom you are obsessed, someone you are always thinking about and madly in love with; if separation from that person feels unbearable; if you cannot stop calling or texting them, looking at their pictures, rereading old emails and messages, and missing them intensely—then you are in a state of وَلَہَ, and by definition, that person has become your الہ.
+- The one we are completely devoted and loyal to is our الہ.
 
-### ALIHA
+- The one that we turn to in utter desperation to find comfort is our الہ.
 
-The next meaning, أَلِہَ, is literally used for something you lean on—something upon which you place your entire weight. When you are exhausted and lean against something, placing your whole weight upon it, the thing supporting you is literally called أَلِہَ.
+- The one we are passionately in love with; the one we obsess about is our الہ.
 
-So if, in your life, you are banking entirely on your finances, property, houses, cars, job, social status, friends, neighbors, or children, then whatever you psychologically lean upon becomes your الہ.
+- The one we lean on for support - physically, mentally, emotionally, psychologically is our الہ.
 
-If, metaphorically speaking, you put all your eggs in one basket, then that basket—or that person—has become your الہ.
+So this is what the word الہ means. And because الہ is a composite word, it is the sum of all those meanings. Because the one you passionately love, is the one you will be completely devoted to; you will lean on that person; you will turn to that person desperately for comfort or support; separation or distance from that person will drive you insane; you will literally submit to and obey every single thing they say; In other words, you will worship that person. So you see how all these meanings merge together to create a complete picture? That's how a composite word works.
 
-### WALIHA
+So now based on these meanings of the word الہ obviously we all have numerous الہ in our lives. We personify and objectify these definitions in numerous ways. Some have الہ in the form of people, family, friends, children, parents, actors, musicians. Some الہ exist in the form of objects - houses, cars, our bodies, jewelry, food, video games, movies. Some have الہ in the form of jobs, careers, recreation, drugs, sex. We all have hundreds, if not thousands of entities in our lives that meet the definition of الہ. Yes?
 
-Another derivative of the word الہ comes from وَلِہَ, which means to become astounded, astonished, or mesmerized.
+### idols
 
-Consider the way people create role models out of actors, musicians, and hip-hop artists, especially among young people. Children may want to be like them, live like them, think like them, dress like them, talk like them, and walk like them. When you feel that you must go out and shave your head so that you can look like Amir Khan from the movie Gajni, you have made Amir Khan your الہ.
+Now here is something I want you to think about! And this is where the conversation gets scary and painful. All these people and things in our lives that meet the definition of the word الہ, they give a physical forms to one of the definitions of the word, Isn't that true? So for example, by definition الہ is the one we are loyal and devoted to; الہ is the one we turn to for comfort. And so now if smoking, or movies, or video games is what I turn to for comfort, then in a sense, these activities are taking on a physical form of that definition of الہ. Do you see that? The definition of the word is conceptual; but its manifestation is physical. I'm physically doing something to please that الہ.
 
-By definition, الہ is the one by whom you are completely and utterly impressed—the one you want to imitate, the one you want to resemble. It may be a person, a thing, a profession, or almost anything else. Whatever mesmerizes you, grips you, and takes control of your decisions becomes your الہ.
+So for example, by definition, الہ is the one that astounds and astonishes you. If Shahrukh Khan, Sylvester Stallone, Adele, Byonce, Lady Gaga; if these are the ones who astound you, astonish you, impress you to the point that you want to "be" like them, then you've just given the definition of وَلِھَا a form - you personified that definition in the form of Shahrukh Khan or Stallone or whoever. You understand?
 
-So these are the various meanings of the word الہ. Let us review them. Who or what is an الہ?
+ILAH as Idols
 
-- The one we worship and obey is our الہ.
-- The one to whom we are completely devoted and loyal is our الہ.
-- The one to whom we turn in utter desperation for comfort is our الہ.
-- The one we passionately love and obsess over is our الہ.
-- The one we lean upon for support—physically, mentally, emotionally, or psychologically—is our الہ.
+![](images/87/96638984-a5a3-408c-b774-202db50348e2.jpg)
 
-This is what the word الہ means. And because الہ is a composite word, its meaning is the sum of all these dimensions.
+Now what is the definition of an idol? An idol is an image or representation of a god used as an object of worship. That's the dictionary definition of an idol. It is the personification or objectification of someone or something. Isn't it? Who creates idols? We create idols. Idols are man made creations, aren't they? And who objectifies and personifies the definitions of الہ? We do! We decide that we are going to turn to smoking, movies, drugs, alcohol for comfort. We decide that we are going to be completely loyal and devoted to our jobs, careers, Facebook, Instagram. We chose to fall passionately in love with wealth, power and fame. Nobody does that for us. We do that! In other words, we are the creators of our own الہ - just as idols are man made creations. Do you see the similarity there? You see where I'm going with this?
 
-The one you passionately love is the one to whom you will become deeply devoted. You will lean on that person. You will turn to that person desperately for comfort and support. Separation from that person may feel unbearable. You may submit to and obey whatever that person says. In other words, you may come to worship that person.
-
-This is how the different meanings merge to form a complete picture. That is how a composite word works.
-
-Based on these meanings of الہ, it becomes obvious that all of us have numerous الہ in our lives. We personify and objectify these definitions in many different ways. Some الہ take the form of people: family, friends, children, parents, actors, or musicians. Some take the form of objects: houses, cars, our bodies, jewelry, food, video games, or movies. Others take the form of jobs, careers, recreation, drugs, or sex.
-
-We may have hundreds, even thousands, of things in our lives that satisfy one or more dimensions of the definition of الہ.
-
-### Idols
-
-Now there is something I want you to think about, and this is where the discussion becomes frightening and painful.
-
-All the people and things in our lives that satisfy some aspect of the definition of الہ give physical form to one of those meanings. Is that not true?
-
-For example, by definition, الہ is the one to whom we are loyal and devoted, and الہ is the one to whom we turn for comfort. If smoking, movies, or video games are what I turn to for comfort, then in a sense those activities have taken on a physical form of that definition of الہ. The definition itself is conceptual, but its manifestation becomes physical. I am physically doing something to please that الہ.
-
-Likewise, by definition, الہ is the one who astounds and astonishes you. If Shahrukh Khan, Sylvester Stallone, Adele, Byonce, or Lady Gaga are the people who astound, astonish, and impress you to the point that you want to “be” like them, then you have given the definition of وَلِھَا a form. You have personified that definition in the form of Shahrukh Khan, Stallone, or someone else.
-
-### ILAH as Idols
-
-What is the definition of an idol? An idol is an image or representation of a god used as an object of worship. That is the dictionary definition. It is the personification or objectification of someone or something.
-
-Who creates idols? We do. Idols are man-made creations.
-
-And who objectifies and personifies the definitions of الہ? We do. We decide that we will turn to smoking, movies, drugs, or alcohol for comfort. We decide that we will become completely loyal and devoted to our jobs, careers, Facebook, or Instagram. We choose to fall passionately in love with wealth, power, and fame. No one does that for us. We do it ourselves.
-
-In other words, we become the creators of our own الہ, just as idols are man-made creations. Do you see the similarity? Do you see where this leads?
-
-We may think that because we are Muslims, idol worship has nothing to do with us. Yet the frightening reality is that we can be surrounded by thousands of الہ—self-created idols that we worship every day.
-
-Every person, object, concept, or idea that we personify or objectify in this way becomes, in a sense, an idol we have made for ourselves with our own hands. In that sense, we can all become “idol-worshipers.” It is a painful reality, but it is true.
-
-The concept of شرک no longer seems so distant, does it?
-
-This is exactly why Rasul Allah ﷺ said:
+We think we are Muslims, and therefore we have nothing to do with idol worship. But the scary reality is that we are literally surrounded by thousands of الہ, which are self-created idols, and we worship them on a daily basis. Every person, every object, every concept, every idea that we personify or objectify, in a sense is an idol that we made for ourselves with our own hands. So in that sense, we are all "idol-worshipers" - It's a painful reality; but it's true. The concept of شرک doesn't seem so alien now, does it? And this is exactly why Rasul Allah ﷺ said
 
 قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
 
@@ -846,159 +814,75 @@ This is exactly why Rasul Allah ﷺ said:
 >
 > SHIRK (Associating partnership with Allah) is more hidden in my nation, than the movement of a black ant in a dark night on a black stone.
 
-That is how unaware we may be of our own idol worship.
+That is how unaware we will be of our own idol worship.
 
-In the final analysis, who stands at the center of all my idols? I do.
-
-Why did I create these الہ? What motivated me to build these idols? My desires. All my idols are products and creations of my passions and caprice. They exist because of my own wants.
-
-Allah says:
+In the final analysis, who is at the center of my idols? I am! Now why did I create these الہ? What motivated me to build my idols? My desires! All my idols are a product and creation of my passions and my caprice. They exist because of my own wants! Allah says:
 
 The Criterion [25:43]
 
 > أَرَءَيْتَ مَنِ ٱتَّخَذَ إِلَهَهُۥ هَوَىٰهُ
 >
-> Have you seen the one who takes his own desire as his god?
+> Have you seen the one who takes as his god his own desire?
 
-Allah is asking the messenger ﷺ: Do you not see this person who has taken his desires—his car, his house, his job, his wealth, his fame, the pleasures and sensations of his body—as his الہ? Do you not see the person who has taken smoking, drugs, alcohol, sex, movies, or video games as his الہ; who has taken Shahrukh Khan, Salman Khan, Amir Khan, Adele, or Stallone as his الہ?
-
-Allah asks Rasul Allah ﷺ:
+Allah is asking the messenger ﷺ, do you not see this person who has taken his desires - his car, his house, his job, his wealth, his fame, the pleasures and sensations of his body as his الہ. Do you not see this person who has taken smoking, drugs, alcohol, sex, movies, video games as his الہ ; who has taken Shahrukh Khan, Salman Khan, Amir Khan, Adele, Stallone as his الہ. Allah asks Rasul Allah ﷺ ,
 
 > أَفَأَنتَ تَكُونُ عَلَيْهِ وَكِيلًا
 >
 > Do you really want to be responsible for this person on the day of judgment?
 
-Worship of the self is the worst form of شرک. When gratitude turns into self-gratification, it becomes the worst kind of شرک. Ordinary idolatry pales beside self-idolatry.
+Worship of the "self" is the worst form of شرک there is. When gratitude turns into self-gratification, that is the worst kind of شرک there is. Idolatry has nothing over self-olatory. And so we are the one's constantly committing شرک by taking our desires and making them our الہ. Human beings are in a constant state of self-worship, which is what prevents us from truly worshiping Allah!
 
-And so we are constantly at risk of committing شرک by taking our desires and making them our الہ. Human beings live in a persistent state of self-worship, and that is what prevents us from truly worshiping Allah.
+This is the default condition of mankind. Islam addresses it here, at the root: through the negation and destruction of these self-created idols, the understanding of Allah emerges. Allah is لَا اِلَہَ اِلَّا — He is everything other than what is taken as الہ. When every idol born from the desires of the self is broken and destroyed, when the Kaaba of the heart stands empty of them, what is found there is Allah.
 
-This is the default condition of mankind. Islam addresses it at the root: through the negation and destruction of these self-created idols, the understanding of Allah emerges.
+The first act of Rasul Allah ﷺ after the conquest of Mecca was to cleanse the Kaaba of all its idols. Three hundred and sixty-five idols stood in it, around it, and upon it. He destroyed each one without exception. That same exercise must be undertaken in every life. Just as Rasul Allah ﷺ conquered Mecca, the نفس must be conquered. Just as he cleared the Kaaba of its idols one by one, the Kaaba of the heart must be gradually cleared of these idols — one by one. And the greatest and most powerful idol standing in the Kaaba of the heart is the نفس itself, the passions.
 
-Allah is لَا اِلَہَ اِلَّا — He is everything other than what is taken as الہ. When every idol born from the desires of the self is broken and destroyed, and when the Kaaba of the heart stands empty of them, what is found there is Allah.
+This is why the creedal formula strikes at the very root of the problem. لَا اِلَٰہَ اِلَّا اللَّہُ. There is no الہ except Allah. No person, no thing, no concept, no principle, no ideology is worthy of being given form — except the one who is free of all form, and that is Allah. By the negation of self-made idols, by the elimination of self-created الہ, the الہ emerges. When the definite article is joined to الہ, what results is the ultimate الہ, which is Allah.
 
-The first act of Rasul Allah ﷺ after the conquest of Mecca was to cleanse the Kaaba of all its idols. Three hundred and sixty-five idols stood in it, around it, and upon it. He destroyed every one of them without exception.
+The creedal formula لَا اِلَٰہَ اِلَّا اللَّہُ is the act of negating the multiplicity of self-created الہ in order to affirm the one true الہ, which is Allah. It is the practice of making الہ into ال الہ.
 
-That same exercise must be undertaken in every life. Just as Rasul Allah ﷺ conquered Mecca, the نفس must be conquered. Just as he cleared the Kaaba of its idols one by one, the Kaaba of the heart must gradually be cleared of its idols, one by one. And the greatest and most powerful idol standing in the Kaaba of the heart is the نفس itself: the passions.
+It is the practice of directing every definition of the word الہ toward the one ultimate being — of making him ال + اللہ, of making him Allah. It is the work of isolating each definition of الہ and making it specific to Allah alone.
 
-This is why the creedal formula strikes at the very root of the problem:
+![](images/87/6c9d2189-31d6-4688-b40f-1861bf91cdfe.jpg)
 
-لَا اِلَٰہَ اِلَّا اللَّہُ
+- Allah is now the only one I worship and obey. If any other الہ conflicts with His commands, I disobey that الہ to obey the ال + الہ, which is Allah.
 
-There is no الہ except Allah.
+- This does not mean that life cannot be enjoyed. The difference is that Allah now stands at the front and center of my worship and obedience. So long as nothing conflicts with that worship and obedience, I can enjoy my life to the fullest.
 
-No person, no thing, no concept, no principle, and no ideology is worthy of being given form—except the One who is free of all form, and that is Allah.
+- لَا اِلَٰہَ اِلَّا اللَّہُ now means لَا یُعْلَی اِلَّا اللَّہُ: Allah is the only one I am completely devoted and loyal to — above everyone else in my life. Even my own parents. Even my own children. I serve only Allah and no one else.
 
-Through the negation of self-made idols, through the elimination of self-created الہ, the الہ emerges. When the definite article is joined to الہ, what results is the ultimate الہ, which is Allah.
+- Yet I am glad to serve my parents, because Allah has commanded it. I am glad to spend time with my friends, to enjoy life, to do whatever I wish — so long as my ultimate loyalty and devotion lie with Allah. Whenever anything or anyone challenges that loyalty, I choose Allah over them. That is how I make him ال + الہ.
 
-The creedal formula لَا اِلَٰہَ اِلَّا اللَّہُ is the act of negating the multiplicity of self-created الہ in order to affirm the one true الہ, who is Allah. It is the practice of making الہ into ال الہ.
+- لَا اِلَٰہَ اِلَّا اللَّہُ now means لا أَلَہَ الا اللہ: Allah is the only one I turn to in utter desperation for every need and every comfort.
 
-It is the practice of directing every definition of the word الہ toward the one ultimate Being—of making Him ال + اللہ, of making Him Allah. It is the work of isolating each definition of الہ and making it specific to Allah alone.
+- This does not mean I cannot seek help from my family and friends. Nor does it mean that, when hungry and without work, I sit idle because Allah is the appointed provider. Not at all. I turn to whoever I need, for whatever I want. The difference is that I know these people are simply a means — أَسْبَاب — through which Allah provides. My ultimate petition, therefore, is always addressed to Him: *Ya Allah! I need this. I turn to you for the fulfillment of my needs — provide me with the means and resources that will fulfill my needs in a way that pleases you. For it is you, and only you, who is the source of my provision — nobody else.*
 
-### Allah is the Only One We Worship and Obey
+- لَا اِلَٰہَ اِلَّا اللَّہُ now means لا وَلَہَ الا اللہ: Allah is the one I am passionately in love with, the one I am completely absorbed in. From the moment I wake until the moment I return to sleep, He is the one I think about.
 
-Allah is now the only one I worship and obey. If any other الہ conflicts with His commands, I disobey that الہ in order to obey the ال + الہ, who is Allah.
+- This does not mean I spend the day on the prayer rug, or pass every hour in تسبیح. I can do whatever I wish in life. But everything becomes a sign pointing toward Allah, a reminder of Him. That is what love does: the flower, the rainbow, the sunset, the frog in the pond — all of them recall the beloved. Love is an obsession. It is a constant connection with the beloved.
 
-This does not mean that life cannot be enjoyed. The difference is that Allah now stands at the front and center of my worship and obedience. So long as nothing conflicts with that worship and obedience, I can enjoy my life to the fullest.
+- The story of Hazrat أیوب illustrates this. In a hadith of Rasul Allah ﷺ, Allah mentioned to His angels the patience and gratitude of Hazrat أیوب AS. ابلیس then addressed Allah and said that the only reason أیوب was grateful was the abundance that had been given to him — his possessions, his children. Take that away, he said, and the gratitude would vanish. So Allah began to take things away. First the possessions went. Then, right before his eyes, the house collapsed and killed all his sons. At that sight, the word that came instinctively from أیوب's lips was AlHamdulillah. And if that were not enough, a terrible disease then came upon him — his body became infected with worms that consumed his flesh. Allah put Hazrat أیوب through these extreme trials to test his faith and love, and he endured them with extraordinary grace. When the trial was complete, Allah directed him to bathe in a spring prepared for him. He bathed, and the disease was entirely cured. Years later, someone asked him: *How is your health now, أیوب?* He sighed and replied that the days of his illness had been more beloved to him than these days of health. The man was astonished and asked how that could be. أیوب replied that during his illness, Allah had asked him each day: *How are you today, أیوب?* Now that he was cured, Allah no longer asked — and so he missed the love and care that had been showered upon him in those days of trial. This is وَلِھَا. This is مُوَلَّا — extreme, passionate love, in which the absence of the beloved drives a person to the very edge of self.
 
-### Allah as the One Above Every Other Loyalty
+- لَا اِلَٰہَ اِلَّا اللَّہُ now means لا أَلِہَ الا اللہ: Allah is the only one I lean on for support — emotionally, psychologically, financially, physically, in every form.
 
-لَا اِلَٰہَ اِلَّا اللَّہُ now means لَا یُعْلَی اِلَّا اللَّہُ: Allah is the only one to whom I am completely devoted and loyal above everyone else in my life—even my own parents, even my own children. I serve only Allah and no one else.
+- This does not mean I will not see a doctor when ill, or ask my employer for a raise when I deserve one, or turn to my family and friends for help when I need them. I will continue to do all of that. But my ultimate support comes from Allah. He is the one who cures my illness — not the doctor. He is the one who ordains the raise — not my employer. He is the one who fulfills my need — not my friends and family.
 
-Yet I am glad to serve my parents because Allah has commanded it. I am glad to spend time with my friends, enjoy life, and do whatever I wish, so long as my ultimate loyalty and devotion remain with Allah. Whenever anything or anyone challenges that loyalty, I choose Allah over them.
+- The liberation this brings is immense. How many of my complaints with people and with life would simply disappear? I no longer need to blame someone for a disappointment — because that person was never meant to be the one I leaned upon in the first place. A disappointment requires an expectation. When all my expectations are from Allah, no one in this world can disappoint me. If I receive what I wanted, Allah was the one who gave it. If I did not receive it, it was not meant for me — and who can say that receiving it would not, in the long run, have proved harmful?
 
-That is how I make Him ال + الہ.
+- لَا اِلَٰہَ اِلَّا اللَّہُ now means لا وَلِہَ الا اللہ: Allah is the only one who astounds and impresses me.
 
-### Allah as the One to Whom I Turn in Desperation
+- This does not mean I should appreciate no one, praise no one, or find no one impressive. What it means is that I see Allah behind every praise. If my child does well in school — MashaAllah! Praise to Allah, who made my child capable. If I am mesmerized by the sunrise and sunset — SubhanAllah! Praise to Allah for creating this beauty, for granting me the eyes and the time and the willingness to appreciate it. I take the praise for the beauty of the sunset and attribute it to its Creator.
 
-لَا اِلَٰہَ اِلَّا اللَّہُ now means لا أَلَہَ الا اللہ: Allah is the only one to whom I turn in utter desperation for every need and every comfort.
+Through this practice, the true concept of توحید comes into view. توحید is not the idea that Allah is the supreme deity within a hierarchy of deities. It is the recognition that there is no other deity at all. لا الہ — a complete elimination of every other deity. الا اللہ — except the one and only, which is Allah. It is the transference of الھیۃ from its generic form to the one specific being who has no form. This is the challenge and the goal of لَا اِلَٰہَ اِلَّا اللَّہُ.
 
-This does not mean that I cannot seek help from my family and friends. Nor does it mean that, when I am hungry and without work, I sit idle because Allah is the appointed Provider. Not at all.
+The vehicle that carries one on this path is Salaat. Within its very nature, Salaat holds the act of breaking idols. The moment prayer time arrives, whatever is being done must stop; whoever is being attended to must be left; and the face must turn toward Allah. Salaat is لَا اِلَٰہَ اِلَّا اللَّہُ enacted.
 
-I turn to whomever I need and seek whatever means are necessary. The difference is that I know these people are simply means—أَسْبَاب—through which Allah provides. My ultimate petition, therefore, is always directed to Him:
-
-Ya Allah! I need this. I turn to you for the fulfillment of my needs—provide me with the means and resources that will satisfy them in a way that pleases you. For it is you, and only you, who are the source of my provision—nobody else.
-
-### Allah as the One I Love Passionately
-
-لَا اِلَٰہَ اِلَّا اللَّہُ now means لا وَلَہَ الا اللہ: Allah is the one I passionately love, the one in whom I am completely absorbed. From the moment I wake until the moment I return to sleep, He is the one I think about.
-
-This does not mean that I spend the entire day on the prayer rug or pass every hour in تسبیح. I can do whatever I wish in life. But everything becomes a sign pointing toward Allah, a reminder of Him.
-
-That is what love does. The flower, the rainbow, the sunset, the frog in the pond—all of them remind one of the beloved. Love is an obsession. It is a constant connection with the beloved.
-
-The story of Hazrat أیوب illustrates this.
-
-In a hadith of Rasul Allah ﷺ, Allah mentioned to His angels the patience and gratitude of Hazrat أیوب AS. ابلیس then addressed Allah and said that the only reason أیوب was grateful was the abundance that had been given to him—his possessions and his children. Take that away, he said, and the gratitude would disappear.
-
-So Allah began to take things away. First, his possessions were taken. Then, before his own eyes, the house collapsed and killed all his sons. At that sight, the word that instinctively came from أیوب’s lips was AlHamdulillah.
-
-And if that were not enough, a terrible disease then afflicted him. His body became infected with worms that consumed his flesh. Allah put Hazrat أیوب through these extreme trials to test his faith and love, and he endured them with extraordinary grace.
-
-When the trial was complete, Allah directed him to bathe in a spring prepared for him. He bathed, and the disease was completely cured.
-
-Years later, someone asked him, “How is your health now, أیوب?” He sighed and replied that the days of his illness had been more beloved to him than his days of health.
-
-The man was astonished and asked how that could be.
-
-أیوب replied that during his illness, Allah had asked him each day: “How are you today, أیوب?” Now that he had been cured, Allah no longer asked—and so he missed the love and care that had been showered upon him during those days of trial.
-
-This is وَلِھَا. This is مُوَلَّا—extreme, passionate love, in which the absence of the beloved drives a person to the very edge of self.
-
-### Allah as the One I Lean Upon
-
-لَا اِلَٰہَ اِلَّا اللَّہُ now means لا أَلِہَ الا اللہ: Allah is the only one upon whom I lean for support—emotionally, psychologically, financially, physically, and in every other form.
-
-This does not mean that I will not see a doctor when I am ill, ask my employer for a raise when I deserve one, or turn to my family and friends for help when I need them. I will continue to do all of that.
-
-But my ultimate support comes from Allah. He is the one who cures my illness, not the doctor. He is the one who ordains the raise, not my employer. He is the one who fulfills my need, not my friends and family.
-
-The liberation this brings is immense. How many of my complaints about people and about life would simply disappear?
-
-I no longer need to blame someone for a disappointment, because that person was never meant to be the one upon whom I ultimately leaned in the first place. A disappointment requires an expectation. When all my ultimate expectations are from Allah, no one in this world can truly disappoint me.
-
-If I receive what I wanted, Allah is the one who gave it. If I do not receive it, then it was not meant for me—and who can say that receiving it would not, in the long run, have proved harmful?
-
-### Allah as the One Who Astounds Me
-
-لَا اِلَٰہَ اِلَّا اللَّہُ now means لا وَلِہَ الا اللہ: Allah is the only one who ultimately astounds and impresses me.
-
-This does not mean that I should appreciate no one, praise no one, or find no one impressive. It means that I see Allah behind every praise.
-
-If my child does well in school—MashaAllah! Praise to Allah, who made my child capable.
-
-If I am mesmerized by the sunrise or sunset—SubhanAllah! Praise to Allah for creating this beauty, for granting me the eyes to see it, the time to notice it, and the willingness to appreciate it.
-
-I take the praise inspired by the beauty of the sunset and attribute it to its Creator.
-
-### Tawhid
-
-Through this practice, the true concept of توحید becomes clear.
-
-- توحید is not the idea that Allah is the supreme deity within a hierarchy of deities. It is the recognition that there is no other deity.
-- لا الہ—a complete elimination of every other deity.
-- الا اللہ—except the one and only, who is Allah.
-
-It is the transference of الھیۃ from its generic form to the one specific Being who has no form. This is the challenge and the goal of لَا اِلَٰہَ اِلَّا اللَّہُ.
-
-### Salaat as the Practice of Breaking Idols
-
-The vehicle that carries a person along this path is Salaat. Within its very nature, Salaat contains the act of breaking idols.
-
-The moment the time for prayer arrives, whatever is being done must stop; whoever is being attended to must be left; and the face must turn toward Allah.
-
-Salaat is لَا اِلَٰہَ اِلَّا اللَّہُ enacted.
-
-This is the journey of لَا اِلَٰہَ اِلَّا اللَّہُ. It is a difficult journey, and every journey requires provisions to sustain the traveler. The provision for this journey is knowledge of Allah.
-
-The greater the knowledge of Allah, the greater the amazement at His glory. The greater the amazement, the more passionate the love. The more passionate the love, the deeper the obsession. The deeper the obsession, the more complete the worship and submission to His commands. The more complete the worship, the more fully one turns to Him for refuge. The more one finds shelter beneath His protection, the more one leans upon Him for support—for love engenders love.
-
-The more one comes to understand how much He loves, the more one loves in return. And the more that love grows, the more intense His blessings and mercy become.
+This is the journey of لَا اِلَٰہَ اِلَّا اللَّہُ. It is a difficult journey, and every journey requires provisions to sustain the traveler. The provision for this journey is knowledge of Allah. The greater the knowledge of Allah, the greater the amazement at His glory. The greater the amazement, the more passionate the love. The more passionate the love, the deeper the obsession. The deeper the obsession, the more complete the worship and submission to His commands. The more complete the worship, the more fully one turns to Him seeking refuge. The more one finds shelter under His protection, the more one leans on Him for support — for love engenders love. The more one comes to understand how much He loves, the more one loves in return. The more the love grows, the more intense His blessings and mercy become.
 
 > وَإِذْ تَأَذَّنَ رَبُّكُمْ لَىِٕن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَىِٕن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌۭ
 >
-> And when your master proclaimed: “If you are grateful, I will give you more, but if you are ungrateful, indeed! My Punishment is indeed severe.”
+> And when your master proclaimed: "If you are grateful, I will give you more, but if you are ungrateful, Indeed! My Punishment is indeed severe."
 
-Salaah is the act of breaking idols. It begins with Wudu—the purification of the very parts of the body that are used in the service of those idols.
+Salaat is the act of breaking idols. It begins with Wuzu — the purification of the very parts of the body used in the service of those idols.
 
 ## What is Worship?
 

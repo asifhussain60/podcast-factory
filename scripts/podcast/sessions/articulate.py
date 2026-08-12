@@ -50,6 +50,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -57,7 +58,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from _book_defects import chapters as split_chapters  # noqa: E402
 from _book_edits import anchor_key, write_chapter_body  # noqa: E402
-from _book_pass_reports import KEPT_STATUSES as KEPT  # noqa: E402
 
 # `_INTRODUCTION_KEY` is imported rather than restated: the pass engine already
 # refuses to touch the edition's introduction, and a second copy of that heading
@@ -87,6 +87,11 @@ LEDGER_NAME = "sessions-articulation.json"
 #: Two, not one: a single dead call is a transient worth riding through, and a
 #: second in a row is a pattern. Sixteen in a row is what actually happened.
 _DEAD_STREAK_LIMIT = 2
+
+# Sessions articulation is complete only when every window in the chapter kept
+# its rewrite. A `partial` pass is faithful, because failed windows fall back to
+# source, but it is not fully book-quality articulated prose and must be retried.
+DONE_STATUSES = frozenset({"adapted"})
 
 
 def chapter_keys(book_md: Path) -> list[tuple[str, str]]:
@@ -140,13 +145,80 @@ def _normalize_after_articulation(book_dir: Path, title: str, *, log) -> None:
     log(f"      normalized {len(changes)} heading/citation formatting issue(s)")
 
 
-def _record(book_dir: Path, key: str, title: str, status: str) -> None:
+_USAGE_FIELDS = ("input_tokens", "output_tokens", "cache_read", "cache_create", "cost_usd")
+
+
+def _read_cost_rows(book_dir: Path) -> list[dict]:
+    path = book_dir / "_system" / "cost-ledger.jsonl"
+    if not path.exists():
+        return []
+    rows: list[dict] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+        except ValueError:
+            continue
+        if isinstance(row, dict):
+            rows.append(row)
+    return rows
+
+
+def _usage_since(book_dir: Path, start_count: int) -> dict:
+    rows = _read_cost_rows(book_dir)[start_count:]
+    usage = {field: 0 for field in _USAGE_FIELDS}
+    models: list[str] = []
+    steps: list[str] = []
+    for row in rows:
+        for field in _USAGE_FIELDS:
+            value = row.get(field) or 0
+            usage[field] += float(value) if field == "cost_usd" else int(value)
+        if row.get("model") and row["model"] not in models:
+            models.append(str(row["model"]))
+        if row.get("step"):
+            steps.append(str(row["step"]))
+    usage["total_tokens"] = int(
+        usage["input_tokens"] + usage["output_tokens"] + usage["cache_read"] + usage["cache_create"]
+    )
+    usage["cost_usd"] = round(float(usage["cost_usd"]), 6)
+    usage["rows"] = len(rows)
+    usage["models"] = models
+    usage["steps"] = steps
+    return usage
+
+
+def _quality_from_record(record: dict) -> dict:
+    windows = int(record.get("windows") or 0)
+    kept = int(record.get("windows_kept") or 0)
+    gates = [str(g) for g in (record.get("gates") or [])]
+    warnings = [str(w) for w in (record.get("warnings") or [])]
+    assembly_gates = [str(g) for g in (record.get("assembly_gates") or [])]
+    return {
+        "windows": windows,
+        "windows_kept": kept,
+        "windows_cached": int(record.get("windows_cached") or 0),
+        "windows_repaired": int(record.get("windows_repaired") or 0),
+        "windows_source_preserved": int(record.get("windows_source_preserved") or 0),
+        "model_failures": int(record.get("model_failures") or 0),
+        "fresh_calls_disabled": bool(record.get("fresh_calls_disabled")),
+        "window_keep_rate": round(kept / windows, 4) if windows else None,
+        "gates": gates,
+        "warnings": warnings,
+        "assembly_gates": assembly_gates,
+    }
+
+
+def _record(book_dir: Path, key: str, title: str, status: str, *, metrics: dict | None = None) -> None:
     ledger = read_ledger(book_dir)
-    ledger["chapters"][key] = {
+    entry = {
         "title": title,
         "status": status,
         "at": datetime.now(timezone.utc).isoformat(),
     }
+    if metrics:
+        entry.update(metrics)
+    ledger["chapters"][key] = entry
     _ledger_path(book_dir).write_text(json.dumps(ledger, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
@@ -205,12 +277,14 @@ def articulate_book(
         raise FileNotFoundError(f"missing {book_md} — run the ingest first.")
 
     frame = narrative_frame(book_dir)
-    # Only a KEPT chapter is done. A revert produced nothing — the gates threw the
-    # rewrite away and the base still stands — so it is un-articulated prose in a
-    # book that would otherwise be reported complete, and the next run should try
-    # it again. `KEPT_STATUSES` is imported, not restated, so "did this chapter
-    # keep its rewrite" has the same answer here as in the pass reports.
-    done = set() if force else {k for k, v in read_ledger(book_dir)["chapters"].items() if v.get("status") in KEPT}
+    # Only a fully adapted chapter is done. A partial pass kept at least one
+    # window, but the stitched chapter still mixes articulated prose with source
+    # fallback, so this lane retries it instead of treating it as book-quality.
+    done = (
+        set()
+        if force
+        else {k for k, v in read_ledger(book_dir)["chapters"].items() if v.get("status") in DONE_STATUSES}
+    )
     chapters = chapter_keys(book_md)
     todo = [(k, t) for k, t in chapters if k not in done]
     skipped = len(chapters) - len(todo)
@@ -221,23 +295,46 @@ def articulate_book(
     if dry_run:
         for key, title in todo:
             log(f"    would articulate: {title}")
-        return {"frame": frame, "planned": len(todo), "skipped": skipped, "adapted": 0, "reverted": 0, "failed": []}
+        return {
+            "frame": frame,
+            "planned": len(todo),
+            "skipped": skipped,
+            "adapted": 0,
+            "partial": 0,
+            "reverted": 0,
+            "failed": [],
+        }
 
     if todo:
         _write_step_status(book_dir, status="running", kept=skipped, total=len(chapters))
 
-    adapted = reverted = 0
+    adapted = partial = reverted = 0
     failed: list[dict] = []
     dead_streak = 0
     aborted = False
     for index, (key, title) in enumerate(todo, start=1):
         log(f"  [{index}/{len(todo)}] {title}")
+        started_at = datetime.now(timezone.utc)
+        started_perf = time.perf_counter()
+        cost_start = len(_read_cost_rows(book_dir))
         try:
-            result = rearticulate(book_dir, key, log=log)
+            result = rearticulate(book_dir, key, log=log, write_partial=False)
         except Exception as exc:  # one bad chapter must not end a multi-hour run
             log(f"      FAILED: {exc}")
             failed.append({"chapter": title, "key": key, "error": str(exc)[:300]})
-            _record(book_dir, key, title, "failed")
+            finished_at = datetime.now(timezone.utc)
+            _record(
+                book_dir,
+                key,
+                title,
+                "failed",
+                metrics={
+                    "started_at": started_at.isoformat(),
+                    "finished_at": finished_at.isoformat(),
+                    "duration_seconds": round(time.perf_counter() - started_perf, 3),
+                    "usage": _usage_since(book_dir, cost_start),
+                },
+            )
             continue
         # `rearticulate` returns the STATUS ENVELOPE it writes to
         # `rearticulate-status.json` — `{chapter_key, state, started_at,
@@ -261,15 +358,25 @@ def articulate_book(
             dead_streak += 1
         else:
             dead_streak = 0
-        if status in ("adapted", "partial"):
+        if status == "adapted":
             adapted += 1
             _normalize_after_articulation(book_dir, title, log=log)
+        elif status == "partial":
+            partial += 1
         else:
             reverted += 1
         # Written per chapter, not at the end: a run interrupted at chapter 19 of
         # 23 must not re-pay for the eighteen that succeeded.
-        _record(book_dir, key, title, status)
-        log(f"      {status}")
+        finished_at = datetime.now(timezone.utc)
+        metrics = {
+            "started_at": started_at.isoformat(),
+            "finished_at": finished_at.isoformat(),
+            "duration_seconds": round(time.perf_counter() - started_perf, 3),
+            "usage": _usage_since(book_dir, cost_start),
+            "quality": _quality_from_record(record),
+        }
+        _record(book_dir, key, title, status, metrics=metrics)
+        log(f"      {status} — {metrics['duration_seconds']:.1f}s, {metrics['usage']['total_tokens']} tokens")
 
         if dead_streak >= _DEAD_STREAK_LIMIT:
             log(
@@ -285,7 +392,7 @@ def articulate_book(
     # only what THIS run kept. The true completeness question is "is anything
     # left un-kept at all", which only the ledger — updated per chapter above,
     # including by the failed/aborted paths — can answer.
-    now_kept = sum(1 for v in read_ledger(book_dir)["chapters"].values() if v.get("status") in KEPT)
+    now_kept = sum(1 for v in read_ledger(book_dir)["chapters"].values() if v.get("status") in DONE_STATUSES)
     _write_step_status(
         book_dir,
         status="completed" if now_kept >= len(chapters) else "running",
@@ -306,6 +413,7 @@ def articulate_book(
         "planned": len(todo),
         "skipped": skipped,
         "adapted": adapted,
+        "partial": partial,
         "reverted": reverted,
         "failed": failed,
         "aborted": aborted,
@@ -337,8 +445,8 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(summary, indent=2))
     else:
         print(
-            f"  articulate: {summary['adapted']} adapted, {summary['reverted']} reverted, "
-            f"{len(summary['failed'])} failed, {summary['skipped']} skipped"
+            f"  articulate: {summary['adapted']} adapted, {summary['partial']} partial, "
+            f"{summary['reverted']} reverted, {len(summary['failed'])} failed, {summary['skipped']} skipped"
         )
     return 1 if summary["failed"] else 0
 

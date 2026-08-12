@@ -336,7 +336,7 @@ def test_a_running_articulate_step_reads_real_chapter_progress(tmp_path: Path) -
     )
     progress = compute_progress({"phases": {"sessions-articulate": {"status": "running"}}}, bd)
     row = next(r for r in progress["phases"] if r["phase"] == "sessions-articulate")
-    assert row["fraction"] == 0.5  # 2 kept (adapted+partial) of 4 real chapters
+    assert row["fraction"] == 0.25  # only fully adapted chapters count complete
 
 
 def test_the_introduction_does_not_count_toward_the_denominator(tmp_path: Path) -> None:

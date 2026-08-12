@@ -11,12 +11,16 @@ that catches a "how could that possibly have shipped" defect gets added.
 from __future__ import annotations
 
 import re
+from difflib import SequenceMatcher
 
 from _book_articulation_notes import leaked_marker_findings
 from _book_compose import _arabic_run_count
 from _doctrinal import run_doctrinal_checks
 from _literary import teaching_loss_findings
 from _narrative import frame_findings
+
+_ASSEMBLED_DETAIL_FLOOR = 0.80
+_ASSEMBLED_RUNAWAY_CEILING = 2.50
 
 # Narrator "announcing the telling" openings — a chapter must begin as a chapter,
 # not with the narrator framing the act of narration itself (found live 2026-07-19:
@@ -117,4 +121,61 @@ def revoice_gates(
     if frame:
         findings.extend(frame_findings(base_text, revoiced, frame=frame, narrator_subject=narrator_subject))
     findings.extend(leaked_marker_findings(revoiced))
+    return findings
+
+
+def _norm_for_assembly(text: str) -> str:
+    return " ".join((text or "").lower().split())
+
+
+def _adjacent_similarity(left: str, right: str) -> float:
+    return SequenceMatcher(None, _norm_for_assembly(left), _norm_for_assembly(right)).ratio()
+
+
+def assembled_chapter_gates(base_text: str, assembled: str) -> list[str]:
+    """Final quality gates after windowed prose has been pieced back together.
+
+    Per-window gates protect fidelity inside each model call. This protects the
+    chapter that will actually ship: a set of individually legal windows can
+    still assemble into a chapter that is too compressed overall, inflated
+    overall, or visibly duplicated at a join.
+    """
+    findings: list[str] = []
+    if not assembled.strip():
+        return ["assembled chapter is empty"]
+
+    base_words = len(base_text.split())
+    output_words = len(assembled.split())
+    if base_words >= 120 and output_words < _ASSEMBLED_DETAIL_FLOOR * base_words:
+        findings.append(
+            "assembled chapter below detail floor "
+            f"({output_words}<{round(_ASSEMBLED_DETAIL_FLOOR * base_words)} words; "
+            f"{round(output_words / max(base_words, 1), 2)}x source)"
+        )
+    if base_words >= 120 and output_words > _ASSEMBLED_RUNAWAY_CEILING * base_words:
+        findings.append(
+            "assembled chapter expanded too far "
+            f"({output_words}>{round(_ASSEMBLED_RUNAWAY_CEILING * base_words)} words; "
+            f"{round(output_words / max(base_words, 1), 2)}x source)"
+        )
+
+    base_paragraphs = [p for p in re.split(r"\n\s*\n", base_text.strip()) if p.strip()]
+    paragraphs = [p for p in re.split(r"\n\s*\n", assembled.strip()) if p.strip()]
+    for idx, (left, right) in enumerate(zip(paragraphs, paragraphs[1:]), start=1):
+        left_norm = _norm_for_assembly(left)
+        right_norm = _norm_for_assembly(right)
+        if min(len(left_norm.split()), len(right_norm.split())) < 24:
+            continue
+        if _adjacent_similarity(left, right) < 0.92:
+            continue
+        base_idx = idx - 1
+        if (
+            base_idx + 1 < len(base_paragraphs)
+            and _adjacent_similarity(base_paragraphs[base_idx], base_paragraphs[base_idx + 1]) >= 0.92
+        ):
+            continue
+        else:
+            findings.append(f"duplicated adjacent paragraphs near assembly join {idx}/{idx + 1}")
+            break
+
     return findings

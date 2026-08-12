@@ -30,7 +30,7 @@ def sessions_articulate_fraction(phase: str, book_dir: Path | None) -> float | N
     from `_system/sessions-articulation.json` — the ledger `sessions/articulate.py`
     writes after every chapter, never a fabricated number.
 
-    Imports the lane's own `chapter_keys` and `KEPT_STATUSES` rather than
+    Imports the lane's own `chapter_keys` and `DONE_STATUSES` rather than
     re-deriving "which chapters count" — a second definition of that question
     here would be a second answer, and the two would drift the moment the lane's
     introduction-skip rule or its kept/reverted vocabulary changed.
@@ -51,13 +51,12 @@ def sessions_articulate_fraction(phase: str, book_dir: Path | None) -> float | N
     if not book_md.exists():
         return None
     try:
-        from _book_pass_reports import KEPT_STATUSES
-        from sessions.articulate import chapter_keys, read_ledger
+        from sessions.articulate import DONE_STATUSES, chapter_keys, read_ledger
 
         total = len(chapter_keys(book_md))
         if not total:
             return None
-        kept = sum(1 for v in read_ledger(Path(book_dir))["chapters"].values() if v.get("status") in KEPT_STATUSES)
+        kept = sum(1 for v in read_ledger(Path(book_dir))["chapters"].values() if v.get("status") in DONE_STATUSES)
     except Exception:
         return None
     return kept / total

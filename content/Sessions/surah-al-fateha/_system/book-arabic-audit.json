@@ -15,8 +15,8 @@
     },
     {
       "chapter": "Quranic Friendship",
-      "arabic_runs": 52,
-      "unverified": 15,
+      "arabic_runs": 51,
+      "unverified": 17,
       "runs": [
         {
           "text": "قُوَّۃُ الشَّھْوَانِیَّۃِ",
@@ -109,12 +109,6 @@
           "reference": "At-Tawbah: 16"
         },
         {
-          "text": "أَمْ حَسِبْتُمْ أَن تُتْرَكُوا۟",
-          "resolution": "canonical-mushaf",
-          "skeleton": "امحسبتمانتتركوا",
-          "reference": "At-Tawbah: 16"
-        },
-        {
           "text": "وَلَمَّا يَعْلَمِ ٱللَّهُ ٱلَّذِينَ جَهَدُوا۟ مِنكُمْ",
           "resolution": "canonical-mushaf",
           "skeleton": "ولمايعلماللهالذينجهدوامنكم",
@@ -198,16 +192,9 @@
           "reference": "Al-Furqan: 28"
         },
         {
-          "text": "يَوَيْلَتَىٰ لَيْتَنِى لَمْ أَتَّخِذْ فُلَانًا خَلِيلًۭا",
-          "resolution": "canonical-mushaf",
-          "skeleton": "يويلتيليتنيلماتخذفلاناخليلا",
-          "reference": "Al-Furqan: 28"
-        },
-        {
-          "text": "يَوَيْلَتَىٰ لَيْتَنِى",
-          "resolution": "canonical-mushaf",
-          "skeleton": "يويلتيليتني",
-          "reference": "Al-Furqan: 28"
+          "text": "يَوَيْلَتَىٰ لَيْتَنِى\n\nحسرۃ",
+          "resolution": "unverified",
+          "skeleton": "يويلتيليتنيحسر"
         },
         {
           "text": "لَمْ أَتَّخِذْ فُلَانًا خَلِيلًۭا",
@@ -237,6 +224,11 @@
           "resolution": "canonical-mushaf",
           "skeleton": "وحسناوليكرفيقا",
           "reference": "An-Nisa: 69"
+        },
+        {
+          "text": "قرین عہد شریف",
+          "resolution": "unverified",
+          "skeleton": "قرنعدشرف"
         },
         {
           "text": "سُورَۃُ صِفَاتِ",
@@ -296,7 +288,7 @@
           "skeleton": "صغمبالغ"
         },
         {
-          "text": "لَّقَدْ أَضَلَّنِى عَنِ ٱلذِّكْرِ بَعْدَ إِذْ جَآءَنِى ۗ وَكَانَ ٱلشَّيْطَنُ لِلْإِنسَنِ خَذُولًۭا\n\nوَكَانَ ٱلشَّيْطَنُ لِلْإِنسَنِ خَذُولًۭا\n\nشیطان",
+          "text": "لَّقَدْ أَضَلَّنِى عَنِ ٱلذِّكْرِ بَعْدَ إِذْ جَآءَنِى ۗ وَكَانَ ٱلشَّيْطَنُ لِلْإِنسَنِ خَذُولًۭا\n\nشیطان",
           "resolution": "unverified",
           "skeleton": "لقداضلنيعنالذكربعداذجاءنيوكانالشيطنللانس"
         },
@@ -5504,12 +5496,12 @@
     }
   ],
   "totals": {
-    "canonical-mushaf": 243,
+    "canonical-mushaf": 240,
     "ocr": 0,
     "knowledge-base": 34,
     "honorific-formula": 116,
-    "unverified": 624,
-    "arabic_runs": 1017
+    "unverified": 626,
+    "arabic_runs": 1016
   },
   "note": "no OCR ground truth for this book — every run falls back to the knowledge base",
   "quran_coverage": {

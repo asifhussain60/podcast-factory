@@ -49,14 +49,14 @@ from _book_compose import _arabic_run_count
 from _book_edits import anchor_key, base_fingerprint_for, record_edit
 from _book_pass_reports import record_rearticulation
 from _book_voice import _CHAPTER_HEADING_RE, _run_pass
-from _book_voice_prompts import _articulation_prompt
+from _book_voice_prompts import _articulation_prompt, _articulation_repair_prompt
 from _content_profile import source_language as _source_language
 from _paths import resolve_content
 from _pipeline_flags import narrative_frame, narrator_subject
 
 _MIN_TIMEOUT = 180
 _MAX_TIMEOUT = 600
-_WINDOW_WORDS = 450
+_WINDOW_WORDS = 300
 _PHASE = "rearticulate"
 _WORD_RE = re.compile(r"\b[\w'’-]+\b")
 _TEXT_TRANSFORM_SYSTEM_PROMPT = (
@@ -116,6 +116,51 @@ def _adapter(
     return (out or "").strip()
 
 
+def _repair_adapter(
+    title: str,
+    base_text: str,
+    candidate_text: str,
+    gates: list[str],
+    book_dir: Path,
+    label: str,
+    log,
+    *,
+    previous_tail: str = "",
+    frame: str = "",
+    narrator: str = "",
+) -> str:
+    lang = _source_language(book_dir)
+    timeout = timeout_for_window(base_text)
+    words = len(_WORD_RE.findall(base_text or ""))
+    arabic_runs = _arabic_run_count(base_text or "")
+    log(f"      {label}: repair timeout={timeout}s (words={words}, Arabic={arabic_runs}, gates={len(gates)})")
+    rc, out, err = _run_claude_p(
+        _articulation_repair_prompt(
+            title,
+            base_text,
+            candidate_text,
+            gates,
+            previous_tail,
+            frame=frame,
+            narrator=narrator,
+            source_language=lang,
+        ),
+        timeout=timeout,
+        book_dir=book_dir,
+        phase=_PHASE,
+        step=label,
+        tools="",
+        safe_mode=True,
+        no_chrome=True,
+        no_session_persistence=True,
+        system_prompt=_TEXT_TRANSFORM_SYSTEM_PROMPT,
+        effort="low",
+    )
+    if rc != 0:
+        raise RuntimeError(f"{label}: claude -p rc={rc}: {(err or '')[:200]}")
+    return (out or "").strip()
+
+
 def _status_path(book_dir: Path) -> Path:
     return book_dir / "_system" / "rearticulate-status.json"
 
@@ -143,7 +188,7 @@ def _chapter_body(text: str, heading: str) -> str:
     return ""
 
 
-def rearticulate(book_dir: Path, chapter_key: str, *, adapter=None, log=print) -> dict:
+def rearticulate(book_dir: Path, chapter_key: str, *, adapter=None, log=print, write_partial: bool = True) -> dict:
     """Rearticulate one chapter in place. Returns the pass record.
 
     ``adapter`` is injectable for tests (same signature as ``_adapter``).
@@ -181,13 +226,14 @@ def rearticulate(book_dir: Path, chapter_key: str, *, adapter=None, log=print) -
         narrator_subject=subject,
         force=True,
         window_words=_WINDOW_WORDS,
+        repair_fn=_repair_adapter,
     )
     record = next(
         (r for r in records if r.get("status") not in ("skipped", "composer-edit")),
         {"status": "skipped"},
     )
 
-    if record.get("status") in ("adapted", "partial"):
+    if record.get("status") == "adapted" or (write_partial and record.get("status") == "partial"):
         tmp = book_md.with_suffix(".md.tmp")
         tmp.write_text(new_text, encoding="utf-8")
         os.replace(tmp, book_md)

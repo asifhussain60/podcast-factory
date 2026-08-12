@@ -49,7 +49,6 @@ from __future__ import annotations
 
 import json
 import re
-from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Callable, Sequence
 
@@ -59,15 +58,31 @@ from _book_edits import anchor_key, edited_chapter_keys
 from _book_fences import span_re
 from _book_pass_reports import load_prior_records, merge_records, restamp_counts
 
-# `narrative_opening_findings` and `revoice_gates` live in `_book_voice_gates`
+# `assembled_chapter_gates`, `narrative_opening_findings`, and `revoice_gates`
+# live in `_book_voice_gates`
 # (split 2026-08-12, DR-005) and are re-exported here so every existing
 # `from _book_voice import revoice_gates` keeps working.
-from _book_voice_gates import narrative_opening_findings, revoice_gates  # noqa: F401
+from _book_voice_gates import assembled_chapter_gates, narrative_opening_findings, revoice_gates  # noqa: F401
 from _book_voice_prompts import _articulation_prompt, _voice_prompt
+from _book_voice_windows import (
+    _WINDOW_WORDS,
+    _arabic_placeholder_findings,
+    _cache_window_part,
+    _cached_window_part,
+    _drop_cached_window_part,
+    _iter_prose_windows,
+    _protect_arabic_runs,
+    _protect_structural_artifacts,
+    _protected_artifact_window,
+    _restore_arabic_runs,
+    _restore_structural_artifacts,
+    _similarity,
+    _structural_artifact_findings,
+)
 from _content_profile import source_language as _source_language
 from _narrative import lecture_voice_counts
 from _pipeline_flags import narrative_frame, narrator_subject
-from _translation_text import _split_paragraphs, _trim_seam_overlap, subordinate_body_headings
+from _translation_text import _trim_seam_overlap, subordinate_body_headings
 
 _VOICE_TIMEOUT = 900
 _CHAPTER_HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
@@ -78,56 +93,12 @@ _CHAPTER_HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 # this pass cannot see is a span the model rewrites into the narrator's voice.
 _EDITORIAL_SPAN_RE = span_re("editorial", trailing=r"\n?")
 
-# `_WINDOW_WORDS` sits under `_LONG_CHAPTER_WORDS` so a split chapter always
-# yields at least two substantive windows. 4,500 -> 4,000 on 2026-08-11,
-# DELIBERATELY un-matched from `_translation_edition._LONG_CHAPTER_WORDS` (that
-# path windows a SOURCE span; this one owns its own seams). Full account in
-# framework.md — a 4,479-word chapter went to the model whole and came back an
-# 840-word summary, twenty-one words under the old line.
+# 4,500 -> 4,000 on 2026-08-11 after a 4,479-word chapter returned an
+# 840-word summary; this path owns book-prose windows, not source-span windows.
 _LONG_CHAPTER_WORDS = 4000
-_WINDOW_WORDS = 2500
-# A trailing window smaller than this fraction of the target is folded back into
-# its predecessor rather than shipped as a runt.
-_RUNT_WINDOW_FRACTION = 0.4
 # Output this similar to its input was not re-voiced — it was copied. Not a gate
 # (reverting to base yields the same text); recorded so the report says so.
 _NEAR_IDENTICAL_RATIO = 0.95
-
-
-def _norm_for_ratio(text: str) -> str:
-    return " ".join((text or "").split())
-
-
-def _similarity(base_text: str, candidate: str) -> float:
-    """Whitespace-normalised similarity, 0..1. Computed per window, never per
-    whole chapter — SequenceMatcher degrades badly on very long inputs."""
-    return SequenceMatcher(None, _norm_for_ratio(base_text), _norm_for_ratio(candidate)).ratio()
-
-
-def _iter_prose_windows(text: str, *, target_words: int = _WINDOW_WORDS) -> list[str]:
-    """Split chapter prose into paragraph-aligned windows of ~``target_words``.
-
-    Paragraph-aligned so a window never opens or closes mid-thought, which is
-    what makes the per-window fidelity gates meaningful.
-    """
-    paragraphs = _split_paragraphs(text)
-    if not paragraphs:
-        return []
-    windows: list[str] = []
-    current: list[str] = []
-    current_words = 0
-    for para in paragraphs:
-        current.append(para)
-        current_words += len(para.split())
-        if current_words >= target_words:
-            windows.append("\n\n".join(current))
-            current, current_words = [], 0
-    if current:
-        if windows and current_words < target_words * _RUNT_WINDOW_FRACTION:
-            windows[-1] = windows[-1] + "\n\n" + "\n\n".join(current)
-        else:
-            windows.append("\n\n".join(current))
-    return windows
 
 
 def _revoice_chapter(
@@ -172,6 +143,7 @@ def _adapt_chapter_body(
     frame: str | None = None,
     narrator_subject: str = "",
     window_words: int = _WINDOW_WORDS,
+    repair_fn: Callable[..., str] | None = None,
 ) -> tuple[str, dict]:
     """Adapt one chapter body, windowing it when it is too long for a single call.
 
@@ -181,33 +153,67 @@ def _adapt_chapter_body(
     could not answer without forensics against the cost ledger.
     """
     base_words = len(base_prose.split())
-    windows = (
-        _iter_prose_windows(base_prose, target_words=window_words) if base_words > window_words else [base_prose]
-    ) or [base_prose]
+    windows = _iter_prose_windows(base_prose, target_words=window_words) or [base_prose]
     kept_parts: list[str] = []
     gates: list[str] = []
     warnings: list[str] = []
     kept = 0
     tail = ""
     notes = {k: [] for k in EMPTY_NOTES}
+    cached = 0
+    repaired = 0
+    source_preserved = 0
+    model_failures = 0
+    consecutive_model_failures = 0
+    fresh_calls_disabled = False
     for idx, window in enumerate(windows, start=1):
         part_label = label if len(windows) == 1 else f"{label}-part-{idx:02d}"
-        try:
-            candidate = fn(
-                title,
-                window,
-                book_dir,
-                part_label,
-                log,
-                previous_tail=tail,
-                frame=frame or "",
-                narrator=narrator_subject,
-            )
-        except AuthoringError:
-            raise
-        except Exception as e:  # non-fatal: this window falls back to its base
-            log(f"      {noun}: {title!r} {part_label} skipped (non-fatal): {e}")
+        if _protected_artifact_window(window):
+            kept += 1
+            source_preserved += 1
+            warnings.append(f"{part_label}: protected source artifact copied verbatim")
+            if kept_parts:
+                window = _trim_seam_overlap(kept_parts[-1], window)
+            kept_parts.append(window)
+            tail = " ".join(window.split()[-80:])
+            _cache_window_part(book_dir, part_label, window, window)
+            continue
+        artifact_protected_window, protected_artifacts = _protect_structural_artifacts(window)
+        protected_window, protected_arabic = _protect_arabic_runs(artifact_protected_window)
+        candidate = _cached_window_part(book_dir, part_label, window)
+        from_cache = candidate is not None
+        if from_cache:
+            cached += 1
+            log(f"      {part_label}: cache hit")
+        elif fresh_calls_disabled:
+            log(f"      {noun}: {title!r} {part_label} skipped (fresh model calls disabled after repeated failures)")
             candidate = ""
+        else:
+            try:
+                candidate = fn(
+                    title,
+                    protected_window,
+                    book_dir,
+                    part_label,
+                    log,
+                    previous_tail=tail,
+                    frame=frame or "",
+                    narrator=narrator_subject,
+                )
+                consecutive_model_failures = 0
+            except AuthoringError:
+                raise
+            except Exception as e:  # non-fatal: this window falls back to its base
+                log(f"      {noun}: {title!r} {part_label} skipped (non-fatal): {e}")
+                model_failures += 1
+                consecutive_model_failures += 1
+                if consecutive_model_failures >= 3:
+                    fresh_calls_disabled = True
+                    warnings.append(
+                        f"{part_label}: fresh model calls disabled after {consecutive_model_failures} "
+                        "consecutive process failures"
+                    )
+                candidate = ""
         # This block through the near-identical check used to run UNGUARDED
         # (2026-08-12): a candidate that broke some downstream step propagated a
         # bare exception past `_run_pass` to the caller's broad catch, reporting
@@ -219,8 +225,19 @@ def _adapt_chapter_body(
             # gating, so length/fidelity checks never see it and it can never reach
             # book.md. A no-op for prompts (e.g. author-companion voice) that never
             # emit one.
+            raw_candidate = candidate or ""
+            candidate = raw_candidate if from_cache else _restore_arabic_runs(raw_candidate, protected_arabic)
+            candidate = candidate if from_cache else _restore_structural_artifacts(candidate, protected_artifacts)
             candidate, window_notes = extract_articulation_notes(candidate)
-            gate = (
+            placeholder_gate = (
+                []
+                if from_cache
+                else (
+                    _structural_artifact_findings(protected_artifacts, raw_candidate)
+                    + _arabic_placeholder_findings(protected_arabic, raw_candidate)
+                )
+            )
+            gate = placeholder_gate + (
                 revoice_gates(
                     window,
                     candidate,
@@ -231,10 +248,54 @@ def _adapt_chapter_body(
                 if candidate
                 else ["no candidate"]
             )
+            if gate and repair_fn and raw_candidate and not from_cache:
+                original_gate = gate
+                try:
+                    repaired_raw = repair_fn(
+                        title,
+                        protected_window,
+                        raw_candidate,
+                        original_gate,
+                        book_dir,
+                        f"{part_label}-repair",
+                        log,
+                        previous_tail=tail,
+                        frame=frame or "",
+                        narrator=narrator_subject,
+                    )
+                    repaired_candidate = _restore_arabic_runs(repaired_raw or "", protected_arabic)
+                    repaired_candidate = _restore_structural_artifacts(repaired_candidate, protected_artifacts)
+                    repaired_candidate, repaired_notes = extract_articulation_notes(repaired_candidate)
+                    repaired_placeholder_gate = _structural_artifact_findings(
+                        protected_artifacts, repaired_raw or ""
+                    ) + _arabic_placeholder_findings(protected_arabic, repaired_raw or "")
+                    repaired_gate = repaired_placeholder_gate + (
+                        revoice_gates(
+                            window,
+                            repaired_candidate,
+                            check_opening=idx == 1,
+                            frame=frame,
+                            narrator_subject=narrator_subject,
+                        )
+                        if repaired_candidate
+                        else ["no candidate"]
+                    )
+                    if repaired_gate:
+                        gate = original_gate + [f"repair still failed: {g}" for g in repaired_gate]
+                    else:
+                        log(f"      {part_label}: repair accepted")
+                        candidate, window_notes, gate = repaired_candidate, repaired_notes, []
+                        repaired += 1
+                except Exception as e:
+                    log(f"      {noun}: {title!r} {part_label} repair skipped (non-fatal): {e}")
             if gate:
                 part = window
+                if from_cache:
+                    _drop_cached_window_part(book_dir, part_label, window)
             else:
                 part = candidate
+                if not from_cache:
+                    _cache_window_part(book_dir, part_label, window, candidate)
                 if _similarity(window, candidate) >= _NEAR_IDENTICAL_RATIO:
                     warnings.append(f"{part_label}: output near-identical to base — copied, not re-voiced")
         except Exception as e:
@@ -252,6 +313,15 @@ def _adapt_chapter_body(
         tail = " ".join(part.split()[-80:])
     new_body = "\n\n".join(kept_parts).strip()
     status = "adapted" if kept == len(windows) else ("reverted" if kept == 0 else "partial")
+    assembly_gates = assembled_chapter_gates(base_prose, new_body) if kept == len(windows) else []
+    pre_assembly_kept = kept
+    if assembly_gates and kept:
+        gates.extend(f"assembled chapter: {g}" for g in assembly_gates)
+        new_body = base_prose
+        kept = 0
+        status = "reverted"
+    elif status == "partial":
+        warnings.append(f"assembled chapter is partial — {kept}/{len(windows)} windows kept; review voice continuity")
     # R-NO-LECTURE-VOICE is removed by the PROMPT and only guarded differentially,
     # so the pass reports how much of it survived. Without the number, "the frame
     # converted" and "the book stopped sounding like a lecture" are indistinguishable
@@ -265,8 +335,15 @@ def _adapt_chapter_body(
         "output_words": len(new_body.split()),
         "windows": len(windows),
         "windows_kept": kept,
+        "windows_cached": cached,
+        "windows_repaired": repaired,
+        "windows_source_preserved": source_preserved,
+        "model_failures": model_failures,
+        "fresh_calls_disabled": fresh_calls_disabled,
+        "pre_assembly_windows_kept": pre_assembly_kept,
         "status": status,
         "gates": gates,
+        "assembly_gates": assembly_gates,
         "warnings": warnings,
         "lecture_voice_before": {"reader_address": before_address, "stage_directions": before_stage},
         "lecture_voice_after": {"reader_address": after_address, "stage_directions": after_stage},
@@ -329,6 +406,7 @@ def _run_pass(
     narrator_subject: str = "",
     force: bool = False,
     window_words: int = _WINDOW_WORDS,
+    repair_fn: Callable[..., str] | None = None,
 ) -> tuple[str, list[dict]]:
     """Walk book.md's ``##`` sections, adapting each selected one.
 
@@ -390,6 +468,7 @@ def _run_pass(
             frame=frame,
             narrator_subject=narrator_subject,
             window_words=window_words,
+            repair_fn=repair_fn,
         )
         records.append(record)
         if asides:

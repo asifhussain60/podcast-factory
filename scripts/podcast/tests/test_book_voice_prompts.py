@@ -30,3 +30,19 @@ def test_articulation_prompt_sets_a_numeric_window_word_budget() -> None:
     assert "This source window has about 100 words" in prompt
     assert "must never exceed 220 words" in prompt
     assert "Stop when the\nsource window stops" in prompt
+
+
+def test_articulation_prompt_preserves_protected_arabic_placeholders() -> None:
+    prompt = _articulation_prompt("A Chapter", "The word [[ARABIC_001]] matters.")
+
+    assert "PROTECTED ARABIC PLACEHOLDERS" in prompt
+    assert "Copy each\nplaceholder exactly" in prompt
+    assert "missing placeholder means the passage is discarded" in prompt
+
+
+def test_articulation_prompt_preserves_protected_structural_artifact_placeholders() -> None:
+    prompt = _articulation_prompt("A Chapter", "The label [[ARTIFACT_001]] stays.")
+
+    assert "PROTECTED STRUCTURAL ARTIFACT PLACEHOLDERS" in prompt
+    assert "protected headings, image links, diagram labels" in prompt
+    assert "Copy each placeholder exactly" in prompt

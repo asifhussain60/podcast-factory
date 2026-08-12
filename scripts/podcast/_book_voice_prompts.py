@@ -47,6 +47,8 @@ def _voice_prompt(
         if previous_tail
         else ""
     )
+    protected_arabic = _protected_arabic_placeholders(base_text)
+    protected_artifacts = _protected_artifact_placeholders(base_text)
     # The opening rule governs how a CHAPTER begins, so it is addressed only to the
     # passage that actually opens one. Applying it to a continuation window would
     # revert legitimate mid-chapter prose that happens to say "let me tell you".
@@ -96,6 +98,7 @@ Arabic script exactly as given. Keep every Arabic-script quotation verbatim (do 
 do not drop it). You may smooth connective prose and English word order inherited from the Arabic;
 you may NOT add, remove, summarize, or alter any teaching. Output must be about the same length as
 the input — never shorter.
+{protected_arabic}{protected_artifacts}
 
 SCOPE (stop where the passage stops)
 {SCOPE_RULE}
@@ -206,6 +209,30 @@ is discarded and the original kept — so one dropped run costs every improvemen
 """
 
 
+def _protected_arabic_placeholders(base_text: str) -> str:
+    if "[[ARABIC_" not in base_text:
+        return ""
+    return """
+PROTECTED ARABIC PLACEHOLDERS
+The tokens shaped like [[ARABIC_001]] are protected Arabic-script runs. Copy each
+placeholder exactly as written, including brackets and number. Do not translate,
+delete, renumber, combine, or explain them. The system restores the Arabic script
+after your answer; a missing placeholder means the passage is discarded.
+"""
+
+
+def _protected_artifact_placeholders(base_text: str) -> str:
+    if "[[ARTIFACT_" not in base_text:
+        return ""
+    return """
+PROTECTED STRUCTURAL ARTIFACT PLACEHOLDERS
+The tokens shaped like [[ARTIFACT_001]] are protected headings, image links, diagram labels,
+or quote blocks. Copy each placeholder exactly as written, including brackets and number.
+Do not translate, delete, renumber, combine, explain, or move them. The system restores the
+original artifact after your answer; a missing placeholder means the passage is discarded.
+"""
+
+
 def _word_count(text: str) -> int:
     return len((text or "").split())
 
@@ -258,6 +285,8 @@ def _articulation_prompt(
         if previous_tail
         else ""
     )
+    protected_arabic = _protected_arabic_placeholders(base_text)
+    protected_artifacts = _protected_artifact_placeholders(base_text)
     return f"""You are articulating one chapter of a scholarly Islamic book so it reads like a
 professionally published edition: modern, lucid, simple English that a general reader
 understands on first read. {_source_defect(source_language)}
@@ -322,7 +351,7 @@ abridgement.
 
 SCOPE (stop where the passage stops)
 {SCOPE_RULE}
-{output_budget}{arabic_tally}{_NOTES_BLOCK_INSTRUCTION}
+{output_budget}{arabic_tally}{protected_arabic}{protected_artifacts}{_NOTES_BLOCK_INSTRUCTION}
 
 OUTPUT
 Return ONLY the articulated chapter prose, optionally followed by one
@@ -331,3 +360,67 @@ code fences.
 
 CHAPTER "{title}"
 {base_text}"""
+
+
+def _articulation_repair_prompt(
+    title: str,
+    base_text: str,
+    candidate_text: str,
+    gates: list[str],
+    previous_tail: str = "",
+    *,
+    frame: str = "",
+    narrator: str = "",
+    source_language: str = "",
+) -> str:
+    """Repair a failed articulation candidate instead of regenerating blindly."""
+    directives = frame_prompt_directive(frame, narrator) + ARABIC_DIRECTIVE if frame else ""
+    continuity = (
+        "\nCONTINUITY\nThis passage continues a chapter already in progress. The preceding "
+        "passage ended with the words below. Keep the repaired passage continuous with it, "
+        "without re-introducing the chapter or repeating these words:\n"
+        f"{previous_tail}\n"
+        if previous_tail
+        else ""
+    )
+    failure_list = "\n".join(f"- {gate}" for gate in gates) or "- candidate failed the gate"
+    return f"""You are repairing one failed articulation candidate for a scholarly Islamic book.
+Do NOT start over with a broad rewrite. Preserve the candidate's successful improvements, but fix
+the exact fidelity defects listed below so the passage can pass the mechanical gates.
+{_source_defect(source_language)}
+(Contract: the Book Articulation Standard, REQ-BA-010..160.)
+{directives}{continuity}
+
+FAILED GATES TO FIX
+{failure_list}
+
+REPAIR RULES
+- Compare the source passage and the failed candidate directly.
+- Restore every missing teaching, argument, example, named person, citation, Arabic-script placeholder,
+  quote, list item, and concrete image from the source.
+- Remove any new reader-address, podcast-like transition, lecture-stage direction, preamble, conclusion,
+  or explanation not present in the source.
+- Keep protected placeholders such as [[ARABIC_001]] exactly as written. Do not translate, delete,
+  renumber, combine, or explain them.
+- Stay within the same passage. Do not narrate what comes before or next.
+- Return the complete repaired passage, not a patch or a commentary.
+
+REGISTER
+{ARTICULATION_REGISTER}
+
+SCOPE (stop where the passage stops)
+{SCOPE_RULE}
+{_output_budget(base_text)}{_arabic_tally(base_text)}{_protected_arabic_placeholders(base_text)}{_protected_artifact_placeholders(base_text)}{_NOTES_BLOCK_INSTRUCTION}
+
+OUTPUT
+Return ONLY the repaired articulated prose, optionally followed by one
+===ARTICULATION-NOTES=== block as described above. No title line, no preamble, no
+code fences.
+
+CHAPTER "{title}"
+
+SOURCE PASSAGE
+{base_text}
+
+FAILED CANDIDATE
+{candidate_text}"""

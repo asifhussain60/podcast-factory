@@ -147,17 +147,48 @@ def test_only_a_KEPT_chapter_counts_as_done(book_dir: Path, status: str) -> None
     """A crash is not a result, and neither is a revert: the gates threw the
     rewrite away and the base still stands, so that chapter is un-articulated
     prose in a book that would otherwise be reported complete. Anything but
-    `adapted`/`partial` is retried."""
+    `adapted` is retried."""
     art._record(book_dir, "love based religion", "Love Based Religion", status)
     plan = art.articulate_book(book_dir, dry_run=True, log=lambda *_: None)
     assert plan["planned"] == 2
 
 
-@pytest.mark.parametrize("status", ["adapted", "partial"])
+@pytest.mark.parametrize("status", ["adapted"])
 def test_a_kept_chapter_is_not_paid_for_twice(book_dir: Path, status: str) -> None:
     art._record(book_dir, "love based religion", "Love Based Religion", status)
     plan = art.articulate_book(book_dir, dry_run=True, log=lambda *_: None)
     assert plan["planned"] == 1
+
+
+def test_a_partial_chapter_is_retried_for_full_sessions_quality(book_dir: Path) -> None:
+    """Partial means at least one stitched window fell back to source prose. That
+    is safe, but it is not finished Sessions articulation."""
+    art._record(book_dir, "love based religion", "Love Based Religion", "partial")
+    plan = art.articulate_book(book_dir, dry_run=True, log=lambda *_: None)
+    assert plan["planned"] == 2
+
+
+def test_sessions_driver_does_not_install_partial_chapters(book_dir: Path, monkeypatch) -> None:
+    seen: list[bool] = []
+
+    def fake(_bd, _key, *, log=print, write_partial=True):
+        seen.append(write_partial)
+        return envelope("partial")
+
+    monkeypatch.setattr(art, "rearticulate", fake)
+    art.articulate_book(book_dir, limit=1, log=lambda *_: None)
+
+    assert seen == [False]
+
+
+def test_sessions_partial_leaves_book_text_untouched(book_dir: Path, monkeypatch) -> None:
+    book_md = book_dir / "book" / "book.md"
+    before = book_md.read_text(encoding="utf-8")
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print, **_kwargs: envelope("partial"))
+
+    art.articulate_book(book_dir, limit=1, log=lambda *_: None)
+
+    assert book_md.read_text(encoding="utf-8") == before
 
 
 def test_the_ledger_is_written_per_chapter_not_at_the_end(book_dir: Path, monkeypatch) -> None:
@@ -165,7 +196,7 @@ def test_the_ledger_is_written_per_chapter_not_at_the_end(book_dir: Path, monkey
     that succeeded, so the record lands as each one finishes."""
     seen: list[str] = []
 
-    def fake(bd, key, log=print):
+    def fake(bd, key, log=print, **_kwargs):
         seen.append(key)
         if len(seen) == 2:
             raise RuntimeError("interrupted")
@@ -179,7 +210,7 @@ def test_the_ledger_is_written_per_chapter_not_at_the_end(book_dir: Path, monkey
 
 
 def test_one_bad_chapter_does_not_end_the_run(book_dir: Path, monkeypatch) -> None:
-    def fake(bd, key, log=print):
+    def fake(bd, key, log=print, **_kwargs):
         if key == "love based religion":
             raise RuntimeError("model timeout")
         return envelope("adapted")
@@ -188,6 +219,43 @@ def test_one_bad_chapter_does_not_end_the_run(book_dir: Path, monkeypatch) -> No
     summary = art.articulate_book(book_dir, log=lambda *_: None)
     assert summary["adapted"] == 1
     assert [f["key"] for f in summary["failed"]] == ["love based religion"]
+
+
+def test_each_chapter_records_elapsed_time_and_token_usage(book_dir: Path, monkeypatch) -> None:
+    def fake(bd, key, log=print, **_kwargs):
+        with (bd / "_system" / "cost-ledger.jsonl").open("a", encoding="utf-8") as fh:
+            fh.write(
+                json.dumps(
+                    {
+                        "phase": "rearticulate",
+                        "step": f"rearticulate-{key}",
+                        "model": "claude-sonnet-4-6",
+                        "input_tokens": 11,
+                        "output_tokens": 22,
+                        "cache_read": 33,
+                        "cache_create": 44,
+                        "cost_usd": 0.123456,
+                    }
+                )
+                + "\n"
+            )
+        return envelope("adapted")
+
+    monkeypatch.setattr(art, "rearticulate", fake)
+    art.articulate_book(book_dir, limit=1, log=lambda *_: None)
+
+    entry = art.read_ledger(book_dir)["chapters"]["love based religion"]
+    assert entry["duration_seconds"] >= 0
+    assert entry["started_at"]
+    assert entry["finished_at"]
+    assert entry["usage"]["input_tokens"] == 11
+    assert entry["usage"]["output_tokens"] == 22
+    assert entry["usage"]["cache_read"] == 33
+    assert entry["usage"]["cache_create"] == 44
+    assert entry["usage"]["total_tokens"] == 110
+    assert entry["usage"]["cost_usd"] == 0.123456
+    assert entry["usage"]["rows"] == 1
+    assert entry["usage"]["models"] == ["claude-sonnet-4-6"]
 
 
 # ---------------------------------------------------------------------------
@@ -241,7 +309,7 @@ def test_the_step_completes_without_dragging_the_lane_backwards(book_dir: Path, 
         ),
         encoding="utf-8",
     )
-    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: envelope("adapted"))
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print, **_kwargs: envelope("adapted"))
     art.articulate_book(book_dir, log=lambda *_: None)
     state = json.loads(state_path.read_text())
     assert state["phase"] == "sessions-preface"
@@ -267,7 +335,7 @@ def test_a_run_of_empty_responses_stops_the_run(book_dir: Path, monkeypatch) -> 
     chapters in a row produced zero output tokens and the run finished claiming 21
     reverts. "The gates rejected the rewrite" and "we never got a rewrite" look
     identical in the ledger afterwards, which is the worst possible report."""
-    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: dead())
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print, **_kwargs: dead())
     summary = art.articulate_book(book_dir, log=lambda *_: None)
     assert summary["aborted"] is True
 
@@ -280,7 +348,7 @@ def test_an_aborted_run_does_not_mark_the_step_complete(book_dir: Path, monkeypa
     nothing has happened yet."""
     state_path = book_dir / "_system" / "orchestrator-state.json"
     state_path.write_text(json.dumps({"phases": {ARTICULATE_STEP: {"status": "pending"}}}), encoding="utf-8")
-    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: dead())
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print, **_kwargs: dead())
     art.articulate_book(book_dir, log=lambda *_: None)
     assert json.loads(state_path.read_text())["phases"][ARTICULATE_STEP]["status"] == "running"
 
@@ -294,7 +362,7 @@ def test_the_step_reads_running_the_moment_a_run_starts(book_dir: Path, monkeypa
         json.dumps({"phases": {ARTICULATE_STEP: {"status": "completed", "chapters_kept": 2}}}), encoding="utf-8"
     )
 
-    def hangs(bd, key, log=print):
+    def hangs(bd, key, log=print, **_kwargs):
         raise RuntimeError("never returns in this test")
 
     monkeypatch.setattr(art, "rearticulate", hangs)
@@ -315,7 +383,7 @@ def test_a_run_that_ends_with_real_reverts_left_is_not_marked_complete(book_dir:
     (book_dir / "_system" / "orchestrator-state.json").write_text(
         json.dumps({"phases": {ARTICULATE_STEP: {"status": "pending"}}}), encoding="utf-8"
     )
-    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: envelope("reverted"))
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print, **_kwargs: envelope("reverted"))
     art.articulate_book(book_dir, log=lambda *_: None)
     state = json.loads((book_dir / "_system" / "orchestrator-state.json").read_text())
     assert state["phases"][ARTICULATE_STEP]["status"] == "running"
@@ -328,7 +396,7 @@ def test_a_real_gate_rejection_is_not_mistaken_for_an_unreachable_model(book_dir
     the pass is working, it is the prose that failed, and the next chapter may pass."""
     e = envelope("reverted")
     e["record"]["gates"] = ["part-01: Arabic runs dropped (115<117)"]
-    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: e)
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print, **_kwargs: e)
     summary = art.articulate_book(book_dir, log=lambda *_: None)
     assert summary["aborted"] is False
     assert summary["reverted"] == 2
@@ -353,7 +421,7 @@ def test_a_kept_chapter_gets_its_legacy_transcript_formatting_normalized(book_di
     )
     book_md.write_text(text, encoding="utf-8")
 
-    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: envelope("adapted"))
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print, **_kwargs: envelope("adapted"))
     art.articulate_book(book_dir, log=lambda *_: None)
 
     final = book_md.read_text(encoding="utf-8")
@@ -372,7 +440,7 @@ def test_a_reverted_chapter_is_never_normalized(book_dir: Path, monkeypatch) -> 
     )
     book_md.write_text(text, encoding="utf-8")
 
-    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: envelope("reverted"))
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print, **_kwargs: envelope("reverted"))
     art.articulate_book(book_dir, log=lambda *_: None)
 
     final = book_md.read_text(encoding="utf-8")

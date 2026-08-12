@@ -3,8 +3,39 @@
   "chapters": {
     "quranic friendship": {
       "title": "Quranic Friendship",
-      "status": "partial",
-      "at": "2026-08-12T01:24:14.697715+00:00"
+      "status": "adapted",
+      "at": "2026-08-12T21:28:47.445765+00:00",
+      "started_at": "2026-08-12T21:28:46.671810+00:00",
+      "finished_at": "2026-08-12T21:28:47.444967+00:00",
+      "duration_seconds": 0.773,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read": 0,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 0,
+        "rows": 0,
+        "models": [],
+        "steps": []
+      },
+      "quality": {
+        "windows": 36,
+        "windows_kept": 36,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-02-part-06: protected source artifact copied verbatim",
+          "rearticulate-02-part-14: output near-identical to base — copied, not re-voiced",
+          "rearticulate-02-part-15: output near-identical to base — copied, not re-voiced",
+          "rearticulate-02-part-17: protected source artifact copied verbatim",
+          "rearticulate-02-part-20: output near-identical to base — copied, not re-voiced",
+          "rearticulate-02-part-21: protected source artifact copied verbatim",
+          "rearticulate-02-part-24: output near-identical to base — copied, not re-voiced",
+          "rearticulate-02-part-32: protected source artifact copied verbatim"
+        ],
+        "assembly_gates": []
+      }
     },
     "the stages of love": {
       "title": "The Stages Of Love",
@@ -14,17 +45,143 @@
     "linguistic meaning of allah": {
       "title": "Linguistic Meaning Of Allah",
       "status": "partial",
-      "at": "2026-08-12T01:46:03.480406+00:00"
+      "at": "2026-08-12T21:39:53.891778+00:00",
+      "started_at": "2026-08-12T21:39:51.967452+00:00",
+      "finished_at": "2026-08-12T21:39:53.888157+00:00",
+      "duration_seconds": 1.921,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read": 0,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 0,
+        "rows": 1,
+        "models": [
+          "claude-sonnet-4-6"
+        ],
+        "steps": [
+          "rearticulate-04-part-01"
+        ]
+      },
+      "quality": {
+        "windows": 18,
+        "windows_kept": 17,
+        "windows_cached": 17,
+        "windows_repaired": 0,
+        "windows_source_preserved": 0,
+        "window_keep_rate": 0.9444,
+        "gates": [
+          "rearticulate-04-part-01: protected structural artifacts missing: [[ARTIFACT_001]], [[ARTIFACT_002]], [[ARTIFACT_003]], [[ARTIFACT_004]], [[ARTIFACT_005]]",
+          "rearticulate-04-part-01: protected Arabic placeholders missing: [[ARABIC_001]], [[ARABIC_002]], [[ARABIC_003]], [[ARABIC_004]], [[ARABIC_005]], [[ARABIC_006]], [[ARABIC_007]], [[ARABIC_008]], [[ARABIC_009]], [[ARABIC_010]], [[ARABIC_011]], [[ARABIC_012]]",
+          "rearticulate-04-part-01: no candidate"
+        ],
+        "warnings": [
+          "rearticulate-04-part-11: output near-identical to base — copied, not re-voiced",
+          "rearticulate-04-part-12: output near-identical to base — copied, not re-voiced",
+          "rearticulate-04-part-13: output near-identical to base — copied, not re-voiced",
+          "rearticulate-04-part-14: output near-identical to base — copied, not re-voiced",
+          "rearticulate-04-part-17: output near-identical to base — copied, not re-voiced",
+          "assembled chapter is partial — 17/18 windows kept; review voice continuity"
+        ],
+        "assembly_gates": []
+      }
     },
     "what is worship?": {
       "title": "What is Worship?",
-      "status": "reverted",
-      "at": "2026-08-12T09:53:11.082130+00:00"
+      "status": "partial",
+      "at": "2026-08-12T21:35:11.101797+00:00",
+      "started_at": "2026-08-12T21:34:07.952695+00:00",
+      "finished_at": "2026-08-12T21:35:11.096908+00:00",
+      "duration_seconds": 63.143,
+      "usage": {
+        "input_tokens": 27,
+        "output_tokens": 1832,
+        "cache_read": 0,
+        "cache_create": 28100,
+        "cost_usd": 0.0,
+        "total_tokens": 29959,
+        "rows": 14,
+        "models": [
+          "claude-sonnet-4-6"
+        ],
+        "steps": [
+          "rearticulate-05-part-01",
+          "rearticulate-05-part-03",
+          "rearticulate-05-part-04",
+          "rearticulate-05-part-04-repair",
+          "rearticulate-05-part-05",
+          "rearticulate-05-part-05-repair",
+          "rearticulate-05-part-06",
+          "rearticulate-05-part-06-repair",
+          "rearticulate-05-part-07",
+          "rearticulate-05-part-08",
+          "rearticulate-05-part-09",
+          "rearticulate-05-part-10",
+          "rearticulate-05-part-11",
+          "rearticulate-05-part-12"
+        ]
+      },
+      "quality": {
+        "windows": 12,
+        "windows_kept": 5,
+        "windows_cached": 0,
+        "windows_repaired": 1,
+        "windows_source_preserved": 1,
+        "window_keep_rate": 0.4167,
+        "gates": [
+          "rearticulate-05-part-04: abridged re-voice (75<78 words)",
+          "rearticulate-05-part-04: Arabic runs dropped (1<16)",
+          "rearticulate-05-part-04: Arabic script dropped (15 run(s)) — replaced or removed: إن; تحصوهآ; تعدوا۟",
+          "rearticulate-05-part-04: repair still failed: lecture voice added — narration addresses the reader (4 vs 0 in source) under first_person_expository frame",
+          "rearticulate-05-part-06: abridged re-voice (24<51 words)",
+          "rearticulate-05-part-06: Arabic runs dropped (4<22)",
+          "rearticulate-05-part-06: Arabic script dropped (16 run(s)) — replaced or removed: إن; بعدهۦ; ذا",
+          "rearticulate-05-part-06: repair still failed: lecture voice added — narration addresses the reader (4 vs 0 in source) under first_person_expository frame",
+          "rearticulate-05-part-08: no candidate",
+          "rearticulate-05-part-09: no candidate",
+          "rearticulate-05-part-10: no candidate",
+          "rearticulate-05-part-11: no candidate",
+          "rearticulate-05-part-12: no candidate"
+        ],
+        "warnings": [
+          "rearticulate-05-part-02: protected source artifact copied verbatim",
+          "rearticulate-05-part-05: output near-identical to base — copied, not re-voiced",
+          "assembled chapter is partial — 5/12 windows kept; review voice continuity"
+        ],
+        "assembly_gates": []
+      }
     },
     "linguistic meaning of rehma": {
       "title": "Linguistic Meaning Of REHMA",
-      "status": "reverted",
-      "at": "2026-08-12T09:51:36.544479+00:00"
+      "status": "partial",
+      "at": "2026-08-12T20:50:19.783831+00:00",
+      "started_at": "2026-08-12T20:44:40.949675+00:00",
+      "finished_at": "2026-08-12T20:50:19.781220+00:00",
+      "duration_seconds": 338.829,
+      "usage": {
+        "input_tokens": 27,
+        "output_tokens": 21620,
+        "cache_read": 11724,
+        "cache_create": 23923,
+        "cost_usd": 0.0,
+        "total_tokens": 57294,
+        "rows": 9,
+        "models": [
+          "claude-sonnet-4-6"
+        ],
+        "steps": [
+          "rearticulate-06-part-01",
+          "rearticulate-06-part-02",
+          "rearticulate-06-part-03",
+          "rearticulate-06-part-04",
+          "rearticulate-06-part-05",
+          "rearticulate-06-part-06",
+          "rearticulate-06-part-07",
+          "rearticulate-06-part-08",
+          "rearticulate-06-part-09"
+        ]
+      }
     },
     "womb - the source of mercy": {
       "title": "Womb - The Source Of Mercy",

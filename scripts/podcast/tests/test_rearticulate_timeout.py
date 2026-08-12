@@ -48,4 +48,4 @@ def test_rearticulate_adapter_runs_claude_without_tools_or_workspace_context(tmp
 
 
 def test_rearticulate_windows_stay_small_enough_for_cli_text_transform() -> None:
-    assert _WINDOW_WORDS == 450
+    assert _WINDOW_WORDS == 300
