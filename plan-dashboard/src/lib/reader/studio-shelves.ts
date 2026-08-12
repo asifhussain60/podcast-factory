@@ -125,6 +125,15 @@ const SHELF_META: Record<
   },
 };
 
+// Hidden from the Studio picker specifically (Asif, 2026-08-12): with only
+// one book each, Technical and Guides & References added two mostly-empty
+// shelves to scroll past to reach the ones actually being worked. This is a
+// DISPLAY choice, not a content one — the bucket, its books, and every other
+// bucket-driven surface (Corpus, content-paths resolution, the Python
+// pipeline) are untouched; a book already in one of these buckets is still
+// reachable directly at /studio/<slug>. Un-hide by removing an entry here.
+const STUDIO_HIDDEN_BUCKETS: readonly Bucket[] = ["Technical", "Guides"];
+
 export async function buildStudioShelves() {
   const allContent = await listContent();
 
@@ -247,17 +256,19 @@ export async function buildStudioShelves() {
 
   const shelves = (
     await Promise.all(
-      BUCKETS.map(async (bucket) => {
-        const shelfCards = cards
-          .filter((c) => c.bucket === bucket)
-          .sort((a, b) => a.title.localeCompare(b.title));
-        return {
-          bucket,
-          meta: SHELF_META[bucket],
-          items: await buildItems(shelfCards),
-          cards: shelfCards,
-        };
-      }),
+      BUCKETS.filter((bucket) => !STUDIO_HIDDEN_BUCKETS.includes(bucket)).map(
+        async (bucket) => {
+          const shelfCards = cards
+            .filter((c) => c.bucket === bucket)
+            .sort((a, b) => a.title.localeCompare(b.title));
+          return {
+            bucket,
+            meta: SHELF_META[bucket],
+            items: await buildItems(shelfCards),
+            cards: shelfCards,
+          };
+        },
+      ),
     )
   ).filter((s) => s.cards.length > 0);
 

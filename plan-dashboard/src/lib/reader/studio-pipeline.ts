@@ -90,10 +90,40 @@ function phaseIndex(phase: string | null | undefined): number {
   return i;
 }
 
+/**
+ * The Sessions lane's own phase vocabulary (scripts/podcast/sessions/*.py) —
+ * a lecture transcript being ingested, transcribed, articulated, prefaced and
+ * apparatus-annotated, never any of the orchestrator's 0a-0g/per-chapter/
+ * finalize phases above. A Sessions-lane book's `phase`/`last_completed_phase`
+ * is ALWAYS one of these five strings, never one from PHASE_ORDER, so it was
+ * appending these onto the SAME shared index, not using a parallel one, that
+ * would be the bug: `sessions-ingest` sorted anywhere in PHASE_ORDER would
+ * either always or never satisfy `reached >= idxOf("0a")`-style comparisons
+ * against phases that book never has, which is a coincidence of array
+ * position, not a real answer. Kept as its own index instead (see
+ * `buildSessionsSteps`), read from the SAME state-file shape the orchestrator
+ * writes (`phase`, `phase_status`, `last_completed_phase`, plus
+ * `pipeline_mode: "sessions_lane"`, which is what selects this branch).
+ */
+const SESSIONS_PHASE_ORDER = [
+  "sessions-ingest",
+  "sessions-transcribe",
+  "sessions-articulate",
+  "sessions-preface",
+  "sessions-apparatus",
+];
+
+function sessionsPhaseIndex(phase: string | null | undefined): number {
+  if (!phase) return -1;
+  return SESSIONS_PHASE_ORDER.indexOf(phase);
+}
+
 interface RawState {
   phase?: string;
   phase_status?: string;
   last_completed_phase?: string;
+  pipeline_mode?: string;
+  status?: string;
 }
 
 async function readJson<T>(path: string): Promise<T | null> {
@@ -143,6 +173,93 @@ export async function loadStatusBucket(
 }
 
 /**
+ * The Sessions lane's own four-step model — same StepId/StudioStep shape the
+ * orchestrator lane renders, so the shared stepper component needs no branch
+ * of its own, but derived from SESSIONS_PHASE_ORDER rather than PHASE_ORDER.
+ * There is no review-gate.json equivalent here (no automated pre-authoring
+ * source-refine step to approve) — the transcript itself, once transcribed,
+ * IS the reviewed source a lecture-based book articulates from, and the
+ * standing "Compose tab is the review gate" rule covers the human checkpoint
+ * that matters, same as it does for every other bucket.
+ */
+function buildSessionsSteps(state: RawState | null): StudioStep[] {
+  const completed = sessionsPhaseIndex(state?.last_completed_phase);
+  const current = sessionsPhaseIndex(state?.phase);
+  const reached = Math.max(completed, current);
+  const idxOf = (p: string) => SESSIONS_PHASE_ORDER.indexOf(p);
+
+  const intakeDone = reached >= idxOf("sessions-ingest");
+  const intake: StudioStep = {
+    id: "intake",
+    label: "Intake",
+    blurb: STUDIO_STEPS[0].blurb,
+    state: intakeDone ? "done" : "active",
+    detail: intakeDone
+      ? "Transcript ingested"
+      : state
+        ? "Ingest in progress"
+        : "Not started",
+  };
+
+  const reviewDone = reached >= idxOf("sessions-transcribe");
+  const review: StudioStep = {
+    id: "review",
+    label: "Source Review",
+    blurb: STUDIO_STEPS[1].blurb,
+    state: reviewDone ? "done" : intakeDone ? "active" : "pending",
+    detail: reviewDone
+      ? "Transcribed"
+      : intakeDone
+        ? "Transcribing"
+        : "Waiting on intake",
+  };
+
+  const editDone = reached >= idxOf("sessions-apparatus");
+  let editState: StepState = "pending";
+  let editDetail = "Waiting on source review";
+  if (editDone) {
+    editState = "done";
+    editDetail = "Articulated and composed";
+  } else if (reviewDone) {
+    editState = "active";
+    editDetail =
+      state?.phase === "sessions-articulate"
+        ? "Articulating chapters"
+        : state?.phase === "sessions-preface"
+          ? "Writing front matter"
+          : state?.phase === "sessions-apparatus"
+            ? "Applying citations & vowelling"
+            : "In progress";
+  }
+  const edit: StudioStep = {
+    id: "edit",
+    label: "Edit & Enrich",
+    blurb: STUDIO_STEPS[2].blurb,
+    state: editState,
+    detail: editDetail,
+  };
+
+  let pubState: StepState = "pending";
+  let pubDetail = "Waiting on authoring";
+  if (state?.status === "published") {
+    pubState = "done";
+    pubDetail = "Published";
+  } else if (editDone) {
+    pubState = "active";
+    pubDetail = "Ready for Compose review";
+  }
+  const publish: StudioStep = {
+    id: "publish",
+    label: "Publish",
+    blurb: STUDIO_STEPS[3].blurb,
+    state: pubState,
+    detail: pubDetail,
+  };
+
+  return [intake, review, edit, publish];
+}
+
+/**
  * Build the four-step status model for a book. Resilient: a book with no state
  * file is treated as "intake active, everything else pending".
  */
@@ -153,6 +270,11 @@ export async function loadStudioPipeline(slug: string): Promise<StudioStep[]> {
   const state = dir
     ? await readJson<RawState>(join(dir, "_system", "orchestrator-state.json"))
     : null;
+
+  if (state?.pipeline_mode === "sessions_lane") {
+    return buildSessionsSteps(state);
+  }
+
   const gate = dir
     ? await readJson<{
         approved?: boolean;
