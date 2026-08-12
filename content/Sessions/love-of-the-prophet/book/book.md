@@ -620,27 +620,27 @@ These stories are not meant to be heard and set aside. His life poses the questi
 
 ## A Model For Success
 
-We have gathered today for this final session on the life and character of our beloved Prophet. Yesterday we explored the depths of his being — his kindness, his patience, his unwavering faith. We learned that he was not just a historical figure but a living embodiment of the truths of our faith. His life was the perfect example of success, a success that transcends the fleeting definitions of this world.
+The life and character of the beloved Prophet ﷺ — his kindness, his patience, his unwavering faith — reveal not merely a historical figure but a living embodiment of the truths of our faith. His life was the perfect example of success, a success that transcends the fleeting definitions of this world.
 
 ### Redefining Success and Failure
 
-Today, I want to speak specifically to the young adults in this gathering. You are the future of our faith. It is the cycle of nature that the old must make way for the new. As parents, we want you to succeed — not just in this world, but in the afterlife as well. For that to happen, we must understand what **success** means through the lens of Islam. We must first challenge our worldly definitions of **success**.
+The question of success is one that speaks most urgently to those who are young. It is the cycle of nature that the old must make way for the new. Parents want their children to succeed — not just in this world, but in the afterlife as well. For that to happen, success must be understood through the lens of Islam, and the worldly definition of that word must first be challenged.
 
-Imagine we are on a bus and we pass a beautiful mansion with a magnificent car and an Olympic-sized swimming pool. If someone asks whether the owner is successful, the overwhelming answer would be yes. A little further along, we see a poor man living in a cottage of straw, wearing old clothes. Is he successful by worldly standards? Most would say no.
+The scene is familiar: a bus passes a beautiful mansion with a magnificent car and an Olympic-sized swimming pool. If someone asks whether the owner is successful, the overwhelming answer would be yes. A little further along stands a poor man in a cottage of straw, wearing old clothes. By worldly standards, most would call him a failure.
 
-And that is the problem — the way we think about success and failure. When we turn to the Quran, we find that one of the most magnificent palaces ever built belonged to فرعون (Pharaoh). Yet was he successful in the eyes of Allah? No. According to the Quran, he was among the greatest losers. Conversely, was Ibrahim (AS) not driven out of his house by his father, Azar? Did Musa (AS) not have to flee his city and live a poor life in a foreign land? Were they failures? No. According to the Quran, they were profoundly successful. The Quran teaches us that a homeless man can be successful, and an enormously wealthy man can be a complete failure. Success in the eyes of Allah has nothing to do with fame, power, or wealth. And failure has nothing to do with poverty or destitution. I am not saying one must live in a cardboard box to be successful from an Islamic perspective. What I am saying is that material success is not real success in the eyes of Allah.
+And that is the problem — the way we think about success and failure. The Quran records that one of the most magnificent palaces ever built belonged to فرعون (Pharaoh). Yet was he successful in the eyes of Allah? No. According to the Quran, he was among the greatest losers. Was Ibrahim (AS) not driven out of his house by his father, Azar? Did Musa (AS) not have to flee his city and live a poor life in a foreign land? Were they failures? No. According to the Quran, they were profoundly successful. The Quran teaches that a homeless man can be successful, and an enormously wealthy man can be a complete failure. Success in the eyes of Allah has nothing to do with fame, power, or wealth. And failure has nothing to do with poverty or destitution. I am not saying one must live in a cardboard box to be successful from an Islamic perspective. What I am saying is that material success is not real success in the eyes of Allah.
 
 ### Success
 
-So what, then, is success? The Quran uses several words. One is توفيق, as in وَمَا تَوْفِيقٌ إِلَّا بِاللّٰہِ — "And my success/divine help is only with Allah." توفيق comes from the root word وفق, which means to agree, to be in harmony, to be in conformity — to have our actions in perfect harmony with the will and providence of Allah. Another word is فوز, which means victory, often one that carries a reward with it. Allah describes the reward for obedience as ٱلْفَوْزُ ٱلْعَظِيمُ — the greatest victory.
+So what, then, is success? The Quran uses several words. One is توفيق, as in وَمَا تَوْفِيقٌ إِلَّا بِاللّٰہِ — "And my success/divine help is only with Allah." توفيق comes from the root word وفق, which means to agree, to be in harmony, to be in conformity — to have our actions in perfect harmony with the will and providence of Allah. Another word is فوز, which means victory, often one that carries a reward with it. Allah describes the reward for obedience as ٱلْفَوْزُ ٱلْعَظِيمُ — the greatest victory.
 
 > تلْكَ حُدُودُ ٱللَّه وَمَن يُطع ٱللَّهَ وَرَسُولَهُ يُدْخلْهُ جَنَّتٍۢ تَجْرى من تَحْتهَا ٱلْأَنْهَرُ خَلدينَ فيهَا وَذَلكَ ٱلْفَوْزُ ٱلْعَظيمُ
 >
 > These are the limits [set by] Allah, and whoever obeys Allah and his Messenger will be admitted by him to gardens [in Paradise] under which rivers flow, abiding eternally therein; and that is the great attainment.
 
-But a more powerful word is فلاح. This is an agricultural term — to till the ground, to plow the land, to cultivate it. Why does a farmer till his land? Because in doing so, he draws out the land's natural capacity for growth and sets its productive power to work. A farmer labors for months — tilling, seeding, watering, protecting — and eventually reaps a harvest far greater than his original investment. That is فلاح. That is success: to receive a return on your effort that is beyond measure.
+But a more powerful word is فلاح. This is an agricultural term — to till the ground, to plow the land, to cultivate it. A farmer tills his land to draw out its natural capacity for growth and set its productive power to work. He labors for months — tilling, seeding, watering, protecting — and eventually reaps a harvest far greater than his original investment. That is فلاح. That is success: to receive a return on effort that is beyond measure.
 
-This is precisely why, five times a day, we hear the most beautiful call, حَیَّ عَلَی الْفَلَاحِ. It is not "Come to prayer" alone, but "Come to falah!" Allah is calling us to cultivate our souls, to till the soil of our hearts, to water it with His remembrance, and to prepare it for a harvest that will be reaped in the Hereafter. Prayer is our act of tending the spiritual garden, and in return we are promised a success beyond anything this world can offer.
+This is precisely why, five times a day, we hear the most beautiful call, حَیَّ عَلَی الْفَلَاحِ. It is not "Come to prayer" alone, but "Come to falah!" Allah is calling us to cultivate our souls, to till the soil of our hearts, to water it with His remembrance, and to prepare it for a harvest that will be reaped in the Hereafter. Prayer is our act of tending the spiritual garden, and in return we are promised a success beyond anything this world can offer.
 
 And what of failure? The Quran calls the losers خاسرون. The greatest losers are described in Surah Al-Kahf:
 
@@ -650,9 +650,9 @@ And what of failure? The Quran calls the losers خاسرون. The greatest loser
 
 ### The Foundation of True Success
 
-The essence of success — this فلاح — is tied to the purification of the soul. Allah underscores this in the Quran with a series of powerful oaths, each one commanding our attention. An oath is taken by something sacred to impress upon us the importance of what follows. Consider, then, what it means when Allah Himself takes that oath — not once, but many times over.
+The essence of success — this فلاح — is tied to the purification of the soul. Allah underscores this in the Quran with a series of powerful oaths, each one commanding our attention. An oath is taken by something sacred to impress upon us the importance of what follows. The weight of what it means, then, when Allah Himself takes that oath — not once, but many times over — can hardly be overstated.
 
-In سُورَۃُ الشَّمْسِ (Surah Ash-Shams), He swears:
+In سُورَۃُ الشَّمْسِ (Surah Ash-Shams), He swears:
 
 > وَٱلشَّمْس وَضُحَىٰهَا ‎ ‏وَٱلْقَمَر إذَا تَلَىٰهَا ‎ ‏وَٱلنَّهَار إذَا جَلَّىٰهَا ‎ ‏وَٱلَّيْل إذَا يَغْشَىٰهَا ‎ ‏وَٱلسَّمَاء وَمَا بَنَىٰهَا ‎ ‏وَٱلْأَرْض وَمَا طَحَىٰهَا ‎ ‏وَنَفْسٍۢ وَمَا سَوَّىٰهَا
 >
@@ -688,59 +688,59 @@ What greater purpose than to emulate the beautiful character of Rasul Allah ﷺ,
 
 ### 2. Role Models
 
-**Second**, successful people seek out role models or mentors who give them a sense of what is possible. This is why Allah gave Rasul Allah ﷺ the stories of the prophets before him — to give him تثبيت (firmness), so his heart would be certain of success despite every tribulation. Yet consider the role models followed today: Hollywood and Bollywood stars, singers, and actors. These are false idols held up for imitation, not people of character. Historically, actors and musicians were counted among the lowest rungs of society; today these same figures — many of them known for alcohol, drug abuse, and fornication — are celebrated and exalted.
+**Second**, successful people seek out role models or mentors who give them a sense of what is possible. This is why Allah gave Rasul Allah ﷺ the stories of the prophets before him — to give him تثبيت (firmness), so his heart would be certain of success despite every tribulation. Yet the role models followed today are Hollywood and Bollywood stars, singers, and actors — false idols held up for imitation, not people of character. Historically, actors and musicians were counted among the lowest rungs of society; today these same figures — many of them known for alcohol, drug abuse, and fornication — are celebrated and exalted.
 
 Not long ago, a Turkish show named "Erturul" became enormously popular. It featured actors portraying immensely pious characters — yet in their real lives, these same individuals are often photographed on beaches with little regard for modesty. They are simply performers.
 
-But here is the real question: why are we so drawn to the characters they portray? The answer, if we reflect carefully, is that our attraction is not to the actors themselves but to the noble qualities they reflect from our beloved Prophet ﷺ. It is these prophetic virtues — love, courage, generosity — that captivate us through their portrayal on screen. So why not go to the genuine source? Rather than be entertained by performers playing roles for a fee, we can draw our inspiration from the living truth. Our Prophet ﷺ was not performing or pretending; he was the living embodiment of truth.
+The real question is why we are so drawn to the characters they portray. The answer, on reflection, is that the attraction is not to the actors themselves but to the noble qualities they reflect from our beloved Prophet ﷺ. It is these prophetic virtues — love, courage, generosity — that captivate us through their portrayal on screen. The genuine source stands available. Rather than drawing inspiration from performers playing roles for a fee, it can be drawn from the living truth. Our Prophet ﷺ was not performing or pretending; he was the living embodiment of truth.
 
 > لَّقَدْ كَانَ لَكُمْ فى رَسُول ٱللَّه أُسْوَةٌ حَسَنَةٌۭ لّمَن كَانَ يَرْجُوا۟ ٱللَّهَ وَٱلْيَوْمَ ٱلْآخرَ وَذَكَرَ ٱللَّهَ كَثيرًۭا
 >
 > There has certainly been for you in the Messenger of Allah an excellent pattern for anyone whose hope is in Allah and the last day and [who] remembers Allah often.
 
-We have the best example and role model in the character of our beloved Prophet ﷺ. Follow his Seerah instead of chasing these performers.
+The best example and role model is found in the character of our beloved Prophet ﷺ. His Seerah, not the performances of actors, is where that inspiration belongs.
 
 ### 3. Visualization
 
 **Third** is the strength of visualizing one's goals. No one had a clearer grasp of his goal than Rasul Allah ﷺ. He described to Suraqa ibn Malik, in precise terms, the day he would put on the bracelets of Kisra — and it came to pass. On the Day of the Trench, when the hypocrites saw nothing but delusion, Rasul Allah ﷺ was instilling in his companions a vision of entering the palaces of Kisra and of the security that Islam would bring.
 
-Let us visualize ourselves in the presence of Allah, of Rasul Allah ﷺ, of Maulana Ali (AS) — welcomed with happiness and pride, not disappointment. In the film *The Lord of the Rings*, a dying king says to his daughter, "I go to my fathers, in whose mighty company I shall not feel ashamed." What a powerful vision. When we leave this world, we should aspire to feel no shame in the company of our righteous predecessors. Death is inevitable. The question is not whether we will die. The question is whether we are ready for it. If tonight were the night we had to spend in our graves or stand before the Prophet, would we be prepared?
+The vision is of standing in the presence of Allah, of Rasul Allah ﷺ, of Maulana Ali (AS) — welcomed with happiness and pride, not disappointment. In the film *The Lord of the Rings*, a dying king says to his daughter, "I go to my fathers, in whose mighty company I shall not feel ashamed." It is a powerful vision. The aspiration, when we leave this world, is to feel no shame in the company of our righteous predecessors. Death is inevitable. The question is not whether we will die. The question is whether we are ready for it — ready for the night of the grave, and for standing before the Prophet.
 
 ### 4. Positive Orientation
 
-**Fourth** is a positive orientation — dwelling on past successes, not failures. We must never give up hope or stop striving. This is why Allah reminds us:
+**Fourth** is a positive orientation — dwelling on past successes, not failures. Hope must never be abandoned, and striving must never cease. This is why Allah reminds us:
 
 > وَلَقَدْ نَصَرَكُمُ ٱللَّهُ ببَدْرٍۢ وَأَنتُمْ أَذلَّةٌۭ ۖ فَٱتَّقُوا۟ ٱللَّهَ لَعَلَّكُمْ تَشْكُرُونَ
 >
 > And already had Allah given you victory at [the battle of] Badr while you were few in number. Then fear Allah; perhaps you will be grateful.
 
-Remember your victory at Badr, when you were few and weak. Allah will grant us victory if we keep striving. With that in mind, it is wise to begin small. Do not attempt to bench press three hundred pounds on your first day at the gym. If you do not pray at all, begin with one prayer. Take on one quality of Rasul Allah ﷺ and work on it. Then celebrate that success rather than reproaching yourself for what you have not yet done. Once, Rasul Allah ﷺ asked his companions to gather whatever twigs and branches they could find. A large pile soon formed. He said, "This is how good deeds accumulate, and this is also how bad deeds accumulate." Let us all begin collecting these small twigs of good deeds, of prayer, of good character — and soon we will have a mountain.
+The victory at Badr stands as the reminder: when few and weak, Allah granted it. He will grant victory again if striving continues. With that in mind, it is wise to begin small. A beginner does not attempt to bench press three hundred pounds. One who does not pray at all may begin with one prayer, taking on one quality of Rasul Allah ﷺ and working on it — then celebrating that success rather than dwelling on what has not yet been done. Once, Rasul Allah ﷺ asked his companions to gather whatever twigs and branches they could find. A large pile soon formed. He said, "This is how good deeds accumulate, and this is also how bad deeds accumulate." The accumulation begins with these small twigs of good deeds, of prayer, of good character — and in time, the pile becomes a mountain.
 
 ### 5. Self-Assurance
 
-**Fifth** is self-assurance — knowing that you can succeed.
+**Fifth** is self-assurance — knowing that success is possible.
 
 > وَلَا تَهنُوا۟ وَلَا تَحْزَنُوا۟ وَأَنتُمُ ٱلْأَعْلَوْنَ إن كُنتُم مُّؤْمنينَ
 >
 > "Do not feel weak, and do not grieve, for you are the superior ones if you are true believers."
 
-We have an everlasting life of joy ahead of us, إِن كُنتُم مُّؤْمِنِينَ — "if you are believers." Study your religion. Knowledge builds certainty, confidence, and self-assurance.
+An everlasting life of joy lies ahead, إِن كُنتُم مُّؤْمِنِينَ — "if you are believers." Studying the religion builds certainty, confidence, and self-assurance.
 
 ### 6 and 7. Plan and Organize
 
-**Sixth and Seventh**, successful people plan and organize. They know how to prioritize. Let us each begin our day with a spiritual plan. Will we follow Rasul Allah ﷺ today, or Netflix? Will we prioritize our صلوۃ (prayer), or will we prioritize entertainment? Let us establish our priorities and build everything else around them. Let us not be caught up in trivial matters — arguing over the permissibility of toothpaste ingredients, for instance — while neglecting our daily prayers. Let us attend to the essentials, the great matters, before troubling ourselves with what is small. This is the disease of a Talmudic, rabbinical mind that asks, "What kind of cow? What color?" The devil is in the details, they say. Rasul Allah ﷺ was a universal man who lifted us above triviality. He focused us on the matter that truly counts:
+**Sixth and Seventh**, successful people plan and organize. They know how to prioritize. Beginning each day with a spiritual plan is where the question becomes concrete: will we follow Rasul Allah ﷺ today, or Netflix? Will we prioritize our صلوۃ (prayer), or will we prioritize entertainment? Establishing priorities, and building everything else around them, is the discipline required. The trap of triviality must be avoided — arguing over the permissibility of toothpaste ingredients, for instance, while neglecting daily prayers. The essentials, the great matters, deserve attention first, before what is small. This is the disease of a Talmudic, rabbinical mind that asks, "What kind of cow? What color?" The devil is in the details, they say. Rasul Allah ﷺ was a universal man who lifted us above triviality. He focused us on the matter that truly counts:
 
 > يَوْمَ لَا يَنفَعُ مَالٌۭ وَلَا بَنُونَ ‎ ‏إلَّا مَنْ أَتَى ٱللَّهَ بقَلْبٍۢ سَليمٍۢ
 >
 > The day when there will not benefit [anyone] wealth or children (88) But only one who comes to Allah with a sound heart. " (89).
 
-On the Day when neither wealth nor children will be of any benefit — "except for one who comes to Allah with a sound heart." Worry, then, about where your heart is in prayer, not where your feet are. Is your heart with Allah, or with your Amazon shopping cart?
+On the Day when neither wealth nor children will be of any benefit — "except for one who comes to Allah with a sound heart" — the only question worth dwelling on is where the heart is in prayer, not where the feet are. Is the heart with Allah, or with an Amazon shopping cart?
 
 ### 8. Acquire the Necessary Skills
 
 **Eighth** is the ability to acquire the necessary skills. One of our greatest weaknesses is that we recite the Quran but do not understand it. We have a romantic, tenuous attachment to a book we have never truly read in a language we comprehend. This produces blind passion, and blind passion is incompatible with the intellect.
 
-A story is told of a male sparrow trying to impress a female on the dome of Prophet Sulaiman's (AS) place of worship. He boasted, "If I wanted, I could overturn this dome onto Sulaiman's head for you!" Sulaiman (AS), who understood the speech of birds, called him down. The terrified sparrow, his small heart beating fast, said, "O Prophet of Allah, do you not know that lovers are never called to account for what they say in the presence of their beloved?" He was in the grip of passion. We see displays of the same kind — passion for things of which we have little real knowledge. We must build our capacity by studying the Quran and the supplications we recite. Begin slowly, but be consistent.
+A story is told of a male sparrow trying to impress a female on the dome of Prophet Sulaiman's (AS) place of worship. He boasted, "If I wanted, I could overturn this dome onto Sulaiman's head for you!" Sulaiman (AS), who understood the speech of birds, called him down. The terrified sparrow, his small heart beating fast, said, "O Prophet of Allah, do you not know that lovers are never called to account for what they say in the presence of their beloved?" He was in the grip of passion. Displays of the same kind are common — passion for things of which there is little real knowledge. The capacity must be built by studying the Quran and the supplications we recite. Beginning slowly, but with consistency, is the method.
 
 ### 9. Patience
 
@@ -750,13 +750,13 @@ A story is told of a male sparrow trying to impress a female on the dome of Prop
 >
 > And be patient, [o Muhammad], and your patience is not but through Allah. And do not grieve over them, nor be in distress over what they conspire.
 
-Be patient, and encourage others to be patient. Almost all our tribulations seem to stem from two things: کبر (arrogance) and a lack of patience. Until we remove this superiority complex from our hearts and recognize that it is humility which elevates us, we will never succeed. We must learn to be patient. The craving for instant gratification is destroying our spirituality. Islam is the religion of delayed gratification. Our ultimate reward is in the آخرہ (Hereafter), not this دنیا (world). We must persevere.
+Patience must be cultivated, and shared. Almost all our tribulations seem to stem from two things: کبر (arrogance) and a lack of patience. Until we remove this superiority complex from our hearts and recognize that it is humility which elevates us, we will never succeed. We must learn to be patient. The craving for instant gratification is destroying our spirituality. Islam is the religion of delayed gratification. Our ultimate reward is in the آخرہ (Hereafter), not this دنیا (world). We must persevere.
 
 > وَأَن لَّيْسَ للْإنسَن إلَّا مَا سَعَىٰ
 >
 > No one has anything except what they endeavor for.
 
-Indeed, you will see your endeavor. And on that Day, it will be said:
+Every endeavor will be seen. And on that Day, it will be said:
 
 > إنَّ هَذَا كَانَ لَكُمْ جَزَاءًۭ وَكَانَ سَعْيُكُم مَّشْكُورًا
 >
@@ -770,19 +770,19 @@ Indeed, you will see your endeavor. And on that Day, it will be said:
 >
 > Allah is pleased with them, and they are pleased with Allah. That is for whoever has feared his lord.
 
-None of us truly believes until he loves Allah and His Messenger more than his own self. This is not a religion of compulsion. لَا اِکْرَاہَ فِی الدِّینِ — "There is no compulsion in religion." Ours is a religion of love and willing submission. If you have made a conscious choice to accept Islam, then enjoy it. If you practice it with resentment or fear, something is deeply wrong in your understanding. I love my Islam, and I live and enjoy life — but I try to prioritize the essentials. I fail more often than I succeed, but I celebrate my successes and try to address my failures the following day.
+None of us truly believes until he loves Allah and His Messenger more than his own self. This is not a religion of compulsion. لَا اِکْرَاہَ فِی الدِّینِ — "There is no compulsion in religion." Ours is a religion of love and willing submission. A conscious choice to accept Islam is an invitation to joy. To practice it with resentment or fear signals something deeply wrong in one's understanding. I love my Islam, and I live and enjoy life — but I try to prioritize the essentials. I fail more often than I succeed, but I celebrate my successes and try to address my failures the following day.
 
 As Marianne Williamson wrote: "Our deepest fear is not that we are inadequate. Our deepest fear is that we are powerful beyond measure. It is our light, not our darkness, that most frightens us. Your playing small does not serve the world. We were born to make manifest the glory of God that is within us. It's not just in some of us; it's in everyone. And as we let our own light shine, we unconsciously give other people permission to do the same." SubhanAllah, what a beautiful description of our purpose.
 
 Our Prophet Muhammad (peace be upon him) was the ultimate embodiment of this truth. He was not afraid to let his light shine. He lived with such grace, such integrity, and such purpose that it was not merely a lesson for his companions — it was an invitation.
 
-Consider: when they saw his humility, his unwavering truthfulness, his boundless generosity, something awakened in their own hearts. They recognized that these were not qualities belonging to him alone but a potential within each of them. When they saw him stand for justice, they found the courage to stand with him. When they saw him forgive, their own hearts were softened, and they learned to forgive others.
+When they saw his humility, his unwavering truthfulness, his boundless generosity, something awakened in their own hearts. They recognized that these were not qualities belonging to him alone but a potential within each of them. When they saw him stand for justice, they found the courage to stand with him. When they saw him forgive, their own hearts were softened, and they learned to forgive others.
 
 His light did not blind them; it illuminated the path before them. He showed them that a human being could be an ocean of mercy, that a person could be a source of constant praise, and that a soul could be a vessel for divine love. And in doing so, he gave them — and us — permission to strive for that same quality of character.
 
-We are all born with a capacity for immense good, a spark of divine light within us. Our task is not to make ourselves small, to conceal our compassion, our honesty, our love. Our task is to nurture that spark, to let it grow, and to let it shine brightly. Because when you live your life by the character of the Prophet, you are not merely a good person — you are a beacon. You are a living example that reminds others of their own potential, a silent sermon that says: "You, too, can be merciful. You, too, can be truthful. You, too, can be a servant of Allah in the most beautiful way."
+We are all born with a capacity for immense good, a spark of divine light within us. Our task is not to make ourselves small, to conceal our compassion, our honesty, our love. Our task is to nurture that spark, to let it grow, and to let it shine brightly. One who lives by the character of the Prophet is not merely a good person — they are a beacon, a living example that reminds others of their own potential, a silent sermon that says: "You, too, can be merciful. You, too, can be truthful. You, too, can be a servant of Allah in the most beautiful way."
 
-To the young adults in this gathering: know this — your light is the brightest of all. It is pure, untainted, and full of immense potential. Our community, our families, this world needs your light to push back the darkness. Do not be afraid to be kind, to be truthful, to be courageous. Be the best version of yourselves, for in doing so you will not only walk in the footsteps of the Prophet — you will be a beacon of hope for generations to come. Shine brightly.
+The light of the young is the brightest of all — pure, untainted, full of immense potential. The community, the family, the world itself needs that light to push back the darkness. Kindness, truthfulness, and courage are not virtues to be concealed. Living as the best version of oneself is to walk in the footsteps of the Prophet and to be a beacon of hope for generations to come.
 
 ### The Veil of Heedlessness and the Call to Life
 
@@ -790,21 +790,21 @@ The path to emulating these models of success begins with waking from our spirit
 
 > وَلَقَدْ ذَرَأْنَا لجَهَنَّمَ كَثيرًۭا مّنَ ٱلْجنّ وَٱلْإنس ۖ لَهُمْ قُلُوبٌۭ لَّا يَفْقَهُونَ بهَا وَلَهُمْ أَعْيُنٌۭ لَّا يُبْصرُونَ بهَا وَلَهُمْ آذَانٌۭ لَّا يَسْمَعُونَ بهَا أُو۟لَئكَ كَٱلْأَنْعَم بَلْ هُمْ أَضَلُّ أُو۟لَئكَ هُمُ ٱلْغَفلُونَ
 >
-> And we have certainly created for Hell many of the jinn and mankind. hey have hearts with which they do not understand, they have eyes with which they do not see, and they have ears with which they do not hear. Those are like livestock; rather, they are more astray. It is they who are the heedless.
+> And we have certainly created for Hell many of the jinn and mankind. They have hearts with which they do not understand, they have eyes with which they do not see, and they have ears with which they do not hear. Those are like livestock; rather, they are more astray. It is they who are the heedless.
 
 He says: ‏وَلَقَدْ ذَرَأْنَا لجَهَنَّمَ كَثيرًۭا مّنَ ٱلْجنّ وَٱلْإنس. He has prepared for Hellfire multitudes of jinn and humans. What makes them eligible? لَهُمْ قُلُوبٌۭ لَّا يَفْقَهُونَ بِهَا — "They have hearts with which they do not understand." وَلَهُمْ أَعْيُنٌۭ لَّا يُبْصِرُونَ بِهَا — "They have eyes with which they do not see." وَلَهُمْ آذَانٌۭ لَّا يَسْمَعُونَ بِهَآ — "They have ears with which they do not hear." He says, أُو۟لَٓئِكَ كَٱلْأَنْعَمِ — "Those are like cattle." But then He clarifies: بَلْ هُمْ أَضَلُّ — "No, they are even more astray." Why? أُو۟لَٓئِكَ هُمُ ٱلْغَفِلُونَ — "Those are the heedless ones."
 
-Animals are not heedless. A rabbit moves its ears constantly, alert to every threat. A mouse does not simply wander out of its hole — it surveys its surroundings. That is a lesson in تقوى (God-consciousness). Animals live in a state of vigilance because their existence is at stake; they understand that heedlessness costs them their lives. We human beings, by contrast, are in a perpetual state of heedlessness about our spiritual survival. Animals flee from fire; we run toward it, pausing to take photographs. We are submerged in entertainment, not seeing that we are dying spiritually. When will we wake up and answer the call of Allah and His Messenger?
+Animals are not heedless. A rabbit moves its ears constantly, alert to every threat. A mouse does not simply wander out of its hole — it surveys its surroundings. That is a lesson in تقوى (God-consciousness). Animals live in a state of vigilance because their existence is at stake; they understand that heedlessness costs them their lives. We human beings, by contrast, are in a perpetual state of heedlessness about our spiritual survival. Animals flee from fire; we run toward it, pausing to take photographs. We are submerged in entertainment, not seeing that we are dying spiritually. The call of Allah and His Messenger awaits an answer.
 
 > يَأَيُّهَا ٱلَّذينَ آمَنُوا۟ ٱسْتَجيبُوا۟ للَّه وَللرَّسُول إذَا دَعَاكُمْ لمَا يُحْييكُمْ ۖ وَٱعْلَمُوا۟ أَنَّ ٱللَّهَ يَحُولُ بَيْنَ ٱلْمَرْء وَقَلْبه وَأَنَّهُ إلَيْه تُحْشَرُونَ
 >
 > O you who have believed, respond to Allah and to the Messenger when he calls you to that which gives you life. And know that Allah intervenes between a man and his heart and that to him you will be gathered.
 
-O you who believe — answer Allah and the Messenger when they call you to that which gives you life! The implication is stark: for as long as we do not respond, we are dead. Our hearts are dead. Ours is a society that celebrates the death of the spirit while giving life to the lowest pursuits. People throw themselves off bridges attached to rubber cords in search of a moment's feeling of being alive, because inside they are empty. But that is not true life. The only thing that will truly make you feel alive is to become a servant of الحي — the Ever-Living.
+O you who believe — answer Allah and the Messenger when they call you to that which gives you life! The implication is stark: for as long as we do not respond, we are dead. Our hearts are dead. Ours is a society that celebrates the death of the spirit while giving life to the lowest pursuits. People throw themselves off bridges attached to rubber cords in search of a moment's feeling of being alive, because inside they are empty. But that is not true life. The only thing that truly makes a person feel alive is to become a servant of الحي — the Ever-Living.
 
 ### The Virtue of Being a Stranger
 
-We have explored the beautiful character of our Prophet — his immense mercy, the way he transformed lives through his sheer authenticity. As we draw toward the close, I want to leave you with a profound and perhaps challenging idea from his own words. He said:
+The Prophet's beautiful character — his immense mercy, the way he transformed lives through his sheer authenticity — finds a final and challenging expression in his own words. He said:
 
 > **Muhammad Ibn Abdullah ﷺ- Islam, Stranger, Blessed**
 >
@@ -812,11 +812,11 @@ We have explored the beautiful character of our Prophet — his immense mercy, t
 >
 > Islam began as a stranger, and it will return as a stranger just as it began. So, blessed are the strangers.
 
-Consider that word — "stranger." It does not mean being odd or an outcast. It means a person whose way of life, beliefs, and values differ from those of the world around them. When Islam first appeared, it was strange. In a society that worshiped idols and its own desires, a small group of believers worshiped one God. In a world where might was right, they were humble. In a world of cruelty, they were compassionate. Their way of life was foreign, and the world saw them as strangers. And our Prophet is telling us that we are coming full circle.
+The word "stranger" carries weight. It does not mean being odd or an outcast. It means a person whose way of life, beliefs, and values differ from those of the world around them. When Islam first appeared, it was strange. In a society that worshiped idols and its own desires, a small group of believers worshiped one God. In a world where might was right, they were humble. In a world of cruelty, they were compassionate. Their way of life was foreign, and the world saw them as strangers. And the Prophet is telling us that we are coming full circle.
 
-The world today, for all its sophistication, looks a great deal like that old world. It worships the gods of wealth, fame, and power. It celebrates arrogance and self-indulgence. It finds comfort in things that are ultimately empty. But to us, the Prophet offers a promise: "So, blessed are the strangers" — فَطُوبَى لِلْغُرَبَاءِ. He is offering us a blessing, glad tidings. He is telling us that it is a blessed and noble thing to be a stranger in this world.
+The world today, for all its sophistication, looks a great deal like that old world. It worships the gods of wealth, fame, and power. It celebrates arrogance and self-indulgence. It finds comfort in things that are ultimately empty. But to us, the Prophet offers a promise: "So, blessed are the strangers" — فَطُوبَى لِلْغُرَبَاءِ. He is offering a blessing, glad tidings, telling us that it is a blessed and noble thing to be a stranger in this world.
 
-When you rise in the quiet of the night to worship Allah while the rest of the world sleeps, you are a stranger. When you are generous with your wealth in a world that hoards it, you are a stranger. When you speak with respect and honor, when you are humble in a world that celebrates arrogance, when you choose to dress modestly in a world that glorifies immodesty, you are a stranger.
+One who rises in the quiet of the night to worship Allah while the rest of the world sleeps is a stranger. One who is generous with wealth in a world that hoards it is a stranger. One who speaks with respect and honor, who is humble in a world that celebrates arrogance, who chooses to dress modestly in a world that glorifies immodesty — that person is a stranger.
 
 This is not a message of despair. It is a message of profound hope and dignity. It is a reminder that the true measure of success is not popularity or the world's approval — it is a deeper, more lasting connection. Because it is far better to be a stranger in this temporary world than to be a stranger to Allah and His Messenger in the next. We have a choice. We can live in conformity, flowing with the crowds rushing toward a destination that will ultimately leave them hollow. Or we can be among the blessed strangers — those who walk a different path, guided by the light of the Prophet's character. We do not want to be among those who cry out on the Day of Judgment, "Woe to us! This is the Day of Judgment!" We do not want to plead, "My Lord, if only You would delay me for a brief term so that I might give charity and be among the righteous." No. We aspire to be the ones welcomed with the most beautiful words ever spoken. We want to be the ones who hear:
 

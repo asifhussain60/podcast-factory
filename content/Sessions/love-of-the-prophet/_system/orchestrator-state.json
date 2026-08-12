@@ -18,9 +18,9 @@
     },
     "sessions-articulate": {
       "status": "completed",
-      "chapters": 0,
-      "reverted": 5,
-      "completed_at": "2026-08-12T00:44:08.667133+00:00"
+      "chapters": 1,
+      "reverted": 0,
+      "completed_at": "2026-08-12T01:00:46.748895+00:00"
     },
     "sessions-preface": {
       "status": "completed"
