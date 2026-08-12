@@ -27,12 +27,10 @@ degraded into transcription, which no fidelity gate can catch because copying is
 maximally faithful. Chapters over ``_LONG_CHAPTER_WORDS`` are therefore split at
 paragraph boundaries into ``_WINDOW_WORDS``-sized windows, each re-voiced with
 the tail of the previous window for continuity and gated against its OWN base, so
-one stumbling passage costs that passage rather than the whole chapter. This
-mirrored the translation composer, which has windowed long chapters on a
-4,500-word threshold since it shipped (``_translation_edition._LONG_CHAPTER_WORDS``);
-the two were deliberately un-matched on 2026-08-11 when a 4,479-word chapter
-failed in exactly the documented way twenty-one words below the line. See the
-constant.
+one stumbling passage costs that passage rather than the whole chapter. See the
+constant for its 2026-08-11 history. ``revoice_gates`` also catches the OPPOSITE
+failure (2026-08-12): a response many times longer than its window, which no
+prior gate checked for at all.
 
 This module also drives ``0book-fluency`` (``apply_fluency_adapt``), the automatic
 articulation pass for every translation-edition book. It shares ``_run_pass`` /
@@ -56,16 +54,18 @@ from pathlib import Path
 from typing import Callable, Sequence
 
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
-from _book_articulation_notes import EMPTY_NOTES, extract_articulation_notes, leaked_marker_findings
-from _book_compose import _arabic_run_count
+from _book_articulation_notes import EMPTY_NOTES, extract_articulation_notes
 from _book_edits import anchor_key, edited_chapter_keys
 from _book_fences import span_re
 from _book_pass_reports import load_prior_records, merge_records, restamp_counts
+
+# `narrative_opening_findings` and `revoice_gates` live in `_book_voice_gates`
+# (split 2026-08-12, DR-005) and are re-exported here so every existing
+# `from _book_voice import revoice_gates` keeps working.
+from _book_voice_gates import narrative_opening_findings, revoice_gates  # noqa: F401
 from _book_voice_prompts import _articulation_prompt, _voice_prompt
 from _content_profile import source_language as _source_language
-from _doctrinal import run_doctrinal_checks
-from _literary import teaching_loss_findings
-from _narrative import frame_findings, lecture_voice_counts
+from _narrative import lecture_voice_counts
 from _pipeline_flags import narrative_frame, narrator_subject
 from _translation_text import _split_paragraphs, _trim_seam_overlap, subordinate_body_headings
 
@@ -78,18 +78,12 @@ _CHAPTER_HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 # this pass cannot see is a span the model rewrites into the narrator's voice.
 _EDITORIAL_SPAN_RE = span_re("editorial", trailing=r"\n?")
 
-# Windowing thresholds. `_WINDOW_WORDS` sits under `_LONG_CHAPTER_WORDS` so a
-# split chapter always yields at least two substantive windows.
-#
-# 4,500 -> 4,000 on 2026-08-11, and DELIBERATELY un-matched from
-# `_translation_edition._LONG_CHAPTER_WORDS`, which this had tracked since it
-# shipped: that path renders a SOURCE span whose window boundary is a range it can
-# point at, while this one rewrites finished prose and owns its own seams, so
-# moving a number governing five published translation editions to fix an
-# articulation failure would change the blast radius rather than the bug.
-# Evidence and full account in framework.md; in short, a 4,479-word chapter came
-# back as an 840-word summary of itself — the exact failure this threshold exists
-# to prevent, twenty-one words below the line drawn to prevent it.
+# `_WINDOW_WORDS` sits under `_LONG_CHAPTER_WORDS` so a split chapter always
+# yields at least two substantive windows. 4,500 -> 4,000 on 2026-08-11,
+# DELIBERATELY un-matched from `_translation_edition._LONG_CHAPTER_WORDS` (that
+# path windows a SOURCE span; this one owns its own seams). Full account in
+# framework.md — a 4,479-word chapter went to the model whole and came back an
+# 840-word summary, twenty-one words under the old line.
 _LONG_CHAPTER_WORDS = 4000
 _WINDOW_WORDS = 2500
 # A trailing window smaller than this fraction of the target is folded back into
@@ -165,96 +159,6 @@ def _revoice_chapter(
     return (out or "").strip()
 
 
-# Narrator "announcing the telling" openings — a chapter must begin as a chapter,
-# not with the narrator framing the act of narration itself (found live 2026-07-19:
-# "Let me set down, as faithfully as I can, how my Master opened the matter...",
-# 6 instances in one book alone). Searched only within the chapter's own opening
-# window (first ~200 chars) — this voice is intentionally first-person and warm
-# by design (see REGISTER above), so a broad first-person match would revert
-# legitimate prose; only the specific "I am now going to narrate" framing move
-# is forbidden, and it can land a few words into the opening sentence (e.g. "I
-# held this book back... and I want to tell you why"), not only at position 0.
-_NARRATIVE_OPENING_RE = re.compile(
-    r"\b("
-    r"let me (tell|set down|speak|recount|say)\b"
-    r"|i want to tell you\b"
-    r"|i shall (now )?(tell|recount|set down)\b"
-    r"|before i (tell|set down|begin)\b"
-    r"|allow me to (tell|recount|set down)\b"
-    r")",
-    re.IGNORECASE,
-)
-
-
-def narrative_opening_findings(text: str, base_text: str | None = None) -> list[str]:
-    """Flag a chapter that opens by announcing the act of narration instead of
-    starting as a chapter does. Checked only against the chapter's own opening.
-
-    DIFFERENTIAL when ``base_text`` is given: the finding is reported only if the
-    re-voice INTRODUCED the announcement. Every other gate in ``revoice_gates``
-    already reads this way — abridgement measures against the base's word count,
-    teaching-loss and the frame guards take both texts, dropped Arabic runs
-    compares run counts, and new doctrinal P0s subtract the base's own. This one
-    did not, and the asymmetry cost real work: *Ayyuhal Walad* chapter 2 opens
-    "Let me tell you of a man among the Children of Israel" in al-Ghazali's own
-    letter, so the model preserving that opening — exactly what faithfulness
-    demands — was reverted as though it had invented it, and the chapter shipped
-    un-articulated. A source that announces its own telling can otherwise never
-    pass articulation at all.
-
-    ``base_text=None`` keeps the older single-argument contract for unit tests
-    that exercise the phrase-matching in isolation.
-    """
-    opening = text.strip()[:200]
-    if not _NARRATIVE_OPENING_RE.search(opening):
-        return []
-    # The author already opened this way — preserving it is fidelity, not drift.
-    if base_text is not None and _NARRATIVE_OPENING_RE.search(base_text.strip()[:200]):
-        return []
-    return [f"narrative-announcement opening: {opening[:120]!r}"]
-
-
-def revoice_gates(
-    base_text: str,
-    revoiced: str,
-    *,
-    check_opening: bool = True,
-    frame: str | None = None,
-    narrator_subject: str = "",
-) -> list[str]:
-    """Deterministic fidelity gates. Empty list => the re-voice may be kept.
-
-    ``check_opening`` is False for continuation windows of a split chapter — the
-    narrative-opening rule is about how a CHAPTER opens, and a mid-chapter window
-    that legitimately says "let me tell you" must not be reverted for it.
-
-    ``frame`` adds the narrative guards from ``_narrative``: grammatical person,
-    speech-tag integrity, Arabic-script retention, supplied diacritics, and
-    enumeration survival. Passed by both routes; omitted only by unit tests that
-    exercise the older gates in isolation.
-    """
-    findings: list[str] = []
-    if not revoiced.strip():
-        return ["empty re-voice output"]
-    # Anti-abridgement: a re-voice must be about the same length, never a summary.
-    base_words = len(base_text.split())
-    if base_words >= 8 and len(revoiced.split()) < 0.6 * base_words:
-        findings.append(f"abridged re-voice ({len(revoiced.split())}<{round(0.6 * base_words)} words)")
-    findings.extend(teaching_loss_findings(base_text, revoiced))
-    if check_opening:
-        findings.extend(narrative_opening_findings(revoiced, base_text))
-    if _arabic_run_count(revoiced) < _arabic_run_count(base_text):
-        findings.append(f"Arabic runs dropped ({_arabic_run_count(revoiced)}<{_arabic_run_count(base_text)})")
-    base_p0 = {f.signature for f in run_doctrinal_checks(base_text) if f.severity == "P0"}
-    new_p0 = [f for f in run_doctrinal_checks(revoiced) if f.severity == "P0" and f.signature not in base_p0]
-    if new_p0:
-        findings.append("new doctrinal P0: " + "; ".join(f"{f.check_id}:{f.signature}" for f in new_p0[:3]))
-    if frame:
-        findings.extend(frame_findings(base_text, revoiced, frame=frame, narrator_subject=narrator_subject))
-    findings.extend(leaked_marker_findings(revoiced))
-    return findings
-
-
 def _adapt_chapter_body(
     title: str,
     base_prose: str,
@@ -300,32 +204,44 @@ def _adapt_chapter_body(
         except Exception as e:  # non-fatal: this window falls back to its base
             log(f"      {noun}: {title!r} {part_label} skipped (non-fatal): {e}")
             candidate = ""
-        # REQ-BA-160: strip any trailing ===ARTICULATION-NOTES=== block BEFORE
-        # gating, so length/fidelity checks never see it and it can never reach
-        # book.md. A no-op for prompts (e.g. author-companion voice) that never
-        # emit one.
-        candidate, window_notes = extract_articulation_notes(candidate)
-        gate = (
-            revoice_gates(
-                window,
-                candidate,
-                check_opening=idx == 1,
-                frame=frame,
-                narrator_subject=narrator_subject,
+        # This block through the near-identical check used to run UNGUARDED
+        # (2026-08-12): a candidate that broke some downstream step propagated a
+        # bare exception past `_run_pass` to the caller's broad catch, reporting
+        # the WHOLE CHAPTER failed rather than reverting the one window. Same
+        # treatment as the model-call try/except above: `part` falls back to the
+        # clean `window`, exactly like a normal gate rejection.
+        try:
+            # REQ-BA-160: strip any trailing ===ARTICULATION-NOTES=== block BEFORE
+            # gating, so length/fidelity checks never see it and it can never reach
+            # book.md. A no-op for prompts (e.g. author-companion voice) that never
+            # emit one.
+            candidate, window_notes = extract_articulation_notes(candidate)
+            gate = (
+                revoice_gates(
+                    window,
+                    candidate,
+                    check_opening=idx == 1,
+                    frame=frame,
+                    narrator_subject=narrator_subject,
+                )
+                if candidate
+                else ["no candidate"]
             )
-            if candidate
-            else ["no candidate"]
-        )
+            if gate:
+                part = window
+            else:
+                part = candidate
+                if _similarity(window, candidate) >= _NEAR_IDENTICAL_RATIO:
+                    warnings.append(f"{part_label}: output near-identical to base — copied, not re-voiced")
+        except Exception as e:
+            log(f"      {noun}: {title!r} {part_label} gate check raised (non-fatal): {e}")
+            window_notes, gate, part = {k: [] for k in EMPTY_NOTES}, [f"gate check raised: {e}"], window
         if gate:
             gates.extend(f"{part_label}: {g}" for g in gate)
-            part = window
         else:
             kept += 1
-            part = candidate
             for key, values in window_notes.items():
                 notes[key].extend(values)
-            if _similarity(window, candidate) >= _NEAR_IDENTICAL_RATIO:
-                warnings.append(f"{part_label}: output near-identical to base — copied, not re-voiced")
         if kept_parts:
             part = _trim_seam_overlap(kept_parts[-1], part)
         kept_parts.append(part)

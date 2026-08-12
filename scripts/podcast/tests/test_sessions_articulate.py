@@ -246,7 +246,8 @@ def test_the_step_completes_without_dragging_the_lane_backwards(book_dir: Path, 
     state = json.loads(state_path.read_text())
     assert state["phase"] == "sessions-preface"
     assert state["phases"][ARTICULATE_STEP]["status"] == "completed"
-    assert state["phases"][ARTICULATE_STEP]["chapters"] == 2
+    assert state["phases"][ARTICULATE_STEP]["chapters_kept"] == 2
+    assert state["phases"][ARTICULATE_STEP]["chapters_total"] == 2
 
 
 # ---------------------------------------------------------------------------
@@ -272,12 +273,54 @@ def test_a_run_of_empty_responses_stops_the_run(book_dir: Path, monkeypatch) -> 
 
 
 def test_an_aborted_run_does_not_mark_the_step_complete(book_dir: Path, monkeypatch) -> None:
-    """A green tick over a half-articulated book is how it stays half-articulated."""
+    """A green tick over a half-articulated book is how it stays half-articulated.
+
+    The step reads `running`, not the `pending` it started at — a heartbeat
+    catching this book mid-abort should see that work is underway, not that
+    nothing has happened yet."""
     state_path = book_dir / "_system" / "orchestrator-state.json"
     state_path.write_text(json.dumps({"phases": {ARTICULATE_STEP: {"status": "pending"}}}), encoding="utf-8")
     monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: dead())
     art.articulate_book(book_dir, log=lambda *_: None)
-    assert json.loads(state_path.read_text())["phases"][ARTICULATE_STEP]["status"] == "pending"
+    assert json.loads(state_path.read_text())["phases"][ARTICULATE_STEP]["status"] == "running"
+
+
+def test_the_step_reads_running_the_moment_a_run_starts(book_dir: Path, monkeypatch) -> None:
+    """A heartbeat firing in the first minute of an hours-long chapter must not
+    see whatever an EARLIER run's outcome happened to leave stamped — including
+    a stale `completed` from before this rule existed."""
+    state_path = book_dir / "_system" / "orchestrator-state.json"
+    state_path.write_text(
+        json.dumps({"phases": {ARTICULATE_STEP: {"status": "completed", "chapters_kept": 2}}}), encoding="utf-8"
+    )
+
+    def hangs(bd, key, log=print):
+        raise RuntimeError("never returns in this test")
+
+    monkeypatch.setattr(art, "rearticulate", hangs)
+    try:
+        art.articulate_book(book_dir, log=lambda *_: None)
+    except Exception:
+        pass
+    # The FIRST write, before any chapter's outcome is known, already overwrote
+    # the stale `completed`.
+    assert json.loads(state_path.read_text())["phases"][ARTICULATE_STEP]["status"] == "running"
+
+
+def test_a_run_that_ends_with_real_reverts_left_is_not_marked_complete(book_dir: Path, monkeypatch) -> None:
+    """Reaching the end of the chapter list without aborting is NOT the same as
+    finishing the book. The original bug: a run that tried all 21 chapters,
+    kept 2, and genuinely failed the rest on content grounds still stamped
+    `completed` because it never hit the dead-streak circuit breaker."""
+    (book_dir / "_system" / "orchestrator-state.json").write_text(
+        json.dumps({"phases": {ARTICULATE_STEP: {"status": "pending"}}}), encoding="utf-8"
+    )
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: envelope("reverted"))
+    art.articulate_book(book_dir, log=lambda *_: None)
+    state = json.loads((book_dir / "_system" / "orchestrator-state.json").read_text())
+    assert state["phases"][ARTICULATE_STEP]["status"] == "running"
+    assert state["phases"][ARTICULATE_STEP]["chapters_kept"] == 0
+    assert state["phases"][ARTICULATE_STEP]["chapters_total"] == 2
 
 
 def test_a_real_gate_rejection_is_not_mistaken_for_an_unreachable_model(book_dir: Path, monkeypatch) -> None:

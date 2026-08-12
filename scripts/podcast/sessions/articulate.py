@@ -126,8 +126,8 @@ def _record(book_dir: Path, key: str, title: str, status: str) -> None:
     _ledger_path(book_dir).write_text(json.dumps(ledger, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
-def _mark_step_complete(book_dir: Path, *, chapters: int, reverted: int) -> None:
-    """Record that the articulation step ran, without moving the lane backwards.
+def _write_step_status(book_dir: Path, *, status: str, kept: int, total: int) -> None:
+    """Record how far the articulation step has actually gotten.
 
     `sessions-articulate` sits BEFORE `sessions-preface` in `LANE_STEPS`, but it
     is legitimately run after it — the introduction the preface writes is
@@ -135,6 +135,21 @@ def _mark_step_complete(book_dir: Path, *, chapters: int, reverted: int) -> None
     `phase` pointer is left exactly where the ingest put it. Writing
     `phase: sessions-articulate` here would report a finished book as three
     steps from done.
+
+    ``status`` is ``"completed"`` ONLY when every non-introduction chapter is
+    kept — never merely "the run finished without crashing". A run that reaches
+    the end of its chapter list with real, non-outage reverts still remaining is
+    NOT complete; it is running and waiting for a retry, same as an aborted one.
+    Conflating "the process returned" with "the book is done" is what let the
+    very first run stamp `completed` at 2 of 23 chapters kept, which
+    `book_status_card.py` then read as 100% of this step's weight earned —
+    reporting the book as 92% complete and one step from done while twenty-one
+    of twenty-three chapters still read exactly as the transcript left them.
+
+    Called at the START of a run too (``kept``/``total`` as they stand before
+    any chapter is touched), so a heartbeat mid-run sees ``running`` promptly
+    rather than whatever an earlier run's completion — or non-completion —
+    happened to leave behind.
     """
     path = book_dir / "_system" / "orchestrator-state.json"
     if not path.exists():
@@ -144,12 +159,9 @@ def _mark_step_complete(book_dir: Path, *, chapters: int, reverted: int) -> None
     except (OSError, ValueError):
         return
     phases = state.get("phases") or {step: {"status": "pending"} for step in LANE_STEPS}
-    phases[ARTICULATE_STEP] = {
-        "status": "completed",
-        "chapters": chapters,
-        "reverted": reverted,
-        "completed_at": datetime.now(timezone.utc).isoformat(),
-    }
+    entry = {"status": status, "chapters_kept": kept, "chapters_total": total}
+    entry["completed_at" if status == "completed" else "updated_at"] = datetime.now(timezone.utc).isoformat()
+    phases[ARTICULATE_STEP] = entry
     state["phases"] = phases
     path.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
 
@@ -186,6 +198,9 @@ def articulate_book(
         for key, title in todo:
             log(f"    would articulate: {title}")
         return {"frame": frame, "planned": len(todo), "skipped": skipped, "adapted": 0, "reverted": 0, "failed": []}
+
+    if todo:
+        _write_step_status(book_dir, status="running", kept=skipped, total=len(chapters))
 
     adapted = reverted = 0
     failed: list[dict] = []
@@ -240,10 +255,18 @@ def articulate_book(
             aborted = True
             break
 
-    # Not complete if the model went away — marking the step done would freeze a
-    # half-articulated book behind a green tick.
-    if not aborted:
-        _mark_step_complete(book_dir, chapters=adapted, reverted=reverted)
+    # Re-read the ledger rather than trust this run's own counters: `skipped`
+    # chapters were already kept before this call started, and `adapted` counts
+    # only what THIS run kept. The true completeness question is "is anything
+    # left un-kept at all", which only the ledger — updated per chapter above,
+    # including by the failed/aborted paths — can answer.
+    now_kept = sum(1 for v in read_ledger(book_dir)["chapters"].values() if v.get("status") in KEPT)
+    _write_step_status(
+        book_dir,
+        status="completed" if now_kept >= len(chapters) else "running",
+        kept=now_kept,
+        total=len(chapters),
+    )
     return {
         "frame": frame,
         "planned": len(todo),
@@ -287,4 +310,13 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
+    # This run is routinely launched detached (`nohup ... > log.txt &`) so a
+    # heartbeat can watch it, and stdout redirected to a file rather than a
+    # terminal is FULLY buffered by default. That log stayed at 0 bytes for the
+    # entire ten-hour run on 2026-08-12 — every "quiet tick" I reported wasn't
+    # quiet, it was a monitoring channel with no signal, because nothing had
+    # been flushed. Line-buffering here is cheap (a few hundred lines over a
+    # multi-hour run) and makes the log mean what it says.
+    sys.stdout.reconfigure(line_buffering=True)
+    sys.stderr.reconfigure(line_buffering=True)
     raise SystemExit(main())

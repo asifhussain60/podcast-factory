@@ -7,6 +7,7 @@ underway rather than as nothing.
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -252,3 +253,168 @@ def test_a_missing_state_file_renders_rather_than_crashing(tmp_path: Path) -> No
     card = build_card(tmp_path)
     assert card["percent_complete"] == 0.0
     assert render_card(card)
+
+
+# ─── the Sessions lane (its own sequence, not the orchestrator's PHASES) ─────
+#
+# `sessions-articulate` checkpoints per chapter in `_system/sessions-articulation
+# .json`, exactly like 0b/0d checkpoint per chunk on disk — same reason for the
+# same kind of helper. Found 2026-08-12: `book_status_card.py` reported Surah
+# Al-Fateha as 92% complete, one step from done, while 21 of 23 chapters still
+# read exactly as the lecture transcript left them. Two independent bugs
+# produced that number, and both are pinned below.
+
+
+def _sessions_book(tmp_path: Path, *, headings: list[str], kept: dict[str, str]) -> Path:
+    bd = tmp_path / "surah-al-fateha"
+    (bd / "book").mkdir(parents=True)
+    (bd / "_system").mkdir()
+    body = "\n\n".join(f"## {h}\n\nSome prose.\n" for h in headings)
+    (bd / "book" / "book.md").write_text(f"# A Series\n\n{body}\n", encoding="utf-8")
+    from _book_edits import anchor_key
+
+    ledger = {"chapters": {anchor_key(h): {"title": h, "status": s} for h, s in kept.items()}}
+    (bd / "_system" / "sessions-articulation.json").write_text(json.dumps(ledger), encoding="utf-8")
+    return bd
+
+
+def test_a_stale_completed_flag_does_not_grant_full_credit(tmp_path: Path) -> None:
+    """The bug as it actually shipped: the driver wrote `completed` after
+    keeping 2 of 23 chapters, and the flag alone earned this phase its FULL
+    weight. Real per-chapter progress must be read even when status claims done,
+    or a stale flag from before a correctness fix keeps lying forever."""
+    bd = _sessions_book(
+        tmp_path,
+        headings=["Introduction to the Book", "A", "B"],
+        kept={"A": "adapted"},
+    )
+    state_dict = {
+        "phases": {
+            "sessions-ingest": {"status": "completed"},
+            "sessions-articulate": {"status": "completed", "chapters_kept": 1},
+            "sessions-preface": {"status": "completed"},
+        }
+    }
+    progress = compute_progress(state_dict, bd)
+    row = next(r for r in progress["phases"] if r["phase"] == "sessions-articulate")
+    assert row["fraction"] == 0.5  # 1 of 2 real chapters, not 1.0 from the flag
+
+
+def test_a_running_articulate_step_reads_real_chapter_progress(tmp_path: Path) -> None:
+    bd = _sessions_book(
+        tmp_path,
+        headings=["Introduction to the Book", "A", "B", "C", "D"],
+        kept={"A": "adapted", "B": "partial", "C": "reverted"},
+    )
+    progress = compute_progress({"phases": {"sessions-articulate": {"status": "running"}}}, bd)
+    row = next(r for r in progress["phases"] if r["phase"] == "sessions-articulate")
+    assert row["fraction"] == 0.5  # 2 kept (adapted+partial) of 4 real chapters
+
+
+def test_the_introduction_does_not_count_toward_the_denominator(tmp_path: Path) -> None:
+    """The pass engine never touches the introduction — it is apparatus, not a
+    chapter — so counting it as un-kept work would cap this phase below 100%
+    even after every real chapter is articulated."""
+    bd = _sessions_book(
+        tmp_path,
+        headings=["Introduction to the Book", "A"],
+        kept={"A": "adapted"},
+    )
+    progress = compute_progress({"phases": {"sessions-articulate": {"status": "running"}}}, bd)
+    row = next(r for r in progress["phases"] if r["phase"] == "sessions-articulate")
+    assert row["fraction"] == 0.95  # capped, same convention as _chunk_fraction
+
+
+def test_without_a_book_md_the_flat_guess_still_applies(tmp_path: Path) -> None:
+    """Every existing caller that passes state alone, or a book_dir with no
+    book.md yet, must see the prior behavior unchanged."""
+    progress = compute_progress({"phases": {"sessions-articulate": {"status": "running"}}}, tmp_path)
+    row = next(r for r in progress["phases"] if r["phase"] == "sessions-articulate")
+    assert row["fraction"] == 0.5
+
+
+# ─── "Now" for a lane that runs its own sequence ─────────────────────────────
+
+
+def test_now_is_read_from_the_step_walk_not_a_frozen_top_level_field() -> None:
+    """The second bug: `state["phase"]`/`phase_status` are kept live by the
+    ORCHESTRATOR's own phase-transition code on every PHASES step. A lane's
+    scaffold step stamps those two fields once and nothing later touches them —
+    trusting them reported a book mid-articulation as "Now: Writing the
+    introduction · completed", the LAST thing the scaffold did, frozen."""
+    progress = compute_progress(
+        {
+            "phase": "sessions-preface",
+            "phase_status": "completed",
+            "phases": {
+                "sessions-ingest": {"status": "completed"},
+                "sessions-articulate": {"status": "running"},
+                "sessions-preface": {"status": "completed"},
+                "sessions-apparatus": {"status": "pending"},
+            },
+        }
+    )
+    assert progress["current"] == "sessions-articulate"
+    assert progress["current_status"] == "running"
+
+
+def test_an_orchestrator_book_still_trusts_its_own_live_phase_field() -> None:
+    """The fix must not touch the case it was never broken for. An orchestrator
+    book's `state["phase"]` IS kept live by its own phase-transition code, and
+    the canonical PHASES sequence must keep reading it, unchanged."""
+    progress = compute_progress(
+        {
+            "phase": "0d",
+            "phase_status": "running",
+            "phases": {"0a": {"status": "completed"}, "0d": {"status": "running"}},
+        }
+    )
+    assert progress["current"] == "0d"
+    assert progress["current_status"] == "running"
+
+
+def test_a_fully_finished_lane_reports_its_last_step_as_now() -> None:
+    progress = compute_progress(
+        {
+            "phases": {
+                "sessions-ingest": {"status": "completed"},
+                "sessions-apparatus": {"status": "completed"},
+            }
+        }
+    )
+    assert progress["current"] == "sessions-apparatus"
+    assert progress["current_status"] == "completed"
+
+
+def test_the_card_end_to_end_no_longer_reports_the_frontier_lie(tmp_path: Path) -> None:
+    """Both fixes together, on the exact shape that shipped wrong: a stale
+    `completed` on the step actually in progress, sitting behind a genuinely
+    completed LATER step. Before this fix: 92% complete, "Now: Writing the
+    introduction · completed", one step left. After: the real fraction, and
+    "Now" pointing at the step actually still moving."""
+    bd = _sessions_book(
+        tmp_path,
+        headings=["Introduction to the Book"] + [f"Ch{i}" for i in range(1, 24)],
+        kept={"Ch1": "adapted", "Ch2": "partial"},
+    )
+    (bd / "_system" / "orchestrator-state.json").write_text(
+        json.dumps(
+            {
+                "book_slug": "surah-al-fateha",
+                "phase": "sessions-preface",
+                "phase_status": "completed",
+                "phases": {
+                    "sessions-ingest": {"status": "completed"},
+                    "sessions-transcribe": {"status": "completed"},
+                    "sessions-articulate": {"status": "completed", "chapters_kept": 2},
+                    "sessions-preface": {"status": "completed"},
+                    "sessions-apparatus": {"status": "pending"},
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    card = build_card(bd)
+    assert card["current"] == "sessions-articulate"
+    assert card["percent_complete"] < 92.0
+    assert "sessions-articulate" in card["remaining"]
