@@ -7281,6 +7281,11 @@
     margin-top: 2.2em;
     margin-bottom: -0.35em;
     font-family: var(--l-font-prose);
+    /* Tailwind's preflight sets every heading to `font-weight: inherit`, so
+       without this a heading here renders at body weight -- larger, but
+       visually indistinguishable from the surrounding prose. 600 matches the
+       weight `.reader strong` already uses in this same reading column. */
+    font-weight: 600;
     line-height: 1.2;
   }
 
