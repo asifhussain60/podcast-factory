@@ -1,0 +1,35 @@
+{
+  "schema": "podcast.sessions-articulation/v1",
+  "chapters": {
+    "love based religion": {
+      "title": "Love Based Religion",
+      "status": "adapted",
+      "at": "2026-08-11T23:38:25.994097+00:00",
+      "restated": "status recovered from the prose itself after the first run misread the envelope"
+    },
+    "need for messengers": {
+      "title": "Need For Messengers",
+      "status": "adapted",
+      "at": "2026-08-11T23:47:14.365912+00:00",
+      "restated": "status recovered from the prose itself after the first run misread the envelope"
+    },
+    "islam as an experience": {
+      "title": "Islam As An Experience",
+      "status": "adapted",
+      "at": "2026-08-11T23:54:13.516335+00:00",
+      "restated": "status recovered from the prose itself after the first run misread the envelope"
+    },
+    "character of the prophet": {
+      "title": "Character Of The Prophet",
+      "status": "adapted",
+      "at": "2026-08-12T00:07:59.456673+00:00",
+      "restated": "status recovered from the prose itself after the first run misread the envelope"
+    },
+    "a model for success": {
+      "title": "A Model For Success",
+      "status": "reverted",
+      "at": "2026-08-12T00:44:08.666751+00:00",
+      "restated": "status recovered from the prose itself after the first run misread the envelope"
+    }
+  }
+}

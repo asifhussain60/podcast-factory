@@ -42,6 +42,26 @@ In the last session I talked about mercy.
 """
 
 
+def envelope(status: str) -> dict:
+    """What `rearticulate` ACTUALLY returns — the status envelope it writes to
+    `rearticulate-status.json`, with the pass verdict NESTED under `record`.
+
+    Every fake in this file returns this shape rather than a bare
+    `{"status": ...}`, because a bare one is what let the first live run report
+    five successful chapters as reverted: the driver read `.get("status")` off the
+    envelope, got `None` for all five, and the tests agreed with it because they
+    were asserting against the same wrong shape. `test_the_fake_matches_what_the_real_function_returns`
+    is what stops that happening again.
+    """
+    return {
+        "chapter_key": "k",
+        "state": "done",
+        "started_at": "2026-08-11T00:00:00+00:00",
+        "finished_at": "2026-08-11T00:01:00+00:00",
+        "record": {"title": "t", "status": status, "windows": 1, "windows_kept": 1},
+    }
+
+
 @pytest.fixture()
 def book_dir(tmp_path: Path) -> Path:
     (tmp_path / "book").mkdir()
@@ -70,6 +90,26 @@ def test_the_introduction_key_comes_from_the_engine_not_a_second_copy(book_dir: 
     from sessions.articulate import _INTRODUCTION_KEY as imported
 
     assert imported is _INTRODUCTION_KEY
+
+
+def test_the_fake_matches_what_the_real_function_returns() -> None:
+    """The fakes above stand in for `rearticulate`. If its return SHAPE changes,
+    every test here goes on passing against a shape that no longer exists — which
+    is not hypothetical: reading the verdict off the wrong level of this envelope
+    counted five articulated chapters as reverted on the first live run, and the
+    suite was green throughout. Pinned against the real function's own writer."""
+    import inspect
+
+    from rearticulate_chapter import rearticulate
+
+    source = inspect.getsource(rearticulate)
+    real_keys = {"chapter_key", "state", "started_at", "finished_at", "record"}
+    for key in real_keys:
+        assert f'"{key}"' in source, f"rearticulate no longer returns {key!r}"
+    assert set(envelope("adapted")) == real_keys
+    # And the verdict is nested, not top-level — the exact confusion that failed.
+    assert "status" not in envelope("adapted")
+    assert envelope("adapted")["record"]["status"] == "adapted"
 
 
 # ---------------------------------------------------------------------------
@@ -102,12 +142,22 @@ def test_force_re_runs_what_the_ledger_records(book_dir: Path) -> None:
     assert plan["planned"] == 2
 
 
-def test_a_failed_chapter_is_retried_on_the_next_run(book_dir: Path) -> None:
-    """A crash is not a result. Recording it as done would silently leave a
-    chapter un-articulated in a book reported complete."""
-    art._record(book_dir, "love based religion", "Love Based Religion", "failed")
+@pytest.mark.parametrize("status", ["failed", "reverted", "unknown", "skipped"])
+def test_only_a_KEPT_chapter_counts_as_done(book_dir: Path, status: str) -> None:
+    """A crash is not a result, and neither is a revert: the gates threw the
+    rewrite away and the base still stands, so that chapter is un-articulated
+    prose in a book that would otherwise be reported complete. Anything but
+    `adapted`/`partial` is retried."""
+    art._record(book_dir, "love based religion", "Love Based Religion", status)
     plan = art.articulate_book(book_dir, dry_run=True, log=lambda *_: None)
     assert plan["planned"] == 2
+
+
+@pytest.mark.parametrize("status", ["adapted", "partial"])
+def test_a_kept_chapter_is_not_paid_for_twice(book_dir: Path, status: str) -> None:
+    art._record(book_dir, "love based religion", "Love Based Religion", status)
+    plan = art.articulate_book(book_dir, dry_run=True, log=lambda *_: None)
+    assert plan["planned"] == 1
 
 
 def test_the_ledger_is_written_per_chapter_not_at_the_end(book_dir: Path, monkeypatch) -> None:
@@ -119,7 +169,7 @@ def test_the_ledger_is_written_per_chapter_not_at_the_end(book_dir: Path, monkey
         seen.append(key)
         if len(seen) == 2:
             raise RuntimeError("interrupted")
-        return {"status": "adapted"}
+        return envelope("adapted")
 
     monkeypatch.setattr(art, "rearticulate", fake)
     art.articulate_book(book_dir, log=lambda *_: None)
@@ -132,7 +182,7 @@ def test_one_bad_chapter_does_not_end_the_run(book_dir: Path, monkeypatch) -> No
     def fake(bd, key, log=print):
         if key == "love based religion":
             raise RuntimeError("model timeout")
-        return {"status": "adapted"}
+        return envelope("adapted")
 
     monkeypatch.setattr(art, "rearticulate", fake)
     summary = art.articulate_book(book_dir, log=lambda *_: None)
@@ -191,7 +241,7 @@ def test_the_step_completes_without_dragging_the_lane_backwards(book_dir: Path, 
         ),
         encoding="utf-8",
     )
-    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: {"status": "adapted"})
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: envelope("adapted"))
     art.articulate_book(book_dir, log=lambda *_: None)
     state = json.loads(state_path.read_text())
     assert state["phase"] == "sessions-preface"

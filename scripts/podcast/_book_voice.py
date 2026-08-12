@@ -28,8 +28,11 @@ maximally faithful. Chapters over ``_LONG_CHAPTER_WORDS`` are therefore split at
 paragraph boundaries into ``_WINDOW_WORDS``-sized windows, each re-voiced with
 the tail of the previous window for continuity and gated against its OWN base, so
 one stumbling passage costs that passage rather than the whole chapter. This
-mirrors the translation composer, which has windowed long chapters on the same
-4,500-word threshold since it shipped (``_translation_edition._LONG_CHAPTER_WORDS``).
+mirrored the translation composer, which has windowed long chapters on a
+4,500-word threshold since it shipped (``_translation_edition._LONG_CHAPTER_WORDS``);
+the two were deliberately un-matched on 2026-08-11 when a 4,479-word chapter
+failed in exactly the documented way twenty-one words below the line. See the
+constant.
 
 This module also drives ``0book-fluency`` (``apply_fluency_adapt``), the automatic
 articulation pass for every translation-edition book. It shares ``_run_pass`` /
@@ -75,10 +78,19 @@ _CHAPTER_HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 # this pass cannot see is a span the model rewrites into the narrator's voice.
 _EDITORIAL_SPAN_RE = span_re("editorial", trailing=r"\n?")
 
-# Windowing thresholds. `_LONG_CHAPTER_WORDS` matches the translation composer's
-# own long-chapter threshold; `_WINDOW_WORDS` sits under it so a split chapter
-# always yields at least two substantive windows.
-_LONG_CHAPTER_WORDS = 4500
+# Windowing thresholds. `_WINDOW_WORDS` sits under `_LONG_CHAPTER_WORDS` so a
+# split chapter always yields at least two substantive windows.
+#
+# 4,500 -> 4,000 on 2026-08-11, and DELIBERATELY un-matched from
+# `_translation_edition._LONG_CHAPTER_WORDS`, which this had tracked since it
+# shipped: that path renders a SOURCE span whose window boundary is a range it can
+# point at, while this one rewrites finished prose and owns its own seams, so
+# moving a number governing five published translation editions to fix an
+# articulation failure would change the blast radius rather than the bug.
+# Evidence and full account in framework.md; in short, a 4,479-word chapter came
+# back as an 840-word summary of itself — the exact failure this threshold exists
+# to prevent, twenty-one words below the line drawn to prevent it.
+_LONG_CHAPTER_WORDS = 4000
 _WINDOW_WORDS = 2500
 # A trailing window smaller than this fraction of the target is folded back into
 # its predecessor rather than shipped as a runt.

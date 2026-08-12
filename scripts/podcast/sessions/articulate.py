@@ -56,6 +56,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from _book_edits import anchor_key  # noqa: E402
+from _book_pass_reports import KEPT_STATUSES as KEPT  # noqa: E402
 
 # `_INTRODUCTION_KEY` is imported rather than restated: the pass engine already
 # refuses to touch the edition's introduction, and a second copy of that heading
@@ -163,7 +164,12 @@ def articulate_book(
         raise FileNotFoundError(f"missing {book_md} — run the ingest first.")
 
     frame = narrative_frame(book_dir)
-    done = set() if force else {k for k, v in read_ledger(book_dir)["chapters"].items() if v.get("status") != "failed"}
+    # Only a KEPT chapter is done. A revert produced nothing — the gates threw the
+    # rewrite away and the base still stands — so it is un-articulated prose in a
+    # book that would otherwise be reported complete, and the next run should try
+    # it again. `KEPT_STATUSES` is imported, not restated, so "did this chapter
+    # keep its rewrite" has the same answer here as in the pass reports.
+    done = set() if force else {k for k, v in read_ledger(book_dir)["chapters"].items() if v.get("status") in KEPT}
     chapters = chapter_keys(book_md)
     todo = [(k, t) for k, t in chapters if k not in done]
     skipped = len(chapters) - len(todo)
@@ -181,13 +187,18 @@ def articulate_book(
     for index, (key, title) in enumerate(todo, start=1):
         log(f"  [{index}/{len(todo)}] {title}")
         try:
-            record = rearticulate(book_dir, key, log=log)
+            result = rearticulate(book_dir, key, log=log)
         except Exception as exc:  # one bad chapter must not end a multi-hour run
             log(f"      FAILED: {exc}")
             failed.append({"chapter": title, "key": key, "error": str(exc)[:300]})
             _record(book_dir, key, title, "failed")
             continue
-        status = str(record.get("status") or "unknown")
+        # `rearticulate` returns the STATUS ENVELOPE it writes to
+        # `rearticulate-status.json` — `{chapter_key, state, started_at,
+        # finished_at, record}` — and the pass verdict is the nested `record`.
+        # Reading `status` off the envelope returns None for every chapter, which
+        # counted five successful chapters as reverted on the first live run.
+        status = str((result.get("record") or {}).get("status") or "unknown")
         if status in ("adapted", "partial"):
             adapted += 1
         else:
