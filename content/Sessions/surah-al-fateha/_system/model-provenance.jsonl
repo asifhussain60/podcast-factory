@@ -127,3 +127,4 @@
 {"phase": "rearticulate", "step": "rearticulate-03-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "rearticulate", "step": "rearticulate-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "rearticulate", "step": "rearticulate-03-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-03-part-01-retry-sonnet", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}

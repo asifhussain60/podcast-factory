@@ -17,10 +17,10 @@
       "status": "completed"
     },
     "sessions-articulate": {
-      "status": "completed",
-      "chapters": 2,
-      "reverted": 21,
-      "completed_at": "2026-08-12T02:32:24.433714+00:00"
+      "status": "running",
+      "chapters_kept": 2,
+      "chapters_total": 23,
+      "updated_at": "2026-08-12T11:56:06.719137+00:00"
     },
     "sessions-preface": {
       "status": "completed"
