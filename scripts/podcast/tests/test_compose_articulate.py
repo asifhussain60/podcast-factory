@@ -172,3 +172,119 @@ def test_installing_twice_does_not_duplicate_the_composer_edit(book_dir: Path, t
     edits = json.loads((book_dir / "_system" / "composer-edits.json").read_text(encoding="utf-8"))
     keys = [e["chapter_key"] for e in edits["edits"]]
     assert keys.count("the stages of love") == 1
+
+
+# ─── images the hand-off can't carry forward ──────────────────────────────
+
+
+IMG_A = "images/87/983c2f7d-5f31-4f45-b5bf-27da233a43c0.jpg"
+IMG_B = "images/87/1b3198d2-bb3f-48d3-ac49-05f97e515554.jpg"
+
+BOOK_WITH_IMAGES = f"""# A Series
+
+## A Chapter With Slides
+
+The first level is attachment. It is a small thing, and it grows.
+
+A vs THE
+
+![]({IMG_A})
+
+What matters is the difference between a thing and the thing.
+
+ILAH vs AL-ILAH
+
+![]({IMG_B})
+
+The distinction carries all the way through.
+
+## Next Chapter
+
+Unrelated content entirely.
+"""
+
+
+@pytest.fixture()
+def book_dir_with_images(tmp_path: Path) -> Path:
+    (tmp_path / "book").mkdir()
+    (tmp_path / "_system").mkdir()
+    (tmp_path / "book" / "book.md").write_text(BOOK_WITH_IMAGES, encoding="utf-8")
+    (tmp_path / "_system" / "sessions-articulation.json").write_text(json.dumps({"chapters": {}}), encoding="utf-8")
+    (tmp_path / "_system" / "series-config.yaml").write_text(
+        "content_profile: islamic_session\nnarrative_frame: first_person_expository\n",
+        encoding="utf-8",
+    )
+    return tmp_path
+
+
+def test_no_restoration_needed_when_the_base_chapter_has_no_images(book_dir: Path) -> None:
+    base_body, _, _ = ca._chapter_body(book_dir / "book" / "book.md", "The Stages Of Love")
+    new_body, restored = ca._restore_images(base_body, "A rewritten body with no images at all.")
+    assert restored == []
+    assert new_body == "A rewritten body with no images at all."
+
+
+def test_an_image_is_reinserted_after_its_surviving_caption(book_dir_with_images: Path, tmp_path: Path) -> None:
+    off = handoff(
+        tmp_path,
+        "## A Chapter With Slides\n\n"
+        "Attachment is where love begins; it is small, but it grows.\n\n"
+        "A vs THE\n\n"
+        "There is a real difference between a thing and the thing.\n\n"
+        "ILAH vs AL-ILAH\n\n"
+        "That same distinction runs through everything that follows.\n",
+    )
+    result = ca.check(book_dir_with_images, "A Chapter With Slides", off, log=lambda *_: None)
+    assert IMG_A in result["body"]
+    assert IMG_B in result["body"]
+    assert [r["placement"] for r in result["images_restored"]] == ["anchored", "anchored"]
+    # each image lands directly after the caption line it followed in the source
+    lines = result["body"].split("\n")
+    a_idx = next(i for i, ln in enumerate(lines) if IMG_A in ln)
+    assert lines[a_idx - 2].strip().lower() == "a vs the"
+
+
+def test_an_image_whose_caption_was_paraphrased_away_still_lands_somewhere(
+    book_dir_with_images: Path, tmp_path: Path
+) -> None:
+    off = handoff(
+        tmp_path,
+        "## A Chapter With Slides\n\n"
+        "Attachment is where love begins.\n\n"
+        "There is a real difference between something generic and something specific.\n\n"
+        "That same distinction runs through everything that follows.\n",
+    )
+    result = ca.check(book_dir_with_images, "A Chapter With Slides", off, log=lambda *_: None)
+    assert IMG_A in result["body"]
+    assert IMG_B in result["body"]
+    assert all(r["placement"] == "proportional" for r in result["images_restored"])
+
+
+def test_an_image_the_handoff_already_includes_is_not_duplicated(book_dir_with_images: Path, tmp_path: Path) -> None:
+    off = handoff(
+        tmp_path,
+        f"## A Chapter With Slides\n\nAttachment grows.\n\n![]({IMG_A})\n\nDistinction carries through.\n\n"
+        f"![]({IMG_B})\n\nEverything follows from it.\n",
+    )
+    result = ca.check(book_dir_with_images, "A Chapter With Slides", off, log=lambda *_: None)
+    assert result["body"].count(IMG_A) == 1
+    assert result["body"].count(IMG_B) == 1
+    assert result["images_restored"] == []
+
+
+def test_install_writes_the_restored_images_to_book_md(book_dir_with_images: Path, tmp_path: Path) -> None:
+    off = handoff(
+        tmp_path,
+        "## A Chapter With Slides\n\n"
+        "Attachment is where love begins; it is small, but it grows.\n\n"
+        "A vs THE\n\n"
+        "There is a real difference between a thing and the thing.\n\n"
+        "ILAH vs AL-ILAH\n\n"
+        "That same distinction runs through everything that follows.\n",
+    )
+    result = ca.install(book_dir_with_images, "A Chapter With Slides", off, log=lambda *_: None)
+    assert result["installed"] is True
+    text = (book_dir_with_images / "book" / "book.md").read_text(encoding="utf-8")
+    assert IMG_A in text
+    assert IMG_B in text
+    assert "## Next Chapter" in text  # untouched

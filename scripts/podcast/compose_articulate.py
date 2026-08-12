@@ -28,6 +28,15 @@ WHAT "correctly" MEANS, precisely, because it is easy to get almost right:
      tool's first real run found exactly that: "Stages of Love" vs the
      book's own "Stages Of Love"), and installing under the wrong casing
      would fail the pipeline's own heading-survival gate on sight.
+  1b. Every inline image the chapter already has (`![](images/<sid>/<file>)`
+     — the lecture-slide screenshots `sessions/convert.py` embeds at the
+     exact point in the transcript they illustrate) is carried forward, even
+     though the hand-off text never saw them and cannot mention them. A
+     dropped image whose caption line survives in the rewrite (even
+     paraphrased) is reinserted right after it; one whose caption did not
+     survive is placed at the same proportional position through the
+     chapter. Never silently dropped, never guessed into the middle of an
+     unrelated sentence — see `_restore_images`.
   2. The rewrite is checked against `revoice_gates` — the SAME deterministic
      checks `_book_voice.py` runs on every automated window: abridgement,
      runaway length, teaching loss, narrative-opening, Arabic-run count,
@@ -78,6 +87,7 @@ from _pipeline_flags import narrative_frame, narrator_subject  # noqa: E402
 from compose_fix import composer_is_open  # noqa: E402
 
 _HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
+_IMG_MD_RE = re.compile(r"(?m)^(!\[[^\]]*\]\(([^)]+)\))\s*$")
 
 
 def _resolve_book_dir(slug: str) -> Path:
@@ -162,12 +172,93 @@ def _extract_handoff_body(md_path: Path) -> str:
     return "\n".join(lines).strip()
 
 
+def _extract_images(body: str) -> list[dict]:
+    """Every `![](path)` reference in `body`, in document order, paired with
+    the short line immediately above it (its caption, in this book's own
+    convention — see `sessions/convert.py`) so a dropped image can be
+    re-anchored later even after the surrounding prose is rewritten."""
+    lines = body.split("\n")
+    images = []
+    for i, line in enumerate(lines):
+        m = _IMG_MD_RE.match(line.strip())
+        if not m:
+            continue
+        j = i - 1
+        while j >= 0 and not lines[j].strip():
+            j -= 1
+        images.append({"markdown": m.group(1), "path": m.group(2), "anchor": lines[j].strip() if j >= 0 else ""})
+    return images
+
+
+def _restore_images(base_body: str, new_body: str) -> tuple[str, list[dict]]:
+    """Put back any image `new_body` dropped that `base_body` had.
+
+    A hand-off rewrite is plain text with no way to carry an embedded image
+    reference forward — every one of them would silently vanish on install
+    without this. Placement: if the image's caption line (or a close
+    paraphrase of it) survives anywhere in the rewrite, the image goes right
+    after it; otherwise it lands at the same proportional position through
+    the chapter, by cumulative word count. Either way it is placed, never
+    dropped — this only ever adds lines, so a caller diffing before/after
+    sees exactly what moved.
+    """
+    images = _extract_images(base_body)
+    if not images:
+        return new_body, []
+
+    present_paths = {m.group(2) for m in _IMG_MD_RE.finditer(new_body)}
+    missing = [img for img in images if img["path"] not in present_paths]
+    if not missing:
+        return new_body, []
+
+    new_lines = new_body.split("\n")
+    total_new_words = max(len(new_body.split()), 1)
+    total_base_words = max(len(base_body.split()), 1)
+
+    placements = []
+    for img in missing:
+        target_idx = None
+        how = "proportional"
+        anchor = img["anchor"].lower()
+        if anchor:
+            for idx, line in enumerate(new_lines):
+                if line.strip().lower() == anchor:
+                    target_idx, how = idx, "anchored"
+                    break
+            if target_idx is None:
+                for idx, line in enumerate(new_lines):
+                    if anchor in line.lower():
+                        target_idx, how = idx, "anchored (partial)"
+                        break
+        if target_idx is None:
+            offset = base_body.find(img["markdown"])
+            frac = (len(base_body[:offset].split()) / total_base_words) if offset >= 0 else 1.0
+            cum = 0
+            for idx, line in enumerate(new_lines):
+                cum += len(line.split())
+                if cum / total_new_words >= frac:
+                    target_idx = idx
+                    break
+            target_idx = target_idx if target_idx is not None else len(new_lines) - 1
+        placements.append((target_idx, img, how))
+
+    for target_idx, img, _how in sorted(placements, key=lambda t: t[0], reverse=True):
+        new_lines[target_idx + 1 : target_idx + 1] = ["", img["markdown"], ""]
+
+    restored = [
+        {"path": img["path"], "anchor": img["anchor"], "placement": how}
+        for _, img, how in sorted(placements, key=lambda t: t[0])
+    ]
+    return "\n".join(new_lines), restored
+
+
 def check(book_dir: Path, chapter: str, md_path: Path, *, log=print) -> dict:
     """Run the fidelity gates. Never writes anything."""
     book_md = book_dir / "book" / "book.md"
     heading = resolve_chapter(book_md, chapter)
     base_body, _, _ = _chapter_body(book_md, heading)
-    new_body = _extract_handoff_body(md_path)
+    handoff_body = _extract_handoff_body(md_path)
+    new_body, images_restored = _restore_images(base_body, handoff_body)
 
     frame = narrative_frame(book_dir)
     subject = narrator_subject(book_dir)
@@ -180,9 +271,14 @@ def check(book_dir: Path, chapter: str, md_path: Path, *, log=print) -> dict:
         "new_words": new_words,
         "ratio": round(new_words / base_words, 3) if base_words else 0.0,
         "findings": findings,
+        "images_restored": images_restored,
+        "body": new_body,
         "clean": not findings,
     }
     log(f"  {heading!r}: {base_words} -> {new_words} words ({result['ratio']}x)")
+    if images_restored:
+        anchored = sum(1 for r in images_restored if r["placement"].startswith("anchored"))
+        log(f"    restored {len(images_restored)} image(s) the hand-off dropped ({anchored} anchored by caption)")
     if findings:
         for f in findings:
             log(f"    finding: {f}")
@@ -207,7 +303,7 @@ def install(book_dir: Path, chapter: str, md_path: Path, *, force: bool = False,
     book_md = book_dir / "book" / "book.md"
     heading = result["heading"]
     body, start, end = _chapter_body(book_md, heading)
-    new_body = _extract_handoff_body(md_path)
+    new_body = result["body"]  # already has any dropped images restored, by check()
 
     bak = book_md.with_suffix(".md.bak")
     if not bak.exists():

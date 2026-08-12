@@ -142,23 +142,53 @@ things wrong that are now structural:
    see the open finding below before trusting that page for a Sessions-lane
    book specifically.
 
-## Known gap, not yet fixed: the Compose tab route for a Sessions-lane book
+## Images the hand-off text can never carry, restored on install
 
-Found 2026-08-12 while building this: `/studio/<slug>/compose` is answered
-by the OLDER 4-step workflow page (`[step].astro`, its `intake|review|edit|
-publish` cockpit) rather than the newer Book Composer (`compose.astro`) —
-reproducible even against a freshly restarted dev server, confirmed by the
-redirect target changing correctly for a nonexistent slug (`/studio`) versus
-a real one (`/studio/<slug>/edit`), which matches `[step].astro`'s own logic
-exactly. `compose.astro` exists, is feature-complete, and reads book.md the
-right way — it is just not currently reachable at its own URL. This tool's
-writes (book.md + the Composer sidecar) are correct and ready for whichever
-page eventually reads them; the route conflict is a separate, deeper Astro
-routing question that needs its own look before "open the Compose tab" is a
-reliable instruction for a Sessions-lane book.
+A GPT/ChatGPT articulation is plain text — it never saw, and cannot mention,
+the lecture-slide screenshots `sessions/convert.py` embeds inline in the
+original chapter (`![](images/<sid>/<file>)`, placed at the exact point in
+the transcript they illustrate). Installing the hand-off body as-is would
+silently drop every one of them.
+
+`compose_articulate.py` fixes this structurally, before any gate runs:
+every image the book's own chapter has is checked against the hand-off body,
+and any that are missing are put back —
+
+- **anchored**, right after the short caption line it followed in the
+  source, if that caption (or a close paraphrase containing it) survives
+  anywhere in the rewrite;
+- **proportional**, at the same relative position through the chapter by
+  cumulative word count, if the caption did not survive rewording.
+
+Either way the image is placed, never dropped and never left for a human to
+notice missing later — the `check`/`install` result reports `images_restored`
+(each entry's path, source caption, and which placement rule fired), and the
+console log prints a one-line count so a caption-based miss is visible
+without opening `--json` output. The gate check (`revoice_gates`) runs
+against the body AFTER restoration, and `install` writes that same restored
+body — never the raw hand-off text — so what gets gated is exactly what gets
+saved.
+
+## The Compose tab route — fixed 2026-08-12, same day this tool was built
+
+While building this tool, `/studio/<slug>/compose` was found answering with
+the OLDER 4-step workflow page (`[step].astro`) instead of the real Book
+Composer (`compose.astro`) — every Sessions-lane install landed correctly in
+book.md but had no page that could show it back. Root cause: the four
+quotation-card ornament icons in `quote-typography.css` were inlined as
+giant `data:` URIs, which Astro's tsconfig-alias-css Vite plugin (triggered
+by this project's `baseUrl` setting) tried to resolve as bare module
+specifiers and threw on; Astro's dev router silently swallowed that error
+and fell through to the next matching route with no error surfaced anywhere.
+Fixed by moving the four icons to real files under
+`plan-dashboard/public/ornaments/` and referencing them by path instead of
+inlining them — zero visual change, confirmed by loading the page and by a
+dedicated `html-view-challenger` pass verifying both reachable ornament
+types render correctly in Read mode with `lint:views` still clean. The
+Compose tab is now the reliable way to review an installed chapter.
 
 ## After a run
 
-Report per chapter: the word-count ratio, every gate finding (clean or not),
-whether it installed, and — once the routing gap above is resolved — the
-exact URL to verify it on screen.
+Report per chapter: the word-count ratio, any images restored (and how each
+was placed), every gate finding (clean or not), whether it installed, and
+the exact `/studio/<slug>/compose` URL to verify it on screen.
