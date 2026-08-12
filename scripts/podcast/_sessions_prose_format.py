@@ -1,0 +1,164 @@
+"""_sessions_prose_format.py — bring a Sessions-lane chapter's markup up to the
+book's own presentation conventions, WITHOUT touching a single word of prose.
+
+WHY THIS EXISTS. A Sessions-lane book's raw material is a lecture transcript
+Asif marked up himself, written before this site's four-card quotation design
+(`_quote_cards.py`, 2026-08-09) and before the house citation form
+(`_book_citations.py`, 2026-08-01) existed. `sessions/articulate.py` is
+correctly forbidden from restructuring content (REQ-BA-020/030 — rewording
+only, never reorganizing), so it faithfully carries the transcript's own
+legacy conventions straight through into book.md:
+
+  1. A bare `81:22` on its own line, immediately above a scripture quotation —
+     a note-to-self citation, not the house form `(At-Takwir: 22)`, and not
+     even inside the parentheses `_book_citations.py`'s own pattern requires.
+     Left alone it just sits as noise; once the verse below it is confirmed
+     Qur'anic (`_mushaf.is_quranic`, canonical-mushaf-first, never guessed)
+     and the Arabic audit re-runs, the quotation card generates its OWN gold
+     citation header from the very same resolution — so the bare line is
+     pure duplication once a card can draw itself.
+  2. `### Trustworthy Friend ولیجۃ` followed on the next line by `WALEEJA` — a
+     transcript author's own transliteration written before the heading
+     carried the Arabic at all. Once the Arabic sits in the heading, the
+     bare-caps line under it says nothing new.
+
+WHAT THIS DOES NOT TOUCH. A verse whose Arabic does not resolve against the
+canonical mushaf is left completely alone, citation line and all — the same
+"never guess, never silently drop" discipline `_mushaf.is_quranic` was built
+for. A heading with no trailing Arabic is untouched. A heading with trailing
+Arabic but no bare-caps line under it (most of them — this is conditional,
+not assumed) loses nothing extra.
+
+WHERE THIS RUNS. Both `compose_articulate.py` (a hand-off chapter) and
+`sessions/articulate.py` (the automated pass) call `normalize_sessions_prose`
+on a chapter body before it is ever written or gated, so the fix lands for
+every future chapter the same way. `retrofit_book` in `compose_articulate.py`
+applies it to a book already on disk.
+"""
+
+from __future__ import annotations
+
+import re
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from _mushaf import is_quranic  # noqa: E402
+
+#: Mirrors `inject_chapter_arabic._ARABIC_RE`'s range set — Arabic, Supplement,
+#: Extended-A, Presentation Forms A/B — same ranges, one definition each place
+#: that needs them as a character class rather than a compiled matcher. Hex
+#: escapes rather than literal script, so the range bounds stay readable
+#: left-to-right in a diff instead of embedding RTL text in the source.
+_ARABIC_RANGE = "؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿"
+_ARABIC_CHAR_RE = re.compile(f"[{_ARABIC_RANGE}]")
+_LATIN_LETTER_RE = re.compile(r"[A-Za-z]")
+
+#: `## Title Arabic-term` — trailing Arabic run with no parenthesis around it yet.
+_HEADING_ARABIC_RE = re.compile(rf"(?m)^(#{{2,6}})[ \t]+(.+?)[ \t]+([{_ARABIC_RANGE}][^\n]*?)[ \t]*$")
+
+#: A now-reformatted heading (ends `(Arabic)`) directly above a bare ALL-CAPS line.
+_TRANSLIT_AFTER_HEADING_RE = re.compile(
+    rf"(?m)(^#{{2,6}}[ \t]+.+\([{_ARABIC_RANGE}][^\n]*\)[ \t]*$)\n\n([A-Z][A-Z' \-]{{1,29}})\n\n"
+)
+
+#: A bare `81:22` or `26:99-101` reference, alone on its own line.
+_BARE_CITE_RE = re.compile(r"^[ \t]*\d{1,3}:\d{1,3}(?:-\d{1,3})?[ \t]*$")
+
+
+def _is_arabic_only(text: str) -> bool:
+    """Every character is script or punctuation — no Latin letters at all.
+
+    The distinction that keeps this from ever wrapping ordinary prose: this
+    book's English sentences constantly carry an inline Arabic word (`the
+    names Allah gives... is صاحب:`), and those have Latin letters throughout.
+    A bare verse line never does.
+    """
+    return bool(_ARABIC_CHAR_RE.search(text)) and not _LATIN_LETTER_RE.search(text)
+
+
+def normalize_headings(body: str) -> tuple[str, list[dict]]:
+    """`## Title ﺱ` -> `## Title (ﺱ)`; drop a now-redundant ALL-CAPS translit line."""
+    changes: list[dict] = []
+
+    def _sub(m: re.Match[str]) -> str:
+        hashes, title, arabic = m.group(1), m.group(2).strip(), m.group(3).strip()
+        new = f"{hashes} {title} ({arabic})"
+        changes.append({"kind": "heading-parenthesized", "before": m.group(0).strip(), "after": new})
+        return new
+
+    body = _HEADING_ARABIC_RE.sub(_sub, body)
+
+    def _strip(m: re.Match[str]) -> str:
+        changes.append({"kind": "transliteration-removed", "under": m.group(1).strip(), "line": m.group(2)})
+        return f"{m.group(1)}\n\n"
+
+    body = _TRANSLIT_AFTER_HEADING_RE.sub(_strip, body)
+    return body, changes
+
+
+def normalize_bare_citations(body: str) -> tuple[str, list[dict]]:
+    """Drop a bare `NN:NN` reference line once the card below it can name
+    itself — wrapping a not-yet-carded verse in `>` first when needed.
+
+    Three shapes, in the order a reader actually wrote them:
+      - `81:22` above an existing `>` blockquote whose Arabic is confirmed
+        Qur'anic: the reference line is deleted, nothing else changes.
+      - `26:99-101` above a BARE (non-blockquote) Qur'anic line: that one
+        line is wrapped in `>` and the reference is deleted. Only the single
+        Arabic line — never a guess at which following prose is its
+        translation, since a range citation's fragments are often followed
+        by discursive commentary, not a literal rendering.
+      - Anything that does not resolve against the canonical mushaf: left
+        completely untouched, reference line included.
+    """
+    lines = body.split("\n")
+    out: list[str] = []
+    changes: list[dict] = []
+    i, n = 0, len(lines)
+    while i < n:
+        line = lines[i]
+        if not _BARE_CITE_RE.match(line):
+            out.append(line)
+            i += 1
+            continue
+        ref = line.strip()
+        j = i + 1
+        while j < n and not lines[j].strip():
+            j += 1
+        if j >= n:
+            out.append(line)
+            i += 1
+            continue
+        if lines[j].lstrip().startswith(">"):
+            k, arabic = j, None
+            while k < n and lines[k].lstrip().startswith(">"):
+                text = lines[k].lstrip(">").strip()
+                if text and _ARABIC_CHAR_RE.search(text):
+                    arabic = text
+                    break
+                k += 1
+            if arabic and is_quranic(arabic):
+                changes.append({"kind": "citation-line-removed", "ref": ref, "reason": "already carded"})
+                i += 1
+                continue
+            out.append(line)
+            i += 1
+            continue
+        candidate = lines[j].strip()
+        if _is_arabic_only(candidate) and is_quranic(candidate):
+            changes.append({"kind": "citation-wrapped", "ref": ref, "arabic": candidate})
+            out.append(f"> {candidate}")
+            i = j + 1
+            continue
+        out.append(line)
+        i += 1
+    return "\n".join(out), changes
+
+
+def normalize_sessions_prose(body: str) -> tuple[str, list[dict]]:
+    """Both passes, combined — the one entry point every caller uses."""
+    body, heading_changes = normalize_headings(body)
+    body, citation_changes = normalize_bare_citations(body)
+    return body, heading_changes + citation_changes

@@ -55,7 +55,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from _book_edits import anchor_key  # noqa: E402
+from _book_defects import chapters as split_chapters  # noqa: E402
+from _book_edits import anchor_key, write_chapter_body  # noqa: E402
 from _book_pass_reports import KEPT_STATUSES as KEPT  # noqa: E402
 
 # `_INTRODUCTION_KEY` is imported rather than restated: the pass engine already
@@ -66,6 +67,7 @@ from _book_pass_reports import KEPT_STATUSES as KEPT  # noqa: E402
 from _book_voice import _CHAPTER_HEADING_RE, _INTRODUCTION_KEY  # noqa: E402
 from _paths import resolve_content  # noqa: E402
 from _pipeline_flags import narrative_frame  # noqa: E402
+from _sessions_prose_format import normalize_sessions_prose  # noqa: E402
 from rearticulate_chapter import rearticulate  # noqa: E402
 
 from sessions.ingest import ARTICULATE_STEP, LANE_STEPS  # noqa: E402
@@ -114,6 +116,28 @@ def read_ledger(book_dir: Path) -> dict:
         return {"schema": "podcast.sessions-articulation/v1", "chapters": {}}
     data.setdefault("chapters", {})
     return data
+
+
+def _normalize_after_articulation(book_dir: Path, title: str, *, log) -> None:
+    """Bring a just-articulated chapter's headings and citations up to the
+    book's own house style — see `_sessions_prose_format` for exactly what
+    that means and why the model output needs it at all: the source
+    transcript's own legacy conventions (a bare `81:22` above a verse, a
+    `### Title Arabic` heading followed by its own transliteration line)
+    ride straight through articulation by design, since rewording is never
+    allowed to restructure. Only re-writes book.md when something actually
+    changed; a chapter already in house style costs one extra read.
+    """
+    book_md = book_dir / "book" / "book.md"
+    text = book_md.read_text(encoding="utf-8")
+    body = next((b for h, b in split_chapters(text) if h.strip() == title), None)
+    if body is None:
+        return
+    new_body, changes = normalize_sessions_prose(body.strip())
+    if not changes:
+        return
+    write_chapter_body(book_dir, title, new_body)
+    log(f"      normalized {len(changes)} heading/citation formatting issue(s)")
 
 
 def _record(book_dir: Path, key: str, title: str, status: str) -> None:
@@ -239,6 +263,7 @@ def articulate_book(
             dead_streak = 0
         if status in ("adapted", "partial"):
             adapted += 1
+            _normalize_after_articulation(book_dir, title, log=log)
         else:
             reverted += 1
         # Written per chapter, not at the end: a run interrupted at chapter 19 of
@@ -267,6 +292,15 @@ def articulate_book(
         kept=now_kept,
         total=len(chapters),
     )
+    # Once, at the end of the run rather than per chapter — the audit re-scans
+    # the whole book, and 20+ chapters is 20+ needless re-scans of the same
+    # already-kept prose. Only the just-kept chapters' Arabic actually needs a
+    # fresh resolution, so a Compose review right after this run shows correct
+    # quotation-card citations without waiting on the apparatus step.
+    if adapted:
+        from _book_arabic_audit import run_arabic_audit
+
+        run_arabic_audit(book_dir, log=log)
     return {
         "frame": frame,
         "planned": len(todo),

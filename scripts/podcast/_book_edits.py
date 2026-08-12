@@ -32,6 +32,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -186,6 +187,52 @@ def record_edit(
     path = sidecar_path(book_dir)
     _write_json_atomic(path, data)
     return path
+
+
+def write_chapter_body(book_dir: Path, heading: str, new_body: str) -> None:
+    """Splice `new_body` into `book/book.md` under `heading` and record the
+    Composer edit — the two mechanics a human Composer save performs, in one
+    call, so every writer (the Composer's own API route, `compose_articulate`
+    installing a hand-off chapter, `sessions/articulate` normalizing its own
+    output) does them the same way rather than three slightly different ones.
+
+    `heading` must be an EXISTING `## ` line's exact text — this never
+    resolves a fuzzy chapter reference, callers do that first (see
+    `compose_articulate.resolve_chapter`) and pass the book's own heading in.
+    """
+    book_md = Path(book_dir) / "book" / "book.md"
+    lines = book_md.read_text(encoding="utf-8").split("\n")
+    start = end = -1
+    for i, line in enumerate(lines):
+        if line.startswith("## "):
+            if start == -1 and line[3:].strip() == heading:
+                start = i
+            elif start != -1:
+                end = i
+                break
+    if start == -1:
+        raise ValueError(f"heading not found in book.md: {heading!r}")
+    if end == -1:
+        end = len(lines)
+
+    bak = book_md.with_suffix(".md.bak")
+    if not bak.exists():
+        bak.write_text(book_md.read_text(encoding="utf-8"), encoding="utf-8")
+
+    rebuilt = "\n".join(lines[: start + 1] + ["", new_body, ""] + lines[end:])
+    rebuilt = re.sub(r"\n{3,}", "\n\n", rebuilt)
+    if not rebuilt.endswith("\n"):
+        rebuilt += "\n"
+    book_md.write_text(rebuilt, encoding="utf-8")
+
+    key = anchor_key(heading)
+    record_edit(
+        book_dir,
+        chapter_key=key,
+        body_md=new_body,
+        base_fingerprint=base_fingerprint_for(book_dir, key),
+        saved_at=datetime.now(timezone.utc).isoformat(),
+    )
 
 
 def edited_chapter_keys(book_dir: Path) -> set[str]:

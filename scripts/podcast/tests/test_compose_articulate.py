@@ -272,6 +272,84 @@ def test_an_image_the_handoff_already_includes_is_not_duplicated(book_dir_with_i
     assert result["images_restored"] == []
 
 
+def test_check_normalizes_heading_and_citation_house_style(book_dir: Path, tmp_path: Path) -> None:
+    off = handoff(
+        tmp_path,
+        "## The Stages Of Love\n\n"
+        "### Trustworthy Friend ولیجۃ\n\nWALEEJA\n\n"
+        "The first level is attachment. It is a small thing, and it grows.\n",
+    )
+    result = ca.check(book_dir, "the stages of love", off, log=lambda *_: None)
+    assert "### Trustworthy Friend (ولیجۃ)" in result["body"]
+    assert "WALEEJA" not in result["body"]
+    assert result["format_changes"]
+
+
+# ─── retrofit_book ──────────────────────────────────────────────────────────
+
+
+ARABIC_HEADING_BOOK = """# A Series
+
+## Quranic Friendship
+
+### Trustworthy Friend ولیجۃ
+
+WALEEJA
+
+The next word the Quran uses for a friend is ولیجۃ.
+
+## The Stages Of Love
+
+The first level is attachment. It is a small thing, and it grows.
+"""
+
+
+@pytest.fixture()
+def book_dir_with_arabic_headings(tmp_path: Path) -> Path:
+    (tmp_path / "book").mkdir()
+    (tmp_path / "_system").mkdir()
+    (tmp_path / "book" / "book.md").write_text(ARABIC_HEADING_BOOK, encoding="utf-8")
+    (tmp_path / "_system" / "sessions-articulation.json").write_text(json.dumps({"chapters": {}}), encoding="utf-8")
+    (tmp_path / "_system" / "series-config.yaml").write_text(
+        "content_profile: islamic_session\nnarrative_frame: first_person_expository\n",
+        encoding="utf-8",
+    )
+    return tmp_path
+
+
+def test_retrofit_fixes_the_one_chapter_that_needs_it(book_dir_with_arabic_headings: Path) -> None:
+    result = ca.retrofit_book(book_dir_with_arabic_headings, log=lambda *_: None)
+    assert result["chapters_changed"] == 1
+    assert result["detail"][0]["heading"] == "Quranic Friendship"
+
+    text = (book_dir_with_arabic_headings / "book" / "book.md").read_text(encoding="utf-8")
+    assert "### Trustworthy Friend (ولیجۃ)" in text
+    assert "WALEEJA" not in text
+    assert "## The Stages Of Love" in text  # untouched chapter survives
+    assert "The first level is attachment. It is a small thing, and it grows." in text
+
+
+def test_retrofit_records_a_composer_edit_for_the_changed_chapter(book_dir_with_arabic_headings: Path) -> None:
+    ca.retrofit_book(book_dir_with_arabic_headings, log=lambda *_: None)
+    edits = json.loads((book_dir_with_arabic_headings / "_system" / "composer-edits.json").read_text())
+    keys = [e["chapter_key"] for e in edits["edits"]]
+    assert "quranic friendship" in keys
+
+
+def test_retrofit_is_a_no_op_on_a_book_with_no_formatting_defects(book_dir: Path) -> None:
+    result = ca.retrofit_book(book_dir, log=lambda *_: None)
+    assert result["chapters_changed"] == 0
+    assert not (book_dir / "_system" / "composer-edits.json").exists()
+
+
+def test_retrofit_twice_does_not_duplicate_the_composer_edit(book_dir_with_arabic_headings: Path) -> None:
+    ca.retrofit_book(book_dir_with_arabic_headings, log=lambda *_: None)
+    ca.retrofit_book(book_dir_with_arabic_headings, log=lambda *_: None)  # idempotent: nothing left to change
+    edits = json.loads((book_dir_with_arabic_headings / "_system" / "composer-edits.json").read_text())
+    keys = [e["chapter_key"] for e in edits["edits"]]
+    assert keys.count("quranic friendship") == 1
+
+
 def test_install_writes_the_restored_images_to_book_md(book_dir_with_images: Path, tmp_path: Path) -> None:
     off = handoff(
         tmp_path,

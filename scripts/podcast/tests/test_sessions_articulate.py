@@ -332,3 +332,49 @@ def test_a_real_gate_rejection_is_not_mistaken_for_an_unreachable_model(book_dir
     summary = art.articulate_book(book_dir, log=lambda *_: None)
     assert summary["aborted"] is False
     assert summary["reverted"] == 2
+
+
+# ---------------------------------------------------------------------------
+# House-style normalization after a chapter is kept
+# ---------------------------------------------------------------------------
+
+
+def test_a_kept_chapter_gets_its_legacy_transcript_formatting_normalized(book_dir: Path, monkeypatch) -> None:
+    """`rearticulate` (faked here, per this file's own contract) writes the
+    rewritten body to book.md itself before returning — carrying the source
+    transcript's own bare-citation/heading-transliteration conventions
+    straight through, since rewording never restructures. The driver must
+    still bring that output up to house style afterward."""
+    book_md = book_dir / "book" / "book.md"
+    text = book_md.read_text(encoding="utf-8")
+    text = text.replace(
+        "## Love Based Religion\n\nHe spoke about love, and you should notice how the word turns.",
+        "## Love Based Religion\n\n### Trustworthy Friend ولیجۃ\n\nWALEEJA\n\nHe spoke about love.",
+    )
+    book_md.write_text(text, encoding="utf-8")
+
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: envelope("adapted"))
+    art.articulate_book(book_dir, log=lambda *_: None)
+
+    final = book_md.read_text(encoding="utf-8")
+    assert "### Trustworthy Friend (ولیجۃ)" in final
+    assert "WALEEJA" not in final
+
+
+def test_a_reverted_chapter_is_never_normalized(book_dir: Path, monkeypatch) -> None:
+    """Nothing changed for a reverted chapter — normalizing it would be
+    touching book.md over a rewrite that was thrown away."""
+    book_md = book_dir / "book" / "book.md"
+    text = book_md.read_text(encoding="utf-8")
+    text = text.replace(
+        "## Love Based Religion\n\nHe spoke about love, and you should notice how the word turns.",
+        "## Love Based Religion\n\n### Trustworthy Friend ولیجۃ\n\nWALEEJA\n\nHe spoke about love.",
+    )
+    book_md.write_text(text, encoding="utf-8")
+
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: envelope("reverted"))
+    art.articulate_book(book_dir, log=lambda *_: None)
+
+    final = book_md.read_text(encoding="utf-8")
+    assert "### Trustworthy Friend ولیجۃ" in final  # untouched, parens NOT added
+    assert "WALEEJA" in final

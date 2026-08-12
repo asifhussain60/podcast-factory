@@ -45,13 +45,21 @@ WHAT "correctly" MEANS, precisely, because it is easy to get almost right:
      install by default; `--force` overrides it, because a human reviewer
      may know a finding is a false positive (a heading-case mismatch is not
      a content defect) in a way the gate cannot.
-  3. Installed exactly like a human Composer save: one-time `book.md.bak`,
-     the chapter's body spliced between its heading and the next `## `
-     heading (or EOF), and the edit recorded into `_system/composer-edits.json`
-     via `_book_edits.record_edit`, quoting `base_fingerprint_for` rather
-     than hashing it here — the same fingerprint-source discipline every
-     other writer in this pipeline follows, so a later compose can tell
-     truthfully whether the book moved underneath this edit.
+  3. Installed exactly like a human Composer save, through the ONE shared
+     `_book_edits.write_chapter_body`: one-time `book.md.bak`, the chapter's
+     body spliced between its heading and the next `## ` heading (or EOF),
+     and the edit recorded quoting `base_fingerprint_for` rather than hashing
+     it here — the same fingerprint-source discipline every other writer in
+     this pipeline follows, so a later compose can tell truthfully whether
+     the book moved underneath this edit.
+  1c. Before any of the above is checked, the body is run through
+     `_sessions_prose_format.normalize_sessions_prose` — a bare `81:22`
+     citation note and a `### Title Arabic` heading followed by its own
+     redundant `WALEEJA`-style transliteration are this book's OWN legacy
+     transcript conventions, predating the site's quotation-card and house
+     citation forms, and `sessions/articulate.py` carries them straight
+     through by design (REQ-BA forbids restructuring). Normalized here too,
+     so a hand-off chapter matches every other chapter's markup.
   4. The Sessions lane's own articulation ledger
      (`_system/sessions-articulation.json`) is updated to `adapted`, through
      `sessions.articulate._record` — the SAME function the automated pass
@@ -75,15 +83,17 @@ import argparse
 import json
 import re
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _book_edits import anchor_key, base_fingerprint_for, record_edit  # noqa: E402
+from _book_arabic_audit import run_arabic_audit  # noqa: E402
+from _book_defects import chapters as split_chapters  # noqa: E402
+from _book_edits import anchor_key, write_chapter_body  # noqa: E402
 from _book_voice_gates import revoice_gates  # noqa: E402
 from _paths import find_content  # noqa: E402
 from _pipeline_flags import narrative_frame, narrator_subject  # noqa: E402
+from _sessions_prose_format import normalize_sessions_prose  # noqa: E402
 from compose_fix import composer_is_open  # noqa: E402
 
 _HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
@@ -259,6 +269,7 @@ def check(book_dir: Path, chapter: str, md_path: Path, *, log=print) -> dict:
     base_body, _, _ = _chapter_body(book_md, heading)
     handoff_body = _extract_handoff_body(md_path)
     new_body, images_restored = _restore_images(base_body, handoff_body)
+    new_body, format_changes = normalize_sessions_prose(new_body)
 
     frame = narrative_frame(book_dir)
     subject = narrator_subject(book_dir)
@@ -272,6 +283,7 @@ def check(book_dir: Path, chapter: str, md_path: Path, *, log=print) -> dict:
         "ratio": round(new_words / base_words, 3) if base_words else 0.0,
         "findings": findings,
         "images_restored": images_restored,
+        "format_changes": format_changes,
         "body": new_body,
         "clean": not findings,
     }
@@ -279,6 +291,10 @@ def check(book_dir: Path, chapter: str, md_path: Path, *, log=print) -> dict:
     if images_restored:
         anchored = sum(1 for r in images_restored if r["placement"].startswith("anchored"))
         log(f"    restored {len(images_restored)} image(s) the hand-off dropped ({anchored} anchored by caption)")
+    if format_changes:
+        headings = sum(1 for c in format_changes if c["kind"] == "heading-parenthesized")
+        cites = sum(1 for c in format_changes if c["kind"].startswith("citation"))
+        log(f"    normalized {headings} heading(s) and {cites} bare Qur'an citation(s) to house style")
     if findings:
         for f in findings:
             log(f"    finding: {f}")
@@ -300,40 +316,46 @@ def install(book_dir: Path, chapter: str, md_path: Path, *, force: bool = False,
         result["reason"] = "gate finding(s) present — pass force=True to override"
         return result
 
-    book_md = book_dir / "book" / "book.md"
     heading = result["heading"]
-    body, start, end = _chapter_body(book_md, heading)
-    new_body = result["body"]  # already has any dropped images restored, by check()
-
-    bak = book_md.with_suffix(".md.bak")
-    if not bak.exists():
-        bak.write_text(book_md.read_text(encoding="utf-8"), encoding="utf-8")
-
-    lines = book_md.read_text(encoding="utf-8").split("\n")
-    head = lines[: start + 1]
-    tail = lines[end:]
-    rebuilt = "\n".join(head + ["", new_body, ""] + tail)
-    rebuilt = re.sub(r"\n{3,}", "\n\n", rebuilt)
-    if not rebuilt.endswith("\n"):
-        rebuilt += "\n"
-    book_md.write_text(rebuilt, encoding="utf-8")
+    new_body = result["body"]  # already has any dropped images restored + prose normalized, by check()
+    write_chapter_body(book_dir, heading, new_body)
 
     key = anchor_key(heading)
-    record_edit(
-        book_dir,
-        chapter_key=key,
-        body_md=new_body,
-        base_fingerprint=base_fingerprint_for(book_dir, key),
-        saved_at=datetime.now(timezone.utc).isoformat(),
-    )
-
     from sessions.articulate import _record as _sessions_record
 
     _sessions_record(book_dir, key, heading, "adapted")
+    run_arabic_audit(book_dir, log=log)
 
     result["installed"] = True
     log("  installed — book.md updated, Composer edit recorded, ledger marked adapted")
     return result
+
+
+def retrofit_book(book_dir: Path, *, log=print) -> dict:
+    """Apply `normalize_sessions_prose` to EVERY chapter already on disk.
+
+    For a book articulated before this normalizer existed — the citation and
+    heading defects were never specific to a hand-off chapter, they came
+    straight out of the lecture transcript itself and rode along through
+    `sessions/articulate.py` just as faithfully. Only chapters that actually
+    change get a Composer edit recorded; nothing else in the book moves.
+    """
+    book_md = book_dir / "book" / "book.md"
+    text = book_md.read_text(encoding="utf-8")
+    changed: list[dict] = []
+    for heading, body in split_chapters(text):
+        new_body, changes = normalize_sessions_prose(body.strip())
+        if not changes:
+            continue
+        write_chapter_body(book_dir, heading, new_body)
+        text = book_md.read_text(encoding="utf-8")  # re-read: line offsets shift after every write
+        changed.append({"heading": heading, "changes": changes})
+        log(f"  {heading!r}: {len(changes)} formatting change(s)")
+    if changed:
+        run_arabic_audit(book_dir, log=log)
+    else:
+        log("  nothing to retrofit — every chapter already matches house style")
+    return {"chapters_changed": len(changed), "detail": changed}
 
 
 def main() -> int:
@@ -342,6 +364,11 @@ def main() -> int:
     ap.add_argument("chapter", nargs="?", help="a heading or a distinguishing fragment of one")
     ap.add_argument("md_file", nargs="?", type=Path, help="path to the hand-off markdown")
     ap.add_argument("--list", action="store_true", help="print this book's chapter headings and exit")
+    ap.add_argument(
+        "--retrofit",
+        action="store_true",
+        help="apply heading/citation house-style normalization to every chapter already on disk, and exit",
+    )
     ap.add_argument("--install", action="store_true", help="write, if the gates pass (or --force)")
     ap.add_argument("--force", action="store_true", help="install despite a gate finding")
     ap.add_argument("--allow-composer-open", action="store_true")
@@ -358,6 +385,20 @@ def main() -> int:
     if args.list:
         for h in chapter_headings(book_dir / "book" / "book.md"):
             print(h)
+        return 0
+
+    if args.retrofit:
+        pid = composer_is_open()
+        if pid and not args.allow_composer_open:
+            print(
+                f"REFUSED: the Book Composer is running (pid {pid}) and autosaves book.md.\n"
+                "Close the tab, or pass --allow-composer-open if you know it is not on this book.",
+                file=sys.stderr,
+            )
+            return 2
+        result = retrofit_book(book_dir, log=print)
+        if args.json:
+            print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
 
     if not args.chapter or not args.md_file:
