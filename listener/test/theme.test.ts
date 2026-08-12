@@ -529,16 +529,18 @@ describe("the reading column's composer headings", () => {
     const headingRule = readingColumn.match(/\.reader h3\s*\{[^}]*\}/)?.[0] ?? "";
     expect(headingRule, "the reader must style Composer Heading 1").not.toBe("");
     expect(headingRule).toContain("font-family: var(--l-font-chapter-heading)");
-    expect(headingRule).toContain("font-size: 1.34em");
+    expect(headingRule).toContain("font-size: 1.45em");
     expect(headingRule).toContain("font-weight: 700");
+    expect(headingRule).toContain("color: var(--l-heading-1)");
   });
 
   it("keeps Composer Heading 2 smaller but in the same face", () => {
     const headingRule = readingColumn.match(/\.reader h4\s*\{[^}]*\}/)?.[0] ?? "";
     expect(headingRule, "the reader must style Composer Heading 2").not.toBe("");
     expect(headingRule).toContain("font-family: var(--l-font-chapter-heading)");
-    expect(headingRule).toContain("font-size: 1.04em");
+    expect(headingRule).toContain("font-size: 1.18em");
     expect(headingRule).toContain("font-weight: 600");
+    expect(headingRule).toContain("color: var(--l-heading-2)");
   });
 
   it("sets Composer Heading 3 in Lexend, distinct from Heading 1 and 2", () => {
@@ -548,7 +550,8 @@ describe("the reading column's composer headings", () => {
         .find((rule) => rule.includes("font-family")) ?? "";
     expect(headingRule, "the reader must style Composer Heading 3").not.toBe("");
     expect(headingRule).toContain("font-family: var(--l-font-lexend)");
-    expect(headingRule).toContain("font-size: 0.98em");
+    expect(headingRule).toContain("font-size: 1.04em");
     expect(headingRule).toContain("font-weight: 650");
+    expect(headingRule).toContain("color: var(--l-heading-3)");
   });
 });

@@ -464,6 +464,9 @@
   /* Page titles: the band's own navy, so the biggest type on the library and
      the colour of the cards under it are the same decision. */
   --l-display: #2b456f; /* 8.75:1 on bg */
+  --l-heading-1: #800000;
+  --l-heading-2: #1f3a5f;
+  --l-heading-3: #2f6f5e;
 
   --l-band: #2b456f;
   --l-on-band: #f6f4ef; /* 8.75:1 */
@@ -576,6 +579,9 @@
   /* The band's navy is far too dark to letter with here, so the same idea runs
      the other way: a blue-tinted light, distinct from the neutral ink. */
   --l-display: #b9cdf0; /* 11.35:1 on bg */
+  --l-heading-1: #f0a6ae;
+  --l-heading-2: #b8caef;
+  --l-heading-3: #8fd8bd;
 
   --l-band: #2c3855;
   --l-on-band: #eceef3; /* 10.03:1 */
@@ -650,6 +656,9 @@
   /* A slate-navy: on warm paper a cold true navy reads as a hole punched in
      the page. */
   --l-display: #33425a; /* 8.34:1 on bg */
+  --l-heading-1: #7d2b2b;
+  --l-heading-2: #24385c;
+  --l-heading-3: #396b4f;
 
   --l-band: #3b4a63;
   --l-on-band: #f3ede1; /* 7.68:1 */
@@ -7309,21 +7318,24 @@
 
   .reader h3 {
     font-family: var(--l-font-chapter-heading);
-    font-size: 1.34em;
+    font-size: 1.45em;
     font-weight: 700;
+    color: var(--l-heading-1);
   }
 
   .reader h4 {
     font-family: var(--l-font-chapter-heading);
-    font-size: 1.04em;
+    font-size: 1.18em;
     font-weight: 600;
+    color: var(--l-heading-2);
   }
 
   .reader h5 {
     font-family: var(--l-font-lexend);
-    font-size: 0.98em;
+    font-size: 1.04em;
     font-weight: 650;
     line-height: 1.28;
+    color: var(--l-heading-3);
   }
 
   .reader em {

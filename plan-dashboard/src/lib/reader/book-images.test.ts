@@ -139,3 +139,47 @@ describe("the Astro reader keeps markdown figures at a standard plate size", () 
     assert.doesNotMatch(rule, /(^|[;\s{])width\s*:\s*100%/);
   });
 });
+
+describe("Composer headings keep their requested hierarchy", () => {
+  const css = readFileSync(
+    new URL("../../styles/book-composer.css", import.meta.url),
+    "utf8",
+  );
+
+  test("Heading 1 is large, bold, and theme-coloured maroon", () => {
+    const rule = css.match(/\.cx-prose h3\s*\{[^}]*\}/)?.[0] ?? "";
+    assert.notEqual(rule, "");
+    assert.match(rule, /font-size:\s*1\.45em/);
+    assert.match(rule, /font-weight:\s*700/);
+    assert.match(rule, /color:\s*var\(--cx-heading-1, #800000\)/);
+  });
+
+  test("Heading 2 is navy blue and smaller than Heading 1", () => {
+    const rule = css.match(/\.cx-prose h4\s*\{[^}]*\}/)?.[0] ?? "";
+    assert.notEqual(rule, "");
+    assert.match(rule, /font-size:\s*1\.18em/);
+    assert.match(rule, /color:\s*var\(--cx-heading-2, #1f3a5f\)/);
+  });
+
+  test("Heading 3 uses the quieter tertiary heading colour", () => {
+    const rule = css.match(/\.cx-prose h5\s*\{[^}]*\}/)?.[0] ?? "";
+    assert.notEqual(rule, "");
+    assert.match(rule, /font-size:\s*1\.04em/);
+    assert.match(rule, /color:\s*var\(--cx-heading-3, #2f6f5e\)/);
+  });
+
+  test("light, sepia, and dark paper modes provide their own heading inks", () => {
+    for (const paper of ["light", "sepia", "dark"]) {
+      const rule =
+        css.match(
+          new RegExp(
+            `\\.cx-edit-host\\[data-paper="${paper}"\\]\\s*\\{[^}]*\\}`,
+          ),
+        )?.[0] ?? "";
+      assert.notEqual(rule, "");
+      assert.match(rule, /--cx-heading-1:\s*#[0-9a-f]{6}/i);
+      assert.match(rule, /--cx-heading-2:\s*#[0-9a-f]{6}/i);
+      assert.match(rule, /--cx-heading-3:\s*#[0-9a-f]{6}/i);
+    }
+  });
+});

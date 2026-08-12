@@ -1282,16 +1282,25 @@ body:has(.composer-grid) .to-top {
   --paper-bg: #fefdfb;
   --paper-ink: #1f1d18;
   --paper-rule: #d9d3c4;
+  --cx-heading-1: #800000;
+  --cx-heading-2: #1f3a5f;
+  --cx-heading-3: #2f6f5e;
 }
 .cx-edit-host[data-paper="sepia"] {
   --paper-bg: #f4ecd8;
   --paper-ink: #5b4636;
   --paper-rule: #ddd0b4;
+  --cx-heading-1: #7d2b2b;
+  --cx-heading-2: #24385c;
+  --cx-heading-3: #396b4f;
 }
 .cx-edit-host[data-paper="dark"] {
   --paper-bg: #201e1b;
   --paper-ink: #d8d2c6;
   --paper-rule: #3d3a32;
+  --cx-heading-1: #f0a6ae;
+  --cx-heading-2: #b8caef;
+  --cx-heading-3: #8fd8bd;
 }
 
 /* Editor-view font family + size, driven by the toolbar. View-only: book.md
@@ -1355,23 +1364,26 @@ body:has(.composer-grid) .to-top {
 .cx-prose h3 {
   margin: 1.1rem 0 0.45rem;
   font-family: "Cinzel", Georgia, serif;
-  font-size: 1.18rem;
+  font-size: 1.45em;
   font-weight: 700;
   line-height: 1.25;
+  color: var(--cx-heading-1, #800000);
 }
 .cx-prose h4 {
   margin: 0.95rem 0 0.4rem;
   font-family: "Cinzel", Georgia, serif;
-  font-size: 0.94rem;
+  font-size: 1.18em;
   font-weight: 600;
   line-height: 1.25;
+  color: var(--cx-heading-2, #1f3a5f);
 }
 .cx-prose h5 {
   margin: 0.85rem 0 0.35rem;
   font-family: "Lexend", "Inter", system-ui, sans-serif;
-  font-size: 0.9rem;
+  font-size: 1.04em;
   font-weight: 650;
   line-height: 1.28;
+  color: var(--cx-heading-3, #2f6f5e);
 }
 /* (The former heading-only left-align override is gone — the whole editor
    surface is left-aligned now, so it had nothing left to override.) */

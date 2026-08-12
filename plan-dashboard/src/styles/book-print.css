@@ -609,22 +609,25 @@ p.ch-first::first-letter {
 h3 {
   margin: 1.3rem 0 0.6rem;
   font-family: "Cinzel", Georgia, serif;
-  font-size: 1.25rem;
+  font-size: 1.45em;
   font-weight: 700;
+  color: var(--c-heading-1, #800000);
   page-break-after: avoid;
 }
 h4 {
   margin: 1.15rem 0 0.5rem;
   font-family: "Cinzel", Georgia, serif;
-  font-size: 1rem;
+  font-size: 1.18em;
   font-weight: 600;
+  color: var(--c-heading-2, #1f3a5f);
   page-break-after: avoid;
 }
 h5 {
   margin: 1rem 0 0.45rem;
   font-family: "Lexend", "Inter", system-ui, sans-serif;
-  font-size: 0.94rem;
+  font-size: 1.04em;
   font-weight: 650;
+  color: var(--c-heading-3, #2f6f5e);
   page-break-after: avoid;
 }
 p {

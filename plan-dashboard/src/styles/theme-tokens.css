@@ -241,6 +241,9 @@
   --c-green: #4a7c4a; /* status: ok / shipped */
   --c-amber: #c08020; /* status: caution / in-flight */
   --c-red: #a83232; /* status: blocked / failed */
+  --c-heading-1: #800000;
+  --c-heading-2: #1f3a5f;
+  --c-heading-3: #2f6f5e;
 
   --c-vendor-anthropic: #cc785c;
   --c-vendor-google: #4285f4;
