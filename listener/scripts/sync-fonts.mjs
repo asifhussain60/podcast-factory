@@ -2,9 +2,9 @@
 //
 // Two sources, both one-time copies rather than runtime dependencies:
 //   - node_modules/@fontsource-variable/*  (Literata, Fraunces, Inter)
-//   - ../plan-dashboard/public/fonts/      (Scheherazade New, OpenDyslexic —
-//     already licensed and subset in this repo; copied, never imported, so the
-//     Listener has no runtime coupling to the admin site)
+//   - ../plan-dashboard/public/fonts/      (Cinzel, Scheherazade New,
+//     OpenDyslexic — already licensed and subset in this repo; copied, never
+//     imported, so the Listener has no runtime coupling to the admin site)
 //
 // The copied files are committed. Re-run only when adding or changing a face.
 //
@@ -67,6 +67,25 @@ const MANIFEST = [
   {
     from: "node_modules/@fontsource-variable/fraunces/LICENSE",
     to: "fraunces-LICENSE.txt",
+    note: "SIL OFL 1.1",
+  },
+  // Chapter headings authored in the Book Composer. The admin site maps the
+  // chapter-local Heading 1/2 controls to markdown h3/h4, and sets both in
+  // Cinzel; publishing should preserve that hierarchy rather than translating
+  // it into the Library's page-title face.
+  {
+    from: "../plan-dashboard/public/fonts/cinzel/cinzel-latin-600-normal.woff2",
+    to: "cinzel-latin-600-normal.woff2",
+    note: "Cinzel 600 (chapter headings)",
+  },
+  {
+    from: "../plan-dashboard/public/fonts/cinzel/cinzel-latin-700-normal.woff2",
+    to: "cinzel-latin-700-normal.woff2",
+    note: "Cinzel 700 (chapter headings)",
+  },
+  {
+    from: "../plan-dashboard/public/fonts/cinzel/LICENSE",
+    to: "cinzel-LICENSE.txt",
     note: "SIL OFL 1.1",
   },
   // UI — Inter, per Asif 2026-08-03.

@@ -73,7 +73,21 @@
 /* ── In-flow source heading ── mirrors book-print.css:317-320 (h3). */
 .cx-print .section-heading {
   margin: 1.3rem 0 0.6rem;
+  font-family: "Cinzel", Georgia, serif;
   font-size: 1.25rem;
+  font-weight: 700;
+}
+.cx-print h4 {
+  margin: 1.15rem 0 0.5rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.cx-print h5 {
+  margin: 1rem 0 0.45rem;
+  font-family: "Lexend", "Inter", system-ui, sans-serif;
+  font-size: 0.94rem;
+  font-weight: 650;
 }
 
 /* ── Quranic / Arabic quotation ── mirrors book-print.css:348-375.

@@ -34,8 +34,7 @@
  *
  * Files are copied in by `npm run fonts` (scripts/sync-fonts.mjs) and committed.
  * No Google Fonts link, no CDN — the site must work with no third-party origin.
- * All four families are SIL Open Font Licence 1.1; licences ship alongside the
- * files in public/fonts/.
+ * Font licences ship alongside the files in public/fonts/.
  * ========================================================================== */
 
 /* Book titles on the library card. Self-hosted like every other face here — a
@@ -107,6 +106,23 @@
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
     U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
     U+2215, U+FEFF, U+FFFD;
+}
+
+/* Chapter-local Heading 1 and Heading 2 from the Book Composer. */
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url("/fonts/cinzel-latin-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("/fonts/cinzel-latin-700-normal.woff2") format("woff2");
 }
 
 /* Inter — the interface face, and the one that carries the most words on this
@@ -280,6 +296,7 @@
   /* Page titles only. Everything that is read rather than scanned stays on
      `--l-font-prose`. */
   --l-font-display: "Fraunces Variable", "Literata Variable", Georgia, serif;
+  --l-font-chapter-heading: "Cinzel", Georgia, serif;
   /* Library-card book titles only. Condensed, so a long title fits the card's
      narrow column at full size instead of being shrunk to fit. */
   --l-font-card-title:
@@ -7277,27 +7294,36 @@
 
   .reader h2,
   .reader h3,
-  .reader h4 {
+  .reader h4,
+  .reader h5 {
     margin-top: 2.2em;
     margin-bottom: -0.35em;
-    font-family: var(--l-font-prose);
-    /* Tailwind's preflight sets every heading to `font-weight: inherit`, so
-       without this a heading here renders at body weight -- larger, but
-       visually indistinguishable from the surrounding prose. 600 matches the
-       weight `.reader strong` already uses in this same reading column. */
-    font-weight: 600;
     line-height: 1.2;
   }
 
   .reader h2 {
+    font-family: var(--l-font-display);
     font-size: 1.5em;
+    font-weight: 600;
   }
+
   .reader h3 {
-    font-size: 1.2em;
+    font-family: var(--l-font-chapter-heading);
+    font-size: 1.34em;
+    font-weight: 700;
   }
+
   .reader h4 {
-    font-size: 1.05em;
-    color: var(--l-muted);
+    font-family: var(--l-font-chapter-heading);
+    font-size: 1.04em;
+    font-weight: 600;
+  }
+
+  .reader h5 {
+    font-family: var(--l-font-lexend);
+    font-size: 0.98em;
+    font-weight: 650;
+    line-height: 1.28;
   }
 
   .reader em {
@@ -7800,27 +7826,29 @@
      A figure the prose points at — for the Sessions collection, the diagram or
      scan the lecturer had on screen at that moment in the talk.
 
-     Sized to the MEASURE, not to the image. These arrive at whatever pixel
-     dimensions a screenshot happened to have — one is 1600px wide and one is
-     420 — and letting them keep it would put a plate wider than the column
-     beside one the size of a stamp. `width: 100%` up to the image's own size is
-     the compromise the print edition already makes: fill the column, never
-     upscale past what the file actually contains.
+     Sized to a standard plate, not to the full measure. These arrive at whatever
+     pixel dimensions a screenshot happened to have, and letting a large one fill
+     the column turns a teaching aid into the page itself. The figure gets one
+     shared cap across chapters; the image fills that cap only when its own file
+     is large enough.
 
      Centred with a rule under it rather than framed. A frame would compete with
      the quotation cards, which are the only bordered thing in the reading
      column and are bordered because the border MEANS something there. */
   .reader .md-figure {
     margin: var(--pf-space-6) auto;
+    width: min(100%, 34rem);
     max-width: 100%;
     text-align: center;
   }
 
   .reader .md-figure img {
     display: block;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     height: auto;
     margin-inline: auto;
+    box-sizing: border-box;
     border-radius: var(--pf-radius-sm);
     /* A hairline, so a scan on a white ground does not bleed into the page. */
     border: 1px solid var(--l-rule-soft);

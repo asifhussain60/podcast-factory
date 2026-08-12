@@ -200,7 +200,6 @@ class AuthoringHalt(AuthoringError):
 DEFAULT_MODEL_LABEL = "claude-opus-4-8"
 
 
-# ── Phase-declared model overrides (Asif, 2026-08-07) ───────────────────────
 # A phase is listed ONLY when its output is GATED (a bad window reverts to its
 # base, or the result is a human-reviewed proposal — nothing ships on its own)
 # so a weaker model costs a wasted window, never bad prose on the page. Every
@@ -209,6 +208,7 @@ DEFAULT_MODEL_LABEL = "claude-opus-4-8"
 PHASE_MODEL_OVERRIDE: dict[str, str] = {
     "0book-fluency": "claude-sonnet-4-6",
     "0book-student-reader": "claude-sonnet-4-6",
+    "compose-paste-fix": "claude-sonnet-4-6",
     "rearticulate": "claude-sonnet-4-6",
 }
 

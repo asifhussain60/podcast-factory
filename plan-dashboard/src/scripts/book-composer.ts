@@ -289,8 +289,7 @@ const COMPOSE_TOOLBAR_TIPS = {
   redo: { title: "Redo", detail: "Reapply an edit you undid. ⇧⌘Z." },
   paragraphFormat: {
     title: "Paragraph style",
-    detail:
-      "Body, Section or Subsection for the paragraph the cursor is in. Chapter headings are not offered — those are the book's own structure.",
+    detail: "Body or Heading 1–3 for the paragraph the cursor is in.",
   },
   bold: { title: "Bold", detail: "Select text and click. ⌘B." },
   italic: {
@@ -1919,14 +1918,14 @@ function boot(): void {
           ariaLabel: "Formatting",
           icons: COMPOSE_TOOLBAR_ICONS,
           builtins: {
-            // H2 is the CHAPTER boundary in book.md — writeChapterBody splits
-            // the file on /^##\s+/ — so an H2 typed inside a chapter body would
-            // create a new chapter on save. Only levels below it are offered,
-            // and named for what they do rather than for their tag.
             bodyLabel: "Body",
             headingLevels: [
-              { level: 3, id: "h3", label: "Section" },
-              { level: 4, id: "h4", label: "Subsection" },
+              // In the chapter body these serialize as ###/####/#####. The
+              // visible labels match the editing mental model, while `##`
+              // remains reserved for the book's chapter boundaries.
+              { level: 3, id: "h3", label: "Heading 1" },
+              { level: 4, id: "h4", label: "Heading 2" },
+              { level: 5, id: "h5", label: "Heading 3" },
             ],
           },
         },
@@ -3423,8 +3422,9 @@ function boot(): void {
 
   // ── Paste & Fix: pf-compose-articulator's engine, run against a paste ──────
   // The paste NEVER touches the live editor. It lands in a dedicated box; the
-  // server checks it (image restoration, house-style formatting, the fidelity
-  // gate — the exact same compose_articulate.py the CLI skill uses) and hands
+  // server checks it (image restoration, paragraph repair, Scholar continuity,
+  // house-style formatting, the fidelity gate — the exact same compose_articulate.py
+  // the CLI skill uses) and hands
   // back a fixed body for review; only on explicit Apply does that fixed body
   // reach book.md, through the same writer every other Compose save uses. A
   // raw, broken paste is never in a position for autosave to persist before
@@ -3436,7 +3436,28 @@ function boot(): void {
     ratio: number;
     findings: string[];
     images_restored: { path: string; anchor: string; placement: string }[];
+    paragraph_changes: { kind: string }[];
     format_changes: { kind: string }[];
+    continuity_changes: {
+      kind: string;
+      status: string;
+      grounded?: number;
+      morphology?: boolean;
+      reason?: string;
+      findings?: string[];
+    }[];
+    readability_review?: {
+      status: "not-run" | "checked" | "skipped";
+      budget?: number;
+      proposed?: number;
+      gated_out?: { quote?: string; reasons?: string[] }[];
+      reason?: string;
+      questions: {
+        defect?: string;
+        question?: string;
+        quote?: string;
+      }[];
+    };
     body: string;
     clean: boolean;
   }
@@ -3465,7 +3486,65 @@ function boot(): void {
       li.textContent = `${n} formatting fix${n === 1 ? "" : "es"} applied`;
       summary.appendChild(li);
     }
+    const paragraphChanges = result.paragraph_changes ?? [];
+    const continuityChanges = result.continuity_changes ?? [];
+    const readabilityReview = result.readability_review ?? {
+      status: "not-run",
+      questions: [],
+    };
+
+    if (paragraphChanges.length > 0) {
+      const li = document.createElement("li");
+      const n = paragraphChanges.length;
+      li.textContent = `${n} paragraph repair${n === 1 ? "" : "s"} applied`;
+      summary.appendChild(li);
+    }
+    if (continuityChanges.length > 0) {
+      const kept = continuityChanges.filter((c) => c.status === "kept").length;
+      const reverted = continuityChanges.filter(
+        (c) => c.status === "reverted",
+      ).length;
+      const skipped = continuityChanges.filter(
+        (c) => c.status === "skipped",
+      ).length;
+      const li = document.createElement("li");
+      li.textContent = kept
+        ? "Scholar continuity repair applied"
+        : reverted
+          ? "Scholar continuity repair was reverted by gates"
+          : `Scholar continuity repair skipped${skipped > 1 ? ` (${skipped})` : ""}`;
+      summary.appendChild(li);
+    }
+    if (readabilityReview.status === "checked") {
+      const li = document.createElement("li");
+      const n = readabilityReview.questions?.length ?? 0;
+      li.textContent = n
+        ? `Student Reader found ${n} readability question${n === 1 ? "" : "s"}`
+        : "Student Reader readability check passed";
+      summary.appendChild(li);
+    } else if (readabilityReview.status === "skipped") {
+      const li = document.createElement("li");
+      li.textContent = "Student Reader readability check skipped";
+      summary.appendChild(li);
+    }
     container.appendChild(summary);
+
+    const readabilityQuestions = readabilityReview.questions ?? [];
+    if (readabilityQuestions.length > 0) {
+      const warn = document.createElement("div");
+      warn.className = "cx-paste-fix-findings";
+      const head = document.createElement("p");
+      head.textContent = "The student reader would ask about:";
+      warn.appendChild(head);
+      const ul = document.createElement("ul");
+      for (const q of readabilityQuestions) {
+        const li = document.createElement("li");
+        li.textContent = `${q.defect ? `${q.defect}: ` : ""}${q.question ?? ""}`;
+        ul.appendChild(li);
+      }
+      warn.appendChild(ul);
+      container.appendChild(warn);
+    }
 
     if (result.findings.length > 0) {
       const warn = document.createElement("div");
@@ -3509,7 +3588,7 @@ function boot(): void {
     const hint = document.createElement("p");
     hint.className = "cx-confirm-body";
     hint.textContent =
-      "Paste the edited chapter below. Dropped images and legacy citation or heading formatting are restored automatically before anything is saved.";
+      "Paste the edited chapter below. Dropped images, split paragraphs, headings, Scholar continuity gaps, and Student Reader readability are checked before anything is saved.";
     box.appendChild(hint);
 
     const textarea = document.createElement("textarea");
@@ -3607,7 +3686,8 @@ function boot(): void {
         return;
       }
       fixBtn.disabled = true;
-      statusEl.textContent = "Checking — restoring images and formatting…";
+      statusEl.textContent =
+        "Checking — restoring images, paragraphs, Scholar continuity and Student Reader readability…";
       try {
         const result = await apiFetch<PasteFixCheckResult>(
           "/api/studio/paste-fix",
@@ -3622,7 +3702,12 @@ function boot(): void {
         reviewEl.hidden = false;
         backBtn.hidden = false;
         backBtn.disabled = false;
-        fixBtn.textContent = result.findings.length ? "Apply anyway" : "Apply";
+        const readabilityQuestions =
+          result.readability_review?.questions?.length ?? 0;
+        fixBtn.textContent =
+          result.findings.length || readabilityQuestions
+            ? "Apply anyway"
+            : "Apply";
         fixBtn.disabled = false;
         statusEl.textContent = "";
       } catch (e) {

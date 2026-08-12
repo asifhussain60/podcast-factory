@@ -1353,14 +1353,25 @@ body:has(.composer-grid) .to-top {
   margin: 0 0 0.8rem;
 }
 .cx-prose h3 {
-  font-size: 1.1rem;
+  margin: 1.1rem 0 0.45rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1.18rem;
   font-weight: 700;
-  margin: 1.2rem 0 0.5rem;
+  line-height: 1.25;
 }
 .cx-prose h4 {
-  font-size: 1.02rem;
-  font-weight: 700;
-  margin: 1rem 0 0.45rem;
+  margin: 0.95rem 0 0.4rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 0.94rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.cx-prose h5 {
+  margin: 0.85rem 0 0.35rem;
+  font-family: "Lexend", "Inter", system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.28;
 }
 /* (The former heading-only left-align override is gone — the whole editor
    surface is left-aligned now, so it had nothing left to override.) */

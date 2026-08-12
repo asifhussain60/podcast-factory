@@ -710,93 +710,149 @@ May Allah guide us all. May He open our hearts and place us all on the path of l
 
 ## Linguistic Meaning Of Allah
 
-Now let's begin with the Surah. The first آیۃ of سُورَۃُ الْفَاتِحَۃِ is بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ
+Now let us begin with the Surah. The first آیۃ of سُورَۃُ الْفَاتِحَۃِ is:
+
+بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ
 
 ### ILAH
 
-Let's begin with the word اللہ. The word Allah comes from the root word الہ. Generally we use this term to mean God. But in reality الہ is a very generic term - like a "book" or a "car". You can have many types of books; and you can have many types of car. It's not specific. Similarly, there can be many types of الہ. In the English language we have 2 types of articles - we have the indefinite article which is "a", like "a book", "a car"; and then there is the definite article "the" - "the book", "the car".
+Let us begin with the word اللہ. The word Allah comes from the root word الہ. We generally use this term to mean “God,” but in reality الہ is a very generic term, much like “book” or “car.” There are many kinds of books and many kinds of cars; the word itself is not specific. In the same way, there can be many kinds of الہ.
 
-A vs THE
+In English, we have two types of articles. There is the indefinite article “a,” as in “a book” or “a car,” and there is the definite article “the,” as in “the book” or “the car.”
 
 ![](images/87/983c2f7d-5f31-4f45-b5bf-27da233a43c0.jpg)
 
-What's the difference between "a" book and "the" book? "A book" is a generic term, it could mean any book. But when I say "the" book, I'm no longer talking about just any book, I'm now referring to a very specific book. You understand? It's the same with this word الہ.
+### A vs. THE
 
-ILAH vs AL-ILAH
+What is the difference between “a book” and “the book”? “A book” is generic; it could refer to any book. But when I say “the book,” I am no longer speaking about just any book. I am referring to a particular book. The same principle applies to the word الہ.
 
 ![](images/87/1b3198d2-bb3f-48d3-ac49-05f97e515554.jpg)
 
-The word الہ is a generic, indefinite term that can be used for many things. There can be many types of الہ, just as there can be many types of books. But when I apply the definite article "the" to it, which is ال in Arabic; when I say ال + الہ , that combination generates the word اللہ. In other words, "اللہ" is the specific form of the generic word الہ. Allah is actually ال + الہ. And so based on the rules of Arabic grammar the الف of اللہ is dropped, and the ال merges with the ل ad the ہ to become Allah. Therefore in order to understand the linguistic meaning of the word Allah, we must first understand the meaning of the word الہ.
+### ILAH vs. AL-ILAH
+
+The word الہ is generic and indefinite, and it can be applied to many things. There can be many kinds of الہ, just as there can be many kinds of books. But when I apply the definite article “the” to it, represented by ال in Arabic, and say ال + الہ, that combination gives us the word اللہ.
+
+In other words, “اللہ” is the specific form of the generic word الہ. Allah is ال + الہ. According to the rules of Arabic grammar, the الف of اللہ is dropped, and the ال merges with the ل and the ہ to become Allah.
+
+Therefore, in order to understand the linguistic meaning of the word Allah, we must first understand the meaning of الہ.
 
 ### Composite Words
 
-Now the word الہ is a composite word. It has a slew of meanings. Let's first understand what I mean by a composite word. It's important to understand the meaning of Arabic composite words before we proceed because we'll be dealing with many such words.
-
-Composite Word
-
 ![](images/87/3187e204-def2-4bcb-bfbf-e9a3c6e4224c.jpg)
 
-Think of a composite word like a jigsaw puzzle. Every piece of the puzzle has a separate independent meaning. And then all those meanings come together to create a complete image of what the word means. So let's say, if the word الہ has 4 different meanings (A, B, C and D), then the sum of those meanings will give us the complete understanding of the word الہ, you understand? The meaning of الہ is not "A" or "B" or "C" or "D". It is the sum of all those meanings. It is A + B + C + D. You understand?
+The word الہ is a composite word. It carries a range of meanings. Before examining them, we need to understand what is meant by a composite word, because we will encounter many such words.
 
-### Meanings Of Word ILAH
+Think of a composite word as a jigsaw puzzle. Each piece of the puzzle has its own distinct meaning, but together they form a complete image.
 
-YALAA
+Suppose, for example, that the word الہ has four different meanings: A, B, C, and D. The complete meaning of الہ is not simply A, or B, or C, or D. It is the sum of all of them: A + B + C + D. Only when those meanings are brought together do we begin to see the complete picture.
 
-Now let's understand all the different meanings of the word الہ. Primarily the word الہ comes from اَلَہَ یَعلُہُ, and the verb اَلَہَ literally means to worship. So the first meaning of اَلَہَ is the entity that is the focus of our worship and obedience. What is worship? It is an extreme form of gratitude. It is that highest form of a sense of gratitude, where the benefactor becomes so desirable, and so important in your life, that you are forced down on your knees in humility. When you completely succumb and surrender your will to the will of the beloved. When that happens, that beloved becomes your الہ. That is the first meaning of the word اَلَہَ.
+### Meanings of the Word ILAH
 
-So for instance if you are so obsessed about your job; if you are obsessed your career to the degree that you put it above and beyond everything and everyone else in your life; then you've made your career your الہ, you understand? If your video games, your sports, your TV shows, your children, your wealth is what commands and rules your heart; if those are the things that make you bow down before them, then by definition these things are your الہ. If you're madly love with someone to the point where that person controls and dominates your every thought, every action, every decision, then that beloved is now your الہ. Because الہ is the one you worship; the one you submit and obey to without question.
+#### YALAA
 
-ALAHA
+Let us now examine the different meanings of the word الہ.
 
-This word أَلَہَ is used for a child that is thirsty for the milk of its mother, and is desperately crying for it - that's also اَلِہَ. Parents know what I'm talking about. Have you seen a baby crying for milk? Do you remember the desperation on the baby's face? And at that point how does the baby take the breast of its mother? With this hungry passion, right? That's أَلَہَ. It is the entity that you desperately and inevitably turn to with a passion, with a desperation. It is what you desperately and uncontrollably turn to, in your every single moment of happiness and grief. That is also an أَلَہَ.
+Primarily, the word الہ comes from اَلَہَ یَعلُہُ, and the verb اَلَہَ literally means “to worship.” The first meaning of اَلَہَ, then, refers to the entity that becomes the focus of our worship and obedience.
 
-Some people have sugar addictions. Some are addicted to smoking, some to drugs, some to parties, some to movies. Anytime you feel happy or depressed, the thing that you desperately and uncontrollably turn to for comfort, by definition, is your الہ. Because you find peace and comfort in the arms of these masters. You are their obedient slaves. When these masters commands, you have to obey. When the desire commands you to smoke, you have to obey! When you can't stop yourself from eating that tub of ice cream, or watching that episode of your TV show; or if you must watch a movie every night, or play video games for hours every day; then you are completely loyal and devoted to those things, because you feel you must absolutely do these things in order to feel happy and satisfied again; and you turn to them in the same desperation that a baby turns to its mother out of its thirst for milk.
+What is worship? It is an extreme form of gratitude. It is the highest state of gratitude, in which the benefactor becomes so desirable and so important in your life that you are brought to your knees in humility. You completely surrender your will to the will of the beloved. When that happens, that beloved becomes your الہ.
 
-This applies to each and everyone of us. We all have such الہ in our lives. Doesn't make us horrible people - just makes us human. What we're doing today, but by learning these meanings, we're in a sense waking up to see these masters for what they really are. And that's the first step towards any change, right? So don't feel overwhelmed by these definitions.
+That is the first meaning of the word اَلَہَ.
 
-WALAHA
+For example, if you are so obsessed with your job or career that you place it above everything and everyone else in your life, then you have made your career your الہ. If your video games, sports, television shows, children, or wealth are what command and rule your heart—if these are the things before which you effectively bow—then, by definition, they have become your الہ.
 
-The next word is وَلَہَ . This is someone you are passionately in love with. Someone you cannot stop thinking about. Someone you are obsessed about. The derivative وَلَہَ is used when someone goes insane by the loss of a beloved. The mother who loses her child is called مُوَلَّا. This is a mother who is suffering that extremely excruciating pain and grief over the loss of her child. She is called مُوَلَّا. It's that kind of passionate and obsessive love. In Urdu we say. وَالِھَانَہَ مُحَبَّتْ . Mad love; crazy love. That's also from وَلَہَ. So if there is someone in your life that you're obsessed about, you're always thinking about it; you're madly in love with; being apart from him or her drives you insane - you can't stop texting or calling this person - you're constantly looking at their pictures, reading their old emails, texts - missing them with a passion - then you are in a state of وَلَہَ and by definition, that person is your الہ.
+If you are madly in love with someone to the point that the person controls and dominates your every thought, action, and decision, then that beloved has become your الہ. An الہ is the one you worship, the one to whom you submit and whom you obey without question.
 
-ALIHA
+### ALAHA
 
-The next meaning أَلِہَ is literally (not linguistically) used for something that you lean on. Something that you put your entire weight on. When you're exhausted and you lean on something and put your entire weight on it, that thing that is supporting you is literally called أَلِہَ. So in your life if you're banking on your finances, your property, your houses, your cars, your job, your social status, your friends, your neighbors, your children, then any of those things that you psychology lean on, are all your الہ. If you're putting all your eggs in one basket, metaphorically speaking, then that basket, that person is your الہ.
+The word أَلَہَ is also used for a child who is thirsty for its mother’s milk and cries desperately for it. That, too, is اَلِہَ. Parents know this sight well. Have you seen a baby crying for milk? Do you remember the desperation on the baby’s face, and the hungry intensity with which the baby reaches for the mother’s breast? That is أَلَہَ.
 
-WALIHA
+In this sense, an الہ is the entity to which you desperately and inevitably turn, with passion and urgency. It is what you turn to, almost uncontrollably, in moments of happiness and grief alike.
 
-Another derivative of the word الہ comes from وَلِہَ which means to become astounded; to become astonished; to become mesmerized. You know how we create role models in actors and musicians and hip hop artists? Especially kids these days. You know how you kids want to be like them, live like them, think like them, dress like them, talk like them, walk like them? When you feel you have to go out and shave your head to look like Amir Khan from the movie Gajni, you've made Amir Khan your الہ. By definition الہ is the one you're completely and utterly impressed by. The one you want to imitate. The one you want to be like. Now it could be a person, or it could be a thing, it could be a profession - it can be anything. Anything that mesmerizes you, grips you, takes complete control of your decisions is your الہ.
+Some people are addicted to sugar. Some are addicted to smoking, drugs, parties, or movies. Whenever you feel happy or depressed, whatever you desperately and uncontrollably turn to for comfort is, by definition, your الہ. You find peace and comfort in the arms of these masters, and you become their obedient servant.
+
+When these masters command, you obey. When the desire to smoke commands you, you obey. When you cannot stop yourself from eating that tub of ice cream, watching that episode of your television show, watching a movie every night, or playing video games for hours each day, you display a deep loyalty and devotion to those things. You feel that you absolutely must have them in order to feel happy or satisfied again. You turn to them with the same desperation with which a thirsty baby turns to its mother for milk.
+
+This applies to every one of us. We all have such الہ in our lives. That does not make us horrible people; it simply makes us human. What we are doing today, by learning these meanings, is beginning to recognize these masters for what they really are. That recognition is the first step toward change. So there is no need to feel overwhelmed by these definitions.
+
+### WALAHA
+
+The next word is وَلَہَ. This refers to someone with whom you are passionately in love—someone you cannot stop thinking about, someone who consumes your thoughts.
+
+The derivative وَلَہَ is used when a person is driven almost insane by the loss of a beloved. A mother who loses her child is called مُوَلَّا. She is experiencing the most excruciating grief and pain over the loss of her child. She is called مُوَلَّا.
+
+It is this kind of passionate, overwhelming love. In Urdu, we say وَالِھَانَہَ مُحَبَّتْ: mad love, almost crazy love. That, too, comes from وَلَہَ.
+
+So if there is someone in your life with whom you are obsessed, someone you are always thinking about and madly in love with; if separation from that person feels unbearable; if you cannot stop calling or texting them, looking at their pictures, rereading old emails and messages, and missing them intensely—then you are in a state of وَلَہَ, and by definition, that person has become your الہ.
+
+### ALIHA
+
+The next meaning, أَلِہَ, is literally used for something you lean on—something upon which you place your entire weight. When you are exhausted and lean against something, placing your whole weight upon it, the thing supporting you is literally called أَلِہَ.
+
+So if, in your life, you are banking entirely on your finances, property, houses, cars, job, social status, friends, neighbors, or children, then whatever you psychologically lean upon becomes your الہ.
+
+If, metaphorically speaking, you put all your eggs in one basket, then that basket—or that person—has become your الہ.
+
+### WALIHA
+
+Another derivative of the word الہ comes from وَلِہَ, which means to become astounded, astonished, or mesmerized.
+
+Consider the way people create role models out of actors, musicians, and hip-hop artists, especially among young people. Children may want to be like them, live like them, think like them, dress like them, talk like them, and walk like them. When you feel that you must go out and shave your head so that you can look like Amir Khan from the movie Gajni, you have made Amir Khan your الہ.
+
+By definition, الہ is the one by whom you are completely and utterly impressed—the one you want to imitate, the one you want to resemble. It may be a person, a thing, a profession, or almost anything else. Whatever mesmerizes you, grips you, and takes control of your decisions becomes your الہ.
+
+So these are the various meanings of the word الہ. Let us review them. Who or what is an الہ?
+
+The one we worship and obey is our الہ.
+
+The one to whom we are completely devoted and loyal is our الہ.
+
+The one to whom we turn in utter desperation for comfort is our الہ.
+
+The one we passionately love and obsess over is our الہ.
+
+The one we lean upon for support—physically, mentally, emotionally, or psychologically—is our الہ.
 
 ![](images/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg)
 
-So these are the various meanings of the word الہ. Let's go over them again. Who or what is an الہ?
+This is what the word الہ means. And because الہ is a composite word, its meaning is the sum of all these dimensions.
 
-- The one we worship and obey is our الہ. -
+The one you passionately love is the one to whom you will become deeply devoted. You will lean on that person. You will turn to that person desperately for comfort and support. Separation from that person may feel unbearable. You may submit to and obey whatever that person says. In other words, you may come to worship that person.
 
-- The one we are completely devoted and loyal to is our الہ.
+This is how the different meanings merge to form a complete picture. That is how a composite word works.
 
-- The one that we turn to in utter desperation to find comfort is our الہ.
+Based on these meanings of الہ, it becomes obvious that all of us have numerous الہ in our lives. We personify and objectify these definitions in many different ways. Some الہ take the form of people: family, friends, children, parents, actors, or musicians. Some take the form of objects: houses, cars, our bodies, jewelry, food, video games, or movies. Others take the form of jobs, careers, recreation, drugs, or sex.
 
-- The one we are passionately in love with; the one we obsess about is our الہ.
+We may have hundreds, even thousands, of things in our lives that satisfy one or more dimensions of the definition of الہ.
 
-- The one we lean on for support - physically, mentally, emotionally, psychologically is our الہ.
+### Idols
 
-So this is what the word الہ means. And because الہ is a composite word, it is the sum of all those meanings. Because the one you passionately love, is the one you will be completely devoted to; you will lean on that person; you will turn to that person desperately for comfort or support; separation or distance from that person will drive you insane; you will literally submit to and obey every single thing they say; In other words, you will worship that person. So you see how all these meanings merge together to create a complete picture? That's how a composite word works.
+Now there is something I want you to think about, and this is where the discussion becomes frightening and painful.
 
-So now based on these meanings of the word الہ obviously we all have numerous الہ in our lives. We personify and objectify these definitions in numerous ways. Some have الہ in the form of people, family, friends, children, parents, actors, musicians. Some الہ exist in the form of objects - houses, cars, our bodies, jewelry, food, video games, movies. Some have الہ in the form of jobs, careers, recreation, drugs, sex. We all have hundreds, if not thousands of entities in our lives that meet the definition of الہ. Yes?
+All the people and things in our lives that satisfy some aspect of the definition of الہ give physical form to one of those meanings. Is that not true?
 
-### idols
+For example, by definition, الہ is the one to whom we are loyal and devoted, and الہ is the one to whom we turn for comfort. If smoking, movies, or video games are what I turn to for comfort, then in a sense those activities have taken on a physical form of that definition of الہ. The definition itself is conceptual, but its manifestation becomes physical. I am physically doing something to please that الہ.
 
-Now here is something I want you to think about! And this is where the conversation gets scary and painful. All these people and things in our lives that meet the definition of the word الہ, they give a physical forms to one of the definitions of the word, Isn't that true? So for example, by definition الہ is the one we are loyal and devoted to; الہ is the one we turn to for comfort. And so now if smoking, or movies, or video games is what I turn to for comfort, then in a sense, these activities are taking on a physical form of that definition of الہ. Do you see that? The definition of the word is conceptual; but its manifestation is physical. I'm physically doing something to please that الہ.
+Likewise, by definition, الہ is the one who astounds and astonishes you. If Shahrukh Khan, Sylvester Stallone, Adele, Byonce, or Lady Gaga are the people who astound, astonish, and impress you to the point that you want to “be” like them, then you have given the definition of وَلِھَا a form. You have personified that definition in the form of Shahrukh Khan, Stallone, or someone else.
 
-So for example, by definition, الہ is the one that astounds and astonishes you. If Shahrukh Khan, Sylvester Stallone, Adele, Byonce, Lady Gaga; if these are the ones who astound you, astonish you, impress you to the point that you want to "be" like them, then you've just given the definition of وَلِھَا a form - you personified that definition in the form of Shahrukh Khan or Stallone or whoever. You understand?
-
-ILAH as Idols
+### ILAH as Idols
 
 ![](images/87/96638984-a5a3-408c-b774-202db50348e2.jpg)
 
-Now what is the definition of an idol? An idol is an image or representation of a god used as an object of worship. That's the dictionary definition of an idol. It is the personification or objectification of someone or something. Isn't it? Who creates idols? We create idols. Idols are man made creations, aren't they? And who objectifies and personifies the definitions of الہ? We do! We decide that we are going to turn to smoking, movies, drugs, alcohol for comfort. We decide that we are going to be completely loyal and devoted to our jobs, careers, Facebook, Instagram. We chose to fall passionately in love with wealth, power and fame. Nobody does that for us. We do that! In other words, we are the creators of our own الہ - just as idols are man made creations. Do you see the similarity there? You see where I'm going with this?
+What is the definition of an idol? An idol is an image or representation of a god used as an object of worship. That is the dictionary definition. It is the personification or objectification of someone or something.
 
-We think we are Muslims, and therefore we have nothing to do with idol worship. But the scary reality is that we are literally surrounded by thousands of الہ, which are self-created idols, and we worship them on a daily basis. Every person, every object, every concept, every idea that we personify or objectify, in a sense is an idol that we made for ourselves with our own hands. So in that sense, we are all "idol-worshipers" - It's a painful reality; but it's true. The concept of شرک doesn't seem so alien now, does it? And this is exactly why Rasul Allah ﷺ said
+Who creates idols? We do. Idols are man-made creations.
+
+And who objectifies and personifies the definitions of الہ? We do. We decide that we will turn to smoking, movies, drugs, or alcohol for comfort. We decide that we will become completely loyal and devoted to our jobs, careers, Facebook, or Instagram. We choose to fall passionately in love with wealth, power, and fame. No one does that for us. We do it ourselves.
+
+In other words, we become the creators of our own الہ, just as idols are man-made creations. Do you see the similarity? Do you see where this leads?
+
+We may think that because we are Muslims, idol worship has nothing to do with us. Yet the frightening reality is that we can be surrounded by thousands of الہ—self-created idols that we worship every day.
+
+Every person, object, concept, or idea that we personify or objectify in this way becomes, in a sense, an idol we have made for ourselves with our own hands. In that sense, we can all become “idol-worshipers.” It is a painful reality, but it is true.
+
+The concept of شرک no longer seems so distant, does it?
+
+This is exactly why Rasul Allah ﷺ said:
 
 قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
 
@@ -804,9 +860,13 @@ We think we are Muslims, and therefore we have nothing to do with idol worship. 
 >
 > SHIRK (Associating partnership with Allah) is more hidden in my nation, than the movement of a black ant in a dark night on a black stone.
 
-That is how unaware we will be of our own idol worship.
+That is how unaware we may be of our own idol worship.
 
-In the final analysis, who is at the center of my idols? I am! Now why did I create these الہ? What motivated me to build my idols? My desires! All my idols are a product and creation of my passions and my caprice. They exist because of my own wants! Allah says:
+In the final analysis, who stands at the center of all my idols? I do.
+
+Why did I create these الہ? What motivated me to build these idols? My desires. All my idols are products and creations of my passions and caprice. They exist because of my own wants.
+
+Allah says:
 
 The Criterion [25:43]
 
@@ -814,65 +874,149 @@ The Criterion [25:43]
 >
 > Have you seen the one who takes as his god his own desire?
 
-Allah is asking the messenger ﷺ, do you not see this person who has taken his desires - his car, his house, his job, his wealth, his fame, the pleasures and sensations of his body as his الہ. Do you not see this person who has taken smoking, drugs, alcohol, sex, movies, video games as his الہ ; who has taken Shahrukh Khan, Salman Khan, Amir Khan, Adele, Stallone as his الہ. Allah asks Rasul Allah ﷺ ,
+Allah is asking the messenger ﷺ: Do you not see this person who has taken his desires—his car, his house, his job, his wealth, his fame, the pleasures and sensations of his body—as his الہ? Do you not see the person who has taken smoking, drugs, alcohol, sex, movies, or video games as his الہ; who has taken Shahrukh Khan, Salman Khan, Amir Khan, Adele, or Stallone as his الہ?
+
+Allah asks Rasul Allah ﷺ:
 
 > أَفَأَنتَ تَكُونُ عَلَيْهِ وَكِيلًا
 >
 > Do you really want to be responsible for this person on the day of judgment?
 
-Worship of the "self" is the worst form of شرک there is. When gratitude turns into self-gratification, that is the worst kind of شرک there is. Idolatry has nothing over self-olatory. And so we are the one's constantly committing شرک by taking our desires and making them our الہ. Human beings are in a constant state of self-worship, which is what prevents us from truly worshiping Allah!
+Worship of the self is the worst form of شرک. When gratitude turns into self-gratification, it becomes the worst kind of شرک. Ordinary idolatry pales beside self-idolatry.
 
-This is the default condition of mankind. Islam addresses it here, at the root: through the negation and destruction of these self-created idols, the understanding of Allah emerges. Allah is لَا اِلَہَ اِلَّا — He is everything other than what is taken as الہ. When every idol born from the desires of the self is broken and destroyed, when the Kaaba of the heart stands empty of them, what is found there is Allah.
+And so we are constantly at risk of committing شرک by taking our desires and making them our الہ. Human beings live in a persistent state of self-worship, and that is what prevents us from truly worshiping Allah.
 
-The first act of Rasul Allah ﷺ after the conquest of Mecca was to cleanse the Kaaba of all its idols. Three hundred and sixty-five idols stood in it, around it, and upon it. He destroyed each one without exception. That same exercise must be undertaken in every life. Just as Rasul Allah ﷺ conquered Mecca, the نفس must be conquered. Just as he cleared the Kaaba of its idols one by one, the Kaaba of the heart must be gradually cleared of these idols — one by one. And the greatest and most powerful idol standing in the Kaaba of the heart is the نفس itself, the passions.
+This is the default condition of mankind. Islam addresses it at the root: through the negation and destruction of these self-created idols, the understanding of Allah emerges.
 
-This is why the creedal formula strikes at the very root of the problem. لَا اِلَٰہَ اِلَّا اللَّہُ. There is no الہ except Allah. No person, no thing, no concept, no principle, no ideology is worthy of being given form — except the one who is free of all form, and that is Allah. By the negation of self-made idols, by the elimination of self-created الہ, the الہ emerges. When the definite article is joined to الہ, what results is the ultimate الہ, which is Allah.
+Allah is لَا اِلَہَ اِلَّا — He is everything other than what is taken as الہ. When every idol born from the desires of the self is broken and destroyed, and when the Kaaba of the heart stands empty of them, what is found there is Allah.
 
-The creedal formula لَا اِلَٰہَ اِلَّا اللَّہُ is the act of negating the multiplicity of self-created الہ in order to affirm the one true الہ, which is Allah. It is the practice of making الہ into ال الہ.
+The first act of Rasul Allah ﷺ after the conquest of Mecca was to cleanse the Kaaba of all its idols. Three hundred and sixty-five idols stood in it, around it, and upon it. He destroyed every one of them without exception.
 
-It is the practice of directing every definition of the word الہ toward the one ultimate being — of making him ال + اللہ, of making him Allah. It is the work of isolating each definition of الہ and making it specific to Allah alone.
+That same exercise must be undertaken in every life. Just as Rasul Allah ﷺ conquered Mecca, the نفس must be conquered. Just as he cleared the Kaaba of its idols one by one, the Kaaba of the heart must gradually be cleared of its idols, one by one. And the greatest and most powerful idol standing in the Kaaba of the heart is the نفس itself: the passions.
+
+This is why the creedal formula strikes at the very root of the problem:
+
+لَا اِلَٰہَ اِلَّا اللَّہُ
+
+There is no الہ except Allah.
+
+No person, no thing, no concept, no principle, and no ideology is worthy of being given form—except the One who is free of all form, and that is Allah.
+
+Through the negation of self-made idols, through the elimination of self-created الہ, the الہ emerges. When the definite article is joined to الہ, what results is the ultimate الہ, which is Allah.
+
+The creedal formula لَا اِلَٰہَ اِلَّا اللَّہُ is the act of negating the multiplicity of self-created الہ in order to affirm the one true الہ, who is Allah. It is the practice of making الہ into ال الہ.
+
+It is the practice of directing every definition of the word الہ toward the one ultimate Being—of making Him ال + اللہ, of making Him Allah. It is the work of isolating each definition of الہ and making it specific to Allah alone.
+
+### Allah as the Only One We Worship and Obey
+
+Allah is now the only one I worship and obey. If any other الہ conflicts with His commands, I disobey that الہ in order to obey the ال + الہ, who is Allah.
+
+This does not mean that life cannot be enjoyed. The difference is that Allah now stands at the front and center of my worship and obedience. So long as nothing conflicts with that worship and obedience, I can enjoy my life to the fullest.
+
+### Allah as the One Above Every Other Loyalty
 
 ![](images/87/6c9d2189-31d6-4688-b40f-1861bf91cdfe.jpg)
 
-- Allah is now the only one I worship and obey. If any other الہ conflicts with His commands, I disobey that الہ to obey the ال + الہ, which is Allah.
+لَا اِلَٰہَ اِلَّا اللَّہُ now means لَا یُعْلَی اِلَّا اللَّہُ: Allah is the only one to whom I am completely devoted and loyal above everyone else in my life—even my own parents, even my own children. I serve only Allah and no one else.
 
-- This does not mean that life cannot be enjoyed. The difference is that Allah now stands at the front and center of my worship and obedience. So long as nothing conflicts with that worship and obedience, I can enjoy my life to the fullest.
+Yet I am glad to serve my parents because Allah has commanded it. I am glad to spend time with my friends, enjoy life, and do whatever I wish, so long as my ultimate loyalty and devotion remain with Allah. Whenever anything or anyone challenges that loyalty, I choose Allah over them.
 
-- لَا اِلَٰہَ اِلَّا اللَّہُ now means لَا یُعْلَی اِلَّا اللَّہُ: Allah is the only one I am completely devoted and loyal to — above everyone else in my life. Even my own parents. Even my own children. I serve only Allah and no one else.
+That is how I make Him ال + الہ.
 
-- Yet I am glad to serve my parents, because Allah has commanded it. I am glad to spend time with my friends, to enjoy life, to do whatever I wish — so long as my ultimate loyalty and devotion lie with Allah. Whenever anything or anyone challenges that loyalty, I choose Allah over them. That is how I make him ال + الہ.
+### Allah as the One to Whom I Turn in Desperation
 
-- لَا اِلَٰہَ اِلَّا اللَّہُ now means لا أَلَہَ الا اللہ: Allah is the only one I turn to in utter desperation for every need and every comfort.
+لَا اِلَٰہَ اِلَّا اللَّہُ now means لا أَلَہَ الا اللہ: Allah is the only one to whom I turn in utter desperation for every need and every comfort.
 
-- This does not mean I cannot seek help from my family and friends. Nor does it mean that, when hungry and without work, I sit idle because Allah is the appointed provider. Not at all. I turn to whoever I need, for whatever I want. The difference is that I know these people are simply a means — أَسْبَاب — through which Allah provides. My ultimate petition, therefore, is always addressed to Him: *Ya Allah! I need this. I turn to you for the fulfillment of my needs — provide me with the means and resources that will fulfill my needs in a way that pleases you. For it is you, and only you, who is the source of my provision — nobody else.*
+This does not mean that I cannot seek help from my family and friends. Nor does it mean that, when I am hungry and without work, I sit idle because Allah is the appointed Provider. Not at all.
 
-- لَا اِلَٰہَ اِلَّا اللَّہُ now means لا وَلَہَ الا اللہ: Allah is the one I am passionately in love with, the one I am completely absorbed in. From the moment I wake until the moment I return to sleep, He is the one I think about.
+I turn to whomever I need and seek whatever means are necessary. The difference is that I know these people are simply means—أَسْبَاب—through which Allah provides. My ultimate petition, therefore, is always directed to Him:
 
-- This does not mean I spend the day on the prayer rug, or pass every hour in تسبیح. I can do whatever I wish in life. But everything becomes a sign pointing toward Allah, a reminder of Him. That is what love does: the flower, the rainbow, the sunset, the frog in the pond — all of them recall the beloved. Love is an obsession. It is a constant connection with the beloved.
+Ya Allah! I need this. I turn to you for the fulfillment of my needs—provide me with the means and resources that will fulfill my needs in a way that pleases you. For it is you, and only you, who is the source of my provision—nobody else.
 
-- The story of Hazrat أیوب illustrates this. In a hadith of Rasul Allah ﷺ, Allah mentioned to His angels the patience and gratitude of Hazrat أیوب AS. ابلیس then addressed Allah and said that the only reason أیوب was grateful was the abundance that had been given to him — his possessions, his children. Take that away, he said, and the gratitude would vanish. So Allah began to take things away. First the possessions went. Then, right before his eyes, the house collapsed and killed all his sons. At that sight, the word that came instinctively from أیوب's lips was AlHamdulillah. And if that were not enough, a terrible disease then came upon him — his body became infected with worms that consumed his flesh. Allah put Hazrat أیوب through these extreme trials to test his faith and love, and he endured them with extraordinary grace. When the trial was complete, Allah directed him to bathe in a spring prepared for him. He bathed, and the disease was entirely cured. Years later, someone asked him: *How is your health now, أیوب?* He sighed and replied that the days of his illness had been more beloved to him than these days of health. The man was astonished and asked how that could be. أیوب replied that during his illness, Allah had asked him each day: *How are you today, أیوب?* Now that he was cured, Allah no longer asked — and so he missed the love and care that had been showered upon him in those days of trial. This is وَلِھَا. This is مُوَلَّا — extreme, passionate love, in which the absence of the beloved drives a person to the very edge of self.
+### Allah as the One I Love Passionately
 
-- لَا اِلَٰہَ اِلَّا اللَّہُ now means لا أَلِہَ الا اللہ: Allah is the only one I lean on for support — emotionally, psychologically, financially, physically, in every form.
+لَا اِلَٰہَ اِلَّا اللَّہُ now means لا وَلَہَ الا اللہ: Allah is the one I passionately love, the one in whom I am completely absorbed. From the moment I wake until the moment I return to sleep, He is the one I think about.
 
-- This does not mean I will not see a doctor when ill, or ask my employer for a raise when I deserve one, or turn to my family and friends for help when I need them. I will continue to do all of that. But my ultimate support comes from Allah. He is the one who cures my illness — not the doctor. He is the one who ordains the raise — not my employer. He is the one who fulfills my need — not my friends and family.
+This does not mean that I spend the entire day on the prayer rug or pass every hour in تسبیح. I can do whatever I wish in life. But everything becomes a sign pointing toward Allah, a reminder of Him.
 
-- The liberation this brings is immense. How many of my complaints with people and with life would simply disappear? I no longer need to blame someone for a disappointment — because that person was never meant to be the one I leaned upon in the first place. A disappointment requires an expectation. When all my expectations are from Allah, no one in this world can disappoint me. If I receive what I wanted, Allah was the one who gave it. If I did not receive it, it was not meant for me — and who can say that receiving it would not, in the long run, have proved harmful?
+That is what love does. The flower, the rainbow, the sunset, the frog in the pond—all of them remind one of the beloved. Love is an obsession. It is a constant connection with the beloved.
 
-- لَا اِلَٰہَ اِلَّا اللَّہُ now means لا وَلِہَ الا اللہ: Allah is the only one who astounds and impresses me.
+The story of Hazrat أیوب illustrates this.
 
-- This does not mean I should appreciate no one, praise no one, or find no one impressive. What it means is that I see Allah behind every praise. If my child does well in school — MashaAllah! Praise to Allah, who made my child capable. If I am mesmerized by the sunrise and sunset — SubhanAllah! Praise to Allah for creating this beauty, for granting me the eyes and the time and the willingness to appreciate it. I take the praise for the beauty of the sunset and attribute it to its Creator.
+In a hadith of Rasul Allah ﷺ, Allah mentioned to His angels the patience and gratitude of Hazrat أیوب AS. ابلیس then addressed Allah and said that the only reason أیوب was grateful was the abundance that had been given to him—his possessions and his children. Take that away, he said, and the gratitude would disappear.
 
-Through this practice, the true concept of توحید comes into view. توحید is not the idea that Allah is the supreme deity within a hierarchy of deities. It is the recognition that there is no other deity at all. لا الہ — a complete elimination of every other deity. الا اللہ — except the one and only, which is Allah. It is the transference of الھیۃ from its generic form to the one specific being who has no form. This is the challenge and the goal of لَا اِلَٰہَ اِلَّا اللَّہُ.
+So Allah began to take things away. First, his possessions were taken. Then, before his own eyes, the house collapsed and killed all his sons. At that sight, the word that instinctively came from أیوب’s lips was AlHamdulillah.
 
-The vehicle that carries one on this path is Salaat. Within its very nature, Salaat holds the act of breaking idols. The moment prayer time arrives, whatever is being done must stop; whoever is being attended to must be left; and the face must turn toward Allah. Salaat is لَا اِلَٰہَ اِلَّا اللَّہُ enacted.
+And if that were not enough, a terrible disease then afflicted him. His body became infected with worms that consumed his flesh. Allah put Hazrat أیوب through these extreme trials to test his faith and love, and he endured them with extraordinary grace.
 
-This is the journey of لَا اِلَٰہَ اِلَّا اللَّہُ. It is a difficult journey, and every journey requires provisions to sustain the traveler. The provision for this journey is knowledge of Allah. The greater the knowledge of Allah, the greater the amazement at His glory. The greater the amazement, the more passionate the love. The more passionate the love, the deeper the obsession. The deeper the obsession, the more complete the worship and submission to His commands. The more complete the worship, the more fully one turns to Him seeking refuge. The more one finds shelter under His protection, the more one leans on Him for support — for love engenders love. The more one comes to understand how much He loves, the more one loves in return. The more the love grows, the more intense His blessings and mercy become.
+When the trial was complete, Allah directed him to bathe in a spring prepared for him. He bathed, and the disease was completely cured.
+
+Years later, someone asked him, “How is your health now, أیوب?” He sighed and replied that the days of his illness had been more beloved to him than his days of health.
+
+The man was astonished and asked how that could be.
+
+أیوب replied that during his illness, Allah had asked him each day: “How are you today, أیوب?” Now that he had been cured, Allah no longer asked—and so he missed the love and care that had been showered upon him during those days of trial.
+
+This is وَلِھَا. This is مُوَلَّا—extreme, passionate love, in which the absence of the beloved drives a person to the very edge of self.
+
+### Allah as the One I Lean Upon
+
+لَا اِلَٰہَ اِلَّا اللَّہُ now means لا أَلِہَ الا اللہ: Allah is the only one upon whom I lean for support—emotionally, psychologically, financially, physically, and in every other form.
+
+This does not mean that I will not see a doctor when I am ill, ask my employer for a raise when I deserve one, or turn to my family and friends for help when I need them. I will continue to do all of that.
+
+But my ultimate support comes from Allah. He is the one who cures my illness, not the doctor. He is the one who ordains the raise, not my employer. He is the one who fulfills my need, not my friends and family.
+
+The liberation this brings is immense. How many of my complaints about people and about life would simply disappear?
+
+I no longer need to blame someone for a disappointment, because that person was never meant to be the one upon whom I ultimately leaned in the first place. A disappointment requires an expectation. When all my ultimate expectations are from Allah, no one in this world can truly disappoint me.
+
+If I receive what I wanted, Allah is the one who gave it. If I do not receive it, then it was not meant for me—and who can say that receiving it would not, in the long run, have proved harmful?
+
+### Allah as the One Who Astounds Me
+
+لَا اِلَٰہَ اِلَّا اللَّہُ now means لا وَلِہَ الا اللہ: Allah is the only one who ultimately astounds and impresses me.
+
+This does not mean that I should appreciate no one, praise no one, or find no one impressive. It means that I see Allah behind every praise.
+
+If my child does well in school—MashaAllah! Praise to Allah, who made my child capable.
+
+If I am mesmerized by the sunrise or sunset—SubhanAllah! Praise to Allah for creating this beauty, for granting me the eyes to see it, the time to notice it, and the willingness to appreciate it.
+
+I take the praise inspired by the beauty of the sunset and attribute it to its Creator.
+
+### Tawhid
+
+Through this practice, the true concept of توحید comes into view.
+
+توحید is not the idea that Allah is the supreme deity within a hierarchy of deities. It is the recognition that there is no other deity at all.
+
+لا الہ—a complete elimination of every other deity.
+
+الا اللہ—except the one and only, who is Allah.
+
+It is the transference of الھیۃ from its generic form to the one specific Being who has no form. This is the challenge and the goal of لَا اِلَٰہَ اِلَّا اللَّہُ.
+
+### Salaat as the Practice of Breaking Idols
+
+The vehicle that carries a person along this path is Salaat. Within its very nature, Salaat contains the act of breaking idols.
+
+The moment the time for prayer arrives, whatever is being done must stop; whoever is being attended to must be left; and the face must turn toward Allah.
+
+Salaat is لَا اِلَٰہَ اِلَّا اللَّہُ enacted.
+
+This is the journey of لَا اِلَٰہَ اِلَّا اللَّہُ. It is a difficult journey, and every journey requires provisions to sustain the traveler. The provision for this journey is knowledge of Allah.
+
+The greater the knowledge of Allah, the greater the amazement at His glory. The greater the amazement, the more passionate the love. The more passionate the love, the deeper the obsession. The deeper the obsession, the more complete the worship and submission to His commands. The more complete the worship, the more fully one turns to Him for refuge. The more one finds shelter beneath His protection, the more one leans upon Him for support—for love engenders love.
+
+The more one comes to understand how much He loves, the more one loves in return. And the more that love grows, the more intense His blessings and mercy become.
 
 > وَإِذْ تَأَذَّنَ رَبُّكُمْ لَىِٕن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَىِٕن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌۭ
 >
-> And when your master proclaimed: "If you are grateful, I will give you more, but if you are ungrateful, Indeed! My Punishment is indeed severe."
+> And when your master proclaimed: “If you are grateful, I will give you more, but if you are ungrateful, Indeed! My Punishment is indeed severe.”
 
-Salaat is the act of breaking idols. It begins with Wuzu — the purification of the very parts of the body used in the service of those idols.
+Salaat is the act of breaking idols. It begins with Wuzu—the purification of the very parts of the body that are used in the service of those idols.
 
 ## What is Worship?
 

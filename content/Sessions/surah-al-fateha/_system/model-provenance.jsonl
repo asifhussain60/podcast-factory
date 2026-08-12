@@ -128,3 +128,6 @@
 {"phase": "rearticulate", "step": "rearticulate-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "rearticulate", "step": "rearticulate-03-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "rearticulate", "step": "rearticulate-03-part-01-retry-sonnet", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-linguistic meaning of al", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "compose-paste-fix", "step": "scholar-continuity-linguistic meaning of allah", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "paste-fix-student-linguistic meaning of allah", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}

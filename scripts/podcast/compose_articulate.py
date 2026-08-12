@@ -53,6 +53,11 @@ WHAT "correctly" MEANS, precisely, because it is easy to get almost right:
      this pipeline follows, so a later compose can tell truthfully whether
      the book moved underneath this edit.
   1c. Before any of the above is checked, the body is run through
+     `repair_split_paragraphs` — a conservative deterministic cleanup for paste
+     damage: soft-wrapped lines and true split sentences are joined, while
+     images, headings, lists, blockquotes and Arabic-only quotation lines remain
+     separate. Broader conceptual paragraphing is not guessed here.
+  1d. The body is run through
      `_sessions_prose_format.normalize_sessions_prose` — a bare `81:22`
      citation note and a `### Title Arabic` heading followed by its own
      redundant `WALEEJA`-style transliteration are this book's OWN legacy
@@ -60,6 +65,15 @@ WHAT "correctly" MEANS, precisely, because it is easy to get almost right:
      citation forms, and `sessions/articulate.py` carries them straight
      through by design (REQ-BA forbids restructuring). Normalized here too,
      so a hand-off chapter matches every other chapter's markup.
+  1e. When explicitly requested (`--scholar-continuity`, used by the Composer
+     button's review step), the repaired body is handed to an Ismaili
+     Scholar-grounded continuity prompt. Its answer is used only if it passes
+     the same no-loss gates and preserves every restored image; otherwise the
+     deterministic repair stands and the review reports the rollback.
+  1f. When explicitly requested (`--student-readability`, also used by the
+     Composer button), the fixed body is read by the student-reader lens as a
+     DRY RUN. It writes no Companion cards and edits nothing; it only reports
+     the questions a careful first-time reader would still ask before Apply.
   4. The Sessions lane's own articulation ledger
      (`_system/sessions-articulation.json`) is updated to `adapted`, through
      `sessions.articulate._record` — the SAME function the automated pass
@@ -81,11 +95,12 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import re  # noqa: E402
 
 from _book_arabic_audit import run_arabic_audit  # noqa: E402
 from _book_defects import chapters as split_chapters  # noqa: E402
@@ -95,6 +110,12 @@ from _paths import find_content  # noqa: E402
 from _pipeline_flags import narrative_frame, narrator_subject  # noqa: E402
 from _sessions_prose_format import normalize_sessions_prose  # noqa: E402
 from compose_fix import composer_is_open  # noqa: E402
+from compose_paste_fix import (
+    promote_standalone_headings,  # noqa: E402
+    repair_split_paragraphs,  # noqa: E402
+    scholar_continuity_repair,  # noqa: E402
+    student_readability_review,  # noqa: E402
+)
 
 _HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 _IMG_MD_RE = re.compile(r"(?m)^(!\[[^\]]*\]\(([^)]+)\))\s*$")
@@ -262,18 +283,39 @@ def _restore_images(base_body: str, new_body: str) -> tuple[str, list[dict]]:
     return "\n".join(new_lines), restored
 
 
-def check(book_dir: Path, chapter: str, md_path: Path, *, log=print) -> dict:
+def check(
+    book_dir: Path,
+    chapter: str,
+    md_path: Path,
+    *,
+    log=print,
+    scholar_continuity: bool = False,
+    continuity_adapter=None,
+    student_readability: bool = False,
+    readability_adapter=None,
+) -> dict:
     """Run the fidelity gates. Never writes anything."""
     book_md = book_dir / "book" / "book.md"
     heading = resolve_chapter(book_md, chapter)
     base_body, _, _ = _chapter_body(book_md, heading)
     handoff_body = _extract_handoff_body(md_path)
     new_body, images_restored = _restore_images(base_body, handoff_body)
+    new_body, paragraph_changes = repair_split_paragraphs(new_body)
     new_body, format_changes = normalize_sessions_prose(new_body)
+    new_body, heading_changes = promote_standalone_headings(new_body)
+    format_changes.extend(heading_changes)
+    continuity_changes: list[dict] = []
+    if scholar_continuity:
+        repair = continuity_adapter or scholar_continuity_repair
+        new_body, continuity_changes = repair(book_dir, heading, base_body, new_body, log=log)
 
     frame = narrative_frame(book_dir)
     subject = narrator_subject(book_dir)
     findings = revoice_gates(base_body, new_body, check_opening=True, frame=frame, narrator_subject=subject)
+    readability_review: dict = {"status": "not-run", "questions": []}
+    if student_readability:
+        review = readability_adapter or student_readability_review
+        readability_review = review(book_dir, heading, new_body, log=log)
 
     base_words, new_words = len(base_body.split()), len(new_body.split())
     result = {
@@ -283,7 +325,10 @@ def check(book_dir: Path, chapter: str, md_path: Path, *, log=print) -> dict:
         "ratio": round(new_words / base_words, 3) if base_words else 0.0,
         "findings": findings,
         "images_restored": images_restored,
+        "paragraph_changes": paragraph_changes,
         "format_changes": format_changes,
+        "continuity_changes": continuity_changes,
+        "readability_review": readability_review,
         "body": new_body,
         "clean": not findings,
     }
@@ -292,9 +337,20 @@ def check(book_dir: Path, chapter: str, md_path: Path, *, log=print) -> dict:
         anchored = sum(1 for r in images_restored if r["placement"].startswith("anchored"))
         log(f"    restored {len(images_restored)} image(s) the hand-off dropped ({anchored} anchored by caption)")
     if format_changes:
-        headings = sum(1 for c in format_changes if c["kind"] == "heading-parenthesized")
+        headings = sum(1 for c in format_changes if c["kind"] in {"heading-parenthesized", "heading-promoted"})
         cites = sum(1 for c in format_changes if c["kind"].startswith("citation"))
         log(f"    normalized {headings} heading(s) and {cites} bare Qur'an citation(s) to house style")
+    if paragraph_changes:
+        log(f"    repaired {len(paragraph_changes)} split paragraph/sentence fragment(s)")
+    if continuity_changes:
+        kept = sum(1 for c in continuity_changes if c.get("status") == "kept")
+        reverted = sum(1 for c in continuity_changes if c.get("status") == "reverted")
+        skipped = sum(1 for c in continuity_changes if c.get("status") == "skipped")
+        log(f"    Scholar continuity: kept={kept}, reverted={reverted}, skipped={skipped}")
+    if readability_review.get("status") == "checked":
+        log(f"    Student Reader: {len(readability_review.get('questions') or [])} readability question(s)")
+    elif readability_review.get("status") == "skipped":
+        log(f"    Student Reader skipped: {readability_review.get('reason')}")
     if findings:
         for f in findings:
             log(f"    finding: {f}")
@@ -303,14 +359,30 @@ def check(book_dir: Path, chapter: str, md_path: Path, *, log=print) -> dict:
     return result
 
 
-def install(book_dir: Path, chapter: str, md_path: Path, *, force: bool = False, log=print) -> dict:
+def install(
+    book_dir: Path,
+    chapter: str,
+    md_path: Path,
+    *,
+    force: bool = False,
+    log=print,
+    scholar_continuity: bool = False,
+    student_readability: bool = False,
+) -> dict:
     """Check, then write — through the same path a human Composer save uses.
 
     Refuses on any gate finding unless `force`. Refuses if the Astro dev
     server is up unless the caller already checked `--allow-composer-open`
     (that check lives in `main`, not here, so a library caller decides).
     """
-    result = check(book_dir, chapter, md_path, log=log)
+    result = check(
+        book_dir,
+        chapter,
+        md_path,
+        log=log,
+        scholar_continuity=scholar_continuity,
+        student_readability=student_readability,
+    )
     if result["findings"] and not force:
         result["installed"] = False
         result["reason"] = "gate finding(s) present — pass force=True to override"
@@ -372,6 +444,16 @@ def main() -> int:
     ap.add_argument("--install", action="store_true", help="write, if the gates pass (or --force)")
     ap.add_argument("--force", action="store_true", help="install despite a gate finding")
     ap.add_argument("--allow-composer-open", action="store_true")
+    ap.add_argument(
+        "--scholar-continuity",
+        action="store_true",
+        help="use the Ismaili Scholar grounding/persona to repair paragraph flow before gating",
+    )
+    ap.add_argument(
+        "--student-readability",
+        action="store_true",
+        help="run the student-reader readability lens after fixing, without filing Companion cards",
+    )
     ap.add_argument("--json", action="store_true")
     ap.add_argument(
         "--stdin",
@@ -434,9 +516,24 @@ def main() -> int:
                     file=sys.stderr,
                 )
                 return 2
-            result = install(book_dir, args.chapter, args.md_file, force=args.force, log=log)
+            result = install(
+                book_dir,
+                args.chapter,
+                args.md_file,
+                force=args.force,
+                log=log,
+                scholar_continuity=args.scholar_continuity,
+                student_readability=args.student_readability,
+            )
         else:
-            result = check(book_dir, args.chapter, args.md_file, log=log)
+            result = check(
+                book_dir,
+                args.chapter,
+                args.md_file,
+                log=log,
+                scholar_continuity=args.scholar_continuity,
+                student_readability=args.student_readability,
+            )
     except ValueError as e:
         print(str(e), file=sys.stderr)
         return 1

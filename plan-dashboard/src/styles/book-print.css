@@ -25,6 +25,27 @@
   font-style: italic;
   font-display: swap;
 }
+@font-face {
+  font-family: "Lexend";
+  src: url("/fonts/lexend/lexend-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cinzel";
+  src: url("/fonts/cinzel/cinzel-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cinzel";
+  src: url("/fonts/cinzel/cinzel-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* ── Translation faces ────────────────────────────────────────────────────────
  * The English rendering under an Arabic verse/hadith/poem prints in a face
@@ -586,8 +607,24 @@ p.ch-first::first-letter {
 }
 
 h3 {
-  font-size: 1.25rem;
   margin: 1.3rem 0 0.6rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  page-break-after: avoid;
+}
+h4 {
+  margin: 1.15rem 0 0.5rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  page-break-after: avoid;
+}
+h5 {
+  margin: 1rem 0 0.45rem;
+  font-family: "Lexend", "Inter", system-ui, sans-serif;
+  font-size: 0.94rem;
+  font-weight: 650;
   page-break-after: avoid;
 }
 p {

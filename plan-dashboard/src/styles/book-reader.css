@@ -96,7 +96,7 @@
   color: var(--c-ink);
 }
 
-.bookv-body :is(h2, h3) {
+.bookv-body :is(h2, h3, h4, h5) {
   scroll-margin-top: 1.5rem; /* so anchor jumps clear the top */
   font-family:
     "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman",
@@ -111,8 +111,22 @@
   border-bottom: 1px solid var(--c-rule-soft);
 }
 .bookv-body h3 {
-  margin: 1.8rem 0 0.7rem;
-  font-size: 1.3rem;
+  margin: 1.55rem 0 0.6rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1.34rem;
+  font-weight: 700;
+}
+.bookv-body h4 {
+  margin: 1.25rem 0 0.5rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1.04rem;
+  font-weight: 600;
+}
+.bookv-body h5 {
+  margin: 1.05rem 0 0.45rem;
+  font-family: "Lexend", "Inter", system-ui, sans-serif;
+  font-size: 0.98rem;
+  font-weight: 650;
 }
 .bookv-body p {
   margin: 0 0 1.1rem;
@@ -140,6 +154,34 @@
 }
 .bookv-body li {
   margin-block: 0.3rem;
+}
+
+/* Markdown figures are lecture plates, not full-page panels. Keep them at one
+   standard reader size across chapters while letting phones use the full
+   column, and never upscale a small source image just to fill the cap. */
+.bookv-body .md-figure {
+  width: min(100%, 34rem);
+  max-width: 100%;
+  margin: 1.8rem auto;
+  text-align: center;
+}
+.bookv-body .md-figure img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+  box-sizing: border-box;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  background: var(--c-bg-card, #fffdf8);
+}
+.bookv-body .md-figure figcaption {
+  margin-top: 0.45rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  line-height: 1.45;
+  color: var(--c-ink-muted, #87827a);
+  text-align: center;
 }
 
 /* Scripture / hadith blockquotes: Arabic line over the English translation. */

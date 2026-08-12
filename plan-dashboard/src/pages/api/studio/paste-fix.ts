@@ -2,10 +2,11 @@
  * paste-fix.ts — the Book Composer's "Paste & Fix Chapter" action.
  *
  * A Sessions-lane chapter Asif copies out, edits somewhere else, and pastes
- * back in loses the two things a hand-off rewrite already loses through
+ * back in loses the things a hand-off rewrite already loses through
  * pf-compose-articulator: the chapter's inline lecture-slide images (plain
- * text carries no image reference forward) and the book's house citation/
- * heading style. This route runs the SAME engine that skill uses — nothing
+ * text carries no image reference forward), the book's house citation/
+ * heading style, paragraph shape, and sometimes the connective explanation
+ * a student needs. This route runs the SAME engine that skill uses — nothing
  * reimplemented — against text pasted into a dedicated box, never against
  * the live rich-text editor, so a broken paste can never reach book.md
  * through autosave before it has been fixed.
@@ -14,8 +15,13 @@
  *   Check only — never writes. Shells out to
  *   `compose_articulate.py <slug> <chapterTitle> --json --stdin`, the exact
  *   CLI pf-compose-articulator uses, fed the pasted text over stdin instead
- *   of a hand-off file. Returns the engine's own result: restored images,
- *   formatting changes, the fidelity-gate findings, and the fixed body.
+ *   of a hand-off file. The Compose button opts into the gated Scholar
+ *   continuity pass and the student-reader readability lens because the user
+ *   is reviewing the result before Apply. The student-reader pass is dry-run
+ *   only: it writes no Companion cards.
+ *   Returns the engine's own result: restored images, paragraph repairs,
+ *   formatting changes, Scholar continuity outcome, student-reader questions,
+ *   the fidelity-gate findings, and the fixed body.
  *   `chapterTitle` (not `chapterKey`) is what the Python side resolves by —
  *   see compose_articulate.resolve_chapter, which matches book.md's own
  *   heading text. Refuses (404) on any book that is not Sessions-lane,
@@ -76,7 +82,14 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const result = await runPythonJson(
       "compose_articulate.py",
-      [slug, chapterTitle, "--json", "--stdin"],
+      [
+        slug,
+        chapterTitle,
+        "--json",
+        "--stdin",
+        "--scholar-continuity",
+        "--student-readability",
+      ],
       pastedMarkdown,
     );
     return apiOk(result);

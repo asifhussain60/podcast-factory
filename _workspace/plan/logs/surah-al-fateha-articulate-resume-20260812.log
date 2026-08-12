@@ -1,0 +1,5 @@
+  articulate: surah-al-fateha — frame=first_person_expository, 21 chapter(s) to do, 2 already articulated
+  [1/21] The Stages Of Love
+    rearticulate: '## The Stages Of Love' (section 3, frame=first_person_expository)
+      [retry] rearticulate-03-part-01: first attempt timed out (900s); retrying once with model=claude-sonnet-4-6, timeout=1350s — CONTENT-PROVENANCE DIVERGENCE: this artifact will be authored by claude-sonnet-4-6, not claude-opus-4-8 (recorded in _system/model-provenance.jsonl)
+      [retry] rearticulate-03-part-02: first attempt timed out (900s); retrying once with model=claude-sonnet-4-6, timeout=1350s — CONTENT-PROVENANCE DIVERGENCE: this artifact will be authored by claude-sonnet-4-6, not claude-opus-4-8 (recorded in _system/model-provenance.jsonl)

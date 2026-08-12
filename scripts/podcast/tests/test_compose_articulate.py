@@ -20,6 +20,7 @@ SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
 import compose_articulate as ca  # noqa: E402
+import compose_paste_fix as cpf  # noqa: E402
 
 BOOK = """# A Series
 
@@ -241,7 +242,7 @@ def test_an_image_is_reinserted_after_its_surviving_caption(book_dir_with_images
     # each image lands directly after the caption line it followed in the source
     lines = result["body"].split("\n")
     a_idx = next(i for i, ln in enumerate(lines) if IMG_A in ln)
-    assert lines[a_idx - 2].strip().lower() == "a vs the"
+    assert lines[a_idx - 2].strip().lower() == "### a vs the"
 
 
 def test_an_image_whose_caption_was_paraphrased_away_still_lands_somewhere(
@@ -283,6 +284,155 @@ def test_check_normalizes_heading_and_citation_house_style(book_dir: Path, tmp_p
     assert "### Trustworthy Friend (ولیجۃ)" in result["body"]
     assert "WALEEJA" not in result["body"]
     assert result["format_changes"]
+
+
+# ─── pasted paragraph repair + Scholar continuity ──────────────────────────
+
+
+def test_split_sentence_fragments_are_joined_before_gating(book_dir: Path, tmp_path: Path) -> None:
+    off = handoff(
+        tmp_path,
+        "## The Stages Of Love\n\nThe first level is attachment. It is a small thing\n\nand it grows.\n",
+    )
+    result = ca.check(book_dir, "the stages of love", off, log=lambda *_: None)
+    assert "It is a small thing and it grows." in result["body"]
+    assert [c["kind"] for c in result["paragraph_changes"]] == ["split-sentence-join"]
+
+
+def test_paragraph_repair_preserves_images_and_blockquotes() -> None:
+    body = (
+        "This line was broken\ninside one pasted paragraph.\n\n"
+        "> Arabic quotation stays apart.\n\n"
+        "![](images/87/a.jpg)\n\n"
+        "A sentence was split\n\n"
+        "across a blank line."
+    )
+    repaired, changes = ca.repair_split_paragraphs(body)
+    assert "This line was broken inside one pasted paragraph." in repaired
+    assert "A sentence was split across a blank line." in repaired
+    assert "> Arabic quotation stays apart.\n\n![](images/87/a.jpg)" in repaired
+    assert [c["kind"] for c in changes] == ["soft-line-join", "split-sentence-join"]
+
+
+def test_standalone_section_titles_are_promoted_without_touching_citations() -> None:
+    body = (
+        "ILAH\n\n"
+        "A vs. THE\n\n"
+        "Meanings of the Word ILAH\n\n"
+        "Allah as the One I Lean Upon\n\n"
+        "The Criterion [25:43]\n\n"
+        "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ\n\n"
+        "This remains a sentence."
+    )
+    repaired, changes = ca.promote_standalone_headings(body)
+    assert "### ILAH" in repaired
+    assert "### A vs. THE" in repaired
+    assert "### Meanings of the Word ILAH" in repaired
+    assert "### Allah as the One I Lean Upon" in repaired
+    assert "### The Criterion" not in repaired
+    assert "### قَالَ" not in repaired
+    assert [c["kind"] for c in changes] == [
+        "heading-promoted",
+        "heading-promoted",
+        "heading-promoted",
+        "heading-promoted",
+    ]
+
+
+def test_scholar_continuity_adapter_can_improve_the_fixed_body(book_dir: Path, tmp_path: Path) -> None:
+    off = handoff(
+        tmp_path,
+        "## The Stages Of Love\n\nThe first level is attachment. It is a small thing, and it grows.\n",
+    )
+
+    def adapter(book_dir: Path, heading: str, base_body: str, repaired_body: str, *, log=print):
+        assert heading == "The Stages Of Love"
+        assert "The first level is attachment" in base_body
+        return (
+            repaired_body + "\n\nThis added bridge stays inside the same teaching instead of opening a new one.",
+            [{"kind": "scholar-continuity", "status": "kept", "grounded": 1, "morphology": False}],
+        )
+
+    result = ca.check(
+        book_dir,
+        "the stages of love",
+        off,
+        log=lambda *_: None,
+        scholar_continuity=True,
+        continuity_adapter=adapter,
+    )
+    assert "This added bridge" in result["body"]
+    assert result["continuity_changes"][0]["status"] == "kept"
+
+
+def test_student_readability_adapter_reports_questions_without_editing_body(book_dir: Path, tmp_path: Path) -> None:
+    off = handoff(
+        tmp_path,
+        "## The Stages Of Love\n\nThe first level is attachment. It is a small thing, and it grows.\n",
+    )
+
+    def adapter(book_dir: Path, heading: str, body: str, *, log=print):
+        assert heading == "The Stages Of Love"
+        assert "attachment" in body
+        return {
+            "status": "checked",
+            "budget": 2,
+            "proposed": 1,
+            "gated_out": [],
+            "questions": [
+                {
+                    "defect": "undefined-term",
+                    "question": "What does attachment mean in this chapter?",
+                    "quote": "The first level is attachment.",
+                }
+            ],
+        }
+
+    result = ca.check(
+        book_dir,
+        "the stages of love",
+        off,
+        log=lambda *_: None,
+        student_readability=True,
+        readability_adapter=adapter,
+    )
+    assert "The first level is attachment." in result["body"]
+    assert result["readability_review"]["status"] == "checked"
+    assert result["readability_review"]["questions"][0]["defect"] == "undefined-term"
+
+
+def test_scholar_continuity_is_reverted_when_it_drops_images(
+    book_dir_with_images: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    off = handoff(
+        tmp_path,
+        f"## A Chapter With Slides\n\n"
+        f"Attachment grows.\n\n![]({IMG_A})\n\n"
+        f"Distinction carries through.\n\n![]({IMG_B})\n",
+    )
+
+    monkeypatch.setattr(
+        cpf,
+        "scholar_prepare",
+        lambda **_kwargs: {"ok": True, "user": "grounding", "grounded": 1, "morphology": False},
+    )
+    monkeypatch.setattr(
+        cpf,
+        "_run_claude_p_with_retry",
+        lambda *_args, **_kwargs: (0, "Attachment grows. Distinction carries through.", ""),
+    )
+
+    result = ca.check(
+        book_dir_with_images,
+        "A Chapter With Slides",
+        off,
+        log=lambda *_: None,
+        scholar_continuity=True,
+    )
+    assert IMG_A in result["body"]
+    assert IMG_B in result["body"]
+    assert result["continuity_changes"][0]["status"] == "reverted"
+    assert "image markdown dropped" in result["continuity_changes"][0]["findings"][-1]
 
 
 # ─── retrofit_book ──────────────────────────────────────────────────────────

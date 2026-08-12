@@ -15,6 +15,7 @@
  * rather than about either alone.
  */
 import { strict as assert } from "node:assert";
+import { readFileSync } from "node:fs";
 import { test, describe } from "node:test";
 import { serveBookImages } from "./book-images";
 import { renderMarkdown } from "./markdown";
@@ -114,5 +115,27 @@ describe("both renderers set a standalone image as the same figure", () => {
     );
     assert.ok(!/alt="a"b"/.test(html));
     assert.ok(html.includes("&quot;"));
+  });
+});
+
+describe("the Astro reader keeps markdown figures at a standard plate size", () => {
+  const css = readFileSync(
+    new URL("../../styles/book-reader.css", import.meta.url),
+    "utf8",
+  );
+
+  test("the figure gets a shared cap across chapters", () => {
+    const rule = css.match(/\.bookv-body \.md-figure\s*\{[^}]*\}/)?.[0] ?? "";
+    assert.notEqual(rule, "");
+    assert.match(rule, /width:\s*min\(100%, 34rem\)/);
+  });
+
+  test("the image is responsive without being forced full-column", () => {
+    const rule =
+      css.match(/\.bookv-body \.md-figure img\s*\{[^}]*\}/)?.[0] ?? "";
+    assert.notEqual(rule, "");
+    assert.match(rule, /width:\s*auto/);
+    assert.match(rule, /max-width:\s*100%/);
+    assert.doesNotMatch(rule, /(^|[;\s{])width\s*:\s*100%/);
   });
 });
