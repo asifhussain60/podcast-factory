@@ -247,3 +247,45 @@ def test_the_step_completes_without_dragging_the_lane_backwards(book_dir: Path, 
     assert state["phase"] == "sessions-preface"
     assert state["phases"][ARTICULATE_STEP]["status"] == "completed"
     assert state["phases"][ARTICULATE_STEP]["chapters"] == 2
+
+
+# ---------------------------------------------------------------------------
+# An unreachable model is not a quality verdict
+# ---------------------------------------------------------------------------
+
+
+def dead(status: str = "reverted") -> dict:
+    """A chapter whose every window returned nothing from the model."""
+    e = envelope(status)
+    e["record"]["gates"] = ["part-01: no candidate", "part-02: no candidate"]
+    return e
+
+
+def test_a_run_of_empty_responses_stops_the_run(book_dir: Path, monkeypatch) -> None:
+    """Twelve calls produced output on the first surah-al-fateha run, then sixteen
+    chapters in a row produced zero output tokens and the run finished claiming 21
+    reverts. "The gates rejected the rewrite" and "we never got a rewrite" look
+    identical in the ledger afterwards, which is the worst possible report."""
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: dead())
+    summary = art.articulate_book(book_dir, log=lambda *_: None)
+    assert summary["aborted"] is True
+
+
+def test_an_aborted_run_does_not_mark_the_step_complete(book_dir: Path, monkeypatch) -> None:
+    """A green tick over a half-articulated book is how it stays half-articulated."""
+    state_path = book_dir / "_system" / "orchestrator-state.json"
+    state_path.write_text(json.dumps({"phases": {ARTICULATE_STEP: {"status": "pending"}}}), encoding="utf-8")
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: dead())
+    art.articulate_book(book_dir, log=lambda *_: None)
+    assert json.loads(state_path.read_text())["phases"][ARTICULATE_STEP]["status"] == "pending"
+
+
+def test_a_real_gate_rejection_is_not_mistaken_for_an_unreachable_model(book_dir: Path, monkeypatch) -> None:
+    """A chapter the gates genuinely rejected has a REASON. Those runs continue —
+    the pass is working, it is the prose that failed, and the next chapter may pass."""
+    e = envelope("reverted")
+    e["record"]["gates"] = ["part-01: Arabic runs dropped (115<117)"]
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print: e)
+    summary = art.articulate_book(book_dir, log=lambda *_: None)
+    assert summary["aborted"] is False
+    assert summary["reverted"] == 2

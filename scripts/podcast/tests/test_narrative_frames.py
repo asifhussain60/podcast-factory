@@ -149,3 +149,35 @@ def test_navigation_is_stated_exactly_where_it_is_policed(frame: str) -> None:
 def test_speech_attribution_is_binding_under_every_frame(frame: str) -> None:
     """Whatever else changes, no frame may licence re-pointing a speech tag."""
     assert "speech tag" in frame_prompt_directive(frame).lower()
+
+
+# ---------------------------------------------------------------------------
+# The Arabic tally — the prompt states the number the gate enforces
+# ---------------------------------------------------------------------------
+
+
+def test_the_prompt_states_the_same_count_the_gate_will_apply() -> None:
+    """`surah-al-fateha` is a linguistic commentary where the Arabic IS the
+    subject, and its first six chapters all reverted on the run-count gate — one
+    window losing 27 runs of 132. "Never drop Arabic" in prose gives a model
+    nothing to check itself against; a number does. It must be the gate's own
+    number, or the model is asked to hit one target and judged against another."""
+    from _book_compose import _arabic_run_count
+    from _book_voice_prompts import _articulation_prompt
+
+    passage = "He cited بِسْمِ ٱللَّهِ, then رَحْمَٰن, then ٱلرَّحِيم in turn."
+    # Deliberately NOT a hardcoded number. What matters is that the prompt quotes
+    # whatever the gate counts — `بِسْمِ ٱللَّهِ` is two runs, not one, and a literal
+    # here would only pin my guess about the gate's segmentation rather than the
+    # coupling this test exists to protect.
+    expected = _arabic_run_count(passage)
+    assert expected > 0
+    prompt = _articulation_prompt("T", passage, frame=EXPOSITORY)
+    assert f"contains {expected} Arabic-script runs" in prompt
+    assert f"must contain all {expected}" in prompt
+
+
+def test_a_passage_with_no_arabic_is_told_nothing_about_arabic_counts() -> None:
+    from _book_voice_prompts import _articulation_prompt
+
+    assert "ARABIC RUN COUNT" not in _articulation_prompt("T", "Plain English.", frame=EXPOSITORY)

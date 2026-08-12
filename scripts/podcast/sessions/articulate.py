@@ -81,6 +81,11 @@ from sessions.ingest import ARTICULATE_STEP, LANE_STEPS  # noqa: E402
 #: had one. So the lane keeps its own, which is honest about what it means.
 LEDGER_NAME = "sessions-articulation.json"
 
+#: Consecutive chapters returning nothing from the model before the run gives up.
+#: Two, not one: a single dead call is a transient worth riding through, and a
+#: second in a row is a pattern. Sixteen in a row is what actually happened.
+_DEAD_STREAK_LIMIT = 2
+
 
 def chapter_keys(book_md: Path) -> list[tuple[str, str]]:
     """``(anchor key, heading text)`` for every ``##`` section worth articulating."""
@@ -184,6 +189,8 @@ def articulate_book(
 
     adapted = reverted = 0
     failed: list[dict] = []
+    dead_streak = 0
+    aborted = False
     for index, (key, title) in enumerate(todo, start=1):
         log(f"  [{index}/{len(todo)}] {title}")
         try:
@@ -198,7 +205,23 @@ def articulate_book(
         # finished_at, record}` — and the pass verdict is the nested `record`.
         # Reading `status` off the envelope returns None for every chapter, which
         # counted five successful chapters as reverted on the first live run.
-        status = str((result.get("record") or {}).get("status") or "unknown")
+        record = result.get("record") or {}
+        status = str(record.get("status") or "unknown")
+
+        # A window whose model call returned nothing is recorded `no candidate`.
+        # One is a transient; a RUN of them means the model is unreachable — a rate
+        # limit, a broken CLI, a hook cancelling the subprocess — and every further
+        # chapter will be marked reverted without a single word being read. That is
+        # the worst possible report, because "the gates rejected the rewrite" and
+        # "we never got a rewrite" look identical in the ledger afterwards.
+        #
+        # Observed on the first surah-al-fateha run (2026-08-11): twelve calls
+        # produced output, then sixteen chapters in a row produced ZERO output
+        # tokens and the run finished claiming 21 reverts. Stop and say so instead.
+        if all("no candidate" in g for g in (record.get("gates") or ["-"])):
+            dead_streak += 1
+        else:
+            dead_streak = 0
         if status in ("adapted", "partial"):
             adapted += 1
         else:
@@ -208,7 +231,19 @@ def articulate_book(
         _record(book_dir, key, title, status)
         log(f"      {status}")
 
-    _mark_step_complete(book_dir, chapters=adapted, reverted=reverted)
+        if dead_streak >= _DEAD_STREAK_LIMIT:
+            log(
+                f"  articulate: STOPPING — {dead_streak} chapters in a row returned nothing from the "
+                f"model. This is not a quality result; the model is unreachable. "
+                f"{len(todo) - index} chapter(s) untouched. Re-run to resume."
+            )
+            aborted = True
+            break
+
+    # Not complete if the model went away — marking the step done would freeze a
+    # half-articulated book behind a green tick.
+    if not aborted:
+        _mark_step_complete(book_dir, chapters=adapted, reverted=reverted)
     return {
         "frame": frame,
         "planned": len(todo),
@@ -216,6 +251,7 @@ def articulate_book(
         "adapted": adapted,
         "reverted": reverted,
         "failed": failed,
+        "aborted": aborted,
     }
 
 

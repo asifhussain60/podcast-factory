@@ -43,3 +43,78 @@
 {"phase": "0book-student-reader", "step": "student-motivating factors for p", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "0book-student-reader", "step": "student-worship and assistance", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "0book-student-reader", "step": "student-guidance to the straight", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-quranic friendship", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-quranic friendship-Who is that ulti", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-quranic friendship-Who is that ulti-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-quranic friendship-the hate fills y", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-quranic friendship-the hate fills y-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-quranic friendship-we're all tied t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-quranic friendship-we're all tied t-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the stages of love", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the stages of love-In these previou", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the stages of love-In these previou-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the stages of love-The \u062a\u06cc\u0645 is a wor", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the stages of love-The \u062a\u06cc\u0645 is a wor-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the stages of love-This is the titl", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the stages of love-This is the titl-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-linguistic meaning of al", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-linguistic meaning-Another derivati", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-linguistic meaning-Another derivati-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-linguistic meaning-By the negation ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-linguistic meaning-By the negation -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-what is worship?", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what is worship?-His magnificence", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what is worship?-His magnificence-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what is worship?-which is called ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what is worship?-which is called -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-linguistic meaning of re", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-linguistic meaning-All word that ma", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-linguistic meaning-All word that ma-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-linguistic meaning-the love and car", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-linguistic meaning-the love and car-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-womb - the source of mer", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-womb - the source -There is this fa", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-womb - the source -There is this fa-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-womb - the source -All of \u0634\u0631\u06cc\u0639\u06c3 is ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-womb - the source -All of \u0634\u0631\u06cc\u0639\u06c3 is -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-manifestations of rehma", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-manifestations of -holy nights in w", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-manifestations of -holy nights in w-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-02-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-02-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-02-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-03-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-03-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-04-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-04-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-06-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-06-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-09-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-09-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-10-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-10-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-10-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-11-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-11-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-12-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-12-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-13-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-13-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-14", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-15", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-16", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-17", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-18", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-19-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-19-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-20", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-21-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-21-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-22", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-23", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-24-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-24-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "rearticulate-24-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
