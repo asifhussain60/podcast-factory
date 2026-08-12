@@ -333,7 +333,16 @@ def estimate_eta(book_dir: Path, percent_complete: float, *, now: datetime | Non
 
 
 def _spend_usd(book_dir: Path) -> float:
-    """Real money only. Flat-rate subscription work is not a cost and is never shown."""
+    """Real money only, and never a Claude figure (Asif, 2026-08-12).
+
+    Excluded by MODEL NAME, not by the ledger's "engine" field: "engine":"max"
+    already means Claude's flat-rate subscription and always carries cost_usd=0,
+    so filtering on engine alone would be a no-op today — this filter is the
+    one that also holds if a Claude call is ever billed metered instead of flat
+    (a ledger row with model="claude-*" and a genuine cost_usd), which the ask
+    was explicit about: no Claude spend on this card, full stop, not "no Claude
+    spend under the current billing engine."
+    """
     ledger = book_dir / "_system" / "cost-ledger.jsonl"
     if not ledger.exists():
         return 0.0
@@ -344,7 +353,10 @@ def _spend_usd(book_dir: Path) -> float:
             if not raw:
                 continue
             try:
-                total += float(json.loads(raw).get("cost_usd") or 0)
+                row = json.loads(raw)
+                if str(row.get("model") or "").lower().startswith("claude"):
+                    continue
+                total += float(row.get("cost_usd") or 0)
             except Exception:
                 continue
     except Exception:

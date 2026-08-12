@@ -184,6 +184,30 @@ def test_the_card_reads_a_real_book_directory(tmp_path: Path) -> None:
     assert "EST" in card["generated_at"]
 
 
+def test_a_claude_row_never_counts_as_spend_even_with_a_genuine_cost(tmp_path: Path) -> None:
+    """Asif, 2026-08-12: no Claude figure on this card, full stop — not merely
+    "no Claude figure under the current flat-rate billing engine." Excluded by
+    model name so the guarantee survives even a row that carries a real,
+    nonzero cost_usd (a hypothetical metered Claude call), not just today's
+    always-zero Max rows."""
+    bd = tmp_path / "slug"
+    (bd / "_system").mkdir(parents=True)
+    (bd / "_system" / "orchestrator-state.json").write_text(
+        '{"book_slug": "slug", "phase": "0a", "phase_status": "running", "phases": {"0a": {"status": "running"}}}',
+        encoding="utf-8",
+    )
+    (bd / "_system" / "cost-ledger.jsonl").write_text(
+        '{"model": "claude-sonnet-4-6", "cost_usd": 9.99}\n'
+        '{"model": "gemini-2.5-pro", "cost_usd": 0.03}\n'
+        '{"model": "azure-speech-stt-fast", "cost_usd": 2.20}\n',
+        encoding="utf-8",
+    )
+
+    card = build_card(bd)
+
+    assert card["spend_usd"] == 2.23, "the Claude row must be excluded, the other two kept"
+
+
 def test_the_rendered_card_shows_the_number_and_what_is_left(tmp_path: Path) -> None:
     bd = tmp_path / "slug"
     (bd / "_system").mkdir(parents=True)
