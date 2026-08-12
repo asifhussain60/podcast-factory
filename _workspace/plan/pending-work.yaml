@@ -87,6 +87,24 @@ items:
     title: "Four Islamic books do not yet read like the reference editions (the-master-and-the-disciple, degrees-of-excellence). TWO PROBLEMS, two remedies. (a) mukhtasar-ul-asar-1 (99k words) and -2 (107k) are genuinely CALQUED -- Arabic masdar chains and isnad grammar carried straight into English -- which is exactly what the REQ-BA articulation pass is built to fix; run 0book-fluency or loop rearticulate_chapter.py over their chapter keys. (b) al-anwaar-al-lateefah/vol-01 and asaas-al-taveel/vol-01 are FLUENT but in the wrong voice (a lecturer addressing a congregation, a modern editor's preface 'I'). The articulation pass CANNOT fix those: REQ-BA-030 binds it to preserve meaning, so it would keep the added framing and only polish it. They need a re-compose from source, not articulation. Deferred by Asif 2026-08-02 in favour of pipeline + Arabic work."
     noticed: 2026-08-02
 
+  - id: surah-al-fateha-articulation-incomplete
+    scope: pipeline
+    status: doing
+    priority: P1
+    effort: M
+    summary: Finish articulating Surah Al-Fateha's remaining 21 chapters
+    title: "2026-08-12: Sessions/surah-al-fateha merged to develop mid-process, at Asif's explicit direction, rather than waiting for its publish step -- the standing rule that a book branch merges only after publish is deliberately overridden for this one book, this one time. Love Of The Prophet (the other book on the same branch) is FINISHED -- 5 of 5 chapters articulated, verified against the-master-and-the-disciple on register and Arabic/scripture integrity. Surah Al-Fateha is NOT: 2 of 23 chapters articulated (Quranic Friendship, Linguistic Meaning Of Allah), 21 untouched -- resume with `python3 scripts/podcast/sessions/articulate.py surah-al-fateha`, which is resumable and will skip the 2 already kept. Two real defects in the shared articulation engine were found and fixed the same day, both covered by scripts/podcast/tests/test_runaway_revoice.py: revoice_gates had no check for a response many times LONGER than its source (only too-short was gated) -- one window came back 15x its source and crashed the whole chapter instead of reverting; and everything past the model call in _adapt_chapter_body ran unguarded, so any downstream defect propagated to a chapter-level failure rather than a clean per-window revert. Also fixed: book_status_card.py was reporting this book 92% complete while 21 of 23 chapters were untouched (a stale completed flag on the lane's own step, never re-checked against the real per-chapter ledger) -- see scripts/podcast/tests/test_book_status_card.py. Do not resume by hand-editing the ledger; the driver's own resume logic already reads _system/sessions-articulation.json correctly."
+    noticed: 2026-08-12
+
+  - id: spiritual-ethos-0book-compose-incomplete
+    scope: pipeline
+    status: doing
+    priority: P2
+    effort: S
+    summary: Finish composing spiritual-ethos -- phase 0book-compose still running
+    title: "2026-08-12: Islamic/spiritual-ethos merged to develop mid-process, same override as surah-al-fateha above and for the same reason (Asif's explicit direction, not the standing publish-gate rule). orchestrator-state.json read `last_completed_phase: 0book-design`, `phase: 0book-compose`, `phase_status: running` at merge time -- the merged commit brought in four of this book's designed chapters (ali-a-biographical-portrait, the-spirit-of-the-intellect, the-discourse-to-kumayl, detachment-and-the-hereafter) as chapter-contract + chapter-text pairs; book/book.md itself was not part of the diff, so compose has not finished writing the composed book. Several OTHER chapter files and contracts already existed on develop before this merge (ali-and-the-prophet, why-intellect-not-reason, paradox-and-the-inner-struggle, and others) from earlier work not touched here -- check content/Islamic/spiritual-ethos/_system/orchestrator-state.json for the real current phase before resuming rather than trusting this note's snapshot, since compose may have advanced since."
+    noticed: 2026-08-12
+
   - id: kashkole-urdu-to-english
     scope: pipeline
     status: doing
