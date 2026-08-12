@@ -42,13 +42,64 @@ from html.parser import HTMLParser
 
 # Wholesale drops: an element carrying any of these is chrome, and its children go
 # with it. `froala-only-btn` is self-describing; the rest are the admin's buttons.
-_CHROME = ("btn", "froala-only", "delete-hadees", "poetry-restore", "ks-ahadees-delete")
+_CHROME = (
+    "btn",
+    "froala-only",
+    "delete-hadees",
+    "poetry-restore",
+    "ks-ahadees-delete",
+    # The one-letter category badge on the lecture guide's index chips — 214 of
+    # them, `W`, `I`, `R`, `Q`. A glyph that means nothing without a legend
+    # nobody has, and it sits immediately before the chip's label with no
+    # separator, so the two ran together into "WWALEE" and "IANS" on the page.
+    #
+    # THE BADGE ONLY. The chip itself stays, and that correction cost a run:
+    # dropping `sessionguide` and `box-hub` wholesale — which read as obviously
+    # right, they are the admin's own furniture — took 36 of Surah Al-Fateha's
+    # 63 illustrations with them. The `sessionGuide-desc` span holds the label
+    # AND the diagram it labels: `<span …>A vs THE<img src="…"></span>`. The
+    # label is a caption, not chrome.
+    "sessionguide-letter",
+    # The ayah number the Quran widget prints inside the verse — `۲۵۷`, in Arabic-Indic
+    # digits, appended to the Arabic itself. Dropped, and the reason is not tidiness:
+    # a verse is recognised as scripture by MATCHING the canonical mushaf exactly, and
+    # five trailing characters make the match fail. 64 of Surah Al-Fateha's 75 quotations
+    # were drawn as generic quote cards instead of Quran cards because of it — no Uthmani
+    # face, no citation chip, no `is-quranic`.
+    #
+    # Nothing is lost by dropping it. The reader resolves the reference from the mushaf
+    # itself and prints `Al-Baqarah: 257` on the card's band, which is more than the bare
+    # numeral said and is what every other book in the library shows.
+    "ayatcircle",
+)
+
+# Font Awesome. 508 of them, 496 being the `fa-ban` on the admin's own row-delete
+# control — every one an EMPTY element, and every one matched by the emphasis rule
+# below because Font Awesome's tag of choice is `<i>`. An empty `<i>` emits `*`
+# open and `*` close with nothing between, so the page carried 133 stray `**` in
+# Surah Al-Fateha and 16 in Love Of The Prophet, which is live on the site today.
+#
+# Matched on WHOLE class tokens rather than by substring, unlike everything else
+# here: `fa` is two letters and appears inside ordinary words.
+_ICON_TOKEN = re.compile(r"(?:^|\s)(?:fa|fas|far|fab|fal|glyphicon)(?:-[\w-]+)?(?=\s|$)")
 
 # Unwrapped: the element disappears, its children stay. Editor layout, not content.
 _LAYOUT = ("col-", "row", "container", "fr-draggable", "clearfix")
 
 # Blocks that become blockquotes. The renderer decides which KIND afterwards.
-_QUOTED = ("ayah-card", "hadees-widget", "ks-ahadees-container", "poetry-section", "poetry-couplet")
+_QUOTED = (
+    "ayah-card",
+    "hadees-widget",
+    "ks-ahadees-container",
+    "poetry-section",
+    "poetry-couplet",
+    # The Quran widget — 370 of them, and the reason this matters most on a book
+    # about a surah. It carries the verse in Arabic, the ayah number and the
+    # English underneath, exactly the shape `ayah-card` carries; unlisted, all
+    # three fell out as loose paragraphs and the page showed scripture set like
+    # ordinary prose.
+    "quranwidget",
+)
 
 # Arabic/Urdu inline spans — kept as text; the reader styles by script, not class.
 _SCRIPT = ("inlinearabic", "amiricrimson", "urdunastaleeq", "ayah-arabic", "ayah-translation")
@@ -82,6 +133,11 @@ def _classes(attrs: list[tuple[str, str | None]]) -> str:
 
 def _is(classes: str, needles: tuple[str, ...]) -> bool:
     return any(n in classes for n in needles)
+
+
+def _is_chrome(classes: str) -> bool:
+    """The editor's furniture, dropped whole — including its icons."""
+    return _is(classes, _CHROME) or _ICON_TOKEN.search(classes) is not None
 
 
 # Third-party verse-number badges hotlinked from myislam.sfo3.digitaloceanspaces.com.
@@ -197,8 +253,8 @@ class _Walker(HTMLParser):
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         classes = _classes(attrs)
 
-        if self._skip_depth or (tag not in ("br", "img") and _is(classes, _CHROME)):
-            if _is(classes, _CHROME) and not self._skip_depth:
+        if self._skip_depth or (tag not in ("br", "img") and _is_chrome(classes)):
+            if _is_chrome(classes) and not self._skip_depth:
                 self.chrome_dropped += 1
             self._skip_depth += 1
             return
@@ -239,10 +295,14 @@ class _Walker(HTMLParser):
             self._quote_at = self._depth
             return
         if self._quote_at is not None:
-            if "ayah-arabic" in classes:
-                self._part = "ar"
-            elif "ayah-translation" in classes:
+            # Translation FIRST: `quran-ayat-translation` contains `quran-ayat`,
+            # so asking about the Arabic first would file every English gloss in
+            # the widget as Arabic and the card would come out with no
+            # translation at all.
+            if "ayah-translation" in classes or "quran-ayat-translation" in classes:
                 self._part = "tr"
+            elif "ayah-arabic" in classes or "quran-ayat" in classes:
+                self._part = "ar"
 
         if tag in ("strong", "b"):
             self._emphasis += 1

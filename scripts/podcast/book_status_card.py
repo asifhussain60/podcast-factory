@@ -42,6 +42,8 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from _book_status_subphase import chunk_fraction as _chunk_fraction  # noqa: E402
+from _book_status_subphase import sessions_articulate_fraction as _sessions_articulate_fraction  # noqa: E402
 from _paths import find_content  # noqa: E402
 from _pending_work import open_items  # noqa: E402
 from _phase_vocabulary import _PHASE_NAMES, _PHASE_WEIGHTS  # noqa: E402
@@ -71,8 +73,16 @@ def _weight(phase: str) -> int:
 def _fraction_done(phase: str, block: dict[str, Any], book_dir: Path | None = None) -> float:
     """How much of ONE phase is complete, 0.0-1.0, using sub-phase credit if recorded."""
     status = str(block.get("status") or "pending")
+    # sessions-articulate is checked BEFORE the flag short-circuits below, not
+    # after — unlike 0b/0d, whose "running" flag is trustworthy for the whole
+    # phase and only needs a real number WHILE it is running, this phase's own
+    # `completed` flag was once written after keeping 2 of 23 chapters (a driver
+    # bug, fixed at the source, but the state files it already wrote are still on
+    # disk). A ledger that disagrees with a `completed` flag is what actually
+    # happened; a flag that agrees costs nothing extra to confirm.
     if status in _DONE_STATUSES:
-        return 1.0
+        sessions_fraction = _sessions_articulate_fraction(phase, book_dir)
+        return sessions_fraction if sessions_fraction is not None else 1.0
     if status != "running":
         return 0.0
     # The per-chapter loop is the only phase that publishes its own progress
@@ -92,69 +102,16 @@ def _fraction_done(phase: str, block: dict[str, Any], book_dir: Path | None = No
     chunk_fraction = _chunk_fraction(phase, book_dir)
     if chunk_fraction is not None:
         return chunk_fraction
+    sessions_fraction = _sessions_articulate_fraction(phase, book_dir)
+    if sessions_fraction is not None:
+        # Capped here, not inside the helper: a `completed` flag that genuinely
+        # earned it (kept == total) must reach the full 1.0 through the SAME
+        # helper the `completed` branch above uses uncapped — capping inside the
+        # helper would freeze a truly finished phase at 95% forever.
+        return min(0.95, sessions_fraction)
     # A running phase with nothing else to go on counts as half — honest about
     # being underway without claiming knowledge the state file does not have.
     return 0.5
-
-
-_CHUNK_DIR_PHASES = frozenset({"0b", "0d"})
-
-
-def _chunk_dir(phase: str, book_dir: Path) -> Path:
-    return Path(book_dir) / "_system" / "source" / "text" / "_chunks" / phase
-
-
-def _sc_total(chunks_dir: Path) -> int:
-    """The expected 0d chunk count, from that run's own source-toc.json where
-    present (authoritative — it lists every source chapter this run planned to
-    design), else counted from the `.in.md` inputs already written."""
-    manifest = chunks_dir / "source-toc.json"
-    if manifest.exists():
-        try:
-            data = json.loads(manifest.read_text(encoding="utf-8"))
-            chapters = data.get("source_chapters")
-            if isinstance(chapters, list) and chapters:
-                return len(chapters)
-        except Exception:
-            pass
-    return len(list(chunks_dir.glob("sc-*.in.md")))
-
-
-def _chunk_fraction(phase: str, book_dir: Path | None) -> float | None:
-    """Real sub-phase progress for phases that checkpoint per source-chunk on
-    disk, read from files those phases already write — never a fabricated
-    number. Two conventions exist today (scripts/podcast/_chunking.py owns the
-    windowing one):
-
-      * 0d writes `sc-NNN.done` markers per source chapter, with the expected
-        total in that run's own `source-toc.json`.
-      * 0b writes `win-NNN.in.md` / `win-NNN.out.md` pairs — a window counts as
-        done the moment its `.out.md` exists (see _chunking.py's own doc
-        comment: it skips windows whose `.out.md` already exists).
-
-    Returns None — never a guess — when book_dir is unknown, the phase has no
-    chunk directory (0c and 0e do not chunk this way today), or the directory
-    has nothing to count yet. The caller falls back to the flat 0.5 guess in
-    that case, exactly as it did before this existed.
-    """
-    if book_dir is None or phase not in _CHUNK_DIR_PHASES:
-        return None
-    chunks_dir = _chunk_dir(phase, book_dir)
-    if not chunks_dir.is_dir():
-        return None
-    if phase == "0d":
-        total = _sc_total(chunks_dir)
-        if not total:
-            return None
-        done = len(list(chunks_dir.glob("sc-*.done")))
-        return min(0.95, done / total)
-    if phase == "0b":
-        total = len(list(chunks_dir.glob("win-*.in.md")))
-        if not total:
-            return None
-        done = len(list(chunks_dir.glob("win-*.out.md")))
-        return min(0.95, done / total)
-    return None
 
 
 # Phases that do not wait on a machine — they wait on a person. `audio-ingest`
@@ -207,9 +164,28 @@ def compute_progress(state: dict[str, Any], book_dir: Path | None = None) -> dic
     # denominator, because counting them would report a shipped book as
     # permanently unfinished. They are not swallowed: any bypassed phase that
     # failed or halted is collected and surfaced on the card.
-    frontier = max(
-        (i for i, p in enumerate(order) if str((blocks.get(p) or {}).get("status") or "") in _DONE_STATUSES),
-        default=-1,
+    # The frontier/bypass logic below assumes its order is MONOTONIC — that
+    # reaching a later phase means every earlier one either finished or was
+    # legitimately skipped. That is true of the orchestrator's PHASES, built
+    # phase by phase in sequence, and false of a lane's own order: the Sessions
+    # lane's `sessions-articulate` sits BEFORE `sessions-preface` in the
+    # declared list but legitimately FINISHES after it (the introduction the
+    # preface writes is apparatus articulation never touches). Applying the
+    # bypass rule there silently DROPPED an in-progress `sessions-articulate`
+    # from rows entirely the moment a later-listed step completed — not merely
+    # undercounted, absent: missing from the denominator, from "remaining", and
+    # from "Now" (2026-08-12). Scoped to the canonical sequence only; a lane's
+    # own order counts every phase at its own real fraction, unconditionally.
+    uses_canonical_order = order is PHASES
+    frontier = (
+        max(
+            (i for i, p in enumerate(order) if str((blocks.get(p) or {}).get("status") or "") in _DONE_STATUSES),
+            default=-1,
+        )
+        if uses_canonical_order
+        # -1: "index < frontier" is then false for every index >= 0, so nothing
+        # in a lane's own order is ever treated as bypassed.
+        else -1
     )
     bypassed: list[dict[str, str]] = []
     for index, phase in enumerate(order):
@@ -243,8 +219,34 @@ def compute_progress(state: dict[str, Any], book_dir: Path | None = None) -> dic
         )
     pct = round(100 * earned / total, 1) if total else 0.0
     machine_pct = round(100 * machine_earned / machine_total, 1) if machine_total else pct
-    done = [r for r in rows if r["status"] in _DONE_STATUSES]
-    remaining = [r for r in rows if r["status"] not in _DONE_STATUSES]
+    # Done/remaining key on the FRACTION, not the status string. They agree for
+    # every phase whose fraction comes from the flag alone (any _DONE_STATUSES
+    # status IS 1.0, by the first line of `_fraction_done`) — the one case they
+    # can disagree is exactly the bug this exists to close: a phase carrying a
+    # `completed` flag that a real per-artifact count (chunk files, the Sessions
+    # ledger) contradicts. Trusting the flag there is how "Left: 1 step" reported
+    # a book with 21 of 23 chapters still unwritten as one step from done.
+    done = [r for r in rows if r["fraction"] >= 1.0]
+    remaining = [r for r in rows if r["fraction"] < 1.0]
+    # "Now" comes from the row walk, not from the flat `state["phase"]` string,
+    # whenever this book runs its OWN sequence rather than the orchestrator's.
+    # `state["phase"]`/`phase_status` are kept live by the orchestrator's own
+    # phase-transition code on every PHASES transition — correct to trust there.
+    # A lane like Sessions has no such code: its scaffold step stamps those two
+    # fields once and nothing later touches them, so trusting them here reported
+    # a book mid-way through articulating its densest chapters as "Now: Writing
+    # the introduction · completed" — the LAST thing the scaffold step did,
+    # frozen, regardless of everything that ran after it (2026-08-12).
+    if uses_canonical_order:
+        current, current_status = state.get("phase"), state.get("phase_status")
+    else:
+        in_progress = next((r for r in remaining), None)
+        if in_progress:
+            current, current_status = in_progress["phase"], in_progress["status"]
+        elif rows:
+            current, current_status = rows[-1]["phase"], rows[-1]["status"]
+        else:
+            current, current_status = state.get("phase"), state.get("phase_status")
     return {
         "percent_complete": pct,
         "machine_percent_complete": machine_pct,
@@ -254,8 +256,8 @@ def compute_progress(state: dict[str, Any], book_dir: Path | None = None) -> dic
         "human_gated_remaining": [r["phase"] for r in remaining if r["phase"] in _HUMAN_GATED_PHASES],
         "skipped_by_config": skipped_by_config,
         "bypassed_unresolved": bypassed,
-        "current": state.get("phase"),
-        "current_status": state.get("phase_status"),
+        "current": current,
+        "current_status": current_status,
         "last_error": state.get("last_error"),
     }
 

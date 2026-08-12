@@ -12,6 +12,7 @@ the same module the gates read, so the instruction and the check cannot drift.
 
 from __future__ import annotations
 
+from _book_compose import _arabic_run_count
 from _narrative import ARABIC_DIRECTIVE, frame_prompt_directive
 from _rules import narrative_person_for
 
@@ -173,6 +174,38 @@ def _source_defect(source_language: str) -> str:
     return _DIFFICULT_ENGLISH_SOURCE if lang in ("en", "english") else _CALQUED_SOURCE
 
 
+def _arabic_tally(base_text: str) -> str:
+    """State the NUMBER of Arabic runs the gate will count, to the model.
+
+    The prompt already forbade dropping Arabic, in prose, and that was enough for
+    a book with a few dozen runs. It was not enough for `surah-al-fateha`, a
+    linguistic commentary where the Arabic IS the subject: the first six chapters
+    all reverted on this gate, one window losing 27 runs of 132. Under heavy
+    rewriting a parenthetical script is the easiest thing in a sentence to let go
+    of, and "never drop Arabic" gives a model nothing to check itself against.
+
+    A count does. It is the SAME count `revoice_gates` applies (`_arabic_run_count`,
+    imported rather than re-derived), so the number the model is asked to hit and
+    the number that decides whether its work survives cannot differ — this module's
+    standing contract that a gate and its prompt are worded once, together.
+
+    Silent when the passage has no Arabic, so nothing is said to books this does
+    not concern.
+    """
+    count = _arabic_run_count(base_text)
+    if not count:
+        return ""
+    return f"""
+ARABIC RUN COUNT (mechanical — this exact number is checked)
+This passage contains {count} Arabic-script runs. Your output must contain all {count},
+each character-for-character identical to the one it replaces: same letters, same vowel
+marks, nothing romanized in its place. Count them in your output before you answer.
+A run you cannot fit into a rewritten sentence is a run you leave exactly where it
+stands and build the sentence around. If the count comes back lower, the whole passage
+is discarded and the original kept — so one dropped run costs every improvement in it.
+"""
+
+
 def _articulation_prompt(
     title: str,
     base_text: str,
@@ -186,6 +219,7 @@ def _articulation_prompt(
     builder shared by the automatic 0book-fluency pass and the on-demand
     Rearticulate action, so the two routes cannot silently drift apart."""
     directives = frame_prompt_directive(frame, narrator) + ARABIC_DIRECTIVE if frame else ""
+    arabic_tally = _arabic_tally(base_text)
     continuity = (
         "\nCONTINUITY\nThis passage continues a chapter already in progress. The preceding "
         "passage ended with the words below. Carry straight on — do not re-introduce the "
@@ -235,7 +269,7 @@ abridgement.
 
 SCOPE (stop where the passage stops)
 {SCOPE_RULE}
-{_NOTES_BLOCK_INSTRUCTION}
+{arabic_tally}{_NOTES_BLOCK_INSTRUCTION}
 
 OUTPUT
 Return ONLY the articulated chapter prose, optionally followed by one

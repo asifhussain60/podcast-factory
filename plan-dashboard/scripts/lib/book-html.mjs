@@ -1008,6 +1008,42 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
       inHtmlBlock = !line.includes("</figure>");
       continue;
     }
+    // A markdown image alone on its line — `![alt](src)`.
+    //
+    // NOT opt-in, for the reason the ordered-list branch above is not: this
+    // builds the printed edition and the Book Composer's read mode, and with no
+    // image rule at all a Sessions chapter printed the literal characters
+    // `![](images/213/….jpg)` where a diagram belongs. Sixty-three of them in
+    // Surah Al-Fateha, two in Love Of The Prophet — every illustration in the
+    // collection, on the one surface Asif reviews a book on.
+    //
+    // A FIGURE rather than an inline `<img>`, and only when the line is nothing
+    // but the image: these are plates the prose points at, and an `![…]`
+    // mid-sentence would open a block element inside a `<p>`, which the browser
+    // closes for you somewhere you did not choose. Mirrors the identical rule in
+    // src/lib/reader/markdown.ts and is pinned against it by a parity fixture —
+    // the printed page and the reader must not disagree about what a figure is.
+    //
+    // The src is written through UNTOUCHED. Relative to `book/` is correct here:
+    // that is the directory the PDF is built in. The Composer serves the same
+    // HTML over HTTP, where it is not, and rewrites it there — the same split
+    // the listener already makes, and for the same reason.
+    const mdImage = /^!\[([^\]]*)\]\(([^)\s]+)\)$/.exec(line.trim());
+    if (mdImage) {
+      flushPara();
+      flushQuote();
+      flushList();
+      const src = mdImage[2].replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+      const alt = mdImage[1].replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+      out.push(
+        `<figure class="md-figure"><img src="${src}" alt="${alt}" loading="lazy" />` +
+          (mdImage[1]
+            ? `<figcaption>${renderInline(mdImage[1])}</figcaption>`
+            : "") +
+          `</figure>`,
+      );
+      continue;
+    }
     const h = line.match(/^(#{1,6})\s+(.+)$/);
     if (h) {
       flushPara();

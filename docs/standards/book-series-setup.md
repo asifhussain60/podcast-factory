@@ -40,11 +40,22 @@ Read how the source opens, then apply the rule already locked in
 `_narrative.py` / `_pipeline_flags.narrative_frame`:
 
 - Author's own doxology/prayer, first-person "I thought to state each of
-  their sayings..." statement of method → `first_person_author`.
+  their sayings..." statement of method, ADDRESSED to a reader or a named
+  disciple — the address is the form → `first_person_author`.
+- The author speaks as "I" but expounds rather than addresses: a delivered
+  LECTURE becoming a book → `first_person_expository`. Same person, opposite
+  answer on the second question. Choosing `first_person_author` here silences
+  REQ-BA-125/126 and leaves the lecture hall on the page — which is what
+  happened to both Sessions books before 2026-08-11.
 - Anonymous transmission formula ("it has reached us", `بلغنا`) reporting a
   dialogue between named others, with neither party narrating → `transmitted_report`.
 - A third-person scholarly editor narrates throughout, no chapter in any
   character's own voice → `external_narrator`.
+
+Two questions, not one: **who narrates** (`person`) and **whether the narration
+addresses anyone** (`addresses_reader`). Both are declared per frame in
+`_narrative_frames.NARRATIVE_FRAMES`; a new frame must answer both, and a test
+refuses one that does not.
 
 Ask Asif only when the source genuinely mixes voices with no clear majority
 — the way `degrees-of-excellence` did before its two third-person

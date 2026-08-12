@@ -23,7 +23,7 @@ import { SelectionBar } from "~/components/reader/SelectionBar";
 import { useHighlights, type Painted } from "~/components/reader/Highlights";
 import { useMarks } from "~/components/reader/useMarks";
 import { cloudflare } from "~/context";
-import { blocksOf } from "~/lib/anchor";
+import { blocksOf, blockTextsOf, resolveAnchor } from "~/lib/anchor";
 import type { Anchor } from "~/lib/anchor";
 import {
   annotationsInChapter,
@@ -37,6 +37,7 @@ import { notFound } from "~/middleware/deny";
 import { requireUnitAccess } from "~/middleware/entitled";
 import { session } from "~/middleware/session";
 import { unitBySlug } from "~/server/access.server";
+import { passageById } from "~/server/search.server";
 import { readingMinutes } from "~/lib/reading";
 import { chapterOf, chaptersOf, surfacesOf } from "~/server/catalog.server";
 import { companionFor } from "~/server/companion.server";
@@ -57,12 +58,30 @@ import { companionFor } from "~/server/companion.server";
  */
 export const middleware: Route.MiddlewareFunction[] = [requireUnitAccess];
 
-export async function loader({ params, context }: Route.LoaderArgs) {
+export async function loader({ params, request, context }: Route.LoaderArgs) {
   const { env } = context.get(cloudflare);
   const slug = params.slug;
   const key = decodeURIComponent(params.chapter);
 
   const viewer = context.get(session).viewer;
+
+  /**
+   * Arriving from a search result: `?find=<passage id>`.
+   *
+   * The QUOTE is fetched here rather than carried in the URL, for two reasons.
+   * A passage is a whole paragraph and would not survive being a query
+   * parameter. And `passageById` joins to the same visibility expression every
+   * other read does, so an id typed or guessed into the address bar cannot
+   * return text from a book this reader does not hold — the middleware above
+   * has already proved the SLUG is readable, and this proves the row is too,
+   * rather than either gate being load-bearing alone.
+   */
+  const find = new URL(request.url).searchParams.get("find");
+  const wanted = find === null ? null : Number(find);
+  const passage =
+    wanted === null || !Number.isSafeInteger(wanted) || wanted <= 0
+      ? null
+      : await passageById(env.DB, viewer?.email ?? "", wanted);
 
   const [unit, chapter, all, surfaces, companion] = await Promise.all([
     unitBySlug(env.DB, slug),
@@ -84,6 +103,13 @@ export async function loader({ params, context }: Route.LoaderArgs) {
   const here = all.findIndex((c) => c.anchorKey === chapter.anchorKey);
 
   return {
+    // Only when the passage belongs to THIS chapter of THIS book. A stale link
+    // whose chapter was renumbered lands on the chapter and rings nothing, which
+    // is the same answer resolveAnchor gives when the text has moved.
+    find:
+      passage !== null && passage.slug === slug && passage.anchorKey === chapter.anchorKey
+        ? passage.quote
+        : null,
     bookTitle: unit.title,
     // Carried through so the reading page takes the same collection accent as
     // the book page it was opened from — a chapter that reverted to blue would
@@ -125,6 +151,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     isCompanion,
     isAdmin,
     surfaces,
+    find,
   } = loaderData;
   const navigate = useNavigate();
 
@@ -496,6 +523,52 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     },
     [chapter.anchorKey, navigate, slug],
   );
+
+  /**
+   * Arriving from a search result — ring the passage and scroll to it.
+   *
+   * THE SAME RESOLVER THE ANNOTATIONS USE, and deliberately so: `resolveAnchor`
+   * is given a block index of -1, which is out of range, so it skips the two
+   * offset-based attempts and goes straight to its widest net — find the quote
+   * anywhere in the chapter, and REFUSE if it appears twice with nothing to tell
+   * the copies apart. A search hit therefore inherits, for free, the rule this
+   * reader already lives by: nothing is ever guessed onto a passage it did not
+   * come from. When it refuses, the reader simply arrives at the top of the
+   * chapter, which is a worse answer than a ring and a much better one than a
+   * ring around the wrong paragraph.
+   *
+   * The BLOCK is ringed rather than the character range. A search hit is a whole
+   * paragraph, and painting a range would mean reaching into the highlight
+   * pipeline that the reader's own marks and the Companion tints share — three
+   * things competing to wrap the same text, to show something that lasts a few
+   * seconds.
+   */
+  useEffect(() => {
+    if (find === null) return;
+    const root = body.current;
+    if (root === null) return;
+
+    const resolution = resolveAnchor(
+      { blockIndex: -1, startOffset: 0, endOffset: 0, quote: find, prefix: "" },
+      blockTextsOf(root),
+    );
+    if (resolution.status === "orphaned") return;
+
+    const block = blocksOf(root)[resolution.blockIndex];
+    if (block === undefined) return;
+
+    block.classList.add("pf-found");
+    block.scrollIntoView({ block: "center", behavior: "smooth" });
+
+    // Removed rather than left on the element: the ring says "this is the one
+    // you came for", which stops being true the moment the reader starts
+    // reading. Cleared on unmount too, or a chapter change would carry it.
+    const timer = window.setTimeout(() => block.classList.remove("pf-found"), 2600);
+    return () => {
+      window.clearTimeout(timer);
+      block.classList.remove("pf-found");
+    };
+  }, [find]);
 
   // Arriving from the book page's Notes tab with `#mark-<id>` in the URL.
   useEffect(() => {

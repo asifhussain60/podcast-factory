@@ -267,70 +267,17 @@ R_VOWELLING_MARKS_ONLY: str = "R-VOWELLING-MARKS-ONLY"
 R_QURAN_ARABIC_PRESENT: str = "R-QURAN-ARABIC-PRESENT"
 R_ENUMERATION_PRESERVED: str = "R-ENUMERATION-PRESERVED"
 
-NARRATIVE_FRAMES: dict[str, dict[str, object]] = {
-    "transmitted_report": {
-        "label": "anonymous transmitted report",
-        "person": "third",
-        "narrator_is_character": False,
-        "description": (
-            "An unnamed transmitter reports what passed between other people "
-            "('it has reached us that…'). Characters speak in first person only "
-            "inside direct discourse. The default for classical Islamic prose."
-        ),
-    },
-    "external_narrator": {
-        "label": "external third-person narrator",
-        "person": "third",
-        "narrator_is_character": False,
-        "description": "A narrator outside the story who never appears in it.",
-    },
-    "first_person_author": {
-        "label": "first-person author addressing the reader",
-        "person": "first",
-        "narrator_is_character": False,
-        "description": (
-            "The author speaks as 'I' to the reader about the subject — a letter, "
-            "a memoir, an epistle. Legitimate ONLY when the source does this."
-        ),
-    },
-    "participant_narrator": {
-        "label": "first-person narrator who is also a character",
-        "person": "first",
-        "narrator_is_character": True,
-        "description": (
-            "A character narrates the events he took part in. Requires a single "
-            "named participant for the WHOLE book, declared in narrator_subject."
-        ),
-    },
-}
-
-# Fallback when a book does not declare `narrative_frame`. Conservative on
-# purpose: a translated classical text is third-person until proven otherwise,
-# because inventing a narrator is unrecoverable while failing to invent one is not.
-# DERIVED from CONTENT_TYPE_REGISTRY — a frame is a property of the content type,
-# declared once beside its bucket. Profiles leaving it None fall through below.
-PROFILE_DEFAULT_NARRATIVE_FRAME: dict[str, str] = {
-    p: ct.narrative_frame for p, ct in CONTENT_TYPE_REGISTRY.items() if ct.narrative_frame
-}
-DEFAULT_NARRATIVE_FRAME: str = "external_narrator"
-
-
-def narrative_frame_for(profile: str | None, declared: str | None = None) -> str:
-    """Resolve a book's narrative frame: declared value wins, else profile default.
-
-    An unknown declared frame falls back rather than raising — a typo in one
-    book's config must not halt the pipeline, and the challenger reports it.
-    """
-    if declared and declared in NARRATIVE_FRAMES:
-        return declared
-    return PROFILE_DEFAULT_NARRATIVE_FRAME.get(profile or "", DEFAULT_NARRATIVE_FRAME)
-
-
-def narrative_person_for(frame: str) -> str:
-    """'first' or 'third' for a resolved frame name."""
-    spec = NARRATIVE_FRAMES.get(frame) or NARRATIVE_FRAMES[DEFAULT_NARRATIVE_FRAME]
-    return str(spec["person"])
-
+# Narrative frames live in `_narrative_frames` (split 2026-08-11, DR-005) and are
+# re-exported here so `from _rules import NARRATIVE_FRAMES` keeps working. `_rules`
+# is the front door for rule data; that module is where this particular rule lives.
+from _narrative_frames import (  # noqa: E402,F401  (re-export for back-compat)
+    DEFAULT_NARRATIVE_FRAME,
+    NARRATIVE_FRAMES,
+    PROFILE_DEFAULT_NARRATIVE_FRAME,
+    addresses_reader_for,
+    narrative_frame_for,
+    narrative_person_for,
+)
 
 # ─── R-HOST-ROLE-PARITY (P0 2026-05-24) — host roles are locked book-wide.
 # Host A is always the scholar/teacher. Host B is always the seeker/student/

@@ -118,6 +118,11 @@ const SHELF_META: Record<
     label: "Supplications",
     desc: "Du'a, ziyarat, and munajat as facing-column reading editions",
   },
+  Sessions: {
+    icon: "fa-chalkboard-user",
+    label: "Sessions",
+    desc: "Lectures Asif delivered himself, read from the transcripts he marked up",
+  },
 };
 
 export async function buildStudioShelves() {

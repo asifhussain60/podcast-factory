@@ -1,0 +1,15 @@
+slug: surah-al-fateha
+title: Surah Al-Fateha
+title_arabic: "سُورَةُ الْفَاتِحَةِ"
+
+series:
+  # Sessions are delivered lectures: the reading edition is the transcript,
+  # so the book branch is the whole deliverable rather than a companion to
+  # generated audio.
+  enable_book_branch: true
+  enable_slide_decks: false
+
+pipeline:
+  # 23 chapters, one per delivered session. orchestrator-state.json
+  # is authoritative; this block is a human-readable mirror.
+  lane: sessions

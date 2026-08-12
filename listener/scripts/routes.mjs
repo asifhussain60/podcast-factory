@@ -46,6 +46,27 @@ export const STATIC_ROUTES = [
   { path: "/search", who: "reader", expect: 200, label: "search-reader" },
   { path: "/search", who: "anon", expect: 302, label: "search-signed-out" },
 
+  // The page ASKING something, not merely loading. An empty search box exercises
+  // none of the index, the join to `visible`, or the facet counts — so a query
+  // that returns real rows for the administrator is fired here, and the same
+  // query is fired as the two identities who must see less of it. `nobody` is
+  // the one that matters most: invited, granted nothing, and therefore entitled
+  // to a page that loads and finds NOTHING. A 200 with results there would be
+  // the whole access model failing quietly, which is why it is asserted by a
+  // script rather than reasoned about.
+  { path: "/search?q=intellect", who: "admin", expect: 200, label: "search-query" },
+  { path: "/search?q=intellect", who: "reader", expect: 200, label: "search-query-reader" },
+  { path: "/search?q=intellect", who: "nobody", expect: 200, label: "search-query-no-books" },
+  // A reference query, which takes the other branch of the loader entirely.
+  { path: "/search?q=2%3A255", who: "admin", expect: 200, label: "search-reference" },
+  // Arabic, folded — the case a Latin-only harness would never catch.
+  {
+    path: "/search?q=%D9%88%D9%84%D9%8A",
+    who: "admin",
+    expect: 200,
+    label: "search-arabic",
+  },
+
   // What is kept on this device. Visited as somebody holding nothing too — the
   // page has to be reachable and empty rather than absent, or a listener whose
   // last book was withdrawn meets a 404 where their downloads used to be.

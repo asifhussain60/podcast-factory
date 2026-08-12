@@ -102,21 +102,33 @@ retention, narrative frame), the repo convention wins and is cited, not restated
   front of you. Grammatical person, one narrator per book, and enumeration
   survival are enforced by `_narrative.py` and gated by `book-challenger`
   Pass 3 (BK-N1–N7). Rearticulation runs inside those gates, never around them.
-- **REQ-BA-125 — A book addresses nobody (R-NO-LECTURE-VOICE).** Under a
-  third-person frame the narration never turns to the reader and never directs
-  an audience. Out: "you"/"your" in narration, stage-direction imperatives
-  (consider, notice, note, observe, recall, remember, imagine, picture, hold,
-  look, mark, listen), and commentary about the discourse itself ("this is the
-  heart of it", "before we go on", "as we shall see"). Every such move is
-  RECAST into exposition — "Hold that frame, and step now inside it" becomes
-  "Within that frame stands…" — never deleted, because it carries a thought.
-  UNTOUCHED inside quoted speech, verses, hadith, prayers and block
+- **REQ-BA-125 — A book addresses nobody (R-NO-LECTURE-VOICE).** Under a frame
+  that does not address a reader the narration never turns to the reader and
+  never directs an audience. Out: "you"/"your" in narration, stage-direction
+  imperatives (consider, notice, note, observe, recall, remember, imagine,
+  picture, hold, look, mark, listen), and commentary about the discourse itself
+  ("this is the heart of it", "before we go on", "as we shall see"). Every such
+  move is RECAST into exposition — "Hold that frame, and step now inside it"
+  becomes "Within that frame stands…" — never deleted, because it carries a
+  thought. UNTOUCHED inside quoted speech, verses, hadith, prayers and block
   quotations: there one person addresses another, which every frame keeps.
-  Silent under a first-person frame — *Ayyuhal Walad* is a letter to a
-  disciple, where the address IS the form. Instructed by
-  `_narrative.frame_prompt_directive` and guarded DIFFERENTIALLY by
-  `_narrative.lecture_voice_findings` (a pass may not ADD lecture voice), so a
-  lecture-derived source can be improved rather than reverted wholesale.
+  Silent where the address IS the form — *Ayyuhal Walad* is a letter to a
+  disciple, and stripping the second person there would leave nothing.
+  Instructed by `_narrative_prompts.frame_prompt_directive` and guarded
+  DIFFERENTIALLY by `_narrative.lecture_voice_findings` (a pass may not ADD
+  lecture voice), so a lecture-derived source can be improved rather than
+  reverted wholesale.
+  **Scoped by `addresses_reader`, not by grammatical person (2026-08-11).** The
+  rule keyed off "third person" until Asif's own delivered lectures were
+  ingested. He IS the author and the transcript records him saying "I", so the
+  frame is honestly first-person — and under the old key that switched this rule
+  off, leaving 173 stage-direction imperatives in *Surah Al-Fateha* against
+  eleven in the edition it sits beside on the shelf. WHO NARRATES and WHETHER THE
+  NARRATION ADDRESSES ANYONE are two questions; `_narrative_frames` answers them
+  separately, and `first_person_expository` is the frame that keeps the speaker's
+  "I" and loses his room. `_rules.addresses_reader_for` is the single predicate
+  the prompt and both guards read, and a registry-wide test asserts they agree
+  for every frame.
   Added 2026-08-03: `al-anwaar-al-lateefah` is transcribed from spoken
   lectures, and converting it to a transmitted report changed every "I" while
   leaving every "Do not pass over that phrase lightly" exactly where the
@@ -124,7 +136,8 @@ retention, narrative frame), the repo convention wins and is cited, not restated
   like the edition printed beside it.
 
 - **REQ-BA-126 — No navigation apparatus (R-NO-NAVIGATION-APPARATUS).** Under a
-  third-person frame the prose does not locate itself inside the SOURCE's
+  frame that does not address a reader (same scoping as REQ-BA-125, same
+  predicate) the prose does not locate itself inside the SOURCE's
   division scheme. The edition prints numbered chapters; it has no canopies,
   gates, babs or fasls a reader can turn to, so "we now come to the fourth
   chapter of the first gate of the first canopy" points at nothing they can
@@ -134,8 +147,17 @@ retention, narrative frame), the repo convention wins and is cited, not restated
   suradiq or bab is. Drop the locator, keep what the sentence teaches — several
   carry both. Naming the source's own term once, where its argument turns on it,
   is fine, and a heading or Arabic line the source prints is quoted text and
-  stays untouched. Instructed by `_narrative.frame_prompt_directive`, guarded
-  differentially by `_narrative.navigation_findings`.
+  stays untouched. Instructed by `_narrative_prompts.frame_prompt_directive`,
+  guarded differentially by `_narrative.navigation_findings`.
+  A SPOKEN source has its own division scheme and it is the delivery schedule:
+  "in the last session I talked about", "we'll cover this over the next few
+  sessions", "as I mentioned last week". Same defect, same recast — drop the
+  locator, keep what it teaches — and a recap that TEACHES keeps its substance
+  and loses only its timestamp. Instructed to the model; deliberately NOT added
+  to `_NAVIGATION_RE`, because that guard is differential (it stops a pass ADDING
+  apparatus, it does not drive removal) and teaching it "session" would mean
+  threading `source_medium` through every gate signature to stop the published
+  third-person books matching on an ordinary sentence about a week.
 - **REQ-BA-127 — Every foreign term is shown in script at least once
   (R-ARABIC-SCRIPT-SHOWN-ONCE).** A term the book sets in italics as foreign is
   given in Arabic script somewhere in the book — once is enough, per the
