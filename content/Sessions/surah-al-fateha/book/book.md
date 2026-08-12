@@ -20,21 +20,17 @@ In today's day and age, it has become extremely difficult to create genuine and 
 
 You know how people who have asthma they have to take an inhaler every few minutes, because they have a problem in breathing. It has become pretty much the same things with our phones today! I need Wi-Fi! I need Wi-Fi. Is there Wi-Fi in here? How can there not be Wi-Fi in here? Today we gasp for Wi-Fi just as an asthma patient gasps for breath, right? The other day I was telling my daughter about the کعبۃ and about going for عمرۃ. So I asked her what she would like to know about Mecca? You know the first thing she asked me? Do they have Wi-Fi there? So as sad as it is, this is what our lives have been reduced to.
 
-So today I want to throw some light on the Quranic concept of friendship. Now we can go into this conversation with two mindsets. We can approach this topic in two ways. The first is that what kind of friends we should look for - that's the first kind of mindset that we can have when having this conversation. But that's a selfish way of looking at things according to the Quran. The correct and proper way of looking at this conversation is, what kind of friend should you and I be to others! Not what kind of friends we should **have**, but rather what kind of friend we should **be** to others. Because when you become the right kind of friend to others; Allah will put the right kind people in your path.
+So today I want to throw some light on the Quranic concept of friendship. Now we can go into this conversation with two mindsets. We can approach this topic in two ways. The first is what kind of friends we should look for - that's the first kind of mindset that we can have when having this conversation. But that's a selfish way of looking at things according to the Quran. The correct and proper way of looking at this conversation is: what kind of friend should you and I be to others? Not what kind of friends we should **have**, but rather what kind of friend we should **be** to others. Because when you become the right kind of friend to others, Allah will put the right kind of people in your path.
 
-There are at least 10 words used in the Quran for the different kinds and shades of friends. Each term presents its own nuances in terms of how Allah brings it up in different verses. So let's go through some of these terms, and try to understand how Allah uses these terms in the Quran; and what he is trying to teach us about these various kinds of friends.
+There are at least 10 words used in the Quran for the different kinds and shades of friends. Each term presents its own nuances in terms of how Allah brings it up in different verses. So let's go through some of these terms, and try to understand how Allah uses these terms in the Quran, and what he is trying to teach us about these various kinds of friends.
 
-### Protective Friend ولی
+### Protective Friend (ولی)
 
-WALEE
-
-The first of those friends is ولی. This word in the Arabic language comes from مُوَالات which is a kind of protection. A ولی is someone who takes care of your matters; who always has your back. A ولی is a friend that in some sense, when trouble hits you, no matter what kind of trouble it is, he is always there to guard and protect you . He handles your situation. So a ولی is used for friend, but not just any kind of friend. It is used for a strong friend that you can always count on to not only get your out of any mess, but also protect you from getting into trouble in the first place. One of the names of Allah is الولی.
-
-2:257
+The first of those friends is ولی. This word in the Arabic language comes from مُوَالات which is a kind of protection. A ولی is someone who takes care of your matters; who always has your back. A ولی is a friend who, in some sense, when trouble hits you, no matter what kind of trouble it is, is always there to guard and protect you. He handles your situation. So a ولی is used for friend, but not just any kind of friend. It is used for a strong friend that you can always count on to not only get your out of any mess, but also protect you from getting into trouble in the first place. One of the names of Allah is الولی.
 
 > ٱللَّهُ وَلِىُّ ٱلَّذِينَ آمَنُوا۟ يُخْرِجُهُم مِّنَ ٱلظُّلُمَتِ إِلَى ٱلنُّورِ ۖ وَٱلَّذِينَ كَفَرُوٓا۟ أَوْلِيَآؤُهُمُ ٱلطَّغُوتُ يُخْرِجُونَهُم مِّنَ ٱلنُّورِ إِلَى ٱلظُّلُمَتِ ۗ أُو۟لَٓئِكَ أَصْحَبُ ٱلنَّارِ ۖ هُمْ فِيهَا خَلِدُونَ
 >
-> Allah is the *Walî * of those who believe. He brings them out from darkness into light. But as for those who disbelieve, their *Auliya * are *Taghut *, they bring them out from light into darkness. Those are the dwellers of the Fire, and they will abide therein forever.
+> Allah is the *Walî *of those who believe. He brings them out from darkness into light. But as for those who disbelieve, their *Auliya *are *Taghut;* they bring them out from light into darkness. Those are the dwellers of the Fire, and they will abide therein forever.
 
 > أللَّهُ وَلِىُّ ٱلَّذِينَ آمَنُوا۟
 >
@@ -44,21 +40,17 @@ Another variation of this same root is the word مولا. This is used for that 
 
 Now there is an interesting adjective that the Quran uses for this word ولی in a verse. That word is حمیم. Allah says:
 
-41:34
-
 > وَلَا تَسْتَوِى ٱلْحَسَنَةُ وَلَا ٱلسَّيِّئَةُ ۚ ٱدْفَعْ بِٱلَّتِى هِىَ أَحْسَنُ فَإِذَا ٱلَّذِى بَيْنَكَ وَبَيْنَهُۥ عَدَوَةٌۭ كَأَنَّهُۥ وَلِىٌّ حَمِيمٌۭ
 >
 > The good deed and the evil deed cannot be equal. Repel with one which is better, then verily! he, between whom and you there was enmity, as though he was a close friend.
 
 Even if there is animosity between you and someone else - so imagine you're talking to this guy and he's responding back to you with the most aggressive language! You're being kind and respectful and this guy is being a complete ass in response... Allah says act with him as a protective friend. Continue behaving with him as if you are looking out for him. In other words, respond in the most gentle way possible; like a protective friend. But then he adds the adjective حمیم.
 
-The word حمیم comes from حُمَّۃ which means fever. It is a word used for intense heat in the Arabic language. In this verse, this word is used to describe the intimacy of friendship. حمیم is when you are that close with someone that there is a heat in your friendship; there is a closeness and an intimacy in that friendship. I'm not talking about heat in the romantic sense. I'm talking about it in the sense that you feel so strongly towards someone, that it heats you up on the inside. A حمیم is a friend that when you are in their company, you feel all warm and fuzzy inside. And the Quran is saying that you have to be like that towards who? Towards someone who is being aggressive towards you. Someone who is acting like a jackass with you! So then imagine how you are to be with a believer? SubhanAllah! Just look at the beautiful standards Quran sets for us as believers. It's really incredible! And they call Islam a violent religion, huh!?
+The word حمیم comes from حُمَّۃ, which means fever. It is a word used for intense heat in the Arabic language. In this verse, this word is used to describe the intimacy of friendship. حمیم is when you are that close with someone that there is heat in your friendship; there is closeness and intimacy in that friendship. I'm not talking about heat in the romantic sense. I'm talking about it in the sense that you feel so strongly towards someone that it heats you up on the inside. A حمیم is a friend that when you are in their company, you feel all warm and fuzzy inside. And the Quran is saying that you have to be like that towards who? Towards someone who is being aggressive towards you. Someone who is acting like a jackass with you! So then imagine how you are to be with a believer? SubhanAllah! Just look at the beautiful standards the Quran sets for us as believers. It's really incredible! And they call Islam a violent religion, huh!?
 
 So this is the first kind of friend we're supposed to be with each other - ولی حمیم.
 
-### Sincere Friend صدیق
-
-SADEEQ
+### Sincere Friend (صدیق)
 
 The second kind of friend is a صدیق. The word صدیق comes from صدق, which means two things! It means sincerity and it means truthfulness. So a صدیق is actually an extremely sincere and truthful friend. So when you are a صدیق to someone, what that means is, that you are friends with that person for no reason other than a genuine intention of just wanting to be with that person. You are not friends with them because being friends with them will make you feel more popular at school or work; or being friends with them will make other people think more highly of you; Or because they are really rich and you want to get some advantage out of that. Or they are very knowledgeable, so hanging out with them will make you look like a scholar. In other words, when you're a صدیق you have no hidden agenda. Your friendship has no strings attached. It's the most genuine and sincere kind of friendship. You are friends with them for who they are - not because for the things they own, or the status they have, not for the artificial and superficial stuff. But if you have a genuine friendship without all of these things, then that is truly صدقۃ. You are going to be there for this person no matter what.
 
@@ -66,15 +58,13 @@ So you can see that being a صدیق, is not easy. Having a صدیق. is even mo
 
 الصَّدِیقُکَ مَن صَدَقَت
 
-Your friend is someone who is true to you; who is honest with you; and not just someone who is **friendly **with you. They are completely honest with you. When you are falling off, they will say: Listen! I care about you! I don't want you to do this because I believe this is going to hurt you! You need to stop this! A صدیق is not there just to look good and give you that warm and fuzzy feeling that you crave. He'll tell you the harsh truth - the truth that you **don't **want to hear. That's why the word comes from the root صدق - truthfulness.
+Your friend is someone who is true to you; who is honest with you; and not just someone who is **friendly **with you. They are completely honest with you. When you are falling off, they will say: Listen! I care about you! I don't want you to do this because I believe this is going to hurt you! You need to stop this! A صدیق is not there just to look good and give you that warm-and-fuzzy feeling you crave. He'll tell you the harsh truth - the truth that you **don't **want to hear. That's why the word comes from the root صدق - truthfulness.
 
-So now, if you are a صدیق to someone else, then whatever it takes, no matter the consequences, you are going to be genuinely honest with your friend. As a صدیق, you will not simply agree with your friend, knowing well that the path they've chosen is going to lead them to their destruction. You're not afraid that if you say something to them, or they say something to you, the friendship will come to an end. *I don't want to say anything because he might get really upset*. That's not a صدیق. That is why we usually lose our friends, isn't it? We are honest to our friends and they don't want to hear that. But you don't do that! Be the صدیق who never give up on his friends no matter how painful it gets.
+So now, if you are a صدیق to someone else, then whatever it takes, no matter the consequences, you are going to be genuinely honest with your friend. As a صدیق, you will not simply agree with your friend, knowing well that the path they've chosen is going to lead them to their destruction. You're not afraid that if you say something to them, or they say something to you, the friendship will come to an end. *I don't want to say anything because he might get really upset*. That's not a صدیق. That is why we usually lose our friends, isn't it? We are honest with our friends, and they don't want to hear that. But you don't do that! Be the صدیق who never gives up on his friends no matter how painful it gets.
 
-Now interestingly, if we look at this word in the Quranic context, Allah says that on the day of judgment there are some people who will find themselves on the wrong side of the fence. These are people that are heading towards hell fire. Allah says about them in the Quran
+Now interestingly, if we look at this word in the Quranic context, Allah says that on the day of judgment there are some people who will find themselves on the wrong side of the fence. These are people who are heading towards hellfire. Allah says about them in the Quran
 
-26:99-101
-
-وَمَآ أَضَلَّنَآ إِلَّا ٱلْمُجْرِمُونَ
+> وَمَآ أَضَلَّنَآ إِلَّا ٱلْمُجْرِمُونَ
 
 So they're saying it is not our fault that we are going to hell. It is not our fault that we are in trouble on this day of judgment. We're here because these other criminals misled us. It is their fault! These evil people people misled us. And Allah describes what they say:
 
@@ -88,15 +78,11 @@ This is the only time the word صدیق is used like this directly in the Quran.
 
 What those disbelievers — those destined for the Fire — lament on that day is the absence of a صَدِيقٍ. In the world, whenever someone offered them sincere and honest counsel, they turned it away. They mocked. They ridiculed. They broke off those very friendships. And now, at the hour of judgment, they wish they had kept those صَدِيقٍ close. A صَدِيقٍ is worth holding — however harsh and painful their truth may be — because they prove to be the truest of friends in the آخرۃ.
 
-### Companion صاحب
-
-SAHIB
+### Companion (صاحب)
 
 صاحب is among the most comprehensive words the Quran uses for a friend. It can describe the most casual of acquaintances — someone seated beside a traveler on a train or a bus for a few hours on a journey. At that minimal level of contact, the word already applies.
 
 Yet a lifetime companion is equally a صاحب. What the term holds in common across all its uses is this: a صاحب always means well. They want something good for the one they accompany. When trouble comes, they help to whatever degree they can. And the better they know a person, the greater their capacity to help — and the more genuine their concern. This is why one of the names Allah gives to Rasul Allah ﷺ in the Quran is صاحب:
-
-81:22
 
 > وَمَا صَاحِبُكُم بِمَجْنُونٍۢ
 >
@@ -108,9 +94,7 @@ What صحبۃ calls for is to be أصحاب to one another. And صحبۃ is some
 
 The performance of false modesty — "Oh, this old thing? It's Gucci. It was on sale for eight hundred" — offered to someone who could never afford it, reveals an absence of that concern. صاحب is a delicate term in that respect.
 
-### Trustworthy Friend ولیجۃ
-
-WALEEJA
+### Trustworthy Friend (ولیجۃ)
 
 The next word the Quran uses for a friend is ولیجۃ. This term occurs once in the Quran. ولیجۃ comes from the verb وَلَجَ، یَلِجُو, which in Arabic means to penetrate deeply. Allah says:
 
@@ -150,9 +134,7 @@ The way people speak to one another today is deeply disordered. There is no سن
 
 The verse then includes the believers — ٱلْمُؤْمِنِينَ — within this same relationship of ولیجۃ. When Allah is truly intimate in one's life, and when the teachings of the Prophet are truly intimate in one's personal affairs, then Allah gives the gift of the finest kind of believers — those who can be trusted to the very depths of the personal life. What a gift that is, especially now, when trust has all but disappeared. People cannot be trusted in the workplace; even those called closest friends carry doubt. That kind of trust is gone from life. And Allah (Azza Wa Jal) is giving, in this verse, the secret to finding it again: when He is admitted into the intimate life, and when the Messenger ﷺ is admitted alongside Him, then the gift that follows is true believers worthy of exactly that trust. SubhanAllah!
 
-### Confidant بِطانۃ
-
-BITANA
+### Confidant (بِطانۃ)
 
 Another kind of friendship is بِطانۃ, which comes from the root بطن — the Arabic word for stomach. A بِطانۃ is a friend who guards secrets. Where the ولیجۃ is immersed in all one's personal matters, the بِطانۃ protects what is entrusted to them. A secret shared with a بِطانۃ goes with them to their grave.
 
@@ -170,9 +152,7 @@ The context is a state of war, where a casual word can cost lives. I might menti
 
 Beyond that context, the verse illuminates another shade of friendship — the بطانۃ, the one who knows the deepest and darkest secrets.
 
-### Deep Seated Friendship خلیل
-
-KHALEEL
+### Deep Seated Friendship (خلیل)
 
 The next word the Quran uses for a friend is خلیل. خلیل comes from the root word خلۃ. Another word from the same root is خلال, which means flossing — what passes in between one thing and another. When the thread is drawn between teeth, that is خلال in Arabic.
 
@@ -198,8 +178,7 @@ Because when the day of judgment comes around, the wrongdoer says:
 
 > وَيَوْمَ يَعَضُّ ٱلظَّالِمُ عَلَىٰ يَدَيْهِ يَقُولُ يَلَيْتَنِى ٱتَّخَذْتُ مَعَ ٱلرَّسُولِ سَبِيلًۭا ‎۲۷‏يَوَيْلَتَىٰ لَيْتَنِى لَمْ أَتَّخِذْ فُلَانًا خَلِيلًۭا
 >
-> And the Day when the ظالم will chew up his own hands,
-> He will say: "if only I took on a path alongside the messenger ﷺ""Ah! Woe to me! Would that I had never taken so-and-so as a friend!
+> And the Day when the ظالم will chew up his own hands, He will say: "if only I took on a path alongside the messenger ﷺ""Ah! Woe to me! Would that I had never taken so-and-so as a friend!
 
 The word سبیل means a path, which is a very beautiful linguistic illustration of a lifestyle. If I only had chosen the lifestyle of the messenger, I would not be in this mess today. This is a really powerful verse in the Quran because the next verse says:
 
@@ -217,9 +196,7 @@ This is exaggerated حسرۃ. But then on top of that لیتنی is used which i
 
 And what's so interesting is that the verse is actually saying, I wish I did not take so and so is my friend. خلیل is someone that you have a lot of love for, yes? And if you have so much love for them you would at the very least know their name right? But judgment day comes and you have so much regret; and the hate fills your heart so much that you cannot even remember their name. So the verse says فُلَانًا خَلِيلًۭا. This is the level of regret this person has on the day of judgment.
 
-### Comforting Friend رفیق
-
-RAFEEQ
+### Comforting Friend (رفیق)
 
 Then you have the word رفیق in Arabic, which comes from رفقۃ or رفق and it means comfort. مِرفِقَۃ is the pillow that you place behind your back when it's hurting. Also those small cushions on the couch, they're also called مِرفَاق; because you lean on them and they take the pressure off your back and help you relax.
 
@@ -237,9 +214,7 @@ What an awesome group of comforting friends these people are! Can you imagine be
 
 So رفیق is another kind of friend we should all strive to be for others. A comforting friend!
 
-### Compatible Friend قرین
-
-QAREEN
+### Compatible Friend (قرین)
 
 The next kind of friend is a قرین, which is a very cool type of friend. قرن is actually used in Arabic for a rope that is used to hold two camels together. When two camels are standing side-by-side and you tie them with one single rope, that rope is called قرن. So قرین is someone who is always side-by-side with you; he is joined-to-the-hop as they say. If one moves, the other one is forced to move. They're always moving together.
 
@@ -261,9 +236,7 @@ May Allah protect us from being one of them. So be very careful who you choose a
 
 This is Allah telling us in سُورَۃُ الزُّخْرُفِ. These are not idle threats! Can you imagine having شیطان as a قرین? May Allah protect us all from that
 
-### Deceptive Friend خذول
-
-KHAZOOL
+### Deceptive Friend (خذول)
 
 So far we looked at the good friends that the Quran describes. But Quran also talks about bad friends; and the word used to describe this evil friend is خزول. The word خزل in Arabic is close to the meaning of خضع which means deception. خزولis a friend who only **acts **like your friend, until the moment of truth arrives; and then you see their true colors. So they were with you and they were just like you; and they were right by your side when times were convenient. They always hung out with you! They were you قرین. But then when times became tough, all of a sudden they disappear on you. And you were relying on them to be there for you, but then there are nowhere to be found. This kind of friend is called خزول. And this is what's called صِیغَۃُ مُبَالَغَہِ. So this is not just any ordinary deception, this is the extreme kind of deception. an extremely disappointing friend who leaves you hanging at the worst possible time. This is the one who gains your trust to the point that you write him a blank check. The next morning he's gone with all your money. This kind of deception is خزول. It takes years of consistent effort to خزول-ofy someone.
 
@@ -1327,8 +1300,6 @@ But one of the most amazing qualities of the womb (the رحم) is that it expand
 
 There is a verse in the Quran in which Allah says:
 
-39:53
-
 > قُلْ يَعِبَادِىَ ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ ۚ إِنَّ ٱللَّهَ يَغْفِرُ ٱلذُّنُوبَ جَمِيعًا ۚ إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ
 >
 > Say, "O My servants who have transgressed against themselves [by sinning], do not despair of the mercy of Allah . Indeed, Allah forgives all sins. Indeed, it is He who is the Forgiving, the Merciful."
@@ -1378,9 +1349,7 @@ So غفَّار is the one who forgives abundantly. The one who has no limitatio
 
 The third variation is غفور - which, as I said, is on the same phonetic pattern of رحیم and means constantly or permanently forgiving, - and this the form that is used in the verse we are talking about
 
-39:53
-
-إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ
+> إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ
 
 And Indeed he is constantly forgiving and constantly merciful.
 
@@ -3670,7 +3639,7 @@ The next thing I want to talk about is the sequence in which these two words are
 
 Save your needs and your necessities for the فرض obligatory prayer. Whenever you need something whenever you're dealing with something difficult - don't worry. There is going to be a فرض obligatory prayer right around the corner. Use that as an opportunity to ask Allah to help you solve your problems. So worship and then seek the help and assistance of Allah.
 
-### Repetition of ایاک
+### Repetition of (ایاک)
 
 The last thing I want to point out is the repetition of this word ایاک. You can see that the word ایاک is used twice. اِیَّاکَ نَعْبُدُ and then اِیَّاکَ نَسْتَعِینُ. The word ایاک is repeated twice. Now grammatically speaking, if Allah omitted the second ایاک and just said: اِیَّاکَ نَعْبُدُ وَ نَسْتَعِینُ, - It is only you we worship and seek assistance from. That would have been grammatically correct. So then why did Allah repeat it when its not grammatically necessary? Does this mean that the second ایاک is not absolutely necessary to the meaning? No! So let's look at that.
 
