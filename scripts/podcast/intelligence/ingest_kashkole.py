@@ -8,10 +8,17 @@ KASHKOLE slice of the unified corpus:
     tradition 'universal' (D5: raw hadith is tradition-neutral). INSERT OR IGNORE:
     a hadith id already authored by the wisdom-binder pipeline (e.g.
     ``hadith:kashkole:9``) is left untouched — only genuinely new ids are added.
-  * KASHKOLE topics (fts_topics) are Urdu with no polished English. Per D8 (HARD,
-    never re-translate) they are NOT minted as atoms here — the polished-English
-    subset already lives as the 628 ``doctrine`` atoms from the wisdom-binder
-    pipeline. They are recorded as a deferred note, not silently dropped.
+  * KASHKOLE topics (fts_topics) are Urdu at source. They are NOT minted as atoms
+    here — the polished-English subset already lives as the ``doctrine`` atoms
+    from the wisdom-binder pipeline — and that remains a decision about the atom
+    store rather than about the corpus.
+
+    D8 ("HARD, never re-translate") used to be the reason, and it no longer is.
+    ``intelligence/translate_kashkole.py`` now renders every topic into English
+    against the reading editions' own articulation standard (REQ-BA-*), with
+    per-topic provenance in ``topic_translation``. D8 was a prohibition on
+    machine glosses standing in for a real rendering, not on rendering the
+    corpus properly; that pass supersedes it for KASHKOLE topics.
 
 Additive + idempotent. Re-running creates zero new rows.
 
@@ -91,11 +98,27 @@ def ingest_all(*, dry_run: bool = False) -> MirrorSummary:
         else:
             summary.atoms_skipped_existing += 1
 
-    # ---- KASHKOLE topics: deferred (D8 no-retranslate) ----
+    # ---- KASHKOLE topics: rendered by the translation pass, not minted here ----
+    #
+    # D8 ("never re-translate") kept these out of the atom store while the only
+    # English available would have been a machine gloss. It no longer describes
+    # the situation: `intelligence/translate_kashkole.py` renders the corpus
+    # against the reading editions' own articulation standard (REQ-BA-*) and
+    # records per-topic provenance in `topic_translation`. This importer still
+    # mints nothing from topics — that is a separate decision about what belongs
+    # in the atom store, and it is unchanged — but the reason is no longer "there
+    # is no usable English".
     topic_count = mirror.execute("SELECT COUNT(*) FROM fts_topics").fetchone()[0]
+    try:
+        rendered = mirror.execute(
+            "SELECT COUNT(*) FROM topic_translation WHERE status IN ('ok','short','review')"
+        ).fetchone()[0]
+    except Exception:
+        rendered = 0  # the table exists only once the translation pass has run
     summary.notes.append(
-        f"topics: {topic_count} KASHKOLE topics NOT minted as atoms (D8 no-retranslate; "
-        f"polished-English subset already present as doctrine atoms)"
+        f"topics: {topic_count} KASHKOLE topics NOT minted as atoms here; "
+        f"{rendered} carry an English rendering from translate_kashkole.py "
+        f"(supersedes D8 for this corpus)"
     )
 
     if not dry_run:
