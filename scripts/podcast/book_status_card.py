@@ -45,7 +45,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _book_status_subphase import chunk_fraction as _chunk_fraction  # noqa: E402
 from _book_status_subphase import sessions_articulate_fraction as _sessions_articulate_fraction  # noqa: E402
 from _paths import find_content  # noqa: E402
-from _pending_work import open_items  # noqa: E402
 from _phase_vocabulary import _PHASE_NAMES, _PHASE_WEIGHTS  # noqa: E402
 from _progress import PHASES, read_state  # noqa: E402
 
@@ -414,7 +413,15 @@ def _est_now() -> str:
 
 
 def build_card(book_dir: Path) -> dict[str, Any]:
-    """Everything the card shows, as data — so a caller can render it any way."""
+    """Everything the card shows, as data — so a caller can render it any way.
+
+    Carries no general backlog (the snag list, `_pending_work.open_items`) —
+    that answers "what is still owed on the project", a different question from
+    what this card answers, which is "how is THIS run going." A 2026-08-12 card
+    listed pipeline-wide punch-list items (Kashkole translation, an unrelated
+    book's compose gap) under a book's own progress card, where they read as
+    part of this run rather than the separate backlog they actually are.
+    """
     book_dir = Path(book_dir).resolve()
     state = read_state(book_dir) or {}
     progress = compute_progress(state, book_dir)
@@ -428,30 +435,48 @@ def build_card(book_dir: Path) -> dict[str, Any]:
         "eta": _format_est_dated(eta) if eta else None,
         "spend_usd": _spend_usd(book_dir),
         "status": state.get("status"),
-        "pending": open_items(state.get("book_slug") or book_dir.name),
         **progress,
     }
 
 
 _CARD_WIDTH = 52  # inner width; narrow enough never to wrap in a chat panel
-# Enough of the backlog to be actionable at a glance; the rest is one line away
-# in the file. A card that scrolls stops being a card.
-_PENDING_SHOWN = 5
 
 
 def _row(label: str, value: str) -> str:
-    """One card row, clipped so the frame can never be broken by a long value."""
+    """One card row, clipped so the frame can never be broken by a long value.
+
+    Only ``last_error`` and ``Behind`` ever reach the clip in practice — every
+    per-step row below is short enough on its own (a step's plain-English name)
+    that clipping never fires for it.
+    """
     room = _CARD_WIDTH - 12  # frame(2) + padding(2) + label(8)
     value = value if len(value) <= room else value[: room - 1] + "…"
     return f"│ {label:<8}{value:<{room}} │"
 
 
+def _step_row(icon: str, name: str) -> str:
+    """One line of a multi-line step list, indented under its section header."""
+    # An emoji occupies TWO display columns while counting as ONE character, so
+    # the row is laid out directly rather than through `_row`'s label field —
+    # the same accounting the old `--verbose` block already used.
+    room = _CARD_WIDTH - 7
+    return f"│ {icon} {name[:room]:<{room}} │"
+
+
 def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
-    """A compact framed card: title, progress bar, and four lines of state.
+    """A framed status card for ONE book's own pipeline run.
 
     Fixed width and box-drawn, because the value of a status card is that
     consecutive readings look identical except for what changed — a layout that
     reflows with its content makes you re-read it every time.
+
+    Redesigned 2026-08-12 on Asif's direction: this card answers "how is this
+    run going" — what step is executing, what steps remain, when it should
+    finish. It carries nothing from the project-wide backlog (the snag list),
+    which is a different question with its own place (`pending-work.yaml`,
+    the Snag List view), and it never truncates the remaining-step list behind
+    a "+N more" — every step this book still has to clear is printed, one per
+    line, so the picture is complete rather than a sample of it.
     """
     pct = card["percent_complete"]
     bar_width = _CARD_WIDTH - 10  # frame(2) + padding(2) + ' 100%'(6)
@@ -459,8 +484,8 @@ def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
     bar = "█" * filled + "░" * (bar_width - filled)
 
     title = card.get("title") or card["slug"]
-    remaining = [step_name(p) for p in card["remaining"]]
-    left = f"{len(remaining)} steps · " + ", ".join(remaining[:3]) + ("…" if len(remaining) > 3 else "")
+    remaining_phases = set(card["remaining"])
+    remaining_rows = [r for r in card["phases"] if r["phase"] in remaining_phases]
 
     top = "┌" + "─" * (_CARD_WIDTH - 2) + "┐"
     mid = "├" + "─" * (_CARD_WIDTH - 2) + "┤"
@@ -472,10 +497,6 @@ def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
         f"│ {bar} {pct:>4.0f}% │",
         mid,
         _row("Now", f"{step_name(card['current'])} · {card['current_status']}"),
-        _row("Left", left if remaining else "nothing — complete"),
-        _row("Spend", f"${card['spend_usd']:.2f}" + ("  (flat-rate work not shown)" if not card["spend_usd"] else "")),
-        _row("Checked", card["generated_at"]),
-        _row("ETA", card["eta"] if card.get("eta") else "estimating (need 2 checks)"),
     ]
     # A phase waiting on a person is not a phase the ETA describes. Say so, or the
     # number reads as a finish time when it is only a "machine stops here" time.
@@ -493,25 +514,24 @@ def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
     if card.get("bypassed_unresolved"):
         behind = ", ".join(f"{step_name(b['phase'])} ({b['status']})" for b in card["bypassed_unresolved"])
         lines.append(_row("Behind", behind))
-    # The backlog. Progress answers "how far along"; this answers "what is still
-    # owed" — work noticed in conversation that would otherwise live only there.
-    pending = card.get("pending") or []
-    if pending:
-        lines.append(mid)
-        lines.append(_row("Pending", f"{len(pending)} item(s)"))
-        for item in pending[:_PENDING_SHOWN]:
-            marker = "▸" if item.get("status") == "doing" else "·"
-            lines.append(_row("", f"{marker} {item.get('title', '')}"))
-        if len(pending) > _PENDING_SHOWN:
-            lines.append(_row("", f"  +{len(pending) - _PENDING_SHOWN} more"))
+
+    lines.append(mid)
+    lines.append(_row("Left", f"{len(remaining_rows)} step(s)" if remaining_rows else "nothing — complete"))
+    for row in remaining_rows:
+        lines.append(_step_row(row["icon"], step_name(row["phase"])))
+
+    lines.append(mid)
+    lines.append(
+        _row("Spend", f"${card['spend_usd']:.2f}" + ("  (flat-rate work not shown)" if not card["spend_usd"] else ""))
+    )
+    lines.append(_row("Checked", card["generated_at"]))
+    lines.append(_row("ETA", card["eta"] if card.get("eta") else "estimating (need 2 checks)"))
 
     if verbose:
         lines.append(mid)
-        # An emoji occupies TWO display columns while counting as ONE character, so
-        # the step list is laid out directly rather than through the label field.
-        name_width = _CARD_WIDTH - 7
         for row in card["phases"]:
-            lines.append(f"│ {row['icon']} {step_name(row['phase'])[:name_width]:<{name_width}} │")
+            if row["phase"] not in remaining_phases:  # already itemized above
+                lines.append(_step_row(row["icon"], step_name(row["phase"])))
     lines.append(bottom)
     return "\n".join(lines)
 

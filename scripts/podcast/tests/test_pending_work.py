@@ -1,7 +1,15 @@
-"""The backlog a status card prints.
+"""The project-wide backlog (the Snag List): `_workspace/plan/pending-work.yaml`.
 
 Work noticed in conversation is invisible once the session ends. These tests pin
-the file that fixes that, and the card's obligation to show it.
+the file that fixes that.
+
+A book's own status card does NOT show this backlog (reversed 2026-08-12, Asif):
+the card answers "how is this run going," a different question from "what is
+still owed on the project" — mixing the two put pipeline-wide items (a corpus
+translation, an unrelated book's compose gap) under a book's own progress card,
+where they read as part of that run rather than the separate list they are. The
+Snag List surfaces through its own dashboard view instead; see
+`plan-dashboard/src/pages/snag-list.astro`.
 """
 
 from __future__ import annotations
@@ -23,7 +31,6 @@ from _pending_work import (  # noqa: E402
     resolve,
     write_items,
 )
-from book_status_card import build_card, render_card  # noqa: E402
 
 
 def seed(tmp_path: Path, items: list[dict]) -> Path:
@@ -95,49 +102,9 @@ def test_a_round_trip_preserves_every_field(tmp_path: Path) -> None:
     assert read_items(path) == items
 
 
-# ─── the card's obligation ───────────────────────────────────────────────────
-def test_the_card_prints_the_backlog_inside_its_frame(tmp_path: Path) -> None:
-    bd = tmp_path / "slug"
-    (bd / "_system").mkdir(parents=True)
-    (bd / "_system" / "orchestrator-state.json").write_text(
-        '{"book_slug": "slug", "phase": "0a", "phase_status": "running", "phases": {"0a": {"status": "running"}}}',
-        encoding="utf-8",
-    )
-
-    text = render_card({**build_card(bd), "pending": [{"status": STATUS_DOING, "title": "a thing still owed"}]})
-    lines = text.split("\n")
-
-    assert "Pending" in text
-    assert "a thing still owed" in text
-    assert {len(line) for line in lines} == {52}, "the backlog must not break the frame"
-
-
-def test_a_long_backlog_is_capped_with_a_count(tmp_path: Path) -> None:
-    bd = tmp_path / "slug"
-    (bd / "_system").mkdir(parents=True)
-    (bd / "_system" / "orchestrator-state.json").write_text(
-        '{"book_slug": "slug", "phase": "0a", "phase_status": "running", "phases": {"0a": {"status": "running"}}}',
-        encoding="utf-8",
-    )
-    many = [{"status": STATUS_OPEN, "title": f"item {n}"} for n in range(9)]
-
-    text = render_card({**build_card(bd), "pending": many})
-
-    assert "+4 more" in text, "a card that scrolls stops being a card"
-
-
-def test_an_empty_backlog_leaves_the_card_alone(tmp_path: Path) -> None:
-    bd = tmp_path / "slug"
-    (bd / "_system").mkdir(parents=True)
-    (bd / "_system" / "orchestrator-state.json").write_text(
-        '{"book_slug": "slug", "phase": "0a", "phase_status": "running", "phases": {"0a": {"status": "running"}}}',
-        encoding="utf-8",
-    )
-    assert "Pending" not in render_card({**build_card(bd), "pending": []})
-
-
-def test_the_repo_backlog_is_where_the_card_looks() -> None:
-    """The shipped file and the reader must agree, or the card shows an empty list."""
+def test_the_repo_backlog_file_is_tracked_and_populated() -> None:
+    """The shipped file is where the Snag List view reads from, and is not empty
+    while work is outstanding — no card renders it any more (see module docstring)."""
     assert backlog_path().name == "pending-work.yaml"
     assert backlog_path().exists(), "the repo backlog is tracked, not created on demand"
     assert read_items(), "and it is not empty while work is outstanding"
