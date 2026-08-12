@@ -209,6 +209,19 @@ def _quality_from_record(record: dict) -> dict:
     }
 
 
+def _looks_like_unreachable_model(status: str, record: dict, usage: dict) -> bool:
+    if status == "adapted":
+        return False
+    gates = [str(g) for g in (record.get("gates") or [])]
+    if gates and all("no candidate" in gate for gate in gates):
+        return True
+    return (
+        int(usage.get("total_tokens") or 0) == 0
+        and int(record.get("model_failures") or 0) > 0
+        and bool(record.get("fresh_calls_disabled"))
+    )
+
+
 def _record(book_dir: Path, key: str, title: str, status: str, *, metrics: dict | None = None) -> None:
     ledger = read_ledger(book_dir)
     entry = {
@@ -268,6 +281,7 @@ def articulate_book(
     force: bool = False,
     limit: int | None = None,
     dry_run: bool = False,
+    engine: str = "claude",
     log=print,
 ) -> dict:
     """Articulate every chapter. Returns a summary of what happened."""
@@ -291,7 +305,10 @@ def articulate_book(
     if limit is not None:
         todo = todo[:limit]
 
-    log(f"  articulate: {book_dir.name} — frame={frame}, {len(todo)} chapter(s) to do, {skipped} already articulated")
+    log(
+        f"  articulate: {book_dir.name} — frame={frame}, engine={engine}, "
+        f"{len(todo)} chapter(s) to do, {skipped} already articulated"
+    )
     if dry_run:
         for key, title in todo:
             log(f"    would articulate: {title}")
@@ -303,10 +320,18 @@ def articulate_book(
             "partial": 0,
             "reverted": 0,
             "failed": [],
+            "engine": engine,
         }
 
     if todo:
         _write_step_status(book_dir, status="running", kept=skipped, total=len(chapters))
+
+    adapter = repair_adapter = None
+    if engine == "gemini":
+        from rearticulate_chapter import _gemini_adapter, _gemini_repair_adapter
+
+        adapter = _gemini_adapter
+        repair_adapter = _gemini_repair_adapter
 
     adapted = partial = reverted = 0
     failed: list[dict] = []
@@ -318,7 +343,14 @@ def articulate_book(
         started_perf = time.perf_counter()
         cost_start = len(_read_cost_rows(book_dir))
         try:
-            result = rearticulate(book_dir, key, log=log, write_partial=False)
+            result = rearticulate(
+                book_dir,
+                key,
+                adapter=adapter,
+                repair_adapter=repair_adapter,
+                log=log,
+                write_partial=False,
+            )
         except Exception as exc:  # one bad chapter must not end a multi-hour run
             log(f"      FAILED: {exc}")
             failed.append({"chapter": title, "key": key, "error": str(exc)[:300]})
@@ -344,20 +376,6 @@ def articulate_book(
         record = result.get("record") or {}
         status = str(record.get("status") or "unknown")
 
-        # A window whose model call returned nothing is recorded `no candidate`.
-        # One is a transient; a RUN of them means the model is unreachable — a rate
-        # limit, a broken CLI, a hook cancelling the subprocess — and every further
-        # chapter will be marked reverted without a single word being read. That is
-        # the worst possible report, because "the gates rejected the rewrite" and
-        # "we never got a rewrite" look identical in the ledger afterwards.
-        #
-        # Observed on the first surah-al-fateha run (2026-08-11): twelve calls
-        # produced output, then sixteen chapters in a row produced ZERO output
-        # tokens and the run finished claiming 21 reverts. Stop and say so instead.
-        if all("no candidate" in g for g in (record.get("gates") or ["-"])):
-            dead_streak += 1
-        else:
-            dead_streak = 0
         if status == "adapted":
             adapted += 1
             _normalize_after_articulation(book_dir, title, log=log)
@@ -375,6 +393,16 @@ def articulate_book(
             "usage": _usage_since(book_dir, cost_start),
             "quality": _quality_from_record(record),
         }
+        # A window whose model call returned nothing is recorded `no candidate`.
+        # One is a transient; a RUN of them means the model is unreachable — a rate
+        # limit, a broken CLI, a hook cancelling the subprocess — and every further
+        # chapter will be marked reverted without a single word being read. The
+        # zero-token branch catches mixed cache/process-failure chapters too: they
+        # may be "partial", but they still prove fresh generation is unavailable.
+        if _looks_like_unreachable_model(status, record, metrics["usage"]):
+            dead_streak += 1
+        else:
+            dead_streak = 0
         _record(book_dir, key, title, status, metrics=metrics)
         log(f"      {status} — {metrics['duration_seconds']:.1f}s, {metrics['usage']['total_tokens']} tokens")
 
@@ -417,6 +445,7 @@ def articulate_book(
         "reverted": reverted,
         "failed": failed,
         "aborted": aborted,
+        "engine": engine,
     }
 
 
@@ -425,6 +454,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("slug")
     parser.add_argument("--force", action="store_true", help="re-run chapters this lane has already articulated")
     parser.add_argument("--limit", type=int, default=None, help="stop after N chapters")
+    parser.add_argument("--engine", choices=("claude", "gemini"), default="claude")
     parser.add_argument("--dry-run", action="store_true", help="list what would run and exit")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
@@ -439,6 +469,7 @@ def main(argv: list[str] | None = None) -> int:
         force=args.force,
         limit=args.limit,
         dry_run=args.dry_run,
+        engine=args.engine,
         log=(lambda *_: None) if args.json else print,
     )
     if args.json:
@@ -448,7 +479,7 @@ def main(argv: list[str] | None = None) -> int:
             f"  articulate: {summary['adapted']} adapted, {summary['partial']} partial, "
             f"{summary['reverted']} reverted, {len(summary['failed'])} failed, {summary['skipped']} skipped"
         )
-    return 1 if summary["failed"] else 0
+    return 1 if summary["failed"] or summary.get("aborted") else 0
 
 
 if __name__ == "__main__":

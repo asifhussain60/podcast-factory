@@ -171,7 +171,7 @@ def test_a_partial_chapter_is_retried_for_full_sessions_quality(book_dir: Path) 
 def test_sessions_driver_does_not_install_partial_chapters(book_dir: Path, monkeypatch) -> None:
     seen: list[bool] = []
 
-    def fake(_bd, _key, *, log=print, write_partial=True):
+    def fake(_bd, _key, *, log=print, write_partial=True, **_kwargs):
         seen.append(write_partial)
         return envelope("partial")
 
@@ -189,6 +189,20 @@ def test_sessions_partial_leaves_book_text_untouched(book_dir: Path, monkeypatch
     art.articulate_book(book_dir, limit=1, log=lambda *_: None)
 
     assert book_md.read_text(encoding="utf-8") == before
+
+
+def test_gemini_engine_is_passed_to_rearticulate_and_repair(book_dir: Path, monkeypatch) -> None:
+    seen: list[tuple[str, str]] = []
+
+    def fake(_bd, _key, *, adapter=None, repair_adapter=None, **_kwargs):
+        seen.append((adapter.__name__, repair_adapter.__name__))
+        return envelope("adapted")
+
+    monkeypatch.setattr(art, "rearticulate", fake)
+    summary = art.articulate_book(book_dir, limit=1, engine="gemini", log=lambda *_: None)
+
+    assert summary["engine"] == "gemini"
+    assert seen == [("_gemini_adapter", "_gemini_repair_adapter")]
 
 
 def test_the_ledger_is_written_per_chapter_not_at_the_end(book_dir: Path, monkeypatch) -> None:
@@ -330,12 +344,33 @@ def dead(status: str = "reverted") -> dict:
     return e
 
 
+def dead_after_cache(status: str = "partial") -> dict:
+    """Cache gave some output, but fresh model calls are unavailable."""
+    e = envelope(status)
+    e["record"]["gates"] = ["part-09: Arabic runs dropped (13<14)"]
+    e["record"]["model_failures"] = 3
+    e["record"]["fresh_calls_disabled"] = True
+    e["record"]["windows"] = 12
+    e["record"]["windows_kept"] = 8
+    e["record"]["windows_cached"] = 8
+    return e
+
+
 def test_a_run_of_empty_responses_stops_the_run(book_dir: Path, monkeypatch) -> None:
     """Twelve calls produced output on the first surah-al-fateha run, then sixteen
     chapters in a row produced zero output tokens and the run finished claiming 21
     reverts. "The gates rejected the rewrite" and "we never got a rewrite" look
     identical in the ledger afterwards, which is the worst possible report."""
     monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print, **_kwargs: dead())
+    summary = art.articulate_book(book_dir, log=lambda *_: None)
+    assert summary["aborted"] is True
+
+
+def test_zero_token_process_failures_stop_even_when_cache_makes_a_partial(book_dir: Path, monkeypatch) -> None:
+    """The live Fateha run kept cache hits while every fresh call failed, so the
+    old all-`no candidate` detector did not fire and the driver kept spending
+    wall-clock time with zero model tokens."""
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, log=print, **_kwargs: dead_after_cache())
     summary = art.articulate_book(book_dir, log=lambda *_: None)
     assert summary["aborted"] is True
 

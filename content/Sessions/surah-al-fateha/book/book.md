@@ -720,103 +720,105 @@ May Allah guide us all. May He open our hearts and place us all on the path of l
 
 ## Linguistic Meaning Of Allah
 
-Now let's begin with the Surah. The first آیۃ of سُورَۃُ الْفَاتِحَۃِ is بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ
+I turn now to the Surah. The first آیۃ of سُورَۃُ الْفَاتِحَۃِ is بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ.
 
 ### ILAH
 
-Let's begin with the word اللہ. The word Allah comes from the root word الہ. Generally we use this term to mean God. But in reality الہ is a very generic term - like a "book" or a "car". You can have many types of books; and you can have many types of car. It's not specific. Similarly, there can be many types of الہ. In the English language we have 2 types of articles - we have the indefinite article which is "a", like "a book", "a car"; and then there is the definite article "the" - "the book", "the car".
+I begin with the word اللہ. The word Allah comes from the root word الہ. I generally use this term to mean God. However, الہ is, in reality, a very generic term, comparable to "book" or "car." There are many types of books, and many types of cars. The term is not specific. Similarly, there can be many types of الہ. In English, two types of articles exist: the indefinite article "a," as in "a book" or "a car," and the definite article "the," as in "the book" or "the car."
 
 A vs THE
 
 ![](images/87/983c2f7d-5f31-4f45-b5bf-27da233a43c0.jpg)
 
-What's the difference between "a" book and "the" book? "A book" is a generic term, it could mean any book. But when I say "the" book, I'm no longer talking about just any book, I'm now referring to a very specific book. You understand? It's the same with this word الہ.
+The difference between "a book" and "the book" is important. "A book" is a generic term; it could mean any book. But when I say "the book," I am no longer talking about just any book; I am referring to a very specific book. The same principle applies to the word الہ.
 
 ILAH vs AL-ILAH
 
 ![](images/87/1b3198d2-bb3f-48d3-ac49-05f97e515554.jpg)
 
-The word الہ is a generic, indefinite term that can be used for many things. There can be many types of الہ, just as there can be many types of books. But when I apply the definite article "the" to it, which is ال in Arabic; when I say ال + الہ , that combination generates the word اللہ. In other words, "اللہ" is the specific form of the generic word الہ. Allah is actually ال + الہ. And so based on the rules of Arabic grammar the الف of اللہ is dropped, and the ال merges with the ل ad the ہ to become Allah. Therefore in order to understand the linguistic meaning of the word Allah, we must first understand the meaning of the word الہ.
+The word الہ is a generic, indefinite term that can apply to many things. There can be many types of الہ, just as there can be many types of books. But when the definite article "the" is applied to it — ال in Arabic — the combination ال + الہ generates the word اللہ. In other words, اللہ is the specific, definite form of the generic word الہ. Allah is, at its root, ال + الہ. By the rules of Arabic grammar, the الف of اللہ is dropped, and the ال merges with the ل and the ہ to become Allah. To understand the linguistic meaning of the word Allah, then, the first step is to understand the meaning of the word الہ.
 
 ### Composite Words
 
-Now the word الہ is a composite word. It has a slew of meanings. Let's first understand what I mean by a composite word. It's important to understand the meaning of Arabic composite words before we proceed because we'll be dealing with many such words.
-
-Composite Word
-
-![](images/87/3187e204-def2-4bcb-bfbf-e9a3c6e4224c.jpg)
-
-Think of a composite word like a jigsaw puzzle. Every piece of the puzzle has a separate independent meaning. And then all those meanings come together to create a complete image of what the word means. So let's say, if the word الہ has 4 different meanings (A, B, C and D), then the sum of those meanings will give us the complete understanding of the word الہ, you understand? The meaning of الہ is not "A" or "B" or "C" or "D". It is the sum of all those meanings. It is A + B + C + D. You understand?
+The word الہ is a composite word, and it carries a slew of meanings. A composite word works like a jigsaw puzzle: every piece of the puzzle holds a separate, independent meaning, and all those meanings come together to form one complete image of what the word means. If the word الہ has four different meanings — A, B, C, and D — then the sum of those meanings yields the complete understanding of الہ. The meaning of الہ is not A alone, or B alone, or C or D in isolation. It is A + B + C + D together. That is what a composite word is, and it is a concept worth holding firmly, because many of the words examined in these pages are composite words of exactly this kind.
 
 ### Meanings Of Word ILAH
 
 YALAA
 
-Now let's understand all the different meanings of the word الہ. Primarily the word الہ comes from اَلَہَ یَعلُہُ, and the verb اَلَہَ literally means to worship. So the first meaning of اَلَہَ is the entity that is the focus of our worship and obedience. What is worship? It is an extreme form of gratitude. It is that highest form of a sense of gratitude, where the benefactor becomes so desirable, and so important in your life, that you are forced down on your knees in humility. When you completely succumb and surrender your will to the will of the beloved. When that happens, that beloved becomes your الہ. That is the first meaning of the word اَلَہَ.
+The word الہ carries several distinct meanings, and each one deepens the whole.
 
-So for instance if you are so obsessed about your job; if you are obsessed your career to the degree that you put it above and beyond everything and everyone else in your life; then you've made your career your الہ, you understand? If your video games, your sports, your TV shows, your children, your wealth is what commands and rules your heart; if those are the things that make you bow down before them, then by definition these things are your الہ. If you're madly love with someone to the point where that person controls and dominates your every thought, every action, every decision, then that beloved is now your الہ. Because الہ is the one you worship; the one you submit and obey to without question.
+The primary root is الہ, drawn from اَلَہَ یَعلُہُ. The verb اَلَہَ means, at its core, to worship. So the first meaning of اَلَہَ is: the one who stands as the object of all worship and obedience.
+
+Worship itself is an extreme form of gratitude — the highest pitch of thankfulness, where the one who has given becomes so precious, so indispensable, that the heart is brought to its knees. It is the moment of complete surrender, when a person's will dissolves entirely into the will of the beloved. When that happens, that beloved becomes one's الہ. That is the first meaning of اَلَہَ.
+
+The principle reaches into ordinary life. A person so consumed by career — placing it above every other person and every other claim — has made that career an الہ. Whatever commands and rules the heart, whatever a person effectively bows before, whether video games, sport, television, children, or wealth, fits that definition. Those things become, in every meaningful sense, an الہ. Equally, when love for another person grows so total that it governs every thought, every action, every decision, that beloved has become an الہ. For الہ is precisely this: the one worshipped, the one obeyed and submitted to without question.
 
 ALAHA
 
-This word أَلَہَ is used for a child that is thirsty for the milk of its mother, and is desperately crying for it - that's also اَلِہَ. Parents know what I'm talking about. Have you seen a baby crying for milk? Do you remember the desperation on the baby's face? And at that point how does the baby take the breast of its mother? With this hungry passion, right? That's أَلَہَ. It is the entity that you desperately and inevitably turn to with a passion, with a desperation. It is what you desperately and uncontrollably turn to, in your every single moment of happiness and grief. That is also an أَلَہَ.
+The word أَلَہَ is also used for a child desperate for its mother's milk, crying for it with everything it has — that, too, is اَلِہَ. There is a particular hunger on a baby's face in those moments, and a particular fierceness in the way it reaches for its mother. That is أَلَہَ: the one a person turns to desperately, inevitably, with passion, with need — in every moment of happiness and every moment of grief, without control and without restraint. That, too, is an أَلَہَ.
 
-Some people have sugar addictions. Some are addicted to smoking, some to drugs, some to parties, some to movies. Anytime you feel happy or depressed, the thing that you desperately and uncontrollably turn to for comfort, by definition, is your الہ. Because you find peace and comfort in the arms of these masters. You are their obedient slaves. When these masters commands, you have to obey. When the desire commands you to smoke, you have to obey! When you can't stop yourself from eating that tub of ice cream, or watching that episode of your TV show; or if you must watch a movie every night, or play video games for hours every day; then you are completely loyal and devoted to those things, because you feel you must absolutely do these things in order to feel happy and satisfied again; and you turn to them in the same desperation that a baby turns to its mother out of its thirst for milk.
+Some people are enslaved to sugar. Others to cigarettes, to drugs, to parties, to films. Whatever a person turns to — desperately, uncontrollably — the instant happiness or depression strikes, whatever brings the relief and the comfort, that thing is, by definition, their الہ. Peace is found in its arms. Obedience to it is not a choice but a compulsion. When the craving commands a person to smoke, the person obeys. When the desire for ice cream becomes irresistible, the person obeys. Watching one more episode, playing video games for hours every day — these are not casual habits; they are acts of total loyalty and devotion, driven by the conviction that happiness and satisfaction are impossible without them. The person turns to these things with precisely the same desperation that a baby, burning with thirst, turns to its mother.
 
-This applies to each and everyone of us. We all have such الہ in our lives. Doesn't make us horrible people - just makes us human. What we're doing today, but by learning these meanings, we're in a sense waking up to see these masters for what they really are. And that's the first step towards any change, right? So don't feel overwhelmed by these definitions.
+This applies to each and every one of us. We all have such الہ in our lives. That does not make us horrible people — it makes us human. In learning these meanings, we wake up to see these masters for what they really are. That is the first step toward any change.
 
-WALAHA
+**WALAHA**
 
-The next word is وَلَہَ . This is someone you are passionately in love with. Someone you cannot stop thinking about. Someone you are obsessed about. The derivative وَلَہَ is used when someone goes insane by the loss of a beloved. The mother who loses her child is called مُوَلَّا. This is a mother who is suffering that extremely excruciating pain and grief over the loss of her child. She is called مُوَلَّا. It's that kind of passionate and obsessive love. In Urdu we say. وَالِھَانَہَ مُحَبَّتْ . Mad love; crazy love. That's also from وَلَہَ. So if there is someone in your life that you're obsessed about, you're always thinking about it; you're madly in love with; being apart from him or her drives you insane - you can't stop texting or calling this person - you're constantly looking at their pictures, reading their old emails, texts - missing them with a passion - then you are in a state of وَلَہَ and by definition, that person is your الہ.
+The next word is وَلَہَ. It describes someone one is passionately in love with — someone one cannot stop thinking about, someone who occupies the mind completely. The derivative وَلَہَ is used when a person goes insane from the loss of a beloved. The mother who loses her child is called مُوَلَّا: a mother suffering that excruciating pain and grief over her child's loss. She is called مُوَلَّا. It is that kind of passionate, consuming love. In Urdu the expression is وَالِھَانَہَ مُحَبَّتْ — mad love, crazy love — and that too comes from وَلَہَ. When someone in one's life holds that kind of grip on the heart — when one thinks of that person constantly, when being apart drives one to the edge of reason, when one cannot stop calling or texting, when one keeps returning to old photographs, old messages, missing that person with every part of oneself — that is the state of وَلَہَ, and by definition that person is one's الہ.
 
-ALIHA
+**ALIHA**
 
-The next meaning أَلِہَ is literally (not linguistically) used for something that you lean on. Something that you put your entire weight on. When you're exhausted and you lean on something and put your entire weight on it, that thing that is supporting you is literally called أَلِہَ. So in your life if you're banking on your finances, your property, your houses, your cars, your job, your social status, your friends, your neighbors, your children, then any of those things that you psychology lean on, are all your الہ. If you're putting all your eggs in one basket, metaphorically speaking, then that basket, that person is your الہ.
+The next meaning, أَلِہَ, applies literally — not linguistically — to something a person leans on, something that bears their full weight. When exhaustion sets in and one leans against something, that supporting thing is literally called أَلِہَ. So if the weight of life rests on finances, property, houses, cars, a job, social standing, friends, neighbors, or children — anything one psychologically leans on — then each of those things is an الہ. Whatever holds all the eggs in the basket, so to speak, that person or thing is one's الہ.
 
-WALIHA
+**WALIHA**
 
-Another derivative of the word الہ comes from وَلِہَ which means to become astounded; to become astonished; to become mesmerized. You know how we create role models in actors and musicians and hip hop artists? Especially kids these days. You know how you kids want to be like them, live like them, think like them, dress like them, talk like them, walk like them? When you feel you have to go out and shave your head to look like Amir Khan from the movie Gajni, you've made Amir Khan your الہ. By definition الہ is the one you're completely and utterly impressed by. The one you want to imitate. The one you want to be like. Now it could be a person, or it could be a thing, it could be a profession - it can be anything. Anything that mesmerizes you, grips you, takes complete control of your decisions is your الہ.
+Another derivative of الہ comes from وَلِہَ, which means to become astounded, astonished, or mesmerized. Role models are made out of actors, musicians, and hip-hop artists — this is especially true of young people who want to be like them, live like them, think like them, dress like them, talk like them, walk like them. When someone goes out and shaves his head to look like Amir Khan from the film *Gajni*, he has made Amir Khan his الہ. By definition, الہ is the one a person is completely and utterly captivated by — the one to imitate, the one to become. It may be a person, a thing, a profession, or anything at all. Whatever mesmerizes, grips, and takes complete control of one's decisions is one's الہ.
 
-![](images/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg)
+These, then, are the various meanings gathered in the word الہ. Returning to them: who or what is an الہ?
 
-So these are the various meanings of the word الہ. Let's go over them again. Who or what is an الہ?
+- The one worshipped and obeyed is one's الہ.
 
-- The one we worship and obey is our الہ. -
+- The one to whom complete devotion and loyalty are given is one's الہ.
 
-- The one we are completely devoted and loyal to is our الہ.
+- The one to whom a person turns in utter desperation, seeking comfort, is one's الہ.
 
-- The one that we turn to in utter desperation to find comfort is our الہ.
+- The one a person is passionately in love with, the one who becomes an obsession, is one's الہ.
 
-- The one we are passionately in love with; the one we obsess about is our الہ.
+- The one a person leans on for support — physically, mentally, emotionally, psychologically — is one's الہ.
 
-- The one we lean on for support - physically, mentally, emotionally, psychologically is our الہ.
+That, then, is what the word الہ means. And because الہ is a composite word, it carries the sum of all those meanings at once. The one a person passionately loves is also the one to whom that person is completely devoted; the one they lean on; the one to whom they turn in desperation for comfort and support. Separation or distance from that person drives them to the edge of sanity. They submit to and obey every single thing that person says — they worship that person, in the fullest sense. All these meanings converge and build a single, complete picture. That is precisely how a composite word works.
 
-So this is what the word الہ means. And because الہ is a composite word, it is the sum of all those meanings. Because the one you passionately love, is the one you will be completely devoted to; you will lean on that person; you will turn to that person desperately for comfort or support; separation or distance from that person will drive you insane; you will literally submit to and obey every single thing they say; In other words, you will worship that person. So you see how all these meanings merge together to create a complete picture? That's how a composite word works.
+Given these meanings of الہ, it becomes clear that every person carries numerous الہ in their life, embodying these definitions in countless forms:
 
-So now based on these meanings of the word الہ obviously we all have numerous الہ in our lives. We personify and objectify these definitions in numerous ways. Some have الہ in the form of people, family, friends, children, parents, actors, musicians. Some الہ exist in the form of objects - houses, cars, our bodies, jewelry, food, video games, movies. Some have الہ in the form of jobs, careers, recreation, drugs, sex. We all have hundreds, if not thousands of entities in our lives that meet the definition of الہ. Yes?
+- Some الہ take the form of people — family, friends, children, parents, actors, musicians.
+- Some الہ take the form of objects — houses, cars, one's own body, jewelry, food, video games, movies.
+- Some الہ take the form of pursuits and compulsions — jobs, careers, recreation, drugs, sex.
+
+Every person carries hundreds, if not thousands, of entities in their life that meet the definition of الہ.
 
 ### idols
 
-Now here is something I want you to think about! And this is where the conversation gets scary and painful. All these people and things in our lives that meet the definition of the word الہ, they give a physical forms to one of the definitions of the word, Isn't that true? So for example, by definition الہ is the one we are loyal and devoted to; الہ is the one we turn to for comfort. And so now if smoking, or movies, or video games is what I turn to for comfort, then in a sense, these activities are taking on a physical form of that definition of الہ. Do you see that? The definition of the word is conceptual; but its manifestation is physical. I'm physically doing something to please that الہ.
+What follows is where the conversation turns uncomfortable. Every person and thing in our lives that meets the definition of الہ gives physical form to one of that word's meanings. By definition, الہ is the one we are loyal and devoted to; الہ is the one we turn to for comfort. So if smoking, or movies, or video games is what someone turns to for comfort, those activities take on the physical form of that definition of الہ. The definition is conceptual; its manifestation is physical. A person is physically doing something to please that الہ.
 
-So for example, by definition, الہ is the one that astounds and astonishes you. If Shahrukh Khan, Sylvester Stallone, Adele, Byonce, Lady Gaga; if these are the ones who astound you, astonish you, impress you to the point that you want to "be" like them, then you've just given the definition of وَلِھَا a form - you personified that definition in the form of Shahrukh Khan or Stallone or whoever. You understand?
+Another definition: الہ is the one who astounds and astonishes. If Shahrukh Khan, Sylvester Stallone, Adele, Beyoncé, Lady Gaga — if these are the ones who astound, astonish, and impress to the point that a person wants to *be* like them, then the definition of وَلِھَا has been given a form. That definition has been personified in Shahrukh Khan, or Stallone, or whoever it may be.
 
-ILAH as Idols
+---
 
-![](images/87/96638984-a5a3-408c-b774-202db50348e2.jpg)
+**الہ as Idols**
 
-Now what is the definition of an idol? An idol is an image or representation of a god used as an object of worship. That's the dictionary definition of an idol. It is the personification or objectification of someone or something. Isn't it? Who creates idols? We create idols. Idols are man made creations, aren't they? And who objectifies and personifies the definitions of الہ? We do! We decide that we are going to turn to smoking, movies, drugs, alcohol for comfort. We decide that we are going to be completely loyal and devoted to our jobs, careers, Facebook, Instagram. We chose to fall passionately in love with wealth, power and fame. Nobody does that for us. We do that! In other words, we are the creators of our own الہ - just as idols are man made creations. Do you see the similarity there? You see where I'm going with this?
+An idol, by its dictionary definition, is an image or representation of a god used as an object of worship — the personification or objectification of someone or something. Idols are man-made creations. And who personifies and objectifies the definitions of الہ? We do. We decide to turn to smoking, movies, drugs, and alcohol for comfort. We decide to give our complete loyalty and devotion to our jobs, our careers, Facebook, and Instagram. We choose to fall passionately in love with wealth, power, and fame. Nobody makes those choices for us. We make them ourselves. In other words, we are the creators of our own الہ — just as idols are man-made creations. The similarity is exact.
 
-We think we are Muslims, and therefore we have nothing to do with idol worship. But the scary reality is that we are literally surrounded by thousands of الہ, which are self-created idols, and we worship them on a daily basis. Every person, every object, every concept, every idea that we personify or objectify, in a sense is an idol that we made for ourselves with our own hands. So in that sense, we are all "idol-worshipers" - It's a painful reality; but it's true. The concept of شرک doesn't seem so alien now, does it? And this is exactly why Rasul Allah ﷺ said
+The common assumption is that being Muslim places a person entirely outside the world of idol worship. The frightening reality is otherwise. We are literally surrounded by thousands of الہ — self-created idols — and we worship them daily. Every person, every object, every concept, every idea that we personify or objectify becomes, in that act, an idol we have fashioned with our own hands. In that sense, we are all idol-worshipers. It is a painful reality, but it is true. The concept of شرک is not so alien after all. This is precisely why Rasul Allah ﷺ said:
 
 قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
 
-> الشِّرکُ فِی أُمَّتِی أَخفٰی مِن سَیرِ النَّمَلِ فِی لَیلَۃِ الظُّلمَۃِ عَلی سَخْرَۃِ السَّوْدَا
->
-> SHIRK (Associating partnership with Allah) is more hidden in my nation, than the movement of a black ant in a dark night on a black stone.
+الشِّرکُ فِی أُمَّتِی أَخفٰی مِن سَیرِ النَّمَلِ فِی لَیلَۃِ الظُّلمَۃِ عَلی سَخْرَۃِ السَّوْدَا
+
+Shirk is more hidden in my nation than the movement of a black ant in a dark night on a black stone.
 
 That is how unaware we will be of our own idol worship.
 
-In the final analysis, who is at the center of my idols? I am! Now why did I create these الہ? What motivated me to build my idols? My desires! All my idols are a product and creation of my passions and my caprice. They exist because of my own wants! Allah says:
+At the center of all my idols stands one figure: myself. And what drove me to fashion these الہ? My desires. Every idol I have ever built is a product of my passions and my caprice — each one exists because I wanted it to exist. Allah says:
 
 The Criterion [25:43]
 
@@ -824,59 +826,57 @@ The Criterion [25:43]
 >
 > Have you seen the one who takes as his god his own desire?
 
-Allah is asking the messenger ﷺ, do you not see this person who has taken his desires - his car, his house, his job, his wealth, his fame, the pleasures and sensations of his body as his الہ. Do you not see this person who has taken smoking, drugs, alcohol, sex, movies, video games as his الہ ; who has taken Shahrukh Khan, Salman Khan, Amir Khan, Adele, Stallone as his الہ. Allah asks Rasul Allah ﷺ ,
+Allah is asking the messenger ﷺ whether he sees this person — the one who has taken his car, his house, his job, his wealth, his fame, and the pleasures and sensations of his body as his الہ; the one who has taken smoking, drugs, alcohol, sex, movies, and video games as his الہ; the one who has taken Shahrukh Khan, Salman Khan, Amir Khan, Adele, and Stallone as his الہ. Allah asks Rasul Allah ﷺ,
 
-> أَفَأَنتَ تَكُونُ عَلَيْهِ وَكِيلًا
->
+أَفَأَنتَ تَكُونُ عَلَيْهِ وَكِيلًا
+
 > Do you really want to be responsible for this person on the day of judgment?
 
-Worship of the "self" is the worst form of شرک there is. When gratitude turns into self-gratification, that is the worst kind of شرک there is. Idolatry has nothing over self-olatory. And so we are the one's constantly committing شرک by taking our desires and making them our الہ. Human beings are in a constant state of self-worship, which is what prevents us from truly worshiping Allah!
+Worship of the self is the worst form of شرک there is. When gratitude curdles into self-gratification, that becomes the worst kind of شرک there is. Idolatry has nothing over self-idolatry. And so we are the ones constantly committing شرک by taking our desires and making them our الہ. Human beings exist in a constant state of self-worship, and it is precisely that state which prevents us from truly worshiping Allah.
 
 This is the default condition of mankind. Islam addresses it here, at the root: through the negation and destruction of these self-created idols, the understanding of Allah emerges. Allah is لَا اِلَہَ اِلَّا — He is everything other than what is taken as الہ. When every idol born from the desires of the self is broken and destroyed, when the Kaaba of the heart stands empty of them, what is found there is Allah.
 
-The first act of Rasul Allah ﷺ after the conquest of Mecca was to cleanse the Kaaba of all its idols. Three hundred and sixty-five idols stood in it, around it, and upon it. He destroyed each one without exception. That same exercise must be undertaken in every life. Just as Rasul Allah ﷺ conquered Mecca, the نفس must be conquered. Just as he cleared the Kaaba of its idols one by one, the Kaaba of the heart must be gradually cleared of these idols — one by one. And the greatest and most powerful idol standing in the Kaaba of the heart is the نفس itself, the passions.
+The first act of Rasul Allah ﷺ after the conquest of Mecca was to cleanse the Kaaba of all its idols. Three hundred and sixty-five idols stood in it, around it, and upon it. He destroyed each one without exception. That same exercise must be undertaken in every life. Just as Rasul Allah ﷺ conquered Mecca, the نفس must be conquered. Just as he cleared the Kaaba of its idols one by one, the Kaaba of the heart must be gradually cleared of these idols — one by one. And the greatest and most powerful idol standing in the Kaaba of the heart is the نفس itself: the passions.
 
-This is why the creedal formula strikes at the very root of the problem. لَا اِلَٰہَ اِلَّا اللَّہُ. There is no الہ except Allah. No person, no thing, no concept, no principle, no ideology is worthy of being given form — except the one who is free of all form, and that is Allah. By the negation of self-made idols, by the elimination of self-created الہ, the الہ emerges. When the definite article is joined to الہ, what results is the ultimate الہ, which is Allah.
+This is why the creedal formula strikes at the very root of the problem. لَا اِلَٰہَ اِلَّا اللَّہُ. There is no الہ except Allah. No person, no thing, no concept, no principle, no ideology is worthy of being given form — except the one who is free of all form, and that is Allah. Through the negation of self-made idols, through the elimination of self-created الہ, the الہ emerges. When the definite article joins الہ, what results is the ultimate الہ, which is Allah.
 
 The creedal formula لَا اِلَٰہَ اِلَّا اللَّہُ is the act of negating the multiplicity of self-created الہ in order to affirm the one true الہ, which is Allah. It is the practice of making الہ into ال الہ.
 
-It is the practice of directing every definition of the word الہ toward the one ultimate being — of making him ال + اللہ, of making him Allah. It is the work of isolating each definition of الہ and making it specific to Allah alone.
+It is the practice of directing every definition of the word الہ toward the one ultimate being — of making Him ال + اللہ, of making Him Allah. It is the work of isolating each definition of الہ and making it specific to Allah alone.
 
-![](images/87/6c9d2189-31d6-4688-b40f-1861bf91cdfe.jpg)
+Allah is now the only one I worship and obey. If any other الہ conflicts with His commands, I disobey that الہ to obey the ال + الہ, which is Allah.
 
-- Allah is now the only one I worship and obey. If any other الہ conflicts with His commands, I disobey that الہ to obey the ال + الہ, which is Allah.
+This does not mean that life cannot be enjoyed. The difference is that Allah now stands at the front and center of my worship and obedience. So long as nothing conflicts with that worship and obedience, I can enjoy my life to the fullest.
 
-- This does not mean that life cannot be enjoyed. The difference is that Allah now stands at the front and center of my worship and obedience. So long as nothing conflicts with that worship and obedience, I can enjoy my life to the fullest.
+لَا اِلَٰہَ اِلَّا اللَّہُ now means لَا یُعْلَی اِلَّا اللَّہُ: Allah is the only one I am completely devoted and loyal to — above everyone else in my life. Even my own parents. Even my own children. I serve only Allah and no one else.
 
-- لَا اِلَٰہَ اِلَّا اللَّہُ now means لَا یُعْلَی اِلَّا اللَّہُ: Allah is the only one I am completely devoted and loyal to — above everyone else in my life. Even my own parents. Even my own children. I serve only Allah and no one else.
+Yet I am glad to serve my parents, because Allah has commanded it. I am glad to spend time with my friends, to enjoy life, to do whatever I wish — so long as my ultimate loyalty and devotion lie with Allah. Whenever anything or anyone challenges that loyalty, I choose Allah over them. That is how I make Him ال + الہ.
 
-- Yet I am glad to serve my parents, because Allah has commanded it. I am glad to spend time with my friends, to enjoy life, to do whatever I wish — so long as my ultimate loyalty and devotion lie with Allah. Whenever anything or anyone challenges that loyalty, I choose Allah over them. That is how I make him ال + الہ.
+لَا اِلَٰہَ اِلَّا اللَّہُ now means لا أَلَہَ الا اللہ: Allah is the only one I turn to in utter desperation for every need and every comfort.
 
-- لَا اِلَٰہَ اِلَّا اللَّہُ now means لا أَلَہَ الا اللہ: Allah is the only one I turn to in utter desperation for every need and every comfort.
+This does not mean I cannot seek help from my family and friends. Nor does it mean that, when I am hungry and without work, I sit idle because Allah is the appointed provider. Not at all. I turn to whoever I need, for whatever I want. The difference is that I know these people are simply a means — أَسْبَاب — through which Allah provides. My ultimate petition, therefore, is always addressed to Him: *Ya Allah! I need this. I turn to you for the fulfillment of my needs — provide me with the means and resources that will fulfill my needs in a way that pleases you. For it is you, and only you, who is the source of my provision — nobody else.*
 
-- This does not mean I cannot seek help from my family and friends. Nor does it mean that, when hungry and without work, I sit idle because Allah is the appointed provider. Not at all. I turn to whoever I need, for whatever I want. The difference is that I know these people are simply a means — أَسْبَاب — through which Allah provides. My ultimate petition, therefore, is always addressed to Him: *Ya Allah! I need this. I turn to you for the fulfillment of my needs — provide me with the means and resources that will fulfill my needs in a way that pleases you. For it is you, and only you, who is the source of my provision — nobody else.*
+لَا اِلَٰہَ اِلَّا اللَّہُ now means لا وَلَہَ الا اللہ: Allah is the one I am passionately in love with, the one I am completely absorbed in. From the moment I wake until the moment I return to sleep, He is the one I think about.
 
-- لَا اِلَٰہَ اِلَّا اللَّہُ now means لا وَلَہَ الا اللہ: Allah is the one I am passionately in love with, the one I am completely absorbed in. From the moment I wake until the moment I return to sleep, He is the one I think about.
+This does not mean I spend the day on the prayer rug, or pass every hour in تسبیح. I can do whatever I wish in life. But everything becomes a sign pointing toward Allah, a reminder of Him. That is what love does: the flower, the rainbow, the sunset, the frog in the pond — all of them recall the beloved. Love is an obsession. It is a constant connection with the beloved.
 
-- This does not mean I spend the day on the prayer rug, or pass every hour in تسبیح. I can do whatever I wish in life. But everything becomes a sign pointing toward Allah, a reminder of Him. That is what love does: the flower, the rainbow, the sunset, the frog in the pond — all of them recall the beloved. Love is an obsession. It is a constant connection with the beloved.
+The story of Hazrat أیوب illuminates this. In a hadith of Rasul Allah ﷺ, Allah spoke to His angels of the patience and gratitude of Hazrat أیوب AS. ابلیس then addressed Allah directly, arguing that the only reason أیوب was grateful was the abundance he had been given — his wealth, his children. Strip that away, he said, and the gratitude would disappear. So Allah began to take it away. First the wealth went. Then, right before his eyes, the house collapsed and killed all his sons. The word that rose instinctively to أیوب's lips at that sight was AlHamdulillah. And if that were not enough, a terrible disease then descended upon him — his body became infected with worms that consumed his flesh. Allah put Hazrat أیوب through these extreme trials to test his faith and his love, and he bore them with extraordinary grace. When the trial was complete, Allah directed him to bathe in a spring prepared for him. He bathed, and the disease was entirely cured. Years later, someone asked him: *How is your health now, أیوب?* He sighed and replied that the days of his illness had been more beloved to him than these days of health. The man was astonished and asked how that could be. أیوب replied that during his illness, Allah had asked him each day: *How are you today, أیوب?* Now that he was cured, Allah no longer asked — and so he missed the love and care that had been showered upon him through those days of trial. This is وَلِھَا. This is مُوَلَّا — extreme, passionate love, in which the absence of the beloved drives a person to the very edge of self.
 
-- The story of Hazrat أیوب illustrates this. In a hadith of Rasul Allah ﷺ, Allah mentioned to His angels the patience and gratitude of Hazrat أیوب AS. ابلیس then addressed Allah and said that the only reason أیوب was grateful was the abundance that had been given to him — his possessions, his children. Take that away, he said, and the gratitude would vanish. So Allah began to take things away. First the possessions went. Then, right before his eyes, the house collapsed and killed all his sons. At that sight, the word that came instinctively from أیوب's lips was AlHamdulillah. And if that were not enough, a terrible disease then came upon him — his body became infected with worms that consumed his flesh. Allah put Hazrat أیوب through these extreme trials to test his faith and love, and he endured them with extraordinary grace. When the trial was complete, Allah directed him to bathe in a spring prepared for him. He bathed, and the disease was entirely cured. Years later, someone asked him: *How is your health now, أیوب?* He sighed and replied that the days of his illness had been more beloved to him than these days of health. The man was astonished and asked how that could be. أیوب replied that during his illness, Allah had asked him each day: *How are you today, أیوب?* Now that he was cured, Allah no longer asked — and so he missed the love and care that had been showered upon him in those days of trial. This is وَلِھَا. This is مُوَلَّا — extreme, passionate love, in which the absence of the beloved drives a person to the very edge of self.
+لَا اِلَٰہَ اِلَّا اللَّہُ now means لا أَلِہَ الا اللہ: Allah is the only one I lean on for support — emotionally, psychologically, financially, physically, in every form.
 
-- لَا اِلَٰہَ اِلَّا اللَّہُ now means لا أَلِہَ الا اللہ: Allah is the only one I lean on for support — emotionally, psychologically, financially, physically, in every form.
+This does not mean I will not see a doctor when ill, or ask my employer for a raise when I deserve one, or turn to my family and friends for help when I need them. I will continue to do all of that. But my ultimate support comes from Allah. He is the one who cures my illness — not the doctor. He is the one who ordains the raise — not my employer. He is the one who fulfills my need — not my friends and family.
 
-- This does not mean I will not see a doctor when ill, or ask my employer for a raise when I deserve one, or turn to my family and friends for help when I need them. I will continue to do all of that. But my ultimate support comes from Allah. He is the one who cures my illness — not the doctor. He is the one who ordains the raise — not my employer. He is the one who fulfills my need — not my friends and family.
+The liberation this brings is immense. So many of my complaints with people and with life would simply disappear. There is no longer any need to blame someone for a disappointment, because that person was never meant to be the one I leaned upon in the first place. A disappointment requires an expectation. When all my expectations are from Allah, no one in this world can disappoint me. If I receive what I wanted, Allah was the one who gave it. If I did not receive it, it was not meant for me — and who can say that receiving it would not, in the long run, have proved harmful?
 
-- The liberation this brings is immense. How many of my complaints with people and with life would simply disappear? I no longer need to blame someone for a disappointment — because that person was never meant to be the one I leaned upon in the first place. A disappointment requires an expectation. When all my expectations are from Allah, no one in this world can disappoint me. If I receive what I wanted, Allah was the one who gave it. If I did not receive it, it was not meant for me — and who can say that receiving it would not, in the long run, have proved harmful?
+لَا اِلَٰہَ اِلَّا اللَّہُ now means لا وَلِہَ الا اللہ: Allah is the only one who astounds and impresses me.
 
-- لَا اِلَٰہَ اِلَّا اللَّہُ now means لا وَلِہَ الا اللہ: Allah is the only one who astounds and impresses me.
-
-- This does not mean I should appreciate no one, praise no one, or find no one impressive. What it means is that I see Allah behind every praise. If my child does well in school — MashaAllah! Praise to Allah, who made my child capable. If I am mesmerized by the sunrise and sunset — SubhanAllah! Praise to Allah for creating this beauty, for granting me the eyes and the time and the willingness to appreciate it. I take the praise for the beauty of the sunset and attribute it to its Creator.
+This does not mean I should appreciate no one, praise no one, or find no one impressive. It means I see Allah behind every praise. If my child does well in school — MashaAllah! Praise to Allah, who made my child capable. If I am mesmerized by the sunrise and sunset — SubhanAllah! Praise to Allah for creating this beauty, for granting me the eyes and the time and the willingness to appreciate it. I take the praise that belongs to the beauty of the sunset and attribute it to its Creator.
 
 Through this practice, the true concept of توحید comes into view. توحید is not the idea that Allah is the supreme deity within a hierarchy of deities. It is the recognition that there is no other deity at all. لا الہ — a complete elimination of every other deity. الا اللہ — except the one and only, which is Allah. It is the transference of الھیۃ from its generic form to the one specific being who has no form. This is the challenge and the goal of لَا اِلَٰہَ اِلَّا اللَّہُ.
 
 The vehicle that carries one on this path is Salaat. Within its very nature, Salaat holds the act of breaking idols. The moment prayer time arrives, whatever is being done must stop; whoever is being attended to must be left; and the face must turn toward Allah. Salaat is لَا اِلَٰہَ اِلَّا اللَّہُ enacted.
 
-This is the journey of لَا اِلَٰہَ اِلَّا اللَّہُ. It is a difficult journey, and every journey requires provisions to sustain the traveler. The provision for this journey is knowledge of Allah. The greater the knowledge of Allah, the greater the amazement at His glory. The greater the amazement, the more passionate the love. The more passionate the love, the deeper the obsession. The deeper the obsession, the more complete the worship and submission to His commands. The more complete the worship, the more fully one turns to Him seeking refuge. The more one finds shelter under His protection, the more one leans on Him for support — for love engenders love. The more one comes to understand how much He loves, the more one loves in return. The more the love grows, the more intense His blessings and mercy become.
+That is the journey of لَا اِلَٰہَ اِلَّا اللَّہُ. It is a difficult journey, and every journey requires provisions to sustain the traveler. The provision for this journey is knowledge of Allah. The greater that knowledge, the greater the amazement at His glory. The greater the amazement, the more passionate the love. The more passionate the love, the deeper the obsession. The deeper the obsession, the more complete the worship and submission to His commands. The more complete the worship, the more fully one turns to Him seeking refuge. The more one finds shelter under His protection, the more one leans on Him for support — for love engenders love. The more one comes to understand how much He loves, the more one loves in return. And the more that love grows, the more intense His blessings and mercy become.
 
 > وَإِذْ تَأَذَّنَ رَبُّكُمْ لَىِٕن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَىِٕن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌۭ
 >
@@ -886,11 +886,9 @@ Salaat is the act of breaking idols. It begins with Wuzu — the purification of
 
 ## What is Worship?
 
-### Allah Revised
+The word الہ carries several layers of meaning. When the definite article "THE" — ال — is applied to الہ, it becomes ال الہ, and these two fuse into Allah. Every meaning carried by الہ then belongs exclusively to the one being named.
 
-In the last session I talked about the word الہ and its various flavors in meaning. We learnt that when the definite article "THE" or ال gets applied to الہ, it becomes ال الہ which then fuse together to become Allah. All the various meanings of الہ then become exclusive for the one we are calling Allah.
-
-So now if I take the meaning of الہ as a powerful entity that demands submission, then Allah becomes the only one for me. He becomes ال الہ. The only one I deem worthy of my submission. He becomes the only one I must be completely loyal to; because there is none more powerful than him
+Taking الہ to mean a powerful entity that demands submission, Allah becomes the only such being — ال الہ. He is the sole one worthy of submission, the sole one deserving complete loyalty, because nothing and no one exceeds His power.
 
 > وَهُوَ ٱلَّذِى خَلَقَ ٱلسَّمَوَتِ وَٱلْأَرْضَ بِٱلْحَقِّ ۖ
 > وَيَوْمَ يَقُولُ كُن فَيَكُونُ ۚ قَوْلُهُ ٱلْحَقُّ ۚ وَلَهُ ٱلْمُلْكُ يَوْمَ يُنفَخُ فِى ٱلصُّورِ ۚ
@@ -898,121 +896,130 @@ So now if I take the meaning of الہ as a powerful entity that demands submiss
 >
 > And it is He who created the heavens and earth in reality. And the day he says, "Be," and it is, His word is the truth. And he has all dominion on the Day the trumpet is blown. [He is] Knower of the unseen and the seen; and He is the Wise, the Acquainted.
 
-Now that is someone who is truly worthy of my submission, and so by adding the ال , I make that particular meaning of الہ exclusive and he becomes Allah.
+That, then, is someone truly worthy of my submission — and so by adding the ال, I make that particular meaning of الہ exclusive, and he becomes Allah.
 
-The same formula then applies to the rest of the meanings of الہ. In the meaning of seeking protecting and refuge, Allah is the one I exclusively turn to for protection and refuge in desperate times. Why? Because
+The same formula applies to each remaining meaning of الہ. In the meaning of seeking protection and refuge, Allah is the one I turn to exclusively when desperation strikes. The reason is stated plainly:
 
 > وَإِمَّا يَنزَغَنَّكَ مِنَ ٱلشَّيْطَنِ نَزْغٌۭ فَٱسْتَعِذْ بِٱللَّهِ ۚ إِنَّهُۥ سَمِيعٌ عَلِيمٌ
 >
 > And if an evil whisper comes to you from شیطان, then seek refuge in Allah. Indeed, He is All-Hearing and All-Knowing.
 
-If I take الہ in the meaning of love, then Allah is the only one I choose to be passionately in love with. He's the only entity, the only deity that I choose to be completed obsessed about. Why? For all the infinite favors he bestows upon me even though I find myself to be an extremely ungrateful and unworthy creature.
+If الہ is taken in the meaning of love, then Allah is the only one I choose to be passionately in love with — the only entity, the only deity, with whom I choose to be completely consumed. The reason lies in the infinite favors He bestows upon me, even as I find myself to be an utterly ungrateful and unworthy creature.
 
 > وَآتَىٰكُم مِّن كُلِّ مَا سَأَلْتُمُوهُ ۚ وَإِن تَعُدُّوا۟ نِعْمَتَ ٱللَّهِ لَا تُحْصُوهَآ ۗ إِنَّ ٱلْإِنسَنَ لَظَلُومٌۭ كَفَّارٌۭ
 >
 > And He gave you of all that you asked for, and if you count the Blessings of Allah, never will you be able to count them. Verily! Man is indeed an extreme wrong-doer, - a disbeliever.
+If I take the meaning of glory for الہ, then Allah becomes the only one whose glory and magnificence astounds me; astonishes me. Even when I set out to understand Him, when I venture to recognize Him, I do so with the realization that His loftiness will exhaust my limited capabilities of comprehension and understanding. I will be dumbfounded every single time I attempted to approach Him, because there is nothing comparable unto Him.
 
-If I take the meaning of glory for الہ then Allah becomes the **only **one who's glory and magnificence astounds me; astonishes me. Even when I set out to understand him; when I venture to recognize him, I do so with the realization that his loftiness will exhaust my limited capabilities of comprehension and understanding. I will be dumb-founded, every single time I attempted to approach Him, because there is nothing comparable unto him.
+قُل لَّوْ كَانَ ٱلْبَحْرُ مِدَادًۭا لِّكَلِمَتِ رَبِّى لَنَفِدَ ٱلْبَحْرُ قَبْلَ أَن تَنفَدَ كَلِمَتُ رَبِّى وَلَوْ جِئْنَا بِمِثْلِهِ مَدَدًۭا
 
-> قُل لَّوْ كَانَ ٱلْبَحْرُ مِدَادًۭا لِّكَلِمَتِ رَبِّى لَنَفِدَ ٱلْبَحْرُ قَبْلَ أَن تَنفَدَ كَلِمَتُ رَبِّى وَلَوْ جِئْنَا بِمِثْلِهِ مَدَدًۭا
->
-> Say. "If the sea were ink for the Words of my Lord, surely, the sea would be exhausted before the Words of my Lord would be finished, even if we brought like it for its aid."
+Say: "If the sea were ink for the Words of my Lord, surely, the sea would be exhausted before the Words of my Lord would be finished, even if we brought like it for its aid."
 
-Finally if I take الہ in the meaning of the one I lean on for support, then Allah becomes the **only **one I choose to lean on. He becomes the **only** one I choose to put the entire weight of my spiritual burden on for support. Because his support is the only support that matters.
+Finally, if I take الہ in the meaning of the one I lean on for support, then Allah becomes the **only** one I choose to lean on. He becomes the **only** one I choose to put the entire weight of my spiritual burden on for support. Because His support is the only support that matters.
 
 > إِن يَنصُرْكُمُ ٱللَّهُ فَلَا غَالِبَ لَكُمْ ۖ وَإِن يَخْذُلْكُمْ فَمَن ذَا ٱلَّذِى يَنصُرُكُم مِّنۢ بَعْدِهِۦ ۗ وَعَلَى ٱللَّهِ فَلْيَتَوَكَّلِ ٱلْمُؤْمِنُونَ
 >
 > If Allah helps you, none can overcome you; and if He forsakes you, who is there after Him that can help you? And in Allah let believers put their trust.
+I find many different meanings, like various rivers of knowledge, flowing from the word الہ. These meanings become exclusive when applied to ال, اللہ, or اللہ.
 
-In other words, there are all these different meanings; these various rivers of knowledge that flow out of the word الہ, and become exclusive when it reaches the ال اللہ or اللہ.
-
-But what do we get out of the union of all these meanings of الہ? If Allah is the only powerful entity deserving submission; if Allah is the only one capable of providing refuge and protection; if Allah is the only one worthy of passionate love and the obsession of my thoughts; if Allah is the only one who astonishes me; if Allah is the only one I want to lean and depend on; then the union of all these meanings of الہ make him what? They make him worthy of my worship. They make him worthy of my عبادۃ. This is why he created me.
+When all the meanings of الہ are taken together, a single conclusion emerges. Allah is the only powerful entity deserving submission. He is the only one capable of providing refuge and protection. He is the only one worthy of passionate love and the full occupation of my thoughts. He is the only one who astonishes me. He is the only one I want to lean on and depend on. The union of all these meanings of الہ makes Him worthy of my worship — worthy of my عبادۃ. This is why He created me.
 
 > وَمَا خَلَقْتُ ٱلْجِنَّ وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ
 >
 > And I created not the jinns and humans except they should worship Me.
 
-And the sum of these meanings make Allah worthy of my worship.
+These meanings, taken together, make Allah worthy of my worship.
 
 > إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ
 >
-> It is only you that we worship, and it is only you that we seek help from
+> It is only you that we worship, and it is only you that we seek help from.
 
-So what the word اللہ leads us to is the idea of worship; and the one we worship and are obedient to is called the معبود.
+The word اللہ leads, by its very nature, to the idea of worship; and the one who is worshipped and obeyed is called the معبود.
 
-![](images/154/60534835-e6af-4fc4-8820-31a58bca68fb.jpg)
+---
 
 ### What is Worship?
 
-Now what is worship? The word عبادۃ is commonly translated as worship. But linguistically, the word عبادۃ actually means a combination of two things. It means to worship and it also means to obey - both at the same time. They're not interchangeable like in the English language. No! Both meanings of worship and obedience are embedded inside this one word of عبادۃ in the Arabic language. Together they both means عبادۃ
+What, then, is worship? The word عبادۃ is commonly translated as worship. Linguistically, however, عبادۃ carries two meanings simultaneously — to worship and to obey. These are not interchangeable alternatives, as parallel words in English might be. Both meanings are embedded together inside the single Arabic word عبادۃ, and together they constitute عبادۃ.
 
-![](images/152/5e2c8227-d756-43cf-9baa-783172ee5603.jpg)
+When I consider the word worship, I find that certain things generally come to mind. I think of the five daily prayers, fasting, paying زکواۃ, and performing حج. These are all different forms and rituals of worship, and my understanding often stops at those activities. I want to highlight a particular point here: the problem with translating عبادۃ exclusively as "worship" is that this rendering does not necessarily include the concept of obedience.
 
-But generally when we think of the word worship, what comes to mind? The 5 prayers, fasting, paying زکواۃ , performing حج right? These are all different forms and rituals of worship. So we think that's it. We stop at those activities. And that's the point I want to highlight today. The problem with this translation of the word عبادۃ exclusively in the meaning of worship, is that it does not necessarily include the concept of obedience.
+This is especially true for an obedience that stems from love, a crucial distinction. Worship is, in essence, a love-based obedience. The word "obedience" can carry a negative connotation; people can be forced into it. Children, for instance, are often coerced into obedience through threats or violence. Thus, obedience can carry a very negative emotional association. However, this is not the kind of obedience I am discussing. عبادۃ is an obedience that arises naturally from appreciating the various meanings of الہ I have explored.
 
-Especially an obedience that stems out of love. That's very important to understand. Worship is a love based obedience. Because the word obedience can have a very negative connotation to it. People can be forced into obedience. Children are often bullied into obedience by the use of threats or violence. So it is possible for obedience to have a very negative emotion attached to it. But this is not the kind of obedience that we're talking about here. عبادۃ is an obedience that comes naturally from the appreciation of all these various meanings of الہ that we learnt. When you love someone passionately; when you become obsessed about him; when you are completely devoted and loyal to him; when you can completely trust him and lean upon him, when you're so impressed and amazed by ones loftiness, greatness, magnificence; when you know you can always and unconditionally turn to someone for protection and refuge; then the natural outcome of the sum of all these love based emotions, is obedience. So always remember that عبادۃ is an obedience that stems out of love. It is a lover's obedience, in order to make his beloved happy. It is an obedience that is based on passionate love, and a trust that is complete and unshakable.
+When one experiences:
+- passionate love for someone;
+- an obsession with him;
+- complete devotion and loyalty to him;
+- absolute trust in him, allowing one to lean upon him;
+- deep impression and amazement by his loftiness, greatness, and magnificence;
+- and the certainty of always and unconditionally turning to him for protection and refuge;
+then the natural outcome of all these love-based emotions is obedience. I emphasize that عبادۃ is an obedience stemming from love. It is a lover's obedience, offered to make the beloved happy. This obedience rests on passionate love and a trust that is complete and unshakable.
 
-This is why Allah سُبْحَانَهُ وَتَعَالَى created us; this is why he gave us the ability to love. He did not create us, and desire disobedience from us. He allows disobedience; His magnificence enables the capability of disobedience within his creation, which is called خذلان but he is not content with it. Because disobedience is completely contrary to the the concept of love.
+This is why Allah سُبْحَانَهُ وَتَعَالَى created us and gave us the ability to love. He did not create us desiring our disobedience. He allows disobedience, and His magnificence enables the capacity for it within His creation, which is called خذلان. Yet, He is not content with it. Disobedience is completely contrary to the concept of love.
 
 تُعْصِی أِلہ وَ تُظْھِرُ حُبُّہُ | ھٰذا مُحالٌ فی القِیاسِ بدیع
 
-There is a poet named محمود الوَرَّاق. In one of his poems he says:
-
-You disobey Allah and you fain the love of God
-
-This is impossible and an unknown type of logic
-
+The poet محمود الوَرَّاق writes in one of his poems:
+You disobey Allah and you claim to love God.
+This is impossible, an unknown type of logic.
 لَو کانَ حُبُّک صادقُ لَطاعَتُہُ
-
-Had your love been sincere you would be obedient
+Had your love been sincere, you would be obedient.
 
 فَاِنَّ المُحِبَّ لِمَن یُحِبُّ مُطیعُ
-
-Because a lover always obeys his or her beloved.
-
-It is the nature of love that you want to obey the one you love. In one of his poems he says
+Because a lover always obeys the beloved. It is the nature of love to desire obedience to the one loved. In one of his poems, he says:
 
 وَقائِلتُ قَد سَأَلَت عن حَارِ عاشِقِھا
 
-A woman once asked someone about the state of the one who loves her with this burning passion. The عاشق is the one who is burning up with passion. They say دَوَاءُ الْعِشْقِ الْاِتِّصَالُ , the only cure for عشق is to be connected with the beloved; to be in the embrace of the beloved. So she's asking this man about her love. This is what lovers do - they inquire from others, about what how much their lover loves them. So she asks this man
+A woman once inquired about the condition of someone consumed by passionate love. The عاشق is one who burns with passion. It is said, دَوَاءُ الْعِشْقِ الْاِتِّصَالُ, that the only cure for عشق is connection with the beloved, to be in the beloved's embrace. She asked this man about her beloved, for lovers often inquire of others about the depth of their beloved's affection. She asked him:
 
 للہِ صِفہُ ولا تَنقُص وَلا تَزِدِ
 
-For Allah's sake describe him to me; and don't stint in your description and don't exaggerate. You know, I wanna hear the truth. So he says:
+"For Allah's sake, describe him to me; do not stint in your description, and do not exaggerate. I want to hear the truth." He replied:
 
-لَو کانَ رَھلِ الموت بالضمأٍ
+He replied: لَو کانَ رَھلِ الموت بالضمأٍ If he thought he would die from thirst, and he was told not to touch that water, he would not touch it. وَ قُطی قَفّعاً وُرُودَ المآءِ لَم یَرِدِ Her lover knows he will die of thirst, but if the woman said, "Do not touch that water," he would not touch it. He would rather die than disobey. The emphasis here is that the nature of love is obedience. Thus, greater love for god leads to a greater desire to obey him.
 
-If he thought he would die from thirst
+عبادۃ to Allah سُبْحَانَهُ وَتَعَالَى encompasses two concepts:
+- worship
+- obedience
+Both stem from a passionate love for him, not from forced compulsion or coercion.
 
-وَ قُطی قَفّعاً وُرُودَ المآءِ لَم یَرِدِ
+To illustrate this practically, suppose prayer is due in 15 minutes. Suppose it is time for فجر, requiring us to perform our عبادۃ. Prayer is a form of عبادۃ. It is worship. From فجر all the way up until ظھر, we will not be worshiping him through the rituals of prayer; rather, if our love for him is sincere, we will be obeying him. We will be in a state of obedience to him, because it is the dream and desire of every lover to make the beloved happy.
 
-and you said don't touch that water, he wouldn't touch it. So her lover knows he is going to die of thirst, but if the woman said, don't touch that water, he wouldn't touch it. He'd rather die than disobey. So the point of that; what he's emphasizing there is that the nature of love is obedience. So the more you love god, the more you will want to obey him.
+The word عبادۃ beautifully encompasses the full scope of love, placing us in a constant state of worship. When we perform the ritual acts of صلوۃ, we are in a state of عبادۃ. Even between prayers, by remaining in a state of obedience, we continue to be in a state of عبادۃ. This demonstrates why the concept of عبادۃ is so comprehensive in Islam. We are constantly in a state of worship: if not through formal rituals, then through obedience.
 
-So عبادۃ to Allah سُبْحَانَهُ وَتَعَالَى has these two concepts embedded within it - worship and obedience. Both of which stem out of a passionate love for him and not from a forced compulsion or coercion.
-
-To put this in practical terms - let's say we are about to pray in 15 minutes. Let's say it's time for فجر and so we have to pray; we have to do our عبادۃ. Now what kind of عبادۃ is prayer? Is it worship or is it obedience? It's worship, right? But then from فجر all the way up till ظھر, we will not be worshiping him through the rituals of prayer, but if we are sincere in our love for him, we will be doing what? We will be obeying him! We will be in a state of obedience with him; because it is the dream and desire of every lover to make the beloved happy.
-
-And so the beauty of the word عبادۃ is that it covers the entire horizon of love, putting us in a constant state of worship. When we are performing the ritual acts of صلوۃ we are in a state of عبادۃ , and then we are in between two prayers, by being in a state of obedience, we are still in the state of عبادۃ. You see? This this is why the concept of عبادۃ is so comprehensive in Islam. We are constantly in a state of worship; if not through formal rituals, then through obedience.
-
-So what this means is that if you go and earn a حلال income through your job, that is an act of obedience. When you go to school, and you sincerely accomplish the purpose of education, you're in a state of عبادۃ. When you love and respect your elders, when you're kind to your siblings; when you're generous to the needy; when you're courageous in the face of temptations - no matter what you do - as long as you're in a state of obedience and servitude to Allah سُبْحَانَهُ وَتَعَالَى, anything and everything you do, becomes an act of عبادۃ. Going to the toilet becomes عبادۃ. Imagine that! When you go to the toilet to relieve yourself, when you obey the commands of Allah to cover your head and feet, seek his protection, recite all those دعا, you are in a state of عبادۃ.
+This means that earning a حلال income through one's job is an act of obedience. When one attends school and sincerely accomplishes the purpose of education, one is in a state of عبادۃ. No matter what one does—whether loving and respecting elders, being kind to siblings, being generous to the needy, or being courageous in the face of temptations—as long as one remains in a state of obedience and servitude to Allah سُبْحَانَهُ وَتَعَالَى, everything becomes an act of عبادۃ. Even going to the toilet becomes عبادۃ. It is remarkable that when one goes to the toilet to relieve oneself, obeying Allah's commands to cover one's head and feet, seeking his protection, and reciting all those دعا, one is in a state of عبادۃ.
 
 ## Linguistic Meaning Of REHMA
 
-In the previous sessions we studied a couple of composite words such as الہ and رب. The word الہ is a composition of several different meanings that come from اَلَہَ یَعلُہُ the one who is worthy of worship; أَلَہَ that is used for a child that is thirsty for the milk of its mother - basically the one we desperately turn towards for the fulfillment of our needs. وَلَہَ the one we passionately love; أَلِہَ the one we lean on, or put our weight on; وَلِہَ which is to become astounded by the glory and magnificence of someone. We combine all these meanings to understand the meaning of the word الہ. And then we talked about our creedal formula of لَا اِلٰہَ اِلَّا اللَّہُ , which is designed to eliminate the multiplicity of these generic الہ to identify the one specific الہ. To apply the article "the" to الہ making him ال الہ or اللہ.
+I have studied composite words such as الہ and رب. The word الہ combines several meanings derived from:
+- اَلَہَ یَعلُہُ, signifying the one worthy of worship.
+- أَلَہَ, which describes a child yearning for its mother's milk, representing the one we desperately turn to for our needs.
+- وَلَہَ, indicating the one we passionately love.
+- أَلِہَ, meaning the one we rely on or place our trust in.
+- وَلِہَ, which expresses being astounded by someone's glory and magnificence.
+I combine all these meanings to understand الہ.
 
-Then we studied the word رب which is also a composite word and is a combination of
+I then discussed our creedal formula of لَا اِلٰہَ اِلَّا اللَّہُ. This formula aims to eliminate the multiplicity of generic objects of worship, represented by الہ, and to identify the one specific object of worship, الہ. This involves applying the definite article "the" to الہ, which then becomes ال, الہ, or اللہ.
+
+Next, I examined the word رب, which is also a composite word, combining
 
 المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
 
-المَالِکُ - The absolute owner, السَّیِّد - The one with complete authority. المُرَبِّی - The one who nourishes, المُرْشَدُ - The one who guides and puts to purpose. المُنعِمُ - The benevolent benefactor; the one who showers with undeserved gifts. And finally, القَیِّمُ - The maintainer. You combine the meanings of all these words and you get the understanding of the word رب - which is translated as master.
+- المَالِکُ: The absolute owner.
+- السَّیِّد: The one with complete authority.
+- المُرَبِّی: The one who nourishes.
+- المُرْشَدُ: The one who guides and puts to purpose.
+- المُنعِمُ: The benevolent benefactor; the one who showers with undeserved gifts.
+- القَیِّمُ: The maintainer.
+Combining the meanings of all these words leads to an understanding of the word رب, which I translate as master.
 
-We then looked at the concept of عبد which in the Quranic perspective means a "free slave". In order to understand this relationship, we looked at the master-slave relationship of this world, and we then compared it to the master-slave relationship that Allah has with us - to conclude that even though Allah is our "master", he is unlike any other master that we have ever encountered in this world.
+I then looked at the concept of عبد, which, from a Quranic perspective, means a "free slave." To understand this relationship, I examined the master-slave relationship of this world. I then compared it to the master-slave relationship that Allah has with us, concluding that even though Allah is our master, he is unlike any other master we have encountered in this world.
 
 ### Mercy
 
-Today we're going to take a look at the word رحمۃ ; which is "the" primary attribute of Allah. It is an attribute that is most dear to Allah. In fact, this quality is so fundamental to him, that he has made it obligatory on himself. We know that Allah has imposed certain obligations on Muslims? Prayers, Fasting, Zakah, Hajj, right? He has made a bunch of actions compulsory on Muslims. But there is one action that he has made compulsory on himself - and that is the action of his mercy - his رحمۃ.
+I now examine the word رحمۃ. This is the primary attribute of Allah, and it is an attribute most dear to him. This quality is so fundamental to him that he has made it obligatory upon himself. Allah has imposed certain obligations on Muslims, such as prayers, fasting, zakah, and Hajj. He has made many actions compulsory for Muslims. However, he has made one action compulsory upon himself: the action of his mercy, his رحمۃ.
 
-In a HADEES, Rasul Allah ﷺ says:
+In a hadith, Rasul Allah ﷺ says:
 
 قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
 
@@ -1020,49 +1027,43 @@ In a HADEES, Rasul Allah ﷺ says:
 >
 > Indeed, after Allah established all his creation, he wrote on his throne, "Indeed my mercy shall overcome my wrath"
 
-ُإنَّ الله لَمَّا قَضٰى الخَلق،كَتَبَ فَوقَ عَرْشُه
-
-Indeed! when Allah established all of creation, he wrote a statement on his throne. What was that statement?
+Indeed, when Allah established all of creation, he wrote a statement on his throne. This statement was:
 
 اِنَّ رَحمَتِی تَغلِبُ غَضَبِی
 
-Indeed! my رحمۃ - my mercy for my creation will **always** overcome and overpower my wrath and my anger. In other words, in my dealing with my creation, my mercy will always superseded my anger. This is a rule that our all powerful, all-mighty creator imposed upon himself in his dealings with us. SubhanAllah! Now of course this is not literal! There is no actual physical throne - it's a graphic representation of an emotion, that depicts the love of Allah for his creation.
+Indeed, my رحمۃ—my mercy for my creation—will always overcome my wrath. In other words, in my dealings with creation, my mercy will always supersede my anger. This is a rule that our Almighty Creator imposed upon himself in his dealings with us. SubhanAllah! This statement is not literal; there is no actual physical throne. Rather, it is a graphic representation of an emotion, depicting Allah's love for his creation.
 
-Now let's take a look at this word رحمۃ. It's a very powerful word that we'll study over the course of the next few sessions InshaAllah. Today we'll look at the general definition of the word رحمۃ. In the next session, we'll look at a more graphic representation of the word, in order to visualize this concept properly.
+I now turn to the word رحمۃ. It is a very powerful word. I will first examine the general definition of the word رحمۃ. A more graphic representation of the word will follow, to help visualize this concept properly, InshaAllah.
 
-The word رحمۃ is generally translated in English as what? As "mercy". The problem with that translation is, that it actually distorts the meaning of the word. I'm not saying its the wrong translation; I'm saying it's a weak translation. Why? Because the word mercy is generally used when you are being spared from a punishment. When you hear the words, "the soldiers showed mercy", what does that mean to you? It means that they had the power to do something terrible, but then they chose to spare everyone, right?! The criminal begged the judge for mercy. In other words he asked the judge to be spared; to not be punished. So when we generally think of the word "mercy", the idea is that something bad or painful was about to happen, and then someone decided not to go ahead with that painful action - in other words, showed mercy. You understand? So there is that subconscious association with punishment when the word mercy is used, followed by the idea of somehow escaping that punishment. Nevertheless, the default position is pretty much punishment when we think of mercy.
+The word رحمۃ is generally translated in English as "mercy." This translation, however, distorts the word's true meaning. I do not claim it is incorrect, but rather that it is a weak rendering. The reason is that the word "mercy" is generally used when someone is spared from punishment. When one hears the words, "the soldiers showed mercy," it implies they possessed the power to inflict something terrible but chose to spare everyone. The criminal begged the judge for mercy, meaning he asked to be spared from punishment. Thus, the general understanding of "mercy" involves an impending negative or painful event, from which someone then decides to withhold the action. This is what it means to show mercy. Therefore, a subconscious association with punishment exists when the word 'mercy' is used, coupled with the idea of escaping that punishment. When I consider mercy, the underlying assumption is often punishment.
 
-Now, when we constantly use this word "mercy" for Allah, with that subconscious taint of escaping punishment; and when we repeat it over and over again; it sort of creates this idea in our minds, that Allah wanted to do something bad to us, but then he decided not to do it. That is how he showed us mercy, but not punishing us. You see what I'm saying? It creates that subtle subconscious image of Allah being a tyrant in some sense - نَعُوذُ بِاللّٰہِ.
+When I consistently use the word "mercy" for Allah, carrying that subconscious taint of escaping punishment, and repeat it frequently, it subtly creates the impression that Allah intended to inflict something harmful upon us, but then He decided against it. This implies He showed us mercy by not punishing us. This fosters a subtle, subconscious image of Allah as a tyrant in some sense— نَعُوذُ بِاللّٰہِ.
 
-In reality, this is not the true intent of the word رحمۃ. The word رحمۃ has absolutely nothing to do with punishment. It has no concept of the word punishment in it. So now let's look at the linguistic meaning of the word رحمۃ?
+In reality, this is not the true intent of the word رحمۃ. The word رحمۃ has absolutely nothing to do with punishment. It contains no concept of punishment. I will now examine the linguistic meaning of the word رحمۃ.
 
 Definition of rehma
 
 ![](images/79/9da9df6f-f8e4-4a81-9768-38023d7a120f.jpg)
 
-In classical Arabic رحمۃ has 4 meanings.
-
+In classical Arabic, رحمۃ has four meanings:
 1. Unconditional love
+2. Care
+3. Genuine concern
+4. Mercy
 
-1. Care
+Mercy is the final piece of this puzzle, not the initial one. Unconditional love comes first, followed by care, then concern, and finally mercy. This is رحمۃ. These four words are self-explanatory. Unconditional love is affection without conditions. Allah loves His creation unconditionally, like a mother who loves all her children equally, regardless of their obedience or disobedience. It does not matter to her regarding her love for them. Allah loves us in the same way, and this is fitting. We are all His creation, after all. He created us with His own hands.
 
-1. Genuine concern
+Allah is caring. He looks after us, provides for us, and fulfills all our needs.
 
-1. Mercy
+He is genuinely and sincerely concerned for our salvation, happiness, and well-being.
 
-Mercy is actually the last piece of the puzzle - not the first. Unconditional Love is the first! then care! then concern! and then finally mercy. This is رحمۃ. I think these 4 words are self-explanatory. Unconditional love is affection without conditions. We know that Allah loves his creation unconditionally - like the mother who loves all her children equally regardless of whether they are obedient or disobedient. It doesn't matter to her in terms of her love for them. Allah's love us the same way - and why not?! We're all his creation after all. He created us with his own hands.
+Finally, Allah is merciful, in that He shows compassion towards our weakness. He graciously forgives our sins and transgressions, and He accepts our weak and feeble acts of worship, even though they may lack the sincerity and honor He deserves.
 
-Allah is caring! He looks after us, provides for us; fulfill all our needs.
-
-He is genuinely and sincerely concerned for our salvation, for our happiness and well being.
-
-And finally Allah is merciful, in that he shows compassion towards our weakness. He graciously forgives our sins and transgressions; and he accepts our weak and feeble acts of worship even though they lack the sincerity and the honor he deserves.
-
-So رحمۃ is a combination of these 4 words put together - unconditional love, extreme care, genuine concern and mercy. And Linguistically speaking the word رحمۃ means to show love, care, concern and mercy in order to benefit someone. The ancient Arab would say:
+So رحمۃ combines these four words: unconditional love, extreme care, genuine concern, and mercy. Linguistically speaking, the word رحمۃ means to show love, care, concern, and mercy for the purpose of benefiting someone. The ancient Arab would say:
 
 الرحمۃُ، رِقَّۃٌ تَقتَدِ الأحسانُ أِلی المَرحوم
 
-رحمۃ is a kind of love or tenderness that is intended to benefit the beloved. In other words, رحمۃ is precisely targeted towards benefiting someone. It has to translate into a beneficial action for someone, or its not رحمۃ.
+رحمۃ signifies a form of love or tenderness specifically intended to benefit the beloved. In other words, رحمۃ is precisely targeted towards someone's welfare and must manifest as a beneficial action; otherwise, it is not رحمۃ.
 
 ### Two Manifestations of Mercy
 
@@ -1070,66 +1071,85 @@ So رحمۃ is a combination of these 4 words put together - unconditional love,
 
 ![](images/79/40b93a03-5882-4ae6-9177-d9f5d781701c.jpg)
 
-Now there are 2 common flavors or manifestation of this word رحمۃ that we find in the Quran. What are those words? They are الرحمن and الرحیم. They both originate from the word رحمۃ. Let's first lets look at how both these words are commonly translated. If you look at any English translation of بِسْمِ اللَّہِ الرَّحْمَٰنِ الرَّحِیمِ, you will see - "In the name of Allah -the most gracious the most merciful". Or you will find, "In the name of Allah the most beneficent the most merciful; the most merciful the most kind; the merciful the beneficent; the beneficent the beneficent.
-The problem with these translations is that that these words are very difficult to process and visualize in English. When do we ever use the word beneficent in our normal day to day conversations? Like if somebody helped you with something, do you say, "Oh G! You are so beneficent". You don't do that, right? The purpose of translation is to understand the text better. But if we start using words for translation that we ourselves do not use or cannot relate to, then that defeats the entire purpose, right?
+I find two common manifestations of this word رحمۃ in the Quran: الرحمن and الرحیم. Both originate from the word رحمۃ. I will first examine how these words are commonly translated. English translations of بِسْمِ اللَّہِ الرَّحْمَٰنِ الرَّحِیمِ often render the phrase as:
+- "In the name of Allah – the most gracious, the most merciful."
+- "In the name of Allah – the most beneficent, the most merciful."
+- "The most merciful, the most kind."
+- "The merciful, the beneficent."
+- "The beneficent, the beneficent."
 
-So let's first properly understand these 2 words. As I said, both الرحمن and الرحیم are manifestations of the word رحمۃ. And what does رحمۃ mean? It means a combination of 4 things with the intent of benefiting someone. 1) Unconditional love, 2) Care 3) Genuine concern and 4) Mercy. When we call Allah الرحمن and الرحیم we essentially acknowledge these 4 qualities about Allah.
+The difficulty with these translations lies in how challenging these words are to process and visualize in English. The word "beneficent," for instance, rarely appears in everyday English conversation. One would not typically use it to express gratitude for assistance, saying, "You are so beneficent." The fundamental purpose of translation is to enhance understanding of the text. However, employing words in translation that are unfamiliar or unrelatable to the reader undermines this very purpose.
 
-things - that Allah has **intense** love for us; he cares for us; he is genuinely concerned for us; and He shows us mercy. That is the implicit acknowledgment in any word that derives from the word رحمۃ. And this is something Allah states over and over again in the Quran
+I will first clarify the meaning of these two words. As I said, both الرحمن and الرحیم are manifestations of the word رحمۃ. The word رحمۃ signifies a combination of four elements, all intended to benefit someone:
+*   Unconditional love
+*   Care
+*   Genuine concern
+*   Mercy
+
+When Allah is called الرحمن and الرحیم, I acknowledge these four qualities of Allah. This means that Allah has intense love for us; He cares for us; He is genuinely concerned for us; and He shows us mercy. This is the implicit acknowledgment in any word that derives from رحمۃ. Allah states this point repeatedly in the Quran:
 
 وَمِن رَّحْمَتِهِۦ جَعَلَ لَكُمُ ٱلَّيْلَ وَٱلنَّهَارَ
 
-Out of his love. he created the night and the day
+Out of His love, He created the night and the day:
 
 مِّن رَّحْمَتِهِۦ وَيُهَيِّئْ لَكُم مِّنْ أَمْرِكُم مِّرْفَقًۭا
 
-Out of his love he will make your tasks easy for you
+Out of His love, He will make our tasks easy for us.
 
-وَمِنْ آيَتِهِۦٓ أَن يُرْسِلَ ٱلرِّيَاحَ مُبَشِّرَتٍۢ وَلِيُذِيقَكُم مِّن رَّحْمَتِهِ
+وَمِنْ آيَتِهِۦٓ أَن يُرْسِلَ ٱلرِّيَاحَ مُبَشِّرَتٍۢ وَلِيُذِيقَكُم مِّن رَّحْمَتِهِ Out of His love, He sends the winds that deliver good tidings, so that one recognizes His love. مَّا يَفْتَحِ ٱللَّهُ لِلنَّاسِ مِن رَّحْمَةٍۢ فَلَا مُمْسِكَ لَهَاۖ When Allah opens the doors of His love for someone, nothing can close them.
 
-Out of his love he sends the winds that delivers good tidings, so that you can recognize his love for you
+The purpose of all such verses is to explain one thing. I discussed Allah as our Master. When one considers the word "master" in the worldly sense, or the word "authority," the last thing that comes to mind in a master-slave relationship is unconditional love. But Allah immediately reminds us, at the beginning of every recitation: بِسْمِ اللَّہِ الرَّحْمَٰنِ الرَّحِیمِ. He reminds us that He is a different kind of Master. He reminds us that one will never, ever find a master in this world as powerful as Allah, yet one who possesses the kind of رحمۃ that He does. SubhanAllah!
 
-مَّا يَفْتَحِ ٱللَّهُ لِلنَّاسِ مِن رَّحْمَةٍۢ فَلَا مُمْسِكَ لَهَاۖ
-
-When Allah opens the doors of his love for someone, nothing can close them
-
-Now the purpose of all such verses is to to explain one thing to us. In the last session, we talked about Allah being our master, right?. And when you think of the word master in the worldly sense; when you think of the word authority, what is the last thing you think of in a master slave relationship? Unconditional Love! But Allah is reminding us right away; right at the beginning of every recitation: بِسْمِ اللَّہِ الرَّحْمَٰنِ الرَّحِیمِ . He is reminding us that he is a different kind of master. He is reminding us that we will never, ever find a master in this world, who is as powerful as Allah; and yet who has the kind of رحمۃ as him! SubhanAllah!
-No other master in this world will show unconditional love to their slaves. They might take care of their slaves once in a while, but they will never ever love them!! Masters will always show love to their own, never to their slave. But this master! Our master - Allah!! The very first emotion that he exhibits towards us is unconditional love. No other master will care for us the way Allah cares for us. No other master will be genuinely concerned about us, the way Allah is concerned for us. No other master will show us mercy when we disobey them; and not complete the job to their standards! But Allah always has mercy on us.
+No other master in this world will show unconditional love to their slaves. They might take care of their slaves once in a while, but they will never truly love them. Masters will always show love to their own kin, never to their slave. But this Master—our Master, Allah—the very first emotion He exhibits towards us is unconditional love. No other master will care for us the way Allah cares for us. No other master will be genuinely concerned about us, the way Allah is concerned for us. No other master will show us mercy when one disobeys them and fails to complete the task to their standards. But Allah always has mercy on us.
 
 ### REHMAN
 
-Now let's understand the linguistic meanings of these two words الرحمن and الرحیم. This will blow your mind InshaAllah! And once you understand these words, you will appreciate Allah like nothing else - InshaAllah .
+I will now explain the linguistic meanings of the words الرحمن and الرحیم. This understanding, God willing, will be profound and will deepen one's appreciation of Allah.
 
-The word رحمن follows a particular phonetic pattern that represents "intensify", "ferocity", "severity", "extreme force of power". Any word in Arabic that follows this phonetic pattern of آن has these characteristics. Words like غضبان (extremely angry; intensely angry); جوعان (extremely hungry; ferociously hungry); عطشان (extremely thirsty). On this same pattern we have the word رحمن (extremely merciful; intensely merciful). You understand?
+The word رحمن follows a specific phonetic pattern that conveys intensification, ferocity, severity, and extreme force. Any Arabic word following this phonetic pattern, آن, shares these characteristics. Examples include:
+- غضبان (extremely angry; intensely angry)
+- جوعان (extremely hungry; ferociously hungry)
+- عطشان (extremely thirsty)
+Following this same pattern, the word رحمن means "extremely merciful" or "intensely merciful."
 
 Rehman
 
 ![](images/79/bd725d5f-a767-46d9-b83c-e8e7d526de0a.jpg)
 
-Now what's really interesting is that any word that follows this phonetic pattern has 3 characteristics.
+Any word that follows this phonetic pattern possesses three characteristics:
+1. It is extreme.
+2. It is immediate.
+3. It is temporary.
+All words matching this pattern consistently possess these three characteristics: they are extreme, immediate, and temporary.
 
-1. It is extreme
+The word رحمن signifies Allah's love, care, concern, and mercy. This is not merely love as humans understand it; rather, it is an extreme and intense form of love, care, concern, and mercy that transcends human imagination or any worldly example. Thus, the first characteristic of الرحمن is that any love, care, concern, and mercy one anticipates from Allah will surpass all human imagination and expectation. No example of such love can be found in this world.
 
-1. It is immediate
+The second meaning of الرحمن is that it is something happening immediately. One does not have to wait for it; it is occurring right now. I consider this point by observing a distinction in English between someone who **is** patient and someone who is **being** patient. The latter demonstrates patience in the present moment. For example, if I state that a woman ***is*** patient, I cannot determine if she is currently losing patience with her children. She might be yelling at them, or she might be throwing them against the wall; I do not know that. When I say a woman is patient, I mean she is generally a patient person. This does not necessarily mean she is acting patiently at this very second. However, when I say, "she is **being** patient," I refer to her present state: right now.
 
-1. It is temporary
+The love and care of الرحمن does not manifest generally or at some distant point in time. Rather, that extreme and intense form of love is happening right now. In other words, through الرحمن, the Quran teaches that one does not have to wait for Allah to show one love at some future point in time. One does not have to wait for Him to care for one, or be concerned for one at a later point in time when some event occurs, or when one is in the middle of a calamity. No, this is not so. All of that is happening right now. He loves one right now. He cares for one right now. He is genuinely concerned for one right now, and He is being merciful to one right now.
 
-All word that match this pattern will always possess these 3 characteristics. They will be extreme; they will be immediate; and they will be temporary. So now if we look at the word رحمن , it means love, care, concern and mercy of Allah. But not just love in the sense we understand love. It is a very extreme and intense form of love. It is a love that is beyond human imagination. It is care and concern beyond human imagination. It is mercy beyond human imagination or example. So that's the first characteristic of الرحمن - that whatever you expect from Allah, in terms of love, care, concern and mercy, understand that it is going to be beyond your imaginations and expectations. You cannot possibly find an example of that love in this world. OK?
+All of that is happening, in its extreme form, right now. The first characteristic of الرحمن is its extreme nature, and the second is its immediacy. The third is its temporary quality. The love of الرحمن is extreme, intense, and immediate, but it is temporary; it is not permanent. This third aspect, its temporary nature, may be difficult to accept initially, and it can feel counterintuitive. I will explain the reasoning shortly.
 
-The second meaning of الرحمن is that it is something that is happening immediately. You don't have to wait for it. It is happening right now. Let's think about this for a second. In English what is the difference between someone who **is **patient and someone who is **being** patient. ? Which one is showing patience right now? The one who is **being** patient, right? Like for example if I say that so-and-so ***is*** a patient woman; I can't say if she's going crazy with her kids right now or not. Maybe she's yelling at them! Maybe she's throwing them against the wall - I don't know that. When I say so-and-so is a patient woman, what I'm saying is that she is generally a patient person. But that doesn't necessarily mean that she acting patiently right this very second. But when I say, so-and-so is **being** patient! I'm talking about her when? Right now! You understand the difference? The love and care of الرحمن is not something that is happening generally or at some distant point in time; that extreme and intense form of love is happening right now! In other words, through الرحمن the Quran is teaching us, that we don't have to wait for Allah to show us love at some future point in time. We don't have to wait for him to care for us, or be concerned for us at a later point in time when some event occurs, or when we are in the middle of a calamity - no no no no no! All of that is happening right now!! He loves us right now! He cares for us right now! He is genuinely concerned for us right now! and he's being merciful to us right now! All of that is happening, in its extreme form, when? Right now! You understand?
-So the first characteristic of الرحمن is extreme, the second is immediate. What was the third one? The third was temporary. The love of الرحمن is extreme, it is intense, it is immediate, but it is temporary. It is not permanent. Now this third part is a bit hard to take in when we hear it for the first time. It feels wrong! I'll explain why that is very soon - so just bear with me for a bit.
+Thus, الرحمن carries three essential qualities:
+- Extreme
+- Immediate
+- Temporary
 
-For now just remember, that الرحمن has these 3 qualities - Intense, Immediate but temporary. And as I said, all words that follow this phonetic pattern have these 3 characteristics.
+All words following this phonetic pattern share these three characteristics.
 
-So for example let's take غضبان. It means extremely angry; and extremely angry, when? Right now! But that extreme anger has to be temporary. Why? Because someone who is extremely angry, can not physically stay that angry forever. He cannot! His head will explode and he will die. Even the hulk chills out eventually, right?
+As an example, I offer غضبان. This term signifies extreme anger, present at that very moment. However, this extreme anger must be temporary. An individual cannot physically sustain such intense rage indefinitely; it would be physically impossible, potentially leading to collapse or even death. Even a figure of immense rage eventually calms.
 
-Similarly جوعان means EXTREMELY Hungry; and hungry RIGHT NOW (like you crazy teenagers) - but temporary. Why? Because you will eat something in that state, and once you do that your hunger goes away. Or you don't eat and you starve to death, and that's how the hunger goes away. You understand? In either case, you won't stay hungry permanently.
+Similarly, جوعان denotes extreme hunger, present at that moment, yet temporary. This is because one either eats, and the hunger subsides, or one starves, and the hunger ceases with life itself. In neither scenario does the hunger persist permanently.
 
-Same way, you have عتشان. EXTREMELY thirsty, right this very moment - but temporary. You will either have a drink and no longer be thirsty, or you will die of thirst. In any case that thirst is not going to last forever.
+Likewise, عتشان signifies extreme thirst, present at that moment, yet temporary. One either drinks, alleviating the thirst, or succumbs to it. The thirst does not endure indefinitely.
 
-So now why is Allah's intense mercy temporary? Because we would not be able to handle the intensity and severity of his love for a long period of time. I'll give you an example - kids will be able to understand and relate to this much better. Have you ever had those moments with your mom where they're in a very cuddly and huggy kind of mood? The wrap their arms around you and squeeze you till you cannot breathe and go? أو میرا بیٹا! أو میری بیٹی - Mua Mua Mua. Your face is dripping wet after they're done with you! Know what I'm talking about? Now that is a manifestation of what? Intense love! It is a burst of love that your mother showers on you. Now that's a beautiful thing when you're feeling down, or you're depressed, or just just need some serious TLC. You'll actually appreciate that intense love, right? But now imagine that every time you walk by your mother, that's what she does to you. أو میرا بیٹا! أو میری بیٹی - Mua Mua Mua. Every single time! how would you feel then? Would you be able to take it? No! You'd get annoyed! you'd get irritated! Right? Mom!!! Leave me alone! Stop marinating my face with your saliva every time I walk by! Right? You get the idea?
+Allah’s intense mercy is temporary because we would not be able to handle the intensity and severity of His love for a long period. I offer an example that illustrates this point clearly. I recall moments with a mother in a very cuddly and huggy mood. She wraps her arms around me and squeezes until I cannot breathe, saying, "أو میرا بیٹا! أو میری بیٹی - Mua Mua Mua." My face is left dripping wet after this display. This is a manifestation of intense love, a burst of affection a mother showers. This intense love is a beautiful thing when one feels:
+- down,
+- depressed,
+- or in need of serious TLC.
+One would appreciate such intense love. However, if this were to happen every time one walked by the mother, with her saying, "أو میرا بیٹا! أو میری بیٹی - Mua Mua Mua," every single time, one would not be able to tolerate it. One would feel annoyed and irritated. The natural reaction would be to exclaim, "Mom!!! Leave me alone! Stop marinating my face with your saliva every time I walk by!"
 
-Allah's intense love is extreme, immediate - but temporary, because if it was constant, because of its intensity and severity - we would not be able to function. We would literally go insane. We would lose our minds!
+Allah’s intense love is extreme and immediate, but it is temporary. If His love were constant, its intensity and severity would prevent us from functioning. We would literally go insane; we would lose our minds.
 
 Story of Eisa and the Rabi.
 
@@ -1139,33 +1159,36 @@ Raheem
 
 ![](images/79/0946d4dd-bfcb-45eb-be4c-2bebdaa9f080.jpg)
 
-The next word is الرحیم. Allah's love, care, concern and mercy also manifests through the word رحیم. There are two characteristics you need to know about the word رحیم. It has two qualities. Once again, this applies to all words that follow this phonetic pattern - کَرِیمٌ، سَلِیمٌ، حَکِیمٌ، جَمِیلٌ، جَلِیلٌ - they all have these 2 qualities. What are they?
-
-The first characteristic is that it is permanent - it is not temporary
-
-The second quality is that it is not necessarily happening right now. It is not immediate, it is long-term. For example if I say, my aunt is loving to me! That's a long term quality, isn't it? But does that mean she is being loving to me right now? Not necessarily. She may not be showering me with that love right now, but I know for sure that it's always there for me!
+The next word I consider is الرحیم. Allah’s love, care, concern, and mercy also manifest through the word رحیم. The word رحیم, and all others following its phonetic pattern—کَرِیمٌ، سَلِیمٌ، حَکِیمٌ، جَمِیلٌ، جَلِیلٌ—possess two distinct qualities:
+- First, it is permanent, not temporary.
+- Second, it is not necessarily immediate; its manifestation is long-term. For instance, if I describe my aunt as loving, I refer to a lasting quality. This does not imply she is actively demonstrating that love at this precise moment. She might not be showering me with affection right now, yet I remain certain her love is always present.
 
 ### Rehman before Raheem
 
-Now what's really interesting is that everywhere in the Quran, we find الرحمن mentioned first, and then it is followed by الرحیم. Why is that? Why are the two always used together? Please listen to his very carefully.
+Throughout the Quran, I observe that الرحمن is consistently mentioned before الرحیم. This consistent pairing prompts an inquiry into why these two words are always used together.
 
-If Allah had ONLY said الرحمن then his love, care, concern and mercy would have been EXTREME; it would have been immediate; but it wouldn't have been permanent. If Allah only said الرحیم his love and mercy would have been permanent, but it would not have been extreme. So how do I talk about the love, care, concern and mercy of Allah, so that it is extreme **and **it is beyond expectations; and it is immediate; and it is permanent; and it is long term; and it is all of this at the same time? The only way to do that is through الرحمن and الرحیم. SubhanAllah! You cannot talk about the qualities of the love and care of Allah in better terms than الرحمن and الرحیم
+If Allah had used only الرحمن, His love, care, concern, and mercy would have been extreme and immediate, yet not permanent. Conversely, if Allah had used only الرحیم, His love and mercy would have been permanent, but not extreme. How, then, can I describe Allah's love, care, concern, and mercy as simultaneously extreme, beyond expectations, immediate, permanent, and long-term? The only way to express these combined qualities is through الرحمن and الرحیم. SubhanAllah! No better terms exist to describe the qualities of Allah's love and care than الرحمن and الرحیم.
 
-I'll give you an example so that you can understand this better. You are at work. Today is pay day. Your boss is not there at the office; and you have a flight booked to Timbuktu for 6:00 pm. Which means you need to leave the office exactly at 5 o'clock or you will not make it to the airport. It's already 4:45 and you still haven't received your paycheck. For some reason you desperately need your paycheck - because that money is for your trip. You were counting on this paycheck for the expenses of your trip. So now you're getting desperate. Its 4:50 now. and your boss is still isn't there. You're getting extremely anxious. Your your co-worker says to you: Don't worry. Our boss is reliable. He'll be here. You'll get your paycheck. Don't worry! Relax!!
-Now its 4:55 and you are totally freaking out. Your coworker is still telling you - Don't worry! he's reliable! he'll be here. Now what will you say to him at that point? .
-*No don't say that . that's very rude!*
+I offer an example to illustrate this point. You are at work. Today is pay day. Your boss is not there at the office; and you have a flight booked to Timbuktu for 6:00 p.m. This means you need to leave the office exactly at 5:00 o'clock or you will not make it to the airport. It is already 4:45 p.m., and you still have not received your paycheck. For some reason, you desperately need your paycheck, because that money is for your trip. You were counting on this paycheck for the expenses of your trip. So now you are getting desperate. It is 4:50 p.m. now, and your boss is still not there. You are getting extremely anxious. Your co-worker says to you: "Don't worry. Our boss is reliable. He'll be here. You'll get your paycheck. Don't worry! Relax!!" Now it is 4:55 p.m., and you are totally freaking out. Your co-worker is still telling you: "Don't worry! He's reliable! He'll be here." What might be said to the co-worker at that moment? A rude response is to be avoided; such an utterance would be highly impolite.
 
-You'll say. Listen! I know he's reliable! but I need him to be reliable RIGHT NOW. Right this very minute! I need his quality of reliability. RIGHT NOW! Isn't that the case?
- When I'm in serious trouble. I need Allah's help when? RIGHT NOW! So I need the name of Allah. that gives me the help I need RIGHT NOW! That is الرحمن. But then I also need the other name of الرحیم. Why? Because it takes care of my future. Because when Allah says الرحیم it is permanent right? Which is a guarantee for what? The future. So الرحمن is a guarantee of his love, care, concern and mercy for the present, whereas الرحیم is a guarantee of his love, care, concern and mercy for the future. In other words, both short-term love, and long-term love are covered by the attributes of الرحمن and الرحیم.
+You'll say, "I know he is reliable, but I need him to be reliable right now, this very minute! I need his quality of reliability immediately." When I am in serious trouble, my need for Allah's help is immediate. Therefore, I need the name of Allah that provides immediate assistance. That name is الرحمن.
 
-I'll give you another example. Teenagers will be able to relate to this better I think. I come home and I'm REALLY REALLY hungry. OK? I didn't have time for breakfast. There was too much work at the office, so I didn't get a chance to have lunch either. So I come home and I'm starving. I sit at the dinning table and my wife comes and asks me: so what do you want me to cook for next week? I'll be like. WOMAN! Who cares about next week? Give me something to eat right now!! When you're extremely hungry, the only thing you can think about is what? Right now. And when my RIGHT NOW is taken care of! Once I've finished eating my dinner tonight and I go BURP. Aaaah. AlHamdulillah ! Only then I'll be interested in what are we eating next week! Right?
-Only after you've paid this months bills, you start worrying about next months bills. Only after you've paid this semesters fee, you start worrying about next semesters fees. You understand? So we only think about the future when our immediate concerns are taken care of. So Allah says I am الرحمن. I'm taking care of your immediate needs right now. But when your immediate concerns are taken care of, I will also be الرحیم to take care of all your future concerns.
+However, I also need the other name, الرحیم, because it addresses my future. When Allah says الرحیم, it signifies permanence, which guarantees the future. Thus, الرحمن guarantees His love, care, concern, and mercy for the present, while الرحیم guarantees these same qualities for the future. In other words, the attributes of الرحمن and الرحیم encompass both short-term and long-term aspects of His love.
 
-Someone once asked أَبْنُ عَبَّاسٍ رَضِیَ اللہُ عَنْہُ about the difference between الرحمن and الرحیم. He said Allah is betweenالرحمن in this life and he is الرحیم in the after life. Because the love and care of Allah will go away for disbelievers on the day of judgment. Until that day he is betweenالرحمن for both - the believers and disbelievers. He is الرحمن for all of us - every human being. In other words, the الرحمن does not only love you and care about you. He does not just love me and care about me. He loves and cares for every single being that he ever created. Plants, animals, humans. No matter what religion color or race they belong to. Muslim or non-Muslim. He actually even loves and cares for those who hate him! Who deny his existence . His doors of رحمنیۃ are always open to everyone. he is always hoping they will choose to turn back to him. His invitation never expires. because الرحمن is a universal quality.
+I offer another example. Teenagers may find this example particularly relatable. I return home, intensely hungry. I had missed breakfast, and too much work at the office prevented me from having lunch. Thus, I arrive home starving. I sit at the dining table, and my wife asks, "So what do you want me to cook for next week?" I respond, "Woman! Who cares about next week? Give me something to eat right now!" When one is extremely hungry, the sole thought is of the immediate present. Once I have finished eating my dinner tonight and I go, "BURP. Aaaah. AlHamdulillah!" only then do I become interested in what we are eating next week.
+
+Only after paying this month's bills does one begin to worry about next month's. Similarly, only after paying this semester's fees does one start to consider next semester's. Thus, we consider the future only when our immediate concerns have been addressed. Allah says I am الرحمن. I am taking care of your immediate needs right now. But when your immediate concerns are taken care of, I will also be الرحیم to take care of all your future concerns.
+
+Someone once asked أَبْنُ عَبَّاسٍ رَضِیَ اللہُ عَنْہُ about the difference between الرحمن and الرحیم. He said, "Allah is الرحمن in this life, and He is الرحیم in the afterlife." This is because Allah's love and care will cease for disbelievers on the Day of Judgment. Until that day, however, He is الرحمن for both believers and disbelievers. He is الرحمن for all of us—every human being. In other words, the الرحمن does not only love and care for me or for you. He loves and cares for every single being He ever created: plants, animals, and humans. This includes people of every religion, color, or race, whether Muslim or non-Muslim. He even loves and cares for those who hate Him and deny His existence. His doors of رحمنیۃ are always open to everyone. He constantly hopes they will choose to return to Him. His invitation never expires, because الرحمن is a universal quality.
 
 رَحْمَتِی وَسِعَتْ عَلَیٰ کُلِّ شَیْءٍ
 
-My mercy extends to all. The rain comes down from the sky for all human beings to drink from it. They all draw their sustenance from it. The good drinks and the wretched drinks as well. The sinner drinks, the pious drinks. The friend of Allah drinks, the enemy of Allah drinks. the Scholar drinks, the ignorant drinks. Everybody drinks! This is the universal mercy of this world.
+My mercy extends to all. Rain descends from the sky for all human beings to drink, and from it, they all draw their sustenance.
+*   The good drink, and the wretched drink.
+*   The sinner drinks, and the pious drinks.
+*   The friend of Allah drinks, and the enemy of Allah drinks.
+*   The scholar drinks, and the ignorant drinks.
+Everybody drinks! This is the universal mercy of this world.
 
 َما مِن یَوم اِلاَّوالبَحرُ یَستَئذِنُ رَبَّہُ فی اَن یورِقُ ابن آدم
 
@@ -1173,40 +1196,24 @@ My mercy extends to all. The rain comes down from the sky for all human beings t
 
 والملائکۃ یَستَئذِنُ فی ان تُعاَجِلَہُ وَ تُھلِکُہ
 
-Not a single day passes by, that the ocean asks its master, Ya Allah! Give me permission, let me drown these disbelievers!! They enjoy your blessings and rebel against you?! Let me teach them a lesson!
+Not a single day passes without the ocean asking its Master, "Ya Allah! Give me permission to drown these disbelievers! They enjoy your blessings and rebel against you?! Let me teach them a lesson!"
 
-والارضُ یَستَئذِنُ فی أَن تَبتَلِعَہُ
+والارضُ یَستَئذِنُ فی أَن تَبتَلِعَہُ The earth begs its Master, "Oh Ya Allah! Allow me to swallow them alive where they stand. They walk on your earth, eat its produce that you grow for them, and yet do not prostrate before you in abject humiliation?! Let me remove them from the face of this earth!"
 
-The earth begs its master, Oh Ya Allah! Allow me to swallow them alive where they stand. They walk on your earth, eat its produce that you grow for them, and not prostrate before you in abject humiliation?! Let me remove them from the face of this earth!
+والملائکۃ یَستَئذِنُ فی ان تُعاَجِلَہُ وَ تُھلِکُہ The angels say, "..... Ya Allah, give us permission! We will destroy them! We will annihilate them!"
 
-والملائکۃ یَستَئذِنُ فی ان تُعاَجِلَہُ وَ تُھلِکُہ
-
-Angels say..... Ya Allah give us permission! We will destroy them! We will annihilate them!
-The ocean, the earth, the angles - these are all creations of Allah like we are. They are watching our sins, our rebellion and getting furious. But the creator, that we are all rebelling against - what does he say?
+The ocean, the earth, and the angels—these are all creations of Allah, just as I am. They observe my sins and rebellion, growing furious. But what does the Creator say, the One against whom I rebel?
 
 دَعُو عَبدِی فأنا أَعلَمُ بِعَبدِی مِنکُم ۔ ان کان عبدَکم فَشَأنَکم بِہِ۔ وأن کان عبدی فَمِنِّی وأِلیَّ عبدی
-
-Let them be! Leave them alone! I love my creation way more than that. If they are your creation, do whatever you please with them! But if they're my creation, then hand them over to me and and you step out of the way. I will deal with my creation!
-
+Let them be! Leave them alone! I love my creation way more than that. If they are your creation, do whatever you please with them! But if they are my creation, then hand them over to me, and you step out of the way. I will deal with my creation!
 یَسْأَلُ الْمَلَائِکَۃَ: فلماذا عقدُہُ؟
-
 The angels ask: What are you waiting for?
 
-یَسْتَجِیبُ اللَّہُ: إنني أتطَّلِع إلى التوبتَہُ
-
-I am waiting for their repentance.
-
-أِنْ اَتَانِی نَھَارًا قَبِلْتُہُ أِنْ اَتَانِی لَیْلًا قَبِلْتُہُ
-
-If he approaches me during the day time, I will accept him; if he approaches me during the night time I will accept him.
-
-مَن تَقَرَّبَ أِلَیَّ تَلَقَّیتُہُ مِن بَعِید
-
-If anyone takes one single step towards me, I approach him by running towards him.
+یَسْتَجِیبُ اللَّہُ: إنني أتطَّلِع إلى التوبتَہُ I am waiting for their repentance. أِنْ اَتَانِی نَھَارًا قَبِلْتُہُ أِنْ اَتَانِی لَیْلًا قَبِلْتُہُ If he approaches me during the day time, I will accept him; if he approaches me during the night time I will accept him. مَن تَقَرَّبَ أِلَیَّ تَلَقَّیتُہُ مِن بَعِید If anyone takes one single step towards me, I approach him by running towards him.
 
 وَ مَن أَعرَضَ عَنِّی ناَدَیتُہُ عَن قَرِیب
 
-And if anyone walks away from me, then I go after him to bring him closer and I ask him:
+And if anyone walks away from me, I go after him to bring him closer and ask him:
 
 أَوَلَکَ رَبٌّ غَیرِی؟
 
@@ -1214,17 +1221,17 @@ Do you have another master who is more loving than me?
 
 الحَسَنَۃُ عِندِی بِعَشرِأَمثَالِھَا وَ أَزِید
 
-Don't you know that I take one good deed from you and reward you 10 times for it, in fact even more!
+Do you not know that I take one good deed from you and reward you ten times for it, even more?
 
 وَوَصَّیَّتُ عِندِی بِمِثلِھَا وأَعفُو و أغْفَر
 
-But I count your sin as a single sin and when you repent, I even forgive that and reward you for your repentance.
+But I count your sin as a single sin, and when you repent, I even forgive that and reward you for your repentance.
 
 فَأَيْنَ تَذْهَبُونَ
 
 Then where are you going?
 
-I personally feel that this HADEES truly portrays the رحمنیۃ and the رحیمیۃ of our creator! Love is an emotion that cannot be quantified in words. It can only be judged through action.
+I find that this HADEES truly portrays the رحمنیۃ and the رحیمیۃ of our Creator. Love is an emotion that cannot be quantified in words; it can only be judged through action.
 
 ## Womb - The Source Of Mercy
 
@@ -1234,67 +1241,133 @@ REHM
 
 ![](images/101/69b7af1e-c0ca-4a3f-9149-ff599bc840cc.jpg)
 
-The word رحمۃ actually comes from the word رَحَم. The word رَحَم in Arabic means the womb of a mother when she is carrying a child. The رَحَم is the place where the baby lives inside the mother for 9 months before the it is born in this world. Now why do you think Allah chose a word for mercy that derives from the womb of a mother? Because the womb of a mother, describes the relationship between Allah and his creation. This is what makes it so beautiful.
+The word رحمۃ derives from رَحَم. In Arabic, رَحَم refers to a mother's womb when she carries a child. The رَحَم is the place where a baby resides inside the mother for nine months before birth. I considered why Allah chose a word for mercy that derives from a mother's womb. The mother's womb describes the relationship between Allah and His creation, which makes this connection beautiful.
 
-Now isn't it true that both parents love their children? They do! But you know what's interesting? In the Quran, whenever Allah compares his love for his creation, he never uses the example of a father. Never! He **always** uses the example of a mother. Therefore in order to truly understand the meaning of the word رحمۃ; In order to truly understand the kind of relationship Allah has with us, we must first understand the relationship of a mother with her child, when she is carrying it in her womb.
+Both parents love their children. However, I observe that in the Quran, when Allah compares His love for His creation, He never uses the example of a father. He always uses the example of a mother. Therefore, to truly understand the meaning of the word رحمۃ and the nature of Allah's relationship with us, I must first understand the bond between a mother and her child during pregnancy.
 
-There is this famous HADEES in which Allah is actually speaking directly to the womb. And obviously, here the womb means the archetypal womb! Because the womb of the mother is how all of humanity exists in this world. We all came as a result of the womb of our mothers. And so Allah spoke to the womb and he said:
+A famous Hadith describes Allah speaking directly to the womb. Here, the womb represents the archetypal womb, as the mother's womb is the means by which all of humanity comes into existence. All of us originate from our mothers' wombs. Allah spoke to the womb, saying:
 
 اِنِّی سَمَّیتُکَ بِاسْمی
 
-I named you from my names.
+I named you from My names.
 
-I am الرحمن and I am الرحیم and therefore I am deriving the name for my unconditional love, my constant care, my genuine care and my infinite mercy - I am naming my رحمۃ based on your womb - your رَحَم . I am making you a symbol of my رحمۃ and my unconditional love, because every single human being that will exist through time, will come through you! And you will remind them of my love for them. Your رحم is the very first thing they will experience before this come in world - and my رحمۃ is what they will experience once they are born in this world until the day they return to me. That is the conversation the رحمن had with the womb - the رَحَم. SubhanAllah!
+I am الرحمن and I am الرحیم, and from these I derive the name for My unconditional love, My constant care, My genuine concern, and My infinite mercy. I name My رحمۃ based on your womb, your رَحَم. I make you a symbol of My رحمۃ and My unconditional love, because every human being who will exist through time will come through you. You will remind them of My love for them. Your رحم is the very first thing they will experience before they come into this world, and My رحمۃ is what they will experience once they are born into this world until the day they return to Me. That is the conversation the رحمن had with the womb, the رَحَم. SubhanAllah!
 
-Now what is it about the womb of a mother that is important for us to understand. Well! There are a few things. The very first question that I want to ask you, is that when a child is inside the womb of its mother - is it being punished? Is there any association with the concept of punishment for the baby when its inside the womb of its mother? No! Absolutely not! What's the relationship of the mother with the baby? It is of pure love, right? What is that a reminder for? It's a reminder of the very kind of relationship Allah with His creation. It is based on pure love. It has nothing to do with punishment. The moment a woman finds out she's pregnant, she falls in love with the baby. She hasn't even seen the baby yet, has she? She hasn't even met the baby yet - but she still falls completely and unconditionally in love with her baby.
+What is it about a mother's womb that is important for understanding? Several points are important. The first question is: when a child is inside its mother's womb, is it being punished? Is there any association with punishment for the baby while it is inside its mother's womb? Absolutely not. The mother's relationship with the baby is one of pure love. This serves as a reminder of the very nature of Allah's relationship with His creation. It is based on pure love and has nothing to do with punishment. The moment a woman discovers she is pregnant, she falls in love with the baby. She has not even seen the baby yet. She has not even met the baby yet, but she still falls completely and unconditionally in love with her baby.
 
-Now did the womb exist even before the mother conceived? Or does the body just create the womb when she gets pregnant and then discards it later? The womb exists within every woman - baby or no baby - the womb is always there, yes? Similarly Allah's رحمۃ - his unconditional love, care concern and mercy is always there! His رحمۃ does not exist because we exist; or because humanity exists; or because creation exists! No - his رحمۃ is always there; and will always remain even when we no longer exist; even when all of humanity no longer exists; even when this universe no longer exists - just as the womb exists even after the child is born. You understand?
+I consider whether the womb exists before conception, or if the body creates and discards it with each pregnancy. The womb exists within every woman, whether she carries a baby or not; it is always present. Similarly, Allah's رحمۃ—his unconditional love, care, concern, and mercy—is always present. His رحمۃ does not depend on our existence, nor on the existence of humanity or creation. Instead, his رحمۃ is perpetually present and will endure even after we, all of humanity, and this universe cease to exist, just as the womb remains after a child is born.
 
-Now... When the child is inside the womb of its mother, does the child even know that it is being taken care of? Does it even know that the mother exists? It doesn't! It is being taken care of in ways that it cannot even imagine! Forget realizations and appreciations, the fetus in the womb of its mother cannot even imagine what role the womb is playing in its life to maintain his existence. Similarly Allah is taking care of us in ways that we cannot even possibly imagine or realize. He is taking care of us in such a subtle manner - that forget his رحمۃ even his presence is not visible to us. He is taking care of us in such a subtle manner. That's why one of his name is لطیف. The word لطیفmeans something that is extremely subtle. It's there - and it is constantly working for you, but you don't even feel it's presence. That's لطیف. But what's amazing is that in the Quran every time the attribute لطیف is mentioned, what other attribute do you hear with it? خبیر. The All knowing.
+A child inside its mother's womb does not know it is being cared for, nor does it know of the mother's existence. It remains unaware. Care is provided in ways it cannot imagine. The fetus in the womb cannot even imagine the womb's role in sustaining its life, let alone comprehend or appreciate that care.
+
+Similarly, Allah cares for us in ways we cannot imagine or realize. His care is so subtle that His presence, let alone His رحمۃ, remains invisible to us. This subtlety is why one of His names is لطیف. The word لطیف means something extremely subtle. It is present and constantly working for us, yet we do not even feel its presence. This is لطیف.
+
+It is remarkable that in the Quran, every mention of the attribute لطیف is accompanied by another attribute. That attribute is خبیر, the All-Knowing.
 
 لَّا تُدْرِكُهُ ٱلْأَبْصَرُ وَهُوَ يُدْرِكُ ٱلْأَبْصَرَ ۖ وَهُوَ ٱللَّطِيفُ ٱلْخَبِيرُ
 
-Your eyes cannot see him. but he is aware of what your eyes are seeing. He is extremely subtle, but ALL KNOWING at the same time. SubhanAllah! So the child doesn't even know that the mother is taking care of it.
+Our eyes cannot see Him, but He is aware of what our eyes perceive. He is extremely subtle, yet ALL-KNOWING simultaneously. Thus, the child does not even know that its mother is caring for it.
 
-The next thing that comes to mind when you think of the womb, is protection. The mother is constantly protecting the baby. She watches the corners of the table when she walks. She tries to stay safe. She sleeps on her side. She watches what she eats. She's constantly caressing the baby. She loves the baby; she cares for the baby; and this is why she is extremely protective of it.
+I next consider the womb, and the idea of protection immediately comes to mind. The mother constantly protects the baby. This protection manifests in many ways:
+*   She watches for sharp table corners when she walks.
+*   She tries to stay safe.
+*   She sleeps on her side.
+*   She monitors what she eats.
+*   She constantly caresses the baby.
+Her love and care for the baby drive this extreme protectiveness.
 
-That is exactly what Allah is doing for us - constantly! You kids don't just make it to school like that. Can you even imagine how many things can go wrong? In just the time you leave the house and enter your school? There are millions of things can go wrong. But Allah is protecting us; and keeping us safe. Every single day people walk out of their homes and not everyone returns that night! Do these people who die in car crashes or accidents know that they're not going to return home tonight? When their time comes - that's it. But until their time comes - what is constantly protecting them from accidents and other kinds of harm? Allah's رحمۃ. So just as the womb is constantly protecting its creation; Allah is constantly protecting his own creation. That's what the womb of a mother is reminding us.
+Allah provides this same constant protection for His creation. People do not simply arrive at school without incident. I consider the multitude of things that can go wrong between leaving home and arriving at school. Indeed, countless potential dangers exist. Yet Allah protects and keeps His creation safe. Every day, people leave their homes, and not all of them return that night. Those who die in car crashes or accidents do not know they will not return home that night. When their appointed time arrives, their life ends. Until that time, Allah's constant protection, His رحمۃ, shields them from accidents and other harms. Thus, just as the womb constantly protects its creation, Allah constantly protects His own creation. The mother's womb serves as a reminder of this truth.
 
-Then, this mother puts up with a lot of difficulties for her baby. Doesn't she? She deals with constant morning sickness. Some has to take these horribly painful tests. Some have to take extremely nauseating medicines for the health and growth of the baby. They have to get blood work done constantly - it's one painful thing after another. A mother goes through so much pain for the sake of what? Her child! Which again, BTW, the child is completely unaware of. The child takes the mother completely for granted - just as we take the رحمۃ of Allah سُبْحَانَهُ وَتَعَالَى for granted.
-And BTW - this child is technically doing nothing for the mother; and yet the mother is doing everything for the child. The baby eats her food, right? The poor woman eats; but within minutes the damn baby takes everything - and she's like seriously?? Stop it!!. She just ate this huge meal and minutes later she's hungry again. And then the poor husband has to run in the middle of the night for ice cream. The baby is taking everything from her and its not giving anything back to its mother. In fact. when the baby does thank her, how does it thank the mother? By kicking her from the inside right?. It just decides to stretch from time to time. It decides to do the the insanity workout whenever it feels like it; decides to bench press with her ribs, right? And the mother silently and happily endures it. It's incredible! The mother is in a constant state of discomfort because of this baby; and yet she is happily enduring it!
-We are doing absolutely nothing for Allah. But Allah is still doing everything for us. We do nothing for Allah! We can do nothing for Allah even if we wanted. We cannot add anything to his kingdom. We cannot take away anything from his kingdom. Our good deeds do not add to his kingdom. Our sins do not reduce anything from his kingdom. We cannot make him any wealthier than he is. We cannot make him any poorer than he is. We cannot praise him any more than he is already praised. We cannot do anything for him. Just appreciate this fact for a moment - There is ABSOLUTELY NOTHING that we can offer Allah; and yet, he is constantly doing things for us - without us even realizing his presence. And in many cases even without acknowledging his presence.
+A mother endures many difficulties for her baby. She deals with constant morning sickness. Some have to take these horribly painful tests. Some have to take extremely nauseating medicines for the health and growth of the baby. They undergo constant blood work, experiencing one painful procedure after another. A mother endures so much pain, all for the sake of her child. The child, however, remains completely unaware of this. The child takes the mother completely for granted, just as we take the رحمۃ of Allah سُبْحَانَهُ وَتَعَالَى for granted. Moreover, the child technically does nothing for the mother, yet the mother does everything for the child. The baby consumes her food. The mother eats, but within minutes the baby takes everything, leaving her hungry again shortly after a large meal. Consequently, the husband may find himself running for ice cream in the middle of the night. The baby takes everything from her and gives nothing back to its mother. In fact, when the baby does 'thank' her, it does so by kicking her from the inside. It might:
+- Stretch from time to time.
+- Perform an 'insanity workout' whenever it feels like it.
+- Bench press with her ribs.
+The mother silently and happily endures these actions. This is incredible. The mother remains in a constant state of discomfort because of this baby, yet she happily endures it. We do absolutely nothing for Allah, but Allah still does everything for us. We do nothing for Allah.
+
+I can do nothing for Allah, even if I wished. I cannot add anything to his kingdom, nor can I take anything away. My good deeds do not increase his kingdom, and my sins do not diminish it. I cannot make him wealthier or poorer than he already is. I cannot praise him more than he is already praised. I cannot do anything for him. The fact remains clear: I can offer Allah absolutely nothing. Yet, he constantly acts for me, often without my even realizing his presence, and in many cases, without my acknowledging it.
 
 كُلَّ يَوْمٍ هُوَ فِى شَأْنٍۢ
 
-Every moment he is busy in work. to keep this universe and EVERYTHING within this universe functional . SubhanAllah!!
+Every moment he is engaged in work to keep this universe and everything within it functional. SubhanAllah!
 
-Then the womb reminds us that that all the needs of the child are being met by its mother. The child is completely surrounded. It is completely enveloped by the love and the care of its mother. His food, his drinks even when the child excretes - all of that is taken care by the body of the mother. Everything the child needs is completely provided for. The rent is paid. Housing and lodging is free. It does not have to pay for any of the utilities. All meals are included. In other words, the baby is completely wrapped up in the love and care of its mother. Yes?
-Similarly we are completely wrapped up in the unconditional love, care, concern and mercy of Allah سُبْحَانَهُ وَتَعَالَى. He provides us with our sustenance. He gives us the luxuries of a good life. He's making the outside world functional for us. He's keeping the inside world functional for us. My heart is beating, my organs are working, my breadth is coming in and out. I can walk. I can speak. He's making all this happen for me. He gave me parents. He gave me teachers. He gave me knowledge. He gave me a family. He surrounded me with all the comforts of my life.
-You know how we complain about paying the bills; about mortgage; about utility expense. Just think for a second - how much do we pay for our sight? How much do we pay Allah for our ability to hear? our ability to speak.; our ability to breadth? Forget everything else! How much are we paying for each and every breadth we take? How much would you pay for your breadth? If you couldn't breathe and Allah asked you to pay for the next breadth? What amount would you be willing to pay him for the next breadth? How much would you pay for your hands? What would they be worth to you? We are going through a life that is immensely blessed with his uncountable bounties. We are immensely blessed with the riches and provisions he created for with - ALL of which we take completely for granted! And he is OK with that. He still continues to serve us.
+The womb reminds me that all the needs of the child are met by its mother. The child is completely surrounded and enveloped by its mother's love and care. Its food, its drinks, and even the disposal of its waste are all managed by the mother's body. Everything the child needs is fully provided.
+*   Rent is paid.
+*   Housing and lodging are free.
+*   It does not pay for utilities.
+*   All meals are included.
+The baby is completely wrapped in its mother's love and care.
 
-So far we've talked about the benefits of the child. Now let's talk about the motivation for this mother? . The baby is not paying the mother. The baby is not giving anything back to the mother. So then what is the motivation of this mother to carry on? Despite all the discomfort this child is putting her through, what could possibly be motivating this mother to carry on?
+Similarly, I am completely wrapped in the unconditional love, care, concern, and mercy of Allah سُبْحَانَهُ وَتَعَالَى. He provides my sustenance and gives me the luxuries of a good life. He makes the outside world functional for me, and He keeps the inside world functional. My heart beats, my organs work, and my breath comes in and out. I can walk. I can speak. He makes all this happen for me. He gave me parents, teachers, knowledge, and a family. He surrounded me with all the comforts of my life.
 
-The only motivation the mother has for the baby is an extreme form of unconditional love. Just think about this. As the child grows in the womb of its mother, it becomes more and more of a problem for the mother, yes or no? From a physical standpoint. As time passes and the embryo grows in size, it becomes more and more of a problem for its mother. But what happens to her love? She falls more and more in love with her baby. She is constantly increasing in her love. This is incredible! And then when the baby comes out, we know that it almost kills her. If 9 months of torture wasn't enough! This baby causes this incredibly intense pain of child birth. I've been in the delivery room twice - so I have seen what that pain is like. Nazneen was in labor for 8 hours at the time of Erum. I'm sure there are mothers in this group that have gone through much worse. But personally, I've never seen anyone go through so much pain. And yet when Erum finally came out - I remember the doctor tried to hand her to me. She was covered up in all that GUI stuff - and I went EWOOO. What is this?! Can you please clean this thing first?
+I often complain about paying bills, mortgage, and utility expenses. Yet, I consider: how much do I pay for my sight? How much do I pay Allah for my ability to hear, to speak, or to breathe? Setting aside all else, how much do I pay for each breath I take? How much would I pay for my breath if I could not breathe and Allah asked me to pay for the next one?
 
-But I remember when she brought Erum to Nazneen, with this incredible love, she touched her cheeks and said - Hi baby! And then she passed out. That was such an insane moment in my life. I still don't get it. I probably never will. I thought she'd hate this baby who caused her SO much pain! I thought she'd yell at her! Scream at her! Curse her out. You almost killed me! I hate you! But that's not what happened! Instead the first time they brought Erum to her, she gave her a big hug and kissed her! I had never seen anyone in this much pain and this happy at the same time! SubhanAllah!
-Anybody else who causes SO much pain to you. Anyone who makes you bleed this way - you would **not** give them a hug! We made our mothers bleed! Almost to death. and as soon as we come out of her womb, she showered us with her love! Her love actually increased for us! She fell in love with us more than she ever did before - and this is seconds after we tried to kill her.
+I consider the price I would pay for my next breath. I reflect on the worth of my hands. My life is immensely blessed with His uncountable bounties. I am blessed with the riches and provisions He created for us, all of which I take completely for granted. Yet, He accepts this, and He continues to serve me.
 
-What kind of a relationship is this? This is a completely illogical relationship. This is not a relationship you and I can make any sense of. It is beyond all logic. Because this does not happen with any other relationship. There is no other relationship in your life that works this way. Where you never give. Where you NEVER EVER give. You ONLY take - and still - all you get in return is more love. You keep demanding more and she keeps giving more!
+I have discussed the benefits of the child. I now turn to the mother's motivation. The baby does not pay the mother; it gives nothing back to her. What, then, motivates this mother to carry on? Despite all the discomfort this child causes her, what could possibly be her driving force?
 
-And BTW, your mother bled so much to give you life! She just went through childbirth or surgery to give you life, and what happens right after you're born? She now has to feed you! And feeding as we know, can also be a very painful thing. Anyone else in this world who goes through surgery or such intense pain says: I need 6 weeks off. I need 2 months off. I need a break. I need a vacation. Does a mother get a 2 month break after she gives birth? NO! You break a leg, you get 6 months off! She just almost died giving birth and she's on the clock - right away! The moment her baby is born, the mother is working full time! What does the baby give her back in return? She gives it milk; she gives it love; she gives it care; she is constantly concerned about it; she constantly protects it; she bathes it, oils it, changes diapers like every 5 minutes. And she does all of this through countless sleepless nights; months after months; year after year. What does the baby do in return? Does it say thank you? Does it show gratitude? Does it sing praises for the mother? NO! But does the mother still keep loving and caring her baby over and over and over again? She does! The only reward the baby offers is by urinating on her, or pooping on her; throwing up on her. And even when the baby does that, what does the mother do? Toss it out the window? No! She actually finds that cute! *Aww so cute, and then she cleans it up. Oh it's OK my little baby. Don't worry here I'll change you - all better now!* Isn't this an INCREDIBLY BEAUTIFUL relationship? But at the same time, isn't this also an EXTREMELY insane relationship?
+The mother's sole motivation for her baby is an extreme form of unconditional love. This point bears consideration. As the child grows within the mother's womb, it increasingly presents physical challenges for her. With each passing day, as the embryo increases in size, it becomes more demanding on the mother's body. Yet, her love for the baby intensifies. Her affection grows constantly, which is remarkable. Then, at birth, the baby's arrival nearly takes her life. As if nine months of torture were not enough, the baby inflicts the incredibly intense pain of childbirth. I have been in the delivery room twice and have witnessed that pain. Nazneen was in labor for eight hours when Erum was born. I know that many mothers experience far worse, but I have personally never seen anyone endure such profound pain. Yet, when Erum finally emerged, I recall the doctor attempting to hand her to me. She was covered in the substances of birth, and I reacted with an exclamation of disgust: "What is this?! Can you please clean this thing first?"
 
-But this is what Allah is doing for us. This is what Allah is doing for us on a much larger scale - and that too doesn't make sense? Allah's love for us, simply doesn't make sense. It is beyond all logical reasoning. We just cannot limit Allah's love to common sense. Because we don't deserve this kind of love from him. That is what common sense dictates. If we honestly judge our actions; if we look at our ingratitude towards Allah - there is absolutely no reason for Allah to continue taking care of us. We don't even take out the time to remember him 5 times in a day - that's just 2 hours! That's all it takes. We'll watch a 3 hour Indian movie! We'll watch a 5 hour soccer match! We'll watch an all day cricket match - rewind and play it over and over again. We have time for all of those trivial activities - but not 2 hours for our creator. Not even half an hour - 30 minutes - to just do the فرائض. We don't even do that much - just to say thank you. We constantly disobey him after **everything** he does for us. We do everything he tells us **not** to do. Some don't even acknowledge his existence. Who knows if there is an Allah or not; and who cares if there is. And yet, he keeps giving us; he keeps feeding us; he keeps providing for us; he keeps forgiving us. It's truly incredible! Despite my constant ingratitude, and my constant disloyalty, and my constant defiance to his every command, I am still waking up every morning! I am still breathing oxygen. I am still going about my day - eating and drinking the delicious foods he provides for me. I'm still enjoying life going to parties. He takes none of that away from me. This doesn't make sense. It JUST doesn't make sense.
+I remember when she brought Erum to Nazneen; with incredible love, she touched her cheeks and said, "Hi baby!" Then she passed out. That was an insane moment in my life. I still do not comprehend it, and I probably never will. I had thought she would hate this baby who caused her so much pain! I had expected her to yell at her, to scream at her, to curse her out, saying, "You almost killed me! I hate you!" But that is not what happened. Instead, the first time they brought Erum to her, she gave her a big hug and kissed her. I had never seen anyone in such profound pain and simultaneously so happy! SubhanAllah!
 
-Just look at what we do with food. How much food do we waste? His greatest blessings for mankind - the very means of sustenance. Look how we disrespect food?Have you studied the etiquette of eating. The prophet ﷺ said: Sit before your food like a slave sits before his master. Cover your head before you eat to out of respect. Do not place your plate on the floor - elevate it from the ground in order to honor it. When you're done eating, find and eat the crumbs and grains that are left behind. That's the kind of respect and honor we should have for food in our lives. Why? One because without it, we cannot even imagine what our lives would be reduced to! And second, just think about the amount of effort it took behind the scenes to get that food on our plate? Can you appreciate the time, the effort, the protection, the management, the planning that went into taking a seed and growing it into a plant! From taking an animal, nurturing it, feeding it, protecting it, till it reached the proper age. Then getting it into the hands of the one who does ذبیحۃ in order to make it halal for us. Then to get it to the supermarket and the meat shop so that you end up buying it. Then providing you with the the tools to cook it until it finally makes it to your plate. That's years and years of Allah's labor that sits before us in our plate. But do we care? Nope! We take a few bites and we toss it away. Why? Wasn't warm enough. Wasn't fresh enough! Not enough salt.
-Kids! Imagine you've worked on a school project for months and months - only for it to get tossed out in the end! How would that feel? The next time you're asked to do a project, tell me how you would respond? You will never go through that effort again!
+Anyone else who causes such immense pain, who makes one bleed in that manner, would certainly not receive a hug. We made our mothers bleed, almost to death. Yet, as soon as we emerged from her womb, she showered us with her love. Her love for us actually increased; she fell more deeply in love with us than ever before, mere seconds after we had nearly killed her.
 
-Why do you think Rasul Allah ﷺ placed these etiquette in شریعۃ? So that they constantly serve as a reminder to us - because we are انسان - we are forgetful creatures who constantly need to be reminded! Reminded of what? Allah's mercy - his رحمۃ. All of شریعۃ is just a reminder of that. Because as soon as any decent human being is presented and reminded of the love, care, concern and mercy of another person, he naturally responds with praise and gratitude. That is - if one is a decent human being.
+What kind of relationship is this? It is a completely illogical relationship, one that defies all understanding. It transcends all logic because this dynamic does not occur in any other relationship. No other relationship functions in this way, where one never gives—never, ever gives—and only takes, yet still receives more love in return. One continues to demand more, and she continues to give more.
 
-But unfortunately, we are ungrateful people. We continuously disrespect and disregard Allah's efforts, but he constantly keeps providing for us - giving us food, clothes, shelter - one better than the next. Just like the mother keeps feeding her baby regardless of what it does. Does the baby care about the months and months of intense effort that went into growing it from a drop of liquid, into a fully developed child? And then from a child to an adult? No! But does the mother stop loving the child? Ever? No! Because this is insane love! There is absolutely no rhyme or reason for Allah to love us this way. But he does! He still does. Why? Because he has رحمۃ for us. Because that is the kind of relationship he has with us - of unconditional love, constant care, genuine concern and constant mercy. What happens to the womb as the baby grows in size? It expands! It expands to accommodate the baby. Allah's love, his mercy, his forgiveness, his compassion constantly grows to accommodate us. That is the love of our creator for us!
+And a mother bleeds profusely to give life. After childbirth or surgery to bring forth life, she must immediately feed the newborn. Feeding can also be a very painful experience. Anyone else in this world who undergoes surgery or such intense pain says, "I need six weeks off. I need two months off. I need a break. I need a vacation." Does a mother receive a two-month break after giving birth? No. A broken leg, for instance, grants six months of recovery. Having nearly died in childbirth, she is immediately on duty. From the moment of birth, the mother works full-time.
+
+What does the infant offer in return?
+*   She provides milk, love, and care.
+*   She is constantly concerned about it and protects it.
+*   She bathes it, oils it, and changes diapers every few minutes.
+
+This continues through countless sleepless nights, month after month, year after year. Does the infant express thanks, show gratitude, or sing praises for the mother? No. Yet the mother continues to love and care for her infant repeatedly. She does. The only reward the infant offers is through:
+*   Urinating on her
+*   Defecating on her
+*   Vomiting on her
+
+Even then, does the mother cast it aside? No. She finds it endearing: "Aww, so cute," as she cleans it, "Oh, it's okay, my little baby."
+
+"Don't worry, I will change you. All better now!" I consider this an incredibly beautiful relationship. Yet, at the same time, I also find it an extremely insane relationship.
+
+This is what Allah does for us. His actions on a much larger scale also defy understanding. Allah's love for us simply defies logic; it is beyond all rational thought. I cannot confine His love to what common sense dictates, for common sense suggests we do not deserve such love from Him. When I honestly judge our actions and consider our ingratitude toward Allah, I find no reason for Him to continue caring for us.
+
+We do not even dedicate two hours a day to remember Him five times. That is all it takes. Yet, we readily spend time on trivial activities:
+- watching a three-hour Indian movie,
+- watching a five-hour soccer match,
+- watching an all-day cricket match, rewinding and replaying it.
+We find time for all these trivialities, but not two hours for our Creator. Not even thirty minutes to perform the فرائض. We do not even manage that much, simply to express gratitude. We constantly disobey Him despite everything He does for us. We do all that He forbids. Some do not even acknowledge His existence, questioning if Allah exists or caring if He does.
+
+Yet, He continues to give, to feed, to provide, and to forgive us. This is truly incredible. Despite my constant ingratitude, my constant disloyalty, and my constant defiance of His every command, I still wake each morning. I still breathe oxygen.
+
+I am still going about my day, eating and drinking the delicious foods He provides for me. I am still enjoying life, even attending parties. He takes none of that away from me. This does not make sense. It simply does not make sense.
+
+I observe our actions concerning food. How much of it do I see wasted? This food represents His greatest blessings for humankind, the very means of our sustenance. I see how we disrespect this sustenance.
+
+I reflect on the etiquette of eating. The Prophet ﷺ said: "Sit before your food like a slave sits before his master. Cover your head before you eat out of respect. Do not place your plate on the floor; elevate it from the ground to honor it. When you are done eating, find and eat the crumbs and grains that are left behind." Such is the profound respect and honor I believe we should show for food in our lives.
+
+I ask myself why this is so.
+*   Without it, I cannot even imagine the state to which our lives would be reduced.
+*   I consider the immense effort required behind the scenes to bring that food to our plates.
+
+I reflect on the time, the effort, the protection, the management, and the planning involved in taking a seed and cultivating it into a plant. Similarly, I consider the process of raising an animal: nurturing it, feeding it, and protecting it until it reaches the proper age. Then it passes into the hands of the one who performs ذبیحۃ to make it halal for us. After that, it reaches the supermarket and the meat shop for purchase. Finally, the provision of tools allows for its cooking until it reaches our plates. This entire process represents years of Allah's labor, now presented before us on our plates.
+
+Yet, I wonder if we truly care. Often, we take only a few bites before discarding it. The reasons given are often trivial: it was not warm enough, not fresh enough, or lacked sufficient salt. Sometimes, it is simply attributed to children's preferences.
+
+I consider the profound sense of futility that arises from months of labor on a project, only for it to be discarded. Such an experience naturally leads to a reluctance to undertake similar efforts again.
+
+Rasul Allah ﷺ established these etiquettes in شریعۃ so that they might serve as a constant reminder. Humanity is انسان, a forgetful creature in perpetual need of such reminders. The subject of this remembrance is Allah's mercy, his رحمۃ. Indeed, all of شریعۃ functions as a reminder of this mercy. When a decent human being is presented with and reminded of another person's love, care, concern, and mercy, a natural response of praise and gratitude emerges. This holds true for any individual of sound character.
+
+Unfortunately, we are often ungrateful. We continuously disrespect and disregard Allah's continuous provision, even as he constantly provides for us, giving us food, clothes, and shelter, each better than the last. This is like a mother who keeps feeding her baby regardless of its actions. A baby does not consider the months of intense effort that went into its growth, from a drop of liquid to a fully developed child, and then to an adult. Yet, a mother never stops loving her child. This is a boundless love. There is no logical reason for Allah to love us in this way, but he does. He continues to do so. This is because he has رحمۃ for us. This defines the relationship he has with us:
+- unconditional love
+- constant care
+- genuine concern
+- constant mercy
+
+As a baby grows, the womb expands to accommodate it. Similarly, Allah's love, his mercy, his forgiveness, and his compassion constantly grow to accommodate us. This is the love our Creator has for us.
 
 اِنِّی سَمَّیتُکَ بِاسْمی
 
-Oh Womb! I have named you from my names. I have named you رَحَم to remind you that I am الرحمن and الرحیم. I have made you a symbol of my love, so that every human being recognizes my unconditional love for them - through you and by your example. Just as we will never be able to understand the love of a mother for her child, we can never understand or appreciate the love and care of Allah for his creation. But in order to get some understanding of this relationship, he gave us mothers. So if you want to taste one drop of that endless ocean of love that Allah has for his creation, who do you think of? Your mother
+"Oh Womb! I have named you from my names. I have named you رَحَم to remind you that I am الرحمن and الرحیم. I have made you a symbol of my love, so that every human being recognizes my unconditional love for them — through you and by your example."
+Just as we can never fully understand a mother's love for her child, we can never fully grasp or appreciate Allah's love and care for his creation. Yet, to offer some understanding of this relationship, he gave us mothers. When one seeks to taste a single drop of that endless ocean of love Allah holds for his creation, the image of a mother comes to mind.
 
 ## Manifestations of REHMA
 

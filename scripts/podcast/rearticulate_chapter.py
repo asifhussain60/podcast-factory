@@ -64,6 +64,7 @@ _TEXT_TRANSFORM_SYSTEM_PROMPT = (
     "Return only the requested transformed prose. Do not mention tools, commands, files, "
     "scripts, terminal output, or the act of processing the request."
 )
+_GEMINI_MODEL = "gemini-2.5-flash"
 
 
 def timeout_for_window(base_text: str) -> int:
@@ -161,6 +162,77 @@ def _repair_adapter(
     return (out or "").strip()
 
 
+def _gemini_adapter(
+    title: str,
+    base_text: str,
+    book_dir: Path,
+    label: str,
+    log,
+    *,
+    previous_tail: str = "",
+    frame: str = "",
+    narrator: str = "",
+) -> str:
+    lang = _source_language(book_dir)
+    timeout = timeout_for_window(base_text)
+    words = len(_WORD_RE.findall(base_text or ""))
+    arabic_runs = _arabic_run_count(base_text or "")
+    log(f"      {label}: gemini timeout={timeout}s (words={words}, Arabic={arabic_runs})")
+    from _gemini_text import call_gemini_text
+
+    return call_gemini_text(
+        _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator, source_language=lang),
+        book_dir=book_dir,
+        phase=_PHASE,
+        step=label,
+        model=_GEMINI_MODEL,
+        system_prompt=_TEXT_TRANSFORM_SYSTEM_PROMPT,
+        timeout=timeout,
+        temperature=0.35,
+    )
+
+
+def _gemini_repair_adapter(
+    title: str,
+    base_text: str,
+    candidate_text: str,
+    gates: list[str],
+    book_dir: Path,
+    label: str,
+    log,
+    *,
+    previous_tail: str = "",
+    frame: str = "",
+    narrator: str = "",
+) -> str:
+    lang = _source_language(book_dir)
+    timeout = timeout_for_window(base_text)
+    words = len(_WORD_RE.findall(base_text or ""))
+    arabic_runs = _arabic_run_count(base_text or "")
+    log(f"      {label}: gemini repair timeout={timeout}s (words={words}, Arabic={arabic_runs}, gates={len(gates)})")
+    from _gemini_text import call_gemini_text
+
+    return call_gemini_text(
+        _articulation_repair_prompt(
+            title,
+            base_text,
+            candidate_text,
+            gates,
+            previous_tail,
+            frame=frame,
+            narrator=narrator,
+            source_language=lang,
+        ),
+        book_dir=book_dir,
+        phase=_PHASE,
+        step=label,
+        model=_GEMINI_MODEL,
+        system_prompt=_TEXT_TRANSFORM_SYSTEM_PROMPT,
+        timeout=timeout,
+        temperature=0.25,
+    )
+
+
 def _status_path(book_dir: Path) -> Path:
     return book_dir / "_system" / "rearticulate-status.json"
 
@@ -188,10 +260,18 @@ def _chapter_body(text: str, heading: str) -> str:
     return ""
 
 
-def rearticulate(book_dir: Path, chapter_key: str, *, adapter=None, log=print, write_partial: bool = True) -> dict:
+def rearticulate(
+    book_dir: Path,
+    chapter_key: str,
+    *,
+    adapter=None,
+    repair_adapter=None,
+    log=print,
+    write_partial: bool = True,
+) -> dict:
     """Rearticulate one chapter in place. Returns the pass record.
 
-    ``adapter`` is injectable for tests (same signature as ``_adapter``).
+    ``adapter`` and ``repair_adapter`` are injectable for tests and alternate engines.
     """
     book_dir = Path(book_dir).resolve()
     book_md = book_dir / "book" / "book.md"
@@ -226,7 +306,7 @@ def rearticulate(book_dir: Path, chapter_key: str, *, adapter=None, log=print, w
         narrator_subject=subject,
         force=True,
         window_words=_WINDOW_WORDS,
-        repair_fn=_repair_adapter,
+        repair_fn=repair_adapter or _repair_adapter,
     )
     record = next(
         (r for r in records if r.get("status") not in ("skipped", "composer-edit")),
@@ -273,6 +353,7 @@ def main() -> int:
     ap.add_argument("slug", nargs="?", help="content slug (resolved via _paths)")
     ap.add_argument("chapter_key", help="Composer chapter key (anchor_key of the ## heading)")
     ap.add_argument("--book-dir", help="explicit book directory (overrides slug)")
+    ap.add_argument("--engine", choices=("claude", "gemini"), default="claude")
     ap.add_argument("--json", action="store_true", help="emit the result as JSON on stdout")
     args = ap.parse_args()
 
@@ -284,7 +365,15 @@ def main() -> int:
         ap.error("either <slug> or --book-dir is required")
 
     try:
-        result = rearticulate(book_dir, args.chapter_key)
+        if args.engine == "gemini":
+            result = rearticulate(
+                book_dir,
+                args.chapter_key,
+                adapter=_gemini_adapter,
+                repair_adapter=_gemini_repair_adapter,
+            )
+        else:
+            result = rearticulate(book_dir, args.chapter_key)
     except Exception as e:
         payload = {
             "chapter_key": anchor_key(args.chapter_key),

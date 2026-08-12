@@ -18,9 +18,9 @@
     },
     "sessions-articulate": {
       "status": "running",
-      "chapters_kept": 2,
+      "chapters_kept": 6,
       "chapters_total": 23,
-      "updated_at": "2026-08-12T21:39:53.893731+00:00"
+      "updated_at": "2026-08-12T22:33:33.775493+00:00"
     },
     "sessions-preface": {
       "status": "completed"
