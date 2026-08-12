@@ -30,12 +30,12 @@
           "skeleton": "مختالفخور"
         },
         {
-          "text": "یَا اَیُّھَا النَّاسُ",
+          "text": "یَا اَیُّھَا النَّاسُ",
           "resolution": "unverified",
           "skeleton": "اااالناس"
         },
         {
-          "text": "یَا اَیُّھَا الْکَافِرُونَ",
+          "text": "یَا اَیُّھَا الْکَافِرُونَ",
           "resolution": "unverified",
           "skeleton": "اااالافرون"
         },
@@ -45,7 +45,7 @@
           "skeleton": "اااالذنفرو"
         },
         {
-          "text": "یَا اَیُّھَا الْکَافِرُونَ",
+          "text": "یَا اَیُّھَا الْکَافِرُونَ",
           "resolution": "unverified",
           "skeleton": "اااالافرون"
         },
@@ -77,22 +77,22 @@
           "reference": "Ar-Rum: 7"
         },
         {
-          "text": "لَا اِلَٰہَ اِلَّا اللَّہُ",
+          "text": "لَا اِلَٰہَ اِلَّا اللَّہُ",
           "resolution": "unverified",
           "skeleton": "لاالالاالل"
         },
         {
-          "text": "مُوسَی رَسُولُ اللَّہِ",
+          "text": "مُوسَی رَسُولُ اللَّہِ",
           "resolution": "unverified",
           "skeleton": "موسرسولالل"
         },
         {
-          "text": "عِیسَی رَسُولُ اللَّہِ",
+          "text": "عِیسَی رَسُولُ اللَّہِ",
           "resolution": "unverified",
           "skeleton": "عسرسولالل"
         },
         {
-          "text": "مُحَمَّدٌ الرَّسُولُ اللَّہِ",
+          "text": "مُحَمَّدٌ الرَّسُولُ اللَّہِ",
           "resolution": "unverified",
           "skeleton": "محمدالرسولالل"
         },
@@ -123,7 +123,7 @@
           "skeleton": "كرها"
         },
         {
-          "text": "یَوْمُ الدِّیْنِ",
+          "text": "یَوْمُ الدِّیْنِ",
           "resolution": "unverified",
           "skeleton": "ومالدن"
         },
@@ -138,7 +138,7 @@
           "skeleton": "حاسبواانفسكمقبلانتحاسبواوزنوااعمالكمقبلا"
         },
         {
-          "text": "یَوْمُ الدِّیْنِ",
+          "text": "یَوْمُ الدِّیْنِ",
           "resolution": "unverified",
           "skeleton": "ومالدن"
         },
@@ -160,7 +160,7 @@
           "reference": "Al-Infitar: 6"
         },
         {
-          "text": "وَالرَّبُّ تَعَالَى يَقُولُ",
+          "text": "وَالرَّبُّ تَعَالَى يَقُولُ",
           "resolution": "unverified",
           "skeleton": "والربتعالييقول"
         },
@@ -170,7 +170,7 @@
           "skeleton": "دعواعبديفانااعلمبهاذانشاتهمنالارض"
         },
         {
-          "text": "إِنْ كَانَ عَبْدُكُمْ فَشَأْنُكُمْ بِهِ، وَإِنْ كَانَ عَبْدِي فَمِنِّي وَإِلَيَّ عَبْدِي",
+          "text": "إِنْ كَانَ عَبْدُكُمْ فَشَأْنُكُمْ بِهِ، وَإِنْ كَانَ عَبْدِي فَمِنِّي وَإِلَيَّ عَبْدِي",
           "resolution": "unverified",
           "skeleton": "انكانعبدكمفشانكمبهوانكانعبديفمنيواليعبدي"
         },
@@ -206,7 +206,7 @@
           "reference": "Al-An'am: 160"
         },
         {
-          "text": "اَللَّہُ اَکْبَرُ",
+          "text": "اَللَّہُ اَکْبَرُ",
           "resolution": "unverified",
           "skeleton": "اللابر"
         },
@@ -234,12 +234,12 @@
           "skeleton": "عالمالغب"
         },
         {
-          "text": "عَالَمُ الشَّھَادَۃِ",
+          "text": "عَالَمُ الشَّھَادَۃِ",
           "resolution": "unverified",
           "skeleton": "عالمالشاد"
         },
         {
-          "text": "جَبَلُ النُّورِ",
+          "text": "جَبَلُ النُّورِ",
           "resolution": "unverified",
           "skeleton": "جبلالنور"
         },
@@ -342,7 +342,7 @@
           "reference": "Maryam: 18"
         },
         {
-          "text": "زَمِّلُونِی زَمِّلُونِی",
+          "text": "زَمِّلُونِی زَمِّلُونِی",
           "resolution": "unverified",
           "skeleton": "زملونزملون"
         },
@@ -445,11 +445,11 @@
     },
     {
       "chapter": "Character Of The Prophet",
-      "arabic_runs": 55,
-      "unverified": 42,
+      "arabic_runs": 56,
+      "unverified": 43,
       "runs": [
         {
-          "text": "رَبِّ الْعَالَمِینَ",
+          "text": "رَبِّ الْعَالَمِینَ",
           "resolution": "unverified",
           "skeleton": "ربالعالمن"
         },
@@ -518,7 +518,7 @@
           "reference": "Al-Qalam: 4"
         },
         {
-          "text": "الصَّادِقُ وَ الْأَمِینُ",
+          "text": "الصَّادِقُ وَ الْأَمِینُ",
           "resolution": "unverified",
           "skeleton": "الصادقوالامن"
         },
@@ -527,6 +527,11 @@
           "resolution": "canonical-mushaf",
           "skeleton": "وماارسلنكالارحمهللعلمين",
           "reference": "Al-Anbiya: 107"
+        },
+        {
+          "text": "تَیْسِیر",
+          "resolution": "unverified",
+          "skeleton": "تسر"
         },
         {
           "text": "فَبِمَا رَحْمَةٍۢ مِّنَ ٱللَّهِ لِنتَ لَهُمْ ۖ وَلَوْ كُنتَ فَظًّا غَلِيظَ ٱلْقَلْبِ لَٱنفَضُّوا۟ مِنْ حَوْلِكَ ۖ فَٱعْفُ عَنْهُمْ وَٱسْتَغْفِرْ لَهُمْ وَشَاوِرْهُمْ فِى ٱلْأَمْرِ ۖ فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى ٱللَّهِ إِنَّ ٱللَّهَ يُحِبُّ ٱلْمُتَوَكِّلِينَ",
@@ -606,7 +611,7 @@
           "skeleton": "منذاالذييتاليعليانلااغفرلفلانقدغفرتلفلان"
         },
         {
-          "text": "یَرْحَمُکُمُ اللَّہُ",
+          "text": "یَرْحَمُکُمُ اللَّہُ",
           "resolution": "unverified",
           "skeleton": "رحممالل"
         },
@@ -662,7 +667,7 @@
           "reference": "Al-Qiyamah: 36"
         },
         {
-          "text": "عَبْدُ اللَّہِ ابْنُ مَسْعُودٍ",
+          "text": "عَبْدُ اللَّہِ ابْنُ مَسْعُودٍ",
           "resolution": "unverified",
           "skeleton": "عبداللابنمسعود"
         },
@@ -744,7 +749,7 @@
       "unverified": 6,
       "runs": [
         {
-          "text": "وَمَا تَوْفِيقٌ إِلَّا بِاللّٰہِ",
+          "text": "وَمَا تَوْفِيقٌ إِلَّا بِاللّٰہِ",
           "resolution": "unverified",
           "skeleton": "وماتوفيقالابالل"
         },
@@ -761,7 +766,7 @@
           "reference": "An-Nisa: 13"
         },
         {
-          "text": "حَیَّ عَلَی الْفَلَاحِ",
+          "text": "حَیَّ عَلَی الْفَلَاحِ",
           "resolution": "unverified",
           "skeleton": "حعلالفلاح"
         },
@@ -778,7 +783,7 @@
           "reference": "Al-Kahf: 105"
         },
         {
-          "text": "سُورَۃُ الشَّمْسِ",
+          "text": "سُورَۃُ الشَّمْسِ",
           "resolution": "unverified",
           "skeleton": "سورالشمس"
         },
@@ -915,7 +920,7 @@
           "reference": "Al-Bayyinah: 8"
         },
         {
-          "text": "لَا اِکْرَاہَ فِی الدِّینِ",
+          "text": "لَا اِکْرَاہَ فِی الدِّینِ",
           "resolution": "unverified",
           "skeleton": "لاارافالدن"
         },
@@ -1015,11 +1020,28 @@
     "ocr": 0,
     "knowledge-base": 2,
     "honorific-formula": 4,
-    "unverified": 94,
-    "arabic_runs": 177
+    "unverified": 95,
+    "arabic_runs": 178
   },
   "note": "no OCR ground truth for this book — every run falls back to the knowledge base",
   "quran_coverage": {
-    "measured": false
-  }
+    "measured": true,
+    "cited": 0,
+    "with_arabic": 0,
+    "coverage": 1.0,
+    "uncovered": [],
+    "uncited_inserted": 0
+  },
+  "stages": {
+    "final": {
+      "(front matter)": 0,
+      "Introduction to the Book": 0,
+      "Love Based Religion": 0,
+      "Need For Messengers": 37,
+      "Islam As An Experience": 40,
+      "Character Of The Prophet": 56,
+      "A Model For Success": 45
+    }
+  },
+  "stage_losses": []
 }

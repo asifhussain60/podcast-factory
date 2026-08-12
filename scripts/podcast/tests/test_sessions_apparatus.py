@@ -18,6 +18,7 @@ under the right conditions and records the result correctly.
 from __future__ import annotations
 
 import json
+import subprocess
 import sys
 from pathlib import Path
 from unittest.mock import patch
@@ -116,3 +117,17 @@ def test_every_series_slug_is_still_covered() -> None:
     for slug in SERIES:
         assert slug  # sanity: the loop body exercises dict access below
         assert SERIES[slug].slug == slug
+
+
+def test_cli_imports_when_run_as_a_script() -> None:
+    """The documented command is `python3 scripts/podcast/sessions/apparatus.py`.
+
+    This pins the script import path, not the apparatus logic above: `--help`
+    should exit before touching any book, but it still has to import the module.
+    """
+    script = Path(__file__).resolve().parents[1] / "sessions" / "apparatus.py"
+
+    result = subprocess.run([sys.executable, str(script), "--help"], text=True, capture_output=True, check=False)
+
+    assert result.returncode == 0
+    assert "Run the apparatus pass" in result.stdout

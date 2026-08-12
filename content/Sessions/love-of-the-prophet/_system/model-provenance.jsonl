@@ -19,3 +19,6 @@
 {"phase": "rearticulate", "step": "rearticulate-06-retry-sonnet", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "rearticulate", "step": "rearticulate-06-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "rearticulate", "step": "rearticulate-06-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-etymology", "step": "generate", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}

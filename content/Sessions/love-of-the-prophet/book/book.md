@@ -10,15 +10,15 @@ The reader who knows nothing of this subject will find here an accessible entry,
 
 ## Love Based Religion
 
-Aawdubillahi mina shaytan nirrajin bismillahi rahmani rahim Alhamdulillahi khalikal wujudimin al-Adam waja'ilin noori mina zulam wa mukhrijis sabri minal-Alam wa mulkit taubati ailan nadam fanashkuruhu aalal masa'ibi kamanashkuruhu aalan ni'am wan nusalli ala rasulahil akram lis sharafil asham wan nooril atam wal kitabil mahkam Wa kamalin nabiyina wal khatam Sayyidi waladi Adam aladi basharabihi isabnumariyam Wada'alibi asatihi Ibrahimu alayhis salam Haina ka na yarfa'u kawa'idabaytillahil muharram Asallallahu alaihi wa alaihi wa salamu ala adba'i khairil ummam aladi barakallahu bihim kafatan nass al-araba minhum wal ajam Wa sallallahu ala amir al-mu'minil an anza al-baqin waqa'id al-qur al-mahjalin ghalib ala kulli ghalib matlubi kulli taalib Alhamdulillahil ladi anzala ala abdihil kitab walam yaja Allahu aywaja alhamdulillah iladi lam yat takhizwaladan walam ya kun lahu sharikun filmulk walam ya kun lahu walium minadulli wa kabbir hu takbira Alhamdulillah, Alladinahmaduhu wa nastainuhu wa nastakfiruhu wa nukminubihi wa natawakkalu alai Naudubillahi min shurui anfusina wa min sayyati amalina man yahdahillahu falamudillah wa man yudlilhu falahadiala wa nashaduan la ilaha illa Allah wahdahulah sharikalah wa nashadu Anna Muhammadana Abdullahi wa rasulu Arsalahullahu ta'ala bilhuda wadin al-haq liyuzhirahu aladdinikulli wa kafabillahi shahida Rabbi Sharahli Sadri, Wa Yasirli Amri, Wahlu Lakhtatam, Lisani of Kahu Kawli, Allahum Mathabit Na'indil Mauti Bila ilaha illallah, wallahumma ja'alamin Aladina Amanu Muhammil Salihat, Watawasaw bil Haq, Watawasaw bil Sabr, Amin ya Rabbil Alameen.
+Aawdubillahi mina shaytan nirrajin bismillahi rahmani rahim Alhamdulillahi khalikal wujudimin al-Adam wajailin noori mina zulam wa mukhrijis sabri minal-Alam wa mulkit taubati ailan nadam fanashkuruhu aalal masaibi kamanashkuruhu aalan niam wan nusalli ala rasulahil akram lis sharafil asham wan nooril atam wal kitabil mahkam Wa kamalin nabiyina wal khatam Sayyidi waladi Adam aladi basharabihi isabnumariyam Wadaalibi asatihi Ibrahimu alayhis salam Haina ka na yarfau kawaidabaytillahil muharram Asallallahu alaihi wa alaihi wa salamu ala adbai khairil ummam aladi barakallahu bihim kafatan nass al-araba minhum wal ajam Wa sallallahu ala amir al-muminil an anza al-baqin waqaid al-qur al-mahjalin ghalib ala kulli ghalib matlubi kulli taalib Alhamdulillahil ladi anzala ala abdihil kitab walam yaja Allahu aywaja alhamdulillah iladi lam yat takhizwaladan walam ya kun lahu sharikun filmulk walam ya kun lahu walium minadulli wa kabbir hu takbira Alhamdulillah, Alladinahmaduhu wa nastainuhu wa nastakfiruhu wa nukminubihi wa natawakkalu alai Naudubillahi min shurui anfusina wa min sayyati amalina man yahdahillahu falamudillah wa man yudlilhu falahadiala wa nashaduan la ilaha illa Allah wahdahulah sharikalah wa nashadu Anna Muhammadana Abdullahi wa rasulu Arsalahullahu taala bilhuda wadin al-haq liyuzhirahu aladdinikulli wa kafabillahi shahida Rabbi Sharahli Sadri, Wa Yasirli Amri, Wahlu Lakhtatam, Lisani of Kahu Kawli, Allahum Mathabit Naindil Mauti Bila ilaha illallah, wallahumma jaalamin Aladina Amanu Muhammil Salihat, Watawasaw bil Haq, Watawasaw bil Sabr, Amin ya Rabbil Alameen.
 
 Learning about the Prophet, Sallallahu Alaihi Wasallam — the respect and deference owed to him — is of the utmost importance. The Prophet has rights over us. A verse from the Quran and a hadith that complements it illuminate what those rights are.
 
 Allah says in the Quran: Qul-in kuntum tuhibun Allaha fattabi auni yahbibkum Allah.
 
-Allah commands the Prophet to say to the people: if you love Allah, then follow me — meaning the Prophet — and Allah will love you. In a hadith, the Prophet, Sallallahu Alaihi Wasallam, said: la yu'minu ahadukum hatta akuna ahabba ilaihi min walidhihi wa waladhihi wa nasi ajma'in. None of you truly believes until I am more beloved to him than his wealth, his parents, his children, and even his own soul.
+Allah commands the Prophet to say to the people: if you love Allah, then follow me — meaning the Prophet — and Allah will love you. In a hadith, the Prophet, Sallallahu Alaihi Wasallam, said: la yuminu ahadukum hatta akuna ahabba ilaihi min walidhihi wa waladhihi wa nasi ajmain. None of you truly believes until I am more beloved to him than his wealth, his parents, his children, and even his own soul.
 
-The question this raises is profound: how is my belief in Allah — my Iman — dependent on whether I love the Prophet? What does it even mean to love the Prophet? The Prophet stated that a man's faith — his Iman — is not complete until he loves him more than he loves anything precious in this world. The Prophet named those things: parents, children, all people, and even the self. That last inclusion is significant. Jesus said, "Love your neighbor as yourself," and the assumption behind that statement is that we already love ourselves. The love of self is part of human nature, placed there by Allah, Subhanahu wa Ta'ala, as a means of our survival. What is remarkable, then, is that according to this verse and this narration, the key to a sound Iman is love.
+The question this raises is profound: how is my belief in Allah — my Iman — dependent on whether I love the Prophet? What does it even mean to love the Prophet? The Prophet stated that a man's faith — his Iman — is not complete until he loves him more than he loves anything precious in this world. The Prophet named those things: parents, children, all people, and even the self. That last inclusion is significant. Jesus said, "Love your neighbor as yourself," and the assumption behind that statement is that we already love ourselves. The love of self is part of human nature, placed there by Allah, Subhanahu wa Taala, as a means of our survival. What is remarkable, then, is that according to this verse and this narration, the key to a sound Iman is love.
 
 The Prophet connected love directly to Iman: no one is a believer until love of the Prophet exceeds all other loves. What, then, is love?
 
@@ -42,17 +42,17 @@ This is why a tear in Arabic is called abara: it crosses over from inside the ey
 
 These emotions of love require tabir. They need expression. They must cross over from inside the heart and become action, because love carries significance. And when something carries significance, it acts upon the heart. This is why even the remnants of the beloved become precious to the lover — even traces, even the places she once passed through. There is ancient Arabic poetry — the poetry of Amr al-Qais — in which the poet says: let us stop here, my companions, and look at the traces of where the beloved once was, and weep over them. These were people who truly understood love. They had a deep and genuine knowledge of hub. They were intense in their love — nothing like the superficial image of love that modern entertainments project, where two strangers meet over coffee and the whole experience ends in a bedroom. That is not love. That is something else.
 
-The ancient Arabs understood what real love was, the genuine experience of it. One of its recurring themes is buka'ala al-atlal — weeping over the traces of the beloved, over the places where she once was. Amaru ailad diyari diyaru laila. Uqabbilu daljidaru wazaljidara. I passed by the house of Laila and I kissed its walls. Not the walls — it is not the walls that have captured my heart, but the love of the one who used to live between them.
+The ancient Arabs understood what real love was, the genuine experience of it. One of its recurring themes is bukaala al-atlal — weeping over the traces of the beloved, over the places where she once was. Amaru ailad diyari diyaru laila. Uqabbilu daljidaru wazaljidara. I passed by the house of Laila and I kissed its walls. Not the walls — it is not the walls that have captured my heart, but the love of the one who used to live between them.
 
 This is why we travel to Makkah and Madinah. This is why we go for Ziara, to Najaf, to Karbala. It is not the places. It is not the stones. It is the beloved who walked that ground, whose feet touched that earth. At the end of it all, that is everything. These places, these walls, are simply the vessels in which the eternal love of God is concealed. That is what this world is, according to our Islamic theology. When this underlying current of love becomes visible, one recognizes that it is that — and not the dunya as such — which is what is truly loved about this world.
 
-Allah praised Himself as Rabbul Alameen. Alhamdulillahi Rabbul Alameen — not Rabbudduniya. Praise and gratitude belong to Allah who is the Rabb of the Alameen. The word alam is what the Arabs call an ism al-ala — a noun of instrument. The alam is an instrument of ilm: it is a means by which something is known. What is known through this instrument — through this world — is the Aleem, which is Allah, Subhanahu wa Ta'ala. This world, this universe, is God's vehicle for bringing us to knowledge. This is why things matter to us. This is why possessions are important. Property is one of the essential concerns the Sharia was given to protect, because possessions are instruments through which we create meaning in our lives.
+Allah praised Himself as Rabbul Alameen. Alhamdulillahi Rabbul Alameen — not Rabbudduniya. Praise and gratitude belong to Allah who is the Rabb of the Alameen. The word alam is what the Arabs call an ism al-ala — a noun of instrument. The alam is an instrument of ilm: it is a means by which something is known. What is known through this instrument — through this world — is the Aleem, which is Allah, Subhanahu wa Taala. This world, this universe, is God's vehicle for bringing us to knowledge. This is why things matter to us. This is why possessions are important. Property is one of the essential concerns the Sharia was given to protect, because possessions are instruments through which we create meaning in our lives.
 
-The Prophet, for this reason, named all of his possessions. He owned little, but the things he did have, he always named, because they carried meaning. And that is what this world is to the believer: meaning. The whole of it is ma'ana. The poet says: [Arabic text as in source]. This entire cosmos is meaning clothed in images. Whoever perceives it is from the people of discernment, the people of ibra. Allah says in the Quran: think deeply, reflect, look at this world with a discerning eye — that is where ibra is found. And ibra leads to abra: that is when the tears come. Tears always arise from the perception of meaning. A gift of genuine meaning draws out tears — not because of the gift itself, but because of the love and emotion with which it was given. That is what moves the heart.
+The Prophet, for this reason, named all of his possessions. He owned little, but the things he did have, he always named, because they carried meaning. And that is what this world is to the believer: meaning. The whole of it is maana. The poet says: [Arabic text as in source]. This entire cosmos is meaning clothed in images. Whoever perceives it is from the people of discernment, the people of ibra. Allah says in the Quran: think deeply, reflect, look at this world with a discerning eye — that is where ibra is found. And ibra leads to abra: that is when the tears come. Tears always arise from the perception of meaning. A gift of genuine meaning draws out tears — not because of the gift itself, but because of the love and emotion with which it was given. That is what moves the heart.
 
 Meaning, then, is one of the greatest gifts Allah has given us. This is why the Quran calls its verses ayat — which, in Arabic, literally means signs. The Quran is a book, a kitab. Its contents might naturally have been called sentences within paragraphs within chapters, for that is what a book contains. But Allah did not call them that. He called them ayat — signs. A sign, by definition, points to something beyond itself. A sign is always a means to an end; it is never the end itself. If I see a road marker reading "Hospital — 10 miles ahead," my destination is the hospital, not the sign. In exactly the same way, the verses of the Quran are called ayat because they are markers, signs pointing to something else. What are they pointing to? They point to the signs within the universe, the signs within creation. The ayat al-Qurani — the signs of the Quran — point toward ayat al-Kaunaini: the signs within the cosmos, within creation, within the universe, within the soul itself.
 
-For a believer, what are the signs of the cosmos pointing to? They point him back to ayat al-Qurani — the signs of the Quran. So a believer lives in a constant loop, moving between two sets of signs. The signs of the Quran direct him toward the signs within creation, and the signs of creation direct him back to the signs of the Quran. Together, both point to the Creator of both — which is Allah Subhanahu Wa Ta'ala.
+For a believer, what are the signs of the cosmos pointing to? They point him back to ayat al-Qurani — the signs of the Quran. So a believer lives in a constant loop, moving between two sets of signs. The signs of the Quran direct him toward the signs within creation, and the signs of creation direct him back to the signs of the Quran. Together, both point to the Creator of both — which is Allah Subhanahu Wa Taala.
 
 That is why He calls His verses ayat.
 
@@ -66,7 +66,7 @@ Sanurihim ayatina fil aafaqi wafi anfusihim hatta yatabaiya nalahum annahul haq
 
 We will keep showing them Our signs in the horizons and within their own souls until it becomes absolutely clear to them that all of this is from al-Haq. All of this is a sign of Allah. That is what the signs of the universe declare: all of this is from God.
 
-And just as a literate person can read language, a believer — an intellectually literate person — can read this world. Believers can read their own souls. A believer is someone whose consciousness is literate. He can see what the signs of the world are pointing to: Allah's existence, Allah's oneness, Allah's reality, His awesome majesty, His immeasurable beauty, His infinite mercy, and also His wrath. The signs point to Allah's kingship, His Sultan. Subhanahu Wa Ta'ala.
+And just as a literate person can read language, a believer — an intellectually literate person — can read this world. Believers can read their own souls. A believer is someone whose consciousness is literate. He can see what the signs of the world are pointing to: Allah's existence, Allah's oneness, Allah's reality, His awesome majesty, His immeasurable beauty, His infinite mercy, and also His wrath. The signs point to Allah's kingship, His Sultan. Subhanahu Wa Taala.
 
 From that perspective, every human being has access to the existence of God. One does not even need the Quran to read this cosmos and conclude that it has a Creator — not while exercising the full power of the intellect, not while reading the signs. And once that conclusion is reached independently, all the Quran does is clarify things about that Creator: Who is He? What does He want? Why does He want it?
 
@@ -74,29 +74,29 @@ Now, according to our Islamic theology, what is the purpose of human beings? Why
 
 Ulhu Allahu Ahad — say that Allah is unique. That is what Allah wants.
 
-What, then, do we as human beings ultimately want — not as Muslims, but simply as human beings, regardless of race, creed, or religion? What we are all searching for, what we are all reaching toward, is sa'adah: felicity. We want to be happy.
+What, then, do we as human beings ultimately want — not as Muslims, but simply as human beings, regardless of race, creed, or religion? What we are all searching for, what we are all reaching toward, is saadah: felicity. We want to be happy.
 
 But in the Islamic tradition, happiness is not a state one can simply occupy. One can feel happy, but one cannot be happy at any fixed point in life. Happiness is the sum total of a life — the end result, the measure of whether it was a happy life or a miserable one. And it is calculated by what one did and how one lived.
 
-According to the Greeks, it was all about virtuous living — what they called Arate, a life of excellence. In our tradition, that translates to the same thing as Ihsan. We have Islam, Iman, and Ihsan. The whole purpose of life is happiness; there is no other purpose. Our purpose is sa'adah.
+According to the Greeks, it was all about virtuous living — what they called Arate, a life of excellence. In our tradition, that translates to the same thing as Ihsan. We have Islam, Iman, and Ihsan. The whole purpose of life is happiness; there is no other purpose. Our purpose is saadah.
 
-And sa'adah — this happiness, this felicity — unlike everything else in life, is an end, not a means. Everything else is a means. If one asks people what they want from life — people who have not thought deeply about these things — the answer is a long list: a family, success, a degree, lots of money, an attractive appearance, a certain look, a certain way of being seen. But if one starts probing those reasons — why do they want money? why do they want power? — the answer is always the same: it gives freedom, it makes possible what would otherwise be out of reach. And if that line of questioning is followed to its end, the answer is invariably the same: happiness. In the end, we want to be in a state of contentment. Felicity is the essence of what we as human beings are truly seeking.
+And saadah — this happiness, this felicity — unlike everything else in life, is an end, not a means. Everything else is a means. If one asks people what they want from life — people who have not thought deeply about these things — the answer is a long list: a family, success, a degree, lots of money, an attractive appearance, a certain look, a certain way of being seen. But if one starts probing those reasons — why do they want money? why do they want power? — the answer is always the same: it gives freedom, it makes possible what would otherwise be out of reach. And if that line of questioning is followed to its end, the answer is invariably the same: happiness. In the end, we want to be in a state of contentment. Felicity is the essence of what we as human beings are truly seeking.
 
 But most people do not realize this, and they do not understand the difference between what is genuinely good and what only appears to be good. People think fame is good in itself, so they devote themselves to being known. They think status is something worth having for its own sake. They think money will make them happy. And so they sacrifice the real goods in their lives — family, health, peace of mind, relationships, character, modesty, courage, generosity — in pursuit of what they take to be the ultimate good: the apparently good, the immediately attractive.
 
-What Revelation does is invert this entirely. It tells us there is no sa'adah to be found in the dunya — one cannot secure it here, because no matter what one has, it can be lost. Good health can be cut short by death. Wealth can turn to poverty. Beauty withers in time. Strength gives way to age. History is full of such examples.
+What Revelation does is invert this entirely. It tells us there is no saadah to be found in the dunya — one cannot secure it here, because no matter what one has, it can be lost. Good health can be cut short by death. Wealth can turn to poverty. Beauty withers in time. Strength gives way to age. History is full of such examples.
 
 And even the things one does have and genuinely enjoys — they are enjoyed only briefly before something new is wanted, something else, something more. I have the iPhone 11 and I am already waiting for the iPhone 12, convinced that is what will finally make me happy. We are completely enslaved to these means: wealth, power, fame, body, status, how many likes we receive. And we do not even realize how enslaved we are. Setting the phone aside for a single hour — turning it off — is ordeal enough to reveal the slavery. My daughter starts having convulsions when the internet is not working. That is not preference; that is addiction, that is slavery.
 
 These illusory means to the ultimate end of happiness are, in reality, chains that keep us trapped in the dunya.
 
-So the Quran puts forward a proposition. It invites us to freedom from everything. How? By becoming the willing slaves of Allah. This is the paradigm shift. It moves our focus away from the millions of means we think are going to take us to happiness and redirects it onto one central reality: Allah — the ultimate end goal of happiness. It does not stop us from acquiring things, but it changes the perspective and the meaning of those things. I can enjoy everything this 'alam has to offer because it brings me closer to the knowledge of the 'Alim.
+So the Quran puts forward a proposition. It invites us to freedom from everything. How? By becoming the willing slaves of Allah. This is the paradigm shift. It moves our focus away from the millions of means we think are going to take us to happiness and redirects it onto one central reality: Allah — the ultimate end goal of happiness. It does not stop us from acquiring things, but it changes the perspective and the meaning of those things. I can enjoy everything this 'alam has to offer because it brings me closer to the knowledge of the Alim.
 
-And so once we submit to Him — once we channel all our distracted energies and direct them toward this one central reality — we become free. By submitting to the one Allah Subhanahu Wa Ta'ala, we become free of every other submission, every other slavery. The result is a life, and an afterlife, filled with sa'adah — with never-ending felicity.
+And so once we submit to Him — once we channel all our distracted energies and direct them toward this one central reality — we become free. By submitting to the one Allah Subhanahu Wa Taala, we become free of every other submission, every other slavery. The result is a life, and an afterlife, filled with saadah — with never-ending felicity.
 
-This is why the Quran says: We did not create jinn or man except for willing servitude. We did not create jinn or man except for sa'adah — except for happiness — which can only be achieved through willing submission to the Creator.
+This is why the Quran says: We did not create jinn or man except for willing servitude. We did not create jinn or man except for saadah — except for happiness — which can only be achieved through willing submission to the Creator.
 
-The word 'abd is a very powerful and comprehensive word in Arabic. It refers to everything that is ontologically dependent on God, whether it believes in Him or not. An 'abd is that which cannot exist on its own — which is everything. So everything other than Allah is an 'abd of Allah from that vantage point, by virtue of its dependence on Him. But there is another meaning of 'abd as well: those who embrace that dependence, those who willingly accept it by directing themselves to Allah, by worshipping and serving Him.
+The word 'abd is a very powerful and comprehensive word in Arabic. It refers to everything that is ontologically dependent on God, whether it believes in Him or not. An abd is that which cannot exist on its own — which is everything. So everything other than Allah is an abd of Allah from that vantage point, by virtue of its dependence on Him. But there is another meaning of abd as well: those who embrace that dependence, those who willingly accept it by directing themselves to Allah, by worshipping and serving Him.
 
 There are therefore two levels of servitude within the meaning of 'abd. One is ontological dependence, which all of creation shares. The other is a willing dependence, freely chosen by those selected for devotion — which only the people of Allah share.
 
@@ -104,7 +104,7 @@ Now, as human beings, we can only willingly submit to the one we love. Because '
 
 This is why we always say we fall in love. It is a falling. I have never heard anyone say they rose in love. It is always a fall. And yet in that process of falling, in that process of submission, we rise in the eyes of the beloved. In the very act of falling, we elevate ourselves. How? By becoming the best version of ourselves in order to please the beloved. One becomes consumed with making the beloved happy. And in that process, one is freed from the need to please everyone else. One stops caring what the world thinks. All that matters is the pleasure of the beloved.
 
-... walaytal lathi baini wabaina ka'amiron, wabaini wabaina lalamina kharabu, idha seha min kal woodda, fal kullu hayinin, wa kullal lathi fau katurabi turabu.
+... walaytal lathi baini wabaina kaamiron, wabaini wabaina lalamina kharabu, idha seha min kal woodda, fal kullu hayinin, wa kullal lathi fau katurabi turabu.
 
 If I receive the sweetness of your love, I do not care if my entire life turns bitter. If you are pleased with me, I do not care if everyone else turns against me.
 
@@ -132,9 +132,9 @@ And so it is only fitting to return love with love. Because one cannot love Alla
 
 This is why he said: none of you are true believers until you love me — until you come to know me. Because I am the one Allah fell in love with. Because loving me will naturally transform you into someone that Allah loves.
 
-Love is a fire. And fire softens and bends steel. Fire allows the ironsmith to take a shapeless, useless piece of steel and mold it into something beautiful that graces the mantle of a home. Burning in the fire of our Messenger's love will mold us into something beautiful — something that Allah would want in His presence. This is why he is the greatest sign, the greatest ayah, of Allah Subhanahu Wa Ta'ala: a living role model, the one that Allah wants us to emulate.
+Love is a fire. And fire softens and bends steel. Fire allows the ironsmith to take a shapeless, useless piece of steel and mold it into something beautiful that graces the mantle of a home. Burning in the fire of our Messenger's love will mold us into something beautiful — something that Allah would want in His presence. This is why he is the greatest sign, the greatest ayah, of Allah Subhanahu Wa Taala: a living role model, the one that Allah wants us to emulate.
 
-And as I said, love will naturally engender submission. Through our willing submission — by submitting to the One who is free, to the Most High — we ourselves will become free. We will elevate ourselves to realize our greatest potential, for which we were created: true happiness. Sa'adah. Felicity. The ultimate purpose of life.
+And as I said, love will naturally engender submission. Through our willing submission — by submitting to the One who is free, to the Most High — we ourselves will become free. We will elevate ourselves to realize our greatest potential, for which we were created: true happiness. Saadah. Felicity. The ultimate purpose of life.
 
 ## Need For Messengers
 
@@ -226,37 +226,37 @@ An extraordinary Hadith describes a conversation between Allah and His angels, t
 
 Not a single day passes that the oceans do not ask their Lord for permission to drown the children of Adam; and the earth asks its Lord for permission to swallow them; and the angels ask His permission to hasten their destruction and annihilate them. The earth says, "O Allah, grant me permission to swallow them all. They walk on Your earth, eat from it, and do not prostrate to You!" The angels exclaim, "O Allah, grant us permission! In an instant we will annihilate this lot for their arrogance." The earth, the oceans, and the angels are Allah's creation, and they are filled with anger at seeing their beloved Creator disobeyed. But our Creator—the very One we constantly ignore—says:
 
-وَالرَّبُّ تَعَالَى يَقُولُ: دَعَوا عَبدي، فأنا أعلمُ به، إذ أنشأتَهُ مِن الأرض
+> وَالرَّبُّ تَعَالَى يَقُولُ: دَعَوا عَبدي، فأنا أعلمُ به، إذ أنشأتَهُ مِن الأرض
 
 Leave my slave alone. I know everything about him since the moment I created him from the earth. Then He adds to the oceans, the earth, and the angels:
 
-إِنْ كَانَ عَبْدُكُمْ فَشَأْنُكُمْ بِهِ، وَإِنْ كَانَ عَبْدِي فَمِنِّي وَإِلَيَّ عَبْدِي
+> إِنْ كَانَ عَبْدُكُمْ فَشَأْنُكُمْ بِهِ، وَإِنْ كَانَ عَبْدِي فَمِنِّي وَإِلَيَّ عَبْدِي
 
 If he is your slave, then do with him as you please; but if he is My slave, then hand him over to Me and walk away. Then He promises:
 
-وعزتي وجلالي إن أتاني لَيلاً قَبِلتُه، وإن أتاني نهاراً قَبِلته،
+> وعزتي وجلالي إن أتاني لَيلاً قَبِلتُه، وإن أتاني نهاراً قَبِلته،
 
 I swear by My Power and My Majesty, if he comes to Me in the night, I will accept him; if he comes to Me in the day, I will accept him.
 
-وإن تقرَّبَ مني شِبرا تقرَّبتُ مِنهُ ذِرَاعاً، وإن تقرَّبَ مني ذِرَاعاً تقرَّبتُ مِنهُ باعاً، وإن مشى إلي هَرْوَلْتُ إليه
+> وإن تقرَّبَ مني شِبرا تقرَّبتُ مِنهُ ذِرَاعاً، وإن تقرَّبَ مني ذِرَاعاً تقرَّبتُ مِنهُ باعاً، وإن مشى إلي هَرْوَلْتُ إليه
 
-If he takes a step towards Me, I will move an arm's length towards him. If he moves an arm's length towards Me, I will move a yard towards him. If he walks towards Me, I will run towards him.
+If he takes a step toward Me, I will move an arm's length toward him. If he moves an arm's length toward Me, I will move a yard toward him. If he walks toward Me, I will run toward him.
 
-وإن استغفرني غَفَرْتُ له، وإن تَاب إلي تُبتُ عَليه
+> وإن استغفرني غَفَرْتُ له، وإن تَاب إلي تُبتُ عَليه
 
 And when he seeks My forgiveness, I will forgive him; and when he repents of his sins, I will accept his repentance.
 
-مَن تَقَرَّبَ أِلَیَّ تَلَقَّیتُہُ مِن بَعِید وَ مَن أَعرَضَ عَنِّی ناَدَیتُہُ عَن قَرِیب
+> مَن تَقَرَّبَ أِلَیَّ تَلَقَّیتُہُ مِن بَعِید وَ مَن أَعرَضَ عَنِّی ناَدَیتُہُ عَن قَرِیب
 
 When he approaches Me, I rush from afar to welcome him; and whoever turns away from Me, I approach him and say:
 
-أَوَلَکَ رَبٌّ غَیرِی؟
+> أَوَلَکَ رَبٌّ غَیرِی؟
 
 Do you have a Lord better than Me?
 
 > مَن جَاءَ بٱلْحَسَنَة فَلَهُ عَشْرُ أَمْثَالهَا ۖ وَمَن جَاءَ بٱلسَّيّئَة فَلَا يُجْزَىٰ إلَّا مثْلَهَا وَهُمْ لَا يُظْلَمُونَ
 >
-> Whoever comes [on the Day of Judgement] with a good deed will have ten times the like thereof [to his credit], and whoever comes with an evil deed will not be recompensed except the like thereof; and they will not be wronged.
+> Whoever comes [on the Day of Judgment] with a good deed will have ten times the like thereof [to his credit], and whoever comes with an evil deed will not be recompensed except the like thereof; and they will not be wronged.
 
 When one comes with a single good deed, it is rewarded ten times over; when one comes with a single sin, only what is due is required to clear it—and even then, forgiveness is often chosen. اَللَّہُ اَکْبَرُ.
 
@@ -272,7 +272,7 @@ This is our Lord, our loving, merciful Creator. Who told us that He is a cruel b
 
 There is a well-known Hadith in which جبرئیل (AS) appears before Rasul Allah ﷺ in the form of a man and poses four questions: What is السلام (peace); what is ایمان (faith); what is احسان (excellence); and lastly, he asks about the signs of the end of time. When asked about Islam, Rasul Allah ﷺ replied with a beautiful articulation of its core pillars:
 
-الإِسْلاَمُ أَنْ تَشْهَدَ أَنْ لاَ إِلَهَ إِلاَّ اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ، وَتُقِيمَ الصَّلاَةَ، وَتُؤْتِيَ الزَّكَاةَ، وَتَصُومَ رَمَضَانَ، وَتَحُجَّ الْبَيْتَ إِنِ اسْتَطَعْتَ إِلَيْهِ سَبِيلاً
+> الإِسْلاَمُ أَنْ تَشْهَدَ أَنْ لاَ إِلَهَ إِلاَّ اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ، وَتُقِيمَ الصَّلاَةَ، وَتُؤْتِيَ الزَّكَاةَ، وَتَصُومَ رَمَضَانَ، وَتَحُجَّ الْبَيْتَ إِنِ اسْتَطَعْتَ إِلَيْهِ سَبِيلاً
 
 Islam is to bear witness that there is no god but Allah, and that Muhammad is the messenger of Allah, and to establish the prayer, and to give the charity, and to fast the month of Ramadan, and to perform pilgrimage to the House if you are able to find a way to it.
 
@@ -308,11 +308,11 @@ Rasul Allah ﷺ was in this state of deep reflection, working to empty his heart
 
 The image carries force. An angelic presence filling the sky from one horizon to the other — such an encounter would overwhelm any human being with terror and shock. This moment also points to an important distinction: experience is not a logical proposition. It cannot be proven or disproven — it can only be discussed and interpreted. The challenge is to determine whether an experience is objectively real or subjectively generated — whether it is a true divine encounter or a form of psychosis.
 
-Rasul Allah ﷺ was, naturally, filled with the very human emotions of fear and shock. He turned his face away, but no matter where he looked, he saw the angel in the exact same form. جبرئیل then commanded, "Recite" (أقرأ), to which Rasul Allah ﷺ replied, "مَا أَنَا بِقَارِیٍ؟" (What should I recite? I do not know how to recite).
+Rasul Allah ﷺ was, naturally, filled with the very human emotions of fear and shock. He turned his face away, but no matter where he looked, he saw the angel in the exact same form. جبرئیل then commanded, "Recite" (أَقْرَأ), to which Rasul Allah ﷺ replied, "مَا أَنَا بِقَارِیٍ؟" (What should I recite? I do not know how to recite).
 
 At this, جبرئیل embraced him and squeezed him three times. According to Rasul Allah ﷺ, the pressure was so intense that he felt as though he would die. Scholars explain that this was a physical manifestation of a spiritual reality: the removal of every remnant of this world from his soul. This was the process of تخلیۃ — a complete emptying out before the filling could begin. As the Arabs say:
 
-التَّخلِیَّۃُ تَسبِق التَّحلِیَّۃ
+> التَّخلِیَّۃُ تَسبِق التَّحلِیَّۃ
 
 The emptying out must precede the ornaments.
 
@@ -342,7 +342,7 @@ Following this first encounter, Rasul Allah ﷺ was in a state of extreme shock.
 
 In this state of shock, he returned to his wife, Khadijah (AS), and said, "زَمِّلُونِی زَمِّلُونِی" — "Wrap me up, wrap me up." This is a human instinct when the self feels shattered: a loss of inner coherence, the moment when a person's inner and outer worlds collide. That he retained perfect clarity in that moment — the ability to articulate his need for containment — is another testament to the divine, spiritual nature of the experience.
 
-### The Second Experience: Ascension (Mi'raj)
+### The Second Experience: Ascension (Miraj)
 
 The second divine experience of Rasul Allah ﷺ was the night journey (اسری) and the ascension (مِعْرَاج). The first experience had established his connection with the noumenal realm; the second was a journey from the phenomenal into the noumenal. Allah says in the Quran:
 
@@ -500,7 +500,7 @@ Allah also described him as a رحمة — a mercy — a manifestation of mercy 
 >
 > And we have not sent you, [o Muhammad], except as a mercy to the worlds.
 
-Maulana Ali (AS) described him as the kindest of people by nature. His mission was to make life easier (تیسیر), not harder, by lifting the burdens and shackles imposed by earlier systems and by people's own lower selves. The character of our Prophet ﷺ was an ocean of mercy. Allah Himself reveals this reality in a remarkable verse — not simply describing His Messenger, but unveiling the very nature of Divine love as it manifests in a human soul.
+Maulana Ali (AS) described him as the kindest of people by nature. His mission was to make life easier (تَیْسِیر), not harder, by lifting the burdens and shackles imposed by earlier systems and by people's own lower selves. The character of our Prophet ﷺ was an ocean of mercy. Allah Himself reveals this reality in a remarkable verse — not simply describing His Messenger, but unveiling the very nature of Divine love as it manifests in a human soul.
 
 > فَبِمَا رَحْمَةٍۢ مِّنَ ٱللَّهِ لِنتَ لَهُمْ ۖ وَلَوْ كُنتَ فَظًّا غَلِيظَ ٱلْقَلْبِ لَٱنفَضُّوا۟ مِنْ حَوْلِكَ ۖ فَٱعْفُ عَنْهُمْ وَٱسْتَغْفِرْ لَهُمْ وَشَاوِرْهُمْ فِى ٱلْأَمْرِ ۖ فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى ٱللَّهِ إِنَّ ٱللَّهَ يُحِبُّ ٱلْمُتَوَكِّلِينَ
 >
@@ -510,13 +510,13 @@ The context of this verse's revelation is essential. After the Muslim army faced
 
 The verse begins by establishing that the Prophet's gentleness was not simply a personality trait — it was a direct gift, a manifestation of Allah's own mercy (رَحْمَة). This mercy flows from the same root as the word for the womb, رحم: a nurturing, all-encompassing, life-giving compassion. Allah's mercy enveloped the Prophet's heart, and from that vessel it flowed out to all of creation. The word used to describe this quality is لِنتَ, from a root signifying softness, pliability, and gentleness.
 
-وَلَوْ كُنتَ فَظًّا غَليظَ ٱلْقَلْب لَٱنفَضُّوا۟ منْ حَوْلكَ
+> وَلَوْ كُنتَ فَظًّا غَليظَ ٱلْقَلْب لَٱنفَضُّوا۟ منْ حَوْلكَ
 
 The opposite of this Divine softness is expressed in two powerful words. The first, فظ, implies **coarseness in speech and harshness in interaction**. The second, غَلِيظَ ٱلْقَلْبِ, is even more profound. It comes from the root غ ل ظ, which conveys thickness, density, and heaviness — a heart that has grown impenetrable, unable to receive or transmit tenderness. The Prophet's heart, made soft by Allah's mercy, was the very opposite: open, present, and acutely sensitive to the states of others. The companions testified that in his gatherings he gave every person their due right, turning his entire being toward each one when they spoke, making every individual feel as though they were the most beloved person in his presence.
 
 His profound selflessness (ایثار) meant he always preferred the comfort of others over his own, and this showed even in the smallest acts. In one well-known example, when presented with two سواک — one straight and one crooked — he gave the straight one to a Bedouin and kept the crooked one for himself. A scholar observed that if this was his ایثار toward a simple Bedouin stranger, one can only imagine the ocean of mercy he reserved for those closest to him.
 
-فَٱعْفُ عَنْهُمْ وَٱسْتَغْفرْ لَهُمْ وَشَاورْهُمْ فى ٱلْأَمْر
+> فَٱعْفُ عَنْهُمْ وَٱسْتَغْفرْ لَهُمْ وَشَاورْهُمْ فى ٱلْأَمْر
 
 What Allah commands in this passage, against the backdrop of the defeat, illuminates His method. The Muslims have just suffered because some companions disobeyed the Prophet ﷺ. In this moment of pain and disappointment, Allah guides His beloved:
 
@@ -526,7 +526,7 @@ What Allah commands in this passage, against the backdrop of the defeat, illumin
 
 - وَشَاوِرْهُمْ فِى ٱلْأَمْرِ (and consult them in the matter): This is the most astonishing command. After their error, reason would suggest they should not be consulted again. Yet Allah commands the opposite. This is the Divine method for restoring dignity: by instructing the Prophet ﷺ to continue seeking their counsel, Allah rebuilt their confidence and re-wove their hearts into the fabric of the community, proving that their worth was not diminished by their mistake.
 
-فَإذَا عَزَمْتَ فَتَوَكَّلْ عَلَى ٱللَّه إنَّ ٱللَّهَ يُحبُّ ٱلْمُتَوَكّلينَ
+> فَإذَا عَزَمْتَ فَتَوَكَّلْ عَلَى ٱللَّه إنَّ ٱللَّهَ يُحبُّ ٱلْمُتَوَكّلينَ
 
 After these acts of mercy, the verse concludes: فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى ٱللَّهِ — and when you have decided, then rely upon Allah. After consultation, the decision is his, but the ultimate reliance — the توکل — is on Allah alone. This single verse is therefore not merely a description of a man; it is a roadmap for the purification of the soul, showing that authentic leadership and spiritual authority are rooted in a mercy that originates from Allah, manifests as gentleness, and is perfected through pardon, intercession, and the restoration of human dignity.
 
@@ -578,13 +578,13 @@ Then, with compassion, the Prophet ﷺ approached the man. He did not scold or c
 
 ### Additional Virtues and Conduct
 
-Our Prophet ﷺ taught that every human being matters, and that an act of injustice against a single believer is more grievous than the destruction of the Ka'bah itself. He honored every person, regardless of their color, race, or creed. Allah says in the Quran:
+Our Prophet ﷺ taught that every human being matters, and that an act of injustice against a single believer is more grievous than the destruction of the Kabah itself. He honored every person, regardless of their color, race, or creed. Allah says in the Quran:
 
 > أَيَحْسَبُ ٱلْإِنسَٰنُ أَن يُتْرَكَ سُدًى
 >
 > Does man think that he will be left neglected?
 
-Every human being is precious to Allah. A human being in submission is more precious still. This is why Rasul Allah ﷺ said that killing a believer unjustly is more grievous before Allah than destroying the entire Ka'bah brick by brick. No one is insignificant — and this is what he let people know. A scholar once remarked that if the Prophet ﷺ had performed no miracle other than the men and women he produced, that alone would have been enough. He took simple, unlettered people and transformed them into towering figures of intellect and faith: a shepherd, عَبْدُ اللَّہِ ابْنُ مَسْعُودٍ, became a teacher for an entire generation; an Abyssinian slave, Bilal, became a pillar of faith and a giant among men.
+Every human being is precious to Allah. A human being in submission is more precious still. This is why Rasul Allah ﷺ said that killing a believer unjustly is more grievous before Allah than destroying the entire Kabah brick by brick. No one is insignificant — and this is what he let people know. A scholar once remarked that if the Prophet ﷺ had performed no miracle other than the men and women he produced, that alone would have been enough. He took simple, unlettered people and transformed them into towering figures of intellect and faith: a shepherd, عَبْدُ اللَّہِ ابْنُ مَسْعُودٍ, became a teacher for an entire generation; an Abyssinian slave, Bilal, became a pillar of faith and a giant among men.
 
 His presence was so formidable that those who first met him were left speechless, yet those who spent time with him fell deeply in love. He drew out the potential of the forgotten and the humble, showing them that their worth lay not in wealth or rank, but in character and love for Allah.
 
@@ -602,13 +602,13 @@ He was also known for the honor he showed children. He once carried his grandson
 
 I could continue with more stories of the Prophet's character, but I will close with one final point. His coming was noted in all previous scriptures. What I want to draw attention to is what Allah described as his most defining trait. He states:
 
-يُرِيدُ أَنْ يَبْعَثَ الْأُمِّيَّ مِنَ الْأُمِّيِّينَ، وَيَجْعَلَ السَّكِينَةَ لِبَاسَهُ، وَالْبِرَّ شِعَارَهُ، وَالتَّقْوَى ضَمِيرَهُ، وَالْحِكْمَةَ مَنْطِقَهُ، وَالصِّدْقَ وَالْوَفَاءَ طَبِيعَتَهُ، وَالْعَفْوَ وَالْمَعْرُوفَ خُلُقَهُ، وَالْحَقَّ شَرِيعَتَهُ، وَالْعَدْلَ سِيرَتَهُ، وَالْهُدَى إِمَامَهُ، وَالْإِسْلَامَ مِلَّتَهُ، وَأَحْمَدَ اسْمَهُ. أَهْدِي بِهِ بَعْدَ الضَّلَالَةِ، وَأُعَلِّمُ بِهِ مِنَ الْجَهَالَةِ، وَأَرْفَعُ بِهِ بَعْدَ الْخَمَالَةِ، وَأُعَرِّفُ بِهِ بَعْدَ النَّكِرَةِ، وَأُكَثِّرُ بِهِ بَعْدَ الْقِلَّةِ، وَأُغْنِي بِهِ بَعْدَ الْعَيْلَةِ، وَأُجَمِّعُ بِهِ بَعْدَ الْفُرْقَةِ. وَأُؤَلِّفُ بِهِ بَيْنَ أُمَمٍ مُتَفَرِّقَةٍ، وَقُلُوبٍ مُخْتَلِفَةٍ، وَأَهْوَاءٍ مُتَشَتِّتَةٍ.
+> يُرِيدُ أَنْ يَبْعَثَ الْأُمِّيَّ مِنَ الْأُمِّيِّينَ، وَيَجْعَلَ السَّكِينَةَ لِبَاسَهُ، وَالْبِرَّ شِعَارَهُ، وَالتَّقْوَى ضَمِيرَهُ، وَالْحِكْمَةَ مَنْطِقَهُ، وَالصِّدْقَ وَالْوَفَاءَ طَبِيعَتَهُ، وَالْعَفْوَ وَالْمَعْرُوفَ خُلُقَهُ، وَالْحَقَّ شَرِيعَتَهُ، وَالْعَدْلَ سِيرَتَهُ، وَالْهُدَى إِمَامَهُ، وَالْإِسْلَامَ مِلَّتَهُ، وَأَحْمَدَ اسْمَهُ. أَهْدِي بِهِ بَعْدَ الضَّلَالَةِ، وَأُعَلِّمُ بِهِ مِنَ الْجَهَالَةِ، وَأَرْفَعُ بِهِ بَعْدَ الْخَمَالَةِ، وَأُعَرِّفُ بِهِ بَعْدَ النَّكِرَةِ، وَأُكَثِّرُ بِهِ بَعْدَ الْقِلَّةِ، وَأُغْنِي بِهِ بَعْدَ الْعَيْلَةِ، وَأُجَمِّعُ بِهِ بَعْدَ الْفُرْقَةِ. وَأُؤَلِّفُ بِهِ بَيْنَ أُمَمٍ مُتَفَرِّقَةٍ، وَقُلُوبٍ مُخْتَلِفَةٍ، وَأَهْوَاءٍ مُتَشَتِّتَةٍ.
 
 He desires to send forth an unlettered Prophet from the midst of the unlettered people. He will make **serenity** his garment, **righteousness** his emblem, and **piety** his very conscience. **Wisdom** will be his speech, and his nature will be defined by **truthfulness** and **faithfulness**. **Forgiveness** and **benevolence** will be his character. **Truth** will be his law, **justice** his conduct, **guidance** his leader, and **Islam** his faith. His name will be **Ahmad**. Through him, I will give **guidance** after **misguidance**; I will impart **knowledge** after **ignorance**; and I will grant **exaltation** after **insignificance**. I will make them **known** after their **obscurity**. I will bring them **abundance** after **scarcity**, and I will grant them **richness** after **poverty**. I will bring them **unity** after **separation**. And through him, I will reconcile scattered peoples, divergent hearts, and fractured ambitions.
 
 After naming all these qualities, Allah then states what is most prominent in this man's character:
 
-لَوْ يَمْشِي عَلَى الْقَصَبِ الْيَابِسِ لَمْ يُسْمَعْ تَحْتَ قَدَمَيْهِ مِن سَكِينَتِهِ
+> لَوْ يَمْشِي عَلَى الْقَصَبِ الْيَابِسِ لَمْ يُسْمَعْ تَحْتَ قَدَمَيْهِ مِن سَكِينَتِهِ
 
 Such was his humility that if he walked on dry leaves, not a sound would be heard beneath his feet. That is the essence of his character. May Allah strengthen us and our children with the character of our incredible Prophet Rasul Allah ﷺ.
 
@@ -676,7 +676,7 @@ This path of purification and success is not abstract. Distinct qualities mark i
 
 > وَأَنَّ إلَىٰ رَبّكَ ٱلْمُنتَهَىٰ
 >
-> And towards your your Master is your final destiny.
+> And toward your your Master is your final destiny.
 
 Our Lord is our ultimate purpose. Our purpose is the recognition of our Creator and willing submission to Him.
 

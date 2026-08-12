@@ -27,12 +27,16 @@ placed. `run_apparatus` refuses to run while `sessions-articulate` is not
 from __future__ import annotations
 
 import json
+import sys
+from pathlib import Path
 
-from _book_apparatus import apply_book_apparatus
-from _paths import content_dir
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from .ingest import ARTICULATE_STEP, LANE_STEPS, _write_state
-from .series import PROFILE, SERIES
+from _book_apparatus import apply_book_apparatus  # noqa: E402
+from _paths import content_dir  # noqa: E402
+
+from sessions.ingest import ARTICULATE_STEP, LANE_STEPS, _write_state  # noqa: E402
+from sessions.series import PROFILE, SERIES  # noqa: E402
 
 
 def run_apparatus(slug: str, *, force: bool = False, log=print) -> dict:
