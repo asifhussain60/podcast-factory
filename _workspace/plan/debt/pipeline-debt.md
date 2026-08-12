@@ -1408,3 +1408,43 @@ generate a missing audit (making it "make the record right", the reading its nam
 suggests), or it could report the absence and refuse (making it strictly a repair, and
 putting the first write somewhere else). The first is what every caller appears to
 expect. Either way the silent success has to go.
+
+---
+
+## Snag — the Kashkole translation pass has no circuit breaker, no retry, and stores per topic — 2026-08-12
+
+Three faults in `scripts/podcast/intelligence/translate_kashkole.py`, all exposed by
+the way the first full run ended rather than by review. Fix them BEFORE the next
+run; the corpus is only half rendered and the remainder will hit the same wall.
+
+Full state, and how to resume, is in
+[`_workspace/plan/kashkole-translation-status.md`](../kashkole-translation-status.md).
+
+**What happened.** The run rendered 76 topics over about three hours — 47.7% of
+the corpus BY WORK, because it takes the largest topics first and every giant is
+now done — and then **every one of the remaining 1,271 failed within minutes**:
+1,233 reporting `claude -p rc=1` with empty stderr, 37 naming a GitKraken
+`SessionEnd` hook. Sudden, uniform and instant, which reads as the subscription's
+usage allowance being reached rather than any fault in the corpus or the prompts.
+The CLI answered a probe again shortly afterwards.
+
+Nothing durable was lost — a failed topic writes no row, so `remaining` stayed
+honest and a re-run picks up exactly the outstanding 1,271.
+
+| # | Fault | Why it matters | Fix |
+|---|---|---|---|
+| K1 | **No circuit breaker** | A usage ceiling turned into 1,271 topics failing in minutes instead of a clean halt. A pause became a full-queue churn and a log that says nothing useful. | Halt the pool after N consecutive failures; report how far it got and exit non-zero. |
+| K2 | **No retry** | It calls `_run_claude_p`, not `_run_claude_p_with_retry`, so one slow window kills a topic with no second attempt. Cost topic 5786 (243,806 chars) ~20 minutes on a single 900s timeout. | Use the retrying runner, as every other authoring path does. |
+| K3 | **Storage is per topic, not per window** | A failure part-way through a long body discards every window already rendered. On a 300,000-character topic that is an hour of work for one bad call. | Persist windows as they complete so a resume restarts mid-topic. |
+
+**Two open decisions, not defects:**
+
+- **`mirror.db` is a 33 MB tracked binary and this pass grows it** (28.9 MB before).
+  Every commit stores a full new blob, so committing it after each translation run
+  would add tens of megabytes per run. Committed once because 4.3M characters of
+  rendered English must not live only on one disk, but a durable answer is needed
+  before the remaining 1,271 topics land.
+- **Six topics are flagged `review`** (5702, 5708, 5715, 5726, 5740, 5766), each
+  for exactly one Qur'anic verse rendered into English instead of carried through
+  as Arabic script. The gate records which verse in which topic, so a repair can be
+  surgical rather than a re-translation.
