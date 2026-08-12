@@ -142,7 +142,7 @@ def _llm_classify(items: list[tuple[int, dict]], book_dir: Path, log) -> dict[in
     """Batched Claude-Max judgment for the ambiguous remainder. Returns {idx:class};
     missing/failed entries are simply absent (caller defaults them to referential)."""
     try:
-        from _authoring._core import _run_claude_p
+        from _authoring._core import _run_claude_p, pure_json_call_options
     except Exception as e:
         log(f"    [classify] claude unavailable ({e}) — ambiguous terms -> referential")
         return {}
@@ -151,7 +151,12 @@ def _llm_classify(items: list[tuple[int, dict]], book_dir: Path, log) -> dict[in
         batch = items[start : start + _LLM_BATCH]
         prompt = _build_llm_prompt(batch)
         rc, text, err = _run_claude_p(
-            prompt, timeout=_CLAUDE_TIMEOUT, book_dir=book_dir, phase="audio-script", step="teaching-relevance"
+            prompt,
+            timeout=_CLAUDE_TIMEOUT,
+            book_dir=book_dir,
+            phase="audio-script",
+            step="teaching-relevance",
+            **pure_json_call_options(),
         )
         if rc != 0:
             log(f"    [classify] LLM batch rc={rc}: {err[:120]} — batch -> referential")

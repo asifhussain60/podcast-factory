@@ -133,14 +133,20 @@ def render_from_transliteration(run: str, *, book_dir: Path, context: str = "", 
     the script and the marks. It is never asked what the saying is, which is the request
     that would invite recall.
     """
-    from _authoring._core import _run_claude_p_with_retry
+    from _authoring._core import _run_claude_p_with_retry, pure_text_call_options
 
     prompt = _RENDER_PROMPT.format(
         run=run.strip(),
         context=f"\nThe English rendering beside it, for disambiguation only:\n{context.strip()}" if context else "",
     )
     rc, out, err = _run_claude_p_with_retry(
-        prompt, timeout=180, book_dir=book_dir, phase="romanization", step="render", log=log
+        prompt,
+        timeout=180,
+        book_dir=book_dir,
+        phase="romanization",
+        step="render",
+        log=log,
+        **pure_text_call_options(effort="low"),
     )
     if rc != 0:
         raise RuntimeError(f"render failed rc={rc}: {(err or '')[:200]}")

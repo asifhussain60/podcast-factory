@@ -25,9 +25,10 @@ skill and the `book-rearticulator` agent.
 
 **Verified, not merely instructed.** `book-challenger` check **BK-P8**
 (articulation conformance) judges a composed book against the rules below that no
-other `BK-*` check covers — REQ-BA-010, -020, -050, -080, -100, -140 — on every
-book whose `book_voice` resolves to `faithful`. The remaining rules are already
-gated elsewhere and are NOT re-checked by BK-P8; see the check's own scope note.
+other `BK-*` check covers — REQ-BA-010, -020, -050, -080, -100, -112, -115,
+-140 — on every book whose `book_voice` resolves to `faithful`. The remaining
+rules are already gated elsewhere and are NOT re-checked by BK-P8; see the
+check's own scope note.
 Cite findings by `REQ-BA-NNN`; never re-copy rule text elsewhere.
 
 Grounding: the [Library of Arabic Literature *Handbook for Editor–Translators*](https://dhjhkxawhe8q4.cloudfront.net/library-of-arabic-literature-wp/assets/20240716170340/Handbook-v5-2024-02-28.pdf)
@@ -97,6 +98,28 @@ retention, narrative frame), the repo convention wins and is cited, not restated
 - **REQ-BA-110 — American spelling and book punctuation.** American English
   spelling per Merriam-Webster (repo rule: `_american_spelling.py`; LAL 6.2.1),
   the serial comma, and periods/commas inside closing quotes.
+- **REQ-BA-112 — Spelling, grammar, and copy-editing are part of
+  articulation.** The pass is not only a de-calque pass. It also runs a complete
+  copy-edit over its own output: fix every ordinary English spelling, grammar,
+  punctuation, capitalization, spacing, duplicated-word, malformed
+  sentence-boundary, agreement, tense, pronoun-reference, transcript typo, or
+  OCR typo defect that can be corrected without changing meaning. This rule does
+  not authorize "correcting" Arabic script, technical terms, names, citations,
+  book-established spellings, or protected quoted artifacts. If it is unclear
+  whether something is an error or authored wording, leave the prose intact and
+  report the risk under REQ-BA-160.
+- **REQ-BA-115 — List structure is evaluated, not merely preserved.** Every
+  list-like run is judged for book readability: steps, conditions, causes,
+  meanings, proofs, examples, ranks, repeated sentence stems, "first/second"
+  sequences, and semicolon-heavy series may become Markdown lists even if the
+  source printed them as prose. Use numbered lists only for true sequence, rank,
+  explicit count, or dependent order; use bullets for parallel unordered items.
+  Apply standard Markdown indentation for nested items and continuation lines
+  so the hierarchy is visible. The content of every item remains invariant under
+  REQ-BA-030. Do not convert source section or paragraph numbering, verse or
+  page numbers, citation numbers, or an author's deliberate refusal to enumerate
+  into a list. Do not restructure inside protected quoted artifacts unless the
+  source itself already presents that artifact as a list.
 - **REQ-BA-120 — The narrative frame is binding.** WHO narrates comes from
   `_system/series-config.yaml` (`narrative_frame`), never from the prose in
   front of you. Grammatical person, one narrator per book, and enumeration

@@ -3,8 +3,9 @@ name: book-articulation
 description: >
   Articulation contract for book prose in the Podcast Factory pipeline: how a
   stiff, literal, Arabic-calqued English chapter is rewritten into modern, lucid,
-  simple English that reads like a professionally published book — while every
-  teaching, speech, quote, image, Arabic run, and enumeration survives intact.
+  simple English that reads like a professionally published book, including a
+  full spelling/grammar copy-edit and list-shape pass — while every teaching,
+  speech, quote, image, Arabic run, and enumeration survives intact.
   Backs BOTH the automatic 0book-fluency pass (runs on every translation-edition
   book at compose time) and the Book Composer's on-demand Rearticulate action —
   the two share one prompt builder so they cannot drift apart. MUST be loaded
@@ -36,8 +37,9 @@ names them as protected artifacts (REQ-BA-040/050) so a judge can fail them.
 ## The one-line contract
 
 > Rewrite the grammar as much as you like; the meaning, the artifacts, and the
-> images are not yours to touch. Simple English, professional register, never
-> shorter, nothing added.
+> images are not yours to touch. Fix spelling and grammar; evaluate real lists
+> for bullets or numbering with indentation. Simple English, professional
+> register, never shorter, nothing added.
 
 ## How articulation runs — two routes, one prompt
 
@@ -51,6 +53,11 @@ names them as protected artifacts (REQ-BA-040/050) so a judge can fail them.
 - **Shared prompt:** both call `_book_voice_prompts._articulation_prompt` — the
   one builder for the REQ-BA contract — so the automatic pass and the
   one-chapter tool cannot silently diverge.
+- **Copy-edit and list structure:** both routes run the same required
+  spelling/grammar cleanup (REQ-BA-112) and list-shape judgment (REQ-BA-115).
+  The pass may introduce bullets or numbered lists when the prose is genuinely
+  list-like, but it must not treat source section numbering, citations, verse
+  numbers, or protected quoted material as layout invitations.
 - **Shared gates:** both run every window through `revoice_gates` (abridgement,
   teaching loss, Arabic retention, doctrinal P0s, narrative frame, and a leaked
   `===ARTICULATION-NOTES===` marker per REQ-BA-160). A window that fails a gate

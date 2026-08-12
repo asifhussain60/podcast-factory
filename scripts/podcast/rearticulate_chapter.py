@@ -37,13 +37,15 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _authoring._core import _run_claude_p_with_retry
+from _authoring._core import _run_claude_p
+from _book_compose import _arabic_run_count
 from _book_edits import anchor_key, base_fingerprint_for, record_edit
 from _book_pass_reports import record_rearticulation
 from _book_voice import _CHAPTER_HEADING_RE, _run_pass
@@ -52,8 +54,32 @@ from _content_profile import source_language as _source_language
 from _paths import resolve_content
 from _pipeline_flags import narrative_frame, narrator_subject
 
-_TIMEOUT = 900
+_MIN_TIMEOUT = 180
+_MAX_TIMEOUT = 600
+_WINDOW_WORDS = 450
 _PHASE = "rearticulate"
+_WORD_RE = re.compile(r"\b[\w'’-]+\b")
+_TEXT_TRANSFORM_SYSTEM_PROMPT = (
+    "You are a non-agentic text transformation engine. Follow the user's prompt exactly. "
+    "Return only the requested transformed prose. Do not mention tools, commands, files, "
+    "scripts, terminal output, or the act of processing the request."
+)
+
+
+def timeout_for_window(base_text: str) -> int:
+    """Derive the model-call timeout from the actual passage being rewritten.
+
+    A single global ceiling made bulk rearticulation painful: a sticky short
+    window could hold the whole book hostage for the same 15 minutes as a dense,
+    Arabic-heavy one. The timeout follows the work the model is being asked to
+    do: ordinary prose gets a small floor, long prose gets more room, and Arabic
+    density adds time because every run must be copied and counted.
+    """
+
+    words = len(_WORD_RE.findall(base_text or ""))
+    arabic_runs = _arabic_run_count(base_text or "")
+    seconds = 90 + int(words * 0.04) + int(arabic_runs * 0.5)
+    return max(_MIN_TIMEOUT, min(_MAX_TIMEOUT, seconds))
 
 
 def _adapter(
@@ -68,13 +94,22 @@ def _adapter(
     narrator: str = "",
 ) -> str:
     lang = _source_language(book_dir)
-    rc, out, err = _run_claude_p_with_retry(
+    timeout = timeout_for_window(base_text)
+    words = len(_WORD_RE.findall(base_text or ""))
+    arabic_runs = _arabic_run_count(base_text or "")
+    log(f"      {label}: timeout={timeout}s (words={words}, Arabic={arabic_runs})")
+    rc, out, err = _run_claude_p(
         _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator, source_language=lang),
-        timeout=_TIMEOUT,
+        timeout=timeout,
         book_dir=book_dir,
         phase=_PHASE,
         step=label,
-        log=log,
+        tools="",
+        safe_mode=True,
+        no_chrome=True,
+        no_session_persistence=True,
+        system_prompt=_TEXT_TRANSFORM_SYSTEM_PROMPT,
+        effort="low",
     )
     if rc != 0:
         raise RuntimeError(f"{label}: claude -p rc={rc}: {(err or '')[:200]}")
@@ -145,6 +180,7 @@ def rearticulate(book_dir: Path, chapter_key: str, *, adapter=None, log=print) -
         frame=frame,
         narrator_subject=subject,
         force=True,
+        window_words=_WINDOW_WORDS,
     )
     record = next(
         (r for r in records if r.get("status") not in ("skipped", "composer-edit")),

@@ -672,13 +672,14 @@ p {
 blockquote.quran .ar-inline {
   line-height: inherit;
   font-size: inherit;
+  font-family: var(--q-ar-face);
+  font-weight: 400;
 }
 
 .ar-inline {
   /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
      shearing the glyphs, which is wrong for the script and looked wrong on the
-     page; and an inherited bold would fake a weight the face does not have.
-     Pinned here so the run renders the same whatever prose it sits in. */
+     page. Pinned here so the run renders the same whatever prose it sits in. */
   font-style: normal;
   /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
      descent are far taller than the Latin body face, so without an explicit
@@ -690,7 +691,15 @@ blockquote.quran .ar-inline {
   /* Inline terms woven into prose are never tagged is-quranic (a mid-sentence
      word carries too little evidence to call scripture), so they always take the
      non-Qur'anic face. */
-  font-family: var(--q-ar-face);
+  font-family: var(
+    --q-ar-inline-face,
+    "AmiriSized",
+    "Amiri",
+    "ScheherazadeSized",
+    "Scheherazade New",
+    serif
+  );
+  font-weight: var(--q-ar-inline-weight, 700);
   /* --q-ar-inline-size, default 1.26em — chosen by Asif on 2026-08-02 from three
      candidates rendered side by side in the Composer, and moved onto a token the
      same day so the book's Arabic-size setting could carry it. It was a bare

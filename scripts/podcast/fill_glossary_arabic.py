@@ -80,7 +80,6 @@ from __future__ import annotations
 
 import argparse
 import re
-import subprocess
 import sys
 import time
 from pathlib import Path
@@ -101,7 +100,6 @@ def _unq(s: str) -> str:
     return s.replace('\\"', '"').replace("\\\\", "\\")
 
 
-CLAUDE_CMD = "claude"
 CLAUDE_TIMEOUT_S = 1800  # 30 min — bumped 2026-05-24 after 600s proved too tight for
 # 75-entry / 106KB-OCR master-disciple. Sonnet streams output
 # slower on long context windows than the dense per-entry
@@ -251,47 +249,31 @@ def _run_llm_batches(
     for i, batch in enumerate(batches, 1):
         prompt = build(batch)
         print(f"    {label} batch {i}/{len(batches)} ({len(batch)} entries) …", file=sys.stderr)
-        t0 = time.monotonic()
         try:
-            result = subprocess.run(
-                [CLAUDE_CMD, "-p", "--model", MODEL, "--output-format", "json", prompt],
-                capture_output=True,
-                text=True,
+            from _authoring._core import AuthoringError, _run_claude_p, pure_json_call_options
+
+            t0 = time.monotonic()
+            rc, reply_text, err = _run_claude_p(
+                prompt,
                 timeout=CLAUDE_TIMEOUT_S,
+                book_dir=book_dir,
+                phase="0c-glossary-fill",
+                step=f"{label}-b{i}",
+                model=MODEL,
+                model_flag=MODEL,
+                **pure_json_call_options(),
             )
-        except subprocess.TimeoutExpired:
+            elapsed = time.monotonic() - t0
+        except AuthoringError:
             sys.stderr.write(
                 f"    {label} batch {i} exceeded {CLAUDE_TIMEOUT_S}s timeout — partial "
                 "results from prior batches will still be written. Re-run to retry only "
                 "the entries still empty.\n"
             )
             break
-        elapsed = time.monotonic() - t0
-        raw_stdout = result.stdout
-        if book_dir is not None:
-            try:
-                from _cost_ledger import append_from_claude_p_stdout
-
-                append_from_claude_p_stdout(
-                    book_dir,
-                    phase="0c-glossary-fill",
-                    step=f"{label}-b{i}",
-                    model=MODEL,
-                    stdout=raw_stdout,
-                )
-            except Exception as e:
-                sys.stderr.write(f"    {label} batch {i}: cost-ledger append failed: {e!r}\n")
-        if result.returncode != 0:
-            sys.stderr.write(
-                f"    {label} batch {i} claude -p failed (rc={result.returncode}):\n{result.stderr[:600]}\n"
-            )
+        if rc != 0:
+            sys.stderr.write(f"    {label} batch {i} claude -p failed (rc={rc}):\n{(err or '')[:600]}\n")
             break
-        try:
-            from _cost_ledger import parse_text_from_json_stdout
-
-            reply_text = parse_text_from_json_stdout(raw_stdout)
-        except Exception:
-            reply_text = raw_stdout
         batch_fills = parse_llm_yaml(reply_text)
         print(f"    {label} batch {i}/{len(batches)} → {len(batch_fills)} fills in {elapsed:.1f}s", file=sys.stderr)
         fills.update(batch_fills)

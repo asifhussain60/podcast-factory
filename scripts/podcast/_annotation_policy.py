@@ -248,7 +248,7 @@ def propose_annotation_policy(
         if classifier is not None:
             raw = classifier(prompt)
         else:
-            from _authoring._core import _run_claude_p_with_retry
+            from _authoring._core import _run_claude_p_with_retry, pure_json_call_options
 
             rc, out, err = _run_claude_p_with_retry(
                 prompt,
@@ -257,6 +257,7 @@ def propose_annotation_policy(
                 phase="0book-annotation-policy",
                 step="classify-glossary",
                 log=log,
+                **pure_json_call_options(),
             )
             if rc != 0:
                 raise AnnotationPolicyError(f"classifier failed rc={rc}: {str(err)[:200]}")

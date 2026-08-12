@@ -33,7 +33,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _authoring._core import AuthoringError, _run_claude_p
+from _authoring._core import AuthoringError, _run_claude_p, pure_text_call_options
 from _authoring._dialogue import _episode_id_for_chapter, author_dialogue_script
 from _dialogue_script import script_path_for
 from _paths import REPO_ROOT
@@ -169,6 +169,7 @@ def _semantic_pass(
             book_dir=book_dir,
             phase="audio-script",
             step=f"dialogue-challenger/{chapter_slug}",
+            **pure_text_call_options(),
         )
     except AuthoringError as e:
         return "BLOCKED", [Finding("DLG-SEM-ERROR", "P1", f"semantic pass failed to run: {e}")]

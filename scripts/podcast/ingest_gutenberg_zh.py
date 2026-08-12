@@ -145,7 +145,7 @@ def _translate_prompt(num: int, title: str, body: str) -> str:
 
 def translate_volume(book_dir: Path, *, model_flag: str | None, timeout: int) -> Path:
     """Stage 2: translate the sliced Chinese source → English raw-extract.md."""
-    from _authoring._core import _run_claude_p
+    from _authoring._core import _run_claude_p, pure_text_call_options
     from _cost_ledger import parse_text_from_json_stdout
 
     text_dir = book_dir / "_system" / "source" / "text"
@@ -186,6 +186,7 @@ def translate_volume(book_dir: Path, *, model_flag: str | None, timeout: int) ->
             step=f"ch{num:03d}",
             model_flag=model_flag,
             timeout=timeout,
+            **pure_text_call_options(),
         )
         if rc != 0:
             sys.exit(f"ERROR: claude -p failed for chapter {num} (rc={rc}): {stderr[:300]}")

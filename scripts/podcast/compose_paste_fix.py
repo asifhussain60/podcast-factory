@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from _authoring._core import AuthoringError, _run_claude_p_with_retry
+from _authoring._core import AuthoringError, _run_claude_p_with_retry, pure_text_call_options
 from _book_companion_prompts import parse_cards
 from _book_edits import anchor_key
 from _book_voice_gates import revoice_gates
@@ -202,6 +202,7 @@ def scholar_continuity_repair(
             phase="compose-paste-fix",
             step=f"scholar-continuity-{anchor_key(heading)[:48]}",
             log=log,
+            **pure_text_call_options(),
         )
     except AuthoringError as e:
         return repaired_body, [{"kind": "scholar-continuity", "status": "skipped", "reason": str(e)}]
@@ -249,6 +250,7 @@ def student_readability_review(
             phase="0book-student-reader",
             step=f"paste-fix-student-{anchor_key(heading)[:48]}",
             log=log,
+            **pure_text_call_options(),
         )
     except AuthoringError as e:
         return {"status": "skipped", "reason": str(e), "questions": []}

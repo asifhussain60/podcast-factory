@@ -720,13 +720,9 @@ Let us begin with the word اللہ. The word Allah comes from the root word ا�
 
 In English, we have two types of articles. There is the indefinite article “a,” as in “a book” or “a car,” and there is the definite article “the,” as in “the book” or “the car.”
 
-![](images/87/983c2f7d-5f31-4f45-b5bf-27da233a43c0.jpg)
-
 ### A vs. THE
 
 What is the difference between “a book” and “the book”? “A book” is generic; it could refer to any book. But when I say “the book,” I am no longer speaking about just any book. I am referring to a particular book. The same principle applies to the word الہ.
-
-![](images/87/1b3198d2-bb3f-48d3-ac49-05f97e515554.jpg)
 
 ### ILAH vs. AL-ILAH
 
@@ -737,8 +733,6 @@ In other words, “اللہ” is the specific form of the generic word الہ. 
 Therefore, in order to understand the linguistic meaning of the word Allah, we must first understand the meaning of الہ.
 
 ### Composite Words
-
-![](images/87/3187e204-def2-4bcb-bfbf-e9a3c6e4224c.jpg)
 
 The word الہ is a composite word. It carries a range of meanings. Before examining them, we need to understand what is meant by a composite word, because we will encounter many such words.
 
@@ -802,17 +796,11 @@ By definition, الہ is the one by whom you are completely and utterly impresse
 
 So these are the various meanings of the word الہ. Let us review them. Who or what is an الہ?
 
-The one we worship and obey is our الہ.
-
-The one to whom we are completely devoted and loyal is our الہ.
-
-The one to whom we turn in utter desperation for comfort is our الہ.
-
-The one we passionately love and obsess over is our الہ.
-
-The one we lean upon for support—physically, mentally, emotionally, or psychologically—is our الہ.
-
-![](images/87/21ac5722-564f-4aed-beeb-4f61c600508f.jpg)
+- The one we worship and obey is our الہ.
+- The one to whom we are completely devoted and loyal is our الہ.
+- The one to whom we turn in utter desperation for comfort is our الہ.
+- The one we passionately love and obsess over is our الہ.
+- The one we lean upon for support—physically, mentally, emotionally, or psychologically—is our الہ.
 
 This is what the word الہ means. And because الہ is a composite word, its meaning is the sum of all these dimensions.
 
@@ -835,8 +823,6 @@ For example, by definition, الہ is the one to whom we are loyal and devoted, 
 Likewise, by definition, الہ is the one who astounds and astonishes you. If Shahrukh Khan, Sylvester Stallone, Adele, Byonce, or Lady Gaga are the people who astound, astonish, and impress you to the point that you want to “be” like them, then you have given the definition of وَلِھَا a form. You have personified that definition in the form of Shahrukh Khan, Stallone, or someone else.
 
 ### ILAH as Idols
-
-![](images/87/96638984-a5a3-408c-b774-202db50348e2.jpg)
 
 What is the definition of an idol? An idol is an image or representation of a god used as an object of worship. That is the dictionary definition. It is the personification or objectification of someone or something.
 
@@ -872,7 +858,7 @@ The Criterion [25:43]
 
 > أَرَءَيْتَ مَنِ ٱتَّخَذَ إِلَهَهُۥ هَوَىٰهُ
 >
-> Have you seen the one who takes as his god his own desire?
+> Have you seen the one who takes his own desire as his god?
 
 Allah is asking the messenger ﷺ: Do you not see this person who has taken his desires—his car, his house, his job, his wealth, his fame, the pleasures and sensations of his body—as his الہ? Do you not see the person who has taken smoking, drugs, alcohol, sex, movies, or video games as his الہ; who has taken Shahrukh Khan, Salman Khan, Amir Khan, Adele, or Stallone as his الہ?
 
@@ -908,15 +894,13 @@ The creedal formula لَا اِلَٰہَ اِلَّا اللَّہُ is the act
 
 It is the practice of directing every definition of the word الہ toward the one ultimate Being—of making Him ال + اللہ, of making Him Allah. It is the work of isolating each definition of الہ and making it specific to Allah alone.
 
-### Allah as the Only One We Worship and Obey
+### Allah is the Only One We Worship and Obey
 
 Allah is now the only one I worship and obey. If any other الہ conflicts with His commands, I disobey that الہ in order to obey the ال + الہ, who is Allah.
 
 This does not mean that life cannot be enjoyed. The difference is that Allah now stands at the front and center of my worship and obedience. So long as nothing conflicts with that worship and obedience, I can enjoy my life to the fullest.
 
 ### Allah as the One Above Every Other Loyalty
-
-![](images/87/6c9d2189-31d6-4688-b40f-1861bf91cdfe.jpg)
 
 لَا اِلَٰہَ اِلَّا اللَّہُ now means لَا یُعْلَی اِلَّا اللَّہُ: Allah is the only one to whom I am completely devoted and loyal above everyone else in my life—even my own parents, even my own children. I serve only Allah and no one else.
 
@@ -932,7 +916,7 @@ This does not mean that I cannot seek help from my family and friends. Nor does 
 
 I turn to whomever I need and seek whatever means are necessary. The difference is that I know these people are simply means—أَسْبَاب—through which Allah provides. My ultimate petition, therefore, is always directed to Him:
 
-Ya Allah! I need this. I turn to you for the fulfillment of my needs—provide me with the means and resources that will fulfill my needs in a way that pleases you. For it is you, and only you, who is the source of my provision—nobody else.
+Ya Allah! I need this. I turn to you for the fulfillment of my needs—provide me with the means and resources that will satisfy them in a way that pleases you. For it is you, and only you, who are the source of my provision—nobody else.
 
 ### Allah as the One I Love Passionately
 
@@ -988,13 +972,11 @@ I take the praise inspired by the beauty of the sunset and attribute it to its C
 
 ### Tawhid
 
-Through this practice, the true concept of توحید comes into view.
+Through this practice, the true concept of توحید becomes clear.
 
-توحید is not the idea that Allah is the supreme deity within a hierarchy of deities. It is the recognition that there is no other deity at all.
-
-لا الہ—a complete elimination of every other deity.
-
-الا اللہ—except the one and only, who is Allah.
+- توحید is not the idea that Allah is the supreme deity within a hierarchy of deities. It is the recognition that there is no other deity.
+- لا الہ—a complete elimination of every other deity.
+- الا اللہ—except the one and only, who is Allah.
 
 It is the transference of الھیۃ from its generic form to the one specific Being who has no form. This is the challenge and the goal of لَا اِلَٰہَ اِلَّا اللَّہُ.
 
@@ -1014,9 +996,9 @@ The more one comes to understand how much He loves, the more one loves in return
 
 > وَإِذْ تَأَذَّنَ رَبُّكُمْ لَىِٕن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَىِٕن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌۭ
 >
-> And when your master proclaimed: “If you are grateful, I will give you more, but if you are ungrateful, Indeed! My Punishment is indeed severe.”
+> And when your master proclaimed: “If you are grateful, I will give you more, but if you are ungrateful, indeed! My Punishment is indeed severe.”
 
-Salaat is the act of breaking idols. It begins with Wuzu—the purification of the very parts of the body that are used in the service of those idols.
+Salaah is the act of breaking idols. It begins with Wudu—the purification of the very parts of the body that are used in the service of those idols.
 
 ## What is Worship?
 

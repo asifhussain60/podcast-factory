@@ -59,11 +59,11 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import subprocess
 import sys
 import tempfile
 from pathlib import Path
 
+from _authoring._core import AuthoringError, _run_claude_p, pure_text_call_options
 from _paths import REPO_ROOT
 
 GEM_PROMPT_PATH = REPO_ROOT / "prompts" / "gemini-bundle-auditor.md"
@@ -117,7 +117,7 @@ def _pack_bundle_inline(bundle_dir: Path) -> Path:
 
 
 def _run_claude(prompt: str, packed_text: str, timeout: int = 600) -> str:
-    """Shell out to `claude -p` with the gem prompt + packed bundle as stdin.
+    """Run the bundle audit as an isolated prompt-in/result-out Claude call.
 
     The pipeline already uses this pattern in [_authoring.py](_authoring.py) for every
     LLM phase — keeping it consistent here means cost ledgers, retries, and
@@ -125,21 +125,21 @@ def _run_claude(prompt: str, packed_text: str, timeout: int = 600) -> str:
     """
     full_prompt = prompt + "\n\n---\n\n" + "## Consolidated bundle (input)\n\n" + packed_text
     try:
-        result = subprocess.run(
-            ["claude", "-p", full_prompt],
-            capture_output=True,
-            text=True,
+        rc, stdout, stderr = _run_claude_p(
+            full_prompt,
             timeout=timeout,
-            check=False,
+            phase="0g",
+            step="bundle-audit",
+            **pure_text_call_options(),
         )
     except FileNotFoundError as exc:
         raise AuditError("`claude` CLI not on PATH. Install Claude Code or run this from a shell that has it.") from exc
-    except subprocess.TimeoutExpired as exc:
-        raise AuditError(f"claude -p timed out after {timeout}s") from exc
+    except AuthoringError as exc:
+        raise AuditError(str(exc)) from exc
 
-    if result.returncode != 0:
-        raise AuditError(f"claude -p exited with code {result.returncode}.\nstderr:\n{result.stderr}")
-    return result.stdout
+    if rc != 0:
+        raise AuditError(f"claude -p exited with code {rc}.\nstderr:\n{stderr}")
+    return stdout
 
 
 def _extract_fixes_json(audit_md: str) -> list[dict]:

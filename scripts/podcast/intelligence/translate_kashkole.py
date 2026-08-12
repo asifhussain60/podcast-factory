@@ -62,8 +62,8 @@ for _p in (str(_SCRIPTS), str(_HERE)):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from _arabic_coverage import arabic_span_is_grounded  # noqa: E402
-from _authoring._core import _run_claude_p  # noqa: E402
+from _arabic_coverage import ARABIC_BODY, arabic_span_is_grounded  # noqa: E402
+from _authoring._core import _run_claude_p, pure_text_call_options  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
 
 try:
@@ -256,7 +256,7 @@ def windows_of(body: str, size: int = WINDOW_CHARS) -> list[str]:
 # Quality gates
 # ---------------------------------------------------------------------------
 
-_ARABIC_RUN_RE = re.compile(r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]+(?:\s+[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]+)*")
+_ARABIC_RUN_RE = re.compile(rf"[{ARABIC_BODY}]+(?:\s+[{ARABIC_BODY}]+)*")
 
 
 def quranic_runs(text: str, *, min_words: int = 4) -> list[str]:
@@ -394,7 +394,13 @@ _write_lock = threading.Lock()
 
 
 def _call(prompt: str, step: str) -> str:
-    rc, out, err = _run_claude_p(prompt, timeout=CALL_TIMEOUT, phase="kashkole-translate", step=step)
+    rc, out, err = _run_claude_p(
+        prompt,
+        timeout=CALL_TIMEOUT,
+        phase="kashkole-translate",
+        step=step,
+        **pure_text_call_options(),
+    )
     if rc != 0:
         raise RuntimeError(f"claude -p rc={rc}: {(err or '')[:200]}")
     return (out or "").strip()

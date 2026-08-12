@@ -71,7 +71,7 @@ Return ONLY a JSON array, one object per term, no prose:
 def _llm(items: list[tuple[int, dict]], book_dir: Path, log) -> dict[int, dict]:
     """Batched Claude-Max judgment. Returns {idx: {"lang":..., "english":...}}."""
     try:
-        from _authoring._core import _run_claude_p
+        from _authoring._core import _run_claude_p, pure_json_call_options
     except Exception as e:
         log(f"    [defaults] claude unavailable ({e}) — leaving terms unchanged")
         return {}
@@ -84,6 +84,7 @@ def _llm(items: list[tuple[int, dict]], book_dir: Path, log) -> dict[int, dict]:
             book_dir=book_dir,
             phase="audio-script",
             step="term-default-language",
+            **pure_json_call_options(),
         )
         if rc != 0:
             log(f"    [defaults] batch rc={rc}: {(err or '')[:120]} — skipped")

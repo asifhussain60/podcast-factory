@@ -1,0 +1,54 @@
+{
+  "book_dir": "/Users/asifhussain/PROJECTS/podcast-factory/content/Sessions/surah-al-fateha",
+  "policy": "dynamic per-window timeout, rearticulation window target 1200 words, no retry",
+  "chapters": [
+    {
+      "ordinal": 1,
+      "key": "introduction to the book",
+      "title": "Introduction to the Book",
+      "state": "done",
+      "record_status": "skipped",
+      "windows": null,
+      "windows_kept": null,
+      "estimated_timeout_seconds": 180,
+      "gates": [],
+      "warnings": [],
+      "before": {
+        "words": 227,
+        "arabic_runs": 0,
+        "images": []
+      },
+      "after": {
+        "words": 227,
+        "arabic_runs": 0,
+        "images": []
+      }
+    },
+    {
+      "ordinal": 2,
+      "key": "quranic friendship",
+      "title": "Quranic Friendship",
+      "state": "error_restored",
+      "estimated_timeout_seconds": 600,
+      "error": "LLM call timed out after 180s.",
+      "before": {
+        "words": 7434,
+        "arabic_runs": 506,
+        "images": []
+      }
+    },
+    {
+      "ordinal": 3,
+      "key": "the stages of love",
+      "title": "The Stages Of Love",
+      "state": "error_restored",
+      "estimated_timeout_seconds": 509,
+      "error": "LLM call timed out after 186s.",
+      "before": {
+        "words": 6050,
+        "arabic_runs": 355,
+        "images": []
+      }
+    }
+  ]
+}

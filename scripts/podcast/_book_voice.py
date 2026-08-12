@@ -53,7 +53,7 @@ from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Callable, Sequence
 
-from _authoring._core import AuthoringError, _run_claude_p_with_retry
+from _authoring._core import AuthoringError, _run_claude_p_with_retry, pure_text_call_options
 from _book_articulation_notes import EMPTY_NOTES, extract_articulation_notes
 from _book_edits import anchor_key, edited_chapter_keys
 from _book_fences import span_re
@@ -149,6 +149,7 @@ def _revoice_chapter(
         phase="0book-voice",
         step=label,
         log=log,
+        **pure_text_call_options(),
     )
     if rc != 0:
         raise AuthoringError(
@@ -170,6 +171,7 @@ def _adapt_chapter_body(
     noun: str,
     frame: str | None = None,
     narrator_subject: str = "",
+    window_words: int = _WINDOW_WORDS,
 ) -> tuple[str, dict]:
     """Adapt one chapter body, windowing it when it is too long for a single call.
 
@@ -179,7 +181,9 @@ def _adapt_chapter_body(
     could not answer without forensics against the cost ledger.
     """
     base_words = len(base_prose.split())
-    windows = (_iter_prose_windows(base_prose) if base_words > _LONG_CHAPTER_WORDS else [base_prose]) or [base_prose]
+    windows = (
+        _iter_prose_windows(base_prose, target_words=window_words) if base_words > window_words else [base_prose]
+    ) or [base_prose]
     kept_parts: list[str] = []
     gates: list[str] = []
     warnings: list[str] = []
@@ -297,6 +301,7 @@ def _fluency_chapter(
         phase="0book-fluency",
         step=label,
         log=log,
+        **pure_text_call_options(),
     )
     if rc != 0:
         raise AuthoringError(
@@ -323,6 +328,7 @@ def _run_pass(
     frame: str | None = None,
     narrator_subject: str = "",
     force: bool = False,
+    window_words: int = _WINDOW_WORDS,
 ) -> tuple[str, list[dict]]:
     """Walk book.md's ``##`` sections, adapting each selected one.
 
@@ -383,6 +389,7 @@ def _run_pass(
             noun=noun,
             frame=frame,
             narrator_subject=narrator_subject,
+            window_words=window_words,
         )
         records.append(record)
         if asides:

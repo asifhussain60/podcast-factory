@@ -44,14 +44,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from _arabic_coverage import ARABIC_BODY  # noqa: E402
 from _mushaf import is_quranic  # noqa: E402
 
-#: Mirrors `inject_chapter_arabic._ARABIC_RE`'s range set — Arabic, Supplement,
-#: Extended-A, Presentation Forms A/B — same ranges, one definition each place
-#: that needs them as a character class rather than a compiled matcher. Hex
-#: escapes rather than literal script, so the range bounds stay readable
-#: left-to-right in a diff instead of embedding RTL text in the source.
-_ARABIC_RANGE = "؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿"
+_ARABIC_RANGE = ARABIC_BODY
 _ARABIC_CHAR_RE = re.compile(f"[{_ARABIC_RANGE}]")
 _LATIN_LETTER_RE = re.compile(r"[A-Za-z]")
 

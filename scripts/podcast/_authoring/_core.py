@@ -13,6 +13,26 @@ import time
 from pathlib import Path
 from typing import Any
 
+from ._claude_runtime import (
+    DEFAULT_MODEL_LABEL,
+    call_diagnostics,
+    dump_failed_call,
+    log_claude_p,
+    record_model_provenance,
+)
+from ._claude_runtime import (
+    PURE_JSON_SYSTEM_PROMPT as PURE_JSON_SYSTEM_PROMPT,
+)
+from ._claude_runtime import (
+    PURE_TEXT_SYSTEM_PROMPT as PURE_TEXT_SYSTEM_PROMPT,
+)
+from ._claude_runtime import (
+    pure_json_call_options as pure_json_call_options,
+)
+from ._claude_runtime import (
+    pure_text_call_options as pure_text_call_options,
+)
+
 # Ensure scripts/podcast/ is importable from within the package directory.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -197,9 +217,6 @@ class AuthoringHalt(AuthoringError):
         super().__init__(phase=phase, message=message, manual_fallback=manual_fallback)
 
 
-DEFAULT_MODEL_LABEL = "claude-opus-4-8"
-
-
 # A phase is listed ONLY when its output is GATED (a bad window reverts to its
 # base, or the result is a human-reviewed proposal — nothing ships on its own)
 # so a weaker model costs a wasted window, never bad prose on the page. Every
@@ -230,119 +247,6 @@ PHASE_MODEL_OVERRIDE: dict[str, str] = {
 # content route is byte-deterministic.
 
 
-def record_model_provenance(
-    book_dir: "Path | None", *, phase: str, step: str, model: str, fallback: bool = False
-) -> None:
-    """Append one row to _system/model-provenance.jsonl naming the model that
-    authored this call. A row whose model != DEFAULT_MODEL_LABEL (or fallback=True)
-    is a content-provenance divergence — surfaced so mixed-model books are visible.
-    Best-effort: never raises into the authoring path."""
-    if book_dir is None:
-        return
-    try:
-        import json as _json
-
-        sysdir = Path(book_dir) / "_system"
-        sysdir.mkdir(parents=True, exist_ok=True)
-        row = {
-            "phase": phase or "(unspecified)",
-            "step": step or "(unspecified)",
-            "model": model,
-            "fallback": bool(fallback),
-            "divergence": bool(fallback or model != DEFAULT_MODEL_LABEL),
-        }
-        with (sysdir / "model-provenance.jsonl").open("a", encoding="utf-8") as fh:
-            fh.write(_json.dumps(row) + "\n")
-    except Exception as e:
-        sys.stderr.write(f"[record_model_provenance] skipped: {e!r}\n")
-
-
-def _dump_failed_call(
-    book_dir: Path | None,
-    *,
-    step: str,
-    prompt: str,
-    stdout: Any,
-    stderr: Any,
-) -> str | None:
-    """On a FAILED call only, write the full prompt + both streams to a sidecar.
-
-    Hash-only logging is right for the success path and useless for the failure
-    path — you cannot diff a prompt you no longer have. Bounded excerpts go in
-    the timeline; the complete evidence goes here, and only when it is needed.
-    Returns a repo-relative-ish path string, or None.
-    """
-    try:
-        from _progress import current_run_id, init_run_log, run_log_path
-
-        if not current_run_id():
-            init_run_log(book_dir)
-        base = run_log_path()
-        if base is None:
-            return None
-        safe = "".join(c if (c.isalnum() or c in "-_") else "-" for c in (step or "call"))[:60]
-        stamp = time.strftime("%H%M%S", time.gmtime())
-        p = Path(base).parent / f"{Path(base).stem}.{safe}-{stamp}.failure.txt"
-
-        def _txt(v: Any) -> str:
-            if v is None:
-                return "(none)"
-            if isinstance(v, bytes):
-                return v.decode("utf-8", "replace")
-            return str(v)
-
-        p.write_text(
-            "\n".join(
-                [
-                    f"step:   {step}",
-                    f"run_id: {current_run_id()}",
-                    "",
-                    "===== PROMPT =====",
-                    prompt,
-                    "",
-                    "===== STDOUT =====",
-                    _txt(stdout),
-                    "",
-                    "===== STDERR =====",
-                    _txt(stderr),
-                    "",
-                ]
-            ),
-            encoding="utf-8",
-        )
-        return str(p)
-    except Exception as e:
-        sys.stderr.write(f"[_dump_failed_call] skipped: {e!r}\n")
-        return None
-
-
-def _log_claude_p(
-    event: str,
-    *,
-    book_dir: Path | None,
-    prompt: str | None = None,
-    stdout: Any = None,
-    stderr: Any = None,
-    **fields: Any,
-) -> None:
-    """Emit one claude_p.* timeline event. NEVER raises into the pipeline."""
-    try:
-        import hashlib
-
-        from _progress import log_event, tail
-
-        if prompt is not None:
-            fields["prompt_sha256"] = hashlib.sha256(prompt.encode("utf-8", "replace")).hexdigest()[:16]
-            fields["prompt_chars"] = len(prompt)
-        if stdout is not None:
-            fields["stdout_tail"] = tail(stdout)
-        if stderr is not None:
-            fields["stderr_tail"] = tail(stderr)
-        log_event(event, book_dir=book_dir, **fields)
-    except Exception as e:
-        sys.stderr.write(f"[_log_claude_p] dropped {event!r}: {e!r}\n")
-
-
 def _run_claude_p(
     prompt: str,
     *,
@@ -353,6 +257,12 @@ def _run_claude_p(
     step: str = "",
     model: str = DEFAULT_MODEL_LABEL,
     model_flag: str | None = None,
+    tools: str | None = None,
+    safe_mode: bool = False,
+    no_chrome: bool = False,
+    no_session_persistence: bool = False,
+    system_prompt: str | None = None,
+    effort: str | None = None,
 ) -> tuple[int, str, str]:
     """Run `claude -p "<prompt>"` synchronously. Return (rc, stdout, stderr)."""
     # acceptEdits alone doesn't grant Write permission for new files in non-interactive
@@ -362,13 +272,28 @@ def _run_claude_p(
     argv: list[str] = [
         CLAUDE_CMD,
         "-p",
-        "--permission-mode",
-        "acceptEdits",
-        "--allowedTools",
-        _ALLOWED,
-        "--output-format",
-        "json",
     ]
+    if safe_mode:
+        argv.append("--safe-mode")
+    if no_chrome:
+        argv.append("--no-chrome")
+    if no_session_persistence:
+        argv.append("--no-session-persistence")
+    if effort is not None:
+        argv.extend(["--effort", effort])
+    argv.extend(
+        [
+            "--permission-mode",
+            "acceptEdits",
+        ]
+    )
+    if tools is None:
+        argv.extend(["--allowedTools", _ALLOWED])
+    else:
+        argv.extend(["--tools", tools])
+    if system_prompt is not None:
+        argv.extend(["--system-prompt", system_prompt])
+    argv.extend(["--output-format", "json"])
     _resolved_model_flag = model_flag or PHASE_MODEL_OVERRIDE.get(phase)
     if _resolved_model_flag:
         argv.extend(["--model", _resolved_model_flag])
@@ -430,9 +355,9 @@ def _run_claude_p(
         # also dumped to a sidecar — before this, a failed call persisted nothing
         # at all while a successful one wrote two artifacts.
         _dump = (
-            None if rc == 0 else _dump_failed_call(book_dir, step=step, prompt=prompt, stdout=raw_stdout, stderr=stderr)
+            None if rc == 0 else dump_failed_call(book_dir, step=step, prompt=prompt, stdout=raw_stdout, stderr=stderr)
         )
-        _log_claude_p(
+        log_claude_p(
             "claude_p.call",
             book_dir=book_dir,
             level="info" if rc == 0 else "error",
@@ -443,6 +368,15 @@ def _run_claude_p(
             duration_ms=_elapsed_ms,
             tokens_in=_tokens_in,
             tokens_out=_tokens_out,
+            **call_diagnostics(
+                timeout=timeout,
+                tools=tools,
+                safe_mode=safe_mode,
+                no_chrome=no_chrome,
+                no_session_persistence=no_session_persistence,
+                effort=effort,
+                system_prompt=system_prompt,
+            ),
             prompt=prompt,
             stdout=raw_stdout,
             stderr=stderr,
@@ -451,7 +385,7 @@ def _run_claude_p(
         )
         return rc, stdout, stderr
     except FileNotFoundError as e:
-        _log_claude_p(
+        log_claude_p(
             "claude_p.missing_binary",
             book_dir=book_dir,
             level="error",
@@ -459,6 +393,15 @@ def _run_claude_p(
             step=step,
             model=_resolved_model_flag or model,
             duration_ms=int((time.monotonic() - _t0) * 1000),
+            **call_diagnostics(
+                timeout=timeout,
+                tools=tools,
+                safe_mode=safe_mode,
+                no_chrome=no_chrome,
+                no_session_persistence=no_session_persistence,
+                effort=effort,
+                system_prompt=system_prompt,
+            ),
             msg=f"`{CLAUDE_CMD}` not found on PATH",
         )
         raise AuthoringError(
@@ -475,8 +418,8 @@ def _run_claude_p(
         # partial output was previously discarded unread — it is often the only
         # evidence of WHY the call hung, so capture it before re-raising.
         _partial_out, _partial_err = getattr(e, "stdout", None), getattr(e, "stderr", None)
-        _dump = _dump_failed_call(book_dir, step=step, prompt=prompt, stdout=_partial_out, stderr=_partial_err)
-        _log_claude_p(
+        _dump = dump_failed_call(book_dir, step=step, prompt=prompt, stdout=_partial_out, stderr=_partial_err)
+        log_claude_p(
             "claude_p.timeout",
             book_dir=book_dir,
             level="error",
@@ -485,6 +428,15 @@ def _run_claude_p(
             model=_resolved_model_flag or model,
             rc=None,
             duration_ms=int((time.monotonic() - _t0) * 1000),
+            **call_diagnostics(
+                timeout=timeout,
+                tools=tools,
+                safe_mode=safe_mode,
+                no_chrome=no_chrome,
+                no_session_persistence=no_session_persistence,
+                effort=effort,
+                system_prompt=system_prompt,
+            ),
             prompt=prompt,
             stdout=_partial_out,
             stderr=_partial_err,
@@ -508,6 +460,7 @@ def _run_claude_p_with_retry(
     log=print,
     fallback_model: str = "claude-sonnet-4-6",
     fallback_timeout_multiplier: float = 1.5,
+    **run_options: Any,
 ) -> tuple[int, str, str]:
     """Timeout → single retry with fallback model → halt."""
     try:
@@ -517,6 +470,7 @@ def _run_claude_p_with_retry(
             book_dir=book_dir,
             phase=phase,
             step=step,
+            **run_options,
         )
     except AuthoringError as e:
         if "timed out after" not in str(e):
@@ -539,6 +493,7 @@ def _run_claude_p_with_retry(
             step=f"{step}-retry-sonnet",
             model=fallback_model,
             model_flag=fallback_model,
+            **run_options,
         )
     except AuthoringError as e:
         if "timed out after" not in str(e):

@@ -38,6 +38,9 @@ import urllib.request
 import xml.sax.saxutils as saxutils
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _authoring._core import _run_claude_p, pure_json_call_options
+
 # ── Voice config ─────────────────────────────────────────────────────────────
 # Host A — knowledgeable, warm guide
 VOICE_A = "en-US-DavisNeural"
@@ -180,17 +183,18 @@ Return ONLY a valid JSON array. No markdown, no explanation, no text outside the
 """).strip()
 
     print("  Calling Claude to generate conversation script...")
-    result = subprocess.run(
-        ["claude", "-p", prompt],
-        capture_output=True,
-        text=True,
+    rc, raw, err = _run_claude_p(
+        prompt,
         timeout=180,
+        phase="audio-script",
+        step="conversation-script",
+        **pure_json_call_options(),
     )
-    if result.returncode != 0:
-        print(result.stderr, file=sys.stderr)
-        raise SystemExit(f"Claude exited {result.returncode}")
+    if rc != 0:
+        print(err, file=sys.stderr)
+        raise SystemExit(f"Claude exited {rc}")
 
-    raw = result.stdout.strip()
+    raw = raw.strip()
 
     # Strip markdown code fences if present
     if raw.startswith("```"):

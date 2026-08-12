@@ -230,11 +230,18 @@
    it (theme-tokens.css records the measurement that retired the old 135% optical
    adjustment). Isolate the RTL run so it doesn't disturb the surrounding Latin. */
 .bookv-body .ar-inline {
-  font-family: var(--q-ar-face);
+  font-family: var(
+    --q-ar-inline-face,
+    "AmiriSized",
+    "Amiri",
+    "ScheherazadeSized",
+    "Scheherazade New",
+    serif
+  );
+  font-weight: var(--q-ar-inline-weight, 700);
   /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
      shearing the glyphs, which is wrong for the script and looked wrong on the
-     page; and an inherited bold would fake a weight the face does not have.
-     Pinned here so the run renders the same whatever prose it sits in. */
+     page. Pinned here so the run renders the same whatever prose it sits in. */
   font-style: normal;
   /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
      descent are far taller than the Latin body face, so without an explicit
@@ -255,6 +262,11 @@
   text-align: center;
   unicode-bidi: isolate;
   margin: 0.9rem 0;
+}
+.bookv-body .ar-block .ar-inline,
+.bookv-body blockquote.quran .ar-inline {
+  font-family: var(--q-ar-face);
+  font-weight: 400;
 }
 
 .bookv-body blockquote.quran p.ar {

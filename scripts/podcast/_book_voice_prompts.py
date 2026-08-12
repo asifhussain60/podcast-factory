@@ -206,6 +206,35 @@ is discarded and the original kept — so one dropped run costs every improvemen
 """
 
 
+def _word_count(text: str) -> int:
+    return len((text or "").split())
+
+
+def _output_budget(base_text: str) -> str:
+    """State the output word budget for this exact window.
+
+    The gate already rejects order-of-magnitude runaways after the call returns,
+    but `claude -p --output-format json` buffers until the whole answer is done.
+    A numeric budget in the prompt prevents the most expensive failure shape at
+    generation time, especially for short on-demand rearticulation windows.
+    """
+
+    words = _word_count(base_text)
+    if words < 8:
+        return ""
+    low = max(1, round(words * 0.65))
+    target_hi = max(low, round(words * 1.25))
+    hard_hi = max(target_hi, words + 120)
+    return f"""
+OUTPUT WORD BUDGET (mechanical — this window is checked)
+This source window has about {words} words. Your articulated prose should normally
+land between {low} and {target_hi} words and must never exceed {hard_hi} words.
+Consolidate only mechanical repetition; preserve teaching density, examples,
+sequence, emphasis, Arabic-script runs, and all protected artifacts. Stop when the
+source window stops.
+"""
+
+
 def _articulation_prompt(
     title: str,
     base_text: str,
@@ -220,6 +249,7 @@ def _articulation_prompt(
     Rearticulate action, so the two routes cannot silently drift apart."""
     directives = frame_prompt_directive(frame, narrator) + ARABIC_DIRECTIVE if frame else ""
     arabic_tally = _arabic_tally(base_text)
+    output_budget = _output_budget(base_text)
     continuity = (
         "\nCONTINUITY\nThis passage continues a chapter already in progress. The preceding "
         "passage ended with the words below. Carry straight on — do not re-introduce the "
@@ -246,6 +276,29 @@ dialogue tag's WORDING may vary ("he replied", "he asked" for "the boy said") as
 as the speaker stays unambiguous — this does not permit adding, removing, or
 re-pointing a tag.
 
+MANDATORY COPY-EDIT (REQ-BA-112)
+Run a complete spelling, grammar, punctuation, and copy-edit pass over your own
+output before returning it. Fix every ordinary English spelling error, grammar
+error, duplicated word, bad spacing, malformed sentence boundary, tense/agreement
+problem, capitalization problem, transcript typo, or OCR typo you can correct
+without changing meaning. Do not "correct" Arabic script, technical terms, names,
+citations, book-established spellings, or protected quoted artifacts. If you are
+not sure whether something is an error or authored wording, leave it unchanged
+and report the risk in the notes block.
+
+LIST SHAPE (REQ-BA-115)
+Evaluate every list-like run in the passage, not only lists already marked in the
+source. Steps, conditions, causes, meanings, proofs, examples, ranks, repeated
+sentence stems, first/second/third sequences, and semicolon-heavy series may
+become Markdown lists when that makes the book easier to read without changing
+the content. Use `1.` lists only for true sequence, rank, explicit count, or
+dependent order; use `-` bullets for parallel unordered items. Indent nested
+items and continuation lines with standard Markdown indentation. Do not convert
+source section or paragraph numbering, verse or page numbers, citation numbers,
+or a passage that deliberately says it is not enumerating into a list. Do not
+listify inside direct speech, Quran, hadith, poetry, prayers, or quoted sayings
+unless that protected artifact is already a list in the source.
+
 YOU MAY NOT (REQ-BA-030..060)
 - Change meaning. Every teaching, argument, example, named person, citation, and
   enumerated list survives with its content intact. Add nothing: no outside facts, no
@@ -269,7 +322,7 @@ abridgement.
 
 SCOPE (stop where the passage stops)
 {SCOPE_RULE}
-{arabic_tally}{_NOTES_BLOCK_INSTRUCTION}
+{output_budget}{arabic_tally}{_NOTES_BLOCK_INSTRUCTION}
 
 OUTPUT
 Return ONLY the articulated chapter prose, optionally followed by one

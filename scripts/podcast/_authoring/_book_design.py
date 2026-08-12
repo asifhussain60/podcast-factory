@@ -18,7 +18,7 @@ import json
 import re
 from pathlib import Path
 
-from ._core import AuthoringError, _run_claude_p_with_retry
+from ._core import AuthoringError, _run_claude_p_with_retry, pure_json_call_options
 
 _DESIGN_TIMEOUT = 600
 
@@ -170,7 +170,13 @@ def author_phase_book_design(book_dir: Path, *, log=print, force: bool = False) 
     )
 
     rc, stdout, stderr = _run_claude_p_with_retry(
-        prompt, timeout=_DESIGN_TIMEOUT, book_dir=book_dir, phase="0book-design", step="segment", log=log
+        prompt,
+        timeout=_DESIGN_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-design",
+        step="segment",
+        log=log,
+        **pure_json_call_options(),
     )
     if rc != 0:
         raise AuthoringError(

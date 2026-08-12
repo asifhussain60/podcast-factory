@@ -30,7 +30,7 @@ for _p in (str(_SCRIPTS), str(_HERE)):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from _arabic_coverage import arabic_span_is_grounded  # noqa: E402
+from _arabic_coverage import ARABIC_BODY, arabic_span_is_grounded  # noqa: E402
 
 try:
     from _mushaf import is_quranic, mushaf_available
@@ -48,7 +48,7 @@ except Exception:  # pragma: no cover - the mirror may be absent on a fresh clon
 # reason: REQ-BA-100 says a rendering is never shorter.
 SHORT_RATIO = 0.60
 
-_ARABIC_RUN_RE = re.compile(r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]+(?:\s+[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]+)*")
+_ARABIC_RUN_RE = re.compile(rf"[{ARABIC_BODY}]+(?:\s+[{ARABIC_BODY}]+)*")
 
 
 def quranic_runs(text: str, *, min_words: int = 4) -> list[str]:

@@ -34,7 +34,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from _arabic_coverage import arabic_coverage_shortfall, arabic_run_spans
-from _authoring._core import AuthoringError, _run_claude_p_with_retry
+from _authoring._core import AuthoringError, _run_claude_p_with_retry, pure_text_call_options
 from _translation_prompts import _compose_prompt
 from _translation_text import _translation_long_enough, normalize_translation_prose, translation_output_findings
 
@@ -71,6 +71,7 @@ def _compose_one(
         phase="0book-compose",
         step=f"translation-{label}",
         log=log,
+        **pure_text_call_options(),
     )
     out = (out or "").strip()
     if rc != 0:
@@ -89,6 +90,7 @@ def _compose_one(
             phase="0book-compose",
             step=f"translation-{label}-retry",
             log=log,
+            **pure_text_call_options(),
         )
         if rc2 == 0 and len((out2 or "").split()) > len(out.split()):
             out = (out2 or "").strip()
@@ -116,6 +118,7 @@ def _compose_one(
             phase="0book-compose",
             step=f"translation-{label}-integrity-retry",
             log=log,
+            **pure_text_call_options(),
         )
         if rc2 == 0:
             candidate = (out2 or "").strip()
@@ -153,6 +156,7 @@ def _compose_one(
             phase="0book-compose",
             step=f"translation-{label}-arabic-retry",
             log=log,
+            **pure_text_call_options(),
         )
         cand = (out3 or "").strip()
         if (

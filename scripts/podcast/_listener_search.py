@@ -33,7 +33,7 @@ from dataclasses import dataclass, field
 from html import unescape
 from html.parser import HTMLParser
 
-from _arabic_coverage import _ARABIC_FOLD, _ARABIC_TASHKEEL_RE, _UTHMANI_MIDWORD_ALIF_RE
+from _arabic_coverage import _ARABIC_FOLD, _ARABIC_TASHKEEL_RE, _UTHMANI_MIDWORD_ALIF_RE, ARABIC_RE
 
 try:  # The mushaf is a 30 MB tracked artifact; absence must degrade, never crash.
     from _mushaf import mushaf_available, mushaf_reference
@@ -304,7 +304,7 @@ def blocks_of(html: str) -> list[Block]:
 # Arabic-ness, and what the mushaf can name
 # ---------------------------------------------------------------------------
 
-_ARABIC_CHAR_RE = re.compile(r"[؀-ۿ]")
+_ARABIC_CHAR_RE = ARABIC_RE
 _LETTER_RE = re.compile(r"[^\W\d_]", re.UNICODE)
 
 # Below this share of letters, a block with some Arabic in it is English prose

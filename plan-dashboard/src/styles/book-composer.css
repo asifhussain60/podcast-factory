@@ -1498,8 +1498,17 @@ body:has(.composer-grid) .to-top {
    unknown spans from its seed and marks the same runs with the .ar-raw
    decoration from studio-decos instead. */
 .cx-body .ar-inline,
+.cx-prose .ar-inline,
 .cx-prose .ar-raw {
-  font-family: var(--q-ar-face);
+  font-family: var(
+    --q-ar-inline-face,
+    "AmiriSized",
+    "Amiri",
+    "ScheherazadeSized",
+    "Scheherazade New",
+    serif
+  );
+  font-weight: var(--q-ar-inline-weight, 700);
   /* --q-ar-inline-size, default 1.26em, chosen by Asif on 2026-08-02 from three
      candidates rendered side by
      side in this very paragraph (1.10 / 1.18 / 1.26); he picked the honorific
@@ -1533,13 +1542,16 @@ body:has(.composer-grid) .to-top {
    already made this point in book-print.css and needed the same partner here. */
 .cx-body .ar-block .ar-inline,
 .cx-body blockquote.quran .ar-inline,
+.cx-prose .ar-block .ar-inline,
+.cx-prose blockquote.quran .ar-inline,
 .cx-prose .ar-block .ar-raw,
 .cx-prose blockquote.quran .ar-raw {
   font-size: inherit;
+  font-family: var(--q-ar-face);
+  font-weight: 400;
   /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
      shearing the glyphs, which is wrong for the script and looked wrong on the
-     page; and an inherited bold would fake a weight the face does not have.
-     Pinned here so the run renders the same whatever prose it sits in. */
+     page. Pinned here so the run renders the same whatever prose it sits in. */
   font-style: normal;
   /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
      descent are far taller than the Latin body face, so without an explicit

@@ -121,10 +121,18 @@ def _claude_json_array(prompt: str, *, book_dir: Path, step: str, log, model=_PL
 
     model=None => default model, no --model flag (required under nohup/no-TTY).
     """
-    from _authoring._core import _run_claude_p
+    from _authoring._core import _run_claude_p, pure_json_call_options
 
     kw = {"model": model, "model_flag": model} if model else {}
-    rc, text, err = _run_claude_p(prompt, timeout=_CLAUDE_TIMEOUT, book_dir=book_dir, phase="allocate", step=step, **kw)
+    rc, text, err = _run_claude_p(
+        prompt,
+        timeout=_CLAUDE_TIMEOUT,
+        book_dir=book_dir,
+        phase="allocate",
+        step=step,
+        **kw,
+        **pure_json_call_options(),
+    )
     if rc != 0:
         log(f"    [{step}] rc={rc}: {(err or '')[:120]}")
         return None
