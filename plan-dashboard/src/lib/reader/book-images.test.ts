@@ -183,3 +183,28 @@ describe("Composer headings keep their requested hierarchy", () => {
     }
   });
 });
+
+describe("inline Arabic keeps regular weight", () => {
+  const composerCss = readFileSync(
+    new URL("../../styles/book-composer.css", import.meta.url),
+    "utf8",
+  );
+  const typographyCss = readFileSync(
+    new URL("../../styles/quote-typography.css", import.meta.url),
+    "utf8",
+  );
+
+  test("the shared token is regular, not bold", () => {
+    assert.match(typographyCss, /--q-ar-inline-weight:\s*400/);
+    assert.doesNotMatch(typographyCss, /--q-ar-inline-weight:\s*700/);
+  });
+
+  test("Composer inline Arabic falls back to regular weight", () => {
+    const rule =
+      composerCss.match(
+        /\.cx-body \.ar-inline,[\s\S]*?\.cx-prose \.ar-raw\s*\{[^}]*\}/,
+      )?.[0] ?? "";
+    assert.notEqual(rule, "");
+    assert.match(rule, /font-weight:\s*var\(--q-ar-inline-weight,\s*400\)/);
+  });
+});

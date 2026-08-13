@@ -1508,7 +1508,7 @@ body:has(.composer-grid) .to-top {
     "Scheherazade New",
     serif
   );
-  font-weight: var(--q-ar-inline-weight, 700);
+  font-weight: var(--q-ar-inline-weight, 400);
   /* --q-ar-inline-size, default 1.26em, chosen by Asif on 2026-08-02 from three
      candidates rendered side by
      side in this very paragraph (1.10 / 1.18 / 1.26); he picked the honorific

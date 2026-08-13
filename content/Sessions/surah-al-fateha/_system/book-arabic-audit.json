@@ -1667,8 +1667,8 @@
     },
     {
       "chapter": "Master Slave Relationship",
-      "arabic_runs": 35,
-      "unverified": 26,
+      "arabic_runs": 36,
+      "unverified": 27,
       "runs": [
         {
           "text": "المالک والسَّیِّد و المُرَبِّی والمُرشَد وَالمُنعِم والقَیِّم",
@@ -1681,9 +1681,14 @@
           "skeleton": "الرحمنعلمالقران"
         },
         {
-          "text": "اَلْجَبَّارُ عَلَّمَ اَلْقُرْآنَ",
+          "text": "اَلْجَبَّارُ",
           "resolution": "unverified",
-          "skeleton": "الجبارعلمالقران"
+          "skeleton": "الجبار"
+        },
+        {
+          "text": "اَلْقُرْآنَ",
+          "resolution": "unverified",
+          "skeleton": "القران"
         },
         {
           "text": "رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا\n\nرَبَّنَآ إِنَّكَ مَن تُدْخِلِ ٱلنَّارَ فَقَدْ أَخْزَيْتَهُۥ\n\nرَّبَّنَآ إِنَّنَا سَمِعْنَا مُنَادِيًۭا يُنَادِى لِلْإِيمَنِ أَنْ آمِنُوا۟ بِرَبِّكُمْ فَـَٔامَنَّا",
@@ -1858,7 +1863,7 @@
     },
     {
       "chapter": "Understanding RAB Al-ALAMEEN",
-      "arabic_runs": 59,
+      "arabic_runs": 58,
       "unverified": 41,
       "runs": [
         {
@@ -2067,12 +2072,6 @@
           "skeleton": "ربالعالمن"
         },
         {
-          "text": "أَنَا۠ خَيْرٌۭ مِّنْهُ خَلَقْتَنِى مِن نَّارٍۢ وَخَلَقْتَهُۥ مِن طِينٍۢ",
-          "resolution": "canonical-mushaf",
-          "skeleton": "اناخيرمنهخلقتنيمنناروخلقتهمنطين",
-          "reference": "Al-A'raf: 12"
-        },
-        {
           "text": "اَنَا رَبُّکُمُ الْاَعْلَی",
           "resolution": "unverified",
           "skeleton": "اناربمالاعل"
@@ -2170,8 +2169,8 @@
     },
     {
       "chapter": "The Divine Formula For Recognizing Allah",
-      "arabic_runs": 49,
-      "unverified": 19,
+      "arabic_runs": 50,
+      "unverified": 20,
       "runs": [
         {
           "text": "رَبُّ الْعَالَمِینَ",
@@ -2391,6 +2390,11 @@
           "reference": "Al-Baqarah: 205"
         },
         {
+          "text": "لا وٱلله يحب",
+          "resolution": "unverified",
+          "skeleton": "لاواللهيحب"
+        },
+        {
           "text": "وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ",
           "resolution": "canonical-mushaf",
           "skeleton": "وفيانفسكمافلاتبصرون",
@@ -2449,8 +2453,8 @@
     },
     {
       "chapter": "The Horizons And The Soul",
-      "arabic_runs": 69,
-      "unverified": 35,
+      "arabic_runs": 68,
+      "unverified": 34,
       "runs": [
         {
           "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ ۗ أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ شَهِيدٌ",
@@ -2495,9 +2499,10 @@
           "reference": "Hud: 61"
         },
         {
-          "text": "عبادۃ\n\nوَمَا خَلَقْتُ ٱلْجِنَّ وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ",
-          "resolution": "unverified",
-          "skeleton": "عبادوماخلقتالجنوالانسالاليعبدون"
+          "text": "وَمَا خَلَقْتُ ٱلْجِنَّ وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وماخلقتالجنوالانسالاليعبدون",
+          "reference": "Adh-Dhariyat: 56"
         },
         {
           "text": "وَيَسْتَخْلِفَكُمْ فِى ٱلْأَرْضِ فَيَنظُرَ كَيْفَ تَعْمَلُونَ",
@@ -2641,12 +2646,6 @@
         },
         {
           "text": "وَمَا مِن دَآبَّةٍۢ فِى ٱلْأَرْضِ وَلَا طَٓئِرٍۢ يَطِيرُ بِجَنَاحَيْهِ إِلَّآ أُمَمٌ أَمْثَالُكُم ۚ مَّا فَرَّطْنَا فِى ٱلْكِتَبِ مِن شَىْءٍۢ ۚ ثُمَّ إِلَىٰ رَبِّهِمْ يُحْشَرُونَ",
-          "resolution": "canonical-mushaf",
-          "skeleton": "ومامندابهفيالارضولاطيريطيربجناحيهالاامما",
-          "reference": "Al-An'am: 38"
-        },
-        {
-          "text": "وَمَا مِن دَآبَّةٍۢ فِى ٱلْأَرْضِ وَلَا طَٓئِرٍۢ يَطِيرُ بِجَنَاحَيْهِ إِلَّآ أُمَمٌ أَمْثَالُكُم",
           "resolution": "canonical-mushaf",
           "skeleton": "ومامندابهفيالارضولاطيريطيربجناحيهالاامما",
           "reference": "Al-An'am: 38"
@@ -2826,7 +2825,7 @@
     },
     {
       "chapter": "The Womb Of Afterlife",
-      "arabic_runs": 48,
+      "arabic_runs": 49,
       "unverified": 27,
       "runs": [
         {
@@ -2838,6 +2837,11 @@
           "text": "الرَبُّ ھُوَ المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ",
           "resolution": "unverified",
           "skeleton": "الربوالمالوالسدوالمربوالمرشدوالمنعموالقم"
+        },
+        {
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
         },
         {
           "text": "سُبْحَانَهُ وَتَعَالَى",
@@ -4108,8 +4112,8 @@
     },
     {
       "chapter": "Day Of Judgment - Linguistics",
-      "arabic_runs": 41,
-      "unverified": 22,
+      "arabic_runs": 40,
+      "unverified": 21,
       "runs": [
         {
           "text": "الحمد للہ رب العلمین",
@@ -4135,11 +4139,6 @@
           "text": "مَلِکِ یَوْمِ الدِّینِ",
           "resolution": "unverified",
           "skeleton": "ملومالدن"
-        },
-        {
-          "text": "مِیمٌ لَامٌ کَافٌ",
-          "resolution": "unverified",
-          "skeleton": "مملاماف"
         },
         {
           "text": "وَمَا قَدَرُوا۟ ٱللَّهَ حَقَّ قَدْرِهِۦ وَٱلْأَرْضُ جَمِيعًۭا قَبْضَتُهُۥ يَوْمَ ٱلْقِيَمَةِ وَٱلسَّمَوَتُ مَطْوِيَّتٌۢ بِيَمِينِهِۦ ۚ سُبْحَنَهُۥ وَتَعَلَىٰ عَمَّا يُشْرِكُونَ",
@@ -4417,7 +4416,7 @@
           "reference": "Al-Baqarah: 219"
         },
         {
-          "text": "ﷺ\n\nحُفَّۃُ الجَنَّۃ بِمَکارِہ و حُفَّۃُ النارُ بالشھوات",
+          "text": "حُفَّۃُ الجَنَّۃ بِمَکارِہ و حُفَّۃُ النارُ بالشھوات",
           "resolution": "unverified",
           "skeleton": "حفالجنبماروحفالناربالشوات"
         },
@@ -4562,8 +4561,8 @@
     },
     {
       "chapter": "Worship and Assistance",
-      "arabic_runs": 57,
-      "unverified": 50,
+      "arabic_runs": 56,
+      "unverified": 49,
       "runs": [
         {
           "text": "اِیَّاکَ نَعْبُدُ وَ أِیَّاکَ نَسْتَعِینُ",
@@ -4589,11 +4588,6 @@
           "text": "مَالِکِ یَوْمِ الدِّینِ",
           "resolution": "unverified",
           "skeleton": "مالومالدن"
-        },
-        {
-          "text": "اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ",
-          "resolution": "unverified",
-          "skeleton": "اانعبدواانستعن"
         },
         {
           "text": "اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ",
@@ -5099,7 +5093,7 @@
     },
     {
       "chapter": "Staying Steadfast On The Path",
-      "arabic_runs": 72,
+      "arabic_runs": 71,
       "unverified": 33,
       "runs": [
         {
@@ -5420,12 +5414,6 @@
           "skeleton": "سبحانهوتعالي"
         },
         {
-          "text": "قُلْ يَعِبَادِىَ ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ",
-          "resolution": "canonical-mushaf",
-          "skeleton": "قليعباديالذيناسرفواعليانفسهم",
-          "reference": "Az-Zumar: 53"
-        },
-        {
           "text": "لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ",
           "resolution": "canonical-mushaf",
           "skeleton": "لاتقنطوامنرحمهالله",
@@ -5452,9 +5440,9 @@
           "skeleton": "ياابنادم"
         },
         {
-          "text": "لَوْ بَلَغَتْ ذُنُوبُكَ عَنانَ السَّماءِ ثُم َّ اسْتَغْفَرْتَني ، غَفَرْتُ لَكَ",
+          "text": "لَوْ بَلَغَتْ ذُنُوبُكَ عَنانَ السَّماءِ ثُم َّ اسْتَغْفَرْتَني استغفرتني، غَفَرْتُ لَكَ",
           "resolution": "unverified",
-          "skeleton": "لوبلغتذنوبكعنانالسماءثماستغفرتنيغفرتلك"
+          "skeleton": "لوبلغتذنوبكعنانالسماءثماستغفرتنياستغفرتن"
         },
         {
           "text": "يَا ابْنَ ادَمَ",
@@ -5485,12 +5473,12 @@
     }
   ],
   "totals": {
-    "canonical-mushaf": 239,
+    "canonical-mushaf": 237,
     "ocr": 0,
     "knowledge-base": 34,
-    "honorific-formula": 116,
-    "unverified": 625,
-    "arabic_runs": 1014
+    "honorific-formula": 117,
+    "unverified": 624,
+    "arabic_runs": 1012
   },
   "note": "no OCR ground truth for this book — every run falls back to the knowledge base",
   "quran_coverage": {

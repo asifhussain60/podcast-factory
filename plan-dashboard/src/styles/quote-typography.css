@@ -216,12 +216,12 @@
      `em`, not `rem`, and deliberately: a term scales against the sentence it
      sits in, while a display quotation is sized against the page. */
   --q-ar-inline-size: 1.26em;
-  /* Inline Arabic in running English gets a deliberately heavier manuscript
-     voice than display Arabic. Amiri Bold is self-hosted, so the Composer and
-     PDF agree without relying on a system font. */
+  /* Inline Arabic in running English keeps the same regular weight as display
+     Arabic. The Arabic face, size, colour and bidi isolation already set it
+     apart; bold script reads like emphasis the author did not ask for. */
   --q-ar-inline-face:
     "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
-  --q-ar-inline-weight: 700;
+  --q-ar-inline-weight: 400;
 }
 
 /* ── Per-book Arabic SIZE ─────────────────────────────────────────────────────

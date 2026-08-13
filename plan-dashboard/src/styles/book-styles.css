@@ -427,7 +427,7 @@
     "Scheherazade New",
     serif
   );
-  font-weight: var(--q-ar-inline-weight, 700);
+  font-weight: var(--q-ar-inline-weight, 400);
   /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
      shearing the glyphs, which is wrong for the script and looked wrong on the
      page. Pinned here so the run renders the same whatever prose it sits in. */

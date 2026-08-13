@@ -699,7 +699,7 @@ blockquote.quran .ar-inline {
     "Scheherazade New",
     serif
   );
-  font-weight: var(--q-ar-inline-weight, 700);
+  font-weight: var(--q-ar-inline-weight, 400);
   /* --q-ar-inline-size, default 1.26em — chosen by Asif on 2026-08-02 from three
      candidates rendered side by side in the Composer, and moved onto a token the
      same day so the book's Arabic-size setting could carry it. It was a bare
