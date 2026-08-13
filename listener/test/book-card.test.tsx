@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { createMemoryRouter, RouterProvider } from "react-router";
 
 import { BookCard } from "../app/components/BookCard";
+import { PlayerProvider } from "../app/components/player/Player";
 import type { LibraryCard } from "../app/server/catalog.server";
 
 /**
@@ -16,6 +17,7 @@ import type { LibraryCard } from "../app/server/catalog.server";
 
 const card: LibraryCard = {
   chapters: 9,
+  firstChapterKey: "intro",
   words: 37_000,
   episodes: 20,
   recorded: 20,
@@ -30,34 +32,64 @@ function render(props: Partial<Parameters<typeof BookCard>[0]> = {}) {
   const router = createMemoryRouter([
     {
       path: "/",
-      element: <BookCard slug="a-book" title="A Book" bucket="Islamic" card={card} {...props} />,
+      element: (
+        <PlayerProvider>
+          <BookCard slug="a-book" title="A Book" bucket="Islamic" card={card} {...props} />
+        </PlayerProvider>
+      ),
     },
   ]);
   return renderToStaticMarkup(<RouterProvider router={router} />);
 }
 
 describe("the library card", () => {
-  it("never shows more than four facts, so they never exceed two rows", () => {
-    // The fullest possible book: chapters, reading time, episodes, print AND a
-    // deck. The last two share one pill rather than taking a third row.
-    const pills = render().match(/pf-pill pf-pill--outline/g) ?? [];
-    expect(pills).toHaveLength(4);
+  it("offers useful actions instead of catalog fact pills", () => {
+    const html = render({
+      listen: {
+        mode: "start",
+        episode: {
+          slug: "a-book",
+          number: 1,
+          title: "Episode one",
+          audioKey: "a-book/audio/ep01.m4a",
+          durationS: 1800,
+          transcriptKey: null,
+        },
+        seconds: null,
+      },
+    });
+
+    expect(html).toContain("Listen");
+    expect(html).toContain("EP 1");
+    expect(html).toContain("Slides");
+    expect(html).not.toContain("37,000");
   });
 
-  it("combines print and deck into one fact, still named in words", () => {
+  it("resumes the newest playable listening position when provided", () => {
+    const html = render({
+      listen: {
+        mode: "resume",
+        episode: {
+          slug: "a-book",
+          number: 4,
+          title: "Episode four",
+          audioKey: "a-book/audio/ep04.m4a",
+          durationS: 2700,
+          transcriptKey: "a-book/transcripts/ep04.vtt",
+        },
+        seconds: 742,
+      },
+    });
+
+    expect(html).toContain("Resume");
+    expect(html).toContain("EP 4");
+    expect(html).toContain("12:22 in");
+  });
+
+  it("falls back to reading when there is no audio", () => {
     const html = render();
-    expect(html).toContain("print + 15 slides");
-    // Not glyphs. A row of bare icons is what the component was written to avoid.
-    expect(html).not.toMatch(/aria-hidden="true"><\/svg>\s*<\/li>/);
-  });
-
-  it("names a single format in full rather than abbreviating it", () => {
-    expect(render({ card: { ...card, deckPages: 0, deckAvailable: false } })).toContain(
-      "print edition",
-    );
-    expect(render({ card: { ...card, hasPdf: false, pdfAvailable: false } })).toContain(
-      "15 slides",
-    );
+    expect(html).toContain("Read");
+    expect(html).toContain("/book/a-book/read/intro");
   });
 
   it("reserves the progress row on a book nobody has opened", () => {
@@ -75,8 +107,30 @@ describe("the library card", () => {
   });
 
   it("draws the bar once there is progress", () => {
-    const html = render({ progress: { fraction: 0.5, chaptersDone: 3 } });
+    const html = render({ progress: { anchorKey: "intro", fraction: 0.5, chaptersDone: 3 } });
     expect(html).toContain("progressbar");
     expect(html).not.toContain("Not yet started");
+  });
+
+  it("uses separate links and buttons instead of nesting a play button inside the card link", () => {
+    const html = render({
+      listen: {
+        mode: "start",
+        episode: {
+          slug: "a-book",
+          number: 1,
+          title: "Episode one",
+          audioKey: "a-book/audio/ep01.m4a",
+          durationS: 1800,
+          transcriptKey: null,
+        },
+        seconds: null,
+      },
+    });
+
+    expect(html).toContain("<article");
+    expect(html).toContain("<button");
+    expect(html).toContain('class="pf-book__open"');
+    expect(html.indexOf("<button")).toBeGreaterThan(html.indexOf("</a>"));
   });
 });

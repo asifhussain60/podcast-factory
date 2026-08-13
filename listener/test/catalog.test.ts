@@ -8,6 +8,7 @@ import {
   episodesOf,
   libraryCards,
   mediaByKey,
+  playableEpisodesForCards,
   sessionsOf,
 } from "../app/server/catalog.server";
 import { readingMinutes } from "../app/lib/reading";
@@ -258,6 +259,7 @@ describe("library cards", () => {
     const cards = await libraryCards(db, ["book-a", "book-b"]);
     expect(cards.get("book-a")).toMatchObject({
       chapters: 3,
+      firstChapterKey: "one",
       episodes: 3,
       recorded: 1,
       hasPdf: true,
@@ -308,6 +310,33 @@ describe("library cards", () => {
     const { db, close } = seed();
     expect((await libraryCards(db, [])).size).toBe(0);
     close();
+  });
+
+  it("returns only uploaded playable episodes for card actions", async () => {
+    const { db, close } = seed();
+
+    const playable = await playableEpisodesForCards(db, ["book-a", "book-b"]);
+    expect(playable.get("book-a")?.map((e) => [e.number, e.audioKey])).toEqual([
+      [1, "book-a/audio/ep01.m4a"],
+    ]);
+    expect(playable.has("book-b")).toBe(false);
+
+    close();
+  });
+
+  it("carries uploaded transcripts for card-started playback", async () => {
+    const test = seed();
+    test.exec(`
+      INSERT INTO media_asset (key, slug, kind, content_type, bytes, sha256, source_path, uploaded_at) VALUES
+        ('book-a/transcripts/ep01.vtt', 'book-a', 'transcript', 'text/vtt', 25, 'vv', 'x/ep01.vtt', '2026-08-03T00:00:00Z');
+      UPDATE episode SET transcript_key = 'book-a/transcripts/ep01.vtt'
+        WHERE slug = 'book-a' AND number = 1;
+    `);
+
+    const playable = await playableEpisodesForCards(test.db, ["book-a"]);
+    expect(playable.get("book-a")?.[0].transcriptKey).toBe("book-a/transcripts/ep01.vtt");
+
+    test.close();
   });
 });
 

@@ -13,8 +13,17 @@ import { count, plural } from "~/lib/plural";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { visibleUnits } from "~/server/access.server";
-import { libraryCards } from "~/server/catalog.server";
-import { markCounts, progressForAll } from "~/server/marks.server";
+import {
+  libraryCards,
+  playableEpisodesForCards,
+  type CardPlayableEpisode,
+} from "~/server/catalog.server";
+import {
+  listeningForAll,
+  markCounts,
+  progressForAll,
+  type ListeningProgress,
+} from "~/server/marks.server";
 
 /**
  * The library.
@@ -38,9 +47,12 @@ export async function loader({ context }: Route.LoaderArgs) {
   // are joined to what `visibleUnits` returned rather than being queried per
   // book. A slug present in progress but absent from `units` simply never gets
   // read — access is decided in one place and this is not it.
-  const [cards, progress, counts] = await Promise.all([
-    libraryCards(env.DB, units.map((u) => u.slug)),
+  const slugs = units.map((u) => u.slug);
+  const [cards, playable, progress, listening, counts] = await Promise.all([
+    libraryCards(env.DB, slugs),
+    playableEpisodesForCards(env.DB, slugs),
     progressForAll(env.DB, viewer.email),
+    listeningForAll(env.DB, viewer.email),
     markCounts(env.DB, viewer.email),
   ]);
 
@@ -54,12 +66,37 @@ export async function loader({ context }: Route.LoaderArgs) {
         ...u,
         card: cards.get(u.slug) ?? null,
         progress: progress[u.slug] ?? null,
+        listen: listenAction(playable.get(u.slug) ?? [], listening[u.slug] ?? []),
         marks: counts[u.slug] ?? null,
       }))
       // By English title. `localeCompare` rather than `<`, so "Ayyuha" sorts
       // next to "Áyyuha" and case never decides the order.
       .sort((a, b) => a.title.localeCompare(b.title, "en", { sensitivity: "base" })),
   };
+}
+
+function listenAction(
+  episodes: CardPlayableEpisode[],
+  progress: ListeningProgress[],
+): {
+  mode: "resume" | "start";
+  episode: CardPlayableEpisode;
+  seconds: number | null;
+} | null {
+  if (episodes.length === 0) return null;
+
+  const byNumber = new Map(episodes.map((episode) => [episode.number, episode]));
+  const saved = progress.find((row) => byNumber.has(row.number) && row.seconds > 10);
+
+  if (saved !== undefined) {
+    return {
+      mode: "resume",
+      episode: byNumber.get(saved.number)!,
+      seconds: saved.seconds,
+    };
+  }
+
+  return { mode: "start", episode: episodes[0], seconds: null };
 }
 
 /**

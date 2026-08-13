@@ -271,7 +271,7 @@ export function publishOptionsDialog(
       const selected =
         (Object.entries(targetInputs).find(
           ([, input]) => input?.checked,
-        )?.[0] as PublishTarget | undefined) ?? "localhost";
+        )?.[0] as PublishTarget | undefined) ?? "both";
       const chosen: Record<string, boolean> = {};
       for (const [id, input] of Object.entries(inputs))
         chosen[id] = input.checked;

@@ -81,6 +81,13 @@ export interface EpisodeNote {
   updatedAt: string;
 }
 
+export interface ListeningProgress {
+  slug: string;
+  number: number;
+  seconds: number;
+  updatedAt: string;
+}
+
 /** Everything one person has accumulated in one book, in one round trip. */
 export interface Marks {
   progress: Progress | null;
@@ -312,6 +319,45 @@ export async function listeningFor(
 
   const out: Record<number, number> = {};
   for (const r of results) out[r.number] = r.seconds;
+  return out;
+}
+
+/**
+ * Listening progress across the library grid.
+ *
+ * Like `progressForAll`, this intentionally reads the viewer's own state in one
+ * pass and leaves access filtering to the caller that already resolved the
+ * visible slugs. Ordered newest first, so a card can pick the last episode this
+ * person touched without a second sort.
+ */
+export async function listeningForAll(
+  db: D1Database,
+  email: string,
+): Promise<Record<string, ListeningProgress[]>> {
+  const { results } = await db
+    .prepare(
+      `SELECT slug, number, seconds, updated_at
+         FROM listening_progress
+        WHERE user_email = ?1
+        ORDER BY updated_at DESC`,
+    )
+    .bind(normalizeEmail(email))
+    .all<{
+      slug: string;
+      number: number;
+      seconds: number;
+      updated_at: string;
+    }>();
+
+  const out: Record<string, ListeningProgress[]> = {};
+  for (const r of results) {
+    (out[r.slug] ??= []).push({
+      slug: r.slug,
+      number: r.number,
+      seconds: r.seconds,
+      updatedAt: r.updated_at,
+    });
+  }
   return out;
 }
 

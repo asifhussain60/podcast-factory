@@ -77,16 +77,24 @@ async function fetchState(slug: string): Promise<PublishState> {
   }
 }
 
-/** Where this run should go. Localhost is the default so a casual publish is a
- *  rehearsal until production is deliberately chosen. */
+/** Where this run should go. Both is the default because the button promises the
+ *  reviewed copy and the live copy stay together; the driver still runs them
+ *  sequentially, with localhost first, so a bad rehearsal never reaches readers. */
 export function targetsFor(): PublishTargetChoice[] {
   return [
+    {
+      id: "both",
+      icon: "fa-solid fa-code-compare",
+      label: "Both",
+      hint: "Localhost first, then production if the rehearsal passes.",
+      checked: true,
+    },
     {
       id: "localhost",
       icon: "fa-solid fa-laptop-code",
       label: "Localhost",
       hint: "http://localhost:5273",
-      checked: true,
+      checked: false,
     },
     {
       id: "production",
@@ -144,8 +152,8 @@ export function choicesFor(state: PublishState): PublishChoice[] {
   choices.push({
     id: "media",
     icon: "fa-solid fa-headphones",
-    label: "Upload recordings, slides and the print edition",
-    hint: "Untick for a text-and-cards update — much faster, and files already live stay live.",
+    label: "Upload media files",
+    hint: "Production gets recordings. Localhost gets covers, slides, transcripts and the print edition without copying audio.",
     checked: true,
   });
 

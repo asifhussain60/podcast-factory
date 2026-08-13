@@ -1,9 +1,18 @@
+import {
+  faArrowRight,
+  faBookOpen,
+  faHeadphones,
+  faImages,
+  faNoteSticky,
+  faPause,
+  faPlay,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
+import { clock, usePlayer, type NowPlaying } from "~/components/player/Player";
 import { collectionOf } from "~/lib/collection";
-import { describeContents } from "~/lib/facts";
-import type { LibraryCard } from "~/server/catalog.server";
+import type { CardPlayableEpisode, LibraryCard } from "~/server/catalog.server";
 
 /**
  * One book in the library grid.
@@ -30,6 +39,7 @@ export function BookCard({
   title,
   bucket,
   card,
+  listen = null,
   progress = null,
   marks = null,
 }: {
@@ -38,10 +48,18 @@ export function BookCard({
   bucket: string;
   card: LibraryCard | null;
   /** Where this reader got to, or null if they have not opened it. */
-  progress?: { fraction: number; chaptersDone: number } | null;
+  progress?: { anchorKey: string; fraction: number; chaptersDone: number } | null;
+  listen?: {
+    mode: "resume" | "start";
+    episode: CardPlayableEpisode;
+    seconds: number | null;
+  } | null;
   marks?: { notes: number; bookmarks: number } | null;
 }) {
   const arabic = card?.titleArabic ?? null;
+  const collection = collectionOf(bucket);
+  const readKey = progress?.anchorKey ?? card?.firstChapterKey ?? null;
+  const readHref = readKey === null ? null : `/book/${slug}/read/${encodeURIComponent(readKey)}`;
 
   // Whole chapters finished, plus how far into the current one — so a reader on
   // chapter 4 of 9 reads about 40%, not 11% because one chapter is "done".
@@ -58,36 +76,50 @@ export function BookCard({
         );
 
   return (
-    <Link
-      to={`/book/${slug}`}
-      className="pf-card pf-card--link pf-book"
+    <article
+      className="pf-card pf-book"
       /* The card is the whole subtree the overlay has to cover — band, pills,
          meter and all — so the attribute goes on the link rather than on the
          band it most obviously colours. */
-      data-collection={collectionOf(bucket)}
+      data-collection={collection}
     >
-      <div className="pf-book__band">
-        <span className="pf-pill pf-pill--pinned">{bucket}</span>
+      <Link to={`/book/${slug}`} className="pf-book__open">
+        <div className="pf-book__band">
+          <span className="pf-pill pf-pill--pinned">{bucket}</span>
 
-        <span className="pf-book__ornament pf-book__ornament--start" aria-hidden="true" />
+          <span className="pf-book__ornament pf-book__ornament--start" aria-hidden="true" />
 
-        {arabic === null ? (
-          <h2 className="pf-book__band-title pf-book__band-title--latin">{title}</h2>
-        ) : (
-          /* dir="rtl" is required for shaping and ordering. Centred here, unlike
-             the old card, because the band is the title's own space rather than
-             a line in a left-aligned stack. */
-          <p lang="ar" dir="rtl" className="pf-book__band-title">
-            {arabic}
-          </p>
-        )}
+          {arabic === null ? (
+            <h2 className="pf-book__band-title pf-book__band-title--latin">{title}</h2>
+          ) : (
+            /* dir="rtl" is required for shaping and ordering. Centred here, unlike
+               the old card, because the band is the title's own space rather than
+               a line in a left-aligned stack. */
+            <p lang="ar" dir="rtl" className="pf-book__band-title">
+              {arabic}
+            </p>
+          )}
 
-        <span className="pf-book__ornament pf-book__ornament--end" aria-hidden="true" />
-      </div>
+          <span className="pf-book__ornament pf-book__ornament--end" aria-hidden="true" />
+        </div>
+      </Link>
 
       <div className="pf-book__body">
-        {arabic === null ? null : <h2 className="pf-book__title">{title}</h2>}
-        <Contents card={card} />
+        {arabic === null ? null : (
+          <Link to={`/book/${slug}`} className="pf-book__title-link">
+            <h2 className="pf-book__title">{title}</h2>
+          </Link>
+        )}
+        <CardActions
+          slug={slug}
+          title={title}
+          card={card}
+          collection={collection === "sessions" ? "sessions" : undefined}
+          listen={listen}
+          readHref={readHref}
+          progress={progress}
+          marks={marks}
+        />
 
         {/* ALWAYS rendered, so every card in the grid is the same height — a book
             with no progress used to omit this block entirely and sit shorter
@@ -127,55 +159,136 @@ export function BookCard({
           </div>
         )}
       </div>
-    </Link>
+    </article>
   );
 }
 
-function Contents({ card }: { card: LibraryCard | null }) {
-  if (card === null) {
-    return (
-      <p className="pf-book__pills">
-        <span className="pf-pill pf-pill--quiet">Not published yet</span>
-      </p>
-    );
-  }
-
-  // The icon rides ALONGSIDE the word, never instead of it. The rule this list
-  // has always followed is that a pill names something the book HAS; an icon
-  // row where the absent things are greyed out is the fault report that rule
-  // exists to avoid, and swapping words for glyphs would rebuild it.
-  //
-  // The list itself is no longer built here. It is the SAME list the book page
-  // shows, and while it was written out twice the two drifted — different words
-  // for the print edition, and only one of them knowing whether the file could
-  // actually be opened. See `app/lib/facts.ts`.
-  const pills = describeContents({
-    chapters: card.chapters,
-    words: card.words,
-    episodes: card.episodes,
-    withAudio: card.recorded,
-    pdf: card.hasPdf,
-    pdfAvailable: card.pdfAvailable,
-    deckPages: card.deckPages,
-    deckAvailable: card.deckAvailable,
-  }, { combineFormats: true });
-
-  if (pills.length === 0) {
-    return (
-      <p className="pf-book__pills">
-        <span className="pf-pill pf-pill--quiet">Nothing published yet</span>
-      </p>
-    );
-  }
+function CardActions({
+  slug,
+  title,
+  card,
+  collection,
+  listen,
+  readHref,
+  progress,
+  marks,
+}: {
+  slug: string;
+  title: string;
+  card: LibraryCard | null;
+  collection: "sessions" | undefined;
+  listen: {
+    mode: "resume" | "start";
+    episode: CardPlayableEpisode;
+    seconds: number | null;
+  } | null;
+  readHref: string | null;
+  progress: { anchorKey: string; fraction: number; chaptersDone: number } | null;
+  marks: { notes: number; bookmarks: number } | null;
+}) {
+  const marked = (marks?.notes ?? 0) + (marks?.bookmarks ?? 0);
+  const secondary =
+    marked > 0
+      ? { to: `/book/${slug}?tab=notes`, icon: faNoteSticky, label: `${marked} marked` }
+      : card?.deckAvailable
+        ? { to: `/book/${slug}?tab=slides`, icon: faImages, label: "Slides" }
+        : { to: `/book/${slug}`, icon: faArrowRight, label: "Details" };
 
   return (
-    <ul className="pf-book__pills">
-      {pills.map((pill) => (
-        <li key={pill.label} className="pf-pill pf-pill--outline">
-          <Icon icon={pill.icon} />
-          {pill.label}
-        </li>
-      ))}
-    </ul>
+    <div className="pf-book__actions">
+      {listen !== null ? (
+        <ListenAction title={title} collection={collection} listen={listen} />
+      ) : readHref !== null ? (
+        <Link to={readHref} className="pf-book-action pf-book-action--read">
+          <span className="pf-book-action__orb" aria-hidden="true">
+            <Icon icon={faBookOpen} />
+          </span>
+          <span className="pf-book-action__copy">
+            <strong>{progress === null ? "Read" : "Continue"}</strong>
+            <span>{progress === null ? "First chapter" : "Saved"}</span>
+          </span>
+        </Link>
+      ) : (
+        <Link to={`/book/${slug}`} className="pf-book-action pf-book-action--read">
+          <span className="pf-book-action__orb" aria-hidden="true">
+            <Icon icon={faArrowRight} />
+          </span>
+          <span className="pf-book-action__copy">
+            <strong>Open book</strong>
+            <span>{card === null ? "Not published yet" : "Details"}</span>
+          </span>
+        </Link>
+      )}
+
+      <Link to={secondary.to} className="pf-book__quick">
+        <Icon icon={secondary.icon} />
+        {secondary.label}
+      </Link>
+    </div>
+  );
+}
+
+function ListenAction({
+  title,
+  collection,
+  listen,
+}: {
+  title: string;
+  collection: "sessions" | undefined;
+  listen: {
+    mode: "resume" | "start";
+    episode: CardPlayableEpisode;
+    seconds: number | null;
+  };
+}) {
+  const player = usePlayer();
+  const src = `/media/${listen.episode.audioKey}`;
+  const isCurrent = player.current?.src === src;
+  const isPlaying = isCurrent && player.playing;
+  const verb = isPlaying ? "Pause" : listen.mode === "resume" ? "Resume" : "Play";
+  const position =
+    listen.mode === "resume" && listen.seconds !== null
+      ? `${clock(listen.seconds)} in`
+      : listen.episode.durationS === null
+        ? "Audio"
+        : clock(listen.episode.durationS);
+
+  const track: NowPlaying = {
+    slug: listen.episode.slug,
+    bookTitle: title,
+    number: listen.episode.number,
+    title: listen.episode.title,
+    src,
+    durationS: listen.episode.durationS,
+    transcriptSrc:
+      listen.episode.transcriptKey === null
+        ? null
+        : `/media/${listen.episode.transcriptKey}`,
+    collection,
+  };
+
+  return (
+    <button
+      type="button"
+      className={`pf-book-action pf-book-action--listen${
+        isPlaying ? " pf-book-action--active" : ""
+      }`}
+      aria-label={`${verb} ${title}, episode ${listen.episode.number}: ${listen.episode.title}`}
+      onClick={() => {
+        if (isCurrent) player.toggle();
+        else player.play(track);
+        player.setExpanded(true);
+      }}
+    >
+      <span className="pf-book-action__orb" aria-hidden="true">
+        <Icon icon={isPlaying ? faPause : faPlay} />
+      </span>
+      <span className="pf-book-action__copy">
+        <strong>{listen.mode === "resume" ? "Resume" : "Listen"}</strong>
+        <span>
+          EP {listen.episode.number} · {position}
+        </span>
+      </span>
+    </button>
   );
 }

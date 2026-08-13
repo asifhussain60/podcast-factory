@@ -58,10 +58,17 @@ const targetsById = () =>
 
 // ─── which options are offered, and which start ticked ──────────────────────
 
-test("localhost is the default publish target", () => {
+test("both is the default publish target", () => {
   const targets = targetsById();
-  assert.equal(targets.localhost.checked, true);
+  assert.equal(targets.both.checked, true);
+  assert.equal(targets.localhost.checked, false);
   assert.equal(targets.production.checked, false);
+});
+
+test("both names the safe order explicitly", () => {
+  const both = targetsById().both;
+  assert.match(both.hint ?? "", /Localhost first, then production/);
+  assert.match(both.icon, /^fa-/);
 });
 
 test("production is offered as a deliberate publish target", () => {
@@ -127,6 +134,13 @@ test("the plain run is the complete run", () => {
   const all = byId({});
   assert.equal(all.transcripts.checked, true);
   assert.equal(all.media.checked, true);
+});
+
+test("the media option does not promise localhost audio copies", () => {
+  const media = byId({}).media;
+  assert.equal(media.label, "Upload media files");
+  assert.match(media.hint ?? "", /Production gets recordings/);
+  assert.match(media.hint ?? "", /without copying audio/);
 });
 
 test("every option explains itself", () => {

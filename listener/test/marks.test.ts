@@ -4,6 +4,7 @@ import {
   addBookmark,
   InvalidMarkError,
   listeningFor,
+  listeningForAll,
   markCounts,
   marksFor,
   progressForAll,
@@ -239,6 +240,13 @@ describe("listening position", () => {
     await setListening(t.db, READER, SLUG, { number: 3, seconds: 100 }, NOW);
     await setListening(t.db, READER, SLUG, { number: 3, seconds: 900 }, LATER);
     expect(await listeningFor(t.db, READER, SLUG)).toEqual({ 3: 900 });
+  });
+
+  it("returns library-card listening progress newest first", async () => {
+    await setListening(t.db, READER, SLUG, { number: 1, seconds: 100 }, NOW);
+    await setListening(t.db, READER, SLUG, { number: 3, seconds: 900 }, LATER);
+
+    expect((await listeningForAll(t.db, READER))[SLUG].map((p) => p.number)).toEqual([3, 1]);
   });
 });
 

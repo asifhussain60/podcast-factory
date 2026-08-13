@@ -3161,7 +3161,37 @@
    */
 
   .pf-book {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     overflow: hidden;
+    transition:
+      transform var(--pf-motion),
+      box-shadow var(--pf-motion),
+      border-color var(--pf-motion);
+  }
+
+  .pf-book:hover,
+  .pf-book:focus-within {
+    transform: translateY(var(--pf-lift));
+    box-shadow: var(--pf-elev-4);
+    border-color: var(--l-rule-soft);
+  }
+
+  .pf-book__open,
+  .pf-book__title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .pf-book__open {
+    display: block;
+  }
+
+  .pf-book__open:focus-visible,
+  .pf-book__title-link:focus-visible {
+    outline-offset: 3px;
+    border-radius: var(--pf-radius-md);
   }
 
   .pf-book__band {
@@ -3282,40 +3312,234 @@
     text-wrap: balance;
   }
 
-  /* TWO COLUMNS, not flex-wrap. Wrapping made the row count depend on how long
-     the words happened to be: Master and Disciple's five facts ran to three rows
-     while its neighbours took two, so no two cards in the grid were the same
-     height. Four facts in a fixed two-by-two is two rows for every book, and
-     `describeContents({ combineFormats: true })` is what guarantees four. */
-  .pf-book__pills {
+  .pf-book__title-link:hover .pf-book__title {
+    color: var(--l-accent);
+  }
+
+  .pf-book__actions {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    justify-items: center;
-    align-items: start;
-    gap: var(--pf-space-2);
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    align-self: stretch;
+    gap: var(--pf-space-3);
     margin-top: auto;
     padding-top: var(--pf-space-5);
-    list-style: none;
-    padding-inline-start: 0;
+    min-height: 5.15rem;
   }
 
-  /* A card's pills may wrap their own text; pills elsewhere may not.
-     `.pf-pill` is `white-space: nowrap` so a fact never breaks across lines
-     mid-phrase, which is right in a row that can grow sideways. Here the pills
-     sit in a two-column grid inside a fixed-width card, and the longest of them
-     — "print + 44 slides, not uploaded" — is wider than its column at every
-     phone width, so it ran out past the card's edge by 47px. Wrapping inside the
-     cell keeps the fact whole and the card intact; centring keeps the second
-     line under the first rather than ragged against the icon. */
-  .pf-book__pills .pf-pill {
-    white-space: normal;
-    text-align: center;
+  .pf-book-action {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--pf-space-3);
+    min-width: 0;
+    width: 100%;
+    min-height: 3.4rem;
+    padding: 0.42rem 0.78rem 0.42rem 0.42rem;
+    border: 1px solid color-mix(in srgb, var(--l-accent) 26%, var(--l-rule));
+    border-radius: var(--pf-radius-pill);
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--l-accent) 13%, var(--l-elev)),
+        color-mix(in srgb, var(--l-band) 7%, var(--l-surface))
+      );
+    color: var(--l-ink);
+    font: inherit;
+    text-align: start;
+    text-decoration: none;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--l-on-band) 16%, transparent);
+    cursor: pointer;
+    overflow: hidden;
+    transition:
+      transform var(--pf-motion),
+      border-color var(--pf-motion),
+      box-shadow var(--pf-motion),
+      background var(--pf-motion);
   }
 
-  /* A lone pill — "Not published yet", or a book with one fact — centres across
-     both columns rather than sitting in the left one. */
-  .pf-book__pills > :only-child {
-    grid-column: 1 / -1;
+  .pf-book-action::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      115deg,
+      transparent 0%,
+      transparent 35%,
+      color-mix(in srgb, var(--l-on-band) 18%, transparent) 48%,
+      transparent 62%,
+      transparent 100%
+    );
+    translate: -115% 0;
+    transition: translate 620ms ease;
+  }
+
+  .pf-book-action:hover,
+  .pf-book-action:focus-visible {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--l-accent) 55%, var(--l-rule));
+    box-shadow:
+      var(--pf-elev-2),
+      inset 0 1px 0 color-mix(in srgb, var(--l-on-band) 20%, transparent);
+  }
+
+  .pf-book-action:hover::after,
+  .pf-book-action:focus-visible::after {
+    translate: 115% 0;
+  }
+
+  .pf-book-action:active {
+    transform: translateY(0) scale(0.99);
+  }
+
+  .pf-book-action--listen {
+    border-color: color-mix(in srgb, var(--l-accent) 34%, var(--l-rule));
+  }
+
+  .pf-book-action--active {
+    border-color: color-mix(in srgb, var(--l-accent) 70%, var(--l-rule));
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--l-accent) 22%, var(--l-elev)),
+        color-mix(in srgb, var(--l-band) 14%, var(--l-surface))
+      );
+  }
+
+  .pf-book-action--read {
+    border-color: color-mix(in srgb, var(--l-band) 24%, var(--l-rule));
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--l-band) 11%, var(--l-elev)),
+        var(--l-surface)
+      );
+  }
+
+  .pf-book-action__orb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.45rem;
+    height: 2.45rem;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-accent);
+    color: var(--l-on-band);
+    box-shadow:
+      0 0.55rem 1.1rem color-mix(in srgb, var(--l-accent) 24%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--l-on-band) 24%, transparent);
+    transition:
+      scale var(--pf-motion),
+      rotate var(--pf-motion);
+  }
+
+  .pf-book-action:hover .pf-book-action__orb,
+  .pf-book-action:focus-visible .pf-book-action__orb {
+    scale: 1.06;
+  }
+
+  .pf-book-action--active .pf-book-action__orb {
+    animation: pf-soft-pulse 1.8s ease-in-out infinite;
+  }
+
+  .pf-book-action__copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.1rem;
+    font-family: var(--l-font-ui);
+  }
+
+  .pf-book-action__copy strong,
+  .pf-book-action__copy span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pf-book-action__copy strong {
+    font-size: var(--pf-text-sm);
+    font-weight: 750;
+    color: var(--l-ink);
+  }
+
+  .pf-book-action__copy span {
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
+  }
+
+  .pf-book__quick {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.42rem;
+    min-height: 2.6rem;
+    max-width: 7.5rem;
+    padding: 0.42rem 0.68rem;
+    border: 1px solid color-mix(in srgb, var(--l-band) 24%, var(--l-rule));
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--l-band) 8%, var(--l-surface));
+    color: var(--l-band);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      transform var(--pf-motion),
+      background var(--pf-motion),
+      color var(--pf-motion),
+      border-color var(--pf-motion);
+  }
+
+  .pf-book__quick:hover,
+  .pf-book__quick:focus-visible {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--l-band) 45%, var(--l-rule));
+    background: color-mix(in srgb, var(--l-band) 14%, var(--l-surface));
+  }
+
+  @keyframes pf-soft-pulse {
+    0%,
+    100% {
+      box-shadow:
+        0 0.55rem 1.1rem color-mix(in srgb, var(--l-accent) 22%, transparent),
+        0 0 0 0 color-mix(in srgb, var(--l-accent) 28%, transparent),
+        inset 0 1px 0 color-mix(in srgb, var(--l-on-band) 24%, transparent);
+    }
+    50% {
+      box-shadow:
+        0 0.65rem 1.25rem color-mix(in srgb, var(--l-accent) 28%, transparent),
+        0 0 0 0.35rem color-mix(in srgb, var(--l-accent) 0%, transparent),
+        inset 0 1px 0 color-mix(in srgb, var(--l-on-band) 24%, transparent);
+    }
+  }
+
+  @media (max-width: 379px) {
+    .pf-book__actions {
+      grid-template-columns: 1fr;
+      gap: var(--pf-space-2);
+      min-height: 7.8rem;
+    }
+
+    .pf-book__quick {
+      justify-self: stretch;
+      max-width: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-book-action,
+    .pf-book-action::after,
+    .pf-book-action__orb,
+    .pf-book__quick,
+    .pf-book {
+      animation: none;
+      transition: none;
+    }
   }
 
   /* ---- Pills -----------------------------------------------------------
@@ -3344,12 +3568,6 @@
     background: transparent;
     border-color: var(--l-rule);
     color: var(--l-muted);
-  }
-
-  .pf-pill--quiet {
-    background: transparent;
-    color: var(--l-faint);
-    padding-inline: 0;
   }
 
   /* Toned pills — where somebody stands, as a colour you can scan.
@@ -3435,9 +3653,7 @@
   /* The book page's row of facts. Colouring the glyph and leaving the label in
      the muted ink is what makes a row of five pills scannable — the eye finds
      the headphones without reading the word beside it. Scoped to `.pf-pills`,
-     which is the book page's own row; the library card's pills
-     (`.pf-book__pills`) stay monochrome, because forty coloured glyphs across a
-     grid of cards is noise rather than signal. */
+     which is the book page's own row. */
   .pf-pills > .pf-pill > .pf-icon {
     opacity: 1;
     color: var(--l-accent);
@@ -4821,9 +5037,9 @@
     justify-content: flex-end;
     align-self: stretch;
     gap: var(--pf-space-2);
-    /* Pushed to the foot of the card, so cards with different numbers of pills
-       still line their progress bars up across a row of the grid. */
-    margin-top: auto;
+    /* Sits under the fixed action strip, so every card still puts the meter on
+       the same line across the grid. */
+    margin-top: var(--pf-space-4);
     padding-top: var(--pf-space-4);
     /* The bar and its caption together. An unopened book renders the caption
        alone — "Not yet started" — and reserving the pair's height here is what
