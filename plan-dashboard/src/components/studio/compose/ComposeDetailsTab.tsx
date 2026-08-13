@@ -39,10 +39,18 @@ const DEFERRED_BY_KIND = Object.fromEntries(
 // Composer's own immediate-AI machinery); the knowledge/visual marks wait for
 // a pipeline drain pass that does not exist yet — and the UI says so plainly
 // instead of overpromising.
-const MARK_GROUPS: { name: string; kinds: string[] }[] = [
-  { name: "Text", kinds: ["rewrite", "expand", "condense", "simplify"] },
-  { name: "Knowledge", kinds: ["etymology", "define", "xref", "addcorpus"] },
-  { name: "Visual", kinds: ["visualize"] },
+const MARK_GROUPS: { name: string; tone: string; kinds: string[] }[] = [
+  {
+    name: "Text",
+    tone: "text",
+    kinds: ["rewrite", "expand", "condense", "simplify"],
+  },
+  {
+    name: "Knowledge",
+    tone: "knowledge",
+    kinds: ["etymology", "define", "xref", "addcorpus"],
+  },
+  { name: "Visual", tone: "visual", kinds: ["visualize"] },
 ];
 
 /** Compose-side operations the queue calls back into (book-composer.ts). */
@@ -376,8 +384,13 @@ export default function ComposeDetailsTab({
           </p>
         )}
         {MARK_GROUPS.map((group) => (
-          <div className="cx-mark-group" key={group.name}>
-            <span className="cx-mark-group-name">{group.name}</span>
+          <div
+            className={`cx-mark-group cx-mark-group--${group.tone}`}
+            key={group.name}
+          >
+            <div className="cx-mark-group-head">
+              <span className="cx-mark-group-name">{group.name}</span>
+            </div>
             <div className="cx-details-mark-row">
               {group.kinds.map((kind) => {
                 const def = DEFERRED_BY_KIND[kind];

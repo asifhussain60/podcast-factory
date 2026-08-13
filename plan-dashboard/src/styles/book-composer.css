@@ -1891,36 +1891,113 @@ body:has(.composer-grid) .to-top {
 
 /* Outcome groups inside Mark for follow-up (Text · Knowledge · Visual). */
 .cx-mark-group {
+  position: relative;
+  margin: 0 0 0.72rem;
+  padding: 0.72rem 0.68rem 0.68rem;
+  border: 1px solid
+    color-mix(
+      in oklab,
+      var(--c-rule-soft, #ebe6da) 78%,
+      var(--c-accent, #8b4513)
+    );
+  border-radius: 8px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(
+        in oklab,
+        var(--cx-mark-tone, var(--c-accent, #8b4513)) 7%,
+        transparent
+      ),
+      transparent 42%
+    ),
+    color-mix(in oklab, var(--c-bg-card, #fffdf8) 90%, var(--c-bg, #f7f4ee));
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 72%, transparent),
+    0 8px 22px rgba(31, 29, 24, 0.045);
+}
+.cx-mark-group--text {
+  --cx-mark-tone: var(--c-accent, #8b4513);
+}
+.cx-mark-group--knowledge {
+  --cx-mark-tone: #4a6f5a;
+}
+.cx-mark-group--visual {
+  --cx-mark-tone: #626a8f;
+}
+.cx-mark-group-head {
+  display: flex;
+  align-items: center;
   margin: 0 0 0.55rem;
+}
+.cx-mark-group-head::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-right: 0.42rem;
+  border-radius: 999px;
+  background: var(--cx-mark-tone, var(--c-accent, #8b4513));
+  box-shadow: 0 0 0 3px
+    color-mix(
+      in oklab,
+      var(--cx-mark-tone, var(--c-accent, #8b4513)) 14%,
+      transparent
+    );
 }
 .cx-mark-group-name {
   display: block;
-  margin: 0 0 0.25rem;
-  font-size: 0.72rem;
-  font-weight: 600;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--c-ink-dim, #4d4a42);
 }
 
 .cx-details-mark-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7.3rem, 1fr));
+  gap: 0.42rem;
 }
 .cx-btn-mark {
   font: inherit;
   font-size: var(--panel-fs, 15px);
-  padding: 0.3rem 0.6rem;
-  border: 1px solid var(--c-rule-soft, #ebe6da);
-  border-radius: 5px;
-  background: var(--c-bg-card, #fffdf8);
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.36rem;
+  min-height: 2.25rem;
+  padding: 0.38rem 0.58rem;
+  border: 1px solid
+    color-mix(
+      in oklab,
+      var(--c-rule-soft, #ebe6da) 78%,
+      var(--cx-mark-tone, var(--c-accent, #8b4513))
+    );
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--c-bg-card, #fffdf8) 92%, white);
   color: var(--c-ink-dim, #4d4a42);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 70%, transparent);
   cursor: pointer;
 }
+.cx-btn-mark i {
+  width: 1.1em;
+  flex: 0 0 1.1em;
+  color: color-mix(
+    in oklab,
+    var(--cx-mark-tone, var(--c-accent, #8b4513)) 82%,
+    var(--c-ink-dim, #4d4a42)
+  );
+  text-align: center;
+}
 .cx-btn-mark:hover:not(:disabled) {
-  border-color: var(--c-accent, #8b4513);
-  color: var(--c-accent, #8b4513);
+  border-color: var(--cx-mark-tone, var(--c-accent, #8b4513));
+  color: var(--c-ink, #1f1d18);
+  background: color-mix(
+    in oklab,
+    var(--cx-mark-tone, var(--c-accent, #8b4513)) 9%,
+    var(--c-bg-card, #fffdf8)
+  );
 }
 .cx-btn-mark:disabled {
   opacity: 0.45;
