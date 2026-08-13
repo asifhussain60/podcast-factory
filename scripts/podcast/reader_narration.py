@@ -32,6 +32,7 @@ from _listener_book import split_chapters
 PHASE = "reader-narration"
 MANIFEST_SCHEMA = 1
 OUTPUT_FORMAT = "audio-24khz-96kbitrate-mono-mp3"
+MAX_SEGMENT_ATTEMPTS = 3
 VOICE_PRESETS: dict[str, dict[str, str]] = {
     "aria": {
         "voice": "en-US-AriaNeural",
@@ -54,6 +55,7 @@ _LINK = re.compile(r"\[([^\]]+)\]\([^)]+\)")
 _IMAGE = re.compile(r"!\[[^\]]*]\([^)]+\)")
 _TAG = re.compile(r"<[^>]+>")
 _MARKDOWN_EDGE = re.compile(r"^[>*#\-\s]+")
+_SPEAKABLE = re.compile(r"[A-Za-z0-9]")
 
 
 @dataclass(frozen=True)
@@ -132,6 +134,8 @@ def speech_text(markdown: str) -> str:
     text = re.sub(r"[*_]{1,3}([^*_]+)[*_]{1,3}", r"\1", text)
     text = "\n".join(_MARKDOWN_EDGE.sub("", line).strip() for line in text.splitlines())
     text = re.sub(r"\s+", " ", text).strip()
+    if not _SPEAKABLE.search(text):
+        return ""
     return text
 
 
@@ -226,7 +230,24 @@ def audio_duration_seconds(path: Path) -> float:
         check=True,
         timeout=60,
     ).stdout.strip()
-    return float(out)
+    duration = float(out)
+    if duration <= 0:
+        raise RuntimeError(f"Audio segment has non-positive duration: {path}")
+    return duration
+
+
+def synthesize_clip(text: str, preset: dict[str, str], clip: Path) -> float:
+    last_error: Exception | None = None
+    for attempt in range(1, MAX_SEGMENT_ATTEMPTS + 1):
+        clip.write_bytes(synthesize_text(text, preset))
+        try:
+            return audio_duration_seconds(clip)
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired, ValueError, RuntimeError) as exc:
+            last_error = exc
+            clip.unlink(missing_ok=True)
+            if attempt < MAX_SEGMENT_ATTEMPTS:
+                time.sleep(2**attempt)
+    raise RuntimeError(f"Azure Speech returned invalid audio after {MAX_SEGMENT_ATTEMPTS} attempts") from last_error
 
 
 def concat_audio(parts: list[Path], out_path: Path) -> None:
@@ -315,8 +336,7 @@ def render_reader_narration(book_dir: Path) -> RenderSummary:
             cursor = 0.0
             for idx, (block_index, text) in enumerate(blocks):
                 clip = tmp_dir / f"{idx:04d}.mp3"
-                clip.write_bytes(synthesize_text(text, preset))
-                duration = audio_duration_seconds(clip)
+                duration = synthesize_clip(text, preset, clip)
                 clips.append(clip)
                 cues.append(
                     Cue(

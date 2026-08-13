@@ -57,6 +57,29 @@ def test_speech_text_removes_arabic_without_touching_source() -> None:
     assert text == "A claim with proof and term."
 
 
+def test_speech_text_skips_punctuation_only_fragments() -> None:
+    assert rn.speech_text("...") == ""
+    assert rn.speech_text("(الإمامة)") == ""
+
+
+def test_synthesize_clip_retries_invalid_audio(tmp_path: Path) -> None:
+    attempts = iter([b"BAD", b"MP3"])
+
+    def fake_duration(path: Path) -> float:
+        if path.read_bytes() == b"BAD":
+            raise ValueError("invalid audio")
+        return 1.5
+
+    with (
+        mock.patch.object(rn, "synthesize_text", side_effect=lambda *_args: next(attempts)) as synth,
+        mock.patch.object(rn, "audio_duration_seconds", side_effect=fake_duration),
+    ):
+        duration = rn.synthesize_clip("A real sentence.", rn.VOICE_PRESETS["aria"], tmp_path / "clip.mp3")
+
+    assert duration == 1.5
+    assert synth.call_count == 2
+
+
 def test_render_writes_manifest_cues_and_is_idempotent(tmp_path: Path) -> None:
     book = make_book(tmp_path)
     durations = iter([1.2, 0.4, 0.8, 2.4, 2.4])
