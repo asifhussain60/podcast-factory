@@ -280,6 +280,15 @@ def test_one_bad_chapter_does_not_end_the_run(book_dir: Path, monkeypatch) -> No
     assert [f["key"] for f in summary["failed"]] == ["love based religion"]
 
 
+def test_repeated_zero_usage_exceptions_stop_the_run(book_dir: Path, monkeypatch) -> None:
+    monkeypatch.setattr(art, "rearticulate", lambda bd, key, **_kwargs: (_ for _ in ()).throw(RuntimeError("limit")))
+
+    summary = art.articulate_book(book_dir, log=lambda *_: None)
+
+    assert summary["aborted"] is True
+    assert len(summary["failed"]) == 2
+
+
 def test_each_chapter_records_elapsed_time_and_token_usage(book_dir: Path, monkeypatch) -> None:
     def fake(bd, key, log=print, **_kwargs):
         with (bd / "_system" / "cost-ledger.jsonl").open("a", encoding="utf-8") as fh:

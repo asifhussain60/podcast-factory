@@ -362,18 +362,32 @@ def articulate_book(
             log(f"      FAILED: {exc}")
             failed.append({"chapter": title, "key": key, "error": str(exc)[:300]})
             finished_at = datetime.now(timezone.utc)
+            usage = _usage_since(book_dir, cost_start)
+            metrics = {
+                "started_at": started_at.isoformat(),
+                "finished_at": finished_at.isoformat(),
+                "duration_seconds": round(time.perf_counter() - started_perf, 3),
+                "usage": usage,
+            }
             _record(
                 book_dir,
                 key,
                 title,
                 "failed",
-                metrics={
-                    "started_at": started_at.isoformat(),
-                    "finished_at": finished_at.isoformat(),
-                    "duration_seconds": round(time.perf_counter() - started_perf, 3),
-                    "usage": _usage_since(book_dir, cost_start),
-                },
+                metrics=metrics,
             )
+            if int(usage.get("total_tokens") or 0) == 0:
+                dead_streak += 1
+            else:
+                dead_streak = 0
+            if dead_streak >= _DEAD_STREAK_LIMIT:
+                log(
+                    f"  articulate: STOPPING — {dead_streak} chapters in a row failed before "
+                    f"recording model usage. This looks like an exhausted or unreachable engine. "
+                    f"{len(todo) - index} chapter(s) untouched. Re-run to resume."
+                )
+                aborted = True
+                break
             continue
         # `rearticulate` returns the STATUS ENVELOPE it writes to
         # `rearticulate-status.json` — `{chapter_key, state, started_at,
