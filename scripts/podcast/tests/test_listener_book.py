@@ -39,6 +39,7 @@ def make_book(tmp_path: Path, *, episodes: int = 4) -> Book:
         directory=tmp_path,
         title="Test Book",
         title_arabic=None,
+        title_language=None,
         blurb=None,
         edition_note=None,
     )

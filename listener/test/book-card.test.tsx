@@ -25,7 +25,8 @@ const card: LibraryCard = {
   pdfAvailable: true,
   deckPages: 15,
   deckAvailable: true,
-  titleArabic: "كتاب",
+  titleOriginal: "كتاب",
+  titleLanguage: "ar",
 };
 
 function render(props: Partial<Parameters<typeof BookCard>[0]> = {}) {
@@ -43,6 +44,15 @@ function render(props: Partial<Parameters<typeof BookCard>[0]> = {}) {
 }
 
 describe("the library card", () => {
+  it("marks an Urdu original title with its language for Nastaliq styling", () => {
+    const html = render({
+      card: { ...card, titleOriginal: "جہاں سے قافلے چلے", titleLanguage: "ur" },
+    });
+    expect(html).toContain('lang="ur"');
+    expect(html).toContain('dir="rtl"');
+    expect(html).toContain("جہاں سے قافلے چلے");
+  });
+
   it("offers useful actions instead of catalog fact pills", () => {
     const html = render({
       listen: {

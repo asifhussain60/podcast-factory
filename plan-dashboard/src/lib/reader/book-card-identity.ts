@@ -36,7 +36,7 @@ import { simplifyTransliteration } from "../translit";
 export interface BookCardIdentity {
   /** Arabic (or other native-script) title. */
   nativeTitle?: string;
-  nativeLang?: "ar" | "zh";
+  nativeLang?: "ar" | "ur" | "zh";
   /** The English title shown as the card's heading. Always present. */
   title: string;
   author?: string;
@@ -126,11 +126,18 @@ export async function resolveBookCardIdentity(
     slugTitle;
 
   const nativeTitle = nativeFromMeta ?? fallback.nativeTitle;
+  const originalLanguage =
+    str(meta?.original_title_language) ?? str(meta?.source_language);
 
   return {
     nativeTitle,
     nativeLang: nativeTitle
-      ? (fallback.nativeLang ?? (isArabic(nativeTitle) ? "ar" : "zh"))
+      ? (fallback.nativeLang ??
+        (originalLanguage === "ur"
+          ? "ur"
+          : isArabic(nativeTitle)
+            ? "ar"
+            : "zh"))
       : undefined,
     title: simplifyTransliteration(englishTitle),
     author: author ? simplifyTransliteration(author) : undefined,

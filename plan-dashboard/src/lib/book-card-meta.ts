@@ -7,10 +7,10 @@
  */
 
 export interface BookCardMeta {
-  /** Native script title — Arabic for Islamic books, Chinese for Chinese-origin fiction. */
+  /** Native-script title in the work's original language. */
   nativeTitle?: string;
   /** BCP-47 language tag for the native title (drives `lang` attr + font selection). */
-  nativeLang?: "ar" | "zh";
+  nativeLang?: "ar" | "ur" | "zh";
   /** English translation of the title shown on the card (overrides slug-derived title). */
   displayTitle?: string;
   /** Author name in plain English (no diacritics or special Unicode). */

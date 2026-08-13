@@ -159,7 +159,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             needle === "" ||
             // Title, Arabic title and bucket: the three things actually printed
             // on a card, so nothing matches for a reason the reader cannot see.
-            [unit.title, unit.card?.titleArabic ?? "", unit.bucket].some((field) =>
+            [unit.title, unit.card?.titleOriginal ?? "", unit.bucket].some((field) =>
               fold(field).includes(needle),
             ),
         ),
