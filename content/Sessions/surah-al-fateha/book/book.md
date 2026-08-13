@@ -1371,15 +1371,27 @@ Just as we can never fully understand a mother's love for her child, we can neve
 
 ## Manifestations of REHMA
 
-In the last couple of sessions we learnt about the رحمۃ of Allah سُبْحَانَهُ وَتَعَالَى. I hope I was able to provide a clear understanding of what the word رحمۃ means, and what it represents. To reiterate, the word رحمۃ is a combination of unconditional love, constant care, genuine concern and unlimited mercy and compassion. The two frequently used derivatives of رحمۃ are الرحمن and الرحیم. The attribute الرحمن highlights the intensity, the urgency, the promptness, but the interim or temporary quality of his رحمۃ; whereas the attribute الرحیم highlights the long-term and permanent qualities of his رحمۃ. We then studied the root word for رحمۃ itself, which comes from رحم and literally means the womb of a mother. We saw some magnificent examples that the womb provides, in order to depict and demonstrate the رحمۃ of Allah سُبْحَانَهُ وَتَعَالَى.
+I have explained the رحمۃ of Allah سُبْحَانَهُ وَتَعَالَى, and I have tried to make clear what رحمۃ means and what it represents.
 
-We know how the womb takes a shapeless drop of liquid and by its رحمۃ, transform it into a living child, and we drew the analogy that it is the رحمۃ of Allah سُبْحَانَهُ وَتَعَالَى that shapes and transforms our spiritual existence. His رحمۃ takes human beings in their raw and ignorant form; a form that has no real goal, no real purpose outsides of the confines of this دنیا, and transforms them into these incredible personalities - that we do not even mention their names without adding رَحْمَۃُ اللہِ عَلَیْہِ with it. This is why Rasul Allah ﷺ is called رَحْمَۃً لِی الْعَالَمِینَ - he is called رحمۃ for this world, because he took on the role of a mothers womb in shaping and nurturing the spiritual existence of humanity. Not just for the people of his time, but for all of humanity till the end of time!
+In sum, رحمۃ joins together unconditional love, constant care, genuine concern, unlimited mercy, and compassion. The two common derivatives of رحمۃ are الرحمن and الرحیم.
 
-We looked at how the mother suffers in order to provide comfort to her child. How she protects it, nurtures it, feeds it, goes through various hardships, pain and suffering in order to transform that shapeless mass into that living breathing child. From that we drew the parallel that Allah سُبْحَانَهُ وَتَعَالَى through his various intermediaries - his Imams, his prophets, his messengers - he shapes our spiritual existence. And just like the pregnant mother, historically we see that these people suffered various hardships to deliver the message of Allah to their nations.
+The attribute الرحمن points to the intensity of his رحمۃ: its urgency, its promptness, and also its interim or temporary quality. The attribute الرحیم points to the long-term and permanent qualities of his رحمۃ.
+
+I then turned to the root of رحمۃ itself. It comes from رحم, which literally means the womb of a mother. The womb gives magnificent examples that depict and demonstrate the رحمۃ of Allah سُبْحَانَهُ وَتَعَالَى.
+
+I know how the womb takes a shapeless drop of liquid and, by its رحمۃ, transforms it into a living child. I drew the analogy that the رحمۃ of Allah سُبْحَانَهُ وَتَعَالَى shapes and transforms our spiritual existence.
+
+His رحمۃ takes human beings in their raw and ignorant state, with no real goal and no true purpose beyond the limits of this دنیا. It then transforms them into extraordinary personalities, people whose names I do not even mention without adding رَحْمَۃُ اللہِ عَلَیْہِ after them.
+
+This is why Rasul Allah ﷺ is called رَحْمَۃً لِی الْعَالَمِینَ. He is called رحمۃ for this world because he took on the role of a mother’s womb, shaping and nurturing the spiritual existence of humanity. That was not only for the people of his own time, but for all humanity until the end of time.
+
+I also looked at how a mother suffers in order to give comfort to her child. She protects it, nurtures it, feeds it, and bears hardship, pain, and suffering so that a shapeless mass becomes a living, breathing child. From this I drew the parallel that Allah سُبْحَانَهُ وَتَعَالَى, through his various intermediaries, his Imams, his prophets, and his messengers, shapes our spiritual existence. Just as a pregnant mother suffers, history shows that these people endured many hardships in order to deliver the message of Allah to their nations.
 
 ### Forgiveness
 
-But one of the most amazing qualities of the womb (the رحم) is that it expands to accommodate the needs of the fetus. That is such a beautiful reminder of the fact that Allah's رحمۃ expands to fulfill not only the needs of his creation, but also to forgive their shortcomings, sins and transgressions. His immense forgiveness is one of the manifestations of his infinite compassion towards his creation. Because Allah knows that we are people of extremely weak characters. We are people who are enslaved by our worldly desires. But he also knows that we are all trying our best in our efforts to move towards him - whether it is centimeter by centimeter, or inch by inch - in whatever ways we can. So he compensates for that weakness and strengthens our shortcomings through his forgiveness.
+I also find one of the most wondrous qualities of the womb, the رحم, in the way it expands to meet the needs of the fetus. It gives a beautiful reminder that Allah’s رحمۃ expands as well: not only to meet the needs of his creation, but also to forgive their shortcomings, sins, and transgressions.
+
+His vast forgiveness is one of the manifestations of his infinite compassion toward his creation. Allah knows that we are people of very weak character. We are often enslaved by worldly desires. Yet he also knows that we are trying, in whatever ways we can, to move toward him: centimeter by centimeter, inch by inch. So he makes up for that weakness and strengthens what is lacking in us through his forgiveness.
 
 There is a verse in the Quran in which Allah says:
 
@@ -1389,105 +1401,175 @@ There is a verse in the Quran in which Allah says:
 
 He says:
 
-قُلْ يَعِبَادِىَ ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ
-
-O My slaves who have transgressed against themselves by their sins. Which slaves is he talking about? The disbelievers? The polytheists? The idol worshipers? No! Us! He's talking to us Muslims; us believers! يَعِبَادِىَ. Linguistically, this form of calling someone implies an extreme closeness, extreme love, extreme intimacy. If it was a casual call, it would have been یَا أَیُّھَا الْعِبَادُ - which would mean "Oh slaves", but there would be no intimacy or love in that statement. But يَعِبَادِىَ on the other hand represents an extreme closeness - Oh **my beloved **slaves! Oh **my revered **slaves! Oh **my cherished **slave! You understand the difference? What types of slaves? Faithful slaves? Trustworthy slaves? Obedient Slaves? No!
+O My slaves who have transgressed against themselves through their sins. Which slaves does He mean? The disbelievers? The polytheists? The idol worshipers? No. He means us: Muslims, believers. يَعِبَادِىَ. In Arabic, this form of address carries deep nearness, deep love, and deep intimacy. A casual call would have been یَا أَیُّھَا الْعِبَادُ, meaning “O slaves,” without that intimacy or love. But يَعِبَادِىَ expresses intense nearness: O **My beloved** slaves, O **My revered** slaves, O **My cherished** slave. The difference is clear. And what kind of slaves are they? Faithful slaves? Trustworthy slaves? Obedient slaves? No.
 
 ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ
 
-The ones who have crossed all limits and boundaries of transgressions against themselves. The ones who have caused severe harm to their souls by living a life of sin; by living a life of hopelessness; by living a life of disobedience to Allah; by living a lifestyle that is harmful and detrimental to their spiritual progression. These are the type of slaves he is addressing. But there is something so beautiful that the scholars point out about this verse - which is the use of this word يَعِبَادِىَ that precedes this statement. Allah still calls them **my **slave. Allah is still saying that no matter who you are, and no matter what you do, you are still my slaves. There is absolutely no abandonment on the part of Allah سُبْحَانَهُ وَتَعَالَى. Just as womb does not abandon its fetus if it is deformed, Allah constantly maintains that relationship of رحمۃ with us, even though we may be the worst of the worst! We may be the most sinful people on the face of this earth who are constantly walking on very thin ice - but Allah still maintains that relationship and that connection through the use of the word يَعِبَادِىَ My Slaves! SubhanAllah!! AllahuAkbar!
-ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ
- the ones who have done severe harm to their souls and to themselves.
+I mean the ones who have crossed every limit and boundary in wronging themselves. They have severely harmed their own souls by living in sin, hopelessness, and disobedience to Allah; by choosing a way of life that damages and obstructs their spiritual growth.
 
-Now Allah proceeds to give them some advice:
+These are the slaves He is addressing. Yet the scholars point out something beautiful in this verse: before this description comes the word يَعِبَادِىَ. Allah still calls them **My** slaves. No matter who they are, and no matter what they have done, they still belong to Him as His slaves.
+
+There is no abandonment from Allah سُبْحَانَهُ وَتَعَالَى. Just as the womb does not abandon its fetus if it is deformed, Allah constantly preserves the relationship of رحمۃ with us, even if we become the worst of the worst. We may be the most sinful people on the face of the earth, constantly walking on very thin ice, yet Allah still keeps that relationship and connection alive through the word يَعِبَادِىَ: My slaves. SubhanAllah. AllahuAkbar.
+
+ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ
+
+The ones who have done severe harm to their souls and to themselves.
+
+I now come to Allah’s advice to them:
+
 لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ
-Never! Ever! lose hope in the mercy of Allah! Not even the slightest bit. I won't go into the technical details here, but the use of word لا indicates unconditional absoluteness! Without the shred of a doubt. Like we have لَا اِلَہَ اِلَّا اللَّہُ - that also begins with لا - because it has that absolute finality in that statement - that there is absolutely no god except Allah, you understand? So Allah is saying, that under no circumstances, with completely certainty, I'm making it حرام - I am making it impermissible; I am forbidding you to lose hope in my mercy! Ever! Why? Allah never just tells us something and then not give us a reason to believe it. So why should we not lose hope in the mercy of Allah?
+
+Never lose hope in the mercy of Allah. Never, not even by the smallest measure. I will not enter the technical details here, but the word لا indicates absolute and unconditional force, without the slightest doubt. The same force appears in لَا اِلَہَ اِلَّا اللَّہُ, which also begins with لا, because that statement carries absolute finality: there is no god at all except Allah.
+
+So Allah is saying, with complete certainty and under no circumstance, “I am making it حرام; I am making it impermissible. I am forbidding you to lose hope in my mercy. Ever.”
+
+Why? Allah never tells us something without also giving us a reason to believe it. So why should I not lose hope in the mercy of Allah?
 
 إِنَّ ٱللَّهَ يَغْفِرُ ٱلذُّنُوبَ جَمِيعًا
-Because Allah is capable of forgiving all your sins and transgressions. How is that possible? I have spent an entire lifetime in his disobedience! How is it possible for him to forgive so many sins?
+
+Because Allah is able to forgive every sin and every transgression. How can that be? I may have spent an entire lifetime in His disobedience. How can He forgive so many sins?
+
 إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ
-Because Indeed! Without the shred of a doubt, he and only he, most definitely he is الغفور. - the constantly forgiving. The word غفور follows the same linguistic pattern as رحیم. He is not just forgiving; he is constantly forgiving, and constantly merciful. Nothing is beyond his capacity, and there is nothing that is out of his reach, Allah can, and will forgive all your sins. This word غفور is so amazing - it really gets to the essence of his concept of forgiveness.
+
+Because, indeed, without the slightest doubt, He and only He is الغفور: the One who forgives constantly.
+
+The word غفور follows the same linguistic pattern as رحیم. He is not merely forgiving; He is constantly forgiving and constantly merciful. Nothing lies beyond His power. Nothing is outside His reach. Allah can forgive all sins, and He will forgive them. This word, غفور, is remarkable because it reaches the very essence of His forgiveness.
 
 ### 3 words for forgiveness
 
-In the Quran, when Allah talks about his ability to forgive, he uses three different attributes for himself in terms of forgiving- and they all from the same root which is غَفَرَ. The word غَفَرَ literally means - to cover something up. The word for helmet in Arabic is مِغفَر. When you put on a helmet, can you see the head? No! So مغفرۃ means to forgive - or to cover up the sins such that it is completely out of sight. As if it never existed.
+In the Quran, when Allah speaks of His ability to forgive, He uses three different attributes for Himself. All three come from the same root: غَفَرَ.
+
+The word غَفَرَ literally means to cover something. The Arabic word for helmet is مِغفَر. When a helmet is worn, the head is no longer visible. In that sense, مغفرۃ means to forgive: to cover sins so completely that they are hidden from sight, as though they never existed.
 
 GHAFARA
 
-So Allah calls himself غَافِرِ الذَّنْبِ in the Quran
+So Allah calls Himself غَافِرِ الذَّنْبِ in the Quran.
 
 > تَنزِيلُ ٱلْكِتَبِ مِنَ ٱللَّهِ ٱلْعَزِيزِ ٱلْعَلِيمِ ‎۲‏غَافِرِ ٱلذَّنۢبِ وَقَابِلِ ٱلتَّوْبِ شَدِيدِ ٱلْعِقَابِ ذِى ٱلطَّوْلِۖ لَآ إِلَهَ إِلَّا هُوَۖ إِلَيْهِ ٱلْمَصِيرُ
 >
 > ( 2 ) The revelation of the Book is from Allah the All-Mighty, the All-Knower. ( 3 ) The forgiver of sin, acceptor of repentance, severe in punishment, owner of abundance. There is no deity except Him; to Him is the destination.
 
-Linguistically the word غافر means the one who immediately forgives. Someone who does not hesitate in forgiving; who does not have to think about it before he forgives. That's غافر.
+In language, غافر means the One who forgives at once. He does not hesitate. He does not pause to think before forgiving. That is غافر.
 
-Then he calls himself غفَّار
+Then He calls Himself غفَّار.
 
 > فَقُلْتُ ٱسْتَغْفِرُوا۟ رَبَّكُمْ إِنَّهُۥ كَانَ غَفَّارًۭا
 >
 > And said, 'Ask forgiveness of your Lord. Indeed, He is ever a Perpetual Forgiver.
 
-So غفَّار is the one who forgives abundantly. The one who has no limitations in terms of forgiveness. The one who can continue to forgive regardless of how much sin exists. You know how we say, I can forgive everything, but I cannot forgive betrayal, or I cannot forgive lies, or I cannot forgive rudeness. We all have certain things that we consider unforgivable. But Allah غفَّار, as in he has no limitations in what he can and cannot forgive. He can forgive everything if one truly repents.
+I understand غفَّار as the One who forgives abundantly. His forgiveness has no limit. He continues to forgive no matter how much sin exists.
 
-The third variation is غفور - which, as I said, is on the same phonetic pattern of رحیم and means constantly or permanently forgiving, - and this the form that is used in the verse we are talking about
+Human beings have boundaries. A person may say, “I can forgive anything except betrayal,” or, “I cannot forgive lies,” or, “I cannot forgive rudeness.” Everyone carries some idea of what feels unforgivable. But Allah is غفَّار: He has no limit in what He can forgive. He can forgive everything when repentance is true.
+
+The third variation is غفور. As I have said, it follows the same phonetic pattern as رحیم, and it means constantly or permanently forgiving. This is the form used in the verse under discussion:
 
 > إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ
 
-And Indeed he is constantly forgiving and constantly merciful.
+And indeed, He is constantly forgiving and constantly merciful.
 
-So unflinching loyalty; provision of infinite hope; a never ending permanent relationship; an intense, immediate and abundant forgiveness are some the essential manifestations of his رحمۃ.
+Unflinching loyalty, infinite hope, a permanent relationship that never ends, and forgiveness that is intense, immediate, and abundant are among the essential manifestations of His رحمۃ.
 
 ### Rewards
 
-Then another manifestation of that expansion of his رحمۃ (like the expansion of the womb) manifests in the form of his infinite rewards for trivial acts. You know how we have these holy nights in which Allah offers a ridiculous amount of reward. (Thum Vasheq - 20 Hajj). Today I want to share with you a perspective of why Allah offers such rewards. Hopefully you'll get a real appreciation for the intention behind these rewards.
+Another manifestation of the expansion of His رحمۃ, like the expansion of the womb, appears in His infinite rewards for small acts. On certain holy nights, Allah offers an astonishing amount of reward. (Thum Vasheq - 20 Hajj). I want to present one perspective on why Allah offers such rewards, so that the intention behind them becomes clearer.
 
-The holy month of Ramadan is round the corner. It is the سنۃ of Rasul Allah ﷺ to do اعتکاف in this month. It is the act of retiring oneself to the مسجد for a period of time, exclusively for the remembrance of Allah سُبْحَانَهُ وَتَعَالَى in silence. In India Pakistan, people spend at least 3 days and nights in اعتکاف, in which they pray, they recite Quran, they do تسبیح, they reflect on their lives - etc, and Allah loves that! Rasul Allah ﷺ stated the reward of اعتکاف in a HADEES. He said:
+I see the holy month of Ramadan drawing near. In this month, it is the سنۃ of Rasul Allah ﷺ to perform اعتکاف. This means withdrawing into the مسجد for a set time, devoted only to the remembrance of Allah سُبْحَانَهُ وَتَعَالَى in silence. In India and Pakistan, people spend at least three days and nights in اعتکاف. They pray, recite Quran, do تسبیح, reflect on their lives, and more. Allah loves this. Rasul Allah ﷺ described the reward of اعتکاف in a HADEES. He said:
 
 مَنِ اعْتَكَفَ يَوْماً ابْتِغَاءَ وَجْهِ اللهِ بَاعَدَ اللهُ بَيْنَهُ وَبَيْنَ النَّارِ ثَلَاثَةَ خَنَادِقَ كُلُّ خَنْدَقٍ كَمَا بَيْنَ الْخَافِقَيْنِ
 
-Whoever stays in the state of اعتکاف for one day - just one day, Allah سُبْحَانَهُ وَتَعَالَى will distance him from hell-fire by 3 trenches - each trench will be of the distance between the east and west - SubhanAllah! That's for spending one day in the مسجد in the state of ذکر. This reward illustrates how beloved this act of اعتکاف is to Allah سُبْحَانَهُ وَتَعَالَى.
+Whoever remains in اعتکاف for one day, only one day, Allah سُبْحَانَهُ وَتَعَالَى distances him from the Fire by three trenches. Each trench stretches as far as the distance between East and West. SubhanAllah. This is the reward for spending a single day in the مسجد, in the state of ذکر. It shows how beloved this act of اعتکاف is to Allah سُبْحَانَهُ وَتَعَالَى.
 
-So one day, during the month of Ramadan, اِبْنُ عَبَّاسٍ رَضِیَ اللَّہُ تَعَالَیٰ عَنْہُ the cousin of the prophet, enters a مسجد with the intention of spending a day in اعتکاف; in order to earn that immense reward that Allah has promised. Soon after he begins his اعتکاف, he sees a Muslim brother in the مسجد looking very sad. So he goes up to this man and inquires about his sadness. The man says, o cousin of the prophet ﷺ, I owe a financial debt to someone that I need to pay, but I am not able to pay it because I don't have any money. And the weight of that debt, that obligation is crushing my soul. ابن عباس says to his man: Would you like me to go to your lender and talk to him on your behalf? Maybe I can convince him to forgive your debt, or reduce it, or extend the timeline. Would you like me to do that? The man replies, of course یَا ابْنَ عَبَّاسٍ, I'd be delighted if you did that! So ابن عباس immediately gets up, walks outside the مسجد and begins putting on his slippers. Suddenly this man remembers, OMG ابن عباس was here for his اعتکاف. Now he's breaking his اعتکاف for me. What have I done! He came to the مسجد for an act of worship and I became the reason for him to break his اعتکاف. That's the last thing I wanted! He rushes towards him, and says, یَا ابْنَ عَبَّاسٍ don't you realize what you've done? Don't you remember what you were here for? You've broken your اعتکاف!
+I recall that one day in the month of Ramadan, اِبْنُ عَبَّاسٍ رَضِیَ اللَّہُ تَعَالَیٰ عَنْہُ, the cousin of the Prophet ﷺ, entered a مسجد intending to spend the day in اعتکاف, seeking the immense reward Allah has promised.
 
-So ابن عباس looks at this man and the HADEES narrates that tears begin to roll down from his eyes. He says: I remember my prophet ﷺ telling me, that if one of you was to strive for the need of his Muslim brother, Allah سُبْحَانَهُ وَتَعَالَى rewards him with the blessings of 10 years of اعتکاف. SubhanAllah! Not one day! Not one month! Not one year! 10 years ofاعتکاف! What did I just tell you? What was the reward for one single day of اعتکاف? A distancing from the hellfire by 3 trenches - each trench of the distance between the east and west. That's the reward for 1 day of اعتکاف. Are we able to do that? Can we do a week ofاعتکاف? When was the last time we did a week of ofاعتکاف? We can't! One day is challenging enough! And what's the reward for striving for the needs of a Muslim brother? 10 years ofاعتکاف! SubhanAllah!
+Soon after he began his اعتکاف, he saw a Muslim brother in the مسجد who looked deeply sad. He went up to him and asked what had made him so sorrowful.
 
-Now after hearing this HADEES what do we naturally think? OMG I should never miss an opportunity to help anyone, right? This is such a great opportunity to gain the closeness of Allah! And that is true! Sometimes the fastest way to Allah's blessings is creation itself! Other people! Doing good to them. So generally when people hear this HADEES, they rush to help others. They keep their ears open for any opportunity to be able to help someone and that is an extremely beautiful thing! But I want to point out something much higher and much deeper in this HADEES. I want to switch your perspective, and focus it on the intention of Allah سُبْحَانَهُ وَتَعَالَى's رحمۃ. This HADEES is actually amazing! I'll give you an example to explain why.
+The man says, “O cousin of the Prophet ﷺ, I owe a debt to someone, and I need to pay it. But I cannot pay it because I have no money. The weight of that debt, that obligation, is crushing my soul.”
 
-Let's say I walk into a room and I see that someone in that room is very sad. Let's say its my niece Mariam. I find out that for some reason Mariam is looking very sad today. So I say, I'll give 10 million dollars to anyone who makes her smile. What do you think is going to happen? 10 million bucks!! Everyone in the room is going to try to make her smile. Everyone is going to flock around her, throwing their best jokes at her to make her smile, right?
+ابن عباس says to his man: “Would you like me to go to your lender and speak to him on your behalf? Perhaps I can persuade him to forgive your debt, reduce it, or give you more time. Would you like me to do that?”
 
-Now most people will look at that gesture and say, Oh you're so rich! You must have loads of money that you're willing to give 10 million dollars just to make her smile. But then there are a few who will get to the essence of that gesture and say, You must love her so much! You must love her so much that her one smile is worth 10 million dollars to you! She must mean the world to you! You see the difference? The reality is that I love her so much that I'm willing to pay 10 million dollars to the one who makes her smile!
+The man replies, “Of course, یَا ابْنَ عَبَّاسٍ, I would be delighted if you did that.”
 
-So when Allah says, I'll give the reward of 10 years ofاعتکاف to the one who fulfills Asif's need - even though the general understanding of that HADEES becomes a
+So ابن عباس immediately stood up, walked out of the مسجد, and began putting on his slippers.
 
-motivation to do it for that reward - what most people fail to see is that how much Allah loves me!! Ya Allah! You love me so much that you'd give that much reward to anyone who fulfills my needs and removes my constriction for me? SubhanAllah! You see that?
+Suddenly, the man remembered: “Oh my God, ابن عباس was here for his اعتکاف. Now he is breaking his اعتکاف for me. What have I done? He came to the مسجد for an act of worship, and I became the reason he had to break his اعتکاف. That is the last thing I wanted.”
 
-So another way to interpret this HADEES is - Oh you who is feeling low! Oh you who is feeling depressed! Oh you who is feeling burdened and constricted because of your troubles, it is you I am looking at! It is you that I'm opening doors for! Because I want to see you happy! And for your happiness I will reward anyone with this amount of ثواب if they strive to bring you ease! This is the رحمۃ he has for us! AllahuAkbar!
+He rushes toward him and says, “یَا ابْنَ عَبَّاسٍ, do you not realize what you have done? Do you not remember why you were here? You have broken your اعتکاف!”
 
-This transforms my perspective entirely when I see another person in need! I see that this is the person Allah loves! So much, that he's willing to reward me with such such generosity, such immense blessings to help **him **out - so then how beloved would I become in his eyes for helping him out! If someone did something really nice for a person that you love, how do you feel about that person? He comes closer to your heart doesn't it? So after understanding this perspective, that closeness towards Allah سُبْحَانَهُ وَتَعَالَى is what motivates me to help another person, and not so much the reward itself.
+So ابن عباس looks at the man, and the HADEES says that tears begin to roll down his face. He says: “I remember my Prophet ﷺ telling me that if one of you strives to fulfill the need of his Muslim brother, Allah سُبْحَانَهُ وَتَعَالَى rewards him with the blessing of ten years of اعتکاف.”
 
-So I hope you really begin to appreciate the reason for these immense rewards for the most simple acts. It is the love he has for us that he's willing to shower us with his blessings for the most trivial acts of kindness. He'll give us the reward of 10, 20 Hajj for a couple of hours of worship. You can do it for the reward, or you can do it in appreciation of that divine love.
+SubhanAllah. Not one day. Not one month. Not one year. Ten years of اعتکاف.
+
+The reward for a single day of اعتکاف is distance from the Hellfire by three trenches, and each trench stretches the distance between east and west. That is the reward for one day of اعتکاف. Even one day is difficult enough; a full week of اعتکاف is beyond most people. When did I last complete a week of اعتکاف? Yet striving to meet the need of a Muslim brother brings the reward of ten years of اعتکاف. SubhanAllah.
+
+After hearing this HADEES, my first thought is natural: I must not miss any chance to help anyone. This is a great opening to gain nearness to Allah. That is true. At times, the quickest path to Allah’s blessings runs through His creation: through other people, and through doing good to them.
+
+That is why, when people hear this HADEES, they often rush to help others. They keep their ears open for any chance to serve someone. That is a beautiful response.
+
+But I want to point to something higher and deeper in this HADEES. I want to turn the focus toward the intention behind the سُبْحَانَهُ وَتَعَالَى of Allah رحمۃ. This HADEES is astonishing, and an example will show why.
+
+Suppose I enter a room and see someone there who is very sad. Suppose it is my niece Mariam. I discover that, for some reason, Mariam looks deeply unhappy that day. So I say, “I will give ten million dollars to anyone who makes her smile.”
+
+What will happen? Ten million dollars. Everyone in the room will try to make her smile. They will gather around her and offer their best jokes, all hoping to make her smile.
+
+I know most people will look at that gesture and say, “Oh, you are so rich. You must have so much money that you are willing to give ten million dollars just to make her smile.” But a few will reach the heart of the gesture and say, “You must love her so much. You must love her so much that one smile from her is worth ten million dollars to you. She must mean the world to you.”
+
+That is the difference. The reality is that I love her so much that I am willing to pay ten million dollars to the person who makes her smile.
+
+So when Allah says that He will give the reward of ten years of اعتکاف to the one who fulfills Asif’s need, the common reading of that HADEES becomes a motivation to act for that reward. Yet most people miss what it reveals: how much Allah loves me. Ya Allah, You love me so much that You would give that much reward to anyone who fulfills my need and removes my constriction for me. SubhanAllah.
+
+So this HADEES can also be heard another way: “O one who feels low. O one who feels depressed. O one who feels burdened and constricted by troubles. It is you I am looking at. It is you for whom I am opening doors, because I want to see you happy. For your happiness, I will reward anyone with this amount of ثواب if they strive to bring you ease.”
+
+This is the رحمۃ He has for us. AllahuAkbar.
+
+My perspective changes completely when I see another person in need. I begin to see that this is a person Allah loves. He loves him so much that He is willing to reward me with immense generosity and immense blessings for helping him. Then I ask myself what place I may gain in His sight if I bring ease to someone He loves.
+
+When someone does something deeply kind for a person I love, that person becomes dearer to me. He comes closer to my heart. In the same way, once I understand this view, it is nearness to Allah سُبْحَانَهُ وَتَعَالَى that moves me to help another person, more than the reward itself.
+
+I have to appreciate why such immense rewards are attached to such simple acts. They come from the love He has for us. Because of that love, He showers His blessings upon even the smallest acts of kindness. He may grant the reward of ten or twenty Hajj for a few hours of worship. I may act for the reward, or I may act out of gratitude for that divine love.
 
 ### Responding in afflictions
 
-I'll give you another example. There is a HADEES in which Rasul Allah ﷺ tells us that when you visit a sick person, ask him to pray for you and your forgiveness. Now if think about it, that sounds completely backwards, doesn't it? I mean shouldn't you be the one praying for the sick person? That may Allah grant him health! He is the one who seems to be in need of my prayers, but the HADEES says - ask him to pray for you and your forgiveness. What is that? Let me make this more relatable by giving you an example.
+I will give another example. There is a HADEES in which Rasul Allah ﷺ tells us that when I visit a sick person, I should ask him to pray for me and for my forgiveness.
 
-Imagine my daughter falls very ill (God Forbid). May Allah protect our children from trials. But just as an example, to help you understand this concept better, let's say my daughter falls very sick, and she is admitted into the ER, The doctors come and tell me that she is in a lot of pain. She's not being able to breathe properly. As a father, I can't even imagine what state I would be in if that ever happened. There is nothing more painful for a parent than to see your own child suffer - whether it is physical, mental or spiritual. So the doctor tells me that she cannot breadth and needs to be put on a ventilator. How would I react to that? Is there any other place in this world that I would want to be at that moment? Of course not! I would not leave my daughters side even for a second, right? I'd sit right next to her because I love her so much. I'll be constantly by her bedside - praying for her.
+At first, that sounds reversed. I would expect myself to be the one praying for the sick person, asking Allah to grant him health. He appears to be the one in need of my prayers. Yet the HADEES says that I should ask him to pray for me and for my forgiveness.
 
-Finally Allah answers my prayers. She wakes up. She says, Babu! I want ice cream. What do you think I'll do? You want ice cream? Of course! What flavor do you want? If I can't find it there, I'll drive wherever I have to get her that ice cream, right? Isn't that what I'd do? Can you imagine how close I would feel to her at that point? What else do you want sweetheart? Is there anything else I can do for you? Is there anything else I can get for you?
+What does that mean? I can make it clearer with an example.
 
-It so happened that right before she fell sick we had a huge fight . She disobeyed me and was very rude to me. I was very angry with her when this whole thing happened. Now she wakes up and remembers what she did. She says, Babu I'm sorry for what I did and said. Please forgive me! What do you think I'd say? Forgive you? Sweetheart! There's nothing to forgive! I'm not at all upset with you anymore! Don't even think about it! Right? Isn't this what we would do as parents? Is there anything unnatural in what I just said?
+My daughter may fall very ill, God forbid. May Allah protect our children from trials. I give this only as an example to make the point clearer. She becomes very sick and is admitted to the emergency room. The doctors come to me and say that she is in severe pain and cannot breathe properly.
 
-Now if this is how much we love our children, can you even imagine how Allah must love his creation? According to a HADEES, Allah holds the love of 70 mothers for every single one of his creation. If in this kind of an affliction I feel so close to my daughter, when a creation of Allah سُبْحَانَهُ وَتَعَالَى is going through his trials and afflictions, can you imagine how close Allah would be to him at that moment?
-Look how ready I was to respond to anything that my daughter would have asked for in that moment. I am extremely limited by my capabilities! But when a human being, a creation of Allah سُبْحَانَهُ وَتَعَالَى - when he is in pain, and he asks for something - whether it is for himself or for somebody else - do you think Allah would refuse him in that moment?
+As a father, I cannot even imagine the state I would be in if that ever happened. Nothing is more painful for a parent than seeing his own child suffer, whether the suffering is physical, mental, or spiritual. Then the doctor tells me that she cannot breathe and must be put on a ventilator.
 
-When we are in a state of an affliction, in that moment, Allah is closest to us - more than any other human being, In that moment when we turn to Allah for forgiveness with true repentance, there is nothing that he would not forgive! No matter what sin he or she may have committed! No matter how horribly that person might have behaved, Allah would forgive that person instantly. I do not hesitate for a second in forgiving my child, can you even imagine the mercy of Allah - the one who identifies himself with love! Who holds the love of 70 mothers in his heart for his creation, do you think he would refuse to forgive?
+At that moment, there would be no other place in the world where I would want to be. I would not leave my daughter’s side even for a second. I would sit beside her because I love her so much. I would remain at her bedside, constantly praying for her.
 
-If I was mad at my son, and my daughter after waking up says to me, Babu! Please forgive my brother - do you think I would refuse? Oh my God, You are in such a difficult state; you are in so much pain; you are suffering so much right now; and even in this state you are concerned about your brother? You want me to forgive him?! Your request will surely be granted!!! Of course I forgive him! I'll give you anything you want right now. All you have to do is ask! SubhanAllah
+Then Allah answers my prayers. She wakes up. She says, “Babu! I want ice cream.”
 
-So can you appreciate the beauty of that HADEES now? As I'm going through my affliction, when I raise my hands and ask Allah سُبْحَانَهُ وَتَعَالَى to fulfill the needs of another person, or if I ask for my forgiveness; or if I ask for someone else's forgiveness, there is no way Allah turn down my request. Because I am extremely close to Allah in my moment of trial. He is right by my bedside, holding my hand. That is how his رحمۃ manifests! This is why trials become the perfect opportunity for us to ask Allah for our needs. Trials could become one of the best experiences one can have - an experience of the awareness, and the closeness to the love of Allah سُبْحَانَهُ وَتَعَالَى.
+I would be ready at once. “You want ice cream? Of course. What flavor do you want?” If I could not find it there, I would drive wherever I had to drive to get that ice cream for her. That is what I would do.
 
-If Allah is so loving why does he afflict people in the first place?
+At that point, I would feel intensely close to her. “What else do you want, sweetheart? Is there anything else I can do for you? Is there anything else I can get for you?”
+
+It so happened that, just before she fell ill, we had a terrible fight. She had disobeyed me and spoken to me very rudely. I was still angry with her when all of this happened.
+
+Then she wakes up and remembers what she did. She says, “Babu, I’m sorry for what I did and said. Please forgive me!”
+
+I know what I would say: “Forgive you? Sweetheart, there’s nothing to forgive. I’m not upset with you at all anymore. Don’t even think about it.”
+
+That is how parents are with their children. There is nothing strange in it.
+
+If this is how deeply I love my child, then Allah’s love for his creation is beyond what I can imagine. According to a HADEES, Allah holds the love of seventy mothers for every single one of his creation. In such an affliction, I felt intensely close to my daughter. When a creation of Allah سُبْحَانَهُ وَتَعَالَى is going through trials and afflictions, Allah is nearer to him than I can grasp.
+
+I was ready to respond to anything my daughter asked for in that moment, though my ability is extremely limited. But when a human being, a creation of Allah سُبْحَانَهُ وَتَعَالَى, is in pain and asks for something, whether for himself or for someone else, Allah does not refuse him in that moment.
+
+When I am afflicted, Allah is closest to me in that very moment, closer than any human being could ever be. When I turn to Allah for forgiveness with true repentance, there is nothing He would not forgive, whatever sin I may have committed and however terribly I may have behaved. Allah would forgive instantly.
+
+I do not hesitate for a second to forgive my child. The mercy of Allah is far greater. He is the One who makes Himself known through love. He holds the love of seventy mothers for His creation, so He does not refuse forgiveness.
+
+If I were angry with my son, and my daughter woke up and said to me, “Babu! Please forgive my brother,” would I refuse? “Oh my God, you are in such a difficult state. You are in so much pain. You are suffering so much right now, and even in this state you are concerned about your brother? You want me to forgive him? Your request will surely be granted. Of course I forgive him. I will give you anything you want right now. All you have to do is ask.” SubhanAllah
+
+I can now appreciate the beauty of that HADEES. In the very middle of my affliction, I raise my hands and ask Allah سُبْحَانَهُ وَتَعَالَى to fulfill another person’s need. I may ask for my own forgiveness, or for the forgiveness of someone else. At that moment, there is no way Allah turns down my request, because my trial has brought me extremely close to Him. He is right by my bedside, holding my hand. That is how His رحمۃ manifests.
+
+This is why trials become such a perfect opening for me to ask Allah for what I need. A trial can become one of the best experiences a person ever has: an experience of awareness, nearness, and closeness to the love of Allah سُبْحَانَهُ وَتَعَالَى.
+
+If Allah is so loving, why does He afflict people in the first place?
 
 وَمَآ أَصَبَكُم مِّن مُّصِيبَةٍۢ فَبِمَا كَسَبَتْ أَيْدِيكُمْ وَيَعْفُوا۟ عَن كَثِيرٍۢ
 

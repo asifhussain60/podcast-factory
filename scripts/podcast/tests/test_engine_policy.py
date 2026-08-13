@@ -1,7 +1,7 @@
 """tests/test_engine_policy.py — unit tests for the central engine-selection policy.
 
 Tests assert the locked hierarchy (Asif, 2026-06-06):
-  Tier 1 — Claude Max ($0 marginal): default for all reasoning + text generation
+  Tier 1 — Claude Max / Codex ChatGPT subscriptions ($0 marginal)
   Tier 2 — Azure (committed services): OCR, bulk-translate, speech, language NLP, DALL-E
   Tier 3 — Gemini (pay-as-you-go): tasks where Gemini genuinely wins today
   Exception — Anthropic SDK: windowed 0b/0c parallelism the CLI cannot do
@@ -20,7 +20,13 @@ import _engine as E
 
 class TestEngineConstants(unittest.TestCase):
     def test_engine_constants_distinct(self):
-        engines = [E.ENGINE_CLAUDE_MAX, E.ENGINE_AZURE, E.ENGINE_GEMINI, E.ENGINE_ANTHROPIC_SDK]
+        engines = [
+            E.ENGINE_CLAUDE_MAX,
+            E.ENGINE_CODEX_CHATGPT,
+            E.ENGINE_AZURE,
+            E.ENGINE_GEMINI,
+            E.ENGINE_ANTHROPIC_SDK,
+        ]
         self.assertEqual(len(engines), len(set(engines)), "Engine constants must be distinct")
 
     def test_all_tasks_in_policy(self):
@@ -134,6 +140,10 @@ class TestOverrides(unittest.TestCase):
         result = E.select_engine(E.TASK_AUDIT, override=E.ENGINE_CLAUDE_MAX)
         self.assertEqual(result, E.ENGINE_CLAUDE_MAX)
 
+    def test_override_to_codex_chatgpt(self):
+        result = E.select_engine(E.TASK_REVOICE, override=E.ENGINE_CODEX_CHATGPT)
+        self.assertEqual(result, E.ENGINE_CODEX_CHATGPT)
+
     def test_invalid_override_raises(self):
         with self.assertRaises(ValueError):
             E.select_engine(E.TASK_AUTHOR, override="bad_engine_name")
@@ -174,6 +184,7 @@ class TestHelpers(unittest.TestCase):
 
     def test_engine_tier_known(self):
         self.assertEqual(E.engine_tier(E.ENGINE_CLAUDE_MAX), 1)
+        self.assertEqual(E.engine_tier(E.ENGINE_CODEX_CHATGPT), 1)
         self.assertEqual(E.engine_tier(E.ENGINE_AZURE), 2)
         self.assertEqual(E.engine_tier(E.ENGINE_GEMINI), 3)
 

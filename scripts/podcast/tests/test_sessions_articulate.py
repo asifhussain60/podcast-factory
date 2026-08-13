@@ -205,6 +205,20 @@ def test_gemini_engine_is_passed_to_rearticulate_and_repair(book_dir: Path, monk
     assert seen == [("_gemini_adapter", "_gemini_repair_adapter")]
 
 
+def test_codex_engine_is_passed_to_rearticulate_and_repair(book_dir: Path, monkeypatch) -> None:
+    seen: list[tuple[str, str]] = []
+
+    def fake(_bd, _key, *, adapter=None, repair_adapter=None, **_kwargs):
+        seen.append((adapter.__name__, repair_adapter.__name__))
+        return envelope("adapted")
+
+    monkeypatch.setattr(art, "rearticulate", fake)
+    summary = art.articulate_book(book_dir, limit=1, engine="codex", log=lambda *_: None)
+
+    assert summary["engine"] == "codex"
+    assert seen == [("_codex_adapter", "_codex_repair_adapter")]
+
+
 def test_the_ledger_is_written_per_chapter_not_at_the_end(book_dir: Path, monkeypatch) -> None:
     """A run interrupted at chapter 19 of 23 must not re-pay for the eighteen
     that succeeded, so the record lands as each one finishes."""

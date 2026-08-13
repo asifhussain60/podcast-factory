@@ -65,6 +65,7 @@ _TEXT_TRANSFORM_SYSTEM_PROMPT = (
     "scripts, terminal output, or the act of processing the request."
 )
 _GEMINI_MODEL = "gemini-2.5-flash"
+_CODEX_MODEL = "gpt-5.5"
 
 
 def timeout_for_window(base_text: str) -> int:
@@ -233,6 +234,75 @@ def _gemini_repair_adapter(
     )
 
 
+def _codex_adapter(
+    title: str,
+    base_text: str,
+    book_dir: Path,
+    label: str,
+    log,
+    *,
+    previous_tail: str = "",
+    frame: str = "",
+    narrator: str = "",
+) -> str:
+    lang = _source_language(book_dir)
+    timeout = timeout_for_window(base_text)
+    words = len(_WORD_RE.findall(base_text or ""))
+    arabic_runs = _arabic_run_count(base_text or "")
+    log(f"      {label}: codex timeout={timeout}s (words={words}, Arabic={arabic_runs})")
+    from _codex_text import call_codex_text
+
+    return call_codex_text(
+        _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator, source_language=lang),
+        book_dir=book_dir,
+        phase=_PHASE,
+        step=label,
+        model=_CODEX_MODEL,
+        system_prompt=_TEXT_TRANSFORM_SYSTEM_PROMPT,
+        timeout=timeout,
+    )
+
+
+def _codex_repair_adapter(
+    title: str,
+    base_text: str,
+    candidate_text: str,
+    gates: list[str],
+    book_dir: Path,
+    label: str,
+    log,
+    *,
+    previous_tail: str = "",
+    frame: str = "",
+    narrator: str = "",
+) -> str:
+    lang = _source_language(book_dir)
+    timeout = timeout_for_window(base_text)
+    words = len(_WORD_RE.findall(base_text or ""))
+    arabic_runs = _arabic_run_count(base_text or "")
+    log(f"      {label}: codex repair timeout={timeout}s (words={words}, Arabic={arabic_runs}, gates={len(gates)})")
+    from _codex_text import call_codex_text
+
+    return call_codex_text(
+        _articulation_repair_prompt(
+            title,
+            base_text,
+            candidate_text,
+            gates,
+            previous_tail,
+            frame=frame,
+            narrator=narrator,
+            source_language=lang,
+        ),
+        book_dir=book_dir,
+        phase=_PHASE,
+        step=label,
+        model=_CODEX_MODEL,
+        system_prompt=_TEXT_TRANSFORM_SYSTEM_PROMPT,
+        timeout=timeout,
+    )
+
+
 def _status_path(book_dir: Path) -> Path:
     return book_dir / "_system" / "rearticulate-status.json"
 
@@ -353,7 +423,7 @@ def main() -> int:
     ap.add_argument("slug", nargs="?", help="content slug (resolved via _paths)")
     ap.add_argument("chapter_key", help="Composer chapter key (anchor_key of the ## heading)")
     ap.add_argument("--book-dir", help="explicit book directory (overrides slug)")
-    ap.add_argument("--engine", choices=("claude", "gemini"), default="claude")
+    ap.add_argument("--engine", choices=("claude", "codex", "gemini"), default="claude")
     ap.add_argument("--json", action="store_true", help="emit the result as JSON on stdout")
     args = ap.parse_args()
 
@@ -365,7 +435,14 @@ def main() -> int:
         ap.error("either <slug> or --book-dir is required")
 
     try:
-        if args.engine == "gemini":
+        if args.engine == "codex":
+            result = rearticulate(
+                book_dir,
+                args.chapter_key,
+                adapter=_codex_adapter,
+                repair_adapter=_codex_repair_adapter,
+            )
+        elif args.engine == "gemini":
             result = rearticulate(
                 book_dir,
                 args.chapter_key,

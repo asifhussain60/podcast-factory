@@ -327,7 +327,12 @@ def articulate_book(
         _write_step_status(book_dir, status="running", kept=skipped, total=len(chapters))
 
     adapter = repair_adapter = None
-    if engine == "gemini":
+    if engine == "codex":
+        from rearticulate_chapter import _codex_adapter, _codex_repair_adapter
+
+        adapter = _codex_adapter
+        repair_adapter = _codex_repair_adapter
+    elif engine == "gemini":
         from rearticulate_chapter import _gemini_adapter, _gemini_repair_adapter
 
         adapter = _gemini_adapter
@@ -454,7 +459,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("slug")
     parser.add_argument("--force", action="store_true", help="re-run chapters this lane has already articulated")
     parser.add_argument("--limit", type=int, default=None, help="stop after N chapters")
-    parser.add_argument("--engine", choices=("claude", "gemini"), default="claude")
+    parser.add_argument("--engine", choices=("claude", "codex", "gemini"), default="claude")
     parser.add_argument("--dry-run", action="store_true", help="list what would run and exit")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
