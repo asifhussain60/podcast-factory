@@ -1,0 +1,15 @@
+Traditional Arabic Regular
+
+Vendored 2026-08-13 from Asif's downloaded copy at:
+Traditional Arabic Regular.ttf
+
+Requested source page:
+https://arabicfonts.net/fonts/traditional-arabic-regular
+
+Reference metadata:
+Microsoft identifies the family as Traditional Arabic, file trado.ttf, for Arabic
+typesetting in traditional Naskh style:
+https://learn.microsoft.com/en-us/typography/font-list/traditional-arabic
+
+The downloaded font's name table reports:
+Traditional Arabic / Traditional Arabic / Traditional Arabic

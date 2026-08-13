@@ -171,11 +171,19 @@
   font-weight: 400;
   font-size: 1.1rem;
 }
+.bs-archip[data-font="traditional-arabic"] .bs-chip-name {
+  font-family: "Traditional Arabic", "Scheherazade New", "Amiri", serif;
+}
 .bs-archip[data-font="scheherazade-new"] .bs-chip-name {
   font-family: "Scheherazade New", "Amiri", serif;
 }
 .bs-archip[data-font="amiri"] .bs-chip-name {
   font-family: "Amiri", "Scheherazade New", serif;
+}
+.bs-styleform:has(.bs-arradio[value="traditional-arabic"]:checked) {
+  --q-ar-face:
+    "Traditional Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
+    serif;
 }
 .bs-styleform:has(.bs-arradio[value="scheherazade-new"]:checked) {
   --q-ar-face:

@@ -25,10 +25,26 @@ export interface PublishChoice {
   checked: boolean;
 }
 
+export type PublishTarget = "localhost" | "production" | "both";
+
+export interface PublishTargetChoice {
+  id: PublishTarget;
+  label: string;
+  hint?: string;
+  icon: string;
+  checked: boolean;
+}
+
 export interface PublishAsk {
   bookTitle: string;
   reason: string;
+  targets: PublishTargetChoice[];
   choices: PublishChoice[];
+}
+
+export interface PublishDialogResult {
+  target: PublishTarget;
+  options: Record<string, boolean>;
 }
 
 /** Everything focusable inside a container, in DOM order — the focus ring for a
@@ -112,15 +128,16 @@ function titleRow(
 }
 
 /**
- * "Publish to production" — what is about to happen, and which parts of it.
+ * "Publish" — where it should go, and which parts of it.
  *
- * Resolves to the chosen option ids, or null if dismissed. The options are what
- * the caller passed: this function decides nothing about which are sensible, so
- * the intelligence about defaults lives with the code that knows the book.
+ * Resolves to the chosen target plus option ids, or null if dismissed. The
+ * options are what the caller passed: this function decides nothing about which
+ * are sensible, so the intelligence about defaults lives with the code that
+ * knows the book.
  */
 export function publishOptionsDialog(
   ask: PublishAsk,
-): Promise<Record<string, boolean> | null> {
+): Promise<PublishDialogResult | null> {
   return new Promise((resolve) => {
     const titleId = "cx-pub-title";
     const { scrim, box, destroy } = shell({
@@ -129,17 +146,54 @@ export function publishOptionsDialog(
       onDismiss: () => finish(null),
     });
 
-    titleRow(
-      box,
-      titleId,
-      "fa-solid fa-cloud-arrow-up",
-      "Publish to production",
-    );
+    titleRow(box, titleId, "fa-solid fa-cloud-arrow-up", "Publish");
 
     const lede = document.createElement("p");
     lede.className = "cx-confirm-body";
-    lede.textContent = `${ask.bookTitle} goes live on the Podcast Factory Library. ${ask.reason}`;
+    lede.textContent = `${ask.bookTitle} goes to the Podcast Factory Library. ${ask.reason}`;
     box.append(lede);
+
+    const targetList = document.createElement("div");
+    targetList.className = "cx-pub-choices cx-pub-targets";
+    const targetInputs: Partial<Record<PublishTarget, HTMLInputElement>> = {};
+    const targetName = `cx-pub-target-${Date.now()}`;
+
+    for (const target of ask.targets) {
+      const row = document.createElement("label");
+      row.className = "cx-pub-choice cx-pub-choice--target";
+
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = targetName;
+      input.value = target.id;
+      input.className = "cx-pub-checkbox cx-pub-radio";
+      input.checked = target.checked;
+      targetInputs[target.id] = input;
+
+      const icon = document.createElement("span");
+      icon.className = "cx-pub-choice-icon";
+      const i = document.createElement("i");
+      i.className = target.icon;
+      i.setAttribute("aria-hidden", "true");
+      icon.append(i);
+
+      const text = document.createElement("span");
+      text.className = "cx-pub-choice-text";
+      const label = document.createElement("span");
+      label.className = "cx-pub-choice-label";
+      label.textContent = target.label;
+      text.append(label);
+      if (target.hint) {
+        const hint = document.createElement("span");
+        hint.className = "cx-pub-choice-hint";
+        hint.textContent = target.hint;
+        text.append(hint);
+      }
+
+      row.append(input, icon, text);
+      targetList.append(row);
+    }
+    box.append(targetList);
 
     const list = document.createElement("div");
     list.className = "cx-pub-choices";
@@ -205,7 +259,7 @@ export function publishOptionsDialog(
     document.body.append(scrim);
 
     let done = false;
-    function finish(result: Record<string, boolean> | null): void {
+    function finish(result: PublishDialogResult | null): void {
       if (done) return;
       done = true;
       destroy();
@@ -214,10 +268,14 @@ export function publishOptionsDialog(
 
     cancel.addEventListener("click", () => finish(null));
     go.addEventListener("click", () => {
+      const selected =
+        (Object.entries(targetInputs).find(
+          ([, input]) => input?.checked,
+        )?.[0] as PublishTarget | undefined) ?? "localhost";
       const chosen: Record<string, boolean> = {};
       for (const [id, input] of Object.entries(inputs))
         chosen[id] = input.checked;
-      finish(chosen);
+      finish({ target: selected, options: chosen });
     });
     go.focus();
   });
@@ -292,7 +350,7 @@ export function publishProgressPanel(bookTitle: string): ProgressPanel {
   checksWrap.className = "cx-pub-checks";
   const checksTitle = document.createElement("h3");
   checksTitle.className = "cx-pub-checks-title";
-  checksTitle.textContent = "Confirmed against the live site";
+  checksTitle.textContent = "Confirmed after publish";
   checksWrap.append(checksTitle);
   const checksList = document.createElement("ul");
   checksList.className = "cx-pub-check-list";
@@ -311,6 +369,7 @@ export function publishProgressPanel(bookTitle: string): ProgressPanel {
   close.type = "button";
   close.className = "cx-confirm-btn cx-confirm-btn--primary";
   close.textContent = "Close";
+  close.hidden = true;
   close.disabled = true;
   actions.append(close);
   box.append(actions);
@@ -323,7 +382,72 @@ export function publishProgressPanel(bookTitle: string): ProgressPanel {
     resolveClosed();
   });
 
+  const transcript: string[] = [];
+
+  const copyDetails = async (details: string, btn: HTMLButtonElement) => {
+    const prior = btn.textContent ?? "Copy details";
+    try {
+      await navigator.clipboard.writeText(details);
+      btn.textContent = "Copied";
+    } catch {
+      btn.textContent = "Select details";
+    }
+    window.setTimeout(() => {
+      btn.textContent = prior;
+    }, 1600);
+  };
+
+  const renderResult = (outcome: PublishOutcome, text: string) => {
+    logEl.replaceChildren();
+    logEl.classList.add("cx-pub-log--result");
+    logEl.removeAttribute("role");
+
+    const result = document.createElement("div");
+    result.className = `cx-pub-result is-${outcome}`;
+    const heading = document.createElement("strong");
+    heading.className = "cx-pub-result-title";
+    heading.textContent =
+      outcome === "ok"
+        ? "Publish successful"
+        : outcome === "bad"
+          ? "Publish failed"
+          : "Publish finished";
+    const message = document.createElement("span");
+    message.className = "cx-pub-result-message";
+    message.textContent = text;
+    result.append(heading, message);
+    logEl.append(result);
+
+    if (outcome !== "bad") return;
+
+    const details = [
+      `Publish failed for ${bookTitle}`,
+      text,
+      "",
+      "Details:",
+      ...transcript,
+    ].join("\n");
+    const detailsWrap = document.createElement("div");
+    detailsWrap.className = "cx-pub-failure-details";
+    const label = document.createElement("label");
+    label.className = "cx-pub-failure-label";
+    label.textContent = "Details to share";
+    const detailsBox = document.createElement("textarea");
+    detailsBox.className = "cx-pub-failure-text";
+    detailsBox.readOnly = true;
+    detailsBox.value = details;
+    label.append(detailsBox);
+    const copy = document.createElement("button");
+    copy.type = "button";
+    copy.className = "cx-confirm-btn cx-pub-copy-btn";
+    copy.textContent = "Copy details";
+    copy.addEventListener("click", () => void copyDetails(details, copy));
+    detailsWrap.append(label, copy);
+    logEl.append(detailsWrap);
+  };
+
   const append = (text: string, cls: string) => {
+    transcript.push(text);
     const line = document.createElement("div");
     line.className = cls;
     line.textContent = text;
@@ -345,6 +469,7 @@ export function publishProgressPanel(bookTitle: string): ProgressPanel {
       append(text, `cx-pub-line cx-pub-line--${tone}`);
     },
     check(name, ok, detail) {
+      transcript.push(`${ok ? "PASS" : "FAIL"}: ${name} — ${detail}`);
       checksWrap.hidden = false;
       const li = document.createElement("li");
       li.className = `cx-pub-check ${ok ? "is-ok" : "is-bad"}`;
@@ -376,6 +501,8 @@ export function publishProgressPanel(bookTitle: string): ProgressPanel {
     },
     finish(outcome, text) {
       running = false;
+      box.classList.remove("is-ok", "is-bad", "is-neutral");
+      box.classList.add(`is-${outcome}`);
       spinner.remove();
       statusText.textContent =
         outcome === "ok"
@@ -383,9 +510,11 @@ export function publishProgressPanel(bookTitle: string): ProgressPanel {
           : outcome === "bad"
             ? "Finished with problems"
             : "Finished";
+      renderResult(outcome, text);
       banner.hidden = false;
       banner.className = `cx-pub-banner is-${outcome}`;
       banner.textContent = text;
+      close.hidden = false;
       close.disabled = false;
       close.focus();
     },

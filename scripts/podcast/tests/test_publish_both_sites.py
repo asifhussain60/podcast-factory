@@ -162,8 +162,37 @@ def test_a_book_that_reached_only_one_site_is_not_verified(tmp_path):
 
 
 def test_skip_local_leaves_exactly_one_target():
-    kept = [t for t in P.TARGETS if t["remote"] or not True]
-    assert [t["label"] for t in kept] == ["production"]
+    args = SimpleNamespace(target="both", skip_local=True)
+    assert [t["label"] for t in P.selected_targets(args)] == ["production"]
+
+
+def test_target_localhost_leaves_exactly_one_target():
+    args = SimpleNamespace(target="localhost", skip_local=False)
+    assert [t["label"] for t in P.selected_targets(args)] == ["localhost"]
+
+
+def test_target_production_leaves_exactly_one_target():
+    args = SimpleNamespace(target="production", skip_local=False)
+    assert [t["label"] for t in P.selected_targets(args)] == ["production"]
+
+
+def test_localhost_only_needs_no_cloudflare_and_writes_no_production_stamp(monkeypatch, tmp_path):
+    monkeypatch.setattr(P, "find_content", lambda slug: ("Sessions", slug, tmp_path))
+    monkeypatch.setattr(P, "cloudflare_env", lambda: pytest.fail("localhost should not need Cloudflare"))
+    monkeypatch.setattr(P, "count_unreviewed", lambda book_dir: 0)
+    monkeypatch.setattr(
+        P,
+        "push",
+        lambda target, slug, book_dir, args, report, *, now: (
+            True,
+            [{"name": "chapters (localhost)", "ok": True, "detail": "1"}],
+        ),
+    )
+    stamps: list = []
+    monkeypatch.setattr(P, "write_stamp", lambda *args, **kwargs: stamps.append((args, kwargs)))
+
+    assert P.main(["a-book", "--target", "localhost", "--skip-transcripts"]) == 0
+    assert stamps == []
 
 
 # ── recordings are not copied twice onto the same disk ───────────────────────

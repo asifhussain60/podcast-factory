@@ -51,6 +51,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -60,6 +61,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _listener_book import LISTENER, Book, load_book, render  # noqa: E402
 from _listener_search import IndexReport, Passage, passages_for  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
+from _production_publish import account_ok, cloudflare_env  # noqa: E402
 
 # The bucket belongs to the uploader; the publish step borrows two of its
 # functions rather than growing a second way to talk to R2.
@@ -99,8 +101,8 @@ def search_passages(book: Book) -> list[Passage]:
     return search_index(book)[0]
 
 
-def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
-    """Everything for one book, as one replaceable block.
+def build_statements(book: Book, *, published_at: str, commit: str | None) -> list[str]:
+    """Everything for one book, as one replaceable block of statements.
 
     Each table is cleared for this slug and rewritten. That makes a re-publish
     idempotent and, more importantly, makes DELETION work: a chapter dropped from
@@ -232,7 +234,12 @@ def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
             "sha256 = excluded.sha256;"
         )
 
-    return "\n".join(out) + "\n"
+    return out
+
+
+def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
+    """The SQL file shape, kept for dry runs, inspection, and local imports."""
+    return "\n".join(build_statements(book, published_at=published_at, commit=commit)) + "\n"
 
 
 def keys_in_bucket(slug: str, *, remote: bool) -> set[str]:
@@ -244,7 +251,51 @@ def keys_in_bucket(slug: str, *, remote: bool) -> set[str]:
     return {r["key"] for r in rows}
 
 
-def execute(sql_path: Path, *, remote: bool) -> None:
+REMOTE_BATCH_BYTES = 80_000
+
+
+def remote_batches(statements: list[str], *, max_bytes: int = REMOTE_BATCH_BYTES) -> list[str]:
+    """Group statements for D1's query endpoint without using the import path."""
+    batches: list[str] = []
+    current: list[str] = []
+    size = 0
+    for statement in statements:
+        statement_size = len(statement.encode("utf-8")) + 1
+        if current and size + statement_size > max_bytes:
+            batches.append("\n".join(current))
+            current = []
+            size = 0
+        current.append(statement)
+        size += statement_size
+    if current:
+        batches.append("\n".join(current))
+    return batches
+
+
+def execute(sql_path: Path, *, remote: bool, statements: list[str] | None = None) -> None:
+    if remote and statements is not None:
+        batches = remote_batches(statements)
+        for i, command in enumerate(batches, 1):
+            print(f"  remote SQL batch {i}/{len(batches)}")
+            subprocess.run(
+                [
+                    "npx",
+                    "wrangler",
+                    "d1",
+                    "execute",
+                    "podcast-listener",
+                    "--remote",
+                    "--command",
+                    command,
+                    "--yes",
+                ],
+                cwd=LISTENER,
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+        return
+
     subprocess.run(
         [
             "npx",
@@ -353,6 +404,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
 
+    if args.remote:
+        try:
+            os.environ.update(cloudflare_env())
+        except RuntimeError as error:
+            print(f"  ! {error}")
+            return 2
+        ok, who = account_ok(dict(os.environ), LISTENER)
+        if not ok:
+            print(f"  ! {who}")
+            return 2
+
     commit = None
     try:
         commit = subprocess.run(
@@ -388,7 +450,8 @@ def main(argv: list[str] | None = None) -> int:
         summaries.append(summary)
 
         sql_path = out_dir / f"{slug}.sql"
-        sql_path.write_text(build_sql(book, published_at=published_at, commit=commit), encoding="utf-8")
+        statements = build_statements(book, published_at=published_at, commit=commit)
+        sql_path.write_text("\n".join(statements) + "\n", encoding="utf-8")
 
         if not args.json:
             print(f"\n{book.title}  ({book.bucket}/{book.slug})")
@@ -417,10 +480,18 @@ def main(argv: list[str] | None = None) -> int:
         before = set() if args.dry_run else keys_in_bucket(slug, remote=args.remote)
 
         try:
-            execute(sql_path, remote=args.remote)
-        except subprocess.SubprocessError:
+            execute(sql_path, remote=args.remote, statements=statements)
+        except subprocess.CalledProcessError as error:
             failed.append(slug)
+            for stream in (error.stdout, error.stderr):
+                text = str(stream or "").strip()
+                if text:
+                    print(text)
             print(f"  ! FAILED to write {slug} — the books before it are already in")
+            continue
+        except subprocess.SubprocessError as error:
+            failed.append(slug)
+            print(f"  ! FAILED to write {slug}: {error}")
             continue
 
         orphans = before - {a.key for a in book.assets}

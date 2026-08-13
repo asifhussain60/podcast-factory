@@ -71,6 +71,20 @@ const FILTERS: { key: PeopleFilter; label: string }[] = [
  */
 const PAGE = 25;
 
+export function selectedPersonPath(requestUrl: string, email: string): string {
+  const from = new URL(requestUrl);
+  const params = new URLSearchParams(from.search);
+  params.set("email", email);
+  params.delete("page");
+  // React Router's data submissions can invoke this action through /admin.data
+  // with router-only parameters. A post-invite redirect is a browser location,
+  // so it must point back at the human page, not the data endpoint that carried
+  // the mutation.
+  params.delete("_routes");
+  const query = params.toString();
+  return query === "" ? "/admin" : `/admin?${query}`;
+}
+
 export async function loader({ request, context }: Route.LoaderArgs) {
   const { env } = context.get(cloudflare);
   const viewer = context.get(session).viewer!;
@@ -165,10 +179,7 @@ export async function action({ request, context }: Route.ActionArgs) {
       // warning is re-derived on the panel from the address itself, and the
       // reminder to send the link is the Generate message button that is now
       // offered there for anybody selected.
-      const to = new URL(request.url);
-      to.searchParams.set("email", email);
-      to.searchParams.delete("page");
-      return redirect(`${to.pathname}${to.search}`);
+      return redirect(selectedPersonPath(request.url, email));
     }
 
     case "rename":

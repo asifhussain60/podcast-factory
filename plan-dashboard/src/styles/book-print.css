@@ -246,6 +246,13 @@
   font-style: normal;
 }
 @font-face {
+  font-family: "Traditional Arabic";
+  src: url("/fonts/traditional-arabic/TraditionalArabic-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
   font-family: "UthmanicHafs";
   src: url("/fonts/uthmanic-hafs/UthmanicHafs1Ver18.woff2") format("woff2");
   font-weight: 400;

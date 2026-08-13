@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Put one book on BOTH Podcast Factory Libraries, in one act, and PROVE it.
+"""Put one book on the Podcast Factory Library target Asif chooses, and PROVE it.
 
 This is what the Publish button on the Book Composer runs. It carries a finished
 book the whole way — accepts its Companion cards, transcribes any new episode,
@@ -7,7 +7,7 @@ pushes its text and recordings to a database and bucket, turns the book's
 visibility on, and then reads that database back to confirm every one of those
 things actually happened.
 
-IT DOES ALL OF THAT TWICE (Asif, 2026-08-10): once against localhost and once
+By default it does that twice (Asif, 2026-08-10): once against localhost and once
 against the deployed site, so the copy he reviews on `localhost:5273` and the
 copy his readers open are the same book. LOCALHOST GOES FIRST, and that order is
 the safety property rather than a preference — everything that can fail fails
@@ -15,10 +15,10 @@ against the copy nobody reads, and a run that was going to break never touches
 the live site. A local failure stops the run; publishing to production after the
 rehearsal failed would make the rehearsal pointless.
 
-VERIFIED MEANS BOTH. The stamp derives it from every check in the merged list, so
-a book that reached production but not localhost leaves the Composer's button
-lit. The two are meant to hold the same book, and a button that went dark while
-they disagreed would be reporting something untrue.
+The Book Composer can also target only localhost or only production (Asif,
+2026-08-13). Localhost-only is a rehearsal and does NOT clear the production
+publish button's state: the production stamp remains a fact about what real
+readers have.
 
 WHY THE VERIFICATION STEP IS NOT OPTIONAL
 -----------------------------------------
@@ -48,7 +48,8 @@ USAGE
         [--no-accept]        leave unreviewed Companion cards unreviewed
         [--skip-transcripts] do not transcribe new episodes
         [--skip-media]       text, cards and print edition only — no recordings
-        [--skip-local]       production only, skipping the rehearsal
+        [--target where]      localhost, production, or both (default)
+        [--skip-local]       old spelling for --target production
         [--local-audio]      copy recordings to the local bucket too
         [--rebuild-pdf]      re-render the reading edition before pushing it
         [--dry-run]          say what would happen; change nothing, anywhere
@@ -186,6 +187,14 @@ TARGETS = (
 )
 
 
+def selected_targets(args: argparse.Namespace) -> list[dict]:
+    """The destination set for this run, preserving the old CLI spelling."""
+    target = "production" if args.skip_local else args.target
+    if target == "both":
+        return list(TARGETS)
+    return [t for t in TARGETS if t["label"] == target]
+
+
 def push(target: dict, slug: str, book_dir: Path, args, report: Reporter, *, now: str) -> tuple[bool, list[dict]]:
     """Put the book into ONE of the two databases and prove it landed there.
 
@@ -276,7 +285,13 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument(
         "--skip-local",
         action="store_true",
-        help="production only — skip the localhost copy (which is the rehearsal, so prefer not to)",
+        help="old spelling for --target production",
+    )
+    parser.add_argument(
+        "--target",
+        choices=("both", "localhost", "production"),
+        default="both",
+        help="where to publish: both sites, localhost only, or production only",
     )
     parser.add_argument("--rebuild-pdf", action="store_true", help="re-render the reading edition first")
     parser.add_argument("--dry-run", action="store_true", help="say what would happen; change nothing")
@@ -330,26 +345,26 @@ def main(argv: list[str] | None = None) -> int:
     dry = ["--dry-run"] if args.dry_run else []
     started = datetime.now(timezone.utc)
     now = started.isoformat(timespec="seconds").replace("+00:00", "Z")
+    targets = selected_targets(args)
+    has_production_target = any(t["remote"] for t in targets)
 
     # --- 0. The account ------------------------------------------------------
     #
-    # FIRST, before a single write, and for the reason `deploy_listener.sh`
-    # checks it first: wrangler on this machine is logged in as a different
-    # Cloudflare account, so a run without the token does not fail — it publishes
-    # somewhere with no zone and looks like it worked. The token is put into this
-    # process's environment so every child and every in-process query inherits
-    # it; it is never printed.
-    report.step("Cloudflare account")
-    try:
-        os.environ.update(cloudflare_env())
-    except RuntimeError as error:
-        report.error(str(error))
-        return 2
-    ok, who = account_ok(dict(os.environ), LISTENER)
-    if not ok:
-        report.error(who)
-        return 2
-    report.log(f"ok — {who}")
+    # FIRST before a remote write, and skipped for localhost-only. Local D1 and
+    # local media do not need a Cloudflare token, so requiring one for a rehearsal
+    # would turn the safest publish target into the hardest one to use.
+    if has_production_target:
+        report.step("Cloudflare account")
+        try:
+            os.environ.update(cloudflare_env())
+        except RuntimeError as error:
+            report.error(str(error))
+            return 2
+        ok, who = account_ok(dict(os.environ), LISTENER)
+        if not ok:
+            report.error(who)
+            return 2
+        report.log(f"ok — {who}")
 
     # --- 1. The Companion cards ---------------------------------------------
     #
@@ -397,23 +412,21 @@ def main(argv: list[str] | None = None) -> int:
         if run([sys.executable, "scripts/podcast/ensure_transcripts.py", slug, *dry], report) != 0:
             report.warn("transcription failed — continuing; those episodes ship without one")
 
-    # --- 4. Both sites, in order --------------------------------------------
+    # --- 4. Destination(s), in order ----------------------------------------
     #
-    # ONE BOOK GOES TO BOTH (Asif, 2026-08-10). Localhost first: everything that
-    # can fail fails against the copy nobody reads, and a run that was going to
-    # break never touches the live site. A local failure therefore RETURNS rather
-    # than continuing — publishing to production after the rehearsal failed would
-    # make the rehearsal pointless.
-    targets = [t for t in TARGETS if t["remote"] or not args.skip_local]
+    # When both destinations are selected, localhost remains first. When only one
+    # is selected, the run does exactly that one thing; no hidden side effect and
+    # no surprise production write from a local rehearsal.
     checks: list[dict] = []
     for target in targets:
         ok, target_checks = push(target, slug, book_dir, args, report, now=now)
         checks.extend(target_checks)
         if not ok and not args.dry_run:
-            write_stamp(book_dir, now=now, fingerprint=book_fingerprint(book_dir), checks=checks)
+            if has_production_target:
+                write_stamp(book_dir, now=now, fingerprint=book_fingerprint(book_dir), checks=checks)
             report.emit(
                 "done",
-                text=f"stopped at {target['label']} — the book was not published everywhere",
+                text=f"stopped at {target['label']} — the selected publish did not finish",
                 slug=slug,
                 verified=False,
                 checks=checks,
@@ -427,24 +440,25 @@ def main(argv: list[str] | None = None) -> int:
 
     # --- 5. Prove it ---------------------------------------------------------
     #
-    # VERIFIED MEANS BOTH. `write_stamp` derives it from every check in the list,
-    # so a book that reached production but not localhost leaves the Composer's
-    # button lit — which is correct: the two are meant to hold the same book.
+    # The production stamp is written only when production was selected. A local
+    # rehearsal can be verified without pretending readers have the new copy.
     verified = bool(checks) and all(c["ok"] for c in checks)
-    write_stamp(book_dir, now=now, fingerprint=book_fingerprint(book_dir), checks=checks)
+    if has_production_target:
+        write_stamp(book_dir, now=now, fingerprint=book_fingerprint(book_dir), checks=checks)
 
     # --- 7. Is the site's code behind? --------------------------------------
-    report.step("Site code")
-    fresh = code_behind(REPO_ROOT)
-    if not fresh["known"]:
-        report.log(f"unknown — {fresh['why']}")
-    elif fresh["behind"]:
-        report.warn(
-            f"the live site runs code from {fresh['deployed']}, {fresh['behind']} commit(s) behind. "
-            "This publish did not change that: run scripts/podcast/deploy_listener.sh --worker-only."
-        )
-    else:
-        report.log("up to date")
+    if has_production_target:
+        report.step("Site code")
+        fresh = code_behind(REPO_ROOT)
+        if not fresh["known"]:
+            report.log(f"unknown — {fresh['why']}")
+        elif fresh["behind"]:
+            report.warn(
+                f"the live site runs code from {fresh['deployed']}, {fresh['behind']} commit(s) behind. "
+                "This publish did not change that: run scripts/podcast/deploy_listener.sh --worker-only."
+            )
+        else:
+            report.log("up to date")
 
     report.emit(
         "done",

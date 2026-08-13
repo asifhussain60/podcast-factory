@@ -21,7 +21,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from _listener_book import Book, Chapter, Episode, Session  # noqa: E402
-from publish_to_listener import build_sql, session_concerns  # noqa: E402
+from publish_to_listener import build_sql, remote_batches, session_concerns  # noqa: E402
 
 MIGRATIONS = Path(__file__).resolve().parents[3] / "listener" / "migrations"
 
@@ -186,3 +186,12 @@ def test_the_report_never_blocks_a_book_from_shipping(tmp_path):
     assert session_concerns(book) != []
     conn.executescript(build_sql(book, published_at="x", commit=None))
     assert conn.execute("SELECT count(*) FROM book_session").fetchone()[0] == 1
+
+
+def test_remote_batches_preserve_order_and_stay_bounded():
+    statements = ["SELECT 1;", "SELECT '" + ("x" * 20) + "';", "SELECT 3;"]
+
+    batches = remote_batches(statements, max_bytes=25)
+
+    assert "\n".join(batches).split("\n") == statements
+    assert all(len(batch.encode("utf-8")) <= 45 for batch in batches)

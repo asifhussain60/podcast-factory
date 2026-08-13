@@ -244,6 +244,7 @@ export const TRANSLATION_FONTS = [
  *  is a correctness rule, not a preference. This choice covers everything else —
  *  hadith, sayings, poetry, the book's own Arabic phrases. */
 export const ARABIC_FONTS = [
+  "traditional-arabic",
   "scheherazade-new",
   "amiri",
   // Three modern faces added 2026-08-02. Declaring one here is only a third of

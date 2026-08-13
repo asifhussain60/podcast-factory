@@ -1,4 +1,5 @@
 import {
+  faBookOpenReader,
   faCircleDown,
   faCircleQuestion,
   faRightFromBracket,
@@ -40,13 +41,23 @@ export function SiteHeader({
 
       <div className="pf-header__nav">
         {here !== "library" ? (
-          <Link to="/" className="pf-navlink">
-            Library
+          <Link
+            to="/"
+            className="pf-navlink pf-navlink--library"
+            aria-label="Library"
+            title="Library"
+          >
+            <Icon icon={faBookOpenReader} />
           </Link>
         ) : null}
 
         {isAdmin && here !== "admin" ? (
-          <Link to="/admin" className="pf-navlink" aria-label="Access" title="Access">
+          <Link
+            to="/admin"
+            className="pf-navlink pf-navlink--access"
+            aria-label="Access"
+            title="Access"
+          >
             <Icon icon={faUserShield} />
           </Link>
         ) : null}
@@ -59,7 +70,7 @@ export function SiteHeader({
         {here !== "downloads" ? (
           <Link
             to="/downloads"
-            className="pf-navlink"
+            className="pf-navlink pf-navlink--downloads"
             aria-label="Downloads"
             title="Downloads"
           >
@@ -74,7 +85,12 @@ export function SiteHeader({
             here — but sits beside the way out rather than up front, since it
             no longer needs to be the first thing offered. */}
         {here !== "about" ? (
-          <Link to="/about" className="pf-navlink" aria-label="About" title="About">
+          <Link
+            to="/about"
+            className="pf-navlink pf-navlink--about"
+            aria-label="About"
+            title="About"
+          >
             <Icon icon={faCircleQuestion} />
           </Link>
         ) : null}
@@ -96,11 +112,13 @@ export function SiteHeader({
         <Form
           method="post"
           action="/sign-out"
-          onSubmit={() => navigator.serviceWorker?.controller?.postMessage("pf-signed-out")}
+          onSubmit={() =>
+            navigator.serviceWorker?.controller?.postMessage("pf-signed-out")
+          }
         >
           <button
             type="submit"
-            className="pf-navlink pf-navlink--button"
+            className="pf-navlink pf-navlink--button pf-navlink--signout"
             aria-label="Sign out"
             title="Sign out"
           >

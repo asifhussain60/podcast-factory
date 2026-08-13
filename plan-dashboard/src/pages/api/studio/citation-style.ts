@@ -64,6 +64,7 @@ const DEFAULT_FONT: (typeof FONTS)[number] = "eb-garamond";
  *  orthography it is written in, and that is a correctness rule rather than a
  *  choice the book gets to make. Optional in the artifact, like translation_font. */
 const ARABIC_FONTS = [
+  "traditional-arabic",
   "scheherazade-new",
   "amiri",
   "cairo",

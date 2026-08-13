@@ -303,6 +303,14 @@
    from an ancestor. That ordering is the whole mechanism — the book chooses the
    face for its hadith, poetry and prose Arabic, and cannot choose one for the
    mushaf. */
+.ar-traditional-arabic {
+  --q-ar-face:
+    "Traditional Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
+    serif;
+  --q-ar-inline-face:
+    "Traditional Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
+    serif;
+}
 .ar-scheherazade-new {
   --q-ar-face:
     "ScheherazadeSized", "Scheherazade New", "Scheherazade", "Amiri",

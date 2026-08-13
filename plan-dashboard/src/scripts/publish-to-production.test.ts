@@ -9,8 +9,28 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { Window } from "happy-dom";
 
-import { choicesFor, events } from "./publish-to-production";
+import { publishProgressPanel } from "./publish-dialog";
+import { choicesFor, events, targetsFor } from "./publish-to-production";
+
+const win = new Window({ url: "http://localhost/" });
+for (const key of [
+  "window",
+  "document",
+  "HTMLElement",
+  "KeyboardEvent",
+  "navigator",
+  "getComputedStyle",
+] as const) {
+  try {
+    (globalThis as Record<string, unknown>)[key] = (
+      win as unknown as Record<string, unknown>
+    )[key];
+  } catch {
+    /* already defined by the host and equivalent */
+  }
+}
 
 function bodyOf(...chunks: string[]): ReadableStream<Uint8Array> {
   const encoder = new TextEncoder();
@@ -33,7 +53,22 @@ async function drain(
 const byId = (state: Parameters<typeof choicesFor>[0]) =>
   Object.fromEntries(choicesFor(state).map((c) => [c.id, c]));
 
+const targetsById = () =>
+  Object.fromEntries(targetsFor().map((c) => [c.id, c]));
+
 // ─── which options are offered, and which start ticked ──────────────────────
+
+test("localhost is the default publish target", () => {
+  const targets = targetsById();
+  assert.equal(targets.localhost.checked, true);
+  assert.equal(targets.production.checked, false);
+});
+
+test("production is offered as a deliberate publish target", () => {
+  const production = targetsById().production;
+  assert.match(production.hint ?? "", /podcast-factory\.safinaverse\.com/);
+  assert.match(production.icon, /^fa-/);
+});
 
 test("no offer to accept cards when there are none to accept", () => {
   // A ticked box that would do nothing teaches the reader to stop reading the
@@ -141,4 +176,68 @@ test("blank lines are ignored", async () => {
     (await drain(bodyOf('\n\n{"event":"log","text":"a"}\n\n'))).length,
     1,
   );
+});
+
+// ─── the progress modal's finished states ──────────────────────────────────
+
+test("the progress panel hides Close while running, then shows a green success", () => {
+  document.body.innerHTML = "";
+  const panel = publishProgressPanel("Smoke Book");
+
+  panel.step("Content · production");
+  panel.log("deploying content rows");
+
+  const close = document.querySelector<HTMLButtonElement>(
+    ".cx-confirm-btn--primary",
+  );
+  assert.equal(close?.hidden, true);
+  assert.equal(close?.disabled, true);
+  assert.match(
+    document.querySelector(".cx-pub-log")?.textContent ?? "",
+    /deploying/,
+  );
+
+  panel.check("visible published", true, "status is published");
+  panel.finish("ok", "The content was published and verified.");
+
+  const box = document.querySelector(".cx-pub-box");
+  const resultText = document.querySelector(".cx-pub-log")?.textContent ?? "";
+  assert.match(box?.className ?? "", /is-ok/);
+  assert.equal(close?.hidden, false);
+  assert.equal(close?.disabled, false);
+  assert.match(resultText, /Publish successful/);
+  assert.doesNotMatch(resultText, /deploying content rows/);
+});
+
+test("a failed progress panel replaces the log with copyable failure details", async () => {
+  document.body.innerHTML = "";
+  let copied = "";
+  Object.defineProperty(globalThis.navigator, "clipboard", {
+    configurable: true,
+    value: {
+      writeText: async (text: string) => {
+        copied = text;
+      },
+    },
+  });
+
+  const panel = publishProgressPanel("Smoke Book");
+  panel.step("Content · production");
+  panel.log("wrangler d1 execute failed", "error");
+  panel.check("visible published", false, "status stayed draft");
+  panel.finish("bad", "The content push failed.");
+
+  const box = document.querySelector(".cx-pub-box");
+  const resultText = document.querySelector(".cx-pub-log")?.textContent ?? "";
+  const details = document.querySelector<HTMLTextAreaElement>(
+    ".cx-pub-failure-text",
+  );
+  assert.match(box?.className ?? "", /is-bad/);
+  assert.match(resultText, /Publish failed/);
+  assert.match(details?.value ?? "", /wrangler d1 execute failed/);
+  assert.match(details?.value ?? "", /FAIL: visible published/);
+
+  document.querySelector<HTMLButtonElement>(".cx-pub-copy-btn")?.click();
+  await Promise.resolve();
+  assert.match(copied, /The content push failed/);
 });

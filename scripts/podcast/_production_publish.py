@@ -478,7 +478,7 @@ def cloudflare_env() -> dict[str, str]:
     import os
     import subprocess
 
-    token = os.environ.get("CLOUDFLARE_API_TOKEN", "").strip()
+    token = "".join(os.environ.get("CLOUDFLARE_API_TOKEN", "").split())
     if not token:
         try:
             token = subprocess.run(
@@ -486,13 +486,14 @@ def cloudflare_env() -> dict[str, str]:
                 capture_output=True,
                 text=True,
                 check=True,
-            ).stdout.strip()
+            ).stdout
         except (OSError, subprocess.CalledProcessError) as error:
             raise RuntimeError(
                 f"no Cloudflare token: not in the environment and no keychain item '{KEYCHAIN_SERVICE}'. "
                 f'Store it with: security add-generic-password -U -a "$USER" -s {KEYCHAIN_SERVICE} -w'
             ) from error
 
+    token = "".join(token.split())
     if not token:
         raise RuntimeError(f"the keychain item '{KEYCHAIN_SERVICE}' is empty")
 

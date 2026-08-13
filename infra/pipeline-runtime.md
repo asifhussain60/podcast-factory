@@ -143,8 +143,7 @@ This trips people up because they are all "Asif":
 | Surface | Account | How you'd notice the wrong one |
 |---|---|---|
 | **Azure** (subscription, Key Vault, OCR, Speech) | `asifhussain60@msn.com` | `az account show` names someone else; every credential resolves to `None` |
-| **Anthropic + Google + Cloudflare (correct)** | `asifhussain60@gmail.com` | — |
-| **Cloudflare (wrong, and `wrangler` is logged into it)** | `asifhussain60@hotmail.com` | A deploy succeeds and the site does not change; see [cloudflare/README.md §7](cloudflare/README.md) |
+| **Anthropic + Google + Cloudflare** | `asifhussain60@gmail.com` | Cloudflare commands must resolve to this account before any remote write |
 
 ### The Azure coordinates in full
 

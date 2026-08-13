@@ -128,6 +128,16 @@ const MANIFEST = [
     to: "scheherazade-new-LICENSE.txt",
     note: "SIL OFL 1.1",
   },
+  {
+    from: "../plan-dashboard/public/fonts/traditional-arabic/TraditionalArabic-Regular.ttf",
+    to: "TraditionalArabic-Regular.ttf",
+    note: "Traditional Arabic Regular",
+  },
+  {
+    from: "../plan-dashboard/public/fonts/traditional-arabic/SOURCE.txt",
+    to: "TraditionalArabic-SOURCE.txt",
+    note: "Traditional Arabic source note",
+  },
   // Arabic DISPLAY — Amiri, and only ever for display.
   //
   // It is a revival of the Bulaq/Amiri naskh types: more stroke contrast and
@@ -262,7 +272,9 @@ for (const entry of MANIFEST) {
     if (!existsSync(dest)) {
       problems.push(`${entry.to} has not been synced`);
     } else if (statSync(src).size !== statSync(dest).size) {
-      problems.push(`${entry.to} differs from its source — re-run \`npm run fonts\``);
+      problems.push(
+        `${entry.to} differs from its source — re-run \`npm run fonts\``,
+      );
     }
     continue;
   }
@@ -278,4 +290,8 @@ if (problems.length > 0) {
   process.exit(1);
 }
 
-console.log(check ? "sync-fonts: all faces present and current" : `sync-fonts: ${copied} file(s) written to public/fonts/`);
+console.log(
+  check
+    ? "sync-fonts: all faces present and current"
+    : `sync-fonts: ${copied} file(s) written to public/fonts/`,
+);

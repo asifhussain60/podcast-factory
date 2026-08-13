@@ -249,9 +249,8 @@ Live at **<https://podcast-factory.safinaverse.com>** since 2026-08-03, on the
 `asifhussain60@gmail.com` Cloudflare account. `cf-deploy.sh` CANNOT deploy this
 app — that script is Cloudflare Pages end to end and this is a Worker.
 
-**Every remote command needs the account token in the environment**, because
-`wrangler` on this machine is logged in as `asifhussain60@hotmail.com` and would
-otherwise target the wrong account:
+**Every remote command needs the account token in the environment**, and it must
+resolve to the `asifhussain60@gmail.com` account:
 
 ```bash
 export CLOUDFLARE_API_TOKEN="$(security find-generic-password -s cloudflare_api_token -w | tr -d '[:space:]')"

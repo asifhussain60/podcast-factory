@@ -176,6 +176,14 @@
   src: url("/fonts/scheherazade-new-arabic-600-normal.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: "Traditional Arabic";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/TraditionalArabic-Regular.ttf") format("truetype");
+}
+
 /* Amiri — Arabic DISPLAY only, and the distinction is load-bearing.
    A revival of the Bulaq naskh types: more stroke contrast and far more
    presence than Scheherazade, which is what a title set at 2rem on a coloured
@@ -302,7 +310,7 @@
   --l-font-card-title:
     "Roboto Condensed Variable", "Inter Variable", system-ui, sans-serif;
   --l-font-ui: "Inter Variable", system-ui, -apple-system, sans-serif;
-  --l-font-arabic: "Scheherazade New", "Amiri", serif;
+  --l-font-arabic: "Traditional Arabic", "Scheherazade New", "Amiri", serif;
   /* Titles and other display Arabic ONLY. Never the reading column — see the
      @font-face note in §1. */
   --l-font-arabic-display: "Amiri", "Scheherazade New", serif;
@@ -1105,6 +1113,26 @@
 
   .pf-navlink:hover {
     color: var(--l-ink);
+  }
+
+  .pf-navlink--library {
+    color: var(--l-accent);
+  }
+
+  .pf-navlink--access {
+    color: var(--l-accent);
+  }
+
+  .pf-navlink--downloads {
+    color: var(--l-ok);
+  }
+
+  .pf-navlink--about {
+    color: var(--l-warn);
+  }
+
+  .pf-navlink--signout {
+    color: var(--l-danger);
   }
 
   /* Font Awesome's "1.5x" scale — the header glyphs read as small dots next to

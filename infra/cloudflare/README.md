@@ -7,7 +7,7 @@ not copied from an earlier document.
 
 ---
 
-## 1. The account, and the one that is not it
+## 1. The Cloudflare account
 
 | | |
 |---|---|
@@ -17,11 +17,7 @@ not copied from an earlier document.
 | **workers.dev subdomain** | `asifhussain60-19c` |
 | **Dashboard** | <https://dash.cloudflare.com> |
 
-**There is a second Cloudflare account, `asifhussain60@hotmail.com`
-(`844bc687926c910d5ad9d79c40ad1f2f`), and nothing in this repo may deploy to
-it.** It does not hold the `safinaverse.com` zone, so anything published there
-can never be reached at a Safina address. It is named here only so the mistake
-is recognisable — see §7, where it is an active hazard right now.
+This is the only Cloudflare account this repo may use.
 
 ---
 
@@ -192,7 +188,7 @@ That is deliberate.
 ### What the first deploy actually did — 2026-08-03
 
 All of it with `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` exported (§7),
-which makes wrangler ignore its hotmail login for that command.
+so Wrangler resolves to the Gmail account for that command.
 
 1. `wrangler d1 create podcast-listener` → `ed6e00d2-ec8f-47bf-af5d-66ffc43e79c0`,
    written into `wrangler.jsonc`. Local Miniflare never reads that id.
@@ -282,36 +278,17 @@ curl -s -X POST ... --data '{"enabled":false,"previews_enabled":false}'
 
 ---
 
-## 7. Standing hazard — wrangler is logged into the wrong account
+## 7. Remote command account rule
 
-`wrangler whoami` reports **`asifhussain60@hotmail.com`** (account
-`844bc687926c910d5ad9d79c40ad1f2f`). Its stored OAuth credentials live at
-`~/Library/Preferences/.wrangler/config/default.toml`.
-
-Every remote command in this document therefore exports the token first.
-**Verified 2026-08-03:** with `CLOUDFLARE_API_TOKEN` set, `wrangler whoami`
-reports the gmail account and says *"The API Token is read from the
-CLOUDFLARE_API_TOKEN environment variable"* — the environment beats the stored
-login, so the token route is sufficient and nothing global has to change.
-
-The hazard is only that forgetting the export is silent: the command runs, it
-just runs somewhere else. `wrangler.jsonc` names the real custom domain, which is
-what turns a wrong-account deploy into a loud failure rather than a quiet one.
-
-Two ways to fix it, in order of preference:
+Every remote command in this document exports the account token first and must
+resolve to `asifhussain60@gmail.com` before it writes anything. `wrangler.jsonc`
+names the real custom domain, which turns a wrong-account deploy into a loud
+failure rather than a quiet one.
 
 ```bash
-# Preferred: use the account-scoped token for this command only. Nothing persists.
 export CLOUDFLARE_API_TOKEN="$(security find-generic-password -s cloudflare_api_token -w | tr -d '[:space:]')"
 export CLOUDFLARE_ACCOUNT_ID=19cb05067ea7e704f94481df1685ec51
 cd listener && npm run deploy
-```
-
-```bash
-# Alternative: re-authenticate wrangler as the gmail account. This replaces the
-# stored login globally, affecting every other project on this machine that
-# relies on it.
-npx wrangler login
 ```
 
 ---
@@ -412,10 +389,8 @@ does what he wanted. Do not offer "deploy" as an option before that has happened
 
 Until 2026-08-03 this held a deployment record for **`salty-lamps-proposal`**, a
 separate personal project unrelated to podcast-factory. It was removed because
-it was **wrong in a way that mattered**: it stated
-`Cloudflare account: asifhussain60@gmail.com`, and the gmail account has only
-ever held `asif-academy`. The project is in fact on the hotmail account. A
-document that names the wrong account is worse than no document, because it
+it was **wrong in a way that mattered**: it named the wrong Cloudflare account.
+A document that names the wrong account is worse than no document, because it
 invites exactly the mistake §7 exists to prevent.
 
 The site is still live at `salty-lamps-proposal.pages.dev`, and its source repo

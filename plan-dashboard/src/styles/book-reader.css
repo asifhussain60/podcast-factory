@@ -250,6 +250,7 @@
   line-height: inherit;
   direction: rtl;
   unicode-bidi: isolate;
+  vertical-align: -0.04em;
 }
 /* A standalone Arabic quotation — the same display block the PDF and the
    Composer's Read view set, with the same values (book-print.css .ar-block).
