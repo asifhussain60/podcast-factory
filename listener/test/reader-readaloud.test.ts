@@ -63,8 +63,10 @@ describe("chapter read-aloud follow-along", () => {
       css,
     )?.groups?.body;
 
-    expect(rule).toContain("outline: 2px solid");
+    expect(rule).toContain("padding:");
+    expect(rule).toContain("border: 1px solid");
     expect(rule).toContain("background:");
+    expect(rule).toContain("box-shadow:");
     expect(rule).toContain("scroll-margin-block:");
   });
 });
