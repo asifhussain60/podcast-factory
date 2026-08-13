@@ -42,6 +42,7 @@ from _listener_media import (  # noqa: E402,F401
     MASTERS_DIR,
     SESSION_DIR_RE,
     Asset,
+    ChapterNarration,
     Episode,
     Session,
     audio_duration,
@@ -69,6 +70,7 @@ class Chapter:
     title: str
     markdown: str
     html: str = ""
+    narration: ChapterNarration | None = None
 
     @property
     def word_count(self) -> int:

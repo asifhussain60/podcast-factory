@@ -103,4 +103,8 @@ describe("the reading toolbar", () => {
       expect(spacing.has(width)).toBe(false);
     }
   });
+
+  it("does not mix chapter playback into the settings toolbar", () => {
+    expect(html).not.toContain("Listen to this chapter");
+  });
 });

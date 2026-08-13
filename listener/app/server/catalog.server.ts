@@ -17,8 +17,23 @@ export interface ChapterSummary {
   wordCount: number;
 }
 
+export interface ChapterNarrationCue {
+  idx: number;
+  blockIndex?: number;
+  startS: number;
+  endS: number;
+  text?: string;
+}
+
+export interface ChapterNarration {
+  audioKey: string;
+  durationS: number | null;
+  cues: ChapterNarrationCue[];
+}
+
 export interface Chapter extends ChapterSummary {
   html: string;
+  narration: ChapterNarration | null;
 }
 
 export interface Episode {
@@ -187,11 +202,30 @@ export async function chapterOf(
 ): Promise<Chapter | null> {
   const row = await db
     .prepare(
-      `SELECT anchor_key, idx, title, html, word_count FROM chapter
-       WHERE slug = ?1 AND anchor_key = ?2 LIMIT 1`,
+      `SELECT c.anchor_key, c.idx, c.title, c.html, c.word_count,
+              n.audio_key AS narration_audio_key,
+              n.duration_s AS narration_duration_s,
+              n.cues_json AS narration_cues_json,
+              m.uploaded_at AS narration_uploaded_at
+         FROM chapter c
+         LEFT JOIN chapter_narration n
+           ON n.slug = c.slug AND n.anchor_key = c.anchor_key
+         LEFT JOIN media_asset m
+           ON m.key = n.audio_key
+        WHERE c.slug = ?1 AND c.anchor_key = ?2 LIMIT 1`,
     )
     .bind(slug, anchorKey)
-    .first<{ anchor_key: string; idx: number; title: string; html: string; word_count: number }>();
+    .first<{
+      anchor_key: string;
+      idx: number;
+      title: string;
+      html: string;
+      word_count: number;
+      narration_audio_key: string | null;
+      narration_duration_s: number | null;
+      narration_cues_json: string | null;
+      narration_uploaded_at: string | null;
+    }>();
 
   if (row === null) return null;
 
@@ -201,7 +235,39 @@ export async function chapterOf(
     title: row.title,
     html: row.html,
     wordCount: row.word_count,
+    narration:
+      row.narration_audio_key !== null && row.narration_uploaded_at !== null
+        ? {
+            audioKey: row.narration_audio_key,
+            durationS: row.narration_duration_s,
+            cues: parseNarrationCues(row.narration_cues_json),
+          }
+        : null,
   };
+}
+
+function parseNarrationCues(source: string | null): ChapterNarrationCue[] {
+  if (source === null) return [];
+  try {
+    const parsed = JSON.parse(source);
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .map((cue) => ({
+        idx: Number(cue.idx),
+        blockIndex: cue.blockIndex === undefined ? undefined : Number(cue.blockIndex),
+        startS: Number(cue.startS),
+        endS: Number(cue.endS),
+        text: cue.text === undefined ? undefined : String(cue.text),
+      }))
+      .filter(
+        (cue) =>
+          Number.isFinite(cue.idx) &&
+          Number.isFinite(cue.startS) &&
+          Number.isFinite(cue.endS),
+      );
+  } catch {
+    return [];
+  }
 }
 
 /**

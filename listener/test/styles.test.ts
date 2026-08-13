@@ -115,6 +115,10 @@ const DELIBERATE = new Set([
   // and removed a couple of seconds later — there is no element in any JSX to
   // carry it, for the same reason `pf-cp` has none.
   "pf-found",
+  // The currently spoken paragraph in read-aloud mode. Added and removed with
+  // classList on the rendered book block so the HTML published from the reading
+  // edition stays untouched.
+  "pf-read-aloud",
 ]);
 
 describe("the stylesheet and the markup", () => {

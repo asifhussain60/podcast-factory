@@ -191,6 +191,32 @@ describe("chapters", () => {
 
     close();
   });
+
+  it("exposes narration only after its audio has been uploaded", async () => {
+    const test = seed();
+    test.exec(`
+      INSERT INTO media_asset (key, slug, kind, content_type, bytes, sha256, source_path, uploaded_at) VALUES
+        ('book-a/narration/one.mp3', 'book-a', 'audio', 'audio/mpeg', 10, 'n1', 'x/one.mp3', 'now'),
+        ('book-a/narration/two.mp3', 'book-a', 'audio', 'audio/mpeg', 10, 'n2', 'x/two.mp3', NULL);
+
+      INSERT INTO chapter_narration
+        (slug, anchor_key, audio_key, duration_s, source_hash, voice, cues_json) VALUES
+        ('book-a', 'one', 'book-a/narration/one.mp3', 12.5, 'h1', 'aria',
+          '[{"idx":0,"blockIndex":0,"startS":0,"endS":12.5,"text":"one"}]'),
+        ('book-a', 'two', 'book-a/narration/two.mp3', 9, 'h2', 'jenny',
+          '[{"idx":0,"blockIndex":0,"startS":0,"endS":9,"text":"two"}]');
+    `);
+
+    const one = await chapterOf(test.db, "book-a", "one");
+    const two = await chapterOf(test.db, "book-a", "two");
+
+    expect(one?.narration?.audioKey).toBe("book-a/narration/one.mp3");
+    expect(one?.narration?.durationS).toBe(12.5);
+    expect(one?.narration?.cues[0]).toMatchObject({ blockIndex: 0, text: "one" });
+    expect(two?.narration).toBeNull();
+
+    test.close();
+  });
 });
 
 describe("deck pages", () => {

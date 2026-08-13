@@ -12,14 +12,16 @@ prose.
         [--remote]     the deployed bucket and database, not the local ones
         [--dry-run]    list what would be uploaded, upload nothing
         [--force]      re-upload even rows already marked uploaded
-        [--no-audio]   covers, deck pages and the print edition only
+        [--no-audio]   skip episode recordings; keep covers, decks, PDFs and reader narration
+        [--verify]     confirm stamped rows really exist in R2
         [--drop-local-audio]  delete local recordings and reclaim the disk
 
-`--no-audio` exists for the LOCAL bucket (Asif, 2026-08-10). A recording pushed
-there is a second copy of a file already on the same disk — 0.98 GB of the 1.04 GB
-the local bucket held — and nothing about playing an episode locally is worth a
-duplicate of every recording. The small assets still go, because a local page
-missing its cover and deck pages is not the page it is standing in for.
+`--no-audio` exists for the LOCAL bucket (Asif, 2026-08-10). A podcast episode
+recording pushed there is a second copy of a large file already on the same
+disk — 0.98 GB of the 1.04 GB the local bucket held — and nothing about playing
+an episode locally is worth duplicating every recording. The small assets still
+go, including chapter read-aloud narration, because a local reader page missing
+its cover, deck pages or read-aloud audio is not the page it is standing in for.
 
 `uploaded_at` is the whole contract. A row without it means "this file exists on
 Asif's disk"; a row with it means "this object is in R2". The site links only the
@@ -39,6 +41,7 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -77,7 +80,14 @@ def d1(sql: str, *, remote: bool) -> list[dict]:
     return json.loads(out[start:])[0]["results"]
 
 
-def pending(slugs: list[str], *, remote: bool, force: bool, no_audio: bool = False) -> list[dict]:
+def pending(
+    slugs: list[str],
+    *,
+    remote: bool,
+    force: bool,
+    no_audio: bool = False,
+    narration_only: bool = False,
+) -> list[dict]:
     where = "" if force else "uploaded_at IS NULL"
     if slugs:
         listed = ", ".join("'" + s.replace("'", "''") + "'" for s in slugs)
@@ -86,9 +96,13 @@ def pending(slugs: list[str], *, remote: bool, force: bool, no_audio: bool = Fal
     if no_audio:
         # The recordings are the whole weight — 0.98 GB of the 1.04 GB in the
         # local bucket on 2026-08-10, in 30 files against 159 of everything else.
-        # Covers, deck pages and the print edition are 60 MB and are what make a
-        # local page look like the real one, so they are NOT what gets dropped.
-        where = f"{where} AND kind != 'audio'" if where else "kind != 'audio'"
+        # Chapter narration is small and is a reader-page affordance, not a
+        # podcast recording, so it stays available locally.
+        clause = "(kind != 'audio' OR key LIKE '%/narration/%')"
+        where = f"{where} AND {clause}" if where else clause
+    if narration_only:
+        clause = "kind = 'audio' AND key LIKE '%/narration/%'"
+        where = f"{where} AND {clause}" if where else clause
 
     return d1(
         "SELECT key, slug, kind, content_type, bytes, source_path FROM media_asset"
@@ -139,6 +153,27 @@ def upload(row: dict, *, remote: bool) -> None:
     )
 
 
+def object_exists(key: str, *, remote: bool) -> bool:
+    with tempfile.TemporaryDirectory(prefix="pf-r2-check-") as tmp:
+        result = subprocess.run(
+            [
+                "npx",
+                "wrangler",
+                "r2",
+                "object",
+                "get",
+                f"{BUCKET}/{key}",
+                "--file",
+                str(Path(tmp) / "object"),
+                "--remote" if remote else "--local",
+            ],
+            cwd=LISTENER,
+            capture_output=True,
+            text=True,
+        )
+    return result.returncode == 0
+
+
 def delete_object(key: str, *, remote: bool) -> bool:
     """Remove one object from the bucket. False if wrangler refused.
 
@@ -185,7 +220,7 @@ def unstamp(key: str, *, remote: bool) -> None:
 
 def local_audio_objects(slugs: list[str]) -> list[dict]:
     """Recordings currently duplicated into the LOCAL bucket."""
-    where = "kind = 'audio' AND uploaded_at IS NOT NULL"
+    where = "kind = 'audio' AND uploaded_at IS NOT NULL AND key NOT LIKE '%/narration/%'"
     if slugs:
         listed = ", ".join("'" + s.replace("'", "''") + "'" for s in slugs)
         where += f" AND slug IN ({listed})"
@@ -193,6 +228,37 @@ def local_audio_objects(slugs: list[str]) -> list[dict]:
         f"SELECT key, slug, bytes FROM media_asset WHERE {where} ORDER BY slug, key",
         remote=False,
     )
+
+
+def uploaded(slugs: list[str], *, remote: bool, narration_only: bool = False) -> list[dict]:
+    where = "uploaded_at IS NOT NULL"
+    if slugs:
+        listed = ", ".join("'" + s.replace("'", "''") + "'" for s in slugs)
+        where += f" AND slug IN ({listed})"
+    if narration_only:
+        where += " AND kind = 'audio' AND key LIKE '%/narration/%'"
+    return d1(
+        f"SELECT key, slug, kind, bytes FROM media_asset WHERE {where} ORDER BY slug, kind, key",
+        remote=remote,
+    )
+
+
+def verify_uploaded(slugs: list[str], *, remote: bool, narration_only: bool = False) -> int:
+    rows = uploaded(slugs, remote=remote, narration_only=narration_only)
+    if not rows:
+        print("nothing stamped uploaded to verify")
+        return 0
+
+    failed = 0
+    print(f"verifying {len(rows)} uploaded object(s)")
+    for row in rows:
+        if object_exists(row["key"], remote=remote):
+            print(f"  ok       {row['key']}")
+            continue
+        failed += 1
+        unstamp(row["key"], remote=remote)
+        print(f"  MISSING  {row['key']} — cleared uploaded_at")
+    return 1 if failed else 0
 
 
 def drop_local_audio(slugs: list[str], *, dry_run: bool) -> int:
@@ -249,7 +315,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--no-audio",
         action="store_true",
-        help="skip the recordings; upload covers, deck pages and the print edition only",
+        help="skip podcast recordings; still upload covers, decks, PDFs and reader narration",
+    )
+    parser.add_argument(
+        "--verify",
+        action="store_true",
+        help="verify stamped uploaded rows exist in R2; clears uploaded_at for missing objects",
+    )
+    parser.add_argument(
+        "--reader-narration-only",
+        action="store_true",
+        help="upload only chapter read-aloud narration files",
     )
     parser.add_argument(
         "--drop-local-audio",
@@ -257,6 +333,10 @@ def main(argv: list[str] | None = None) -> int:
         help="delete recordings from the LOCAL bucket and mark them not-uploaded (reclaims disk)",
     )
     args = parser.parse_args(argv)
+
+    if args.no_audio and args.reader_narration_only:
+        print("refused: --no-audio and --reader-narration-only select opposite media sets.")
+        return 2
 
     if args.remote:
         try:
@@ -279,7 +359,20 @@ def main(argv: list[str] | None = None) -> int:
             return 2
         return drop_local_audio(args.slugs, dry_run=args.dry_run)
 
-    rows = pending(args.slugs, remote=args.remote, force=args.force, no_audio=args.no_audio)
+    if args.verify:
+        return verify_uploaded(
+            args.slugs,
+            remote=args.remote,
+            narration_only=args.reader_narration_only,
+        )
+
+    rows = pending(
+        args.slugs,
+        remote=args.remote,
+        force=args.force,
+        no_audio=args.no_audio,
+        narration_only=args.reader_narration_only,
+    )
     if not rows:
         print("nothing to upload — every known file is already in R2")
         return 0
@@ -314,9 +407,11 @@ def main(argv: list[str] | None = None) -> int:
         print(f"\n[{i}/{len(rows)}] {row['key']}  ({megabytes(int(row['bytes']))})")
         try:
             upload(row, remote=args.remote)
+            if not object_exists(row["key"], remote=args.remote):
+                raise RuntimeError("uploaded object could not be fetched back from R2")
             stamp(row["key"], when, remote=args.remote)
             print("  uploaded")
-        except (OSError, subprocess.SubprocessError) as error:
+        except (OSError, RuntimeError, subprocess.SubprocessError) as error:
             # Keep going. One unreadable file must not strand the other forty,
             # and the row simply stays unstamped, which the site already reports
             # honestly.

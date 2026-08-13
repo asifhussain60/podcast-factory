@@ -26,6 +26,7 @@ two modules would import each other and neither would load.
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 import subprocess
 import sys
@@ -77,6 +78,20 @@ CONTENT_TYPES = {
 # sweeping `book/images/` for "anything with a known content type" would file a
 # stray PDF as an illustration.
 IMAGE_TYPES = frozenset({".png", ".jpg", ".jpeg", ".webp"})
+
+
+def narration_object_name(anchor: str) -> str:
+    safe = re.sub(r"[^a-z0-9]+", "-", anchor.lower()).strip("-")
+    return f"{safe or 'chapter'}.mp3"
+
+
+@dataclass
+class ChapterNarration:
+    audio: Asset
+    duration_s: float | None
+    source_hash: str
+    voice: str
+    cues: list[dict]
 
 
 @dataclass
@@ -314,11 +329,50 @@ def collect_audio(book: Book) -> None:
             book.unmatched_audio.append(path.name)
 
 
+def collect_reader_narration(book: Book) -> None:
+    manifest = book.directory / "book" / "narration" / "manifest.json"
+    if not manifest.exists():
+        return
+    try:
+        data = json.loads(manifest.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return
+    chapters = data.get("chapters")
+    if not isinstance(chapters, dict):
+        return
+
+    by_anchor = {chapter.anchor: chapter for chapter in book.chapters}
+    root = manifest.parent
+    for anchor, entry in chapters.items():
+        if not isinstance(entry, dict) or anchor not in by_anchor:
+            continue
+        rel = str(entry.get("audio") or "")
+        path = book.directory / rel if rel else root / f"{anchor}.mp3"
+        if not path.exists() or path.suffix.lower() != ".mp3":
+            continue
+        asset = Asset(
+            key=f"{book.slug}/narration/{narration_object_name(anchor)}",
+            slug=book.slug,
+            kind="audio",
+            content_type=CONTENT_TYPES[".mp3"],
+            path=path,
+        )
+        by_anchor[anchor].narration = ChapterNarration(
+            audio=asset,
+            duration_s=entry.get("duration_s") if isinstance(entry.get("duration_s"), (int, float)) else None,
+            source_hash=str(entry.get("source_hash") or ""),
+            voice=str(entry.get("voice") or entry.get("voice_id") or ""),
+            cues=entry.get("cues") if isinstance(entry.get("cues"), list) else [],
+        )
+        book.assets.append(asset)
+
+
 def collect_media(book: Book) -> None:
     """Inventory everything on disk: recordings, print edition, cover, deck."""
     directory = book.directory
 
     collect_audio(book)
+    collect_reader_narration(book)
 
     # The print edition. Named for the book rather than fixed, so glob it.
     pdfs = sorted((directory / "book").glob("*.pdf"))

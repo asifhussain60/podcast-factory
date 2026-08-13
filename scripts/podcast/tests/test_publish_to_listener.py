@@ -14,13 +14,17 @@ of its position in the series.
 
 from __future__ import annotations
 
+import json
 import sqlite3
 import sys
 from pathlib import Path
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _listener_book import Book, Chapter, Episode, Session  # noqa: E402
+import publish_to_listener as ptl  # noqa: E402
+from _listener_book import Asset, Book, Chapter, ChapterNarration, Episode, Session  # noqa: E402
+from _listener_media import collect_reader_narration  # noqa: E402
 from publish_to_listener import build_sql, remote_batches, session_concerns  # noqa: E402
 
 MIGRATIONS = Path(__file__).resolve().parents[3] / "listener" / "migrations"
@@ -104,6 +108,78 @@ def test_a_dropped_chapter_stops_being_readable(tmp_path):
     conn.executescript(build_sql(book, published_at="x", commit=None))
 
     assert [r[0] for r in conn.execute("SELECT anchor_key FROM chapter WHERE slug='test-book'")] == ["one"]
+
+
+def test_chapter_narration_is_rewritten_with_the_chapter(tmp_path):
+    conn = db_with_schema()
+    book = a_book(tmp_path)
+    audio = tmp_path / "book" / "narration" / "one.mp3"
+    audio.parent.mkdir(parents=True)
+    audio.write_bytes(b"MP3")
+    asset = Asset(
+        key="test-book/narration/one.mp3",
+        slug="test-book",
+        kind="audio",
+        content_type="audio/mpeg",
+        path=audio,
+    )
+    book.assets.append(asset)
+    book.chapters[0].narration = ChapterNarration(
+        audio=asset,
+        duration_s=12.5,
+        source_hash="abc",
+        voice="aria",
+        cues=[{"idx": 0, "blockIndex": 0, "startS": 0, "endS": 12.5, "text": "a b c"}],
+    )
+
+    old_root = ptl.REPO_ROOT
+    ptl.REPO_ROOT = tmp_path
+    try:
+        conn.executescript(ptl.build_sql(book, published_at="x", commit=None))
+    finally:
+        ptl.REPO_ROOT = old_root
+
+    row = conn.execute(
+        "SELECT audio_key, duration_s, source_hash, voice, cues_json "
+        "FROM chapter_narration WHERE slug='test-book' AND anchor_key='one'"
+    ).fetchone()
+    assert row[0] == "test-book/narration/one.mp3"
+    assert row[1] == 12.5
+    assert row[2] == "abc"
+    assert row[3] == "aria"
+    assert '"blockIndex": 0' in row[4]
+    assert '"text"' not in row[4]
+    assert conn.execute("SELECT kind FROM media_asset WHERE key='test-book/narration/one.mp3'").fetchone()[0] == "audio"
+
+
+def test_chapter_narration_publish_key_is_url_safe(tmp_path):
+    book = a_book(tmp_path)
+    book.chapters[0].anchor = "the persian who was dead and revived"
+    audio = tmp_path / "book" / "narration" / "the persian who was dead and revived.mp3"
+    audio.parent.mkdir(parents=True)
+    audio.write_bytes(b"MP3")
+    (tmp_path / "book" / "narration" / "manifest.json").write_text(
+        json.dumps(
+            {
+                "chapters": {
+                    "the persian who was dead and revived": {
+                        "audio": "book/narration/the persian who was dead and revived.mp3",
+                        "duration_s": 12.5,
+                        "source_hash": "abc",
+                        "voice": "aria",
+                        "cues": [],
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    collect_reader_narration(book)
+
+    assert book.assets[0].key == "test-book/narration/the-persian-who-was-dead-and-revived.mp3"
+    assert book.chapters[0].narration is not None
+    assert book.chapters[0].narration.audio.key == book.assets[0].key
 
 
 def test_sessions_are_rewritten_so_a_renumbered_folder_leaves_no_stale_row(tmp_path):
@@ -195,3 +271,13 @@ def test_remote_batches_preserve_order_and_stay_bounded():
 
     assert "\n".join(batches).split("\n") == statements
     assert all(len(batch.encode("utf-8")) <= 45 for batch in batches)
+
+
+def test_execute_batches_local_statements_instead_of_importing_file(tmp_path):
+    with mock.patch.object(ptl.subprocess, "run") as run:
+        ptl.execute(tmp_path / "book.sql", remote=False, statements=["SELECT 1;"])
+
+    command = run.call_args.args[0]
+    assert "--local" in command
+    assert "--command" in command
+    assert all(not str(part).startswith("--file=") for part in command)

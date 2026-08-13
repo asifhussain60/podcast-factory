@@ -3,9 +3,9 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
-  "phase": "0book-render",
+  "phase": "reader-narration",
   "phase_status": "completed",
-  "last_completed_phase": "0book-render",
+  "last_completed_phase": "reader-narration",
   "next_phase": "publish",
   "last_error": null,
   "pipeline_mode": "orchestrated",
@@ -540,6 +540,31 @@
       },
       "exempt": [],
       "reason": "book_visuals=manual_only"
+    },
+    "reader-narration": {
+      "status": "completed",
+      "ts_started": "2026-08-13T21:04:08Z",
+      "ts_completed": "2026-08-13T21:12:07Z",
+      "rendered": [
+        "introduction to the book",
+        "the persian who was dead and revived",
+        "a stranger in the city",
+        "the boy at the door — limits and conditions",
+        "how the world was made",
+        "the world, the hereafter, and the speech of parables",
+        "three layers of knowledge",
+        "the five shares and the long road to the shaykh",
+        "homecoming, the father, and the debate with abu malik"
+      ],
+      "skipped": [],
+      "chars": 192056,
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": null
+      }
     }
   },
   "completed_slugs": [],
@@ -551,11 +576,12 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-07-21T20:04:17Z",
+  "ts_updated": "2026-08-13T21:12:07Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
   "status": "published",
   "notes": [],
-  "published_at": "2026-07-19T16:40:44Z"
+  "published_at": "2026-07-19T16:40:44Z",
+  "run_id": "20260813T210741Z-1a36ce"
 }

@@ -138,6 +138,19 @@ def build_statements(book: Book, *, published_at: str, commit: str | None) -> li
             f"{sql_str(chapter.title)}, {sql_str(chapter.html)}, {chapter.word_count});"
         )
 
+    add(f"DELETE FROM chapter_narration WHERE slug = {sql_str(book.slug)};")
+    for chapter in book.chapters:
+        if chapter.narration is None:
+            continue
+        add(
+            "INSERT INTO chapter_narration "
+            "(slug, anchor_key, audio_key, duration_s, source_hash, voice, cues_json) VALUES "
+            f"({sql_str(book.slug)}, {sql_str(chapter.anchor)}, "
+            f"{sql_str(chapter.narration.audio.key)}, {sql_str(chapter.narration.duration_s)}, "
+            f"{sql_str(chapter.narration.source_hash)}, {sql_str(chapter.narration.voice)}, "
+            f"{sql_str(json.dumps(listener_narration_cues(chapter.narration.cues), ensure_ascii=False))});"
+        )
+
     # Sessions first, since an episode points at one.
     add(f"DELETE FROM book_session WHERE slug = {sql_str(book.slug)};")
     for session in book.sessions:
@@ -242,6 +255,21 @@ def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
     return "\n".join(build_statements(book, published_at=published_at, commit=commit)) + "\n"
 
 
+def listener_narration_cues(cues: list[dict]) -> list[dict]:
+    """Only the browser sync data; the paragraph text is already in chapter HTML."""
+    slim: list[dict] = []
+    for cue in cues:
+        slim.append(
+            {
+                "idx": cue.get("idx"),
+                "blockIndex": cue.get("blockIndex"),
+                "startS": cue.get("startS"),
+                "endS": cue.get("endS"),
+            }
+        )
+    return slim
+
+
 def keys_in_bucket(slug: str, *, remote: bool) -> set[str]:
     """The media keys this book currently claims to have uploaded."""
     rows = d1(
@@ -273,10 +301,11 @@ def remote_batches(statements: list[str], *, max_bytes: int = REMOTE_BATCH_BYTES
 
 
 def execute(sql_path: Path, *, remote: bool, statements: list[str] | None = None) -> None:
-    if remote and statements is not None:
+    if statements is not None:
         batches = remote_batches(statements)
+        location = "remote" if remote else "local"
         for i, command in enumerate(batches, 1):
-            print(f"  remote SQL batch {i}/{len(batches)}")
+            print(f"  {location} SQL batch {i}/{len(batches)}")
             subprocess.run(
                 [
                     "npx",
@@ -284,7 +313,7 @@ def execute(sql_path: Path, *, remote: bool, statements: list[str] | None = None
                     "d1",
                     "execute",
                     "podcast-listener",
-                    "--remote",
+                    "--remote" if remote else "--local",
                     "--command",
                     command,
                     "--yes",

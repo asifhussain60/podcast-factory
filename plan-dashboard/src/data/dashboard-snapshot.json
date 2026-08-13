@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 34.89
+    "burn_30d_usd": 38.47
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1946,7 +1946,7 @@
     {
       "slug": "the-master-and-the-disciple",
       "title": "The Master and the Disciple",
-      "phase": "0book-render",
+      "phase": "reader-narration",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
