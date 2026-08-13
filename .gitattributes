@@ -3,3 +3,9 @@
 # drop atoms behind conflict markers; `corpus_sync.py rebuild` then dedups
 # by id (INSERT OR IGNORE) into knowledge.db. Root fix for corpus loss.
 content/knowledge-base/*.jsonl merge=union
+content/Islamic/where-the-caravans-set-forth/_source/Jahan[[:space:]]sy[[:space:]]Qafily[[:space:]]Chaly[[:space:]]1.pdf filter=lfs diff=lfs merge=lfs -text
+# These source-faithful poetry lines use Markdown's two-space hard breaks.
+content/Islamic/where-the-caravans-set-forth/_system/source/text/articulator-chapters.md whitespace=-blank-at-eol
+content/Islamic/where-the-caravans-set-forth/_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-12.md whitespace=-blank-at-eol
+content/Islamic/where-the-caravans-set-forth/book/_chapters/ch12-the-market-of-hadar-kashab-and-the-odes-of-imru-al-qays.txt whitespace=-blank-at-eol
+content/Islamic/where-the-caravans-set-forth/book/book.md whitespace=-blank-at-eol

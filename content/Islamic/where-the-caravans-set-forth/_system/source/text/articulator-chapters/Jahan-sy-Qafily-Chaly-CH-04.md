@@ -1,0 +1,161 @@
+# Chapter 4
+
+## The Shape, Appearance, and Construction of the Kaaba
+
+When I went to Mecca for Hajj and saw the Kaaba for the first time, I too imagined, as many people do, that its walls must be immensely thick and that its foundations must go very deep into the ground. The Kaaba stands in a place that has endured for centuries, and from a distance one naturally assumes that it must be built like a massive stone fortress. But when I saw it closely, my impression changed. The House of God was quite different from what I had imagined.
+
+After returning, I tried to learn the measurements of its walls and structure. In 1995 it was not easy to take exact measurements, especially in the crowded area around the Kaaba, but the dimensions can be given approximately. From the Black Stone to the Iraqi corner the wall is about 38 feet 4 inches; from the Iraqi corner to the Syrian corner, about 32 feet 6 inches; from the Syrian corner to the Yemeni corner, about 39 feet 6 inches; and from the Yemeni corner back to the Black Stone, about 33 feet 5 inches.
+
+The walls are therefore not extraordinarily long. What gives the building its imposing appearance is its height. Its present height is much greater than it was in earlier times. It is said that the old Kaaba was no more than about 23 feet high, roughly the height of a four-storey ordinary house.
+
+In the age of Abd al-Muttalib, the walls of the Kaaba were not built in the form in which we see them today. The building was then only about six or seven feet high, and its roof was supported on wooden pillars. Inside were four posts on which lamps were hung. Oil was poured into these lamps and they were kept burning. The walls were made of stone, but they were low and simple. The doorway on the eastern side stood only a short distance above the ground so that rainwater could flow inside. Along the interior walls there were niches in which valuables and offerings were stored.
+
+At that time there were also idols in and around the Kaaba. Some were of stone and some of wood. The best known among them was Hubal. There were other idols as well, and people came from different tribes to worship them. Paintings and other objects were also kept inside. The interior was not the empty space familiar to later generations.
+
+The roof was made from timber. In those days good timber did not come easily to Mecca, so wood brought from the coast or recovered from damaged ships was highly prized. The roofing material was laid across the walls, then covered in such a way as to protect the interior from heat and rain.
+
+The Black Stone was fixed in one corner. It was not a single large stone in the form in which most people imagine it. Even in early times it consisted of pieces held together. Its colour had also changed over the centuries. Tradition speaks of it as originally lighter in colour, but constant touching, smoke, dust, weathering, and later damage altered its appearance.
+
+Near the Kaaba stood the place known as the Hijr, or Hatim. Part of the area now lying outside the present wall was regarded as belonging to the original structure. The wall that enclosed the Hijr was low and curved. Pilgrims passed around it during circumambulation.
+
+The Kaaba was therefore a comparatively small building surrounded by open ground. Around it stood the houses of Quraysh. These houses were not pressed immediately against the sanctuary. There was space between the Kaaba and the dwellings, and the various clans occupied their own quarters around the sacred precinct.
+
+Because Mecca lies in a valley, rainwater could become dangerous. Heavy rain came down from the surrounding hills and rushed toward the sanctuary. On one occasion a severe flood damaged the Kaaba. Water entered the building, weakened the walls, and threatened to bring them down. The people of Quraysh realised that the House could no longer be left as it was.
+
+Another incident added to the danger. A woman entered the Kaaba one day to burn incense. A spark from the fire caught the covering or wooden structure, and flames spread. The Kaaba was badly damaged. Its roof and walls were left in a condition in which reconstruction became unavoidable.
+
+Quraysh now had to decide whether to demolish the old structure and rebuild it. They were frightened. No one wished to be the first to strike the sacred building with a tool, lest some punishment descend upon him. At last one of their elders took courage, removed a stone, and waited to see what would happen. When no calamity followed, the others joined him.
+
+They decided that only lawful and clean earnings would be used in rebuilding the Kaaba. Money acquired through prostitution, usury, theft, injustice, or other forms of wrongdoing was not to be accepted. Their resources, however, were limited. When the funds ran short, they reduced the dimensions of the building and left part of the original foundation outside the new walls. This is the area later enclosed within the Hijr.
+
+At about this time a ship had been wrecked on the Red Sea coast. Quraysh purchased timber from it and brought a skilled carpenter to Mecca. The wood was used for the roof and other parts of the new building. The walls were raised course by course with stone and timber laid between sections for strength.
+
+When the rebuilding reached the level at which the Black Stone had to be placed, a serious dispute arose. Every clan wanted the honour of putting the Stone back into its position. The quarrel became so intense that bloodshed seemed possible. Some men even pledged themselves to fight rather than surrender the privilege.
+
+At last they agreed that the next person to enter the sanctuary should arbitrate between them.
+
+The first man to appear was Muhammad ibn Abdullah, who had not yet announced his prophethood. They were pleased when they saw him, for he was already known among them as trustworthy.
+
+He asked for a cloth. The Black Stone was placed in the middle of it, and representatives of the rival clans were told to take hold of the edges together. They lifted it jointly. Muhammad then took the Stone with his own hands and set it into its place.
+
+In this way a dispute that might have led to bloodshed was resolved.
+
+The reconstructed Kaaba was higher than before and more secure. Its door was raised above ground level, so that entry could be controlled. The roof was made stronger, and the building assumed a form much closer to that known in later times.
+
+The reconstruction is generally placed about five years before Muhammad’s call to prophethood, when he was around thirty-five years old.
+
+## The Elephant and the Reality of Abraha
+
+Before discussing the later events in the life of Abd al-Muttalib, it is necessary to consider the well-known story of the Elephant.
+
+The common account says that Abraha, the ruler of Yemen on behalf of Abyssinia, built a magnificent church in Sana'a. He wished to divert the pilgrimage of the Arabs away from the Kaaba and toward his new church. An Arab, angered by this intention, entered the church and defiled it. Abraha then swore to destroy the Kaaba. He marched toward Mecca with a great army that included elephants.
+
+According to the traditional story, the tribes of Arabia attempted to resist him but were defeated. When the army reached the vicinity of Mecca, some of the livestock belonging to Quraysh was seized, including camels belonging to Abd al-Muttalib.
+
+Abraha then sent a messenger to summon the leading man of Mecca. Abd al-Muttalib went to meet him. Abraha was impressed by his appearance and dignity and received him with honour.
+
+Abraha expected Abd al-Muttalib to plead for the Kaaba, but Abd al-Muttalib asked only that his camels be returned.
+
+Abraha is said to have replied in surprise, “I admired you when I saw you, but now my respect for you has diminished. I have come to destroy the House that is the centre of your religion and the honour of your people, yet you speak only of your camels.”
+
+Abd al-Muttalib answered, “I am the owner of the camels. The House has an Owner who will protect it.”
+
+The camels were returned. Abd al-Muttalib went back to Mecca, advised the people to leave the city, and withdrew with them toward the hills.
+
+The traditional account continues by saying that when Abraha ordered the army to advance, the elephant refused to move toward the Kaaba. If turned in another direction, it would walk, but when turned toward Mecca it sat down. Then flocks of birds appeared from the direction of the sea, each carrying small stones. They dropped the stones upon the army, which was destroyed. Abraha himself was badly injured and returned toward Yemen, where he later died.
+
+This event is ordinarily connected with the Qur'anic passage concerning the Companions of the Elephant.
+
+The author, however, does not accept every detail of the popular story as literal history. The narrative, in his view, contains later embellishments and raises a number of historical difficulties.
+
+If Abraha had truly set out to destroy the Kaaba because one Arab had defiled his church, why would he have treated Abd al-Muttalib with such courtesy? Why return his camels and then proceed to destroy the sanctuary whose custodian he was? If an enormous army with elephants had advanced through Arabia, its movements should have left clearer traces in contemporary records.
+
+The political situation of Yemen and Abyssinia must also be considered. Abraha was not an independent emperor free to undertake any campaign he wished. He ruled within a wider political order and had commercial and strategic interests to protect. A major expedition toward Mecca would have required resources, routes, and objectives greater than the simple motive usually given in popular accounts.
+
+The number of elephants is another difficulty. Elephants were not ordinary animals in Arabia, and transporting them across the long and difficult route into the Hijaz would itself have been a major undertaking. Later narrators differ over how many there were, which shows that the details were not securely preserved.
+
+The story of the birds and stones has likewise been expanded in later retellings. The Qur'anic passage itself is brief. It speaks of the Companions of the Elephant, of birds in flocks, and of stones of baked clay, but the elaborate descriptions found in later narratives should not automatically be treated as part of the earliest historical account.
+
+The essential point, according to the author, is that a hostile force came toward Mecca and was destroyed before it could achieve its purpose. The people of Mecca understood this as divine protection of the Kaaba. The later storytelling surrounding the event should be distinguished from that central fact.
+
+The incident greatly increased the prestige of Quraysh. The Arabs already respected the custodians of the Kaaba, but after the failure of the invading army the sanctity of Mecca appeared even more firmly established. Abd al-Muttalib’s standing also rose. He had remained calm during the crisis, had not submitted to the invader, and had trusted that the sanctuary would be protected.
+
+## The Death of Abdullah
+
+Some time after his marriage to Aminah bint Wahb, Abdullah set out with a trading caravan.
+
+He was still a young man. On the return journey he became ill near Medina. Because his mother’s relatives, the Banu Najjar, lived there, he remained with them while the caravan continued to Mecca.
+
+When the caravan reached Mecca, Abd al-Muttalib asked where his son was. He was told that Abdullah had fallen ill in Medina and had stayed behind.
+
+Abd al-Muttalib immediately sent one of his sons to inquire about him. By the time the messenger reached Medina, Abdullah had died.
+
+The news was brought back to Mecca.
+
+Abd al-Muttalib was deeply grieved. Abdullah had been especially dear to him, and his death came at a time when Aminah was expecting a child. The loss therefore fell not only upon a father who had lost his son but upon a young wife whose child would be born without a father.
+
+Abdullah was buried in Medina among the relatives of his mother’s family.
+
+The reports differ over his exact age, but he was still a young man. His estate was modest. It included a few camels or goats and a slave-woman named Umm Ayman, who would later remain connected with the household of his son.
+
+Muhammad was therefore born after the death of his father.
+
+## Reaching Aminah’s Grave
+
+The Messenger of God knew where his mother had been buried. Later in life, when he passed through that region, he visited her grave.
+
+Aminah had taken the young Muhammad from Mecca to Medina to visit his maternal relatives and to show him the place where his father had died and been buried. Umm Ayman accompanied them.
+
+They remained in Medina for some time. On the return journey, Aminah became ill at a place called Abwa, between Medina and Mecca.
+
+Her condition worsened, and she died there.
+
+Muhammad was still a child.
+
+Umm Ayman brought him back to Mecca and delivered him to Abd al-Muttalib.
+
+The author draws attention to the loneliness of the child at this stage of his life. His father had died before his birth, and now his mother had also died. He had travelled with her toward Medina and returned without her. The memory of that journey and of her grave remained with him.
+
+Many years later, when the Messenger of God passed through Abwa, he stopped at the grave of his mother. He sat there and wept. Those around him also wept.
+
+He asked permission to pray for her forgiveness, but according to the report, permission was not granted. He was, however, permitted to visit her grave.
+
+The author regards the emotional force of the episode as clear: a son, now advanced in years and carrying the responsibilities of prophethood, stood again at the grave of the mother he had lost in childhood.
+
+## The Majesty and Death of Abd al-Muttalib
+
+It is difficult to overstate the standing Abd al-Muttalib possessed among Quraysh. His father and grandfather had both been leaders, and through his mother he was connected with the Khazraj of Medina. He had inherited wealth, dignity, and political influence, and his natural bearing increased the respect people showed him.
+
+He was a tall, handsome, imposing man. When he sat near the Kaaba, a special carpet was spread for him. His sons sat around it, but none would sit upon the carpet itself out of respect for him.
+
+The young Muhammad, however, would sometimes come and sit directly on his grandfather’s carpet.
+
+His uncles tried to move him away, but Abd al-Muttalib stopped them. “Leave my son,” he would say. “By God, there is something remarkable about him.”
+
+He would draw the boy close, seat him beside himself, and show him affection.
+
+Abd al-Muttalib understood that Muhammad had lost both father and mother. He therefore took special care of him and did not allow him to feel abandoned in the household.
+
+On one occasion, Muhammad was missing. Abd al-Muttalib became extremely anxious and sent people in different directions to search for him. When the child was finally found and brought back, Abd al-Muttalib embraced him and expressed how deeply his disappearance had frightened him.
+
+The affection between grandfather and grandson was therefore strong.
+
+Abd al-Muttalib was also respected beyond his own family. Men of Quraysh consulted him in serious matters. Travellers, merchants, and tribal chiefs recognised his authority. His position was not merely ceremonial; he was one of the central figures through whom Meccan affairs were conducted.
+
+Yet he was now an old man.
+
+When Muhammad was about eight years old, Abd al-Muttalib’s health declined. Realising that death was near, he had to decide who would care for the child after him.
+
+Among his sons, Abu Talib was the full brother of Abdullah, Muhammad’s father. For this reason, and because of his affection and character, Abd al-Muttalib entrusted Muhammad to Abu Talib.
+
+He instructed Abu Talib to protect the boy, care for him, and never neglect him.
+
+Abu Talib accepted the responsibility.
+
+Abd al-Muttalib died in 579 CE, corresponding to the Year of the Elephant according to the chronology followed in this book. He was about ninety-nine years old.
+
+His death was deeply mourned in Mecca. The people of Quraysh regarded him as one of their greatest leaders, and his household felt the loss intensely.
+
+The young Muhammad had now lost his father before birth, his mother in early childhood, and his grandfather only a short time later.
+
+From that point onward, his care passed to Abu Talib.

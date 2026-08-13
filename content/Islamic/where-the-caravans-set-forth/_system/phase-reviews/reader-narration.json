@@ -1,0 +1,12 @@
+{
+  "schema": "podcast.phase-review/v1",
+  "phase": "reader-narration",
+  "verdict": "PHASE-SOUND",
+  "blocking_fail": null,
+  "counts": {
+    "total": 0,
+    "failed": 0,
+    "crashed": 0
+  },
+  "gates": []
+}

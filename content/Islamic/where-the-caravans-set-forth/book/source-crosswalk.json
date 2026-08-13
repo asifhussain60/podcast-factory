@@ -1,0 +1,174 @@
+{
+  "schema": "podcast.translation-edition.source-crosswalk/v1",
+  "book": "where-the-caravans-set-forth",
+  "source_language": "ur",
+  "target_language": "en",
+  "translation_provenance": "Articulator GPT output supplied by Asif",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "Mecca",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-01.md",
+      "book_chapter_file": "book/_chapters/ch01-mecca.txt",
+      "source_headings": [
+        "Mecca"
+      ],
+      "source_excerpt": "# Chapter 1 ## Mecca First, let us look at a few things about Mecca. Before Islam, Mecca was the central city of Arabia. It was founded by Abraham about five thousand years ago. Abraham’s original city was Nasiriyah, about one hundred miles from Basra. His father, Terah, was a mason there and built houses for people. L",
+      "drift_findings": []
+    },
+    {
+      "index": 2,
+      "title": "Hashim ibn Abd Manaf and Mecca",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-02.md",
+      "book_chapter_file": "book/_chapters/ch02-hashim-ibn-abd-manaf-and-mecca.txt",
+      "source_headings": [
+        "Hashim ibn Abd Manaf and Mecca"
+      ],
+      "source_excerpt": "# Chapter 2 ## Hashim ibn Abd Manaf and Mecca Hashim was the son of Abd Manaf, a prominent leader of Quraysh. He was the great-grandfather of the Messenger of God and the father of Abd al-Muttalib. All the descendants of Abd al-Muttalib came to be known as Hashimites after him. In Mecca, Hashim’s clan had a separate en",
+      "drift_findings": []
+    },
+    {
+      "index": 3,
+      "title": "Abd al-Muttalib and Medina",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-03.md",
+      "book_chapter_file": "book/_chapters/ch03-abd-al-muttalib-and-medina.txt",
+      "source_headings": [
+        "Abd al-Muttalib and Medina"
+      ],
+      "source_excerpt": "# Chapter 3 ## Abd al-Muttalib and Medina It is appropriate here to say something about the childhood of Abd al-Muttalib. Before Hashim died, he entrusted his brother Muttalib with his affairs. Some time after Hashim’s death, a caravan belonging to Quraysh passed near Medina. The travellers saw a young boy at play who ",
+      "drift_findings": []
+    },
+    {
+      "index": 4,
+      "title": "The Shape, Appearance, and Construction of the Kaaba",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-04.md",
+      "book_chapter_file": "book/_chapters/ch04-the-shape-appearance-and-construction-of-the-kaaba.txt",
+      "source_headings": [
+        "The Shape, Appearance, and Construction of the Kaaba"
+      ],
+      "source_excerpt": "# Chapter 4 ## The Shape, Appearance, and Construction of the Kaaba When I went to Mecca for Hajj and saw the Kaaba for the first time, I too imagined, as many people do, that its walls must be immensely thick and that its foundations must go very deep into the ground. The Kaaba stands in a place that has endured for c",
+      "drift_findings": []
+    },
+    {
+      "index": 5,
+      "title": "Abu Talib’s Economic Position and Leadership",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-05.md",
+      "book_chapter_file": "book/_chapters/ch05-abu-talibs-economic-position-and-leadership.txt",
+      "source_headings": [
+        "Abu Talib’s Economic Position and Leadership"
+      ],
+      "source_excerpt": "# Chapter 5 ## Abu Talib’s Economic Position and Leadership Abu Talib was five or six years older than his brother Abdullah. Their mother was Fatimah bint Amr, so Abdullah and Abu Talib were full brothers, sharing both father and mother. Since the Messenger of God was placed in Abu Talib’s care, the responsibilities an",
+      "drift_findings": []
+    },
+    {
+      "index": 6,
+      "title": "My Arrival in Mecca",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-06.md",
+      "book_chapter_file": "book/_chapters/ch06-my-arrival-in-mecca.txt",
+      "source_headings": [
+        "My Arrival in Mecca"
+      ],
+      "source_excerpt": "# Chapter 6 ## My Arrival in Mecca I first entered Mecca in November 1993, when I was twenty-one years old. At that time the city was still small, and there were many barbers. In India and Pakistan, whoever managed to obtain a visa would become a *Haji*; indeed, many of those pilgrims returned every year in the guise o",
+      "drift_findings": []
+    },
+    {
+      "index": 7,
+      "title": "Mecca and the Quraysh Dispute",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-07.md",
+      "book_chapter_file": "book/_chapters/ch07-mecca-and-the-quraysh-dispute.txt",
+      "source_headings": [
+        "Mecca and the Quraysh Dispute"
+      ],
+      "source_excerpt": "# Chapter 7 ## Mecca and the Quraysh Dispute Everyone knows that Mecca was inhabited by different tribes. Quraysh itself had many branches, and each branch held the position of a small tribe with its own recognised chief. When a matter arose within a clan, it was first taken to that clan’s chief. Questions affecting Qu",
+      "drift_findings": []
+    },
+    {
+      "index": 8,
+      "title": "The Story of Hajun",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-08.md",
+      "book_chapter_file": "book/_chapters/ch08-the-story-of-hajun.txt",
+      "source_headings": [
+        "The Story of Hajun"
+      ],
+      "source_excerpt": "# Chapter 8 ## The Story of Hajun One day I left the area of Abu Talib’s house and walked toward Hajun, a hill lying to the north of the Kaaba, roughly three kilometres away. Jannat al-Mu'alla, the cemetery of Mecca, extends toward its far side. Hajun was associated especially with Banu Hashim, and many members of that",
+      "drift_findings": []
+    },
+    {
+      "index": 9,
+      "title": "The Story of the Cave of Hira",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-09.md",
+      "book_chapter_file": "book/_chapters/ch09-the-story-of-the-cave-of-hira.txt",
+      "source_headings": [
+        "The Story of the Cave of Hira"
+      ],
+      "source_excerpt": "# Chapter 9 ## The Story of the Cave of Hira I went to see the Cave of Hira. It lies to the north of Mecca, high on Jabal al-Nur. By the road, the mountain is about ten kilometres from the city. A paved road now leads toward it, and taxis carry visitors there. I hired one and travelled with several other pilgrims who, ",
+      "drift_findings": []
+    },
+    {
+      "index": 10,
+      "title": "The Hijrah",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-10.md",
+      "book_chapter_file": "book/_chapters/ch10-the-hijrah.txt",
+      "source_headings": [
+        "The Hijrah"
+      ],
+      "source_excerpt": "# Chapter 10 ## The Hijrah The migration from Mecca to Medina was not a sudden escape. It was the result of a long struggle, careful preparation, and the steady growth of opposition in Mecca. By this time many Muslims had already left Mecca and settled in Yathrib. The people there had begun to accept Islam in increasin",
+      "drift_findings": []
+    },
+    {
+      "index": 11,
+      "title": "The House of the Messenger of God",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-11.md",
+      "book_chapter_file": "book/_chapters/ch11-the-house-of-the-messenger-of-god.txt",
+      "source_headings": [
+        "The House of the Messenger of God"
+      ],
+      "source_excerpt": "# Chapter 11 ## The House of the Messenger of God The house associated with the Messenger of God stood within a large enclosure. In Urdu, such a place might be described as a walled compound. It lay in the old quarter of Banu Hashim, on the eastern side of the Haram. In earlier times this entire neighbourhood belonged ",
+      "drift_findings": []
+    },
+    {
+      "index": 12,
+      "title": "The Market of Hadar Kashab and the Odes of Imru' al-Qays",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-12.md",
+      "book_chapter_file": "book/_chapters/ch12-the-market-of-hadar-kashab-and-the-odes-of-imru-al-qays.txt",
+      "source_headings": [
+        "The Market of Hadar Kashab and the Odes of Imru' al-Qays"
+      ],
+      "source_excerpt": "# Chapter 12 ## The Market of Hadar Kashab and the Odes of Imru' al-Qays Travel about four hundred kilometres south of Medina and roughly one hundred and fifty kilometres east of Mecca, and you come to a small settlement known as Hadar Kashab. Around it stretches the desert, broken here and there by red and black hills",
+      "drift_findings": []
+    },
+    {
+      "index": 13,
+      "title": "The Story of Medina",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-13.md",
+      "book_chapter_file": "book/_chapters/ch13-the-story-of-medina.txt",
+      "source_headings": [
+        "The Story of Medina"
+      ],
+      "source_excerpt": "# Chapter 13 ## The Story of Medina I first went to Medina twenty-eight years ago. At that time, Saudi Arabia imposed many restrictions on visitors, and people were not allowed to enter certain places freely. I had no special permit, yet I was determined to see as much as I could. I was young, curious, and deeply inter",
+      "drift_findings": []
+    },
+    {
+      "index": 14,
+      "title": "The Burial Place of Fatimah, Daughter of the Messenger of God",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-14.md",
+      "book_chapter_file": "book/_chapters/ch14-the-burial-place-of-fatimah-daughter-of-the-messenger-of-god.txt",
+      "source_headings": [
+        "The Burial Place of Fatimah, Daughter of the Messenger of God"
+      ],
+      "source_excerpt": "# Chapter 14 ## The Burial Place of Fatimah, Daughter of the Messenger of God It is commonly said that Fatimah, daughter of the Prophet, is buried in Jannat al-Baqi‘. Visitors are often shown a place there and told that one of the graves is hers. But this is not certain. The exact burial place of Fatimah, peace be upon",
+      "drift_findings": []
+    },
+    {
+      "index": 15,
+      "title": "The Reality of Biʾr Ghars",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-15.md",
+      "book_chapter_file": "book/_chapters/ch15-the-reality-of-bir-ghars.txt",
+      "source_headings": [
+        "The Reality of Biʾr Ghars"
+      ],
+      "source_excerpt": "# Chapter 15 ## The Reality of Biʾr Ghars As for the previous day, I had wanted to see several places together, but in such a way that I could spend a good deal of time there, because the following day I was to leave Madinah for Khaybar and then proceed toward Fadak. Early in the morning, I left my hotel and, emerging ",
+      "drift_findings": []
+    }
+  ]
+}

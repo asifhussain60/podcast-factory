@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "book_slug": "where-the-caravans-set-forth",
+  "category": "books",
+  "branch": "Islamic/where-the-caravans-set-forth",
+  "phase": "publish",
+  "phase_status": "completed",
+  "last_completed_phase": "publish",
+  "next_phase": null,
+  "last_error": null,
+  "pipeline_mode": "manual_articulator_translation_no_podcast",
+  "status": "published",
+  "source_path": "_source/Where_the_Caravans_Set_Forth.pdf",
+  "original_source_path": "_source/Jahan sy Qafily Chaly 1.pdf",
+  "source_kind": "pdf",
+  "input_type": "translated_markdown_chapters",
+  "source_language": "ur",
+  "target_language": "en",
+  "podcast_enabled": false,
+  "reader_narration_enabled": true,
+  "phases": {
+    "scaffold": {
+      "status": "completed",
+      "ts_completed": "2026-08-13T22:42:21Z"
+    },
+    "reading-edition-assembly": {
+      "status": "completed",
+      "ts_completed": "2026-08-13T22:42:21Z",
+      "chapters": 15
+    },
+    "reader-narration": {
+      "status": "completed",
+      "ts_started": "2026-08-13T22:49:26Z",
+      "ts_completed": "2026-08-13T22:57:34Z",
+      "rendered": [
+        "mecca",
+        "hashim ibn abd manaf and mecca",
+        "abd al-muttalib and medina",
+        "the shape, appearance, and construction of the kaaba",
+        "abu talib’s economic position and leadership",
+        "my arrival in mecca",
+        "mecca and the quraysh dispute",
+        "the story of hajun",
+        "the story of the cave of hira",
+        "the hijrah",
+        "the house of the messenger of god",
+        "the market of hadar kashab and the odes of imru' al-qays",
+        "the story of medina",
+        "the burial place of fatimah, daughter of the messenger of god",
+        "the reality of biʾr ghars"
+      ],
+      "skipped": [],
+      "chars": 186903,
+      "cues": 1098,
+      "duration_seconds": 13470.96,
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 15,
+        "blocking_fail": null
+      }
+    },
+    "publish-local-library": {
+      "status": "completed",
+      "ts_completed": "2026-08-13T23:00:00Z",
+      "chapters": 15,
+      "episodes": 0,
+      "media_uploaded": 16,
+      "media_verified": 16,
+      "visibility": "published",
+      "open_to_all": false
+    },
+    "publish": {
+      "status": "completed",
+      "ts_completed": "2026-08-13T23:00:00Z",
+      "target": "local-podcast-factory-library"
+    }
+  },
+  "cost": {
+    "azure_usd": 2.990448,
+    "anthropic_usd": 0.0,
+    "note": "Manual local-review intake; Azure Speech cost is recorded in the cost ledger."
+  },
+  "ts_started": "2026-08-13T22:42:21Z",
+  "ts_updated": "2026-08-13T23:00:00Z",
+  "run_id": "20260813T225734Z-0ef063"
+}
