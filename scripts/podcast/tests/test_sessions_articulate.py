@@ -250,6 +250,20 @@ def test_auto_engine_uses_claude_without_codex_env(book_dir: Path, monkeypatch) 
     assert seen == [(None, None)]
 
 
+def test_cli_preflights_before_entering_the_chapter_loop(book_dir: Path, monkeypatch, capsys) -> None:
+    called: list[str] = []
+
+    monkeypatch.setattr(art, "resolve_content", lambda _slug: book_dir)
+    monkeypatch.setattr(art, "preflight_engine", lambda engine: (_ for _ in ()).throw(RuntimeError("missing app")))
+    monkeypatch.setattr(art, "articulate_book", lambda *_args, **_kwargs: called.append("ran"))
+
+    rc = art.main(["fake-slug", "--engine", "codex"])
+
+    assert rc == 2
+    assert called == []
+    assert "cannot use codex engine" in capsys.readouterr().err
+
+
 def test_the_ledger_is_written_per_chapter_not_at_the_end(book_dir: Path, monkeypatch) -> None:
     """A run interrupted at chapter 19 of 23 must not re-pay for the eighteen
     that succeeded, so the record lands as each one finishes."""

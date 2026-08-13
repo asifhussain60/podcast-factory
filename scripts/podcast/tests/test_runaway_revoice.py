@@ -199,7 +199,7 @@ def test_the_lane_driver_never_reports_failed_for_a_gate_side_exception(tmp_path
     import rearticulate_chapter as rc
 
     monkeypatch.setattr(rc, "_adapter", _adapter_returns((BASE + " ") * 15))
-    summary = art.articulate_book(book_dir, log=lambda *_: None)
+    summary = art.articulate_book(book_dir, engine="claude", log=lambda *_: None)
     assert summary["failed"] == []
     assert summary["reverted"] == 1
     ledger = json.loads((book_dir / "_system" / "sessions-articulation.json").read_text())

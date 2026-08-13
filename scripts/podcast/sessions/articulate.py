@@ -65,10 +65,10 @@ from _book_edits import anchor_key, write_chapter_body  # noqa: E402
 # drift the first time either changed, and this module would report articulating
 # a section the engine silently passed through.
 from _book_voice import _CHAPTER_HEADING_RE, _INTRODUCTION_KEY  # noqa: E402
-from _engine import ENGINE_CODEX_CHATGPT, subscription_engine_for_process  # noqa: E402
 from _paths import resolve_content  # noqa: E402
 from _pipeline_flags import narrative_frame  # noqa: E402
 from _sessions_prose_format import normalize_sessions_prose  # noqa: E402
+from _text_transform import adapters_for_engine, preflight_engine, resolve_runtime_engine  # noqa: E402
 from rearticulate_chapter import rearticulate  # noqa: E402
 
 from sessions.ingest import ARTICULATE_STEP, LANE_STEPS  # noqa: E402
@@ -328,17 +328,7 @@ def articulate_book(
     if todo:
         _write_step_status(book_dir, status="running", kept=skipped, total=len(chapters))
 
-    adapter = repair_adapter = None
-    if engine == "codex":
-        from rearticulate_chapter import _codex_adapter, _codex_repair_adapter
-
-        adapter = _codex_adapter
-        repair_adapter = _codex_repair_adapter
-    elif engine == "gemini":
-        from rearticulate_chapter import _gemini_adapter, _gemini_repair_adapter
-
-        adapter = _gemini_adapter
-        repair_adapter = _gemini_repair_adapter
+    adapter, repair_adapter = adapters_for_engine(engine)
 
     adapted = partial = reverted = 0
     failed: list[dict] = []
@@ -470,13 +460,6 @@ def articulate_book(
     }
 
 
-def resolve_runtime_engine(engine: str) -> str:
-    """Resolve ``auto`` to the subscription backing the current app."""
-    if engine != "auto":
-        return engine
-    return "codex" if subscription_engine_for_process() == ENGINE_CODEX_CHATGPT else "claude"
-
-
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("slug")
@@ -492,12 +475,20 @@ def main(argv: list[str] | None = None) -> int:
         print(f"no book found for slug {args.slug!r}", file=sys.stderr)
         return 2
 
+    engine = resolve_runtime_engine(args.engine)
+    if not args.dry_run:
+        try:
+            preflight_engine(engine)
+        except Exception as exc:
+            print(f"  articulate: cannot use {engine} engine — {exc}", file=sys.stderr)
+            return 2
+
     summary = articulate_book(
         book_dir,
         force=args.force,
         limit=args.limit,
         dry_run=args.dry_run,
-        engine=args.engine,
+        engine=engine,
         log=(lambda *_: None) if args.json else print,
     )
     if args.json:

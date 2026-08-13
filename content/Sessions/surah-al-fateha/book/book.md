@@ -724,23 +724,19 @@ I turn now to the Surah. The first آیۃ of سُورَۃُ الْفَاتِحَ
 
 ### ILAH
 
-I begin with the word اللہ. The word Allah comes from the root word الہ. I generally use this term to mean God. However, الہ is, in reality, a very generic term, comparable to "book" or "car." There are many types of books, and many types of cars. The term is not specific. Similarly, there can be many types of الہ. In English, two types of articles exist: the indefinite article "a," as in "a book" or "a car," and the definite article "the," as in "the book" or "the car."
+I begin with the word اللہ. The word Allah comes from the root word الہ. I generally use this term to mean God. However, الہ is, in reality, a very generic term, comparable to "book" or "car." There are many types of books and cars. The term is not specific. Similarly, there can be many types of الہ. In English, two types of articles exist: the indefinite article "a," as in "a book" or "a car," and the definite article "the," as in "the book" or "the car."
 
-A vs THE
-
-![](images/87/983c2f7d-5f31-4f45-b5bf-27da233a43c0.jpg)
+#### A vs THE
 
 The difference between "a book" and "the book" is important. "A book" is a generic term; it could mean any book. But when I say "the book," I am no longer talking about just any book; I am referring to a very specific book. The same principle applies to the word الہ.
 
-ILAH vs AL-ILAH
+#### ILAH vs AL-ILAH
 
-![](images/87/1b3198d2-bb3f-48d3-ac49-05f97e515554.jpg)
-
-The word الہ is a generic, indefinite term that can apply to many things. There can be many types of الہ, just as there can be many types of books. But when the definite article "the" is applied to it — ال in Arabic — the combination ال + الہ generates the word اللہ. In other words, اللہ is the specific, definite form of the generic word الہ. Allah is, at its root, ال + الہ. By the rules of Arabic grammar, the الف of اللہ is dropped, and the ال merges with the ل and the ہ to become Allah. To understand the linguistic meaning of the word Allah, then, the first step is to understand the meaning of the word الہ.
+The word الہ is a generic, indefinite term that can apply to many things. There can be many types of الہ, just as there can be many types of books. But when the definite article "the" is applied to it — ال in Arabic — the combination ال + الہ generates the word اللہ. In other words, اللہ is the specific, definite form of the generic word الہ. Allah is, at its root, ال + الہ. By the rules of Arabic grammar, the الف of اللہ is dropped, and the ال merges with the ل and the ہ to become Allah. To understand the linguistic meaning of the word Allah, the first step is to understand the meaning of the word الہ.
 
 ### Composite Words
 
-The word الہ is a composite word, and it carries a slew of meanings. A composite word works like a jigsaw puzzle: every piece of the puzzle holds a separate, independent meaning, and all those meanings come together to form one complete image of what the word means. If the word الہ has four different meanings — A, B, C, and D — then the sum of those meanings yields the complete understanding of الہ. The meaning of الہ is not A alone, or B alone, or C or D in isolation. It is A + B + C + D together. That is what a composite word is, and it is a concept worth holding firmly, because many of the words examined in these pages are composite words of exactly this kind.
+The word الہ is a compound word and carries a range of meanings. A composite word works like a jigsaw puzzle: every piece of the puzzle holds a separate, independent meaning, and all those meanings come together to form one complete image of what the word means. If the word الہ has four different meanings — A, B, C, and D — then the sum of those meanings yields the complete understanding of الہ. The meaning of الہ is not A alone, or B alone, or C or D in isolation. It is A + B + C + D together. That is what a composite word is, and it is a concept worth holding firmly, because many of the words examined in these pages are composite words of exactly this kind.
 
 ### Meanings Of Word ILAH
 
@@ -777,13 +773,9 @@ Another derivative of الہ comes from وَلِہَ, which means to become asto
 These, then, are the various meanings gathered in the word الہ. Returning to them: who or what is an الہ?
 
 - The one worshipped and obeyed is one's الہ.
-
 - The one to whom complete devotion and loyalty are given is one's الہ.
-
 - The one to whom a person turns in utter desperation, seeking comfort, is one's الہ.
-
 - The one a person is passionately in love with, the one who becomes an obsession, is one's الہ.
-
 - The one a person leans on for support — physically, mentally, emotionally, psychologically — is one's الہ.
 
 That, then, is what the word الہ means. And because الہ is a composite word, it carries the sum of all those meanings at once. The one a person passionately loves is also the one to whom that person is completely devoted; the one they lean on; the one to whom they turn in desperation for comfort and support. Separation or distance from that person drives them to the edge of sanity. They submit to and obey every single thing that person says — they worship that person, in the fullest sense. All these meanings converge and build a single, complete picture. That is precisely how a composite word works.

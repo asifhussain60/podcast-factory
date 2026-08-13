@@ -31,8 +31,8 @@ def test_rearticulate_adapter_runs_claude_without_tools_or_workspace_context(tmp
         calls.append({"prompt": prompt, **kwargs})
         return 0, "Articulated prose.", ""
 
-    monkeypatch.setattr("rearticulate_chapter._run_claude_p", fake_run)
-    monkeypatch.setattr("rearticulate_chapter._source_language", lambda _book_dir: "ar")
+    monkeypatch.setattr("_text_transform._run_claude_p", fake_run)
+    monkeypatch.setattr("_text_transform._source_language", lambda _book_dir: "ar")
 
     out = _adapter("A Chapter", "Plain English sentence. " * 40, tmp_path, "ch01", lambda *_: None)
 

@@ -37,271 +37,41 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _authoring._core import _run_claude_p
-from _book_compose import _arabic_run_count
 from _book_edits import anchor_key, base_fingerprint_for, record_edit
 from _book_pass_reports import record_rearticulation
 from _book_voice import _CHAPTER_HEADING_RE, _run_pass
-from _book_voice_prompts import _articulation_prompt, _articulation_repair_prompt
-from _content_profile import source_language as _source_language
-from _engine import ENGINE_CODEX_CHATGPT, subscription_engine_for_process
 from _paths import resolve_content
 from _pipeline_flags import narrative_frame, narrator_subject
-
-_MIN_TIMEOUT = 180
-_MAX_TIMEOUT = 600
-_WINDOW_WORDS = 300
-_PHASE = "rearticulate"
-_WORD_RE = re.compile(r"\b[\w'’-]+\b")
-_TEXT_TRANSFORM_SYSTEM_PROMPT = (
-    "You are a non-agentic text transformation engine. Follow the user's prompt exactly. "
-    "Return only the requested transformed prose. Do not mention tools, commands, files, "
-    "scripts, terminal output, or the act of processing the request."
+from _text_transform import (
+    _adapter,
+    _codex_adapter,
+    _codex_repair_adapter,
+    _gemini_adapter,
+    _gemini_repair_adapter,
+    _repair_adapter,
+    adapters_for_engine,
+    preflight_engine,
+    resolve_runtime_engine,
+    timeout_for_window,
 )
-_GEMINI_MODEL = "gemini-2.5-flash"
-_CODEX_MODEL = "gpt-5.5"
 
+__all__ = [
+    "_adapter",
+    "_codex_adapter",
+    "_codex_repair_adapter",
+    "_gemini_adapter",
+    "_gemini_repair_adapter",
+    "_repair_adapter",
+    "timeout_for_window",
+]
 
-def timeout_for_window(base_text: str) -> int:
-    """Derive the model-call timeout from the actual passage being rewritten.
-
-    A single global ceiling made bulk rearticulation painful: a sticky short
-    window could hold the whole book hostage for the same 15 minutes as a dense,
-    Arabic-heavy one. The timeout follows the work the model is being asked to
-    do: ordinary prose gets a small floor, long prose gets more room, and Arabic
-    density adds time because every run must be copied and counted.
-    """
-
-    words = len(_WORD_RE.findall(base_text or ""))
-    arabic_runs = _arabic_run_count(base_text or "")
-    seconds = 90 + int(words * 0.04) + int(arabic_runs * 0.5)
-    return max(_MIN_TIMEOUT, min(_MAX_TIMEOUT, seconds))
-
-
-def _adapter(
-    title: str,
-    base_text: str,
-    book_dir: Path,
-    label: str,
-    log,
-    *,
-    previous_tail: str = "",
-    frame: str = "",
-    narrator: str = "",
-) -> str:
-    lang = _source_language(book_dir)
-    timeout = timeout_for_window(base_text)
-    words = len(_WORD_RE.findall(base_text or ""))
-    arabic_runs = _arabic_run_count(base_text or "")
-    log(f"      {label}: timeout={timeout}s (words={words}, Arabic={arabic_runs})")
-    rc, out, err = _run_claude_p(
-        _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator, source_language=lang),
-        timeout=timeout,
-        book_dir=book_dir,
-        phase=_PHASE,
-        step=label,
-        tools="",
-        safe_mode=True,
-        no_chrome=True,
-        no_session_persistence=True,
-        system_prompt=_TEXT_TRANSFORM_SYSTEM_PROMPT,
-        effort="low",
-    )
-    if rc != 0:
-        raise RuntimeError(f"{label}: claude -p rc={rc}: {(err or '')[:200]}")
-    return (out or "").strip()
-
-
-def _repair_adapter(
-    title: str,
-    base_text: str,
-    candidate_text: str,
-    gates: list[str],
-    book_dir: Path,
-    label: str,
-    log,
-    *,
-    previous_tail: str = "",
-    frame: str = "",
-    narrator: str = "",
-) -> str:
-    lang = _source_language(book_dir)
-    timeout = timeout_for_window(base_text)
-    words = len(_WORD_RE.findall(base_text or ""))
-    arabic_runs = _arabic_run_count(base_text or "")
-    log(f"      {label}: repair timeout={timeout}s (words={words}, Arabic={arabic_runs}, gates={len(gates)})")
-    rc, out, err = _run_claude_p(
-        _articulation_repair_prompt(
-            title,
-            base_text,
-            candidate_text,
-            gates,
-            previous_tail,
-            frame=frame,
-            narrator=narrator,
-            source_language=lang,
-        ),
-        timeout=timeout,
-        book_dir=book_dir,
-        phase=_PHASE,
-        step=label,
-        tools="",
-        safe_mode=True,
-        no_chrome=True,
-        no_session_persistence=True,
-        system_prompt=_TEXT_TRANSFORM_SYSTEM_PROMPT,
-        effort="low",
-    )
-    if rc != 0:
-        raise RuntimeError(f"{label}: claude -p rc={rc}: {(err or '')[:200]}")
-    return (out or "").strip()
-
-
-def _gemini_adapter(
-    title: str,
-    base_text: str,
-    book_dir: Path,
-    label: str,
-    log,
-    *,
-    previous_tail: str = "",
-    frame: str = "",
-    narrator: str = "",
-) -> str:
-    lang = _source_language(book_dir)
-    timeout = timeout_for_window(base_text)
-    words = len(_WORD_RE.findall(base_text or ""))
-    arabic_runs = _arabic_run_count(base_text or "")
-    log(f"      {label}: gemini timeout={timeout}s (words={words}, Arabic={arabic_runs})")
-    from _gemini_text import call_gemini_text
-
-    return call_gemini_text(
-        _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator, source_language=lang),
-        book_dir=book_dir,
-        phase=_PHASE,
-        step=label,
-        model=_GEMINI_MODEL,
-        system_prompt=_TEXT_TRANSFORM_SYSTEM_PROMPT,
-        timeout=timeout,
-        temperature=0.35,
-    )
-
-
-def _gemini_repair_adapter(
-    title: str,
-    base_text: str,
-    candidate_text: str,
-    gates: list[str],
-    book_dir: Path,
-    label: str,
-    log,
-    *,
-    previous_tail: str = "",
-    frame: str = "",
-    narrator: str = "",
-) -> str:
-    lang = _source_language(book_dir)
-    timeout = timeout_for_window(base_text)
-    words = len(_WORD_RE.findall(base_text or ""))
-    arabic_runs = _arabic_run_count(base_text or "")
-    log(f"      {label}: gemini repair timeout={timeout}s (words={words}, Arabic={arabic_runs}, gates={len(gates)})")
-    from _gemini_text import call_gemini_text
-
-    return call_gemini_text(
-        _articulation_repair_prompt(
-            title,
-            base_text,
-            candidate_text,
-            gates,
-            previous_tail,
-            frame=frame,
-            narrator=narrator,
-            source_language=lang,
-        ),
-        book_dir=book_dir,
-        phase=_PHASE,
-        step=label,
-        model=_GEMINI_MODEL,
-        system_prompt=_TEXT_TRANSFORM_SYSTEM_PROMPT,
-        timeout=timeout,
-        temperature=0.25,
-    )
-
-
-def _codex_adapter(
-    title: str,
-    base_text: str,
-    book_dir: Path,
-    label: str,
-    log,
-    *,
-    previous_tail: str = "",
-    frame: str = "",
-    narrator: str = "",
-) -> str:
-    lang = _source_language(book_dir)
-    timeout = timeout_for_window(base_text)
-    words = len(_WORD_RE.findall(base_text or ""))
-    arabic_runs = _arabic_run_count(base_text or "")
-    log(f"      {label}: codex timeout={timeout}s (words={words}, Arabic={arabic_runs})")
-    from _codex_text import call_codex_text
-
-    return call_codex_text(
-        _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator, source_language=lang),
-        book_dir=book_dir,
-        phase=_PHASE,
-        step=label,
-        model=_CODEX_MODEL,
-        system_prompt=_TEXT_TRANSFORM_SYSTEM_PROMPT,
-        timeout=timeout,
-    )
-
-
-def _codex_repair_adapter(
-    title: str,
-    base_text: str,
-    candidate_text: str,
-    gates: list[str],
-    book_dir: Path,
-    label: str,
-    log,
-    *,
-    previous_tail: str = "",
-    frame: str = "",
-    narrator: str = "",
-) -> str:
-    lang = _source_language(book_dir)
-    timeout = timeout_for_window(base_text)
-    words = len(_WORD_RE.findall(base_text or ""))
-    arabic_runs = _arabic_run_count(base_text or "")
-    log(f"      {label}: codex repair timeout={timeout}s (words={words}, Arabic={arabic_runs}, gates={len(gates)})")
-    from _codex_text import call_codex_text
-
-    return call_codex_text(
-        _articulation_repair_prompt(
-            title,
-            base_text,
-            candidate_text,
-            gates,
-            previous_tail,
-            frame=frame,
-            narrator=narrator,
-            source_language=lang,
-        ),
-        book_dir=book_dir,
-        phase=_PHASE,
-        step=label,
-        model=_CODEX_MODEL,
-        system_prompt=_TEXT_TRANSFORM_SYSTEM_PROMPT,
-        timeout=timeout,
-    )
+_WINDOW_WORDS = 300
 
 
 def _status_path(book_dir: Path) -> Path:
@@ -419,13 +189,6 @@ def rearticulate(
     return result
 
 
-def resolve_runtime_engine(engine: str) -> str:
-    """Resolve ``auto`` to the subscription backing the current app."""
-    if engine != "auto":
-        return engine
-    return "codex" if subscription_engine_for_process() == ENGINE_CODEX_CHATGPT else "claude"
-
-
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("slug", nargs="?", help="content slug (resolved via _paths)")
@@ -444,22 +207,9 @@ def main() -> int:
 
     try:
         engine = resolve_runtime_engine(args.engine)
-        if engine == "codex":
-            result = rearticulate(
-                book_dir,
-                args.chapter_key,
-                adapter=_codex_adapter,
-                repair_adapter=_codex_repair_adapter,
-            )
-        elif engine == "gemini":
-            result = rearticulate(
-                book_dir,
-                args.chapter_key,
-                adapter=_gemini_adapter,
-                repair_adapter=_gemini_repair_adapter,
-            )
-        else:
-            result = rearticulate(book_dir, args.chapter_key)
+        preflight_engine(engine)
+        adapter, repair_adapter = adapters_for_engine(engine)
+        result = rearticulate(book_dir, args.chapter_key, adapter=adapter, repair_adapter=repair_adapter)
     except Exception as e:
         payload = {
             "chapter_key": anchor_key(args.chapter_key),
