@@ -25,8 +25,15 @@ def test_adapters_for_engine_routes_codex_and_gemini() -> None:
     assert gemini_repair.__name__ == "_gemini_repair_adapter"
 
 
-def test_auto_engine_uses_codex_inside_codex(monkeypatch) -> None:
+def test_auto_engine_keeps_claude_primary_inside_codex(monkeypatch) -> None:
     monkeypatch.setenv("CODEX_THREAD_ID", "thread")
+    monkeypatch.delenv("PODCAST_FACTORY_AUTHORING_ENGINE", raising=False)
+
+    assert text_transform.resolve_runtime_engine("auto") == "claude"
+
+
+def test_auto_engine_uses_codex_when_authoring_engine_forces_codex(monkeypatch) -> None:
+    monkeypatch.setenv("PODCAST_FACTORY_AUTHORING_ENGINE", "codex")
 
     assert text_transform.resolve_runtime_engine("auto") == "codex"
 

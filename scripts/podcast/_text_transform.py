@@ -14,11 +14,10 @@ import shutil
 from collections.abc import Callable
 from pathlib import Path
 
-from _authoring._core import _run_claude_p
+from _authoring._core import _run_claude_p, authoring_engine_mode
 from _book_compose import _arabic_run_count
 from _book_voice_prompts import _articulation_prompt, _articulation_repair_prompt
 from _content_profile import source_language as _source_language
-from _engine import ENGINE_CODEX_CHATGPT, subscription_engine_for_process
 
 _MIN_TIMEOUT = 180
 _MAX_TIMEOUT = 600
@@ -44,10 +43,11 @@ def timeout_for_window(base_text: str) -> int:
 
 
 def resolve_runtime_engine(engine: str) -> str:
-    """Resolve ``auto`` to the flat-rate subscription backing this process."""
+    """Resolve ``auto`` to the configured authoring engine policy."""
     if engine != "auto":
         return engine
-    return "codex" if subscription_engine_for_process() == ENGINE_CODEX_CHATGPT else "claude"
+    mode = authoring_engine_mode()
+    return "codex" if mode == "codex" else "claude"
 
 
 def adapters_for_engine(engine: str) -> tuple[TextAdapter | None, TextAdapter | None]:

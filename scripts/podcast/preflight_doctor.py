@@ -6,18 +6,18 @@ very top of `orchestrate_book.main()` (before the watchdog is spawned and before
 any LLM/Azure spend), and verifies that the machine can actually do the work:
 
   1. deps        — PyYAML / anthropic / requests importable under this interpreter
-  2. claude-auth — `claude -p` can authenticate (token not expired + live ping)
-  3. anthropic   — api.anthropic.com reachable on :443
-  4. azure       — Azure OCR/Translate reachable (only when an ingest phase 0a
-                   still has to run; skipped on resumes past 0a)
+  2. authoring-ai — Claude primary can authenticate, or Codex fallback is ready
+  3. anthropic    — api.anthropic.com reachable on :443
+  4. azure        — Azure OCR/Translate reachable (only when an ingest phase 0a
+                    still has to run; skipped on resumes past 0a)
 
 Design intent (per Asif, 2026-06-07): "run a full system check before beginning
 the pipeline work … check for expired tokens, connection issues and resolve
 EVERYTHING before proceeding." Auto-resolvable problems are auto-resolved
 (the interpreter re-exec lives in orchestrate_book._ensure_capable_interpreter);
 everything else FAILS FAST here with the exact fix command, so the pipeline never
-crashes deep inside Phase 0d with a swallowed `claude -p` rc=1 (the failure mode
-this stage was created to eliminate).
+crashes deep inside Phase 0d with a swallowed model rc=1 (the failure mode this
+stage was created to eliminate).
 
 Exit/return contract:
   run_doctor(...) -> 0  when every hard check passes (warnings allowed)
@@ -33,6 +33,7 @@ import os
 import socket
 import subprocess
 import sys
+import tempfile
 import time
 import urllib.parse
 from pathlib import Path
@@ -206,6 +207,101 @@ def check_claude_auth(do_ping: bool = True) -> CheckResult:
     return CheckResult("claude-auth", OK, f"`claude -p` authenticated{note}{refresh_note}")
 
 
+def check_codex_auth(do_ping: bool = True) -> CheckResult:
+    """Verify the Codex CLI exists and, when interactive enough, answers once."""
+    try:
+        from _codex_text import _codex_bin
+
+        codex_bin = _codex_bin()
+    except Exception as exc:
+        return CheckResult(
+            "codex-auth",
+            FAIL,
+            str(exc),
+            "Open ChatGPT once, or set PODCAST_FACTORY_CODEX_BIN to the Codex executable",
+        )
+    if not do_ping or not sys.stdin.isatty():
+        return CheckResult("codex-auth", OK, f"{Path(codex_bin).name} found (ping skipped)")
+
+    output_path = Path(tempfile.gettempdir()) / f"podcast-factory-codex-doctor-{os.getpid()}.txt"
+    cmd = [
+        codex_bin,
+        "exec",
+        "--ephemeral",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--sandbox",
+        "read-only",
+        "-C",
+        str(tempfile.gettempdir()),
+        "--skip-git-repo-check",
+        "--json",
+        "--output-last-message",
+        str(output_path),
+        "-",
+    ]
+    try:
+        proc = subprocess.run(
+            cmd,
+            input="Reply with exactly: pong",
+            capture_output=True,
+            text=True,
+            timeout=90,
+        )
+        reply = output_path.read_text(encoding="utf-8").strip() if output_path.exists() else ""
+    except subprocess.TimeoutExpired:
+        return CheckResult("codex-auth", FAIL, "codex exec timed out after 90s", "Open ChatGPT and retry")
+    finally:
+        try:
+            output_path.unlink()
+        except FileNotFoundError:
+            pass
+    if proc.returncode != 0:
+        return CheckResult(
+            "codex-auth",
+            FAIL,
+            f"codex exec failed (rc={proc.returncode}): {((proc.stderr or '') + (proc.stdout or ''))[:120]}",
+            "Open ChatGPT and retry",
+        )
+    return CheckResult("codex-auth", OK, f"codex exec authenticated ({reply[:40] or 'reply captured'})")
+
+
+def check_authoring_ai(do_ping: bool = True) -> CheckResult:
+    """Claude is primary; Codex is the fallback in auto mode."""
+    from _authoring._core import authoring_engine_mode, codex_fallback_enabled
+
+    mode = authoring_engine_mode()
+    if mode == "claude":
+        result = check_claude_auth(do_ping=do_ping)
+        result.name = "authoring-ai"
+        return result
+    if mode == "codex":
+        result = check_codex_auth(do_ping=do_ping)
+        result.name = "authoring-ai"
+        return result
+
+    claude = check_claude_auth(do_ping=do_ping)
+    if claude.status == OK:
+        return CheckResult(
+            "authoring-ai", OK, f"Claude primary ready; Codex fallback {'on' if codex_fallback_enabled() else 'off'}"
+        )
+    if not codex_fallback_enabled():
+        return CheckResult("authoring-ai", FAIL, claude.detail, claude.fix)
+    codex = check_codex_auth(do_ping=do_ping)
+    if codex.status == OK:
+        return CheckResult(
+            "authoring-ai",
+            WARN,
+            f"Claude primary unavailable ({claude.detail}); Codex fallback ready",
+        )
+    return CheckResult(
+        "authoring-ai",
+        FAIL,
+        f"Claude unavailable ({claude.detail}); Codex unavailable ({codex.detail})",
+        claude.fix or codex.fix,
+    )
+
+
 def check_anthropic_net() -> CheckResult:
     """api.anthropic.com (or the configured base URL host) reachable on :443."""
     base = os.environ.get("ANTHROPIC_BASE_URL", "https://api.anthropic.com")
@@ -262,7 +358,7 @@ def run_doctor(
     """Run the full setup-stage system check. Return 0 (proceed) or 1 (halt)."""
     checks = [
         check_deps(),
-        check_claude_auth(do_ping=do_claude_ping),
+        check_authoring_ai(do_ping=do_claude_ping),
         check_anthropic_net(),
         check_azure(need_azure),
     ]

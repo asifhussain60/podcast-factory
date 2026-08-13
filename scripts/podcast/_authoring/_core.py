@@ -32,6 +32,45 @@ from ._claude_runtime import (
 from ._claude_runtime import (
     pure_text_call_options as pure_text_call_options,
 )
+from ._engine_fallback import (
+    AUTHORING_ENGINE_ENV as AUTHORING_ENGINE_ENV,
+)
+from ._engine_fallback import (
+    CODEX_FALLBACK_ENV as CODEX_FALLBACK_ENV,
+)
+from ._engine_fallback import (
+    authoring_engine_mode as authoring_engine_mode,
+)
+from ._engine_fallback import (
+    codex_allowed_as_fallback,
+    forced_codex,
+    looks_like_claude_unavailable,
+    run_codex_authoring,
+)
+from ._engine_fallback import (
+    codex_fallback_enabled as codex_fallback_enabled,
+)
+from ._routing import (
+    ARABIC_SCHOLARLY_CATEGORIES as ARABIC_SCHOLARLY_CATEGORIES,
+)
+from ._routing import (
+    FICTION_CONTENT_PROFILES as FICTION_CONTENT_PROFILES,
+)
+from ._routing import (
+    SKIP_ENRICHMENT_CATEGORIES as SKIP_ENRICHMENT_CATEGORIES,
+)
+from ._routing import (
+    SKIP_OCR_CATEGORIES as SKIP_OCR_CATEGORIES,
+)
+from ._routing import (
+    SKIP_PHONETICS_CATEGORIES as SKIP_PHONETICS_CATEGORIES,
+)
+from ._routing import (
+    _read_category as _read_category,
+)
+from ._routing import (
+    _read_content_profile as _read_content_profile,
+)
 
 # Ensure scripts/podcast/ is importable from within the package directory.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -69,130 +108,6 @@ def _compute_sc_timeout(words: int) -> int:
 
 CLAUDE_CMD = "claude"
 
-# ─── Content-category routing ─────────────────────────────────────────────────
-# Single source of truth for which categories follow the Islamic/Arabic scholarly
-# pipeline vs. which need alternative paths. Add new categories here as they
-# are introduced; never hard-code category strings in phase modules.
-
-# All categories whose content is Islamic/Arabic scholarly. These run the full
-# pipeline: OCR→translate, Phase 0b (scholarly refinement), Phase 0c (Arabic
-# phonetics), Phase 0d (scholarly chapter design), Phase 0e (7-tier Islamic
-# enrichment), Islamic framing prompt, Islamic challenger rules.
-ARABIC_SCHOLARLY_CATEGORIES: frozenset[str] = frozenset(
-    {
-        "books",
-        "letters",
-        "lectures",
-        "articles",
-        "asbaaq",
-        "documents",
-        "interviews",
-    }
-)
-
-# Categories that skip Phase 0c (Arabic phonetics) entirely — no Arabic terms
-# to extract, no _phonetics.md output needed.
-SKIP_PHONETICS_CATEGORIES: frozenset[str] = frozenset(
-    {
-        "sites",
-        "explainers",
-    }
-)
-
-# Categories that skip Phase 0e (enrichment) — source material is already
-# authoritative (product docs, official technical docs) and outside enrichment
-# would introduce inaccuracy.
-SKIP_ENRICHMENT_CATEGORIES: frozenset[str] = frozenset(
-    {
-        "sites",
-    }
-)
-
-# Categories that skip Phase 0a (OCR + Azure translation) — source text is
-# already in English (scraped web content, synthesized markdown, pre-written docs).
-SKIP_OCR_CATEGORIES: frozenset[str] = frozenset(
-    {
-        "sites",
-        "explainers",
-    }
-)
-
-# content_profile values that trigger the fiction sidecar augmenter in Phase 0e.
-# The sidecar augmenter NEVER modifies chapter prose — it writes a companion
-# glossary/aside file only. The category field may say "books" for a fiction
-# book (intake default); content_profile is the authoritative signal here.
-FICTION_CONTENT_PROFILES: frozenset[str] = frozenset({"fiction"})
-
-
-def _read_category(book_dir: "Path") -> str:
-    """Read the content category for a book, with graceful fallbacks.
-
-    Resolution order (first non-empty wins):
-      1. _system/orchestrator-state.json  → "category" field
-      2. _system/meta.yml                 → "category:" line
-      3. Default: "books" (Islamic/scholarly path)
-
-    The default of "books" guarantees that existing Islamic content that
-    pre-dates category stamping continues to use the correct path.
-    """
-    import json as _json
-
-    state_path = book_dir / "_system" / "orchestrator-state.json"
-    if state_path.exists():
-        try:
-            state = _json.loads(state_path.read_text(encoding="utf-8"))
-            cat = state.get("category", "").strip()
-            if cat:
-                return cat.lower()
-        except Exception:
-            pass
-
-    meta_path = book_dir / "_system" / "meta.yml"
-    if meta_path.exists():
-        for line in meta_path.read_text(encoding="utf-8").splitlines():
-            if line.startswith("category:"):
-                cat = line.split(":", 1)[1].strip().strip('"').strip("'")
-                if cat:
-                    return cat.lower()
-
-    return "books"
-
-
-def _read_content_profile(book_dir: "Path") -> str:
-    """Read the content_profile for a book (distinct from category).
-
-    Resolution order:
-      1. _system/orchestrator-state.json → "content_profile" field
-      2. _system/series-config.yaml      → "content_profile:" key
-      3. Default: "" (empty — caller treats as "not fiction")
-
-    content_profile is the engine-policy / augmentation routing key.
-    category is the pipeline routing key. They can differ (e.g., a fiction
-    book may have category="books" from intake but content_profile="fiction").
-    content_profile wins for Phase 0e routing decisions.
-    """
-    import json as _json
-
-    state_path = book_dir / "_system" / "orchestrator-state.json"
-    if state_path.exists():
-        try:
-            state = _json.loads(state_path.read_text(encoding="utf-8"))
-            prof = state.get("content_profile", "").strip()
-            if prof:
-                return prof.lower()
-        except Exception:
-            pass
-
-    cfg_path = book_dir / "_system" / "series-config.yaml"
-    if cfg_path.exists():
-        for line in cfg_path.read_text(encoding="utf-8").splitlines():
-            if line.strip().startswith("content_profile:"):
-                prof = line.split(":", 1)[1].strip().strip('"').strip("'")
-                if prof:
-                    return prof.lower()
-
-    return ""
-
 
 class AuthoringError(RuntimeError):
     """Raised when an LLM-authoring shellout fails to produce its declared artifact."""
@@ -229,7 +144,6 @@ PHASE_MODEL_OVERRIDE: dict[str, str] = {
     "rearticulate": "claude-sonnet-4-6",
 }
 
-
 # ── Determinism contract (read before "make authoring deterministic") ──────────
 # The `claude -p` CLI exposes NO temperature, top_p, or seed flag (verified
 # against `claude --help`). Authoring therefore runs at the model's default
@@ -265,6 +179,18 @@ def _run_claude_p(
     effort: str | None = None,
 ) -> tuple[int, str, str]:
     """Run `claude -p "<prompt>"` synchronously. Return (rc, stdout, stderr)."""
+    if forced_codex():
+        return run_codex_authoring(
+            prompt,
+            cwd=cwd,
+            timeout=timeout,
+            book_dir=book_dir,
+            phase=phase,
+            step=step,
+            system_prompt=system_prompt,
+            reason="forced-codex",
+        )
+
     # acceptEdits alone doesn't grant Write permission for new files in non-interactive
     # subprocess contexts — claude -p returns "Permission needed to write the file."
     # instead of writing. --allowedTools grants the specific tools each phase needs.
@@ -357,6 +283,34 @@ def _run_claude_p(
         _dump = (
             None if rc == 0 else dump_failed_call(book_dir, step=step, prompt=prompt, stdout=raw_stdout, stderr=stderr)
         )
+        if codex_allowed_as_fallback() and looks_like_claude_unavailable(rc, raw_stdout, stderr):
+            log_claude_p(
+                "claude_p.codex_fallback",
+                book_dir=book_dir,
+                level="warning",
+                phase=phase,
+                step=step,
+                model=_resolved_model_flag or model,
+                rc=rc,
+                prompt=prompt,
+                stdout=raw_stdout,
+                stderr=stderr,
+                prompt_dump=_dump,
+                msg="Claude primary unavailable; trying Codex fallback",
+            )
+            return run_codex_authoring(
+                prompt,
+                cwd=cwd,
+                timeout=timeout,
+                book_dir=book_dir,
+                phase=phase,
+                step=step,
+                system_prompt=system_prompt,
+                reason="claude-unavailable",
+                claude_rc=rc,
+                claude_stdout=raw_stdout,
+                claude_stderr=stderr,
+            )
         log_claude_p(
             "claude_p.call",
             book_dir=book_dir,
@@ -385,6 +339,28 @@ def _run_claude_p(
         )
         return rc, stdout, stderr
     except FileNotFoundError as e:
+        if codex_allowed_as_fallback():
+            log_claude_p(
+                "claude_p.codex_fallback",
+                book_dir=book_dir,
+                level="warning",
+                phase=phase,
+                step=step,
+                model=_resolved_model_flag or model,
+                msg=f"`{CLAUDE_CMD}` not found; trying Codex fallback",
+            )
+            return run_codex_authoring(
+                prompt,
+                cwd=cwd,
+                timeout=timeout,
+                book_dir=book_dir,
+                phase=phase,
+                step=step,
+                system_prompt=system_prompt,
+                reason="claude-missing",
+                claude_rc=127,
+                claude_stderr=str(e),
+            )
         log_claude_p(
             "claude_p.missing_binary",
             book_dir=book_dir,

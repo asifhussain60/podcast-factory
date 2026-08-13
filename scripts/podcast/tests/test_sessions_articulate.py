@@ -219,14 +219,29 @@ def test_codex_engine_is_passed_to_rearticulate_and_repair(book_dir: Path, monke
     assert seen == [("_codex_adapter", "_codex_repair_adapter")]
 
 
-def test_auto_engine_uses_codex_inside_codex(book_dir: Path, monkeypatch) -> None:
+def test_auto_engine_keeps_claude_primary_inside_codex(book_dir: Path, monkeypatch) -> None:
+    seen: list[tuple[object, object]] = []
+
+    def fake(_bd, _key, *, adapter=None, repair_adapter=None, **_kwargs):
+        seen.append((adapter, repair_adapter))
+        return envelope("adapted")
+
+    monkeypatch.setenv("CODEX_THREAD_ID", "thread")
+    monkeypatch.setattr(art, "rearticulate", fake)
+    summary = art.articulate_book(book_dir, limit=1, engine="auto", log=lambda *_: None)
+
+    assert summary["engine"] == "claude"
+    assert seen == [(None, None)]
+
+
+def test_auto_engine_uses_codex_when_authoring_engine_forces_codex(book_dir: Path, monkeypatch) -> None:
     seen: list[tuple[str, str]] = []
 
     def fake(_bd, _key, *, adapter=None, repair_adapter=None, **_kwargs):
         seen.append((adapter.__name__, repair_adapter.__name__))
         return envelope("adapted")
 
-    monkeypatch.setenv("CODEX_THREAD_ID", "thread")
+    monkeypatch.setenv("PODCAST_FACTORY_AUTHORING_ENGINE", "codex")
     monkeypatch.setattr(art, "rearticulate", fake)
     summary = art.articulate_book(book_dir, limit=1, engine="auto", log=lambda *_: None)
 
