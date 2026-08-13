@@ -59,9 +59,12 @@ describe("the library card", () => {
       },
     });
 
-    expect(html).toContain("Listen");
-    expect(html).toContain("EP 1");
-    expect(html).toContain("Slides");
+    expect(html).toContain("pf-book-action pf-book-action--audio");
+    expect(html).toContain("Episode 1");
+    expect(html).toContain("Continue reading A Book");
+    expect(html).toContain("Open notes for A Book");
+    expect(html).not.toContain("Slides");
+    expect(html).not.toContain("pf-book-action__label");
     expect(html).not.toContain("37,000");
   });
 
@@ -81,15 +84,36 @@ describe("the library card", () => {
       },
     });
 
-    expect(html).toContain("Resume");
-    expect(html).toContain("EP 4");
+    expect(html).toContain("pf-book-action pf-book-action--audio");
+    expect(html).toContain("Episode 4");
     expect(html).toContain("12:22 in");
   });
 
-  it("falls back to reading when there is no audio", () => {
+  it("shows notes as the same icon-only action family, with the count as a badge", () => {
+    const html = render({
+      progress: { anchorKey: "intro", fraction: 0.5, chaptersDone: 3 },
+      marks: { notes: 1, bookmarks: 0 },
+    });
+    expect(html).toContain("pf-book-action pf-book-action--notes");
+    expect(html).toContain("pf-book-action__badge");
+    expect(html).toContain("Open notes for A Book, 1 note");
+    expect(html).toContain("39% read");
+    expect(html).not.toContain("39% read · 1 marked");
+    expect(html).not.toContain("Details");
+  });
+
+  it("keeps audio, reading, and notes in that order", () => {
     const html = render();
-    expect(html).toContain("Read");
+    expect(html).toContain("Open audio for A Book");
+    expect(html).toContain("Continue reading A Book");
+    expect(html).toContain("Open notes for A Book");
     expect(html).toContain("/book/a-book/read/intro");
+    expect(html.indexOf("pf-book-action--audio")).toBeLessThan(
+      html.indexOf("pf-book-action--read"),
+    );
+    expect(html.indexOf("pf-book-action--read")).toBeLessThan(
+      html.indexOf("pf-book-action--notes"),
+    );
   });
 
   it("reserves the progress row on a book nobody has opened", () => {

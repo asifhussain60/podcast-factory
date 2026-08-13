@@ -1,11 +1,10 @@
 import {
-  faArrowRight,
   faBookOpen,
   faHeadphones,
-  faImages,
   faNoteSticky,
   faPause,
   faPlay,
+  type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
@@ -28,11 +27,9 @@ import type { CardPlayableEpisode, LibraryCard } from "~/server/catalog.server";
  * still lines up. The English title is never printed twice: it is in the band or
  * in the body, whichever place is carrying it.
  *
- * Everything else about a book is a pill, per Asif's instruction. The rule the
- * old `Badges` helper established is kept exactly: name only what EXISTS. Most
- * books in this library are missing most things, and a row of icons with the
- * absent ones greyed out reads as a fault report, where naming only what is
- * there reads as a fact — a book with one pill does not look broken.
+ * Everything else about a book is an action. The card used to spend this space
+ * naming static facts — chapters, minutes, formats — but a reader standing in
+ * the library needs the next move more than a contents receipt.
  */
 export function BookCard({
   slug,
@@ -152,9 +149,6 @@ export function BookCard({
             </div>
             <span className="pf-book__resume">
               {percent}% read
-              {marks && marks.notes + marks.bookmarks > 0
-                ? ` · ${marks.notes + marks.bookmarks} marked`
-                : ""}
             </span>
           </div>
         )}
@@ -186,45 +180,78 @@ function CardActions({
   progress: { anchorKey: string; fraction: number; chaptersDone: number } | null;
   marks: { notes: number; bookmarks: number } | null;
 }) {
-  const marked = (marks?.notes ?? 0) + (marks?.bookmarks ?? 0);
-  const secondary =
-    marked > 0
-      ? { to: `/book/${slug}?tab=notes`, icon: faNoteSticky, label: `${marked} marked` }
-      : card?.deckAvailable
-        ? { to: `/book/${slug}?tab=slides`, icon: faImages, label: "Slides" }
-        : { to: `/book/${slug}`, icon: faArrowRight, label: "Details" };
+  const notes = marks?.notes ?? 0;
+  const hasAudioSurface = listen !== null || (card?.episodes ?? 0) > 0;
 
   return (
-    <div className="pf-book__actions">
+    <div className="pf-book__actions" aria-label={`Actions for ${title}`}>
       {listen !== null ? (
         <ListenAction title={title} collection={collection} listen={listen} />
-      ) : readHref !== null ? (
-        <Link to={readHref} className="pf-book-action pf-book-action--read">
-          <span className="pf-book-action__orb" aria-hidden="true">
-            <Icon icon={faBookOpen} />
-          </span>
-          <span className="pf-book-action__copy">
-            <strong>{progress === null ? "Read" : "Continue"}</strong>
-            <span>{progress === null ? "First chapter" : "Saved"}</span>
-          </span>
-        </Link>
-      ) : (
-        <Link to={`/book/${slug}`} className="pf-book-action pf-book-action--read">
-          <span className="pf-book-action__orb" aria-hidden="true">
-            <Icon icon={faArrowRight} />
-          </span>
-          <span className="pf-book-action__copy">
-            <strong>Open book</strong>
-            <span>{card === null ? "Not published yet" : "Details"}</span>
-          </span>
-        </Link>
-      )}
+      ) : hasAudioSurface ? (
+        <BookActionLink
+          to={`/book/${slug}?tab=listen`}
+          tone="audio"
+          icon={faHeadphones}
+          ariaLabel={`Open audio for ${title}`}
+        />
+      ) : null}
 
-      <Link to={secondary.to} className="pf-book__quick">
-        <Icon icon={secondary.icon} />
-        {secondary.label}
-      </Link>
+      {readHref !== null ? (
+        <BookActionLink
+          to={readHref}
+          tone="read"
+          icon={faBookOpen}
+          ariaLabel={`Continue reading ${title}`}
+        />
+      ) : null}
+
+      {card === null ? null : (
+        <BookActionLink
+          to={`/book/${slug}?tab=notes`}
+          tone="notes"
+          icon={faNoteSticky}
+          badge={notes > 0 ? notes : null}
+          ariaLabel={
+            notes > 0
+              ? `Open notes for ${title}, ${notes} note${notes === 1 ? "" : "s"}`
+              : `Open notes for ${title}`
+          }
+        />
+      )}
     </div>
+  );
+}
+
+function BookActionLink({
+  to,
+  tone,
+  icon,
+  ariaLabel,
+  badge = null,
+}: {
+  to: string;
+  tone: "audio" | "read" | "notes";
+  icon: IconDefinition;
+  ariaLabel: string;
+  badge?: number | null;
+}) {
+  return (
+    <Link
+      to={to}
+      className={`pf-book-action ${
+        tone === "audio"
+          ? "pf-book-action--audio"
+          : tone === "read"
+            ? "pf-book-action--read"
+            : "pf-book-action--notes"
+      }`}
+      aria-label={ariaLabel}
+    >
+      <span className="pf-book-action__circle" aria-hidden="true">
+        <Icon icon={icon} />
+        {badge === null ? null : <span className="pf-book-action__badge">{badge}</span>}
+      </span>
+    </Link>
   );
 }
 
@@ -270,7 +297,7 @@ function ListenAction({
   return (
     <button
       type="button"
-      className={`pf-book-action pf-book-action--listen${
+      className={`pf-book-action pf-book-action--audio${
         isPlaying ? " pf-book-action--active" : ""
       }`}
       aria-label={`${verb} ${title}, episode ${listen.episode.number}: ${listen.episode.title}`}
@@ -280,14 +307,11 @@ function ListenAction({
         player.setExpanded(true);
       }}
     >
-      <span className="pf-book-action__orb" aria-hidden="true">
+      <span className="pf-book-action__circle" aria-hidden="true">
         <Icon icon={isPlaying ? faPause : faPlay} />
       </span>
-      <span className="pf-book-action__copy">
-        <strong>{listen.mode === "resume" ? "Resume" : "Listen"}</strong>
-        <span>
-          EP {listen.episode.number} · {position}
-        </span>
+      <span className="sr-only">
+        Episode {listen.episode.number}, {position}
       </span>
     </button>
   );
