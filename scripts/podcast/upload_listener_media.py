@@ -77,7 +77,14 @@ def d1(sql: str, *, remote: bool) -> list[dict]:
     return json.loads(out[start:])[0]["results"]
 
 
-def pending(slugs: list[str], *, remote: bool, force: bool, no_audio: bool = False) -> list[dict]:
+def pending(
+    slugs: list[str],
+    *,
+    remote: bool,
+    force: bool,
+    no_audio: bool = False,
+    narration_only: bool = False,
+) -> list[dict]:
     where = "" if force else "uploaded_at IS NULL"
     if slugs:
         listed = ", ".join("'" + s.replace("'", "''") + "'" for s in slugs)
@@ -89,6 +96,9 @@ def pending(slugs: list[str], *, remote: bool, force: bool, no_audio: bool = Fal
         # Covers, deck pages and the print edition are 60 MB and are what make a
         # local page look like the real one, so they are NOT what gets dropped.
         where = f"{where} AND kind != 'audio'" if where else "kind != 'audio'"
+    if narration_only:
+        clause = "kind = 'audio' AND key LIKE '%/narration/%'"
+        where = f"{where} AND {clause}" if where else clause
 
     return d1(
         "SELECT key, slug, kind, content_type, bytes, source_path FROM media_asset"
@@ -252,11 +262,20 @@ def main(argv: list[str] | None = None) -> int:
         help="skip the recordings; upload covers, deck pages and the print edition only",
     )
     parser.add_argument(
+        "--reader-narration-only",
+        action="store_true",
+        help="upload only chapter read-aloud narration files",
+    )
+    parser.add_argument(
         "--drop-local-audio",
         action="store_true",
         help="delete recordings from the LOCAL bucket and mark them not-uploaded (reclaims disk)",
     )
     args = parser.parse_args(argv)
+
+    if args.no_audio and args.reader_narration_only:
+        print("refused: --no-audio and --reader-narration-only select opposite media sets.")
+        return 2
 
     if args.remote:
         try:
@@ -279,7 +298,13 @@ def main(argv: list[str] | None = None) -> int:
             return 2
         return drop_local_audio(args.slugs, dry_run=args.dry_run)
 
-    rows = pending(args.slugs, remote=args.remote, force=args.force, no_audio=args.no_audio)
+    rows = pending(
+        args.slugs,
+        remote=args.remote,
+        force=args.force,
+        no_audio=args.no_audio,
+        narration_only=args.reader_narration_only,
+    )
     if not rows:
         print("nothing to upload — every known file is already in R2")
         return 0
