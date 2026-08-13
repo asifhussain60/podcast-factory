@@ -16,7 +16,7 @@ from phases.scaffold import phase_git_commit
 
 
 def drive_reader_narration(book_dir: Path) -> tuple[str, int]:
-    book_dir = Path(book_dir)
+    book_dir = Path(book_dir).resolve()
     update_phase(book_dir, phase="reader-narration", status="running")
     try:
         result = render_reader_narration(book_dir)
