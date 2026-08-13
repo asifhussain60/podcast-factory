@@ -364,6 +364,7 @@ def render_reader_narration(book_dir: Path) -> RenderSummary:
             "style": preset["style"],
             "cues": [asdict(c) for c in cues],
         }
+        _write_manifest(book_dir, manifest)
         append_azure_speech_cost(book_dir, phase=PHASE, step=chapter.anchor, char_count=sum(len(c.text) for c in cues))
         rendered.append(chapter.anchor)
 
