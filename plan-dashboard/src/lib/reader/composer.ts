@@ -405,7 +405,7 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     // Never the default profile: its display-only transliteration fold ate
     // leading straight apostrophes, and a seed loss becomes a book.md loss on
     // the first autosave (see renderEditSeed in markdown.ts).
-    const editHtml = renderEditSeed(body, quranicRuns, quoteKinds);
+    const editHtml = renderEditSeed(body, quranicRuns, quoteKinds, quranicRefs);
     chapters.push({
       anchor: heading,
       key,

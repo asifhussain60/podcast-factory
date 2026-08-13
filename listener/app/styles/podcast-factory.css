@@ -5747,35 +5747,63 @@
      things called the same. */
 
   .pf-notes {
-    display: flex;
-    flex-direction: column;
-    gap: var(--pf-space-6);
+    display: grid;
+    gap: var(--pf-space-7);
   }
 
-  /* A wall of paper, not a stack of bars.
-     One column in the 26rem drawer and three or four across the book page's
-     Notes tab, from the same rule — `auto-fill` decides from the width it is
-     given. Stacked full-width, a note on the book page came out 900px wide and
-     90px tall, which reads as a banner across the page rather than as something
-     someone wrote on a square of paper.
-
-     `align-items: start` so a two-line note stays two lines high instead of
-     stretching to match the longest card in its row. */
   .pf-notes__chapter {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
     align-items: start;
-    gap: var(--pf-space-3);
+    gap: var(--pf-space-4);
+  }
+
+  .pf-notes__chapter + .pf-notes__chapter {
+    padding-block-start: var(--pf-space-6);
+    border-top: 1px solid var(--l-rule-soft);
   }
 
   .pf-notes__heading {
     grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-3);
+    margin: 0;
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
-    font-weight: 600;
-    letter-spacing: var(--pf-tracking-eyebrow);
+    font-weight: 700;
+    letter-spacing: 0;
     text-transform: uppercase;
-    color: var(--l-faint);
+    color: var(--l-muted);
+  }
+
+  .pf-notes__heading-main {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    gap: var(--pf-space-2);
+  }
+
+  .pf-notes__heading-main .pf-icon {
+    flex: none;
+    color: var(--l-accent);
+  }
+
+  .pf-notes__count {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.45rem;
+    padding-inline: var(--pf-space-2);
+    border: 1px solid var(--l-rule-soft);
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--l-accent) 7%, var(--l-elev));
+    color: var(--l-muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: none;
   }
 
   /* The colour of the highlight, carried through to its entry — so scanning the
@@ -5788,14 +5816,38 @@
      padded box and started reading as a disabled text field. A component class
      and a text utility cannot share a name; this one is the component. */
   .pf-mark {
-    display: flex;
-    align-items: flex-start;
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: start;
     gap: var(--pf-space-2);
-    padding: var(--pf-space-3);
-    background: var(--l-surface);
-    border: 1px solid var(--l-rule-soft);
-    border-inline-start: 3px solid var(--pf-hl-tint, var(--l-rule));
+    min-height: 9.5rem;
+    padding: var(--pf-space-4);
+    overflow: hidden;
+    background: color-mix(in srgb, var(--pf-hl-tint, var(--l-accent)) 5%, var(--l-elev));
+    border: 1px solid color-mix(in srgb, var(--pf-hl-tint, var(--l-rule)) 42%, var(--l-rule-soft));
     border-radius: var(--pf-radius);
+    box-shadow: var(--pf-elev-1);
+    transition:
+      border-color var(--pf-motion),
+      box-shadow var(--pf-motion),
+      transform var(--pf-motion);
+  }
+
+  .pf-mark::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 4px;
+    background: var(--pf-hl-tint, var(--l-accent));
+  }
+
+  .pf-mark:hover,
+  .pf-mark:focus-within {
+    border-color: color-mix(in srgb, var(--pf-hl-tint, var(--l-accent)) 62%, var(--l-rule-soft));
+    box-shadow: var(--pf-elev-2);
+    transform: translateY(-1px);
   }
 
   .pf-mark--gold {
@@ -5815,34 +5867,18 @@
     --pf-hl-tint: var(--l-accent);
   }
 
-  /* ---- A note, as a Post-it -----------------------------------------------
-     An annotation is made OF its colour rather than edged with it: the card is
-     the highlight, lifted off the page. Scanning the list and scanning the
-     chapter stay the same act, which the left edge did too — but a note is a
-     small square of coloured paper in every reader's hands, and looking like
-     one says what it is before a word of it is read.
-
-     Only annotations. A bookmark keeps the plain card above: it is a place in
-     the book, not something written, and it has no colour of its own.
-
-     Square-ish corners, a real shadow, and the tint at full strength — which
-     costs the words nothing, because `--l-ink` on all four highlight colours is
-     held to AA by theme.test.ts in every palette. */
-
   .pf-mark--paper {
-    background: var(--pf-hl-tint);
-    border: 0;
-    border-radius: var(--pf-radius-sm);
-    box-shadow: var(--pf-elev-2);
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--pf-hl-tint) 14%, var(--l-elev)),
+        color-mix(in srgb, var(--pf-hl-tint) 7%, var(--l-elev))
+      );
     color: var(--l-ink);
-    /* Barely a degree, alternating below. Enough that a column of them reads as
-       paper rather than as rows of a table; small enough that nothing looks
-       misaligned and no corner leaves the drawer. */
-    rotate: -0.4deg;
   }
 
   .pf-mark--paper:nth-child(even) {
-    rotate: 0.4deg;
+    rotate: 0deg;
   }
 
   /* A mark whose passage has changed. Dimmed, and it is deliberately still
@@ -5859,7 +5895,7 @@
   .pf-mark__body {
     display: flex;
     flex-direction: column;
-    gap: var(--pf-space-2);
+    gap: var(--pf-space-3);
     flex: 1;
     min-width: 0;
     padding: 0;
@@ -5867,16 +5903,36 @@
     background: transparent;
     text-align: start;
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .pf-mark__body:focus-visible {
+    outline: 2px solid var(--l-focus);
+    outline-offset: 4px;
+    border-radius: var(--pf-radius-sm);
   }
 
   .pf-mark__kind {
-    color: var(--l-accent);
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    gap: var(--pf-space-1);
+    padding: 0.15rem var(--pf-space-2);
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--pf-hl-tint, var(--l-accent)) 12%, var(--l-elev));
+    color: color-mix(in srgb, var(--pf-hl-tint, var(--l-accent)) 78%, var(--l-ink));
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 800;
+    line-height: 1.35;
   }
 
   .pf-mark__quote {
+    margin: 0;
     font-family: var(--l-font-prose);
     font-size: var(--pf-text-base);
-    line-height: 1.6;
+    line-height: 1.55;
     color: var(--l-ink);
     /* Four lines, then an ellipsis. A whole marked paragraph in a 26rem drawer
        pushes every other entry off the screen, and the point of the list is to
@@ -5903,16 +5959,16 @@
      the paper's ink rather than in `--l-rule`, which would disappear on gold. */
   .pf-mark--paper .pf-mark__text {
     padding-top: var(--pf-space-2);
-    border-top: 1px solid color-mix(in srgb, var(--l-ink) 14%, transparent);
-    color: var(--l-ink);
+    border-top: 1px solid color-mix(in srgb, var(--pf-hl-tint) 38%, var(--l-rule-soft));
+    color: var(--l-muted);
   }
 
   .pf-mark--paper .pf-mark__remove {
-    color: color-mix(in srgb, var(--l-ink) 55%, transparent);
+    color: var(--l-faint);
   }
 
   .pf-mark--paper .pf-mark__remove:hover {
-    background: color-mix(in srgb, var(--l-ink) 8%, transparent);
+    background: color-mix(in srgb, var(--pf-hl-tint) 16%, var(--l-elev));
     color: var(--l-danger);
   }
 
@@ -5931,11 +5987,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 2.75rem;
-    min-height: 2.75rem;
+    width: 2.4rem;
+    height: 2.4rem;
     border: 0;
-    border-radius: var(--pf-radius);
-    background: transparent;
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--l-elev) 70%, transparent);
     color: var(--l-faint);
     cursor: pointer;
     transition:
@@ -5944,7 +6000,7 @@
   }
 
   .pf-mark__remove:hover {
-    background: var(--l-sunken);
+    background: color-mix(in srgb, var(--l-danger) 10%, var(--l-elev));
     color: var(--l-danger);
   }
 
@@ -5955,31 +6011,27 @@
      It is a card with a rule down its start edge instead: clearly one of the
      marks, clearly not one of the four. */
   .pf-mark--moment {
-    display: flex;
-    align-items: start;
-    gap: var(--pf-space-2);
-    padding: var(--pf-space-3);
-    border-inline-start: 3px solid var(--l-accent);
-    border-radius: var(--pf-radius);
-    background: var(--l-sunken);
+    --pf-hl-tint: var(--l-accent);
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--l-accent) 9%, var(--l-elev)),
+        color-mix(in srgb, var(--l-accent) 3%, var(--l-elev))
+      );
   }
 
   .pf-mark--moment .pf-mark__body {
     flex: 1;
     min-width: 0;
     display: grid;
-    gap: var(--pf-space-1);
+    gap: var(--pf-space-3);
   }
 
   /* The timestamp reads as a label rather than as prose — tabular figures so a
      column of them lines up, which is most of what makes a list of times
      scannable. */
   .pf-mark--moment .pf-mark__kind {
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-xs);
-    font-weight: 600;
     font-variant-numeric: tabular-nums;
-    color: var(--l-accent);
   }
 
   .pf-mark__text--quiet {

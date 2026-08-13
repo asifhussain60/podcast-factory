@@ -232,9 +232,9 @@ const TRANSLATION_FONTS = [
         {/* data-panel drives the layout: "closed" gives the chapter the full
             width; "scholar" and "tools" each open the SAME drawer on a different
             surface. book-composer.ts restores the last state — and defaults to
-            the Companion, which is what this server-rendered value must agree
-            with or the first paint would show the wrong panel. */}
-        <div class="composer-grid" data-panel="scholar">
+            Tools, which is what this server-rendered value must agree with or
+            the first paint would show the wrong panel. */}
+        <div class="composer-grid" data-panel="tools">
           <section class="composer-preview" aria-label="Book preview">
             <div class="cx-chapter-bar">
               <div class="cx-field cx-chapter-picker">
@@ -479,10 +479,10 @@ const TRANSLATION_FONTS = [
                 whichever panel you are looking at — and there is no per-panel
                 setting that could disagree with its neighbours. */}
             <div class="cx-panel-bar" id="cx-panel-size" />
-            {/* Surface 1 — the tools. Icon-only tabs; each label stays in the DOM
+            {/* The drawer's work surfaces. Icon-only tabs; each label stays in the DOM
                 (visually hidden until hover/focus) so the accessible name and the
                 screen-reader text are unchanged by the icons. */}
-            <div class="cx-surface" id="cx-surface-tools" hidden>
+            <div class="cx-surface" id="cx-surface-tools">
               {/* One visual bar, two semantic parts: the tablist and, at its
                   right edge, the settings gear (not a tab — see below). */}
               <div class="cx-tabrow">
@@ -512,6 +512,20 @@ const TRANSLATION_FONTS = [
                   >
                     <i class="fa-solid fa-images" aria-hidden="true" />
                     <span class="cx-tab-label">Artifacts</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="cx-tab"
+                    id="cx-tab-scholar"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="cx-panel-scholar"
+                  >
+                    <i
+                      class="fa-solid fa-book-open-reader"
+                      aria-hidden="true"
+                    />
+                    <span class="cx-tab-label">Ismaili Scholar</span>
                   </button>
                 </div>
                 {/* Book settings (citation style + typography) are decided once
@@ -576,6 +590,21 @@ const TRANSLATION_FONTS = [
                     Asif's direction — the instruction box IS the way to ask
                     for chapter changes now. */}
                 <div id="cx-details-mount" />
+              </div>
+
+              {/* The Ismaili Scholar Companion is now a peer tab in the same
+                  drawer header as Refinement and Artifacts. It remains docked
+                  here, not as a second slide-in, so only one right-panel surface
+                  can be visible at a time. */}
+              <div
+                class="cx-tabpanel"
+                tabindex="0"
+                id="cx-panel-scholar"
+                role="tabpanel"
+                aria-labelledby="cx-tab-scholar"
+                hidden
+              >
+                <div id="cx-scholar-mount" />
               </div>
 
               {/* ── Book settings dialog ─────────────────────────────────────
@@ -946,21 +975,6 @@ const TRANSLATION_FONTS = [
               </div>
             </div>
 
-            {/* Surface 2 — the Ismaili Scholar Companion. Docked into this same
-                drawer rather than running a second slide-in of its own: two
-                drawers on one page could both be open, overlapping, each with its
-                own close button.
-
-                It is also where a private Companion note now comes FROM: highlight
-                a sentence, press "Explain", and the explanation is filed
-                against this chapter for the LIVE Session to raise. The separate
-                hand-authored notes surface that used to sit here (and its floating
-                button) was retired on 2026-07-26 — one panel writes those notes
-                now, and the reader that consumes them is the LIVE Session. */}
-            <div class="cx-surface" id="cx-surface-scholar">
-              <div id="cx-scholar-mount" />
-            </div>
-
             {/* The Arabic surface (the docked term-curation table and the
                 vowelling review, both inherited from the retired
                 /studio/<slug>/arabic-review page) was removed on 2026-07-29 at
@@ -969,35 +983,10 @@ const TRANSLATION_FONTS = [
           </aside>
         </div>
 
-        {/* One floating row over the BOTTOM OF THE DRAWER, in the order Asif set
-            on 2026-07-29: Companion, Tools, back-to-top. The Companion leads
-            because it is the surface the page opens on; back-to-top stays
-            rightmost because it is the one button that is not a panel. This
-            replaces the in-layout rail: a permanent 4rem column of buttons was
-            charging the chapter width for chrome that is only occasionally used. */}
-        <div class="cx-fabs" role="group" aria-label="Composer panels">
-          <button
-            type="button"
-            class="cx-fab is-active"
-            id="cx-rail-scholar"
-            aria-pressed="true"
-            aria-controls="cx-drawer"
-            title="Ismaili Scholar"
-          >
-            <i class="fa-solid fa-book-open-reader" aria-hidden="true" />
-            <span class="cx-fab-label">Ismaili Scholar</span>
-          </button>
-          <button
-            type="button"
-            class="cx-fab"
-            id="cx-rail-tools"
-            aria-pressed="false"
-            aria-controls="cx-drawer"
-            title="Tools"
-          >
-            <i class="fa-solid fa-toolbox" aria-hidden="true" />
-            <span class="cx-fab-label">Tools</span>
-          </button>
+        {/* Back-to-top remains floating because it is an action, not a drawer
+            surface. The former Scholar/Tools buttons moved into the drawer's
+            own tab header. */}
+        <div class="cx-fabs" role="group" aria-label="Composer navigation">
           {/* Scrolling back up is now a BUTTON, not a side effect. Opening a
               panel used to ride the page up with it, which moved the chapter out
               from under you every time you reached for a tool. This asks for the

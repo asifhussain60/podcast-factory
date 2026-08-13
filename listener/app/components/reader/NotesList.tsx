@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  faBookOpen,
   faBookmark,
   faHeadphones,
   faPen,
@@ -11,6 +12,7 @@ import { Link } from "react-router";
 import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
 import { RichNoteEditor } from "~/components/notes/RichNoteEditor";
+import { count } from "~/lib/plural";
 import { renderNote } from "~/lib/richNote";
 import {
   COLOUR_LABELS,
@@ -178,7 +180,13 @@ export function NotesList({
     <div className="pf-notes">
       {byChapter.map(({ chapter, notes, marks }) => (
         <section key={chapter.anchorKey} className="pf-notes__chapter">
-          <h3 className="pf-notes__heading">{chapter.title}</h3>
+          <h3 className="pf-notes__heading">
+            <span className="pf-notes__heading-main">
+              <Icon icon={faBookOpen} />
+              {chapter.title}
+            </span>
+            <span className="pf-notes__count">{count(notes.length + marks.length, "mark")}</span>
+          </h3>
 
           {marks.map((bookmark) => (
             <div key={bookmark.id} className="pf-mark pf-mark--bookmark">
@@ -306,7 +314,10 @@ export function NotesList({
            this list is rendered by a tab switch rather than by a page load. */
         <section id={`ep-${episode.number}`} key={`ep-${episode.number}`} className="pf-notes__chapter">
           <h3 className="pf-notes__heading">
-            <Icon icon={faHeadphones} /> {episode.number}. {episode.title}
+            <span className="pf-notes__heading-main">
+              <Icon icon={faHeadphones} /> {episode.number}. {episode.title}
+            </span>
+            <span className="pf-notes__count">{count(moments.length, "mark")}</span>
           </h3>
 
           {moments.map((moment) =>

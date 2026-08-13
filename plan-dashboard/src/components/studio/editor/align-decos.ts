@@ -15,11 +15,11 @@
  * `applyArabicReveals` maps the same keys onto the read view.
  *
  * Position needs a guard, and it has the same one: the editor's top-level
- * paragraphs are the chapter's prose blocks PLUS the pipeline's fence markers,
- * which arrive as bare text because TipTap has no comment node. Those are
- * excluded by the shared predicate. If the counts still disagree, the mapping is
- * meaningless and nothing is painted — pointing at the wrong paragraph is worse
- * than pointing at none.
+ * prose blocks are the chapter's prose paragraphs and list blocks PLUS the
+ * pipeline's fence markers, which arrive as bare text because TipTap has no
+ * comment node. Those are excluded by the shared predicate. If the counts still
+ * disagree, the mapping is meaningless and nothing is painted — pointing at the
+ * wrong paragraph is worse than pointing at none.
  */
 import { Extension } from "@tiptap/core";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
@@ -45,7 +45,12 @@ export function alignablePositions(
 ): { from: number; to: number; key: string }[] {
   const found: { from: number; to: number }[] = [];
   doc.forEach((node, offset) => {
-    if (node.type.name !== "paragraph") return;
+    if (
+      node.type.name !== "paragraph" &&
+      node.type.name !== "bulletList" &&
+      node.type.name !== "orderedList"
+    )
+      return;
     const text = node.textContent.trim();
     if (!text || isFenceMarkerText(text)) return;
     found.push({ from: offset, to: offset + node.nodeSize });

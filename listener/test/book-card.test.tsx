@@ -136,6 +136,21 @@ describe("the library card", () => {
     expect(html).not.toContain("Not yet started");
   });
 
+  it("sends the read action to the saved bookmark when one exists", () => {
+    const html = render({
+      progress: { anchorKey: "intro", fraction: 0.5, chaptersDone: 3 },
+      bookmarks: [
+        {
+          id: "00000001-0000-4000-a000-000000000000",
+          anchorKey: "intro",
+          createdAt: "2026-08-13T12:00:00.000Z",
+        },
+      ],
+    });
+
+    expect(html).toContain("/book/a-book/read/intro#mark-00000001-0000-4000-a000-000000000000");
+  });
+
   it("uses separate links and buttons instead of nesting a play button inside the card link", () => {
     const html = render({
       listen: {

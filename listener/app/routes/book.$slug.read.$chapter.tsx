@@ -570,21 +570,27 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     };
   }, [find]);
 
-  // Arriving from the book page's Notes tab with `#mark-<id>` in the URL.
+  // Arriving from the book page's Notes tab or a library card with `#mark-<id>`
+  // in the URL. Highlights scroll to the painted mark. Bookmarks have no
+  // painted range — they name the paragraph that was at the top of the screen
+  // when the reader pressed Bookmark — so those scroll by stored block index.
   useEffect(() => {
     const hash = window.location.hash;
     if (!hash.startsWith("#mark-")) return;
     const id = hash.slice("#mark-".length);
-    if (
-      !annotations.some((a) => a.id === id) &&
-      !bookmarks.some((b) => b.id === id)
-    )
-      return;
+    const bookmark = bookmarks.find((b) => b.id === id);
+    if (!annotations.some((a) => a.id === id) && bookmark === undefined) return;
     setActiveId(id);
     requestAnimationFrame(() => {
-      body.current
-        ?.querySelector(`mark[data-mark-id="${id}"]`)
-        ?.scrollIntoView({ block: "center", behavior: "smooth" });
+      const highlighted = body.current?.querySelector(`mark[data-mark-id="${id}"]`);
+      if (highlighted !== null && highlighted !== undefined) {
+        highlighted.scrollIntoView({ block: "center", behavior: "smooth" });
+        return;
+      }
+
+      if (bookmark === undefined) return;
+      const block = body.current === null ? undefined : blocksOf(body.current)[bookmark.blockIndex];
+      block?.scrollIntoView({ block: "center", behavior: "smooth" });
     });
   }, [annotations, bookmarks]);
 

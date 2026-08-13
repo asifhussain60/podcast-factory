@@ -19,6 +19,7 @@ import pytest
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
+import _sessions_prose_format as spf  # noqa: E402
 import compose_articulate as ca  # noqa: E402
 import compose_paste_fix as cpf  # noqa: E402
 
@@ -119,6 +120,38 @@ def test_unrelated_content_is_refused(book_dir: Path, tmp_path: Path) -> None:
     result = ca.check(book_dir, "linguistic meaning of allah", off, log=lambda *_: None)
     assert result["clean"] is False
     assert result["findings"]
+
+
+def test_sessions_normalizer_merges_split_hadith_card() -> None:
+    source = (
+        "The Prophet said:\n\n"
+        "> قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ\n\n"
+        "> الشِّرکُ فِی أُمَّتِی أَخفٰی مِن سَیرِ النَّمَلِ\n\n"
+        "Shirk is more hidden in my nation than the movement of an ant.\n"
+    )
+    fixed, changes = spf.normalize_sessions_prose(source)
+    assert "قَالَ رَسُولُ" not in fixed
+    assert (
+        "> الشِّرکُ فِی أُمَّتِی أَخفٰی مِن سَیرِ النَّمَلِ\n>\n> Shirk is more hidden in my nation than the movement of an ant."
+    ) in fixed
+    assert changes[-1]["quote_kind"] == {
+        "first_line": "الشِّرکُ فِی أُمَّتِی أَخفٰی مِن سَیرِ النَّمَلِ",
+        "kind": "hadith",
+    }
+
+
+def test_sessions_normalizer_drops_named_quran_ref_when_card_can_name_it() -> None:
+    source = (
+        "Allah says:\n\n"
+        "The Criterion [25:43]\n\n"
+        "> أَرَءَيْتَ مَنِ ٱتَّخَذَ إِلَهَهُۥ هَوَىٰهُ\n"
+        ">\n"
+        "> Have you seen the one who takes his own desire as his god?\n"
+    )
+    fixed, changes = spf.normalize_sessions_prose(source)
+    assert "The Criterion [25:43]" not in fixed
+    assert "> أَرَءَيْتَ مَنِ ٱتَّخَذَ إِلَهَهُۥ هَوَىٰهُ" in fixed
+    assert any(c["kind"] == "named-citation-line-removed" for c in changes)
 
 
 # ─── install ───────────────────────────────────────────────────────────────
@@ -399,6 +432,66 @@ def test_student_readability_adapter_reports_questions_without_editing_body(book
     assert "The first level is attachment." in result["body"]
     assert result["readability_review"]["status"] == "checked"
     assert result["readability_review"]["questions"][0]["defect"] == "undefined-term"
+
+
+def test_student_readability_review_prepares_companion_note_payload(
+    book_dir: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    body = "The first level is attachment. It is a small thing, and it grows."
+
+    monkeypatch.setattr(
+        cpf,
+        "_run_claude_p_with_retry",
+        lambda *_args, **_kwargs: (
+            0,
+            json.dumps(
+                [
+                    {
+                        "defect": "undefined-term",
+                        "quote": "The first level is attachment.",
+                        "question": "What does attachment mean in this chapter?",
+                    }
+                ]
+            ),
+            "",
+        ),
+    )
+
+    def scholar_adapter(finding, chapter, _book_dir, book_title, _log):
+        assert chapter["key"] == "the-stages-of-love"
+        assert chapter["prose"] == body
+        assert book_title == book_dir.name
+        return {
+            "note": {
+                "id": "student:1234567890abcdef",
+                "kind": "explanation",
+                "body": "Attachment means the first form of love named here.",
+                "anchor": "The first level is attachment.",
+                "quote": finding["quote"],
+                "review": "proposed",
+                "source": {
+                    "provider": "scholar",
+                    "label": "Ismaili Scholar",
+                    "ref": finding["defect"],
+                },
+            },
+            "question": finding["question"],
+            "grounded": 1,
+            "tightened": False,
+        }
+
+    review = cpf.student_readability_review(
+        book_dir,
+        "The Stages Of Love",
+        body,
+        log=lambda *_: None,
+        scholar_adapter=scholar_adapter,
+    )
+
+    assert review["status"] == "checked"
+    assert review["questions"][0]["question"] == "What does attachment mean in this chapter?"
+    assert review["companion_notes"][0]["id"] == "student:1234567890abcdef"
+    assert review["companion_notes"][0]["review"] == "proposed"
 
 
 def test_scholar_continuity_is_reverted_when_it_drops_images(

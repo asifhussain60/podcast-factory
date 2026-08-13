@@ -108,7 +108,10 @@ from _book_edits import anchor_key, write_chapter_body  # noqa: E402
 from _book_voice_gates import revoice_gates  # noqa: E402
 from _paths import find_content  # noqa: E402
 from _pipeline_flags import narrative_frame, narrator_subject  # noqa: E402
-from _sessions_prose_format import normalize_sessions_prose  # noqa: E402
+from _sessions_prose_format import (
+    normalize_sessions_prose,  # noqa: E402
+    strip_prophetic_openers,  # noqa: E402
+)
 from compose_fix import composer_is_open  # noqa: E402
 from compose_paste_fix import (
     promote_standalone_headings,  # noqa: E402
@@ -311,7 +314,13 @@ def check(
 
     frame = narrative_frame(book_dir)
     subject = narrator_subject(book_dir)
-    findings = revoice_gates(base_body, new_body, check_opening=True, frame=frame, narrator_subject=subject)
+    findings = revoice_gates(
+        strip_prophetic_openers(base_body),
+        strip_prophetic_openers(new_body),
+        check_opening=True,
+        frame=frame,
+        narrator_subject=subject,
+    )
     readability_review: dict = {"status": "not-run", "questions": []}
     if student_readability:
         review = readability_adapter or student_readability_review
@@ -327,6 +336,7 @@ def check(
         "images_restored": images_restored,
         "paragraph_changes": paragraph_changes,
         "format_changes": format_changes,
+        "quote_kind_declarations": [c["quote_kind"] for c in format_changes if isinstance(c.get("quote_kind"), dict)],
         "continuity_changes": continuity_changes,
         "readability_review": readability_review,
         "body": new_body,

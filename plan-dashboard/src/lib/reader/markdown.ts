@@ -115,6 +115,10 @@ export interface RenderOptions {
    *  TipTap to hold a `<div>` it has no node for. The editor shows the source:
    *  one line per bayt, exactly as book.md holds it. */
   quoteVerseGrid?: boolean;
+  /** Edit-mode-only label carried on a data attribute. Unlike the real header
+   *  strip, this cannot be serialized into book.md because the editor's markdown
+   *  writer ignores blockquote attributes. */
+  quoteLabelAttributes?: boolean;
 }
 
 /** The key one quotation is stored under: its first non-empty line, trimmed.
@@ -142,13 +146,35 @@ const QUOTE_KIND_LABEL: Record<string, string> = {
  *  made. TWO KINDS never name one: scripture's header carries the surah and
  *  verse the audit resolved, and a prophetic tradition is already the claim
  *  that the Prophet said it (Asif, 2026-08-11). */
-function quoteBand(kind: string, lines: string[], opts: RenderOptions): string {
-  if (kind === "" || opts.quoteBands === false) return "";
+function quoteLabel(
+  kind: string,
+  lines: string[],
+  opts: RenderOptions,
+): string {
+  if (kind === "") return "";
   let label = QUOTE_KIND_LABEL[kind] ?? "";
   if (kind === "quran") {
     const line = lines.find((x) => isArabicQuoteLine(x));
     label = (line && opts.quranicRefs?.[line.trim()]) || "";
   }
+  return label;
+}
+
+function quoteLabelAttribute(
+  kind: string,
+  lines: string[],
+  opts: RenderOptions,
+): string {
+  if (!opts.quoteLabelAttributes) return "";
+  const label = quoteLabel(kind, lines, opts);
+  return label
+    ? ` data-q-label="${escapeHtml(label).replace(/"/g, "&quot;")}"`
+    : "";
+}
+
+function quoteBand(kind: string, lines: string[], opts: RenderOptions): string {
+  if (kind === "" || opts.quoteBands === false) return "";
+  const label = quoteLabel(kind, lines, opts);
   const anon = kind === "quran" || kind === "hadith";
   const by = anon ? "" : opts.quoteKinds?.[quoteKindKey(lines)]?.by;
   return (
@@ -578,7 +604,7 @@ export function renderMarkdown(
       const cls =
         `${hasArabic ? "quran" : ""}${kind ? ` k-${kind}` : ""}${asideCls}`.trim();
       out.push(
-        `<blockquote${cls ? ` class="${cls}"` : ""}>${quoteBand(kind, quoteBuffer, opts)}${inner}</blockquote>`,
+        `<blockquote${cls ? ` class="${cls}"` : ""}${quoteLabelAttribute(kind, quoteBuffer, opts)}>${quoteBand(kind, quoteBuffer, opts)}${inner}</blockquote>`,
       );
     } else {
       const inner = paras
@@ -596,7 +622,7 @@ export function renderMarkdown(
         : opts.quoteKinds?.[quoteKindKey(quoteBuffer)]?.kind;
       const cls = `${declared ? `k-${declared}` : ""}${asideCls}`.trim();
       out.push(
-        `<blockquote${cls ? ` class="${cls}"` : ""}>${quoteBand(declared ?? "", quoteBuffer, opts)}${inner}</blockquote>`,
+        `<blockquote${cls ? ` class="${cls}"` : ""}${quoteLabelAttribute(declared ?? "", quoteBuffer, opts)}>${quoteBand(declared ?? "", quoteBuffer, opts)}${inner}</blockquote>`,
       );
     }
     quoteBuffer = [];
@@ -916,6 +942,7 @@ export function renderEditSeed(
   input: string,
   quranicRuns?: Set<string> | null,
   quoteKinds?: Record<string, QuoteDeclaration> | null,
+  quranicRefs?: Record<string, string> | null,
 ): string {
   // keepMachineFences: the editor MUST receive the fence marker lines. TipTap
   // has no comment node, so they arrive as bare text, which is exactly what
@@ -942,10 +969,12 @@ export function renderEditSeed(
     keepMachineFences: true,
     quranicRuns: quranicRuns ?? undefined,
     quoteKinds: quoteKinds ?? undefined,
+    quranicRefs: quranicRefs ?? undefined,
     // NEVER in the edit seed — see the option's own note. The card's plate and
     // ink still show, because those come from the class; only the header strip,
     // which is markup TipTap would hold as content, is withheld.
     quoteBands: false,
+    quoteLabelAttributes: true,
     // Also NEVER in the edit seed, and this one is not cosmetic at all: the
     // grid splits one source line into two paragraphs, and the editor writes a
     // blockquote back one paragraph per line. Seeding it would offer to save a

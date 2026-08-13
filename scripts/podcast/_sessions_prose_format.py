@@ -61,6 +61,45 @@ _TRANSLIT_AFTER_HEADING_RE = re.compile(
 
 #: A bare `81:22` or `26:99-101` reference, alone on its own line.
 _BARE_CITE_RE = re.compile(r"^[ \t]*\d{1,3}:\d{1,3}(?:-\d{1,3})?[ \t]*$")
+_NAMED_CITE_RE = re.compile(r"^[ \t]*(?:The\s+)?[A-Z][A-Za-z'’\- ]{2,30}\s+\[\d{1,3}:\d{1,3}(?:-\d{1,3})?\][ \t]*$")
+_ARABIC_MARK_RE = re.compile(r"[\u0610-\u061a\u0640\u064b-\u065f\u0670\u06d6-\u06ed]")
+_ARABIC_FOLD = str.maketrans(
+    {
+        "أ": "ا",
+        "إ": "ا",
+        "آ": "ا",
+        "ٱ": "ا",
+        "ى": "ي",
+        "ی": "ي",
+        "ئ": "ي",
+        "ؤ": "و",
+        "ة": "ه",
+        "ۃ": "ه",
+        "ہ": "ه",
+        "ھ": "ه",
+        "ك": "ک",
+    }
+)
+
+
+def _arabic_skeleton(text: str) -> str:
+    folded = _ARABIC_MARK_RE.sub("", text).translate(_ARABIC_FOLD)
+    return re.sub(r"[^ء-يک]", "", folded)
+
+
+def _is_prophetic_opener(text: str) -> bool:
+    skel = _arabic_skeleton(text)
+    return skel.startswith("قالرسولاللهصلياللهعليه") or skel.startswith("قالرسولاللهصلىاللهعليه")
+
+
+def _is_markdown_structure(text: str) -> bool:
+    stripped = text.strip()
+    return bool(
+        not stripped
+        or stripped.startswith((">", "#", "!", "|", "<!--", "```"))
+        or re.match(r"^[-*+]\s+", stripped)
+        or re.match(r"^\d+\.\s+", stripped)
+    )
 
 
 def _is_arabic_only(text: str) -> bool:
@@ -153,8 +192,121 @@ def normalize_bare_citations(body: str) -> tuple[str, list[dict]]:
     return "\n".join(out), changes
 
 
+def normalize_named_quran_card_refs(body: str) -> tuple[str, list[dict]]:
+    """Drop a standalone named reference once the Qur'an card below can head itself."""
+    lines = body.split("\n")
+    out: list[str] = []
+    changes: list[dict] = []
+    i, n = 0, len(lines)
+    while i < n:
+        line = lines[i]
+        if not _NAMED_CITE_RE.match(line):
+            out.append(line)
+            i += 1
+            continue
+        j = i + 1
+        while j < n and not lines[j].strip():
+            j += 1
+        if j >= n or not lines[j].lstrip().startswith(">"):
+            out.append(line)
+            i += 1
+            continue
+        k, arabic = j, None
+        while k < n and lines[k].lstrip().startswith(">"):
+            text = lines[k].lstrip(">").strip()
+            if text and _ARABIC_CHAR_RE.search(text):
+                arabic = text
+                break
+            k += 1
+        if arabic and is_quranic(arabic):
+            changes.append({"kind": "named-citation-line-removed", "ref": line.strip()})
+            i += 1
+            continue
+        out.append(line)
+        i += 1
+    return "\n".join(out), changes
+
+
+def normalize_hadith_cards(body: str) -> tuple[str, list[dict]]:
+    """Remove formulaic hadith openers and keep the hadith with its translation.
+
+    The Arabic line "قَالَ رَسُولُ..." is template chrome: the card already says
+    "Prophetic tradition." When a paste leaves it as its own blockquote, the page
+    draws two panels and no single hadith card. This pass only fires when that
+    opener is immediately followed by another Arabic blockquote.
+    """
+    lines = body.split("\n")
+    out: list[str] = []
+    changes: list[dict] = []
+    i, n = 0, len(lines)
+    while i < n:
+        line = lines[i]
+        if not line.lstrip().startswith(">") or not _is_prophetic_opener(line.lstrip(">").strip()):
+            out.append(line)
+            i += 1
+            continue
+
+        j = i + 1
+        while j < n and not lines[j].strip():
+            j += 1
+        if j >= n or not lines[j].lstrip().startswith(">"):
+            out.append(line)
+            i += 1
+            continue
+
+        quote_lines: list[str] = []
+        k = j
+        first_arabic = ""
+        while k < n and lines[k].lstrip().startswith(">"):
+            text = lines[k].lstrip(">").strip()
+            quote_lines.append(text)
+            if not first_arabic and _is_arabic_only(text):
+                first_arabic = text
+            k += 1
+        if not first_arabic:
+            out.append(line)
+            i += 1
+            continue
+
+        m = k
+        while m < n and not lines[m].strip():
+            m += 1
+        translation = ""
+        if m < n and not _is_markdown_structure(lines[m]) and not _is_arabic_only(lines[m]):
+            translation = lines[m].strip()
+
+        emitted_lines = [text for text in quote_lines if text]
+        for text in emitted_lines:
+            out.append(f"> {text}")
+        if translation:
+            out.extend([">", f"> {translation}"])
+            m += 1
+        changes.append(
+            {
+                "kind": "hadith-card-normalized",
+                "removed": line.lstrip(">").strip(),
+                "first_line": first_arabic,
+                "quote_kind": {"first_line": first_arabic, "kind": "hadith"},
+            }
+        )
+        i = m if translation else k
+    return "\n".join(out), changes
+
+
+def strip_prophetic_openers(body: str) -> str:
+    """Gate helper: remove only the boilerplate opener from comparison text."""
+    kept = []
+    for line in body.splitlines():
+        if line.lstrip().startswith(">") and _is_prophetic_opener(line.lstrip(">").strip()):
+            continue
+        kept.append(line)
+    return "\n".join(kept)
+
+
 def normalize_sessions_prose(body: str) -> tuple[str, list[dict]]:
     """Both passes, combined — the one entry point every caller uses."""
     body, heading_changes = normalize_headings(body)
     body, citation_changes = normalize_bare_citations(body)
-    return body, heading_changes + citation_changes
+    body, named_citation_changes = normalize_named_quran_card_refs(body)
+    body, hadith_changes = normalize_hadith_cards(body)
+    return body, heading_changes + citation_changes + named_citation_changes + hadith_changes

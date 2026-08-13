@@ -1081,13 +1081,13 @@ body.book-v2 .chapter-open {
    to the text instead of under its own number. REQ-015 values, matching the
    on-screen hosts. */
 .book-list {
-  margin: 0.85rem 0 1.1rem;
+  margin: 0 0 0.85rem;
   padding-inline-start: 2.25rem;
   list-style-position: outside;
   list-style-type: decimal;
 }
 .book-list li {
-  margin: 0.3rem 0;
+  margin: 0 0 0.35rem;
   line-height: 1.55;
 }
 

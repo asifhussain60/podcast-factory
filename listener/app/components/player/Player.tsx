@@ -21,7 +21,7 @@ import { Icon } from "~/components/Icon";
 import { NotesList } from "~/components/reader/NotesList";
 import { RichNoteEditor } from "~/components/notes/RichNoteEditor";
 import { Transcript, parseVtt, type Cue } from "~/components/player/Transcript";
-import { newId, refresh, type EpisodeNote } from "~/lib/marks";
+import { newId, PRE_ROLL_S, refresh, type EpisodeNote } from "~/lib/marks";
 import {
   queueMoment,
   queuePosition,
@@ -121,7 +121,7 @@ interface PlayerState {
    */
   expanded: boolean;
   setExpanded: (expanded: boolean) => void;
-  play: (episode: NowPlaying) => void;
+  play: (episode: NowPlaying, options?: { startAt?: number }) => void;
   toggle: () => void;
   seek: (seconds: number) => void;
   nudge: (delta: number) => void;
@@ -409,11 +409,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const play = useCallback(
-    (episode: NowPlaying) => {
+    (episode: NowPlaying, options?: { startAt?: number }) => {
       const element = audio.current;
       if (element === null) return;
 
       if (current?.src === episode.src) {
+        if (options?.startAt !== undefined) element.currentTime = Math.max(0, options.startAt);
         void element.play();
         return;
       }
@@ -464,9 +465,14 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       }
 
       // Start from the cache immediately — playback must not wait on a request.
-      const cached =
-        loadPositions()[positionKey(episode.slug, episode.number)] ?? 0;
-      element.currentTime = cached;
+      // Resuming backs up a little so the listener hears the thought re-enter
+      // the room instead of landing mid-sentence.
+      const cached = loadPositions()[positionKey(episode.slug, episode.number)] ?? 0;
+      const startAt =
+        options?.startAt === undefined
+          ? Math.max(0, cached - PRE_ROLL_S)
+          : Math.max(0, Math.floor(options.startAt));
+      element.currentTime = startAt;
       void element.play();
 
       // Then ask the server ONCE, for both halves of what it knows: how far other
@@ -490,10 +496,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         // listener has not moved in the meantime: seeking under someone who has
         // already scrubbed would be the player fighting them.
         const remote = positionIn(marks, episode.number);
+        if (options?.startAt !== undefined) return;
         if (remote === null || remote <= cached + 5) return;
         if (audio.current === null || audio.current.src !== element.src) return;
-        if (Math.abs(audio.current.currentTime - cached) > 5) return;
-        audio.current.currentTime = remote;
+        if (Math.abs(audio.current.currentTime - startAt) > 5) return;
+        audio.current.currentTime = Math.max(0, remote - PRE_ROLL_S);
       });
       // `rate` is a dependency because the new source is started at it. Without it
       // this closure keeps whichever rate was current when it was last built, and
