@@ -55,6 +55,7 @@ def make_book(tmp_path: Path) -> Book:
         directory=tmp_path,
         title="Surah Al-Fateha",
         title_arabic=None,
+        title_language=None,
         blurb=None,
         edition_note=None,
     )

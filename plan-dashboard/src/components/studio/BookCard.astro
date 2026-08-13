@@ -30,6 +30,7 @@ export interface Props {
   /** PDF / podcast / augmented indicators. A deck passes all false. */
   pdfGenerated?: boolean;
   podcastGenerated?: boolean;
+  podcastPlanned?: boolean;
   augmented?: boolean;
   /** "6 episodes" for a book, "6 volumes" for a deck. */
   countLabel?: string;
@@ -44,6 +45,7 @@ const {
   identity,
   pdfGenerated = false,
   podcastGenerated = false,
+  podcastPlanned = true,
   augmented = false,
   countLabel = "",
   statusLabel,
@@ -62,7 +64,7 @@ const PILLS = [
     on: podcastGenerated,
     icon: "fa-headphones",
     yes: "Podcast generated",
-    no: "Podcast not yet generated",
+    no: podcastPlanned ? "Podcast not yet generated" : "No podcast planned",
   },
   {
     on: augmented,
@@ -85,7 +87,11 @@ const PILLS = [
       <span
         class="card-script-text"
         lang={identity.nativeLang ?? "ar"}
-        dir={identity.nativeLang === "ar" ? "rtl" : undefined}
+        dir={
+          identity.nativeLang === "ar" || identity.nativeLang === "ur"
+            ? "rtl"
+            : undefined
+        }
       >
         {identity.nativeTitle}
       </span>

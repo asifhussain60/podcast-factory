@@ -32,8 +32,8 @@ function seed() {
       ('book-a', 'Islamic', 'Book A', 'book', 'published'),
       ('book-b', 'Islamic', 'Book B', 'book', 'published');
 
-    INSERT INTO unit_detail (slug, title_arabic, blurb_html, published_at, pdf_key) VALUES
-      ('book-a', 'كتاب', '<p>A blurb.</p>', '2026-08-03T00:00:00Z', 'book-a/book.pdf');
+    INSERT INTO unit_detail (slug, title_arabic, title_language, blurb_html, published_at, pdf_key) VALUES
+      ('book-a', 'کتاب', 'ur', '<p>A blurb.</p>', '2026-08-03T00:00:00Z', 'book-a/book.pdf');
 
     INSERT INTO chapter (slug, anchor_key, idx, title, html, word_count) VALUES
       ('book-a', 'one',   1, '1. One',   '<p>one</p>',   440),
@@ -284,6 +284,8 @@ describe("library cards", () => {
 
     const cards = await libraryCards(db, ["book-a", "book-b"]);
     expect(cards.get("book-a")).toMatchObject({
+      titleOriginal: "کتاب",
+      titleLanguage: "ur",
       chapters: 3,
       firstChapterKey: "one",
       episodes: 3,

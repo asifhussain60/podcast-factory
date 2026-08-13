@@ -21,7 +21,7 @@ import type { CardPlayableEpisode, LibraryCard } from "~/server/catalog.server";
  * the book is, the BODY carries what it contains. Identity above, contents
  * below, and nothing crosses over.
  *
- * The band prefers the Arabic title, because for most of this library that is
+ * The band prefers the original-script title, because for most of this library that is
  * the book's real name and it is the thing worth setting large. Where a book has
  * no Arabic title the band takes the English one in the display serif instead —
  * the band never sits empty, and it keeps its height either way so a mixed grid
@@ -56,7 +56,8 @@ export function BookCard({
   } | null;
   marks?: { notes: number; bookmarks: number } | null;
 }) {
-  const arabic = card?.titleArabic ?? null;
+  const originalTitle = card?.titleOriginal ?? null;
+  const originalLanguage = card?.titleLanguage ?? "ar";
   const collection = collectionOf(bucket);
   const bookmark =
     bookmarks.find((b) => b.anchorKey === progress?.anchorKey) ?? bookmarks[0] ?? null;
@@ -96,14 +97,18 @@ export function BookCard({
 
           <span className="pf-book__ornament pf-book__ornament--start" aria-hidden="true" />
 
-          {arabic === null ? (
+          {originalTitle === null ? (
             <h2 className="pf-book__band-title pf-book__band-title--latin">{title}</h2>
           ) : (
             /* dir="rtl" is required for shaping and ordering. Centred here, unlike
                the old card, because the band is the title's own space rather than
                a line in a left-aligned stack. */
-            <p lang="ar" dir="rtl" className="pf-book__band-title">
-              {arabic}
+            <p
+              lang={originalLanguage}
+              dir={originalLanguage === "ar" || originalLanguage === "ur" ? "rtl" : undefined}
+              className="pf-book__band-title"
+            >
+              {originalTitle}
             </p>
           )}
 
@@ -112,7 +117,7 @@ export function BookCard({
       </Link>
 
       <div className="pf-book__body">
-        {arabic === null ? null : (
+        {originalTitle === null ? null : (
           <Link to={`/book/${slug}`} className="pf-book__title-link">
             <h2 className="pf-book__title">{title}</h2>
           </Link>

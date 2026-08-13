@@ -120,6 +120,14 @@
   font-display: swap;
 }
 @font-face {
+  font-family: "Noto Nastaliq Urdu";
+  src: url("/fonts/noto-nastaliq-urdu/NotoNastaliqUrdu-Regular.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
   font-family: "UthmanicHafsSized";
   src: url("/fonts/uthmanic-hafs/UthmanicHafs1Ver18.woff2") format("woff2");
   font-weight: 400;

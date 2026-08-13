@@ -259,9 +259,13 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
               screen is a different page to a screen reader than to the eye. */}
           <h1 className="pf-title pf-title--sm">{unit.title}</h1>
 
-          {detail?.titleArabic ? (
-            <p lang="ar" dir="rtl" className="pf-book-title-ar">
-              {detail.titleArabic}
+          {detail?.titleOriginal ? (
+            <p
+              lang={detail.titleLanguage ?? "ar"}
+              dir={detail.titleLanguage === "ur" || detail.titleLanguage === "ar" ? "rtl" : undefined}
+              className="pf-book-title-original"
+            >
+              {detail.titleOriginal}
             </p>
           ) : null}
         </div>
@@ -1190,4 +1194,3 @@ function SectionHeading({
     </div>
   );
 }
-
