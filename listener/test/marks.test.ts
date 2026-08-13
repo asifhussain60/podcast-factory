@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import {
   addBookmark,
+  bookmarkTargetsForAll,
   InvalidMarkError,
   listeningFor,
   listeningForAll,
@@ -251,6 +252,28 @@ describe("listening position", () => {
 });
 
 describe("counts for the library card", () => {
+  it("returns bookmark destinations newest first", async () => {
+    await addBookmark(
+      t.db,
+      READER,
+      SLUG,
+      { id: uuid(6), anchorKey: CHAPTER, blockIndex: 0, label: "first" },
+      NOW,
+    );
+    await addBookmark(
+      t.db,
+      READER,
+      SLUG,
+      { id: uuid(7), anchorKey: CHAPTER, blockIndex: 3, label: "second" },
+      LATER,
+    );
+
+    expect((await bookmarkTargetsForAll(t.db, READER))[SLUG].map((b) => b.id)).toEqual([
+      uuid(7),
+      uuid(6),
+    ]);
+  });
+
   it("counts live marks per book and omits deleted ones", async () => {
     await annotate(READER);
     await addBookmark(

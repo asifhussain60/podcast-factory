@@ -91,6 +91,17 @@ const QuotationClasses = Extension.create({
             renderHTML: (attrs) =>
               attrs.class ? { class: String(attrs.class) } : {},
           },
+          "data-q-label": {
+            default: null,
+            parseHTML: (element) => {
+              const raw = element.getAttribute("data-q-label") ?? "";
+              return raw.trim() ? raw.trim() : null;
+            },
+            renderHTML: (attrs) =>
+              attrs["data-q-label"]
+                ? { "data-q-label": String(attrs["data-q-label"]) }
+                : {},
+          },
         },
       },
     ];

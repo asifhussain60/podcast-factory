@@ -19,6 +19,7 @@ import {
   type CardPlayableEpisode,
 } from "~/server/catalog.server";
 import {
+  bookmarkTargetsForAll,
   listeningForAll,
   markCounts,
   progressForAll,
@@ -48,12 +49,13 @@ export async function loader({ context }: Route.LoaderArgs) {
   // book. A slug present in progress but absent from `units` simply never gets
   // read — access is decided in one place and this is not it.
   const slugs = units.map((u) => u.slug);
-  const [cards, playable, progress, listening, counts] = await Promise.all([
+  const [cards, playable, progress, listening, counts, bookmarks] = await Promise.all([
     libraryCards(env.DB, slugs),
     playableEpisodesForCards(env.DB, slugs),
     progressForAll(env.DB, viewer.email),
     listeningForAll(env.DB, viewer.email),
     markCounts(env.DB, viewer.email),
+    bookmarkTargetsForAll(env.DB, viewer.email),
   ]);
 
   return {
@@ -68,6 +70,7 @@ export async function loader({ context }: Route.LoaderArgs) {
         progress: progress[u.slug] ?? null,
         listen: listenAction(playable.get(u.slug) ?? [], listening[u.slug] ?? []),
         marks: counts[u.slug] ?? null,
+        bookmarks: bookmarks[u.slug] ?? [],
       }))
       // By English title. `localeCompare` rather than `<`, so "Ayyuha" sorts
       // next to "Áyyuha" and case never decides the order.
@@ -253,6 +256,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 bucket={unit.bucket}
                 card={unit.card}
                 progress={unit.progress}
+                bookmarks={unit.bookmarks}
+                listen={unit.listen}
                 marks={unit.marks}
               />
             </li>

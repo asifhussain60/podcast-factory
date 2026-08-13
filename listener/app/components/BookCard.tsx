@@ -6,11 +6,12 @@ import {
   faPlay,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import { Icon } from "~/components/Icon";
 import { clock, usePlayer, type NowPlaying } from "~/components/player/Player";
 import { collectionOf } from "~/lib/collection";
+import { PRE_ROLL_S } from "~/lib/marks";
 import type { CardPlayableEpisode, LibraryCard } from "~/server/catalog.server";
 
 /**
@@ -38,6 +39,7 @@ export function BookCard({
   card,
   listen = null,
   progress = null,
+  bookmarks = [],
   marks = null,
 }: {
   slug: string;
@@ -46,6 +48,7 @@ export function BookCard({
   card: LibraryCard | null;
   /** Where this reader got to, or null if they have not opened it. */
   progress?: { anchorKey: string; fraction: number; chaptersDone: number } | null;
+  bookmarks?: { id: string; anchorKey: string; createdAt: string }[];
   listen?: {
     mode: "resume" | "start";
     episode: CardPlayableEpisode;
@@ -55,8 +58,15 @@ export function BookCard({
 }) {
   const arabic = card?.titleArabic ?? null;
   const collection = collectionOf(bucket);
-  const readKey = progress?.anchorKey ?? card?.firstChapterKey ?? null;
-  const readHref = readKey === null ? null : `/book/${slug}/read/${encodeURIComponent(readKey)}`;
+  const bookmark =
+    bookmarks.find((b) => b.anchorKey === progress?.anchorKey) ?? bookmarks[0] ?? null;
+  const readKey = bookmark?.anchorKey ?? progress?.anchorKey ?? card?.firstChapterKey ?? null;
+  const readHref =
+    readKey === null
+      ? null
+      : `/book/${slug}/read/${encodeURIComponent(readKey)}${
+          bookmark === null ? "" : `#mark-${bookmark.id}`
+        }`;
 
   // Whole chapters finished, plus how far into the current one — so a reader on
   // chapter 4 of 9 reads about 40%, not 11% because one chapter is "done".
@@ -269,6 +279,7 @@ function ListenAction({
   };
 }) {
   const player = usePlayer();
+  const navigate = useNavigate();
   const src = `/media/${listen.episode.audioKey}`;
   const isCurrent = player.current?.src === src;
   const isPlaying = isCurrent && player.playing;
@@ -303,8 +314,14 @@ function ListenAction({
       aria-label={`${verb} ${title}, episode ${listen.episode.number}: ${listen.episode.title}`}
       onClick={() => {
         if (isCurrent) player.toggle();
-        else player.play(track);
+        else
+          player.play(track, {
+            startAt: listen.seconds === null ? undefined : listen.seconds - PRE_ROLL_S,
+          });
         player.setExpanded(true);
+        navigate(`/book/${listen.episode.slug}?tab=listen`, {
+          preventScrollReset: true,
+        });
       }}
     >
       <span className="pf-book-action__circle" aria-hidden="true">

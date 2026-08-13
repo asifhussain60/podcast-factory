@@ -27,6 +27,7 @@ import {
 import {
   Link,
   useFetcher,
+  useNavigate,
   useSearchParams,
   type ShouldRevalidateFunctionArgs,
 } from "react-router";
@@ -158,6 +159,9 @@ export function shouldRevalidate({
 export default function BookDetail({ loaderData }: Route.ComponentProps) {
   const { unit, detail, chapters, sessions, marks, deckPages, decks, isAdmin } = loaderData;
   const fetcher = useFetcher();
+  const navigate = useNavigate();
+  const player = usePlayer();
+  const collection = collectionOf(unit.bucket);
 
   const totalWords = chapters.reduce((n, c) => n + c.wordCount, 0);
   const episodes = sessions.flatMap((s) => s.episodes);
@@ -188,6 +192,28 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     markedEpisodes.set(n.number, (markedEpisodes.get(n.number) ?? 0) + 1);
   }
 
+  const playEpisodeAt = (number: number, seconds: number) => {
+    const episode = episodes.find((e) => e.number === number);
+    if (episode === undefined || !episode.hasAudio || episode.audioKey === null) return;
+
+    player.play(
+      {
+        slug: unit.slug,
+        bookTitle: unit.title,
+        number: episode.number,
+        title: episode.title,
+        src: `/media/${episode.audioKey}`,
+        durationS: episode.durationS,
+        transcriptSrc:
+          episode.transcriptKey === null ? null : `/media/${episode.transcriptKey}`,
+        collection: collection === "sessions" ? "sessions" : undefined,
+      },
+      { startAt: seconds },
+    );
+    player.setExpanded(true);
+    navigate(`/book/${unit.slug}?tab=listen`, { preventScrollReset: true });
+  };
+
   // Offered ONLY when the file is actually in R2. The row exists as soon as the
   // PDF is on the author's disk, and linking to that would promise a download
   // that 404s.
@@ -207,7 +233,7 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     ) : null;
 
   return (
-    <AppShell here="book" isAdmin={isAdmin} collection={collectionOf(unit.bucket)}>
+    <AppShell here="book" isAdmin={isAdmin} collection={collection}>
       {/* ---- Identity ----
           The same two-part identity the library card carries, opened out: the
           English name, the work's own Arabic beneath it, both held in one
@@ -430,6 +456,7 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                       // episodes, each showing what it can act on.
                       episodes={episodes.map((e) => ({ number: e.number, title: e.title }))}
                       episodeNotes={marks.episodeNotes}
+                      onPlay={playEpisodeAt}
                       // Nothing is resolved here: this page never renders the
                       // chapter text, so it cannot know whether a passage
                       // still exists. The reader is where that is discovered,
@@ -1163,5 +1190,4 @@ function SectionHeading({
     </div>
   );
 }
-
 

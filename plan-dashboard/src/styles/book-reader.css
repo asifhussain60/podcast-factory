@@ -145,7 +145,7 @@
    hosts of two renderers, one indent. */
 .bookv-body ul,
 .bookv-body ol {
-  margin-block: 0.85rem 1.1rem;
+  margin-block: 0 0.85rem;
   padding-inline-start: 2.25rem;
   list-style-position: outside;
 }
@@ -156,7 +156,8 @@
   list-style-type: disc;
 }
 .bookv-body li {
-  margin-block: 0.3rem;
+  margin-block: 0 0.35rem;
+  line-height: 1.75;
 }
 
 /* Markdown figures are lecture plates, not full-page panels. Keep them at one

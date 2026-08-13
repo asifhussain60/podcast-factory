@@ -307,9 +307,11 @@
   --q-ar-face:
     "Traditional Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
     serif;
+  /* Traditional Arabic renders several Urdu/Persian codepoints used in inline
+     terms as broken clusters. Keep it for display quotations when chosen, but
+     let inline terms use the robust naskh stack. */
   --q-ar-inline-face:
-    "Traditional Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
-    serif;
+    "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
 }
 .ar-scheherazade-new {
   --q-ar-face:

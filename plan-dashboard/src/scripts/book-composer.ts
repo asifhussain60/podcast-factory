@@ -446,24 +446,26 @@ function boot(): void {
     }
   }
 
-  // ── inspector tabs (Artifacts · Refine & Notes) ───────────────────────────
-  // Two tabs, both chapter work: place what you are adding, then reshape and
-  // annotate the prose (the former Details tab is merged into Refine). The
-  // one-time book-wide decisions — citation style, typography — left the list
-  // on 2026-07-22 for the gear's settings dialog: a setting touched once per
-  // book should not occupy a daily tab. Companion left earlier (2026-07-21)
-  // for the drawer rail.
+  // ── inspector tabs (Refine · Artifacts · Scholar) ─────────────────────────
+  // Three tabs, all right-panel work: reshape and annotate the prose, place
+  // artifacts, or ask the Ismaili Scholar. The one-time book-wide decisions —
+  // citation style, typography — left the list on 2026-07-22 for the gear's
+  // settings dialog: a setting touched once per book should not occupy a daily
+  // tab. Scholar is back in the header now that the drawer selector itself lives
+  // there, rather than floating at the foot of the panel.
   // Order MATTERS: the roving tabindex and the arrow-key cycling below read it,
   // so it must match the order the buttons appear in. Refine leads since
   // 2026-07-27 (Asif) — reshaping prose is the daily job; placing artifacts is
   // occasional. Artifacts stays the tab that OPENS, which is unchanged.
-  const TABS = ["refine", "artifacts"] as const;
+  const TABS = ["refine", "artifacts", "scholar"] as const;
   type TabName = (typeof TABS)[number];
+  let activeTab: TabName = "refine";
   const tabBtn = (n: TabName) =>
     root.querySelector<HTMLButtonElement>(`#cx-tab-${n}`);
   const tabPanel = (n: TabName) =>
     root.querySelector<HTMLElement>(`#cx-panel-${n}`);
   function activateTab(name: TabName, focus = false): void {
+    activeTab = name;
     for (const n of TABS) {
       const on = n === name;
       const btn = tabBtn(n);
@@ -563,59 +565,10 @@ function boot(): void {
     }
   }
 
-  // ── drawer surfaces (Scholar · Tools) ─────────────────────────────────────
-  // ONE drawer, two surfaces, one floating button each. Clicking the lit button
-  // closes the drawer and the chapter takes the full page width back. The Scholar
-  // used to run a SECOND, independent slide-in that could overlap this one; it is
-  // a surface here now, so only one panel can ever be open. The state is a
-  // per-browser preference, not book content, so it lives in localStorage — and a
-  // preference saved as a retired surface ("companion", and since 2026-07-29
-  // "arabic") simply fails the membership test below and falls back to the
-  // default.
-  const SURFACES = ["scholar", "tools"] as const;
-  type Surface = (typeof SURFACES)[number];
-  type PanelState = Surface | "closed";
-  const PANEL_KEY = "cx-composer-panel";
-  const grid = root.querySelector<HTMLElement>(".composer-grid");
-  const surfaceBtn = (n: Surface) =>
-    root.querySelector<HTMLButtonElement>(`#cx-rail-${n}`);
-  const surfaceEl = (n: Surface) =>
-    root.querySelector<HTMLElement>(`#cx-surface-${n}`);
-  const railTools = surfaceBtn("tools");
-  let panelState: PanelState = (() => {
-    try {
-      const saved = localStorage.getItem(PANEL_KEY) ?? "";
-      if (saved === "closed") return saved;
-      if ((SURFACES as readonly string[]).includes(saved))
-        return saved as Surface;
-    } catch {
-      /* preference is best-effort */
-    }
-    // The Companion is the surface the Composer opens on (Asif, 2026-07-29):
-    // the panel is bound to the chapter beside it and lights up as you read, so
-    // it is the one that has something to say before you touch anything.
-    return "scholar";
-  })();
-
-  function setPanel(next: PanelState, persist = true): void {
-    panelState = next;
-    grid?.setAttribute("data-panel", next);
-    for (const n of SURFACES) {
-      const on = n === next;
-      const btn = surfaceBtn(n);
-      btn?.classList.toggle("is-active", on);
-      btn?.setAttribute("aria-pressed", String(on));
-      const el = surfaceEl(n);
-      if (el) el.hidden = !on;
-    }
-    if (persist) {
-      try {
-        localStorage.setItem(PANEL_KEY, next);
-      } catch {
-        /* preference is best-effort */
-      }
-    }
-  }
+  // ── drawer chrome ─────────────────────────────────────────────────────────
+  // The right drawer stays open and its header chooses the visible tab. The
+  // former bottom Scholar/Tools switcher disappeared because it duplicated this
+  // row and forced the reader to look in two places for one choice.
   /** Bring the WORKING ROW to the top of the viewport — the chapter picker, the
    *  Read/Edit toggle and the drawer's own text dial, all on one line just under
    *  the site nav.
@@ -648,36 +601,12 @@ function boot(): void {
     window.scrollTo({ top: target, behavior: reduce ? "auto" : "smooth" });
   }
 
-  for (const n of SURFACES) {
-    surfaceBtn(n)?.addEventListener("click", () => {
-      setPanel(panelState === n ? "closed" : n);
-      // Deliberately does NOT scroll (2026-07-27, Asif). It used to call
-      // scrollToWorkingRow() so the drawer — anchored to the top of the grid —
-      // could not open off-screen. But that moved the chapter out from under you
-      // every time you reached for a tool, and losing your place costs more than
-      // an off-screen panel does. Scrolling back up is the #cx-rail-top button
-      // beside these, asked for explicitly.
-    });
-  }
-
   // The one control whose job IS to move the page. It lands on the working row
   // rather than at scrollY 0 for the reason scrollToWorkingRow documents: the
   // page hero is not what you are working on.
   root
     .querySelector<HTMLButtonElement>("#cx-rail-top")
     ?.addEventListener("click", scrollToWorkingRow);
-  root.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape" || panelState === "closed") return;
-    // Never steal Escape from a text field or a dialog inside the drawer.
-    const el = document.activeElement;
-    if (
-      el instanceof HTMLElement &&
-      el.closest("input, textarea, [role=dialog]")
-    )
-      return;
-    setPanel("closed");
-  });
-  setPanel(panelState, false);
 
   // The panel text-size stepper. Targets the DRAWER, not a surface: all three
   // surfaces inherit --panel-fs from it, so one control moves whichever one is
@@ -1339,8 +1268,8 @@ function boot(): void {
 
   /** Scroll the panel so this note's card sits at the top of the card list. */
   function syncCardToMark(noteId: string): void {
-    const surface = root.querySelector<HTMLElement>("#cx-surface-scholar");
-    if (!surface || surface.hidden) return; // Scholar surface not showing
+    const surface = root.querySelector<HTMLElement>("#cx-panel-scholar");
+    if (!surface || surface.hidden) return; // Scholar tab not showing
     const card = surface.querySelector<HTMLElement>(
       `.xpl[data-note="${CSS.escape(noteId)}"]`,
     );
@@ -2138,12 +2067,10 @@ function boot(): void {
     // The Arabic toggle is a Read-mode control; entering Edit withdraws it and
     // drops back to English so the editor is never showing a swapped chapter.
     void syncArabicForChapter();
-    // In Read mode the Tools surface has nothing to act on — Refinement and
-    // Details drive the editor, which is torn down — so it is disabled and the
-    // drawer falls closed if it was showing them. Companion stays available on
-    // purpose: private notes are exactly what a reading pass wants beside the
-    // page. The state is NOT persisted here, so returning to Edit restores
-    // whatever the reader had chosen rather than "closed".
+    // In Read mode the editing tabs have nothing to act on — Refinement and
+    // Artifacts drive the editor, which is torn down — so the panel moves to
+    // Scholar. Companion cards are exactly what a reading pass wants beside the
+    // page.
     const reading = mode === "read";
     // The Companion follows the mode: read-only cards in Read, editable in Edit.
     // Re-rendered here rather than left to the next sweep, because the mode can
@@ -2153,17 +2080,11 @@ function boot(): void {
       scholarReadOnly = reading;
       renderScholar();
     }
-    if (railTools) railTools.disabled = reading;
-    if (reading && panelState === "tools") setPanel("closed", false);
-    else if (!reading) {
-      try {
-        const saved = localStorage.getItem(PANEL_KEY);
-        if (saved === "tools" && panelState === "closed")
-          setPanel("tools", false);
-      } catch {
-        /* preference is best-effort */
-      }
+    for (const name of ["refine", "artifacts"] as const) {
+      const btn = tabBtn(name);
+      if (btn) btn.disabled = reading;
     }
+    if (reading && activeTab !== "scholar") activateTab("scholar");
   }
   function enterEditMode(): void {
     if (activeEditor) return;
@@ -3440,6 +3361,7 @@ function boot(): void {
     images_restored: { path: string; anchor: string; placement: string }[];
     paragraph_changes: { kind: string }[];
     format_changes: { kind: string }[];
+    quote_kind_declarations?: { first_line: string; kind: string }[];
     continuity_changes: {
       kind: string;
       status: string;
@@ -3459,6 +3381,24 @@ function boot(): void {
         question?: string;
         quote?: string;
       }[];
+      companion_notes?: {
+        id?: string;
+        kind?: string;
+        body?: string;
+        anchor?: string;
+        quote?: string;
+        etymology?: string[];
+        review?: "proposed" | "kept";
+        source?: {
+          provider?: string;
+          ref?: string;
+          locator?: string;
+          label?: string;
+        };
+      }[];
+      answered?: number;
+      unanswered?: number;
+      unsourced?: { quote?: string; question?: string }[];
     };
     body: string;
     clean: boolean;
@@ -3520,9 +3460,12 @@ function boot(): void {
     if (readabilityReview.status === "checked") {
       const li = document.createElement("li");
       const n = readabilityReview.questions?.length ?? 0;
-      li.textContent = n
-        ? `Student Reader found ${n} readability question${n === 1 ? "" : "s"}`
-        : "Student Reader readability check passed";
+      const drafts = readabilityReview.companion_notes?.length ?? 0;
+      li.textContent = drafts
+        ? `Student Reader prepared ${drafts} Companion draft${drafts === 1 ? "" : "s"}`
+        : n
+          ? `Student Reader found ${n} gap${n === 1 ? "" : "s"}, but prepared no Companion draft${n === 1 ? "" : "s"}`
+          : "Student Reader readability check passed";
       summary.appendChild(li);
     } else if (readabilityReview.status === "skipped") {
       const li = document.createElement("li");
@@ -3530,23 +3473,6 @@ function boot(): void {
       summary.appendChild(li);
     }
     container.appendChild(summary);
-
-    const readabilityQuestions = readabilityReview.questions ?? [];
-    if (readabilityQuestions.length > 0) {
-      const warn = document.createElement("div");
-      warn.className = "cx-paste-fix-findings";
-      const head = document.createElement("p");
-      head.textContent = "The student reader would ask about:";
-      warn.appendChild(head);
-      const ul = document.createElement("ul");
-      for (const q of readabilityQuestions) {
-        const li = document.createElement("li");
-        li.textContent = `${q.defect ? `${q.defect}: ` : ""}${q.question ?? ""}`;
-        ul.appendChild(li);
-      }
-      warn.appendChild(ul);
-      container.appendChild(warn);
-    }
 
     if (result.findings.length > 0) {
       const warn = document.createElement("div");
@@ -3598,6 +3524,25 @@ function boot(): void {
     textarea.placeholder = "Paste the edited chapter text here…";
     box.appendChild(textarea);
 
+    const workingEl = document.createElement("div");
+    workingEl.className = "cx-paste-fix-working";
+    workingEl.hidden = true;
+    workingEl.setAttribute("role", "status");
+    workingEl.setAttribute("aria-live", "polite");
+    const workingHead = document.createElement("div");
+    workingHead.className = "cx-paste-fix-working-head";
+    const spinner = document.createElement("span");
+    spinner.className = "cx-paste-fix-spinner";
+    spinner.setAttribute("aria-hidden", "true");
+    const workingLabel = document.createElement("strong");
+    workingLabel.className = "cx-paste-fix-working-label";
+    workingHead.append(spinner, workingLabel);
+    const workingBar = document.createElement("div");
+    workingBar.className = "cx-paste-fix-progress";
+    workingBar.setAttribute("aria-hidden", "true");
+    workingEl.append(workingHead, workingBar);
+    box.appendChild(workingEl);
+
     const reviewEl = document.createElement("div");
     reviewEl.className = "cx-paste-fix-review";
     reviewEl.hidden = true;
@@ -3633,8 +3578,23 @@ function boot(): void {
     box.appendChild(actions);
 
     let fixedBody = "";
+    let quoteKindDeclarations: { first_line: string; kind: string }[] = [];
+    let companionNotes: NonNullable<
+      PasteFixCheckResult["readability_review"]
+    >["companion_notes"] = [];
+    let working = false;
+    let workingStepTimer: number | null = null;
+
+    function clearWorkingSteps(): void {
+      if (workingStepTimer !== null) {
+        window.clearInterval(workingStepTimer);
+        workingStepTimer = null;
+      }
+    }
 
     function close(): void {
+      if (working) return;
+      clearWorkingSteps();
       document.removeEventListener("keydown", onKey);
       scrim.remove();
       pasteFixOpen = false;
@@ -3648,12 +3608,41 @@ function boot(): void {
       if (e.target === scrim) close();
     });
 
+    function setWorking(message: string | null): void {
+      working = Boolean(message);
+      if (!message) clearWorkingSteps();
+      workingEl.hidden = !message;
+      if (message) workingLabel.textContent = message;
+      box.classList.toggle("is-working", working);
+      textarea.disabled = working;
+      cancelBtn.disabled = working;
+      backBtn.disabled = working;
+      fixBtn.disabled = working;
+      scrim.setAttribute("aria-busy", working ? "true" : "false");
+    }
+
+    function startWorkingSteps(steps: string[]): void {
+      clearWorkingSteps();
+      const labels = steps.filter(Boolean);
+      setWorking(labels[0] ?? "Working");
+      let index = 0;
+      workingStepTimer = window.setInterval(() => {
+        if (!working || labels.length <= 1) return;
+        index = Math.min(index + 1, labels.length - 1);
+        workingLabel.textContent = labels[index];
+      }, 3600);
+    }
+
     function showPasteStep(): void {
+      clearWorkingSteps();
       textarea.hidden = false;
+      textarea.disabled = false;
       reviewEl.hidden = true;
+      workingEl.hidden = true;
       backBtn.hidden = true;
       fixBtn.textContent = "Fix";
       fixBtn.disabled = false;
+      cancelBtn.disabled = false;
       statusEl.textContent = "";
       textarea.focus();
     }
@@ -3663,21 +3652,42 @@ function boot(): void {
       const applying =
         fixBtn.textContent === "Apply" || fixBtn.textContent === "Apply anyway";
       if (applying) {
-        fixBtn.disabled = true;
-        backBtn.disabled = true;
-        statusEl.textContent = "Saving…";
+        startWorkingSteps([
+          "Saving the fixed chapter",
+          "Filing Companion drafts",
+          "Refreshing Arabic audit labels",
+          "Reloading the chapter",
+        ]);
+        statusEl.textContent = "";
         try {
-          await apiFetch("/api/studio/paste-fix", {
-            method: "PUT",
-            body: { slug, chapterKey: selectedChapter, markdown: fixedBody },
-          });
-          statusEl.textContent = "Saved — reloading the chapter…";
-          setAiStatus("Paste & Fix applied. Reloading the chapter…");
+          const saved = await apiFetch<{ companionNotes?: number }>(
+            "/api/studio/paste-fix",
+            {
+              method: "PUT",
+              body: {
+                slug,
+                chapterKey: selectedChapter,
+                markdown: fixedBody,
+                quoteKindDeclarations,
+                companionNotes,
+              },
+            },
+          );
+          clearWorkingSteps();
+          workingLabel.textContent = "Saved. Reloading the chapter";
+          const filed = saved.companionNotes ?? 0;
+          setAiStatus(
+            filed
+              ? `Paste & Fix applied. ${filed} Companion draft${filed === 1 ? "" : "s"} filed. Reloading the chapter…`
+              : "Paste & Fix applied. Reloading the chapter…",
+          );
+          document.removeEventListener("keydown", onKey);
+          scrim.remove();
+          pasteFixOpen = false;
           reloadPreservingChapter();
         } catch (e) {
+          setWorking(null);
           statusEl.textContent = `Save failed: ${(e as Error).message}`;
-          fixBtn.disabled = false;
-          backBtn.disabled = false;
         }
         return;
       }
@@ -3687,9 +3697,17 @@ function boot(): void {
         statusEl.textContent = "Paste the chapter text first.";
         return;
       }
-      fixBtn.disabled = true;
-      statusEl.textContent =
-        "Checking — restoring images, paragraphs, Scholar continuity and Student Reader readability…";
+      startWorkingSteps([
+        "Checking the pasted chapter",
+        "Restoring dropped images",
+        "Repairing pasted paragraph breaks",
+        "Normalizing headings and citations",
+        "Running Scholar continuity",
+        "Reading as a first-time student",
+        "Preparing Companion drafts",
+        "Running fidelity gates",
+      ]);
+      statusEl.textContent = "";
       try {
         const result = await apiFetch<PasteFixCheckResult>(
           "/api/studio/paste-fix",
@@ -3699,20 +3717,19 @@ function boot(): void {
           },
         );
         fixedBody = result.body;
+        quoteKindDeclarations = result.quote_kind_declarations ?? [];
+        companionNotes = result.readability_review?.companion_notes ?? [];
         renderPasteFixReview(reviewEl, result);
+        setWorking(null);
         textarea.hidden = true;
         reviewEl.hidden = false;
         backBtn.hidden = false;
         backBtn.disabled = false;
-        const readabilityQuestions =
-          result.readability_review?.questions?.length ?? 0;
-        fixBtn.textContent =
-          result.findings.length || readabilityQuestions
-            ? "Apply anyway"
-            : "Apply";
+        fixBtn.textContent = result.findings.length ? "Apply anyway" : "Apply";
         fixBtn.disabled = false;
         statusEl.textContent = "";
       } catch (e) {
+        setWorking(null);
         statusEl.textContent = `Check failed: ${(e as Error).message}`;
         fixBtn.disabled = false;
       }
@@ -4583,7 +4600,7 @@ function boot(): void {
     const mark = (e.target as HTMLElement)?.closest<HTMLElement>(".cx-note-hl");
     const id = mark?.dataset.note;
     if (!id) return;
-    setPanel("scholar");
+    activateTab("scholar");
     focusNonce += 1;
     focusNote = { id, nonce: focusNonce };
     renderScholar();

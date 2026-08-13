@@ -894,3 +894,11 @@
 {"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-etymology", "step": "generate", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "compose-paste-fix", "step": "scholar-continuity-linguistic meaning of allah", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "compose-paste-fix", "step": "scholar-continuity-linguistic meaning of allah", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "paste-fix-student-linguistic meaning of allah", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "paste-fix-student-linguistic meaning of allah", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "compose-paste-fix", "step": "scholar-continuity-linguistic meaning of allah", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "compose-paste-fix", "step": "scholar-continuity-linguistic meaning of allah", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "paste-fix-student-linguistic meaning of allah", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "paste-fix-student-linguistic meaning of allah", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}

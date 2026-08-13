@@ -77,12 +77,12 @@ export interface EpisodeNote {
  * How far before the mark playback resumes.
  *
  * A listener taps AFTER the sentence that struck them, so replaying from the
- * stored second reliably starts one thought too late. Ten seconds is about the
+ * stored second reliably starts one thought too late. Thirty seconds is about the
  * length of the run-up you need to hear it land again, and it is applied here at
  * the edge rather than baked into the stored value — the record is when the
  * button was pressed, which stays true if this number ever changes.
  */
-export const PRE_ROLL_S = 10;
+export const PRE_ROLL_S = 30;
 
 export interface Marks {
   progress: Progress | null;

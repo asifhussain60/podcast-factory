@@ -180,16 +180,13 @@ button.cx-hdr-btn:disabled {
    The inspector used to be a permanent 20rem column, so a reading pass paid for
    tools it was not using, the private notes were buried behind a tab you had to
    leave to do anything else, and the AI Scholar ran a SECOND slide-in drawer that
-   could overlap the first. All three are surfaces of ONE drawer now — Tools (the
-   four icon tabs), Companion notes, Scholar — and a floating button row at the
-   bottom right chooses between them. Clicking the lit button closes the drawer
-   and the chapter takes the full width back.
+   could overlap the first. The drawer now has one header tab strip — Refine,
+   Artifacts, Scholar — so the top of the panel names the panel you are looking
+   at. The floating row is only the page action that is not a panel: back to top.
 
-   The buttons float; the PANEL does not (locked with Asif 2026-07-21). The panel
-   is a real grid track, so nothing is ever covered — and the buttons were moved
-   out of the layout precisely because a permanent rail was charging the chapter
-   width for chrome. The animated property is the track itself, which is why the
-   width lives on .composer-grid and not on the panel. */
+   The panel is a real grid track, so nothing is ever covered by the drawer. The
+   animated property is the track itself, which is why the width lives on
+   .composer-grid and not on the panel. */
 .composer-grid {
   display: grid;
   /* No column-gap: the drawer's gutter is its own padding, INSIDE its track, so
@@ -214,9 +211,7 @@ button.cx-hdr-btn:disabled {
    Declared on BODY rather than on .composer-grid so the one number is readable
    by things that are not inside the grid — .cx-fabs is a SIBLING of it and is
    position:fixed, so it has to know how wide the drawer is to stay clear of it.
-   The grid still consumes it by inheritance and behaves identically; when the
-   drawer is closed (or there is no Composer on the page) the selector does not
-   match, the variable is absent, and every `var(…, 0rem)` fallback applies. */
+   The grid still consumes it by inheritance and behaves identically. */
 body:has(.composer-grid:not([data-panel="closed"])) {
   --cx-drawer-w: 21.5rem; /* 20rem of panel + its 1.5rem gutter */
 }
@@ -226,10 +221,9 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   visibility: hidden;
 }
 
-/* Floating panel buttons — one horizontal row pinned to the BOTTOM OF THE RIGHT
-   PANEL (Asif, 2026-07-29). The drawer is the chrome column; its own switches
-   belong over it, not out in the chapter's margin where they read as controls
-   for the prose.
+/* Floating utility button — pinned to the bottom of the right panel. The drawer
+   surfaces are now selected in the tab strip at the top; this row keeps only the
+   action that moves the page.
 
    Flush to the same page gutter the drawer's right edge sits on, so the row ends
    where the panel ends. The site-wide back-to-top normally occupies this exact
@@ -298,10 +292,6 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   white-space: nowrap;
 }
 
-/* READ mode: the Tools surface acts on the editor, which does not exist there, so
-   book-composer.ts disables that one button and lets the drawer fall closed —
-   Companion and Scholar stay reachable, because notes and explanations are
-   exactly what a reading pass wants. */
 @media (max-width: 60rem) {
   .composer-grid,
   .composer-grid:not([data-panel="closed"]) {
@@ -1361,6 +1351,10 @@ body:has(.composer-grid) .to-top {
 .cx-prose p {
   margin: 0 0 0.8rem;
 }
+.cx-prose :is(p, li),
+.cx-body :is(p, li) {
+  line-height: 1.45;
+}
 .cx-prose h3 {
   margin: 1.1rem 0 0.45rem;
   font-family: "Cinzel", Georgia, serif;
@@ -1401,7 +1395,7 @@ body:has(.composer-grid) .to-top {
    the other five hosts so a list looks identical in Edit, in Read, and in print. */
 .cx-prose ul,
 .cx-prose ol {
-  margin-block: 0.85rem 1.1rem;
+  margin-block: 0 0.8rem;
   padding-inline-start: 2.25rem;
   list-style-position: outside;
 }
@@ -1412,12 +1406,46 @@ body:has(.composer-grid) .to-top {
   list-style-type: disc;
 }
 .cx-prose li {
-  margin-block: 0.3rem;
+  margin-block: 0 0.35rem;
 }
 .cx-prose blockquote {
   border-left: 2px solid var(--paper-rule, var(--c-rule, #d9d3c4));
   padding-left: 1rem;
   margin: 0.8rem 0;
+}
+.cx-prose blockquote[data-q-label]::before {
+  content: attr(data-q-label);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  height: 0.85rem;
+  margin: 0 0 0.85rem;
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: scale(0.62);
+  transform-origin: center;
+  white-space: nowrap;
+  color: currentcolor;
+}
+.cx-prose blockquote.k-quran[data-q-label]::before {
+  margin: -1.35rem -1.6rem 1.15rem;
+  padding: 0.5rem 1.6rem;
+  border-radius: 8px 8px 0 0;
+  background: var(--q-quran-bar);
+  color: var(--q-quran-bar-ink);
+}
+.cx-prose blockquote.k-hadith[data-q-label]::before {
+  color: var(--q-hadith-ink);
+}
+.cx-prose blockquote.k-quote[data-q-label]::before {
+  color: var(--q-said-ink);
+}
+.cx-prose blockquote.k-poem[data-q-label]::before {
+  color: var(--q-poem-ink);
 }
 
 /* ── Editorial asides — a panel, not a blockquote ─────────────────────────────
@@ -1863,36 +1891,113 @@ body:has(.composer-grid) .to-top {
 
 /* Outcome groups inside Mark for follow-up (Text · Knowledge · Visual). */
 .cx-mark-group {
+  position: relative;
+  margin: 0 0 0.72rem;
+  padding: 0.72rem 0.68rem 0.68rem;
+  border: 1px solid
+    color-mix(
+      in oklab,
+      var(--c-rule-soft, #ebe6da) 78%,
+      var(--c-accent, #8b4513)
+    );
+  border-radius: 8px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(
+        in oklab,
+        var(--cx-mark-tone, var(--c-accent, #8b4513)) 7%,
+        transparent
+      ),
+      transparent 42%
+    ),
+    color-mix(in oklab, var(--c-bg-card, #fffdf8) 90%, var(--c-bg, #f7f4ee));
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 72%, transparent),
+    0 8px 22px rgba(31, 29, 24, 0.045);
+}
+.cx-mark-group--text {
+  --cx-mark-tone: var(--c-accent, #8b4513);
+}
+.cx-mark-group--knowledge {
+  --cx-mark-tone: #4a6f5a;
+}
+.cx-mark-group--visual {
+  --cx-mark-tone: #626a8f;
+}
+.cx-mark-group-head {
+  display: flex;
+  align-items: center;
   margin: 0 0 0.55rem;
+}
+.cx-mark-group-head::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-right: 0.42rem;
+  border-radius: 999px;
+  background: var(--cx-mark-tone, var(--c-accent, #8b4513));
+  box-shadow: 0 0 0 3px
+    color-mix(
+      in oklab,
+      var(--cx-mark-tone, var(--c-accent, #8b4513)) 14%,
+      transparent
+    );
 }
 .cx-mark-group-name {
   display: block;
-  margin: 0 0 0.25rem;
-  font-size: 0.72rem;
-  font-weight: 600;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--c-ink-dim, #4d4a42);
 }
 
 .cx-details-mark-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7.3rem, 1fr));
+  gap: 0.42rem;
 }
 .cx-btn-mark {
   font: inherit;
   font-size: var(--panel-fs, 15px);
-  padding: 0.3rem 0.6rem;
-  border: 1px solid var(--c-rule-soft, #ebe6da);
-  border-radius: 5px;
-  background: var(--c-bg-card, #fffdf8);
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.36rem;
+  min-height: 2.25rem;
+  padding: 0.38rem 0.58rem;
+  border: 1px solid
+    color-mix(
+      in oklab,
+      var(--c-rule-soft, #ebe6da) 78%,
+      var(--cx-mark-tone, var(--c-accent, #8b4513))
+    );
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--c-bg-card, #fffdf8) 92%, white);
   color: var(--c-ink-dim, #4d4a42);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 70%, transparent);
   cursor: pointer;
 }
+.cx-btn-mark i {
+  width: 1.1em;
+  flex: 0 0 1.1em;
+  color: color-mix(
+    in oklab,
+    var(--cx-mark-tone, var(--c-accent, #8b4513)) 82%,
+    var(--c-ink-dim, #4d4a42)
+  );
+  text-align: center;
+}
 .cx-btn-mark:hover:not(:disabled) {
-  border-color: var(--c-accent, #8b4513);
-  color: var(--c-accent, #8b4513);
+  border-color: var(--cx-mark-tone, var(--c-accent, #8b4513));
+  color: var(--c-ink, #1f1d18);
+  background: color-mix(
+    in oklab,
+    var(--cx-mark-tone, var(--c-accent, #8b4513)) 9%,
+    var(--c-bg-card, #fffdf8)
+  );
 }
 .cx-btn-mark:disabled {
   opacity: 0.45;
@@ -2294,7 +2399,7 @@ body:has(.composer-grid) .to-top {
    rendered without the framework reset at all. */
 .cx-body ul,
 .cx-body ol {
-  margin-block: 0.85rem 1.1rem;
+  margin-block: 0 0.8rem;
   padding-inline-start: 2.25rem;
   list-style-position: outside;
 }
@@ -2305,7 +2410,7 @@ body:has(.composer-grid) .to-top {
   list-style-type: disc;
 }
 .cx-body li {
-  margin-block: 0.3rem;
+  margin-block: 0 0.35rem;
 }
 
 /* Arabic verses in the preview mirror the printed page: no box, body-ink Arabic
@@ -2579,11 +2684,8 @@ body:has(.composer-grid) .to-top {
   color: var(--c-ink, #2b2823);
 }
 
-/* THE SURFACE CONTRACT — the frame, the inset and the scroll, declared once for
-   all three surfaces. Each surface used to bring its own: .cx-tabpanel had padding
-   and a scroll cap, .cpn--docked had `padding: 0` (the flush Companion edge), and
-   .gcp--docked had a third value and no scroll at all. A fourth surface would have
-   invented a fourth. They are properties of the DRAWER, so they live on the drawer. */
+/* THE SURFACE CONTRACT — the frame, tab strip and scroll, declared once for the
+   drawer. The panel body changes; the shell does not. */
 .cx-surface {
   display: flex;
   flex-direction: column;
@@ -2594,23 +2696,15 @@ body:has(.composer-grid) .to-top {
   background: var(--c-bg-card, #fffdf8);
   border: 1px solid var(--c-rule-soft, #ebe6da);
   border-radius: 8px;
-  /* The FRAME clips; the scrolling belongs to whatever inside it is the content.
-     Which differs by surface: Tools has a tab strip that must stay put while its
-     panel scrolls under it, so the scroll sits on .cx-tabpanel; Companion and
-     Scholar are one continuous column, so it sits on the surface itself. Either
-     way the page never grows — a panel that grew the document is what made the
-     Companion notes drag the chapter's scrollbar with them. */
+  /* The FRAME clips; .cx-tabpanel scrolls under the tab strip. */
   overflow: hidden;
 }
-/* Only ONE surface is present at a time; `hidden` is toggled by book-composer.ts
-   so the inactive one is out of the accessibility tree, not merely invisible. */
+/* Kept for retired surfaces that may still appear in older saved markup. */
 .cx-surface[hidden] {
   display: none;
 }
-/* The inset, for the two surfaces with no tab strip of their own. Tools is padded
-   on .cx-tabpanel instead, because its strip sits flush to the surface edge. */
-#cx-surface-companion,
-#cx-surface-scholar {
+/* The inset for retired surfaces with no tab strip of their own. */
+#cx-surface-companion {
   padding: 0.9rem 1rem calc(1.1rem + var(--cx-fab-clear, 0px));
   overflow-y: auto;
 }
@@ -2618,11 +2712,11 @@ body:has(.composer-grid) .to-top {
   flex-shrink: 0; /* the strip stays; the panel beneath it scrolls */
 }
 
-/* Four LARGE icons on one line. The former five text labels could not fit a
-   20rem row without truncating "Refinement" mid-word, so the strip wrapped to two
-   rows; icons fit at any panel width with room to spare. The label is not
-   discarded — it stays in the DOM (it IS each tab's accessible name) and reveals
-   under the icon on hover or keyboard focus. */
+/* Large icons on one line. The former text labels could not fit a 20rem row
+   without truncating "Refinement" mid-word, so the strip wrapped to two rows;
+   icons fit at any panel width with room to spare. The label is not discarded —
+   it stays in the DOM (it IS each tab's accessible name) and reveals under the
+   icon on hover or keyboard focus. */
 /* The row holds the tablist AND the settings gear on one line; the rule that
    used to sit on the tablist moved here so the gear sits on the same shelf. */
 .cx-tabrow {
@@ -2634,7 +2728,7 @@ body:has(.composer-grid) .to-top {
 .cx-tabbar {
   display: flex;
   flex-wrap: nowrap;
-  flex: 1;
+  flex: 0 0 auto;
   min-width: 0;
   gap: 0.15rem;
   padding: 0.35rem 0.5rem 0;
@@ -2643,6 +2737,7 @@ body:has(.composer-grid) .to-top {
    active underline — it opens the Book-settings dialog. */
 .cx-tab-gear {
   flex: none;
+  margin-left: auto;
   display: grid;
   place-items: center;
   width: 2.6rem;
@@ -2661,8 +2756,8 @@ body:has(.composer-grid) .to-top {
   outline-offset: -2px;
 }
 .cx-tab {
-  flex: 1 1 0;
-  min-width: 0;
+  flex: none;
+  width: 2.8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2700,6 +2795,11 @@ body:has(.composer-grid) .to-top {
 }
 .cx-tab:hover {
   color: var(--c-ink, #2b2823);
+}
+.cx-tab[disabled] {
+  color: var(--c-ink-dim, #9a938a);
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 .cx-tab:focus-visible {
   outline: 2px solid var(--c-accent, #8b4513);
@@ -3144,6 +3244,10 @@ body:has(.composer-grid) .to-top {
 .cx-confirm-btn:hover {
   border-color: var(--c-ink-dim, #5c574d);
 }
+.cx-confirm-btn:disabled {
+  opacity: 0.58;
+  cursor: wait;
+}
 .cx-confirm-btn:focus-visible {
   outline: 2px solid var(--c-accent, #8b4513);
   outline-offset: 1px;
@@ -3225,15 +3329,19 @@ body:has(.composer-grid) .to-top {
    full chapter of prose rather than a yes/no question ───────────────────── */
 .cx-paste-fix-box {
   width: min(52rem, 92vw);
-  max-height: 88vh;
+  height: min(46rem, calc(100vh - 2rem));
+  max-height: calc(100vh - 2rem);
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .cx-paste-fix-textarea {
   width: 100%;
   box-sizing: border-box;
-  min-height: 45vh;
-  max-height: 60vh;
+  flex: 1 1 auto;
+  min-height: 12rem;
+  max-height: none;
   margin: 0 0 0.75rem;
   padding: 0.85rem 0.95rem;
   resize: vertical;
@@ -3251,9 +3359,90 @@ body:has(.composer-grid) .to-top {
   box-shadow: 0 0 0 3px
     color-mix(in oklab, var(--c-accent, #8b4513) 18%, transparent);
 }
+.cx-paste-fix-textarea:disabled {
+  cursor: wait;
+  opacity: 0.62;
+  filter: saturate(0.72);
+}
+.cx-paste-fix-box.is-working .cx-paste-fix-textarea,
+.cx-paste-fix-box.is-working .cx-paste-fix-review {
+  pointer-events: none;
+}
 .cx-paste-fix-review {
   margin: 0 0 0.75rem;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
+}
+.cx-paste-fix-box .cx-status {
+  flex: 0 0 auto;
+}
+.cx-paste-fix-box .cx-confirm-actions {
+  flex: 0 0 auto;
+  margin-top: auto;
+}
+.cx-paste-fix-working {
+  margin: 0 0 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid
+    color-mix(in oklab, var(--c-accent, #8b4513) 28%, var(--c-rule, #d9d3c4));
+  border-radius: 8px;
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 7%,
+    var(--c-bg-card, #fffdf8)
+  );
+  box-shadow: inset 0 0 0 1px
+    color-mix(in oklab, var(--c-bg-card, #fffdf8) 70%, transparent);
+}
+.cx-paste-fix-working-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 1.4rem;
+  font-size: 0.88rem;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-paste-fix-spinner {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 1rem;
+  border-radius: 50%;
+  border: 2px solid
+    color-mix(in oklab, var(--c-accent, #8b4513) 22%, transparent);
+  border-top-color: var(--c-accent, #8b4513);
+  animation: cx-paste-fix-spin 0.8s linear infinite;
+}
+.cx-paste-fix-spinner::after {
+  content: "";
+  position: absolute;
+  inset: -0.35rem;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 16%, transparent);
+  opacity: 0;
+  animation: cx-paste-fix-pulse 1.2s ease-out infinite;
+}
+.cx-paste-fix-progress {
+  position: relative;
+  height: 0.28rem;
+  margin-top: 0.65rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 14%,
+    var(--c-bg, #fdfbf6)
+  );
+}
+.cx-paste-fix-progress::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 42%;
+  border-radius: inherit;
+  background: var(--c-accent, #8b4513);
+  animation: cx-paste-fix-progress 1.05s ease-in-out infinite;
 }
 .cx-paste-fix-summary {
   list-style: none;
@@ -3304,6 +3493,36 @@ body:has(.composer-grid) .to-top {
   font-size: 0.85rem;
   line-height: 1.4;
   color: var(--c-ink-dim, #5c574d);
+}
+@keyframes cx-paste-fix-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes cx-paste-fix-pulse {
+  0% {
+    transform: scale(0.68);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+@keyframes cx-paste-fix-progress {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(260%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-paste-fix-spinner,
+  .cx-paste-fix-spinner::after,
+  .cx-paste-fix-progress::before {
+    animation: none;
+  }
 }
 
 /* ── Busy modal: blocking progress while an AI action runs ────────────────── */

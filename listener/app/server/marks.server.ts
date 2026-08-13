@@ -361,6 +361,51 @@ export async function listeningForAll(
   return out;
 }
 
+export interface BookmarkTarget {
+  id: string;
+  slug: string;
+  anchorKey: string;
+  createdAt: string;
+}
+
+/**
+ * Bookmarks across the library grid.
+ *
+ * The grid needs only a destination, not the marked sentence itself. Returning
+ * the ids lets the card send the reader to the same hash destination as the
+ * Notes list, while keeping the label text out of the account-wide response.
+ */
+export async function bookmarkTargetsForAll(
+  db: D1Database,
+  email: string,
+): Promise<Record<string, BookmarkTarget[]>> {
+  const { results } = await db
+    .prepare(
+      `SELECT slug, id, anchor_key, created_at
+         FROM bookmark
+        WHERE user_email = ?1 AND deleted_at IS NULL
+        ORDER BY created_at DESC`,
+    )
+    .bind(normalizeEmail(email))
+    .all<{
+      slug: string;
+      id: string;
+      anchor_key: string;
+      created_at: string;
+    }>();
+
+  const out: Record<string, BookmarkTarget[]> = {};
+  for (const r of results) {
+    (out[r.slug] ??= []).push({
+      id: r.id,
+      slug: r.slug,
+      anchorKey: r.anchor_key,
+      createdAt: r.created_at,
+    });
+  }
+  return out;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Writing                                                                     */
 /* -------------------------------------------------------------------------- */

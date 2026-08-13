@@ -33,6 +33,7 @@ import {
   docToMarkdown,
   editorExtensions,
 } from "./book-md-editor";
+import { alignablePositions } from "../components/studio/editor/align-decos";
 import { renderEditSeed } from "../lib/reader/markdown";
 
 /** Parse a doc from ProseMirror JSON with the live schema — for asserting on
@@ -159,6 +160,43 @@ test("links are deliberate: autolink and linkOnPaste are off", () => {
   });
 });
 
+test("alignment positions include top-level lists but skip headings and quotes", () => {
+  const item = (text: string) => ({
+    type: "listItem",
+    content: [{ type: "paragraph", content: [{ type: "text", text }] }],
+  });
+  const doc = docFromJSON([
+    { type: "paragraph", content: [{ type: "text", text: "First paragraph" }] },
+    {
+      type: "heading",
+      attrs: { level: 3 },
+      content: [{ type: "text", text: "A heading" }],
+    },
+    {
+      type: "bulletList",
+      content: [item("first item"), item("second item")],
+    },
+    {
+      type: "blockquote",
+      content: [
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "Quoted text" }],
+        },
+      ],
+    },
+    { type: "paragraph", content: [{ type: "text", text: "Final paragraph" }] },
+  ]);
+
+  const positions = alignablePositions(doc, ["a", "b", "c"]);
+
+  assert.deepEqual(
+    positions.map((p) => p.key),
+    ["a", "b", "c"],
+  );
+  assert.equal(doc.nodeAt(positions[1].from)?.type.name, "bulletList");
+});
+
 test("a Quranic quotation the toolbar inserts is a serialization fixed point", () => {
   // blockquote.quran > p.ar + p.tr is the ONE structure QuotationClasses
   // preserves and flushQuote re-derives — the shape the custom button must emit.
@@ -226,4 +264,27 @@ test("a card class never reaches book.md", () => {
   const md = docToMarkdown(doc);
   assert.ok(!md.includes("k-quran"), md);
   assert.equal(md.trim(), "> ٱرْجِعِىٓ إِلَىٰ رَبِّكِ");
+});
+
+test("edit-mode card labels are visible attributes, never markdown text", () => {
+  const arabic = "أَرَءَيْتَ مَنِ ٱتَّخَذَ إِلَهَهُۥ هَوَىٰهُ";
+  const html = renderEditSeed(
+    `> ${arabic}\n>\n> Have you seen the one who takes his own desire as his god?`,
+    new Set([arabic]),
+    null,
+    { [arabic]: "Al-Furqan: 43" },
+  );
+  assert.match(html, /data-q-label="Al-Furqan: 43"/);
+
+  const extensions = editorExtensions();
+  const json = generateJSON(html, extensions);
+  const doc = PMNode.fromJSON(getSchema(extensions), json);
+  const blockquote = doc.firstChild;
+  assert.equal(blockquote?.attrs["data-q-label"], "Al-Furqan: 43");
+  const md = docToMarkdown(doc);
+  assert.ok(!md.includes("Al-Furqan: 43"), md);
+  assert.equal(
+    md.trim(),
+    `> ${arabic}\n>\n> Have you seen the one who takes his own desire as his god?`,
+  );
 });

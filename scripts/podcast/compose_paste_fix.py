@@ -14,6 +14,8 @@ from _scholar_bridge import ScholarBridgeError
 from _scholar_bridge import prepare as scholar_prepare
 from _student_reader import chapter_budget, dedupe, gate_finding, select
 from _student_reader_prompts import build_prompt, evidence_block
+from _student_reader_store import section_key
+from student_reader_notes import ask_scholar
 
 _IMG_MD_RE = re.compile(r"(?m)^(!\[[^\]]*\]\(([^)]+)\))\s*$")
 _SPLIT_BLANK_RE = re.compile(r"\n[ \t]*\n+")
@@ -238,8 +240,13 @@ def student_readability_review(
     body: str,
     *,
     log=print,
+    scholar_adapter=ask_scholar,
 ) -> dict:
-    """Read the fixed body as a student, but do not file Companion cards."""
+    """Read the fixed body as a student and prepare proposed Companion cards.
+
+    Paste & Fix remains a check step: this function writes nothing. The Composer
+    files these note payloads only if the user applies the fixed chapter.
+    """
     budget = chapter_budget(len(body.split()))
     prompt = build_prompt(heading, body, evidence_block(heading, body), budget)
     try:
@@ -270,11 +277,27 @@ def student_readability_review(
         else:
             dropped.append({"quote": candidate.get("quote"), "reasons": reasons})
     chosen = select(dedupe(gated), body, budget)
+    chapter_key = section_key(heading)
+    chapter = {"key": chapter_key, "title": heading, "prose": body}
+    book_title = book_dir.name
+    meta = book_dir / "meta.yml"
+    if meta.exists():
+        for line in meta.read_text(encoding="utf-8").splitlines():
+            if line.startswith("title:"):
+                book_title = line.split(":", 1)[1].strip().strip("\"'") or book_title
+                break
+    answered = [scholar_adapter(c, chapter, book_dir, book_title, log) for c in chosen]
+    notes = [a["note"] for a in answered if a and a.get("note")]
+    unsourced = [a for a in answered if a and a.get("dropped") == "unsourced"]
     return {
         "status": "checked",
         "budget": budget,
         "proposed": len(candidates),
         "gated_out": dropped,
+        "companion_notes": notes,
+        "answered": len(notes),
+        "unanswered": sum(1 for a in answered if a is None),
+        "unsourced": [{"quote": u["quote"], "question": u["question"]} for u in unsourced],
         "questions": [
             {
                 "defect": c.get("defect"),

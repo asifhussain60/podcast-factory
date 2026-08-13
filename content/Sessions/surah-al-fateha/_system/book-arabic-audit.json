@@ -604,8 +604,8 @@
     },
     {
       "chapter": "Linguistic Meaning Of Allah",
-      "arabic_runs": 29,
-      "unverified": 22,
+      "arabic_runs": 28,
+      "unverified": 21,
       "runs": [
         {
           "text": "سُورَۃُ الْفَاتِحَۃِ",
@@ -636,11 +636,6 @@
           "text": "وَالِھَانَہَ مُحَبَّتْ",
           "resolution": "unverified",
           "skeleton": "والانمحبت"
-        },
-        {
-          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
-          "resolution": "unverified",
-          "skeleton": "قالرسولاللصلاللعلوالوسلم"
         },
         {
           "text": "الشِّرکُ فِی أُمَّتِی أَخفٰی مِن سَیرِ النَّمَلِ فِی لَیلَۃِ الظُّلمَۃِ عَلی سَخْرَۃِ السَّوْدَا",
@@ -885,8 +880,8 @@
     },
     {
       "chapter": "Linguistic Meaning Of REHMA",
-      "arabic_runs": 44,
-      "unverified": 38,
+      "arabic_runs": 43,
+      "unverified": 37,
       "runs": [
         {
           "text": "اَلَہَ یَعلُہُ",
@@ -932,11 +927,6 @@
           "text": "القَیِّمُ",
           "resolution": "unverified",
           "skeleton": "القم"
-        },
-        {
-          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
-          "resolution": "unverified",
-          "skeleton": "قالرسولاللصلاللعلوالوسلم"
         },
         {
           "text": "إنَّ الله لَمَّا قَضٰى الخَلق،كَتَبَ فَوقَ عَرْشُه اِنَّ رَحمَتِی تَغلِبُ غَضَبِی",
@@ -2889,8 +2879,8 @@
     },
     {
       "chapter": "The Womb Of Afterlife",
-      "arabic_runs": 54,
-      "unverified": 26,
+      "arabic_runs": 53,
+      "unverified": 25,
       "runs": [
         {
           "text": "سُبْحَانَهُ وَتَعَالَى",
@@ -2916,11 +2906,6 @@
           "text": "سُبْحَانَهُ وَتَعَالَى",
           "resolution": "honorific-formula",
           "skeleton": "سبحانهوتعالي"
-        },
-        {
-          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
-          "resolution": "unverified",
-          "skeleton": "قالرسولاللصلاللعلوالوسلم"
         },
         {
           "text": "الدُّنْیا رَحْمُ الآخِرَۃ",
@@ -5193,8 +5178,8 @@
     },
     {
       "chapter": "Staying Steadfast On The Path",
-      "arabic_runs": 76,
-      "unverified": 31,
+      "arabic_runs": 73,
+      "unverified": 28,
       "runs": [
         {
           "text": "سُورَۃُ الْفَاتِحَۃِ",
@@ -5305,11 +5290,6 @@
           "text": "سُبْحَانَهُ وَتَعَالَى",
           "resolution": "honorific-formula",
           "skeleton": "سبحانهوتعالي"
-        },
-        {
-          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
-          "resolution": "unverified",
-          "skeleton": "قالرسولاللصلاللعلوالوسلم"
         },
         {
           "text": "أِنَّ فِی الجَسَدِ مُضْغَۃ۔ أِذَا صَلُحَتْ صَلَحَ الجَسَدُ کُلُّہ وَ أِذَا فَسَدَتْ فَسَدَ الجَسَدُ کُلُّہ۔ أَلا وَھِیَ القَلْبٌ",
@@ -5489,11 +5469,6 @@
           "skeleton": "سبحانهوتعالي"
         },
         {
-          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
-          "resolution": "unverified",
-          "skeleton": "قالرسولاللصلاللعلوالوسلم"
-        },
-        {
           "text": "كُلُّ بَنِي آدَمَ خَطَّاءٌ",
           "resolution": "unverified",
           "skeleton": "كلبنيادمخطاء"
@@ -5551,11 +5526,6 @@
           "reference": "Az-Zumar: 53"
         },
         {
-          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
-          "resolution": "unverified",
-          "skeleton": "قالرسولاللصلاللعلوالوسلم"
-        },
-        {
           "text": "قَالَ اللهُ تَعَالَى",
           "resolution": "unverified",
           "skeleton": "قالاللهتعالي"
@@ -5608,8 +5578,8 @@
     "ocr": 0,
     "knowledge-base": 34,
     "honorific-formula": 118,
-    "unverified": 630,
-    "arabic_runs": 1035
+    "unverified": 624,
+    "arabic_runs": 1029
   },
   "note": "no OCR ground truth for this book — every run falls back to the knowledge base",
   "quran_coverage": {
