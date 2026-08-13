@@ -1783,11 +1783,24 @@
   }
 
   .pf-chapter-body > .pf-read-aloud {
-    border-radius: 0.25rem;
-    background: color-mix(in srgb, var(--l-accent-soft) 58%, transparent);
+    position: relative;
+    border-radius: 0.45rem;
+    outline: 2px solid color-mix(in srgb, var(--l-accent) 46%, var(--l-ink));
+    outline-offset: 0.4rem;
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--l-accent-soft) 86%, var(--l-paper)) 0%,
+        color-mix(in srgb, var(--l-accent-soft) 58%, var(--l-elev)) 100%
+      );
     box-shadow:
-      -0.45rem 0 0 color-mix(in srgb, var(--l-accent) 54%, transparent),
-      0 0 0 0.45rem color-mix(in srgb, var(--l-accent-soft) 58%, transparent);
+      -0.62rem 0 0 color-mix(in srgb, var(--l-accent) 64%, var(--l-ink)),
+      0 0.75rem 1.65rem color-mix(in srgb, var(--l-accent) 12%, transparent);
+    scroll-margin-block: calc((100svh - var(--pf-player-h, 0px)) / 2);
+    transition:
+      background-color 160ms ease,
+      box-shadow 160ms ease,
+      outline-color 160ms ease;
   }
 
   /* The drop cap.

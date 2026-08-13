@@ -261,4 +261,20 @@ describe("chapter read-aloud", () => {
     expect(html).toContain("pf-reader-listen__button");
     expect(html).toContain("Listen to this chapter");
   });
+
+  it("keeps the paragraph container as the read-aloud and marks target", () => {
+    const html = render({
+      companion: [],
+      isCompanion: false,
+      chapter: CHAPTER_WITH_NARRATION,
+      withPlayer: true,
+    });
+
+    expect(html).toContain(
+      '<article class="pf-page"><h2 class="pf-chapter-title">',
+    );
+    expect(html).toContain(
+      '<div class="reader pf-chapter-body"><p>He gives what can be digested',
+    );
+  });
 });
