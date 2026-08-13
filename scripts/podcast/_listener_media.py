@@ -80,6 +80,11 @@ CONTENT_TYPES = {
 IMAGE_TYPES = frozenset({".png", ".jpg", ".jpeg", ".webp"})
 
 
+def narration_object_name(anchor: str) -> str:
+    safe = re.sub(r"[^a-z0-9]+", "-", anchor.lower()).strip("-")
+    return f"{safe or 'chapter'}.mp3"
+
+
 @dataclass
 class ChapterNarration:
     audio: Asset
@@ -346,7 +351,7 @@ def collect_reader_narration(book: Book) -> None:
         if not path.exists() or path.suffix.lower() != ".mp3":
             continue
         asset = Asset(
-            key=f"{book.slug}/narration/{path.name}",
+            key=f"{book.slug}/narration/{narration_object_name(anchor)}",
             slug=book.slug,
             kind="audio",
             content_type=CONTENT_TYPES[".mp3"],

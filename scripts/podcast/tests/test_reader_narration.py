@@ -114,6 +114,16 @@ def test_render_writes_manifest_cues_and_is_idempotent(tmp_path: Path) -> None:
     assert (book / "book" / "narration" / "opening.mp3").read_bytes() == b"MP3"
 
 
+def test_reader_narration_object_keys_are_url_safe() -> None:
+    assert (
+        rn.narration_object_name("The Persian Who Was Dead and Revived") == "the-persian-who-was-dead-and-revived.mp3"
+    )
+    assert (
+        rn.narration_object_name("The Boy at the Door — Limits and Conditions")
+        == "the-boy-at-the-door-limits-and-conditions.mp3"
+    )
+
+
 def test_driver_records_phase_and_commits_only_when_audio_changed(tmp_path: Path) -> None:
     book = make_book(tmp_path)
     _progress.write_state(book, _progress.initial_state("sample-book", "books"))

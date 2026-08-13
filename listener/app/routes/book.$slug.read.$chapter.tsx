@@ -7,6 +7,8 @@ import {
   faHeadphones,
   faImages,
   faNoteSticky,
+  faPause,
+  faPlay,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router";
 
@@ -361,7 +363,17 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       collection: collectionOf(bucket),
     };
     player.play(track);
-  }, [bookTitle, bucket, chapter, narration, narrationActive, narrationCues, narrationSrc, player, slug]);
+  }, [
+    bookTitle,
+    bucket,
+    chapter,
+    narration,
+    narrationActive,
+    narrationCues,
+    narrationSrc,
+    player,
+    slug,
+  ]);
 
   const readAlongBlock = useMemo(() => {
     if (!narrationActive || player?.cues === null || player?.cues === undefined) return -1;
@@ -778,12 +790,41 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
         <div className="pf-toolbar-rail">
           <ReaderToolbar
             bookmarked={bookmarked}
-            narrationAvailable={narration !== null && player !== null}
-            narrationActive={narrationActive && player?.playing === true}
-            onPlayNarration={playNarration}
             onToggleBookmark={toggleBookmark}
           />
         </div>
+
+        {narration !== null && player !== null ? (
+          <div className="pf-reader-listen">
+            <button
+              type="button"
+              onClick={playNarration}
+              aria-pressed={narrationActive && player.playing === true}
+              title={
+                narrationActive && player.playing === true
+                  ? "Pause chapter audio"
+                  : "Listen to this chapter"
+              }
+              className="pf-reader-listen__button"
+            >
+              <Icon
+                icon={
+                  narrationActive && player.playing === true ? faPause : faPlay
+                }
+                title={
+                  narrationActive && player.playing === true
+                    ? "Pause chapter audio"
+                    : "Listen to this chapter"
+                }
+              />
+              <span className="sr-only">
+                {narrationActive && player.playing === true
+                  ? "Pause chapter audio"
+                  : "Listen to this chapter"}
+              </span>
+            </button>
+          </div>
+        ) : null}
       </div>
 
       <div className="pf-reader-page">

@@ -14,6 +14,7 @@ of its position in the series.
 
 from __future__ import annotations
 
+import json
 import sqlite3
 import sys
 from pathlib import Path
@@ -23,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import publish_to_listener as ptl  # noqa: E402
 from _listener_book import Asset, Book, Chapter, ChapterNarration, Episode, Session  # noqa: E402
+from _listener_media import collect_reader_narration  # noqa: E402
 from publish_to_listener import build_sql, remote_batches, session_concerns  # noqa: E402
 
 MIGRATIONS = Path(__file__).resolve().parents[3] / "listener" / "migrations"
@@ -148,6 +150,36 @@ def test_chapter_narration_is_rewritten_with_the_chapter(tmp_path):
     assert '"blockIndex": 0' in row[4]
     assert '"text"' not in row[4]
     assert conn.execute("SELECT kind FROM media_asset WHERE key='test-book/narration/one.mp3'").fetchone()[0] == "audio"
+
+
+def test_chapter_narration_publish_key_is_url_safe(tmp_path):
+    book = a_book(tmp_path)
+    book.chapters[0].anchor = "the persian who was dead and revived"
+    audio = tmp_path / "book" / "narration" / "the persian who was dead and revived.mp3"
+    audio.parent.mkdir(parents=True)
+    audio.write_bytes(b"MP3")
+    (tmp_path / "book" / "narration" / "manifest.json").write_text(
+        json.dumps(
+            {
+                "chapters": {
+                    "the persian who was dead and revived": {
+                        "audio": "book/narration/the persian who was dead and revived.mp3",
+                        "duration_s": 12.5,
+                        "source_hash": "abc",
+                        "voice": "aria",
+                        "cues": [],
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    collect_reader_narration(book)
+
+    assert book.assets[0].key == "test-book/narration/the-persian-who-was-dead-and-revived.mp3"
+    assert book.chapters[0].narration is not None
+    assert book.chapters[0].narration.audio.key == book.assets[0].key
 
 
 def test_sessions_are_rewritten_so_a_renumbered_folder_leaves_no_stale_row(tmp_path):

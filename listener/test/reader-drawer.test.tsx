@@ -4,6 +4,7 @@ import { createMemoryRouter, RouterProvider } from "react-router";
 import { describe, expect, it } from "vitest";
 
 import ReadChapter from "../app/routes/book.$slug.read.$chapter";
+import { PlayerProvider } from "../app/components/player/Player";
 import type { CompanionCard } from "../app/server/companion.server";
 
 /**
@@ -39,6 +40,15 @@ const CHAPTER = {
   wordCount: 9,
 };
 
+const CHAPTER_WITH_NARRATION = {
+  ...CHAPTER,
+  narration: {
+    audioKey: "the-master-and-the-disciple/narration/chapter-one.mp3",
+    durationS: 12,
+    cues: [{ idx: 0, blockIndex: 0, startS: 0, endS: 12 }],
+  },
+};
+
 /** A book that is a reading edition and nothing else — the common case. */
 const NOTHING_ELSE = { episodes: 0, deckPages: 0, pdfKey: null };
 
@@ -46,13 +56,22 @@ const NOTHING_ELSE = { episodes: 0, deckPages: 0, pdfKey: null };
 function render(over: {
   companion: CompanionCard[];
   isCompanion: boolean;
+  chapter?: typeof CHAPTER;
+  withPlayer?: boolean;
   surfaces?: { episodes: number; deckPages: number; pdfKey: string | null };
 }): string {
   const loaderData = {
     bookTitle: "The Master and the Disciple",
     slug: "the-master-and-the-disciple",
-    chapter: CHAPTER,
-    contents: [{ anchorKey: CHAPTER.anchorKey, idx: 1, title: CHAPTER.title, wordCount: 9 }],
+    chapter: over.chapter ?? CHAPTER,
+    contents: [
+      {
+        anchorKey: CHAPTER.anchorKey,
+        idx: 1,
+        title: CHAPTER.title,
+        wordCount: 9,
+      },
+    ],
     position: 0,
     previous: null,
     next: null,
@@ -74,13 +93,23 @@ function render(over: {
         // The route component takes more props than this in its generated type;
         // it reads only `loaderData`, and inventing the rest would be inventing
         // a router internal this test has no business asserting about.
-        Component: () => createElement(ReadChapter as never, { loaderData } as never),
+        Component: () => {
+          const page = createElement(
+            ReadChapter as never,
+            { loaderData } as never,
+          );
+          return over.withPlayer
+            ? createElement(PlayerProvider, null, page)
+            : page;
+        },
       },
     ],
     { initialEntries: [`/book/${loaderData.slug}/read/${CHAPTER.anchorKey}`] },
   );
 
-  return renderToStaticMarkup(createElement(RouterProvider as never, { router } as never));
+  return renderToStaticMarkup(
+    createElement(RouterProvider as never, { router } as never),
+  );
 }
 
 /**
@@ -116,7 +145,11 @@ describe("finding the rest of the book from inside a chapter", () => {
     const html = render({
       companion: [],
       isCompanion: false,
-      surfaces: { episodes: 20, deckPages: 15, pdfKey: "the-master-and-the-disciple/book.pdf" },
+      surfaces: {
+        episodes: 20,
+        deckPages: 15,
+        pdfKey: "the-master-and-the-disciple/book.pdf",
+      },
     });
 
     expect(elsewhere(html)).toContain("Podcast");
@@ -126,7 +159,9 @@ describe("finding the rest of the book from inside a chapter", () => {
     // now have URLs.
     expect(html).toContain("?tab=listen");
     expect(html).toContain("?tab=slides");
-    expect(html).toContain('href="/media/the-master-and-the-disciple/book.pdf"');
+    expect(html).toContain(
+      'href="/media/the-master-and-the-disciple/book.pdf"',
+    );
   });
 
   it("shows nothing at all for a book that is only a reading edition", () => {
@@ -210,5 +245,20 @@ describe("the right-hand drawer", () => {
     expect(theirs).toContain(CHAPTER.html);
     expect(mine).toContain(CHAPTER.html);
     expect(theirs).not.toContain("pf-cp");
+  });
+});
+
+describe("chapter read-aloud", () => {
+  it("renders the centered listen button outside the settings toolbar", () => {
+    const html = render({
+      companion: [],
+      isCompanion: false,
+      chapter: CHAPTER_WITH_NARRATION,
+      withPlayer: true,
+    });
+
+    expect(html).toContain("pf-reader-listen");
+    expect(html).toContain("pf-reader-listen__button");
+    expect(html).toContain("Listen to this chapter");
   });
 });

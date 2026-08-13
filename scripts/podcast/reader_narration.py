@@ -169,6 +169,11 @@ def _write_manifest(book_dir: Path, manifest: dict[str, Any]) -> None:
     path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def narration_object_name(anchor: str) -> str:
+    safe = re.sub(r"[^a-z0-9]+", "-", anchor.lower()).strip("-")
+    return f"{safe or 'chapter'}.mp3"
+
+
 def _tts_endpoint(region: str) -> str:
     return f"https://{region}.tts.speech.microsoft.com/cognitiveservices/v1"
 
@@ -356,7 +361,7 @@ def render_reader_narration(book_dir: Path) -> RenderSummary:
             "title": chapter.title,
             "idx": chapter.idx,
             "audio": f"book/narration/{audio.name}",
-            "audio_key": f"{book_dir.name}/narration/{audio.name}",
+            "audio_key": f"{book_dir.name}/narration/{narration_object_name(chapter.anchor)}",
             "duration_s": duration,
             "source_hash": digest,
             "voice": voice_key,

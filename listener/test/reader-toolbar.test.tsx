@@ -32,34 +32,6 @@ const html = renderToStaticMarkup(
   ),
 );
 
-const narrationHtml = renderToStaticMarkup(
-  createElement(
-    StaticRouter,
-    { location: "/book/x/read/y" },
-    createElement(ReaderToolbar, {
-      bookmarked: false,
-      narrationAvailable: true,
-      narrationActive: false,
-      onPlayNarration: () => {},
-      onToggleBookmark: () => {},
-    }),
-  ),
-);
-
-const activeNarrationHtml = renderToStaticMarkup(
-  createElement(
-    StaticRouter,
-    { location: "/book/x/read/y" },
-    createElement(ReaderToolbar, {
-      bookmarked: false,
-      narrationAvailable: true,
-      narrationActive: true,
-      onPlayNarration: () => {},
-      onToggleBookmark: () => {},
-    }),
-  ),
-);
-
 describe("the reading toolbar", () => {
   it("gives the three buttons to line SPACING", () => {
     expect(html).toContain('aria-label="Line spacing"');
@@ -132,9 +104,7 @@ describe("the reading toolbar", () => {
     }
   });
 
-  it("renders chapter narration as a prominent play control", () => {
-    expect(narrationHtml).toContain("pf-tool--listen");
-    expect(narrationHtml).toContain('title="Listen to this chapter"');
-    expect(activeNarrationHtml).toContain('title="Pause chapter audio"');
+  it("does not mix chapter playback into the settings toolbar", () => {
+    expect(html).not.toContain("Listen to this chapter");
   });
 });

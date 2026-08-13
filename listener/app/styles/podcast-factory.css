@@ -1342,29 +1342,6 @@
     color: var(--l-ink);
   }
 
-  .pf-tool--listen {
-    min-width: 3.35rem;
-    min-height: 3.35rem;
-    margin-inline: var(--pf-space-1);
-    border-radius: 999px;
-    background: var(--l-accent);
-    color: var(--l-accent-contrast);
-    box-shadow: var(--pf-elev-1);
-  }
-
-  .pf-tool--listen:hover {
-    background: var(--l-display);
-    color: var(--l-surface);
-  }
-
-  .pf-tool--listen svg {
-    transform: translateX(0.05em);
-  }
-
-  .pf-tool--listen[aria-pressed="true"] svg {
-    transform: none;
-  }
-
   /* Pressed, not merely hovered — a bookmark that is ON has to look different
      from one the pointer happens to be over. */
   .pf-tool[aria-pressed="true"],
@@ -1373,14 +1350,102 @@
     color: var(--l-accent);
   }
 
-  .pf-tool--listen[aria-pressed="true"] {
-    background: var(--l-display);
-    color: var(--l-surface);
-  }
-
   /* The count that used to ride on the toolbar's notes button went with the
      button: the notes are a panel on the right edge now, and the number lives on
      the tab that opens them (`.pf-edge-tab__count`). */
+
+  .pf-reader-listen {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-block: calc(-1 * var(--pf-space-3));
+  }
+
+  button.pf-reader-listen__button {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 5rem;
+    width: 5rem;
+    height: 5rem;
+    min-width: 5rem;
+    min-height: 5rem;
+    padding: 0;
+    border: 2px solid var(--l-display);
+    border-radius: 999px;
+    background: #eef4ff;
+    color: var(--l-display);
+    font-size: 1rem;
+    line-height: 1;
+    box-shadow:
+      0 0.9rem 2.2rem rgb(31 53 91 / 13%),
+      inset 0 1px 0 rgb(255 255 255 / 85%);
+    cursor: pointer;
+    transition:
+      background 180ms ease,
+      box-shadow 180ms ease,
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  button.pf-reader-listen__button svg {
+    width: 1.55rem;
+    height: 1.55rem;
+    transform: translateX(0.08em);
+  }
+
+  button.pf-reader-listen__button[aria-pressed="true"] svg {
+    transform: none;
+  }
+
+  button.pf-reader-listen__button:hover {
+    background: #f7faff;
+    color: var(--l-accent);
+    transform: translateY(-3px) scale(1.04);
+    box-shadow:
+      0 1.1rem 2.6rem rgb(31 53 91 / 18%),
+      0 0 0 0.45rem rgb(21 90 214 / 10%),
+      inset 0 1px 0 rgb(255 255 255 / 92%);
+    animation: pf-reader-listen-hover 820ms ease-in-out infinite alternate;
+  }
+
+  button.pf-reader-listen__button:active {
+    transform: translateY(0) scale(0.99);
+    box-shadow:
+      0 0.45rem 1.1rem rgb(31 53 91 / 14%),
+      inset 0 1px 0 rgb(255 255 255 / 80%);
+  }
+
+  button.pf-reader-listen__button[aria-pressed="true"] {
+    background: #e4edf9;
+    color: var(--l-display);
+  }
+
+  @keyframes pf-reader-listen-hover {
+    from {
+      box-shadow:
+        0 1.1rem 2.6rem rgb(31 53 91 / 18%),
+        0 0 0 0.25rem rgb(21 90 214 / 8%),
+        inset 0 1px 0 rgb(255 255 255 / 92%);
+    }
+    to {
+      box-shadow:
+        0 1.2rem 2.8rem rgb(31 53 91 / 21%),
+        0 0 0 0.55rem rgb(21 90 214 / 13%),
+        inset 0 1px 0 rgb(255 255 255 / 92%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    button.pf-reader-listen__button,
+    button.pf-reader-listen__button:hover {
+      animation: none;
+      transition: none;
+      transform: none;
+    }
+  }
 
   .pf-toolbar__group {
     display: flex;

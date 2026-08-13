@@ -72,6 +72,24 @@ export interface NowPlaying {
 /** Which side panel the player is showing, or none. */
 export type PlayerPanel = "transcript" | "notes" | null;
 
+export function playerPanelModel(
+  current: NowPlaying,
+  notes: Array<Pick<EpisodeNote, "number">>,
+) {
+  const isChapter = current.kind === "chapter";
+  const noteScope = isChapter ? "chapter" : "episode";
+  const noteCount = notes.filter((n) => n.number === current.number).length;
+  return {
+    noteCount,
+    noteScope,
+    notesLabel:
+      noteCount === 0 ? "Notes" : `Notes, ${noteCount} in this ${noteScope}`,
+    showTranscript:
+      !isChapter &&
+      (current.transcriptSrc !== null || current.cues !== undefined),
+  };
+}
+
 interface PlayerState {
   current: NowPlaying | null;
   playing: boolean;
@@ -428,7 +446,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       }
 
       setCurrent(episode);
-      setPanel((open) => (episode.kind === "chapter" && open === "notes" ? null : open));
+      setPanel((open) =>
+        episode.kind === "chapter" && open === "transcript" ? null : open,
+      );
       /* The copy on this device if there is one, otherwise the network.
          A SYNCHRONOUS lookup, and that is the constraint that shaped
          lib/offline.ts: `element.play()` below has to run inside the gesture
@@ -492,10 +512,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       // when the panel opens — a count that only appears after you look is not a
       // count.
       setNotes([]);
-      if (episode.kind === "chapter") {
-        notesFor.current = null;
-        return;
-      }
       notesFor.current = episode.slug;
       void fetchMarks(episode.slug).then((marks) => {
         if (notesFor.current === episode.slug)
@@ -846,10 +862,7 @@ function PlayerBar() {
 
   const total = duration || current.durationS || 0;
   const isChapter = current.kind === "chapter";
-  /* THIS episode's, matching what the panel shows when it opens. A count of the
-     whole book's notes on a button that opens one episode's would be a number
-     the panel then contradicts. */
-  const here = isChapter ? 0 : notes.filter((n) => n.number === current.number).length;
+  const panelModel = playerPanelModel(current, notes);
 
   return (
     <div
@@ -950,7 +963,7 @@ function PlayerBar() {
               </select>
             </label>
 
-            {current.transcriptSrc === null && current.cues === undefined ? null : (
+            {panelModel.showTranscript ? (
               <button
                 type="button"
                 onClick={() => openPanel("transcript")}
@@ -959,33 +972,29 @@ function PlayerBar() {
               >
                 Transcript
               </button>
-            )}
+            ) : null}
 
-            {isChapter ? null : (
-              <button
-                type="button"
-                onClick={() => openPanel("notes")}
-                aria-expanded={panel === "notes"}
-                /* The count is in the accessible name, not only in the badge —
-                   a screen reader gets "Notes, 2 in this episode" rather than a
-                   button called "Notes 2", which is read as a label ending in a
-                   stray number. */
-                aria-label={
-                  here === 0 ? "Notes" : `Notes, ${here} in this episode`
-                }
-                className="pf-player__panel-tab"
-              >
-                <span aria-hidden="true">Notes</span>
-                {/* Never rendered as zero. An empty count reads as something to
-                    clear rather than something not yet started — the same rule
-                    the reader's own tab follows. */}
-                {here === 0 ? null : (
-                  <span aria-hidden="true" className="pf-player__badge">
-                    {here}
-                  </span>
-                )}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => openPanel("notes")}
+              aria-expanded={panel === "notes"}
+              /* The count is in the accessible name, not only in the badge —
+                 a screen reader gets "Notes, 2 in this episode" rather than a
+                 button called "Notes 2", which is read as a label ending in a
+                 stray number. */
+              aria-label={panelModel.notesLabel}
+              className="pf-player__panel-tab"
+            >
+              <span aria-hidden="true">Notes</span>
+              {/* Never rendered as zero. An empty count reads as something to
+                  clear rather than something not yet started — the same rule
+                  the reader's own tab follows. */}
+              {panelModel.noteCount === 0 ? null : (
+                <span aria-hidden="true" className="pf-player__badge">
+                  {panelModel.noteCount}
+                </span>
+              )}
+            </button>
 
             <button
               type="button"
@@ -1104,7 +1113,7 @@ function PlayerPanelDrawer() {
   }, [panel, reload]);
 
   if (current === null || panel === null) return null;
-  if (current.kind === "chapter" && panel === "notes") return null;
+  if (current.kind === "chapter" && panel === "transcript") return null;
 
   /* THIS EPISODE's notes, not the whole book's.
      The panel belongs to what is playing, exactly as the transcript does — and
@@ -1115,7 +1124,10 @@ function PlayerPanelDrawer() {
      says plainly what it covers. The whole book's notes are one press away on
      the book page, which has the titles. */
   const here = notes.filter((n) => n.number === current.number);
-  const label = panel === "transcript" ? "Transcript" : "Notes in this episode";
+  const label =
+    panel === "transcript"
+      ? "Transcript"
+      : `Notes in this ${current.kind === "chapter" ? "chapter" : "episode"}`;
 
   return (
     <>
@@ -1152,20 +1164,24 @@ function PlayerPanelDrawer() {
               cues={cues}
               position={position}
               onSeek={seek}
-              onNote={current.kind === "chapter" ? undefined : (cue) => {
-                // Opens the same composer the "+ Add note" button does, on
-                // the Notes panel — rather than saving a bare, textless mark
-                // on tap. A transcript line's "+" is the one place this
-                // composer arrives pre-filled with WHICH line, so the quote
-                // travels with it; the timestamp and blank draft otherwise
-                // work exactly as the generic composer's do.
-                setComposeSeconds(Math.floor(cue.startS));
-                setComposeQuote(cue.text);
-                setComposeDraft("");
-                setComposeFrom("transcript");
-                setComposing(true);
-                openPanel("notes");
-              }}
+              onNote={
+                current.kind === "chapter"
+                  ? undefined
+                  : (cue) => {
+                      // Opens the same composer the "+ Add note" button does, on
+                      // the Notes panel — rather than saving a bare, textless mark
+                      // on tap. A transcript line's "+" is the one place this
+                      // composer arrives pre-filled with WHICH line, so the quote
+                      // travels with it; the timestamp and blank draft otherwise
+                      // work exactly as the generic composer's do.
+                      setComposeSeconds(Math.floor(cue.startS));
+                      setComposeQuote(cue.text);
+                      setComposeDraft("");
+                      setComposeFrom("transcript");
+                      setComposing(true);
+                      openPanel("notes");
+                    }
+              }
             />
           ) : (
             <>

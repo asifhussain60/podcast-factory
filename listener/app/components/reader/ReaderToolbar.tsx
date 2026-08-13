@@ -5,8 +5,6 @@ import {
   faBookmark,
   faGripLines,
   faHouse,
-  faPause,
-  faPlay,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
@@ -135,15 +133,9 @@ function WidthIcon({ measure }: { measure: (typeof MEASURES)[number] }) {
  */
 export function ReaderToolbar({
   bookmarked,
-  narrationAvailable = false,
-  narrationActive = false,
-  onPlayNarration,
   onToggleBookmark,
 }: {
   bookmarked: boolean;
-  narrationAvailable?: boolean;
-  narrationActive?: boolean;
-  onPlayNarration?: () => void;
   onToggleBookmark: () => void;
 }) {
   const prefs = useReading();
@@ -180,22 +172,6 @@ export function ReaderToolbar({
             title={bookmarked ? "Remove bookmark" : "Bookmark this place"}
           />
         </button>
-
-        {narrationAvailable ? (
-          <button
-            type="button"
-            onClick={onPlayNarration}
-            aria-pressed={narrationActive}
-            title={narrationActive ? "Pause chapter audio" : "Listen to this chapter"}
-            className="pf-tool pf-tool--listen"
-          >
-            <Icon
-              icon={narrationActive ? faPause : faPlay}
-              title={narrationActive ? "Pause chapter audio" : "Listen to this chapter"}
-            />
-            <span className="sr-only">{narrationActive ? "Pause chapter audio" : "Listen to this chapter"}</span>
-          </button>
-        ) : null}
       </div>
 
       {/* ---- How the page is set ----------------------------------------- */}
