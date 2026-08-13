@@ -22,7 +22,7 @@ export interface ChapterNarrationCue {
   blockIndex?: number;
   startS: number;
   endS: number;
-  text: string;
+  text?: string;
 }
 
 export interface ChapterNarration {
@@ -257,14 +257,13 @@ function parseNarrationCues(source: string | null): ChapterNarrationCue[] {
         blockIndex: cue.blockIndex === undefined ? undefined : Number(cue.blockIndex),
         startS: Number(cue.startS),
         endS: Number(cue.endS),
-        text: String(cue.text ?? ""),
+        text: cue.text === undefined ? undefined : String(cue.text),
       }))
       .filter(
         (cue) =>
           Number.isFinite(cue.idx) &&
           Number.isFinite(cue.startS) &&
-          Number.isFinite(cue.endS) &&
-          cue.text.trim() !== "",
+          Number.isFinite(cue.endS),
       );
   } catch {
     return [];

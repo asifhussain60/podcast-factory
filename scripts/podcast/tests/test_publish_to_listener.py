@@ -146,6 +146,7 @@ def test_chapter_narration_is_rewritten_with_the_chapter(tmp_path):
     assert row[2] == "abc"
     assert row[3] == "aria"
     assert '"blockIndex": 0' in row[4]
+    assert '"text"' not in row[4]
     assert conn.execute("SELECT kind FROM media_asset WHERE key='test-book/narration/one.mp3'").fetchone()[0] == "audio"
 
 

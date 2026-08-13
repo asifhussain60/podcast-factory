@@ -323,7 +323,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       (narration?.cues ?? []).map((cue) => ({
         startS: cue.startS,
         endS: cue.endS,
-        text: cue.text,
+        text: cue.text ?? "",
         speaker: null,
         blockIndex: cue.blockIndex,
       })),
@@ -342,6 +342,11 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       player.toggle();
       return;
     }
+    const blockTexts = body.current === null ? [] : blockTextsOf(body.current);
+    const cues = narrationCues.map((cue, index) => ({
+      ...cue,
+      text: cue.text || blockTexts[cue.blockIndex ?? index] || chapter.title,
+    }));
     const track: NowPlaying = {
       kind: "chapter",
       slug,
@@ -352,7 +357,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       durationS: narration.durationS,
       transcriptSrc: null,
       chapterKey: chapter.anchorKey,
-      cues: narrationCues,
+      cues,
       collection: collectionOf(bucket),
     };
     player.play(track);

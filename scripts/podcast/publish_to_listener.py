@@ -148,7 +148,7 @@ def build_statements(book: Book, *, published_at: str, commit: str | None) -> li
             f"({sql_str(book.slug)}, {sql_str(chapter.anchor)}, "
             f"{sql_str(chapter.narration.audio.key)}, {sql_str(chapter.narration.duration_s)}, "
             f"{sql_str(chapter.narration.source_hash)}, {sql_str(chapter.narration.voice)}, "
-            f"{sql_str(json.dumps(chapter.narration.cues, ensure_ascii=False))});"
+            f"{sql_str(json.dumps(listener_narration_cues(chapter.narration.cues), ensure_ascii=False))});"
         )
 
     # Sessions first, since an episode points at one.
@@ -253,6 +253,21 @@ def build_statements(book: Book, *, published_at: str, commit: str | None) -> li
 def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
     """The SQL file shape, kept for dry runs, inspection, and local imports."""
     return "\n".join(build_statements(book, published_at=published_at, commit=commit)) + "\n"
+
+
+def listener_narration_cues(cues: list[dict]) -> list[dict]:
+    """Only the browser sync data; the paragraph text is already in chapter HTML."""
+    slim: list[dict] = []
+    for cue in cues:
+        slim.append(
+            {
+                "idx": cue.get("idx"),
+                "blockIndex": cue.get("blockIndex"),
+                "startS": cue.get("startS"),
+                "endS": cue.get("endS"),
+            }
+        )
+    return slim
 
 
 def keys_in_bucket(slug: str, *, remote: bool) -> set[str]:
