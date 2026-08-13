@@ -1,0 +1,140 @@
+{
+  "schema": "book.defects/v1",
+  "counts": {
+    "duplicated-arabic": 0,
+    "english-rtl": 0,
+    "romanized-arabic": 0,
+    "romanized-honorific": 0,
+    "stray-emphasis": 0,
+    "quote-line-noise": 0,
+    "honorific-overuse": 0,
+    "prophet-wrong-honorific": 0,
+    "translation-outside-card": 0,
+    "translation-leads-a-paragraph": 0,
+    "translation-fused-with-prose": 3,
+    "bare-arabic": 23,
+    "stale-provenance": 0
+  },
+  "previous": {},
+  "findings": {
+    "duplicated-arabic": [],
+    "english-rtl": [],
+    "romanized-arabic": [],
+    "romanized-honorific": [],
+    "stray-emphasis": [],
+    "quote-line-noise": [],
+    "honorific-overuse": [],
+    "prophet-wrong-honorific": [],
+    "translation-outside-card": [],
+    "translation-leads-a-paragraph": [],
+    "translation-fused-with-prose": [
+      [
+        "What is Worship?",
+        "\"For Allah's sake, describe him to me; do not stint in your description, and do not exaggerate. I want to hear the truth.\" He replied:"
+      ],
+      [
+        "Understanding RAB Al-ALAMEEN",
+        "“How did you come to know of your master?” he said."
+      ],
+      [
+        "The Horizons And The Soul",
+        "“Oh messenger of Allah, I give to him, but he withholds from me. I come to him, but he cuts me off. What should I do?” the Prophet replied, “That is صِلَۃُ الرَّحِمِ. What you are doing is right. Continue meeting him, even though he cuts you off.”"
+      ]
+    ],
+    "bare-arabic": [
+      [
+        "Quranic Friendship",
+        "سمعنا و اطعنا"
+      ],
+      [
+        "The Stages Of Love",
+        "والذین امنو أشدو حب لی اللہ"
+      ],
+      [
+        "Linguistic Meaning Of REHMA",
+        "أو میرا بیٹا"
+      ],
+      [
+        "Linguistic Meaning Of REHMA",
+        "أو میری بیٹی"
+      ],
+      [
+        "Linguistic Meaning Of REHMA",
+        "أو میرا بیٹا"
+      ],
+      [
+        "Linguistic Meaning Of REHMA",
+        "أو میری بیٹی"
+      ],
+      [
+        "Understanding RAB Al-ALAMEEN",
+        "اشھد ان محمد عبدہ و رسولہ"
+      ],
+      [
+        "The Divine Formula For Recognizing Allah",
+        "اللہ الذی خلق السماوت و الارض"
+      ],
+      [
+        "The Horizons And The Soul",
+        "اللہ نور السموت والارض"
+      ],
+      [
+        "The Horizons And The Soul",
+        "داود علیہ السلام"
+      ],
+      [
+        "The Horizons And The Soul",
+        "أتخذو من أخلاق اللہ"
+      ],
+      [
+        "Allah - Being vs Attributes",
+        "الحمد للہ رب العلمین"
+      ],
+      [
+        "Allah - Being vs Attributes",
+        "الرحمن، الرحيم، الملك، القدوس، السلام، المؤمن، المهيمن، العزيز، الجبار، المتكبر، الخالق، البارئ، المصور، الغفَّار، القهَّار، الوهَّاب ، الرزَّاق ، الفتَّاح ، العليم، القابض، الباسط، الخافض، الرافع، المعز، المذل، السميع، البصير، الحكم، الحکیم، العادل، اللطيف، الحلیم، الخبير، العظيم، الغفور، الشكور، العلي، الكبير، الحفيظ، الحسيب، الكريم، المقیم، الرقیب، الجلیل، المجيب، الواسع، الودود، المجيد، الباعث، الشهيد، الوكيل، القوى، المتين، الولي، الحميد، المحصى، المبدئ ، المعيد، المحيي، المميت، الحي، القيوم، الواجد، الماجد، الواحد، الصمد، القادر، المقتدر، المقدِّم، المؤخر، الأول، الآخر، الظاهر، الباطن، الوالي، المتعال، البِر، التواب، المنتقم، العفو، الرؤوف، اَلْمَالِكُ الْمَلِكُ، ذُو الْجَلَالِ وَ الْإِكْرَامِ، المقسط، الجامع، الغني، المغني، المانع، الضار، النافع، النور، الهادي، البديع، الباقي، الوارث، الرشيد، الصبور ، الحنان، المنان، الدیان، البرھان"
+      ],
+      [
+        "Allah - Being vs Attributes",
+        "لیس کمثلہ شئی"
+      ],
+      [
+        "Allah - Being vs Attributes",
+        "رضی اللہ عنہ و رضو عنھم"
+      ],
+      [
+        "The ISM Of Allah",
+        "لیس کمثلہ شئی"
+      ],
+      [
+        "Linguistic Perfection Of HAMD",
+        "أِحمد اللہ رب العلمین"
+      ],
+      [
+        "Abundant and Consistent Mercy",
+        "الرحمن الرحیم"
+      ],
+      [
+        "Day Of Judgment - Linguistics",
+        "الحمد للہ رب العلمین"
+      ],
+      [
+        "Motivating Factors For Piety",
+        "الرحمن الرحیم"
+      ],
+      [
+        "Motivating Factors For Piety",
+        "یا الھی ما عبدتک بشوق جنتک ولا من خوف نارک بل وجۃ مستحقا لعبادۃ فلعبدتک"
+      ],
+      [
+        "Worship and Assistance",
+        "اعوذ بللہ من الرجس النجس الخبیث المخبث الشیطان الرجیم"
+      ],
+      [
+        "Staying Steadfast On The Path",
+        "سورۃ الفاتحہ"
+      ]
+    ],
+    "stale-provenance": []
+  }
+}

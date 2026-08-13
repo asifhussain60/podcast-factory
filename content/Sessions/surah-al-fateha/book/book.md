@@ -35,9 +35,9 @@ The first term is ولی. It derives from مُوَالات, which conveys the id
 
 > ٱللَّهُ وَلِىُّ ٱلَّذِينَ آمَنُوا۟ يُخْرِجُهُم مِّنَ ٱلظُّلُمَتِ إِلَى ٱلنُّورِ ۖ وَٱلَّذِينَ كَفَرُوٓا۟ أَوْلِيَآؤُهُمُ ٱلطَّغُوتُ يُخْرِجُونَهُم مِّنَ ٱلنُّورِ إِلَى ٱلظُّلُمَتِ ۗ أُو۟لَٓئِكَ أَصْحَبُ ٱلنَّارِ ۖ هُمْ فِيهَا خَلِدُونَ
 >
-> Allah is the *Walî * of those who believe. He brings them out from darkness into light. But as for those who disbelieve, their *Auliya * are *Taghut *, they bring them out from light into darkness. Those are the dwellers of the Fire, and they will abide therein forever.
+> Allah is the *Wali * of those who believe. He brings them out from darkness into light. But as for those who disbelieve, their *Auliya * are *Taghut *, they bring them out from light into darkness. Those are the dwellers of the Fire, and they will abide therein forever.
 
-أللَّهُ وَلِىُّ ٱلَّذِينَ آمَنُوا۟
+> أللَّهُ وَلِىُّ ٱلَّذِينَ آمَنُوا۟
 
 Allah is the ولی of those who believe. He is a protective friend to those who believe.
 
@@ -65,7 +65,7 @@ Being a صدیق is not easy. Having a صدیق is even more difficult. Casual a
 
 That is the first nuance: sincerity. The second is truthfulness. The Arabs have a saying:
 
-الصَّدِیقُکَ مَن صَدَقَت
+> الصَّدِیقُکَ مَن صَدَقَت
 
 A friend is someone who is true — genuinely honest — not merely someone who is *friendly*. When things are going wrong, a true friend speaks plainly: "Listen! I care about you. I don't want you to do this, because I believe it will hurt you. Stop." A صدیق is not there simply to look good or to supply the warm, comfortable feeling one craves. He tells the harsh truth — the truth one does not want to hear. That is precisely why the word grows from the root صدق, meaning truthfulness.
 
@@ -73,21 +73,21 @@ A صدیق to someone, then, is a person who will be genuinely honest with his f
 
 There is a striking dimension to this word when it appears in the Quran. Allah describes certain people who, on the Day of Judgment, find themselves on the wrong side — people heading toward the Fire. He records what they say, in verses 26:99–101:
 
-وَمَآ أَضَلَّنَآ إِلَّا ٱلْمُجْرِمُونَ
+> وَمَآ أَضَلَّنَآ إِلَّا ٱلْمُجْرِمُونَ
 
 Their claim is that the fault is not theirs. They did not end up in this state through their own choices alone — these criminals, these evil people, misled them. The blame, they insist, belongs elsewhere. And Allah then records more of what they say:
 
-فَمَا لَنَا مِن شَفِعِينَ
+> فَمَا لَنَا مِن شَفِعِينَ
 
 There is nobody on our side to plead for us. شافعی is one who cares for a person and, when trouble comes, steps forward and says: he is good, he is fine, he is with me. The way a teacher might walk into the principal's office and say: this is a good student — do not worry about him, I will answer for him. That is شفاعۃ. These people are saying that on this day, no one has come to speak for them. No one is standing in their corner. And then they say:
 
-وَلَا صَدِيقٍ حَمِيمٍۢ
+> وَلَا صَدِيقٍ حَمِيمٍۢ
 
-This is the only place in the Quran where صدیق is used in quite this direct way. They are saying that today they have no true, sincere, close friends — no one near to them who loves them. SubhanAllah. And in recording that complaint, Allah reminds us that the opposite is equally true. If those on the wrong side of Judgment Day are lamenting the absence of close friends, then those on the right side — the people of paradise — will indeed have a close friend standing with them. Who is that ultimate صَدِيقٍ حَمِيمٍۢ available to the believers? The شفاعۃ of Rasul Allah ﷺ, insha'Allah. May Allah qualify all of us for that.
+This is the only place in the Quran where صدیق is used in quite this direct way. They are saying that today they have no true, sincere, close friends — no one near to them who loves them. SubhanAllah. And in recording that complaint, Allah reminds us that the opposite is equally true. If those on the wrong side of Judgment Day are lamenting the absence of close friends, then those on the right side — the people of paradise — will indeed have a close friend standing with them. Who is that ultimate صَدِيقٍ حَمِيمٍۢ available to the believers? The شفاعۃ of Rasul Allah ﷺ, inshaAllah. May Allah qualify all of us for that.
 
 What those disbelievers — those destined for the Fire — lament on that day is the absence of a صَدِيقٍ. In the world, whenever someone offered them sincere and honest counsel, they turned it away. They mocked. They ridiculed. They broke off those very friendships. And now, at the hour of judgment, they wish they had kept those صَدِيقٍ close. A صَدِيقٍ is worth holding — however harsh and painful their truth may be — because they prove to be the truest of friends in the آخرۃ.
 
-### Companion (صاحب)
+### Companion (صَاحِب)
 
 صاحب is among the most comprehensive words the Quran uses for a friend. It can describe the most casual of acquaintances — someone seated beside a traveler on a train or a bus for a few hours. At that minimal level of contact, the word already applies.
 
@@ -107,7 +107,7 @@ The performance of false modesty — "Oh, this old thing? It's Gucci. It was on 
 
 The next word the Quran uses for a friend is ولیجۃ. It appears only once in the Quran. ولیجۃ comes from the verb وَلَجَ، یَلِجُو, which in Arabic means to penetrate deeply. Allah says:
 
-يَعْلَمُ مَا يَلِجُ فِى ٱلْأَرْضِ وَمَا يَخْرُجُ مِنْهَا
+> يَعْلَمُ مَا يَلِجُ فِى ٱلْأَرْضِ وَمَا يَخْرُجُ مِنْهَا
 
 Allah knows what goes into the earth and what comes out of it.
 
@@ -119,15 +119,15 @@ What makes the Quranic use of this word remarkable is that Allah limits the ول
 
 > أَمْ حَسِبْتُمْ أَن تُتْرَكُوا۟ وَلَمَّا يَعْلَمِ ٱللَّهُ ٱلَّذِينَ جَهَدُوا۟ مِنكُمْ وَلَمْ يَتَّخِذُوا۟ مِن دُونِ ٱللَّهِ وَلَا رَسُولِهِۦ وَلَا ٱلْمُؤْمِنِينَ وَلِيجَةًۭ ۚ وَٱللَّهُ خَبِيرٌۢ بِمَا تَعْمَلُونَ
 >
-> Do you think that you shall be left alone while Allah has not yet tested those among you who have striven hard and fought and have not taken *Walîjah* besides Allah and His Messenger, and the believers. Allah is Well-Acquainted with what you do.
+> Do you think that you shall be left alone while Allah has not yet tested those among you who have striven hard and fought and have not taken *Walijah* besides Allah and His Messenger, and the believers. Allah is Well-Acquainted with what you do.
 
 Do you think that you shall be left alone
 
-وَلَمَّا يَعْلَمِ ٱللَّهُ ٱلَّذِينَ جَهَدُوا۟ مِنكُمْ
+> وَلَمَّا يَعْلَمِ ٱللَّهُ ٱلَّذِينَ جَهَدُوا۟ مِنكُمْ
 
 while Allah has not yet tested those among you who have striven hard and fought
 
-وَلَمْ يَتَّخِذُوا۟ مِن دُونِ ٱللَّهِ وَلَا رَسُولِهِۦ وَلَا ٱلْمُؤْمِنِينَ وَلِيجَةًۭ ۚ
+> وَلَمْ يَتَّخِذُوا۟ مِن دُونِ ٱللَّهِ وَلَا رَسُولِهِۦ وَلَا ٱلْمُؤْمِنِينَ وَلِيجَةًۭ ۚ
 
 and have not taken ولیجۃ besides Allah and His Messenger, and the believers
 
@@ -167,19 +167,19 @@ The next word the Quran uses for a friend is خلیل. خلیل comes from the r
 
 A خلیل, then, is someone whose friendship has penetrated deep within the heart. The love for them runs so deep that one thinks of them constantly, feels their absence constantly, and wishes to be with them at any given moment. That is a خلیل. It is, again, a very rare kind of friendship — and it is precisely this kind of friendship that Allah سُبْحَانَهُ وَتَعَالَى had with Ibrahim عَلَیْہِ السَّلَامُ:
 
-وَٱتَّخَذَ ٱللَّهُ إِبْرَهِيمَ خَلِيلًۭا
+> وَٱتَّخَذَ ٱللَّهُ إِبْرَهِيمَ خَلِيلًۭا
 
 Allah took اِبْرَاھِیْمُ عَلَیْہِ السَّلَامُ as a خلیل.
 
 Allah سُبْحَانَهُ وَتَعَالَى uses the word خلیل in remarkable ways throughout the Quran.
 
-يَٓأَيُّهَا ٱلَّذِينَ آمَنُوٓا۟ أَنفِقُوا۟ مِمَّا رَزَقْنَكُم مِّن قَبْلِ أَن يَأْتِىَ يَوْمٌۭ لَّا بَيْعٌۭ فِيهِ وَلَا خُلَّةٌۭ وَلَا شَفَعَةٌۭ ۗ وَٱلْكَفِرُونَ هُمُ ٱلظَّلِمُونَ
+> يَٓأَيُّهَا ٱلَّذِينَ آمَنُوٓا۟ أَنفِقُوا۟ مِمَّا رَزَقْنَكُم مِّن قَبْلِ أَن يَأْتِىَ يَوْمٌۭ لَّا بَيْعٌۭ فِيهِ وَلَا خُلَّةٌۭ وَلَا شَفَعَةٌۭ ۗ وَٱلْكَفِرُونَ هُمُ ٱلظَّلِمُونَ
 
 > O Believers! Spend from that which we have provided for you, before a Day comes when there will be no bargaining, nor friendship, nor intercession. And it is the disbelievers who are the *Zalimun*.
 
 He also says:
 
-ٱلْأَخِلَّآءُ يَوْمَئِذٍۭ بَعْضُهُمْ لِبَعْضٍ عَدُوٌّ إِلَّا ٱلْمُتَّقِينَ
+> ٱلْأَخِلَّآءُ يَوْمَئِذٍۭ بَعْضُهُمْ لِبَعْضٍ عَدُوٌّ إِلَّا ٱلْمُتَّقِينَ
 
 The closest of friends — those who shared deep love and intimacy in this world — will become each other's enemies on the Day of Judgment. أخلاء is the plural of خلیل. Allah declares that no matter how close two people were in this life, that bond turns to enmity when the Day arrives. The sole exception is المتقین, the pious. And grammatically, this is the strongest form of exception the language permits: the only ones spared are those who were careful, in this world, about the kind of friends they kept. Every other friendship — however fierce and devoted it felt — dissolves on that Day.
 
@@ -196,11 +196,11 @@ The word سبیل means a path — a beautifully precise linguistic image for an
 
 No other verse in the Quran concentrates despair quite like this one. It binds two words of regret together:
 
-يَوَيْلَتَىٰ لَيْتَنِى
+> يَوَيْلَتَىٰ لَيْتَنِى
 
 حسرۃ is already an exaggerated form of lament. Then لیتنی is layered on top of it — an expression even more intense, carrying the weight of حسرۃ. The word حسرۃ means deep regret. This verse stands among the آیات most saturated with sorrow in the entire Book. And what does all that sorrow come down to? A man wishing he had never taken a certain person as a friend.
 
-لَمْ أَتَّخِذْ فُلَانًا خَلِيلًۭا
+> لَمْ أَتَّخِذْ فُلَانًا خَلِيلًۭا
 
 There is something striking in the phrasing. The verse does not say "I wish I had chosen better friends" — it says I wish I had not taken *this person* as my friend. خلیل is someone held with profound love. A person loved that deeply would at the very least be known by name. Yet on the Day of Judgment, regret floods the heart and hatred fills it so completely that the name is gone. The verse therefore reads فُلَانًا خَلِيلًۭا — "so-and-so," an unnamed, anonymous figure. That is the depth of this person's regret on the Day of Judgment.
 
@@ -212,11 +212,11 @@ A رفیق, then, is the friend one turns to in stress, in serious trouble, in d
 
 Now Allah says:
 
-وَمَن يُطِعِ ٱللَّهَ وَٱلرَّسُولَ فَأُو۟لَٓئِكَ مَعَ ٱلَّذِينَ أَنْعَمَ ٱللَّهُ عَلَيْهِم مِّنَ ٱلنَّبِيِّۦنَ وَٱلصِّدِّيقِينَ وَٱلشُّهَدَآءِ وَٱلصَّلِحِينَ ۚ وَحَسُنَ أُو۟لَٓئِكَ رَفِيقًۭا
+> وَمَن يُطِعِ ٱللَّهَ وَٱلرَّسُولَ فَأُو۟لَٓئِكَ مَعَ ٱلَّذِينَ أَنْعَمَ ٱللَّهُ عَلَيْهِم مِّنَ ٱلنَّبِيِّۦنَ وَٱلصِّدِّيقِينَ وَٱلشُّهَدَآءِ وَٱلصَّلِحِينَ ۚ وَحَسُنَ أُو۟لَٓئِكَ رَفِيقًۭا
 
 Those who obey God and obey the Prophet will receive special favors from Allah. They will be counted among the elect: they will find themselves in the company of prophets, of those who did righteous deeds, and of those who gave their lives for the sake of Allah. The verse closes:
 
-وَحَسُنَ أُو۟لَٓئِكَ رَفِيقًۭا
+> وَحَسُنَ أُو۟لَٓئِكَ رَفِيقًۭا
 
 What an awesome company of comforting friends. To be in the presence of Rasul Allah ﷺ and feel no anxiety — to be at ease in the company of Maulana Ali (AS), in the company of the Imams. SubhanAllah.
 
@@ -230,7 +230,7 @@ The قرین is the friend who is a constant presence: always nearby, always at 
 
 A قرین is also someone with whom one shares a great deal — because a rope cannot bind two camels of wildly different height or speed. There must be some equivalence between them; the pairing only holds when they are well matched. So a قرین is someone who shares one's mind and one's heart. They think as one thinks; they feel as one feels. That deep correspondence, that mirroring of thought and feeling, is the relationship of قرین.
 
-قرین can also mean people of the same community — all bound together by the rope of قرین عہد شریف, all belonging to the same creed. That shared belonging makes them a قرین as well. The Quran presents this word in a striking and sobering way. In سُورَۃُ صِفَاتِ, some of those who make it to جنۃ begin to inquire about others — family members, people from their community — who are not there with them.
+قرین can also mean people of the same community — all bound together by the rope of قَرِینُ عَہْدٍ شَرِیفٍ, all belonging to the same creed. That shared belonging makes them a قرین as well. The Quran presents this word in a striking and sobering way. In سُورَۃُ صِفَاتِ, some of those who make it to جنۃ begin to inquire about others — family members, people from their community — who are not there with them.
 
 > فَأَقْبَلَ بَعْضُهُمْ عَلَىٰ بَعْضٍۢ يَتَسَآءَلُونَ ‎۵۰‏قَالَ قَآئِلٌۭ مِّنْهُمْ إِنِّى كَانَ لِى قَرِينٌۭ ‎۵۱‏يَقُولُ أَءِنَّكَ لَمِنَ ٱلْمُصَدِّقِينَ ‎۵۲‏أَءِذَا مِتْنَا وَكُنَّا تُرَابًۭا وَعِظَمًا أَءِنَّا لَمَدِينُونَ ‎۵۳‏قَالَ هَلْ أَنتُم مُّطَّلِعُونَ ‎۵۴‏فَٱطَّلَعَ فَرَآهُ فِى سَوَآءِ ٱلْجَحِيمِ
 >
@@ -246,7 +246,7 @@ May Allah protect us from being among them. The choice of قرین is therefore 
 
 This is Allah speaking in سُورَۃُ الزُّخْرُفِ. These are not idle words. The prospect of having شیطان as a قرین is a grave one. May Allah protect us all from that.
 
-### Deceptive Friend (خذول)
+### Deceptive Friend (خَذُول)
 
 The Quran describes good friends, but it also describes bad ones. The word for this evil friend is خزول. خزل in Arabic is close in meaning to خضع, which means deception. خزول is a friend who only acts like a friend — until the moment of truth arrives and the true colors show. This person was present through the easy times, right there at every turn, always around, a genuine قرین. But when things grew difficult, he vanished. The one who depended on him found no one there. That is خزول, and it is what is called صِیغَۃُ مُبَالَغَہِ — not ordinary deception, but deception of the most extreme kind. This is the profoundly disappointing friend who abandons at the worst possible moment. He earns trust so completely, so patiently, that a blank check is handed over without hesitation — and by morning he is gone with everything. That level of betrayal is خزول. It takes years of sustained, consistent effort to خزول-ofy someone to that degree.
 
@@ -256,13 +256,13 @@ This is precisely how the Quran characterizes شیطان. His ultimate deception
 
 شیطان is a خزول to human beings. Allah says this because شیطان acts like a friend throughout this life. He draws a person into things while convincing them that those things serve their own good, their own enjoyment. He makes a person watch films and delight in filth. He makes them buy, travel, speak, and build the wrong kinds of friendships — all of it — and all the while that person believes life is good, that they are living it fully. Every last bit of it is خزل. Because when Judgment Day arrives, شیطان is nowhere to be found. He steps forward and says:
 
-وَمَا كَانَ لِىَ عَلَيْكُم مِّن سُلْطَنٍ
+> وَمَا كَانَ لِىَ عَلَيْكُم مِّن سُلْطَنٍ
 
-إِلَّآ أَن دَعَوْتُكُمْ فَٱسْتَجَبْتُمْ لِى
+> إِلَّآ أَن دَعَوْتُكُمْ فَٱسْتَجَبْتُمْ لِى
 
 I simply suggested that you do these things! I didn't hold a gun to your head! You were the one who actually chose to do all these things!
 
-فَلَا تَلُومُونِى وَلُومُوٓا۟ أَنفُسَكُم
+> فَلَا تَلُومُونِى وَلُومُوٓا۟ أَنفُسَكُم
 
 So now don't blame me! Blame yourself for the situation you're in; and let's just enjoy the barbecue together.
 
@@ -282,7 +282,7 @@ The Arabs have what they call مَرَاتِبُ الْحُبِّ, the stages of
 
 The first level is what they call علاقۃ, and it is:
 
-تَعَلُّقِ القَلب بِی المحبُوب
+> تَعَلُّقِ القَلب بِی المحبُوب
 
 The connection of the heart to the beloved. This is the point at which the heart becomes connected or attached to the beloved. In our terms, we might call it attachment or a “crush.” We say, “I have a crush on that person,” or, “I am attached to this person or that person.” That is علاقۃ.
 
@@ -304,7 +304,7 @@ So سبابۃ is the stage at which you begin to lose control, and you realize t
 
 Then comes غَرام, which carries the sense of مُلازمۃ. The punishment of the Hellfire is described as:
 
-وَٱلَّذِينَ يَقُولُونَ رَبَّنَا ٱصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ ۖ إِنَّ عَذَابَهَا كَانَ غَرَامًا
+> وَٱلَّذِينَ يَقُولُونَ رَبَّنَا ٱصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ ۖ إِنَّ عَذَابَهَا كَانَ غَرَامًا
 
 Indeed, the punishment of the Hellfire is unceasing. It does not stop. The idea here is لا یَنْفَکّ—something that does not let go, something never-ending.
 
@@ -320,7 +320,7 @@ In the previous stages, there was still some نفس involved. There were still s
 
 This is why the Messenger of Allah ﷺ said:
 
-تَزَوِّج الوَلُود الوَدُود
+> تَزَوِّج الوَلُود الوَدُود
 
 Marry a fertile woman who is ودود. Marry a woman who possesses this kind of pure love, a woman whose love is not selfish. And, obviously, in Arabic there is always مفحوم المُخالَفۃ, which means that the converse is also true: a woman should likewise look for a husband who possesses this quality.
 
@@ -328,13 +328,13 @@ So الوُد is pure love.
 
 Interestingly, this is also one of the names of Allah. He is الودود:
 
-وَٱسْتَغْفِرُوا۟ رَبَّكُمْ ثُمَّ تُوبُوٓا۟ إِلَيْهِ ۚ إِنَّ رَبِّى رَحِيمٌۭ وَدُودٌۭ
+> وَٱسْتَغْفِرُوا۟ رَبَّكُمْ ثُمَّ تُوبُوٓا۟ إِلَيْهِ ۚ إِنَّ رَبِّى رَحِيمٌۭ وَدُودٌۭ
 
 Ask forgiveness of your master and turn to Him in repentance. Indeed, my master is Most Merciful, Most Loving.
 
 He is selfless in His love. Thus, الودود has two meanings:
 
-الوَادُّ فی عِبادِہِ والمَودُود
+> الوَادُّ فی عِبادِہِ والمَودُود
 
 Allah is the One who loves His servants, and He is the One whom His servants love. It is a relationship of pure love in both directions. Allah has a pure, selfless love for His creation, and creation has a pure, selfless love for its master. That is الوُد.
 
@@ -346,7 +346,7 @@ This is also how Allah describes the true purpose of a man and a woman coming to
 
 Allah says that He placed مودۃ between a man and a woman, which is pure love. This is the kind of love in which a husband will not divorce his wife when she becomes sick, when she is no longer beautiful, or when she becomes fat. If you have مودۃ for your wife, then even if she becomes fat, you will still love her. Seriously. If she becomes sick, you will still love her, because she will still love you even if you become fat or ugly. She will still love you.
 
-A woman’s love is quite remarkable; it does not change in the same way a man’s love can change.
+A woman's love is quite remarkable; it does not change in the same way a man's love can change.
 
 Shakespeare said:
 
@@ -362,13 +362,13 @@ That is not real love. This is why, if you observe carefully, women often have a
 
 This is why Rasul Allah ﷺ said:
 
-حُبِّبَ الییَّ النِّساء
+> حُبِّبَ الییَّ النِّساء
 
 I was made to love women.
 
 That statement has nothing to do with lust.
 
-وَالتِّیْب وَالمِسوَاک
+> وَالتِّیْب وَالمِسوَاک
 
 And I was made to love perfume and to love flossing.
 
@@ -378,7 +378,7 @@ Floss enters a filthy mouth and cleans it at the expense of its own existence. I
 
 That is the quality in women that the Prophet loved: the capacity for sacrifice that comes so naturally to a woman and that men often find so difficult. That is why love is what we learn from our mothers. That is why Rasul Allah ﷺ said:
 
-الَجنَّۃُ تَحتَ الاَقدَامِ الاُمَّھَات
+> الَجنَّۃُ تَحتَ الاَقدَامِ الاُمَّھَات
 
 Paradise is UNDER the feet of mothers. UNDER the feet of mothers.
 
@@ -386,7 +386,7 @@ That is where we learn love best. That is where we see it most fully embodied.
 
 That is why, in a HADEES, Rasul Allah ﷺ said:
 
-ُشَقَقْتُ الرَّحَم مِن أِسمِیَ الرَّحمٰن ۔ فمََنْ قَطَعَہُ فَقَد قَطَعْتُہ
+> ُشَقَقْتُ الرَّحَم مِن أِسمِیَ الرَّحمٰن ۔ فمََنْ قَطَعَہُ فَقَد قَطَعْتُہ
 
 I have derived the womb—شققت literally means “to split.” He says, “I have split the womb from My name الرحمن, the Merciful.”
 
@@ -396,11 +396,11 @@ And the mercy of the womb is extraordinary: it grows in order to accommodate wha
 
 That is why our Prophet is رَحْمَۃً لِی الْعَالَمِینَ:
 
-وَمَآ أَرْسَلْنَكَ إِلَّا رَحْمَةًۭ لِّلْعَلَمِينَ
+> وَمَآ أَرْسَلْنَكَ إِلَّا رَحْمَةًۭ لِّلْعَلَمِينَ
 
 We have not sent you but as a mercy to all of humanity—because he expanded himself to meet the needs of others.
 
-That is وُد: pure love. It is not a utilitarian kind of love, a love tainted by one’s own selfish needs. It is not the kind of love that asks, “What am I going to get out of this? What is in it for me?”
+That is وُد: pure love. It is not a utilitarian kind of love, a love tainted by one's own selfish needs. It is not the kind of love that asks, “What am I going to get out of this? What is in it for me?”
 
 It is a love that transcends all of that. It is the kind of love that remains when beauty is present and remains when beauty is gone. If service is no longer possible because of a stroke or some other incapacity, the love remains. That is real love.
 
@@ -426,7 +426,7 @@ The next stage is called شغف. What they call شَغَافُ الْقَلْب�
 
 This is the state of obsession. Wherever you are, whatever you see, it reminds you of the beloved.
 
-جِدَھرْ دِیکھْتَا ہُوں تُو ہِی تُو ہَےْ
+> جِدَھرْ دِیکھْتَا ہُوں تُو ہِی تُو ہَےْ
 
 You see the beloved everywhere: in the sunrise, the sunset, the rose, the birds, the music. Everything reminds you of the beloved.
 
@@ -440,7 +440,7 @@ So عشق is the kind of love in which there is total constriction. The lover be
 
 The Arabs say:
 
-دَعَا الْعِشْقُ الْاِتِّصَالَ
+> دَعَا الْعِشْقُ الْاِتِّصَالَ
 
 The only cure for this intense level of love is finally meeting the beloved.
 
@@ -454,11 +454,11 @@ She rejected his offer.
 
 So فرعون ordered his men to fill a large cauldron with oil and heat it until it began to boil. فرعون asked her again, “Do you accept my offer?”
 
-She said, “I am already in love with Moosa’s God. How can I betray Him for you?”
+She said, “I am already in love with Moosa's God. How can I betray Him for you?”
 
 This is عشق.
 
-At فرعون’s command, his soldiers dragged her ten-year-old daughter forward and threw her into the boiling oil. There are mothers in the group. Only a mother can understand what befalls a mother’s heart when she sees her child burned to death before her eyes.
+At فرعون's command, his soldiers dragged her ten-year-old daughter forward and threw her into the boiling oil. There are mothers in the group. Only a mother can understand what befalls a mother's heart when she sees her child burned to death before her eyes.
 
 فرعون asked her again, “Do you accept my offer?”
 
@@ -468,7 +468,7 @@ So they took her infant daughter, only a few months old, and threw her into the 
 
 At that moment, it is said that the veils of the sky were removed before her eyes, and she saw her two daughters in Paradise saying to her, “Mother, be patient just a little while longer. We are soon going to be reunited in Heaven.”
 
-Then came the woman’s turn. She said to فرعون, “I have one final request: after you kill me, bury my bones together with the bones of my daughters.”
+Then came the woman's turn. She said to فرعون, “I have one final request: after you kill me, bury my bones together with the bones of my daughters.”
 
 فرعون said, “Your wish will be granted.”
 
@@ -482,7 +482,7 @@ This is عشق. This is the story of عشق: how this woman loved Allah and how 
 
 The story of کربلا is the story of عشق. Every محرم, we hear that tale of عشق. Karbala is the tale of this extraordinary, consuming love.
 
-You may have heard of the woman in Imam Hussain’s camp whose son went into battle and returned to her covered in blood and wounds. He came back to the camp, called out to his mother, and asked, “Are you pleased with me, Mother?”
+You may have heard of the woman in Imam Hussain's camp whose son went into battle and returned to her covered in blood and wounds. He came back to the camp, called out to his mother, and asked, “Are you pleased with me, Mother?”
 
 What mother could bear to see her son covered in wounds and bleeding from head to toe? Yet his mother told him, “Not yet, my son. I will not be pleased with you until you sacrifice yourself for Imam Hussain.”
 
@@ -498,21 +498,21 @@ The next phase is called تَتَیَُم. The word تیم is used for a slave, 
 
 Love has now reached the point of asking, “What can I do for you? How can I serve you?” At this stage, the lover finds pleasure in serving the beloved.
 
-### 9 - TA'ABBUD
+### 9 - TAABBUD
 
 The next stage is تعبد, where the lover becomes a complete slave to the beloved. At this stage, servitude is joined by complete obedience. It is the point at which, when the beloved says, “Jump,” the lover asks, “How high?” There is unquestioning obedience to the beloved.
 
 This is why the poet says:
 
-تُعصِی اِلٰہَ وَ تُظْھِرُ حُبُّہُ
+> تُعصِی اِلٰہَ وَ تُظْھِرُ حُبُّہُ
 
-ھَذا الامْرُکَ فِی قِیَاسِ بَدِیعُ
+> ھَذا الامْرُکَ فِی قِیَاسِ بَدِیعُ
 
 You claim to love your God, and yet you disobey Him? Such a love makes no sense to me.
 
 So عبد is the stage of complete obedience in love. And this is an honorific title of the Messenger of Allah ﷺ:
 
-سُبْحَنَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِ لَيْلًۭا
+> سُبْحَنَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِ لَيْلًۭا
 
 Glorious is the One who took His slave on a journey by night.
 
@@ -524,13 +524,13 @@ Not “messenger,” not “prophet,” but عبد—His slave. This title of th
 
 The next stage of love is called خُلۃ, and it is the level of the خلیل. The Prophet said:
 
-ان اللہ أِتَّخَذَنِی خَلِیلاً کَمَا التَّخَذَ ابراھیمَ خلیلا
+> ان اللہ أِتَّخَذَنِی خَلِیلاً کَمَا التَّخَذَ ابراھیمَ خلیلا
 
 Allah took me as a خلیل just as He took Ibrahim as a خلیل.
 
 This is the highest level of love, where love:
 
-تَتَخَلَّلُو خَلَایَ الجَسَد
+> تَتَخَلَّلُو خَلَایَ الجَسَد
 
 The love completely permeates every cell of the body.
 
@@ -548,7 +548,7 @@ Adam is سَفِیرُ اللَّہِ, the one Allah sent; نوح is نجی ال
 
 And this is an astonishing thing if you reflect on it: the Creator is in love with His created being. What does that say about the character of our Prophet ﷺ, that the Creator loves him in this way? The entire creation is concerned with pleasing Allah, while Allah is concerned with pleasing Rasul Allah ﷺ:
 
-وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰٓ
+> وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰٓ
 
 And indeed your master will give you so much that “you” will be well pleased.
 
@@ -556,7 +556,7 @@ Allah promises His Messenger that He will give him and continue giving him until
 
 This is why to love the Messenger of Allah is to love Allah, and to love Allah is to love the Messenger of Allah:
 
-قُلْ إِن كُنتُمْ تُحِبُّونَ ٱللَّهَ فَٱتَّبِعُونِى يُحْبِبْكُمُ ٱللَّهُ
+> قُلْ إِن كُنتُمْ تُحِبُّونَ ٱللَّهَ فَٱتَّبِعُونِى يُحْبِبْكُمُ ٱللَّهُ
 
 Say: “If you love Allah, then follow me; Allah will love you.”
 
@@ -564,23 +564,23 @@ May Allah grant us the مقام of محبۃ, increase us in محبۃ, and make u
 
 The Prophet said:
 
-وللہ لا تَدْخُلَ الجَنَّۃ حتی تؤمنُ۔ ولا تُؤمن حتی تَحابُّ
+> وللہ لا تَدْخُلَ الجَنَّۃ حتی تؤمنُ۔ ولا تُؤمن حتی تَحابُّ
 
 You will not enter Paradise until you believe, and you will not believe until you love one another—until you spend on one another and care for one another.
 
-لَن تَنَالُوا۟ ٱلْبِرَّ حَتَّىٰ تُنفِقُوا۟ مِمَّا تُحِبُّونَ
+> لَن تَنَالُوا۟ ٱلْبِرَّ حَتَّىٰ تُنفِقُوا۟ مِمَّا تُحِبُّونَ
 
 You will not attain any good until you spend from that which you love.
 
 How much do we spend in the way of Allah? Those who truly believe love Allah more than they love their دنیا:
 
-والذین امنو أشدو حب لی اللہ
+> والذین امنو أشدو حب لی اللہ
 
 Those who believe love Allah more than they love their دنیا.
 
 And we should think about what people are doing for their دنیا. It is remarkable. We have to ask ourselves whether we are doing even one-tenth for our آخرۃ of what they are doing for their دنیا. Just one-tenth.
 
-They work twelve hours a day, seven days a week, amassing all these goods. People learn the most unusual things simply because they are interested in them. Yet we do not learn Arabic in order to understand our Creator’s Book.
+They work twelve hours a day, seven days a week, amassing all these goods. People learn the most unusual things simply because they are interested in them. Yet we do not learn Arabic in order to understand our Creator's Book.
 
 There is an advertisement for learning Italian. It shows a farm boy who is in love with an Italian celebrity. She will be in his town for one evening, so he has one opportunity, one chance to meet her. It is a television advertisement.
 
@@ -616,7 +616,7 @@ The next time he came, he brought dates and said, “This is ھدیۃ; it is a g
 
 Then Salman became Muslim.
 
-سَلْمَانُ مِنَّا اَھْلَ الْبَیْتِ
+> سَلْمَانُ مِنَّا اَھْلَ الْبَیْتِ
 
 Look where love takes you. Salman is from my family. He is part of our family.
 
@@ -624,7 +624,7 @@ He was an extraordinary man of love.
 
 اَبُو اَیُّوبَ الْاَنْصَارِیُّ—when the Prophet came to Medina, he let go of the reins of his camel because everyone wanted the Prophet to stay with them. The Prophet was an extremely diplomatic person. He did not want to upset or offend anyone. So he said, “I will leave the reins of my camel, and wherever she stops, I will stay with that person.”
 
-The camel stopped in front of the house of Hz Abu Ayyub Al-Ansari. He rushed forward and took the Prophet’s luggage. The Prophet said, “A man is with his luggage.”
+The camel stopped in front of the house of Hz Abu Ayyub Al-Ansari. He rushed forward and took the Prophet's luggage. The Prophet said, “A man is with his luggage.”
 
 So Abu Ayyub brought the Prophet into his house and placed him on the lower floor because he wanted to honor him. It was easier to stay on the ground floor than upstairs: there were no stairs to climb, and one could go outside more easily. He wanted to give the Prophet the greatest possible ease, so he housed him downstairs while he and his wife stayed on the floor above.
 
@@ -636,35 +636,35 @@ So he went and begged the Prophet: “Please, یَا رَسُولَ اللّٰہ
 
 And so the Prophet changed places with him.
 
-His wife would take food upstairs to the Prophet, and after he had eaten, she would bring the food back. Abu Ayyub would ask her, “Show me where the Messenger’s fingers touched the food,” and then he would eat from that spot.
+His wife would take food upstairs to the Prophet, and after he had eaten, she would bring the food back. Abu Ayyub would ask her, “Show me where the Messenger's fingers touched the food,” and then he would eat from that spot.
 
 This is تَـتَـبُّـعُ الْآثَارِ—following the traces. It came from love. These people had so much love for him.
 
-Look at میمونۃ, the Prophet’s wife. Thirty years after she married the Prophet, as she was nearing death, do you know where she wanted to go? To the place where she had spent her first night with the Prophet ﷺ. That is where she is buried.
+Look at میمونۃ, the Prophet's wife. Thirty years after she married the Prophet, as she was nearing death, do you know where she wanted to go? To the place where she had spent her first night with the Prophet ﷺ. That is where she is buried.
 
 Look at the love. Look at that love. This is what these people had.
 
 Today, we want to remove love from Islam and turn the religion into something else. But this religion is nothing if it is not about love:
 
-لَا یُؤْمِنُ اَحَدُکُمْ حَتَّی یُحِبَّ اَخِی
+> لَا یُؤْمِنُ اَحَدُکُمْ حَتَّی یُحِبَّ اَخِی
 
 No one is a believer until he loves his brother.
 
 He did not use another word there. He said: until you love.
 
-قل ان کنتم تحبون اللہ فتبعونی
+> قُلْ اِنْ کُنْتُمْ تُحِبُّونَ اللَّہَ فَتَّبِعُونِی
 
 Say: If you love Allah, then follow me, and God will love you.
 
 Because:
 
-عَلَامَۃُ الْحُبِّ اتِّبَاعُ الْحَبِیبِ
+> عَلَامَۃُ الْحُبِّ اتِّبَاعُ الْحَبِیبِ
 
 The sign of love is that you follow the Beloved. You do what the Beloved says.
 
-Look at the love of عویس القرنی. Look at that man’s love.
+Look at the love of عُوَیْسُ الْقَرَنِیُّ. Look at that man's love.
 
-When he heard that the Prophet’s tooth had been broken in the battle of احد, he became overwhelmed. What had his Messenger felt? How much pain had his Messenger experienced when they struck him?
+When he heard that the Prophet's tooth had been broken in the battle of احد, he became overwhelmed. What had his Messenger felt? How much pain had his Messenger experienced when they struck him?
 
 To experience that pain himself, he pulled out one of his own teeth. But that was not enough. What if it had not been that tooth, but another? So he pulled out another. What if it had been this one? He pulled out another. What if it had been that one? He continued until he had pulled out all of his teeth.
 
@@ -678,9 +678,9 @@ Love is struggle. When you love, you struggle and you sacrifice. That is the nat
 
 People have gone to extraordinary lengths in love:
 
-أَمُرُّ بِدِّیارِ دِیَارِ لَیلَۃ أُقَبْلُ لم جِدَارُ وَلا الجِدَارَۃ
+> أَمُرُّ بِدِّیارِ دِیَارِ لَیلَۃ أُقَبْلُ لم جِدَارُ وَلا الجِدَارَۃ
 
-مَا حُبُّ الدِّیَارِ شَغَفْنَا قَلبِی؛ وَلاکِنْ حُبُّ مَنْ سَکَنَ الدِّیَارَۃ
+> مَا حُبُّ الدِّیَارِ شَغَفْنَا قَلبِی؛ وَلاکِنْ حُبُّ مَنْ سَکَنَ الدِّیَارَۃ
 
 The poet says, did you not ask about that place? About that neighborhood that no longer exists? Did you not ask about the place where لیلۃ used to live?
 
@@ -690,7 +690,7 @@ Then he says: I pass by the stones, the dwelling places of my beloved, and I kis
 
 And then he says:
 
-مَا حُبُّ الدِّیَارِ شَغَفْنَا قَلبِی
+> مَا حُبُّ الدِّیَارِ شَغَفْنَا قَلبِی
 
 It is not love of the walls that has enraptured my heart, but love of the one who used to live within those walls.
 
@@ -704,7 +704,7 @@ That should be our fear of Allah. It should be rooted in love.
 
 Allah is—اللَّہُ اَکْبَرُ—greater than anything that can be said in His praise:
 
-لا نُحْصِی الثَّنَاء عَلیکَ۔ اَنتَ کَمَا اَثْنَیتُ عَلی نَفسِکَ
+> لا نُحْصِی الثَّنَاء عَلیکَ۔ اَنتَ کَمَا اَثْنَیتُ عَلی نَفسِکَ
 
 We cannot praise You as You have praised Yourself. You are as You have praised Yourself.
 
@@ -800,7 +800,7 @@ Every person carries hundreds, if not thousands, of entities in their life that 
 
 What follows is where the conversation turns uncomfortable. Every person and thing in our lives that meets the definition of الہ gives physical form to one of that word's meanings. By definition, الہ is the one we are loyal and devoted to; الہ is the one we turn to for comfort. So if smoking, or movies, or video games is what someone turns to for comfort, those activities take on the physical form of that definition of الہ. The definition is conceptual; its manifestation is physical. A person is physically doing something to please that الہ.
 
-Another definition: الہ is the one who astounds and astonishes. If Shahrukh Khan, Sylvester Stallone, Adele, Beyoncé, Lady Gaga — if these are the ones who astound, astonish, and impress to the point that a person wants to *be* like them, then the definition of وَلِھَا has been given a form. That definition has been personified in Shahrukh Khan, or Stallone, or whoever it may be.
+Another definition: الہ is the one who astounds and astonishes. If Shahrukh Khan, Sylvester Stallone, Adele, Beyonce, Lady Gaga — if these are the ones who astound, astonish, and impress to the point that a person wants to *be* like them, then the definition of وَلِھَا has been given a form. That definition has been personified in Shahrukh Khan, or Stallone, or whoever it may be.
 
 ---
 
@@ -810,9 +810,9 @@ An idol, by its dictionary definition, is an image or representation of a god us
 
 The common assumption is that being Muslim places a person entirely outside the world of idol worship. The frightening reality is otherwise. We are literally surrounded by thousands of الہ — self-created idols — and we worship them daily. Every person, every object, every concept, every idea that we personify or objectify becomes, in that act, an idol we have fashioned with our own hands. In that sense, we are all idol-worshipers. It is a painful reality, but it is true. The concept of شرک is not so alien after all. This is precisely why Rasul Allah ﷺ said:
 
-قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
+> قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
 
-الشِّرکُ فِی أُمَّتِی أَخفٰی مِن سَیرِ النَّمَلِ فِی لَیلَۃِ الظُّلمَۃِ عَلی سَخْرَۃِ السَّوْدَا
+> الشِّرکُ فِی أُمَّتِی أَخفٰی مِن سَیرِ النَّمَلِ فِی لَیلَۃِ الظُّلمَۃِ عَلی سَخْرَۃِ السَّوْدَا
 
 Shirk is more hidden in my nation than the movement of a black ant in a dark night on a black stone.
 
@@ -828,7 +828,7 @@ The Criterion [25:43]
 
 Allah is asking the messenger ﷺ whether he sees this person — the one who has taken his car, his house, his job, his wealth, his fame, and the pleasures and sensations of his body as his الہ; the one who has taken smoking, drugs, alcohol, sex, movies, and video games as his الہ; the one who has taken Shahrukh Khan, Salman Khan, Amir Khan, Adele, and Stallone as his الہ. Allah asks Rasul Allah ﷺ,
 
-أَفَأَنتَ تَكُونُ عَلَيْهِ وَكِيلًا
+> أَفَأَنتَ تَكُونُ عَلَيْهِ وَكِيلًا
 
 > Do you really want to be responsible for this person on the day of judgment?
 
@@ -911,7 +911,7 @@ If الہ is taken in the meaning of love, then Allah is the only one I choose t
 > And He gave you of all that you asked for, and if you count the Blessings of Allah, never will you be able to count them. Verily! Man is indeed an extreme wrong-doer, - a disbeliever.
 If I take the meaning of glory for الہ, then Allah becomes the only one whose glory and magnificence astounds me; astonishes me. Even when I set out to understand Him, when I venture to recognize Him, I do so with the realization that His loftiness will exhaust my limited capabilities of comprehension and understanding. I will be dumbfounded every single time I attempted to approach Him, because there is nothing comparable unto Him.
 
-قُل لَّوْ كَانَ ٱلْبَحْرُ مِدَادًۭا لِّكَلِمَتِ رَبِّى لَنَفِدَ ٱلْبَحْرُ قَبْلَ أَن تَنفَدَ كَلِمَتُ رَبِّى وَلَوْ جِئْنَا بِمِثْلِهِ مَدَدًۭا
+> قُل لَّوْ كَانَ ٱلْبَحْرُ مِدَادًۭا لِّكَلِمَتِ رَبِّى لَنَفِدَ ٱلْبَحْرُ قَبْلَ أَن تَنفَدَ كَلِمَتُ رَبِّى وَلَوْ جِئْنَا بِمِثْلِهِ مَدَدًۭا
 
 Say: "If the sea were ink for the Words of my Lord, surely, the sea would be exhausted before the Words of my Lord would be finished, even if we brought like it for its aid."
 
@@ -957,22 +957,22 @@ then the natural outcome of all these love-based emotions is obedience. I emphas
 
 This is why Allah سُبْحَانَهُ وَتَعَالَى created us and gave us the ability to love. He did not create us desiring our disobedience. He allows disobedience, and His magnificence enables the capacity for it within His creation, which is called خذلان. Yet, He is not content with it. Disobedience is completely contrary to the concept of love.
 
-تُعْصِی أِلہ وَ تُظْھِرُ حُبُّہُ | ھٰذا مُحالٌ فی القِیاسِ بدیع
+> تُعْصِی أِلہ وَ تُظْھِرُ حُبُّہُ | ھٰذا مُحالٌ فی القِیاسِ بدیع
 
 The poet محمود الوَرَّاق writes in one of his poems:
 You disobey Allah and you claim to love God.
 This is impossible, an unknown type of logic.
-لَو کانَ حُبُّک صادقُ لَطاعَتُہُ
+> لَو کانَ حُبُّک صادقُ لَطاعَتُہُ
 Had your love been sincere, you would be obedient.
 
-فَاِنَّ المُحِبَّ لِمَن یُحِبُّ مُطیعُ
+> فَاِنَّ المُحِبَّ لِمَن یُحِبُّ مُطیعُ
 Because a lover always obeys the beloved. It is the nature of love to desire obedience to the one loved. In one of his poems, he says:
 
-وَقائِلتُ قَد سَأَلَت عن حَارِ عاشِقِھا
+> وَقائِلتُ قَد سَأَلَت عن حَارِ عاشِقِھا
 
 A woman once inquired about the condition of someone consumed by passionate love. The عاشق is one who burns with passion. It is said, دَوَاءُ الْعِشْقِ الْاِتِّصَالُ, that the only cure for عشق is connection with the beloved, to be in the beloved's embrace. She asked this man about her beloved, for lovers often inquire of others about the depth of their beloved's affection. She asked him:
 
-للہِ صِفہُ ولا تَنقُص وَلا تَزِدِ
+> للہِ صِفہُ ولا تَنقُص وَلا تَزِدِ
 
 "For Allah's sake, describe him to me; do not stint in your description, and do not exaggerate. I want to hear the truth." He replied:
 
@@ -1003,7 +1003,7 @@ I then discussed our creedal formula of لَا اِلٰہَ اِلَّا الل�
 
 Next, I examined the word رب, which is also a composite word, combining
 
-المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
+> المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
 
 - المَالِکُ: The absolute owner.
 - السَّیِّد: The one with complete authority.
@@ -1021,7 +1021,7 @@ I now examine the word رحمۃ. This is the primary attribute of Allah, and it 
 
 In a hadith, Rasul Allah ﷺ says:
 
-قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
+> قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
 
 > إنَّ الله لَمَّا قَضٰى الخَلق،كَتَبَ فَوقَ عَرْشُه اِنَّ رَحمَتِی تَغلِبُ غَضَبِی
 >
@@ -1029,7 +1029,7 @@ In a hadith, Rasul Allah ﷺ says:
 
 Indeed, when Allah established all of creation, he wrote a statement on his throne. This statement was:
 
-اِنَّ رَحمَتِی تَغلِبُ غَضَبِی
+> اِنَّ رَحمَتِی تَغلِبُ غَضَبِی
 
 Indeed, my رحمۃ—my mercy for my creation—will always overcome my wrath. In other words, in my dealings with creation, my mercy will always supersede my anger. This is a rule that our Almighty Creator imposed upon himself in his dealings with us. SubhanAllah! This statement is not literal; there is no actual physical throne. Rather, it is a graphic representation of an emotion, depicting Allah's love for his creation.
 
@@ -1057,13 +1057,13 @@ Allah is caring. He looks after us, provides for us, and fulfills all our needs.
 
 He is genuinely and sincerely concerned for our salvation, happiness, and well-being.
 
-Finally, Allah is merciful, in that He shows compassion towards our weakness. He graciously forgives our sins and transgressions, and He accepts our weak and feeble acts of worship, even though they may lack the sincerity and honor He deserves.
+Finally, Allah is merciful, in that He shows compassion toward our weakness. He graciously forgives our sins and transgressions, and He accepts our weak and feeble acts of worship, even though they may lack the sincerity and honor He deserves.
 
 So رحمۃ combines these four words: unconditional love, extreme care, genuine concern, and mercy. Linguistically speaking, the word رحمۃ means to show love, care, concern, and mercy for the purpose of benefiting someone. The ancient Arab would say:
 
-الرحمۃُ، رِقَّۃٌ تَقتَدِ الأحسانُ أِلی المَرحوم
+> الرحمۃُ، رِقَّۃٌ تَقتَدِ الأحسانُ أِلی المَرحوم
 
-رحمۃ signifies a form of love or tenderness specifically intended to benefit the beloved. In other words, رحمۃ is precisely targeted towards someone's welfare and must manifest as a beneficial action; otherwise, it is not رحمۃ.
+رحمۃ signifies a form of love or tenderness specifically intended to benefit the beloved. In other words, رحمۃ is precisely targeted toward someone's welfare and must manifest as a beneficial action; otherwise, it is not رحمۃ.
 
 ### Two Manifestations of Mercy
 
@@ -1088,11 +1088,11 @@ I will first clarify the meaning of these two words. As I said, both الرحم�
 
 When Allah is called الرحمن and الرحیم, I acknowledge these four qualities of Allah. This means that Allah has intense love for us; He cares for us; He is genuinely concerned for us; and He shows us mercy. This is the implicit acknowledgment in any word that derives from رحمۃ. Allah states this point repeatedly in the Quran:
 
-وَمِن رَّحْمَتِهِۦ جَعَلَ لَكُمُ ٱلَّيْلَ وَٱلنَّهَارَ
+> وَمِن رَّحْمَتِهِۦ جَعَلَ لَكُمُ ٱلَّيْلَ وَٱلنَّهَارَ
 
 Out of His love, He created the night and the day:
 
-مِّن رَّحْمَتِهِۦ وَيُهَيِّئْ لَكُم مِّنْ أَمْرِكُم مِّرْفَقًۭا
+> مِّن رَّحْمَتِهِۦ وَيُهَيِّئْ لَكُم مِّنْ أَمْرِكُم مِّرْفَقًۭا
 
 Out of His love, He will make our tasks easy for us.
 
@@ -1100,7 +1100,7 @@ Out of His love, He will make our tasks easy for us.
 
 The purpose of all such verses is to explain one thing. I discussed Allah as our Master. When one considers the word "master" in the worldly sense, or the word "authority," the last thing that comes to mind in a master-slave relationship is unconditional love. But Allah immediately reminds us, at the beginning of every recitation: بِسْمِ اللَّہِ الرَّحْمَٰنِ الرَّحِیمِ. He reminds us that He is a different kind of Master. He reminds us that one will never, ever find a master in this world as powerful as Allah, yet one who possesses the kind of رحمۃ that He does. SubhanAllah!
 
-No other master in this world will show unconditional love to their slaves. They might take care of their slaves once in a while, but they will never truly love them. Masters will always show love to their own kin, never to their slave. But this Master—our Master, Allah—the very first emotion He exhibits towards us is unconditional love. No other master will care for us the way Allah cares for us. No other master will be genuinely concerned about us, the way Allah is concerned for us. No other master will show us mercy when one disobeys them and fails to complete the task to their standards. But Allah always has mercy on us.
+No other master in this world will show unconditional love to their slaves. They might take care of their slaves once in a while, but they will never truly love them. Masters will always show love to their own kin, never to their slave. But this Master—our Master, Allah—the very first emotion He exhibits toward us is unconditional love. No other master will care for us the way Allah cares for us. No other master will be genuinely concerned about us, the way Allah is concerned for us. No other master will show us mercy when one disobeys them and fails to complete the task to their standards. But Allah always has mercy on us.
 
 ### REHMAN
 
@@ -1143,13 +1143,13 @@ Similarly, جوعان denotes extreme hunger, present at that moment, yet tempor
 
 Likewise, عتشان signifies extreme thirst, present at that moment, yet temporary. One either drinks, alleviating the thirst, or succumbs to it. The thirst does not endure indefinitely.
 
-Allah’s intense mercy is temporary because we would not be able to handle the intensity and severity of His love for a long period. I offer an example that illustrates this point clearly. I recall moments with a mother in a very cuddly and huggy mood. She wraps her arms around me and squeezes until I cannot breathe, saying, "أو میرا بیٹا! أو میری بیٹی - Mua Mua Mua." My face is left dripping wet after this display. This is a manifestation of intense love, a burst of affection a mother showers. This intense love is a beautiful thing when one feels:
+Allah's intense mercy is temporary because we would not be able to handle the intensity and severity of His love for a long period. I offer an example that illustrates this point clearly. I recall moments with a mother in a very cuddly and huggy mood. She wraps her arms around me and squeezes until I cannot breathe, saying, "أو میرا بیٹا! أو میری بیٹی - Mua Mua Mua." My face is left dripping wet after this display. This is a manifestation of intense love, a burst of affection a mother showers. This intense love is a beautiful thing when one feels:
 - down,
 - depressed,
 - or in need of serious TLC.
 One would appreciate such intense love. However, if this were to happen every time one walked by the mother, with her saying, "أو میرا بیٹا! أو میری بیٹی - Mua Mua Mua," every single time, one would not be able to tolerate it. One would feel annoyed and irritated. The natural reaction would be to exclaim, "Mom!!! Leave me alone! Stop marinating my face with your saliva every time I walk by!"
 
-Allah’s intense love is extreme and immediate, but it is temporary. If His love were constant, its intensity and severity would prevent us from functioning. We would literally go insane; we would lose our minds.
+Allah's intense love is extreme and immediate, but it is temporary. If His love were constant, its intensity and severity would prevent us from functioning. We would literally go insane; we would lose our minds.
 
 Story of Eisa and the Rabi.
 
@@ -1159,7 +1159,7 @@ Raheem
 
 ![](images/79/0946d4dd-bfcb-45eb-be4c-2bebdaa9f080.jpg)
 
-The next word I consider is الرحیم. Allah’s love, care, concern, and mercy also manifest through the word رحیم. The word رحیم, and all others following its phonetic pattern—کَرِیمٌ، سَلِیمٌ، حَکِیمٌ، جَمِیلٌ، جَلِیلٌ—possess two distinct qualities:
+The next word I consider is الرحیم. Allah's love, care, concern, and mercy also manifest through the word رحیم. The word رحیم, and all others following its phonetic pattern—کَرِیمٌ، سَلِیمٌ، حَکِیمٌ، جَمِیلٌ، جَلِیلٌ—possess two distinct qualities:
 - First, it is permanent, not temporary.
 - Second, it is not necessarily immediate; its manifestation is long-term. For instance, if I describe my aunt as loving, I refer to a lasting quality. This does not imply she is actively demonstrating that love at this precise moment. She might not be showering me with affection right now, yet I remain certain her love is always present.
 
@@ -1181,7 +1181,7 @@ Only after paying this month's bills does one begin to worry about next month's.
 
 Someone once asked أَبْنُ عَبَّاسٍ رَضِیَ اللہُ عَنْہُ about the difference between الرحمن and الرحیم. He said, "Allah is الرحمن in this life, and He is الرحیم in the afterlife." This is because Allah's love and care will cease for disbelievers on the Day of Judgment. Until that day, however, He is الرحمن for both believers and disbelievers. He is الرحمن for all of us—every human being. In other words, the الرحمن does not only love and care for me or for you. He loves and cares for every single being He ever created: plants, animals, and humans. This includes people of every religion, color, or race, whether Muslim or non-Muslim. He even loves and cares for those who hate Him and deny His existence. His doors of رحمنیۃ are always open to everyone. He constantly hopes they will choose to return to Him. His invitation never expires, because الرحمن is a universal quality.
 
-رَحْمَتِی وَسِعَتْ عَلَیٰ کُلِّ شَیْءٍ
+> رَحْمَتِی وَسِعَتْ عَلَیٰ کُلِّ شَیْءٍ
 
 My mercy extends to all. Rain descends from the sky for all human beings to drink, and from it, they all draw their sustenance.
 *   The good drink, and the wretched drink.
@@ -1190,11 +1190,11 @@ My mercy extends to all. Rain descends from the sky for all human beings to drin
 *   The scholar drinks, and the ignorant drinks.
 Everybody drinks! This is the universal mercy of this world.
 
-َما مِن یَوم اِلاَّوالبَحرُ یَستَئذِنُ رَبَّہُ فی اَن یورِقُ ابن آدم
+> َما مِن یَوم اِلاَّوالبَحرُ یَستَئذِنُ رَبَّہُ فی اَن یورِقُ ابن آدم
 
-والارضُ یَستَئذِنُ فی أَن تَبتَلِعَہُ
+> والارضُ یَستَئذِنُ فی أَن تَبتَلِعَہُ
 
-والملائکۃ یَستَئذِنُ فی ان تُعاَجِلَہُ وَ تُھلِکُہ
+> والملائکۃ یَستَئذِنُ فی ان تُعاَجِلَہُ وَ تُھلِکُہ
 
 Not a single day passes without the ocean asking its Master, "Ya Allah! Give me permission to drown these disbelievers! They enjoy your blessings and rebel against you?! Let me teach them a lesson!"
 
@@ -1204,30 +1204,30 @@ Not a single day passes without the ocean asking its Master, "Ya Allah! Give me 
 
 The ocean, the earth, and the angels—these are all creations of Allah, just as I am. They observe my sins and rebellion, growing furious. But what does the Creator say, the One against whom I rebel?
 
-دَعُو عَبدِی فأنا أَعلَمُ بِعَبدِی مِنکُم ۔ ان کان عبدَکم فَشَأنَکم بِہِ۔ وأن کان عبدی فَمِنِّی وأِلیَّ عبدی
+> دَعُو عَبدِی فأنا أَعلَمُ بِعَبدِی مِنکُم ۔ ان کان عبدَکم فَشَأنَکم بِہِ۔ وأن کان عبدی فَمِنِّی وأِلیَّ عبدی
 Let them be! Leave them alone! I love my creation way more than that. If they are your creation, do whatever you please with them! But if they are my creation, then hand them over to me, and you step out of the way. I will deal with my creation!
-یَسْأَلُ الْمَلَائِکَۃَ: فلماذا عقدُہُ؟
+> یَسْأَلُ الْمَلَائِکَۃَ: فلماذا عقدُہُ؟
 The angels ask: What are you waiting for?
 
-یَسْتَجِیبُ اللَّہُ: إنني أتطَّلِع إلى التوبتَہُ I am waiting for their repentance. أِنْ اَتَانِی نَھَارًا قَبِلْتُہُ أِنْ اَتَانِی لَیْلًا قَبِلْتُہُ If he approaches me during the day time, I will accept him; if he approaches me during the night time I will accept him. مَن تَقَرَّبَ أِلَیَّ تَلَقَّیتُہُ مِن بَعِید If anyone takes one single step towards me, I approach him by running towards him.
+یَسْتَجِیبُ اللَّہُ: إنني أتطَّلِع إلى التوبتَہُ I am waiting for their repentance. أِنْ اَتَانِی نَھَارًا قَبِلْتُہُ أِنْ اَتَانِی لَیْلًا قَبِلْتُہُ If he approaches me during the day time, I will accept him; if he approaches me during the night time I will accept him. مَن تَقَرَّبَ أِلَیَّ تَلَقَّیتُہُ مِن بَعِید If anyone takes one single step toward me, I approach him by running toward him.
 
-وَ مَن أَعرَضَ عَنِّی ناَدَیتُہُ عَن قَرِیب
+> وَ مَن أَعرَضَ عَنِّی ناَدَیتُہُ عَن قَرِیب
 
 And if anyone walks away from me, I go after him to bring him closer and ask him:
 
-أَوَلَکَ رَبٌّ غَیرِی؟
+> أَوَلَکَ رَبٌّ غَیرِی؟
 
 Do you have another master who is more loving than me?
 
-الحَسَنَۃُ عِندِی بِعَشرِأَمثَالِھَا وَ أَزِید
+> الحَسَنَۃُ عِندِی بِعَشرِأَمثَالِھَا وَ أَزِید
 
 Do you not know that I take one good deed from you and reward you ten times for it, even more?
 
-وَوَصَّیَّتُ عِندِی بِمِثلِھَا وأَعفُو و أغْفَر
+> وَوَصَّیَّتُ عِندِی بِمِثلِھَا وأَعفُو و أغْفَر
 
 But I count your sin as a single sin, and when you repent, I even forgive that and reward you for your repentance.
 
-فَأَيْنَ تَذْهَبُونَ
+> فَأَيْنَ تَذْهَبُونَ
 
 Then where are you going?
 
@@ -1247,7 +1247,7 @@ Both parents love their children. However, I observe that in the Quran, when All
 
 A famous Hadith describes Allah speaking directly to the womb. Here, the womb represents the archetypal womb, as the mother's womb is the means by which all of humanity comes into existence. All of us originate from our mothers' wombs. Allah spoke to the womb, saying:
 
-اِنِّی سَمَّیتُکَ بِاسْمی
+> اِنِّی سَمَّیتُکَ بِاسْمی
 
 I named you from My names.
 
@@ -1263,7 +1263,7 @@ Similarly, Allah cares for us in ways we cannot imagine or realize. His care is 
 
 It is remarkable that in the Quran, every mention of the attribute لطیف is accompanied by another attribute. That attribute is خبیر, the All-Knowing.
 
-لَّا تُدْرِكُهُ ٱلْأَبْصَرُ وَهُوَ يُدْرِكُ ٱلْأَبْصَرَ ۖ وَهُوَ ٱللَّطِيفُ ٱلْخَبِيرُ
+> لَّا تُدْرِكُهُ ٱلْأَبْصَرُ وَهُوَ يُدْرِكُ ٱلْأَبْصَرَ ۖ وَهُوَ ٱللَّطِيفُ ٱلْخَبِيرُ
 
 Our eyes cannot see Him, but He is aware of what our eyes perceive. He is extremely subtle, yet ALL-KNOWING simultaneously. Thus, the child does not even know that its mother is caring for it.
 
@@ -1285,7 +1285,7 @@ The mother silently and happily endures these actions. This is incredible. The m
 
 I can do nothing for Allah, even if I wished. I cannot add anything to his kingdom, nor can I take anything away. My good deeds do not increase his kingdom, and my sins do not diminish it. I cannot make him wealthier or poorer than he already is. I cannot praise him more than he is already praised. I cannot do anything for him. The fact remains clear: I can offer Allah absolutely nothing. Yet, he constantly acts for me, often without my even realizing his presence, and in many cases, without my acknowledging it.
 
-كُلَّ يَوْمٍ هُوَ فِى شَأْنٍۢ
+> كُلَّ يَوْمٍ هُوَ فِى شَأْنٍۢ
 
 Every moment he is engaged in work to keep this universe and everything within it functional. SubhanAllah!
 
@@ -1364,9 +1364,9 @@ Unfortunately, we are often ungrateful. We continuously disrespect and disregard
 
 As a baby grows, the womb expands to accommodate it. Similarly, Allah's love, his mercy, his forgiveness, and his compassion constantly grow to accommodate us. This is the love our Creator has for us.
 
-اِنِّی سَمَّیتُکَ بِاسْمی
-
-"Oh Womb! I have named you from my names. I have named you رَحَم to remind you that I am الرحمن and الرحیم. I have made you a symbol of my love, so that every human being recognizes my unconditional love for them — through you and by your example."
+> اِنِّی سَمَّیتُکَ بِاسْمی
+>
+> "Oh Womb! I have named you from my names. I have named you رَحَم to remind you that I am الرحمن and الرحیم. I have made you a symbol of my love, so that every human being recognizes my unconditional love for them — through you and by your example."
 Just as we can never fully understand a mother's love for her child, we can never fully grasp or appreciate Allah's love and care for his creation. Yet, to offer some understanding of this relationship, he gave us mothers. When one seeks to taste a single drop of that endless ocean of love Allah holds for his creation, the image of a mother comes to mind.
 
 ## Manifestations of REHMA
@@ -1383,13 +1383,13 @@ I know how the womb takes a shapeless drop of liquid and, by its رحمۃ, trans
 
 His رحمۃ takes human beings in their raw and ignorant state, with no real goal and no true purpose beyond the limits of this دنیا. It then transforms them into extraordinary personalities, people whose names I do not even mention without adding رَحْمَۃُ اللہِ عَلَیْہِ after them.
 
-This is why Rasul Allah ﷺ is called رَحْمَۃً لِی الْعَالَمِینَ. He is called رحمۃ for this world because he took on the role of a mother’s womb, shaping and nurturing the spiritual existence of humanity. That was not only for the people of his own time, but for all humanity until the end of time.
+This is why Rasul Allah ﷺ is called رَحْمَۃً لِی الْعَالَمِینَ. He is called رحمۃ for this world because he took on the role of a mother's womb, shaping and nurturing the spiritual existence of humanity. That was not only for the people of his own time, but for all humanity until the end of time.
 
 I also looked at how a mother suffers in order to give comfort to her child. She protects it, nurtures it, feeds it, and bears hardship, pain, and suffering so that a shapeless mass becomes a living, breathing child. From this I drew the parallel that Allah سُبْحَانَهُ وَتَعَالَى, through his various intermediaries, his Imams, his prophets, and his messengers, shapes our spiritual existence. Just as a pregnant mother suffers, history shows that these people endured many hardships in order to deliver the message of Allah to their nations.
 
 ### Forgiveness
 
-I also find one of the most wondrous qualities of the womb, the رحم, in the way it expands to meet the needs of the fetus. It gives a beautiful reminder that Allah’s رحمۃ expands as well: not only to meet the needs of his creation, but also to forgive their shortcomings, sins, and transgressions.
+I also find one of the most wondrous qualities of the womb, the رحم, in the way it expands to meet the needs of the fetus. It gives a beautiful reminder that Allah's رحمۃ expands as well: not only to meet the needs of his creation, but also to forgive their shortcomings, sins, and transgressions.
 
 His vast forgiveness is one of the manifestations of his infinite compassion toward his creation. Allah knows that we are people of very weak character. We are often enslaved by worldly desires. Yet he also knows that we are trying, in whatever ways we can, to move toward him: centimeter by centimeter, inch by inch. So he makes up for that weakness and strengthens what is lacking in us through his forgiveness.
 
@@ -1403,7 +1403,7 @@ He says:
 
 O My slaves who have transgressed against themselves through their sins. Which slaves does He mean? The disbelievers? The polytheists? The idol worshipers? No. He means us: Muslims, believers. يَعِبَادِىَ. In Arabic, this form of address carries deep nearness, deep love, and deep intimacy. A casual call would have been یَا أَیُّھَا الْعِبَادُ, meaning “O slaves,” without that intimacy or love. But يَعِبَادِىَ expresses intense nearness: O **My beloved** slaves, O **My revered** slaves, O **My cherished** slave. The difference is clear. And what kind of slaves are they? Faithful slaves? Trustworthy slaves? Obedient slaves? No.
 
-ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ
+> ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ
 
 I mean the ones who have crossed every limit and boundary in wronging themselves. They have severely harmed their own souls by living in sin, hopelessness, and disobedience to Allah; by choosing a way of life that damages and obstructs their spiritual growth.
 
@@ -1411,13 +1411,13 @@ These are the slaves He is addressing. Yet the scholars point out something beau
 
 There is no abandonment from Allah سُبْحَانَهُ وَتَعَالَى. Just as the womb does not abandon its fetus if it is deformed, Allah constantly preserves the relationship of رحمۃ with us, even if we become the worst of the worst. We may be the most sinful people on the face of the earth, constantly walking on very thin ice, yet Allah still keeps that relationship and connection alive through the word يَعِبَادِىَ: My slaves. SubhanAllah. AllahuAkbar.
 
-ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ
+> ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ
 
 The ones who have done severe harm to their souls and to themselves.
 
-I now come to Allah’s advice to them:
+I now come to Allah's advice to them:
 
-لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ
+> لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ
 
 Never lose hope in the mercy of Allah. Never, not even by the smallest measure. I will not enter the technical details here, but the word لا indicates absolute and unconditional force, without the slightest doubt. The same force appears in لَا اِلَہَ اِلَّا اللَّہُ, which also begins with لا, because that statement carries absolute finality: there is no god at all except Allah.
 
@@ -1425,11 +1425,11 @@ So Allah is saying, with complete certainty and under no circumstance, “I am m
 
 Why? Allah never tells us something without also giving us a reason to believe it. So why should I not lose hope in the mercy of Allah?
 
-إِنَّ ٱللَّهَ يَغْفِرُ ٱلذُّنُوبَ جَمِيعًا
+> إِنَّ ٱللَّهَ يَغْفِرُ ٱلذُّنُوبَ جَمِيعًا
 
 Because Allah is able to forgive every sin and every transgression. How can that be? I may have spent an entire lifetime in His disobedience. How can He forgive so many sins?
 
-إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ
+> إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ
 
 Because, indeed, without the slightest doubt, He and only He is الغفور: the One who forgives constantly.
 
@@ -1475,7 +1475,7 @@ Another manifestation of the expansion of His رحمۃ, like the expansion of th
 
 I see the holy month of Ramadan drawing near. In this month, it is the سنۃ of Rasul Allah ﷺ to perform اعتکاف. This means withdrawing into the مسجد for a set time, devoted only to the remembrance of Allah سُبْحَانَهُ وَتَعَالَى in silence. In India and Pakistan, people spend at least three days and nights in اعتکاف. They pray, recite Quran, do تسبیح, reflect on their lives, and more. Allah loves this. Rasul Allah ﷺ described the reward of اعتکاف in a HADEES. He said:
 
-مَنِ اعْتَكَفَ يَوْماً ابْتِغَاءَ وَجْهِ اللهِ بَاعَدَ اللهُ بَيْنَهُ وَبَيْنَ النَّارِ ثَلَاثَةَ خَنَادِقَ كُلُّ خَنْدَقٍ كَمَا بَيْنَ الْخَافِقَيْنِ
+> مَنِ اعْتَكَفَ يَوْماً ابْتِغَاءَ وَجْهِ اللهِ بَاعَدَ اللهُ بَيْنَهُ وَبَيْنَ النَّارِ ثَلَاثَةَ خَنَادِقَ كُلُّ خَنْدَقٍ كَمَا بَيْنَ الْخَافِقَيْنِ
 
 Whoever remains in اعتکاف for one day, only one day, Allah سُبْحَانَهُ وَتَعَالَى distances him from the Fire by three trenches. Each trench stretches as far as the distance between East and West. SubhanAllah. This is the reward for spending a single day in the مسجد, in the state of ذکر. It shows how beloved this act of اعتکاف is to Allah سُبْحَانَهُ وَتَعَالَى.
 
@@ -1501,7 +1501,7 @@ SubhanAllah. Not one day. Not one month. Not one year. Ten years of اعتکاف
 
 The reward for a single day of اعتکاف is distance from the Hellfire by three trenches, and each trench stretches the distance between east and west. That is the reward for one day of اعتکاف. Even one day is difficult enough; a full week of اعتکاف is beyond most people. When did I last complete a week of اعتکاف? Yet striving to meet the need of a Muslim brother brings the reward of ten years of اعتکاف. SubhanAllah.
 
-After hearing this HADEES, my first thought is natural: I must not miss any chance to help anyone. This is a great opening to gain nearness to Allah. That is true. At times, the quickest path to Allah’s blessings runs through His creation: through other people, and through doing good to them.
+After hearing this HADEES, my first thought is natural: I must not miss any chance to help anyone. This is a great opening to gain nearness to Allah. That is true. At times, the quickest path to Allah's blessings runs through His creation: through other people, and through doing good to them.
 
 That is why, when people hear this HADEES, they often rush to help others. They keep their ears open for any chance to serve someone. That is a beautiful response.
 
@@ -1515,7 +1515,7 @@ I know most people will look at that gesture and say, “Oh, you are so rich. Yo
 
 That is the difference. The reality is that I love her so much that I am willing to pay ten million dollars to the person who makes her smile.
 
-So when Allah says that He will give the reward of ten years of اعتکاف to the one who fulfills Asif’s need, the common reading of that HADEES becomes a motivation to act for that reward. Yet most people miss what it reveals: how much Allah loves me. Ya Allah, You love me so much that You would give that much reward to anyone who fulfills my need and removes my constriction for me. SubhanAllah.
+So when Allah says that He will give the reward of ten years of اعتکاف to the one who fulfills Asif's need, the common reading of that HADEES becomes a motivation to act for that reward. Yet most people miss what it reveals: how much Allah loves me. Ya Allah, You love me so much that You would give that much reward to anyone who fulfills my need and removes my constriction for me. SubhanAllah.
 
 So this HADEES can also be heard another way: “O one who feels low. O one who feels depressed. O one who feels burdened and constricted by troubles. It is you I am looking at. It is you for whom I am opening doors, because I want to see you happy. For your happiness, I will reward anyone with this amount of ثواب if they strive to bring you ease.”
 
@@ -1539,7 +1539,7 @@ My daughter may fall very ill, God forbid. May Allah protect our children from t
 
 As a father, I cannot even imagine the state I would be in if that ever happened. Nothing is more painful for a parent than seeing his own child suffer, whether the suffering is physical, mental, or spiritual. Then the doctor tells me that she cannot breathe and must be put on a ventilator.
 
-At that moment, there would be no other place in the world where I would want to be. I would not leave my daughter’s side even for a second. I would sit beside her because I love her so much. I would remain at her bedside, constantly praying for her.
+At that moment, there would be no other place in the world where I would want to be. I would not leave my daughter's side even for a second. I would sit beside her because I love her so much. I would remain at her bedside, constantly praying for her.
 
 Then Allah answers my prayers. She wakes up. She says, “Babu! I want ice cream.”
 
@@ -1549,13 +1549,13 @@ At that point, I would feel intensely close to her. “What else do you want, sw
 
 It so happened that, just before she fell ill, we had a terrible fight. She had disobeyed me and spoken to me very rudely. I was still angry with her when all of this happened.
 
-Then she wakes up and remembers what she did. She says, “Babu, I’m sorry for what I did and said. Please forgive me!”
+Then she wakes up and remembers what she did. She says, “Babu, I'm sorry for what I did and said. Please forgive me!”
 
-I know what I would say: “Forgive you? Sweetheart, there’s nothing to forgive. I’m not upset with you at all anymore. Don’t even think about it.”
+I know what I would say: “Forgive you? Sweetheart, there's nothing to forgive. I'm not upset with you at all anymore. Don't even think about it.”
 
 That is how parents are with their children. There is nothing strange in it.
 
-If this is how deeply I love my child, then Allah’s love for his creation is beyond what I can imagine. According to a HADEES, Allah holds the love of seventy mothers for every single one of his creation. In such an affliction, I felt intensely close to my daughter. When a creation of Allah سُبْحَانَهُ وَتَعَالَى is going through trials and afflictions, Allah is nearer to him than I can grasp.
+If this is how deeply I love my child, then Allah's love for his creation is beyond what I can imagine. According to a HADEES, Allah holds the love of seventy mothers for every single one of his creation. In such an affliction, I felt intensely close to my daughter. When a creation of Allah سُبْحَانَهُ وَتَعَالَى is going through trials and afflictions, Allah is nearer to him than I can grasp.
 
 I was ready to respond to anything my daughter asked for in that moment, though my ability is extremely limited. But when a human being, a creation of Allah سُبْحَانَهُ وَتَعَالَى, is in pain and asks for something, whether for himself or for someone else, Allah does not refuse him in that moment.
 
@@ -1565,13 +1565,13 @@ I do not hesitate for a second to forgive my child. The mercy of Allah is far gr
 
 If I were angry with my son, and my daughter woke up and said to me, “Babu! Please forgive my brother,” would I refuse? “Oh my God, you are in such a difficult state. You are in so much pain. You are suffering so much right now, and even in this state you are concerned about your brother? You want me to forgive him? Your request will surely be granted. Of course I forgive him. I will give you anything you want right now. All you have to do is ask.” SubhanAllah
 
-I can now appreciate the beauty of that HADEES. In the very middle of my affliction, I raise my hands and ask Allah سُبْحَانَهُ وَتَعَالَى to fulfill another person’s need. I may ask for my own forgiveness, or for the forgiveness of someone else. At that moment, there is no way Allah turns down my request, because my trial has brought me extremely close to Him. He is right by my bedside, holding my hand. That is how His رحمۃ manifests.
+I can now appreciate the beauty of that HADEES. In the very middle of my affliction, I raise my hands and ask Allah سُبْحَانَهُ وَتَعَالَى to fulfill another person's need. I may ask for my own forgiveness, or for the forgiveness of someone else. At that moment, there is no way Allah turns down my request, because my trial has brought me extremely close to Him. He is right by my bedside, holding my hand. That is how His رحمۃ manifests.
 
 This is why trials become such a perfect opening for me to ask Allah for what I need. A trial can become one of the best experiences a person ever has: an experience of awareness, nearness, and closeness to the love of Allah سُبْحَانَهُ وَتَعَالَى.
 
 If Allah is so loving, why does He afflict people in the first place?
 
-وَمَآ أَصَبَكُم مِّن مُّصِيبَةٍۢ فَبِمَا كَسَبَتْ أَيْدِيكُمْ وَيَعْفُوا۟ عَن كَثِيرٍۢ
+> وَمَآ أَصَبَكُم مِّن مُّصِيبَةٍۢ فَبِمَا كَسَبَتْ أَيْدِيكُمْ وَيَعْفُوا۟ عَن كَثِيرٍۢ
 
 ## Linguistic Meaning Of Rabb
 
@@ -1583,7 +1583,7 @@ I begin, InshaAllah, with the linguistic meaning of the word رب. Before that m
 >
 > ( 1 ) In the Name of Allah, the Most Beneficent, the Most Merciful.
 
-( 2 ) All praises and thanks belong to Allah, the Lord of the *'Alamîn*. ( 3 ) The Most Beneficent, the Most Merciful. ( 4 ) The Only Owner of the Day of Recompense. ( 5 ) You we worship, and You we ask for help. ( 6 ) Guide us to the Straight Way. ( 7 ) The Way of those on whom You have bestowed Your Grace, not of those who earned Your Anger, nor of those who went astray.
+( 2 ) All praises and thanks belong to Allah, the Lord of the *'Alamin*. ( 3 ) The Most Beneficent, the Most Merciful. ( 4 ) The Only Owner of the Day of Recompense. ( 5 ) You we worship, and You we ask for help. ( 6 ) Guide us to the Straight Way. ( 7 ) The Way of those on whom You have bestowed Your Grace, not of those who earned Your Anger, nor of those who went astray.
 
 In the first Surah of the Quran, سُورَۃُ الْفَاتِحَۃِ, I find that Allah is mentioned twice, and that RAB is mentioned once after those two mentions. The فاتحۃ begins with بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ. Allah is therefore mentioned in the first verse. Then comes اَلْحَمْدُ لِلَّہِ, another mention of Allah, followed by رب العلمین.
 
@@ -1629,7 +1629,7 @@ In the same way, رب is not used only for Allah. The word carries several meani
 
 The classical definition of رب is:
 
-الرَبُّ ھُوَ المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
+> الرَبُّ ھُوَ المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
 
 I understand a true رب as one who gathers six meanings. I may also say that Allah, as رب, is all six at once: He is مالک, He is سید, He is مربی, He is مرشد, He is منعم, and He is قیم. The word RAB therefore does not carry one meaning only. It joins all six meanings together.
 
@@ -1665,13 +1665,13 @@ Allah, as رب, has absolute ownership, and He has absolute authority. He has bo
 
 No one has the right to question Him about it, because He has complete ownership and complete authority over us and over everything else in the universe. Even complaint and grief do not bind Him. He is not obliged to heed them. They make no difference to Him.
 
-When parents ground their children, the matter becomes easier to see. If I take my daughter’s phone away, she may cry and complain as much as she wants, but she is not getting it back. In that setting, I am her مالک, and she and her phone are my ملکیۃ.
+When parents ground their children, the matter becomes easier to see. If I take my daughter's phone away, she may cry and complain as much as she wants, but she is not getting it back. In that setting, I am her مالک, and she and her phone are my ملکیۃ.
 
 If our crying and grumbling do not move our parents, though their capacity as رب is limited, then they certainly do not compel the One who is the absolute and ultimate رب. We are creation. He is our Creator.
 
 I constantly seem to forget that he is not the one on trial. We are. We have reversed the matter completely.
 
-Today, mankind has placed Allah in the witness stand and taken the judge’s seat. We question his every act without shame. People ask why, if he is so powerful, he does not remove evil from the world. They ask how, if he is so loving and merciful, he could allow pain to touch them. They say that they prayed, yet the job or promotion did not come. They insist that they are good people, that they paid their taxes honestly, that they paid their زکواۃ, and that they brush their teeth twice every day. Then they ask why he did this to them.
+Today, mankind has placed Allah in the witness stand and taken the judge's seat. We question his every act without shame. People ask why, if he is so powerful, he does not remove evil from the world. They ask how, if he is so loving and merciful, he could allow pain to touch them. They say that they prayed, yet the job or promotion did not come. They insist that they are good people, that they paid their taxes honestly, that they paid their زکواۃ, and that they brush their teeth twice every day. Then they ask why he did this to them.
 
 This is the reversal. The reality is that he is the judge. He is the مالک. He is the سید. We are his property and his subjects. He has every right to question us. We have no right at all to question him.
 
@@ -1691,7 +1691,7 @@ TARBIYAH
 
 The poet says:
 
-مِن دُرَّۃٍ بَیضَآءَ صَافِیَۃً || مِمَّا تَرَبَّبَ حَائِرَ البَحرٍ
+> مِن دُرَّۃٍ بَیضَآءَ صَافِیَۃً || مِمَّا تَرَبَّبَ حَائِرَ البَحرٍ
 
 I see the depth of the ocean nurturing the clear white pearl. The poet calls the ocean a رب because it helps develop the pearl inside its shell. A tree is also called a رب because it nurtures the fruit it bears.
 
@@ -1724,7 +1724,7 @@ I do not mention the names of these صحابۃ without saying رَضِیَ ال�
 
 What did he ask of us in return? After giving twenty-three years of his life to our تربیۃ, in his last sermon, after حِجَّۃُ الْوَدَاعِ, he said:
 
-یا أُمَّتَی لا تُسَوِّدَ وَجْھِی یوم القیامۃ
+> یا أُمَّتَی لا تُسَوِّدَ وَجْھِی یوم القیامۃ
 
 My people! Do not embarrass me before Allah on the Day of Judgment! When the result falls short, exceptions do not decide the matter. If most students in a class fail, the principal questions the teacher: What is happening? Why have so many students failed in this class?
 
@@ -1748,7 +1748,7 @@ I learn from this that Allah, as رب, does not only own us, hold complete autho
 
 Even parents and teachers cannot always do this. They may complete the تربیۃ of their children, but they cannot always put them to proper use. Children have to find their own path. But Allah, as رب, goes further. He sets us on the right path after our training has been completed. SubhanAllah.
 
-### MUN'IM
+### MUNIM
 
 MUNIM
 
@@ -1776,7 +1776,7 @@ I did nothing to deserve my eyes. I did not pay for my hand. No price can be pla
 
 Allah gave us all these precious gifts, yet He says He will question us about them on the Day of Judgment.
 
-ثُمَّ لَتُسْـَٔلُنَّ يَوْمَئِذٍ عَنِ ٱلنَّعِيمِ
+> ثُمَّ لَتُسْـَٔلُنَّ يَوْمَئِذٍ عَنِ ٱلنَّعِيمِ
 
 On that Day, we will be asked about the greatest of all gifts: ایمان. The word نعیم is the superlative form of نعم, and it means the greatest gift of all.
 
@@ -1802,7 +1802,7 @@ The final meaning of رب comes from قَیِّم: the one who ensures that thin
 
 So قَیِّم means the Sustainer, the Maintainer, the One whose focus and attention are constantly upon things. That meaning is also embedded in رب. That is why Allah says in the Quran:
 
-اللَّہُ لَا اِلَٰہَ ھُوَ الْحَیُّ الْقَیُّومُ
+> اللَّہُ لَا اِلَٰہَ ھُوَ الْحَیُّ الْقَیُّومُ
 
 Allah is the only الہ: الحی, the Giver of life, and القیوم, the One who then maintains that life through His constant attention to all things. The word قیوم is the superlative form of قَیِّم: the One who constantly sustains, constantly maintains, and never takes a break.
 
@@ -1830,7 +1830,7 @@ The whole matter is planned before the business even begins. It is impossible th
 
 I now come to the complete definition of the word Rabb.
 
-الرب ھو المالک والسَّیِّد و المُرَبِّی والمُرشِد وَالمُنعِم والقَیِّم
+> الرب ھو المالک والسَّیِّد و المُرَبِّی والمُرشِد وَالمُنعِم والقَیِّم
 
 RAB
 
@@ -1854,19 +1854,19 @@ I now tie this understanding of رب to a point already discussed: the man of pu
 
 I find him saying:
 
-رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا سُبْحَنَكَ فَقِنَا عَذَابَ ٱلنَّارِ
+> رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا سُبْحَنَكَ فَقِنَا عَذَابَ ٱلنَّارِ
 
 Once he recognized that the heavens, the earth, and he himself must have a creator, the word he used for that creator was Rabb. His reflection on the creation of the heavens and the earth led him to that name. In what he saw, the creator was the absolute owner, with complete authority. He was nurturing and developing His creation with love, care, and mercy. He was setting everything toward its purpose. He was pouring out countless gifts and blessings upon every created thing. He was sustaining, maintaining, and providing for them continuously through time.
 
 That is why he said:
 
-رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا
+> رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا
 
 Our رب, you did not create all of this without a purpose.
 
 This was a beautiful and fitting conclusion, because Allah confirmed it in His revelation. The very first ayah revealed to Rasul Allah ﷺ was:
 
-ٱقْرَأْ بِٱسْمِ رَبِّكَ ٱلَّذِى خَلَقَ
+> ٱقْرَأْ بِٱسْمِ رَبِّكَ ٱلَّذِى خَلَقَ
 
 I notice that the first revelation says: Recite with the name of your رب who created you. It does not say ٱقْرَأْ بِٱسْمِ اللہِ ٱلَّذِى خَلَقَ‎. In this verse, Allah introduces himself to his Messenger for the very first time.
 
@@ -1878,25 +1878,25 @@ When I introduce myself as a teacher, I am saying how I want to be known. I am p
 
 Allah is glorious beyond comprehension. He is magnificent beyond comprehension. He is powerful beyond comprehension. Yet what He says to Rasul Allah ﷺ, and to us by extension, is that the most important relationship between Him and us is Rabb. That is how He wants me to think of Him: not as جلیل, not as عظیم, not as قوی, not as کبیر, not as متکبر, but as رب.
 
-The weight of that choice needs to settle in the heart. When a king introduces himself, he does not usually choose a humble description. He does not say, “I’m your neighbor!” or “I’m your dad’s friend!” or “I’m your caretaker.” He says, “I AM YOUR KING. KNEEL. BOW DOWN BEFORE ME!”
+The weight of that choice needs to settle in the heart. When a king introduces himself, he does not usually choose a humble description. He does not say, “I'm your neighbor!” or “I'm your dad's friend!” or “I'm your caretaker.” He says, “I AM YOUR KING. KNEEL. BOW DOWN BEFORE ME!”
 
 If Allah had chosen such a form of introduction in the Quran, it would have suited His majesty. It would have been entirely fitting. Yet the word He chose instead was رب. This shows how important the word is to Him. After the meanings of this word become clear, the loving relationship He wishes to have with His creation also becomes clearer.
 
 This matters deeply for the theme of revelation. In the sequence of revelation, the very first verse says:
 
-ٱقْرَأْ بِٱسْمِ رَبِّكَ ٱلَّذِى خَلَقَ
+> ٱقْرَأْ بِٱسْمِ رَبِّكَ ٱلَّذِى خَلَقَ
 
 But the very last revealed verse says to the messenger ﷺ.
 
-ٱلْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِى وَرَضِيتُ لَكُمُ ٱلْإِسْلَمَ دِينًۭا
+> ٱلْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِى وَرَضِيتُ لَكُمُ ٱلْإِسْلَمَ دِينًۭا
 
 On this day I have perfected your religion for you, and I have completed my blessings on you, and I have selected Islam as the way of life for you.
 
-فَمَنِ ٱضْطُرَّ فِى مَخْمَصَةٍ غَيْرَ مُتَجَانِفٍۢ لِّإِثْمٍ
+> فَمَنِ ٱضْطُرَّ فِى مَخْمَصَةٍ غَيْرَ مُتَجَانِفٍۢ لِّإِثْمٍ
 
 I then come to the final part of the ayah:
 
-فَإِنَّ ٱللَّهَ غَفُورٌۭ رَّحِيمٌۭ
+> فَإِنَّ ٱللَّهَ غَفُورٌۭ رَّحِيمٌۭ
 
 I have no doubt that **Allah** is All-Forgiving and All-Merciful. The revelation begins with رب and ends with the name Allah. This exactly matches the pattern of بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ. In that statement comes the name Allah, followed by His two attributes of mercy: الرَّحْمَنِ الرَّحِیمِ. The revelation then ends with غَفُورٌۭ رَّحِيمٌۭ: the constantly forgiving and the constantly loving. It begins with His intense and constant love and mercy, and it ends with His constant forgiveness and constant mercy. SubhanAllah!
 
@@ -1906,7 +1906,7 @@ I have no doubt that **Allah** is All-Forgiving and All-Merciful. The revelation
 
 I have examined the linguistic meaning of the word رب. I learned that a رب brings together six attributes:
 
-المالک والسَّیِّد و المُرَبِّی والمُرشَد وَالمُنعِم والقَیِّم
+> المالک والسَّیِّد و المُرَبِّی والمُرشَد وَالمُنعِم والقَیِّم
 
 A رب is, first, مالک: the one who possesses absolute ownership. At the same time, He is سید, meaning that He has complete authority over us.
 
@@ -1916,15 +1916,15 @@ In doing so, He is also منعم: He showers His creation with countless gifts a
 
 All these meanings come together in the word رب. I also learned that the primary ingredient in Allah's ربوبیۃ is love. All six meanings rest on that one fundamental emotion of رحمۃ: intense, constant love and care.
 
-الرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ
+> الرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ
 
 The Loving, the Intensely Merciful, taught the Quran. It is not اَلْجَبَّارُ, عَلَّمَ, or اَلْقُرْآنَ. Thus رحمۃ is the most essential element of Allah's ربوبیۃ. This is why, when a person of sound essence reflected on the creation of the heavens and the earth, the word he used to call upon his Creator was رب.
 
-رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا
+> رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا
 
-رَبَّنَآ إِنَّكَ مَن تُدْخِلِ ٱلنَّارَ فَقَدْ أَخْزَيْتَهُۥ
+> رَبَّنَآ إِنَّكَ مَن تُدْخِلِ ٱلنَّارَ فَقَدْ أَخْزَيْتَهُۥ
 
-رَّبَّنَآ إِنَّنَا سَمِعْنَا مُنَادِيًۭا يُنَادِى لِلْإِيمَنِ أَنْ آمِنُوا۟ بِرَبِّكُمْ فَـَٔامَنَّا
+> رَّبَّنَآ إِنَّنَا سَمِعْنَا مُنَادِيًۭا يُنَادِى لِلْإِيمَنِ أَنْ آمِنُوا۟ بِرَبِّكُمْ فَـَٔامَنَّا
 
 He used the word رب because he saw the whole creation reflecting the many attributes of its Creator, ربوبیۃ.
 
@@ -1932,7 +1932,7 @@ I may meet a highly skilled electrician and watch him at work. From his knowledg
 
 All creation does the same. It continually displays the ربوبیۃ of its Creator. This principle is true at the smallest level, and it is certainly true at the largest level. The universe, because it is created, continually reflects the attributes of its Creator.
 
-تُسَبِّحُ لَهُ ٱلسَّمَوَتُ ٱلسَّبْعُ وَٱلْأَرْضُ وَمَن فِيهِنَّ ۚ وَإِن مِّن شَىْءٍ إِلَّا يُسَبِّحُ بِحَمْدِهِۦ وَلَكِن لَّا تَفْقَهُونَ تَسْبِيحَهُمْ
+> تُسَبِّحُ لَهُ ٱلسَّمَوَتُ ٱلسَّبْعُ وَٱلْأَرْضُ وَمَن فِيهِنَّ ۚ وَإِن مِّن شَىْءٍ إِلَّا يُسَبِّحُ بِحَمْدِهِۦ وَلَكِن لَّا تَفْقَهُونَ تَسْبِيحَهُمْ
 
 The seven heavens, the earth, and everything within them constantly glorify Him. There is not a single thing that does not sing His praise. But you do not understand their glorification.
 
@@ -1960,7 +1960,7 @@ In doing so, what He is essentially saying is this: “When you think of Me, set
 
 I find that the statement does not simply say رب. It says ربک, “your” رب. Allah is the master of all creation. He is مالک and سید, the One who has absolute ownership and complete authority over everything. He could have said: اِقْرَأْ بِسْمِ رَبِّ الَّذِی خَلَقَ, “Read in the name of the master who created.”
 
-But He does not leave it there. He makes it personal: اِقْرَأْ بِسْمِ رَبِّکَ الَّذِی خَلَقَ, “Read in the name of **your** master who created you.” It is as though He is saying, “I am **only** your master and nobody else’s.” He makes His relationship that intimate with each one of us. SubhanAllah!
+But He does not leave it there. He makes it personal: اِقْرَأْ بِسْمِ رَبِّکَ الَّذِی خَلَقَ, “Read in the name of **your** master who created you.” It is as though He is saying, “I am **only** your master and nobody else's.” He makes His relationship that intimate with each one of us. SubhanAllah!
 
 The relationship of رب requires a counterpart. If Allah is رب, if Allah is master, then I must ask what that makes me. What completes the relationship with a master is a slave. If Allah is master, that makes us all His slaves; and the Arabic word for slave is عبد. So when I accept Allah as my رب, by accepting that relationship itself, I am also accepting the fact that I am His slave.
 
@@ -1976,9 +1976,9 @@ Having said that, I want to show how beautiful this relationship with our master
 
 I cannot receive benefit from a teacher until I acknowledge him and accept him as my teacher. I benefit only when I accept that relationship and submit to it.
 
-I can see the same truth in the relationship between a doctor and a patient. A doctor cannot help a patient until the patient accepts the doctor’s prescribed treatment and submits to it. If a patient has diabetes and the doctor tells him to stop eating candy, yet every time he sees candy, he says, “Oh, I know the doctor asked me not to eat it, but what does he know anyway? It is only a little bit. It is not as if I am eating the whole bag. He is never going to find out anyway. Besides, everyone else is eating candy, so why cannot I have it?” then the patient has not truly accepted the doctor-patient relationship.
+I can see the same truth in the relationship between a doctor and a patient. A doctor cannot help a patient until the patient accepts the doctor's prescribed treatment and submits to it. If a patient has diabetes and the doctor tells him to stop eating candy, yet every time he sees candy, he says, “Oh, I know the doctor asked me not to eat it, but what does he know anyway? It is only a little bit. It is not as if I am eating the whole bag. He is never going to find out anyway. Besides, everyone else is eating candy, so why cannot I have it?” then the patient has not truly accepted the doctor-patient relationship.
 
-It does not matter if he calls him Dr. So-and-so. It does not matter how many visits he makes or how many appointments he keeps. He will not benefit, because despite what he says, he has not truly accepted himself as a patient. Only when he fully accepts that relationship and submits to the doctor’s treatment can he receive the benefit the doctor wants him to have.
+It does not matter if he calls him Dr. So-and-so. It does not matter how many visits he makes or how many appointments he keeps. He will not benefit, because despite what he says, he has not truly accepted himself as a patient. Only when he fully accepts that relationship and submits to the doctor's treatment can he receive the benefit the doctor wants him to have.
 
 The relationship works in both directions. What is striking is that the doctor, despite his vast knowledge and skill, is completely helpless here. The doctor has the knowledge to benefit the patient. The doctor truly cares about the patient. He wants to benefit him. Yet with all his knowledge, will, and desire to help, he cannot do anything, because the patient has not completed the relationship.
 
@@ -2036,9 +2036,9 @@ I now turn from عبودیۃ to عبد, which means a slave. Many Muslims feel u
 
 ### Freedom of choice
 
-I begin with the word slave. What is the defining mark of a slave? A slave is someone whose free will has been taken away. He has no choice in the decisions his master makes. He must obey the master’s will without question. He has no independent existence except to serve the master’s desires.
+I begin with the word slave. What is the defining mark of a slave? A slave is someone whose free will has been taken away. He has no choice in the decisions his master makes. He must obey the master's will without question. He has no independent existence except to serve the master's desires.
 
-In worldly slavery, the master denies the slave’s freedom and forbids him to choose for himself. That is the deepest humiliation. To take away the freedom of choice from an intelligent human being is to say, “I do not think you are capable of making the right choices.” It is to say, “You are no different from an animal to me. Just as I choose for my cattle and my dog, I will choose for you.” Denying a human being the freedom to choose is the height of humiliation and disgrace.
+In worldly slavery, the master denies the slave's freedom and forbids him to choose for himself. That is the deepest humiliation. To take away the freedom of choice from an intelligent human being is to say, “I do not think you are capable of making the right choices.” It is to say, “You are no different from an animal to me. Just as I choose for my cattle and my dog, I will choose for you.” Denying a human being the freedom to choose is the height of humiliation and disgrace.
 
 When I speak of our Master, I ask what the most precious gift is that He gave us. What is the final gift that sets us apart from every other creation in this world? It is free will.
 
@@ -2048,7 +2048,7 @@ The sun is His property. The moon is His property. The galaxies are His property
 
 Does the sun have free will? Does the moon have free will? Do night and day have free will? No. They are all in complete submission to the will of their Creator.
 
-وَکُلٌّ فِی فَلَکٍ یَسْبَحُونَ.
+> وَکُلٌّ فِی فَلَکٍ یَسْبَحُونَ.
 
 They are all floating in their orbits. They have been bound by gravity. They have no choice except to float where they have been placed. Allah bound them and took away their freedom of choice.
 
@@ -2060,7 +2060,7 @@ I see from the outset that Allah is truly my master. He is my رب, but His رب
 
 Allah alone is the رب who has granted complete freedom of choice. If denying freedom of choice is the deepest humiliation, then granting full freedom of choice is the highest honor. SubhanAllah. Allah honored us above every other creation by giving us the freedom to choose.
 
-وَقُلِ ٱلْحَقُّ مِن رَّبِّكُمْ ۖ فَمَن شَآءَ فَلْيُؤْمِن وَمَن شَآءَ فَلْيَكْفُرْ
+> وَقُلِ ٱلْحَقُّ مِن رَّبِّكُمْ ۖ فَمَن شَآءَ فَلْيُؤْمِن وَمَن شَآءَ فَلْيَكْفُرْ
 
 And say: "The truth has been revealed by your master." Then whosoever wills, let him believe, and whosoever wills, let him disbelieve
 
@@ -2072,7 +2072,7 @@ I have spoken about what Allah has given us: the many undeserved gifts that the 
 
 Measured against the quantity and quality of the gifts our رب has bestowed upon us, what does he ask in return? The bare minimum. The very least. SubhanAllah.
 
-Among all created beings, our master has given us the most. The rest of creation remains constantly in عبودیۃ to him. They work around the clock, in constant obedience to Allah, without a moment’s break, in order to serve us.
+Among all created beings, our master has given us the most. The rest of creation remains constantly in عبودیۃ to him. They work around the clock, in constant obedience to Allah, without a moment's break, in order to serve us.
 
 Yet although he has given us the most, he asks the least from us in return:
 
@@ -2082,7 +2082,7 @@ Yet although he has given us the most, he asks the least from us in return:
 
 It is incredible.
 
-And even then, I find mercy at every turn. If صلواۃ is missed, there is no problem; قضاء is there. If water cannot be found, there is no problem; تیمم is there. If illness or travel makes fasting difficult, the fasts are completed later. If a saved amount has not remained untouched for a full year, there is no problem; زکواۃ is not due. If there is no money for حج, or if the journey is unsafe, there is no problem; the obligation of حج is lifted from one’s shoulders.
+And even then, I find mercy at every turn. If صلواۃ is missed, there is no problem; قضاء is there. If water cannot be found, there is no problem; تیمم is there. If illness or travel makes fasting difficult, the fasts are completed later. If a saved amount has not remained untouched for a full year, there is no problem; زکواۃ is not due. If there is no money for حج, or if the journey is unsafe, there is no problem; the obligation of حج is lifted from one's shoulders.
 
 This is astonishing. How easy has he made it for us? What kind of master does this? I know of no other master in this world who makes matters so easy for a slave. I know of no other master who gives so much and asks for so little in return. Such a master is unheard of.
 
@@ -2090,25 +2090,25 @@ This is astonishing. How easy has he made it for us? What kind of master does th
 
 And if that generosity were not enough, he also sent revelation and messengers to explain his reasons to us. Does a master ever explain his reasons to his slaves? Can any slave demand, “Explain the purpose of this command to me”? Can a slave negotiate with his master? Can a slave say, “I will obey only if, and only when, the command is explained to me”? No. Yet this master explained matters to us in the Quran. Our master also showed us, through the living example of Rasul Allah ﷺ, how to carry out our obligations in practice. He did this to make the relationship easier to accept, and to make عبودیۃ easy for us.
 
-يُرِيدُ ٱللَّهُ بِكُمُ ٱلْيُسْرَ وَلَا يُرِيدُ بِكُمُ ٱلْعُسْرَ
+> يُرِيدُ ٱللَّهُ بِكُمُ ٱلْيُسْرَ وَلَا يُرِيدُ بِكُمُ ٱلْعُسْرَ
 
 Allah desires ease for you. He does not desire hardship for you.
 
 ### Who does it benefit?
 
-I ask another question. Who are the acts of worship meant to benefit: Him or us? In every ordinary master-slave relationship, slavery is arranged for the master’s benefit, not the slave’s.
+I ask another question. Who are the acts of worship meant to benefit: Him or us? In every ordinary master-slave relationship, slavery is arranged for the master's benefit, not the slave's.
 
 But this Master designed the universe for us. He gave us the most and asked the least in return. He even explained the reasons behind His commands. So the question becomes: everything He has asked us to do, whom does it benefit? It benefits us, and only us. SubhanAllah.
 
-Every slave in the world is bought and put to work for the master’s gain. Every command given to a slave serves the master’s interest. What kind of Master is this, whose every command is for the benefit of His slaves? Not a single command is for His own benefit. If that is not love, if that is not care, if that is not mercy, if that is not ease, if that is not رحمۃ, then what is it? AllahuAkbar.
+Every slave in the world is bought and put to work for the master's gain. Every command given to a slave serves the master's interest. What kind of Master is this, whose every command is for the benefit of His slaves? Not a single command is for His own benefit. If that is not love, if that is not care, if that is not mercy, if that is not ease, if that is not رحمۃ, then what is it? AllahuAkbar.
 
 He is constantly serving us. And what He asks from us in return is also only for our benefit, not His.
 
 ### Judgment
 
-I ask another question. Is a slave’s work judged according to the slave’s abilities, or according to the master’s expectations? In ordinary slavery, a slave’s work is judged by the master’s standards and demands.
+I ask another question. Is a slave's work judged according to the slave's abilities, or according to the master's expectations? In ordinary slavery, a slave's work is judged by the master's standards and demands.
 
-How does Allah judge our actions? He judges them according to each person’s knowledge and ability. Nowhere in the Quran does Allah demand perfection. The only thing He asks for in the Quran is effort.
+How does Allah judge our actions? He judges them according to each person's knowledge and ability. Nowhere in the Quran does Allah demand perfection. The only thing He asks for in the Quran is effort.
 
 ### Service
 
@@ -2124,19 +2124,19 @@ I reflect more deeply on the ربوبیۃ of this master, and I see more clearly
 
 Yet his subtle love and mercy can make me forget my place before him. I forget that I am his property. I forget that he is مالک. He is the owner. If he is the owner, then by definition I am owned property. He can do whatever he wills with me. He can break me, tear me apart, burn me, drown me. Nothing prevents him from doing any of it. And if he chooses to do so, nothing remains in my power, or in the power of all of us together, or in the power of everything in the universe combined, to protect me from his wrath.
 
-إِن يُرِدْنِ ٱلرَّحْمَنُ بِضُرٍّۢ . لَّا تُغْنِ عَنِّى شَفَعَتُهُمْ شَيْـًۭٔا وَلَا يُنقِذُونِ
+> إِن يُرِدْنِ ٱلرَّحْمَنُ بِضُرٍّۢ . لَّا تُغْنِ عَنِّى شَفَعَتُهُمْ شَيْـًۭٔا وَلَا يُنقِذُونِ
 
 If the Rehman decides to harm me, absolutely nothing in existence will be able to help me. That truth stands plainly.
 
-إِن يُرِدْنِ ٱلرَّحْمَنُ بِضُرٍّۢ
+> إِن يُرِدْنِ ٱلرَّحْمَنُ بِضُرٍّۢ
 
 If the REHMAN decides to harm me. SubhanAllah. Not
 
-إِن يُرِدْنِ الجبار. إِن يُرِدْنِ القھار. إِن يُرِدْنِ ذوالنتقام
+> إِن يُرِدْنِ الجبار. إِن يُرِدْنِ القھار. إِن يُرِدْنِ ذوالنتقام
 
 not the conqueror, not the powerful, not the avenger. If the Rehman decides to harm me: no, no, no.
 
-إِن يُرِدْنِ ٱلرَّحْمَنُ
+> إِن يُرِدْنِ ٱلرَّحْمَنُ
 
 If the REHMAN decides to harm me, then even in His ضُر, even in His harm, He is merciful. Hidden within it is a benefit. SubhanAllah.
 
@@ -2156,7 +2156,7 @@ But I wholeheartedly love my Master. The only direction I want to run is toward 
 
 This obedience rises from the highest stages of love already described. It appears as a desire for service and servitude, like the service of a passionate lover, an عاشق, for his معشوق - for his beloved. That is عبودیۃ. That is worship. In that lies my greatest challenge.
 
-I face the greatest challenge, the greatest difficulty, and the hardest trial of every waking moment when I accept Allah as رب. This is the constant challenge I face, and every person in the world faces. It is not the acceptance of the Creator as Allah. That part does not trouble people. Even the جاھلی عرب accepted Him as Allah. The real problem, and the real test, is accepting Him as رب: as Master.
+I face the greatest challenge, the greatest difficulty, and the hardest trial of every waking moment when I accept Allah as رب. This is the constant challenge I face, and every person in the world faces. It is not the acceptance of the Creator as Allah. That part does not trouble people. Even the جَاھِلِی عَرَبٍ accepted Him as Allah. The real problem, and the real test, is accepting Him as رب: as Master.
 
 That acceptance carries its own demand. If I accept Him as رب, then I must become a slave. I must accept the relationship He has placed upon me. I must give up the false freedom of my passions and desires and wear the collar of His عبودیۃ, becoming His slave. That is where the struggle lies.
 
@@ -2170,7 +2170,7 @@ My greatest challenge in this life is to accept my عبودیۃ willingly and gl
 
 If this incredible رب does so much for disobedient and ungrateful slaves, what would He do for me if I truly became willingly obedient to Him?
 
-وَإِذْ تَأَذَّنَ رَبُّكُمْ لَىِٕن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَىِٕن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌۭ
+> وَإِذْ تَأَذَّنَ رَبُّكُمْ لَىِٕن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَىِٕن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌۭ
 
 And when your master said: “If you become grateful, I will give you more, but if you are ungrateful, then indeed my punishment is severe.”
 
@@ -2182,11 +2182,11 @@ What is freedom? حریۃ. In Arabic, freedom is very different from the way mod
 
 One of the remarkable things about Islam is that it makes a person عبد اللہ. If I am عبد اللہ, the slave of Allah, then what is my relationship to everything else? I become free. My عبدیۃ, my obedience and servitude, belongs only to Allah. It does not belong to anything or anyone else. That is what sets me completely free. So the حر, the Arabs say:
 
-الحُرُّ عَبْدٌ مَا طَمَع
+> الحُرُّ عَبْدٌ مَا طَمَع
 
 The free man remains a slave as long as he is covetous, as long as he is greedy, and as long as he still wants.
 
-والعَبْدُ حُرُّ مَا طَمَع
+> والعَبْدُ حُرُّ مَا طَمَع
 
 And the slave is a free man if he is content.
 
@@ -2200,15 +2200,15 @@ The question of suffering depends on perspective. Did they truly suffer? The sig
 
 The black slave John gives the example. He could have played the racist card, but he did not.
 
-Karbala was the clearest example of عبودیۃ. It was a battle to defend the honor of the beloved. Yazeed had challenged the ربوبیۃ and الہیۃ of Imam Hussain’s beloved, and Imam Hussain and his companions stood firm to defend that honor. They also set an example of true love for me. They showed that this is how love acts: it pays any price for the beloved. It sacrifices food, drink, children, family, and life itself, but it never deserts the beloved. Love that flees at the first sign of trouble is no love at all. For the true lover, what good is life without the beloved’s grace?
+Karbala was the clearest example of عبودیۃ. It was a battle to defend the honor of the beloved. Yazeed had challenged the ربوبیۃ and الہیۃ of Imam Hussain's beloved, and Imam Hussain and his companions stood firm to defend that honor. They also set an example of true love for me. They showed that this is how love acts: it pays any price for the beloved. It sacrifices food, drink, children, family, and life itself, but it never deserts the beloved. Love that flees at the first sign of trouble is no love at all. For the true lover, what good is life without the beloved's grace?
 
-فَلَيـتَكَ تَحلُو وَالحَيـاةُ مَـرِيرَةٌ . وَلَيـتَكَ تَرضـى وَالأنـامُ غِضَـابُ
+> فَلَيـتَكَ تَحلُو وَالحَيـاةُ مَـرِيرَةٌ . وَلَيـتَكَ تَرضـى وَالأنـامُ غِضَـابُ
 
-وَلَيـتَ الَّذِي بَيـنِي وَ بَينَـكَ عَامِرٌ . وَبَـينِي وَبَيـنَ العــالَمِينَ خَـرَابُ
+> وَلَيـتَ الَّذِي بَيـنِي وَ بَينَـكَ عَامِرٌ . وَبَـينِي وَبَيـنَ العــالَمِينَ خَـرَابُ
 
-فَيالَيـتَ شُـربِي مِن وِدَادِكَ صَافِياً . وَشُـربِي مِن مَـاء الفُراتِ سَـرَابُ
+> فَيالَيـتَ شُـربِي مِن وِدَادِكَ صَافِياً . وَشُـربِي مِن مَـاء الفُراتِ سَـرَابُ
 
-إذا نِلتُ مِنكَ الوُدَّ فَالكُلُّ هَيِّـنٌ . وَكُـلَّ الَّذي فَوقَ الـتُّرابِ تُـرابُ
+> إذا نِلتُ مِنكَ الوُدَّ فَالكُلُّ هَيِّـنٌ . وَكُـلَّ الَّذي فَوقَ الـتُّرابِ تُـرابُ
 
 If I can only taste the sweetness of Your pleasure, it does not matter if life itself turns bitter for me.
 
@@ -2228,13 +2228,13 @@ I begin with REHMA.
 
 The classical definition of رب is:
 
-الرَبُّ ھُوَ المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
+> الرَبُّ ھُوَ المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
 
 A رب joins six meanings in one. He has complete ownership and absolute authority. He nurtures, guides, and assigns each thing its purpose. He pours out undeserved gifts and blessings. He also sustains, maintains, and provides.
 
 After learning what رب means, I must ask what he is رب of. In سُورَۃُ الْفَاتِحَۃِ, he tells us:
 
-ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ
+> ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ
 
 I give all praise and gratitude to Allah, who is رَبِّ ٱلْعَلَمِينَ. I begin with the word ٱلْعَلَمِينَ, and then I turn to what رَبِّ ٱلْعَلَمِينَ means in practice.
 
@@ -2281,9 +2281,9 @@ COMBO
 
 Allah is infinite. Infinite means without limit. اِمَامُ جَعْفَرٍ الصَّادِقِ عَلَیْہِ السَّلَامُ explained Allah as:
 
-اَللّٰہُ اَکْبَرُ مِنْ اَنْ یُحَدَّ وَ یُحْسَرَ
+> اَللّٰہُ اَکْبَرُ مِنْ اَنْ یُحَدَّ وَ یُحْسَرَ
 
-I understand Allah’s greatness in this sense: Allah has no boundary, and Allah cannot be confined within human comprehension. In other words, Allah cannot be “defined.”
+I understand Allah's greatness in this sense: Allah has no boundary, and Allah cannot be confined within human comprehension. In other words, Allah cannot be “defined.”
 
 Yet my human understanding works through definition. A definition gives finiteness to something. It limits a reality for me so that I can place it within a frame and understand it. This is what the intellect, or عقل, does. It sets a boundary. It confines. It defines.
 
@@ -2291,39 +2291,39 @@ This is the problem Allah سُبْحَانَهُ وَتَعَالَى solved for
 
 If a group speaks only English, and I know only Urdu, then I need a middleman to understand what is being said. I need someone who understands both languages, someone who can receive the message in English and translate it into Urdu for me.
 
-The same idea applies to this عالم. In its creation, it is physical. In its design, it reflects the attributes of its Creator. It “defines” the attributes of the Creator’s glory and magnificence, so that I can gain some understanding of my Creator.
+The same idea applies to this عالم. In its creation, it is physical. In its design, it reflects the attributes of its Creator. It “defines” the attributes of the Creator's glory and magnificence, so that I can gain some understanding of my Creator.
 
 ### Universe Manifests existence of Allah
 
 In other words, this universe becomes the medium through which I recognize Allah سُبْحَانَهُ وَتَعَالَى, for every sculpture proves the presence of a sculptor. The poet says:
 
-وُجُودُہُ لَہُ دَلِیلُ قَاطِعٌ
+> وُجُودُہُ لَہُ دَلِیلُ قَاطِعٌ
 
-حَاجَتُ کُلِّ مُحدَثٍ لِصَانعٌ
+> حَاجَتُ کُلِّ مُحدَثٍ لِصَانعٌ
 
 The strongest proof that Allah exists is that every sculpture requires a sculptor.
 
-وَلِکُلِّ عالَمُ لِحَاجَّتاً الی العَالِمٌ
+> وَلِکُلِّ عالَمُ لِحَاجَّتاً الی العَالِمٌ
 
 In the same way, everything that can be known requires the existence of one who knows it, because nothing exists as a mere passive object. Therefore, I come to know that Allah سُبْحَانَهُ وَتَعَالَى exists through the آثار, through His signs and the effects He has left in creation. This is like the Greek philosopher who asked the Bedouin:
 
-بِمَ عَرَفتَ رَبُّك؟
+> بِمَ عَرَفتَ رَبُّك؟
 
 “How did you come to know of your master?” he said.
 
-إن البِعرَةُ تَدُلُّ علی البَعِیر. والرَّوثَةُ تَدُلُّ علی الحمیر. و آثارُ القدمُ تَدُلُّ علی المَسِیر
+> إن البِعرَةُ تَدُلُّ علی البَعِیر. والرَّوثَةُ تَدُلُّ علی الحمیر. و آثارُ القدمُ تَدُلُّ علی المَسِیر
 
-He said: The camel’s dung shows me that a camel passed here. The donkey’s dung tells me that a donkey was here. Footsteps in the sand tell me that people walked through this place.
+He said: The camel's dung shows me that a camel passed here. The donkey's dung tells me that a donkey was here. Footsteps in the sand tell me that people walked through this place.
 
-فسمآءُ ذاتُ اَبرَاج. وَالْاَرْضَ ذَاتَ الْفِجَاجِ. واَبحَرُ ذَاتَ الامواج
+> فسمآءُ ذاتُ اَبرَاج. وَالْاَرْضَ ذَاتَ الْفِجَاجِ. واَبحَرُ ذَاتَ الامواج
 
 So when I look at the sky, with its perfect constellations; when I see the earth, with its valleys and paths laid out with order; and when I look at the oceans, with all their waves.
 
-اَلَا تَدُلُّ عَلَی لَطِیفِ الْخَبِیرِ؟
+> اَلَا تَدُلُّ عَلَی لَطِیفِ الْخَبِیرِ؟
 
-Do all these not point to the presence of the لطیف and the خبیر? SubhanAllah. To him, it was that simple. I make such matters far more complicated than they are. The truth is that Allah’s existence is the clearest and most evident truth for a sound and healthy فطرۃ. When that primordial essence of فطرۃ remains intact, the question of a creator’s existence does not even arise. That is why, when the atheist says, “I wish there was a proof of the existence of Allah,” the believer replies, “I see nothing but the proofs of His existence.”
+Do all these not point to the presence of the لطیف and the خبیر? SubhanAllah. To him, it was that simple. I make such matters far more complicated than they are. The truth is that Allah's existence is the clearest and most evident truth for a sound and healthy فطرۃ. When that primordial essence of فطرۃ remains intact, the question of a creator's existence does not even arise. That is why, when the atheist says, “I wish there was a proof of the existence of Allah,” the believer replies, “I see nothing but the proofs of His existence.”
 
-That is the linguistic meaning of the word عالَم. It is anything and everything that the عالِم can know, so that he may recognize the علیم. For that reason, “world” is not the best translation of عالمین. It narrows the word’s range. If the word meant only “world,” then it would refer only to that, and to nothing beyond the world or the universe. Its plural would then have been العوالم, not الْعَالَمِینَ.
+That is the linguistic meaning of the word عالَم. It is anything and everything that the عالِم can know, so that he may recognize the علیم. For that reason, “world” is not the best translation of عالمین. It narrows the word's range. If the word meant only “world,” then it would refer only to that, and to nothing beyond the world or the universe. Its plural would then have been العوالم, not الْعَالَمِینَ.
 
 The word الْعَالَمِینَ covers a far wider range than the physical world alone. The statement رَبُّ الْعَالَمِینَ does not mean only that Allah is the master of worlds, or the master of the universe. It means that He is the master of everything that can be known. Everything in creation reflects the علیم. It exists in a passive state, waiting for the عالم to learn about it through reflection, so that he may recognize his Creator.
 
@@ -2333,7 +2333,7 @@ I therefore understand رَبُّ الْعَالَمِینَ in a much wider sen
 
 I find many explanations of the term رَبُّ الْعَالَمِینَ. Here I draw out one interpretation, centered on a quality that is greatly lacking in society: humility. Allah points out that He created different cultures, different creations, different civilizations, and people of different languages. He says in the Quran:
 
-يَبَنِىٓ إِسْرَٓءِيلَ ٱذْكُرُوا۟ نِعْمَتِىَ ٱلَّتِىٓ أَنْعَمْتُ عَلَيْكُمْ وَأَنِّى فَضَّلْتُكُمْ عَلَى ٱلْعَلَمِينَ
+> يَبَنِىٓ إِسْرَٓءِيلَ ٱذْكُرُوا۟ نِعْمَتِىَ ٱلَّتِىٓ أَنْعَمْتُ عَلَيْكُمْ وَأَنِّى فَضَّلْتُكُمْ عَلَى ٱلْعَلَمِينَ
 
 I gave you preference over every other nation. The word used here for nations is عالمین.
 
@@ -2361,27 +2361,27 @@ This has become a serious disease in our community. Because we are Muslims, or b
 
 In the world today, we suffer from the disease of superiority, from the feeling that we carry some special claim over others, whether we admit it or not. It may come through religion, race, wealth, social status, or any other reason. I must not forget that we all have the same رب.
 
-Rank can exist only in the eyes of the Master, and only according to the slave’s servitude. It does not exist in the eyes of the slave.
+Rank can exist only in the eyes of the Master, and only according to the slave's servitude. It does not exist in the eyes of the slave.
 
-إِنَّ أَكْرَمَكُمْ عِندَ اللَّهِ أَتْقَاكُمْ
+> إِنَّ أَكْرَمَكُمْ عِندَ اللَّهِ أَتْقَاكُمْ
 
-I stand before the same rule: the most honorable in the eyes of Allah is the one with the most piety. Nothing else gives that honor. Even the highest-ranking person is Allah’s slave, and even the lowest-ranking person is Allah’s slave.
+I stand before the same rule: the most honorable in the eyes of Allah is the one with the most piety. Nothing else gives that honor. Even the highest-ranking person is Allah's slave, and even the lowest-ranking person is Allah's slave.
 
 This is what we recite in every أذان, five times a day:
 
-اشھد ان محمد عبدہ و رسولہ
+> اشھد ان محمد عبدہ و رسولہ
 
 I testify that Muhammad ﷺ is his **slave** and his messenger. AllahuAkbar. The highest-ranking person who ever walked this earth is the one we testify to in every prayer as the slave of Allah. Then no one has the right to claim superiority over another. If Allah has blessed a person with gifts, and the greatest gift is ایمان, faith itself, then that gift should make him more humble, not arrogant.
 
 The Quran gives the story of one who became arrogant because of his title and rank: the story of ابلیس.
 
-أَنَا۠ خَيْرٌۭ مِّنْهُ . خَلَقْتَنِى مِن نَّارٍۢ وَخَلَقْتَهُۥ مِن طِينٍۢ
+> أَنَا۠ خَيْرٌۭ مِّنْهُ . خَلَقْتَنِى مِن نَّارٍۢ وَخَلَقْتَهُۥ مِن طِينٍۢ
 
 I am better than him. I was created from fire; he was created from clay. ابلیس was an angel, from the عالَم of angels. Adam was a human being, from the عالَم of انسان. Both were slaves of Allah. And ابلیس stood before Allah; He stood before the رَبُّ الْعَالَمِینَ and said:
 
 I am better than him.
 
-This story teaches a clear lesson. What did his Master do with that arrogance? Did it bring him nearer to Allah, or did it cast him out from the Divine Presence? The act for which ابلیس was punished cannot be treated lightly when it appears in me. That would not befit Allah’s justice: to punish ابلیس for arrogance and remove him from His Presence, then reward the same arrogance in me by bringing me nearer to Him. Impossible.
+This story teaches a clear lesson. What did his Master do with that arrogance? Did it bring him nearer to Allah, or did it cast him out from the Divine Presence? The act for which ابلیس was punished cannot be treated lightly when it appears in me. That would not befit Allah's justice: to punish ابلیس for arrogance and remove him from His Presence, then reward the same arrogance in me by bringing me nearer to Him. Impossible.
 
 The matter must be understood plainly. When I judge another slave and decide that one slave is superior to another, what position have I taken for myself? I have placed myself in the position of my رب.
 
@@ -2393,11 +2393,11 @@ So he gathered all his physicians and asked them how he could escape this proble
 
 I keep repeating and stressing this because it is no longer only a Fironic problem. It has become a global problem. Everyone wants to become الہ; everyone wants to become معبود. At some level, we have all become people who want to be worshiped. Yet we forget how Allah defines us in the Quran:
 
-وَلَقَدْ خَلَقْنَا ٱلْإِنسَنَ مِن سُلَلَةٍۢ مِّن طِينٍۢ
+> وَلَقَدْ خَلَقْنَا ٱلْإِنسَنَ مِن سُلَلَةٍۢ مِّن طِينٍۢ
 
 Human beings come from a chain of dirt, from mud and water mixed together.
 
-ثُمَّ جَعَلَ نَسْلَهُۥ مِن سُلَلَةٍۢ مِّن مَّآءٍۢ مَّهِينٍۢ
+> ثُمَّ جَعَلَ نَسْلَهُۥ مِن سُلَلَةٍۢ مِّن مَّآءٍۢ مَّهِينٍۢ
 
 I understand Allah telling these people: “We created your progeny from a lowly fluid. Who do you think you are? Get down off your high horse. Be a رجل.”
 
@@ -2407,23 +2407,23 @@ Yet I see that all of us, at some level, are playing games. We are trying to be 
 
 The acceptance of our عبودیۃ, our slavery and servitude to Allah سُبْحَانَهُ وَتَعَالَى, is a heavy burden that I, as a believer, carry on my back. When a burden rests on the back of a person climbing a mountain, he bends forward; he does not walk upright. The burden makes him bend. It makes him humble. This is why humility is the essence of spiritual progress. Maulana Ali says
 
-مَنْ تَوَاضَعَ لِی اللَّہُ، رَفَعَ اللَّہُ لَہُ
+> مَنْ تَوَاضَعَ لِی اللَّہُ، رَفَعَ اللَّہُ لَہُ
 
 Whoever humbles himself for Allah, Allah raises him and lifts him in rank. For this reason, the highest-ranking person ever to walk the face of the earth was my beloved Prophet مُحَمَّدٌ مُصْطَفَی ﷺ. The greatest man this world will ever know was also the humblest in character. Indeed, humility was his distinguishing mark. The earlier prophecies that foretold his coming identified him by the greatness of his humility. SubhanAllah. The greatest mark of his prophethood was his humility.
 
-یُریدُ أَنَّ یَبعَثُ أُمِیِّ مِنَ الأُمِّیِّن۔وأجعل السكينةَ لباسُهُ ، والبِرَّ شَعارُهُ ، والتقوى ضَميرَهُ ، والحِكمَةَ مَنطِقَهُ ، والصِّدقَ والوفاءَ طَبِيعَتُهُ ، والعَفوَ وَالمَعرُوفَ خُلقُهُ ، والَحقَّ شَريعَتَهُ ، والعَدلَ سيرَتَهُ ، والهَدِىُ إمامُهُ ، والإسلامَ مِلَّتُهُ ، وأحمد أِسمُهُ .
+> یُریدُ أَنَّ یَبعَثُ أُمِیِّ مِنَ الأُمِّیِّن۔وأجعل السكينةَ لباسُهُ ، والبِرَّ شَعارُهُ ، والتقوى ضَميرَهُ ، والحِكمَةَ مَنطِقَهُ ، والصِّدقَ والوفاءَ طَبِيعَتُهُ ، والعَفوَ وَالمَعرُوفَ خُلقُهُ ، والَحقَّ شَريعَتَهُ ، والعَدلَ سيرَتَهُ ، والهَدِىُ إمامُهُ ، والإسلامَ مِلَّتُهُ ، وأحمد أِسمُهُ .
 
-أَهدِي بِهِ بَعدَ الضَّلالَة ، وأعلَمُ بِهِ مِنَ الجَهالة ، وأَرفَعُ به بعد الخَمالَة ، وأعرِفُ به بعد النَّكِرَة ، وأكثَرُ بِهِ بعدَ القِلَّة ، وأغنِي به بعد العَيلَة ، وأَجمِعُ به بعد الفُرقَة
+> أَهدِي بِهِ بَعدَ الضَّلالَة ، وأعلَمُ بِهِ مِنَ الجَهالة ، وأَرفَعُ به بعد الخَمالَة ، وأعرِفُ به بعد النَّكِرَة ، وأكثَرُ بِهِ بعدَ القِلَّة ، وأغنِي به بعد العَيلَة ، وأَجمِعُ به بعد الفُرقَة
 
 I recognize here the prediction, in the Bible, of the arrival of Rasul Allah ﷺ. Allah mentions these beautiful signs of his coming:
 
 I am going to send you a man from your own nation. His garment will be a peaceful temperament; his behavior will be kind; his conscience will be pious; his reasoning will be wise. Honesty and truth will be his nature; forgiveness will fill his dealings; justice will mark his actions; Ahmed will be his name.
 
-أَهدِي بِهِ بَعدَ الضَّلالَة ، وأعلَمُ بِهِ مِنَ الجَهالة ، وأَرفَعُ به بعد الخَمالَة ، وأعرِفُ به بعد النَّكِرَة ، وأكثَرُ بِهِ بعدَ القِلَّة ، وأغنِي به بعد العَيلَة
+> أَهدِي بِهِ بَعدَ الضَّلالَة ، وأعلَمُ بِهِ مِنَ الجَهالة ، وأَرفَعُ به بعد الخَمالَة ، وأعرِفُ به بعد النَّكِرَة ، وأكثَرُ بِهِ بعدَ القِلَّة ، وأغنِي به بعد العَيلَة
 
 I will guide a nation through him and bring them out of error. I will give them knowledge through him and bring them out of ignorance. I will raise him after he had been belittled, make him known after he had been unknown, increase him after scarcity, and enrich him after poverty. Allah continues to mention these qualities of His beloved. Then, after all these beautiful traits and astonishing signs, He mentions the greatest sign of all.
 
-لَو یَمشِی عَلی القَصَبِ الیَابِس۔۔۔ لَم یُسمَع مِن تَحتِ قَدَمَیہِ مِن سَکِینَتِہِ
+> لَو یَمشِی عَلی القَصَبِ الیَابِس۔۔۔ لَم یُسمَع مِن تَحتِ قَدَمَیہِ مِن سَکِینَتِہِ
 
 He will be deeply humble. He will walk among people with such humility that, when he steps on dry leaves, the crackle beneath his feet will not be heard. SubhanAllah. This is the Prophet I follow. This is the example I follow.
 
@@ -2431,7 +2431,7 @@ The honor this slave of Allah received from his Master came through one quality:
 
 For this reason, I see atheism as a blatant form of arrogance. The atheist rejects the most obvious and most basic fact of his own existence: he was **created**. Even he cannot truly say that he was not created. If I say that my father created me, and his father created him before him, that is what they call دور; that is تسلسل. The chain keeps going backward. Where does it stop? It stops at Adam. Then who created Adam? That is where the matter ends.
 
-وکُلُّکُم مِن آدَم. وَ آدَم مِن تُرَاب
+> وکُلُّکُم مِن آدَم. وَ آدَم مِن تُرَاب
 
 All of you are from Adam, and Adam is from dust. Arrogance does not befit dirt, because dirt is constantly trampled underfoot.
 
@@ -2453,17 +2453,17 @@ My Master will take care of me. My Master will come to my rescue. He will come t
 
 Whether I believe it or not, whether I want it or not, that Day is coming: the Day when the Rabb will gather everyone and exact justice.
 
-رَبَّنَآ إِنَّكَ جَامِعُ ٱلنَّاسِ لِيَوْمٍۢ لَّا رَيْبَ فِيهِ ۚ
+> رَبَّنَآ إِنَّكَ جَامِعُ ٱلنَّاسِ لِيَوْمٍۢ لَّا رَيْبَ فِيهِ ۚ
 
 Oh our Master. Indeed, You will gather all of us on a Day about which there is absolutely no doubt, because You have promised us that.
 
-إِنَّ ٱللَّهَ لَا يُخْلِفُ ٱلْمِيعَادَ
+> إِنَّ ٱللَّهَ لَا يُخْلِفُ ٱلْمِيعَادَ
 
 There is no doubt. Allah never goes against His promise. I remind myself of this every time I recite the Fateha. There is a reason I pray fifty-one rakaats in one day, and all fifty-one times I recite Fateha: so that every time I say Rabb Alalameen, I remind myself of this hierarchy.
 
 I understand who He is, and who I am in this relationship.
 
-وآخر الدعوانا عن الحمد للہ رَبُّ الْعَالَمِینَ
+> وآخر الدعوانا عن الحمد للہ رَبُّ الْعَالَمِینَ
 
 A man gave Rasul Allah a bottle of wine as a gift.
 
@@ -2471,7 +2471,7 @@ I think of the man who traveled a long distance to meet Rasul Allah (Salawaat). 
 
 I know how such a scene often unfolds. A very secularized person arrives at a Muslim home with a bottle of wine as a housewarming gift, and the reaction becomes outrage: “La hawla wala quwwata. How dare you? Do you not know I am a Muslim? Do you not know this is haraam? Get the hell out of my house. Never show me your face again.”
 
-But this man brought the bottle to Rasul Allah, the most pious man I can imagine. He smiled. He smiled and said, “Brother, did you not hear Allah’s command that alcohol has been prohibited?”
+But this man brought the bottle to Rasul Allah, the most pious man I can imagine. He smiled. He smiled and said, “Brother, did you not hear Allah's command that alcohol has been prohibited?”
 
 He said, “No, Rasul Allah. I never heard that!”
 
@@ -2521,11 +2521,11 @@ He answers it through the horizons: the physical universe and everything within 
 
 How does He answer the question, “What do I want from you?” He answers it through the نفس: through our own creation and existence, and through the creation of our spirit and soul.
 
-This is what I call the genius of Allah’s design. I find it astonishing that He answers such a complex and seemingly impossible question with such a simple formula. In my personal view, this is my absolute proof of the existence of God and of the Quran as the message of Allah, because this kind of perfection in design cannot exist at the human level.
+This is what I call the genius of Allah's design. I find it astonishing that He answers such a complex and seemingly impossible question with such a simple formula. In my personal view, this is my absolute proof of the existence of God and of the Quran as the message of Allah, because this kind of perfection in design cannot exist at the human level.
 
-This is also Allah’s solution to the problem that theology faces in modern times: the question of God’s existence. The problem today is that I try to invent and apply human formulas to prove that Allah exists. Yet Allah has already given His own formula in the Quran. It is simple, and it leads to the conclusion because it is the only formula that can work.
+This is also Allah's solution to the problem that theology faces in modern times: the question of God's existence. The problem today is that I try to invent and apply human formulas to prove that Allah exists. Yet Allah has already given His own formula in the Quran. It is simple, and it leads to the conclusion because it is the only formula that can work.
 
-If I try to use my own formulas, they fail, because this universe is His kingdom and His design. His rules govern it. The world gives many examples of this. An iPhone works according to Apple’s specifications; used outside those specifications, it does not work as intended. In the same way, Allah’s formula for recognizing Him is the آفاق and the أنفس.
+If I try to use my own formulas, they fail, because this universe is His kingdom and His design. His rules govern it. The world gives many examples of this. An iPhone works according to Apple's specifications; used outside those specifications, it does not work as intended. In the same way, Allah's formula for recognizing Him is the آفاق and the أنفس.
 
 Each part of the formula has to be understood in its place.
 
@@ -2552,7 +2552,7 @@ Concept and judgment
 
 That understanding begins with a concept, called تصور in Arabic. First, the reality is formed in the mind. Then comes حکم: a ruling or judgment about the truth of that reality. The Arabs say:
 
-الحُکمُ علی شَیء فرحٌ عَن تَصَوُّرِہِ
+> الحُکمُ علی شَیء فرحٌ عَن تَصَوُّرِہِ
 
 Before I can judge a thing, I must define it and understand it in every dimension that can be grasped. Once I have formed a clear concept of that reality, I can judge whether it is true or false, good or bad, and so on.
 
@@ -2598,15 +2598,15 @@ The question is how I arrive there. How can I believe in propositions that are w
 
 An object that points toward a destination is called a sign. So Allah says:
 
-سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ
+> سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ
 
 He will show them His signs, His evidence. Where? فِى ٱلأٓفَاقِ, in the horizons. What appears in the horizons is empirical evidence. Everything outside me exists as observable data. The physical things around me are things I can see, hear, touch, taste, and smell. وَفِىٓ أَنفُسِهِمْ And within their own selves. As rational human beings, I can deduce and infer rational propositions from empirical data. Therefore:
 
-سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ -
+> سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ -
 
 He will show them the evidence of the unseen realm through the empirical and rational data of this universe. How much evidence?
 
-حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ
+> حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ
 
 Unlimited evidence, until it becomes absolutely clear to them that these revelatory propositions are true.
 
@@ -2614,7 +2614,7 @@ For example, the Quran tells me that Allah is the creator of this universe. The 
 
 Empirical data also confirm that every creation requires a creator. If this universe is a creation, it must have a creator. So when the Quran proposes:
 
-اللہ الذی خلق السماوت و الارض
+> اللہ الذی خلق السماوت و الارض
 
 Allah is the one who created the heavens and the earth. That revelatory proposition is then backed and supported by rational and empirical evidence in the horizons, evidence that the human mind can understand and process.
 
@@ -2622,7 +2622,7 @@ Once I can believe this particular proposition rationally, it becomes easier to 
 
 When I understand this phenomenon, I can appreciate the motive of the Quran. This is why, throughout the Quran, Allah asks me to reflect on the creations of the heavens and the earth. He never asks me to reflect on Allah Himself, because that would be impossible without the empirical and rational data of this physical world. That is why He says:
 
-إِنَّ فِى خَلْقِ ٱلسَّمَوَتِ وَٱلْأَرْضِ وَٱخْتِلَفِ ٱلَّيْلِ وَٱلنَّهَارِ لَآيَتٍۢ لِّأُو۟لِى ٱلْأَلْبَبِ
+> إِنَّ فِى خَلْقِ ٱلسَّمَوَتِ وَٱلْأَرْضِ وَٱخْتِلَفِ ٱلَّيْلِ وَٱلنَّهَارِ لَآيَتٍۢ لِّأُو۟لِى ٱلْأَلْبَبِ
 
 Without doubt, in the **creation** of the heavens and the earth, and in the alternation of night and day, there are signs for people of intellect.
 
@@ -2632,13 +2632,13 @@ This is why Allah calls me to reflect on His creations: so that I may gather the
 
 This is why Maulana Ali taught:
 
-لَا تَفَکَّرْ فِی اللہِ ..... ولاکن تفکر فی خلق اللہ
+> لَا تَفَکَّرْ فِی اللہِ ..... وَلَاکِنْ تَفَکَّرْ فِی خَلْقِ اللَّہِ
 
 Do not reflect upon Allah; instead, reflect upon the “creations” of Allah. In witnessing this universe lies the evidence for what exists beyond it. The more I reflect on this physical creation, the more it answers my questions about the spiritual creation, and especially about its creator.
 
 So the Quran proposes:
 
-أَنَا اللَّـهُ الْعَزِيزُ الْحَكِيمُ
+> أَنَا اللَّـهُ الْعَزِيزُ الْحَكِيمُ
 
 Indeed I am Allah: the One whose power is complete and whose wisdom is perfect. The universe offers empirical and rational evidence for this claim. Its study shows that it could only have been created by One of immense power and immense wisdom, because every created thing exists with purpose. Human creation, therefore, must also have a purpose.
 
@@ -2654,33 +2654,33 @@ The Intensely Merciful taught the Quran, created man, and taught him speech. A c
 
 Together, they clearly prove that this could only be the act of a ٱلرَّحْمَنُ. The Quran proposes:
 
-اللَّهُ لا إِلَهَ إِلا هُوَ الْحَيُّ الْقَيُّومُ
+> اللَّهُ لا إِلَهَ إِلا هُوَ الْحَيُّ الْقَيُّومُ
 
 Allah is the One besides whom there is no deity worthy of worship. He is the Eternally Living and the ultimate maintainer of all things. Empirical and rational evidence shows that life is necessary for maintenance. All life on this earth is temporary; every created being will inevitably die. Whoever dies cannot remain the maintainer, sustainer, or provider for those who depend on him. Therefore, only the Ever-Living can be the ultimate maintainer and sustainer. This supports the next revelatory proposition:
 
-لا تَأْخُذُهُ سِنَةٌ وَلا نَوْمٌ
+> لا تَأْخُذُهُ سِنَةٌ وَلا نَوْمٌ
 
 He is never overcome by drowsiness, and He never sleeps. I know that drowsiness weakens mental ability and focus, while sleep removes them altogether for a time. A person who is drowsy, unconscious, or asleep cannot be all-mighty, nor can he be the ultimate maintainer and sustainer. Constant maintenance requires complete attention and vigilance.
 
 The remaining propositions unfold from this:
 
-لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ
+> لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ
 
 Everything in the heavens and the earth belongs to Him.
 
-مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلا بِإِذْنِهِ
+> مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلا بِإِذْنِهِ
 
-Who can intercede on anyone’s behalf without His permission?
+Who can intercede on anyone's behalf without His permission?
 
-يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلا بِمَا شَاءَ
+> يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلا بِمَا شَاءَ
 
 He knows fully what lies ahead and what has already come to pass. No one shares in that knowledge except those whom He chooses to grant a share of it.
 
-وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلا يَئُودُهُ حِفْظُهُمَا
+> وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلا يَئُودُهُ حِفْظُهُمَا
 
 His throne extends over the heavens and the earth. He maintains control over the universe, and that maintenance neither tires Him nor wearies Him.
 
-وَهُوَ الْعَلِيُّ الْعَظِيمُ
+> وَهُوَ الْعَلِيُّ الْعَظِيمُ
 
 I recognize Him as the All-Mighty and the All-Exalted.
 
@@ -2704,7 +2704,7 @@ Caliph
 
 A representative is someone chosen or appointed to act or speak on behalf of another. If I were to choose someone to represent me accurately, I would look for someone who shared my traits, or at least carried traits close enough to mine to make true representation possible. Without that likeness, the person could not represent me or convey my thoughts faithfully.
 
-For this reason, in the story of Adam’s creation, Allah did not only create Adam AS. He also taught him all His traits.
+For this reason, in the story of Adam's creation, Allah did not only create Adam AS. He also taught him all His traits.
 
 > وَعَلَّمَ آدَمَ ٱلْأَسْمَآءَ كُلَّهَا ثُمَّ عَرَضَهُمْ عَلَى ٱلْمَلَٓئِكَةِ فَقَالَ أَنۢبِـُٔونِى بِأَسْمَآءِ هَٓؤُلَآءِ إِن كُنتُمْ صَدِقِينَ
 >
@@ -2718,41 +2718,41 @@ The angels said: "May You be glorified. We know nothing except what You have tau
 
 > وَإِذْ قَالَ رَبُّكَ لِلْمَلَٓئِكَةِ إِنِّى جَاعِلٌۭ فِى ٱلْأَرْضِ خَلِيفَةًۭ ۖ قَالُوٓا۟ أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ ۖ قَالَ إِنِّىٓ أَعْلَمُ مَا لَا تَعْلَمُونَ
 
-I understand the angels’ question as an objection to Adam’s fitness for this trust: will this representative spill blood and wreak havoc, while they themselves are constantly praising and glorifying Allah? They saw themselves as able to represent Him on earth. They could be His true خلیفۃ, and so the need for Adam was not yet clear to them.
+I understand the angels' question as an objection to Adam's fitness for this trust: will this representative spill blood and wreak havoc, while they themselves are constantly praising and glorifying Allah? They saw themselves as able to represent Him on earth. They could be His true خلیفۃ, and so the need for Adam was not yet clear to them.
 
 But when Allah created Adam and trained him to reflect the divine attributes in his character, they all accepted what had been shown to them. In that sense, they validated and confirmed that Adam, and through him mankind, alone possesses the true capacity to represent Allah سُبْحَانَهُ وَتَعَالَى on the earth.
 
 This is the meaning of Allah creating man in his own image. We possess the attributes that our creator and master possesses. I know that Allah sees. He sees our actions and our deeds:
 
-وَٱللَّهُ بِمَا تَعْمَلُونَ بَصِيرٌۭ
+> وَٱللَّهُ بِمَا تَعْمَلُونَ بَصِيرٌۭ
 
 I know that Allah hears:
 
-وَهُوَ ٱلسَّمِيعُ ٱلْعَلِيمُ
+> وَهُوَ ٱلسَّمِيعُ ٱلْعَلِيمُ
 
 For this reason, he gave us the ability to hear, so that we could represent his qualities accurately on this earth. More than that, he gave us hearing so that we could understand what it means when he says that he watches our actions and hears our cries and supplications.
 
 I know that Allah acts, because we have the ability to act:
 
-كُلَّ يَوْمٍ هُوَ فِى شَأْنٍۢ
+> كُلَّ يَوْمٍ هُوَ فِى شَأْنٍۢ
 
 Every single day, he is busy in work. I know that Allah has the ability to love, because the Quran says that he loves everything good, clean, and pure:
 
-إِنَّ ٱللَّهَ يُحِبُّ ٱلتَّوَّبِينَ وَيُحِبُّ ٱلْمُتَطَهِّرِينَ
+> إِنَّ ٱللَّهَ يُحِبُّ ٱلتَّوَّبِينَ وَيُحِبُّ ٱلْمُتَطَهِّرِينَ
 
 For this reason, he gave us the ability to love. That is why it belongs to our فطرۃ, our natural predisposition, to love what is clean and pure: because that is what our creator loves.
 
 Similarly, I also know that Allah has the ability to hate and dislike.
 
-وَٱللَّهُ لَا يُحِبُّ ٱلْفَسَادَ
+> وَٱللَّهُ لَا يُحِبُّ ٱلْفَسَادَ
 
-I know that Allah hates and dislikes corruption. لا وٱلله يحب. For that reason, he placed in our innate nature a dislike for filth and foulness. We recoil from what is dirty because corruption is hateful to him.
+I know that Allah hates and dislikes corruption. لَا وَٱللَّهُ يُحِبُّ. For that reason, he placed in our innate nature a dislike for filth and foulness. We recoil from what is dirty because corruption is hateful to him.
 
-This is because we have been created in God’s image. We have been created with the same divine attributes that Allah possesses, in a created and limited way, so that we may serve as his true representatives, his true خلیفۃ, on this earth. Through these qualities, I come to know and understand my creator.
+This is because we have been created in God's image. We have been created with the same divine attributes that Allah possesses, in a created and limited way, so that we may serve as his true representatives, his true خلیفۃ, on this earth. Through these qualities, I come to know and understand my creator.
 
 The way is simple: I look into my own self.
 
-وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ
+> وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ
 
 The verse calls the human being back to reflection on the self. What I seek for myself points toward what Allah wants from me. SubhanAllah. I want justice; Allah wants justice. I want to be loved; Allah wants me to love him. I like to be praised; Allah likes to be praised. I appreciate gratitude; Allah likes his creation to be grateful to him. I feel anger when people violate what belongs to me or ignore my rules; Allah is angered when his possessions and his rules are violated. I want others to give me due priority in their lives; Allah wants me to make him the priority in mine.
 
@@ -2768,9 +2768,9 @@ The answer, then, turns back upon the one who complains. Poverty and misery are 
 
 I gave everything needed to repair the conditions of this world. Yet human beings often do not want to leave their comfort zones. They want only to complain and to have others solve their problems for them. That is not how it will work, because I created them as gods. I created them as الہ. Each and every one of them has been created with the capabilities of an الہ, so that they can recognize and identify the ال الہ, and so that they can understand what their اللہ wants from them. SubhanAllah.
 
-If the question is what I want from the human being, the answer lies within the self. By studying one’s own capabilities and desires, a person comes to know what I want.
+If the question is what I want from the human being, the answer lies within the self. By studying one's own capabilities and desires, a person comes to know what I want.
 
-مَنْ عَرَفَ نَفْسَہُ فَقَدْ عَرَفَ رَبَّہُ
+> مَنْ عَرَفَ نَفْسَہُ فَقَدْ عَرَفَ رَبَّہُ
 
 The one who comes to know his own self comes to know his master, because the slave has been created in the image of his master.
 
@@ -2784,39 +2784,39 @@ Among human rights is the right to be treated with honor. After all that a paren
 
 If created beings can understand and value the rights that human beings hold over one another, then what is the right of the One who created them all from nothing?
 
-وَاللَّـهُ أَخْرَجَكُم مِّن بُطُونِ أُمَّهَاتِكُمْ لَا تَعْلَمُونَ شَيْئًا
+> وَاللَّـهُ أَخْرَجَكُم مِّن بُطُونِ أُمَّهَاتِكُمْ لَا تَعْلَمُونَ شَيْئًا
 
 What is the right of Allah, who brought the human being out from the wombs of mothers in a state of complete ignorance?
 
-وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَارَ وَالْأَفْئِدَةَۙ
+> وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَارَ وَالْأَفْئِدَةَۙ
 
 What, then, is the right of Allah, who gave the human being hearing, sight, and a beating heart?
 
-لَعَلَّكُمْ تَشْكُرُونَ
+> لَعَلَّكُمْ تَشْكُرُونَ
 
 So that gratitude might arise.
 
 When one human being provides for another, the least expected in return is gratitude. A fair exchange would be the same generosity, or something close to it. If that is not given, gratitude remains the minimum due. What, then, of Allah?
 
-لَا نَسْأَلُكَ رِزْقًاۖ نَّحْنُ نَرْزُقُكَۗوَ
+> لَا نَسْأَلُكَ رِزْقًاۖ نَّحْنُ نَرْزُقُكَۗوَ
 
 We do not ask you for provision; indeed, it is We who provide for you. What, then, is the right of gratitude owed to the One who takes nothing and gives everything?
 
-وَمَا بِكُم مِّن نِّعْمَةٍ فَمِنَ اللَّـهِۖثُمَّ
+> وَمَا بِكُم مِّن نِّعْمَةٍ فَمِنَ اللَّـهِۖثُمَّ
 
-Every good thing in a person’s possession has been given by Allah.
+Every good thing in a person's possession has been given by Allah.
 
 When human beings make something for a purpose, or invent something for a purpose, they claim the right to require that it be used properly. They expect it to serve the purpose for which it was made. If it is misused, they feel entitled to be upset. They feel entitled to demand justice, and even to bring the offender to court.
 
 What, then, of the purpose for which Allah created?
 
-وَمَا خَلَقْتُ الْجِنَّ وَالْإِنسَ إِلَّا لِيَعْبُدُونِ
+> وَمَا خَلَقْتُ الْجِنَّ وَالْإِنسَ إِلَّا لِيَعْبُدُونِ
 
-I have not created jinn and mankind except to worship Me. How, then, am I fulfilling Allah’s right? Does He not have the right to be displeased and angry when I fail to fulfill those rights?
+I have not created jinn and mankind except to worship Me. How, then, am I fulfilling Allah's right? Does He not have the right to be displeased and angry when I fail to fulfill those rights?
 
 I must think deeply about the divine formula that Allah سُبْحَانَهُ وَتَعَالَى has given through this verse:
 
-سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ
+> سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ
 
 He will show His signs in the horizons and within the self, so that the human being may come to recognize who Allah is and what He wants from him. May Allah bless us all with the wisdom to fulfill His rights and obligations, and enable us to treat Him with the honor and dignity He deserves.
 
@@ -2843,7 +2843,7 @@ The next morning, after he woke and offered his morning prayer, a servant came t
 - 2 pieces of chicken
 - 2 glasses of orange juice
 
-On the other side was yesterday’s food: some stale bread and lentils.
+On the other side was yesterday's food: some stale bread and lentils.
 
 Just as the man was about to eat, a beggar came to the door and called out to him. He said, “In the name of your creator I ask you for help.
 
@@ -2867,7 +2867,7 @@ Formula
 
 ![](images/86/718f2946-a675-46a9-ae87-0aaea1e7e6f8.jpg)
 
-سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ ۗ أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ شَهِيدٌ
+> سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ ۗ أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ شَهِيدٌ
 
 We will show them Our Signs in the universe, and in their own selves, until it becomes absolutely clear to them that this is the truth.
 
@@ -2875,7 +2875,7 @@ The signs in the horizons disclose the nature and power of Allah. The signs with
 
 In these analogies between the ظاہر and the باطن — the horizons and the soul — I find insight into the inner workings of دین. Rasul Allah ﷺ said in a HADEES:
 
-اِنَّا اللہ اَسَّسَ دِینَہُ عَلیَ مِثاَلِ خَلقِہِ لِیَستَدِلَّ بِالدِّینِ عَلَی الدُّنیَا ؛ وَ الدُّنیَا عَلَی الدِّین
+> اِنَّا اللہ اَسَّسَ دِینَہُ عَلیَ مِثاَلِ خَلقِہِ لِیَستَدِلَّ بِالدِّینِ عَلَی الدُّنیَا ؛ وَ الدُّنیَا عَلَی الدِّین
 
 I understand from this that Allah founded his religion on the pattern of creation. He made the world a proof for his religion, and he made his religion a proof for the world. The physical world and the spiritual world therefore rest on the same principles and patterns. Through the physical world, the human intellect can grasp signs that lead it toward the spiritual world. The horizons and the soul, or the self, are therefore keys by which I learn about Allah سُبْحَانَهُ وَتَعَالَى.
 
@@ -2891,7 +2891,7 @@ When that light passes through a prism, something hidden becomes visible. A pris
 
 In the same way, the light of Allah سُبْحَانَهُ وَتَعَالَى strikes creation. The Quran tells us that Allah is the light of the heavens and the earth:
 
-اللہ نور السموت والارض
+> اللہ نور السموت والارض
 
 Divine Light
 
@@ -2926,27 +2926,27 @@ The purposes of creation are these:
 
 The first, he says, is عمارۃ. Allah سُبْحَانَهُ وَتَعَالَى said:
 
-هُوَ أَنشَأَكُم مِّنَ ٱلْأَرْضِ وَٱسْتَعْمَرَكُمْ فِيهَا
+> هُوَ أَنشَأَكُم مِّنَ ٱلْأَرْضِ وَٱسْتَعْمَرَكُمْ فِيهَا
 
 We brought you forth from the earth to cultivate it.
 
 The second reason, he says, is عبادۃ:
 
-وَمَا خَلَقْتُ ٱلْجِنَّ وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ
+> وَمَا خَلَقْتُ ٱلْجِنَّ وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ
 
 We only created the jinn, beings of the unseen realm, and human beings, beings of the visible realm, for عبادۃ, for willing worship. ابن عباس said in a narration that the purpose behind the creation of human beings was also لیعرفون: to know God. To know God is to love God. In the stages of love, عبودیۃ is one of the levels of محبۃ, of love. It is one of the higher levels of love. Therefore, He created the jinn and human beings to love Him.
 
 The third and final reason for the creation of human beings is خلافۃ:
 
-وَيَسْتَخْلِفَكُمْ فِى ٱلْأَرْضِ فَيَنظُرَ كَيْفَ تَعْمَلُونَ
+> وَيَسْتَخْلِفَكُمْ فِى ٱلْأَرْضِ فَيَنظُرَ كَيْفَ تَعْمَلُونَ
 
-We made you خلفاء because the خلیفۃ, the caliph, is the one who stands in someone else’s place. He is the one who is left behind: ُخَلَفَہ. He remains in order to stand in the place of another. In other words, a خلیفۃ is a steward. Allah created us as His stewards on this earth.
+We made you خلفاء because the خلیفۃ, the caliph, is the one who stands in someone else's place. He is the one who is left behind: ُخَلَفَہ. He remains in order to stand in the place of another. In other words, a خلیفۃ is a steward. Allah created us as His stewards on this earth.
 
 Why? فَيَنظُرَ كَيْفَ تَعْمَلُونَ, so that He can witness what we do with all the outward and inward gifts He has blessed us with.
 
 There are two types of خلافۃ. We have been made a caliph over ourselves, and then over others. For the خلافۃ of the self, Allah said:
 
-وَإِذْ قَالَ رَبُّكَ لِلْمَلَٓئِكَةِ إِنِّى جَاعِلٌۭ فِى ٱلْأَرْضِ خَلِيفَةًۭ
+> وَإِذْ قَالَ رَبُّكَ لِلْمَلَٓئِكَةِ إِنِّى جَاعِلٌۭ فِى ٱلْأَرْضِ خَلِيفَةًۭ
 
 Allah said to the angels, I have decided to create a caliph on the earth. In سُورَۃُ الصَّوَادِ He said to داود علیہ السلام . He said:
 
@@ -2965,21 +2965,21 @@ But the condition for ruling others is that one must first rule oneself. A perso
 
 Here, داؤد is told that he has been placed in the earth to rule over others. He was made ruler over بَنِی اِسْرَائِیلَ, so that:
 
-فَٱحْكُم بَيْنَ ٱلنَّاسِ بِٱلْحَقِّ;
+> فَٱحْكُم بَيْنَ ٱلنَّاسِ بِٱلْحَقِّ;
 
 he may judge among them with the truth. Then He says:
 
-وَلَا تَتَّبِعِ ٱلْهَوَىٰ;
+> وَلَا تَتَّبِعِ ٱلْهَوَىٰ;
 
 do not follow your caprice. In other words, one must rule oneself before ruling others. If that does not happen,
 
-فَيُضِلَّكَ عَن سَبِيلِ ٱللَّهِ,
+> فَيُضِلَّكَ عَن سَبِيلِ ٱللَّهِ,
 
 the ف here is for causation. If a person follows caprice, whims, and appetites, they lead him away from the path of Allah.
 
-So what are we as caliphs of Allah? How are we doing as Allah’s representatives on earth? Allah says:
+So what are we as caliphs of Allah? How are we doing as Allah's representatives on earth? Allah says:
 
-سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ ۗ أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ شَهِيدٌ
+> سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ ۗ أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ شَهِيدٌ
 
 We will show them Our Signs in the horizons and within our own souls. Allah makes the truth of who we are known through the signs around us and within us. Among those signs are the conditions visible in the horizons today, which reveal how we are doing as caliphs of Allah, just as a physician reads the symptoms of an ill patient. Allah says in سُورَۃُ الرُّومِ
 
@@ -2999,7 +2999,7 @@ All of this happens because of what we earn through our sinfulness. The human be
 
 This was the very concern the angels expressed when Allah mentioned the creation of Adam to them. They said
 
-قَالُوٓا۟ أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ
+> قَالُوٓا۟ أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ
 
 Are you seriously considering creating a species therein who will create فساد and spill blood?
 
@@ -3021,7 +3021,7 @@ I was reading a book that said there was a time when all of North Africa was so 
 
 Another aspect of فساد appears in the words of Allah:
 
-وَٱلْأَرْضَ وَضَعَهَا لِلْأَنَامِ
+> وَٱلْأَرْضَ وَضَعَهَا لِلْأَنَامِ
 
 The earth has been laid out for the انام. The word انام comes from نوم, which means sleep. أنام are creatures that sleep. This verse, then, concerns all sentient beings. It is not only about human beings; it includes the animal kingdom. Allah سُبْحَانَهُ وَتَعَالَى
 
@@ -3031,17 +3031,17 @@ The earth has been laid out for the انام. The word انام comes from نو�
 
 I understand the verse to mean that no creature walks upon the earth, and no bird flies with its two wings, except that they belong to communities like human communities. Allah سُبْحَانَهُ وَتَعَالَى tells me that the kingdoms of animals are communities like ours. Then He says that He has left nothing out of this Book:
 
-مَّا فَرَّطْنَا فِى ٱلْكِتَبِ مِن شَىْءٍۢ
+> مَّا فَرَّطْنَا فِى ٱلْكِتَبِ مِن شَىْءٍۢ
 
 Even animals are acknowledged in the Quran. I know that some animals mate for life. I know that animals make immense journeys, pilgrimages, and migrations to distant places, much as human beings do.
 
 Today, because of the sins of mankind, dogs are put on Prozac. In the United States, dogs are given Prozac, an antidepressant, because they are depressed in the homes of depressed and miserable people. Dogs are not naturally depressed animals. But so many houses in the United States are sick that the dogs and cats themselves become sick, because they are sentient beings. They are emotional beings. They feel and experience emotions as human beings do.
 
-I see the problem in the endangered species brought about by human hands. Among the world’s critically endangered species are some of the most beautiful and majestic animals. These are the very animals after which the ancient Arabs named their children: lions and tigers, أسد and فھد . They named their men after مُفْتَرِسَات, after animals that attack their prey. They named their women after the prey itself, such as ماھا and غزالۃ. So فھد goes after ماھا, and she does not stand a chance.
+I see the problem in the endangered species brought about by human hands. Among the world's critically endangered species are some of the most beautiful and majestic animals. These are the very animals after which the ancient Arabs named their children: lions and tigers, أسد and فھد . They named their men after مُفْتَرِسَات, after animals that attack their prey. They named their women after the prey itself, such as ماھا and غزالۃ. So فھد goes after ماھا, and she does not stand a chance.
 
 What strikes me is that the species endangered today are not the cockroaches. They are not the rats. They are not the snakes. These creatures are flourishing. The animals and species now endangered are the ones that represent divine qualities within the human being, qualities that are disappearing. The eagle, the peregrine, the lion, the tiger, and the elephant all stand for great human qualities that are vanishing.
 
-وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ
+> وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ
 
 Within the souls themselves, the call is to reflect. I see plenty of cockroaches in human disguise. I see plenty of rats and snakes in human disguise. But I no longer find the courage of lions or the majesty of eagles in human form. These qualities have become extinct among human beings.
 
@@ -3049,7 +3049,7 @@ I can go on and on about this, and I am sure much more could be added. But this 
 
 Why should he? He is not our janitor. He is not our servant. He is not our errand boy. He created us in his image so that we could create جنۃ on earth, just as he created جنۃ in heaven. Adam was not created in جنۃ for amusement. He was created in جنۃ so that he could see and experience the beauty of that place. Then, when he came to the earth, he could cultivate the land and create that same جنۃ on earth.
 
-وَ أَنشَأَكُم مِّنَ ٱلْأَرْضِ وَٱسْتَعْمَرَكُمْ فِيهَا
+> وَ أَنشَأَكُم مِّنَ ٱلْأَرْضِ وَٱسْتَعْمَرَكُمْ فِيهَا
 
 He brought you forth from the earth to cultivate it.
 
@@ -3057,7 +3057,7 @@ That cultivation meant creating the same جنۃ on earth. What did we do instead
 
 But we, as human beings, as خَلِیفَۃُ اللَّہِ, have failed terribly. We have shown that the angels had real grounds for concern. They knew clearly what they were saying when they said:
 
-أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ
+> أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ
 
 Do you wish to create someone who will sow corruption on earth and spill blood? They knew clearly what they were saying.
 
@@ -3073,7 +3073,7 @@ I begin with the word أخلاق, which comes from خُلق. This matters becaus
 
 The word خَلق means creation. It is tied to the body, and the body is tied to the horizons. The word خُلق means character, and character belongs to the soul. Both words are made from the same letters, in the same order. In the science of Arabic, that shared form shows a close relationship in meaning.
 
-خَلق belongs to the body, which is nourished by the physical world. خُلق is character, which takes its nourishment from the spiritual world. خَلق represents the body’s existence; خُلق represents the soul’s existence.
+خَلق belongs to the body, which is nourished by the physical world. خُلق is character, which takes its nourishment from the spiritual world. خَلق represents the body's existence; خُلق represents the soul's existence.
 
 Both words begin with the letter خ (kha), a sound of friction in Arabic. It is a sound of effort. The body requires effort to develop, and character requires effort as well. Character demands great effort.
 
@@ -3085,9 +3085,9 @@ I know that this world offers many temporary pleasures. Yet if the body is extre
 
 How is character developed? Through revelation. The Quran, stated simply, explains the divine attributes of Allah. It shows what His attributes are and why they belong to Him. He is عظیم because he created this vast universe. He is قوی, all-powerful, because he did not merely create the universe; he created it with one single command: کُن, “Be,” and فیکون, it was.
 
-In essence, the Quran describes Allah’s attributes and explains why he is ال الہ. Our hearts witness these divine attributes in the light of revelation, and that witnessing creates **Belief**. The more the heart understands revelation, the more belief grows. That belief then nourishes and develops character.
+In essence, the Quran describes Allah's attributes and explains why he is ال الہ. Our hearts witness these divine attributes in the light of revelation, and that witnessing creates **Belief**. The more the heart understands revelation, the more belief grows. That belief then nourishes and develops character.
 
-Character, then, is nothing other than absorbing these divine attributes into the heart through revelation, and then reflecting those same divine attributes toward the rest of Allah’s creation. That is character: the heart internalized, developed, and trained in the light of these divine attributes, then made visible in our dealings with Allah’s creation.
+Character, then, is nothing other than absorbing these divine attributes into the heart through revelation, and then reflecting those same divine attributes toward the rest of Allah's creation. That is character: the heart internalized, developed, and trained in the light of these divine attributes, then made visible in our dealings with Allah's creation.
 
 ### Interactions In Islam
 
@@ -3097,13 +3097,13 @@ That is أخلاق, and that is Islam. Islam is about interactions. It is معا
 
 1. Interaction with the self: حُقُوقُ النَّفْسِ
 
-1. Our interaction with the creation of Allah: حقوق العباد
+1. Our interaction with the creation of Allah: حُقُوقُ الْعِبَادِ
 
 Huqooq Allah
 
 ![](images/86/d8bc7f29-420b-4720-94a6-45362c80bbb2.jpg)
 
-Allah’s right over us is that we recognize his attributes in the heavens and the earth, and that, through recognizing them, we come to love him for everything he has done for us. From that love, we willingly obey him and serve him as faithful slaves, as عبد. We worship him while knowing that only he deserves worship. That is the right of the Creator over his creation.
+Allah's right over us is that we recognize his attributes in the heavens and the earth, and that, through recognizing them, we come to love him for everything he has done for us. From that love, we willingly obey him and serve him as faithful slaves, as عبد. We worship him while knowing that only he deserves worship. That is the right of the Creator over his creation.
 
 What, then, is the right of the self?
 
@@ -3131,25 +3131,25 @@ Huqooq Ibaad
 
 ![](images/86/951440aa-8e7c-46e7-a2f8-04c4aed6c38b.jpg)
 
-Finally, I come to the right of others, حقوق العباد.
+Finally, I come to the right of others, حُقُوقُ الْعِبَادِ.
 
 The right of Allah is to recognize his divine attributes in creation, and to submit to him willingly and lovingly in عبادۃ. The right of the self is to take those divine attributes into myself, so they shape my character and bring it into harmony with the character of Allah. I am to become like the Creator.
 
-Only after that character has been formed does the final right, حقوق العباد, come into force. It means reflecting the divine attributes of Allah in my dealings with his creation.
+Only after that character has been formed does the final right, حُقُوقُ الْعِبَادِ, come into force. It means reflecting the divine attributes of Allah in my dealings with his creation.
 
 I trained myself to be generous with my own self. Now that generosity must appear in my dealings with others. I trained myself to be truthful and sincere with my own self. Now that truthfulness, that صدق, that sincerity, must appear in my dealings with others. I recognized how Allah forgives me and how patient he is with me. Now I must reflect those attributes by being patient and forgiving toward others.
 
 This is not an easy task. That is why the first two rights must be fulfilled before the third right can truly be fulfilled. A man once came to the Messenger of Allah and said:
 
-یَا رَسُولَ اللہِ. اَصِلُ اَخِیہِ وَ یَقطَعُنِی ' وَ اُعطِیہِ وَ یَمنَعُنِی
+> یَا رَسُولَ اللہِ. اَصِلُ اَخِیہِ وَ یَقطَعُنِی  وَ اُعطِیہِ وَ یَمنَعُنِی
 
-“Oh messenger of Allah, I give to him, but he withholds from me. I come to him, but he cuts me off. What should I do?” the Prophet replied, “That is صلۃ الرحم. What you are doing is right. Continue meeting him, even though he cuts you off.”
+“Oh messenger of Allah, I give to him, but he withholds from me. I come to him, but he cuts me off. What should I do?” the Prophet replied, “That is صِلَۃُ الرَّحِمِ. What you are doing is right. Continue meeting him, even though he cuts you off.”
 
 That is Islam. And Islam is hard work. I must not think of this religion as easy. I must become one who strives. I must honor myself, because Allah honored me when he said:
 
-وَلَقَدْ كَرَّمْنَا بَنِىٓ آدَمَ وَحَمَلْنَهُمْ فِى ٱلْبَرِّ وَٱلْبَحْرِ
-
-“We have ennobled the children of Adam. We have made you leaders over the land and the oceans. We gave you a heart. We gave you an intellect. We nourish both with our revelation. We give you the ability to overcome the worst part of yourself. And even when you fall from time to time, We have given you the means to renew and restore your soul through توبۃ, through repentance.”
+> وَلَقَدْ كَرَّمْنَا بَنِىٓ آدَمَ وَحَمَلْنَهُمْ فِى ٱلْبَرِّ وَٱلْبَحْرِ
+>
+> “We have ennobled the children of Adam. We have made you leaders over the land and the oceans. We gave you a heart. We gave you an intellect. We nourish both with our revelation. We give you the ability to overcome the worst part of yourself. And even when you fall from time to time, We have given you the means to renew and restore your soul through توبۃ, through repentance.”
 
 What a gift from Allah. I must do this with أخلاص, with sincerity, only for the sake of Allah. But it is not easy.
 
@@ -3161,7 +3161,7 @@ I understand these as the three dimensions of Islam: the rights of Allah, the ri
 
 The last of these is the hardest. It cannot be fulfilled unless the soul has first been lit by the character of Allah. This is why Rasul Allah ﷺ said in a hadees:
 
-أتخذو من أخلاق اللہ
+> أتخذو من أخلاق اللہ
 
 Adopt the character and the qualities of Allah!
 
@@ -3175,37 +3175,37 @@ SubhanAllah. What a beautiful statement. If this man is not willing to give up h
 
 I therefore follow the example of Rasul Allah ﷺ, whom the Quran describes as reaching the pinnacle of اخلاق. Through his character, and through nothing but his character, he purified the most barbaric and vile people that had ever existed.
 
-The history of Islam shows what kind of people he was sent to reform, and what mentality ruled them. They were worse than animals. Not a single virtue lived among them. They ate the flesh of elephants and crocodiles. When they ate a goat, they even boiled its hide and ate that too. They burned their enemies alive. They tore off their skin and wore it like a scarf. They cracked open a man’s skull and used it as a cup for wine. Their women dyed their clothes in the blood of their enemies.
+The history of Islam shows what kind of people he was sent to reform, and what mentality ruled them. They were worse than animals. Not a single virtue lived among them. They ate the flesh of elephants and crocodiles. When they ate a goat, they even boiled its hide and ate that too. They burned their enemies alive. They tore off their skin and wore it like a scarf. They cracked open a man's skull and used it as a cup for wine. Their women dyed their clothes in the blood of their enemies.
 
 They did not merely kill the enemy. They tied his camel to his grave and left it there to starve to death. Sons married their mothers. Daughters were buried alive. They used the children of their enemies for target practice. Even their prayers were barbaric.
 
-یا ربِّ فَلا تَجعَل حَیَاتی مَذِلَّۃُ ولا مَوتَتِی بَینَ النِّسآءِ نوائِحِ
+> یا ربِّ فَلا تَجعَل حَیَاتی مَذِلَّۃُ ولا مَوتَتِی بَینَ النِّسآءِ نوائِحِ
 
-ولاکن قَتیلاً تَمزَقُ الطَّیرِ حَولَہُ . و تَشرُبُ غِربانُ الدَّم من جوارح
+> ولاکن قَتیلاً تَمزَقُ الطَّیرِ حَولَہُ . و تَشرُبُ غِربانُ الدَّم من جوارح
 
 Oh Lord, do not disgrace me in my life by letting me die on a bed between grieving women. Give me a death where birds tear out my flesh and crows drink the fresh blood gushing from my limbs.
 
-I see the state of the Arabs when Rasul Allah came among them. This was the people he was sent to reform. He changed them into رحمۃ اللہ علیہ. Their names are not mentioned without saying رحمۃ اللہ علیہ- May the mercy of Allah be with them.
+I see the state of the Arabs when Rasul Allah came among them. This was the people he was sent to reform. He changed them into رَحْمَۃُ اللّٰہِ عَلَیْہِ. Their names are not mentioned without saying رَحْمَۃُ اللّٰہِ عَلَیْہِ- May the mercy of Allah be with them.
 
 That is why, on the day of غدیر, Rasul Allah asked:
 
-اَلَسْتُ اَوْلَاکُمْ مِنْ اَنْفُسِکُمْ؟
+> اَلَسْتُ اَوْلَاکُمْ مِنْ اَنْفُسِکُمْ؟
 
 Am I not more beloved to you than your own souls?
 
 They replied:
 
-بلیٰ یَا رَسُولَ اللہِ
+> بلیٰ یَا رَسُولَ اللہِ
 
 Indeed you are, O prophet of Allah.
 
-كنا الحيوانات! كُنتُ جعلنا البشر
+> كُنَّا الْحَيَوَانَاتِ! كُنتُ جعلنا البشر
 
 We were animals! You made us human beings.
 
 How did he do this? Through his flawless اخلاق. He took the divine attributes of his creator into himself, formed through them a stainless character, and then reflected those same attributes back into creation with such force that the creator himself acknowledged:
 
-وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍۢ
+> وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍۢ
 
 Indeed, beyond all doubt, You have reached the highest and most exalted level of character.
 
@@ -3213,15 +3213,15 @@ Indeed, beyond all doubt, You have reached the highest and most exalted level of
 
 I now understand the meanings of رب, الرحمن, and الرحیم. I turn, then, to a beautiful spiritual image that Allah سُبْحَانَهُ وَتَعَالَى has created through the example of the womb. To state the point again briefly: a رب is made of six things. In classical Arabic:
 
-الرَبُّ ھُوَ المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
+> الرَبُّ ھُوَ المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
 
 I understand Allah سُبْحَانَهُ وَتَعَالَى as the owner and the one who has complete authority over what belongs to him. He nurtures his creation, guides it, benefits it with generous and undeserved gifts, and maintains it. This is Allah سُبْحَانَهُ وَتَعَالَى. This is his primary role with his creation. All his other attributes center on, and arise from, his ربوبیۃ. If someone asks, “Who is Allah?”, the answer is, “Allah is رب.” As for his nature, his nature is الرحمن and الرحیم. He carries out the functions of his ربوبیۃ through intense, constant love, compassion, and mercy.
 
 ### Womb is the first master
 
-With these concepts in place, I turn to the example Allah سُبْحَانَهُ وَتَعَالَى has created through the womb. I can understand much about my master’s plan by studying the relationship between the womb and the fetus. The womb is the رب of the fetus, and it shows the same principles of رحمنیۃ and رحیمیۃ in its care for it. There is a HADEES in which Rasul Allah ﷺ said:
+With these concepts in place, I turn to the example Allah سُبْحَانَهُ وَتَعَالَى has created through the womb. I can understand much about my master's plan by studying the relationship between the womb and the fetus. The womb is the رب of the fetus, and it shows the same principles of رحمنیۃ and رحیمیۃ in its care for it. There is a HADEES in which Rasul Allah ﷺ said:
 
-قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
+> قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
 
 > الدُّنْیا رَحْمُ الآخِرَۃ
 >
@@ -3235,7 +3235,7 @@ The womb also gives the fetus priceless gifts: eyes, nose, ears, hands, feet, he
 
 The womb, then, is the first physical رب I encounter. The first act this design displays is ربوبیۃ, carried out through six acts:
 
-مَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
+> مَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
 
 Once the baby is delivered into this world, the next question is where it is placed and who receives it. The baby is handed to its loving mother, who becomes its next immediate رب - not the father, but the mother.
 
@@ -3287,39 +3287,39 @@ But the fetus does not understand that. We do not understand it either. To the f
 
 Then the fetus remains in its ignorance and arrogance until the nine months are complete. Contractions begin. Panic enters the fetus. What is happening? What is taking place? This is the event I said would come. This is the day I said would arrive. This world was temporary.
 
-With those contractions, the fetus’s beautiful world, the world in which it had lived happily and comfortably, begins to fall apart all around it. Is this not exactly the description of the Day of Judgment?
+With those contractions, the fetus's beautiful world, the world in which it had lived happily and comfortably, begins to fall apart all around it. Is this not exactly the description of the Day of Judgment?
 
-إِذَا زُلْزِلَتِ ٱلْأَرْضُ زِلْزَالَهَا
+> إِذَا زُلْزِلَتِ ٱلْأَرْضُ زِلْزَالَهَا
 
 When the earth is shaken by its earthquakes,
 
-وَأَخْرَجَتِ ٱلْأَرْضُ أَثْقَالَهَا
+> وَأَخْرَجَتِ ٱلْأَرْضُ أَثْقَالَهَا
 
 and the earth throws out its burdens,
 
-وَقَالَ ٱلْإِنسَنُ مَا لَهَا
+> وَقَالَ ٱلْإِنسَنُ مَا لَهَا
 
 and man says, “What is wrong with it?” -
 
-يَوْمَئِذٍۢ تُحَدِّثُ أَخْبَارَهَا. بِأَنَّ رَبَّكَ أَوْحَىٰ لَهَا
+> يَوْمَئِذٍۢ تُحَدِّثُ أَخْبَارَهَا. بِأَنَّ رَبَّكَ أَوْحَىٰ لَهَا
 
 on that Day, it will report its news, because your master has commanded it.
 
-يَوْمَئِذٍۢ يَصْدُرُ ٱلنَّاسُ أَشْتَاتًۭا لِّيُرَوْا۟ أَعْمَلَهُمْ
+> يَوْمَئِذٍۢ يَصْدُرُ ٱلنَّاسُ أَشْتَاتًۭا لِّيُرَوْا۟ أَعْمَلَهُمْ
 
 On that Day, people will go out in scattered groups, and they will be shown the results of their deeds.
 
-فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًۭا. يَرَهُ
+> فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًۭا. يَرَهُ
 
-So whoever has done an atom’s weight of good will see it,
+So whoever has done an atom's weight of good will see it,
 
-وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍۢ شَرًّۭا. يَرَهُ
+> وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍۢ شَرًّۭا. يَرَهُ
 
-and whoever has done an atom’s weight of evil will see it.
+and whoever has done an atom's weight of evil will see it.
 
 The world of this fetus now comes to an end, and it is forced out of it. It is pushed out against its will. The fetus has no choice about remaining in the womb. Whether it wants to stay or not, once its time is complete, it is driven out into the next world. It dies in the womb so that it may be born again in the world beyond it.
 
-That is what the word انتقال means. It comes from نقل, which means transference. It also means a copy or replica, because the next world will be a copy, a replica, of the first. Whoever did good in that world will find good in the next. Whoever did evil there will meet evil in the next. If the fetus has not properly developed its eyes, ears, brain, and limbs in its mother’s womb, it will suffer the consequences in this afterlife of دنیا.
+That is what the word انتقال means. It comes from نقل, which means transference. It also means a copy or replica, because the next world will be a copy, a replica, of the first. Whoever did good in that world will find good in the next. Whoever did evil there will meet evil in the next. If the fetus has not properly developed its eyes, ears, brain, and limbs in its mother's womb, it will suffer the consequences in this afterlife of دنیا.
 
 I now see this temporal world of the fetus destroyed. It enters the vast world about which it had been informed, the world promised to it in the womb. It is placed in this world, this afterlife it chose **not** to believe in.
 
@@ -3337,53 +3337,53 @@ The question then rises: why, and how does this help me? It is not meant to help
 
 All I am doing in this دنیا is developing them so they may be used in the next world, which is جنۃ: a world of immense beauty, governed by a رب who is intensely merciful and constantly merciful. The شریعۃ is the umbilical cord that supplies nourishment for the growth of my spiritual being. Whether I believe it or not, and whether I want it or not, the next world is inevitable.
 
-الْجَنَّۃُ حَقٌّ وَالنَّارُ حَقٌّ وَالْمَوْتُ حَقٌّ وَالْبَعْثُ حَقٌّ وَالْمِیزَانُ حَقٌّ وَالصِّرَاطُ حَقٌّ
+> الْجَنَّۃُ حَقٌّ وَالنَّارُ حَقٌّ وَالْمَوْتُ حَقٌّ وَالْبَعْثُ حَقٌّ وَالْمِیزَانُ حَقٌّ وَالصِّرَاطُ حَقٌّ
 
 Paradise is a reality. Hellfire is a reality. Death is a reality. Rising from the graves is a reality. The scales on which my actions will be weighed are a reality. The straight path is a reality.
 
-وَاَنَّ السَّاعَۃَ آتِیَۃٌ لَا رَیْبَ فِیھَا
+> وَاَنَّ السَّاعَۃَ آتِیَۃٌ لَا رَیْبَ فِیھَا
 
 That appointed moment is coming; there is no doubt about it. In that world, justice will be carried out fully. Every incident that made me ask, “Where is justice?” will be answered on that day, when justice becomes visible to all. Innocent people who suffered for a moment in this world will have that brief suffering balanced by gifts and pleasures without end. Those who caused such suffering for passing gain and pleasure will have their pleasure answered with grievous pain and everlasting torment.
 
-إِذَا ٱلشَّمْسُ كُوِّرَت
+> إِذَا ٱلشَّمْسُ كُوِّرَت
 
-وَإِذَا ٱلنُّجُومُ ٱنكَدَرَتْ
+> وَإِذَا ٱلنُّجُومُ ٱنكَدَرَتْ
 
-وَإِذَا ٱلْجِبَالُ سُيِّرَتْ
+> وَإِذَا ٱلْجِبَالُ سُيِّرَتْ
 
-وَإِذَا ٱلْعِشَارُ عُطِّلَتْ
+> وَإِذَا ٱلْعِشَارُ عُطِّلَتْ
 
-وَإِذَا ٱلْوُحُوشُ حُشِرَتْ
+> وَإِذَا ٱلْوُحُوشُ حُشِرَتْ
 
-وَإِذَا ٱلْبِحَارُ سُجِّرَتْ
+> وَإِذَا ٱلْبِحَارُ سُجِّرَتْ
 
 I understand all of these as descriptions of the Day of Judgment, when this universe will be destroyed.
 
-وَإِذَا ٱلنُّفُوسُ زُوِّجَتْ
+> وَإِذَا ٱلنُّفُوسُ زُوِّجَتْ
 
 On that day, souls will be paired together, and I will finally meet the loved ones who left this world before me.
 
-وَإِذَا ٱلْمَوْءُۥدَةُ سُئِلَتْ. بِأَىِّ ذَنۢبٍۢ قُتِلَتْ
+> وَإِذَا ٱلْمَوْءُۥدَةُ سُئِلَتْ. بِأَىِّ ذَنۢبٍۢ قُتِلَتْ
 
 On that day, the little girl who was buried alive will be asked for what sin she was killed. That is the day when Allah will exact justice. That is the Day of Justice, not this world in which we live.
 
-وَإِذَا ٱلصُّحُفُ نُشِرَتْ
+> وَإِذَا ٱلصُّحُفُ نُشِرَتْ
 
 On that day, the books of deeds will be made public.
 
-وَإِذَا ٱلسَّمَآءُ كُشِطَتْ
+> وَإِذَا ٱلسَّمَآءُ كُشِطَتْ
 
 On that day, the sky will be stripped away.
 
-وَإِذَا ٱلْجَحِيمُ سُعِّرَتْ
+> وَإِذَا ٱلْجَحِيمُ سُعِّرَتْ
 
 On that day, Hellfire will be set ablaze.
 
-وَإِذَا ٱلْجَنَّةُ أُزْلِفَتْ
+> وَإِذَا ٱلْجَنَّةُ أُزْلِفَتْ
 
 And on that day, Paradise will be brought near.
 
-عَلِمَتْ نَفْسٌۭ مَّآ أَحْضَرَتْ
+> عَلِمَتْ نَفْسٌۭ مَّآ أَحْضَرَتْ
 
 Every soul will then know what it has brought with it. Every good deed will be rewarded that day, and every evil deed will be punished.
 
@@ -3401,37 +3401,37 @@ Rasul Allah ﷺ once asked his companions:
 
 They said:
 
-المُفلِسُ . مَن لا دِینارُ ولا دَرھَمُ عِندَنَا یا رسول اللہ
+> المُفلِسُ . مَن لا دِینارُ ولا دَرھَمُ عِندَنَا یا رسول اللہ
 
 The destitute is the one who has no درھم or دینار to his name.
 
 The Prophet said, “No! The greatest destitute of my امۃ on the Day of Judgment.”
 
-أِنَّ المُفلِسَ مِن أُمَّتِی. مَن یَأتِی یَومَ القِیَامَۃِ بِصلاۃٍ. وَصِیَامٍ. وَ زَکَاۃٍ.
+> أِنَّ المُفلِسَ مِن أُمَّتِی. مَن یَأتِی یَومَ القِیَامَۃِ بِصلاۃٍ. وَصِیَامٍ. وَ زَکَاۃٍ.
+>
+> “The greatest destitute of my امۃ on the Day of Judgment will be the one who comes with all his prayers, all his fasts, and all his زکوۃ, and”
 
-“The greatest destitute of my امۃ on the Day of Judgment will be the one who comes with all his prayers, all his fasts, and all his زکوۃ, and”
+> وَیأتِی قَدْ شَتَمْ ھذا. وَقُذِفَ ھٰذا. وَأَکَلَ مَالَ ھٰذا. وَسَفَکَ الدَّمَّ ھذا. وَضَرَبَ ھذا
 
-وَیأتِی قَدْ شَتَمْ ھذا. وَقُذِفَ ھٰذا. وَأَکَلَ مَالَ ھٰذا. وَسَفَکَ الدَّمَّ ھذا. وَضَرَبَ ھذا
+yet alongside those deeds, he had cheated one person, lied to another, seized another's wealth, shed another's blood, and struck another.
 
-yet alongside those deeds, he had cheated one person, lied to another, seized another’s wealth, shed another’s blood, and struck another.
-
-فَیُعطٰی ھٰذا مِن حَسَنَاتِہِ وَ ھٰذا مِن حَسَنَاتِہِ
+> فَیُعطٰی ھٰذا مِن حَسَنَاتِہِ وَ ھٰذا مِن حَسَنَاتِہِ
 
 His good deeds will then be taken from his account and placed into the accounts of each one he wronged.
 
-فَأِن فَنَیتُ حَسَنَاتُہُ قبَلَ أَنْ یُقضٰی مَا عَلیہ.
+> فَأِن فَنَیتُ حَسَنَاتُہُ قبَلَ أَنْ یُقضٰی مَا عَلیہ.
 
 Then his good deeds run out before justice has been fully done.
 
-أَخِذَ مِن خَطَایَاھُم. فَطُرِحَت عَلَیہِ.
+> أَخِذَ مِن خَطَایَاھُم. فَطُرِحَت عَلَیہِ.
 
 The sins and faults of the remaining victims will be taken from their accounts and placed on **his** account.
 
-ثُمَّ طُرِحَ فِی النَّار
+> ثُمَّ طُرِحَ فِی النَّار
 
 So although he lived a whole life filled with worship, prayers, fasts, and زکوۃ, his injustices against other people strip him of every good deed. He then carries the grave sins of those he wronged, until at last he is thrown into Hellfire. This person, he said, will be the greatest destitute of my امۃ.
 
-. نَعُوذُ بِاللَّہِ مِنْ ذَالِکَ
+> . نَعُوذُ بِاللَّہِ مِنْ ذَالِکَ
 
 May Allah protect us all from being among these destitute on the Day of Judgment.
 
@@ -3439,7 +3439,7 @@ May Allah protect us all from being among these destitute on the Day of Judgment
 
 I have now set out the linguistic meanings of the basic terms, so I begin with بسم اللہ, the first verse of سُورَۃُ الْفَاتِحَۃِ.
 
-بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ
+> بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ
 
 I find that the Arabs often shortened statements that were used again and again. When they wanted to refer to بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ, they referred to it by بسم اللہ. When they wanted to refer to لَا حَوْلَ وَلَا قُوَّۃَ اِلَّا بِاللَّہِ, they called it the حوقلا. In the same way, they used حمدللہ for الحمد للہ رب العلمین, and so on.
 
@@ -3447,7 +3447,7 @@ I find that the Arabs often shortened statements that were used again and again.
 
 From a grammatical point of view, بسم اللہ contains one noun and two adjectives. The word Allah is a noun. It names an entity, a being. Then two attributes of رحمۃ are mentioned, and they describe the nature of Allah: الرحمن and الرحیم.
 
-I now turn to the distinction between Allah’s name and his attributes. In grammatical terms, this is the distinction between a noun and adjectives. Attributes are among the tools language gives for understanding something. Through noun and adjectives together, or through name and attributes together, I understand an entity.
+I now turn to the distinction between Allah's name and his attributes. In grammatical terms, this is the distinction between a noun and adjectives. Attributes are among the tools language gives for understanding something. Through noun and adjectives together, or through name and attributes together, I understand an entity.
 
 I gain a fuller understanding of any entity by understanding its attributes. In Arabic, this relation is called ذات and صفات: being and its attributes. For example, I have a soul and a body, and together they constitute my ذات, my being.
 
@@ -3459,37 +3459,37 @@ Yet attributes cannot exist without being. The ذات gives existence to the ص�
 
 I can now break down the statement of the بسم اللہ. The term Allah points to His ذات, His being. He is a deity named Allah. Allah is the title of His essence.
 
-إِنَّنِىٓ أَنَا ٱللَّهُ لَآ إِلَهَ إِلَّآ أَنَا۠
+> إِنَّنِىٓ أَنَا ٱللَّهُ لَآ إِلَهَ إِلَّآ أَنَا۠
 
 No doubt, I am Allah; and there is none worthy of worship and obedience except me. This noun Allah has adjectives: His ninety-nine صفات, His attributes, which describe the nature of Allah and His various manifestations in His dealings with creation. I now have,
 
-الرحمن، الرحيم، الملك، القدوس، السلام، المؤمن، المهيمن، العزيز، الجبار، المتكبر، الخالق، البارئ، المصور، الغفَّار، القهَّار، الوهَّاب ، الرزَّاق ، الفتَّاح ، العليم، القابض، الباسط، الخافض، الرافع، المعز، المذل، السميع، البصير، الحكم، الحکیم، العادل، اللطيف، الحلیم، الخبير، العظيم، الغفور، الشكور، العلي، الكبير، الحفيظ، الحسيب، الكريم، المقیم، الرقیب، الجلیل، المجيب، الواسع، الودود، المجيد، الباعث، الشهيد، الوكيل، القوى، المتين، الولي، الحميد، المحصى، المبدئ ، المعيد، المحيي، المميت، الحي، القيوم، الواجد، الماجد، الواحد، الصمد، القادر، المقتدر، المقدِّم، المؤخر، الأول، الآخر، الظاهر، الباطن، الوالي، المتعال، البِر، التواب، المنتقم، العفو، الرؤوف، اَلْمَالِكُ الْمَلِكُ، ذُو الْجَلَالِ وَ الْإِكْرَامِ، المقسط، الجامع، الغني، المغني، المانع، الضار، النافع، النور، الهادي، البديع، الباقي، الوارث، الرشيد، الصبور ، الحنان، المنان، الدیان، البرھان
+> الرحمن، الرحيم، الملك، القدوس، السلام، المؤمن، المهيمن، العزيز، الجبار، المتكبر، الخالق، البارئ، المصور، الغفَّار، القهَّار، الوهَّاب ، الرزَّاق ، الفتَّاح ، العليم، القابض، الباسط، الخافض، الرافع، المعز، المذل، السميع، البصير، الحكم، الحکیم، العادل، اللطيف، الحلیم، الخبير، العظيم، الغفور، الشكور، العلي، الكبير، الحفيظ، الحسيب، الكريم، المقیم، الرقیب، الجلیل، المجيب، الواسع، الودود، المجيد، الباعث، الشهيد، الوكيل، القوى، المتين، الولي، الحميد، المحصى، المبدئ ، المعيد، المحيي، المميت، الحي، القيوم، الواجد، الماجد، الواحد، الصمد، القادر، المقتدر، المقدِّم، المؤخر، الأول، الآخر، الظاهر، الباطن، الوالي، المتعال، البِر، التواب، المنتقم، العفو، الرؤوف، اَلْمَالِكُ الْمَلِكُ، ذُو الْجَلَالِ وَ الْإِكْرَامِ، المقسط، الجامع، الغني، المغني، المانع، الضار، النافع، النور، الهادي، البديع، الباقي، الوارث، الرشيد، الصبور ، الحنان، المنان، الدیان، البرھان
 
 I understand these names as attributes that describe the nature of Allah. I have used the example of a prism and light before: Allah may be understood as one pure light, اللَّہُ نُورُ السَّمَوَاتِ وَ الْاَرْضِ. When the pure light of the name Allah enters the physical realm, his divine attributes refract within creation.
 
-From that refraction, the many manifestations of Allah’s essence become known through his dealings with creation. In one instance, Allah is کریم (the generous). In another, he is جبار (the compeller). In another, he is قھار (the subduer). In another, he is عزیز (the powerful). In another, he is مُزل (the one who humiliates and humbles). In another, he is معز (the one who bestows honor).
+From that refraction, the many manifestations of Allah's essence become known through his dealings with creation. In one instance, Allah is کریم (the generous). In another, he is جبار (the compeller). In another, he is قھار (the subduer). In another, he is عزیز (the powerful). In another, he is مُزل (the one who humiliates and humbles). In another, he is معز (the one who bestows honor).
 
-His essence appears through all these attributes within creation. The world therefore becomes a theater for the divine manifestations of Allah’s attributes, and through them I come to know Allah: not directly through his essence, but through the refraction of his attributes in his creation.
+His essence appears through all these attributes within creation. The world therefore becomes a theater for the divine manifestations of Allah's attributes, and through them I come to know Allah: not directly through his essence, but through the refraction of his attributes in his creation.
 
 ### Transcendence vs immanence
 
 This is why it is said:
 
-لَا تُفَکِّرْ فِی اللَّہِ . وَلَاکِنْ تَفَکَّرْ فِی خَلْقِ اللَّہِ
+> لَا تُفَکِّرْ فِی اللَّہِ . وَلَاکِنْ تَفَکَّرْ فِی خَلْقِ اللَّہِ
 
 I do not reflect upon Allah directly, but reflect instead upon the creations of Allah. Creation, and the natural world within it, is where his attributes become visible to me. Yet Allah is infinite, and his attributes are infinite. For that reason, when I try to understand Allah, I become bewildered by his attributes. In one sense, I cannot know what God is any more than I can know what God is not. Speech about Allah is speech about the infinite creator of the heavens and the earth. Infinite means without limit: لا حُدودَ لہ.
 
 In Arabic, the word for “definition” is also the word used for limitation, or boundary: الحد. A definition gives a concept its finiteness. It limits it, marks its edges, and sets it in perspective. Therefore, when I speak about God, I cannot define God. To define God would be to give him a حد, a boundary, and a limit. That is impossible. This is why the scholars say that all of عقیدۃ can be reduced to two statements:
 
-لیس کمثلہ شئی
+> لیس کمثلہ شئی
 
 He is unlike anything.
 
-لا یُشْبِحُ ذاتُہُ الذَّوات ولا مُتَعَاطِلَۃُ الصِّفات
+> لا یُشْبِحُ ذاتُہُ الذَّوات ولا مُتَعَاطِلَۃُ الصِّفات
 
 His essence is not like any other essence, and his attributes are not metaphorical in any way. He is:
 
-الغَنیُ عَنِ الجَمِیعُ و الجمیعُ مفتَقِرٌ الیہ
+> الغَنیُ عَنِ الجَمِیعُ و الجمیعُ مفتَقِرٌ الیہ
 
 He has no need of anyone, and everyone is in need of him. This statement negates **need** for Allah: سُبْحَانَهُ وَتَعَالَى. It also negates **independence** for me.
 
@@ -3497,7 +3497,7 @@ He has no need of anyone, and everyone is in need of him. This statement negates
 
 I now come to another central problem in religion: transcendence and immanence. Transcendence means speaking about God without taking anything in the world as a guide to Him. Nothing in the world can be pointed to and called God.
 
-تَعَالَی اللَّہُ عَنْ مَا یَصِفُونَ
+> تَعَالَی اللَّہُ عَنْ مَا یَصِفُونَ
 
 Allah is above and beyond whatever they ascribe to Him. When I speak about transcendence, I mean that Allah is above and beyond everything I know: سُبحانک. In Arabic this is called تنزیح. The word تنزیح means transcendence. It comes from نزح, which means to purify, to remove filth, and to rise beyond something.
 
@@ -3517,17 +3517,17 @@ A servant must have access to his master. If God is understood as only transcend
 
 This problem also appears in some Muslim understandings. Some Muslims hear words used in hadith or in the Quran and take them in a human way.
 
-الْمَعْضُوبِ عَلَیْھِمْ
+> الْمَعْضُوبِ عَلَیْھِمْ
 
 They think that those who faced the anger of Allah faced an anger like ours. They imagine that Allah becomes angry in an emotional sense, and that:
 
-تَعَالَی اللَّہُ عَنْ مَا یَصِفُونَ
+> تَعَالَی اللَّہُ عَنْ مَا یَصِفُونَ
 
 Allah is above and beyond anything they ascribe to him.
 
 At the same time, I do believe that غضب has a meaning. I believe that رضی has a meaning. I believe that the words Allah used in the Quran have meaning:
 
-رضی اللہ عنہ و رضو عنھم
+> رضی اللہ عنہ و رضو عنھم
 
 They were pleased with Allah, and Allah was pleased with them. But a person's pleasure with Allah is not the same as Allah's pleasure with that person. The two words do not carry the same meaning in the two contexts. Each word means something specific according to the thing it is predicated of.
 
@@ -3539,7 +3539,7 @@ For this reason, the Prophet ﷺ is the purest filter. He is still a filter, bec
 
 So the soundest understanding of Allah سُبْحَانَهُ وَتَعَالَى is the understanding the Prophet ﷺ gave us. This is why he said:
 
-اللھم لا نُحثِنَ الثَّناءَ عَلَیکَ..... أَنتَ کَما أِثنَیتَ عَلَی نَفسِکَ
+> اللھم لا نُحثِنَ الثَّناءَ عَلَیکَ..... أَنتَ کَما أِثنَیتَ عَلَی نَفسِکَ
 
 I am not able to praise You as You deserve. You are as You praised Yourself. In other words, I cannot truly praise You, because praise depends on knowledge of the one being praised. Without knowing the qualities of someone or something, real praise is not possible.
 
@@ -3557,7 +3557,7 @@ I really do not. It is simply the best word available for speaking about His exi
 
 This is where every attempt to understand Allah سُبْحَانَهُ وَتَعَالَى runs into its limit. For this reason, Maulana Ali (AS) defined the recognition of Allah as:
 
-الْعَجْزُ عَنْ دَرْكِ الْإِدْرَاكِ إِدْرَاكٌ . والبحث عن ذاتِهِ كُفرُ وإشراك
+> الْعَجْزُ عَنْ دَرْكِ الْإِدْرَاكِ إِدْرَاكٌ . والبحث عن ذاتِهِ كُفرُ وإشراك
 
 The inability to recognize Allah **is** recognition of Him. Any attempt to discuss His essence is شرک, and it will inevitably end in assigning partners to Him. To accept the inability to know Allah **is** to recognize Him. This is why the most essential act of worship in Islam is سجدۃ: to place the intellect on the ground and surrender its claim to know Allah.
 
@@ -3567,7 +3567,7 @@ The Quran gives an extraordinarily concise statement about how God may be unders
 
 Every “thing,” every “being” that exists in this world, has its own set of attributes. All of those attributes point to the منشاء, the will and purpose of its creator. But when it comes to Allah Himself, there is no “thing,” no شئی, that can be compared to Him in any way at all. The Quran explains this through a single word in the ayah.
 
-لَيْسَ كَمِثْلِهِ شَىْءٌۭ
+> لَيْسَ كَمِثْلِهِ شَىْءٌۭ
 
 No matter what I do, no matter how high my imagination flies, and no matter how deeply my thoughts descend, I can never comprehend Allah. No existing thing, whether physical or spiritual, is like Allah in any way.
 
@@ -3577,31 +3577,31 @@ This is a profound paradox. He created this magnificent universe around us, with
 
 What is so remarkable is that this meaning is carried by one word: كَمِثْلِهِ. This is not a common word, not even in ancient Arabia. It is a word used only in بلاغۃ, in the eloquence of the Quran.
 
-Grammatically, کمثلہ is actually two words. The first is کَ, and the second is مثلہ. Both are used for comparison, but they are not normally fused together in this way. The subtlety lies in the Quran’s use of کمثلہ.
+Grammatically, کمثلہ is actually two words. The first is کَ, and the second is مثلہ. Both are used for comparison, but they are not normally fused together in this way. The subtlety lies in the Quran's use of کمثلہ.
 
 ### Comparing Attributes
 
 I use the letter کَ in Arabic when I want to compare someone in attributes. For example, if I want to compare the bravery of زید to a lion, and say that زید is brave like a lion, I must use the letter کَ. I say:
 
-زیدٌ کل أسدِ
+> زیدٌ کل أسدِ
 
-I am saying that زید is like a lion. The comparison here is not between two essences. It is between the lion’s bravery and the bravery of زید. For that reason, I use the letter کَ.
+I am saying that زید is like a lion. The comparison here is not between two essences. It is between the lion's bravery and the bravery of زید. For that reason, I use the letter کَ.
 
 ### Comparing Essence
 
 But when I need to make a comparison in essence, I cannot use the letter کَ. That would be grammatically wrong. I must use the word مثل. For example, I can say:
 
-اَلشِّبْلُ مِثْلُ الْاَسَدِ
+> اَلشِّبْلُ مِثْلُ الْاَسَدِ
 
 A cub is similar to a lion. The son of a lion is like the lion. Here I use the word مثل because I am not comparing attributes. I am comparing the essence of two entities.
 
 This is a rule of Arabic when making comparisons. The two words کَ and مثل are used with precision. This distinction appears throughout Arabic poetry. For example, a poet praises the generosity of a king by comparing it to an ocean. Since generosity is an attribute, he says:
 
-کل بحرِ یَقذِفُ لِلقریبِ لآلیۃ جوداً و یبَعَثُ لِلبَعیدِ سحائِبا
+> کل بحرِ یَقذِفُ لِلقریبِ لآلیۃ جوداً و یبَعَثُ لِلبَعیدِ سحائِبا
 
 He says that the king is generous like the ocean. When I draw near to him, he gives me pearls; when I go far from him, he sends clouds heavy with rain. Here the poet uses کَ, because he is comparing an attribute: generosity. But when the comparison concerns the being itself, or the entity as such, the word must be مثل.
 
-أنا السُّروجِیُّ وَ ھذا وَلدی و الشِّبلُ فی الِمخبَرِ مِثلُ الاسد
+> أنا السُّروجِیُّ وَ ھذا وَلدی و الشِّبلُ فی الِمخبَرِ مِثلُ الاسد
 
 I am a lion, and this is my son. Without doubt, the son of a lion is like the lion. Because the comparison here is in being, the poet uses مثل.
 
@@ -3609,7 +3609,7 @@ I am a lion, and this is my son. Without doubt, the son of a lion is like the li
 
 This subtlety gives the ayah its beauty. Allah says.
 
-لَيْسَ كَمِثْلِهِ شَىْءٌۭ
+> لَيْسَ كَمِثْلِهِ شَىْءٌۭ
 
 I see that, in speaking of any comparison with Himself, Allah joins both کَ and مثل in the expression کمثلہ. The reason is precise. کَ is used for attributes, while مثل is used for the being itself.
 
@@ -3625,19 +3625,19 @@ The meaning, then, is that every attempted comparison fails. If the comparison i
 
 I now understand this concept: the بسم اللہ gathers all the attributes of Allah سُبْحَانَهُ وَتَعَالَى under two primary attributes, الرحمن and الرحیم. These two attributes are always present in every action of Allah سُبْحَانَهُ وَتَعَالَى: رحمۃ, intense mercy and consistent mercy.
 
-So when I say بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ, I am remembering the essence of Allah as it becomes manifest to me through His two primary attributes of رحمۃ, which enfold all His remaining attributes. Whatever form Allah’s interaction with me takes at this moment, His رحمۃ is present in that manifestation. Even if He is manifesting in my life right now as جبار or قھار, His love, care, compassion, concern, and mercy are present in His interaction with me.
+So when I say بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ, I am remembering the essence of Allah as it becomes manifest to me through His two primary attributes of رحمۃ, which enfold all His remaining attributes. Whatever form Allah's interaction with me takes at this moment, His رحمۃ is present in that manifestation. Even if He is manifesting in my life right now as جبار or قھار, His love, care, compassion, concern, and mercy are present in His interaction with me.
 
 ## The ISM Of Allah
 
 ### Noun or Name
 
-I spoke of Allah’s transcendence and immanence سُبْحَانَهُ وَتَعَالَى. In one sense, he is immeasurably distant by reason of his loftiness. At the same time, he is intensely near to the heart and to consciousness. I also set out the distinction between Allah and his attributes, and showed that he is incomparable in both respects: لیس کمثلہ شئی.
+I spoke of Allah's transcendence and immanence سُبْحَانَهُ وَتَعَالَى. In one sense, he is immeasurably distant by reason of his loftiness. At the same time, he is intensely near to the heart and to consciousness. I also set out the distinction between Allah and his attributes, and showed that he is incomparable in both respects: لیس کمثلہ شئی.
 
 After the noun Allah and his adjectives, الرحمن and الرحیم, comes أسم. The Arabic word اسم has two meanings. It means a noun, in the grammatical sense, and it also means a name, since every noun names something. The Arabs therefore used the word in both senses.
 
 From the Quranic perspective, the idea of a name carries great weight. It was the names, the اسماء, that raised Adam AS above the angels and made him worthy of their prostration. These names were also taught to Adam AS directly by Allah سُبْحَانَهُ وَتَعَالَى.
 
-وَعَلَّمَ آدَمَ ٱلْأَسْمَآءَ كُلَّهَا
+> وَعَلَّمَ آدَمَ ٱلْأَسْمَآءَ كُلَّهَا
 
 Allah taught Adam all the names. The idea of name therefore stands deep within the human psyche, because we are بنی آدم. We are the children of Adam.
 
@@ -3711,11 +3711,11 @@ Surely, in the variance of the heavens and the earth, and in the difference of t
 
 Allah sets tongues in relation to the heavens, and the colors of skin in relation to the earth. In Arabic, this is called طباق: a form of antithesis, where opposites clarify one another. He mentions the heavens and the earth, then tongues and colors: the color of skin and the language of the tongue. Speech, then, has a relation to heaven, and skin color has a relation to earth, because speech comes from heaven.
 
-عَلَّمَ آدَمَ اَسْمَاءَ کَلَّھَا
+> عَلَّمَ آدَمَ اَسْمَاءَ کَلَّھَا
 
 Allah taught human beings language, or imprinted language within them.
 
-الرحمن علم القرآن
+> اَلرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ
 
 I mean this literally. علَّم means to imprint something. Language was imprinted within the human being. That is why every human being has the capacity to learn language.
 
@@ -3727,7 +3727,7 @@ Language belongs to meaning. Complexion belongs to what is sensed. A relation th
 
 I understand the essence of the human being as language. For that reason, the human being is defined as الْحَیَوَانُ النَّاطِقُ: the speaking animal, or the animal that articulates. The essence of language is rationality. Language carries meaning.
 
-If the essence of the human being is language, then judging a person by skin color is deeply wrong. Skin color belongs to what is incidental, not to the person’s true nature. A human being is judged more rightly by what he believes, how he speaks, what he says, whether he is truthful, whether he is virtuous, and whether he stands for the truth. This is why Dr. King spoke of being judged by the content of character. The content of character is known through what comes from the person’s essence. That essence is belief, because belief is what will show itself outwardly.
+If the essence of the human being is language, then judging a person by skin color is deeply wrong. Skin color belongs to what is incidental, not to the person's true nature. A human being is judged more rightly by what he believes, how he speaks, what he says, whether he is truthful, whether he is virtuous, and whether he stands for the truth. This is why Dr. King spoke of being judged by the content of character. The content of character is known through what comes from the person's essence. That essence is belief, because belief is what will show itself outwardly.
 
 ![](images/153/c0f35ef5-2e24-47de-9770-22647f9d900c.jpg)
 
@@ -3737,7 +3737,7 @@ I cannot know Allah as I know created things. I cannot know Allah as I know a ta
 
 The only way I can know Allah is through symbolic language: symbols within language and symbols within existence. These are His آیات. His آیات within language appears in the form of Quran. His آیات within existence appears in the form of the heavens, the earth, and everything between them.
 
-I find that the Quran directs me to Allah’s ninety-nine divine names as familiar symbols in language, so that I can gain some concept of who he is. For example, Allah is called مَالِکِ یَوْمِ الدِّینِ. He is the owner, or king, of the Day of Judgment.
+I find that the Quran directs me to Allah's ninety-nine divine names as familiar symbols in language, so that I can gain some concept of who he is. For example, Allah is called مَالِکِ یَوْمِ الدِّینِ. He is the owner, or king, of the Day of Judgment.
 
 I can understand that because I already understand the idea of a مالک. I have a concept of a king. That concept lets me grasp something of the position Allah will take on the Day of Judgment. He will assume the position of a king, or of the ultimate owner. Yet this understanding comes only through the symbolic reference. Allah is not limited by my idea of what a king is. He is far more exalted than that. Still, the idea of a king gives me at least some understanding of his position and of his relationship with me. It carries the point across.
 
@@ -3755,17 +3755,17 @@ The reason is that the با of بسم اللہ is attached to an omitted verb. T
 
 A verb changes the matter because it brings time into it. An action belongs to past, present, or future. Nouns do not. A tree is a tree. But when the tree begins to blow in the wind, time enters the picture. Did it blow in the past? Is it blowing now? Will it blow when the wind comes?
 
-The tree’s swaying is an action of the tree’s essence. Without that action, the tree is simply in a state of being. This opens a deeper question about existence itself: is the root of existence movement and action, or is it being?
+The tree's swaying is an action of the tree's essence. Without that action, the tree is simply in a state of being. This opens a deeper question about existence itself: is the root of existence movement and action, or is it being?
 
-I hold that the same point applies to Allah’s relationship with the world. Allah سُبْحَانَهُ وَتَعَالَى has action, but his action is created. His actual essence is passive. When I speak about Allah سُبْحَانَهُ وَتَعَالَى, there is no action in his essence.
+I hold that the same point applies to Allah's relationship with the world. Allah سُبْحَانَهُ وَتَعَالَى has action, but his action is created. His actual essence is passive. When I speak about Allah سُبْحَانَهُ وَتَعَالَى, there is no action in his essence.
 
 Allah is essence and attribute, and both essence and attribute are states of being. Action, however, is a substantive: it enters time and takes place within it. For this reason, theology understands that Allah سُبْحَانَهُ وَتَعَالَى is beyond time and space. His action, then, appears as creation and within creation. He brings things into existence through his فعل, but that فعل is محدث.
 
-وَإِذَا قَضَىٰٓ أَمْرًۭا فَإِنَّمَا يَقُولُ لَهُۥ كُن فَيَكُونُ
+> وَإِذَا قَضَىٰٓ أَمْرًۭا فَإِنَّمَا يَقُولُ لَهُۥ كُن فَيَكُونُ
 
-When he decides an affair, he says to it "be" and it "is". Allah سُبْحَانَهُ وَتَعَالَى brings creation into existence through a command, which is a فعل. The preposition با is therefore connected to the omitted verb of Allah’s act of creation.
+When he decides an affair, he says to it "be" and it "is". Allah سُبْحَانَهُ وَتَعَالَى brings creation into existence through a command, which is a فعل. The preposition با is therefore connected to the omitted verb of Allah's act of creation.
 
-When I recite the بسم اللہ, I am saying بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ. I begin with the recognition of the lofty signs within Allah’s creation. These signs bear witness to His intense and constant love, compassion, care, and mercy. This is the context of Allah’s primordial act, سُبْحَانَهُ وَتَعَالَى. In other words, this is the meaning of that statement in the transcendent realm. Its meaning in the immanent, personal realm is another matter.
+When I recite the بسم اللہ, I am saying بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ. I begin with the recognition of the lofty signs within Allah's creation. These signs bear witness to His intense and constant love, compassion, care, and mercy. This is the context of Allah's primordial act, سُبْحَانَهُ وَتَعَالَى. In other words, this is the meaning of that statement in the transcendent realm. Its meaning in the immanent, personal realm is another matter.
 
 ### Omitted Verb
 
@@ -3785,21 +3785,21 @@ Allah left the phrase بِسْمِ اللَّہِ الرَّحْمَنِ الر�
 
 If I am about to read the Quran and I say بِسْمِ اللَّہِ االرَّحْمَنِ الرَّحِیمِ, the act of reading completes the بسم اللہ. What I am saying is: “With the name of Allah, who is intensely and consistently loving and merciful, I begin reading this book.” Whatever the action may be, it is strengthened by the بسم اللہ.
 
-What is even more remarkable appears when I look at the phrase linguistically, in light of what has already been learned. I am really saying that my ability to read, and the Quran I intend to read, are both lofty signs pointing to Allah’s immense love and mercy: His رحمنیۃ and His رحیمیۃ. The moment I recite this phrase, Allah’s love and mercy stand at the center of my attention. My act, whatever it is, becomes a lofty sign and symbol. It becomes a witness and bears testimony to Allah’s رحمۃ. It changes my view of the action before I have even begun it. SubhanAllah.
+What is even more remarkable appears when I look at the phrase linguistically, in light of what has already been learned. I am really saying that my ability to read, and the Quran I intend to read, are both lofty signs pointing to Allah's immense love and mercy: His رحمنیۃ and His رحیمیۃ. The moment I recite this phrase, Allah's love and mercy stand at the center of my attention. My act, whatever it is, becomes a lofty sign and symbol. It becomes a witness and bears testimony to Allah's رحمۃ. It changes my view of the action before I have even begun it. SubhanAllah.
 
-When I say بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ before I begin driving, the whole act of driving becomes a reminder of Allah’s love and mercy. My ability to drive points back to Him. So do the resources that allow me to own a car, the mental capacity to read the signs, the judgment to assess traffic, the intuition to know when to stop and how fast to go, the facilities inside the car, and the scenery outside it. Every part of the experience becomes a lofty reminder that points me directly to Allah’s intense and constant love, care, concern, and mercy for me. SubhanAllah. This is the power of بسم اللہ.
+When I say بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ before I begin driving, the whole act of driving becomes a reminder of Allah's love and mercy. My ability to drive points back to Him. So do the resources that allow me to own a car, the mental capacity to read the signs, the judgment to assess traffic, the intuition to know when to stop and how fast to go, the facilities inside the car, and the scenery outside it. Every part of the experience becomes a lofty reminder that points me directly to Allah's intense and constant love, care, concern, and mercy for me. SubhanAllah. This is the power of بسم اللہ.
 
-SubhanAllah. It is astonishing. Allah’s first act was based on this رحمۃ: He gave me the ability to act, and every act I perform becomes a witness to His love and mercy. All of that is gathered inside the phrase بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ. I begin this task, this action, as a lofty heavenly sign that reminds me of Allah’s intense and constant love, care, concern, and mercy.
+SubhanAllah. It is astonishing. Allah's first act was based on this رحمۃ: He gave me the ability to act, and every act I perform becomes a witness to His love and mercy. All of that is gathered inside the phrase بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ. I begin this task, this action, as a lofty heavenly sign that reminds me of Allah's intense and constant love, care, concern, and mercy.
 
 ### Allah and his name
 
-The purpose of reciting بسم اللہ before I begin an action is clear from my side: it reminds me of Allah’s love and mercy, and it naturally makes me love Him in return. That love appears as worship and obedience, as my عبودیۃ. From Allah’s side, it fills my action with برکۃ. As Allah said:
+The purpose of reciting بسم اللہ before I begin an action is clear from my side: it reminds me of Allah's love and mercy, and it naturally makes me love Him in return. That love appears as worship and obedience, as my عبودیۃ. From Allah's side, it fills my action with برکۃ. As Allah said:
 
-أنی اذا اُطِعتُ رَضِیتُ. وأذا رَضِیتُ بَارَکتُ. وَ لَیسَ لِبَرَکَتِی نِھَایَۃ
+> أنی اذا اُطِعتُ رَضِیتُ. وأذا رَضِیتُ بَارَکتُ. وَ لَیسَ لِبَرَکَتِی نِھَایَۃ
 
 When you obey me, it pleases me. When I am pleased, I bless you with برکۃ, and there is no limit to my برکۃ. What is برکۃ? It is abundance. What, then, does abundance have to do with بسم اللہ? What does it have to do with the اسم of Allah?
 
-Allah سُبْحَانَهُ وَتَعَالَى says in سورۃ الرحمن.
+Allah سُبْحَانَهُ وَتَعَالَى says in سُورَۃُ الرَّحْمَنِ.
 
 > تَبَرَكَ ٱسْمُ رَبِّكَ ذِى ٱلْجَلَلِ وَٱلْإِكْرَامِ
 >
@@ -3817,7 +3817,7 @@ I also know that Allah himself is full of برکۃ, because he says so in the Qu
 
 Allah, the best of creators, is full of برکۃ.
 
-I see, then, that the اسم of Allah is full of برکۃ, and that the name Allah itself is full of برکۃ. The first two words of the بسم اللہ are therefore heavy with برکۃ: اسم and اللہ. When I recite these two powerful words before beginning an act, that act is filled with برکۃ. In other words, by reciting بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ, I am not only reminding myself of Allah’s intense and constant love and mercy through the act itself; I am also asking Him to fill that act with برکۃ.
+I see, then, that the اسم of Allah is full of برکۃ, and that the name Allah itself is full of برکۃ. The first two words of the بسم اللہ are therefore heavy with برکۃ: اسم and اللہ. When I recite these two powerful words before beginning an act, that act is filled with برکۃ. In other words, by reciting بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ, I am not only reminding myself of Allah's intense and constant love and mercy through the act itself; I am also asking Him to fill that act with برکۃ.
 
 ### Abundance
 
@@ -3859,7 +3859,7 @@ Worshipers come and go, but the One who is worshiped remains forever. Those who 
 
 So, when I recite بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ before every action I do, that action itself becomes a reminder. It becomes a heavenly, lofty sign pointing to the loving care and mercy of الرحمن and الرحیم in my life. That brings برکۃ into the results of my action. There is a hadith of Rasul Allah ﷺ in which he said:
 
-کل شئی أبتر بدون بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ
+> کل شئی أبتر بدون بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ
 
 I understand from بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ that every single act is barren without the remembrance of Allah. It has no برکۃ in it and no true abundance.
 
@@ -3913,9 +3913,9 @@ For example, in the story of مُوسَی عَلَیْہِ السَّلَامُ,
 
 I understand فرعون to be saying, “Are you not grateful? I raised you for so many years, and now you oppose everything I taught you?” To that, مُوسَی عَلَیْہِ السَّلَامُ responds:
 
-وَتِلْكَ نِعْمَةٌۭ تَمُنُّهَا عَلَىَّ
-
-“You did indeed show me that favor, and for **that** I am grateful.”
+> وَتِلْكَ نِعْمَةٌۭ تَمُنُّهَا عَلَىَّ
+>
+> “You did indeed show me that favor, and for **that** I am grateful.”
 
 So although فرعون is someone who can never be praised, especially by a prophet, he can still be thanked when he does a favor. Gratitude, then, can exist without praise.
 
@@ -3943,15 +3943,15 @@ What is striking about the word حمد is that it necessarily holds both meaning
 
 I turn now to the question of why Allah did not use مدح or شکر, and used حمد instead. I begin with مدح. Why did Allah not say:
 
-اَلْمَدْحُ لِلَّہِ رَبِّ اَلْعَالَمِینَ
-
-“All praise is for Allah.”
+> اَلْمَدْحُ لِلَّہِ رَبِّ اَلْعَالَمِینَ
+>
+> “All praise is for Allah.”
 
 The difficulty with the word مدح is that it can mean praise that is not genuine. Praise can be insincere. A child may walk into the house with a terrible report card, and as soon as he enters he may say, “Mom! OMG! Your food smells so delicious,” although she has not even started cooking. He is praising her, but his praise is not real.
 
 Praise can be false. People give false praise to kings, bosses, and people in high positions all the time. People also falsely praise appearances. A wife asks her husband, “Does this dress make me look fat?” He replies, “Oh no! You look beautiful!” That is مدح.
 
-This is why, in classical Arabic, when someone praises another person’s looks, he does not say حَمِدَ. Everyone knows that the person being praised did not make his own face. If he is beautiful, pretty, or handsome, Allah made him that way. So the statement “You’re so beautiful” would be considered مَدَحَ, because praise of looks and other outward features is understood to be an inherently false praise.
+This is why, in classical Arabic, when someone praises another person's looks, he does not say حَمِدَ. Everyone knows that the person being praised did not make his own face. If he is beautiful, pretty, or handsome, Allah made him that way. So the statement “You're so beautiful” would be considered مَدَحَ, because praise of looks and other outward features is understood to be an inherently false praise.
 
 حمد, on the other hand, cannot be false praise. It cannot be insincere. حمد arises in the heart when it becomes aware of the magnificence and glory of the one being praised. In other words, حمد, the praise contained in حمد, occurs when the heart recognizes that magnificence and glory.
 
@@ -3961,9 +3961,9 @@ The heart and the intellect know that Allah truly deserves this praise. For that
 
 The same point becomes clearer through شکر. What if Allah had said:
 
-اَلشُّکْرُ لِلّٰہِ رب العلمین
-
-“All gratitude is for Allah.”
+> اَلشُّکْرُ لِلّٰہِ رب العلمین
+>
+> “All gratitude is for Allah.”
 
 The problem is that gratitude, or thanks, begins with the recognition of a favor. Someone does something helpful, and the favor is appreciated. A person has a flat tire; someone comes along and helps. Gratitude is then felt, and it is expressed by saying, “Thank you.”
 
@@ -3981,7 +3981,7 @@ For that reason, in linguistic force, saying اَلْحَمْدُ لِلّٰہِ
 
 What if Allah had said:
 
-الْمَدْحُ وَ الشُّکْرُ لِلَّہِ رب العلمین
+> الْمَدْحُ وَ الشُّکْرُ لِلَّہِ رب العلمین
 
 I can now ask what problem remains in saying, “Praise and gratitude belong to Allah.” Even if I remove the shortcomings of both words, مدح and شکر, another problem appears. When the word “and” stands between two things, represented by the letter و, it separates them in meaning as well.
 
@@ -4019,15 +4019,15 @@ The difference matters because every verb carries a tense. If I use the present 
 
 Allah used a noun, and a noun, by its nature, is not bound to a tense. It gives the meaning permanence. Therefore:
 
-اَلْحَمْدُ لِلّٰہِ رب العلمین
+> اَلْحَمْدُ لِلّٰہِ رب العلمین
 
-I understand Allah’s true praise and unconditional gratitude as permanent. I may be praising Allah now, but the praise of Allah has always existed, and it will always remain. I will not stay in this world forever, yet the praise and gratitude of Allah will remain forever. His praise and gratitude do not depend on me.
+I understand Allah's true praise and unconditional gratitude as permanent. I may be praising Allah now, but the praise of Allah has always existed, and it will always remain. I will not stay in this world forever, yet the praise and gratitude of Allah will remain forever. His praise and gratitude do not depend on me.
 
 A vast reality contained in اَلْحَمْدُ لِلّٰہِ is this permanence in the praise and gratitude due to Allah. It recognizes that His حمد does not depend on my temporary existence. It is not because of me.
 
 I see first how a verb works. Whenever I use a verb, someone must do that verb. In Arabic, that doer is called the فاعل. An action needs an actor. The sentence cannot simply say, “Failed the test!” because the question immediately rises: who failed the test? Nor can it simply say, “Disappeared!” because something must have disappeared. Only when the sentence says, “My book disappeared,” does the action have its subject.
 
-A noun is different. A noun does not need a doer. It does not need a subject to make it stand. It is independent in itself. An apple is an apple; it can be named without attaching it to someone’s action.
+A noun is different. A noun does not need a doer. It does not need a subject to make it stand. It is independent in itself. An apple is an apple; it can be named without attaching it to someone's action.
 
 When Allah used the word الحمد, He made it a noun. He made it independent. He does not need anyone to perform the act of praise, and He does not need anyone to be grateful. If He had used a verb, the wording would have tied that praise and gratitude to someone doing them.
 
@@ -4041,7 +4041,7 @@ I now consider other possible forms. What if Allah had said أِحمد اللہ 
 
 I give an example. I tell my daughter to bring me a glass of water. I say, “Hey Erum, bring me a glass of water!” That is a command. Once she hears it, she has two clear choices: she can bring me the glass of water, or she can refuse to bring it. Those are the only two clear possibilities as far as I am concerned.
 
-If Allah had commanded us to praise Him in that way, the same two possibilities would follow. Some would praise Him and obey His command. Others would disobey Him. When someone is commanded to do something, the matter is placed in that person’s hands. Compliance now depends on that person’s choice. Perhaps he will do it, and perhaps he will not.
+If Allah had commanded us to praise Him in that way, the same two possibilities would follow. Some would praise Him and obey His command. Others would disobey Him. When someone is commanded to do something, the matter is placed in that person's hands. Compliance now depends on that person's choice. Perhaps he will do it, and perhaps he will not.
 
 Allah did not speak about praise and gratitude in a way that depends on us. He did not place the matter in our hands. He declared that whether people praise Him or not, and whether they show gratitude to Him or not, His praise and gratitude, His حمد, is always there. It has always been there, and it will always remain. Human beings will come and go. Nations will come and go. Generation after generation will come and go. This universe will come and go. But the حمد of Allah will always be there.
 
@@ -4061,9 +4061,9 @@ For example, when I teach about الحمد, I am not primarily expressing emotio
 
 In Arabic linguistics, when انا is used, the statement can only be informative. It can only be factual. It cannot be emotional. But when انا is not used, the communication can be both informative and emotional.
 
-By not using انا, Allah made his حمد an open statement. I can speak about Allah’s praise and gratitude with others in order to give them information. I can also make it a statement of my own emotion. SubhanAllah!
+By not using انا, Allah made his حمد an open statement. I can speak about Allah's praise and gratitude with others in order to give them information. I can also make it a statement of my own emotion. SubhanAllah!
 
-I see the beauty of it in this style. When I say, اَلْحَمْدُ لِلّٰہِ رب العلمین, I am speaking about Allah’s حمد. A few hours later, when I stand before him in صلوۃ and use the same words, اَلْحَمْدُ لِلّٰہِ رب العلمین, I am expressing my own praise and gratitude to my master. It becomes an emotional conversation with him. SubhanAllah!
+I see the beauty of it in this style. When I say, اَلْحَمْدُ لِلّٰہِ رب العلمین, I am speaking about Allah's حمد. A few hours later, when I stand before him in صلوۃ and use the same words, اَلْحَمْدُ لِلّٰہِ رب العلمین, I am expressing my own praise and gratitude to my master. It becomes an emotional conversation with him. SubhanAllah!
 
 This shows the perfection of this word in the context of the فاتحۃ.
 
@@ -4105,13 +4105,13 @@ I now turn to the gratitude within الحمد, to the aspect of شکر. What is 
 
 This is a very high station. It holds a lofty مقام, and not everyone can truly reach the highest ranks of شکر. This is why Allah says:
 
-وَقَلِیلٌ مِنْ عِبَادِیَ الشَّکُورُ
+> وَقَلِیلٌ مِنْ عِبَادِیَ الشَّکُورُ
 
 Very few of my servants are شکور. The شکور is not the same as the شاکر. The شاکر, the grateful one, gives thanks for Allah's blessings. The شکور gives thanks even for calamities and trials, not only for blessings. He feels gratitude when painful things befall him.
 
 Most people, at their best, are patient or resigned. The شکور, however, says اَلْحَمْدُ لِلَّہِ while he is living through those calamities, because he knows that Allah only does good for His believer. There is a hadith:
 
-عجباً لِأمْرِ المُؤمِن فَأِنَّ أمرَہُ لَہُ کُلُّہُ خَیر
+> عجباً لِأمْرِ المُؤمِن فَأِنَّ أمرَہُ لَہُ کُلُّہُ خَیر
 
 How wondrous is the affair of the believer; all of his affair is good. For the believer, all of it is good. When that belief becomes real, a person enters a state of constant gratitude, even for tribulations: اَلْحَمْدُ لِلَّہِ.
 
@@ -4133,7 +4133,7 @@ Then he had to put drops in his eyes constantly, because eyelids that do not clo
 
 That is only one part of the eye. Beyond it lies the intricate network of its nerves, the myelination of the sheath, the constant synaptic response, and the neural transmission that allows sight to function. For some people, that system breaks down. I scarcely think about any of it.
 
-I think of the electrical work involved in the eye’s function.
+I think of the electrical work involved in the eye's function.
 
 I then turn to colors, to colors themselves. Allah could have made the whole world black and white. Instead, He placed in it subtle colors that the eye can receive and enjoy in astonishing variety. That, too, is نعمۃ.
 
@@ -4143,7 +4143,7 @@ Red has its own vibrational resonance. It stands lower in the spectrum than viol
 
 The world shows the same mercy in green. Green brings ease to the heart. This is why people love looking at grass and trees. It has a یُنعِش, as the Arabs say. It is called ربیع. This is why I pray, “O Allah, make the Quran the spring of my heart,” and
 
-اَللّٰھُمَّ جَعَلَ الْقُرْآنَ رَبِیعَ قَلْبِی
+> اَللّٰھُمَّ جَعَلَ الْقُرْآنَ رَبِیعَ قَلْبِی
 
 I mean the thing that brings the heart back to life. Spring does this to the whole human being. People begin to feel well again. Some suffer from what is called SAD, “Seasonal Affective Disorder.” They become depressed in winter, then spring comes, and the heaviness of winter almost disappears from memory. They begin to feel wonderful.
 
@@ -4153,7 +4153,7 @@ I mean flowers themselves. What is a flower? Why do people love the scent of a f
 
 When the eye rests on something beautiful, human beings tend to answer it in the same way. Most people share a common sense of beauty. The beautiful thing draws the soul toward it. That attraction exists because beauty is an attribute of God. What appears in the عالم is a reflection of a Divine attribute of the رب. In truth, the attraction is to the Divine, though it may seem to be an attraction to the flower.
 
-It is not the flower’s passing beauty, the beauty that fades, that truly draws the heart. The real attraction is the beauty of the Divine showing itself through creation. Yet people often do not recognize this.
+It is not the flower's passing beauty, the beauty that fades, that truly draws the heart. The real attraction is the beauty of the Divine showing itself through creation. Yet people often do not recognize this.
 
 The eye itself holds many signs, and I rarely think about them as they deserve. The eyelashes and eyebrows both serve a purpose. When anything comes near the eye, the eyelids close by instinct and protect it. That alone is astonishing.
 
@@ -4177,11 +4177,11 @@ Because I want him to feel a small pain so that he does not suffer a much greate
 
 The Prophet ﷺ once saw a mother nursing her child. The man of Allah, as they say, takes discernment from everything. He takes عبرۃ, discernment and a lesson. There is a lesson in everything.
 
-نظرُہُ عِبرۃ و کلامُہُ حِکمَۃ
+> نظرُہُ عِبرۃ و کلامُہُ حِکمَۃ
 
 His glance is discernment, and his speech is wisdom. There is a reason he speaks. The Prophet ﷺ once saw a woman nursing her child, and he said to his صحابۃ, “Do you think that this woman would throw her child into the Fire?” And they said, لَا وَللہِ یَا رَسُولَ اللہِ. She would never do that. He said, “Allah has more mercy for His servants than this woman has for her child.”
 
-اللہ أرحمُ بِعِبادِہِ مِن ھٰذہِ الأُم لِوَلَدِھا
+> اللہ أرحمُ بِعِبادِہِ مِن ھٰذہِ الأُم لِوَلَدِھا
 
 Allah has more mercy for His servants than this woman has for her child. Allah سُبْحَانَهُ وَتَعَالَى said about His Prophet نُوحٌ عَلَیْہِ السَّلَامُ
 
@@ -4276,7 +4276,7 @@ Then Allah revealed to اِبْرَاھِیمُ عَلَیْہِ السَّلَ�
 
 So اِبْرَاھِیمُ عَلَیْہِ السَّلَامُ went out, found the man, apologized to him, and invited him back to his table. The man asked him why, and he told him. Then the man became Muslim. That is Islam.
 
-I can embrace them. دعوۃ matters here because دعوۃ in Arabic means an invitation. If I put a gun to someone’s head and said, “You are coming to dinner tonight at my house,” that would not be an invitation. It would be force. لَا اِکْرَاہَ فِی الدِّینِ
+I can embrace them. دعوۃ matters here because دعوۃ in Arabic means an invitation. If I put a gun to someone's head and said, “You are coming to dinner tonight at my house,” that would not be an invitation. It would be force. لَا اِکْرَاہَ فِی الدِّینِ
 
 An invitation is real only when the invited person has room to refuse. The host who allows that possibility is a generous host. Allah has made a house, and He called it دَارُ الْاِسْلَامِ. He invited His creation to it, and He gave them the choice not to come. If people refuse that invitation, I have no reason to fear them.
 
@@ -4286,19 +4286,19 @@ Ignorant people fear difference. That fear is what marks a fundamentalist: someo
 
 One of the great scholars of Islam said that the door through which he came to his Lord was تَعْظِیمُ الْمَخْلُوقَاتِ, exalting the creation of Allah, سُبْحَانَهُ وَتَعَالَى. He said:
 
-ما رأیت عالماً الا عَظَّمتُہُ لعَلمِہِ الذی یَحمِلُہُ
+> ما رأیت عالماً الا عَظَّمتُہُ لعَلمِہِ الذی یَحمِلُہُ
 
 I never saw a scholar except that I honored him for the knowledge he carried. But then it reached a point where
 
-ما رأیتُ مؤمناً او مسلماً مَھْمَا کان حالُہُ الَّا عظَّمتَہُ لی أِنتِسابِہِ العُبُودِیَۃِ اللہ
+> ما رأیتُ مؤمناً او مسلماً مَھْمَا کان حالُہُ الَّا عظَّمتَہُ لی أِنتِسابِہِ العُبُودِیَۃِ اللہ
 
 I never saw a believer, or any Muslim man, whatever his condition, except that I honored him simply because he was a servant of Allah, trying to submit to Him. Then he said that he no longer saw anyone, even among the non-Muslims, without that same regard.
 
-الا عَظَّمتَہُ لِأَنَّہُ مَحَلَّ الاِرَادَۃِ اللہ سبحانہ و تعالی حَیثُ أَوجَدُہُ بِقَولِہِ کُن فَیَکُون
+> الا عَظَّمتَہُ لِأَنَّہُ مَحَلَّ الاِرَادَۃِ اللہ سبحانہ و تعالی حَیثُ أَوجَدُہُ بِقَولِہِ کُن فَیَکُون
 
 except that I exalted him, because in his very existence I saw the Divine will appearing before my eyes. Then he said that he never saw a rock, a tree, or anything at all except as a manifestation of the Divine will. God had placed that thing there. That was what he acknowledged. Then he said:
 
-وَمَن یُعَظِّمْ حُرُماتِ اللہ فَھُوَ خَیرُ لَّہُ عِندَ رَبِّہ
+> وَمَن یُعَظِّمْ حُرُماتِ اللہ فَھُوَ خَیرُ لَّہُ عِندَ رَبِّہ
 
 I understand this to mean that the one who exalts the حرمات, the sanctified things of God, is the one most loved by Allah. In this عالم, what is more sanctified than the creation of Allah, سُبْحَانَهُ وَتَعَالَى? These things Allah has created are His تجلی, His Divine manifestations. They call forth wonder and praise. They draw out from within the human being the praise that belongs to the حمد.
 
@@ -4314,7 +4314,7 @@ In the womb, a child develops from a fetus, with cells dividing rapidly through 
 
 I can stand in ovation before some poor soul who has perfected a small trick on a musical instrument, who can pipe out a tune, and feel moved to leap up, clap, and say, “Bravo, bravo.” Yet I cannot rise to praise the Master of the worlds, the الرحمن and الرحیم, and say, “Allahu Akbar”? What has happened to me?
 
-مَاغَرَّکَ بِرَبِّ الْکَرِیمِ
+> مَاغَرَّکَ بِرَبِّ الْکَرِیمِ
 
 What has deluded me? What has drawn me away from the praise of my Master?
 
@@ -4324,7 +4324,7 @@ May Allah strengthen my heart to witness, experience, and marvel at the blessing
 
 ## Day Of Judgment - Linguistics
 
-I have completed the discussion of الحمد للہ رب العلمین and اَلرَّحْمَٰنِ اَلرَّحِیمِ. Both bear witness to Allah’s abundant and constant love and grace, because he is the master of everything known in creation. For that, he is owed الحمد: sincere praise and unconditional gratitude.
+I have completed the discussion of الحمد للہ رب العلمین and اَلرَّحْمَٰنِ اَلرَّحِیمِ. Both bear witness to Allah's abundant and constant love and grace, because he is the master of everything known in creation. For that, he is owed الحمد: sincere praise and unconditional gratitude.
 
 The next verse is مَالِکِ یَوْمِ الدِّینِ.
 
@@ -4352,7 +4352,7 @@ In another verse he says
 >
 > Say :"O Allah!
 
-Possessor of the kingdom, You give the kingdom to whom You will, and You take the kingdom from whom You will, and You endue with honour whom You will, and You humiliate whom You will. In Your Hand is the good. Verily, You are Able to do all things.
+Possessor of the kingdom, You give the kingdom to whom You will, and You take the kingdom from whom You will, and You endue with honor whom You will, and You humiliate whom You will. In Your Hand is the good. Verily, You are Able to do all things.
 
 I declare that Allah is the King of every kingdom: مَلِكَ ٱلْمُلْكِ. Here He speaks of Himself as the King. The Quran uses both forms. He is the Owner of the Day of Judgment, and He is also the King of the Day of Judgment. Both meanings point to the same reality: no one will be able to question Him about His decisions, and He alone will pass every judgment and make the final decision.
 
@@ -4372,7 +4372,7 @@ The angels and the Spirit ascend to Him during a یوم whose measure is fifty t
 
 That **moment** when the earth and the mountains will convulse, and the mountains will become a heap of sand pouring down. The same word, یوم, is used here for a moment. The word یوم therefore covers many spans of time, including time itself. In سُورَۃُ الْفَاتِحَۃِ, I have:
 
-مَالِکِ یَوْمِ الدِّینِ
+> مَالِکِ یَوْمِ الدِّینِ
 
 Owner, or king, of the time or period of دین.
 
@@ -4384,11 +4384,11 @@ I also find another meaning: to discipline something. مَنْ دَانَ نَف
 
 Yet the root sense of دَیْن is debt. Our religion is called دِینُ الْاِسْلَامِ, the دین of Islam. Literally, this may be rendered as the debt of submission. I mean that my Master has given me blessings beyond number and beyond price; therefore, for all those blessings, I owe my Creator a debt of submission. Allah says:
 
-أَفَغَيْرَ دِينِ ٱللَّهِ يَبْغُونَ
+> أَفَغَيْرَ دِينِ ٱللَّهِ يَبْغُونَ
 
 Do they seek other than the دین of Allah?
 
-وَلَهُۥٓ أَسْلَمَ مَن فِى ٱلسَّمَوَتِ وَٱلْأَرْضِ طَوْعًۭا وَكَرْهًۭا
+> وَلَهُۥٓ أَسْلَمَ مَن فِى ٱلسَّمَوَتِ وَٱلْأَرْضِ طَوْعًۭا وَكَرْهًۭا
 
 While all creatures in the heaven and the earth have bowed down to him in submission - willingly or unwillingly. Here Allah asks whether they seek anything other than repayment of this debt, when everyone and everything in existence is already paying its debt to its Creator, in willing or unwilling submission.
 
@@ -4406,7 +4406,7 @@ I find that the Arabic word for a boundary, or a limit, is حد. So all creation
 
 This is part of the Quranic account of limits: everything submits to the limits set for it. Every creature is enclosed within its boundary. This is حدود, whether willingly or unwillingly: طَوْعًۭا وَكَرْهًۭا. In other words, all are in a state of submission. Allah then follows that statement with the reminder that they will all be returned to their owner:
 
-وَإِلَيْهِ يُرْجَعُونَ
+> وَإِلَيْهِ يُرْجَعُونَ
 
 and to him is their return.
 
@@ -4416,15 +4416,15 @@ In other words, everything that exists is paying back its debt to its creator, e
 
 Yet they are also not being asked about those debts right now. The question, then, is when they will be asked, and who will ask them.
 
-مَالِکِ یَوْمِ الدِّینِ
+> مَالِکِ یَوْمِ الدِّینِ
 
 The one who asks is the owner and king of that time when the debt of submission falls due. So یَوْمُ الدِّیْنِ is the time when the debt of submission becomes due. It is payback time.
 
-کیف ما تُدِینُ تُدان
+> کیف ما تُدِینُ تُدان
 
 I transact with others, and I will be transacted with in the same way. This is also called یَوْمُ الْحِسَابِ, the day of accountability. Rasul Allah ﷺ says in a HADEES:
 
-حاسِبُ قبل اَن تُحاسَبُ
+> حاسِبُ قبل اَن تُحاسَبُ
 
 Take yourself to account before you are taken to account.
 
@@ -4435,21 +4435,21 @@ Only two outcomes are possible:
 - The slave obeys the command.
 - The slave disobeys it.
 
-In either case, a return becomes due from the master. If the slave obeys his master and carries out his commands properly, the master owes him reward. If he disobeys his master’s command, the master owes him punishment.
+In either case, a return becomes due from the master. If the slave obeys his master and carries out his commands properly, the master owes him reward. If he disobeys his master's command, the master owes him punishment.
 
 That is یَوْمُ الدِّیْنِ: the day when debts fall due. For this reason, Allah calls people to owe Him a debt. He says in the Quran:
 
-مَّن ذَا ٱلَّذِى يُقْرِضُ ٱللَّهَ قَرْضًا حَسَنًۭا
+> مَّن ذَا ٱلَّذِى يُقْرِضُ ٱللَّهَ قَرْضًا حَسَنًۭا
 
 Who will give Allah a beautiful loan?
 
 Allah asks me for a loan. Why?
 
-فَيُضَعِفَهُۥ لَهُۥٓ أَضْعَافًۭا كَثِيرَةًۭ
+> فَيُضَعِفَهُۥ لَهُۥٓ أَضْعَافًۭا كَثِيرَةًۭ
 
 so that Allah multiplies it many times over and returns it to His slave. In this verse, Allah سُبْحَانَهُ وَتَعَالَى asks His slaves: “who among you will give me a loan; who among you will indebt me with his willing submission of عبودیۃ, so that I can multiply its reward many times over and pay them back?”
 
-وَلَهُۥٓ أَجْرٌۭ كَرِيمٌۭ
+> وَلَهُۥٓ أَجْرٌۭ كَرِيمٌۭ
 
 He possesses the most noble rewards. SubhanAllah! Even on the day when He is مالک, He is full of love and mercy.
 
@@ -4492,7 +4492,7 @@ Mercy precedes his wrath.
 
 I learned that مَالِکِ یَوْمِ الدِّینِ means, in language, the owner or king of the time when the debt of submission falls due. The imperfections of this world point toward the need for a perfect world, and that perfect world is the hereafter.
 
-This verse shows its purpose most clearly at the moment of transition within this سورۃ. From the opening of this سورۃ, Allah’s love and mercy have been brought forward.
+This verse shows its purpose most clearly at the moment of transition within this سورۃ. From the opening of this سورۃ, Allah's love and mercy have been brought forward.
 
 بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ - I begin with the lofty symbol of Allah, which points to his love and mercy.
 
@@ -4500,7 +4500,7 @@ This verse shows its purpose most clearly at the moment of transition within thi
 
 الرحمن الرحیم - the abundantly merciful, the consistently merciful.
 
-Allah’s love is being emphasized in this سورۃ. Then the tone suddenly changes to مَالِکِ یَوْمِ الدِّینِ: owner of the time when the debt falls due. The question is why the tone changes so sharply here.
+Allah's love is being emphasized in this سورۃ. Then the tone suddenly changes to مَالِکِ یَوْمِ الدِّینِ: owner of the time when the debt falls due. The question is why the tone changes so sharply here.
 
 I learn from the scholars that this sudden turn is deeply meaningful. Its purpose is to awaken the desire for تقوی in the heart. The Arabs call this الباعث: the inner force that stirs a person to act, the motive that makes obedience move from idea to action.
 
@@ -4547,7 +4547,7 @@ In the same way, there are metaphysical laws. Cause and effect are not limited t
 
 So just as actions have physical effects, they also have spiritual effects.
 
-I take, for instance, the Arabic expression مَاءُ الْوَجْہِ, which literally means “water of the face.” The meaning is the purity, or impurity, that appears on a person’s face. When people sin repeatedly, their evil begins to show in their faces. A kind of metaphysical darkness settles there. In the same way, people who do many good deeds are also marked by them. A light, or brightness, appears on the face.
+I take, for instance, the Arabic expression مَاءُ الْوَجْہِ, which literally means “water of the face.” The meaning is the purity, or impurity, that appears on a person's face. When people sin repeatedly, their evil begins to show in their faces. A kind of metaphysical darkness settles there. In the same way, people who do many good deeds are also marked by them. A light, or brightness, appears on the face.
 
 The Arabs used to call the face الصحیفۃ, meaning “the register,” because it records everything. Someone once said that by fifty, everyone has the face he deserves. By that age, a life has made itself visible. If the life has been good, it shows on the face. Fear of otherworldly punishment, then, is one of the things that moves a person to do good and remain within proper limits.
 
@@ -4557,23 +4557,23 @@ The next motivating factor for تقوی is the desire for benefit. Human beings 
 
 The highest people, and the most intelligent, rise beyond stick and carrot. They move into another realm. Maulana Ali often said in his prayers:
 
-یا الھی ما عبدتک بشوق جنتک ولا من خوف نارک بل وجۃ مستحقا لعبادۃ فلعبدتک
+> یا الھی ما عبدتک بشوق جنتک ولا من خوف نارک بل وجۃ مستحقا لعبادۃ فلعبدتک
 
 My Master, I do not worship you out of a desire for your paradise; nor do I worship you out of fear of your hellfire. Instead, I truly find you worthy of my worship, and for that reason alone I worship you.
 
 This is a very high station of worship. It rises completely beyond the philosophy of carrot and stick. Yet most people remain at that basic level. Because the Quran speaks to all humanity, it often speaks in this general way.
 
-The prophet said: move according to the level of the least amongst you. The whole community therefore moves with the weakest within it. It does not rush ahead and leave people behind. That is the way of Islam. A careful study of this religion shows that much of it is designed to protect the weakest people.
+The prophet said: move according to the level of the least among you. The whole community therefore moves with the weakest within it. It does not rush ahead and leave people behind. That is the way of Islam. A careful study of this religion shows that much of it is designed to protect the weakest people.
 
 Some people can stand on their own without difficulty. Others cannot, because they carry ordinary human weaknesses. The شریعۃ protects such people. This is why the Quran speaks against things such as gambling. The Quran says that there is some good in gambling:
 
-يَسْـَٔلُونَكَ عَنِ ٱلْخَمْرِ وَٱلْمَيْسِرِ ۖ قُلْ فِيهِمَآ إِثْمٌۭ كَبِيرٌۭ وَمَنَفِعُ لِلنَّاسِ وَإِثْمُهُمَآ أَكْبَرُ مِن نَّفْعِهِمَا
+> يَسْـَٔلُونَكَ عَنِ ٱلْخَمْرِ وَٱلْمَيْسِرِ ۖ قُلْ فِيهِمَآ إِثْمٌۭ كَبِيرٌۭ وَمَنَفِعُ لِلنَّاسِ وَإِثْمُهُمَآ أَكْبَرُ مِن نَّفْعِهِمَا
 
 They ask you concerning alcohol and gambling. Tell them: "In them is a great sin, and also benefit for men, but their sin is far greater than their benefit."
 
 I understand the Quran to be saying that gambling contains some benefit. There are lessons to be learned from it. Risk itself is an important feature of commerce, and gambling has a close relationship with commerce. Yet the harms of gambling are far greater than its benefits.
 
-It is a known fact in the social sciences that about three percent of people who enter a gambling casino become addicted. Gambling destroys their lives. I went inside a casino in Atlantic City many years ago, and it was one of the most frightening things I had ever seen. It felt like a circle from Dante’s Inferno. People sat there in a zombie-like state, pulling levers, feeding in quarters one after another, then pulling the lever again.
+It is a known fact in the social sciences that about three percent of people who enter a gambling casino become addicted. Gambling destroys their lives. I went inside a casino in Atlantic City many years ago, and it was one of the most frightening things I had ever seen. It felt like a circle from Dante's Inferno. People sat there in a zombie-like state, pulling levers, feeding in quarters one after another, then pulling the lever again.
 
 The sight was terrifying. In the middle of that casino there was a pawn shop with a sign that said, “We take wedding rings!” The whole thing felt sinister. What kind of people do that? How can such a job be justified, when it deprives people in that way? Yet that is the reality of our world.
 
@@ -4583,7 +4583,7 @@ That is the phenomenon of the carrot. It is used often, and it is one of the wor
 
 This is why I return to the saying of our Prophet ﷺ:
 
-حُفَّۃُ الجَنَّۃ بِمَکارِہ و حُفَّۃُ النارُ بالشھوات
+> حُفَّۃُ الجَنَّۃ بِمَکارِہ و حُفَّۃُ النارُ بالشھوات
 
 Paradise is surrounded by things the self dislikes, and the Fire is surrounded by delightful and pleasurable things. Whoever walks toward Paradise will inevitably meet what is difficult and distasteful. That is part of the design.
 
@@ -4603,7 +4603,7 @@ A familiar example appears in business. A company often conducts internal audits
 
 That inner audit is called ‏مُحاسَبَۃ, and it is part of تقوی: taking oneself to account. The hadees says:
 
-حاسِبو قبل ان تُحاسَبُ
+> حاسِبو قبل ان تُحاسَبُ
 
 Take yourself to account before you're taken to account.
 
@@ -4615,7 +4615,7 @@ The Arabic word الحیاءُ is probably better rendered as modesty, though it
 
 The prophet ﷺ said:
 
-لِکُلِّ دینٍ خُلُق و خُلُق الاسلام الحیاء
+> لِکُلِّ دینٍ خُلُق و خُلُق الاسلام الحیاء
 
 Every religion has a characteristic, and the characteristic of my religion is modesty.
 
@@ -4639,11 +4639,11 @@ Islam is rooted in a shame culture, but it lifts shame beyond human society and 
 
 There are two angels, one on each side. Awareness of their presence, and of the unseen world around a person, restrains him from wrongdoing. This is called مَقَامُ الْمُرَاقَبَۃِ, a very high station. It is the station of vigilance: awareness that God is present and watching. It rests on His word:
 
-إِنَّ ٱللَّهَ كَانَ عَلَيْكُمْ رَقِيبًۭا
+> إِنَّ ٱللَّهَ كَانَ عَلَيْكُمْ رَقِيبًۭا
 
 Allah sees everything and is aware of everything.
 
-I know a very interesting story. More than a hundred years ago, when the British ruled India, there lived a pickpocket. He was Muslim, but he earned his living by stealing from people’s pockets. He belonged to a gang that did the same work.
+I know a very interesting story. More than a hundred years ago, when the British ruled India, there lived a pickpocket. He was Muslim, but he earned his living by stealing from people's pockets. He belonged to a gang that did the same work.
 
 One day, he picked the pocket of an Englishman. The wallet held a large amount of money. At first he was pleased, but then a thought came to him. He went back and returned the wallet to the Englishman with all the money still inside.
 
@@ -4653,15 +4653,15 @@ When asked why, he said, “I thought that on the day of judgment, if Christ cam
 
 And in his last sermon to his nation, our prophet said:
 
-لا تُسَوِّدَ وجھی یوم القیامۃ
+> لا تُسَوِّدَ وجھی یوم القیامۃ
 
 Do not put me to shame on the day of judgment. When a class produces a bad result, the teacher feels ashamed. The teacher is asked, “What's the matter? Why did so many in your class fail?” Our prophet requested us in his last statement: لا تُسَوِّدَ وجھی یوم القیامۃ - My nation, do not shame me before Allah on the day of judgment.
 
-وُہ جُو گِیت تُم نِے سُنَا نَہِیں، مِیرِی عُمر بَھر کَا رِیَاض تھَا
+> وُہ جُو گِیت تُم نِے سُنَا نَہِیں، مِیرِی عُمر بَھر کَا رِیَاض تھَا
 
-مِیرے دَرد کِی تھِی وُہ دَاستَاں جِسِے تُم ہَنسِی مِیں اُڑَا گَئے
+> مِیرے دَرد کِی تھِی وُہ دَاستَاں جِسِے تُم ہَنسِی مِیں اُڑَا گَئے
 
-I do not know whether this story is true, but it still shows the beautiful love this man had for his prophet. He felt ashamed even to imagine becoming the cause of the prophet’s shame. This was still an external motive, yet it had risen beyond the world of people and had taken root in something higher.
+I do not know whether this story is true, but it still shows the beautiful love this man had for his prophet. He felt ashamed even to imagine becoming the cause of the prophet's shame. This was still an external motive, yet it had risen beyond the world of people and had taken root in something higher.
 
 ### Gratitude
 
@@ -4669,7 +4669,7 @@ The next motive for تقوی is gratitude for the blessings of Allah, shown thro
 
 Allah سُبْحَانَهُ وَتَعَالَى did not create his creation because he wanted disobedience from them. He enables disobedience, and that enabling is called خذلان. Allah is the enabler; he allows disobedience to happen, but he is not pleased with it.
 
-لَا یُرْضِی کُفْرٌ لِعِبَادِہِ
+> لَا یُرْضِی کُفْرٌ لِعِبَادِہِ
 
 He does not want his servants to live in ingratitude, even though he allows that state to occur. Gratitude for blessings, therefore, means using those blessings in obedience. That is the definition of شکر: using the gifts Allah has given me to do what pleases Allah سُبْحَانَهُ وَتَعَالَى.
 
@@ -4677,11 +4677,11 @@ He does not want his servants to live in ingratitude, even though he allows that
 
 I turn next to knowledge. Knowledge gives me a reason to have تقوی. It produces piety founded on علم, because Allah says:
 
-إِنَّمَا يَخْشَى ٱللَّهَ مِنْ عِبَادِهِ ٱلْعُلَمَٓؤُا۟ۗ
+> إِنَّمَا يَخْشَى ٱللَّهَ مِنْ عِبَادِهِ ٱلْعُلَمَٓؤُا۟ۗ
 
-The ones who truly fear Allah are the scholars. The word خشوع names a kind of تقوی that rises from fearful awareness of God. It is awe before God, grounded in knowing who Allah is. Among His servants, the علماء are the people who carry this fear. From it comes the magnifying of Allah’s Majesty:
+The ones who truly fear Allah are the scholars. The word خشوع names a kind of تقوی that rises from fearful awareness of God. It is awe before God, grounded in knowing who Allah is. Among His servants, the علماء are the people who carry this fear. From it comes the magnifying of Allah's Majesty:
 
-تَعْظِیمُ جَلَالِ اللَّہِ
+> تَعْظِیمُ جَلَالِ اللَّہِ
 
 This is called مَقَامُ الْھَیْبَۃِ, the station of awe. مھیب is someone before whom a person feels awe. The same pattern appears with a سلطان: authority is surrounded by signs that create awe.
 
@@ -4695,41 +4695,41 @@ This is why, in earlier times, علماء dressed in a distinct way. It is also 
 
 ### Sincere Love
 
-Then there is صِدْقُ الْمَحَبَّۃِ, sincerity in one’s love for God. It gives a person تقوی. That is why one of the poets, مَحْمُودُ الْوَرَّاقُ, said:
+Then there is صِدْقُ الْمَحَبَّۃِ, sincerity in one's love for God. It gives a person تقوی. That is why one of the poets, مَحْمُودُ الْوَرَّاقُ, said:
 
-تَعصِی الہَ وَتُظھِرُ حُبُّہُ ؛ ھذا مَحالٌ فی القِ‏یاسِ بَدِیعُ
+> تَعصِی الہَ وَتُظھِرُ حُبُّہُ ؛ ھذا مَحالٌ فی القِ‏یاسِ بَدِیعُ
 
 You disobey Allah, then claim that you love Him.
 
 This is impossible, and it is a very strange kind of reasoning.
 
-لَو کان حُبُّکَ صَادِقاً لَطاعَتُہُ ؛ أِنَّ المُحِبَّ لِمَن یُحِبُّ مُطِیعُ
+> لَو کان حُبُّکَ صَادِقاً لَطاعَتُہُ ؛ أِنَّ المُحِبَّ لِمَن یُحِبُّ مُطِیعُ
 
 Had the love been sincere, obedience would have followed, because a lover obeys the beloved.
 
 The nature of love is that the heart wants to obey the one it loves.
 
-وَقَائِلَۃً قَدْ سَأَلَتْ عَلَیَّ اَنَّ حَالَ عَاشِقِھَا
+> وَقَائِلَۃً قَدْ سَأَلَتْ عَلَیَّ اَنَّ حَالَ عَاشِقِھَا
 
 A woman asked about the condition of the man who was burning with passion for her. The عاشق is the one consumed by passion. She was asking this man about her lover.
 
-للہ صفہ ولا تنقص ولا تزد
+> لِلَّہِ صِفْہُ وَلَا تَنْقُصْ وَلَا تَزِدْ
 
 Do not stint in your description, and do not exaggerate. I want to hear the truth. So he says:
 
-لَوْکَانَ رَحْلُ الْمَوْتِ مِنْ ضَمَأٍ
+> لَوْکَانَ رَحْلُ الْمَوْتِ مِنْ ضَمَأٍ
 
 If he knew that he would die of thirst,
 
-وَقَطَعَ قُفٌّ عَنْ وُرُودِ الْمَآءِ لَمْ یَرِدْ
+> وَقَطَعَ قُفٌّ عَنْ وُرُودِ الْمَآءِ لَمْ یَرِدْ
 
 and someone told him, “Do not touch that water,” he would not touch it. Even if he were dying of thirst, and the woman said, “Do not touch that water,” he would still refuse it. He would rather die than disobey.
 
-The poet’s point is that the nature of love is obedience. The more I love God, the more I obey God. That is the idea.
+The poet's point is that the nature of love is obedience. The more I love God, the more I obey God. That is the idea.
 
 These, then, are the motivating factors of تقوی to which the verse مَالِکِ یَوْمِ الدِّینِ alludes. In these verses
 
-الحمد للہ رب العلمین الرحمن الرحیم مَالِکِ یَوْمِ الدِّینِ
+> الحمد للہ رب العلمین الرحمن الرحیم مَالِکِ یَوْمِ الدِّینِ
 
 I receive a complete picture of who Allah is. The verses that follow show me what Allah wants from me, InshaAllah.
 
@@ -4803,15 +4803,15 @@ The next thing I say is اِیَّاکَ نَسْتَعِینُ: “It is only Y
 
 Arabic has many other words for help. Among them are نصر, مُساعَدۃ, and نجدۃ. Each points to a different kind of help. نصر is help with a stronger sense of urgency. It belongs to emergencies and moments of immediate need.
 
-نَصْرٌۭ مِّنَ ٱللَّهِ وَفَتْحٌۭ قَرِيبٌۭ
+> نَصْرٌۭ مِّنَ ٱللَّهِ وَفَتْحٌۭ قَرِيبٌۭ
 
 When the help of Allah arrives, victory is near.
 
-إِذَا جَآءَ نَصْرُ ٱللَّهِ وَٱلْفَتْحُ
+> إِذَا جَآءَ نَصْرُ ٱللَّهِ وَٱلْفَتْحُ
 
 When the help of Allah arrives and battles are won.
 
-وَثَبِّتْ أَقْدَامَنَا وَٱنصُرْنَا عَلَى ٱلْقَوْمِ ٱلْكَفِرِينَ
+> وَثَبِّتْ أَقْدَامَنَا وَٱنصُرْنَا عَلَى ٱلْقَوْمِ ٱلْكَفِرِينَ
 
 Keep us steadfast and help us over the nation of disbelievers.
 
@@ -4823,21 +4823,21 @@ This explains why سُورَۃُ الْفَاتِحَۃِ uses عون rather tha
 
 This is exactly what appears in the daily routine of our Prophet ﷺ. When he woke in the morning, the first thing he did was praise Allah:
 
-الْحَمْدُ لِلَّہِ الَّذِی اَحْیَانَا بَعْدَ اَمَاتَنَا وَ اِلَیْہِ النُّشُورُ
+> الْحَمْدُ لِلَّہِ الَّذِی اَحْیَانَا بَعْدَ اَمَاتَنَا وَ اِلَیْہِ النُّشُورُ
 
 I find him turning to Allah in each act of the day. When he went to the toilet, he said:
 
-اعوذ بللہ من الرجس النجس الخبیث المخبث الشیطان الرجیم
+> اعوذ بللہ من الرجس النجس الخبیث المخبث الشیطان الرجیم
 
-He sought Allah’s protection from شیطان. When he mounted his horse, he said:
+He sought Allah's protection from شیطان. When he mounted his horse, he said:
 
-سُبْحَانَ الَّذِی سَخَّرَ لَنَا ھَٰذَا
+> سُبْحَانَ الَّذِی سَخَّرَ لَنَا ھَٰذَا
 
 Before eating, he said بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ. As soon as he finished eating, he said اَلْحَمْدُ لِلَّہِ. Then he left his house.
 
-بِسْمِ اللَّہِ تَوَکُّلٌ عَلَیْہِ اللَّہِ وَلَا حَوْلَ وَلَا قُوَّۃَ اِلَّا بِاللَّہِ الْعَلِیِّ الْعَظِیمِ
+> بِسْمِ اللَّہِ تَوَکُّلٌ عَلَیْہِ اللَّہِ وَلَا حَوْلَ وَلَا قُوَّۃَ اِلَّا بِاللَّہِ الْعَلِیِّ الْعَظِیمِ
 
-I therefore find عون used for seeking Allah’s assistance constantly. The first reason, then, is constant remembrance.
+I therefore find عون used for seeking Allah's assistance constantly. The first reason, then, is constant remembrance.
 
 We seek His assistance constantly for a second reason: we know that we are not perfect servants. We are weak human beings, and we need help at every step. The desires of this world overpower us. Countless distractions press on us in every waking moment. We walk a slippery slope, and we know that maintaining our عبودیۃ will not be easy.
 
@@ -4848,7 +4848,7 @@ We are surrounded by four enemies that work against us:
 3. ھوی, our overpowering desires and passions.
 4. شیطان himself.
 
-We are surrounded on every side by these powerful enemies. So we recognize and admit that our عبودیۃ and servitude will not be worthy of رب العلمین. Still, we are willing to try, and in that effort we need our master’s help. When we fail again and again, we need Allah to lift us up again, because only He can protect us and assist us.
+We are surrounded on every side by these powerful enemies. So we recognize and admit that our عبودیۃ and servitude will not be worthy of رب العلمین. Still, we are willing to try, and in that effort we need our master's help. When we fail again and again, we need Allah to lift us up again, because only He can protect us and assist us.
 
 Therefore, اِیَّاکَ نَسْتَعِینُ means: it is **only You** we turn to for assistance in everything. So اِیَّاکَ نَعْبُدُ is a willing commitment to Allah, and اِیَّاکَ نَسْتَعِینُ is the plea for His assistance in carrying that commitment through.
 
@@ -4860,13 +4860,13 @@ That intimacy appears in two acts: worship and seeking assistance. Scholars expl
 
 ![](images/166/1bd391c8-bf59-4171-9cfd-5c663dd0f904.jpg)
 
-I now turn to the order in which these two words appear. عبادۃ, worship, comes first. عون, seeking Allah’s assistance, follows it. This order matters because the sequence of meanings in the Quran is never accidental. It is precise, purposeful, and divine.
+I now turn to the order in which these two words appear. عبادۃ, worship, comes first. عون, seeking Allah's assistance, follows it. This order matters because the sequence of meanings in the Quran is never accidental. It is precise, purposeful, and divine.
 
 Worship comes before seeking help because the best way to ask Allah for anything needed or desired is to ask after worshiping Him. عَبْدُ اللَّہِ ابْنُ مَسْعُودٍ would tell his students:
 
-أِحْمَلُو حَوائجَکُم عَلی المکتُوبَۃ
+> أِحْمَلُو حَوائجَکُم عَلی المکتُوبَۃ
 
-Save your needs and necessities for the فرض obligatory prayer. When you need something, or when you face something difficult, do not worry. A فرض obligatory prayer is always near. Use it as the moment to ask Allah to help you solve your problems. Worship first, then seek Allah’s help and assistance.
+Save your needs and necessities for the فرض obligatory prayer. When you need something, or when you face something difficult, do not worry. A فرض obligatory prayer is always near. Use it as the moment to ask Allah to help you solve your problems. Worship first, then seek Allah's help and assistance.
 
 ### Repetition of (ایاک)
 
@@ -4876,7 +4876,7 @@ In grammar alone, Allah could have omitted the second ایاک and said: اِی�
 
 I say اِیَّاکَ نَعْبُدُ وَ نَسْتَعِینُ, and both words, نعبد and نستعین, return to the same ایاک. But when I say اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ, each word now has its own ایاک. Grammatically, the two statements become independent of one another.
 
-Why would Allah do this? Allah first mentioned worship, then seeking assistance. That is the best order. That is the ideal path. Yet some people lose their way. They are not praying to Allah. They are not worshiping Him. Then life brings hardship, difficulty, or tragedy, and in that painful moment they need Allah’s help.
+Why would Allah do this? Allah first mentioned worship, then seeking assistance. That is the best order. That is the ideal path. Yet some people lose their way. They are not praying to Allah. They are not worshiping Him. Then life brings hardship, difficulty, or tragedy, and in that painful moment they need Allah's help.
 
 So Allah سُبْحَانَهُ وَتَعَالَى separates the two very subtly, only slightly. He makes them independent for the sake of such people, so they know that even if they were not worshiping Him or praying to Him, they may still ask Him for help and assistance. His door remains open to them.
 
@@ -4894,7 +4894,7 @@ I find that the scholars point out something very important in the order of thes
 
 This order matters. We are not saying, “Give me the instructions first. If I think I can carry them out, if they make sense to me, and if I feel I can find the time for them, then I will do them.” No. All of that has already been settled in the earlier verses. From اِیَّاکَ نَعْبُدُ onward, we are committing ourselves. We are making a promise of عبودیۃ: that we will do whatever You tell us to do, because that is part of being a slave. A slave does not say, “I will do it if and when it makes sense to me.” The matter of its making sense was completed in the first three verses:
 
-اَلْحَمْدُ لِلَّہِ رب العلمین؛ اَلرَّحْمَٰنِ الرَّحِیمِ؛ مَالِکِ یَوْمِ الدِّینِ
+> اَلْحَمْدُ لِلَّہِ رب العلمین؛ اَلرَّحْمَٰنِ الرَّحِیمِ؛ مَالِکِ یَوْمِ الدِّینِ
 
 Those verses make us realize that Allah is worthy of our عبودیۃ. They convince us that Allah has mastery over us. They complete the work of reflection and inquiry. The first three verses complete the theoretical part. From اِیَّاکَ نَعْبُدُ onward, the matter becomes practical. It becomes action.
 
@@ -4916,7 +4916,7 @@ The first form is direct instruction. A person may say, “Take this particular 
 
 The second form is guidance through a means or intermediary. A person may say, “Stand at this bus stop. Take this particular bus, and get off at this particular stop.” In that case, the bus becomes the means by which I am guided. I do not have to walk the whole route myself. I only have to be at the right stop at the right time, board the right bus, and the bus carries me to the destination.
 
-The third form is direct conveyance. A person may say, “Look! I’m headed home right now. Why don’t you jump in the car with me, and I’ll take you all the way.” Here the guide does not merely describe the path or point to a means. He personally takes me to the destination.
+The third form is direct conveyance. A person may say, “Look! I'm headed home right now. Why don't you jump in the car with me, and I'll take you all the way.” Here the guide does not merely describe the path or point to a means. He personally takes me to the destination.
 
 So guidance can appear in three forms:
 
@@ -4939,11 +4939,11 @@ So when I say اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیم
 
 SubhanAllah. The wording is remarkable.
 
-A school counselor’s guidance is information. A traffic officer’s guidance is information. GPS guidance is information. But Allah’s guidance is more than information. It touches the personal choices I must make at every moment.
+A school counselor's guidance is information. A traffic officer's guidance is information. GPS guidance is information. But Allah's guidance is more than information. It touches the personal choices I must make at every moment.
 
 So I am not only asking for directions. I am also asking Him for strength and for His assistance in making the right decisions. These are two very different matters, because I can have all the right information and still make the wrong choices.
 
-I see this also in the fact that, if guidance were only information, I would need it only once. Once the right information has reached me, there is no reason to keep asking for it. If I know the way to a person’s house, that settles the matter; I do not keep asking for the same directions.
+I see this also in the fact that, if guidance were only information, I would need it only once. Once the right information has reached me, there is no reason to keep asking for it. If I know the way to a person's house, that settles the matter; I do not keep asking for the same directions.
 
 But I ask Allah for guidance again and again. I ask as a constant need, the way the body needs water. I cannot say that I drank water yesterday and therefore do not need it today. Life does not work that way. To survive, I must drink again every day.
 
@@ -4955,7 +4955,7 @@ I turn to the word اھدنا, which comes from the root ھُدی. In this conte
 
 ھدیۃ means a gift. For an Arab living in the desert, lost and unable to find his way, the greatest gift is not water, though water may keep him alive for one more day. It is not food, though food may sustain him for a few more days. The greatest gift is guidance: directions back home, back to his family. That is the ultimate gift.
 
-So when I ask Allah for guidance, I am not asking for an ordinary gift. I am asking for the greatest gift. Allah’s guidance is the ultimate gift for a believer. It is far more than instructions or information. It changes the believer’s whole outlook. What might have seemed like a set of rules is now understood as mercy, direction, and generosity. The commands and directions of Allah are received as a gift.
+So when I ask Allah for guidance, I am not asking for an ordinary gift. I am asking for the greatest gift. Allah's guidance is the ultimate gift for a believer. It is far more than instructions or information. It changes the believer's whole outlook. What might have seemed like a set of rules is now understood as mercy, direction, and generosity. The commands and directions of Allah are received as a gift.
 
 ### Path
 
@@ -5007,13 +5007,13 @@ The view also changes with height. It becomes clearer. A person begins to see th
 
 I must also recognize the danger in this ascent. The higher I climb, the greater the danger of falling. If I am only one foot above the ground and fall, I may be unharmed. If I am twenty feet high and fall, the harm is far more serious. If I am a hundred feet high and fall, اِنَّا لِلَّہِ وَ اِنَّا اِلَیْہِ رَاجِعُونَ.
 
-So the person who has traveled this path for a long time is not in less danger. He is in greater danger. This is why, the higher a person’s rank, the more خشوع he carries in his صلوۃ. The more fear he has in his heart. The more he weeps on his prayer mat during صلوۃ.
+So the person who has traveled this path for a long time is not in less danger. He is in greater danger. This is why, the higher a person's rank, the more خشوع he carries in his صلوۃ. The more fear he has in his heart. The more he weeps on his prayer mat during صلوۃ.
 
 This is also why I find these صحابۃ showing extreme caution at every step of their lives. It was not because they loved misery, though that impression can sometimes arise from books of سیرۃ. Constant prayer. Constant fasting. Allah never demanded that. Yet these people strove to the utmost degree.
 
 The reason was caution, joined to a higher perspective. From the outside, their lives may look like suffering. If they were asked, they would say they were enjoying it, because they were eager for their destination. The work needed to reach it no longer felt like work.
 
-I think of a rocket heading toward space. That is الصِّرَاطُ الْمُسْتَقِیمُ. It travels on an upward path. The rocket needs immense force to overcome the earth’s gravity. Once it breaks through the gravitational field and enters space, movement no longer requires the same effort. It needs only a small thrust now and then, and it glides toward its destination.
+I think of a rocket heading toward space. That is الصِّرَاطُ الْمُسْتَقِیمُ. It travels on an upward path. The rocket needs immense force to overcome the earth's gravity. Once it breaks through the gravitational field and enters space, movement no longer requires the same effort. It needs only a small thrust now and then, and it glides toward its destination.
 
 That is what the صحابۃ sought. They labored so intensely for that reason. Then, once they had perfected that labor, once they had risen above the perspective of this دنیا, and once they had become aware of the vast and endless space of solar systems, galaxies, and the universe, this insignificant دنیا lost its worth in their eyes. From that perspective, much of their conduct in this world becomes understandable.
 
@@ -5039,11 +5039,11 @@ Then He says: غَیْرِ الْمَغْضُوبِ عَلَیْھِمْ not on 
 
 The wording is striking. When the verse spoke of blessings, نعمۃ, it said: on whom **you** showered your blessings. But when it came to غضب, the verse said الْمَغْضُوبِ عَلَیْھِمْ: those who received غضب. It leaves out the subject. It says only that they received anger, not that they received your anger. The difference matters.
 
-When I say, “He got beaten,” the question remains: who did the beating? It may have been one person, or it may have been many. This wording shows that those who receive Allah’s anger do not receive Allah’s anger alone. They receive the anger of the messengers, the angels, other believers, the heavens, and the earth. Wrath and anger come upon them from every direction.
+When I say, “He got beaten,” the question remains: who did the beating? It may have been one person, or it may have been many. This wording shows that those who receive Allah's anger do not receive Allah's anger alone. They receive the anger of the messengers, the angels, other believers, the heavens, and the earth. Wrath and anger come upon them from every direction.
 
 For that reason, the verse does not name Allah when it speaks of غضب. But it names Him directly when it speaks of blessings: اَنْعَمْ تَ عَلَیْھِمْ, the ones upon whom You showered blessings. Then it says: غَیْرِ الْمَغْضُوبِ عَلَیْھِمْ, not those who received anger.
 
-The reason is that anger, or غضب, was never Allah’s purpose from the beginning. He is الرحمن and الرحیم. Whatever they did, they did to themselves. They earned it themselves.
+The reason is that anger, or غضب, was never Allah's purpose from the beginning. He is الرحمن and الرحیم. Whatever they did, they did to themselves. They earned it themselves.
 
 But those who received blessings were helped by Allah all along the path:
 
@@ -5082,29 +5082,29 @@ Allah says غَیْرِ الْمَغْضُوبِ عَلَیْھِمْ وَلَض
 
 This is the real message of the Fateha: the balance between knowledge and action.
 
-بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ. اَلْحَمْدُ لِلَّہِ رَبِّ الْعَالَمِینَ. اَلرَّحْمَٰنِ الرَّحِیمِ. مَالِکِ یَوْمِ الدِّینِ
+> بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ. اَلْحَمْدُ لِلَّہِ رَبِّ الْعَالَمِینَ. اَلرَّحْمَٰنِ الرَّحِیمِ. مَالِکِ یَوْمِ الدِّینِ
 
 These all concern the knowledge I need. Then
 
-اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ
+> اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ
 
 This is my recognition and acceptance that this knowledge is the one true knowledge. It is also my commitment to Allah. After that comes:
 
-اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ
+> اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ
 
 Guide me to the only straight and wide path of knowledge, the path that raises me toward You. Guide me to the path of ایمان. Give me the highest gift of ایمان.
 
-صِرَاطَ الَّذِینَ اَنْعَمْتَ عَلَیْھِمْ
+> صِرَاطَ الَّذِینَ اَنْعَمْتَ عَلَیْھِمْ
 
 Through the path of Islam, which is Your true blessing, guide me to the perfect balance between knowledge and action. Place before me the examples of the favored people of the past, the true models: those who were wise and possessed wisdom.
 
 Wisdom means correct knowledge joined to action. Make me one of those who act when You give them knowledge.
 
-غَیْرِ الْمَغْضُوبِ عَلَیْھِمْ
+> غَیْرِ الْمَغْضُوبِ عَلَیْھِمْ
 
 Do not make me one of those who receive knowledge but do not act upon it. They will receive wrath from every direction on the Day of Judgment because of their bad choices.
 
-وَلَا الضَّالِّینَ
+> وَلَا الضَّالِّینَ
 
 And do not make me one of those who act without knowledge, because they are the ones who are lost.
 
@@ -5118,7 +5118,7 @@ Only after that come the instructions, the ھدی. Then I ask Allah to make me o
 
 Maulana Ali says.
 
-اَلعِلمُ بِدُونِ العَمَل وَبَالٌ . وَالعَمَلُ بِدُونِ العِلمِ ضَلالٌ
+> اَلعِلمُ بِدُونِ العَمَل وَبَالٌ . وَالعَمَلُ بِدُونِ العِلمِ ضَلالٌ
 
 Knowledge without action is a calamity for my soul. Action without knowledge is ignorance; it is a perversion.
 
@@ -5130,7 +5130,7 @@ I have completed سُورَۃُ الْفَاتِحَۃِ, and I now turn to اس
 
 ### Foundation
 
-In سُورَۃُ الْفَاتِحَۃِ, I ask Allah for guidance by saying اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ: Guide us towards the straight path. This verse is the essence of the Surah. The opening verses lead up to it. It is the prayer of all prayers: Guide us. Guide us through instruction, through role models, and through Your divine companionship.
+In سُورَۃُ الْفَاتِحَۃِ, I ask Allah for guidance by saying اِھْدِنَا الصِّرَاطَ الْمُسْتَقِیمَ: Guide us toward the straight path. This verse is the essence of the Surah. The opening verses lead up to it. It is the prayer of all prayers: Guide us. Guide us through instruction, through role models, and through Your divine companionship.
 
 What, then, is this صِرَاطُ الْمُسْتَقِیمِ? Allah defines it in سورۃ یس. He says:
 
@@ -5140,11 +5140,11 @@ What, then, is this صِرَاطُ الْمُسْتَقِیمِ? Allah defines i
 
 We know عبادۃ or عبودیۃ as willing submission, and Allah defines the straight path by it. The person who willingly submits himself or herself to Allah has found that path, which, AlHamdulillah, we have all found.
 
-Yet finding the right path is not the same as reaching the destination. A person reaches the destination by walking the path. The name for walking this path is تقوی: a strong mindfulness of our master’s presence in our lives.
+Yet finding the right path is not the same as reaching the destination. A person reaches the destination by walking the path. The name for walking this path is تقوی: a strong mindfulness of our master's presence in our lives.
 
 تقوی (piety) is essential for عبودیۃ, the attainment of the ranks of servitude. That is what we asked for when we said اِیَّاکَ نَعْبُدُ وَ اِیَّاکَ نَسْتَعِینُ. It is only You we worship, and it is only You we seek help from. Worship, again, is the straight path.
 
-The method of استعانۃ, seeking Allah’s help, is explained in سُورَۃُ الْبَقَرَۃِ.
+The method of استعانۃ, seeking Allah's help, is explained in سُورَۃُ الْبَقَرَۃِ.
 
 > وَٱسْتَعِينُوا۟ بِٱلصَّبْرِ وَٱلصَّلَوٰةِ ۚ وَإِنَّهَا لَكَبِيرَةٌ إِلَّا عَلَى ٱلْخَشِعِينَ
 >
@@ -5170,7 +5170,7 @@ An image from the physical world helps explain استقامۃ: a strong tree sta
 
 In many verses, when Allah سُبْحَانَهُ وَتَعَالَى speaks about faith, He mentions two things together:
 
-الَّذِينَ آمَنُوا۟ وعمل الصلحات
+> الَّذِينَ آمَنُوا۟ وعمل الصلحات
 
 He always joins ایمان to عمل. He joins faith to action. From this I know that what is required of me has two parts: an inner part and an outer part.
 
@@ -5184,7 +5184,7 @@ The external عبادات are acts such as prayer, reading Quran, guarding the e
 
 So what is essential for استقامۃ: the internal or the external? Our Prophet ﷺ said in a HADEES:
 
-قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
+> قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
 
 > أِنَّ فِی الجَسَدِ مُضْغَۃ۔ أِذَا صَلُحَتْ صَلَحَ الجَسَدُ کُلُّہ وَ أِذَا فَسَدَتْ فَسَدَ الجَسَدُ کُلُّہ۔ أَلا وَھِیَ القَلْبٌ
 >
@@ -5204,9 +5204,9 @@ The kind of heart a person carries shapes the thoughts of the mind and the actio
 
 For this reason, the Prophet ﷺ said that if this lump of flesh is cared for, the whole body is set right. By “heart,” I do not mean the physical organ. I mean the spiritual heart, the قلب.
 
-When that heart is purified, nourished, cared for, and rectified, the actions naturally become pure. But when the heart is corrupted, starved, neglected, and deprived of its spiritual sustenance, the rest of a person’s actions naturally become corrupted.
+When that heart is purified, nourished, cared for, and rectified, the actions naturally become pure. But when the heart is corrupted, starved, neglected, and deprived of its spiritual sustenance, the rest of a person's actions naturally become corrupted.
 
-I find it significant that, when I follow the chronological theme of revelation, the first verses revealed were not about drinking alcohol or avoiding fornication. They were not about the rules of حرام and حلال. The first verses were about building تقوی of Allah سُبْحَانَهُ وَتَعَالَى; building attachment to Allah سُبْحَانَهُ وَتَعَالَى; and understanding the Day of Judgment. They taught that we will be called to account for our actions, that we are not living this life without purpose, and that Allah’s Oneness gives life its purpose.
+I find it significant that, when I follow the chronological theme of revelation, the first verses revealed were not about drinking alcohol or avoiding fornication. They were not about the rules of حرام and حلال. The first verses were about building تقوی of Allah سُبْحَانَهُ وَتَعَالَى; building attachment to Allah سُبْحَانَهُ وَتَعَالَى; and understanding the Day of Judgment. They taught that we will be called to account for our actions, that we are not living this life without purpose, and that Allah's Oneness gives life its purpose.
 
 The earliest verses of revelation, then, spoke about the Day of Judgment, retribution, life after death, who Allah سُبْحَانَهُ وَتَعَالَى is, and what Allah wants from us. They did this because they were laying a foundation. They were establishing the foundation of استقامۃ.
 
@@ -5262,19 +5262,19 @@ I need to focus on building a solid foundation. Life will strike, and I will be 
 
 They were afflicted with severe poverty and illness, and they were shaken so deeply that even the Messenger and those who believed with him said, "When the Help of Allah?" Yes, certainly, the Help of Allah is near.
 
-أَمْ حَسِبْتُمْ أَن تَدْخُلُوا۟ ٱلْجَنَّةَ وَلَمَّا يَأْتِكُم مَّثَلُ ٱلَّذِينَ خَلَوْا۟ مِن قَبْلِكُم
+> أَمْ حَسِبْتُمْ أَن تَدْخُلُوا۟ ٱلْجَنَّةَ وَلَمَّا يَأْتِكُم مَّثَلُ ٱلَّذِينَ خَلَوْا۟ مِن قَبْلِكُم
 
 Entry into Paradise is not attained without passing through what those before us passed through.
 
-مَّسَّتْهُمُ ٱلْبَأْسَآءُ وَٱلضَّرَّآءُ وَزُلْزِلُوا۟
+> مَّسَّتْهُمُ ٱلْبَأْسَآءُ وَٱلضَّرَّآءُ وَزُلْزِلُوا۟
 
 They were struck by calamity, hardship, and struggle, and they were shaken. The Arabic word زلزل comes from the same root as زلزال, which means earthquake.
 
-حَتَّىٰ يَقُولَ ٱلرَّسُولُ وَٱلَّذِينَ آمَنُوا۟ مَعَهُۥ مَتَىٰ نَصْرُ ٱللَّهِ
+> حَتَّىٰ يَقُولَ ٱلرَّسُولُ وَٱلَّذِينَ آمَنُوا۟ مَعَهُۥ مَتَىٰ نَصْرُ ٱللَّهِ
 
 I see that they were shaken so severely that even the messengers, together with those who believed with them, asked when the Help of Allah would come. And Allah says: سُبْحَانَهُ وَتَعَالَى
 
-أَلَآ إِنَّ نَصْرَ ٱللَّهِ قَرِيبٌۭ
+> أَلَآ إِنَّ نَصْرَ ٱللَّهِ قَرِيبٌۭ
 
 Indeed, the Help of Allah is near. The Help of Allah is not merely present as an idea. It is present now, with me, while I am passing through the test. Allah says that He is closer to us than our jugular vein.
 
@@ -5295,7 +5295,7 @@ We are not helping them form an attachment to Allah. We are not teaching them to
 
 That is all. The problem with this method is that it is being rejected.
 
-The scholar’s point was exactly this: if the rules had come first, even the Companions would have rejected them. If Allah had begun with commands and prohibitions before building the foundation, they would not have been ready to carry them. But Allah did not begin with rules.
+The scholar's point was exactly this: if the rules had come first, even the Companions would have rejected them. If Allah had begun with commands and prohibitions before building the foundation, they would not have been ready to carry them. But Allah did not begin with rules.
 
 جز عم, the thirtieth chapter of the Quran, is mostly Meccan. Most of the verses in that جز were revealed at the beginning of Islam. It contains very few legal rulings. Instead, it speaks about Allah, His love, His mercy, and the Day of Judgment. It speaks about human beings and their relationship with Allah. It speaks about the human soul. It speaks about تقوی, توکل, and retribution. It teaches جنۃ جھنم. It focuses on how people should treat one another. That is what stands in جز عم, because that was the work of building the foundation.
 
@@ -5315,7 +5315,7 @@ That is استغفار and توبۃ. That is what I am supposed to do. It is hea
 
 That kind of shame, when it drives a person away from Allah, is unhealthy. But تقوی is healthy fear. It is the kind of healthy shame that helps me stay away from what displeases Allah and angers Him. And when I do what angers Allah, it makes me rush to apologize, rush to repent, show my regret, and try to make things right.
 
-I mention this because I feel that we are feeding the wrong kind of fear and shame. When Allah is taught as though He were a frightening policeman, نعوذ بللہ, people are trained to avoid Him. A person trains himself, his children, and those around him to run away from Allah instead of running toward Him: to apologize, repent, and repair what has been broken.
+I mention this because I feel that we are feeding the wrong kind of fear and shame. When Allah is taught as though He were a frightening policeman, نَعُوذُ بِللّٰہِ, people are trained to avoid Him. A person trains himself, his children, and those around him to run away from Allah instead of running toward Him: to apologize, repent, and repair what has been broken.
 
 I need healthy fear because it draws me closer to Allah and moves me to repent. Unhealthy shame does the opposite: it makes me run away from Allah سُبْحَانَهُ وَتَعَالَى and avoid Him out of shame. For me to remain firm in my دین and to have استقامۃ, I need to develop this healthy fear of Allah سُبْحَانَهُ وَتَعَالَى, called تقوی.
 
@@ -5337,7 +5337,7 @@ When I know this and understand it, I respond with repentance. I know that I am 
 
 The prophet ﷺ said
 
-قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
+> قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
 
 > كُلُّ بَنِي آدَمَ خَطَّاءٌ, وَخَيْرُ اَلْخَطَّائِينَ اَلتَّوَّابُونَ
 >
@@ -5347,15 +5347,15 @@ I have to let go of the myth of perfection, because it lies at the root of many 
 
 But when I understand that human beings are imperfect by design, the matter changes. No one can go against the divine design. Allah said that He created human beings imperfect. The descriptions in the Quran about our creation show this clearly.
 
-خَلَقَ ٱلْإِنسَنَ مِن صَلْصَلٍۢ كَٱلْفَخَّارِ
+> خَلَقَ ٱلْإِنسَنَ مِن صَلْصَلٍۢ كَٱلْفَخَّارِ
 
-خَلَقَ ٱلْإِنسَنَ مِن صَلْصَلٍۢ كَٱلْفَخَّارِ
+> خَلَقَ ٱلْإِنسَنَ مِن صَلْصَلٍۢ كَٱلْفَخَّارِ
 
-وَخُلِقَ ٱلْإِنسَنُ ضَعِيفًۭا
+> وَخُلِقَ ٱلْإِنسَنُ ضَعِيفًۭا
 
-خُلِقَ ٱلْإِنسَنُ مِنْ عَجَلٍۢ
+> خُلِقَ ٱلْإِنسَنُ مِنْ عَجَلٍۢ
 
-إِنَّ ٱلْإِنسَنَ خُلِقَ هَلُوعًا
+> إِنَّ ٱلْإِنسَنَ خُلِقَ هَلُوعًا
 
 These descriptions are not outside the human being: weak, created from a filthy liquid, hasty, anxious. I cannot go against that design. It is impossible. When I try to fight what Allah has placed in human nature, I end by striking against despair. Then Allah balances these weaknesses by telling us
 
@@ -5363,13 +5363,13 @@ These descriptions are not outside the human being: weak, created from a filthy 
 >
 > Say, "O My servants who have transgressed against themselves [by sinning], do not despair of the mercy of Allah . Indeed, Allah forgives all sins. Indeed, it is He who is the Forgiving, the Merciful."
 
-Allah tells them: O My beloved servants who have wronged their own selves. When I commit sin, I do not harm Allah. I harm only myself. I cannot wrong Allah, take anything from Him, or lessen His kingdom. Allah’s kingdom is infinite.
+Allah tells them: O My beloved servants who have wronged their own selves. When I commit sin, I do not harm Allah. I harm only myself. I cannot wrong Allah, take anything from Him, or lessen His kingdom. Allah's kingdom is infinite.
 
 Wrongdoing and forbidden acts wound my own soul. The example is simple: if I drink poison, I harm myself, not the doctor. If I refuse the medicine, I harm myself, not the doctor. In the same way, Allah سُبْحَانَهُ وَتَعَالَى is not the One I wrong. I am the one I wrong. So Allah says
 
 “O My servant who has done wrong, who has transgressed against his own soul.
 
-لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ
+> لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ
 
 Do not despair of the mercy of Allah.”
 
@@ -5398,13 +5398,13 @@ But when I realize that I am not perfect, and that I was never created to be per
 
 That is what Allah wants me to have: hope in His mercy.
 
-قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
+> قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ
 
 > قَالَ اللهُ تَعَالَى : يَا ابْنَ ادَمَ ، إِنَّكَ مَا دَعَوْتََنِي وَرَجَوْتَنِي ، غَفَرْتُ لَكَ عَلَى مَا كَانَ مِنْكَ وَلَا أُبالِي .
 
-يا ابْنَ ادَمَ: لَوْ بَلَغَتْ ذُنُوبُكَ عَنانَ السَّماءِ ثُم َّ اسْتَغْفَرْتَني استغفرتني، غَفَرْتُ لَكَ.
+> يا ابْنَ ادَمَ: لَوْ بَلَغَتْ ذُنُوبُكَ عَنانَ السَّماءِ ثُم َّ اسْتَغْفَرْتَني استغفرتني، غَفَرْتُ لَكَ.
 
-يَا ابْنَ ادَمَ : إِنَّكَ لَوْ أَتَيْتَنِي بِقُرَابِ الأَرْضِ خَطَايا ثُمَّ لَقِيتَني لَا تُشْرِكُ بِي شَيْأً ، لَأَتيتُكَ بِقُرَابِها مَغْفِرَةً
+> يَا ابْنَ ادَمَ : إِنَّكَ لَوْ أَتَيْتَنِي بِقُرَابِ الأَرْضِ خَطَايا ثُمَّ لَقِيتَني لَا تُشْرِكُ بِي شَيْأً ، لَأَتيتُكَ بِقُرَابِها مَغْفِرَةً
 
 > I heard the Messenger of Allah (?) say: Allah the Almighty said: O son of Adam, as long as you call upon Me and ask from Me, I shall forgive you for what you have done, and I shall not mind.
 >
@@ -5455,7 +5455,7 @@ I can develop this foundation in a very simple way. It is a recipe with three in
 
    I should rejoice in that prayer. I should feel glad and grateful for it, even if it seemed distracted or imperfect. The myth of perfection creates a serious problem. If I asked a person to list every sin and mistake committed in one day, the list would probably be long. If I asked for the good deeds of that same day, the list would be harder to make. That is because the wrong is often beaten into the soul, while the good is not appreciated with the same force.
 
-   From now on, every good deed deserves attention. After doing good, I remember Allah, feel grateful to him, and praise him by saying اَلْحَمْدُ لِلَّہِ. I keep bringing Allah to mind after every good deed, and I allow myself to feel glad about it: from remembering to say بسم اللہ before eating, to saving someone’s life, and everything between those two. My relationship with Allah grows when I think of him and consciously realize that every good act pleases him.
+   From now on, every good deed deserves attention. After doing good, I remember Allah, feel grateful to him, and praise him by saying اَلْحَمْدُ لِلَّہِ. I keep bringing Allah to mind after every good deed, and I allow myself to feel glad about it: from remembering to say بسم اللہ before eating, to saving someone's life, and everything between those two. My relationship with Allah grows when I think of him and consciously realize that every good act pleases him.
 
 2. دعا
 

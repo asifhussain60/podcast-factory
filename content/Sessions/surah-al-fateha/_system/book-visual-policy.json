@@ -1,0 +1,351 @@
+{
+  "schema": "book.visual-policy/v1",
+  "policy": "manual_only",
+  "text_only": false,
+  "pipeline_inserted": [
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of Allah",
+      "line": 731,
+      "text": "![](images/87/983c2f7d-5f31-4f45-b5bf-27da233a43c0.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of Allah",
+      "line": 737,
+      "text": "![](images/87/1b3198d2-bb3f-48d3-ac49-05f97e515554.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of REHMA",
+      "line": 1046,
+      "text": "![](images/79/9da9df6f-f8e4-4a81-9768-38023d7a120f.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of REHMA",
+      "line": 1072,
+      "text": "![](images/79/40b93a03-5882-4ae6-9177-d9f5d781701c.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of REHMA",
+      "line": 1117,
+      "text": "![](images/79/bd725d5f-a767-46d9-b83c-e8e7d526de0a.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of REHMA",
+      "line": 1160,
+      "text": "![](images/79/0946d4dd-bfcb-45eb-be4c-2bebdaa9f080.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Womb - The Source Of Mercy",
+      "line": 1242,
+      "text": "![](images/101/69b7af1e-c0ca-4a3f-9149-ff599bc840cc.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of Rabb",
+      "line": 1628,
+      "text": "![](images/78/b8244e3f-11ba-4e9b-a182-4022d0ce982f.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of Rabb",
+      "line": 1640,
+      "text": "![](images/78/b16edd18-ca65-470d-bddc-f05a0725a60e.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of Rabb",
+      "line": 1654,
+      "text": "![](images/78/0b293ce1-5d98-44aa-a320-7be45f893cae.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of Rabb",
+      "line": 1690,
+      "text": "![](images/78/c49b7488-8dd5-4b26-bd91-725c35cffb79.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of Rabb",
+      "line": 1737,
+      "text": "![](images/78/f84f0843-7482-421c-8a2b-9747e6ab9960.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of Rabb",
+      "line": 1755,
+      "text": "![](images/78/80747d2d-bd3b-4e95-a510-940e9d5f1391.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of Rabb",
+      "line": 1799,
+      "text": "![](images/78/f63ba209-ecbb-4b20-844c-b4731e0c1d62.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Meaning Of Rabb",
+      "line": 1837,
+      "text": "![](images/78/7a08c24b-14c5-4e03-baea-0851a90c77f9.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Master Slave Relationship",
+      "line": 1991,
+      "text": "![](images/82/cfa7ce2f-61a4-4cb1-9479-ff4021731839.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Master Slave Relationship",
+      "line": 2001,
+      "text": "![](images/82/11062766-b962-4709-ae7b-87ee1d9d0120.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Master Slave Relationship",
+      "line": 2019,
+      "text": "![](images/82/281db322-3bb2-41ea-8b21-09f2524569b1.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Understanding RAB Al-ALAMEEN",
+      "line": 2249,
+      "text": "![](images/103/eca60cad-bbc6-4834-8ec1-29abaedfcbd2.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Understanding RAB Al-ALAMEEN",
+      "line": 2266,
+      "text": "![](images/103/1b30e423-708e-4a37-82b8-2822340822cd.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Understanding RAB Al-ALAMEEN",
+      "line": 2280,
+      "text": "![](images/103/5a272c60-5c69-4412-acb0-543f36068b34.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Divine Formula For Recognizing Allah",
+      "line": 2510,
+      "text": "![](images/81/cd8a1733-7cb4-4e8a-a67a-cbd7e47ed8f0.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Divine Formula For Recognizing Allah",
+      "line": 2518,
+      "text": "![](images/81/b813ade8-e959-40c9-8d6a-4fc1a4737099.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Divine Formula For Recognizing Allah",
+      "line": 2551,
+      "text": "![](images/81/5f48abc4-58c6-4794-9d67-7a23731cf232.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Divine Formula For Recognizing Allah",
+      "line": 2561,
+      "text": "![](images/81/04fc84c0-c8c1-4ef9-a632-89eb104a4873.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Divine Formula For Recognizing Allah",
+      "line": 2703,
+      "text": "![](images/81/9ce920c6-9fdc-45d1-a2a2-85e8cc4c7774.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Horizons And The Soul",
+      "line": 2868,
+      "text": "![](images/86/718f2946-a675-46a9-ae87-0aaea1e7e6f8.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Horizons And The Soul",
+      "line": 2888,
+      "text": "![](images/86/a4e369cc-73b8-4b20-ad70-e25c3f6e278e.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Horizons And The Soul",
+      "line": 2898,
+      "text": "![](images/86/c6127d05-d962-40d3-b020-fef39599aca6.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Horizons And The Soul",
+      "line": 2925,
+      "text": "![](images/86/b55d6057-fdd9-410d-84b2-9b42960d764a.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Horizons And The Soul",
+      "line": 3070,
+      "text": "![](images/86/ce70c60c-96bc-46d3-9609-28618152e57f.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Horizons And The Soul",
+      "line": 3104,
+      "text": "![](images/86/d8bc7f29-420b-4720-94a6-45362c80bbb2.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Horizons And The Soul",
+      "line": 3112,
+      "text": "![](images/86/097a919e-1633-48a4-9509-d2ca569658fb.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Horizons And The Soul",
+      "line": 3132,
+      "text": "![](images/86/951440aa-8e7c-46e7-a2f8-04c4aed6c38b.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The Horizons And The Soul",
+      "line": 3158,
+      "text": "![](images/86/0f665992-7d40-40ca-833b-ab1b223125cd.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Allah - Being vs Attributes",
+      "line": 3458,
+      "text": "![](images/152/92005ff6-ab51-4acb-a733-01fbbe1e5f0e.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Allah - Being vs Attributes",
+      "line": 3496,
+      "text": "![](images/152/12b65610-07b1-45a5-be3a-0ebb449a5e2f.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Allah - Being vs Attributes",
+      "line": 3608,
+      "text": "![](images/152/5b739499-b576-4bf4-b91f-f4f906ded16a.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The ISM Of Allah",
+      "line": 3664,
+      "text": "![](images/153/a12c19db-131b-4892-9838-c09bc76e3b15.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The ISM Of Allah",
+      "line": 3690,
+      "text": "![](images/153/0afc12f6-52de-4003-bce7-6cefb9664849.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The ISM Of Allah",
+      "line": 3702,
+      "text": "![](images/153/72fefb64-1e7f-4756-b3e4-8aa9ceacb74a.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "The ISM Of Allah",
+      "line": 3732,
+      "text": "![](images/153/c0f35ef5-2e24-47de-9770-22647f9d900c.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "In the Name Of Allah The Merciful",
+      "line": 3852,
+      "text": "![](images/159/300d20b6-e90b-4023-9d00-29a23096e187.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Perfection Of HAMD",
+      "line": 3902,
+      "text": "![](images/160/9f1d99bf-6c97-4f5b-baaa-b62c9928ac0a.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Perfection Of HAMD",
+      "line": 4016,
+      "text": "![](images/160/c5cc90e2-d33d-4464-a9a9-070907dbb34e.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Perfection Of HAMD",
+      "line": 4052,
+      "text": "![](images/160/80c720a9-7ae8-4b6b-b674-701c4dfd0b3e.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Linguistic Perfection Of HAMD",
+      "line": 4072,
+      "text": "![](images/160/00660fed-358b-498c-bb18-8cc7ff5c2952.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Worship and Assistance",
+      "line": 4772,
+      "text": "![](images/166/23fd8cf4-d085-43b5-a0e9-eb75f7b8751d.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Worship and Assistance",
+      "line": 4790,
+      "text": "![](images/166/2f3e642f-eccf-48a3-8184-e170c2c0a613.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Worship and Assistance",
+      "line": 4861,
+      "text": "![](images/166/1bd391c8-bf59-4171-9cfd-5c663dd0f904.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Guidance To The Straight Path",
+      "line": 4952,
+      "text": "![](images/167/7500cce9-7ea7-43ad-a8ea-d087e3ba3830.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Guidance To The Straight Path",
+      "line": 4980,
+      "text": "![](images/167/8d9fab28-3712-415b-982e-31adf5393271.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Guidance To The Straight Path",
+      "line": 5020,
+      "text": "![](images/167/e1618e1c-a163-4415-9af3-b9d008a48ba0.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Staying Steadfast On The Path",
+      "line": 5159,
+      "text": "![](images/168/afef5a3f-8851-4eea-9ec8-f3a9bdc1d0ee.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Staying Steadfast On The Path",
+      "line": 5167,
+      "text": "![](images/168/59d175a9-8e91-4862-8d53-491dab98e134.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Staying Steadfast On The Path",
+      "line": 5285,
+      "text": "![](images/168/dbd071d9-0c31-4c3e-9250-c83d94f7a905.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Staying Steadfast On The Path",
+      "line": 5332,
+      "text": "![](images/168/3580abad-67b3-473e-a156-a52a38c1306f.jpg)"
+    }
+  ],
+  "curated_placements": 0,
+  "injected_variants": []
+}

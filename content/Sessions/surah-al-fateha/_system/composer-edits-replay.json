@@ -1,0 +1,123 @@
+{
+  "schema": "podcast.composer-edits-replay/v1",
+  "applied": 23,
+  "conflicts": 0,
+  "orphaned": 0,
+  "chapters": [
+    {
+      "chapter_key": "quranic friendship",
+      "title": "## Quranic Friendship",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the stages of love",
+      "title": "## The Stages Of Love",
+      "conflict": false
+    },
+    {
+      "chapter_key": "linguistic meaning of allah",
+      "title": "## Linguistic Meaning Of Allah",
+      "conflict": false
+    },
+    {
+      "chapter_key": "what is worship?",
+      "title": "## What is Worship?",
+      "conflict": false
+    },
+    {
+      "chapter_key": "linguistic meaning of rehma",
+      "title": "## Linguistic Meaning Of REHMA",
+      "conflict": false
+    },
+    {
+      "chapter_key": "womb - the source of mercy",
+      "title": "## Womb - The Source Of Mercy",
+      "conflict": false
+    },
+    {
+      "chapter_key": "manifestations of rehma",
+      "title": "## Manifestations of REHMA",
+      "conflict": false
+    },
+    {
+      "chapter_key": "linguistic meaning of rabb",
+      "title": "## Linguistic Meaning Of Rabb",
+      "conflict": false
+    },
+    {
+      "chapter_key": "master slave relationship",
+      "title": "## Master Slave Relationship",
+      "conflict": false
+    },
+    {
+      "chapter_key": "understanding rab al-alameen",
+      "title": "## Understanding RAB Al-ALAMEEN",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the divine formula for recognizing allah",
+      "title": "## The Divine Formula For Recognizing Allah",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the horizons and the soul",
+      "title": "## The Horizons And The Soul",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the womb of afterlife",
+      "title": "## The Womb Of Afterlife",
+      "conflict": false
+    },
+    {
+      "chapter_key": "allah - being vs attributes",
+      "title": "## Allah - Being vs Attributes",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the ism of allah",
+      "title": "## The ISM Of Allah",
+      "conflict": false
+    },
+    {
+      "chapter_key": "in the name of allah the merciful",
+      "title": "## In the Name Of Allah The Merciful",
+      "conflict": false
+    },
+    {
+      "chapter_key": "linguistic perfection of hamd",
+      "title": "## Linguistic Perfection Of HAMD",
+      "conflict": false
+    },
+    {
+      "chapter_key": "abundant and consistent mercy",
+      "title": "## Abundant and Consistent Mercy",
+      "conflict": false
+    },
+    {
+      "chapter_key": "day of judgment - linguistics",
+      "title": "## Day Of Judgment - Linguistics",
+      "conflict": false
+    },
+    {
+      "chapter_key": "motivating factors for piety",
+      "title": "## Motivating Factors For Piety",
+      "conflict": false
+    },
+    {
+      "chapter_key": "worship and assistance",
+      "title": "## Worship and Assistance",
+      "conflict": false
+    },
+    {
+      "chapter_key": "guidance to the straight path",
+      "title": "## Guidance To The Straight Path",
+      "conflict": false
+    },
+    {
+      "chapter_key": "staying steadfast on the path",
+      "title": "## Staying Steadfast On The Path",
+      "conflict": false
+    }
+  ]
+}

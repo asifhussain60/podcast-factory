@@ -1,0 +1,11 @@
+{
+  "schema": "podcast.etymology/v1",
+  "book": "surah-al-fateha",
+  "candidates": 8,
+  "generated": 0,
+  "kept": 0,
+  "written": 0,
+  "dropped": 0,
+  "drop_reasons": [],
+  "entries": []
+}

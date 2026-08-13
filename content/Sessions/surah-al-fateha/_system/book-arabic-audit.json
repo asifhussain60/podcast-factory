@@ -15,7 +15,7 @@
     },
     {
       "chapter": "Quranic Friendship",
-      "arabic_runs": 51,
+      "arabic_runs": 52,
       "unverified": 17,
       "runs": [
         {
@@ -226,7 +226,7 @@
           "reference": "An-Nisa: 69"
         },
         {
-          "text": "قرین عہد شریف",
+          "text": "قَرِینُ عَہْدٍ شَرِیفٍ",
           "resolution": "unverified",
           "skeleton": "قرنعدشرف"
         },
@@ -293,9 +293,15 @@
           "skeleton": "لقداضلنيعنالذكربعداذجاءنيوكانالشيطنللانس"
         },
         {
-          "text": "وَمَا كَانَ لِىَ عَلَيْكُم مِّن سُلْطَنٍ\n\nإِلَّآ أَن دَعَوْتُكُمْ فَٱسْتَجَبْتُمْ لِى",
+          "text": "وَمَا كَانَ لِىَ عَلَيْكُم مِّن سُلْطَنٍ",
           "resolution": "canonical-mushaf",
-          "skeleton": "وماكانليعليكممنسلطنالااندعوتكمفاستجبتملي",
+          "skeleton": "وماكانليعليكممنسلطن",
+          "reference": "Ibrahim: 22"
+        },
+        {
+          "text": "إِلَّآ أَن دَعَوْتُكُمْ فَٱسْتَجَبْتُمْ لِى",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الااندعوتكمفاستجبتملي",
           "reference": "Ibrahim: 22"
         },
         {
@@ -308,8 +314,8 @@
     },
     {
       "chapter": "The Stages Of Love",
-      "arabic_runs": 53,
-      "unverified": 43,
+      "arabic_runs": 55,
+      "unverified": 45,
       "runs": [
         {
           "text": "مَرَاتِبُ الْحُبِّ",
@@ -441,9 +447,14 @@
           "skeleton": "تتم"
         },
         {
-          "text": "تُعصِی اِلٰہَ وَ تُظْھِرُ حُبُّہُ\n\nھَذا الامْرُکَ فِی قِیَاسِ بَدِیعُ",
+          "text": "تُعصِی اِلٰہَ وَ تُظْھِرُ حُبُّہُ",
           "resolution": "unverified",
-          "skeleton": "تعصالوتظرحبذاالامرفقاسبدع"
+          "skeleton": "تعصالوتظرحب"
+        },
+        {
+          "text": "ھَذا الامْرُکَ فِی قِیَاسِ بَدِیعُ",
+          "resolution": "unverified",
+          "skeleton": "ذاالامرفقاسبدع"
         },
         {
           "text": "سُبْحَنَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِ لَيْلًۭا",
@@ -550,7 +561,7 @@
           "skeleton": "لاومناحدمحتحباخ"
         },
         {
-          "text": "قل ان کنتم تحبون اللہ فتبعونی",
+          "text": "قُلْ اِنْ کُنْتُمْ تُحِبُّونَ اللَّہَ فَتَّبِعُونِی",
           "resolution": "unverified",
           "skeleton": "قلاننتمتحبوناللفتبعون"
         },
@@ -560,14 +571,19 @@
           "skeleton": "علامالحباتباعالحبب"
         },
         {
-          "text": "عویس القرنی",
+          "text": "عُوَیْسُ الْقَرَنِیُّ",
           "resolution": "unverified",
           "skeleton": "عوسالقرن"
         },
         {
-          "text": "أَمُرُّ بِدِّیارِ دِیَارِ لَیلَۃ أُقَبْلُ لم جِدَارُ وَلا الجِدَارَۃ\n\nمَا حُبُّ الدِّیَارِ شَغَفْنَا قَلبِی؛ وَلاکِنْ حُبُّ مَنْ سَکَنَ الدِّیَارَۃ",
+          "text": "أَمُرُّ بِدِّیارِ دِیَارِ لَیلَۃ أُقَبْلُ لم جِدَارُ وَلا الجِدَارَۃ",
           "resolution": "unverified",
-          "skeleton": "امربداردارللاقبللمجدارولاالجدارماحبالدار"
+          "skeleton": "امربداردارللاقبللمجدارولاالجدار"
+        },
+        {
+          "text": "مَا حُبُّ الدِّیَارِ شَغَفْنَا قَلبِی؛ وَلاکِنْ حُبُّ مَنْ سَکَنَ الدِّیَارَۃ",
+          "resolution": "unverified",
+          "skeleton": "ماحبالدارشغفناقلبولانحبمنسنالدار"
         },
         {
           "text": "مَا حُبُّ الدِّیَارِ شَغَفْنَا قَلبِی",
@@ -588,8 +604,8 @@
     },
     {
       "chapter": "Linguistic Meaning Of Allah",
-      "arabic_runs": 28,
-      "unverified": 21,
+      "arabic_runs": 29,
+      "unverified": 22,
       "runs": [
         {
           "text": "سُورَۃُ الْفَاتِحَۃِ",
@@ -622,9 +638,14 @@
           "skeleton": "والانمحبت"
         },
         {
-          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ\n\nالشِّرکُ فِی أُمَّتِی أَخفٰی مِن سَیرِ النَّمَلِ فِی لَیلَۃِ الظُّلمَۃِ عَلی سَخْرَۃِ السَّوْدَا",
+          "text": "قَالَ رَسُولُ اللَّہِ صَلَّی اللَّہُ عَلَیْہِ وَ آلِہِ وَ سَلَّمَ",
           "resolution": "unverified",
-          "skeleton": "قالرسولاللصلاللعلوالوسلمالشرفامتاخفمنسرا"
+          "skeleton": "قالرسولاللصلاللعلوالوسلم"
+        },
+        {
+          "text": "الشِّرکُ فِی أُمَّتِی أَخفٰی مِن سَیرِ النَّمَلِ فِی لَیلَۃِ الظُّلمَۃِ عَلی سَخْرَۃِ السَّوْدَا",
+          "resolution": "unverified",
+          "skeleton": "الشرفامتاخفمنسرالنملفللالظلمعلسخرالسودا"
         },
         {
           "text": "أَرَءَيْتَ مَنِ ٱتَّخَذَ إِلَهَهُۥ هَوَىٰهُ",
@@ -864,8 +885,8 @@
     },
     {
       "chapter": "Linguistic Meaning Of REHMA",
-      "arabic_runs": 42,
-      "unverified": 36,
+      "arabic_runs": 44,
+      "unverified": 38,
       "runs": [
         {
           "text": "اَلَہَ یَعلُہُ",
@@ -1007,9 +1028,19 @@
           "skeleton": "رحمتوسعتعللشء"
         },
         {
-          "text": "َما مِن یَوم اِلاَّوالبَحرُ یَستَئذِنُ رَبَّہُ فی اَن یورِقُ ابن آدم\n\nوالارضُ یَستَئذِنُ فی أَن تَبتَلِعَہُ\n\nوالملائکۃ یَستَئذِنُ فی ان تُعاَجِلَہُ وَ تُھلِکُہ",
+          "text": "َما مِن یَوم اِلاَّوالبَحرُ یَستَئذِنُ رَبَّہُ فی اَن یورِقُ ابن آدم",
           "resolution": "unverified",
-          "skeleton": "مامنومالاوالبحرستيذنربفانورقابنادموالارض"
+          "skeleton": "مامنومالاوالبحرستيذنربفانورقابنادم"
+        },
+        {
+          "text": "والارضُ یَستَئذِنُ فی أَن تَبتَلِعَہُ",
+          "resolution": "unverified",
+          "skeleton": "والارضستيذنفانتبتلع"
+        },
+        {
+          "text": "والملائکۃ یَستَئذِنُ فی ان تُعاَجِلَہُ وَ تُھلِکُہ",
+          "resolution": "unverified",
+          "skeleton": "والملايستيذنفانتعاجلوتل"
         },
         {
           "text": "والارضُ یَستَئذِنُ فی أَن تَبتَلِعَہُ",
@@ -1667,8 +1698,8 @@
     },
     {
       "chapter": "Master Slave Relationship",
-      "arabic_runs": 36,
-      "unverified": 27,
+      "arabic_runs": 41,
+      "unverified": 29,
       "runs": [
         {
           "text": "المالک والسَّیِّد و المُرَبِّی والمُرشَد وَالمُنعِم والقَیِّم",
@@ -1691,9 +1722,22 @@
           "skeleton": "القران"
         },
         {
-          "text": "رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا\n\nرَبَّنَآ إِنَّكَ مَن تُدْخِلِ ٱلنَّارَ فَقَدْ أَخْزَيْتَهُۥ\n\nرَّبَّنَآ إِنَّنَا سَمِعْنَا مُنَادِيًۭا يُنَادِى لِلْإِيمَنِ أَنْ آمِنُوا۟ بِرَبِّكُمْ فَـَٔامَنَّا",
-          "resolution": "unverified",
-          "skeleton": "ربناماخلقتهذابطلاربناانكمنتدخلالنارفقداخ"
+          "text": "رَبَّنَا مَا خَلَقْتَ هَذَا بَطِلًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ربناماخلقتهذابطلا",
+          "reference": "Ali 'Imran: 191"
+        },
+        {
+          "text": "رَبَّنَآ إِنَّكَ مَن تُدْخِلِ ٱلنَّارَ فَقَدْ أَخْزَيْتَهُۥ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ربناانكمنتدخلالنارفقداخزيته",
+          "reference": "Ali 'Imran: 192"
+        },
+        {
+          "text": "رَّبَّنَآ إِنَّنَا سَمِعْنَا مُنَادِيًۭا يُنَادِى لِلْإِيمَنِ أَنْ آمِنُوا۟ بِرَبِّكُمْ فَـَٔامَنَّا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ربناانناسمعنامناديايناديللايمنانامنوابرب",
+          "reference": "Ali 'Imran: 193"
         },
         {
           "text": "تُسَبِّحُ لَهُ ٱلسَّمَوَتُ ٱلسَّبْعُ وَٱلْأَرْضُ وَمَن فِيهِنَّ ۚ وَإِن مِّن شَىْءٍ إِلَّا يُسَبِّحُ بِحَمْدِهِۦ وَلَكِن لَّا تَفْقَهُونَ تَسْبِيحَهُمْ",
@@ -1814,7 +1858,7 @@
           "reference": "Ya-Sin: 23"
         },
         {
-          "text": "جاھلی عرب",
+          "text": "جَاھِلِی عَرَبٍ",
           "resolution": "unverified",
           "skeleton": "جالعرب"
         },
@@ -1840,19 +1884,34 @@
           "skeleton": "فليتكتحلووالحياهمريره"
         },
         {
-          "text": "وَلَيـتَكَ تَرضـى وَالأنـامُ غِضَـابُ\n\nوَلَيـتَ الَّذِي بَيـنِي وَ بَينَـكَ عَامِرٌ",
+          "text": "وَلَيـتَكَ تَرضـى وَالأنـامُ غِضَـابُ",
           "resolution": "unverified",
-          "skeleton": "وليتكترضيوالانامغضابوليتالذيبينيوبينكعام"
+          "skeleton": "وليتكترضيوالانامغضاب"
         },
         {
-          "text": "وَبَـينِي وَبَيـنَ العــالَمِينَ خَـرَابُ\n\nفَيالَيـتَ شُـربِي مِن وِدَادِكَ صَافِياً",
+          "text": "وَلَيـتَ الَّذِي بَيـنِي وَ بَينَـكَ عَامِرٌ",
           "resolution": "unverified",
-          "skeleton": "وبينيوبينالعالمينخرابفياليتشربيمنودادكصا"
+          "skeleton": "وليتالذيبينيوبينكعامر"
         },
         {
-          "text": "وَشُـربِي مِن مَـاء الفُراتِ سَـرَابُ\n\nإذا نِلتُ مِنكَ الوُدَّ فَالكُلُّ هَيِّـنٌ",
+          "text": "وَبَـينِي وَبَيـنَ العــالَمِينَ خَـرَابُ",
           "resolution": "unverified",
-          "skeleton": "وشربيمنماءالفراتسراباذانلتمنكالودفالكلهي"
+          "skeleton": "وبينيوبينالعالمينخراب"
+        },
+        {
+          "text": "فَيالَيـتَ شُـربِي مِن وِدَادِكَ صَافِياً",
+          "resolution": "unverified",
+          "skeleton": "فياليتشربيمنودادكصافيا"
+        },
+        {
+          "text": "وَشُـربِي مِن مَـاء الفُراتِ سَـرَابُ",
+          "resolution": "unverified",
+          "skeleton": "وشربيمنماءالفراتسراب"
+        },
+        {
+          "text": "إذا نِلتُ مِنكَ الوُدَّ فَالكُلُّ هَيِّـنٌ",
+          "resolution": "unverified",
+          "skeleton": "اذانلتمنكالودفالكلهين"
         },
         {
           "text": "وَكُـلَّ الَّذي فَوقَ الـتُّرابِ تُـرابُ",
@@ -1863,8 +1922,8 @@
     },
     {
       "chapter": "Understanding RAB Al-ALAMEEN",
-      "arabic_runs": 58,
-      "unverified": 41,
+      "arabic_runs": 59,
+      "unverified": 42,
       "runs": [
         {
           "text": "الرَبُّ ھُوَ المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ",
@@ -1928,9 +1987,14 @@
           "skeleton": "سبحانهوتعالي"
         },
         {
-          "text": "وُجُودُہُ لَہُ دَلِیلُ قَاطِعٌ\n\nحَاجَتُ کُلِّ مُحدَثٍ لِصَانعٌ",
+          "text": "وُجُودُہُ لَہُ دَلِیلُ قَاطِعٌ",
           "resolution": "unverified",
-          "skeleton": "وجودلدللقاطعحاجتلمحدثلصانع"
+          "skeleton": "وجودلدللقاطع"
+        },
+        {
+          "text": "حَاجَتُ کُلِّ مُحدَثٍ لِصَانعٌ",
+          "resolution": "unverified",
+          "skeleton": "حاجتلمحدثلصانع"
         },
         {
           "text": "وَلِکُلِّ عالَمُ لِحَاجَّتاً الی العَالِمٌ",
@@ -2242,7 +2306,7 @@
           "skeleton": "لاتفرفالل"
         },
         {
-          "text": "ولاکن تفکر فی خلق اللہ",
+          "text": "وَلَاکِنْ تَفَکَّرْ فِی خَلْقِ اللَّہِ",
           "resolution": "unverified",
           "skeleton": "ولانتفرفخلقالل"
         },
@@ -2390,7 +2454,7 @@
           "reference": "Al-Baqarah: 205"
         },
         {
-          "text": "لا وٱلله يحب",
+          "text": "لَا وَٱللَّهُ يُحِبُّ",
           "resolution": "unverified",
           "skeleton": "لاواللهيحب"
         },
@@ -2710,17 +2774,17 @@
           "skeleton": "حقوقالنفس"
         },
         {
-          "text": "حقوق العباد",
+          "text": "حُقُوقُ الْعِبَادِ",
           "resolution": "unverified",
           "skeleton": "حقوقالعباد"
         },
         {
-          "text": "حقوق العباد",
+          "text": "حُقُوقُ الْعِبَادِ",
           "resolution": "unverified",
           "skeleton": "حقوقالعباد"
         },
         {
-          "text": "حقوق العباد",
+          "text": "حُقُوقُ الْعِبَادِ",
           "resolution": "unverified",
           "skeleton": "حقوقالعباد"
         },
@@ -2730,17 +2794,12 @@
           "skeleton": "ارسولالل"
         },
         {
-          "text": "اَصِلُ اَخِیہِ وَ یَقطَعُنِی",
+          "text": "اَصِلُ اَخِیہِ وَ یَقطَعُنِی  وَ اُعطِیہِ وَ یَمنَعُنِی",
           "resolution": "unverified",
-          "skeleton": "اصلاخوقطعن"
+          "skeleton": "اصلاخوقطعنواعطومنعن"
         },
         {
-          "text": "وَ اُعطِیہِ وَ یَمنَعُنِی",
-          "resolution": "unverified",
-          "skeleton": "واعطومنعن"
-        },
-        {
-          "text": "صلۃ الرحم",
+          "text": "صِلَۃُ الرَّحِمِ",
           "resolution": "unverified",
           "skeleton": "صلالرحم"
         },
@@ -2776,9 +2835,14 @@
           "skeleton": "ارسولالل"
         },
         {
-          "text": "یا ربِّ فَلا تَجعَل حَیَاتی مَذِلَّۃُ ولا مَوتَتِی بَینَ النِّسآءِ نوائِحِ\n\nولاکن قَتیلاً تَمزَقُ الطَّیرِ حَولَہُ",
+          "text": "یا ربِّ فَلا تَجعَل حَیَاتی مَذِلَّۃُ ولا مَوتَتِی بَینَ النِّسآءِ نوائِحِ",
           "resolution": "unverified",
-          "skeleton": "اربفلاتجعلحاتمذلولاموتتبنالنساءنوايحولان"
+          "skeleton": "اربفلاتجعلحاتمذلولاموتتبنالنساءنوايح"
+        },
+        {
+          "text": "ولاکن قَتیلاً تَمزَقُ الطَّیرِ حَولَہُ",
+          "resolution": "unverified",
+          "skeleton": "ولانقتلاتمزقالطرحول"
         },
         {
           "text": "و تَشرُبُ غِربانُ الدَّم من جوارح",
@@ -2786,12 +2850,12 @@
           "skeleton": "وتشربغربانالدممنجوارح"
         },
         {
-          "text": "رحمۃ اللہ علیہ",
+          "text": "رَحْمَۃُ اللّٰہِ عَلَیْہِ",
           "resolution": "unverified",
           "skeleton": "رحماللعل"
         },
         {
-          "text": "رحمۃ اللہ علیہ",
+          "text": "رَحْمَۃُ اللّٰہِ عَلَیْہِ",
           "resolution": "unverified",
           "skeleton": "رحماللعل"
         },
@@ -2806,7 +2870,7 @@
           "skeleton": "بلارسولالل"
         },
         {
-          "text": "كنا الحيوانات",
+          "text": "كُنَّا الْحَيَوَانَاتِ",
           "resolution": "unverified",
           "skeleton": "كناالحيوانات"
         },
@@ -2825,8 +2889,8 @@
     },
     {
       "chapter": "The Womb Of Afterlife",
-      "arabic_runs": 49,
-      "unverified": 27,
+      "arabic_runs": 54,
+      "unverified": 26,
       "runs": [
         {
           "text": "سُبْحَانَهُ وَتَعَالَى",
@@ -2942,9 +3006,40 @@
           "skeleton": "وانالساعاتلاربفا"
         },
         {
-          "text": "إِذَا ٱلشَّمْسُ كُوِّرَت\n\nوَإِذَا ٱلنُّجُومُ ٱنكَدَرَتْ\n\nوَإِذَا ٱلْجِبَالُ سُيِّرَتْ\n\nوَإِذَا ٱلْعِشَارُ عُطِّلَتْ\n\nوَإِذَا ٱلْوُحُوشُ حُشِرَتْ\n\nوَإِذَا ٱلْبِحَارُ سُجِّرَتْ",
-          "resolution": "unverified",
-          "skeleton": "اذاالشمسكورتواذاالنجومانكدرتواذاالجبالسي"
+          "text": "إِذَا ٱلشَّمْسُ كُوِّرَت",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اذاالشمسكورت",
+          "reference": "At-Takwir: 1"
+        },
+        {
+          "text": "وَإِذَا ٱلنُّجُومُ ٱنكَدَرَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاالنجومانكدرت",
+          "reference": "At-Takwir: 2"
+        },
+        {
+          "text": "وَإِذَا ٱلْجِبَالُ سُيِّرَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاالجبالسيرت",
+          "reference": "At-Takwir: 3"
+        },
+        {
+          "text": "وَإِذَا ٱلْعِشَارُ عُطِّلَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاالعشارعطلت",
+          "reference": "At-Takwir: 4"
+        },
+        {
+          "text": "وَإِذَا ٱلْوُحُوشُ حُشِرَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاالوحوشحشرت",
+          "reference": "At-Takwir: 5"
+        },
+        {
+          "text": "وَإِذَا ٱلْبِحَارُ سُجِّرَتْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذاالبحارسجرت",
+          "reference": "At-Takwir: 6"
         },
         {
           "text": "وَإِذَا ٱلنُّفُوسُ زُوِّجَتْ",
@@ -3403,7 +3498,7 @@
           "skeleton": "علمادماسماءلا"
         },
         {
-          "text": "الرحمن علم القرآن",
+          "text": "اَلرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ",
           "resolution": "unverified",
           "skeleton": "الرحمنعلمالقران"
         },
@@ -3516,7 +3611,7 @@
           "skeleton": "سبحانهوتعالي"
         },
         {
-          "text": "سورۃ الرحمن",
+          "text": "سُورَۃُ الرَّحْمَنِ",
           "resolution": "unverified",
           "skeleton": "سورالرحمن"
         },
@@ -4333,8 +4428,8 @@
     },
     {
       "chapter": "Motivating Factors For Piety",
-      "arabic_runs": 43,
-      "unverified": 34,
+      "arabic_runs": 44,
+      "unverified": 35,
       "runs": [
         {
           "text": "مَالِکِ یَوْمِ الدِّینِ",
@@ -4467,9 +4562,14 @@
           "skeleton": "لاتسودوجومالقام"
         },
         {
-          "text": "وُہ جُو گِیت تُم نِے سُنَا نَہِیں، مِیرِی عُمر بَھر کَا رِیَاض تھَا\n\nمِیرے دَرد کِی تھِی وُہ دَاستَاں جِسِے تُم ہَنسِی مِیں اُڑَا گَئے",
+          "text": "وُہ جُو گِیت تُم نِے سُنَا نَہِیں، مِیرِی عُمر بَھر کَا رِیَاض تھَا",
           "resolution": "unverified",
-          "skeleton": "وجوتتمنسنانمرعمربراراضتامردردتوداستاجستم"
+          "skeleton": "وجوتتمنسنانمرعمربراراضتا"
+        },
+        {
+          "text": "مِیرے دَرد کِی تھِی وُہ دَاستَاں جِسِے تُم ہَنسِی مِیں اُڑَا گَئے",
+          "resolution": "unverified",
+          "skeleton": "مردردتوداستاجستمنسمااي"
         },
         {
           "text": "سُبْحَانَهُ وَتَعَالَى",
@@ -4533,7 +4633,7 @@
           "skeleton": "وقايلقدسالتعلانحالعاشقا"
         },
         {
-          "text": "للہ صفہ ولا تنقص ولا تزد",
+          "text": "لِلَّہِ صِفْہُ وَلَا تَنْقُصْ وَلَا تَزِدْ",
           "resolution": "unverified",
           "skeleton": "للصفولاتنقصولاتزد"
         },
@@ -5093,8 +5193,8 @@
     },
     {
       "chapter": "Staying Steadfast On The Path",
-      "arabic_runs": 71,
-      "unverified": 33,
+      "arabic_runs": 76,
+      "unverified": 31,
       "runs": [
         {
           "text": "سُورَۃُ الْفَاتِحَۃِ",
@@ -5358,9 +5458,15 @@
           "reference": "Al-Baqarah: 214"
         },
         {
-          "text": "سُبْحَانَهُ وَتَعَالَى\n\nأَلَآ إِنَّ نَصْرَ ٱللَّهِ قَرِيبٌۭ",
-          "resolution": "unverified",
-          "skeleton": "سبحانهوتعاليالااننصراللهقريب"
+          "text": "سُبْحَانَهُ وَتَعَالَى",
+          "resolution": "honorific-formula",
+          "skeleton": "سبحانهوتعالي"
+        },
+        {
+          "text": "أَلَآ إِنَّ نَصْرَ ٱللَّهِ قَرِيبٌۭ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الااننصراللهقريب",
+          "reference": "Al-Baqarah: 214"
         },
         {
           "text": "سُبْحَانَهُ وَتَعَالَى",
@@ -5368,7 +5474,7 @@
           "skeleton": "سبحانهوتعالي"
         },
         {
-          "text": "نعوذ بللہ",
+          "text": "نَعُوذُ بِللّٰہِ",
           "resolution": "unverified",
           "skeleton": "نعوذبلل"
         },
@@ -5398,9 +5504,34 @@
           "skeleton": "وخيرالخطايينالتوابون"
         },
         {
-          "text": "خَلَقَ ٱلْإِنسَنَ مِن صَلْصَلٍۢ كَٱلْفَخَّارِ\n\nخَلَقَ ٱلْإِنسَنَ مِن صَلْصَلٍۢ كَٱلْفَخَّارِ\n\nوَخُلِقَ ٱلْإِنسَنُ ضَعِيفًۭا\n\nخُلِقَ ٱلْإِنسَنُ مِنْ عَجَلٍۢ\n\nإِنَّ ٱلْإِنسَنَ خُلِقَ هَلُوعًا",
-          "resolution": "unverified",
-          "skeleton": "خلقالانسنمنصلصلكالفخارخلقالانسنمنصلصلكال"
+          "text": "خَلَقَ ٱلْإِنسَنَ مِن صَلْصَلٍۢ كَٱلْفَخَّارِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "خلقالانسنمنصلصلكالفخار",
+          "reference": "Ar-Rahman: 14"
+        },
+        {
+          "text": "خَلَقَ ٱلْإِنسَنَ مِن صَلْصَلٍۢ كَٱلْفَخَّارِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "خلقالانسنمنصلصلكالفخار",
+          "reference": "Ar-Rahman: 14"
+        },
+        {
+          "text": "وَخُلِقَ ٱلْإِنسَنُ ضَعِيفًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وخلقالانسنضعيفا",
+          "reference": "An-Nisa: 28"
+        },
+        {
+          "text": "خُلِقَ ٱلْإِنسَنُ مِنْ عَجَلٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "خلقالانسنمنعجل",
+          "reference": "Al-Anbiya: 37"
+        },
+        {
+          "text": "إِنَّ ٱلْإِنسَنَ خُلِقَ هَلُوعًا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انالانسنخلقهلوعا",
+          "reference": "Al-Ma'arij: 19"
         },
         {
           "text": "قُلْ يَعِبَادِىَ ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ ۚ إِنَّ ٱللَّهَ يَغْفِرُ ٱلذُّنُوبَ جَمِيعًا ۚ إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ",
@@ -5473,15 +5604,50 @@
     }
   ],
   "totals": {
-    "canonical-mushaf": 237,
+    "canonical-mushaf": 253,
     "ocr": 0,
     "knowledge-base": 34,
-    "honorific-formula": 117,
-    "unverified": 624,
-    "arabic_runs": 1012
+    "honorific-formula": 118,
+    "unverified": 630,
+    "arabic_runs": 1035
   },
   "note": "no OCR ground truth for this book — every run falls back to the knowledge base",
   "quran_coverage": {
-    "measured": false
-  }
+    "measured": true,
+    "cited": 0,
+    "with_arabic": 0,
+    "coverage": 1.0,
+    "uncovered": [],
+    "uncited_inserted": 0
+  },
+  "stages": {
+    "final": {
+      "(front matter)": 0,
+      "Introduction to the Book": 0,
+      "Quranic Friendship": 52,
+      "The Stages Of Love": 55,
+      "Linguistic Meaning Of Allah": 29,
+      "What is Worship?": 22,
+      "Linguistic Meaning Of REHMA": 44,
+      "Womb - The Source Of Mercy": 6,
+      "Manifestations of REHMA": 39,
+      "Linguistic Meaning Of Rabb": 60,
+      "Master Slave Relationship": 41,
+      "Understanding RAB Al-ALAMEEN": 59,
+      "The Divine Formula For Recognizing Allah": 50,
+      "The Horizons And The Soul": 68,
+      "The Womb Of Afterlife": 54,
+      "Allah - Being vs Attributes": 47,
+      "The ISM Of Allah": 16,
+      "In the Name Of Allah The Merciful": 29,
+      "Linguistic Perfection Of HAMD": 45,
+      "Abundant and Consistent Mercy": 56,
+      "Day Of Judgment - Linguistics": 40,
+      "Motivating Factors For Piety": 44,
+      "Worship and Assistance": 56,
+      "Guidance To The Straight Path": 47,
+      "Staying Steadfast On The Path": 76
+    }
+  },
+  "stage_losses": []
 }
