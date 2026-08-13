@@ -62,6 +62,71 @@ import { companionFor } from "~/server/companion.server";
  */
 export const middleware: Route.MiddlewareFunction[] = [requireUnitAccess];
 
+export function readAlongBlockIndex(
+  active: boolean,
+  cues: Cue[] | null | undefined,
+  position: number,
+): number {
+  if (!active || cues === null || cues === undefined || cues.length === 0)
+    return -1;
+  if (!Number.isFinite(position)) return -1;
+  const cueIndex = cueAt(cues, Math.max(0, position));
+  if (cueIndex < 0) return -1;
+  const blockIndex = cues[cueIndex].blockIndex ?? cueIndex;
+  return Number.isInteger(blockIndex) && blockIndex >= 0 ? blockIndex : -1;
+}
+
+export interface ReadAlongRect {
+  top: number;
+  height: number;
+}
+
+export function readAlongTargetScrollY({
+  rect,
+  scrollY,
+  viewportHeight,
+  playerHeight,
+}: {
+  rect: ReadAlongRect;
+  scrollY: number;
+  viewportHeight: number;
+  playerHeight: number;
+}): number {
+  const visibleHeight = Math.max(1, viewportHeight - Math.max(0, playerHeight));
+  const centerOffset = Math.max(0, (visibleHeight - rect.height) / 2);
+  return Math.max(0, scrollY + rect.top - centerOffset);
+}
+
+function readAlongTrace(label: string, detail: Record<string, unknown>) {
+  if (typeof window === "undefined") return;
+  try {
+    const query = new URLSearchParams(window.location.search);
+    const enabled =
+      query.has("debugReadAloud") ||
+      window.localStorage.getItem("pf-read-aloud-debug") === "1";
+    if (!enabled) return;
+    console.debug("[read-aloud]", label, detail);
+  } catch {
+    // Diagnostics are intentionally best-effort and must never affect reading.
+  }
+}
+
+function centerReadAlongBlock(block: HTMLElement) {
+  if (typeof window === "undefined") return;
+  const styles = window.getComputedStyle(document.documentElement);
+  const playerHeight = Number.parseFloat(
+    styles.getPropertyValue("--pf-player-h"),
+  );
+  const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+  const top = readAlongTargetScrollY({
+    rect: block.getBoundingClientRect(),
+    scrollY: window.scrollY,
+    viewportHeight,
+    playerHeight: Number.isFinite(playerHeight) ? playerHeight : 0,
+  });
+  window.scrollTo({ top, behavior: "smooth" });
+}
+
 export async function loader({ params, request, context }: Route.LoaderArgs) {
   const { env } = context.get(cloudflare);
   const slug = params.slug;
@@ -349,6 +414,13 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       ...cue,
       text: cue.text || blockTexts[cue.blockIndex ?? index] || chapter.title,
     }));
+    readAlongTrace("play", {
+      slug,
+      chapterKey: chapter.anchorKey,
+      audio: narrationSrc,
+      cueCount: cues.length,
+      blockCount: blockTexts.length,
+    });
     const track: NowPlaying = {
       kind: "chapter",
       slug,
@@ -376,24 +448,54 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   ]);
 
   const readAlongBlock = useMemo(() => {
-    if (!narrationActive || player?.cues === null || player?.cues === undefined) return -1;
-    const index = cueAt(player.cues, player.position);
-    if (index < 0) return -1;
-    return player.cues[index].blockIndex ?? index;
+    return readAlongBlockIndex(
+      narrationActive,
+      player?.cues,
+      player?.position ?? 0,
+    );
   }, [narrationActive, player?.cues, player?.position]);
 
   useEffect(() => {
     const root = body.current;
-    if (root === null) return;
+    if (root === null) {
+      readAlongTrace("missing-root", { chapterKey: chapter.anchorKey });
+      return;
+    }
     const blocks = blocksOf(root);
     for (const block of blocks) block.classList.remove("pf-read-aloud");
-    if (readAlongBlock < 0) return;
+    if (readAlongBlock < 0) {
+      readAlongTrace("clear", {
+        active: narrationActive,
+        chapterKey: chapter.anchorKey,
+        cueCount: player?.cues?.length ?? 0,
+        position: player?.position ?? 0,
+      });
+      return;
+    }
     const block = blocks[readAlongBlock] as HTMLElement | undefined;
-    if (block === undefined) return;
+    if (block === undefined) {
+      readAlongTrace("missing-block", {
+        active: narrationActive,
+        chapterKey: chapter.anchorKey,
+        blockIndex: readAlongBlock,
+        blockCount: blocks.length,
+        cueCount: player?.cues?.length ?? 0,
+        position: player?.position ?? 0,
+      });
+      return;
+    }
     block.classList.add("pf-read-aloud");
-    block.scrollIntoView({ block: "center", behavior: "smooth" });
+    centerReadAlongBlock(block);
+    readAlongTrace("sync", {
+      active: narrationActive,
+      chapterKey: chapter.anchorKey,
+      blockIndex: readAlongBlock,
+      blockCount: blocks.length,
+      cueCount: player?.cues?.length ?? 0,
+      position: player?.position ?? 0,
+    });
     return () => block.classList.remove("pf-read-aloud");
-  }, [readAlongBlock]);
+  }, [chapter.anchorKey, narrationActive, readAlongBlock]);
 
   // Which explained sentences are on screen. An observer rather than a scroll
   // handler: the answer changes only when a passage crosses the viewport edge,
@@ -828,7 +930,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       </div>
 
       <div className="pf-reader-page">
-        <article ref={body} className="pf-page">
+        <article className="pf-page">
           {/* An <h2>, and the book above is the <h1> — which is also the true
               nesting: a chapter is part of a work. */}
           <h2 className="pf-chapter-title">{chapter.title}</h2>
@@ -853,7 +955,11 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
               re-renders, which is why a highlight vanished on the first
               scroll and did not come back until a reload: the paint effect's
               own dependencies had not changed, so nothing repainted it. */}
-          <div className="reader pf-chapter-body" dangerouslySetInnerHTML={html} />
+          <div
+            ref={body}
+            className="reader pf-chapter-body"
+            dangerouslySetInnerHTML={html}
+          />
         </article>
 
         {/* Inside the page container, so the two cards line up with the edges
