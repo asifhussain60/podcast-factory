@@ -138,6 +138,19 @@ def build_statements(book: Book, *, published_at: str, commit: str | None) -> li
             f"{sql_str(chapter.title)}, {sql_str(chapter.html)}, {chapter.word_count});"
         )
 
+    add(f"DELETE FROM chapter_narration WHERE slug = {sql_str(book.slug)};")
+    for chapter in book.chapters:
+        if chapter.narration is None:
+            continue
+        add(
+            "INSERT INTO chapter_narration "
+            "(slug, anchor_key, audio_key, duration_s, source_hash, voice, cues_json) VALUES "
+            f"({sql_str(book.slug)}, {sql_str(chapter.anchor)}, "
+            f"{sql_str(chapter.narration.audio.key)}, {sql_str(chapter.narration.duration_s)}, "
+            f"{sql_str(chapter.narration.source_hash)}, {sql_str(chapter.narration.voice)}, "
+            f"{sql_str(json.dumps(chapter.narration.cues, ensure_ascii=False))});"
+        )
+
     # Sessions first, since an episode points at one.
     add(f"DELETE FROM book_session WHERE slug = {sql_str(book.slug)};")
     for session in book.sessions:

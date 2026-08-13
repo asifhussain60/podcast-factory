@@ -20,7 +20,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _listener_book import Book, Chapter, Episode, Session  # noqa: E402
+import publish_to_listener as ptl  # noqa: E402
+from _listener_book import Asset, Book, Chapter, ChapterNarration, Episode, Session  # noqa: E402
 from publish_to_listener import build_sql, remote_batches, session_concerns  # noqa: E402
 
 MIGRATIONS = Path(__file__).resolve().parents[3] / "listener" / "migrations"
@@ -104,6 +105,47 @@ def test_a_dropped_chapter_stops_being_readable(tmp_path):
     conn.executescript(build_sql(book, published_at="x", commit=None))
 
     assert [r[0] for r in conn.execute("SELECT anchor_key FROM chapter WHERE slug='test-book'")] == ["one"]
+
+
+def test_chapter_narration_is_rewritten_with_the_chapter(tmp_path):
+    conn = db_with_schema()
+    book = a_book(tmp_path)
+    audio = tmp_path / "book" / "narration" / "one.mp3"
+    audio.parent.mkdir(parents=True)
+    audio.write_bytes(b"MP3")
+    asset = Asset(
+        key="test-book/narration/one.mp3",
+        slug="test-book",
+        kind="audio",
+        content_type="audio/mpeg",
+        path=audio,
+    )
+    book.assets.append(asset)
+    book.chapters[0].narration = ChapterNarration(
+        audio=asset,
+        duration_s=12.5,
+        source_hash="abc",
+        voice="aria",
+        cues=[{"idx": 0, "blockIndex": 0, "startS": 0, "endS": 12.5, "text": "a b c"}],
+    )
+
+    old_root = ptl.REPO_ROOT
+    ptl.REPO_ROOT = tmp_path
+    try:
+        conn.executescript(ptl.build_sql(book, published_at="x", commit=None))
+    finally:
+        ptl.REPO_ROOT = old_root
+
+    row = conn.execute(
+        "SELECT audio_key, duration_s, source_hash, voice, cues_json "
+        "FROM chapter_narration WHERE slug='test-book' AND anchor_key='one'"
+    ).fetchone()
+    assert row[0] == "test-book/narration/one.mp3"
+    assert row[1] == 12.5
+    assert row[2] == "abc"
+    assert row[3] == "aria"
+    assert '"blockIndex": 0' in row[4]
+    assert conn.execute("SELECT kind FROM media_asset WHERE key='test-book/narration/one.mp3'").fetchone()[0] == "audio"
 
 
 def test_sessions_are_rewritten_so_a_renumbered_folder_leaves_no_stale_row(tmp_path):

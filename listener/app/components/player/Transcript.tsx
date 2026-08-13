@@ -25,6 +25,7 @@ export interface Cue {
   endS: number;
   text: string;
   speaker: number | null;
+  blockIndex?: number;
 }
 
 const STAMP =

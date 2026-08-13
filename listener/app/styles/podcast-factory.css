@@ -1689,6 +1689,14 @@
     margin-top: var(--pf-space-6);
   }
 
+  .pf-chapter-body > .pf-read-aloud {
+    border-radius: 0.25rem;
+    background: color-mix(in srgb, var(--l-accent-soft) 58%, transparent);
+    box-shadow:
+      -0.45rem 0 0 color-mix(in srgb, var(--l-accent) 54%, transparent),
+      0 0 0 0.45rem color-mix(in srgb, var(--l-accent-soft) 58%, transparent);
+  }
+
   /* The drop cap.
      `:first-child`, not `:first-of-type` — one chapter in this library opens
      with an editorial bridge rather than prose, and a versal on the paragraph

@@ -45,14 +45,17 @@ import { localTranscript, localUrl } from "~/lib/offline";
  */
 
 export interface NowPlaying {
+  kind?: "episode" | "chapter";
   slug: string;
   bookTitle: string;
   number: number;
   title: string;
   src: string;
   durationS: number | null;
+  chapterKey?: string;
   /** The media URL of this episode's WebVTT, or null when none was made. */
   transcriptSrc: string | null;
+  cues?: Cue[];
   /**
    * Which collection the book being played belongs to — see `lib/collection.ts`.
    *
@@ -179,7 +182,10 @@ function loadRate(): number {
   }
 }
 
-const positionKey = (slug: string, number: number) => `${slug}#${number}`;
+const positionKey = (item: NowPlaying) =>
+  item.kind === "chapter"
+    ? `chapter:${item.slug}#${item.chapterKey ?? item.number}`
+    : `${item.slug}#${item.number}`;
 
 function loadPositions(): Record<string, number> {
   try {
@@ -194,12 +200,14 @@ function savePosition(episode: NowPlaying, seconds: number) {
 
   try {
     const all = loadPositions();
-    all[positionKey(episode.slug, episode.number)] = whole;
+    all[positionKey(episode)] = whole;
     localStorage.setItem(POSITION_KEY, JSON.stringify(all));
   } catch {
     // Storage disabled. Playback still works; only the local memory is lost —
     // the server copy below is unaffected, which is the point of having both.
   }
+
+  if (episode.kind === "chapter") return;
 
   /* NO NETWORK: queue it, and queue it on every tick rather than once a minute.
      The throttle below exists to spare the SERVER 1,400 requests; a local write
@@ -420,6 +428,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       }
 
       setCurrent(episode);
+      setPanel((open) => (episode.kind === "chapter" && open === "notes" ? null : open));
       /* The copy on this device if there is one, otherwise the network.
          A SYNCHRONOUS lookup, and that is the constraint that shaped
          lib/offline.ts: `element.play()` below has to run inside the gesture
@@ -444,8 +453,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       // works on a plane. Checked FIRST rather than as a fallback: with no
       // network the fetch below does not fail fast, it hangs until it gives up,
       // and the words are already here.
-      const offline = localTranscript(episode.src);
-      if (offline !== null) {
+      const offline = episode.cues === undefined ? localTranscript(episode.src) : null;
+      if (episode.cues !== undefined) {
+        setCues(episode.cues);
+      } else if (offline !== null) {
         setCues(parseVtt(offline));
       } else if (episode.transcriptSrc !== null) {
         const wanted = episode.src;
@@ -467,7 +478,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       // Start from the cache immediately — playback must not wait on a request.
       // Resuming backs up a little so the listener hears the thought re-enter
       // the room instead of landing mid-sentence.
-      const cached = loadPositions()[positionKey(episode.slug, episode.number)] ?? 0;
+      const cached = loadPositions()[positionKey(episode)] ?? 0;
       const startAt =
         options?.startAt === undefined
           ? Math.max(0, cached - PRE_ROLL_S)
@@ -481,6 +492,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       // when the panel opens — a count that only appears after you look is not a
       // count.
       setNotes([]);
+      if (episode.kind === "chapter") {
+        notesFor.current = null;
+        return;
+      }
       notesFor.current = episode.slug;
       void fetchMarks(episode.slug).then((marks) => {
         if (notesFor.current === episode.slug)
@@ -598,7 +613,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
 
     session.metadata = new MediaMetadata({
-      title: `${current.number}. ${current.title}`,
+      title:
+        current.kind === "chapter"
+          ? current.title
+          : `${current.number}. ${current.title}`,
       artist: current.bookTitle,
       album: "The Podcast Factory Library",
       artwork: [
@@ -742,6 +760,10 @@ export function usePlayer(): PlayerState {
   return value;
 }
 
+export function useOptionalPlayer(): PlayerState | null {
+  return useContext(PlayerContext);
+}
+
 /** mm:ss, or —:— when the duration is not known yet. */
 export function clock(seconds: number | null): string {
   if (seconds === null || !Number.isFinite(seconds)) return "--:--";
@@ -823,10 +845,11 @@ function PlayerBar() {
   if (current === null) return null;
 
   const total = duration || current.durationS || 0;
+  const isChapter = current.kind === "chapter";
   /* THIS episode's, matching what the panel shows when it opens. A count of the
      whole book's notes on a button that opens one episode's would be a number
      the panel then contradicts. */
-  const here = notes.filter((n) => n.number === current.number).length;
+  const here = isChapter ? 0 : notes.filter((n) => n.number === current.number).length;
 
   return (
     <div
@@ -846,7 +869,7 @@ function PlayerBar() {
             accent exactly as the deck's track tiles are — these recordings have
             no cover art to show and never will. */}
         <div className="pf-player__art" aria-hidden="true">
-          {String(current.number).padStart(2, "0")}
+          {isChapter ? "Read" : String(current.number).padStart(2, "0")}
         </div>
 
         <div className="pf-player__top">
@@ -862,7 +885,7 @@ function PlayerBar() {
               aria-label={`Open the player for ${current.title}`}
             >
               <p className="pf-player__title">
-                {current.number}. {current.title}
+                {isChapter ? current.title : `${current.number}. ${current.title}`}
               </p>
             </button>
             <Link to={`/book/${current.slug}`} className="pf-player__book">
@@ -927,7 +950,7 @@ function PlayerBar() {
               </select>
             </label>
 
-            {current.transcriptSrc === null ? null : (
+            {current.transcriptSrc === null && current.cues === undefined ? null : (
               <button
                 type="button"
                 onClick={() => openPanel("transcript")}
@@ -938,29 +961,31 @@ function PlayerBar() {
               </button>
             )}
 
-            <button
-              type="button"
-              onClick={() => openPanel("notes")}
-              aria-expanded={panel === "notes"}
-              /* The count is in the accessible name, not only in the badge —
-                 a screen reader gets "Notes, 2 in this episode" rather than a
-                 button called "Notes 2", which is read as a label ending in a
-                 stray number. */
-              aria-label={
-                here === 0 ? "Notes" : `Notes, ${here} in this episode`
-              }
-              className="pf-player__panel-tab"
-            >
-              <span aria-hidden="true">Notes</span>
-              {/* Never rendered as zero. An empty count reads as something to
-                  clear rather than something not yet started — the same rule
-                  the reader's own tab follows. */}
-              {here === 0 ? null : (
-                <span aria-hidden="true" className="pf-player__badge">
-                  {here}
-                </span>
-              )}
-            </button>
+            {isChapter ? null : (
+              <button
+                type="button"
+                onClick={() => openPanel("notes")}
+                aria-expanded={panel === "notes"}
+                /* The count is in the accessible name, not only in the badge —
+                   a screen reader gets "Notes, 2 in this episode" rather than a
+                   button called "Notes 2", which is read as a label ending in a
+                   stray number. */
+                aria-label={
+                  here === 0 ? "Notes" : `Notes, ${here} in this episode`
+                }
+                className="pf-player__panel-tab"
+              >
+                <span aria-hidden="true">Notes</span>
+                {/* Never rendered as zero. An empty count reads as something to
+                    clear rather than something not yet started — the same rule
+                    the reader's own tab follows. */}
+                {here === 0 ? null : (
+                  <span aria-hidden="true" className="pf-player__badge">
+                    {here}
+                  </span>
+                )}
+              </button>
+            )}
 
             <button
               type="button"
@@ -1079,6 +1104,7 @@ function PlayerPanelDrawer() {
   }, [panel, reload]);
 
   if (current === null || panel === null) return null;
+  if (current.kind === "chapter" && panel === "notes") return null;
 
   /* THIS EPISODE's notes, not the whole book's.
      The panel belongs to what is playing, exactly as the transcript does — and
@@ -1126,7 +1152,7 @@ function PlayerPanelDrawer() {
               cues={cues}
               position={position}
               onSeek={seek}
-              onNote={(cue) => {
+              onNote={current.kind === "chapter" ? undefined : (cue) => {
                 // Opens the same composer the "+ Add note" button does, on
                 // the Notes panel — rather than saving a bare, textless mark
                 // on tap. A transcript line's "+" is the one place this

@@ -105,6 +105,7 @@ PHASES = (
     "0book-illustrate",  # PDF path — teaching diagrams injected -> book/book-illustrated.md
     "0book-slide-import",  # PDF path — NotebookLM-exported deck PDFs (slide-decks/chNN-*.pdf) -> LLM anchor manifests -> book/book-slides.md; HALTS when framed chapters lack dropped PDFs (.SKIP exempts)
     "0book-render",  # PDF path — book-slides.md (or book-illustrated.md / book.md) -> book.pdf (Playwright); non-blocking on the podcast ship
+    "reader-narration",  # Library read-aloud — Azure TTS MP3 + paragraph cues for Islamic source books; skipped for Sessions/KSESSIONS and non-Islamic books
     "publish",  # copy drafts → published/ catalog (publish_driver)
     "trainer",
     "merge",

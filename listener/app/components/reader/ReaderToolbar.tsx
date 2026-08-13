@@ -4,6 +4,7 @@ import {
   faBars,
   faBookmark,
   faGripLines,
+  faHeadphones,
   faHouse,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
@@ -133,9 +134,15 @@ function WidthIcon({ measure }: { measure: (typeof MEASURES)[number] }) {
  */
 export function ReaderToolbar({
   bookmarked,
+  narrationAvailable = false,
+  narrationActive = false,
+  onPlayNarration,
   onToggleBookmark,
 }: {
   bookmarked: boolean;
+  narrationAvailable?: boolean;
+  narrationActive?: boolean;
+  onPlayNarration?: () => void;
   onToggleBookmark: () => void;
 }) {
   const prefs = useReading();
@@ -172,6 +179,21 @@ export function ReaderToolbar({
             title={bookmarked ? "Remove bookmark" : "Bookmark this place"}
           />
         </button>
+
+        {narrationAvailable ? (
+          <button
+            type="button"
+            onClick={onPlayNarration}
+            aria-pressed={narrationActive}
+            title={narrationActive ? "Pause chapter audio" : "Listen to this chapter"}
+            className="pf-tool"
+          >
+            <Icon
+              icon={faHeadphones}
+              title={narrationActive ? "Pause chapter audio" : "Listen to this chapter"}
+            />
+          </button>
+        ) : null}
       </div>
 
       {/* ---- How the page is set ----------------------------------------- */}

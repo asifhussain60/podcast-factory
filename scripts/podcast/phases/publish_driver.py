@@ -89,6 +89,12 @@ def _drive_publish_through_done(book_dir: Path) -> int:
         except Exception:
             pass
 
+    from phases.reader_narration_driver import drive_reader_narration
+
+    _rn_outcome, _rn_rc = drive_reader_narration(book_dir)
+    if _rn_outcome == "failed":
+        return _rn_rc
+
     _info("phase: publish · copy clean chapters + episodes to published/")
     update_phase(book_dir, phase="publish", status="running")
     publish_script = Path(__file__).resolve().parents[1] / "publish_to_library.py"

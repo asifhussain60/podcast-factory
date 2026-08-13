@@ -47,6 +47,7 @@ DRIVER_EMITTED_PHASES = (
     "audio-render",
     "finalize",
     "audio-ingest",
+    "reader-narration",
     "publish",
     "trainer",
     "merge",
@@ -102,6 +103,8 @@ class PhaseRegistryTests(unittest.TestCase):
         self.assertLess(order.index("finalize"), order.index("audio-ingest"))
         self.assertLess(order.index("audio-ingest"), order.index("0book-design"))
         self.assertLess(order.index("audio-ingest"), order.index("publish"))
+        self.assertLess(order.index("0book-render"), order.index("reader-narration"))
+        self.assertLess(order.index("reader-narration"), order.index("publish"))
         self.assertLess(order.index("0literary"), order.index("0f"))
         self.assertLess(order.index("finalize"), order.index("publish"))
         self.assertLess(order.index("publish"), order.index("trainer"))

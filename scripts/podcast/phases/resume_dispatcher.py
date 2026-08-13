@@ -426,6 +426,13 @@ def run_resume(args: argparse.Namespace) -> int:
         )
         return _drive_publish_through_done(book_dir)
 
+    if current_phase == "reader-narration":
+        _info(
+            f"Phase reader-narration status={current_status!r} — re-entering the "
+            f"publish driver (chapter narration is regenerated idempotently)."
+        )
+        return _drive_publish_through_done(book_dir)
+
     if current_phase == "finalize" and current_status == "halted":
         _info("Phase finalize gate cleared (human approved by re-invoking --resume).")
         return _drive_publish_through_done(book_dir)

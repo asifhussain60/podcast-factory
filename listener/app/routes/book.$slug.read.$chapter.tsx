@@ -21,6 +21,8 @@ import { SidePanel } from "~/components/reader/SidePanel";
 import { ReaderToolbar } from "~/components/reader/ReaderToolbar";
 import { SelectionBar } from "~/components/reader/SelectionBar";
 import { useHighlights, type Painted } from "~/components/reader/Highlights";
+import { cueAt, type Cue } from "~/components/player/Transcript";
+import { useOptionalPlayer, type NowPlaying } from "~/components/player/Player";
 import { useMarks } from "~/components/reader/useMarks";
 import { cloudflare } from "~/context";
 import { blocksOf, blockTextsOf, resolveAnchor } from "~/lib/anchor";
@@ -177,6 +179,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   const html = useMemo(() => ({ __html: chapter.html }), [chapter.html]);
 
   const marks = useMarks(slug);
+  const player = useOptionalPlayer();
   const markCount = marks.annotations.length + marks.bookmarks.length;
   const annotations = useMemo(
     () => annotationsInChapter(marks, chapter.anchorKey),
@@ -313,6 +316,67 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   );
 
   useHighlights(body, annotations, activeId, onResolved, passages);
+
+  const narration = chapter.narration ?? null;
+  const narrationCues = useMemo<Cue[]>(
+    () =>
+      (narration?.cues ?? []).map((cue) => ({
+        startS: cue.startS,
+        endS: cue.endS,
+        text: cue.text,
+        speaker: null,
+        blockIndex: cue.blockIndex,
+      })),
+    [narration],
+  );
+  const narrationSrc = narration === null ? null : `/media/${narration.audioKey}`;
+  const narrationActive =
+    narrationSrc !== null &&
+    player?.current?.kind === "chapter" &&
+    player.current.slug === slug &&
+    player.current.chapterKey === chapter.anchorKey;
+
+  const playNarration = useCallback(() => {
+    if (narration === null || narrationSrc === null || player === null) return;
+    if (narrationActive) {
+      player.toggle();
+      return;
+    }
+    const track: NowPlaying = {
+      kind: "chapter",
+      slug,
+      bookTitle,
+      number: chapter.idx,
+      title: chapter.title,
+      src: narrationSrc,
+      durationS: narration.durationS,
+      transcriptSrc: null,
+      chapterKey: chapter.anchorKey,
+      cues: narrationCues,
+      collection: collectionOf(bucket),
+    };
+    player.play(track);
+  }, [bookTitle, bucket, chapter, narration, narrationActive, narrationCues, narrationSrc, player, slug]);
+
+  const readAlongBlock = useMemo(() => {
+    if (!narrationActive || player?.cues === null || player?.cues === undefined) return -1;
+    const index = cueAt(player.cues, player.position);
+    if (index < 0) return -1;
+    return player.cues[index].blockIndex ?? index;
+  }, [narrationActive, player?.cues, player?.position]);
+
+  useEffect(() => {
+    const root = body.current;
+    if (root === null) return;
+    const blocks = blocksOf(root);
+    for (const block of blocks) block.classList.remove("pf-read-aloud");
+    if (readAlongBlock < 0) return;
+    const block = blocks[readAlongBlock] as HTMLElement | undefined;
+    if (block === undefined) return;
+    block.classList.add("pf-read-aloud");
+    block.scrollIntoView({ block: "center", behavior: "smooth" });
+    return () => block.classList.remove("pf-read-aloud");
+  }, [readAlongBlock]);
 
   // Which explained sentences are on screen. An observer rather than a scroll
   // handler: the answer changes only when a passage crosses the viewport edge,
@@ -709,6 +773,9 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
         <div className="pf-toolbar-rail">
           <ReaderToolbar
             bookmarked={bookmarked}
+            narrationAvailable={narration !== null && player !== null}
+            narrationActive={narrationActive && player?.playing === true}
+            onPlayNarration={playNarration}
             onToggleBookmark={toggleBookmark}
           />
         </div>
