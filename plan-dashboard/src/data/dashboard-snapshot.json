@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 34.88
+    "burn_30d_usd": 34.89
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1938,7 +1938,7 @@
     {
       "slug": "surah-al-fateha",
       "title": "Surah Al-Fateha",
-      "phase": "sessions-preface",
+      "phase": "sessions-apparatus",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_session"
