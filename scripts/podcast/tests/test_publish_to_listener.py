@@ -17,6 +17,7 @@ from __future__ import annotations
 import sqlite3
 import sys
 from pathlib import Path
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -237,3 +238,13 @@ def test_remote_batches_preserve_order_and_stay_bounded():
 
     assert "\n".join(batches).split("\n") == statements
     assert all(len(batch.encode("utf-8")) <= 45 for batch in batches)
+
+
+def test_execute_batches_local_statements_instead_of_importing_file(tmp_path):
+    with mock.patch.object(ptl.subprocess, "run") as run:
+        ptl.execute(tmp_path / "book.sql", remote=False, statements=["SELECT 1;"])
+
+    command = run.call_args.args[0]
+    assert "--local" in command
+    assert "--command" in command
+    assert all(not str(part).startswith("--file=") for part in command)

@@ -286,10 +286,11 @@ def remote_batches(statements: list[str], *, max_bytes: int = REMOTE_BATCH_BYTES
 
 
 def execute(sql_path: Path, *, remote: bool, statements: list[str] | None = None) -> None:
-    if remote and statements is not None:
+    if statements is not None:
         batches = remote_batches(statements)
+        location = "remote" if remote else "local"
         for i, command in enumerate(batches, 1):
-            print(f"  remote SQL batch {i}/{len(batches)}")
+            print(f"  {location} SQL batch {i}/{len(batches)}")
             subprocess.run(
                 [
                     "npx",
@@ -297,7 +298,7 @@ def execute(sql_path: Path, *, remote: bool, statements: list[str] | None = None
                     "d1",
                     "execute",
                     "podcast-listener",
-                    "--remote",
+                    "--remote" if remote else "--local",
                     "--command",
                     command,
                     "--yes",
