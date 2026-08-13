@@ -1584,16 +1584,18 @@ function boot(): void {
     // drift waiting to happen, and adding Lexend and Cinzel is exactly the change
     // that would have caused it.
     const FONTS = EDITOR_FONTS;
+    const DEFAULT_EDITOR_FONT = "lato";
+    const DEFAULT_EDITOR_SIZE = 20;
     const savedFont = (() => {
       try {
-        return localStorage.getItem("cx-editor-font") ?? "sans";
+        return localStorage.getItem("cx-editor-font") ?? DEFAULT_EDITOR_FONT;
       } catch {
-        return "sans";
+        return DEFAULT_EDITOR_FONT;
       }
     })();
     host.dataset.font = FONTS.some((f) => f.id === savedFont)
       ? savedFont
-      : "sans";
+      : DEFAULT_EDITOR_FONT;
 
     const fontGroup = document.createElement("div");
     fontGroup.className = "cx-tb-group";
@@ -1630,7 +1632,7 @@ function boot(): void {
       })();
       return Number.isFinite(raw) && raw >= SIZE_MIN && raw <= SIZE_MAX
         ? raw
-        : 17;
+        : DEFAULT_EDITOR_SIZE;
     })();
     const sizeWrap = document.createElement("div");
     sizeWrap.className = "cx-size";
