@@ -1,0 +1,283 @@
+# Chapter 3
+
+## Abd al-Muttalib and Medina
+
+It is appropriate here to say something about the childhood of Abd al-Muttalib.
+
+Before Hashim died, he entrusted his brother Muttalib with his affairs. Some time after Hashim’s death, a caravan belonging to Quraysh passed near Medina. The travellers saw a young boy at play who drew their attention. He was small in stature, dark-complexioned, and clearly bore the marks of intelligence and courage. One of the men said that the boy strongly resembled Hashim. The others looked at him closely and agreed.
+
+When the caravan moved on toward Mecca, the travellers mentioned the matter to Muttalib. They told him that they had seen a boy near Medina whose face greatly resembled that of his late brother Hashim. They also told him that the boy was known as Shaybah and that he was the son of Salma bint Amr, the woman whom Hashim had married in Medina.
+
+Muttalib immediately became concerned. If the boy was truly Hashim’s son, then he was his own nephew and belonged among his father’s people in Mecca. He therefore travelled to Medina to investigate the matter for himself.
+
+When Muttalib reached Medina, he asked for Salma and was shown where she lived. He then saw the boy. The resemblance left little room for doubt. Muttalib spoke to him, asked his name, and learned that he was indeed Shaybah, son of Hashim. He embraced him warmly and introduced himself as the boy’s uncle.
+
+He then went to Salma and asked permission to take Shaybah with him to Mecca. Salma refused. She said that the boy was still young, that he was accustomed to living with his mother, and that there was no reason to separate him from her. Muttalib continued to press the matter, explaining that Shaybah belonged to a family of honour and leadership in Mecca and that his father’s people had rights over him.
+
+Salma still hesitated. She feared that if she allowed the boy to leave, she might never see him again. Muttalib therefore tried another approach. He told her that the boy would have a better future among his father’s family, that his lineage would be recognised there, and that he would inherit the standing that belonged to the house of Hashim.
+
+After lengthy discussion, Salma agreed on the condition that Shaybah himself should be willing to go. Muttalib then spoke to the boy. Shaybah was intrigued by the thought of seeing Mecca and his father’s people, and he agreed to travel with his uncle.
+
+Muttalib placed him behind himself on his camel and set out for Mecca.
+
+When they entered the city, the people saw Muttalib riding with a young boy seated behind him. Because the boy was dusty from travel and because no one immediately knew who he was, some people assumed that Muttalib had bought a slave. They therefore began calling him “Abd al-Muttalib,” meaning “the slave of Muttalib.”
+
+Muttalib objected and told them that the boy was no slave. “He is my nephew,” he said, “the son of my brother Hashim.” Yet the name had already caught on, and Shaybah thereafter became widely known as Abd al-Muttalib.
+
+He was about seven or eight years old when he came to Mecca.
+
+## Abd al-Muttalib’s Early Years
+
+Abd al-Muttalib grew up in Mecca among the Banu Hashim and the wider Quraysh. He was intelligent, observant, and strong-minded. He also possessed a natural dignity that gradually made him noticeable among his relatives.
+
+Not long after his arrival, a dispute arose concerning the inheritance and property of his father Hashim. Some of Hashim’s property had remained in the hands of other relatives, and Abd al-Muttalib believed that his rightful share was being withheld.
+
+At first he was too young to do anything about it. As he grew older, however, he began asking questions. He learned which lands, possessions, and responsibilities had belonged to his father and which members of the family now controlled them.
+
+His uncle Muttalib supported him, but Muttalib did not live long. After Muttalib’s death, the situation became more difficult. Abd al-Muttalib found himself facing men older and more powerful than he was, some of whom were unwilling to surrender property they had already taken into their possession.
+
+Among those with whom he came into conflict was Nawfal ibn Abd Manaf, another of Hashim’s brothers. Nawfal had taken possession of property that Abd al-Muttalib regarded as his own inheritance. Abd al-Muttalib demanded its return, but Nawfal refused.
+
+Abd al-Muttalib then sought support from his relatives in Mecca, but few were prepared to involve themselves. He realised that he could not rely entirely on the local branches of Quraysh.
+
+He therefore remembered his mother’s people in Medina, the Banu Najjar of Khazraj.
+
+He wrote to them, explaining that he was the son of their daughter Salma and that he was being wronged in Mecca. He asked them to come to his aid.
+
+The appeal had an immediate effect.
+
+A group of his maternal relatives, armed and ready, travelled from Medina to Mecca. They entered the city openly and announced that they had come to defend the rights of their sister’s son. Their arrival changed the situation at once. Nawfal saw that Abd al-Muttalib now had strong backing and that the dispute might lead to bloodshed if he continued to resist.
+
+He therefore returned the disputed property.
+
+This episode strengthened Abd al-Muttalib’s position considerably. People in Mecca now understood that, although he had grown up away from his father’s family, he was not without powerful supporters.
+
+From that time onward, his standing among Quraysh continued to rise.
+
+## Abd al-Muttalib’s Leadership and Trade
+
+Abd al-Muttalib inherited not merely a family name but also the commercial responsibilities associated with the house of Hashim.
+
+By this period, Quraysh had developed extensive trade connections. Caravans travelled north toward Syria and south toward Yemen, while commercial relations also linked Mecca with Abyssinia and other regions. The leading families of Quraysh maintained agreements that allowed their caravans to pass safely through tribal territories.
+
+Abd al-Muttalib took an active role in these affairs.
+
+On one occasion, a commercial disagreement arose between Quraysh and certain tribes. Abd al-Muttalib was sent to settle the matter. He spoke with the opposing chiefs, negotiated terms, and succeeded in restoring the arrangements under which the caravans could continue travelling in safety.
+
+His reputation for judgment and diplomacy increased.
+
+He was also associated with the arrangements for feeding and supplying pilgrims who came to Mecca. The custodianship of the Kaaba brought honour, but it also imposed responsibilities. Pilgrims had to be provided with water, food, and protection, and the leading families of Quraysh competed for the distinction of serving them.
+
+Abd al-Muttalib became one of the most prominent men in this system.
+
+## A Dispute with Harb ibn Umayyah
+
+As Abd al-Muttalib’s prestige increased, rivalry arose between him and Harb ibn Umayyah.
+
+Harb was a wealthy and influential man of the Banu Umayyah. His family was active in trade and enjoyed considerable standing among Quraysh. Abd al-Muttalib, however, had inherited the prestige of Hashim and increasingly occupied the foremost position in Mecca.
+
+The two men eventually entered into a dispute over which of them possessed greater honour and leadership.
+
+They agreed to appoint an arbitrator.
+
+The arbitrator heard both sides and decided in favour of Abd al-Muttalib. According to the account preserved here, Harb was required to hand over one hundred camels and a number of slaves as the agreed stake in the arbitration.
+
+The judgment was an important public recognition of Abd al-Muttalib’s superiority in status.
+
+The rivalry, however, did not disappear. It became part of the long competition between the houses of Hashim and Umayyah, a rivalry that would continue into later generations.
+
+## Success at Taif
+
+The people of Mecca were not confined to trade within the city. They sought agricultural land and commercial interests in nearby regions, especially Taif, whose climate was cooler and whose soil was more fertile.
+
+Abd al-Muttalib acquired property there.
+
+Taif was known for gardens, orchards, grapes, and other produce. Wealthy Meccan families invested in land there because agriculture provided a stable source of income in addition to caravan trade.
+
+Abd al-Muttalib’s interests in Taif prospered, and this added further to his wealth.
+
+The author notes that this prosperity should be remembered whenever Mecca is described as though its leading men possessed no economic resources beyond the pilgrimage. The commercial and agricultural connections of Quraysh extended into the surrounding regions and formed a substantial part of their material life.
+
+## The Return of Zamzam
+
+One of the most famous events associated with Abd al-Muttalib was the rediscovery of the well of Zamzam.
+
+The well had been lost for a long period. Its exact location had been forgotten, and people drew their water from other wells around Mecca.
+
+According to the well-known account, Abd al-Muttalib repeatedly saw a dream in which he was told to dig at a particular place near the Kaaba.
+
+At first the instructions were unclear. The dream came again, and then again, each time with greater precision. Finally he was told that he was to dig for Zamzam.
+
+Abd al-Muttalib asked where Zamzam was.
+
+He was given signs by which to recognise the place.
+
+The next morning he went to the area indicated in the dream. He began to search for the exact spot. After identifying it, he took tools and started digging.
+
+At that time he had only one son, Harith, to assist him.
+
+The other men of Quraysh watched but did not help. Some even mocked him. Digging into the hard ground beside the Kaaba was exhausting work, and no one knew whether the effort would produce anything.
+
+Abd al-Muttalib continued.
+
+After persistent digging, he came upon the remains of the old well. As the excavation deepened, water appeared.
+
+The discovery caused great excitement throughout Mecca.
+
+The Quraysh immediately came forward and claimed a share in the well. They argued that Zamzam belonged to Ishmael and therefore to all his descendants, not to Abd al-Muttalib alone.
+
+Abd al-Muttalib rejected their claim. He said that he had been guided to the well and that he and his son had undertaken the labour of digging it while the others had refused to assist.
+
+The disagreement became serious.
+
+At length both sides agreed to submit the matter to an arbitrator. They were told of a priestess or soothsayer belonging to the tribe of Sa‘d who lived in the direction of Syria, and they decided to travel to her for judgment.
+
+A group from Abd al-Muttalib’s side and a group from the other clans of Quraysh set out together.
+
+During the journey, their water ran out.
+
+They were in a desolate region. The heat was severe, and there was no settlement nearby from which they could obtain help. Their animals were exhausted, and the travellers feared that they would die of thirst.
+
+Each group tried to preserve what little water remained for itself.
+
+Soon even that was gone.
+
+The men began to lose hope.
+
+Abd al-Muttalib then told his companions that they should not simply sit and wait for death. He suggested that each man dig a grave for himself while he still had the strength. Then, if one died, the others could bury him. In this way only the last survivor would remain unburied.
+
+They accepted the grim proposal and began preparing their graves.
+
+After some time, however, Abd al-Muttalib reconsidered. He said that to remain there passively was cowardice. They should continue searching. Perhaps God would provide a way out.
+
+They mounted their camels again.
+
+As Abd al-Muttalib’s camel rose, its foot struck the ground and water appeared from beneath it.
+
+The travellers cried out in relief. They drank, filled their containers, and gave water to their animals.
+
+The other Quraysh who had been travelling with them saw what had happened and said to Abd al-Muttalib that this was itself a judgment between them. The One who had provided water for him in the wilderness had also granted him the right to Zamzam. They no longer needed to continue to the arbitrator.
+
+They returned to Mecca and recognised Abd al-Muttalib’s claim over the well.
+
+From then on, Zamzam became one of the chief sources of water for pilgrims and for the people of Mecca.
+
+## The Meaning of the Dream
+
+The author observes that the account of the rediscovery of Zamzam is closely connected with dreams and asks how such reports should be understood.
+
+Quraysh had long possessed traditions about the old well. Its existence was known even though its exact location had been forgotten. It is therefore possible, the author argues, that Abd al-Muttalib had heard descriptions of its former position and that these memories returned to him in sleep in the form of repeated dreams.
+
+There is no need, in this view, to regard every detail of the story as miraculous in a literal sense. A person may think deeply about a matter during the day and then see it in a dream at night. The mind can preserve impressions and clues that later reappear in symbolic form.
+
+What is important is that Abd al-Muttalib acted with determination. He searched where he believed the well to be, persevered despite ridicule, and succeeded in bringing Zamzam back into use.
+
+## The Treasure of Zamzam
+
+When the old well was excavated, objects were also found within it.
+
+According to the reports, these included swords, armour, and two golden gazelles. The items were said to have been deposited there in earlier times, perhaps by the Jurhum when they were forced to leave Mecca.
+
+Abd al-Muttalib and Quraysh disputed over these objects as well.
+
+To settle the matter, they used a customary form of drawing lots. Separate arrows were assigned to the Kaaba, to Abd al-Muttalib, and to Quraysh. The lots were then drawn.
+
+The golden gazelles fell to the Kaaba, the swords and armour to Abd al-Muttalib, and nothing to Quraysh.
+
+Abd al-Muttalib used the swords to strengthen the door of the Kaaba and dedicated the golden gazelles to the sanctuary.
+
+## Conflict with Umayyah
+
+As Abd al-Muttalib’s position became stronger, tension with the Umayyad branch of Quraysh continued.
+
+The rivalry was not merely personal. It reflected competition between two houses for prestige, leadership, trade, and influence in Mecca.
+
+A dispute arose involving Abd al-Muttalib and Umayyah ibn Abd Shams. They agreed to arbitration, and once again the judgment went in Abd al-Muttalib’s favour.
+
+The arbitrator ruled that Umayyah should leave Mecca for a period of ten years.
+
+Umayyah therefore went to Syria and remained there until the term had passed.
+
+The incident further strengthened the status of the Banu Hashim.
+
+## Abd al-Muttalib’s Vow
+
+The rediscovery of Zamzam had been difficult. At the time, Abd al-Muttalib had only one son, Harith, to assist and defend him. Surrounded by the larger clans of Quraysh, he felt his weakness keenly.
+
+He therefore made a vow.
+
+If God granted him ten sons who grew to maturity and were able to stand beside him, he would sacrifice one of them.
+
+In time, the number of his sons reached ten.
+
+When they had grown into young men, Abd al-Muttalib remembered his vow and told them about it.
+
+He said that he had made a pledge to God and must now fulfil it.
+
+His sons did not oppose him. They told him to do what he had vowed.
+
+Abd al-Muttalib then took them to the place where lots were drawn and had each son’s name written on an arrow.
+
+The lot was cast.
+
+It fell upon Abdullah.
+
+Abdullah was one of the youngest of his sons and was especially dear to him.
+
+Abd al-Muttalib took a knife and led Abdullah toward the place of sacrifice.
+
+The people of Quraysh intervened.
+
+They told Abd al-Muttalib not to carry out the sacrifice until every possible alternative had been explored. If he killed his own son in fulfilment of such a vow, they feared that the act might become a precedent and other fathers might begin doing the same.
+
+They advised him to consult a diviner.
+
+Abd al-Muttalib agreed.
+
+The diviner asked what the recognised blood-money for a human life was among them.
+
+They replied that it was ten camels.
+
+She instructed them to place Abdullah on one side and ten camels on the other and draw lots. If the lot fell upon Abdullah, another ten camels were to be added. They were to continue increasing the number until the lot finally fell upon the camels.
+
+They followed her instructions.
+
+The lot fell on Abdullah when there were ten camels, then again when there were twenty, thirty, forty, and so on.
+
+Each time ten more camels were added.
+
+Only when the number reached one hundred did the lot fall upon the camels.
+
+Abd al-Muttalib was not yet satisfied. He repeated the drawing several times to be certain.
+
+Each time, the lot fell upon the one hundred camels.
+
+He then accepted the result. The camels were slaughtered and Abdullah’s life was spared.
+
+The event became famous, and the compensation of one hundred camels later came to be regarded as the blood-money for a life.
+
+## Abdullah’s Marriage
+
+Once Abdullah’s life had been spared, Abd al-Muttalib began thinking about his marriage.
+
+Abdullah was a handsome young man and, because of the events surrounding the vow, had attracted considerable attention.
+
+Abd al-Muttalib sought a suitable wife for him and chose Aminah bint Wahb of the Banu Zuhrah.
+
+Aminah belonged to a respected family of Quraysh. Her father, Wahb ibn Abd Manaf ibn Zuhrah, was regarded as one of the leading men of his clan.
+
+Abd al-Muttalib went with Abdullah to propose the marriage.
+
+The proposal was accepted, and Abdullah married Aminah.
+
+On the same occasion, Abd al-Muttalib himself married Halah bint Uhayb, a woman from the same wider family.
+
+Thus father and son were married at about the same time.
+
+From the marriage of Abd al-Muttalib and Halah was born Hamzah, who would later become the celebrated uncle of the Messenger of God.
+
+From the marriage of Abdullah and Aminah would be born Muhammad, the Messenger of God.
+
+According to the author, some later narrations greatly embellished the circumstances of Abdullah’s marriage, describing extraordinary light or signs upon his face and women who supposedly sought him because they recognised the coming prophethood in him. Such stories, the author argues, are later additions and should not be treated as reliable history.
+
+What can be said with confidence is simpler: Abdullah was a young man of distinguished lineage, his father arranged his marriage with Aminah bint Wahb, and the marriage took place in accordance with the customs of Quraysh.

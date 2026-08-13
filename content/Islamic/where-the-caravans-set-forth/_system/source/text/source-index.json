@@ -1,0 +1,22 @@
+{
+  "schema": "podcast.manual-source-index/v1",
+  "title": "Where the Caravans Set Forth",
+  "files": [
+    {
+      "role": "urdu_original_pdf",
+      "path": "_source/Jahan sy Qafily Chaly 1.pdf"
+    },
+    {
+      "role": "english_rendered_pdf",
+      "path": "_source/Where_the_Caravans_Set_Forth.pdf"
+    },
+    {
+      "role": "articulator_chapter_folder",
+      "path": "_system/source/text/articulator-chapters/"
+    },
+    {
+      "role": "combined_articulator_chapters",
+      "path": "_system/source/text/articulator-chapters.md"
+    }
+  ]
+}

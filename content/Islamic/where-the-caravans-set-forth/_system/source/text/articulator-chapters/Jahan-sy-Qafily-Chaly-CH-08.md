@@ -1,0 +1,57 @@
+# Chapter 8
+
+## The Story of Hajun
+
+One day I left the area of Abu Talib’s house and walked toward Hajun, a hill lying to the north of the Kaaba, roughly three kilometres away. Jannat al-Mu'alla, the cemetery of Mecca, extends toward its far side. Hajun was associated especially with Banu Hashim, and many members of that family were buried there. The grandfather and uncles of the Messenger of God, and others who died before the Hijrah, were laid to rest around the lower slopes of this hill. Anyone travelling from Mecca toward the northern routes, including the road to Medina, would pass by Hajun.
+
+When I saw the hill in 1993, it still looked like a hill should. A narrow, winding road climbed through it. Here and there were small shrubs and patches of grass growing among the stones. There were also old graves, marked only by a few stones. Between the graves stood small bushes, and a date-palm tree was also visible. No one was then being buried in that old part of the cemetery.
+
+This time, however, the place seemed completely transformed. The hillside had been turned into a landscaped, controlled area, with fences and new arrangements everywhere. So much had changed that it was difficult to recognise what I had seen before.
+
+The graves associated with the Ahl al-Bayt - particularly those of Abd al-Muttalib, Abu Talib, Khadijah, and other relatives of the Messenger of God - had been enclosed behind barriers. The old grave-markers had been reduced to simple signs. At the gate, little more was written than an indication that Khadijah’s grave lay there.
+
+When I first came here in 1993, I asked someone to show me the grave of Abd al-Muttalib. The man did not know. There were two Bedouins nearby, and I asked them, “Which grave is Abu Talib’s, and which is Khadijah’s?”
+
+My question left them confused. They looked at one another. One of them was a young man. I gave him a few riyals and he became more willing to help. He climbed part of the hill with me and pointed out three places. One, he said, was the grave of Umm al-Mu'minin Khadijah; another was the grave of Abd al-Muttalib; and a third, he said, belonged to a son of the Messenger of God.
+
+I continued walking among the graves and reciting the ziyarat of those buried there.
+
+These were the people who had been among the closest companions and supporters of the Messenger of God. The Qur'an itself remembers some of them and the sacrifices they made. Yet the people around Hajun seemed to know very little about them. I remember thinking that ordinary Muslims had forgotten much of their own history. I had felt this elsewhere in Pakistan as well, but here the contrast was even more striking.
+
+In those days the space from Hajun toward the Kaaba was still comparatively open. There were simple local houses and small settlements. In the markets one could find African, Yemeni, Syrian, and other imported goods. Similar products were sold elsewhere in Mecca as well, and pilgrims often bought small objects as souvenirs and blessings.
+
+As I walked from Jannat al-Mu'alla toward Hajun, I saw a young Arab boy racing a motorcycle along the cemetery pathways as though the place were an ordinary road. No one stopped him. I did not wish to become absorbed in the conduct of other people, however. Whenever I came to Mecca, I found myself turning instead toward my own faith and toward what this city meant to me.
+
+## How Much Has Been Erased?
+
+Thirty-five years later I returned, and almost everything had changed.
+
+Abu Talib’s house, the house of Abbas where Imam Husayn spent the last four months of his stay in Mecca, the old places connected with sacrifice, the site associated with Zamzam, and many other landmarks had either disappeared or been altered so completely that hardly a trace remained. The area around Zamzam had been rebuilt and absorbed into new construction. Mecca had, in many respects, been turned into a vast commercial centre.
+
+The people who live here, and many of those who come from other countries for Hajj and Umrah, know almost nothing about these places. Many do not even seem to know why they have come. Yet by walking on foot I was still able to discover a few things for myself.
+
+One day I walked about thirty-five kilometres through different parts of the area. Two places in particular produced a strange feeling in me. One was the plain of Arafat and Jabal al-Rahmah, the hill associated in tradition with Adam, peace be upon him. The other was a high place from which, looking down in every direction, one feels surrounded by a strangely timeless atmosphere.
+
+I shall explain that feeling later.
+
+I was also searching for the house in Mecca where Husayn had stayed - a house I had seen on my first visit. The building itself was no longer there, though the ground on which it had stood was still empty. A few small trees had been planted there.
+
+I tried to trace the route by which Husayn, peace be upon him, had left Mecca for Karbala. As I followed it, another question returned to me: why did Husayn leave Mecca on the eighth of Dhu al-Hijjah?
+
+The answer came to me at Arafat.
+
+What that answer was I have described in my novel *The Traveller to Kufa*. Anyone who wants the full answer will have to read the novel.
+
+Let me mention a few things briefly.
+
+Mecca is a vast valley, as I noted earlier in this book - broad enough to contain millions of people. Today its climate is comparatively moderate, and its winds are not always scorching and dry. The spring here has a peculiar fragrance of its own. Roads emerge between the surrounding mountains in many directions.
+
+You may think of old Mecca as something like a great terminal. Fourteen hundred years ago, and even earlier, trading caravans, travellers seeking work, and other wayfarers passed through it on routes linking different lands. They would stop in Mecca or in the nearby settlements, conduct their business, rest, and then continue onward.
+
+After rain, soft grass grows on the smaller and larger hills, enough to feed large numbers of camels and goats. The people passing through this region came from different linguistic and cultural backgrounds and therefore brought many languages, habits, and customs into contact with one another.
+
+I also noticed something else. Roads, schools, hotels, and other buildings bearing the names of Aishah, her father Abu Bakr, and Umar are easy to find.
+
+What I did not see were comparable places bearing the names of the family of Muhammad and the descendants of Ali. During the days I spent here after Hajj, I encountered scarcely anything visibly associated with them, apart from Hajun itself.
+
+There is much more that could be said, but these few observations are enough for now.

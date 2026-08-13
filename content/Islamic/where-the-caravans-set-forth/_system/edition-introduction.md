@@ -1,0 +1,1 @@
+A faithful English reading edition of an Urdu work on the sacred geography and early history of Mecca and Medina, assembled from the Articulator GPT translation supplied for local review. This review copy has no podcast episodes; it is prepared for reading and chapter read-aloud.
