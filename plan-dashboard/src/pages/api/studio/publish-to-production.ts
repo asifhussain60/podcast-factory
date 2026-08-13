@@ -16,7 +16,7 @@
  * There is no JSON body on the way back and no `apiOk` wrapper for that reason:
  * the LAST event is the result. The client reads `{ event: "done", verified }`.
  *
- * Body: { slug, accept?, transcripts?, media?, rebuildPdf?, dryRun? }
+ * Body: { slug, target?, accept?, transcripts?, media?, rebuildPdf?, dryRun? }
  * The four options default to the safe everyday run — accept cards, transcribe
  * new episodes, upload media, do not re-render the PDF.
  */
@@ -38,6 +38,10 @@ const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
  *  body that says nothing gets the complete publish rather than a partial one. */
 function flagsFor(body: Record<string, unknown>): string[] {
   const flags: string[] = [];
+  const target = String(body.target ?? "both");
+  if (!["both", "localhost", "production"].includes(target))
+    throw new Error("Invalid publish target");
+  flags.push("--target", target);
   if (body.accept === false) flags.push("--no-accept");
   if (body.transcripts === false) flags.push("--skip-transcripts");
   if (body.media === false) flags.push("--skip-media");
@@ -112,17 +116,22 @@ export const POST: APIRoute = async ({ request }) => {
   if (!findContentDirSync(slug))
     return apiError(`Book not found: ${slug}`, 404);
 
+  let flags: string[];
+  try {
+    flags = flagsFor(body);
+  } catch (error) {
+    return apiError((error as Error).message);
+  }
+
   const script = join(
     getRepoRoot(),
     "scripts",
     "podcast",
     "publish_to_production.py",
   );
-  const child = spawn(
-    getPythonBin(),
-    [script, slug, "--json", ...flagsFor(body)],
-    { cwd: getRepoRoot() },
-  );
+  const child = spawn(getPythonBin(), [script, slug, "--json", ...flags], {
+    cwd: getRepoRoot(),
+  });
 
   const encoder = new TextEncoder();
   const stream = new ReadableStream<Uint8Array>({

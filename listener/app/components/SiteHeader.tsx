@@ -1,4 +1,10 @@
-import { faCircleQuestion, faRightFromBracket, faUserShield } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBookOpenReader,
+  faCircleDown,
+  faCircleQuestion,
+  faRightFromBracket,
+  faUserShield,
+} from "@fortawesome/free-solid-svg-icons";
 import { Form, Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
@@ -20,7 +26,7 @@ export function SiteHeader({
   here,
   isAdmin = false,
 }: {
-  here: "library" | "admin" | "book" | "about";
+  here: "library" | "admin" | "book" | "about" | "search" | "downloads";
   isAdmin?: boolean;
 }) {
   return (
@@ -35,14 +41,40 @@ export function SiteHeader({
 
       <div className="pf-header__nav">
         {here !== "library" ? (
-          <Link to="/" className="pf-navlink">
-            Library
+          <Link
+            to="/"
+            className="pf-navlink pf-navlink--library"
+            aria-label="Library"
+            title="Library"
+          >
+            <Icon icon={faBookOpenReader} />
           </Link>
         ) : null}
 
         {isAdmin && here !== "admin" ? (
-          <Link to="/admin" className="pf-navlink" aria-label="Access" title="Access">
+          <Link
+            to="/admin"
+            className="pf-navlink pf-navlink--access"
+            aria-label="Access"
+            title="Access"
+          >
             <Icon icon={faUserShield} />
+          </Link>
+        ) : null}
+
+        {/* Offered on every page, because the moment somebody wants it is the
+            moment they have no signal — and a link they have to remember the
+            address of is not reachable then. The service worker redirects any
+            failed navigation here, so this is also where the app lands when it
+            opens on a plane. */}
+        {here !== "downloads" ? (
+          <Link
+            to="/downloads"
+            className="pf-navlink pf-navlink--downloads"
+            aria-label="Downloads"
+            title="Downloads"
+          >
+            <Icon icon={faCircleDown} />
           </Link>
         ) : null}
 
@@ -53,7 +85,12 @@ export function SiteHeader({
             here — but sits beside the way out rather than up front, since it
             no longer needs to be the first thing offered. */}
         {here !== "about" ? (
-          <Link to="/about" className="pf-navlink" aria-label="About" title="About">
+          <Link
+            to="/about"
+            className="pf-navlink pf-navlink--about"
+            aria-label="About"
+            title="About"
+          >
             <Icon icon={faCircleQuestion} />
           </Link>
         ) : null}
@@ -67,10 +104,21 @@ export function SiteHeader({
             A POST, not a link — see routes/sign-out.tsx. Styled as a nav item so
             the header does not grow a second visual weight for what is just
             another way out. */}
-        <Form method="post" action="/sign-out">
+        {/* Signing out drops the cached Downloads document. The page tells the
+            worker rather than the worker watching for the POST: what a worker
+            would see is the redirect, not whether the session actually ended.
+            The episodes themselves are NOT dropped — they are this device's, and
+            the lease is what withdraws them. */}
+        <Form
+          method="post"
+          action="/sign-out"
+          onSubmit={() =>
+            navigator.serviceWorker?.controller?.postMessage("pf-signed-out")
+          }
+        >
           <button
             type="submit"
-            className="pf-navlink pf-navlink--button"
+            className="pf-navlink pf-navlink--button pf-navlink--signout"
             aria-label="Sign out"
             title="Sign out"
           >

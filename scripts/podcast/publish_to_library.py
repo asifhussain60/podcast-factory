@@ -31,6 +31,9 @@ GATES (failures block publish):
   G7  Challenger verdict  : convergence verdict in {SHIP-READY,
                             SHIP-WITH-CAUTION} unless --allow-mode-2.
 
+A Sessions-lane book (pipeline_mode=sessions_lane, never produces chapters/
+episodes txt) gets G1/G5 equivalents from _publish_sessions_gates.py; G2-G4
+report n/a; G7 requires --allow-mode-2, like any book with no book-challenger run.
 The `content/published/_meta/catalog.md` row for <slug> is updated (or appended) —
 that path holds cross-book `archetypes/` + `_meta/` only, no per-book folders.
 
@@ -64,6 +67,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from _paths import REPO_ROOT, find_content
+from _publish_sessions_gates import gate_g1_sessions_structure, gate_g5_sessions_state, is_sessions_lane
 
 # Type-first layout (2026-06-04): books live at content/<Bucket>/<slug>/ and
 # draft/published is a STATUS FIELD, not a folder. WORKSPACE is only the legacy
@@ -99,7 +103,8 @@ ALLOWED_SHIP_VERDICTS = {"SHIP-READY", "SHIP-WITH-CAUTION"}
 # Added 2026-05-24: `pre_orchestrator_authored` (ayyuhal-walad, B-P0-04) —
 # the book was authored before the orchestrator existed; verdict is
 # `ship-with-caution` based on manual review, not a convergence pass.
-NON_CONVERGED_PIPELINE_MODES = {"non_orchestrated_mode_2", "pre_orchestrator_authored"}
+# Added 2026-08-12: `sessions_lane` (see module docstring).
+NON_CONVERGED_PIPELINE_MODES = {"non_orchestrated_mode_2", "pre_orchestrator_authored", "sessions_lane"}
 
 # Optional [a-z] section suffix is CANONICAL for chapters split from one
 # source Part by Phase 0d sections mode (ch10c = EP10, third slice of its
@@ -419,6 +424,8 @@ def publish(slug: str, args: argparse.Namespace) -> int:
         print(f"publish_to_library: workspace not found: {workspace}", file=sys.stderr)
         return 2
 
+    sessions_lane = is_sessions_lane(workspace)
+
     _info(f"==> publish_to_library: {slug}")
     _info(f"    workspace: {workspace.relative_to(REPO_ROOT)}")
     _info("    model:     status-flag (type-first layout; no second tree)")
@@ -431,17 +438,26 @@ def publish(slug: str, args: argparse.Namespace) -> int:
     _info("")
     _info("=== Gates ===")
 
-    ok1, chapters, episodes = gate_g1_structure(workspace)
-    if not ok1:
-        return 1
-    if not gate_g2_pairs(chapters, episodes):
-        return 1
-    if not gate_g3_sequential(chapters, episodes):
-        return 1
-    if not gate_g4_build_clean(workspace, slug, episodes, args.strict, dry_run=args.dry_run):
-        return 1
-    if not gate_g5_state(workspace, args.force):
-        return 1
+    if sessions_lane:
+        ok1, episode_count = gate_g1_sessions_structure(workspace, fail=_fail, ok=_ok)
+        if not ok1:
+            return 1
+        _info("[G2-G4] n/a — sessions lane has no chapters/episodes txt upload bundle to check")
+        if not gate_g5_sessions_state(workspace, args.force, fail=_fail, ok=_ok):
+            return 1
+    else:
+        ok1, chapters, episodes = gate_g1_structure(workspace)
+        if not ok1:
+            return 1
+        if not gate_g2_pairs(chapters, episodes):
+            return 1
+        if not gate_g3_sequential(chapters, episodes):
+            return 1
+        if not gate_g4_build_clean(workspace, slug, episodes, args.strict, dry_run=args.dry_run):
+            return 1
+        if not gate_g5_state(workspace, args.force):
+            return 1
+        episode_count = len(episodes)
     # G6 (target wipe-safety) is obsolete in the status-flag model — no published/
     # tree is created or wiped. gate_g6_target() is retained for the test suite.
     _info("[G6]  n/a — status-flag model writes no published/ tree")
@@ -450,7 +466,7 @@ def publish(slug: str, args: argparse.Namespace) -> int:
 
     _info("")
     _info("=== Plan ===")
-    _info(f"    would set status=published on {slug} ({len(episodes)} episode(s)) in place")
+    _info(f"    would set status=published on {slug} ({episode_count} episode(s)) in place")
     _info(f"    would update catalog row for {slug}")
 
     if args.dry_run:
@@ -465,10 +481,10 @@ def publish(slug: str, args: argparse.Namespace) -> int:
     _info("    status → published in orchestrator-state.json")
     # Keep the meta.yml publication.status write — the astro site reads it.
     _update_meta_publication_status(workspace)
-    update_catalog(slug, len(episodes), git_sha())
+    update_catalog(slug, episode_count, git_sha())
 
     _info("")
-    _info(f"==> DONE. Marked {slug} published ({len(episodes)} episode(s)) in place.")
+    _info(f"==> DONE. Marked {slug} published ({episode_count} episode(s)) in place.")
 
     # Google Drive and the Listener. Both leave this machine, so both are
     # non-fatal — see _publish_downstream.py.

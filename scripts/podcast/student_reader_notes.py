@@ -196,7 +196,7 @@ def ask_scholar(
     The grounding check sits before either model runs, so the choice costs
     nothing to make.
     """
-    from _authoring._core import _run_claude_p_with_retry
+    from _authoring._core import _run_claude_p_with_retry, pure_text_call_options
 
     quote = str(finding.get("quote") or "").strip()
     question = str(finding.get("question") or "").strip()
@@ -225,6 +225,7 @@ def ask_scholar(
         phase="0book-student-reader",
         step=step,
         log=log,
+        **pure_text_call_options(),
     )
     if rc != 0:
         log(f"      · scholar failed on {quote[:40]!r}: rc={rc} {err[:120]}")
@@ -254,6 +255,7 @@ def ask_scholar(
             phase="0book-student-reader",
             step=f"{step}-tighten",
             log=log,
+            **pure_text_call_options(),
         )
         tightened = tout if trc == 0 else ""
 
@@ -293,7 +295,7 @@ def run_chapter(
     book_title: str,
     log,
 ) -> dict[str, Any]:
-    from _authoring._core import _run_claude_p_with_retry
+    from _authoring._core import _run_claude_p_with_retry, pure_text_call_options
 
     file_key = section_key(ch["title"])
     full_budget = chapter_budget(len(ch["prose"].split()))
@@ -329,6 +331,7 @@ def run_chapter(
         phase="0book-student-reader",
         step=f"student-{ch['key'][:24]}",
         log=log,
+        **pure_text_call_options(),
     )
     if rc != 0:
         return {"chapter": ch["key"], "error": f"claude -p rc={rc}: {err[:160]}", "filed": 0}

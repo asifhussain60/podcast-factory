@@ -34,7 +34,7 @@ import sqlite3
 from pathlib import Path
 from typing import Any, Callable
 
-from _authoring._core import _run_claude_p_with_retry
+from _authoring._core import _run_claude_p_with_retry, pure_json_call_options
 from _buckwalter import arabic_fold, folds_match, latin_fold
 from _doctrinal import run_doctrinal_checks
 from _etymology_corpus import (  # noqa: F401  (re-exported: tests patch via this module)
@@ -420,6 +420,7 @@ def _generate(
         phase="0book-etymology",
         step="generate",
         log=log,
+        **pure_json_call_options(),
     )
     if rc != 0:
         log(f"      etymology: generation failed (rc={rc}): {err[:160]}")
@@ -437,6 +438,7 @@ def _verify(entries: list[dict[str, Any]], book_dir: Path, log) -> dict[str, dic
         phase="0book-etymology",
         step="verify",
         log=log,
+        **pure_json_call_options(),
     )
     if rc != 0:
         log(f"      etymology: verification failed (rc={rc}): {err[:160]}")

@@ -1328,3 +1328,123 @@ KAL-LAMUM Ranks and Ascension · Falling From Grace · Design Of Human Being · 
 Physical Impurity · Recognizing The Creator · Recognizing The Self · Unity, Transcendence,
 Abstraction · Knowledge & Action. Session ids `68, 69, 70, 71, 72, 73, 95, 115, 1243,
 1244, 1247, 1248, 1249, 1250`.
+
+## RESOLVED — eight quotations in Love Of The Prophet ended with a stray `**` — 2026-08-11
+
+**Severity:** Low, and it was visible to readers on the production site. **Cleared the same
+day** (Asif, 2026-08-11, option 2a): `stray-emphasis` is now a defect class with a repair,
+and `compose_fix --fix` cleared all sixteen markers through the Composer's own save path.
+The entry is kept rather than deleted because the diagnosis below is the part worth having.
+
+The cause is fixed and cannot recur. Font Awesome writes its icons as `<i class="fa …">`,
+which the Sessions converter read as markdown emphasis; 508 of them across the corpus are
+EMPTY elements, so each emitted `*` open and `*` close with nothing between. Inside a
+quoted block the odd marker triggered `_close_quote`'s balancer, which appends a closing
+`**` at the very end of the quotation — where it prints. Icons are now dropped as chrome
+and every group converts with balanced markers.
+
+What the fix cannot reach is Book 1's text, because all five of its chapters carry
+Composer edits and a chapter with an edit is deliberately never regenerated. The eight
+lines are in `content/Sessions/love-of-the-prophet/book/book.md` at 213, 387, 453, 549,
+559, 571, 581 and 821 — each a blockquote whose last characters are `**`.
+
+Clearing them is one Composer save per chapter, or a re-articulation of the five chapters
+(which would cost a model run and re-open every gate). It is a two-character deletion in
+eight places and needs no judgment, so the Composer route is the cheap one — but it edits
+a published reading edition, so it waits for Asif.
+
+## RESOLVED — the romanized honorific is not a romanized saying — 2026-08-11
+
+**Answered by Asif the same day: option (b), the existing ligature, with the loss of
+*wa aalihee* accepted in exchange for consistency with the six books already using it.**
+He added two conditions: no Arabic anywhere in the reading section may stay in Roman
+letters, and the verse, hadith and poetry cards must survive the change. Both hold —
+`romanized-honorific` is now its own detector with its own repair, `(SWS)` went in beside
+the spelled-out forms once all 81 were checked to follow the Prophet by name, and every
+gate reads zero across the corpus. The analysis below is why it needed asking.
+
+**Severity was:** Medium. It blocks Surah Al-Fateha from joining the zero-defect corpus and it
+will recur on every remaining Sessions book, because Asif typed the honorifics this way in
+the KSESSIONS admin throughout.
+
+`test_no_new_romanized_arabic` reports 197 hits in Surah Al-Fateha, and every one is a
+parenthetical honorific rather than a saying: `Rasul Allah(Salallahu alayhi wa aalihee wa
+sallam)`, `the prophet (Salallahu alayhi wa aalihee wa sallam)`, `Allah (Subhanahu wa
+Ta'ala)`. `_book_romanization` correctly refuses them — its ladder looks for an Arabic
+original on disk and there is none, and supplying one would be a model recalling
+scripture.
+
+But the repo already HAS a decision for the Prophet's honorific: `PROPHET_LIGATURE = ﷺ`,
+his own form, chosen by Asif on 2026-08-09, with `honorific-overuse` cutting repeats to
+one per figure per chapter. Applying it here is one line of code and it is NOT being
+applied, deliberately: `ﷺ` is *sallallahu alayhi wa sallam* and omits **wa aalihee** — and
+his family. Dropping that from an Ismaili text is a doctrinal edit wearing the clothes of
+a formatting rule, and it would be made 197 times in one commit.
+
+Three answers are available and all three are Asif's: (a) a distinct form that keeps the
+family — the ligature is only one glyph, `صلى الله عليه وآله وسلم` is the spelled-out
+Arabic; (b) the existing `ﷺ` with the loss accepted; (c) leave them romanized and record
+197 against this book in `test_book_articulation_defects.KNOWN`, which is the first
+non-zero entry that table would carry since it was emptied.
+
+## `--refresh-provenance` cannot write the FIRST Arabic audit — 2026-08-11
+
+**Severity:** Medium. It silently no-ops on exactly the books that need it most, and it
+is the command whose stated job is "re-file which Arabic runs are scripture".
+
+`compose_fix.refresh_provenance` opens with `provenance_drift(book_dir)` and returns
+early when that is empty, printing "the record already matches the page". A book with no
+`_system/book-arabic-audit.json` at all has no record to drift from, so the check is
+empty and `run_arabic_audit` is never called — the tool reports agreement between a page
+and a record that does not exist.
+
+Both Sessions books were in that state, because the audit is written by a compose and
+this route never runs one. The consequence is not subtle: `quranicRuns` is read from that
+file, so with no audit NO verse in either book could be recognised as scripture, whatever
+the text said. Both were repaired by calling `run_arabic_audit` directly.
+
+The fix is one condition, but which condition is a decision: `--refresh-provenance` could
+generate a missing audit (making it "make the record right", the reading its name
+suggests), or it could report the absence and refuse (making it strictly a repair, and
+putting the first write somewhere else). The first is what every caller appears to
+expect. Either way the silent success has to go.
+
+---
+
+## Snag — the Kashkole translation pass has no circuit breaker, no retry, and stores per topic — 2026-08-12
+
+Three faults in `scripts/podcast/intelligence/translate_kashkole.py`, all exposed by
+the way the first full run ended rather than by review. Fix them BEFORE the next
+run; the corpus is only half rendered and the remainder will hit the same wall.
+
+Full state, and how to resume, is in
+[`_workspace/plan/kashkole-translation-status.md`](../kashkole-translation-status.md).
+
+**What happened.** The run rendered 76 topics over about three hours — 47.7% of
+the corpus BY WORK, because it takes the largest topics first and every giant is
+now done — and then **every one of the remaining 1,271 failed within minutes**:
+1,233 reporting `claude -p rc=1` with empty stderr, 37 naming a GitKraken
+`SessionEnd` hook. Sudden, uniform and instant, which reads as the subscription's
+usage allowance being reached rather than any fault in the corpus or the prompts.
+The CLI answered a probe again shortly afterwards.
+
+Nothing durable was lost — a failed topic writes no row, so `remaining` stayed
+honest and a re-run picks up exactly the outstanding 1,271.
+
+| # | Fault | Why it matters | Fix |
+|---|---|---|---|
+| K1 | **No circuit breaker** | A usage ceiling turned into 1,271 topics failing in minutes instead of a clean halt. A pause became a full-queue churn and a log that says nothing useful. | Halt the pool after N consecutive failures; report how far it got and exit non-zero. |
+| K2 | **No retry** | It calls `_run_claude_p`, not `_run_claude_p_with_retry`, so one slow window kills a topic with no second attempt. Cost topic 5786 (243,806 chars) ~20 minutes on a single 900s timeout. | Use the retrying runner, as every other authoring path does. |
+| K3 | **Storage is per topic, not per window** | A failure part-way through a long body discards every window already rendered. On a 300,000-character topic that is an hour of work for one bad call. | Persist windows as they complete so a resume restarts mid-topic. |
+
+**Two open decisions, not defects:**
+
+- **`mirror.db` is a 33 MB tracked binary and this pass grows it** (28.9 MB before).
+  Every commit stores a full new blob, so committing it after each translation run
+  would add tens of megabytes per run. Committed once because 4.3M characters of
+  rendered English must not live only on one disk, but a durable answer is needed
+  before the remaining 1,271 topics land.
+- **Six topics are flagged `review`** (5702, 5708, 5715, 5726, 5740, 5766), each
+  for exactly one Qur'anic verse rendered into English instead of carried through
+  as Arabic script. The gate records which verse in which topic, so a repair can be
+  surgical rather than a re-translation.

@@ -458,7 +458,7 @@ def author_introduction(book_dir: Path, *, log=print, force: bool = False, autho
         try:
             if author is not None:
                 return (author(text_prompt) or "").strip()
-            from _authoring._core import _run_claude_p_with_retry
+            from _authoring._core import _run_claude_p_with_retry, pure_text_call_options
 
             rc, out, err = _run_claude_p_with_retry(
                 text_prompt,
@@ -467,6 +467,7 @@ def author_introduction(book_dir: Path, *, log=print, force: bool = False, autho
                 phase="0book-frontmatter",
                 step=step,
                 log=log,
+                **pure_text_call_options(),
             )
             if rc != 0:
                 log(f"    front-matter: introduction skipped (claude -p rc={rc}): {str(err)[:120]}")

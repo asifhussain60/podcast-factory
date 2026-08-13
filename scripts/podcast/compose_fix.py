@@ -542,7 +542,10 @@ def main() -> int:
         if not kinds:
             print("nothing to repair in the selected chapters")
             return 0
-        if "prophet-wrong-honorific" in kinds:
+        # Both of these WRITE the ligature, so both need the font check. It was
+        # attached to one repair when only one wrote it; a second writer added later
+        # and not listed here would print an empty box on every page it touched.
+        if {"prophet-wrong-honorific", "romanized-honorific"} & set(kinds):
             printable, why = ligature_is_printable(book_dir)
             if not printable:
                 print(f"REFUSED: {why}", file=sys.stderr)

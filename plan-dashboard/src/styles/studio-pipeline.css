@@ -507,21 +507,34 @@
 .studio-shelf {
   --shelf-accent: var(--c-accent);
 } /* fallback: saddle brown */
-.studio-shelf[data-bucket="Islamic"] {
+.studio-shelf[data-bucket="Islamic"],
+.studio-bucket-chip[data-bucket-filter="Islamic"] {
   --shelf-accent: var(--c-gold);
 } /* dark goldenrod */
-.studio-shelf[data-bucket="Fiction"] {
+.studio-shelf[data-bucket="Fiction"],
+.studio-bucket-chip[data-bucket-filter="Fiction"] {
   --shelf-accent: #6a1b9a;
 } /* literary plum  */
-.studio-shelf[data-bucket="Technical"] {
+.studio-shelf[data-bucket="Technical"],
+.studio-bucket-chip[data-bucket-filter="Technical"] {
   --shelf-accent: var(--c-planner);
 } /* slate blue     */
-.studio-shelf[data-bucket="Guides"] {
+.studio-shelf[data-bucket="Guides"],
+.studio-bucket-chip[data-bucket-filter="Guides"] {
   --shelf-accent: var(--c-green);
 } /* forest green   */
-.studio-shelf[data-bucket="Supplications"] {
+.studio-shelf[data-bucket="Supplications"],
+.studio-bucket-chip[data-bucket-filter="Supplications"] {
   --shelf-accent: #0f6f6c;
 } /* deep teal — kept clear of Technical's slate blue */
+.studio-shelf[data-bucket="Sessions"],
+.studio-bucket-chip[data-bucket-filter="Sessions"] {
+  --shelf-accent: #6a26c2;
+} /* violet — the SAME accent the Podcast Factory Library uses for its own
+     "sessions" collection (listener/app/styles/podcast-factory.css), so a
+     lecture Asif delivered himself reads as the same kind of thing on both
+     sites. Added, not restyled: every other bucket above keeps its own
+     colour unchanged. */
 
 .studio-shelf .studio-shelf-icon-wrap {
   background: color-mix(in oklab, var(--shelf-accent) 11%, var(--c-bg-card));
@@ -858,6 +871,12 @@
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+.studio-toolbar-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
 }
 
 /* Primary "New content" action — deliberately distinct from the filter
@@ -1248,6 +1267,107 @@
 
 @media (prefers-reduced-motion: reduce) {
   .studio-filter-chip {
+    transition: none;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Studio picker — content-bucket filter chips (Islamic / Sessions / …)
+
+   Same interaction and shape as the lifecycle-status chips above —
+   multi-select, all on by default — but the pressed state reads in
+   THAT bucket's own colour via --shelf-accent (declared once, in the
+   per-category design system above) instead of the single site accent,
+   so a bucket chip visually promises the same colour its shelf uses.
+   ════════════════════════════════════════════════════════════ */
+.studio-bucket-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.studio-bucket-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: 12px;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-elev);
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow:
+    0 1px 2px color-mix(in oklab, var(--c-ink) 8%, transparent),
+    0 2px 6px color-mix(in oklab, var(--c-ink) 6%, transparent);
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+.studio-bucket-chip:hover {
+  border-color: color-mix(in oklab, var(--shelf-accent) 40%, var(--c-rule));
+  color: var(--c-ink);
+  transform: translateY(-1px);
+  box-shadow:
+    0 2px 4px color-mix(in oklab, var(--c-ink) 10%, transparent),
+    0 4px 10px color-mix(in oklab, var(--c-ink) 8%, transparent);
+}
+
+.studio-bucket-chip[aria-pressed="true"] {
+  background: color-mix(in oklab, var(--shelf-accent) 12%, var(--c-bg-card));
+  border-color: color-mix(in oklab, var(--shelf-accent) 50%, var(--c-rule));
+  color: var(--shelf-accent);
+  box-shadow:
+    inset 0 1px 2px color-mix(in oklab, var(--shelf-accent) 18%, transparent),
+    0 1px 2px color-mix(in oklab, var(--c-ink) 6%, transparent);
+  transform: none;
+}
+
+.studio-bucket-chip:focus-visible {
+  outline: 2px solid var(--shelf-accent);
+  outline-offset: 2px;
+}
+
+.studio-bucket-chip-count {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule);
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+  color: var(--c-ink-muted);
+}
+
+.studio-bucket-chip[aria-pressed="true"] .studio-bucket-chip-count {
+  background: color-mix(in oklab, var(--shelf-accent) 18%, var(--c-bg-card));
+  border-color: color-mix(in oklab, var(--shelf-accent) 40%, var(--c-rule));
+  color: var(--shelf-accent);
+}
+
+.studio-toolbar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.studio-toolbar-row-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-bucket-chip {
     transition: none;
   }
 }

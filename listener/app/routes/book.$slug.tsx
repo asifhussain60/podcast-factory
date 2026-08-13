@@ -47,6 +47,8 @@ import { unitBySlug } from "~/server/access.server";
 import { marksFor } from "~/server/marks.server";
 import { describeContents } from "~/lib/facts";
 import { count, plural } from "~/lib/plural";
+import { megabytes } from "~/lib/facts";
+import { DownloadButton, KeepTextButton } from "~/components/offline/DownloadButton";
 import { readingMinutes } from "~/lib/reading";
 import {
   chaptersOf,
@@ -328,7 +330,17 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                     chapters={chapters}
                     progress={marks.progress}
                     markedChapters={markedChapters}
-                    download={printEdition}
+                    download={
+                      /* Two ways to take this book away with you, side by side
+                         because they answer the same question and a reader
+                         choosing between them should see both at once: the PDF
+                         is the typeset edition to keep, and this is the same
+                         chapters readable in the site with no signal. */
+                      <>
+                        <KeepTextButton slug={unit.slug} title={unit.title} />
+                        {printEdition}
+                      </>
+                    }
                   />
                 ),
               }
@@ -973,6 +985,29 @@ function Podcast({
                       kept={markedEpisodes.get(episode.number) ?? 0}
                     />
 
+                    {/* Keeping it is offered beside playing it, and only for an
+                        episode that HAS audio — there is nothing to keep
+                        otherwise. Compact, because this row already carries a
+                        title, a facts pill, a note count and a transport, and a
+                        fifth labelled control is what pushed the title onto its
+                        own line the last time this row grew. */}
+                    {episode.hasAudio && episode.audioKey !== null ? (
+                      <DownloadButton
+                        src={`/media/${episode.audioKey}`}
+                        slug={slug}
+                        bookTitle={bookTitle}
+                        number={episode.number}
+                        title={episode.title}
+                        durationS={episode.durationS}
+                        transcriptSrc={
+                          episode.transcriptKey === null
+                            ? null
+                            : `/media/${episode.transcriptKey}`
+                        }
+                        compact
+                      />
+                    ) : null}
+
                     {episode.hasAudio && episode.audioKey !== null ? (
                       <PlayButton
                         episode={episode}
@@ -1129,7 +1164,4 @@ function SectionHeading({
   );
 }
 
-function megabytes(bytes: number | null | undefined): string {
-  if (!bytes) return "";
-  return `${(bytes / 1_000_000).toFixed(1)} MB`;
-}
+

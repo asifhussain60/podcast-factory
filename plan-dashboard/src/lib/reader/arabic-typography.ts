@@ -42,6 +42,11 @@ export interface ArabicChoice {
  */
 export const ARABIC_FACES: readonly ArabicChoice[] = [
   {
+    id: "traditional-arabic",
+    name: "Traditional Arabic",
+    tagline: "Classic naskh, long-document body",
+  },
+  {
     id: "scheherazade-new",
     name: "Scheherazade New",
     tagline: "Open naskh — default",

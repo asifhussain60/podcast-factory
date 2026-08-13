@@ -54,7 +54,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded, normalize_arabic
-from _authoring._core import AuthoringError, _run_claude_p_with_retry
+from _authoring._core import AuthoringError, _run_claude_p_with_retry, pure_text_call_options
 from _book_companion_prompts import (
     chapter_lane_prompt,
     corpus_lane_prompt,
@@ -366,7 +366,13 @@ def mix_report(cards: list[dict[str, Any]]) -> dict[str, Any]:
 
 def _default_generator(prompt: str, book_dir: Path, label: str, log) -> str:
     rc, out, err = _run_claude_p_with_retry(
-        prompt, timeout=_COMPANION_TIMEOUT, book_dir=book_dir, phase="0book-companion", step=label, log=log
+        prompt,
+        timeout=_COMPANION_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-companion",
+        step=label,
+        log=log,
+        **pure_text_call_options(),
     )
     if rc != 0:
         raise AuthoringError(

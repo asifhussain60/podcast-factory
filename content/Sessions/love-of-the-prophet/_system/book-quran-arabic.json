@@ -1,0 +1,238 @@
+{
+  "cited": 0,
+  "inserted": 0,
+  "already": 0,
+  "uncovered": [],
+  "inserted_detail": [],
+  "invalid_reference": [],
+  "spans_in_scan": 0,
+  "scan_arabic_words": 0,
+  "uncited_review": [
+    {
+      "line": 159,
+      "passage": "If I knew the answer to that, I would be at home in bed.",
+      "proposed_ref": "29:64",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 227,
+      "passage": "O Allah, grant me permission to swallow them all. They walk on Your earth, eat from it, and do not prostrate to You!",
+      "proposed_ref": "67:15",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 227,
+      "passage": "O Allah, grant us permission! In an instant we will annihilate this lot for their arrogance.",
+      "proposed_ref": "9:49",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 285,
+      "passage": " The cave itself is known as حرا, a word meaning ",
+      "proposed_ref": "9:40",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 337,
+      "passage": "indeed, I seek refuge in the Most Merciful from you, [so leave me], if you should be fearing of Allah.",
+      "proposed_ref": "19:18",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 385,
+      "passage": " and our lack of it is the cause of our pain. The Arabic word for ",
+      "proposed_ref": "20:113",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 397,
+      "passage": "the truth is from your lord, so whoever wills-let him believe; and whoever wills-let him disbelieve.",
+      "proposed_ref": "18:29",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 419,
+      "passage": "If you should love Allah, then follow me, [so] Allah will love you and forgive you your sins. And Allah is Forgiving and Merciful.",
+      "proposed_ref": "3:31",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 449,
+      "passage": "One word for a lion? We have over 300 words for it.",
+      "proposed_ref": "23:68",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 479,
+      "passage": "In the beginning, Allah created the heavens and the earth.",
+      "proposed_ref": "20:4",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 535,
+      "passage": " the Prophet ﷺ asked gently. The man confessed, ",
+      "proposed_ref": "55:39",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 535,
+      "passage": " — I had relations with my wife during the daytime in Ramadan. ",
+      "proposed_ref": "2:197",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 535,
+      "passage": " the Prophet ﷺ inquired. The man replied with candid honesty: ",
+      "proposed_ref": "2:247",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 535,
+      "passage": " the Prophet ﷺ said. The man replied that he had no means to do so. ",
+      "proposed_ref": "2:247",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 535,
+      "passage": " the Prophet ﷺ continued. The man confessed, ",
+      "proposed_ref": "19:56",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 535,
+      "passage": " The man once again expressed his poverty: ",
+      "proposed_ref": "17:6",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 535,
+      "passage": "O Messenger of Allah, is there anyone poorer than my family and me?",
+      "proposed_ref": "3:153",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 557,
+      "passage": "O Messenger of Allah, everything in Islam makes sense to me except one thing: I love زنا — fornication.",
+      "proposed_ref": "72:27",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 577,
+      "passage": "This place is not meant for urination or for filth. It is only for the remembrance of Allah and for prayer.",
+      "proposed_ref": "5:91",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 593,
+      "passage": "Is every camel not the baby of a she-camel?",
+      "proposed_ref": "5:103",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 707,
+      "passage": "I go to my fathers, in whose mighty company I shall not feel ashamed.",
+      "proposed_ref": "36:83",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 717,
+      "passage": "This is how good deeds accumulate, and this is also how bad deeds accumulate.",
+      "proposed_ref": "38:46",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 725,
+      "passage": "Do not feel weak, and do not grieve, for you are the superior ones if you are true believers.",
+      "proposed_ref": "3:139",
+      "english_similarity": 0.571,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 737,
+      "passage": "except for one who comes to Allah with a sound heart",
+      "proposed_ref": "26:89",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 743,
+      "passage": "O Prophet of Allah, do you not know that lovers are never called to account for what they say in the presence of their beloved?",
+      "proposed_ref": "16:56",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 783,
+      "passage": "You, too, can be merciful. You, too, can be truthful. You, too, can be a servant of Allah in the most beautiful way.",
+      "proposed_ref": "12:64",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 821,
+      "passage": "My Lord, if only You would delay me for a brief term so that I might give charity and be among the righteous.",
+      "proposed_ref": "63:10",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 825,
+      "passage": "O reassured soul, (27) Return to your lord, well-pleased and pleasing [to him], (28) And enter among my [righteous] servants (29) And enter my Paradise.",
+      "proposed_ref": "89:28",
+      "english_similarity": 0.455,
+      "corroborated_by_scan": false,
+      "agreed": false
+    }
+  ],
+  "coverage": 1.0,
+  "cited_inserted": 0
+}

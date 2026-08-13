@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import io
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -104,6 +105,76 @@ class AuthoringRunClaudePIntegrationTests(unittest.TestCase):
             )
         argv = run_mock.call_args[0][0]
         self.assertEqual(argv[argv.index("--model") + 1], "claude-opus-4-8")
+
+    def test_pure_text_call_can_disable_tools_and_workspace_context(self):
+        """Rearticulation is a prose transform, not an agentic filesystem task.
+        The runner supports that narrower mode without changing the default
+        tool allowance used by authoring phases that actually write files."""
+        with mock.patch("subprocess.run") as run_mock:
+            run_mock.return_value = mock.MagicMock(returncode=0, stdout=CANNED_STDOUT, stderr="")
+            _authoring._run_claude_p(
+                "test prompt",
+                book_dir=self.book,
+                phase="rearticulate",
+                step="ch01",
+                tools="",
+                safe_mode=True,
+                no_chrome=True,
+                no_session_persistence=True,
+                system_prompt="Return prose only.",
+                effort="low",
+            )
+        argv = run_mock.call_args[0][0]
+        self.assertIn("--safe-mode", argv)
+        self.assertIn("--no-chrome", argv)
+        self.assertIn("--no-session-persistence", argv)
+        self.assertEqual(argv[argv.index("--effort") + 1], "low")
+        self.assertIn("--tools", argv)
+        self.assertEqual(argv[argv.index("--tools") + 1], "")
+        self.assertEqual(argv[argv.index("--system-prompt") + 1], "Return prose only.")
+        self.assertNotIn("--allowedTools", argv)
+
+    def test_pure_text_helper_sets_the_bounded_transform_contract(self):
+        with mock.patch("subprocess.run") as run_mock:
+            run_mock.return_value = mock.MagicMock(returncode=0, stdout=CANNED_STDOUT, stderr="")
+            _authoring._run_claude_p(
+                "test prompt",
+                book_dir=self.book,
+                phase="0book-fluency",
+                step="ch01",
+                **_authoring.pure_text_call_options(),
+            )
+        argv = run_mock.call_args[0][0]
+        self.assertIn("--safe-mode", argv)
+        self.assertIn("--no-chrome", argv)
+        self.assertIn("--no-session-persistence", argv)
+        self.assertEqual(argv[argv.index("--tools") + 1], "")
+        self.assertIn("non-agentic text transformation engine", argv[argv.index("--system-prompt") + 1])
+
+    def test_retry_preserves_pure_call_isolation_flags(self):
+        with mock.patch("subprocess.run") as run_mock:
+            run_mock.side_effect = [
+                subprocess.TimeoutExpired(cmd=["claude"], timeout=10),
+                mock.MagicMock(returncode=0, stdout=CANNED_STDOUT, stderr=""),
+            ]
+            _authoring._run_claude_p_with_retry(
+                "test prompt",
+                timeout=10,
+                book_dir=self.book,
+                phase="0book-fluency",
+                step="ch01",
+                log=lambda *_: None,
+                **_authoring.pure_text_call_options(effort="low"),
+            )
+        first_argv = run_mock.call_args_list[0][0][0]
+        second_argv = run_mock.call_args_list[1][0][0]
+        for argv in (first_argv, second_argv):
+            self.assertIn("--safe-mode", argv)
+            self.assertIn("--no-chrome", argv)
+            self.assertIn("--no-session-persistence", argv)
+            self.assertEqual(argv[argv.index("--tools") + 1], "")
+            self.assertEqual(argv[argv.index("--effort") + 1], "low")
+            self.assertNotIn("--allowedTools", argv)
 
     def test_no_book_dir_means_no_ledger_write(self):
         """Back-compat — callers that don't pass book_dir don't get a ledger."""

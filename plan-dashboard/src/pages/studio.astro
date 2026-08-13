@@ -39,26 +39,59 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
     </header>
 
     <div class="studio-toolbar">
-      <div
-        class="studio-filter-bar"
-        role="group"
-        aria-label="Filter books by lifecycle status"
-      >
-        {
-          STATUS_FILTERS.map((f) => (
-            <button
-              type="button"
-              class="studio-filter-chip"
-              data-status-filter={f.id}
-              aria-pressed={f.defaultOn ? "true" : "false"}
-              title={f.hint}
-            >
-              <i class={`fa-solid ${f.icon}`} aria-hidden="true" />
-              <span class="studio-filter-chip-label">{f.label}</span>
-              <span class="studio-filter-chip-count">{statusCount(f.id)}</span>
-            </button>
-          ))
-        }
+      <div class="studio-toolbar-filters">
+        <div class="studio-toolbar-row">
+          <span class="studio-toolbar-row-label">Category</span>
+          <div
+            class="studio-bucket-filter-bar"
+            role="group"
+            aria-label="Filter books by content category"
+          >
+            {
+              shelves.map(({ bucket, meta, cards: shelfCards }) => (
+                <button
+                  type="button"
+                  class="studio-bucket-chip"
+                  data-bucket-filter={bucket}
+                  aria-pressed="true"
+                  title={meta.desc}
+                >
+                  <i class={`fa-solid ${meta.icon}`} aria-hidden="true" />
+                  <span class="studio-bucket-chip-label">{meta.label}</span>
+                  <span class="studio-bucket-chip-count">
+                    {shelfCards.length}
+                  </span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+        <div class="studio-toolbar-row">
+          <span class="studio-toolbar-row-label">Status</span>
+          <div
+            class="studio-filter-bar"
+            role="group"
+            aria-label="Filter books by lifecycle status"
+          >
+            {
+              STATUS_FILTERS.map((f) => (
+                <button
+                  type="button"
+                  class="studio-filter-chip"
+                  data-status-filter={f.id}
+                  aria-pressed={f.defaultOn ? "true" : "false"}
+                  title={f.hint}
+                >
+                  <i class={`fa-solid ${f.icon}`} aria-hidden="true" />
+                  <span class="studio-filter-chip-label">{f.label}</span>
+                  <span class="studio-filter-chip-count">
+                    {statusCount(f.id)}
+                  </span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
       </div>
       <a
         class="studio-new-content-link"
@@ -184,21 +217,34 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
 </Base>
 
 <script>
-  // Studio picker status filter: MULTI-select facets — every status is on by
-  // default (nothing hidden on arrival). Toggling a chip adds/removes that
-  // status from the visible set; cards show when their status is in the set;
-  // shelves with no visible cards hide, and shelf counts track visible cards.
-  const chips = Array.from(
+  // Studio picker filters: TWO independent multi-select facets, both on for
+  // every value by default (nothing hidden on arrival) — category (which
+  // bucket a shelf belongs to) and lifecycle status (which cards within a
+  // visible shelf show). A shelf renders only when BOTH its bucket is active
+  // AND it has at least one status-visible card; the two facets are combined
+  // rather than each independently setting `hidden`, or the last one to run
+  // would silently override the other's decision.
+  const statusChips = Array.from(
     document.querySelectorAll<HTMLButtonElement>(".studio-filter-chip"),
   );
-  const active = new Set<string>(
-    chips
+  const activeStatus = new Set<string>(
+    statusChips
       .filter((c) => c.getAttribute("aria-pressed") === "true")
       .map((c) => c.dataset.statusFilter ?? ""),
   );
 
+  const bucketChips = Array.from(
+    document.querySelectorAll<HTMLButtonElement>(".studio-bucket-chip"),
+  );
+  const activeBuckets = new Set<string>(
+    bucketChips
+      .filter((c) => c.getAttribute("aria-pressed") === "true")
+      .map((c) => c.dataset.bucketFilter ?? ""),
+  );
+
   function applyFilter(): void {
     document.querySelectorAll<HTMLElement>(".studio-shelf").forEach((shelf) => {
+      const bucketOn = activeBuckets.has(shelf.dataset.bucket ?? "");
       let visible = 0;
       shelf
         .querySelectorAll<HTMLElement>(".studio-shelf-card")
@@ -208,7 +254,8 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
           // volumes each carry theirs on the rows inside it. Before this the
           // deck's summary had no `data-status` at all, so `active.has("")` was
           // false on every pass and one chip click hid every deck permanently.
-          const show = status === "always" || active.has(status);
+          const show =
+            bucketOn && (status === "always" || activeStatus.has(status));
           card.hidden = !show;
           if (show) visible += 1;
         });
@@ -217,22 +264,33 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
       shelf
         .querySelectorAll<HTMLElement>(".studio-series-vol")
         .forEach((row) => {
-          row.hidden = !active.has(row.dataset.status ?? "");
+          row.hidden = !bucketOn || !activeStatus.has(row.dataset.status ?? "");
         });
-      shelf.hidden = visible === 0;
+      shelf.hidden = !bucketOn || visible === 0;
       const count = shelf.querySelector<HTMLElement>(".studio-shelf-count");
       if (count)
         count.textContent = `${visible} ${visible === 1 ? "work" : "works"}`;
     });
   }
 
-  chips.forEach((chip) => {
+  statusChips.forEach((chip) => {
     chip.addEventListener("click", () => {
       const id = chip.dataset.statusFilter ?? "";
       const on = chip.getAttribute("aria-pressed") === "true";
       chip.setAttribute("aria-pressed", on ? "false" : "true");
-      if (on) active.delete(id);
-      else active.add(id);
+      if (on) activeStatus.delete(id);
+      else activeStatus.add(id);
+      applyFilter();
+    });
+  });
+
+  bucketChips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const id = chip.dataset.bucketFilter ?? "";
+      const on = chip.getAttribute("aria-pressed") === "true";
+      chip.setAttribute("aria-pressed", on ? "false" : "true");
+      if (on) activeBuckets.delete(id);
+      else activeBuckets.add(id);
       applyFilter();
     });
   });

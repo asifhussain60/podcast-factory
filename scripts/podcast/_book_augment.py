@@ -28,7 +28,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded
-from _authoring._core import AuthoringError, _run_claude_p_with_retry
+from _authoring._core import AuthoringError, _run_claude_p_with_retry, pure_text_call_options
 from _book_edits import anchor_key, edited_chapter_keys
 from _book_fences import strip_spans
 from _corpus_retrieval import RetrievalIndex, UsedLedger, attribute_used
@@ -296,6 +296,7 @@ def _generate_enrichment(
         phase="0book-augment",
         step=label,
         log=log,
+        **pure_text_call_options(),
     )
     if rc != 0:
         raise AuthoringError(

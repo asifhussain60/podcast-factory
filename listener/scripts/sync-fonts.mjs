@@ -2,9 +2,9 @@
 //
 // Two sources, both one-time copies rather than runtime dependencies:
 //   - node_modules/@fontsource-variable/*  (Literata, Fraunces, Inter)
-//   - ../plan-dashboard/public/fonts/      (Scheherazade New, OpenDyslexic —
-//     already licensed and subset in this repo; copied, never imported, so the
-//     Listener has no runtime coupling to the admin site)
+//   - ../plan-dashboard/public/fonts/      (Cinzel, Scheherazade New,
+//     OpenDyslexic — already licensed and subset in this repo; copied, never
+//     imported, so the Listener has no runtime coupling to the admin site)
 //
 // The copied files are committed. Re-run only when adding or changing a face.
 //
@@ -69,6 +69,25 @@ const MANIFEST = [
     to: "fraunces-LICENSE.txt",
     note: "SIL OFL 1.1",
   },
+  // Chapter headings authored in the Book Composer. The admin site maps the
+  // chapter-local Heading 1/2 controls to markdown h3/h4, and sets both in
+  // Cinzel; publishing should preserve that hierarchy rather than translating
+  // it into the Library's page-title face.
+  {
+    from: "../plan-dashboard/public/fonts/cinzel/cinzel-latin-600-normal.woff2",
+    to: "cinzel-latin-600-normal.woff2",
+    note: "Cinzel 600 (chapter headings)",
+  },
+  {
+    from: "../plan-dashboard/public/fonts/cinzel/cinzel-latin-700-normal.woff2",
+    to: "cinzel-latin-700-normal.woff2",
+    note: "Cinzel 700 (chapter headings)",
+  },
+  {
+    from: "../plan-dashboard/public/fonts/cinzel/LICENSE",
+    to: "cinzel-LICENSE.txt",
+    note: "SIL OFL 1.1",
+  },
   // UI — Inter, per Asif 2026-08-03.
   //
   // It replaces IBM Plex Sans as `--l-font-ui`, which is every label, pill,
@@ -108,6 +127,16 @@ const MANIFEST = [
     from: "../plan-dashboard/public/fonts/scheherazade-new/LICENSE",
     to: "scheherazade-new-LICENSE.txt",
     note: "SIL OFL 1.1",
+  },
+  {
+    from: "../plan-dashboard/public/fonts/traditional-arabic/TraditionalArabic-Regular.ttf",
+    to: "TraditionalArabic-Regular.ttf",
+    note: "Traditional Arabic Regular",
+  },
+  {
+    from: "../plan-dashboard/public/fonts/traditional-arabic/SOURCE.txt",
+    to: "TraditionalArabic-SOURCE.txt",
+    note: "Traditional Arabic source note",
   },
   // Arabic DISPLAY — Amiri, and only ever for display.
   //
@@ -243,7 +272,9 @@ for (const entry of MANIFEST) {
     if (!existsSync(dest)) {
       problems.push(`${entry.to} has not been synced`);
     } else if (statSync(src).size !== statSync(dest).size) {
-      problems.push(`${entry.to} differs from its source — re-run \`npm run fonts\``);
+      problems.push(
+        `${entry.to} differs from its source — re-run \`npm run fonts\``,
+      );
     }
     continue;
   }
@@ -259,4 +290,8 @@ if (problems.length > 0) {
   process.exit(1);
 }
 
-console.log(check ? "sync-fonts: all faces present and current" : `sync-fonts: ${copied} file(s) written to public/fonts/`);
+console.log(
+  check
+    ? "sync-fonts: all faces present and current"
+    : `sync-fonts: ${copied} file(s) written to public/fonts/`,
+);

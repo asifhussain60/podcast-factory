@@ -25,6 +25,27 @@
   font-style: italic;
   font-display: swap;
 }
+@font-face {
+  font-family: "Lexend";
+  src: url("/fonts/lexend/lexend-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cinzel";
+  src: url("/fonts/cinzel/cinzel-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cinzel";
+  src: url("/fonts/cinzel/cinzel-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* ── Translation faces ────────────────────────────────────────────────────────
  * The English rendering under an Arabic verse/hadith/poem prints in a face
@@ -222,6 +243,13 @@
   src: url("/fonts/scheherazade-new/scheherazade-new-arabic-600-normal.woff2")
     format("woff2");
   font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Traditional Arabic";
+  src: url("/fonts/traditional-arabic/TraditionalArabic-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
   font-style: normal;
 }
 @font-face {
@@ -586,8 +614,27 @@ p.ch-first::first-letter {
 }
 
 h3 {
-  font-size: 1.25rem;
   margin: 1.3rem 0 0.6rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1.45em;
+  font-weight: 700;
+  color: var(--c-heading-1, #800000);
+  page-break-after: avoid;
+}
+h4 {
+  margin: 1.15rem 0 0.5rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1.18em;
+  font-weight: 600;
+  color: var(--c-heading-2, #1f3a5f);
+  page-break-after: avoid;
+}
+h5 {
+  margin: 1rem 0 0.45rem;
+  font-family: "Lexend", "Inter", system-ui, sans-serif;
+  font-size: 1.04em;
+  font-weight: 650;
+  color: var(--c-heading-3, #2f6f5e);
   page-break-after: avoid;
 }
 p {
@@ -632,13 +679,14 @@ p {
 blockquote.quran .ar-inline {
   line-height: inherit;
   font-size: inherit;
+  font-family: var(--q-ar-face);
+  font-weight: 400;
 }
 
 .ar-inline {
   /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
      shearing the glyphs, which is wrong for the script and looked wrong on the
-     page; and an inherited bold would fake a weight the face does not have.
-     Pinned here so the run renders the same whatever prose it sits in. */
+     page. Pinned here so the run renders the same whatever prose it sits in. */
   font-style: normal;
   /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
      descent are far taller than the Latin body face, so without an explicit
@@ -650,7 +698,15 @@ blockquote.quran .ar-inline {
   /* Inline terms woven into prose are never tagged is-quranic (a mid-sentence
      word carries too little evidence to call scripture), so they always take the
      non-Qur'anic face. */
-  font-family: var(--q-ar-face);
+  font-family: var(
+    --q-ar-inline-face,
+    "AmiriSized",
+    "Amiri",
+    "ScheherazadeSized",
+    "Scheherazade New",
+    serif
+  );
+  font-weight: var(--q-ar-inline-weight, 400);
   /* --q-ar-inline-size, default 1.26em — chosen by Asif on 2026-08-02 from three
      candidates rendered side by side in the Composer, and moved onto a token the
      same day so the book's Arabic-size setting could carry it. It was a bare

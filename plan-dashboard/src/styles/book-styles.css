@@ -171,11 +171,19 @@
   font-weight: 400;
   font-size: 1.1rem;
 }
+.bs-archip[data-font="traditional-arabic"] .bs-chip-name {
+  font-family: "Traditional Arabic", "Scheherazade New", "Amiri", serif;
+}
 .bs-archip[data-font="scheherazade-new"] .bs-chip-name {
   font-family: "Scheherazade New", "Amiri", serif;
 }
 .bs-archip[data-font="amiri"] .bs-chip-name {
   font-family: "Amiri", "Scheherazade New", serif;
+}
+.bs-styleform:has(.bs-arradio[value="traditional-arabic"]:checked) {
+  --q-ar-face:
+    "Traditional Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
+    serif;
 }
 .bs-styleform:has(.bs-arradio[value="scheherazade-new"]:checked) {
   --q-ar-face:
@@ -419,11 +427,18 @@
   margin: 0;
 }
 .bs-inline .ar-inline {
-  font-family: var(--q-ar-face);
+  font-family: var(
+    --q-ar-inline-face,
+    "AmiriSized",
+    "Amiri",
+    "ScheherazadeSized",
+    "Scheherazade New",
+    serif
+  );
+  font-weight: var(--q-ar-inline-weight, 400);
   /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
      shearing the glyphs, which is wrong for the script and looked wrong on the
-     page; and an inherited bold would fake a weight the face does not have.
-     Pinned here so the run renders the same whatever prose it sits in. */
+     page. Pinned here so the run renders the same whatever prose it sits in. */
   font-style: normal;
   /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
      descent are far taller than the Latin body face, so without an explicit

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """_engine.py — central engine-selection policy (single source of truth).
 
-The pipeline uses three AI engine families with different billing models. This
+The pipeline uses four AI engine families with different billing models. This
 module is the ONE place that decides which engine runs a given task, so engine
 choice is a tested policy rather than scattered hardcoding.
 
@@ -14,6 +14,8 @@ LOCKED HIERARCHY (Asif, 2026-06-06):
   Tier 3 — Gemini (pay-as-you-go): NOT banned — used when needed or when it is
            genuinely better than Claude (e.g. image generation, which has NO
            Azure equivalent in the current subscription).
+  Fallback — Codex ChatGPT (`codex exec`, flat-rate ChatGPT subscription): used
+             explicitly when Claude Max is exhausted; never a metered API path.
 
   Registered exception: 0b/0c windowed refinement runs on the metered Anthropic
   SDK because it parallelizes windows in-process — the `claude -p` CLI cannot.
@@ -35,14 +37,18 @@ Usage:
 
 from __future__ import annotations
 
+from collections.abc import Mapping
+
 # ─── Engine identifiers ───────────────────────────────────────────────────────
 ENGINE_CLAUDE_MAX = "claude_max"  # claude -p, flat-rate Max, $0 marginal
+ENGINE_CODEX_CHATGPT = "codex_chatgpt"  # codex exec, flat-rate ChatGPT subscription
 ENGINE_AZURE = "azure"  # committed Azure services
 ENGINE_GEMINI = "gemini"  # pay-as-you-go Google
 ENGINE_ANTHROPIC_SDK = "anthropic_sdk"  # metered Anthropic API (windowed exception)
 
 ENGINE_TIER = {
     ENGINE_CLAUDE_MAX: 1,
+    ENGINE_CODEX_CHATGPT: 1,
     ENGINE_AZURE: 2,
     ENGINE_GEMINI: 3,
     ENGINE_ANTHROPIC_SDK: "exception",
@@ -169,6 +175,22 @@ def engine_tier(engine: str) -> int | str:
 def all_tasks() -> list[str]:
     """Every task the policy governs (used by tests to assert full coverage)."""
     return sorted(_POLICY)
+
+
+def subscription_engine_for_process(env: Mapping[str, str] | None = None) -> str:
+    """Flat-rate subscription engine for the app currently running this process.
+
+    Codex injects stable ``CODEX_*`` markers into subprocesses. Claude Code is
+    the historic/default terminal path for this repo, so an unknown process stays
+    on Claude Max rather than accidentally using the ChatGPT allowance.
+    """
+    if env is None:
+        import os
+
+        env = os.environ
+    if any(env.get(name) for name in ("CODEX_THREAD_ID", "CODEX_CI", "CODEX_SHELL")):
+        return ENGINE_CODEX_CHATGPT
+    return ENGINE_CLAUDE_MAX
 
 
 def engine_guard(task: str, actual_engine: str) -> None:

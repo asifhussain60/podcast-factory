@@ -110,6 +110,11 @@ const DELIBERATE = new Set([
   // `editorProps.attributes.class` in RichNoteEditorInner.tsx, the same reason
   // `pf-cp` above is listed.
   "pf-rte__editable",
+  // The ring around the paragraph a search result landed on. Added with
+  // `classList.add` on a block the reading page found through `resolveAnchor`,
+  // and removed a couple of seconds later — there is no element in any JSX to
+  // carry it, for the same reason `pf-cp` has none.
+  "pf-found",
 ]);
 
 describe("the stylesheet and the markup", () => {

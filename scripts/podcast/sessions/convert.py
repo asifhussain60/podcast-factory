@@ -42,13 +42,64 @@ from html.parser import HTMLParser
 
 # Wholesale drops: an element carrying any of these is chrome, and its children go
 # with it. `froala-only-btn` is self-describing; the rest are the admin's buttons.
-_CHROME = ("btn", "froala-only", "delete-hadees", "poetry-restore", "ks-ahadees-delete")
+_CHROME = (
+    "btn",
+    "froala-only",
+    "delete-hadees",
+    "poetry-restore",
+    "ks-ahadees-delete",
+    # The one-letter category badge on the lecture guide's index chips — 214 of
+    # them, `W`, `I`, `R`, `Q`. A glyph that means nothing without a legend
+    # nobody has, and it sits immediately before the chip's label with no
+    # separator, so the two ran together into "WWALEE" and "IANS" on the page.
+    #
+    # THE BADGE ONLY. The chip itself stays, and that correction cost a run:
+    # dropping `sessionguide` and `box-hub` wholesale — which read as obviously
+    # right, they are the admin's own furniture — took 36 of Surah Al-Fateha's
+    # 63 illustrations with them. The `sessionGuide-desc` span holds the label
+    # AND the diagram it labels: `<span …>A vs THE<img src="…"></span>`. The
+    # label is a caption, not chrome.
+    "sessionguide-letter",
+    # The ayah number the Quran widget prints inside the verse — `۲۵۷`, in Arabic-Indic
+    # digits, appended to the Arabic itself. Dropped, and the reason is not tidiness:
+    # a verse is recognised as scripture by MATCHING the canonical mushaf exactly, and
+    # five trailing characters make the match fail. 64 of Surah Al-Fateha's 75 quotations
+    # were drawn as generic quote cards instead of Quran cards because of it — no Uthmani
+    # face, no citation chip, no `is-quranic`.
+    #
+    # Nothing is lost by dropping it. The reader resolves the reference from the mushaf
+    # itself and prints `Al-Baqarah: 257` on the card's band, which is more than the bare
+    # numeral said and is what every other book in the library shows.
+    "ayatcircle",
+)
+
+# Font Awesome. 508 of them, 496 being the `fa-ban` on the admin's own row-delete
+# control — every one an EMPTY element, and every one matched by the emphasis rule
+# below because Font Awesome's tag of choice is `<i>`. An empty `<i>` emits `*`
+# open and `*` close with nothing between, so the page carried 133 stray `**` in
+# Surah Al-Fateha and 16 in Love Of The Prophet, which is live on the site today.
+#
+# Matched on WHOLE class tokens rather than by substring, unlike everything else
+# here: `fa` is two letters and appears inside ordinary words.
+_ICON_TOKEN = re.compile(r"(?:^|\s)(?:fa|fas|far|fab|fal|glyphicon)(?:-[\w-]+)?(?=\s|$)")
 
 # Unwrapped: the element disappears, its children stay. Editor layout, not content.
 _LAYOUT = ("col-", "row", "container", "fr-draggable", "clearfix")
 
 # Blocks that become blockquotes. The renderer decides which KIND afterwards.
-_QUOTED = ("ayah-card", "hadees-widget", "ks-ahadees-container", "poetry-section", "poetry-couplet")
+_QUOTED = (
+    "ayah-card",
+    "hadees-widget",
+    "ks-ahadees-container",
+    "poetry-section",
+    "poetry-couplet",
+    # The Quran widget — 370 of them, and the reason this matters most on a book
+    # about a surah. It carries the verse in Arabic, the ayah number and the
+    # English underneath, exactly the shape `ayah-card` carries; unlisted, all
+    # three fell out as loose paragraphs and the page showed scripture set like
+    # ordinary prose.
+    "quranwidget",
+)
 
 # Arabic/Urdu inline spans — kept as text; the reader styles by script, not class.
 _SCRIPT = ("inlinearabic", "amiricrimson", "urdunastaleeq", "ayah-arabic", "ayah-translation")
@@ -60,7 +111,14 @@ _BLOCK = {"p", "div", "section", "article", "blockquote", "h1", "h2", "h3", "h4"
 class Converted:
     markdown: str
     images: list[str] = field(default_factory=list)  # src values, as authored
-    external_images: list[str] = field(default_factory=list)  # http(s) — cannot be localised
+    # Corpus images the author wrote with a host in front of them. Counted apart
+    # from `images` only so the report can say how many were recovered that way —
+    # they are the same files and they localise identically.
+    hosted_images: list[str] = field(default_factory=list)
+    external_images: list[str] = field(default_factory=list)  # http(s) — genuinely somewhere else
+    # Relative srcs that name no file in the corpus. Reported, never emitted: an
+    # `<img>` that cannot resolve is a broken icon in a reading edition.
+    unmappable_images: list[str] = field(default_factory=list)
     dropped_chrome: int = 0
     dropped_badges: int = 0  # third-party verse-number graphics
     quotes: int = 0  # blocks promoted to blockquotes for the renderer to classify
@@ -77,11 +135,56 @@ def _is(classes: str, needles: tuple[str, ...]) -> bool:
     return any(n in classes for n in needles)
 
 
+def _is_chrome(classes: str) -> bool:
+    """The editor's furniture, dropped whole — including its icons."""
+    return _is(classes, _CHROME) or _ICON_TOKEN.search(classes) is not None
+
+
 # Third-party verse-number badges hotlinked from myislam.sfo3.digitaloceanspaces.com.
 # Dropped rather than downloaded: they are somebody else's decorative numerals, the
 # reader already renders a citation chip for the verse from the text itself, and
 # hotlinking them would make an offline page depend on another site staying up.
 _BADGE_SRC = re.compile(r"/ayat/ayah-\d+\.\w+$", re.I)
+
+
+# THE ONE SHAPE A SESSION ILLUSTRATION IS FILED UNDER, wherever the reference to
+# it happens to have been typed: `Resources/IMAGES/<session>/<guid>.<ext>`.
+#
+# The tail is anchored and the head is not, which is the whole point. The same
+# picture is referenced three ways in these transcripts, because the admin was
+# authored over ten years on whatever machine was in front of Asif:
+#
+#     Resources/IMAGES/87/<guid>.jpg                      relative
+#     https://session.kashkole.com/Resources/IMAGES/…     the live admin
+#     http://localhost:786/Resources/IMAGES/…             his own dev server
+#
+# All three name the SAME file in `Resources Images/`, and 47 of the corpus's
+# image references across the seven ingestable groups are one of the last two.
+# Reading the host as meaningful is what made them "external, cannot be
+# localised" — a description of where the editor's browser once fetched a
+# picture from, mistaken for where the picture lives.
+_CORPUS_IMAGE_RE = re.compile(r"(?:.*/)?Resources/IMAGES/(\d+)/([0-9a-fA-F-]{36})\.(\w+)$", re.I)
+
+_SCHEME_HOST_RE = re.compile(r"^[a-z][a-z0-9+.\-]*://[^/]*", re.I)
+
+
+def corpus_ref(src: str) -> tuple[str, str] | None:
+    """The `(session folder, filename)` a reference names, or None if it names none.
+
+    The single answer to "which file is this?", asked by the classifier when the
+    HTML is read and again by `localise_images` when the markdown is rewritten.
+    One function because they must never disagree: a src the classifier counts as
+    an image and the rewriter does not recognise is copied to disk, uploaded to
+    R2, given a database row — and then pointed at by nothing.
+
+    Case is folded into the returned name, so a `.JPG` written in 2016 and a
+    `.jpg` written in 2021 are one file rather than two.
+    """
+    path = src.split("?", 1)[0].split("#", 1)[0]
+    match = _CORPUS_IMAGE_RE.match(_SCHEME_HOST_RE.sub("", path))
+    if match is None:
+        return None
+    return match.group(1), f"{match.group(2).lower()}.{match.group(3).lower()}"
 
 
 class _Walker(HTMLParser):
@@ -91,7 +194,9 @@ class _Walker(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.out: list[str] = []
         self.images: list[str] = []
+        self.hosted: list[str] = []
         self.external: list[str] = []
+        self.unmappable: list[str] = []
         self.badges_dropped = 0
         self.quotes = 0
         self.chrome_dropped = 0
@@ -148,8 +253,8 @@ class _Walker(HTMLParser):
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         classes = _classes(attrs)
 
-        if self._skip_depth or (tag not in ("br", "img") and _is(classes, _CHROME)):
-            if _is(classes, _CHROME) and not self._skip_depth:
+        if self._skip_depth or (tag not in ("br", "img") and _is_chrome(classes)):
+            if _is_chrome(classes) and not self._skip_depth:
                 self.chrome_dropped += 1
             self._skip_depth += 1
             return
@@ -161,10 +266,19 @@ class _Walker(HTMLParser):
             if _BADGE_SRC.search(src):
                 self.badges_dropped += 1
                 return
-            if src.startswith(("http://", "https://")):
-                self.external.append(src)
-            else:
-                self.images.append(src)
+            if corpus_ref(src) is None:
+                # Nothing in `Resources Images/` answers to this reference. It is
+                # recorded by name and NOT emitted, because the alternative is a
+                # broken-image icon in a printed reading edition — and, when the
+                # src carries a host, a reader's browser reaching out to somebody
+                # else's server from inside a chapter they were granted access to.
+                # Same argument the verse badges above are dropped under.
+                target = self.external if _SCHEME_HOST_RE.match(src) else self.unmappable
+                target.append(src)
+                return
+            if _SCHEME_HOST_RE.match(src):
+                self.hosted.append(src)
+            self.images.append(src)
             alt = next((v for k, v in attrs if k.lower() == "alt" and v), "") or ""
             self._newblock()
             self._emit(f"![{alt}]({src})")
@@ -181,10 +295,14 @@ class _Walker(HTMLParser):
             self._quote_at = self._depth
             return
         if self._quote_at is not None:
-            if "ayah-arabic" in classes:
-                self._part = "ar"
-            elif "ayah-translation" in classes:
+            # Translation FIRST: `quran-ayat-translation` contains `quran-ayat`,
+            # so asking about the Arabic first would file every English gloss in
+            # the widget as Arabic and the card would come out with no
+            # translation at all.
+            if "ayah-translation" in classes or "quran-ayat-translation" in classes:
                 self._part = "tr"
+            elif "ayah-arabic" in classes or "quran-ayat" in classes:
+                self._part = "ar"
 
         if tag in ("strong", "b"):
             self._emphasis += 1
@@ -285,28 +403,49 @@ def convert(session_html: str) -> Converted:
     return Converted(
         markdown="\n\n".join(blocks),
         images=walker.images,
+        hosted_images=walker.hosted,
         external_images=walker.external,
+        unmappable_images=walker.unmappable,
         dropped_chrome=walker.chrome_dropped,
         dropped_badges=walker.badges_dropped,
         quotes=walker.quotes,
     )
 
 
-IMAGE_SRC_RE = re.compile(r"Resources/IMAGES/(\d+)/([0-9a-fA-F-]{36})\.(\w+)", re.I)
+# A markdown image, matched WHOLE. The rewrite below replaces the entire target,
+# never a substring of it.
+#
+# Substituting on the path fragment alone is what turned
+# `https://session.kashkole.com/Resources/IMAGES/87/<guid>.jpg` into
+# `https://session.kashkole.com/images/87/<guid>.jpg` — a URL that has never
+# existed on that host, on a page whose file was sitting correctly in the bucket
+# the whole time. The file was copied, uploaded and given a row; only the src
+# still pointed at the internet.
+_MD_IMAGE_RE = re.compile(r"!\[([^\]]*)\]\(\s*(\S+?)\s*\)")
 
 
-def localise_images(markdown: str, slug: str) -> tuple[str, list[tuple[str, str]]]:
-    """Rewrite `Resources/IMAGES/<sid>/<guid>.jpg` to the book's own asset path.
+def localise_images(markdown: str) -> tuple[str, list[tuple[str, str]]]:
+    """Point every illustration at the book's own asset folder.
 
-    Returns the rewritten markdown and the (session_id, filename) pairs it wants,
-    so the caller can copy exactly those out of the Drive folder and report any it
-    cannot find rather than shipping a broken image.
+    Returns the rewritten markdown and the `(session_id, filename)` pairs it
+    wants, so the caller copies exactly those out of the Drive folder and reports
+    any it cannot find rather than shipping a broken image.
+
+    The path written is `images/<sid>/<file>`, relative to `book/`, which is where
+    the print edition is built and therefore resolves for the PDF as written. The
+    site has no such folder, so `_listener_book._media_image_srcs` rewrites the
+    rendered `<img src>` a second time onto the gated `/media/<slug>/image/…`
+    route. Those two are pinned against each other by a test, because between
+    them they are the only reason a picture appears on the page.
     """
     wanted: list[tuple[str, str]] = []
 
     def _swap(match: re.Match[str]) -> str:
-        session_id, guid, ext = match.group(1), match.group(2).lower(), match.group(3).lower()
-        wanted.append((session_id, f"{guid}.{ext}"))
-        return f"images/{session_id}/{guid}.{ext}"
+        ref = corpus_ref(match.group(2))
+        if ref is None:
+            return match.group(0)
+        session_id, filename = ref
+        wanted.append((session_id, filename))
+        return f"![{match.group(1)}](images/{session_id}/{filename})"
 
-    return IMAGE_SRC_RE.sub(_swap, markdown), wanted
+    return _MD_IMAGE_RE.sub(_swap, markdown), wanted

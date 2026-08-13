@@ -1,0 +1,39 @@
+{
+  "schema": "book.defects/v1",
+  "counts": {
+    "duplicated-arabic": 0,
+    "english-rtl": 0,
+    "romanized-arabic": 0,
+    "romanized-honorific": 0,
+    "stray-emphasis": 0,
+    "quote-line-noise": 0,
+    "honorific-overuse": 0,
+    "prophet-wrong-honorific": 0,
+    "translation-outside-card": 0,
+    "translation-leads-a-paragraph": 0,
+    "translation-fused-with-prose": 0,
+    "bare-arabic": 1,
+    "stale-provenance": 0
+  },
+  "previous": {},
+  "findings": {
+    "duplicated-arabic": [],
+    "english-rtl": [],
+    "romanized-arabic": [],
+    "romanized-honorific": [],
+    "stray-emphasis": [],
+    "quote-line-noise": [],
+    "honorific-overuse": [],
+    "prophet-wrong-honorific": [],
+    "translation-outside-card": [],
+    "translation-leads-a-paragraph": [],
+    "translation-fused-with-prose": [],
+    "bare-arabic": [
+      [
+        "Need For Messengers",
+        "یا ایھا الذین کفرو"
+      ]
+    ],
+    "stale-provenance": []
+  }
+}

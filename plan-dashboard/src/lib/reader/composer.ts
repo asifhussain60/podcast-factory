@@ -12,12 +12,14 @@
  * /api/studio/visual-layout (PUT); the renderer (render-book-pdf.mjs) consumes
  * that contract. Read-only here — persistence is the API route's job.
  */
+import { existsSync } from "node:fs";
 import { open, readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { anchorKey } from "../../../scripts/lib/anchor-key.mjs";
 import { fingerprints } from "../../../scripts/lib/para-blocks.mjs";
 import { articulationWarningsFrom } from "./articulation";
 import { editionIntroDelta } from "./book-fences";
+import { serveBookImages } from "./book-images";
 import { findContent } from "../content-paths";
 import { loadGlossary, loadGlossaryAll, type GlossaryEntry } from "./glossary";
 import { renderEditSeed, type QuoteDeclaration } from "./markdown";
@@ -235,6 +237,14 @@ export interface ComposerView {
    *  these as a durable human edit. Empty when the book has no fluency report
    *  (the articulation contract does not apply) or every chapter is safe. */
   articulationWarnings: Record<string, string>;
+  /** True when this book is on the Sessions lane (a lecture transcript
+   *  Asif marked up himself) rather than a translation edition — the
+   *  Compose tab's "Paste & Fix Chapter" action only ever appears for
+   *  these, since its engine (compose_articulate.py) checks a hand-off
+   *  rewrite's faithfulness to the book's OWN English, not to a foreign
+   *  source. Mirrors compose_articulate._require_sessions_lane exactly:
+   *  presence of _system/sessions-articulation.json. */
+  sessionsLane: boolean;
 }
 
 // anchorKey is re-exported, not redefined: it had four byte-identical copies and
@@ -303,6 +313,9 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
       glossary: [],
       glossaryAll: [],
       articulationWarnings: {},
+      sessionsLane: existsSync(
+        join(ref.dir, "_system", "sessions-articulation.json"),
+      ),
     };
   }
 
@@ -372,15 +385,21 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     // heading is treated as an in-flow section heading, exactly as it would be
     // in the whole-book pass. Guarded by the parity test in
     // scripts/lib/book-html.test.mjs.
-    const html = String(
-      renderMd(`${heading}\n\n${body}`, crosswalkByIndex, {
-        sawH2: chapters.length > 0,
-        // Same provenance the PDF uses, so read mode sets scripture in the
-        // Uthmanic face and everything else in Scheherazade exactly as it prints.
-        quranicRuns,
-        quoteKinds,
-        quranicRefs,
-      }),
+    // `serveBookImages`: the read render is shown in a BROWSER, where a path
+    // relative to `book/` resolves to nothing. The PDF keeps the relative src —
+    // see the note in that module for why the split lives outside the renderer.
+    const html = serveBookImages(
+      String(
+        renderMd(`${heading}\n\n${body}`, crosswalkByIndex, {
+          sawH2: chapters.length > 0,
+          // Same provenance the PDF uses, so read mode sets scripture in the
+          // Uthmanic face and everything else in Scheherazade exactly as it prints.
+          quranicRuns,
+          quoteKinds,
+          quranicRefs,
+        }),
+      ),
+      slug,
     );
     // EDIT: the byte-faithful render — the TipTap-safe seed (see editHtml).
     // Never the default profile: its display-only transliteration fold ate
@@ -507,5 +526,8 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     glossary,
     glossaryAll,
     articulationWarnings,
+    sessionsLane: existsSync(
+      join(ref.dir, "_system", "sessions-articulation.json"),
+    ),
   };
 }

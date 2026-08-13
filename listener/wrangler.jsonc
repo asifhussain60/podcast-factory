@@ -16,9 +16,8 @@
   // The real database, created 2026-08-03 on the gmail account
   // (19cb05067ea7e704f94481df1685ec51). Local dev ignores this id entirely and
   // uses Miniflare's own D1, so a wrong value here fails at deploy rather than
-  // quietly diverging in development. `wrangler` on this machine is logged in as
-  // hotmail, so every remote command must run with CLOUDFLARE_API_TOKEN set from
-  // the keychain — see infra/cloudflare/README.md §7.
+  // quietly diverging in development. Every remote command must resolve to this
+  // Gmail account — see infra/cloudflare/README.md §7.
   "d1_databases": [
     {
       "binding": "DB",

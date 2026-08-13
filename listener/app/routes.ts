@@ -49,6 +49,27 @@ export default [
     // its own beyond this position.
     route("about", "routes/about.tsx"),
 
+    // Advanced search. Its own page rather than more controls on the library,
+    // because the library's box narrows a grid it is already holding and this
+    // asks the catalogue a question — a different act, and one that wants room.
+    // Gated like everything else: what it can find is what `visibleUnits`
+    // returns for the person asking, never the catalogue.
+    route("search", "routes/search.tsx"),
+
+    // What is kept on this device, and the check that keeps it honest.
+    //
+    // `/downloads` is the ONE page the service worker keeps a copy of, so it is
+    // what a listener with no signal reaches. It renders its list on the client
+    // from IndexedDB rather than from its loader, which is what lets the stale
+    // cached copy still be correct.
+    route("downloads", "routes/downloads.tsx"),
+    route("offline/allowed", "routes/offline.allowed.ts"),
+
+    // Reading a downloaded chapter. A SEPARATE page from the reader, and one
+    // route with the book in the query rather than in the path — both for
+    // reasons that are load-bearing rather than stylistic; see the module.
+    route("read-offline", "routes/read-offline.tsx"),
+
     route("book/:slug", "routes/book.$slug.tsx"),
     route("book/:slug/read/:chapter", "routes/book.$slug.read.$chapter.tsx"),
     route("book/:slug/slides", "routes/book.$slug.slides.tsx"),
@@ -59,6 +80,11 @@ export default [
     // page did. Reusing the gate is the point: an endpoint addressed any other
     // way would need an access rule of its own.
     route("book/:slug/marks", "routes/book.$slug.marks.ts"),
+
+    // A whole book's prose, for keeping on the device. Hangs off `book/:slug`
+    // for the same reason `marks` does: `requireUnitAccess` then reads the SAME
+    // `params.slug` the reading page did.
+    route("book/:slug/text", "routes/book.$slug.text.ts"),
 
     // Media sits INSIDE the gate like every page, and its `:slug` segment is
     // what `requireUnitAccess` reads — so a file URL runs the same check the

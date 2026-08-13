@@ -596,5 +596,6 @@ Compact list of architectural decisions and why. Future Claude sessions and revi
 - **Live system state, metrics, in-flight books** — see `_workspace/plan/index.html` dashboard.
 - **F-item operational backlog** — see `_workspace/plan/debt/pipeline-debt.md`.
 - **Per-book ship checklists** — see `_workspace/plan/operations/per-book-ship-checklist.md`.
-- **Day-to-day standing rules + response conventions** — see `_workspace/plan/conventions/`.
+- **Day-to-day standing rules** — see `_workspace/plan/conventions/` (authoring + general only).
+- **Response format** — `~/.claude/response-template.md`, which is now its own git repository so it reaches every machine. This folder's two copies were deleted 2026-08-11: they described a template retired in May and called themselves authoritative.
 - **The 12-task postprod-vacuum sub-plan currently in flight** — see `_workspace/plan/postprod-vacuum-tasks.md` (folds into refactor Step C2 retroactive M&D work).

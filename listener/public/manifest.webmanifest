@@ -1,0 +1,16 @@
+{
+  "name": "Podcast Factory",
+  "short_name": "Podcast Factory",
+  "description": "Scholarly books, read and heard.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f6f4ef",
+  "theme_color": "#0d51c9",
+  "icons": [
+    { "src": "/brand/icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/brand/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/brand/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

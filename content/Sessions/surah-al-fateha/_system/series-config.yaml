@@ -1,0 +1,22 @@
+# series-config.yaml — Surah Al-Fateha
+# Delivered lecture sessions ingested from KSESSIONS_DEV.
+
+content_profile: islamic_session
+
+# The speaker is the author and the transcript records him saying "I", so the
+# frame is first person. EXPOSITORY, not `first_person_author` (2026-08-11): that
+# frame means the address to a reader IS the form, as in a letter, and it switches
+# the lecture-voice and navigation guards off. A lecture becoming a book is the
+# opposite case — his "I" is kept, and the room he spoke it in is not.
+narrative_frame: first_person_expository
+
+# The source is a lecture, not a printed text. Gates that exist to catch a
+# translation reading like a calque do not apply to speech.
+source_medium: audio_lecture
+source_language: en
+
+book_voice: faithful
+book_augmentation: none
+book_visuals: manual_only
+
+enable_video: false

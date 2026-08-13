@@ -31,12 +31,9 @@
 #
 # WHY THE ACCOUNT CHECK IS FIRST
 # ------------------------------
-# `wrangler` on this machine is logged in as asifhussain60@hotmail.com, which
-# does not hold the safinaverse.com zone. Exporting CLOUDFLARE_API_TOKEN beats
-# that stored login — but forgetting to export it is silent: the command runs, it
-# just runs somewhere else. So the token is read from the keychain here rather
-# than assumed, and the resolved account id is verified before anything is
-# uploaded.
+# Every remote Cloudflare command must resolve to the Gmail account that holds
+# safinaverse.com. So the token is read from the keychain here rather than
+# assumed, and the resolved account id is verified before anything is uploaded.
 #
 # WHY A NON-ZERO EXIT FROM `wrangler deploy` IS TOLERATED
 # -------------------------------------------------------

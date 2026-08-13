@@ -33,6 +33,7 @@ from _production_publish import (  # noqa: E402
     accept_all_notes,
     accept_notes_in_doc,
     book_fingerprint,
+    cloudflare_env,
     code_behind,
     count_cards,
     count_unreviewed,
@@ -323,3 +324,14 @@ def test_the_account_id_matches_the_deploy_script() -> None:
     published and is unreachable."""
     deploy = (SCRIPT_DIR / "deploy_listener.sh").read_text(encoding="utf-8")
     assert ACCOUNT_ID in deploy
+
+
+def test_cloudflare_token_whitespace_is_removed(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The macOS keychain value can carry a newline; Wrangler turns that into an
+    invalid Authorization header unless every whitespace character is removed."""
+    monkeypatch.setenv("CLOUDFLARE_API_TOKEN", "abc\n123\t")
+
+    env = cloudflare_env()
+
+    assert env["CLOUDFLARE_API_TOKEN"] == "abc123"
+    assert env["CLOUDFLARE_ACCOUNT_ID"] == ACCOUNT_ID

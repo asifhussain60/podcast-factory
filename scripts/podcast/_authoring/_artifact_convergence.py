@@ -371,9 +371,9 @@ def discriminate_0b_fidelity(
     ``discriminator_fn`` wrapper swallows exceptions inside ``converge_artifact``.
     """
     try:
-        from ._core import _run_claude_p
+        from ._core import _run_claude_p, pure_text_call_options
     except ImportError:
-        from _authoring._core import _run_claude_p  # direct-invocation fallback
+        from _authoring._core import _run_claude_p, pure_text_call_options  # direct-invocation fallback
 
     refined_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
     raw_sample = _sample_text(raw_text, DISCRIMINATOR_0B_SAMPLE_WORDS)
@@ -386,6 +386,7 @@ def discriminate_0b_fidelity(
         phase="0b-discriminator",
         step="fidelity-score",
         timeout=_U0B_DISCRIMINATOR_TIMEOUT,
+        **pure_text_call_options(),
     )
     if rc != 0:
         log(f"  phase 0b · discriminator: rc={rc} — treating as CLEAN (flag-and-proceed)")
@@ -406,8 +407,6 @@ def discriminate_0b_fidelity(
 # to the Islamic 7-tier enrichment risk profile: hallucinated citations (P0),
 # source content alteration (P1), and doctrinal drift (P1). Flag-and-proceed.
 
-# Chapter texts are shorter than the full-book raw extract, so a 2000-word
-# sample is usually the whole chapter — that's fine.
 DISCRIMINATOR_0E_SAMPLE_WORDS = 2000
 
 _U0E_HALLUCINATED_CITATION = "U0E-HALLUCINATED-CITATION"
@@ -419,7 +418,6 @@ _DISCRIMINATOR_0E_SEVERITY: dict[str, str] = {
     _U0E_SOURCE_ALTERED: "P1",
     _U0E_DOCTRINE_DRIFT: "P1",
 }
-
 _U0E_DISCRIMINATOR_TIMEOUT = 300
 
 
@@ -483,9 +481,9 @@ def discriminate_0e_faithfulness(
     NEVER raises.
     """
     try:
-        from ._core import _run_claude_p
+        from ._core import _run_claude_p, pure_text_call_options
     except ImportError:
-        from _authoring._core import _run_claude_p
+        from _authoring._core import _run_claude_p, pure_text_call_options
 
     chapter_file = book_dir / "chapters" / f"{chapter_stem}.md"
     before_sample = _sample_text(before_text, DISCRIMINATOR_0E_SAMPLE_WORDS)
@@ -501,6 +499,7 @@ def discriminate_0e_faithfulness(
         phase="0e-discriminator",
         step=f"faithfulness-{chapter_stem}",
         timeout=_U0E_DISCRIMINATOR_TIMEOUT,
+        **pure_text_call_options(),
     )
     if rc != 0:
         log(f"    {chapter_stem} · discriminator: rc={rc} — treating as CLEAN")

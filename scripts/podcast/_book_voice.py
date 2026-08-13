@@ -27,9 +27,10 @@ degraded into transcription, which no fidelity gate can catch because copying is
 maximally faithful. Chapters over ``_LONG_CHAPTER_WORDS`` are therefore split at
 paragraph boundaries into ``_WINDOW_WORDS``-sized windows, each re-voiced with
 the tail of the previous window for continuity and gated against its OWN base, so
-one stumbling passage costs that passage rather than the whole chapter. This
-mirrors the translation composer, which has windowed long chapters on the same
-4,500-word threshold since it shipped (``_translation_edition._LONG_CHAPTER_WORDS``).
+one stumbling passage costs that passage rather than the whole chapter. See the
+constant for its 2026-08-11 history. ``revoice_gates`` also catches the OPPOSITE
+failure (2026-08-12): a response many times longer than its window, which no
+prior gate checked for at all.
 
 This module also drives ``0book-fluency`` (``apply_fluency_adapt``), the automatic
 articulation pass for every translation-edition book. It shares ``_run_pass`` /
@@ -48,23 +49,40 @@ from __future__ import annotations
 
 import json
 import re
-from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Callable, Sequence
 
-from _authoring._core import AuthoringError, _run_claude_p_with_retry
-from _book_articulation_notes import EMPTY_NOTES, extract_articulation_notes, leaked_marker_findings
-from _book_compose import _arabic_run_count
+from _authoring._core import AuthoringError, _run_claude_p_with_retry, pure_text_call_options
+from _book_articulation_notes import EMPTY_NOTES, extract_articulation_notes
 from _book_edits import anchor_key, edited_chapter_keys
 from _book_fences import span_re
 from _book_pass_reports import load_prior_records, merge_records, restamp_counts
+
+# `assembled_chapter_gates`, `narrative_opening_findings`, and `revoice_gates`
+# live in `_book_voice_gates`
+# (split 2026-08-12, DR-005) and are re-exported here so every existing
+# `from _book_voice import revoice_gates` keeps working.
+from _book_voice_gates import assembled_chapter_gates, narrative_opening_findings, revoice_gates  # noqa: F401
 from _book_voice_prompts import _articulation_prompt, _voice_prompt
+from _book_voice_windows import (
+    _WINDOW_WORDS,
+    _arabic_placeholder_findings,
+    _cache_window_part,
+    _cached_window_part,
+    _drop_cached_window_part,
+    _iter_prose_windows,
+    _protect_arabic_runs,
+    _protect_structural_artifacts,
+    _protected_artifact_window,
+    _restore_arabic_runs,
+    _restore_structural_artifacts,
+    _similarity,
+    _structural_artifact_findings,
+)
 from _content_profile import source_language as _source_language
-from _doctrinal import run_doctrinal_checks
-from _literary import teaching_loss_findings
-from _narrative import frame_findings, lecture_voice_counts
+from _narrative import lecture_voice_counts
 from _pipeline_flags import narrative_frame, narrator_subject
-from _translation_text import _split_paragraphs, _trim_seam_overlap, subordinate_body_headings
+from _translation_text import _trim_seam_overlap, subordinate_body_headings
 
 _VOICE_TIMEOUT = 900
 _CHAPTER_HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
@@ -75,53 +93,12 @@ _CHAPTER_HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 # this pass cannot see is a span the model rewrites into the narrator's voice.
 _EDITORIAL_SPAN_RE = span_re("editorial", trailing=r"\n?")
 
-# Windowing thresholds. `_LONG_CHAPTER_WORDS` matches the translation composer's
-# own long-chapter threshold; `_WINDOW_WORDS` sits under it so a split chapter
-# always yields at least two substantive windows.
-_LONG_CHAPTER_WORDS = 4500
-_WINDOW_WORDS = 2500
-# A trailing window smaller than this fraction of the target is folded back into
-# its predecessor rather than shipped as a runt.
-_RUNT_WINDOW_FRACTION = 0.4
+# 4,500 -> 4,000 on 2026-08-11 after a 4,479-word chapter returned an
+# 840-word summary; this path owns book-prose windows, not source-span windows.
+_LONG_CHAPTER_WORDS = 4000
 # Output this similar to its input was not re-voiced — it was copied. Not a gate
 # (reverting to base yields the same text); recorded so the report says so.
 _NEAR_IDENTICAL_RATIO = 0.95
-
-
-def _norm_for_ratio(text: str) -> str:
-    return " ".join((text or "").split())
-
-
-def _similarity(base_text: str, candidate: str) -> float:
-    """Whitespace-normalised similarity, 0..1. Computed per window, never per
-    whole chapter — SequenceMatcher degrades badly on very long inputs."""
-    return SequenceMatcher(None, _norm_for_ratio(base_text), _norm_for_ratio(candidate)).ratio()
-
-
-def _iter_prose_windows(text: str, *, target_words: int = _WINDOW_WORDS) -> list[str]:
-    """Split chapter prose into paragraph-aligned windows of ~``target_words``.
-
-    Paragraph-aligned so a window never opens or closes mid-thought, which is
-    what makes the per-window fidelity gates meaningful.
-    """
-    paragraphs = _split_paragraphs(text)
-    if not paragraphs:
-        return []
-    windows: list[str] = []
-    current: list[str] = []
-    current_words = 0
-    for para in paragraphs:
-        current.append(para)
-        current_words += len(para.split())
-        if current_words >= target_words:
-            windows.append("\n\n".join(current))
-            current, current_words = [], 0
-    if current:
-        if windows and current_words < target_words * _RUNT_WINDOW_FRACTION:
-            windows[-1] = windows[-1] + "\n\n" + "\n\n".join(current)
-        else:
-            windows.append("\n\n".join(current))
-    return windows
 
 
 def _revoice_chapter(
@@ -143,6 +120,7 @@ def _revoice_chapter(
         phase="0book-voice",
         step=label,
         log=log,
+        **pure_text_call_options(),
     )
     if rc != 0:
         raise AuthoringError(
@@ -151,96 +129,6 @@ def _revoice_chapter(
             manual_fallback="Re-run 0book-voice; each chapter is idempotent.",
         )
     return (out or "").strip()
-
-
-# Narrator "announcing the telling" openings — a chapter must begin as a chapter,
-# not with the narrator framing the act of narration itself (found live 2026-07-19:
-# "Let me set down, as faithfully as I can, how my Master opened the matter...",
-# 6 instances in one book alone). Searched only within the chapter's own opening
-# window (first ~200 chars) — this voice is intentionally first-person and warm
-# by design (see REGISTER above), so a broad first-person match would revert
-# legitimate prose; only the specific "I am now going to narrate" framing move
-# is forbidden, and it can land a few words into the opening sentence (e.g. "I
-# held this book back... and I want to tell you why"), not only at position 0.
-_NARRATIVE_OPENING_RE = re.compile(
-    r"\b("
-    r"let me (tell|set down|speak|recount|say)\b"
-    r"|i want to tell you\b"
-    r"|i shall (now )?(tell|recount|set down)\b"
-    r"|before i (tell|set down|begin)\b"
-    r"|allow me to (tell|recount|set down)\b"
-    r")",
-    re.IGNORECASE,
-)
-
-
-def narrative_opening_findings(text: str, base_text: str | None = None) -> list[str]:
-    """Flag a chapter that opens by announcing the act of narration instead of
-    starting as a chapter does. Checked only against the chapter's own opening.
-
-    DIFFERENTIAL when ``base_text`` is given: the finding is reported only if the
-    re-voice INTRODUCED the announcement. Every other gate in ``revoice_gates``
-    already reads this way — abridgement measures against the base's word count,
-    teaching-loss and the frame guards take both texts, dropped Arabic runs
-    compares run counts, and new doctrinal P0s subtract the base's own. This one
-    did not, and the asymmetry cost real work: *Ayyuhal Walad* chapter 2 opens
-    "Let me tell you of a man among the Children of Israel" in al-Ghazali's own
-    letter, so the model preserving that opening — exactly what faithfulness
-    demands — was reverted as though it had invented it, and the chapter shipped
-    un-articulated. A source that announces its own telling can otherwise never
-    pass articulation at all.
-
-    ``base_text=None`` keeps the older single-argument contract for unit tests
-    that exercise the phrase-matching in isolation.
-    """
-    opening = text.strip()[:200]
-    if not _NARRATIVE_OPENING_RE.search(opening):
-        return []
-    # The author already opened this way — preserving it is fidelity, not drift.
-    if base_text is not None and _NARRATIVE_OPENING_RE.search(base_text.strip()[:200]):
-        return []
-    return [f"narrative-announcement opening: {opening[:120]!r}"]
-
-
-def revoice_gates(
-    base_text: str,
-    revoiced: str,
-    *,
-    check_opening: bool = True,
-    frame: str | None = None,
-    narrator_subject: str = "",
-) -> list[str]:
-    """Deterministic fidelity gates. Empty list => the re-voice may be kept.
-
-    ``check_opening`` is False for continuation windows of a split chapter — the
-    narrative-opening rule is about how a CHAPTER opens, and a mid-chapter window
-    that legitimately says "let me tell you" must not be reverted for it.
-
-    ``frame`` adds the narrative guards from ``_narrative``: grammatical person,
-    speech-tag integrity, Arabic-script retention, supplied diacritics, and
-    enumeration survival. Passed by both routes; omitted only by unit tests that
-    exercise the older gates in isolation.
-    """
-    findings: list[str] = []
-    if not revoiced.strip():
-        return ["empty re-voice output"]
-    # Anti-abridgement: a re-voice must be about the same length, never a summary.
-    base_words = len(base_text.split())
-    if base_words >= 8 and len(revoiced.split()) < 0.6 * base_words:
-        findings.append(f"abridged re-voice ({len(revoiced.split())}<{round(0.6 * base_words)} words)")
-    findings.extend(teaching_loss_findings(base_text, revoiced))
-    if check_opening:
-        findings.extend(narrative_opening_findings(revoiced, base_text))
-    if _arabic_run_count(revoiced) < _arabic_run_count(base_text):
-        findings.append(f"Arabic runs dropped ({_arabic_run_count(revoiced)}<{_arabic_run_count(base_text)})")
-    base_p0 = {f.signature for f in run_doctrinal_checks(base_text) if f.severity == "P0"}
-    new_p0 = [f for f in run_doctrinal_checks(revoiced) if f.severity == "P0" and f.signature not in base_p0]
-    if new_p0:
-        findings.append("new doctrinal P0: " + "; ".join(f"{f.check_id}:{f.signature}" for f in new_p0[:3]))
-    if frame:
-        findings.extend(frame_findings(base_text, revoiced, frame=frame, narrator_subject=narrator_subject))
-    findings.extend(leaked_marker_findings(revoiced))
-    return findings
 
 
 def _adapt_chapter_body(
@@ -254,6 +142,8 @@ def _adapt_chapter_body(
     noun: str,
     frame: str | None = None,
     narrator_subject: str = "",
+    window_words: int = _WINDOW_WORDS,
+    repair_fn: Callable[..., str] | None = None,
 ) -> tuple[str, dict]:
     """Adapt one chapter body, windowing it when it is too long for a single call.
 
@@ -263,63 +153,175 @@ def _adapt_chapter_body(
     could not answer without forensics against the cost ledger.
     """
     base_words = len(base_prose.split())
-    windows = (_iter_prose_windows(base_prose) if base_words > _LONG_CHAPTER_WORDS else [base_prose]) or [base_prose]
+    windows = _iter_prose_windows(base_prose, target_words=window_words) or [base_prose]
     kept_parts: list[str] = []
     gates: list[str] = []
     warnings: list[str] = []
     kept = 0
     tail = ""
     notes = {k: [] for k in EMPTY_NOTES}
+    cached = 0
+    repaired = 0
+    source_preserved = 0
+    model_failures = 0
+    consecutive_model_failures = 0
+    fresh_calls_disabled = False
     for idx, window in enumerate(windows, start=1):
         part_label = label if len(windows) == 1 else f"{label}-part-{idx:02d}"
-        try:
-            candidate = fn(
-                title,
-                window,
-                book_dir,
-                part_label,
-                log,
-                previous_tail=tail,
-                frame=frame or "",
-                narrator=narrator_subject,
-            )
-        except AuthoringError:
-            raise
-        except Exception as e:  # non-fatal: this window falls back to its base
-            log(f"      {noun}: {title!r} {part_label} skipped (non-fatal): {e}")
+        if _protected_artifact_window(window):
+            kept += 1
+            source_preserved += 1
+            warnings.append(f"{part_label}: protected source artifact copied verbatim")
+            if kept_parts:
+                window = _trim_seam_overlap(kept_parts[-1], window)
+            kept_parts.append(window)
+            tail = " ".join(window.split()[-80:])
+            _cache_window_part(book_dir, part_label, window, window)
+            continue
+        artifact_protected_window, protected_artifacts = _protect_structural_artifacts(window)
+        protected_window, protected_arabic = _protect_arabic_runs(artifact_protected_window)
+        candidate = _cached_window_part(book_dir, part_label, window)
+        from_cache = candidate is not None
+        if from_cache:
+            cached += 1
+            log(f"      {part_label}: cache hit")
+        elif fresh_calls_disabled:
+            log(f"      {noun}: {title!r} {part_label} skipped (fresh model calls disabled after repeated failures)")
             candidate = ""
-        # REQ-BA-160: strip any trailing ===ARTICULATION-NOTES=== block BEFORE
-        # gating, so length/fidelity checks never see it and it can never reach
-        # book.md. A no-op for prompts (e.g. author-companion voice) that never
-        # emit one.
-        candidate, window_notes = extract_articulation_notes(candidate)
-        gate = (
-            revoice_gates(
-                window,
-                candidate,
-                check_opening=idx == 1,
-                frame=frame,
-                narrator_subject=narrator_subject,
+        else:
+            try:
+                candidate = fn(
+                    title,
+                    protected_window,
+                    book_dir,
+                    part_label,
+                    log,
+                    previous_tail=tail,
+                    frame=frame or "",
+                    narrator=narrator_subject,
+                )
+                consecutive_model_failures = 0
+            except AuthoringError:
+                raise
+            except Exception as e:  # non-fatal: this window falls back to its base
+                log(f"      {noun}: {title!r} {part_label} skipped (non-fatal): {e}")
+                model_failures += 1
+                consecutive_model_failures += 1
+                if consecutive_model_failures >= 3:
+                    fresh_calls_disabled = True
+                    warnings.append(
+                        f"{part_label}: fresh model calls disabled after {consecutive_model_failures} "
+                        "consecutive process failures"
+                    )
+                candidate = ""
+        # This block through the near-identical check used to run UNGUARDED
+        # (2026-08-12): a candidate that broke some downstream step propagated a
+        # bare exception past `_run_pass` to the caller's broad catch, reporting
+        # the WHOLE CHAPTER failed rather than reverting the one window. Same
+        # treatment as the model-call try/except above: `part` falls back to the
+        # clean `window`, exactly like a normal gate rejection.
+        try:
+            # REQ-BA-160: strip any trailing ===ARTICULATION-NOTES=== block BEFORE
+            # gating, so length/fidelity checks never see it and it can never reach
+            # book.md. A no-op for prompts (e.g. author-companion voice) that never
+            # emit one.
+            raw_candidate = candidate or ""
+            candidate = raw_candidate if from_cache else _restore_arabic_runs(raw_candidate, protected_arabic)
+            candidate = candidate if from_cache else _restore_structural_artifacts(candidate, protected_artifacts)
+            candidate, window_notes = extract_articulation_notes(candidate)
+            placeholder_gate = (
+                []
+                if from_cache
+                else (
+                    _structural_artifact_findings(protected_artifacts, raw_candidate)
+                    + _arabic_placeholder_findings(protected_arabic, raw_candidate)
+                )
             )
-            if candidate
-            else ["no candidate"]
-        )
+            gate = placeholder_gate + (
+                revoice_gates(
+                    window,
+                    candidate,
+                    check_opening=idx == 1,
+                    frame=frame,
+                    narrator_subject=narrator_subject,
+                )
+                if candidate
+                else ["no candidate"]
+            )
+            if gate and repair_fn and raw_candidate and not from_cache:
+                original_gate = gate
+                try:
+                    repaired_raw = repair_fn(
+                        title,
+                        protected_window,
+                        raw_candidate,
+                        original_gate,
+                        book_dir,
+                        f"{part_label}-repair",
+                        log,
+                        previous_tail=tail,
+                        frame=frame or "",
+                        narrator=narrator_subject,
+                    )
+                    repaired_candidate = _restore_arabic_runs(repaired_raw or "", protected_arabic)
+                    repaired_candidate = _restore_structural_artifacts(repaired_candidate, protected_artifacts)
+                    repaired_candidate, repaired_notes = extract_articulation_notes(repaired_candidate)
+                    repaired_placeholder_gate = _structural_artifact_findings(
+                        protected_artifacts, repaired_raw or ""
+                    ) + _arabic_placeholder_findings(protected_arabic, repaired_raw or "")
+                    repaired_gate = repaired_placeholder_gate + (
+                        revoice_gates(
+                            window,
+                            repaired_candidate,
+                            check_opening=idx == 1,
+                            frame=frame,
+                            narrator_subject=narrator_subject,
+                        )
+                        if repaired_candidate
+                        else ["no candidate"]
+                    )
+                    if repaired_gate:
+                        gate = original_gate + [f"repair still failed: {g}" for g in repaired_gate]
+                    else:
+                        log(f"      {part_label}: repair accepted")
+                        candidate, window_notes, gate = repaired_candidate, repaired_notes, []
+                        repaired += 1
+                except Exception as e:
+                    log(f"      {noun}: {title!r} {part_label} repair skipped (non-fatal): {e}")
+            if gate:
+                part = window
+                if from_cache:
+                    _drop_cached_window_part(book_dir, part_label, window)
+            else:
+                part = candidate
+                if not from_cache:
+                    _cache_window_part(book_dir, part_label, window, candidate)
+                if _similarity(window, candidate) >= _NEAR_IDENTICAL_RATIO:
+                    warnings.append(f"{part_label}: output near-identical to base — copied, not re-voiced")
+        except Exception as e:
+            log(f"      {noun}: {title!r} {part_label} gate check raised (non-fatal): {e}")
+            window_notes, gate, part = {k: [] for k in EMPTY_NOTES}, [f"gate check raised: {e}"], window
         if gate:
             gates.extend(f"{part_label}: {g}" for g in gate)
-            part = window
         else:
             kept += 1
-            part = candidate
             for key, values in window_notes.items():
                 notes[key].extend(values)
-            if _similarity(window, candidate) >= _NEAR_IDENTICAL_RATIO:
-                warnings.append(f"{part_label}: output near-identical to base — copied, not re-voiced")
         if kept_parts:
             part = _trim_seam_overlap(kept_parts[-1], part)
         kept_parts.append(part)
         tail = " ".join(part.split()[-80:])
     new_body = "\n\n".join(kept_parts).strip()
     status = "adapted" if kept == len(windows) else ("reverted" if kept == 0 else "partial")
+    assembly_gates = assembled_chapter_gates(base_prose, new_body) if kept == len(windows) else []
+    pre_assembly_kept = kept
+    if assembly_gates and kept:
+        gates.extend(f"assembled chapter: {g}" for g in assembly_gates)
+        new_body = base_prose
+        kept = 0
+        status = "reverted"
+    elif status == "partial":
+        warnings.append(f"assembled chapter is partial — {kept}/{len(windows)} windows kept; review voice continuity")
     # R-NO-LECTURE-VOICE is removed by the PROMPT and only guarded differentially,
     # so the pass reports how much of it survived. Without the number, "the frame
     # converted" and "the book stopped sounding like a lecture" are indistinguishable
@@ -333,8 +335,15 @@ def _adapt_chapter_body(
         "output_words": len(new_body.split()),
         "windows": len(windows),
         "windows_kept": kept,
+        "windows_cached": cached,
+        "windows_repaired": repaired,
+        "windows_source_preserved": source_preserved,
+        "model_failures": model_failures,
+        "fresh_calls_disabled": fresh_calls_disabled,
+        "pre_assembly_windows_kept": pre_assembly_kept,
         "status": status,
         "gates": gates,
+        "assembly_gates": assembly_gates,
         "warnings": warnings,
         "lecture_voice_before": {"reader_address": before_address, "stage_directions": before_stage},
         "lecture_voice_after": {"reader_address": after_address, "stage_directions": after_stage},
@@ -369,6 +378,7 @@ def _fluency_chapter(
         phase="0book-fluency",
         step=label,
         log=log,
+        **pure_text_call_options(),
     )
     if rc != 0:
         raise AuthoringError(
@@ -395,6 +405,8 @@ def _run_pass(
     frame: str | None = None,
     narrator_subject: str = "",
     force: bool = False,
+    window_words: int = _WINDOW_WORDS,
+    repair_fn: Callable[..., str] | None = None,
 ) -> tuple[str, list[dict]]:
     """Walk book.md's ``##`` sections, adapting each selected one.
 
@@ -455,6 +467,8 @@ def _run_pass(
             noun=noun,
             frame=frame,
             narrator_subject=narrator_subject,
+            window_words=window_words,
+            repair_fn=repair_fn,
         )
         records.append(record)
         if asides:

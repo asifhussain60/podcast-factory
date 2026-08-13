@@ -42,8 +42,9 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from _book_status_subphase import chunk_fraction as _chunk_fraction  # noqa: E402
+from _book_status_subphase import sessions_articulate_fraction as _sessions_articulate_fraction  # noqa: E402
 from _paths import find_content  # noqa: E402
-from _pending_work import open_items  # noqa: E402
 from _phase_vocabulary import _PHASE_NAMES, _PHASE_WEIGHTS  # noqa: E402
 from _progress import PHASES, read_state  # noqa: E402
 
@@ -71,8 +72,16 @@ def _weight(phase: str) -> int:
 def _fraction_done(phase: str, block: dict[str, Any], book_dir: Path | None = None) -> float:
     """How much of ONE phase is complete, 0.0-1.0, using sub-phase credit if recorded."""
     status = str(block.get("status") or "pending")
+    # sessions-articulate is checked BEFORE the flag short-circuits below, not
+    # after — unlike 0b/0d, whose "running" flag is trustworthy for the whole
+    # phase and only needs a real number WHILE it is running, this phase's own
+    # `completed` flag was once written after keeping 2 of 23 chapters (a driver
+    # bug, fixed at the source, but the state files it already wrote are still on
+    # disk). A ledger that disagrees with a `completed` flag is what actually
+    # happened; a flag that agrees costs nothing extra to confirm.
     if status in _DONE_STATUSES:
-        return 1.0
+        sessions_fraction = _sessions_articulate_fraction(phase, book_dir)
+        return sessions_fraction if sessions_fraction is not None else 1.0
     if status != "running":
         return 0.0
     # The per-chapter loop is the only phase that publishes its own progress
@@ -92,69 +101,16 @@ def _fraction_done(phase: str, block: dict[str, Any], book_dir: Path | None = No
     chunk_fraction = _chunk_fraction(phase, book_dir)
     if chunk_fraction is not None:
         return chunk_fraction
+    sessions_fraction = _sessions_articulate_fraction(phase, book_dir)
+    if sessions_fraction is not None:
+        # Capped here, not inside the helper: a `completed` flag that genuinely
+        # earned it (kept == total) must reach the full 1.0 through the SAME
+        # helper the `completed` branch above uses uncapped — capping inside the
+        # helper would freeze a truly finished phase at 95% forever.
+        return min(0.95, sessions_fraction)
     # A running phase with nothing else to go on counts as half — honest about
     # being underway without claiming knowledge the state file does not have.
     return 0.5
-
-
-_CHUNK_DIR_PHASES = frozenset({"0b", "0d"})
-
-
-def _chunk_dir(phase: str, book_dir: Path) -> Path:
-    return Path(book_dir) / "_system" / "source" / "text" / "_chunks" / phase
-
-
-def _sc_total(chunks_dir: Path) -> int:
-    """The expected 0d chunk count, from that run's own source-toc.json where
-    present (authoritative — it lists every source chapter this run planned to
-    design), else counted from the `.in.md` inputs already written."""
-    manifest = chunks_dir / "source-toc.json"
-    if manifest.exists():
-        try:
-            data = json.loads(manifest.read_text(encoding="utf-8"))
-            chapters = data.get("source_chapters")
-            if isinstance(chapters, list) and chapters:
-                return len(chapters)
-        except Exception:
-            pass
-    return len(list(chunks_dir.glob("sc-*.in.md")))
-
-
-def _chunk_fraction(phase: str, book_dir: Path | None) -> float | None:
-    """Real sub-phase progress for phases that checkpoint per source-chunk on
-    disk, read from files those phases already write — never a fabricated
-    number. Two conventions exist today (scripts/podcast/_chunking.py owns the
-    windowing one):
-
-      * 0d writes `sc-NNN.done` markers per source chapter, with the expected
-        total in that run's own `source-toc.json`.
-      * 0b writes `win-NNN.in.md` / `win-NNN.out.md` pairs — a window counts as
-        done the moment its `.out.md` exists (see _chunking.py's own doc
-        comment: it skips windows whose `.out.md` already exists).
-
-    Returns None — never a guess — when book_dir is unknown, the phase has no
-    chunk directory (0c and 0e do not chunk this way today), or the directory
-    has nothing to count yet. The caller falls back to the flat 0.5 guess in
-    that case, exactly as it did before this existed.
-    """
-    if book_dir is None or phase not in _CHUNK_DIR_PHASES:
-        return None
-    chunks_dir = _chunk_dir(phase, book_dir)
-    if not chunks_dir.is_dir():
-        return None
-    if phase == "0d":
-        total = _sc_total(chunks_dir)
-        if not total:
-            return None
-        done = len(list(chunks_dir.glob("sc-*.done")))
-        return min(0.95, done / total)
-    if phase == "0b":
-        total = len(list(chunks_dir.glob("win-*.in.md")))
-        if not total:
-            return None
-        done = len(list(chunks_dir.glob("win-*.out.md")))
-        return min(0.95, done / total)
-    return None
 
 
 # Phases that do not wait on a machine — they wait on a person. `audio-ingest`
@@ -207,9 +163,28 @@ def compute_progress(state: dict[str, Any], book_dir: Path | None = None) -> dic
     # denominator, because counting them would report a shipped book as
     # permanently unfinished. They are not swallowed: any bypassed phase that
     # failed or halted is collected and surfaced on the card.
-    frontier = max(
-        (i for i, p in enumerate(order) if str((blocks.get(p) or {}).get("status") or "") in _DONE_STATUSES),
-        default=-1,
+    # The frontier/bypass logic below assumes its order is MONOTONIC — that
+    # reaching a later phase means every earlier one either finished or was
+    # legitimately skipped. That is true of the orchestrator's PHASES, built
+    # phase by phase in sequence, and false of a lane's own order: the Sessions
+    # lane's `sessions-articulate` sits BEFORE `sessions-preface` in the
+    # declared list but legitimately FINISHES after it (the introduction the
+    # preface writes is apparatus articulation never touches). Applying the
+    # bypass rule there silently DROPPED an in-progress `sessions-articulate`
+    # from rows entirely the moment a later-listed step completed — not merely
+    # undercounted, absent: missing from the denominator, from "remaining", and
+    # from "Now" (2026-08-12). Scoped to the canonical sequence only; a lane's
+    # own order counts every phase at its own real fraction, unconditionally.
+    uses_canonical_order = order is PHASES
+    frontier = (
+        max(
+            (i for i, p in enumerate(order) if str((blocks.get(p) or {}).get("status") or "") in _DONE_STATUSES),
+            default=-1,
+        )
+        if uses_canonical_order
+        # -1: "index < frontier" is then false for every index >= 0, so nothing
+        # in a lane's own order is ever treated as bypassed.
+        else -1
     )
     bypassed: list[dict[str, str]] = []
     for index, phase in enumerate(order):
@@ -243,8 +218,34 @@ def compute_progress(state: dict[str, Any], book_dir: Path | None = None) -> dic
         )
     pct = round(100 * earned / total, 1) if total else 0.0
     machine_pct = round(100 * machine_earned / machine_total, 1) if machine_total else pct
-    done = [r for r in rows if r["status"] in _DONE_STATUSES]
-    remaining = [r for r in rows if r["status"] not in _DONE_STATUSES]
+    # Done/remaining key on the FRACTION, not the status string. They agree for
+    # every phase whose fraction comes from the flag alone (any _DONE_STATUSES
+    # status IS 1.0, by the first line of `_fraction_done`) — the one case they
+    # can disagree is exactly the bug this exists to close: a phase carrying a
+    # `completed` flag that a real per-artifact count (chunk files, the Sessions
+    # ledger) contradicts. Trusting the flag there is how "Left: 1 step" reported
+    # a book with 21 of 23 chapters still unwritten as one step from done.
+    done = [r for r in rows if r["fraction"] >= 1.0]
+    remaining = [r for r in rows if r["fraction"] < 1.0]
+    # "Now" comes from the row walk, not from the flat `state["phase"]` string,
+    # whenever this book runs its OWN sequence rather than the orchestrator's.
+    # `state["phase"]`/`phase_status` are kept live by the orchestrator's own
+    # phase-transition code on every PHASES transition — correct to trust there.
+    # A lane like Sessions has no such code: its scaffold step stamps those two
+    # fields once and nothing later touches them, so trusting them here reported
+    # a book mid-way through articulating its densest chapters as "Now: Writing
+    # the introduction · completed" — the LAST thing the scaffold step did,
+    # frozen, regardless of everything that ran after it (2026-08-12).
+    if uses_canonical_order:
+        current, current_status = state.get("phase"), state.get("phase_status")
+    else:
+        in_progress = next((r for r in remaining), None)
+        if in_progress:
+            current, current_status = in_progress["phase"], in_progress["status"]
+        elif rows:
+            current, current_status = rows[-1]["phase"], rows[-1]["status"]
+        else:
+            current, current_status = state.get("phase"), state.get("phase_status")
     return {
         "percent_complete": pct,
         "machine_percent_complete": machine_pct,
@@ -254,8 +255,8 @@ def compute_progress(state: dict[str, Any], book_dir: Path | None = None) -> dic
         "human_gated_remaining": [r["phase"] for r in remaining if r["phase"] in _HUMAN_GATED_PHASES],
         "skipped_by_config": skipped_by_config,
         "bypassed_unresolved": bypassed,
-        "current": state.get("phase"),
-        "current_status": state.get("phase_status"),
+        "current": current,
+        "current_status": current_status,
         "last_error": state.get("last_error"),
     }
 
@@ -332,7 +333,16 @@ def estimate_eta(book_dir: Path, percent_complete: float, *, now: datetime | Non
 
 
 def _spend_usd(book_dir: Path) -> float:
-    """Real money only. Flat-rate subscription work is not a cost and is never shown."""
+    """Real money only, and never a Claude figure (Asif, 2026-08-12).
+
+    Excluded by MODEL NAME, not by the ledger's "engine" field: "engine":"max"
+    already means Claude's flat-rate subscription and always carries cost_usd=0,
+    so filtering on engine alone would be a no-op today — this filter is the
+    one that also holds if a Claude call is ever billed metered instead of flat
+    (a ledger row with model="claude-*" and a genuine cost_usd), which the ask
+    was explicit about: no Claude spend on this card, full stop, not "no Claude
+    spend under the current billing engine."
+    """
     ledger = book_dir / "_system" / "cost-ledger.jsonl"
     if not ledger.exists():
         return 0.0
@@ -343,7 +353,10 @@ def _spend_usd(book_dir: Path) -> float:
             if not raw:
                 continue
             try:
-                total += float(json.loads(raw).get("cost_usd") or 0)
+                row = json.loads(raw)
+                if str(row.get("model") or "").lower().startswith("claude"):
+                    continue
+                total += float(row.get("cost_usd") or 0)
             except Exception:
                 continue
     except Exception:
@@ -412,7 +425,15 @@ def _est_now() -> str:
 
 
 def build_card(book_dir: Path) -> dict[str, Any]:
-    """Everything the card shows, as data — so a caller can render it any way."""
+    """Everything the card shows, as data — so a caller can render it any way.
+
+    Carries no general backlog (the snag list, `_pending_work.open_items`) —
+    that answers "what is still owed on the project", a different question from
+    what this card answers, which is "how is THIS run going." A 2026-08-12 card
+    listed pipeline-wide punch-list items (Kashkole translation, an unrelated
+    book's compose gap) under a book's own progress card, where they read as
+    part of this run rather than the separate backlog they actually are.
+    """
     book_dir = Path(book_dir).resolve()
     state = read_state(book_dir) or {}
     progress = compute_progress(state, book_dir)
@@ -426,30 +447,48 @@ def build_card(book_dir: Path) -> dict[str, Any]:
         "eta": _format_est_dated(eta) if eta else None,
         "spend_usd": _spend_usd(book_dir),
         "status": state.get("status"),
-        "pending": open_items(state.get("book_slug") or book_dir.name),
         **progress,
     }
 
 
 _CARD_WIDTH = 52  # inner width; narrow enough never to wrap in a chat panel
-# Enough of the backlog to be actionable at a glance; the rest is one line away
-# in the file. A card that scrolls stops being a card.
-_PENDING_SHOWN = 5
 
 
 def _row(label: str, value: str) -> str:
-    """One card row, clipped so the frame can never be broken by a long value."""
+    """One card row, clipped so the frame can never be broken by a long value.
+
+    Only ``last_error`` and ``Behind`` ever reach the clip in practice — every
+    per-step row below is short enough on its own (a step's plain-English name)
+    that clipping never fires for it.
+    """
     room = _CARD_WIDTH - 12  # frame(2) + padding(2) + label(8)
     value = value if len(value) <= room else value[: room - 1] + "…"
     return f"│ {label:<8}{value:<{room}} │"
 
 
+def _step_row(icon: str, name: str) -> str:
+    """One line of a multi-line step list, indented under its section header."""
+    # An emoji occupies TWO display columns while counting as ONE character, so
+    # the row is laid out directly rather than through `_row`'s label field —
+    # the same accounting the old `--verbose` block already used.
+    room = _CARD_WIDTH - 7
+    return f"│ {icon} {name[:room]:<{room}} │"
+
+
 def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
-    """A compact framed card: title, progress bar, and four lines of state.
+    """A framed status card for ONE book's own pipeline run.
 
     Fixed width and box-drawn, because the value of a status card is that
     consecutive readings look identical except for what changed — a layout that
     reflows with its content makes you re-read it every time.
+
+    Redesigned 2026-08-12 on Asif's direction: this card answers "how is this
+    run going" — what step is executing, what steps remain, when it should
+    finish. It carries nothing from the project-wide backlog (the snag list),
+    which is a different question with its own place (`pending-work.yaml`,
+    the Snag List view), and it never truncates the remaining-step list behind
+    a "+N more" — every step this book still has to clear is printed, one per
+    line, so the picture is complete rather than a sample of it.
     """
     pct = card["percent_complete"]
     bar_width = _CARD_WIDTH - 10  # frame(2) + padding(2) + ' 100%'(6)
@@ -457,8 +496,8 @@ def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
     bar = "█" * filled + "░" * (bar_width - filled)
 
     title = card.get("title") or card["slug"]
-    remaining = [step_name(p) for p in card["remaining"]]
-    left = f"{len(remaining)} steps · " + ", ".join(remaining[:3]) + ("…" if len(remaining) > 3 else "")
+    remaining_phases = set(card["remaining"])
+    remaining_rows = [r for r in card["phases"] if r["phase"] in remaining_phases]
 
     top = "┌" + "─" * (_CARD_WIDTH - 2) + "┐"
     mid = "├" + "─" * (_CARD_WIDTH - 2) + "┤"
@@ -470,10 +509,6 @@ def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
         f"│ {bar} {pct:>4.0f}% │",
         mid,
         _row("Now", f"{step_name(card['current'])} · {card['current_status']}"),
-        _row("Left", left if remaining else "nothing — complete"),
-        _row("Spend", f"${card['spend_usd']:.2f}" + ("  (flat-rate work not shown)" if not card["spend_usd"] else "")),
-        _row("Checked", card["generated_at"]),
-        _row("ETA", card["eta"] if card.get("eta") else "estimating (need 2 checks)"),
     ]
     # A phase waiting on a person is not a phase the ETA describes. Say so, or the
     # number reads as a finish time when it is only a "machine stops here" time.
@@ -491,25 +526,24 @@ def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
     if card.get("bypassed_unresolved"):
         behind = ", ".join(f"{step_name(b['phase'])} ({b['status']})" for b in card["bypassed_unresolved"])
         lines.append(_row("Behind", behind))
-    # The backlog. Progress answers "how far along"; this answers "what is still
-    # owed" — work noticed in conversation that would otherwise live only there.
-    pending = card.get("pending") or []
-    if pending:
-        lines.append(mid)
-        lines.append(_row("Pending", f"{len(pending)} item(s)"))
-        for item in pending[:_PENDING_SHOWN]:
-            marker = "▸" if item.get("status") == "doing" else "·"
-            lines.append(_row("", f"{marker} {item.get('title', '')}"))
-        if len(pending) > _PENDING_SHOWN:
-            lines.append(_row("", f"  +{len(pending) - _PENDING_SHOWN} more"))
+
+    lines.append(mid)
+    lines.append(_row("Left", f"{len(remaining_rows)} step(s)" if remaining_rows else "nothing — complete"))
+    for row in remaining_rows:
+        lines.append(_step_row(row["icon"], step_name(row["phase"])))
+
+    lines.append(mid)
+    lines.append(
+        _row("Spend", f"${card['spend_usd']:.2f}" + ("  (flat-rate work not shown)" if not card["spend_usd"] else ""))
+    )
+    lines.append(_row("Checked", card["generated_at"]))
+    lines.append(_row("ETA", card["eta"] if card.get("eta") else "estimating (need 2 checks)"))
 
     if verbose:
         lines.append(mid)
-        # An emoji occupies TWO display columns while counting as ONE character, so
-        # the step list is laid out directly rather than through the label field.
-        name_width = _CARD_WIDTH - 7
         for row in card["phases"]:
-            lines.append(f"│ {row['icon']} {step_name(row['phase'])[:name_width]:<{name_width}} │")
+            if row["phase"] not in remaining_phases:  # already itemized above
+                lines.append(_step_row(row["icon"], step_name(row["phase"])))
     lines.append(bottom)
     return "\n".join(lines)
 

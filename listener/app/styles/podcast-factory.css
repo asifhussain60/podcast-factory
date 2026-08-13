@@ -34,8 +34,7 @@
  *
  * Files are copied in by `npm run fonts` (scripts/sync-fonts.mjs) and committed.
  * No Google Fonts link, no CDN — the site must work with no third-party origin.
- * All four families are SIL Open Font Licence 1.1; licences ship alongside the
- * files in public/fonts/.
+ * Font licences ship alongside the files in public/fonts/.
  * ========================================================================== */
 
 /* Book titles on the library card. Self-hosted like every other face here — a
@@ -109,6 +108,23 @@
     U+2215, U+FEFF, U+FFFD;
 }
 
+/* Chapter-local Heading 1 and Heading 2 from the Book Composer. */
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url("/fonts/cinzel-latin-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("/fonts/cinzel-latin-700-normal.woff2") format("woff2");
+}
+
 /* Inter — the interface face, and the one that carries the most words on this
    site after the reading column: every label, pill, button, count, tab and list
    row. It replaced IBM Plex Sans on 2026-08-03. Its tall x-height and open
@@ -158,6 +174,14 @@
   font-display: swap;
   font-weight: 600;
   src: url("/fonts/scheherazade-new-arabic-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Traditional Arabic";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/TraditionalArabic-Regular.ttf") format("truetype");
 }
 
 /* Amiri — Arabic DISPLAY only, and the distinction is load-bearing.
@@ -280,12 +304,13 @@
   /* Page titles only. Everything that is read rather than scanned stays on
      `--l-font-prose`. */
   --l-font-display: "Fraunces Variable", "Literata Variable", Georgia, serif;
+  --l-font-chapter-heading: "Cinzel", Georgia, serif;
   /* Library-card book titles only. Condensed, so a long title fits the card's
      narrow column at full size instead of being shrunk to fit. */
   --l-font-card-title:
     "Roboto Condensed Variable", "Inter Variable", system-ui, sans-serif;
   --l-font-ui: "Inter Variable", system-ui, -apple-system, sans-serif;
-  --l-font-arabic: "Scheherazade New", "Amiri", serif;
+  --l-font-arabic: "Traditional Arabic", "Scheherazade New", "Amiri", serif;
   /* Titles and other display Arabic ONLY. Never the reading column — see the
      @font-face note in §1. */
   --l-font-arabic-display: "Amiri", "Scheherazade New", serif;
@@ -447,6 +472,9 @@
   /* Page titles: the band's own navy, so the biggest type on the library and
      the colour of the cards under it are the same decision. */
   --l-display: #2b456f; /* 8.75:1 on bg */
+  --l-heading-1: #800000;
+  --l-heading-2: #1f3a5f;
+  --l-heading-3: #2f6f5e;
 
   --l-band: #2b456f;
   --l-on-band: #f6f4ef; /* 8.75:1 */
@@ -559,6 +587,9 @@
   /* The band's navy is far too dark to letter with here, so the same idea runs
      the other way: a blue-tinted light, distinct from the neutral ink. */
   --l-display: #b9cdf0; /* 11.35:1 on bg */
+  --l-heading-1: #f0a6ae;
+  --l-heading-2: #b8caef;
+  --l-heading-3: #8fd8bd;
 
   --l-band: #2c3855;
   --l-on-band: #eceef3; /* 10.03:1 */
@@ -633,6 +664,9 @@
   /* A slate-navy: on warm paper a cold true navy reads as a hole punched in
      the page. */
   --l-display: #33425a; /* 8.34:1 on bg */
+  --l-heading-1: #7d2b2b;
+  --l-heading-2: #24385c;
+  --l-heading-3: #396b4f;
 
   --l-band: #3b4a63;
   --l-on-band: #f3ede1; /* 7.68:1 */
@@ -1079,6 +1113,26 @@
 
   .pf-navlink:hover {
     color: var(--l-ink);
+  }
+
+  .pf-navlink--library {
+    color: var(--l-accent);
+  }
+
+  .pf-navlink--access {
+    color: var(--l-accent);
+  }
+
+  .pf-navlink--downloads {
+    color: var(--l-ok);
+  }
+
+  .pf-navlink--about {
+    color: var(--l-warn);
+  }
+
+  .pf-navlink--signout {
+    color: var(--l-danger);
   }
 
   /* Font Awesome's "1.5x" scale — the header glyphs read as small dots next to
@@ -2072,6 +2126,52 @@
     color: var(--l-accent);
   }
 
+  /* ---- The library's find row ---------------------------------------------
+     The box, the collection chips and the way to the advanced page, on ONE
+     line. They were three stacked blocks, which read as three unrelated
+     controls when they are three ways of narrowing the same grid — and the
+     stack cost enough height to push the first card under the fold.
+
+     `flex-wrap` rather than a breakpoint: the row folds when the things in it
+     stop fitting, which is a different width on a phone with two collections
+     than on one with three. `justify-content: center` keeps the folded state
+     centred under a centred masthead instead of hanging off the left. */
+
+  .pf-library-find {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pf-space-3) var(--pf-space-4);
+    margin-top: var(--pf-space-6);
+  }
+
+  /* `.pf-search` carries its own `margin: var(--pf-space-6) auto 0` — the
+     spacing it needs when it is the only control on the page and centres
+     itself. In this row the ROW owns both, so the margin is zeroed at the call
+     site rather than lifted off the base class, which the about page and the
+     admin header also depend on. Same reason, same shape, as
+     `.pf-about-find__inner > .pf-search`.
+
+     It grows and shrinks; the chips and the button do not. A search field is
+     the only thing here that gets better with more room. */
+  .pf-library-find > .pf-search {
+    flex: 1 1 18rem;
+    margin: 0;
+  }
+
+  .pf-library-find > .pf-collections {
+    margin-top: 0;
+  }
+
+  /* Matches the pill height of the two controls beside it, so the row has one
+     baseline rather than three. */
+  .pf-library-find__more {
+    flex: none;
+    min-height: 2.75rem;
+    border-radius: var(--pf-radius-pill);
+  }
+
   .pf-empty {
     margin-top: var(--pf-space-7);
   }
@@ -2509,6 +2609,253 @@
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--l-accent) 18%, transparent);
   }
 
+  /* ---- Keeping an episode on the device ---------------------------------
+     The counterpart of `.pf-track__play` at the other end of the row, and
+     deliberately QUIETER than it: playing is what this row is for, keeping is a
+     thing you do occasionally. So the transport is a ringed circle in the accent
+     and this is a soft pill that only takes the accent once it has something to
+     say.
+
+     One control with three states rather than two controls — see
+     components/offline/DownloadButton.tsx. The states are: offer, in progress,
+     held. */
+
+  .pf-download {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pf-space-2);
+    /* 44px BOTH ways. Height alone left the compact form — an icon and no label,
+       which is what the book page's rows use — 37px wide: the AAA target size
+       met on one axis is not met. With a label the padding carries it past this
+       anyway, so the rule costs the labelled form nothing. */
+    min-block-size: 2.75rem;
+    min-inline-size: 2.75rem;
+    padding-inline: var(--pf-space-3);
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    background: transparent;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    line-height: 1.6;
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  .pf-download:hover {
+    background: var(--l-sunken);
+    color: var(--l-ink);
+  }
+
+  /* Held: it is ON the device, so it takes the accent — this is a fact about
+     the row now, not an offer. */
+  .pf-download--held {
+    color: var(--l-accent);
+  }
+
+  .pf-download--held:hover {
+    background: var(--l-accent-soft);
+  }
+
+  /* The check says what is true; the bin says what pressing does. Swapped on
+     hover and on focus rather than shown together, because two glyphs in a
+     44px control is a smudge — and swapped only where a pointer can hover, so
+     a touch device (which cannot) keeps the truthful one.
+
+     THE PARENT IS IN THE SELECTOR ON PURPOSE. `.pf-icon` sets `display:
+     inline-flex` on every icon and is declared further down this file, so a
+     bare `.pf-download__drop { display: none }` is the same specificity and
+     loses on order — both glyphs then show at once, which is exactly how this
+     shipped for one iteration. */
+  .pf-download .pf-download__drop {
+    display: none;
+  }
+
+  @media (hover: hover) {
+    .pf-download--held:hover .pf-download__held,
+    .pf-download--held:focus-visible .pf-download__held {
+      display: none;
+    }
+
+    .pf-download--held:hover .pf-download__drop,
+    .pf-download--held:focus-visible .pf-download__drop {
+      display: inline-flex;
+    }
+  }
+
+  /* In progress. Not a button — there is nothing to press while it runs — so it
+     carries no hover and no pointer. */
+  .pf-download--busy {
+    cursor: default;
+    color: var(--l-muted);
+  }
+
+  .pf-download__label {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* A native <progress>, reset to this site's shapes. Both vendor pseudo
+     elements are needed and cannot be combined into one rule: a selector list
+     containing an unknown pseudo-element is dropped WHOLE by every engine, so
+     `::-webkit-progress-value, ::-moz-progress-bar` would style neither. */
+  .pf-download__bar {
+    inline-size: 4rem;
+    block-size: 0.375rem;
+    appearance: none;
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-sunken);
+    overflow: hidden;
+  }
+
+  .pf-download__bar::-webkit-progress-bar {
+    background: var(--l-sunken);
+    border-radius: var(--pf-radius-pill);
+  }
+
+  .pf-download__bar::-webkit-progress-value {
+    background: var(--l-accent);
+    border-radius: var(--pf-radius-pill);
+  }
+
+  .pf-download__bar::-moz-progress-bar {
+    background: var(--l-accent);
+    border-radius: var(--pf-radius-pill);
+  }
+
+  /* ---- The Downloads page ------------------------------------------------
+     One block per book. The heading, the size and the way to clear the whole
+     book sit on one line, wrapping together on a phone — the same argument as
+     the library's find row. */
+
+  .pf-downloads__book + .pf-downloads__book {
+    margin-top: var(--pf-space-7);
+  }
+
+  .pf-downloads__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--pf-space-2) var(--pf-space-4);
+    margin-bottom: var(--pf-space-4);
+  }
+
+  /* The size pushes the Remove control to the far end, so every book's control
+     lands in the same place down the page rather than trailing its own title. */
+  .pf-downloads__head .pf-section__count {
+    flex: 1;
+    margin: 0;
+  }
+
+  /* The text row, above a book's episodes. One line, so it wraps rather than
+     stacking on a phone. */
+  .pf-downloads__text {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-2);
+    margin: 0 0 var(--pf-space-4);
+  }
+
+  /* ---- Reading with no signal --------------------------------------------
+     A plainer surface than the reader, deliberately. It is the prose, the
+     chapter list and the way between them — no marks, no Companion — and
+     dressing it to look like the full reader would promise controls that are
+     not there. What it DOES share is the measure and the type: `.pf-page` and
+     `.pf-chapter-body` are the reader's own, so a chapter read here is set
+     exactly as it is online. */
+
+  .pf-offline-read__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-3);
+    margin-bottom: var(--pf-space-5);
+  }
+
+  .pf-offline-read__where {
+    margin: 0;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+  }
+
+  .pf-offline-read__contents {
+    margin-bottom: var(--pf-space-6);
+    padding: var(--pf-space-4);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-md);
+  }
+
+  .pf-offline-read__contents ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pf-offline-read__link {
+    display: block;
+    inline-size: 100%;
+    min-block-size: 2.75rem;
+    padding: var(--pf-space-2) var(--pf-space-3);
+    border: 0;
+    border-radius: var(--pf-radius-sm);
+    background: transparent;
+    color: var(--l-ink);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .pf-offline-read__link:hover {
+    background: var(--l-sunken);
+  }
+
+  .pf-offline-read__link[aria-current="true"] {
+    color: var(--l-accent);
+    font-weight: 600;
+  }
+
+  /* The notes panel, inline rather than a docked drawer. The reader's SidePanel
+     stands beside the text and shifts the whole shell to make room; here the
+     page is one column and a panel that pushed it would move the prose out from
+     under the reader's eye mid-chapter. */
+  .pf-offline-read__notes {
+    margin-bottom: var(--pf-space-6);
+    padding: var(--pf-space-4);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-md);
+  }
+
+  /* Says what this panel can and cannot do, where the limit is met rather than
+     in a help page nobody opens with no signal. */
+  .pf-offline-read__caveat {
+    margin: var(--pf-space-4) 0 0;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    line-height: 1.6;
+  }
+
+  /* Previous and next, pushed to opposite ends. The empty `<span>` the page
+     renders at either end of the book is what holds the other one in place —
+     `space-between` with one child would centre it. */
+  .pf-offline-read__move {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--pf-space-3);
+    margin-top: var(--pf-space-7);
+  }
+
   /* The row that is PLAYING is marked on the row, not only on its button: the
      button is 44px at the end of a wide row and the eye looking for "where am
      I" scans the left edge. A rule down that edge answers it at a glance. */
@@ -2814,7 +3161,37 @@
    */
 
   .pf-book {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     overflow: hidden;
+    transition:
+      transform var(--pf-motion),
+      box-shadow var(--pf-motion),
+      border-color var(--pf-motion);
+  }
+
+  .pf-book:hover,
+  .pf-book:focus-within {
+    transform: translateY(var(--pf-lift));
+    box-shadow: var(--pf-elev-4);
+    border-color: var(--l-rule-soft);
+  }
+
+  .pf-book__open,
+  .pf-book__title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .pf-book__open {
+    display: block;
+  }
+
+  .pf-book__open:focus-visible,
+  .pf-book__title-link:focus-visible {
+    outline-offset: 3px;
+    border-radius: var(--pf-radius-md);
   }
 
   .pf-book__band {
@@ -2935,40 +3312,164 @@
     text-wrap: balance;
   }
 
-  /* TWO COLUMNS, not flex-wrap. Wrapping made the row count depend on how long
-     the words happened to be: Master and Disciple's five facts ran to three rows
-     while its neighbours took two, so no two cards in the grid were the same
-     height. Four facts in a fixed two-by-two is two rows for every book, and
-     `describeContents({ combineFormats: true })` is what guarantees four. */
-  .pf-book__pills {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    justify-items: center;
-    align-items: start;
-    gap: var(--pf-space-2);
+  .pf-book__title-link:hover .pf-book__title {
+    color: var(--l-accent);
+  }
+
+  .pf-book__actions {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    gap: clamp(1rem, 5vw, 1.65rem);
     margin-top: auto;
-    padding-top: var(--pf-space-5);
-    list-style: none;
-    padding-inline-start: 0;
+    padding-top: var(--pf-space-6);
+    min-height: 4.6rem;
   }
 
-  /* A card's pills may wrap their own text; pills elsewhere may not.
-     `.pf-pill` is `white-space: nowrap` so a fact never breaks across lines
-     mid-phrase, which is right in a row that can grow sideways. Here the pills
-     sit in a two-column grid inside a fixed-width card, and the longest of them
-     — "print + 44 slides, not uploaded" — is wider than its column at every
-     phone width, so it ran out past the card's edge by 47px. Wrapping inside the
-     cell keeps the fact whole and the card intact; centring keeps the second
-     line under the first rather than ragged against the icon. */
-  .pf-book__pills .pf-pill {
-    white-space: normal;
+  .pf-book-action {
+    position: relative;
+    isolation: isolate;
+    --pf-action-tone: var(--l-muted);
+    display: inline-flex;
+    flex: 0 0 4.9rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    width: 4.9rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--l-muted);
+    font: inherit;
     text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color var(--pf-motion);
   }
 
-  /* A lone pill — "Not published yet", or a book with one fact — centres across
-     both columns rather than sitting in the left one. */
-  .pf-book__pills > :only-child {
-    grid-column: 1 / -1;
+  .pf-book-action:hover,
+  .pf-book-action:focus-visible {
+    color: var(--l-ink);
+  }
+
+  .pf-book-action:active {
+    color: var(--l-ink);
+  }
+
+  .pf-book-action--audio {
+    --pf-action-tone: var(--l-ok);
+    color: var(--l-ok);
+  }
+
+  .pf-book-action--active {
+    --pf-action-tone: var(--l-ok);
+    color: var(--l-ok);
+  }
+
+  .pf-book-action--read {
+    --pf-action-tone: var(--l-accent);
+    color: var(--l-accent);
+  }
+
+  .pf-book-action--notes {
+    --pf-action-tone: var(--l-warn);
+    color: var(--l-warn);
+  }
+
+  .pf-book-action__circle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.9rem;
+    height: 3.9rem;
+    border-radius: var(--pf-radius-pill);
+    border: 1px solid color-mix(in srgb, var(--pf-action-tone) 62%, var(--l-ink));
+    background: color-mix(in srgb, var(--pf-action-tone) 11%, var(--l-elev));
+    color: color-mix(in srgb, var(--pf-action-tone) 86%, var(--l-ink));
+    transition:
+      background-color var(--pf-motion),
+      border-color var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  .pf-book-action__circle svg {
+    position: relative;
+    z-index: 1;
+    width: 1.68rem;
+    height: 1.68rem;
+  }
+
+  .pf-book-action__circle::after {
+    content: none;
+  }
+
+  .pf-book-action:hover .pf-book-action__circle,
+  .pf-book-action:focus-visible .pf-book-action__circle {
+    border-color: color-mix(in srgb, var(--pf-action-tone) 72%, var(--l-ink));
+    background: color-mix(in srgb, var(--pf-action-tone) 16%, var(--l-elev));
+    color: color-mix(in srgb, var(--pf-action-tone) 92%, var(--l-ink));
+  }
+
+  .pf-book-action--active .pf-book-action__circle {
+    background: color-mix(in srgb, var(--pf-action-tone) 18%, var(--l-elev));
+  }
+
+  .pf-book-action__badge {
+    position: absolute;
+    z-index: 2;
+    inset-block-start: -0.32rem;
+    inset-inline-end: -0.32rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.36rem;
+    height: 1.36rem;
+    padding-inline: 0.3rem;
+    border: 2px solid var(--l-elev);
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-danger);
+    color: var(--l-on-band);
+    font-family: var(--l-font-ui);
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--l-danger) 40%, var(--l-elev));
+  }
+
+  @media (max-width: 379px) {
+    .pf-book__actions {
+      gap: var(--pf-space-3);
+      min-height: 4.25rem;
+    }
+
+    .pf-book-action {
+      flex-basis: 4.35rem;
+      width: 4.35rem;
+    }
+
+    .pf-book-action__circle {
+      width: 3.55rem;
+      height: 3.55rem;
+    }
+
+    .pf-book-action__circle svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-book-action,
+    .pf-book-action__circle,
+    .pf-book-action__circle::after,
+    .pf-book {
+      animation: none;
+      transition: none;
+    }
   }
 
   /* ---- Pills -----------------------------------------------------------
@@ -2997,12 +3498,6 @@
     background: transparent;
     border-color: var(--l-rule);
     color: var(--l-muted);
-  }
-
-  .pf-pill--quiet {
-    background: transparent;
-    color: var(--l-faint);
-    padding-inline: 0;
   }
 
   /* Toned pills — where somebody stands, as a colour you can scan.
@@ -3088,9 +3583,7 @@
   /* The book page's row of facts. Colouring the glyph and leaving the label in
      the muted ink is what makes a row of five pills scannable — the eye finds
      the headphones without reading the word beside it. Scoped to `.pf-pills`,
-     which is the book page's own row; the library card's pills
-     (`.pf-book__pills`) stay monochrome, because forty coloured glyphs across a
-     grid of cards is noise rather than signal. */
+     which is the book page's own row. */
   .pf-pills > .pf-pill > .pf-icon {
     opacity: 1;
     color: var(--l-accent);
@@ -4474,9 +4967,9 @@
     justify-content: flex-end;
     align-self: stretch;
     gap: var(--pf-space-2);
-    /* Pushed to the foot of the card, so cards with different numbers of pills
-       still line their progress bars up across a row of the grid. */
-    margin-top: auto;
+    /* Sits under the fixed action strip, so every card still puts the meter on
+       the same line across the grid. */
+    margin-top: var(--pf-space-4);
     padding-top: var(--pf-space-4);
     /* The bar and its caption together. An unopened book renders the caption
        alone — "Not yet started" — and reserving the pair's height here is what
@@ -6984,22 +7477,39 @@
 
   .reader h2,
   .reader h3,
-  .reader h4 {
+  .reader h4,
+  .reader h5 {
     margin-top: 2.2em;
     margin-bottom: -0.35em;
-    font-family: var(--l-font-prose);
     line-height: 1.2;
   }
 
   .reader h2 {
+    font-family: var(--l-font-display);
     font-size: 1.5em;
+    font-weight: 600;
   }
+
   .reader h3 {
-    font-size: 1.2em;
+    font-family: var(--l-font-chapter-heading);
+    font-size: 1.45em;
+    font-weight: 700;
+    color: var(--l-heading-1);
   }
+
   .reader h4 {
-    font-size: 1.05em;
-    color: var(--l-muted);
+    font-family: var(--l-font-chapter-heading);
+    font-size: 1.18em;
+    font-weight: 600;
+    color: var(--l-heading-2);
+  }
+
+  .reader h5 {
+    font-family: var(--l-font-lexend);
+    font-size: 1.04em;
+    font-weight: 650;
+    line-height: 1.28;
+    color: var(--l-heading-3);
   }
 
   .reader em {
@@ -7502,27 +8012,29 @@
      A figure the prose points at — for the Sessions collection, the diagram or
      scan the lecturer had on screen at that moment in the talk.
 
-     Sized to the MEASURE, not to the image. These arrive at whatever pixel
-     dimensions a screenshot happened to have — one is 1600px wide and one is
-     420 — and letting them keep it would put a plate wider than the column
-     beside one the size of a stamp. `width: 100%` up to the image's own size is
-     the compromise the print edition already makes: fill the column, never
-     upscale past what the file actually contains.
+     Sized to a standard plate, not to the full measure. These arrive at whatever
+     pixel dimensions a screenshot happened to have, and letting a large one fill
+     the column turns a teaching aid into the page itself. The figure gets one
+     shared cap across chapters; the image fills that cap only when its own file
+     is large enough.
 
      Centred with a rule under it rather than framed. A frame would compete with
      the quotation cards, which are the only bordered thing in the reading
      column and are bordered because the border MEANS something there. */
   .reader .md-figure {
     margin: var(--pf-space-6) auto;
+    width: min(100%, 34rem);
     max-width: 100%;
     text-align: center;
   }
 
   .reader .md-figure img {
     display: block;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     height: auto;
     margin-inline: auto;
+    box-sizing: border-box;
     border-radius: var(--pf-radius-sm);
     /* A hairline, so a scan on a white ground does not bleed into the page. */
     border: 1px solid var(--l-rule-soft);
@@ -8268,5 +8780,635 @@
     line-height: 1.65;
     text-wrap: pretty;
     color: var(--l-muted);
+  }
+}
+
+/* ==========================================================================
+   Advanced search  (/search)
+   --------------------------------------------------------------------------
+   Built from the site's own vocabulary rather than beside it: `--pf-space-*`
+   for rhythm, `--pf-radius-*` for corners, `--pf-elev-*` for depth,
+   `--pf-motion` and `--pf-lift` for movement, and `--l-*` for every colour.
+   The first version of this page used raw rem values and a flat gold marker,
+   which is why it read as a different site bolted onto this one.
+
+   DEPTH IS THE ELEVATION SCALE, not a new set of shadows. A panel rests at
+   `--pf-elev-1`; a result card lifts to `--pf-elev-4` under the pointer, on the
+   same `translateY(--pf-lift)` the library cards already use. Two surfaces that
+   behave the same way should be built the same way.
+
+   The layout is one column that becomes two when there is room for two, and the
+   breakpoint is expressed against the CONTENT: the rail needs about 16rem
+   before it stops being readable and the results about 34rem, so the switch
+   happens where those fit rather than at a device width somebody guessed.
+   ========================================================================== */
+@layer components {
+  /* ---- The find row: box + scope, wrapping together ---------------------- */
+  .pf-find {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-3);
+    margin-top: var(--pf-space-5);
+  }
+
+  /* `.pf-search` carries its own top margin and auto-centring for the pages
+     where it is the only control. Zeroed at the call site, exactly as
+     `.pf-library-find` and `.pf-about-find__inner` do, rather than lifted off
+     the base class those two still depend on. */
+  .pf-find > .pf-search {
+    margin: 0;
+    flex: 1 1 22rem;
+  }
+
+  .pf-find__scope {
+    flex: 0 1 auto;
+  }
+
+  /* The scope control is links, not buttons — they change the address. The
+     existing swatch styling keys on `aria-pressed`, which is invalid on an
+     anchor, so the same appearance is taught to `aria-current` here rather than
+     the markup being bent to fit the stylesheet. */
+  .pf-swatch[aria-current="true"] {
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+  }
+
+  /* ---- Applied filters, and the path back up ----------------------------- */
+  .pf-crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-2);
+    margin-top: var(--pf-space-4);
+  }
+
+  .pf-crumbs__lead {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 500;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-faint);
+  }
+
+  .pf-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    min-height: 32px;
+    padding: var(--pf-pill-y) var(--pf-pill-x);
+    border-radius: var(--pf-radius-pill);
+    border: 1px solid var(--l-rule);
+    background: var(--l-surface);
+    box-shadow: var(--pf-elev-1);
+    color: var(--l-ink);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-pill-size);
+    line-height: var(--pf-pill-leading);
+    text-decoration: none;
+    transition:
+      transform var(--pf-motion),
+      box-shadow var(--pf-motion),
+      background var(--pf-motion);
+  }
+
+  .pf-chip--applied {
+    background: var(--l-accent-soft);
+    border-color: transparent;
+    color: var(--l-accent);
+  }
+
+  .pf-chip--applied:hover,
+  .pf-chip--applied:focus-visible {
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+    transform: translateY(var(--pf-lift));
+    box-shadow: var(--pf-elev-3);
+  }
+
+  .pf-crumbs__clear {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    color: var(--l-muted);
+  }
+
+  /* ---- The board --------------------------------------------------------- */
+  .pf-results {
+    display: grid;
+    gap: var(--pf-space-5) var(--pf-space-6);
+    margin-top: var(--pf-space-5);
+    /* One column until both halves genuinely fit. `minmax(0, …)` on the results
+       column is what stops a long unbroken Arabic run from widening the grid
+       and scrolling the whole page sideways. */
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 60rem) {
+    /* Two columns ONLY when there is a rail to put in the first one.
+       The rail draws nothing when a search has one book and one kind of hit —
+       a filter whose every option shows the same results teaches the reader
+       that the control does not work, which is the rule the library's
+       collection chips already follow. Without `:has`, that absent aside left
+       the results sitting in the 16rem track: a full-width page rendering its
+       results in a 240px column, which is exactly what a reference search
+       looked like. */
+    .pf-results:has(> .pf-facets) {
+      grid-template-columns: 16rem minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  /* THE RAIL SCROLLS WITH THE PAGE. It was sticky, capped at the viewport
+     height and given its own `overflow-y: auto`, which is the arrangement that
+     looks right in a mockup and is wrong in use: the last panel was sliced
+     through a row — "Love Of The Prophet" cut in half — and reaching the rest of
+     it meant finding and scrolling a second scroll region inside a page that was
+     already scrolling. One page, one scrollbar; the rail is simply the shorter
+     of two columns. */
+  .pf-facets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-5);
+  }
+
+  /* EACH GROUP IS ITS OWN PANEL. One long list with dividers was what made the
+     rail read as loose text beside the results rather than as a control: the
+     headings floated with nothing holding them, and the whole column had no
+     edge. Same surface, border, radius and resting elevation as `.pf-card`,
+     because it is the same kind of object. */
+  .pf-facets__group {
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  /* A tinted cap, so the group announces itself before its options do. The
+     sunken tone is the theme's own recessed surface — it reads as a header on
+     paper, on near-black and on sepia without a second colour being chosen. */
+  /* The cap rounds its own top corners rather than the panel clipping them with
+     `overflow: hidden` — which also clipped the raised shadow of a selected
+     option flat against the panel's edge. */
+  .pf-facets__title {
+    margin: 0;
+    padding: var(--pf-space-3) var(--pf-space-4);
+    background: var(--l-sunken);
+    border-bottom: 1px solid var(--l-rule);
+    border-start-start-radius: calc(var(--pf-radius-lg) - 1px);
+    border-start-end-radius: calc(var(--pf-radius-lg) - 1px);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-muted);
+  }
+
+  /* Even padding all round, bottom included. At `--pf-space-2` the last option
+     sat almost against the panel's own border, which read as the panel having
+     been cut off rather than having ended. */
+  .pf-facets__list {
+    margin: 0;
+    padding: var(--pf-space-3);
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-1);
+  }
+
+  /* On a phone the rail is a row of chips that scrolls sideways INSIDE itself,
+     so it costs one line instead of a screen and the page body never moves. */
+  @media (max-width: 59.999rem) {
+    .pf-facets__list {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: thin;
+      gap: var(--pf-space-2);
+    }
+
+    /* The LIST ITEM is the flex child here, not the link inside it. Sizing the
+       link and leaving the `li` at its default `flex: 0 1 auto` let the item
+       shrink and clip the link within it — which is why the labels read
+       "In the" and "Episo" after the link itself had been told not to wrap. */
+    .pf-facets__list > li {
+      flex: 0 0 auto;
+    }
+
+    .pf-facet {
+      border: 1px solid var(--l-rule);
+      border-radius: var(--pf-radius-pill);
+    }
+
+    /* In the rail the label is the flexible part and ellipsises, because the
+       column has a fixed width and a long book title has to give way. In the
+       chip row the opposite is true: the ROW scrolls, so a chip may be as wide
+       as its own text and nothing should be clipped. */
+    .pf-facet__label {
+      overflow: visible;
+      text-overflow: clip;
+      white-space: nowrap;
+    }
+  }
+
+  .pf-facet {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--pf-space-3);
+    min-height: 32px;
+    padding: var(--pf-space-2) var(--pf-space-3);
+    border-radius: var(--pf-radius);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    line-height: 1.35;
+    color: var(--l-ink);
+    text-decoration: none;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion),
+      box-shadow var(--pf-motion);
+  }
+
+  .pf-facet:hover {
+    background: var(--l-sunken);
+  }
+
+  /* Applied: filled, raised off the panel, and carrying a marker on its inner
+     edge so the state survives being read in greyscale or by someone who does
+     not separate this blue from this grey. */
+  .pf-facet[aria-current="true"] {
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+    box-shadow: var(--pf-elev-2);
+  }
+
+  .pf-facet[aria-current="true"]::before {
+    content: "";
+    position: absolute;
+    inset-block: 20%;
+    inset-inline-start: 0;
+    width: 3px;
+    border-start-end-radius: var(--pf-radius-sm);
+    border-end-end-radius: var(--pf-radius-sm);
+    background: var(--l-on-accent);
+    opacity: 0.7;
+  }
+
+  .pf-facet__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pf-facet__n {
+    flex: 0 0 auto;
+    font-variant-numeric: tabular-nums;
+    font-size: var(--pf-text-sm);
+    color: var(--l-muted);
+  }
+
+  .pf-facet[aria-current="true"] .pf-facet__n,
+  .pf-facet[aria-current="true"] .pf-facet__books {
+    color: var(--l-on-accent);
+    opacity: 0.85;
+  }
+
+  .pf-facet__books {
+    color: var(--l-faint);
+  }
+
+  /* ---- Results ----------------------------------------------------------- */
+  /* `min-width: 0` is the load-bearing declaration: a grid item defaults to
+     `auto`, which refuses to shrink below its content, so one long unbroken
+     Arabic run would push the column wider than its track and scroll the whole
+     page sideways. */
+  .pf-results__list {
+    min-width: 0;
+  }
+
+  .pf-results__count {
+    margin: 0 0 var(--pf-space-4);
+    font-family: var(--l-font-ui);
+    color: var(--l-muted);
+  }
+
+  .pf-group + .pf-group {
+    margin-top: var(--pf-space-6);
+  }
+
+  .pf-group__head {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    margin: 0 0 var(--pf-space-3);
+    padding-bottom: var(--pf-space-2);
+    border-bottom: 1px solid var(--l-rule);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-display);
+  }
+
+  .pf-group__n {
+    margin-left: auto;
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
+    font-size: var(--pf-text-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--l-faint);
+  }
+
+  .pf-group__more {
+    margin: var(--pf-space-4) 0 0;
+  }
+
+  .pf-hits {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+  }
+
+  /* A result is a card, and behaves like every other card on this site: resting
+     elevation, and a lift under the pointer. The border is what tells it apart
+     from the page; the shadow is what puts it above it. */
+  .pf-hit {
+    position: relative;
+    padding: var(--pf-space-4);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    background: var(--l-surface);
+    box-shadow: var(--pf-elev-1);
+    transition:
+      transform var(--pf-motion),
+      box-shadow var(--pf-motion),
+      border-color var(--pf-motion);
+  }
+
+  .pf-hit:hover,
+  .pf-hit:focus-within {
+    transform: translateY(var(--pf-lift));
+    box-shadow: var(--pf-elev-4);
+    border-color: var(--l-accent);
+  }
+
+  .pf-hit__where {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--pf-space-2);
+    margin-bottom: var(--pf-space-2);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    color: var(--l-faint);
+  }
+
+  .pf-hit__book {
+    font-weight: 600;
+    color: var(--l-accent);
+    /* A real tap target. At this size the link was a 21px-high box — under the
+       24px floor the smoke gate gives touch viewports, and genuinely fiddly to
+       hit beside the chapter name. The height comes from `min-height` on an
+       inline-flex box rather than from padding, so the row's baseline is
+       unchanged and the title still sits level with the chapter beside it. */
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+  }
+
+  .pf-hit__chapter {
+    min-width: 0;
+  }
+
+  .pf-hit__sep {
+    color: var(--l-rule);
+  }
+
+  .pf-ref {
+    display: inline-block;
+    padding: var(--pf-pill-sm-y) var(--pf-pill-sm-x);
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-accent-soft);
+    color: var(--l-accent);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-pill-sm-size);
+    line-height: var(--pf-pill-sm-leading);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .pf-hit__ref {
+    margin-left: auto;
+  }
+
+  .pf-hit__body {
+    display: block;
+    color: var(--l-ink);
+    text-decoration: none;
+  }
+
+  .pf-hit__text {
+    display: block;
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-md);
+    line-height: 1.6;
+    /* Capped for reading even when the column is wider — width and measure are
+       separate settings, the same rule the about page's bands follow. In `ch`
+       rather than the `--pf-measure-*` tokens, which are LAYOUT widths for a
+       page or a reading sheet; this is the measure of one paragraph and should
+       follow its own type size. */
+    max-width: 62ch;
+    text-wrap: pretty;
+  }
+
+  /* THE MARKER IS THE ACCENT, NOT THE READER'S GOLD. `--l-hl-gold` is the
+     colour of a highlight the reader put there themselves, and using it here
+     said that the search had annotated their book. It also fell as a solid
+     block: a paragraph with four hits became four gold bricks. This tints in
+     the accent and carries the weight in a rule under the word, so a dense
+     passage stays readable and a hit still cannot be missed. */
+  /* TWO signals, not three. A tint plus a rule plus bold weight was every kind
+     of emphasis at once, and a paragraph carrying four hits — which is ordinary
+     for a word like Allah in this library — turned into a row of boxes with the
+     prose fighting through them. The tint locates the word and the rule
+     underlines it; the weight is left to the prose. */
+  .pf-hit__mark {
+    padding: 0.08em 0.2em;
+    border-radius: var(--pf-radius-sm);
+    background: var(--l-accent-soft);
+    box-shadow: inset 0 -0.12em 0 var(--l-accent);
+    color: var(--l-ink);
+  }
+
+  /* ---- Verses ------------------------------------------------------------ */
+  .pf-hit--verse .pf-hit__ar {
+    display: block;
+    margin-bottom: var(--pf-space-2);
+    font-family: var(--l-font-arabic-quran);
+    /* Vowelled Arabic needs the room its marks occupy; below this the harakat
+       collide and the line stops being readable rather than merely small. */
+    font-size: clamp(1.25rem, 1rem + 1.1vw, 1.7rem);
+    line-height: 2.1;
+    color: var(--l-quote-quran);
+    /* `unicode-bidi: plaintext` so a verse that opens with a Latin caption is
+       still laid out from its own first strong character. */
+    unicode-bidi: plaintext;
+    text-align: right;
+    /* Long unbroken Arabic scrolls INSIDE the card rather than widening it. */
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  /* Side by side only where there is genuinely room, and only when there is
+     something to put in the second column. */
+  @media (min-width: 75rem) {
+    .pf-hit--verse .pf-hit__body:has(.pf-hit__text) {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: var(--pf-space-5);
+      align-items: start;
+    }
+
+    .pf-hit--verse .pf-hit__body:has(.pf-hit__text) .pf-hit__ar {
+      margin-bottom: 0;
+    }
+  }
+
+  /* ---- Expand in place --------------------------------------------------- */
+  .pf-hit__expand {
+    margin-top: var(--pf-space-2);
+    padding: var(--pf-space-1) 0;
+    min-height: 24px;
+    border: 0;
+    background: none;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    color: var(--l-accent);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+  }
+
+  .pf-hit__expand[aria-expanded="true"] .pf-icon {
+    transform: rotate(180deg);
+  }
+
+  .pf-hit__expand .pf-icon {
+    transition: transform var(--pf-motion);
+  }
+
+  /* The passage growing in place, so the eye follows the change rather than
+     finding a different card where it left one. */
+  .pf-hit__text.is-open {
+    animation: pf-hit-open 220ms cubic-bezier(0.2, 0, 0.2, 1);
+  }
+
+  @keyframes pf-hit-open {
+    from {
+      opacity: 0.35;
+      transform: translateY(-2px);
+    }
+  }
+
+  /* ---- The page before a question has been asked ------------------------- */
+  .pf-prompt {
+    margin-top: var(--pf-space-6);
+    padding: var(--pf-space-5);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    background: var(--l-surface);
+    box-shadow: var(--pf-elev-2);
+    max-width: 46rem;
+  }
+
+  .pf-prompt__lead {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    margin: 0 0 var(--pf-space-4);
+    padding-bottom: var(--pf-space-3);
+    border-bottom: 1px solid var(--l-rule-soft);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-display);
+  }
+
+  .pf-prompt__list {
+    margin: 0;
+    padding-left: var(--pf-space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    line-height: 1.6;
+    color: var(--l-muted);
+    max-width: 60ch;
+  }
+
+  .pf-prompt__foot {
+    margin: var(--pf-space-5) 0 0;
+  }
+
+  /* Motion is decoration on this page and every bit of it is safe to drop. */
+  @media (prefers-reduced-motion: reduce) {
+    .pf-chip,
+    .pf-facet,
+    .pf-hit,
+    .pf-hit__expand .pf-icon {
+      transition: none;
+    }
+
+    .pf-chip--applied:hover,
+    .pf-chip--applied:focus-visible,
+    .pf-hit:hover,
+    .pf-hit:focus-within {
+      transform: none;
+    }
+
+    .pf-hit__text.is-open {
+      animation: none;
+    }
+  }
+}
+/* The paragraph a search result landed on.
+   Held for a couple of seconds and then dropped — see the effect in the reading
+   route for why it does not stay. The ring is drawn OUTSIDE the block with an
+   outline rather than a border, so nothing reflows and the prose does not shift
+   under the reader as it appears and goes. */
+@layer components {
+  .pf-found {
+    outline: 2px solid var(--l-accent);
+    outline-offset: 0.4rem;
+    border-radius: 0.2rem;
+    animation: pf-found-in 240ms ease-out;
+  }
+
+  @keyframes pf-found-in {
+    from {
+      outline-color: transparent;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-found {
+      animation: none;
+    }
   }
 }

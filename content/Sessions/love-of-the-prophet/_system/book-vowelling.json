@@ -1,0 +1,52 @@
+{
+  "vowelled": 0,
+  "marks_added": 6,
+  "already": 164,
+  "quranic": 0,
+  "from_mushaf": 0,
+  "refused": 9,
+  "recovered": 0,
+  "transferred": 0,
+  "in_chars": 18,
+  "out_chars": 31,
+  "mushaf_pairs": [],
+  "refusals": [
+    {
+      "run": "یا ایھا الذین کفرو",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"یا ایھا الذی\" vs proposal \"يا أيها الذي\")"
+    },
+    {
+      "run": "ایمان",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"یمان\" vs proposal \"يمان\")"
+    },
+    {
+      "run": "کفر",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"کفر\" vs proposal \"كفر\")"
+    },
+    {
+      "run": "اسری",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"اسری\" vs proposal \"أسرى\")"
+    },
+    {
+      "run": "اخلاق",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"اخلاق\" vs proposal \"أخلاق\")"
+    },
+    {
+      "run": "سیرۃ",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"یرۃ\" vs proposal \"يرة\")"
+    },
+    {
+      "run": "عبادۃ",
+      "reason": "letters changed, not just marks (first difference at character 5: source \"ۃ\" vs proposal \"ة\")"
+    },
+    {
+      "run": "ایثار",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"ایثار\" vs proposal \"إيثار\")"
+    },
+    {
+      "run": "واللہ",
+      "reason": "letters changed, not just marks (first difference at character 5: source \"ہ\" vs proposal \"ه\")"
+    }
+  ],
+  "lexical": 2
+}

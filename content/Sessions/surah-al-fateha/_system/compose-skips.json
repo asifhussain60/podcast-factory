@@ -1,0 +1,9 @@
+{
+  "schema": "book.compose-skips/v1",
+  "skips": [
+    {
+      "step": "annotation-policy",
+      "error": "AnnotationPolicyError: classifier failed rc=1: "
+    }
+  ]
+}

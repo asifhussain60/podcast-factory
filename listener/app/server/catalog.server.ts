@@ -344,6 +344,7 @@ export async function deckPagesOf(db: D1Database, slug: string): Promise<Deck[]>
 
 export interface LibraryCard {
   chapters: number;
+  firstChapterKey: string | null;
   /**
    * Raw words, NOT minutes.
    *
@@ -364,6 +365,15 @@ export interface LibraryCard {
   /** At least one deck page is in R2. */
   deckAvailable: boolean;
   titleArabic: string | null;
+}
+
+export interface CardPlayableEpisode {
+  slug: string;
+  number: number;
+  title: string;
+  audioKey: string;
+  durationS: number | null;
+  transcriptKey: string | null;
 }
 
 /**
@@ -398,6 +408,8 @@ export async function libraryCards(
               (SELECT count(*) FROM media_asset m
                 WHERE m.key = d.pdf_key AND m.uploaded_at IS NOT NULL) AS pdf_ready,
               (SELECT count(*)          FROM chapter c WHERE c.slug = u.slug) AS chapters,
+              (SELECT c.anchor_key       FROM chapter c
+                WHERE c.slug = u.slug ORDER BY c.idx LIMIT 1) AS first_chapter_key,
               (SELECT coalesce(sum(c.word_count), 0) FROM chapter c WHERE c.slug = u.slug) AS words,
               (SELECT count(*)          FROM episode e WHERE e.slug = u.slug) AS episodes,
               (SELECT count(*)          FROM episode e
@@ -419,6 +431,7 @@ export async function libraryCards(
       pdf_exists: number;
       pdf_ready: number;
       chapters: number;
+      first_chapter_key: string | null;
       words: number;
       episodes: number;
       recorded: number;
@@ -429,6 +442,7 @@ export async function libraryCards(
   for (const r of results) {
     cards.set(r.slug, {
       chapters: r.chapters,
+      firstChapterKey: r.first_chapter_key,
       words: r.words,
       episodes: r.episodes,
       recorded: r.recorded,
@@ -441,6 +455,65 @@ export async function libraryCards(
   }
 
   return cards;
+}
+
+/**
+ * The playable episode rows a library card can start.
+ *
+ * The caller passes slugs already filtered through access. This returns only
+ * uploaded audio, matching the book page's Listen tab, so a card never offers a
+ * play button that opens onto a 404.
+ */
+export async function playableEpisodesForCards(
+  db: D1Database,
+  slugs: string[],
+): Promise<Map<string, CardPlayableEpisode[]>> {
+  const episodes = new Map<string, CardPlayableEpisode[]>();
+  if (slugs.length === 0) return episodes;
+
+  const placeholders = slugs.map((_, i) => `?${i + 1}`).join(", ");
+
+  const { results } = await db
+    .prepare(
+      `SELECT e.slug, e.number, e.title, e.audio_key, e.duration_s,
+              CASE
+                WHEN e.transcript_key IS NOT NULL AND transcript.uploaded_at IS NOT NULL
+                THEN e.transcript_key
+                ELSE NULL
+              END AS transcript_key
+         FROM episode e
+         JOIN media_asset audio
+           ON audio.key = e.audio_key
+          AND audio.uploaded_at IS NOT NULL
+         LEFT JOIN media_asset transcript
+           ON transcript.key = e.transcript_key
+        WHERE e.slug IN (${placeholders})
+        ORDER BY e.slug, e.number`,
+    )
+    .bind(...slugs)
+    .all<{
+      slug: string;
+      number: number;
+      title: string;
+      audio_key: string;
+      duration_s: number | null;
+      transcript_key: string | null;
+    }>();
+
+  for (const r of results) {
+    const slot = episodes.get(r.slug) ?? [];
+    slot.push({
+      slug: r.slug,
+      number: r.number,
+      title: r.title,
+      audioKey: r.audio_key,
+      durationS: r.duration_s,
+      transcriptKey: r.transcript_key,
+    });
+    episodes.set(r.slug, slot);
+  }
+
+  return episodes;
 }
 
 export interface MediaRow {

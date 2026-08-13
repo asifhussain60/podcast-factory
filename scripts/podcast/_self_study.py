@@ -24,7 +24,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from _authoring._core import AuthoringError, _run_claude_p_with_retry
+from _authoring._core import AuthoringError, _run_claude_p_with_retry, pure_text_call_options
 from _book_augment import (
     _CHAPTER_HEADING_RE,
     _MAX_BLOCK_WORDS,
@@ -135,6 +135,7 @@ def _generate_summary(title: str, chapter_text: str, book_dir: Path, label: str,
         phase="0book-self-study",
         step=label,
         log=log,
+        **pure_text_call_options(),
     )
     if rc != 0:
         raise AuthoringError(
@@ -216,6 +217,7 @@ def _generate_subheadings(title: str, body: str, book_dir: Path, log) -> list[tu
         phase="0book-self-study",
         step=f"subhead-{_slug(title)}",
         log=log,
+        **pure_text_call_options(),
     )
     if rc != 0 or not out or out.strip().upper().startswith("NONE"):
         return []
@@ -320,6 +322,7 @@ def _generate_term_defs(items: list[tuple[str, str]], book_dir: Path, log) -> di
         phase="0book-self-study",
         step="term-defs",
         log=log,
+        **pure_text_call_options(),
     )
     if rc != 0 or not out:
         return {}

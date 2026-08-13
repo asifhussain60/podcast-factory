@@ -25,9 +25,10 @@ skill and the `book-rearticulator` agent.
 
 **Verified, not merely instructed.** `book-challenger` check **BK-P8**
 (articulation conformance) judges a composed book against the rules below that no
-other `BK-*` check covers — REQ-BA-010, -020, -050, -080, -100, -140 — on every
-book whose `book_voice` resolves to `faithful`. The remaining rules are already
-gated elsewhere and are NOT re-checked by BK-P8; see the check's own scope note.
+other `BK-*` check covers — REQ-BA-010, -020, -050, -080, -100, -112, -115,
+-140 — on every book whose `book_voice` resolves to `faithful`. The remaining
+rules are already gated elsewhere and are NOT re-checked by BK-P8; see the
+check's own scope note.
 Cite findings by `REQ-BA-NNN`; never re-copy rule text elsewhere.
 
 Grounding: the [Library of Arabic Literature *Handbook for Editor–Translators*](https://dhjhkxawhe8q4.cloudfront.net/library-of-arabic-literature-wp/assets/20240716170340/Handbook-v5-2024-02-28.pdf)
@@ -97,26 +98,60 @@ retention, narrative frame), the repo convention wins and is cited, not restated
 - **REQ-BA-110 — American spelling and book punctuation.** American English
   spelling per Merriam-Webster (repo rule: `_american_spelling.py`; LAL 6.2.1),
   the serial comma, and periods/commas inside closing quotes.
+- **REQ-BA-112 — Spelling, grammar, and copy-editing are part of
+  articulation.** The pass is not only a de-calque pass. It also runs a complete
+  copy-edit over its own output: fix every ordinary English spelling, grammar,
+  punctuation, capitalization, spacing, duplicated-word, malformed
+  sentence-boundary, agreement, tense, pronoun-reference, transcript typo, or
+  OCR typo defect that can be corrected without changing meaning. This rule does
+  not authorize "correcting" Arabic script, technical terms, names, citations,
+  book-established spellings, or protected quoted artifacts. If it is unclear
+  whether something is an error or authored wording, leave the prose intact and
+  report the risk under REQ-BA-160.
+- **REQ-BA-115 — List structure is evaluated, not merely preserved.** Every
+  list-like run is judged for book readability: steps, conditions, causes,
+  meanings, proofs, examples, ranks, repeated sentence stems, "first/second"
+  sequences, and semicolon-heavy series may become Markdown lists even if the
+  source printed them as prose. Use numbered lists only for true sequence, rank,
+  explicit count, or dependent order; use bullets for parallel unordered items.
+  Apply standard Markdown indentation for nested items and continuation lines
+  so the hierarchy is visible. The content of every item remains invariant under
+  REQ-BA-030. Do not convert source section or paragraph numbering, verse or
+  page numbers, citation numbers, or an author's deliberate refusal to enumerate
+  into a list. Do not restructure inside protected quoted artifacts unless the
+  source itself already presents that artifact as a list.
 - **REQ-BA-120 — The narrative frame is binding.** WHO narrates comes from
   `_system/series-config.yaml` (`narrative_frame`), never from the prose in
   front of you. Grammatical person, one narrator per book, and enumeration
   survival are enforced by `_narrative.py` and gated by `book-challenger`
   Pass 3 (BK-N1–N7). Rearticulation runs inside those gates, never around them.
-- **REQ-BA-125 — A book addresses nobody (R-NO-LECTURE-VOICE).** Under a
-  third-person frame the narration never turns to the reader and never directs
-  an audience. Out: "you"/"your" in narration, stage-direction imperatives
-  (consider, notice, note, observe, recall, remember, imagine, picture, hold,
-  look, mark, listen), and commentary about the discourse itself ("this is the
-  heart of it", "before we go on", "as we shall see"). Every such move is
-  RECAST into exposition — "Hold that frame, and step now inside it" becomes
-  "Within that frame stands…" — never deleted, because it carries a thought.
-  UNTOUCHED inside quoted speech, verses, hadith, prayers and block
+- **REQ-BA-125 — A book addresses nobody (R-NO-LECTURE-VOICE).** Under a frame
+  that does not address a reader the narration never turns to the reader and
+  never directs an audience. Out: "you"/"your" in narration, stage-direction
+  imperatives (consider, notice, note, observe, recall, remember, imagine,
+  picture, hold, look, mark, listen), and commentary about the discourse itself
+  ("this is the heart of it", "before we go on", "as we shall see"). Every such
+  move is RECAST into exposition — "Hold that frame, and step now inside it"
+  becomes "Within that frame stands…" — never deleted, because it carries a
+  thought. UNTOUCHED inside quoted speech, verses, hadith, prayers and block
   quotations: there one person addresses another, which every frame keeps.
-  Silent under a first-person frame — *Ayyuhal Walad* is a letter to a
-  disciple, where the address IS the form. Instructed by
-  `_narrative.frame_prompt_directive` and guarded DIFFERENTIALLY by
-  `_narrative.lecture_voice_findings` (a pass may not ADD lecture voice), so a
-  lecture-derived source can be improved rather than reverted wholesale.
+  Silent where the address IS the form — *Ayyuhal Walad* is a letter to a
+  disciple, and stripping the second person there would leave nothing.
+  Instructed by `_narrative_prompts.frame_prompt_directive` and guarded
+  DIFFERENTIALLY by `_narrative.lecture_voice_findings` (a pass may not ADD
+  lecture voice), so a lecture-derived source can be improved rather than
+  reverted wholesale.
+  **Scoped by `addresses_reader`, not by grammatical person (2026-08-11).** The
+  rule keyed off "third person" until Asif's own delivered lectures were
+  ingested. He IS the author and the transcript records him saying "I", so the
+  frame is honestly first-person — and under the old key that switched this rule
+  off, leaving 173 stage-direction imperatives in *Surah Al-Fateha* against
+  eleven in the edition it sits beside on the shelf. WHO NARRATES and WHETHER THE
+  NARRATION ADDRESSES ANYONE are two questions; `_narrative_frames` answers them
+  separately, and `first_person_expository` is the frame that keeps the speaker's
+  "I" and loses his room. `_rules.addresses_reader_for` is the single predicate
+  the prompt and both guards read, and a registry-wide test asserts they agree
+  for every frame.
   Added 2026-08-03: `al-anwaar-al-lateefah` is transcribed from spoken
   lectures, and converting it to a transmitted report changed every "I" while
   leaving every "Do not pass over that phrase lightly" exactly where the
@@ -124,7 +159,8 @@ retention, narrative frame), the repo convention wins and is cited, not restated
   like the edition printed beside it.
 
 - **REQ-BA-126 — No navigation apparatus (R-NO-NAVIGATION-APPARATUS).** Under a
-  third-person frame the prose does not locate itself inside the SOURCE's
+  frame that does not address a reader (same scoping as REQ-BA-125, same
+  predicate) the prose does not locate itself inside the SOURCE's
   division scheme. The edition prints numbered chapters; it has no canopies,
   gates, babs or fasls a reader can turn to, so "we now come to the fourth
   chapter of the first gate of the first canopy" points at nothing they can
@@ -134,8 +170,17 @@ retention, narrative frame), the repo convention wins and is cited, not restated
   suradiq or bab is. Drop the locator, keep what the sentence teaches — several
   carry both. Naming the source's own term once, where its argument turns on it,
   is fine, and a heading or Arabic line the source prints is quoted text and
-  stays untouched. Instructed by `_narrative.frame_prompt_directive`, guarded
-  differentially by `_narrative.navigation_findings`.
+  stays untouched. Instructed by `_narrative_prompts.frame_prompt_directive`,
+  guarded differentially by `_narrative.navigation_findings`.
+  A SPOKEN source has its own division scheme and it is the delivery schedule:
+  "in the last session I talked about", "we'll cover this over the next few
+  sessions", "as I mentioned last week". Same defect, same recast — drop the
+  locator, keep what it teaches — and a recap that TEACHES keeps its substance
+  and loses only its timestamp. Instructed to the model; deliberately NOT added
+  to `_NAVIGATION_RE`, because that guard is differential (it stops a pass ADDING
+  apparatus, it does not drive removal) and teaching it "session" would mean
+  threading `source_medium` through every gate signature to stop the published
+  third-person books matching on an ordinary sentence about a week.
 - **REQ-BA-127 — Every foreign term is shown in script at least once
   (R-ARABIC-SCRIPT-SHOWN-ONCE).** A term the book sets in italics as foreign is
   given in Arabic script somewhere in the book — once is enough, per the

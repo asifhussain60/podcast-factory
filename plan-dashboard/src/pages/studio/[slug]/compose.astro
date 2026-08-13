@@ -102,6 +102,8 @@ const dataJson = view
       // The read-only Podcast lane's chapter list — metadata only; the pane
       // fetches the one chapter it shows (see compose-lane.ts).
       podcastChapters: view.podcastChapters,
+      // Gates the "Paste & Fix Chapter" action to Sessions-lane books only.
+      sessionsLane: view.sessionsLane,
     })
   : "";
 

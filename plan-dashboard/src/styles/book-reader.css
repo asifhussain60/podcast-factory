@@ -96,7 +96,7 @@
   color: var(--c-ink);
 }
 
-.bookv-body :is(h2, h3) {
+.bookv-body :is(h2, h3, h4, h5) {
   scroll-margin-top: 1.5rem; /* so anchor jumps clear the top */
   font-family:
     "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman",
@@ -111,8 +111,25 @@
   border-bottom: 1px solid var(--c-rule-soft);
 }
 .bookv-body h3 {
-  margin: 1.8rem 0 0.7rem;
-  font-size: 1.3rem;
+  margin: 1.55rem 0 0.6rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1.45em;
+  font-weight: 700;
+  color: var(--c-heading-1, #800000);
+}
+.bookv-body h4 {
+  margin: 1.25rem 0 0.5rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1.18em;
+  font-weight: 600;
+  color: var(--c-heading-2, #1f3a5f);
+}
+.bookv-body h5 {
+  margin: 1.05rem 0 0.45rem;
+  font-family: "Lexend", "Inter", system-ui, sans-serif;
+  font-size: 1.04em;
+  font-weight: 650;
+  color: var(--c-heading-3, #2f6f5e);
 }
 .bookv-body p {
   margin: 0 0 1.1rem;
@@ -140,6 +157,34 @@
 }
 .bookv-body li {
   margin-block: 0.3rem;
+}
+
+/* Markdown figures are lecture plates, not full-page panels. Keep them at one
+   standard reader size across chapters while letting phones use the full
+   column, and never upscale a small source image just to fill the cap. */
+.bookv-body .md-figure {
+  width: min(100%, 34rem);
+  max-width: 100%;
+  margin: 1.8rem auto;
+  text-align: center;
+}
+.bookv-body .md-figure img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+  box-sizing: border-box;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  background: var(--c-bg-card, #fffdf8);
+}
+.bookv-body .md-figure figcaption {
+  margin-top: 0.45rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  line-height: 1.45;
+  color: var(--c-ink-muted, #87827a);
+  text-align: center;
 }
 
 /* Scripture / hadith blockquotes: Arabic line over the English translation. */
@@ -185,11 +230,18 @@
    it (theme-tokens.css records the measurement that retired the old 135% optical
    adjustment). Isolate the RTL run so it doesn't disturb the surrounding Latin. */
 .bookv-body .ar-inline {
-  font-family: var(--q-ar-face);
+  font-family: var(
+    --q-ar-inline-face,
+    "AmiriSized",
+    "Amiri",
+    "ScheherazadeSized",
+    "Scheherazade New",
+    serif
+  );
+  font-weight: var(--q-ar-inline-weight, 400);
   /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
      shearing the glyphs, which is wrong for the script and looked wrong on the
-     page; and an inherited bold would fake a weight the face does not have.
-     Pinned here so the run renders the same whatever prose it sits in. */
+     page. Pinned here so the run renders the same whatever prose it sits in. */
   font-style: normal;
   /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
      descent are far taller than the Latin body face, so without an explicit
@@ -198,6 +250,7 @@
   line-height: inherit;
   direction: rtl;
   unicode-bidi: isolate;
+  vertical-align: -0.04em;
 }
 /* A standalone Arabic quotation — the same display block the PDF and the
    Composer's Read view set, with the same values (book-print.css .ar-block).
@@ -210,6 +263,11 @@
   text-align: center;
   unicode-bidi: isolate;
   margin: 0.9rem 0;
+}
+.bookv-body .ar-block .ar-inline,
+.bookv-body blockquote.quran .ar-inline {
+  font-family: var(--q-ar-face);
+  font-weight: 400;
 }
 
 .bookv-body blockquote.quran p.ar {

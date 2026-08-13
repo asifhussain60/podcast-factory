@@ -51,6 +51,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -58,7 +59,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _listener_book import LISTENER, Book, load_book, render  # noqa: E402
+from _listener_search import IndexReport, Passage, passages_for  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
+from _production_publish import account_ok, cloudflare_env  # noqa: E402
 
 # The bucket belongs to the uploader; the publish step borrows two of its
 # functions rather than growing a second way to talk to R2.
@@ -79,8 +82,27 @@ def sql_str(value: object) -> str:
     return "'" + str(value).replace("'", "''") + "'"
 
 
-def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
-    """Everything for one book, as one replaceable block.
+_SEARCH_CACHE: dict[str, tuple[list[Passage], IndexReport]] = {}
+
+
+def search_index(book: Book) -> tuple[list[Passage], IndexReport]:
+    """The book's search rows, computed once.
+
+    Cached because `build_sql` and `describe` both want them and naming a verse
+    means matching its skeleton against all 6,236 ayat — cheap once per book,
+    wasteful twice.
+    """
+    if book.slug not in _SEARCH_CACHE:
+        _SEARCH_CACHE[book.slug] = passages_for(book)
+    return _SEARCH_CACHE[book.slug]
+
+
+def search_passages(book: Book) -> list[Passage]:
+    return search_index(book)[0]
+
+
+def build_statements(book: Book, *, published_at: str, commit: str | None) -> list[str]:
+    """Everything for one book, as one replaceable block of statements.
 
     Each table is cleared for this slug and rewritten. That makes a re-publish
     idempotent and, more importantly, makes DELETION work: a chapter dropped from
@@ -157,6 +179,30 @@ def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
             f"{sql_str(json.dumps(card.etymology, ensure_ascii=False) if card.etymology else None)});"
         )
 
+    # The search index. Cleared and rewritten with the chapters it describes,
+    # which is what stops it describing a passage the edition no longer has.
+    #
+    # NOTHING TOUCHES `search_fts` HERE, deliberately. It is an external-content
+    # FTS5 table kept in step by three triggers declared in 0012_search.sql, so
+    # these two statements maintain it for free. A second write here would be the
+    # copy that drifts the first time somebody changed one and not the other.
+    add(f"DELETE FROM search_passage WHERE slug = {sql_str(book.slug)};")
+    for passage in search_passages(book):
+        add(
+            "INSERT INTO search_passage "
+            "(slug, kind, anchor_key, heading, ordinal, episode_number, quote, prefix, "
+            "arabic, label, surah, ayah, heading_fold, body_fold, arabic_fold) VALUES "
+            f"({sql_str(passage.slug)}, {sql_str(passage.kind)}, {sql_str(passage.anchor_key)}, "
+            f"{sql_str(passage.heading)}, {passage.ordinal}, "
+            f"{passage.episode_number if passage.episode_number is not None else 'NULL'}, "
+            f"{sql_str(passage.quote)}, {sql_str(passage.prefix)}, {sql_str(passage.arabic)}, "
+            f"{sql_str(passage.label)}, "
+            f"{passage.surah if passage.surah is not None else 'NULL'}, "
+            f"{passage.ayah if passage.ayah is not None else 'NULL'}, "
+            f"{sql_str(passage.heading_fold)}, {sql_str(passage.body_fold)}, "
+            f"{sql_str(passage.arabic_fold)});"
+        )
+
     # Media is the ONE table not cleared and rewritten, because `uploaded_at` is
     # knowledge this run does not have: it says the object is in R2, and only the
     # uploader can know that. A delete-and-reinsert would reset it on every
@@ -188,7 +234,12 @@ def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
             "sha256 = excluded.sha256;"
         )
 
-    return "\n".join(out) + "\n"
+    return out
+
+
+def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
+    """The SQL file shape, kept for dry runs, inspection, and local imports."""
+    return "\n".join(build_statements(book, published_at=published_at, commit=commit)) + "\n"
 
 
 def keys_in_bucket(slug: str, *, remote: bool) -> set[str]:
@@ -200,7 +251,51 @@ def keys_in_bucket(slug: str, *, remote: bool) -> set[str]:
     return {r["key"] for r in rows}
 
 
-def execute(sql_path: Path, *, remote: bool) -> None:
+REMOTE_BATCH_BYTES = 80_000
+
+
+def remote_batches(statements: list[str], *, max_bytes: int = REMOTE_BATCH_BYTES) -> list[str]:
+    """Group statements for D1's query endpoint without using the import path."""
+    batches: list[str] = []
+    current: list[str] = []
+    size = 0
+    for statement in statements:
+        statement_size = len(statement.encode("utf-8")) + 1
+        if current and size + statement_size > max_bytes:
+            batches.append("\n".join(current))
+            current = []
+            size = 0
+        current.append(statement)
+        size += statement_size
+    if current:
+        batches.append("\n".join(current))
+    return batches
+
+
+def execute(sql_path: Path, *, remote: bool, statements: list[str] | None = None) -> None:
+    if remote and statements is not None:
+        batches = remote_batches(statements)
+        for i, command in enumerate(batches, 1):
+            print(f"  remote SQL batch {i}/{len(batches)}")
+            subprocess.run(
+                [
+                    "npx",
+                    "wrangler",
+                    "d1",
+                    "execute",
+                    "podcast-listener",
+                    "--remote",
+                    "--command",
+                    command,
+                    "--yes",
+                ],
+                cwd=LISTENER,
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+        return
+
     subprocess.run(
         [
             "npx",
@@ -271,7 +366,18 @@ def session_concerns(book: Book) -> list[str]:
 
 def describe(book: Book) -> dict:
     with_audio = sum(1 for e in book.episodes if e.audio)
+    _rows, index = search_index(book)
     return {
+        # What the advanced search will be able to find. `verses_named` is the
+        # honest number: the Arabic runs the canonical mushaf could put a
+        # reference on, out of every run that IS a quotation. The gap is not a
+        # failure — most quotation in this library is hadith, poetry or a book
+        # title, none of which is scripture and none of which gets a citation.
+        "search_passages": index.passages,
+        "search_by_kind": index.per_kind,
+        "arabic_quotations": index.verses,
+        "verses_named": index.named_verses,
+        "mushaf_available": index.mushaf,
         "slug": book.slug,
         "bucket": book.bucket,
         "title": book.title,
@@ -297,6 +403,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
+
+    if args.remote:
+        try:
+            os.environ.update(cloudflare_env())
+        except RuntimeError as error:
+            print(f"  ! {error}")
+            return 2
+        ok, who = account_ok(dict(os.environ), LISTENER)
+        if not ok:
+            print(f"  ! {who}")
+            return 2
 
     commit = None
     try:
@@ -333,7 +450,8 @@ def main(argv: list[str] | None = None) -> int:
         summaries.append(summary)
 
         sql_path = out_dir / f"{slug}.sql"
-        sql_path.write_text(build_sql(book, published_at=published_at, commit=commit), encoding="utf-8")
+        statements = build_statements(book, published_at=published_at, commit=commit)
+        sql_path.write_text("\n".join(statements) + "\n", encoding="utf-8")
 
         if not args.json:
             print(f"\n{book.title}  ({book.bucket}/{book.slug})")
@@ -362,10 +480,18 @@ def main(argv: list[str] | None = None) -> int:
         before = set() if args.dry_run else keys_in_bucket(slug, remote=args.remote)
 
         try:
-            execute(sql_path, remote=args.remote)
-        except subprocess.SubprocessError:
+            execute(sql_path, remote=args.remote, statements=statements)
+        except subprocess.CalledProcessError as error:
             failed.append(slug)
+            for stream in (error.stdout, error.stderr):
+                text = str(stream or "").strip()
+                if text:
+                    print(text)
             print(f"  ! FAILED to write {slug} — the books before it are already in")
+            continue
+        except subprocess.SubprocessError as error:
+            failed.append(slug)
+            print(f"  ! FAILED to write {slug}: {error}")
             continue
 
         orphans = before - {a.key for a in book.assets}

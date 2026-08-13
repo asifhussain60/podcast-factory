@@ -35,6 +35,8 @@ from ._core import (
     PHASE_0D_TOC_TIMEOUT,
     PHASE_0E_CHAPTER_TIMEOUT,
     PHASE_MODEL_OVERRIDE,
+    PURE_JSON_SYSTEM_PROMPT,
+    PURE_TEXT_SYSTEM_PROMPT,
     TRAINER_TIMEOUT,
     AuthoringError,
     AuthoringHalt,
@@ -43,6 +45,8 @@ from ._core import (
     _read_content_profile,
     _run_claude_p,
     _run_claude_p_with_retry,
+    pure_json_call_options,
+    pure_text_call_options,
 )
 from ._enrichment import author_phase_0e
 from ._framing import author_framing

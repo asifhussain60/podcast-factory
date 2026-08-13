@@ -21,6 +21,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+import _authoring._core as authoring_core
 import fill_glossary_arabic as fg
 
 
@@ -48,19 +49,11 @@ def _write_glossary(path: Path, entries: list[dict]) -> None:
     path.write_text(fg.emit_glossary_yml(entries, {}), encoding="utf-8")
 
 
-def _fake_claude_run(batches_by_call: list[dict[str, str]]):
-    """Returns a stand-in for subprocess.run that, on each call, pops the next
-    scripted {phonetic: arabic_script} mapping and renders it as claude -p's
-    stdout would look, ignoring the actual prompt content."""
+def _fake_claude_call(batches_by_call: list[dict[str, str]]):
+    """Returns a stand-in for the shared Claude wrapper."""
     calls = {"n": 0}
 
-    class _Result:
-        def __init__(self, stdout: str, returncode: int = 0):
-            self.stdout = stdout
-            self.returncode = returncode
-            self.stderr = ""
-
-    def _run(argv, **kwargs):
+    def _run(prompt, **kwargs):
         i = calls["n"]
         calls["n"] += 1
         fills = batches_by_call[i] if i < len(batches_by_call) else {}
@@ -68,7 +61,7 @@ def _fake_claude_run(batches_by_call: list[dict[str, str]]):
         for phon, script in fills.items():
             lines.append(f'  - phonetic: "{phon}"')
             lines.append(f'    arabic_script: "{script}"')
-        return _Result("\n".join(lines))
+        return 0, "\n".join(lines), ""
 
     return _run, calls
 
@@ -104,13 +97,13 @@ def test_lexicon_fallback_only_covers_what_ocr_left_empty(tmp_path, monkeypatch)
     # Pass 2 (OCR-grounded) finds "dhikr" in the scan; leaves fiqh + divine empty.
     # Pass 3 (lexicon-fallback) supplies fiqh from standard terminology and
     # correctly REFUSES on "divine" (not a real Arabic term) by omitting it.
-    fake_run, calls = _fake_claude_run(
+    fake_run, calls = _fake_claude_call(
         [
             {"dhikr": "ذِكْر"},  # ocr-grounded batch
             {"fiqh": "فِقْه"},  # lexicon-fallback batch (divine deliberately absent = refusal)
         ]
     )
-    monkeypatch.setattr(fg.subprocess, "run", fake_run)
+    monkeypatch.setattr(authoring_core, "_run_claude_p", fake_run)
     monkeypatch.setattr(sys, "argv", ["fill_glossary_arabic.py", "--book-dir", str(book_dir), "--batch-size", "10"])
     # Isolate passes 2/3 from pass 1 (deterministic corpus fill) — these tests
     # are about the OCR-grounded/lexicon-fallback split, not the corpus layer.
@@ -148,8 +141,8 @@ def test_no_lexicon_pass_runs_when_ocr_grounded_fills_everything(tmp_path, monke
     ocr_path.parent.mkdir(parents=True, exist_ok=True)
     ocr_path.write_text("dhikr appears here as ذِكْر in the source scan.", encoding="utf-8")
 
-    fake_run, calls = _fake_claude_run([{"dhikr": "ذِكْر"}])
-    monkeypatch.setattr(fg.subprocess, "run", fake_run)
+    fake_run, calls = _fake_claude_call([{"dhikr": "ذِكْر"}])
+    monkeypatch.setattr(authoring_core, "_run_claude_p", fake_run)
     monkeypatch.setattr(sys, "argv", ["fill_glossary_arabic.py", "--book-dir", str(book_dir), "--batch-size", "10"])
     # Isolate passes 2/3 from pass 1 (deterministic corpus fill) — these tests
     # are about the OCR-grounded/lexicon-fallback split, not the corpus layer.

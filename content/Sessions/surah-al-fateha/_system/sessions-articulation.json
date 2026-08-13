@@ -1,0 +1,1230 @@
+{
+  "schema": "podcast.sessions-articulation/v1",
+  "chapters": {
+    "quranic friendship": {
+      "title": "Quranic Friendship",
+      "status": "adapted",
+      "at": "2026-08-12T21:28:47.445765+00:00",
+      "started_at": "2026-08-12T21:28:46.671810+00:00",
+      "finished_at": "2026-08-12T21:28:47.444967+00:00",
+      "duration_seconds": 0.773,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read": 0,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 0,
+        "rows": 0,
+        "models": [],
+        "steps": []
+      },
+      "quality": {
+        "windows": 36,
+        "windows_kept": 36,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-02-part-06: protected source artifact copied verbatim",
+          "rearticulate-02-part-14: output near-identical to base — copied, not re-voiced",
+          "rearticulate-02-part-15: output near-identical to base — copied, not re-voiced",
+          "rearticulate-02-part-17: protected source artifact copied verbatim",
+          "rearticulate-02-part-20: output near-identical to base — copied, not re-voiced",
+          "rearticulate-02-part-21: protected source artifact copied verbatim",
+          "rearticulate-02-part-24: output near-identical to base — copied, not re-voiced",
+          "rearticulate-02-part-32: protected source artifact copied verbatim"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "the stages of love": {
+      "title": "The Stages Of Love",
+      "status": "adapted",
+      "at": "2026-08-12T12:56:54.734444+00:00"
+    },
+    "linguistic meaning of allah": {
+      "title": "Linguistic Meaning Of Allah",
+      "status": "adapted",
+      "at": "2026-08-12T22:15:43.405805+00:00",
+      "started_at": "2026-08-12T22:15:30.067080+00:00",
+      "finished_at": "2026-08-12T22:15:43.401747+00:00",
+      "duration_seconds": 13.335,
+      "usage": {
+        "input_tokens": 12804,
+        "output_tokens": 1036,
+        "cache_read": 0,
+        "cache_create": 0,
+        "cost_usd": 0.001608,
+        "total_tokens": 13840,
+        "rows": 1,
+        "models": [
+          "gemini-2.5-flash"
+        ],
+        "steps": [
+          "rearticulate-04-part-01"
+        ]
+      },
+      "quality": {
+        "windows": 18,
+        "windows_kept": 18,
+        "windows_cached": 17,
+        "windows_repaired": 0,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-04-part-11: output near-identical to base — copied, not re-voiced",
+          "rearticulate-04-part-12: output near-identical to base — copied, not re-voiced",
+          "rearticulate-04-part-13: output near-identical to base — copied, not re-voiced",
+          "rearticulate-04-part-14: output near-identical to base — copied, not re-voiced",
+          "rearticulate-04-part-17: output near-identical to base — copied, not re-voiced"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "what is worship?": {
+      "title": "What is Worship?",
+      "status": "adapted",
+      "at": "2026-08-12T22:18:53.209325+00:00",
+      "started_at": "2026-08-12T22:16:01.220249+00:00",
+      "finished_at": "2026-08-12T22:18:53.204345+00:00",
+      "duration_seconds": 171.984,
+      "usage": {
+        "input_tokens": 136101,
+        "output_tokens": 9237,
+        "cache_read": 0,
+        "cache_create": 0,
+        "cost_usd": 0.01598,
+        "total_tokens": 145338,
+        "rows": 11,
+        "models": [
+          "gemini-2.5-flash"
+        ],
+        "steps": [
+          "rearticulate-05-part-04",
+          "rearticulate-05-part-04-repair",
+          "rearticulate-05-part-06",
+          "rearticulate-05-part-06-repair",
+          "rearticulate-05-part-08",
+          "rearticulate-05-part-09",
+          "rearticulate-05-part-10",
+          "rearticulate-05-part-10-repair",
+          "rearticulate-05-part-11",
+          "rearticulate-05-part-11-repair",
+          "rearticulate-05-part-12"
+        ]
+      },
+      "quality": {
+        "windows": 12,
+        "windows_kept": 12,
+        "windows_cached": 4,
+        "windows_repaired": 4,
+        "windows_source_preserved": 1,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-05-part-02: protected source artifact copied verbatim",
+          "rearticulate-05-part-04: output near-identical to base — copied, not re-voiced",
+          "rearticulate-05-part-05: output near-identical to base — copied, not re-voiced"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "linguistic meaning of rehma": {
+      "title": "Linguistic Meaning Of REHMA",
+      "status": "adapted",
+      "at": "2026-08-12T22:28:52.423520+00:00",
+      "started_at": "2026-08-12T22:18:53.209996+00:00",
+      "finished_at": "2026-08-12T22:28:52.419044+00:00",
+      "duration_seconds": 599.209,
+      "usage": {
+        "input_tokens": 411626,
+        "output_tokens": 33864,
+        "cache_read": 0,
+        "cache_create": 0,
+        "cost_usd": 0.052035,
+        "total_tokens": 445490,
+        "rows": 32,
+        "models": [
+          "gemini-2.5-flash"
+        ],
+        "steps": [
+          "rearticulate-06-part-01",
+          "rearticulate-06-part-02",
+          "rearticulate-06-part-03",
+          "rearticulate-06-part-04",
+          "rearticulate-06-part-04-repair",
+          "rearticulate-06-part-05",
+          "rearticulate-06-part-06",
+          "rearticulate-06-part-07",
+          "rearticulate-06-part-07-repair",
+          "rearticulate-06-part-08",
+          "rearticulate-06-part-09",
+          "rearticulate-06-part-09-repair",
+          "rearticulate-06-part-10",
+          "rearticulate-06-part-11",
+          "rearticulate-06-part-12",
+          "rearticulate-06-part-12-repair",
+          "rearticulate-06-part-13",
+          "rearticulate-06-part-14",
+          "rearticulate-06-part-14-repair",
+          "rearticulate-06-part-15",
+          "rearticulate-06-part-16",
+          "rearticulate-06-part-16-repair",
+          "rearticulate-06-part-17",
+          "rearticulate-06-part-18",
+          "rearticulate-06-part-19",
+          "rearticulate-06-part-20",
+          "rearticulate-06-part-21",
+          "rearticulate-06-part-22",
+          "rearticulate-06-part-22-repair",
+          "rearticulate-06-part-23",
+          "rearticulate-06-part-23-repair",
+          "rearticulate-06-part-24"
+        ]
+      },
+      "quality": {
+        "windows": 24,
+        "windows_kept": 24,
+        "windows_cached": 0,
+        "windows_repaired": 8,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-06-part-03: output near-identical to base — copied, not re-voiced",
+          "rearticulate-06-part-22: output near-identical to base — copied, not re-voiced",
+          "rearticulate-06-part-23: output near-identical to base — copied, not re-voiced"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "womb - the source of mercy": {
+      "title": "Womb - The Source Of Mercy",
+      "status": "adapted",
+      "at": "2026-08-12T22:33:33.771948+00:00",
+      "started_at": "2026-08-12T22:28:52.424249+00:00",
+      "finished_at": "2026-08-12T22:33:33.767520+00:00",
+      "duration_seconds": 281.343,
+      "usage": {
+        "input_tokens": 246299,
+        "output_tokens": 19337,
+        "cache_read": 0,
+        "cache_create": 0,
+        "cost_usd": 0.030558,
+        "total_tokens": 265636,
+        "rows": 19,
+        "models": [
+          "gemini-2.5-flash"
+        ],
+        "steps": [
+          "rearticulate-07-part-01",
+          "rearticulate-07-part-02",
+          "rearticulate-07-part-03",
+          "rearticulate-07-part-04",
+          "rearticulate-07-part-05",
+          "rearticulate-07-part-06",
+          "rearticulate-07-part-07",
+          "rearticulate-07-part-08",
+          "rearticulate-07-part-09",
+          "rearticulate-07-part-10",
+          "rearticulate-07-part-11",
+          "rearticulate-07-part-12",
+          "rearticulate-07-part-13",
+          "rearticulate-07-part-14",
+          "rearticulate-07-part-15",
+          "rearticulate-07-part-16",
+          "rearticulate-07-part-17",
+          "rearticulate-07-part-18",
+          "rearticulate-07-part-19"
+        ]
+      },
+      "quality": {
+        "windows": 19,
+        "windows_kept": 19,
+        "windows_cached": 0,
+        "windows_repaired": 0,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [],
+        "assembly_gates": []
+      }
+    },
+    "manifestations of rehma": {
+      "title": "Manifestations of REHMA",
+      "status": "adapted",
+      "at": "2026-08-13T12:47:29.669973+00:00",
+      "started_at": "2026-08-13T12:41:53.250778+00:00",
+      "finished_at": "2026-08-13T12:47:29.665194+00:00",
+      "duration_seconds": 336.417,
+      "usage": {
+        "input_tokens": 221382,
+        "output_tokens": 9168,
+        "cache_read": 144640,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 375190,
+        "rows": 22,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-08-part-01",
+          "rearticulate-08-part-01-repair",
+          "rearticulate-08-part-02",
+          "rearticulate-08-part-03",
+          "rearticulate-08-part-04",
+          "rearticulate-08-part-05",
+          "rearticulate-08-part-06",
+          "rearticulate-08-part-07",
+          "rearticulate-08-part-08",
+          "rearticulate-08-part-09",
+          "rearticulate-08-part-10",
+          "rearticulate-08-part-11",
+          "rearticulate-08-part-12",
+          "rearticulate-08-part-13",
+          "rearticulate-08-part-14",
+          "rearticulate-08-part-15",
+          "rearticulate-08-part-16",
+          "rearticulate-08-part-17",
+          "rearticulate-08-part-18",
+          "rearticulate-08-part-19",
+          "rearticulate-08-part-20",
+          "rearticulate-08-part-21"
+        ]
+      },
+      "quality": {
+        "windows": 21,
+        "windows_kept": 21,
+        "windows_cached": 0,
+        "windows_repaired": 1,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-08-part-11: output near-identical to base — copied, not re-voiced"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "linguistic meaning of rabb": {
+      "title": "Linguistic Meaning Of Rabb",
+      "status": "adapted",
+      "at": "2026-08-13T13:17:05.683970+00:00",
+      "started_at": "2026-08-13T13:08:25.035176+00:00",
+      "finished_at": "2026-08-13T13:17:05.679062+00:00",
+      "duration_seconds": 520.633,
+      "usage": {
+        "input_tokens": 157581,
+        "output_tokens": 13641,
+        "cache_read": 310784,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 482006,
+        "rows": 28,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-09-part-01",
+          "rearticulate-09-part-03",
+          "rearticulate-09-part-04",
+          "rearticulate-09-part-05",
+          "rearticulate-09-part-06",
+          "rearticulate-09-part-07",
+          "rearticulate-09-part-08",
+          "rearticulate-09-part-09",
+          "rearticulate-09-part-10",
+          "rearticulate-09-part-11",
+          "rearticulate-09-part-12",
+          "rearticulate-09-part-13",
+          "rearticulate-09-part-14",
+          "rearticulate-09-part-15",
+          "rearticulate-09-part-16",
+          "rearticulate-09-part-17",
+          "rearticulate-09-part-18",
+          "rearticulate-09-part-19",
+          "rearticulate-09-part-20",
+          "rearticulate-09-part-21",
+          "rearticulate-09-part-22",
+          "rearticulate-09-part-23",
+          "rearticulate-09-part-24",
+          "rearticulate-09-part-26",
+          "rearticulate-09-part-27",
+          "rearticulate-09-part-28",
+          "rearticulate-09-part-29",
+          "rearticulate-09-part-30"
+        ]
+      },
+      "quality": {
+        "windows": 30,
+        "windows_kept": 30,
+        "windows_cached": 0,
+        "windows_repaired": 0,
+        "windows_source_preserved": 2,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-09-part-02: protected source artifact copied verbatim",
+          "rearticulate-09-part-25: protected source artifact copied verbatim",
+          "rearticulate-09-part-29: output near-identical to base — copied, not re-voiced"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "master slave relationship": {
+      "title": "Master Slave Relationship",
+      "status": "adapted",
+      "at": "2026-08-13T13:28:47.249944+00:00",
+      "started_at": "2026-08-13T13:17:05.684751+00:00",
+      "finished_at": "2026-08-13T13:28:47.244195+00:00",
+      "duration_seconds": 701.555,
+      "usage": {
+        "input_tokens": 179023,
+        "output_tokens": 15054,
+        "cache_read": 322816,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 516893,
+        "rows": 30,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-10-part-01",
+          "rearticulate-10-part-02",
+          "rearticulate-10-part-03",
+          "rearticulate-10-part-04",
+          "rearticulate-10-part-05",
+          "rearticulate-10-part-06",
+          "rearticulate-10-part-07",
+          "rearticulate-10-part-08",
+          "rearticulate-10-part-09",
+          "rearticulate-10-part-10",
+          "rearticulate-10-part-11",
+          "rearticulate-10-part-12",
+          "rearticulate-10-part-13",
+          "rearticulate-10-part-14",
+          "rearticulate-10-part-15",
+          "rearticulate-10-part-16",
+          "rearticulate-10-part-17",
+          "rearticulate-10-part-18",
+          "rearticulate-10-part-19",
+          "rearticulate-10-part-20",
+          "rearticulate-10-part-21",
+          "rearticulate-10-part-22",
+          "rearticulate-10-part-23",
+          "rearticulate-10-part-24",
+          "rearticulate-10-part-25",
+          "rearticulate-10-part-26",
+          "rearticulate-10-part-27",
+          "rearticulate-10-part-27-repair",
+          "rearticulate-10-part-28",
+          "rearticulate-10-part-29"
+        ]
+      },
+      "quality": {
+        "windows": 29,
+        "windows_kept": 29,
+        "windows_cached": 0,
+        "windows_repaired": 1,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [],
+        "assembly_gates": []
+      }
+    },
+    "understanding rab al-alameen": {
+      "title": "Understanding RAB Al-ALAMEEN",
+      "status": "adapted",
+      "at": "2026-08-13T13:38:00.934557+00:00",
+      "started_at": "2026-08-13T13:28:47.250608+00:00",
+      "finished_at": "2026-08-13T13:38:00.929577+00:00",
+      "duration_seconds": 553.675,
+      "usage": {
+        "input_tokens": 139011,
+        "output_tokens": 12659,
+        "cache_read": 262144,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 413814,
+        "rows": 24,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-11-part-01",
+          "rearticulate-11-part-02",
+          "rearticulate-11-part-03",
+          "rearticulate-11-part-04",
+          "rearticulate-11-part-05",
+          "rearticulate-11-part-06",
+          "rearticulate-11-part-07",
+          "rearticulate-11-part-08",
+          "rearticulate-11-part-09",
+          "rearticulate-11-part-10",
+          "rearticulate-11-part-11",
+          "rearticulate-11-part-12",
+          "rearticulate-11-part-13",
+          "rearticulate-11-part-14",
+          "rearticulate-11-part-15",
+          "rearticulate-11-part-16",
+          "rearticulate-11-part-17",
+          "rearticulate-11-part-18",
+          "rearticulate-11-part-19",
+          "rearticulate-11-part-20",
+          "rearticulate-11-part-21",
+          "rearticulate-11-part-22",
+          "rearticulate-11-part-23",
+          "rearticulate-11-part-24"
+        ]
+      },
+      "quality": {
+        "windows": 24,
+        "windows_kept": 24,
+        "windows_cached": 0,
+        "windows_repaired": 0,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-11-part-17: output near-identical to base — copied, not re-voiced",
+          "rearticulate-11-part-18: output near-identical to base — copied, not re-voiced"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "the divine formula for recognizing allah": {
+      "title": "The Divine Formula For Recognizing Allah",
+      "status": "adapted",
+      "at": "2026-08-13T13:52:53.424526+00:00",
+      "started_at": "2026-08-13T13:38:00.935021+00:00",
+      "finished_at": "2026-08-13T13:52:53.418974+00:00",
+      "duration_seconds": 892.478,
+      "usage": {
+        "input_tokens": 122835,
+        "output_tokens": 13909,
+        "cache_read": 312064,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 448808,
+        "rows": 26,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-12-part-01",
+          "rearticulate-12-part-02",
+          "rearticulate-12-part-03",
+          "rearticulate-12-part-04",
+          "rearticulate-12-part-04-repair",
+          "rearticulate-12-part-05",
+          "rearticulate-12-part-06",
+          "rearticulate-12-part-07",
+          "rearticulate-12-part-08",
+          "rearticulate-12-part-09",
+          "rearticulate-12-part-10",
+          "rearticulate-12-part-11",
+          "rearticulate-12-part-12",
+          "rearticulate-12-part-13",
+          "rearticulate-12-part-15",
+          "rearticulate-12-part-16",
+          "rearticulate-12-part-18",
+          "rearticulate-12-part-19",
+          "rearticulate-12-part-19-repair",
+          "rearticulate-12-part-20",
+          "rearticulate-12-part-21",
+          "rearticulate-12-part-22",
+          "rearticulate-12-part-23",
+          "rearticulate-12-part-24",
+          "rearticulate-12-part-25",
+          "rearticulate-12-part-26"
+        ]
+      },
+      "quality": {
+        "windows": 26,
+        "windows_kept": 26,
+        "windows_cached": 0,
+        "windows_repaired": 2,
+        "windows_source_preserved": 2,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-12-part-14: protected source artifact copied verbatim",
+          "rearticulate-12-part-17: protected source artifact copied verbatim"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "the horizons and the soul": {
+      "title": "The Horizons And The Soul",
+      "status": "adapted",
+      "at": "2026-08-13T14:09:09.568112+00:00",
+      "started_at": "2026-08-13T13:52:53.424955+00:00",
+      "finished_at": "2026-08-13T14:09:09.561859+00:00",
+      "duration_seconds": 976.129,
+      "usage": {
+        "input_tokens": 122814,
+        "output_tokens": 13991,
+        "cache_read": 328832,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 465637,
+        "rows": 27,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-13-part-01",
+          "rearticulate-13-part-02",
+          "rearticulate-13-part-03",
+          "rearticulate-13-part-04",
+          "rearticulate-13-part-05",
+          "rearticulate-13-part-06",
+          "rearticulate-13-part-08",
+          "rearticulate-13-part-09",
+          "rearticulate-13-part-10",
+          "rearticulate-13-part-11",
+          "rearticulate-13-part-12",
+          "rearticulate-13-part-13",
+          "rearticulate-13-part-15",
+          "rearticulate-13-part-16",
+          "rearticulate-13-part-17",
+          "rearticulate-13-part-18",
+          "rearticulate-13-part-19",
+          "rearticulate-13-part-20",
+          "rearticulate-13-part-21",
+          "rearticulate-13-part-22",
+          "rearticulate-13-part-23",
+          "rearticulate-13-part-24",
+          "rearticulate-13-part-25",
+          "rearticulate-13-part-26",
+          "rearticulate-13-part-27",
+          "rearticulate-13-part-28",
+          "rearticulate-13-part-29"
+        ]
+      },
+      "quality": {
+        "windows": 29,
+        "windows_kept": 29,
+        "windows_cached": 0,
+        "windows_repaired": 0,
+        "windows_source_preserved": 2,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-13-part-06: output near-identical to base — copied, not re-voiced",
+          "rearticulate-13-part-07: protected source artifact copied verbatim",
+          "rearticulate-13-part-14: protected source artifact copied verbatim"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "the womb of afterlife": {
+      "title": "The Womb Of Afterlife",
+      "status": "adapted",
+      "at": "2026-08-13T14:18:00.480727+00:00",
+      "started_at": "2026-08-13T14:09:09.568637+00:00",
+      "finished_at": "2026-08-13T14:18:00.475462+00:00",
+      "duration_seconds": 530.903,
+      "usage": {
+        "input_tokens": 85669,
+        "output_tokens": 8564,
+        "cache_read": 214784,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 309017,
+        "rows": 18,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-14-part-01",
+          "rearticulate-14-part-02",
+          "rearticulate-14-part-03",
+          "rearticulate-14-part-04",
+          "rearticulate-14-part-05",
+          "rearticulate-14-part-06",
+          "rearticulate-14-part-07",
+          "rearticulate-14-part-08",
+          "rearticulate-14-part-09",
+          "rearticulate-14-part-10",
+          "rearticulate-14-part-11",
+          "rearticulate-14-part-12",
+          "rearticulate-14-part-13",
+          "rearticulate-14-part-14",
+          "rearticulate-14-part-15",
+          "rearticulate-14-part-16",
+          "rearticulate-14-part-17",
+          "rearticulate-14-part-18"
+        ]
+      },
+      "quality": {
+        "windows": 18,
+        "windows_kept": 18,
+        "windows_cached": 0,
+        "windows_repaired": 0,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-14-part-16: output near-identical to base — copied, not re-voiced"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "allah - being vs attributes": {
+      "title": "Allah - Being vs Attributes",
+      "status": "adapted",
+      "at": "2026-08-13T14:26:09.193928+00:00",
+      "started_at": "2026-08-13T14:18:00.481431+00:00",
+      "finished_at": "2026-08-13T14:26:09.188918+00:00",
+      "duration_seconds": 488.739,
+      "usage": {
+        "input_tokens": 83407,
+        "output_tokens": 9035,
+        "cache_read": 202112,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 294554,
+        "rows": 17,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-15-part-01",
+          "rearticulate-15-part-02",
+          "rearticulate-15-part-03",
+          "rearticulate-15-part-04",
+          "rearticulate-15-part-05",
+          "rearticulate-15-part-06",
+          "rearticulate-15-part-07",
+          "rearticulate-15-part-08",
+          "rearticulate-15-part-09",
+          "rearticulate-15-part-10",
+          "rearticulate-15-part-11",
+          "rearticulate-15-part-12",
+          "rearticulate-15-part-13",
+          "rearticulate-15-part-14",
+          "rearticulate-15-part-15",
+          "rearticulate-15-part-16",
+          "rearticulate-15-part-17"
+        ]
+      },
+      "quality": {
+        "windows": 17,
+        "windows_kept": 17,
+        "windows_cached": 0,
+        "windows_repaired": 0,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-15-part-04: output near-identical to base — copied, not re-voiced"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "the ism of allah": {
+      "title": "The ISM Of Allah",
+      "status": "adapted",
+      "at": "2026-08-13T14:31:25.933938+00:00",
+      "started_at": "2026-08-13T14:26:09.194550+00:00",
+      "finished_at": "2026-08-13T14:31:25.927627+00:00",
+      "duration_seconds": 316.734,
+      "usage": {
+        "input_tokens": 61038,
+        "output_tokens": 6140,
+        "cache_read": 155520,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 222698,
+        "rows": 13,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-16-part-01",
+          "rearticulate-16-part-02",
+          "rearticulate-16-part-03",
+          "rearticulate-16-part-04",
+          "rearticulate-16-part-05",
+          "rearticulate-16-part-05-repair",
+          "rearticulate-16-part-06",
+          "rearticulate-16-part-07",
+          "rearticulate-16-part-08",
+          "rearticulate-16-part-09",
+          "rearticulate-16-part-10",
+          "rearticulate-16-part-11",
+          "rearticulate-16-part-12"
+        ]
+      },
+      "quality": {
+        "windows": 12,
+        "windows_kept": 12,
+        "windows_cached": 0,
+        "windows_repaired": 1,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [],
+        "assembly_gates": []
+      }
+    },
+    "in the name of allah the merciful": {
+      "title": "In the Name Of Allah The Merciful",
+      "status": "adapted",
+      "at": "2026-08-13T14:35:05.493577+00:00",
+      "started_at": "2026-08-13T14:31:25.934510+00:00",
+      "finished_at": "2026-08-13T14:35:05.487985+00:00",
+      "duration_seconds": 219.554,
+      "usage": {
+        "input_tokens": 57083,
+        "output_tokens": 5868,
+        "cache_read": 143872,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 206823,
+        "rows": 12,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-17-part-01",
+          "rearticulate-17-part-02",
+          "rearticulate-17-part-03",
+          "rearticulate-17-part-04",
+          "rearticulate-17-part-05",
+          "rearticulate-17-part-06",
+          "rearticulate-17-part-07",
+          "rearticulate-17-part-08",
+          "rearticulate-17-part-09",
+          "rearticulate-17-part-10",
+          "rearticulate-17-part-11",
+          "rearticulate-17-part-12"
+        ]
+      },
+      "quality": {
+        "windows": 12,
+        "windows_kept": 12,
+        "windows_cached": 0,
+        "windows_repaired": 0,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [],
+        "assembly_gates": []
+      }
+    },
+    "linguistic perfection of hamd": {
+      "title": "Linguistic Perfection Of HAMD",
+      "status": "adapted",
+      "at": "2026-08-13T14:40:51.967321+00:00",
+      "started_at": "2026-08-13T14:35:05.494165+00:00",
+      "finished_at": "2026-08-13T14:40:51.961662+00:00",
+      "duration_seconds": 346.468,
+      "usage": {
+        "input_tokens": 102421,
+        "output_tokens": 7655,
+        "cache_read": 215168,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 325244,
+        "rows": 19,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-18-part-01",
+          "rearticulate-18-part-02",
+          "rearticulate-18-part-03",
+          "rearticulate-18-part-04",
+          "rearticulate-18-part-05",
+          "rearticulate-18-part-06",
+          "rearticulate-18-part-07",
+          "rearticulate-18-part-08",
+          "rearticulate-18-part-09",
+          "rearticulate-18-part-10",
+          "rearticulate-18-part-11",
+          "rearticulate-18-part-12",
+          "rearticulate-18-part-13",
+          "rearticulate-18-part-14",
+          "rearticulate-18-part-15",
+          "rearticulate-18-part-16",
+          "rearticulate-18-part-17",
+          "rearticulate-18-part-18",
+          "rearticulate-18-part-19"
+        ]
+      },
+      "quality": {
+        "windows": 19,
+        "windows_kept": 19,
+        "windows_cached": 0,
+        "windows_repaired": 0,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-18-part-05: output near-identical to base — copied, not re-voiced"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "abundant and consistent mercy": {
+      "title": "Abundant and Consistent Mercy",
+      "status": "adapted",
+      "at": "2026-08-13T15:24:22.416402+00:00",
+      "started_at": "2026-08-13T15:24:08.253712+00:00",
+      "finished_at": "2026-08-13T15:24:22.410359+00:00",
+      "duration_seconds": 14.157,
+      "usage": {
+        "input_tokens": 4969,
+        "output_tokens": 401,
+        "cache_read": 11648,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 17018,
+        "rows": 1,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-19-part-14"
+        ]
+      },
+      "quality": {
+        "windows": 29,
+        "windows_kept": 29,
+        "windows_cached": 28,
+        "windows_repaired": 0,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [],
+        "assembly_gates": []
+      }
+    },
+    "day of judgment - linguistics": {
+      "title": "Day Of Judgment - Linguistics",
+      "status": "adapted",
+      "at": "2026-08-13T14:52:53.439472+00:00",
+      "started_at": "2026-08-13T14:48:56.614190+00:00",
+      "finished_at": "2026-08-13T14:52:53.432822+00:00",
+      "duration_seconds": 236.819,
+      "usage": {
+        "input_tokens": 61299,
+        "output_tokens": 6651,
+        "cache_read": 155520,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 223470,
+        "rows": 13,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-20-part-01",
+          "rearticulate-20-part-02",
+          "rearticulate-20-part-03",
+          "rearticulate-20-part-05",
+          "rearticulate-20-part-06",
+          "rearticulate-20-part-06-repair",
+          "rearticulate-20-part-07",
+          "rearticulate-20-part-08",
+          "rearticulate-20-part-09",
+          "rearticulate-20-part-10",
+          "rearticulate-20-part-11",
+          "rearticulate-20-part-12",
+          "rearticulate-20-part-13"
+        ]
+      },
+      "quality": {
+        "windows": 13,
+        "windows_kept": 13,
+        "windows_cached": 0,
+        "windows_repaired": 1,
+        "windows_source_preserved": 1,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-20-part-04: protected source artifact copied verbatim"
+        ],
+        "assembly_gates": []
+      }
+    },
+    "motivating factors for piety": {
+      "title": "Motivating Factors For Piety",
+      "status": "adapted",
+      "at": "2026-08-13T14:58:48.638043+00:00",
+      "started_at": "2026-08-13T14:52:53.440178+00:00",
+      "finished_at": "2026-08-13T14:58:48.631899+00:00",
+      "duration_seconds": 355.193,
+      "usage": {
+        "input_tokens": 105535,
+        "output_tokens": 9689,
+        "cache_read": 228864,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 344088,
+        "rows": 20,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-21-part-01",
+          "rearticulate-21-part-02",
+          "rearticulate-21-part-03",
+          "rearticulate-21-part-04",
+          "rearticulate-21-part-05",
+          "rearticulate-21-part-06",
+          "rearticulate-21-part-07",
+          "rearticulate-21-part-08",
+          "rearticulate-21-part-09",
+          "rearticulate-21-part-10",
+          "rearticulate-21-part-11",
+          "rearticulate-21-part-12",
+          "rearticulate-21-part-13",
+          "rearticulate-21-part-14",
+          "rearticulate-21-part-15",
+          "rearticulate-21-part-16",
+          "rearticulate-21-part-17",
+          "rearticulate-21-part-18",
+          "rearticulate-21-part-19",
+          "rearticulate-21-part-20"
+        ]
+      },
+      "quality": {
+        "windows": 20,
+        "windows_kept": 20,
+        "windows_cached": 0,
+        "windows_repaired": 0,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [],
+        "assembly_gates": []
+      }
+    },
+    "worship and assistance": {
+      "title": "Worship and Assistance",
+      "status": "adapted",
+      "at": "2026-08-13T15:02:54.871453+00:00",
+      "started_at": "2026-08-13T14:58:48.638877+00:00",
+      "finished_at": "2026-08-13T15:02:54.865374+00:00",
+      "duration_seconds": 246.227,
+      "usage": {
+        "input_tokens": 116428,
+        "output_tokens": 8769,
+        "cache_read": 200832,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 326029,
+        "rows": 19,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-22-part-01",
+          "rearticulate-22-part-02",
+          "rearticulate-22-part-03",
+          "rearticulate-22-part-04",
+          "rearticulate-22-part-05",
+          "rearticulate-22-part-06",
+          "rearticulate-22-part-07",
+          "rearticulate-22-part-08",
+          "rearticulate-22-part-09",
+          "rearticulate-22-part-10",
+          "rearticulate-22-part-11",
+          "rearticulate-22-part-12",
+          "rearticulate-22-part-13",
+          "rearticulate-22-part-14",
+          "rearticulate-22-part-15",
+          "rearticulate-22-part-16",
+          "rearticulate-22-part-17",
+          "rearticulate-22-part-18",
+          "rearticulate-22-part-19"
+        ]
+      },
+      "quality": {
+        "windows": 19,
+        "windows_kept": 19,
+        "windows_cached": 0,
+        "windows_repaired": 0,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [],
+        "assembly_gates": []
+      }
+    },
+    "guidance to the straight path": {
+      "title": "Guidance To The Straight Path",
+      "status": "adapted",
+      "at": "2026-08-13T15:07:32.969059+00:00",
+      "started_at": "2026-08-13T15:02:54.872243+00:00",
+      "finished_at": "2026-08-13T15:07:32.962372+00:00",
+      "duration_seconds": 278.091,
+      "usage": {
+        "input_tokens": 96442,
+        "output_tokens": 8432,
+        "cache_read": 221312,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 326186,
+        "rows": 19,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-23-part-01",
+          "rearticulate-23-part-02",
+          "rearticulate-23-part-03",
+          "rearticulate-23-part-04",
+          "rearticulate-23-part-05",
+          "rearticulate-23-part-06",
+          "rearticulate-23-part-07",
+          "rearticulate-23-part-08",
+          "rearticulate-23-part-09",
+          "rearticulate-23-part-10",
+          "rearticulate-23-part-11",
+          "rearticulate-23-part-12",
+          "rearticulate-23-part-13",
+          "rearticulate-23-part-14",
+          "rearticulate-23-part-15",
+          "rearticulate-23-part-16",
+          "rearticulate-23-part-17",
+          "rearticulate-23-part-18",
+          "rearticulate-23-part-19"
+        ]
+      },
+      "quality": {
+        "windows": 19,
+        "windows_kept": 19,
+        "windows_cached": 0,
+        "windows_repaired": 0,
+        "windows_source_preserved": 0,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [],
+        "assembly_gates": []
+      }
+    },
+    "staying steadfast on the path": {
+      "title": "Staying Steadfast On The Path",
+      "status": "adapted",
+      "at": "2026-08-13T15:21:22.636846+00:00",
+      "started_at": "2026-08-13T15:07:32.969871+00:00",
+      "finished_at": "2026-08-13T15:21:22.629847+00:00",
+      "duration_seconds": 829.662,
+      "usage": {
+        "input_tokens": 180998,
+        "output_tokens": 15938,
+        "cache_read": 418304,
+        "cache_create": 0,
+        "cost_usd": 0.0,
+        "total_tokens": 615240,
+        "rows": 36,
+        "models": [
+          "codex/gpt-5.5"
+        ],
+        "steps": [
+          "rearticulate-24-part-01",
+          "rearticulate-24-part-02",
+          "rearticulate-24-part-02-repair",
+          "rearticulate-24-part-03",
+          "rearticulate-24-part-04",
+          "rearticulate-24-part-05",
+          "rearticulate-24-part-06",
+          "rearticulate-24-part-07",
+          "rearticulate-24-part-08",
+          "rearticulate-24-part-09",
+          "rearticulate-24-part-10",
+          "rearticulate-24-part-11",
+          "rearticulate-24-part-12",
+          "rearticulate-24-part-13",
+          "rearticulate-24-part-14",
+          "rearticulate-24-part-15",
+          "rearticulate-24-part-17",
+          "rearticulate-24-part-18",
+          "rearticulate-24-part-19",
+          "rearticulate-24-part-20",
+          "rearticulate-24-part-21",
+          "rearticulate-24-part-22",
+          "rearticulate-24-part-22-repair",
+          "rearticulate-24-part-23",
+          "rearticulate-24-part-24",
+          "rearticulate-24-part-25",
+          "rearticulate-24-part-26",
+          "rearticulate-24-part-27",
+          "rearticulate-24-part-28",
+          "rearticulate-24-part-30",
+          "rearticulate-24-part-30-repair",
+          "rearticulate-24-part-31",
+          "rearticulate-24-part-32",
+          "rearticulate-24-part-33",
+          "rearticulate-24-part-34",
+          "rearticulate-24-part-35"
+        ]
+      },
+      "quality": {
+        "windows": 35,
+        "windows_kept": 35,
+        "windows_cached": 0,
+        "windows_repaired": 3,
+        "windows_source_preserved": 2,
+        "model_failures": 0,
+        "fresh_calls_disabled": false,
+        "window_keep_rate": 1.0,
+        "gates": [],
+        "warnings": [
+          "rearticulate-24-part-06: output near-identical to base — copied, not re-voiced",
+          "rearticulate-24-part-16: protected source artifact copied verbatim",
+          "rearticulate-24-part-29: protected source artifact copied verbatim"
+        ],
+        "assembly_gates": []
+      }
+    }
+  }
+}

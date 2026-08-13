@@ -1282,16 +1282,25 @@ body:has(.composer-grid) .to-top {
   --paper-bg: #fefdfb;
   --paper-ink: #1f1d18;
   --paper-rule: #d9d3c4;
+  --cx-heading-1: #800000;
+  --cx-heading-2: #1f3a5f;
+  --cx-heading-3: #2f6f5e;
 }
 .cx-edit-host[data-paper="sepia"] {
   --paper-bg: #f4ecd8;
   --paper-ink: #5b4636;
   --paper-rule: #ddd0b4;
+  --cx-heading-1: #7d2b2b;
+  --cx-heading-2: #24385c;
+  --cx-heading-3: #396b4f;
 }
 .cx-edit-host[data-paper="dark"] {
   --paper-bg: #201e1b;
   --paper-ink: #d8d2c6;
   --paper-rule: #3d3a32;
+  --cx-heading-1: #f0a6ae;
+  --cx-heading-2: #b8caef;
+  --cx-heading-3: #8fd8bd;
 }
 
 /* Editor-view font family + size, driven by the toolbar. View-only: book.md
@@ -1342,8 +1351,8 @@ body:has(.composer-grid) .to-top {
 .cx-prose {
   outline: none;
   font-family: var(--prose-font, inherit);
-  font-size: var(--prose-size, 1.02rem);
-  line-height: 1.6;
+  font-size: var(--prose-size, 20px);
+  line-height: 1.3;
   color: inherit;
   max-width: none;
   text-align: left;
@@ -1353,14 +1362,28 @@ body:has(.composer-grid) .to-top {
   margin: 0 0 0.8rem;
 }
 .cx-prose h3 {
-  font-size: 1.1rem;
+  margin: 1.1rem 0 0.45rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1.45em;
   font-weight: 700;
-  margin: 1.2rem 0 0.5rem;
+  line-height: 1.25;
+  color: var(--cx-heading-1, #800000);
 }
 .cx-prose h4 {
-  font-size: 1.02rem;
-  font-weight: 700;
-  margin: 1rem 0 0.45rem;
+  margin: 0.95rem 0 0.4rem;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1.18em;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--cx-heading-2, #1f3a5f);
+}
+.cx-prose h5 {
+  margin: 0.85rem 0 0.35rem;
+  font-family: "Lexend", "Inter", system-ui, sans-serif;
+  font-size: 1.04em;
+  font-weight: 650;
+  line-height: 1.28;
+  color: var(--cx-heading-3, #2f6f5e);
 }
 /* (The former heading-only left-align override is gone — the whole editor
    surface is left-aligned now, so it had nothing left to override.) */
@@ -1475,8 +1498,17 @@ body:has(.composer-grid) .to-top {
    unknown spans from its seed and marks the same runs with the .ar-raw
    decoration from studio-decos instead. */
 .cx-body .ar-inline,
+.cx-prose .ar-inline,
 .cx-prose .ar-raw {
-  font-family: var(--q-ar-face);
+  font-family: var(
+    --q-ar-inline-face,
+    "AmiriSized",
+    "Amiri",
+    "ScheherazadeSized",
+    "Scheherazade New",
+    serif
+  );
+  font-weight: var(--q-ar-inline-weight, 400);
   /* --q-ar-inline-size, default 1.26em, chosen by Asif on 2026-08-02 from three
      candidates rendered side by
      side in this very paragraph (1.10 / 1.18 / 1.26); he picked the honorific
@@ -1510,13 +1542,16 @@ body:has(.composer-grid) .to-top {
    already made this point in book-print.css and needed the same partner here. */
 .cx-body .ar-block .ar-inline,
 .cx-body blockquote.quran .ar-inline,
+.cx-prose .ar-block .ar-inline,
+.cx-prose blockquote.quran .ar-inline,
 .cx-prose .ar-block .ar-raw,
 .cx-prose blockquote.quran .ar-raw {
   font-size: inherit;
+  font-family: var(--q-ar-face);
+  font-weight: 400;
   /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
      shearing the glyphs, which is wrong for the script and looked wrong on the
-     page; and an inherited bold would fake a weight the face does not have.
-     Pinned here so the run renders the same whatever prose it sits in. */
+     page. Pinned here so the run renders the same whatever prose it sits in. */
   font-style: normal;
   /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
      descent are far taller than the Latin body face, so without an explicit
@@ -3186,6 +3221,91 @@ body:has(.composer-grid) .to-top {
   color: var(--c-ink-muted, #66625a);
 }
 
+/* ── Paste & Fix Chapter: a wide variant of the confirm dialog, sized for a
+   full chapter of prose rather than a yes/no question ───────────────────── */
+.cx-paste-fix-box {
+  width: min(52rem, 92vw);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+}
+.cx-paste-fix-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 45vh;
+  max-height: 60vh;
+  margin: 0 0 0.75rem;
+  padding: 0.85rem 0.95rem;
+  resize: vertical;
+  font: inherit;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--c-ink, #1f1d18);
+  background: var(--c-bg, #fdfbf6);
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+}
+.cx-paste-fix-textarea:focus {
+  outline: none;
+  border-color: var(--c-accent, #8b4513);
+  box-shadow: 0 0 0 3px
+    color-mix(in oklab, var(--c-accent, #8b4513) 18%, transparent);
+}
+.cx-paste-fix-review {
+  margin: 0 0 0.75rem;
+  overflow-y: auto;
+}
+.cx-paste-fix-summary {
+  list-style: none;
+  margin: 0 0 0.7rem;
+  padding: 0.75rem 0.85rem;
+  display: grid;
+  gap: 0.4rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 8px;
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 4%,
+    var(--c-bg-card, #fffdf8)
+  );
+  font-size: 0.88rem;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-paste-fix-clean {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--c-green, #3f7d3f);
+}
+.cx-paste-fix-clean i {
+  margin-right: 0.35rem;
+}
+.cx-paste-fix-findings {
+  padding: 0.75rem 0.85rem;
+  border: 1px solid
+    color-mix(in oklab, var(--c-red, #a83232) 35%, var(--c-rule, #d9d3c4));
+  border-radius: 8px;
+  background: color-mix(
+    in oklab,
+    var(--c-red, #a83232) 6%,
+    var(--c-bg-card, #fffdf8)
+  );
+}
+.cx-paste-fix-findings p {
+  margin: 0 0 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-paste-fix-findings ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--c-ink-dim, #5c574d);
+}
+
 /* ── Busy modal: blocking progress while an AI action runs ────────────────── */
 /* Sits over everything the confirm scrim covers; slightly darker so the page
    clearly reads as inert, with the box floated on a deep two-layer shadow. */
@@ -3672,12 +3792,79 @@ button.cx-hdr-btn--publish.is-pending::after {
   max-height: min(90vh, 52rem);
   overflow-y: auto;
 }
+.cx-pub-box.is-ok {
+  border-color: color-mix(
+    in oklab,
+    var(--c-green, #4a7c4a) 36%,
+    var(--c-rule, #d9d3c4)
+  );
+  background:
+    linear-gradient(
+      color-mix(in oklab, var(--c-green, #4a7c4a) 7%, transparent),
+      color-mix(in oklab, var(--c-green, #4a7c4a) 3%, transparent)
+    ),
+    var(--c-bg-card, #fffdf8);
+  box-shadow: 0 20px 50px
+    color-mix(in oklab, var(--c-green, #4a7c4a) 18%, transparent);
+}
+.cx-pub-box.is-bad {
+  border-color: color-mix(
+    in oklab,
+    var(--c-red, #a83232) 36%,
+    var(--c-rule, #d9d3c4)
+  );
+  background:
+    linear-gradient(
+      color-mix(in oklab, var(--c-red, #a83232) 7%, transparent),
+      color-mix(in oklab, var(--c-red, #a83232) 3%, transparent)
+    ),
+    var(--c-bg-card, #fffdf8);
+  box-shadow: 0 20px 50px
+    color-mix(in oklab, var(--c-red, #a83232) 18%, transparent);
+}
+.cx-pub-box.is-neutral {
+  border-color: color-mix(
+    in oklab,
+    var(--c-ink-dim, #5c574d) 28%,
+    var(--c-rule, #d9d3c4)
+  );
+}
+.cx-pub-box.is-ok .cx-confirm-icon {
+  color: var(--c-green, #4a7c4a);
+  border-color: color-mix(
+    in oklab,
+    var(--c-green, #4a7c4a) 34%,
+    var(--c-bg-card, #fffdf8)
+  );
+  background: color-mix(
+    in oklab,
+    var(--c-green, #4a7c4a) 10%,
+    var(--c-bg-card, #fffdf8)
+  );
+}
+.cx-pub-box.is-bad .cx-confirm-icon {
+  color: var(--c-red, #a83232);
+  border-color: color-mix(
+    in oklab,
+    var(--c-red, #a83232) 34%,
+    var(--c-bg-card, #fffdf8)
+  );
+  background: color-mix(
+    in oklab,
+    var(--c-red, #a83232) 10%,
+    var(--c-bg-card, #fffdf8)
+  );
+}
 
 .cx-pub-choices {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
   margin: 0.9rem 0 0.2rem;
+}
+.cx-pub-targets {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--c-rule, #d9d3c4);
 }
 .cx-pub-choice {
   display: grid;
@@ -3699,6 +3886,9 @@ button.cx-hdr-btn--publish.is-pending::after {
   outline: 2px solid var(--c-accent, #8b4513);
   outline-offset: 1px;
 }
+.cx-pub-choice--target {
+  align-items: center;
+}
 /* NOT .cx-pub-check — that is the verification row further down, and sharing the
  * name applied this 1rem width to every result, collapsing each one to a
  * one-character column with its detail printed on top (caught 2026-08-06). */
@@ -3707,6 +3897,9 @@ button.cx-hdr-btn--publish.is-pending::after {
   accent-color: var(--c-accent, #8b4513);
   width: 1rem;
   height: 1rem;
+}
+.cx-pub-radio {
+  border-radius: 50%;
 }
 .cx-pub-choice-icon {
   display: inline-flex;
@@ -3764,6 +3957,37 @@ button.cx-hdr-btn--publish.is-pending::after {
   font-size: 0.76rem;
   line-height: 1.55;
 }
+.cx-pub-log--result {
+  height: auto;
+  min-height: 7rem;
+  max-height: 20rem;
+  font-family: inherit;
+  font-size: 0.86rem;
+}
+.cx-pub-box.is-ok .cx-pub-log--result {
+  border-color: color-mix(
+    in oklab,
+    var(--c-green, #4a7c4a) 28%,
+    var(--c-rule, #d9d3c4)
+  );
+  background: color-mix(
+    in oklab,
+    var(--c-green, #4a7c4a) 5%,
+    var(--c-bg-card, #fffdf8)
+  );
+}
+.cx-pub-box.is-bad .cx-pub-log--result {
+  border-color: color-mix(
+    in oklab,
+    var(--c-red, #a83232) 28%,
+    var(--c-rule, #d9d3c4)
+  );
+  background: color-mix(
+    in oklab,
+    var(--c-red, #a83232) 5%,
+    var(--c-bg-card, #fffdf8)
+  );
+}
 .cx-pub-line {
   color: var(--c-ink-dim, #5c574d);
   white-space: pre-wrap;
@@ -3782,6 +4006,58 @@ button.cx-hdr-btn--publish.is-pending::after {
 }
 .cx-pub-line--error {
   color: var(--c-red, #a83232);
+}
+.cx-pub-result {
+  display: grid;
+  gap: 0.25rem;
+}
+.cx-pub-result-title {
+  font-size: 0.96rem;
+  line-height: 1.35;
+}
+.cx-pub-result.is-ok .cx-pub-result-title {
+  color: var(--c-green, #4a7c4a);
+}
+.cx-pub-result.is-bad .cx-pub-result-title {
+  color: var(--c-red, #a83232);
+}
+.cx-pub-result-message {
+  color: var(--c-ink, #1f1d18);
+  line-height: 1.45;
+}
+.cx-pub-failure-details {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.cx-pub-failure-label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-ink-dim, #5c574d);
+}
+.cx-pub-failure-text {
+  width: 100%;
+  min-height: 7.5rem;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid
+    color-mix(in oklab, var(--c-red, #a83232) 24%, var(--c-rule, #d9d3c4));
+  border-radius: 7px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink, #1f1d18);
+  font:
+    400 0.74rem/1.5 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  resize: vertical;
+}
+.cx-pub-copy-btn {
+  justify-self: start;
+  font-size: 0.82rem;
 }
 
 .cx-pub-checks {

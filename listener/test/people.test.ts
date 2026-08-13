@@ -12,6 +12,7 @@ import {
   revokeInvite,
   splitName,
 } from "~/server/access.server";
+import { selectedPersonPath } from "~/routes/admin._index";
 import { createTestDb, type TestDb } from "./d1";
 
 /**
@@ -90,6 +91,28 @@ describe("finding one person among many", () => {
   it("falls back to the address when no name was recorded", async () => {
     const person = await personByEmail(t.db, "nameless@example.com");
     expect(person?.displayName).toBe("nameless@example.com");
+  });
+});
+
+describe("opening a newly invited person", () => {
+  it("redirects data-action submissions back to the admin page, not /admin.data", () => {
+    expect(
+      selectedPersonPath(
+        "https://podcast-factory.safinaverse.com/admin.data?filter=never&page=2&_routes=routes%2Fadmin._index",
+        "mahrooqshamsi@gmail.com",
+      ),
+    ).toBe(
+      "/admin?filter=never&email=mahrooqshamsi%40gmail.com",
+    );
+  });
+
+  it("preserves an ordinary admin-page redirect too", () => {
+    expect(
+      selectedPersonPath(
+        "http://localhost:5273/admin?q=mahrooq",
+        "mahrooqshamsi@gmail.com",
+      ),
+    ).toBe("/admin?q=mahrooq&email=mahrooqshamsi%40gmail.com");
   });
 });
 

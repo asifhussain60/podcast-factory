@@ -1,0 +1,21 @@
+{
+  "schema": "book.visual-policy/v1",
+  "policy": "manual_only",
+  "text_only": false,
+  "pipeline_inserted": [
+    {
+      "kind": "markdown-image",
+      "chapter": "Character Of The Prophet",
+      "line": 433,
+      "text": "![](images/213/66560670-7213-4cba-b2eb-e49a0af49bd3.jpg)"
+    },
+    {
+      "kind": "markdown-image",
+      "chapter": "Character Of The Prophet",
+      "line": 439,
+      "text": "![](images/213/447012f0-26e8-4372-8644-f4d5a20d6582.jpg)"
+    }
+  ],
+  "curated_placements": 0,
+  "injected_variants": []
+}

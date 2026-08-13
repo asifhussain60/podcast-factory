@@ -26,6 +26,7 @@ from _book_edits import (  # noqa: E402
     load_base_stamp,
     load_edits,
     record_edit,
+    write_chapter_body,
 )
 
 _BOOK = "# The Book\n\n## 1. On Knowledge\n\nPipeline prose for one.\n\n## 2. On Patience\n\nPipeline prose for two.\n"
@@ -270,6 +271,42 @@ def test_replay_report_is_written(tmp_path: Path) -> None:
     apply_composer_edits(bd, log=lambda *a: None)
     report = json.loads((bd / "_system" / "composer-edits-replay.json").read_text())
     assert report["applied"] == 1
+
+
+# ─── write_chapter_body — the one shared splice-and-record path ───────────────
+
+
+def test_write_chapter_body_splices_between_the_heading_and_the_next_one(tmp_path: Path) -> None:
+    bd = _book(tmp_path)
+    write_chapter_body(bd, "1. On Knowledge", "Rewritten prose for one.")
+    text = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    assert "Rewritten prose for one." in text
+    assert "Pipeline prose for two." in text  # the next chapter survives untouched
+    assert "Pipeline prose for one." not in text
+
+
+def test_write_chapter_body_records_the_composer_edit(tmp_path: Path) -> None:
+    bd = _book(tmp_path)
+    write_chapter_body(bd, "1. On Knowledge", "Rewritten prose for one.")
+    edits = load_edits(bd)["edits"]
+    assert len(edits) == 1
+    assert edits[0]["chapter_key"] == anchor_key("1. On Knowledge")
+    assert edits[0]["body_md"] == "Rewritten prose for one."
+
+
+def test_write_chapter_body_creates_a_one_time_backup(tmp_path: Path) -> None:
+    bd = _book(tmp_path)
+    original = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    write_chapter_body(bd, "1. On Knowledge", "First rewrite.")
+    write_chapter_body(bd, "1. On Knowledge", "Second rewrite.")
+    bak = (bd / "book" / "book.md.bak").read_text(encoding="utf-8")
+    assert bak == original  # never overwritten by the second call
+
+
+def test_write_chapter_body_raises_on_an_unknown_heading(tmp_path: Path) -> None:
+    bd = _book(tmp_path)
+    with pytest.raises(ValueError, match="heading not found"):
+        write_chapter_body(bd, "9. Nonexistent Chapter", "x")
 
 
 # ─── mirror pair with the JS anchorKey ────────────────────────────────────────

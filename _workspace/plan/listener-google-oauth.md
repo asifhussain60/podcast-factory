@@ -91,11 +91,9 @@ same treatment — generate a fresh one for production with
 The site is live at <https://podcast-factory.safinaverse.com>. Both are recorded
 in full in `infra/cloudflare/README.md`; in short:
 
-1. **Wrangler is still logged in to `asifhussain60@hotmail.com`**, and that was
-   left alone rather than changed globally. Exporting `CLOUDFLARE_API_TOKEN`
-   makes wrangler use the gmail account for that command only — verified, it
-   prints "The API Token is read from the CLOUDFLARE_API_TOKEN environment
-   variable". Nothing on the machine had to be re-authenticated.
+1. **Wrangler must resolve to the `asifhussain60@gmail.com` account** before any
+   remote write. Exporting `CLOUDFLARE_API_TOKEN` and
+   `CLOUDFLARE_ACCOUNT_ID` is the documented path.
 
 2. **`cf-deploy.sh` still cannot deploy this app** — it is Pages, this is a
    Worker. `npm run deploy` does it. The token turned out to be able to attach a

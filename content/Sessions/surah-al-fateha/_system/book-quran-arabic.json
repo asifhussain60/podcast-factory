@@ -1,0 +1,158 @@
+{
+  "cited": 0,
+  "inserted": 0,
+  "already": 0,
+  "uncovered": [],
+  "inserted_detail": [],
+  "invalid_reference": [],
+  "spans_in_scan": 0,
+  "scan_arabic_words": 0,
+  "uncited_review": [
+    {
+      "line": 193,
+      "passage": "If only I took on a path alongside the messenger ﷺ.",
+      "proposed_ref": "25:27",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 193,
+      "passage": "Ah! Woe to me! Would that I had never taken so-and-so as a friend!",
+      "proposed_ref": "25:28",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 733,
+      "passage": " is a generic term; it could mean any book. But when I say ",
+      "proposed_ref": "2:231",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 883,
+      "passage": "If you are grateful, I will give you more, but if you are ungrateful, Indeed! My Punishment is indeed severe.",
+      "proposed_ref": "14:7",
+      "english_similarity": 0.833,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 916,
+      "passage": "If the sea were ink for the Words of my Lord, surely, the sea would be exhausted before the Words of my Lord would be finished, even if we brought like it for i",
+      "proposed_ref": "18:109",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1075,
+      "passage": "In the name of Allah – the most gracious, the most merciful.",
+      "proposed_ref": "1:1",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1076,
+      "passage": "In the name of Allah – the most beneficent, the most merciful.",
+      "proposed_ref": "1:1",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1178,
+      "passage": "Woman! Who cares about next week? Give me something to eat right now!",
+      "proposed_ref": "2:178",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1203,
+      "passage": "..... Ya Allah, give us permission! We will destroy them! We will annihilate them!",
+      "proposed_ref": "22:39",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1307,
+      "passage": "What is this?! Can you please clean this thing first?",
+      "proposed_ref": "9:108",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1400,
+      "passage": "O My servants who have transgressed against themselves [by sinning], do not despair of the mercy of Allah . Indeed, Allah forgives all sins. Indeed, it is He wh",
+      "proposed_ref": "39:53",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 2697,
+      "passage": "Verily, I am going to place generations after generations on earth.",
+      "proposed_ref": "2:30",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 2697,
+      "passage": "Will You place therein those who will make mischief therein and shed blood, - while we glorify You with praises and thanks and sanctify You.",
+      "proposed_ref": "2:30",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 3274,
+      "passage": "But I cannot show it to you right now. I promise, though, that when you pass out of this world, you will see both.",
+      "proposed_ref": "10:43",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 4190,
+      "passage": "O offspring of those whom We carried with Nuh !! Verily, he was a grateful slave.",
+      "proposed_ref": "17:3",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 4572,
+      "passage": "In them is a great sin, and also benefit for men, but their sin is far greater than their benefit.",
+      "proposed_ref": "2:219",
+      "english_similarity": 0.714,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 5364,
+      "passage": "O My servants who have transgressed against themselves [by sinning], do not despair of the mercy of Allah . Indeed, Allah forgives all sins. Indeed, it is He wh",
+      "proposed_ref": "39:53",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 5442,
+      "passage": "You made a wrong turn - sorry! Just stop trying and turn off the car. Your trip is over!",
+      "proposed_ref": "2:143",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    }
+  ],
+  "coverage": 1.0,
+  "cited_inserted": 0
+}

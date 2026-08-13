@@ -38,7 +38,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _authoring._core import AuthoringError, _run_claude_p
+from _authoring._core import AuthoringError, _run_claude_p, pure_json_call_options
 from _paths import REPO_ROOT
 
 # Per-section classifier budget. 180s proved too tight under real Opus
@@ -47,7 +47,6 @@ from _paths import REPO_ROOT
 _TIMEOUT = 600  # per section
 _DASHBOARD = REPO_ROOT / "plan-dashboard"
 _RENDER_SCRIPT = _DASHBOARD / "scripts" / "render-mermaid.mjs"
-
 # Minimum word count for a section to be worth analysing.
 _MIN_SECTION_WORDS = 200
 
@@ -314,6 +313,7 @@ def _classify_section(
         step=section_title[:40],
         timeout=_TIMEOUT,
         model_flag=model_flag,
+        **pure_json_call_options(),
     )
     if rc != 0:
         sys.stderr.write(f"  [illustrate] claude -p rc={rc}: {stderr[:200]}\n")

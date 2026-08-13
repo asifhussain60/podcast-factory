@@ -19,7 +19,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from _authoring._core import AuthoringError, _run_claude_p
+from _authoring._core import AuthoringError, _run_claude_p, pure_text_call_options
 from _literary import _VOICE_INSTRUCTIONS, chapter_craft_block
 
 # Per-chapter wall budgets. 420s proved too tight in practice (2026-06-11:
@@ -298,7 +298,14 @@ def _compose_one(
     quran_anchor: str = "",
 ) -> str:
     prompt = _compose_prompt(title, body, cfg, voice_card, prev_tail, arabic_src=arabic_src, quran_anchor=quran_anchor)
-    rc, out, err = _run_claude_p(prompt, timeout=_COMPOSE_TIMEOUT, book_dir=book_dir, phase="0book-compose", step=label)
+    rc, out, err = _run_claude_p(
+        prompt,
+        timeout=_COMPOSE_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-compose",
+        step=label,
+        **pure_text_call_options(),
+    )
     out = (out or "").strip()
     if rc != 0:
         raise AuthoringError(
@@ -316,6 +323,7 @@ def _compose_one(
             book_dir=book_dir,
             phase="0book-compose",
             step=f"{label}-retry",
+            **pure_text_call_options(),
         )
         if rc2 == 0 and len(out2.split()) > len(out.split()):
             out = out2.strip()

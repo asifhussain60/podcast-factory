@@ -24,7 +24,7 @@
  * click.
  */
 import { publishOptionsDialog, publishProgressPanel } from "./publish-dialog";
-import type { PublishChoice } from "./publish-dialog";
+import type { PublishChoice, PublishTargetChoice } from "./publish-dialog";
 
 export interface PublishState {
   pending?: boolean;
@@ -50,11 +50,8 @@ function paint(state: PublishState): void {
   const reason =
     state.reason ??
     (pending ? "there are changes to publish" : "live and up to date");
-  // "both sites" rather than "to production" (Asif, 2026-08-10): one press now
-  // publishes to localhost AND the live site, and a tooltip naming only one of
-  // them would understate what the button is about to do.
   btn.title = pending
-    ? `Publish to localhost and the live site — ${reason}`
+    ? `Publish to the Podcast Factory Library — ${reason}`
     : `Published${state.publishedAt ? ` ${state.publishedAt.slice(0, 10)}` : ""} — ${reason}`;
   const label = btn.querySelector<HTMLElement>(".cx-hdr-btn-label");
   if (label) label.textContent = pending ? "Publish" : "Published";
@@ -78,6 +75,35 @@ async function fetchState(slug: string): Promise<PublishState> {
     // Unreachable server is not evidence that the book is current.
     return { pending: true, reason: "could not check what is live" };
   }
+}
+
+/** Where this run should go. Both is the default because the button promises the
+ *  reviewed copy and the live copy stay together; the driver still runs them
+ *  sequentially, with localhost first, so a bad rehearsal never reaches readers. */
+export function targetsFor(): PublishTargetChoice[] {
+  return [
+    {
+      id: "both",
+      icon: "fa-solid fa-code-compare",
+      label: "Both",
+      hint: "Localhost first, then production if the rehearsal passes.",
+      checked: true,
+    },
+    {
+      id: "localhost",
+      icon: "fa-solid fa-laptop-code",
+      label: "Localhost",
+      hint: "http://localhost:5273",
+      checked: false,
+    },
+    {
+      id: "production",
+      icon: "fa-solid fa-globe",
+      label: "Production",
+      hint: "podcast-factory.safinaverse.com",
+      checked: false,
+    },
+  ];
 }
 
 /** The options offered, and which are ticked. This is where the judgement about
@@ -126,8 +152,8 @@ export function choicesFor(state: PublishState): PublishChoice[] {
   choices.push({
     id: "media",
     icon: "fa-solid fa-headphones",
-    label: "Upload recordings, slides and the print edition",
-    hint: "Untick for a text-and-cards update — much faster, and files already live stay live.",
+    label: "Upload media files",
+    hint: "Production gets recordings. Localhost gets covers, slides, transcripts and the print edition without copying audio.",
     checked: true,
   });
 
@@ -216,6 +242,7 @@ export function initPublishToProduction(
         state.pending === false
           ? "Nothing has changed since the last publish — this will re-push it anyway."
           : `Reason: ${state.reason ?? "there are changes to publish"}.`,
+      targets: targetsFor(),
       choices: choicesFor(state),
     });
     if (!chosen) return;
@@ -228,7 +255,11 @@ export function initPublishToProduction(
       const res = await fetch("/api/studio/publish-to-production", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ slug, ...chosen }),
+        body: JSON.stringify({
+          slug,
+          target: chosen.target,
+          ...chosen.options,
+        }),
       });
       if (!res.ok || !res.body)
         throw new Error(`the server answered ${res.status}`);

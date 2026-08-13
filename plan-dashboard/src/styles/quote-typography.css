@@ -97,10 +97,20 @@
      shapes drawn by hand until this day (a hizb sign, a diamond, a circle and a
      petal) are gone: the hizb read as an indistinct circle at header size, which
      is what started this. */
-  --orn-crescent: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cpath%20d%3D%22M0%20256C0%20114.6%20114.6%200%20256%200c33%200%2064.6%206.3%2093.6%2017.7c7.4%202.9%2011.5%2010.7%209.8%2018.4s-8.8%2013-16.7%2012.4c-4.8-.3-9.7-.5-14.6-.5c-114.9%200-208%2093.1-208%20208s93.1%20208%20208%20208c4.9%200%209.8-.2%2014.6-.5c7.9-.5%2015%204.7%2016.7%2012.4s-2.4%2015.5-9.8%2018.4C320.6%20505.7%20289%20512%20256%20512C114.6%20512%200%20397.4%200%20256zM375.4%20137.4c3.5-7.1%2013.7-7.1%2017.2%200l31.5%2063.8c1.4%202.8%204.1%204.8%207.2%205.3l70.4%2010.2c7.9%201.1%2011%2010.8%205.3%2016.4l-50.9%2049.6c-2.3%202.2-3.3%205.4-2.8%208.5l12%2070.1c1.3%207.8-6.9%2013.8-13.9%2010.1l-63-33.1c-2.8-1.5-6.1-1.5-8.9%200l-63%2033.1c-7%203.7-15.3-2.3-13.9-10.1l12-70.1c.5-3.1-.5-6.3-2.8-8.5L261%20233.1c-5.7-5.6-2.6-15.2%205.3-16.4l70.4-10.2c3.1-.5%205.8-2.4%207.2-5.3l31.5-63.8z%22%2F%3E%3C%2Fsvg%3E");
-  --orn-mosque: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20640%20512%22%3E%3Cpath%20d%3D%22M400%200c5%200%209.8%202.4%2012.8%206.4c34.7%2046.3%2078.1%2074.9%20133.5%20111.5l0%200%200%200c5.2%203.4%2010.5%207%2016%2010.6c28.9%2019.2%2045.7%2051.7%2045.7%2086.1c0%2028.6-11.3%2054.5-29.8%2073.4H221.8c-18.4-19-29.8-44.9-29.8-73.4c0-34.4%2016.7-66.9%2045.7-86.1c5.4-3.6%2010.8-7.1%2016-10.6l0%200%200%200C309.1%2081.3%20352.5%2052.7%20387.2%206.4c3-4%207.8-6.4%2012.8-6.4zM288%20512V440c0-13.3-10.7-24-24-24s-24%2010.7-24%2024v72H192c-17.7%200-32-14.3-32-32V352c0-17.7%2014.3-32%2032-32H608c17.7%200%2032%2014.3%2032%2032V480c0%2017.7-14.3%2032-32%2032H560V440c0-13.3-10.7-24-24-24s-24%2010.7-24%2024v72H448V454c0-19-8.4-37-23-49.2L400%20384l-25%2020.8C360.4%20417%20352%20435%20352%20454v58H288zM70.4%205.2c5.7-4.3%2013.5-4.3%2019.2%200l16%2012C139.8%2042.9%20160%2083.2%20160%20126v2H0v-2C0%2083.2%2020.2%2042.9%2054.4%2017.2l16-12zM0%20160H160V296.6c-19.1%2011.1-32%2031.7-32%2055.4V480c0%209.6%202.1%2018.6%205.8%2026.8c-6.6%203.4-14%205.2-21.8%205.2H48c-26.5%200-48-21.5-48-48V176%20160z%22%2F%3E%3C%2Fsvg%3E");
-  --orn-comment: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cpath%20d%3D%22M123.6%20391.3c12.9-9.4%2029.6-11.8%2044.6-6.4c26.5%209.6%2056.2%2015.1%2087.8%2015.1c124.7%200%20208-80.5%20208-160s-83.3-160-208-160S48%20160.5%2048%20240c0%2032%2012.4%2062.8%2035.7%2089.2c8.6%209.7%2012.8%2022.5%2011.8%2035.5c-1.4%2018.1-5.7%2034.7-11.3%2049.4c17-7.9%2031.1-16.7%2039.4-22.7zM21.2%20431.9c1.8-2.7%203.5-5.4%205.1-8.1c10-16.6%2019.5-38.4%2021.4-62.9C17.7%20326.8%200%20285.1%200%20240C0%20125.1%20114.6%2032%20256%2032s256%2093.1%20256%20208s-114.6%20208-256%20208c-37.1%200-72.3-6.4-104.1-17.9c-11.9%208.7-31.3%2020.6-54.3%2030.6c-15.1%206.6-32.3%2012.6-50.1%2016.1c-.8%20.2-1.6%20.3-2.4%20.5c-4.4%20.8-8.7%201.5-13.2%201.9c-.2%200-.5%20.1-.7%20.1c-5.1%20.5-10.2%20.8-15.3%20.8c-6.5%200-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8%203.4-17.4c4.1-4.2%207.8-8.7%2011.3-13.5c1.7-2.3%203.3-4.6%204.8-6.9c.1-.2%20.2-.3%20.3-.5z%22%2F%3E%3C%2Fsvg%3E");
-  --orn-quill: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cpath%20d%3D%22M278.5%20215.6L23%20471c-9.4%209.4-9.4%2024.6%200%2033.9s24.6%209.4%2033.9%200l74.8-74.8c7.4%204.6%2015.3%208.2%2023.8%2010.5C200.3%20452.8%20270%20454.5%20338%20409.4c12.2-8.1%205.8-25.4-8.8-25.4l-16.1%200c-5.1%200-9.2-4.1-9.2-9.2c0-4.1%202.7-7.6%206.5-8.8l97.7-29.3c3.4-1%206.4-3.1%208.4-6.1c4.4-6.4%208.6-12.9%2012.6-19.6c6.2-10.3-1.5-23-13.5-23l-38.6%200c-5.1%200-9.2-4.1-9.2-9.2c0-4.1%202.7-7.6%206.5-8.8l80.9-24.3c4.6-1.4%208.4-4.8%2010.2-9.3C494.5%20163%20507.8%2086.1%20511.9%2036.8c.8-9.9-3-19.6-10-26.6s-16.7-10.8-26.6-10C391.5%207%20228.5%2040.5%20137.4%20131.6C57.3%20211.7%2056.7%20302.3%2071.3%20356.4c2.1%207.9%2012%209.6%2017.8%203.8L253.6%20195.8c6.2-6.2%2016.4-6.2%2022.6%200c5.4%205.4%206.1%2013.6%202.2%2019.8z%22%2F%3E%3C%2Fsvg%3E");
+  /* Files under public/ornaments/, not inline data URIs (2026-08-12): Astro's
+     built-in tsconfig-alias-css plugin treats any url() that doesn't start
+     with "./", "../" or a drive letter as a bare module specifier to resolve
+     against baseUrl — a data: URI matches that and the plugin stats it as a
+     path, throwing ENAMETOOLONG. This was thrown, silently swallowed by
+     Astro's dev-mode route matcher, and fell through to a stale sibling
+     route — the actual cause of the Book Composer being unreachable at
+     /studio/<slug>/compose. Absolute paths (leading "/") are exempt from the
+     same regex, which is also why the @font-face src: url("/fonts/...")
+     rules elsewhere in this codebase were never affected. */
+  --orn-crescent: url("/ornaments/crescent.svg");
+  --orn-mosque: url("/ornaments/mosque.svg");
+  --orn-comment: url("/ornaments/comment.svg");
+  --orn-quill: url("/ornaments/quill.svg");
 
   /* Default translation face. A book with no `translation_font` recorded in
      book/citation-style.json gets EB Garamond, so the intended pairing needs no
@@ -206,6 +216,12 @@
      `em`, not `rem`, and deliberately: a term scales against the sentence it
      sits in, while a display quotation is sized against the page. */
   --q-ar-inline-size: 1.26em;
+  /* Inline Arabic in running English keeps the same regular weight as display
+     Arabic. The Arabic face, size, colour and bidi isolation already set it
+     apart; bold script reads like emphasis the author did not ask for. */
+  --q-ar-inline-face:
+    "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
+  --q-ar-inline-weight: 400;
 }
 
 /* ── Per-book Arabic SIZE ─────────────────────────────────────────────────────
@@ -287,6 +303,14 @@
    from an ancestor. That ordering is the whole mechanism — the book chooses the
    face for its hadith, poetry and prose Arabic, and cannot choose one for the
    mushaf. */
+.ar-traditional-arabic {
+  --q-ar-face:
+    "Traditional Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
+    serif;
+  --q-ar-inline-face:
+    "Traditional Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
+    serif;
+}
 .ar-scheherazade-new {
   --q-ar-face:
     "ScheherazadeSized", "Scheherazade New", "Scheherazade", "Amiri",

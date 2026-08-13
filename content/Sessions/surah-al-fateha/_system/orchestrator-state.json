@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "book_slug": "surah-al-fateha",
+  "category": "lectures",
+  "branch": "Sessions/surah-al-fateha",
+  "pipeline_mode": "sessions_lane",
+  "phase": "sessions-apparatus",
+  "phase_status": "completed",
+  "last_completed_phase": "sessions-apparatus",
+  "next_phase": null,
+  "last_error": null,
+  "phases": {
+    "sessions-ingest": {
+      "status": "completed"
+    },
+    "sessions-transcribe": {
+      "status": "completed"
+    },
+    "sessions-articulate": {
+      "status": "completed"
+    },
+    "sessions-preface": {
+      "status": "completed"
+    },
+    "sessions-apparatus": {
+      "status": "completed"
+    }
+  },
+  "status": "draft"
+}

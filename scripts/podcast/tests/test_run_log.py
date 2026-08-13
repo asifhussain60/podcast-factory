@@ -299,6 +299,30 @@ class TestClaudePCapture(_RunLogCase):
         self.assertIsNone(row["prompt_dump"])
         self.assertEqual(list(Path(_progress.run_log_path()).parent.glob("*.failure.txt")), [])
 
+    def test_successful_isolated_call_logs_execution_mode(self):
+        fake = self._fake_claude('echo \'{"result":"ok"}\'\nexit 0\n')
+        rc, _, _ = self._run(
+            fake,
+            timeout=12,
+            tools="",
+            safe_mode=True,
+            no_chrome=True,
+            no_session_persistence=True,
+            system_prompt="Return only text.",
+            effort="low",
+        )
+        self.assertEqual(rc, 0)
+
+        row = [r for r in self._lines() if r["event"] == "claude_p.call"][-1]
+        self.assertEqual(row["execution_mode"], "isolated")
+        self.assertEqual(row["tool_mode"], "none")
+        self.assertEqual(row["timeout_s"], 12)
+        self.assertTrue(row["safe_mode"])
+        self.assertTrue(row["no_chrome"])
+        self.assertTrue(row["no_session_persistence"])
+        self.assertEqual(row["effort"], "low")
+        self.assertIn("system_prompt_sha256", row)
+
     def test_nonzero_rc_logs_error_and_dumps_full_prompt(self):
         fake = self._fake_claude('echo "partial output"\necho "the real error" >&2\nexit 3\n')
         rc, _, _ = self._run(fake)
@@ -316,6 +340,33 @@ class TestClaudePCapture(_RunLogCase):
         self.assertIn("PROMPT-SENTINEL-12345", dump)
         self.assertIn("partial output", dump)
         self.assertIn("the real error", dump)
+
+    def test_failure_sidecars_do_not_overwrite_same_step_failures(self):
+        fake = self._fake_claude('echo "the real error" >&2\nexit 3\n')
+
+        def run_with_prompt(prompt: str) -> None:
+            from _authoring import _core
+
+            orig = _core.CLAUDE_CMD
+            _core.CLAUDE_CMD = str(fake)
+            try:
+                _core._run_claude_p(
+                    prompt,
+                    book_dir=self.book_dir,
+                    phase="0d",
+                    step="ch01-design",
+                )
+            finally:
+                _core.CLAUDE_CMD = orig
+
+        run_with_prompt("PROMPT-ONE")
+        run_with_prompt("PROMPT-TWO")
+
+        dumps = sorted(Path(_progress.run_log_path()).parent.glob("*.failure.txt"))
+        self.assertEqual(len(dumps), 2)
+        joined = "\n".join(p.read_text() for p in dumps)
+        self.assertIn("PROMPT-ONE", joined)
+        self.assertIn("PROMPT-TWO", joined)
 
     def test_timeout_captures_partial_output_that_used_to_be_discarded(self):
         from _authoring._core import AuthoringError

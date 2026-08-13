@@ -10,6 +10,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { findContent } from "../content-paths";
+import { serveBookImages } from "./book-images";
 import { renderMarkdown, type QuoteDeclaration } from "./markdown";
 // The TOC id IS the key Companion notes are filed under — one rule, one module,
 // so a note can never be written under a key this reader does not look up.
@@ -82,14 +83,20 @@ export async function loadBook(slug: string): Promise<BookView | null> {
     title,
     // Scripture is set in the Uthmanic face and everything else in Scheherazade,
     // from the same audit provenance the printed page uses.
-    html: renderMarkdown(body, {
-      quranicRuns: readQuranicRuns(ref.dir) as Set<string>,
-      quoteKinds: flattenQuoteKind(readQuoteKind(ref.dir)) as Record<
-        string,
-        QuoteDeclaration
-      >,
-      quranicRefs: readQuranicRefs(ref.dir) as Record<string, string>,
-    }),
+    // Rewritten onto the studio image route for the same reason the Composer's
+    // read render is: `images/…` is relative to `book/`, which is right for the
+    // PDF and resolves to nothing in a browser.
+    html: serveBookImages(
+      renderMarkdown(body, {
+        quranicRuns: readQuranicRuns(ref.dir) as Set<string>,
+        quoteKinds: flattenQuoteKind(readQuoteKind(ref.dir)) as Record<
+          string,
+          QuoteDeclaration
+        >,
+        quranicRefs: readQuranicRefs(ref.dir) as Record<string, string>,
+      }),
+      slug,
+    ),
     toc,
     citationFamily: String(readCitationFamily(bookDir) ?? ""),
     translationFont: String(readTranslationFont(bookDir) ?? ""),

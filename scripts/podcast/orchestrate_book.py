@@ -412,7 +412,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--doctor",
         action="store_true",
         help=(
-            "run ONLY the Setup-stage system check (deps, claude -p auth, "
+            "run ONLY the Setup-stage system check (deps, authoring AI auth, "
             "Anthropic + Azure connectivity) and exit. 0=ready, 1=blocked."
         ),
     )
@@ -424,6 +424,13 @@ def build_parser() -> argparse.ArgumentParser:
             "failing subsystem is unused by the phases you are running."
         ),
     )
+    p.add_argument(
+        "--authoring-engine",
+        choices=("auto", "claude", "codex"),
+        default="auto",
+        help=("authoring engine: auto=Claude primary with Codex fallback, or force claude/codex."),
+    )
+    p.add_argument("--no-codex-fallback", action="store_true", help="auto mode halts instead of using Codex.")
     p.add_argument("--version", action="version", version=f"orchestrate_book.py v{ORCHESTRATOR_VERSION}")
     return p
 
@@ -505,22 +512,17 @@ def _maybe_relaunch_under_watchdog(slug: str, *, retry_phase: str | None = None)
 
 def main() -> int:
     args = build_parser().parse_args()
-
-    # COST POLICY (2026-06-04): the flat-rate Claude Max subscription is the
-    # pipeline's primary engine and must be MAXIMIZED — `claude -p` phases run on
-    # Max (see _authoring/_core._run_claude_p, which strips API-key env from the
-    # child). The metered Anthropic + Gemini API keys are resolved ON DEMAND, only
-    # by the call sites that need them (the SDK windowed-refinement path + Gemini
-    # tasks), via _secrets — NEVER pre-loaded into the environment, so they can't
-    # accidentally divert claude -p off Max.
+    os.environ["PODCAST_FACTORY_AUTHORING_ENGINE"] = args.authoring_engine
+    if args.no_codex_fallback:
+        os.environ["PODCAST_FACTORY_CODEX_FALLBACK"] = "0"
 
     if args.status:
         return run_status(args)
 
     # ── Setup stage: full system check ──────────────────────────────────────
     # `--doctor` runs ONLY the check and exits. Otherwise the check gates every
-    # run (initial + resume) BEFORE the watchdog is spawned — so an expired
-    # claude -p token or a connectivity break fails fast with the exact fix
+    # run (initial + resume) BEFORE the watchdog is spawned — so an unavailable
+    # authoring engine or connectivity break fails fast with the exact fix
     # command, instead of the watchdog retry-looping a doomed run 20×.
     from preflight_doctor import run_doctor as _run_doctor
 

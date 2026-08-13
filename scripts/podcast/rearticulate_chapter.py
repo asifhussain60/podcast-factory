@@ -43,42 +43,35 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _authoring._core import _run_claude_p_with_retry
 from _book_edits import anchor_key, base_fingerprint_for, record_edit
 from _book_pass_reports import record_rearticulation
 from _book_voice import _CHAPTER_HEADING_RE, _run_pass
-from _book_voice_prompts import _articulation_prompt
-from _content_profile import source_language as _source_language
 from _paths import resolve_content
 from _pipeline_flags import narrative_frame, narrator_subject
+from _text_transform import (
+    _adapter,
+    _codex_adapter,
+    _codex_repair_adapter,
+    _gemini_adapter,
+    _gemini_repair_adapter,
+    _repair_adapter,
+    adapters_for_engine,
+    preflight_engine,
+    resolve_runtime_engine,
+    timeout_for_window,
+)
 
-_TIMEOUT = 900
-_PHASE = "rearticulate"
+__all__ = [
+    "_adapter",
+    "_codex_adapter",
+    "_codex_repair_adapter",
+    "_gemini_adapter",
+    "_gemini_repair_adapter",
+    "_repair_adapter",
+    "timeout_for_window",
+]
 
-
-def _adapter(
-    title: str,
-    base_text: str,
-    book_dir: Path,
-    label: str,
-    log,
-    *,
-    previous_tail: str = "",
-    frame: str = "",
-    narrator: str = "",
-) -> str:
-    lang = _source_language(book_dir)
-    rc, out, err = _run_claude_p_with_retry(
-        _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator, source_language=lang),
-        timeout=_TIMEOUT,
-        book_dir=book_dir,
-        phase=_PHASE,
-        step=label,
-        log=log,
-    )
-    if rc != 0:
-        raise RuntimeError(f"{label}: claude -p rc={rc}: {(err or '')[:200]}")
-    return (out or "").strip()
+_WINDOW_WORDS = 300
 
 
 def _status_path(book_dir: Path) -> Path:
@@ -108,10 +101,18 @@ def _chapter_body(text: str, heading: str) -> str:
     return ""
 
 
-def rearticulate(book_dir: Path, chapter_key: str, *, adapter=None, log=print) -> dict:
+def rearticulate(
+    book_dir: Path,
+    chapter_key: str,
+    *,
+    adapter=None,
+    repair_adapter=None,
+    log=print,
+    write_partial: bool = True,
+) -> dict:
     """Rearticulate one chapter in place. Returns the pass record.
 
-    ``adapter`` is injectable for tests (same signature as ``_adapter``).
+    ``adapter`` and ``repair_adapter`` are injectable for tests and alternate engines.
     """
     book_dir = Path(book_dir).resolve()
     book_md = book_dir / "book" / "book.md"
@@ -145,13 +146,15 @@ def rearticulate(book_dir: Path, chapter_key: str, *, adapter=None, log=print) -
         frame=frame,
         narrator_subject=subject,
         force=True,
+        window_words=_WINDOW_WORDS,
+        repair_fn=repair_adapter or _repair_adapter,
     )
     record = next(
         (r for r in records if r.get("status") not in ("skipped", "composer-edit")),
         {"status": "skipped"},
     )
 
-    if record.get("status") in ("adapted", "partial"):
+    if record.get("status") == "adapted" or (write_partial and record.get("status") == "partial"):
         tmp = book_md.with_suffix(".md.tmp")
         tmp.write_text(new_text, encoding="utf-8")
         os.replace(tmp, book_md)
@@ -191,6 +194,7 @@ def main() -> int:
     ap.add_argument("slug", nargs="?", help="content slug (resolved via _paths)")
     ap.add_argument("chapter_key", help="Composer chapter key (anchor_key of the ## heading)")
     ap.add_argument("--book-dir", help="explicit book directory (overrides slug)")
+    ap.add_argument("--engine", choices=("auto", "claude", "codex", "gemini"), default="auto")
     ap.add_argument("--json", action="store_true", help="emit the result as JSON on stdout")
     args = ap.parse_args()
 
@@ -202,7 +206,10 @@ def main() -> int:
         ap.error("either <slug> or --book-dir is required")
 
     try:
-        result = rearticulate(book_dir, args.chapter_key)
+        engine = resolve_runtime_engine(args.engine)
+        preflight_engine(engine)
+        adapter, repair_adapter = adapters_for_engine(engine)
+        result = rearticulate(book_dir, args.chapter_key, adapter=adapter, repair_adapter=repair_adapter)
     except Exception as e:
         payload = {
             "chapter_key": anchor_key(args.chapter_key),
