@@ -1342,12 +1342,40 @@
     color: var(--l-ink);
   }
 
+  .pf-tool--listen {
+    min-width: 3.35rem;
+    min-height: 3.35rem;
+    margin-inline: var(--pf-space-1);
+    border-radius: 999px;
+    background: var(--l-accent);
+    color: var(--l-accent-contrast);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-tool--listen:hover {
+    background: var(--l-display);
+    color: var(--l-surface);
+  }
+
+  .pf-tool--listen svg {
+    transform: translateX(0.05em);
+  }
+
+  .pf-tool--listen[aria-pressed="true"] svg {
+    transform: none;
+  }
+
   /* Pressed, not merely hovered — a bookmark that is ON has to look different
      from one the pointer happens to be over. */
   .pf-tool[aria-pressed="true"],
   .pf-tool[aria-expanded="true"] {
     background: var(--l-accent-soft);
     color: var(--l-accent);
+  }
+
+  .pf-tool--listen[aria-pressed="true"] {
+    background: var(--l-display);
+    color: var(--l-surface);
   }
 
   /* The count that used to ride on the toolbar's notes button went with the

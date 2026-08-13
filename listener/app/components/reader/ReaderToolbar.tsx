@@ -4,8 +4,9 @@ import {
   faBars,
   faBookmark,
   faGripLines,
-  faHeadphones,
   faHouse,
+  faPause,
+  faPlay,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
@@ -186,12 +187,13 @@ export function ReaderToolbar({
             onClick={onPlayNarration}
             aria-pressed={narrationActive}
             title={narrationActive ? "Pause chapter audio" : "Listen to this chapter"}
-            className="pf-tool"
+            className="pf-tool pf-tool--listen"
           >
             <Icon
-              icon={faHeadphones}
+              icon={narrationActive ? faPause : faPlay}
               title={narrationActive ? "Pause chapter audio" : "Listen to this chapter"}
             />
+            <span className="sr-only">{narrationActive ? "Pause chapter audio" : "Listen to this chapter"}</span>
           </button>
         ) : null}
       </div>
