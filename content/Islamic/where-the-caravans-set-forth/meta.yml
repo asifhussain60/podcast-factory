@@ -26,5 +26,5 @@ pipeline:
 publication:
   status: published
   english_title: Where the Caravans Set Forth
-  publication_model: local-review-reading-edition
-  note: Published status is for local review surfaces; no podcast episodes are intended.
+  publication_model: status-flag-in-place
+  note: Published to localhost and production as a restricted reading edition; no podcast episodes are intended.
