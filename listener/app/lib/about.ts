@@ -5,6 +5,7 @@ import {
   faHighlighter,
   faImages,
   faKey,
+  faMagnifyingGlass,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -102,6 +103,38 @@ export const SECTIONS: Section[] = [
           "Books vary in what they carry. Some have a reading edition and recordings, some only one of the two — the book's own page shows what is actually there and never offers a link to something that is not.",
         ],
       },
+      {
+        q: "Can I keep a book for reading without signal?",
+        a: [
+          "Yes. When a book is available for offline reading, its page offers a download control. Once it is saved, the downloads page shows what is on this device and opens a reader that does not need the network.",
+          "Offline copies belong to the device you saved them on. They are useful for a flight or a weak connection; your account is still what decides which books can be saved in the first place.",
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "finding",
+    title: "Finding things",
+    hue: "coral",
+    short: "Search",
+    icon: faMagnifyingGlass,
+    blurb: "Search your library, then narrow the answer inside a book.",
+    entries: [
+      {
+        q: "Can I search across the library?",
+        a: [
+          "Yes. The search box on the library looks through the books you have been given and returns matching books, chapters and passages. It does not search books outside your own access.",
+          "For a larger search, open the search page. It gives you room to scan the results, keep changing the words, and move straight into the chapter that contains what you found.",
+        ],
+      },
+      {
+        q: "Can I search inside one book?",
+        a: [
+          "Yes. A book's page can search that book's own chapters, so you can find a name or phrase without leaving the work you are already reading.",
+          "Search ignores simple differences in accents and letter forms where it can, so a remembered word still has a good chance of finding the passage even when you do not type it exactly as the edition prints it.",
+        ],
+      },
     ],
   },
 
@@ -176,6 +209,13 @@ export const SECTIONS: Section[] = [
         a: [
           "Most episodes carry a transcript that follows the audio as it plays, and you can press any line to jump the recording to that moment.",
           "An episode without one simply does not show it. Transcripts are made from the recordings themselves, so an occasional name will be spelt as it sounded.",
+        ],
+      },
+      {
+        q: "Can I keep episodes on this device?",
+        a: [
+          "Yes, when downloads are offered for a book. Saved recordings play from the device instead of the network, so listening can continue when the connection drops.",
+          "The downloads page tells you what is saved here and lets you remove it when you no longer need it.",
         ],
       },
     ],
@@ -337,6 +377,15 @@ export interface Release {
  * Newest first.
  */
 export const RELEASES: Release[] = [
+  {
+    date: "2026-08-13",
+    items: [
+      "Search now reaches the words inside the books you hold. The library search finds books, chapters and passages, and a larger search page gives longer results room to breathe.",
+      "Books and episodes can be kept on the device when downloads are available, with a downloads page that opens even when the network is gone.",
+      "Library cards now behave like a row of actions: listen, read and notes are clear icon buttons in a fixed order, with note counts shown as a small badge instead of extra text.",
+      "Arabic reading is steadier across the site: the Arabic font is bundled with the library, and the reader keeps source images and page ornaments aligned with the edition.",
+    ],
+  },
   {
     date: "2026-08-11",
     items: [
