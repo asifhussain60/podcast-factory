@@ -41,7 +41,7 @@ model is what is in `book.md` — repairs included — so those survive into the
 result, and the Arabic-retention gate is what keeps the verses intact.
 
 Usage:
-    python3 scripts/podcast/sessions/articulate.py <slug> [--force] [--limit N]
+    python3 scripts/podcast/sessions/articulate.py <slug> [--force] [--limit N] [--engine auto|claude|codex|gemini]
     python3 scripts/podcast/sessions/articulate.py <slug> --dry-run
 """
 
@@ -65,6 +65,7 @@ from _book_edits import anchor_key, write_chapter_body  # noqa: E402
 # drift the first time either changed, and this module would report articulating
 # a section the engine silently passed through.
 from _book_voice import _CHAPTER_HEADING_RE, _INTRODUCTION_KEY  # noqa: E402
+from _engine import ENGINE_CODEX_CHATGPT, subscription_engine_for_process  # noqa: E402
 from _paths import resolve_content  # noqa: E402
 from _pipeline_flags import narrative_frame  # noqa: E402
 from _sessions_prose_format import normalize_sessions_prose  # noqa: E402
@@ -281,7 +282,7 @@ def articulate_book(
     force: bool = False,
     limit: int | None = None,
     dry_run: bool = False,
-    engine: str = "claude",
+    engine: str = "auto",
     log=print,
 ) -> dict:
     """Articulate every chapter. Returns a summary of what happened."""
@@ -290,6 +291,7 @@ def articulate_book(
     if not book_md.exists():
         raise FileNotFoundError(f"missing {book_md} — run the ingest first.")
 
+    engine = resolve_runtime_engine(engine)
     frame = narrative_frame(book_dir)
     # Only a fully adapted chapter is done. A partial pass kept at least one
     # window, but the stitched chapter still mixes articulated prose with source
@@ -454,12 +456,19 @@ def articulate_book(
     }
 
 
+def resolve_runtime_engine(engine: str) -> str:
+    """Resolve ``auto`` to the subscription backing the current app."""
+    if engine != "auto":
+        return engine
+    return "codex" if subscription_engine_for_process() == ENGINE_CODEX_CHATGPT else "claude"
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("slug")
     parser.add_argument("--force", action="store_true", help="re-run chapters this lane has already articulated")
     parser.add_argument("--limit", type=int, default=None, help="stop after N chapters")
-    parser.add_argument("--engine", choices=("claude", "codex", "gemini"), default="claude")
+    parser.add_argument("--engine", choices=("auto", "claude", "codex", "gemini"), default="auto")
     parser.add_argument("--dry-run", action="store_true", help="list what would run and exit")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)

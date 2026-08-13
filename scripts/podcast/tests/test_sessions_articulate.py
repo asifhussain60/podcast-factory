@@ -219,6 +219,37 @@ def test_codex_engine_is_passed_to_rearticulate_and_repair(book_dir: Path, monke
     assert seen == [("_codex_adapter", "_codex_repair_adapter")]
 
 
+def test_auto_engine_uses_codex_inside_codex(book_dir: Path, monkeypatch) -> None:
+    seen: list[tuple[str, str]] = []
+
+    def fake(_bd, _key, *, adapter=None, repair_adapter=None, **_kwargs):
+        seen.append((adapter.__name__, repair_adapter.__name__))
+        return envelope("adapted")
+
+    monkeypatch.setenv("CODEX_THREAD_ID", "thread")
+    monkeypatch.setattr(art, "rearticulate", fake)
+    summary = art.articulate_book(book_dir, limit=1, engine="auto", log=lambda *_: None)
+
+    assert summary["engine"] == "codex"
+    assert seen == [("_codex_adapter", "_codex_repair_adapter")]
+
+
+def test_auto_engine_uses_claude_without_codex_env(book_dir: Path, monkeypatch) -> None:
+    seen: list[tuple[object, object]] = []
+
+    def fake(_bd, _key, *, adapter=None, repair_adapter=None, **_kwargs):
+        seen.append((adapter, repair_adapter))
+        return envelope("adapted")
+
+    for name in ("CODEX_THREAD_ID", "CODEX_CI", "CODEX_SHELL"):
+        monkeypatch.delenv(name, raising=False)
+    monkeypatch.setattr(art, "rearticulate", fake)
+    summary = art.articulate_book(book_dir, limit=1, engine="auto", log=lambda *_: None)
+
+    assert summary["engine"] == "claude"
+    assert seen == [(None, None)]
+
+
 def test_the_ledger_is_written_per_chapter_not_at_the_end(book_dir: Path, monkeypatch) -> None:
     """A run interrupted at chapter 19 of 23 must not re-pay for the eighteen
     that succeeded, so the record lands as each one finishes."""

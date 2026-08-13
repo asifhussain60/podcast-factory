@@ -188,6 +188,15 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(E.engine_tier(E.ENGINE_AZURE), 2)
         self.assertEqual(E.engine_tier(E.ENGINE_GEMINI), 3)
 
+    def test_codex_process_uses_chatgpt_subscription(self):
+        self.assertEqual(
+            E.subscription_engine_for_process({"CODEX_THREAD_ID": "thread"}),
+            E.ENGINE_CODEX_CHATGPT,
+        )
+
+    def test_unknown_process_uses_claude_max_subscription(self):
+        self.assertEqual(E.subscription_engine_for_process({}), E.ENGINE_CLAUDE_MAX)
+
     def test_engine_tier_unknown_raises(self):
         with self.assertRaises(ValueError):
             E.engine_tier("phantom_engine")

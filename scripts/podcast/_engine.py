@@ -37,6 +37,8 @@ Usage:
 
 from __future__ import annotations
 
+from collections.abc import Mapping
+
 # ─── Engine identifiers ───────────────────────────────────────────────────────
 ENGINE_CLAUDE_MAX = "claude_max"  # claude -p, flat-rate Max, $0 marginal
 ENGINE_CODEX_CHATGPT = "codex_chatgpt"  # codex exec, flat-rate ChatGPT subscription
@@ -173,6 +175,22 @@ def engine_tier(engine: str) -> int | str:
 def all_tasks() -> list[str]:
     """Every task the policy governs (used by tests to assert full coverage)."""
     return sorted(_POLICY)
+
+
+def subscription_engine_for_process(env: Mapping[str, str] | None = None) -> str:
+    """Flat-rate subscription engine for the app currently running this process.
+
+    Codex injects stable ``CODEX_*`` markers into subprocesses. Claude Code is
+    the historic/default terminal path for this repo, so an unknown process stays
+    on Claude Max rather than accidentally using the ChatGPT allowance.
+    """
+    if env is None:
+        import os
+
+        env = os.environ
+    if any(env.get(name) for name in ("CODEX_THREAD_ID", "CODEX_CI", "CODEX_SHELL")):
+        return ENGINE_CODEX_CHATGPT
+    return ENGINE_CLAUDE_MAX
 
 
 def engine_guard(task: str, actual_engine: str) -> None:

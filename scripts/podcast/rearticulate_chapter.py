@@ -51,6 +51,7 @@ from _book_pass_reports import record_rearticulation
 from _book_voice import _CHAPTER_HEADING_RE, _run_pass
 from _book_voice_prompts import _articulation_prompt, _articulation_repair_prompt
 from _content_profile import source_language as _source_language
+from _engine import ENGINE_CODEX_CHATGPT, subscription_engine_for_process
 from _paths import resolve_content
 from _pipeline_flags import narrative_frame, narrator_subject
 
@@ -418,12 +419,19 @@ def rearticulate(
     return result
 
 
+def resolve_runtime_engine(engine: str) -> str:
+    """Resolve ``auto`` to the subscription backing the current app."""
+    if engine != "auto":
+        return engine
+    return "codex" if subscription_engine_for_process() == ENGINE_CODEX_CHATGPT else "claude"
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("slug", nargs="?", help="content slug (resolved via _paths)")
     ap.add_argument("chapter_key", help="Composer chapter key (anchor_key of the ## heading)")
     ap.add_argument("--book-dir", help="explicit book directory (overrides slug)")
-    ap.add_argument("--engine", choices=("claude", "codex", "gemini"), default="claude")
+    ap.add_argument("--engine", choices=("auto", "claude", "codex", "gemini"), default="auto")
     ap.add_argument("--json", action="store_true", help="emit the result as JSON on stdout")
     args = ap.parse_args()
 
@@ -435,14 +443,15 @@ def main() -> int:
         ap.error("either <slug> or --book-dir is required")
 
     try:
-        if args.engine == "codex":
+        engine = resolve_runtime_engine(args.engine)
+        if engine == "codex":
             result = rearticulate(
                 book_dir,
                 args.chapter_key,
                 adapter=_codex_adapter,
                 repair_adapter=_codex_repair_adapter,
             )
-        elif args.engine == "gemini":
+        elif engine == "gemini":
             result = rearticulate(
                 book_dir,
                 args.chapter_key,
