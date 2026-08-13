@@ -9,6 +9,7 @@
 import { existsSync, readdirSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { parse } from "yaml";
 
 import {
   resolveBookCardIdentity,
@@ -81,9 +82,17 @@ async function readGenerationStatus(dir: string) {
       /* malformed or unreadable report — treat as not augmented */
     }
   }
+  let podcastPlanned = true;
+  try {
+    const meta = parse(await readFile(join(dir, "meta.yml"), "utf-8"));
+    if (meta?.series?.podcast_enabled === false) podcastPlanned = false;
+  } catch {
+    /* Missing or malformed metadata keeps the established default. */
+  }
   return {
     pdfGenerated,
     podcastGenerated,
+    podcastPlanned,
     augmented,
     episodeCount: episodeFiles.length,
   };

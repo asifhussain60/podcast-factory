@@ -199,6 +199,15 @@
   src: url("/fonts/amiri-arabic-400-normal.woff2") format("woff2");
 }
 
+/* Urdu display titles use Nastaliq, selected by their published language tag. */
+@font-face {
+  font-family: "Noto Nastaliq Urdu";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/noto-nastaliq-urdu-400-normal.woff2") format("woff2");
+}
+
 /* Amiri Quran — SCRIPTURE only, and a different file from Amiri above rather
    than a weight of it. A run the audit resolved against the canonical mushaf is
    set in it and nothing else is, which is the same rule the printed edition
@@ -314,6 +323,7 @@
   /* Titles and other display Arabic ONLY. Never the reading column — see the
      @font-face note in §1. */
   --l-font-arabic-display: "Amiri", "Scheherazade New", serif;
+  --l-font-urdu-display: "Noto Nastaliq Urdu", serif;
   /* SCRIPTURE, and only scripture: a run the audit resolved against the
      canonical mushaf. Reached from exactly one rule in §7, keyed off the
      `is-quranic` class the renderer stamps from that resolution — so the face
@@ -1909,7 +1919,7 @@
     font-family: var(--l-font-card-title);
   }
 
-  .pf-masthead--centred .pf-book-title-ar {
+  .pf-masthead--centred .pf-book-title-original {
     text-align: center;
   }
 
@@ -2045,7 +2055,7 @@
     color: color-mix(in oklab, var(--l-accent-hover) 80%, rebeccapurple);
   }
 
-  .pf-title-plate .pf-book-title-ar {
+  .pf-title-plate .pf-book-title-original {
     margin-top: 0;
     font-size: calc(var(--pf-plate-type) * 1.18);
     line-height: 1.4;
@@ -2093,7 +2103,7 @@
 
   /* The book's own name, on its own page. Bigger than the card's band title —
      this is the one place there is room to set it properly. */
-  .pf-book-title-ar {
+  .pf-book-title-original {
     margin-top: var(--pf-space-4);
     color: var(--l-ink);
     font-family: var(--l-font-arabic-display);
@@ -2104,6 +2114,12 @@
        the far edge, a whole column away from the English name it belongs to.
        The alignment is deliberately left; only the text direction is right. */
     text-align: left;
+  }
+
+  .pf-book-title-original[lang="ur"] {
+    font-family: var(--l-font-urdu-display);
+    font-size: clamp(2rem, 1.55rem + 2.2vw, 3.1rem);
+    line-height: 2;
   }
 
   .pf-blurb {
@@ -3344,6 +3360,12 @@
     -webkit-line-clamp: 2;
     line-clamp: 2;
     overflow: hidden;
+  }
+
+  .pf-book__band-title[lang="ur"] {
+    font-family: var(--l-font-urdu-display);
+    font-size: 2rem;
+    line-height: 2;
   }
 
   /* The fallback, for the books with no Arabic title at all. Display serif at a

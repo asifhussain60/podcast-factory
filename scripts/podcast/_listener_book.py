@@ -84,6 +84,7 @@ class Book:
     directory: Path
     title: str
     title_arabic: str | None
+    title_language: str | None
     blurb: str | None
     edition_note: str | None
     chapters: list[Chapter] = field(default_factory=list)
@@ -236,12 +237,29 @@ def load_book(slug: str) -> Book:
         config = yaml.safe_load(series.read_text(encoding="utf-8")) or {}
         edition_note = config.get("deliverable_mode")
 
+    original_language = meta.get("original_title_language")
+    original_title = (
+        meta.get("title_urdu")
+        or meta.get("title_arabic")
+        or (meta.get("original_title") if original_language in {"ar", "ur", "zh"} else None)
+    )
+    title_language = (
+        "ur"
+        if meta.get("title_urdu")
+        else "ar"
+        if meta.get("title_arabic")
+        else original_language
+        if original_title
+        else None
+    )
+
     book = Book(
         slug=slug,
         bucket=bucket,
         directory=directory,
         title=str(meta.get("title") or slug),
-        title_arabic=meta.get("title_arabic"),
+        title_arabic=original_title,
+        title_language=title_language,
         blurb=blurb,
         edition_note=edition_note,
         chapters=split_chapters(book_md_path.read_text(encoding="utf-8")),

@@ -71,7 +71,8 @@ export interface Session {
 }
 
 export interface UnitDetail {
-  titleArabic: string | null;
+  titleOriginal: string | null;
+  titleLanguage: "ar" | "ur" | "zh" | null;
   /** Rendered at publish time by the same function as the chapters. */
   blurbHtml: string | null;
   editionNote: string | null;
@@ -146,7 +147,7 @@ export async function surfacesOf(db: D1Database, slug: string): Promise<Surfaces
 export async function detailOf(db: D1Database, slug: string): Promise<UnitDetail | null> {
   const row = await db
     .prepare(
-      `SELECT d.title_arabic, d.blurb_html, d.edition_note, d.cover_key, d.pdf_key, d.published_at,
+      `SELECT d.title_arabic, d.title_language, d.blurb_html, d.edition_note, d.cover_key, d.pdf_key, d.published_at,
               (SELECT m.bytes       FROM media_asset m WHERE m.key = d.pdf_key) AS pdf_bytes,
               (SELECT m.uploaded_at FROM media_asset m WHERE m.key = d.pdf_key) AS pdf_uploaded_at
        FROM unit_detail d WHERE d.slug = ? LIMIT 1`,
@@ -154,6 +155,7 @@ export async function detailOf(db: D1Database, slug: string): Promise<UnitDetail
     .bind(slug)
     .first<{
       title_arabic: string | null;
+      title_language: "ar" | "ur" | "zh" | null;
       blurb_html: string | null;
       edition_note: string | null;
       cover_key: string | null;
@@ -166,7 +168,8 @@ export async function detailOf(db: D1Database, slug: string): Promise<UnitDetail
   if (row === null) return null;
 
   return {
-    titleArabic: row.title_arabic,
+    titleOriginal: row.title_arabic,
+    titleLanguage: row.title_arabic === null ? null : (row.title_language ?? "ar"),
     blurbHtml: row.blurb_html,
     editionNote: row.edition_note,
     coverKey: row.cover_key,
@@ -430,7 +433,8 @@ export interface LibraryCard {
   deckPages: number;
   /** At least one deck page is in R2. */
   deckAvailable: boolean;
-  titleArabic: string | null;
+  titleOriginal: string | null;
+  titleLanguage: "ar" | "ur" | "zh" | null;
 }
 
 export interface CardPlayableEpisode {
@@ -464,6 +468,7 @@ export async function libraryCards(
     .prepare(
       `SELECT u.slug,
               d.title_arabic,
+              d.title_language,
               -- TWO facts, deliberately not collapsed: the print edition exists,
               -- and it is in R2 so the link works. This used to be one column
               -- (pdf_ready, uploaded only), which meant the card could not say
@@ -494,6 +499,7 @@ export async function libraryCards(
     .all<{
       slug: string;
       title_arabic: string | null;
+      title_language: "ar" | "ur" | "zh" | null;
       pdf_exists: number;
       pdf_ready: number;
       chapters: number;
@@ -516,7 +522,8 @@ export async function libraryCards(
       pdfAvailable: r.pdf_ready > 0,
       deckPages: r.deck_pages,
       deckAvailable: r.deck_ready > 0,
-      titleArabic: r.title_arabic,
+      titleOriginal: r.title_arabic,
+      titleLanguage: r.title_arabic === null ? null : (r.title_language ?? "ar"),
     });
   }
 

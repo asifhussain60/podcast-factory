@@ -159,6 +159,18 @@ const MANIFEST = [
     to: "amiri-LICENSE.txt",
     note: "SIL OFL 1.1",
   },
+  // Urdu DISPLAY — Arabic and Urdu share codepoints, so the published language
+  // tag, rather than glyph fallback, must select the Nastaliq face.
+  {
+    from: "../plan-dashboard/public/fonts/noto-nastaliq-urdu/NotoNastaliqUrdu-Regular.woff2",
+    to: "noto-nastaliq-urdu-400-normal.woff2",
+    note: "Noto Nastaliq Urdu 400 (Urdu titles)",
+  },
+  {
+    from: "../plan-dashboard/public/fonts/noto-nastaliq-urdu/OFL.txt",
+    to: "noto-nastaliq-urdu-LICENSE.txt",
+    note: "SIL OFL 1.1",
+  },
   // Arabic SCRIPTURE — Amiri Quran, and it is a different file from Amiri above,
   // not a weight of it. It draws U+06DF, the mark saying a letter is written but
   // not pronounced, as a mark: the Qur'anic face this corpus used until

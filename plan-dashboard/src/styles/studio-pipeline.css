@@ -651,6 +651,19 @@
   text-align: center;
 }
 
+/* Urdu titles use Nastaliq, not the Arabic Naskh display face. Its cascading
+   joins need more leading even for a single compact card-title line. */
+.card-script-text[lang="ur"] {
+  display: block;
+  font-family: "Noto Nastaliq Urdu", serif;
+  font-size: 1.38rem;
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0;
+  color: #7b1414;
+  text-align: center;
+}
+
 /* Chinese (and other LTR scripts) — system CJK stack */
 .card-script-text[lang="zh"] {
   display: block;

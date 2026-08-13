@@ -45,6 +45,7 @@ def a_book(tmp_path: Path) -> Book:
         directory=tmp_path,
         title="Test Book",
         title_arabic="كتاب",
+        title_language="ar",
         blurb="<p>A blurb.</p>",
         edition_note=None,
     )
@@ -63,6 +64,10 @@ def test_the_emitted_sql_actually_runs(tmp_path):
     assert conn.execute("SELECT count(*) FROM chapter WHERE slug='test-book'").fetchone()[0] == 1
     assert conn.execute("SELECT count(*) FROM episode WHERE slug='test-book'").fetchone()[0] == 1
     assert conn.execute("SELECT title FROM content_unit WHERE slug='test-book'").fetchone()[0] == "Test Book"
+    assert conn.execute("SELECT title_arabic, title_language FROM unit_detail WHERE slug='test-book'").fetchone() == (
+        "كتاب",
+        "ar",
+    )
 
 
 def test_a_newly_published_book_is_a_draft_nobody_can_see(tmp_path):
