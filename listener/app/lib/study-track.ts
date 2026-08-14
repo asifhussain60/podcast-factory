@@ -17,10 +17,10 @@ const LABELS: Record<StudyTrack, string> = {
 /** Display order for the filter chips — not alphabetical, so a book's own
  * track order (foundational to concrete) reads left to right. */
 export const ALL_STUDY_TRACKS: StudyTrack[] = [
-  "theology",
-  "shariah",
-  "esoteric",
   "history",
+  "shariah",
+  "theology",
+  "esoteric",
   "reality",
 ];
 

@@ -1,10 +1,16 @@
-import { faSliders } from "@fortawesome/free-solid-svg-icons";
+import {
+  faList,
+  faSliders,
+  faTableCells,
+  faTableCellsLarge,
+} from "@fortawesome/free-solid-svg-icons";
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
 
 import type { Route } from "./+types/home";
 import { AppShell } from "~/components/AppShell";
 import { BookCard } from "~/components/BookCard";
+import { BookListRow } from "~/components/BookListRow";
 import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
 import { SearchBox } from "~/components/SearchBox";
@@ -150,11 +156,43 @@ type TrackChoice = "all" | StudyTrack;
 const inTrack = (studyTrack: string | null | undefined, choice: TrackChoice): boolean =>
   choice === "all" || studyTrack === choice;
 
+/**
+ * Cards, compact tiles, or list — remembered client-side only, since this is
+ * a display preference, not data, so it has no business in the loader or the
+ * URL. Read the same way `Player.tsx`'s `loadRate()` reads the playback rate:
+ * a plain function inside a `try/catch`, used as a lazy `useState`
+ * initializer. `localStorage` does not exist during the server render, so
+ * the catch is what makes that safe rather than a special case.
+ */
+const VIEW_MODE_KEY = "pf-library-view";
+const VIEW_MODES = ["cards", "compact", "list"] as const;
+type ViewMode = (typeof VIEW_MODES)[number];
+
+function loadViewMode(): ViewMode {
+  try {
+    const stored = localStorage.getItem(VIEW_MODE_KEY);
+    return (VIEW_MODES as readonly string[]).includes(stored ?? "") ? (stored as ViewMode) : "cards";
+  } catch {
+    return "cards";
+  }
+}
+
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { units, viewer } = loaderData;
   const [query, setQuery] = useState("");
   const [collection, setCollection] = useState<Collection>("all");
   const [track, setTrack] = useState<TrackChoice>("all");
+  const [viewMode, setViewMode] = useState<ViewMode>(loadViewMode);
+
+  function setMode(mode: ViewMode) {
+    setViewMode(mode);
+    try {
+      localStorage.setItem(VIEW_MODE_KEY, mode);
+    } catch {
+      // Best-effort. A reader whose storage is full or blocked still gets the
+      // toggle for this visit — it just doesn't survive to the next one.
+    }
+  }
 
   // The control is drawn only when there is something to choose BETWEEN. A
   // reader with books and no sessions is offered nothing to press, which is
@@ -305,6 +343,46 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         )}
       </section>
 
+      {/* Gated on the FULL library, same as the search/track controls above —
+          a temporary zero-result search should not make the toggle itself
+          flicker away. */}
+      {units.length === 0 ? null : (
+        <div className="pf-library-view-toggle">
+          <div role="group" aria-label="Book display" className="pf-stepper pf-stepper--sm">
+            <button
+              type="button"
+              onClick={() => setMode("cards")}
+              aria-pressed={viewMode === "cards"}
+              aria-label="Card view"
+              title="Card view"
+              className="pf-stepper__step pf-stepper__step--toggle"
+            >
+              <Icon icon={faTableCellsLarge} title="Card view" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("compact")}
+              aria-pressed={viewMode === "compact"}
+              aria-label="Compact tile view"
+              title="Compact tile view"
+              className="pf-stepper__step pf-stepper__step--toggle"
+            >
+              <Icon icon={faTableCells} title="Compact tile view" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("list")}
+              aria-pressed={viewMode === "list"}
+              aria-label="List view"
+              title="List view"
+              className="pf-stepper__step pf-stepper__step--toggle"
+            >
+              <Icon icon={faList} title="List view" />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Announced rather than only drawn: filtering happens with no page
           change, so a screen reader is otherwise never told the grid moved. */}
       <p aria-live="polite" className="sr-only">
@@ -333,6 +411,43 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             </>
           )}
         </EmptyState>
+      ) : viewMode === "list" ? (
+        /* Same elevated container the chapter/episode rows already sit in
+           (`.pf-panel` + `.pf-panel__body`) rather than a bare striped list
+           floating on the page background — one surface, reused. */
+        <div className="pf-panel pf-library-list">
+          <div className="pf-panel__body">
+            <ol className="pf-rows pf-rows--striped">
+              {shown.map((unit) => (
+                <BookListRow
+                  key={unit.slug}
+                  slug={unit.slug}
+                  title={unit.title}
+                  card={unit.card}
+                  progress={unit.progress}
+                />
+              ))}
+            </ol>
+          </div>
+        </div>
+      ) : viewMode === "compact" ? (
+        <ul className="pf-grid pf-grid--spaced pf-grid--compact">
+          {shown.map((unit) => (
+            <li key={unit.slug}>
+              <BookCard
+                slug={unit.slug}
+                title={unit.title}
+                bucket={unit.bucket}
+                card={unit.card}
+                progress={unit.progress}
+                bookmarks={unit.bookmarks}
+                listen={unit.listen}
+                marks={unit.marks}
+                compact
+              />
+            </li>
+          ))}
+        </ul>
       ) : (
         <ul className="pf-grid pf-grid--spaced">
           {shown.map((unit) => (

@@ -11,9 +11,11 @@ import { Link, useNavigate } from "react-router";
 import { Icon } from "~/components/Icon";
 import { clock, usePlayer, type NowPlaying } from "~/components/player/Player";
 import { collectionOf } from "~/lib/collection";
+import { percentRead } from "~/lib/book-progress";
 import { PRE_ROLL_S } from "~/lib/marks";
 import { studyTrackLabel } from "~/lib/study-track";
 import type { CardPlayableEpisode, LibraryCard } from "~/server/catalog.server";
+import type { Progress } from "~/server/marks.server";
 
 /**
  * One book in the library grid.
@@ -42,13 +44,14 @@ export function BookCard({
   progress = null,
   bookmarks = [],
   marks = null,
+  compact = false,
 }: {
   slug: string;
   title: string;
   bucket: string;
   card: LibraryCard | null;
   /** Where this reader got to, or null if they have not opened it. */
-  progress?: { anchorKey: string; fraction: number; chaptersDone: number } | null;
+  progress?: Progress | null;
   bookmarks?: { id: string; anchorKey: string; createdAt: string }[];
   listen?: {
     mode: "resume" | "start";
@@ -56,6 +59,14 @@ export function BookCard({
     seconds: number | null;
   } | null;
   marks?: { notes: number; bookmarks: number } | null;
+  /**
+   * The library's tile view: the same identity — ribbon, band, progress —
+   * at a footprint built for scanning many at once. The actions row drops
+   * rather than shrinking, because a thumbnail with three legible buttons on
+   * it is not actually smaller, it is the same card with worse hit targets.
+   * The whole tile already opens the book, same as a list row does.
+   */
+  compact?: boolean;
 }) {
   const originalTitle = card?.titleOriginal ?? null;
   const originalLanguage = card?.titleLanguage ?? "ar";
@@ -72,23 +83,11 @@ export function BookCard({
           bookmark === null ? "" : `#mark-${bookmark.id}`
         }`;
 
-  // Whole chapters finished, plus how far into the current one — so a reader on
-  // chapter 4 of 9 reads about 40%, not 11% because one chapter is "done".
-  // Absent when the book has no chapters: a percentage of nothing is a lie.
-  const percent =
-    progress === null || card === null || card.chapters === 0
-      ? null
-      : Math.min(
-          99,
-          Math.max(
-            1,
-            Math.round(((progress.chaptersDone + progress.fraction) / card.chapters) * 100),
-          ),
-        );
+  const percent = card === null ? null : percentRead(card.chapters, progress);
 
   return (
     <article
-      className="pf-card pf-book"
+      className={compact ? "pf-card pf-book pf-book--compact" : "pf-card pf-book"}
       /* The card is the whole subtree the overlay has to cover — band, pills,
          meter and all — so the attribute goes on the link rather than on the
          band it most obviously colours. */
@@ -131,16 +130,18 @@ export function BookCard({
             <h2 className="pf-book__title">{title}</h2>
           </Link>
         )}
-        <CardActions
-          slug={slug}
-          title={title}
-          card={card}
-          collection={collection === "sessions" ? "sessions" : undefined}
-          listen={listen}
-          readHref={readHref}
-          progress={progress}
-          marks={marks}
-        />
+        {compact ? null : (
+          <CardActions
+            slug={slug}
+            title={title}
+            card={card}
+            collection={collection === "sessions" ? "sessions" : undefined}
+            listen={listen}
+            readHref={readHref}
+            progress={progress}
+            marks={marks}
+          />
+        )}
 
         {/* ALWAYS rendered, so every card in the grid is the same height — a book
             with no progress used to omit this block entirely and sit shorter
