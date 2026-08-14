@@ -2056,9 +2056,22 @@ body:has(.composer-grid) .to-top {
 }
 
 /* Details tab (ComposeDetailsTab.tsx) — comments, action-item marks,
-   section depth/tags. Same token pattern as the Refinement additions above. */
+   section depth/tags. Same token pattern as the Refinement additions above.
+   `grid-template-columns: minmax(0, 1fr)` is load-bearing, not decorative
+   (found live 2026-08-14): with no explicit columns, a single-row CSS grid's
+   implicit column sizes to `auto` — its content's max-content width — rather
+   than to the space the drawer actually has. The mark-button row below is an
+   `auto-fit` grid that reports ITS OWN max-content width as "every button in
+   one line," which this track then honored, pushing the whole tab wider than
+   the fixed-width drawer and silently turning on a horizontal scrollbar
+   (`.cx-tabpanel`'s `overflow-y: auto` auto-promotes `overflow-x` to `auto`
+   too whenever it isn't explicitly pinned — see that rule). `minmax(0, 1fr)`
+   makes the column a share of the AVAILABLE width instead, which is what
+   lets the auto-fit row below wrap into multiple lines like it was always
+   meant to. */
 .cx-details-tab {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
 }
 .cx-details-block h3 {
@@ -2226,6 +2239,13 @@ body:has(.composer-grid) .to-top {
   margin: 0.5rem 0 0;
   padding: 0;
   display: grid;
+  /* Same fix, same reason as .cx-details-tab above: with no explicit
+     columns this grid's one implicit column sizes to `auto` — its content's
+     max-content width — which for a queued mark means the SNIPPET's full,
+     un-ellipsized length (max-content sizing ignores overflow/text-overflow,
+     since those only apply once a width is already known), not the width
+     .cx-queue-jump would actually render at. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.3rem;
 }
 .cx-details-queue li {
@@ -3120,6 +3140,13 @@ body:has(.composer-grid) .to-top {
   min-height: 0;
   padding: 0.9rem 1rem calc(0.9rem + var(--cx-fab-clear, 0px));
   overflow-y: auto;
+  /* Pinned explicitly, not left to default (found live 2026-08-14): setting
+     only overflow-y makes the browser auto-promote overflow-x to `auto` too
+     (per spec, a `visible` axis next to a non-visible one becomes `auto`),
+     so any future child that's ever a hair too wide silently grows a
+     horizontal scrollbar here instead of wrapping or getting caught in
+     review. */
+  overflow-x: hidden;
 }
 .cx-tabpanel[hidden] {
   display: none;
