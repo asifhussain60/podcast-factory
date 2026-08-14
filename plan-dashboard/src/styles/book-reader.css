@@ -171,14 +171,33 @@
 }
 .bookv-body .md-figure img {
   display: block;
+  /* --img-h (2026-08-14, height not width — see image-layout.mjs's header): a
+     Composer resize, set as an inline custom property (never a raw
+     style="height:…") on the img itself — see the image branch of
+     markdown.ts for why. Falls back to the existing `auto`/`auto` pair the
+     moment nobody has resized this image, which is every image before this
+     existed, so an unresized picture renders exactly as it always did. */
   width: auto;
+  height: var(--img-h, auto);
   max-width: 100%;
-  height: auto;
   margin-inline: auto;
   box-sizing: border-box;
   border: 1px solid var(--c-rule-soft, #ebe6da);
   border-radius: 6px;
   background: var(--c-bg-card, #fffdf8);
+}
+/* A Composer align choice (2026-08-14). `center` is the existing default
+   above and needs no override; left/right float the plate so text can run
+   beside it, same shape as the OTHER image system's `flow: wrap`. */
+.bookv-body .md-figure[data-align="left"] {
+  float: left;
+  margin: 0.4rem 1.4rem 0.9rem 0;
+  width: auto;
+}
+.bookv-body .md-figure[data-align="right"] {
+  float: right;
+  margin: 0.4rem 0 0.9rem 1.4rem;
+  width: auto;
 }
 .bookv-body .md-figure figcaption {
   margin-top: 0.45rem;

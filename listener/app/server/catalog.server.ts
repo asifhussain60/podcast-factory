@@ -435,6 +435,8 @@ export interface LibraryCard {
   deckAvailable: boolean;
   titleOriginal: string | null;
   titleLanguage: "ar" | "ur" | "zh" | null;
+  /** The library ribbon's category — null on a book not yet classified. */
+  studyTrack: string | null;
 }
 
 export interface CardPlayableEpisode {
@@ -469,6 +471,7 @@ export async function libraryCards(
       `SELECT u.slug,
               d.title_arabic,
               d.title_language,
+              d.study_track,
               -- TWO facts, deliberately not collapsed: the print edition exists,
               -- and it is in R2 so the link works. This used to be one column
               -- (pdf_ready, uploaded only), which meant the card could not say
@@ -500,6 +503,7 @@ export async function libraryCards(
       slug: string;
       title_arabic: string | null;
       title_language: "ar" | "ur" | "zh" | null;
+      study_track: string | null;
       pdf_exists: number;
       pdf_ready: number;
       chapters: number;
@@ -524,6 +528,7 @@ export async function libraryCards(
       deckAvailable: r.deck_ready > 0,
       titleOriginal: r.title_arabic,
       titleLanguage: r.title_arabic === null ? null : (r.title_language ?? "ar"),
+      studyTrack: r.study_track,
     });
   }
 

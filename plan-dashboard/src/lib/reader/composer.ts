@@ -43,6 +43,14 @@ import {
   readQuoteKind,
   flattenQuoteKind,
 } from "../../../scripts/lib/quote-kind.mjs";
+import {
+  readQuoteGroups,
+  flattenQuoteGroups,
+} from "../../../scripts/lib/quote-groups.mjs";
+import {
+  readImageLayout,
+  flattenImageLayout,
+} from "../../../scripts/lib/image-layout.mjs";
 
 export interface ComposerCitation {
   ar: string; // Arabic-script line (plain text)
@@ -348,6 +356,21 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     string,
     QuoteDeclaration
   >;
+  // Which declared quote+gloss fragments merge into one card — Read tab only
+  // (renderEditSeed below never receives this; see markdown.ts's own note on
+  // why a merged card cannot round-trip into book.md).
+  const quoteGroups = flattenQuoteGroups(readQuoteGroups(ref.dir)) as {
+    quote: Record<string, string>;
+    gloss: Record<string, string>;
+  };
+  // Per-image resize/align a person set in the Composer — unlike quoteGroups,
+  // this DOES ride into renderEditSeed below: without it a resize would
+  // silently reset on every reload (the edit canvas has to see it to seed
+  // the ChapterImage NodeView's attrs back).
+  const imageLayout = flattenImageLayout(readImageLayout(ref.dir)) as Record<
+    string,
+    { height_px?: number; align?: string }
+  >;
   // The chapter and verse each Qur'an card is headed by.
   const quranicRefs = readQuranicRefs(ref.dir) as Record<string, string>;
 
@@ -396,6 +419,8 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
           // Uthmanic face and everything else in Scheherazade exactly as it prints.
           quranicRuns,
           quoteKinds,
+          quoteGroups,
+          imageLayout,
           quranicRefs,
         }),
       ),
@@ -405,7 +430,14 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     // Never the default profile: its display-only transliteration fold ate
     // leading straight apostrophes, and a seed loss becomes a book.md loss on
     // the first autosave (see renderEditSeed in markdown.ts).
-    const editHtml = renderEditSeed(body, quranicRuns, quoteKinds, quranicRefs);
+    // `serveBookImages`: same reason as the read render above — the edit
+    // canvas runs in the browser too, so a `book/`-relative image src needs
+    // rewriting to the API route or it 404s silently (the fix for read mode
+    // and the reader view never covered this branch — see composer.test.ts).
+    const editHtml = serveBookImages(
+      renderEditSeed(body, quranicRuns, quoteKinds, quranicRefs, imageLayout),
+      slug,
+    );
     chapters.push({
       anchor: heading,
       key,

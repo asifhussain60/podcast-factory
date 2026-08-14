@@ -77,6 +77,11 @@
       "_why": "too short to be a passage",
       "in": "الله",
       "out": false
+    },
+    {
+      "_why": "SOME words already marked, one completely bare (\"الرحمۃ،\") — found live 2026-08-14: the old aggregate-density check averaged marks across the whole passage (29%) and refused it as already vowelled, disabling the Diacritics button on a passage a third still bare",
+      "in": "الرحمۃ، رِقَّۃ تَقتَدِ الأحسانُ اِلی المَرحوم",
+      "out": true
     }
   ],
   "isArabicPassage": [

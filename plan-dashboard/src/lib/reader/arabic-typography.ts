@@ -63,6 +63,11 @@ export const ARABIC_FACES: readonly ArabicChoice[] = [
     name: "IBM Plex Sans Arabic",
     tagline: "Modern, technical, roomy marks",
   },
+  // Added 2026-08-14, at Asif's request for a heavier quote-card face. Reuses
+  // Amiri's own 700 cut (already self-hosted for headings elsewhere) rather
+  // than faux-bolding a face with no real bold — see quote-typography.css
+  // `.ar-amiri-bold` / `--q-ar-weight`.
+  { id: "amiri-bold", name: "Amiri Bold", tagline: "Amiri's own bold cut" },
 ];
 export const DEFAULT_ARABIC_FACE = "scheherazade-new";
 

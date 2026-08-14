@@ -42,6 +42,13 @@ import {
   QUOTE_KIND_LABEL,
   speakerFor,
 } from "./quote-kind.mjs";
+import {
+  readQuoteGroups,
+  flattenQuoteGroups,
+  collectGroupRuns,
+  groupKey,
+} from "./quote-groups.mjs";
+import { readImageLayout, flattenImageLayout } from "./image-layout.mjs";
 import { paraFingerprint } from "./para-blocks.mjs";
 import { loadLayout, applyLayout } from "../visual-layout.mjs";
 // Book-level display settings (author, citation family, translation/Arabic
@@ -559,6 +566,23 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
   // Scripture always wins: a block whose Arabic the audit resolved is a Qur'an
   // card whatever the map says, because the mushaf is not a matter of opinion.
   const quoteKinds = opts.quoteKinds ?? null;
+  // quoteGroups (opt-in): { quote: {firstLine: groupId}, gloss: {fingerprint:
+  // groupId} }, from _system/quote-groups.json. Omitted (the default, and
+  // every book today) means blockMeta below stays empty and the merge pass
+  // at the end is a no-op — output is byte-for-byte unchanged. See
+  // quote-groups.mjs's header for the whole mechanism.
+  const quoteGroups = opts.quoteGroups ?? null;
+  // Parallel to `out`, sparse: blockMeta[i] is set only for a block whose key
+  // is found in quoteGroups, at the SAME index `out[i]` was just pushed to.
+  // Never touches what gets pushed to `out` itself — the merge pass at the
+  // end reads this to decide what to collapse, so every existing push site
+  // that ISN'T a group member needs no change at all.
+  const blockMeta = [];
+  // imageLayout (opt-in): src -> {height_px?, align?}, from
+  // _system/image-layout.json. Omitted (the default, and every book before
+  // this existed) means no image carries a height/align override, which is
+  // exactly what rendered before this option existed.
+  const imageLayout = opts.imageLayout ?? null;
   // quranicRefs (opt-in): run text -> "Al-Ahzab: 6". Only the Qur'an card names
   // itself from the text; the other three take a fixed word, because "which
   // hadith" is a question the audit cannot answer and a person has not been
@@ -745,6 +769,13 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
     chapterJustOpened = false;
     const cls = names.length ? ` class="${names.join(" ")}"` : "";
     out.push(`<p${cls}>${renderInline(text)}</p>`);
+    // A gloss member for the merge pass — the tight translation of an
+    // adjacent declared quote fragment, never the author's own commentary,
+    // which is why this only fires when a person explicitly tagged THIS
+    // paragraph's own fingerprint, not by proximity or shape.
+    const glossGroup = quoteGroups?.gloss?.[groupKey(para)];
+    if (glossGroup)
+      blockMeta[out.length - 1] = { type: "gloss", groupId: glossGroup, text };
     para = [];
   };
   // The pipeline fence currently open, so a blockquote written INSIDE an
@@ -822,6 +853,15 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
       out.push(
         `<blockquote class="quran${kind ? ` k-${kind}` : ""}${asideCls()}">${band(kind, quote)}${inner.join("")}</blockquote>`,
       );
+      const quoteGroupId = quoteGroups?.quote?.[quoteKindKey(quote)];
+      if (quoteGroupId && kind && kind !== "quran")
+        blockMeta[out.length - 1] = {
+          type: "quote",
+          groupId: quoteGroupId,
+          kind,
+          bandHtml: band(kind, quote),
+          innerHtml: inner.join(""),
+        };
     } else {
       // No Arabic, so no `quran` class — that word has always meant "this block
       // contains Arabic". A kind still applies when a person declared one: verse
@@ -830,9 +870,20 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
       // English blockquote gets nothing, exactly as before.
       const dec = asideCls() ? null : quoteKinds?.[quoteKindKey(quote)];
       const cls = `${dec ? `k-${dec.kind}` : ""}${asideCls()}`.trim();
+      const innerHtml =
+        paras.map((p) => `<p>${renderInline(p)}</p>`).join("") || "<p></p>";
       out.push(
-        `<blockquote${cls ? ` class="${cls}"` : ""}>${band(dec?.kind, quote)}${paras.map((p) => `<p>${renderInline(p)}</p>`).join("") || "<p></p>"}</blockquote>`,
+        `<blockquote${cls ? ` class="${cls}"` : ""}>${band(dec?.kind, quote)}${innerHtml}</blockquote>`,
       );
+      const quoteGroupId = quoteGroups?.quote?.[quoteKindKey(quote)];
+      if (quoteGroupId && dec?.kind)
+        blockMeta[out.length - 1] = {
+          type: "quote",
+          groupId: quoteGroupId,
+          kind: dec.kind,
+          bandHtml: band(dec.kind, quote),
+          innerHtml,
+        };
     }
     quote = [];
   };
@@ -933,8 +984,13 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
       flushList();
       const src = mdImage[2].replace(/&/g, "&amp;").replace(/"/g, "&quot;");
       const alt = mdImage[1].replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+      const layout = imageLayout?.[mdImage[2]];
+      const figAttrs = layout?.align ? ` data-align="${layout.align}"` : "";
+      const imgStyle = layout?.height_px
+        ? ` style="--img-h:${layout.height_px}px"`
+        : "";
       out.push(
-        `<figure class="md-figure"><img src="${src}" alt="${alt}" loading="lazy" />` +
+        `<figure class="md-figure"${figAttrs}><img src="${src}" alt="${alt}" loading="lazy"${imgStyle} />` +
           (mdImage[1]
             ? `<figcaption>${renderInline(mdImage[1])}</figcaption>`
             : "") +
@@ -1064,7 +1120,51 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
   flushQuote();
   flushList();
   flushAside();
-  return (opts.wrapChapters ? wrapChapters(out) : out).join("\n");
+  // Collapse declared groups into one merged card each. blockMeta is empty
+  // for every book with no quote-groups.json (the default), so this is a
+  // no-op there — `merged` becomes `out` unchanged, same array contents.
+  let merged = out;
+  if (quoteGroups && blockMeta.some(Boolean)) {
+    const blocksForRuns = out.map((_, i) =>
+      blockMeta[i]
+        ? {
+            groupId: blockMeta[i].groupId,
+            type: blockMeta[i].type,
+            kind: blockMeta[i].kind,
+          }
+        : { groupId: null },
+    );
+    const runOf = collectGroupRuns(blocksForRuns);
+    merged = [];
+    let i = 0;
+    while (i < out.length) {
+      let j = i;
+      while (j + 1 < out.length && runOf[j + 1] === runOf[i]) j++;
+      if (j > i && blockMeta[i]) {
+        // A genuine multi-member merge: one card, the first quote member's
+        // band, every member's own inner content in document order.
+        const members = [];
+        for (let k = i; k <= j; k++) members.push(blockMeta[k]);
+        const firstQuote = members.find((m) => m.type === "quote");
+        const bandHtml = firstQuote?.bandHtml ?? "";
+        const kind = firstQuote?.kind ?? "quote";
+        const inner = members
+          .map((m) =>
+            m.type === "gloss"
+              ? `<p class="tr">${renderInline(m.text)}</p>`
+              : m.innerHtml,
+          )
+          .join("");
+        merged.push(
+          `<blockquote class="quran k-${kind} is-group">${bandHtml}${inner}</blockquote>`,
+        );
+      } else {
+        merged.push(out[i]);
+      }
+      i = j + 1;
+    }
+  }
+  return (opts.wrapChapters ? wrapChapters(merged) : merged).join("\n");
 }
 
 export function themeRoot(css) {
@@ -1134,6 +1234,11 @@ export function buildBookHtml(mdPath, { v2 = false, selfStudy = false } = {}) {
     // reason alignByPara is: this render walks the whole book at once and the
     // key is the quotation's own text — see flattenQuoteKind.
     quoteKinds: flattenQuoteKind(readQuoteKind(assetRoot)),
+    // Which declared quote+gloss fragments merge into one card. Flat for the
+    // same reason quoteKinds is — see flattenQuoteGroups.
+    quoteGroups: flattenQuoteGroups(readQuoteGroups(assetRoot)),
+    // Per-image resize/align a person set in the Composer.
+    imageLayout: flattenImageLayout(readImageLayout(assetRoot)),
     // The chapter and verse each Qur'an card is headed by.
     quranicRefs: readQuranicRefs(assetRoot),
   });

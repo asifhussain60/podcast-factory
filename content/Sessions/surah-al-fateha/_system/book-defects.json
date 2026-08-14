@@ -13,9 +13,25 @@
     "translation-leads-a-paragraph": 0,
     "translation-fused-with-prose": 3,
     "bare-arabic": 23,
+    "orphaned-heading": 0,
     "stale-provenance": 0
   },
-  "previous": {},
+  "previous": {
+    "duplicated-arabic": 0,
+    "english-rtl": 0,
+    "romanized-arabic": 0,
+    "romanized-honorific": 0,
+    "stray-emphasis": 0,
+    "quote-line-noise": 0,
+    "honorific-overuse": 0,
+    "prophet-wrong-honorific": 0,
+    "translation-outside-card": 0,
+    "translation-leads-a-paragraph": 0,
+    "translation-fused-with-prose": 3,
+    "bare-arabic": 23,
+    "orphaned-heading": 5,
+    "stale-provenance": 0
+  },
   "findings": {
     "duplicated-arabic": [],
     "english-rtl": [],
@@ -135,6 +151,7 @@
         "سورۃ الفاتحہ"
       ]
     ],
+    "orphaned-heading": [],
     "stale-provenance": []
   }
 }

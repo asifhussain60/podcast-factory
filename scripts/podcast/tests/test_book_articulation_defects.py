@@ -78,6 +78,7 @@ from _book_defects import (  # noqa: E402
     honorific_overuse,
     is_arabic_quote_line,
     is_romanized_arabic,
+    orphaned_heading,
     prophet_wrong_honorific,
     romanized_arabic,
 )
@@ -122,6 +123,15 @@ KNOWN: dict[str, dict[str, int]] = {
     #                    ligature instead of the Imams' honorific.
     #   honorific        1,674 compact honorifics down to 327 — once per figure per
     #                    chapter (Asif, 2026-08-09).
+    #
+    # `orphaned-heading`, added 2026-08-14: five instances found in
+    # `Sessions/surah-al-fateha` (a heading whose own intro sentence was misfiled
+    # under its first child, plus three empty divider labels and one blank heading
+    # marker) were corrected through the Book Composer the same day, so that book
+    # carries no ceiling. Two more of the same shape, in a translation edition
+    # rather than a Sessions-lane hand-off, were left as recorded debt — a
+    # different cause, not investigated as part of this sweep.
+    "Islamic/mukhtasar-ul-asar-2": {"orphaned-heading": 2},
 }
 
 
@@ -183,6 +193,16 @@ def test_no_new_prophet_wrong_honorific(book: Path) -> None:
     assert len(hits) <= allowed, (
         f"{len(hits)} mention(s) give the Prophet a honorific that is not his, "
         f"{allowed} recorded: " + "; ".join(m for _, m in hits[:5])
+    )
+
+
+@pytest.mark.parametrize("book", BOOKS, ids=IDS)
+def test_no_new_orphaned_heading(book: Path) -> None:
+    hits = orphaned_heading(book.read_text(encoding="utf-8"))
+    allowed = _known(_book_id(book), "orphaned-heading")
+    assert len(hits) <= allowed, (
+        f"{len(hits)} heading(s) carry no body of their own before the next heading, "
+        f"{allowed} recorded: " + "; ".join(f"{t}: {h[:40]}" for t, h in hits[:5])
     )
 
 
@@ -341,3 +361,25 @@ class TestTheDetectorsWork:
 
     def test_the_prophets_own_ligature_is_not_a_wrong_honorific(self) -> None:
         assert prophet_wrong_honorific("## One\n\nThe Messenger of Allah ﷺ said.\n") == []
+
+    def test_the_photographed_pair_is_detected(self) -> None:
+        # The exact shape found in Surah Al-Fateha: an empty topic-label heading
+        # directly above its would-be first child, same level, nothing between.
+        md = "## One\n\n### Meanings Of Word ILAH\n\n### YALAA\n\nThe word carries several meanings.\n"
+        hits = orphaned_heading(md)
+        assert hits == [("One", "Meanings Of Word ILAH")], hits
+
+    def test_a_blank_heading_marker_is_detected(self) -> None:
+        md = "## One\n\nSome prose.\n\n###\n\n## Two\n\nMore prose.\n"
+        hits = orphaned_heading(md)
+        assert hits == [("One", "blank heading marker (###)")], hits
+
+    def test_a_heading_with_its_own_body_is_not_flagged(self) -> None:
+        md = "## One\n\n### First\n\nIt has a paragraph.\n\n### Second\n\nSo does this one.\n"
+        assert orphaned_heading(md) == []
+
+    def test_a_chapter_diving_straight_into_its_first_subsection_is_not_flagged(self) -> None:
+        # Parent immediately followed by child (## then ###) is ordinary book
+        # structure — over a third of this book's own chapters open this way.
+        md = "## One\n\n### First Subsection\n\nText here.\n"
+        assert orphaned_heading(md) == []

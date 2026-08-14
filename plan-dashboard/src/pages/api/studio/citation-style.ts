@@ -70,6 +70,7 @@ const ARABIC_FONTS = [
   "cairo",
   "tajawal",
   "ibm-plex-sans-arabic",
+  "amiri-bold",
 ] as const;
 const DEFAULT_ARABIC: (typeof ARABIC_FONTS)[number] = "scheherazade-new";
 

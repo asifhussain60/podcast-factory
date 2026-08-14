@@ -36,16 +36,27 @@ import re
 _NOT_PROSE_RE = re.compile(r"^\s*[>#<]")
 _SPLIT_RE = re.compile(r"\n\s*\n")
 
+# A block that is NOTHING BUT a standalone `![alt](src)` line — see
+# para-blocks.mjs's own docstring on this constant for the full history: an
+# image line renders as a `chapterImage` editor node the Composer's alignment
+# system deliberately does not count as an alignable paragraph, so counting it
+# here too disagreed with that count by one per image and disabled every
+# alignment button in the chapter.
+_IMAGE_ONLY_RE = re.compile(r"^!\[[^\]]*\]\([^)\s]+\)$")
+
 
 def prose_blocks(body: str) -> list[str]:
     """The chapter's prose blocks, in order, stripped."""
     out = []
     for block in _SPLIT_RE.split(body or ""):
-        if not block.strip():
+        stripped = block.strip()
+        if not stripped:
             continue
         if _NOT_PROSE_RE.match(block):
             continue
-        out.append(block.strip())
+        if _IMAGE_ONLY_RE.match(stripped):
+            continue
+        out.append(stripped)
     return out
 
 

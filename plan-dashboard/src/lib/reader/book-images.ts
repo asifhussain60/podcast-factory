@@ -38,3 +38,15 @@ export function serveBookImages(html: string, slug: string): string {
       `${head}/api/studio/book-image?slug=${encodeURIComponent(slug)}&path=${encodeURIComponent(path)}${tail}`,
   );
 }
+
+/** `/api/studio/book-image?...&path=…` → `images/…`. The inverse of the
+ *  rewrite above, for the ONE caller that has to hand a src back to
+ *  something that still speaks book.md's own path shape: the Composer's
+ *  ChapterImage node persists a resize keyed by the src `docToMarkdown`
+ *  would write and `_system/image-layout.json` looks reads up — both the
+ *  ORIGINAL relative path, never the browser-facing route. A src that was
+ *  never rewritten (an absolute URL, a data URI) is returned unchanged. */
+export function originalBookSrc(src: string): string {
+  const match = /^\/api\/studio\/book-image\?slug=[^&]*&path=([^&]+)/.exec(src);
+  return match ? `images/${decodeURIComponent(match[1])}` : src;
+}

@@ -1,0 +1,6 @@
+{
+  "schema": "podcast.book-render-checks/v1",
+  "verdict": "UNKNOWN",
+  "reason": "pdftotext unavailable or PDF missing",
+  "findings": []
+}

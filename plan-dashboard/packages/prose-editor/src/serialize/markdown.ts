@@ -87,6 +87,16 @@ export function createMarkdownRules(
     },
 
     horizontalRule: () => "---",
+
+    // A node type defined by a consuming application's own editor schema,
+    // covered here so that application's coverage assertion stays meaningful
+    // rather than permanently failing the moment its schema grows a node this
+    // package's base schema doesn't define. Mirrors that application's own
+    // serialization rule exactly: alt text is emitted only when non-empty.
+    chapterImage: (ctx) => {
+      const alt = String(ctx.attrs.alt ?? "").trim();
+      return `![${alt}](${String(ctx.attrs.src ?? "")})`;
+    },
   };
 
   // `error` (the default) registers NO rule, so a schema carrying hardBreak

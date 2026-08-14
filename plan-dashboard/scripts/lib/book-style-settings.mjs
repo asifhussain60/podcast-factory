@@ -62,6 +62,10 @@ export const ARABIC_FONTS = [
   "cairo",
   "tajawal",
   "ibm-plex-sans-arabic",
+  // Added 2026-08-14. No new @font-face needed — Amiri/AmiriSized already carry
+  // a real 700 cut (book-print.css, theme-tokens.css), so this reuses the
+  // regular Amiri stack and sets --q-ar-weight: 700 in quote-typography.css.
+  "amiri-bold",
 ];
 
 /** How large the book sets its Arabic — display quotations AND terms woven into

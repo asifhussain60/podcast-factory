@@ -200,3 +200,151 @@ def test_the_declarable_kinds_match_the_javascript_that_owns_them():
 
 def test_every_kind_has_an_ink_token():
     assert sorted(_quote_cards.INK) == sorted(KINDS)
+
+
+# ── the merge half: which declared groups no longer hold together ─────────────
+
+from _quote_cards import orphaned_quote_groups, read_quote_groups  # noqa: E402
+
+#: A chapter with one quote fragment, its tight gloss, and a second quote — the
+#: shape a real group declares over.
+GROUP_BOOK_MD = """# A Book
+
+## 1. The First Chapter
+
+A lead-in sentence.
+
+> مَنْ جَاوَزَ الْأَرْبَعِينَ
+
+A tight gloss of that line.
+
+> وَ سَهَرُ الْعُيُونِ
+
+## 2. The Second Chapter
+
+Nothing declared here.
+"""
+
+
+def _group_book(tmp_path: Path, chapters: dict) -> Path:
+    book = tmp_path / "a-book"
+    (book / "book").mkdir(parents=True)
+    (book / "_system").mkdir()
+    (book / "book" / "book.md").write_text(GROUP_BOOK_MD, encoding="utf-8")
+    (book / "_system" / "quote-groups.json").write_text(
+        json.dumps({"schema": "book.quote-groups/v1", "chapters": chapters}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    return book
+
+
+def test_a_book_whose_group_members_all_match_reports_nothing(tmp_path):
+    book = _group_book(
+        tmp_path,
+        {
+            "the first chapter": {
+                "مَنْ جَاوَزَ الْأَرْبَعِينَ": {"group": "g1", "type": "quote"},
+                "A tight gloss of that line.": {"group": "g1", "type": "gloss"},
+                "وَ سَهَرُ الْعُيُونِ": {"group": "g1", "type": "quote"},
+            }
+        },
+    )
+    assert orphaned_quote_groups(book) == []
+
+
+def test_an_edited_member_orphans_its_group_entry(tmp_path):
+    """Editing a member's line out from under its declaration reports it, the same
+    silent-degrade shape as an orphaned kind."""
+    book = _group_book(
+        tmp_path,
+        {
+            "the first chapter": {
+                "مَنْ جَاوَزَ الْأَرْبَعِينَ": {"group": "g1", "type": "quote"},
+                "This gloss no longer matches anything.": {"group": "g1", "type": "gloss"},
+                "وَ سَهَرُ الْعُيُونِ": {"group": "g1", "type": "quote"},
+            }
+        },
+    )
+    orphans = orphaned_quote_groups(book)
+    assert len(orphans) == 1
+    chapter, key, group, why = orphans[0]
+    assert chapter == "the first chapter"
+    assert key == "This gloss no longer matches anything."
+    assert group == "g1"
+    assert "no gloss" in why
+
+
+def test_a_group_reduced_to_one_survivor_is_reported_as_inert(tmp_path):
+    """Only one member of the group still exists — not wrong, just a no-op merge,
+    and worth telling a person rather than letting it sit unnoticed."""
+    book = _group_book(
+        tmp_path,
+        {
+            "the first chapter": {
+                "مَنْ جَاوَزَ الْأَرْبَعِينَ": {"group": "g1", "type": "quote"},
+                "its partner was re-keyed away": {"group": "g1", "type": "gloss"},
+            }
+        },
+    )
+    orphans = orphaned_quote_groups(book)
+    # The gloss is itself an orphan (no such paragraph exists), and the ONE
+    # surviving member (the quote line) is reported as a singleton.
+    reasons = {o[3] for o in orphans}
+    assert any("no-op" in r for r in reasons)
+
+
+def test_a_renamed_chapter_orphans_every_member_under_it(tmp_path):
+    book = _group_book(
+        tmp_path,
+        {
+            "a chapter that no longer exists": {
+                "مَنْ جَاوَزَ الْأَرْبَعِينَ": {"group": "g1", "type": "quote"},
+                "وَ سَهَرُ الْعُيُونِ": {"group": "g1", "type": "quote"},
+            }
+        },
+    )
+    orphans = orphaned_quote_groups(book)
+    assert len(orphans) == 2
+    assert all("no chapter" in o[3] for o in orphans)
+
+
+def test_a_book_with_no_group_declarations_is_not_a_finding(tmp_path):
+    book = _group_book(tmp_path, {})
+    (book / "_system" / "quote-groups.json").unlink()
+    assert orphaned_quote_groups(book) == []
+
+
+def test_a_malformed_groups_store_yields_nothing_rather_than_raising(tmp_path):
+    book = _group_book(tmp_path, {})
+    (book / "_system" / "quote-groups.json").write_text("{ not json", encoding="utf-8")
+    assert read_quote_groups(book) == {}
+    assert orphaned_quote_groups(book) == []
+
+
+def test_a_declaration_with_no_group_id_is_dropped(tmp_path):
+    """An empty/missing `group` is the same as no declaration at all — matches
+    writeQuoteGroup's own "" -> delete convention on the JS side."""
+    book = _group_book(
+        tmp_path,
+        {"the first chapter": {"مَنْ جَاوَزَ الْأَرْبَعِينَ": {"group": "", "type": "quote"}}},
+    )
+    assert read_quote_groups(book) == {}
+
+
+def test_type_is_preserved_per_member_not_inferred(tmp_path):
+    """A quote member and a gloss member in the same group keep their own declared
+    `type` — the renderer's merge pass reads this to decide whether to reuse the
+    member's own rendering (quote) or synthesize a `.tr` paragraph from it (gloss),
+    so a flipped type would draw the wrong markup for that member."""
+    book = _group_book(
+        tmp_path,
+        {
+            "the first chapter": {
+                "مَنْ جَاوَزَ الْأَرْبَعِينَ": {"group": "g1", "type": "quote"},
+                "A tight gloss of that line.": {"group": "g1", "type": "gloss"},
+            }
+        },
+    )
+    read = read_quote_groups(book)
+    assert read["the first chapter"]["مَنْ جَاوَزَ الْأَرْبَعِينَ"] == ("g1", "quote")
+    assert read["the first chapter"]["A tight gloss of that line."] == ("g1", "gloss")

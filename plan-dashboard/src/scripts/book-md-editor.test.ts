@@ -35,6 +35,7 @@ import {
 } from "./book-md-editor";
 import { alignablePositions } from "../components/studio/editor/align-decos";
 import { renderEditSeed } from "../lib/reader/markdown";
+import { serveBookImages, originalBookSrc } from "../lib/reader/book-images";
 
 /** Parse a doc from ProseMirror JSON with the live schema — for asserting on
  *  structures a toolbar BUILDS, which have no markdown spelling to seed from. */
@@ -287,4 +288,102 @@ test("edit-mode card labels are visible attributes, never markdown text", () => 
     md.trim(),
     `> ${arabic}\n>\n> Have you seen the one who takes his own desire as his god?`,
   );
+});
+
+// A content image on its own line survives the round trip byte-identically.
+// Found 2026-08-14: with no Image node in this schema, `renderEditSeed`'s
+// `<figure class="md-figure"><img/></figure>` matched nothing on parse and
+// was silently dropped — so opening a chapter with images, editing one
+// unrelated word, and autosaving would have deleted every image line from
+// book.md. This test is the one that would have caught it; it must be RED
+// against a schema with no ChapterImage node.
+test("an inline content image survives the round trip byte-identically", () => {
+  const src =
+    "I begin.\n\n![](images/103/eca60cad-bbc6-4834-8ec1-29abaedfcbd2.jpg)\n\nAfter the image.";
+  assert.equal(roundTrip(src), normalized(src));
+});
+
+test("a chapter with no images round-trips unchanged (no-op check)", () => {
+  const src =
+    "First paragraph.\n\nSecond paragraph, no image anywhere in this chapter.";
+  assert.equal(roundTrip(src), normalized(src));
+});
+
+test("an image is a real node in the parsed doc, not silently dropped", () => {
+  const src = "![](images/103/eca60cad-bbc6-4834-8ec1-29abaedfcbd2.jpg)";
+  const extensions = editorExtensions();
+  const json = generateJSON(renderEditSeed(src), extensions);
+  const doc = PMNode.fromJSON(getSchema(extensions), json);
+  assert.equal(doc.firstChild?.type.name, "chapterImage");
+  assert.equal(
+    doc.firstChild?.attrs.src,
+    "images/103/eca60cad-bbc6-4834-8ec1-29abaedfcbd2.jpg",
+  );
+});
+
+// The "Paste & fix chapter" tool restores an image compose_articulate.py's
+// _restore_images() found missing from a hand-off rewrite by re-inserting
+// the SAME bare `![](path)` line book.md always had — it never carries a
+// saved size, because sizing lives only in _system/image-layout.json, keyed
+// by that same path. A restored image therefore seeds with NO imageLayout
+// entry, exactly like a brand-new one: this pins that it gets no --img-h at
+// all (attrs.heightPx is null) and no explicit align (attrs.align is null,
+// which book-md-editor.ts's NodeView then defaults to "center" at mount) —
+// together, book-composer.css's `height: var(--img-h, 350px)` default is
+// what a reader actually sees, with no extra code needed on the restore path.
+test("a restored image with no saved layout seeds with nothing to override the 350px centered default", () => {
+  const src = "![](images/103/eca60cad-bbc6-4834-8ec1-29abaedfcbd2.jpg)";
+  const extensions = editorExtensions();
+  // No imageLayout argument passed — the exact shape a freshly-restored
+  // image has, since it was never in the sidecar to begin with.
+  const json = generateJSON(renderEditSeed(src), extensions);
+  const doc = PMNode.fromJSON(getSchema(extensions), json);
+  assert.equal(doc.firstChild?.attrs.heightPx, null);
+  assert.equal(doc.firstChild?.attrs.align, null);
+});
+
+// composer.ts's real seed is NOT renderEditSeed alone — loadComposer wraps it
+// in serveBookImages so the <img> the browser mounts has a src it can
+// actually fetch (composer.ts:433). Found 2026-08-14: docToMarkdown wrote
+// that REWRITTEN `/api/studio/book-image?...` address straight into book.md
+// on the very next autosave of any chapter holding an image, because the
+// node's only `src` attribute WAS the rewritten one and docToMarkdown had no
+// other value to reach for. This test seeds the doc the way the real
+// Composer does — through serveBookImages, not around it — and would have
+// been RED before `origSrc` existed to give docToMarkdown the original path
+// back.
+test("book.md keeps the original path even though the browser needed the rewritten one", () => {
+  const src = "![](images/103/eca60cad-bbc6-4834-8ec1-29abaedfcbd2.jpg)";
+  const extensions = editorExtensions();
+  const seed = serveBookImages(String(renderEditSeed(src)), "surah-al-fateha");
+  assert.ok(
+    seed.includes("/api/studio/book-image?"),
+    "the seed must actually be rewritten, or this test proves nothing",
+  );
+  const json = generateJSON(seed, extensions);
+  const doc = PMNode.fromJSON(getSchema(extensions), json);
+  assert.equal(doc.firstChild?.attrs.src?.startsWith("/api/studio/"), true);
+  assert.equal(
+    doc.firstChild?.attrs.origSrc,
+    "images/103/eca60cad-bbc6-4834-8ec1-29abaedfcbd2.jpg",
+  );
+  assert.equal(docToMarkdown(doc), normalized(src));
+});
+
+test("originalBookSrc reverses serveBookImages exactly", () => {
+  const rewritten = serveBookImages(
+    `<img src="images/79/9da9df6f-f8e4-4a81-9768-38023d7a120f.jpg" />`,
+    "surah-al-fateha",
+  );
+  const match = /src="([^"]+)"/.exec(rewritten);
+  assert.equal(
+    originalBookSrc(match?.[1] ?? ""),
+    "images/79/9da9df6f-f8e4-4a81-9768-38023d7a120f.jpg",
+  );
+});
+
+test("originalBookSrc leaves a non-book src alone", () => {
+  for (const s of ["https://example.com/a.jpg", "/cover.png"]) {
+    assert.equal(originalBookSrc(s), s);
+  }
 });

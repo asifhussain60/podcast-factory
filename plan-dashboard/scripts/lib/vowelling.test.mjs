@@ -139,6 +139,24 @@ test("candidate selection skips already-vowelled runs and stray words", () => {
   assert.ok(!isVowellingCandidate("no arabic here"));
 });
 
+test("a passage with SOME words already marked and others bare is still a candidate", () => {
+  // Found live 2026-08-14: this exact selection has five already-marked
+  // words and one completely bare one ("الرحمۃ،"). The old check averaged
+  // marks across the whole passage (29% density) and refused it outright as
+  // "already vowelled," disabling the Composer's Diacritics button even
+  // though a third of the passage plainly still needed marking.
+  assert.ok(
+    isVowellingCandidate("الرحمۃ، رِقَّۃ تَقتَدِ الأحسانُ اِلی المَرحوم"),
+  );
+});
+
+test("a fully vowelled multi-word passage is correctly NOT a candidate, word by word", () => {
+  // The regression guard for the fix above: per-word checking must not
+  // accidentally start admitting passages where EVERY word already has a
+  // mark, just because it now looks at words instead of an aggregate ratio.
+  assert.ok(!isVowellingCandidate(VOWELLED_AYAH));
+});
+
 // ── The mirror pair ────────────────────────────────────────────────────────
 // Everything above is this half's own coverage. What follows runs the SHARED
 // fixtures that scripts/podcast/tests/test_vowelling.py runs too, so the

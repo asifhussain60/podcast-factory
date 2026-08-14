@@ -1017,10 +1017,13 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   align-items: center;
   gap: 0.4rem;
   /* CENTRED, and measured rather than guessed: the formatting bar alone needs
-     ~946px of the composer column's ~977px, so this cluster is on its own row
-     at every realistic width. A right-aligned orphan row under a full-width bar
-     reads as something that failed to fit; centred, it reads as a deliberate
-     second tier. */
+     ~946px of the composer column's ~977px, so this cluster used to land on
+     its own row at every realistic width anyway — `flex-basis: 100%` below
+     (2026-08-14) makes that guaranteed rather than incidental, so the row
+     split cannot depend on how much the formatting bar happens to leave over.
+     A right-aligned orphan row under a full-width bar reads as something that
+     failed to fit; centred, it reads as a deliberate second tier. */
+  flex-basis: 100%;
   margin-inline: auto;
   /* Wraps, exactly as the formatting bar above it already does. The cluster is
      610px of controls; at a 390px viewport the composer column gives it 340px,
@@ -1351,6 +1354,111 @@ body:has(.composer-grid) .to-top {
 .cx-prose p {
   margin: 0 0 0.8rem;
 }
+/* ── Content images — the ChapterImage NodeView (book-md-editor.ts) ──────────
+   Added 2026-08-14 alongside the fix that made these images survive the edit
+   round trip at all (see that file's own docstring). `--img-h`, never a
+   direct height write, is set from JS — the number is per-instance data, the
+   RULE (below) stays in this stylesheet, matching how visual-layout.mjs's
+   `--fig-w` custom property already works for the OTHER image system.
+
+   HEIGHT, not width, as of the same day (see image-layout.mjs's header for
+   the full reasoning): two images of different shapes sized to "the same"
+   width percentage rendered at two different heights, which is the opposite
+   of what "resize to match" means to a reader's eye. Height is also stable
+   in a way a percentage of a resizable column never was — 350px reads as
+   350px whether the side panel is open or not. */
+.cx-image-figure {
+  position: relative;
+  display: block;
+  margin: 0.9rem 0;
+  width: fit-content;
+  max-width: 100%;
+}
+.cx-image-figure[data-align="center"] {
+  margin-inline: auto;
+}
+.cx-image-figure[data-align="left"] {
+  float: left;
+  margin-inline-end: 1rem;
+}
+.cx-image-figure[data-align="right"] {
+  float: right;
+  margin-inline-start: 1rem;
+}
+.cx-image-figure img {
+  display: block;
+  /* `width: auto` lets the browser derive it from the image's own aspect
+     ratio against the fixed height below — no computed number of ours can go
+     circular against `fit-content` the way a percentage-of-this-same-box did
+     under the old width model, which is what made `.cx-image-figure` safe to
+     leave as `fit-content` above rather than needing the flex-container
+     workaround the width-percent version required here until today. */
+  width: auto;
+  height: var(--img-h, 350px);
+  max-width: 100%;
+  border-radius: 10px;
+  /* Requested 2026-08-14: a soft, light frame around every content image in
+     the edit canvas. `--c-rule-soft` is the same hairline token the toolbar
+     groups already separate on (book-composer.css:813) — reusing it instead
+     of a hardcoded grey keeps this in step with the theme's own rule colour
+     rather than a second, unrelated grey. Widened to 3px the same day. */
+  border: 3px solid var(--c-rule-soft, #ebe6da);
+}
+/* Resize handle — bottom-right corner, visible on hover/focus so it never
+   competes with the image itself for attention while reading. `ns-resize`,
+   not the diagonal `nwse-resize`: the drag only ever changes HEIGHT now
+   (book-md-editor.ts tracks vertical movement only), and width follows for
+   free from the image's own aspect ratio, so the cursor should say "up and
+   down" rather than promise a diagonal drag that no longer does anything
+   different from a straight one. */
+.cx-image-resize-handle {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--c-accent, #8b4513);
+  border: 2px solid var(--c-surface-1, #fff);
+  cursor: ns-resize;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.cx-image-figure:hover .cx-image-resize-handle,
+.cx-image-resize-handle:focus-visible {
+  opacity: 1;
+}
+/* Align toolbar — three small buttons, same hover/focus visibility as the
+   resize handle so a read-through of the chapter shows plain images. */
+.cx-image-align-toolbar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.cx-image-figure:hover .cx-image-align-toolbar,
+.cx-image-align-toolbar:focus-within {
+  opacity: 1;
+}
+.cx-image-align-btn {
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 4px;
+  background: var(--c-surface-1, #fff);
+  color: var(--c-ink-dim, #4d4a42);
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.cx-image-align-btn.is-active {
+  background: var(--c-accent, #8b4513);
+  border-color: var(--c-accent, #8b4513);
+  color: #fff;
+}
 .cx-prose :is(p, li),
 .cx-body :is(p, li) {
   line-height: 1.45;
@@ -1433,7 +1541,7 @@ body:has(.composer-grid) .to-top {
 }
 .cx-prose blockquote.k-quran[data-q-label]::before {
   margin: -1.35rem -1.6rem 1.15rem;
-  padding: 0.5rem 1.6rem;
+  padding: 0.85rem 1.6rem;
   border-radius: 8px 8px 0 0;
   background: var(--q-quran-bar);
   color: var(--q-quran-bar-ink);
@@ -1537,6 +1645,17 @@ body:has(.composer-grid) .to-top {
     serif
   );
   font-weight: var(--q-ar-inline-weight, 400);
+  /* Cancels the term's own bigger font-size back down to the paragraph's
+     line box (Asif, 2026-08-14). `.cx-prose :is(p, li)` above sets 1.45 as a
+     unitless ratio, which every descendant inherits and recomputes against
+     ITS OWN font-size — so without this, a 1.26em term (below) computed a
+     line box 1.26x taller than its neighbours, and a paragraph with several
+     terms lost its even rhythm entirely. `line-height: inherit` would NOT
+     have fixed it: the inherited computed value for a unitless number is
+     still just the number 1.45, recomputed here exactly the same way.
+     Dividing 1.45 by the term's own scale is what actually cancels it —
+     see --q-ar-inline-scale's own comment in quote-typography.css. */
+  line-height: calc(1.45 / var(--q-ar-inline-scale, 1.26));
   /* --q-ar-inline-size, default 1.26em, chosen by Asif on 2026-08-02 from three
      candidates rendered side by
      side in this very paragraph (1.10 / 1.18 / 1.26); he picked the honorific
@@ -1680,6 +1799,27 @@ body:has(.composer-grid) .to-top {
   gap: 0.4rem;
   margin: 0.2rem 0 0.6rem;
 }
+/* Every mosaic button row in this panel fills its own width rather than
+   packing left and leaving the rest of the line empty (found live
+   2026-08-14: two buttons per row with a wide dead strip beside them,
+   because plain flex-wrap sizes each button to its own label and never
+   grows it into the leftover space). `flex: 1 1 auto` lets buttons on a
+   half-full row stretch evenly to close that gap — a lone trailing button
+   spans the row instead of sitting stranded — while `min-width` keeps a
+   short label (like "Longer") from being squeezed illegibly thin next to a
+   long one wrapping onto its own line. Applies to every row this panel
+   builds: .cx-ai-row (Etymology/Diacritics, Rearticulate/Replace/Paste-fix),
+   .cx-seg-row (Rewrite as, Text marks), .cx-details-mark-row (Knowledge),
+   and .cx-ai-subgroup's buttons (Add term, Analyze section) — the label
+   text inside .cx-ai-subgroup is not a button, so it keeps its own natural
+   width untouched. */
+.cx-ai-row > button,
+.cx-seg-row > button,
+.cx-details-mark-row > button,
+.cx-ai-subgroup > button {
+  flex: 1 1 auto;
+  min-width: 6rem;
+}
 .cx-ai-btn {
   font: inherit;
   font-size: var(--panel-fs, 15px);
@@ -1765,16 +1905,13 @@ body:has(.composer-grid) .to-top {
 }
 
 /* Refinement tab additions — Research/Auto-tag + Arabic/English/Explain term
-   curation (ComposeAiTools.tsx), reusing .cx-ai-btn's own token pattern. */
+   curation (ComposeAiTools.tsx), reusing .cx-ai-btn's own token pattern.
+   .cx-ai-tools is React's own root wrapper at #cx-ai-tools-mount; since the
+   2026-08-14 consolidation its actual content renders elsewhere via
+   createPortal (into .cx-ai-portal, below), so this stays a bare, invisible
+   anchor rather than a bordered block of its own. */
 .cx-ai-tools {
-  margin-top: 0.8rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--c-rule-soft, #ebe6da);
-}
-.cx-ai-tools-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  display: contents;
 }
 .cx-btn-ai {
   font: inherit;
@@ -1837,10 +1974,140 @@ body:has(.composer-grid) .to-top {
   border-color: var(--c-accent, #8b4513);
 }
 
+/* Collapsible tool groups — introduced 2026-08-14 for the Refine & Notes
+   panel (built by book-composer.ts's buildAiGroup: Rewrite selection /
+   Arabic & language / Whole chapter, replacing five-plus always-visible
+   button rows) and reused 2026-08-14 by ComposeDetailsTab.tsx's follow-up
+   queue (Text / Knowledge / Visual) — same classes, a React useState toggle
+   standing in for buildAiGroup's DOM closure instead of a second component. */
+.cx-acc {
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+}
+.cx-acc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: left;
+  padding: 0.5rem 0.65rem;
+  border: 0;
+  background: var(--c-bg-sunken, #efeae0);
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+}
+.cx-acc-open > .cx-acc-head {
+  background: var(--c-accent-soft, #d2b48c);
+  color: var(--c-ink, #1f1d18);
+}
+.cx-acc-head-left {
+  display: flex;
+  align-items: baseline;
+  gap: 0.42rem;
+  min-width: 0;
+}
+.cx-acc-dot {
+  flex: none;
+  width: 0.42rem;
+  height: 0.42rem;
+  align-self: center;
+  border-radius: 999px;
+  background: var(--cx-mark-tone, var(--c-accent, #8b4513));
+}
+.cx-acc-subtitle {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-acc-chev {
+  color: var(--c-ink-muted, #66625a);
+  font-size: 0.7rem;
+}
+.cx-acc-body {
+  padding: 0.6rem 0.65rem 0.65rem;
+}
+.cx-acc-closed > .cx-acc-body {
+  display: none;
+}
+
+/* A "mosaic" row: each button keeps its own natural width and full border
+   (never joined into a segmented pill — that read as one control with no
+   breathing room, and left an odd, near-empty final row whenever the count
+   didn't divide evenly). Buttons wrap and fill the available width with a
+   consistent gap on every side, tag-cloud style, rather than snapping to
+   equal-width columns. "Rewrite as" (.cx-ai-btn) and the follow-up queue's
+   Text group (.cx-btn-mark) both use this; targets direct `button` children
+   generically so a future group can reuse it without its own CSS rule
+   (2026-08-14, Asif: "stack these buttons like mosaic … with breathing
+   room", applied to every button row in this panel — see
+   .cx-details-mark-row below for the matching change to the grid rows). */
+.cx-seg-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* Suggest quote type — a secondary/ghost tone, since it only ever proposes
+   (nothing writes until the toolbar dropdown's own declare action runs). */
+.cx-ai-ghost {
+  border-color: var(--c-rule, #d9d3c4);
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-ai-ghost:hover:not(:disabled) {
+  background: var(--c-bg-sunken, #efeae0);
+  color: var(--c-ink, #1f1d18);
+  border-color: var(--c-rule, #d9d3c4);
+}
+
+/* A React portal target inside a vanilla-built group body (ComposeAiTools.tsx
+   renders into these via createPortal) — spaced only when it actually holds
+   something, so an empty portal adds no gap before its own group's controls. */
+.cx-ai-portal:not(:empty) {
+  margin-top: 0.5rem;
+}
+
+/* "Add term" / "Analyze section" — two related buttons filed under one
+   label instead of standing as independent peers (Arabic term/English term
+   merged; Research section/Auto-tag section merged). */
+.cx-ai-subgroup {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}
+.cx-ai-subgroup-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  color: var(--c-ink-dim, #4d4a42);
+}
+
 /* Details tab (ComposeDetailsTab.tsx) — comments, action-item marks,
-   section depth/tags. Same token pattern as the Refinement additions above. */
+   section depth/tags. Same token pattern as the Refinement additions above.
+   `grid-template-columns: minmax(0, 1fr)` is load-bearing, not decorative
+   (found live 2026-08-14): with no explicit columns, a single-row CSS grid's
+   implicit column sizes to `auto` — its content's max-content width — rather
+   than to the space the drawer actually has. The mark-button row below is an
+   `auto-fit` grid that reports ITS OWN max-content width as "every button in
+   one line," which this track then honored, pushing the whole tab wider than
+   the fixed-width drawer and silently turning on a horizontal scrollbar
+   (`.cx-tabpanel`'s `overflow-y: auto` auto-promotes `overflow-x` to `auto`
+   too whenever it isn't explicitly pinned — see that rule). `minmax(0, 1fr)`
+   makes the column a share of the AVAILABLE width instead, which is what
+   lets the auto-fit row below wrap into multiple lines like it was always
+   meant to. */
 .cx-details-tab {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
 }
 .cx-details-block h3 {
@@ -1889,33 +2156,12 @@ body:has(.composer-grid) .to-top {
   background: var(--c-accent, #8b4513);
 }
 
-/* Outcome groups inside Mark for follow-up (Text · Knowledge · Visual). */
-.cx-mark-group {
-  position: relative;
-  margin: 0 0 0.72rem;
-  padding: 0.72rem 0.68rem 0.68rem;
-  border: 1px solid
-    color-mix(
-      in oklab,
-      var(--c-rule-soft, #ebe6da) 78%,
-      var(--c-accent, #8b4513)
-    );
-  border-radius: 8px;
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(
-        in oklab,
-        var(--cx-mark-tone, var(--c-accent, #8b4513)) 7%,
-        transparent
-      ),
-      transparent 42%
-    ),
-    color-mix(in oklab, var(--c-bg-card, #fffdf8) 90%, var(--c-bg, #f7f4ee));
-  box-shadow:
-    inset 0 1px 0 color-mix(in oklab, white 72%, transparent),
-    0 8px 22px rgba(31, 29, 24, 0.045);
-}
+/* Outcome tone for the follow-up queue's three collapsible groups (Text ·
+   Knowledge · Visual, ComposeDetailsTab.tsx) — sets --cx-mark-tone, which
+   .cx-acc-dot (shared accordion styling, above) reads for its color. The
+   groups themselves are plain .cx-acc elements; there is no bespoke card
+   chrome here any more (2026-08-14 redesign folded them into the same
+   collapsible-group language the Refine panel uses). */
 .cx-mark-group--text {
   --cx-mark-tone: var(--c-accent, #8b4513);
 }
@@ -1925,38 +2171,16 @@ body:has(.composer-grid) .to-top {
 .cx-mark-group--visual {
   --cx-mark-tone: #626a8f;
 }
-.cx-mark-group-head {
-  display: flex;
-  align-items: center;
-  margin: 0 0 0.55rem;
-}
-.cx-mark-group-head::before {
-  content: "";
-  width: 0.42rem;
-  height: 0.42rem;
-  margin-right: 0.42rem;
-  border-radius: 999px;
-  background: var(--cx-mark-tone, var(--c-accent, #8b4513));
-  box-shadow: 0 0 0 3px
-    color-mix(
-      in oklab,
-      var(--cx-mark-tone, var(--c-accent, #8b4513)) 14%,
-      transparent
-    );
-}
-.cx-mark-group-name {
-  display: block;
-  margin: 0;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--c-ink-dim, #4d4a42);
-}
 
+/* Mosaic, not equal-width columns (2026-08-14, same change as .cx-seg-row
+   above): a fixed-minmax auto-fit grid forced "Add to corpus" and "Cross-ref"
+   to the same width, which either clipped the longer label or left the
+   shorter one swimming in empty space, and stranded an odd button alone on
+   its own full-width row. Flex-wrap lets each button be exactly as wide as
+   its own label and wrap to fill the row like the rest of this panel. */
 .cx-details-mark-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(7.3rem, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.42rem;
 }
 .cx-btn-mark {
@@ -2008,6 +2232,13 @@ body:has(.composer-grid) .to-top {
   margin: 0.5rem 0 0;
   padding: 0;
   display: grid;
+  /* Same fix, same reason as .cx-details-tab above: with no explicit
+     columns this grid's one implicit column sizes to `auto` — its content's
+     max-content width — which for a queued mark means the SNIPPET's full,
+     un-ellipsized length (max-content sizing ignores overflow/text-overflow,
+     since those only apply once a width is already known), not the width
+     .cx-queue-jump would actually render at. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.3rem;
 }
 .cx-details-queue li {
@@ -2460,7 +2691,7 @@ body:has(.composer-grid) .to-top {
   --cx-w: 60%;
   position: relative;
   margin: 0.6rem 0;
-  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border: 2px solid var(--c-rule-soft, #ebe6da);
   border-radius: 6px;
   background: var(--c-bg, #f7f4ee);
   cursor: grab;
@@ -2902,6 +3133,13 @@ body:has(.composer-grid) .to-top {
   min-height: 0;
   padding: 0.9rem 1rem calc(0.9rem + var(--cx-fab-clear, 0px));
   overflow-y: auto;
+  /* Pinned explicitly, not left to default (found live 2026-08-14): setting
+     only overflow-y makes the browser auto-promote overflow-x to `auto` too
+     (per spec, a `visible` axis next to a non-visible one becomes `auto`),
+     so any future child that's ever a hair too wide silently grows a
+     horizontal scrollbar here instead of wrapping or getting caught in
+     review. */
+  overflow-x: hidden;
 }
 .cx-tabpanel[hidden] {
   display: none;

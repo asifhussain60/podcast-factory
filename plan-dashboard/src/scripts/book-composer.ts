@@ -16,6 +16,13 @@ import { attach } from "@asifhussain/prose-editor";
 import type { ProseEditor } from "@asifhussain/prose-editor";
 import { textColourButton } from "./compose-colour-command";
 import { alignButtons } from "./compose-align-command";
+import {
+  quoteKindDropdown,
+  resolveQuoteTarget,
+  repaintQuoteCard,
+  enclosingBlockquote,
+} from "./compose-quote-kind-command";
+import type { QuoteKindId } from "./compose-quote-kind-command";
 import { DEFAULT_TEXT_ALIGN } from "../lib/reader/text-align";
 import {
   createColourDecos,
@@ -96,6 +103,12 @@ import { enhanceSelect } from "./select-menu";
 import ComposeDetailsTab from "../components/studio/compose/ComposeDetailsTab";
 import { createChapterToolsController } from "./book-composer-chapter-tools";
 import { createPasteFixController } from "./book-composer-paste-fix";
+import {
+  REWRITE_MODES,
+  ETYMOLOGY_ACTION,
+  DIACRITICS_ACTION,
+  type StandaloneTextAction,
+} from "./book-composer-ai-config";
 
 type Align = "left" | "center" | "right";
 type Flow = "wrap" | "standalone";
@@ -180,6 +193,7 @@ const DOC_TO_MARKDOWN_COVERS = [
   "listItem",
   "codeBlock",
   "horizontalRule",
+  "chapterImage",
   "bold",
   "italic",
   "code",
@@ -199,6 +213,9 @@ let colourActive: (() => string | null) | null = null;
 /** The alignment buttons' hooks, assigned by boot for the same reason. */
 let alignApply: ((align: string) => void) | null = null;
 let alignActive: (() => string | null) | null = null;
+/** The quote-kind dropdown's hooks, assigned by boot for the same reason. */
+let quoteKindApply: ((kind: QuoteKindId) => void) | null = null;
+let quoteKindActive: (() => QuoteKindId | null) | null = null;
 
 /**
  * The formatting bar, in order.
@@ -249,6 +266,10 @@ const COMPOSE_TOOLBAR_ITEMS = [
   "bulletList",
   "orderedList",
   "blockquote",
+  quoteKindDropdown({
+    onApply: (k) => quoteKindApply?.(k),
+    getActive: () => quoteKindActive?.() ?? null,
+  }),
   "|",
   // What to insert
   "link",
@@ -291,7 +312,7 @@ const COMPOSE_TOOLBAR_TIPS = {
   redo: { title: "Redo", detail: "Reapply an edit you undid. ⇧⌘Z." },
   paragraphFormat: {
     title: "Paragraph style",
-    detail: "Body or Heading 1–3 for the paragraph the cursor is in.",
+    detail: "Body or Heading 1–3. ⌥⌘1/2/3 for Heading 1/2/3, ⌥⌘0 for Body.",
   },
   bold: { title: "Bold", detail: "Select text and click. ⌘B." },
   italic: {
@@ -312,6 +333,11 @@ const COMPOSE_TOOLBAR_TIPS = {
     title: "Quotation",
     detail:
       "Sets the selected paragraphs as an indented quotation — for a passage quoted from elsewhere. An Arabic line above its English rendering prints as the book's verse style; the two are told apart by what they contain, so no separate control is needed.",
+  },
+  quoteKind: {
+    title: "Quote kind",
+    detail:
+      "Select a quotation, then declare what it is — a Saying, a Verse, or a Prophetic tradition. The reading edition draws a different card for each. Qur'an is never declared here — it is recognized automatically.",
   },
   link: {
     title: "Link",
@@ -1797,33 +1823,57 @@ function boot(): void {
     const chapterTitle = chapterByKey.get(selectedChapter)?.title ?? "";
 
     syncEditorFigures();
-    activeEditor = mountChapterEditor(host, pristine, [
-      createStudioDecos(bridge),
-      createFigureDecos({ figuresRef: editorFigures }),
-      // The Companion tint, as a DECORATION: an annotated passage is visible
-      // while you edit, and cannot reach book.md on the next autosave. The
-      // Highlights switch withdraws the PAINT only — the positions keep
-      // tracking, so hiding it never loses where a note belongs.
-      createCompanionDecos({ notesRef: companionNotes, showRef: showNoteTint }),
-      // Per-selection text colour, from the sidecar. A decoration for the same
-      // reason the Companion tint is one: it is visible while you edit and
-      // cannot reach book.md on the next autosave.
-      createColourDecos({ spansRef: colourSpans }),
-      // Paragraph alignment, from the sidecar. A node decoration for the same
-      // reason the colour is an inline one: it cannot reach book.md.
-      createAlignDecos({ alignRef: alignSpans, keysRef: alignKeys }),
-      // A pipeline fence marker arrives here as bare text (TipTap has no
-      // HTML-comment node) and must STAY in the document for preserveFences to
-      // restore it — so it is decorated, never removed. See fence-decos.ts.
-      createFenceDecos(),
-      // The seed's `.ar-inline` span (isolateInlineArabic, markdown.ts) is
-      // stripped on parse — TipTap has no span node — so a term woven into
-      // English prose otherwise renders in the browser's fallback serif at
-      // parity with the Latin, which a vowelled Arabic word reads as fine
-      // print against. Repaints it as `.ar-raw`, which book-composer.css
-      // already sizes and faces for exactly this run. See arabic-decos.ts.
-      createArabicDecos(),
-    ]);
+    activeEditor = mountChapterEditor(
+      host,
+      pristine,
+      [
+        createStudioDecos(bridge),
+        createFigureDecos({ figuresRef: editorFigures }),
+        // The Companion tint, as a DECORATION: an annotated passage is visible
+        // while you edit, and cannot reach book.md on the next autosave. The
+        // Highlights switch withdraws the PAINT only — the positions keep
+        // tracking, so hiding it never loses where a note belongs.
+        createCompanionDecos({
+          notesRef: companionNotes,
+          showRef: showNoteTint,
+        }),
+        // Per-selection text colour, from the sidecar. A decoration for the same
+        // reason the Companion tint is one: it is visible while you edit and
+        // cannot reach book.md on the next autosave.
+        createColourDecos({ spansRef: colourSpans }),
+        // Paragraph alignment, from the sidecar. A node decoration for the same
+        // reason the colour is an inline one: it cannot reach book.md.
+        createAlignDecos({ alignRef: alignSpans, keysRef: alignKeys }),
+        // A pipeline fence marker arrives here as bare text (TipTap has no
+        // HTML-comment node) and must STAY in the document for preserveFences to
+        // restore it — so it is decorated, never removed. See fence-decos.ts.
+        createFenceDecos(),
+        // The seed's `.ar-inline` span (isolateInlineArabic, markdown.ts) is
+        // stripped on parse — TipTap has no span node — so a term woven into
+        // English prose otherwise renders in the browser's fallback serif at
+        // parity with the Latin, which a vowelled Arabic word reads as fine
+        // print against. Repaints it as `.ar-raw`, which book-composer.css
+        // already sizes and faces for exactly this run. See arabic-decos.ts.
+        createArabicDecos(),
+      ],
+      {
+        // Persists a drag-resize / align click to `_system/image-layout.json`.
+        // Fire-and-forget: a failed save here is a missed resize, never lost
+        // prose — book.md is untouched by this path either way (see
+        // ChapterImage's own docstring on why width/align never reach it).
+        onResize: (src, layout) => {
+          void apiFetch("/api/studio/image-layout", {
+            method: "POST",
+            body: { slug, chapterKey: selectedChapter, src, ...layout },
+          }).catch((e) => {
+            setAiStatus(
+              `Couldn't save image size: ${(e as Error).message}`,
+              true,
+            );
+          });
+        },
+      },
+    );
     paintNotesSwitch();
 
     // ── The formatting toolbar ────────────────────────────────────────────────
@@ -1946,7 +1996,7 @@ function boot(): void {
               );
               return;
             }
-            const a = AI_ACTIONS.find((x) => x.kind === kind);
+            const a = REWRITE_MODES.find((x) => x.kind === kind);
             if (a) void runAiAction(a, onApplied);
           },
           runnableKinds: ["rewrite", "expand", "condense", "simplify"],
@@ -3074,69 +3124,13 @@ function boot(): void {
   }
 
   // ── Refinement tab: AI text actions on the editor selection ────────────────
-  interface AiAction {
-    kind: string;
-    label: string;
-    mode?: string;
-    explain?: boolean;
-    etymology?: boolean;
-    /** Vowel the selected Arabic and replace it. Its own branch in runAiAction:
-     *  it neither rewrites English nor offers alternatives to choose between. */
-    diacritics?: boolean;
-    /** Enabled only when the selection is BARE ARABIC, not on any selection. */
-    arabicOnly?: boolean;
-    /** FA classes shown at the centre of the busy modal's ring spinner. */
-    icon?: string;
-  }
-  const AI_ACTIONS: AiAction[] = [
-    {
-      kind: "rewrite",
-      label: "Rewrite",
-      mode: "clarify",
-      icon: "fa-solid fa-pen-nib",
-    },
-    {
-      kind: "expand",
-      label: "Expand",
-      mode: "expand",
-      icon: "fa-solid fa-up-right-and-down-left-from-center",
-    },
-    {
-      kind: "condense",
-      label: "Condense",
-      mode: "tighten",
-      icon: "fa-solid fa-down-left-and-up-right-to-center",
-    },
-    {
-      kind: "simplify",
-      label: "Simplify",
-      mode: "simplify",
-      icon: "fa-solid fa-wand-magic-sparkles",
-    },
-    {
-      kind: "explain",
-      label: "Explain",
-      explain: true,
-      icon: "fa-solid fa-lightbulb",
-    },
-    {
-      kind: "etymology",
-      label: "Etymology",
-      etymology: true,
-      icon: "fa-solid fa-book-open",
-    },
-    // Vowel the selected Arabic in place (Asif, 2026-07-29). Last in the row
-    // because it is the only one that acts on Arabic rather than on English —
-    // and it is the only one that stays dark until the selection is Arabic, so
-    // its own disabled state tells you when it applies.
-    {
-      kind: "diacritics",
-      label: "Diacritics",
-      diacritics: true,
-      arabicOnly: true,
-      icon: "fa-solid fa-marker",
-    },
-  ];
+  // Config (REWRITE_MODES/ETYMOLOGY_ACTION/DIACRITICS_ACTION) lives in
+  // book-composer-ai-config.ts — split out 2026-08-14 alongside the panel
+  // consolidation so the merge (four rewrite buttons → one group, the
+  // duplicate Explain dropped) is data a test can check directly. `AiAction`
+  // is this file's own structural type for whichever of those `runAiAction`
+  // is handed; it stays local because only this file's handlers read it.
+  type AiAction = StandaloneTextAction & { mode?: string };
   let aiStatusEl: HTMLElement | null = null;
   let aiPopupEl: HTMLElement | null = null;
 
@@ -3162,13 +3156,15 @@ function boot(): void {
    *  drift here can only mis-enable a button, never admit a bad edit. */
   const TASHKEEL_RE = /[\u064b-\u065f\u0670\u06d6-\u06ed\u0640]/g;
 
-  /** Is this selection Arabic that still needs its vowel marks?
+  /** Is this selection a real Arabic passage the Diacritics button can act on?
    *
-   *  Deliberately generous on the "still needs" half: a run the scan left with a
-   *  couple of disambiguating marks is bare for this purpose. The authority is
-   *  `isVowellingCandidate` on the server, which refuses an already-vowelled run
-   *  (every Qur'anic one included — those carry the canonical mushaf's marks) with
-   *  a message. This only decides whether the button looks available. */
+   *  NO LONGER GATED ON "STILL BARE" (2026-08-14) — the button itself changed
+   *  the same day: it now fixes wrong Arabic as well as adding marks, so a
+   *  passage that is already fully vowelled but WRONG is exactly the case
+   *  this button needs to stay enabled for, not the case to hide it on. The
+   *  server (`vowelOneRun`) is the one place that still decides what to do
+   *  with the text; this only decides whether the button looks available at
+   *  all, for a selection substantial enough to be worth sending. */
   function isBareArabic(text: string): boolean {
     if (!ARABIC_LETTER_RE.test(text)) return false;
     // Predominantly Arabic, not merely containing some. Mirrors the ratio the
@@ -3181,9 +3177,7 @@ function boot(): void {
     const letters = (text.match(/[؀-ۿ]/g) || []).filter(
       (c) => !c.match(TASHKEEL_RE),
     ).length;
-    if (letters < 8) return false;
-    const marks = (text.match(TASHKEEL_RE) || []).length;
-    return marks / letters < 0.15;
+    return letters >= 8;
   }
 
   function updateAiEnabled(): void {
@@ -3202,6 +3196,186 @@ function boot(): void {
       });
   }
 
+  // ── Card type: declare a selected quotation's kind ──────────────────────
+  // Added 2026-08-14. Deterministic, never AI — writes straight to
+  // `_system/quote-kind.json` through /api/studio/quote-kind, the same file
+  // a human already hand-edits today. The key is the selection's OWN FIRST
+  // LINE, mirroring `quoteKindKey` in scripts/lib/quote-kind.mjs — callers
+  // there take raw lines, never a joined paragraph, for the same reason this
+  // does: a multi-line selection keyed on its full text would ask the
+  // renderer to match a string it never actually holds.
+  const QUOTE_KIND_LABEL: Record<string, string> = {
+    quote: "Saying",
+    poem: "Verse",
+    hadith: "Prophetic tradition",
+  };
+  let settingQuoteKind = false;
+
+  async function runSetQuoteKind(kind: "" | "quote" | "poem" | "hadith") {
+    if (settingQuoteKind) return;
+    const ed = activeEditor?.editor;
+    if (!ed || ed.isDestroyed) {
+      setAiStatus("Select a quotation first.", true);
+      return;
+    }
+    // resolveQuoteTarget: a real drag-selected range wins outright (unchanged
+    // from before); a collapsed cursor falls back to the enclosing card's
+    // full text, so a single click anywhere on an already-rendered card is
+    // enough to re-target it — see compose-quote-kind-command.ts's own
+    // docstring for why the old "selection only" rule left clicking a card
+    // silently doing nothing.
+    const { from, to } = ed.state.selection;
+    const target = resolveQuoteTarget(ed.state.doc, from, to);
+    if (!target) {
+      setAiStatus("Select a quotation first.", true);
+      return;
+    }
+    const firstLine = target.firstLine;
+    if (!firstLine) {
+      setAiStatus("Nothing to declare.", true);
+      return;
+    }
+    settingQuoteKind = true;
+    const label = kind ? QUOTE_KIND_LABEL[kind] : "the default card";
+    setAiStatus(`Marking as ${label}…`);
+    try {
+      await apiFetch("/api/studio/quote-kind", {
+        method: "POST",
+        body: { slug, chapterKey: selectedChapter, firstLine, kind },
+      });
+      // Repaint the card IN THIS EDIT CANVAS, right now — the write above
+      // only reaches `_system/quote-kind.json`; the label a reader sees
+      // here is a node attribute baked in at page load, so without this the
+      // save was real but invisible until a reload or a trip to Read (found
+      // live 2026-08-14: the status line already said "Marked as..." while
+      // the card on screen kept showing its old kind, which reads as
+      // "nothing happened" even though the file was correct).
+      if (target.blockquotePos !== null) {
+        repaintQuoteCard(ed, target.blockquotePos, kind);
+      }
+      setAiStatus(`Marked as ${label}.`);
+    } catch (e) {
+      setAiStatus(`Couldn't set card type: ${(e as Error).message}`, true);
+    } finally {
+      settingQuoteKind = false;
+    }
+  }
+  // The toolbar dropdown's two hooks. `onApply` is this same function — one
+  // write path, reached from two controls. `getActive` reads the ProseMirror
+  // tree directly (bypassing the abstracted SelectionState the same way
+  // alignActive/colourActive already do above) because the DECLARED kind is
+  // carried as a class on the blockquote node itself (`k-quote`/`k-poem`/
+  // `k-hadith`/`k-quran` — see PRESERVED_CLASSES in book-md-editor.ts) and
+  // nothing else on the client tracks it separately. `k-quran` returns null
+  // rather than a fourth id: Qur'an is the audit's answer, never a person's,
+  // and this dropdown has no option that would claim to set it.
+  quoteKindApply = runSetQuoteKind;
+  quoteKindActive = (): QuoteKindId | null => {
+    const ed = activeEditor?.editor;
+    if (!ed || ed.isDestroyed) return null;
+    const enclosing = enclosingBlockquote(
+      ed.state.doc,
+      ed.state.selection.from,
+    );
+    if (!enclosing) return null;
+    const cls = String(enclosing.node.attrs.class ?? "");
+    if (cls.includes("k-hadith")) return "hadith";
+    if (cls.includes("k-poem")) return "poem";
+    if (cls.includes("k-quote")) return "quote";
+    return null; // k-quran, or a blockquote with no kind declared
+  };
+
+  /** Gemini SUGGESTS a kind; nothing is written until the human then picks it
+   *  from the toolbar's quote-kind dropdown (compose-quote-kind-command.ts) —
+   *  the panel's own three declare buttons were removed 2026-08-14 once that
+   *  dropdown shipped, so this button is the only quote-kind control left in
+   *  the Refine & Notes panel. Keeps the locked rule intact regardless: no
+   *  code decides a quotation's kind on its own. */
+  async function runSuggestQuoteKind() {
+    if (settingQuoteKind) return;
+    const ed = activeEditor?.editor;
+    if (!ed || ed.isDestroyed) {
+      setAiStatus("Select a quotation first.", true);
+      return;
+    }
+    const { from, to } = ed.state.selection;
+    const target = resolveQuoteTarget(ed.state.doc, from, to);
+    if (!target) {
+      setAiStatus("Select a quotation first.", true);
+      return;
+    }
+    setAiStatus("Asking Gemini what this looks like…");
+    try {
+      const j = await apiFetch<{ kind: string; reason?: string }>(
+        "/api/studio/quote-kind-suggest",
+        { method: "POST", body: { slug, text: target.text } },
+      );
+      const label = j.kind ? QUOTE_KIND_LABEL[j.kind] : "the default card";
+      setAiStatus(
+        `Gemini suggests ${label}${j.reason ? ` — ${j.reason}` : ""}. Pick it from the quote-kind dropdown in the toolbar to accept.`,
+      );
+    } catch (e) {
+      setAiStatus(`Suggestion failed: ${(e as Error).message}`, true);
+    }
+  }
+
+  // The three-button "declare a kind" row that used to live here was removed
+  // 2026-08-14: compose-quote-kind-command.ts put the same three-way choice
+  // one click away in the toolbar itself (see that file's own doc comment),
+  // so this panel keeping a second copy was pure duplication. runSetQuoteKind,
+  // the ⌥⌘4/5/6 shortcuts below, and Suggest quote type (now grouped under
+  // "Rewrite selection" in renderAiActions) are the only things that used
+  // that row — all three still work exactly as before.
+
+  root.addEventListener("keydown", (e) => {
+    if (!e.altKey || !e.metaKey) return;
+    const map: Record<string, "" | "quote" | "poem" | "hadith"> = {
+      Digit4: "quote",
+      Digit5: "poem",
+      Digit6: "hadith",
+    };
+    const kind = map[e.code];
+    if (kind === undefined) return;
+    e.preventDefault();
+    runSetQuoteKind(kind);
+  });
+
+  /** One collapsible group in the Refine & Notes panel. Introduced 2026-08-14
+   *  to replace what had grown into five-plus always-visible button rows;
+   *  only "Rewrite selection" — the group the widest range of selections
+   *  needs — starts open. Returns the group's root (append to controlsEl)
+   *  and its body (append this group's own controls into it). */
+  function buildAiGroup(
+    label: string,
+    defaultOpen: boolean,
+  ): { root: HTMLElement; body: HTMLElement } {
+    const group = document.createElement("div");
+    group.className = defaultOpen
+      ? "cx-acc cx-acc-open"
+      : "cx-acc cx-acc-closed";
+    const head = document.createElement("button");
+    head.type = "button";
+    head.className = "cx-acc-head";
+    head.setAttribute("aria-expanded", String(defaultOpen));
+    const labelEl = document.createElement("span");
+    labelEl.textContent = label;
+    const chev = document.createElement("span");
+    chev.className = "cx-acc-chev";
+    chev.setAttribute("aria-hidden", "true");
+    chev.textContent = defaultOpen ? "▾" : "▸";
+    head.append(labelEl, chev);
+    const body = document.createElement("div");
+    body.className = "cx-acc-body";
+    head.addEventListener("click", () => {
+      const open = group.classList.toggle("cx-acc-open");
+      group.classList.toggle("cx-acc-closed", !open);
+      head.setAttribute("aria-expanded", String(open));
+      chev.textContent = open ? "▾" : "▸";
+    });
+    group.append(head, body);
+    return { root: group, body };
+  }
+
   function renderAiActions(): void {
     controlsEl.textContent = "";
     const hint = document.createElement("p");
@@ -3210,9 +3384,44 @@ function boot(): void {
       "Select text in the chapter editor, then reshape it with AI. Each result is yours to accept or discard.";
     controlsEl.appendChild(hint);
 
-    const row = document.createElement("div");
-    row.className = "cx-ai-row";
-    for (const a of AI_ACTIONS) {
+    // ── Rewrite selection — the four rewrite modes as one segmented row
+    // (REWRITE_MODES, book-composer-ai-config.ts) instead of four peer
+    // buttons; Suggest quote type lives here too since it also acts on the
+    // current selection. ──
+    const rewriteGroup = buildAiGroup("Rewrite selection", true);
+    const rewriteRow = document.createElement("div");
+    rewriteRow.className = "cx-ai-row cx-seg-row";
+    for (const m of REWRITE_MODES) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "cx-ai-btn";
+      b.textContent = m.label;
+      b.disabled = true;
+      b.addEventListener("click", () => runAiAction(m));
+      rewriteRow.appendChild(b);
+    }
+    rewriteGroup.body.appendChild(rewriteRow);
+    const suggestRow = document.createElement("div");
+    suggestRow.className = "cx-ai-row";
+    const suggest = document.createElement("button");
+    suggest.type = "button";
+    suggest.className = "cx-ai-btn cx-ai-ghost cx-quote-kind-suggest";
+    suggest.textContent = "Suggest quote type";
+    suggest.title =
+      "Gemini proposes Saying / Verse / Prophetic tradition — pick it from the quote-kind dropdown in the toolbar to accept";
+    suggest.disabled = true;
+    suggest.addEventListener("click", () => runSuggestQuoteKind());
+    suggestRow.appendChild(suggest);
+    rewriteGroup.body.appendChild(suggestRow);
+    controlsEl.appendChild(rewriteGroup.root);
+
+    // ── Arabic & language — Etymology/Diacritics render here directly;
+    // Add term / Explain are ComposeAiTools.tsx, portaled into
+    // #cx-ai-portal-arabic once the React root mounts (see that file). ──
+    const arabicGroup = buildAiGroup("Arabic & language", false);
+    const arabicRow = document.createElement("div");
+    arabicRow.className = "cx-ai-row";
+    for (const a of [ETYMOLOGY_ACTION, DIACRITICS_ACTION]) {
       const b = document.createElement("button");
       b.type = "button";
       b.className = a.arabicOnly ? "cx-ai-btn cx-ai-arabic" : "cx-ai-btn";
@@ -3222,8 +3431,21 @@ function boot(): void {
           "Add Arabic vowel marks to the selected passage — select Arabic script to enable";
       b.disabled = true;
       b.addEventListener("click", () => runAiAction(a));
-      row.appendChild(b);
+      arabicRow.appendChild(b);
     }
+    arabicGroup.body.appendChild(arabicRow);
+    const arabicPortal = document.createElement("div");
+    arabicPortal.id = "cx-ai-portal-arabic";
+    arabicPortal.className = "cx-ai-portal";
+    arabicGroup.body.appendChild(arabicPortal);
+    controlsEl.appendChild(arabicGroup.root);
+
+    // ── Whole chapter — Rearticulate/Replace with Arabic/Paste & Fix render
+    // here directly; Analyze section is ComposeAiTools.tsx, portaled into
+    // #cx-ai-portal-chapter. ──
+    const chapterGroup = buildAiGroup("Whole chapter", false);
+    const chapterRow = document.createElement("div");
+    chapterRow.className = "cx-ai-row";
     // Rearticulate — whole-chapter, selection-independent. Rewrites the open
     // chapter in place through the pipeline's gated engine (REQ-BA contract,
     // docs/standards/book-articulation.md); a window that fails a fidelity
@@ -3233,7 +3455,7 @@ function boot(): void {
     rearticulate.className = "cx-ai-btn cx-rearticulate";
     rearticulate.textContent = "Rearticulate chapter";
     rearticulate.addEventListener("click", () => runRearticulate(rearticulate));
-    row.appendChild(rearticulate);
+    chapterRow.appendChild(rearticulate);
     // Replace with Arabic — whole-chapter, selection-independent, and NOT an AI
     // action: it is the pipeline's deterministic glossary substitution, so it
     // costs nothing, cannot fabricate a spelling, and returns in milliseconds.
@@ -3246,7 +3468,7 @@ function boot(): void {
     replaceArabic.addEventListener("click", () =>
       runReplaceArabic(replaceArabic),
     );
-    row.appendChild(replaceArabic);
+    chapterRow.appendChild(replaceArabic);
     // Paste & Fix — whole-chapter, selection-independent, Sessions-lane only.
     // Runs pf-compose-articulator's own engine (image restoration, house-style
     // citation/heading normalization, the fidelity gate) against text pasted
@@ -3258,9 +3480,14 @@ function boot(): void {
       pasteFix.className = "cx-ai-btn cx-paste-fix";
       pasteFix.textContent = "Paste & fix chapter";
       pasteFix.addEventListener("click", () => pasteFixController.open());
-      row.appendChild(pasteFix);
+      chapterRow.appendChild(pasteFix);
     }
-    controlsEl.appendChild(row);
+    chapterGroup.body.appendChild(chapterRow);
+    const chapterPortal = document.createElement("div");
+    chapterPortal.id = "cx-ai-portal-chapter";
+    chapterPortal.className = "cx-ai-portal";
+    chapterGroup.body.appendChild(chapterPortal);
+    controlsEl.appendChild(chapterGroup.root);
 
     aiStatusEl = document.createElement("p");
     aiStatusEl.className = "cx-status";
@@ -3360,36 +3587,29 @@ function boot(): void {
     }
     setAiStatus(`${a.label}…`);
     try {
-      let options: string[] = [];
-      if (a.explain) {
-        const j = await apiFetch<{ text: string }>("/api/ai/explain", {
-          method: "POST",
-          body: {
-            text: sel.text,
-            chapter: activeEditor.editor.getText(),
-            bookTitle,
-          },
-        });
-        options = [String(j.text)];
-      } else {
-        // Stays on raw fetch: /api/ai/rewrite reports errors as `{error}` JSON
-        // with a non-2xx status (no ok-envelope), and apiFetch would replace the
-        // server's message (e.g. "rate_limited") with a generic HTTP line.
-        const res = await fetch("/api/ai/rewrite", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            text: sel.text,
-            mode: a.mode,
-            context: activeEditor.editor.getText().slice(0, 4000),
-          }),
-        });
-        const j = await res.json();
-        if (j.error) throw new Error(j.error);
-        options = (Array.isArray(j.options) ? j.options : [])
-          .map((s: unknown) => String(s).trim())
-          .filter(Boolean);
-      }
+      // Every remaining caller of runAiAction is a REWRITE_MODES entry — the
+      // one-off "explain" branch that used to live here was dropped
+      // 2026-08-14, folded into ComposeAiTools.tsx's Explain (which already
+      // hit the same /api/ai/explain endpoint with the same body shape and
+      // additionally guards against the selection changing before Apply).
+      //
+      // Stays on raw fetch: /api/ai/rewrite reports errors as `{error}` JSON
+      // with a non-2xx status (no ok-envelope), and apiFetch would replace the
+      // server's message (e.g. "rate_limited") with a generic HTTP line.
+      const res = await fetch("/api/ai/rewrite", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          text: sel.text,
+          mode: a.mode,
+          context: activeEditor.editor.getText().slice(0, 4000),
+        }),
+      });
+      const j = await res.json();
+      if (j.error) throw new Error(j.error);
+      const options = (Array.isArray(j.options) ? j.options : [])
+        .map((s: unknown) => String(s).trim())
+        .filter(Boolean);
       if (!options.length) throw new Error("no suggestions returned");
       setAiStatus("");
       showAiOptions(a.label, options, sel.from, sel.to, onApplied);
@@ -3486,12 +3706,18 @@ function boot(): void {
     to: number;
   }): Promise<void> {
     if (!activeEditor) return;
-    setAiStatus("Adding diacritics…");
+    setAiStatus("Fixing and vowelling…");
     try {
-      const j = await apiFetch<{ vowelled: string; marksAdded: number }>(
-        "/api/studio/vowelling",
-        { method: "POST", body: { slug, action: "run", text: sel.text } },
-      );
+      const j = await apiFetch<{
+        vowelled: string;
+        marksAdded: number;
+        fixed: boolean;
+        usedSearch: boolean;
+        sources: string[];
+      }>("/api/studio/vowelling", {
+        method: "POST",
+        body: { slug, action: "run", text: sel.text },
+      });
       const vowelled = String(j.vowelled ?? "").trim();
       if (!vowelled) throw new Error("nothing came back");
       activeEditor.editor
@@ -3499,9 +3725,23 @@ function boot(): void {
         .focus()
         .insertContentAt({ from: sel.from, to: sel.to }, vowelled)
         .run();
-      setAiStatus(
-        `Added ${j.marksAdded} vowel mark${j.marksAdded === 1 ? "" : "s"}. Remember to Save prose.`,
-      );
+      // Say what actually happened, not just "marks added" — a letter fix is
+      // the whole reason this action can now change more than tashkeel, and
+      // a search that ran is worth naming so a person weighing the result
+      // knows where it came from (Asif, 2026-08-06's own reasoning for
+      // citing sources by name applies here just as much).
+      const parts = [
+        `Added ${j.marksAdded} vowel mark${j.marksAdded === 1 ? "" : "s"}`,
+      ];
+      if (j.fixed) parts.push("corrected the Arabic");
+      if (j.usedSearch) {
+        parts.push(
+          j.sources?.length
+            ? `researched online (${j.sources.join(", ")})`
+            : "researched online",
+        );
+      }
+      setAiStatus(`${parts.join(" — ")}. Remember to Save prose.`);
     } catch (e) {
       setAiStatus(`Diacritics failed: ${(e as Error).message}`, true);
     }

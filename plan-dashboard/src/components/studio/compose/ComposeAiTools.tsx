@@ -2,18 +2,31 @@
  * ComposeAiTools.tsx — Research / Auto-tag (section-level, useAiActions) and
  * Arabic / English / Explain term curation (useTermCuration), reusing the
  * SAME hooks StudioEditor.tsx uses, fed the Book Composer's own vanilla
- * TipTap editor instance via the compose-editor-bridge. Appended into the
- * Refinement tab alongside Compose's existing selection-based AI actions
- * (Rewrite/Expand/Condense/Simplify/Explain/Etymology, still vanilla JS).
+ * TipTap editor instance via the compose-editor-bridge.
  *
- * Mounted imperatively (React 19 createRoot) by book-composer.ts, not as a
- * static Astro island — its editor/chapter props change every time the user
- * switches chapters, which a client:only island cannot receive after mount.
+ * Mounted imperatively (React 19 createRoot) by book-composer.ts at the
+ * static `#cx-ai-tools-mount` anchor, not as a client:only Astro island —
+ * its editor/chapter props change every time the user switches chapters,
+ * which an island can't receive after mount. That mount point is NOT where
+ * this component's buttons are drawn any more (2026-08-14 consolidation):
+ * the Refine & Notes panel is now grouped into collapsible sections built by
+ * book-composer.ts's renderAiActions, and this file's controls belong beside
+ * the vanilla ones in those same sections (Add term/Explain in "Arabic &
+ * language", Analyze section in "Whole chapter") rather than in a stranded
+ * third block below them. `createPortal` renders each group into the
+ * matching `#cx-ai-portal-*` div renderAiActions creates inside its own
+ * section body — one React root, two portals, no duplicated hook state.
+ * Arabic term + English term merged into one "Add term" sub-group (same
+ * action, just which language); Research + Auto-tag merged the same way
+ * into "Analyze section". Explain is UNCHANGED here — it is what survived
+ * the panel's other duplicate Explain button, which called the same
+ * `/api/ai/explain` endpoint from vanilla JS (see book-composer-ai-config.ts).
  *
  * Find & Replace and Denoise are explicitly NOT here — they stay on
  * /edit as book-wide maintenance utilities (see the approved plan).
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import type { Editor } from "@tiptap/core";
 
 import { ApiFetchError } from "../../../lib/api-fetch";
@@ -232,118 +245,166 @@ export default function ComposeAiTools({
     return () => handle.close();
   }, [busyTitle, busyIcon]);
 
+  // Portal targets are built by book-composer.ts's renderAiActions() once at
+  // boot, well before any chapter's editor (and this component) ever mounts
+  // — see that function's own comments for why the ordering is safe. Guarded
+  // with a null check anyway rather than assumed, so a missing target skips
+  // that group's portal instead of throwing.
+  const arabicPortalTarget =
+    typeof document !== "undefined"
+      ? document.getElementById("cx-ai-portal-arabic")
+      : null;
+  const chapterPortalTarget =
+    typeof document !== "undefined"
+      ? document.getElementById("cx-ai-portal-chapter")
+      : null;
+
   return (
     <div className="cx-ai-tools" data-tick={tick}>
-      <div className="cx-ai-tools-row">
-        <button
-          type="button"
-          className="cx-btn-ai"
-          disabled={aiBusy || activeSectionOrdinal === null}
-          onClick={() => runAi("research")}
-        >
-          {aiBusy && aiKind === "research"
-            ? "Researching…"
-            : "Research section"}
-        </button>
-        <button
-          type="button"
-          className="cx-btn-ai"
-          disabled={aiBusy || activeSectionOrdinal === null}
-          onClick={() => runAi("autotag")}
-        >
-          {aiBusy && aiKind === "autotag" ? "Tagging…" : "Auto-tag section"}
-        </button>
-        <button
-          type="button"
-          className="cx-btn-ai"
-          disabled={!hasSelection || arabicBusy}
-          onClick={proposeArabic}
-        >
-          {arabicBusy ? "…" : "Arabic term"}
-        </button>
-        <button
-          type="button"
-          className="cx-btn-ai"
-          disabled={!hasSelection || englishBusy}
-          onClick={proposeEnglish}
-        >
-          {englishBusy ? "…" : "English term"}
-        </button>
-        <button
-          type="button"
-          className="cx-btn-ai"
-          disabled={!hasSelection || explainBusy}
-          onClick={proposeExplain}
-        >
-          {explainBusy ? "…" : "Explain"}
-        </button>
-      </div>
+      {arabicPortalTarget &&
+        createPortal(
+          <>
+            {/* Arabic term + English term merged 2026-08-14: same action
+                (propose a glossary entry), only the language differs. */}
+            <div className="cx-ai-subgroup">
+              <span className="cx-ai-subgroup-label">Add term</span>
+              <button
+                type="button"
+                className="cx-btn-ai"
+                disabled={!hasSelection || arabicBusy}
+                onClick={proposeArabic}
+              >
+                {arabicBusy ? "…" : "Arabic"}
+              </button>
+              <button
+                type="button"
+                className="cx-btn-ai"
+                disabled={!hasSelection || englishBusy}
+                onClick={proposeEnglish}
+              >
+                {englishBusy ? "…" : "English"}
+              </button>
+            </div>
+            <div className="cx-ai-row">
+              <button
+                type="button"
+                className="cx-btn-ai"
+                disabled={!hasSelection || explainBusy}
+                onClick={proposeExplain}
+              >
+                {explainBusy ? "…" : "Explain"}
+              </button>
+            </div>
 
-      {(aiResult || aiError) && (
-        <div className={`cx-ai-result${aiError ? " is-error" : ""}`}>
-          {aiError || aiResult}
-        </div>
-      )}
+            {arabicProposal && (
+              <div className="cx-ai-proposal">
+                <p className="cx-ai-proposal-arabic" lang="ar" dir="rtl">
+                  {arabicProposal.arabic}
+                </p>
+                {arabicProposal.gloss && <p>{arabicProposal.gloss}</p>}
+                {arabicError && <p className="cx-ai-error">{arabicError}</p>}
+                <div className="cx-ai-proposal-actions">
+                  <button type="button" onClick={() => applyArabic()}>
+                    Apply here
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyArabicAcross("chapter")}
+                  >
+                    Apply in chapter
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyArabicAcross("book")}
+                  >
+                    Apply across book
+                  </button>
+                  <button type="button" onClick={cancelArabic}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
 
-      {arabicProposal && (
-        <div className="cx-ai-proposal">
-          <p className="cx-ai-proposal-arabic" lang="ar" dir="rtl">
-            {arabicProposal.arabic}
-          </p>
-          {arabicProposal.gloss && <p>{arabicProposal.gloss}</p>}
-          {arabicError && <p className="cx-ai-error">{arabicError}</p>}
-          <div className="cx-ai-proposal-actions">
-            <button type="button" onClick={() => applyArabic()}>
-              Apply here
-            </button>
-            <button type="button" onClick={() => applyArabicAcross("chapter")}>
-              Apply in chapter
-            </button>
-            <button type="button" onClick={() => applyArabicAcross("book")}>
-              Apply across book
-            </button>
-            <button type="button" onClick={cancelArabic}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+            {englishProposal && (
+              <div className="cx-ai-proposal">
+                <p>{englishProposal.english}</p>
+                {englishError && <p className="cx-ai-error">{englishError}</p>}
+                <div className="cx-ai-proposal-actions">
+                  <button type="button" onClick={() => applyEnglish()}>
+                    Apply here
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyEnglishAcross("chapter")}
+                  >
+                    Apply in chapter
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyEnglishAcross("book")}
+                  >
+                    Apply across book
+                  </button>
+                  <button type="button" onClick={cancelEnglish}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
 
-      {englishProposal && (
-        <div className="cx-ai-proposal">
-          <p>{englishProposal.english}</p>
-          {englishError && <p className="cx-ai-error">{englishError}</p>}
-          <div className="cx-ai-proposal-actions">
-            <button type="button" onClick={() => applyEnglish()}>
-              Apply here
-            </button>
-            <button type="button" onClick={() => applyEnglishAcross("chapter")}>
-              Apply in chapter
-            </button>
-            <button type="button" onClick={() => applyEnglishAcross("book")}>
-              Apply across book
-            </button>
-            <button type="button" onClick={cancelEnglish}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+            {explainProposal && (
+              <div className="cx-ai-proposal">
+                <p>{explainProposal.text}</p>
+                {explainError && <p className="cx-ai-error">{explainError}</p>}
+                <div className="cx-ai-proposal-actions">
+                  <button type="button" onClick={applyExplain}>
+                    Apply
+                  </button>
+                  <button type="button" onClick={cancelExplain}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </>,
+          arabicPortalTarget,
+        )}
 
-      {explainProposal && (
-        <div className="cx-ai-proposal">
-          <p>{explainProposal.text}</p>
-          {explainError && <p className="cx-ai-error">{explainError}</p>}
-          <div className="cx-ai-proposal-actions">
-            <button type="button" onClick={applyExplain}>
-              Apply
-            </button>
-            <button type="button" onClick={cancelExplain}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+      {chapterPortalTarget &&
+        createPortal(
+          <>
+            {/* Research section + Auto-tag section merged 2026-08-14: both
+                run in the background over the whole section, no selection
+                needed — one sub-group, two outcomes. */}
+            <div className="cx-ai-subgroup">
+              <span className="cx-ai-subgroup-label">Analyze section</span>
+              <button
+                type="button"
+                className="cx-btn-ai"
+                disabled={aiBusy || activeSectionOrdinal === null}
+                onClick={() => runAi("research")}
+              >
+                {aiBusy && aiKind === "research" ? "Researching…" : "Research"}
+              </button>
+              <button
+                type="button"
+                className="cx-btn-ai"
+                disabled={aiBusy || activeSectionOrdinal === null}
+                onClick={() => runAi("autotag")}
+              >
+                {aiBusy && aiKind === "autotag" ? "Tagging…" : "Auto-tag"}
+              </button>
+            </div>
+
+            {(aiResult || aiError) && (
+              <div className={`cx-ai-result${aiError ? " is-error" : ""}`}>
+                {aiError || aiResult}
+              </div>
+            )}
+          </>,
+          chapterPortalTarget,
+        )}
     </div>
   );
 }

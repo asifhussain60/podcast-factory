@@ -18,7 +18,7 @@ import { strict as assert } from "node:assert";
 import { readFileSync } from "node:fs";
 import { test, describe } from "node:test";
 import { serveBookImages } from "./book-images";
-import { renderMarkdown } from "./markdown";
+import { renderMarkdown, renderEditSeed } from "./markdown";
 import { renderMd } from "../../../scripts/lib/book-html.mjs";
 
 const GUID = "21ac5722-564f-4aed-beeb-4f61c600508f";
@@ -70,6 +70,25 @@ describe("book-relative illustrations are pointed at the studio route", () => {
   });
 });
 
+describe("the Composer's edit-mode seed also gets its images rewritten", () => {
+  // Read mode and the reader view were fixed 2026-08-11 (see the file header);
+  // the edit-mode seed (`renderEditSeed`, fed to TipTap) went through
+  // `serveBookImages` too late for that fix and stayed on a `book/`-relative
+  // src, so a chapter's pictures were still invisible the moment an author
+  // opened it in the editor. Guards composer.ts wiring both renders the same
+  // way rather than just one of them.
+  test("a book-relative src in the edit seed becomes the studio route", () => {
+    const seed = renderEditSeed(`![](images/213/${GUID}.jpg)`);
+    const out = serveBookImages(seed, "surah-al-fateha");
+    assert.ok(
+      out.includes(
+        `/api/studio/book-image?slug=surah-al-fateha&path=213%2F${GUID}.jpg`,
+      ),
+    );
+    assert.ok(!out.includes(`src="images/213/${GUID}.jpg"`));
+  });
+});
+
 describe("both renderers set a standalone image as the same figure", () => {
   // The PDF renderer and the reader's renderer are separate implementations,
   // shared with the printed book precisely so the page and the PDF cannot
@@ -118,6 +137,43 @@ describe("both renderers set a standalone image as the same figure", () => {
   });
 });
 
+describe("a centered Composer image is actually centered, not just full-width", () => {
+  // History: under the old width-percentage model, `width: fit-content` on
+  // the figure and `width: var(--img-w, 100%)` on the <img> chased each
+  // other — the img's percentage basis WAS the figure's own box, so a
+  // browser could only break that circularity by stretching the figure to
+  // the column's full width, leaving `margin-inline: auto` centering a box
+  // with nothing to spare (verified live 2026-08-14: a resized image sat
+  // flush left in a full-width figure). Switching the resize unit from width
+  // to height (same day, see image-layout.mjs's header) removed the
+  // circularity at its root instead: the <img>'s width is now `auto`,
+  // derived from its own aspect ratio against a fixed height, never a
+  // percentage of the figure that contains it — so plain `fit-content` +
+  // `margin-inline: auto` centers it correctly with no special-casing.
+  const css = readFileSync(
+    new URL("../../styles/book-composer.css", import.meta.url),
+    "utf8",
+  );
+
+  test("the image sizes off its own height, never a percentage of its box", () => {
+    const rule = css.match(/\.cx-image-figure img\s*\{[^}]*\}/)?.[0] ?? "";
+    assert.notEqual(rule, "");
+    assert.match(rule, /width:\s*auto/);
+    assert.match(rule, /height:\s*var\(--img-h,\s*350px\)/);
+    assert.doesNotMatch(rule, /width:\s*var\(--img-w/);
+  });
+
+  test("center align centers a shrink-wrapped box, not a full-width one", () => {
+    const rule =
+      css.match(/\.cx-image-figure\[data-align="center"\]\s*\{[^}]*\}/)?.[0] ??
+      "";
+    assert.notEqual(rule, "");
+    assert.match(rule, /margin-inline:\s*auto/);
+    const figureRule = css.match(/\.cx-image-figure\s*\{[^}]*\}/)?.[0] ?? "";
+    assert.match(figureRule, /width:\s*fit-content/);
+  });
+});
+
 describe("the Astro reader keeps markdown figures at a standard plate size", () => {
   const css = readFileSync(
     new URL("../../styles/book-reader.css", import.meta.url),
@@ -134,6 +190,12 @@ describe("the Astro reader keeps markdown figures at a standard plate size", () 
     const rule =
       css.match(/\.bookv-body \.md-figure img\s*\{[^}]*\}/)?.[0] ?? "";
     assert.notEqual(rule, "");
+    // `var(--img-h, auto)` (2026-08-14, height not width — see
+    // image-layout.mjs's header): a Composer resize sets --img-h inline;
+    // nobody having resized this image (every image before that existed)
+    // must still fall back to `auto`, which is the same guarantee this test
+    // asserted before the custom property existed.
+    assert.match(rule, /height:\s*var\(--img-h,\s*auto\)/);
     assert.match(rule, /width:\s*auto/);
     assert.match(rule, /max-width:\s*100%/);
     assert.doesNotMatch(rule, /(^|[;\s{])width\s*:\s*100%/);

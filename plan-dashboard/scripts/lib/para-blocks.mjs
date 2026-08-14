@@ -26,12 +26,30 @@ import { createHash } from "node:crypto";
  */
 const NOT_PROSE_RE = /^\s*[>#<]/;
 
+/**
+ * A block that is NOTHING BUT a standalone `![alt](src)` line — the same
+ * "whole line, nothing else" test markdown.ts's own image branch uses to
+ * decide a figure rather than literal text. Added 2026-08-14 alongside the
+ * ChapterImage editor node: an image line renders as a `chapterImage` node in
+ * the live doc, a type `alignablePositions` (book-composer.ts) deliberately
+ * does not count as an alignable paragraph — but this function, reading the
+ * SAME markdown independently, was still counting that line as a numbered
+ * prose block. The two counts then disagreed by one for every image in the
+ * chapter, `alignablePositions` saw `found.length !== keys.length`, and every
+ * alignment button in the whole chapter disabled itself rather than risk
+ * pointing at the wrong paragraph — found live 2026-08-14 in a chapter with
+ * four images, where the align buttons never enabled at all. An image mid-
+ * sentence is UNCHANGED by this: it stays literal text in a real paragraph on
+ * both sides, exactly as it did before ChapterImage existed.
+ */
+const IMAGE_ONLY_RE = /^!\[[^\]]*\]\([^)\s]+\)$/;
+
 /** The chapter's prose blocks, in order, trimmed. */
 export function proseBlocks(body) {
   return String(body ?? "")
     .split(/\n\s*\n/)
-    .filter((b) => b.trim() && !NOT_PROSE_RE.test(b))
-    .map((b) => b.trim());
+    .map((b) => b.trim())
+    .filter((b) => b && !NOT_PROSE_RE.test(b) && !IMAGE_ONLY_RE.test(b));
 }
 
 /**

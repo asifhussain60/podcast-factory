@@ -25,7 +25,7 @@
  * which is the conservative direction: it never dresses a saying as scripture,
  * and it never labels a passage with an attribution the human did not give it.
  */
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 
 /** The kinds a person may declare. `quran` is deliberately NOT here: it is the
@@ -133,4 +133,46 @@ export function quoteKindKey(lines) {
     if (line) return line;
   }
   return "";
+}
+
+/**
+ * Write (or clear) ONE declaration, added 2026-08-14 for the Composer's
+ * card-type control — the first thing in this file that writes rather than
+ * reads. Everything else in this store is still a human's own word: the
+ * caller supplies the exact `kind`/`by` a person picked from a menu, this
+ * function only persists it. `kind: ""` (or any id outside QUOTE_KIND_IDS)
+ * DELETES the entry instead of writing a bad one — the same "malformed is
+ * absent" posture `readQuoteKind` already takes on the way in.
+ *
+ * Read-modify-write, not an append, so two declarations in the same chapter
+ * never race each other out — the Composer calls this once per menu pick and
+ * awaits the response before the next click can fire.
+ */
+export function writeQuoteKind(bookDir, chapterKey, firstLine, kind, by) {
+  const chapter = String(chapterKey ?? "").trim();
+  const line = String(firstLine ?? "").trim();
+  if (!chapter || !line)
+    throw new Error("chapterKey and firstLine are required");
+  const dir = path.join(bookDir, "_system");
+  const p = path.join(dir, "quote-kind.json");
+  const store = {
+    schema: "book.quote-kind/v1",
+    chapters: readQuoteKind(bookDir),
+  };
+  const id = String(kind ?? "");
+  const speaker = String(by ?? "").trim();
+  if (QUOTE_KIND_IDS.includes(id)) {
+    const entry = speaker ? { kind: id, by: speaker } : { kind: id };
+    store.chapters[chapter] = {
+      ...(store.chapters[chapter] ?? {}),
+      [line]: entry,
+    };
+  } else if (store.chapters[chapter]) {
+    delete store.chapters[chapter][line];
+    if (!Object.keys(store.chapters[chapter]).length)
+      delete store.chapters[chapter];
+  }
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(p, JSON.stringify(store, null, 2) + "\n", "utf-8");
+  return store;
 }

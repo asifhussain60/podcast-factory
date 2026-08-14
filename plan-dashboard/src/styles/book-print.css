@@ -688,11 +688,15 @@ blockquote.quran .ar-inline {
      shearing the glyphs, which is wrong for the script and looked wrong on the
      page. Pinned here so the run renders the same whatever prose it sits in. */
   font-style: normal;
-  /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
-     descent are far taller than the Latin body face, so without an explicit
-     line-height a single Arabic word makes its line taller than its
-     neighbours and the column loses its rhythm. */
-  line-height: inherit;
+  /* Cancels the term's own bigger font-size back down to the paragraph's
+     line box (Asif, 2026-08-14, replaces `line-height: inherit`, which
+     looked like it did this and did not). `p` is 1.62 as a unitless ratio,
+     which `inherit` copies as the number 1.62, then this element (its
+     font-size already 1.26em from the rule below) recomputes 1.62 x its OWN
+     bigger font-size — same overshoot, just restated. Dividing the body's
+     1.62 by the term's own --q-ar-inline-scale is what actually cancels it;
+     see that token's comment in quote-typography.css. */
+  line-height: calc(1.62 / var(--q-ar-inline-scale, 1.26));
   direction: rtl;
   unicode-bidi: isolate;
   /* Inline terms woven into prose are never tagged is-quranic (a mid-sentence
@@ -920,6 +924,41 @@ body.style-elegant blockquote:not(.quran):not(.aside)::before {
   font-size: 2.4rem;
   line-height: 1;
   color: rgba(201, 165, 92, 0.9);
+}
+
+/* ── Content images (inline `![]()` lines, not the AI-visuals figures below) ──
+   Added 2026-08-14 alongside per-image resize/align — this class had NO
+   print rule at all before, so a content image fell through to the raw
+   browser default (full measure, no border). Mirrors book-reader.css's own
+   .md-figure treatment so the printed page and the screen agree. */
+.md-figure {
+  width: min(100%, 34rem);
+  max-width: 100%;
+  margin: 1.8em auto;
+  text-align: center;
+  page-break-inside: avoid;
+}
+.md-figure img {
+  display: block;
+  /* --img-h, not --img-w, as of the same day (image-layout.mjs's header has
+     the full reasoning) — falls back to auto/auto, unchanged from before, for
+     every image nobody has resized. */
+  width: auto;
+  height: var(--img-h, auto);
+  max-width: 100%;
+  margin-inline: auto;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+}
+.md-figure[data-align="left"] {
+  float: left;
+  margin: 0.3em 1.2em 0.7em 0;
+  width: auto;
+}
+.md-figure[data-align="right"] {
+  float: right;
+  margin: 0.3em 0 0.7em 1.2em;
+  width: auto;
 }
 
 /* ── Figures ─────────────────────────────────────────────────────────────── */

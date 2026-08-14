@@ -95,6 +95,27 @@ export interface RenderOptions {
    *  Mirrors the `quoteKinds` option of renderMd (scripts/lib/book-html.mjs).
    *  Omitted means every quotation takes the default card, exactly as before. */
   quoteKinds?: Record<string, QuoteDeclaration>;
+  /** Which declared quote-fragment + gloss blocks merge into ONE card, keyed
+   *  the same way as quoteKinds — each block's own first line. Mirrors the
+   *  `quoteGroups` option of renderMd (scripts/lib/book-html.mjs) and reads
+   *  from the same `_system/quote-groups.json`, threaded through
+   *  flattenQuoteGroups. Omitted (the default, and every book today) means
+   *  the merge pass at the end of renderMarkdown is a no-op — output is
+   *  byte-for-byte unchanged. See scripts/lib/quote-groups.mjs's header for
+   *  why both key spaces are plain first-line strings, never a hash: this
+   *  file is bundled into the browser and cannot import `node:crypto`. */
+  quoteGroups?: {
+    quote: Record<string, string>;
+    gloss: Record<string, string>;
+  };
+  /** Per-image resize/align, keyed by the image's own `src` — from
+   *  `_system/image-layout.json` via `flattenImageLayout`. Omitted (the
+   *  default, and every book before this existed) renders every image at its
+   *  fixed-cap centered default, exactly as before. Mirrors the same option
+   *  on renderMd (scripts/lib/book-html.mjs). `height_px`, not `width_pct` as
+   *  of 2026-08-14 — see image-layout.mjs's own header for why a percentage
+   *  of a shifting column was the wrong unit for "how tall does this look". */
+  imageLayout?: Record<string, { height_px?: number; align?: string }>;
   /** Each mushaf-resolved run's printable citation, by the run's exact text. The
    *  Qur'an card is headed by its chapter and verse and has no state without one.
    *  Formatted in Python where the surah names already live. */
@@ -199,6 +220,61 @@ function quoteKindKey(lines: string[]): string {
     if (line) return line;
   }
   return "";
+}
+
+/** A block's group membership + the pieces needed to build a merged card
+ *  from it, recorded in parallel to `out` at the same index — never changing
+ *  what gets pushed there. Mirrors blockMeta in scripts/lib/book-html.mjs. */
+interface QuoteGroupMeta {
+  type: "quote" | "gloss";
+  groupId: string;
+  kind?: string;
+  bandHtml?: string;
+  innerHtml?: string;
+  text?: string;
+}
+
+/** Collect a linear list of `{groupId, type, kind}` markers (one per rendered
+ *  block, `groupId: null` for anything undeclared) into merge-run indices —
+ *  `runOf[i] === runOf[j]` means blocks i and j belong to the same card. A
+ *  run of DECLARED same-group blocks collapses only when it has 2+ members
+ *  AND every `type: "quote"` member shares one effective kind; otherwise
+ *  every member of that would-be run gets its own singleton run, i.e.
+ *  renders exactly as if ungrouped.
+ *
+ *  COPY-MIRRORED from `collectGroupRuns` in scripts/lib/quote-groups.mjs, not
+ *  imported — this file is bundled into the browser and that one touches
+ *  `node:fs`. `quote-groups.fixtures.json` pins the two against drifting.
+ *  Keep the two functions byte-for-byte the same shape if you change either. */
+export function collectGroupRuns(
+  blocks: { groupId: string | null; type?: string; kind?: string }[],
+): number[] {
+  const runOf = new Array(blocks.length).fill(-1);
+  let nextRun = 0;
+  let i = 0;
+  while (i < blocks.length) {
+    const gid = blocks[i].groupId;
+    if (!gid) {
+      runOf[i] = nextRun++;
+      i++;
+      continue;
+    }
+    let j = i;
+    while (j < blocks.length && blocks[j].groupId === gid) j++;
+    const run = blocks.slice(i, j);
+    const kinds = new Set(
+      run.filter((b) => b.type !== "gloss" && b.kind).map((b) => b.kind),
+    );
+    const mergeable = run.length >= 2 && kinds.size <= 1;
+    if (mergeable) {
+      const id = nextRun++;
+      for (let k = i; k < j; k++) runOf[k] = id;
+    } else {
+      for (let k = i; k < j; k++) runOf[k] = nextRun++;
+    }
+    i = j;
+  }
+  return runOf;
 }
 
 /** ` * ` inside a line of DECLARED VERSE separates the two hemistichs of one
@@ -520,6 +596,10 @@ export function renderMarkdown(
   const source = opts.simplifyTranslit ? simplifyTransliteration(input) : input;
   const lines = source.replace(/\r\n/g, "\n").split("\n");
   const out: string[] = [];
+  // Parallel to `out`, sparse: blockMeta[i] is set only for a block whose
+  // key is found in opts.quoteGroups, at the same index `out[i]` was just
+  // pushed to. Mirrors blockMeta in scripts/lib/book-html.mjs.
+  const blockMeta: (QuoteGroupMeta | undefined)[] = [];
   let paraBuffer: string[] = [];
   let quoteBuffer: string[] = [];
   /** The pipeline fence currently open, so a blockquote inside an aside span can
@@ -541,6 +621,15 @@ export function renderMarkdown(
       // running prose at body leading in the third.
       const cls = isArabicOnlyParagraph(text) ? ' class="ar-block"' : "";
       out.push(`<p${cls}>${renderInline(text, opts)}</p>`);
+      // A gloss member for the merge pass — see the parallel spot in
+      // scripts/lib/book-html.mjs's flushPara for the full rationale.
+      const glossGroup = opts.quoteGroups?.gloss?.[quoteKindKey(paraBuffer)];
+      if (glossGroup)
+        blockMeta[out.length - 1] = {
+          type: "gloss",
+          groupId: glossGroup,
+          text,
+        };
     }
     paraBuffer = [];
   };
@@ -606,6 +695,15 @@ export function renderMarkdown(
       out.push(
         `<blockquote${cls ? ` class="${cls}"` : ""}${quoteLabelAttribute(kind, quoteBuffer, opts)}>${quoteBand(kind, quoteBuffer, opts)}${inner}</blockquote>`,
       );
+      const quoteGroupId = opts.quoteGroups?.quote?.[quoteKindKey(quoteBuffer)];
+      if (quoteGroupId && kind && kind !== "quran")
+        blockMeta[out.length - 1] = {
+          type: "quote",
+          groupId: quoteGroupId,
+          kind,
+          bandHtml: quoteBand(kind, quoteBuffer, opts),
+          innerHtml: inner,
+        };
     } else {
       const inner = paras
         .map((p) => {
@@ -624,6 +722,16 @@ export function renderMarkdown(
       out.push(
         `<blockquote${cls ? ` class="${cls}"` : ""}${quoteLabelAttribute(declared ?? "", quoteBuffer, opts)}>${quoteBand(declared ?? "", quoteBuffer, opts)}${inner}</blockquote>`,
       );
+      const quoteGroupId2 =
+        opts.quoteGroups?.quote?.[quoteKindKey(quoteBuffer)];
+      if (quoteGroupId2 && declared)
+        blockMeta[out.length - 1] = {
+          type: "quote",
+          groupId: quoteGroupId2,
+          kind: declared,
+          bandHtml: quoteBand(declared, quoteBuffer, opts),
+          innerHtml: inner,
+        };
     }
     quoteBuffer = [];
   };
@@ -884,8 +992,22 @@ export function renderMarkdown(
       flushAll();
       const src = escapeHtml(image[2]).replace(/"/g, "&quot;");
       const alt = escapeHtml(image[1]).replace(/"/g, "&quot;");
+      const layout = opts.imageLayout?.[image[2]];
+      const figAttrs = layout?.align
+        ? ` data-align="${escapeHtml(layout.align)}"`
+        : "";
+      // `--img-h` as an inline custom property, never a raw `style="height:…"`
+      // — the same convention `visual-layout.mjs`'s own `--fig-w` already
+      // uses for the OTHER image system, and what the Composer's own resize
+      // NodeView (book-md-editor.ts) sets live during a drag. A number, not
+      // a design decision, so it stays out of the external stylesheet's
+      // reach the way every other per-instance size in this app already does.
+      // Height, not width (2026-08-14) — see image-layout.mjs's header.
+      const imgStyle = layout?.height_px
+        ? ` style="--img-h:${layout.height_px}px"`
+        : "";
       out.push(
-        `<figure class="md-figure"><img src="${src}" alt="${alt}" loading="lazy" />` +
+        `<figure class="md-figure"${figAttrs}><img src="${src}" alt="${alt}" loading="lazy"${imgStyle} />` +
           (image[1]
             ? `<figcaption>${renderInline(image[1], opts)}</figcaption>`
             : "") +
@@ -914,7 +1036,51 @@ export function renderMarkdown(
   }
   flushAll();
 
-  return out.join("\n");
+  // Collapse declared groups into one merged card each. blockMeta is empty
+  // for every book with no quote-groups.json (the default), so this stays a
+  // no-op there — `merged` becomes `out` unchanged. Mirrors the same pass at
+  // the end of renderMd in scripts/lib/book-html.mjs.
+  let merged = out;
+  if (opts.quoteGroups && blockMeta.some(Boolean)) {
+    const blocksForRuns = out.map((_, i) => {
+      const m = blockMeta[i];
+      return m
+        ? { groupId: m.groupId, type: m.type, kind: m.kind }
+        : { groupId: null };
+    });
+    const runOf = collectGroupRuns(blocksForRuns);
+    merged = [];
+    let i = 0;
+    while (i < out.length) {
+      let j = i;
+      while (j + 1 < out.length && runOf[j + 1] === runOf[i]) j++;
+      if (j > i && blockMeta[i]) {
+        const members: QuoteGroupMeta[] = [];
+        for (let k = i; k <= j; k++) {
+          const m = blockMeta[k];
+          if (m) members.push(m);
+        }
+        const firstQuote = members.find((m) => m.type === "quote");
+        const bandHtml = firstQuote?.bandHtml ?? "";
+        const kind = firstQuote?.kind ?? "quote";
+        const inner = members
+          .map((m) =>
+            m.type === "gloss"
+              ? `<p class="tr">${renderInline(m.text ?? "", opts)}</p>`
+              : (m.innerHtml ?? ""),
+          )
+          .join("");
+        merged.push(
+          `<blockquote class="quran k-${kind} is-group">${bandHtml}${inner}</blockquote>`,
+        );
+      } else {
+        merged.push(out[i]);
+      }
+      i = j + 1;
+    }
+  }
+
+  return merged.join("\n");
 }
 
 /**
@@ -943,6 +1109,11 @@ export function renderEditSeed(
   quranicRuns?: Set<string> | null,
   quoteKinds?: Record<string, QuoteDeclaration> | null,
   quranicRefs?: Record<string, string> | null,
+  // Rides along for the same reason quoteKinds does: without it the edit
+  // canvas would seed every image at the default size while the ChapterImage
+  // NodeView's own parse rule (book-md-editor.ts) has nothing to read a
+  // saved resize back from — a resize would silently reset on every reload.
+  imageLayout?: Record<string, { height_px?: number; align?: string }> | null,
 ): string {
   // keepMachineFences: the editor MUST receive the fence marker lines. TipTap
   // has no comment node, so they arrive as bare text, which is exactly what
@@ -970,6 +1141,7 @@ export function renderEditSeed(
     quranicRuns: quranicRuns ?? undefined,
     quoteKinds: quoteKinds ?? undefined,
     quranicRefs: quranicRefs ?? undefined,
+    imageLayout: imageLayout ?? undefined,
     // NEVER in the edit seed — see the option's own note. The card's plate and
     // ink still show, because those come from the class; only the header strip,
     // which is markup TipTap would hold as content, is withheld.
