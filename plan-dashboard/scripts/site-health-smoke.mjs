@@ -406,7 +406,15 @@ async function checkLayoutInvariants(page) {
     // at the one position where it matters: the bottom of the scroll.
     const fabs = document.querySelector(".cx-fabs");
     if (fabs && getComputedStyle(fabs).position === "fixed") {
-      window.scrollTo(0, 600); // put the sticky drawer in its steady state
+      // `behavior: "instant"` is load-bearing, not stylistic: the site turns on
+      // `html { scroll-behavior: smooth }` (REQ-005) for readers, and this whole
+      // check runs inside one synchronous evaluate() callback with no yield back
+      // to the renderer — a plain `scrollTo(0, 600)` animates, so `window.scrollY`
+      // and every rect read immediately after still reflect the PRE-scroll frame.
+      // That silently turned this into "measure the unscrolled page", which is
+      // moot when the drawer's natural (unscrolled) height already clears the
+      // fabs and a false positive once it grew tall enough not to (2026-08-14).
+      window.scrollTo({ top: 600, left: 0, behavior: "instant" }); // put the sticky drawer in its steady state
       const f = fabs.getBoundingClientRect();
       const scrollers = document.querySelectorAll(
         ".cx-tabpanel:not([hidden]), #cx-surface-companion:not([hidden]), #cx-surface-scholar:not([hidden])",
@@ -426,7 +434,7 @@ async function checkLayoutInvariants(page) {
           );
         }
       }
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     }
 
     // INV-3: REQ-015 list rendering, on the prose hosts that render the shared

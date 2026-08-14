@@ -29,13 +29,13 @@
     "ceiling": 1000,
     "enforced": true,
     "grandfathered": {
-      "scripts/lib/book-html.mjs": 1316,
+      "scripts/lib/book-html.mjs": 1249,
       "src/components/DbArchitecture.tsx": 1566,
       "src/components/NarrativeScroll.tsx": 3229,
       "src/components/studio/editor/StudioEditor.tsx": 2315,
       "src/pages/intelligence.astro": 1271,
       "src/pages/pipeline-paths.astro": 2684,
-      "src/pages/studio/[slug]/compose.astro": 1045,
+      "src/pages/studio/[slug]/compose.astro": 1036,
       "src/scripts/book-composer.ts": 4367
     }
   }
