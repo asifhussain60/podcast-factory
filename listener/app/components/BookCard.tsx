@@ -12,6 +12,7 @@ import { Icon } from "~/components/Icon";
 import { clock, usePlayer, type NowPlaying } from "~/components/player/Player";
 import { collectionOf } from "~/lib/collection";
 import { PRE_ROLL_S } from "~/lib/marks";
+import { studyTrackLabel } from "~/lib/study-track";
 import type { CardPlayableEpisode, LibraryCard } from "~/server/catalog.server";
 
 /**
@@ -58,6 +59,8 @@ export function BookCard({
 }) {
   const originalTitle = card?.titleOriginal ?? null;
   const originalLanguage = card?.titleLanguage ?? "ar";
+  const studyTrack = card?.studyTrack ?? null;
+  const trackLabel = studyTrackLabel(studyTrack);
   const collection = collectionOf(bucket);
   const bookmark =
     bookmarks.find((b) => b.anchorKey === progress?.anchorKey) ?? bookmarks[0] ?? null;
@@ -94,6 +97,12 @@ export function BookCard({
       <Link to={`/book/${slug}`} className="pf-book__open">
         <div className="pf-book__band">
           <span className="pf-pill pf-pill--pinned">{bucket}</span>
+
+          {trackLabel === null ? null : (
+            <span className="pf-book__ribbon" data-track={studyTrack}>
+              {trackLabel}
+            </span>
+          )}
 
           <span className="pf-book__ornament pf-book__ornament--start" aria-hidden="true" />
 

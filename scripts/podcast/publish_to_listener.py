@@ -124,8 +124,9 @@ def build_statements(book: Book, *, published_at: str, commit: str | None) -> li
     add(f"DELETE FROM unit_detail WHERE slug = {sql_str(book.slug)};")
     add(
         "INSERT INTO unit_detail "
-        "(slug, title_arabic, title_language, blurb_html, edition_note, cover_key, pdf_key, published_at, source_commit) "
-        f"VALUES ({sql_str(book.slug)}, {sql_str(book.title_arabic)}, {sql_str(book.title_language)}, {sql_str(book.blurb)}, "
+        "(slug, title_arabic, title_language, study_track, blurb_html, edition_note, cover_key, pdf_key, published_at, source_commit) "
+        f"VALUES ({sql_str(book.slug)}, {sql_str(book.title_arabic)}, {sql_str(book.title_language)}, {sql_str(book.study_track)}, "
+        f"{sql_str(book.blurb)}, "
         f"{sql_str(book.edition_note)}, {sql_str(book.cover.key if book.cover else None)}, "
         f"{sql_str(book.pdf.key if book.pdf else None)}, {sql_str(published_at)}, {sql_str(commit)});"
     )

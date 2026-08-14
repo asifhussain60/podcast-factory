@@ -85,6 +85,7 @@ class Book:
     title: str
     title_arabic: str | None
     title_language: str | None
+    study_track: str | None
     blurb: str | None
     edition_note: str | None
     chapters: list[Chapter] = field(default_factory=list)
@@ -253,6 +254,10 @@ def load_book(slug: str) -> Book:
         else None
     )
 
+    study_track = meta.get("study_track")
+    if study_track not in {"theology", "esoterics", "history", None}:
+        study_track = None
+
     book = Book(
         slug=slug,
         bucket=bucket,
@@ -260,6 +265,7 @@ def load_book(slug: str) -> Book:
         title=str(meta.get("title") or slug),
         title_arabic=original_title,
         title_language=title_language,
+        study_track=study_track,
         blurb=blurb,
         edition_note=edition_note,
         chapters=split_chapters(book_md_path.read_text(encoding="utf-8")),

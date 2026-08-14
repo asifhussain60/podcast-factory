@@ -435,6 +435,20 @@
      whatever is left. The reader bar and the contents list take the same value
      so the header's edges line up with the page's. */
   --pf-measure-reader: 56rem;
+
+  /* ---- Study-track ribbon ----------------------------------------------
+     A book's doctrinal advancement level — theology (foundational),
+     esoterics (intermediate), history (advanced) — shown as a corner ribbon
+     on the library card. Fixed per track rather than per theme, like the
+     Sessions collection's violet is a brand choice: the ribbon is a small,
+     self-contained badge that carries its own text colour, so it never has
+     to be read against the page underneath it. */
+  --l-ribbon-theology-bg: #0a6a82;
+  --l-ribbon-theology-ink: #ffffff;
+  --l-ribbon-esoterics-bg: #d98a1f;
+  --l-ribbon-esoterics-ink: #1c2433;
+  --l-ribbon-history-bg: #a3236f;
+  --l-ribbon-history-ink: #ffffff;
 }
 
 /* ==========================================================================
@@ -3416,6 +3430,53 @@
 
   .pf-book__ornament--end {
     inset-inline-end: var(--pf-space-5);
+  }
+
+  /* The study-track ribbon — pinned to the band's top-right corner and spun
+     diagonal, the same shape a "featured" corner banner takes. `overflow:
+     hidden` on `.pf-book__band` is what clips its overhanging ends flush
+     with the card, so the strip needs no clip-path of its own. Absent when
+     a book carries no track: not every book is classified yet. */
+  .pf-book__ribbon {
+    position: absolute;
+    top: 1.35rem;
+    inset-inline-end: -3.1rem;
+    width: 11rem;
+    padding: var(--pf-space-2) 0;
+    /* Shallower than a true 45deg — a straight diagonal left the caption's
+       ascenders and descenders touching the strip's own edges with nothing
+       around them. The shallower angle plus the added block padding is what
+       gives the letters room on every side. */
+    transform: rotate(38deg);
+    text-align: center;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-pill-sm-size);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-book__ribbon[data-track="theology"] {
+    background: var(--l-ribbon-theology-bg);
+    color: var(--l-ribbon-theology-ink);
+  }
+
+  .pf-book__ribbon[data-track="esoterics"] {
+    background: var(--l-ribbon-esoterics-bg);
+    color: var(--l-ribbon-esoterics-ink);
+    /* Esoterics reads as the "hidden knowledge" track, so this is the one
+       ribbon that gets a lit look rather than the flat elevation shadow the
+       other two keep. */
+    box-shadow:
+      var(--pf-elev-1),
+      0 0 0.6rem color-mix(in srgb, var(--l-ribbon-esoterics-bg) 75%, transparent),
+      0 0 1.4rem color-mix(in srgb, var(--l-ribbon-esoterics-bg) 55%, transparent);
+  }
+
+  .pf-book__ribbon[data-track="history"] {
+    background: var(--l-ribbon-history-bg);
+    color: var(--l-ribbon-history-ink);
   }
 
   /* The body rising into the band as a pointed arch.
