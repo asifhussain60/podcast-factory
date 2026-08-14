@@ -103,6 +103,12 @@ import { enhanceSelect } from "./select-menu";
 import ComposeDetailsTab from "../components/studio/compose/ComposeDetailsTab";
 import { createChapterToolsController } from "./book-composer-chapter-tools";
 import { createPasteFixController } from "./book-composer-paste-fix";
+import {
+  REWRITE_MODES,
+  ETYMOLOGY_ACTION,
+  DIACRITICS_ACTION,
+  type StandaloneTextAction,
+} from "./book-composer-ai-config";
 
 type Align = "left" | "center" | "right";
 type Flow = "wrap" | "standalone";
@@ -1990,7 +1996,7 @@ function boot(): void {
               );
               return;
             }
-            const a = AI_ACTIONS.find((x) => x.kind === kind);
+            const a = REWRITE_MODES.find((x) => x.kind === kind);
             if (a) void runAiAction(a, onApplied);
           },
           runnableKinds: ["rewrite", "expand", "condense", "simplify"],
@@ -3118,69 +3124,13 @@ function boot(): void {
   }
 
   // ── Refinement tab: AI text actions on the editor selection ────────────────
-  interface AiAction {
-    kind: string;
-    label: string;
-    mode?: string;
-    explain?: boolean;
-    etymology?: boolean;
-    /** Vowel the selected Arabic and replace it. Its own branch in runAiAction:
-     *  it neither rewrites English nor offers alternatives to choose between. */
-    diacritics?: boolean;
-    /** Enabled only when the selection is BARE ARABIC, not on any selection. */
-    arabicOnly?: boolean;
-    /** FA classes shown at the centre of the busy modal's ring spinner. */
-    icon?: string;
-  }
-  const AI_ACTIONS: AiAction[] = [
-    {
-      kind: "rewrite",
-      label: "Rewrite",
-      mode: "clarify",
-      icon: "fa-solid fa-pen-nib",
-    },
-    {
-      kind: "expand",
-      label: "Expand",
-      mode: "expand",
-      icon: "fa-solid fa-up-right-and-down-left-from-center",
-    },
-    {
-      kind: "condense",
-      label: "Condense",
-      mode: "tighten",
-      icon: "fa-solid fa-down-left-and-up-right-to-center",
-    },
-    {
-      kind: "simplify",
-      label: "Simplify",
-      mode: "simplify",
-      icon: "fa-solid fa-wand-magic-sparkles",
-    },
-    {
-      kind: "explain",
-      label: "Explain",
-      explain: true,
-      icon: "fa-solid fa-lightbulb",
-    },
-    {
-      kind: "etymology",
-      label: "Etymology",
-      etymology: true,
-      icon: "fa-solid fa-book-open",
-    },
-    // Vowel the selected Arabic in place (Asif, 2026-07-29). Last in the row
-    // because it is the only one that acts on Arabic rather than on English —
-    // and it is the only one that stays dark until the selection is Arabic, so
-    // its own disabled state tells you when it applies.
-    {
-      kind: "diacritics",
-      label: "Diacritics",
-      diacritics: true,
-      arabicOnly: true,
-      icon: "fa-solid fa-marker",
-    },
-  ];
+  // Config (REWRITE_MODES/ETYMOLOGY_ACTION/DIACRITICS_ACTION) lives in
+  // book-composer-ai-config.ts — split out 2026-08-14 alongside the panel
+  // consolidation so the merge (four rewrite buttons → one group, the
+  // duplicate Explain dropped) is data a test can check directly. `AiAction`
+  // is this file's own structural type for whichever of those `runAiAction`
+  // is handed; it stays local because only this file's handlers read it.
+  type AiAction = StandaloneTextAction & { mode?: string };
   let aiStatusEl: HTMLElement | null = null;
   let aiPopupEl: HTMLElement | null = null;
 
@@ -3335,9 +3285,12 @@ function boot(): void {
     return null; // k-quran, or a blockquote with no kind declared
   };
 
-  /** Gemini SUGGESTS a kind; nothing is written until the human then clicks
-   *  one of the three buttons above. Keeps the locked rule intact: no code
-   *  decides a quotation's kind on its own. */
+  /** Gemini SUGGESTS a kind; nothing is written until the human then picks it
+   *  from the toolbar's quote-kind dropdown (compose-quote-kind-command.ts) —
+   *  the panel's own three declare buttons were removed 2026-08-14 once that
+   *  dropdown shipped, so this button is the only quote-kind control left in
+   *  the Refine & Notes panel. Keeps the locked rule intact regardless: no
+   *  code decides a quotation's kind on its own. */
   async function runSuggestQuoteKind() {
     if (settingQuoteKind) return;
     const ed = activeEditor?.editor;
@@ -3359,45 +3312,20 @@ function boot(): void {
       );
       const label = j.kind ? QUOTE_KIND_LABEL[j.kind] : "the default card";
       setAiStatus(
-        `Gemini suggests ${label}${j.reason ? ` — ${j.reason}` : ""}. Click the matching button to accept it.`,
+        `Gemini suggests ${label}${j.reason ? ` — ${j.reason}` : ""}. Pick it from the quote-kind dropdown in the toolbar to accept.`,
       );
     } catch (e) {
       setAiStatus(`Suggestion failed: ${(e as Error).message}`, true);
     }
   }
 
-  function renderQuoteKindControls(): void {
-    const wrap = document.createElement("div");
-    wrap.className = "cx-ai-row cx-quote-kind-row";
-    const title = document.createElement("p");
-    title.className = "cx-hint";
-    title.textContent =
-      "Or select a quotation and declare what it is — Saying, Verse, or Prophetic tradition.";
-    controlsEl.appendChild(title);
-    const kinds: Array<["" | "quote" | "poem" | "hadith", string, string]> = [
-      ["quote", "Saying", "⌥⌘4"],
-      ["poem", "Verse", "⌥⌘5"],
-      ["hadith", "Prophetic tradition", "⌥⌘6"],
-    ];
-    for (const [kind, label, shortcut] of kinds) {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "cx-ai-btn cx-quote-kind-btn";
-      b.textContent = label;
-      b.title = `${label} (${shortcut})`;
-      b.addEventListener("click", () => runSetQuoteKind(kind));
-      wrap.appendChild(b);
-    }
-    const suggest = document.createElement("button");
-    suggest.type = "button";
-    suggest.className = "cx-ai-btn cx-quote-kind-suggest";
-    suggest.textContent = "Suggest with Gemini";
-    suggest.title =
-      "Gemini proposes a kind — you still have to click it to accept";
-    suggest.addEventListener("click", () => runSuggestQuoteKind());
-    wrap.appendChild(suggest);
-    controlsEl.appendChild(wrap);
-  }
+  // The three-button "declare a kind" row that used to live here was removed
+  // 2026-08-14: compose-quote-kind-command.ts put the same three-way choice
+  // one click away in the toolbar itself (see that file's own doc comment),
+  // so this panel keeping a second copy was pure duplication. runSetQuoteKind,
+  // the ⌥⌘4/5/6 shortcuts below, and Suggest quote type (now grouped under
+  // "Rewrite selection" in renderAiActions) are the only things that used
+  // that row — all three still work exactly as before.
 
   root.addEventListener("keydown", (e) => {
     if (!e.altKey || !e.metaKey) return;
@@ -3412,6 +3340,42 @@ function boot(): void {
     runSetQuoteKind(kind);
   });
 
+  /** One collapsible group in the Refine & Notes panel. Introduced 2026-08-14
+   *  to replace what had grown into five-plus always-visible button rows;
+   *  only "Rewrite selection" — the group the widest range of selections
+   *  needs — starts open. Returns the group's root (append to controlsEl)
+   *  and its body (append this group's own controls into it). */
+  function buildAiGroup(
+    label: string,
+    defaultOpen: boolean,
+  ): { root: HTMLElement; body: HTMLElement } {
+    const group = document.createElement("div");
+    group.className = defaultOpen
+      ? "cx-acc cx-acc-open"
+      : "cx-acc cx-acc-closed";
+    const head = document.createElement("button");
+    head.type = "button";
+    head.className = "cx-acc-head";
+    head.setAttribute("aria-expanded", String(defaultOpen));
+    const labelEl = document.createElement("span");
+    labelEl.textContent = label;
+    const chev = document.createElement("span");
+    chev.className = "cx-acc-chev";
+    chev.setAttribute("aria-hidden", "true");
+    chev.textContent = defaultOpen ? "▾" : "▸";
+    head.append(labelEl, chev);
+    const body = document.createElement("div");
+    body.className = "cx-acc-body";
+    head.addEventListener("click", () => {
+      const open = group.classList.toggle("cx-acc-open");
+      group.classList.toggle("cx-acc-closed", !open);
+      head.setAttribute("aria-expanded", String(open));
+      chev.textContent = open ? "▾" : "▸";
+    });
+    group.append(head, body);
+    return { root: group, body };
+  }
+
   function renderAiActions(): void {
     controlsEl.textContent = "";
     const hint = document.createElement("p");
@@ -3420,9 +3384,44 @@ function boot(): void {
       "Select text in the chapter editor, then reshape it with AI. Each result is yours to accept or discard.";
     controlsEl.appendChild(hint);
 
-    const row = document.createElement("div");
-    row.className = "cx-ai-row";
-    for (const a of AI_ACTIONS) {
+    // ── Rewrite selection — the four rewrite modes as one segmented row
+    // (REWRITE_MODES, book-composer-ai-config.ts) instead of four peer
+    // buttons; Suggest quote type lives here too since it also acts on the
+    // current selection. ──
+    const rewriteGroup = buildAiGroup("Rewrite selection", true);
+    const rewriteRow = document.createElement("div");
+    rewriteRow.className = "cx-ai-row cx-seg-row";
+    for (const m of REWRITE_MODES) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "cx-ai-btn";
+      b.textContent = m.label;
+      b.disabled = true;
+      b.addEventListener("click", () => runAiAction(m));
+      rewriteRow.appendChild(b);
+    }
+    rewriteGroup.body.appendChild(rewriteRow);
+    const suggestRow = document.createElement("div");
+    suggestRow.className = "cx-ai-row";
+    const suggest = document.createElement("button");
+    suggest.type = "button";
+    suggest.className = "cx-ai-btn cx-ai-ghost cx-quote-kind-suggest";
+    suggest.textContent = "Suggest quote type";
+    suggest.title =
+      "Gemini proposes Saying / Verse / Prophetic tradition — pick it from the quote-kind dropdown in the toolbar to accept";
+    suggest.disabled = true;
+    suggest.addEventListener("click", () => runSuggestQuoteKind());
+    suggestRow.appendChild(suggest);
+    rewriteGroup.body.appendChild(suggestRow);
+    controlsEl.appendChild(rewriteGroup.root);
+
+    // ── Arabic & language — Etymology/Diacritics render here directly;
+    // Add term / Explain are ComposeAiTools.tsx, portaled into
+    // #cx-ai-portal-arabic once the React root mounts (see that file). ──
+    const arabicGroup = buildAiGroup("Arabic & language", false);
+    const arabicRow = document.createElement("div");
+    arabicRow.className = "cx-ai-row";
+    for (const a of [ETYMOLOGY_ACTION, DIACRITICS_ACTION]) {
       const b = document.createElement("button");
       b.type = "button";
       b.className = a.arabicOnly ? "cx-ai-btn cx-ai-arabic" : "cx-ai-btn";
@@ -3432,8 +3431,21 @@ function boot(): void {
           "Add Arabic vowel marks to the selected passage — select Arabic script to enable";
       b.disabled = true;
       b.addEventListener("click", () => runAiAction(a));
-      row.appendChild(b);
+      arabicRow.appendChild(b);
     }
+    arabicGroup.body.appendChild(arabicRow);
+    const arabicPortal = document.createElement("div");
+    arabicPortal.id = "cx-ai-portal-arabic";
+    arabicPortal.className = "cx-ai-portal";
+    arabicGroup.body.appendChild(arabicPortal);
+    controlsEl.appendChild(arabicGroup.root);
+
+    // ── Whole chapter — Rearticulate/Replace with Arabic/Paste & Fix render
+    // here directly; Analyze section is ComposeAiTools.tsx, portaled into
+    // #cx-ai-portal-chapter. ──
+    const chapterGroup = buildAiGroup("Whole chapter", false);
+    const chapterRow = document.createElement("div");
+    chapterRow.className = "cx-ai-row";
     // Rearticulate — whole-chapter, selection-independent. Rewrites the open
     // chapter in place through the pipeline's gated engine (REQ-BA contract,
     // docs/standards/book-articulation.md); a window that fails a fidelity
@@ -3443,7 +3455,7 @@ function boot(): void {
     rearticulate.className = "cx-ai-btn cx-rearticulate";
     rearticulate.textContent = "Rearticulate chapter";
     rearticulate.addEventListener("click", () => runRearticulate(rearticulate));
-    row.appendChild(rearticulate);
+    chapterRow.appendChild(rearticulate);
     // Replace with Arabic — whole-chapter, selection-independent, and NOT an AI
     // action: it is the pipeline's deterministic glossary substitution, so it
     // costs nothing, cannot fabricate a spelling, and returns in milliseconds.
@@ -3456,7 +3468,7 @@ function boot(): void {
     replaceArabic.addEventListener("click", () =>
       runReplaceArabic(replaceArabic),
     );
-    row.appendChild(replaceArabic);
+    chapterRow.appendChild(replaceArabic);
     // Paste & Fix — whole-chapter, selection-independent, Sessions-lane only.
     // Runs pf-compose-articulator's own engine (image restoration, house-style
     // citation/heading normalization, the fidelity gate) against text pasted
@@ -3468,10 +3480,14 @@ function boot(): void {
       pasteFix.className = "cx-ai-btn cx-paste-fix";
       pasteFix.textContent = "Paste & fix chapter";
       pasteFix.addEventListener("click", () => pasteFixController.open());
-      row.appendChild(pasteFix);
+      chapterRow.appendChild(pasteFix);
     }
-    controlsEl.appendChild(row);
-    renderQuoteKindControls();
+    chapterGroup.body.appendChild(chapterRow);
+    const chapterPortal = document.createElement("div");
+    chapterPortal.id = "cx-ai-portal-chapter";
+    chapterPortal.className = "cx-ai-portal";
+    chapterGroup.body.appendChild(chapterPortal);
+    controlsEl.appendChild(chapterGroup.root);
 
     aiStatusEl = document.createElement("p");
     aiStatusEl.className = "cx-status";
@@ -3571,36 +3587,29 @@ function boot(): void {
     }
     setAiStatus(`${a.label}…`);
     try {
-      let options: string[] = [];
-      if (a.explain) {
-        const j = await apiFetch<{ text: string }>("/api/ai/explain", {
-          method: "POST",
-          body: {
-            text: sel.text,
-            chapter: activeEditor.editor.getText(),
-            bookTitle,
-          },
-        });
-        options = [String(j.text)];
-      } else {
-        // Stays on raw fetch: /api/ai/rewrite reports errors as `{error}` JSON
-        // with a non-2xx status (no ok-envelope), and apiFetch would replace the
-        // server's message (e.g. "rate_limited") with a generic HTTP line.
-        const res = await fetch("/api/ai/rewrite", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            text: sel.text,
-            mode: a.mode,
-            context: activeEditor.editor.getText().slice(0, 4000),
-          }),
-        });
-        const j = await res.json();
-        if (j.error) throw new Error(j.error);
-        options = (Array.isArray(j.options) ? j.options : [])
-          .map((s: unknown) => String(s).trim())
-          .filter(Boolean);
-      }
+      // Every remaining caller of runAiAction is a REWRITE_MODES entry — the
+      // one-off "explain" branch that used to live here was dropped
+      // 2026-08-14, folded into ComposeAiTools.tsx's Explain (which already
+      // hit the same /api/ai/explain endpoint with the same body shape and
+      // additionally guards against the selection changing before Apply).
+      //
+      // Stays on raw fetch: /api/ai/rewrite reports errors as `{error}` JSON
+      // with a non-2xx status (no ok-envelope), and apiFetch would replace the
+      // server's message (e.g. "rate_limited") with a generic HTTP line.
+      const res = await fetch("/api/ai/rewrite", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          text: sel.text,
+          mode: a.mode,
+          context: activeEditor.editor.getText().slice(0, 4000),
+        }),
+      });
+      const j = await res.json();
+      if (j.error) throw new Error(j.error);
+      const options = (Array.isArray(j.options) ? j.options : [])
+        .map((s: unknown) => String(s).trim())
+        .filter(Boolean);
       if (!options.length) throw new Error("no suggestions returned");
       setAiStatus("");
       showAiOptions(a.label, options, sel.from, sel.to, onApplied);
