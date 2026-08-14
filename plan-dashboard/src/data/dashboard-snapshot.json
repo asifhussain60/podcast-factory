@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 38.47
+    "burn_30d_usd": 41.45
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1950,6 +1950,14 @@
       "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
+    },
+    {
+      "slug": "where-the-caravans-set-forth",
+      "title": "Where the Caravans Set Forth",
+      "phase": "publish",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_scholarly"
     }
   ],
   "wave_execution_events": [],
@@ -1965,6 +1973,12 @@
       "title": "The Master and the Disciple",
       "shipped": "2026-07-19T16:40:44Z",
       "episodes": 20
+    },
+    {
+      "slug": "where-the-caravans-set-forth",
+      "title": "Where the Caravans Set Forth",
+      "shipped": "2026-08-13T23:33:43Z",
+      "episodes": 0
     }
   ]
 }

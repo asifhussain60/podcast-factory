@@ -145,6 +145,8 @@ _workspace/**/*.pdf
 #   Google Drive from disk. Tracking them would grow git history by megabytes
 #   on every re-render.
 content/**/book/*.pdf
+# Composer's first-write safety copy is local and regenerable from book.md.
+content/**/book/*.bak
 # - Studio Preview's per-page PNG cache is IGNORED — derived from book.pdf by
 #   plan-dashboard/scripts/lib/preview-pages.mjs (pdftoppm), regenerated
 #   whenever the PDF changes.

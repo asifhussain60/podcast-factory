@@ -1,0 +1,114 @@
+{
+  "book_title": "Where the Caravans Set Forth",
+  "voice": "faithful Articulator GPT English reading edition",
+  "preface": {
+    "include": false
+  },
+  "chapters": [
+    {
+      "bk_index": 1,
+      "title": "Mecca",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-01.md",
+      "word_count": 468,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 2,
+      "title": "Hashim ibn Abd Manaf and Mecca",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-02.md",
+      "word_count": 2311,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 3,
+      "title": "Abd al-Muttalib and Medina",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-03.md",
+      "word_count": 3094,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 4,
+      "title": "The Shape, Appearance, and Construction of the Kaaba",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-04.md",
+      "word_count": 2803,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 5,
+      "title": "Abu Talib’s Economic Position and Leadership",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-05.md",
+      "word_count": 1169,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 6,
+      "title": "My Arrival in Mecca",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-06.md",
+      "word_count": 1276,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 7,
+      "title": "Mecca and the Quraysh Dispute",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-07.md",
+      "word_count": 5510,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 8,
+      "title": "The Story of Hajun",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-08.md",
+      "word_count": 1154,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 9,
+      "title": "The Story of the Cave of Hira",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-09.md",
+      "word_count": 3360,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 10,
+      "title": "The Hijrah",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-10.md",
+      "word_count": 2663,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 11,
+      "title": "The House of the Messenger of God",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-11.md",
+      "word_count": 928,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 12,
+      "title": "The Market of Hadar Kashab and the Odes of Imru' al-Qays",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-12.md",
+      "word_count": 1969,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 13,
+      "title": "The Story of Medina",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-13.md",
+      "word_count": 1884,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 14,
+      "title": "The Burial Place of Fatimah, Daughter of the Messenger of God",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-14.md",
+      "word_count": 1390,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    },
+    {
+      "bk_index": 15,
+      "title": "The Reality of Biʾr Ghars",
+      "source_file": "_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-15.md",
+      "word_count": 1971,
+      "rationale": "Preserves the chapter boundary supplied in the translated Articulator source."
+    }
+  ]
+}

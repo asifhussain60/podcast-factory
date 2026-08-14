@@ -1,0 +1,30 @@
+slug: where-the-caravans-set-forth
+title: Where the Caravans Set Forth
+original_title: "جہاں سے قافلے چلے"
+original_title_language: ur
+short_name: caravans
+source_pdf: _source/Where_the_Caravans_Set_Forth.pdf
+original_source_pdf: _source/Jahan sy Qafily Chaly 1.pdf
+content_profile: islamic_scholarly
+source_language: ur
+target_language: en
+translation:
+  provider: Articulator GPT
+  supplied_by: Asif
+series:
+  enable_book_branch: true
+  enable_knowledge_augmenter: false
+  podcast_enabled: false
+pipeline:
+  current_phase: publish
+  phase_status: completed
+  chapters_with_contracts: 0
+  chapters_drafted: 0
+  episodes_authored: 0
+  transcripts: 0
+  audits: 0
+publication:
+  status: published
+  english_title: Where the Caravans Set Forth
+  publication_model: status-flag-in-place
+  note: Published to localhost and production as a restricted reading edition; no podcast episodes are intended.

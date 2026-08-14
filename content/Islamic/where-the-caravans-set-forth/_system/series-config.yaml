@@ -1,0 +1,14 @@
+content_profile: islamic_scholarly
+source_language: ur
+target_language: en
+book_augmentation: source_only
+book_voice: faithful
+narrative_frame: external_narrator
+podcast_enabled: false
+reader_narration:
+  enabled: true
+  voice: aria
+slide_deck_mode: book
+enable_video: false
+audience_profile: general_scholarly
+source_tradition: islamic-history

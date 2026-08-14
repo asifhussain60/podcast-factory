@@ -3,6 +3,7 @@ import { cloudflare } from "~/context";
 import { notFound } from "~/middleware/deny";
 import { requireUnitAccess } from "~/middleware/entitled";
 import { session } from "~/middleware/session";
+import { countryCodeFromRequest, recordUsageActivity } from "~/server/analytics.server";
 import {
   addBookmark,
   InvalidMarkError,
@@ -72,34 +73,55 @@ export async function action({ request, params, context }: Route.ActionArgs) {
   const slug = params.slug;
   const email = viewer.email;
   const now = new Date().toISOString();
+  const countryCode = countryCodeFromRequest(request);
 
   const field = (name: string) => form.get(name);
 
   try {
     switch (intent) {
-      case "progress":
+      case "progress": {
+        const anchorKey = field("anchorKey");
         await setProgress(
           env.DB,
           email,
           slug,
           {
-            anchorKey: field("anchorKey"),
+            anchorKey,
             fraction: field("fraction"),
             chaptersDone: field("chaptersDone") ?? 0,
           },
           now,
         );
+          await recordUsageActivity(env.DB, {
+            email,
+            slug,
+            kind: "read",
+            targetKey: String(anchorKey),
+            countryCode,
+            now,
+          }).catch(() => undefined);
         break;
+      }
 
-      case "listening":
+      case "listening": {
+        const number = field("number");
         await setListening(
           env.DB,
           email,
           slug,
-          { number: field("number"), seconds: field("seconds") },
+          { number, seconds: field("seconds") },
           now,
         );
+        await recordUsageActivity(env.DB, {
+          email,
+          slug,
+          kind: "listen",
+          targetKey: String(number),
+          countryCode,
+          now,
+        }).catch(() => undefined);
         break;
+      }
 
       case "bookmark":
         await addBookmark(
