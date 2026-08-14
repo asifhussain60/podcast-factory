@@ -273,22 +273,28 @@ export const VISUAL_DRAG_TYPE = "application/x-cx-visual";
  *   prose — a fake book title or chapter boundary, one stray keystroke away.
  *   `HeadingShortcutsOnly` below is the levels-untouched, schema-preserving
  *   fix: the same node, with its own `addKeyboardShortcuts()` replaced
- *   entirely rather than merged, so only the three levels the toolbar offers
- *   get a binding and 1/2/6 get none.
+ *   entirely rather than merged, so only three keys get a binding at all —
+ *   `Mod-Alt-1/2/3`, matching the TOOLBAR's numbering (Heading 1/2/3) rather
+ *   than the markdown level each actually sets (3/4/5), by Asif's request
+ *   (2026-08-14) once the default `Mod-Alt-{level}` numbering read as
+ *   off-by-two against what the dropdown shows. `Mod-Alt-4`/`Mod-Alt-5`/
+ *   `Mod-Alt-6` are therefore unbound, same as `Mod-Alt-1`/`Mod-Alt-2` were
+ *   before this remap — nothing here re-opens the corruption risk above,
+ *   since the KEY strings changed but the `level` each still sets did not.
  */
 const HeadingShortcutsOnly = Heading.extend({
   addKeyboardShortcuts() {
     return {
-      "Mod-Alt-3": () => this.editor.commands.toggleHeading({ level: 3 }),
-      "Mod-Alt-4": () => this.editor.commands.toggleHeading({ level: 4 }),
-      "Mod-Alt-5": () => this.editor.commands.toggleHeading({ level: 5 }),
+      "Mod-Alt-1": () => this.editor.commands.toggleHeading({ level: 3 }),
+      "Mod-Alt-2": () => this.editor.commands.toggleHeading({ level: 4 }),
+      "Mod-Alt-3": () => this.editor.commands.toggleHeading({ level: 5 }),
     };
   },
 });
 
 /** "Body" (plain paragraph), beside the heading shortcuts above rather than a
  *  node's own — StarterKit's Paragraph has no keyboard shortcut to override.
- *  `Mod-Alt-0` matches the "0 = normal text" convention the 3/4/5 set above
+ *  `Mod-Alt-0` matches the "0 = normal text" convention the 1/2/3 set above
  *  already carries, and is unclaimed by anything else in this schema. */
 const ParagraphShortcut = Extension.create({
   name: "paragraphShortcut",
