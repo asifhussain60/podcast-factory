@@ -39,18 +39,33 @@ const DEFERRED_BY_KIND = Object.fromEntries(
 // Composer's own immediate-AI machinery); the knowledge/visual marks wait for
 // a pipeline drain pass that does not exist yet — and the UI says so plainly
 // instead of overpromising.
-const MARK_GROUPS: { name: string; tone: string; kinds: string[] }[] = [
+const MARK_GROUPS: {
+  name: string;
+  tone: string;
+  /** Shown beside the group name so a collapsed group still says whether
+   *  opening it does anything today — "Text" is the only group the queue
+   *  can actually run right now (see queueOps.runnableKinds below). */
+  subtitle: string;
+  kinds: string[];
+}[] = [
   {
     name: "Text",
     tone: "text",
+    subtitle: "runs now",
     kinds: ["rewrite", "expand", "condense", "simplify"],
   },
   {
     name: "Knowledge",
     tone: "knowledge",
+    subtitle: "saved for later",
     kinds: ["etymology", "define", "xref", "addcorpus"],
   },
-  { name: "Visual", tone: "visual", kinds: ["visualize"] },
+  {
+    name: "Visual",
+    tone: "visual",
+    subtitle: "saved for later",
+    kinds: ["visualize"],
+  },
 ];
 
 /** Compose-side operations the queue calls back into (book-composer.ts). */
@@ -87,6 +102,20 @@ export default function ComposeDetailsTab({
   const refresh = useCallback(() => setTick((t) => t + 1), []);
   const [activeParaIdx, setActiveParaIdx] = useState<number | null>(null);
   const [selection, setSelection] = useState("");
+  // Which mark groups are expanded — Text starts open (2026-08-14 redesign)
+  // since it's the only group the queue can run today; Knowledge and Visual
+  // start closed rather than three flat always-open rows.
+  const [openMarkGroups, setOpenMarkGroups] = useState<Set<string>>(
+    () => new Set(["Text"]),
+  );
+  const toggleMarkGroup = useCallback((name: string) => {
+    setOpenMarkGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+  }, []);
 
   // Track the caret's paragraph (comments/marks) and selected text (term marks).
   useEffect(() => {
@@ -383,37 +412,63 @@ export default function ComposeDetailsTab({
             Click into a paragraph (or select a phrase) to mark it.
           </p>
         )}
-        {MARK_GROUPS.map((group) => (
-          <div
-            className={`cx-mark-group cx-mark-group--${group.tone}`}
-            key={group.name}
-          >
-            <div className="cx-mark-group-head">
-              <span className="cx-mark-group-name">{group.name}</span>
+        {MARK_GROUPS.map((group) => {
+          const open = openMarkGroups.has(group.name);
+          // Text's four kinds render as one joined pill row (.cx-seg-row,
+          // shared with the Refine panel's "Rewrite as" — 2026-08-14); the
+          // other groups keep the wrapping grid, since they're not a single
+          // either/or choice the way rewrite-mode marks are.
+          const rowClassName =
+            group.name === "Text" ? "cx-seg-row" : "cx-details-mark-row";
+          return (
+            <div
+              className={`cx-acc cx-mark-group--${group.tone} ${open ? "cx-acc-open" : "cx-acc-closed"}`}
+              key={group.name}
+            >
+              <button
+                type="button"
+                className="cx-acc-head"
+                aria-expanded={open}
+                onClick={() => toggleMarkGroup(group.name)}
+              >
+                <span className="cx-acc-head-left">
+                  <span className="cx-acc-dot" aria-hidden="true" />
+                  {group.name}
+                  <span className="cx-acc-subtitle">— {group.subtitle}</span>
+                </span>
+                <span className="cx-acc-chev" aria-hidden="true">
+                  {open ? "▾" : "▸"}
+                </span>
+              </button>
+              <div className="cx-acc-body">
+                <div className={rowClassName}>
+                  {group.kinds.map((kind) => {
+                    const def = DEFERRED_BY_KIND[kind];
+                    if (!def) return null;
+                    return (
+                      <button
+                        key={def.kind}
+                        type="button"
+                        className="cx-btn-mark"
+                        title={def.hint}
+                        disabled={activeParaIdx === null}
+                        onClick={() =>
+                          stampAction(def, def.scope === "term" && !!selection)
+                        }
+                      >
+                        <i
+                          className={`fa-solid ${def.icon}`}
+                          aria-hidden="true"
+                        />{" "}
+                        {def.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
-            <div className="cx-details-mark-row">
-              {group.kinds.map((kind) => {
-                const def = DEFERRED_BY_KIND[kind];
-                if (!def) return null;
-                return (
-                  <button
-                    key={def.kind}
-                    type="button"
-                    className="cx-btn-mark"
-                    title={def.hint}
-                    disabled={activeParaIdx === null}
-                    onClick={() =>
-                      stampAction(def, def.scope === "term" && !!selection)
-                    }
-                  >
-                    <i className={`fa-solid ${def.icon}`} aria-hidden="true" />{" "}
-                    {def.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+          );
+        })}
         <p className="cx-details-hint">
           Text marks can be run from the queue below. Knowledge and Visual marks
           are stored for a future pipeline pass — they wait until that pass
