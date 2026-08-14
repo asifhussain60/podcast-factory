@@ -199,7 +199,7 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
     // what it is depending on where you are standing.
     isCompanion: viewer?.isAdmin === true,
     // The same value, and deliberately a second field: this one decides whether
-    // the MASTHEAD offers the Access link, which is a question about who is
+    // the MASTHEAD offers the Dashboard link, which is a question about who is
     // signed in. Folding the two together would make a change to who gets the
     // Companion silently change who is offered the admin section.
     isAdmin: viewer?.isAdmin === true,

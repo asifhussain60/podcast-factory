@@ -45,7 +45,7 @@ export function meta(): Route.MetaDescriptors {
 }
 
 export function loader({ context }: Route.LoaderArgs) {
-  // Only whether to offer the Access link in the masthead. Nothing on this page
+  // Only whether to offer the Dashboard link in the masthead. Nothing on this page
   // varies by who is reading it.
   return { isAdmin: context.get(session).viewer?.isAdmin === true };
 }

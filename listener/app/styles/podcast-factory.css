@@ -1110,7 +1110,7 @@
   }
 
   /* A target, not just a glyph.
-     Two of these carry an icon and no text — About and Access — and with no
+     Several of these carry an icon and no text — About, Access, Dashboard —
      padding of their own an icon-only link is exactly the icon: 24x24, in a
      header present on every page, while this same stylesheet holds the toolbar's
      buttons and the theme swatches to 44px and says why. The floor applies to
@@ -1125,11 +1125,15 @@
     color: var(--l-ink);
   }
 
-  .pf-navlink--library {
+  .pf-navlink--home {
     color: var(--l-accent);
   }
 
   .pf-navlink--access {
+    color: var(--l-accent);
+  }
+
+  .pf-navlink--dashboard {
     color: var(--l-accent);
   }
 
@@ -5456,16 +5460,6 @@
     max-width: 100%;
   }
 
-  @media (min-width: 1100px) {
-    .pf-usage-canvas {
-      position: relative;
-      left: 50%;
-      width: min(calc(100vw - var(--pf-space-8)), 92rem);
-      max-width: none;
-      transform: translateX(-50%);
-    }
-  }
-
   .pf-usage-hero {
     display: grid;
     gap: var(--pf-space-5);
@@ -5717,6 +5711,18 @@
       grid-area: recent;
       border-top: 1px solid var(--l-rule-soft);
       border-left: 1px solid var(--l-rule-soft);
+    }
+
+    .pf-usage-mosaic .pf-country-cloud {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pf-usage-mosaic .pf-country-card {
+      padding: var(--pf-space-2);
+    }
+
+    .pf-usage-mosaic .pf-country-card__code {
+      width: 2.25rem;
     }
   }
 

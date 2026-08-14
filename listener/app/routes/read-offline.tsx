@@ -62,7 +62,7 @@ export function meta(): Route.MetaDescriptors {
 }
 
 export function loader({ context }: Route.LoaderArgs) {
-  // The masthead's Access link and NOTHING else. This document is the one the
+  // The masthead's Dashboard link and NOTHING else. This document is the one the
   // worker keeps, so anything the loader returned would be served back to
   // whoever opens the page next — see the module note.
   return { isAdmin: context.get(session).viewer?.isAdmin === true };

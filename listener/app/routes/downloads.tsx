@@ -53,7 +53,7 @@ export function meta(): Route.MetaDescriptors {
 }
 
 export function loader({ context }: Route.LoaderArgs) {
-  // Only the masthead's Access link. Deliberately nothing else — see above.
+  // Only the masthead's Dashboard link. Deliberately nothing else — see above.
   return { isAdmin: context.get(session).viewer?.isAdmin === true };
 }
 
