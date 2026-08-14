@@ -46,6 +46,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _book_edits import anchor_key, base_fingerprint_for, record_edit
 from _book_pass_reports import record_rearticulation
 from _book_voice import _CHAPTER_HEADING_RE, _run_pass
+from _book_voice_prompts import _articulation_prompt
 from _paths import resolve_content
 from _pipeline_flags import narrative_frame, narrator_subject
 from _text_transform import (
@@ -61,8 +62,14 @@ from _text_transform import (
     timeout_for_window,
 )
 
+# Re-exported, not called here: the guarantee that this module's prompt and
+# 0book-fluency's prompt cannot silently diverge is that both resolve to THE
+# SAME function object (test_book_voice.py::
+# test_fluency_and_rearticulate_share_the_same_prompt_builder), not merely
+# that both happen to build equivalent text.
 __all__ = [
     "_adapter",
+    "_articulation_prompt",
     "_codex_adapter",
     "_codex_repair_adapter",
     "_gemini_adapter",
