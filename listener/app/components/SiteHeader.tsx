@@ -1,7 +1,8 @@
 import {
-  faBookOpenReader,
   faCircleDown,
   faCircleQuestion,
+  faGaugeHigh,
+  faHouse,
   faRightFromBracket,
   faUserShield,
 } from "@fortawesome/free-solid-svg-icons";
@@ -19,8 +20,9 @@ import { ThemePicker } from "~/components/ThemePicker";
  * that by pasting the library's header into the admin layout would have left
  * three near-copies to drift apart, so there is exactly one.
  *
- * `here` suppresses the link to wherever you already are, so the header never
- * offers a no-op.
+ * Admin shortcuts stay visible even inside the admin area: access work and
+ * usage work are separate jobs, and switching between them must never depend on
+ * remembering a URL.
  */
 export function SiteHeader({
   here,
@@ -43,15 +45,15 @@ export function SiteHeader({
         {here !== "library" ? (
           <Link
             to="/"
-            className="pf-navlink pf-navlink--library"
-            aria-label="Library"
-            title="Library"
+            className="pf-navlink pf-navlink--home"
+            aria-label="Home"
+            title="Home"
           >
-            <Icon icon={faBookOpenReader} />
+            <Icon icon={faHouse} />
           </Link>
         ) : null}
 
-        {isAdmin && here !== "admin" ? (
+        {isAdmin ? (
           <Link
             to="/admin"
             className="pf-navlink pf-navlink--access"
@@ -59,6 +61,17 @@ export function SiteHeader({
             title="Access"
           >
             <Icon icon={faUserShield} />
+          </Link>
+        ) : null}
+
+        {isAdmin ? (
+          <Link
+            to="/admin/usage"
+            className="pf-navlink pf-navlink--dashboard"
+            aria-label="Dashboard"
+            title="Dashboard"
+          >
+            <Icon icon={faGaugeHigh} />
           </Link>
         ) : null}
 
