@@ -16,6 +16,13 @@ import { attach } from "@asifhussain/prose-editor";
 import type { ProseEditor } from "@asifhussain/prose-editor";
 import { textColourButton } from "./compose-colour-command";
 import { alignButtons } from "./compose-align-command";
+import {
+  quoteKindDropdown,
+  resolveQuoteTarget,
+  repaintQuoteCard,
+  enclosingBlockquote,
+} from "./compose-quote-kind-command";
+import type { QuoteKindId } from "./compose-quote-kind-command";
 import { DEFAULT_TEXT_ALIGN } from "../lib/reader/text-align";
 import {
   createColourDecos,
@@ -180,6 +187,7 @@ const DOC_TO_MARKDOWN_COVERS = [
   "listItem",
   "codeBlock",
   "horizontalRule",
+  "chapterImage",
   "bold",
   "italic",
   "code",
@@ -199,6 +207,9 @@ let colourActive: (() => string | null) | null = null;
 /** The alignment buttons' hooks, assigned by boot for the same reason. */
 let alignApply: ((align: string) => void) | null = null;
 let alignActive: (() => string | null) | null = null;
+/** The quote-kind dropdown's hooks, assigned by boot for the same reason. */
+let quoteKindApply: ((kind: QuoteKindId) => void) | null = null;
+let quoteKindActive: (() => QuoteKindId | null) | null = null;
 
 /**
  * The formatting bar, in order.
@@ -249,6 +260,10 @@ const COMPOSE_TOOLBAR_ITEMS = [
   "bulletList",
   "orderedList",
   "blockquote",
+  quoteKindDropdown({
+    onApply: (k) => quoteKindApply?.(k),
+    getActive: () => quoteKindActive?.() ?? null,
+  }),
   "|",
   // What to insert
   "link",
@@ -312,6 +327,11 @@ const COMPOSE_TOOLBAR_TIPS = {
     title: "Quotation",
     detail:
       "Sets the selected paragraphs as an indented quotation — for a passage quoted from elsewhere. An Arabic line above its English rendering prints as the book's verse style; the two are told apart by what they contain, so no separate control is needed.",
+  },
+  quoteKind: {
+    title: "Quote kind",
+    detail:
+      "Select a quotation, then declare what it is — a Saying, a Verse, or a Prophetic tradition. The reading edition draws a different card for each. Qur'an is never declared here — it is recognized automatically.",
   },
   link: {
     title: "Link",
@@ -1797,33 +1817,57 @@ function boot(): void {
     const chapterTitle = chapterByKey.get(selectedChapter)?.title ?? "";
 
     syncEditorFigures();
-    activeEditor = mountChapterEditor(host, pristine, [
-      createStudioDecos(bridge),
-      createFigureDecos({ figuresRef: editorFigures }),
-      // The Companion tint, as a DECORATION: an annotated passage is visible
-      // while you edit, and cannot reach book.md on the next autosave. The
-      // Highlights switch withdraws the PAINT only — the positions keep
-      // tracking, so hiding it never loses where a note belongs.
-      createCompanionDecos({ notesRef: companionNotes, showRef: showNoteTint }),
-      // Per-selection text colour, from the sidecar. A decoration for the same
-      // reason the Companion tint is one: it is visible while you edit and
-      // cannot reach book.md on the next autosave.
-      createColourDecos({ spansRef: colourSpans }),
-      // Paragraph alignment, from the sidecar. A node decoration for the same
-      // reason the colour is an inline one: it cannot reach book.md.
-      createAlignDecos({ alignRef: alignSpans, keysRef: alignKeys }),
-      // A pipeline fence marker arrives here as bare text (TipTap has no
-      // HTML-comment node) and must STAY in the document for preserveFences to
-      // restore it — so it is decorated, never removed. See fence-decos.ts.
-      createFenceDecos(),
-      // The seed's `.ar-inline` span (isolateInlineArabic, markdown.ts) is
-      // stripped on parse — TipTap has no span node — so a term woven into
-      // English prose otherwise renders in the browser's fallback serif at
-      // parity with the Latin, which a vowelled Arabic word reads as fine
-      // print against. Repaints it as `.ar-raw`, which book-composer.css
-      // already sizes and faces for exactly this run. See arabic-decos.ts.
-      createArabicDecos(),
-    ]);
+    activeEditor = mountChapterEditor(
+      host,
+      pristine,
+      [
+        createStudioDecos(bridge),
+        createFigureDecos({ figuresRef: editorFigures }),
+        // The Companion tint, as a DECORATION: an annotated passage is visible
+        // while you edit, and cannot reach book.md on the next autosave. The
+        // Highlights switch withdraws the PAINT only — the positions keep
+        // tracking, so hiding it never loses where a note belongs.
+        createCompanionDecos({
+          notesRef: companionNotes,
+          showRef: showNoteTint,
+        }),
+        // Per-selection text colour, from the sidecar. A decoration for the same
+        // reason the Companion tint is one: it is visible while you edit and
+        // cannot reach book.md on the next autosave.
+        createColourDecos({ spansRef: colourSpans }),
+        // Paragraph alignment, from the sidecar. A node decoration for the same
+        // reason the colour is an inline one: it cannot reach book.md.
+        createAlignDecos({ alignRef: alignSpans, keysRef: alignKeys }),
+        // A pipeline fence marker arrives here as bare text (TipTap has no
+        // HTML-comment node) and must STAY in the document for preserveFences to
+        // restore it — so it is decorated, never removed. See fence-decos.ts.
+        createFenceDecos(),
+        // The seed's `.ar-inline` span (isolateInlineArabic, markdown.ts) is
+        // stripped on parse — TipTap has no span node — so a term woven into
+        // English prose otherwise renders in the browser's fallback serif at
+        // parity with the Latin, which a vowelled Arabic word reads as fine
+        // print against. Repaints it as `.ar-raw`, which book-composer.css
+        // already sizes and faces for exactly this run. See arabic-decos.ts.
+        createArabicDecos(),
+      ],
+      {
+        // Persists a drag-resize / align click to `_system/image-layout.json`.
+        // Fire-and-forget: a failed save here is a missed resize, never lost
+        // prose — book.md is untouched by this path either way (see
+        // ChapterImage's own docstring on why width/align never reach it).
+        onResize: (src, layout) => {
+          void apiFetch("/api/studio/image-layout", {
+            method: "POST",
+            body: { slug, chapterKey: selectedChapter, src, ...layout },
+          }).catch((e) => {
+            setAiStatus(
+              `Couldn't save image size: ${(e as Error).message}`,
+              true,
+            );
+          });
+        },
+      },
+    );
     paintNotesSwitch();
 
     // ── The formatting toolbar ────────────────────────────────────────────────
@@ -3162,13 +3206,15 @@ function boot(): void {
    *  drift here can only mis-enable a button, never admit a bad edit. */
   const TASHKEEL_RE = /[\u064b-\u065f\u0670\u06d6-\u06ed\u0640]/g;
 
-  /** Is this selection Arabic that still needs its vowel marks?
+  /** Is this selection a real Arabic passage the Diacritics button can act on?
    *
-   *  Deliberately generous on the "still needs" half: a run the scan left with a
-   *  couple of disambiguating marks is bare for this purpose. The authority is
-   *  `isVowellingCandidate` on the server, which refuses an already-vowelled run
-   *  (every Qur'anic one included — those carry the canonical mushaf's marks) with
-   *  a message. This only decides whether the button looks available. */
+   *  NO LONGER GATED ON "STILL BARE" (2026-08-14) — the button itself changed
+   *  the same day: it now fixes wrong Arabic as well as adding marks, so a
+   *  passage that is already fully vowelled but WRONG is exactly the case
+   *  this button needs to stay enabled for, not the case to hide it on. The
+   *  server (`vowelOneRun`) is the one place that still decides what to do
+   *  with the text; this only decides whether the button looks available at
+   *  all, for a selection substantial enough to be worth sending. */
   function isBareArabic(text: string): boolean {
     if (!ARABIC_LETTER_RE.test(text)) return false;
     // Predominantly Arabic, not merely containing some. Mirrors the ratio the
@@ -3181,9 +3227,7 @@ function boot(): void {
     const letters = (text.match(/[؀-ۿ]/g) || []).filter(
       (c) => !c.match(TASHKEEL_RE),
     ).length;
-    if (letters < 8) return false;
-    const marks = (text.match(TASHKEEL_RE) || []).length;
-    return marks / letters < 0.15;
+    return letters >= 8;
   }
 
   function updateAiEnabled(): void {
@@ -3201,6 +3245,172 @@ function boot(): void {
         b.disabled = b.classList.contains("cx-ai-arabic") ? !arabic : !ok;
       });
   }
+
+  // ── Card type: declare a selected quotation's kind ──────────────────────
+  // Added 2026-08-14. Deterministic, never AI — writes straight to
+  // `_system/quote-kind.json` through /api/studio/quote-kind, the same file
+  // a human already hand-edits today. The key is the selection's OWN FIRST
+  // LINE, mirroring `quoteKindKey` in scripts/lib/quote-kind.mjs — callers
+  // there take raw lines, never a joined paragraph, for the same reason this
+  // does: a multi-line selection keyed on its full text would ask the
+  // renderer to match a string it never actually holds.
+  const QUOTE_KIND_LABEL: Record<string, string> = {
+    quote: "Saying",
+    poem: "Verse",
+    hadith: "Prophetic tradition",
+  };
+  let settingQuoteKind = false;
+
+  async function runSetQuoteKind(kind: "" | "quote" | "poem" | "hadith") {
+    if (settingQuoteKind) return;
+    const ed = activeEditor?.editor;
+    if (!ed || ed.isDestroyed) {
+      setAiStatus("Select a quotation first.", true);
+      return;
+    }
+    // resolveQuoteTarget: a real drag-selected range wins outright (unchanged
+    // from before); a collapsed cursor falls back to the enclosing card's
+    // full text, so a single click anywhere on an already-rendered card is
+    // enough to re-target it — see compose-quote-kind-command.ts's own
+    // docstring for why the old "selection only" rule left clicking a card
+    // silently doing nothing.
+    const { from, to } = ed.state.selection;
+    const target = resolveQuoteTarget(ed.state.doc, from, to);
+    if (!target) {
+      setAiStatus("Select a quotation first.", true);
+      return;
+    }
+    const firstLine = target.firstLine;
+    if (!firstLine) {
+      setAiStatus("Nothing to declare.", true);
+      return;
+    }
+    settingQuoteKind = true;
+    const label = kind ? QUOTE_KIND_LABEL[kind] : "the default card";
+    setAiStatus(`Marking as ${label}…`);
+    try {
+      await apiFetch("/api/studio/quote-kind", {
+        method: "POST",
+        body: { slug, chapterKey: selectedChapter, firstLine, kind },
+      });
+      // Repaint the card IN THIS EDIT CANVAS, right now — the write above
+      // only reaches `_system/quote-kind.json`; the label a reader sees
+      // here is a node attribute baked in at page load, so without this the
+      // save was real but invisible until a reload or a trip to Read (found
+      // live 2026-08-14: the status line already said "Marked as..." while
+      // the card on screen kept showing its old kind, which reads as
+      // "nothing happened" even though the file was correct).
+      if (target.blockquotePos !== null) {
+        repaintQuoteCard(ed, target.blockquotePos, kind);
+      }
+      setAiStatus(`Marked as ${label}.`);
+    } catch (e) {
+      setAiStatus(`Couldn't set card type: ${(e as Error).message}`, true);
+    } finally {
+      settingQuoteKind = false;
+    }
+  }
+  // The toolbar dropdown's two hooks. `onApply` is this same function — one
+  // write path, reached from two controls. `getActive` reads the ProseMirror
+  // tree directly (bypassing the abstracted SelectionState the same way
+  // alignActive/colourActive already do above) because the DECLARED kind is
+  // carried as a class on the blockquote node itself (`k-quote`/`k-poem`/
+  // `k-hadith`/`k-quran` — see PRESERVED_CLASSES in book-md-editor.ts) and
+  // nothing else on the client tracks it separately. `k-quran` returns null
+  // rather than a fourth id: Qur'an is the audit's answer, never a person's,
+  // and this dropdown has no option that would claim to set it.
+  quoteKindApply = runSetQuoteKind;
+  quoteKindActive = (): QuoteKindId | null => {
+    const ed = activeEditor?.editor;
+    if (!ed || ed.isDestroyed) return null;
+    const enclosing = enclosingBlockquote(
+      ed.state.doc,
+      ed.state.selection.from,
+    );
+    if (!enclosing) return null;
+    const cls = String(enclosing.node.attrs.class ?? "");
+    if (cls.includes("k-hadith")) return "hadith";
+    if (cls.includes("k-poem")) return "poem";
+    if (cls.includes("k-quote")) return "quote";
+    return null; // k-quran, or a blockquote with no kind declared
+  };
+
+  /** Gemini SUGGESTS a kind; nothing is written until the human then clicks
+   *  one of the three buttons above. Keeps the locked rule intact: no code
+   *  decides a quotation's kind on its own. */
+  async function runSuggestQuoteKind() {
+    if (settingQuoteKind) return;
+    const ed = activeEditor?.editor;
+    if (!ed || ed.isDestroyed) {
+      setAiStatus("Select a quotation first.", true);
+      return;
+    }
+    const { from, to } = ed.state.selection;
+    const target = resolveQuoteTarget(ed.state.doc, from, to);
+    if (!target) {
+      setAiStatus("Select a quotation first.", true);
+      return;
+    }
+    setAiStatus("Asking Gemini what this looks like…");
+    try {
+      const j = await apiFetch<{ kind: string; reason?: string }>(
+        "/api/studio/quote-kind-suggest",
+        { method: "POST", body: { slug, text: target.text } },
+      );
+      const label = j.kind ? QUOTE_KIND_LABEL[j.kind] : "the default card";
+      setAiStatus(
+        `Gemini suggests ${label}${j.reason ? ` — ${j.reason}` : ""}. Click the matching button to accept it.`,
+      );
+    } catch (e) {
+      setAiStatus(`Suggestion failed: ${(e as Error).message}`, true);
+    }
+  }
+
+  function renderQuoteKindControls(): void {
+    const wrap = document.createElement("div");
+    wrap.className = "cx-ai-row cx-quote-kind-row";
+    const title = document.createElement("p");
+    title.className = "cx-hint";
+    title.textContent =
+      "Or select a quotation and declare what it is — Saying, Verse, or Prophetic tradition.";
+    controlsEl.appendChild(title);
+    const kinds: Array<["" | "quote" | "poem" | "hadith", string, string]> = [
+      ["quote", "Saying", "⌥⌘4"],
+      ["poem", "Verse", "⌥⌘5"],
+      ["hadith", "Prophetic tradition", "⌥⌘6"],
+    ];
+    for (const [kind, label, shortcut] of kinds) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "cx-ai-btn cx-quote-kind-btn";
+      b.textContent = label;
+      b.title = `${label} (${shortcut})`;
+      b.addEventListener("click", () => runSetQuoteKind(kind));
+      wrap.appendChild(b);
+    }
+    const suggest = document.createElement("button");
+    suggest.type = "button";
+    suggest.className = "cx-ai-btn cx-quote-kind-suggest";
+    suggest.textContent = "Suggest with Gemini";
+    suggest.title =
+      "Gemini proposes a kind — you still have to click it to accept";
+    suggest.addEventListener("click", () => runSuggestQuoteKind());
+    wrap.appendChild(suggest);
+    controlsEl.appendChild(wrap);
+  }
+
+  root.addEventListener("keydown", (e) => {
+    if (!e.altKey || !e.metaKey) return;
+    const map: Record<string, "" | "quote" | "poem" | "hadith"> = {
+      Digit4: "quote",
+      Digit5: "poem",
+      Digit6: "hadith",
+    };
+    const kind = map[e.code];
+    if (kind === undefined) return;
+    e.preventDefault();
+    runSetQuoteKind(kind);
+  });
 
   function renderAiActions(): void {
     controlsEl.textContent = "";
@@ -3261,6 +3471,7 @@ function boot(): void {
       row.appendChild(pasteFix);
     }
     controlsEl.appendChild(row);
+    renderQuoteKindControls();
 
     aiStatusEl = document.createElement("p");
     aiStatusEl.className = "cx-status";
@@ -3486,12 +3697,18 @@ function boot(): void {
     to: number;
   }): Promise<void> {
     if (!activeEditor) return;
-    setAiStatus("Adding diacritics…");
+    setAiStatus("Fixing and vowelling…");
     try {
-      const j = await apiFetch<{ vowelled: string; marksAdded: number }>(
-        "/api/studio/vowelling",
-        { method: "POST", body: { slug, action: "run", text: sel.text } },
-      );
+      const j = await apiFetch<{
+        vowelled: string;
+        marksAdded: number;
+        fixed: boolean;
+        usedSearch: boolean;
+        sources: string[];
+      }>("/api/studio/vowelling", {
+        method: "POST",
+        body: { slug, action: "run", text: sel.text },
+      });
       const vowelled = String(j.vowelled ?? "").trim();
       if (!vowelled) throw new Error("nothing came back");
       activeEditor.editor
@@ -3499,9 +3716,23 @@ function boot(): void {
         .focus()
         .insertContentAt({ from: sel.from, to: sel.to }, vowelled)
         .run();
-      setAiStatus(
-        `Added ${j.marksAdded} vowel mark${j.marksAdded === 1 ? "" : "s"}. Remember to Save prose.`,
-      );
+      // Say what actually happened, not just "marks added" — a letter fix is
+      // the whole reason this action can now change more than tashkeel, and
+      // a search that ran is worth naming so a person weighing the result
+      // knows where it came from (Asif, 2026-08-06's own reasoning for
+      // citing sources by name applies here just as much).
+      const parts = [
+        `Added ${j.marksAdded} vowel mark${j.marksAdded === 1 ? "" : "s"}`,
+      ];
+      if (j.fixed) parts.push("corrected the Arabic");
+      if (j.usedSearch) {
+        parts.push(
+          j.sources?.length
+            ? `researched online (${j.sources.join(", ")})`
+            : "researched online",
+        );
+      }
+      setAiStatus(`${parts.join(" — ")}. Remember to Save prose.`);
     } catch (e) {
       setAiStatus(`Diacritics failed: ${(e as Error).message}`, true);
     }

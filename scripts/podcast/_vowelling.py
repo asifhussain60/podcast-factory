@@ -311,13 +311,28 @@ def reflow_words_to_source_whitespace(source: str, candidate: str) -> str:
 
 
 def is_vowelling_candidate(text: str) -> bool:
-    """A run worth vowelling: Arabic, long enough to be a passage, still bare."""
+    """A run worth vowelling: Arabic, long enough to be a passage, still bare.
+
+    PER-WORD, not an aggregate ratio (2026-08-14, mirrors the JS half —
+    plan-dashboard/scripts/lib/vowelling.mjs's own comment on this function
+    has the full story). An aggregate density check averaged marks across
+    the whole passage, so a selection with a few already-marked words and
+    several completely bare ones could cross the density floor and get
+    refused as "already vowelled" even though half of it plainly was not. A
+    passage is still a candidate if ANY of its words has Arabic letters and
+    zero marks — a passage where every word already carries at least one
+    mark is still correctly treated as done.
+    """
     t = (text or "").strip()
     if not ARABIC_RE.search(t):
         return False
     if len(skeleton(t).replace(" ", "")) < MIN_RUN_CHARS:
         return False
-    return mark_density(t) < VOWELLED_DENSITY
+    for word in t.split():
+        letters = [c for c in word if ARABIC_RE.match(c) and not MARKS_RE.match(c)]
+        if letters and mark_count(word) == 0:
+            return True
+    return False
 
 
 def is_arabic_passage(text: str) -> bool:

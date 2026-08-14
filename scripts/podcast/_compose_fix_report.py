@@ -60,6 +60,7 @@ def print_report(report: dict, proposals: list[tuple[str, str]], FIXES: dict) ->
             report.get("stale_provenance")
             or report.get("quote_card_rules")
             or report.get("orphaned_quote_kind")
+            or report.get("orphaned_quote_group")
             or report.get("preface")
         ):
             print("\n  clean — none of the eight defects in these chapters, and the book opens with a preface")

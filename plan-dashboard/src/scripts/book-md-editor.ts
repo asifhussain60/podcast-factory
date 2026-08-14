@@ -9,11 +9,12 @@
  * bold/italic/code/strike/links) — the same serializer conventions StudioEditor uses.
  * Persistence is the caller's job (PUT /api/studio/book-md).
  */
-import { Editor, Extension } from "@tiptap/core";
+import { Editor, Extension, Node } from "@tiptap/core";
 import type { Extensions } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 import Heading from "@tiptap/extension-heading";
 import type { Node as PMNode } from "@tiptap/pm/model";
+import { originalBookSrc } from "../lib/reader/book-images";
 
 /** The only class names the editor is allowed to carry through from the seed
  *  HTML. `quran` marks an Arabic-bearing quotation block, `ar` its Arabic line,
@@ -149,6 +150,270 @@ const ListItemValue = Extension.create({
   },
 });
 
+/**
+ * ChapterImage — the fix for a real bug, not a feature.
+ *
+ * StarterKit carries no image node, and nothing here ever added one. The seed
+ * HTML `renderEditSeed` produces for a content image is already correct —
+ * `<figure class="md-figure"><img src="…" alt="…" loading="lazy" /></figure>`,
+ * from markdown.ts's own image branch — but with no NodeSpec to match it,
+ * ProseMirror's DOM parser drops the whole thing on mount: an `<img>` has no
+ * children, so the default "descend into children" behavior for an unknown
+ * tag leaves nothing behind. Found 2026-08-14 by checking a real chapter's
+ * live editor DOM (`document.querySelector('.ProseMirror').innerHTML`) and
+ * seeing `<img` was simply absent, on a chapter whose book.md carries three
+ * image lines. Since docToMarkdown only serializes what is IN the document,
+ * the next autosave after any edit to that chapter would have silently
+ * deleted all three — this is very likely the same class of bug that
+ * `figure-decos.ts`'s own docstring already names as having happened once
+ * before, for a different image system: "bare slide-8/slide-6/slide-3
+ * paragraphs... surviving a round-trip through a schema with no image node."
+ *
+ * A real NodeSpec, not a decoration, is the correct fix HERE — unlike the
+ * AI-visuals palette figures `figure-decos.ts` deliberately keeps out of the
+ * document, an inline image's position IS the prose: the author placed it at
+ * that exact point in book.md, so it belongs in the document the same way a
+ * paragraph does. `atom: true` (no editable content) and `draggable: true`
+ * are the standard shape for an image node; `docToMarkdown` below MUST always
+ * emit `![](src)` back, verified byte-identical by a round-trip test, or this
+ * fix would just move the corruption from "vanishes" to "arrives mangled."
+ *
+ * `alt` defaults to "" and is rendered back ONLY when non-empty — every real
+ * book.md image line checked has no alt text, and `renderMarkdown`'s own
+ * comment says why: "inventing one would be describing a picture this code
+ * cannot see." Emitting `alt=""` unconditionally would rewrite book.md bytes
+ * on the next unrelated autosave of any chapter holding an image.
+ */
+/** What the resize handle and align buttons persist to, on drag-release / click.
+ *  A no-op default keeps `editorExtensions()` callable with no config (every
+ *  existing test, and the round-trip suite this node was added for) — only
+ *  the live mount in book-composer.ts supplies a real one, since only it has
+ *  a slug and a selected chapter to save against. */
+export interface ChapterImageDeps {
+  onResize?: (
+    src: string,
+    layout: { height_px?: number; align?: string },
+  ) => void;
+}
+
+const ALIGN_IDS = ["left", "center", "right"] as const;
+/** Mirrors image-layout.mjs's own DEFAULT_HEIGHT_PX/MIN/MAX — duplicated,
+ *  not imported, because that module reaches `node:fs` and this one runs in
+ *  the browser. See image-layout.mjs's header for why height replaced width
+ *  as the unit on 2026-08-14. */
+const DEFAULT_HEIGHT_PX = 350;
+const MIN_HEIGHT_PX = 60;
+const MAX_HEIGHT_PX = 1200;
+
+const ChapterImage = Node.create<ChapterImageDeps>({
+  name: "chapterImage",
+  group: "block",
+  atom: true,
+  draggable: true,
+  addOptions() {
+    return { onResize: undefined };
+  },
+  addAttributes() {
+    return {
+      src: { default: null },
+      alt: { default: "" },
+      // Both null by default — an image nobody has resized carries no
+      // attribute at all, matching image-layout.mjs's own "default is
+      // absence" contract, so a book with no sidecar renders identically
+      // whether or not this attribute machinery exists.
+      // Neither attribute defines its own parseHTML/renderHTML — the
+      // node-level `getAttrs` (parse) and `renderHTML` (render) below own
+      // both directions entirely, because the value has to move to a
+      // DIFFERENT element than the one TipTap would default to (the figure)
+      // — height as `--img-h` on the <img>, matching every other renderer's
+      // convention, align as `data-align` on the <figure>. Height, not width,
+      // as of 2026-08-14 — image-layout.mjs's header has the full reasoning.
+      heightPx: { default: null },
+      align: { default: null },
+      // The book.md-relative path (`images/79/…jpg`), recovered from `src`
+      // (`/api/studio/book-image?...`) — NOT rendered onto the DOM, only
+      // carried in the node's own attrs. `src` has to be the browser-facing
+      // route for the <img> to load at all (see composer.ts's own
+      // `serveBookImages` note); `docToMarkdown` and the resize-persistence
+      // call below both need the ORIGINAL path instead, because that is the
+      // key `image-layout.json` is keyed by and the address book.md itself
+      // stores. Recomputed on every parse via `originalBookSrc`, so it can
+      // never drift from `src` the way a second stored copy could.
+      origSrc: { default: null },
+    };
+  },
+  parseHTML() {
+    return [
+      {
+        tag: "figure.md-figure",
+        // A rule-level getAttrs takes full control of the parsed attrs — the
+        // per-attribute `parseHTML` functions above are NEVER consulted once
+        // this runs, so heightPx/align have to be read here too, not just
+        // declared on the attrs (found while verifying resize survives a
+        // reload: it silently reset every time until this was added).
+        getAttrs: (dom) => {
+          const el = dom as HTMLElement;
+          const img = el.querySelector("img");
+          const src = img?.getAttribute("src");
+          if (!img || !src) return false;
+          // `--img-h` lives on the <img>'s own inline style — the same
+          // custom-property convention every renderer uses (see the note on
+          // the image branch in markdown.ts).
+          const hProp = (img as HTMLImageElement).style.getPropertyValue(
+            "--img-h",
+          );
+          const h = Number(hProp.replace("px", ""));
+          const a = el.dataset.align;
+          return {
+            src,
+            origSrc: originalBookSrc(src),
+            alt: img.getAttribute("alt") ?? "",
+            heightPx:
+              Number.isInteger(h) && h >= MIN_HEIGHT_PX && h <= MAX_HEIGHT_PX
+                ? h
+                : null,
+            align: a && (ALIGN_IDS as readonly string[]).includes(a) ? a : null,
+          };
+        },
+      },
+    ];
+  },
+  renderHTML({ node }) {
+    const { src, alt, heightPx, align } = node.attrs as {
+      src: string;
+      alt: string;
+      heightPx: number | null;
+      align: string | null;
+    };
+    const figureAttrs: Record<string, string> = { class: "md-figure" };
+    if (align) figureAttrs["data-align"] = align;
+    const imgAttrs: Record<string, string> = { src, alt, loading: "lazy" };
+    if (heightPx) imgAttrs.style = `--img-h:${heightPx}px`;
+    return ["figure", figureAttrs, ["img", imgAttrs]];
+  },
+  // A NodeView so the image can carry a live resize handle and align toolbar
+  // in the edit canvas — this is presentation ON TOP of the node, never a
+  // second place book.md's shape is decided. Dragging updates the node's own
+  // attrs (so undo/redo and the live width both work through ProseMirror's
+  // normal transaction flow) and, on release, calls `onResize` to persist —
+  // the same "attrs are the source of truth in the doc, the callback is what
+  // reaches disk" split every other stateful decoration in this file uses.
+  addNodeView() {
+    return ({ node, getPos, editor }) => {
+      const wrap = document.createElement("figure");
+      wrap.className = "md-figure cx-image-figure";
+      wrap.contentEditable = "false";
+
+      const img = document.createElement("img");
+      img.loading = "lazy";
+      wrap.appendChild(img);
+
+      const handle = document.createElement("div");
+      handle.className = "cx-image-resize-handle";
+      handle.setAttribute("role", "slider");
+      handle.setAttribute("aria-label", "Resize image");
+      handle.setAttribute("tabindex", "0");
+      wrap.appendChild(handle);
+
+      const toolbar = document.createElement("div");
+      toolbar.className = "cx-image-align-toolbar";
+      const buttons = ALIGN_IDS.map((id) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "cx-image-align-btn";
+        b.dataset.align = id;
+        b.title = `Align ${id}`;
+        b.textContent = id === "left" ? "⇤" : id === "right" ? "⇥" : "⇔";
+        b.addEventListener("click", () => {
+          const pos = getPos();
+          if (typeof pos !== "number") return;
+          editor
+            .chain()
+            .setNodeSelection(pos)
+            .updateAttributes("chapterImage", { align: id })
+            .run();
+          // origSrc, not src: image-layout.json is keyed by the book.md path
+          // (see the attribute's own docstring above), never the API route.
+          const origSrc = String(node.attrs.origSrc ?? node.attrs.src ?? "");
+          if (origSrc) this.options.onResize?.(origSrc, { align: id });
+        });
+        toolbar.appendChild(b);
+        return b;
+      });
+      wrap.appendChild(toolbar);
+
+      // `--img-h` rather than a direct `style.height` write: the visual value
+      // is per-instance data, exactly like `visual-layout.mjs`'s own
+      // `--fig-w` custom property for the OTHER image system — the actual
+      // height RULE stays in the external stylesheet (`height: var(--img-h,
+      // 350px)`), this only ever supplies the number.
+      const applyAttrs = (attrs: typeof node.attrs) => {
+        img.src = String(attrs.src ?? "");
+        img.alt = String(attrs.alt ?? "");
+        if (attrs.heightPx)
+          img.style.setProperty("--img-h", `${attrs.heightPx}px`);
+        else img.style.removeProperty("--img-h");
+        wrap.dataset.align = attrs.align || "center";
+        buttons.forEach((b) => {
+          b.classList.toggle(
+            "is-active",
+            b.dataset.align === (attrs.align || "center"),
+          );
+        });
+      };
+      applyAttrs(node.attrs);
+
+      // Vertical drag only (height: not diagonal — see the handle's own
+      // `cursor: ns-resize` in book-composer.css): width is never dragged
+      // directly, it falls out of the browser's own aspect-ratio math once
+      // height is set.
+      let dragStartY = 0;
+      let dragStartPx = DEFAULT_HEIGHT_PX;
+      const onPointerMove = (e: PointerEvent) => {
+        const deltaPx = e.clientY - dragStartY;
+        const next = Math.max(
+          MIN_HEIGHT_PX,
+          Math.min(MAX_HEIGHT_PX, Math.round(dragStartPx + deltaPx)),
+        );
+        img.style.setProperty("--img-h", `${next}px`);
+        handle.dataset.px = String(next);
+      };
+      const onPointerUp = () => {
+        document.removeEventListener("pointermove", onPointerMove);
+        document.removeEventListener("pointerup", onPointerUp);
+        const pos = getPos();
+        const px = Number(handle.dataset.px);
+        if (typeof pos !== "number" || !Number.isInteger(px)) return;
+        editor
+          .chain()
+          .setNodeSelection(pos)
+          .updateAttributes("chapterImage", {
+            heightPx: px === DEFAULT_HEIGHT_PX ? null : px,
+          })
+          .run();
+        const origSrc = String(node.attrs.origSrc ?? node.attrs.src ?? "");
+        if (origSrc) this.options.onResize?.(origSrc, { height_px: px });
+      };
+      handle.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        dragStartY = e.clientY;
+        dragStartPx = Number(node.attrs.heightPx) || DEFAULT_HEIGHT_PX;
+        document.addEventListener("pointermove", onPointerMove);
+        document.addEventListener("pointerup", onPointerUp);
+      });
+
+      return {
+        dom: wrap,
+        update: (updated) => {
+          if (updated.type.name !== "chapterImage") return false;
+          applyAttrs(updated.attrs);
+          return true;
+        },
+      };
+    };
+  },
+});
+
 export interface ChapterEditor {
   editor: Editor;
   toMarkdown: () => string;
@@ -220,6 +485,14 @@ export function docToMarkdown(doc: PMNode): string {
       lines.push("```", node.textContent, "```");
     } else if (type === "horizontalRule") {
       lines.push("---");
+    } else if (type === "chapterImage") {
+      const alt = String(node.attrs.alt ?? "").trim();
+      // origSrc, never src: `src` is the browser-facing API route (see the
+      // attribute's own docstring) — book.md must keep the portable
+      // book-relative path the PDF build resolves against. Falls back to
+      // `src` only for a node built by hand (e.g. a test) with no origSrc.
+      const src = String(node.attrs.origSrc ?? node.attrs.src ?? "");
+      lines.push(`![${alt}](${src})`);
     } else {
       lines.push(serializeInline(node));
     }
@@ -303,7 +576,10 @@ const ParagraphShortcut = Extension.create({
   },
 });
 
-export function editorExtensions(extra: Extensions = []): Extensions {
+export function editorExtensions(
+  extra: Extensions = [],
+  chapterImageDeps: ChapterImageDeps = {},
+): Extensions {
   return [
     StarterKit.configure({
       underline: false,
@@ -315,6 +591,7 @@ export function editorExtensions(extra: Extensions = []): Extensions {
     ParagraphShortcut,
     QuotationClasses,
     ListItemValue,
+    ChapterImage.configure(chapterImageDeps),
     ...extra,
   ];
 }
@@ -327,10 +604,11 @@ export function mountChapterEditor(
   el: HTMLElement,
   html: string,
   extraExtensions: Extensions = [],
+  chapterImageDeps: ChapterImageDeps = {},
 ): ChapterEditor {
   const editor = new Editor({
     element: el,
-    extensions: editorExtensions(extraExtensions),
+    extensions: editorExtensions(extraExtensions, chapterImageDeps),
     content: html,
     editorProps: {
       attributes: { class: "cx-prose", "aria-label": "Chapter prose editor" },

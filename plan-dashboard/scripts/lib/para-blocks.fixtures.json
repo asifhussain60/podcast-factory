@@ -26,7 +26,22 @@
       "in": "A sentence\nwrapped over two lines.\n\nNext.",
       "out": ["A sentence\nwrapped over two lines.", "Next."]
     },
-    { "_why": "empty body", "in": "", "out": [] }
+    { "_why": "empty body", "in": "", "out": [] },
+    {
+      "_why": "a standalone image line is not prose — it renders as a chapterImage node in the Composer, which alignablePositions does not count either; counting it here disagreed by one per image and disabled every alignment button in a chapter that had any (found 2026-08-14)",
+      "in": "Before.\n\n![](images/79/abc.jpg)\n\nAfter.",
+      "out": ["Before.", "After."]
+    },
+    {
+      "_why": "an image with alt text is still image-only, not prose",
+      "in": "![A caption](images/79/abc.jpg)\n\nProse.",
+      "out": ["Prose."]
+    },
+    {
+      "_why": "an image mid-sentence is unchanged: still literal text in a real paragraph on both sides",
+      "in": "See ![](images/79/abc.jpg) here.",
+      "out": ["See ![](images/79/abc.jpg) here."]
+    }
   ],
   "paraFingerprint": [
     {

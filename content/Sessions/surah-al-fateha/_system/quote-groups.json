@@ -1,0 +1,51 @@
+{
+  "schema": "book.quote-groups/v1",
+  "chapters": {
+    "understanding rab al-alameen": {
+      "The strongest proof that Allah exists is that every sculpture requires a sculptor.": {
+        "group": "sculptor-couplet",
+        "type": "gloss"
+      },
+      "وَلِکُلِّ عالَمُ لِحَاجَّتاً الی العَالِمٌ": {
+        "group": "sculptor-couplet",
+        "type": "quote"
+      },
+      "بِمَ عَرَفتَ رَبُّك؟": {
+        "group": "bedouin-exchange",
+        "type": "quote"
+      },
+      "“How did you come to know of your master?” he said.": {
+        "group": "bedouin-exchange",
+        "type": "gloss"
+      },
+      "إن البِعرَةُ تَدُلُّ علی البَعِیر. والرَّوثَةُ تَدُلُّ علی الحمیر. و آثارُ القدمُ تَدُلُّ علی المَسِیر": {
+        "group": "bedouin-exchange",
+        "type": "quote"
+      },
+      "He said: The camel's dung shows me that a camel passed here. The donkey's dung tells me that a donkey was here. Footsteps in the sand tell me that people walked through this place.": {
+        "group": "bedouin-exchange",
+        "type": "gloss"
+      },
+      "فسمآءُ ذاتُ اَبرَاج. وَالْاَرْضَ ذَاتَ الْفِجَاجِ. واَبحَرُ ذَاتَ الامواج": {
+        "group": "bedouin-exchange",
+        "type": "quote"
+      },
+      "So when I look at the sky, with its perfect constellations; when I see the earth, with its valleys and paths laid out with order; and when I look at the oceans, with all their waves.": {
+        "group": "bedouin-exchange",
+        "type": "gloss"
+      },
+      "اَلَا تَدُلُّ عَلَی لَطِیفِ الْخَبِیرِ؟": {
+        "group": "bedouin-exchange",
+        "type": "quote"
+      },
+      "وُجُودُہُ لَہُ دَلِیلُ قَاطِعٌ": {
+        "group": "sculptor-couplet",
+        "type": "quote"
+      },
+      "حَاجَتُ کُلِّ مُحدَثٍ لِصَانعٌ": {
+        "group": "sculptor-couplet",
+        "type": "quote"
+      }
+    }
+  }
+}

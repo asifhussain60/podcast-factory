@@ -43,7 +43,16 @@ import { createHash } from "node:crypto";
 import { findContentDirSync } from "../../../lib/content-paths";
 import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
 import { writeChapterBody } from "../../../lib/reader/book-md-write";
-import { generate, rateLimitCheck } from "../../../lib/reader/gemini-server";
+import {
+  generate,
+  generateWithGrounding,
+  rateLimitCheck,
+} from "../../../lib/reader/gemini-server";
+import {
+  needsSearchFallback,
+  cleanModelReply,
+  NEEDS_SEARCH_TOKEN,
+} from "../../../lib/reader/vowel-fix";
 import { anchorKey } from "../../../../scripts/lib/anchor-key.mjs";
 import { readQuranicRuns } from "../../../../scripts/lib/book-html.mjs";
 import {
@@ -136,6 +145,44 @@ ABSOLUTE CONSTRAINTS — a response that breaks any of these is discarded:
 
 Return the vowelled Arabic on a single line, with no quotes and no preamble.`;
 
+/**
+ * The Composer button's OWN system prompt (2026-08-14) — deliberately NOT the
+ * marks-only SYSTEM above, which the batch propose/decide/apply path below
+ * still uses unchanged. See vowel-fix.ts's header for the full history of why
+ * this one call site is allowed to touch letters and that one is not.
+ */
+const FIX_AND_VOWEL_SYSTEM = `You are given one Arabic passage from a classical Ismaili teaching text, as it
+currently appears in a manuscript being prepared for publication. It may already be
+correct, or it may carry a small transcription error from scanning or typing — a
+misplaced or doubled letter, a dropped word, a wrong hamza form.
+
+Your task, in order:
+1. If the passage has a clear transcription error, correct it — changing as little
+   as possible. Preserve the wording and meaning exactly; fix only what is plainly
+   wrong. If the passage is already correct, change nothing but its marks.
+2. Apply full tashkeel (vowel marks) to the corrected passage.
+
+If you do not recognise this passage and are not confident of its accurate wording —
+for example because it is a specific hadith, Qur'anic verse, or named scholarly
+quotation you cannot verify from what you know — respond with EXACTLY the single
+line ${NEEDS_SEARCH_TOKEN} and nothing else. Do not guess at an unfamiliar quotation.
+
+Do not translate, explain, or add commentary. Return only the corrected, vowelled
+Arabic passage on a single line (or exactly ${NEEDS_SEARCH_TOKEN}).`;
+
+/** The grounded (Google Search) fallback prompt, used only when the primary
+ *  call above returned NEEDS_SEARCH or something unusable. Asked to "search,
+ *  then determine intelligently" rather than ever refuse outright — Asif's
+ *  own instruction was that this path must always return its best answer,
+ *  never come back empty. */
+function groundedFixPrompt(source: string): string {
+  return `Search for the accurate, correctly-written form of this Arabic passage from a classical Islamic or Ismaili teaching text. It may be a hadith, a Qur'anic verse, or a named scholarly quotation, and the version below may carry a small transcription error from scanning:
+
+"${source}"
+
+If you find an authoritative published source for this exact passage, return it corrected to match that source and fully vowelled with tashkeel, on a single line, nothing else. If you cannot find an exact published match, use your own best understanding of classical Arabic to determine the most likely correct and fully vowelled form of THIS passage as given, and return that instead — always return one best answer, never leave it blank and never refuse.`;
+}
+
 export const GET: APIRoute = async ({ url }) => {
   const slug = String(url.searchParams.get("slug") ?? "").trim();
   if (!SLUG_RE.test(slug)) return apiError("Invalid slug");
@@ -185,8 +232,8 @@ export const POST: APIRoute = async ({ request }) => {
 };
 
 /**
- * Vowel ONE run, handed in by the Composer's Diacritics button — no sidecar, no
- * proposal record, no review queue.
+ * Fix and vowel ONE run, handed in by the Composer's Diacritics button — no
+ * sidecar, no proposal record, no review queue.
  *
  * WHY THIS EXISTS ALONGSIDE `propose` (Asif, 2026-07-29). The batch path above was
  * built around a rule that has since been reversed: it treated a supplied vowel as
@@ -195,12 +242,19 @@ export const POST: APIRoute = async ({ request }) => {
  * review is not caution, it is the panel refusing to do its job. Diacritics are
  * applied on the spot now.
  *
- * What did NOT change is `rejectionReason`, and the distinction matters: that gate
- * is not about WHETHER to vowel, it is about the model quietly rewriting the Arabic
- * while claiming to only mark it — dropping a clause, swapping in Uthmani
- * orthography, "correcting" a word. The skeleton must still come back
- * byte-identical or the answer is refused with its reason. Relaxing the policy on
- * marks is Asif's call; letting letters move under cover of it never was.
+ * THE MARKS-ONLY SKELETON GATE NO LONGER APPLIES HERE (Asif, 2026-08-14) —
+ * `rejectionReason`/`isVowellingCandidate` still gate the batch path below
+ * unchanged, but this ONE call site was explicitly asked to also fix wrong
+ * Arabic, not only add missing marks. See vowel-fix.ts's header for the full
+ * reasoning and the boundary of what changed.
+ *
+ * TWO STAGES. A fast, cheap, non-grounded call tries first — for a passage
+ * the model can confidently place, this is a single round trip. If it comes
+ * back empty, unusable, or the model itself says it isn't sure
+ * (`NEEDS_SEARCH_TOKEN`), a second call retries WITH Google Search grounding,
+ * asked to find an authoritative source or, failing that, determine the most
+ * likely correct form itself — that stage is instructed to always return an
+ * answer, never come back empty.
  *
  * The reply is text only. The caller replaces the selection in the open editor, so
  * the write travels the Composer's own edit path (composer-edits.json) like any
@@ -213,19 +267,17 @@ async function vowelOneRun(body: Record<string, unknown>): Promise<Response> {
     return apiError("That selection has no Arabic script in it");
   // The same ratio `collectCandidates` applies above: predominantly Arabic, not
   // merely containing some. An English paragraph quoting three Arabic words would
-  // ask the model to return English it is forbidden to touch, and the skeleton
-  // check would then refuse whatever came back — better to say why up front.
+  // ask the model to return English it is forbidden to touch.
   const latin = (source.match(/[A-Za-z]/g) || []).length;
   const arabic = (source.match(/[؀-ۿ]/g) || []).length;
   if (latin > 2 || arabic < latin * 4)
     return apiError(
       "Select the Arabic passage on its own, not the English around it",
     );
-  // Already vowelled — including every Qur'anic run, which carries the canonical
-  // mushaf's own marks. Re-vowelling those could only make them worse, so the
-  // route says so rather than spending a model call to arrive back where it was.
-  if (!isVowellingCandidate(source))
-    return apiError("That Arabic already carries its vowel marks");
+  // Deliberately NO "already vowelled" refusal here — unlike the batch path,
+  // this button is also meant to fix a passage that already carries marks
+  // but has them wrong, so "already has some tashkeel" is not a reason to
+  // decline the request.
 
   const gate = rateLimitCheck();
   if (!gate.ok)
@@ -234,10 +286,10 @@ async function vowelOneRun(body: Record<string, unknown>): Promise<Response> {
       429,
     );
 
-  const raw = (
+  const primary = (
     await generate({
       model: MODEL,
-      systemInstruction: SYSTEM,
+      systemInstruction: FIX_AND_VOWEL_SYSTEM,
       contents: [{ role: "user", parts: [{ text: source }] }],
       // Same budget and temperature as the batch path, and for the same reasons
       // documented there: 2.5 Pro spends this allowance on thinking before it
@@ -246,26 +298,38 @@ async function vowelOneRun(body: Record<string, unknown>): Promise<Response> {
       temperature: 0.1,
     })
   ).trim();
-  const cleaned = raw
-    .replace(/^```[a-z]*\s*/i, "")
-    .replace(/```$/, "")
-    .replace(/^["'«»]+|["'«»]+$/g, "")
-    .split("\n")
-    .find((l) => ARABIC_LINE_RE.test(l))
-    ?.trim();
-  // Keep the marks, drop the letters. The commonest refusal by far is a model
-  // normalising one letter into another form of the same letter while vowelling
-  // correctly around it; carrying its marks onto the source's own characters
-  // makes the skeleton source-identical by construction. The gate still judges
-  // the result — see `transferMarks` in scripts/lib/vowelling.mjs.
-  const settled = transferMarks(source, cleaned ?? "") ?? cleaned;
-  const reason = rejectionReason(source, settled ?? "");
-  if (reason) return apiError(`Refused: ${reason}`);
+
+  let settled: string | null;
+  let sources: string[] = [];
+  let usedSearch = false;
+  if (!needsSearchFallback(primary)) {
+    settled = cleanModelReply(primary);
+  } else {
+    usedSearch = true;
+    const grounded = await generateWithGrounding(groundedFixPrompt(source), {
+      model: MODEL,
+      temperature: 0.2,
+      maxOutputTokens: 2000,
+    });
+    settled = cleanModelReply(grounded.text);
+    sources = grounded.sources;
+  }
+
+  if (!settled)
+    return apiError("Couldn't produce a corrected, vowelled passage");
 
   return apiOk({
     source,
     vowelled: settled,
-    marksAdded: markCount(settled ?? "") - markCount(source),
+    marksAdded: markCount(settled) - markCount(source),
+    // The whole point of the letter-fixing capability is that it CAN differ
+    // from the source in more than marks — this reports whether it actually
+    // did, so the caller can tell the person "the Arabic itself changed"
+    // rather than let a silent letter fix look identical to a plain
+    // vowelling in the status line.
+    fixed: skeleton(settled) !== skeleton(source),
+    usedSearch,
+    sources,
   });
 }
 

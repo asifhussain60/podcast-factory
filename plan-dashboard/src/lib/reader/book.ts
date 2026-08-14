@@ -29,6 +29,14 @@ import {
   readQuoteKind,
   flattenQuoteKind,
 } from "../../../scripts/lib/quote-kind.mjs";
+import {
+  readQuoteGroups,
+  flattenQuoteGroups,
+} from "../../../scripts/lib/quote-groups.mjs";
+import {
+  readImageLayout,
+  flattenImageLayout,
+} from "../../../scripts/lib/image-layout.mjs";
 
 export interface BookTocEntry {
   id: string; // anchor id, matches renderMarkdown's heading slug
@@ -92,6 +100,14 @@ export async function loadBook(slug: string): Promise<BookView | null> {
         quoteKinds: flattenQuoteKind(readQuoteKind(ref.dir)) as Record<
           string,
           QuoteDeclaration
+        >,
+        quoteGroups: flattenQuoteGroups(readQuoteGroups(ref.dir)) as {
+          quote: Record<string, string>;
+          gloss: Record<string, string>;
+        },
+        imageLayout: flattenImageLayout(readImageLayout(ref.dir)) as Record<
+          string,
+          { height_px?: number; align?: string }
         >,
         quranicRefs: readQuranicRefs(ref.dir) as Record<string, string>,
       }),

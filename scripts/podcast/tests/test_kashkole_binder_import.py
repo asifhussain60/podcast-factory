@@ -259,3 +259,66 @@ def test_apply_can_hydrate_only_referenced_quran_atoms() -> None:
     quran = kb.execute("SELECT body FROM atoms WHERE id='quran:7:180'").fetchone()
     assert quran is not None
     assert json.loads(quran[0])["text_en"] == "And Allah's are the fairest names..."
+
+
+def test_existing_atom_with_different_text_is_rejected() -> None:
+    mirror = _mirror()
+    kb = _kb()
+    _add_topic(mirror, 4664)
+    kb.execute(
+        "INSERT INTO atoms (id, type, body, tradition) VALUES (?, 'doctrine', ?, 'fatimid-ismaili')",
+        ("doctrine:kashkole:4664:0", json.dumps({"text_en": "Stale text", "source_sha": "sha-4664"})),
+    )
+
+    summary = kbi.import_binder("Quranic Studies", apply=True, mirror_conn=mirror, knowledge_conn=kb)
+
+    assert summary.existing_atoms == 0
+    assert any("text conflicts" in error for error in summary.errors)
+
+
+def test_draft_chapter_is_held_out_of_doctrine_import() -> None:
+    mirror = _mirror()
+    kb = _kb()
+    _add_topic(mirror, 5677)
+    mirror.execute("UPDATE fts_topics SET chapter='مسودہ' WHERE topic_id=5677")
+
+    summary = kbi.import_binder("Quranic Studies", mirror_conn=mirror, knowledge_conn=kb)
+
+    assert summary.held_topics == 1
+    assert summary.eligible_topics == 0
+    assert summary.candidates == 0
+
+
+def test_intrinsic_topic_classification_repairs_shared_salutation() -> None:
+    mirror = _mirror()
+    kb = _kb()
+    _add_topic(mirror, 5679, binder="ISLAM IMAN IHSAN")
+    text = mirror.execute("SELECT body_en FROM topic_translation WHERE topic_id=5679").fetchone()[0]
+    body = {
+        "text_en": text,
+        "source_sha": "sha-5679",
+        "topic_tags": ["quranic_taveel", "haqaiq", "binder:quranic-studies"],
+    }
+    kb.execute(
+        "INSERT INTO atoms (id, type, body, tradition, content_level) VALUES (?, 'doctrine', ?, 'fatimid-ismaili', 'taveel')",
+        ("doctrine:kashkole:5679:0", json.dumps(body)),
+    )
+    kb.executemany(
+        "INSERT INTO atom_topic_tags (atom_id, tag) VALUES (?, ?)",
+        [("doctrine:kashkole:5679:0", "quranic_taveel"), ("doctrine:kashkole:5679:0", "haqaiq")],
+    )
+
+    summary = kbi.import_binder("ISLAM IMAN IHSAN", apply=True, mirror_conn=mirror, knowledge_conn=kb)
+
+    assert summary.errors == []
+    assert kb.execute("SELECT content_level FROM atoms").fetchone()[0] == "general"
+    tags = {row[0] for row in kb.execute("SELECT tag FROM atom_topic_tags")}
+    assert {"devotional_praise", "spirituality"} <= tags
+    assert "quranic_taveel" not in tags
+    assert "haqaiq" not in tags
+
+
+def test_quran_refs_recognize_ranges_named_surahs_and_arabic_adjacent_numbers() -> None:
+    text = "[Quran, 59:22-24] Verse 6 of Surah al-Baqarah. 4:92 وَمَن قَتَلَ and { 71:5-6 } with chat timestamp 11:08 AM."
+
+    assert kbi.quran_refs(text) == ["2:6", "4:92", "59:22", "59:23", "59:24", "71:5", "71:6"]

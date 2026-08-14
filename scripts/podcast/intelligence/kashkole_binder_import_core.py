@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any
 
 WISDOM_TRADITION = "fatimid-ismaili"
@@ -18,8 +18,18 @@ ALLOWED_CONTENT_LEVELS = {"general", "advanced", "taveel", "mamsool", "mabda_maa
 _WORD_RE = re.compile(r"[^\w]+", re.UNICODE)
 _QREF_PATTERNS = (
     re.compile(r"⟪\s*quran\s+(\d{1,3})\s*[:.]\s*(\d{1,3})\s*⟫", re.IGNORECASE),
-    re.compile(r"\bQ(?:uran)?\s*,?\s*(\d{1,3})\s*[:.]\s*(\d{1,3})\b", re.IGNORECASE),
-    re.compile(r"\bQ(\d{1,3})\s*[:.]\s*(\d{1,3})\b", re.IGNORECASE),
+    re.compile(r"\bQ(?:uran)?\s*,?\s*(\d{1,3})\s*[:.]\s*(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?\b", re.IGNORECASE),
+    re.compile(r"\bQ(\d{1,3})\s*[:.]\s*(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?\b", re.IGNORECASE),
+)
+_ARABIC_ADJACENT_QREF_RE = re.compile(r"(?<!\d)(\d{1,3}):(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?(?=\s+[؀-ۿ])")
+_BRACED_QREF_RE = re.compile(r"\{\s*(\d{1,3}):(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?\s*\}")
+_SURAH_THEN_VERSE_RE = re.compile(
+    r"\b(?:surah|sura)\s+([a-z][a-z'\-’ ]{1,40}?)\s*,?\s*(?:verse|ayah|ayat)\s+(\d{1,3})\b",
+    re.IGNORECASE,
+)
+_VERSE_THEN_SURAH_RE = re.compile(
+    r"\b(?:verse|ayah|ayat)\s+(\d{1,3})\s+of\s+(?:surah|sura)\s+([a-z][a-z'\-’ ]{1,40})\b",
+    re.IGNORECASE,
 )
 
 
@@ -47,11 +57,100 @@ BINDER_CONFIGS: dict[str, BinderConfig] = {
     "دعائم الاسلام : صلواۃ": BinderConfig("دعائم الاسلام : صلواۃ", "shariat", "mamsool", "general", "held"),
     "دعائم الاسلام : ولایت": BinderConfig("دعائم الاسلام : ولایت", "shariat", "doctrine", "general", "held"),
     "دعائم الاسلام : الصوم": BinderConfig("دعائم الاسلام : الصوم", "shariat", "mamsool", "general", "held"),
-    "دعائم الاسلام : طہارت": BinderConfig("دعائم الاسلام : طہارت", "shariat", "mamsool", "general", "held"),
+    "دعائم الاسلام : طہارت": BinderConfig("دعائم الاسلام : طہارت", "shariat", "mamsool", "general"),
     "علی ابن ابی طالب علیہ السلام": BinderConfig(
         "علی ابن ابی طالب علیہ السلام", "history_sirah", "virtues", "general", "held"
     ),
 }
+
+# Binder-level categories are the default, not a license to mislabel a topic
+# whose own source context is more specific. These overrides are deliberately
+# small and evidence-based: shared salutations are devotional rather than
+# ta'wil, explicitly named ta'wil lessons are not general, and the two Wise
+# Reminder chapters have distinct pedagogical levels.
+TOPIC_CLASSIFICATION_OVERRIDES: dict[int, tuple[str, str, str]] = {
+    5679: ("devotional_praise", "spirituality", "general"),
+    5680: ("devotional_praise", "spirituality", "general"),
+    5681: ("devotional_praise", "spirituality", "general"),
+    5683: ("devotional_praise", "spirituality", "general"),
+    5783: ("doctrine", "spirituality", "advanced"),
+    5785: ("doctrine", "spirituality", "advanced"),
+    5787: ("quranic_taveel", "haqaiq", "taveel"),
+    6798: ("quranic_taveel", "haqaiq", "taveel"),
+    # Prophet Stories: moral and spiritual counsel is reusable at an advanced
+    # level without presenting it as inner cosmology.
+    1462: ("spirituality", "ethics", "advanced"),
+    1464: ("quranic_narrative", "ethics", "advanced"),
+    1467: ("spirituality", "ethics", "advanced"),
+    1469: ("spirituality", "ethics", "advanced"),
+    1471: ("spirituality", "ethics", "advanced"),
+    1481: ("spirituality", "ethics", "advanced"),
+    1482: ("spirituality", "ethics", "advanced"),
+    1223: ("hadith_taveel", "spirituality", "advanced"),
+    1225: ("hadith_taveel", "spirituality", "advanced"),
+    1226: ("hadith_taveel", "spirituality", "advanced"),
+    1330: ("spirituality", "soul_psychology", "advanced"),
+}
+
+CHAPTER_CLASSIFICATION_OVERRIDES: dict[tuple[str, str], tuple[str, str, str]] = {
+    ("The Wise Reminder", "Miracles of Quran"): ("quranic_studies", "linguistics", "advanced"),
+    ("The Wise Reminder", "The Human Spirit"): ("spirituality", "soul_psychology", "advanced"),
+    ("قرآنی قصص الانبیا کے حقائق", "نطقا کا بیان"): ("doctrine", "prophetic_authority", "haqaiq"),
+    ("دعائم الاسلام : طہارت", "ارکان وضو کے باطنی معنی"): ("taveel", "mamsool", "taveel"),
+}
+
+# This chapter is explicitly a draft/mixed holding area. Its topics include
+# quotes, definitions, hadith and editing notes, so forcing them all into
+# doctrine atoms would be a type error. Translation remains preserved in the
+# mirror; corpus insertion waits for deliberate per-item classification.
+HELD_CHAPTERS: frozenset[tuple[str, str]] = frozenset({("Quranic Studies", "مسودہ")})
+HELD_TOPIC_IDS: frozenset[int] = frozenset(
+    {
+        1478,  # long outer-story compilation with unattributed transmitted reports
+        5741,  # Noah chronology/genealogy and Biblical reports require citation repair
+        1483,  # attributed saying should be classified as a quote after provenance review
+        1224,  # transmitted report needs provenance review
+        1227,  # cat narrative needs provenance review
+        1230,  # enumerated legal ruling needs source verification
+        1237,  # disputed wiping ruling needs legal-source verification
+        1242,  # impurity ruling needs legal-source verification
+        1243,  # lavatory teaching needs legal-source verification
+        1244,  # enumerated lavatory etiquettes need source verification
+        1253,  # feet-wiping citation is image-based and unverified
+        1258,  # menstruation teaching needs legal-source review
+        1346,  # triple-repetition ruling needs source verification
+        816,  # excluded from active corpus: sectarian polemic
+        1241,  # excluded from active corpus: broad impurity claim about non-Muslims
+        1450,  # excluded from active corpus: denigrating claim about women
+    }
+)
+
+
+def config_for_topic(base: BinderConfig, topic_id: int, chapter: str) -> BinderConfig:
+    values = TOPIC_CLASSIFICATION_OVERRIDES.get(topic_id)
+    if values is None:
+        values = CHAPTER_CLASSIFICATION_OVERRIDES.get((base.binder, chapter))
+    if values is None:
+        return base
+    primary, secondary, level = values
+    return replace(base, primary_category=primary, secondary_category=secondary, content_level=level)
+
+
+def topic_is_held(binder: str, chapter: str, topic_id: int | None = None) -> bool:
+    return (binder, chapter) in HELD_CHAPTERS or (topic_id is not None and topic_id in HELD_TOPIC_IDS)
+
+
+def topic_has_classification_override(binder: str, topic_id: int, chapter: str) -> bool:
+    return topic_id in TOPIC_CLASSIFICATION_OVERRIDES or (binder, chapter) in CHAPTER_CLASSIFICATION_OVERRIDES
+
+
+def managed_category_tags() -> frozenset[str]:
+    tags = {
+        value for config in BINDER_CONFIGS.values() for value in (config.primary_category, config.secondary_category)
+    }
+    for primary, secondary, _ in (*TOPIC_CLASSIFICATION_OVERRIDES.values(), *CHAPTER_CLASSIFICATION_OVERRIDES.values()):
+        tags.update((primary, secondary))
+    return frozenset(tags)
 
 
 @dataclass
@@ -214,11 +313,37 @@ def text_hash(text: str) -> str:
 def quran_refs(text: str) -> list[str]:
     refs: set[str] = set()
     for pattern in _QREF_PATTERNS:
-        for surah_s, ayah_s in pattern.findall(text or ""):
-            surah, ayah = int(surah_s), int(ayah_s)
-            if 1 <= surah <= 114 and 1 <= ayah <= 286:
-                refs.add(f"{surah}:{ayah}")
+        for match in pattern.finditer(text or ""):
+            _add_quran_range(refs, *match.groups())
+    for match in _ARABIC_ADJACENT_QREF_RE.finditer(text or ""):
+        _add_quran_range(refs, *match.groups())
+    for match in _BRACED_QREF_RE.finditer(text or ""):
+        _add_quran_range(refs, *match.groups())
+
+    # Named-surah references are unambiguous and avoid the false positives of
+    # treating every bare 11:08 timestamp as scripture.
+    try:
+        from _book_citations import surah_number
+    except ImportError:  # pragma: no cover - standalone utility fallback
+        surah_number = lambda _name: 0  # type: ignore[assignment]
+    for match in _SURAH_THEN_VERSE_RE.finditer(text or ""):
+        surah = surah_number(match.group(1))
+        if surah:
+            _add_quran_range(refs, str(surah), match.group(2), None)
+    for match in _VERSE_THEN_SURAH_RE.finditer(text or ""):
+        surah = surah_number(match.group(2))
+        if surah:
+            _add_quran_range(refs, str(surah), match.group(1), None)
     return sorted(refs, key=lambda r: tuple(int(x) for x in r.split(":")))
+
+
+def _add_quran_range(refs: set[str], surah_s: str, start_s: str, end_s: str | None = None) -> None:
+    surah, start = int(surah_s), int(start_s)
+    end = int(end_s) if end_s else start
+    if not (1 <= surah <= 114 and 1 <= start <= end <= 286):
+        return
+    for ayah in range(start, end + 1):
+        refs.add(f"{surah}:{ayah}")
 
 
 def chunk_text(text: str, *, max_words: int = MAX_CHUNK_WORDS) -> list[str]:

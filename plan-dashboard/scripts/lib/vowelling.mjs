@@ -295,12 +295,29 @@ export function reflowWordsToSourceWhitespace(source, candidate) {
 /** A run worth proposing for: it has Arabic, it is long enough to be a real
  *  passage rather than a stray word, and it is not already vowelled. The density
  *  floor is deliberately generous — a run with a couple of disambiguating marks
- *  from the scan is still "bare" for this purpose. */
+ *  from the scan is still "bare" for this purpose.
+ *
+ * PER-WORD, not an aggregate ratio (2026-08-14). The old check averaged marks
+ * across the WHOLE passage: a selection with a few already-marked words and
+ * several completely bare ones could cross the aggregate density floor and
+ * get refused as "already vowelled" even though half of it plainly was not —
+ * found live on a real selection ("الرحمۃ، رِقَّۃ تَقتَدِ الأحسانُ اِلی
+ * المَرحوم") where "الرحمۃ" had no marks at all but the other five words did,
+ * averaging 29% density and refusing the whole passage. A passage is still a
+ * candidate if ANY of its words has Arabic letters and zero marks — the
+ * bare word is what needs completing, regardless of what its neighbours
+ * already carry. A passage where every word already carries at least one
+ * mark is still correctly treated as done. */
 export function isVowellingCandidate(text) {
   const t = (text ?? "").trim();
   if (!ARABIC_RE.test(t)) return false;
   if (skeleton(t).replace(/\s/g, "").length < 8) return false;
-  return markDensity(t) < 0.15;
+  return t.split(/\s+/).some((word) => {
+    const letters = (word.match(/[؀-ۿ]/g) || []).filter(
+      (c) => !MARK_RE_ONE.test(c),
+    );
+    return letters.length > 0 && markCount(word) === 0;
+  });
 }
 
 /**

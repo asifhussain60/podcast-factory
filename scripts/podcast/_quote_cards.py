@@ -251,6 +251,35 @@ def _card_rules() -> list[dict]:
             SPECIMEN,
             [(f"the {kind} card", rf"k-{kind}\b") for kind in KINDS],
         ),
+        _rule(
+            "QC-150",
+            "several declared quote fragments and their tight glosses can still render as ONE "
+            "merged card instead of one each — the `is-group` marker class exists in the "
+            "stylesheet and both renderers still emit it, so a book that declares a group does "
+            "not silently get six boxes where one was intended (added 2026-08-14)",
+            CSS,
+            [
+                ("the merged-card spacing hook", r"\.is-group\b"),
+                ("page-break safety for a tall merged card", r"break-inside:\s*avoid-page"),
+            ],
+        ),
+        _rule(
+            "QC-160",
+            "the PRINT renderer still emits the merge markup — the PDF and the browser Read "
+            "view must draw the SAME number of cards for one declared group, or the printed "
+            "book and the screen disagree about how many quotations a passage holds",
+            PRINT_RENDERER,
+            [("the merged-card class", r'"quran k-\$\{kind\} is-group"')],
+        ),
+        _rule(
+            "QC-170",
+            "the SCREEN renderer emits the same merge markup as the PRINT one (QC-160) — this "
+            "is the copy-mirrored local function markdown.ts carries because it is bundled into "
+            "the browser and cannot import quote-groups.mjs; drift here is exactly the failure "
+            "mode quote-groups.fixtures.json pins against",
+            SCREEN_RENDERER,
+            [("the merged-card class", r'"quran k-\$\{kind\} is-group"')],
+        ),
     ]
 
 
@@ -306,6 +335,19 @@ def print_quote_card_findings(report: dict) -> None:
         for chapter_key, line, kind, why in orphans[:5]:
             print(f"      {kind:7} {line[:52]}")
             print(f"              in {chapter_key!r} — {why}")
+
+    group_orphans = report.get("orphaned_quote_group") or []
+    if group_orphans:
+        print(
+            f"\n  orphaned-quote-group: {len(group_orphans)} quotation(s) declared as part of a\n"
+            "  merged card whose grouping no longer holds together — either the block was\n"
+            "  re-keyed by an edit, or only one member of the group still exists. Neither\n"
+            "  breaks anything: the block(s) render independently, as if never grouped. Not\n"
+            "  repaired: re-grouping means choosing which quotation was meant."
+        )
+        for chapter_key, key, group, why in group_orphans[:5]:
+            print(f"      {group:20} {key[:44]}")
+            print(f"                            in {chapter_key!r} — {why}")
 
 
 def guarantee_for(rule_id: str) -> str:
@@ -422,4 +464,96 @@ def orphaned_quote_kinds(book_dir: Path) -> list[tuple[str, str, str, str]]:
         for line, kind in declarations.items():
             if line not in live[chapter_key]:
                 orphans.append((chapter_key, line, kind, "no quotation in that chapter opens with this line"))
+    return orphans
+
+
+# ── the merge half: which declared groups no longer hold together ─────────────
+
+
+def read_quote_groups(book_dir: Path) -> dict[str, dict[str, tuple[str, str]]]:
+    """`_system/quote-groups.json` → {chapter key: {key: (group id, "quote"|"gloss")}}, or {}.
+
+    Unreadable, absent or malformed yields {} — the same tolerance `read_quote_kind` has,
+    for the same reason: a book with no groups file (every book before this feature, and
+    most books after it) renders every quotation independently, exactly as it always has.
+    MIRRORS `readQuoteGroups` in `plan-dashboard/scripts/lib/quote-groups.mjs`.
+    """
+    path = book_dir / "_system" / "quote-groups.json"
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    out: dict[str, dict[str, tuple[str, str]]] = {}
+    for chapter, declarations in (raw.get("chapters") or {}).items():
+        if not isinstance(declarations, dict):
+            continue
+        kept: dict[str, tuple[str, str]] = {}
+        for key, declared in declarations.items():
+            if not isinstance(declared, dict):
+                continue
+            group = str(declared.get("group") or "").strip()
+            if not group:
+                continue
+            member_type = "gloss" if declared.get("type") == "gloss" else "quote"
+            kept[str(key).strip()] = (group, member_type)
+        if kept:
+            out[str(chapter)] = kept
+    return out
+
+
+def orphaned_quote_groups(book_dir: Path) -> list[tuple[str, str, str, str]]:
+    """(chapter key, member key, group id, why) for group memberships pointing at nothing.
+
+    Mirrors `orphaned_quote_kinds` exactly, extended to the two things that can go wrong
+    with a GROUP that cannot go wrong with a plain kind declaration: a member whose block
+    no longer exists in the chapter (re-keyed by an edit, same failure as an orphaned
+    kind), and a group whose only surviving member is a single `quote` block — the merge
+    needs 2+ members to be a merge at all, so a group reduced to one is not wrong, just
+    inert, and worth telling a person rather than letting it sit unnoticed.
+
+    Never repaired, for the same reason `orphaned_quote_kinds` gives: re-keying or
+    re-grouping means guessing what a person meant.
+    """
+    from _book_defects import blocks, chapters
+    from _book_edits import anchor_key
+
+    declared = read_quote_groups(book_dir)
+    if not declared:
+        return []
+    try:
+        md = (book_dir / "book" / "book.md").read_text(encoding="utf-8")
+    except OSError:
+        return []
+
+    live: dict[str, set[str]] = {}
+    for heading, body in chapters(md):
+        keys: set[str] = set()
+        for kind, lines in blocks(body):
+            if kind == "quote":
+                key = quote_kind_key([line.lstrip(">").strip() for line in lines])
+            elif kind == "para":
+                key = quote_kind_key(lines)
+            else:
+                continue
+            if key:
+                keys.add(key)
+        live[anchor_key(heading)] = keys
+
+    orphans: list[tuple[str, str, str, str]] = []
+    for chapter_key, declarations in declared.items():
+        chapter_live = live.get(chapter_key)
+        survivors: dict[str, list[str]] = {}  # group id -> surviving member keys
+        for key, (group, member_type) in declarations.items():
+            if chapter_live is None:
+                orphans.append((chapter_key, key, group, "no chapter has this key any more"))
+                continue
+            if key not in chapter_live:
+                orphans.append((chapter_key, key, group, f"no {member_type} in that chapter opens with this line"))
+                continue
+            survivors.setdefault(group, []).append(key)
+        for group, keys in survivors.items():
+            if len(keys) < 2:
+                orphans.append(
+                    (chapter_key, keys[0], group, "only one member of this group still exists — the merge is a no-op")
+                )
     return orphans

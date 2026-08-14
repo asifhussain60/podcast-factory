@@ -1,0 +1,77 @@
+{
+  "_comment": "Fixtures for collectGroupRuns, which exists in TWO places: the real export in plan-dashboard/scripts/lib/quote-groups.mjs (imported directly by book-html.mjs, the PDF + the Composer's Read view — plain .mjs, node:fs is fine there) and a copy-mirrored local function of the same name in plan-dashboard/src/lib/reader/markdown.ts (the reader — client-bundled, so it cannot import the .mjs). Read by quote-groups.test.mjs and markdown.test.ts. Drift here does not throw: it silently makes the browser Read view merge a run of quote cards the PDF renders separately, or the reverse — the printed book and the screen disagreeing about how many cards one passage is. Each case's `blocks` is a document-order list of `{groupId, type?, kind?}` (groupId: null for anything undeclared); `runOf` is the expected same-length list of run indices — `runOf[i] === runOf[j]` means blocks i and j belong to one merged card.",
+  "cases": [
+    {
+      "why": "two quote fragments in the same declared group, nothing between them — merges",
+      "blocks": [
+        { "groupId": "g1", "type": "quote", "kind": "poem" },
+        { "groupId": "g1", "type": "quote", "kind": "poem" }
+      ],
+      "runOf": [0, 0]
+    },
+    {
+      "why": "three quote fragments each with their own tight gloss between them — one card, alternating quote/gloss in document order",
+      "blocks": [
+        { "groupId": "g1", "type": "quote", "kind": "poem" },
+        { "groupId": "g1", "type": "gloss" },
+        { "groupId": "g1", "type": "quote", "kind": "poem" },
+        { "groupId": "g1", "type": "gloss" },
+        { "groupId": "g1", "type": "quote", "kind": "poem" }
+      ],
+      "runOf": [0, 0, 0, 0, 0]
+    },
+    {
+      "why": "a group interrupted by undeclared narrative prose does NOT merge across it — two separate cards, the narrative paragraph untouched between them",
+      "blocks": [
+        { "groupId": "g1", "type": "quote", "kind": "poem" },
+        { "groupId": null },
+        { "groupId": "g1", "type": "quote", "kind": "poem" }
+      ],
+      "runOf": [0, 1, 2]
+    },
+    {
+      "why": "a group whose quote members disagree on kind is rejected wholesale — every member renders on its own, exactly as if ungrouped",
+      "blocks": [
+        { "groupId": "g1", "type": "quote", "kind": "hadith" },
+        { "groupId": "g1", "type": "quote", "kind": "poem" }
+      ],
+      "runOf": [0, 1]
+    },
+    {
+      "why": "a lone member (its partner was re-keyed away by an edit) never merges — a run needs 2+ members",
+      "blocks": [{ "groupId": "g1", "type": "quote", "kind": "poem" }],
+      "runOf": [0]
+    },
+    {
+      "why": "zero groups declared anywhere — every block is its own run, i.e. the merge pass is a no-op (the state of every book today)",
+      "blocks": [{ "groupId": null }, { "groupId": null }, { "groupId": null }],
+      "runOf": [0, 1, 2]
+    },
+    {
+      "why": "a gloss member never counts toward the kind-consistency check — only type:quote members do, so an ungiven gloss kind cannot itself block a merge",
+      "blocks": [
+        { "groupId": "g1", "type": "quote", "kind": "hadith" },
+        { "groupId": "g1", "type": "gloss" }
+      ],
+      "runOf": [0, 0]
+    },
+    {
+      "why": "two DIFFERENT groups back to back merge independently, never bleeding into each other",
+      "blocks": [
+        { "groupId": "g1", "type": "quote", "kind": "quote" },
+        { "groupId": "g1", "type": "quote", "kind": "quote" },
+        { "groupId": "g2", "type": "quote", "kind": "hadith" },
+        { "groupId": "g2", "type": "quote", "kind": "hadith" }
+      ],
+      "runOf": [0, 0, 1, 1]
+    },
+    {
+      "why": "a gloss-only run (no quote member at all) still merges on count alone — kinds.size is 0, which passes <= 1",
+      "blocks": [
+        { "groupId": "g1", "type": "gloss" },
+        { "groupId": "g1", "type": "gloss" }
+      ],
+      "runOf": [0, 0]
+    }
+  ]
+}

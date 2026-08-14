@@ -8983,7 +8983,12 @@
 
   .reader .md-figure img {
     display: block;
-    width: auto;
+    /* --img-w (2026-08-14): a Composer resize choice, threaded through from
+       _system/image-layout.json by the SAME renderMarkdown function the
+       Composer's own Read tab uses — so a size set in the Composer reaches
+       here with no second implementation to keep in sync. Falls back to
+       `auto`, unchanged, the moment nobody has resized this image. */
+    width: var(--img-w, auto);
     max-width: 100%;
     height: auto;
     margin-inline: auto;
@@ -8992,6 +8997,17 @@
     /* A hairline, so a scan on a white ground does not bleed into the page. */
     border: 1px solid var(--l-rule-soft);
     background: var(--l-surface);
+  }
+
+  .reader .md-figure[data-align="left"] {
+    float: left;
+    margin: var(--pf-space-2) var(--pf-space-6) var(--pf-space-4) 0;
+    width: auto;
+  }
+  .reader .md-figure[data-align="right"] {
+    float: right;
+    margin: var(--pf-space-2) 0 var(--pf-space-4) var(--pf-space-6);
+    width: auto;
   }
 
   .reader .md-figure figcaption {

@@ -198,10 +198,14 @@ def check(book_dir: Path, selection: list[dict]) -> dict:
     # which kind a quotation is can stop matching the line it is filed under. Either way
     # the page still renders — with the card gone or reverted — so nothing but a check
     # reports it. Repo-wide and book-wide respectively; see `_quote_cards`.
-    from _quote_cards import card_rule_findings, orphaned_quote_kinds
+    from _quote_cards import card_rule_findings, orphaned_quote_groups, orphaned_quote_kinds
 
     report["quote_card_rules"] = [list(hit) for hit in card_rule_findings()]
     report["orphaned_quote_kind"] = [list(hit) for hit in orphaned_quote_kinds(book_dir)]
+    # A ninth, added with the merge feature (2026-08-14): a declared group whose member
+    # was re-keyed away, or reduced to a single survivor — same silent-degrade shape as
+    # orphaned_quote_kind, just for MEMBERSHIP rather than kind. See _quote_cards.
+    report["orphaned_quote_group"] = [list(hit) for hit in orphaned_quote_groups(book_dir)]
     return report
 
 

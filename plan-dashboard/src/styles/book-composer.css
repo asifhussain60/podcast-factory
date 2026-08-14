@@ -1017,10 +1017,13 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   align-items: center;
   gap: 0.4rem;
   /* CENTRED, and measured rather than guessed: the formatting bar alone needs
-     ~946px of the composer column's ~977px, so this cluster is on its own row
-     at every realistic width. A right-aligned orphan row under a full-width bar
-     reads as something that failed to fit; centred, it reads as a deliberate
-     second tier. */
+     ~946px of the composer column's ~977px, so this cluster used to land on
+     its own row at every realistic width anyway — `flex-basis: 100%` below
+     (2026-08-14) makes that guaranteed rather than incidental, so the row
+     split cannot depend on how much the formatting bar happens to leave over.
+     A right-aligned orphan row under a full-width bar reads as something that
+     failed to fit; centred, it reads as a deliberate second tier. */
+  flex-basis: 100%;
   margin-inline: auto;
   /* Wraps, exactly as the formatting bar above it already does. The cluster is
      610px of controls; at a 390px viewport the composer column gives it 340px,
@@ -1351,6 +1354,111 @@ body:has(.composer-grid) .to-top {
 .cx-prose p {
   margin: 0 0 0.8rem;
 }
+/* ── Content images — the ChapterImage NodeView (book-md-editor.ts) ──────────
+   Added 2026-08-14 alongside the fix that made these images survive the edit
+   round trip at all (see that file's own docstring). `--img-h`, never a
+   direct height write, is set from JS — the number is per-instance data, the
+   RULE (below) stays in this stylesheet, matching how visual-layout.mjs's
+   `--fig-w` custom property already works for the OTHER image system.
+
+   HEIGHT, not width, as of the same day (see image-layout.mjs's header for
+   the full reasoning): two images of different shapes sized to "the same"
+   width percentage rendered at two different heights, which is the opposite
+   of what "resize to match" means to a reader's eye. Height is also stable
+   in a way a percentage of a resizable column never was — 350px reads as
+   350px whether the side panel is open or not. */
+.cx-image-figure {
+  position: relative;
+  display: block;
+  margin: 0.9rem 0;
+  width: fit-content;
+  max-width: 100%;
+}
+.cx-image-figure[data-align="center"] {
+  margin-inline: auto;
+}
+.cx-image-figure[data-align="left"] {
+  float: left;
+  margin-inline-end: 1rem;
+}
+.cx-image-figure[data-align="right"] {
+  float: right;
+  margin-inline-start: 1rem;
+}
+.cx-image-figure img {
+  display: block;
+  /* `width: auto` lets the browser derive it from the image's own aspect
+     ratio against the fixed height below — no computed number of ours can go
+     circular against `fit-content` the way a percentage-of-this-same-box did
+     under the old width model, which is what made `.cx-image-figure` safe to
+     leave as `fit-content` above rather than needing the flex-container
+     workaround the width-percent version required here until today. */
+  width: auto;
+  height: var(--img-h, 350px);
+  max-width: 100%;
+  border-radius: 10px;
+  /* Requested 2026-08-14: a soft, light frame around every content image in
+     the edit canvas. `--c-rule-soft` is the same hairline token the toolbar
+     groups already separate on (book-composer.css:813) — reusing it instead
+     of a hardcoded grey keeps this in step with the theme's own rule colour
+     rather than a second, unrelated grey. Widened to 3px the same day. */
+  border: 3px solid var(--c-rule-soft, #ebe6da);
+}
+/* Resize handle — bottom-right corner, visible on hover/focus so it never
+   competes with the image itself for attention while reading. `ns-resize`,
+   not the diagonal `nwse-resize`: the drag only ever changes HEIGHT now
+   (book-md-editor.ts tracks vertical movement only), and width follows for
+   free from the image's own aspect ratio, so the cursor should say "up and
+   down" rather than promise a diagonal drag that no longer does anything
+   different from a straight one. */
+.cx-image-resize-handle {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--c-accent, #8b4513);
+  border: 2px solid var(--c-surface-1, #fff);
+  cursor: ns-resize;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.cx-image-figure:hover .cx-image-resize-handle,
+.cx-image-resize-handle:focus-visible {
+  opacity: 1;
+}
+/* Align toolbar — three small buttons, same hover/focus visibility as the
+   resize handle so a read-through of the chapter shows plain images. */
+.cx-image-align-toolbar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.cx-image-figure:hover .cx-image-align-toolbar,
+.cx-image-align-toolbar:focus-within {
+  opacity: 1;
+}
+.cx-image-align-btn {
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 4px;
+  background: var(--c-surface-1, #fff);
+  color: var(--c-ink-dim, #4d4a42);
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.cx-image-align-btn.is-active {
+  background: var(--c-accent, #8b4513);
+  border-color: var(--c-accent, #8b4513);
+  color: #fff;
+}
 .cx-prose :is(p, li),
 .cx-body :is(p, li) {
   line-height: 1.45;
@@ -1537,6 +1645,17 @@ body:has(.composer-grid) .to-top {
     serif
   );
   font-weight: var(--q-ar-inline-weight, 400);
+  /* Cancels the term's own bigger font-size back down to the paragraph's
+     line box (Asif, 2026-08-14). `.cx-prose :is(p, li)` above sets 1.45 as a
+     unitless ratio, which every descendant inherits and recomputes against
+     ITS OWN font-size — so without this, a 1.26em term (below) computed a
+     line box 1.26x taller than its neighbours, and a paragraph with several
+     terms lost its even rhythm entirely. `line-height: inherit` would NOT
+     have fixed it: the inherited computed value for a unitless number is
+     still just the number 1.45, recomputed here exactly the same way.
+     Dividing 1.45 by the term's own scale is what actually cancels it —
+     see --q-ar-inline-scale's own comment in quote-typography.css. */
+  line-height: calc(1.45 / var(--q-ar-inline-scale, 1.26));
   /* --q-ar-inline-size, default 1.26em, chosen by Asif on 2026-08-02 from three
      candidates rendered side by
      side in this very paragraph (1.10 / 1.18 / 1.26); he picked the honorific
@@ -2460,7 +2579,7 @@ body:has(.composer-grid) .to-top {
   --cx-w: 60%;
   position: relative;
   margin: 0.6rem 0;
-  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border: 2px solid var(--c-rule-soft, #ebe6da);
   border-radius: 6px;
   background: var(--c-bg, #f7f4ee);
   cursor: grab;

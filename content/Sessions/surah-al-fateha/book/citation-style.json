@@ -2,7 +2,7 @@
   "schema": "book.citation-style/v1",
   "family": "plain",
   "translation_font": "eb-garamond",
-  "arabic_font": "traditional-arabic",
-  "arabic_size": "standard",
+  "arabic_font": "amiri-bold",
+  "arabic_size": "large",
   "arabic_ink": "maroon"
 }

@@ -89,6 +89,12 @@ const { readQuranicRuns, readQuranicRefs } = await import(
 const { readQuoteKind, flattenQuoteKind } = await import(
   new URL("quote-kind.mjs", ADMIN_LIB_SCRIPTS).href
 );
+const { readQuoteGroups, flattenQuoteGroups } = await import(
+  new URL("quote-groups.mjs", ADMIN_LIB_SCRIPTS).href
+);
+const { readImageLayout, flattenImageLayout } = await import(
+  new URL("image-layout.mjs", ADMIN_LIB_SCRIPTS).href
+);
 
 /** @type {{chapters: {anchor_key: string, heading?: string, markdown: string}[], cards?: {id: string, markdown: string}[], book_dir?: string}} */
 const payload = JSON.parse(readFileSync(0, "utf8"));
@@ -119,6 +125,13 @@ const quoteOptions = payload.book_dir
   ? {
       quranicRuns: readQuranicRuns(payload.book_dir),
       quoteKinds: flattenQuoteKind(readQuoteKind(payload.book_dir)),
+      // Added 2026-08-14 — a real gap until now: the merge feature had
+      // reached the admin site's own Read tab and the PDF, but never this
+      // bridge, so a book publishing a merged card here would still have
+      // shown its fragments as separate cards to a reader on the Library.
+      quoteGroups: flattenQuoteGroups(readQuoteGroups(payload.book_dir)),
+      // Per-image resize/align from the Composer, same reasoning.
+      imageLayout: flattenImageLayout(readImageLayout(payload.book_dir)),
       quranicRefs: readQuranicRefs(payload.book_dir),
     }
   : {};

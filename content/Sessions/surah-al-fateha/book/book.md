@@ -980,18 +980,20 @@ This means that earning a حلال income through one's job is an act of obedien
 ## Linguistic Meaning Of REHMA
 
 I have studied composite words such as الہ and رب. The word الہ combines several meanings derived from:
+
 - اَلَہَ یَعلُہُ, signifying the one worthy of worship.
 - أَلَہَ, which describes a child yearning for its mother's milk, representing the one we desperately turn to for our needs.
 - وَلَہَ, indicating the one we passionately love.
 - أَلِہَ, meaning the one we rely on or place our trust in.
 - وَلِہَ, which expresses being astounded by someone's glory and magnificence.
+
 I combine all these meanings to understand الہ.
 
 I then discussed our creedal formula of لَا اِلٰہَ اِلَّا اللَّہُ. This formula aims to eliminate the multiplicity of generic objects of worship, represented by الہ, and to identify the one specific object of worship, الہ. This involves applying the definite article "the" to الہ, which then becomes ال, الہ, or اللہ.
 
 Next, I examined the word رب, which is also a composite word, combining
 
-> المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
+> أَلْمَالِكُ وَالسَّيِّدُ وَالْمُرَبِّي وَالْمُرْشِدُ وَالْمُنْعِمُ وَالْقَيِّمُ
 
 - المَالِکُ: The absolute owner.
 - السَّیِّد: The one with complete authority.
@@ -999,6 +1001,7 @@ Next, I examined the word رب, which is also a composite word, combining
 - المُرْشَدُ: The one who guides and puts to purpose.
 - المُنعِمُ: The benevolent benefactor; the one who showers with undeserved gifts.
 - القَیِّمُ: The maintainer.
+
 Combining the meanings of all these words leads to an understanding of the word رب, which I translate as master.
 
 I then looked at the concept of عبد, which, from a Quranic perspective, means a "free slave." To understand this relationship, I examined the master-slave relationship of this world. I then compared it to the master-slave relationship that Allah has with us, concluding that even though Allah is our master, he is unlike any other master we have encountered in this world.
@@ -1016,8 +1019,10 @@ In a hadith, Rasul Allah ﷺ says:
 Indeed, when Allah established all of creation, he wrote a statement on his throne. This statement was:
 
 > اِنَّ رَحمَتِی تَغلِبُ غَضَبِی
+>
+> Indeed, my رحمۃ—my mercy for my creation—will always overcome my wrath.
 
-Indeed, my رحمۃ—my mercy for my creation—will always overcome my wrath. In other words, in my dealings with creation, my mercy will always supersede my anger. This is a rule that our Almighty Creator imposed upon himself in his dealings with us. SubhanAllah! This statement is not literal; there is no actual physical throne. Rather, it is a graphic representation of an emotion, depicting Allah's love for his creation.
+In other words, in my dealings with creation, my mercy will always supersede my anger. This is a rule that our Almighty Creator imposed upon himself in his dealings with us. SubhanAllah! This statement is not literal; there is no actual physical throne. Rather, it is a graphic representation of an emotion, depicting Allah's love for his creation.
 
 I now turn to the word رحمۃ. It is a very powerful word. I will first examine the general definition of the word رحمۃ. A more graphic representation of the word will follow, to help visualize this concept properly, InshaAllah.
 
@@ -1032,6 +1037,7 @@ Definition of rehma
 ![](images/79/9da9df6f-f8e4-4a81-9768-38023d7a120f.jpg)
 
 In classical Arabic, رحمۃ has four meanings:
+
 1. Unconditional love
 2. Care
 3. Genuine concern
@@ -1058,6 +1064,7 @@ So رحمۃ combines these four words: unconditional love, extreme care, genuine
 ![](images/79/40b93a03-5882-4ae6-9177-d9f5d781701c.jpg)
 
 I find two common manifestations of this word رحمۃ in the Quran: الرحمن and الرحیم. Both originate from the word رحمۃ. I will first examine how these words are commonly translated. English translations of بِسْمِ اللَّہِ الرَّحْمَٰنِ الرَّحِیمِ often render the phrase as:
+
 - "In the name of Allah – the most gracious, the most merciful."
 - "In the name of Allah – the most beneficent, the most merciful."
 - "The most merciful, the most kind."
@@ -1067,10 +1074,11 @@ I find two common manifestations of this word رحمۃ in the Quran: الرحم�
 The difficulty with these translations lies in how challenging these words are to process and visualize in English. The word "beneficent," for instance, rarely appears in everyday English conversation. One would not typically use it to express gratitude for assistance, saying, "You are so beneficent." The fundamental purpose of translation is to enhance understanding of the text. However, employing words in translation that are unfamiliar or unrelatable to the reader undermines this very purpose.
 
 I will first clarify the meaning of these two words. As I said, both الرحمن and الرحیم are manifestations of the word رحمۃ. The word رحمۃ signifies a combination of four elements, all intended to benefit someone:
-*   Unconditional love
-*   Care
-*   Genuine concern
-*   Mercy
+
+- Unconditional love
+- Care
+- Genuine concern
+- Mercy
 
 When Allah is called الرحمن and الرحیم, I acknowledge these four qualities of Allah. This means that Allah has intense love for us; He cares for us; He is genuinely concerned for us; and He shows us mercy. This is the implicit acknowledgment in any word that derives from رحمۃ. Allah states this point repeatedly in the Quran:
 
@@ -1093,9 +1101,11 @@ No other master in this world will show unconditional love to their slaves. They
 I will now explain the linguistic meanings of the words الرحمن and الرحیم. This understanding, God willing, will be profound and will deepen one's appreciation of Allah.
 
 The word رحمن follows a specific phonetic pattern that conveys intensification, ferocity, severity, and extreme force. Any Arabic word following this phonetic pattern, آن, shares these characteristics. Examples include:
+
 - غضبان (extremely angry; intensely angry)
 - جوعان (extremely hungry; ferociously hungry)
 - عطشان (extremely thirsty)
+
 Following this same pattern, the word رحمن means "extremely merciful" or "intensely merciful."
 
 Rehman
@@ -1103,9 +1113,11 @@ Rehman
 ![](images/79/bd725d5f-a767-46d9-b83c-e8e7d526de0a.jpg)
 
 Any word that follows this phonetic pattern possesses three characteristics:
+
 1. It is extreme.
 2. It is immediate.
 3. It is temporary.
+
 All words matching this pattern consistently possess these three characteristics: they are extreme, immediate, and temporary.
 
 The word رحمن signifies Allah's love, care, concern, and mercy. This is not merely love as humans understand it; rather, it is an extreme and intense form of love, care, concern, and mercy that transcends human imagination or any worldly example. Thus, the first characteristic of الرحمن is that any love, care, concern, and mercy one anticipates from Allah will surpass all human imagination and expectation. No example of such love can be found in this world.
@@ -1117,6 +1129,7 @@ The love and care of الرحمن does not manifest generally or at some distant
 All of that is happening, in its extreme form, right now. The first characteristic of الرحمن is its extreme nature, and the second is its immediacy. The third is its temporary quality. The love of الرحمن is extreme, intense, and immediate, but it is temporary; it is not permanent. This third aspect, its temporary nature, may be difficult to accept initially, and it can feel counterintuitive. I will explain the reasoning shortly.
 
 Thus, الرحمن carries three essential qualities:
+
 - Extreme
 - Immediate
 - Temporary
@@ -1130,9 +1143,11 @@ Similarly, جوعان denotes extreme hunger, present at that moment, yet tempor
 Likewise, عتشان signifies extreme thirst, present at that moment, yet temporary. One either drinks, alleviating the thirst, or succumbs to it. The thirst does not endure indefinitely.
 
 Allah's intense mercy is temporary because we would not be able to handle the intensity and severity of His love for a long period. I offer an example that illustrates this point clearly. I recall moments with a mother in a very cuddly and huggy mood. She wraps her arms around me and squeezes until I cannot breathe, saying, "أو میرا بیٹا! أو میری بیٹی - Mua Mua Mua." My face is left dripping wet after this display. This is a manifestation of intense love, a burst of affection a mother showers. This intense love is a beautiful thing when one feels:
+
 - down,
 - depressed,
 - or in need of serious TLC.
+
 One would appreciate such intense love. However, if this were to happen every time one walked by the mother, with her saying, "أو میرا بیٹا! أو میری بیٹی - Mua Mua Mua," every single time, one would not be able to tolerate it. One would feel annoyed and irritated. The natural reaction would be to exclaim, "Mom!!! Leave me alone! Stop marinating my face with your saliva every time I walk by!"
 
 Allah's intense love is extreme and immediate, but it is temporary. If His love were constant, its intensity and severity would prevent us from functioning. We would literally go insane; we would lose our minds.
@@ -1146,6 +1161,7 @@ Raheem
 ![](images/79/0946d4dd-bfcb-45eb-be4c-2bebdaa9f080.jpg)
 
 The next word I consider is الرحیم. Allah's love, care, concern, and mercy also manifest through the word رحیم. The word رحیم, and all others following its phonetic pattern—کَرِیمٌ، سَلِیمٌ، حَکِیمٌ، جَمِیلٌ، جَلِیلٌ—possess two distinct qualities:
+
 - First, it is permanent, not temporary.
 - Second, it is not necessarily immediate; its manifestation is long-term. For instance, if I describe my aunt as loving, I refer to a lasting quality. This does not imply she is actively demonstrating that love at this precise moment. She might not be showering me with affection right now, yet I remain certain her love is always present.
 
@@ -1170,17 +1186,15 @@ Someone once asked أَبْنُ عَبَّاسٍ رَضِیَ اللہُ عَن�
 > رَحْمَتِی وَسِعَتْ عَلَیٰ کُلِّ شَیْءٍ
 
 My mercy extends to all. Rain descends from the sky for all human beings to drink, and from it, they all draw their sustenance.
-*   The good drink, and the wretched drink.
-*   The sinner drinks, and the pious drinks.
-*   The friend of Allah drinks, and the enemy of Allah drinks.
-*   The scholar drinks, and the ignorant drinks.
+
+- The good drink, and the wretched drink.
+- The sinner drinks, and the pious drinks.
+- The friend of Allah drinks, and the enemy of Allah drinks.
+- The scholar drinks, and the ignorant drinks.
+
 Everybody drinks! This is the universal mercy of this world.
 
-> َما مِن یَوم اِلاَّوالبَحرُ یَستَئذِنُ رَبَّہُ فی اَن یورِقُ ابن آدم
-
-> والارضُ یَستَئذِنُ فی أَن تَبتَلِعَہُ
-
-> والملائکۃ یَستَئذِنُ فی ان تُعاَجِلَہُ وَ تُھلِکُہ
+> مَا مِنْ يَوْمٍ إِلَّا وَالْبَحْرُ يَسْتَأْذِنُ رَبَّهُ فِي أَنْ يُغْرِقَ ابْنَ آدَمَ، وَالْأَرْضُ تَسْتَأْذِنُ فِي أَنْ تَبْتَلِعَهُ، وَالْمَلَائِكَةُ تَسْتَأْذِنُ فِي أَنْ تُعَاجِلَهُ وَتُهْلِكَهُ.
 
 Not a single day passes without the ocean asking its Master, "Ya Allah! Give me permission to drown these disbelievers! They enjoy your blessings and rebel against you?! Let me teach them a lesson!"
 
@@ -1190,32 +1204,31 @@ Not a single day passes without the ocean asking its Master, "Ya Allah! Give me 
 
 The ocean, the earth, and the angels—these are all creations of Allah, just as I am. They observe my sins and rebellion, growing furious. But what does the Creator say, the One against whom I rebel?
 
-> دَعُو عَبدِی فأنا أَعلَمُ بِعَبدِی مِنکُم ۔ ان کان عبدَکم فَشَأنَکم بِہِ۔ وأن کان عبدی فَمِنِّی وأِلیَّ عبدی
+> دَعُوا عَبْدِي فَأَنَا أَعْلَمُ بِعَبْدِي مِنْكُمْ. إِنْ كَانَ عَبْدَكُمْ فَشَأْنُكُمْ بِهِ. وَإِنْ كَانَ عَبْدِي فَمِنِّي وَإِلَيَّ عَبْدِي.
+
 Let them be! Leave them alone! I love my creation way more than that. If they are your creation, do whatever you please with them! But if they are my creation, then hand them over to me, and you step out of the way. I will deal with my creation!
+
 > یَسْأَلُ الْمَلَائِکَۃَ: فلماذا عقدُہُ؟
+
 The angels ask: What are you waiting for?
 
 یَسْتَجِیبُ اللَّہُ: إنني أتطَّلِع إلى التوبتَہُ I am waiting for their repentance. أِنْ اَتَانِی نَھَارًا قَبِلْتُہُ أِنْ اَتَانِی لَیْلًا قَبِلْتُہُ If he approaches me during the day time, I will accept him; if he approaches me during the night time I will accept him. مَن تَقَرَّبَ أِلَیَّ تَلَقَّیتُہُ مِن بَعِید If anyone takes one single step toward me, I approach him by running toward him.
 
-> وَ مَن أَعرَضَ عَنِّی ناَدَیتُہُ عَن قَرِیب
-
-And if anyone walks away from me, I go after him to bring him closer and ask him:
-
-> أَوَلَکَ رَبٌّ غَیرِی؟
-
-Do you have another master who is more loving than me?
-
-> الحَسَنَۃُ عِندِی بِعَشرِأَمثَالِھَا وَ أَزِید
-
-Do you not know that I take one good deed from you and reward you ten times for it, even more?
-
-> وَوَصَّیَّتُ عِندِی بِمِثلِھَا وأَعفُو و أغْفَر
-
-But I count your sin as a single sin, and when you repent, I even forgive that and reward you for your repentance.
-
+> وَمَنْ أَعْرَضَ عَنِّي نَادَيْتُهُ مِنْ قَرِيبٍ. أَوَلَكَ رَبٌّ غَيْرِي؟
+>
+> And if anyone walks away from me, I go after him to bring him closer and ask him: Do you have another master who is more loving than me?
+>
+> الْحَسَنَةُ عِنْدِي بِعَشْرِ أَمْثَالِهَا وَأَزِيدُ
+>
+> Do you not know that I take one good deed from you and reward you ten times for it, even more?
+>
+> وَوَصِيَّةٌ عِنْدِي بِمِثْلِهَا وَأَعْفُو وَأَغْفِرُ
+>
+> But I count your sin as a single sin, and when you repent, I even forgive that and reward you for your repentance.
+>
 > فَأَيْنَ تَذْهَبُونَ
-
-Then where are you going?
+>
+> Then where are you going?
 
 I find that this HADEES truly portrays the رحمنیۃ and the رحیمیۃ of our Creator. Love is an emotion that cannot be quantified in words; it can only be judged through action.
 

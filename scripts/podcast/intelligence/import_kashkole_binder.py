@@ -43,11 +43,15 @@ from intelligence.kashkole_binder_import_core import (
     ImportSummary,
     TopicRow,
     chunk_text,
+    config_for_topic,
     jaccard,
+    managed_category_tags,
     normalize,
     quran_refs,
     slugify,
     tokens,
+    topic_has_classification_override,
+    topic_is_held,
     topic_row_from_sql,
 )
 
@@ -85,6 +89,7 @@ def load_topics(mirror: sqlite3.Connection, binder: str, *, include_review: bool
 def build_candidates(topics: list[TopicRow], config: BinderConfig) -> list[AtomCandidate]:
     candidates: list[AtomCandidate] = []
     for topic in topics:
+        topic_config = config_for_topic(config, topic.topic_id, topic.chapter)
         chunks = chunk_text(topic.body_en)
         for idx, chunk in enumerate(chunks):
             atom_id = f"{ATOM_PREFIX}{topic.topic_id}:{idx}"
@@ -96,7 +101,7 @@ def build_candidates(topics: list[TopicRow], config: BinderConfig) -> list[AtomC
                     chunk_index=idx,
                     chunk_count=len(chunks),
                     quran_refs=quran_refs(chunk),
-                    config=config,
+                    config=topic_config,
                 )
             )
     return candidates
@@ -215,9 +220,12 @@ def import_binder(
     total, topics = load_topics(mirror, binder, include_review=include_review)
     summary.total_topics = total
     summary.translated_topics = len(topics)
-    nonempty_topics = [t for t in topics if t.body_en.strip()]
+    policy_held_topics = [t for t in topics if topic_is_held(t.binder, t.chapter, t.topic_id)]
+    active_topics = [t for t in topics if not topic_is_held(t.binder, t.chapter, t.topic_id)]
+    nonempty_topics = [t for t in active_topics if t.body_en.strip()]
     summary.empty_topics = len(topics) - len(nonempty_topics)
-    summary.held_topics = max(0, total - len(topics))
+    summary.empty_topics -= len(policy_held_topics)
+    summary.held_topics = len(policy_held_topics)
     if total == 0:
         summary.errors.append(f"No source topics found for binder {binder!r}")
         return summary
@@ -242,12 +250,23 @@ def import_binder(
     seen_norms: dict[str, str] = {}
 
     for candidate in candidates:
-        existing_id = knowledge_conn.execute("SELECT id FROM atoms WHERE id=?", (candidate.atom_id,)).fetchone()
-        if existing_id:
+        existing_row = knowledge_conn.execute("SELECT id, body FROM atoms WHERE id=?", (candidate.atom_id,)).fetchone()
+        if existing_row:
+            try:
+                existing_body = json.loads(existing_row[1] or "{}")
+            except json.JSONDecodeError:
+                existing_body = {}
+            if existing_body.get("text_en") != candidate.text_en:
+                summary.errors.append(f"Existing atom text conflicts with current translation: {candidate.atom_id}")
+                continue
+            if existing_body.get("source_sha") != candidate.topic.source_sha:
+                summary.errors.append(f"Existing atom source fingerprint is stale: {candidate.atom_id}")
+                continue
             summary.existing_atoms += 1
             summary.existing_atom_ids.append(candidate.atom_id)
             if apply:
                 _add_source_and_tags(knowledge_conn, candidate)
+                _reconcile_topic_classification(knowledge_conn, candidate, existing_body)
             current_tokens[candidate.atom_id] = tokens(candidate.text_en)
             continue
 
@@ -312,6 +331,29 @@ def _add_source_and_tags(conn, candidate: AtomCandidate, *, atom_id: str | None 
     )
     for tag in candidate.topic_tags():
         conn.execute("INSERT OR IGNORE INTO atom_topic_tags (atom_id, tag) VALUES (?, ?)", (target_id, tag))
+
+
+def _reconcile_topic_classification(conn, candidate: AtomCandidate, existing_body: dict[str, Any]) -> None:
+    """Repair only classifications backed by an explicit topic/chapter override."""
+    if not topic_has_classification_override(candidate.topic.binder, candidate.topic.topic_id, candidate.topic.chapter):
+        return
+    conn.execute("UPDATE atoms SET content_level=? WHERE id=?", (candidate.config.content_level, candidate.atom_id))
+    managed = managed_category_tags()
+    placeholders = ",".join("?" * len(managed))
+    conn.execute(
+        f"DELETE FROM atom_topic_tags WHERE atom_id=? AND tag IN ({placeholders})",
+        (candidate.atom_id, *sorted(managed)),
+    )
+    for tag in (candidate.config.primary_category, candidate.config.secondary_category):
+        conn.execute("INSERT OR IGNORE INTO atom_topic_tags (atom_id, tag) VALUES (?, ?)", (candidate.atom_id, tag))
+
+    body_tags = [tag for tag in existing_body.get("topic_tags", []) if tag not in managed]
+    body_tags.extend((candidate.config.primary_category, candidate.config.secondary_category))
+    existing_body["topic_tags"] = list(dict.fromkeys(body_tags))
+    conn.execute(
+        "UPDATE atoms SET body=? WHERE id=?",
+        (json.dumps(existing_body, ensure_ascii=False, sort_keys=True), candidate.atom_id),
+    )
 
 
 def _queue_near_duplicate_review(conn, candidate: AtomCandidate, near: list[dict[str, Any]]) -> None:
