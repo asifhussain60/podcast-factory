@@ -24,6 +24,7 @@ specific ways they drifted:
 
 from __future__ import annotations
 
+import ast
 import json
 import re
 import unittest
@@ -152,9 +153,18 @@ class TestSnapshotsDescribeRealContent(unittest.TestCase):
         self.content = REPO / "content"
 
     def _book_dirs(self):
-        """Every book folder on disk, by the bucket layout the resolver defines."""
+        """Every book folder on disk, by the bucket layout the resolver defines.
+
+        Bucket list is READ from regenerate-snapshots.py rather than duplicated
+        here — a hardcoded copy is exactly what went stale when the Sessions
+        bucket was added and this test kept scanning the four buckets that
+        predate it, reporting every Sessions-lane in-flight book as a phantom
+        snapshot entry.
+        """
+        buckets_line = next(line for line in PY.read_text().splitlines() if line.strip().startswith("BUCKETS"))
+        buckets = ast.literal_eval(buckets_line.split("=", 1)[1].strip())
         out = []
-        for bucket in ("Islamic", "Technical", "Fiction", "Guides"):
+        for bucket in buckets:
             root = self.content / bucket
             if not root.is_dir():
                 continue

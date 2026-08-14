@@ -84,7 +84,7 @@ _ARABIC_FOLD = str.maketrans(
 
 def _arabic_skeleton(text: str) -> str:
     folded = _ARABIC_MARK_RE.sub("", text).translate(_ARABIC_FOLD)
-    return re.sub(r"[^ء-يک]", "", folded)
+    return re.sub(f"[^{_ARABIC_RANGE}]", "", folded)
 
 
 def _is_prophetic_opener(text: str) -> bool:

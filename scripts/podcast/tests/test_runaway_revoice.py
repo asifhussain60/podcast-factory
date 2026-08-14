@@ -97,6 +97,13 @@ def _adapter_returns(text: str):
     return fn
 
 
+def _repair_adapter_returns(text: str):
+    def fn(title, base_text, candidate_text, gates, book_dir, label, log, *, previous_tail="", frame="", narrator=""):
+        return text
+
+    return fn
+
+
 def test_a_runaway_window_reverts_that_window_not_the_whole_chapter(tmp_path: Path) -> None:
     body = f"{BASE}\n\n{BASE}"  # two short "windows" via the normal split path
     new_body, record = _adapt_chapter_body(
@@ -198,7 +205,13 @@ def test_the_lane_driver_never_reports_failed_for_a_gate_side_exception(tmp_path
 
     import rearticulate_chapter as rc
 
+    # Both the primary and the repair adapter must be pinned: a live, authenticated
+    # `claude` on PATH (true in a Claude Code dev session) would otherwise let the
+    # repair step actually shell out and — plausibly — correct the runaway output
+    # for real, making this test's outcome depend on what's installed rather than
+    # on the gate logic under test.
     monkeypatch.setattr(rc, "_adapter", _adapter_returns((BASE + " ") * 15))
+    monkeypatch.setattr(rc, "_repair_adapter", _repair_adapter_returns((BASE + " ") * 15))
     summary = art.articulate_book(book_dir, engine="claude", log=lambda *_: None)
     assert summary["failed"] == []
     assert summary["reverted"] == 1

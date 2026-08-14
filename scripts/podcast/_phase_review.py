@@ -193,6 +193,11 @@ NO_OWN_GATE_REASON: dict[str, str] = {
     "0book-illustrate": "no book has completed this phase; gate it when one has",
     "0book-slide-import": "no book has completed this phase; gate it when one has",
     "per-chapter-optimize": "opt-in Sonnet pass, default off; records `skipped` for most books",
+    "reader-narration": (
+        "Library read-aloud (Azure TTS); skipped for Sessions/KSESSIONS and non-Islamic "
+        "books, so most books record `skipped` rather than `completed` — gate it once "
+        "usage is broad enough to know what a healthy manifest looks like"
+    ),
 }
 
 #: CHEAP, read-only gates that every LATER phase re-runs. This is the cross-phase

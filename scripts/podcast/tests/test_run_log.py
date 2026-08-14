@@ -386,9 +386,22 @@ class TestClaudePCapture(_RunLogCase):
 
     def test_missing_binary_is_logged(self):
         from _authoring._core import AuthoringError
+        from _authoring._engine_fallback import AUTHORING_ENGINE_ENV
 
-        with self.assertRaises(AuthoringError):
-            self._run(self.tmp / "definitely-not-a-real-binary")
+        # Pinned to "claude" (no Codex fallback): this test is about the
+        # fail-fast contract when the ONLY configured engine is unreachable,
+        # not about auto-mode's fallback behavior (covered separately in
+        # test_authoring_engine_fallback.py).
+        orig_engine = os.environ.get(AUTHORING_ENGINE_ENV)
+        os.environ[AUTHORING_ENGINE_ENV] = "claude"
+        try:
+            with self.assertRaises(AuthoringError):
+                self._run(self.tmp / "definitely-not-a-real-binary")
+        finally:
+            if orig_engine is None:
+                os.environ.pop(AUTHORING_ENGINE_ENV, None)
+            else:
+                os.environ[AUTHORING_ENGINE_ENV] = orig_engine
 
         row = [r for r in self._lines() if r["event"] == "claude_p.missing_binary"][-1]
         self.assertEqual(row["level"], "error")
