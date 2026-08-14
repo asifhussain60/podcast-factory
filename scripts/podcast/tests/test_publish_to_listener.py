@@ -46,6 +46,7 @@ def a_book(tmp_path: Path) -> Book:
         title="Test Book",
         title_arabic="كتاب",
         title_language="ar",
+        study_track=None,
         blurb="<p>A blurb.</p>",
         edition_note=None,
     )

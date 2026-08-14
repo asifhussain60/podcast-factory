@@ -1,15 +1,22 @@
-import { faSliders } from "@fortawesome/free-solid-svg-icons";
+import {
+  faList,
+  faSliders,
+  faTableCells,
+  faTableCellsLarge,
+} from "@fortawesome/free-solid-svg-icons";
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
 
 import type { Route } from "./+types/home";
 import { AppShell } from "~/components/AppShell";
 import { BookCard } from "~/components/BookCard";
+import { BookListRow } from "~/components/BookListRow";
 import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
 import { SearchBox } from "~/components/SearchBox";
 import { collectionOf } from "~/lib/collection";
 import { count, plural } from "~/lib/plural";
+import { ALL_STUDY_TRACKS, isStudyTrack, studyTrackLabel, type StudyTrack } from "~/lib/study-track";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { visibleUnits } from "~/server/access.server";
@@ -135,10 +142,57 @@ const COLLECTION_LABELS: Record<Collection, string> = {
 const inCollection = (bucket: string, choice: Collection): boolean =>
   choice === "all" || (collectionOf(bucket) === "sessions") === (choice === "sessions");
 
+/**
+ * The study-track filter.
+ *
+ * "all" plus the five real tracks, kept apart from `StudyTrack` itself so a
+ * sixth track never has to teach this file about a sentinel value it does not
+ * own. Unlike the collection toggle, this is drawn even when every book on
+ * the page carries no track yet — the taxonomy is the point of showing it,
+ * not how much of the current library happens to be classified under it.
+ */
+type TrackChoice = "all" | StudyTrack;
+
+const inTrack = (studyTrack: string | null | undefined, choice: TrackChoice): boolean =>
+  choice === "all" || studyTrack === choice;
+
+/**
+ * Cards, compact tiles, or list — remembered client-side only, since this is
+ * a display preference, not data, so it has no business in the loader or the
+ * URL. Read the same way `Player.tsx`'s `loadRate()` reads the playback rate:
+ * a plain function inside a `try/catch`, used as a lazy `useState`
+ * initializer. `localStorage` does not exist during the server render, so
+ * the catch is what makes that safe rather than a special case.
+ */
+const VIEW_MODE_KEY = "pf-library-view";
+const VIEW_MODES = ["cards", "compact", "list"] as const;
+type ViewMode = (typeof VIEW_MODES)[number];
+
+function loadViewMode(): ViewMode {
+  try {
+    const stored = localStorage.getItem(VIEW_MODE_KEY);
+    return (VIEW_MODES as readonly string[]).includes(stored ?? "") ? (stored as ViewMode) : "cards";
+  } catch {
+    return "cards";
+  }
+}
+
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { units, viewer } = loaderData;
   const [query, setQuery] = useState("");
   const [collection, setCollection] = useState<Collection>("all");
+  const [track, setTrack] = useState<TrackChoice>("all");
+  const [viewMode, setViewMode] = useState<ViewMode>(loadViewMode);
+
+  function setMode(mode: ViewMode) {
+    setViewMode(mode);
+    try {
+      localStorage.setItem(VIEW_MODE_KEY, mode);
+    } catch {
+      // Best-effort. A reader whose storage is full or blocked still gets the
+      // toggle for this visit — it just doesn't survive to the next one.
+    }
+  }
 
   // The control is drawn only when there is something to choose BETWEEN. A
   // reader with books and no sessions is offered nothing to press, which is
@@ -149,11 +203,26 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     return kinds.size > 1;
   }, [units]);
 
+  // Counts against the FULL library, never `shown` — a track's chip reports
+  // whether the taxonomy has anything in it at all, not whether today's
+  // collection/search narrowing happens to have hidden its only book. Basing
+  // it on the filtered list would make a chip flicker disabled while a
+  // reader is mid-search, which teaches the wrong lesson about what "0" means.
+  const trackCounts = useMemo(() => {
+    const counts = new Map<StudyTrack, number>(ALL_STUDY_TRACKS.map((t) => [t, 0]));
+    for (const unit of units) {
+      const track = unit.card?.studyTrack ?? null;
+      if (isStudyTrack(track)) counts.set(track, (counts.get(track) ?? 0) + 1);
+    }
+    return counts;
+  }, [units]);
+
   const needle = fold(query);
   const shown = useMemo(
     () =>
       units
         .filter((unit) => inCollection(unit.bucket, collection))
+        .filter((unit) => inTrack(unit.card?.studyTrack, track))
         .filter(
           (unit) =>
             needle === "" ||
@@ -163,7 +232,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               fold(field).includes(needle),
             ),
         ),
-    [units, needle, collection],
+    [units, needle, collection, track],
   );
 
   return (
@@ -223,12 +292,101 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             </Link>
           </div>
         )}
+
+        {units.length === 0 ? null : (
+          /* Its own bordered panel, not a second loose row under the search
+             box — the two are different tools (search by name, browse by
+             taxonomy) and read that way now instead of blurring into one
+             wall of controls. Independent chips inside it, not a segmented
+             control: a sixth track should wrap onto a second line rather
+             than force the row to squeeze or overflow. Each chip's colour
+             comes from the SAME `--l-ribbon-*` pair its cards paint their
+             corner ribbon from, in `.pf-track-chip` — so choosing "Esoteric"
+             here and seeing it on a card are the same colour, not two
+             decisions that happen to agree today. */
+          <div className="pf-tracks-panel">
+            <p className="pf-tracks-panel__label" id="library-tracks-label">
+              Browse by track
+            </p>
+            <div className="pf-tracks" role="group" aria-labelledby="library-tracks-label">
+              <button
+                type="button"
+                className="pf-track-chip"
+                aria-pressed={track === "all"}
+                onClick={() => setTrack("all")}
+              >
+                All tracks
+                <span className="pf-track-chip__count">{units.length}</span>
+              </button>
+              {ALL_STUDY_TRACKS.map((choice) => {
+                const n = trackCounts.get(choice) ?? 0;
+                return (
+                  <button
+                    key={choice}
+                    type="button"
+                    className="pf-track-chip"
+                    data-track={choice}
+                    aria-pressed={track === choice}
+                    // Disabled rather than hidden: the empty track still
+                    // teaches the reader the taxonomy has five members, even
+                    // before anything is filed under it.
+                    disabled={n === 0}
+                    onClick={() => setTrack(choice)}
+                  >
+                    {studyTrackLabel(choice)}
+                    <span className="pf-track-chip__count">{n}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </section>
+
+      {/* Gated on the FULL library, same as the search/track controls above —
+          a temporary zero-result search should not make the toggle itself
+          flicker away. */}
+      {units.length === 0 ? null : (
+        <div className="pf-library-view-toggle">
+          <div role="group" aria-label="Book display" className="pf-stepper pf-stepper--sm">
+            <button
+              type="button"
+              onClick={() => setMode("cards")}
+              aria-pressed={viewMode === "cards"}
+              aria-label="Card view"
+              title="Card view"
+              className="pf-stepper__step pf-stepper__step--toggle"
+            >
+              <Icon icon={faTableCellsLarge} title="Card view" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("compact")}
+              aria-pressed={viewMode === "compact"}
+              aria-label="Compact tile view"
+              title="Compact tile view"
+              className="pf-stepper__step pf-stepper__step--toggle"
+            >
+              <Icon icon={faTableCells} title="Compact tile view" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("list")}
+              aria-pressed={viewMode === "list"}
+              aria-label="List view"
+              title="List view"
+              className="pf-stepper__step pf-stepper__step--toggle"
+            >
+              <Icon icon={faList} title="List view" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Announced rather than only drawn: filtering happens with no page
           change, so a screen reader is otherwise never told the grid moved. */}
       <p aria-live="polite" className="sr-only">
-        {needle === "" && collection === "all"
+        {needle === "" && collection === "all" && track === "all"
           ? count(units.length, "book")
           : `${shown.length} of ${count(units.length, "book")} ${plural(shown.length, "matches", "match")}`}
       </p>
@@ -238,7 +396,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           {query.trim() === "" ? (
             <>
               Nothing in{" "}
-              <strong className="pf-strong">{COLLECTION_LABELS[collection]}</strong> yet.
+              <strong className="pf-strong">
+                {track === "all"
+                  ? COLLECTION_LABELS[collection]
+                  : collection === "all"
+                    ? studyTrackLabel(track)
+                    : `${studyTrackLabel(track)} · ${COLLECTION_LABELS[collection]}`}
+              </strong>{" "}
+              yet.
             </>
           ) : (
             <>
@@ -246,6 +411,43 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             </>
           )}
         </EmptyState>
+      ) : viewMode === "list" ? (
+        /* Same elevated container the chapter/episode rows already sit in
+           (`.pf-panel` + `.pf-panel__body`) rather than a bare striped list
+           floating on the page background — one surface, reused. */
+        <div className="pf-panel pf-library-list">
+          <div className="pf-panel__body">
+            <ol className="pf-rows pf-rows--striped">
+              {shown.map((unit) => (
+                <BookListRow
+                  key={unit.slug}
+                  slug={unit.slug}
+                  title={unit.title}
+                  card={unit.card}
+                  progress={unit.progress}
+                />
+              ))}
+            </ol>
+          </div>
+        </div>
+      ) : viewMode === "compact" ? (
+        <ul className="pf-grid pf-grid--spaced pf-grid--compact">
+          {shown.map((unit) => (
+            <li key={unit.slug}>
+              <BookCard
+                slug={unit.slug}
+                title={unit.title}
+                bucket={unit.bucket}
+                card={unit.card}
+                progress={unit.progress}
+                bookmarks={unit.bookmarks}
+                listen={unit.listen}
+                marks={unit.marks}
+                compact
+              />
+            </li>
+          ))}
+        </ul>
       ) : (
         <ul className="pf-grid pf-grid--spaced">
           {shown.map((unit) => (

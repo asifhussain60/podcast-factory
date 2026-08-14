@@ -437,18 +437,22 @@
   --pf-measure-reader: 56rem;
 
   /* ---- Study-track ribbon ----------------------------------------------
-     A book's doctrinal advancement level — theology (foundational),
-     esoterics (intermediate), history (advanced) — shown as a corner ribbon
-     on the library card. Fixed per track rather than per theme, like the
-     Sessions collection's violet is a brand choice: the ribbon is a small,
-     self-contained badge that carries its own text colour, so it never has
-     to be read against the page underneath it. */
+     A book's subject track — theology, history, shariah, esoteric, reality —
+     shown as a corner ribbon on the library card and as the matching filter
+     chip's own colour in the library find row. Fixed per track rather than
+     per theme, like the Sessions collection's violet is a brand choice: the
+     ribbon is a small, self-contained badge that carries its own text
+     colour, so it never has to be read against the page underneath it. */
   --l-ribbon-theology-bg: #0a6a82;
   --l-ribbon-theology-ink: #ffffff;
-  --l-ribbon-esoterics-bg: #d98a1f;
-  --l-ribbon-esoterics-ink: #1c2433;
+  --l-ribbon-esoteric-bg: #d98a1f;
+  --l-ribbon-esoteric-ink: #1c2433;
   --l-ribbon-history-bg: #a3236f;
   --l-ribbon-history-ink: #ffffff;
+  --l-ribbon-shariah-bg: #178a4c;
+  --l-ribbon-shariah-ink: #ffffff;
+  --l-ribbon-reality-bg: #e0201f;
+  --l-ribbon-reality-ink: #ffffff;
 }
 
 /* ==========================================================================
@@ -2626,6 +2630,16 @@
     opacity: 1;
   }
 
+  /* The library list row's badge takes its book's track colour instead of
+     the plain accent — `--pf-track-line` is set per track alongside the
+     ribbon and the filter chip below, so all three read the same colour for
+     the same track. */
+  .pf-row__badge[data-track] {
+    border-color: color-mix(in srgb, var(--pf-track-line, var(--l-accent)) 35%, transparent);
+    background: color-mix(in srgb, var(--pf-track-line, var(--l-accent)) 8%, transparent);
+    color: var(--pf-track-line, var(--l-accent));
+  }
+
   /* Full strength inside the ring. `.pf-icon` fades every glyph to 0.7 so an
      icon never outweighs the words beside it; here the ring is doing that job,
      and a faded microphone inside a solid circle reads as disabled. */
@@ -3307,6 +3321,17 @@
     }
   }
 
+  /* Compact tiles: `auto-fill`/`minmax` rather than the fixed 1/2/3-column
+     steps above, so the density is what the viewport actually holds instead
+     of one more hand-picked breakpoint — the same responsive convention the
+     rest of the site's grids already use. Same specificity as `.pf-grid` at
+     every width, so it wins purely by coming after it in the cascade —
+     placed below both media blocks on purpose. */
+  .pf-grid--compact {
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: var(--pf-space-4);
+  }
+
   /* ---- The book card ---------------------------------------------------
      A coloured band carrying the book's identity, and a body that rises into
      it. The rise is what stops the two halves reading as two stacked
@@ -3462,16 +3487,31 @@
     color: var(--l-ribbon-theology-ink);
   }
 
-  .pf-book__ribbon[data-track="esoterics"] {
-    background: var(--l-ribbon-esoterics-bg);
-    color: var(--l-ribbon-esoterics-ink);
-    /* Esoterics reads as the "hidden knowledge" track, so this is the one
-       ribbon that gets a lit look rather than the flat elevation shadow the
-       other two keep. */
+  .pf-book__ribbon[data-track="esoteric"] {
+    background: var(--l-ribbon-esoteric-bg);
+    color: var(--l-ribbon-esoteric-ink);
+    /* Esoteric reads as the "hidden knowledge" track, so this is one of the
+       two ribbons that get a lit look rather than the flat elevation shadow
+       the others keep. */
     box-shadow:
       var(--pf-elev-1),
-      0 0 0.6rem color-mix(in srgb, var(--l-ribbon-esoterics-bg) 75%, transparent),
-      0 0 1.4rem color-mix(in srgb, var(--l-ribbon-esoterics-bg) 55%, transparent);
+      0 0 0.6rem color-mix(in srgb, var(--l-ribbon-esoteric-bg) 75%, transparent),
+      0 0 1.4rem color-mix(in srgb, var(--l-ribbon-esoteric-bg) 55%, transparent);
+  }
+
+  .pf-book__ribbon[data-track="shariah"] {
+    background: var(--l-ribbon-shariah-bg);
+    color: var(--l-ribbon-shariah-ink);
+  }
+
+  .pf-book__ribbon[data-track="reality"] {
+    background: var(--l-ribbon-reality-bg);
+    color: var(--l-ribbon-reality-ink);
+    /* Asif's call: Reality gets the same lit treatment as Esoteric, in red. */
+    box-shadow:
+      var(--pf-elev-1),
+      0 0 0.6rem color-mix(in srgb, var(--l-ribbon-reality-bg) 75%, transparent),
+      0 0 1.4rem color-mix(in srgb, var(--l-ribbon-reality-bg) 55%, transparent);
   }
 
   .pf-book__ribbon[data-track="history"] {
@@ -4027,6 +4067,23 @@
      row appears not to respond to the pointer. */
   .pf-rows--striped a.pf-row:hover {
     background: var(--l-accent-soft);
+  }
+
+  /* The library's list view, in the same panel a chapter or episode list
+     already sits in — matched to `.pf-grid--spaced`'s gap under the masthead
+     rather than the panel's own smaller default, so the three view modes
+     start at the same distance from the toggle above them. */
+  .pf-library-list {
+    margin-top: var(--pf-space-7);
+  }
+
+  /* A book's title carries more weight in this row than a chapter's does —
+     it is the one fact the whole row exists to state — so it reads as the
+     entry a card would give it, not a line in a plain index. */
+  .pf-book-row .pf-row__main {
+    font-family: var(--l-font-card-title);
+    font-size: var(--pf-text-lg);
+    font-weight: 600;
   }
 
   .pf-row__main {
@@ -5194,6 +5251,85 @@
     font-size: var(--pf-text-xs);
     font-variant-numeric: tabular-nums;
     color: var(--l-faint);
+  }
+
+  /* ---- The compact tile --------------------------------------------------
+     The same card — same ribbon, same band, same meter, same colour rules —
+     scaled down for scanning many at once, with the action row dropped
+     rather than shrunk (see the `compact` prop doc in `BookCard.tsx`). Every
+     value below is hand-set rather than derived from the full card's
+     dimensions by a scale factor: the full card's numbers are already tuned
+     and rewriting them as `calc()` expressions to parametrize a size this
+     block only needs once would risk the one card every reader already
+     sees for the sake of the one nobody has seen yet. */
+  .pf-book--compact .pf-book__band {
+    height: 5.5rem;
+    padding: var(--pf-space-2) var(--pf-space-4);
+  }
+
+  .pf-book--compact .pf-book__band-title {
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .pf-book--compact .pf-book__band-title--latin {
+    font-size: var(--pf-text-sm);
+  }
+
+  /* A colour flag, not a label — at this width "THEOLOGY" or "ESOTERIC" had no
+     room to sit straight and read as clipped, crowded lettering. The colour
+     alone is already the same signal the filter chips and the list badge
+     give, so the text is dropped rather than shrunk further; the label stays
+     in the DOM (`color: transparent`, not `display: none`) so it is still
+     announced to a screen reader even though nothing sighted is lost by
+     removing it visually.
+
+     A square corner triangle rather than the full card's rotated banner: a
+     diagonal banner earns its shape by carrying a word across a corner, and
+     with no word left to carry, `clip-path` cuts a flag straight out of the
+     same corner instead of rotating an invisible label. */
+  .pf-book--compact .pf-book__ribbon {
+    top: 0;
+    inset-inline-end: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    transform: none;
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+    box-shadow: none;
+    color: transparent;
+  }
+
+  /* The corner ornaments and the band's arched foot are legible flourishes at
+     full size; at a 5.5rem band they are just clutter competing with the
+     title for the same handful of pixels. */
+  .pf-book--compact .pf-book__ornament,
+  .pf-book--compact .pf-book__band::after {
+    display: none;
+  }
+
+  /* The bucket pill ("Islamic", "Sessions") at the band's own literary size
+     read as oversized against a band this short — it was built for a 10.5rem
+     band and stayed there at 5.5rem. Shrunk to the same scale as the ribbon
+     beside it rather than left at full size. */
+  .pf-book--compact .pf-pill--pinned {
+    padding: 2px var(--pf-space-2);
+    font-size: 0.55rem;
+  }
+
+  .pf-book--compact .pf-book__body {
+    padding: var(--pf-space-3);
+  }
+
+  .pf-book--compact .pf-book__title {
+    margin-top: var(--pf-space-1);
+    font-size: var(--pf-text-sm);
+  }
+
+  .pf-book--compact .pf-book__progress {
+    margin-top: var(--pf-space-2);
+    padding-top: 0;
+    min-height: 0;
   }
 
   /* How many marks sit in a chapter, in its row. Quieter than the reading time
@@ -8017,6 +8153,154 @@
   .pf-collections {
     display: inline-flex;
     margin-top: var(--pf-space-4);
+  }
+
+  /* The library's study-track filter — its OWN bordered panel, not a second
+     loose row under the search box. Search-by-name and browse-by-taxonomy
+     are two different tools, and a shared background/border is what tells
+     the eye that rather than reading as one blurred wall of controls. Full
+     width like `.pf-library-find` above it, so it lines up with everything
+     else on the page rather than floating as an island. */
+  .pf-tracks-panel {
+    margin-top: var(--pf-space-4);
+    padding: var(--pf-space-4) var(--pf-space-5);
+    background: whitesmoke;
+    border: 2px solid color-mix(in srgb, var(--l-rule) 85%, black);
+    border-radius: var(--pf-radius-lg);
+    text-align: center;
+  }
+
+  /* Cards vs. list. Right-aligned and sitting directly above the grid it
+     controls, rather than crowding into `.pf-library-find`'s search/filter
+     row — those narrow WHICH books show; this changes how the result is
+     drawn, so it reads as a separate decision. */
+  .pf-library-view-toggle {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--pf-space-4);
+  }
+
+  .pf-tracks-panel__label {
+    margin: 0 0 var(--pf-space-3);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    color: var(--l-faint);
+  }
+
+  /* NOT `.pf-swatches`: that control is one segmented pill sized for two or
+     three mutually exclusive words, and a sixth choice would either overflow
+     or squeeze the row rather than wrap. Each track is its own independent
+     chip instead, so the row wraps onto a second line on a narrow screen the
+     same way `.pf-library-find` itself does, and the taxonomy can grow past
+     five without a redesign. `justify-content: center` is the fix for the row
+     reading left-ragged under an otherwise centred panel. */
+  .pf-tracks {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pf-space-2);
+  }
+
+  /* Colour lives on the chip itself, from the same `--l-ribbon-*` pair the
+     card's own corner ribbon reads — so the chip that filters to Esoteric and
+     the ribbon that says Esoteric are never two colours for one category. */
+  .pf-track-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    min-height: 2.75rem;
+    padding: var(--pf-space-1) var(--pf-space-4);
+    border: 1.5px solid var(--pf-track-line, var(--l-rule));
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-surface);
+    color: var(--pf-track-line, var(--l-muted));
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion),
+      border-color var(--pf-motion),
+      opacity var(--pf-motion);
+  }
+
+  .pf-track-chip:hover {
+    background: color-mix(in srgb, var(--pf-track-line, var(--l-muted)) 12%, var(--l-surface));
+  }
+
+  .pf-track-chip[aria-pressed="true"] {
+    background: var(--pf-track-line, var(--l-accent));
+    border-color: var(--pf-track-line, var(--l-accent));
+    color: var(--pf-track-fg, var(--l-on-accent));
+  }
+
+  /* A track with nothing filed under it yet stays VISIBLE — the taxonomy is
+     the point — but reads as unavailable rather than inviting a click into an
+     empty grid. Real `disabled`, not just a dimmed look: it drops out of tab
+     order and the browser's own affordances (no hover state, no cursor
+     change) do the rest for free. */
+  .pf-track-chip:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+
+  .pf-track-chip:disabled:hover {
+    background: var(--l-surface);
+  }
+
+  .pf-track-chip__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.4rem;
+    height: 1.4rem;
+    padding-inline: 0.35rem;
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--pf-track-line, var(--l-muted)) 16%, transparent);
+    font-size: var(--pf-pill-sm-size);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pf-track-chip[aria-pressed="true"] .pf-track-chip__count {
+    background: color-mix(in srgb, var(--pf-track-fg, var(--l-on-accent)) 22%, transparent);
+  }
+
+  /* One source of truth per track colour, read by the filter chip, the
+     library list row's badge, and (via `.pf-book__ribbon`, defined
+     separately) the card's ribbon — three surfaces, the same five colours. */
+  .pf-track-chip[data-track="theology"],
+  .pf-row__badge[data-track="theology"] {
+    --pf-track-line: var(--l-ribbon-theology-bg);
+    --pf-track-fg: var(--l-ribbon-theology-ink);
+  }
+
+  .pf-track-chip[data-track="esoteric"],
+  .pf-row__badge[data-track="esoteric"] {
+    --pf-track-line: var(--l-ribbon-esoteric-bg);
+    --pf-track-fg: var(--l-ribbon-esoteric-ink);
+  }
+
+  .pf-track-chip[data-track="history"],
+  .pf-row__badge[data-track="history"] {
+    --pf-track-line: var(--l-ribbon-history-bg);
+    --pf-track-fg: var(--l-ribbon-history-ink);
+  }
+
+  .pf-track-chip[data-track="shariah"],
+  .pf-row__badge[data-track="shariah"] {
+    --pf-track-line: var(--l-ribbon-shariah-bg);
+    --pf-track-fg: var(--l-ribbon-shariah-ink);
+  }
+
+  .pf-track-chip[data-track="reality"],
+  .pf-row__badge[data-track="reality"] {
+    --pf-track-line: var(--l-ribbon-reality-bg);
+    --pf-track-fg: var(--l-ribbon-reality-ink);
   }
 
   /* The reader toolbar's version: a DOT per theme, painted in that theme's own
