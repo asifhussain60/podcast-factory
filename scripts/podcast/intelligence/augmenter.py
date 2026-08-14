@@ -32,6 +32,12 @@ from _rules import (
     allowed_content_levels,
 )
 
+from intelligence._augment_usage import (
+    atoms_used_in_other_episodes as _atoms_used_in_other_episodes,
+)
+from intelligence._augment_usage import load_episode_ledger as _load_episode_ledger
+from intelligence._augment_usage import record_episode_atoms as _record_episode_atoms
+from intelligence._augment_usage import usage_entry as _usage_entry
 from intelligence._local_server_client import quran_verse as _live_verse
 from intelligence._local_server_client import topic_search as _live_topic_search
 
@@ -170,6 +176,7 @@ def augment_episode_text(
     already_used = _atoms_used_in_other_episodes(ledger, episode_slug)
 
     injected_ids: list[str] = []
+    injected_usage: list[dict] = []
 
     # 1. Doctrine atoms (tag-based)
     tags = list(topic_tags or []) or _book_tags(book_dir)
@@ -189,6 +196,7 @@ def augment_episode_text(
         if doc_atoms:
             doctrine_block = _build_context_block(doc_atoms)
             injected_ids += [a["id"] for a in doc_atoms]
+            injected_usage += [_usage_entry(a, "doctrine_topic_match") for a in doc_atoms]
 
     # 2. Term atoms (keyword match in episode text)
     term_block = ""
@@ -196,6 +204,7 @@ def augment_episode_text(
     if term_atoms:
         term_block = _build_term_block(term_atoms)
         injected_ids += [a["id"] for a in term_atoms]
+        injected_usage += [_usage_entry(a, "term_keyword_match") for a in term_atoms]
 
     # 3. Quote atoms (speaker keyword match)
     quote_block = ""
@@ -205,6 +214,7 @@ def augment_episode_text(
     if quote_atoms:
         quote_block = _build_quote_block(quote_atoms)
         injected_ids += [a["id"] for a in quote_atoms]
+        injected_usage += [_usage_entry(a, "speaker_keyword_match") for a in quote_atoms]
 
     # 4. Etymology atoms (Wave L-4) — universal resource, never content-level-gated.
     #    Conservative term match; capped at 3/chapter; spoken-form guidance only.
@@ -215,13 +225,14 @@ def augment_episode_text(
     if etym_atoms:
         etym_block = _build_etymology_block(etym_atoms)
         injected_ids += [a["id"] for a in etym_atoms]
+        injected_usage += [_usage_entry(a, "etymology_keyword_match") for a in etym_atoms]
 
     parts = [p for p in (doctrine_block, term_block, quote_block, etym_block) if p]
     if not parts:
         return episode_text
 
     if record and injected_ids:
-        _record_episode_atoms(book_dir, episode_slug, injected_ids)
+        _record_episode_atoms(book_dir, episode_slug, injected_ids, atom_usage=injected_usage)
     return "\n\n".join(parts) + "\n\n" + episode_text
 
 
@@ -380,60 +391,6 @@ def _book_tags(book_dir: Path) -> list[str]:
         return list(meta.get("knowledge_tags", []))
     except Exception:
         return []
-
-
-# ─── Cross-chapter anti-repetition ledger (Wave L-5) ────────────────────────
-# A dedicated episode-augmentation ledger, kept SEPARATE from the book-level
-# augmentation-ledger.json that augment_book.py fully overwrites with its own
-# schema. Sharing one file across the two augmentation paths would be fragile;
-# this file is owned solely by the per-episode augmenter.
-_EPISODE_LEDGER_NAME = "episode-augment-ledger.json"
-
-
-def _episode_ledger_path(book_dir: Path) -> Path:
-    return book_dir / "_system" / _EPISODE_LEDGER_NAME
-
-
-def _load_episode_ledger(book_dir: Path) -> dict:
-    """Load the per-episode augmentation ledger ({episodes: {slug: {...}}})."""
-    p = _episode_ledger_path(book_dir)
-    if not p.exists():
-        return {"episodes": {}}
-    try:
-        data = json.loads(p.read_text(encoding="utf-8"))
-        if isinstance(data, dict) and isinstance(data.get("episodes"), dict):
-            return data
-    except Exception:
-        pass
-    return {"episodes": {}}
-
-
-def _atoms_used_in_other_episodes(ledger: dict, current_slug: str) -> set[str]:
-    """Union of atom IDs injected into every episode EXCEPT current_slug.
-
-    Excluding the current episode keeps re-runs idempotent: re-augmenting EP02
-    does not exclude EP02's own prior atoms (which would drift the result), only
-    atoms claimed by EP01, EP03, … so nothing repeats across chapters.
-    """
-    used: set[str] = set()
-    for slug, entry in (ledger.get("episodes") or {}).items():
-        if slug == current_slug:
-            continue
-        used.update(entry.get("atoms_injected", []) or [])
-    return used
-
-
-def _record_episode_atoms(book_dir: Path, episode_slug: str, atom_ids: list[str]) -> None:
-    """Write/overwrite this episode's injected-atom list in the ledger."""
-    if not episode_slug:
-        return
-    ledger = _load_episode_ledger(book_dir)
-    ledger.setdefault("episodes", {})[episode_slug] = {
-        "atoms_injected": sorted(set(atom_ids)),
-    }
-    p = _episode_ledger_path(book_dir)
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(ledger, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def _book_content_level(book_dir: Path) -> str | None:

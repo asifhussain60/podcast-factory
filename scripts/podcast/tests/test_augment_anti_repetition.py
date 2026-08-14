@@ -50,6 +50,29 @@ class TestLedgerHelpers(unittest.TestCase):
         ledger = augmenter._load_episode_ledger(book)
         self.assertEqual(set(ledger["episodes"].keys()), {"ch01", "ch02"})
 
+    def test_record_keeps_usage_metadata(self):
+        book = self._book()
+        augmenter._record_episode_atoms(
+            book,
+            "ch01",
+            ["doctrine:quranic-studies:a"],
+            atom_usage=[
+                {
+                    "atom_id": "doctrine:quranic-studies:a",
+                    "type": "doctrine",
+                    "reason": "doctrine_topic_match",
+                    "topic_tags": ["hamd"],
+                    "quran_refs": ["1:2"],
+                    "source_kind": "quranic_studies",
+                }
+            ],
+        )
+        ledger = augmenter._load_episode_ledger(book)
+        usage = ledger["episodes"]["ch01"]["atom_usage"]
+        self.assertEqual(usage[0]["topic_tags"], ["hamd"])
+        self.assertEqual(usage[0]["quran_refs"], ["1:2"])
+        self.assertEqual(usage[0]["source_kind"], "quranic_studies")
+
     def test_missing_ledger_is_empty(self):
         book = self._book()
         self.assertEqual(augmenter._load_episode_ledger(book), {"episodes": {}})

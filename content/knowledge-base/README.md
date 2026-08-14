@@ -107,6 +107,35 @@ on easy types; later waves add ML-driven dedup once the bones are validated.
 - **Hadith fallback**: matn-only citations (no collection/number) accepted as
   `hadith:uncited:<sha256>` with text-hash dedup. Semantic dedup arrives in Wave 2.
 
+## Quranic Studies import
+
+Quranic Studies lecture knowledge enters the corpus through
+`scripts/podcast/intelligence/import_quranic_studies.py`. The importer accepts a
+candidate JSONL file, writes a dry-run report by default, and only writes to
+`knowledge.db` when `--apply` is passed.
+
+The import is intentionally conservative:
+
+- Quran verses are normalized to `S:A` references and linked from the teaching
+  body; the importer does not create duplicate Quran verse atoms.
+- Teachings are doctrine atoms with `body.source_kind = "quranic_studies"`,
+  plus `topic_tags`, `quran_refs`, series/session/source locator, and confidence.
+- Exact duplicate teachings collapse onto one text-derived atom id.
+- Near duplicates are sent to `manual_review_queue` as
+  `quranic_studies_near_duplicate`, not silently merged.
+- Topic tags are also mirrored to `atom_topic_tags` so the existing augmenter can
+  retrieve them without a new parallel index.
+
+Start every new source series with:
+
+```bash
+python3 scripts/podcast/intelligence/import_quranic_studies.py \
+  --input <candidate-teachings.jsonl> \
+  --dry-run
+```
+
+Apply only after the dry-run report has been reviewed.
+
 ## Operational rules
 
 - This folder is read by the Augmenter, written by the Librarian (phase
