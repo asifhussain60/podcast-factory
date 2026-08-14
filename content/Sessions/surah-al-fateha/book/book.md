@@ -744,7 +744,7 @@ The word الہ is a compound word that carries a range of meanings. A composite
 
 The word الہ carries several distinct meanings, each of which contributes to the whole.
 
-### YALAA
+#### YALAA
 
 The primary root is الہ, drawn from اَلَہَ یَعلُہُ. At its core, the verb اَلَہَ means to worship. The first meaning of اَلَہَ, therefore, is: the one who is the object of all worship and obedience.
 
@@ -752,7 +752,7 @@ Worship itself is an extreme form of gratitude — the highest degree of thankfu
 
 The principle extends into ordinary life. A person who is so consumed by a career that it is placed above every other person and every competing claim has made that career an الہ. Whatever commands and rules the heart, whatever a person effectively bows before — whether video games, sport, television, children, or wealth — fits this definition. Such things become, in a meaningful sense, an الہ. Likewise, when love for another person becomes so total that it governs every thought, action, and decision, that beloved has become an الہ. For الہ is precisely this: the one worshipped, the one obeyed and submitted to without question.
 
-### ALAHA
+#### ALAHA
 
 The word أَلَہَ is also used for a child desperate for its mother's milk, crying out for it with everything it has — that, too, is اَلِہَ. There is a particular hunger in a baby's face at such a moment, and a particular intensity in the way it reaches for its mother. That is أَلَہَ: the one to whom a person turns desperately and inevitably, with passion and need, in moments of happiness and grief alike, without restraint or control. That, too, is an أَلَہَ.
 
@@ -760,15 +760,15 @@ Some people are enslaved to sugar; others to cigarettes, drugs, parties, or film
 
 This applies to every one of us. We all have such الہ in our lives. That does not make us horrible people; it makes us human. By learning these meanings, we begin to recognize these masters for what they are. That recognition is the first step toward change.
 
-### WALAHA
+#### WALAHA
 
 The next word is وَلَہَ. It describes someone with whom one is passionately in love — someone one cannot stop thinking about, someone who occupies the mind completely. The derivative وَلَہَ is used when a person is driven to madness by the loss of a beloved. A mother who loses her child is called مُوَلَّا: a mother enduring the excruciating pain and grief of her child's loss. She is called مُوَلَّا. It is this kind of passionate, consuming love. In Urdu, the expression is وَالِھَانَہَ مُحَبَّتْ — mad love, crazy love — and that, too, comes from وَلَہَ. When someone in one's life has that kind of hold on the heart — when one thinks of that person constantly, when separation drives one to the edge of reason, when one cannot stop calling or texting, when one repeatedly returns to old photographs and messages, missing that person with every part of oneself — that is the state of وَلَہَ, and by definition that person is one's الہ.
 
-### ALIHA
+#### ALIHA
 
 The next meaning, أَلِہَ, applies literally — not linguistically — to something on which a person leans, something that bears their full weight. When exhaustion sets in and one leans against something, that supporting thing is literally called أَلِہَ. Thus, if the weight of life rests on finances, property, houses, cars, a job, social standing, friends, neighbors, or children — anything on which one psychologically leans — then each of those things is an الہ. Whatever holds all one's eggs in a single basket, so to speak, becomes one's الہ.
 
-### WALIHA
+#### WALIHA
 
 Another derivative of الہ comes from وَلِہَ, which means to become astounded, astonished, or mesmerized. People make role models of actors, musicians, and hip-hop artists. This is especially true of young people who want to be like them, live like them, think like them, dress like them, talk like them, and walk like them. When someone shaves his head to look like Amir Khan in the film Gajni, he has made Amir Khan his الہ. By definition, الہ is the one by whom a person is completely and utterly captivated — the one to imitate, the one to become. It may be a person, an object, a profession, or anything else. Whatever mesmerizes and grips a person so completely that it takes control of their decisions becomes their الہ.
 
@@ -868,9 +868,9 @@ That is the journey of لَا اِلَٰہَ اِلَّا اللَّہُ. It is 
 
 > وَإِذْ تَأَذَّنَ رَبُّكُمْ لَىِٕن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَىِٕن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌۭ
 >
-> And when your master proclaimed: "If you are grateful, I will give you more, but if you are ungrateful, Indeed! My Punishment is indeed severe."
+> And when your master proclaimed: "If you are grateful, I will give you more, but if you are ungrateful, indeed! My Punishment is indeed severe."
 
-Salaat is the act of breaking idols. It begins with Wuzu — the purification of the very parts of the body used in the service of those idols.
+Salaat is the act of breaking idols. It begins with Wudu — the purification of the very parts of the body used in the service of those idols.
 
 ## What is Worship?
 
