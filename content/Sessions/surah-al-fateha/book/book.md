@@ -748,7 +748,7 @@ The word الہ carries several distinct meanings, each of which contributes to 
 
 The primary root is الہ, drawn from اَلَہَ یَعلُہُ. At its core, the verb اَلَہَ means to worship. The first meaning of اَلَہَ, therefore, is: the one who is the object of all worship and obedience.
 
-Worship itself is an extreme form of gratitude — the highest degree of thankfulness, in which the one who has given becomes so precious and indispensable that the heart is brought to its knees. It is a state of complete surrender, when a person's will yields entirely to the will of the beloved. When that happens, the beloved becomes one's الہ. This is the first meaning of اَلَہَ.
+Worship itself is an extreme form of gratitude — the highest degree of thankfulness, in which the one who has given becomes so precious and indispensable that the heart is brought to its knees. It is a state of complete surrender when a person's will yields entirely to the will of the beloved. When that happens, the beloved becomes one's الہ. This is the first meaning of اَلَہَ.
 
 The principle extends into ordinary life. A person who is so consumed by a career that it is placed above every other person and every competing claim has made that career an الہ. Whatever commands and rules the heart, whatever a person effectively bows before — whether video games, sport, television, children, or wealth — fits this definition. Such things become, in a meaningful sense, an الہ. Likewise, when love for another person becomes so total that it governs every thought, action, and decision, that beloved has become an الہ. For الہ is precisely this: the one worshipped, the one obeyed and submitted to without question.
 
