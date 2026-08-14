@@ -742,9 +742,9 @@ The word الہ is a compound word that carries a range of meanings. A composite
 
 ### Meanings Of Word ILAH
 
-### YALAA
-
 The word الہ carries several distinct meanings, each of which contributes to the whole.
+
+### YALAA
 
 The primary root is الہ, drawn from اَلَہَ یَعلُہُ. At its core, the verb اَلَہَ means to worship. The first meaning of اَلَہَ, therefore, is: the one who is the object of all worship and obedience.
 
@@ -2160,8 +2160,6 @@ If this incredible رب does so much for disobedient and ungrateful slaves, what
 
 And when your master said: “If you become grateful, I will give you more, but if you are ungrateful, then indeed my punishment is severe.”
 
-### Q&A
-
 ### If Our Relationship With Allah Is Of Master And Slave, Then What Is The Concept Of Freedom In Islam?
 
 What is freedom? حریۃ. In Arabic, freedom is very different from the way modern English usually defines it. In pre-Islamic Arab culture, the حر stood in contrast to the slave. A free person was someone who was not a عبد. Such a person possessed both حر and عبد.
@@ -2205,8 +2203,6 @@ May what lies between us remain beautiful, even if everything between me and the
 One sip from the wine of Your pure love makes the sweet water of the Euphrates seem like a mirage to me.
 
 All I need is Your love. If I have that, I have everything. Without it, even the greatest treasure is dust to me.
-
-###
 
 ## Understanding RAB Al-ALAMEEN
 
@@ -3917,8 +3913,6 @@ So الشُّکْرُ وَ الْمَدْحُ praise and gratitude are two separ
 
 What is striking about the word حمد is that it necessarily holds both meanings together. When Allah says اَلْحَمْدُ لِلّٰہِ, He is saying that praise belongs to Allah and gratitude also belongs to Allah, at the same time. The word حمد makes the two concepts mutually inclusive.
 
-### Praise & Gratitude
-
 ### Praise
 
 I turn now to the question of why Allah did not use مدح or شکر, and used حمد instead. I begin with مدح. Why did Allah not say:
@@ -4012,8 +4006,6 @@ A noun is different. A noun does not need a doer. It does not need a subject to 
 When Allah used the word الحمد, He made it a noun. He made it independent. He does not need anyone to perform the act of praise, and He does not need anyone to be grateful. If He had used a verb, the wording would have tied that praise and gratitude to someone doing them.
 
 By using a noun, He removed the limits of time and circumstance. Even if there were not a single created being in this world, the حمد of Allah سُبْحَانَهُ وَتَعَالَى would still be there. Even after this world and this universe fade into non-existence, His praise and gratitude will remain. It does not require a doer or an object. SubhanAllah. All of this is held in one word, grammatically used as a noun.
-
-### Other Variations
 
 ### Command
 

@@ -451,6 +451,58 @@ def bare_arabic(md: str) -> list[tuple[str, str]]:
     return hits
 
 
+_HEADING_RE = re.compile(r"^(#{2,6})[ \t]*(.*?)[ \t]*$")
+
+
+def orphaned_heading(md: str) -> list[tuple[str, str]]:
+    """(chapter, sub-heading) for a `###`+ heading with no body of its own.
+
+    Found 2026-08-14: a Sessions-lane hand-off rewrite left "Meanings Of Word
+    ILAH" as a bare topic label directly above its first child, "YALAA" —
+    same level, nothing between them, so the reader sees two consecutive
+    headings that read as duplicates rather than a topic and its point. The
+    actual intro sentence for "Meanings Of Word ILAH" had been misfiled under
+    "YALAA" instead, which is the same defect from the other side: a heading
+    that owns no prose of its own.
+
+    Two shapes, both empty-handed:
+      - a heading whose title text is itself blank (`###` with nothing after
+        it) — always wrong, regardless of what follows;
+      - a heading with real title text but no paragraph, quote, or list line
+        before the NEXT heading at the SAME level — its "body" is just
+        another heading it cannot be told apart from.
+
+    A heading immediately followed by a DEEPER heading (`##` then `###`) is
+    not a hit: a chapter or section diving straight into its first
+    subsection with no preamble is ordinary book structure, not a defect —
+    over a third of this book's own chapters open exactly that way.
+
+    Judgment, not mechanics, decides the fix (delete the label, or promote
+    what follows into its actual children), so this is deliberately absent
+    from `_book_defect_fixes.FIXES` — report-only, like the file's other
+    heading-adjacent check would be were one to exist.
+    """
+    hits: list[tuple[str, str]] = []
+    for chapter_title, body in chapters(md):
+        lines = body.split("\n")
+        headings: list[tuple[int, int, str]] = []
+        for i, line in enumerate(lines):
+            m = _HEADING_RE.match(line)
+            if m:
+                headings.append((i, len(m.group(1)), m.group(2)))
+        for idx, (line_no, level, title) in enumerate(headings):
+            if not title:
+                hits.append((chapter_title, f"blank heading marker ({'#' * level})"))
+                continue
+            next_line_no = headings[idx + 1][0] if idx + 1 < len(headings) else len(lines)
+            has_body = any(line.strip() for line in lines[line_no + 1 : next_line_no])
+            if has_body:
+                continue
+            if idx + 1 < len(headings) and headings[idx + 1][1] == level and headings[idx + 1][2]:
+                hits.append((chapter_title, title))
+    return hits
+
+
 #: Every detector, by the name a report and a gate address it under. One registry so a
 #: caller cannot know about four of five — which is how the romanization defect ran in
 #: two shipped editions while the other checks were being written.
@@ -487,4 +539,5 @@ DETECTORS = {
     "translation-leads-a-paragraph": translation_leads_a_paragraph,
     "translation-fused-with-prose": translation_fused_with_prose,
     "bare-arabic": bare_arabic,
+    "orphaned-heading": orphaned_heading,
 }
