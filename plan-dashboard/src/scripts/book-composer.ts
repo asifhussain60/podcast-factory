@@ -291,7 +291,7 @@ const COMPOSE_TOOLBAR_TIPS = {
   redo: { title: "Redo", detail: "Reapply an edit you undid. ⇧⌘Z." },
   paragraphFormat: {
     title: "Paragraph style",
-    detail: "Body or Heading 1–3 for the paragraph the cursor is in.",
+    detail: "Body or Heading 1–3. ⌥⌘3/4/5 for Heading 1/2/3, ⌥⌘0 for Body.",
   },
   bold: { title: "Bold", detail: "Select text and click. ⌘B." },
   italic: {

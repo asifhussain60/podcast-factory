@@ -12,6 +12,7 @@
 import { Editor, Extension } from "@tiptap/core";
 import type { Extensions } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
+import Heading from "@tiptap/extension-heading";
 import type { Node as PMNode } from "@tiptap/pm/model";
 
 /** The only class names the editor is allowed to carry through from the seed
@@ -258,14 +259,54 @@ export const VISUAL_DRAG_TYPE = "application/x-cx-visual";
  *   authored. Links are now deliberate only.
  * - `link.openOnClick` — a click inside the editor navigated the browser away,
  *   discarding whatever the autosave debounce had not yet flushed.
+ * - `heading` (disabled on StarterKit, replaced below) — a chapter body only
+ *   ever authors levels 3-5 (`##` is reserved for the book's chapter
+ *   boundaries; see book-composer.ts's `headingLevels` remap), but the NODE
+ *   itself still parses and renders all six — narrowing `levels` was tried
+ *   and reverted (2026-08-14): it changes what a bare `##`/`#` line PARSES
+ *   AS, not merely which shortcut sets it, and fence-decos.test.ts pins the
+ *   case that a `## ` line matching a pipeline marker's text is a HEADING,
+ *   undecorated, precisely because it parses as one. What actually needed
+ *   narrowing was the KEYBOARD SHORTCUT: Tiptap's Heading extension binds
+ *   `Mod-Alt-{level}` for every configured level, so with all six live,
+ *   `Mod-Alt-1`/`Mod-Alt-2` insert a real level-1/2 heading into chapter
+ *   prose — a fake book title or chapter boundary, one stray keystroke away.
+ *   `HeadingShortcutsOnly` below is the levels-untouched, schema-preserving
+ *   fix: the same node, with its own `addKeyboardShortcuts()` replaced
+ *   entirely rather than merged, so only the three levels the toolbar offers
+ *   get a binding and 1/2/6 get none.
  */
+const HeadingShortcutsOnly = Heading.extend({
+  addKeyboardShortcuts() {
+    return {
+      "Mod-Alt-3": () => this.editor.commands.toggleHeading({ level: 3 }),
+      "Mod-Alt-4": () => this.editor.commands.toggleHeading({ level: 4 }),
+      "Mod-Alt-5": () => this.editor.commands.toggleHeading({ level: 5 }),
+    };
+  },
+});
+
+/** "Body" (plain paragraph), beside the heading shortcuts above rather than a
+ *  node's own — StarterKit's Paragraph has no keyboard shortcut to override.
+ *  `Mod-Alt-0` matches the "0 = normal text" convention the 3/4/5 set above
+ *  already carries, and is unclaimed by anything else in this schema. */
+const ParagraphShortcut = Extension.create({
+  name: "paragraphShortcut",
+  addKeyboardShortcuts() {
+    return { "Mod-Alt-0": () => this.editor.commands.setParagraph() };
+  },
+});
+
 export function editorExtensions(extra: Extensions = []): Extensions {
   return [
     StarterKit.configure({
       underline: false,
       hardBreak: false,
       link: { autolink: false, linkOnPaste: false, openOnClick: false },
+      heading: false,
     }),
+    HeadingShortcutsOnly,
+    ParagraphShortcut,
     QuotationClasses,
     ListItemValue,
     ...extra,
