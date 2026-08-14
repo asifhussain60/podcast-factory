@@ -100,6 +100,7 @@ export default [
     layout("routes/_authed._admin.tsx", [
       route("admin", "routes/admin._index.tsx"),
       route("admin/content", "routes/admin.content.tsx"),
+      route("admin/usage", "routes/admin.usage.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;

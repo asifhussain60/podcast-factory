@@ -57,6 +57,7 @@ export async function loader({ context }: Route.LoaderArgs) {
 const TABS = [
   { to: "/admin", label: "People", end: true },
   { to: "/admin/content", label: "Content", end: false },
+  { to: "/admin/usage", label: "Usage", end: false },
 ];
 
 export default function AdminLayout({ loaderData }: Route.ComponentProps) {
@@ -65,8 +66,8 @@ export default function AdminLayout({ loaderData }: Route.ComponentProps) {
     // the same shell — and the way back out that it lacked.
     <AppShell here="admin" isAdmin>
       <div className="pf-masthead pf-masthead--tight">
-        <h1 className="pf-title pf-title--sm">Access</h1>
-        <p className="pf-note">Who may sign in, and which books each person can open.</p>
+        <h1 className="pf-title pf-title--sm">Admin</h1>
+        <p className="pf-note">Who may sign in, what they can open, and how the Library is being used.</p>
       </div>
 
       <MetricStrip tallies={loaderData.tallies} content={loaderData.content} />

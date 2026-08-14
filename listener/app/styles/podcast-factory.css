@@ -2089,6 +2089,11 @@
     margin-top: var(--pf-space-2);
   }
 
+  .pf-title--xs {
+    font-size: var(--pf-display-xs);
+    margin-top: var(--pf-space-2);
+  }
+
   /* Runs the full width of the page. It is one short sentence, so the usual
      measure argument does not apply — held at 46ch it broke across two lines
      and read as a paragraph that had been cut off. */
@@ -5434,6 +5439,760 @@
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
     color: var(--l-faint);
+  }
+
+  /* ---- Usage dashboard --------------------------------------------------
+     Admin analytics, scoped to country-level reading and listening activity.
+     The shape borrows the dense metric/report rhythm of the admin style
+     references while staying inside the Library's own tokens. */
+
+  .pf-usage {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-6);
+  }
+
+  .pf-usage-canvas {
+    max-width: 100%;
+  }
+
+  @media (min-width: 1100px) {
+    .pf-usage-canvas {
+      position: relative;
+      left: 50%;
+      width: min(calc(100vw - var(--pf-space-8)), 92rem);
+      max-width: none;
+      transform: translateX(-50%);
+    }
+  }
+
+  .pf-usage-hero {
+    display: grid;
+    gap: var(--pf-space-5);
+    align-items: end;
+    padding: var(--pf-space-6);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--l-accent) 12%, transparent), transparent 58%),
+      var(--l-elev);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  @media (min-width: 780px) {
+    .pf-usage-hero {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+  }
+
+  .pf-usage-hero__copy {
+    max-width: 54rem;
+  }
+
+  .pf-usage-hero__pulse {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pf-space-2);
+    min-height: 3rem;
+    padding: var(--pf-space-2) var(--pf-space-4);
+    border: 1px solid color-mix(in srgb, var(--l-accent) 28%, var(--l-rule));
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--l-accent) 10%, var(--l-surface));
+    color: var(--l-ink);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .pf-usage-metrics {
+    display: grid;
+    gap: var(--pf-space-3);
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  }
+
+  @media (min-width: 1080px) {
+    .pf-usage-metrics {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+
+  .pf-usage-metric {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--pf-space-1) var(--pf-space-3);
+    align-items: center;
+    min-width: 0;
+    padding: var(--pf-space-4);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius);
+    background: var(--l-elev);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-usage-metric__icon {
+    display: inline-grid;
+    place-items: center;
+    grid-row: span 3;
+    width: 2.35rem;
+    aspect-ratio: 1;
+    border-radius: var(--pf-radius);
+    background: color-mix(in srgb, var(--l-accent) 14%, var(--l-surface));
+    color: var(--l-accent);
+  }
+
+  .pf-usage-metric__label,
+  .pf-usage-metric__hint {
+    min-width: 0;
+    font-family: var(--l-font-ui);
+  }
+
+  .pf-usage-metric__label {
+    color: var(--l-faint);
+    font-size: var(--pf-text-xs);
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+  }
+
+  .pf-usage-metric strong {
+    color: var(--l-ink);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-display-xs);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pf-usage-metric__hint {
+    color: var(--l-muted);
+    font-size: var(--pf-text-xs);
+    line-height: 1.35;
+  }
+
+  .pf-usage-tabs {
+    display: flex;
+    gap: var(--pf-space-2);
+    align-items: center;
+    overflow-x: auto;
+    padding: var(--pf-space-2);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius);
+    background: color-mix(in srgb, var(--l-elev) 72%, var(--l-surface));
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-usage-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pf-space-2);
+    min-height: 2.65rem;
+    padding: var(--pf-space-2) var(--pf-space-4);
+    border: 1px solid transparent;
+    border-radius: var(--pf-radius);
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background var(--pf-motion),
+      border-color var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  .pf-usage-tab:hover {
+    background: var(--l-surface);
+    color: var(--l-ink);
+  }
+
+  .pf-usage-tab--active {
+    border-color: color-mix(in srgb, var(--l-accent) 35%, var(--l-rule));
+    background: var(--l-elev);
+    color: var(--l-ink);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-usage-tab__meta {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.7rem;
+    height: 1.45rem;
+    padding-inline: var(--pf-space-2);
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--l-accent) 12%, var(--l-surface));
+    color: var(--l-accent);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pf-usage-tabpanel {
+    min-width: 0;
+  }
+
+  .pf-usage-overview {
+    display: block;
+  }
+
+  .pf-usage-mosaic {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    overflow: hidden;
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    background: var(--l-elev);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-usage-mosaic > .pf-panel {
+    min-height: 100%;
+    margin-top: 0;
+    border: 0;
+    border-top: 1px solid var(--l-rule-soft);
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .pf-usage-mosaic > .pf-panel:first-child {
+    border-top: 0;
+  }
+
+  .pf-usage-tile {
+    min-width: 0;
+  }
+
+  .pf-usage-visuals {
+    display: grid;
+    gap: var(--pf-space-5);
+    align-items: start;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 980px) {
+    .pf-usage-visuals {
+      grid-template-columns: minmax(17rem, 0.8fr) minmax(28rem, 1.45fr) minmax(18rem, 0.95fr);
+    }
+
+    .pf-usage-visuals--duo {
+      grid-template-columns: minmax(0, 1.05fr) minmax(17rem, 0.95fr);
+    }
+
+    .pf-usage-visuals--single {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pf-usage-mosaic {
+      grid-template-areas:
+        "split split split country country country country country rhythm rhythm rhythm rhythm"
+        "content content content content content recent recent recent recent recent recent recent";
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: stretch;
+    }
+
+    .pf-usage-mosaic > .pf-panel {
+      border-top: 0;
+    }
+
+    .pf-usage-tile--split {
+      grid-area: split;
+    }
+
+    .pf-usage-tile--country {
+      grid-area: country;
+      border-left: 1px solid var(--l-rule-soft);
+    }
+
+    .pf-usage-tile--rhythm {
+      grid-area: rhythm;
+      border-left: 1px solid var(--l-rule-soft);
+    }
+
+    .pf-usage-tile--content {
+      grid-area: content;
+      border-top: 1px solid var(--l-rule-soft);
+    }
+
+    .pf-usage-tile--recent {
+      grid-area: recent;
+      border-top: 1px solid var(--l-rule-soft);
+      border-left: 1px solid var(--l-rule-soft);
+    }
+  }
+
+  .pf-usage-visual {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-5);
+    min-width: 0;
+    margin-top: 0;
+    padding: var(--pf-space-5);
+    overflow: hidden;
+  }
+
+  .pf-usage-visual__head {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--pf-space-3);
+  }
+
+  .pf-usage-visual__head > span {
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 2.25rem;
+    aspect-ratio: 1;
+    border-radius: var(--pf-radius);
+    background: color-mix(in srgb, var(--l-accent) 13%, var(--l-surface));
+    color: var(--l-accent);
+  }
+
+  .pf-usage-visual__head h2 {
+    margin: 0;
+    color: var(--l-ink);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-lg);
+    line-height: 1.1;
+  }
+
+  .pf-usage-visual__head p {
+    margin: var(--pf-space-1) 0 0;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    line-height: 1.35;
+  }
+
+  .pf-usage-split,
+  .pf-country-heat,
+  .pf-rhythm {
+    min-height: 0;
+  }
+
+  .pf-donut-wrap {
+    display: grid;
+    gap: var(--pf-space-4);
+    justify-items: center;
+  }
+
+  .pf-donut {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    width: min(100%, 12.5rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--l-rule) 65%, var(--l-surface));
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--l-ink) 8%, transparent),
+      var(--pf-elev-1);
+    color: var(--l-ink);
+    position: relative;
+  }
+
+  .pf-donut::after {
+    content: "";
+    position: absolute;
+    inset: 22%;
+    border-radius: inherit;
+    background: var(--l-elev);
+    box-shadow: inset 0 0 0 1px var(--l-rule-soft);
+  }
+
+  .pf-donut span,
+  .pf-donut small {
+    position: relative;
+    z-index: 1;
+  }
+
+  .pf-donut span {
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-display-xs);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pf-donut small {
+    margin-top: var(--pf-space-1);
+    color: var(--l-faint);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+  }
+
+  .pf-donut-legend {
+    display: grid;
+    gap: var(--pf-space-2);
+    width: 100%;
+  }
+
+  .pf-visual-legend {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: var(--pf-space-2);
+    padding: var(--pf-space-2) var(--pf-space-3);
+    border: 1px solid var(--l-rule-soft);
+    border-radius: var(--pf-radius);
+    background: var(--l-surface);
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+  }
+
+  .pf-visual-legend--read {
+    border-inline-start: 3px solid var(--l-accent);
+  }
+
+  .pf-visual-legend--listen {
+    border-inline-start: 3px solid var(--l-success);
+  }
+
+  .pf-visual-legend span {
+    min-width: 0;
+  }
+
+  .pf-visual-legend strong {
+    color: var(--l-ink);
+    font-size: var(--pf-text-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pf-visual-legend em {
+    color: var(--l-faint);
+    font-style: normal;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pf-country-cloud {
+    display: grid;
+    gap: var(--pf-space-3);
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  }
+
+  .pf-country-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: var(--pf-space-2) var(--pf-space-3);
+    align-items: center;
+    min-width: 0;
+    padding: var(--pf-space-3);
+    border: 1px solid var(--l-rule-soft);
+    border-radius: var(--pf-radius);
+    background:
+      radial-gradient(circle at 15% 15%, color-mix(in srgb, var(--l-accent) 16%, transparent), transparent 34%),
+      var(--l-surface);
+  }
+
+  .pf-country-card__code {
+    display: inline-grid;
+    place-items: center;
+    width: 2.6rem;
+    aspect-ratio: 1;
+    border-radius: var(--pf-radius);
+    background: color-mix(in srgb, var(--l-accent) 14%, var(--l-elev));
+    color: var(--l-accent);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+
+  .pf-country-card__body {
+    min-width: 0;
+  }
+
+  .pf-country-card__body strong,
+  .pf-country-card__body span {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--l-font-ui);
+  }
+
+  .pf-country-card__body strong {
+    color: var(--l-ink);
+    font-size: var(--pf-text-sm);
+  }
+
+  .pf-country-card__body span,
+  .pf-country-card em {
+    color: var(--l-faint);
+    font-size: var(--pf-text-xs);
+  }
+
+  .pf-country-card em {
+    font-style: normal;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pf-country-card__meter {
+    grid-column: 1 / -1;
+    height: 0.4rem;
+    overflow: hidden;
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--l-rule) 70%, transparent);
+  }
+
+  .pf-country-card__meter span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--l-accent), var(--l-success));
+  }
+
+  .pf-rhythm-bars {
+    display: grid;
+    grid-template-columns: repeat(24, minmax(0, 1fr));
+    align-items: end;
+    gap: 0.22rem;
+    height: 10.5rem;
+    padding: var(--pf-space-3);
+    border: 1px solid var(--l-rule-soft);
+    border-radius: var(--pf-radius);
+    background:
+      linear-gradient(to top, var(--l-rule-soft) 1px, transparent 1px) 0 25% / 100% 25%,
+      var(--l-surface);
+  }
+
+  .pf-rhythm-bars span {
+    display: flex;
+    align-items: end;
+    min-width: 0;
+    height: 100%;
+  }
+
+  .pf-rhythm-bars i {
+    display: block;
+    width: 100%;
+    min-height: 0.65rem;
+    border-radius: var(--pf-radius-pill) var(--pf-radius-pill) 0.18rem 0.18rem;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--l-accent) 88%, white),
+      color-mix(in srgb, var(--l-success) 82%, var(--l-accent))
+    );
+    box-shadow: 0 -0.25rem 0.85rem color-mix(in srgb, var(--l-accent) 18%, transparent);
+  }
+
+  .pf-rhythm-axis {
+    display: flex;
+    justify-content: space-between;
+    color: var(--l-faint);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pf-usage-grid {
+    display: grid;
+    gap: var(--pf-space-5);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 980px) {
+    .pf-usage-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+      align-items: start;
+    }
+
+    .pf-usage-panel--wide {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .pf-usage-panel {
+    margin-top: 0;
+    overflow: hidden;
+  }
+
+  .pf-usage-empty {
+    display: grid;
+    place-items: center;
+    gap: var(--pf-space-3);
+    min-height: 18rem;
+    text-align: center;
+  }
+
+  .pf-usage-empty > .pf-icon {
+    width: 2.5rem;
+    color: var(--l-accent);
+  }
+
+  .pf-activity-list {
+    display: grid;
+  }
+
+  .pf-activity-list--compact .pf-activity:nth-child(n + 7) {
+    display: none;
+  }
+
+  .pf-activity {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-4) var(--pf-space-5);
+    border-top: 1px solid var(--l-rule-soft);
+  }
+
+  .pf-activity:first-child {
+    border-top: 0;
+  }
+
+  .pf-activity__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 2.25rem;
+    aspect-ratio: 1;
+    border-radius: var(--pf-radius);
+  }
+
+  .pf-activity__icon--read {
+    background: color-mix(in srgb, var(--l-accent) 12%, var(--l-surface));
+    color: var(--l-accent);
+  }
+
+  .pf-activity__icon--listen {
+    background: color-mix(in srgb, var(--l-success) 14%, var(--l-surface));
+    color: var(--l-success);
+  }
+
+  .pf-activity__body {
+    min-width: 0;
+  }
+
+  .pf-activity__line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-1) var(--pf-space-2);
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    line-height: 1.45;
+  }
+
+  .pf-activity__line strong {
+    color: var(--l-ink);
+  }
+
+  .pf-activity__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-2);
+    margin-top: var(--pf-space-2);
+    color: var(--l-faint);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+  }
+
+  .pf-activity__meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-1);
+  }
+
+  .pf-ranked {
+    display: grid;
+    gap: var(--pf-space-4);
+    padding: var(--pf-space-5);
+  }
+
+  .pf-ranked__item {
+    display: grid;
+    gap: var(--pf-space-2);
+  }
+
+  .pf-ranked__top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--pf-space-3);
+    font-family: var(--l-font-ui);
+  }
+
+  .pf-ranked__top strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    color: var(--l-ink);
+    font-size: var(--pf-text-sm);
+  }
+
+  .pf-ranked__top span {
+    color: var(--l-muted);
+    font-size: var(--pf-text-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pf-ranked__track {
+    height: 0.55rem;
+    overflow: hidden;
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--l-rule) 72%, transparent);
+  }
+
+  .pf-ranked__track span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--l-accent), var(--l-success));
+  }
+
+  .pf-ranked__item p {
+    margin: 0;
+    color: var(--l-faint);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+  }
+
+  .pf-usage-table-wrap {
+    overflow-x: auto;
+  }
+
+  .pf-usage-table {
+    width: 100%;
+    min-width: 44rem;
+    border-collapse: collapse;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+  }
+
+  .pf-usage-table th,
+  .pf-usage-table td {
+    padding: var(--pf-space-3) var(--pf-space-4);
+    border-top: 1px solid var(--l-rule-soft);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .pf-usage-table thead th {
+    border-top: 0;
+    color: var(--l-faint);
+    font-size: var(--pf-text-xs);
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .pf-usage-table td {
+    color: var(--l-muted);
+  }
+
+  .pf-usage-table td:first-child {
+    color: var(--l-ink);
+  }
+
+  .pf-usage-table td:first-child strong,
+  .pf-usage-table td:first-child span {
+    display: block;
+  }
+
+  .pf-usage-table td:first-child span {
+    margin-top: var(--pf-space-1);
+    color: var(--l-faint);
+    font-size: var(--pf-text-xs);
   }
 
   /* ---- Prose note -------------------------------------------------------
