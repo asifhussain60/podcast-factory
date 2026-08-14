@@ -1433,7 +1433,7 @@ body:has(.composer-grid) .to-top {
 }
 .cx-prose blockquote.k-quran[data-q-label]::before {
   margin: -1.35rem -1.6rem 1.15rem;
-  padding: 0.5rem 1.6rem;
+  padding: 0.85rem 1.6rem;
   border-radius: 8px 8px 0 0;
   background: var(--q-quran-bar);
   color: var(--q-quran-bar-ink);
