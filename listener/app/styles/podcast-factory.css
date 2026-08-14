@@ -8038,18 +8038,44 @@
     margin-top: var(--pf-space-4);
   }
 
-  /* The library's study-track filter. NOT `.pf-swatches`: that control is one
-     segmented pill sized for two or three mutually exclusive words, and a
-     sixth choice would either overflow or squeeze the row rather than wrap.
-     Each track is its own independent chip instead, so the row wraps onto a
-     second line on a narrow screen the same way `.pf-library-find` itself
-     does, and the taxonomy can grow past five without a redesign. */
+  /* The library's study-track filter — its OWN bordered panel, not a second
+     loose row under the search box. Search-by-name and browse-by-taxonomy
+     are two different tools, and a shared background/border is what tells
+     the eye that rather than reading as one blurred wall of controls. Full
+     width like `.pf-library-find` above it, so it lines up with everything
+     else on the page rather than floating as an island. */
+  .pf-tracks-panel {
+    margin-top: var(--pf-space-4);
+    padding: var(--pf-space-4) var(--pf-space-5);
+    background: var(--l-sunken);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    text-align: center;
+  }
+
+  .pf-tracks-panel__label {
+    margin: 0 0 var(--pf-space-3);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    color: var(--l-faint);
+  }
+
+  /* NOT `.pf-swatches`: that control is one segmented pill sized for two or
+     three mutually exclusive words, and a sixth choice would either overflow
+     or squeeze the row rather than wrap. Each track is its own independent
+     chip instead, so the row wraps onto a second line on a narrow screen the
+     same way `.pf-library-find` itself does, and the taxonomy can grow past
+     five without a redesign. `justify-content: center` is the fix for the row
+     reading left-ragged under an otherwise centred panel. */
   .pf-tracks {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: var(--pf-space-2);
-    margin-top: var(--pf-space-4);
   }
 
   /* Colour lives on the chip itself, from the same `--l-ribbon-*` pair the
@@ -8058,11 +8084,12 @@
   .pf-track-chip {
     display: inline-flex;
     align-items: center;
+    gap: var(--pf-space-2);
     min-height: 2.75rem;
     padding: var(--pf-space-1) var(--pf-space-4);
     border: 1.5px solid var(--pf-track-line, var(--l-rule));
     border-radius: var(--pf-radius-pill);
-    background: transparent;
+    background: var(--l-surface);
     color: var(--pf-track-line, var(--l-muted));
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-sm);
@@ -8071,17 +8098,49 @@
     transition:
       background var(--pf-motion),
       color var(--pf-motion),
-      border-color var(--pf-motion);
+      border-color var(--pf-motion),
+      opacity var(--pf-motion);
   }
 
   .pf-track-chip:hover {
-    background: color-mix(in srgb, var(--pf-track-line, var(--l-muted)) 12%, transparent);
+    background: color-mix(in srgb, var(--pf-track-line, var(--l-muted)) 12%, var(--l-surface));
   }
 
   .pf-track-chip[aria-pressed="true"] {
     background: var(--pf-track-line, var(--l-accent));
     border-color: var(--pf-track-line, var(--l-accent));
     color: var(--pf-track-fg, var(--l-on-accent));
+  }
+
+  /* A track with nothing filed under it yet stays VISIBLE — the taxonomy is
+     the point — but reads as unavailable rather than inviting a click into an
+     empty grid. Real `disabled`, not just a dimmed look: it drops out of tab
+     order and the browser's own affordances (no hover state, no cursor
+     change) do the rest for free. */
+  .pf-track-chip:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+
+  .pf-track-chip:disabled:hover {
+    background: var(--l-surface);
+  }
+
+  .pf-track-chip__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.4rem;
+    height: 1.4rem;
+    padding-inline: 0.35rem;
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--pf-track-line, var(--l-muted)) 16%, transparent);
+    font-size: var(--pf-pill-sm-size);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pf-track-chip[aria-pressed="true"] .pf-track-chip__count {
+    background: color-mix(in srgb, var(--pf-track-fg, var(--l-on-accent)) 22%, transparent);
   }
 
   .pf-track-chip[data-track="theology"] {

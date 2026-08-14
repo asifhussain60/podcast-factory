@@ -10,7 +10,7 @@ import { Icon } from "~/components/Icon";
 import { SearchBox } from "~/components/SearchBox";
 import { collectionOf } from "~/lib/collection";
 import { count, plural } from "~/lib/plural";
-import { ALL_STUDY_TRACKS, studyTrackLabel, type StudyTrack } from "~/lib/study-track";
+import { ALL_STUDY_TRACKS, isStudyTrack, studyTrackLabel, type StudyTrack } from "~/lib/study-track";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { visibleUnits } from "~/server/access.server";
@@ -165,6 +165,20 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     return kinds.size > 1;
   }, [units]);
 
+  // Counts against the FULL library, never `shown` — a track's chip reports
+  // whether the taxonomy has anything in it at all, not whether today's
+  // collection/search narrowing happens to have hidden its only book. Basing
+  // it on the filtered list would make a chip flicker disabled while a
+  // reader is mid-search, which teaches the wrong lesson about what "0" means.
+  const trackCounts = useMemo(() => {
+    const counts = new Map<StudyTrack, number>(ALL_STUDY_TRACKS.map((t) => [t, 0]));
+    for (const unit of units) {
+      const track = unit.card?.studyTrack ?? null;
+      if (isStudyTrack(track)) counts.set(track, (counts.get(track) ?? 0) + 1);
+    }
+    return counts;
+  }, [units]);
+
   const needle = fold(query);
   const shown = useMemo(
     () =>
@@ -242,33 +256,51 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         )}
 
         {units.length === 0 ? null : (
-          /* Independent chips, not a segmented control: a sixth track should
-             wrap onto a second line rather than force the row to squeeze or
-             overflow. Each chip's colour comes from the SAME `--l-ribbon-*`
-             pair its cards paint their corner ribbon from, in `.pf-track-chip`
-             — so choosing "Esoteric" here and seeing it on a card are the same
-             colour, not two decisions that happen to agree today. */
-          <div className="pf-tracks" role="group" aria-label="Filter by subject track">
-            <button
-              type="button"
-              className="pf-track-chip"
-              aria-pressed={track === "all"}
-              onClick={() => setTrack("all")}
-            >
-              All tracks
-            </button>
-            {ALL_STUDY_TRACKS.map((choice) => (
+          /* Its own bordered panel, not a second loose row under the search
+             box — the two are different tools (search by name, browse by
+             taxonomy) and read that way now instead of blurring into one
+             wall of controls. Independent chips inside it, not a segmented
+             control: a sixth track should wrap onto a second line rather
+             than force the row to squeeze or overflow. Each chip's colour
+             comes from the SAME `--l-ribbon-*` pair its cards paint their
+             corner ribbon from, in `.pf-track-chip` — so choosing "Esoteric"
+             here and seeing it on a card are the same colour, not two
+             decisions that happen to agree today. */
+          <div className="pf-tracks-panel">
+            <p className="pf-tracks-panel__label" id="library-tracks-label">
+              Browse by track
+            </p>
+            <div className="pf-tracks" role="group" aria-labelledby="library-tracks-label">
               <button
-                key={choice}
                 type="button"
                 className="pf-track-chip"
-                data-track={choice}
-                aria-pressed={track === choice}
-                onClick={() => setTrack(choice)}
+                aria-pressed={track === "all"}
+                onClick={() => setTrack("all")}
               >
-                {studyTrackLabel(choice)}
+                All tracks
+                <span className="pf-track-chip__count">{units.length}</span>
               </button>
-            ))}
+              {ALL_STUDY_TRACKS.map((choice) => {
+                const n = trackCounts.get(choice) ?? 0;
+                return (
+                  <button
+                    key={choice}
+                    type="button"
+                    className="pf-track-chip"
+                    data-track={choice}
+                    aria-pressed={track === choice}
+                    // Disabled rather than hidden: the empty track still
+                    // teaches the reader the taxonomy has five members, even
+                    // before anything is filed under it.
+                    disabled={n === 0}
+                    onClick={() => setTrack(choice)}
+                  >
+                    {studyTrackLabel(choice)}
+                    <span className="pf-track-chip__count">{n}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         )}
       </section>
