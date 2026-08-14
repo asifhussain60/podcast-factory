@@ -1799,6 +1799,27 @@ body:has(.composer-grid) .to-top {
   gap: 0.4rem;
   margin: 0.2rem 0 0.6rem;
 }
+/* Every mosaic button row in this panel fills its own width rather than
+   packing left and leaving the rest of the line empty (found live
+   2026-08-14: two buttons per row with a wide dead strip beside them,
+   because plain flex-wrap sizes each button to its own label and never
+   grows it into the leftover space). `flex: 1 1 auto` lets buttons on a
+   half-full row stretch evenly to close that gap — a lone trailing button
+   spans the row instead of sitting stranded — while `min-width` keeps a
+   short label (like "Longer") from being squeezed illegibly thin next to a
+   long one wrapping onto its own line. Applies to every row this panel
+   builds: .cx-ai-row (Etymology/Diacritics, Rearticulate/Replace/Paste-fix),
+   .cx-seg-row (Rewrite as, Text marks), .cx-details-mark-row (Knowledge),
+   and .cx-ai-subgroup's buttons (Add term, Analyze section) — the label
+   text inside .cx-ai-subgroup is not a button, so it keeps its own natural
+   width untouched. */
+.cx-ai-row > button,
+.cx-seg-row > button,
+.cx-details-mark-row > button,
+.cx-ai-subgroup > button {
+  flex: 1 1 auto;
+  min-width: 6rem;
+}
 .cx-ai-btn {
   font: inherit;
   font-size: var(--panel-fs, 15px);
