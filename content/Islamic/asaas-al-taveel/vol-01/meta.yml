@@ -1,5 +1,6 @@
 slug: asaas-al-taveel-vol-01
 title: "Asas al-Taweel -- Volume 1: Adam"
+study_track: esoteric
 short_name: asaas-vol-1
 # `series:` is a CONFIG MAPPING everywhere in this codebase — six readers key
 # feature flags off it (enable_book_branch, enable_knowledge_augmenter,

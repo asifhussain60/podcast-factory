@@ -255,7 +255,7 @@ def load_book(slug: str) -> Book:
     )
 
     study_track = meta.get("study_track")
-    if study_track not in {"theology", "esoterics", "history", None}:
+    if study_track not in {"theology", "history", "shariah", "esoteric", "reality", None}:
         study_track = None
 
     book = Book(

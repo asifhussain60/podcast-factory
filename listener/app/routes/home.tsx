@@ -10,6 +10,7 @@ import { Icon } from "~/components/Icon";
 import { SearchBox } from "~/components/SearchBox";
 import { collectionOf } from "~/lib/collection";
 import { count, plural } from "~/lib/plural";
+import { ALL_STUDY_TRACKS, studyTrackLabel, type StudyTrack } from "~/lib/study-track";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { visibleUnits } from "~/server/access.server";
@@ -135,10 +136,25 @@ const COLLECTION_LABELS: Record<Collection, string> = {
 const inCollection = (bucket: string, choice: Collection): boolean =>
   choice === "all" || (collectionOf(bucket) === "sessions") === (choice === "sessions");
 
+/**
+ * The study-track filter.
+ *
+ * "all" plus the five real tracks, kept apart from `StudyTrack` itself so a
+ * sixth track never has to teach this file about a sentinel value it does not
+ * own. Unlike the collection toggle, this is drawn even when every book on
+ * the page carries no track yet — the taxonomy is the point of showing it,
+ * not how much of the current library happens to be classified under it.
+ */
+type TrackChoice = "all" | StudyTrack;
+
+const inTrack = (studyTrack: string | null | undefined, choice: TrackChoice): boolean =>
+  choice === "all" || studyTrack === choice;
+
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { units, viewer } = loaderData;
   const [query, setQuery] = useState("");
   const [collection, setCollection] = useState<Collection>("all");
+  const [track, setTrack] = useState<TrackChoice>("all");
 
   // The control is drawn only when there is something to choose BETWEEN. A
   // reader with books and no sessions is offered nothing to press, which is
@@ -154,6 +170,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     () =>
       units
         .filter((unit) => inCollection(unit.bucket, collection))
+        .filter((unit) => inTrack(unit.card?.studyTrack, track))
         .filter(
           (unit) =>
             needle === "" ||
@@ -163,7 +180,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               fold(field).includes(needle),
             ),
         ),
-    [units, needle, collection],
+    [units, needle, collection, track],
   );
 
   return (
@@ -223,12 +240,43 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             </Link>
           </div>
         )}
+
+        {units.length === 0 ? null : (
+          /* Independent chips, not a segmented control: a sixth track should
+             wrap onto a second line rather than force the row to squeeze or
+             overflow. Each chip's colour comes from the SAME `--l-ribbon-*`
+             pair its cards paint their corner ribbon from, in `.pf-track-chip`
+             — so choosing "Esoteric" here and seeing it on a card are the same
+             colour, not two decisions that happen to agree today. */
+          <div className="pf-tracks" role="group" aria-label="Filter by subject track">
+            <button
+              type="button"
+              className="pf-track-chip"
+              aria-pressed={track === "all"}
+              onClick={() => setTrack("all")}
+            >
+              All tracks
+            </button>
+            {ALL_STUDY_TRACKS.map((choice) => (
+              <button
+                key={choice}
+                type="button"
+                className="pf-track-chip"
+                data-track={choice}
+                aria-pressed={track === choice}
+                onClick={() => setTrack(choice)}
+              >
+                {studyTrackLabel(choice)}
+              </button>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Announced rather than only drawn: filtering happens with no page
           change, so a screen reader is otherwise never told the grid moved. */}
       <p aria-live="polite" className="sr-only">
-        {needle === "" && collection === "all"
+        {needle === "" && collection === "all" && track === "all"
           ? count(units.length, "book")
           : `${shown.length} of ${count(units.length, "book")} ${plural(shown.length, "matches", "match")}`}
       </p>
@@ -238,7 +286,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           {query.trim() === "" ? (
             <>
               Nothing in{" "}
-              <strong className="pf-strong">{COLLECTION_LABELS[collection]}</strong> yet.
+              <strong className="pf-strong">
+                {track === "all"
+                  ? COLLECTION_LABELS[collection]
+                  : collection === "all"
+                    ? studyTrackLabel(track)
+                    : `${studyTrackLabel(track)} · ${COLLECTION_LABELS[collection]}`}
+              </strong>{" "}
+              yet.
             </>
           ) : (
             <>

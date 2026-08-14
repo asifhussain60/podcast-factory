@@ -437,18 +437,22 @@
   --pf-measure-reader: 56rem;
 
   /* ---- Study-track ribbon ----------------------------------------------
-     A book's doctrinal advancement level — theology (foundational),
-     esoterics (intermediate), history (advanced) — shown as a corner ribbon
-     on the library card. Fixed per track rather than per theme, like the
-     Sessions collection's violet is a brand choice: the ribbon is a small,
-     self-contained badge that carries its own text colour, so it never has
-     to be read against the page underneath it. */
+     A book's subject track — theology, history, shariah, esoteric, reality —
+     shown as a corner ribbon on the library card and as the matching filter
+     chip's own colour in the library find row. Fixed per track rather than
+     per theme, like the Sessions collection's violet is a brand choice: the
+     ribbon is a small, self-contained badge that carries its own text
+     colour, so it never has to be read against the page underneath it. */
   --l-ribbon-theology-bg: #0a6a82;
   --l-ribbon-theology-ink: #ffffff;
-  --l-ribbon-esoterics-bg: #d98a1f;
-  --l-ribbon-esoterics-ink: #1c2433;
+  --l-ribbon-esoteric-bg: #d98a1f;
+  --l-ribbon-esoteric-ink: #1c2433;
   --l-ribbon-history-bg: #a3236f;
   --l-ribbon-history-ink: #ffffff;
+  --l-ribbon-shariah-bg: #178a4c;
+  --l-ribbon-shariah-ink: #ffffff;
+  --l-ribbon-reality-bg: #e0201f;
+  --l-ribbon-reality-ink: #ffffff;
 }
 
 /* ==========================================================================
@@ -3462,16 +3466,31 @@
     color: var(--l-ribbon-theology-ink);
   }
 
-  .pf-book__ribbon[data-track="esoterics"] {
-    background: var(--l-ribbon-esoterics-bg);
-    color: var(--l-ribbon-esoterics-ink);
-    /* Esoterics reads as the "hidden knowledge" track, so this is the one
-       ribbon that gets a lit look rather than the flat elevation shadow the
-       other two keep. */
+  .pf-book__ribbon[data-track="esoteric"] {
+    background: var(--l-ribbon-esoteric-bg);
+    color: var(--l-ribbon-esoteric-ink);
+    /* Esoteric reads as the "hidden knowledge" track, so this is one of the
+       two ribbons that get a lit look rather than the flat elevation shadow
+       the others keep. */
     box-shadow:
       var(--pf-elev-1),
-      0 0 0.6rem color-mix(in srgb, var(--l-ribbon-esoterics-bg) 75%, transparent),
-      0 0 1.4rem color-mix(in srgb, var(--l-ribbon-esoterics-bg) 55%, transparent);
+      0 0 0.6rem color-mix(in srgb, var(--l-ribbon-esoteric-bg) 75%, transparent),
+      0 0 1.4rem color-mix(in srgb, var(--l-ribbon-esoteric-bg) 55%, transparent);
+  }
+
+  .pf-book__ribbon[data-track="shariah"] {
+    background: var(--l-ribbon-shariah-bg);
+    color: var(--l-ribbon-shariah-ink);
+  }
+
+  .pf-book__ribbon[data-track="reality"] {
+    background: var(--l-ribbon-reality-bg);
+    color: var(--l-ribbon-reality-ink);
+    /* Asif's call: Reality gets the same lit treatment as Esoteric, in red. */
+    box-shadow:
+      var(--pf-elev-1),
+      0 0 0.6rem color-mix(in srgb, var(--l-ribbon-reality-bg) 75%, transparent),
+      0 0 1.4rem color-mix(in srgb, var(--l-ribbon-reality-bg) 55%, transparent);
   }
 
   .pf-book__ribbon[data-track="history"] {
@@ -8017,6 +8036,77 @@
   .pf-collections {
     display: inline-flex;
     margin-top: var(--pf-space-4);
+  }
+
+  /* The library's study-track filter. NOT `.pf-swatches`: that control is one
+     segmented pill sized for two or three mutually exclusive words, and a
+     sixth choice would either overflow or squeeze the row rather than wrap.
+     Each track is its own independent chip instead, so the row wraps onto a
+     second line on a narrow screen the same way `.pf-library-find` itself
+     does, and the taxonomy can grow past five without a redesign. */
+  .pf-tracks {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-2);
+    margin-top: var(--pf-space-4);
+  }
+
+  /* Colour lives on the chip itself, from the same `--l-ribbon-*` pair the
+     card's own corner ribbon reads — so the chip that filters to Esoteric and
+     the ribbon that says Esoteric are never two colours for one category. */
+  .pf-track-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: var(--pf-space-1) var(--pf-space-4);
+    border: 1.5px solid var(--pf-track-line, var(--l-rule));
+    border-radius: var(--pf-radius-pill);
+    background: transparent;
+    color: var(--pf-track-line, var(--l-muted));
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion),
+      border-color var(--pf-motion);
+  }
+
+  .pf-track-chip:hover {
+    background: color-mix(in srgb, var(--pf-track-line, var(--l-muted)) 12%, transparent);
+  }
+
+  .pf-track-chip[aria-pressed="true"] {
+    background: var(--pf-track-line, var(--l-accent));
+    border-color: var(--pf-track-line, var(--l-accent));
+    color: var(--pf-track-fg, var(--l-on-accent));
+  }
+
+  .pf-track-chip[data-track="theology"] {
+    --pf-track-line: var(--l-ribbon-theology-bg);
+    --pf-track-fg: var(--l-ribbon-theology-ink);
+  }
+
+  .pf-track-chip[data-track="esoteric"] {
+    --pf-track-line: var(--l-ribbon-esoteric-bg);
+    --pf-track-fg: var(--l-ribbon-esoteric-ink);
+  }
+
+  .pf-track-chip[data-track="history"] {
+    --pf-track-line: var(--l-ribbon-history-bg);
+    --pf-track-fg: var(--l-ribbon-history-ink);
+  }
+
+  .pf-track-chip[data-track="shariah"] {
+    --pf-track-line: var(--l-ribbon-shariah-bg);
+    --pf-track-fg: var(--l-ribbon-shariah-ink);
+  }
+
+  .pf-track-chip[data-track="reality"] {
+    --pf-track-line: var(--l-ribbon-reality-bg);
+    --pf-track-fg: var(--l-ribbon-reality-ink);
   }
 
   /* The reader toolbar's version: a DOT per theme, painted in that theme's own
