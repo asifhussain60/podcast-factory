@@ -34,9 +34,15 @@
   z-index: 200;
 }
 
+/* Scoped theme-adapter: the brand lockup's accent half (the mark's left page
+   and the word `Factory`) reads --c-accent, so aliasing that token INSIDE the
+   brand keeps the lockup two-tone in this page's own gold rather than dropping
+   the site's brown into a gold header. The pair is the same one the scroll
+   progress bar already uses. Nothing outside .topnav-brand is affected. */
 .narrative-topnav .topnav-brand,
 .narrative-root .topnav-brand {
   color: #c9973a;
+  --c-accent: #f0b857;
 }
 
 .narrative-topnav .topnav-section,

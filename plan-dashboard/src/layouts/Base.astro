@@ -1,5 +1,6 @@
 ---
 import "../styles/theme.css";
+import BrandLogo from "../components/BrandLogo.astro";
 import { TOP_NAV, getNavSection, getSubnavLinks } from "../lib/site-nav";
 import type { ActivePage } from "../lib/site-nav";
 
@@ -43,9 +44,10 @@ const showShellSubnav = hasCustomSubnav || subnavLinks.length > 0;
     <a href="#main-content" class="skip-link">Skip to content</a>
     <nav class="topnav">
       <div class="topnav-inner">
-        <a href="/" class="topnav-brand"
-          >Podcast Factory <small>Astro Site</small></a
-        >
+        <a href="/" class="topnav-brand">
+          <BrandLogo />
+          <small>Astro Site</small>
+        </a>
         <div class="topnav-sections">
           {
             TOP_NAV.map((item) => (

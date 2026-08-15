@@ -23,74 +23,80 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
   description="Pick a book to work on through the content pipeline."
 >
   <div class="studio-picker">
-    <header class="studio-step-head">
-      <span class="studio-eyebrow">Studio · Workshop</span>
-      <h1>Work a book through the pipeline.</h1>
-      <p>
-        Pick a book to open its content — read the edition, inspect its sources,
-        audits, and media, and step into the pipeline (intake, source review,
-        edit &amp; enrich, publish) from there.
-      </p>
-      <p>
-        Before generating audio in NotebookLM, run the <a href="/pre-upload"
-          >Pre-Upload Review</a
-        > and the <a href="/pronunciation">Pronunciation</a> utility.
-      </p>
-    </header>
+    {
+      /* The instruction paragraphs that stood here were removed 2026-08-15 —
+         the page explains itself and they cost a screen of height before the
+         first book. The two links they carried (Pre-Upload Review,
+         Pronunciation) were the ONLY route to those pages anywhere on the
+         site, so they moved into the Studio section subnav rather than being
+         deleted with the prose. See SUBNAV.studio in lib/site-nav.ts. */
+    }
+    {
+      /* The eyebrow and headline went with the prose (Asif, 2026-08-15): the
+         top nav and the section row above already say Studio · Books, so the
+         block was restating the page's own chrome and pushing the filters and
+         the first shelf down a screen.
 
+         The heading itself is KEPT, visually hidden. Deleting the element
+         would leave the page with no h1 at all and jump the outline straight
+         to the shelves' h2s — a real defect for anyone navigating by heading,
+         and invisible on screen either way. */
+    }
+    <h1 class="sr-only">Studio — work a book through the pipeline</h1>
+
+    {
+      /* One row, both facets. The visible `Category` / `Status` captions are
+         gone with the two-row stack; nothing accessible went with them,
+         because each group's name has always come from its own aria-label,
+         not from the caption beside it. */
+    }
     <div class="studio-toolbar">
       <div class="studio-toolbar-filters">
-        <div class="studio-toolbar-row">
-          <span class="studio-toolbar-row-label">Category</span>
-          <div
-            class="studio-bucket-filter-bar"
-            role="group"
-            aria-label="Filter books by content category"
-          >
-            {
-              shelves.map(({ bucket, meta, cards: shelfCards }) => (
-                <button
-                  type="button"
-                  class="studio-bucket-chip"
-                  data-bucket-filter={bucket}
-                  aria-pressed="true"
-                  title={meta.desc}
-                >
-                  <i class={`fa-solid ${meta.icon}`} aria-hidden="true" />
-                  <span class="studio-bucket-chip-label">{meta.label}</span>
-                  <span class="studio-bucket-chip-count">
-                    {shelfCards.length}
-                  </span>
-                </button>
-              ))
-            }
-          </div>
+        <div
+          class="studio-bucket-filter-bar"
+          role="group"
+          aria-label="Filter books by content category"
+        >
+          {
+            shelves.map(({ bucket, meta, cards: shelfCards }) => (
+              <button
+                type="button"
+                class="studio-bucket-chip"
+                data-bucket-filter={bucket}
+                aria-pressed="true"
+                title={meta.desc}
+              >
+                <i class={`fa-solid ${meta.icon}`} aria-hidden="true" />
+                <span class="studio-bucket-chip-label">{meta.label}</span>
+                <span class="studio-bucket-chip-count">
+                  {shelfCards.length}
+                </span>
+              </button>
+            ))
+          }
         </div>
-        <div class="studio-toolbar-row">
-          <span class="studio-toolbar-row-label">Status</span>
-          <div
-            class="studio-filter-bar"
-            role="group"
-            aria-label="Filter books by lifecycle status"
-          >
-            {
-              STATUS_FILTERS.map((f) => (
-                <button
-                  type="button"
-                  class="studio-filter-chip"
-                  data-status-filter={f.id}
-                  aria-pressed={f.defaultOn ? "true" : "false"}
-                  title={f.hint}
-                >
-                  <i class={`fa-solid ${f.icon}`} aria-hidden="true" />
-                  <span class="studio-filter-chip-label">{f.label}</span>
-                  <span class="studio-filter-chip-count">
-                    {statusCount(f.id)}
-                  </span>
-                </button>
-              ))
-            }
-          </div>
+        <div
+          class="studio-filter-bar"
+          role="group"
+          aria-label="Filter books by lifecycle status"
+        >
+          {
+            STATUS_FILTERS.map((f) => (
+              <button
+                type="button"
+                class="studio-filter-chip"
+                data-status-filter={f.id}
+                aria-pressed={f.defaultOn ? "true" : "false"}
+                title={f.hint}
+              >
+                <i class={`fa-solid ${f.icon}`} aria-hidden="true" />
+                <span class="studio-filter-chip-label">{f.label}</span>
+                <span class="studio-filter-chip-count">
+                  {statusCount(f.id)}
+                </span>
+              </button>
+            ))
+          }
         </div>
       </div>
       <a

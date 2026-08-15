@@ -886,10 +886,25 @@
   flex-wrap: wrap;
 }
 
+/* Both facets on ONE line (2026-08-15) — category chips then status chips.
+   Deliberately NO divider between the groups: the row still wraps on a narrow
+   window, and a separator element strands itself at the end of the first line
+   when it does. The two groups are already told apart by colour — a category
+   chip lights in its own bucket's accent, a status chip in the site accent. */
 .studio-toolbar-filters {
   display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  /* The basis is a modest 22rem rather than `auto`, so the group does NOT
+     claim its max-content width and push `New content` onto a line of its own
+     — which is what happened at 1280px, one row worse than the two-row layout
+     this replaced. It then grows into whatever the button leaves, and the
+     CHIPS wrap inside it. Below roughly 34rem of toolbar the basis no longer
+     fits beside the button and the toolbar itself wraps, which is the right
+     behaviour on a phone. */
+  flex: 1 1 22rem;
 }
 
 /* Primary "New content" action — deliberately distinct from the filter
@@ -1364,20 +1379,8 @@
   color: var(--shelf-accent);
 }
 
-.studio-toolbar-row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.studio-toolbar-row-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--c-ink-muted);
-  font-family: var(--font-body);
-}
+/* `.studio-toolbar-row` / `.studio-toolbar-row-label` were deleted here with
+   the two-row toolbar they existed for (2026-08-15). They had no other user. */
 
 @media (prefers-reduced-motion: reduce) {
   .studio-bucket-chip {

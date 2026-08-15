@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 35.54
+    "burn_30d_usd": 51.55
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1872,6 +1872,14 @@
       "kind": "unknown"
     },
     {
+      "slug": "ayyuhal-walad",
+      "title": "Ayyuha al-Walad",
+      "phase": "reader-narration",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_scholarly"
+    },
+    {
       "slug": "claude-code-training",
       "title": "claude-code-training",
       "phase": "per-chapter",
@@ -1882,7 +1890,7 @@
     {
       "slug": "degrees-of-excellence",
       "title": "Degrees of Excellence",
-      "phase": "0book-render",
+      "phase": "reader-narration",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
@@ -1898,8 +1906,8 @@
     {
       "slug": "kitab-al-riyad",
       "title": "Kitāb al-Riyāḍ",
-      "phase": "0book-render",
-      "phase_status": "failed",
+      "phase": "reader-narration",
+      "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },
@@ -1930,8 +1938,8 @@
     {
       "slug": "spiritual-ethos",
       "title": "Spiritual Ethos",
-      "phase": "0book-compose",
-      "phase_status": "running",
+      "phase": "reader-narration",
+      "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },

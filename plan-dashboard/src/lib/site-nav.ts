@@ -15,6 +15,10 @@ export type ActivePage =
   | "quality"
   | "annotation-ops"
   | "studio"
+  // The per-book Studio pages (/studio/<slug>/…). Split out of "studio" on
+  // 2026-08-15 so the Studio section could gain a subnav row WITHOUT that row
+  // appearing above every book's work surface — see NO_SECTION_SUBNAV below.
+  | "studio-book"
   | "planner"
   | "system-map"
   | "corpus"
@@ -51,7 +55,7 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
     href: "/studio",
     label: "Studio",
     section: "studio",
-    pages: ["studio", "library", "pronunciation", "pre-upload"],
+    pages: ["studio", "studio-book", "library", "pronunciation", "pre-upload"],
   },
   {
     href: "/corpus",
@@ -101,9 +105,29 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
 ];
 
 export const SUBNAV: Record<NavSection, NavLink[]> = {
-  // Studio's secondary navigation is the pipeline STEPPER, rendered by the
-  // Studio shell — so the generic subnav is intentionally empty here.
-  studio: [],
+  // Studio's hub row (2026-08-15). Pre-Upload Review and Pronunciation used to
+  // be reachable ONLY from a sentence of instructions on the Studio picker;
+  // when that prose was removed, both pages became URL-only. They are workflow
+  // tools in the book pipeline, so they belong in the Studio section's own
+  // chrome rather than in a paragraph that any layout tidy can delete.
+  //
+  // This row does NOT render on the per-book pages — those are "studio-book"
+  // and are listed in NO_SECTION_SUBNAV below, because /studio/<slug>/<step>
+  // already fills the same slot with the pipeline STEPPER and its siblings
+  // would gain a second chrome row above the work surface for no gain.
+  studio: [
+    { href: "/studio", label: "Books", pages: ["studio", "library"] },
+    {
+      href: "/pre-upload",
+      label: "Pre-Upload Review",
+      pages: ["pre-upload"],
+    },
+    {
+      href: "/pronunciation",
+      label: "Pronunciation",
+      pages: ["pronunciation"],
+    },
+  ],
   // Library is breadcrumb-driven (Catalog → Book → Chapter); no flat subnav.
   library: [],
   // Corpus = the reference storehouse: the consolidated 3-source store, the
@@ -152,6 +176,21 @@ export function getNavSection(active: ActivePage): NavSection {
   return match?.section ?? "studio";
 }
 
+/**
+ * Pages that belong to a section but deliberately render NO section subnav.
+ *
+ * The per-book Studio pages are the only members. `/studio/<slug>/<step>` fills
+ * Base's `subnav` slot with the pipeline stepper, and its siblings (the book
+ * overview, Compose, view, preview) sit beside it — giving them the section row
+ * would push every book's work surface down by a row and, on the stepper page,
+ * stack two navigation bars. They carry their own ActivePage, so this is a
+ * lookup rather than a pathname test.
+ */
+const NO_SECTION_SUBNAV: ReadonlySet<ActivePage> = new Set<ActivePage>([
+  "studio-book",
+]);
+
 export function getSubnavLinks(active: ActivePage): NavLink[] {
+  if (NO_SECTION_SUBNAV.has(active)) return [];
   return SUBNAV[getNavSection(active)];
 }
