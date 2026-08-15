@@ -4,10 +4,10 @@
   "category": "lectures",
   "branch": "Sessions/surah-al-fateha",
   "pipeline_mode": "sessions_lane",
-  "phase": "reader-narration",
-  "phase_status": "skipped",
-  "last_completed_phase": "reader-narration",
-  "next_phase": "publish",
+  "phase": "sessions-read-along",
+  "phase_status": "completed",
+  "last_completed_phase": "sessions-read-along",
+  "next_phase": "sessions-preface",
   "last_error": null,
   "phases": {
     "sessions-ingest": {
@@ -19,30 +19,15 @@
     "sessions-articulate": {
       "status": "completed"
     },
-    "sessions-preface": {
+    "sessions-read-along": {
       "status": "completed"
+    },
+    "sessions-preface": {
+      "status": "pending"
     },
     "sessions-apparatus": {
-      "status": "completed"
-    },
-    "reader-narration": {
-      "status": "skipped",
-      "ts_started": "2026-08-15T13:12:38Z",
-      "ts_completed": "2026-08-15T13:37:20Z",
-      "rendered": [],
-      "skipped": [],
-      "chars": 0,
-      "review": {
-        "verdict": "PHASE-SOUND",
-        "failed": 0,
-        "crashed": 0,
-        "total": 0,
-        "blocking_fail": null
-      },
-      "reason": "synthetic narration withdrawn 2026-08-15 - Sessions books use Asif own recordings"
+      "status": "pending"
     }
   },
-  "status": "draft",
-  "run_id": "20260815T133720Z-309ac9",
-  "ts_updated": "2026-08-15T13:37:21Z"
+  "status": "draft"
 }
