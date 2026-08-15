@@ -45,7 +45,12 @@ def test_no_new_module_respells_the_arabic_range() -> None:
     from pathlib import Path
 
     root = Path(__file__).resolve().parents[1]
-    literal = re.compile(r"[\u0600-\u06ff]\s*-\s*[\u0600-\u06ff]")
+    # No whitespace around the dash: a character-class range is written tight
+    # (`[\u0600-\u06ff]`), while Arabic PROSE that happens to contain a hyphen is spaced
+    # (a Persian binder title, `\u063a\u0632\u0627\u0644\u06cc - \u06a9\u06cc\u0645\u06cc\u0627\u0626\u06cc \u0627\u0644\u0633\u0639\u0627\u062f\u06c3`). Allowing `\s*` here
+    # read that title as a range literal and held this ratchet red from
+    # 2026-08-14, which masks the violations it exists to catch.
+    literal = re.compile(r"[\u0600-\u06ff]-[\u0600-\u06ff]")
     found = {
         str(path.relative_to(root))
         for path in sorted(root.rglob("*.py"))

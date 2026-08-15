@@ -5,8 +5,18 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import sys
 from dataclasses import dataclass, field, replace
+from pathlib import Path
 from typing import Any
+
+_HERE = Path(__file__).resolve().parent
+_SCRIPTS = _HERE.parent
+for _p in (str(_SCRIPTS), str(_HERE)):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
+from _arabic_coverage import ARABIC_BODY  # noqa: E402
 
 WISDOM_TRADITION = "fatimid-ismaili"
 SOURCE_KIND = "kashkole_binder_translation"
@@ -21,7 +31,9 @@ _QREF_PATTERNS = (
     re.compile(r"\bQ(?:uran)?\s*,?\s*(\d{1,3})\s*[:.]\s*(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?\b", re.IGNORECASE),
     re.compile(r"\bQ(\d{1,3})\s*[:.]\s*(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?\b", re.IGNORECASE),
 )
-_ARABIC_ADJACENT_QREF_RE = re.compile(r"(?<!\d)(\d{1,3}):(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?(?=\s+[؀-ۿ])")
+_ARABIC_ADJACENT_QREF_RE = re.compile(
+    r"(?<!\d)(\d{1,3}):(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?(?=\s+[" + ARABIC_BODY + r"])"
+)
 _BRACED_QREF_RE = re.compile(r"\{\s*(\d{1,3}):(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?\s*\}")
 _SURAH_THEN_VERSE_RE = re.compile(
     r"\b(?:surah|sura)\s+([a-z][a-z'\-’ ]{1,40}?)\s*,?\s*(?:verse|ayah|ayat)\s+(\d{1,3})\b",
