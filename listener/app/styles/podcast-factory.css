@@ -319,7 +319,18 @@
   --l-font-card-title:
     "Roboto Condensed Variable", "Inter Variable", system-ui, sans-serif;
   --l-font-ui: "Inter Variable", system-ui, -apple-system, sans-serif;
-  --l-font-arabic: "Traditional Arabic", "Scheherazade New", "Amiri", serif;
+  /* Traditional Arabic was here until 2026-08-15: it renders several
+     Urdu/Persian codepoints used in this reading column as broken, disconnected
+     clusters (found on `spiritual-ethos`'s inline citations — visibly split
+     letterforms, floating diacritics). The Book Composer hit the same defect in
+     its own inline Arabic two days earlier and moved off Traditional Arabic
+     there (`quote-typography.css`, `--q-ar-inline-face`); this token just never
+     got the same fix. Scheherazade New leads instead, matching the reasoning in
+     the @font-face comment above it: engineered for fully-vowelled text, which
+     is everything this reading column sets. Traditional Arabic's @font-face
+     stays declared, for the day something wants it deliberately as a display
+     face — see --l-font-arabic-display for that pattern. */
+  --l-font-arabic: "Scheherazade New", "Amiri", serif;
   /* Titles and other display Arabic ONLY. Never the reading column — see the
      @font-face note in §1. */
   --l-font-arabic-display: "Amiri", "Scheherazade New", serif;
@@ -9094,15 +9105,25 @@
      one instead of each choosing for themselves.
 
      `em`, NOT the px value this started as: the reader has a text-size control,
-     and a fixed size would freeze Arabic while the English around it moved. At
-     the default setting 1.58em renders identically to the 30px it replaces.
+     and a fixed size would freeze Arabic while the English around it moved.
+
+     LOCKED 2026-08-15, approved on live review against `spiritual-ethos`:
+     1.1em, alif at ~1.10x the Latin cap-height — the top of Asif's original
+     5-10%-larger ask. 1.58em (the prior value) set alif at 1.584x cap-height,
+     visibly taller than the paragraph rhythm around it; 1.5em (well clear of
+     the ~1.8-2.0em point where the glyph's own ink starts reaching the line
+     above — `line-height: 0` keeps the paragraph's own line spacing fixed at
+     any size, verified by measurement to 3em) read as too large on review;
+     1.08em (alif at 1.08x cap-height) was the step before 1.1em. Applies to
+     every book and every session through this one shared token — there is no
+     per-book override anywhere in the reader.
 
      Weight comes from --l-arabic-weight (§2) rather than a number here —
      none of the reading faces ships a real bold cut, so the token is normal
      weight; a face that later adds one changes in one place. */
   .reader .ar-inline {
     font-family: var(--l-font-arabic);
-    font-size: 1.58em;
+    font-size: 1.1em;
     font-weight: var(--l-arabic-weight);
     line-height: 0;
     vertical-align: -0.06em;
@@ -9163,8 +9184,11 @@
   }
 
   /* The size the nested span then inherits, because the span's own size is
-     switched off below to stop the two compounding. Kept equal to the base
-     inline size so a verse and an inline term set alike. */
+     switched off below to stop the two compounding. Deliberately its OWN
+     value, larger than the inline base rule above — a standalone verse or
+     hadith is display type and reads as one whether or not the inline size
+     next to it changes; that is why the 2026-08-15 inline resize (1.58em ->
+     1.1em) left this rule alone. */
   .reader blockquote .ar {
     font-family: var(--l-font-arabic);
     font-size: 1.58em;
