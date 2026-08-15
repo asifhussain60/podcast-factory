@@ -200,6 +200,13 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             # durable records worth committing, they just must not block a resume
             # mid-run.
             "/_system/step-ledger.jsonl",
+            # Same deadlock, different books (2026-08-15): a resume for one book
+            # was blocked by these derived reports being mid-write for a totally
+            # unrelated book in another concurrent session. Both are pipeline
+            # output, never hand-authored, so a resume elsewhere should never
+            # have to wait on them settling.
+            "/_system/gloss-coverage.json",
+            "/_system/book-comprehension.json",
             "scripts/podcast/tighten_source.py",
             ".code-workspace",
         )
