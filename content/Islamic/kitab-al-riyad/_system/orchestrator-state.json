@@ -185,8 +185,9 @@
     "reader-narration": {
       "status": "completed",
       "ts_started": "2026-08-15T12:00:29Z",
-      "ts_completed": "2026-08-15T12:09:24Z",
-      "rendered": [
+      "ts_completed": "2026-08-15T12:24:26Z",
+      "rendered": [],
+      "skipped": [
         "introduction to the book",
         "the freedom to disagree",
         "the two rivals",
@@ -209,8 +210,7 @@
         "the creator of the thing and the no-thing",
         "creativity is the creator"
       ],
-      "skipped": [],
-      "chars": 389456,
+      "chars": 0,
       "review": {
         "verdict": "PHASE-CONCERNS",
         "failed": 1,
@@ -226,7 +226,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-18T22:51:13Z",
-  "ts_updated": "2026-08-15T12:09:24Z",
+  "ts_updated": "2026-08-15T12:24:26Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.1",
   "reset_for_reemit": {
@@ -253,5 +253,5 @@
   ],
   "pipeline_mode": "orchestrated",
   "status": "draft",
-  "run_id": "20260815T120029Z-522550"
+  "run_id": "20260815T122426Z-665f51"
 }

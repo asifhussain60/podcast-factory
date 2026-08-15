@@ -132,8 +132,9 @@
     "reader-narration": {
       "status": "completed",
       "ts_started": "2026-08-15T12:20:12Z",
-      "ts_completed": "2026-08-15T12:22:08Z",
-      "rendered": [
+      "ts_completed": "2026-08-15T12:24:26Z",
+      "rendered": [],
+      "skipped": [
         "introduction to the book",
         "knowledge that will not save you",
         "the striving that mercy meets",
@@ -145,8 +146,7 @@
         "four to avoid, four to embrace",
         "a prayer for the road"
       ],
-      "skipped": [],
-      "chars": 66554,
+      "chars": 0,
       "review": {
         "verdict": "PHASE-SOUND",
         "failed": 0,
@@ -163,7 +163,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-05-21T00:00:00Z",
-  "ts_updated": "2026-08-15T12:22:08Z",
+  "ts_updated": "2026-08-15T12:24:26Z",
   "challenger_version": "2.0",
   "orchestrator_version": "1.2",
   "completed_slugs": [
@@ -182,5 +182,5 @@
   },
   "rerun_note": "Reset to 0b 2026-06-04 for full-pipeline rerun (multi-source preserved). Prior 3-ep run backed up to _archive/pre-rerun-2026-06-04.",
   "published_at": "2026-06-06T11:01:27Z",
-  "run_id": "20260815T120029Z-522550"
+  "run_id": "20260815T122426Z-665f51"
 }

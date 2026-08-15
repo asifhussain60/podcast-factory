@@ -319,8 +319,9 @@
     "reader-narration": {
       "status": "completed",
       "ts_started": "2026-08-15T12:17:29Z",
-      "ts_completed": "2026-08-15T12:20:09Z",
-      "rendered": [
+      "ts_completed": "2026-08-15T12:24:26Z",
+      "rendered": [],
+      "skipped": [
         "introduction to the book",
         "the pole and foundation of religion",
         "by nature and by reason",
@@ -332,8 +333,7 @@
         "from adam to ali",
         "god's vicegerent in his time"
       ],
-      "skipped": [],
-      "chars": 129736,
+      "chars": 0,
       "review": {
         "verdict": "PHASE-CONCERNS",
         "failed": 1,
@@ -350,7 +350,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-08-15T12:20:09Z",
+  "ts_updated": "2026-08-15T12:24:26Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -390,5 +390,5 @@
       "slide_challenger_verdict": "SHIP-READY"
     }
   },
-  "run_id": "20260815T120029Z-522550"
+  "run_id": "20260815T122426Z-665f51"
 }
