@@ -17,6 +17,7 @@
     "test": "vitest run",
     "smoke": "node scripts/smoke.mjs",
     "shots": "node scripts/shots.mjs",
+    "verify:read-aloud": "node scripts/verify-read-aloud.mjs",
     "security": "node scripts/security-smoke.mjs",
     "db:migrate": "wrangler d1 migrations apply podcast-listener --local",
     "dev-vars": "node scripts/dev-vars.mjs",
