@@ -6,8 +6,8 @@
   "input_type": "page-images",
   "source_language": "en",
   "phase": "audio-ingest",
-  "phase_status": "halted",
-  "last_completed_phase": "reader-narration",
+  "phase_status": "completed",
+  "last_completed_phase": "audio-ingest",
   "last_error": null,
   "category": "books",
   "branch": "develop",
@@ -351,13 +351,21 @@
       "ts_started": "2026-08-07T00:02:26Z"
     },
     "audio-ingest": {
-      "status": "halted",
+      "status": "completed",
       "ts_started": "2026-08-07T09:38:07Z",
-      "ts_completed": "2026-08-15T18:55:46Z",
+      "ts_completed": "2026-08-15T19:20:18Z",
       "reason": "awaiting NotebookLM audio drop",
       "missing": [
         "EP06-pride-and-conscience: m4a/ch06b-pride-and-conscience.m4a"
-      ]
+      ],
+      "episodes_ingested": 13,
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 4,
+        "blocking_fail": null
+      }
     },
     "0book-illustrate": {
       "status": "pending",
@@ -460,12 +468,11 @@
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
-  "run_id": "20260815T185331Z-eb60d5",
-  "ts_updated": "2026-08-15T18:55:46Z",
-  "next_phase": "publish",
+  "run_id": "20260815T191924Z-849aee",
+  "ts_updated": "2026-08-15T19:20:19Z",
+  "next_phase": "0book-design",
   "unattended": true,
   "phase_attempts": {
-    "reader-narration": 2,
-    "audio-ingest": 3
+    "reader-narration": 2
   }
 }
