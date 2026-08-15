@@ -675,3 +675,45 @@
 {"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
 {"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
 {"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-window-01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-window-02", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-window-03", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-window-04", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-window-05", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-window-06", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-window-07", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-window-08", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-window-09", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-window-10", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-window-11", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-arabic-01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-arabic-02", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-arabic-03", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-arabic-04", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-arabic-05", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-arabic-06", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-arabic-07", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-arabic-08", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "a model for success-arabic-09", "model": "claude-opus-5", "fallback": true, "divergence": true}
