@@ -20,3 +20,9 @@ book_augmentation: none
 book_visuals: manual_only
 
 enable_video: false
+
+# Read-aloud is OFF by default for a lecture-session book: it transcribes a talk
+# Asif already recorded, and a synthetic voice would compete with his own. Turned ON
+# deliberately on 2026-08-15 so every published book carries the control.
+reader_narration:
+  enabled: true

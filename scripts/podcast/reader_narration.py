@@ -88,13 +88,27 @@ def _read_config(book_dir: Path) -> dict[str, Any]:
 
 
 def narration_enabled(book_dir: Path) -> tuple[bool, str | None]:
-    """Return whether chapter narration belongs on this book."""
+    """Return whether chapter narration belongs on this book.
+
+    The profile and lane checks below are a DEFAULT — a guess about which books
+    are worth reading aloud, made from what kind of book it is. An explicit
+    `reader_narration.enabled` in series-config.yaml is a decision a person
+    made about THIS book, so it wins in both directions: `false` refuses a book
+    the default would have taken, and `true` takes one the default would have
+    refused. Without the `true` half there was no way to say yes at all, and a
+    lecture-session book could only be narrated by editing this function
+    (Asif, 2026-08-15, for love-of-the-prophet and surah-al-fateha).
+    """
     cfg = _read_config(book_dir)
     value = cfg.get("reader_narration")
     if isinstance(value, dict) and value.get("enabled") is False:
         return False, "disabled in series-config.yaml"
     if value is False:
         return False, "disabled in series-config.yaml"
+    if isinstance(value, dict) and value.get("enabled") is True:
+        return True, None
+    if value is True:
+        return True, None
     if not is_islamic_scholarly(book_dir):
         return False, "not an Islamic source book"
     if "Sessions" in Path(book_dir).parts:
