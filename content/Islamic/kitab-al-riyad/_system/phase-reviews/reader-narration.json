@@ -1,0 +1,55 @@
+{
+  "schema": "podcast.phase-review/v1",
+  "phase": "reader-narration",
+  "verdict": "PHASE-CONCERNS",
+  "blocking_fail": null,
+  "counts": {
+    "total": 6,
+    "failed": 1,
+    "crashed": 0
+  },
+  "gates": [
+    {
+      "gate": "RA1",
+      "name": "source-text-still-present (from 0a)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "raw-extract.md present (462,204 bytes)"
+    },
+    {
+      "gate": "RB1",
+      "name": "refined-text-still-present (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined-english.md present (476,690 bytes)"
+    },
+    {
+      "gate": "RB2",
+      "name": "refined-still-covers-source (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined text is 99% of the source (86,817 of 87,935 words)"
+    },
+    {
+      "gate": "RB3",
+      "name": "window-cache-intact (from 0b)",
+      "kind": "recheck",
+      "passed": false,
+      "note": "0b produced refined text but its window cache is GONE while the source is still present — a re-run will re-pay for every window (~$8 on a 28-window book). Nothing in this repo deletes it; `**/_chunks/` is gitignored, so a `git clean -fdx` would."
+    },
+    {
+      "gate": "RD1",
+      "name": "chapter-contracts-still-exist (from 0d)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "13 chapter contract(s)"
+    },
+    {
+      "gate": "RG1",
+      "name": "book-toc-still-parses (from 0book-design)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "book-toc.json declares 20 chapter(s)"
+    }
+  ]
+}
