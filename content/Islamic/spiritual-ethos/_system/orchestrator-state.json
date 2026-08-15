@@ -5,9 +5,9 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "0book-render",
+  "phase": "reader-narration",
   "phase_status": "completed",
-  "last_completed_phase": "0book-render",
+  "last_completed_phase": "reader-narration",
   "last_error": null,
   "category": "books",
   "branch": "develop",
@@ -462,27 +462,28 @@
     "reader-narration": {
       "status": "completed",
       "ts_started": "2026-08-15T12:09:27Z",
-      "ts_completed": "2026-08-15T12:24:26Z",
-      "rendered": [],
-      "skipped": [
-        "introduction to the book",
-        "in the prophet's shadow",
-        "the people of the house and the prophet's witness",
+      "ts_completed": "2026-08-15T19:42:07Z",
+      "rendered": [
         "intellect, not reason",
-        "the discourse to kumayl",
         "the fruits of certainty",
         "a sacred conception of justice",
         "justice and the tyrant's pride",
         "conscience, compassion, and the ordering of society",
-        "justice for the poor and the sincerity of intention",
-        "prayer, remembrance, and gazing on the good",
         "dhikr: the polish of the heart",
-        "remembrance as the quintessence of worship",
         "extinction and the name: the death of the saint",
         "the first sermon of the nahj al-balagha",
         "the letter to malik al-ashtar"
       ],
-      "chars": 0,
+      "skipped": [
+        "introduction to the book",
+        "in the prophet's shadow",
+        "the people of the house and the prophet's witness",
+        "the discourse to kumayl",
+        "justice for the poor and the sincerity of intention",
+        "prayer, remembrance, and gazing on the good",
+        "remembrance as the quintessence of worship"
+      ],
+      "chars": 291453,
       "review": {
         "verdict": "PHASE-SOUND",
         "failed": 0,
@@ -494,10 +495,8 @@
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260815T191924Z-849aee",
-  "ts_updated": "2026-08-15T19:38:04Z",
-  "next_phase": "reader-narration",
+  "ts_updated": "2026-08-15T19:42:07Z",
+  "next_phase": "publish",
   "unattended": true,
-  "phase_attempts": {
-    "reader-narration": 2
-  }
+  "phase_attempts": {}
 }
