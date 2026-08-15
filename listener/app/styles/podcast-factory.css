@@ -9585,19 +9585,36 @@
 
   .reader .md-figure img {
     display: block;
-    /* --img-w (2026-08-14): a Composer resize choice, threaded through from
+    /* --img-h, not --img-w (2026-08-14 switch, see image-layout.mjs's
+       header): a Composer resize choice, threaded through from
        _system/image-layout.json by the SAME renderMarkdown function the
        Composer's own Read tab uses — so a size set in the Composer reaches
-       here with no second implementation to keep in sync. Falls back to
-       `auto`, unchanged, the moment nobody has resized this image. */
-    width: var(--img-w, auto);
+       here with no second implementation to keep in sync. This rule
+       drifted onto the old width-based property in the same commit that
+       introduced --img-h everywhere else, so every image on the Podcast
+       Factory Library rendered at its natural aspect ratio regardless of
+       any curated height — fixed 2026-08-15.
+       Falls back to 350px — image-layout.mjs's own DEFAULT_HEIGHT_PX,
+       matching the Sessions-lane source images, which arrive as large raw
+       lecture-slide photos/scans with no consistent aspect ratio and no
+       curated height until someone opens the Composer and resizes one.
+       `auto` (natural size) is what book-reader.css/book-print.css fall
+       back to instead, because THOSE surfaces are the Composer's own Read
+       tab and the PDF, both edited by the author with the image on
+       screen; the audience reader is not, so an un-curated image should
+       not reach an audience reader at whatever size the raw scan happens
+       to be. */
+    width: auto;
     max-width: 100%;
-    height: auto;
+    height: var(--img-h, 350px);
     margin-inline: auto;
     box-sizing: border-box;
     border-radius: var(--pf-radius-sm);
-    /* A hairline, so a scan on a white ground does not bleed into the page. */
-    border: 1px solid var(--l-rule-soft);
+    /* 3px, matching the Composer's own .cx-image-figure img frame
+       (book-composer.css) — so a scan on a white ground gets the same
+       weight of frame on the audience reader as it gets while being
+       curated. */
+    border: 3px solid var(--l-rule-soft);
     background: var(--l-surface);
   }
 

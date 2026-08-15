@@ -941,13 +941,17 @@ body.style-elegant blockquote:not(.quran):not(.aside)::before {
 .md-figure img {
   display: block;
   /* --img-h, not --img-w, as of the same day (image-layout.mjs's header has
-     the full reasoning) — falls back to auto/auto, unchanged from before, for
-     every image nobody has resized. */
+     the full reasoning) — falls back to 350px, image-layout.mjs's own
+     DEFAULT_HEIGHT_PX, matching book-reader.css and the audience reader
+     (podcast-factory.css) so a Sessions-lane image nobody has curated
+     prints at the same size it reads on every other surface, instead of
+     whatever its raw scan happened to be (2026-08-15, systemic fix). */
   width: auto;
-  height: var(--img-h, auto);
+  height: var(--img-h, 350px);
   max-width: 100%;
   margin-inline: auto;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  /* 3px, matching every other surface's .md-figure/.cx-image-figure frame. */
+  border: 3px solid rgba(0, 0, 0, 0.08);
   border-radius: 6px;
 }
 .md-figure[data-align="left"] {

@@ -174,15 +174,23 @@
   /* --img-h (2026-08-14, height not width — see image-layout.mjs's header): a
      Composer resize, set as an inline custom property (never a raw
      style="height:…") on the img itself — see the image branch of
-     markdown.ts for why. Falls back to the existing `auto`/`auto` pair the
-     moment nobody has resized this image, which is every image before this
-     existed, so an unresized picture renders exactly as it always did. */
+     markdown.ts for why.
+     Falls back to 350px — image-layout.mjs's own DEFAULT_HEIGHT_PX, the
+     same fallback the audience reader (podcast-factory.css) and the edit
+     canvas (.cx-image-figure img, above in book-composer.css) both use.
+     This tab used to fall back to `auto` instead — the image's raw pixel
+     size straight off a Sessions-lane scan — which meant an un-curated
+     image previewed here at one size and then rendered at 350px the
+     moment it reached an audience reader; the whole point of this Read
+     tab is to preview what a reader will actually see (2026-08-15,
+     systemic fix, see podcast-factory.css). */
   width: auto;
-  height: var(--img-h, auto);
+  height: var(--img-h, 350px);
   max-width: 100%;
   margin-inline: auto;
   box-sizing: border-box;
-  border: 1px solid var(--c-rule-soft, #ebe6da);
+  /* 3px, matching the edit canvas's own .cx-image-figure img frame. */
+  border: 3px solid var(--c-rule-soft, #ebe6da);
   border-radius: 6px;
   background: var(--c-bg-card, #fffdf8);
 }
