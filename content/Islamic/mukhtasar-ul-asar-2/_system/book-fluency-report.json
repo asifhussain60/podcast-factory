@@ -1,0 +1,72 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "transmitted_report",
+  "adapted": 0,
+  "reverted": 0,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "The Marketplace: Honest Earning, Trade, and Property",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "Binding Words: Oaths, Vows, and Their Atonement",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "partial"
+    },
+    {
+      "title": "The Body's Portion: Food, Drink, and Healing",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "partial"
+    },
+    {
+      "title": "What We Wear: Dress, Adornment, and Fragrance",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "The Hunt and the Knife: Game, Slaughter, and Sacrifice",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "Marriage and the Household",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "partial"
+    },
+    {
+      "title": "When a Marriage Ends: Divorce and Separation",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "partial"
+    },
+    {
+      "title": "Freedom, Generosity, and the Division of Estates",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "Wrong and Redress: Crime, Property Disputes, and the Judge",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "transmitted_report",
+  "adapted": 0,
+  "reverted": 0,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "The First Obligation: Seeking Knowledge",
+      "base_words": 578,
+      "output_words": 577,
+      "windows": 2,
+      "windows_kept": 2,
+      "windows_cached": 2,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 2,
+      "status": "composer-edit",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-02-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-02-part-02: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": [],
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "Purity: Water, Ablution, and the Body Made Ready",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "partial"
+    },
+    {
+      "title": "The Pillar of Religion: Standing in Prayer",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "partial"
+    },
+    {
+      "title": "Supplication and the Many Forms of Prayer",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "partial"
+    },
+    {
+      "title": "Facing Death: The Rites of the Departed",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "partial"
+    },
+    {
+      "title": "The Due of Wealth: Zakat",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "The Fast: Ramadan and the Discipline of Abstention",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "partial"
+    },
+    {
+      "title": "The Journey to the House: Pilgrimage",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "partial"
+    },
+    {
+      "title": "The Sword and the State: Jihad, Governance, and Justice",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    }
+  ]
+}
