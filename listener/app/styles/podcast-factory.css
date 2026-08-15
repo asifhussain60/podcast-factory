@@ -442,7 +442,12 @@
      chip's own colour in the library find row. Fixed per track rather than
      per theme, like the Sessions collection's violet is a brand choice: the
      ribbon is a small, self-contained badge that carries its own text
-     colour, so it never has to be read against the page underneath it. */
+     colour, so it never has to be read against the page underneath it.
+
+     The VALUES below are generated — a track's colour belongs to the book and
+     is shown on the admin site's Studio shelf too, so it is owned in one file
+     there and copied here, the same arrangement the quotation inks use. */
+  /* >>> study-track-colors — generated from plan-dashboard/src/styles/study-track-colors.css by scripts/sync-study-tracks.mjs. Change a value THERE, then run `npm run study-tracks`. */
   --l-ribbon-theology-bg: #0a6a82;
   --l-ribbon-theology-ink: #ffffff;
   --l-ribbon-esoteric-bg: #d98a1f;
@@ -453,6 +458,7 @@
   --l-ribbon-shariah-ink: #ffffff;
   --l-ribbon-reality-bg: #e0201f;
   --l-ribbon-reality-ink: #ffffff;
+  /* <<< study-track-colors */
 }
 
 /* ==========================================================================
