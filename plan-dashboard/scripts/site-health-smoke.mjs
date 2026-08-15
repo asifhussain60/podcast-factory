@@ -797,12 +797,13 @@ async function checkLayoutInvariants(page) {
       ];
       const shown = () =>
         document.querySelectorAll(".studio-shelf-card:not([hidden])").length;
+      // The three "All" chips are gone — each group's caption carries a clear
+      // control and the header carries Reset, which is the one that clears
+      // everything. Reset is hidden while nothing is narrowed, so this is a
+      // no-op from a clean state, which is what "reset" should be.
       const reset = () => {
-        for (const [sel] of groups) {
-          const all = document.querySelector(`${sel}[data-bucket-filter="all"],
-            ${sel}[data-status-filter="all"], ${sel}[data-track-filter="all"]`);
-          if (all) all.click();
-        }
+        const r = document.getElementById("studio-findbar-reset");
+        if (r && !r.hidden) r.click();
       };
       // Two facets at a time, not one: a per-facet sweep from an all-"All"
       // state is exactly the condition under which the broken counts looked

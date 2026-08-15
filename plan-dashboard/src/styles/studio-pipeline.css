@@ -1637,13 +1637,200 @@
   padding: 0.9rem 1.1rem 1rem;
 }
 
-/* The chip row carries `flex: 1 1 22rem` for its old life as a row item beside
-   the primary action. Inside this COLUMN that basis is a HEIGHT — it rendered
-   the two chip bars 352px tall with the separator stretched down the middle of
-   the empty space. Reset here rather than changed there: the rule is still
-   correct for the layout it was written for. */
-.studio-findbar .studio-toolbar-filters {
-  flex: 0 0 auto;
+/* ---- Three facets, three columns ------------------------------------------
+   Each group is a captioned cell divided from its neighbours by a hairline —
+   the segmented-panel idiom, not a stepper: these are three INDEPENDENT sets,
+   any one of which narrows on its own, so nothing is numbered or arrowed.
+
+   The columns size to their contents rather than splitting evenly: Track
+   carries five chips to Category's two, and equal thirds would have wrapped
+   Track while leaving Category half empty. Track takes the remainder. */
+.studio-facets {
+  display: grid;
+  /* `max-content` on the first two, NOT `auto`: an `auto` track takes a share
+     of the leftover space as well as its content, so Category and Status came
+     out 372px and 579px for chips needing 240 and 380 — and Track, the column
+     with five chips, was left 318px and wrapped onto three lines. Pinned to
+     their content, the remainder goes where the chips actually are. */
+  grid-template-columns: max-content max-content minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.studio-facet {
+  min-width: 0;
+}
+
+/* The hairline lives on the cell, not between cells as its own element — a
+   free-standing divider is what stranded itself at the end of a wrapped row
+   before this panel existed. As a border it cannot exist without the column it
+   belongs to, and it disappears with the grid when the columns stack. */
+.studio-facets > .studio-facet + .studio-facet {
+  border-inline-start: 1px solid var(--c-rule);
+  padding-inline-start: 1rem;
+}
+
+.studio-facet-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.studio-facet-label {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+/* Each group's own clear, shown only while THAT group is narrowed. It sits in
+   the caption rather than in the chip row because it is not one of the values
+   — a fourth chip saying "All" is what this redesign removed. */
+.studio-facet-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--c-ink) 10%, transparent);
+  color: var(--c-ink-muted);
+  font-size: 0.55rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 130ms,
+    color 130ms;
+}
+
+.studio-facet-clear:hover {
+  background: color-mix(in oklab, var(--c-accent) 18%, transparent);
+  color: var(--c-accent);
+}
+
+.studio-facet-clear:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.studio-facet-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ONE SET OF METRICS FOR ALL THREE FAMILIES.
+   The category and status chips were built as a standalone toolbar — 12px
+   corners, 1.15rem of side padding, 0.8rem text — while the track chips were
+   built later as slim pills. Side by side in three columns that read as two
+   different controls doing the same job, and the arithmetic made it worse:
+   Category's TWO chips measured 362px and Status's three 539px, so the three
+   columns wanted ~1600px of chip on a 1308px row and Track, the group with
+   five, was squeezed to 318px and wrapped onto four lines.
+
+   Unified to the slimmer pill, which is also what "shorten the buttons" asked
+   for. What stays DIFFERENT is the only thing that should: the colour each
+   family lights in when chosen — bucket accent, site accent, the track's own. */
+.studio-facet-chips > button {
+  padding: 0.42rem 0.8rem;
+  border-radius: 999px;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  box-shadow: none;
+}
+
+.studio-facet-chips > button > i {
+  font-size: 0.72rem;
+}
+
+/* The count pill shrinks with the chip — at the old size it was a third of the
+   control's width for a one-digit number. */
+.studio-facet-chips .studio-bucket-chip-count,
+.studio-facet-chips .studio-filter-chip-count {
+  min-width: auto;
+  padding: 0 0.35rem;
+  font-size: 0.68rem;
+}
+
+/* ---- Track chips stack their count under the label -------------------------
+   Measured, not guessed: five track chips side by side need 562px and the
+   column is 477px, so they wrapped to two lines. Every horizontal saving that
+   preserved the numbers came up ~35px short, and the three columns TOGETHER
+   want 1424px of a 1308px row — so no amount of rebalancing fits them either.
+
+   Setting the count beneath the label takes each chip from ~110px to ~77px:
+   five fit in 417px with room to spare, at the cost of one line of height on a
+   panel that has it. Nothing is dropped and no new iconography is invented for
+   a doctrinal taxonomy, which is not a thing to design unilaterally.
+
+   It also makes the third set look different from the first two, which is the
+   point of the redesign: these are three independent groups, and the one that
+   answers "what is this about" should not be mistaken for the two that answer
+   "where is it in the pipeline". */
+/* A GRID of five equal cells, not a wrapping row. Stacking the count alone got
+   the five to 466px in a 457px bar — a 10px miss, and tuning padding until it
+   cleared would have been a fit that held only for these five words. As a grid
+   the five ALWAYS share the row: a longer track name wraps inside its own cell
+   instead of pushing a chip onto a second line, and a sixth track added to the
+   registry changes one number here. */
+.studio-facet--track .studio-facet-chips {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.studio-facet--track .studio-track-chip {
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  padding: 0.3rem 0.5rem;
+  line-height: 1.25;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  /* Stacked, the panel is one narrow column — five cells across it would be
+     ~44px each, narrower than the words. Back to a wrapping row. */
+  .studio-facet--track .studio-facet-chips {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.studio-facet--track .studio-track-chip-count {
+  font-size: 0.62rem;
+  opacity: 0.7;
+}
+
+/* Below this the three columns become three captioned rows, each keeping its
+   caption and losing the divider with the column it belonged to. Chosen from
+   the measurement that mattered: three columns of thirteen chips stop fitting
+   one line before 900px. */
+@media (max-width: 900px) {
+  .studio-facets {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  .studio-facets > .studio-facet + .studio-facet {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+    border-top: 1px solid var(--c-rule-soft);
+    padding-top: 0.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-facet-clear {
+    transition: none;
+  }
 }
 
 /* The hairline between the two pipeline facets. It exists only because the

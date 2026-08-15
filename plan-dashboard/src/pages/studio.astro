@@ -167,124 +167,158 @@ const {
         </div>
       </div>
 
-      <div class="studio-findbar-body">
-        <div class="studio-toolbar-filters">
-          <div
-            class="studio-bucket-filter-bar"
-            role="group"
-            aria-label="Filter books by content category"
-          >
-            <button
-              type="button"
-              class="studio-bucket-chip"
-              data-bucket-filter="all"
-              aria-pressed="true"
-              title="Every category"
-            >
-              <span class="studio-bucket-chip-label">All</span>
-              <span class="studio-bucket-chip-count">{totalCount}</span>
-            </button>
-            {
-              shelves.map(({ bucket, meta }) => (
-                <button
-                  type="button"
-                  class="studio-bucket-chip"
-                  data-bucket-filter={bucket}
-                  aria-pressed="false"
-                  title={meta.desc}
-                  disabled={bucketCount(bucket) === 0}
-                >
-                  <i class={`fa-solid ${meta.icon}`} aria-hidden="true" />
-                  <span class="studio-bucket-chip-label">{meta.chipLabel}</span>
-                  <span class="studio-bucket-chip-count">
-                    {bucketCount(bucket)}
-                  </span>
-                </button>
-              ))
-            }
-          </div>
-          <span class="studio-facet-sep" aria-hidden="true"></span>
-          <div
-            class="studio-filter-bar"
-            role="group"
-            aria-label="Filter books by lifecycle status"
-          >
-            <button
-              type="button"
-              class="studio-filter-chip"
-              data-status-filter="all"
-              aria-pressed="true"
-              title="Every status"
-            >
-              <span class="studio-filter-chip-label">All</span>
-              <span class="studio-filter-chip-count">{totalCount}</span>
-            </button>
-            {
-              STATUS_FILTERS.map((f) => (
-                <button
-                  type="button"
-                  class="studio-filter-chip"
-                  data-status-filter={f.id}
-                  aria-pressed="false"
-                  title={f.hint}
-                  disabled={statusCount(f.id) === 0}
-                >
-                  <i class={`fa-solid ${f.icon}`} aria-hidden="true" />
-                  <span class="studio-filter-chip-label">{f.label}</span>
-                  <span class="studio-filter-chip-count">
-                    {statusCount(f.id)}
-                  </span>
-                </button>
-              ))
-            }
-          </div>
-        </div>
+      {
+        /* THREE FACETS, THREE COLUMNS — one captioned cell each, hairline
+           divided (Asif, 2026-08-15). They are three independent SETS, not
+           three steps: any one narrows on its own, in any order, so nothing
+           here is numbered or arrowed. Numbering would teach a sequence the
+           page does not follow.
 
-        {
-          /* The counts are measured against the WHOLE shelf, never the filtered
-             view: a number that renumbered itself as you filtered would flicker,
-             and it is there to say what choosing it would give you. A track with
-             none is DISABLED rather than dropped — the five tracks are a taxonomy
-             worth seeing whole, and a row that changes length as books move
-             through the pipeline teaches less than one that keeps its shape. */
-        }
-        <div class="studio-tracks-panel">
-          <span class="studio-tracks-label" id="studio-tracks-label"
-            >Browse by track</span
-          >
-          <div
-            class="studio-track-filter-bar"
-            role="group"
-            aria-labelledby="studio-tracks-label"
-          >
-            <button
-              type="button"
-              class="studio-track-chip"
-              data-track-filter="all"
-              aria-pressed="true"
-              title="Every track"
+           The captions are back on all three. They were dropped when this was a
+           compact two-row toolbar and that was right then; a hairline alone
+           cannot say what a group IS, and two unlabelled groups beside one
+           labelled one is exactly why these did not read as three.
+
+           The three "All" chips are gone with them. A third of the row used to
+           be spent on the same word three times, and each group now carries a
+           small clear control in its own caption instead — which is also what
+           makes a group look like a group rather than a row that happens to
+           start with a button. */
+      }
+      <div class="studio-findbar-body">
+        <div class="studio-facets">
+          <section class="studio-facet">
+            <div class="studio-facet-head">
+              <h3 class="studio-facet-label" id="studio-facet-bucket">
+                Category
+              </h3>
+              <button
+                type="button"
+                class="studio-facet-clear"
+                data-clear-facet="bucket"
+                aria-label="Clear the category filter"
+                title="Clear the category filter"
+                hidden
+              >
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div
+              class="studio-facet-chips studio-bucket-filter-bar"
+              role="group"
+              aria-labelledby="studio-facet-bucket"
             >
-              <span class="studio-track-chip-label">All tracks</span>
-              <span class="studio-track-chip-count">{totalCount}</span>
-            </button>
-            {
-              TRACK_FILTERS.map((f) => (
-                <button
-                  type="button"
-                  class="studio-track-chip"
-                  data-track-filter={f.id}
-                  aria-pressed="false"
-                  title={f.hint}
-                  disabled={trackCount(f.id) === 0}
-                >
-                  <span class="studio-track-chip-label">{f.label}</span>
-                  <span class="studio-track-chip-count">
-                    {trackCount(f.id)}
-                  </span>
-                </button>
-              ))
-            }
-          </div>
+              {
+                shelves.map(({ bucket, meta }) => (
+                  <button
+                    type="button"
+                    class="studio-bucket-chip"
+                    data-bucket-filter={bucket}
+                    aria-pressed="false"
+                    title={meta.desc}
+                    disabled={bucketCount(bucket) === 0}
+                  >
+                    <i class={`fa-solid ${meta.icon}`} aria-hidden="true" />
+                    <span class="studio-bucket-chip-label">
+                      {meta.chipLabel}
+                    </span>
+                    <span class="studio-bucket-chip-count">
+                      {bucketCount(bucket)}
+                    </span>
+                  </button>
+                ))
+              }
+            </div>
+          </section>
+
+          <section class="studio-facet">
+            <div class="studio-facet-head">
+              <h3 class="studio-facet-label" id="studio-facet-status">
+                Status
+              </h3>
+              <button
+                type="button"
+                class="studio-facet-clear"
+                data-clear-facet="status"
+                aria-label="Clear the status filter"
+                title="Clear the status filter"
+                hidden
+              >
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div
+              class="studio-facet-chips studio-filter-bar"
+              role="group"
+              aria-labelledby="studio-facet-status"
+            >
+              {
+                STATUS_FILTERS.map((f) => (
+                  <button
+                    type="button"
+                    class="studio-filter-chip"
+                    data-status-filter={f.id}
+                    aria-pressed="false"
+                    title={f.hint}
+                    disabled={statusCount(f.id) === 0}
+                  >
+                    <i class={`fa-solid ${f.icon}`} aria-hidden="true" />
+                    <span class="studio-filter-chip-label">{f.label}</span>
+                    <span class="studio-filter-chip-count">
+                      {statusCount(f.id)}
+                    </span>
+                  </button>
+                ))
+              }
+            </div>
+          </section>
+
+          {
+            /* Counts are contextual — each reports what pressing it would show
+               GIVEN the other two facets' current choices, recomputed on every
+               change. A chip whose contextual count is zero is disabled rather
+               than dropped: the five tracks are a taxonomy worth seeing whole,
+               and a row that changes length as books move through the pipeline
+               teaches less than one that keeps its shape. */
+          }
+          <section class="studio-facet studio-facet--track">
+            <div class="studio-facet-head">
+              <h3 class="studio-facet-label" id="studio-facet-track">Track</h3>
+              <button
+                type="button"
+                class="studio-facet-clear"
+                data-clear-facet="track"
+                aria-label="Clear the track filter"
+                title="Clear the track filter"
+                hidden
+              >
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div
+              class="studio-facet-chips studio-track-filter-bar"
+              role="group"
+              aria-labelledby="studio-facet-track"
+            >
+              {
+                TRACK_FILTERS.map((f) => (
+                  <button
+                    type="button"
+                    class="studio-track-chip"
+                    data-track-filter={f.id}
+                    aria-pressed="false"
+                    title={f.hint}
+                    disabled={trackCount(f.id) === 0}
+                  >
+                    <span class="studio-track-chip-label">{f.label}</span>
+                    <span class="studio-track-chip-count">
+                      {trackCount(f.id)}
+                    </span>
+                  </button>
+                ))
+              }
+            </div>
+          </section>
         </div>
       </div>
     </section>
@@ -565,16 +599,15 @@ const {
       );
       for (const chip of chipsIn(facet)) {
         const value = valueOf(facet, chip);
-        // An "All" chip CLEARS EVERY FACET, so what it will show is the whole
-        // shelf — not the contextual figure the other chips report. Counting it
-        // like them made it read "All 2" and then show 13, which is the same
-        // broken promise this whole mechanism exists to prevent, introduced by
-        // the change that gave "All" its wider meaning. Caught by INV-8 within
-        // a minute of making it.
-        const n =
-          value === "all"
-            ? cards.length
-            : eligible.filter((card) => satisfies(card, facet, value)).length;
+        // Every chip now names a real value — the three "All" chips were
+        // folded into their captions' clear controls — so every count is the
+        // contextual one and there is no special case left to get wrong. The
+        // branch that used to live here existed because an "All" chip's action
+        // (clear everything) had stopped matching its number (the contextual
+        // figure), which INV-8 caught within a minute of the change.
+        const n = eligible.filter((card) =>
+          satisfies(card, facet, value),
+        ).length;
         const slot = chip.querySelector<HTMLElement>("[class$='-count']");
         if (slot) slot.textContent = String(n);
         // The CHOSEN chip is never disabled even at zero — it is the one that
@@ -654,26 +687,45 @@ const {
     recount();
     apply();
     persist();
-    // The reset control appears only while something is narrowed.
+    // The reset control appears only while something is narrowed, and each
+    // group's own clear only while THAT group is.
     const reset = document.getElementById("studio-findbar-reset");
     if (reset) reset.hidden = isWide();
+    for (const btn of Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".studio-facet-clear"),
+    )) {
+      const facet = btn.dataset.clearFacet as Facet | undefined;
+      btn.hidden = !facet || chosen[facet] === "all";
+    }
   }
 
   for (const facet of Object.keys(GROUPS) as Facet[]) {
     for (const chip of chipsIn(facet)) {
       chip.addEventListener("click", () => {
+        // Pressing the chip you are already on clears that facet, so a group
+        // can always be undone from inside itself without reaching for the
+        // caption's control — the same way a pressed toggle releases.
         const value = valueOf(facet, chip);
-        // "All" in ANY group clears EVERY facet, not just its own (Asif,
-        // 2026-08-15). Three separate "All" chips that each cleared only their
-        // own row meant getting back to the whole shelf could take three
-        // presses, and there was no single control that said "start again" —
-        // which is the state you want most often after a filter shows you
-        // nothing. Pressing one now IS starting again.
-        if (value === "all") resetAll();
-        else chosen[facet] = value;
+        chosen[facet] = chosen[facet] === value ? "all" : value;
         refresh();
       });
     }
+  }
+
+  // The per-group clear in each caption. It clears ONLY ITS OWN facet — the
+  // "clear everything" job that the three "All" chips used to share now belongs
+  // to Reset in the header, which did not exist when they did. Three controls
+  // that each wiped all three groups would have made Reset redundant and made
+  // "clear the category filter" do something its label does not say.
+  for (const btn of Array.from(
+    document.querySelectorAll<HTMLButtonElement>(".studio-facet-clear"),
+  )) {
+    btn.addEventListener("click", () => {
+      const facet = btn.dataset.clearFacet as Facet | undefined;
+      if (!facet || !(facet in GROUPS)) return;
+      chosen[facet] = "all";
+      refresh();
+    });
   }
 
   document
