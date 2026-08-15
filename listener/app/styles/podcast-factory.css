@@ -9080,9 +9080,24 @@
    * Arabic face's raised baseline.
    * -------------------------------------------------------------------------- */
 
+  /* ONE SIZE AND ONE WEIGHT FOR EVERY ARABIC RUN IN THE READER (Asif,
+     2026-08-15). Arabic used to set at four different sizes depending on which
+     block it landed in — 1.24em in prose, 1.5em in a standalone quotation,
+     1.4em in a blockquote verse — so the same word looked like a different
+     typeface from one page to the next. The three rules below now defer to this
+     one instead of each choosing for themselves.
+
+     `em`, NOT the px value this started as: the reader has a text-size control,
+     and a fixed size would freeze Arabic while the English around it moved. At
+     the default setting 1.58em renders identically to the 30px it replaces.
+
+     Bold because vowelled Arabic at reading size is carried by strokes thin
+     enough that the harakat dominate them; the marks are what needs the
+     contrast to stay legible beside a Latin face of ordinary weight. */
   .reader .ar-inline {
     font-family: var(--l-font-arabic);
-    font-size: 1.24em;
+    font-size: 1.58em;
+    font-weight: 700;
     line-height: 0;
     vertical-align: -0.06em;
   }
@@ -9111,8 +9126,10 @@
     text-wrap: balance;
   }
 
+  /* Size comes from the base rule — a standalone quotation is set apart by
+     centring and air, not by being a different size from the same words in
+     running prose. */
   .reader .ar-block > .ar-inline {
-    font-size: 1.5em;
     line-height: 2;
     display: inline-block;
   }
@@ -9139,9 +9156,13 @@
     margin-block: 1.8em;
   }
 
+  /* The size the nested span then inherits, because the span's own size is
+     switched off below to stop the two compounding. Kept equal to the base
+     inline size so a verse and an inline term set alike. */
   .reader blockquote .ar {
     font-family: var(--l-font-arabic);
-    font-size: 1.4em;
+    font-size: 1.58em;
+    font-weight: 700;
     line-height: 2.05;
     text-align: center;
     /* The one place a long Arabic run may break. Every other Arabic rule in
@@ -9151,14 +9172,22 @@
   }
 
   /* The renderer nests an `.ar-inline` span INSIDE `p.ar`, so without this the two
-     font-size rules compound (1.4 × 1.24) and the zero line-height meant for
+     font-size rules compound (1.58 × 1.58) and the zero line-height meant for
      running prose collapses the line box, overlapping the vowel marks. Inside a
-     display block the span carries no sizing of its own. */
+     display block the span carries no sizing of its own — the paragraph above
+     carries it, at the same value, so the run still matches running prose. */
   .reader blockquote .ar > .ar-inline,
   .reader blockquote .tr > .ar-inline {
-    font-size: 1em;
     line-height: inherit;
     vertical-align: baseline;
+  }
+
+  /* Only `.ar` cancels the span's own size, because only `.ar` carries the size
+     itself. A transliteration line does not — it is set at the body size — so
+     cancelling here too left the handful of Arabic words that appear inside a
+     romanization line at 19px while the same words set at 30px one line above. */
+  .reader blockquote .ar > .ar-inline {
+    font-size: 1em;
   }
 
   /* Scripture takes the Qur'anic face, from the audit's own resolution rather
