@@ -26,7 +26,6 @@ import {
   type CardPlayableEpisode,
 } from "~/server/catalog.server";
 import {
-  bookmarkTargetsForAll,
   listeningForAll,
   markCounts,
   progressForAll,
@@ -56,13 +55,12 @@ export async function loader({ context }: Route.LoaderArgs) {
   // book. A slug present in progress but absent from `units` simply never gets
   // read — access is decided in one place and this is not it.
   const slugs = units.map((u) => u.slug);
-  const [cards, playable, progress, listening, counts, bookmarks] = await Promise.all([
+  const [cards, playable, progress, listening, counts] = await Promise.all([
     libraryCards(env.DB, slugs),
     playableEpisodesForCards(env.DB, slugs),
     progressForAll(env.DB, viewer.email),
     listeningForAll(env.DB, viewer.email),
     markCounts(env.DB, viewer.email),
-    bookmarkTargetsForAll(env.DB, viewer.email),
   ]);
 
   return {
@@ -77,7 +75,6 @@ export async function loader({ context }: Route.LoaderArgs) {
         progress: progress[u.slug] ?? null,
         listen: listenAction(playable.get(u.slug) ?? [], listening[u.slug] ?? []),
         marks: counts[u.slug] ?? null,
-        bookmarks: bookmarks[u.slug] ?? [],
       }))
       // By English title. `localeCompare` rather than `<`, so "Ayyuha" sorts
       // next to "Áyyuha" and case never decides the order.
@@ -143,6 +140,23 @@ const inCollection = (bucket: string, choice: Collection): boolean =>
   choice === "all" || (collectionOf(bucket) === "sessions") === (choice === "sessions");
 
 /**
+ * Remembered client-side, same reasoning and same `try/catch`-inside-a-lazy-
+ * initializer shape as `loadViewMode` below: a reader who always narrows to
+ * Sessions, or always browses Esoteric, otherwise re-does that same click
+ * on every single visit forever.
+ */
+const COLLECTION_KEY = "pf-library-collection";
+
+function loadCollection(): Collection {
+  try {
+    const stored = localStorage.getItem(COLLECTION_KEY);
+    return (COLLECTIONS as readonly string[]).includes(stored ?? "") ? (stored as Collection) : "all";
+  } catch {
+    return "all";
+  }
+}
+
+/**
  * The study-track filter.
  *
  * "all" plus the five real tracks, kept apart from `StudyTrack` itself so a
@@ -155,6 +169,17 @@ type TrackChoice = "all" | StudyTrack;
 
 const inTrack = (studyTrack: string | null | undefined, choice: TrackChoice): boolean =>
   choice === "all" || studyTrack === choice;
+
+const TRACK_KEY = "pf-library-track";
+
+function loadTrack(): TrackChoice {
+  try {
+    const stored = localStorage.getItem(TRACK_KEY);
+    return stored === "all" || isStudyTrack(stored) ? (stored as TrackChoice) : "all";
+  } catch {
+    return "all";
+  }
+}
 
 /**
  * Cards, compact tiles, or list — remembered client-side only, since this is
@@ -179,20 +204,35 @@ function loadViewMode(): ViewMode {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { units, viewer } = loaderData;
+  // Search stays plain `useState` and is the one deliberate exception: a
+  // stale query silently re-applied on a later, unrelated visit would look
+  // like the library had shrunk, not like a remembered convenience.
   const [query, setQuery] = useState("");
-  const [collection, setCollection] = useState<Collection>("all");
-  const [track, setTrack] = useState<TrackChoice>("all");
+  const [collection, setCollection] = useState<Collection>(loadCollection);
+  const [track, setTrack] = useState<TrackChoice>(loadTrack);
   const [viewMode, setViewMode] = useState<ViewMode>(loadViewMode);
 
-  function setMode(mode: ViewMode) {
-    setViewMode(mode);
-    try {
-      localStorage.setItem(VIEW_MODE_KEY, mode);
-    } catch {
-      // Best-effort. A reader whose storage is full or blocked still gets the
-      // toggle for this visit — it just doesn't survive to the next one.
-    }
+  /**
+   * One shape, three call sites below (`setMode`, `pickCollection`,
+   * `pickTrack`): update the state React renders from, then best-effort
+   * mirror it to `localStorage` so the next visit starts where this one
+   * left off. A reader whose storage is full or blocked still gets the
+   * control for this visit — it just doesn't survive to the next one.
+   */
+  function persisted<T extends string>(key: string, setState: (value: T) => void) {
+    return (value: T) => {
+      setState(value);
+      try {
+        localStorage.setItem(key, value);
+      } catch {
+        // See the doc comment above.
+      }
+    };
   }
+
+  const setMode = persisted<ViewMode>(VIEW_MODE_KEY, setViewMode);
+  const pickCollection = persisted<Collection>(COLLECTION_KEY, setCollection);
+  const pickTrack = persisted<TrackChoice>(TRACK_KEY, setTrack);
 
   // The control is drawn only when there is something to choose BETWEEN. A
   // reader with books and no sessions is offered nothing to press, which is
@@ -238,7 +278,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <AppShell here="library" isAdmin={viewer.isAdmin}>
       <section className="pf-masthead">
-        <h1 className="pf-title">Podcast Library</h1>
+        <h1 className="pf-title">The Shelf</h1>
         <p className="pf-lede">
           {units.length === 0
             ? "Nothing has been shared with you yet. When something is, it appears here."
@@ -276,7 +316,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     type="button"
                     className="pf-swatch"
                     aria-pressed={collection === choice}
-                    onClick={() => setCollection(choice)}
+                    onClick={() => pickCollection(choice)}
                   >
                     {COLLECTION_LABELS[choice]}
                   </button>
@@ -290,6 +330,49 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               <Icon icon={faSliders} />
               Advanced search
             </Link>
+
+            {/* Pinned to the row's end rather than given a row of its own below
+                the panel — a dedicated row for three buttons left the rest of
+                that row's width empty. This one changes how the same result is
+                DRAWN, which is a different kind of choice than the search box
+                and the collection/track filters beside it (which change WHAT
+                shows), so it keeps its own group rather than joining theirs. */}
+            <div
+              role="group"
+              aria-label="Book display"
+              className="pf-stepper pf-stepper--sm pf-library-view-toggle"
+            >
+              <button
+                type="button"
+                onClick={() => setMode("cards")}
+                aria-pressed={viewMode === "cards"}
+                aria-label="Card view"
+                title="Card view"
+                className="pf-stepper__step pf-stepper__step--toggle"
+              >
+                <Icon icon={faTableCellsLarge} title="Card view" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setMode("compact")}
+                aria-pressed={viewMode === "compact"}
+                aria-label="Compact tile view"
+                title="Compact tile view"
+                className="pf-stepper__step pf-stepper__step--toggle"
+              >
+                <Icon icon={faTableCells} title="Compact tile view" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setMode("list")}
+                aria-pressed={viewMode === "list"}
+                aria-label="List view"
+                title="List view"
+                className="pf-stepper__step pf-stepper__step--toggle"
+              >
+                <Icon icon={faList} title="List view" />
+              </button>
+            </div>
           </div>
         )}
 
@@ -313,9 +396,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 type="button"
                 className="pf-track-chip"
                 aria-pressed={track === "all"}
-                onClick={() => setTrack("all")}
+                onClick={() => pickTrack("all")}
               >
-                All tracks
+                <span className="pf-track-chip__label">All tracks</span>
                 <span className="pf-track-chip__count">{units.length}</span>
               </button>
               {ALL_STUDY_TRACKS.map((choice) => {
@@ -331,9 +414,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     // teaches the reader the taxonomy has five members, even
                     // before anything is filed under it.
                     disabled={n === 0}
-                    onClick={() => setTrack(choice)}
+                    onClick={() => pickTrack(choice)}
                   >
-                    {studyTrackLabel(choice)}
+                    <span className="pf-track-chip__label">{studyTrackLabel(choice)}</span>
                     <span className="pf-track-chip__count">{n}</span>
                   </button>
                 );
@@ -342,46 +425,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           </div>
         )}
       </section>
-
-      {/* Gated on the FULL library, same as the search/track controls above —
-          a temporary zero-result search should not make the toggle itself
-          flicker away. */}
-      {units.length === 0 ? null : (
-        <div className="pf-library-view-toggle">
-          <div role="group" aria-label="Book display" className="pf-stepper pf-stepper--sm">
-            <button
-              type="button"
-              onClick={() => setMode("cards")}
-              aria-pressed={viewMode === "cards"}
-              aria-label="Card view"
-              title="Card view"
-              className="pf-stepper__step pf-stepper__step--toggle"
-            >
-              <Icon icon={faTableCellsLarge} title="Card view" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("compact")}
-              aria-pressed={viewMode === "compact"}
-              aria-label="Compact tile view"
-              title="Compact tile view"
-              className="pf-stepper__step pf-stepper__step--toggle"
-            >
-              <Icon icon={faTableCells} title="Compact tile view" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("list")}
-              aria-pressed={viewMode === "list"}
-              aria-label="List view"
-              title="List view"
-              className="pf-stepper__step pf-stepper__step--toggle"
-            >
-              <Icon icon={faList} title="List view" />
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Announced rather than only drawn: filtering happens with no page
           change, so a screen reader is otherwise never told the grid moved. */}
@@ -440,7 +483,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 bucket={unit.bucket}
                 card={unit.card}
                 progress={unit.progress}
-                bookmarks={unit.bookmarks}
                 listen={unit.listen}
                 marks={unit.marks}
                 compact
@@ -458,7 +500,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 bucket={unit.bucket}
                 card={unit.card}
                 progress={unit.progress}
-                bookmarks={unit.bookmarks}
                 listen={unit.listen}
                 marks={unit.marks}
               />
