@@ -71,8 +71,8 @@ describe("the library card", () => {
 
     expect(html).toContain("pf-book-action pf-book-action--audio");
     expect(html).toContain("Episode 1");
-    expect(html).toContain("Continue reading A Book");
-    expect(html).toContain("Open notes for A Book");
+    expect(html).toContain("Open chapters for A Book");
+    expect(html).toContain("No notes yet for A Book");
     expect(html).not.toContain("Slides");
     expect(html).not.toContain("pf-book-action__label");
     expect(html).not.toContain("37,000");
@@ -112,18 +112,45 @@ describe("the library card", () => {
     expect(html).not.toContain("Details");
   });
 
-  it("keeps audio, reading, and notes in that order", () => {
+  it("keeps reading, audio, and notes in that order", () => {
     const html = render();
+    expect(html).toContain("Open chapters for A Book");
     expect(html).toContain("Open audio for A Book");
-    expect(html).toContain("Continue reading A Book");
-    expect(html).toContain("Open notes for A Book");
-    expect(html).toContain("/book/a-book/read/intro");
-    expect(html.indexOf("pf-book-action--audio")).toBeLessThan(
-      html.indexOf("pf-book-action--read"),
-    );
+    expect(html).toContain("No notes yet for A Book");
+    expect(html).toContain("/book/a-book?tab=read");
     expect(html.indexOf("pf-book-action--read")).toBeLessThan(
+      html.indexOf("pf-book-action--audio"),
+    );
+    expect(html.indexOf("pf-book-action--audio")).toBeLessThan(
       html.indexOf("pf-book-action--notes"),
     );
+  });
+
+  it("disables the notes action, rather than hiding it, when there are none yet", () => {
+    // Same reasoning as an empty track chip: the action stays visible so it
+    // teaches a reader that notes exist as a thing this book can have.
+    const html = render({ marks: { notes: 0, bookmarks: 0 } });
+    expect(html).toContain('<button type="button" class="pf-book-action pf-book-action--notes"');
+    expect(html).toContain("disabled");
+    expect(html).not.toContain("pf-book-action__badge");
+    expect(html).toContain("No notes yet for A Book");
+  });
+
+  it("gives the whole card a click target, not just the band and the title", () => {
+    // Padding, the gap between action buttons, an unread book's progress
+    // caption — none of that opened the book before (Asif, 2026-08-14).
+    const html = render();
+    expect(html).toContain('class="pf-book__stretched-link"');
+    expect(html).toContain('aria-hidden="true"');
+    expect(html).toContain('tabindex="-1"');
+  });
+
+  it("sends the card-wide click target to the chapter list when the book has one, else the book page", () => {
+    const withChapters = render();
+    expect(withChapters).toContain('class="pf-book__stretched-link" aria-hidden="true" tabindex="-1" href="/book/a-book?tab=read"');
+
+    const withoutCard = render({ card: null });
+    expect(withoutCard).toContain('class="pf-book__stretched-link" aria-hidden="true" tabindex="-1" href="/book/a-book"');
   });
 
   it("reserves the progress row on a book nobody has opened", () => {
@@ -146,19 +173,17 @@ describe("the library card", () => {
     expect(html).not.toContain("Not yet started");
   });
 
-  it("sends the read action to the saved bookmark when one exists", () => {
+  it("sends the read action to the chapter list, never a specific chapter, even with saved progress", () => {
+    // A deep link into a bookmark or the last read position used to drop a
+    // reader straight into a chapter with no sense of where in the book they
+    // had landed (Asif, 2026-08-14). Read always opens the chapter list now,
+    // the same as it would for a reader who opens the book page directly.
     const html = render({
       progress: { anchorKey: "intro", fraction: 0.5, chaptersDone: 3 },
-      bookmarks: [
-        {
-          id: "00000001-0000-4000-a000-000000000000",
-          anchorKey: "intro",
-          createdAt: "2026-08-13T12:00:00.000Z",
-        },
-      ],
     });
 
-    expect(html).toContain("/book/a-book/read/intro#mark-00000001-0000-4000-a000-000000000000");
+    expect(html).toContain("/book/a-book?tab=read");
+    expect(html).not.toContain("/book/a-book/read/intro");
   });
 
   it("uses separate links and buttons instead of nesting a play button inside the card link", () => {

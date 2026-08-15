@@ -1083,6 +1083,7 @@
   /* ---- Masthead ------------------------------------------------------- */
 
   .pf-header {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -1091,19 +1092,77 @@
     padding-block: var(--pf-space-5);
   }
 
-  /* Wraps, and that is a fix rather than a nicety. `.pf-header` wraps, but its
-     NAV did not, so at 390px "Library · Access · Sign out" plus the three theme
-     swatches measured 380px starting 24px in — 14px past the edge, which made
-     every page in the site scroll sideways. The header's own wrap could never
-     help: the nav is one flex item and an item that refuses to wrap internally
-     just overflows its column. */
-  .pf-header__nav {
-    display: flex;
-    flex-wrap: wrap;
+  /* Icon-only glyph, shown only below `sm` — see `.pf-header__nav` for why
+     the row becomes a dropdown there instead of wrapping. Same 44px floor as
+     every other icon control in the header. */
+  .pf-header__burger {
+    display: inline-flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: var(--pf-space-3) var(--pf-space-5);
-    min-width: 0;
+    justify-content: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    border: 0;
+    border-radius: var(--pf-radius);
+    background: transparent;
+    color: var(--l-muted);
+    cursor: pointer;
+    transition: color var(--pf-motion);
+  }
+
+  .pf-header__burger:hover {
+    color: var(--l-ink);
+  }
+
+  .pf-header__burger .pf-icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  /* Click-away, the same convention `.pf-drawer__scrim` uses for the reader's
+     side panels — a plain fixed overlay, not a modal library, so Escape and
+     this are the only two ways out besides picking a link. Higher z-index
+     than the reader's own scrim (24) and the expanded player (60): this is
+     the way OUT of every page, including a page with either of those open. */
+  .pf-header__nav-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    padding: 0;
+    border: 0;
+    background: color-mix(in srgb, var(--l-ink) 32%, transparent);
+    cursor: default;
+  }
+
+  /* Used to wrap onto a second row below `sm` — `.pf-header` wrapped, but its
+     nav item did not, so six items plus three theme swatches simply
+     overflowed the header instead of ever reaching a second line, and every
+     page in the site scrolled sideways at 390px. Labels under each icon
+     (Asif, 2026-08-14) made that row wider still, past the point wrapping
+     onto a second line could rescue: TWO rows of icons-plus-labels is a
+     second masthead, not a fix. Below `sm` the nav is a dropdown instead,
+     triggered by `.pf-header__burger`; `display: none` here is the closed
+     state, and `[data-open="true"]` right below is the open one. Both are
+     overridden back to the plain inline row at `sm` and up, where six
+     labelled items already fit on one line. */
+  .pf-header__nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    z-index: 71;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--pf-space-1);
+    padding: var(--pf-space-3);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-top: 0;
+    border-radius: 0 0 var(--pf-radius-lg) var(--pf-radius-lg);
+    box-shadow: var(--pf-elev-3);
+  }
+
+  .pf-header__nav[data-open="true"] {
+    display: flex;
   }
 
   .pf-navlink {
@@ -1137,6 +1196,28 @@
   .pf-navlink {
     min-width: 2.75rem;
     min-height: 2.75rem;
+  }
+
+  /* Inside the dropdown, a nav item is a row you scan top to bottom — icon
+     beside its word, full width, left-aligned, sized like any other list
+     row. `.pf-navlink__label` is always in the DOM (see `SiteHeader.tsx`);
+     it is only HIDDEN at `sm` and up, where the icon carries the word
+     underneath instead (below). */
+  .pf-header__nav .pf-navlink {
+    justify-content: flex-start;
+    gap: var(--pf-space-3);
+    width: 100%;
+    padding: var(--pf-space-2) var(--pf-space-3);
+    min-height: 2.75rem;
+    border-radius: var(--pf-radius);
+  }
+
+  .pf-header__nav .pf-navlink:hover {
+    background: var(--l-sunken);
+  }
+
+  .pf-navlink__label {
+    font-size: var(--pf-text-sm);
   }
 
   .pf-navlink:hover {
@@ -1196,6 +1277,50 @@
     border: 0;
     background: transparent;
     cursor: pointer;
+  }
+
+  /* `sm` and up: six labelled items plus the theme picker fit on one row, so
+     the dropdown becomes a plain inline row again — the burger and its scrim
+     hide, the nav drops its positioning and shows regardless of
+     `data-open`, and each item goes back to icon-over-label instead of the
+     dropdown's icon-beside-label rows. */
+  @media (min-width: 640px) {
+    .pf-header__burger,
+    .pf-header__nav-scrim {
+      display: none;
+    }
+
+    .pf-header__nav {
+      display: flex;
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--pf-space-3) var(--pf-space-5);
+      min-width: 0;
+      padding: 0;
+      background: none;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .pf-header__nav .pf-navlink {
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.2em;
+      width: auto;
+      padding: 0;
+      min-height: 2.75rem;
+    }
+
+    .pf-header__nav .pf-navlink:hover {
+      background: none;
+    }
+
+    .pf-navlink__label {
+      font-size: var(--pf-text-xs);
+    }
   }
 
   /* ---- Reader toolbar --------------------------------------------------
@@ -3356,8 +3481,14 @@
     border-color: var(--l-rule-soft);
   }
 
+  /* `position: relative` with no `z-index` is enough to paint these above
+     `.pf-book__stretched-link` below — CSS stacks positioned siblings with
+     `z-index: auto` by DOM order, and both come after it in the markup. No
+     numeric z-index needed, so nothing here has to out-rank anything else on
+     the card on purpose. */
   .pf-book__open,
   .pf-book__title-link {
+    position: relative;
     color: inherit;
     text-decoration: none;
   }
@@ -3370,6 +3501,14 @@
   .pf-book__title-link:focus-visible {
     outline-offset: 3px;
     border-radius: var(--pf-radius-md);
+  }
+
+  /* The card-wide hit area. Unpositioned on purpose (see the comment beside
+     its markup in `BookCard.tsx`) so it paints BELOW every real link/button
+     on the card, which are all `position: relative`. */
+  .pf-book__stretched-link {
+    position: absolute;
+    inset: 0;
   }
 
   .pf-book__band {
@@ -3603,6 +3742,14 @@
 
   .pf-book-action:active {
     color: var(--l-ink);
+  }
+
+  /* A book with no notes yet still shows the action — same reasoning as an
+     empty track chip — but it does nothing, and looks it: real `disabled`
+     rather than a styled link, so hover/focus/active above never apply. */
+  .pf-book-action:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 
   .pf-book-action--audio {
@@ -8170,14 +8317,14 @@
     text-align: center;
   }
 
-  /* Cards vs. list. Right-aligned and sitting directly above the grid it
-     controls, rather than crowding into `.pf-library-find`'s search/filter
-     row — those narrow WHICH books show; this changes how the result is
-     drawn, so it reads as a separate decision. */
+  /* Cards vs. compact vs. list. Pinned to the end of `.pf-library-find`'s row
+     with its own auto margin — that row is `justify-content: center`, and an
+     auto margin on one flex item claims the row's slack space ahead of the
+     centring, pushing this item to the row's true end regardless. A row of
+     its own for three buttons left the width beside them empty; this reuses
+     space the row already has. */
   .pf-library-view-toggle {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: var(--pf-space-4);
+    margin-inline-start: auto;
   }
 
   .pf-tracks-panel__label {
@@ -8191,15 +8338,18 @@
   }
 
   /* NOT `.pf-swatches`: that control is one segmented pill sized for two or
-     three mutually exclusive words, and a sixth choice would either overflow
-     or squeeze the row rather than wrap. Each track is its own independent
-     chip instead, so the row wraps onto a second line on a narrow screen the
-     same way `.pf-library-find` itself does, and the taxonomy can grow past
-     five without a redesign. `justify-content: center` is the fix for the row
-     reading left-ragged under an otherwise centred panel. */
+     three mutually exclusive words. Each track is its own independent chip
+     instead, so the taxonomy can grow past five without a redesign.
+     `justify-content: center` is the fix for the row reading left-ragged
+     under an otherwise centred panel.
+
+     NEVER wraps to a second row (Asif, 2026-08-14, reverses the original
+     wrap-on-narrow design above) — `flex-wrap: nowrap` plus `min-width: 0`
+     on each chip below lets them shrink together instead, so six chips read
+     as one row narrowed rather than as a row plus a leftover. */
   .pf-tracks {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: center;
     gap: var(--pf-space-2);
@@ -8213,6 +8363,12 @@
     align-items: center;
     gap: var(--pf-space-2);
     min-height: 2.75rem;
+    /* `flex: 0 1 auto` (the default) would still refuse to shrink below the
+       label's own min-content width — a flex item's implicit `min-width` is
+       `auto`, not `0`. This is the one declaration that actually unlocks
+       shrinking; `.pf-track-chip__label` below is what makes shrinking past
+       that point readable (ellipsis) instead of a squeeze. */
+    min-width: 0;
     padding: var(--pf-space-1) var(--pf-space-4);
     border: 1.5px solid var(--pf-track-line, var(--l-rule));
     border-radius: var(--pf-radius-pill);
@@ -8227,6 +8383,41 @@
       color var(--pf-motion),
       border-color var(--pf-motion),
       opacity var(--pf-motion);
+  }
+
+  /* The word, truncated first when a chip runs out of room — the count
+     beside it stays whole (`.pf-track-chip__count` keeps `flex: none`
+     wherever it's already declared), because a clipped number reads as a
+     different number where a clipped word still reads as the same word.
+     `min-width` is a floor, not 0: six chips this tight genuinely cannot all
+     show a full word at a 390px phone width, but "T…" beside a coloured
+     border is still legible as Theology, where nothing at all is not. */
+  .pf-track-chip__label {
+    overflow: hidden;
+    min-width: 1.4em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Below a phone width, the chips' own padding and count badge were half
+     the row's width, leaving the floor above as the ONLY thing between the
+     label and nothing — so the padding shrinks here to buy the label back
+     as many real characters as the row has room for. */
+  @media (max-width: 479px) {
+    .pf-tracks {
+      gap: var(--pf-space-1);
+    }
+
+    .pf-track-chip {
+      gap: var(--pf-space-1);
+      padding-inline: var(--pf-space-2);
+    }
+
+    .pf-track-chip__count {
+      min-width: 1.15rem;
+      height: 1.15rem;
+      padding-inline: 0.25rem;
+    }
   }
 
   .pf-track-chip:hover {
@@ -8254,6 +8445,7 @@
   }
 
   .pf-track-chip__count {
+    flex: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;

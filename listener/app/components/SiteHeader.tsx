@@ -1,11 +1,14 @@
 import {
+  faBars,
   faCircleDown,
   faCircleQuestion,
   faGaugeHigh,
   faHouse,
   faRightFromBracket,
   faUserShield,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
 import { Form, Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
@@ -23,6 +26,15 @@ import { ThemePicker } from "~/components/ThemePicker";
  * Admin shortcuts stay visible even inside the admin area: access work and
  * usage work are separate jobs, and switching between them must never depend on
  * remembering a URL.
+ *
+ * Each link carries a small label under its icon now (Asif, 2026-08-14) — it
+ * used to be icon-only, with the word carried only in `aria-label`/`title`,
+ * which meant a sighted reader had to already know what "Access" or
+ * "Dashboard" meant before hovering to confirm it. Below `sm` there is no
+ * room left for six labelled items in a row without wrapping, so the nav
+ * becomes a burger-triggered dropdown there instead of wrapping — wrapping
+ * was tried first and is what used to happen; see the CSS for why it was
+ * dropped.
  */
 export function SiteHeader({
   here,
@@ -31,25 +43,66 @@ export function SiteHeader({
   here: "library" | "admin" | "book" | "about" | "search" | "downloads";
   isAdmin?: boolean;
 }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setMenuOpen(false);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
+  const close = () => setMenuOpen(false);
+
   return (
     <header className="pf-container pf-header">
       {here === "library" ? (
-        <Logo size={44} />
+        <Logo size={56} />
       ) : (
         <Link to="/" aria-label="Back to your library" className="pf-logo-link">
-          <Logo size={44} />
+          <Logo size={56} />
         </Link>
       )}
 
-      <div className="pf-header__nav">
+      {/* Below `sm` only — see `.pf-header__burger` in the stylesheet. Toggles
+          the same nav the wide layout always shows; it never renders its own
+          copy of the links. */}
+      <button
+        type="button"
+        className="pf-header__burger"
+        aria-expanded={menuOpen}
+        aria-controls="site-nav"
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        <Icon icon={menuOpen ? faXmark : faBars} title={menuOpen ? "Close menu" : "Open menu"} />
+      </button>
+
+      {/* Click-away, below `sm` only, present only while open — the same
+          scrim-to-close convention the reader's side panels use. */}
+      {menuOpen ? (
+        <button
+          type="button"
+          aria-hidden="true"
+          tabIndex={-1}
+          onClick={close}
+          className="pf-header__nav-scrim"
+        />
+      ) : null}
+
+      <div id="site-nav" className="pf-header__nav" data-open={menuOpen}>
         {here !== "library" ? (
           <Link
             to="/"
             className="pf-navlink pf-navlink--home"
             aria-label="Home"
             title="Home"
+            onClick={close}
           >
             <Icon icon={faHouse} />
+            <span className="pf-navlink__label">Home</span>
           </Link>
         ) : null}
 
@@ -59,8 +112,10 @@ export function SiteHeader({
             className="pf-navlink pf-navlink--access"
             aria-label="Access"
             title="Access"
+            onClick={close}
           >
             <Icon icon={faUserShield} />
+            <span className="pf-navlink__label">Access</span>
           </Link>
         ) : null}
 
@@ -70,8 +125,10 @@ export function SiteHeader({
             className="pf-navlink pf-navlink--dashboard"
             aria-label="Dashboard"
             title="Dashboard"
+            onClick={close}
           >
             <Icon icon={faGaugeHigh} />
+            <span className="pf-navlink__label">Dashboard</span>
           </Link>
         ) : null}
 
@@ -86,8 +143,10 @@ export function SiteHeader({
             className="pf-navlink pf-navlink--downloads"
             aria-label="Downloads"
             title="Downloads"
+            onClick={close}
           >
             <Icon icon={faCircleDown} />
+            <span className="pf-navlink__label">Downloads</span>
           </Link>
         ) : null}
 
@@ -103,8 +162,10 @@ export function SiteHeader({
             className="pf-navlink pf-navlink--about"
             aria-label="About"
             title="About"
+            onClick={close}
           >
             <Icon icon={faCircleQuestion} />
+            <span className="pf-navlink__label">About</span>
           </Link>
         ) : null}
 
@@ -136,6 +197,7 @@ export function SiteHeader({
             title="Sign out"
           >
             <Icon icon={faRightFromBracket} />
+            <span className="pf-navlink__label">Sign out</span>
           </button>
         </Form>
       </div>

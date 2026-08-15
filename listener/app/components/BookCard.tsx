@@ -42,7 +42,6 @@ export function BookCard({
   card,
   listen = null,
   progress = null,
-  bookmarks = [],
   marks = null,
   compact = false,
 }: {
@@ -52,7 +51,6 @@ export function BookCard({
   card: LibraryCard | null;
   /** Where this reader got to, or null if they have not opened it. */
   progress?: Progress | null;
-  bookmarks?: { id: string; anchorKey: string; createdAt: string }[];
   listen?: {
     mode: "resume" | "start";
     episode: CardPlayableEpisode;
@@ -73,15 +71,13 @@ export function BookCard({
   const studyTrack = card?.studyTrack ?? null;
   const trackLabel = studyTrackLabel(studyTrack);
   const collection = collectionOf(bucket);
-  const bookmark =
-    bookmarks.find((b) => b.anchorKey === progress?.anchorKey) ?? bookmarks[0] ?? null;
-  const readKey = bookmark?.anchorKey ?? progress?.anchorKey ?? card?.firstChapterKey ?? null;
-  const readHref =
-    readKey === null
-      ? null
-      : `/book/${slug}/read/${encodeURIComponent(readKey)}${
-          bookmark === null ? "" : `#mark-${bookmark.id}`
-        }`;
+  /* The Read action opens the chapter list on the book page, never a specific
+     chapter (Asif, 2026-08-14) — the deep link into a bookmark or the last
+     read position used to drop a reader straight into a chapter with no
+     sense of where in the book they'd landed. Resuming from where you left
+     off still works; it now happens from the chapter list itself, the same
+     as it always has for a reader who opens the book page directly. */
+  const readHref = card !== null && card.chapters > 0 ? `/book/${slug}?tab=read` : null;
 
   const percent = card === null ? null : percentRead(card.chapters, progress);
 
@@ -93,6 +89,28 @@ export function BookCard({
          band it most obviously colours. */
       data-collection={collection}
     >
+      {/* A "stretched link": fills the card so blank space (padding, the gap
+          between action buttons, an unread book's progress caption) opens the
+          book too, not just the band and the title. Positioned (`inset: 0`
+          needs that) but placed FIRST in the markup, so it paints below every
+          other link/button on the card by DOM-order tiebreaking — CSS stacks
+          sibling elements that share `z-index: auto` in tree order, and
+          `.pf-book__open`, `.pf-book__title-link`, and `.pf-book-action` all
+          come after it and are all themselves positioned. Those keep their
+          own more specific destination; only empty space falls through to
+          this one. `aria-hidden` + untabbable because the band and title
+          links already reach the same page for keyboard and screen-reader
+          use — this is a mouse/touch hit-area expansion, not a new
+          destination. A real `<Link>`, not an onClick handler, so
+          cmd/middle-click-to-new-tab still works on the blank space the same
+          as it does on the visible links. */}
+      <Link
+        to={readHref ?? `/book/${slug}`}
+        className="pf-book__stretched-link"
+        aria-hidden="true"
+        tabIndex={-1}
+      />
+
       <Link to={`/book/${slug}`} className="pf-book__open">
         <div className="pf-book__band">
           <span className="pf-pill pf-pill--pinned">{bucket}</span>
@@ -138,7 +156,6 @@ export function BookCard({
             collection={collection === "sessions" ? "sessions" : undefined}
             listen={listen}
             readHref={readHref}
-            progress={progress}
             marks={marks}
           />
         )}
@@ -189,7 +206,6 @@ function CardActions({
   collection,
   listen,
   readHref,
-  progress,
   marks,
 }: {
   slug: string;
@@ -202,7 +218,6 @@ function CardActions({
     seconds: number | null;
   } | null;
   readHref: string | null;
-  progress: { anchorKey: string; fraction: number; chaptersDone: number } | null;
   marks: { notes: number; bookmarks: number } | null;
 }) {
   const notes = marks?.notes ?? 0;
@@ -210,6 +225,15 @@ function CardActions({
 
   return (
     <div className="pf-book__actions" aria-label={`Actions for ${title}`}>
+      {readHref !== null ? (
+        <BookActionLink
+          to={readHref}
+          tone="read"
+          icon={faBookOpen}
+          ariaLabel={`Open chapters for ${title}`}
+        />
+      ) : null}
+
       {listen !== null ? (
         <ListenAction title={title} collection={collection} listen={listen} />
       ) : hasAudioSurface ? (
@@ -221,25 +245,17 @@ function CardActions({
         />
       ) : null}
 
-      {readHref !== null ? (
-        <BookActionLink
-          to={readHref}
-          tone="read"
-          icon={faBookOpen}
-          ariaLabel={`Continue reading ${title}`}
-        />
-      ) : null}
-
       {card === null ? null : (
         <BookActionLink
           to={`/book/${slug}?tab=notes`}
           tone="notes"
           icon={faNoteSticky}
           badge={notes > 0 ? notes : null}
+          disabled={notes === 0}
           ariaLabel={
             notes > 0
               ? `Open notes for ${title}, ${notes} note${notes === 1 ? "" : "s"}`
-              : `Open notes for ${title}`
+              : `No notes yet for ${title}`
           }
         />
       )}
@@ -253,13 +269,41 @@ function BookActionLink({
   icon,
   ariaLabel,
   badge = null,
+  disabled = false,
 }: {
   to: string;
   tone: "audio" | "read" | "notes";
   icon: IconDefinition;
   ariaLabel: string;
   badge?: number | null;
+  /** Visible rather than hidden — same reasoning as a track chip with
+   * nothing filed under it yet: the action still teaches a reader that
+   * notes exist as a thing this book can have, before it has any. A real
+   * `disabled` button, not a styled link, so it drops out of tab order and
+   * the browser's own affordances (no hover, no cursor change) do the rest. */
+  disabled?: boolean;
 }) {
+  if (disabled) {
+    return (
+      <button
+        type="button"
+        className={`pf-book-action ${
+          tone === "audio"
+            ? "pf-book-action--audio"
+            : tone === "read"
+              ? "pf-book-action--read"
+              : "pf-book-action--notes"
+        }`}
+        aria-label={ariaLabel}
+        disabled
+      >
+        <span className="pf-book-action__circle" aria-hidden="true">
+          <Icon icon={icon} />
+        </span>
+      </button>
+    );
+  }
+
   return (
     <Link
       to={to}
