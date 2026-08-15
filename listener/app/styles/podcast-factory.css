@@ -332,6 +332,12 @@
      checkout missing the file renders scripture in Scheherazade rather than in
      whatever the browser has. */
   --l-font-arabic-quran: "Amiri Quran", "Scheherazade New", serif;
+  /* Reader Arabic weight, one token for every run (see §7). Normal, not bold —
+     none of the three reading faces ships a real 700 weight file, so asking for
+     bold there is a synthetic/faux bold the browser fakes by smearing the 400
+     outline, which is heavier and less legible than the marks it was meant to
+     lift. Contrast for the harakat comes from size, not a fabricated weight. */
+  --l-arabic-weight: 400;
 
   /* Reading-column choices. Only `lib/reading.ts` names these — nothing in the
      stylesheet sets a reading face directly, so adding a fifth is one token
@@ -9091,13 +9097,13 @@
      and a fixed size would freeze Arabic while the English around it moved. At
      the default setting 1.58em renders identically to the 30px it replaces.
 
-     Bold because vowelled Arabic at reading size is carried by strokes thin
-     enough that the harakat dominate them; the marks are what needs the
-     contrast to stay legible beside a Latin face of ordinary weight. */
+     Weight comes from --l-arabic-weight (§2) rather than a number here —
+     none of the reading faces ships a real bold cut, so the token is normal
+     weight; a face that later adds one changes in one place. */
   .reader .ar-inline {
     font-family: var(--l-font-arabic);
     font-size: 1.58em;
-    font-weight: 700;
+    font-weight: var(--l-arabic-weight);
     line-height: 0;
     vertical-align: -0.06em;
   }
@@ -9162,7 +9168,7 @@
   .reader blockquote .ar {
     font-family: var(--l-font-arabic);
     font-size: 1.58em;
-    font-weight: 700;
+    font-weight: var(--l-arabic-weight);
     line-height: 2.05;
     text-align: center;
     /* The one place a long Arabic run may break. Every other Arabic rule in
