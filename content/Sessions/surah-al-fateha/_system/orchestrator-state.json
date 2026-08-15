@@ -5,7 +5,7 @@
   "branch": "Sessions/surah-al-fateha",
   "pipeline_mode": "sessions_lane",
   "phase": "reader-narration",
-  "phase_status": "completed",
+  "phase_status": "skipped",
   "last_completed_phase": "reader-narration",
   "next_phase": "publish",
   "last_error": null,
@@ -26,47 +26,23 @@
       "status": "completed"
     },
     "reader-narration": {
-      "status": "completed",
+      "status": "skipped",
       "ts_started": "2026-08-15T13:12:38Z",
-      "ts_completed": "2026-08-15T13:28:28Z",
-      "rendered": [
-        "introduction to the book",
-        "quranic friendship",
-        "the stages of love",
-        "linguistic meaning of allah",
-        "what is worship?",
-        "linguistic meaning of rehma",
-        "womb - the source of mercy",
-        "manifestations of rehma",
-        "linguistic meaning of rabb",
-        "master slave relationship",
-        "understanding rab al-alameen",
-        "the divine formula for recognizing allah",
-        "the horizons and the soul",
-        "the womb of afterlife",
-        "allah - being vs attributes",
-        "the ism of allah",
-        "in the name of allah the merciful",
-        "linguistic perfection of hamd",
-        "abundant and consistent mercy",
-        "day of judgment - linguistics",
-        "motivating factors for piety",
-        "worship and assistance",
-        "guidance to the straight path",
-        "staying steadfast on the path"
-      ],
+      "ts_completed": "2026-08-15T13:37:20Z",
+      "rendered": [],
       "skipped": [],
-      "chars": 461331,
+      "chars": 0,
       "review": {
         "verdict": "PHASE-SOUND",
         "failed": 0,
         "crashed": 0,
         "total": 0,
         "blocking_fail": null
-      }
+      },
+      "reason": "synthetic narration withdrawn 2026-08-15 - Sessions books use Asif own recordings"
     }
   },
   "status": "draft",
-  "run_id": "20260815T131238Z-bafe62",
-  "ts_updated": "2026-08-15T13:28:28Z"
+  "run_id": "20260815T133720Z-309ac9",
+  "ts_updated": "2026-08-15T13:37:21Z"
 }
