@@ -902,3 +902,68 @@
 {"phase": "compose-paste-fix", "step": "scholar-continuity-linguistic meaning of allah", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
 {"phase": "0book-student-reader", "step": "paste-fix-student-linguistic meaning of allah", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "0book-student-reader", "step": "paste-fix-student-linguistic meaning of allah", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "preview-what-is-worship-window-01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "preview-what-is-worship-window-01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "preview-what-is-worship-arabic-01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "what is worship?-window-01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "what is worship?-window-02", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "what is worship?-window-03", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "what is worship?-window-04", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "what is worship?-arabic-01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "what is worship?-arabic-02", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "what is worship?-arabic-03", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "sessions-read-along", "step": "what is worship?-arabic-04", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
+{"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}

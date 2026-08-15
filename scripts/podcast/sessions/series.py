@@ -181,6 +181,14 @@ SERIES: dict[str, Series] = {
         # call, not the lane's, so the casing that varies between "What is
         # Worship?" and "Worship and Assistance" is left as he typed it.
         title_fixes={},
-        transcript_from_audio=frozenset(),
+        # Every recorded session, same as Love Of The Prophet and for the same
+        # reason: the 2026-08-15 measurement above found the stored notes carry
+        # only 55-75% of this series' spoken vocabulary too — better than Love Of
+        # The Prophet's 31-43%, but the same conclusion follows ("cannot be
+        # mapped to the audio at all"). This field was left empty when that
+        # measurement was written, so all twelve of this book's lecture chapters
+        # went through the literary-rewrite pass meant only for chapters with no
+        # recording — read-along backfilled and correcting them 2026-08-15.
+        transcript_from_audio=frozenset({4, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23}),
     ),
 }
