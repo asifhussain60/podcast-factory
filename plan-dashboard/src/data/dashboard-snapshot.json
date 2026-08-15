@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 79.65
+    "burn_30d_usd": 84.61
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1938,8 +1938,8 @@
     {
       "slug": "spiritual-ethos",
       "title": "Spiritual Ethos",
-      "phase": "audio-ingest",
-      "phase_status": "halted",
+      "phase": "publish",
+      "phase_status": "pending",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },
@@ -1975,6 +1975,18 @@
       "title": "Ayyuha al-Walad",
       "shipped": "2026-06-06T11:01:27Z",
       "episodes": 4
+    },
+    {
+      "slug": "mukhtasar-ul-asar-1",
+      "title": "Mukhtasar Ul Asar 1",
+      "shipped": "2026-08-15T19:47:28Z",
+      "episodes": 0
+    },
+    {
+      "slug": "mukhtasar-ul-asar-2",
+      "title": "Mukhtasar ul Asar 2",
+      "shipped": "2026-08-15T19:47:41Z",
+      "episodes": 0
     },
     {
       "slug": "the-master-and-the-disciple",
