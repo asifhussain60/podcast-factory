@@ -877,13 +877,32 @@
   background: var(--track-shariah-bg);
   color: var(--track-shariah-ink);
 }
+/* Esoteric reads as the "hidden knowledge" track, so it is one of the two
+   ribbons that get a LIT look rather than sitting flat — the same treatment,
+   the same two radii and the same mix percentages as the Podcast Factory
+   Library's own ribbon. The glow is drawn from the ribbon's own colour, so it
+   follows the shared token like everything else here and a re-colour moves the
+   halo with the strip.
+
+   The card's `overflow: hidden` clips the outward half of the halo flush with
+   the card edge and leaves the inward half spilling onto the script panel —
+   which is exactly what it does on the Library, where the band clips it the
+   same way. Nothing here needs to escape the card to get the effect. */
 .card-track-ribbon[data-track="esoteric"] {
   background: var(--track-esoteric-bg);
   color: var(--track-esoteric-ink);
+  box-shadow:
+    0 0 0.6rem color-mix(in srgb, var(--track-esoteric-bg) 75%, transparent),
+    0 0 1.4rem color-mix(in srgb, var(--track-esoteric-bg) 55%, transparent);
 }
+/* Reality gets the same lit treatment as Esoteric, in red — Asif's call on the
+   Library, carried here so the two surfaces agree about which tracks glow. */
 .card-track-ribbon[data-track="reality"] {
   background: var(--track-reality-bg);
   color: var(--track-reality-ink);
+  box-shadow:
+    0 0 0.6rem color-mix(in srgb, var(--track-reality-bg) 75%, transparent),
+    0 0 1.4rem color-mix(in srgb, var(--track-reality-bg) 55%, transparent);
 }
 
 /* One-line book description above the pipeline status */
@@ -1427,6 +1446,20 @@
   gap: 0.6rem;
 }
 
+/* The "All" chip stands for every bucket, so it owns no bucket colour and the
+   per-category block above declares no --shelf-accent for it. That left every
+   rule below resolving `var(--shelf-accent)` to nothing, which is invalid at
+   computed-value time and drops the whole declaration: the pressed "All" came
+   out with no fill, no accent border and inherited ink — i.e. not visibly
+   pressed at all. Harmless while it sat in its own block; inside the find bar
+   it is one row and a hairline away from the status group's "All", which fills
+   correctly, so the two identical words carried two different pressed states.
+   It takes the same site-accent fallback `.studio-shelf` already declares for
+   an unrecognised bucket — an existing token, not a new colour. */
+.studio-bucket-chip[data-bucket-filter="all"] {
+  --shelf-accent: var(--c-accent);
+}
+
 .studio-bucket-chip {
   display: inline-flex;
   align-items: center;
@@ -1585,8 +1618,21 @@
 /* The hairline between the two pipeline facets. It exists only because the
    panel gives it a defined row to sit in — free-standing it stranded itself at
    the end of a wrapped line, which is why the earlier attempt was removed. It
-   is hidden below the width where the row is known to wrap (measured, not
-   guessed), so it never appears without two groups beside it. */
+   is hidden below the width where the row is known to wrap, so it never appears
+   without two groups beside it.
+
+   That width is 1360px, not 1180px: the status group leaves the category
+   group's line at a viewport of 1360 (measured, chip by chip — the panel's
+   content box drops below 1221px there), so between 1181 and 1360 the
+   separator was rendering ALONE at the end of the first row with the whole
+   rest of the line empty beside it — the exact failure the rule above claims
+   to prevent, across 1280 and 1366, two of the commonest laptop widths.
+   Hidden a little early at 1380 rather than exactly at the transition: a
+   missing divider while both groups still share a line is invisible, a
+   stranded one is not, so the rounding goes the harmless way. The chip labels
+   are data — a new bucket or status moves the wrap — so the pairing is also
+   asserted deterministically by `studio-facet-separator-stranded` in
+   scripts/site-health-smoke.mjs rather than left to this comment. */
 .studio-facet-sep {
   flex: 0 0 1px;
   align-self: stretch;
@@ -1603,7 +1649,7 @@
   border-top: 1px solid var(--c-rule-soft);
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1380px) {
   .studio-facet-sep {
     display: none;
   }
@@ -1618,10 +1664,24 @@
   }
   /* The actions wrap under the title rather than squeezing beside it; the
      primary action then takes the full row, which is the right target size on
-     a phone anyway. */
+     a phone anyway.
+
+     `flex-wrap` is what actually delivers that second sentence. Without it the
+     row was a single non-shrinking line: at 390px the view toggle and the
+     primary action together want ~269px of a 259px row, so the button hung 8px
+     past the panel and the panel's own `overflow: hidden` sliced its right edge
+     and rounded corner clean off (38px and worse at 360px). Wrapping is width
+     -independent — the button drops to its own line only when it genuinely
+     does not fit, and `flex-grow` then makes it fill that line, which is the
+     full-width phone target the paragraph above always intended. */
   .studio-findbar-actions {
     width: 100%;
     justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .studio-findbar-actions .studio-new-content-link {
+    flex: 1 1 auto;
+    justify-content: center;
   }
 }
 
