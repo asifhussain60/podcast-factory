@@ -1682,6 +1682,23 @@
 }
 
 @media (max-width: 640px) {
+  /* Tighter chips below 640px. At their desktop padding only ONE fitted per
+     line on a 375px phone, so eight chips plus the view toggle and the primary
+     action filled a whole screen before the first book — the opposite of what
+     shortening the buttons was for. Trimmed enough to sit two per row; the
+     count keeps its own size because it is the part being read. */
+  .studio-bucket-chip,
+  .studio-filter-chip {
+    padding: 0.5rem 0.7rem;
+    gap: 0.4rem;
+  }
+  .studio-track-chip {
+    padding: 0.38rem 0.65rem;
+  }
+  .studio-tracks-panel {
+    gap: 0.5rem;
+  }
+
   /* One column is already the layout below this width, so the list row's
      three-column body would squeeze each cell to nothing. It falls back to the
      card stack rather than pretending to be a table. */
