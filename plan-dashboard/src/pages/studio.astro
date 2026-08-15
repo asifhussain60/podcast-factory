@@ -64,173 +64,215 @@ const {
          shape for a chosen chip. Exactly one chip per group carries
          `aria-pressed="true"` at any moment; the script enforces it. */
     }
-    <div class="studio-toolbar">
-      <div class="studio-toolbar-filters">
-        <div
-          class="studio-bucket-filter-bar"
-          role="group"
-          aria-label="Filter books by content category"
-        >
-          <button
-            type="button"
-            class="studio-bucket-chip"
-            data-bucket-filter="all"
-            aria-pressed="true"
-            title="Every category"
-          >
-            <span class="studio-bucket-chip-label">All</span>
-            <span class="studio-bucket-chip-count">{totalCount}</span>
-          </button>
-          {
-            shelves.map(({ bucket, meta }) => (
-              <button
-                type="button"
-                class="studio-bucket-chip"
-                data-bucket-filter={bucket}
-                aria-pressed="false"
-                title={meta.desc}
-                disabled={bucketCount(bucket) === 0}
-              >
-                <i class={`fa-solid ${meta.icon}`} aria-hidden="true" />
-                <span class="studio-bucket-chip-label">{meta.chipLabel}</span>
-                <span class="studio-bucket-chip-count">
-                  {bucketCount(bucket)}
-                </span>
-              </button>
-            ))
-          }
-        </div>
-        <div
-          class="studio-filter-bar"
-          role="group"
-          aria-label="Filter books by lifecycle status"
-        >
-          <button
-            type="button"
-            class="studio-filter-chip"
-            data-status-filter="all"
-            aria-pressed="true"
-            title="Every status"
-          >
-            <span class="studio-filter-chip-label">All</span>
-            <span class="studio-filter-chip-count">{totalCount}</span>
-          </button>
-          {
-            STATUS_FILTERS.map((f) => (
-              <button
-                type="button"
-                class="studio-filter-chip"
-                data-status-filter={f.id}
-                aria-pressed="false"
-                title={f.hint}
-                disabled={statusCount(f.id) === 0}
-              >
-                <i class={`fa-solid ${f.icon}`} aria-hidden="true" />
-                <span class="studio-filter-chip-label">{f.label}</span>
-                <span class="studio-filter-chip-count">
-                  {statusCount(f.id)}
-                </span>
-              </button>
-            ))
-          }
-        </div>
-      </div>
-      {
-        /* The three view modes, same three as the Library. One data attribute
-           on the picker restyles the SAME cards — three markup branches would
-           be three things to keep in step, and the compact tile and the list
-           row are the full card with less shown, not different cards. */
-      }
-      <div
-        class="studio-view-toggle"
-        role="group"
-        aria-label="Choose how books are shown"
-      >
-        <button
-          type="button"
-          class="studio-view-btn"
-          data-view-mode="cards"
-          aria-pressed="true"
-          aria-label="Card view"
-          title="Card view"
-        >
-          <i class="fa-solid fa-table-cells-large" aria-hidden="true"></i>
-        </button>
-        <button
-          type="button"
-          class="studio-view-btn"
-          data-view-mode="compact"
-          aria-pressed="false"
-          aria-label="Compact tile view"
-          title="Compact tile view"
-        >
-          <i class="fa-solid fa-table-cells" aria-hidden="true"></i>
-        </button>
-        <button
-          type="button"
-          class="studio-view-btn"
-          data-view-mode="list"
-          aria-pressed="false"
-          aria-label="List view"
-          title="List view"
-        >
-          <i class="fa-solid fa-list" aria-hidden="true"></i>
-        </button>
-      </div>
-      <a
-        class="studio-new-content-link"
-        href="/studio/new"
-        title="Scaffold a new book, lecture, or article"
-      >
-        <i class="fa-solid fa-plus" aria-hidden="true"></i>
-        <span class="studio-new-content-label">New content</span>
-      </a>
-    </div>
 
     {
-      /* The counts are measured against the WHOLE shelf, never the filtered
-         view: a number that renumbered itself as you filtered would flicker,
-         and it is there to say what choosing it would give you. A track with
-         none is DISABLED rather than dropped — the five tracks are a taxonomy
-         worth seeing whole, and a row that changes length as books move
-         through the pipeline teaches less than one that keeps its shape. */
+      /* THE FIND BAR — one bordered panel, header row above a hairline, chips
+         below it. The site already had this panel treatment (`.studio-panel`,
+         used on every step page); the top of the picker was the one place not
+         using it, which is why it read as loose parts on the page rather than a
+         header. Structure follows the classic admin card: title and live count
+         on the left of the header, the view toggle and the primary action as a
+         toolbar on the right, a rule under it, then the controls as the body.
+
+         The hairline between the category and status groups is the fix for
+         something that could not be solved while these floated free: with the
+         `CATEGORY`/`STATUS` captions gone the two facets stopped reading as
+         separate groups, and a free-standing divider stranded itself at the end
+         of a wrapped line. Inside a panel it has a defined row to sit in, and
+         it is hidden at the width where the row is known to wrap. */
     }
-    <div class="studio-tracks-panel">
-      <span class="studio-tracks-label" id="studio-tracks-label"
-        >Browse by track</span
-      >
-      <div
-        class="studio-track-filter-bar"
-        role="group"
-        aria-labelledby="studio-tracks-label"
-      >
-        <button
-          type="button"
-          class="studio-track-chip"
-          data-track-filter="all"
-          aria-pressed="true"
-          title="Every track"
-        >
-          <span class="studio-track-chip-label">All tracks</span>
-          <span class="studio-track-chip-count">{totalCount}</span>
-        </button>
+    <section class="studio-findbar" aria-labelledby="studio-findbar-title">
+      <div class="studio-findbar-head">
+        <div class="studio-findbar-heading">
+          <h2 class="studio-findbar-title" id="studio-findbar-title">
+            Find a book
+          </h2>
+          {
+            /* The live result count, updated by the filter script. Visual only
+               — the screen-reader announcement is the live region further down,
+               and saying it twice would be worse than saying it once. */
+          }
+          <span
+            class="studio-findbar-count"
+            id="studio-findbar-count"
+            aria-hidden="true">{totalCount} works</span
+          >
+        </div>
+        <div class="studio-findbar-actions">
+          {
+            /* The three view modes, same three as the Library. One data attribute
+               on the picker restyles the SAME cards — three markup branches would
+               be three things to keep in step, and the compact tile and the list
+               row are the full card with less shown, not different cards. */
+          }
+          <div
+            class="studio-view-toggle"
+            role="group"
+            aria-label="Choose how books are shown"
+          >
+            <button
+              type="button"
+              class="studio-view-btn"
+              data-view-mode="cards"
+              aria-pressed="true"
+              aria-label="Card view"
+              title="Card view"
+            >
+              <i class="fa-solid fa-table-cells-large" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="studio-view-btn"
+              data-view-mode="compact"
+              aria-pressed="false"
+              aria-label="Compact tile view"
+              title="Compact tile view"
+            >
+              <i class="fa-solid fa-table-cells" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="studio-view-btn"
+              data-view-mode="list"
+              aria-pressed="false"
+              aria-label="List view"
+              title="List view"
+            >
+              <i class="fa-solid fa-list" aria-hidden="true"></i>
+            </button>
+          </div>
+          <a
+            class="studio-new-content-link"
+            href="/studio/new"
+            title="Scaffold a new book, lecture, or article"
+          >
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            <span class="studio-new-content-label">New content</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="studio-findbar-body">
+        <div class="studio-toolbar-filters">
+          <div
+            class="studio-bucket-filter-bar"
+            role="group"
+            aria-label="Filter books by content category"
+          >
+            <button
+              type="button"
+              class="studio-bucket-chip"
+              data-bucket-filter="all"
+              aria-pressed="true"
+              title="Every category"
+            >
+              <span class="studio-bucket-chip-label">All</span>
+              <span class="studio-bucket-chip-count">{totalCount}</span>
+            </button>
+            {
+              shelves.map(({ bucket, meta }) => (
+                <button
+                  type="button"
+                  class="studio-bucket-chip"
+                  data-bucket-filter={bucket}
+                  aria-pressed="false"
+                  title={meta.desc}
+                  disabled={bucketCount(bucket) === 0}
+                >
+                  <i class={`fa-solid ${meta.icon}`} aria-hidden="true" />
+                  <span class="studio-bucket-chip-label">{meta.chipLabel}</span>
+                  <span class="studio-bucket-chip-count">
+                    {bucketCount(bucket)}
+                  </span>
+                </button>
+              ))
+            }
+          </div>
+          <span class="studio-facet-sep" aria-hidden="true"></span>
+          <div
+            class="studio-filter-bar"
+            role="group"
+            aria-label="Filter books by lifecycle status"
+          >
+            <button
+              type="button"
+              class="studio-filter-chip"
+              data-status-filter="all"
+              aria-pressed="true"
+              title="Every status"
+            >
+              <span class="studio-filter-chip-label">All</span>
+              <span class="studio-filter-chip-count">{totalCount}</span>
+            </button>
+            {
+              STATUS_FILTERS.map((f) => (
+                <button
+                  type="button"
+                  class="studio-filter-chip"
+                  data-status-filter={f.id}
+                  aria-pressed="false"
+                  title={f.hint}
+                  disabled={statusCount(f.id) === 0}
+                >
+                  <i class={`fa-solid ${f.icon}`} aria-hidden="true" />
+                  <span class="studio-filter-chip-label">{f.label}</span>
+                  <span class="studio-filter-chip-count">
+                    {statusCount(f.id)}
+                  </span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
         {
-          TRACK_FILTERS.map((f) => (
+          /* The counts are measured against the WHOLE shelf, never the filtered
+             view: a number that renumbered itself as you filtered would flicker,
+             and it is there to say what choosing it would give you. A track with
+             none is DISABLED rather than dropped — the five tracks are a taxonomy
+             worth seeing whole, and a row that changes length as books move
+             through the pipeline teaches less than one that keeps its shape. */
+        }
+        <div class="studio-tracks-panel">
+          <span class="studio-tracks-label" id="studio-tracks-label"
+            >Browse by track</span
+          >
+          <div
+            class="studio-track-filter-bar"
+            role="group"
+            aria-labelledby="studio-tracks-label"
+          >
             <button
               type="button"
               class="studio-track-chip"
-              data-track-filter={f.id}
-              aria-pressed="false"
-              title={f.hint}
-              disabled={trackCount(f.id) === 0}
+              data-track-filter="all"
+              aria-pressed="true"
+              title="Every track"
             >
-              <span class="studio-track-chip-label">{f.label}</span>
-              <span class="studio-track-chip-count">{trackCount(f.id)}</span>
+              <span class="studio-track-chip-label">All tracks</span>
+              <span class="studio-track-chip-count">{totalCount}</span>
             </button>
-          ))
-        }
+            {
+              TRACK_FILTERS.map((f) => (
+                <button
+                  type="button"
+                  class="studio-track-chip"
+                  data-track-filter={f.id}
+                  aria-pressed="false"
+                  title={f.hint}
+                  disabled={trackCount(f.id) === 0}
+                >
+                  <span class="studio-track-chip-label">{f.label}</span>
+                  <span class="studio-track-chip-count">
+                    {trackCount(f.id)}
+                  </span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
     {
       /* Filtering changes the page with no navigation, so the result is
@@ -495,6 +537,17 @@ const {
 
     // Said out loud, because filtering happens with no page change: without it
     // a screen-reader user presses a chip and is told nothing at all.
+    // The find bar's own count, kept in step with the shelves. Visual only —
+    // the live region below is what is announced, and doing both would say the
+    // same number twice.
+    const headCount = document.getElementById("studio-findbar-count");
+    if (headCount) {
+      const shown = document.querySelectorAll<HTMLElement>(
+        ".studio-shelf-card:not([hidden])",
+      ).length;
+      headCount.textContent = `${shown} ${shown === 1 ? "work" : "works"}`;
+    }
+
     const status = document.getElementById("studio-filter-status");
     if (status) {
       const shown = document.querySelectorAll<HTMLElement>(

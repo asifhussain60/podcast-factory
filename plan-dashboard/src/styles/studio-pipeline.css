@@ -1009,8 +1009,11 @@
 }
 
 /* Primary "New content" action — deliberately distinct from the filter
-   buttons: solid mid-dark fill, light text, 2px soft-rounded border. */
-.studio-toolbar .studio-new-content-link {
+   buttons: solid mid-dark fill, light text, 2px soft-rounded border.
+   Scoped to the find bar's action row since 2026-08-15; it used to be scoped to
+   `.studio-toolbar`, which the panel replaced — leaving the button to fall back
+   to the dashed outline meant for a secondary control. */
+.studio-findbar-actions .studio-new-content-link {
   padding: 0.6rem 1.15rem;
   border-radius: 12px;
   gap: 0.5rem;
@@ -1022,7 +1025,7 @@
     0 2px 8px color-mix(in oklab, var(--c-accent) 22%, transparent);
 }
 
-.studio-toolbar .studio-new-content-link:hover {
+.studio-findbar-actions .studio-new-content-link:hover {
   background: color-mix(in oklab, var(--c-ink) 12%, var(--c-accent));
   border-color: color-mix(in oklab, var(--c-accent) 45%, var(--c-ink));
   color: var(--c-bg-card);
@@ -1491,6 +1494,136 @@
 
 /* `.studio-toolbar-row` / `.studio-toolbar-row-label` were deleted here with
    the two-row toolbar they existed for (2026-08-15). They had no other user. */
+
+/* ════════════════════════════════════════════════════════════
+   THE FIND BAR — the picker's header panel
+   ════════════════════════════════════════════════════════════
+   One bordered panel holding everything above the shelves. It
+   reuses the surface, border, radius and shadow the site's own
+   `.studio-panel` already uses on every step page rather than
+   introducing a second card language — the top of the picker was
+   the one place NOT using it, which is exactly why it read as
+   loose parts floating on the page.
+
+   Shape follows the classic admin card: a header row (title +
+   live count on the left, toolbar on the right), a hairline, then
+   the controls as the panel body. Colour stays accent-only — the
+   panel is a warm surface and a 1px rule, never a filled bar with
+   reversed text, which the site's design system names as the
+   anti-pattern to move away from. */
+.studio-findbar {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.studio-findbar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--c-rule-soft);
+  /* A whisper of tint separates the header band from the body without a second
+     border. `--c-bg-elev` is the site's own raised surface, so this reads as
+     the same material rather than a new one. */
+  background: color-mix(in oklab, var(--c-bg-elev) 55%, var(--c-bg-card));
+}
+
+.studio-findbar-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+/* Fraunces, per the site's type system: a display serif for the panel's own
+   name, sized down so it sits UNDER the shelf headings in the hierarchy rather
+   than competing with them. */
+.studio-findbar-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--c-ink);
+}
+
+.studio-findbar-count {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--c-ink-muted);
+}
+
+.studio-findbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.studio-findbar-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.9rem 1.1rem 1rem;
+}
+
+/* The chip row carries `flex: 1 1 22rem` for its old life as a row item beside
+   the primary action. Inside this COLUMN that basis is a HEIGHT — it rendered
+   the two chip bars 352px tall with the separator stretched down the middle of
+   the empty space. Reset here rather than changed there: the rule is still
+   correct for the layout it was written for. */
+.studio-findbar .studio-toolbar-filters {
+  flex: 0 0 auto;
+}
+
+/* The hairline between the two pipeline facets. It exists only because the
+   panel gives it a defined row to sit in — free-standing it stranded itself at
+   the end of a wrapped line, which is why the earlier attempt was removed. It
+   is hidden below the width where the row is known to wrap (measured, not
+   guessed), so it never appears without two groups beside it. */
+.studio-facet-sep {
+  flex: 0 0 1px;
+  align-self: stretch;
+  min-height: 1.75rem;
+  margin-inline: 0.3rem;
+  background: var(--c-rule);
+}
+
+/* The track row keeps its label but loses the outer margin it carried while it
+   was a free-standing block — inside the panel the body's own gap spaces it. */
+.studio-findbar .studio-tracks-panel {
+  margin-top: 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--c-rule-soft);
+}
+
+@media (max-width: 1180px) {
+  .studio-facet-sep {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .studio-findbar-head {
+    padding: 0.75rem 0.85rem;
+  }
+  .studio-findbar-body {
+    padding: 0.8rem 0.85rem 0.9rem;
+  }
+  /* The actions wrap under the title rather than squeezing beside it; the
+     primary action then takes the full row, which is the right target size on
+     a phone anyway. */
+  .studio-findbar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
 
 /* ════════════════════════════════════════════════════════════
    View modes — cards / compact / list
