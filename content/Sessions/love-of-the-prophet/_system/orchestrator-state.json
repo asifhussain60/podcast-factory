@@ -4,10 +4,10 @@
   "category": "lectures",
   "branch": "Sessions/love-of-the-prophet",
   "pipeline_mode": "sessions_lane",
-  "phase": "sessions-preface",
+  "phase": "sessions-apparatus",
   "phase_status": "completed",
-  "last_completed_phase": "sessions-preface",
-  "next_phase": "sessions-apparatus",
+  "last_completed_phase": "sessions-apparatus",
+  "next_phase": null,
   "last_error": null,
   "phases": {
     "sessions-ingest": {
@@ -19,11 +19,14 @@
     "sessions-articulate": {
       "status": "completed"
     },
+    "sessions-read-along": {
+      "status": "completed"
+    },
     "sessions-preface": {
       "status": "completed"
     },
     "sessions-apparatus": {
-      "status": "pending"
+      "status": "completed"
     }
   },
   "status": "draft"

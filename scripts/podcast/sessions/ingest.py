@@ -178,10 +178,21 @@ def _write_state(book_dir: Path, series: Series, *, done_through: str) -> None:
     # Until this, finishing the preface marked it complete purely by sitting
     # earlier in the tuple, and both Sessions books reported "Refining the
     # language ✓" for a pass that had no code behind it at all.
-    prior_articulate = (prior.get("phases") or {}).get(ARTICULATE_STEP) or {}
-    phases[ARTICULATE_STEP] = {"status": str(prior_articulate.get("status") or "pending")}
-    prior_read_along = (prior.get("phases") or {}).get(READ_ALONG_STEP) or {}
-    phases[READ_ALONG_STEP] = {"status": str(prior_read_along.get("status") or "pending")}
+    #
+    # `sessions-read-along` gets the same treatment, EXCEPT when THIS call is
+    # the one reporting it done. `read_along.py` marks its own completion
+    # through this same writer (`done_through=READ_ALONG_STEP`, unlike
+    # `articulate.py`, which patches its own phase entry directly) — carrying
+    # over the prior status unconditionally would have made the call a no-op
+    # for the one step it exists to record, because the "prior" value read here
+    # is always the PRE-completion status. Found 2026-08-15: `read_along.py`
+    # printed success on every run and never once left `completed` behind.
+    if done_through != ARTICULATE_STEP:
+        prior_articulate = (prior.get("phases") or {}).get(ARTICULATE_STEP) or {}
+        phases[ARTICULATE_STEP] = {"status": str(prior_articulate.get("status") or "pending")}
+    if done_through != READ_ALONG_STEP:
+        prior_read_along = (prior.get("phases") or {}).get(READ_ALONG_STEP) or {}
+        phases[READ_ALONG_STEP] = {"status": str(prior_read_along.get("status") or "pending")}
 
     path.write_text(
         json.dumps(

@@ -261,3 +261,46 @@ def test_the_manifest_a_spoken_chapter_writes_points_at_the_episode_recording(tm
     assert key == "love-of-the-prophet/audio/ep01.mp3"
     assert "/narration/" not in key
     assert json.loads((tmp_path / "book" / "narration" / "manifest.json").read_text(encoding="utf-8"))
+
+
+# ---------------------------------------------------------------------------
+# The state write that is supposed to mark this step done
+# ---------------------------------------------------------------------------
+
+
+def test_finishing_read_along_actually_records_it_as_completed(tmp_path: Path) -> None:
+    """The bug this pins: `_write_state`'s carry-over logic reads the PRIOR
+    file's `sessions-read-along` status and writes that back verbatim — so a
+    call made to report read-along AS the step that just finished
+    (`done_through=READ_ALONG_STEP`, exactly what `read_along.py main()` does)
+    could never actually leave `completed` behind, because the "prior" value
+    it carries forward is always the pre-completion one. Found 2026-08-15: the
+    CLI printed success on every run and the state file never once agreed."""
+    from sessions.ingest import READ_ALONG_STEP, _write_state
+
+    (tmp_path / "_system").mkdir()
+    series = SERIES["love-of-the-prophet"]
+
+    _write_state(tmp_path, series, done_through="sessions-articulate")
+    _write_state(tmp_path, series, done_through=READ_ALONG_STEP)
+
+    state = json.loads((tmp_path / "_system" / "orchestrator-state.json").read_text(encoding="utf-8"))
+    assert state["phases"][READ_ALONG_STEP]["status"] == "completed"
+
+
+def test_a_later_step_finishing_still_carries_read_along_forward(tmp_path: Path) -> None:
+    """The other half of the same fix: once read-along genuinely is done, a
+    LATER call that does not mention it by name (apparatus finishing, or a
+    re-ingest) must not derive its status from position alone — `_write_state`
+    still has to remember what read-along itself last reported."""
+    from sessions.ingest import LANE_STEPS, READ_ALONG_STEP, _write_state
+
+    (tmp_path / "_system").mkdir()
+    series = SERIES["love-of-the-prophet"]
+
+    _write_state(tmp_path, series, done_through="sessions-articulate")
+    _write_state(tmp_path, series, done_through=READ_ALONG_STEP)
+    _write_state(tmp_path, series, done_through=LANE_STEPS[-1])
+
+    state = json.loads((tmp_path / "_system" / "orchestrator-state.json").read_text(encoding="utf-8"))
+    assert state["phases"][READ_ALONG_STEP]["status"] == "completed"
