@@ -446,3 +446,57 @@ def test_the_card_end_to_end_no_longer_reports_the_frontier_lie(tmp_path: Path) 
     assert card["current"] == "sessions-articulate"
     assert card["percent_complete"] < 92.0
     assert "sessions-articulate" in card["remaining"]
+
+
+# ─── read-aloud, which checkpoints per chapter in its own manifest ───────────
+
+
+def _narrated_book(tmp_path: Path, headings: list[str], rendered: list[str]) -> Path:
+    """A reading edition plus a narration manifest, with MP3s on disk only for
+    the chapters named in `rendered` — the manifest alone must never count."""
+    bd = tmp_path / "book-dir"
+    (bd / "book" / "narration").mkdir(parents=True)
+    (bd / "book" / "book.md").write_text(
+        "\n\n".join(f"## {h}\n\nBody of {h}." for h in headings),
+        encoding="utf-8",
+    )
+    chapters = {}
+    for h in headings:
+        key = h.lower().replace(" ", "-")
+        chapters[key] = {"title": h, "audio": f"book/narration/{key}.mp3"}
+        if h in rendered:
+            (bd / "book" / "narration" / f"{key}.mp3").write_bytes(b"\x00")
+    (bd / "book" / "narration" / "manifest.json").write_text(json.dumps({"chapters": chapters}), encoding="utf-8")
+    return bd
+
+
+def test_a_running_narration_step_reads_real_chapter_progress(tmp_path: Path) -> None:
+    bd = _narrated_book(tmp_path, headings=["A", "B", "C", "D"], rendered=["A", "B"])
+    progress = compute_progress({"phases": {"reader-narration": {"status": "running"}}}, bd)
+    row = next(r for r in progress["phases"] if r["phase"] == "reader-narration")
+    assert row["fraction"] == 0.5
+
+
+def test_a_manifest_entry_without_its_audio_does_not_count(tmp_path: Path) -> None:
+    """The manifest is rewritten before the next chapter starts, and it survives
+    a deleted or never-uploaded MP3 — so the file on disk is the evidence, not
+    the entry that claims it."""
+    bd = _narrated_book(tmp_path, headings=["A", "B"], rendered=[])
+    progress = compute_progress({"phases": {"reader-narration": {"status": "running"}}}, bd)
+    row = next(r for r in progress["phases"] if r["phase"] == "reader-narration")
+    assert row["fraction"] == 0.0
+
+
+def test_a_fully_narrated_running_step_is_capped_like_every_other_subphase(tmp_path: Path) -> None:
+    bd = _narrated_book(tmp_path, headings=["A", "B"], rendered=["A", "B"])
+    progress = compute_progress({"phases": {"reader-narration": {"status": "running"}}}, bd)
+    row = next(r for r in progress["phases"] if r["phase"] == "reader-narration")
+    assert row["fraction"] == 0.95  # capped, same convention as _chunk_fraction
+
+
+def test_without_a_narration_manifest_the_flat_guess_still_applies(tmp_path: Path) -> None:
+    """A book whose narration has not written anything yet, and every caller that
+    passes state alone, must see the prior behavior unchanged."""
+    progress = compute_progress({"phases": {"reader-narration": {"status": "running"}}}, tmp_path)
+    row = next(r for r in progress["phases"] if r["phase"] == "reader-narration")
+    assert row["fraction"] == 0.5
