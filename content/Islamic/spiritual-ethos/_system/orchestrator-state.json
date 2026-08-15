@@ -5,12 +5,12 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "reader-narration",
-  "phase_status": "completed",
+  "phase": "audio-ingest",
+  "phase_status": "halted",
   "last_completed_phase": "reader-narration",
   "last_error": null,
   "category": "books",
-  "branch": "Islamic/spiritual-ethos",
+  "branch": "develop",
   "status": "draft",
   "started": "2026-08-05T14:42:06Z",
   "updated": "2026-08-05T14:42:06Z",
@@ -353,8 +353,17 @@
     "audio-ingest": {
       "status": "halted",
       "ts_started": "2026-08-07T09:38:07Z",
-      "ts_completed": "2026-08-07T09:47:49Z",
-      "reason": "awaiting NotebookLM audio drop"
+      "ts_completed": "2026-08-15T18:35:18Z",
+      "reason": "awaiting NotebookLM audio drop",
+      "missing": [
+        "EP03-paradox-and-the-inner-struggle: m4a/ch03c-paradox-and-the-inner-struggle.m4a",
+        "EP05-the-sacred-conception-of-justice: m4a/ch05a-the-sacred-conception-of-justice.m4a",
+        "EP06-pride-and-conscience: m4a/ch06b-pride-and-conscience.m4a",
+        "EP07-the-classes-of-society-and-the-poor: m4a/ch07c-the-classes-of-society-and-the-poor.m4a",
+        "EP09-dhikr-the-polish-for-hearts: m4a/ch09a-dhikr-the-polish-for-hearts.m4a",
+        "EP12-the-first-sermon-of-nahj-al-balagha: m4a/ch12-the-first-sermon-of-nahj-al-balagha.m4a",
+        "EP13-the-letter-of-ali-to-malik-al-ashtar: m4a/ch13-the-letter-of-ali-to-malik-al-ashtar.m4a"
+      ]
     },
     "0book-illustrate": {
       "status": "pending",
@@ -457,8 +466,12 @@
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
-  "run_id": "20260815T122426Z-665f51",
-  "ts_updated": "2026-08-15T12:24:26Z",
+  "run_id": "20260815T183308Z-b069ff",
+  "ts_updated": "2026-08-15T18:51:56Z",
   "next_phase": "publish",
-  "unattended": true
+  "unattended": true,
+  "phase_attempts": {
+    "reader-narration": 2,
+    "audio-ingest": 2
+  }
 }

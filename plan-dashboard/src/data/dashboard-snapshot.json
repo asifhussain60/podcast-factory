@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 78.03
+    "burn_30d_usd": 78.74
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1938,16 +1938,16 @@
     {
       "slug": "spiritual-ethos",
       "title": "Spiritual Ethos",
-      "phase": "reader-narration",
-      "phase_status": "completed",
+      "phase": "audio-ingest",
+      "phase_status": "halted",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },
     {
       "slug": "surah-al-fateha",
       "title": "Surah Al-Fateha",
-      "phase": "reader-narration",
-      "phase_status": "skipped",
+      "phase": "sessions-read-along",
+      "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_session"
     },
