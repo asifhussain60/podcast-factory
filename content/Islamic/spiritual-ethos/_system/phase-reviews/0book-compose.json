@@ -1,0 +1,83 @@
+{
+  "schema": "podcast.phase-review/v1",
+  "phase": "0book-compose",
+  "verdict": "PHASE-CONCERNS",
+  "blocking_fail": null,
+  "counts": {
+    "total": 10,
+    "failed": 1,
+    "crashed": 0
+  },
+  "gates": [
+    {
+      "gate": "PC1",
+      "name": "book-md-present",
+      "kind": "own",
+      "passed": true,
+      "note": "book.md present (457,626 bytes)"
+    },
+    {
+      "gate": "PC2",
+      "name": "apparatus-steps-all-ran",
+      "kind": "own",
+      "passed": true,
+      "note": "all 26 apparatus step(s) recorded"
+    },
+    {
+      "gate": "PC3",
+      "name": "no-page-altering-step-failed",
+      "kind": "own",
+      "passed": true,
+      "note": "compose recorded no skipped steps"
+    },
+    {
+      "gate": "PC4",
+      "name": "book-md-covers-toc",
+      "kind": "own",
+      "passed": true,
+      "note": "16 heading(s) for 15 declared chapter(s)"
+    },
+    {
+      "gate": "PC5",
+      "name": "no-new-reading-edition-defects",
+      "kind": "own",
+      "passed": false,
+      "note": "this compose introduced reading-edition defect(s): bare-arabic 0->14, quote-line-noise 0->6, translation-fused-with-prose 0->7"
+    },
+    {
+      "gate": "RB1",
+      "name": "refined-text-still-present (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined-english.md present (454,846 bytes)"
+    },
+    {
+      "gate": "RB2",
+      "name": "refined-still-covers-source (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined text is 98% of the source (74,954 of 76,419 words)"
+    },
+    {
+      "gate": "RB3",
+      "name": "window-cache-intact (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "window cache intact (28 window(s))"
+    },
+    {
+      "gate": "RD1",
+      "name": "chapter-contracts-still-exist (from 0d)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "17 chapter contract(s)"
+    },
+    {
+      "gate": "RG1",
+      "name": "book-toc-still-parses (from 0book-design)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "book-toc.json declares 15 chapter(s)"
+    }
+  ]
+}

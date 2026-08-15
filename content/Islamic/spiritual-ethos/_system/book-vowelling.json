@@ -1,31 +1,47 @@
 {
-  "vowelled": 2,
-  "marks_added": 32,
-  "already": 316,
-  "quranic": 0,
+  "vowelled": 24,
+  "marks_added": 231,
+  "already": 289,
+  "quranic": 2,
   "from_mushaf": 0,
-  "refused": 18,
+  "refused": 25,
   "recovered": 0,
-  "transferred": 2,
-  "in_chars": 109,
-  "out_chars": 193,
+  "transferred": 20,
+  "in_chars": 1134,
+  "out_chars": 1449,
   "mushaf_pairs": [],
   "refusals": [
     {
+      "run": "العاقل من وضع شئی حق محلہ",
+      "reason": "letters changed, not just marks (first difference at character 16: source \"ئی حق محلہ\" vs proposal \"يئا حق محله.\")"
+    },
+    {
       "run": "الرحمن الرحیم",
       "reason": "letters changed, not just marks (first difference at character 6: source \"ن الرحیم\" vs proposal \"ان الرحيم\")"
+    },
+    {
+      "run": "وَنَفْسٍۢ وَمَا سَوَّىٰهَا ۷ فَأَلْهَمَهَا فُجُورَهَا وَتَقْ",
+      "reason": "letters changed, not just marks (first difference at character 16: source \"۷ فألهمها فج\" vs proposal \"٧ فألهمها فج\")"
     },
     {
       "run": "درجہ بدرجہ",
       "reason": "letters changed, not just marks (first difference at character 4: source \"ہ بدرجہ\" vs proposal \"ة بدرجة\")"
     },
     {
+      "run": "نھج البلاغہ",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"ھج البلاغہ\" vs proposal \"هج البلاغة\")"
+    },
+    {
       "run": "وضع کل شئی حق محلہ",
       "reason": "letters changed, not just marks (first difference at character 5: source \"کل شئی حق مح\" vs proposal \"كل شيء حق مح\")"
     },
     {
-      "run": "العاقل من وضع شئی حق محلہ",
-      "reason": "letters changed, not just marks (first difference at character 16: source \"ئی حق محلہ\" vs proposal \"يء حق محله\")"
+      "run": "لو کشف الغطاء ما ازدت یقینا",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"کشف الغطاء م\" vs proposal \"كشف الغطاء م\")"
+    },
+    {
+      "run": "أَفَمَن يَعْلَمُ أَنَّمَآ أُنزِلَ إِلَيْكَ مِن رَّبِّكَ ٱلْح",
+      "reason": "letters changed, not just marks (first difference at character 65: source \"ا ٱلألبب ۱۹ \" vs proposal \" ٱلألبب ۱۹ ٱ\")"
     },
     {
       "run": "آیات",
@@ -34,6 +50,10 @@
     {
       "run": "سنۃ",
       "reason": "letters changed, not just marks (first difference at character 3: source \"ۃ\" vs proposal \"ة\")"
+    },
+    {
+      "run": "نفی",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"ی\" vs proposal \"ي\")"
     },
     {
       "run": "العاقل من وضع شئی حق محلہ",
@@ -52,16 +72,12 @@
       "reason": "letters changed, not just marks (first difference at character 5: source \"یل\" vs proposal \"يل\")"
     },
     {
-      "run": "سجدۃ",
-      "reason": "letters changed, not just marks (first difference at character 4: source \"ۃ\" vs proposal \"ة\")"
+      "run": "المُحسنین",
+      "reason": "empty"
     },
     {
       "run": "القاسیۃ",
       "reason": "letters changed, not just marks (first difference at character 6: source \"یۃ\" vs proposal \"ية\")"
-    },
-    {
-      "run": "ابلیس",
-      "reason": "empty"
     },
     {
       "run": "خیال",
@@ -77,12 +93,24 @@
     },
     {
       "run": "شریعۃ",
-      "reason": "letters changed, not just marks (first difference at character 3: source \"یعۃ\" vs proposal \"يعة\")"
+      "reason": "letters changed, not just marks (first difference at character 5: source \"ۃ\" vs proposal \"ة\")"
     },
     {
       "run": "حکما",
       "reason": "letters changed, not just marks (first difference at character 2: source \"کما\" vs proposal \"كما\")"
+    },
+    {
+      "run": "لو کشف الغطاء ما ازدت یقینا",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"لو کشف الغطا\" vs proposal \"يقينا\")"
+    },
+    {
+      "run": "رحیم",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یم\" vs proposal \"يم\")"
+    },
+    {
+      "run": "عزیز",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"یز\" vs proposal \"يز\")"
     }
   ],
-  "lexical": 2
+  "lexical": 0
 }

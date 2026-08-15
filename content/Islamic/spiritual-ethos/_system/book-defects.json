@@ -1,160 +1,153 @@
 {
   "schema": "book.defects/v1",
   "counts": {
+    "duplicated-arabic": 0,
+    "english-rtl": 0,
+    "romanized-arabic": 0,
+    "romanized-honorific": 0,
+    "stray-emphasis": 0,
+    "quote-line-noise": 6,
+    "honorific-overuse": 0,
+    "prophet-wrong-honorific": 0,
+    "translation-outside-card": 0,
+    "translation-leads-a-paragraph": 0,
+    "translation-fused-with-prose": 7,
+    "bare-arabic": 14,
+    "orphaned-heading": 0,
+    "stale-provenance": 0
+  },
+  "previous": {
     "duplicated-arabic": 1,
     "english-rtl": 0,
     "romanized-arabic": 13,
     "honorific-overuse": 14,
     "prophet-wrong-honorific": 3
   },
-  "previous": {},
   "findings": {
-    "duplicated-arabic": [
-      [
-        "1. In the Prophet's Shadow",
-        "عليٌّ مِنِّي بِمَنْزِلَةِ نَفْسِي"
-      ]
-    ],
+    "duplicated-arabic": [],
     "english-rtl": [],
-    "romanized-arabic": [
-      [
-        "1. In the Prophet's Shadow",
-        "Ana madinatul-ilm wa 'Ali babuha; Fa-man aradal-ilm fal-yatil-bab"
-      ],
-      [
-        "1. In the Prophet's Shadow",
-        "la fata illa 'Ali, la sayf illa dhul-faqar"
-      ],
-      [
-        "2. The People of the House and the Prophet's Witness",
-        "inna Ali minni wa ana minhu"
-      ],
-      [
-        "2. The People of the House and the Prophet's Witness",
-        "man kuntu mawlahu fa-Ali mawlahu"
-      ],
-      [
-        "3. Intellect, Not Reason",
-        "la budda lahu min tarjuman"
-      ],
-      [
-        "4. The Discourse to Kumayl",
-        "man fahima 'alima ghawr al-ilm"
-      ],
-      [
-        "5. The Fruits of Certainty",
-        "kana yuazzimuhu fi 'ayni sighar al-dunya fi aynihi"
-      ],
-      [
-        "9. Justice for the Poor and the Sincerity of Intention",
-        "man yattiqiLlah yajal lahu makhrajan min al-fitan wa nuran min al-zulam"
-      ],
-      [
-        "10. Prayer, Remembrance, and Gazing on the Good",
-        "balighan min badanika ma balagha"
-      ],
-      [
-        "11. Dhikr: The Polish of the Heart",
-        "andar 'ilm wa muamalat imam-i in tariqat"
-      ],
-      [
-        "11. Dhikr: The Polish of the Heart",
-        "jila 'an lil-qulub"
-      ],
-      [
-        "12. Remembrance as the Quintessence of Worship",
-        "man ahabba shayan lahija bi-dhikrihi"
-      ],
-      [
-        "12. Remembrance as the Quintessence of Worship",
-        "ya man ismuhu dawa' wa dhikruhu shafa"
-      ]
-    ],
-    "honorific-overuse": [
-      [
-        "1. In the Prophet's Shadow",
-        "Ali",
-        30
-      ],
-      [
-        "2. The People of the House and the Prophet's Witness",
-        "Ali",
-        59
-      ],
-      [
-        "2. The People of the House and the Prophet's Witness",
-        "Ali ibn Abi Talib",
-        3
-      ],
-      [
-        "3. Intellect, Not Reason",
-        "Ali",
-        17
-      ],
-      [
-        "4. The Discourse to Kumayl",
-        "Ali",
-        3
-      ],
-      [
-        "5. The Fruits of Certainty",
-        "Ali",
-        4
-      ],
+    "romanized-arabic": [],
+    "romanized-honorific": [],
+    "stray-emphasis": [],
+    "quote-line-noise": [
       [
         "6. A Sacred Conception of Justice",
-        "Ali",
-        9
+        "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۱ مِنْ شَرِّ مَا خَلَقَ ۲"
       ],
       [
         "8. Conscience, Compassion, and the Ordering of Society",
-        "Ali",
-        3
+        "وَنَفْسٍۢ وَمَا سَوَّىٰهَا ۷ فَأَلْهَمَهَا فُجُورَهَا وَتَقْوَىٰهَا ۸"
       ],
       [
-        "9. Justice for the Poor and the Sincerity of Intention",
-        "Ali",
-        2
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "وَإِذْ أَخَذَ رَبُّكَ مِنۢ بَنِىٓ آدَمَ مِن ظُهُورِهِمْ ذُرِّيَّتَهُمْ وَأَشْهَدَهُمْ عَلَىٰٓ أَنفُسِهِمْ أَلَسْتُ بِرَبِّكُمْ ۖ قَالُوا۟ بَلَىٰ ۛ شَهِدْنَآ ۛ أَن تَقُولُوا۟ يَوْمَ ٱلْقِيَمَةِ إِنَّا كُنَّا عَنْ هَذَا غَفِلِينَ ۱۷۲"
       ],
       [
-        "10. Prayer, Remembrance, and Gazing on the Good",
-        "Ali",
-        3
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "كَلَّآ إِنَّ ٱلْإِنْسَنَ لَيَطْغَىٰٓ ۶ أَنْ رَّآهُ ٱسْتَغْنَىٰٓ ۷"
       ],
       [
-        "11. Dhikr: The Polish of the Heart",
-        "Ali",
-        10
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "أَفَمَن يَعْلَمُ أَنَّمَآ أُنزِلَ إِلَيْكَ مِن رَّبِّكَ ٱلْحَقُّ كَمَنْ هُوَ أَعْمَىٰٓ ۚ إِنَّمَا يَتَذَكَّرُ أُو۟لُوا۟ ٱلْأَلْبَبِ ۱۹ ٱلَّذِينَ يُوفُونَ بِعَهْدِ ٱللَّهِ وَلَا يَنقُضُونَ ٱلْمِيثَقَ ۲۰"
+      ],
+      [
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "وَلَا تَقْرَبُوا۟ مَالَ ٱلْيَتِيمِ إِلَّا بِٱلَّتِى هِىَ أَحْسَنُ حَتَّىٰ يَبْلُغَ أَشُدَّهُۥ ۚ وَأَوْفُوا۟ بِٱلْعَهْدِ ۖ إِنَّ ٱلْعَهْدَ كَانَ مَسْـُٔولًۭا ۳۴"
+      ]
+    ],
+    "honorific-overuse": [],
+    "prophet-wrong-honorific": [],
+    "translation-outside-card": [],
+    "translation-leads-a-paragraph": [],
+    "translation-fused-with-prose": [
+      [
+        "2. The People of the House and the Prophet's Witness",
+        "'Those who have faith and do righteous deeds, they are the best of created beings' (Al-Bayyinah: 7), as referring to Ali and his 'shia.'"
+      ],
+      [
+        "5. The Fruits of Certainty",
+        "\"My mercy encompasseth all things\" (Al-Araf: 156), and"
+      ],
+      [
+        "5. The Fruits of Certainty",
+        "\"In their hearts is a disease and God increased them in disease\" (Al-Baqarah: 10), and"
+      ],
+      [
+        "5. The Fruits of Certainty",
+        "\"And the life of this world is nothing but sport and play,\" says the Quran, \"and verily, the abode of the Hereafter, that is true life, did they but know\" (Al-Ankabut: 64)."
+      ],
+      [
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "'And when thy Lord brought forth from the children of Adam, from their loins, their seed, and made them testify against their souls [saying], \"Am I not your Lord?\" They said, \"Yes, verily, we testify.\" [This was] lest ye say on the Day of Resurrection, \"Truly, of this we were unaware\" (Al-Araf: 172). The moment He created them He made them witness His glory and testify to it, so that they could plead no ignorance on the Day of Judgment."
+      ],
+      [
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "'Is one who knoweth that what is revealed to thee from thy Lord is the truth like one who is blind? But only men of substance take heed, those who abide by the covenant (عہد) of God, and break not the tryst (ٱلْمِيثَقَ) (Ar-Ra'd: 19-20); and:"
       ],
       [
         "12. Remembrance as the Quintessence of Worship",
-        "Ali",
-        7
-      ],
-      [
-        "13. Extinction and the Name: The Death of the Saint",
-        "Ali",
-        8
-      ],
-      [
-        "15. The Letter to Malik al-Ashtar",
-        "Messenger of God",
-        3
+        "\"God hath created you and what ye do\" (As-Saffat: 96), and:"
       ]
     ],
-    "prophet-wrong-honorific": [
+    "bare-arabic": [
       [
-        "15. The Letter to Malik al-Ashtar",
-        "the Messenger of God (ع)"
+        "3. Intellect, Not Reason",
+        "العاقل من وضع شئی حق محلہ"
       ],
       [
-        "15. The Letter to Malik al-Ashtar",
-        "the Messenger of God (ع)"
+        "5. The Fruits of Certainty",
+        "العاقل من وضع شئی حق محلہ"
       ],
       [
-        "15. The Letter to Malik al-Ashtar",
-        "the Messenger of God (ع)"
+        "6. A Sacred Conception of Justice",
+        "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۱ مِنْ شَرِّ مَا خَلَقَ ۲"
+      ],
+      [
+        "6. A Sacred Conception of Justice",
+        "، أَخْبِرْنِي عَنِ الْإِسْلَامِ"
+      ],
+      [
+        "6. A Sacred Conception of Justice",
+        "، وَتَصُومَ رَمَضَانَ، وَتَحُجَّ الْبَيْتَ إِنِ اسْتَطَعْتَ إِلَيْهِ سَبِيلاً"
+      ],
+      [
+        "7. Justice and the Tyrant's Pride",
+        "الرحمن الرحیم"
+      ],
+      [
+        "7. Justice and the Tyrant's Pride",
+        "وضع کل شئی حق محلہ"
+      ],
+      [
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "وَنَفْسٍۢ وَمَا سَوَّىٰهَا ۷ فَأَلْهَمَهَا فُجُورَهَا وَتَقْوَىٰهَا ۸"
+      ],
+      [
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "وَإِذْ أَخَذَ رَبُّكَ مِنۢ بَنِىٓ آدَمَ مِن ظُهُورِهِمْ ذُرِّيَّتَهُمْ وَأَشْهَدَهُمْ عَلَىٰٓ أَنفُسِهِمْ أَلَسْتُ بِرَبِّكُمْ ۖ قَالُوا۟ بَلَىٰ ۛ شَهِدْنَآ ۛ أَن تَقُولُوا۟ يَوْمَ ٱلْقِيَمَةِ إِنَّا كُنَّا عَنْ هَذَا غَفِلِينَ ۱۷۲"
+      ],
+      [
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "كَلَّآ إِنَّ ٱلْإِنْسَنَ لَيَطْغَىٰٓ ۶ أَنْ رَّآهُ ٱسْتَغْنَىٰٓ ۷"
+      ],
+      [
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "الرحمن الرحیم"
+      ],
+      [
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "أَفَمَن يَعْلَمُ أَنَّمَآ أُنزِلَ إِلَيْكَ مِن رَّبِّكَ ٱلْحَقُّ كَمَنْ هُوَ أَعْمَىٰٓ ۚ إِنَّمَا يَتَذَكَّرُ أُو۟لُوا۟ ٱلْأَلْبَبِ ۱۹ ٱلَّذِينَ يُوفُونَ بِعَهْدِ ٱللَّهِ وَلَا يَنقُضُونَ ٱلْمِيثَقَ ۲۰"
+      ],
+      [
+        "8. Conscience, Compassion, and the Ordering of Society",
+        "وَلَا تَقْرَبُوا۟ مَالَ ٱلْيَتِيمِ إِلَّا بِٱلَّتِى هِىَ أَحْسَنُ حَتَّىٰ يَبْلُغَ أَشُدَّهُۥ ۚ وَأَوْفُوا۟ بِٱلْعَهْدِ ۖ إِنَّ ٱلْعَهْدَ كَانَ مَسْـُٔولًۭا ۳۴"
+      ],
+      [
+        "11. Dhikr: The Polish of the Heart",
+        "لو کشف الغطاء ما ازدت یقینا"
       ]
-    ]
+    ],
+    "orphaned-heading": [],
+    "stale-provenance": []
   }
 }

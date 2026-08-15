@@ -5,9 +5,9 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "0book-design",
+  "phase": "0book-compose",
   "phase_status": "completed",
-  "last_completed_phase": "0book-design",
+  "last_completed_phase": "0book-compose",
   "last_error": null,
   "category": "books",
   "branch": "develop",
@@ -354,8 +354,16 @@
       }
     },
     "0book-compose": {
-      "status": "running",
-      "ts_started": "2026-08-07T00:02:26Z"
+      "status": "completed",
+      "ts_started": "2026-08-07T00:02:26Z",
+      "ts_completed": "2026-08-15T19:36:42Z",
+      "review": {
+        "verdict": "PHASE-CONCERNS",
+        "failed": 1,
+        "crashed": 0,
+        "total": 10,
+        "blocking_fail": null
+      }
     },
     "audio-ingest": {
       "status": "completed",
@@ -476,8 +484,8 @@
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260815T191924Z-849aee",
-  "ts_updated": "2026-08-15T19:20:23Z",
-  "next_phase": "0book-compose",
+  "ts_updated": "2026-08-15T19:36:42Z",
+  "next_phase": "0book-illustrate",
   "unattended": true,
   "phase_attempts": {
     "reader-narration": 2

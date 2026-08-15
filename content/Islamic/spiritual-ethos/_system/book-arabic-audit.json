@@ -120,8 +120,8 @@
     },
     {
       "chapter": "2. The People of the House and the Prophet's Witness",
-      "arabic_runs": 25,
-      "unverified": 20,
+      "arabic_runs": 28,
+      "unverified": 23,
       "runs": [
         {
           "text": "وَلَايَة",
@@ -187,6 +187,11 @@
           "skeleton": "الحوض"
         },
         {
+          "text": "سَيِّدُ الْمُسْلِمِينَ، إِمَامُ الْمُتَّقِينَ، وَقَائِدُ الْغُرِّ الْمُحَجَّلِينَ",
+          "resolution": "unverified",
+          "skeleton": "سيدالمسلمينامامالمتقينوقايدالغرالمحجلين"
+        },
+        {
           "text": "النَّظَرُ إِلَى عَلِيٍّ عِبَادَةٌ",
           "resolution": "unverified",
           "skeleton": "النظراليعليعباده"
@@ -207,6 +212,11 @@
           "skeleton": "انتمنوانامن"
         },
         {
+          "text": "أَنْتَ تُبَيِّنُ لِأُمَّتِي مَا اخْتَلَفُوا فِيهِ مِنْ بَعْدِي",
+          "resolution": "unverified",
+          "skeleton": "انتتبينلامتيمااختلفوافيهمنبعدي"
+        },
+        {
           "text": "تَأْوِيل",
           "resolution": "knowledge-base",
           "skeleton": "تاويل"
@@ -220,6 +230,11 @@
           "text": "الْحَوْضَ",
           "resolution": "unverified",
           "skeleton": "الحوض"
+        },
+        {
+          "text": "عَلِيٌّ مِنِّي وَأَنَا مِنْهُ",
+          "resolution": "unverified",
+          "skeleton": "عليمنيوانامنه"
         },
         {
           "text": "اَلْمَائِدَةُ",
@@ -305,7 +320,7 @@
           "skeleton": "الجمل"
         },
         {
-          "text": "یا أمیر المومنین",
+          "text": "یَا أَمِیرَ الْمُوْمِنِینَ",
           "resolution": "unverified",
           "skeleton": "اامرالمومنن"
         },
@@ -320,7 +335,7 @@
           "skeleton": "تاويل"
         },
         {
-          "text": "عَودَۃ الی الاول",
+          "text": "عَوْدَۃٌ اِلَی الْاَوَّلِ",
           "resolution": "unverified",
           "skeleton": "عودالالاول"
         },
@@ -348,7 +363,7 @@
           "skeleton": "تاويل"
         },
         {
-          "text": "أنَّ علیٌ مع القرآن، و قرآن مع العلی",
+          "text": "أَنَّ عَلِیٌّ مَعَ الْقُرْآنِ، وَ قُرْآنٌ مَعَ الْعَلِیِّ",
           "resolution": "unverified",
           "skeleton": "انعلمعالقرانوقرانمعالعل"
         },
@@ -398,7 +413,7 @@
           "skeleton": "حقايقالايمان"
         },
         {
-          "text": "حقائق الایمان",
+          "text": "حَقَائِقُ الْاِیمَانِ",
           "resolution": "unverified",
           "skeleton": "حقايقالامان"
         },
@@ -453,7 +468,7 @@
     {
       "chapter": "4. The Discourse to Kumayl",
       "arabic_runs": 36,
-      "unverified": 33,
+      "unverified": 31,
       "runs": [
         {
           "text": "يَا كُمَيْل بْن زِيَادٍ، إِنَّ هذهِ الْقُلُوبَ أَوْعِيَةٌ فَخَيْرُهَا أَوْعَاهَا فَاحْفَظْ عَنِّي مَا أَقُولُ لَكَ۔ النَّاسُ ثَلاَثَةٌ",
@@ -533,7 +548,7 @@
         },
         {
           "text": "النَّفْس",
-          "resolution": "unverified",
+          "resolution": "knowledge-base",
           "skeleton": "النفس"
         },
         {
@@ -543,7 +558,7 @@
         },
         {
           "text": "النَّفْس",
-          "resolution": "unverified",
+          "resolution": "knowledge-base",
           "skeleton": "النفس"
         },
         {
@@ -632,7 +647,7 @@
           "skeleton": "اخلاص"
         },
         {
-          "text": "حقائق الایمان",
+          "text": "حَقَائِقُ الْاِیمَانِ",
           "resolution": "unverified",
           "skeleton": "حقايقالامان"
         }
@@ -655,7 +670,7 @@
           "reference": "At-Tawbah: 72"
         },
         {
-          "text": "اَلْعَاقِل",
+          "text": "الْعَاقِل",
           "resolution": "unverified",
           "skeleton": "العاقل"
         },
@@ -882,12 +897,12 @@
           "skeleton": "الحق"
         },
         {
-          "text": "سورۃ الفلق",
+          "text": "سُورَۃُ الْفَلَقِ",
           "resolution": "unverified",
           "skeleton": "سورالفلق"
         },
         {
-          "text": "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۱ مِن شَرِّ مَا خَلَقَ ۲",
+          "text": "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۱ مِنْ شَرِّ مَا خَلَقَ ۲",
           "resolution": "canonical-mushaf",
           "skeleton": "قلاعوذبربالفلقمنشرماخلق",
           "reference": "Al-Falaq: 1-2"
@@ -914,7 +929,7 @@
           "skeleton": "الاسلام"
         },
         {
-          "text": "، أخْبِرْنِي عَنْ الإسْلاَمِ",
+          "text": "، أَخْبِرْنِي عَنِ الْإِسْلَامِ",
           "resolution": "unverified",
           "skeleton": "اخبرنيعنالاسلام"
         },
@@ -929,7 +944,7 @@
           "skeleton": "ارسولاللهوتقيمالصلاهوتوتي"
         },
         {
-          "text": "، وَتَصُومَ رَمَضَانَ، وَتَحُجَّ الْبَيتَ إِن اسْتَطَعْتَ إِلَيْهِ سَبِيلاً",
+          "text": "، وَتَصُومَ رَمَضَانَ، وَتَحُجَّ الْبَيْتَ إِنِ اسْتَطَعْتَ إِلَيْهِ سَبِيلاً",
           "resolution": "unverified",
           "skeleton": "وتصومرمضانوتحجالبيتاناستطعتاليهسبيلا"
         },
@@ -1024,7 +1039,7 @@
           "skeleton": "ابلس"
         },
         {
-          "text": "امام المتعصبین و سلف المستکبرین",
+          "text": "اِمَامُ الْمُتَعَصِّبِینَ وَ سَلَفُ الْمُسْتَکْبِرِینَ",
           "resolution": "unverified",
           "skeleton": "امامالمتعصبنوسلفالمستبرن"
         },
@@ -1042,8 +1057,8 @@
     },
     {
       "chapter": "7. Justice and the Tyrant's Pride",
-      "arabic_runs": 42,
-      "unverified": 29,
+      "arabic_runs": 44,
+      "unverified": 31,
       "runs": [
         {
           "text": "مَنْ مَلَكَ اسْتَأْثَرَ",
@@ -1061,6 +1076,11 @@
           "resolution": "canonical-mushaf",
           "skeleton": "الدينالقيم",
           "reference": "At-Tawbah: 36"
+        },
+        {
+          "text": "دَفْعُ الْعُقُولِ",
+          "resolution": "unverified",
+          "skeleton": "دفعالعقول"
         },
         {
           "text": "اَلْحَقّ",
@@ -1093,12 +1113,12 @@
           "skeleton": "الرحمنالرحم"
         },
         {
-          "text": "خلیفۃ اللہ",
+          "text": "خَلِیفَۃُ اللَّہِ",
           "resolution": "unverified",
           "skeleton": "خلفالل"
         },
         {
-          "text": "عباد اللہ",
+          "text": "عِبَادُ اللّٰہِ",
           "resolution": "unverified",
           "skeleton": "عبادالل"
         },
@@ -1135,18 +1155,23 @@
           "reference": "Ghafir: 16"
         },
         {
+          "text": "اِبْلِیس",
+          "resolution": "unverified",
+          "skeleton": "ابلس"
+        },
+        {
           "text": "إِذْ قَالَ رَبُّكَ لِلْمَلَٓئِكَةِ إِنِّى خَلِقٌۢ بَشَرًۭا مِّن طِينٍۢ ۝ فَإِذَا سَوَّيْتُهُۥ وَنَفَخْتُ فِيهِ مِن رُّوحِى فَقَعُوا۟ لَهُ سَجِدِينَ ۝ فَسَجَدَ ٱلْمَلَٓئِكَةُ كُلُّهُمْ أَجْمَعُونَ ۝ إِلَّآ إِبْلِيسَ ٱسْتَكْبَرَ وَكَانَ مِنَ ٱلْكَفِرِينَ",
           "resolution": "canonical-mushaf",
           "skeleton": "اذقالربكللمليكهانيخلقبشرامنطينفاذاسويتهو",
           "reference": "Sad: 71-74"
         },
         {
-          "text": "خلقتنی من نار و خلقتہ من طین",
+          "text": "خَلَقْتَنِی مِنْ نَارٍ وَ خَلَقْتَہُ مِنْ طِینٍ",
           "resolution": "unverified",
           "skeleton": "خلقتنمنناروخلقتمنطن"
         },
         {
-          "text": "امام المُتَعَصِّبِین و سلف المستکبرین",
+          "text": "اِمَامُ الْمُتَعَصِّبِینَ وَ سَلَفُ الْمُسْتَکْبِرِینَ",
           "resolution": "unverified",
           "skeleton": "امامالمتعصبنوسلفالمستبرن"
         },
@@ -1156,17 +1181,17 @@
           "skeleton": "الشركفيهذهالامه"
         },
         {
-          "text": "مِنْ دَبِيبِ النَّمْلِ علی حَجَرِ الأَسوَد فِی لِیلَۃِ الظُّلْما",
+          "text": "مِنْ دَبِيبِ النَّمْلِ عَلَی حَجَرِ الْأَسْوَدِ فِی لِیلَۃِ الظُّلْمَا",
           "resolution": "unverified",
           "skeleton": "مندبيبالنملعلحجرالاسودفللالظلما"
         },
         {
-          "text": "شرک الجلی",
+          "text": "شِرْکُ الْجَلِیِّ",
           "resolution": "unverified",
           "skeleton": "شرالجل"
         },
         {
-          "text": "شرک الخفی",
+          "text": "شِرْکُ الْخَفِیِّ",
           "resolution": "unverified",
           "skeleton": "شرالخف"
         },
@@ -1234,7 +1259,7 @@
           "skeleton": "انصفاللهوانصفالناسمننفسكومنخاصهاهلكومنلك"
         },
         {
-          "text": "وَمَنْ ظَلَمَ عِبَادَ اللهِ كَانَ اللهُ خَصْمَهُ دُونَ عِبَادِهِ، وَمَنْ خَاصَمَهُ اللهُ أَدْحَضَ حُجَّتَهُ، وَكَانَ لله حَرْباً حَتَّى يَنْزعَ وَيَتُوبَ",
+          "text": "وَمَنْ ظَلَمَ عِبَادَ اللهِ كَانَ اللهُ خَصْمَهُ دُونَ عِبَادِهِ، وَمَنْ خَاصَمَهُ اللهُ أَدْحَضَ حُجَّتَهُ، وَكَانَ للهِ حَرْباً حَتَّى يَنْزِعَ وَيَتُوبَ",
           "resolution": "unverified",
           "skeleton": "ومنظلمعباداللهكاناللهخصمهدونعبادهومنخاصم"
         },
@@ -1270,8 +1295,8 @@
     },
     {
       "chapter": "8. Conscience, Compassion, and the Ordering of Society",
-      "arabic_runs": 39,
-      "unverified": 30,
+      "arabic_runs": 40,
+      "unverified": 29,
       "runs": [
         {
           "text": "وَنَفْسٍۢ وَمَا سَوَّىٰهَا ۷ فَأَلْهَمَهَا فُجُورَهَا وَتَقْوَىٰهَا ۸",
@@ -1287,11 +1312,11 @@
         },
         {
           "text": "النَّفْس",
-          "resolution": "unverified",
+          "resolution": "knowledge-base",
           "skeleton": "النفس"
         },
         {
-          "text": "النفس الامارۃ بالسوء",
+          "text": "النَّفْسُ الْاَمَّارَۃُ بِالسُّوءِ",
           "resolution": "unverified",
           "skeleton": "النفسالاماربالسوء"
         },
@@ -1307,26 +1332,26 @@
         },
         {
           "text": "النَّفْس",
-          "resolution": "unverified",
+          "resolution": "knowledge-base",
           "skeleton": "النفس"
         },
         {
-          "text": "مجاھدۃ النفس",
+          "text": "مُجَاھَدَۃُ النَّفْسِ",
           "resolution": "unverified",
           "skeleton": "مجادالنفس"
         },
         {
-          "text": "محمد بن ابی بکر",
+          "text": "مُحَمَّدُ بْنُ اَبِی بَکْرٍ",
           "resolution": "unverified",
           "skeleton": "محمدبناببر"
         },
         {
-          "text": "مالک اشتر",
+          "text": "مَالِکُ اَشْتَرُ",
           "resolution": "unverified",
           "skeleton": "مالاشتر"
         },
         {
-          "text": "كَلَّآ إِنَّ ٱلْإِنسَنَ لَيَطْغَىٰٓ ۶ أَن رَّآهُ ٱسْتَغْنَىٰٓ ۷",
+          "text": "كَلَّآ إِنَّ ٱلْإِنْسَنَ لَيَطْغَىٰٓ ۶ أَنْ رَّآهُ ٱسْتَغْنَىٰٓ ۷",
           "resolution": "canonical-mushaf",
           "skeleton": "كلاانالانسنليطغيانراهاستغني",
           "reference": "Al-'Alaq: 6-7"
@@ -1352,6 +1377,11 @@
           "text": "أَئِمَّةُ الْحَقِّ",
           "resolution": "unverified",
           "skeleton": "ايمهالحق"
+        },
+        {
+          "text": "يُقَدِّرُ أَنْفُسَهُمْ بِضَعَفَةِ النَّاسِ",
+          "resolution": "unverified",
+          "skeleton": "يقدرانفسهمبضعفهالناس"
         },
         {
           "text": "أَئِمَّةُ الْحَقِّ",
@@ -1410,12 +1440,12 @@
           "reference": "Fatir: 15"
         },
         {
-          "text": "عباد اللہ",
+          "text": "عِبَادُ اللّٰہِ",
           "resolution": "unverified",
           "skeleton": "عبادالل"
         },
         {
-          "text": "خلیفۃ اللہ",
+          "text": "خَلِیفَۃُ اللَّہِ",
           "resolution": "unverified",
           "skeleton": "خلفالل"
         },
@@ -1534,8 +1564,8 @@
     },
     {
       "chapter": "11. Dhikr: The Polish of the Heart",
-      "arabic_runs": 53,
-      "unverified": 47,
+      "arabic_runs": 56,
+      "unverified": 50,
       "runs": [
         {
           "text": "وَلَايَة",
@@ -1553,6 +1583,11 @@
           "skeleton": "ولايه"
         },
         {
+          "text": "غَرِيقِ بَحْرِ بَلَاءٍ وَحَرِيقِ نَارِ وَلَاءٍ",
+          "resolution": "unverified",
+          "skeleton": "غريقبحربلاءوحريقنارولاء"
+        },
+        {
           "text": "مُقْتَدَایِ أَوْلِيَاءِ وَالْأَصْفِيَاءِ",
           "resolution": "unverified",
           "skeleton": "مقتدااولياءوالاصفياء"
@@ -1563,7 +1598,7 @@
           "skeleton": "شيخنافيالاصولوالبلاء"
         },
         {
-          "text": "اندر علم و معاملات امام این طریقت",
+          "text": "اَنْدَرْ عِلْمِ وَ مُعَامَلَاتِ اِمَامِ اِیْن طَرِیْقَتْ",
           "resolution": "unverified",
           "skeleton": "اندرعلمومعاملاتامامانطرقت"
         },
@@ -1582,6 +1617,11 @@
           "resolution": "canonical-mushaf",
           "skeleton": "اتلمااوحياليكمنالكتبواقمالصلوهانالصلوهتن",
           "reference": "Al-'Ankabut: 45"
+        },
+        {
+          "text": "ذِكْرُ اللَّهِ عَزَّ وَجَلَّ دَائِمًا",
+          "resolution": "unverified",
+          "skeleton": "ذكراللهعزوجلدايما"
         },
         {
           "text": "هُوَ أَفْضَلُ الْعِبَادَةِ",
@@ -1647,6 +1687,11 @@
           "text": "الْغَافِلُونَ",
           "resolution": "unverified",
           "skeleton": "الغافلون"
+        },
+        {
+          "text": "اِسْلَام",
+          "resolution": "unverified",
+          "skeleton": "اسلام"
         },
         {
           "text": "صِقَالَةٌ",
@@ -1807,13 +1852,18 @@
     },
     {
       "chapter": "12. Remembrance as the Quintessence of Worship",
-      "arabic_runs": 46,
+      "arabic_runs": 47,
       "unverified": 37,
       "runs": [
         {
           "text": "مَنْ أَحَبَّ شَيْئًا لَهِجَ بِذِكْرِهِ",
           "resolution": "unverified",
           "skeleton": "مناحبشييالهجبذكره"
+        },
+        {
+          "text": "مَا لَهِجَ بِهِ لِسَانِي مِنْ ذِكْرِكَ",
+          "resolution": "unverified",
+          "skeleton": "مالهجبهلسانيمنذكرك"
         },
         {
           "text": "اجْعَلْ لِسَانِي بِذِكْرِكَ لَاهِجًا",
@@ -1992,7 +2042,7 @@
         },
         {
           "text": "الْمَعْلُومُ",
-          "resolution": "unverified",
+          "resolution": "knowledge-base",
           "skeleton": "المعلوم"
         },
         {
@@ -2051,7 +2101,7 @@
     },
     {
       "chapter": "13. Extinction and the Name: The Death of the Saint",
-      "arabic_runs": 36,
+      "arabic_runs": 37,
       "unverified": 29,
       "runs": [
         {
@@ -2066,7 +2116,7 @@
         },
         {
           "text": "النَّفْس",
-          "resolution": "unverified",
+          "resolution": "knowledge-base",
           "skeleton": "النفس"
         },
         {
@@ -2166,6 +2216,11 @@
           "skeleton": "الصفات"
         },
         {
+          "text": "الَّذِي لَيْسَ لِصِفَتِهِ حَدٌّ مَحْدُودٌ",
+          "resolution": "unverified",
+          "skeleton": "الذيليسلصفتهحدمحدود"
+        },
+        {
           "text": "إِمْكَانٌ",
           "resolution": "knowledge-base",
           "skeleton": "امكان"
@@ -2242,11 +2297,11 @@
     },
     {
       "chapter": "14. The First Sermon of the Nahj al-Balagha",
-      "arabic_runs": 9,
-      "unverified": 8,
+      "arabic_runs": 11,
+      "unverified": 9,
       "runs": [
         {
-          "text": "نَھْجُ الْبَلَاغَہِ",
+          "text": "نھج البلاغہ",
           "resolution": "unverified",
           "skeleton": "نجالبلاغ"
         },
@@ -2281,9 +2336,19 @@
           "skeleton": "الذيليسلصفتهحدمحدودولانعتموجودولاوقتمعدو"
         },
         {
-          "text": "نفی الصفۃ",
+          "text": "نَفْیُ الصِّفَۃِ",
           "resolution": "unverified",
           "skeleton": "نفالصف"
+        },
+        {
+          "text": "رَحْمَٰن",
+          "resolution": "knowledge-base",
+          "skeleton": "رحمن"
+        },
+        {
+          "text": "اِثْبَات",
+          "resolution": "unverified",
+          "skeleton": "اثبات"
         },
         {
           "text": "سُبْحَنَ ٱللَّهِ عَمَّا يَصِفُونَ",
@@ -2396,18 +2461,48 @@
   "totals": {
     "canonical-mushaf": 69,
     "ocr": 0,
-    "knowledge-base": 28,
+    "knowledge-base": 35,
     "honorific-formula": 1,
-    "unverified": 343,
-    "arabic_runs": 441
+    "unverified": 349,
+    "arabic_runs": 454
   },
   "note": "no OCR ground truth for this book — every run falls back to the knowledge base",
   "quran_coverage": {
     "measured": true,
     "cited": 133,
-    "with_arabic": 36,
-    "coverage": 0.271,
+    "with_arabic": 10,
+    "coverage": 0.075,
     "uncovered": [
+      {
+        "ref": "68:4",
+        "line": 19,
+        "reason": "no-span-in-scan",
+        "ayah_words": 4
+      },
+      {
+        "ref": "33:6",
+        "line": 25,
+        "reason": "no-span-in-scan",
+        "ayah_words": 32
+      },
+      {
+        "ref": "33:33",
+        "line": 95,
+        "reason": "no-span-in-scan",
+        "ayah_words": 25
+      },
+      {
+        "ref": "42:23",
+        "line": 103,
+        "reason": "no-span-in-scan",
+        "ayah_words": 32
+      },
+      {
+        "ref": "33:56",
+        "line": 109,
+        "reason": "no-span-in-scan",
+        "ayah_words": 13
+      },
       {
         "ref": "57:3",
         "line": 195,
@@ -2463,404 +2558,590 @@
         "ayah_words": 5
       },
       {
+        "ref": "9:72",
+        "line": 335,
+        "reason": "no-span-in-scan",
+        "ayah_words": 26
+      },
+      {
+        "ref": "15:56",
+        "line": 347,
+        "reason": "no-span-in-scan",
+        "ayah_words": 8
+      },
+      {
+        "ref": "6:54",
+        "line": 357,
+        "reason": "no-span-in-scan",
+        "ayah_words": 29
+      },
+      {
+        "ref": "3:31",
+        "line": 367,
+        "reason": "no-span-in-scan",
+        "ayah_words": 15
+      },
+      {
+        "ref": "22:46",
+        "line": 381,
+        "reason": "no-span-in-scan",
+        "ayah_words": 24
+      },
+      {
         "ref": "107:1-7",
-        "line": 377,
+        "line": 385,
         "reason": "no-span-in-scan",
         "ayah_words": 25
       },
       {
-        "ref": "2:155-157",
+        "ref": "22:37",
         "line": 391,
+        "reason": "no-span-in-scan",
+        "ayah_words": 22
+      },
+      {
+        "ref": "2:155-157",
+        "line": 399,
         "reason": "no-span-in-scan",
         "ayah_words": 33
       },
       {
         "ref": "103:1-3",
-        "line": 395,
+        "line": 403,
         "reason": "no-span-in-scan",
         "ayah_words": 14
       },
       {
         "ref": "17:18",
-        "line": 411,
+        "line": 419,
         "reason": "no-span-in-scan",
         "ayah_words": 18
       },
       {
         "ref": "12:20",
-        "line": 419,
+        "line": 427,
         "reason": "no-span-in-scan",
         "ayah_words": 9
       },
       {
         "ref": "28:88",
-        "line": 425,
+        "line": 433,
         "reason": "no-span-in-scan",
         "ayah_words": 22
       },
       {
         "ref": "17:44",
-        "line": 431,
+        "line": 439,
         "reason": "no-span-in-scan",
         "ayah_words": 23
       },
       {
         "ref": "24:41",
-        "line": 437,
+        "line": 445,
         "reason": "no-span-in-scan",
         "ayah_words": 23
       },
       {
         "ref": "89:27",
-        "line": 461,
+        "line": 469,
         "reason": "no-span-in-scan",
         "ayah_words": 3
       },
       {
         "ref": "87:17",
-        "line": 467,
+        "line": 475,
         "reason": "no-span-in-scan",
         "ayah_words": 3
       },
       {
         "ref": "38:46",
-        "line": 473,
+        "line": 481,
         "reason": "no-span-in-scan",
         "ayah_words": 5
       },
       {
         "ref": "73:20",
-        "line": 479,
+        "line": 487,
         "reason": "no-span-in-scan",
         "ayah_words": 90
       },
       {
         "ref": "55:60",
-        "line": 485,
+        "line": 493,
         "reason": "no-span-in-scan",
         "ayah_words": 5
       },
       {
         "ref": "2:25",
-        "line": 491,
+        "line": 499,
         "reason": "no-span-in-scan",
         "ayah_words": 39
       },
       {
         "ref": "113:2",
-        "line": 523,
+        "line": 531,
         "reason": "no-span-in-scan",
         "ayah_words": 4
       },
       {
         "ref": "12:53",
-        "line": 608,
+        "line": 616,
         "reason": "no-span-in-scan",
         "ayah_words": 17
       },
       {
         "ref": "30:30",
-        "line": 610,
+        "line": 618,
         "reason": "no-span-in-scan",
         "ayah_words": 25
       },
       {
         "ref": "8:17",
-        "line": 620,
+        "line": 628,
         "reason": "no-span-in-scan",
         "ayah_words": 24
       },
       {
         "ref": "40:16",
-        "line": 634,
+        "line": 642,
         "reason": "no-span-in-scan",
         "ayah_words": 15
       },
       {
         "ref": "38:71-74",
-        "line": 636,
+        "line": 644,
         "reason": "no-span-in-scan",
         "ayah_words": 28
       },
       {
         "ref": "28:88",
-        "line": 648,
+        "line": 656,
         "reason": "no-span-in-scan",
         "ayah_words": 22
       },
       {
         "ref": "9:85",
-        "line": 654,
+        "line": 662,
         "reason": "no-span-in-scan",
         "ayah_words": 17
       },
       {
-        "ref": "7:156",
+        "ref": "91:7-8",
+        "line": 670,
+        "reason": "no-span-in-scan",
+        "ayah_words": 6
+      },
+      {
+        "ref": "96:6-7",
         "line": 686,
+        "reason": "no-span-in-scan",
+        "ayah_words": 7
+      },
+      {
+        "ref": "45:23",
+        "line": 688,
+        "reason": "no-span-in-scan",
+        "ayah_words": 25
+      },
+      {
+        "ref": "35:15",
+        "line": 694,
+        "reason": "no-span-in-scan",
+        "ayah_words": 10
+      },
+      {
+        "ref": "7:156",
+        "line": 700,
         "reason": "no-span-in-scan",
         "ayah_words": 33
       },
       {
         "ref": "4:135",
-        "line": 694,
+        "line": 708,
         "reason": "no-span-in-scan",
         "ayah_words": 40
       },
       {
+        "ref": "35:15",
+        "line": 740,
+        "reason": "no-span-in-scan",
+        "ayah_words": 10
+      },
+      {
+        "ref": "17:34",
+        "line": 760,
+        "reason": "no-span-in-scan",
+        "ayah_words": 19
+      },
+      {
         "ref": "48:29",
-        "line": 754,
+        "line": 770,
         "reason": "no-span-in-scan",
         "ayah_words": 61
       },
       {
         "ref": "104:1-4",
-        "line": 764,
+        "line": 780,
         "reason": "no-span-in-scan",
         "ayah_words": 17
       },
       {
         "ref": "108:1-2",
-        "line": 797,
+        "line": 813,
         "reason": "no-span-in-scan",
         "ayah_words": 6
       },
       {
         "ref": "92:17-21",
-        "line": 805,
+        "line": 821,
         "reason": "no-span-in-scan",
         "ayah_words": 19
       },
       {
         "ref": "76:8-9",
-        "line": 807,
+        "line": 823,
         "reason": "no-span-in-scan",
         "ayah_words": 17
       },
       {
         "ref": "24:36",
-        "line": 825,
+        "line": 841,
         "reason": "no-span-in-scan",
         "ayah_words": 14
       },
       {
+        "ref": "29:45",
+        "line": 902,
+        "reason": "no-span-in-scan",
+        "ayah_words": 24
+      },
+      {
         "ref": "24:35",
-        "line": 906,
+        "line": 922,
         "reason": "no-span-in-scan",
         "ayah_words": 55
       },
       {
         "ref": "92:1-2",
-        "line": 916,
+        "line": 932,
         "reason": "no-span-in-scan",
         "ayah_words": 6
       },
       {
         "ref": "22:46",
-        "line": 920,
+        "line": 936,
         "reason": "no-span-in-scan",
         "ayah_words": 24
       },
       {
         "ref": "39:23",
-        "line": 922,
+        "line": 938,
         "reason": "no-span-in-scan",
         "ayah_words": 36
       },
       {
         "ref": "85:3",
-        "line": 936,
+        "line": 952,
         "reason": "no-span-in-scan",
         "ayah_words": 2
       },
       {
         "ref": "57:3",
-        "line": 942,
+        "line": 958,
         "reason": "no-span-in-scan",
         "ayah_words": 10
       },
       {
         "ref": "50:16",
-        "line": 944,
+        "line": 960,
         "reason": "no-span-in-scan",
         "ayah_words": 15
       },
       {
         "ref": "112:1",
-        "line": 948,
+        "line": 964,
         "reason": "no-span-in-scan",
         "ayah_words": 4
       },
       {
         "ref": "7:172",
-        "line": 960,
+        "line": 976,
         "reason": "no-span-in-scan",
         "ayah_words": 29
       },
       {
         "ref": "32:9",
-        "line": 962,
+        "line": 978,
         "reason": "no-span-in-scan",
         "ayah_words": 16
       },
       {
         "ref": "57:16",
-        "line": 964,
+        "line": 980,
         "reason": "no-span-in-scan",
         "ayah_words": 29
       },
       {
         "ref": "76:25",
-        "line": 1002,
+        "line": 1018,
         "reason": "no-span-in-scan",
         "ayah_words": 5
       },
       {
         "ref": "73:8",
-        "line": 1004,
+        "line": 1020,
         "reason": "no-span-in-scan",
         "ayah_words": 6
       },
       {
         "ref": "33:41",
-        "line": 1006,
+        "line": 1022,
         "reason": "no-span-in-scan",
         "ayah_words": 7
       },
       {
         "ref": "7:55",
-        "line": 1008,
+        "line": 1024,
         "reason": "no-span-in-scan",
         "ayah_words": 9
       },
       {
         "ref": "7:205",
-        "line": 1010,
+        "line": 1026,
         "reason": "no-span-in-scan",
         "ayah_words": 16
       },
       {
         "ref": "73:20",
-        "line": 1012,
+        "line": 1028,
         "reason": "no-span-in-scan",
         "ayah_words": 90
       },
       {
         "ref": "33:41-43",
-        "line": 1020,
+        "line": 1036,
         "reason": "no-span-in-scan",
         "ayah_words": 23
       },
       {
         "ref": "2:152",
-        "line": 1022,
+        "line": 1038,
         "reason": "no-span-in-scan",
         "ayah_words": 6
       },
       {
         "ref": "33:41-43",
-        "line": 1024,
+        "line": 1040,
         "reason": "no-span-in-scan",
         "ayah_words": 23
       },
       {
         "ref": "3:190-191",
-        "line": 1028,
+        "line": 1044,
         "reason": "no-span-in-scan",
         "ayah_words": 32
       },
       {
         "ref": "70:23",
-        "line": 1030,
+        "line": 1046,
         "reason": "no-span-in-scan",
         "ayah_words": 5
       },
       {
         "ref": "29:45",
-        "line": 1032,
+        "line": 1048,
         "reason": "no-span-in-scan",
         "ayah_words": 24
       },
       {
         "ref": "107:4-7",
-        "line": 1034,
+        "line": 1050,
         "reason": "no-span-in-scan",
         "ayah_words": 12
       },
       {
+        "ref": "8:17",
+        "line": 1072,
+        "reason": "no-span-in-scan",
+        "ayah_words": 24
+      },
+      {
         "ref": "7:143",
-        "line": 1064,
+        "line": 1080,
         "reason": "no-span-in-scan",
         "ayah_words": 44
       },
       {
         "ref": "7:143",
-        "line": 1070,
+        "line": 1086,
         "reason": "no-span-in-scan",
         "ayah_words": 44
       },
       {
         "ref": "79:40-41",
-        "line": 1074,
+        "line": 1090,
         "reason": "no-span-in-scan",
         "ayah_words": 13
       },
       {
+        "ref": "9:118",
+        "line": 1094,
+        "reason": "no-span-in-scan",
+        "ayah_words": 32
+      },
+      {
+        "ref": "76:1",
+        "line": 1110,
+        "reason": "no-span-in-scan",
+        "ayah_words": 11
+      },
+      {
+        "ref": "17:110",
+        "line": 1134,
+        "reason": "no-span-in-scan",
+        "ayah_words": 24
+      },
+      {
+        "ref": "53:23",
+        "line": 1140,
+        "reason": "no-span-in-scan",
+        "ayah_words": 27
+      },
+      {
         "ref": "87:6-7",
-        "line": 1152,
+        "line": 1170,
         "reason": "no-span-in-scan",
         "ayah_words": 13
       },
       {
         "ref": "55:26-27",
-        "line": 1170,
+        "line": 1188,
         "reason": "no-span-in-scan",
         "ayah_words": 10
       },
       {
         "ref": "28:88",
-        "line": 1172,
+        "line": 1190,
         "reason": "no-span-in-scan",
         "ayah_words": 22
       },
       {
         "ref": "2:198",
-        "line": 1184,
+        "line": 1202,
         "reason": "no-span-in-scan",
         "ayah_words": 28
       },
       {
         "ref": "76:5-6",
-        "line": 1234,
+        "line": 1252,
         "reason": "no-span-in-scan",
         "ayah_words": 15
       },
       {
+        "ref": "2:115",
+        "line": 1262,
+        "reason": "no-span-in-scan",
+        "ayah_words": 14
+      },
+      {
+        "ref": "24:41",
+        "line": 1266,
+        "reason": "no-span-in-scan",
+        "ayah_words": 23
+      },
+      {
+        "ref": "29:64",
+        "line": 1282,
+        "reason": "no-span-in-scan",
+        "ayah_words": 17
+      },
+      {
         "ref": "4:59",
-        "line": 1357,
+        "line": 1385,
         "reason": "no-span-in-scan",
         "ayah_words": 30
+      },
+      {
+        "ref": "61:3",
+        "line": 1431,
+        "reason": "no-span-in-scan",
+        "ayah_words": 9
       }
     ],
     "uncited_inserted": 0
   },
   "stages": {
+    "base": {
+      "(front matter)": 0,
+      "1. In the Prophet's Shadow": 19,
+      "2. The People of the House and the Prophet's Witness": 28,
+      "3. Intellect, Not Reason": 37,
+      "4. The Discourse to Kumayl": 35,
+      "5. The Fruits of Certainty": 37,
+      "6. A Sacred Conception of Justice": 36,
+      "7. Justice and the Tyrant's Pride": 43,
+      "8. Conscience, Compassion, and the Ordering of Society": 40,
+      "9. Justice for the Poor and the Sincerity of Intention": 1,
+      "10. Prayer, Remembrance, and Gazing on the Good": 7,
+      "11. Dhikr: The Polish of the Heart": 55,
+      "12. Remembrance as the Quintessence of Worship": 47,
+      "13. Extinction and the Name: The Death of the Saint": 37,
+      "14. The First Sermon of the Nahj al-Balagha": 9,
+      "15. The Letter to Malik al-Ashtar": 18
+    },
+    "fluency": {
+      "(front matter)": 0,
+      "1. In the Prophet's Shadow": 19,
+      "2. The People of the House and the Prophet's Witness": 28,
+      "3. Intellect, Not Reason": 37,
+      "4. The Discourse to Kumayl": 35,
+      "5. The Fruits of Certainty": 37,
+      "6. A Sacred Conception of Justice": 36,
+      "7. Justice and the Tyrant's Pride": 43,
+      "8. Conscience, Compassion, and the Ordering of Society": 40,
+      "9. Justice for the Poor and the Sincerity of Intention": 1,
+      "10. Prayer, Remembrance, and Gazing on the Good": 7,
+      "11. Dhikr: The Polish of the Heart": 55,
+      "12. Remembrance as the Quintessence of Worship": 47,
+      "13. Extinction and the Name: The Death of the Saint": 37,
+      "14. The First Sermon of the Nahj al-Balagha": 9,
+      "15. The Letter to Malik al-Ashtar": 18
+    },
+    "augment": {
+      "(front matter)": 0,
+      "1. In the Prophet's Shadow": 19,
+      "2. The People of the House and the Prophet's Witness": 28,
+      "3. Intellect, Not Reason": 37,
+      "4. The Discourse to Kumayl": 35,
+      "5. The Fruits of Certainty": 37,
+      "6. A Sacred Conception of Justice": 36,
+      "7. Justice and the Tyrant's Pride": 43,
+      "8. Conscience, Compassion, and the Ordering of Society": 40,
+      "9. Justice for the Poor and the Sincerity of Intention": 1,
+      "10. Prayer, Remembrance, and Gazing on the Good": 7,
+      "11. Dhikr: The Polish of the Heart": 55,
+      "12. Remembrance as the Quintessence of Worship": 47,
+      "13. Extinction and the Name: The Death of the Saint": 37,
+      "14. The First Sermon of the Nahj al-Balagha": 9,
+      "15. The Letter to Malik al-Ashtar": 18
+    },
     "final": {
       "(front matter)": 0,
       "Introduction to the Book": 0,
-      "1. In the Prophet's Shadow": 18,
-      "2. The People of the House and the Prophet's Witness": 23,
-      "3. Intellect, Not Reason": 36,
-      "4. The Discourse to Kumayl": 35,
-      "5. The Fruits of Certainty": 36,
+      "1. In the Prophet's Shadow": 19,
+      "2. The People of the House and the Prophet's Witness": 28,
+      "3. Intellect, Not Reason": 37,
+      "4. The Discourse to Kumayl": 36,
+      "5. The Fruits of Certainty": 37,
       "6. A Sacred Conception of Justice": 36,
-      "7. Justice and the Tyrant's Pride": 42,
-      "8. Conscience, Compassion, and the Ordering of Society": 39,
-      "9. Justice for the Poor and the Sincerity of Intention": 0,
-      "10. Prayer, Remembrance, and Gazing on the Good": 6,
-      "11. Dhikr: The Polish of the Heart": 51,
-      "12. Remembrance as the Quintessence of Worship": 44,
-      "13. Extinction and the Name: The Death of the Saint": 36,
-      "14. The First Sermon of the Nahj al-Balagha": 9,
+      "7. Justice and the Tyrant's Pride": 44,
+      "8. Conscience, Compassion, and the Ordering of Society": 40,
+      "9. Justice for the Poor and the Sincerity of Intention": 1,
+      "10. Prayer, Remembrance, and Gazing on the Good": 7,
+      "11. Dhikr: The Polish of the Heart": 56,
+      "12. Remembrance as the Quintessence of Worship": 47,
+      "13. Extinction and the Name: The Death of the Saint": 37,
+      "14. The First Sermon of the Nahj al-Balagha": 11,
       "15. The Letter to Malik al-Ashtar": 18
     }
   },

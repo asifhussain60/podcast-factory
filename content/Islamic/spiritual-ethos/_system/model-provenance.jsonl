@@ -593,3 +593,11 @@
 {"phase": "romanization", "step": "render", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
 {"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-14", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-14-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-augment", "step": "aug-the-first-sermon-of-the-nahj-al-balagha", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
