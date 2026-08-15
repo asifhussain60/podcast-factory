@@ -11,10 +11,13 @@
   "category": "books",
   "content_profile": "islamic_scholarly",
   "deliverable_mode": "translation_edition",
+  "pipeline_mode": "reading_edition_only",
   "branch": "codex/translation-edition-mukhtasar-sample",
-  "status": "draft",
+  "status": "published",
   "started": "2026-06-29T00:00:00Z",
   "updated": "2026-06-29T00:00:00Z",
   "phases": {},
-  "intake_via": "translation-edition sample setup"
+  "intake_via": "translation-edition sample setup",
+  "published_at": "2026-08-15T19:47:41Z",
+  "ts_updated": "2026-08-15T19:47:41Z"
 }

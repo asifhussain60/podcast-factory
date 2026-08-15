@@ -67,6 +67,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from _paths import REPO_ROOT, find_content
+from _publish_reading_edition_gates import (
+    gate_g1_reading_edition_structure,
+    gate_g5_reading_edition_state,
+    is_reading_edition_only,
+)
 from _publish_sessions_gates import gate_g1_sessions_structure, gate_g5_sessions_state, is_sessions_lane
 
 # Type-first layout (2026-06-04): books live at content/<Bucket>/<slug>/ and
@@ -93,18 +98,12 @@ def resolve_workspace(slug: str) -> Path:
 
 SHIPPABLE_STATUSES = {"shipped", "ship-ready", "ship-with-caution", "ship-with-caution-approved", "halted_by_operator"}
 
-# Books may only be published if a real challenger convergence pass produced
-# one of these verdicts. Anything else (including "unknown" or N/A reports)
-# blocks publish unless --allow-mode-2 is passed.
-ALLOWED_SHIP_VERDICTS = {"SHIP-READY", "SHIP-WITH-CAUTION"}
-
-# Books whose state.json pipeline_mode is in this set never ran the
-# orchestrator's convergence loop and require explicit --allow-mode-2.
-# Added 2026-05-24: `pre_orchestrator_authored` (ayyuhal-walad, B-P0-04) —
-# the book was authored before the orchestrator existed; verdict is
-# `ship-with-caution` based on manual review, not a convergence pass.
-# Added 2026-08-12: `sessions_lane` (see module docstring).
-NON_CONVERGED_PIPELINE_MODES = {"non_orchestrated_mode_2", "pre_orchestrator_authored", "sessions_lane"}
+# G7 (challenger convergence verdict, plus ALLOWED_SHIP_VERDICTS /
+# NON_CONVERGED_PIPELINE_MODES) lives in _publish_convergence_gate.py to stay
+# under the DR-005 600-line cap.
+from _publish_convergence_gate import (  # noqa: E402
+    gate_g7_challenger_convergence as _gate_g7_challenger_convergence_impl,
+)
 
 # Optional [a-z] section suffix is CANONICAL for chapters split from one
 # source Part by Phase 0d sections mode (ch10c = EP10, third slice of its
@@ -272,63 +271,9 @@ def gate_g5_state(workspace: Path, force: bool) -> bool:
 
 
 def gate_g7_challenger_convergence(workspace: Path, allow_mode_2: bool) -> bool:
-    """Refuse to publish unless the book passed a real challenger convergence
-    pass — or the operator explicitly opted in with --allow-mode-2.
-
-    Closes the bypass that lets non-orchestrated books (pipeline_mode=
-    non_orchestrated_mode_2) and challenger-N/A reports reach the audience
-    without ever clearing the convergence gate. See _convergence.py for the
-    sibling change that removes the silent FORCE-SHIP-CAUTION downgrade.
-    """
-    state_path = workspace / "_system" / "orchestrator-state.json"
-    report_path = workspace / "_system" / "challenger-report.md"
-
-    state = {}
-    if state_path.exists():
-        state = json.loads(state_path.read_text())
-    pipeline_mode = state.get("pipeline_mode")
-    convergence_skipped = pipeline_mode in NON_CONVERGED_PIPELINE_MODES
-
-    verdict = "unknown"
-    if report_path.exists():
-        # Tolerant of several real-world challenger-report shapes:
-        #   **Verdict:** SHIP-WITH-CAUTION
-        #   **Verdict: X**
-        #   **Verdict (book-level):** SHIP-WITH-CAUTION   ← whole-book sweep
-        # Strict canonical shape lives in _convergence.py::VERDICT_LINE_RE.
-        verdict_re = re.compile(
-            r"\*\*Verdict[^*]*?\*?\*?\s*:?\s*(SHIP-READY|SHIP-WITH-CAUTION|BLOCKED)",
-            re.IGNORECASE,
-        )
-        for line in report_path.read_text().splitlines()[:20]:
-            m = verdict_re.search(line)
-            if m:
-                verdict = m.group(1).strip().upper()
-                break
-    verdict_recognized = verdict in ALLOWED_SHIP_VERDICTS
-
-    if convergence_skipped or not verdict_recognized:
-        if allow_mode_2:
-            _warn(
-                f"G7 ⚠ MODE-2 SHIP: challenger convergence not satisfied "
-                f"(pipeline_mode={pipeline_mode!r}, verdict={verdict!r}). "
-                f"--allow-mode-2 honored; downstream catalog will mark this "
-                f"book as 'challenger_convergence: skipped_mode_2'."
-            )
-            return True
-        reasons = []
-        if convergence_skipped:
-            reasons.append(f"pipeline_mode={pipeline_mode!r} skipped convergence loop")
-        if not verdict_recognized:
-            reasons.append(
-                f"verdict={verdict!r} not in {sorted(ALLOWED_SHIP_VERDICTS)} "
-                f"(challenger-report.md missing, malformed, or marked N/A)"
-            )
-        _fail("G7", "; ".join(reasons) + ". Run challenger to convergence OR rerun with --allow-mode-2.")
-        return False
-
-    _ok("G7", f"challenger verdict={verdict}, pipeline_mode={pipeline_mode!r}")
-    return True
+    """Thin wrapper — see _publish_convergence_gate.gate_g7_challenger_convergence
+    for the real logic (split out to stay under the DR-005 600-line cap)."""
+    return _gate_g7_challenger_convergence_impl(workspace, allow_mode_2, fail=_fail, ok=_ok, warn=_warn)
 
 
 def gate_g6_target(target: Path, no_wipe: bool) -> bool:
@@ -425,6 +370,7 @@ def publish(slug: str, args: argparse.Namespace) -> int:
         return 2
 
     sessions_lane = is_sessions_lane(workspace)
+    reading_edition_only = is_reading_edition_only(workspace)
 
     _info(f"==> publish_to_library: {slug}")
     _info(f"    workspace: {workspace.relative_to(REPO_ROOT)}")
@@ -444,6 +390,13 @@ def publish(slug: str, args: argparse.Namespace) -> int:
             return 1
         _info("[G2-G4] n/a — sessions lane has no chapters/episodes txt upload bundle to check")
         if not gate_g5_sessions_state(workspace, args.force, fail=_fail, ok=_ok):
+            return 1
+    elif reading_edition_only:
+        ok1, episode_count = gate_g1_reading_edition_structure(workspace, fail=_fail, ok=_ok)
+        if not ok1:
+            return 1
+        _info("[G2-G4] n/a — reading-edition-only lane has no chapters/episodes txt upload bundle to check")
+        if not gate_g5_reading_edition_state(workspace, args.force, fail=_fail, ok=_ok):
             return 1
     else:
         ok1, chapters, episodes = gate_g1_structure(workspace)
