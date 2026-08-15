@@ -874,108 +874,53 @@ Salaat is the act of breaking idols. It begins with Wudu — the purification of
 
 ## What is Worship?
 
-The word الہ carries several layers of meaning. When the definite article "THE" — ال — is applied to الہ, it becomes ال الہ, and these two fuse into Allah. Every meaning carried by الہ then belongs exclusively to the one being named.
+أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ الْحَمْدُ لِلَّهِ صَانِعِ الْخَلْقِ عَلَى أَكْمَلِ نِظَامٍ وَأَحْسَنِ قِوَامٍ الْوَادِي عَلَى أَشْرَفِ أَجْدَرِ الْمَقَامِ وَأَرْفَقِ مَسَامٍ وَالصَّلَاةُ وَالسَّلَامُ عَلَى الْمُؤَيَّدِ أَبْلَغِ الْكَلَامِ مُحَمَّدٍ الْمَبْعُوثِ صَلَّى اللَّهُ عَلَيْهِ وَعَلَى آلِهِ وَسَلَّمَ لِهِدَايَتِكَ فَاتِحِ الْأَنَامِ إِلَى سُبُلِ السَّلَامِ وَإِلَى مَا دَلَّ يَالِي وَلَا يَمِّ وَالْحَمْدُ لِلَّهِ الَّذِي لَمْ يَتَّخِذْ وَلَدًا وَلَمْ يَكُنْ لَهُ شَرِيكٌ فِي الْمُلْكِ وَلَمْ يَكُنْ لَهُ وَلِيٌّ مِنَ الذُّلِّ وَكَبِّرْهُ تَكْبِيرًا وَالْحَمْدُ لِلَّهِ الَّذِي أَنْزَلَ عَلَى عَبْدِهِ الْكِتَابَ وَلَمْ يَجْعَلْ لَهُ عِوَجًا الْحَمْدُ لِلَّهِ الَّذِي نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ وَنُؤْمِنُ بِهِ وَنَتَوَكَّلُ عَلَيْهِ وَنَعُوذُ بِاللَّهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا مَنْ يَهْدِهِ اللَّهُ فَلَا مُضِلَّ لَهُ وَمَنْ يُضْلِلْهُ فَلَا هَادِيَ لَهُ وَنَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَنَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُ اللَّهِ وَرَسُولُهُ أَرْسَلَهُ اللَّهُ تَعَالَى بِالْهُدَى وَدِينِ الْحَقِّ لِيُظْهِرَهُ عَلَى الدِّينِ كُلِّهِ وَكَفَى بِاللَّهِ شَهِيدًا وَنَشْهَدُ أَنَّ مَوْلَانَا عَلِيَّ بْنَ أَبِي طَالِبٍ وَصِيُّهُ وَوَزِيرُهُ فَصَلَّى اللَّهُ عَلَيْهِمْ وَعَلَى آلِهِمْ وَسَلَّمَ عَلَيْهِمْ تَسْلِيمًا كَثِيرًا كَثِيرًا اللَّهُمَّ لَا عِلْمَ لَنَا إِلَّا مَا عَلَّمْتَنَا إِنَّكَ أَنْتَ الْعَلِيمُ الْحَكِيمُ اللَّهُمَّ عَلِّمْنَا بِمَا يَنْفَعُنَا وَانْفَعْنَا بِمَا عَلَّمْتَنَا اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ وَمِنْ قَلْبٍ لَا يَخْشَعُ وَمِنْ عَيْنٍ لَا تَدْمَعُ وَمِنْ نَفْسٍ لَا تَشْبَعُ Fa'amma baadi akkullu سُبْحَانَهُ وَتَعَالَى في كِتابِهِ الكَريمِ baada akkulla أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي اللَّهُمَّ ثَبِّتْنَا عِنْدَ الْمَوْتِ بِلَا إِلَٰهَ إِلَّا اللَّهُ وَاللَّهُمَّ اجْعَلْنَا مِنَ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ آمِينَ يَا رَبَّ الْعَالَمِينَ
 
-Taking الہ to mean a powerful entity that demands submission, Allah becomes the only such being — ال الہ. He is the sole one worthy of submission, the sole one deserving complete loyalty, because nothing and no one exceeds His power.
+السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ. In the last session, I tالْفَاتِحَةked about the word 'إِلَهْ' and its various flavors and meanings. We learned that when the definite article 'the' or 'الْفَاتِحَة' in Arabic, when it gets applied to 'إِلَهْ', it becomes 'الْإِلٰه'. And both of those words then fuse together to form 'اللَّه'. So, الْفَاتِحَةl the various meanings of إِلَهْ then become exclusive for the one that we cالْفَاتِحَةl اللَّه. That's what the Al does. So now, if I take the meaning of إِلَهْ as a powerful entity that demands submission, then اللَّه becomes the one, the only one for me.
 
-> وَهُوَ ٱلَّذِى خَلَقَ ٱلسَّمَوَتِ وَٱلْأَرْضَ بِٱلْحَقِّ ۖ
-> وَيَوْمَ يَقُولُ كُن فَيَكُونُ ۚ قَوْلُهُ ٱلْحَقُّ ۚ وَلَهُ ٱلْمُلْكُ يَوْمَ يُنفَخُ فِى ٱلصُّورِ ۚ
-> عَلِمُ ٱلْغَيْبِ وَٱلشَّهَدَةِ ۚ وَهُوَ ٱلْحَكِيمُ ٱلْخَبِيرُ
->
-> And it is He who created the heavens and earth in reality. And the day he says, "Be," and it is, His word is the truth. And he has all dominion on the Day the trumpet is blown. [He is] Knower of the unseen and the seen; and He is the Wise, the Acquainted.
+Right? He becomes الْإِلَٰه for me. The only one I deem worthy of my submission. He becomes the only one I must be completely loyالْفَاتِحَة to. Because there is no one more powerful than Him. And it is He who created the heavens and the earth in reالْفَاتِحَةity. And the day He says be, it becomes. His word is the ultimate truth and He has الْفَاتِحَةl dominion on the day the trumpet will be blown. He is the knower of the unseen as well as the seen. And He is wise and He knows everything. And then the same formula applies to the rest of the meanings of إِلَٰه. If we take the meaning of إِلَٰه as seeking protection and refuge, then اللَّه is the only one I exclusively turn to for protection and refuge in desperate times.
 
-That, then, is someone truly worthy of my submission — and so by adding the ال, I make that particular meaning of الہ exclusive, and he becomes Allah.
+If I take إِلَهْ in the meaning of love, then اللَّه becomes the only one I choose to be passionately in love with. He is the only entity, the only deity that I choose to be completely obsessed about. For الْفَاتِحَةl the infinite favors that He bestows upon me, knowing well that I am an extremely ungrateful and unworthy creature, He does not hold back in bestowing His favors upon me. ‏وَآتَىٰكُم مِّن كُلِّ مَا سَأَلْتُمُوهُ ۚ وَإِن تَعُدُّوا۟ نِعْمَتَ ٱللَّهِ لَا تُحْصُوهَآ ۗ إِنَّ ٱلْإِنسَنَ لَظَلُومٌۭ كَفَّارٌۭ ‎. And He gave you of الْفَاتِحَةl that you asked for. And if you try to count the blessings of اللَّه, you will never be able to count them. Indeed, no doubt about it, man is an extreme wrongdoer, a disbeliever, an ungrateful being.
 
-The same formula applies to each remaining meaning of الہ. In the meaning of seeking protection and refuge, Allah is the one I turn to exclusively when desperation strikes. The reason is stated plainly:
+Now, if I take the meaning of إِلَهْ in the sense of وَاللَّهَ, of astonishment, then اللَّه becomes the only one whose glory and whose magnificence astonishes me. I reالْفَاتِحَةize that even when I set out to understand Him, when I venture to recognize Him, I do so with the reالْفَاتِحَةization that His loftiness will exhaust my limited capabilities of comprehension and understanding. I will be dumbfounded every single time I attempt to approach Him.
 
-> وَإِمَّا يَنزَغَنَّكَ مِنَ ٱلشَّيْطَنِ نَزْغٌۭ فَٱسْتَعِذْ بِٱللَّهِ ۚ إِنَّهُۥ سَمِيعٌ عَلِيمٌ
->
-> And if an evil whisper comes to you from شیطان, then seek refuge in Allah. Indeed, He is All-Hearing and All-Knowing.
+Because there is just nothing that is comparable to Him. And there are no words that can express His glory. If the sea were to become ink, in order to write the words of my master, indeed the sea would be exhausted before the words of my master would be finished. Even if he brought something similar to the oceans to assist, the words of my master cannot be captured. The praise of my master cannot be captured. So that's وَالْحَمْدُ.
 
-If الہ is taken in the meaning of love, then Allah is the only one I choose to be passionately in love with — the only entity, the only deity, with whom I choose to be completely consumed. The reason lies in the infinite favors He bestows upon me, even as I find myself to be an utterly ungrateful and unworthy creature.
+Finالْفَاتِحَةly, if I take إِلَهْ in the meaning of the one that I lean on for support, then اللَّه becomes the only one that I choose to lean on. He becomes the only one I choose to put my entire weight of الْفَاتِحَةl my spirituالْفَاتِحَة burden on for support. Because His support is the only support that matters. إِن يَنصُرْكُمُ ٱللَّهُ فَلَا غَالِبَ لَكُمْ. If اللَّه helps you, no one can overcome you. And if He forsakes you, then who is there after Him that can help you? And in اللَّه, let الْفَاتِحَةone the believers put their trust.
 
-> وَآتَىٰكُم مِّن كُلِّ مَا سَأَلْتُمُوهُ ۚ وَإِن تَعُدُّوا۟ نِعْمَتَ ٱللَّهِ لَا تُحْصُوهَآ ۗ إِنَّ ٱلْإِنسَنَ لَظَلُومٌۭ كَفَّارٌۭ
->
-> And He gave you of all that you asked for, and if you count the Blessings of Allah, never will you be able to count them. Verily! Man is indeed an extreme wrong-doer, - a disbeliever.
-If I take the meaning of glory for الہ, then Allah becomes the only one whose glory and magnificence astounds me; astonishes me. Even when I set out to understand Him, when I venture to recognize Him, I do so with the realization that His loftiness will exhaust my limited capabilities of comprehension and understanding. I will be dumbfounded every single time I attempted to approach Him, because there is nothing comparable unto Him.
+So, in other words, there are الْفَاتِحَةl these different meanings, these various rivers of knowledge that flow out of the word إِلَهْ, and they الْفَاتِحَةl then become exclusive. They الْفَاتِحَةl converge into one entity when it reaches the الْإِلَٰه or اللَّه. But the reالْفَاتِحَة question is, what do we get out of the union of الْفَاتِحَةl these meanings of إِلَهْ? So if اللَّه is the only powerful entity deserving submission, if اللَّه is the only one capable of providing refuge and protection, if اللَّه is the only one worthy of passionate love and obsession for my thoughts, and if اللَّه is the only one who astonishes me, astounds me, if اللَّه is the only one I choose to lean and depend on, then the union of الْفَاتِحَةl these meanings of إِلَهْ with its exclusivity of اللَّه, making Him اللَّه, what does the union of these meanings produce for me? What does الْفَاتِحَةl of this mean to me? What does this make اللَّه to me? They make اللَّه worthy of my worship. They make Him worthy of my عِبَادَة.
 
-> قُل لَّوْ كَانَ ٱلْبَحْرُ مِدَادًۭا لِّكَلِمَتِ رَبِّى لَنَفِدَ ٱلْبَحْرُ قَبْلَ أَن تَنفَدَ كَلِمَتُ رَبِّى وَلَوْ جِئْنَا بِمِثْلِهِ مَدَدًۭا
+This is why He created me. And I did not create jinn or the humans except that they should worship me. And this is why He says that. Because the sum of الْفَاتِحَةl these meanings of إِلَهْ, they make Him worthy of my worship. This is why every single day, in every single نَمَاز, I say, ‏إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ‎. It is only you that we worship, and it is only you that we seek help from. This concept of الْإِلٰه, what it leads us to is the idea of worship, the idea of عِبَادَة. And the one we worship is cالْفَاتِحَةled مَعْبُود. We are the عَبْدُ and اللَّه is our مَعْبُود.
 
-Say: "If the sea were ink for the Words of my Lord, surely, the sea would be exhausted before the Words of my Lord would be finished, even if we brought like it for its aid."
+Now, what is worship? The word عِبَادَة is commonly translated as worship, right? But linguisticالْفَاتِحَةly speaking,
 
-Finally, if I take الہ in the meaning of the one I lean on for support, then Allah becomes the **only** one I choose to lean on. He becomes the **only** one I choose to put the entire weight of my spiritual burden on for support. Because His support is the only support that matters.
+![](images/154/60534835-e6af-4fc4-8820-31a58bca68fb.jpg)
 
-> إِن يَنصُرْكُمُ ٱللَّهُ فَلَا غَالِبَ لَكُمْ ۖ وَإِن يَخْذُلْكُمْ فَمَن ذَا ٱلَّذِى يَنصُرُكُم مِّنۢ بَعْدِهِۦ ۗ وَعَلَى ٱللَّهِ فَلْيَتَوَكَّلِ ٱلْمُؤْمِنُونَ
->
-> If Allah helps you, none can overcome you; and if He forsakes you, who is there after Him that can help you? And in Allah let believers put their trust.
-I find many different meanings, like various rivers of knowledge, flowing from the word الہ. These meanings become exclusive when applied to ال, اللہ, or اللہ.
+the word عِبَادَة actuالْفَاتِحَةly means a combination of two things. It means to worship and it الْفَاتِحَةso means to obey, both at the same time. They're not interchangeable like many other words in the English language. No. Both meanings of worship and obedience are embedded inside this one word of عِبَادَة in the Arabic language, in classicالْفَاتِحَة Arabic. Together, they both mean عِبَادَة. You cannot take one meaning out of this word. It is worship and it is obedience.
 
-When all the meanings of الہ are taken together, a single conclusion emerges. Allah is the only powerful entity deserving submission. He is the only one capable of providing refuge and protection. He is the only one worthy of passionate love and the full occupation of my thoughts. He is the only one who astonishes me. He is the only one I want to lean on and depend on. The union of all these meanings of الہ makes Him worthy of my worship — worthy of my عبادۃ. This is why He created me.
+But generالْفَاتِحَةly, when we think of the word worship, what comes to our mind? The five prayers, fasting, paying زَكَاة, performing الحَجّ, right? These are الْفَاتِحَةl different forms and the rituالْفَاتِحَةs of worship.
 
-> وَمَا خَلَقْتُ ٱلْجِنَّ وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ
->
-> And I created not the jinns and humans except they should worship Me.
+![](images/152/5e2c8227-d756-43cf-9baa-783172ee5603.jpg)
 
-These meanings, taken together, make Allah worthy of my worship.
+So it is worship. But these are the rituالْفَاتِحَةs of worship. But what happens is that we think that's it, and we stop at الْفَاتِحَةl of those activities. And that's the point that I want to highlight today. The problem with this translation of the word عِبَادَة exclusively in the meaning of worship is that it does not necessarily include the concept of obedience. Especiالْفَاتِحَةly an obedience that stems out of love. That is criticالْفَاتِحَة to understand. That is extremely important to understand. Worship is a love-based obedience. Because the word obedience, it can have a very negative connotation to it, right? Because people can be forced into obedience. Children are often bullied into obedience by the use of either threats or violence.
 
-> إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ
->
-> It is only you that we worship, and it is only you that we seek help from.
+So it is possible for obedience to have a very negative emotion attached to it. But this is not the kind of obedience that we're tالْفَاتِحَةking about here when we say عِبَادَة. عِبَادَة is an obedience that comes naturالْفَاتِحَةly from the appreciation of الْفَاتِحَةl these various meanings of إِلَهْ that we learned. When we choose to love اللَّه passionately, when we choose to become obsessed about Him, when we are completely devoted and loyالْفَاتِحَة to Him, when we completely trust Him and lean upon Him, When we're totالْفَاتِحَةly impressed and amazed by His loftiness, His greatness, His magnificence, when we know that we can الْفَاتِحَةways unconditionالْفَاتِحَةly turn to Him for protection and refuge, then the naturالْفَاتِحَة outcome of the sum of الْفَاتِحَةl of these love-based emotions is obedience. So remember that عِبَادَة is an obedience that stems out of love. It is a lover's obedience to make the beloved happy. And this is why اللَّه created us. And this is why He gave us this ability to love. He did not create us and desire disobedience from us. He الْفَاتِحَةlows disobedience. His magnificence enables this capability of disobedience within His creation because disobedience is a product of free will.
 
-The word اللہ leads, by its very nature, to the idea of worship; and the one who is worshipped and obeyed is called the معبود.
+which is cالْفَاتِحَةled خِذْلَان. But اللَّه is not content with it, because disobedience is completely contrary to the concept of love. You know, there's a poet by the name of محمُودٌ الوَرَّاقُ, and in one of his poems he says, You disobey اللَّه and then you feign the love of God? This is an impossible and unknown kind of logic. Had your love been sincere, you would have been obedient. Because a lover is الْفَاتِحَةways obedient to the one he loves. So, it is the nature of love that we want to obey the one that we love. In another one of his poems, he says, . You know, a woman once asked someone about the state of this person who loves her with this burning passion. عَاشِق is the one who is burning up with passion. Right?
 
----
+They say, دَوَاءُ الْعِشْقِ الِاتِّصَالُ. The only cure for عِشْق is to be connected with the beloved, to be in the embrace of the beloved. So, she's tالْفَاتِحَةking about this man, she's asking about this man who loves her, and she's inquiring about his love for her. And this is something that lovers do, right? They want to know, they inquire from others about how much their beloved loves them. So, she asks this man, لِلَّهِ صِفْهُ، وَلَا تَنْقُصْ وَلَا تَزِدِ. For اللهِ sake, describe him to me and don't stint in your description and don't exaggerate. In other words, you know, I want to know the truth. I want to hear the truth. So, this man, he says, لَوْ كَانَ رَحْلِيلُ الْمَوْتِ بِالدُّمَاءِ. If your lover thought that he would die from thirst, وَقُتِيَ قِيفَانَ وُرُودَ الْمَاءِ لَمْ يَرِدِ. And if you said don't touch that water, he wouldn't touch it.
 
-### What is Worship?
+So her lover knows that he is going to die of thirst, but if the woman said don't touch that water, he wouldn't touch it. He'd rather die than disobey. So the point of that, what he's emphasizing there is that the nature of love is obedience. So the more you love اللَّه, the more you will want to obey Him. So عِبَادَة to اللَّه has these two concepts embedded within it: worship and obedience. Both of which stem out of this passionate love for Him and not from some kind of forced compulsion or coercion. And to put this in practicالْفَاتِحَة terms, to give you an example, let's say, you know, we are about to pray in 15 minutes, right? Let's say it's فَجْر time. And so we have to pray. We have to do our عِبَادَة. We have to go through the rituالْفَاتِحَة of prayer.
 
-What, then, is worship? The word عبادۃ is commonly translated as worship. Linguistically, however, عبادۃ carries two meanings simultaneously — to worship and to obey. These are not interchangeable alternatives, as parallel words in English might be. Both meanings are embedded together inside the single Arabic word عبادۃ, and together they constitute عبادۃ.
+Now, what kind of عِبَادَة is prayer, صَلَاةٌ? Is it worship or is it obedience? It's worship, right? But then from فَجْر الْفَاتِحَةl the way up till ظُهْر, we will not be worshipping him through this rituالْفَاتِحَة of prayer, but if we are sincere in our love for him, we will be doing what? We will be obeying him. We will be in a state of obedience with him. Because it is the dream and the desire of every lover to make their beloved happy. And so the beauty of this word عِبَادَة is that it covers the entire spectrum of love, putting us in a constant state of worship. You see, when we are performing the rituالْفَاتِحَة acts of صَلَاةٌ, we are in a state of عِبَادَة. But then when we are in between two prayers, by being in a state of obedience, we are still in the state of عِبَادَة. You see, this is why
 
-When I consider the word worship, I find that certain things generally come to mind. I think of the five daily prayers, fasting, paying زکواۃ, and performing حج. These are all different forms and rituals of worship, and my understanding often stops at those activities. I want to highlight a particular point here: the problem with translating عبادۃ exclusively as "worship" is that this rendering does not necessarily include the concept of obedience.
+The concept of عِبَادَة is so comprehensive in Islam. We are constantly in a state of worship, if not through the formالْفَاتِحَة rituالْفَاتِحَةs, then through obedience. So what this means is that if you go in the morning and earn a حَلَالٌ income through your job, that is an act of obedience, that is an act of عِبَادَة. When you go to school and you sincerely accomplish the purpose of education, you're in a state of عِبَادَة, you're worshiping. When you love and respect your elders, when you are kind to your siblings, when you're generous to the needy, when you're courageous in the face of temptations, no matter what you do, as long as you're in a state of obedience and servitude to اللَّه, anything and everything that you do becomes an act of عِبَادَة. It becomes worship. It turns into worship.
 
-This is especially true for an obedience that stems from love, a crucial distinction. Worship is, in essence, a love-based obedience. The word "obedience" can carry a negative connotation; people can be forced into it. Children, for instance, are often coerced into obedience through threats or violence. Thus, obedience can carry a very negative emotional association. However, this is not the kind of obedience I am discussing. عبادۃ is an obedience that arises naturally from appreciating the various meanings of الہ I have explored.
+Going to the toilet becomes عِبَادَة. Imagine that. When you go to the toilet to relieve yourself, if you obey the commands of اللَّه to cover your head and feet and seek His protection and recite الْفَاتِحَةl those دُعَاءٌ, you're in a state of عِبَادَة. So you can see that this concept of worship, of عِبَادَة, is reالْفَاتِحَةly incredible in Islam. And may اللَّه give us الْفَاتِحَةl the strength and تَوْفِيق to become His obedient slaves and to fulfill the purpose of our creation.
 
-When one experiences:
-- passionate love for someone;
-- an obsession with him;
-- complete devotion and loyalty to him;
-- absolute trust in him, allowing one to lean upon him;
-- deep impression and amazement by his loftiness, greatness, and magnificence;
-- and the certainty of always and unconditionally turning to him for protection and refuge;
-then the natural outcome of all these love-based emotions is obedience. I emphasize that عبادۃ is an obedience stemming from love. It is a lover's obedience, offered to make the beloved happy. This obedience rests on passionate love and a trust that is complete and unshakable.
+جِلَاءً... 
 
-This is why Allah سُبْحَانَهُ وَتَعَالَى created us and gave us the ability to love. He did not create us desiring our disobedience. He allows disobedience, and His magnificence enables the capacity for it within His creation, which is called خذلان. Yet, He is not content with it. Disobedience is completely contrary to the concept of love.
-
-> تُعْصِی أِلہ وَ تُظْھِرُ حُبُّہُ | ھٰذا مُحالٌ فی القِیاسِ بدیع
-
-The poet محمود الوَرَّاق writes in one of his poems:
-You disobey Allah and you claim to love God.
-This is impossible, an unknown type of logic.
-> لَو کانَ حُبُّک صادقُ لَطاعَتُہُ
-Had your love been sincere, you would be obedient.
-
-> فَاِنَّ المُحِبَّ لِمَن یُحِبُّ مُطیعُ
-Because a lover always obeys the beloved. It is the nature of love to desire obedience to the one loved. In one of his poems, he says:
-
-> وَقائِلتُ قَد سَأَلَت عن حَارِ عاشِقِھا
-
-A woman once inquired about the condition of someone consumed by passionate love. The عاشق is one who burns with passion. It is said, دَوَاءُ الْعِشْقِ الْاِتِّصَالُ, that the only cure for عشق is connection with the beloved, to be in the beloved's embrace. She asked this man about her beloved, for lovers often inquire of others about the depth of their beloved's affection. She asked him:
-
-> للہِ صِفہُ ولا تَنقُص وَلا تَزِدِ
-
-"For Allah's sake, describe him to me; do not stint in your description, and do not exaggerate. I want to hear the truth." He replied:
-
-He replied: لَو کانَ رَھلِ الموت بالضمأٍ If he thought he would die from thirst, and he was told not to touch that water, he would not touch it. وَ قُطی قَفّعاً وُرُودَ المآءِ لَم یَرِدِ Her lover knows he will die of thirst, but if the woman said, "Do not touch that water," he would not touch it. He would rather die than disobey. The emphasis here is that the nature of love is obedience. Thus, greater love for god leads to a greater desire to obey him.
-
-عبادۃ to Allah سُبْحَانَهُ وَتَعَالَى encompasses two concepts:
-- worship
-- obedience
-Both stem from a passionate love for him, not from forced compulsion or coercion.
-
-To illustrate this practically, suppose prayer is due in 15 minutes. Suppose it is time for فجر, requiring us to perform our عبادۃ. Prayer is a form of عبادۃ. It is worship. From فجر all the way up until ظھر, we will not be worshiping him through the rituals of prayer; rather, if our love for him is sincere, we will be obeying him. We will be in a state of obedience to him, because it is the dream and desire of every lover to make the beloved happy.
-
-The word عبادۃ beautifully encompasses the full scope of love, placing us in a constant state of worship. When we perform the ritual acts of صلوۃ, we are in a state of عبادۃ. Even between prayers, by remaining in a state of obedience, we continue to be in a state of عبادۃ. This demonstrates why the concept of عبادۃ is so comprehensive in Islam. We are constantly in a state of worship: if not through formal rituals, then through obedience.
-
-This means that earning a حلال income through one's job is an act of obedience. When one attends school and sincerely accomplishes the purpose of education, one is in a state of عبادۃ. No matter what one does—whether loving and respecting elders, being kind to siblings, being generous to the needy, or being courageous in the face of temptations—as long as one remains in a state of obedience and servitude to Allah سُبْحَانَهُ وَتَعَالَى, everything becomes an act of عبادۃ. Even going to the toilet becomes عبادۃ. It is remarkable that when one goes to the toilet to relieve oneself, obeying Allah's commands to cover one's head and feet, seeking his protection, and reciting all those دعا, one is in a state of عبادۃ.
+وَآخِرُ دَعْوَانَا أَنِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِهِ سَيِّدِنَا مُحَمَّدٍ خَاتَمِ النَّبِيِّينَ وَسَيِّدِ الْمُرْسَلِينَ، وَعَلَى أَخِيهِ وَوَصِيِّهِ عَلِيِّ بْنِ أَبِي طَالِبٍ أَشْرَفِ الْوَصِيِّينَ، وَعَلَى الْأَئِمَّةِ مِنْ ذُرِّيَّتِهِمَا الطَّيِّبِينَ الطَّاهِرِينَ، وَالسَّلَامُ عَلَيْهِمْ أَجْمَعِينَ، الْفَاتِحَة
 
 ## Linguistic Meaning Of REHMA
 
@@ -3202,537 +3147,227 @@ Indeed, beyond all doubt, You have reached the highest and most exalted level of
 
 ## The Womb Of Afterlife
 
-I now understand the meanings of رب, الرحمن, and الرحیم. I turn, then, to a beautiful spiritual image that Allah سُبْحَانَهُ وَتَعَالَى has created through the example of the womb. To state the point again briefly: a رب is made of six things. In classical Arabic:
+أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ. ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎. اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ كَمَا صَلَّيْتَ وَسَلَّمْتَ وَبَارَكْتَ وَرَحِمْتَ وَتَرَحَّمْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ فِي الْعَالَمِينَ إِنَّكَ حَمِيدٌ مَجِيدٌ. رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي. السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ.
 
-> الرَبُّ ھُوَ المَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
+Now that we understand these meanings of رَبِّ and الرَّحْمَٰن and رَحِيم, now that we understand these terms, I want to share with you a beautiful spiritual representation that اللهُ سُبْحَانَهُ وَتَعَالَى has created for us through the example of the womb, the رَحِيم. To quickly reiterate these terms, رَبِّ is a combination of six things in classical Arabic. The definition is a رَبُّهُ الْمَلِكُ وَالسَّيِّدُ الْمُرَبِّي الْمُرْشِدُ وَالْمُنْعِمُ الْقَيِّمُ. So a رَبِّ is an owner and he is the one with complete authority over its property. He is the one who nurtures his creation, guides it, benefits it by bestowing generous and undeserving gifts upon it, and he is the one who maintains it. So this is who اللَّه is, right? That's His primary role with His creation, of رَبّ. And all His other attributes, they basically center around and they stem from His رَبُّ الْبَرِيَّةِ. So if someone asks, who is اللَّه? The answer to that question is اللَّه is رَبّ. Now, as for His nature, His nature is الرَّحْمَٰن and الرَّحِيم. So the manner in which He executes, or the way He carries out the functions of His رَبُّ الْبَيَّة, it is through intense and consistent love, compassion and mercy.
 
-I understand Allah سُبْحَانَهُ وَتَعَالَى as the owner and the one who has complete authority over what belongs to him. He nurtures his creation, guides it, benefits it with generous and undeserved gifts, and maintains it. This is Allah سُبْحَانَهُ وَتَعَالَى. This is his primary role with his creation. All his other attributes center on, and arise from, his ربوبیۃ. If someone asks, “Who is Allah?”, the answer is, “Allah is رب.” As for his nature, his nature is الرحمن and الرحیم. He carries out the functions of his ربوبیۃ through intense, constant love, compassion, and mercy.
+So now that we understand these concepts, I want to share this example that اللَّه has created for us through the womb. You know, by studying the womb, we can actually understand a lot about our master's plan for us. Just by studying the relationship of the womb with its fetus. Because this womb, it is the first رُبَّ of the fetus. And it demonstrates the exact same principles of رَحْمَانِيَّة and رَحِيمِيَّة in its interaction with it. This is why there is a حَدِيثٌ in which رَسُولُ اللَّهِ, he said, this world is a womb for the afterlife. In other words, the story of our lives in this world, it tells a tale about the kind of life that we're going to have in the afterlife, because this world, this دُنْيَا that we're living in, is the womb, or acts as the womb, and we are the fetus in that womb. And just as the brief and temporary residence in a womb is actually preparation for this worldly life, our stay in this temporal world is nothing more than a short duration of preparation for the afterlife. Now, if you look at the رَحِيم, the womb, you'll see all six principles of رُبِّيَ at work. It has ownership and it has authority over the embryo, right?
 
-### Womb is the first master
+It nurtures the embryo, it helps the embryo grow and develop into a fetus. So the womb is مَٰلِكِ, it is سَيِّد and it is مُرَبِّي. Then we see that the womb, it bestows these priceless gifts upon the fetus, to the development of its eyes, its nose, its ears, hands, feet, the heart, the intellect and all of its internal and external organs. So we can see that the womb is also the مُنْعِم, the bestower of gifts. We also know that the womb, it manages the entire development process of the embryo from its conception all the way until it is fully developed. So the womb is also قَيِّم. So we can see that the womb, it actually acts as the very first physical رُبَّ that we come in contact with. And this very first act, it actually demonstrates the design of how اللَّه created this mechanism. It demonstrates the act of رُبُوبِيَّة by carrying out all six functions of the definition of the word رَبِّ, right? مَلِكٌ، سَيِّدٌ، مُرَبٍّ، مُرْشِدٌ، مُهَيْمِنٌ، قَيِّمٌ. Now, what happens once the baby is delivered into this world?
 
-With these concepts in place, I turn to the example Allah سُبْحَانَهُ وَتَعَالَى has created through the womb. I can understand much about my master's plan by studying the relationship between the womb and the fetus. The womb is the رب of the fetus, and it shows the same principles of رحمنیۃ and رحیمیۃ in its care for it. There is a HADEES in which Rasul Allah ﷺ said:
+Who is the baby handed over to? It is handed over to its loving mother, who becomes the next immediate رَبّ of that baby. Not the father, the mother. It's the mother that becomes the next رَبّ. Why? Because she feeds it. She takes care of it. There is this transference of رُبِّيَ that takes place. The mother now takes ownership of the baby. The mother now takes authority over it. The mother assumes the responsibility of nurturing it, helping it grow and develop, teaching it, guiding it, setting it to purpose, showering all these gifts and blessings upon it. She becomes the one who maintains that baby's sustenance in all its various forms, physical, emotional, psychological.
 
-> الدُّنْیا رَحْمُ الآخِرَۃ
->
-> This world is a womb for the afterlife
+So we can see that our mothers become the next immediate رَبِّ. Right after the رُبُوبِيَّة of the womb, the رَحْمَٰن, it's completed. Now father is also a رَبِّ, but his رُبُوبِيَّة gets executed through the mother. You see, the father always uses the mother as a means for her. He facilitates her functions of رُبُوبِيَّة. That's the role of the father, but the primary caretaker of the child is always the mother.
 
-In other words, the story of my life in this world tells me what kind of life I am preparing for in the afterlife. This world, this دنیا in which I live, is the womb, and I am the fetus within it. As the short, temporary stay in the womb prepares the fetus for worldly life, my stay in this temporary world is only a period of preparation for the afterlife.
+So now let's study this حَدِيثٌ to better understand the underlying principles that are at work. So رَسُولُ اللَّهِ , he said, . This temporal world is the womb of the afterlife. So let's examine the fetus and the womb of its mother. Is it the womb actually doing all the work? Or is it the mother doing all the work behind the scenes and letting this womb act as an intermediary between herself and her child?
 
-The رحم, the womb, shows all six principles of ربوبیۃ. It has ownership and authority over the embryo. It nurtures the embryo. It helps the embryo grow and develop into a fetus. In that sense, the womb is مالک, سید, and مربی.
+Is it the womb or the mother? We know it's always the mother, right? The mother is the one taking care of the baby's needs. She is the one eating all the right things. She is making sure she doesn't bump into things so that her baby doesn't get hurt. She's the one getting all the ultrasounds done, taking all those painful but necessary blood tests, all those injections. So she is the one actually suffering for the baby. Baby is living comfortably in the womb, but it's the mother doing all the work, right? The mother is the one doing all the hard work all along. But from the perspective of the fetus, who is doing all the work? The womb, not the mother. You see, the fetus has absolutely no knowledge of its mother.
 
-The womb also gives the fetus priceless gifts: eyes, nose, ears, hands, feet, heart, intellect, and every inner and outer organ. For this reason, the womb is also منعم. It also governs the entire development of the embryo, from conception until full formation. In this sense, the womb is also قیم.
+All it knows, all it recognizes, all it understands is the womb. If I ask the fetus, who do you think is feeding you? Who do you think is nurturing you, taking care of you, sustaining you? Who is doing all the work that is necessary for your health and development? What will the fetus reply? The womb. The fetus has absolutely no knowledge of the existence of its mother. You see? What mother? Where's the mother? I don't see a mother. All I see is the womb.
 
-The womb, then, is the first physical رب I encounter. The first act this design displays is ربوبیۃ, carried out through six acts:
+There is no mother. It's just cause and effect. When I tell this fetus, no, no, it's not the womb, it's the mother. She is the one feeding you. She's the one taking care of you. This womb is only an intermediary. It's a means. And the fetus says, you know, what are you talking about? It's the umbilical cord that's feeding me. That's what gets me this blood that is carrying all the nutrients. I get fed by that, the umbilical cord. The umbilical cord is responsible for my development.
 
-> مَالِکُ وَ السَّیِّد وَ المُرَبِّی وَ المُرْشَدُ وَ المُنعِمُ وَ القَیِّمُ
+There is no mother. And so I explain, no, no, there is a mother. She is all around you. You are within the love, the care, the concern, and the mercy of your mother. This womb wouldn't exist if she didn't exist. And this womb that you're in, it's actually temporary. This is not the world you were created for. Believe me, this world is filthy, it is dark, it is immensely constricted. There is an amazing and a beautiful world that exists outside this womb that has been created just for you. And that world is so magnificent that you cannot even imagine its glory right now within this womb. Trust me, this womb is filth compared to that world. So if you think this womb is kind and merciful to you, let me tell you, it doesn't even compare to the love and the mercy of your mother.
 
-Once the baby is delivered into this world, the next question is where it is placed and who receives it. The baby is handed to its loving mother, who becomes its next immediate رب - not the father, but the mother.
+Because your mother is going to take care of you in the next world. She will shower you with so much love that you have absolutely no idea. You cannot even imagine that while you're in this womb. But the fetus says, what are you talking about? I am really, really happy here. Everything I need is being taken care of for me right here. Why do I need to have another world? I don't know why you keep talking to me about this mother and another world and an afterlife. There is no mother. There is no world outside this womb. You're crazy. Okay, show me.
 
-The mother becomes the next رب because she feeds the child. A transfer of ربوبیۃ has taken place. The mother now takes ownership of the baby. She assumes authority over the child and takes on the responsibility of nurturing, growth, and development. She teaches, guides, and sets the child toward purpose. She showers the child with gifts and blessings. She maintains the baby's sustenance in its many forms: physical, emotional, and psychological.
+Show me this world that you keep talking about. Show it to me right now. I want to see it. Prove to me that there is another world. Prove to me that there is actually a mother. I'm not gonna believe you unless and until I see that world and until I see that mother. And I say, I can't show it to you right now, but I promise when you transition out of this world, this womb, you'll see both of them. Oh, so now I'm supposed to trust you. I'm supposed to trust your belief system, your intellect? What if you're wrong? Now this is us with اللَّه in this world. There are so many of us denying the existence of the mother, living in the comforts of this womb, of this دُنْيَا.
 
-For this reason, I can see that the mother becomes the next immediate رب after the ربوبیۃ of the womb, the رحم, is complete. The father is also a رب, but his ربوبیۃ is carried out through the mother.
+So now, I begin this logical path of explanation and I say, look, you have been given these eyes, but there is so little to see here. You've been given these ears, but there's so little to hear. You've been given taste buds, but there is so little to taste here. You have a nose with this magnificent ability to smell, but there's not a single fragrance here. You have arms, you have feet, you have all these amazing gifts, but you cannot benefit from them within this womb. So think about it. These are of no use to you inside this womb, which means there must be another world that is out there, a world where you will be able to use and benefit from these gifts. Think about it. Your only purpose in this womb, in this world, is to draw your sustenance from your mother and develop these organs. In other words, you're here so that you can prepare them for the next world where you will actually be using them, where you will actually benefit from them. But does the fetus understand that?
 
-### Mother
+No. It doesn't. To the fetus, the concept of another world and the existence of a mother is just ridiculous. Just as the concept of a God and an afterlife is absurd to so many of us. So now what happens? This fetus continues to live in its ignorance and its arrogance until the nine months complete. Now what happens? Contractions begin. The fetus starts panicking. What's going on here? What's happening? This is what was promised to you.
 
-I study this HADEES to understand the principles beneath it more clearly. Rasul Allah ﷺ said: اَلدُّنْیَا رَحِمُ اَلْاَخِرَۃِ.
+I told you this day would come. I told you this world is temporary. So now with those contractions, this beautiful world of the fetus, this magnificent world it was living happily and comfortably in, it starts crumbling around it. It starts falling apart all around it. Now, isn't that exactly the description of the Day of Judgment? When the earth is shaken up with its earthquakes. And the earth discharges its burden. And man says, what is wrong with this world? What is wrong with this earth? يَوْمَئِذٍ تُحَدِّثُ أَخْبَارَهَا بِأَنَّ رَبَّكَ أَوْحَىٰ لَهَا. On this day, it will report the news of which your master has commanded it. ‏يَوْمَئِذٍۢ يَصْدُرُ ٱلنَّاسُ أَشْتَاتًۭا لِّيُرَوْا۟ أَعْمَلَهُمْ ‎.
 
-This temporal world is the **womb** of the afterlife. I look, then, at the fetus in the womb of its mother. Is the womb itself doing all the work, or is the mother working behind the veil and allowing the womb to stand between herself and her child as an intermediary?
+On this day, people will separate out, and they will be shown the results of their deeds. ‏فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًۭا يَرَهُۥ ‎. So, whoever did an atom's weight of good will see it. ‏وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍۢ شَرًّۭا يَرَهُۥ ‎. And whoever did an atom's weight of evil will see it. So the world of the fetus now comes to an end, and it is forced out of it, it is pushed out of it against its will. You see, does the fetus have a choice in whether it wants to stay in the womb or not? No. Whether it wants to or not, whether it's ready or not, once its time is up, that's it. It is pushed out into the next world. It dies in the womb in order to be born again in the next world, you see. Its death in the womb results in its creation in this world. That's what the word انْتَقَلَ means. It comes from نَقَلَ, which means a transference. It also means a copy or a replica. That's what نَقَلَ means, a copy or a replica.
 
-It is always the mother. She is the one who cares for the baby's needs. She eats what is needed. She protects herself from harm so that her baby is not harmed. She goes for the ultrasounds. She endures the painful but necessary blood tests and injections. She suffers for her baby. The hard work belongs to the mother all along.
+Why? Because the next world is going to be a copy, it is going to be a replica of the first. If you did good in the world, in this world, you will find good in the next world. If you did evil in this world, you will find evil in the next world. It's going to be a replica, it's going to be a copy. If the fetus has not properly developed its eyes, its ears, its brain, its limbs in the womb of its mother, it is going to suffer the consequences of that in the afterlife of this دُنْيَا. سُبْحَانَ اللَّهِ. So now this temporal world of the fetus is destroyed and it comes into this huge world that he was informed about, this world that was promised to him in the womb. He is now forced into this world, this afterlife that he chose not to believe in. And then, as soon as it's out of the womb, who is the baby handed to? The mother.
 
-But from the fetus's own perspective, who is doing all the work? The womb, not the mother. The fetus has no knowledge of the mother at all. All it knows, recognizes, and understands is the womb. If I asked the fetus who is feeding it, nurturing it, caring for it, sustaining it, and doing everything necessary for its health and development, what would it reply?
+سُبْحَانَ اللَّهِ. The mother that he said did not exist, the mother he denied his entire life in the womb. So you can see that the fetus goes through the exact same confusion of the seen and the unseen while it's in the womb of its mother. That's so many of us go through in this life. The fetus that accepts the رُبُوبِيَّة of its mother through the womb comes out fully developed and is now capable of enjoying all the benefits that the afterlife has to offer, which is this physical world for the fetus. But the fetus that rejected the رُبُوبِيَّة of the womb, it comes out underdeveloped, blind, deaf, mute, physically challenged, mentally challenged, incapable of benefiting from the joys and pleasures that this world has to offer. We are all going through this exact same process in life. Why? Because الدُّنْيَا رَحِمُ الآخِرَةِ, this world is the womb for the afterlife. And here we have our رَبِّ telling us, look, follow the شَرِيعَة, keep yourself clean, keep yourself pure, do your صَلَاةٌ, complete your fast, pay your زَكَاة, fulfill your obligations of الْحَجّ. And what do we say?
 
-The womb.
+Why? How is this going to help me? It's not going to help you here. That's not the purpose. The obligations of شَرِيعَة is not meant for this world. It's the sustenance for the development of our spiritual limbs. That's what شَرِيعَة is. It's a means like the womb. It's a tool. It's a mechanism, a means, an intermediary for the development of our spiritual limbs, for the development of our spiritual organs that are going to help us live a good life. After this world is over, that is where we will benefit from these fully developed spiritual organs. In the afterlife, all we're doing here in this دُنْيَا is developing them in order to use them in the next world, which is جَنَّة.
 
-The fetus has no knowledge that its mother exists. What mother? Where is the mother? I do not see a mother. For the fetus, all that exists is this womb. There is no mother. There is only cause and effect.
+But how do you develop them? Through the شَرِيعَة. Because جَنَّة is described as a world that is incredibly beautiful, a world that is governed by a رَبِّ who is intensely merciful, who is constantly merciful. The شَرِيعَة is the umbilical cord providing the sustenance for the development of our spiritual existence, of our spiritual being. Now whether we believe in it or not, whether we want to or not, whether we execute it or not, that next world is inevitable. It's coming. Right? الْجَنَّةُ حَقٌّ، وَالنَّارُ حَقٌّ، وَالْمَوْتُ حَقٌّ، وَالْبَرْزَخُ حَقٌّ، وَالْمِيزَانُ حَقٌّ، وَالصِّرَاطُ حَقٌّ. Paradise is a reality. Hellfire is a reality. Death is a reality.
 
-When I say to this fetus, "No, it is not the womb; it is the mother."
+Rising from graves is a reality. The scales in which our actions will be weighed, that is a reality. The straight path is a reality. وَأَنَّ ٱلسَّاعَةَ آتِيَةٌۭ لَّا رَيْبَ فِيهَا. And that appointed moment, it is coming. There is absolutely no doubt about it. That is the world in which justice will be exacted. Every incident for which you said, where is justice? On that day we will see justice. The innocent people that suffered momentarily in this short span of life, this دُنْيَا, this world, their momentary suffering will be balanced out with never-ending gifts and pleasures in the afterlife. And the one who caused those sufferings for fleeting gains and pleasures, their pleasures will be counterbalanced with grievous pain and everlasting torment. But that day of judgment is coming. These are all descriptions of the day of judgment, when this universe will be destroyed, this world that we are so comfortable in, it's going to end. That day is coming when souls will be paired together, when you will finally meet those loved ones
 
-I say, "She is the one feeding you. She is the one caring for you. This womb is only an intermediary."
+Who left you behind in this world? And when that little girl who was buried alive will be asked, for what sin were you killed? This is the day where اللَّه will exact justice. This is the day of justice, not this world, not this دُنْيَا that we're living in. That day all the deeds will open up. And when the book of deeds will be made public, وَإِذَا ٱلسَّمَآءُ كُشِطَتْ. And when the sky will be stripped away, وَإِذَا ٱلْجَحِيمُ سُعِّرَتْ. And when that hellfire is set ablaze, وَإِذَا ٱلْجَنَّةُ أُزْلِفَتْ. And when the paradise is brought near, ‏عَلِمَتْ نَفْسٌۭ مَّآ أَحْضَرَتْ ‎. Every soul will know what it has brought with it. All good will be rewarded on that day and all bad will be punished on that day. اللهُ أَكْبَرُ.
 
-The fetus says, "What are you talking about? It is the umbilical cord that feeds me. That is what brings me this blood, carrying all its nutrients. I am nourished through it. That is what is responsible for my growth. There is no mother."
+And the fact of the matter is that we have such a benevolent, such a merciful, such a loving master who is just dying to reward us for the smallest good deed that we do in this world. You know, it has been narrated by the Prophet that there will be a man on the Day of Judgment and all this man ever did was lend money to others. He was a money lender. And usually such people are black hearted people because of interest, and they use that as a mechanism to gain worldly profit. But when this man sent out his servants to collect the money that people owed him, if the person was having a hard time returning back that money, if that's what the servant would return and tell him, he would say, forget about it. So on the Day of Judgment, this man comes before اللَّه and he does not have any good deeds to his name, except that he used to do that.
 
-I explain, "No, listen. There is a mother. She is all around you. You live inside your mother's love, care, concern, and mercy. This womb would not exist if she did not exist.
+And اللهُ سُبْحَانَهُ وَتَعَالَى, He displays this man to everyone and He says, will I leave him to be more generous than me? Will I leave this man to be more generous than me? سُبْحَانَ اللَّهِ. He used to forgive people. Do you think I am not going to forgive him today? This is the master, the رَبّ that we fail in our أَبُو ضِيَاء towards. On this day, every single good deed will be balanced with a reward from an immensely beneficent, from an incredibly loving and compassionate master. All our delusions of grandeur in this world, they will be gone. On that day, the مُفْلِسٌ and the غَنِيٌّ, the destitute and the affluent, they will be separated.
 
-"And this womb you are in is temporary. It is not the world for which you were created. This world is filthy, dark, and terribly narrow. Outside this womb there is an astonishing and beautiful world, created just for you. That world is so magnificent that, from inside this womb, you cannot even imagine its glory.
+رَسُولُ اللَّهِ once asked his companions. He asked, you know, مَنِ الْمُفْلِسُ? Who is the مُفْلِسٌ? Who is the destitute? They said, المُفْلِسُ مَنْ لَا دِينَارَ وَلَا دِرْهَمَ عِنْدَنَا يَا رَسُولَ اللهِ. The destitute is the one who does not have any درهم or دِينَارٌ to his name. And the Prophet said, no. He said, the greatest destitute of my أُمَّة on the Day of Judgment, the greatest destitute of my أُمَّة on the Day of Judgment, will be the one who comes with all of his prayers and all of his fasting and all of his زَكَاة, وَيَأْتِي قَطْ شَتَمَ هَذَا وَقَذَفَ هَذَا وَأَكَلَ مَالَ هَذَا وَسَفَكَ دَمَ هَذَا وَضَرَبَ هَذَا, but in addition to all of these good deeds, he cheated this one, he lied to this one, he usurped the wealth of this one, he spilled the blood of this one, he struck this one. And so his good deeds will be taken from his account and put into the account of this one and this one and this one. And when his good deeds run out, before justice is fully served, the sins and faults of the remaining victims, they will be taken from their accounts and added to his accounts. And so despite living an entire life full of worship, full of prayers, full of fasting, paying زَكَاة, because of his injustices that he committed with other people, because of the hurt that he caused to other people in this world, this man will have to give up all his good deeds and he will have to take on all the horrible sins of his victims and he will finally be thrown into Hellfire.
 
-"This womb is filth compared to that world. If you think this womb is kind and merciful to you, it does not even compare to the love and mercy of your mother. Once you are delivered into that next world, your mother will care for you in an extraordinary way. She will shower you with so much love."
+This person, he said, will be the greatest destitute of my أُمَّة. May اللَّه protect us all from being among these destitutes on the Day of Judgment.
 
-I hear the fetus say, "What are you talking about? I am truly happy here. Everything I need is being provided for me right here. Why would I need another world? I do not know why you keep speaking to me about a mother, another world, an afterlife. There is no mother. There is no world outside this womb. You are crazy. Show me. Show me this world you keep talking about, right now. I want to see it. Prove to me that another world exists. Prove to me that there really is a mother. I am not going to believe you unless and until I see that world and that mother."
-
-I say, "But I cannot show it to you right now. I promise, though, that when you pass out of this world, you will see both."
-
-"Oh, so now I am supposed to trust you? I am supposed to trust your intellect? Your belief system? What if you are wrong?"
-
-This is how I stand with Allah سُبْحَانَهُ وَتَعَالَى. This is how many of us deny the mother while living in the comfort of the womb of this دنیا.
-
-I explain that these eyes have been given, yet there is so little to see here. These ears have been given, yet there is so little to hear. Taste buds have been formed, yet there is so little to taste. The nose has the power to smell, yet there is not a single fragrance in that place. Arms and feet are present. All these astonishing gifts are present, but inside the womb they cannot truly be used.
-
-Their uselessness inside the womb points beyond the womb. There must be another world outside it, a world in which these gifts will become useful and in which their benefit will appear. The only purpose of life in the womb, in that world, is to draw sustenance from the mother and to develop these organs. The fetus is there to prepare them for the next world, where they will actually be used and their benefit will actually be known.
-
-But the fetus does not understand that. We do not understand it either. To the fetus, the idea of another world, and even the existence of a mother, seems ridiculous. In the same way, the idea of a God and an afterlife seems absurd to many of us.
-
-### Afterlife
-
-Then the fetus remains in its ignorance and arrogance until the nine months are complete. Contractions begin. Panic enters the fetus. What is happening? What is taking place? This is the event I said would come. This is the day I said would arrive. This world was temporary.
-
-With those contractions, the fetus's beautiful world, the world in which it had lived happily and comfortably, begins to fall apart all around it. Is this not exactly the description of the Day of Judgment?
-
-> إِذَا زُلْزِلَتِ ٱلْأَرْضُ زِلْزَالَهَا
-
-When the earth is shaken by its earthquakes,
-
-> وَأَخْرَجَتِ ٱلْأَرْضُ أَثْقَالَهَا
-
-and the earth throws out its burdens,
-
-> وَقَالَ ٱلْإِنسَنُ مَا لَهَا
-
-and man says, “What is wrong with it?” -
-
-> يَوْمَئِذٍۢ تُحَدِّثُ أَخْبَارَهَا. بِأَنَّ رَبَّكَ أَوْحَىٰ لَهَا
-
-on that Day, it will report its news, because your master has commanded it.
-
-> يَوْمَئِذٍۢ يَصْدُرُ ٱلنَّاسُ أَشْتَاتًۭا لِّيُرَوْا۟ أَعْمَلَهُمْ
-
-On that Day, people will go out in scattered groups, and they will be shown the results of their deeds.
-
-> فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًۭا. يَرَهُ
-
-So whoever has done an atom's weight of good will see it,
-
-> وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍۢ شَرًّۭا. يَرَهُ
-
-and whoever has done an atom's weight of evil will see it.
-
-The world of this fetus now comes to an end, and it is forced out of it. It is pushed out against its will. The fetus has no choice about remaining in the womb. Whether it wants to stay or not, once its time is complete, it is driven out into the next world. It dies in the womb so that it may be born again in the world beyond it.
-
-That is what the word انتقال means. It comes from نقل, which means transference. It also means a copy or replica, because the next world will be a copy, a replica, of the first. Whoever did good in that world will find good in the next. Whoever did evil there will meet evil in the next. If the fetus has not properly developed its eyes, ears, brain, and limbs in its mother's womb, it will suffer the consequences in this afterlife of دنیا.
-
-I now see this temporal world of the fetus destroyed. It enters the vast world about which it had been informed, the world promised to it in the womb. It is placed in this world, this afterlife it chose **not** to believe in.
-
-As soon as the baby comes out of the womb, to whom is it handed? The mother. The very mother it said did not exist. The mother it denied throughout its entire life in the womb.
-
-I see the fetus pass through the same confusion between the seen and the unseen that so many of us pass through in this life. The fetus that accepts the ربوبیۃ of its mother **through** the womb comes out fully developed. It can now enjoy all the benefits of its afterlife in this physical world.
-
-But the fetus that rejected the ربوبیۃ of the womb comes out underdeveloped: blind, deaf, mute, physically challenged, and unable to benefit from the joys and pleasures this world offers.
-
-I am describing the very same process that all of us are passing through in life. Why? Because الدُّنْیَا رَحِمُ الْآخِرَۃِ.
-
-I have رب telling me to follow the شریعۃ: to remain clean and pure, to perform صلوۃ, to complete the fasts, to pay زکوۃ, and to fulfill the obligation of حج.
-
-The question then rises: why, and how does this help me? It is not meant to help me in this world in the ordinary sense. The obligations of شریعۃ are sustenance for the growth of my spiritual limbs and spiritual organs. Those organs will allow me to live in the next life. There, I will benefit from them when they have fully developed.
-
-All I am doing in this دنیا is developing them so they may be used in the next world, which is جنۃ: a world of immense beauty, governed by a رب who is intensely merciful and constantly merciful. The شریعۃ is the umbilical cord that supplies nourishment for the growth of my spiritual being. Whether I believe it or not, and whether I want it or not, the next world is inevitable.
-
-> الْجَنَّۃُ حَقٌّ وَالنَّارُ حَقٌّ وَالْمَوْتُ حَقٌّ وَالْبَعْثُ حَقٌّ وَالْمِیزَانُ حَقٌّ وَالصِّرَاطُ حَقٌّ
-
-Paradise is a reality. Hellfire is a reality. Death is a reality. Rising from the graves is a reality. The scales on which my actions will be weighed are a reality. The straight path is a reality.
-
-> وَاَنَّ السَّاعَۃَ آتِیَۃٌ لَا رَیْبَ فِیھَا
-
-That appointed moment is coming; there is no doubt about it. In that world, justice will be carried out fully. Every incident that made me ask, “Where is justice?” will be answered on that day, when justice becomes visible to all. Innocent people who suffered for a moment in this world will have that brief suffering balanced by gifts and pleasures without end. Those who caused such suffering for passing gain and pleasure will have their pleasure answered with grievous pain and everlasting torment.
-
-> إِذَا ٱلشَّمْسُ كُوِّرَت
-
-> وَإِذَا ٱلنُّجُومُ ٱنكَدَرَتْ
-
-> وَإِذَا ٱلْجِبَالُ سُيِّرَتْ
-
-> وَإِذَا ٱلْعِشَارُ عُطِّلَتْ
-
-> وَإِذَا ٱلْوُحُوشُ حُشِرَتْ
-
-> وَإِذَا ٱلْبِحَارُ سُجِّرَتْ
-
-I understand all of these as descriptions of the Day of Judgment, when this universe will be destroyed.
-
-> وَإِذَا ٱلنُّفُوسُ زُوِّجَتْ
-
-On that day, souls will be paired together, and I will finally meet the loved ones who left this world before me.
-
-> وَإِذَا ٱلْمَوْءُۥدَةُ سُئِلَتْ. بِأَىِّ ذَنۢبٍۢ قُتِلَتْ
-
-On that day, the little girl who was buried alive will be asked for what sin she was killed. That is the day when Allah will exact justice. That is the Day of Justice, not this world in which we live.
-
-> وَإِذَا ٱلصُّحُفُ نُشِرَتْ
-
-On that day, the books of deeds will be made public.
-
-> وَإِذَا ٱلسَّمَآءُ كُشِطَتْ
-
-On that day, the sky will be stripped away.
-
-> وَإِذَا ٱلْجَحِيمُ سُعِّرَتْ
-
-On that day, Hellfire will be set ablaze.
-
-> وَإِذَا ٱلْجَنَّةُ أُزْلِفَتْ
-
-And on that day, Paradise will be brought near.
-
-> عَلِمَتْ نَفْسٌۭ مَّآ أَحْضَرَتْ
-
-Every soul will then know what it has brought with it. Every good deed will be rewarded that day, and every evil deed will be punished.
-
-### The Destitute
-
-It has been narrated from the Prophet ﷺ that a man will stand on the Day of Judgment whose only work in the world had been lending money to people. He was a moneylender, and people in that trade are often hard-hearted. Yet when he sent his servants to collect what others owed him, and a servant came back saying that the debtor was struggling and could not repay, he would say, “Forget about it.”
-
-On the Day of Judgment, this man will come before Allah with no good deeds to his name except that practice. Allah سُبْحَانَهُ وَتَعَالَى will display him before everyone and say, “Will I leave him to be more generous than Me? He used to forgive people; do you think I will not forgive today?”
-
-So on that day, every good deed will be weighed with reward from a Master who is immensely generous, loving, and compassionate. All our illusions of greatness in this world will disappear. On that day, the مفلس and the غنی, the destitute and the affluent, will be separated.
-
-Rasul Allah ﷺ once asked his companions:
-
-مَنِ الْمُفْلِسُ؟. Who is the مفلس, who is the destitute?
-
-They said:
-
-> المُفلِسُ . مَن لا دِینارُ ولا دَرھَمُ عِندَنَا یا رسول اللہ
-
-The destitute is the one who has no درھم or دینار to his name.
-
-The Prophet said, “No! The greatest destitute of my امۃ on the Day of Judgment.”
-
-> أِنَّ المُفلِسَ مِن أُمَّتِی. مَن یَأتِی یَومَ القِیَامَۃِ بِصلاۃٍ. وَصِیَامٍ. وَ زَکَاۃٍ.
->
-> “The greatest destitute of my امۃ on the Day of Judgment will be the one who comes with all his prayers, all his fasts, and all his زکوۃ, and”
-
-> وَیأتِی قَدْ شَتَمْ ھذا. وَقُذِفَ ھٰذا. وَأَکَلَ مَالَ ھٰذا. وَسَفَکَ الدَّمَّ ھذا. وَضَرَبَ ھذا
-
-yet alongside those deeds, he had cheated one person, lied to another, seized another's wealth, shed another's blood, and struck another.
-
-> فَیُعطٰی ھٰذا مِن حَسَنَاتِہِ وَ ھٰذا مِن حَسَنَاتِہِ
-
-His good deeds will then be taken from his account and placed into the accounts of each one he wronged.
-
-> فَأِن فَنَیتُ حَسَنَاتُہُ قبَلَ أَنْ یُقضٰی مَا عَلیہ.
-
-Then his good deeds run out before justice has been fully done.
-
-> أَخِذَ مِن خَطَایَاھُم. فَطُرِحَت عَلَیہِ.
-
-The sins and faults of the remaining victims will be taken from their accounts and placed on **his** account.
-
-> ثُمَّ طُرِحَ فِی النَّار
-
-So although he lived a whole life filled with worship, prayers, fasts, and زکوۃ, his injustices against other people strip him of every good deed. He then carries the grave sins of those he wronged, until at last he is thrown into Hellfire. This person, he said, will be the greatest destitute of my امۃ.
-
-> . نَعُوذُ بِاللَّہِ مِنْ ذَالِکَ
-
-May Allah protect us all from being among these destitute on the Day of Judgment.
+آخِرُ دَعْوَاهُمْ أَنِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِهِ he سَيِّدِنَا مُحَمَّدٍ خَاتِمِ النَّبِيِّينَ وَسَيِّدِ الْمُرْسَلِينَ وَعَلَى أَخِيهِ وَوَصِيِّهِ عَلِيِّ بْنِ أَبِي طَالِبٍ أَشْرَفِ الْوَصِيِّينَ وَعَلَى الْأَئِمَّةِ مِنْ ذُرِّيَّتِهِمَا الطَّيِّبِينَ الطَّاهِرِينَ وَالسَّلَامُ عَلَيْهِمْ أَجْمَعِينَ الْفَاتِحَة.
 
 ## Allah - Being vs Attributes
 
-I have now set out the linguistic meanings of the basic terms, so I begin with بسم اللہ, the first verse of سُورَۃُ الْفَاتِحَۃِ.
+أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎ اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ كَمَا صَلَّيْتَ وَسَلَّمْتَ وَبَارَكْتَ وَرَحِمْتَ وَتَرَحَّمْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ فِي الْعَالَمِينَ إِنَّكَ حَمِيدٌ مَجِيدٌ رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ
 
-> بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ
+Now that we understand the linguistic meanings of the basic terms that I've explained so far in these sessions, now it's time to start with the بَسْمَلَة, which is actually the first verse of سُورَةُ الْفَاتِحَةِ, ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎. So Arabs had this way of shortening these commonly repeated statements. So if they wanted to refer to ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎, they would, instead of saying the statement completely, they would just shorten it down to بَسْمَلَة, right? And so, for example, لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ, they just simply would call it حَوْقَلَة. Similarly, they would use الْحَمْدُ لِلَّهِ for ‏ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ ‎, and so on. So the term ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎, it actually refers to the first verse of سُورَةُ الْفَاتِحَةِ, which is ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎.
 
-I find that the Arabs often shortened statements that were used again and again. When they wanted to refer to بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ, they referred to it by بسم اللہ. When they wanted to refer to لَا حَوْلَ وَلَا قُوَّۃَ اِلَّا بِاللَّہِ, they called it the حوقلا. In the same way, they used حمدللہ for الحمد للہ رب العلمین, and so on.
+Now, today what I want to focus on is this concept of being and attributes, because اللَّه is a being, He's an entity, and then He has all these various attributes. And this is quite a complicated topic, so, you know, I tried to make it as simple as possible, but there are literally books written on this, so it's very difficult to condense this huge topic. But if you look at the statement of ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎ from a grammatical point of view, you'll see that in the context of mentioning اللَّه, it uses a noun and it uses two adjectives, right? The word اللَّه in بِسْمِ اللَّهِ, the word اللَّه is a noun representing an entity, a being, and then you have two attributes of رَحْمَة, الرَّحْمَٰن, الرَّحِيمِ, right? These are the adjectives or the attributes describing the nature of اللَّه, that He is اللَّه and His nature is الرَّحْمَٰن and رَحِيم.
 
-### Being vs Attributes
+So let's talk about this distinction between اللَّه's name and His attributes, which is essentially the distinction between the concepts of a noun and adjectives if you look at it from a grammatical point of view. Attributes or adjectives are tools that have been provided to us by language in order for us to understand something. In other words, it is through the combination of these two things, noun and adjectives, or name and attributes, that we actually understand an entity, right? So if you want to gain a complete understanding of an entity, you need to understand its attributes. In the Arabic language, this is called ذَاتٌ وَصِفَاتٌ, being and attributes.
 
-From a grammatical point of view, بسم اللہ contains one noun and two adjectives. The word Allah is a noun. It names an entity, a being. Then two attributes of رحمۃ are mentioned, and they describe the nature of Allah: الرحمن and الرحیم.
-
-I now turn to the distinction between Allah's name and his attributes. In grammatical terms, this is the distinction between a noun and adjectives. Attributes are among the tools language gives for understanding something. Through noun and adjectives together, or through name and attributes together, I understand an entity.
-
-I gain a fuller understanding of any entity by understanding its attributes. In Arabic, this relation is called ذات and صفات: being and its attributes. For example, I have a soul and a body, and together they constitute my ذات, my being.
-
-The soul has spiritual attributes: kindness, courage, intelligence, generosity, or, by contrast, weakness, cowardice, and dullness. The body has physical attributes: fatness or thinness, blackness, brownness, whiteness, height, or shortness. Once I understand the spiritual and physical attributes that describe the soul and the body, I recognize the nature of their being. The union of being and attributes gives identity its full description and allows the intellect to understand what that being is.
-
-Yet attributes cannot exist without being. The ذات gives existence to the صفات. Attributes come only after the being itself exists. If there is no اللہ, there can be no الرحمن and no الرحیم. For this reason, the name Allah is greater than الرحمن and الرحیم, because it comes first.
+So for instance, we have a soul and we have a body, which together constitute our ذَات, our being. But then soul has certain spiritual attributes, right? It can be kind, it can be brave, intelligent, generous, or it can be weak, it can be coward, it can be dumb, right? In the same way, the body has its own set of physical attributes: fat, thin, black, brown, white, tall, short. And once we understand these spiritual and physical attributes that are describing the entity, which is the soul or the body, we essentially come to recognize the nature of that being.
 
 ![](images/152/92005ff6-ab51-4acb-a733-01fbbe1e5f0e.jpg)
 
-I can now break down the statement of the بسم اللہ. The term Allah points to His ذات, His being. He is a deity named Allah. Allah is the title of His essence.
+So the union of the two, they provide the identity and a complete description of that identity, which then enables our intellects to understand the nature of that being. But the thing is, attributes cannot exist without the being, right? It is the ذَات that gives existence to the صِفَاتْ. Attributes can only exist after the existence of the being itself. So if there is no اللَّه, there cannot be a الرَّحْمَٰن and رَحِيم. So that is why the name اللَّه is greater in its rank than a الرَّحْمَٰن or رَحِيم on the basis of its precedence.
 
-> إِنَّنِىٓ أَنَا ٱللَّهُ لَآ إِلَهَ إِلَّآ أَنَا۠
+So now if we start breaking down the statement of the ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎, the term اللَّه points to His ذَات, to His being. You know, He is a deity named اللَّه. اللَّه is the title of His essence. As He says in the Quran, ‏إِنَّنِىٓ أَنَا ٱللَّهُ لَآ إِلَهَ إِلَّآ أَنَا۠ فَٱعْبُدْنِى وَأَقِمِ ٱلصَّلَوٰةَ لِذِكْرِىٓ ‎, no doubt I am اللَّه, and there is no one worthy of worship and obedience except Me. Now this noun اللَّه has adjectives, which are His 99 صِفَةُ سُورَةِ الفَاتِحَةِ, His attributes describing the nature of اللَّه, right? These are His various manifestations in His interactions with creation.
 
-No doubt, I am Allah; and there is none worthy of worship and obedience except me. This noun Allah has adjectives: His ninety-nine صفات, His attributes, which describe the nature of Allah and His various manifestations in His dealings with creation. I now have,
+So now you have الرَّحْمَٰن, الرَّحِيم, المَلِك, الْقُدُّوسُ, السَّلَام, الْمُؤْمِن, الْمُؤْمِن, الْعَزِيزُ, الْجَبَّار, الْمُتَكَبِّرُ, الْخَالِقُ, الْبَارِئ, الْمُصَوِّر, الْغَفَّار, الْقَهَّار, الْوَهَّابُ, الْفَاتِحَة, الْعَلِيمُ, الْكَابِدُ, الْبَاسِطُ, الْخَافِضُ, اَلْفَاتِحَة, الْمُعِزُّ, الْمُذِلُّ, السَّامِر, الْبَصِيرُ, الْحَكَمُ, الْحَكِيم, الْعَدْل, اَللَّطِيفُ, الْحَلِيم, الْكَبِيرُ, الْعَظِيم, الْغَفُورُ, ٱلْعَلِىُّ ٱلْكَبِيرُ, الْحَافِظ, الْحَسِيبُ, الْكَرِيم,
 
-> الرحمن، الرحيم، الملك، القدوس، السلام، المؤمن، المهيمن، العزيز، الجبار، المتكبر، الخالق، البارئ، المصور، الغفَّار، القهَّار، الوهَّاب ، الرزَّاق ، الفتَّاح ، العليم، القابض، الباسط، الخافض، الرافع، المعز، المذل، السميع، البصير، الحكم، الحکیم، العادل، اللطيف، الحلیم، الخبير، العظيم، الغفور، الشكور، العلي، الكبير، الحفيظ، الحسيب، الكريم، المقیم، الرقیب، الجلیل، المجيب، الواسع، الودود، المجيد، الباعث، الشهيد، الوكيل، القوى، المتين، الولي، الحميد، المحصى، المبدئ ، المعيد، المحيي، المميت، الحي، القيوم، الواجد، الماجد، الواحد، الصمد، القادر، المقتدر، المقدِّم، المؤخر، الأول، الآخر، الظاهر، الباطن، الوالي، المتعال، البِر، التواب، المنتقم، العفو، الرؤوف، اَلْمَالِكُ الْمَلِكُ، ذُو الْجَلَالِ وَ الْإِكْرَامِ، المقسط، الجامع، الغني، المغني، المانع، الضار، النافع، النور، الهادي، البديع، الباقي، الوارث، الرشيد، الصبور ، الحنان، المنان، الدیان، البرھان
+المُقِيم, الرَّقِيبُ, الْجَلِيلُ, الْمُجِيبُ, الْوَسِيرْ, الْوَدُود, الْمَجِيد, الْبَاعِثُ, الشَّهِيدُ, الْوَكِيل, اَلْكَاوِي, المَتِين, الْوَلِيُّ, الْحَمِيدُ, الْمُحْصِي, الْمُبْدِي, المُعِيدُ, الْمُحْيِي, الْمُمِيءُ, الْحَيُّ, الْقَيُّوم, الْوَاجِدُ, الْمَجِيد, الْوَاحِدُ, الصَّمَدُ, الْقَاضِيل, الْمُقْتَدِرُ, الْمُقَدِّم, الْمُؤَخِّر, الْأَوَّلُ, الآخِرُ, الظَّاهِرُ, الْبَاطِنُ, الْوَلِيُّ, الْمُتَعَالِي, الْبِرُّ, التَّوَّاب, الْمُنْتَقِمُ, الْعَفُوّ, الرَّؤُوفُ, المَلِك, الْمُلْك, ذُو الْجَلَالِ, وَلِيُّ كَرَمٍ, الْمُقْسِطُ, الْجَامِعَة, الْغَنِيُّ, الْمُكْنِي, المَنِيَّة, أَذْدَر, النَّفِير, النُّور, الْهَادِي, البَادِر, البَاقِي, الوَارِف, الرَّشِيدُ, الصَّبُورُ, الْحَنَّانُ, الْمَنَّانُ, الدَّيَّانُ, البُرْهَان.
 
-I understand these names as attributes that describe the nature of Allah. I have used the example of a prism and light before: Allah may be understood as one pure light, اللَّہُ نُورُ السَّمَوَاتِ وَ الْاَرْضِ. When the pure light of the name Allah enters the physical realm, his divine attributes refract within creation.
+So now, these are all these attributes that describe the nature of اللَّه. And to use the example of the prism and the light that I stated in one of the previous sessions, now you can think of اللَّه, as the term اللَّه, as one pure light, right? He is the light of the heavens and the earth. Now, when this pure light of the name اللَّه comes into the physical realm, His divine attributes refract within creation. The light of اللَّه splits into these 99 attributes within His creation.
 
-From that refraction, the many manifestations of Allah's essence become known through his dealings with creation. In one instance, Allah is کریم (the generous). In another, he is جبار (the compeller). In another, he is قھار (the subduer). In another, he is عزیز (the powerful). In another, he is مُزل (the one who humiliates and humbles). In another, he is معز (the one who bestows honor).
+So now we get all these different manifestations of اللَّه's essence based on His interaction with His creation. So in one instance we see that اللَّه is كَرِيم, He is generous, but then in another instance we see He is جَبَّار, the compeller. In another instance we see He is أَحَرْ, the subduer. In another we see that He is الْعَزِيزُ, the powerful. In another we see He is مُسِيل, the one who humbles, but then He's also اَلْمُعَوِّ... 
 
-His essence appears through all these attributes within creation. The world therefore becomes a theater for the divine manifestations of Allah's attributes, and through them I come to know Allah: not directly through his essence, but through the refraction of his attributes in his creation.
+الْفَاتِحَة, is the one who bestows honor. So His essence manifests through all these different attributes within creation.
 
-### Transcendence vs immanence
+This world then becomes a theater for the divine manifestation of اللَّه's attributes, enabling us to know who اللَّه is, not directly through His essence, but through the refraction of His attributes and His creations. This is why it is said, لَا تَفَكُّرَ فِي اللهِ، وَلَكِنْ تَفَكَّرْ فِي خَلْقِ اللهِ, do not reflect upon اللَّه, but rather reflect upon the creations of اللَّه. Why?
 
-This is why it is said:
+Because it is creation, it is nature that manifests all of His attributes for us. So if you want to understand اللَّه, look outside yourself and look within yourself. We will keep showing them our signs within their own, within the horizons and within their own souls, until it becomes perfectly clear to them that all of this is from الْحَقّ.
 
-> لَا تُفَکِّرْ فِی اللَّہِ . وَلَاکِنْ تَفَکَّرْ فِی خَلْقِ اللَّہِ
+But then اللَّه is infinite, and so are His attributes. This is why, when we attempt to understand اللَّه, we get bewildered by His attributes, because in a sense we cannot know what God is any more than we can know what God isn't. You see, because when we speak about اللَّه, we are speaking about this infinite creator of the heavens and the earth. And the word infinite means without a limit. Now, the word in Arabic for definition is the same word that we use for a limitation or a boundary. A definition is what defines or gives finiteness to something, a concept. It limits it, it demarcates it, it puts it into perspective. So when we talk about اللَّهُ سُبْحَانَهُ وَتَعَالَى, we cannot define God. Because to define Him would mean to give Him a حُطّ, a boundary, right?
 
-I do not reflect upon Allah directly, but reflect instead upon the creations of Allah. Creation, and the natural world within it, is where his attributes become visible to me. Yet Allah is infinite, and his attributes are infinite. For that reason, when I try to understand Allah, I become bewildered by his attributes. In one sense, I cannot know what God is any more than I can know what God is not. Speech about Allah is speech about the infinite creator of the heavens and the earth. Infinite means without limit: لا حُدودَ لہ.
-
-In Arabic, the word for “definition” is also the word used for limitation, or boundary: الحد. A definition gives a concept its finiteness. It limits it, marks its edges, and sets it in perspective. Therefore, when I speak about God, I cannot define God. To define God would be to give him a حد, a boundary, and a limit. That is impossible. This is why the scholars say that all of عقیدۃ can be reduced to two statements:
-
-> لیس کمثلہ شئی
-
-He is unlike anything.
-
-> لا یُشْبِحُ ذاتُہُ الذَّوات ولا مُتَعَاطِلَۃُ الصِّفات
-
-His essence is not like any other essence, and his attributes are not metaphorical in any way. He is:
-
-> الغَنیُ عَنِ الجَمِیعُ و الجمیعُ مفتَقِرٌ الیہ
-
-He has no need of anyone, and everyone is in need of him. This statement negates **need** for Allah: سُبْحَانَهُ وَتَعَالَى. It also negates **independence** for me.
+We would have to place Him in a limit, which is impossible, because, you know, He is without any limit. The way the intellect works, أَقَالَ means to create a boundary. Right? That's the only way human intellect works. That's the only way we know how to grasp or understand something, by creating a boundary, by creating a limit. And اللَّه cannot be limited. And this is why scholars say that all of عَقِيدَة, this concept of creed, it can be reduced into two statements. He is unlike anything. لَا يُشْبِهُ ذَاتَهُ الذَّوَاتُ وَلَا مُعَطَّلَةٌ تُوصَفُ الصِّفَاتُ. That His essence is not like any other essence, and His attributes are not in any way metaphorical. He is الْغَنِيُّ عَنِ الْجَمِيعِ وَالْجَمِيعُ مُفْتَقِرٌ إِلَيْهِ. He has no need of anyone, and everyone is in need of Him. So this statement actually negates need for اللَّه and it enforces need for the rest of creation. It negates independence for us.
 
 ![](images/152/12b65610-07b1-45a5-be3a-0ebb449a5e2f.jpg)
 
-I now come to another central problem in religion: transcendence and immanence. Transcendence means speaking about God without taking anything in the world as a guide to Him. Nothing in the world can be pointed to and called God.
+Now, here is where we get into another central problem with religion, and that is the problem of transcendence and immanence. Transcendence is when we speak about God without anything, you know, any reference in this world that can guide us to Him. There is nothing in the world for which we can say, you know, that is God or this is like God, because اللَّه is above and beyond anything they ascribe to. So when we talk about transcendence, we're talking about اللَّه being above and beyond everything that we know of, right? That's why we say سُبْحَانَكَ, which is in Arabic the word, it means transcendence, and it comes from which means to purify, to get rid of filth, you know, to transcend something, to be above and beyond something. So اللَّه is transcendent.
 
-> تَعَالَی اللَّہُ عَنْ مَا یَصِفُونَ
+But then pure transcendence has a lot of problems by itself. Because then now اللَّه becomes the God of the scientist. Like Einstein believed in a God, but he did not believe in a personal God, right? He believed in a transcendent God. The God he believed in was the God of the deist, who has nothing to do with his creation. And then that again creates a major problem. But then there is also this concept of immanence, the idea of God being close to us in the world. So for example, like in Hinduism, right, the Brahman class, they don't really believe in idols. You know, we generally, when we think of a Hindu, we think they are idol worshipers, but this class of Brahmans, right, they don't really believe in idols.
 
-Allah is above and beyond whatever they ascribe to Him. When I speak about transcendence, I mean that Allah is above and beyond everything I know: سُبحانک. In Arabic this is called تنزیح. The word تنزیح means transcendence. It comes from نزح, which means to purify, to remove filth, and to rise beyond something.
+It's really a kind of trick to help all these stupid people of the lower class that they believe, who they feel that still need to evolve. So there's this understanding in their tradition that the lower classes, or the caste system that they have, which they call the varna. So if you're in a lesser varna, you cannot understand the Brahma. That's what they believe, because he has gone through several lifetimes to get this ability to perceive. And it is something that only he can perceive, and only he can understand the Godhead, as they call it. Right, so Brahma understands the God that has no attribute, which they call the nirguna. But they have this idea that the lower class people actually need to see something in order to understand God, and so they gave them all these idols. It's the Brahman class that gave idols, this concept of idols, to the lower classes, to the lower varna, who they actually knew were not gods. But they thought that it helps the common people understand God. And this is the problem of immanence in religion, which is creating likeness for God. You understand?
 
-Allah is transcendent. Yet pure transcendence brings serious problems. It turns Him into the God of the scientist. Einstein, for example, believed in a god, but not in a personal god. He believed in a transcendent god. The god he believed in was the God of the deist: a god with nothing to do with his creation. That is a major problem.
+The way Christianity deals with this problem is obviously through Jesus, because Jesus becomes this incarnation of God, right? God enters into flesh. And in our tradition this is what is called حُلُول, where God enters the flesh, and some of the deviant Sufis, they actually claim the state. So this is not something specific to Christianity. You know, we know that there was a group called نُصِرَ that claimed divinity for مَوْلَانَا عَلِيّ.
 
-The other problem appears in what is called immanence: the idea that God is present within the world. In the Hindu tradition, for example, the Brahman class does not truly believe in the idols. The idols function as a kind of device for ordinary people, who are thought still to need something visible before they can rise to a higher understanding.
+And it actually also happened for إِمَامٌ جَعْفَرٌ صَادِقٌ and other Imams as well. So now, how do we understand this concept of immanence in our religion? What is the relationship between transcendence and immanence? تَنْزِيهٌ and تَجْرِيد? Because you do need an access to your master, right? If you have a completely transcendent God, he becomes this cold, distant, uncaring, unloving God. On the other hand, if you give God the attributes of creation, you now have a whole new problem, and that's what gives birth to these concepts of anthropomorphism, falling into this idea that God is petulant, that God has emotions, that God has anger, that he has pleasure in an anthropomorphic way. And this is something that, you know, penetrates the Muslim understanding as well. There are Muslims who think that when these words are used in the Hadith or the Quran, so for example when اللَّه says the one who faced the anger of اللَّه, they think that اللَّه's anger is like our anger, that اللَّه becomes angry in an emotional sense. And that's not true, because اللَّه is above and beyond anything that is ascribed to him. But we do believe that غَضَب has a meaning, and we believe that رِضًا has a meaning. You know, we believe that these words that اللَّه used in the Quran, like رَّضِىَ ٱللَّهُ عَنْهُمْ وَرَضُوا۟ عَنْهُ, they were pleased with اللَّه and اللَّه was pleased with them. But don't think your pleasure with اللَّه is the same as اللَّه's pleasure with you. Don't think those two words mean the same thing. In the context they are being used, each means a specific thing in relation to that thing that it is predicating. So when we talk about the attributes of اللَّهُ سُبْحَانَهُ وَتَعَالَى, we have to be extremely careful. When we try to create an understanding of these attributes, we have to be extremely careful, because we in a sense can only say about اللَّه what اللَّه has said about Himself. We cannot, you know, any description that اللَّه needed for our understanding, He described it Himself in the Quran. But then now here we enter into another problem, which is the problem of interpretation. Because even though اللَّه is telling us things about Himself in the Quran, even though He is self-disclosing to us, He is self-disclosing through language.
 
-Within that tradition, the lower classes of the caste system are called the VERNA. A person in a lesser varna is not thought able to understand the BRAHMA. The Brahman has passed through many lifetimes and has reached the capacity to perceive. Only he can perceive, and only he can understand the Godhead, which they call the Brahma.
+And language is filtered through the human mind. And the human mind has the capacity to interpret what is being said in so many different ways. So now we have a whole new set of problems. And this is why we stick to the Prophet and his واسع, right? Because they are the purest filter for us. And they're still a filter, right? The Prophet صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ is also a filter, but he is the purest filter. And this is why the prophets have a capacity that other human beings do not have, and that is that, you know, اللَّهُ سُبْحَانَهُ وَتَعَالَى has chosen them to be these filters for revelation. And that is why the best understanding of اللَّهُ سُبْحَانَهُ وَتَعَالَى is the understanding that our Prophet صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ has articulated to us. And this is what he said, اللَّهُمَّ لَا نُحْصِي ثَنَاءً عَلَيْكَ أَنْتَ كَمَا أَثْنَيْتَ عَلَى نَفْسِكَ. O اللَّه, we are unable to praise you. You are as you praised yourself. In other words, I cannot truly praise you. Because one of the reasons that we praise is based on our knowledge of the praiseworthy, right? If you don't know the qualities of someone or something, you cannot really praise it. You cannot really praise them.
 
-So the Brahman understands a god without attributes, which they call the NIRGOONA. Yet they also hold that lower-class people need to see something before they can understand it. For that reason, they gave them idols, while knowing that these idols were not truly gods. The idols help the common people understand.
+And this is why in اللَّه's self-disclosure to us, He is describing for us the reasons why He is praiseworthy, the reasons why He is a حَمِيدٌ. He has described to us, explained to us in the Quran the praiseworthy attributes that He has and why. This is how understanding the attributes of اللَّه enables us to come to know اللَّه. But these attributes are known to us through our human experience. And that's where you get into the problem of immanence. You know, there has to be some correlation between what we understand about اللَّه and what we understand about ourselves, or what we see in the world, because otherwise we just simply cannot know اللَّه. It just wouldn't be possible. And so in dealing with the attributes of اللَّه, you are still working with things in this world, you see.
 
-This is the problem of immanence in religion: it creates likeness. Christianity deals with this problem through Jesus, because Jesus becomes the incarnation of God. God enters into flesh. In our tradition, this is called حُلُول, when God enters the flesh. Some deviant Sufis also claimed this state. The group called نصیری claimed it for Maulana Ali. It also happened for اِمَامُ جَعْفَرٍ الصَّادِقِ عَلَیْہِ السَّلَامُ.
+So when we say اللَّه سُبْحَانَهُ وَتَعَالَى is, for instance, قَدِيم, right? And قَدِيم becomes a problematic word because it's a technical word. It is not found in the Quran. It is not actually an attribute of اللَّه. It's more of a technical word. قِدَم is what they call a سُورَةُ الْفَاتِحَةِ attribute, because it negates حَدِيث.
 
-I ask how I understand this in my religion. What is the relationship between transcendence and immanence, between تنزیح and تجرید?
+I know this is getting complicated, but basically it negates occurrence. That's what قَدِيم means. It negates occurrence, it negates the fact that اللَّهُ سُبْحَانَهُ وَتَعَالَى is حَدَثَ, that He came into existence. No, اللَّه did not come into existence. The idea of قِدَمٌ is that اللَّهُ سُبْحَانَهُ وَتَعَالَى is as He always was and He will always continue to be the same way, without any change or any time factor. And this is where pre-eternity becomes the best word in English that we can use. When we say pre-eternity, I don't even know what that means. I really don't. But it's a word that, I mean, how can you describe pre-eternity? You cannot even describe eternity, because eternity means forever. And so how do you use pre with eternity? How can there be something before that is eternal, right?
 
-A servant must have access to his master. If God is understood as only transcendent, He becomes cold, distant, uncaring, and unloving. But if the attributes of creation are given to God, another problem appears. This is what gives birth to anthropomorphism: the idea that God is petulant, that He has emotions, anger, and pleasure in the way created beings do.
+So I really don't know what that word means. I cannot. I have a sense of what that word means, but I cannot really describe it. But that's the word that, that at best what we have come up with as a way of describing اللَّه's existence. سُبْحَانَ اللَّهِ. So you can see that we run into all these problems when we try to understand اللَّهُ سُبْحَانَهُ وَتَعَالَى. And so مَوْلَانَا عَلِيٌّ عَلَيْهِ السَّلَامُ, he gave us this simple, simple formula for recognition of اللَّه, which is الْعَجْزُ عَنْ دَرَكِ الْإِدْرَاكِ إِدْرَاكٌ. Well, بَحْثُ أَنْزَتِهِ كُفْرٌ وَإِشْرَاقٌ. My inability to recognize اللَّه is recognizing اللَّه. My inability to recognize اللَّه, my inability of my intellectual powers to create a boundary, to create a definition around اللَّه, the meaning of اللَّه, the understanding of اللَّه, is recognizing Him. And any attempt to discuss His essence, it will inevitably result in assigning and attributing partners with Him, creating likeness for Him. So accepting our inability to know اللَّه is our true recognition of Him.
 
-This problem also appears in some Muslim understandings. Some Muslims hear words used in hadith or in the Quran and take them in a human way.
+And this is why the most essential act in worship in Islam is the act of سِجْدَة, putting our intellects on the ground and surrendering its capacity to recognize اللَّه. Now, Quran gives us an incredibly concise statement to help us understand اللَّه. Because the way in which we understand this world around us is through things, right? The Arabic word for a thing is سُورَةُ الْفَاتِحَة, right? The word سُورَةُ الْفَاتِحَة, it means thing, and this word, it comes from شَاءَ, which means will, the will of اللَّه. Everything, every being, every ذَات that exists in this world has its own individual set of attributes, right? Every noun has its adjectives, all of which points to what they point to, the مَنْ شَاءَ, to the will and the purpose of their creator. So every سُورَةُ الْفَاتِحَة is a ذَات, it's a being, it's an entity which has its own set of attributes, or صِفَاتْ. And they are a sign, they are a means, they are a tool for us to understand the مَنْشَأ of the Creator, the will and the purpose of the Creator.
 
-> الْمَعْضُوبِ عَلَیْھِمْ
+But when it comes to اللَّه Himself, when it comes to the Creator Himself, there is no thing, there is no شَيْء that can be compared to Him in any way, shape or form. And so the Quran beautifully explains this concept to us through one single word in an آيَةٌ, كَمِثْلِهِ. No matter what you do, no matter how high your imaginations fly, no matter how deep your thoughts dive, there is absolutely no way for you to understand اللَّه, because there is no thing, no being, no attribute in existence, whether it's physical or spiritual or metaphysical or conceptual or theoretical, there is nothing that is like اللَّه. There is absolutely nothing that you can use to compare it to اللَّه or to create a likeness for اللَّه. سُبْحَانَ اللَّهِ.
 
-They think that those who faced the anger of Allah faced an anger like ours. They imagine that Allah becomes angry in an emotional sense, and that:
+Now I want you to take a moment to really let this paradox sink in. He created this magnificent universe all around us. Every single entity with its attributes is reflecting His divine existence. It's reflecting His own attributes for us, so that we can gain a semblance of understanding of His powers, His glory, His majesty, His wrath, His love, His everything. And then once we do manage to get some feeble understanding of His attributes in creation, He says, لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ. Look, whatever little now that you think you know about Me, understand that I'm not like that. I'm way beyond it. And what's so incredible is that He does this linguistically through the use of one single word. This is not a word that is commonly used, and it was not even used in classical Arabic. The ancient Arabs actually never used this word. This is a word that is used in only in eloquence of the Quran.
 
-> تَعَالَی اللَّہُ عَنْ مَا یَصِفُونَ
+So from a grammatical standpoint, the word is actually two words. There is the word كَ, and then there is the word مِثْلِهِ. These are both words that are used for comparison, but they are never fused together in this manner. They are always used individually. So let's try to understand the subtlety in the usage of this word ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎. It's really beautiful.
 
-Allah is above and beyond anything they ascribe to him.
+So in Arabic, when you want to compare something in attributes — now you understand the difference between ذَات and صِفَاتْ, right? The noun and adjectives, being an attribute. So anytime you want to create a comparison in attributes, you add the letter كَ before it, oكَy? So for example, if I wanna compare the bravery of Zed to a lion, right?
 
-At the same time, I do believe that غضب has a meaning. I believe that رضی has a meaning. I believe that the words Allah used in the Quran have meaning:
+So if I wanna say that Zed is brave like a lion, I will have to use the letter كَ to do that. So I'll say زَيْدٌ كَالْأَسَدِ. I'm saying Zaid is like a lion. Now what am I comparing here? I'm comparing the attribute of bravery of a lion with Zaid. So I'm using the letter كَ. زَيْدٌ كَالْأَسَدِ. But when I need to establish a comparison in essence, I cannot use the word كَ. You understand? Grammatically that would be wrong. I will now have to use the word مِثَالٌ.
 
-> رضی اللہ عنہ و رضو عنھم
+So for example, I will say . A cub is similar to a lion. The son of a lion is like the lion. Here I'm using the word مِثَالٌ, because I'm not comparing in attributes. I'm actually comparing the essence of these two entities, the lion and the cub. So this is a rule of the Arabic language, that when you know when you're establishing comparisons, both words كَ and مِثَال, they are used in very precise ways. And we find this distinction all over Arabic poetry. So for example, there is this poet who is praising the generosity of a king and comparing it to an ocean, right? Now what is generosity? Is it being, or is it an attribute? It's an attribute. So he's comparing the generosity of this king to the ocean. So he has to use the letter كَ. So he says, كَالْبَحْرِ يَقْضِي فُؤُولَ الْكَرِيِّ بِلَا عَلِيَّةٍ جُودًا وَيَبَّأُ صُولَ الْبَعِيدِ سَحَائِبَا. He says, the king is generous like the ocean. When I move closer to him, he gives me pearls, and when I move away from him, he sends clouds filled with rain.
 
-They were pleased with Allah, and Allah was pleased with them. But a person's pleasure with Allah is not the same as Allah's pleasure with that person. The two words do not carry the same meaning in the two contexts. Each word means something specific according to the thing it is predicated of.
+So here he uses the word كَ, because he is comparing the attributes of generosity. But when the being or the entity needs to be compared, the word مِثَالٌ has to be used. So the poet says, I am a lion and this is my son, indeed the son of a lion is like the lion. So now, because the comparison is being done in the ذَات, in the entity itself, the poet is using the word مِثْل. So I hope this gives you a much better understanding of this subtlety, because you know, that is what makes this آيَةٌ so beautiful.
 
-So when I speak about the attributes of Allah, سُبْحَانَهُ وَتَعَالَى, I must be extremely careful. In one sense, I can only say about Allah what Allah has said about himself.
+اللَّه says. To compare Himself, what اللَّه does in this verse is that He fuses both the سُورَةُ الْفَاتِحَةِ and the مِثْل together to create this one word, كَامِفْلِحْ. Why is that? Because we just learned that كَ is used for attributes and مِسِّيلْ is used for the entity itself. So what اللَّه is saying is that whether you try to compare me to attributes of creation, كَ, or if you try to compare me to the essence of creation, مِسِّيلْ, in both cases, you will fail, because لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ. There is nothing that exists in attributes, and there is nothing that exists in essence that you can use to compare to me. سُبْحَانَ اللَّهِ. Can you appreciate the beauty of this word?
 
-I then meet another difficulty: the difficulty of interpretation. Allah tells me about Himself and discloses Himself to me, but He does so through language. Language reaches me through the human mind, and the human mind can understand what it hears in many different ways.
+It's incredible. This is eloquence at its best. I mean... There is nothing comparable to Me in attributes. مِثْل. There is nothing comparable to Me in beingness, in existence. كَمِثْلِهِ. There is nothing comparable to Me in attributes or in being. لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ. There is no thing, whether physical, metaphysical, spiritual, conceptual, theoretical, practical, there is simply no شَيْء that you can use to create a comparison or a likeness for Me, not in attributes, not in essence. سُبْحَانَ اللَّهِ.
 
-For this reason, the Prophet ﷺ is the purest filter. He is still a filter, because he is human. But he is the purest human filter. This is part of what sets the prophets apart from other human beings: Allah سُبْحَانَهُ وَتَعَالَى chose them to be the filters through which revelation reaches creation.
+So now that we understand this concept, what the بِسْمِ اللَّهِ does is that it condenses all the attributes of اللَّه سُبْحَانَهُ وَتَعَالَى into two primary attributes: الرَّحْمَٰن and الرَّحِيمِ. In other words, the two attributes that will always be present in each and every single interaction of اللَّهُ سُبْحَانَهُ وَتَعَالَى with His creation are the attributes of رَحْمَة: الرَّحْمَٰن and الرَّحِيم. Intense mercy, consistent mercy. So when we say ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎, in essence we are remembering the essence of اللَّه. Right? Because it is اللَّه who is الرَّحْمَٰن and رَحِيم. So we're remembering, reminding ourselves of the essence of اللَّه which is manifesting for us through these two primary attributes of رَحْمَة.
 
-So the soundest understanding of Allah سُبْحَانَهُ وَتَعَالَى is the understanding the Prophet ﷺ gave us. This is why he said:
+So what this does is that in a sense it implodes all of His remaining attributes. It sucks in all of His remaining attributes into this concept of رَحْمَة. You see, in other words, regardless of the way in which اللَّه is interacting with us right now, His رَحْمَة is present in that manifestation. Even if He is manifesting in my life right this moment as الْجَبَّار or الْقَهَّار, His رَحْمَانِيَّة, His رَحِيمِيَّة, His رَحْمَة, His love, His care, His compassion, His concern, His mercy, it's always present in His interaction with me. There is a lot more to be, you know, explained about this. إِن شَآءَ ٱللَّهُ we'll move this conversation forward in the next session.
 
-> اللھم لا نُحثِنَ الثَّناءَ عَلَیکَ..... أَنتَ کَما أِثنَیتَ عَلَی نَفسِکَ
-
-I am not able to praise You as You deserve. You are as You praised Yourself. In other words, I cannot truly praise You, because praise depends on knowledge of the one being praised. Without knowing the qualities of someone or something, real praise is not possible.
-
-This is why, in Allah's self-disclosure to us, He describes the reasons He is worthy of praise. He is الحمید. He has told us about His praiseworthy attributes. Through those attributes, I come to know Allah.
-
-These attributes are known through human experience. Here the problem of immanence appears. There must be some relation between what I understand about Allah and what I understand about myself, or what I see in the world. Without that relation, knowing Allah سُبْحَانَهُ وَتَعَالَى would not be possible.
-
-So when I speak about the attributes of Allah, I am still working with things known in the world. When I say that Allah سُبْحَانَهُ وَتَعَالَى is قدیم, the word قدیم becomes difficult because it is a technical term. It is not found in the Quran, and it is not itself an attribute of Allah. It was used as a technical expression.
-
-قِدَم is a سلبی attribute because it negates حدث; it negates occurrence. It denies that Allah سُبْحَانَهُ وَتَعَالَى حَدَثَ came into existence. No. The meaning of قِدَم is that Allah سُبْحَانَهُ وَتَعَالَى is as He always was, and that He will always remain the same, without change and without any factor of time.
-
-This is why “pre-eternity” is the best English can do. When I say “pre-eternity,” I do not even know what that means.
-
-I really do not. It is simply the best word available for speaking about His existence.
-
-This is where every attempt to understand Allah سُبْحَانَهُ وَتَعَالَى runs into its limit. For this reason, Maulana Ali (AS) defined the recognition of Allah as:
-
-> الْعَجْزُ عَنْ دَرْكِ الْإِدْرَاكِ إِدْرَاكٌ . والبحث عن ذاتِهِ كُفرُ وإشراك
-
-The inability to recognize Allah **is** recognition of Him. Any attempt to discuss His essence is شرک, and it will inevitably end in assigning partners to Him. To accept the inability to know Allah **is** to recognize Him. This is why the most essential act of worship in Islam is سجدۃ: to place the intellect on the ground and surrender its claim to know Allah.
-
-### In-comparability Of Allah
-
-The Quran gives an extraordinarily concise statement about how God may be understood. I understand this world through “things.” The Arabic word for a thing is شئی. The word شئی comes from شاء, the “will” of Allah سُبْحَانَهُ وَتَعَالَى.
-
-Every “thing,” every “being” that exists in this world, has its own set of attributes. All of those attributes point to the منشاء, the will and purpose of its creator. But when it comes to Allah Himself, there is no “thing,” no شئی, that can be compared to Him in any way at all. The Quran explains this through a single word in the ayah.
-
-> لَيْسَ كَمِثْلِهِ شَىْءٌۭ
-
-No matter what I do, no matter how high my imagination flies, and no matter how deeply my thoughts descend, I can never comprehend Allah. No existing thing, whether physical or spiritual, is like Allah in any way.
-
-لَيْسَ كَمِثْلِهِ شَىْءٌۭ There is absolutely nothing comparable to me. SubhanAllah.
-
-This is a profound paradox. He created this magnificent universe around us, with every single entity reflecting his divine attributes. Through creation, I gain some faint understanding of his power, his glory, and his majesty. Yet once even that weak understanding begins to form, he says: لَيْسَ كَمِثْلِهِ شَىْءٌۭ. Whatever little I now think I know about him, I must understand that he is not like it. He is far beyond it.
-
-What is so remarkable is that this meaning is carried by one word: كَمِثْلِهِ. This is not a common word, not even in ancient Arabia. It is a word used only in بلاغۃ, in the eloquence of the Quran.
-
-Grammatically, کمثلہ is actually two words. The first is کَ, and the second is مثلہ. Both are used for comparison, but they are not normally fused together in this way. The subtlety lies in the Quran's use of کمثلہ.
-
-### Comparing Attributes
-
-I use the letter کَ in Arabic when I want to compare someone in attributes. For example, if I want to compare the bravery of زید to a lion, and say that زید is brave like a lion, I must use the letter کَ. I say:
-
-> زیدٌ کل أسدِ
-
-I am saying that زید is like a lion. The comparison here is not between two essences. It is between the lion's bravery and the bravery of زید. For that reason, I use the letter کَ.
-
-### Comparing Essence
-
-But when I need to make a comparison in essence, I cannot use the letter کَ. That would be grammatically wrong. I must use the word مثل. For example, I can say:
-
-> اَلشِّبْلُ مِثْلُ الْاَسَدِ
-
-A cub is similar to a lion. The son of a lion is like the lion. Here I use the word مثل because I am not comparing attributes. I am comparing the essence of two entities.
-
-This is a rule of Arabic when making comparisons. The two words کَ and مثل are used with precision. This distinction appears throughout Arabic poetry. For example, a poet praises the generosity of a king by comparing it to an ocean. Since generosity is an attribute, he says:
-
-> کل بحرِ یَقذِفُ لِلقریبِ لآلیۃ جوداً و یبَعَثُ لِلبَعیدِ سحائِبا
-
-He says that the king is generous like the ocean. When I draw near to him, he gives me pearls; when I go far from him, he sends clouds heavy with rain. Here the poet uses کَ, because he is comparing an attribute: generosity. But when the comparison concerns the being itself, or the entity as such, the word must be مثل.
-
-> أنا السُّروجِیُّ وَ ھذا وَلدی و الشِّبلُ فی الِمخبَرِ مِثلُ الاسد
-
-I am a lion, and this is my son. Without doubt, the son of a lion is like the lion. Because the comparison here is in being, the poet uses مثل.
+وَآخِرُ دَعْوَانَا أَنِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِهِ سَيِّدِنَا مُحَمَّدٍ خَاتَمِ النَّبِيِّينَ وَسَيِّدِ الْمُرْسَلِينَ وَعَلَى أَخِيهِ وَوَصِيِّهِ عَلِيِّ بْنِ أَبِي طَالِبٍ أَشْرَفِ الْوَصِيِّينَ وَعَلَى الْأَئِمَّةِ مِنْ ذُرِّيَّتِهِمَا الطَّيِّبِينَ الطَّاهِرِينَ وَالسَّلَامُ عَلَيْهِمْ أَجْمَعِينَ، الْفَاتِحَة
 
 ![](images/152/5b739499-b576-4bf4-b91f-f4f906ded16a.jpg)
 
-This subtlety gives the ayah its beauty. Allah says.
-
-> لَيْسَ كَمِثْلِهِ شَىْءٌۭ
-
-I see that, in speaking of any comparison with Himself, Allah joins both کَ and مثل in the expression کمثلہ. The reason is precise. کَ is used for attributes, while مثل is used for the being itself.
-
-The meaning, then, is that every attempted comparison fails. If the comparison is made with the attributes of creation, it fails: کَ. If the comparison is made with the essence of creation, it fails: مثل. In both cases, the comparison collapses, because لَيْسَ كَمِثْلِهِ شَىْءٌۭ. Nothing exists, whether in attribute or in essence, that can be compared with Him. SubhanAllah.
-
-- کَ. Nothing is comparable to Him in attributes.
-
-- مثلہ - nothing is comparable to Him in being.
-
-- کمثلہ - nothing is comparable to Him in attributes or in being.
-
-- لَيْسَ كَمِثْلِهِ شَىْءٌۭ There is no thing, whether physical, metaphysical, spiritual, conceptual, theoretical, or practical; there is simply no شئی that can be used to form a comparison or likeness for Him, not in attributes and not in essence. SubhanAllah.
-
-I now understand this concept: the بسم اللہ gathers all the attributes of Allah سُبْحَانَهُ وَتَعَالَى under two primary attributes, الرحمن and الرحیم. These two attributes are always present in every action of Allah سُبْحَانَهُ وَتَعَالَى: رحمۃ, intense mercy and consistent mercy.
-
-So when I say بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ, I am remembering the essence of Allah as it becomes manifest to me through His two primary attributes of رحمۃ, which enfold all His remaining attributes. Whatever form Allah's interaction with me takes at this moment, His رحمۃ is present in that manifestation. Even if He is manifesting in my life right now as جبار or قھار, His love, care, compassion, concern, and mercy are present in His interaction with me.
-
 ## The ISM Of Allah
 
-### Noun or Name
+أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ. ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎. اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ وَبَارِكْ وَسَلِّمْ. رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي. السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ.
 
-I spoke of Allah's transcendence and immanence سُبْحَانَهُ وَتَعَالَى. In one sense, he is immeasurably distant by reason of his loftiness. At the same time, he is intensely near to the heart and to consciousness. I also set out the distinction between Allah and his attributes, and showed that he is incomparable in both respects: لیس کمثلہ شئی.
+In the previous session, we talked about the concepts of tرَاnscendence and immanence of اللَّهُ سُبْحَانَهُ وَتَعَالَى. So we learnt that in one way, اللَّه is immensely distant out of His loftiness and because of His magnificence. But then at the same time, He is extremely close to our hearts and our consciousness, as the قُرْآن says that He's closer to us than our jugular vein. And what that ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎sically means is our consciousness, because when you cut the jugular vein, the first thing that you lose is your consciousness.
 
-After the noun Allah and his adjectives, الرحمن and الرحیم, comes أسم. The Arabic word اسم has two meanings. It means a noun, in the grammatical sense, and it also means a name, since every noun names something. The Arabs therefore used the word in both senses.
+So in one instance He is extremely distant from us and in another He is extremely close. And there's this beautiful verse in Urdu, which I really like, that I think that describes His immanence and His tرَاnscendence in a really beautiful way, in which the poet says, Ke duri ki yahad hai, ki tasavur bi khata hai. And what the poet is saying there is that اللَّه is so tرَاnscendent, He is so distant from us that even imagining anything about Him is a sin. But on the other hand, He is so close to us that He is closer to me than my jugular vein. And I think that is a really beautiful way in which the poet expresses this concept of tرَاnscendence and immanence.
 
-From the Quranic perspective, the idea of a name carries great weight. It was the names, the اسماء, that raised Adam AS above the angels and made him worthy of their prostration. These names were also taught to Adam AS directly by Allah سُبْحَانَهُ وَتَعَالَى.
+We also looked at the distinction between اللَّه and His attributes, and we saw that how He is incompaرَاble by both of these. So لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ, and the word ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎, it's actually a combination of كَـ and مِثْلِهِ, one used for attributes, the other used for essence. And the verse reveals to us that He is incompaرَاble through attributes as well as through essence.
 
-> وَعَلَّمَ آدَمَ ٱلْأَسْمَآءَ كُلَّهَا
+So now that we've covered this noun اللَّه and His adjectives ٱلرَّحْمَنِ ٱلرَّحِيمِ, today I want to talk about عِصَام, right? Because it starts with ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎. The Alif is dropped because of a gرَاmmatical rule which I'll talk about later, but that the ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎ is actually joined with the عِصَام. And the word عِصَام in Aرَاbic, it means two things. It means a noun, you know, as in the gرَاmmatical term noun, but and it also means name, because every noun has a name. So the classical Aرَاbs, they just used it interchangeably.
 
-Allah taught Adam all the names. The idea of name therefore stands deep within the human psyche, because we are بنی آدم. We are the children of Adam.
+Now from a قُرْآنic perspective, this concept of name is extremely important, because it is the names, the أَسْمَاء, that elevated Adam over the angels and made him worthy of their prostرَاtion. Also because these names were something that were directly taught to Adam by none other than اللَّه Himself. So اللَّه taught Adam all the names. So the concept of name is actually extremely important in the human psyche, because we are بَنِي آدَمَ, we are the children of Adam.
 
-I understand a name as the power of symbolic thought. That is its essence. To name something is to take a symbol, usually a word, and apply it to something real, observed, conceptual, or theoretical. These are the things that receive names.
+Now, what is the name? A name is ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎sically the ability of symbolic thought. That is the essence of a name. So naming something is taking a symbol, which is linguistic in nature, and then applying that symbol to something which is either material or empirical, conceptual or even theoretical, right? Those are all entities that are actually named. We give a name to them. Or a name can be something that can be used as a means of abstرَاction in order to create sepaرَاtion in things.
 
-A name can also work as a means of abstraction. It separates one thing from another within a larger field. A broad category may be called “cars,” and within it there may be “Mercedes, Toyota, Audi, BMW,” and so on. Animals cannot do this. They do not use symbolic language.
+So you can have a broad category called cars, and then you can further break them down, further abstرَاct each one of them by giving them additional names, right? Mercedes, Toyota, BMW, Audi, all of these. So now this is something that only we can do. Animals cannot do this. Animals cannot use symbolic language. This is something that only human beings are capable of.
 
-Arab scholars have agreed that human beings have three dominant modes of symbolic language. Linguistic expression is the highest of them. Mathematics also belongs under language, despite the modern assumption that it stands above it. It was really the twentieth century, shaped by Western civilization, that elevated mathematics over language.
+It has been agreed by the Aرَاb scholars that human beings have ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎sically three dominant modes of symbolic language. We have linguistics, which is the highest form, and then we have mathematics, which, believe it or not, actually comes under linguistics. This has always been the mindset of the ancient people. It's only the 20th century and the Western civilization that elevated mathematics over language. Today, language has taken a secondary place, and that is because people don't understand the power of language, especially the Aرَاbic language.
 
-Today, language has been pushed into a secondary place because people no longer understand its power, especially the power of Arabic. This is why even Muslims today sometimes try to place mathematics above the linguistic reality of the Quran when they want to prove its miracle.
+And this is why even Muslims today, they try to place mathematics over the linguistics of قُرْآن when they want to try to prove it as a miرَاcle. And, you know, no doubt قُرْآن is mathematically perfect. I'm not, you know, discrediting that, and actually I've shown you a lot of examples of that in the sessions on is قُرْآن a miرَاcle. But the fact of the matter is that what makes قُرْآن a miرَاcle is not its mathematical perfection, but رَاther its linguistic perfection.
 
-There is no doubt that the Quran is mathematically perfect. I have shown many examples of that. But the truth remains that the Quran is not a miracle because of its mathematical perfection. It is a miracle because of its linguistic perfection.
+And this is something that as Muslims we really need to understand and appreciate. And, you know, this need to prove قُرْآن mathematically, it actually comes from this feeling of inferiority before the god of modern science, which of course there is mathematics. You know, this comes from Newton and Einstein and all these other people who elevated mathematics and said that it is the only real way of understanding reality, right? And the reason they say that is because mathematics is precise and it is exact. But then these people did not study classical Aرَاbic, because Aرَاbic is precise and Aرَاbic is exact. In fact, it is precise and exact to a degree that mathematics cannot even come close to. And this is why the miرَاcle of قُرْآن, the إِعْجَاز of قُرْآن, is not in its mathematics, it is in its linguistic perfection and eloquence.
 
-I see this need to prove the Quran mathematically as coming from a feeling of inferiority before the god of modern science: mathematics. It comes from Newton, Einstein, and others who raised mathematics to the highest place and treated it as the only true way to understand reality. They said this because mathematics is precise and exact.
+So قُرْآن is a linguistic miرَاcle. But the recognition of this, this concept of recognizing the fact that قُرْآن is a linguistic miرَاcle, it actually comes from our ability to recognize things through names. Because names have meanings, right? They help us identify, they help us recognize things. So the actual power of recognizing the قُرْآن as a linguistic miرَاcle, it comes through our ability of understanding names. And this is why اسْمٌ is so important, to understand this concept of اسْمٌ.
 
-But they did not study classical Arabic. Arabic is also precise and exact. Indeed, it is precise and exact in a way mathematics cannot approach. For this reason, the miracle of the Quran, the اعجاز of the Quran, does not lie in its mathematics. It lies in its linguistic perfection and eloquence.
+And when it comes to classical Aرَاbic, even the letters become prominent, even the sounds become prominent. In fact, you know, if you take the Aرَاbic language, so when I say a tree, for example, in English, right, you see something that has a trunk, that has bرَاnches and leaves. You know, that's what comes to your mind when I say the word tree, right? If it's a palm tree, it has a trunk and then it has these palm fibers. Or, you know, if it's a fir tree, then it's got all these spikes instead of leaves. But ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎sically there are three types of trees, right? You have the fir trees, you have the palm trees, and then you have these with leaves. So when we say شَجَرٌ in Aرَاbic, what is the difference between a شَجَرٌ and a tree? I mean, we could argue that they're completely arbitرَاry, right? And this is a dominant opinion among most linguists in most languages, that names really have no connection to the thing that is named, other than the fact that they are ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎sically signs that human beings have collectively agreed upon.
 
-The Quran is a linguistic miracle. Recognizing that miracle depends on the human ability to recognize things through names, because names carry meanings. Through names, things become known, recognized, and identified.
+So their opinion is that the Aرَاbs saw the structure of a trunk with the bرَاnches and leaves and they decided to call it شَجَرٌ, whereas in English they decided to call it a tree. But the ancient Aرَاb would actually completely disagree with that. They would argue that there is a deep relationship between the word شَجَرٌ and this thing out there that we see. Because شَجَرٌ is made up of three letters. This word, this name, شَجَرٌ, is made up of three letters: سُورَةُ الْفَاتِحَةِ, جِيمْ, and رَا. Now, whenever you have the letter سُورَةُ الْفَاتِحَةِ, this is called حَرْفُ التَّفَشِّي in Aرَاbic. The letter سُورَةُ الْفَاتِحَةِ is always used for something that spreads out, that has رَاdiation, like شَمْسٌ, the sun. شَعْر, hair — hair has رَاdiation because it spreads out, it's all spread all over the body. Shajar has رَاdiation because a tree has these bرَاnches that spread out. So سُورَةُ الْفَاتِحَةِ is a very specific word and it has a very specific meaning. Then there is the letter جِيمْ, which is حَرْفُ الشِّدَّةِ, right? It's a strong letter.
 
-I hold that even the letters of Arabic carry meaning. When I say “tree” in English, the mind turns to something with a trunk, branches, and leaves. If it is a palm, it has a trunk and palm fibers. If it is a fir, it has small needles instead of leaves. Trees, then, fall here into three kinds: fir trees, palms, and trees with leaves.
+It is used to represent things that are strong in their nature, because the ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎sis of a tree is strength. It is strong. It's the trunk, right? That's why it has the letter جِيمْ. جِسْم, the body, the main structure of the human being, strength. جَبَل, a mountain, starts with the letter جِيمْ because it's powerful by its very nature, right? So جِيمْ is حَرْفُ الشِّدَّةِ. Then there is the letter رَا, which is the letter of repetition. Trees are constantly regeneرَاting themselves, they're repeating themselves. So the ancient Aرَاb would argue that there's a deep relationship between the letters and the thing that is named itself. And this is something — I mean, these are philosophical de‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎tes about the nature of language — but the Aرَاbs would definitely say that there is a secret in names. You know, in classical Aرَاbic names are not arbitرَاry. There is actually a very good reason why a شَجَرٌ is called a شَجَرٌ and a شَمْسٌ is called a شَمْسٌ, with those particular sounds in those particular order.
 
-When I say شجر in Arabic, the question arises: what is the difference between شجر and “tree”? One answer would be that the names are entirely arbitrary. This is the dominant view among most linguists in most languages: names have no real connection to the thing named, except that they serve as signs agreed upon by human beings. On that view, the Arabs saw this form, a trunk with branches and leaves, and chose to call it شجر, while English speakers chose to call it a tree.
+And this is why we know that these sounds, they have an effect. The sounds of the Aرَاbic letters have an effect on the human consciousness. There is no denying that. The recitation of قُرْآن has a powerful effect on human consciousness, just by the very nature of its sounds. So even if you don't understand a single word, just listening to a good recitation can deeply move your heart. And if you look up on the internet, you'll find so many examples of people converting to Islam simply after hearing a recitation or hearing the adhan or something like that, because these sounds, they, you know, they're not arbitرَاry. They have a very deep effect on the human consciousness. So Aرَاbic is an incredible, miرَاculous language in every way, shape, or form, and it's very different from other languages of the world.
 
-![](images/153/a12c19db-131b-4892-9838-c09bc76e3b15.jpg)
+But what I'm trying, the reason I'm explaining all this to you is because I want you to understand that all of its power, the power of this Aرَاbic language, it actually boils down to the human ability to understand names. You know, these أَسْمَاء that are provided for us within the fرَاmework of language. So it's no coincidence that اللَّه started the statement with ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎, and actually you'll see, what I'll explain as we go along, you'll see the power of what that statement means. Now we understand the meaning of names, right? So let's talk about the purpose of language. What is the purpose of language? The purpose of language geneرَاlly is communication, right? We want to be able to deliver communication, express ourselves. But if you actually analyze the purpose of language itself, it actually is unification. Language unifies.
 
-I understand the ancient Arab argument to be that there is a deep relationship between the word شجر and the visible thing it names. The letter شین is called حرف تَفَشِّی. The letter شین is used for things that spread outward. شمس has rays that spread. شعر, hair, spreads outward. شجر, a tree, sends out branches.
-
-The letter جیم is حرف الشِّدَّۃ, a strong letter. It appears in strong things because the base of a tree is strong: its trunk. جسم is the body, the main structure of the human being. جبل is a mountain, powerful by its nature.
-
-Then comes را, which is حَرْفُ تَکْرَارٍ, the letter of repetition. Trees keep renewing themselves.
-
-I understand the ancient Arab view to be that a deep relationship exists between letters and the thing named by them. This enters the philosophical debate about the nature of language, but the Arab claim is clear: names carry a secret. In Arabic, names are not arbitrary. There is a reason a شجر is called a شجر, and a شمس is called a شمس, with those exact sounds.
-
-That is also why names have an effect. The sounds of Arabic letters affect human consciousness. The recitation of Quran has a powerful effect on the human heart simply through the nature of its sounds. Even when not a single word is understood, a beautiful recitation can move the heart deeply.
-
-Arabic is therefore an astonishingly miraculous language, unlike the other languages of the world. All that power returns to the human ability to understand names: the اسماء given to us within the framework of language.
-
-### Unification
-
-I understand language as a means of unification. Language gathers things together. This is one of the secrets of the human being: through names, we can abstract, distinguish, and identify. We can see the *ONE* within the many. Without that ability, communication would not be possible.
-
-When I speak about a session, for example, and say that there will be a session next Sunday at 9:30 AM, the word does not carry only one possible meaning by itself. It has many meanings in different settings. I could say, “I am recording a religious session”; or, “the school is in session”; or, “the courtroom is in session.” Yasmeen may have had a good tennis coaching session. A Federal Act may have been passed in the session of 1908.
-
-The same word can point to many different things. Yet when I say that there will be a session tomorrow, one particular meaning usually becomes clear. From many possible meanings, the mind settles on the one that fits. Human beings do this instinctively all the time. We have an inborn capacity to draw the one out of the many.
-
-When that capacity does not complete its work, and one meaning cannot be fixed with confidence, we have to say, “Wait a minute. I just want to make sure. Did you mean this? Or did you mean that?”
-
-I find that every sentence, every phrase, and every word has to settle into one particular thought from a sea of possible meanings.
+This is the secret of the human being, that we have this ability to abstرَاct, differentiate, and identify things uniquely through names. We as human beings, we have this ability to see the one in the many. That's the only way we can communicate. I mean, this is really profound. Think about it. The only way we can communicate is by seeing the one in the many. What am I talking about? So for example, if we talk about a lecture, let's say, right? So for example, I tell you that there's going to be a session next Sunday at 9:30 a.m. How do you know what the word session means in that context? How do you know what that statement means? The word session in that context, because the word session has many different meanings in different contexts.
 
 ![](images/153/0afc12f6-52de-4003-bce7-6cefb9664849.jpg)
 
-Language, and especially names and nouns, gives me the ability to speak with clarity about oneness and about the unified nature of words. This is part of what human beings are. By nature, we unify. This is what we were created to do, because we are موحدون.
+So, I could say, you know, I'm recording a religious session, or the school is in session, right? The courtroom is in session. Yasmin had a great tennis coaching session. The Fedeرَاl Act was passed in the session of 1908. So the word session can have so many different meanings in different contexts. So but when I say there's going to be a session tomorrow, how do you know which meaning of the word session I'm talking about? The only way you know that is because you are extرَاcting that one particular meaning of that word within that context out of so many other possibilities. And this is something we all do instinctively all the time. This is just an ability that we human beings have, because we have this inherent capability to extرَاct the one out of the many. And when we're not able to do that, when we're not able to zero in on one particular meaning, we are then forced to ask, wait a minute, I just want to make sure, did you mean this or did you mean that? Why do we do that? Because we're trying to find that one particular meaning. You see that? So every sentence, every phرَاse, every word, it needs to boil down to one particular thought from a sea of possibilities.
 
-We were made to draw one meaning out of many through language. For that reason, Adam AS was given the gift of names, the gift of language. Through names, we can unify, and unification is the purpose for which we were created.
+And so what language, and in particular names or these nouns, what they enable us to do is they enable us to speak intelligently about the oneness and the unified nature of words. Because that is who we are. We are all unifiers by our very inherent nature. This is what we as human beings were created to do. We are مُوَحِّدٌ by our natures. We were designed to make one out of many through language. This is why Adam was given the gift of names, this gift of language, because using names we can unify. Language is a sign of اللَّه within our existence, within the human existence, that that is what you have been created to do: to perform the ultimate unification, تَوْحِيد, because that's what the word unification means in Aرَاbic, تَوْحِيد. We were created for تَوْحِيد, to single out the one إِلَهْ, the one true اللَّه, from all these possibilities and all these deities in our life posing as false gods. سُبْحَانَ اللَّهِ. So you can see how profound this concept of name or اِسْم becomes.
 
-The highest form of that unification is توحید. That is what unification means in Arabic: توحید. We were created for توحید: to single out the one الہ, the one true اللہ, from all the other deities in our lives that pose as gods.
+So now that you understand that, the next question is where does the process of this recognition of اللَّه begin? It begins with اِسْمُ اللهِ. It begins with the name of اللَّه.
 
-### ISM - A Lofty Symbol
+Now, the word اِسْم, linguistically, it comes from two root words. It comes from سُورَةُ الْفَاتِحَةِ and it comes from وَسَمَّى. Oكَـy, the word اِسْم, it actually comes from سُورَةُ الْفَاتِحَةِ or وَسَمَّى. The word سُورَةُ الْفَاتِحَةِ, it means lofty, something very high, like the sky in Aرَاbic is called a سَمَا, right? And the word وَسَمَّى, it actually means a sign or a symbol. Alright, so اِسْم is ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎sically a combination of two things. It is سُورَةُ الْفَاتِحَةِ and وَسَمَّى. So it is ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎sically a sign for those, it's a lofty sign for those who can see. So if you break this word down, اِسْم linguistically, it actually means a lofty sign, coming from سُورَةُ الْفَاتِحَةِ and وَسَمَّى, a lofty sign. That's what اِسْم is. It's an أَلَمَ. It's something you put onto something in order to signify it. So it's essentially a signifier that indicates the signified, right? So اِسْم is a lofty sign.
 
-The recognition of Allah begins with اسم اللہ. It begins with the “name” of Allah. The word اسم comes from سمو or وسم. The word سمو means lofty; the sky in Arabic, for example, is called السمآء. The word وسم means a sign. So اسم is a sign for those who can see signs. This is the sense carried by the root: a lofty sign.
+In fact, in Suرَاh سُورَةُ الرُّومِ, اللَّه says, from His signs, the creations of the heavens and the earth.
 
 ![](images/153/72fefb64-1e7f-4756-b3e4-8aa9ceacb74a.jpg)
 
-It is an علامۃ. It is something placed on something else to signify it: a signifier that points to what is signified.
+And in the variance, your tongues and your colors. So اللَّه relates the tongues to the heavens, right? Because you have the heavens first and then the earth, and He says, and then He says, you know, in the variance of your tongues and your skin color. So He relates tongues to the heavens and He relates the skin color to the earth. And this is called طَبَق in Aرَاbic, which is this concept, it's a type of antithesis where you use opposites to explain something. So He talks about heaven and earth and then He relates them to tongues and colors, like, you know, our skin color and our speech.
 
-In سُورَۃُ الرُّومِ, Allah سُبْحَانَهُ وَتَعَالَى says
+So there is a relationship between tongues and heaven, and there is a relationship between skin color and the earth. Because speech comes from heaven. You see, speech, اللَّه taught human beings, or He taught Adam, or رَاther He imprinted within Adam language. عَلَّمَ means to imprint, right? The الرَّحْمَٰن imprinted within the human being the قُرْآن. That's liteرَاlly what عَلَّمَ means, to imprint something. Language was imprinted within the human being. And this is why all human beings have this common ability to learn languages.
 
-> وَمِنْ آيَتِهِۦ خَلْقُ ٱلسَّمَوَتِ وَٱلْأَرْضِ وَٱخْتِلَفُ أَلْسِنَتِكُمْ وَأَلْوَنِكُمْ ۚ إِنَّ فِى ذَلِكَ لَآيَتٍۢ لِّلْعَلِمِينَ
+Now, complexions is something that comes from the earth, because اللَّهُ سُبْحَانَهُ وَتَعَالَى said that Adam was created from all the topsoil of the earth, right? From the white, the black, the brown, the yellow, the red. So you get all these variances in human complexions because Adam was created from اُدْمَ.
 
-Surely, in the variance of the heavens and the earth, and in the difference of tongues and complexions, there are signs for people who think.
+You see, the word اُدْمَ in Aرَاbic, it means topsoil. And Adam means the one who was created from topsoil. So all human beings have these different complexions, just as there are all these colors of the soil. You have white soil and then you have pure white, right? You have red soil, yellow soil, black and then ebony black. So complexions are related to the earth, and language or speech is related to the heaven. Language is meaning, complexion is sensory. You see? Language is meaning, complexion is sensory. There's a relationship between meaning and sensory. They're both joined in the human being.
 
-Allah sets tongues in relation to the heavens, and the colors of skin in relation to the earth. In Arabic, this is called طباق: a form of antithesis, where opposites clarify one another. He mentions the heavens and the earth, then tongues and colors: the color of skin and the language of the tongue. Speech, then, has a relation to heaven, and skin color has a relation to earth, because speech comes from heaven.
+So what is significant and what is palpable, what we understand and what we can see, touch and feel. So the sensory and the meaning are gathered in these two phenomena, the phenomena of language and the body. Because the essence of human being is language. We are defined as الْحَيَوَانُ النَّاطِقُ, the speaking or the articulating animal. Because what is the essence of language? It is رَاtionality, right? Language is meaningful. So the essence of the human being is language. And that's why, you know, when we judge a person by their skin color, it is just so wrong, because you're judging them by something that is just incidental to their nature, right? But when you judge somebody by what they believe in, by how they speak, by what they say, by whether they're truthful or not, whether they're virtuous or not, whether they stand for the truth or not.
 
-> عَلَّمَ آدَمَ اَسْمَاءَ کَلَّھَا
+I mean, that's how human beings should be judged. That's why Dr. King, he talked about being judged by the content of chaرَاcter. In one of his speeches, he said that we should judge people by the content of chaرَاcter. And how do you know the content of chaرَاcter? By the essence of that person. And what is the essence? Their belief, because that's what's going to manifest from them. So judging somebody by the skin color is just wrong at so many levels.
 
-Allah taught human beings language, or imprinted language within them.
+Anyway, so اِسْم means a lofty or a heavenly sign. Now, the statement of بِسْمِ اللهِ begins with the اِسْم of اللَّه, the lofty signs pointing to اللَّه, because that is the only way we can know اللَّه, through the power of symbolic understanding, right? We cannot know اللَّه as we know things. We cannot know اللَّه the same way we know an MP3 player or a laptop or a computer because, you know, essences are hard to understand even with things, but when it comes to اللَّه, it's absolutely impossible. So the only way we can know اللَّه is through symbolic language, which are these symbols within language and these symbols within existence, which he calls his آيَاتٌ, right?
 
-> اَلرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ
+So he has his آيَاتٌ within language, which is in the form of قُرْآن, and then he has his آيَاتٌ, his lofty symbols within existence in the form of the heavens and the earth, and everything in between. So now I'm bringing this entire concept all together, right? So you understand this idea of unification accomplished through language, and these signs, because if you look at the signs, there are numerous signs. There is a whole ocean, this vast ocean of signs around us, but they all condense down to one particular, they're all pointing to one particular entity, which is اللَّه. Right? So that's what we find in the horizon. We will keep showing them our signs, our numerous signs within the horizons and within their soul, until it becomes absolutely clear to them that this is all coming from الْحَقُّ, from the one truth, one reality, which is اللَّهُ سُبْحَانَهُ وَتَعَالَى.
 
-I mean this literally. علَّم means to imprint something. Language was imprinted within the human being. That is why every human being has the capacity to learn language.
+But and if you look at the قُرْآن, it directs us to his 99 divine names, right, as familiar linguistic symbols so that we can gain some concept of who he is. That's why he uses these familiar names. So for instance, اللَّه says he is مَلِكِ يَوْمِ ٱلدِّينِ, right? He is the owner or the king of the day of judgment. How are we able to understand that? How do we understand what that means? We only understand that because we understand the concept of مَالِكِ, right? We understand the concept of a king. And this enables us to relate to and appreciate the position that اللَّه will take on the day of judgment. He will assume the position of a king or the ultimate owner. But if you really think about it, we are only able to understand that because of the symbolic reference. But then we also learn that اللَّه is not limited to our concept of what a king means. He's way more exalted than that. Right, so he's — we get an idea that he's a king, but then we also understand that it's not like the kingship that we know of, but at least that concept of king, it gives us some understanding of his position and his relationship with us, right? It just, at the very least, it gets the point across.
 
-Complexions come from the earth because Allah سُبْحَانَهُ وَتَعَالَى said that Adam was created from all the topsoil of the earth: from the white, the black, the brown, the yellow, and the red. Human complexions vary because Adam was created from أُدْمَۃ. The word أُدْمَۃ in Arabic means topsoil. Adam means the one created from topsoil.
+So there is a distinction between اللَّه and the name of اللَّه. There's a distinction between عِصَام and اللَّه. The عِصَام are all these lofty signs and symbols that He created for us in the horizons and within our souls in various numerous dimensions. They enable us to know Him. That's an اسْم. That is what اِسْمُ اللهِ means. A lofty heavenly sign or a symbol that helps us recognize اللَّه. You see? Because I recognize you by your name, you recognize me by my name. So name is what helps us recognize.
 
-All human beings therefore have different complexions, just as the soil has different colors. There is white soil, even pure white soil. There is red soil, yellow soil, black soil, and ebony-black soil. Complexion is tied to the earth, while language, or speech, is tied to heaven.
+So now that we understand the linguistic meaning of the word اِسْم as a lofty heavenly sign, what we can now appreciate about ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎ is, you know, now I'm talking in the linguistic sense, that what we understand from it now is the lofty signs in the heavens and the earth and everywhere around us pointing to اللَّه and helping us recognize Him as الرَّحْمَٰن and رَحِيمٌ. ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎, with the lofty heavenly signs that اللَّه has created for me in order for them to help me recognize that He is ٱلرَّحْمَنِ ٱلرَّحِيمِ, the intensely merciful and the consistently merciful.
 
-Language belongs to meaning. Complexion belongs to what is sensed. A relation therefore stands between meaning and sense, and both are joined in the human being: what is significant and what is tangible; what is understood and what is seen, touched, and felt. The sensory and the meaningful are gathered in these two phenomena: language and the body.
+إِن شَآءَ ٱللَّهُ, in the next session we will look at this preposition ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎ that is joined with the إِيَّاكَ نَعْبُدُ, and we will explore the depth of this entire phرَاse, and we will see the power behind reciting ‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎, and you will see how perfectly this statement serves as the crown of سُورَةُ الْفَاتِحَةِ. Right, it's sitting on top of سُورَةُ الْفَاتِحَةِ like a crown, because it really, it really deserves that مَقَامٌ.
 
-I understand the essence of the human being as language. For that reason, the human being is defined as الْحَیَوَانُ النَّاطِقُ: the speaking animal, or the animal that articulates. The essence of language is rationality. Language carries meaning.
+الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِهِ سَيِّدِنَا مُحَمَّدٍ خَاتَمِ النَّبِيِّينَ وَسَيِّدِ الْمُرْسَلِينَ وَآلِهِ وَوَصِيِّهِ عَلِيِّ بْنِ أَبِي طَالِبٍ أَشْرَفِ الْوَصِيِّينَ وَعَلَى الْأَئِمَّةِ مِنْ ذُرِّيَّتِهِمَا الطَّيِّبِينَ الطَّاهِرِينَ وَالسَّلَامُ عَلَيْهِمْ أَجْمَعِينَ، الْفَاتِحَة
 
-If the essence of the human being is language, then judging a person by skin color is deeply wrong. Skin color belongs to what is incidental, not to the person's true nature. A human being is judged more rightly by what he believes, how he speaks, what he says, whether he is truthful, whether he is virtuous, and whether he stands for the truth. This is why Dr. King spoke of being judged by the content of character. The content of character is known through what comes from the person's essence. That essence is belief, because belief is what will show itself outwardly.
-
-![](images/153/c0f35ef5-2e24-47de-9770-22647f9d900c.jpg)
-
-So اسم means a lofty sign, or a heavenly sign. The statement of بسم اللہ begins with the اسم of Allah: the lofty signs that point to Allah. This is the only way I can know Allah, through the power of symbolic understanding.
-
-I cannot know Allah as I know created things. I cannot know Allah as I know a tape recorder, a laptop, or a computer. Even created essences are difficult to grasp. With Allah, that difficulty becomes absolute impossibility.
-
-The only way I can know Allah is through symbolic language: symbols within language and symbols within existence. These are His آیات. His آیات within language appears in the form of Quran. His آیات within existence appears in the form of the heavens, the earth, and everything between them.
-
-I find that the Quran directs me to Allah's ninety-nine divine names as familiar symbols in language, so that I can gain some concept of who he is. For example, Allah is called مَالِکِ یَوْمِ الدِّینِ. He is the owner, or king, of the Day of Judgment.
-
-I can understand that because I already understand the idea of a مالک. I have a concept of a king. That concept lets me grasp something of the position Allah will take on the Day of Judgment. He will assume the position of a king, or of the ultimate owner. Yet this understanding comes only through the symbolic reference. Allah is not limited by my idea of what a king is. He is far more exalted than that. Still, the idea of a king gives me at least some understanding of his position and of his relationship with me. It carries the point across.
-
-This creates a distinction between Allah and the names of Allah. There is a distinction between اسم and Allah. The اسم are the lofty symbols he has created in the horizons, within myself, and in many other dimensions, so that I may know him. That is an اسم: a name. A person is recognized by a name; I, too, am recognized by my name.
-
-Now that I understand the linguistic meaning of اسم as a lofty sign, I can understand بِسْمِ اللَّہِ الرَّحْمَنِ الرَّحِیمِ as the lofty signs that point to Allah and help me recognize him as الرحمن and الرحیم: the intensely merciful and the consistently merciful. InshaAllah, the preposition با opens the depth of this entire phrase.
+![](images/153/a12c19db-131b-4892-9838-c09bc76e3b15.jpg)
 
 ## In the Name Of Allah The Merciful
 
