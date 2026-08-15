@@ -34,13 +34,14 @@ import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from _book_edits import apply_composer_edits
+from _book_edits import anchor_key, apply_composer_edits
 from _book_frontmatter import apply_introduction
 from _paths import content_dir, ensure_book_skeleton
 
 from .convert import convert, localise_images
 from .dump import Session, duplicate_transcripts, load_sessions
 from .series import AUDIO_ROOT, IMAGE_ROOT, PROFILE, SERIES, Series
+from .spoken import _carry_images, _heard_text, write_spoken_chapters
 
 
 @dataclass
@@ -124,27 +125,6 @@ def _title_of(series: Series, session: Session) -> str:
     return series.title_fixes.get(session.sequence, session.name)
 
 
-def _heard_text(book_dir: Path, episode: int | None) -> str:
-    """What the recording says, as paragraphs, or "" when there is no transcript.
-
-    The cues are grouped into paragraphs rather than emitted one per line: a VTT
-    cue is a breath, not a sentence, and one line per breath reads as a subtitle
-    file rather than as a chapter. Twelve is the smallest grouping that produced
-    paragraphs of ordinary length across all five of these recordings — it is a
-    rhythm, and the articulation pass repunctuates and re-breaks it afterwards.
-    """
-    if episode is None:
-        return ""
-    path = book_dir / "transcripts" / f"ep{episode:02d}.vtt"
-    if not path.exists():
-        return ""
-
-    from _transcript import from_vtt  # local: only this branch needs it
-
-    lines = [cue.text.strip() for cue in from_vtt(path.read_text(encoding="utf-8")) if cue.text.strip()]
-    return "\n\n".join(" ".join(lines[i : i + 12]) for i in range(0, len(lines), 12))
-
-
 # The lane's own steps, in the order it runs them. Written into the state file so
 # every tool that asks "how far along is this book" — the status card, the
 # cross-book dashboard, `_paths.status_for` — gets an answer, instead of reading
@@ -158,6 +138,7 @@ LANE_STEPS: tuple[str, ...] = (
     "sessions-ingest",
     "sessions-transcribe",
     "sessions-articulate",
+    "sessions-read-along",
     "sessions-preface",
     "sessions-apparatus",
 )
@@ -165,6 +146,12 @@ LANE_STEPS: tuple[str, ...] = (
 #: The one lane step this module does not run. Named so `_write_state` and
 #: `articulate.py` cannot disagree about which step that is.
 ARTICULATE_STEP = "sessions-articulate"
+
+#: The step that pairs a spoken chapter's prose against the recording it came
+#: from. Also not run by this module, and also long enough (model calls per
+#: chapter) that its own status must be carried over rather than derived from
+#: position — same reasoning as ARTICULATE_STEP, one step later in the lane.
+READ_ALONG_STEP = "sessions-read-along"
 
 
 def _write_state(book_dir: Path, series: Series, *, done_through: str) -> None:
@@ -193,6 +180,8 @@ def _write_state(book_dir: Path, series: Series, *, done_through: str) -> None:
     # language ✓" for a pass that had no code behind it at all.
     prior_articulate = (prior.get("phases") or {}).get(ARTICULATE_STEP) or {}
     phases[ARTICULATE_STEP] = {"status": str(prior_articulate.get("status") or "pending")}
+    prior_read_along = (prior.get("phases") or {}).get(READ_ALONG_STEP) or {}
+    phases[READ_ALONG_STEP] = {"status": str(prior_read_along.get("status") or "pending")}
 
     path.write_text(
         json.dumps(
@@ -316,6 +305,12 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
 
     # --- chapters -----------------------------------------------------------
     parts = [f"# {series.title}", ""]
+    # Which chapters came off the tape, and off WHICH recording. Written out by
+    # the step that knows, because two later steps need the answer and neither
+    # can derive it from `book.md`: the articulation pass has to leave these
+    # chapters alone, and the read-along has to know which recording a chapter's
+    # paragraphs are timed against. Deriving it twice would be two answers.
+    spoken_chapters: dict[str, dict] = {}
     for session in sessions:
         if session.sequence in series.preface_sessions:
             report.notes.append(
@@ -324,7 +319,12 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
             )
             continue
         use_audio = session.sequence in series.transcript_from_audio
-        converted = convert("" if use_audio else session.transcript_html)
+        # Converted even when the recording supplies the prose, because the
+        # ILLUSTRATIONS exist only in the stored notes. A transcription has no
+        # pictures in it, so taking the chapter from the tape and converting
+        # nothing would drop every diagram the lecture was taught with — a
+        # regression to the reading edition, arriving silently.
+        converted = convert(session.transcript_html)
         body, wanted = localise_images(converted.markdown)
 
         # The illustrations, resolved BEFORE the chapter is written, because a
@@ -360,8 +360,20 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
         if use_audio or not body.strip():
             heard = _heard_text(book_dir, episode_of.get(session.sequence))
             if heard:
-                body = heard
+                body = _carry_images(heard, body)
                 report.from_audio.append(session.sequence)
+                spoken_chapters[anchor_key(_title_of(series, session))] = {
+                    "title": _title_of(series, session),
+                    "sequence": session.sequence,
+                    "episode": episode_of[session.sequence],
+                    # The transcription as it came off the tape, kept because the
+                    # corrector needs the UNCORRECTED witness and cannot read it
+                    # back out of `book.md` — by the time it runs, the replay of
+                    # saved edits has put the corrected text there. Storing it
+                    # also means the corrector runs without the SQL dump and the
+                    # mounted Drive folder that produced it.
+                    "base": body,
+                }
             else:
                 report.awaiting_transcription.append(session.sequence)
 
@@ -393,6 +405,7 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
         (book_dir / "_system" / "listener-episode-chapters.json").write_text(
             json.dumps(bridge, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )
+        write_spoken_chapters(book_dir, spoken_chapters)
         (book_dir / "book" / "book.md").write_text("\n".join(parts).rstrip() + "\n", encoding="utf-8")
         (book_dir / "meta.yml").write_text(_meta_yml(series, report.chapters), encoding="utf-8")
         (book_dir / "_system" / "series-config.yaml").write_text(_series_config(series), encoding="utf-8")
@@ -451,7 +464,25 @@ def ingest(slug: str, *, dry_run: bool = False) -> Report:
         report.episodes += 1
         if dry_run:
             continue
-        shutil.copy2(present[filename], book_dir / "m4a" / "Episodes" / f"ep{number:02d}.mp3")
+        # Already here at the same size: left alone. The source is a Google Drive
+        # mount that streams on demand, so re-copying a recording the book
+        # already has means pulling tens of megabytes back over the network on
+        # every ingest — which timed out and took the whole run down with it,
+        # after the chapters had been written. Size rather than a checksum,
+        # because reading the file to hash it is the download this avoids.
+        target = book_dir / "m4a" / "Episodes" / f"ep{number:02d}.mp3"
+        if not (target.exists() and target.stat().st_size == present[filename].stat().st_size):
+            # Copied ASIDE and then moved into place. A direct copy from a
+            # streaming mount that times out mid-transfer leaves the destination
+            # truncated — measured: a 10.9 MB lecture the book already had,
+            # replaced by a 0-byte file, by a run that was only refreshing it.
+            # The recording is the one artifact here nothing can regenerate.
+            partial = target.with_suffix(".mp3.partial")
+            try:
+                shutil.copy2(present[filename], partial)
+                partial.replace(target)
+            finally:
+                partial.unlink(missing_ok=True)
         (book_dir / "chapter-contracts" / f"ep{number:02d}-{slug}.yml").write_text(
             _contract(series, session, number), encoding="utf-8"
         )

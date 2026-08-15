@@ -6,9 +6,9 @@ file could report the step pending forever because nothing in the Sessions lane
 ever called `apply_book_apparatus`.
 
 These tests cover the two things worth pinning: the driver REFUSES to run over a
-book whose articulation is not `completed` (running the apparatus over
-half-rewritten prose would vowel and cite text articulation is about to discard),
-and a run that IS allowed stamps `orchestrator-state.json` through the lane's
+book whose read-along pass is not `completed` (running the apparatus over
+half-corrected prose would vowel and cite text the read-along corrector is about
+to rewrite), and a run that IS allowed stamps `orchestrator-state.json` through the lane's
 final step using the SAME writer `ingest.py` already uses — no second state
 schema. `apply_book_apparatus` itself is exercised by the compose-path tests
 elsewhere; nothing here re-proves what it does, only that this module calls it
@@ -28,7 +28,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from sessions import apparatus as app  # noqa: E402
-from sessions.ingest import ARTICULATE_STEP, LANE_STEPS  # noqa: E402
+from sessions.ingest import LANE_STEPS, READ_ALONG_STEP  # noqa: E402
 from sessions.series import SERIES  # noqa: E402
 
 SLUG = "surah-al-fateha"
@@ -42,27 +42,27 @@ def book_dir(tmp_path: Path) -> Path:
     return tmp_path
 
 
-def write_state(book_dir: Path, *, articulate_status: str) -> None:
+def write_state(book_dir: Path, *, read_along_status: str) -> None:
     phases = {step: {"status": "completed"} for step in LANE_STEPS}
-    phases[ARTICULATE_STEP] = {"status": articulate_status}
+    phases[READ_ALONG_STEP] = {"status": read_along_status}
     (book_dir / "_system" / "orchestrator-state.json").write_text(
         json.dumps({"phase": "sessions-preface", "phases": phases}), encoding="utf-8"
     )
 
 
 @pytest.mark.parametrize("status", ["running", "pending", None])
-def test_refuses_over_unfinished_articulation(book_dir: Path, status) -> None:
-    """A `running` or `pending` articulation means the prose on the page is not
+def test_refuses_over_unfinished_read_along(book_dir: Path, status) -> None:
+    """A `running` or `pending` read-along means the prose on the page is not
     final — apparatus vowelling and citing it now would be immediately
-    invalidated the moment articulation touches that chapter again."""
+    invalidated the moment the read-along corrector touches that chapter again."""
     if status is None:
-        write_state(book_dir, articulate_status="completed")
+        write_state(book_dir, read_along_status="completed")
         state_path = book_dir / "_system" / "orchestrator-state.json"
         state = json.loads(state_path.read_text(encoding="utf-8"))
-        del state["phases"][ARTICULATE_STEP]["status"]
+        del state["phases"][READ_ALONG_STEP]["status"]
         state_path.write_text(json.dumps(state), encoding="utf-8")
     else:
-        write_state(book_dir, articulate_status=status)
+        write_state(book_dir, read_along_status=status)
 
     with patch("sessions.apparatus.content_dir", return_value=book_dir):
         with patch("sessions.apparatus.apply_book_apparatus") as mock_apply:
@@ -72,8 +72,8 @@ def test_refuses_over_unfinished_articulation(book_dir: Path, status) -> None:
     mock_apply.assert_not_called()
 
 
-def test_runs_and_stamps_state_when_articulation_is_complete(book_dir: Path) -> None:
-    write_state(book_dir, articulate_status="completed")
+def test_runs_and_stamps_state_when_read_along_is_complete(book_dir: Path) -> None:
+    write_state(book_dir, read_along_status="completed")
 
     with patch("sessions.apparatus.content_dir", return_value=book_dir):
         with patch("sessions.apparatus.apply_book_apparatus") as mock_apply:
@@ -86,13 +86,13 @@ def test_runs_and_stamps_state_when_articulation_is_complete(book_dir: Path) -> 
     state = json.loads((book_dir / "_system" / "orchestrator-state.json").read_text(encoding="utf-8"))
     assert state["phase"] == LANE_STEPS[-1]
     assert state["phases"][LANE_STEPS[-1]]["status"] == "completed"
-    # The articulate step's own record must survive the rewrite untouched —
+    # The read-along step's own record must survive the rewrite untouched —
     # `_write_state` carries it over rather than deriving it from position.
-    assert state["phases"][ARTICULATE_STEP]["status"] == "completed"
+    assert state["phases"][READ_ALONG_STEP]["status"] == "completed"
 
 
-def test_force_overrides_an_unfinished_articulation(book_dir: Path) -> None:
-    write_state(book_dir, articulate_status="running")
+def test_force_overrides_an_unfinished_read_along(book_dir: Path) -> None:
+    write_state(book_dir, read_along_status="running")
 
     with patch("sessions.apparatus.content_dir", return_value=book_dir):
         with patch("sessions.apparatus.apply_book_apparatus") as mock_apply:

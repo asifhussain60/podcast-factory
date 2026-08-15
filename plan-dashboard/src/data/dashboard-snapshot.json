@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 51.55
+    "burn_30d_usd": 60.62
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1922,7 +1922,7 @@
     {
       "slug": "love-of-the-prophet",
       "title": "Love Of The Prophet",
-      "phase": "sessions-apparatus",
+      "phase": "sessions-preface",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_session"
@@ -1946,8 +1946,8 @@
     {
       "slug": "surah-al-fateha",
       "title": "Surah Al-Fateha",
-      "phase": "sessions-apparatus",
-      "phase_status": "completed",
+      "phase": "reader-narration",
+      "phase_status": "skipped",
       "cost_to_date_usd": 0,
       "kind": "islamic_session"
     },

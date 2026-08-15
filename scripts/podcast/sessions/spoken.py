@@ -1,0 +1,123 @@
+"""The record of which chapters came off the tape, and what the tape said.
+
+Split out of `ingest.py` on 2026-08-15, alongside the read-along lane step,
+when the read-along pass's own module pushed `ingest.py` over the DR-005 line
+cap. A real seam: everything here is about the SPOKEN RECORD — what the
+recording said, in paragraphs, and which chapter keys are backed by one — and
+three modules read it: `ingest.py` writes it at ingest time, `articulate.py`
+consults it to know which chapters must not be rewritten, and `read_along.py`
+consults it to know which chapters to correct and time.
+"""
+
+from __future__ import annotations
+
+import json
+import re
+from pathlib import Path
+
+from _align_paragraphs import align
+
+#: Chapters whose prose is a transcription of a recording, by chapter key.
+SPOKEN_CHAPTERS_NAME = "sessions-spoken-chapters.json"
+
+
+def _heard_text(book_dir: Path, episode: int | None) -> str:
+    """What the recording says, as paragraphs, or "" when there is no transcript.
+
+    The cues are grouped into paragraphs rather than emitted one per line: a VTT
+    cue is a breath, not a sentence, and one line per breath reads as a subtitle
+    file rather than as a chapter. Twelve is the smallest grouping that produced
+    paragraphs of ordinary length across all five of these recordings — it is a
+    rhythm, and the articulation pass repunctuates and re-breaks it afterwards.
+    """
+    if episode is None:
+        return ""
+    path = book_dir / "transcripts" / f"ep{episode:02d}.vtt"
+    if not path.exists():
+        return ""
+
+    from _transcript import from_vtt  # local: only this branch needs it
+
+    lines = [cue.text.strip() for cue in from_vtt(path.read_text(encoding="utf-8")) if cue.text.strip()]
+    return "\n\n".join(" ".join(lines[i : i + 12]) for i in range(0, len(lines), 12))
+
+
+def spoken_chapters_path(book_dir: Path) -> Path:
+    return Path(book_dir) / "_system" / SPOKEN_CHAPTERS_NAME
+
+
+def write_spoken_chapters(book_dir: Path, chapters: dict[str, dict]) -> None:
+    spoken_chapters_path(book_dir).write_text(
+        json.dumps(
+            {"schema": "podcast.sessions-spoken-chapters/v1", "chapters": chapters}, indent=2, ensure_ascii=False
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
+def spoken_chapters(book_dir: Path) -> dict[str, dict]:
+    """Chapter key -> ``{title, sequence, episode}`` for chapters taken off the tape.
+
+    Empty for every book that is not a Sessions book, and empty for a Sessions
+    book ingested before this file existed — both of which mean the same thing
+    to a caller, which is why the absent file is not an error.
+    """
+    path = spoken_chapters_path(book_dir)
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    chapters = data.get("chapters")
+    return chapters if isinstance(chapters, dict) else {}
+
+
+_IMAGE_BLOCK_RE = re.compile(r"^!\[[^\]]*\]\([^)]+\)$")
+
+
+def _carry_images(heard: str, notes: str) -> str:
+    """Put the notes' illustrations into the spoken text, at the passage they illustrate.
+
+    The two texts are the same lecture told twice — once written down, once said
+    aloud — so an image's place in the notes is evidence about where it belongs
+    in the transcription, and `_align_paragraphs` is the machinery this repo
+    already uses to carry a position across two tellings of one thing.
+
+    A picture whose paragraph cannot be placed goes to the END of the chapter
+    rather than to a guessed position. An illustration under the wrong passage
+    of a religious lecture is worse than one a reader has to scroll for, and the
+    Book Composer is where a human moves it.
+    """
+    blocks = [b.strip() for b in notes.split("\n\n") if b.strip()]
+    images = [i for i, b in enumerate(blocks) if _IMAGE_BLOCK_RE.match(b)]
+    if not images:
+        return heard
+
+    prose = [i for i, b in enumerate(blocks) if not _IMAGE_BLOCK_RE.match(b)]
+    heard_blocks = [b.strip() for b in heard.split("\n\n") if b.strip()]
+    placed: dict[int, list[str]] = {}
+    trailing: list[str] = []
+
+    alignments = align([blocks[i] for i in prose], heard_blocks) if prose else []
+    # Inverted: the alignment answers "which note paragraph is this spoken
+    # paragraph from", and the question here is the other way round.
+    first_for_source: dict[int, int] = {}
+    for a in alignments:
+        first_for_source.setdefault(a.source_index, a.index)
+
+    for image in images:
+        before = [p for p in prose if p < image]
+        target = first_for_source.get(prose.index(before[-1])) if before else None
+        if target is None:
+            trailing.append(blocks[image])
+        else:
+            placed.setdefault(target, []).append(blocks[image])
+
+    out: list[str] = []
+    for i, block in enumerate(heard_blocks):
+        out.append(block)
+        out.extend(placed.get(i, ()))
+    out.extend(trailing)
+    return "\n\n".join(out)

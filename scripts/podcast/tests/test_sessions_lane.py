@@ -24,7 +24,8 @@ sys.path.insert(0, str(SCRIPTS_PODCAST))
 import pytest  # noqa: E402
 from sessions.convert import convert, localise_images  # noqa: E402
 from sessions.dump import INGESTABLE_GROUPS, Session, duplicate_transcripts, load_sessions, strip_markup  # noqa: E402
-from sessions.ingest import SERIES, _heard_text, _title_of, _without_image  # noqa: E402
+from sessions.ingest import SERIES, _title_of, _without_image  # noqa: E402
+from sessions.spoken import _heard_text  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # The dump's allow-list
