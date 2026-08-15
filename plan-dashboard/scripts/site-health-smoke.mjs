@@ -397,6 +397,53 @@ async function checkLayoutInvariants(page) {
       }
     }
 
+    // INV-1b: a card must be the same size as the cards BESIDE it.
+    //
+    // INV-1 above compares a deck to its own front card, and those matched
+    // exactly while the deck rendered 12px narrower and 16px shorter than every
+    // sibling in its grid row — its margin was reserving room for the peeking
+    // sheets OUTSIDE the grid cell, so the cell's border box never filled the
+    // track. A whole class of defect the existing check cannot see, because it
+    // never compares one card to another.
+    //
+    // Measured per SHELF ROW rather than per shelf: a grid wraps, and rows can
+    // legitimately differ in height when their tallest card differs. Cards are
+    // grouped by their rounded `offsetTop`, and only visible ones are measured
+    // so a filtered view does not compare against something that is not drawn.
+    // The tolerance is deliberately tight (4px) — sub-pixel rounding is real,
+    // a 12px difference is not.
+    for (const grid of document.querySelectorAll(".studio-shelf-grid")) {
+      const cells = [...grid.children].filter(
+        (c) => !c.hidden && c.offsetParent !== null,
+      );
+      const rows = new Map();
+      for (const c of cells) {
+        const key = Math.round(c.offsetTop / 4) * 4;
+        if (!rows.has(key)) rows.set(key, []);
+        rows.get(key).push(c);
+      }
+      for (const [, row] of rows) {
+        if (row.length < 2) continue;
+        for (const dim of ["offsetWidth", "offsetHeight"]) {
+          const sizes = row.map((c) => c[dim]);
+          const spread = Math.max(...sizes) - Math.min(...sizes);
+          if (spread > 4) {
+            const odd = row.find(
+              (c) =>
+                c[dim] === Math.min(...sizes) || c[dim] === Math.max(...sizes),
+            );
+            const name = (
+              odd?.querySelector(".card-title-en")?.textContent || ""
+            ).trim();
+            out.push(
+              `card-sibling-mismatch: "${name || "card"}" — ${dim.replace("offset", "").toLowerCase()} differs by ${spread}px from the cards in its row (${sizes.join("/")})`,
+            );
+            break; // one finding per row is enough to act on
+          }
+        }
+      }
+    }
+
     // INV-2: the Book Composer's floating button row (.cx-fabs) is fixed over the
     // drawer's bottom-right corner and the drawer is sticky, so once the page
     // scrolls the two are pinned together — and whatever sits at the END of a

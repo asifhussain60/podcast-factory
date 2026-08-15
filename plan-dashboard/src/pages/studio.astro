@@ -13,8 +13,15 @@ import BookCard from "../components/studio/BookCard.astro";
 import { buildStudioShelves } from "../lib/reader/studio-shelves";
 import "../styles/studio-pipeline.css";
 
-const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
-  await buildStudioShelves();
+const {
+  shelves,
+  STATUS_FILTERS,
+  TRACK_FILTERS,
+  statusCount,
+  trackCount,
+  bucketCount,
+  totalCount,
+} = await buildStudioShelves();
 ---
 
 <Base
@@ -45,10 +52,17 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
     <h1 class="sr-only">Studio — work a book through the pipeline</h1>
 
     {
-      /* One row, both facets. The visible `Category` / `Status` captions are
-         gone with the two-row stack; nothing accessible went with them,
-         because each group's name has always come from its own aria-label,
-         not from the caption beside it. */
+      /* THREE facets, each single-select with its own "All", narrowing
+         together. Category and status share the first row — both ask where a
+         book is in the PIPELINE. The track row sits below with its own label,
+         because "what is this book about" is a different question and,
+         practically, fifteen chips do not fit one line at any width this site
+         is used at.
+
+         `aria-pressed` on buttons rather than radios: the Podcast Factory
+         Library's find row is built this way, and "pressed" is the honest
+         shape for a chosen chip. Exactly one chip per group carries
+         `aria-pressed="true"` at any moment; the script enforces it. */
     }
     <div class="studio-toolbar">
       <div class="studio-toolbar-filters">
@@ -57,19 +71,30 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
           role="group"
           aria-label="Filter books by content category"
         >
+          <button
+            type="button"
+            class="studio-bucket-chip"
+            data-bucket-filter="all"
+            aria-pressed="true"
+            title="Every category"
+          >
+            <span class="studio-bucket-chip-label">All</span>
+            <span class="studio-bucket-chip-count">{totalCount}</span>
+          </button>
           {
-            shelves.map(({ bucket, meta, cards: shelfCards }) => (
+            shelves.map(({ bucket, meta }) => (
               <button
                 type="button"
                 class="studio-bucket-chip"
                 data-bucket-filter={bucket}
-                aria-pressed="true"
+                aria-pressed="false"
                 title={meta.desc}
+                disabled={bucketCount(bucket) === 0}
               >
                 <i class={`fa-solid ${meta.icon}`} aria-hidden="true" />
-                <span class="studio-bucket-chip-label">{meta.label}</span>
+                <span class="studio-bucket-chip-label">{meta.chipLabel}</span>
                 <span class="studio-bucket-chip-count">
-                  {shelfCards.length}
+                  {bucketCount(bucket)}
                 </span>
               </button>
             ))
@@ -80,14 +105,25 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
           role="group"
           aria-label="Filter books by lifecycle status"
         >
+          <button
+            type="button"
+            class="studio-filter-chip"
+            data-status-filter="all"
+            aria-pressed="true"
+            title="Every status"
+          >
+            <span class="studio-filter-chip-label">All</span>
+            <span class="studio-filter-chip-count">{totalCount}</span>
+          </button>
           {
             STATUS_FILTERS.map((f) => (
               <button
                 type="button"
                 class="studio-filter-chip"
                 data-status-filter={f.id}
-                aria-pressed={f.defaultOn ? "true" : "false"}
+                aria-pressed="false"
                 title={f.hint}
+                disabled={statusCount(f.id) === 0}
               >
                 <i class={`fa-solid ${f.icon}`} aria-hidden="true" />
                 <span class="studio-filter-chip-label">{f.label}</span>
@@ -99,6 +135,48 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
           }
         </div>
       </div>
+      {
+        /* The three view modes, same three as the Library. One data attribute
+           on the picker restyles the SAME cards — three markup branches would
+           be three things to keep in step, and the compact tile and the list
+           row are the full card with less shown, not different cards. */
+      }
+      <div
+        class="studio-view-toggle"
+        role="group"
+        aria-label="Choose how books are shown"
+      >
+        <button
+          type="button"
+          class="studio-view-btn"
+          data-view-mode="cards"
+          aria-pressed="true"
+          aria-label="Card view"
+          title="Card view"
+        >
+          <i class="fa-solid fa-table-cells-large" aria-hidden="true"></i>
+        </button>
+        <button
+          type="button"
+          class="studio-view-btn"
+          data-view-mode="compact"
+          aria-pressed="false"
+          aria-label="Compact tile view"
+          title="Compact tile view"
+        >
+          <i class="fa-solid fa-table-cells" aria-hidden="true"></i>
+        </button>
+        <button
+          type="button"
+          class="studio-view-btn"
+          data-view-mode="list"
+          aria-pressed="false"
+          aria-label="List view"
+          title="List view"
+        >
+          <i class="fa-solid fa-list" aria-hidden="true"></i>
+        </button>
+      </div>
       <a
         class="studio-new-content-link"
         href="/studio/new"
@@ -109,14 +187,68 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
       </a>
     </div>
 
+    {
+      /* The counts are measured against the WHOLE shelf, never the filtered
+         view: a number that renumbered itself as you filtered would flicker,
+         and it is there to say what choosing it would give you. A track with
+         none is DISABLED rather than dropped — the five tracks are a taxonomy
+         worth seeing whole, and a row that changes length as books move
+         through the pipeline teaches less than one that keeps its shape. */
+    }
+    <div class="studio-tracks-panel">
+      <span class="studio-tracks-label" id="studio-tracks-label"
+        >Browse by track</span
+      >
+      <div
+        class="studio-track-filter-bar"
+        role="group"
+        aria-labelledby="studio-tracks-label"
+      >
+        <button
+          type="button"
+          class="studio-track-chip"
+          data-track-filter="all"
+          aria-pressed="true"
+          title="Every track"
+        >
+          <span class="studio-track-chip-label">All tracks</span>
+          <span class="studio-track-chip-count">{totalCount}</span>
+        </button>
+        {
+          TRACK_FILTERS.map((f) => (
+            <button
+              type="button"
+              class="studio-track-chip"
+              data-track-filter={f.id}
+              aria-pressed="false"
+              title={f.hint}
+              disabled={trackCount(f.id) === 0}
+            >
+              <span class="studio-track-chip-label">{f.label}</span>
+              <span class="studio-track-chip-count">{trackCount(f.id)}</span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    {
+      /* Filtering changes the page with no navigation, so the result is
+         announced. `polite`, not `assertive`: it should be heard after the
+         chip's own pressed state, not instead of it. */
+    }
+    <p
+      id="studio-filter-status"
+      class="sr-only"
+      role="status"
+      aria-live="polite"
+    >
+    </p>
+
     <div class="studio-shelves">
       {
         shelves.map(({ bucket, meta, items, cards: shelfCards }) => (
-          <section
-            class="studio-shelf"
-            data-bucket={bucket}
-            hidden={visibleInShelf(shelfCards) === 0}
-          >
+          <section class="studio-shelf" data-bucket={bucket}>
             <header class="studio-shelf-header">
               <span class="studio-shelf-icon-wrap" aria-hidden="true">
                 <i class={`fa-solid ${meta.icon}`} />
@@ -126,8 +258,8 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
                 <p class="studio-shelf-desc">{meta.desc}</p>
               </div>
               <span class="studio-shelf-count">
-                {visibleInShelf(shelfCards)}{" "}
-                {visibleInShelf(shelfCards) === 1 ? "work" : "works"}
+                {bucketCount(bucket)}{" "}
+                {bucketCount(bucket) === 1 ? "work" : "works"}
               </span>
             </header>
 
@@ -146,6 +278,7 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
                       <summary
                         class="studio-picker-card studio-shelf-card studio-series-summary"
                         data-status="always"
+                        data-track={it.deck.identity.studyTrack ?? ""}
                       >
                         <BookCard
                           identity={it.deck.identity}
@@ -195,7 +328,7 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
                       class="studio-picker-card studio-shelf-card"
                       href={`/studio/${it.card.slug}`}
                       data-status={it.card.statusBucket}
-                      hidden={!defaultOn.has(it.card.statusBucket)}
+                      data-track={it.card.identity.studyTrack ?? ""}
                     >
                       <BookCard
                         identity={it.card.identity}
@@ -224,81 +357,222 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
 </Base>
 
 <script>
-  // Studio picker filters: TWO independent multi-select facets, both on for
-  // every value by default (nothing hidden on arrival) — category (which
-  // bucket a shelf belongs to) and lifecycle status (which cards within a
-  // visible shelf show). A shelf renders only when BOTH its bucket is active
-  // AND it has at least one status-visible card; the two facets are combined
-  // rather than each independently setting `hidden`, or the last one to run
-  // would silently override the other's decision.
-  const statusChips = Array.from(
-    document.querySelectorAll<HTMLButtonElement>(".studio-filter-chip"),
-  );
-  const activeStatus = new Set<string>(
-    statusChips
-      .filter((c) => c.getAttribute("aria-pressed") === "true")
-      .map((c) => c.dataset.statusFilter ?? ""),
-  );
+  /**
+   * Studio picker filters — THREE single-select facets that narrow together.
+   *
+   * Category, lifecycle status and subject track. Each has an explicit "All"
+   * chip, each starts on "All", and choosing one option in a group deselects
+   * the others in that group. A card shows when it satisfies ALL THREE.
+   *
+   * This replaces a multi-select model in which every chip started ON, so a
+   * click SUBTRACTED: pressing "Published" hid the published books. The
+   * pressed styling compounded it — the chip you had just switched off drew as
+   * the prominent one — so the interface confirmed the wrong reading.
+   *
+   * The chosen facets are remembered, matching the Library's find row: coming
+   * back to a shelf you narrowed and finding it wide again loses the only
+   * state this page has.
+   */
+  type Facet = "bucket" | "status" | "track";
 
-  const bucketChips = Array.from(
-    document.querySelectorAll<HTMLButtonElement>(".studio-bucket-chip"),
-  );
-  const activeBuckets = new Set<string>(
-    bucketChips
-      .filter((c) => c.getAttribute("aria-pressed") === "true")
-      .map((c) => c.dataset.bucketFilter ?? ""),
-  );
+  const STORAGE_KEY = "pf-studio-filters";
 
-  function applyFilter(): void {
+  /** Every group, and how a card declares the value that group tests. */
+  const GROUPS: Record<
+    Facet,
+    { chip: string; attr: string; cardValue: (card: HTMLElement) => string }
+  > = {
+    bucket: {
+      chip: ".studio-bucket-chip",
+      attr: "bucketFilter",
+      // A card's bucket is its SHELF's, not its own — the shelf is the group.
+      cardValue: (card) =>
+        card.closest<HTMLElement>(".studio-shelf")?.dataset.bucket ?? "",
+    },
+    status: {
+      chip: ".studio-filter-chip",
+      attr: "statusFilter",
+      cardValue: (card) => card.dataset.status ?? "",
+    },
+    track: {
+      chip: ".studio-track-chip",
+      attr: "trackFilter",
+      cardValue: (card) => card.dataset.track ?? "",
+    },
+  };
+
+  const chipsIn = (facet: Facet) =>
+    Array.from(
+      document.querySelectorAll<HTMLButtonElement>(GROUPS[facet].chip),
+    );
+
+  const valueOf = (facet: Facet, chip: HTMLButtonElement) =>
+    chip.dataset[GROUPS[facet].attr] ?? "all";
+
+  /** The current choice per facet. "all" is the default and the reset value. */
+  const chosen: Record<Facet, string> = {
+    bucket: "all",
+    status: "all",
+    track: "all",
+  };
+
+  function restore(): void {
+    let saved: unknown;
+    try {
+      saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}");
+    } catch {
+      return; // Unreadable or unavailable storage just means the defaults.
+    }
+    if (!saved || typeof saved !== "object") return;
+    for (const facet of Object.keys(GROUPS) as Facet[]) {
+      const want = (saved as Record<string, unknown>)[facet];
+      if (typeof want !== "string") continue;
+      // Only restore a choice this page can still honour: a track whose books
+      // have all been republished elsewhere, or a bucket that no longer has a
+      // shelf, would otherwise restore an empty screen with no way back except
+      // finding a chip that is not there.
+      const chip = chipsIn(facet).find((c) => valueOf(facet, c) === want);
+      if (chip && !chip.disabled) chosen[facet] = want;
+    }
+  }
+
+  function persist(): void {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(chosen));
+    } catch {
+      /* Private browsing or a full quota — the filters still work this visit. */
+    }
+  }
+
+  function paintChips(): void {
+    for (const facet of Object.keys(GROUPS) as Facet[]) {
+      for (const chip of chipsIn(facet)) {
+        chip.setAttribute(
+          "aria-pressed",
+          valueOf(facet, chip) === chosen[facet] ? "true" : "false",
+        );
+      }
+    }
+  }
+
+  function matches(card: HTMLElement): boolean {
+    for (const facet of Object.keys(GROUPS) as Facet[]) {
+      const want = chosen[facet];
+      if (want === "all") continue;
+      // A series deck has no single status of its own — its volumes each carry
+      // theirs — so it is never hidden by the status facet. Without this the
+      // deck vanished on the first status click with no way to bring it back.
+      const value = GROUPS[facet].cardValue(card);
+      if (facet === "status" && value === "always") continue;
+      if (value !== want) return false;
+    }
+    return true;
+  }
+
+  function apply(): void {
     document.querySelectorAll<HTMLElement>(".studio-shelf").forEach((shelf) => {
-      const bucketOn = activeBuckets.has(shelf.dataset.bucket ?? "");
       let visible = 0;
       shelf
         .querySelectorAll<HTMLElement>(".studio-shelf-card")
         .forEach((card) => {
-          const status = card.dataset.status ?? "";
-          // A series deck is `always`: it has no status of its own, and its
-          // volumes each carry theirs on the rows inside it. Before this the
-          // deck's summary had no `data-status` at all, so `active.has("")` was
-          // false on every pass and one chip click hid every deck permanently.
-          const show =
-            bucketOn && (status === "always" || activeStatus.has(status));
+          const show = matches(card);
           card.hidden = !show;
           if (show) visible += 1;
         });
-      // Volume rows inside a deck follow their own status, so a chip narrows
-      // what an OPEN deck lists rather than leaving stale rows on screen.
+      // Volume rows inside an open deck follow the same rules, so a facet
+      // narrows what the deck lists rather than leaving stale rows on screen.
+      // They DO carry their own status, unlike the deck summary above them.
       shelf
         .querySelectorAll<HTMLElement>(".studio-series-vol")
         .forEach((row) => {
-          row.hidden = !bucketOn || !activeStatus.has(row.dataset.status ?? "");
+          row.hidden = !matches(row);
         });
-      shelf.hidden = !bucketOn || visible === 0;
+      shelf.hidden = visible === 0;
       const count = shelf.querySelector<HTMLElement>(".studio-shelf-count");
       if (count)
         count.textContent = `${visible} ${visible === 1 ? "work" : "works"}`;
     });
+
+    // Said out loud, because filtering happens with no page change: without it
+    // a screen-reader user presses a chip and is told nothing at all.
+    const status = document.getElementById("studio-filter-status");
+    if (status) {
+      const shown = document.querySelectorAll<HTMLElement>(
+        ".studio-shelf-card:not([hidden])",
+      ).length;
+      const wide = Object.values(chosen).every((v) => v === "all");
+      status.textContent = wide
+        ? `Showing all ${shown} works.`
+        : `Showing ${shown} ${shown === 1 ? "work" : "works"}.`;
+    }
   }
 
-  statusChips.forEach((chip) => {
-    chip.addEventListener("click", () => {
-      const id = chip.dataset.statusFilter ?? "";
-      const on = chip.getAttribute("aria-pressed") === "true";
-      chip.setAttribute("aria-pressed", on ? "false" : "true");
-      if (on) activeStatus.delete(id);
-      else activeStatus.add(id);
-      applyFilter();
-    });
-  });
+  for (const facet of Object.keys(GROUPS) as Facet[]) {
+    for (const chip of chipsIn(facet)) {
+      chip.addEventListener("click", () => {
+        chosen[facet] = valueOf(facet, chip);
+        paintChips();
+        apply();
+        persist();
+      });
+    }
+  }
 
-  bucketChips.forEach((chip) => {
-    chip.addEventListener("click", () => {
-      const id = chip.dataset.bucketFilter ?? "";
-      const on = chip.getAttribute("aria-pressed") === "true";
-      chip.setAttribute("aria-pressed", on ? "false" : "true");
-      if (on) activeBuckets.delete(id);
-      else activeBuckets.add(id);
-      applyFilter();
+  /**
+   * View mode — cards / compact / list, the same three the Library offers.
+   *
+   * One data attribute on the picker; the stylesheet does the rest. Kept apart
+   * from the facets above because it answers a different question: the facets
+   * decide WHICH books are on screen, this decides how much of each is drawn.
+   * It is remembered separately for the same reason.
+   */
+  const VIEW_KEY = "pf-studio-view";
+  const VIEWS = ["cards", "compact", "list"] as const;
+  type View = (typeof VIEWS)[number];
+
+  const picker = document.querySelector<HTMLElement>(".studio-picker");
+  const viewButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>(".studio-view-btn"),
+  );
+
+  function setView(view: View, save: boolean): void {
+    if (picker) picker.dataset.view = view;
+    for (const b of viewButtons) {
+      b.setAttribute(
+        "aria-pressed",
+        b.dataset.viewMode === view ? "true" : "false",
+      );
+    }
+    if (!save) return;
+    try {
+      localStorage.setItem(VIEW_KEY, view);
+    } catch {
+      /* Storage unavailable — the choice still holds for this visit. */
+    }
+  }
+
+  for (const b of viewButtons) {
+    b.addEventListener("click", () => {
+      const view = b.dataset.viewMode as View | undefined;
+      if (view && (VIEWS as readonly string[]).includes(view))
+        setView(view, true);
     });
-  });
+  }
+
+  let savedView: string | null = null;
+  try {
+    savedView = localStorage.getItem(VIEW_KEY);
+  } catch {
+    /* see above */
+  }
+  setView(
+    (VIEWS as readonly string[]).includes(savedView ?? "")
+      ? (savedView as View)
+      : "cards",
+    false,
+  );
+
+  restore();
+  paintChips();
+  apply();
 </script>

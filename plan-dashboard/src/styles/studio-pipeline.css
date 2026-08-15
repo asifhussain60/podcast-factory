@@ -334,6 +334,46 @@
   gap: 1.25rem;
 }
 
+/* ════════════════════════════════════════════════════════════
+   THE CARD'S PALETTE — one block, and the only place a Studio
+   card names a colour.
+   ════════════════════════════════════════════════════════════
+   Every rule below reads `--card-*` and nothing else, so the question
+   "what palette do these cards use" has exactly one answer and changing
+   it is editing this block rather than sixty-one declarations spread
+   through the file. It is the same indirection `--shelf-accent` already
+   uses for the per-bucket accent, at the same scale — this extends the
+   pattern to surface, rule and ink rather than inventing a new one.
+
+   Today every alias points at the site's own `--c-*` tokens, so this is
+   a pure refactor: nothing on screen moved when it landed. Pointing them
+   at another palette — the Podcast Factory Library's, say — is a change
+   to this block and nothing else, and reverting it is the same edit
+   backwards. That reversibility is the point: a palette is judged by
+   looking at it, and this makes looking cheap.
+
+   WHAT IS DELIBERATELY NOT HERE: the pipeline status colours (done /
+   active / blocked). Those are STATE, not surface — green means the step
+   finished whatever the card is painted with — so they keep reading the
+   site's semantic tokens directly and a palette swap cannot silently
+   restyle them into something that no longer reads as a status. */
+.studio-picker {
+  --card-surface: var(--c-bg-card);
+  --card-surface-sunken: var(--c-bg-sunken);
+  --card-rule: var(--c-rule);
+  --card-rule-soft: var(--c-rule-soft);
+  --card-ink: var(--c-ink);
+  --card-ink-muted: var(--c-ink-muted);
+  --card-ink-faint: var(--c-ink-faint);
+  --card-accent: var(--c-accent);
+  /* The native-script title's red. A one-off — it is not in the --c-*
+     palette and never was; it was written inline in the Arabic and Urdu
+     rules, twice, which is why it is here now rather than there. Kept
+     FIXED rather than following the bucket accent: it is the colour of
+     Arabic type in this edition, not a category signal. */
+  --card-script-ink: #7b1414;
+}
+
 .studio-picker-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
@@ -345,9 +385,9 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 1.1rem 1.2rem;
-  border: 1px solid var(--c-rule);
+  border: 1px solid var(--card-rule);
   border-radius: 14px;
-  background: var(--c-bg-card);
+  background: var(--card-surface);
   text-decoration: none;
   transition:
     border-color 130ms,
@@ -355,7 +395,7 @@
 }
 
 .studio-picker-card:hover {
-  border-color: var(--c-accent);
+  border-color: var(--card-accent);
   transform: translateY(-2px);
   text-decoration: none;
 }
@@ -363,11 +403,11 @@
 .studio-picker-card h2 {
   margin: 0;
   font-size: 1.05rem;
-  color: var(--c-ink);
+  color: var(--card-ink);
 }
 .studio-picker-card .studio-picker-step {
   font-size: 0.78rem;
-  color: var(--c-ink-muted);
+  color: var(--card-ink-muted);
 }
 .studio-picker-card .studio-picker-bar {
   display: flex;
@@ -394,7 +434,7 @@
 .studio-bookpick-item:focus-visible,
 .studio-step-link:focus-visible,
 .studio-picker-card:focus-visible {
-  outline: 2px solid var(--c-accent);
+  outline: 2px solid var(--card-accent);
   outline-offset: 2px;
 }
 
@@ -608,8 +648,8 @@
    below (1.5rem x 1.75 line-height) plus the padding, so the two cannot drift. */
 .card-script-wrap {
   padding: 1.1rem 1.2rem 0.9rem;
-  background: var(--c-bg-sunken);
-  border-bottom: 1px solid var(--c-rule-soft);
+  background: var(--card-surface-sunken);
+  border-bottom: 1px solid var(--card-rule-soft);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -647,7 +687,7 @@
   font-weight: 400;
   line-height: 1.75;
   letter-spacing: 0;
-  color: #7b1414;
+  color: var(--card-script-ink);
   text-align: center;
 }
 
@@ -660,7 +700,7 @@
   font-weight: 400;
   line-height: 2;
   letter-spacing: 0;
-  color: #7b1414;
+  color: var(--card-script-ink);
   text-align: center;
 }
 
@@ -672,17 +712,17 @@
   font-size: 1.45rem;
   font-weight: 400;
   line-height: 1.5;
-  color: var(--c-ink);
+  color: var(--card-ink);
   text-align: left;
 }
 
 /* Script-panel tint — light category wash via the design system */
 .studio-shelf .card-script-wrap {
-  background: color-mix(in oklab, var(--shelf-accent) 6%, var(--c-bg-card));
+  background: color-mix(in oklab, var(--shelf-accent) 6%, var(--card-surface));
   border-bottom-color: color-mix(
     in oklab,
     var(--shelf-accent) 20%,
-    var(--c-rule-soft)
+    var(--card-rule-soft)
   );
 }
 
@@ -714,7 +754,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--c-ink);
+  color: var(--card-ink);
   margin: 0;
   line-height: 1.55;
   overflow-wrap: break-word;
@@ -747,14 +787,18 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--shelf-accent, var(--c-accent));
+  color: var(--shelf-accent, var(--card-accent));
   background: color-mix(
     in oklab,
-    var(--shelf-accent, var(--c-accent)) 10%,
-    var(--c-bg-card)
+    var(--shelf-accent, var(--card-accent)) 10%,
+    var(--card-surface)
   );
   border: 1px solid
-    color-mix(in oklab, var(--shelf-accent, var(--c-accent)) 35%, var(--c-rule));
+    color-mix(
+      in oklab,
+      var(--shelf-accent, var(--card-accent)) 35%,
+      var(--card-rule)
+    );
 }
 
 /* Two lines, always — reserved whether the name needs them or not. "Qadi
@@ -766,7 +810,7 @@
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-style: italic;
-  color: var(--c-ink-muted);
+  color: var(--card-ink-muted);
   line-height: 1.3;
   text-align: center;
   display: -webkit-box;
@@ -781,8 +825,65 @@
    the element omitted, so the slot below it starts at the same height on every
    card in the row. */
 .card-author.is-empty {
-  color: var(--c-ink-faint, var(--c-ink-muted));
+  color: var(--card-ink-faint, var(--card-ink-muted));
   opacity: 0.5;
+}
+
+/* ── Study-track ribbon ──────────────────────────────────────────────────────
+   The book's subject, pinned to the script panel's top-right corner and spun
+   through 45deg so it reads as a banner across the corner rather than a badge
+   parked near it. Same corner, same rotation and the same five colour pairs as
+   the Podcast Factory Library's library card — the VALUES come from
+   study-track-colors.css, which the Library syncs from, so the two cannot
+   disagree about what Esoteric looks like.
+
+   The colour pair carries its own ink, which is why the ribbon needs no
+   contrast rule against whatever the panel behind it is painted: it is legible
+   on the warm panel here and on the verdigris one there without either site
+   knowing about the other. That property is also why a palette swap in the
+   card token block above cannot make a ribbon unreadable.
+
+   `overflow: hidden` on .studio-shelf-card is what clips the banner's tails —
+   it was already there for the accent strip. */
+.card-track-ribbon {
+  position: absolute;
+  top: 0.9rem;
+  inset-inline-end: -2.1rem;
+  z-index: 1;
+  width: 8rem;
+  padding: 0.15rem 0;
+  transform: rotate(45deg);
+  background: var(--track-fallback-bg, var(--c-ink-muted));
+  color: var(--track-fallback-ink, var(--c-bg-card));
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+.card-track-ribbon[data-track="theology"] {
+  background: var(--track-theology-bg);
+  color: var(--track-theology-ink);
+}
+.card-track-ribbon[data-track="history"] {
+  background: var(--track-history-bg);
+  color: var(--track-history-ink);
+}
+.card-track-ribbon[data-track="shariah"] {
+  background: var(--track-shariah-bg);
+  color: var(--track-shariah-ink);
+}
+.card-track-ribbon[data-track="esoteric"] {
+  background: var(--track-esoteric-bg);
+  color: var(--track-esoteric-ink);
+}
+.card-track-ribbon[data-track="reality"] {
+  background: var(--track-reality-bg);
+  color: var(--track-reality-ink);
 }
 
 /* One-line book description above the pipeline status */
@@ -790,7 +891,7 @@
   margin: 0.5rem 0 0;
   font-family: var(--font-body);
   font-size: 0.78rem;
-  color: var(--c-ink-muted);
+  color: var(--card-ink-muted);
   line-height: 1.45;
   text-align: center;
 }
@@ -807,9 +908,9 @@
   font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.03em;
-  color: var(--c-ink-muted);
-  background: var(--c-bg-sunken);
-  border: 1px dashed var(--c-rule);
+  color: var(--card-ink-muted);
+  background: var(--card-surface-sunken);
+  border: 1px dashed var(--card-rule);
 }
 
 /* Generation-status pills — real on-disk artifacts (PDF/podcast/augmented),
@@ -830,23 +931,23 @@
   height: 1.5rem;
   border-radius: 999px;
   font-size: 0.68rem;
-  color: var(--c-ink-muted);
-  background: var(--c-bg-sunken);
-  border: 1px solid var(--c-rule-soft);
+  color: var(--card-ink-muted);
+  background: var(--card-surface-sunken);
+  border: 1px solid var(--card-rule-soft);
   opacity: 0.5;
 }
 
 .card-gen-pill.is-generated {
-  color: var(--shelf-accent, var(--c-accent));
+  color: var(--shelf-accent, var(--card-accent));
   background: color-mix(
     in oklab,
-    var(--shelf-accent, var(--c-accent)) 12%,
-    var(--c-bg-card)
+    var(--shelf-accent, var(--card-accent)) 12%,
+    var(--card-surface)
   );
   border-color: color-mix(
     in oklab,
-    var(--shelf-accent, var(--c-accent)) 30%,
-    var(--c-rule)
+    var(--shelf-accent, var(--card-accent)) 30%,
+    var(--card-rule)
   );
   opacity: 1;
 }
@@ -855,7 +956,7 @@
   margin-left: auto;
   font-family: var(--font-body);
   font-size: 0.68rem;
-  color: var(--c-ink-muted);
+  color: var(--card-ink-muted);
   white-space: nowrap;
 }
 
@@ -863,7 +964,7 @@
 .card-pipeline-status {
   margin-top: auto;
   padding-top: 0.6rem;
-  border-top: 1px solid var(--c-rule-soft);
+  border-top: 1px solid var(--card-rule-soft);
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
@@ -963,7 +1064,7 @@
 
 /* ── Focus rings for new shelf elements ──────────────────── */
 .studio-shelf-card:focus-visible {
-  outline: 2px solid var(--c-accent);
+  outline: 2px solid var(--card-accent);
   outline-offset: 2px;
 }
 
@@ -1067,18 +1168,27 @@
 /* ── Multi-volume series deck (collapsible "deck of cards") ──────────────── */
 /* Wrapper holds the stacked sheets behind the front; the <summary> reuses the
    standalone-book card design (.studio-picker-card .studio-shelf-card). */
+/* PADDING, not margin (2026-08-15). The room for the two peeking sheets used to
+   be `margin: 0 12px 16px 0`, which reserves it OUTSIDE the grid cell — so the
+   deck's border box never filled its track and it rendered 12px narrower and
+   16px shorter than every card beside it, at every width. Padding reserves the
+   same space INSIDE the cell, and the sheets are inset to match, so the peek is
+   unchanged and the deck is finally the size of its siblings. Caught by the
+   card-sibling-mismatch invariant in site-health-smoke.mjs, which was added
+   because INV-1 compares a deck only to its own front card — and those agreed
+   perfectly the whole time this was wrong. */
 .studio-series-deck {
   position: relative;
-  margin: 0 12px 16px 0;
+  padding: 0 12px 16px 0;
 }
 .studio-series-deck::before,
 .studio-series-deck::after {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: 0 12px 16px 0;
   z-index: 0;
-  background: var(--c-bg-card);
-  border: 1.5px solid color-mix(in oklab, var(--c-ink) 34%, var(--c-rule));
+  background: var(--card-surface);
+  border: 1.5px solid color-mix(in oklab, var(--card-ink) 34%, var(--card-rule));
   border-radius: 14px;
   pointer-events: none;
 }
@@ -1121,11 +1231,11 @@
   content: "";
 }
 .studio-series-summary:focus-visible {
-  outline: 2px solid var(--c-accent);
+  outline: 2px solid var(--card-accent);
   outline-offset: 2px;
 }
 .studio-series-deck:hover .studio-series-summary {
-  border-color: var(--shelf-accent, var(--c-accent));
+  border-color: var(--shelf-accent, var(--card-accent));
   transform: translateY(-1px);
 }
 .studio-series-count {
@@ -1179,19 +1289,19 @@
   padding: 0.6rem 0.8rem;
   border-radius: 10px;
   text-decoration: none;
-  color: var(--c-ink);
-  border: 1px solid var(--c-rule);
-  background: var(--c-bg-card);
+  color: var(--card-ink);
+  border: 1px solid var(--card-rule);
+  background: var(--card-surface);
   transition:
     background 140ms ease,
     border-color 140ms ease;
 }
 .studio-series-vol:hover {
-  background: color-mix(in oklab, var(--c-accent) 7%, var(--c-bg-card));
-  border-color: color-mix(in oklab, var(--c-accent) 34%, var(--c-rule));
+  background: color-mix(in oklab, var(--card-accent) 7%, var(--card-surface));
+  border-color: color-mix(in oklab, var(--card-accent) 34%, var(--card-rule));
 }
 .studio-series-vol:focus-visible {
-  outline: 2px solid var(--c-accent);
+  outline: 2px solid var(--card-accent);
   outline-offset: 2px;
 }
 .studio-series-vol-order {
@@ -1203,7 +1313,7 @@
   justify-content: center;
   border-radius: 50%;
   background: color-mix(in oklab, var(--c-gold) 22%, transparent);
-  color: var(--c-accent);
+  color: var(--card-accent);
   font-weight: 700;
   font-size: 0.85rem;
 }
@@ -1213,7 +1323,7 @@
   min-width: 0;
 }
 .studio-series-vol-status {
-  color: var(--c-ink-muted);
+  color: var(--card-ink-muted);
   font-size: 0.85rem;
   white-space: nowrap;
 }
@@ -1381,6 +1491,327 @@
 
 /* `.studio-toolbar-row` / `.studio-toolbar-row-label` were deleted here with
    the two-row toolbar they existed for (2026-08-15). They had no other user. */
+
+/* ════════════════════════════════════════════════════════════
+   View modes — cards / compact / list
+   ════════════════════════════════════════════════════════════
+   ONE set of cards, restyled by `data-view` on .studio-picker.
+   Three markup branches would be three things to keep in step,
+   and the compact tile and the list row are the full card with
+   less shown — not different cards. Everything a mode drops is
+   `display: none`, so nothing is removed from the accessibility
+   tree that a reader might be relying on to identify the book:
+   the title, author and status survive in every mode. */
+
+.studio-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--c-rule);
+  border-radius: 10px;
+  background: var(--c-bg-elev);
+}
+
+.studio-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--c-ink-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    background 130ms,
+    color 130ms;
+}
+
+.studio-view-btn:hover {
+  color: var(--c-ink);
+}
+
+.studio-view-btn[aria-pressed="true"] {
+  background: var(--c-bg-card);
+  color: var(--c-accent);
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--c-ink) 10%, transparent);
+}
+
+.studio-view-btn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+/* ---- Compact tile ---------------------------------------------------------
+   The same card scaled for scanning many at once: a shorter script panel, the
+   ribbon reduced to a corner flag, and the description and artifact pills
+   dropped. The ribbon's LABEL stays in the DOM (transparent, not hidden) so it
+   is still announced — at this size the word had no room to sit straight and
+   read as clipped lettering, but the colour alone carries the same signal the
+   filter chip does. Same reduction the Library's compact tile makes. */
+.studio-picker[data-view="compact"] .studio-shelf-grid {
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.6rem;
+}
+
+.studio-picker[data-view="compact"] .card-script-wrap {
+  min-height: 0;
+  padding: 0.7rem 0.8rem 0.6rem;
+}
+
+.studio-picker[data-view="compact"] .card-script-text {
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.studio-picker[data-view="compact"] .card-body-wrap {
+  padding: 0.7rem 0.8rem 0.8rem;
+}
+
+.studio-picker[data-view="compact"] .card-title-en {
+  font-size: 0.78rem;
+}
+
+.studio-picker[data-view="compact"] .card-blurb,
+.studio-picker[data-view="compact"] .card-gen-pills,
+.studio-picker[data-view="compact"] .card-uncatalogued-pill {
+  display: none;
+}
+
+.studio-picker[data-view="compact"] .card-track-ribbon {
+  top: 0;
+  inset-inline-end: 0;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  transform: none;
+  /* A square corner flag rather than a rotated banner: a banner earns its
+     shape by carrying a word across a corner, and with no word left to carry,
+     clip-path cuts the flag straight out of the same corner instead. */
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+  color: transparent;
+}
+
+/* ---- List row -------------------------------------------------------------
+   The card laid on its side: the script panel becomes a fixed-width plate on
+   the leading edge and the body runs beside it. One row per book, so a long
+   shelf is scannable by title without scrolling past art. */
+.studio-picker[data-view="list"] .studio-shelf-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.studio-picker[data-view="list"] .studio-shelf-card {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.studio-picker[data-view="list"] .card-script-wrap {
+  flex: 0 0 9rem;
+  min-height: 0;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 0;
+  border-inline-end: 1px solid var(--card-rule-soft);
+  justify-content: center;
+}
+
+.studio-picker[data-view="list"] .card-script-text {
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.studio-picker[data-view="list"] .card-body-wrap {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1.4fr);
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.6rem 0.9rem;
+}
+
+/* Left-aligned, unlike the card and tile: a list is read down its leading edge,
+   and centred titles in a column give the eye no line to follow. */
+.studio-picker[data-view="list"] .card-identity {
+  min-width: 0;
+  align-items: flex-start;
+  text-align: start;
+}
+
+.studio-picker[data-view="list"] .card-title-en,
+.studio-picker[data-view="list"] .card-author {
+  text-align: start;
+}
+
+.studio-picker[data-view="list"] .card-title-en {
+  font-size: 0.9rem;
+}
+
+.studio-picker[data-view="list"] .card-blurb {
+  display: none;
+}
+
+.studio-picker[data-view="list"] .card-gen-pills {
+  margin: 0;
+  justify-content: flex-start;
+}
+
+.studio-picker[data-view="list"] .card-pipeline-status {
+  margin: 0;
+  border-top: 0;
+  padding-top: 0;
+}
+
+/* The banner is wrong on a row — it would cut across the plate's corner with
+   no corner to speak of. A flush edge stripe on the leading side instead,
+   carrying the same colour and keeping the label for assistive tech. */
+.studio-picker[data-view="list"] .card-track-ribbon {
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  width: 4px;
+  height: auto;
+  padding: 0;
+  transform: none;
+  color: transparent;
+  font-size: 0;
+}
+
+@media (max-width: 640px) {
+  /* One column is already the layout below this width, so the list row's
+     three-column body would squeeze each cell to nothing. It falls back to the
+     card stack rather than pretending to be a table. */
+  .studio-picker[data-view="list"] .studio-shelf-card {
+    flex-direction: column;
+  }
+  .studio-picker[data-view="list"] .card-script-wrap {
+    flex: none;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--card-rule-soft);
+  }
+  .studio-picker[data-view="list"] .card-body-wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Study-track filter row
+   ════════════════════════════════════════════════════════════
+   Its own row, below the pipeline facets, because "what is this
+   book about" is a different question from "where is it in the
+   process" — and because fifteen chips do not fit one line at any
+   width this site is used at. Labelled, unlike the two rows above:
+   those two read as pipeline chrome beside the primary action,
+   where a bare row of subject words would not say what it filters.
+
+   Each chip lights in ITS OWN track colour, from the same tokens
+   the card ribbon reads, so choosing "Esoteric" and the amber
+   ribbons on the cards below are visibly the same fact. */
+.studio-tracks-panel {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.9rem;
+  margin-top: -0.35rem;
+}
+
+.studio-tracks-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+}
+
+.studio-track-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.studio-track-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-elev);
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition:
+    border-color 130ms,
+    background 130ms,
+    color 130ms;
+}
+
+.studio-track-chip:hover:not(:disabled) {
+  border-color: var(--track-chip-accent, var(--c-accent));
+  color: var(--c-ink);
+}
+
+.studio-track-chip[aria-pressed="true"] {
+  background: var(--track-chip-accent, var(--c-accent));
+  border-color: var(--track-chip-accent, var(--c-accent));
+  color: var(--track-chip-ink, var(--c-bg-card));
+}
+
+.studio-track-chip[data-track-filter="theology"] {
+  --track-chip-accent: var(--track-theology-bg);
+  --track-chip-ink: var(--track-theology-ink);
+}
+.studio-track-chip[data-track-filter="history"] {
+  --track-chip-accent: var(--track-history-bg);
+  --track-chip-ink: var(--track-history-ink);
+}
+.studio-track-chip[data-track-filter="shariah"] {
+  --track-chip-accent: var(--track-shariah-bg);
+  --track-chip-ink: var(--track-shariah-ink);
+}
+.studio-track-chip[data-track-filter="esoteric"] {
+  --track-chip-accent: var(--track-esoteric-bg);
+  --track-chip-ink: var(--track-esoteric-ink);
+}
+.studio-track-chip[data-track-filter="reality"] {
+  --track-chip-accent: var(--track-reality-bg);
+  --track-chip-ink: var(--track-reality-ink);
+}
+
+.studio-track-chip-count {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.68rem;
+  opacity: 0.75;
+}
+
+.studio-track-chip:focus-visible {
+  outline: 2px solid var(--track-chip-accent, var(--c-accent));
+  outline-offset: 2px;
+}
+
+/* An empty option is DISABLED, never hidden — see the note in studio.astro.
+   Dimmed and un-clickable rather than removed, so the taxonomy keeps its
+   shape as books move through the pipeline. */
+.studio-bucket-chip:disabled,
+.studio-filter-chip:disabled,
+.studio-track-chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-track-chip {
+    transition: none;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .studio-bucket-chip {
