@@ -37,6 +37,8 @@ reproducible on identical input:
                           (the human's Composer edits, the Arabic overlay, the
                           vowelling, the introduction). Reads
                           ``_system/compose-skips.json``.
+  B9  articulation-complete — no chapter left stuck partial/reverted with open
+                          reconcile debt (``_articulation_reconcile``).
 
 USAGE
 
@@ -399,84 +401,10 @@ def gate_b6_book_source_crosswalk(book_dir: Path) -> tuple[bool, str]:
     return True, f"source-crosswalk.json: {len(entries)} chapters aligned"
 
 
-#: A book may gloss a term the OCR simply does not print, so perfect coverage is
-#: not achievable and demanding it would fail honest books. This is set to catch
-#: the STARVED case — the eleven-entries-against-177-terms shape — not to chase
-#: the tail.
-_GLOSS_COVERAGE_FLOOR = 0.60
-
-#: Below this many romanized glossed terms, the ratio is noise rather than a
-#: signal — see the inversion note in the gate.
-_GLOSS_SAMPLE_FLOOR = 20
-
-
-def gate_b7_book_gloss_coverage(book_dir: Path) -> tuple[bool, str]:
-    """Do the terms the book GLOSSES actually have Arabic to show?
-
-    The number the pipeline never computed. `_book_arabic_audit` enumerates
-    Arabic RUNS first, so a romanized term carrying no script produces no run and
-    is not merely unmeasured — it is invisible to the data structure. That is how
-    `degrees-of-excellence` shipped 177 glossed terms with script on six of them
-    while every Arabic report on it read clean.
-
-    Judged on STRONG candidates only — terms the source itself spells with
-    scholarly diacritics, so their being Arabic is evidence rather than a guess.
-    Report-only for a book with no glossary at all: a translation edition skips
-    phase 0c by design and has nothing to be starved of.
-    """
-    book_md = book_dir / "book" / "book.md"
-    if not book_md.exists():
-        return True, "no composed book — nothing to check"
-    glossary = book_dir / "_system" / "glossary.yml"
-    if not glossary.exists():
-        return True, "no glossary (translation-edition route) — n/a"
-    try:
-        from _gloss_terms import gloss_coverage
-        from _glossary_io import load_glossary
-
-        entries, _top = load_glossary(glossary)
-        source = ""
-        for rel in ("_system/source/text/refined-english.md", "_system/source/ocr/raw-extract.md"):
-            path = book_dir / rel
-            if path.exists():
-                source += path.read_text(encoding="utf-8", errors="ignore")
-        report = gloss_coverage(book_md.read_text(encoding="utf-8"), entries, source, book_dir)
-    except Exception as exc:  # noqa: BLE001 - a broken probe must not block a ship
-        return True, f"gloss coverage not computed ({exc})"
-
-    (book_dir / "_system" / "gloss-coverage.json").write_text(
-        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    # A ratio needs a denominator worth dividing by. After the conversion pass
-    # runs, almost every gloss carries Arabic and is no longer a ROMANIZED
-    # candidate — so a fully-fixed book leaves three stragglers behind and the
-    # gate read "0 of 3, 0%, starved" on the healthiest possible state. That is
-    # the measure inverting on success. Below the floor the honest answer is that
-    # there is nothing left to measure.
-    # Reported on EVERY path below, including the "nothing to measure" one. The
-    # ratio above is judged on STRONG candidates — terms the source spells with
-    # scholarly diacritics — and an articulated book's source has none, so all
-    # five live editions measured `strong: 0`, took the early return, and passed
-    # while `al-anwaar` printed 219 terms as bare romanization. This is the count
-    # that does not depend on that evidence: terms italicised as foreign that the
-    # book never once gives in Arabic script.
-    bare = (
-        f" · {report['bare_terms']} term(s) never given in Arabic script "
-        f"({report['bare_uses']} uses): {', '.join(r['term'] for r in report['bare'][:6])}"
-        if report.get("bare_terms")
-        else ""
-    )
-    if report["strong"] < _GLOSS_SAMPLE_FLOOR:
-        return True, f"only {report['strong']} romanized glossed term(s) left — nothing to measure{bare}"
-    pct = report["strong_coverage"]
-    note = (
-        f"{report['strong'] - len(report['missing_strong'])}/{report['strong']} glossed terms carry Arabic "
-        f"({pct:.0%}); glossary has {report['glossary_entries']} entries{bare}"
-    )
-    if pct < _GLOSS_COVERAGE_FLOOR:
-        missing = ", ".join(report["missing_strong"][:6])
-        return False, f"{note} — starved glossary; e.g. {missing}"
-    return True, note
+# gate_b7_book_gloss_coverage lives in _book_gloss_gate (split 2026-08-15,
+# DR-005) and is re-exported here so every existing
+# `from validate_book_ready import gate_b7_book_gloss_coverage` keeps working.
+from _book_gloss_gate import gate_b7_book_gloss_coverage  # noqa: E402, F401
 
 
 def gate_b8_compose_completed_every_step(book_dir: Path) -> tuple[bool, str]:
@@ -546,6 +474,16 @@ def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
     gates.append({"gate": "B8", "name": "compose-steps-complete", "passed": ok8, "note": why8})
     if not ok8:
         blocking_fail = blocking_fail or f"B8 compose-steps-complete: {why8}"
+
+    try:
+        from _articulation_reconcile import gate_articulation_complete as _gate9
+
+        ok9, why9 = _gate9(book_dir)
+    except Exception as exc:  # noqa: BLE001 - never block a ship on the probe
+        ok9, why9 = True, f"articulation-reconcile unavailable ({exc})"
+    gates.append({"gate": "B9", "name": "articulation-complete", "passed": ok9, "note": why9})
+    if not ok9:
+        blocking_fail = blocking_fail or f"B9 articulation-complete: {why9}"
 
     verdict = "BOOK-SOUND" if blocking_fail is None else "BOOK-BROKEN"
     summary = f"reading edition sound ({len(gates)} gates checked)" if blocking_fail is None else blocking_fail

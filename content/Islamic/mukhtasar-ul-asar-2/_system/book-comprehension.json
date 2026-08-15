@@ -1,13 +1,13 @@
 {
   "schema": "book.comprehension/v1",
-  "pages": 346,
+  "pages": 348,
   "terms_tracked": 59,
   "prerequisite_gaps": [
     {
       "term": "hadd",
       "first_use_page": 59,
-      "explained_page": 215,
-      "pages_carried": 156,
+      "explained_page": 216,
+      "pages_carried": 157,
       "kind": "explained-late"
     },
     {
@@ -23,19 +23,24 @@
   "dense_pages": [],
   "long_sentences": [
     {
-      "page": 311,
-      "words": 277,
-      "text": "Freedom, Generosity, and the Division of Estates AN-NUR: 4, ALI 'IMRAN: 89 ‫﴿َواَّلِذيَن َيْرُموَن اْلُمْحَص َناِت ُثَّم َلْم َيْأ ُتوا ِبَأ ْر َبَعِة ُشَهَداَء"
+      "page": 313,
+      "words": 279,
+      "text": "Wrong and Redress: Crime, Property Disputes, and the Judge AN-NUR: 4, ALI 'IMRAN: 89 ‫﴿َواَّلِذيَن َيْرُموَن اْلُمْحَص َناِت ُثَّم َلْم َيْأ ُتوا ِبَأ ْر َبَعِة"
     },
     {
-      "page": 168,
-      "words": 252,
-      "text": "Marriage and the Household Whoever forsakes such glances for the sake of Allah Almighty, and for no other, Allah Almighty will requite him with a faith whose sw"
+      "page": 169,
+      "words": 241,
+      "text": "Marriage and the Household for no other, Allah Almighty will requite him with a faith whose sweetness he will taste.'\" And Abu Abd Allah Jafar ibn Muhammad said"
     },
     {
-      "page": 342,
-      "words": 248,
-      "text": "But a handful is taken from this and a handful from that, and the two are mingled together — and there it is that Satan masters his followers, while those for w"
+      "page": 236,
+      "words": 220,
+      "text": "When a Marriage Ends: Divorce and Separation divorces her, she has no waiting period to observe, in accordance with the words of Allah, mighty and majestic: ﴾ ‫"
+    },
+    {
+      "page": 344,
+      "words": 216,
+      "text": "Wrong and Redress: Crime, Property Disputes, and the Judge The Master said: \"The Muslims should not be placed under one who is greedy, lest he covet their wealt"
     },
     {
       "page": 10,
@@ -43,84 +48,79 @@
       "text": "Someone said to him, \"O Messenger of Allah, how excellent is this man's strength, and the strength of his camels — if only it were in the way of Allah.\" The Mes"
     },
     {
-      "page": 306,
+      "page": 212,
+      "words": 207,
+      "text": "--On the Marriage of Bondswomen (Nikah al-Ima) AN-NISA: 25 ‫َوَمن َّل ْم َيْسَتِطْع ِمنُكْم َطْوًلا َأ ن َينِكَح ٱْلُمْحَصَنِت ٱْلُمْؤِمَنِت َفِمن َّم ا‬ ‫َمَلَ"
+    },
+    {
+      "page": 308,
       "words": 201,
       "text": "And an adulteress will be brought, and a drop will fall from her, and the people of the Fire will be tormented by her stench.\" He, may Allah bless him and his f"
     },
     {
-      "page": 271,
+      "page": 181,
+      "words": 199,
+      "text": "Jafar ibn Muhammad also said that when a man wishes to come to his wife, he should say: ‫ َو اَل‬،‫«َالَّلُه َّم ِإْن َقَض ْي َت ِم ِّني اْلَي ْو َم َخ ْل ًق ا "
+    },
+    {
+      "page": 316,
+      "words": 197,
+      "text": "Wrong and Redress: Crime, Property Disputes, and the Judge The Punishment for Intoxicants and Wine, and Related Rulings of the Hudud Allah Almighty said: AL-MA'"
+    },
+    {
+      "page": 272,
       "words": 196,
       "text": "Freedom, Generosity, and the Division of Estates God, mighty and majestic, has said: ‫﴿ُيوِص يُك ُم الَّلُه ِفي‬ ‫َأْو اَل ِد ُك ْم ِللَّذ َكِر ِم ْثُل َح ِّظ ا"
     },
     {
-      "page": 314,
-      "words": 195,
-      "text": "Freedom, Generosity, and the Division of Estates The Punishment for Intoxicants and Wine, and Related Rulings of the Hudud Allah Almighty said: AL-MA'IDAH: 90 ‫"
+      "page": 106,
+      "words": 193,
+      "text": "The Messenger of Allah ‫ ﷺ‬said of camel's milk: \"It draws from every tree.\" He also said: \"Cow's ghee is a cure, and its milk is medicine.\" A prophet once comp"
     },
     {
-      "page": 156,
-      "words": 191,
+      "page": 157,
+      "words": 190,
       "text": "AN-NISA: 12 ‫َوَلٌۭدۚ َفِإ ن َكاَن َلُكْم َوَلٌۭد َفَلُهَّن ٱلُّث ُمُن ِمَّما َتَرْك ُتمۚ ِّمۢن َبْعِد َوِصَّيٍۢة ُتوُصوَن‬ ‫ِبَهٓا َأ ْو َدْيٍۢن ۗ ِإَو ن َكاَن"
     },
     {
-      "page": 174,
+      "page": 175,
       "words": 190,
-      "text": "Marriage and the Household It was further narrated from him (peace be upon him and his family) that on the night Fatimah was brought to Ali, he heard the beat o"
+      "text": "Al-Sadiq Jafar ibn Muhammad was asked about such things, and he recited the words of Allah Almighty: ‫﴿ َو َم ا َخ َلْق َنا الَّس َم اَء َو اَأْلْر َو َم ا َبْي"
     },
     {
-      "page": 105,
-      "words": 185,
-      "text": "The Messenger of Allah ‫ ﷺ‬said of camel's milk: \"It draws from every tree.\" And he said: \"Cow's ghee is a cure, and its milk is medicine.\" A prophet once compl"
-    },
-    {
-      "page": 252,
+      "page": 253,
       "words": 182,
       "text": "--Mention of Lian Allah, exalted be His mention, said: ‫﴿ َو اَّلِذ يَن َيْرُم وَن َأْز َو اَج ُه ْم َو َلْم َيُك ن َّلُه ْم ُش َه َد اُء ِإاَّل َأنُف ُس ُه ْم "
     },
     {
-      "page": 179,
+      "page": 116,
+      "words": 180,
+      "text": "If you wish, I will pray to Allah for him and He will heal him; and if you wish, I will leave him, and there will be no reckoning or punishment upon him.\" She s"
+    },
+    {
+      "page": 180,
       "words": 177,
       "text": "When a man's wife is brought to him and she enters upon him, he should pray two rakahs, then place his hand upon her forelock and say, \"O Allah, bless me in my "
     },
     {
-      "page": 170,
-      "words": 174,
-      "text": "I bear witness that there is no god but Allah alone, with no partner, and I bear witness that Muhammad is His servant and His messenger.\" He would then recite t"
-    },
-    {
-      "page": 301,
-      "words": 171,
-      "text": "A group of Quraysh came to him and said: \"O Messenger of Allah, she is a woman of ours who holds honor among her people, and what she has stolen is a trifle.\" T"
-    },
-    {
-      "page": 316,
-      "words": 171,
-      "text": "Freedom, Generosity, and the Division of Estates The Rulings Concerning Thieves and Brigands Allah Almighty said: AL-BAQARAH: 188 ﴾ ‫﴿َوَلا َتْأ ُكُلوا َأ ْمَوا"
-    },
-    {
-      "page": 9,
-      "words": 170,
-      "text": "Let him not sit in his house, grieving himself and his family and becoming a burden upon others.\" And he said, \"Beneath the shade of the Throne, on the Day when"
-    },
-    {
-      "page": 171,
-      "words": 168,
+      "page": 172,
+      "words": 176,
       "text": "Marriage and the Household ‫﴿ َيا َأُّيَه ا اَّلِذ يَن آَم ُنوا اَّتُق وا الَّلَه َو ُقوُلوا َقْو اًل َس ِد يًد ا ۝ ُيْص ِلْح َلُك ْم‬ ‫َأْع َم اَلُك ْم َو َيْغ"
     },
     {
-      "page": 180,
-      "words": 164,
-      "text": "Jafar ibn Muhammad also said that when a man wishes to come to his wife, he should say: ‫«َالَّل ُهَّم ِإ ْن َقَضْيَت ِمِّني اْلَيْوَم‬ ‫ ِإ َّن َك َعَلى‬،‫ َوَ"
+      "page": 171,
+      "words": 173,
+      "text": "I bear witness that there is no god but Allah alone, with no partner, and I bear witness that Muhammad is His servant and His messenger.\" He would then recite t"
     },
     {
-      "page": 235,
-      "words": 163,
-      "text": "When a Marriage Ends: Divorce and Separation A husband who intends to divorce his wife may do so by saying to her, \"You are divorced,\" or by naming her and sayi"
+      "page": 318,
+      "words": 173,
+      "text": "Wrong and Redress: Crime, Property Disputes, and the Judge The Rulings Concerning Thieves and Brigands Allah Almighty said: AL-BAQARAH: 188 ﴾ ‫﴿َوَلا َتْأ ُكُلو"
     },
     {
-      "page": 211,
-      "words": 162,
-      "text": "--On the Marriage of Bondswomen (Nikah al-Ima) AN-NISA: 25 ‫َوَمن َّل ْم َيْسَتِطْع ِمنُكْم َطْوًلا َأ ن َينِكَح ٱْلُمْحَصَنِت ٱْلُمْؤِمَنِت َفِمن َّم ا‬ ‫َمَلَ"
+      "page": 303,
+      "words": 171,
+      "text": "A group of Quraysh came to him and said: \"O Messenger of Allah, she is a woman of ours who holds honor among her people, and what she has stolen is a trifle.\" T"
     }
   ],
   "summary": {

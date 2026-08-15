@@ -463,7 +463,9 @@ class Probe:
             ("def compose_book_v2", "scripts/podcast/_book_pipeline_v2.py"),
             ("def author_phase_book_augment", "scripts/podcast/_book_augment.py"),
             ("def apply_fluency_adapt", "scripts/podcast/_book_voice.py"),
-            ("def apply_author_companion_voice", "scripts/podcast/_book_voice.py"),
+            # Split out 2026-08-15 (DR-005) into its own module, re-exported from
+            # _book_voice.py so every `from _book_voice import ...` caller is unaffected.
+            ("def apply_author_companion_voice", "scripts/podcast/_book_voice_companion.py"),
         ]:
             if sym not in self.read(rel):
                 self.add("P1", "AU-V4", f"{rel} no longer defines `{sym[4:]}`", rel, fingerprint=f"AU-V4:{sym}")

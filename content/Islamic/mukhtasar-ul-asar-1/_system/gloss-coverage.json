@@ -1,14 +1,14 @@
 {
   "schema": "book.gloss-coverage/v2",
-  "candidates": 26,
+  "candidates": 27,
   "strong": 0,
   "covered": 0,
   "missing_strong": [],
   "glossary_entries": 10,
   "coverage": 0.0,
   "strong_coverage": 1.0,
-  "bare_terms": 26,
-  "bare_uses": 42,
+  "bare_terms": 27,
+  "bare_uses": 43,
   "bare": [
     {
       "term": "musinnah",
@@ -50,13 +50,13 @@
       "term": "muja",
       "uses": 2,
       "confidence": "weak",
-      "first_seen_snippet": "of the sheep, which is better than the *muja* — the ani"
+      "first_seen_snippet": "The ram of the sheep — better than the *muja*"
     },
     {
       "term": "mustalim",
       "uses": 2,
       "confidence": "weak",
-      "first_seen_snippet": "crushed. The *muja* is better than the *mustalim*, whose te"
+      "first_seen_snippet": "een bound or crushed) — better than the *mustalim*"
     },
     {
       "term": "Al-Kafirun",
@@ -74,7 +74,7 @@
       "term": "badanah",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "tle is preferable to the male. The term *badanah* applies t"
+      "first_seen_snippet": "in descending order of merit — the term *badanah* covering"
     },
     {
       "term": "faa al-fay",
@@ -141,6 +141,12 @@
       "uses": 1,
       "confidence": "weak",
       "first_seen_snippet": "- the *muqabalah*: an anima"
+    },
+    {
+      "term": "rafath",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "nd it has already been established that *rafath* means int"
     },
     {
       "term": "sharqa",

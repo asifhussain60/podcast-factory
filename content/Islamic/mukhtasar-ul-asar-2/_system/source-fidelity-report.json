@@ -1,0 +1,181 @@
+{
+  "source_fidelity_auditor_version": "1.0",
+  "slug": "mukhtasar-ul-asar-2",
+  "source_file": "_system/source/text/refined-english.md",
+  "deliverable_mode": "translation_edition",
+  "verdict": "TOPICS-MISSING",
+  "chapters": [
+    {
+      "title": "Introduction",
+      "verdict": "PASS",
+      "findings": ["SF-05-RESOLVED"]
+    },
+    {
+      "title": "1. The Marketplace: Honest Earning, Trade, and Property",
+      "verdict": "PASS",
+      "findings": []
+    },
+    {
+      "title": "2. Binding Words: Oaths, Vows, and Their Atonement",
+      "verdict": "PASS",
+      "findings": ["SF-03-RESOLVED"]
+    },
+    {
+      "title": "3. The Body's Portion: Food, Drink, and Healing",
+      "verdict": "FAIL",
+      "findings": ["SF-08"]
+    },
+    {
+      "title": "4. What We Wear: Dress, Adornment, and Fragrance",
+      "verdict": "PASS",
+      "findings": []
+    },
+    {
+      "title": "5. The Hunt and the Knife: Game, Slaughter, and Sacrifice",
+      "verdict": "PASS",
+      "findings": []
+    },
+    {
+      "title": "6. Marriage and the Household",
+      "verdict": "PASS",
+      "findings": ["AO-1"]
+    },
+    {
+      "title": "7. When a Marriage Ends: Divorce and Separation",
+      "verdict": "PASS",
+      "findings": []
+    },
+    {
+      "title": "8. Freedom, Generosity, and the Division of Estates",
+      "verdict": "PASS",
+      "findings": ["SF-04-RESOLVED", "AO-2", "AO-4"]
+    },
+    {
+      "title": "9. Wrong and Redress: Crime, Property Disputes, and the Judge",
+      "verdict": "FAIL",
+      "findings": ["SF-01-RESOLVED", "SF-02-RESOLVED", "SF-07"]
+    }
+  ],
+  "adjacent_observations": ["SF-06 (still open, recurring)", "AO-1", "AO-2", "AO-3", "AO-4"],
+  "findings_detail": [
+    {
+      "finding_id": "SF-01",
+      "status": "RESOLVED",
+      "severity": "P0",
+      "chapter": "9. Wrong and Redress: Crime, Property Disputes, and the Judge",
+      "description": "Re-verified fresh against refined-english.md:2269-2290. The opening 'Mention of Retribution for Killing and Wounds' passage is now present at book.md:2682-2688 in full: all four Qur'an citations (Al-Isra 33, Al-Nisa 93, Al-Nisa 29-30, Al-Ma'idah 32), the 'entire nation' hadith, the Sa'ir-valley hadith, the major-sin hadith, the Cain-and-Abel note, and the equal-blood ruling with the five-hundred-dinar figure for a woman. Wording is a close, faithful paraphrase of the source, not a fabrication.",
+      "excerpt_source": "refined-english.md:2271-2290",
+      "excerpt_book": "book/book.md:2682-2688",
+      "recommendation": "None — confirmed fixed."
+    },
+    {
+      "finding_id": "SF-02",
+      "status": "RESOLVED",
+      "severity": "P1",
+      "chapter": "8/9 boundary",
+      "description": "The mid-sentence truncation and orphaned duplicate hadith ('There is no execution except by the sword') that previously sat at the old chapter-8/9 seam are gone. The sentence that closes the inheritance material now reads in full ('...the disavowal is not permitted: the child remains his son. All of this is the teaching of the Ahl al-Bayt, may the prayers of Allah be upon them all.') and the hadith about execution by the sword now appears exactly once, correctly attributed and in its proper place inside chapter 9's retaliation material (book.md:2690).",
+      "excerpt_source": "n/a — internal stitching artifact",
+      "excerpt_book": "book/book.md:2678, 2690",
+      "recommendation": "None — confirmed fixed."
+    },
+    {
+      "finding_id": "SF-03",
+      "status": "RESOLVED",
+      "severity": "P0",
+      "chapter": "2. Binding Words: Oaths, Vows, and Their Atonement",
+      "description": "The vow-to-sin ruling and the kinship-severing prohibition are now the chapter's opening paragraph (book.md:834), ahead of the conditional-vow material. Wording matches the source closely: 'Jafar ibn Muhammad...said that this is like a man who vows that, if he is able, he will become intoxicated and drink, or that he will commit adultery, or theft, or murder — such things are already forbidden to him...He must not make a vow that involves the severing of kinship ties.'",
+      "excerpt_source": "refined-english.md:630-631",
+      "excerpt_book": "book/book.md:834",
+      "recommendation": "None — confirmed fixed."
+    },
+    {
+      "finding_id": "SF-04",
+      "status": "RESOLVED",
+      "severity": "P0",
+      "chapter": "8 / 9",
+      "description": "Read both chapters in full, start to finish. Chapter 8 (book.md:2465-2678) is now entirely about gifts, bequests, and inheritance shares — no retaliation, blood-money, or hudud material bleeds in. Chapter 9 (book.md:2680-3251) opens directly with the restored retribution passage and continues, without interruption, through blood-money categories, wounds of the head, the establishment of hudud, zina, slander, intoxicants, thieves/brigands, apostates, usurpation, loans and deposits, division of property, testimony, and the etiquette of judges — matching the source's own chapter-9 span end to end. Word-count cross-check now confirms the fix: book.md ch8 = 7,847 words against a source range of 8,961; book.md ch9 = 18,590 words against a source range of 18,789 — both now track their OWN source ranges instead of each other's.",
+      "excerpt_source": "book-toc.json ch8 [2074,2268], ch9 [2269,2862]",
+      "excerpt_book": "book/book.md:2465-3251",
+      "recommendation": "None — confirmed fixed."
+    },
+    {
+      "finding_id": "SF-05",
+      "status": "RESOLVED",
+      "severity": "P1",
+      "chapter": "Introduction",
+      "description": "The Introduction now names the compiler: 'It was compiled by Qadi al-Nu'man ibn Muhammad ibn Hayyun al-Tamimi, whose arrangement gives the reports their order without adding a voice of his own to them.'",
+      "excerpt_source": "refined-english.md:30",
+      "excerpt_book": "book/book.md:9",
+      "recommendation": "None — confirmed fixed."
+    },
+    {
+      "finding_id": "SF-06",
+      "status": "OPEN (recurring, not addressed by this fix pass)",
+      "severity": "P2",
+      "chapter": "whole-book (recurring, adjacent observation)",
+      "description": "The closing formula '...the teaching/position of the Ahl al-Bayt, may [the prayers of Allah be upon them (all)].' still truncates mid-phrase to '...Ahl al-Bayt, may.' at four remaining locations (one prior instance, at the old ch8/9 seam, was incidentally cleaned up by the SF-02 fix, but this is not a systemic fix). Not a fidelity gap on its own (boilerplate, not teaching content) but worth a root-cause check on the compose/fluency pass, since the same truncation bug likely recurs elsewhere in the corpus.",
+      "excerpt_source": "n/a — internal to book.md",
+      "excerpt_book": "book/book.md:778, 2804, 2913, 3180",
+      "recommendation": "Root-cause the truncation in the compose/fluency tooling; not a per-book Composer fix."
+    },
+    {
+      "finding_id": "SF-07",
+      "status": "NEW",
+      "severity": "P0",
+      "type": "topic-missing",
+      "chapter": "9. Wrong and Redress: Crime, Property Disputes, and the Judge",
+      "description": "Immediately after the newly-restored SF-01 passage, and directly before the 'heirs of differing condition' paragraph, the source carries a further paragraph of retaliation-law rulings that never made it into book.md: the guardians' choice to have the killer executed or, if the killer is a slave, to take him as compensation from his master at no more than the slave's value; the ruling that a free man who kills a slave pays the slave's value as blood money plus a severe discretionary punishment; the rulings on a Muslim who kills a dhimmi (retaliation, or an eight-hundred-dirham blood money plus severe punishment, escalating to death for a repeat offender); the exception that a child may be executed in retaliation for killing his father but a father is never executed for killing his son; and the ruling that retaliation is carried out between slaves toward one another and between dhimmis toward one another, with partial-pardon rules among multiple guardians. Confirmed absent by full-text search across book.md for 'eight hundred dirhams', 'not killed for his son', 'value of the slave for his crime' — zero matches. This sits inside the same source paragraph block the SF-01 fix drew from, one sentence further down, so it reads as a partial restoration rather than an unrelated gap.",
+      "excerpt_source": "refined-english.md:2290 — 'The guardians of the slain may choose to have the killer put to death or, if the killer is a slave, to take him as compensation — and his master owes no more than the value of the slave for his crime. If a free man kills a slave, he pays the slave's value as blood money, and the ruler inflicts upon him a severe and painful punishment as a deterrent...If a Muslim kills a dhimmi, he is killed in retaliation. If a Muslim kills a dhimmi, he is fined eight hundred dirhams as blood money...A child is killed for his father or other relatives if he kills one of them and retribution is sought. The father, however, is not killed for his son. Retribution is carried out between slaves toward one another, and between dhimmis toward one another...'",
+      "excerpt_book": "book/book.md:2688-2689 — the 'equal in blood' paragraph is immediately followed by the 'heirs of differing condition' paragraph, with the guardian's-choice/dhimmi/child-for-father material entirely absent between them.",
+      "recommendation": "Route through the Book Composer at /studio/mukhtasar-ul-asar-2/compose: insert this paragraph into chapter 9 immediately after the 'equal in blood...five hundred dinars' sentence and before 'When the heirs of a slain man are of differing condition...'."
+    },
+    {
+      "finding_id": "SF-08",
+      "status": "NEW",
+      "severity": "P0",
+      "type": "topic-missing",
+      "chapter": "3. The Body's Portion: Food, Drink, and Healing",
+      "description": "Chapter 3 runs to 8,150 words in book.md against a source range of 12,430 words (65%) — the largest shortfall of any chapter — and reading it start to finish confirms real content loss, not de-duplication. Four source sections are missing outright: (1) 'Mentioning the Feeding of Food' — the virtue of feeding guests and believers, including the Qur'an verse on feeding the poor/orphan/captive and the hadith that angels sanctify and seek forgiveness at the tables of the family of Muhammad; (2) 'Mentioning the Types of Foods and Ordering That They Be Preserved' — the Prophet's food preferences and teaching against waste (meat, tharid, dates, vinegar and oil, lentils, quince, the son-of-Jad'an tradition, the crumb-of-bread teaching); (3) 'Mentioning the Etiquette of Eating' — eating posture, eating with five fingers rather than three, licking the plate, washing hands before and after, naming Allah at the start and praising Him at the end; (4) the Qur'anic opening of 'Mentioning What Is Forbidden from Food' — the core list of carrion, blood, pork, what is sacrificed to other than Allah, and what is strangled, beaten, fallen, or gored, plus the ruling on fanged predators, donkeys, mules, and the conditional exception for an injured horse. Only the tail end of that fourth section (cheese from Magians, sea creatures, dire necessity, lawful meats, birds, eggs) survived into book.md; everything before it in the source section is gone. Confirmed absent by full-text search across book.md for 'tharid', 'pomegranate' (in the feeding-of-food sense — the word does recur later, correctly, in the unrelated Treatment-and-Medicine section), 'hospitality', 'crumb of bread', 'son of Jad'an', 'carrion, blood, pork', 'strangled', 'donkeys', 'mules', 'three fingers', 'lick the plate' — zero matches on every one.",
+      "excerpt_source": "refined-english.md:677-756 — spans 'Mentioning the Feeding of Food' through the opening of 'Mentioning What Is Forbidden from Food'.",
+      "excerpt_book": "book/book.md:870-872 — chapter 3 opens directly with 'The law draws a clear line between what may be eaten from a slaughtered animal...' (the tail of the forbidden-food section), with no trace of the four missing sections before it.",
+      "recommendation": "Route through the Book Composer at /studio/mukhtasar-ul-asar-2/compose: restore all four missing sections at the head of chapter 3, in source order, ahead of the surviving forbidden-food tail."
+    },
+    {
+      "finding_id": "AO-1",
+      "type": "adjacent-observation-misfiled-heading",
+      "severity": "P2",
+      "chapter": "6. Marriage and the Household",
+      "description": "book.md:1492 carries the subheading '### The Hunt and the Knife: Game, Slaughter, and Sacrifice' in the middle of chapter 6's marriage material. The content beneath it is about the Prophet's teaching on how to open a marriage proposal and the supplication for a good spouse — nothing to do with hunting. A pre-existing artifact, not introduced by the SF-01-05 fix pass, and not previously flagged.",
+      "excerpt_book": "book/book.md:1492-1494",
+      "recommendation": "Route through the Book Composer: delete or correct the misfiled heading; it belongs nowhere near this content."
+    },
+    {
+      "finding_id": "AO-2",
+      "type": "adjacent-observation-misfiled-heading",
+      "severity": "P2",
+      "chapter": "8. Freedom, Generosity, and the Division of Estates",
+      "description": "book.md:2563 carries the subheading '### When a Marriage Ends: Divorce and Separation' in the middle of chapter 8's inheritance material. The content beneath it is the parents-only inheritance split (two-thirds/one-third) and the rule that brothers are excluded when both parents survive — inheritance law, not divorce. This sits close to where the chapter-8/9 relocation work happened, which may point to the same stitching tool dropping stray headings from elsewhere into place; worth checking whether the SF-04 fix pass is the proximate cause even though this particular content did not move.",
+      "excerpt_book": "book/book.md:2563-2565",
+      "recommendation": "Route through the Book Composer: delete or correct the misfiled heading."
+    },
+    {
+      "finding_id": "AO-3",
+      "type": "adjacent-observation-apparatus-omitted",
+      "severity": "P2",
+      "chapter": "whole-book",
+      "description": "The source closes with a colophon naming the manuscript's transcriber (Abdullah ibn Ali ibn Ali al-Anf, writing at Mansoura in Najran, completed 30 Muharram 1405 AH) and a formal 'Conclusion' sentence marking the book's completion. Nothing in book.md corresponds to this. Likely a deliberate decision to drop scribal apparatus rather than doctrinal content — reasonable for a reading edition — but flagged because the edition's own Introduction otherwise takes care to name the compiler (per SF-05's fix), so the omission of the transcriber's colophon should be a conscious editorial choice rather than a silent drop.",
+      "excerpt_source": "refined-english.md:2712-2716",
+      "recommendation": "No action required unless Asif wants the colophon reflected in a closing note; flagging for awareness only."
+    },
+    {
+      "finding_id": "AO-4",
+      "type": "adjacent-observation-vestigial-heading",
+      "severity": "P2",
+      "chapter": "8. Freedom, Generosity, and the Division of Estates",
+      "description": "book.md:2467 carries the heading '### Gifts, Bequests, and the Shares of Inheritance' immediately followed two lines later by '### On Gifts and Generosity', with no body text between them. The first heading is a vestigial super-heading with no content of its own — harmless but dead weight.",
+      "excerpt_book": "book/book.md:2467-2469",
+      "recommendation": "Low priority: remove the empty super-heading via the Book Composer, or leave as-is."
+    }
+  ],
+  "summary": "Re-reading the source and the current book.md from scratch confirms that all five originally-flagged defects (SF-01 through SF-05) are genuinely fixed and match the source's wording faithfully: the retribution-opening passage with its four Qur'an verses and two hadith is back, the vow-to-sin ruling opens chapter 2, chapters 8 and 9 are now each entirely about their own subject with the stitching artifact cleaned up, and the compiler is named in the introduction. However, this pass also surfaced two new P0 topic-missing gaps that the prior fix did not touch, both large enough to matter: a paragraph of retaliation-law rulings (guardian's choice of execution-or-compensation, Muslim-kills-dhimmi rulings, the child-for-father exception) sitting one paragraph past the material that was restored in chapter 9, and roughly a third of chapter 3's content — the feeding-of-food, food-preference, table-etiquette, and the core Qur'anic forbidden-food list — missing outright, which also explains why that chapter runs noticeably short against its source range. Four minor adjacent observations (two misfiled headings, one omitted colophon, one vestigial heading) round out the findings but do not block ship on their own. Given the two new P0s, this book is not yet clean and should not be marked ship-ready until SF-07 and SF-08 are restored through the Book Composer and re-verified."
+}

@@ -10,7 +10,7 @@
   "coverage": 0.023,
   "strong_coverage": 0.0,
   "bare_terms": 63,
-  "bare_uses": 137,
+  "bare_uses": 139,
   "bare": [
     {
       "term": "dhimmi",
@@ -20,9 +20,9 @@
     },
     {
       "term": "li'an",
-      "uses": 22,
+      "uses": 23,
       "confidence": "weak",
-      "first_seen_snippet": "According to Ali, no *li'an* arises be"
+      "first_seen_snippet": "These verses establish the procedure of *li'an* — the oat"
     },
     {
       "term": "riba",
@@ -46,7 +46,7 @@
       "term": "iddah",
       "uses": 7,
       "confidence": "weak",
-      "first_seen_snippet": "further claimed that no waiting period (*iddah*) was requi"
+      "first_seen_snippet": "- no waiting period (*iddah*) was requi"
     },
     {
       "term": "ayyami",
@@ -115,6 +115,12 @@
       "first_seen_snippet": "of marriage and the right of possession (*milk al-yamin*). The Almi"
     },
     {
+      "term": "mutah",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "amily) forbade the marriage of pleasure (*mutah*)."
+    },
+    {
       "term": "ribh ma lam yudman",
       "uses": 2,
       "confidence": "weak",
@@ -160,7 +166,7 @@
       "term": "al-idda",
       "uses": 1,
       "confidence": "weak",
-      "first_seen_snippet": "vorce (al-talaq) and the waiting period (al-idda). So if a"
+      "first_seen_snippet": "vorce (al-talaq) and the waiting period (al-idda). If a man"
     },
     {
       "term": "al-kafala",
@@ -323,12 +329,6 @@
       "uses": 1,
       "confidence": "weak",
       "first_seen_snippet": "s the bone, one hundred dinars. For the *munaqqila*, which br"
-    },
-    {
-      "term": "mutah",
-      "uses": 1,
-      "confidence": "weak",
-      "first_seen_snippet": "amily) forbade the marriage of pleasure (mutah)."
     },
     {
       "term": "mutalahima",
