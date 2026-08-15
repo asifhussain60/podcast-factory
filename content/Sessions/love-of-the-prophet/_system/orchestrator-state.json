@@ -4,10 +4,10 @@
   "category": "lectures",
   "branch": "Sessions/love-of-the-prophet",
   "pipeline_mode": "sessions_lane",
-  "phase": "sessions-apparatus",
+  "phase": "reader-narration",
   "phase_status": "completed",
-  "last_completed_phase": "sessions-apparatus",
-  "next_phase": null,
+  "last_completed_phase": "reader-narration",
+  "next_phase": "publish",
   "last_error": null,
   "phases": {
     "sessions-ingest": {
@@ -24,7 +24,31 @@
     },
     "sessions-apparatus": {
       "status": "completed"
+    },
+    "reader-narration": {
+      "status": "completed",
+      "ts_started": "2026-08-15T13:28:31Z",
+      "ts_completed": "2026-08-15T13:31:21Z",
+      "rendered": [
+        "introduction to the book",
+        "love based religion",
+        "need for messengers",
+        "islam as an experience",
+        "character of the prophet",
+        "a model for success"
+      ],
+      "skipped": [],
+      "chars": 106984,
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 0,
+        "blocking_fail": null
+      }
     }
   },
-  "status": "draft"
+  "status": "draft",
+  "run_id": "20260815T131238Z-bafe62",
+  "ts_updated": "2026-08-15T13:31:21Z"
 }
