@@ -392,6 +392,7 @@ def _fluency_chapter(
 # `_book_frontmatter.INTRO_HEADING`, as `anchor_key` sees it. Not imported, to
 # keep this module free of a front-matter dependency; pinned by a test.
 _INTRODUCTION_KEY = "introduction to the book"
+_LEGACY_INTRODUCTION_KEY = "introduction"  # pre-v2 legacy books (mukhtasar-ul-asar-1/2)
 
 
 def _run_pass(
@@ -438,12 +439,11 @@ def _run_pass(
         # to be faithful to, and the fidelity gates below judge a rendering of a
         # SOURCE — so running them over it would revert or rewrite on evidence
         # that does not apply.
-        #
         # During a compose it is simply not there yet (the apparatus injects it
         # after this pass). Standalone, on a finished book, it IS there and is the
         # first `## ` section — so `only=[1]` means the introduction and not
         # chapter one, which is exactly the accident this prevents.
-        if anchor_key(head) == _INTRODUCTION_KEY:
+        if anchor_key(head) in (_INTRODUCTION_KEY, _LEGACY_INTRODUCTION_KEY):
             out.append(head + "\n\n" + body.strip() + "\n")
             continue
         if anchor_key(head) in authored:

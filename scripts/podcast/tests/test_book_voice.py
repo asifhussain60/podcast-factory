@@ -304,6 +304,39 @@ def test_the_introduction_is_never_touched_by_a_prose_pass(tmp_path: Path) -> No
     assert "Introduction to the Book" not in seen
 
 
+def test_the_legacy_bare_introduction_heading_is_also_never_touched(tmp_path: Path) -> None:
+    """mukhtasar-ul-asar-1/2 (pre-v2 legacy books) carry `## Introduction`, not
+    `## Introduction to the Book`. Found live 2026-08-15: the fluency pass
+    treated it as an ordinary numbered section, rewrote it, and dropped the
+    `<!-- edition-intro:end -->` marker the Composer needs to know where the
+    apparatus ends and chapter 1 begins."""
+    from _book_voice import apply_fluency_adapt
+
+    bd = tmp_path / "b"
+    (bd / "book").mkdir(parents=True)
+    (bd / "_system").mkdir(parents=True)
+    (bd / "book" / "book.md").write_text(
+        "# T\n\n<!-- edition-intro:begin -->\n## Introduction\n\n"
+        "The edition's own introduction.\n<!-- edition-intro:end -->\n\n"
+        "## 1. The Sealed Lamp\n\nThe chapter's first-person lecture.\n",
+        encoding="utf-8",
+    )
+
+    seen: list[str] = []
+
+    def adapter(title, body, *a, **k):
+        seen.append(title)
+        return "REWRITTEN " + body
+
+    apply_fluency_adapt(bd, log=lambda _m: None, adapter=adapter)
+    out = (bd / "book" / "book.md").read_text(encoding="utf-8")
+
+    assert "The edition's own introduction." in out
+    assert "REWRITTEN The edition's own introduction." not in out
+    assert "<!-- edition-intro:end -->" in out
+    assert "Introduction" not in seen
+
+
 # ── record_rearticulation: the report tells the truth after an on-demand fix ──
 # `rearticulate_chapter` put articulated prose back, but the pass report was
 # written by the LAST COMPOSE and still described what the replay had discarded.

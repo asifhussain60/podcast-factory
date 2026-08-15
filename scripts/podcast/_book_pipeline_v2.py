@@ -76,6 +76,39 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
 
     stages = {"base": stage_counts(book_dir)}
 
+    # 1b. Chapter completeness — every chapter book-toc.json planned must have
+    #     landed in book.md with real content, BEFORE the (expensive) articulation
+    #     pass spends model time polishing a chapter that was never complete. The
+    #     base-compose loop cannot silently DROP a planned chapter (see
+    #     ``author_translation_edition_compose``'s docstring), but a compose retry
+    #     that is still too short on its second attempt logs a warning and keeps
+    #     going rather than raising — so a gutted chapter could reach book.md with
+    #     nothing upstream having refused it. This is the check that closes that
+    #     gap, and it HALTS: a confirmed missing or gutted chapter is not a
+    #     heuristic guess the way the advisory coverage sweep above is.
+    from _book_completeness import chapter_completeness_findings
+
+    _toc_path = book_dir / "book" / "book-toc.json"
+    _manifest_path = book_dir / "_system" / "translation-edition-manifest.json"
+    if _toc_path.exists() and _manifest_path.exists():
+        import json as _json
+
+        _toc_chapters = _json.loads(_toc_path.read_text(encoding="utf-8")).get("chapters", [])
+        _manifest_chapters = _json.loads(_manifest_path.read_text(encoding="utf-8")).get("chapters", [])
+        _incomplete = chapter_completeness_findings(_toc_chapters, _manifest_chapters)
+        if _incomplete:
+            from _authoring._core import AuthoringError
+
+            raise AuthoringError(
+                phase="0book-compose",
+                message="chapter completeness check failed: " + "; ".join(_incomplete[:4]),
+                manual_fallback=(
+                    "Re-run 0book-compose (base) with --force on the affected chapter(s), "
+                    "or author the chapter directly in the Book Composer."
+                ),
+            )
+        log(f"    0book-compose: chapter completeness — {len(_toc_chapters)} chapters verified against source")
+
     # 2. Fluency de-calque over the FAITHFUL base (Phase 5). author_companion books
     #    get their fluency from the re-voice pass below, so this only runs for the
     #    faithful voice. Gated by the same fidelity checks; reverts per-chapter.

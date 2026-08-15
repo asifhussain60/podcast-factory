@@ -27,6 +27,8 @@ from pathlib import Path
 from typing import Any
 
 from _authoring._core import AuthoringError
+from _book_completeness import chapter_completeness_findings as chapter_completeness_findings
+from _book_completeness import source_coverage_gap_findings as source_coverage_gap_findings
 from _book_compose import (
     _line_pages,
     _load_arabic_pages,
@@ -174,6 +176,33 @@ def author_translation_edition_compose(
         + "\n",
         encoding="utf-8",
     )
+
+    # Coverage sweep — ADVISORY, never raises. The design phase's own prompt tells
+    # the model every instructive source line must land in exactly one chapter's
+    # ranges, but nothing before this ever checked that it actually did. Dropping
+    # front matter is correct behaviour (rule 1 of that prompt), so a handful of
+    # short unclaimed stretches is expected on every book; only a gap long enough
+    # to plausibly hide a real teaching is worth surfacing. Report-only and best
+    # effort — a bug in the sweep itself must never cost a good compose its ship.
+    try:
+        gaps = source_coverage_gap_findings(toc, len(lines))
+        (book_dir / "_system" / "book-coverage-check.json").write_text(
+            json.dumps(
+                {"schema": "book.coverage-check/v1", "findings": gaps},
+                indent=2,
+                ensure_ascii=False,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        if gaps:
+            log(
+                f"    0book-compose: coverage — {len(gaps)} unclaimed source stretch(es), review against book-toc.json:"
+            )
+            for g in gaps[:3]:
+                log(f"      {g}")
+    except Exception as e:  # noqa: BLE001 - advisory only, never fail a good compose over it
+        log(f"    0book-compose: coverage sweep skipped ({e})")
 
     parts: list[str] = [f"# {toc.get('book_title', book_dir.name)}\n"]
     previous_tail = ""
