@@ -82,6 +82,36 @@ def sql_str(value: object) -> str:
     return "'" + str(value).replace("'", "''") + "'"
 
 
+# D1 rejects any single SQL statement around ~100,000 bytes with "statement too
+# long: SQLITE_TOOBIG" — a per-statement limit, not the per-batch one
+# REMOTE_BATCH_BYTES guards. A reading-edition chapter (a whole book chapter,
+# not a short podcast-episode chapter) can render to 100-180KB of HTML on its
+# own, so a single INSERT carrying it as one string literal can exceed that
+# limit even alone in its own batch — no amount of batching fixes an
+# individual oversized statement. First hit publishing Mukhtasar ul Asar
+# (2026-08-15): its longest chapter's INSERT alone was ~177,000 bytes.
+CHAPTER_HTML_CHUNK_BYTES = 55_000
+
+
+def _chunk_text(text: str, max_bytes: int) -> list[str]:
+    """Split text into UTF-8-safe pieces whose encoded size stays <= max_bytes,
+    never cutting a multi-byte character in half."""
+    chunks: list[str] = []
+    buf: list[str] = []
+    buf_bytes = 0
+    for char in text:
+        char_bytes = len(char.encode("utf-8"))
+        if buf and buf_bytes + char_bytes > max_bytes:
+            chunks.append("".join(buf))
+            buf = []
+            buf_bytes = 0
+        buf.append(char)
+        buf_bytes += char_bytes
+    if buf:
+        chunks.append("".join(buf))
+    return chunks
+
+
 _SEARCH_CACHE: dict[str, tuple[list[Passage], IndexReport]] = {}
 
 
@@ -133,11 +163,20 @@ def build_statements(book: Book, *, published_at: str, commit: str | None) -> li
 
     add(f"DELETE FROM chapter WHERE slug = {sql_str(book.slug)};")
     for chapter in book.chapters:
+        # html is written empty here and appended in CHAPTER_HTML_CHUNK_BYTES
+        # pieces below — a long reading-edition chapter as one INSERT can
+        # exceed D1's per-statement size limit on its own (see comment above
+        # CHAPTER_HTML_CHUNK_BYTES).
         add(
             "INSERT INTO chapter (slug, anchor_key, idx, title, html, word_count) VALUES "
             f"({sql_str(book.slug)}, {sql_str(chapter.anchor)}, {chapter.idx}, "
-            f"{sql_str(chapter.title)}, {sql_str(chapter.html)}, {chapter.word_count});"
+            f"{sql_str(chapter.title)}, '', {chapter.word_count});"
         )
+        for chunk in _chunk_text(chapter.html, CHAPTER_HTML_CHUNK_BYTES):
+            add(
+                "UPDATE chapter SET html = html || "
+                f"{sql_str(chunk)} WHERE slug = {sql_str(book.slug)} AND anchor_key = {sql_str(chapter.anchor)};"
+            )
 
     add(f"DELETE FROM chapter_narration WHERE slug = {sql_str(book.slug)};")
     for chapter in book.chapters:
