@@ -842,6 +842,14 @@ async function checkLayoutInvariants(page) {
                 `"${chip.textContent.replace(/\s+/g, " ").trim()}" promises ${promised}, shows ${actual}${ctx}`,
               );
             }
+            // An "All" chip now clears EVERY facet, not just its own, so
+            // pressing one inside a pinned pass drops the pin — and the rest
+            // of that pass would silently degrade into the unpinned case,
+            // which is the exact configuration that hid this bug the first
+            // time. Re-pin so the cross-facet case keeps being the one tested.
+            if (pinned && pinned.getAttribute("aria-pressed") !== "true") {
+              pinned.click();
+            }
           }
         }
       }

@@ -97,6 +97,21 @@ const {
             id="studio-findbar-count"
             aria-hidden="true">{totalCount} works</span
           >
+          {
+            /* Shown only while something is narrowed. A reset that is always
+               there is a no-op most of the time, and a control that does
+               nothing when pressed teaches you to distrust the row it sits in.
+               `hidden` rather than disabled: there is no state to explain. */
+          }
+          <button
+            type="button"
+            class="studio-findbar-reset"
+            id="studio-findbar-reset"
+            hidden
+          >
+            <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+            <span>Reset</span>
+          </button>
         </div>
         <div class="studio-findbar-actions">
           {
@@ -550,9 +565,16 @@ const {
       );
       for (const chip of chipsIn(facet)) {
         const value = valueOf(facet, chip);
-        const n = eligible.filter((card) =>
-          satisfies(card, facet, value),
-        ).length;
+        // An "All" chip CLEARS EVERY FACET, so what it will show is the whole
+        // shelf — not the contextual figure the other chips report. Counting it
+        // like them made it read "All 2" and then show 13, which is the same
+        // broken promise this whole mechanism exists to prevent, introduced by
+        // the change that gave "All" its wider meaning. Caught by INV-8 within
+        // a minute of making it.
+        const n =
+          value === "all"
+            ? cards.length
+            : eligible.filter((card) => satisfies(card, facet, value)).length;
         const slot = chip.querySelector<HTMLElement>("[class$='-count']");
         if (slot) slot.textContent = String(n);
         // The CHOSEN chip is never disabled even at zero — it is the one that
@@ -620,17 +642,46 @@ const {
     }
   }
 
+  /** Every facet back to "All" — the page as it arrives. */
+  function resetAll(): void {
+    for (const facet of Object.keys(GROUPS) as Facet[]) chosen[facet] = "all";
+  }
+
+  const isWide = () => Object.values(chosen).every((v) => v === "all");
+
+  function refresh(): void {
+    paintChips();
+    recount();
+    apply();
+    persist();
+    // The reset control appears only while something is narrowed.
+    const reset = document.getElementById("studio-findbar-reset");
+    if (reset) reset.hidden = isWide();
+  }
+
   for (const facet of Object.keys(GROUPS) as Facet[]) {
     for (const chip of chipsIn(facet)) {
       chip.addEventListener("click", () => {
-        chosen[facet] = valueOf(facet, chip);
-        paintChips();
-        recount();
-        apply();
-        persist();
+        const value = valueOf(facet, chip);
+        // "All" in ANY group clears EVERY facet, not just its own (Asif,
+        // 2026-08-15). Three separate "All" chips that each cleared only their
+        // own row meant getting back to the whole shelf could take three
+        // presses, and there was no single control that said "start again" —
+        // which is the state you want most often after a filter shows you
+        // nothing. Pressing one now IS starting again.
+        if (value === "all") resetAll();
+        else chosen[facet] = value;
+        refresh();
       });
     }
   }
+
+  document
+    .getElementById("studio-findbar-reset")
+    ?.addEventListener("click", () => {
+      resetAll();
+      refresh();
+    });
 
   /**
    * View mode — cards / compact / list, the same three the Library offers.
@@ -687,7 +738,5 @@ const {
   );
 
   restore();
-  paintChips();
-  recount();
-  apply();
+  refresh();
 </script>
