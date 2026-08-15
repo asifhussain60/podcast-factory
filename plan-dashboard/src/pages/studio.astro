@@ -519,6 +519,14 @@ const {
         .forEach((card) => {
           const show = matches(card);
           card.hidden = !show;
+          // A deck's card is its `<summary>`, but the stacked-sheet shell drawn
+          // around it is the `<details>`. Hiding only the summary left that
+          // shell holding a grid cell as an empty bordered panel — visible the
+          // moment the track facet arrived, since a track is the first facet
+          // that can hide one deck while its shelf-mates stay. Both are hidden,
+          // not just the wrapper, so the counts below still read the cards.
+          const deck = card.closest<HTMLElement>(".studio-series-deck");
+          if (deck) deck.hidden = !show;
           if (show) visible += 1;
         });
       // Volume rows inside an open deck follow the same rules, so a facet

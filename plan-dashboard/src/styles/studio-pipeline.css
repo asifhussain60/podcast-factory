@@ -1964,7 +1964,17 @@
     color 130ms;
 }
 
-.studio-track-chip:hover:not(:disabled) {
+/* Hover darkens the label to full ink — correct on the RESTING chip, which is a
+   pale `--c-bg-elev` pill. It must not reach the PRESSED one: that chip is
+   filled with its track's saturated colour and carries the matching
+   `--track-*-ink` (white for four of the five), and this rule out-specifies the
+   pressed rule (0,3,0 against 0,2,0), so pointing at a chip you had just
+   selected swapped its white label for near-black — 2.4:1 on History, 2.7:1 on
+   Theology, 3.5:1 on Reality, against the 4.5:1 this 14px/600 text needs. The
+   state you land on after clicking is the state you are most likely to be
+   hovering, so it was the common view of the chip, not an edge case. Excluding
+   the pressed chip restores its own ink pair; no colour changes. */
+.studio-track-chip:hover:not(:disabled):not([aria-pressed="true"]) {
   border-color: var(--track-chip-accent, var(--c-accent));
   color: var(--c-ink);
 }

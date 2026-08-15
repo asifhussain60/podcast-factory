@@ -664,6 +664,47 @@ async function checkLayoutInvariants(page) {
       if (el.offsetParent === null && cs.position !== "fixed") continue;
       const rc = el.getBoundingClientRect();
       if (rc.width < 1 || rc.height < 1) continue;
+      // INV-5b: the same defect one box in. INV-5 measures a control against
+      // the VIEWPORT, so a control that overflows a panel which CLIPS itself is
+      // invisible to it — the panel is inside the viewport, the control is
+      // inside the viewport, and the control's right edge has still been sliced
+      // off by the panel's `overflow: hidden`. That is exactly how the Studio
+      // find bar shipped its primary action with no right edge and no rounded
+      // corner at 390px (8px gone at 390, 38px at 360): a non-shrinking action
+      // row inside a rounded panel that clips to keep its own corners.
+      // Same reachability discriminator as INV-5 — a clipper with `auto`/
+      // `scroll` is a deliberate scroller and is skipped by the regex, so the
+      // nav rails and tab strips this site uses on purpose stay quiet.
+      let clipLost = 0;
+      let clipBy = "";
+      for (
+        let a = el.parentElement;
+        a && a !== document.body;
+        a = a.parentElement
+      ) {
+        const acs = getComputedStyle(a);
+        if (!/(hidden|clip)/.test(acs.overflow + acs.overflowX + acs.overflowY))
+          continue;
+        const ab = a.getBoundingClientRect();
+        const lost = Math.round(
+          Math.max(rc.right - ab.right, ab.left - rc.left),
+        );
+        if (lost > clipLost) {
+          clipLost = lost;
+          clipBy = (a.className || a.tagName).toString().split(" ")[0];
+        }
+      }
+      if (clipLost > 2) {
+        const lbl = (el.textContent || el.getAttribute("aria-label") || "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .slice(0, 28);
+        const c = (el.className || "").toString().split(" ")[0] || el.tagName;
+        out.push(
+          `CLIP:${c} "${lbl}" loses ${clipLost}px to .${clipBy}'s overflow`,
+        );
+      }
+
       if (rc.right <= W + 1 && rc.left >= -1) continue;
       let reachable = false;
       for (let a = el.parentElement; a; a = a.parentElement) {
@@ -693,10 +734,45 @@ async function checkLayoutInvariants(page) {
     }
     return out;
   });
-  if (restore) await page.setViewportSize(restore);
   for (const n of narrow) {
-    out.push(`control-unreachable-at-390px: ${n} — no scrollable ancestor`);
+    if (n.startsWith("CLIP:")) {
+      out.push(`control-clipped-at-390px: ${n.slice(5)}`);
+    } else {
+      out.push(`control-unreachable-at-390px: ${n} — no scrollable ancestor`);
+    }
   }
+
+  // INV-7: the Studio find bar's facet separator must never render alone.
+  // `.studio-facet-sep` is a hairline BETWEEN the category and status chip
+  // groups, so it only means anything while those two groups share a line; once
+  // the row wraps it is a tick floating at the end of an otherwise empty line.
+  // It is hidden by a media query, and a media query is a guess about where the
+  // wrap happens — the chip labels are DATA (a new bucket, a renamed status),
+  // so the true wrap width moves without anyone touching the stylesheet. It had
+  // already moved: the rule hid the separator at 1180 while the wrap began at
+  // 1360, stranding it across 1280 and 1366.
+  //
+  // Measured at 1280 rather than asserted from the breakpoint, and only where
+  // the element exists, so this costs one viewport change on one route.
+  if (await page.$(".studio-facet-sep")) {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.waitForTimeout(300);
+    const stranded = await page.evaluate(() => {
+      const sep = document.querySelector(".studio-facet-sep");
+      const a = document.querySelector(".studio-bucket-filter-bar");
+      const b = document.querySelector(".studio-filter-bar");
+      if (!sep || !a || !b) return null;
+      if (getComputedStyle(sep).display === "none") return null;
+      const ra = a.getBoundingClientRect();
+      const rb = b.getBoundingClientRect();
+      const rs = sep.getBoundingClientRect();
+      if (Math.abs(rb.top - ra.top) <= 4) return null; // same line: correct
+      return `separator visible at 1280px while the two facet groups are on different lines (category top ${Math.round(ra.top)}, status top ${Math.round(rb.top)}, separator at x=${Math.round(rs.left)})`;
+    });
+    if (stranded) out.push(`studio-facet-separator-stranded: ${stranded}`);
+  }
+
+  if (restore) await page.setViewportSize(restore);
 
   return out;
 }
