@@ -877,32 +877,18 @@
   background: var(--track-shariah-bg);
   color: var(--track-shariah-ink);
 }
-/* Esoteric reads as the "hidden knowledge" track, so it is one of the two
-   ribbons that get a LIT look rather than sitting flat — the same treatment,
-   the same two radii and the same mix percentages as the Podcast Factory
-   Library's own ribbon. The glow is drawn from the ribbon's own colour, so it
-   follows the shared token like everything else here and a re-colour moves the
-   halo with the strip.
-
-   The card's `overflow: hidden` clips the outward half of the halo flush with
-   the card edge and leaves the inward half spilling onto the script panel —
-   which is exactly what it does on the Library, where the band clips it the
-   same way. Nothing here needs to escape the card to get the effect. */
+/* No glow on any track here (Asif, 2026-08-15). The Podcast Factory Library
+   gives Esoteric and Reality a lit halo; it was ported and he did not like it
+   on this surface, so all five ribbons sit flat. Deliberately NOT synced: the
+   shared file owns each track's COLOUR, which must match across the two sites,
+   not how a ribbon is finished on one of them. */
 .card-track-ribbon[data-track="esoteric"] {
   background: var(--track-esoteric-bg);
   color: var(--track-esoteric-ink);
-  box-shadow:
-    0 0 0.6rem color-mix(in srgb, var(--track-esoteric-bg) 75%, transparent),
-    0 0 1.4rem color-mix(in srgb, var(--track-esoteric-bg) 55%, transparent);
 }
-/* Reality gets the same lit treatment as Esoteric, in red — Asif's call on the
-   Library, carried here so the two surfaces agree about which tracks glow. */
 .card-track-ribbon[data-track="reality"] {
   background: var(--track-reality-bg);
   color: var(--track-reality-ink);
-  box-shadow:
-    0 0 0.6rem color-mix(in srgb, var(--track-reality-bg) 75%, transparent),
-    0 0 1.4rem color-mix(in srgb, var(--track-reality-bg) 55%, transparent);
 }
 
 /* One-line book description above the pipeline status */

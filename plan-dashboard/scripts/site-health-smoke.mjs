@@ -772,6 +772,85 @@ async function checkLayoutInvariants(page) {
     if (stranded) out.push(`studio-facet-separator-stranded: ${stranded}`);
   }
 
+  // INV-8: every filter chip's number must equal what pressing it shows.
+  //
+  // This is the ONE assertion that makes the Studio filters trustworthy, and it
+  // is a gate rather than a comment because the failure it catches is invisible
+  // to every other check: the page renders, nothing errors, no layout breaks —
+  // a chip simply promises a number it cannot produce. It shipped twice. First
+  // the counts were measured over raw books while the shelf drew folded series
+  // decks ("Esoteric 7" for two esoteric things). Then, with the arithmetic
+  // corrected, they were still measured PER FACET in isolation, so choosing
+  // Published left "Shariah 2" promising two books and delivering none.
+  //
+  // Pressing every chip in every group, from a clean state each time, is the
+  // only test that cannot be satisfied by a count and a filter that agree with
+  // each other while both being wrong: it compares the number a human reads
+  // against the cards a human then sees.
+  if (await page.$(".studio-findbar")) {
+    const mismatches = await page.evaluate(async () => {
+      const bad = [];
+      const groups = [
+        [".studio-bucket-chip", ".studio-bucket-chip-count"],
+        [".studio-filter-chip", ".studio-filter-chip-count"],
+        [".studio-track-chip", ".studio-track-chip-count"],
+      ];
+      const shown = () =>
+        document.querySelectorAll(".studio-shelf-card:not([hidden])").length;
+      const reset = () => {
+        for (const [sel] of groups) {
+          const all = document.querySelector(`${sel}[data-bucket-filter="all"],
+            ${sel}[data-status-filter="all"], ${sel}[data-track-filter="all"]`);
+          if (all) all.click();
+        }
+      };
+      // Two facets at a time, not one: a per-facet sweep from an all-"All"
+      // state is exactly the condition under which the broken counts looked
+      // correct. The status pass narrows the track facet first, and vice
+      // versa, so the cross-facet case is the one being measured.
+      const passes = [
+        { pin: null },
+        { pin: '.studio-filter-chip[data-status-filter="published"]' },
+        { pin: '.studio-track-chip[data-track-filter="theology"]' },
+      ];
+      for (const pass of passes) {
+        reset();
+        const pinned = pass.pin ? document.querySelector(pass.pin) : null;
+        if (pass.pin && !pinned) continue; // fixture lacks that value
+        if (pinned) pinned.click();
+        for (const [sel, countSel] of groups) {
+          for (const chip of document.querySelectorAll(sel)) {
+            if (chip === pinned) continue;
+            const slot = chip.querySelector(countSel);
+            if (!slot) continue;
+            const promised = Number(slot.textContent.trim());
+            if (chip.disabled) {
+              if (promised !== 0) {
+                bad.push(
+                  `disabled chip "${chip.textContent.replace(/\s+/g, " ").trim()}" still promises ${promised}`,
+                );
+              }
+              continue;
+            }
+            chip.click();
+            const actual = shown();
+            if (actual !== promised) {
+              const ctx = pass.pin
+                ? ` (with ${pass.pin.split('"')[1]} chosen)`
+                : "";
+              bad.push(
+                `"${chip.textContent.replace(/\s+/g, " ").trim()}" promises ${promised}, shows ${actual}${ctx}`,
+              );
+            }
+          }
+        }
+      }
+      reset();
+      return bad;
+    });
+    for (const m of mismatches) out.push(`studio-filter-count-mismatch: ${m}`);
+  }
+
   if (restore) await page.setViewportSize(restore);
 
   return out;

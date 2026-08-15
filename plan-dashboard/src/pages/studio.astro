@@ -497,18 +497,70 @@ const {
     }
   }
 
+  /** Does this card satisfy ONE facet's value? `all` matches everything. */
+  function satisfies(card: HTMLElement, facet: Facet, want: string): boolean {
+    if (want === "all") return true;
+    // A series deck has no single status of its own — its volumes each carry
+    // theirs — so it is never hidden by the status facet. Without this the
+    // deck vanished on the first status click with no way to bring it back.
+    const value = GROUPS[facet].cardValue(card);
+    if (facet === "status" && value === "always") return true;
+    return value === want;
+  }
+
   function matches(card: HTMLElement): boolean {
+    return (Object.keys(GROUPS) as Facet[]).every((facet) =>
+      satisfies(card, facet, chosen[facet]),
+    );
+  }
+
+  /** Every card on the page, hidden or not — the population the counts are
+   *  measured over. Read once per pass rather than per chip. */
+  const allCards = () =>
+    Array.from(document.querySelectorAll<HTMLElement>(".studio-shelf-card"));
+
+  /**
+   * Recount every chip AGAINST THE OTHER FACETS' CURRENT CHOICES.
+   *
+   * The counts used to be computed once, server-side, each facet measured over
+   * the whole shelf in isolation. That is right only while the other two facets
+   * are on "All", and wrong the moment they are not: with Published chosen,
+   * "Shariah 2" promised two books and delivered NONE, because no Shariah book
+   * is published. A chip whose number cannot be produced by pressing it is
+   * worse than a chip with no number, and the earlier fix — measuring over what
+   * the shelf DRAWS rather than over raw volumes — corrected the arithmetic
+   * while leaving this, the actual lie, in place.
+   *
+   * So a chip now reports what pressing it WOULD show given everything else
+   * already chosen, and a chip that would show nothing is disabled. That makes
+   * the promise structurally true rather than true-by-inspection: the number
+   * and the outcome are computed from the same predicate over the same cards.
+   *
+   * The chip's OWN facet is excluded from its test — including it would make
+   * every unchosen chip in a narrowed group report zero.
+   */
+  function recount(): void {
+    const cards = allCards();
     for (const facet of Object.keys(GROUPS) as Facet[]) {
-      const want = chosen[facet];
-      if (want === "all") continue;
-      // A series deck has no single status of its own — its volumes each carry
-      // theirs — so it is never hidden by the status facet. Without this the
-      // deck vanished on the first status click with no way to bring it back.
-      const value = GROUPS[facet].cardValue(card);
-      if (facet === "status" && value === "always") continue;
-      if (value !== want) return false;
+      const others = (Object.keys(GROUPS) as Facet[]).filter(
+        (f) => f !== facet,
+      );
+      const eligible = cards.filter((card) =>
+        others.every((f) => satisfies(card, f, chosen[f])),
+      );
+      for (const chip of chipsIn(facet)) {
+        const value = valueOf(facet, chip);
+        const n = eligible.filter((card) =>
+          satisfies(card, facet, value),
+        ).length;
+        const slot = chip.querySelector<HTMLElement>("[class$='-count']");
+        if (slot) slot.textContent = String(n);
+        // The CHOSEN chip is never disabled even at zero — it is the one that
+        // got you to an empty shelf, and disabling it would take away the
+        // control you need to leave. Everything else at zero goes flat.
+        chip.disabled = n === 0 && value !== chosen[facet];
+      }
     }
-    return true;
   }
 
   function apply(): void {
@@ -573,6 +625,7 @@ const {
       chip.addEventListener("click", () => {
         chosen[facet] = valueOf(facet, chip);
         paintChips();
+        recount();
         apply();
         persist();
       });
@@ -635,5 +688,6 @@ const {
 
   restore();
   paintChips();
+  recount();
   apply();
 </script>
