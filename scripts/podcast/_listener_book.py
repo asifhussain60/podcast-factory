@@ -49,6 +49,7 @@ from _listener_media import (  # noqa: E402,F401
     collect_audio,
     collect_media,
 )
+from _listener_source_ref import SourceReference, read_source_references  # noqa: E402
 from _paths import find_content  # noqa: E402
 
 LISTENER = Path(__file__).resolve().parents[2] / "listener"
@@ -98,6 +99,10 @@ class Book:
     # section key belongs to. Same two-phase shape as a chapter's markdown/html.
     companion_notes: dict[str, list[dict]] = field(default_factory=dict)
     companion: list[CompanionCard] = field(default_factory=list)
+    # The reading edition's source-crosswalk, reduced to what a reader may see:
+    # page range and headings only. Empty on the 19-of-27 books with no
+    # `book/source-crosswalk.json` — see `_listener_source_ref`.
+    source_references: list[SourceReference] = field(default_factory=list)
     unmatched_audio: list[str] = field(default_factory=list)
     cover: Asset | None = None
     pdf: Asset | None = None
@@ -274,6 +279,7 @@ def load_book(slug: str) -> Book:
 
     book.bridge = read_bridge(directory, book.chapters)
     book.companion_notes = read_companion(directory)
+    book.source_references = read_source_references(directory, book.chapters)
     collect_media(book)
     return book
 

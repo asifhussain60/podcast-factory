@@ -141,6 +141,16 @@ export interface ReadingPrefs {
   size: number;
   leading: number;
   measure: number;
+  /**
+   * The source-reference toggle: shows each chapter's page range in the
+   * original source book, under the chapter title, when that chapter has one.
+   * Off by default and deliberately not a CSS custom property like the four
+   * above it — it does not change how the text is set, only whether one quiet
+   * line appears above it — so `applyReading` never touches it and there is no
+   * pre-paint script entry for it; the control simply catches up to the
+   * stored value the same one effect later that `family`/`size` do.
+   */
+  showSourceRefs: boolean;
 }
 
 export const DEFAULT_PREFS: ReadingPrefs = {
@@ -148,6 +158,7 @@ export const DEFAULT_PREFS: ReadingPrefs = {
   size: 19,
   leading: 1.7,
   measure: 68,
+  showSourceRefs: false,
 };
 
 /**
@@ -218,6 +229,10 @@ export function storedReading(): ReadingPrefs {
       measure: MEASURES.includes(raw.measure)
         ? raw.measure
         : DEFAULT_PREFS.measure,
+      showSourceRefs:
+        typeof raw.showSourceRefs === "boolean"
+          ? raw.showSourceRefs
+          : DEFAULT_PREFS.showSourceRefs,
     };
   } catch {
     return DEFAULT_PREFS;
