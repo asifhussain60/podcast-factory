@@ -3418,7 +3418,14 @@
 
   .pf-grid {
     display: grid;
-    gap: var(--pf-space-5);
+    /* Row gap is wider than column gap on purpose: a stacked work card's
+       decorative leaves rotate a little past its own grid cell (see
+       `.pf-work-leaf` below), and the tighter single `gap` this used
+       to share for both axes let that peek touch the row underneath.
+       Column gap is untouched — only vertical breathing room needed to
+       widen. */
+    row-gap: var(--pf-space-8);
+    column-gap: var(--pf-space-7);
     grid-template-columns: 1fr;
     /* Usually a <ul>: a grid of cards is a list of things, not a row of divs. */
     margin: 0;
@@ -3700,6 +3707,44 @@
     color: var(--l-accent);
   }
 
+  /* `WorkCard`'s selected state only — the title here is the WORK's own
+     name, standing in for what would otherwise be a longer, more specific
+     single-book title, so it is set a size up from a plain book's to carry
+     that weight. */
+  .pf-book__title--work {
+    font-size: var(--pf-text-xl);
+  }
+
+  /* `.pf-book__title-link` is a flex child of `.pf-book__body`
+     (`align-items: center`), so it shrink-wraps to its own content width by
+     default — a plain book's title needs nothing wider than its own text.
+     The moment it contains a volume label, though, that label needs to
+     justify against the FULL card width, not its own text width, so this
+     widens the link to fill the card only when a label is actually present
+     — never for a standalone book's title, which never has one. */
+  .pf-book__title-link:has(.pf-book__volume-label) {
+    align-self: stretch;
+  }
+
+  /* Right-justified against the now-full-width title link — the one piece
+     of text on this card that reads as a caption on the title above it, not
+     as another fact in the centred stack, so it breaks that centring on
+     purpose. */
+  .pf-book__volume-label {
+    margin-top: var(--pf-space-1);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-md);
+    font-style: italic;
+    font-weight: 700;
+    /* `--l-accent` — the one colour the whole site already treats as ITS
+       colour (links, focus rings, the badge below this card), re-tinted per
+       collection and per theme the same way everything else that uses it
+       is. "Matches the page" this way, rather than a value picked just for
+       this label. */
+    color: var(--l-accent);
+    text-align: end;
+  }
+
   .pf-book__actions {
     display: flex;
     flex-wrap: nowrap;
@@ -3861,6 +3906,330 @@
     .pf-book-action__circle::after,
     .pf-book {
       animation: none;
+      transition: none;
+    }
+  }
+
+  /* ---- The work card ----------------------------------------------------
+     A multi-volume work. Two decorative leaves peek out behind whichever
+     card is showing so a set reads as visually distinct from a plain
+     single-book card at a glance — border colour is `--l-muted`, the same
+     darker grey every plain card's own text already uses, not a new colour
+     and not the site's accent blue (an earlier round of this card used
+     accent blue; darker grey read as more legible and less like an
+     interactive-state colour, so it replaced it everywhere below).
+
+     Two states share this one wrapper, `.pf-work`, never a separate page or
+     overlay for either:
+       - `.pf-work-picker` — no volume picked yet, or the reader asked to
+         change it. The work's own band/title with a numbered-chip panel.
+       - `.pf-work-selected` — a volume is picked. A real `BookCard` for
+         that volume, with a small button layered on top to reopen the
+         picker.
+     Both are siblings of the leaves inside `.pf-work`, so either can occupy
+     the same grid cell without a fanned-out overlay — there is deliberately
+     no overlay panel here anymore; the chip panel replaced it. */
+
+  .pf-work {
+    /* One named value, not a colour repeated at four call sites — a set's
+       border is a stacked-card-only signal, deliberately independent of any
+       theme or collection token, so it is declared once here and every
+       border below reads it rather than naming its own hex. */
+    --l-work-border: #9da1ab;
+    position: relative;
+    height: 100%;
+  }
+
+  .pf-work-leaf {
+    position: absolute;
+    inset: 0;
+    border: 1.5px solid var(--l-work-border);
+    border-radius: var(--pf-radius-lg);
+    background: var(--l-surface);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-work-leaf--back {
+    transform: rotate(-6deg) translate(-0.5rem, 0.6rem);
+    z-index: 0;
+  }
+
+  .pf-work-leaf--mid {
+    transform: rotate(4deg) translate(0.6rem, 0.4rem);
+    z-index: 1;
+  }
+
+  /* ---- Picker state ------------------------------------------------- */
+
+  .pf-work-picker {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border: 2px solid var(--l-work-border);
+    border-radius: var(--pf-radius-lg);
+    /* `--l-accent-soft` rather than `--l-surface` — the same plain-card
+       colour every book around it already uses, which is why a stacked set
+       had to lean on its border and leaves alone to read as different. A
+       set is otherwise a book like any other, so it borrows the one token
+       already used site-wide for "this is a subtle tinted state"
+       (`--l-accent-soft`, contrast-checked per theme by `test/theme.test.ts`)
+       instead of a colour invented for this card. */
+    background: var(--l-accent-soft);
+    box-shadow: var(--pf-elev-2);
+  }
+
+  .pf-work-picker__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: var(--pf-space-4);
+  }
+
+  .pf-work-picker__title {
+    margin: 0 0 2px;
+    font-family: var(--l-font-card-title);
+    font-size: var(--pf-text-md);
+    color: var(--l-ink);
+  }
+
+  .pf-work-picker__sub {
+    margin: 0 0 var(--pf-space-3);
+    color: var(--l-muted);
+    font-size: var(--pf-text-xs);
+  }
+
+  /* Centres the panel in whatever room a taller neighbour card gives this
+     cell, rather than the panel hugging the subtitle and leaving blank
+     card underneath it. `overflow-y: auto` is the safety valve for a work
+     with enough volumes that even a 4-per-row wrap outgrows the card's own
+     height (the picker's own `overflow: hidden` exists for its rounded
+     corners, not to silently clip content) — never exercised by anything in
+     the library today, but scrolling is what happens instead of a chip
+     getting cut in half. */
+  .pf-work-chip-wrap {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+  }
+
+  /* No border or fill of its own — an earlier version framed the chip set
+     in `--l-bg`, a plain warm-neutral surface, which sat as a visibly
+     separate white box on top of `.pf-work-picker`'s own accent tint
+     (Asif, 2026-08-16: "the volume panel... is clashing with the
+     background color"). The chips are the only thing this group needs to
+     frame; the picker's own tinted surface is the group's background now,
+     same as everywhere else on the card. */
+  .pf-work-chip-panel {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Flex-wrap rather than a fixed grid, so the chip block CENTRES as a unit
+     whatever its own width turns out to be — two chips read as one small
+     centred row instead of pinned to the grid's top-left cell, and twelve
+     chips simply wrap into more centred rows of the same size rather than
+     forcing a "+N" past a fixed cap (Asif, 2026-08-16: "center the volume
+     buttons... design should handle up to 12 volumes"). Larger chips
+     (`--pf-space-8` square, up from the picker's earlier 2.5rem) plus a
+     roomier gap are what fill the card's own height for a small set —
+     spacing does that work here, not a taller container. `CHIP_CAP` in
+     `WorkCard.tsx` still caps this at 12 and the "+N" summary chip remains
+     as the fallback past that, never silently truncating without saying so. */
+  .pf-work-chip-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--pf-space-3);
+  }
+
+  /* `--l-surface` (the plain card white/near-black), not `--l-elev` on
+     `--l-rule` — those read fine against the old white panel but nearly
+     vanished against the picker's own accent-soft tint, so an unpicked chip
+     looked more like a hole in the card than a button. `--l-work-border`,
+     the same darker neutral the set's own outer border and leaves already
+     use, keeps every chip legible as a distinct control on the tint. */
+  /* Fixed square, `flex: 0 0 auto` — a flex-wrap row stretches its items to
+     match the tallest one by default, which would have let two chips grow
+     to fill the whole row's height. A fixed size is what makes twelve
+     chips wrap into same-size rows rather than shrinking to fit. */
+  .pf-work-chip {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: var(--pf-space-8);
+    height: var(--pf-space-8);
+    padding: 0;
+    border: 1px solid var(--l-work-border);
+    border-radius: var(--pf-radius-sm);
+    background: var(--l-surface);
+    font-family: var(--l-font-card-title);
+    font-size: var(--pf-text-lg);
+    font-weight: 700;
+    color: var(--l-ink);
+    cursor: pointer;
+    transition:
+      transform var(--pf-motion),
+      box-shadow var(--pf-motion);
+  }
+
+  .pf-work-chip:hover,
+  .pf-work-chip:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: var(--pf-elev-2);
+    outline: none;
+  }
+
+  /* A volume the reader has already started — filled solid rather than
+     `--l-accent-soft`, which on the tinted panel would have read as barely
+     different from its own background instead of as a distinct state. */
+  .pf-work-chip--done {
+    border-color: var(--l-accent);
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+  }
+
+  /* The volume currently standing in the selected state, shown only when
+     the reader reopened the picker on top of an existing pick — so they can
+     see what they'd be leaving as well as what they're choosing next. */
+  .pf-work-chip--current {
+    outline: 2px solid var(--l-accent);
+    outline-offset: 2px;
+  }
+
+  /* Not a button: past `CHIP_CAP` there is no single destination this slot
+     could jump to, so it is informational only, not a false affordance. */
+  .pf-work-chip--more {
+    color: var(--l-muted);
+    font-size: var(--pf-text-sm);
+    background: var(--l-surface);
+    border-color: var(--l-work-border);
+    border-style: dashed;
+    cursor: default;
+  }
+
+  /* ---- Selected state ------------------------------------------------ */
+
+  /* Wraps the real `BookCard` standing in this position — `BookCard` itself
+     (`.pf-card`/`.pf-book`) already supplies its own border, radius,
+     background and shadow, so this wrapper carries no chrome of its own.
+     Its only jobs are sizing and stacking above the two leaves behind it —
+     `z-index: 2` is what the leaves (`z-index: 0`/`1`) and the change
+     button (`z-index: 3`, below) are numbered against. */
+  .pf-work-selected__front {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+  }
+
+  /* `BookCard` already draws its own hairline (`.pf-card`'s
+     `1px solid var(--l-rule)`) — recolouring it here, rather than adding a
+     second border on this wrapper, is what keeps a set down to ONE visible
+     ring instead of two nested boxes. Same `--l-work-border` the picker
+     state and the leaves use, so the border reads as one continuous choice
+     across both states, not two different signals for the same set. */
+  .pf-work-selected__front .pf-card {
+    border-width: 2px;
+    border-color: var(--l-work-border);
+    /* Same tint the picker state uses, so a set reads as one continuous
+       card colour whichever state it happens to be showing — not a subtle
+       fact only visible before a volume is picked. */
+    background: var(--l-accent-soft);
+  }
+
+  /* `.pf-book:hover` already lightens a plain card's border to
+     `--l-rule-soft` on hover — reasserted back to `--l-work-border` here so
+     the set's border does not momentarily read as a different, lighter set
+     on hover. */
+  .pf-work-selected__front .pf-book:hover,
+  .pf-work-selected__front .pf-book:focus-within {
+    border-color: var(--l-work-border);
+  }
+
+  /* The "select volume" control — a real, independently focusable
+     `<button>` layered on top of the selected `BookCard`, centred at the
+     bottom of the card rather than tucked in a corner. Deliberately still
+     `position: absolute` INSIDE the card's own footprint, not a normal-flow
+     element below it: `.pf-work` matches its neighbours' height via the
+     grid's own row-stretch, and a button living in normal flow below the
+     card would make this one cell taller than the books beside it, breaking
+     the row's shared bottom edge. Centring is `left: 50%` plus a
+     `translateX(-50%)` folded into every `transform` below, including the
+     hover lift — losing it on any one state would re-anchor the button to
+     its own left edge the moment that state was active.
+
+     It needs a numeric `z-index` (rather than relying on DOM order, the way
+     `BookCard`'s own internal links do) because `.pf-work-selected__front`
+     already established `z-index: 2` for the leaf stack — an unnumbered
+     sibling would paint BELOW that, not above it. `BookCard`'s own
+     stretched-link/title-link/action links are unaffected: they still
+     resolve their stacking purely by DOM order *inside*
+     `.pf-work-selected__front`'s own context, exactly as a standalone
+     `BookCard` does. */
+  .pf-work-change {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    bottom: var(--pf-space-3);
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1.1rem;
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 700;
+    white-space: nowrap;
+    /* Same `--l-accent`/`--l-on-accent` pair the picker's own chips use —
+       this button matches whichever collection's book it is sitting on, in
+       any theme, rather than a fixed neutral colour. */
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+    /* Two-layer "raised" shadow — a soft ambient layer plus a thin bright
+       top edge. A third, glowing layer an earlier pass added here was
+       asked to come back off, so this button is quiet until a reader
+       actually touches it. */
+    box-shadow:
+      var(--pf-elev-2),
+      inset 0 1px 0 rgb(255 255 255 / 0.18);
+    cursor: pointer;
+    transition:
+      transform var(--pf-motion),
+      box-shadow var(--pf-motion),
+      background-color var(--pf-motion);
+  }
+
+  /* The lift-and-brighten every other interactive control on this card
+     already uses on hover/focus — what actually reads as "this is a
+     button" is not the shape, it is that it visibly responds. */
+  .pf-work-change:hover,
+  .pf-work-change:focus-visible {
+    /* `translateX(-50%)` first, same as the base rule — dropping it here
+       would snap the button to its own left edge the instant it's hovered. */
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow:
+      var(--pf-elev-4),
+      inset 0 1px 0 rgb(255 255 255 / 0.24);
+    background: var(--l-accent-hover);
+    outline: none;
+  }
+
+  .pf-work-change:focus-visible {
+    outline: 2px solid var(--l-accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-work-chip,
+    .pf-work-change {
       transition: none;
     }
   }
@@ -4293,6 +4662,109 @@
 
   .pf-rows--striped .pf-row {
     padding-block: var(--pf-space-4);
+  }
+
+  /* A multi-volume work's header row in the list view — `<button>`, not
+     `<Link>` (it opens the row in place, it does not navigate), so it needs
+     the width/border/background/font reset `.pf-row`'s other use as an
+     anchor never had to declare. `--l-accent-soft` is the "light background
+     to stand out" this was asked for — already the site's own tinted-fill
+     token (used for a started reading chip elsewhere on this page), re-tinted
+     per collection and per theme, not a colour invented for this row. */
+  /* A light `--l-accent-soft` tint was the first attempt at "stand out" —
+     the striped list around it already alternates a very similar pale tint
+     row to row, so a work row in that same family read as just another
+     stripe, not a different kind of row. Solid `--l-accent` is what actually
+     reads as different at a glance, the same "this is a set" strength the
+     grid's own badge and button already commit to. */
+  .pf-work-row {
+    width: 100%;
+    border: 0;
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+    font: inherit;
+    text-align: inherit;
+    cursor: pointer;
+  }
+
+  .pf-work-row:hover,
+  .pf-work-row:focus-visible {
+    background: var(--l-accent-hover);
+    outline: none;
+  }
+
+  .pf-work-row:focus-visible {
+    outline: 2px solid var(--l-on-accent);
+    outline-offset: -2px;
+  }
+
+  /* `.pf-row__main` names its own ink colour for the plain rows around it
+     (`color: var(--l-ink)`), which beats this button's inherited
+     `--l-on-accent` by specificity — the title read as near-black on the
+     solid accent fill instead of the light text every other part of this
+     row already uses. */
+  .pf-work-row .pf-row__main {
+    color: inherit;
+  }
+
+  /* On the solid accent fill, `.pf-row__mark`'s usual light-tint circle
+     would read as barely-there — inverted to a solid light circle with the
+     accent colour carried by the icon instead of the ring. */
+  .pf-work-row .pf-row__mark {
+    border-color: transparent;
+    background: var(--l-on-accent);
+    color: var(--l-accent);
+    opacity: 1;
+  }
+
+  /* The volume count, promoted from plain meta text to its own pill — the
+     one fact on this row worth a second glance before deciding to open it. */
+  .pf-work-row__count {
+    flex: none;
+    padding: 0.25em 0.75em;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-on-accent);
+    color: var(--l-accent);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 800;
+  }
+
+  /* The "this is an accordion" signal asked for directly: a large circle,
+     not `.pf-row__go`'s small plain arrow, so a first-time visitor reads it
+     as a control before they've ever clicked one. One glyph, rotated by CSS
+     off the button's own `aria-expanded` — simpler than authoring a second,
+     "open" version of the icon. */
+  .pf-work-row__arrow {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--l-on-accent);
+    color: var(--l-accent);
+    font-size: 1.1rem;
+    transition: transform var(--pf-motion);
+  }
+
+  .pf-work-row[aria-expanded="true"] .pf-work-row__arrow {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-work-row__arrow {
+      transition: none;
+    }
+  }
+
+  /* Indented under the header it belongs to, so the relationship reads from
+     position alone — no extra border or background needed to say "these
+     rows belong to the one above them." */
+  .pf-work-row__volumes {
+    margin: 0;
+    padding-left: var(--pf-space-8);
   }
 
   /* The mark at the head of a chapter row. Sized against the text rather than

@@ -10,10 +10,11 @@ import { Link } from "react-router";
 import type { Route } from "./+types/home";
 import { AppShell } from "~/components/AppShell";
 import { BookCard } from "~/components/BookCard";
-import { BookListRow } from "~/components/BookListRow";
+import { BookListRow, WorkListRow } from "~/components/BookListRow";
 import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
 import { SearchBox } from "~/components/SearchBox";
+import { groupIntoWorks, WorkCard } from "~/components/WorkCard";
 import { collectionOf } from "~/lib/collection";
 import { count, plural } from "~/lib/plural";
 import {
@@ -24,7 +25,7 @@ import {
 } from "~/lib/study-track";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
-import { visibleUnits } from "~/server/access.server";
+import { visibleUnits, workTitles } from "~/server/access.server";
 import {
   libraryCards,
   playableEpisodesForCards,
@@ -68,11 +69,29 @@ export async function loader({ context }: Route.LoaderArgs) {
     markCounts(env.DB, viewer.email),
   ]);
 
+  // Only a work_slug shared by 2+ VISIBLE volumes is a set worth a title
+  // lookup — a lone volume never renders as a `WorkCard`, so its parent's
+  // title (if any) is never read. Counted straight from `units`, before any
+  // per-unit fields are attached, since that count is exactly what
+  // `groupIntoWorks` on the client will re-derive from the same field.
+  const volumeCounts = new Map<string, number>();
+  for (const u of units) {
+    if (u.workSlug === null) continue;
+    volumeCounts.set(u.workSlug, (volumeCounts.get(u.workSlug) ?? 0) + 1);
+  }
+  const setWorkSlugs = [...volumeCounts.entries()]
+    .filter(([, n]) => n >= 2)
+    .map(([workSlug]) => workSlug);
+  const workTitleMap = await workTitles(env.DB, setWorkSlugs);
+
   return {
     // The site name is NOT returned here any more. It is one fact about the
     // site, and every page's footer wants it — so it is read once by the
     // `_authed` layout and taken from there by `AppShell`.
     viewer: { name: viewer.name, isAdmin: viewer.isAdmin },
+    // A plain object, not a Map — Maps do not survive the loader/component
+    // serialization boundary.
+    workTitles: Object.fromEntries(workTitleMap),
     units: units
       .map((u) => ({
         ...u,
@@ -226,7 +245,7 @@ function loadViewMode(): ViewMode {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { units, viewer } = loaderData;
+  const { units, viewer, workTitles } = loaderData;
   // Search stays plain `useState` and is the one deliberate exception: a
   // stale query silently re-applied on a later, unrelated visit would look
   // like the library had shrunk, not like a remembered convenience.
@@ -501,15 +520,24 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         <div className="pf-panel pf-library-list">
           <div className="pf-panel__body">
             <ol className="pf-rows pf-rows--striped">
-              {shown.map((unit) => (
-                <BookListRow
-                  key={unit.slug}
-                  slug={unit.slug}
-                  title={unit.title}
-                  card={unit.card}
-                  progress={unit.progress}
-                />
-              ))}
+              {groupIntoWorks(shown).map((entry) =>
+                entry.kind === "work" ? (
+                  <WorkListRow
+                    key={entry.workSlug}
+                    workSlug={entry.workSlug}
+                    title={workTitles[entry.workSlug] ?? entry.volumes[0]!.title}
+                    volumes={entry.volumes}
+                  />
+                ) : (
+                  <BookListRow
+                    key={entry.unit.slug}
+                    slug={entry.unit.slug}
+                    title={entry.unit.title}
+                    card={entry.unit.card}
+                    progress={entry.unit.progress}
+                  />
+                ),
+              )}
             </ol>
           </div>
         </div>
@@ -531,20 +559,37 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           ))}
         </ul>
       ) : (
+        // The only view that groups multi-volume works into a stacked set
+        // card — compact tiles and the list row above stay one row per
+        // volume, exactly as they always have. `groupIntoWorks` only forms a
+        // set from 2+ units sharing a `work_slug`; a lone volume (including
+        // one made lone by a search/collection/track filter narrowing `shown`
+        // down to it) falls through to the plain `BookCard` branch below,
+        // unchanged.
         <ul className="pf-grid pf-grid--spaced">
-          {shown.map((unit) => (
-            <li key={unit.slug}>
-              <BookCard
-                slug={unit.slug}
-                title={unit.title}
-                bucket={unit.bucket}
-                card={unit.card}
-                progress={unit.progress}
-                listen={unit.listen}
-                marks={unit.marks}
-              />
-            </li>
-          ))}
+          {groupIntoWorks(shown).map((entry) =>
+            entry.kind === "work" ? (
+              <li key={entry.workSlug}>
+                <WorkCard
+                  workSlug={entry.workSlug}
+                  title={workTitles[entry.workSlug] ?? entry.volumes[0]!.title}
+                  volumes={entry.volumes}
+                />
+              </li>
+            ) : (
+              <li key={entry.unit.slug}>
+                <BookCard
+                  slug={entry.unit.slug}
+                  title={entry.unit.title}
+                  bucket={entry.unit.bucket}
+                  card={entry.unit.card}
+                  progress={entry.unit.progress}
+                  listen={entry.unit.listen}
+                  marks={entry.unit.marks}
+                />
+              </li>
+            ),
+          )}
         </ul>
       )}
     </AppShell>

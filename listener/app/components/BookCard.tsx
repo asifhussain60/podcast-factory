@@ -44,6 +44,7 @@ export function BookCard({
   progress = null,
   marks = null,
   compact = false,
+  volumeLabel = null,
 }: {
   slug: string;
   title: string;
@@ -65,11 +66,18 @@ export function BookCard({
    * The whole tile already opens the book, same as a list row does.
    */
   compact?: boolean;
+  /**
+   * Set only by `WorkCard`'s selected state: `title` there is the WORK's own
+   * name (e.g. "Mukhtasar-ul-Asaar"), never a per-volume string, and this is
+   * the "Volume 1 of 2" line that says which one this particular card is —
+   * real structured data (the volume's own position, the work's own count),
+   * never parsed back out of a title string. A standalone book has no
+   * concept of "which volume," so this stays `null` everywhere else and the
+   * title renders exactly as it always has.
+   */
+  volumeLabel?: string | null;
 }) {
   const originalTitle = card?.titleOriginal ?? null;
-  const originalLanguage = card?.titleLanguage ?? "ar";
-  const studyTrack = card?.studyTrack ?? null;
-  const trackLabel = studyTrackLabel(studyTrack);
   const collection = collectionOf(bucket);
   /* The Read action opens the chapter list on the book page, never a specific
      chapter (Asif, 2026-08-14) — the deep link into a bookmark or the last
@@ -115,52 +123,24 @@ export function BookCard({
       />
 
       <Link to={`/book/${slug}`} className="pf-book__open">
-        <div className="pf-book__band">
-          <span className="pf-pill pf-pill--pinned">{bucket}</span>
-
-          {trackLabel === null ? null : (
-            <span className="pf-book__ribbon" data-track={studyTrack}>
-              {trackLabel}
-            </span>
-          )}
-
-          <span
-            className="pf-book__ornament pf-book__ornament--start"
-            aria-hidden="true"
-          />
-
-          {originalTitle === null ? (
-            <h2 className="pf-book__band-title pf-book__band-title--latin">
-              {title}
-            </h2>
-          ) : (
-            /* dir="rtl" is required for shaping and ordering. Centred here, unlike
-               the old card, because the band is the title's own space rather than
-               a line in a left-aligned stack. */
-            <p
-              lang={originalLanguage}
-              dir={
-                originalLanguage === "ar" || originalLanguage === "ur"
-                  ? "rtl"
-                  : undefined
-              }
-              className="pf-book__band-title"
-            >
-              {originalTitle}
-            </p>
-          )}
-
-          <span
-            className="pf-book__ornament pf-book__ornament--end"
-            aria-hidden="true"
-          />
-        </div>
+        <BookBand title={title} bucket={bucket} card={card} />
       </Link>
 
       <div className="pf-book__body">
         {originalTitle === null ? null : (
           <Link to={`/book/${slug}`} className="pf-book__title-link">
-            <h2 className="pf-book__title">{title}</h2>
+            <h2
+              className={
+                volumeLabel === null
+                  ? "pf-book__title"
+                  : "pf-book__title pf-book__title--work"
+              }
+            >
+              {title}
+            </h2>
+            {volumeLabel === null ? null : (
+              <p className="pf-book__volume-label">{volumeLabel}</p>
+            )}
           </Link>
         )}
         {compact ? null : (
@@ -213,6 +193,75 @@ export function BookCard({
         )}
       </div>
     </article>
+  );
+}
+
+/**
+ * The coloured identity band alone — the original-script title over the
+ * accented strip, or the English title in the display serif when a book has
+ * none.
+ *
+ * Split out of `BookCard` so a second surface can show the same "cover" a
+ * volume already has without re-deriving the original-title/fallback logic a
+ * second time. `WorkCard`'s closed stack is that second surface: its front
+ * leaf is this band, undecorated by a `<Link>`, standing in for the whole
+ * card the way a book's spine stands in for the book.
+ */
+export function BookBand({
+  title,
+  bucket,
+  card,
+}: {
+  title: string;
+  bucket: string;
+  card: LibraryCard | null;
+}) {
+  const originalTitle = card?.titleOriginal ?? null;
+  const originalLanguage = card?.titleLanguage ?? "ar";
+  const studyTrack = card?.studyTrack ?? null;
+  const trackLabel = studyTrackLabel(studyTrack);
+
+  return (
+    <div className="pf-book__band">
+      <span className="pf-pill pf-pill--pinned">{bucket}</span>
+
+      {trackLabel === null ? null : (
+        <span className="pf-book__ribbon" data-track={studyTrack}>
+          {trackLabel}
+        </span>
+      )}
+
+      <span
+        className="pf-book__ornament pf-book__ornament--start"
+        aria-hidden="true"
+      />
+
+      {originalTitle === null ? (
+        <h2 className="pf-book__band-title pf-book__band-title--latin">
+          {title}
+        </h2>
+      ) : (
+        /* dir="rtl" is required for shaping and ordering. Centred here, unlike
+           the old card, because the band is the title's own space rather than
+           a line in a left-aligned stack. */
+        <p
+          lang={originalLanguage}
+          dir={
+            originalLanguage === "ar" || originalLanguage === "ur"
+              ? "rtl"
+              : undefined
+          }
+          className="pf-book__band-title"
+        >
+          {originalTitle}
+        </p>
+      )}
+
+      <span
+        className="pf-book__ornament pf-book__ornament--end"
+        aria-hidden="true"
+      />
+    </div>
   );
 }
 

@@ -152,6 +152,54 @@ export async function visibleUnits(
 }
 
 /**
+ * The `kind='work'` parent's own title, for each work_slug the caller asks
+ * about — the multi-volume set card's header when one exists.
+ *
+ * A work parent is excluded from `VISIBLE_SQL` on purpose (it carries no
+ * chapters, nothing to read) and carries no entitlement check of its own
+ * here, on purpose too: a caller may pass ONLY work_slugs already proven
+ * visible by `visibleUnits()` returning 2+ volumes under it, and access to
+ * THOSE volumes is what already proved this reader may see this set — the
+ * parent row's own `status`/`open_to_all` add no real access decision on
+ * top of that, they only decide whether a title is ever returned at all.
+ * That distinction is not hypothetical: `sync_listener_work_groups.py`
+ * documents, deliberately, that it never sets either column on a parent row
+ * it creates ("those are the admin's privilege bits and this script has no
+ * opinion on visibility") — and nothing else in this codebase sets them
+ * either, so a parent-level entitlement check here can never once pass for
+ * any set the grouping tool creates. An earlier version of this function
+ * re-ran the full entitlement predicate anyway, which is why every
+ * multi-volume card fell back to a single volume's own title instead of the
+ * set's. This is a narrow, obviously-safe read precisely because it trusts
+ * the caller's own contract instead of re-deriving it.
+ *
+ * A work parent's own `slug` IS the `work_slug` its volumes carry (its own
+ * `work_slug` column is NULL — see migration 0002).
+ */
+export async function workTitles(
+  db: D1Database,
+  workSlugs: string[],
+): Promise<Map<string, string>> {
+  const titles = new Map<string, string>();
+  if (workSlugs.length === 0) return titles;
+
+  const placeholders = workSlugs.map((_, i) => `?${i + 1}`).join(", ");
+
+  const { results } = await db
+    .prepare(
+      `SELECT u.slug, u.title
+         FROM content_unit u
+        WHERE u.kind = 'work'
+          AND u.slug IN (${placeholders})`,
+    )
+    .bind(...workSlugs)
+    .all<{ slug: string; title: string }>();
+
+  for (const r of results) titles.set(r.slug, r.title);
+  return titles;
+}
+
+/**
  * Whether this person may read this one unit.
  *
  * Deliberately re-runs the same predicate against a single slug rather than
