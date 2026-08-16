@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 86.38
+    "burn_30d_usd": 103.62
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1928,10 +1928,18 @@
       "kind": "islamic_session"
     },
     {
+      "slug": "mukhtasar-ul-asar-1",
+      "title": "Mukhtasar Ul Asar 1",
+      "phase": "reader-narration",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_scholarly"
+    },
+    {
       "slug": "mukhtasar-ul-asar-2",
       "title": "Mukhtasar ul Asar 2",
-      "phase": "preflight",
-      "phase_status": "pending",
+      "phase": "reader-narration",
+      "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },

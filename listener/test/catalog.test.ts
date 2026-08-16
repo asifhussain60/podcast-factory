@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import {
   chapterOf,
@@ -21,7 +21,18 @@ import { createTestDb } from "./d1";
  * make a half-published library readable rather than broken: an episode with no
  * recording is SHOWN and marked, and an asset that exists on disk but not in R2
  * is treated as absent rather than linked.
+ *
+ * That second rule is PRODUCTION's rule specifically (`catalog.server.ts`'s
+ * `servable()`, 2026-08-16) — `npm run dev` deliberately relaxes it, since
+ * Vitest and the dev server both run through Vite's SSR module runner rather
+ * than a real `react-router build`, `import.meta.env.DEV` reads true under
+ * either one, and without this override every assertion below would silently
+ * start exercising the dev relaxation instead of the production gate it is
+ * actually meant to prove.
  */
+beforeAll(() => {
+  import.meta.env.DEV = false;
+});
 
 
 function seed() {
@@ -80,6 +91,25 @@ describe("episodes", () => {
     expect(episodes[1].audioKey, "the key is still known").not.toBeNull();
 
     close();
+  });
+
+  it("treats an inventoried-but-not-uploaded file as playable in local dev", async () => {
+    // The other half of the rule above: in production "on disk only" must stay
+    // hidden (the test right above this one), but `npm run dev` deliberately
+    // treats it as playable — the whole point of the 2026-08-16 fix — because
+    // the local media plugin streams episode recordings straight off that disk
+    // copy instead of requiring a duplicate upload into the local bucket.
+    const { db, close } = seed();
+    import.meta.env.DEV = true;
+
+    try {
+      const episodes = await episodesOf(db, "book-a");
+      expect(episodes[0].hasAudio, "uploaded").toBe(true);
+      expect(episodes[1].hasAudio, "on disk only, but this is dev").toBe(true);
+    } finally {
+      import.meta.env.DEV = false;
+      close();
+    }
   });
 
   it("carries no chapter links unless a human recorded them", async () => {

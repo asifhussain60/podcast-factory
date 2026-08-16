@@ -10,6 +10,35 @@
 
 import { readingMinutes } from "~/lib/reading";
 
+/**
+ * Whether "uploaded" should mean R2, or merely inventoried.
+ *
+ * Everywhere below, `uploaded_at IS NOT NULL` is really asking one question —
+ * "can a reader actually get the bytes right now?" — and in production the
+ * answer is always R2, no exceptions. Locally it is deliberately different
+ * (Asif, 2026-08-16): a `media_asset` row's mere EXISTENCE already means the
+ * file sits on disk (that has been the contract since `upload_listener_media.py`
+ * was written — a row is written once the file is inventoried, `uploaded_at` is
+ * stamped only once it is copied into R2), and copying the big files a SECOND
+ * time into a local bucket was ruled out on 2026-08-10 ("I do not want content
+ * copied twice for books"). `vite.config.ts`'s local media plugin streams those
+ * bytes straight off that one disk copy instead, so the "is this playable" and
+ * "is this uploaded" questions have genuinely different right answers per
+ * environment, and this constant is the one place that split lives.
+ *
+ * `import.meta.env.DEV` is a Vite build-time constant — `react-router build`
+ * compiles this branch out of the production bundle entirely, so nothing here
+ * can affect what ships to `podcast-factory.safinaverse.com`.
+ */
+function devServesFromDisk(): boolean {
+  return import.meta.env.DEV;
+}
+
+/** SQL fragment: "is this column's row playable right now" for the current environment. */
+function servable(column: string): string {
+  return devServesFromDisk() ? "1=1" : `${column} IS NOT NULL`;
+}
+
 export interface ChapterSummary {
   anchorKey: string;
   idx: number;
@@ -117,9 +146,10 @@ export interface Surfaces {
  * every chapter, so it gets counts in a single round trip rather than three
  * result sets it would immediately throw away.
  *
- * "Exists" means IN R2, not on disk, in all three cases — a chip offering a
- * podcast that is not there yet is worse than no chip, and it is the same rule
- * the book page's tabs already apply.
+ * "Exists" means playable right now — in production that is IN R2, not on
+ * disk, in all three cases (a chip offering a podcast that is not there yet is
+ * worse than no chip); locally it follows `servable()` above. Either way it is
+ * the same rule the book page's tabs already apply.
  */
 export async function surfacesOf(db: D1Database, slug: string): Promise<Surfaces> {
   const row = await db
@@ -127,12 +157,12 @@ export async function surfacesOf(db: D1Database, slug: string): Promise<Surfaces
       `SELECT
          (SELECT count(*) FROM episode e
              JOIN media_asset m ON m.key = e.audio_key
-            WHERE e.slug = ?1 AND m.uploaded_at IS NOT NULL) AS episodes,
+            WHERE e.slug = ?1 AND ${servable("m.uploaded_at")}) AS episodes,
          (SELECT count(*) FROM media_asset
-            WHERE slug = ?1 AND kind = 'deck-page' AND uploaded_at IS NOT NULL) AS deck_pages,
+            WHERE slug = ?1 AND kind = 'deck-page' AND ${servable("uploaded_at")}) AS deck_pages,
          (SELECT d.pdf_key FROM unit_detail d
              JOIN media_asset m ON m.key = d.pdf_key
-            WHERE d.slug = ?1 AND m.uploaded_at IS NOT NULL) AS pdf_key`,
+            WHERE d.slug = ?1 AND ${servable("m.uploaded_at")}) AS pdf_key`,
     )
     .bind(slug)
     .first<{ episodes: number; deck_pages: number; pdf_key: string | null }>();
@@ -175,7 +205,7 @@ export async function detailOf(db: D1Database, slug: string): Promise<UnitDetail
     coverKey: row.cover_key,
     pdfKey: row.pdf_key,
     pdfBytes: row.pdf_bytes,
-    pdfAvailable: row.pdf_uploaded_at !== null,
+    pdfAvailable: row.pdf_key !== null && (row.pdf_uploaded_at !== null || devServesFromDisk()),
     publishedAt: row.published_at,
   };
 }
@@ -239,7 +269,8 @@ export async function chapterOf(
     html: row.html,
     wordCount: row.word_count,
     narration:
-      row.narration_audio_key !== null && row.narration_uploaded_at !== null
+      row.narration_audio_key !== null &&
+      (row.narration_uploaded_at !== null || devServesFromDisk())
         ? {
             audioKey: row.narration_audio_key,
             durationS: row.narration_duration_s,
@@ -321,12 +352,15 @@ export async function episodesOf(db: D1Database, slug: string): Promise<Episode[
     style: r.style,
     audioKey: r.audio_key,
     durationS: r.duration_s,
-    hasAudio: r.audio_key !== null && r.uploaded_at !== null,
-    // Offered only once the file is actually in R2, exactly as the audio is. A
-    // key whose object has not been uploaded would render as a transcript panel
-    // that never fills.
+    hasAudio: r.audio_key !== null && (r.uploaded_at !== null || devServesFromDisk()),
+    // Offered only once the file is actually playable, exactly as the audio is.
+    // A key whose object has not been uploaded (and, locally, is not on disk
+    // either) would render as a transcript panel that never fills.
     transcriptKey:
-      r.transcript_key !== null && r.transcript_uploaded_at !== null ? r.transcript_key : null,
+      r.transcript_key !== null &&
+      (r.transcript_uploaded_at !== null || devServesFromDisk())
+        ? r.transcript_key
+        : null,
     chapters: covered.get(r.number) ?? [],
     sessionNumber: r.session_number,
   }));
@@ -405,7 +439,10 @@ export async function deckPagesOf(db: D1Database, slug: string): Promise<Deck[]>
     // The first row that carries a title wins. A deck whose pages disagree is not
     // a case worth modelling — they are written together, from one source.
     if (deck.title === null && r.deck_title !== null) deck.title = r.deck_title;
-    deck.pages.push({ key: r.key, available: r.uploaded_at !== null });
+    deck.pages.push({
+      key: r.key,
+      available: r.uploaded_at !== null || devServesFromDisk(),
+    });
   }
 
   return [...decks.values()];
@@ -480,7 +517,7 @@ export async function libraryCards(
               -- describeContents decides the wording for both surfaces.
               (SELECT count(*) FROM media_asset m WHERE m.key = d.pdf_key) AS pdf_exists,
               (SELECT count(*) FROM media_asset m
-                WHERE m.key = d.pdf_key AND m.uploaded_at IS NOT NULL) AS pdf_ready,
+                WHERE m.key = d.pdf_key AND ${servable("m.uploaded_at")}) AS pdf_ready,
               (SELECT count(*)          FROM chapter c WHERE c.slug = u.slug) AS chapters,
               (SELECT c.anchor_key       FROM chapter c
                 WHERE c.slug = u.slug ORDER BY c.idx LIMIT 1) AS first_chapter_key,
@@ -488,12 +525,12 @@ export async function libraryCards(
               (SELECT count(*)          FROM episode e WHERE e.slug = u.slug) AS episodes,
               (SELECT count(*)          FROM episode e
                  JOIN media_asset m ON m.key = e.audio_key
-                WHERE e.slug = u.slug AND m.uploaded_at IS NOT NULL) AS recorded,
+                WHERE e.slug = u.slug AND ${servable("m.uploaded_at")}) AS recorded,
               (SELECT count(*)          FROM media_asset m
                 WHERE m.slug = u.slug AND m.kind = 'deck-page') AS deck_pages,
               (SELECT count(*)          FROM media_asset m
                 WHERE m.slug = u.slug AND m.kind = 'deck-page'
-                  AND m.uploaded_at IS NOT NULL) AS deck_ready
+                  AND ${servable("m.uploaded_at")}) AS deck_ready
        FROM content_unit u
        LEFT JOIN unit_detail d ON d.slug = u.slug
        WHERE u.slug IN (${placeholders})`,
@@ -555,14 +592,14 @@ export async function playableEpisodesForCards(
     .prepare(
       `SELECT e.slug, e.number, e.title, e.audio_key, e.duration_s,
               CASE
-                WHEN e.transcript_key IS NOT NULL AND transcript.uploaded_at IS NOT NULL
+                WHEN e.transcript_key IS NOT NULL AND ${servable("transcript.uploaded_at")}
                 THEN e.transcript_key
                 ELSE NULL
               END AS transcript_key
          FROM episode e
          JOIN media_asset audio
            ON audio.key = e.audio_key
-          AND audio.uploaded_at IS NOT NULL
+          AND ${servable("audio.uploaded_at")}
          LEFT JOIN media_asset transcript
            ON transcript.key = e.transcript_key
         WHERE e.slug IN (${placeholders})
