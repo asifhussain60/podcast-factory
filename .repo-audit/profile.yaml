@@ -86,7 +86,8 @@ verify:
   # flips open_to_all); they are recorded here because a human-run gate with no home
   # is a gate nobody is obliged to run. See the `listener` job in
   # .github/workflows/lint.yml for why CI stops at the first three.
-  - cd listener && npm run typecheck && npm run test
+  - cd listener && npm run typecheck && npm run lint && npm run format:check && npm run ratchets
+  - cd listener && npm run test
   - cd listener && npm run build
   - cd listener && npm run security # access-control bypass probes, with controls
   - cd listener && npm run smoke # LOCAL ONLY — boots the dev server + chromium
@@ -128,6 +129,23 @@ size_gates:
       are advisory in eslint by design, which is how 93 accumulated where no gate had
       to look at them. Per rule rather than one total, so a new `any` cannot hide
       behind someone else's fixed hook warning.
+  - glob: "listener/{app,scripts,workers}/**/*.{ts,tsx,mts,mjs}"
+    limit: 850 # ENFORCED. Closes CQ-NO-SIZE-GATE, 2026-08-16 audit.
+    ratchet: listener/frontend-ratchets.json
+    note: >-
+      Added 2026-08-16 alongside this app's first lint config — it had NO size gate
+      and NO lint config at all before that pass (CQ-NO-LINT / CQ-NO-SIZE-GATE).
+      850 chosen from this app's own distribution (107 sized files, median 148,
+      p95 795), same reasoning as the plan-dashboard entry above: the top four
+      files (three UI routes plus the audio player, 1162-1399 lines) sit clear of
+      everything else, and the next file down sits inside a dense cluster in the
+      700s-800s rather than as a fifth outlier — so 850 grandfathers only the
+      genuine break in the distribution. Same every-file-governed-by-exactly-one-
+      rule contract as plan-dashboard's entry; same per-RULE eslint warning budget
+      in the same ratchet file. Enforced by
+      listener/scripts/check-frontend-ratchets.mjs (`npm run ratchets`), its own
+      copy rather than a shared one — this app imports nothing from
+      plan-dashboard/ at runtime and that boundary holds for dev tooling too.
 
 apps:
   # The web surfaces, declared so the audit can reason about them instead of
@@ -148,16 +166,20 @@ apps:
   - dir: listener
     name: Podcast Factory Library # AUDIENCE-facing Worker at podcast-factory.safinaverse.com
     source: [app, workers, scripts]
-    lint_config: null # DELIBERATE GAP, reported as CQ-NO-LINT. This app has no
-      # ESLint or Prettier config at all, so the only thing standing between it
-      # and a style drift is tsc, which does not look at style. Recorded rather
-      # than fixed because adopting a config is a formatting commit across 106
-      # files and that is the owner's call, not an audit's.
+    lint_config: eslint.config.js # added 2026-08-16, closing CQ-NO-LINT. Same
+      # pinned versions and posture as plan-dashboard's config (correctness
+      # rules at error, the pre-existing React-hooks findings at warn pending
+      # the same kind of review that app already had before ratcheting them),
+      # adapted for this app's own stack — no Astro plugin, no packages/*
+      # workspace tier. scripts/check-frontend-ratchets.mjs is this app's own
+      # copy of the ratchet gate, not shared with plan-dashboard's: this app
+      # imports nothing from plan-dashboard/ at runtime and that boundary
+      # holds for dev tooling too. Baseline: listener/frontend-ratchets.json.
     route_kind: manifest # app/routes.ts IS the access policy — position, not pathname
     route_policy: app/routes.ts
     route_dir: app/routes
     error_boundary_owner: app/root.tsx # the ONLY module that may export one
-    gates: [typecheck, test, build, security, smoke, controls]
+    gates: [typecheck, lint, format:check, ratchets, test, build, security, smoke, controls]
 
 hygiene:
   # What the cleanup pass (scripts/repo_cleanup.py) may reclaim, and what it must
@@ -287,18 +309,24 @@ fragile:
       only sensible now that the runtime smoke gate actually runs in CI.
   - path: plan-dashboard/src/scripts/book-composer.ts
     why: >-
-      OVER ITS RATCHET, AND KNOWINGLY SO as of 2026-08-16. It had reached 4,369 lines
-      against a 4,129 pin; the audit took it to 4,248 by moving out the data-island
-      types, the inert toolbar data, and a THIRD copy of the quote-kind label map that
-      had been drifting against its two siblings. The remaining 119 lines have no safe
-      cut. The file is one `boot()` closure, and every candidate block — the Arabic
-      style group, the quote-kind actions, the drag targets — reads six to nine sibling
-      closures, so extracting one means threading that many dependencies across a
-      module boundary on the surface Asif authors every book with. That is a
-      decomposition project with its own plan, exactly as recorded for
-      NarrativeScroll.tsx above, and not a step inside a pass that is verifying
-      everything else.
-      The ratchet is behaving correctly by refusing, and it is deliberately NOT
-      re-pinned here: raising a shrink-only ceiling to clear a red gate is the single
-      move it exists to prevent. Asif rules on whether to re-pin at 4,248 (green now,
-      decomposition carried as debt) or leave it red until the split lands.
+      RE-PINNED to 4,253 on 2026-08-16, on Asif's explicit ruling (question 2b of that
+      day's audit). It had reached 4,369 lines against a 4,129 pin; the same pass took
+      it to 4,253 by moving out the data-island types, the inert toolbar data, and a
+      THIRD copy of the quote-kind label map that had been drifting against its two
+      siblings — genuine reduction, not the re-pin. What remains has no safe cut: the
+      file is one `boot()` closure, and every candidate block — the Arabic style group,
+      the quote-kind actions, the drag targets — reads six to nine sibling closures, so
+      extracting one means threading that many dependencies across a module boundary on
+      the surface Asif authors every book with. That is a decomposition project with its
+      own plan, exactly as recorded for NarrativeScroll.tsx above.
+      THIS PIN GOVERNS CODE ORGANIZATION ONLY. book-composer.ts is the browser-side
+      script for the Book Composer's editing UI (drag-and-drop visual placement,
+      toolbar wiring, autosave) — it holds no book prose and runs nowhere near the
+      pipeline that composes, translates, or vowels a book's text. Raising this number
+      changes how many lines of UI-wiring code may accumulate before the gate complains;
+      it has no path to affecting what a reader sees in a published book. The gates that
+      DO guard book quality — book-challenger, book-render-challenger, the vowelling
+      marks-only rule, the narrative-frame enforcement — are untouched by this ratchet
+      and unaffected by this decision.
+      Still shrink-only from here: the number may fall as the decomposition project
+      lands, and may never rise again without another explicit ruling.

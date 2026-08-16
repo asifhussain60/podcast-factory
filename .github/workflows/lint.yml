@@ -168,6 +168,17 @@ jobs:
       # Wired 2026-08-04.
       - name: Type check (react-router typegen + tsc)
         run: npm run typecheck
+      # ESLint + Prettier + the shrink-only ratchets, all added 2026-08-16 (repo
+      # audit findings CQ-NO-LINT / CQ-NO-SIZE-GATE): this app had 106 source
+      # files with nothing but the type checker looking at them, and no size
+      # rule at all. Same posture as the `site` job's own ratchets step below —
+      # today's warning counts and file sizes are the ceiling, not a target.
+      - name: ESLint (errors block, warnings advisory)
+        run: npx eslint app scripts workers --quiet
+      - name: Prettier check
+        run: npm run format:check
+      - name: Front-end ratchets (lint-warning budget + file size)
+        run: npm run ratchets
       - name: Unit tests
         run: npm run test
       - name: Build
