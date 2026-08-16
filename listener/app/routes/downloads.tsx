@@ -140,7 +140,7 @@ export default function Downloads({ loaderData }: Route.ComponentProps) {
       {nothing ? (
         <EmptyState>
           Open a book and press <strong className="pf-strong">Download</strong> beside an
-          episode, or <strong className="pf-strong">Keep the text</strong> above its
+          episode, or <strong className="pf-strong">Read Offline</strong> above its
           chapters. What you keep stays here until you remove it, or until the book
           stops being shared with you.
         </EmptyState>

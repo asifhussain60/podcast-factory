@@ -139,6 +139,16 @@ export function DownloadButton({
  * A book rather than a chapter, because nobody wants chapter four on a plane —
  * they want the book — and because the prose of a whole book is smaller than
  * twenty seconds of its audio, so there is nothing to ration.
+ *
+ * Labelled "Read Offline" / "Available Offline" (Asif, 2026-08-16, replacing
+ * "Keep the text" / "Text on this device") — the old copy described the
+ * mechanism (a copy of the text, kept), which meant nothing until you'd
+ * already pressed it once to find out. "Read Offline" states the outcome a
+ * reader actually wants; "Available Offline" confirms it in the same two
+ * words a reader would use to ask for it back. `aria-pressed` makes the
+ * on/off nature explicit to assistive tech — this already WAS a three-state
+ * toggle (idle / saving / held) rather than a one-shot action, it just never
+ * said so structurally.
  */
 export function KeepTextButton({ slug, title }: { slug: string; title: string }) {
   const held = useSyncExternalStore(
@@ -165,7 +175,7 @@ export function KeepTextButton({ slug, title }: { slug: string; title: string })
     return (
       <span className="pf-button pf-button--soft pf-download--busy" role="status">
         <progress className="pf-download__bar" max={100} />
-        Keeping the text
+        Saving for offline
       </span>
     );
   }
@@ -175,11 +185,13 @@ export function KeepTextButton({ slug, title }: { slug: string; title: string })
       <button
         type="button"
         onClick={() => void removeText(slug)}
-        className="pf-button pf-button--soft"
-        aria-label={`Remove the downloaded text of ${title}`}
+        className="pf-button pf-button--soft pf-tip pf-tip--below"
+        aria-pressed="true"
+        aria-label={`${title} is available offline — press to remove it from this device`}
+        data-tip="Saved to this device — press to remove"
       >
         <Icon icon={faCheck} />
-        Text on this device
+        Available Offline
       </button>
     );
   }
@@ -188,11 +200,13 @@ export function KeepTextButton({ slug, title }: { slug: string; title: string })
     <button
       type="button"
       onClick={() => void start()}
-      className="pf-button pf-button--soft"
-      aria-label={`Keep the text of ${title} on this device`}
+      className="pf-button pf-button--soft pf-tip pf-tip--below"
+      aria-pressed="false"
+      aria-label={`Read ${title} offline — saves the text to this device`}
+      data-tip={failed ? "That didn't save — press to try again" : "Save the text to read with no signal"}
     >
       <Icon icon={failed ? faXmark : faBookOpen} />
-      {failed ? "Try again" : "Keep the text"}
+      {failed ? "Try again" : "Read Offline"}
     </button>
   );
 }

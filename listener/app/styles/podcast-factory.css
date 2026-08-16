@@ -2089,52 +2089,37 @@
     font-family: var(--l-font-card-title);
   }
 
-  .pf-masthead--centred .pf-book-title-original {
-    text-align: center;
-  }
-
   .pf-masthead--centred .pf-pills {
     justify-content: center;
   }
 
-  .pf-masthead--centred .pf-panel {
-    text-align: start;
-  }
-
-  /* The title plate (Asif, 2026-08-05, replacing the circular seal): the
-     book's two-part identity — English name, the work's own Arabic beneath —
-     held in one rectangular panel rather than sitting bare on the page.
-
-     A rectangle rather than the circle it replaces because the panel can take
-     the width a title needs. The circle could not: it had to be sized for the
-     library's longest name, which left every short one floating in an empty
-     disc, and shrinking the type to fit the longest made the shelf read at one
-     size and the page at another.
-
-     It borrows the page's own panel idiom — the same radius and the same
-     accent-mixed tint the "About this book" panel below it uses — so it reads
-     as part of this page rather than as an ornament dropped onto it. `fit-
-     content` up to a cap, so a two-word title gets a compact plate and a
-     subtitled one gets a wide one, both centred. */
-  .pf-title-plate {
+  /* ---- The book-identity panel (Asif, 2026-08-16, replacing the title
+     plate + separate "About this book" panel) ----
+     Category, title/Arabic and the blurb used to be three blocks of three
+     different visual weights — a bare eyebrow line, a bordered plate, then a
+     whole second panel below it — for what is really one idea: here is what
+     this book is. One card now carries all three. It keeps the plate's
+     accent-mixed tint and border so the page doesn't lose the "this is a
+     named object" read the plate gave it, but the category moves INSIDE as a
+     small pill and the Arabic name moves onto the title's own line, in
+     parentheses, rather than getting a second line beneath it. */
+  .pf-book-identity {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--pf-space-2);
-    width: fit-content;
-    max-width: min(100%, 44rem);
+    width: 100%;
+    /* 80% of the page's own measure (Asif, 2026-08-16) — the panel below
+       this one (Read/Listen/Watch) runs the full page width with no cap of
+       its own, and the identity card was capped so much narrower that the
+       two read as belonging to different pages. Sized off `--pf-measure-page`
+       rather than a literal rem figure so it keeps tracking that panel if
+       the page measure ever changes. */
+    max-width: min(100%, calc(var(--pf-measure-page) * 0.8));
     margin-inline: auto;
     margin-top: var(--pf-space-5);
-    /* Tighter above and below than at the sides: two centred lines of display
-       type already carry their own leading, and matching the side padding
-       vertically left a band of empty plate under the Arabic. */
-    padding: clamp(var(--pf-space-3), 2vw, var(--pf-space-4))
+    padding: clamp(var(--pf-space-5), 4vw, var(--pf-space-6))
       clamp(var(--pf-space-5), 5vw, var(--pf-space-8));
     border-radius: var(--pf-radius-lg);
-    /* A tint rather than a flat fill: the plate reads as its own object against
-       the page instead of a rule drawn on the same paper. Mixed INTO
-       `--l-surface` rather than laid over it, so sepia and dark inherit their
-       own version instead of a light-theme colour bleeding through. */
     background: linear-gradient(
       160deg,
       color-mix(in srgb, var(--l-accent) 4%, var(--l-surface)) 0%,
@@ -2142,94 +2127,95 @@
     );
     border: 3px solid color-mix(in srgb, var(--l-accent) 22%, transparent);
     box-shadow: var(--pf-elev-3);
-    /* The sheen below is clipped to the plate and sits between its fill and its
-       type, so it passes UNDER the names rather than washing over them.
-       `isolation` keeps that z-order local: without it the sheen's negative
-       index would sink behind the page instead of behind the text. */
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
   }
 
-  /* The glass: one soft band crossing the plate at an angle, as light travels
-     over a glazed surface.
-
-     Made of `--l-accent` at low alpha rather than white. White is what a
-     specular highlight actually is, and it was tried first — but the same white
-     band that is invisible on the near-white light panel reads as a polished
-     metal blade on the dark one, and no single alpha serves both. The accent is
-     DARKER than the light panel and LIGHTER than the dark one, so one rule
-     produces a soft shift in either direction.
-
-     Slow and mostly absent: the sweep takes a third of the cycle and the rest
-     of the nine seconds is still. A highlight that crossed continuously would
-     be an animation playing on a page of prose; this one catches the eye once
-     and then leaves. The global `prefers-reduced-motion` rule covers `::before`
-     as well as elements, so a reader who asks for stillness gets it here too. */
-  .pf-title-plate::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: inherit;
-    pointer-events: none;
-    background: linear-gradient(
-      115deg,
-      transparent 30%,
-      color-mix(in srgb, var(--l-accent) 5%, transparent) 42%,
-      color-mix(in srgb, var(--l-accent) 13%, transparent) 50%,
-      color-mix(in srgb, var(--l-accent) 5%, transparent) 58%,
-      transparent 70%
-    );
-    animation: pf-title-plate-glass 9s ease-in-out infinite;
+  /* The eyebrow, folded into the panel as a pill rather than a floating line
+     above it — the category is a fact about this card, not a caption for the
+     page. */
+  .pf-book-identity__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.25rem 0.85rem;
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--l-accent) 12%, transparent);
+    color: var(--l-accent-hover);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--pf-tracking-eyebrow);
   }
 
-  @keyframes pf-title-plate-glass {
-    0% {
-      transform: translateX(-115%);
-    }
-    35%,
-    100% {
-      transform: translateX(115%);
-    }
+  .pf-book-identity__title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    column-gap: 0.5ch;
+    margin-top: var(--pf-space-3);
   }
 
-  /* ONE size for every book — both names scale with the viewport and with
-     nothing else, so a reader moving along the shelf sees every title set the
-     same way.
-
-     The Arabic is stepped UP from the shared size rather than sharing it
-     outright. Set at the same `font-size` the two scripts do not look the same
-     size: Naskh's letterforms sit on a smaller body than Latin capitals, so an
-     identical number renders visibly smaller. The multiplier is what makes them
-     look equal, which is the thing actually being matched here. */
-  .pf-title-plate {
-    --pf-plate-type: clamp(1.45rem, 1.05rem + 1.7vw, 2.4rem);
-  }
-
-  .pf-title-plate .pf-title {
+  /* ONE size for every book, same reasoning the plate it replaces used: a
+     length-based step-down made a short title larger than a long one, so the
+     same library read at three different sizes across books. */
+  .pf-book-identity__title {
+    /* Overrides `.pf-title--sm`'s own top margin — inside this flex row the
+       title sits beside its Arabic parenthetical, not stacked under
+       anything, so the margin only threw the baseline alignment off. */
     margin-top: 0;
     max-width: 100%;
-    font-size: var(--pf-plate-type);
     line-height: 1.15;
-    /* When a title is long enough to need two lines, it divides into even ones
-       rather than a full line and an orphan — and at the space, never at the
-       hyphen in a name like `al-Walad`, which reads as a word cut in half. */
     text-wrap: balance;
-    /* The two names are set apart by colour as well as by face: the English in
-       a deeper violet-blue, the Arabic beneath it in the lighter blue, so the
-       eye reads a heading and its translation rather than two equal titles.
-       Both are MIXED FROM `--l-accent`, never fixed hexes, so sepia's muted
-       blue and dark's pale blue each produce their own pair instead of a
+    /* Mixed FROM `--l-accent` rather than a fixed hex, so sepia's muted blue
+       and dark's pale blue each produce their own tint instead of a
        light-theme colour showing through. */
     color: color-mix(in oklab, var(--l-accent-hover) 80%, rebeccapurple);
   }
 
-  .pf-title-plate .pf-book-title-original {
-    margin-top: 0;
-    font-size: calc(var(--pf-plate-type) * 1.18);
-    line-height: 1.4;
+  /* The Arabic name, now a parenthetical beside the title instead of a line
+     beneath it. `dir="rtl"` sits only on the name itself, not the
+     parentheses — they are punctuation in the surrounding English sentence
+     and mirroring them would flip which side reads as "open". Same face as
+     the book's own name got when it had its own line
+     (`--l-font-arabic-display` / `--l-font-urdu-display`), so the identity
+     card and the reading page never disagree about how a title is set.
+
+     Sized off `--pf-display-sm` — the title's OWN font-size variable —
+     rather than `em`: this element is a flex sibling of the title, not its
+     descendant, so `em` resolved against the row's ambient (body) size and
+     rendered at a barely-legible ~10px. Asif, 2026-08-16: it should look as
+     prominent as the English name, not like a footnote, so it is scaled
+     close to the title's own size rather than a fraction of it. */
+  .pf-book-identity__original-paren {
+    font-family: var(--l-font-arabic-display);
+    font-size: calc(var(--pf-display-sm) * 0.9);
     color: color-mix(in srgb, var(--l-accent) 78%, var(--l-surface));
+  }
+
+  .pf-book-identity__original-paren:has(.pf-book-identity__original[lang="ur"]) {
+    font-family: var(--l-font-urdu-display);
+  }
+
+  .pf-book-identity__original {
+    font-family: inherit;
+  }
+
+  /* The blurb stays LEFT-aligned though everything above it is centred
+     (Asif, 2026-08-16) — running prose centres badly past one line, so only
+     the short, centrable parts of the card (the pill, the title) actually
+     centre. `text-align: start` beats the `.pf-masthead--centred` ancestor
+     rule by specificity+source order without needing `!important`. */
+  /* Doubled selector, not `.pf-book-identity__blurb` alone: the plain
+     `.pf-blurb` rule below shares this rule's specificity, and being later
+     in the file would otherwise win on source order and hand the paragraph
+     back its muted colour. */
+  .pf-blurb.pf-book-identity__blurb {
+    margin-top: var(--pf-space-5);
+    max-width: none;
+    text-align: start;
+    color: var(--l-ink);
+    font-size: 1.125rem; /* 18px, per Asif 2026-08-16 */
   }
 
   .pf-eyebrow {
@@ -2276,46 +2262,10 @@
     text-wrap: pretty;
   }
 
-  /* The book's own name, on its own page. Bigger than the card's band title —
-     this is the one place there is room to set it properly. */
-  .pf-book-title-original {
-    margin-top: var(--pf-space-4);
-    color: var(--l-ink);
-    font-family: var(--l-font-arabic-display);
-    font-size: clamp(2.3rem, 1.7rem + 2.6vw, 3.4rem);
-    line-height: 1.5;
-    /* `dir="rtl"` is required for shaping and ordering, and it also flips the
-       default alignment to the right — which on a wide page throws the title to
-       the far edge, a whole column away from the English name it belongs to.
-       The alignment is deliberately left; only the text direction is right. */
-    text-align: left;
-  }
-
-  .pf-book-title-original[lang="ur"] {
-    font-family: var(--l-font-urdu-display);
-    font-size: clamp(2rem, 1.55rem + 2.2vw, 3.1rem);
-    line-height: 2;
-  }
-
   .pf-blurb {
     margin-top: var(--pf-space-5);
     color: var(--l-muted);
     font-size: var(--pf-text-md);
-  }
-
-  /* In a panel the description takes the panel's full width, and the panel
-     takes the page's.
-
-     `.reader` holds prose to `--l-reading-measure` (68ch) because a chapter is
-     read line after line for an hour and the eye has to find the next line
-     unaided. A three-sentence description is scanned once — and held to 68ch in
-     a 64rem panel it left a third of the panel empty, which read as a layout
-     that had failed rather than a measure that had been chosen. The panel's
-     padding is what keeps the line from running to the very edge. */
-  .pf-panel .pf-blurb {
-    margin-top: 0;
-    max-width: none;
-    color: var(--l-ink);
   }
 
   /* A row of facts under the identity block, and under a library card. */
@@ -3315,6 +3265,20 @@
     color: var(--l-faint);
   }
 
+  /* The count standing in for a section's whole heading, on the tabs whose
+     tab strip already names the section (Read, Listen) so there is no
+     `.pf-section__title` beside it (Asif, 2026-08-16). At the base size it
+     read as a stray caption rather than the thing telling you how many
+     chapters or episodes are here — sized and weighted like a real heading,
+     not just a slightly bigger label. */
+  .pf-section__count--lead {
+    font-size: var(--pf-text-xl);
+    font-weight: 600;
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--l-ink);
+  }
+
   /* ---- Card -----------------------------------------------------------
      A card lifts under the cursor rather than changing colour. Recolouring a
      border on hover reads as a state change — as though something had gone
@@ -4115,6 +4079,118 @@
   .pf-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  /* The two ways to take a book's reading edition off the site, held as one
+     visual pair (Asif, 2026-08-16) rather than two loose buttons that
+     happened to share a row — they answer the same question, so a reader
+     comparing them should read them as a set. */
+  .pf-format-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-3);
+  }
+
+  /* ---- Tooltip -----------------------------------------------------------
+     A small hover/focus label for a control whose action isn't obvious from
+     its icon and one or two words alone — "Read Offline" and "Download PDF"
+     sit right beside each other and answer the same question differently,
+     and the tooltip is what says how. CSS-only: the text lives in `data-tip`
+     so there is exactly one copy of it, and it never needs JS to position or
+     dismiss itself. It is a hover/focus AFFORDANCE, not the button's
+     accessible name — every `.pf-tip` control still carries its own
+     `aria-label`, so removing the tooltip loses nothing a screen reader
+     already had. */
+  .pf-tip {
+    position: relative;
+  }
+
+  .pf-tip::after,
+  .pf-tip::before {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 8px);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity var(--pf-motion),
+      transform var(--pf-motion);
+    z-index: 20;
+  }
+
+  .pf-tip::after {
+    content: attr(data-tip);
+    transform: translate(-50%, 4px);
+    max-width: 16rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 8px;
+    background: var(--l-ink);
+    color: var(--l-surface);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 500;
+    line-height: 1.35;
+    text-align: center;
+    text-transform: none;
+    letter-spacing: normal;
+    white-space: normal;
+    width: max-content;
+    box-shadow: var(--pf-elev-2);
+  }
+
+  /* The pointer, a rotated square rather than a border-triangle hack, so it
+     shares the bubble's own colour without a second colour to keep in sync. */
+  .pf-tip::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-bottom: -4px;
+    transform: translate(-50%, 4px) rotate(45deg);
+    background: var(--l-ink);
+  }
+
+  /* Opens BELOW the control instead of above (Asif, 2026-08-16). The default
+     opens upward, which is right for a control with room above it — but the
+     format-actions row sits right at the top edge of its panel, and `.pf-panel`
+     keeps `overflow: hidden` to square off its own rounded corners. A tooltip
+     that opened upward from there had nowhere to go but under that clip, so
+     only its bottom sliver ever showed. Any control this close to a clipping
+     ancestor's edge should use this modifier instead of the default. */
+  .pf-tip--below::after,
+  .pf-tip--below::before {
+    top: calc(100% + 8px);
+    bottom: auto;
+  }
+
+  .pf-tip--below::after {
+    transform: translate(-50%, -4px);
+  }
+
+  .pf-tip--below::before {
+    margin-bottom: 0;
+    margin-top: -4px;
+    transform: translate(-50%, -4px) rotate(45deg);
+  }
+
+  .pf-tip:hover::after,
+  .pf-tip:hover::before,
+  .pf-tip:focus-visible::after,
+  .pf-tip:focus-visible::before {
+    opacity: 1;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+
+  .pf-tip:hover::before,
+  .pf-tip:focus-visible::before {
+    transform: translate(-50%, 0) rotate(45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-tip::after,
+    .pf-tip::before {
+      transition: none;
+    }
   }
 
   /* ---- Rows ------------------------------------------------------------

@@ -197,7 +197,7 @@ export default function ReadOffline({ loaderData }: Route.ComponentProps) {
         <EmptyState>
           {slug === ""
             ? "No book was named."
-            : "This book is not on your device. When you next have a signal, open it and press Keep the text."}{" "}
+            : "This book is not on your device. When you next have a signal, open it and press Read Offline."}{" "}
           <Link to="/downloads" className="pf-link">
             See what is downloaded
           </Link>
