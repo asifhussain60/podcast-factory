@@ -514,6 +514,21 @@ def vowel_book(book_dir: Path, *, log: Callable[[str], None] = print, dry_run: b
         return {"vowelled": 0}
     before = md.read_text(encoding="utf-8")
     after, stats = vowel_text(before, log=log, dry_run=dry_run)
+    # WHOLE-FILE SAFETY NET (2026-08-16). `rejection_reason` only judges what
+    # THIS pass proposes -- compose/rearticulation/voice also touch book.md and
+    # one printed "Rahat al-Aqlِ," (a kasra glued onto Latin "Aql"). Last
+    # vowelling touchpoint before the audits, so sweep the whole file regardless
+    # of which pass produced the defect. Drops only marks off an Arabic letter.
+    if not dry_run:
+        from _vowelling import strip_orphaned_marks
+
+        after, orphan_records = strip_orphaned_marks(after)
+        if orphan_records:
+            stats["orphaned_marks_fixed"] = orphan_records
+            log(
+                f"vowelling: {len(orphan_records)} orphaned mark(s) found off an Arabic letter "
+                "and stripped -- see book-vowelling.json"
+            )
     if not dry_run and after != before:
         md.write_text(after, encoding="utf-8")
     if not dry_run:

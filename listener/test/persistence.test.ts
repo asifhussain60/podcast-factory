@@ -58,13 +58,14 @@ beforeEach(() => {
 });
 
 describe("the reading settings", () => {
-  // All four in ONE key, so they cannot half-survive: a reader who set the
+  // All five in ONE key, so they cannot half-survive: a reader who set the
   // typeface and the width gets both back or neither, never one.
   const chosen = {
     family: "lexend" as const,
     size: 23,
     leading: 1.9,
     measure: 100,
+    showSourceRefs: true,
   };
 
   it("writes every field a reader can change", () => {

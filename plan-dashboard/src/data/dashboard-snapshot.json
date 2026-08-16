@@ -1905,7 +1905,7 @@
     },
     {
       "slug": "kitab-al-riyad",
-      "title": "Kitāb al-Riyāḍ",
+      "title": "Kitab al-Riyad",
       "phase": "reader-narration",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
@@ -1929,7 +1929,7 @@
     },
     {
       "slug": "mukhtasar-ul-asar-1",
-      "title": "Mukhtasar Ul Asar 1",
+      "title": "Mukhtasar-ul-Asaar 1",
       "phase": "reader-narration",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
@@ -1937,7 +1937,7 @@
     },
     {
       "slug": "mukhtasar-ul-asar-2",
-      "title": "Mukhtasar ul Asar 2",
+      "title": "Mukhtasar-ul-Asaar 2",
       "phase": "reader-narration",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
@@ -1986,13 +1986,13 @@
     },
     {
       "slug": "mukhtasar-ul-asar-1",
-      "title": "Mukhtasar Ul Asar 1",
+      "title": "Mukhtasar-ul-Asaar 1",
       "shipped": "2026-08-15T19:47:28Z",
       "episodes": 0
     },
     {
       "slug": "mukhtasar-ul-asar-2",
-      "title": "Mukhtasar ul Asar 2",
+      "title": "Mukhtasar-ul-Asaar 2",
       "shipped": "2026-08-15T19:47:41Z",
       "episodes": 0
     },

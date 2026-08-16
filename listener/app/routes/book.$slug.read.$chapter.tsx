@@ -26,6 +26,7 @@ import { useHighlights, type Painted } from "~/components/reader/Highlights";
 import { cueAt, type Cue } from "~/components/player/Transcript";
 import { useOptionalPlayer, type NowPlaying } from "~/components/player/Player";
 import { useMarks } from "~/components/reader/useMarks";
+import { useReading } from "~/components/useReading";
 import { cloudflare } from "~/context";
 import { blocksOf, blockTextsOf, resolveAnchor } from "~/lib/anchor";
 import type { Anchor } from "~/lib/anchor";
@@ -45,6 +46,7 @@ import { passageById } from "~/server/search.server";
 import { readingMinutes } from "~/lib/reading";
 import { chapterOf, chaptersOf, surfacesOf } from "~/server/catalog.server";
 import { companionFor } from "~/server/companion.server";
+import { sourceReferenceFor } from "~/server/sourceReference.server";
 
 /**
  * One chapter of the reading edition.
@@ -152,7 +154,7 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
       ? null
       : await passageById(env.DB, viewer?.email ?? "", wanted);
 
-  const [unit, chapter, all, surfaces, companion] = await Promise.all([
+  const [unit, chapter, all, surfaces, companion, sourceRef] = await Promise.all([
     unitBySlug(env.DB, slug),
     chapterOf(env.DB, slug, key),
     chaptersOf(env.DB, slug),
@@ -163,6 +165,9 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
     // Empty, and un-queried, for everyone but the administrator. The gate is
     // inside that function rather than a condition here — see the module.
     companionFor(env.DB, viewer, slug, key),
+    // Null on the 19-of-27 books with no source-crosswalk, or on a chapter
+    // this book's crosswalk does not cover. No viewer gate — see the module.
+    sourceReferenceFor(env.DB, slug, key),
   ]);
 
   // A chapter key that is not in this book is a 404 exactly like a slug that is
@@ -193,6 +198,7 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
     previous: here > 0 ? all[here - 1] : null,
     next: here >= 0 && here < all.length - 1 ? all[here + 1] : null,
     companion,
+    sourceRef,
     surfaces,
     // Which DRAWER this reader gets, decided once for the whole book rather than
     // per chapter. Derived from `companion.length` it would have been free, but
@@ -219,6 +225,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     previous,
     next,
     companion,
+    sourceRef,
     isCompanion,
     isAdmin,
     surfaces,
@@ -250,6 +257,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   // re-render, which throws away every highlight painted into it.
   const html = useMemo(() => ({ __html: chapter.html }), [chapter.html]);
 
+  const { showSourceRefs } = useReading();
   const marks = useMarks(slug);
   const player = useOptionalPlayer();
   const markCount = marks.annotations.length + marks.bookmarks.length;
@@ -915,6 +923,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
           <ReaderToolbar
             bookmarked={bookmarked}
             onToggleBookmark={toggleBookmark}
+            hasSourceReference={sourceRef !== null}
           />
         </div>
 
@@ -956,6 +965,18 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
           {/* An <h2>, and the book above is the <h1> — which is also the true
               nesting: a chapter is part of a work. */}
           <h2 className="pf-chapter-title">{chapter.title}</h2>
+
+          {/* Off by default, and quiet when on — a line of text, no card, no
+              border. It exists to be checked against a physical copy of the
+              source book, not to compete with the chapter title above it. */}
+          {showSourceRefs && sourceRef !== null ? (
+            <p className="pf-source-ref">
+              Source: {sourceRef.pageRange}
+              {sourceRef.headings.length > 0
+                ? ` — ${sourceRef.headings.join("; ")}`
+                : ""}
+            </p>
+          ) : null}
 
           {/* No standfirst under the title. "5 of 10 in this edition · about
               13 minutes" stood here until 2026-08-04: a position the contents

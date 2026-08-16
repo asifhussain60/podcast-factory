@@ -232,6 +232,17 @@ def build_statements(book: Book, *, published_at: str, commit: str | None) -> li
             f"{sql_str(json.dumps(card.etymology, ensure_ascii=False) if card.etymology else None)});"
         )
 
+    # The source-reference toggle's data. Cleared and rewritten like the
+    # chapters, so a book that loses its crosswalk (or gains one) is reflected
+    # here rather than carrying a stale row forward.
+    add(f"DELETE FROM source_reference WHERE slug = {sql_str(book.slug)};")
+    for ref in book.source_references:
+        add(
+            "INSERT INTO source_reference (slug, anchor_key, page_range, headings) VALUES "
+            f"({sql_str(book.slug)}, {sql_str(ref.anchor)}, {sql_str(ref.page_range)}, "
+            f"{sql_str(json.dumps(ref.headings, ensure_ascii=False))});"
+        )
+
     # The search index. Cleared and rewritten with the chapters it describes,
     # which is what stops it describing a passage the edition no longer has.
     #
@@ -459,6 +470,7 @@ def describe(book: Book) -> dict:
         "deck_pages": sum(1 for a in book.assets if a.kind == "deck-page"),
         "bridge_links": len(book.bridge),
         "companion_cards": len(book.companion),
+        "source_references": len(book.source_references),
         "unmatched_audio": book.unmatched_audio,
         "session_concerns": session_concerns(book),
         "media_bytes": sum(a.bytes for a in book.assets),
@@ -532,6 +544,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  slide deck         {summary['deck_pages'] or 'none'}")
             print(f"  episode<->chapter  {summary['bridge_links'] or 'not recorded'}")
             print(f"  scholar cards      {summary['companion_cards'] or 'none'}")
+            print(f"  source references  {summary['source_references'] or 'none'}")
             for name in summary["unmatched_audio"]:
                 print(f"  ! audio not shipped, left where it is: {name}")
             for note in summary["session_concerns"]:

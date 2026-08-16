@@ -2,6 +2,7 @@ import { useId } from "react";
 import {
   faAlignJustify,
   faBars,
+  faBookOpenReader,
   faBookmark,
   faGripLines,
   faHouse,
@@ -134,9 +135,16 @@ function WidthIcon({ measure }: { measure: (typeof MEASURES)[number] }) {
 export function ReaderToolbar({
   bookmarked,
   onToggleBookmark,
+  hasSourceReference,
 }: {
   bookmarked: boolean;
   onToggleBookmark: () => void;
+  /**
+   * Whether THIS chapter has a source-reference row. The toggle is not drawn
+   * at all when it does not — most books have no crosswalk, and a control
+   * with nothing behind it is worse than no control.
+   */
+  hasSourceReference: boolean;
 }) {
   const prefs = useReading();
   const id = useId();
@@ -172,6 +180,31 @@ export function ReaderToolbar({
             title={bookmarked ? "Remove bookmark" : "Bookmark this place"}
           />
         </button>
+
+        {hasSourceReference ? (
+          <button
+            type="button"
+            onClick={() =>
+              setReading({ ...prefs, showSourceRefs: !prefs.showSourceRefs })
+            }
+            aria-pressed={prefs.showSourceRefs}
+            title={
+              prefs.showSourceRefs
+                ? "Hide source reference"
+                : "Show source reference"
+            }
+            className="pf-tool"
+          >
+            <Icon
+              icon={faBookOpenReader}
+              title={
+                prefs.showSourceRefs
+                  ? "Hide source reference"
+                  : "Show source reference"
+              }
+            />
+          </button>
+        ) : null}
       </div>
 
       {/* ---- How the page is set ----------------------------------------- */}

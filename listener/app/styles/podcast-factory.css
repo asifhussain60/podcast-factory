@@ -1958,6 +1958,17 @@
     background: var(--l-rule);
   }
 
+  /* The source-reference toggle's line. Quiet on purpose — a caption, not a
+     card — because it exists to be checked against the original book, not to
+     draw the eye the way the chapter opening above it does. */
+  .pf-source-ref {
+    margin: var(--pf-space-3) 0 0;
+    text-align: center;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
+  }
+
   .pf-chapter-body {
     margin-top: var(--pf-space-6);
   }

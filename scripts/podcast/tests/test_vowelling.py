@@ -22,10 +22,12 @@ from _vowelling import (  # noqa: E402
     is_vowelling_candidate,
     mark_count,
     mark_density,
+    orphaned_marks,
     reflow_to_source_whitespace,
     reflow_words_to_source_whitespace,
     rejection_reason,
     skeleton,
+    strip_orphaned_marks,
     transfer_marks,
 )
 
@@ -245,3 +247,56 @@ def test_mushaf_vocalisation_declines_a_span_that_does_not_align() -> None:
         pytest.skip("canonical mushaf unavailable")
     assert mushaf_vocalisation("قال الشيخ لتلميذه في ذلك اليوم") is None
     assert mushaf_vocalisation("") is None
+
+
+# ─── orphaned_marks / strip_orphaned_marks — the Kitab al-Riyad defect class ──
+# `book/book.md` printed "Rahat al-Aqlِ," -- a kasra (U+0650) glued onto the
+# Latin word "Aql" with no Arabic run anywhere near it on the page. Whatever
+# pass produced it, `skeleton()` would have read that mark as vocalising the
+# Latin "l" it happened to trail, which is not a vocalisation of anything.
+# These prove the guard catches exactly this class and nothing else.
+
+
+def test_orphaned_marks_catches_a_mark_glued_to_latin_text() -> None:
+    """The exact defect: a kasra stranded on the transliterated word "Aql"."""
+    corrupted = "known as Rahat al-Aqlِ, The Peace of the Intellect"
+    found = orphaned_marks(corrupted)
+    assert len(found) == 1
+    assert found[0]["mark"] == "ِ"
+    assert "Aql" in found[0]["context"]
+
+
+def test_strip_orphaned_marks_removes_only_the_stray_mark() -> None:
+    """Repair is surgical: the mark goes, every letter around it survives."""
+    corrupted = "known as Rahat al-Aqlِ, The Peace of the Intellect"
+    cleaned, records = strip_orphaned_marks(corrupted)
+    assert cleaned == "known as Rahat al-Aql, The Peace of the Intellect"
+    assert len(records) == 1
+
+
+def test_rejection_reason_refuses_a_candidate_with_a_mark_off_an_arabic_letter() -> None:
+    """The admissibility gate itself refuses this shape before it ever reaches
+    `book.md` -- the defence-in-depth half of the fix, for whichever future
+    caller hands `rejection_reason` a candidate like this directly."""
+    reason = rejection_reason("راحة العقل", "Rahat al-Aqlِ")
+    assert reason is not None
+    assert reason.startswith("a vowel mark")
+
+
+def test_orphaned_marks_leaves_ordinary_arabic_vowelling_untouched() -> None:
+    """Normal Arabic-to-Arabic mark placement must keep working, INCLUDING the
+    stacked-mark case (shadda then a vowel, both on one letter) that a naive
+    "mark must directly follow a letter" check would misflag as orphaned."""
+    fully_vowelled = "فَإِنَّهُ مَنْ عَمِلَ لِلَّهِ"  # إِنَّ stacks hamza+kasra, noon+shadda+fatha
+    assert orphaned_marks(fully_vowelled) == []
+    cleaned, records = strip_orphaned_marks(fully_vowelled)
+    assert cleaned == fully_vowelled
+    assert records == []
+    assert rejection_reason("فإنه من عمل لله", fully_vowelled) is None
+
+
+def test_orphaned_marks_empty_and_no_arabic_inputs() -> None:
+    """Degenerate inputs never raise and never false-positive."""
+    assert orphaned_marks("") == []
+    assert orphaned_marks("plain English, no Arabic anywhere") == []
+    assert strip_orphaned_marks("") == ("", [])

@@ -136,6 +136,12 @@
       "source": "تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣",
       "candidate": "تَأْلِيف سَيِّدنَا جَعْفَر بْن مَنْصُور اليَمَن",
       "outStartsWith": "letters changed, not just marks"
+    },
+    {
+      "_why": "the Kitab al-Riyad defect (2026-08-16): the candidate answered in Latin transliteration and left one mark stranded on it — book.md printed 'Rahat al-Aqlِ,' with a kasra glued to the Latin 'l'. orphaned-mark check fires BEFORE the skeleton check, so this is refused for the mark, not just for the letters.",
+      "source": "راحة العقل",
+      "candidate": "Rahat al-Aqlِ",
+      "outStartsWith": "a vowel mark"
     }
   ],
   "_reflowComment": "reflow_to_source_whitespace / reflowToSourceWhitespace. skeleton() collapses whitespace before comparing, so a model that returns a multi-line passage as one line passes the gate unnoticed. Line structure is load-bearing — produce_bilingual slices the Arabic source by line range — so the vowelling pass reflows a candidate onto the source's own whitespace BEFORE the gate sees it, rather than adding a clause that would refuse the 886-of-1395 runs that span lines.",
