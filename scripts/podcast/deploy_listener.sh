@@ -502,6 +502,20 @@ step "Content"
 python3 scripts/podcast/publish_to_listener.py "${SLUGS[@]}" --remote $DRY_RUN \
   || die "publishing failed — see above"
 
+# Groups multi-volume works (content/<Bucket>/_listener-groups/*.yml,
+# content/<Bucket>/<slug>/work.yml) into their `kind='work'` parent row and
+# links each volume's `work_slug` — the site's stacked-card grouping needs
+# both to exist before it will show a set instead of separate books. Runs
+# over EVERY manifest in the repo, not just $SLUGS: a volume can be pushed
+# on its own run long before its siblings are, and the work row has to
+# exist the moment two of them are visible together, not only on the run
+# that happens to touch every volume at once. Idempotent (see the script's
+# own ON CONFLICT clauses), so running it on every deploy costs nothing
+# when nothing changed.
+step "Work groups"
+python3 scripts/podcast/sync_listener_work_groups.py --remote $DRY_RUN \
+  || die "grouping multi-volume works failed — see above"
+
 step "Media"
 python3 scripts/podcast/upload_listener_media.py "${SLUGS[@]}" --remote $DRY_RUN \
   || die "uploading failed — the books that did land are already live"
