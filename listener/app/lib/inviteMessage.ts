@@ -45,13 +45,9 @@ function greetingName(displayName: string): string {
   return trimmed.split(/\s+/)[0];
 }
 
-/** What they can open, as the sentence fragment that follows "You've got:". */
-function whatTheyHave(books: string[], wholeLibrary: boolean): string | null {
-  if (wholeLibrary) return "everything in the library";
-  if (books.length === 0) return null;
-  if (books.length === 1) return books[0];
-  if (books.length === 2) return `${books[0]} and ${books[1]}`;
-  return `${books.slice(0, -1).join(", ")} and ${books[books.length - 1]}`;
+/** Whether they have anything granted at all yet. */
+function hasAnyAccess(books: string[], wholeLibrary: boolean): boolean {
+  return wholeLibrary || books.length > 0;
 }
 
 /**
@@ -66,7 +62,7 @@ const aboutUrl = (siteUrl: string) => `${siteUrl.replace(/\/+$/, "")}/about`;
 
 export function inviteMessage(input: InviteMessageInput): string {
   const name = greetingName(input.displayName);
-  const has = whatTheyHave(input.books, input.wholeLibrary);
+  const has = hasAnyAccess(input.books, input.wholeLibrary);
 
   // NOT hard-wrapped. Each paragraph is one line and the receiving app wraps it
   // to its own width. Wrapping at a fixed column looked tidy in a desktop
@@ -74,28 +70,35 @@ export function inviteMessage(input: InviteMessageInput): string {
   // a second time, so every third line was a stray orphan — "edition," and
   // "work." alone on a line. Blank lines between paragraphs are the only
   // structure that survives being pasted anywhere.
+  //
+  // The site/sign-in block is fenced by plain ASCII dash rules rather than any
+  // real box-drawing or markup — the fence is the closest thing to a "bordered
+  // panel" that still survives being pasted into WhatsApp, iMessage, or a plain
+  // Gmail compose box unchanged, which is the same constraint the rest of this
+  // message is already written under.
+  const rule = "-".repeat(50);
+
   const lines = [
-    `Hi ${name},`,
+    `Salaam ${name} — this site holds a library of classical Islamic works, each available in two ways: a proper English edition to read and a series of long-form audio sessions covering the same material. Read it, listen to it, or do both.`,
     "",
-    "I've been putting together a little library of classical Islamic works and I've set you up with access. Each book comes two ways — a proper English edition you can read, and a series of long-form audio episodes on the same material. Read it, listen to it, or do both.",
-    "",
-    input.siteUrl,
-    "",
-    `Sign in with Google using ${input.email} — that's the address I've set it up under, so another account won't find it.`,
+    rule,
+    `Site: ${input.siteUrl}`,
+    `Sign in with Google: ${input.email} — this is the account it's tied to, so another Google account won't work.`,
+    rule,
     "",
   ];
 
-  // Omitted entirely when they hold nothing yet, rather than printed empty. A
-  // line reading "You've got:" with nothing after it tells them something has
-  // gone wrong, when the truthful state is simply that the books come next.
-  if (has !== null) {
-    lines.push(`You've got: ${has}`, "");
+  // Omitted entirely when they hold nothing yet, rather than printed empty —
+  // same reasoning as before: telling them "there's more to explore" when
+  // nothing has actually been granted yet would be false, not just vague.
+  if (has) {
+    lines.push("There are several books and sessions available to explore once you're in.", "");
   }
 
   lines.push(
-    `Once you're in, have a look at this — it runs through everything the site does, including highlighting, notes and the transcripts: ${aboutUrl(input.siteUrl)}`,
+    `Take a look at the about page too — it walks through everything the site can do, including highlighting, notes, and transcripts: ${aboutUrl(input.siteUrl)}`,
     "",
-    "It's all private, nothing's public, and there's nothing to pay. Any trouble getting in, just tell me.",
+    "It's all private, nothing's public, and there's no cost. If you run into any trouble getting in, just let me know.",
     "",
     "— Asif",
   );

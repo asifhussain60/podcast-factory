@@ -23,9 +23,9 @@ const base = {
 
 describe("the invitation message", () => {
   it("greets by given name, not by full name", () => {
-    // "Hi Mariam Palejwala" reads like a form letter, which is what this must
-    // not read like.
-    expect(inviteMessage(base)).toContain("Hi Mariam,");
+    // "Salaam Mariam Palejwala" reads like a form letter, which is what this
+    // must not read like.
+    expect(inviteMessage(base)).toContain("Salaam Mariam");
   });
 
   it("names the exact address they must sign in with", () => {
@@ -63,36 +63,37 @@ describe("the invitation message", () => {
     expect(local).not.toContain("safinaverse");
   });
 
-  it("says what one book is", () => {
-    expect(inviteMessage(base)).toContain("You've got: Degrees of Excellence");
-  });
-
-  it("joins two books with 'and', and three with commas", () => {
-    expect(inviteMessage({ ...base, books: ["A", "B"] })).toContain(
-      "You've got: A and B",
-    );
-    expect(inviteMessage({ ...base, books: ["A", "B", "C"] })).toContain(
-      "You've got: A, B and C",
+  it("mentions there's something to explore once they have any access", () => {
+    expect(inviteMessage(base)).toContain(
+      "There are several books and sessions available to explore once you're in.",
     );
   });
 
-  it("says 'everything' rather than listing twenty-one titles", () => {
-    const msg = inviteMessage({
+  it("says the same thing whether they hold one book or the whole library", () => {
+    // The message no longer names specific titles — the line reads the same
+    // for one book, several, or whole-library access, so nothing here needs
+    // to change as somebody's grants change.
+    const oneBook = inviteMessage(base);
+    const wholeLibrary = inviteMessage({
       ...base,
       books: ["A", "B"],
       wholeLibrary: true,
     });
-    expect(msg).toContain("You've got: everything in the library");
-    expect(msg).not.toContain("A and B");
+    expect(oneBook).toContain(
+      "There are several books and sessions available to explore once you're in.",
+    );
+    expect(wholeLibrary).toContain(
+      "There are several books and sessions available to explore once you're in.",
+    );
   });
 
   it("omits the line entirely when they hold nothing yet", () => {
-    // Rather than printing "You've got:" with nothing after it, which reads as a
-    // fault where the truthful state is that the books come next. This is the
-    // case that matters most now: Generate message is offered for anybody
-    // selected, including somebody invited a moment ago who holds nothing.
+    // Rather than claiming there's something to explore when the truthful
+    // state is that access comes next. This is the case that matters most
+    // now: Generate message is offered for anybody selected, including
+    // somebody invited a moment ago who holds nothing.
     const msg = inviteMessage({ ...base, books: [] });
-    expect(msg).not.toContain("You've got:");
+    expect(msg).not.toContain("available to explore");
     // Everything else still has to be there — this is a message worth sending.
     expect(msg).toContain("mariampalejwala07@gmail.com");
     expect(msg).toContain("https://podcast-factory.safinaverse.com/about");
@@ -102,7 +103,7 @@ describe("the invitation message", () => {
     // Inventing a name would be worse, and the administrator sees the message
     // before sending it.
     expect(inviteMessage({ ...base, displayName: base.email })).toContain(
-      `Hi ${base.email},`,
+      `Salaam ${base.email}`,
     );
   });
 
