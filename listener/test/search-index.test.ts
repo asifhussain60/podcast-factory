@@ -38,24 +38,46 @@ const insert = (id: number, body: string, arabic = "") =>
 describe("the triggers", () => {
   it("indexes a passage when it is inserted", async () => {
     insert(1, "the intellect is the pen");
-    expect((await rows(`SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'intellect'`)).n)
-      .toBe(1);
+    expect(
+      (
+        await rows(
+          `SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'intellect'`,
+        )
+      ).n,
+    ).toBe(1);
   });
 
   it("drops it from the index when the row goes", async () => {
     insert(1, "the intellect is the pen");
     t.exec(`DELETE FROM search_passage WHERE id = 1;`);
-    expect((await rows(`SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'intellect'`)).n)
-      .toBe(0);
+    expect(
+      (
+        await rows(
+          `SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'intellect'`,
+        )
+      ).n,
+    ).toBe(0);
   });
 
   it("re-indexes it when the text changes", async () => {
     insert(1, "the intellect is the pen");
-    t.exec(`UPDATE search_passage SET body_fold = 'the soul is the tablet' WHERE id = 1;`);
-    expect((await rows(`SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'intellect'`)).n)
-      .toBe(0);
-    expect((await rows(`SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'tablet'`)).n)
-      .toBe(1);
+    t.exec(
+      `UPDATE search_passage SET body_fold = 'the soul is the tablet' WHERE id = 1;`,
+    );
+    expect(
+      (
+        await rows(
+          `SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'intellect'`,
+        )
+      ).n,
+    ).toBe(0);
+    expect(
+      (
+        await rows(
+          `SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'tablet'`,
+        )
+      ).n,
+    ).toBe(1);
   });
 
   it("leaves the index carrying exactly as many rows as the table", async () => {
@@ -73,10 +95,20 @@ describe("the triggers", () => {
     t.exec(`DELETE FROM search_passage WHERE slug = 'a-book';`);
     for (let i = 11; i <= 18; i++) insert(i, `second pass ${i}`);
 
-    expect((await rows(`SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'first'`)).n)
-      .toBe(0);
-    expect((await rows(`SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'second'`)).n)
-      .toBe(8);
+    expect(
+      (
+        await rows(
+          `SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'first'`,
+        )
+      ).n,
+    ).toBe(0);
+    expect(
+      (
+        await rows(
+          `SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'second'`,
+        )
+      ).n,
+    ).toBe(8);
     expect((await rows(`SELECT count(*) AS n FROM search_fts`)).n).toBe(8);
   });
 });
@@ -85,16 +117,22 @@ describe("the index is searchable in both scripts", () => {
   it("matches Arabic in its own column", async () => {
     insert(1, "the protective friend", "الله ولي الذين امنوا");
     expect(
-      (await rows(`SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'arabic_fold : (ولي)'`))
-        .n,
+      (
+        await rows(
+          `SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'arabic_fold : (ولي)'`,
+        )
+      ).n,
     ).toBe(1);
   });
 
   it("keeps a column-scoped query out of the other columns", async () => {
     insert(1, "the protective friend", "الله ولي");
     expect(
-      (await rows(`SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'arabic_fold : (friend)'`))
-        .n,
+      (
+        await rows(
+          `SELECT count(*) AS n FROM search_fts WHERE search_fts MATCH 'arabic_fold : (friend)'`,
+        )
+      ).n,
     ).toBe(0);
   });
 });

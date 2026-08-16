@@ -94,7 +94,13 @@ async function seed(): Promise<TestDb> {
     NOW,
   );
 
-  await addBookmark(test.db, MINE, BOOK, { id: ID_MINE, anchorKey: "one", blockIndex: 1, label: "mine" }, NOW);
+  await addBookmark(
+    test.db,
+    MINE,
+    BOOK,
+    { id: ID_MINE, anchorKey: "one", blockIndex: 1, label: "mine" },
+    NOW,
+  );
   await addBookmark(
     test.db,
     THEIRS,
@@ -103,23 +109,53 @@ async function seed(): Promise<TestDb> {
     NOW,
   );
 
-  await setProgress(test.db, MINE, BOOK, { anchorKey: "one", fraction: 0.1, chaptersDone: 1 }, NOW);
-  await setProgress(test.db, THEIRS, OTHER_BOOK, { anchorKey: "one", fraction: 0.9, chaptersDone: 9 }, NOW);
+  await setProgress(
+    test.db,
+    MINE,
+    BOOK,
+    { anchorKey: "one", fraction: 0.1, chaptersDone: 1 },
+    NOW,
+  );
+  await setProgress(
+    test.db,
+    THEIRS,
+    OTHER_BOOK,
+    { anchorKey: "one", fraction: 0.9, chaptersDone: 9 },
+    NOW,
+  );
   await setListening(test.db, MINE, BOOK, { number: 1, seconds: 10 }, NOW);
-  await setListening(test.db, THEIRS, OTHER_BOOK, { number: 1, seconds: 900 }, NOW);
+  await setListening(
+    test.db,
+    THEIRS,
+    OTHER_BOOK,
+    { number: 1, seconds: 900 },
+    NOW,
+  );
 
   await saveEpisodeNote(
     test.db,
     MINE,
     BOOK,
-    { id: ID_MINE, number: 1, seconds: 30, note: "my own moment", quote: "what was said" },
+    {
+      id: ID_MINE,
+      number: 1,
+      seconds: 30,
+      note: "my own moment",
+      quote: "what was said",
+    },
     NOW,
   );
   await saveEpisodeNote(
     test.db,
     THEIRS,
     OTHER_BOOK,
-    { id: ID_THEIRS, number: 1, seconds: 90, note: "a private thought", quote: "theirs" },
+    {
+      id: ID_THEIRS,
+      number: 1,
+      seconds: 90,
+      note: "a private thought",
+      quote: "theirs",
+    },
     NOW,
   );
 
@@ -148,7 +184,9 @@ async function momentOf(test: TestDb, id: string) {
 /** One person's annotation row, straight from the table, whatever it now says. */
 async function rowOf(test: TestDb, id: string) {
   return test.db
-    .prepare(`SELECT user_email, slug, quote, note, colour, deleted_at FROM annotation WHERE id = ?1`)
+    .prepare(
+      `SELECT user_email, slug, quote, note, colour, deleted_at FROM annotation WHERE id = ?1`,
+    )
     .bind(id)
     .first<{
       user_email: string;
@@ -192,7 +230,9 @@ describe("reading somebody else's marks", () => {
     const test = await seed();
     try {
       expect(Object.keys(await progressForAll(test.db, MINE))).toEqual([BOOK]);
-      expect(Object.keys(await progressForAll(test.db, THEIRS))).toEqual([OTHER_BOOK]);
+      expect(Object.keys(await progressForAll(test.db, THEIRS))).toEqual([
+        OTHER_BOOK,
+      ]);
     } finally {
       test.close();
     }
@@ -212,7 +252,9 @@ describe("reading somebody else's marks", () => {
     const test = await seed();
     try {
       expect(await listeningFor(test.db, MINE, OTHER_BOOK)).toEqual({});
-      expect(await listeningFor(test.db, THEIRS, OTHER_BOOK)).toEqual({ 1: 900 });
+      expect(await listeningFor(test.db, THEIRS, OTHER_BOOK)).toEqual({
+        1: 900,
+      });
     } finally {
       test.close();
     }
@@ -243,12 +285,20 @@ describe("reading somebody else's marks", () => {
       );
 
       // Same person, written three ways.
-      for (const written of ["a.reader@gmail.com", "AReader@Gmail.com", "a.reader+book@gmail.com"]) {
-        expect((await marksFor(test.db, written, BOOK)).annotations).toHaveLength(1);
+      for (const written of [
+        "a.reader@gmail.com",
+        "AReader@Gmail.com",
+        "a.reader+book@gmail.com",
+      ]) {
+        expect(
+          (await marksFor(test.db, written, BOOK)).annotations,
+        ).toHaveLength(1);
       }
 
       // A tagged address on a domain that does not fold is somebody else.
-      expect((await marksFor(test.db, "reader+book@example.com", BOOK)).annotations).toEqual([]);
+      expect(
+        (await marksFor(test.db, "reader+book@example.com", BOOK)).annotations,
+      ).toEqual([]);
     } finally {
       test.close();
     }
@@ -350,7 +400,9 @@ describe("writing over somebody else's marks", () => {
     const test = await seed();
     try {
       await removeBookmark(test.db, MINE, OTHER_BOOK, ID_THEIRS, LATER);
-      expect((await marksFor(test.db, THEIRS, OTHER_BOOK)).bookmarks).toHaveLength(1);
+      expect(
+        (await marksFor(test.db, THEIRS, OTHER_BOOK)).bookmarks,
+      ).toHaveLength(1);
     } finally {
       test.close();
     }
@@ -359,8 +411,20 @@ describe("writing over somebody else's marks", () => {
   it("cannot move where they had got to", async () => {
     const test = await seed();
     try {
-      await setProgress(test.db, MINE, OTHER_BOOK, { anchorKey: "one", fraction: 0, chaptersDone: 0 }, LATER);
-      await setListening(test.db, MINE, OTHER_BOOK, { number: 1, seconds: 0 }, LATER);
+      await setProgress(
+        test.db,
+        MINE,
+        OTHER_BOOK,
+        { anchorKey: "one", fraction: 0, chaptersDone: 0 },
+        LATER,
+      );
+      await setListening(
+        test.db,
+        MINE,
+        OTHER_BOOK,
+        { number: 1, seconds: 0 },
+        LATER,
+      );
 
       const theirs = await marksFor(test.db, THEIRS, OTHER_BOOK);
       expect(theirs.progress?.fraction).toBe(0.9);
@@ -427,7 +491,13 @@ describe("a moment marked while listening", () => {
         test.db,
         MINE,
         BOOK,
-        { id: ID_THEIRS, number: 7, seconds: 5, note: "overwritten", quote: "not theirs" },
+        {
+          id: ID_THEIRS,
+          number: 7,
+          seconds: 5,
+          note: "overwritten",
+          quote: "not theirs",
+        },
         LATER,
       );
 
@@ -459,7 +529,13 @@ describe("a moment marked while listening", () => {
         test.db,
         MINE,
         BOOK,
-        { id: ID_THEIRS, number: 1, seconds: 90, note: "back again", quote: null },
+        {
+          id: ID_THEIRS,
+          number: 1,
+          seconds: 90,
+          note: "back again",
+          quote: null,
+        },
         LATER,
       );
 
@@ -480,7 +556,13 @@ describe("a moment marked while listening", () => {
         test.db,
         MINE,
         BOOK,
-        { id: ID_MINE, number: 1, seconds: 30, note: "why it mattered", quote: "what was said" },
+        {
+          id: ID_MINE,
+          number: 1,
+          seconds: 30,
+          note: "why it mattered",
+          quote: "what was said",
+        },
         LATER,
       );
 
@@ -501,7 +583,13 @@ describe("a moment marked while listening", () => {
         test.db,
         MINE,
         BOOK,
-        { id: "33333333-3333-4333-8333-333333333333", number: 2, seconds: 12, note: "", quote: "" },
+        {
+          id: "33333333-3333-4333-8333-333333333333",
+          number: 2,
+          seconds: 12,
+          note: "",
+          quote: "",
+        },
         NOW,
       );
 
@@ -527,7 +615,9 @@ describe("the administrator seeing everything of everybody", () => {
     const test = await seed();
     try {
       const asThem = await marksFor(test.db, THEIRS, OTHER_BOOK);
-      expect(asThem.annotations.map((a) => a.note)).toEqual(["a private thought"]);
+      expect(asThem.annotations.map((a) => a.note)).toEqual([
+        "a private thought",
+      ]);
       expect(asThem.bookmarks.map((b) => b.label)).toEqual(["theirs"]);
       expect(asThem.progress?.fraction).toBe(0.9);
     } finally {

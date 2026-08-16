@@ -16,7 +16,12 @@ import { Icon } from "~/components/Icon";
 import { SearchBox } from "~/components/SearchBox";
 import { collectionOf } from "~/lib/collection";
 import { count, plural } from "~/lib/plural";
-import { ALL_STUDY_TRACKS, isStudyTrack, studyTrackLabel, type StudyTrack } from "~/lib/study-track";
+import {
+  ALL_STUDY_TRACKS,
+  isStudyTrack,
+  studyTrackLabel,
+  type StudyTrack,
+} from "~/lib/study-track";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { visibleUnits } from "~/server/access.server";
@@ -73,12 +78,17 @@ export async function loader({ context }: Route.LoaderArgs) {
         ...u,
         card: cards.get(u.slug) ?? null,
         progress: progress[u.slug] ?? null,
-        listen: listenAction(playable.get(u.slug) ?? [], listening[u.slug] ?? []),
+        listen: listenAction(
+          playable.get(u.slug) ?? [],
+          listening[u.slug] ?? [],
+        ),
         marks: counts[u.slug] ?? null,
       }))
       // By English title. `localeCompare` rather than `<`, so "Ayyuha" sorts
       // next to "Áyyuha" and case never decides the order.
-      .sort((a, b) => a.title.localeCompare(b.title, "en", { sensitivity: "base" })),
+      .sort((a, b) =>
+        a.title.localeCompare(b.title, "en", { sensitivity: "base" }),
+      ),
   };
 }
 
@@ -92,8 +102,12 @@ function listenAction(
 } | null {
   if (episodes.length === 0) return null;
 
-  const byNumber = new Map(episodes.map((episode) => [episode.number, episode]));
-  const saved = progress.find((row) => byNumber.has(row.number) && row.seconds > 10);
+  const byNumber = new Map(
+    episodes.map((episode) => [episode.number, episode]),
+  );
+  const saved = progress.find(
+    (row) => byNumber.has(row.number) && row.seconds > 10,
+  );
 
   if (saved !== undefined) {
     return {
@@ -137,7 +151,8 @@ const COLLECTION_LABELS: Record<Collection, string> = {
 };
 
 const inCollection = (bucket: string, choice: Collection): boolean =>
-  choice === "all" || (collectionOf(bucket) === "sessions") === (choice === "sessions");
+  choice === "all" ||
+  (collectionOf(bucket) === "sessions") === (choice === "sessions");
 
 /**
  * Remembered client-side, same reasoning and same `try/catch`-inside-a-lazy-
@@ -150,7 +165,9 @@ const COLLECTION_KEY = "pf-library-collection";
 function loadCollection(): Collection {
   try {
     const stored = localStorage.getItem(COLLECTION_KEY);
-    return (COLLECTIONS as readonly string[]).includes(stored ?? "") ? (stored as Collection) : "all";
+    return (COLLECTIONS as readonly string[]).includes(stored ?? "")
+      ? (stored as Collection)
+      : "all";
   } catch {
     return "all";
   }
@@ -167,15 +184,19 @@ function loadCollection(): Collection {
  */
 type TrackChoice = "all" | StudyTrack;
 
-const inTrack = (studyTrack: string | null | undefined, choice: TrackChoice): boolean =>
-  choice === "all" || studyTrack === choice;
+const inTrack = (
+  studyTrack: string | null | undefined,
+  choice: TrackChoice,
+): boolean => choice === "all" || studyTrack === choice;
 
 const TRACK_KEY = "pf-library-track";
 
 function loadTrack(): TrackChoice {
   try {
     const stored = localStorage.getItem(TRACK_KEY);
-    return stored === "all" || isStudyTrack(stored) ? (stored as TrackChoice) : "all";
+    return stored === "all" || isStudyTrack(stored)
+      ? (stored as TrackChoice)
+      : "all";
   } catch {
     return "all";
   }
@@ -196,7 +217,9 @@ type ViewMode = (typeof VIEW_MODES)[number];
 function loadViewMode(): ViewMode {
   try {
     const stored = localStorage.getItem(VIEW_MODE_KEY);
-    return (VIEW_MODES as readonly string[]).includes(stored ?? "") ? (stored as ViewMode) : "cards";
+    return (VIEW_MODES as readonly string[]).includes(stored ?? "")
+      ? (stored as ViewMode)
+      : "cards";
   } catch {
     return "cards";
   }
@@ -219,7 +242,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
    * left off. A reader whose storage is full or blocked still gets the
    * control for this visit — it just doesn't survive to the next one.
    */
-  function persisted<T extends string>(key: string, setState: (value: T) => void) {
+  function persisted<T extends string>(
+    key: string,
+    setState: (value: T) => void,
+  ) {
     return (value: T) => {
       setState(value);
       try {
@@ -239,7 +265,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   // right: a filter whose every option shows the same grid teaches the reader
   // that the control does not work.
   const mixed = useMemo(() => {
-    const kinds = new Set(units.map((unit) => collectionOf(unit.bucket) ?? "books"));
+    const kinds = new Set(
+      units.map((unit) => collectionOf(unit.bucket) ?? "books"),
+    );
     return kinds.size > 1;
   }, [units]);
 
@@ -249,7 +277,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   // it on the filtered list would make a chip flicker disabled while a
   // reader is mid-search, which teaches the wrong lesson about what "0" means.
   const trackCounts = useMemo(() => {
-    const counts = new Map<StudyTrack, number>(ALL_STUDY_TRACKS.map((t) => [t, 0]));
+    const counts = new Map<StudyTrack, number>(
+      ALL_STUDY_TRACKS.map((t) => [t, 0]),
+    );
     for (const unit of units) {
       const track = unit.card?.studyTrack ?? null;
       if (isStudyTrack(track)) counts.set(track, (counts.get(track) ?? 0) + 1);
@@ -268,8 +298,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             needle === "" ||
             // Title, Arabic title and bucket: the three things actually printed
             // on a card, so nothing matches for a reason the reader cannot see.
-            [unit.title, unit.card?.titleOriginal ?? "", unit.bucket].some((field) =>
-              fold(field).includes(needle),
+            [unit.title, unit.card?.titleOriginal ?? "", unit.bucket].some(
+              (field) => fold(field).includes(needle),
             ),
         ),
     [units, needle, collection, track],
@@ -326,7 +356,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
             {/* A LINK, not a button: it goes to a page, so it must open in a new
                 tab on a middle-click and be copyable like any other address. */}
-            <Link to="/search" className="pf-button pf-button--soft pf-library-find__more">
+            <Link
+              to="/search"
+              className="pf-button pf-button--soft pf-library-find__more"
+            >
               <Icon icon={faSliders} />
               Advanced search
             </Link>
@@ -391,7 +424,11 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             <p className="pf-tracks-panel__label" id="library-tracks-label">
               Browse by track
             </p>
-            <div className="pf-tracks" role="group" aria-labelledby="library-tracks-label">
+            <div
+              className="pf-tracks"
+              role="group"
+              aria-labelledby="library-tracks-label"
+            >
               <button
                 type="button"
                 className="pf-track-chip"
@@ -416,7 +453,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     disabled={n === 0}
                     onClick={() => pickTrack(choice)}
                   >
-                    <span className="pf-track-chip__label">{studyTrackLabel(choice)}</span>
+                    <span className="pf-track-chip__label">
+                      {studyTrackLabel(choice)}
+                    </span>
                     <span className="pf-track-chip__count">{n}</span>
                   </button>
                 );
@@ -450,7 +489,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             </>
           ) : (
             <>
-              Nothing matches <strong className="pf-strong">{query.trim()}</strong>.
+              Nothing matches{" "}
+              <strong className="pf-strong">{query.trim()}</strong>.
             </>
           )}
         </EmptyState>

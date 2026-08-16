@@ -43,7 +43,11 @@ export function GrantRow({
     // resets scroll on one unless told otherwise — so granting the eleventh book
     // threw the page back to the top and you scrolled down to it again.
     <Form method="post" preventScrollReset className="pf-grant">
-      <input type="hidden" name="intent" value={on ? "revoke-grant" : "grant"} />
+      <input
+        type="hidden"
+        name="intent"
+        value={on ? "revoke-grant" : "grant"}
+      />
       {Object.entries(fields).map(([name, value]) => (
         <input key={name} type="hidden" name={name} value={value} />
       ))}
@@ -51,7 +55,9 @@ export function GrantRow({
       <span className="pf-grant__what">
         <span className="pf-grant__label">{label}</span>
         {covered && !on ? (
-          <span className="pf-grant__hint">Already covered by a wider grant</span>
+          <span className="pf-grant__hint">
+            Already covered by a wider grant
+          </span>
         ) : hint ? (
           <span className="pf-grant__hint">{hint}</span>
         ) : null}

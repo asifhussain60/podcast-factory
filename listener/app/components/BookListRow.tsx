@@ -36,12 +36,20 @@ export function BookListRow({
   return (
     <li>
       <Link to={`/book/${slug}`} className="pf-row pf-book-row">
-        <span className="pf-row__mark pf-row__badge" data-track={studyTrack ?? undefined} aria-hidden="true">
+        <span
+          className="pf-row__mark pf-row__badge"
+          data-track={studyTrack ?? undefined}
+          aria-hidden="true"
+        >
           <Icon icon={faBookOpen} />
         </span>
         <span className="pf-row__main">{title}</span>
-        {trackLabel === null ? null : <span className="pf-row__meta">{trackLabel}</span>}
-        {percent === null ? null : <span className="pf-row__meta">{percent}% read</span>}
+        {trackLabel === null ? null : (
+          <span className="pf-row__meta">{trackLabel}</span>
+        )}
+        {percent === null ? null : (
+          <span className="pf-row__meta">{percent}% read</span>
+        )}
         <Icon icon={faAngleRight} className="pf-row__go" />
       </Link>
     </li>

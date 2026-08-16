@@ -118,7 +118,9 @@ export function SelectionBar({
     // Opening a highlight from the keyboard, for readers who never point.
     const onKeyActivate = (event: KeyboardEvent) => {
       if (event.key !== "Enter" && event.key !== " ") return;
-      const mark = (event.target as HTMLElement)?.closest?.("mark.pf-hl") as HTMLElement | null;
+      const mark = (event.target as HTMLElement)?.closest?.(
+        "mark.pf-hl",
+      ) as HTMLElement | null;
       if (mark === null || mark === undefined) return;
       event.preventDefault();
       const rect = mark.getBoundingClientRect();
@@ -152,7 +154,8 @@ export function SelectionBar({
   }, [bodyRef, noting]);
 
   useEffect(() => {
-    if (target !== null && target.existingNote !== null) setDraft(target.existingNote);
+    if (target !== null && target.existingNote !== null)
+      setDraft(target.existingNote);
   }, [target]);
 
   if (target === null) return null;
@@ -183,7 +186,12 @@ export function SelectionBar({
       // design decision: where the selection happens to be on the page. Nothing
       // about the bar's appearance is set here — the custom properties feed
       // rules that live in the stylesheet with everything else.
-      style={{ "--sel-top": `${target.top}px`, "--sel-left": `${target.left}px` } as React.CSSProperties}
+      style={
+        {
+          "--sel-top": `${target.top}px`,
+          "--sel-left": `${target.left}px`,
+        } as React.CSSProperties
+      }
     >
       {noting ? (
         <div className="pf-selbar__note">
@@ -196,17 +204,29 @@ export function SelectionBar({
             ariaLabel="Your note on this passage"
           />
           <div className="pf-selbar__actions">
-            <button type="button" onClick={close} className="pf-button pf-button--sm pf-button--ghost">
+            <button
+              type="button"
+              onClick={close}
+              className="pf-button pf-button--sm pf-button--ghost"
+            >
               Cancel
             </button>
-            <button type="button" onClick={saveNote} className="pf-button pf-button--sm pf-button--primary">
+            <button
+              type="button"
+              onClick={saveNote}
+              className="pf-button pf-button--sm pf-button--primary"
+            >
               Save note
             </button>
           </div>
         </div>
       ) : (
         <div className="pf-selbar__row">
-          <div role="group" aria-label="Highlight colour" className="pf-selbar__colours">
+          <div
+            role="group"
+            aria-label="Highlight colour"
+            className="pf-selbar__colours"
+          >
             {COLOURS.map((colour) => (
               <button
                 key={colour}
@@ -228,7 +248,10 @@ export function SelectionBar({
             title={target.existingNote ? "Edit note" : "Add note"}
             className="pf-selbar__action"
           >
-            <Icon icon={faNoteSticky} title={target.existingNote ? "Edit note" : "Add note"} />
+            <Icon
+              icon={faNoteSticky}
+              title={target.existingNote ? "Edit note" : "Add note"}
+            />
           </button>
 
           {/* Copy was here and is gone (Asif, 2026-08-04). The browser's own
@@ -257,6 +280,7 @@ export function SelectionBar({
 
 /** Read the colour back off a painted mark's class list. */
 function colourOf(mark: HTMLElement): string | null {
-  for (const colour of COLOURS) if (mark.classList.contains(`pf-hl--${colour}`)) return colour;
+  for (const colour of COLOURS)
+    if (mark.classList.contains(`pf-hl--${colour}`)) return colour;
   return null;
 }

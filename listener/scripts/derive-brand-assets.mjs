@@ -176,7 +176,9 @@ await writeFile(
     "by `listener/scripts/derive-brand-assets.mjs`. Do not edit them by hand —",
     "replace the source and re-run the script.",
     "",
-    ...written.map((line) => `- \`${line.split("  ")[0]}\` — ${line.split("  ")[1]}`),
+    ...written.map(
+      (line) => `- \`${line.split("  ")[0]}\` — ${line.split("  ")[1]}`,
+    ),
     "",
     "The in-app mark is NOT here: it is `app/components/brand/mark.tsx`, drawn as",
     "SVG so it inherits the theme's colours and stays sharp at 28px.",

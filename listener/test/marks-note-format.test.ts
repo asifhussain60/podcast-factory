@@ -19,7 +19,10 @@ const BOOK = "book-a";
 const ID = "33333333-3333-4333-8333-333333333333";
 const NOW = "2026-08-04T12:00:00Z";
 
-async function annotationNoteOf(test: TestDb, id: string): Promise<string | null> {
+async function annotationNoteOf(
+  test: TestDb,
+  id: string,
+): Promise<string | null> {
   const row = await test.db
     .prepare(`SELECT note FROM annotation WHERE id = ?1`)
     .bind(id)
@@ -132,7 +135,13 @@ describe("saveEpisodeNote note sanitization", () => {
       test.db,
       ME,
       BOOK,
-      { id: ID, number: 1, seconds: 30, quote: "what was said", note: '<img src=x onerror="alert(1)">' },
+      {
+        id: ID,
+        number: 1,
+        seconds: 30,
+        quote: "what was said",
+        note: '<img src=x onerror="alert(1)">',
+      },
       NOW,
     );
     const stored = await episodeNoteOf(test, ID);
@@ -147,7 +156,13 @@ describe("saveEpisodeNote note sanitization", () => {
       test.db,
       ME,
       BOOK,
-      { id: ID, number: 1, seconds: 30, quote: "what was said", note: "a < b and c > d" },
+      {
+        id: ID,
+        number: 1,
+        seconds: 30,
+        quote: "what was said",
+        note: "a < b and c > d",
+      },
       NOW,
     );
     expect(await episodeNoteOf(test, ID)).toBe("a &lt; b and c &gt; d");

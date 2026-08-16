@@ -1,4 +1,11 @@
-import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import {
+  isRouteErrorResponse,
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from "react-router";
 
 import type { Route } from "./+types/root";
 import { PublicShell } from "~/components/PublicShell";
@@ -31,7 +38,12 @@ export const links: Route.LinksFunction = () => [
   // the apple-touch one is what iOS puts on a home screen. Both come out of
   // `npm run brand`.
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-  { rel: "icon", href: "/brand/icon-32.png", type: "image/png", sizes: "32x32" },
+  {
+    rel: "icon",
+    href: "/brand/icon-32.png",
+    type: "image/png",
+    sizes: "32x32",
+  },
   { rel: "apple-touch-icon", href: "/brand/icon-180.png" },
   // Installable, which on iOS is not a nicety: a site added to the home screen
   // is treated as an app and its storage is durable, while an ordinary site's is
@@ -65,7 +77,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
         <Meta />
         <Links />
         {/* Both must run before first paint. The theme one prevents a light

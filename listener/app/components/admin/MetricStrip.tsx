@@ -100,7 +100,10 @@ function Metric({
 }) {
   return (
     <li>
-      <Link to={to} className={attention ? "pf-metric pf-metric--attention" : "pf-metric"}>
+      <Link
+        to={to}
+        className={attention ? "pf-metric pf-metric--attention" : "pf-metric"}
+      >
         <span className="pf-metric__label">
           <Icon icon={icon} className="pf-metric__icon" />
           {label}

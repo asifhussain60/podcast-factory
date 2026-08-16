@@ -13,7 +13,10 @@ import { describe, expect, it } from "vitest";
  * is a build-time module.
  */
 
-const SOURCE = readFileSync(new URL("../app/routes.ts", import.meta.url), "utf8");
+const SOURCE = readFileSync(
+  new URL("../app/routes.ts", import.meta.url),
+  "utf8",
+);
 
 /**
  * The complete list of routes reachable without signing in. Adding to it is a
@@ -49,7 +52,9 @@ function routeFiles(source: string): string[] {
 /** The slice of the file from the `_authed` layout to the end. */
 function authedRegion(source: string): string {
   const start = source.indexOf('layout("routes/_authed.tsx"');
-  expect(start, "routes.ts must declare the _authed layout").toBeGreaterThan(-1);
+  expect(start, "routes.ts must declare the _authed layout").toBeGreaterThan(
+    -1,
+  );
   return source.slice(start);
 }
 
@@ -94,7 +99,9 @@ describe("route tree", () => {
 
     // Anything whose URL begins with admin must live in that region. `/api/auth`
     // is answered in workers/app.ts and never appears here at all.
-    for (const [, urlPath, file] of SOURCE.matchAll(/route\("(admin[^"]*)",\s*"([^"]+)"/g)) {
+    for (const [, urlPath, file] of SOURCE.matchAll(
+      /route\("(admin[^"]*)",\s*"([^"]+)"/g,
+    )) {
       expect(
         adminRegion.includes(`"${file}"`),
         `${urlPath} (${file}) is not inside the admin layout`,
@@ -120,7 +127,9 @@ describe("route tree", () => {
     // invited gate and quietly serves any book to anyone signed in.
     const { readFile } = await import("node:fs/promises");
 
-    for (const [, urlPath, file] of SOURCE.matchAll(/route\("(book\/[^"]*)",\s*"([^"]+)"/g)) {
+    for (const [, urlPath, file] of SOURCE.matchAll(
+      /route\("(book\/[^"]*)",\s*"([^"]+)"/g,
+    )) {
       const text = await readFile(`app/${file}`, "utf8");
       expect(
         /middleware[^=]*=\s*\[[^\]]*requireUnitAccess/.test(text),
@@ -145,9 +154,12 @@ describe("error boundaries", () => {
     // prevent exactly that.
     for await (const entry of glob("app/routes/**/*.{ts,tsx}")) {
       const text = readFileSync(entry, "utf8");
-      if (/export\s+(function|const)\s+ErrorBoundary/.test(text)) offenders.push(entry);
+      if (/export\s+(function|const)\s+ErrorBoundary/.test(text))
+        offenders.push(entry);
     }
 
-    expect(offenders, "only app/root.tsx may export an ErrorBoundary").toEqual([]);
+    expect(offenders, "only app/root.tsx may export an ErrorBoundary").toEqual(
+      [],
+    );
   });
 });

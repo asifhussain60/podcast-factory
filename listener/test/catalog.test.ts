@@ -34,7 +34,6 @@ beforeAll(() => {
   import.meta.env.DEV = false;
 });
 
-
 function seed() {
   const test = createTestDb();
 
@@ -163,10 +162,12 @@ describe("sessions", () => {
     `);
 
     const sessions = await sessionsOf(test.db, "book-a");
-    expect(sessions.map((s) => [s.number, s.title, s.episodes.length])).toEqual([
-      [1, "The First Run", 2],
-      [2, "The Second", 1],
-    ]);
+    expect(sessions.map((s) => [s.number, s.title, s.episodes.length])).toEqual(
+      [
+        [1, "The First Run", 2],
+        [2, "The Second", 1],
+      ],
+    );
 
     test.close();
   });
@@ -182,16 +183,23 @@ describe("sessions", () => {
     `);
 
     const sessions = await sessionsOf(test.db, "book-a");
-    const seen = sessions.flatMap((s) => s.episodes.map((e) => e.number)).sort();
+    const seen = sessions
+      .flatMap((s) => s.episodes.map((e) => e.number))
+      .sort();
     expect(seen, "every episode appears exactly once").toEqual([1, 2, 3]);
-    expect(sessions.at(-1)?.title, "the strays land in the titleless group").toBe("");
+    expect(
+      sessions.at(-1)?.title,
+      "the strays land in the titleless group",
+    ).toBe("");
 
     test.close();
   });
 
   it("drops a declared session that ended up with no episodes", async () => {
     const test = seed();
-    test.exec(`INSERT INTO book_session (slug, number, title) VALUES ('book-a', 4, 'Empty')`);
+    test.exec(
+      `INSERT INTO book_session (slug, number, title) VALUES ('book-a', 4, 'Empty')`,
+    );
 
     const sessions = await sessionsOf(test.db, "book-a");
     expect(sessions.some((s) => s.title === "Empty")).toBe(false);
@@ -242,7 +250,10 @@ describe("chapters", () => {
 
     expect(one?.narration?.audioKey).toBe("book-a/narration/one.mp3");
     expect(one?.narration?.durationS).toBe(12.5);
-    expect(one?.narration?.cues[0]).toMatchObject({ blockIndex: 0, text: "one" });
+    expect(one?.narration?.cues[0]).toMatchObject({
+      blockIndex: 0,
+      text: "one",
+    });
     expect(two?.narration).toBeNull();
 
     test.close();
@@ -331,7 +342,9 @@ describe("library cards", () => {
 
   it("marks the PDF available once it is uploaded", async () => {
     const test = seed();
-    test.exec(`UPDATE media_asset SET uploaded_at = 'now' WHERE key = 'book-a/book.pdf'`);
+    test.exec(
+      `UPDATE media_asset SET uploaded_at = 'now' WHERE key = 'book-a/book.pdf'`,
+    );
 
     const cards = await libraryCards(test.db, ["book-a"]);
     expect(cards.get("book-a")?.pdfAvailable).toBe(true);
@@ -392,7 +405,9 @@ describe("library cards", () => {
     `);
 
     const playable = await playableEpisodesForCards(test.db, ["book-a"]);
-    expect(playable.get("book-a")?.[0].transcriptKey).toBe("book-a/transcripts/ep01.vtt");
+    expect(playable.get("book-a")?.[0].transcriptKey).toBe(
+      "book-a/transcripts/ep01.vtt",
+    );
 
     test.close();
   });
@@ -428,7 +443,10 @@ describe("the publish step's privilege discipline", () => {
     // Comments are stripped first: the module docstring explains at length that
     // it does not touch these columns, and a check that cannot tell an
     // explanation from a statement fires on its own documentation.
-    const code = PUBLISH.replace(/"""[\s\S]*?"""/g, "").replace(/^\s*#.*$/gm, "");
+    const code = PUBLISH.replace(/"""[\s\S]*?"""/g, "").replace(
+      /^\s*#.*$/gm,
+      "",
+    );
 
     expect(code).not.toMatch(/open_to_all/);
     expect(code).not.toMatch(/\bstatus\b\s*=/);
@@ -439,6 +457,8 @@ describe("the publish step's privilege discipline", () => {
     // `INSERT INTO content_unit VALUES (...)` without a column list would supply
     // every column positionally — including the two above — and would keep
     // working right up until the schema gained a column.
-    expect(PUBLISH).toMatch(/INSERT INTO content_unit \(slug, bucket, title, kind, sort_order\)/);
+    expect(PUBLISH).toMatch(
+      /INSERT INTO content_unit \(slug, bucket, title, kind, sort_order\)/,
+    );
   });
 });

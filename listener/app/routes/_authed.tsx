@@ -57,7 +57,9 @@ export default function AuthedLayout({ loaderData }: Route.ComponentProps) {
           enforces would otherwise delete the administrator's own downloads
           while he is looking at the site as somebody else. */}
       <OfflineAgent simulating={loaderData.simulating !== null} />
-      {loaderData.simulating ? <SimulationBanner as={loaderData.simulating.as} /> : null}
+      {loaderData.simulating ? (
+        <SimulationBanner as={loaderData.simulating.as} />
+      ) : null}
       <Outlet />
     </PlayerProvider>
   );

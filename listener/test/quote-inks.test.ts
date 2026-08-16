@@ -45,7 +45,9 @@ describe("quotation-card inks", () => {
   it("keep every generated region paired and closed", () => {
     const css = readFileSync(STYLESHEET, "utf8");
     const opened = [...css.matchAll(/>>> (quote-[\w-]+) —/g)].map((m) => m[1]);
-    const closed = [...css.matchAll(/<<< (quote-[\w-]+) \*\//g)].map((m) => m[1]);
+    const closed = [...css.matchAll(/<<< (quote-[\w-]+) \*\//g)].map(
+      (m) => m[1],
+    );
     expect(opened).toEqual(closed);
     expect(opened.length).toBe(5);
   });

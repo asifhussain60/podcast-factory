@@ -37,14 +37,18 @@ describe("revalidating the book page", () => {
     // never moves, so without this the list keeps showing what was just removed.
     const url = new URL("https://x.test/book/a?tab=notes");
     expect(
-      shouldRevalidate(args({ currentUrl: url, nextUrl: url, formMethod: "POST" })),
+      shouldRevalidate(
+        args({ currentUrl: url, nextUrl: url, formMethod: "POST" }),
+      ),
     ).toBe(true);
   });
 
   it("refreshes after every other submission method too", () => {
     const url = new URL("https://x.test/book/a?tab=notes");
     for (const formMethod of ["POST", "PUT", "PATCH", "DELETE"] as const) {
-      expect(shouldRevalidate(args({ currentUrl: url, nextUrl: url, formMethod }))).toBe(true);
+      expect(
+        shouldRevalidate(args({ currentUrl: url, nextUrl: url, formMethod })),
+      ).toBe(true);
     }
   });
 

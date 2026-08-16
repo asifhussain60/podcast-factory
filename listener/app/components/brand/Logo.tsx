@@ -22,7 +22,10 @@ export function Logo({
   wordmark?: boolean;
 }) {
   return (
-    <span className="pf-logo" style={{ "--pf-logo-size": `${size}px` } as React.CSSProperties}>
+    <span
+      className="pf-logo"
+      style={{ "--pf-logo-size": `${size}px` } as React.CSSProperties}
+    >
       <Mark size={size} compact={size <= 24} />
 
       {wordmark ? (

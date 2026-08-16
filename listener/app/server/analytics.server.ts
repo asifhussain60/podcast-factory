@@ -78,7 +78,10 @@ const UNKNOWN_COUNTRY = "XX";
 export function countryCodeFromRequest(request: Request): string {
   const cfCountry = (request as RequestWithCloudflare).cf?.country;
   const headerCountry = request.headers.get("CF-IPCountry");
-  const value = typeof cfCountry === "string" && cfCountry !== "" ? cfCountry : headerCountry;
+  const value =
+    typeof cfCountry === "string" && cfCountry !== ""
+      ? cfCountry
+      : headerCountry;
   if (typeof value !== "string") return UNKNOWN_COUNTRY;
 
   const code = value.trim().toUpperCase();
@@ -127,14 +130,15 @@ export async function recordUsageActivity(
 }
 
 export async function usageDashboard(db: D1Database): Promise<UsageDashboard> {
-  const [overview, countries, content, people, recent, rhythm] = await Promise.all([
-    usageOverview(db),
-    usageCountries(db),
-    usageContent(db),
-    usagePeople(db),
-    usageRecent(db),
-    usageRhythm(db),
-  ]);
+  const [overview, countries, content, people, recent, rhythm] =
+    await Promise.all([
+      usageOverview(db),
+      usageCountries(db),
+      usageContent(db),
+      usagePeople(db),
+      usageRecent(db),
+      usageRhythm(db),
+    ]);
 
   return { overview, countries, content, people, recent, rhythm };
 }
@@ -181,7 +185,12 @@ async function usageCountries(db: D1Database): Promise<UsageCountry[]> {
         ORDER BY signals DESC, people DESC, country_code
         LIMIT 12`,
     )
-    .all<{ country_code: string; people: number; signals: number; last_seen_at: string }>();
+    .all<{
+      country_code: string;
+      people: number;
+      signals: number;
+      last_seen_at: string;
+    }>();
 
   return rows.results.map((r) => ({
     code: r.country_code,
@@ -266,10 +275,7 @@ async function usagePeople(db: D1Database): Promise<UsagePerson[]> {
   return rows.results.map((r) => ({
     email: r.user_email,
     name: displayName(r.name, r.user_email),
-    countries: (r.countries ?? "")
-      .split(",")
-      .filter(Boolean)
-      .map(countryName),
+    countries: (r.countries ?? "").split(",").filter(Boolean).map(countryName),
     titles: r.titles,
     readingSignals: r.reading_signals,
     listeningSignals: r.listening_signals,

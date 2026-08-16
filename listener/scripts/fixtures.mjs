@@ -50,7 +50,9 @@ export function query(sql) {
 
 /** A session cookie for an address, minted against the local database. @param {string} email */
 export function cookieFor(email) {
-  const out = execFileSync("node", ["scripts/session-cookie.mjs", email], { encoding: "utf8" })
+  const out = execFileSync("node", ["scripts/session-cookie.mjs", email], {
+    encoding: "utf8",
+  })
     .trim()
     .split("\n")
     .pop();
@@ -58,7 +60,9 @@ export function cookieFor(email) {
   // An empty cookie would make every "is this denied?" check pass for entirely
   // the wrong reason, so it has to be loud rather than falsy.
   if (!out?.startsWith("better-auth.session_token=")) {
-    throw new Error(`could not mint a session for ${email}: ${JSON.stringify(out)}`);
+    throw new Error(
+      `could not mint a session for ${email}: ${JSON.stringify(out)}`,
+    );
   }
   return out;
 }
@@ -100,9 +104,13 @@ export function setUp() {
   // strictly better, because it is the only kind that reaches the listening page
   // at all. Picking the first match meant the episode page was silently never
   // swept on a machine where a chapters-only book happened to sort first.
-  const candidates = books.filter((/** @type {any} */ b) => Number(b.chapters) > 0);
+  const candidates = books.filter(
+    (/** @type {any} */ b) => Number(b.chapters) > 0,
+  );
   const book =
-    candidates.find((/** @type {any} */ b) => Number(b.playable) > 0) ?? candidates[0] ?? null;
+    candidates.find((/** @type {any} */ b) => Number(b.playable) > 0) ??
+    candidates[0] ??
+    null;
 
   const chapter = book
     ? (query(
@@ -165,10 +173,22 @@ export function setUp() {
   `);
 
   return {
-    book: book === null ? null : { slug: book.slug, title: book.title, hasDeck: Number(book.deck) > 0 },
+    book:
+      book === null
+        ? null
+        : {
+            slug: book.slug,
+            title: book.title,
+            hasDeck: Number(book.deck) > 0,
+          },
     chapter,
     episode,
-    cookies: { anon: null, admin: cookieFor(ADMIN), reader: cookieFor(READER), nobody: cookieFor(NOBODY) },
+    cookies: {
+      anon: null,
+      admin: cookieFor(ADMIN),
+      reader: cookieFor(READER),
+      nobody: cookieFor(NOBODY),
+    },
   };
 }
 

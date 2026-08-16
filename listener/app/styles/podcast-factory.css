@@ -1966,14 +1966,14 @@
     position: relative;
     margin-inline: -0.55rem;
     padding: 0.18rem 0.55rem;
-    border: 1px solid color-mix(in srgb, var(--l-accent) 24%, var(--l-rule-soft));
+    border: 1px solid
+      color-mix(in srgb, var(--l-accent) 24%, var(--l-rule-soft));
     border-radius: 0.45rem;
-    background:
-      linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--l-accent-soft) 42%, var(--l-paper)) 0%,
-        color-mix(in srgb, var(--l-accent-soft) 22%, transparent) 100%
-      );
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--l-accent-soft) 42%, var(--l-paper)) 0%,
+      color-mix(in srgb, var(--l-accent-soft) 22%, transparent) 100%
+    );
     box-shadow:
       -0.18rem 0 0 color-mix(in srgb, var(--l-accent) 26%, transparent),
       0 0.45rem 1rem color-mix(in srgb, var(--l-ink) 5%, transparent);
@@ -2193,7 +2193,9 @@
     color: color-mix(in srgb, var(--l-accent) 78%, var(--l-surface));
   }
 
-  .pf-book-identity__original-paren:has(.pf-book-identity__original[lang="ur"]) {
+  .pf-book-identity__original-paren:has(
+    .pf-book-identity__original[lang="ur"]
+  ) {
     font-family: var(--l-font-urdu-display);
   }
 
@@ -2733,8 +2735,16 @@
      ribbon and the filter chip below, so all three read the same colour for
      the same track. */
   .pf-row__badge[data-track] {
-    border-color: color-mix(in srgb, var(--pf-track-line, var(--l-accent)) 35%, transparent);
-    background: color-mix(in srgb, var(--pf-track-line, var(--l-accent)) 8%, transparent);
+    border-color: color-mix(
+      in srgb,
+      var(--pf-track-line, var(--l-accent)) 35%,
+      transparent
+    );
+    background: color-mix(
+      in srgb,
+      var(--pf-track-line, var(--l-accent)) 8%,
+      transparent
+    );
     color: var(--pf-track-line, var(--l-accent));
   }
 
@@ -3621,8 +3631,10 @@
        the others keep. */
     box-shadow:
       var(--pf-elev-1),
-      0 0 0.6rem color-mix(in srgb, var(--l-ribbon-esoteric-bg) 75%, transparent),
-      0 0 1.4rem color-mix(in srgb, var(--l-ribbon-esoteric-bg) 55%, transparent);
+      0 0 0.6rem
+        color-mix(in srgb, var(--l-ribbon-esoteric-bg) 75%, transparent),
+      0 0 1.4rem
+        color-mix(in srgb, var(--l-ribbon-esoteric-bg) 55%, transparent);
   }
 
   .pf-book__ribbon[data-track="shariah"] {
@@ -3767,7 +3779,8 @@
     width: 3.9rem;
     height: 3.9rem;
     border-radius: var(--pf-radius-pill);
-    border: 1px solid color-mix(in srgb, var(--pf-action-tone) 62%, var(--l-ink));
+    border: 1px solid
+      color-mix(in srgb, var(--pf-action-tone) 62%, var(--l-ink));
     background: color-mix(in srgb, var(--pf-action-tone) 11%, var(--l-elev));
     color: color-mix(in srgb, var(--pf-action-tone) 86%, var(--l-ink));
     transition:
@@ -5911,7 +5924,11 @@
     border: 1px solid var(--l-rule);
     border-radius: var(--pf-radius-lg);
     background:
-      linear-gradient(135deg, color-mix(in srgb, var(--l-accent) 12%, transparent), transparent 58%),
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--l-accent) 12%, transparent),
+        transparent 58%
+      ),
       var(--l-elev);
     box-shadow: var(--pf-elev-1);
   }
@@ -6108,7 +6125,10 @@
 
   @media (min-width: 980px) {
     .pf-usage-visuals {
-      grid-template-columns: minmax(17rem, 0.8fr) minmax(28rem, 1.45fr) minmax(18rem, 0.95fr);
+      grid-template-columns: minmax(17rem, 0.8fr) minmax(28rem, 1.45fr) minmax(
+          18rem,
+          0.95fr
+        );
     }
 
     .pf-usage-visuals--duo {
@@ -6330,7 +6350,11 @@
     border: 1px solid var(--l-rule-soft);
     border-radius: var(--pf-radius);
     background:
-      radial-gradient(circle at 15% 15%, color-mix(in srgb, var(--l-accent) 16%, transparent), transparent 34%),
+      radial-gradient(
+        circle at 15% 15%,
+        color-mix(in srgb, var(--l-accent) 16%, transparent),
+        transparent 34%
+      ),
       var(--l-surface);
   }
 
@@ -6403,7 +6427,8 @@
     border: 1px solid var(--l-rule-soft);
     border-radius: var(--pf-radius);
     background:
-      linear-gradient(to top, var(--l-rule-soft) 1px, transparent 1px) 0 25% / 100% 25%,
+      linear-gradient(to top, var(--l-rule-soft) 1px, transparent 1px) 0 25% /
+        100% 25%,
       var(--l-surface);
   }
 
@@ -6424,7 +6449,8 @@
       color-mix(in srgb, var(--l-accent) 88%, white),
       color-mix(in srgb, var(--l-success) 82%, var(--l-accent))
     );
-    box-shadow: 0 -0.25rem 0.85rem color-mix(in srgb, var(--l-accent) 18%, transparent);
+    box-shadow: 0 -0.25rem 0.85rem
+      color-mix(in srgb, var(--l-accent) 18%, transparent);
   }
 
   .pf-rhythm-axis {
@@ -7168,8 +7194,17 @@
     min-height: 9.5rem;
     padding: var(--pf-space-4);
     overflow: hidden;
-    background: color-mix(in srgb, var(--pf-hl-tint, var(--l-accent)) 5%, var(--l-elev));
-    border: 1px solid color-mix(in srgb, var(--pf-hl-tint, var(--l-rule)) 42%, var(--l-rule-soft));
+    background: color-mix(
+      in srgb,
+      var(--pf-hl-tint, var(--l-accent)) 5%,
+      var(--l-elev)
+    );
+    border: 1px solid
+      color-mix(
+        in srgb,
+        var(--pf-hl-tint, var(--l-rule)) 42%,
+        var(--l-rule-soft)
+      );
     border-radius: var(--pf-radius);
     box-shadow: var(--pf-elev-1);
     transition:
@@ -7189,7 +7224,11 @@
 
   .pf-mark:hover,
   .pf-mark:focus-within {
-    border-color: color-mix(in srgb, var(--pf-hl-tint, var(--l-accent)) 62%, var(--l-rule-soft));
+    border-color: color-mix(
+      in srgb,
+      var(--pf-hl-tint, var(--l-accent)) 62%,
+      var(--l-rule-soft)
+    );
     box-shadow: var(--pf-elev-2);
     transform: translateY(-1px);
   }
@@ -7212,12 +7251,11 @@
   }
 
   .pf-mark--paper {
-    background:
-      linear-gradient(
-        180deg,
-        color-mix(in srgb, var(--pf-hl-tint) 14%, var(--l-elev)),
-        color-mix(in srgb, var(--pf-hl-tint) 7%, var(--l-elev))
-      );
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--pf-hl-tint) 14%, var(--l-elev)),
+      color-mix(in srgb, var(--pf-hl-tint) 7%, var(--l-elev))
+    );
     color: var(--l-ink);
   }
 
@@ -7264,8 +7302,16 @@
     gap: var(--pf-space-1);
     padding: 0.15rem var(--pf-space-2);
     border-radius: var(--pf-radius-pill);
-    background: color-mix(in srgb, var(--pf-hl-tint, var(--l-accent)) 12%, var(--l-elev));
-    color: color-mix(in srgb, var(--pf-hl-tint, var(--l-accent)) 78%, var(--l-ink));
+    background: color-mix(
+      in srgb,
+      var(--pf-hl-tint, var(--l-accent)) 12%,
+      var(--l-elev)
+    );
+    color: color-mix(
+      in srgb,
+      var(--pf-hl-tint, var(--l-accent)) 78%,
+      var(--l-ink)
+    );
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
     font-weight: 800;
@@ -7303,7 +7349,8 @@
      the paper's ink rather than in `--l-rule`, which would disappear on gold. */
   .pf-mark--paper .pf-mark__text {
     padding-top: var(--pf-space-2);
-    border-top: 1px solid color-mix(in srgb, var(--pf-hl-tint) 38%, var(--l-rule-soft));
+    border-top: 1px solid
+      color-mix(in srgb, var(--pf-hl-tint) 38%, var(--l-rule-soft));
     color: var(--l-muted);
   }
 
@@ -7356,12 +7403,11 @@
      marks, clearly not one of the four. */
   .pf-mark--moment {
     --pf-hl-tint: var(--l-accent);
-    background:
-      linear-gradient(
-        180deg,
-        color-mix(in srgb, var(--l-accent) 9%, var(--l-elev)),
-        color-mix(in srgb, var(--l-accent) 3%, var(--l-elev))
-      );
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--l-accent) 9%, var(--l-elev)),
+      color-mix(in srgb, var(--l-accent) 3%, var(--l-elev))
+    );
   }
 
   .pf-mark--moment .pf-mark__body {
@@ -8520,7 +8566,11 @@
   }
 
   .pf-track-chip:hover {
-    background: color-mix(in srgb, var(--pf-track-line, var(--l-muted)) 12%, var(--l-surface));
+    background: color-mix(
+      in srgb,
+      var(--pf-track-line, var(--l-muted)) 12%,
+      var(--l-surface)
+    );
   }
 
   .pf-track-chip[aria-pressed="true"] {
@@ -8552,13 +8602,21 @@
     height: 1.4rem;
     padding-inline: 0.35rem;
     border-radius: var(--pf-radius-pill);
-    background: color-mix(in srgb, var(--pf-track-line, var(--l-muted)) 16%, transparent);
+    background: color-mix(
+      in srgb,
+      var(--pf-track-line, var(--l-muted)) 16%,
+      transparent
+    );
     font-size: var(--pf-pill-sm-size);
     font-variant-numeric: tabular-nums;
   }
 
   .pf-track-chip[aria-pressed="true"] .pf-track-chip__count {
-    background: color-mix(in srgb, var(--pf-track-fg, var(--l-on-accent)) 22%, transparent);
+    background: color-mix(
+      in srgb,
+      var(--pf-track-fg, var(--l-on-accent)) 22%,
+      transparent
+    );
   }
 
   /* One source of truth per track colour, read by the filter chip, the

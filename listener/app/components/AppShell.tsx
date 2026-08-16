@@ -102,7 +102,10 @@ export function AppShell({
 
       {overlays}
 
-      <main id="main" className={reader ? "pf-reader" : flush ? "pf-flush" : "pf-container"}>
+      <main
+        id="main"
+        className={reader ? "pf-reader" : flush ? "pf-flush" : "pf-container"}
+      >
         {children}
       </main>
 

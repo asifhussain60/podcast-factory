@@ -77,13 +77,16 @@ export function BookCard({
      sense of where in the book they'd landed. Resuming from where you left
      off still works; it now happens from the chapter list itself, the same
      as it always has for a reader who opens the book page directly. */
-  const readHref = card !== null && card.chapters > 0 ? `/book/${slug}?tab=read` : null;
+  const readHref =
+    card !== null && card.chapters > 0 ? `/book/${slug}?tab=read` : null;
 
   const percent = card === null ? null : percentRead(card.chapters, progress);
 
   return (
     <article
-      className={compact ? "pf-card pf-book pf-book--compact" : "pf-card pf-book"}
+      className={
+        compact ? "pf-card pf-book pf-book--compact" : "pf-card pf-book"
+      }
       /* The card is the whole subtree the overlay has to cover — band, pills,
          meter and all — so the attribute goes on the link rather than on the
          band it most obviously colours. */
@@ -121,24 +124,36 @@ export function BookCard({
             </span>
           )}
 
-          <span className="pf-book__ornament pf-book__ornament--start" aria-hidden="true" />
+          <span
+            className="pf-book__ornament pf-book__ornament--start"
+            aria-hidden="true"
+          />
 
           {originalTitle === null ? (
-            <h2 className="pf-book__band-title pf-book__band-title--latin">{title}</h2>
+            <h2 className="pf-book__band-title pf-book__band-title--latin">
+              {title}
+            </h2>
           ) : (
             /* dir="rtl" is required for shaping and ordering. Centred here, unlike
                the old card, because the band is the title's own space rather than
                a line in a left-aligned stack. */
             <p
               lang={originalLanguage}
-              dir={originalLanguage === "ar" || originalLanguage === "ur" ? "rtl" : undefined}
+              dir={
+                originalLanguage === "ar" || originalLanguage === "ur"
+                  ? "rtl"
+                  : undefined
+              }
               className="pf-book__band-title"
             >
               {originalTitle}
             </p>
           )}
 
-          <span className="pf-book__ornament pf-book__ornament--end" aria-hidden="true" />
+          <span
+            className="pf-book__ornament pf-book__ornament--end"
+            aria-hidden="true"
+          />
         </div>
       </Link>
 
@@ -169,7 +184,9 @@ export function BookCard({
             An unread card says so in words and reserves the same space. */}
         {percent === null ? (
           <div className="pf-book__progress">
-            <p className="pf-book__resume pf-book__resume--idle">Not yet started</p>
+            <p className="pf-book__resume pf-book__resume--idle">
+              Not yet started
+            </p>
           </div>
         ) : (
           <div className="pf-book__progress">
@@ -186,12 +203,12 @@ export function BookCard({
                   supplies one scalar and never a declaration. */}
               <span
                 className="pf-meter__fill"
-                style={{ "--pf-meter": String(percent / 100) } as React.CSSProperties}
+                style={
+                  { "--pf-meter": String(percent / 100) } as React.CSSProperties
+                }
               />
             </div>
-            <span className="pf-book__resume">
-              {percent}% read
-            </span>
+            <span className="pf-book__resume">{percent}% read</span>
           </div>
         )}
       </div>
@@ -318,7 +335,9 @@ function BookActionLink({
     >
       <span className="pf-book-action__circle" aria-hidden="true">
         <Icon icon={icon} />
-        {badge === null ? null : <span className="pf-book-action__badge">{badge}</span>}
+        {badge === null ? null : (
+          <span className="pf-book-action__badge">{badge}</span>
+        )}
       </span>
     </Link>
   );
@@ -342,7 +361,11 @@ function ListenAction({
   const src = `/media/${listen.episode.audioKey}`;
   const isCurrent = player.current?.src === src;
   const isPlaying = isCurrent && player.playing;
-  const verb = isPlaying ? "Pause" : listen.mode === "resume" ? "Resume" : "Play";
+  const verb = isPlaying
+    ? "Pause"
+    : listen.mode === "resume"
+      ? "Resume"
+      : "Play";
   const position =
     listen.mode === "resume" && listen.seconds !== null
       ? `${clock(listen.seconds)} in`
@@ -375,7 +398,8 @@ function ListenAction({
         if (isCurrent) player.toggle();
         else
           player.play(track, {
-            startAt: listen.seconds === null ? undefined : listen.seconds - PRE_ROLL_S,
+            startAt:
+              listen.seconds === null ? undefined : listen.seconds - PRE_ROLL_S,
           });
         player.setExpanded(true);
         navigate(`/book/${listen.episode.slug}?tab=listen`, {

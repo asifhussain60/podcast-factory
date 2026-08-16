@@ -1,4 +1,7 @@
-import { faXmark, type IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import {
+  faXmark,
+  type IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { Icon } from "~/components/Icon";
 

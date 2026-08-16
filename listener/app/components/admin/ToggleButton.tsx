@@ -6,7 +6,13 @@
  * the half a fourth copy would have left off. Open a book to everyone, give a
  * person a book, give a book to a person: the same act, so the same control.
  */
-export function ToggleButton({ on, children }: { on: boolean; children: React.ReactNode }) {
+export function ToggleButton({
+  on,
+  children,
+}: {
+  on: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <button
       type="submit"

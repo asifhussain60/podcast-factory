@@ -40,7 +40,10 @@
 import { build } from "esbuild";
 import { readFileSync } from "node:fs";
 
-const ADMIN_LIB = new URL("../../plan-dashboard/src/lib/reader/", import.meta.url).pathname;
+const ADMIN_LIB = new URL(
+  "../../plan-dashboard/src/lib/reader/",
+  import.meta.url,
+).pathname;
 
 /**
  * Bundle the three functions and load them, without touching the filesystem.
@@ -68,7 +71,9 @@ async function loadRenderers() {
   });
 
   const source = result.outputFiles[0].text;
-  return import(`data:text/javascript;base64,${Buffer.from(source).toString("base64")}`);
+  return import(
+    `data:text/javascript;base64,${Buffer.from(source).toString("base64")}`
+  );
 }
 
 /**
@@ -82,7 +87,10 @@ async function loadRenderers() {
  * nobody here maintains. A URL the checker cannot resolve keeps the boundary
  * where the rest of this file already puts it.
  */
-const ADMIN_LIB_SCRIPTS = new URL("../../plan-dashboard/scripts/lib/", import.meta.url);
+const ADMIN_LIB_SCRIPTS = new URL(
+  "../../plan-dashboard/scripts/lib/",
+  import.meta.url,
+);
 const { readQuranicRuns, readQuranicRefs } = await import(
   new URL("book-html.mjs", ADMIN_LIB_SCRIPTS).href
 );
@@ -98,7 +106,8 @@ const { readImageLayout, flattenImageLayout } = await import(
 
 /** @type {{chapters: {anchor_key: string, heading?: string, markdown: string}[], cards?: {id: string, markdown: string}[], book_dir?: string}} */
 const payload = JSON.parse(readFileSync(0, "utf8"));
-const { renderMarkdown, cardMarkdownToHtml, sectionKeyFromHeading } = await loadRenderers();
+const { renderMarkdown, cardMarkdownToHtml, sectionKeyFromHeading } =
+  await loadRenderers();
 
 /**
  * How this book's quotations are set.

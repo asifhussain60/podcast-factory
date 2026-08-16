@@ -10,10 +10,18 @@ import type { Progress } from "~/server/marks.server";
  * The one formula the card and the library's list row both read from, so
  * they can never disagree about how far into a book the same reader is.
  */
-export function percentRead(chapters: number, progress: Progress | null): number | null {
+export function percentRead(
+  chapters: number,
+  progress: Progress | null,
+): number | null {
   if (progress === null || chapters === 0) return null;
   return Math.min(
     99,
-    Math.max(1, Math.round(((progress.chaptersDone + progress.fraction) / chapters) * 100)),
+    Math.max(
+      1,
+      Math.round(
+        ((progress.chaptersDone + progress.fraction) / chapters) * 100,
+      ),
+    ),
   );
 }

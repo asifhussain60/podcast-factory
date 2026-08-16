@@ -18,7 +18,10 @@ import { session } from "./session";
  * (router.js:2283 flat-maps the whole matched chain), so the API routes are
  * covered by the same single declaration.
  */
-export const requireAdmin: MiddlewareFunction<Response> = async ({ context }, next) => {
+export const requireAdmin: MiddlewareFunction<Response> = async (
+  { context },
+  next,
+) => {
   const viewer = context.get(session).viewer;
   if (viewer === null || !viewer.isAdmin) notFound();
   return next();

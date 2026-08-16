@@ -9,7 +9,11 @@
  * would be furniture for its own sake, and the masthead already goes everywhere
  * this site goes.
  */
-export function SiteFooter({ siteName = "Podcast Factory" }: { siteName?: string }) {
+export function SiteFooter({
+  siteName = "Podcast Factory",
+}: {
+  siteName?: string;
+}) {
   return (
     <footer className="pf-container pf-footer">
       <span>{siteName}</span>

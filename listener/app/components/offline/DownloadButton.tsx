@@ -52,9 +52,10 @@ export function DownloadButton({
   compact?: boolean;
 }) {
   const held = useOfflineFlag(src);
-  const [progress, setProgress] = useState<{ loaded: number; total: number | null } | null>(
-    null,
-  );
+  const [progress, setProgress] = useState<{
+    loaded: number;
+    total: number | null;
+  } | null>(null);
   const [failed, setFailed] = useState(false);
 
   const start = useCallback(async () => {
@@ -113,7 +114,9 @@ export function DownloadButton({
       >
         <Icon icon={faCheck} className="pf-download__held" />
         <Icon icon={faTrash} className="pf-download__drop" />
-        {compact ? null : <span className="pf-download__label">On this device</span>}
+        {compact ? null : (
+          <span className="pf-download__label">On this device</span>
+        )}
       </button>
     );
   }
@@ -127,7 +130,9 @@ export function DownloadButton({
     >
       <Icon icon={failed ? faXmark : faDownload} />
       {compact ? null : (
-        <span className="pf-download__label">{failed ? "Try again" : "Download"}</span>
+        <span className="pf-download__label">
+          {failed ? "Try again" : "Download"}
+        </span>
       )}
     </button>
   );
@@ -150,7 +155,13 @@ export function DownloadButton({
  * toggle (idle / saving / held) rather than a one-shot action, it just never
  * said so structurally.
  */
-export function KeepTextButton({ slug, title }: { slug: string; title: string }) {
+export function KeepTextButton({
+  slug,
+  title,
+}: {
+  slug: string;
+  title: string;
+}) {
   const held = useSyncExternalStore(
     subscribe,
     () => hasText(slug),
@@ -173,7 +184,10 @@ export function KeepTextButton({ slug, title }: { slug: string; title: string })
 
   if (busy) {
     return (
-      <span className="pf-button pf-button--soft pf-download--busy" role="status">
+      <span
+        className="pf-button pf-button--soft pf-download--busy"
+        role="status"
+      >
         <progress className="pf-download__bar" max={100} />
         Saving for offline
       </span>
@@ -203,7 +217,11 @@ export function KeepTextButton({ slug, title }: { slug: string; title: string })
       className="pf-button pf-button--soft pf-tip pf-tip--below"
       aria-pressed="false"
       aria-label={`Read ${title} offline — saves the text to this device`}
-      data-tip={failed ? "That didn't save — press to try again" : "Save the text to read with no signal"}
+      data-tip={
+        failed
+          ? "That didn't save — press to try again"
+          : "Save the text to read with no signal"
+      }
     >
       <Icon icon={failed ? faXmark : faBookOpen} />
       {failed ? "Try again" : "Read Offline"}

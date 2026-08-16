@@ -77,7 +77,10 @@ export function SiteHeader({
         aria-label={menuOpen ? "Close menu" : "Open menu"}
         onClick={() => setMenuOpen((open) => !open)}
       >
-        <Icon icon={menuOpen ? faXmark : faBars} title={menuOpen ? "Close menu" : "Open menu"} />
+        <Icon
+          icon={menuOpen ? faXmark : faBars}
+          title={menuOpen ? "Close menu" : "Open menu"}
+        />
       </button>
 
       {/* Click-away, below `sm` only, present only while open — the same

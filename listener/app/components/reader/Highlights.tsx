@@ -14,7 +14,10 @@ export interface Painted {
   /** Ids whose passage could not be found. Listed in the notes, never painted. */
   orphaned: Set<string>;
   /** Ids whose stored offsets were stale and have been corrected. */
-  corrected: Map<string, { blockIndex: number; startOffset: number; endOffset: number }>;
+  corrected: Map<
+    string,
+    { blockIndex: number; startOffset: number; endOffset: number }
+  >;
   /** Companion cards whose sentence is not in the chapter as it now reads. */
   unplaced: Set<string>;
 }
@@ -59,7 +62,11 @@ export function paintHighlights(
 
   const blocks = blocksOf(root);
   const texts = blockTextsOf(root);
-  const painted: Painted = { orphaned: new Set(), corrected: new Map(), unplaced: new Set() };
+  const painted: Painted = {
+    orphaned: new Set(),
+    corrected: new Map(),
+    unplaced: new Set(),
+  };
 
   // The Companion FIRST, so a reader's own highlight over the same sentence is
   // wrapped inside the tint rather than around it — their mark is the one they
@@ -103,7 +110,11 @@ export function paintHighlights(
       continue;
     }
 
-    const ranges = rangesIn(block, resolution.startOffset, resolution.endOffset);
+    const ranges = rangesIn(
+      block,
+      resolution.startOffset,
+      resolution.endOffset,
+    );
     if (ranges.length === 0) {
       painted.orphaned.add(annotation.id);
       continue;
@@ -130,7 +141,9 @@ export function paintHighlights(
       mark.setAttribute("role", "button");
       mark.setAttribute(
         "aria-label",
-        annotation.note ? `Highlighted, with a note: ${annotation.quote}` : `Highlighted: ${annotation.quote}`,
+        annotation.note
+          ? `Highlighted, with a note: ${annotation.quote}`
+          : `Highlighted: ${annotation.quote}`,
       );
 
       try {
@@ -174,7 +187,13 @@ function paintPassages(
     .map((passage) => ({
       passage,
       at: resolveAnchor(
-        { blockIndex: -1, startOffset: 0, endOffset: 0, quote: passage.quote, prefix: "" },
+        {
+          blockIndex: -1,
+          startOffset: 0,
+          endOffset: 0,
+          quote: passage.quote,
+          prefix: "",
+        },
         texts,
       ),
     }))
@@ -188,7 +207,8 @@ function paintPassages(
     .sort((a, b) =>
       a.at.status === "orphaned" || b.at.status === "orphaned"
         ? 0
-        : b.at.blockIndex - a.at.blockIndex || b.at.startOffset - a.at.startOffset,
+        : b.at.blockIndex - a.at.blockIndex ||
+          b.at.startOffset - a.at.startOffset,
     );
 
   for (const { passage, at } of placed) {
@@ -215,7 +235,10 @@ function paintPassages(
       // button inside a paragraph changes how the sentence is announced.
       mark.tabIndex = 0;
       mark.setAttribute("role", "button");
-      mark.setAttribute("aria-label", `Explained by the Companion: ${passage.quote}`);
+      mark.setAttribute(
+        "aria-label",
+        `Explained by the Companion: ${passage.quote}`,
+      );
 
       try {
         range.surroundContents(mark);

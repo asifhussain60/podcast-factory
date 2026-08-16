@@ -67,5 +67,8 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
     );
   }
 
-  return new Response(object.body, { status: range === null ? 200 : 206, headers });
+  return new Response(object.body, {
+    status: range === null ? 200 : 206,
+    headers,
+  });
 }

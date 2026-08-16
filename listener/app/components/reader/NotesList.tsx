@@ -133,7 +133,9 @@ export function NotesList({
   useEffect(() => {
     const hash = location.hash.slice(1);
     if (hash === "") return;
-    document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document
+      .getElementById(hash)
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
     // Deliberately not depending on the hash: the reader may scroll away and
     // switch tabs back, and yanking them to an anchor they have already read is
     // the sort of help nobody asked for. One move, on the render that follows
@@ -141,11 +143,15 @@ export function NotesList({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (annotations.length === 0 && bookmarks.length === 0 && episodeNotes.length === 0) {
+  if (
+    annotations.length === 0 &&
+    bookmarks.length === 0 &&
+    episodeNotes.length === 0
+  ) {
     return (
       <EmptyState>
-        Nothing marked yet. Select a passage while reading to highlight it, or mark a moment while
-        listening to come back to it.
+        Nothing marked yet. Select a passage while reading to highlight it, or
+        mark a moment while listening to come back to it.
       </EmptyState>
     );
   }
@@ -158,7 +164,10 @@ export function NotesList({
       chapter,
       notes: annotations
         .filter((a) => a.anchorKey === chapter.anchorKey)
-        .sort((a, b) => a.blockIndex - b.blockIndex || a.startOffset - b.startOffset),
+        .sort(
+          (a, b) =>
+            a.blockIndex - b.blockIndex || a.startOffset - b.startOffset,
+        ),
       marks: bookmarks
         .filter((b) => b.anchorKey === chapter.anchorKey)
         .sort((a, b) => a.blockIndex - b.blockIndex),
@@ -185,7 +194,9 @@ export function NotesList({
               <Icon icon={faBookOpen} />
               {chapter.title}
             </span>
-            <span className="pf-notes__count">{count(notes.length + marks.length, "mark")}</span>
+            <span className="pf-notes__count">
+              {count(notes.length + marks.length, "mark")}
+            </span>
           </h3>
 
           {marks.map((bookmark) => (
@@ -220,7 +231,9 @@ export function NotesList({
                 className={`pf-mark pf-mark--paper pf-mark--${annotation.colour}`}
               >
                 <div className="pf-mark__body">
-                  <blockquote className="pf-mark__quote">{annotation.quote}</blockquote>
+                  <blockquote className="pf-mark__quote">
+                    {annotation.quote}
+                  </blockquote>
                   <RichNoteEditor
                     initialValue={editDraft}
                     onChange={setEditDraft}
@@ -264,10 +277,16 @@ export function NotesList({
                   onJump={orphaned.has(annotation.id) ? undefined : onJump}
                   className="pf-mark__body"
                 >
-                  <span className="sr-only">{COLOUR_LABELS[annotation.colour]} highlight. </span>
-                  <blockquote className="pf-mark__quote">{annotation.quote}</blockquote>
+                  <span className="sr-only">
+                    {COLOUR_LABELS[annotation.colour]} highlight.{" "}
+                  </span>
+                  <blockquote className="pf-mark__quote">
+                    {annotation.quote}
+                  </blockquote>
                   {annotation.note ? (
-                    <div className="pf-mark__text">{renderNote(annotation.note)}</div>
+                    <div className="pf-mark__text">
+                      {renderNote(annotation.note)}
+                    </div>
                   ) : null}
                   {/* Said plainly rather than hidden. A highlight whose passage a
                       re-compose has changed still records what the reader marked —
@@ -277,8 +296,8 @@ export function NotesList({
                   {orphaned.has(annotation.id) ? (
                     <p className="pf-mark__warning">
                       <Icon icon={faTriangleExclamation} />
-                      The wording here has changed since you marked it, so this no longer points at a
-                      passage. Your note is kept.
+                      The wording here has changed since you marked it, so this
+                      no longer points at a passage. Your note is kept.
                     </p>
                   ) : null}
                 </Row>
@@ -286,10 +305,15 @@ export function NotesList({
                   <button
                     type="button"
                     onClick={() => startEdit(annotation.id, annotation.note)}
-                    aria-label={annotation.note ? "Edit this note" : "Add a note"}
+                    aria-label={
+                      annotation.note ? "Edit this note" : "Add a note"
+                    }
                     className="pf-mark__remove pf-mark__edit"
                   >
-                    <Icon icon={faPen} title={annotation.note ? "Edit this note" : "Add a note"} />
+                    <Icon
+                      icon={faPen}
+                      title={annotation.note ? "Edit this note" : "Add a note"}
+                    />
                   </button>
                 )}
                 <button
@@ -312,12 +336,18 @@ export function NotesList({
            landing at the top of the list is landing nowhere. See the scroll
            effect above, which does the moving — a hash alone does not, because
            this list is rendered by a tab switch rather than by a page load. */
-        <section id={`ep-${episode.number}`} key={`ep-${episode.number}`} className="pf-notes__chapter">
+        <section
+          id={`ep-${episode.number}`}
+          key={`ep-${episode.number}`}
+          className="pf-notes__chapter"
+        >
           <h3 className="pf-notes__heading">
             <span className="pf-notes__heading-main">
               <Icon icon={faHeadphones} /> {episode.number}. {episode.title}
             </span>
-            <span className="pf-notes__count">{count(moments.length, "mark")}</span>
+            <span className="pf-notes__count">
+              {count(moments.length, "mark")}
+            </span>
           </h3>
 
           {moments.map((moment) =>
@@ -325,7 +355,11 @@ export function NotesList({
               <div key={moment.id} className="pf-mark pf-mark--moment">
                 <div className="pf-mark__body">
                   <span className="pf-mark__kind">{clock(moment.seconds)}</span>
-                  {moment.quote ? <blockquote className="pf-mark__quote">{moment.quote}</blockquote> : null}
+                  {moment.quote ? (
+                    <blockquote className="pf-mark__quote">
+                      {moment.quote}
+                    </blockquote>
+                  ) : null}
                   <RichNoteEditor
                     initialValue={editDraft}
                     onChange={setEditDraft}
@@ -357,7 +391,11 @@ export function NotesList({
               // chose, and inventing one here would say something the mark does
               // not carry.
               <div key={moment.id} className="pf-mark pf-mark--moment">
-                <MomentRow moment={moment} onPlay={onPlay} className="pf-mark__body" />
+                <MomentRow
+                  moment={moment}
+                  onPlay={onPlay}
+                  className="pf-mark__body"
+                />
                 {onEditEpisodeNote === undefined ? null : (
                   <button
                     type="button"
@@ -365,7 +403,10 @@ export function NotesList({
                     aria-label={moment.note ? "Edit this note" : "Add a note"}
                     className="pf-mark__remove pf-mark__edit"
                   >
-                    <Icon icon={faPen} title={moment.note ? "Edit this note" : "Add a note"} />
+                    <Icon
+                      icon={faPen}
+                      title={moment.note ? "Edit this note" : "Add a note"}
+                    />
                   </button>
                 )}
                 {onRemoveEpisodeNote === undefined ? null : (
@@ -413,10 +454,16 @@ function MomentRow({
       {/* The transcript line as it read when the moment was marked. Quoted like
           a highlight, because that is what it is: the words the listener was
           reacting to. */}
-      {moment.quote ? <blockquote className="pf-mark__quote">{moment.quote}</blockquote> : null}
-      {moment.note ? <div className="pf-mark__text">{renderNote(moment.note)}</div> : null}
+      {moment.quote ? (
+        <blockquote className="pf-mark__quote">{moment.quote}</blockquote>
+      ) : null}
+      {moment.note ? (
+        <div className="pf-mark__text">{renderNote(moment.note)}</div>
+      ) : null}
       {moment.quote || moment.note ? null : (
-        <p className="pf-mark__text pf-mark__text--quiet">Marked while listening.</p>
+        <p className="pf-mark__text pf-mark__text--quiet">
+          Marked while listening.
+        </p>
       )}
     </>
   );
@@ -424,7 +471,11 @@ function MomentRow({
   if (onPlay === undefined) return <div className={className}>{body}</div>;
 
   return (
-    <button type="button" onClick={() => onPlay(moment.number, from)} className={className}>
+    <button
+      type="button"
+      onClick={() => onPlay(moment.number, from)}
+      className={className}
+    >
       {body}
     </button>
   );
@@ -465,14 +516,21 @@ function Row({
 }) {
   if (onJump !== undefined) {
     return (
-      <button type="button" onClick={() => onJump(anchorKey, id)} className={className}>
+      <button
+        type="button"
+        onClick={() => onJump(anchorKey, id)}
+        className={className}
+      >
         {children}
       </button>
     );
   }
 
   return (
-    <Link to={`/book/${slug}/read/${encodeURIComponent(anchorKey)}#mark-${id}`} className={className}>
+    <Link
+      to={`/book/${slug}/read/${encodeURIComponent(anchorKey)}#mark-${id}`}
+      className={className}
+    >
       {children}
     </Link>
   );

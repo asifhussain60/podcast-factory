@@ -27,7 +27,6 @@ import { createTestDb, type TestDb } from "./d1";
  * against the real migrations.
  */
 
-
 const SLUG = "ayyuhal-walad";
 const CHAPTER = "introduction-to-the-book";
 const NOW = "2026-08-03T12:00:00.000Z";
@@ -36,7 +35,8 @@ const LATER = "2026-08-03T13:00:00.000Z";
 const READER = "reader@example.com";
 const OTHER = "other@example.com";
 
-const uuid = (n: number) => `0000000${n}-0000-4000-a000-000000000000`.slice(-36);
+const uuid = (n: number) =>
+  `0000000${n}-0000-4000-a000-000000000000`.slice(-36);
 
 let t: TestDb;
 
@@ -111,8 +111,20 @@ describe("one reader's marks are their own", () => {
   });
 
   it("keeps progress separate", async () => {
-    await setProgress(t.db, READER, SLUG, { anchorKey: CHAPTER, fraction: 0.5, chaptersDone: 2 }, NOW);
-    await setProgress(t.db, OTHER, SLUG, { anchorKey: CHAPTER, fraction: 0.9, chaptersDone: 7 }, NOW);
+    await setProgress(
+      t.db,
+      READER,
+      SLUG,
+      { anchorKey: CHAPTER, fraction: 0.5, chaptersDone: 2 },
+      NOW,
+    );
+    await setProgress(
+      t.db,
+      OTHER,
+      SLUG,
+      { anchorKey: CHAPTER, fraction: 0.9, chaptersDone: 7 },
+      NOW,
+    );
 
     expect((await progressForAll(t.db, READER))[SLUG].fraction).toBe(0.5);
     expect((await progressForAll(t.db, OTHER))[SLUG].fraction).toBe(0.9);
@@ -174,8 +186,20 @@ describe("writes are idempotent, because the client replays them", () => {
   });
 
   it("progress is last-writer-wins", async () => {
-    await setProgress(t.db, READER, SLUG, { anchorKey: CHAPTER, fraction: 0.9, chaptersDone: 4 }, NOW);
-    await setProgress(t.db, READER, SLUG, { anchorKey: CHAPTER, fraction: 0.2, chaptersDone: 1 }, LATER);
+    await setProgress(
+      t.db,
+      READER,
+      SLUG,
+      { anchorKey: CHAPTER, fraction: 0.9, chaptersDone: 4 },
+      NOW,
+    );
+    await setProgress(
+      t.db,
+      READER,
+      SLUG,
+      { anchorKey: CHAPTER, fraction: 0.2, chaptersDone: 1 },
+      LATER,
+    );
     expect((await progressForAll(t.db, READER))[SLUG].fraction).toBe(0.2);
   });
 });
@@ -204,27 +228,27 @@ describe("a note is part of its highlight", () => {
 
 describe("bad input is refused rather than stored", () => {
   it("rejects an id that is not a uuid", async () => {
-    await expect(annotate(READER, { id: "../../etc/passwd" })).rejects.toBeInstanceOf(
-      InvalidMarkError,
-    );
+    await expect(
+      annotate(READER, { id: "../../etc/passwd" }),
+    ).rejects.toBeInstanceOf(InvalidMarkError);
   });
 
   it("rejects a colour the schema does not allow", async () => {
-    await expect(annotate(READER, { colour: "chartreuse" })).rejects.toBeInstanceOf(
-      InvalidMarkError,
-    );
+    await expect(
+      annotate(READER, { colour: "chartreuse" }),
+    ).rejects.toBeInstanceOf(InvalidMarkError);
   });
 
   it("rejects an empty selection", async () => {
-    await expect(annotate(READER, { startOffset: 5, endOffset: 5 })).rejects.toBeInstanceOf(
-      InvalidMarkError,
-    );
+    await expect(
+      annotate(READER, { startOffset: 5, endOffset: 5 }),
+    ).rejects.toBeInstanceOf(InvalidMarkError);
   });
 
   it("rejects a quote long enough to be an attack rather than a passage", async () => {
-    await expect(annotate(READER, { quote: "x".repeat(5000) })).rejects.toBeInstanceOf(
-      InvalidMarkError,
-    );
+    await expect(
+      annotate(READER, { quote: "x".repeat(5000) }),
+    ).rejects.toBeInstanceOf(InvalidMarkError);
   });
 });
 
@@ -247,7 +271,9 @@ describe("listening position", () => {
     await setListening(t.db, READER, SLUG, { number: 1, seconds: 100 }, NOW);
     await setListening(t.db, READER, SLUG, { number: 3, seconds: 900 }, LATER);
 
-    expect((await listeningForAll(t.db, READER))[SLUG].map((p) => p.number)).toEqual([3, 1]);
+    expect(
+      (await listeningForAll(t.db, READER))[SLUG].map((p) => p.number),
+    ).toEqual([3, 1]);
   });
 });
 
@@ -268,10 +294,9 @@ describe("counts for the library card", () => {
       LATER,
     );
 
-    expect((await bookmarkTargetsForAll(t.db, READER))[SLUG].map((b) => b.id)).toEqual([
-      uuid(7),
-      uuid(6),
-    ]);
+    expect(
+      (await bookmarkTargetsForAll(t.db, READER))[SLUG].map((b) => b.id),
+    ).toEqual([uuid(7), uuid(6)]);
   });
 
   it("counts live marks per book and omits deleted ones", async () => {
@@ -286,7 +311,9 @@ describe("counts for the library card", () => {
     await annotate(READER, { id: uuid(7), quote: "gone soon" });
     await removeAnnotation(t.db, READER, SLUG, uuid(7), LATER);
 
-    expect(await markCounts(t.db, READER)).toEqual({ [SLUG]: { notes: 1, bookmarks: 1 } });
+    expect(await markCounts(t.db, READER)).toEqual({
+      [SLUG]: { notes: 1, bookmarks: 1 },
+    });
   });
 
   it("is empty for a reader who has marked nothing", async () => {

@@ -22,7 +22,11 @@ import {
  * there, the component still exists.
  */
 export function useReading(): ReadingPrefs {
-  const prefs = useSyncExternalStore(subscribeReading, readingSnapshot, readingSnapshot);
+  const prefs = useSyncExternalStore(
+    subscribeReading,
+    readingSnapshot,
+    readingSnapshot,
+  );
   useEffect(hydrateReading, []);
   return prefs;
 }

@@ -13,14 +13,20 @@ describe("normalizeEmail", () => {
     expect(normalizeEmail("Asif.Hussain60+listener@GoogleMail.COM")).toBe(
       "asifhussain60@gmail.com",
     );
-    expect(normalizeEmail("asifhussain60@gmail.com")).toBe("asifhussain60@gmail.com");
+    expect(normalizeEmail("asifhussain60@gmail.com")).toBe(
+      "asifhussain60@gmail.com",
+    );
   });
 
   it("does NOT strip dots outside Gmail", () => {
     // On a Workspace domain these can be two different people. Folding them
     // would hand one person's library to another.
-    expect(normalizeEmail("first.last@company.com")).toBe("first.last@company.com");
-    expect(normalizeEmail("firstlast@company.com")).toBe("firstlast@company.com");
+    expect(normalizeEmail("first.last@company.com")).toBe(
+      "first.last@company.com",
+    );
+    expect(normalizeEmail("firstlast@company.com")).toBe(
+      "firstlast@company.com",
+    );
     expect(normalizeEmail("first.last@company.com")).not.toBe(
       normalizeEmail("firstlast@company.com"),
     );
@@ -43,7 +49,9 @@ describe("normalizeEmail", () => {
   });
 
   it("lowercases and accepts the fully-qualified domain form", () => {
-    expect(normalizeEmail("  Someone@Example.COM.  ")).toBe("someone@example.com");
+    expect(normalizeEmail("  Someone@Example.COM.  ")).toBe(
+      "someone@example.com",
+    );
   });
 
   it("unwraps a pasted display-name form", () => {
@@ -53,7 +61,15 @@ describe("normalizeEmail", () => {
   });
 
   it("rejects malformed input", () => {
-    for (const bad of ["", "  ", "nope", "a@@b.com", "@example.com", "a@nodot", "a@.com"]) {
+    for (const bad of [
+      "",
+      "  ",
+      "nope",
+      "a@@b.com",
+      "@example.com",
+      "a@nodot",
+      "a@.com",
+    ]) {
       expect(() => normalizeEmail(bad), bad).toThrow();
     }
   });

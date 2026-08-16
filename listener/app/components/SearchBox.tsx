@@ -64,7 +64,9 @@ export function SearchBox({
    * copy of the text lags a keystroke behind the box. This is that answer, and
    * it is never the source of what gets submitted.
    */
-  const [typed, setTyped] = useState(action.kind === "navigate" ? action.value : "");
+  const [typed, setTyped] = useState(
+    action.kind === "navigate" ? action.value : "",
+  );
   const showClear = (action.kind === "filter" ? action.value : typed) !== "";
 
   function clear() {

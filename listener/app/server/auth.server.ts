@@ -90,7 +90,8 @@ export function createAuth(env: Env) {
           // exactly the case the user hook cannot see.
           before: async (session) => {
             const email = await emailForUserId(env, session.userId);
-            if (email === null || !(await hasLiveInvite(env.DB, email))) return false;
+            if (email === null || !(await hasLiveInvite(env.DB, email)))
+              return false;
 
             // Record the arrival. This is the ONLY writer of `redeemed_at`,
             // which existed unwritten from 0002 until 0006 — so the admin screen
@@ -134,8 +135,13 @@ async function markArrival(env: Env, rawEmail: string): Promise<void> {
     .run();
 }
 
-async function emailForUserId(env: Env, userId: string): Promise<string | null> {
-  const row = await env.DB.prepare(`SELECT email FROM user WHERE id = ? LIMIT 1`)
+async function emailForUserId(
+  env: Env,
+  userId: string,
+): Promise<string | null> {
+  const row = await env.DB.prepare(
+    `SELECT email FROM user WHERE id = ? LIMIT 1`,
+  )
     .bind(userId)
     .first<{ email: string }>();
 
@@ -152,7 +158,10 @@ async function emailForUserId(env: Env, userId: string): Promise<string | null> 
  * Fails closed when ADMIN_EMAIL is missing or unusable, which is what makes a
  * misconfigured environment lock everyone out rather than let everyone in.
  */
-export function isAdminEmail(env: Env, sessionEmail: string | null | undefined): boolean {
+export function isAdminEmail(
+  env: Env,
+  sessionEmail: string | null | undefined,
+): boolean {
   if (!sessionEmail) return false;
 
   const configured = tryNormalizeEmail(env.ADMIN_EMAIL ?? "");

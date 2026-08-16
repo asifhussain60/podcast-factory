@@ -24,7 +24,14 @@
 
 import { createElement, Fragment, type ReactNode } from "react";
 
-const ALLOWED_WRAPPER = new Set(["p", "strong", "em", "ul", "ol", "li"] as const);
+const ALLOWED_WRAPPER = new Set([
+  "p",
+  "strong",
+  "em",
+  "ul",
+  "ol",
+  "li",
+] as const);
 type WrapperTag = "p" | "strong" | "em" | "ul" | "ol" | "li";
 
 export type RichNode =
@@ -46,11 +53,17 @@ const ENTITIES: Record<string, string> = {
 };
 
 function decodeEntities(text: string): string {
-  return text.replace(/&(?:amp|lt|gt|quot|#39|apos);/g, (m) => ENTITIES[m] ?? m);
+  return text.replace(
+    /&(?:amp|lt|gt|quot|#39|apos);/g,
+    (m) => ENTITIES[m] ?? m,
+  );
 }
 
 function encodeEntities(text: string): string {
-  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 interface Cursor {
@@ -65,7 +78,11 @@ interface Cursor {
  * position, so it falls through to the literal-text path below, exactly like
  * an unmatched or malformed tag does.
  */
-function parseNodes(input: string, pos: Cursor, stopTag: WrapperTag | null): RichNode[] {
+function parseNodes(
+  input: string,
+  pos: Cursor,
+  stopTag: WrapperTag | null,
+): RichNode[] {
   const nodes: RichNode[] = [];
   let buf = "";
 
@@ -152,7 +169,11 @@ function renderNodes(nodes: RichNode[], keyPrefix: string): ReactNode[] {
     const key = `${keyPrefix}-${i}`;
     if (node.type === "text") return node.text.length > 0 ? node.text : null;
     if (node.type === "br") return createElement("br", { key });
-    return createElement(node.type, { key }, ...renderNodes(node.children, key));
+    return createElement(
+      node.type,
+      { key },
+      ...renderNodes(node.children, key),
+    );
   });
 }
 

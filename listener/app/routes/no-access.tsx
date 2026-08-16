@@ -31,7 +31,9 @@ export default function NoAccess({ loaderData }: Route.ComponentProps) {
           uninvited person bounces every gated route here. Without the banner
           this page is where the administrator would be stranded, since /admin
           answers 404 to them while it is running. */}
-      {loaderData.simulating ? <SimulationBanner as={loaderData.simulating.as} /> : null}
+      {loaderData.simulating ? (
+        <SimulationBanner as={loaderData.simulating.as} />
+      ) : null}
 
       {/* The same hero sign-in uses, not a second image — this is still the
           front door, just answered "not yet" instead of "come in". No eyebrow
@@ -59,8 +61,9 @@ export default function NoAccess({ loaderData }: Route.ComponentProps) {
       </p>
       {loaderData.email ? (
         <p className="pf-note pf-note--quiet">
-          You signed in as <strong className="pf-strong">{loaderData.email}</strong>. If you
-          have more than one Google account, it may be the other one.
+          You signed in as{" "}
+          <strong className="pf-strong">{loaderData.email}</strong>. If you have
+          more than one Google account, it may be the other one.
         </p>
       ) : null}
 
@@ -68,8 +71,13 @@ export default function NoAccess({ loaderData }: Route.ComponentProps) {
           the wrong account and then offering no way to change it is a dead end,
           and this page was one. */}
       <Form method="post" action="/sign-out" className="pf-hero__action">
-        <button type="submit" className="pf-button pf-button--primary pf-button--lg">
-          {loaderData.email ? "Sign in with a different account" : "Back to sign in"}
+        <button
+          type="submit"
+          className="pf-button pf-button--primary pf-button--lg"
+        >
+          {loaderData.email
+            ? "Sign in with a different account"
+            : "Back to sign in"}
         </button>
       </Form>
     </PublicShell>

@@ -54,11 +54,31 @@ export const STATIC_ROUTES = [
   // to a page that loads and finds NOTHING. A 200 with results there would be
   // the whole access model failing quietly, which is why it is asserted by a
   // script rather than reasoned about.
-  { path: "/search?q=intellect", who: "admin", expect: 200, label: "search-query" },
-  { path: "/search?q=intellect", who: "reader", expect: 200, label: "search-query-reader" },
-  { path: "/search?q=intellect", who: "nobody", expect: 200, label: "search-query-no-books" },
+  {
+    path: "/search?q=intellect",
+    who: "admin",
+    expect: 200,
+    label: "search-query",
+  },
+  {
+    path: "/search?q=intellect",
+    who: "reader",
+    expect: 200,
+    label: "search-query-reader",
+  },
+  {
+    path: "/search?q=intellect",
+    who: "nobody",
+    expect: 200,
+    label: "search-query-no-books",
+  },
   // A reference query, which takes the other branch of the loader entirely.
-  { path: "/search?q=2%3A255", who: "admin", expect: 200, label: "search-reference" },
+  {
+    path: "/search?q=2%3A255",
+    who: "admin",
+    expect: 200,
+    label: "search-reference",
+  },
   // Arabic, folded — the case a Latin-only harness would never catch.
   {
     path: "/search?q=%D9%88%D9%84%D9%8A",
@@ -73,21 +93,46 @@ export const STATIC_ROUTES = [
   { path: "/downloads", who: "admin", expect: 200, label: "downloads" },
   { path: "/downloads", who: "reader", expect: 200, label: "downloads-reader" },
   { path: "/downloads", who: "nobody", expect: 200, label: "downloads-empty" },
-  { path: "/downloads", who: "anon", expect: 302, label: "downloads-signed-out" },
+  {
+    path: "/downloads",
+    who: "anon",
+    expect: 302,
+    label: "downloads-signed-out",
+  },
 
   // The lease. Signed out it must REDIRECT rather than answer: the client reads
   // a redirect as "could not find out" and deletes nothing, which is what stops
   // a signed-out moment from wiping a library.
-  { path: "/offline/allowed", who: "reader", expect: 200, label: "offline-allowed" },
-  { path: "/offline/allowed", who: "anon", expect: 302, label: "offline-allowed-signed-out" },
+  {
+    path: "/offline/allowed",
+    who: "reader",
+    expect: 200,
+    label: "offline-allowed",
+  },
+  {
+    path: "/offline/allowed",
+    who: "anon",
+    expect: 302,
+    label: "offline-allowed-signed-out",
+  },
 
   // The offline reading shell. Its document carries nothing about anybody — the
   // chapters are read from the device after it loads — which is what makes it
   // safe for the service worker to keep. Visited with no book named, which is
   // the state the worker's own fallback can land somebody in.
   { path: "/read-offline", who: "admin", expect: 200, label: "read-offline" },
-  { path: "/read-offline", who: "reader", expect: 200, label: "read-offline-reader" },
-  { path: "/read-offline", who: "anon", expect: 302, label: "read-offline-signed-out" },
+  {
+    path: "/read-offline",
+    who: "reader",
+    expect: 200,
+    label: "read-offline-reader",
+  },
+  {
+    path: "/read-offline",
+    who: "anon",
+    expect: 302,
+    label: "read-offline-signed-out",
+  },
 
   // `/admin` IS the people screen — the Overview tab it used to open on was
   // retired, and its numbers now sit above both tabs.
@@ -108,13 +153,23 @@ export const STATIC_ROUTES = [
   // React Router matched nothing: it was `/Admin/people` until the people screen
   // moved up to `/admin` and that path stopped existing.
   { path: "/admin", who: "reader", expect: 404, label: "admin-denied" },
-  { path: "/Admin/content", who: "reader", expect: 404, label: "admin-denied-case" },
+  {
+    path: "/Admin/content",
+    who: "reader",
+    expect: 404,
+    label: "admin-denied-case",
+  },
 ];
 
 /** Routes needing a book the signed-in identity can actually open. */
 export const BOOK_ROUTES = [
   { path: "/book/:slug", who: "reader", expect: 200, label: "book" },
-  { path: "/book/:slug/read/:chapter", who: "reader", expect: 200, label: "reader" },
+  {
+    path: "/book/:slug/read/:chapter",
+    who: "reader",
+    expect: 200,
+    label: "reader",
+  },
   { path: "/book/:slug/marks", who: "reader", expect: 200, label: "marks" },
 
   // A whole book's prose, for keeping on the device. Same gate as the page, so
@@ -134,14 +189,35 @@ export const BOOK_ROUTES = [
 
   // The same book, to someone who was never given it.
   { path: "/book/:slug", who: "nobody", expect: 404, label: "book-denied" },
-  { path: "/book/:slug/read/:chapter", who: "nobody", expect: 404, label: "reader-denied" },
-  { path: "/book/:slug/marks", who: "nobody", expect: 404, label: "marks-denied" },
-  { path: "/book/:slug/text", who: "nobody", expect: 404, label: "book-text-denied" },
+  {
+    path: "/book/:slug/read/:chapter",
+    who: "nobody",
+    expect: 404,
+    label: "reader-denied",
+  },
+  {
+    path: "/book/:slug/marks",
+    who: "nobody",
+    expect: 404,
+    label: "marks-denied",
+  },
+  {
+    path: "/book/:slug/text",
+    who: "nobody",
+    expect: 404,
+    label: "book-text-denied",
+  },
 ];
 
 /** Routes only worth visiting when the book has the thing they show. */
 export const OPTIONAL_ROUTES = [
-  { path: "/book/:slug/slides", who: "reader", expect: 200, label: "slides", needs: "deck" },
+  {
+    path: "/book/:slug/slides",
+    who: "reader",
+    expect: 200,
+    label: "slides",
+    needs: "deck",
+  },
 ];
 
 /** The widths every surface is checked and shot at. */

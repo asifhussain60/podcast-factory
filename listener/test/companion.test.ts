@@ -15,7 +15,6 @@ import { createTestDb } from "./d1";
  * refactor away from returning them.
  */
 
-
 const viewer = (over: Partial<Viewer> = {}): Viewer => ({
   email: "asifhussain60@gmail.com",
   rawEmail: "asifhussain60@gmail.com",
@@ -43,7 +42,12 @@ describe("who the companion answers", () => {
   it("gives the administrator this chapter's cards, in the order they were filed", async () => {
     const test = seed();
     try {
-      const cards = await companionFor(test.db, viewer(), "book-a", "chapter-three");
+      const cards = await companionFor(
+        test.db,
+        viewer(),
+        "book-a",
+        "chapter-three",
+      );
 
       expect(cards.map((c) => c.id)).toEqual(["n1", "n2"]);
       expect(cards[0]).toEqual({
@@ -60,19 +64,31 @@ describe("who the companion answers", () => {
   });
 
   it("gives an invited non-admin nothing, and asks the database nothing", async () => {
-    const cards = await companionFor(refuses(), viewer({ isAdmin: false }), "book-a", "chapter-three");
+    const cards = await companionFor(
+      refuses(),
+      viewer({ isAdmin: false }),
+      "book-a",
+      "chapter-three",
+    );
     expect(cards).toEqual([]);
   });
 
   it("gives a signed-out caller nothing, and asks the database nothing", async () => {
-    const cards = await companionFor(refuses(), null, "book-a", "chapter-three");
+    const cards = await companionFor(
+      refuses(),
+      null,
+      "book-a",
+      "chapter-three",
+    );
     expect(cards).toEqual([]);
   });
 
   it("returns nothing for a chapter that has no cards", async () => {
     const test = seed();
     try {
-      expect(await companionFor(test.db, viewer(), "book-a", "chapter-nine")).toEqual([]);
+      expect(
+        await companionFor(test.db, viewer(), "book-a", "chapter-nine"),
+      ).toEqual([]);
     } finally {
       test.close();
     }
@@ -81,7 +97,12 @@ describe("who the companion answers", () => {
   it("shows a card whose etymology is unreadable rather than losing the card", async () => {
     const test = seed();
     try {
-      const cards = await companionFor(test.db, viewer(), "book-a", "chapter-four");
+      const cards = await companionFor(
+        test.db,
+        viewer(),
+        "book-a",
+        "chapter-four",
+      );
       expect(cards).toHaveLength(1);
       expect(cards[0].etymology).toEqual([]);
     } finally {
@@ -94,7 +115,9 @@ describe("who the companion answers", () => {
 function refuses(): D1Database {
   return new Proxy({} as D1Database, {
     get(_target, property) {
-      throw new Error(`the companion query reached the database (.${String(property)})`);
+      throw new Error(
+        `the companion query reached the database (.${String(property)})`,
+      );
     },
   });
 }

@@ -43,11 +43,16 @@ export async function action({ request, context }: Route.ActionArgs) {
   // `state_mismatch`, which reads like a Google misconfiguration rather than a
   // dropped header.
   const { headers, response } = await auth.api.signInSocial({
-    body: { provider: "google", callbackURL: next, errorCallbackURL: "/no-access" },
+    body: {
+      provider: "google",
+      callbackURL: next,
+      errorCallbackURL: "/no-access",
+    },
     returnHeaders: true,
   });
 
-  if (!response.url) throw new Error("Google sign-in did not return an authorization URL");
+  if (!response.url)
+    throw new Error("Google sign-in did not return an authorization URL");
 
   // Carry every header through, not just the cookie we happen to know about —
   // a future Better Auth version setting a second one must not need a change here.
@@ -81,7 +86,9 @@ export default function SignIn({ loaderData }: Route.ComponentProps) {
           page. Grouped with the heading so the column's gap falls around the
           pair; a byline floating midway between two blocks belongs to neither. */}
       <div className="pf-hero__titling">
-        <h1 className="pf-hero__tagline">Classical books, made to be read and heard.</h1>
+        <h1 className="pf-hero__tagline">
+          Classical books, made to be read and heard.
+        </h1>
         {/* The space between the spans is deliberate. The gap that separates
             them on screen is flex, which leaves no character behind — so read
             aloud, or copied, the line came out as "Created byAsif Hussain". */}
@@ -99,7 +106,10 @@ export default function SignIn({ loaderData }: Route.ComponentProps) {
 
       <form method="post" className="pf-hero__action">
         <input type="hidden" name="next" value={next} />
-        <button type="submit" className="pf-button pf-button--primary pf-button--lg">
+        <button
+          type="submit"
+          className="pf-button pf-button--primary pf-button--lg"
+        >
           Continue with Google
         </button>
       </form>
@@ -110,8 +120,9 @@ export default function SignIn({ loaderData }: Route.ComponentProps) {
             application; an administrator adds an address and passes the link on
             by hand, so the second phrasing sends anyone who did not receive an
             email looking for one that never existed. */}
-        This library is private — sign in with the Google account you were invited
-        with. We ask Google only for your name, email address and profile picture.
+        This library is private — sign in with the Google account you were
+        invited with. We ask Google only for your name, email address and
+        profile picture.
       </p>
     </PublicShell>
   );

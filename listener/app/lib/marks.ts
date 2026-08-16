@@ -141,10 +141,16 @@ function read(slug: string): Cache {
       v: 1,
       marks: {
         progress: raw.marks?.progress ?? null,
-        bookmarks: Array.isArray(raw.marks?.bookmarks) ? raw.marks.bookmarks : [],
-        annotations: Array.isArray(raw.marks?.annotations) ? raw.marks.annotations : [],
+        bookmarks: Array.isArray(raw.marks?.bookmarks)
+          ? raw.marks.bookmarks
+          : [],
+        annotations: Array.isArray(raw.marks?.annotations)
+          ? raw.marks.annotations
+          : [],
         listening: raw.marks?.listening ?? {},
-        episodeNotes: Array.isArray(raw.marks?.episodeNotes) ? raw.marks.episodeNotes : [],
+        episodeNotes: Array.isArray(raw.marks?.episodeNotes)
+          ? raw.marks.episodeNotes
+          : [],
       },
       outbox: Array.isArray(raw.outbox) ? raw.outbox : [],
     };
@@ -252,7 +258,10 @@ function applyLocally(marks: Marks, pending: Pending): Marks {
       };
 
     case "unbookmark":
-      return { ...marks, bookmarks: marks.bookmarks.filter((b) => b.id !== f.id) };
+      return {
+        ...marks,
+        bookmarks: marks.bookmarks.filter((b) => b.id !== f.id),
+      };
 
     case "annotate": {
       const existing = marks.annotations.find((a) => a.id === f.id);
@@ -271,14 +280,18 @@ function applyLocally(marks: Marks, pending: Pending): Marks {
       };
       return {
         ...marks,
-        annotations: [...marks.annotations.filter((a) => a.id !== f.id), next].sort(
-          byPosition,
-        ),
+        annotations: [
+          ...marks.annotations.filter((a) => a.id !== f.id),
+          next,
+        ].sort(byPosition),
       };
     }
 
     case "unannotate":
-      return { ...marks, annotations: marks.annotations.filter((a) => a.id !== f.id) };
+      return {
+        ...marks,
+        annotations: marks.annotations.filter((a) => a.id !== f.id),
+      };
 
     case "episode-note": {
       const existing = marks.episodeNotes.find((n) => n.id === f.id);
@@ -293,12 +306,18 @@ function applyLocally(marks: Marks, pending: Pending): Marks {
       };
       return {
         ...marks,
-        episodeNotes: [...marks.episodeNotes.filter((n) => n.id !== f.id), next].sort(byMoment),
+        episodeNotes: [
+          ...marks.episodeNotes.filter((n) => n.id !== f.id),
+          next,
+        ].sort(byMoment),
       };
     }
 
     case "un-episode-note":
-      return { ...marks, episodeNotes: marks.episodeNotes.filter((n) => n.id !== f.id) };
+      return {
+        ...marks,
+        episodeNotes: marks.episodeNotes.filter((n) => n.id !== f.id),
+      };
 
     default:
       return marks;
@@ -396,9 +415,10 @@ export async function flush(): Promise<void> {
 
       if (!response.ok) return;
 
-      const result = (await response.json().catch(() => null)) as
-        | { error?: string; permanent?: boolean }
-        | null;
+      const result = (await response.json().catch(() => null)) as {
+        error?: string;
+        permanent?: boolean;
+      } | null;
 
       if (result?.error && !result.permanent) return;
 
@@ -439,17 +459,25 @@ export function flushProgressNow() {
   const body = new URLSearchParams({ intent: "progress", ...unsentProgress });
   unsentProgress = null;
 
-  if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
+  if (
+    typeof navigator !== "undefined" &&
+    typeof navigator.sendBeacon === "function"
+  ) {
     const ok = navigator.sendBeacon(
       `/book/${encodeURIComponent(slug)}/marks`,
-      new Blob([body.toString()], { type: "application/x-www-form-urlencoded" }),
+      new Blob([body.toString()], {
+        type: "application/x-www-form-urlencoded",
+      }),
     );
     if (ok) return;
   }
 
   // No beacon, or it refused (it can, when the queue is full). Fall back to the
   // outbox so the write is not simply dropped — it will go on the next load.
-  submit("progress", Object.fromEntries(body.entries()) as Record<string, string>);
+  submit(
+    "progress",
+    Object.fromEntries(body.entries()) as Record<string, string>,
+  );
 }
 
 /**
@@ -460,11 +488,16 @@ export function flushProgressNow() {
  * there is a fallback. Its shape matches the format marks.server.ts validates.
  */
 export function newId(): string {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+  if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.randomUUID === "function"
+  ) {
     return crypto.randomUUID();
   }
   const hex = (n: number) =>
-    Array.from({ length: n }, () => Math.floor(Math.random() * 16).toString(16)).join("");
+    Array.from({ length: n }, () =>
+      Math.floor(Math.random() * 16).toString(16),
+    ).join("");
   return `${hex(8)}-${hex(4)}-4${hex(3)}-a${hex(3)}-${hex(12)}`;
 }
 
@@ -472,11 +505,16 @@ export function newId(): string {
 /* Selectors — asked for by name so components do not filter inline            */
 /* -------------------------------------------------------------------------- */
 
-export const annotationsInChapter = (marks: Marks, anchorKey: string): Annotation[] =>
+export const annotationsInChapter = (
+  marks: Marks,
+  anchorKey: string,
+): Annotation[] =>
   marks.annotations.filter((a) => a.anchorKey === anchorKey).sort(byPosition);
 
-export const bookmarksInChapter = (marks: Marks, anchorKey: string): Bookmark[] =>
-  marks.bookmarks.filter((b) => b.anchorKey === anchorKey);
+export const bookmarksInChapter = (
+  marks: Marks,
+  anchorKey: string,
+): Bookmark[] => marks.bookmarks.filter((b) => b.anchorKey === anchorKey);
 
 export const notesInEpisode = (marks: Marks, number: number): EpisodeNote[] =>
   marks.episodeNotes.filter((n) => n.number === number).sort(byMoment);

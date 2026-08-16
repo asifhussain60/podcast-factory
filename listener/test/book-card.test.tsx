@@ -35,7 +35,13 @@ function render(props: Partial<Parameters<typeof BookCard>[0]> = {}) {
       path: "/",
       element: (
         <PlayerProvider>
-          <BookCard slug="a-book" title="A Book" bucket="Islamic" card={card} {...props} />
+          <BookCard
+            slug="a-book"
+            title="A Book"
+            bucket="Islamic"
+            card={card}
+            {...props}
+          />
         </PlayerProvider>
       ),
     },
@@ -46,7 +52,11 @@ function render(props: Partial<Parameters<typeof BookCard>[0]> = {}) {
 describe("the library card", () => {
   it("marks an Urdu original title with its language for Nastaliq styling", () => {
     const html = render({
-      card: { ...card, titleOriginal: "جہاں سے قافلے چلے", titleLanguage: "ur" },
+      card: {
+        ...card,
+        titleOriginal: "جہاں سے قافلے چلے",
+        titleLanguage: "ur",
+      },
     });
     expect(html).toContain('lang="ur"');
     expect(html).toContain('dir="rtl"');
@@ -130,7 +140,9 @@ describe("the library card", () => {
     // Same reasoning as an empty track chip: the action stays visible so it
     // teaches a reader that notes exist as a thing this book can have.
     const html = render({ marks: { notes: 0, bookmarks: 0 } });
-    expect(html).toContain('<button type="button" class="pf-book-action pf-book-action--notes"');
+    expect(html).toContain(
+      '<button type="button" class="pf-book-action pf-book-action--notes"',
+    );
     expect(html).toContain("disabled");
     expect(html).not.toContain("pf-book-action__badge");
     expect(html).toContain("No notes yet for A Book");
@@ -147,10 +159,14 @@ describe("the library card", () => {
 
   it("sends the card-wide click target to the chapter list when the book has one, else the book page", () => {
     const withChapters = render();
-    expect(withChapters).toContain('class="pf-book__stretched-link" aria-hidden="true" tabindex="-1" href="/book/a-book?tab=read"');
+    expect(withChapters).toContain(
+      'class="pf-book__stretched-link" aria-hidden="true" tabindex="-1" href="/book/a-book?tab=read"',
+    );
 
     const withoutCard = render({ card: null });
-    expect(withoutCard).toContain('class="pf-book__stretched-link" aria-hidden="true" tabindex="-1" href="/book/a-book"');
+    expect(withoutCard).toContain(
+      'class="pf-book__stretched-link" aria-hidden="true" tabindex="-1" href="/book/a-book"',
+    );
   });
 
   it("reserves the progress row on a book nobody has opened", () => {
@@ -168,7 +184,9 @@ describe("the library card", () => {
   });
 
   it("draws the bar once there is progress", () => {
-    const html = render({ progress: { anchorKey: "intro", fraction: 0.5, chaptersDone: 3 } });
+    const html = render({
+      progress: { anchorKey: "intro", fraction: 0.5, chaptersDone: 3 },
+    });
     expect(html).toContain("progressbar");
     expect(html).not.toContain("Not yet started");
   });

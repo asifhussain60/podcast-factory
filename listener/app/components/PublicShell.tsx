@@ -50,7 +50,9 @@ export function PublicShell({
 }) {
   return (
     <div className="pf-shell">
-      <header className={`pf-container pf-header${hero ? " pf-header--bare" : ""}`}>
+      <header
+        className={`pf-container pf-header${hero ? " pf-header--bare" : ""}`}
+      >
         {hero ? null : <Logo size={40} />}
         {themePicker ? <ThemePicker /> : null}
       </header>

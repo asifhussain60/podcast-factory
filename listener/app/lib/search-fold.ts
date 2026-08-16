@@ -35,30 +35,30 @@ const ARABIC_TASHKEEL = /[ؐ-ًؚ-ٰٟۖ-ۭـ]/gu;
 /** Orthographic variants. Mirrors `_ARABIC_FOLD` then `_SEARCH_FOLD`. */
 const LETTER_FOLD: Record<string, string> = {
   // _ARABIC_FOLD — shared with the provenance code, which must not change.
-  "آ": "ا", // آ alef madda
-  "أ": "ا", // أ alef hamza above
-  "إ": "ا", // إ alef hamza below
-  "ٱ": "ا", // ٱ alef wasla
-  "ى": "ي", // ى alef maqsura
-  "ة": "ه", // ة teh marbuta
-  "ؤ": "و", // ؤ waw hamza
-  "ئ": "ي", // ئ yeh hamza
+  آ: "ا", // آ alef madda
+  أ: "ا", // أ alef hamza above
+  إ: "ا", // إ alef hamza below
+  ٱ: "ا", // ٱ alef wasla
+  ى: "ي", // ى alef maqsura
+  ة: "ه", // ة teh marbuta
+  ؤ: "و", // ؤ waw hamza
+  ئ: "ي", // ئ yeh hamza
   // _SEARCH_FOLD — Perso-Urdu forms, search only. See the Python for why these
   // are NOT pushed up into the shared table.
-  "ی": "ي", // ی farsi yeh
-  "ے": "ي", // ے yeh barree
-  "ک": "ك", // ک keheh
-  "گ": "ك", // گ gaf
-  "ہ": "ه", // ہ heh goal
-  "ۃ": "ه", // ۃ teh marbuta goal
-  "ھ": "ه", // ھ heh doachashmee
-  "ٹ": "ت", // ٹ tteh
-  "ڈ": "د", // ڈ ddal
-  "ڑ": "ر", // ڑ rreh
-  "ں": "ن", // ں noon ghunna
-  "ژ": "ز", // ژ
-  "پ": "ب", // پ
-  "چ": "ج", // چ
+  ی: "ي", // ی farsi yeh
+  ے: "ي", // ے yeh barree
+  ک: "ك", // ک keheh
+  گ: "ك", // گ gaf
+  ہ: "ه", // ہ heh goal
+  ۃ: "ه", // ۃ teh marbuta goal
+  ھ: "ه", // ھ heh doachashmee
+  ٹ: "ت", // ٹ tteh
+  ڈ: "د", // ڈ ddal
+  ڑ: "ر", // ڑ rreh
+  ں: "ن", // ں noon ghunna
+  ژ: "ز", // ژ
+  پ: "ب", // پ
+  چ: "ج", // چ
 };
 
 /**

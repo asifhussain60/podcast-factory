@@ -45,7 +45,13 @@ export async function action({ request, context }: Route.ActionArgs) {
     // viewer at this point is the simulated one, and an audit row saying they
     // acted on themselves would be exactly backwards.
     const by = simulatingOf(context)?.by ?? "unknown";
-    await recordEvent(env.DB, "simulate-stop", was, new Date().toISOString(), by);
+    await recordEvent(
+      env.DB,
+      "simulate-stop",
+      was,
+      new Date().toISOString(),
+      by,
+    );
   } catch {
     // Nothing to do about it here, and the cookie still clears.
   }

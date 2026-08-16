@@ -151,7 +151,10 @@ export interface Surfaces {
  * worse than no chip); locally it follows `servable()` above. Either way it is
  * the same rule the book page's tabs already apply.
  */
-export async function surfacesOf(db: D1Database, slug: string): Promise<Surfaces> {
+export async function surfacesOf(
+  db: D1Database,
+  slug: string,
+): Promise<Surfaces> {
   const row = await db
     .prepare(
       `SELECT
@@ -174,7 +177,10 @@ export async function surfacesOf(db: D1Database, slug: string): Promise<Surfaces
   };
 }
 
-export async function detailOf(db: D1Database, slug: string): Promise<UnitDetail | null> {
+export async function detailOf(
+  db: D1Database,
+  slug: string,
+): Promise<UnitDetail | null> {
   const row = await db
     .prepare(
       `SELECT d.title_arabic, d.title_language, d.blurb_html, d.edition_note, d.cover_key, d.pdf_key, d.published_at,
@@ -199,26 +205,37 @@ export async function detailOf(db: D1Database, slug: string): Promise<UnitDetail
 
   return {
     titleOriginal: row.title_arabic,
-    titleLanguage: row.title_arabic === null ? null : (row.title_language ?? "ar"),
+    titleLanguage:
+      row.title_arabic === null ? null : (row.title_language ?? "ar"),
     blurbHtml: row.blurb_html,
     editionNote: row.edition_note,
     coverKey: row.cover_key,
     pdfKey: row.pdf_key,
     pdfBytes: row.pdf_bytes,
-    pdfAvailable: row.pdf_key !== null && (row.pdf_uploaded_at !== null || devServesFromDisk()),
+    pdfAvailable:
+      row.pdf_key !== null &&
+      (row.pdf_uploaded_at !== null || devServesFromDisk()),
     publishedAt: row.published_at,
   };
 }
 
 /** The table of contents. Never carries `html` — a book's prose is megabytes. */
-export async function chaptersOf(db: D1Database, slug: string): Promise<ChapterSummary[]> {
+export async function chaptersOf(
+  db: D1Database,
+  slug: string,
+): Promise<ChapterSummary[]> {
   const { results } = await db
     .prepare(
       `SELECT anchor_key, idx, title, word_count FROM chapter
        WHERE slug = ? ORDER BY idx`,
     )
     .bind(slug)
-    .all<{ anchor_key: string; idx: number; title: string; word_count: number }>();
+    .all<{
+      anchor_key: string;
+      idx: number;
+      title: string;
+      word_count: number;
+    }>();
 
   return results.map((r) => ({
     anchorKey: r.anchor_key,
@@ -288,7 +305,8 @@ function parseNarrationCues(source: string | null): ChapterNarrationCue[] {
     return parsed
       .map((cue) => ({
         idx: Number(cue.idx),
-        blockIndex: cue.blockIndex === undefined ? undefined : Number(cue.blockIndex),
+        blockIndex:
+          cue.blockIndex === undefined ? undefined : Number(cue.blockIndex),
         startS: Number(cue.startS),
         endS: Number(cue.endS),
         text: cue.text === undefined ? undefined : String(cue.text),
@@ -311,7 +329,10 @@ function parseNarrationCues(source: string | null): ChapterNarrationCue[] {
  * state, and hiding them would misreport the shape of the book — a six-episode
  * work would look like a two-episode one.
  */
-export async function episodesOf(db: D1Database, slug: string): Promise<Episode[]> {
+export async function episodesOf(
+  db: D1Database,
+  slug: string,
+): Promise<Episode[]> {
   const { results } = await db
     .prepare(
       `SELECT e.number, e.title, e.blurb, e.style, e.audio_key, e.transcript_key,
@@ -342,7 +363,10 @@ export async function episodesOf(db: D1Database, slug: string): Promise<Episode[
 
   const covered = new Map<number, string[]>();
   for (const row of bridge.results) {
-    covered.set(row.number, [...(covered.get(row.number) ?? []), row.anchor_key]);
+    covered.set(row.number, [
+      ...(covered.get(row.number) ?? []),
+      row.anchor_key,
+    ]);
   }
 
   return results.map((r) => ({
@@ -352,7 +376,8 @@ export async function episodesOf(db: D1Database, slug: string): Promise<Episode[
     style: r.style,
     audioKey: r.audio_key,
     durationS: r.duration_s,
-    hasAudio: r.audio_key !== null && (r.uploaded_at !== null || devServesFromDisk()),
+    hasAudio:
+      r.audio_key !== null && (r.uploaded_at !== null || devServesFromDisk()),
     // Offered only once the file is actually playable, exactly as the audio is.
     // A key whose object has not been uploaded (and, locally, is not on disk
     // either) would render as a transcript panel that never fills.
@@ -376,10 +401,15 @@ export async function episodesOf(db: D1Database, slug: string): Promise<Episode[
  * code paths, and makes it impossible for an episode to be silently dropped by
  * having no session to belong to.
  */
-export async function sessionsOf(db: D1Database, slug: string): Promise<Session[]> {
+export async function sessionsOf(
+  db: D1Database,
+  slug: string,
+): Promise<Session[]> {
   const [{ results: named }, episodes] = await Promise.all([
     db
-      .prepare(`SELECT number, title FROM book_session WHERE slug = ? ORDER BY number`)
+      .prepare(
+        `SELECT number, title FROM book_session WHERE slug = ? ORDER BY number`,
+      )
       .bind(slug)
       .all<{ number: number; title: string }>(),
     episodesOf(db, slug),
@@ -392,9 +422,12 @@ export async function sessionsOf(db: D1Database, slug: string): Promise<Session[
   }));
 
   const loose = episodes.filter(
-    (e) => e.sessionNumber === null || !named.some((s) => s.number === e.sessionNumber),
+    (e) =>
+      e.sessionNumber === null ||
+      !named.some((s) => s.number === e.sessionNumber),
   );
-  if (loose.length > 0) sessions.push({ number: 0, title: "", episodes: loose });
+  if (loose.length > 0)
+    sessions.push({ number: 0, title: "", episodes: loose });
 
   return sessions.filter((s) => s.episodes.length > 0);
 }
@@ -414,7 +447,10 @@ export async function sessionsOf(db: D1Database, slug: string): Promise<Session[
  * Ordered by `deck_id` then `key`, and `key` ends in `page-NN.jpg` zero-padded by
  * pdftoppm, so lexical order is page order.
  */
-export async function deckPagesOf(db: D1Database, slug: string): Promise<Deck[]> {
+export async function deckPagesOf(
+  db: D1Database,
+  slug: string,
+): Promise<Deck[]> {
   const { results } = await db
     .prepare(
       `SELECT key, uploaded_at, deck_id, deck_title FROM media_asset
@@ -564,7 +600,8 @@ export async function libraryCards(
       deckPages: r.deck_pages,
       deckAvailable: r.deck_ready > 0,
       titleOriginal: r.title_arabic,
-      titleLanguage: r.title_arabic === null ? null : (r.title_language ?? "ar"),
+      titleLanguage:
+        r.title_arabic === null ? null : (r.title_language ?? "ar"),
       studyTrack: r.study_track,
     });
   }
@@ -648,7 +685,10 @@ export interface MediaRow {
  * being self-describing would silently turn a URL segment into an authorisation
  * claim, which is the shape of every path-traversal bug.
  */
-export async function mediaByKey(db: D1Database, key: string): Promise<MediaRow | null> {
+export async function mediaByKey(
+  db: D1Database,
+  key: string,
+): Promise<MediaRow | null> {
   const row = await db
     .prepare(
       `SELECT key, slug, content_type, bytes, uploaded_at FROM media_asset WHERE key = ? LIMIT 1`,

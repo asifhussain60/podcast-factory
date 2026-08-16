@@ -1,4 +1,7 @@
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 
 import { Icon } from "~/components/Icon";
@@ -39,7 +42,13 @@ export interface ShelfDeck {
  * three would load four decks' images to show one. Swapping `pages` on the single
  * instance is why `DeckViewer` resets its page index — see the effect there.
  */
-export function DeckShelf({ decks, arrowKeys = false }: { decks: ShelfDeck[]; arrowKeys?: boolean }) {
+export function DeckShelf({
+  decks,
+  arrowKeys = false,
+}: {
+  decks: ShelfDeck[];
+  arrowKeys?: boolean;
+}) {
   const [chosen, setChosen] = useState(0);
   const deck = decks[chosen] ?? decks[0];
 
@@ -92,7 +101,8 @@ export function DeckViewer({
     if (!arrowKeys) return;
 
     function onKey(e: KeyboardEvent) {
-      if (e.key === "ArrowRight") setIndex((i) => Math.min(pages.length - 1, i + 1));
+      if (e.key === "ArrowRight")
+        setIndex((i) => Math.min(pages.length - 1, i + 1));
       if (e.key === "ArrowLeft") setIndex((i) => Math.max(0, i - 1));
     }
     window.addEventListener("keydown", onKey);
@@ -152,7 +162,11 @@ export function DeckViewer({
               aria-current={i === index ? "true" : undefined}
               className="pf-rail__thumb"
             >
-              <img src={`/media/${key}`} alt={`Go to slide ${i + 1}`} loading="lazy" />
+              <img
+                src={`/media/${key}`}
+                alt={`Go to slide ${i + 1}`}
+                loading="lazy"
+              />
             </button>
           </li>
         ))}

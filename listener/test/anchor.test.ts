@@ -58,7 +58,11 @@ describe("resolving an anchor", () => {
     // The same sentence twice — which this corpus does, repeatedly, with speech
     // tags. Without the prefix the two are indistinguishable and the anchor must
     // refuse; with it, only one is preceded by "the ".
-    const blocks = ["opening", "and second here once", "the second here and more"];
+    const blocks = [
+      "opening",
+      "and second here once",
+      "the second here and more",
+    ];
     expect(resolveAnchor(anchor({ blockIndex: 9 }), blocks)).toEqual({
       status: "moved",
       blockIndex: 2,
@@ -68,8 +72,14 @@ describe("resolving an anchor", () => {
   });
 
   it("refuses when two passages match and the prefix cannot separate them", () => {
-    const blocks = ["opening", "the second here once", "the second here and more"];
-    expect(resolveAnchor(anchor({ blockIndex: 9 }), blocks)).toEqual({ status: "orphaned" });
+    const blocks = [
+      "opening",
+      "the second here once",
+      "the second here and more",
+    ];
+    expect(resolveAnchor(anchor({ blockIndex: 9 }), blocks)).toEqual({
+      status: "orphaned",
+    });
   });
 
   it("reports orphaned when the passage is gone", () => {
@@ -81,7 +91,9 @@ describe("resolving an anchor", () => {
     // A re-compose that DELETED chapters leaves anchors pointing past the last
     // block. Indexing past the end of an array is `undefined`, and reading
     // `.length` of it is the crash this guards.
-    expect(resolveAnchor(anchor({ blockIndex: 99 }), ["only one block"])).toEqual({
+    expect(
+      resolveAnchor(anchor({ blockIndex: 99 }), ["only one block"]),
+    ).toEqual({
       status: "orphaned",
     });
   });
@@ -89,7 +101,9 @@ describe("resolving an anchor", () => {
   it("treats an empty quote as unresolvable rather than matching everything", () => {
     // `indexOf("")` is 0 for every string. Without the guard, an annotation with
     // an empty quote would silently anchor to the first character of the chapter.
-    expect(resolveAnchor(anchor({ quote: "   " }), ["anything at all"])).toEqual({
+    expect(
+      resolveAnchor(anchor({ quote: "   " }), ["anything at all"]),
+    ).toEqual({
       status: "orphaned",
     });
   });
@@ -134,19 +148,27 @@ describe("resolving a companion passage, which carries only its quote", () => {
     // is the only honest outcome — an explanation attached to the wrong passage
     // would be silent.
     const blocks = ["the same line here", "and the same line here again"];
-    expect(resolveAnchor(passage("the same line here"), blocks)).toEqual({ status: "orphaned" });
+    expect(resolveAnchor(passage("the same line here"), blocks)).toEqual({
+      status: "orphaned",
+    });
   });
 
   it("reports orphaned when the chapter was re-composed out from under it", () => {
-    expect(resolveAnchor(passage("a sentence long since rewritten"), ["nothing like it"])).toEqual({
+    expect(
+      resolveAnchor(passage("a sentence long since rewritten"), [
+        "nothing like it",
+      ]),
+    ).toEqual({
       status: "orphaned",
     });
   });
 
   it("matches across the whitespace the markdown wrapped with", () => {
-    expect(resolveAnchor(passage("the second here"), ["the   second\n  here and more"]).status).toBe(
-      "moved",
-    );
+    expect(
+      resolveAnchor(passage("the second here"), [
+        "the   second\n  here and more",
+      ]).status,
+    ).toBe("moved");
   });
 });
 

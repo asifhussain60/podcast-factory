@@ -107,11 +107,13 @@ function openAt(version: number | undefined): Promise<IDBDatabase> {
       // is nominally current but missing a store. One idempotent block serves
       // all three; a ladder of `if (oldVersion < n)` steps serves only the
       // paths somebody thought of.
-      if (!db.objectStoreNames.contains(META)) db.createObjectStore(META, { keyPath: "src" });
+      if (!db.objectStoreNames.contains(META))
+        db.createObjectStore(META, { keyPath: "src" });
       if (!db.objectStoreNames.contains(BLOBS)) db.createObjectStore(BLOBS);
       if (!db.objectStoreNames.contains(TEXT_META))
         db.createObjectStore(TEXT_META, { keyPath: "slug" });
-      if (!db.objectStoreNames.contains(TEXT_BODY)) db.createObjectStore(TEXT_BODY);
+      if (!db.objectStoreNames.contains(TEXT_BODY))
+        db.createObjectStore(TEXT_BODY);
     };
 
     request.onsuccess = () => {
@@ -133,7 +135,8 @@ function openAt(version: number | undefined): Promise<IDBDatabase> {
       resolve(db);
     };
 
-    request.onerror = () => reject(request.error ?? new Error("IndexedDB refused to open"));
+    request.onerror = () =>
+      reject(request.error ?? new Error("IndexedDB refused to open"));
 
     // Something else is still holding the old version and did not respond to
     // `versionchange`. Fail rather than hang: the caller treats it as "no
@@ -168,7 +171,9 @@ function idb(): Promise<IDBDatabase> {
 
   connection = openAt(undefined)
     .then((db) => {
-      const complete = STORES.every((name) => db.objectStoreNames.contains(name));
+      const complete = STORES.every((name) =>
+        db.objectStoreNames.contains(name),
+      );
       if (complete && db.version >= DB_VERSION) return db;
 
       // Never below what is on disk, and at least one higher when a store is
@@ -200,7 +205,8 @@ function tx<T>(
         // durable until the transaction commits, and resolving early would let a
         // caller report "downloaded" for bytes that are still in flight.
         t.oncomplete = () => resolve(result);
-        t.onerror = () => reject(t.error ?? new Error("offline store write failed"));
+        t.onerror = () =>
+          reject(t.error ?? new Error("offline store write failed"));
         t.onabort = () => reject(t.error ?? new Error("offline store aborted"));
         void Promise.resolve(body(t)).then((value) => {
           result = value;
@@ -213,7 +219,8 @@ function tx<T>(
 function done<T>(request: IDBRequest<T>): Promise<T> {
   return new Promise((resolve, reject) => {
     request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error ?? new Error("offline store read failed"));
+    request.onerror = () =>
+      reject(request.error ?? new Error("offline store read failed"));
   });
 }
 
@@ -281,11 +288,16 @@ export async function hydrate(): Promise<void> {
          TransactionInactiveError. Chrome is forgiving about this and Safari is
          not, which on an iPhone is the difference between the downloads being
          there and the page saying there are none. */
-      const m = done(t.objectStore(META).getAll() as IDBRequest<DownloadMeta[]>);
+      const m = done(
+        t.objectStore(META).getAll() as IDBRequest<DownloadMeta[]>,
+      );
       const b = done(t.objectStore(BLOBS).getAll() as IDBRequest<Blob[]>);
-      const keys = done(t.objectStore(BLOBS).getAllKeys() as IDBRequest<IDBValidKey[]>);
+      const keys = done(
+        t.objectStore(BLOBS).getAllKeys() as IDBRequest<IDBValidKey[]>,
+      );
       return Promise.all([m, b, keys]).then(
-        ([mv, bv, kv]) => [mv, new Map(kv.map((k, i) => [String(k), bv[i]]))] as const,
+        ([mv, bv, kv]) =>
+          [mv, new Map(kv.map((k, i) => [String(k), bv[i]]))] as const,
       );
     });
 
@@ -370,7 +382,10 @@ export async function download(
       pending = [];
       pendingBytes = 0;
     }
-    onProgress?.({ loaded, total: total === null || !Number.isFinite(total) ? null : total });
+    onProgress?.({
+      loaded,
+      total: total === null || !Number.isFinite(total) ? null : total,
+    });
   }
   if (pending.length > 0) parts.push(new Blob(pending));
 
@@ -448,7 +463,9 @@ export function remove(src: string): Promise<void> {
 
 /** Remove every episode of one book. */
 export function removeBook(slug: string): Promise<void> {
-  return forget(index.filter((item) => item.slug === slug).map((item) => item.src));
+  return forget(
+    index.filter((item) => item.slug === slug).map((item) => item.src),
+  );
 }
 
 /** Remove everything — the audio AND the text. "Everything" has to mean it. */
@@ -532,7 +549,9 @@ export async function downloadText(slug: string): Promise<void> {
     t.objectStore(TEXT_META).put(meta);
   });
 
-  texts = [meta, ...texts.filter((t) => t.slug !== slug)].sort((a, b) => b.savedAt - a.savedAt);
+  texts = [meta, ...texts.filter((t) => t.slug !== slug)].sort(
+    (a, b) => b.savedAt - a.savedAt,
+  );
   announce();
 }
 
@@ -546,7 +565,11 @@ export async function downloadText(slug: string): Promise<void> {
 export async function readBook(slug: string): Promise<StoredChapter[] | null> {
   try {
     const chapters = await tx([TEXT_BODY], "readonly", (t) =>
-      done(t.objectStore(TEXT_BODY).get(slug) as IDBRequest<StoredChapter[] | undefined>),
+      done(
+        t.objectStore(TEXT_BODY).get(slug) as IDBRequest<
+          StoredChapter[] | undefined
+        >,
+      ),
     );
     return chapters ?? null;
   } catch {
@@ -621,7 +644,10 @@ export function sourcesToPurge(
 }
 
 /** The same decision for downloaded TEXT, which is keyed by slug already. */
-export function slugsToPurge(held: readonly TextMeta[], allowed: string[] | null): string[] {
+export function slugsToPurge(
+  held: readonly TextMeta[],
+  allowed: string[] | null,
+): string[] {
   if (allowed === null) return [];
   const keep = new Set(allowed);
   return held.filter((item) => !keep.has(item.slug)).map((item) => item.slug);

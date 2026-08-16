@@ -30,7 +30,12 @@
 import { execFileSync } from "node:child_process";
 import { chromium } from "playwright";
 
-import { BOOK_ROUTES, OPTIONAL_ROUTES, STATIC_ROUTES, WIDTHS } from "./routes.mjs";
+import {
+  BOOK_ROUTES,
+  OPTIONAL_ROUTES,
+  STATIC_ROUTES,
+  WIDTHS,
+} from "./routes.mjs";
 import { fill, setUp, tearDown } from "./fixtures.mjs";
 
 const BASE = process.env.LISTENER_URL ?? "http://localhost:5273";
@@ -59,7 +64,9 @@ const { book, chapter, episode, cookies } = setUp();
 
 if (book === null) {
   console.log("  !     no published book with chapters in the local database.");
-  console.log("        The book, reader and slides routes are SKIPPED — not passed.");
+  console.log(
+    "        The book, reader and slides routes are SKIPPED — not passed.",
+  );
 } else {
   console.log(`  ok    using "${book.title}" (${book.slug})`);
 }
@@ -71,7 +78,8 @@ const routes = [
     ? []
     : OPTIONAL_ROUTES.filter(
         (r) =>
-          (r.needs !== "deck" || book.hasDeck) && (r.needs !== "episode" || episode !== null),
+          (r.needs !== "deck" || book.hasDeck) &&
+          (r.needs !== "episode" || episode !== null),
       )),
 ];
 
@@ -103,10 +111,13 @@ try {
         // every non-2xx navigation as "Failed to load resource". Counting that
         // would make every access assertion fail for succeeding, which is how a
         // gate that works ends up looking broken.
-        if (route.expect !== 200 && /Failed to load resource/.test(text)) return;
+        if (route.expect !== 200 && /Failed to load resource/.test(text))
+          return;
         problems.push(`console: ${text.slice(0, 200)}`);
       });
-      page.on("pageerror", (e) => problems.push(`uncaught: ${String(e).slice(0, 200)}`));
+      page.on("pageerror", (e) =>
+        problems.push(`uncaught: ${String(e).slice(0, 200)}`),
+      );
       page.on("requestfailed", (r) => {
         // A navigation aborted by a redirect we asked not to follow is not a
         // failed request; it is the thing being measured.
@@ -140,13 +151,18 @@ try {
       const asked = new URL(url).pathname;
 
       if (route.expect === 302) {
-        if (landed === asked) fail(label, `expected a redirect away from ${asked}, stayed put`);
-        else if (!landed.startsWith("/sign-in")) fail(label, `redirected to ${landed}, wanted /sign-in`);
+        if (landed === asked)
+          fail(label, `expected a redirect away from ${asked}, stayed put`);
+        else if (!landed.startsWith("/sign-in"))
+          fail(label, `redirected to ${landed}, wanted /sign-in`);
         else pass(`${label} → ${landed}`);
       } else if (status !== route.expect) {
         fail(label, `wanted ${route.expect}`);
       } else if (landed !== asked && route.expect === 200) {
-        fail(label, `asked for ${asked} and landed on ${landed} — an undeclared redirect`);
+        fail(
+          label,
+          `asked for ${asked} and landed on ${landed} — an undeclared redirect`,
+        );
       } else {
         pass(label);
       }
@@ -185,7 +201,8 @@ try {
            * there would sit on the first word of every line it passed. It is
            * 28×50 at that width — past the 24px WCAG 2.2 AA floor — and 44×142
            * everywhere there is a margin to put it in. */
-          const THUMB = ".pf-tool, .pf-toolbar__home, .pf-stepper__step, .pf-selbar__action, .pf-selbar__colour, .pf-mark__remove";
+          const THUMB =
+            ".pf-tool, .pf-toolbar__home, .pf-stepper__step, .pf-selbar__action, .pf-selbar__colour, .pf-mark__remove";
 
           const small = [];
           for (const el of document.querySelectorAll(
@@ -211,10 +228,16 @@ try {
         });
 
         if (layout.overflow > 1) {
-          fail(`${route.label} @ ${width.name}`, `page scrolls sideways by ${layout.overflow}px`);
+          fail(
+            `${route.label} @ ${width.name}`,
+            `page scrolls sideways by ${layout.overflow}px`,
+          );
         }
         if (layout.images.length > 0) {
-          fail(`${route.label} @ ${width.name}`, `broken images: ${layout.images.join(", ")}`);
+          fail(
+            `${route.label} @ ${width.name}`,
+            `broken images: ${layout.images.join(", ")}`,
+          );
         }
         // Touch targets are only a requirement where a finger is the pointer.
         if (width.width <= 768 && layout.small.length > 0) {
@@ -225,7 +248,8 @@ try {
         }
       }
 
-      for (const problem of problems) fail(`${route.label} @ ${width.name}`, problem);
+      for (const problem of problems)
+        fail(`${route.label} @ ${width.name}`, problem);
 
       await context.close();
     }

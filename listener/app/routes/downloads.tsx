@@ -48,7 +48,10 @@ import { session } from "~/middleware/session";
 export function meta(): Route.MetaDescriptors {
   return [
     { title: "Downloads — Podcast Factory" },
-    { name: "description", content: "Episodes kept on this device for listening offline." },
+    {
+      name: "description",
+      content: "Episodes kept on this device for listening offline.",
+    },
   ];
 }
 
@@ -61,11 +64,7 @@ export function loader({ context }: Route.LoaderArgs) {
 const NONE: DownloadMeta[] = [];
 
 function useDownloads(): DownloadMeta[] {
-  return useSyncExternalStore(
-    subscribe,
-    downloads,
-    () => NONE,
-  );
+  return useSyncExternalStore(subscribe, downloads, () => NONE);
 }
 
 const NO_TEXT: TextMeta[] = [];
@@ -92,13 +91,21 @@ export default function Downloads({ loaderData }: Route.ComponentProps) {
   for (const item of kept) {
     const found = grouped.get(item.slug);
     if (found === undefined)
-      grouped.set(item.slug, { bookTitle: item.bookTitle, episodes: [item], text: null });
+      grouped.set(item.slug, {
+        bookTitle: item.bookTitle,
+        episodes: [item],
+        text: null,
+      });
     else found.episodes.push(item);
   }
   for (const item of texts) {
     const found = grouped.get(item.slug);
     if (found === undefined)
-      grouped.set(item.slug, { bookTitle: item.bookTitle, episodes: [], text: item });
+      grouped.set(item.slug, {
+        bookTitle: item.bookTitle,
+        episodes: [],
+        text: item,
+      });
     else found.text = item;
   }
 
@@ -117,10 +124,14 @@ export default function Downloads({ loaderData }: Route.ComponentProps) {
             ? "What you keep here works with no signal. Nothing is kept yet."
             : `${[
                 kept.length > 0 ? count(kept.length, "episode") : null,
-                texts.length > 0 ? `${count(texts.length, "book")} to read` : null,
+                texts.length > 0
+                  ? `${count(texts.length, "book")} to read`
+                  : null,
               ]
                 .filter(Boolean)
-                .join(" and ")} on this device, taking ${megabytes(bytes)}. These work with no signal.`}
+                .join(
+                  " and ",
+                )} on this device, taking ${megabytes(bytes)}. These work with no signal.`}
         </p>
 
         {nothing ? null : (
@@ -139,10 +150,11 @@ export default function Downloads({ loaderData }: Route.ComponentProps) {
 
       {nothing ? (
         <EmptyState>
-          Open a book and press <strong className="pf-strong">Download</strong> beside an
-          episode, or <strong className="pf-strong">Read Offline</strong> above its
-          chapters. What you keep stays here until you remove it, or until the book
-          stops being shared with you.
+          Open a book and press <strong className="pf-strong">Download</strong>{" "}
+          beside an episode, or{" "}
+          <strong className="pf-strong">Read Offline</strong> above its
+          chapters. What you keep stays here until you remove it, or until the
+          book stops being shared with you.
         </EmptyState>
       ) : (
         [...grouped].map(([slug, book]) => (
@@ -155,8 +167,12 @@ export default function Downloads({ loaderData }: Route.ComponentProps) {
               </h2>
               <p className="pf-section__count">
                 {[
-                  book.episodes.length > 0 ? count(book.episodes.length, "episode") : null,
-                  book.text !== null ? count(book.text.chapters, "chapter") : null,
+                  book.episodes.length > 0
+                    ? count(book.episodes.length, "episode")
+                    : null,
+                  book.text !== null
+                    ? count(book.text.chapters, "chapter")
+                    : null,
                 ]
                   .filter(Boolean)
                   .join(" · ")}{" "}
@@ -208,83 +224,88 @@ export default function Downloads({ loaderData }: Route.ComponentProps) {
                 same shape — so a downloaded episode does not become a different
                 looking thing by being downloaded. */}
             {book.episodes.length === 0 ? null : (
-            <ol className="pf-rows pf-rows--striped">
-              {book.episodes
-                .slice()
-                .sort((a, b) => a.number - b.number)
-                .map((episode) => {
-                  const isCurrent = player.current?.src === episode.src;
-                  const isPlaying = isCurrent && player.playing;
-                  const label = isPlaying
-                    ? `Pause ${episode.title}`
-                    : isCurrent
-                      ? `Resume ${episode.title}`
-                      : `Play ${episode.title}`;
+              <ol className="pf-rows pf-rows--striped">
+                {book.episodes
+                  .slice()
+                  .sort((a, b) => a.number - b.number)
+                  .map((episode) => {
+                    const isCurrent = player.current?.src === episode.src;
+                    const isPlaying = isCurrent && player.playing;
+                    const label = isPlaying
+                      ? `Pause ${episode.title}`
+                      : isCurrent
+                        ? `Resume ${episode.title}`
+                        : `Play ${episode.title}`;
 
-                  return (
-                    <li key={episode.src} className="pf-row">
-                      <span className="pf-row__mark pf-row__badge" aria-hidden="true">
-                        <Icon icon={faMicrophoneLines} />
-                      </span>
+                    return (
+                      <li key={episode.src} className="pf-row">
+                        <span
+                          className="pf-row__mark pf-row__badge"
+                          aria-hidden="true"
+                        >
+                          <Icon icon={faMicrophoneLines} />
+                        </span>
 
-                      <div className="pf-row__main">
-                        <p>{episode.title}</p>
-                      </div>
+                        <div className="pf-row__main">
+                          <p>{episode.title}</p>
+                        </div>
 
-                      <span className="pf-track__facts">
-                        <span className="pf-track__fact">{megabytes(episode.bytes)}</span>
-                        {episode.durationS ? (
-                          <span className="pf-track__fact pf-track__fact--time">
-                            {clock(episode.durationS)}
+                        <span className="pf-track__facts">
+                          <span className="pf-track__fact">
+                            {megabytes(episode.bytes)}
                           </span>
-                        ) : null}
-                      </span>
+                          {episode.durationS ? (
+                            <span className="pf-track__fact pf-track__fact--time">
+                              {clock(episode.durationS)}
+                            </span>
+                          ) : null}
+                        </span>
 
-                      <div className="pf-row__actions">
-                        {/* A bin, not the book page's check-that-becomes-a-bin.
+                        <div className="pf-row__actions">
+                          {/* A bin, not the book page's check-that-becomes-a-bin.
                             Everything on THIS page is on the device, so a tick
                             states the obvious and the only thing worth offering
                             is the way to let it go. */}
-                        <button
-                          type="button"
-                          onClick={() => void remove(episode.src)}
-                          className="pf-download"
-                          aria-label={`Remove the download of ${episode.title}`}
-                          title="Remove from this device"
-                        >
-                          <Icon icon={faTrash} />
-                        </button>
+                          <button
+                            type="button"
+                            onClick={() => void remove(episode.src)}
+                            className="pf-download"
+                            aria-label={`Remove the download of ${episode.title}`}
+                            title="Remove from this device"
+                          >
+                            <Icon icon={faTrash} />
+                          </button>
 
-                        <button
-                          type="button"
-                          onClick={() =>
-                            isCurrent
-                              ? player.toggle()
-                              : player.play({
-                                  slug: episode.slug,
-                                  bookTitle: episode.bookTitle,
-                                  number: episode.number,
-                                  title: episode.title,
-                                  src: episode.src,
-                                  durationS: episode.durationS,
-                                  // Null, not the media URL. Offline that URL is
-                                  // unreachable, and for a downloaded episode the
-                                  // player reads the words stored beside the audio.
-                                  transcriptSrc: null,
-                                })
-                          }
-                          aria-pressed={isCurrent}
-                          aria-label={label}
-                          title={label}
-                          className={`pf-track__play${isPlaying ? " is-playing" : ""}`}
-                        >
-                          <Icon icon={isPlaying ? faPause : faPlay} />
-                        </button>
-                      </div>
-                    </li>
-                  );
-                })}
-            </ol>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              isCurrent
+                                ? player.toggle()
+                                : player.play({
+                                    slug: episode.slug,
+                                    bookTitle: episode.bookTitle,
+                                    number: episode.number,
+                                    title: episode.title,
+                                    src: episode.src,
+                                    durationS: episode.durationS,
+                                    // Null, not the media URL. Offline that URL is
+                                    // unreachable, and for a downloaded episode the
+                                    // player reads the words stored beside the audio.
+                                    transcriptSrc: null,
+                                  })
+                            }
+                            aria-pressed={isCurrent}
+                            aria-label={label}
+                            title={label}
+                            className={`pf-track__play${isPlaying ? " is-playing" : ""}`}
+                          >
+                            <Icon icon={isPlaying ? faPause : faPlay} />
+                          </button>
+                        </div>
+                      </li>
+                    );
+                  })}
+              </ol>
             )}
           </section>
         ))

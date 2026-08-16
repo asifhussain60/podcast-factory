@@ -32,7 +32,11 @@ export async function loader({ params, context }: Route.LoaderArgs) {
   // Only decks with at least one uploaded page. A deck whose pages are on disk
   // but not in R2 is dropped whole rather than shown with gaps in it.
   const shelf = decks
-    .map((d) => ({ id: d.id, title: d.title, pages: d.pages.filter((p) => p.available).map((p) => p.key) }))
+    .map((d) => ({
+      id: d.id,
+      title: d.title,
+      pages: d.pages.filter((p) => p.available).map((p) => p.key),
+    }))
     .filter((d) => d.pages.length > 0);
 
   // No deck, or one that exists on disk but has not been uploaded — both are a

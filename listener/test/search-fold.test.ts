@@ -19,7 +19,10 @@ import { snippetOf } from "../app/lib/search";
  */
 
 const FIXTURES = JSON.parse(
-  readFileSync(new URL("./fixtures/search-fold.fixtures.json", import.meta.url), "utf8"),
+  readFileSync(
+    new URL("./fixtures/search-fold.fixtures.json", import.meta.url),
+    "utf8",
+  ),
 ) as { cases: { in: string; out: string }[] };
 
 describe("fold agrees with the publisher", () => {
@@ -94,7 +97,9 @@ describe("reading what was typed", () => {
   });
 
   it("aims at one column when the scope says so", () => {
-    expect(matchExpression(["nur"], "arabic_fold")).toBe('arabic_fold : ("nur"*)');
+    expect(matchExpression(["nur"], "arabic_fold")).toBe(
+      'arabic_fold : ("nur"*)',
+    );
   });
 
   it("has nothing to ask when there are no terms", () => {
@@ -106,7 +111,9 @@ describe("a snippet marks the word, not the punctuation around it", () => {
   it("leaves a trailing comma outside the highlight", () => {
     const segments = snippetOf("the anger of Allah, they think", ["allah"]);
     expect(segments.find((s) => s.hit)?.text).toBe("Allah");
-    expect(segments.map((s) => s.text).join("")).toBe("the anger of Allah, they think");
+    expect(segments.map((s) => s.text).join("")).toBe(
+      "the anger of Allah, they think",
+    );
   });
 
   it("keeps an apostrophe inside a word marked with it", () => {
@@ -118,12 +125,18 @@ describe("a snippet marks the word, not the punctuation around it", () => {
 
   it("marks several hits in one passage without swallowing the words between", () => {
     const segments = snippetOf("Allah and Allah was pleased", ["allah"]);
-    expect(segments.filter((s) => s.hit).map((s) => s.text)).toEqual(["Allah", "Allah"]);
-    expect(segments.map((s) => s.text).join("")).toBe("Allah and Allah was pleased");
+    expect(segments.filter((s) => s.hit).map((s) => s.text)).toEqual([
+      "Allah",
+      "Allah",
+    ]);
+    expect(segments.map((s) => s.text).join("")).toBe(
+      "Allah and Allah was pleased",
+    );
   });
 
   it("never loses or reorders a character of the passage", () => {
-    const source = "He said: Ubayd Allah (little servant of Allah), son of Abd Allah.";
+    const source =
+      "He said: Ubayd Allah (little servant of Allah), son of Abd Allah.";
     const segments = snippetOf(source, ["allah"]);
     expect(segments.map((s) => s.text).join("")).toBe(source);
   });
@@ -139,6 +152,10 @@ describe("marking never damages Arabic", () => {
 
   it("returns the passage unchanged, mark or no mark", () => {
     const source = "بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ";
-    expect(snippetOf(source, ["الرحمن"]).map((s) => s.text).join("")).toBe(source);
+    expect(
+      snippetOf(source, ["الرحمن"])
+        .map((s) => s.text)
+        .join(""),
+    ).toBe(source);
   });
 });

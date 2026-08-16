@@ -224,7 +224,9 @@ export async function action({ request, context }: Route.ActionArgs) {
       await recordEvent(env.DB, "simulate-start", target, now, actor);
       // To the library, because that is what signing in as them would show.
       return redirect("/", {
-        headers: { "Set-Cookie": startSimulating(target, new URL(request.url)) },
+        headers: {
+          "Set-Cookie": startSimulating(target, new URL(request.url)),
+        },
       });
     }
 
@@ -277,7 +279,9 @@ export async function action({ request, context }: Route.ActionArgs) {
         // `library` is deliberately not accepted here. It has its own toggle,
         // it is the widest thing this application can give, and a checkbox is
         // the one control where it could ride along unnoticed with four others.
-        .filter(([type, id]) => (type === "unit" || type === "work") && Boolean(id));
+        .filter(
+          ([type, id]) => (type === "unit" || type === "work") && Boolean(id),
+        );
 
       for (const [type, id] of scopes) {
         await grant(env.DB, email, type as "unit" | "work", id, actor, now);
@@ -290,8 +294,21 @@ export async function action({ request, context }: Route.ActionArgs) {
   }
 }
 
-export default function AdminPeople({ loaderData, actionData }: Route.ComponentProps) {
-  const { people, total, everyone, catalog, person, search, filter, page, pageSize } = loaderData;
+export default function AdminPeople({
+  loaderData,
+  actionData,
+}: Route.ComponentProps) {
+  const {
+    people,
+    total,
+    everyone,
+    catalog,
+    person,
+    search,
+    filter,
+    page,
+    pageSize,
+  } = loaderData;
   const granted = new Set(loaderData.granted);
   const [params] = useSearchParams();
 
@@ -301,7 +318,9 @@ export default function AdminPeople({ loaderData, actionData }: Route.ComponentP
   // two queries for one set of counts is how a chip and a tile come to disagree.
   // The layout is always matched — this route is one of its children — so the
   // lookup cannot miss.
-  const { tallies } = useRouteLoaderData<typeof adminLoader>("routes/_authed._admin")!;
+  const { tallies } = useRouteLoaderData<typeof adminLoader>(
+    "routes/_authed._admin",
+  )!;
 
   /** Keep the current selection and filter while changing one thing. */
   const withParam = (key: string, value: string) => {
@@ -482,7 +501,12 @@ function PeopleTable({
             </thead>
             <tbody>
               {people.map((p) => (
-                <PersonRow key={p.email} person={p} isSelf={p.email === self} withParam={withParam} />
+                <PersonRow
+                  key={p.email}
+                  person={p}
+                  isSelf={p.email === self}
+                  withParam={withParam}
+                />
               ))}
             </tbody>
           </table>
@@ -508,7 +532,11 @@ function PeopleTable({
                   {n + 1}
                 </span>
               ) : (
-                <Link key={n} to={withParam("page", String(n))} className="pf-pagenum">
+                <Link
+                  key={n}
+                  to={withParam("page", String(n))}
+                  className="pf-pagenum"
+                >
                   {n + 1}
                 </Link>
               ),
@@ -516,7 +544,8 @@ function PeopleTable({
           </span>
 
           <span className="pf-pager__where">
-            {page * pageSize + 1}–{Math.min(total, (page + 1) * pageSize)} of {total}
+            {page * pageSize + 1}–{Math.min(total, (page + 1) * pageSize)} of{" "}
+            {total}
           </span>
 
           <Link
@@ -581,7 +610,10 @@ function PersonRow({
               This cannot be undone — to stop them signing in but keep what they
               have, revoke them instead.
             </span>
-            <button type="submit" className="pf-button pf-button--sm pf-button--danger">
+            <button
+              type="submit"
+              className="pf-button pf-button--sm pf-button--danger"
+            >
               Delete
             </button>
             <button
@@ -601,7 +633,11 @@ function PersonRow({
     <tr>
       <td data-label="Person" className="pf-table__who">
         {mode === "editing" ? (
-          <fetcher.Form method="post" className="pf-rowedit" onSubmit={() => setMode("idle")}>
+          <fetcher.Form
+            method="post"
+            className="pf-rowedit"
+            onSubmit={() => setMode("idle")}
+          >
             <input type="hidden" name="intent" value="rename" />
             <input type="hidden" name="email" value={p.email} />
             <label htmlFor={`name-${p.email}`} className="sr-only">
@@ -618,7 +654,11 @@ function PersonRow({
               placeholder="Their name"
               className="pf-input pf-input--sm"
             />
-            <button type="submit" aria-label="Save the name" className="pf-iconbtn">
+            <button
+              type="submit"
+              aria-label="Save the name"
+              className="pf-iconbtn"
+            >
               <Icon icon={faCheck} />
             </button>
             <button
@@ -658,7 +698,11 @@ function PersonRow({
       </td>
 
       <td data-label="Signed in" className="pf-table__tight">
-        {p.lastSeenAt === null ? <span className="pf-quiet">Never</span> : when(p.lastSeenAt)}
+        {p.lastSeenAt === null ? (
+          <span className="pf-quiet">Never</span>
+        ) : (
+          when(p.lastSeenAt)
+        )}
       </td>
 
       <td data-label="Standing" className="pf-table__tight">
@@ -704,7 +748,10 @@ function PersonRow({
  */
 function pageWindow(page: number, pages: number): number[] {
   const span = Math.min(7, pages);
-  const start = Math.max(0, Math.min(page - Math.floor(span / 2), pages - span));
+  const start = Math.max(
+    0,
+    Math.min(page - Math.floor(span / 2), pages - span),
+  );
   return Array.from({ length: span }, (_, i) => start + i);
 }
 
@@ -717,9 +764,12 @@ function pageWindow(page: number, pages: number): number[] {
  * not turned up yet holds no books answers a question nobody asked.
  */
 function Standing({ person: p }: { person: Person }) {
-  if (p.revokedAt !== null) return <span className="pf-pill pf-pill--danger">Revoked</span>;
-  if (p.redeemedAt === null) return <span className="pf-pill pf-pill--warn">Invited</span>;
-  if (p.grantCount === 0) return <span className="pf-pill pf-pill--warn">No access</span>;
+  if (p.revokedAt !== null)
+    return <span className="pf-pill pf-pill--danger">Revoked</span>;
+  if (p.redeemedAt === null)
+    return <span className="pf-pill pf-pill--warn">Invited</span>;
+  if (p.grantCount === 0)
+    return <span className="pf-pill pf-pill--warn">No access</span>;
   return <span className="pf-pill pf-pill--ok">Signed in</span>;
 }
 
@@ -737,7 +787,11 @@ function Standing({ person: p }: { person: Person }) {
  * they remain true rather than lasting one render: the `+tag` warning is derived
  * from the stored address, and the reminder to send the link is a button.
  */
-function InviteForm({ actionData }: { actionData: Route.ComponentProps["actionData"] }) {
+function InviteForm({
+  actionData,
+}: {
+  actionData: Route.ComponentProps["actionData"];
+}) {
   return (
     <div className="pf-panel">
       <div className="pf-panel__head">
@@ -754,9 +808,18 @@ function InviteForm({ actionData }: { actionData: Route.ComponentProps["actionDa
               anyone types, so a half-filled form stops saying what its fields
               are — and assistive technology never had the label at all. */}
           <Field name="name" label="Name" autoComplete="name" />
-          <Field name="email" label="Email address" type="email" required autoComplete="email" />
+          <Field
+            name="email"
+            label="Email address"
+            type="email"
+            required
+            autoComplete="email"
+          />
 
-          <button type="submit" className="pf-button pf-button--primary pf-button--block">
+          <button
+            type="submit"
+            className="pf-button pf-button--primary pf-button--block"
+          >
             Add to the invitation list
           </button>
         </Form>
@@ -770,8 +833,8 @@ function InviteForm({ actionData }: { actionData: Route.ComponentProps["actionDa
             application, and there never was a transport. Saving opens the new
             person's page, where the message to send them is a button. */}
         <p className="pf-note--quiet">
-          Nothing is emailed. Saving opens their page, where you can give them books and copy a
-          message to send.
+          Nothing is emailed. Saving opens their page, where you can give them
+          books and copy a message to send.
         </p>
       </div>
     </div>
@@ -857,7 +920,9 @@ function PersonDetail({
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
 
   const works = catalog.filter((u) => u.kind === "work");
-  const standalone = catalog.filter((u) => u.kind === "book" && u.workSlug === null);
+  const standalone = catalog.filter(
+    (u) => u.kind === "book" && u.workSlug === null,
+  );
   const wholeLibrary = granted.has("library:*");
   const searching = find.trim() !== "";
 
@@ -868,7 +933,8 @@ function PersonDetail({
   useEffect(() => setPicked(new Set()), [grantedKey]);
 
   const matches = (u: ContentUnit) =>
-    find.trim() === "" || u.title.toLowerCase().includes(find.trim().toLowerCase());
+    find.trim() === "" ||
+    u.title.toLowerCase().includes(find.trim().toLowerCase());
 
   // What they already hold, gathered first. The screen this replaces rendered
   // the entire catalogue as a flat list of toggles — twenty-three rows today,
@@ -883,7 +949,9 @@ function PersonDetail({
       <div className="pf-panel">
         <div className="pf-panel__head pf-split">
           <div className="pf-split__main">
-            <h2 className="pf-panel__title pf-panel__title--name">{person.displayName}</h2>
+            <h2 className="pf-panel__title pf-panel__title--name">
+              {person.displayName}
+            </h2>
             {/* Only when it adds something. For anyone invited before names
                 existed, `displayName` IS the address, and printing it twice
                 reads as a rendering fault rather than as a fact. */}
@@ -930,10 +998,15 @@ function PersonDetail({
                 <input
                   type="hidden"
                   name="intent"
-                  value={person.revokedAt === null ? "revoke-invite" : "re-invite"}
+                  value={
+                    person.revokedAt === null ? "revoke-invite" : "re-invite"
+                  }
                 />
                 <input type="hidden" name="email" value={person.email} />
-                <button type="submit" className="pf-button pf-button--ghost pf-button--sm">
+                <button
+                  type="submit"
+                  className="pf-button pf-button--ghost pf-button--sm"
+                >
                   {person.revokedAt === null ? "Revoke sign-in" : "Re-invite"}
                 </button>
               </Form>
@@ -952,21 +1025,25 @@ function PersonDetail({
               label="Last signed in"
               value={person.lastSeenAt ? when(person.lastSeenAt) : "Never"}
             />
-            <Fact label="Books" value={wholeLibrary ? "Everything" : String(person.grantCount)} />
+            <Fact
+              label="Books"
+              value={wholeLibrary ? "Everything" : String(person.grantCount)}
+            />
           </dl>
           {person.note ? <p className="pf-note--quiet">{person.note}</p> : null}
 
           {plusTag ? (
             <p className="pf-message pf-message--warn">
-              That address has a <code>+tag</code>. On this domain the tag is part of the identity,
-              so it must match the account they sign in with exactly.
+              That address has a <code>+tag</code>. On this domain the tag is
+              part of the identity, so it must match the account they sign in
+              with exactly.
             </p>
           ) : null}
 
           {person.revokedAt !== null ? (
             <p className="pf-message pf-message--warn">
-              Sign-in is revoked and their sessions were ended. What they had is kept below, so
-              re-inviting restores it exactly.
+              Sign-in is revoked and their sessions were ended. What they had is
+              kept below, so re-inviting restores it exactly.
             </p>
           ) : null}
         </div>
@@ -999,7 +1076,11 @@ function PersonDetail({
                 <GrantRow
                   key={unit.slug}
                   label={unit.title}
-                  hint={unit.kind === "work" ? "All volumes, including future ones" : statusHint(unit)}
+                  hint={
+                    unit.kind === "work"
+                      ? "All volumes, including future ones"
+                      : statusHint(unit)
+                  }
                   on
                   onLabel="Granted"
                   fields={{
@@ -1038,7 +1119,10 @@ function PersonDetail({
               // volumes: the grant covers every one of them, including volumes
               // added later, so the rows would be six ways of saying "yes, still".
               if (granted.has(`work:${work.slug}`)) return null;
-              if (!matches(work) && !catalog.some((v) => v.workSlug === work.slug && matches(v))) {
+              if (
+                !matches(work) &&
+                !catalog.some((v) => v.workSlug === work.slug && matches(v))
+              ) {
                 return null;
               }
 
@@ -1084,7 +1168,11 @@ function PersonDetail({
                 edge of a tall panel — the least prominent thing on a screen
                 whose entire purpose it is. */}
             <div className="pf-scope-actions">
-              <button type="submit" disabled={picked.size === 0} className="pf-button pf-button--primary">
+              <button
+                type="submit"
+                disabled={picked.size === 0}
+                className="pf-button pf-button--primary"
+              >
                 {picked.size === 0
                   ? "Give access to the ticked books"
                   : `Give access to ${count(picked.size, "book")}`}
@@ -1204,7 +1292,9 @@ function WorkScope({
               label={vol.title}
               hint={statusHint(vol)}
               covered={covered || wholeWork}
-              coveredNote={wholeWork ? "Covered by the whole work above" : undefined}
+              coveredNote={
+                wholeWork ? "Covered by the whole work above" : undefined
+              }
               picked={picked.has(`unit:${vol.slug}`)}
               onPick={() => onPick(`unit:${vol.slug}`)}
               disabled={wholeWork}
@@ -1285,10 +1375,24 @@ function when(iso: string): string {
   return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
 }
 
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 function statusHint(unit: ContentUnit): string | undefined {
   if (unit.openToAll) return "Open to everyone";
-  if (unit.status !== "published") return "Not published yet — a grant waits for it";
+  if (unit.status !== "published")
+    return "Not published yet — a grant waits for it";
   return undefined;
 }

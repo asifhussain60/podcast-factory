@@ -48,7 +48,10 @@ import { marksFor } from "~/server/marks.server";
 import { describeContents } from "~/lib/facts";
 import { count, plural } from "~/lib/plural";
 import { megabytes } from "~/lib/facts";
-import { DownloadButton, KeepTextButton } from "~/components/offline/DownloadButton";
+import {
+  DownloadButton,
+  KeepTextButton,
+} from "~/components/offline/DownloadButton";
 import { readingMinutes } from "~/lib/reading";
 import {
   chaptersOf,
@@ -143,7 +146,8 @@ export function shouldRevalidate({
      deleted; the page simply never asked again, which reads exactly like a
      delete button that does not work. Only a plain GET navigation is ever
      eligible to be skipped here. */
-  if (formMethod !== undefined && formMethod !== "GET") return defaultShouldRevalidate;
+  if (formMethod !== undefined && formMethod !== "GET")
+    return defaultShouldRevalidate;
 
   if (currentUrl.pathname !== nextUrl.pathname) return defaultShouldRevalidate;
 
@@ -152,11 +156,14 @@ export function shouldRevalidate({
   before.delete("tab");
   after.delete("tab");
 
-  return before.toString() === after.toString() ? false : defaultShouldRevalidate;
+  return before.toString() === after.toString()
+    ? false
+    : defaultShouldRevalidate;
 }
 
 export default function BookDetail({ loaderData }: Route.ComponentProps) {
-  const { unit, detail, chapters, sessions, marks, deckPages, decks, isAdmin } = loaderData;
+  const { unit, detail, chapters, sessions, marks, deckPages, decks, isAdmin } =
+    loaderData;
   const fetcher = useFetcher();
   const navigate = useNavigate();
   const player = usePlayer();
@@ -193,7 +200,8 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
 
   const playEpisodeAt = (number: number, seconds: number) => {
     const episode = episodes.find((e) => e.number === number);
-    if (episode === undefined || !episode.hasAudio || episode.audioKey === null) return;
+    if (episode === undefined || !episode.hasAudio || episode.audioKey === null)
+      return;
 
     player.play(
       {
@@ -204,7 +212,9 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
         src: `/media/${episode.audioKey}`,
         durationS: episode.durationS,
         transcriptSrc:
-          episode.transcriptKey === null ? null : `/media/${episode.transcriptKey}`,
+          episode.transcriptKey === null
+            ? null
+            : `/media/${episode.transcriptKey}`,
         collection: collection === "sessions" ? "sessions" : undefined,
       },
       { startAt: seconds },
@@ -264,17 +274,26 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
           <p className="pf-book-identity__eyebrow">
             <Icon icon={faTag} />
             {unit.bucket}
-            {detail?.editionNote ? ` · ${detail.editionNote.replace(/_/g, " ")}` : null}
+            {detail?.editionNote
+              ? ` · ${detail.editionNote.replace(/_/g, " ")}`
+              : null}
           </p>
 
           <div className="pf-book-identity__title-row">
-            <h1 className="pf-title pf-title--sm pf-book-identity__title">{unit.title}</h1>
+            <h1 className="pf-title pf-title--sm pf-book-identity__title">
+              {unit.title}
+            </h1>
             {detail?.titleOriginal ? (
               <span className="pf-book-identity__original-paren">
                 (
                 <span
                   lang={detail.titleLanguage ?? "ar"}
-                  dir={detail.titleLanguage === "ur" || detail.titleLanguage === "ar" ? "rtl" : undefined}
+                  dir={
+                    detail.titleLanguage === "ur" ||
+                    detail.titleLanguage === "ar"
+                      ? "rtl"
+                      : undefined
+                  }
                   className="pf-book-identity__original"
                 >
                   {detail.titleOriginal}
@@ -409,7 +428,10 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                       {decks.length > 1
                         ? "One deck per chapter — choose below."
                         : "A deck for the whole book."}{" "}
-                      <Link to={`/book/${unit.slug}/slides`} className="pf-link pf-link--inline">
+                      <Link
+                        to={`/book/${unit.slug}/slides`}
+                        className="pf-link pf-link--inline"
+                      >
                         Open it on its own page
                       </Link>{" "}
                       for the full width.
@@ -430,8 +452,8 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                 render: () => (
                   <section className="pf-section">
                     <EmptyState>
-                      A {deckPages}-page deck exists for this book but has not been
-                      uploaded yet.
+                      A {deckPages}-page deck exists for this book but has not
+                      been uploaded yet.
                     </EmptyState>
                   </section>
                 ),
@@ -441,13 +463,18 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
           // Only once there is something in it. An empty "Notes" tab on every
           // book would advertise a feature by showing it not working, and the
           // same list is one tap away inside the reader where marks are made.
-          marks.annotations.length + marks.bookmarks.length + marks.episodeNotes.length > 0
+          marks.annotations.length +
+            marks.bookmarks.length +
+            marks.episodeNotes.length >
+          0
             ? {
                 key: "notes",
                 icon: faNoteSticky,
                 label: "Notes",
                 count:
-                  marks.annotations.length + marks.bookmarks.length + marks.episodeNotes.length,
+                  marks.annotations.length +
+                  marks.bookmarks.length +
+                  marks.episodeNotes.length,
                 render: () => (
                   <section className="pf-section">
                     <NotesList
@@ -458,7 +485,10 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                       // holds everything marked in this book — the reader's
                       // drawer shows chapters and an episode page shows
                       // episodes, each showing what it can act on.
-                      episodes={episodes.map((e) => ({ number: e.number, title: e.title }))}
+                      episodes={episodes.map((e) => ({
+                        number: e.number,
+                        title: e.title,
+                      }))}
                       episodeNotes={marks.episodeNotes}
                       onPlay={playEpisodeAt}
                       // Nothing is resolved here: this page never renders the
@@ -470,23 +500,34 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                       onRemoveAnnotation={(id) =>
                         void fetcher.submit(
                           { intent: "unannotate", id },
-                          { method: "post", action: `/book/${unit.slug}/marks` },
+                          {
+                            method: "post",
+                            action: `/book/${unit.slug}/marks`,
+                          },
                         )
                       }
                       onRemoveBookmark={(id) =>
                         void fetcher.submit(
                           { intent: "unbookmark", id },
-                          { method: "post", action: `/book/${unit.slug}/marks` },
+                          {
+                            method: "post",
+                            action: `/book/${unit.slug}/marks`,
+                          },
                         )
                       }
                       onRemoveEpisodeNote={(id) =>
                         void fetcher.submit(
                           { intent: "un-episode-note", id },
-                          { method: "post", action: `/book/${unit.slug}/marks` },
+                          {
+                            method: "post",
+                            action: `/book/${unit.slug}/marks`,
+                          },
                         )
                       }
                       onEditAnnotation={(id, text) => {
-                        const existing = marks.annotations.find((a) => a.id === id);
+                        const existing = marks.annotations.find(
+                          (a) => a.id === id,
+                        );
                         if (existing === undefined) return;
                         void fetcher.submit(
                           {
@@ -501,11 +542,16 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                             colour: existing.colour,
                             note: text,
                           },
-                          { method: "post", action: `/book/${unit.slug}/marks` },
+                          {
+                            method: "post",
+                            action: `/book/${unit.slug}/marks`,
+                          },
                         );
                       }}
                       onEditEpisodeNote={(id, text) => {
-                        const existing = marks.episodeNotes.find((n) => n.id === id);
+                        const existing = marks.episodeNotes.find(
+                          (n) => n.id === id,
+                        );
                         if (existing === undefined) return;
                         void fetcher.submit(
                           {
@@ -516,7 +562,10 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                             quote: existing.quote ?? "",
                             note: text,
                           },
-                          { method: "post", action: `/book/${unit.slug}/marks` },
+                          {
+                            method: "post",
+                            action: `/book/${unit.slug}/marks`,
+                          },
                         );
                       }}
                     />
@@ -525,7 +574,11 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
               }
             : null,
         ]}
-        empty={<EmptyState>Nothing of this book is readable or listenable yet.</EmptyState>}
+        empty={
+          <EmptyState>
+            Nothing of this book is readable or listenable yet.
+          </EmptyState>
+        }
       />
     </AppShell>
   );
@@ -571,7 +624,13 @@ interface Panel {
  * player, so unmounting the Listen panel while an episode is playing would tear
  * down the button that knows how to pause it.
  */
-function Tabs({ panels, empty }: { panels: (Panel | null)[]; empty: ReactNode }) {
+function Tabs({
+  panels,
+  empty,
+}: {
+  panels: (Panel | null)[];
+  empty: ReactNode;
+}) {
   const tabs = panels.filter((p): p is Panel => p !== null);
 
   /* ---- The open tab is in the URL ---------------------------------------
@@ -628,7 +687,9 @@ function Tabs({ panels, empty }: { panels: (Panel | null)[]; empty: ReactNode })
     event.preventDefault();
     setOpen(next);
     strip.current
-      ?.querySelector<HTMLButtonElement>(`#${CSS.escape(`${id}-${tabs[next].key}`)}`)
+      ?.querySelector<HTMLButtonElement>(
+        `#${CSS.escape(`${id}-${tabs[next].key}`)}`,
+      )
       ?.focus();
   }
 
@@ -641,31 +702,31 @@ function Tabs({ panels, empty }: { panels: (Panel | null)[]; empty: ReactNode })
           library with a podcast looked like a different product from the ones
           without. One template, and the strip is the only thing conditional. */}
       {tabs.length === 1 ? null : (
-      <div
-        ref={strip}
-        role="tablist"
-        aria-label="How to take this book"
-        className="pf-tabset"
-        onKeyDown={onKeyDown}
-      >
-        {tabs.map((tab, i) => (
-          <button
-            key={tab.key}
-            id={`${id}-${tab.key}`}
-            type="button"
-            role="tab"
-            aria-selected={at === i}
-            aria-controls={`${id}-${tab.key}-panel`}
-            tabIndex={at === i ? 0 : -1}
-            onClick={() => setOpen(i)}
-            className="pf-tabset__tab"
-          >
-            <Icon icon={tab.icon} />
-            {tab.label}
-            <span className="pf-tabset__count">{tab.count}</span>
-          </button>
-        ))}
-      </div>
+        <div
+          ref={strip}
+          role="tablist"
+          aria-label="How to take this book"
+          className="pf-tabset"
+          onKeyDown={onKeyDown}
+        >
+          {tabs.map((tab, i) => (
+            <button
+              key={tab.key}
+              id={`${id}-${tab.key}`}
+              type="button"
+              role="tab"
+              aria-selected={at === i}
+              aria-controls={`${id}-${tab.key}-panel`}
+              tabIndex={at === i ? 0 : -1}
+              onClick={() => setOpen(i)}
+              className="pf-tabset__tab"
+            >
+              <Icon icon={tab.icon} />
+              {tab.label}
+              <span className="pf-tabset__count">{tab.count}</span>
+            </button>
+          ))}
+        </div>
       )}
 
       {tabs.map((tab, i) => (
@@ -716,7 +777,11 @@ function ReadingEdition({
   if (chapters.length === 0) {
     return (
       <section className="pf-section">
-        <SectionHeading icon={faBookOpen} title="Read" count="no reading edition yet" />
+        <SectionHeading
+          icon={faBookOpen}
+          title="Read"
+          count="no reading edition yet"
+        />
         <EmptyState>
           The translated edition of this book has not been published here yet.
         </EmptyState>
@@ -755,7 +820,9 @@ function ReadingEdition({
                 disagreed by one on every line. The book's numbering wins. */}
             <Link
               to={`/book/${slug}/read/${encodeURIComponent(chapter.anchorKey)}`}
-              aria-current={progress?.anchorKey === chapter.anchorKey ? "true" : undefined}
+              aria-current={
+                progress?.anchorKey === chapter.anchorKey ? "true" : undefined
+              }
               className="pf-row"
             >
               {/* A mark of what the row IS, which every other list on this
@@ -777,7 +844,9 @@ function ReadingEdition({
                   {markedChapters.get(chapter.anchorKey)}
                 </span>
               ) : null}
-              <span className="pf-row__meta">{readingMinutes(chapter.wordCount)} min</span>
+              <span className="pf-row__meta">
+                {readingMinutes(chapter.wordCount)} min
+              </span>
               <Icon icon={faAngleRight} className="pf-row__go" />
             </Link>
           </li>
@@ -856,7 +925,8 @@ function Podcast({
      or pressing the notes count would start half an hour of audio. A drag that
      ends inside the row is not a press either: a reader selecting the title to
      copy it is not asking to play it. */
-  const pressRow = (episode: Session["episodes"][number]) =>
+  const pressRow =
+    (episode: Session["episodes"][number]) =>
     (event: ReactMouseEvent<HTMLDivElement>) => {
       if ((event.target as HTMLElement).closest("button, a")) return;
       if (!window.getSelection()?.isCollapsed) return;
@@ -970,7 +1040,10 @@ function Podcast({
 
                       Decorative, and aria-hidden: the control that actually
                       plays names the episode in full. */}
-                  <span className="pf-row__mark pf-row__badge" aria-hidden="true">
+                  <span
+                    className="pf-row__mark pf-row__badge"
+                    aria-hidden="true"
+                  >
                     <Icon icon={faMicrophoneLines} />
                   </span>
 
@@ -980,8 +1053,6 @@ function Podcast({
                         from wherever the listening is happening rather than from
                         a page you would have to know to visit. */}
                     <p>{episode.title}</p>
-
-
                   </div>
 
                   {/* The row's controls, as ONE group rather than as siblings
@@ -1108,7 +1179,8 @@ function EpisodeNotes({
   // The count is in the accessible name, not only in the pill: "2" alone is not
   // a control anyone can act on by ear.
   const label = `${count(kept, "note")} in this episode`;
-  const isPlaying = audioKey !== null && player.current?.src === `/media/${audioKey}`;
+  const isPlaying =
+    audioKey !== null && player.current?.src === `/media/${audioKey}`;
 
   if (isPlaying) {
     return (
