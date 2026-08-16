@@ -5,10 +5,14 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "reader-narration",
-  "phase_status": "completed",
+  "phase": "publish",
+  "phase_status": "pending",
   "last_completed_phase": "reader-narration",
-  "last_error": null,
+  "last_error": {
+    "phase": "publish",
+    "message": "publish_to_library.py rc != 0; gates re-ran defensively",
+    "ts": "2026-08-15T19:42:24Z"
+  },
   "category": "books",
   "branch": "develop",
   "status": "draft",
@@ -491,12 +495,20 @@
         "total": 5,
         "blocking_fail": null
       }
+    },
+    "publish": {
+      "status": "pending",
+      "ts_started": "2026-08-15T19:42:11Z",
+      "publisher_stdout": "==> publish_to_library: spiritual-ethos\n    workspace: content/Islamic/spiritual-ethos\n    model:     status-flag (type-first layout; no second tree)\n    mode:      live\n\n=== Gates ===\nOK    [G1] 13 chapters + 13 episodes present\nOK    [G2] 13 chapter/episode pairs match\nOK    [G3] chapters 1..13 + episodes 1..13 purely sequential\nOK    [G4] P0=0 across 13 episodes (P1=31, warn-only)\n",
+      "publisher_stderr": " (warn-only)\nWARN  G4 EP02-why-intellect-not-reason: 2 P1 advisories (warn-only)\nWARN  G4 EP03-paradox-and-the-inner-struggle: 3 P1 advisories (warn-only)\nWARN  G4 EP04-joy-virtue-and-the-hereafter: 1 P1 advisory (warn-only)\nWARN  G4 EP05-the-sacred-conception-of-justice: 4 P1 advisories (warn-only)\nWARN  G4 EP06-pride-and-conscience: 3 P1 advisories (warn-only)\nWARN  G4 EP07-the-classes-of-society-and-the-poor: 2 P1 advisories (warn-only)\nWARN  G4 EP08-prayer-as-the-source-of-justice: 2 P1 advisories (warn-only)\nWARN  G4 EP09-dhikr-the-polish-for-hearts: 2 P1 advisories (warn-only)\nWARN  G4 EP10-the-veils-that-do-not-veil: 1 P1 advisory (warn-only)\nWARN  G4 EP11-forgetting-the-self-and-the-name: 2 P1 advisories (warn-only)\nWARN  G4 EP12-the-first-sermon-of-nahj-al-balagha: 2 P1 advisories (warn-only)\nWARN  G4 EP13-the-letter-of-ali-to-malik-al-ashtar: 2 P1 advisories (warn-only)\nFAIL  [G5] state.json not in shippable state (phase=publish, phase_status=running). Use --force to bypass.\n"
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
   "run_id": "20260815T191924Z-849aee",
-  "ts_updated": "2026-08-15T19:42:07Z",
+  "ts_updated": "2026-08-15T19:48:57Z",
   "next_phase": "publish",
   "unattended": true,
-  "phase_attempts": {}
+  "phase_attempts": {
+    "publish": 2
+  }
 }

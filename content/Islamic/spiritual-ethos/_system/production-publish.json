@@ -1,42 +1,97 @@
 {
-  "publishedAt": "2026-08-09T23:44:09Z",
-  "fingerprint": "96bc9087f73d3356",
+  "publishedAt": "2026-08-15T23:09:55Z",
+  "fingerprint": "b15feb0316ef232e",
   "verified": true,
   "checks": [
     {
-      "name": "the book exists",
+      "name": "the book exists (localhost)",
       "ok": true,
-      "detail": "content row present"
+      "detail": "content row present",
+      "target": "localhost"
     },
     {
-      "name": "visible",
+      "name": "visible (localhost)",
       "ok": true,
-      "detail": "status is 'published'"
+      "detail": "status is 'published'",
+      "target": "localhost"
     },
     {
-      "name": "written just now",
+      "name": "written just now (localhost)",
       "ok": true,
-      "detail": "recorded 2026-08-09T23:44:11Z"
+      "detail": "recorded 2026-08-15T23:15:58Z",
+      "target": "localhost"
     },
     {
-      "name": "chapters",
+      "name": "chapters (localhost)",
       "ok": true,
-      "detail": "16 live"
+      "detail": "16 live",
+      "target": "localhost"
     },
     {
-      "name": "Companion cards",
+      "name": "Companion cards (localhost)",
       "ok": true,
-      "detail": "61 live, 61 on disk"
+      "detail": "61 live, 61 on disk",
+      "target": "localhost"
     },
     {
-      "name": "episodes",
+      "name": "episodes (localhost)",
       "ok": true,
-      "detail": "13 live"
+      "detail": "13 live",
+      "target": "localhost"
     },
     {
-      "name": "media uploaded",
+      "name": "episode audio linked (localhost)",
       "ok": true,
-      "detail": "1 of 1 file(s) in the bucket"
+      "detail": "13 of 13 episode(s) have a linked recording",
+      "target": "localhost"
+    },
+    {
+      "name": "the book exists (production)",
+      "ok": true,
+      "detail": "content row present",
+      "target": "production"
+    },
+    {
+      "name": "visible (production)",
+      "ok": true,
+      "detail": "status is 'published'",
+      "target": "production"
+    },
+    {
+      "name": "written just now (production)",
+      "ok": true,
+      "detail": "recorded 2026-08-15T23:17:22Z",
+      "target": "production"
+    },
+    {
+      "name": "chapters (production)",
+      "ok": true,
+      "detail": "16 live",
+      "target": "production"
+    },
+    {
+      "name": "Companion cards (production)",
+      "ok": true,
+      "detail": "61 live, 61 on disk",
+      "target": "production"
+    },
+    {
+      "name": "episodes (production)",
+      "ok": true,
+      "detail": "13 live",
+      "target": "production"
+    },
+    {
+      "name": "media uploaded (production)",
+      "ok": true,
+      "detail": "44 of 44 file(s) in the bucket",
+      "target": "production"
+    },
+    {
+      "name": "episode audio linked (production)",
+      "ok": true,
+      "detail": "13 of 13 episode(s) have a linked recording",
+      "target": "production"
     }
   ]
 }

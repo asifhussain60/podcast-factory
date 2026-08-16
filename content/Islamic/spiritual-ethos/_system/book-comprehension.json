@@ -1,27 +1,27 @@
 {
   "schema": "book.comprehension/v1",
-  "pages": 248,
+  "pages": 247,
   "terms_tracked": 352,
   "prerequisite_gaps": [
     {
       "term": "al-Rahman",
       "first_use_page": 51,
-      "explained_page": 197,
-      "pages_carried": 146,
+      "explained_page": 196,
+      "pages_carried": 145,
       "kind": "explained-late"
     },
     {
       "term": "marifa",
-      "first_use_page": 72,
-      "explained_page": 170,
+      "first_use_page": 71,
+      "explained_page": 169,
       "pages_carried": 98,
       "kind": "explained-late"
     },
     {
       "term": "Muhammad",
       "first_use_page": 6,
-      "explained_page": 90,
-      "pages_carried": 84,
+      "explained_page": 89,
+      "pages_carried": 83,
       "kind": "explained-late"
     },
     {
@@ -47,8 +47,8 @@
     },
     {
       "term": "Satan",
-      "first_use_page": 85,
-      "explained_page": 108,
+      "first_use_page": 84,
+      "explained_page": 107,
       "pages_carried": 23,
       "kind": "explained-late"
     },
@@ -77,49 +77,49 @@
       "text": "Intellect, Not Reason The following lines, from the first sermon, form one of the many passages in which this infusion of the divine spirit into man is commente"
     },
     {
-      "page": 110,
-      "words": 171,
-      "text": "The Imam's warning can now be better appreciated: ‫ِإ َّي اَك َوُمَساَمَة اللِه ِفي‬ ‫ َوُيِهيُن ُكَّل ُمْخَتال‬،‫ ِإَف َّن اللَه ُيِذُّل ُكَّل َجَّب ار‬،‫ َوال"
+      "page": 109,
+      "words": 219,
+      "text": "The Imam's warning can now be better appreciated: ‫ِإَّياَك َو ُم َس اَم َة اللِه ِفي‬ ‫ َو ُيِه يُن ُك َّل ُم ْخ َتال‬،‫ َفِإَّن اللَه ُيِذ ُّل ُك َّل َج َّبار"
     },
     {
-      "page": 78,
+      "page": 113,
+      "words": 174,
+      "text": "The Quran describes how this spiritual consciousness dwells within each soul in terms that stress its nature before and beyond existence, calling up a 'moment' "
+    },
+    {
+      "page": 69,
+      "words": 169,
+      "text": "The Fruits of Certainty God, this world of yours is more contemptible in my eyes than a chewedup bone of a pig in the hand of a leper.\" \"An image of the world i"
+    },
+    {
+      "page": 77,
       "words": 161,
       "text": "The Fruits of Certainty deeds, and such well-being is proportioned to the depth of one's belief that \"Whatever good ye send before for your souls, ye will find "
     },
     {
-      "page": 117,
+      "page": 116,
       "words": 160,
       "text": "Conscience, Compassion, and the Ordering of Society This principle emerges clearly from these words of the Imam: 'Let the most beloved of affairs to you be thos"
     },
     {
-      "page": 123,
+      "page": 107,
+      "words": 159,
+      "text": "They grasp a simple act of disobedience at its spiritual root, and in doing so bring home the ever-present danger of falling prey to that 'hidden' form of ‫( ِش"
+    },
+    {
+      "page": 122,
       "words": 158,
       "text": "It comes as the Imam instructs Malik about the kind of advisers he should keep near him, telling him to avoid misers and cowards: SAYING ‫ َو َيِع ُد َك‬، ‫َو َ"
     },
     {
-      "page": 114,
-      "words": 147,
-      "text": "The Quran describes how this spiritual consciousness dwells within each soul in terms that stress its nature before and beyond existence, calling up a 'moment' "
-    },
-    {
-      "page": 157,
-      "words": 146,
+      "page": 156,
+      "words": 157,
       "text": "It is related that the Prophet asked his companions: 'Shall I not tell you about the best and purest of your works for your Lord, and the most exalted of them i"
     },
     {
-      "page": 69,
-      "words": 144,
-      "text": "\"By God, this world of yours is more contemptible in my eyes than a chewedup bone of a pig in the hand of a leper.\" \"An image of the world is the snake, soft to"
-    },
-    {
       "page": 21,
-      "words": 141,
+      "words": 142,
       "text": "The Jews hated him so intensely that they slandered his mother; and the Christians loved him so intensely that they ascribed to him a rank he did not possess.' "
-    },
-    {
-      "page": 108,
-      "words": 139,
-      "text": "They grasp a simple act of disobedience at its spiritual root, and in doing so bring home the ever-present danger of falling prey to that 'hidden' form of ‫( ِش"
     },
     {
       "page": 11,
@@ -127,22 +127,32 @@
       "text": "I saw him there, and no one else did.\" SAYING ‫َو َلْم َيْج َم ْع َبْي ٌت َو اِح ٌد َيْو َم ِئٍذ ِفي اِإل ْس الِم َغ ْي َر َرُس وِل اللِه َص َّلى‬ ‫اللُه َع َلْ"
     },
     {
-      "page": 126,
+      "page": 125,
       "words": 133,
       "text": "For it is God who has assigned each class its share, and who has laid down, as a binding covenant from Him, the limits and duties of each, according to His Book"
     },
     {
-      "page": 173,
+      "page": 108,
+      "words": 132,
+      "text": "The Imam continues: ، ‫َو ِإَذا َأْح َد َث َلَك َم ا َأْنَت ِفيِه ِم ْن ُس ْل َط اِنَك ُأَّبَه ًة َأْو َم ِخ يَلًة‬ ‫ َو َيُك ُّف َع ْن َك‬، ‫ َفِإَّن ذِلَك ُيَ"
+    },
+    {
+      "page": 172,
       "words": 131,
       "text": "Ibn Ataillah writes: \"That which shows you the existence of His omnipotence is that He veiled you from Himself by that which has no existence alongside of Him.\""
     },
     {
-      "page": 76,
-      "words": 127,
-      "text": "This state of soul is called in the Quran ‫َالَّن ْفُس اْلُمْطَمِئَّن ُة‬, \"the soul at peace in absolute certainty\": AL-FAJR: 27 ‫َٓي َأ َّي ُتَها ٱلَّن ْفُس ٱ"
+      "page": 109,
+      "words": 130,
+      "text": "The sage alone fully assimilates the truth expressed in such Quranic verses as: ‫ُك ُّل َش ْى ٍء‬ ‫' — َه اِلٌك ِإاَّل َو ْج َه ُه‬Everything is dying away exce"
     },
     {
-      "page": 237,
+      "page": 89,
+      "words": 126,
+      "text": "A Sacred Conception of Justice The Prophet replied: ‫ اِإل ْس َالُم َأْن َتْش َه َد َأْن َال ِإلَه ِإَال اللُه َو َأَّن‬Muhammad ‫ًا َرُس وُل‬ ‫ِإَل ِه‬ ‫ِه ِق‬"
+    },
+    {
+      "page": 236,
       "words": 125,
       "text": "For the settlement of disputes among the people, choose the one you hold to be the most excellent of your subjects: one whom complex matters do not confound and"
     },
@@ -157,19 +167,9 @@
       "text": "The Fruits of Certainty deep knowledge of the blessed nature of the divine Reality — a knowledge lived, not merely thought: AL-A'RAF: 156 ‫َوٱْك ُتْب َلَنا ِفى "
     },
     {
-      "page": 44,
-      "words": 119,
-      "text": "SAYING ‫ ِإَّن هذِه اْلُق ُلو َأْو ِع َي ٌة َفَخ ْي ُر َه ا َأْوَع اَه ا َفاْح َف ْظ‬، ‫َيا ُك َم ْي ل ْب ن ِزَياٍد‬ ‫َب‬ ‫ َفَع اِلٌم َر َّباِنٌّي َو ُم َتَع ّ"
-    },
-    {
-      "page": 67,
-      "words": 119,
-      "text": "The Imam's intimacy with death can be understood in relation to this death while still alive, which he touches on in another saying: \"I am the death of the dead"
-    },
-    {
-      "page": 146,
-      "words": 116,
-      "text": "After discussing the question of justice at great length, Socrates comes to the crux of the matter: the nature of the Sovereign Good, which is of paramount conc"
+      "page": 106,
+      "words": 122,
+      "text": "When he was commanded to prostrate before Adam, Iblis refused, as the Quran recounts: ‫ِإْذ َقاَل َر ُّبَك ِلْل َم َٓلِئَك ِة ِإِّنى َخ ِلٌۢق َبَش ًۭر ا ِّم ن ِ"
     }
   ],
   "summary": {

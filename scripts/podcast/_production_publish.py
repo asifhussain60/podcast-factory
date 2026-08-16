@@ -445,6 +445,26 @@ def verify(slug: str, book_dir: Path, *, remote: bool = True, expected: dict[str
     except Exception as error:
         check("media uploaded", False, f"could not be counted: {error}")
 
+    # An episode ROW existing and having its recording LINKED are different
+    # facts — a book whose .m4a files were never arranged into m4a/Episodes/
+    # (the author's own signal that a recording is finished, per
+    # _listener_media.collect_audio) publishes 13-of-13 episode rows and
+    # 18-of-18 uploaded files while every one of those episodes has
+    # audio_key = NULL, so nothing plays. The two checks above cannot see
+    # this — they count rows and uploads, never the join between them. This
+    # is what caught it silently slipping through on 2026-08-15.
+    try:
+        ep_total = scalar(f"SELECT COUNT(*) AS n FROM episode WHERE slug = '{slug}'")
+        ep_with_audio = scalar(f"SELECT COUNT(*) AS n FROM episode WHERE slug = '{slug}' AND audio_key IS NOT NULL")
+        check(
+            "episode audio linked",
+            ep_total == 0 or ep_with_audio == ep_total,
+            f"{ep_with_audio} of {ep_total} episode(s) have a linked recording"
+            + ("" if ep_with_audio == ep_total else " — recordings likely still loose in m4a/, not m4a/Episodes/"),
+        )
+    except Exception as error:
+        check("episode audio linked", False, f"could not be counted: {error}")
+
     return checks
 
 

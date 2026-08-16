@@ -175,8 +175,10 @@ This last saying was expressed on a number of occasions, the most famous of whic
 Although the place of Ali within Shii Islam is not the subject here, his charisma was such that, even during the Prophet's own lifetime, a group came to be known as the shia, or 'partisans,' of Ali. Al-Tabari, author of the first great commentary on the Quran, reports that the Prophet interpreted the verse:
 
 > إِنَّ ٱلَّذِينَ آمَنُوا۟ وَعَمِلُوا۟ ٱلصَّلِحَتِ أُو۟لَٓئِكَ هُمْ خَيْرُ ٱلْبَرِيَّةِ
+>
+> 'Those who have faith and do righteous deeds, they are the best of created beings' (Al-Bayyinah: 7)
 
-'Those who have faith and do righteous deeds, they are the best of created beings' (Al-Bayyinah: 7), as referring to Ali and his 'shia.'
+He interpreted it as referring to Ali and his 'shia.'
 
 Four individuals in particular were renowned for their devotion to Ali during the Prophet's lifetime and are regarded as the prototypes of early Shiism: Salman al-Farisi, Abu Dharr al-Ghifari, 'Ammar b. Yasir, and Miqdad b. Amr. This early love for Ali should not be equated with the theological doctrines later elaborated in the Shii branch of Islam in the generations that followed. It is nonetheless worth emphasizing that, at the core of Shiism in all its different expressions, lies the notion of fidelity to Ali. This fidelity, loyalty, or love is one aspect of وَلَايَة; the other, complementary aspect is the spiritual authority or sanctity of Ali. It is equally important to stress that neither devotion to Ali nor the spiritual orientation toward the وَلَايَة he embodies belongs to Shiism alone. Rather, it extends across the whole of the Islamic faith, for devotion to Ali as head of the Prophet's Ahl al-Bayt is found throughout the Muslim world and is especially deep wherever Sufism flourishes. Ali is regarded as the first spiritual pole' (قُطْبٌ) of Sufism after the Prophet himself, and he stands at the summit of all the spiritual chains (salasil, sing. silsila) through which the Sufi orders trace their lineage back to the Prophet. To speak of Ali is to speak not of exclusivist sectarianism but of universal spirituality.
 
@@ -349,8 +351,10 @@ Here the crucial bond between life and consciousness comes into view — between
 The Quran's assurances of mercy come fully alive in souls that possess a deep knowledge of the blessed nature of the divine Reality — a knowledge lived, not merely thought:
 
 > وَٱكْتُبْ لَنَا فِى هَذِهِ ٱلدُّنْيَا حَسَنَةًۭ وَفِى ٱلْآخِرَةِ إِنَّا هُدْنَآ إِلَيْكَ ۚ قَالَ عَذَابِىٓ أُصِيبُ بِهِۦ مَنْ أَشَآءُ ۖ وَرَحْمَتِى وَسِعَتْ كُلَّ شَىْءٍۢ ۚ فَسَأَكْتُبُهَا لِلَّذِينَ يَتَّقُونَ وَيُؤْتُونَ ٱلزَّكَوٰةَ وَٱلَّذِينَ هُم بِـَٔايَتِنَا يُؤْمِنُونَ
+>
+> "My mercy encompasseth all things" (Al-Araf: 156)
 
-"My mercy encompasseth all things" (Al-Araf: 156), and
+and
 
 > وَإِذَا جَآءَكَ ٱلَّذِينَ يُؤْمِنُونَ بِـَٔايَتِنَا فَقُلْ سَلَمٌ عَلَيْكُمْ ۖ كَتَبَ رَبُّكُمْ عَلَىٰ نَفْسِهِ ٱلرَّحْمَةَ ۖ أَنَّهُۥ مَنْ عَمِلَ مِنكُمْ سُوٓءًۢا بِجَهَلَةٍۢ ثُمَّ تَابَ مِنۢ بَعْدِهِۦ وَأَصْلَحَ فَأَنَّهُۥ غَفُورٌۭ رَّحِيمٌۭ
 >
@@ -373,8 +377,10 @@ To follow the Prophet, and so make oneself open to the inflowing of divine love,
 In this perspective, sinful and immoral qualities are seen not only as vices but as so many blind spots, so many failures of the intellect. Vice sickens the heart; it blinds the heart's eye and so leaves it unable to see the Real. As the Quran says:
 
 > فِى قُلُوبِهِم مَّرَضٌۭ فَزَادَهُمُ ٱللَّهُ مَرَضًۭا ۖ وَلَهُمْ عَذَابٌ أَلِيمٌۢ بِمَا كَانُوا۟ يَكْذِبُونَ
+>
+> "In their hearts is a disease and God increased them in disease" (Al-Baqarah: 10)
 
-"In their hearts is a disease and God increased them in disease" (Al-Baqarah: 10), and
+and
 
 > أَفَلَمْ يَسِيرُوا۟ فِى ٱلْأَرْضِ فَتَكُونَ لَهُمْ قُلُوبٌۭ يَعْقِلُونَ بِهَآ أَوْ آذَانٌۭ يَسْمَعُونَ بِهَا ۖ فَإِنَّهَا لَا تَعْمَى ٱلْأَبْصَرُ وَلَكِن تَعْمَى ٱلْقُلُوبُ ٱلَّتِى فِى ٱلصُّدُورِ
 >
@@ -405,8 +411,8 @@ The rightly-guided perceive the blessings poured out upon those who stay patient
 One layer of this meaning is lit by a saying of Ali: "Death is more intimate to me than the breast of the mother is to the suckling babe." In the verse cited above, the mention of trials and hardships follows a reminder that those slain in the path of God are not truly dead, "nay, they are alive but ye perceive not." This affirms the life hereafter, but it also points to the inner meaning of being slain for God: اَلْفَنَاءُ فِي اللَّهِ, extinction in God. The Imam's intimacy with death can be understood in relation to this death while still alive, which he touches on in another saying: "I am the death of the dead." Because life in the world is itself a kind of death—a limitation, and so a lack—set against the boundless fullness of the divine realms, dying to this death amounts to true life:
 
 > وَمَا هَذِهِ ٱلْحَيَوٰةُ ٱلدُّنْيَآ إِلَّا لَهْوٌۭ وَلَعِبٌۭ ۚ وَإِنَّ ٱلدَّارَ ٱلْآخِرَةَ لَهِىَ ٱلْحَيَوَانُ ۚ لَوْ كَانُوا۟ يَعْلَمُونَ
-
-"And the life of this world is nothing but sport and play," says the Quran, "and verily, the abode of the Hereafter, that is true life, did they but know" (Al-Ankabut: 64).
+>
+> "And the life of this world is nothing but sport and play," says the Quran, "and verily, the abode of the Hereafter, that is true life, did they but know" (Al-Ankabut: 64).
 
 What must be negated is not the physical world as such, but worldliness—the self-centered attachment to the world. One key principle of the Imam's outlook, stressed again and again throughout the *Nahj al-balagha*, bears directly here: the principle of زُهْدٌ, which no single English word can render adequately. It gathers several meanings: asceticism, austerity, abstention, detachment, doing without, and making little of. The following passage from the *Nahj* conveys well the attitude of the *zahid* toward this world:
 
@@ -674,8 +680,10 @@ The war against one's own conscience, even when the oppressor scarcely acknowled
 At a deeper level, then, this war against God is revealed as a war against the very reality that makes the soul a soul. The soul contains not only a moral conscience — a built-in, inseparable awareness of the difference between good and evil, placed in it by God — but also an inborn consciousness of God's lordship and of its own answering servitude as a creature. Spiritual consciousness is therefore the source of moral conscience. The Quran describes how this spiritual consciousness dwells within each soul in terms that stress its nature before and beyond existence, calling up a 'moment' at the very dawn of creation — a moment, or degree of being, that comes before the human condition itself yet enters into the very shaping of the human soul:
 
 > وَإِذْ أَخَذَ رَبُّكَ مِنۢ بَنِىٓ آدَمَ مِن ظُهُورِهِمْ ذُرِّيَّتَهُمْ وَأَشْهَدَهُمْ عَلَىٰٓ أَنفُسِهِمْ أَلَسْتُ بِرَبِّكُمْ ۖ قَالُوا۟ بَلَىٰ ۛ شَهِدْنَآ ۛ أَن تَقُولُوا۟ يَوْمَ ٱلْقِيَمَةِ إِنَّا كُنَّا عَنْ هَذَا غَفِلِينَ ۱۷۲
+>
+> 'And when thy Lord brought forth from the children of Adam, from their loins, their seed, and made them testify against their souls [saying], "Am I not your Lord?" They said, "Yes, verily, we testify." [This was] lest ye say on the Day of Resurrection, "Truly, of this we were unaware" (Al-Araf: 172).'
 
-'And when thy Lord brought forth from the children of Adam, from their loins, their seed, and made them testify against their souls [saying], "Am I not your Lord?" They said, "Yes, verily, we testify." [This was] lest ye say on the Day of Resurrection, "Truly, of this we were unaware" (Al-Araf: 172). The moment He created them He made them witness His glory and testify to it, so that they could plead no ignorance on the Day of Judgment.
+The moment He created them He made them witness His glory and testify to it, so that they could plead no ignorance on the Day of Judgment.
 
 What comes to light here is that the source of morality rises above the human level even while forming part of the very definition of what it is to be human. Seen this way, what makes the human soul fully human is precisely that element of transcendence which infinitely surpasses the soul and yet, mysteriously, supplies its own deepest being. In this light, tyranny and oppression take on a subtler meaning: these vices are drawn much closer to the lived reality of every soul, rather than confined to those who hold and abuse political power. The tyrant is, before anything else, one who violates his own soul, one who lets it be ruled by 'the soul which commands evil', النَّفْس al-ammara (⟪ar:النَّفْسُ الْاَمَّارَۃُ بِالسُّوءِ⟫). And so the saying the Imam cites as summing up the attitude of one on the way to corrupting his own soul and becoming an oppressor — وَلاَ تَقُولَنَّ: إِنِّي مُؤَمَّرٌ آمُرُ فَأُطَاعُ, 'I order and am obeyed' — is to be understood not only in social terms but also within the small world of the soul. It becomes the utterance of the evil element within the soul: the nafs al-ammara, which literally 'orders' (آمُرُ) and is obeyed by every other faculty of the soul — intelligence, imagination, will, sentiment, sensibility, and the rest.
 
@@ -752,8 +760,10 @@ God has ordained the share of every one of them and laid down His covenant about
 The governor's duty to society is therefore part of the universal covenant between man and God — the 'ahd (عہد) that recurs so often in the Quran. By calling on this Quranic term to reinforce the duty of acting justly toward every class of society, the Imam knew that his words would gain immeasurably in force from their resonance with verses such as these:
 
 > أَفَمَن يَعْلَمُ أَنَّمَآ أُنزِلَ إِلَيْكَ مِن رَّبِّكَ ٱلْحَقُّ كَمَنْ هُوَ أَعْمَىٰٓ ۚ إِنَّمَا يَتَذَكَّرُ أُو۟لُوا۟ ٱلْأَلْبَبِ ۱۹ ٱلَّذِينَ يُوفُونَ بِعَهْدِ ٱللَّهِ وَلَا يَنقُضُونَ ٱلْمِيثَقَ ۲۰
+>
+> 'Is one who knoweth that what is revealed to thee from thy Lord is the truth like one who is blind? But only men of substance take heed, those who abide by the covenant (عہد) of God, and break not the tryst (ٱلْمِيثَقَ)' (Ar-Ra'd: 19-20).
 
-'Is one who knoweth that what is revealed to thee from thy Lord is the truth like one who is blind? But only men of substance take heed, those who abide by the covenant (عہد) of God, and break not the tryst (ٱلْمِيثَقَ) (Ar-Ra'd: 19-20); and:
+and:
 
 > وَلَا تَقْرَبُوا۟ مَالَ ٱلْيَتِيمِ إِلَّا بِٱلَّتِى هِىَ أَحْسَنُ حَتَّىٰ يَبْلُغَ أَشُدَّهُۥ ۚ وَأَوْفُوا۟ بِٱلْعَهْدِ ۖ إِنَّ ٱلْعَهْدَ كَانَ مَسْـُٔولًۭا ۳۴
 >
@@ -1064,8 +1074,10 @@ The question of agency returns here. A hadith qudsi bears upon it: "My slave nev
 His "becoming" one with the acts of perception must be understood as a reality "becoming clear" to the soul once it is unveiled, so that the soul sees through the illusory appearance of its own agency. Through the invocation, the soul is enabled to see the deeper meaning of two Quranic verses:
 
 > وَٱللَّهُ خَلَقَكُمْ وَمَا تَعْمَلُونَ
+>
+> "God hath created you and what ye do" (As-Saffat: 96)
 
-"God hath created you and what ye do" (As-Saffat: 96), and:
+and:
 
 > وَمَا رَمَيْتَ إِذْ رَمَيْتَ وَلَكِنَّ ٱللَّهَ رَمَىٰ
 >
