@@ -65,6 +65,7 @@ _PHASE_WEIGHTS: dict[str, int] = {
     "sessions-ingest": 2,
     "sessions-transcribe": 10,
     "sessions-articulate": 30,
+    "sessions-read-along": 15,
     "sessions-preface": 2,
     "sessions-apparatus": 4,
 }
@@ -105,6 +106,7 @@ _PHASE_NAMES: dict[str, str] = {
     "sessions-ingest": "Reading the session archive",
     "sessions-transcribe": "Transcribing the recordings",
     "sessions-articulate": "Refining the language",
+    "sessions-read-along": "Timing the read-along",
     "sessions-preface": "Writing the introduction",
     "sessions-apparatus": "Arabic and citations",
 }

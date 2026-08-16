@@ -4,7 +4,8 @@
  * a new entry here, a new `--l-ribbon-*` pair in the stylesheet, nothing else
  * touched.
  */
-export type StudyTrack = "theology" | "history" | "shariah" | "esoteric" | "reality";
+export type StudyTrack =
+  "theology" | "history" | "shariah" | "esoteric" | "reality";
 
 const LABELS: Record<StudyTrack, string> = {
   theology: "Theology",

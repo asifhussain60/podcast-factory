@@ -21,6 +21,32 @@ import { FENCE_KINDS } from "./book-fences";
 import { sectionKeyFromHeading } from "./companion/keys";
 import { simplifyTransliteration } from "../translit";
 import { escapeHtml } from "../html-escape";
+import {
+  ARABIC_SCRIPT_RE,
+  findArabicRuns,
+  isArabicOnlyParagraph,
+  isArabicQuoteLine,
+  isolateInlineArabic,
+} from "./arabic-inline";
+import {
+  collectGroupRuns,
+  quoteBand,
+  quoteKindKey,
+  quoteLabelAttribute,
+  type QuoteGroupMeta,
+} from "./quote-cards";
+
+// Re-exported so every existing import site keeps working after the 2026-08-16
+// split. Four of these are the reader's half of a cross-language pin — the tests
+// import them FROM HERE and compare against the print renderer — so moving the
+// import path would have been a change to what the pin proves, not a refactor.
+export {
+  ARABIC_SCRIPT_RE,
+  collectGroupRuns,
+  findArabicRuns,
+  isArabicOnlyParagraph,
+  isArabicQuoteLine,
+};
 
 /** One quotation's declaration, as `readQuoteKind` normalises it: which card it
  *  is drawn in, and — when a person typed one beside it — whose words they are.
@@ -55,9 +81,6 @@ const ASIDE_FENCE_KINDS = new Set(["editorial", "study-summary", "bridge"]);
  *  whitespace, which is what keeps an italic line (`*Three Thanks…*`) prose. */
 const UL_ITEM_RE = /^[-*+]\s+(.+)$/;
 const OL_ITEM_RE = /^(\d+)\.\s+(.+)$/;
-
-/** Arabic-script detection (matches the print renderer's ARABIC_RE). */
-const ARABIC_SCRIPT_RE = /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/;
 
 export interface RenderOptions {
   /** Add slug ids to headings for in-chapter anchoring. Default true. */
@@ -141,142 +164,8 @@ export interface RenderOptions {
    *  writer ignores blockquote attributes. */
   quoteLabelAttributes?: boolean;
 }
-
-/** The key one quotation is stored under: its first non-empty line, trimmed.
- *  Mirrors `quoteKindKey` in scripts/lib/quote-kind.mjs — a plain string rather
- *  than a hash, so the two renderers cannot drift on it. */
-/** What each kind is called on its header. A COPY of `QUOTE_KIND_LABEL` in
- *  scripts/lib/quote-kind.mjs, which is its home, and copied rather than
- *  imported for a reason that is not laziness: that module reads the filesystem,
- *  and this one is bundled into the browser by the Studio editor's client
- *  scripts (arabic-decos.ts, compose-lane.ts). Importing it would put `node:fs`
- *  in a browser bundle. The golden fixture in listener/test pins the rendered
- *  words, so a divergence between the two fails a test rather than shipping. */
-const QUOTE_KIND_LABEL: Record<string, string> = {
-  hadith: "Prophetic tradition",
-  poem: "Verse",
-  quote: "Saying",
-};
-
-/** The card's header strip. Mirrors `band` in scripts/lib/book-html.mjs. Only the
- *  Qur'an card names itself from the text; the other three take a fixed word,
- *  because "which hadith" is a question the audit cannot answer.
- *
- *  WHO SAID IT sits beside the kind in that centred header when a person
- *  recorded it, and only then — an attribution nobody wrote is a claim nobody
- *  made. TWO KINDS never name one: scripture's header carries the surah and
- *  verse the audit resolved, and a prophetic tradition is already the claim
- *  that the Prophet said it (Asif, 2026-08-11). */
-function quoteLabel(
-  kind: string,
-  lines: string[],
-  opts: RenderOptions,
-): string {
-  if (kind === "") return "";
-  let label = QUOTE_KIND_LABEL[kind] ?? "";
-  if (kind === "quran") {
-    const line = lines.find((x) => isArabicQuoteLine(x));
-    label = (line && opts.quranicRefs?.[line.trim()]) || "";
-  }
-  return label;
-}
-
-function quoteLabelAttribute(
-  kind: string,
-  lines: string[],
-  opts: RenderOptions,
-): string {
-  if (!opts.quoteLabelAttributes) return "";
-  const label = quoteLabel(kind, lines, opts);
-  return label
-    ? ` data-q-label="${escapeHtml(label).replace(/"/g, "&quot;")}"`
-    : "";
-}
-
-function quoteBand(kind: string, lines: string[], opts: RenderOptions): string {
-  if (kind === "" || opts.quoteBands === false) return "";
-  const label = quoteLabel(kind, lines, opts);
-  const anon = kind === "quran" || kind === "hadith";
-  const by = anon ? "" : opts.quoteKinds?.[quoteKindKey(lines)]?.by;
-  return (
-    `<span class="q-band q-band--${kind}">` +
-    '<span class="q-orn" aria-hidden="true"></span>' +
-    (label ? `<span class="q-kind">${escapeHtml(label)}</span>` : "") +
-    (by ? `<span class="q-by" dir="auto">${escapeHtml(by)}</span>` : "") +
-    "</span>"
-  );
-}
-
-/** THE BLOCK'S OWN FIRST LINE, and it must be given the RAW LINES rather than
- *  the paragraphs. A quotation's paragraphs are its lines JOINED — three abyat
- *  with no blank line between them are one paragraph — so keying on a paragraph
- *  asked for a string no human wrote and no store holds. The three-line poem in
- *  `ayyuhal-walad` was declared verse and rendered as a saying for exactly that
- *  reason: the declaration was filed under its first line, and the renderer
- *  looked up all three joined together. */
-function quoteKindKey(lines: string[]): string {
-  for (const p of lines) {
-    const line = p.trim();
-    if (line) return line;
-  }
-  return "";
-}
-
-/** A block's group membership + the pieces needed to build a merged card
- *  from it, recorded in parallel to `out` at the same index — never changing
- *  what gets pushed there. Mirrors blockMeta in scripts/lib/book-html.mjs. */
-interface QuoteGroupMeta {
-  type: "quote" | "gloss";
-  groupId: string;
-  kind?: string;
-  bandHtml?: string;
-  innerHtml?: string;
-  text?: string;
-}
-
-/** Collect a linear list of `{groupId, type, kind}` markers (one per rendered
- *  block, `groupId: null` for anything undeclared) into merge-run indices —
- *  `runOf[i] === runOf[j]` means blocks i and j belong to the same card. A
- *  run of DECLARED same-group blocks collapses only when it has 2+ members
- *  AND every `type: "quote"` member shares one effective kind; otherwise
- *  every member of that would-be run gets its own singleton run, i.e.
- *  renders exactly as if ungrouped.
- *
- *  COPY-MIRRORED from `collectGroupRuns` in scripts/lib/quote-groups.mjs, not
- *  imported — this file is bundled into the browser and that one touches
- *  `node:fs`. `quote-groups.fixtures.json` pins the two against drifting.
- *  Keep the two functions byte-for-byte the same shape if you change either. */
-export function collectGroupRuns(
-  blocks: { groupId: string | null; type?: string; kind?: string }[],
-): number[] {
-  const runOf = new Array(blocks.length).fill(-1);
-  let nextRun = 0;
-  let i = 0;
-  while (i < blocks.length) {
-    const gid = blocks[i].groupId;
-    if (!gid) {
-      runOf[i] = nextRun++;
-      i++;
-      continue;
-    }
-    let j = i;
-    while (j < blocks.length && blocks[j].groupId === gid) j++;
-    const run = blocks.slice(i, j);
-    const kinds = new Set(
-      run.filter((b) => b.type !== "gloss" && b.kind).map((b) => b.kind),
-    );
-    const mergeable = run.length >= 2 && kinds.size <= 1;
-    if (mergeable) {
-      const id = nextRun++;
-      for (let k = i; k < j; k++) runOf[k] = id;
-    } else {
-      for (let k = i; k < j; k++) runOf[k] = nextRun++;
-    }
-    i = j;
-  }
-  return runOf;
-}
-
+// ---- quotation cards -------------------------------------------------
+// Extracted to ./quote-cards.ts; imported at the top of this module.
 /** ` * ` inside a line of DECLARED VERSE separates the two hemistichs of one
  *  bayt — the sadr, which is set on the right, and the ajuz on the left.
  *
@@ -439,107 +328,8 @@ function renderInline(text: string, opts: RenderOptions): string {
   return isolateInlineArabic(s);
 }
 
-/** An Arabic run woven into left-to-right prose, with the bracketing glyphs the
- *  print renderer also absorbs. Mirror of `ARABIC_INLINE_RE` in
- *  plan-dashboard/scripts/lib/book-html.mjs — keep the two in step. */
-const ARABIC_INLINE_RE = /[﴿«]?[\s؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]+[﴾»]?/g;
-
-/**
- * Is this paragraph an Arabic QUOTATION, rather than English containing Arabic?
- *
- * Deliberately duplicated rather than imported: the canonical copy lives in
- * scripts/lib/book-html.mjs, which reads the filesystem and so cannot be pulled
- * into this client-bundled module. The two, plus `_book_mirror.is_arabic_block`
- * on the Python side, are pinned against each other by `arabic-block.fixtures.json`
- * — see the canonical copy's own note for what drift costs.
- */
-export function isArabicOnlyParagraph(s: string): boolean {
-  const arabic = (s.match(/[ؠ-يٱ-ۓ]/g) || []).length;
-  const latin = (s.match(/[A-Za-z]/g) || []).length;
-  return arabic > 20 && arabic > 2 * latin;
-}
-
-/**
- * Is this line of a quotation block ARABIC, or the translation beside it?
- *
- * MIRROR of `isArabicQuoteLine` in scripts/lib/book-html.mjs, pinned by
- * `arabic-quote-line.fixtures.json`. Deliberately duplicated for the same reason
- * `isArabicOnlyParagraph` above is: the canonical copy reads the filesystem and
- * cannot be pulled into this client-bundled module.
- *
- * The rule is which script the line is MOSTLY in. Until 2026-08-09 both copies
- * asked only whether the line CONTAINED Arabic, so an English translation carrying
- * the `(ع)` honorific was set right-to-left in the Arabic face. Drift here is the
- * one divergence no gate could see: the printed page and this reader would give the
- * same paragraph different directions.
- */
-export function isArabicQuoteLine(s: string): boolean {
-  const arabic = (s.match(/[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/g) || []).length;
-  if (arabic === 0) return false;
-  const latin = (s.match(/[A-Za-z]/g) || []).length;
-  return arabic > latin;
-}
-
-/**
- * Every inline Arabic run in a chunk of plain text (no tags — the caller has
- * already split those out), as `[start, end)` character offsets with the
- * bracketing whitespace trimmed off each end.
- *
- * Factored out of `isolateInlineArabic` so the live Book Composer editor can
- * find the SAME runs over ProseMirror text nodes that this function finds over
- * an HTML string — see `arabic-decos.ts`'s header for why that decoration
- * exists and why it has to match this, not a second regex of its own.
- */
-export function findArabicRuns(
-  text: string,
-): Array<{ start: number; end: number }> {
-  if (!ARABIC_SCRIPT_RE.test(text)) return [];
-  const runs: Array<{ start: number; end: number }> = [];
-  for (const m of text.matchAll(ARABIC_INLINE_RE)) {
-    if (!ARABIC_SCRIPT_RE.test(m[0])) continue;
-    const leading = m[0].match(/^\s*/)?.[0] ?? "";
-    const trailing = m[0].match(/\s*$/)?.[0] ?? "";
-    const start = m.index + leading.length;
-    const end = m.index + m[0].length - trailing.length;
-    if (end > start) runs.push({ start, end });
-  }
-  return runs;
-}
-
-/**
- * Wrap each inline Arabic run in the same `.ar-inline` span the PRINT renderer
- * emits (book-html.mjs `renderInline`).
- *
- * Block-level Arabic already gets `dir="rtl" lang="ar"`, but an Arabic run
- * sitting INSIDE an English sentence had no wrapper at all on the reader path.
- * The bidi algorithm then pulls the neighbouring brackets into the
- * right-to-left run, so `… al-Yaman (جعفر بن منصور اليمن) and …` renders with
- * its closing parenthesis stranded at the start of the next line. The PDF never
- * had the bug because `.ar-inline` carries `unicode-bidi: isolate`; this brings
- * the on-screen render to the same markup, which also gives it the same Arabic
- * face for free.
- *
- * Applied last, so it cannot wrap the HTML tags the passes above emit.
- */
-function isolateInlineArabic(html: string): string {
-  if (!ARABIC_SCRIPT_RE.test(html)) return html;
-  // Only rewrite text, never the inside of a tag.
-  return html.replace(/<[^>]+>|[^<]+/g, (chunk) => {
-    if (chunk.startsWith("<")) return chunk;
-    const runs = findArabicRuns(chunk);
-    if (!runs.length) return chunk;
-    let out = "";
-    let last = 0;
-    for (const r of runs) {
-      out += chunk.slice(last, r.start);
-      out += `<span class="ar-inline" dir="rtl" lang="ar">${chunk.slice(r.start, r.end)}</span>`;
-      last = r.end;
-    }
-    out += chunk.slice(last);
-    return out;
-  });
-}
-
+// ---- inline Arabic ---------------------------------------------------
+// Extracted to ./arabic-inline.ts; imported at the top of this module.
 /** Split accumulated blockquote lines into paragraphs on blank lines. */
 function quoteParagraphs(quoteBuffer: string[]): string[] {
   const paras: string[] = [];

@@ -231,7 +231,7 @@
      consuming rule uses to compute a line-height that CANCELS the term's own
      bigger font-size back down to the paragraph's own line box, instead of
      shrinking the term to make the overshoot smaller. */
-  --q-ar-inline-size: 1.26em;
+  --q-ar-inline-size: 1.15em;
   /* The bare-number twin of --q-ar-inline-size above, same value with no
      unit. calc() can only divide two <number>s, not two lengths, so a
      consuming rule cannot derive "1.26" back out of "1.26em" — it has to be
@@ -242,12 +242,19 @@
      makes the term's own line box equal its paragraph's, whatever size step
      is active. (book-reader.css never scales this term's font-size at all —
      "at the body size" — so it has no blowout and needs no compensation.) */
-  --q-ar-inline-scale: 1.26;
+  --q-ar-inline-scale: 1.15;
   /* Inline Arabic in running English keeps the same regular weight as display
      Arabic. The Arabic face, size, colour and bidi isolation already set it
-     apart; bold script reads like emphasis the author did not ask for. */
+     apart; bold script reads like emphasis the author did not ask for.
+
+     Scheherazade New leads (Asif, 2026-08-15), matching --l-font-arabic in
+     the Podcast Factory Library's podcast-factory.css: that token was set to
+     lead with Scheherazade New for fully-vowelled running prose, and Asif
+     wants the Composer's inline Arabic to read as the same face as the
+     audience-facing site rather than diverge on which one is primary. Amiri
+     stays as the fallback pair for a checkout missing Scheherazade. */
   --q-ar-inline-face:
-    "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
+    "ScheherazadeSized", "Scheherazade New", "AmiriSized", "Amiri", serif;
   --q-ar-inline-weight: 400;
 }
 
@@ -351,9 +358,18 @@
   --q-ar-face:
     "ScheherazadeSized", "Scheherazade New", "Scheherazade", "Amiri",
     "DecoType Naskh", serif;
+  /* Added 2026-08-15: this class set the DISPLAY face only, so a book on
+     Scheherazade New printed its quotations in Scheherazade and its inline
+     terms in whatever the :root default happened to be — Amiri until the
+     same day. Every face class now owns its inline face too, so the two
+     never diverge regardless of what the shared default is set to. */
+  --q-ar-inline-face:
+    "ScheherazadeSized", "Scheherazade New", "AmiriSized", "Amiri", serif;
 }
 .ar-amiri {
   --q-ar-face:
+    "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
+  --q-ar-inline-face:
     "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
 }
 /* Added 2026-08-14: Traditional Arabic ships only a Regular cut on disk, and
@@ -364,6 +380,11 @@
   --q-ar-face:
     "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
   --q-ar-weight: 700;
+  /* Inline terms stay unbolded (--q-ar-inline-weight is pinned to 400 below
+     regardless), but the FACE still has to match Amiri rather than fall
+     through to the shared default. */
+  --q-ar-inline-face:
+    "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
 }
 
 /* Three MODERN faces (2026-08-02), beside the two naskh ones above. Chosen for a
@@ -380,13 +401,20 @@
 .ar-cairo {
   --q-ar-face:
     "Cairo", "ScheherazadeSized", "Scheherazade New", "Amiri", sans-serif;
+  --q-ar-inline-face:
+    "Cairo", "ScheherazadeSized", "Scheherazade New", "Amiri", sans-serif;
 }
 .ar-tajawal {
   --q-ar-face:
     "Tajawal", "ScheherazadeSized", "Scheherazade New", "Amiri", sans-serif;
+  --q-ar-inline-face:
+    "Tajawal", "ScheherazadeSized", "Scheherazade New", "Amiri", sans-serif;
 }
 .ar-ibm-plex-sans-arabic {
   --q-ar-face:
+    "IBM Plex Sans Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
+    sans-serif;
+  --q-ar-inline-face:
     "IBM Plex Sans Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
     sans-serif;
 }

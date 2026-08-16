@@ -57,7 +57,10 @@ import { session } from "~/middleware/session";
 export function meta(): Route.MetaDescriptors {
   return [
     { title: "Reading offline — Podcast Factory" },
-    { name: "description", content: "A downloaded chapter, read with no network." },
+    {
+      name: "description",
+      content: "A downloaded chapter, read with no network.",
+    },
   ];
 }
 
@@ -109,7 +112,8 @@ export default function ReadOffline({ loaderData }: Route.ComponentProps) {
             0,
             chapters.findIndex((c) => c.anchorKey === wanted),
           );
-  const chapter = chapters === null || here < 0 ? null : (chapters[here] ?? null);
+  const chapter =
+    chapters === null || here < 0 ? null : (chapters[here] ?? null);
 
   // Scrolled to the top on every chapter change. Without it, moving to the next
   // chapter leaves the reader wherever they were down the previous one.
@@ -130,7 +134,10 @@ export default function ReadOffline({ loaderData }: Route.ComponentProps) {
      wipes every painted highlight, while the paint effect's own dependencies
      have not changed so nothing puts them back. Written inline here first, and
      the highlight duly vanished the moment the notes panel was opened. */
-  const html = useMemo(() => ({ __html: chapter?.html ?? "" }), [chapter?.html]);
+  const html = useMemo(
+    () => ({ __html: chapter?.html ?? "" }),
+    [chapter?.html],
+  );
 
   /* ---- The reader's own marks, unchanged ---------------------------------
      `useMarks` paints the local cache before it asks the server and treats a
@@ -140,7 +147,10 @@ export default function ReadOffline({ loaderData }: Route.ComponentProps) {
      for this page; they have worked this way since long before it existed. */
   const marks = useMarks(slug);
   const key = chapter?.anchorKey ?? "";
-  const annotations = useMemo(() => annotationsInChapter(marks, key), [marks, key]);
+  const annotations = useMemo(
+    () => annotationsInChapter(marks, key),
+    [marks, key],
+  );
   const bookmarks = useMemo(() => bookmarksInChapter(marks, key), [marks, key]);
 
   const onResolved = useCallback((painted: Painted) => {
@@ -158,7 +168,11 @@ export default function ReadOffline({ loaderData }: Route.ComponentProps) {
 
   const contents = useMemo(
     () =>
-      (chapters ?? []).map((c) => ({ anchorKey: c.anchorKey, title: c.title, idx: c.idx })),
+      (chapters ?? []).map((c) => ({
+        anchorKey: c.anchorKey,
+        title: c.title,
+        idx: c.idx,
+      })),
     [chapters],
   );
 
@@ -197,7 +211,7 @@ export default function ReadOffline({ loaderData }: Route.ComponentProps) {
         <EmptyState>
           {slug === ""
             ? "No book was named."
-            : "This book is not on your device. When you next have a signal, open it and press Keep the text."}{" "}
+            : "This book is not on your device. When you next have a signal, open it and press Read Offline."}{" "}
           <Link to="/downloads" className="pf-link">
             See what is downloaded
           </Link>
@@ -262,8 +276,9 @@ export default function ReadOffline({ loaderData }: Route.ComponentProps) {
                 }}
               />
               <p className="pf-offline-read__caveat">
-                Marks made elsewhere appear here, and changes you make are sent when
-                you next have a signal. Making a NEW highlight needs the full reader.
+                Marks made elsewhere appear here, and changes you make are sent
+                when you next have a signal. Making a NEW highlight needs the
+                full reader.
               </p>
             </div>
           ) : null}
@@ -293,10 +308,17 @@ export default function ReadOffline({ loaderData }: Route.ComponentProps) {
                 read offline is set in the same measure, the same face and the
                 same Arabic handling. The HTML was rendered at publish time;
                 nothing here re-renders it. */}
-            <div ref={body} className="reader pf-chapter-body" dangerouslySetInnerHTML={html} />
+            <div
+              ref={body}
+              className="reader pf-chapter-body"
+              dangerouslySetInnerHTML={html}
+            />
           </article>
 
-          <nav className="pf-offline-read__move" aria-label="Move between chapters">
+          <nav
+            className="pf-offline-read__move"
+            aria-label="Move between chapters"
+          >
             {here > 0 ? (
               <button
                 type="button"

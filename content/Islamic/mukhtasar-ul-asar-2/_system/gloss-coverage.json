@@ -1,10 +1,394 @@
 {
-  "schema": "book.gloss-coverage/v1",
-  "candidates": 63,
-  "strong": 0,
-  "covered": 0,
-  "missing_strong": [],
+  "schema": "book.gloss-coverage/v2",
+  "candidates": 88,
+  "strong": 1,
+  "covered": 2,
+  "missing_strong": [
+    "dhimmi"
+  ],
   "glossary_entries": 70,
-  "coverage": 0.0,
-  "strong_coverage": 1.0
+  "coverage": 0.023,
+  "strong_coverage": 0.0,
+  "bare_terms": 63,
+  "bare_uses": 139,
+  "bare": [
+    {
+      "term": "dhimmi",
+      "uses": 1,
+      "confidence": "strong",
+      "first_seen_snippet": "- A Muslim man and a *dhimmi* woman"
+    },
+    {
+      "term": "li'an",
+      "uses": 23,
+      "confidence": "weak",
+      "first_seen_snippet": "These verses establish the procedure of *li'an* — the oat"
+    },
+    {
+      "term": "riba",
+      "uses": 14,
+      "confidence": "weak",
+      "first_seen_snippet": "every party to a transaction involving *riba*:"
+    },
+    {
+      "term": "hadd",
+      "uses": 8,
+      "confidence": "weak",
+      "first_seen_snippet": "is liable to the prescribed punishment (hadd) if he is"
+    },
+    {
+      "term": "kali",
+      "uses": 8,
+      "confidence": "weak",
+      "first_seen_snippet": "ne are available. This is the forbidden *kali* for *kali"
+    },
+    {
+      "term": "iddah",
+      "uses": 7,
+      "confidence": "weak",
+      "first_seen_snippet": "- no waiting period (*iddah*) was requi"
+    },
+    {
+      "term": "ayyami",
+      "uses": 4,
+      "confidence": "weak",
+      "first_seen_snippet": "in affection.\" And he said: \"Marry the *ayyami*\" — meanin"
+    },
+    {
+      "term": "al-wala",
+      "uses": 3,
+      "confidence": "weak",
+      "first_seen_snippet": "frees her unless the right of patronage (al-wala) remains w"
+    },
+    {
+      "term": "ahl al-dhimmah",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "The people of the covenant (*ahl al-dhimmah*), it was h"
+    },
+    {
+      "term": "al-tasir",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "above the prevailing rate of the place (*al-tasir*). Whoever"
+    },
+    {
+      "term": "al-tatfif",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "to give less than is due, and skimping (*al-tatfif*) is to rec"
+    },
+    {
+      "term": "baraa",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "e to say, \"I sell to you with disavowal (*baraa*),\" without"
+    },
+    {
+      "term": "bay ma laysa indak",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "rbade selling what one does not possess (*bay ma laysa indak*) — as when"
+    },
+    {
+      "term": "bay wa salaf",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "ave forbidden any sale joined to a loan (*bay wa salaf*) — as when"
+    },
+    {
+      "term": "ghishsh",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "no benefit to the buyer, that is deceit (*ghishsh*), and it i"
+    },
+    {
+      "term": "ihtikar",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "e scholars forbade the hoarding of food (*ihtikar*), and it i"
+    },
+    {
+      "term": "milk al-yamin",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "of marriage and the right of possession (*milk al-yamin*). The Almi"
+    },
+    {
+      "term": "mutah",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "amily) forbade the marriage of pleasure (*mutah*)."
+    },
+    {
+      "term": "ribh ma lam yudman",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "ng from what one does not yet guarantee (*ribh ma lam yudman*): somethin"
+    },
+    {
+      "term": "ruqba",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "The *umra*, the *ruqba*, and the"
+    },
+    {
+      "term": "sarf",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "He said that exchange (*sarf*) is lawful"
+    },
+    {
+      "term": "tawliyah",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "olars also permitted the resale at cost (*tawliyah*) of food b"
+    },
+    {
+      "term": "umra",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "The *umra*, the *ruq"
+    },
+    {
+      "term": "ʿawl",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "e surplus belongs. All the questions of *ʿawl* proceed o"
+    },
+    {
+      "term": "al-hajr",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "Interdiction (al-hajr) is restra"
+    },
+    {
+      "term": "al-idda",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "vorce (al-talaq) and the waiting period (al-idda). If a man"
+    },
+    {
+      "term": "al-kafala",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "d to him onto a third party. Suretyship (al-kafala) is the be"
+    },
+    {
+      "term": "al-mudihah",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "it is taken — such as the surface wound (al-mudihah) and what"
+    },
+    {
+      "term": "al-Rida",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "**On Breastfeeding (al-Rida)**"
+    },
+    {
+      "term": "al-talaq",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "He named nothing but the divorce (al-talaq) and the w"
+    },
+    {
+      "term": "aqila",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "if the act was deliberate, and upon the *aqila* if it was"
+    },
+    {
+      "term": "asar",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "n abridgment: a condensed collection of *asar*, the rece"
+    },
+    {
+      "term": "awl",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "There is no proportional reduction — no *awl* — in any"
+    },
+    {
+      "term": "badia",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "cutting into it, twelve dinars. For the *badia*, which cu"
+    },
+    {
+      "term": "damiya",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "For the *damiya* — the wou"
+    },
+    {
+      "term": "faqira",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "od flows — ten dinars are owed. For the *faqira*, which br"
+    },
+    {
+      "term": "hashima",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ys the bone bare, fifty dinars. For the *hashima*, which do"
+    },
+    {
+      "term": "hudud",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "or in any of the prescribed punishments (hudud) or in ret"
+    },
+    {
+      "term": "jaifa",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "th of the blood money for each. For the *jaifa* — a blow"
+    },
+    {
+      "term": "jizyah",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "h (ع and his family) did not accept the *jizyah* from the"
+    },
+    {
+      "term": "khan",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "The same principle applies to a *khan* that a ma"
+    },
+    {
+      "term": "kira al-musha",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ed about the hire of undivided property (kira al-musha), the Mast"
+    },
+    {
+      "term": "kitabah",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "nd by a written contract of manumission (kitabah) — and the"
+    },
+    {
+      "term": "mamuma",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": ", one hundred and fifty dinars. For the *mamuma*, in which"
+    },
+    {
+      "term": "marry",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ss or a polytheist.\" He said: \"The word *marry* here may"
+    },
+    {
+      "term": "mawla",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "in such a manner, one the freed client (mawla) of one pe"
+    },
+    {
+      "term": "miltat",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ars. For the *mishaq* — also called the *miltat* — which c"
+    },
+    {
+      "term": "mishaq",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "into the flesh, thirty dinars. For the *mishaq* — also ca"
+    },
+    {
+      "term": "mubarat",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "**Khul and mutual release (mubarat)**"
+    },
+    {
+      "term": "mudiha",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ng that membrane, forty dinars. For the *mudiha*, which cu"
+    },
+    {
+      "term": "mukataba",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "enter into a contract of manumission — *mukataba* — paying"
+    },
+    {
+      "term": "mukatabah",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "woman under a contract of emancipation (mukatabah) may be ma"
+    },
+    {
+      "term": "munaqqila",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "s the bone, one hundred dinars. For the *munaqqila*, which br"
+    },
+    {
+      "term": "mutalahima",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ring part of it, twenty dinars. For the *mutalahima*, which cu"
+    },
+    {
+      "term": "qisas",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "d punishments (hudud) or in retaliation (qisas), though i"
+    },
+    {
+      "term": "rabwah",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "this same root, raised ground is called *rabwah*, for its"
+    },
+    {
+      "term": "rukban",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "Prophet ﷺ forbade going out to meet the *rukban* — the car"
+    },
+    {
+      "term": "sam",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "it, so seek treatment — except for the *sam*, which is"
+    },
+    {
+      "term": "shafi",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "sale is open and known. Equally, if the *shafi* holds the"
+    },
+    {
+      "term": "shufah",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "Pre-emption — *shufah* — applies"
+    },
+    {
+      "term": "suht",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ezzin's wage falls among unlawful gain, *suht*, yet he a"
+    },
+    {
+      "term": "sukna",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "The *umra*, the *ruqba*, and the *sukna* are among"
+    },
+    {
+      "term": "tatfif",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "Allah bless him and his family) forbade *tatfif* — the giv"
+    }
+  ]
 }

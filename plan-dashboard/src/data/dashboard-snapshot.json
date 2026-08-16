@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 35.54
+    "burn_30d_usd": 103.62
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1872,6 +1872,14 @@
       "kind": "unknown"
     },
     {
+      "slug": "ayyuhal-walad",
+      "title": "Ayyuha al-Walad",
+      "phase": "reader-narration",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_scholarly"
+    },
+    {
       "slug": "claude-code-training",
       "title": "claude-code-training",
       "phase": "per-chapter",
@@ -1882,7 +1890,7 @@
     {
       "slug": "degrees-of-excellence",
       "title": "Degrees of Excellence",
-      "phase": "0book-render",
+      "phase": "reader-narration",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
@@ -1898,8 +1906,8 @@
     {
       "slug": "kitab-al-riyad",
       "title": "Kitāb al-Riyāḍ",
-      "phase": "0book-render",
-      "phase_status": "failed",
+      "phase": "reader-narration",
+      "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },
@@ -1920,25 +1928,33 @@
       "kind": "islamic_session"
     },
     {
+      "slug": "mukhtasar-ul-asar-1",
+      "title": "Mukhtasar Ul Asar 1",
+      "phase": "reader-narration",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_scholarly"
+    },
+    {
       "slug": "mukhtasar-ul-asar-2",
       "title": "Mukhtasar ul Asar 2",
-      "phase": "preflight",
-      "phase_status": "pending",
+      "phase": "reader-narration",
+      "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },
     {
       "slug": "spiritual-ethos",
       "title": "Spiritual Ethos",
-      "phase": "0book-compose",
-      "phase_status": "running",
+      "phase": "publish",
+      "phase_status": "pending",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },
     {
       "slug": "surah-al-fateha",
       "title": "Surah Al-Fateha",
-      "phase": "sessions-apparatus",
+      "phase": "sessions-read-along",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_session"
@@ -1967,6 +1983,18 @@
       "title": "Ayyuha al-Walad",
       "shipped": "2026-06-06T11:01:27Z",
       "episodes": 4
+    },
+    {
+      "slug": "mukhtasar-ul-asar-1",
+      "title": "Mukhtasar Ul Asar 1",
+      "shipped": "2026-08-15T19:47:28Z",
+      "episodes": 0
+    },
+    {
+      "slug": "mukhtasar-ul-asar-2",
+      "title": "Mukhtasar ul Asar 2",
+      "shipped": "2026-08-15T19:47:41Z",
+      "episodes": 0
     },
     {
       "slug": "the-master-and-the-disciple",

@@ -48,7 +48,10 @@ export const session = createContext<SessionState>();
  * so for a real Google account it is always true — and requiring it means an
  * unverified row, however it came to exist, is nobody.
  */
-export const withSession: MiddlewareFunction<Response> = async ({ request, context }, next) => {
+export const withSession: MiddlewareFunction<Response> = async (
+  { request, context },
+  next,
+) => {
   const { env } = context.get(cloudflare);
 
   let viewer: Viewer | null = null;
@@ -115,7 +118,9 @@ export const withSession: MiddlewareFunction<Response> = async ({ request, conte
  * where it is unset: the hard-404 render path described above. Every consumer
  * goes through here so that path renders instead of exploding.
  */
-export function viewerOf(context: Readonly<{ get: (c: typeof session) => SessionState }>): Viewer | null {
+export function viewerOf(
+  context: Readonly<{ get: (c: typeof session) => SessionState }>,
+): Viewer | null {
   try {
     return context.get(session).viewer;
   } catch {

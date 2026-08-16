@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import {
   chapterOf,
@@ -21,8 +21,18 @@ import { createTestDb } from "./d1";
  * make a half-published library readable rather than broken: an episode with no
  * recording is SHOWN and marked, and an asset that exists on disk but not in R2
  * is treated as absent rather than linked.
+ *
+ * That second rule is PRODUCTION's rule specifically (`catalog.server.ts`'s
+ * `servable()`, 2026-08-16) — `npm run dev` deliberately relaxes it, since
+ * Vitest and the dev server both run through Vite's SSR module runner rather
+ * than a real `react-router build`, `import.meta.env.DEV` reads true under
+ * either one, and without this override every assertion below would silently
+ * start exercising the dev relaxation instead of the production gate it is
+ * actually meant to prove.
  */
-
+beforeAll(() => {
+  import.meta.env.DEV = false;
+});
 
 function seed() {
   const test = createTestDb();
@@ -82,6 +92,25 @@ describe("episodes", () => {
     close();
   });
 
+  it("treats an inventoried-but-not-uploaded file as playable in local dev", async () => {
+    // The other half of the rule above: in production "on disk only" must stay
+    // hidden (the test right above this one), but `npm run dev` deliberately
+    // treats it as playable — the whole point of the 2026-08-16 fix — because
+    // the local media plugin streams episode recordings straight off that disk
+    // copy instead of requiring a duplicate upload into the local bucket.
+    const { db, close } = seed();
+    import.meta.env.DEV = true;
+
+    try {
+      const episodes = await episodesOf(db, "book-a");
+      expect(episodes[0].hasAudio, "uploaded").toBe(true);
+      expect(episodes[1].hasAudio, "on disk only, but this is dev").toBe(true);
+    } finally {
+      import.meta.env.DEV = false;
+      close();
+    }
+  });
+
   it("carries no chapter links unless a human recorded them", async () => {
     const { db, close } = seed();
 
@@ -133,10 +162,12 @@ describe("sessions", () => {
     `);
 
     const sessions = await sessionsOf(test.db, "book-a");
-    expect(sessions.map((s) => [s.number, s.title, s.episodes.length])).toEqual([
-      [1, "The First Run", 2],
-      [2, "The Second", 1],
-    ]);
+    expect(sessions.map((s) => [s.number, s.title, s.episodes.length])).toEqual(
+      [
+        [1, "The First Run", 2],
+        [2, "The Second", 1],
+      ],
+    );
 
     test.close();
   });
@@ -152,16 +183,23 @@ describe("sessions", () => {
     `);
 
     const sessions = await sessionsOf(test.db, "book-a");
-    const seen = sessions.flatMap((s) => s.episodes.map((e) => e.number)).sort();
+    const seen = sessions
+      .flatMap((s) => s.episodes.map((e) => e.number))
+      .sort();
     expect(seen, "every episode appears exactly once").toEqual([1, 2, 3]);
-    expect(sessions.at(-1)?.title, "the strays land in the titleless group").toBe("");
+    expect(
+      sessions.at(-1)?.title,
+      "the strays land in the titleless group",
+    ).toBe("");
 
     test.close();
   });
 
   it("drops a declared session that ended up with no episodes", async () => {
     const test = seed();
-    test.exec(`INSERT INTO book_session (slug, number, title) VALUES ('book-a', 4, 'Empty')`);
+    test.exec(
+      `INSERT INTO book_session (slug, number, title) VALUES ('book-a', 4, 'Empty')`,
+    );
 
     const sessions = await sessionsOf(test.db, "book-a");
     expect(sessions.some((s) => s.title === "Empty")).toBe(false);
@@ -212,7 +250,10 @@ describe("chapters", () => {
 
     expect(one?.narration?.audioKey).toBe("book-a/narration/one.mp3");
     expect(one?.narration?.durationS).toBe(12.5);
-    expect(one?.narration?.cues[0]).toMatchObject({ blockIndex: 0, text: "one" });
+    expect(one?.narration?.cues[0]).toMatchObject({
+      blockIndex: 0,
+      text: "one",
+    });
     expect(two?.narration).toBeNull();
 
     test.close();
@@ -301,7 +342,9 @@ describe("library cards", () => {
 
   it("marks the PDF available once it is uploaded", async () => {
     const test = seed();
-    test.exec(`UPDATE media_asset SET uploaded_at = 'now' WHERE key = 'book-a/book.pdf'`);
+    test.exec(
+      `UPDATE media_asset SET uploaded_at = 'now' WHERE key = 'book-a/book.pdf'`,
+    );
 
     const cards = await libraryCards(test.db, ["book-a"]);
     expect(cards.get("book-a")?.pdfAvailable).toBe(true);
@@ -362,7 +405,9 @@ describe("library cards", () => {
     `);
 
     const playable = await playableEpisodesForCards(test.db, ["book-a"]);
-    expect(playable.get("book-a")?.[0].transcriptKey).toBe("book-a/transcripts/ep01.vtt");
+    expect(playable.get("book-a")?.[0].transcriptKey).toBe(
+      "book-a/transcripts/ep01.vtt",
+    );
 
     test.close();
   });
@@ -398,7 +443,10 @@ describe("the publish step's privilege discipline", () => {
     // Comments are stripped first: the module docstring explains at length that
     // it does not touch these columns, and a check that cannot tell an
     // explanation from a statement fires on its own documentation.
-    const code = PUBLISH.replace(/"""[\s\S]*?"""/g, "").replace(/^\s*#.*$/gm, "");
+    const code = PUBLISH.replace(/"""[\s\S]*?"""/g, "").replace(
+      /^\s*#.*$/gm,
+      "",
+    );
 
     expect(code).not.toMatch(/open_to_all/);
     expect(code).not.toMatch(/\bstatus\b\s*=/);
@@ -409,6 +457,8 @@ describe("the publish step's privilege discipline", () => {
     // `INSERT INTO content_unit VALUES (...)` without a column list would supply
     // every column positionally — including the two above — and would keep
     // working right up until the schema gained a column.
-    expect(PUBLISH).toMatch(/INSERT INTO content_unit \(slug, bucket, title, kind, sort_order\)/);
+    expect(PUBLISH).toMatch(
+      /INSERT INTO content_unit \(slug, bucket, title, kind, sort_order\)/,
+    );
   });
 });

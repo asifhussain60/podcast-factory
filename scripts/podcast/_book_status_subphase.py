@@ -62,6 +62,59 @@ def sessions_articulate_fraction(phase: str, book_dir: Path | None) -> float | N
     return kept / total
 
 
+#: `reader-narration` renders one MP3 per chapter and rewrites its manifest after
+#: every one, exactly like 0b/0d checkpoint per chunk — same reason for a helper:
+#: the state file's status field is a single flag written once at the end of a
+#: run that takes an hour across a long book, so trusting it alone reports a book
+#: 3 chapters in and a book 20 chapters in as the same flat 50%.
+_READER_NARRATION_PHASE = "reader-narration"
+
+
+def narration_fraction(phase: str, book_dir: Path | None) -> float | None:
+    """Real per-chapter progress for the Library's read-aloud step, read from the
+    manifest `reader_narration.py` rewrites after every chapter — never a
+    fabricated number.
+
+    Imports `split_chapters` (the reading edition's own chapter splitter) rather
+    than counting `##` headings here: the renderer decides what a chapter IS by
+    calling that function, and a second definition of the question in this file
+    would be a second answer that drifts the moment the heading rule changes.
+    The numerator counts only manifest entries whose MP3 is actually on disk, so
+    a manifest that outlives its audio cannot inflate the bar.
+
+    Returns None — never a guess — when book_dir is unknown, this is not that
+    phase, the reading edition or manifest does not exist yet, or the edition has
+    no chapters. The caller falls back to the flat 0.5 guess in every one of
+    those cases, exactly as it did before this existed.
+    """
+    if book_dir is None or phase != _READER_NARRATION_PHASE:
+        return None
+    root = Path(book_dir)
+    book_md = root / "book" / "book.md"
+    manifest_path = root / "book" / "narration" / "manifest.json"
+    if not book_md.exists() or not manifest_path.exists():
+        return None
+    try:
+        import json
+
+        from _listener_book import split_chapters
+
+        total = len(split_chapters(book_md.read_text(encoding="utf-8")))
+        if not total:
+            return None
+        chapters = json.loads(manifest_path.read_text(encoding="utf-8")).get("chapters")
+        if not isinstance(chapters, dict):
+            return None
+        done = sum(
+            1
+            for entry in chapters.values()
+            if isinstance(entry, dict) and (root / str(entry.get("audio") or "")).is_file()
+        )
+    except Exception:
+        return None
+    return min(0.95, done / total)
+
+
 def _chunk_dir(phase: str, book_dir: Path) -> Path:
     return Path(book_dir) / "_system" / "source" / "text" / "_chunks" / phase
 

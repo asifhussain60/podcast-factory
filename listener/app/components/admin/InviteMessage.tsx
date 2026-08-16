@@ -72,18 +72,27 @@ export function InviteMessage({
   }
 
   return (
-    <dialog ref={ref} onClose={onClose} onCancel={onClose} className="pf-dialog">
+    <dialog
+      ref={ref}
+      onClose={onClose}
+      onCancel={onClose}
+      className="pf-dialog"
+    >
       <div className="pf-dialog__head">
         <h2 className="pf-dialog__title">Send them this</h2>
-        <button type="button" onClick={onClose} className="pf-button pf-button--soft pf-button--sm">
+        <button
+          type="button"
+          onClick={onClose}
+          className="pf-button pf-button--soft pf-button--sm"
+        >
           <Icon icon={faXmark} />
           Close
         </button>
       </div>
 
       <p className="pf-note pf-note--quiet">
-        Paste it into a message or an email. You can edit it here first — nothing is
-        sent from this page.
+        Paste it into a message or an email. You can edit it here first —
+        nothing is sent from this page.
       </p>
 
       {/* The link is the site's declared base address, which on this machine is
@@ -91,8 +100,8 @@ export function InviteMessage({
           carries a link only the sender can open is worse than one that warns. */}
       {/^https?:\/\/(localhost|127\.0\.0\.1)/.test(message.siteUrl) ? (
         <p className="pf-message pf-message--danger">
-          This link points at your own machine, so nobody else can open it. Generate
-          the message on the live site before sending it.
+          This link points at your own machine, so nobody else can open it.
+          Generate the message on the live site before sending it.
         </p>
       ) : null}
 
@@ -105,7 +114,11 @@ export function InviteMessage({
       />
 
       <div className="pf-dialog__foot">
-        <button type="button" onClick={copy} className="pf-button pf-button--primary">
+        <button
+          type="button"
+          onClick={copy}
+          className="pf-button pf-button--primary"
+        >
           <Icon icon={faCopy} />
           Copy to clipboard
         </button>

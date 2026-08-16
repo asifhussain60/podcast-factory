@@ -277,16 +277,22 @@ header.stack > h1 {
   align-items: stretch;
   gap: 0;
 }
+/* Brand lockup — mark + two-tone wordmark, ported from the Podcast Factory
+   Library's own header so the two surfaces announce themselves identically.
+   Markup and the port's one deliberate difference are documented in
+   components/BrandLogo.astro. `Astro Site` stays: it is what distinguishes
+   this surface from the Library at a glance. */
 .topnav-brand {
-  font-weight: 900;
+  font-weight: 600;
   font-size: var(--fs-base);
   color: var(--c-ink);
   text-decoration: none;
   display: flex;
   align-items: center;
+  gap: var(--sp-2);
   padding-right: var(--sp-6);
   flex-shrink: 0;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 .topnav-brand:hover {
   text-decoration: none;
@@ -294,15 +300,66 @@ header.stack > h1 {
 .topnav-brand small {
   font-weight: 400;
   color: var(--c-ink-muted);
-  margin-left: var(--sp-2);
   font-size: var(--fs-sm);
 }
 
+.topnav-brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+/* Sized in the stylesheet rather than by width/height attributes, so the mark
+   scales with the header's own breakpoints and never needs a second source of
+   truth for its size. */
+.topnav-brand-mark {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+}
+
+.topnav-brand-word {
+  display: inline-flex;
+  gap: 0.28em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* `inherit`, not the ink token: on the cinematic homepage narrative.css
+   repaints .topnav-brand gold, and the first word must follow that override
+   rather than pin itself to the default palette. */
+.topnav-brand-word-a {
+  color: inherit;
+}
+.topnav-brand-word-b {
+  color: var(--c-accent);
+}
+
+/* The tab strip scrolls at ANY width where it overflows, not only on phones.
+   These three rules lived in the `max-width: 640px` block below, so between
+   641px and roughly 761px the strip had `overflow-x: visible` and no ability
+   to shrink: `Plans` was laid out past the right edge of a page that does not
+   scroll sideways, which made a whole top-level tab unreachable rather than
+   merely off-view. `min-width: 0` is the half that matters — without it a flex
+   item refuses to shrink below its content, so `overflow-x` never has anything
+   to scroll. Verified at 700px, where the strip previously ended at x=761. */
 .topnav-sections {
   display: flex;
   align-items: stretch;
   gap: 0;
-  flex: 1;
+  /* `1 1 auto`, not `1`. `flex: 1` is `1 1 0%`, and the trailing spacer below
+     carries the same — so the two split the free width evenly and the tab
+     strip was handed 177px at a 700px window while an empty spacer held the
+     rest. Basing the strip on its content means the spacer only absorbs what
+     is genuinely left over, and the strip gives up width last. */
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.topnav-sections::-webkit-scrollbar {
+  display: none;
 }
 
 .topnav-section {
@@ -374,18 +431,23 @@ header.stack > h1 {
   .topnav-brand {
     padding-right: var(--sp-2);
   }
+  /* Mark only below 640px. The lettering is what costs the width — dropping it
+     hands ~120px back to the section tabs, which otherwise start mid-word
+     inside their own scroll container. The mark keeps carrying the accessible
+     name, so nothing is lost but the drawn word. Same reduction the Library's
+     own Logo offers through its `wordmark` prop. */
+  .topnav-brand-word {
+    display: none;
+  }
+  .topnav-brand-mark {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
   .topnav-section {
     padding: 0 var(--sp-3);
   }
-  /* Let the tab strip scroll rather than clip off-screen */
-  .topnav-sections {
-    overflow-x: auto;
-    scrollbar-width: none;
-    min-width: 0;
-  }
-  .topnav-sections::-webkit-scrollbar {
-    display: none;
-  }
+  /* The scroll rules that used to live here are now on the base
+     `.topnav-sections` rule — they were needed above this breakpoint too. */
   /* The spacer also carries flex:1 — on narrow screens it steals half the
      free width from the tab strip and clips tabs mid-letter. Collapse it. */
   .topnav-spacer {

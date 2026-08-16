@@ -8,7 +8,8 @@ import { normalizeEmail } from "../app/server/email.server";
  * accident. Each of these guards a specific way the design fails silently.
  */
 
-const read = (p: string) => readFileSync(new URL(`../${p}`, import.meta.url), "utf8");
+const read = (p: string) =>
+  readFileSync(new URL(`../${p}`, import.meta.url), "utf8");
 
 const AUTH = read("app/server/auth.server.ts");
 const WRANGLER = read("wrangler.jsonc");
@@ -49,7 +50,9 @@ describe("Better Auth configuration", () => {
     // order to warn about them, and a check that cannot tell an example from an
     // instruction fires on its own documentation.
     const code = AUTH.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
-    expect(code).not.toMatch(/drive|calendar|contacts|gmail|cloud-platform|devstorage/i);
+    expect(code).not.toMatch(
+      /drive|calendar|contacts|gmail|cloud-platform|devstorage/i,
+    );
     expect(code).not.toMatch(/googleapis\.com\/auth\//);
   });
 });
@@ -61,13 +64,19 @@ describe("admin identity", () => {
     // the gate ABOVE the admin gate, and the triggers that stop the address
     // being squatted. A mismatch either locks Asif out or leaves a hole.
     const configured = /"ADMIN_EMAIL":\s*"([^"]+)"/.exec(WRANGLER)?.[1];
-    expect(configured, "ADMIN_EMAIL must be set in wrangler.jsonc").toBeTruthy();
+    expect(
+      configured,
+      "ADMIN_EMAIL must be set in wrangler.jsonc",
+    ).toBeTruthy();
 
     const normalized = normalizeEmail(configured!);
-    expect(SEED, "the admin needs a seeded invite or the app ships locked").toContain(
-      `('${normalized}', `,
+    expect(
+      SEED,
+      "the admin needs a seeded invite or the app ships locked",
+    ).toContain(`('${normalized}', `);
+    expect(read("migrations/0002_access.sql")).toContain(
+      `NEW.email = '${normalized}'`,
     );
-    expect(read("migrations/0002_access.sql")).toContain(`NEW.email = '${normalized}'`);
   });
 
   it("sets ADMIN_EMAIL in every named environment", () => {
@@ -78,7 +87,10 @@ describe("admin identity", () => {
     for (let i = 0; i < named.length; i++) {
       expect(envBlocks).toContain('"ADMIN_EMAIL"');
     }
-    expect(named.length, "staging environment should declare its own vars").toBeGreaterThan(0);
+    expect(
+      named.length,
+      "staging environment should declare its own vars",
+    ).toBeGreaterThan(0);
   });
 });
 
@@ -100,7 +112,9 @@ describe("the deploy path cannot carry invented people", () => {
   const PUBLISH = read("../scripts/podcast/publish_to_listener.py");
 
   it("seeds only the local database, with no remote mode to enable", () => {
-    const calls = [...SEED_PEOPLE.matchAll(/"d1",\s*\n?\s*"execute",[\s\S]{0,200}?\]/g)];
+    const calls = [
+      ...SEED_PEOPLE.matchAll(/"d1",\s*\n?\s*"execute",[\s\S]{0,200}?\]/g),
+    ];
     expect(calls.length).toBeGreaterThan(0);
     for (const [call] of calls) expect(call).toContain('"--local"');
     expect(SEED_PEOPLE).not.toMatch(/"--remote"/);
@@ -116,7 +130,9 @@ describe("the deploy path cannot carry invented people", () => {
     }) as string[];
     expect(files.length).toBeGreaterThan(0);
     for (const file of files) {
-      expect(read(file), `${file} names a reserved fixture domain`).not.toMatch(/\.invalid\b/);
+      expect(read(file), `${file} names a reserved fixture domain`).not.toMatch(
+        /\.invalid\b/,
+      );
     }
   });
 
@@ -136,7 +152,9 @@ describe("the deploy path cannot carry invented people", () => {
     expect(DEPLOY).toMatch(/FROM invite WHERE email LIKE '%\.invalid'/);
     expect(DEPLOY).toMatch(/unparseable\)?\s*\n?\s*.*die|unparseable/);
     // Before the Worker, so a deploy that stops here has changed nothing.
-    expect(DEPLOY.indexOf("Invented people")).toBeLessThan(DEPLOY.indexOf('step "Worker"'));
+    expect(DEPLOY.indexOf("Invented people")).toBeLessThan(
+      DEPLOY.indexOf('step "Worker"'),
+    );
   });
 });
 
@@ -146,7 +164,9 @@ describe("privilege bits", () => {
     // session. If it could write these columns, leaking that token would let an
     // attacker open every book to everyone. This asserts the ONLY writer of
     // open_to_all is the dedicated admin function.
-    const writers = [...ACCESS.matchAll(/UPDATE content_unit SET ([^\s]+)/g)].map((m) => m[1]);
+    const writers = [
+      ...ACCESS.matchAll(/UPDATE content_unit SET ([^\s]+)/g),
+    ].map((m) => m[1]);
     expect(writers).toEqual(["open_to_all"]);
     expect(ACCESS).toContain("export async function setOpenToAll");
   });

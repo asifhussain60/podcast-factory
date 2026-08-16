@@ -458,7 +458,10 @@ def test_fluency_reverts_calqued_drift(tmp_path: Path) -> None:
             return base_text.replace("Seek", "Pursue")
         return "x"  # teaching loss -> reverted
 
-    apply_fluency_adapt(bd, log=lambda *a: None, adapter=fake_adapter)
+    def fake_repair(title, base_text, candidate_text, gates, book_dir, label, log, **kw):
+        return candidate_text  # echo back unchanged -> repair never succeeds, stays deterministic
+
+    apply_fluency_adapt(bd, log=lambda *a: None, adapter=fake_adapter, repair_fn=fake_repair)
     out = (bd / "book" / "book.md").read_text(encoding="utf-8")
     assert "Pursue knowledge" in out  # chapter 1 kept
     assert "The patient are rewarded without measure." in out  # chapter 2 reverted to base

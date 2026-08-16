@@ -1,0 +1,44 @@
+{
+  "_comment": [
+    "Shrink-only ratchets for the Podcast Factory Library. Numbers here are a",
+    "RECORD of today's debt, not a target: each may fall and none may rise.",
+    "Enforced by scripts/check-frontend-ratchets.mjs (npm run ratchets).",
+    "After genuinely improving a number: npm run ratchets:update, which refuses to",
+    "record a regression.",
+    "",
+    "Same shape as plan-dashboard/frontend-ratchets.json, adapted rather than",
+    "shared — this app imports nothing from plan-dashboard/ at runtime, and that",
+    "boundary holds for dev tooling too. Added 2026-08-16, closing the gap the",
+    "repo audit recorded as CQ-NO-LINT / CQ-NO-SIZE-GATE: this app had no lint",
+    "config and no size gate at all.",
+    "",
+    "lintWarnings is per RULE, not one total, so a new `any` cannot hide behind",
+    "someone else's fixed hook warning and still read as progress.",
+    "",
+    "fileSize: every file is governed by exactly ONE rule. A file at or under the",
+    "ceiling is governed by the ceiling; a file above it is governed by its own",
+    "recorded pin, which it may fall below and may never exceed. 850 chosen from",
+    "this app's own distribution (107 sized files, median 148, p95 795) — same",
+    "reasoning as plan-dashboard's ceiling, scaled to this app's actual shape: the",
+    "four top outliers (three UI routes plus the player, 1162-1399 lines) sit",
+    "clear of everything else, and the next file down (access.server.ts, 807)",
+    "sits inside a dense cluster with admin.usage.tsx (795) and marks.server.ts",
+    "(772) rather than as a fifth outlier — so 850 grandfathers only the genuine",
+    "break in the distribution instead of an arbitrary line through that cluster."
+  ],
+  "lintWarnings": {
+    "@typescript-eslint/no-unused-vars": 9,
+    "react-hooks/exhaustive-deps": 3,
+    "react-hooks/set-state-in-effect": 12
+  },
+  "fileSize": {
+    "ceiling": 850,
+    "enforced": true,
+    "grandfathered": {
+      "app/components/player/Player.tsx": 1370,
+      "app/routes/admin._index.tsx": 1399,
+      "app/routes/book.$slug.read.$chapter.tsx": 1162,
+      "app/routes/book.$slug.tsx": 1280
+    }
+  }
+}

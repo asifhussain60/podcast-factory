@@ -22,7 +22,10 @@ import { describe, expect, it } from "vitest";
  * for; this test is the cheap half.
  */
 
-const CSS = readFileSync(new URL("../app/styles/podcast-factory.css", import.meta.url), "utf8");
+const CSS = readFileSync(
+  new URL("../app/styles/podcast-factory.css", import.meta.url),
+  "utf8",
+);
 
 /** Every `.pf-*` / `.reader*` class the stylesheet declares a rule for. */
 function declared(css: string): Set<string> {
@@ -63,7 +66,8 @@ async function used(): Promise<Set<string>> {
     // required: without it every `localStorage` key in the app (`pf-theme`,
     // `pf-reading`, `pf-marks`, `pf-positions`) and every element id read as a
     // class that had no rule.
-    for (const [, cls] of text.matchAll(/["'`]\.(pf-[a-z0-9_-]+)/g)) out.add(cls);
+    for (const [, cls] of text.matchAll(/["'`]\.(pf-[a-z0-9_-]+)/g))
+      out.add(cls);
   }
 
   return out;
@@ -91,7 +95,6 @@ const COMPOSED_PREFIXES = [
   // written. Listing the prefix means a three-voice recording needs no edit here.
   "pf-cue--speaker-",
 ];
-
 
 /** Rules that exist for a reason other than being rendered by this app. */
 const DELIBERATE = new Set([

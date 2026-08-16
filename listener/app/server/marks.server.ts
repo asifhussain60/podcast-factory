@@ -117,7 +117,8 @@ const MAX_PREFIX = 200;
 export class InvalidMarkError extends Error {}
 
 const requireText = (value: unknown, max: number, what: string): string => {
-  if (typeof value !== "string") throw new InvalidMarkError(`${what} is missing`);
+  if (typeof value !== "string")
+    throw new InvalidMarkError(`${what} is missing`);
   const trimmed = value.trim();
   if (trimmed === "") throw new InvalidMarkError(`${what} is empty`);
   if (trimmed.length > max) throw new InvalidMarkError(`${what} is too long`);
@@ -126,7 +127,8 @@ const requireText = (value: unknown, max: number, what: string): string => {
 
 const requireIndex = (value: unknown, what: string): number => {
   const n = Number(value);
-  if (!Number.isInteger(n) || n < 0) throw new InvalidMarkError(`${what} is not an index`);
+  if (!Number.isInteger(n) || n < 0)
+    throw new InvalidMarkError(`${what} is not an index`);
   return n;
 };
 
@@ -142,7 +144,8 @@ const requireIndex = (value: unknown, what: string): number => {
 const ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
 const requireId = (value: unknown): string => {
-  if (typeof value !== "string" || !ID.test(value)) throw new InvalidMarkError("bad id");
+  if (typeof value !== "string" || !ID.test(value))
+    throw new InvalidMarkError("bad id");
   return value;
 };
 
@@ -150,80 +153,90 @@ const requireId = (value: unknown): string => {
 /* Reading                                                                     */
 /* -------------------------------------------------------------------------- */
 
-export async function marksFor(db: D1Database, email: string, slug: string): Promise<Marks> {
+export async function marksFor(
+  db: D1Database,
+  email: string,
+  slug: string,
+): Promise<Marks> {
   const who = normalizeEmail(email);
 
   // One batch. The reader's first paint is behind this call, so sequential round
   // trips to D1 would be a multiple of the latency for data that is always
   // wanted together.
-  const [progress, bookmarks, annotations, listening, episodeNotes] = await Promise.all([
-    db
-      .prepare(
-        `SELECT anchor_key, fraction, chapters_done, updated_at
+  const [progress, bookmarks, annotations, listening, episodeNotes] =
+    await Promise.all([
+      db
+        .prepare(
+          `SELECT anchor_key, fraction, chapters_done, updated_at
            FROM reading_progress WHERE user_email = ?1 AND slug = ?2`,
-      )
-      .bind(who, slug)
-      .first<{ anchor_key: string; fraction: number; chapters_done: number; updated_at: string }>(),
+        )
+        .bind(who, slug)
+        .first<{
+          anchor_key: string;
+          fraction: number;
+          chapters_done: number;
+          updated_at: string;
+        }>(),
 
-    db
-      .prepare(
-        `SELECT id, anchor_key, block_index, label, created_at
+      db
+        .prepare(
+          `SELECT id, anchor_key, block_index, label, created_at
            FROM bookmark
           WHERE user_email = ?1 AND slug = ?2 AND deleted_at IS NULL
           ORDER BY created_at`,
-      )
-      .bind(who, slug)
-      .all<{
-        id: string;
-        anchor_key: string;
-        block_index: number;
-        label: string;
-        created_at: string;
-      }>(),
+        )
+        .bind(who, slug)
+        .all<{
+          id: string;
+          anchor_key: string;
+          block_index: number;
+          label: string;
+          created_at: string;
+        }>(),
 
-    db
-      .prepare(
-        `SELECT id, anchor_key, block_index, start_offset, end_offset, quote, prefix,
+      db
+        .prepare(
+          `SELECT id, anchor_key, block_index, start_offset, end_offset, quote, prefix,
                 colour, note, created_at, updated_at
            FROM annotation
           WHERE user_email = ?1 AND slug = ?2 AND deleted_at IS NULL
           ORDER BY block_index, start_offset`,
-      )
-      .bind(who, slug)
-      .all<{
-        id: string;
-        anchor_key: string;
-        block_index: number;
-        start_offset: number;
-        end_offset: number;
-        quote: string;
-        prefix: string;
-        colour: Colour;
-        note: string | null;
-        created_at: string;
-        updated_at: string;
-      }>(),
+        )
+        .bind(who, slug)
+        .all<{
+          id: string;
+          anchor_key: string;
+          block_index: number;
+          start_offset: number;
+          end_offset: number;
+          quote: string;
+          prefix: string;
+          colour: Colour;
+          note: string | null;
+          created_at: string;
+          updated_at: string;
+        }>(),
 
-    listeningFor(db, who, slug),
+      listeningFor(db, who, slug),
 
-    db
-      .prepare(
-        `SELECT id, number, seconds, note, quote, created_at, updated_at
+      db
+        .prepare(
+          `SELECT id, number, seconds, note, quote, created_at, updated_at
            FROM episode_note
           WHERE user_email = ?1 AND slug = ?2 AND deleted_at IS NULL
           ORDER BY number, seconds`,
-      )
-      .bind(who, slug)
-      .all<{
-        id: string;
-        number: number;
-        seconds: number;
-        note: string | null;
-        quote: string | null;
-        created_at: string;
-        updated_at: string;
-      }>(),
-  ]);
+        )
+        .bind(who, slug)
+        .all<{
+          id: string;
+          number: number;
+          seconds: number;
+          note: string | null;
+          quote: string | null;
+          created_at: string;
+          updated_at: string;
+        }>(),
+    ]);
 
   return {
     progress:
@@ -313,7 +326,9 @@ export async function listeningFor(
   slug: string,
 ): Promise<Record<number, number>> {
   const { results } = await db
-    .prepare(`SELECT number, seconds FROM listening_progress WHERE user_email = ?1 AND slug = ?2`)
+    .prepare(
+      `SELECT number, seconds FROM listening_progress WHERE user_email = ?1 AND slug = ?2`,
+    )
     .bind(normalizeEmail(email), slug)
     .all<{ number: number; seconds: number }>();
 
@@ -426,7 +441,8 @@ export async function setProgress(
   now: string,
 ): Promise<void> {
   const fraction = Number(input.fraction);
-  if (!Number.isFinite(fraction)) throw new InvalidMarkError("fraction is not a number");
+  if (!Number.isFinite(fraction))
+    throw new InvalidMarkError("fraction is not a number");
 
   await db
     .prepare(
@@ -454,7 +470,8 @@ export async function setListening(
   now: string,
 ): Promise<void> {
   const seconds = Number(input.seconds);
-  if (!Number.isFinite(seconds)) throw new InvalidMarkError("seconds is not a number");
+  if (!Number.isFinite(seconds))
+    throw new InvalidMarkError("seconds is not a number");
 
   await db
     .prepare(
@@ -483,7 +500,12 @@ export async function addBookmark(
   db: D1Database,
   email: string,
   slug: string,
-  input: { id: unknown; anchorKey: unknown; blockIndex: unknown; label: unknown },
+  input: {
+    id: unknown;
+    anchorKey: unknown;
+    blockIndex: unknown;
+    label: unknown;
+  },
   now: string,
 ): Promise<void> {
   await db
@@ -561,12 +583,16 @@ export async function saveAnnotation(
   if (end <= start) throw new InvalidMarkError("selection is empty");
 
   const note =
-    input.note === undefined || input.note === null || String(input.note).trim() === ""
+    input.note === undefined ||
+    input.note === null ||
+    String(input.note).trim() === ""
       ? null
       : requireText(sanitizeNote(String(input.note)), MAX_NOTE, "note");
 
   const prefix =
-    input.prefix === undefined || input.prefix === null ? "" : String(input.prefix).slice(0, MAX_PREFIX);
+    input.prefix === undefined || input.prefix === null
+      ? ""
+      : String(input.prefix).slice(0, MAX_PREFIX);
 
   // The anchor is rewritten on conflict as well as inserted. That is what lets
   // the client SAVE A CORRECTION: when a re-compose has moved a passage and the
@@ -642,19 +668,30 @@ export async function saveEpisodeNote(
   db: D1Database,
   email: string,
   slug: string,
-  input: { id: unknown; number: unknown; seconds: unknown; note?: unknown; quote?: unknown },
+  input: {
+    id: unknown;
+    number: unknown;
+    seconds: unknown;
+    note?: unknown;
+    quote?: unknown;
+  },
   now: string,
 ): Promise<void> {
   const seconds = Number(input.seconds);
-  if (!Number.isFinite(seconds)) throw new InvalidMarkError("seconds is not a number");
+  if (!Number.isFinite(seconds))
+    throw new InvalidMarkError("seconds is not a number");
 
   const note =
-    input.note === undefined || input.note === null || String(input.note).trim() === ""
+    input.note === undefined ||
+    input.note === null ||
+    String(input.note).trim() === ""
       ? null
       : requireText(sanitizeNote(String(input.note)), MAX_NOTE, "note");
 
   const quote =
-    input.quote === undefined || input.quote === null || String(input.quote).trim() === ""
+    input.quote === undefined ||
+    input.quote === null ||
+    String(input.quote).trim() === ""
       ? null
       : requireText(input.quote, MAX_QUOTE, "quote");
 

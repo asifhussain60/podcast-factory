@@ -68,7 +68,9 @@ describe("usage analytics", () => {
         countries: 2,
         lastSeenAt: LATER,
       });
-      expect(dashboard.recent.find((event) => event.kind === "listen")).toMatchObject({
+      expect(
+        dashboard.recent.find((event) => event.kind === "listen"),
+      ).toMatchObject({
         name: "Reader One",
         title: "Ayyuha al-Walad",
         countryName: "United Kingdom",
@@ -86,13 +88,23 @@ describe("usage analytics", () => {
   });
 
   it("derives only a country code from request metadata", () => {
-    const cf = Object.assign(new Request("https://example.test/"), { cf: { country: "ca" } });
+    const cf = Object.assign(new Request("https://example.test/"), {
+      cf: { country: "ca" },
+    });
     expect(countryCodeFromRequest(cf)).toBe("CA");
     expect(
-      countryCodeFromRequest(new Request("https://example.test/", { headers: { "CF-IPCountry": "GB" } })),
+      countryCodeFromRequest(
+        new Request("https://example.test/", {
+          headers: { "CF-IPCountry": "GB" },
+        }),
+      ),
     ).toBe("GB");
     expect(
-      countryCodeFromRequest(new Request("https://example.test/", { headers: { "CF-IPCountry": "unknown" } })),
+      countryCodeFromRequest(
+        new Request("https://example.test/", {
+          headers: { "CF-IPCountry": "unknown" },
+        }),
+      ),
     ).toBe("XX");
   });
 
@@ -101,7 +113,10 @@ describe("usage analytics", () => {
       new URL("../migrations/0015_usage_activity.sql", import.meta.url),
       "utf8",
     );
-    const server = readFileSync(new URL("../app/server/analytics.server.ts", import.meta.url), "utf8");
+    const server = readFileSync(
+      new URL("../app/server/analytics.server.ts", import.meta.url),
+      "utf8",
+    );
 
     const schema = migration.replace(/--.*$/gm, "");
     expect(schema).not.toMatch(/\bip\b|user_agent|user-agent/i);

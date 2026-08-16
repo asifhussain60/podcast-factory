@@ -350,8 +350,18 @@ def collect_reader_narration(book: Book) -> None:
         path = book.directory / rel if rel else root / f"{anchor}.mp3"
         if not path.exists() or path.suffix.lower() != ".mp3":
             continue
-        asset = Asset(
-            key=f"{book.slug}/narration/{narration_object_name(anchor)}",
+        # A chapter read aloud by the author is his EPISODE recording — the same
+        # object the episode player already streams, already uploaded. So the
+        # manifest may name a key that this book has collected already, and when
+        # it does that asset is referenced rather than a second one created:
+        # otherwise every Sessions chapter would put a duplicate of a fifty-
+        # megabyte lecture in the bucket under a second name, and the two copies
+        # could then disagree. A synthesised narration names no key and gets the
+        # narration key it always got.
+        wanted = str(entry.get("audio_key") or "")
+        existing = next((a for a in book.assets if a.key == wanted), None) if wanted else None
+        asset = existing or Asset(
+            key=wanted or f"{book.slug}/narration/{narration_object_name(anchor)}",
             slug=book.slug,
             kind="audio",
             content_type=CONTENT_TYPES[".mp3"],
@@ -364,7 +374,8 @@ def collect_reader_narration(book: Book) -> None:
             voice=str(entry.get("voice") or entry.get("voice_id") or ""),
             cues=entry.get("cues") if isinstance(entry.get("cues"), list) else [],
         )
-        book.assets.append(asset)
+        if existing is None:
+            book.assets.append(asset)
 
 
 def collect_media(book: Book) -> None:

@@ -19,7 +19,19 @@
  * because `<details>` requires its clickable child to be a `<summary>` and a
  * standalone book must be an `<a>` — one element cannot be both.
  */
-import type { BookCardIdentity } from "../../lib/reader/book-card-identity";
+import type {
+  BookCardIdentity,
+  StudyTrack,
+} from "../../lib/reader/book-card-identity";
+
+/** Sentence case, matching the Library's own labels for the same five. */
+const TRACK_LABELS: Record<StudyTrack, string> = {
+  theology: "Theology",
+  history: "History",
+  shariah: "Shariah",
+  esoteric: "Esoteric",
+  reality: "Reality",
+};
 
 interface PipelineStep {
   state: string;
@@ -79,6 +91,18 @@ const PILLS = [
   /* ── Script panel — the icon always, the native title when the book has one ── */
 }
 <div class={`card-script-wrap${identity.nativeTitle ? " has-script" : ""}`}>
+  {
+    /* The study-track ribbon, in the same corner and the same colours the
+       Podcast Factory Library uses — the values are synced from one file, so
+       Esoteric is the same amber on both. Rendered only when the book names a
+       track: a missing ribbon says "not classified", which is true, where a
+       default one would say something no file does. */
+    identity.studyTrack && (
+      <span class="card-track-ribbon" data-track={identity.studyTrack}>
+        {TRACK_LABELS[identity.studyTrack]}
+      </span>
+    )
+  }
   <span class="card-script-icon" aria-hidden="true">
     <i class={`fa-solid ${identity.icon}`}></i>
   </span>

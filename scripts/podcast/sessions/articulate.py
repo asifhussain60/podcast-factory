@@ -72,6 +72,7 @@ from _text_transform import adapters_for_engine, preflight_engine, resolve_runti
 from rearticulate_chapter import rearticulate  # noqa: E402
 
 from sessions.ingest import ARTICULATE_STEP, LANE_STEPS  # noqa: E402
+from sessions.spoken import spoken_chapters  # noqa: E402
 
 #: This lane's own record of which chapters have been articulated.
 #:
@@ -302,8 +303,18 @@ def articulate_book(
         else {k for k, v in read_ledger(book_dir)["chapters"].items() if v.get("status") in DONE_STATUSES}
     )
     chapters = chapter_keys(book_md)
-    todo = [(k, t) for k, t in chapters if k not in done]
+    # A chapter taken off the tape is NOT articulated, and the exclusion is here
+    # rather than in the prompt because no instruction can make a rewrite safe
+    # for it. This pass turns spoken sentences into literary ones — which is
+    # right for a chapter built from written notes, and is exactly what breaks a
+    # chapter whose paragraphs have to stay the words on the recording for the
+    # read-along to light them up. The light corrector in `read_along.py` owns
+    # these instead.
+    spoken = set(spoken_chapters(book_dir))
+    todo = [(k, t) for k, t in chapters if k not in done and k not in spoken]
     skipped = len(chapters) - len(todo)
+    if spoken:
+        log(f"  articulate: leaving {len(spoken)} spoken chapter(s) to the read-along corrector")
     if limit is not None:
         todo = todo[:limit]
 

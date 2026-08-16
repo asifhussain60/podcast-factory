@@ -5,12 +5,16 @@
   "source_kind": "page-images",
   "input_type": "page-images",
   "source_language": "en",
-  "phase": "0book-compose",
-  "phase_status": "running",
-  "last_completed_phase": "0book-design",
-  "last_error": null,
+  "phase": "publish",
+  "phase_status": "pending",
+  "last_completed_phase": "reader-narration",
+  "last_error": {
+    "phase": "publish",
+    "message": "publish_to_library.py rc != 0; gates re-ran defensively",
+    "ts": "2026-08-15T19:42:24Z"
+  },
   "category": "books",
-  "branch": "Islamic/spiritual-ethos",
+  "branch": "develop",
   "status": "draft",
   "started": "2026-08-05T14:42:06Z",
   "updated": "2026-08-05T14:42:06Z",
@@ -344,51 +348,79 @@
     "0book-design": {
       "status": "completed",
       "ts_started": "2026-08-06T23:57:56Z",
-      "ts_completed": "2026-08-08T11:14:05Z"
+      "ts_completed": "2026-08-15T19:20:23Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 5,
+        "blocking_fail": null
+      }
     },
     "0book-compose": {
-      "status": "running",
-      "ts_started": "2026-08-07T00:02:26Z"
+      "status": "completed",
+      "ts_started": "2026-08-07T00:02:26Z",
+      "ts_completed": "2026-08-15T19:36:42Z",
+      "review": {
+        "verdict": "PHASE-CONCERNS",
+        "failed": 1,
+        "crashed": 0,
+        "total": 10,
+        "blocking_fail": null
+      }
     },
     "audio-ingest": {
-      "status": "halted",
+      "status": "completed",
       "ts_started": "2026-08-07T09:38:07Z",
-      "ts_completed": "2026-08-07T09:47:49Z",
-      "reason": "awaiting NotebookLM audio drop"
+      "ts_completed": "2026-08-15T19:20:18Z",
+      "reason": "awaiting NotebookLM audio drop",
+      "missing": [
+        "EP06-pride-and-conscience: m4a/ch06b-pride-and-conscience.m4a"
+      ],
+      "episodes_ingested": 13,
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 4,
+        "blocking_fail": null
+      }
     },
     "0book-illustrate": {
-      "status": "pending",
-      "reason": "book_visuals=manual_only"
+      "status": "skipped",
+      "reason": "book_visuals=manual_only",
+      "ts_completed": "2026-08-15T19:36:45Z"
     },
     "0book-slide-import": {
-      "status": "pending",
-      "reason": "book_visuals=manual_only"
+      "status": "skipped",
+      "reason": "book_visuals=manual_only",
+      "ts_completed": "2026-08-15T19:36:45Z"
     },
     "0book-render": {
-      "status": "pending",
+      "status": "completed",
       "ts_started": "2026-08-07T16:08:49Z",
       "book_validation": {
         "slug": "spiritual-ethos",
-        "verdict": "BOOK-BROKEN",
-        "summary": "B7 book-gloss-coverage: 0/23 glossed terms carry Arabic (0%); glossary has 428 entries · 87 term(s) never given in Arabic script (110 uses): al-ruh, al-asma al-husna, al-khafi, al-Madhkur, al-shirk al-khafi, hudur — starved glossary; e.g. al-Madhkur, al-asma al-husna, al-din al-qayyim, al-khafi, al-nazar ila Ali ibada, al-ruh",
+        "verdict": "BOOK-SOUND",
+        "summary": "reading edition sound (8 gates checked)",
         "gates": [
           {
             "gate": "B1",
             "name": "book-md-complete",
             "passed": true,
-            "note": "book.md: 441 KB, 16 sections ≥ 15 TOC chapters"
+            "note": "book.md: 446 KB, 16 sections ≥ 15 TOC chapters"
           },
           {
             "gate": "B2",
             "name": "book-pdf-renderable",
             "passed": true,
-            "note": "book.pdf: 2637 KB, 247 pages ≥ 15 chapters"
+            "note": "book.pdf: 2900 KB, 248 pages ≥ 15 chapters"
           },
           {
             "gate": "B3",
             "name": "book-arabic-coverage",
             "passed": true,
-            "note": "Arabic script present in all 13 chapters from 168 glossary terms · translation-edition Arabic preservation signal: 1923 rendered Arabic runs from 1201 source runs"
+            "note": "Arabic script present in all 13 chapters from 411 glossary terms · translation-edition Arabic preservation signal: 2383 rendered Arabic runs from 1201 source runs"
           },
           {
             "gate": "B4",
@@ -411,8 +443,8 @@
           {
             "gate": "B7",
             "name": "book-gloss-coverage",
-            "passed": false,
-            "note": "0/23 glossed terms carry Arabic (0%); glossary has 428 entries · 87 term(s) never given in Arabic script (110 uses): al-ruh, al-asma al-husna, al-khafi, al-Madhkur, al-shirk al-khafi, hudur — starved glossary; e.g. al-Madhkur, al-asma al-husna, al-din al-qayyim, al-khafi, al-nazar ila Ali ibada, al-ruh"
+            "passed": true,
+            "note": "only 1 romanized glossed term(s) left — nothing to measure"
           },
           {
             "gate": "B8",
@@ -421,12 +453,62 @@
             "note": "compose recorded no skipped steps"
           }
         ]
+      },
+      "ts_completed": "2026-08-15T19:38:04Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": null
       }
+    },
+    "reader-narration": {
+      "status": "completed",
+      "ts_started": "2026-08-15T12:09:27Z",
+      "ts_completed": "2026-08-15T19:42:07Z",
+      "rendered": [
+        "intellect, not reason",
+        "the fruits of certainty",
+        "a sacred conception of justice",
+        "justice and the tyrant's pride",
+        "conscience, compassion, and the ordering of society",
+        "dhikr: the polish of the heart",
+        "extinction and the name: the death of the saint",
+        "the first sermon of the nahj al-balagha",
+        "the letter to malik al-ashtar"
+      ],
+      "skipped": [
+        "introduction to the book",
+        "in the prophet's shadow",
+        "the people of the house and the prophet's witness",
+        "the discourse to kumayl",
+        "justice for the poor and the sincerity of intention",
+        "prayer, remembrance, and gazing on the good",
+        "remembrance as the quintessence of worship"
+      ],
+      "chars": 291453,
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 5,
+        "blocking_fail": null
+      }
+    },
+    "publish": {
+      "status": "pending",
+      "ts_started": "2026-08-15T19:42:11Z",
+      "publisher_stdout": "==> publish_to_library: spiritual-ethos\n    workspace: content/Islamic/spiritual-ethos\n    model:     status-flag (type-first layout; no second tree)\n    mode:      live\n\n=== Gates ===\nOK    [G1] 13 chapters + 13 episodes present\nOK    [G2] 13 chapter/episode pairs match\nOK    [G3] chapters 1..13 + episodes 1..13 purely sequential\nOK    [G4] P0=0 across 13 episodes (P1=31, warn-only)\n",
+      "publisher_stderr": " (warn-only)\nWARN  G4 EP02-why-intellect-not-reason: 2 P1 advisories (warn-only)\nWARN  G4 EP03-paradox-and-the-inner-struggle: 3 P1 advisories (warn-only)\nWARN  G4 EP04-joy-virtue-and-the-hereafter: 1 P1 advisory (warn-only)\nWARN  G4 EP05-the-sacred-conception-of-justice: 4 P1 advisories (warn-only)\nWARN  G4 EP06-pride-and-conscience: 3 P1 advisories (warn-only)\nWARN  G4 EP07-the-classes-of-society-and-the-poor: 2 P1 advisories (warn-only)\nWARN  G4 EP08-prayer-as-the-source-of-justice: 2 P1 advisories (warn-only)\nWARN  G4 EP09-dhikr-the-polish-for-hearts: 2 P1 advisories (warn-only)\nWARN  G4 EP10-the-veils-that-do-not-veil: 1 P1 advisory (warn-only)\nWARN  G4 EP11-forgetting-the-self-and-the-name: 2 P1 advisories (warn-only)\nWARN  G4 EP12-the-first-sermon-of-nahj-al-balagha: 2 P1 advisories (warn-only)\nWARN  G4 EP13-the-letter-of-ali-to-malik-al-ashtar: 2 P1 advisories (warn-only)\nFAIL  [G5] state.json not in shippable state (phase=publish, phase_status=running). Use --force to bypass.\n"
     }
   },
   "intake_via": "manual image-source intake (see _system/build_source.py)",
-  "run_id": "20260808T111405Z-c21ef1",
-  "ts_updated": "2026-08-08T11:14:05Z",
-  "next_phase": "0book-compose",
-  "unattended": true
+  "run_id": "20260815T191924Z-849aee",
+  "ts_updated": "2026-08-15T19:48:57Z",
+  "next_phase": "publish",
+  "unattended": true,
+  "phase_attempts": {
+    "publish": 2
+  }
 }

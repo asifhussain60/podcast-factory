@@ -3,7 +3,10 @@ import { cloudflare } from "~/context";
 import { notFound } from "~/middleware/deny";
 import { requireUnitAccess } from "~/middleware/entitled";
 import { session } from "~/middleware/session";
-import { countryCodeFromRequest, recordUsageActivity } from "~/server/analytics.server";
+import {
+  countryCodeFromRequest,
+  recordUsageActivity,
+} from "~/server/analytics.server";
 import {
   addBookmark,
   InvalidMarkError,
@@ -92,14 +95,14 @@ export async function action({ request, params, context }: Route.ActionArgs) {
           },
           now,
         );
-          await recordUsageActivity(env.DB, {
-            email,
-            slug,
-            kind: "read",
-            targetKey: String(anchorKey),
-            countryCode,
-            now,
-          }).catch(() => undefined);
+        await recordUsageActivity(env.DB, {
+          email,
+          slug,
+          kind: "read",
+          targetKey: String(anchorKey),
+          countryCode,
+          now,
+        }).catch(() => undefined);
         break;
       }
 
@@ -201,7 +204,8 @@ export async function action({ request, params, context }: Route.ActionArgs) {
     // client replays its outbox, and a 500 is indistinguishable from "the
     // network was down", so it would replay forever. A named error tells it to
     // drop the item instead.
-    if (error instanceof InvalidMarkError) return { error: error.message, permanent: true };
+    if (error instanceof InvalidMarkError)
+      return { error: error.message, permanent: true };
     throw error;
   }
 

@@ -58,7 +58,9 @@ export function currentTheme(): Theme {
   const attr = document.documentElement.getAttribute("data-theme");
   if (isTheme(attr)) return attr;
   // Only reachable if the init script was blocked; mirror its fallback.
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
 }
 
 /* ---------------------------------------------------------------------------

@@ -37,7 +37,10 @@ import type { Facet, Hit, Scope } from "~/lib/search";
 
 export type { Facet, Hit, Scope } from "~/lib/search";
 
-const SCOPE_COLUMN: Record<Scope, "heading_fold" | "body_fold" | "arabic_fold" | undefined> = {
+const SCOPE_COLUMN: Record<
+  Scope,
+  "heading_fold" | "body_fold" | "arabic_fold" | undefined
+> = {
   all: undefined,
   titles: "heading_fold",
   content: "body_fold",
@@ -53,7 +56,11 @@ export interface SearchFilters {
   slugs: string[];
 }
 
-export const NO_FILTERS: SearchFilters = { collections: [], kinds: [], slugs: [] };
+export const NO_FILTERS: SearchFilters = {
+  collections: [],
+  kinds: [],
+  slugs: [],
+};
 
 export interface SearchResult {
   query: string;
@@ -89,7 +96,11 @@ const EMPTY: Omit<SearchResult, "query" | "parsed" | "scope"> = {
 };
 
 /** `IN (?n, ?n+1, …)` for a bound list, or null when the list is empty. */
-function inClause(column: string, values: string[], from: number): string | null {
+function inClause(
+  column: string,
+  values: string[],
+  from: number,
+): string | null {
   if (values.length === 0) return null;
   const holes = values.map((_, i) => `?${from + i}`).join(", ");
   return `${column} IN (${holes})`;
@@ -200,7 +211,9 @@ export async function search(
   // Ordered by relevance for a text query; in book order for a reference, where
   // "best match" is meaningless — every row IS the verse.
   const order =
-    parsed.reference === null ? "ORDER BY rank" : "ORDER BY book_title, ordinal";
+    parsed.reference === null
+      ? "ORDER BY rank"
+      : "ORDER BY book_title, ordinal";
 
   const facetQuery = (group: string, value: string, label: string) =>
     db
@@ -213,9 +226,14 @@ export async function search(
       .all<Facet>();
 
   const [hits, totals, byCollection, byKind, byBook] = await Promise.all([
-    db.prepare(`${cte} SELECT * FROM matched ${order} LIMIT ${POOL}`).bind(...binds).all<Row>(),
     db
-      .prepare(`${cte} SELECT count(*) AS passages, count(DISTINCT slug) AS books FROM matched`)
+      .prepare(`${cte} SELECT * FROM matched ${order} LIMIT ${POOL}`)
+      .bind(...binds)
+      .all<Row>(),
+    db
+      .prepare(
+        `${cte} SELECT count(*) AS passages, count(DISTINCT slug) AS books FROM matched`,
+      )
       .bind(...binds)
       .first<{ passages: number; books: number }>(),
     facetQuery("bucket", "bucket", "bucket"),

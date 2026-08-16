@@ -41,6 +41,8 @@ from __future__ import annotations
 
 import re
 
+from _arabic_coverage import ARABIC_BODY
+
 #: BOTH quotation styles, because the corpus uses both and reading only one is how four
 #: cards in chapter 2 of Spiritual Ethos sat with no English at all while the check called
 #: the chapter clean (found 2026-08-09 by looking at what the Library had actually stored).
@@ -48,9 +50,11 @@ import re
 #: as its double-quoted neighbour and has to be read as one.
 _QUOTATION_MARKS = "\"“”'‘’"
 
-#: What may follow the closing mark and still belong to the quotation: its citation, and
-#: the period that ends the sentence the author built around it.
-_CITATION_TAIL = r"\s*(?:\([^)]*\))?\s*[.,]?"
+#: What may follow the closing mark and still belong to the quotation: an italic-close
+#: marker, its citation — in EITHER bracket style, since mukhtasar-ul-asar-1 cites in
+#: square brackets (`[Surah al-Furqan: 48]`) while the rest of the corpus uses parens —
+#: and the period that ends the sentence the author built around it.
+_CITATION_TAIL = r"[*_]{0,2}\s*(?:\([^)]*\)|\[[^\]]*\])?\s*[.,]?"
 
 #: What must be true of the remainder for a split to decide nothing: it has to stand as a
 #: sentence. Deliberately BLUNT — a capital and at least four words. A cleverer rule would
@@ -82,12 +86,46 @@ def quotation_marks(text: str) -> list[int]:
 
 
 def opens_on_a_quotation(text: str) -> bool:
-    """The paragraph begins on a quotation mark — the precondition for all three shapes."""
+    """The paragraph begins on a quotation mark — one of the two ways a rendering starts."""
     return bool(text) and text[0] in _QUOTATION_MARKS
 
 
-def _closing_mark(text: str) -> int | None:
-    """Where the quotation the paragraph OPENS with actually closes, or None.
+#: An attribution clause that may precede the rendering — "God Almighty said: ", "He
+#: also said: ", "And again: " — found 2026-08-15: `mukhtasar-ul-asar-1` cites every
+#: verse this way and none of its 34 renderings were reaching this module at all, since
+#: every one of them is this shape. Deliberately BLUNT, the same reasoning
+#: `_MIN_SENTENCE_WORDS` gives below: capped in length and required to end AT the colon
+#: immediately before the quotation mark, so a genuine sentence that merely CONTAINS a
+#: colon somewhere in it (a list, a verse range) can never qualify.
+_ATTRIBUTION_LEAD_RE = re.compile(rf"^[A-Z][\w''(){ARABIC_BODY}.\-\s]{{0,60}}:\s+")
+
+#: Between that colon and the mark it introduces, this book sets an italic run —
+#: `God Almighty said: *"…"*` — so the character right after the attribution is not
+#: always the quotation mark itself.
+_ITALIC_OPEN_RE = re.compile(r"[*_]{0,2}")
+
+
+def quotation_start(text: str) -> int | None:
+    """Index of the mark that opens the rendering, or None if nothing here is one.
+
+    Two shapes reach it, and they are the whole of what changed 2026-08-15: the
+    paragraph opens directly on a quotation mark (index 0 — what every shape checked
+    before this), or a short attribution clause precedes it, with an optional italic
+    marker between the colon and the mark. Nothing else is a candidate — an ordinary
+    sentence that happens to contain a quotation mark deeper in it is not this shape
+    (`test_ordinary_prose_after_a_card_is_not_a_rendering` guards exactly that).
+    """
+    if opens_on_a_quotation(text):
+        return 0
+    lead = _ATTRIBUTION_LEAD_RE.match(text)
+    if not lead:
+        return None
+    index = _ITALIC_OPEN_RE.match(text, lead.end()).end()
+    return index if index < len(text) and text[index] in _QUOTATION_MARKS else None
+
+
+def _closing_mark(text: str, start: int = 0) -> int | None:
+    """Where the quotation opening at `start` actually closes, or None.
 
     THE MARK MUST BE OF THE SAME FAMILY AS THE OPENER — single closes single, double
     closes double — and getting that wrong cut a verse in half. Spiritual Ethos renders
@@ -105,11 +143,17 @@ def _closing_mark(text: str) -> int | None:
     double mark. Where the author's own punctuation does not say where the quotation ends,
     neither can this, so the instance falls through to `translation_fused_with_prose` and
     waits for a person. Refusing is always available; guessing is not.
+
+    `start`, added 2026-08-15: the opening mark is not always at index 0 — an attribution
+    clause may sit before it — so every mark AT OR BEFORE `start` is excluded from the
+    search rather than just the first one `quotation_marks` finds.
     """
-    if not opens_on_a_quotation(text):
+    if start >= len(text) or text[start] not in _QUOTATION_MARKS:
         return None
-    single = text[0] in "'‘’"
-    for index in quotation_marks(text)[1:]:
+    single = text[start] in "'‘’"
+    for index in quotation_marks(text):
+        if index <= start:
+            continue
         if (text[index] in "'‘’") == single:
             return index
     return None
@@ -123,8 +167,16 @@ def only_the_rendering(text: str) -> bool:
     on the line. That is what still stops `"…sport and play," says the Quran, "and
     verily…"` from folding the author's aside into the card: the quotation closes after
     `play,` and his words follow it.
+
+    An attribution clause before the mark (`quotation_start` may return non-zero) is
+    included in "the rendering" rather than stripped: it is who said the verse, not the
+    author's own aside, and the fold below moves the WHOLE paragraph — attribution
+    included — verbatim.
     """
-    closing = _closing_mark(text)
+    start = quotation_start(text)
+    if start is None:
+        return False
+    closing = _closing_mark(text, start)
     return closing is not None and re.fullmatch(_CITATION_TAIL, text[closing + 1 :]) is not None
 
 
@@ -166,24 +218,31 @@ def cards_missing_their_rendering(md: str):
             if not following or following[0] != "para":
                 continue
             text = " ".join(line.strip() for line in following[1]).strip()
-            if not opens_on_a_quotation(text):
+            if quotation_start(text) is None:
                 continue
             yield title, lines, text
 
 
 def split_rendering_from_gloss(text: str) -> tuple[str, str] | None:
-    """(rendering, the author's sentence) when the paragraph opens on one and continues
-    into the other — otherwise None.
+    """(rendering, the author's sentence) when the paragraph opens on one — directly, or
+    behind a short attribution — and continues into the other. Otherwise None.
 
     None is the answer for both of the other two shapes, which is what makes this one
     function the boundary: `translation_leads_a_paragraph` fires when it returns a pair,
     `translation_fused_with_prose` fires when it does not and the fold does not either.
 
     The rendering ends at the FIRST closing mark, plus whatever citation and full stop the
-    author put after it. A later quotation in the remainder is his own — chapter 5 of
-    Spiritual Ethos introduces a second saying that way — and it stays outside.
+    author put after it — and starts at index 0, so an attribution clause that precedes
+    the mark travels with it rather than being stripped: "God Almighty said: " is who
+    speaks the verse, not the author's own aside. A later quotation in the remainder is
+    his own — chapter 5 of Spiritual Ethos introduces a second saying that way, and
+    mukhtasar-ul-asar-1 strings a second and third CITED verse the same way — and it
+    stays outside, exactly as it did before this shape existed.
     """
-    closing = _closing_mark(text)
+    start = quotation_start(text)
+    if start is None:
+        return None
+    closing = _closing_mark(text, start)
     if closing is None:
         return None
     tail = re.match(_CITATION_TAIL, text[closing + 1 :])

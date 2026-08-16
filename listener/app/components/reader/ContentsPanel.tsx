@@ -57,7 +57,9 @@ export function ContentsPanel({
               className="pf-row pf-toc__row"
             >
               <span className="pf-row__main">{entry.title}</span>
-              <span className="pf-row__meta">{readingMinutes(entry.wordCount)} min</span>
+              <span className="pf-row__meta">
+                {readingMinutes(entry.wordCount)} min
+              </span>
             </Link>
           </li>
         ))}

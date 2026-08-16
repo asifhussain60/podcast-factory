@@ -1,0 +1,48 @@
+{
+  "schema": "podcast.phase-review/v1",
+  "phase": "reader-narration",
+  "verdict": "PHASE-SOUND",
+  "blocking_fail": null,
+  "counts": {
+    "total": 5,
+    "failed": 0,
+    "crashed": 0
+  },
+  "gates": [
+    {
+      "gate": "RB1",
+      "name": "refined-text-still-present (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined-english.md present (454,846 bytes)"
+    },
+    {
+      "gate": "RB2",
+      "name": "refined-still-covers-source (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined text is 98% of the source (74,954 of 76,419 words)"
+    },
+    {
+      "gate": "RB3",
+      "name": "window-cache-intact (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "window cache intact (28 window(s))"
+    },
+    {
+      "gate": "RD1",
+      "name": "chapter-contracts-still-exist (from 0d)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "17 chapter contract(s)"
+    },
+    {
+      "gate": "RG1",
+      "name": "book-toc-still-parses (from 0book-design)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "book-toc.json declares 15 chapter(s)"
+    }
+  ]
+}

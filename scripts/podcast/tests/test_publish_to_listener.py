@@ -188,6 +188,46 @@ def test_chapter_narration_publish_key_is_url_safe(tmp_path):
     assert book.chapters[0].narration.audio.key == book.assets[0].key
 
 
+def test_an_author_read_chapter_reuses_the_episode_recording_rather_than_copying_it(tmp_path):
+    """A Sessions chapter is read aloud by Asif, and the recording is the episode
+    the player already streams. Collecting a SECOND asset for it would upload a
+    duplicate of a fifty-megabyte lecture under a narration key, and the two
+    copies could then disagree about what the chapter sounds like.
+    """
+    book = a_book(tmp_path)
+    recording = tmp_path / "m4a" / "Episodes" / "ep01.mp3"
+    recording.parent.mkdir(parents=True)
+    recording.write_bytes(b"MP3")
+    # As `collect_audio` leaves it, before the narration collector runs.
+    book.assets.append(
+        Asset(key="test-book/audio/ep01.mp3", slug="test-book", kind="audio", content_type="audio/mpeg", path=recording)
+    )
+    (tmp_path / "book" / "narration").mkdir(parents=True)
+    (tmp_path / "book" / "narration" / "manifest.json").write_text(
+        json.dumps(
+            {
+                "engine": "author-recording",
+                "chapters": {
+                    "one": {
+                        "audio": "m4a/Episodes/ep01.mp3",
+                        "audio_key": "test-book/audio/ep01.mp3",
+                        "duration_s": 3600.0,
+                        "voice": "author",
+                        "cues": [{"idx": 0, "blockIndex": 0, "startS": 0.0, "endS": 8.0}],
+                    }
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    collect_reader_narration(book)
+
+    assert len(book.assets) == 1
+    assert book.chapters[0].narration.audio is book.assets[0]
+    assert book.chapters[0].narration.voice == "author"
+
+
 def test_sessions_are_rewritten_so_a_renumbered_folder_leaves_no_stale_row(tmp_path):
     """Renaming `Session 4 — ...` to `Session 1 — ...` must not leave both."""
     conn = db_with_schema()

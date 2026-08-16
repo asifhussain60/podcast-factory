@@ -1,0 +1,23 @@
+# Catalog-only grouping for the Podcast Factory Library — read ONLY by
+# scripts/podcast/sync_listener_work_groups.py, never by _work_manifest.py,
+# orchestrate_work.py, intake_book.py, or any other pipeline phase.
+#
+# Mukhtasar ul-Asar's two volumes are independently published, FLAT, top-level
+# content folders (content/Islamic/mukhtasar-ul-asar-1/,
+# content/Islamic/mukhtasar-ul-asar-2/), each with its own _system/, book/, m4a/
+# — not nested vol-01/vol-02 dirs under one shared work parent the way
+# content/Islamic/asaas-al-taveel/work.yml's volumes are. This file exists so
+# the Podcast Factory Library can stack the two volumes into one visual "set"
+# card; it makes no claim about pipeline structure and nothing on disk was
+# moved to create it. Physically nesting these two folders under a real
+# work.yml parent (branch/orchestration/intake implications included) is a
+# separate, larger, deliberately deferred decision — see the sync script's
+# module docstring for why the two schemas are not interchangeable.
+work_slug: mukhtasar-ul-asar
+title: "Mukhtasar-ul-Asaar"
+bucket: Islamic
+volumes:
+  - order: 1
+    slug: mukhtasar-ul-asar-1
+  - order: 2
+    slug: mukhtasar-ul-asar-2

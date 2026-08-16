@@ -53,8 +53,15 @@ import type { Facet, Hit, Scope } from "~/lib/search";
 export function meta({ location }: Route.MetaArgs): Route.MetaDescriptors {
   const q = new URLSearchParams(location.search).get("q")?.trim();
   return [
-    { title: q ? `${q} — search — Podcast Factory` : "Advanced search — Podcast Factory" },
-    { name: "description", content: "Search the library by more than its title." },
+    {
+      title: q
+        ? `${q} — search — Podcast Factory`
+        : "Advanced search — Podcast Factory",
+    },
+    {
+      name: "description",
+      content: "Search the library by more than its title.",
+    },
   ];
 }
 
@@ -93,7 +100,10 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 /* How each kind of hit is titled and drawn                                    */
 /* -------------------------------------------------------------------------- */
 
-const KINDS: Record<string, { label: string; one: string; icon: IconDefinition }> = {
+const KINDS: Record<
+  string,
+  { label: string; one: string; icon: IconDefinition }
+> = {
   chapter: { label: "In the text", one: "passage", icon: faBookOpen },
   verse: { label: "Verses", one: "verse", icon: faQuoteLeft },
   episode: { label: "Episodes", one: "episode", icon: faHeadphones },
@@ -106,7 +116,8 @@ const KIND_ORDER = ["chapter", "verse", "episode", "blurb"];
 const kindOf = (kind: string) =>
   KINDS[kind] ?? { label: kind, one: "result", icon: faLayerGroup };
 
-const count = (n: number, one: string) => `${n.toLocaleString()} ${n === 1 ? one : `${one}s`}`;
+const count = (n: number, one: string) =>
+  `${n.toLocaleString()} ${n === 1 ? one : `${one}s`}`;
 
 export default function Search({ loaderData }: Route.ComponentProps) {
   const { result, isAdmin } = loaderData;
@@ -124,7 +135,8 @@ export default function Search({ loaderData }: Route.ComponentProps) {
    */
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) return;
+      if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey)
+        return;
       const active = document.activeElement;
       if (
         active instanceof HTMLInputElement ||
@@ -147,8 +159,12 @@ export default function Search({ loaderData }: Route.ComponentProps) {
   if (result.scope !== "all") carried.set("scope", result.scope);
 
   const applied = [
-    ...params.getAll("collection").map((v) => ({ key: "collection", value: v, label: v })),
-    ...params.getAll("kind").map((v) => ({ key: "kind", value: v, label: kindOf(v).label })),
+    ...params
+      .getAll("collection")
+      .map((v) => ({ key: "collection", value: v, label: v })),
+    ...params
+      .getAll("kind")
+      .map((v) => ({ key: "kind", value: v, label: kindOf(v).label })),
     ...params.getAll("book").map((v) => ({
       key: "book",
       value: v,
@@ -163,7 +179,8 @@ export default function Search({ loaderData }: Route.ComponentProps) {
       if (k === key && v === value) continue; // the one being removed
       next.append(k, v);
     }
-    if (!applied.some((a) => a.key === key && a.value === value)) next.append(key, value);
+    if (!applied.some((a) => a.key === key && a.value === value))
+      next.append(key, value);
     return `/search?${next.toString()}`;
   };
 
@@ -186,9 +203,9 @@ export default function Search({ loaderData }: Route.ComponentProps) {
       <section className="pf-masthead pf-masthead--tight">
         <h1 className="pf-title">Advanced search</h1>
         <p className="pf-lede">
-          Every word of every book you hold — the prose, the verses, the episodes.
-          Narrow it as far as you like; the address bar keeps your place, so a
-          search can be bookmarked or sent to someone.
+          Every word of every book you hold — the prose, the verses, the
+          episodes. Narrow it as far as you like; the address bar keeps your
+          place, so a search can be bookmarked or sent to someone.
         </p>
 
         <div className="pf-find" ref={box}>
@@ -210,7 +227,11 @@ export default function Search({ loaderData }: Route.ComponentProps) {
           />
 
           {/* Where to look, never what may come back. */}
-          <div className="pf-swatches pf-find__scope" role="group" aria-label="Where to search">
+          <div
+            className="pf-swatches pf-find__scope"
+            role="group"
+            aria-label="Where to search"
+          >
             {SCOPES.map((scope) => (
               <Link
                 key={scope.value}
@@ -236,10 +257,17 @@ export default function Search({ loaderData }: Route.ComponentProps) {
                 preventScrollReset
               >
                 {chip.label}
-                <Icon icon={faXmark} title={`Remove the ${chip.label} filter`} />
+                <Icon
+                  icon={faXmark}
+                  title={`Remove the ${chip.label} filter`}
+                />
               </Link>
             ))}
-            <Link to={`/search?${carried.toString()}`} className="pf-crumbs__clear" preventScrollReset>
+            <Link
+              to={`/search?${carried.toString()}`}
+              className="pf-crumbs__clear"
+              preventScrollReset
+            >
               Clear all
             </Link>
           </div>
@@ -259,8 +287,8 @@ export default function Search({ loaderData }: Route.ComponentProps) {
       ) : result.unusable ? (
         <EmptyState>
           There is nothing to search for in{" "}
-          <strong className="pf-strong">{query.trim()}</strong> — try a word or a
-          reference like <strong className="pf-strong">2:255</strong>.
+          <strong className="pf-strong">{query.trim()}</strong> — try a word or
+          a reference like <strong className="pf-strong">2:255</strong>.
         </EmptyState>
       ) : result.total === 0 ? (
         <EmptyState>
@@ -269,7 +297,8 @@ export default function Search({ loaderData }: Route.ComponentProps) {
           {applied.length > 0 ? (
             <>
               {" "}
-              <Link to={`/search?${carried.toString()}`}>Clear them</Link> and try again.
+              <Link to={`/search?${carried.toString()}`}>Clear them</Link> and
+              try again.
             </>
           ) : null}
         </EmptyState>
@@ -279,14 +308,17 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 
           <div className="pf-results__list">
             <p className="pf-results__count">
-              <strong className="pf-strong">{count(result.total, "result")}</strong> in{" "}
-              {count(result.books, "book")}
+              <strong className="pf-strong">
+                {count(result.total, "result")}
+              </strong>{" "}
+              in {count(result.books, "book")}
               {result.parsed.reference !== null ? (
                 <>
                   {" "}
                   for{" "}
                   <span className="pf-ref">
-                    {result.parsed.reference.surah}:{result.parsed.reference.ayah}
+                    {result.parsed.reference.surah}:
+                    {result.parsed.reference.ayah}
                   </span>
                 </>
               ) : null}
@@ -319,20 +351,22 @@ function Prompt() {
       </p>
       <ul className="pf-prompt__list">
         <li>
-          <strong className="pf-strong">Type it however you spell it.</strong> Arabic
-          matches whether or not you type the vowel marks, and the Sessions were
-          transcribed on an Urdu keyboard — searching <span lang="ar">ولي</span>{" "}
-          finds those too.
+          <strong className="pf-strong">Type it however you spell it.</strong>{" "}
+          Arabic matches whether or not you type the vowel marks, and the
+          Sessions were transcribed on an Urdu keyboard — searching{" "}
+          <span lang="ar">ولي</span> finds those too.
         </li>
         <li>
-          <strong className="pf-strong">A reference is a jump, not a phrase.</strong>{" "}
-          Type <span className="pf-ref">2:255</span> to land on every passage that
-          quotes it.
+          <strong className="pf-strong">
+            A reference is a jump, not a phrase.
+          </strong>{" "}
+          Type <span className="pf-ref">2:255</span> to land on every passage
+          that quotes it.
         </li>
         <li>
-          <strong className="pf-strong">Narrow, then narrow again.</strong> Every
-          filter recounts the ones beside it, so you can see what is left before
-          you press.
+          <strong className="pf-strong">Narrow, then narrow again.</strong>{" "}
+          Every filter recounts the ones beside it, so you can see what is left
+          before you press.
         </li>
       </ul>
       <p className="pf-prompt__foot">
@@ -359,7 +393,11 @@ function Facets({
   applied: { key: string; value: string }[];
 }) {
   const groups: { key: string; title: string; facets: Facet[] }[] = [
-    { key: "collection", title: "Collection", facets: result.facets.collections },
+    {
+      key: "collection",
+      title: "Collection",
+      facets: result.facets.collections,
+    },
     { key: "kind", title: "What matched", facets: result.facets.kinds },
     { key: "book", title: "Book", facets: result.facets.books },
   ].filter((g) => g.facets.length > 1 || applied.some((a) => a.key === g.key));
@@ -373,7 +411,9 @@ function Facets({
           <h2 className="pf-facets__title">{group.title}</h2>
           <ul className="pf-facets__list">
             {group.facets.map((facet) => {
-              const on = applied.some((a) => a.key === group.key && a.value === facet.value);
+              const on = applied.some(
+                (a) => a.key === group.key && a.value === facet.value,
+              );
               return (
                 <li key={facet.value}>
                   <Link
@@ -390,7 +430,9 @@ function Facets({
                       {group.key === "kind" ? (
                         <Icon icon={kindOf(facet.value).icon} />
                       ) : null}
-                      {group.key === "kind" ? kindOf(facet.value).label : facet.label}
+                      {group.key === "kind"
+                        ? kindOf(facet.value).label
+                        : facet.label}
                     </span>
                     {/* Both numbers, because both are true and answering with one
                         makes the other a surprise later. */}
@@ -452,7 +494,11 @@ function Group({
           page says so and offers the rest. */}
       {!filtered && total > hits.length ? (
         <p className="pf-group__more">
-          <Link to={more} className="pf-button pf-button--soft" preventScrollReset>
+          <Link
+            to={more}
+            className="pf-button pf-button--soft"
+            preventScrollReset
+          >
             Show all {total.toLocaleString()} {meta.one}s
             <Icon icon={faChevronDown} />
           </Link>

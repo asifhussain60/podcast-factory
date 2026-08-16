@@ -48,12 +48,17 @@ export function OfflineAgent({ simulating }: { simulating: boolean }) {
       // like an empty entitlement.
       let slugs: string[] | null = null;
       try {
-        const response = await fetch("/offline/allowed", { credentials: "same-origin" });
+        const response = await fetch("/offline/allowed", {
+          credentials: "same-origin",
+        });
         // `redirected` is the signed-out case: the gate bounced us to sign-in,
         // and that page is HTML, not an answer about anybody's books.
         if (response.ok && !response.redirected) {
           const body = (await response.json()) as { slugs?: unknown };
-          if (Array.isArray(body.slugs) && body.slugs.every((s) => typeof s === "string")) {
+          if (
+            Array.isArray(body.slugs) &&
+            body.slugs.every((s) => typeof s === "string")
+          ) {
             slugs = body.slugs as string[];
           }
         }

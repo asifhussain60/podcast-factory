@@ -319,7 +319,18 @@
   --l-font-card-title:
     "Roboto Condensed Variable", "Inter Variable", system-ui, sans-serif;
   --l-font-ui: "Inter Variable", system-ui, -apple-system, sans-serif;
-  --l-font-arabic: "Traditional Arabic", "Scheherazade New", "Amiri", serif;
+  /* Traditional Arabic was here until 2026-08-15: it renders several
+     Urdu/Persian codepoints used in this reading column as broken, disconnected
+     clusters (found on `spiritual-ethos`'s inline citations — visibly split
+     letterforms, floating diacritics). The Book Composer hit the same defect in
+     its own inline Arabic two days earlier and moved off Traditional Arabic
+     there (`quote-typography.css`, `--q-ar-inline-face`); this token just never
+     got the same fix. Scheherazade New leads instead, matching the reasoning in
+     the @font-face comment above it: engineered for fully-vowelled text, which
+     is everything this reading column sets. Traditional Arabic's @font-face
+     stays declared, for the day something wants it deliberately as a display
+     face — see --l-font-arabic-display for that pattern. */
+  --l-font-arabic: "Scheherazade New", "Amiri", serif;
   /* Titles and other display Arabic ONLY. Never the reading column — see the
      @font-face note in §1. */
   --l-font-arabic-display: "Amiri", "Scheherazade New", serif;
@@ -332,6 +343,12 @@
      checkout missing the file renders scripture in Scheherazade rather than in
      whatever the browser has. */
   --l-font-arabic-quran: "Amiri Quran", "Scheherazade New", serif;
+  /* Reader Arabic weight, one token for every run (see §7). Normal, not bold —
+     none of the three reading faces ships a real 700 weight file, so asking for
+     bold there is a synthetic/faux bold the browser fakes by smearing the 400
+     outline, which is heavier and less legible than the marks it was meant to
+     lift. Contrast for the harakat comes from size, not a fabricated weight. */
+  --l-arabic-weight: 400;
 
   /* Reading-column choices. Only `lib/reading.ts` names these — nothing in the
      stylesheet sets a reading face directly, so adding a fifth is one token
@@ -442,7 +459,12 @@
      chip's own colour in the library find row. Fixed per track rather than
      per theme, like the Sessions collection's violet is a brand choice: the
      ribbon is a small, self-contained badge that carries its own text
-     colour, so it never has to be read against the page underneath it. */
+     colour, so it never has to be read against the page underneath it.
+
+     The VALUES below are generated — a track's colour belongs to the book and
+     is shown on the admin site's Studio shelf too, so it is owned in one file
+     there and copied here, the same arrangement the quotation inks use. */
+  /* >>> study-track-colors — generated from plan-dashboard/src/styles/study-track-colors.css by scripts/sync-study-tracks.mjs. Change a value THERE, then run `npm run study-tracks`. */
   --l-ribbon-theology-bg: #0a6a82;
   --l-ribbon-theology-ink: #ffffff;
   --l-ribbon-esoteric-bg: #d98a1f;
@@ -453,6 +475,7 @@
   --l-ribbon-shariah-ink: #ffffff;
   --l-ribbon-reality-bg: #e0201f;
   --l-ribbon-reality-ink: #ffffff;
+  /* <<< study-track-colors */
 }
 
 /* ==========================================================================
@@ -1943,14 +1966,14 @@
     position: relative;
     margin-inline: -0.55rem;
     padding: 0.18rem 0.55rem;
-    border: 1px solid color-mix(in srgb, var(--l-accent) 24%, var(--l-rule-soft));
+    border: 1px solid
+      color-mix(in srgb, var(--l-accent) 24%, var(--l-rule-soft));
     border-radius: 0.45rem;
-    background:
-      linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--l-accent-soft) 42%, var(--l-paper)) 0%,
-        color-mix(in srgb, var(--l-accent-soft) 22%, transparent) 100%
-      );
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--l-accent-soft) 42%, var(--l-paper)) 0%,
+      color-mix(in srgb, var(--l-accent-soft) 22%, transparent) 100%
+    );
     box-shadow:
       -0.18rem 0 0 color-mix(in srgb, var(--l-accent) 26%, transparent),
       0 0.45rem 1rem color-mix(in srgb, var(--l-ink) 5%, transparent);
@@ -2066,52 +2089,37 @@
     font-family: var(--l-font-card-title);
   }
 
-  .pf-masthead--centred .pf-book-title-original {
-    text-align: center;
-  }
-
   .pf-masthead--centred .pf-pills {
     justify-content: center;
   }
 
-  .pf-masthead--centred .pf-panel {
-    text-align: start;
-  }
-
-  /* The title plate (Asif, 2026-08-05, replacing the circular seal): the
-     book's two-part identity — English name, the work's own Arabic beneath —
-     held in one rectangular panel rather than sitting bare on the page.
-
-     A rectangle rather than the circle it replaces because the panel can take
-     the width a title needs. The circle could not: it had to be sized for the
-     library's longest name, which left every short one floating in an empty
-     disc, and shrinking the type to fit the longest made the shelf read at one
-     size and the page at another.
-
-     It borrows the page's own panel idiom — the same radius and the same
-     accent-mixed tint the "About this book" panel below it uses — so it reads
-     as part of this page rather than as an ornament dropped onto it. `fit-
-     content` up to a cap, so a two-word title gets a compact plate and a
-     subtitled one gets a wide one, both centred. */
-  .pf-title-plate {
+  /* ---- The book-identity panel (Asif, 2026-08-16, replacing the title
+     plate + separate "About this book" panel) ----
+     Category, title/Arabic and the blurb used to be three blocks of three
+     different visual weights — a bare eyebrow line, a bordered plate, then a
+     whole second panel below it — for what is really one idea: here is what
+     this book is. One card now carries all three. It keeps the plate's
+     accent-mixed tint and border so the page doesn't lose the "this is a
+     named object" read the plate gave it, but the category moves INSIDE as a
+     small pill and the Arabic name moves onto the title's own line, in
+     parentheses, rather than getting a second line beneath it. */
+  .pf-book-identity {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--pf-space-2);
-    width: fit-content;
-    max-width: min(100%, 44rem);
+    width: 100%;
+    /* 80% of the page's own measure (Asif, 2026-08-16) — the panel below
+       this one (Read/Listen/Watch) runs the full page width with no cap of
+       its own, and the identity card was capped so much narrower that the
+       two read as belonging to different pages. Sized off `--pf-measure-page`
+       rather than a literal rem figure so it keeps tracking that panel if
+       the page measure ever changes. */
+    max-width: min(100%, calc(var(--pf-measure-page) * 0.8));
     margin-inline: auto;
     margin-top: var(--pf-space-5);
-    /* Tighter above and below than at the sides: two centred lines of display
-       type already carry their own leading, and matching the side padding
-       vertically left a band of empty plate under the Arabic. */
-    padding: clamp(var(--pf-space-3), 2vw, var(--pf-space-4))
+    padding: clamp(var(--pf-space-5), 4vw, var(--pf-space-6))
       clamp(var(--pf-space-5), 5vw, var(--pf-space-8));
     border-radius: var(--pf-radius-lg);
-    /* A tint rather than a flat fill: the plate reads as its own object against
-       the page instead of a rule drawn on the same paper. Mixed INTO
-       `--l-surface` rather than laid over it, so sepia and dark inherit their
-       own version instead of a light-theme colour bleeding through. */
     background: linear-gradient(
       160deg,
       color-mix(in srgb, var(--l-accent) 4%, var(--l-surface)) 0%,
@@ -2119,94 +2127,97 @@
     );
     border: 3px solid color-mix(in srgb, var(--l-accent) 22%, transparent);
     box-shadow: var(--pf-elev-3);
-    /* The sheen below is clipped to the plate and sits between its fill and its
-       type, so it passes UNDER the names rather than washing over them.
-       `isolation` keeps that z-order local: without it the sheen's negative
-       index would sink behind the page instead of behind the text. */
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
   }
 
-  /* The glass: one soft band crossing the plate at an angle, as light travels
-     over a glazed surface.
-
-     Made of `--l-accent` at low alpha rather than white. White is what a
-     specular highlight actually is, and it was tried first — but the same white
-     band that is invisible on the near-white light panel reads as a polished
-     metal blade on the dark one, and no single alpha serves both. The accent is
-     DARKER than the light panel and LIGHTER than the dark one, so one rule
-     produces a soft shift in either direction.
-
-     Slow and mostly absent: the sweep takes a third of the cycle and the rest
-     of the nine seconds is still. A highlight that crossed continuously would
-     be an animation playing on a page of prose; this one catches the eye once
-     and then leaves. The global `prefers-reduced-motion` rule covers `::before`
-     as well as elements, so a reader who asks for stillness gets it here too. */
-  .pf-title-plate::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: inherit;
-    pointer-events: none;
-    background: linear-gradient(
-      115deg,
-      transparent 30%,
-      color-mix(in srgb, var(--l-accent) 5%, transparent) 42%,
-      color-mix(in srgb, var(--l-accent) 13%, transparent) 50%,
-      color-mix(in srgb, var(--l-accent) 5%, transparent) 58%,
-      transparent 70%
-    );
-    animation: pf-title-plate-glass 9s ease-in-out infinite;
+  /* The eyebrow, folded into the panel as a pill rather than a floating line
+     above it — the category is a fact about this card, not a caption for the
+     page. */
+  .pf-book-identity__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.25rem 0.85rem;
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--l-accent) 12%, transparent);
+    color: var(--l-accent-hover);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--pf-tracking-eyebrow);
   }
 
-  @keyframes pf-title-plate-glass {
-    0% {
-      transform: translateX(-115%);
-    }
-    35%,
-    100% {
-      transform: translateX(115%);
-    }
+  .pf-book-identity__title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    column-gap: 0.5ch;
+    margin-top: var(--pf-space-3);
   }
 
-  /* ONE size for every book — both names scale with the viewport and with
-     nothing else, so a reader moving along the shelf sees every title set the
-     same way.
-
-     The Arabic is stepped UP from the shared size rather than sharing it
-     outright. Set at the same `font-size` the two scripts do not look the same
-     size: Naskh's letterforms sit on a smaller body than Latin capitals, so an
-     identical number renders visibly smaller. The multiplier is what makes them
-     look equal, which is the thing actually being matched here. */
-  .pf-title-plate {
-    --pf-plate-type: clamp(1.45rem, 1.05rem + 1.7vw, 2.4rem);
-  }
-
-  .pf-title-plate .pf-title {
+  /* ONE size for every book, same reasoning the plate it replaces used: a
+     length-based step-down made a short title larger than a long one, so the
+     same library read at three different sizes across books. */
+  .pf-book-identity__title {
+    /* Overrides `.pf-title--sm`'s own top margin — inside this flex row the
+       title sits beside its Arabic parenthetical, not stacked under
+       anything, so the margin only threw the baseline alignment off. */
     margin-top: 0;
     max-width: 100%;
-    font-size: var(--pf-plate-type);
     line-height: 1.15;
-    /* When a title is long enough to need two lines, it divides into even ones
-       rather than a full line and an orphan — and at the space, never at the
-       hyphen in a name like `al-Walad`, which reads as a word cut in half. */
     text-wrap: balance;
-    /* The two names are set apart by colour as well as by face: the English in
-       a deeper violet-blue, the Arabic beneath it in the lighter blue, so the
-       eye reads a heading and its translation rather than two equal titles.
-       Both are MIXED FROM `--l-accent`, never fixed hexes, so sepia's muted
-       blue and dark's pale blue each produce their own pair instead of a
+    /* Mixed FROM `--l-accent` rather than a fixed hex, so sepia's muted blue
+       and dark's pale blue each produce their own tint instead of a
        light-theme colour showing through. */
     color: color-mix(in oklab, var(--l-accent-hover) 80%, rebeccapurple);
   }
 
-  .pf-title-plate .pf-book-title-original {
-    margin-top: 0;
-    font-size: calc(var(--pf-plate-type) * 1.18);
-    line-height: 1.4;
+  /* The Arabic name, now a parenthetical beside the title instead of a line
+     beneath it. `dir="rtl"` sits only on the name itself, not the
+     parentheses — they are punctuation in the surrounding English sentence
+     and mirroring them would flip which side reads as "open". Same face as
+     the book's own name got when it had its own line
+     (`--l-font-arabic-display` / `--l-font-urdu-display`), so the identity
+     card and the reading page never disagree about how a title is set.
+
+     Sized off `--pf-display-sm` — the title's OWN font-size variable —
+     rather than `em`: this element is a flex sibling of the title, not its
+     descendant, so `em` resolved against the row's ambient (body) size and
+     rendered at a barely-legible ~10px. Asif, 2026-08-16: it should look as
+     prominent as the English name, not like a footnote, so it is scaled
+     close to the title's own size rather than a fraction of it. */
+  .pf-book-identity__original-paren {
+    font-family: var(--l-font-arabic-display);
+    font-size: calc(var(--pf-display-sm) * 0.9);
     color: color-mix(in srgb, var(--l-accent) 78%, var(--l-surface));
+  }
+
+  .pf-book-identity__original-paren:has(
+    .pf-book-identity__original[lang="ur"]
+  ) {
+    font-family: var(--l-font-urdu-display);
+  }
+
+  .pf-book-identity__original {
+    font-family: inherit;
+  }
+
+  /* The blurb stays LEFT-aligned though everything above it is centred
+     (Asif, 2026-08-16) — running prose centres badly past one line, so only
+     the short, centrable parts of the card (the pill, the title) actually
+     centre. `text-align: start` beats the `.pf-masthead--centred` ancestor
+     rule by specificity+source order without needing `!important`. */
+  /* Doubled selector, not `.pf-book-identity__blurb` alone: the plain
+     `.pf-blurb` rule below shares this rule's specificity, and being later
+     in the file would otherwise win on source order and hand the paragraph
+     back its muted colour. */
+  .pf-blurb.pf-book-identity__blurb {
+    margin-top: var(--pf-space-5);
+    max-width: none;
+    text-align: start;
+    color: var(--l-ink);
+    font-size: 1.125rem; /* 18px, per Asif 2026-08-16 */
   }
 
   .pf-eyebrow {
@@ -2253,46 +2264,10 @@
     text-wrap: pretty;
   }
 
-  /* The book's own name, on its own page. Bigger than the card's band title —
-     this is the one place there is room to set it properly. */
-  .pf-book-title-original {
-    margin-top: var(--pf-space-4);
-    color: var(--l-ink);
-    font-family: var(--l-font-arabic-display);
-    font-size: clamp(2.3rem, 1.7rem + 2.6vw, 3.4rem);
-    line-height: 1.5;
-    /* `dir="rtl"` is required for shaping and ordering, and it also flips the
-       default alignment to the right — which on a wide page throws the title to
-       the far edge, a whole column away from the English name it belongs to.
-       The alignment is deliberately left; only the text direction is right. */
-    text-align: left;
-  }
-
-  .pf-book-title-original[lang="ur"] {
-    font-family: var(--l-font-urdu-display);
-    font-size: clamp(2rem, 1.55rem + 2.2vw, 3.1rem);
-    line-height: 2;
-  }
-
   .pf-blurb {
     margin-top: var(--pf-space-5);
     color: var(--l-muted);
     font-size: var(--pf-text-md);
-  }
-
-  /* In a panel the description takes the panel's full width, and the panel
-     takes the page's.
-
-     `.reader` holds prose to `--l-reading-measure` (68ch) because a chapter is
-     read line after line for an hour and the eye has to find the next line
-     unaided. A three-sentence description is scanned once — and held to 68ch in
-     a 64rem panel it left a third of the panel empty, which read as a layout
-     that had failed rather than a measure that had been chosen. The panel's
-     padding is what keeps the line from running to the very edge. */
-  .pf-panel .pf-blurb {
-    margin-top: 0;
-    max-width: none;
-    color: var(--l-ink);
   }
 
   /* A row of facts under the identity block, and under a library card. */
@@ -2760,8 +2735,16 @@
      ribbon and the filter chip below, so all three read the same colour for
      the same track. */
   .pf-row__badge[data-track] {
-    border-color: color-mix(in srgb, var(--pf-track-line, var(--l-accent)) 35%, transparent);
-    background: color-mix(in srgb, var(--pf-track-line, var(--l-accent)) 8%, transparent);
+    border-color: color-mix(
+      in srgb,
+      var(--pf-track-line, var(--l-accent)) 35%,
+      transparent
+    );
+    background: color-mix(
+      in srgb,
+      var(--pf-track-line, var(--l-accent)) 8%,
+      transparent
+    );
     color: var(--pf-track-line, var(--l-accent));
   }
 
@@ -3292,6 +3275,20 @@
     color: var(--l-faint);
   }
 
+  /* The count standing in for a section's whole heading, on the tabs whose
+     tab strip already names the section (Read, Listen) so there is no
+     `.pf-section__title` beside it (Asif, 2026-08-16). At the base size it
+     read as a stray caption rather than the thing telling you how many
+     chapters or episodes are here — sized and weighted like a real heading,
+     not just a slightly bigger label. */
+  .pf-section__count--lead {
+    font-size: var(--pf-text-xl);
+    font-weight: 600;
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--l-ink);
+  }
+
   /* ---- Card -----------------------------------------------------------
      A card lifts under the cursor rather than changing colour. Recolouring a
      border on hover reads as a state change — as though something had gone
@@ -3421,7 +3418,14 @@
 
   .pf-grid {
     display: grid;
-    gap: var(--pf-space-5);
+    /* Row gap is wider than column gap on purpose: a stacked work card's
+       decorative leaves rotate a little past its own grid cell (see
+       `.pf-work-leaf` below), and the tighter single `gap` this used
+       to share for both axes let that peek touch the row underneath.
+       Column gap is untouched — only vertical breathing room needed to
+       widen. */
+    row-gap: var(--pf-space-8);
+    column-gap: var(--pf-space-7);
     grid-template-columns: 1fr;
     /* Usually a <ul>: a grid of cards is a list of things, not a row of divs. */
     margin: 0;
@@ -3634,8 +3638,10 @@
        the others keep. */
     box-shadow:
       var(--pf-elev-1),
-      0 0 0.6rem color-mix(in srgb, var(--l-ribbon-esoteric-bg) 75%, transparent),
-      0 0 1.4rem color-mix(in srgb, var(--l-ribbon-esoteric-bg) 55%, transparent);
+      0 0 0.6rem
+        color-mix(in srgb, var(--l-ribbon-esoteric-bg) 75%, transparent),
+      0 0 1.4rem
+        color-mix(in srgb, var(--l-ribbon-esoteric-bg) 55%, transparent);
   }
 
   .pf-book__ribbon[data-track="shariah"] {
@@ -3699,6 +3705,44 @@
 
   .pf-book__title-link:hover .pf-book__title {
     color: var(--l-accent);
+  }
+
+  /* `WorkCard`'s selected state only — the title here is the WORK's own
+     name, standing in for what would otherwise be a longer, more specific
+     single-book title, so it is set a size up from a plain book's to carry
+     that weight. */
+  .pf-book__title--work {
+    font-size: var(--pf-text-xl);
+  }
+
+  /* `.pf-book__title-link` is a flex child of `.pf-book__body`
+     (`align-items: center`), so it shrink-wraps to its own content width by
+     default — a plain book's title needs nothing wider than its own text.
+     The moment it contains a volume label, though, that label needs to
+     justify against the FULL card width, not its own text width, so this
+     widens the link to fill the card only when a label is actually present
+     — never for a standalone book's title, which never has one. */
+  .pf-book__title-link:has(.pf-book__volume-label) {
+    align-self: stretch;
+  }
+
+  /* Right-justified against the now-full-width title link — the one piece
+     of text on this card that reads as a caption on the title above it, not
+     as another fact in the centred stack, so it breaks that centring on
+     purpose. */
+  .pf-book__volume-label {
+    margin-top: var(--pf-space-1);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-md);
+    font-style: italic;
+    font-weight: 700;
+    /* `--l-accent` — the one colour the whole site already treats as ITS
+       colour (links, focus rings, the badge below this card), re-tinted per
+       collection and per theme the same way everything else that uses it
+       is. "Matches the page" this way, rather than a value picked just for
+       this label. */
+    color: var(--l-accent);
+    text-align: end;
   }
 
   .pf-book__actions {
@@ -3780,7 +3824,8 @@
     width: 3.9rem;
     height: 3.9rem;
     border-radius: var(--pf-radius-pill);
-    border: 1px solid color-mix(in srgb, var(--pf-action-tone) 62%, var(--l-ink));
+    border: 1px solid
+      color-mix(in srgb, var(--pf-action-tone) 62%, var(--l-ink));
     background: color-mix(in srgb, var(--pf-action-tone) 11%, var(--l-elev));
     color: color-mix(in srgb, var(--pf-action-tone) 86%, var(--l-ink));
     transition:
@@ -3861,6 +3906,330 @@
     .pf-book-action__circle::after,
     .pf-book {
       animation: none;
+      transition: none;
+    }
+  }
+
+  /* ---- The work card ----------------------------------------------------
+     A multi-volume work. Two decorative leaves peek out behind whichever
+     card is showing so a set reads as visually distinct from a plain
+     single-book card at a glance — border colour is `--l-muted`, the same
+     darker grey every plain card's own text already uses, not a new colour
+     and not the site's accent blue (an earlier round of this card used
+     accent blue; darker grey read as more legible and less like an
+     interactive-state colour, so it replaced it everywhere below).
+
+     Two states share this one wrapper, `.pf-work`, never a separate page or
+     overlay for either:
+       - `.pf-work-picker` — no volume picked yet, or the reader asked to
+         change it. The work's own band/title with a numbered-chip panel.
+       - `.pf-work-selected` — a volume is picked. A real `BookCard` for
+         that volume, with a small button layered on top to reopen the
+         picker.
+     Both are siblings of the leaves inside `.pf-work`, so either can occupy
+     the same grid cell without a fanned-out overlay — there is deliberately
+     no overlay panel here anymore; the chip panel replaced it. */
+
+  .pf-work {
+    /* One named value, not a colour repeated at four call sites — a set's
+       border is a stacked-card-only signal, deliberately independent of any
+       theme or collection token, so it is declared once here and every
+       border below reads it rather than naming its own hex. */
+    --l-work-border: #9da1ab;
+    position: relative;
+    height: 100%;
+  }
+
+  .pf-work-leaf {
+    position: absolute;
+    inset: 0;
+    border: 1.5px solid var(--l-work-border);
+    border-radius: var(--pf-radius-lg);
+    background: var(--l-surface);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-work-leaf--back {
+    transform: rotate(-6deg) translate(-0.5rem, 0.6rem);
+    z-index: 0;
+  }
+
+  .pf-work-leaf--mid {
+    transform: rotate(4deg) translate(0.6rem, 0.4rem);
+    z-index: 1;
+  }
+
+  /* ---- Picker state ------------------------------------------------- */
+
+  .pf-work-picker {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border: 2px solid var(--l-work-border);
+    border-radius: var(--pf-radius-lg);
+    /* `--l-accent-soft` rather than `--l-surface` — the same plain-card
+       colour every book around it already uses, which is why a stacked set
+       had to lean on its border and leaves alone to read as different. A
+       set is otherwise a book like any other, so it borrows the one token
+       already used site-wide for "this is a subtle tinted state"
+       (`--l-accent-soft`, contrast-checked per theme by `test/theme.test.ts`)
+       instead of a colour invented for this card. */
+    background: var(--l-accent-soft);
+    box-shadow: var(--pf-elev-2);
+  }
+
+  .pf-work-picker__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: var(--pf-space-4);
+  }
+
+  .pf-work-picker__title {
+    margin: 0 0 2px;
+    font-family: var(--l-font-card-title);
+    font-size: var(--pf-text-md);
+    color: var(--l-ink);
+  }
+
+  .pf-work-picker__sub {
+    margin: 0 0 var(--pf-space-3);
+    color: var(--l-muted);
+    font-size: var(--pf-text-xs);
+  }
+
+  /* Centres the panel in whatever room a taller neighbour card gives this
+     cell, rather than the panel hugging the subtitle and leaving blank
+     card underneath it. `overflow-y: auto` is the safety valve for a work
+     with enough volumes that even a 4-per-row wrap outgrows the card's own
+     height (the picker's own `overflow: hidden` exists for its rounded
+     corners, not to silently clip content) — never exercised by anything in
+     the library today, but scrolling is what happens instead of a chip
+     getting cut in half. */
+  .pf-work-chip-wrap {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+  }
+
+  /* No border or fill of its own — an earlier version framed the chip set
+     in `--l-bg`, a plain warm-neutral surface, which sat as a visibly
+     separate white box on top of `.pf-work-picker`'s own accent tint
+     (Asif, 2026-08-16: "the volume panel... is clashing with the
+     background color"). The chips are the only thing this group needs to
+     frame; the picker's own tinted surface is the group's background now,
+     same as everywhere else on the card. */
+  .pf-work-chip-panel {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Flex-wrap rather than a fixed grid, so the chip block CENTRES as a unit
+     whatever its own width turns out to be — two chips read as one small
+     centred row instead of pinned to the grid's top-left cell, and twelve
+     chips simply wrap into more centred rows of the same size rather than
+     forcing a "+N" past a fixed cap (Asif, 2026-08-16: "center the volume
+     buttons... design should handle up to 12 volumes"). Larger chips
+     (`--pf-space-8` square, up from the picker's earlier 2.5rem) plus a
+     roomier gap are what fill the card's own height for a small set —
+     spacing does that work here, not a taller container. `CHIP_CAP` in
+     `WorkCard.tsx` still caps this at 12 and the "+N" summary chip remains
+     as the fallback past that, never silently truncating without saying so. */
+  .pf-work-chip-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--pf-space-3);
+  }
+
+  /* `--l-surface` (the plain card white/near-black), not `--l-elev` on
+     `--l-rule` — those read fine against the old white panel but nearly
+     vanished against the picker's own accent-soft tint, so an unpicked chip
+     looked more like a hole in the card than a button. `--l-work-border`,
+     the same darker neutral the set's own outer border and leaves already
+     use, keeps every chip legible as a distinct control on the tint. */
+  /* Fixed square, `flex: 0 0 auto` — a flex-wrap row stretches its items to
+     match the tallest one by default, which would have let two chips grow
+     to fill the whole row's height. A fixed size is what makes twelve
+     chips wrap into same-size rows rather than shrinking to fit. */
+  .pf-work-chip {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: var(--pf-space-8);
+    height: var(--pf-space-8);
+    padding: 0;
+    border: 1px solid var(--l-work-border);
+    border-radius: var(--pf-radius-sm);
+    background: var(--l-surface);
+    font-family: var(--l-font-card-title);
+    font-size: var(--pf-text-lg);
+    font-weight: 700;
+    color: var(--l-ink);
+    cursor: pointer;
+    transition:
+      transform var(--pf-motion),
+      box-shadow var(--pf-motion);
+  }
+
+  .pf-work-chip:hover,
+  .pf-work-chip:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: var(--pf-elev-2);
+    outline: none;
+  }
+
+  /* A volume the reader has already started — filled solid rather than
+     `--l-accent-soft`, which on the tinted panel would have read as barely
+     different from its own background instead of as a distinct state. */
+  .pf-work-chip--done {
+    border-color: var(--l-accent);
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+  }
+
+  /* The volume currently standing in the selected state, shown only when
+     the reader reopened the picker on top of an existing pick — so they can
+     see what they'd be leaving as well as what they're choosing next. */
+  .pf-work-chip--current {
+    outline: 2px solid var(--l-accent);
+    outline-offset: 2px;
+  }
+
+  /* Not a button: past `CHIP_CAP` there is no single destination this slot
+     could jump to, so it is informational only, not a false affordance. */
+  .pf-work-chip--more {
+    color: var(--l-muted);
+    font-size: var(--pf-text-sm);
+    background: var(--l-surface);
+    border-color: var(--l-work-border);
+    border-style: dashed;
+    cursor: default;
+  }
+
+  /* ---- Selected state ------------------------------------------------ */
+
+  /* Wraps the real `BookCard` standing in this position — `BookCard` itself
+     (`.pf-card`/`.pf-book`) already supplies its own border, radius,
+     background and shadow, so this wrapper carries no chrome of its own.
+     Its only jobs are sizing and stacking above the two leaves behind it —
+     `z-index: 2` is what the leaves (`z-index: 0`/`1`) and the change
+     button (`z-index: 3`, below) are numbered against. */
+  .pf-work-selected__front {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+  }
+
+  /* `BookCard` already draws its own hairline (`.pf-card`'s
+     `1px solid var(--l-rule)`) — recolouring it here, rather than adding a
+     second border on this wrapper, is what keeps a set down to ONE visible
+     ring instead of two nested boxes. Same `--l-work-border` the picker
+     state and the leaves use, so the border reads as one continuous choice
+     across both states, not two different signals for the same set. */
+  .pf-work-selected__front .pf-card {
+    border-width: 2px;
+    border-color: var(--l-work-border);
+    /* Same tint the picker state uses, so a set reads as one continuous
+       card colour whichever state it happens to be showing — not a subtle
+       fact only visible before a volume is picked. */
+    background: var(--l-accent-soft);
+  }
+
+  /* `.pf-book:hover` already lightens a plain card's border to
+     `--l-rule-soft` on hover — reasserted back to `--l-work-border` here so
+     the set's border does not momentarily read as a different, lighter set
+     on hover. */
+  .pf-work-selected__front .pf-book:hover,
+  .pf-work-selected__front .pf-book:focus-within {
+    border-color: var(--l-work-border);
+  }
+
+  /* The "select volume" control — a real, independently focusable
+     `<button>` layered on top of the selected `BookCard`, centred at the
+     bottom of the card rather than tucked in a corner. Deliberately still
+     `position: absolute` INSIDE the card's own footprint, not a normal-flow
+     element below it: `.pf-work` matches its neighbours' height via the
+     grid's own row-stretch, and a button living in normal flow below the
+     card would make this one cell taller than the books beside it, breaking
+     the row's shared bottom edge. Centring is `left: 50%` plus a
+     `translateX(-50%)` folded into every `transform` below, including the
+     hover lift — losing it on any one state would re-anchor the button to
+     its own left edge the moment that state was active.
+
+     It needs a numeric `z-index` (rather than relying on DOM order, the way
+     `BookCard`'s own internal links do) because `.pf-work-selected__front`
+     already established `z-index: 2` for the leaf stack — an unnumbered
+     sibling would paint BELOW that, not above it. `BookCard`'s own
+     stretched-link/title-link/action links are unaffected: they still
+     resolve their stacking purely by DOM order *inside*
+     `.pf-work-selected__front`'s own context, exactly as a standalone
+     `BookCard` does. */
+  .pf-work-change {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    bottom: var(--pf-space-3);
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1.1rem;
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 700;
+    white-space: nowrap;
+    /* Same `--l-accent`/`--l-on-accent` pair the picker's own chips use —
+       this button matches whichever collection's book it is sitting on, in
+       any theme, rather than a fixed neutral colour. */
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+    /* Two-layer "raised" shadow — a soft ambient layer plus a thin bright
+       top edge. A third, glowing layer an earlier pass added here was
+       asked to come back off, so this button is quiet until a reader
+       actually touches it. */
+    box-shadow:
+      var(--pf-elev-2),
+      inset 0 1px 0 rgb(255 255 255 / 0.18);
+    cursor: pointer;
+    transition:
+      transform var(--pf-motion),
+      box-shadow var(--pf-motion),
+      background-color var(--pf-motion);
+  }
+
+  /* The lift-and-brighten every other interactive control on this card
+     already uses on hover/focus — what actually reads as "this is a
+     button" is not the shape, it is that it visibly responds. */
+  .pf-work-change:hover,
+  .pf-work-change:focus-visible {
+    /* `translateX(-50%)` first, same as the base rule — dropping it here
+       would snap the button to its own left edge the instant it's hovered. */
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow:
+      var(--pf-elev-4),
+      inset 0 1px 0 rgb(255 255 255 / 0.24);
+    background: var(--l-accent-hover);
+    outline: none;
+  }
+
+  .pf-work-change:focus-visible {
+    outline: 2px solid var(--l-accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-work-chip,
+    .pf-work-change {
       transition: none;
     }
   }
@@ -4094,6 +4463,118 @@
     cursor: not-allowed;
   }
 
+  /* The two ways to take a book's reading edition off the site, held as one
+     visual pair (Asif, 2026-08-16) rather than two loose buttons that
+     happened to share a row — they answer the same question, so a reader
+     comparing them should read them as a set. */
+  .pf-format-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-3);
+  }
+
+  /* ---- Tooltip -----------------------------------------------------------
+     A small hover/focus label for a control whose action isn't obvious from
+     its icon and one or two words alone — "Read Offline" and "Download PDF"
+     sit right beside each other and answer the same question differently,
+     and the tooltip is what says how. CSS-only: the text lives in `data-tip`
+     so there is exactly one copy of it, and it never needs JS to position or
+     dismiss itself. It is a hover/focus AFFORDANCE, not the button's
+     accessible name — every `.pf-tip` control still carries its own
+     `aria-label`, so removing the tooltip loses nothing a screen reader
+     already had. */
+  .pf-tip {
+    position: relative;
+  }
+
+  .pf-tip::after,
+  .pf-tip::before {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 8px);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity var(--pf-motion),
+      transform var(--pf-motion);
+    z-index: 20;
+  }
+
+  .pf-tip::after {
+    content: attr(data-tip);
+    transform: translate(-50%, 4px);
+    max-width: 16rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 8px;
+    background: var(--l-ink);
+    color: var(--l-surface);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 500;
+    line-height: 1.35;
+    text-align: center;
+    text-transform: none;
+    letter-spacing: normal;
+    white-space: normal;
+    width: max-content;
+    box-shadow: var(--pf-elev-2);
+  }
+
+  /* The pointer, a rotated square rather than a border-triangle hack, so it
+     shares the bubble's own colour without a second colour to keep in sync. */
+  .pf-tip::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-bottom: -4px;
+    transform: translate(-50%, 4px) rotate(45deg);
+    background: var(--l-ink);
+  }
+
+  /* Opens BELOW the control instead of above (Asif, 2026-08-16). The default
+     opens upward, which is right for a control with room above it — but the
+     format-actions row sits right at the top edge of its panel, and `.pf-panel`
+     keeps `overflow: hidden` to square off its own rounded corners. A tooltip
+     that opened upward from there had nowhere to go but under that clip, so
+     only its bottom sliver ever showed. Any control this close to a clipping
+     ancestor's edge should use this modifier instead of the default. */
+  .pf-tip--below::after,
+  .pf-tip--below::before {
+    top: calc(100% + 8px);
+    bottom: auto;
+  }
+
+  .pf-tip--below::after {
+    transform: translate(-50%, -4px);
+  }
+
+  .pf-tip--below::before {
+    margin-bottom: 0;
+    margin-top: -4px;
+    transform: translate(-50%, -4px) rotate(45deg);
+  }
+
+  .pf-tip:hover::after,
+  .pf-tip:hover::before,
+  .pf-tip:focus-visible::after,
+  .pf-tip:focus-visible::before {
+    opacity: 1;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+
+  .pf-tip:hover::before,
+  .pf-tip:focus-visible::before {
+    transform: translate(-50%, 0) rotate(45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-tip::after,
+    .pf-tip::before {
+      transition: none;
+    }
+  }
+
   /* ---- Rows ------------------------------------------------------------
      Chapter and episode lists. A hairline between rows, and the whole row is
      the hit target. */
@@ -4181,6 +4662,109 @@
 
   .pf-rows--striped .pf-row {
     padding-block: var(--pf-space-4);
+  }
+
+  /* A multi-volume work's header row in the list view — `<button>`, not
+     `<Link>` (it opens the row in place, it does not navigate), so it needs
+     the width/border/background/font reset `.pf-row`'s other use as an
+     anchor never had to declare. `--l-accent-soft` is the "light background
+     to stand out" this was asked for — already the site's own tinted-fill
+     token (used for a started reading chip elsewhere on this page), re-tinted
+     per collection and per theme, not a colour invented for this row. */
+  /* A light `--l-accent-soft` tint was the first attempt at "stand out" —
+     the striped list around it already alternates a very similar pale tint
+     row to row, so a work row in that same family read as just another
+     stripe, not a different kind of row. Solid `--l-accent` is what actually
+     reads as different at a glance, the same "this is a set" strength the
+     grid's own badge and button already commit to. */
+  .pf-work-row {
+    width: 100%;
+    border: 0;
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+    font: inherit;
+    text-align: inherit;
+    cursor: pointer;
+  }
+
+  .pf-work-row:hover,
+  .pf-work-row:focus-visible {
+    background: var(--l-accent-hover);
+    outline: none;
+  }
+
+  .pf-work-row:focus-visible {
+    outline: 2px solid var(--l-on-accent);
+    outline-offset: -2px;
+  }
+
+  /* `.pf-row__main` names its own ink colour for the plain rows around it
+     (`color: var(--l-ink)`), which beats this button's inherited
+     `--l-on-accent` by specificity — the title read as near-black on the
+     solid accent fill instead of the light text every other part of this
+     row already uses. */
+  .pf-work-row .pf-row__main {
+    color: inherit;
+  }
+
+  /* On the solid accent fill, `.pf-row__mark`'s usual light-tint circle
+     would read as barely-there — inverted to a solid light circle with the
+     accent colour carried by the icon instead of the ring. */
+  .pf-work-row .pf-row__mark {
+    border-color: transparent;
+    background: var(--l-on-accent);
+    color: var(--l-accent);
+    opacity: 1;
+  }
+
+  /* The volume count, promoted from plain meta text to its own pill — the
+     one fact on this row worth a second glance before deciding to open it. */
+  .pf-work-row__count {
+    flex: none;
+    padding: 0.25em 0.75em;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-on-accent);
+    color: var(--l-accent);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 800;
+  }
+
+  /* The "this is an accordion" signal asked for directly: a large circle,
+     not `.pf-row__go`'s small plain arrow, so a first-time visitor reads it
+     as a control before they've ever clicked one. One glyph, rotated by CSS
+     off the button's own `aria-expanded` — simpler than authoring a second,
+     "open" version of the icon. */
+  .pf-work-row__arrow {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--l-on-accent);
+    color: var(--l-accent);
+    font-size: 1.1rem;
+    transition: transform var(--pf-motion);
+  }
+
+  .pf-work-row[aria-expanded="true"] .pf-work-row__arrow {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-work-row__arrow {
+      transition: none;
+    }
+  }
+
+  /* Indented under the header it belongs to, so the relationship reads from
+     position alone — no extra border or background needed to say "these
+     rows belong to the one above them." */
+  .pf-work-row__volumes {
+    margin: 0;
+    padding-left: var(--pf-space-8);
   }
 
   /* The mark at the head of a chapter row. Sized against the text rather than
@@ -5812,7 +6396,11 @@
     border: 1px solid var(--l-rule);
     border-radius: var(--pf-radius-lg);
     background:
-      linear-gradient(135deg, color-mix(in srgb, var(--l-accent) 12%, transparent), transparent 58%),
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--l-accent) 12%, transparent),
+        transparent 58%
+      ),
       var(--l-elev);
     box-shadow: var(--pf-elev-1);
   }
@@ -6009,7 +6597,10 @@
 
   @media (min-width: 980px) {
     .pf-usage-visuals {
-      grid-template-columns: minmax(17rem, 0.8fr) minmax(28rem, 1.45fr) minmax(18rem, 0.95fr);
+      grid-template-columns: minmax(17rem, 0.8fr) minmax(28rem, 1.45fr) minmax(
+          18rem,
+          0.95fr
+        );
     }
 
     .pf-usage-visuals--duo {
@@ -6231,7 +6822,11 @@
     border: 1px solid var(--l-rule-soft);
     border-radius: var(--pf-radius);
     background:
-      radial-gradient(circle at 15% 15%, color-mix(in srgb, var(--l-accent) 16%, transparent), transparent 34%),
+      radial-gradient(
+        circle at 15% 15%,
+        color-mix(in srgb, var(--l-accent) 16%, transparent),
+        transparent 34%
+      ),
       var(--l-surface);
   }
 
@@ -6304,7 +6899,8 @@
     border: 1px solid var(--l-rule-soft);
     border-radius: var(--pf-radius);
     background:
-      linear-gradient(to top, var(--l-rule-soft) 1px, transparent 1px) 0 25% / 100% 25%,
+      linear-gradient(to top, var(--l-rule-soft) 1px, transparent 1px) 0 25% /
+        100% 25%,
       var(--l-surface);
   }
 
@@ -6325,7 +6921,8 @@
       color-mix(in srgb, var(--l-accent) 88%, white),
       color-mix(in srgb, var(--l-success) 82%, var(--l-accent))
     );
-    box-shadow: 0 -0.25rem 0.85rem color-mix(in srgb, var(--l-accent) 18%, transparent);
+    box-shadow: 0 -0.25rem 0.85rem
+      color-mix(in srgb, var(--l-accent) 18%, transparent);
   }
 
   .pf-rhythm-axis {
@@ -7069,8 +7666,17 @@
     min-height: 9.5rem;
     padding: var(--pf-space-4);
     overflow: hidden;
-    background: color-mix(in srgb, var(--pf-hl-tint, var(--l-accent)) 5%, var(--l-elev));
-    border: 1px solid color-mix(in srgb, var(--pf-hl-tint, var(--l-rule)) 42%, var(--l-rule-soft));
+    background: color-mix(
+      in srgb,
+      var(--pf-hl-tint, var(--l-accent)) 5%,
+      var(--l-elev)
+    );
+    border: 1px solid
+      color-mix(
+        in srgb,
+        var(--pf-hl-tint, var(--l-rule)) 42%,
+        var(--l-rule-soft)
+      );
     border-radius: var(--pf-radius);
     box-shadow: var(--pf-elev-1);
     transition:
@@ -7090,7 +7696,11 @@
 
   .pf-mark:hover,
   .pf-mark:focus-within {
-    border-color: color-mix(in srgb, var(--pf-hl-tint, var(--l-accent)) 62%, var(--l-rule-soft));
+    border-color: color-mix(
+      in srgb,
+      var(--pf-hl-tint, var(--l-accent)) 62%,
+      var(--l-rule-soft)
+    );
     box-shadow: var(--pf-elev-2);
     transform: translateY(-1px);
   }
@@ -7113,12 +7723,11 @@
   }
 
   .pf-mark--paper {
-    background:
-      linear-gradient(
-        180deg,
-        color-mix(in srgb, var(--pf-hl-tint) 14%, var(--l-elev)),
-        color-mix(in srgb, var(--pf-hl-tint) 7%, var(--l-elev))
-      );
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--pf-hl-tint) 14%, var(--l-elev)),
+      color-mix(in srgb, var(--pf-hl-tint) 7%, var(--l-elev))
+    );
     color: var(--l-ink);
   }
 
@@ -7165,8 +7774,16 @@
     gap: var(--pf-space-1);
     padding: 0.15rem var(--pf-space-2);
     border-radius: var(--pf-radius-pill);
-    background: color-mix(in srgb, var(--pf-hl-tint, var(--l-accent)) 12%, var(--l-elev));
-    color: color-mix(in srgb, var(--pf-hl-tint, var(--l-accent)) 78%, var(--l-ink));
+    background: color-mix(
+      in srgb,
+      var(--pf-hl-tint, var(--l-accent)) 12%,
+      var(--l-elev)
+    );
+    color: color-mix(
+      in srgb,
+      var(--pf-hl-tint, var(--l-accent)) 78%,
+      var(--l-ink)
+    );
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
     font-weight: 800;
@@ -7204,7 +7821,8 @@
      the paper's ink rather than in `--l-rule`, which would disappear on gold. */
   .pf-mark--paper .pf-mark__text {
     padding-top: var(--pf-space-2);
-    border-top: 1px solid color-mix(in srgb, var(--pf-hl-tint) 38%, var(--l-rule-soft));
+    border-top: 1px solid
+      color-mix(in srgb, var(--pf-hl-tint) 38%, var(--l-rule-soft));
     color: var(--l-muted);
   }
 
@@ -7257,12 +7875,11 @@
      marks, clearly not one of the four. */
   .pf-mark--moment {
     --pf-hl-tint: var(--l-accent);
-    background:
-      linear-gradient(
-        180deg,
-        color-mix(in srgb, var(--l-accent) 9%, var(--l-elev)),
-        color-mix(in srgb, var(--l-accent) 3%, var(--l-elev))
-      );
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--l-accent) 9%, var(--l-elev)),
+      color-mix(in srgb, var(--l-accent) 3%, var(--l-elev))
+    );
   }
 
   .pf-mark--moment .pf-mark__body {
@@ -8421,7 +9038,11 @@
   }
 
   .pf-track-chip:hover {
-    background: color-mix(in srgb, var(--pf-track-line, var(--l-muted)) 12%, var(--l-surface));
+    background: color-mix(
+      in srgb,
+      var(--pf-track-line, var(--l-muted)) 12%,
+      var(--l-surface)
+    );
   }
 
   .pf-track-chip[aria-pressed="true"] {
@@ -8453,13 +9074,21 @@
     height: 1.4rem;
     padding-inline: 0.35rem;
     border-radius: var(--pf-radius-pill);
-    background: color-mix(in srgb, var(--pf-track-line, var(--l-muted)) 16%, transparent);
+    background: color-mix(
+      in srgb,
+      var(--pf-track-line, var(--l-muted)) 16%,
+      transparent
+    );
     font-size: var(--pf-pill-sm-size);
     font-variant-numeric: tabular-nums;
   }
 
   .pf-track-chip[aria-pressed="true"] .pf-track-chip__count {
-    background: color-mix(in srgb, var(--pf-track-fg, var(--l-on-accent)) 22%, transparent);
+    background: color-mix(
+      in srgb,
+      var(--pf-track-fg, var(--l-on-accent)) 22%,
+      transparent
+    );
   }
 
   /* One source of truth per track colour, read by the filter chip, the
@@ -9074,9 +9703,34 @@
    * Arabic face's raised baseline.
    * -------------------------------------------------------------------------- */
 
+  /* ONE SIZE AND ONE WEIGHT FOR EVERY ARABIC RUN IN THE READER (Asif,
+     2026-08-15). Arabic used to set at four different sizes depending on which
+     block it landed in — 1.24em in prose, 1.5em in a standalone quotation,
+     1.4em in a blockquote verse — so the same word looked like a different
+     typeface from one page to the next. The three rules below now defer to this
+     one instead of each choosing for themselves.
+
+     `em`, NOT the px value this started as: the reader has a text-size control,
+     and a fixed size would freeze Arabic while the English around it moved.
+
+     LOCKED 2026-08-15, approved on live review against `spiritual-ethos`:
+     1.1em, alif at ~1.10x the Latin cap-height — the top of Asif's original
+     5-10%-larger ask. 1.58em (the prior value) set alif at 1.584x cap-height,
+     visibly taller than the paragraph rhythm around it; 1.5em (well clear of
+     the ~1.8-2.0em point where the glyph's own ink starts reaching the line
+     above — `line-height: 0` keeps the paragraph's own line spacing fixed at
+     any size, verified by measurement to 3em) read as too large on review;
+     1.08em (alif at 1.08x cap-height) was the step before 1.1em. Applies to
+     every book and every session through this one shared token — there is no
+     per-book override anywhere in the reader.
+
+     Weight comes from --l-arabic-weight (§2) rather than a number here —
+     none of the reading faces ships a real bold cut, so the token is normal
+     weight; a face that later adds one changes in one place. */
   .reader .ar-inline {
     font-family: var(--l-font-arabic);
-    font-size: 1.24em;
+    font-size: 1.1em;
+    font-weight: var(--l-arabic-weight);
     line-height: 0;
     vertical-align: -0.06em;
   }
@@ -9105,8 +9759,10 @@
     text-wrap: balance;
   }
 
+  /* Size comes from the base rule — a standalone quotation is set apart by
+     centring and air, not by being a different size from the same words in
+     running prose. */
   .reader .ar-block > .ar-inline {
-    font-size: 1.5em;
     line-height: 2;
     display: inline-block;
   }
@@ -9133,9 +9789,16 @@
     margin-block: 1.8em;
   }
 
+  /* The size the nested span then inherits, because the span's own size is
+     switched off below to stop the two compounding. Deliberately its OWN
+     value, larger than the inline base rule above — a standalone verse or
+     hadith is display type and reads as one whether or not the inline size
+     next to it changes; that is why the 2026-08-15 inline resize (1.58em ->
+     1.1em) left this rule alone. */
   .reader blockquote .ar {
     font-family: var(--l-font-arabic);
-    font-size: 1.4em;
+    font-size: 1.58em;
+    font-weight: var(--l-arabic-weight);
     line-height: 2.05;
     text-align: center;
     /* The one place a long Arabic run may break. Every other Arabic rule in
@@ -9145,14 +9808,22 @@
   }
 
   /* The renderer nests an `.ar-inline` span INSIDE `p.ar`, so without this the two
-     font-size rules compound (1.4 × 1.24) and the zero line-height meant for
+     font-size rules compound (1.58 × 1.58) and the zero line-height meant for
      running prose collapses the line box, overlapping the vowel marks. Inside a
-     display block the span carries no sizing of its own. */
+     display block the span carries no sizing of its own — the paragraph above
+     carries it, at the same value, so the run still matches running prose. */
   .reader blockquote .ar > .ar-inline,
   .reader blockquote .tr > .ar-inline {
-    font-size: 1em;
     line-height: inherit;
     vertical-align: baseline;
+  }
+
+  /* Only `.ar` cancels the span's own size, because only `.ar` carries the size
+     itself. A transliteration line does not — it is set at the body size — so
+     cancelling here too left the handful of Arabic words that appear inside a
+     romanization line at 19px while the same words set at 30px one line above. */
+  .reader blockquote .ar > .ar-inline {
+    font-size: 1em;
   }
 
   /* Scripture takes the Qur'anic face, from the audit's own resolution rather
@@ -9520,19 +10191,36 @@
 
   .reader .md-figure img {
     display: block;
-    /* --img-w (2026-08-14): a Composer resize choice, threaded through from
+    /* --img-h, not --img-w (2026-08-14 switch, see image-layout.mjs's
+       header): a Composer resize choice, threaded through from
        _system/image-layout.json by the SAME renderMarkdown function the
        Composer's own Read tab uses — so a size set in the Composer reaches
-       here with no second implementation to keep in sync. Falls back to
-       `auto`, unchanged, the moment nobody has resized this image. */
-    width: var(--img-w, auto);
+       here with no second implementation to keep in sync. This rule
+       drifted onto the old width-based property in the same commit that
+       introduced --img-h everywhere else, so every image on the Podcast
+       Factory Library rendered at its natural aspect ratio regardless of
+       any curated height — fixed 2026-08-15.
+       Falls back to 350px — image-layout.mjs's own DEFAULT_HEIGHT_PX,
+       matching the Sessions-lane source images, which arrive as large raw
+       lecture-slide photos/scans with no consistent aspect ratio and no
+       curated height until someone opens the Composer and resizes one.
+       `auto` (natural size) is what book-reader.css/book-print.css fall
+       back to instead, because THOSE surfaces are the Composer's own Read
+       tab and the PDF, both edited by the author with the image on
+       screen; the audience reader is not, so an un-curated image should
+       not reach an audience reader at whatever size the raw scan happens
+       to be. */
+    width: auto;
     max-width: 100%;
-    height: auto;
+    height: var(--img-h, 350px);
     margin-inline: auto;
     box-sizing: border-box;
     border-radius: var(--pf-radius-sm);
-    /* A hairline, so a scan on a white ground does not bleed into the page. */
-    border: 1px solid var(--l-rule-soft);
+    /* 3px, matching the Composer's own .cx-image-figure img frame
+       (book-composer.css) — so a scan on a white ground gets the same
+       weight of frame on the audience reader as it gets while being
+       curated. */
+    border: 3px solid var(--l-rule-soft);
     background: var(--l-surface);
   }
 

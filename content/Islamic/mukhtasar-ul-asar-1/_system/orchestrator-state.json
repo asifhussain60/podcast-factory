@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "book_slug": "mukhtasar-ul-asar-1",
+  "source_path": "content/Islamic/mukhtasar-ul-asar-1/_source/Mukhtasar ul-Asaar part 1.pdf",
+  "source_kind": "pdf",
+  "input_type": "pdf",
+  "phase": "reader-narration",
+  "phase_status": "completed",
+  "last_completed_phase": "reader-narration",
+  "last_error": null,
+  "category": "books",
+  "content_profile": "islamic_scholarly",
+  "deliverable_mode": "translation_edition",
+  "pipeline_mode": "reading_edition_only",
+  "status": "published",
+  "phases": {
+    "reader-narration": {
+      "status": "completed",
+      "ts_started": "2026-08-16T10:42:59Z",
+      "ts_completed": "2026-08-16T10:53:04Z",
+      "rendered": [
+        "introduction",
+        "the first obligation: seeking knowledge",
+        "purity: water, ablution, and the body made ready",
+        "the pillar of religion: standing in prayer",
+        "supplication and the many forms of prayer",
+        "facing death: the rites of the departed",
+        "the due of wealth: zakat",
+        "the fast: ramadan and the discipline of abstention",
+        "the journey to the house: pilgrimage",
+        "the sword and the state: jihad, governance, and justice"
+      ],
+      "skipped": [],
+      "chars": 511671,
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 0,
+        "blocking_fail": null
+      }
+    }
+  },
+  "intake_via": "translation-edition sample setup",
+  "published_at": "2026-08-15T19:47:28Z",
+  "ts_updated": "2026-08-16T10:53:04Z",
+  "run_id": "20260816T104259Z-cb768b",
+  "next_phase": "publish"
+}

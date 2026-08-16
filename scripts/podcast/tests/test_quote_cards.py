@@ -99,7 +99,7 @@ def test_each_requirement_fires_when_its_declaration_is_removed(rule, tmp_path, 
     original = rule["path"].read_text(encoding="utf-8")
     constant = next(
         name
-        for name in ("CSS", "PRINT_RENDERER", "SCREEN_RENDERER", "PDF_DRIVER", "SPECIMEN")
+        for name in ("CSS", "PRINT_RENDERER", "SCREEN_RENDERER", "SCREEN_CARD_BAND", "PDF_DRIVER", "SPECIMEN")
         if getattr(_quote_cards, name) == rule["path"]
     )
 

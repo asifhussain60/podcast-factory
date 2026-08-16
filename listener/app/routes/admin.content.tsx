@@ -38,13 +38,17 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
   const catalog = await listCatalogForAdmin(env.DB);
   const readable = catalog.filter((u) => u.kind !== "work");
-  const holders = await Promise.all(readable.map((u) => holdersOf(env.DB, u.slug)));
+  const holders = await Promise.all(
+    readable.map((u) => holdersOf(env.DB, u.slug)),
+  );
   const units = readable.map((u, i) => ({ ...u, holders: holders[i] }));
 
   // The selected book is taken from the list already loaded rather than fetched
   // again — it carries its holders, which a fresh `unitBySlug` would not, and a
   // second query could disagree with the first about `open_to_all`.
-  const unit = selected ? (units.find((u) => u.slug === selected) ?? null) : null;
+  const unit = selected
+    ? (units.find((u) => u.slug === selected) ?? null)
+    : null;
 
   // The people list is loaded only when a book is open for provisioning, and it
   // is searched and capped in SQL — the same discipline as the people screen.
@@ -60,7 +64,9 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     // Only DIRECT grants. The toggle writes a `unit` grant, so somebody covered
     // by a library grant must not show as "Has it" — pressing it would revoke a
     // row that does not exist and appear to do nothing.
-    holding: unit ? unit.holders.filter((h) => h.via === "unit").map((h) => h.email) : [],
+    holding: unit
+      ? unit.holders.filter((h) => h.via === "unit").map((h) => h.email)
+      : [],
     search,
   };
 }
@@ -77,11 +83,24 @@ export async function action({ request, context }: Route.ActionArgs) {
     // admin session — never by the publish endpoint, which names its columns
     // explicitly and is grepped by a test for exactly that.
     case "open-to-all":
-      await setOpenToAll(env.DB, String(form.get("slug")), form.get("open") === "1", actor, now);
+      await setOpenToAll(
+        env.DB,
+        String(form.get("slug")),
+        form.get("open") === "1",
+        actor,
+        now,
+      );
       return { ok: true };
 
     case "grant":
-      await grant(env.DB, String(form.get("email")), "unit", String(form.get("slug")), actor, now);
+      await grant(
+        env.DB,
+        String(form.get("email")),
+        "unit",
+        String(form.get("slug")),
+        actor,
+        now,
+      );
       return { ok: true };
 
     case "revoke-grant":
@@ -134,9 +153,15 @@ export default function AdminContent({ loaderData }: Route.ComponentProps) {
               <Form method="post">
                 <input type="hidden" name="intent" value="open-to-all" />
                 <input type="hidden" name="slug" value={u.slug} />
-                <input type="hidden" name="open" value={u.openToAll ? "0" : "1"} />
+                <input
+                  type="hidden"
+                  name="open"
+                  value={u.openToAll ? "0" : "1"}
+                />
                 <ToggleButton on={u.openToAll}>
-                  {u.openToAll ? "Open to everyone · make private" : "Open to everyone"}
+                  {u.openToAll
+                    ? "Open to everyone · make private"
+                    : "Open to everyone"}
                 </ToggleButton>
               </Form>
             </div>
@@ -166,7 +191,9 @@ export default function AdminContent({ loaderData }: Route.ComponentProps) {
 
       <section className="pf-admin-detail">
         {unit === null ? (
-          <EmptyState>Choose a book to see who has it and give it to more people.</EmptyState>
+          <EmptyState>
+            Choose a book to see who has it and give it to more people.
+          </EmptyState>
         ) : (
           <div className="pf-panel">
             <div className="pf-panel__head">
@@ -176,8 +203,8 @@ export default function AdminContent({ loaderData }: Route.ComponentProps) {
             <div className="pf-panel__body pf-stack-sm">
               {unit.openToAll ? (
                 <p className="pf-message pf-message--warn">
-                  This book is open to everyone invited, so the grants below make no difference
-                  while that stays on.
+                  This book is open to everyone invited, so the grants below
+                  make no difference while that stays on.
                 </p>
               ) : null}
 
@@ -197,7 +224,9 @@ export default function AdminContent({ loaderData }: Route.ComponentProps) {
 
               {candidates.length === 0 ? (
                 <EmptyState>
-                  {search === "" ? "Nobody has been invited yet." : `Nobody matches “${search}”.`}
+                  {search === ""
+                    ? "Nobody has been invited yet."
+                    : `Nobody matches “${search}”.`}
                 </EmptyState>
               ) : (
                 candidates.map((p) => (
@@ -216,7 +245,8 @@ export default function AdminContent({ loaderData }: Route.ComponentProps) {
 
               {candidateTotal > candidates.length ? (
                 <p className="pf-note--quiet">
-                  Showing {candidates.length} of {candidateTotal}. Search to narrow the list.
+                  Showing {candidates.length} of {candidateTotal}. Search to
+                  narrow the list.
                 </p>
               ) : null}
 
@@ -230,7 +260,8 @@ export default function AdminContent({ loaderData }: Route.ComponentProps) {
                     .filter((h) => h.via !== "unit")
                     .map((h) => h.displayName)
                     .join(", ")}{" "}
-                  can also open this, through a wider grant. Change that on their own page.
+                  can also open this, through a wider grant. Change that on
+                  their own page.
                 </p>
               ) : null}
             </div>

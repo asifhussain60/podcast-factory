@@ -515,8 +515,10 @@ describe("the reading column's figures", () => {
   it("does not force every image to fill the reading column", () => {
     const imageRule =
       readingColumn.match(/\.reader \.md-figure img\s*\{[^}]*\}/)?.[0] ?? "";
-    expect(imageRule, "the reader must style markdown figure images").not.toBe("");
-    expect(imageRule).toContain("width: var(--img-w, auto)");
+    expect(imageRule, "the reader must style markdown figure images").not.toBe(
+      "",
+    );
+    expect(imageRule).toContain("height: var(--img-h, 350px)");
     expect(imageRule).toContain("max-width: 100%");
     expect(imageRule).not.toMatch(/(^|[;\s{])width\s*:\s*100%/);
   });
@@ -526,8 +528,11 @@ describe("the reading column's composer headings", () => {
   const readingColumn = CSS.slice(CSS.indexOf("* 7. READER"));
 
   it("carries the Composer Heading 1 hierarchy into published chapters", () => {
-    const headingRule = readingColumn.match(/\.reader h3\s*\{[^}]*\}/)?.[0] ?? "";
-    expect(headingRule, "the reader must style Composer Heading 1").not.toBe("");
+    const headingRule =
+      readingColumn.match(/\.reader h3\s*\{[^}]*\}/)?.[0] ?? "";
+    expect(headingRule, "the reader must style Composer Heading 1").not.toBe(
+      "",
+    );
     expect(headingRule).toContain("font-family: var(--l-font-chapter-heading)");
     expect(headingRule).toContain("font-size: 1.45em");
     expect(headingRule).toContain("font-weight: 700");
@@ -535,8 +540,11 @@ describe("the reading column's composer headings", () => {
   });
 
   it("keeps Composer Heading 2 smaller but in the same face", () => {
-    const headingRule = readingColumn.match(/\.reader h4\s*\{[^}]*\}/)?.[0] ?? "";
-    expect(headingRule, "the reader must style Composer Heading 2").not.toBe("");
+    const headingRule =
+      readingColumn.match(/\.reader h4\s*\{[^}]*\}/)?.[0] ?? "";
+    expect(headingRule, "the reader must style Composer Heading 2").not.toBe(
+      "",
+    );
     expect(headingRule).toContain("font-family: var(--l-font-chapter-heading)");
     expect(headingRule).toContain("font-size: 1.18em");
     expect(headingRule).toContain("font-weight: 600");
@@ -548,7 +556,9 @@ describe("the reading column's composer headings", () => {
       [...readingColumn.matchAll(/\.reader h5\s*\{[^}]*\}/g)]
         .map((match) => match[0])
         .find((rule) => rule.includes("font-family")) ?? "";
-    expect(headingRule, "the reader must style Composer Heading 3").not.toBe("");
+    expect(headingRule, "the reader must style Composer Heading 3").not.toBe(
+      "",
+    );
     expect(headingRule).toContain("font-family: var(--l-font-lexend)");
     expect(headingRule).toContain("font-size: 1.04em");
     expect(headingRule).toContain("font-weight: 650");

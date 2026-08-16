@@ -106,12 +106,17 @@ export const VISIBLE_SQL = `
  *
  * A malformed address simply has no invite — never a reason to fail open.
  */
-export async function hasLiveInvite(db: D1Database, rawEmail: string): Promise<boolean> {
+export async function hasLiveInvite(
+  db: D1Database,
+  rawEmail: string,
+): Promise<boolean> {
   const email = tryNormalizeEmail(rawEmail);
   if (email === null) return false;
 
   const row = await db
-    .prepare(`SELECT 1 AS ok FROM invite WHERE email = ? AND revoked_at IS NULL LIMIT 1`)
+    .prepare(
+      `SELECT 1 AS ok FROM invite WHERE email = ? AND revoked_at IS NULL LIMIT 1`,
+    )
     .bind(email)
     .first<{ ok: number }>();
 
@@ -119,7 +124,10 @@ export async function hasLiveInvite(db: D1Database, rawEmail: string): Promise<b
 }
 
 /** Identity of one unit, for the detail page. Says nothing about access. */
-export async function unitBySlug(db: D1Database, slug: string): Promise<ContentUnit | null> {
+export async function unitBySlug(
+  db: D1Database,
+  slug: string,
+): Promise<ContentUnit | null> {
   const row = await db
     .prepare(
       `SELECT slug, bucket, title, kind, work_slug, status, open_to_all
@@ -131,13 +139,64 @@ export async function unitBySlug(db: D1Database, slug: string): Promise<ContentU
   return row === null ? null : toUnit(row);
 }
 
-export async function visibleUnits(db: D1Database, email: string): Promise<ContentUnit[]> {
+export async function visibleUnits(
+  db: D1Database,
+  email: string,
+): Promise<ContentUnit[]> {
   const { results } = await db
     .prepare(`${VISIBLE_SQL} ORDER BY u.sort_order, u.title`)
     .bind(normalizeEmail(email))
     .all<UnitRow>();
 
   return results.map(toUnit);
+}
+
+/**
+ * The `kind='work'` parent's own title, for each work_slug the caller asks
+ * about — the multi-volume set card's header when one exists.
+ *
+ * A work parent is excluded from `VISIBLE_SQL` on purpose (it carries no
+ * chapters, nothing to read) and carries no entitlement check of its own
+ * here, on purpose too: a caller may pass ONLY work_slugs already proven
+ * visible by `visibleUnits()` returning 2+ volumes under it, and access to
+ * THOSE volumes is what already proved this reader may see this set — the
+ * parent row's own `status`/`open_to_all` add no real access decision on
+ * top of that, they only decide whether a title is ever returned at all.
+ * That distinction is not hypothetical: `sync_listener_work_groups.py`
+ * documents, deliberately, that it never sets either column on a parent row
+ * it creates ("those are the admin's privilege bits and this script has no
+ * opinion on visibility") — and nothing else in this codebase sets them
+ * either, so a parent-level entitlement check here can never once pass for
+ * any set the grouping tool creates. An earlier version of this function
+ * re-ran the full entitlement predicate anyway, which is why every
+ * multi-volume card fell back to a single volume's own title instead of the
+ * set's. This is a narrow, obviously-safe read precisely because it trusts
+ * the caller's own contract instead of re-deriving it.
+ *
+ * A work parent's own `slug` IS the `work_slug` its volumes carry (its own
+ * `work_slug` column is NULL — see migration 0002).
+ */
+export async function workTitles(
+  db: D1Database,
+  workSlugs: string[],
+): Promise<Map<string, string>> {
+  const titles = new Map<string, string>();
+  if (workSlugs.length === 0) return titles;
+
+  const placeholders = workSlugs.map((_, i) => `?${i + 1}`).join(", ");
+
+  const { results } = await db
+    .prepare(
+      `SELECT u.slug, u.title
+         FROM content_unit u
+        WHERE u.kind = 'work'
+          AND u.slug IN (${placeholders})`,
+    )
+    .bind(...workSlugs)
+    .all<{ slug: string; title: string }>();
+
+  for (const r of results) titles.set(r.slug, r.title);
+  return titles;
 }
 
 /**
@@ -166,7 +225,9 @@ export async function canRead(
 // ---------------------------------------------------------------------------
 
 /** The whole catalog, drafts included, for the provisioning screens. */
-export async function listCatalogForAdmin(db: D1Database): Promise<ContentUnit[]> {
+export async function listCatalogForAdmin(
+  db: D1Database,
+): Promise<ContentUnit[]> {
   const { results } = await db
     .prepare(
       `SELECT slug, bucket, title, kind, work_slug, status, open_to_all
@@ -311,7 +372,10 @@ const SEARCH_SQL = `(
   OR (COALESCE(i.first_name, '') || ' ' || COALESCE(i.last_name, '')) LIKE ?1 ESCAPE '\\'
 )`;
 
-export async function listPeople(db: D1Database, query: PeopleQuery = {}): Promise<PeoplePage> {
+export async function listPeople(
+  db: D1Database,
+  query: PeopleQuery = {},
+): Promise<PeoplePage> {
   const filter = query.filter ?? "all";
   const where = PEOPLE_FILTERS[isPeopleFilter(filter) ? filter : "all"];
   const search = (query.search ?? "").trim();
@@ -319,7 +383,8 @@ export async function listPeople(db: D1Database, query: PeopleQuery = {}): Promi
   // `%` and `_` are LIKE wildcards. An administrator searching for "a_b" means
   // those three characters, so they are escaped rather than honoured — otherwise
   // a stray underscore in an address silently matches everything.
-  const pattern = search === "" ? "%" : `%${search.replace(/[%_\\]/g, "\\$&")}%`;
+  const pattern =
+    search === "" ? "%" : `%${search.replace(/[%_\\]/g, "\\$&")}%`;
 
   const limit = Math.min(200, Math.max(1, query.limit ?? 50));
   const offset = Math.max(0, query.offset ?? 0);
@@ -344,7 +409,9 @@ export async function listPeople(db: D1Database, query: PeopleQuery = {}): Promi
       .all<PersonRow>(),
 
     db
-      .prepare(`SELECT count(*) AS n FROM invite i WHERE ${where} AND ${SEARCH_SQL}`)
+      .prepare(
+        `SELECT count(*) AS n FROM invite i WHERE ${where} AND ${SEARCH_SQL}`,
+      )
       .bind(pattern)
       .first<{ n: number }>(),
 
@@ -359,11 +426,12 @@ export async function listPeople(db: D1Database, query: PeopleQuery = {}): Promi
 }
 
 /** One person by address, for the detail pane. Never a scan of the whole list. */
-export async function personByEmail(db: D1Database, rawEmail: string): Promise<Person | null> {
+export async function personByEmail(
+  db: D1Database,
+  rawEmail: string,
+): Promise<Person | null> {
   const row = await db
-    .prepare(
-      `SELECT ${PERSON_COLUMNS} FROM invite i WHERE i.email = ?1`,
-    )
+    .prepare(`SELECT ${PERSON_COLUMNS} FROM invite i WHERE i.email = ?1`)
     .bind(normalizeEmail(rawEmail))
     .first<PersonRow>();
 
@@ -371,11 +439,15 @@ export async function personByEmail(db: D1Database, rawEmail: string): Promise<P
 }
 
 /** How many people the filters would each return, for the counts on the chips. */
-export async function peopleTallies(db: D1Database): Promise<Record<PeopleFilter, number>> {
+export async function peopleTallies(
+  db: D1Database,
+): Promise<Record<PeopleFilter, number>> {
   const entries = Object.entries(PEOPLE_FILTERS) as [PeopleFilter, string][];
   const counts = await Promise.all(
     entries.map(([, where]) =>
-      db.prepare(`SELECT count(*) AS n FROM invite i WHERE ${where}`).first<{ n: number }>(),
+      db
+        .prepare(`SELECT count(*) AS n FROM invite i WHERE ${where}`)
+        .first<{ n: number }>(),
     ),
   );
 
@@ -420,14 +492,22 @@ const toPerson = (r: PersonRow): Person => {
 };
 
 /** The live grants held by one person. */
-export async function grantsFor(db: D1Database, email: string): Promise<Grant[]> {
+export async function grantsFor(
+  db: D1Database,
+  email: string,
+): Promise<Grant[]> {
   const { results } = await db
     .prepare(
       `SELECT scope_type, scope_id, granted_by, granted_at
        FROM access_grant WHERE user_email = ? AND revoked_at IS NULL`,
     )
     .bind(normalizeEmail(email))
-    .all<{ scope_type: Grant["scopeType"]; scope_id: string; granted_by: string; granted_at: string }>();
+    .all<{
+      scope_type: Grant["scopeType"];
+      scope_id: string;
+      granted_by: string;
+      granted_at: string;
+    }>();
 
   return results.map((r) => ({
     scopeType: r.scope_type,
@@ -457,7 +537,10 @@ export interface Holder {
  * reader granted one book, later given the library, must show as "library" or
  * revoking the book grant would appear to do nothing.
  */
-export async function holdersOf(db: D1Database, slug: string): Promise<Holder[]> {
+export async function holdersOf(
+  db: D1Database,
+  slug: string,
+): Promise<Holder[]> {
   const { results } = await db
     .prepare(
       `SELECT g.user_email,
@@ -504,7 +587,10 @@ export interface InviteInput {
  * rejoin, in order, with one space, so what is displayed is exactly what was
  * typed. Nothing is dropped and no word changes places.
  */
-export function splitName(raw: string): { firstName: string | null; lastName: string | null } {
+export function splitName(raw: string): {
+  firstName: string | null;
+  lastName: string | null;
+} {
   const words = raw.trim().split(/\s+/).filter(Boolean);
   if (words.length === 0) return { firstName: null, lastName: null };
   if (words.length === 1) return { firstName: words[0]!, lastName: null };
@@ -586,7 +672,9 @@ export async function renamePerson(
 
   await db.batch([
     db
-      .prepare(`UPDATE invite SET first_name = ?2, last_name = ?3 WHERE email = ?1`)
+      .prepare(
+        `UPDATE invite SET first_name = ?2, last_name = ?3 WHERE email = ?1`,
+      )
       .bind(email, cap(firstName), cap(lastName)),
     event(db, now, actor, "rename", email, null, null, name.trim() || null),
   ]);
@@ -618,7 +706,9 @@ export async function deletePerson(
 
   await db.batch([
     db
-      .prepare(`DELETE FROM session WHERE userId IN (SELECT id FROM user WHERE email = ?1)`)
+      .prepare(
+        `DELETE FROM session WHERE userId IN (SELECT id FROM user WHERE email = ?1)`,
+      )
       .bind(email),
     db.prepare(`DELETE FROM access_grant WHERE user_email = ?1`).bind(email),
     db.prepare(`DELETE FROM invite WHERE email = ?1`).bind(email),
@@ -643,9 +733,13 @@ export async function revokeInvite(
   const email = normalizeEmail(rawEmail);
 
   await db.batch([
-    db.prepare(`UPDATE invite SET revoked_at = ?2 WHERE email = ?1`).bind(email, now),
     db
-      .prepare(`DELETE FROM session WHERE userId IN (SELECT id FROM user WHERE email = ?1)`)
+      .prepare(`UPDATE invite SET revoked_at = ?2 WHERE email = ?1`)
+      .bind(email, now),
+    db
+      .prepare(
+        `DELETE FROM session WHERE userId IN (SELECT id FROM user WHERE email = ?1)`,
+      )
       .bind(email),
     event(db, now, actor, "revoke-invite", email, null, null, null),
   ]);
@@ -706,8 +800,19 @@ export async function setOpenToAll(
   now: string,
 ): Promise<void> {
   await db.batch([
-    db.prepare(`UPDATE content_unit SET open_to_all = ?2 WHERE slug = ?1`).bind(slug, open ? 1 : 0),
-    event(db, now, actor, open ? "open-to-all" : "close-to-all", slug, null, null, null),
+    db
+      .prepare(`UPDATE content_unit SET open_to_all = ?2 WHERE slug = ?1`)
+      .bind(slug, open ? 1 : 0),
+    event(
+      db,
+      now,
+      actor,
+      open ? "open-to-all" : "close-to-all",
+      slug,
+      null,
+      null,
+      null,
+    ),
   ]);
 }
 

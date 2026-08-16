@@ -34,9 +34,17 @@ function passage(
   slug: string,
   kind: string,
   quote: string,
-  extra: Partial<{ anchor: string; arabic: string; surah: number; ayah: number }> = {},
+  extra: Partial<{
+    anchor: string;
+    arabic: string;
+    surah: number;
+    ayah: number;
+  }> = {},
 ) {
-  const fold = quote.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+  const fold = quote
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
   const arabic = extra.arabic ?? "";
   return `INSERT INTO search_passage
     (id, slug, kind, anchor_key, heading, ordinal, quote, prefix, arabic, surah, ayah,
@@ -57,14 +65,25 @@ beforeEach(async () => {
   `);
   t.exec(
     [
-      passage(1, "open-book", "chapter", "the intellect is the first originated thing"),
+      passage(
+        1,
+        "open-book",
+        "chapter",
+        "the intellect is the first originated thing",
+      ),
       passage(2, "closed-book", "chapter", "the intellect is called the pen"),
       passage(3, "draft-book", "chapter", "the intellect appears in a draft"),
-      passage(4, "closed-book", "verse", "Al-Baqarah: 255 allah la ilaha illa huwa", {
-        arabic: "الله لا اله الا هو",
-        surah: 2,
-        ayah: 255,
-      }),
+      passage(
+        4,
+        "closed-book",
+        "verse",
+        "Al-Baqarah: 255 allah la ilaha illa huwa",
+        {
+          arabic: "الله لا اله الا هو",
+          surah: 2,
+          ayah: 255,
+        },
+      ),
     ].join("\n"),
   );
 
@@ -91,7 +110,10 @@ describe("default deny", () => {
 
   it("returns only the granted book, not the one beside it", async () => {
     const control = await run(ADMIN, "intellect");
-    expect(control.hits.map((h) => h.slug).sort()).toEqual(["closed-book", "open-book"]);
+    expect(control.hits.map((h) => h.slug).sort()).toEqual([
+      "closed-book",
+      "open-book",
+    ]);
 
     const reader = await run(READER, "intellect");
     expect(reader.hits.map((h) => h.slug)).toEqual(["open-book"]);
@@ -107,7 +129,9 @@ describe("default deny", () => {
     // A count is a leak too: "Islamic (2)" tells a reader holding one book that
     // there is a second one, and how much of it matches.
     const reader = await run(READER, "intellect");
-    const islamic = reader.facets.collections.find((f) => f.value === "Islamic");
+    const islamic = reader.facets.collections.find(
+      (f) => f.value === "Islamic",
+    );
     expect(islamic?.passages).toBe(1);
     expect(islamic?.books).toBe(1);
   });
@@ -196,14 +220,18 @@ describe("the module itself", () => {
 
 describe("snippets are built from the text the books actually print", () => {
   it("marks the matching words and keeps the original spelling", () => {
-    const segments = snippetOf("The Intellect is called the Pen.", ["intellect"]);
+    const segments = snippetOf("The Intellect is called the Pen.", [
+      "intellect",
+    ]);
     const hit = segments.find((s) => s.hit);
     expect(hit?.text).toBe("Intellect"); // capitalised, as printed
   });
 
   it("finds a word the fold would have split", () => {
     const segments = snippetOf("written by al-Kirmani in Rayy", ["kirmani"]);
-    expect(segments.some((s) => s.hit && s.text.includes("al-Kirmani"))).toBe(true);
+    expect(segments.some((s) => s.hit && s.text.includes("al-Kirmani"))).toBe(
+      true,
+    );
   });
 
   it("keeps the vowel marks in Arabic rather than showing the folded form", () => {

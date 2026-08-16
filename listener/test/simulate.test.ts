@@ -23,7 +23,10 @@ import {
  */
 
 const req = (cookie?: string) =>
-  new Request("https://example.com/", cookie ? { headers: { Cookie: cookie } } : undefined);
+  new Request(
+    "https://example.com/",
+    cookie ? { headers: { Cookie: cookie } } : undefined,
+  );
 
 describe("reading the simulation cookie", () => {
   it("finds the address among other cookies", () => {
@@ -70,7 +73,9 @@ describe("writing the simulation cookie", () => {
     // Not a preference: a Secure cookie is never stored by a browser on
     // http://localhost, so the development server would silently never simulate.
     expect(startSimulating("reader@example.com", https)).toContain("Secure");
-    expect(startSimulating("reader@example.com", local)).not.toContain("Secure");
+    expect(startSimulating("reader@example.com", local)).not.toContain(
+      "Secure",
+    );
   });
 
   it("clears with the same attributes, or the browser keeps the old one", () => {

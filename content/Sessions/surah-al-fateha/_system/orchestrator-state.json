@@ -4,10 +4,10 @@
   "category": "lectures",
   "branch": "Sessions/surah-al-fateha",
   "pipeline_mode": "sessions_lane",
-  "phase": "sessions-apparatus",
+  "phase": "sessions-read-along",
   "phase_status": "completed",
-  "last_completed_phase": "sessions-apparatus",
-  "next_phase": null,
+  "last_completed_phase": "sessions-read-along",
+  "next_phase": "sessions-preface",
   "last_error": null,
   "phases": {
     "sessions-ingest": {
@@ -19,11 +19,14 @@
     "sessions-articulate": {
       "status": "completed"
     },
-    "sessions-preface": {
+    "sessions-read-along": {
       "status": "completed"
     },
+    "sessions-preface": {
+      "status": "pending"
+    },
     "sessions-apparatus": {
-      "status": "completed"
+      "status": "pending"
     }
   },
   "status": "draft"

@@ -303,20 +303,22 @@ function markMoment(
     quote,
   };
 
-  return fetch(`/book/${encodeURIComponent(episode.slug)}/marks`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ intent: "episode-note", ...fields }),
-  })
-    // A REFUSAL is not a failure to reach the server and is never queued: a
-    // malformed note would be refused again on every launch for as long as the
-    // app is installed. It is reported as the failure it is.
-    .then((response) => response.ok)
-    .catch(() => {
-      // No network. Kept, replayed when there is one, and visible meanwhile.
-      queueMoment({ slug: episode.slug, intent: "episode-note", fields });
-      return true;
-    });
+  return (
+    fetch(`/book/${encodeURIComponent(episode.slug)}/marks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ intent: "episode-note", ...fields }),
+    })
+      // A REFUSAL is not a failure to reach the server and is never queued: a
+      // malformed note would be refused again on every launch for as long as the
+      // app is installed. It is reported as the failure it is.
+      .then((response) => response.ok)
+      .catch(() => {
+        // No network. Kept, replayed when there is one, and visible meanwhile.
+        queueMoment({ slug: episode.slug, intent: "episode-note", fields });
+        return true;
+      })
+  );
 }
 
 /** What the marks endpoint gives back, as much of it as the player uses. */
@@ -409,7 +411,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       // one it is what has not landed yet. Either way a moment kept a second
       // ago is on screen, which is the difference between marking a moment on a
       // plane and pressing a button that appears to do nothing.
-      setNotes(withPendingMoments(slug, number, marks?.episodeNotes ?? []) as EpisodeNote[]);
+      setNotes(
+        withPendingMoments(
+          slug,
+          number,
+          marks?.episodeNotes ?? [],
+        ) as EpisodeNote[],
+      );
     });
   }, [current]);
 
@@ -440,7 +448,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       if (element === null) return;
 
       if (current?.src === episode.src) {
-        if (options?.startAt !== undefined) element.currentTime = Math.max(0, options.startAt);
+        if (options?.startAt !== undefined)
+          element.currentTime = Math.max(0, options.startAt);
         void element.play();
         return;
       }
@@ -473,7 +482,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       // works on a plane. Checked FIRST rather than as a fallback: with no
       // network the fetch below does not fail fast, it hangs until it gives up,
       // and the words are already here.
-      const offline = episode.cues === undefined ? localTranscript(episode.src) : null;
+      const offline =
+        episode.cues === undefined ? localTranscript(episode.src) : null;
       if (episode.cues !== undefined) {
         setCues(episode.cues);
       } else if (offline !== null) {
@@ -898,7 +908,9 @@ function PlayerBar() {
               aria-label={`Open the player for ${current.title}`}
             >
               <p className="pf-player__title">
-                {isChapter ? current.title : `${current.number}. ${current.title}`}
+                {isChapter
+                  ? current.title
+                  : `${current.number}. ${current.title}`}
               </p>
             </button>
             <Link to={`/book/${current.slug}`} className="pf-player__book">

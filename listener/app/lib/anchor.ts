@@ -38,8 +38,18 @@ export interface Anchor {
 
 /** Where an anchor landed, and whether it had to move to get there. */
 export type Resolution =
-  | { status: "exact"; blockIndex: number; startOffset: number; endOffset: number }
-  | { status: "moved"; blockIndex: number; startOffset: number; endOffset: number }
+  | {
+      status: "exact";
+      blockIndex: number;
+      startOffset: number;
+      endOffset: number;
+    }
+  | {
+      status: "moved";
+      blockIndex: number;
+      startOffset: number;
+      endOffset: number;
+    }
   | { status: "orphaned" };
 
 /** How much preceding text is kept. Long enough to separate a repeated line. */
@@ -54,7 +64,8 @@ export const PREFIX_LENGTH = 48;
  * resolve on a paragraph nobody edited — reported as "the text has changed" when
  * nothing had. Both sides go through this, always.
  */
-export const normalizeText = (s: string): string => s.replace(/\s+/g, " ").trim();
+export const normalizeText = (s: string): string =>
+  s.replace(/\s+/g, " ").trim();
 
 /** The same normalisation, but preserving offsets — used for searching in place. */
 const flatten = (s: string): string => s.replace(/\s+/g, " ");
@@ -85,7 +96,9 @@ export function resolveAnchor(anchor: Anchor, blocks: string[]): Resolution {
   const home = blocks[anchor.blockIndex];
   if (home !== undefined) {
     const flat = flatten(home);
-    if (normalizeText(flat.slice(anchor.startOffset, anchor.endOffset)) === quote) {
+    if (
+      normalizeText(flat.slice(anchor.startOffset, anchor.endOffset)) === quote
+    ) {
       return {
         status: "exact",
         blockIndex: anchor.blockIndex,
@@ -140,7 +153,9 @@ export function resolveAnchor(anchor: Anchor, blocks: string[]): Resolution {
   const prefix = normalizeText(anchor.prefix);
   if (prefix !== "") {
     const byPrefix = hits.filter((h) => {
-      const before = normalizeText(flatten(blocks[h.blockIndex]).slice(0, h.offset));
+      const before = normalizeText(
+        flatten(blocks[h.blockIndex]).slice(0, h.offset),
+      );
       return before.endsWith(prefix);
     });
     if (byPrefix.length === 1) {
@@ -170,7 +185,9 @@ function occurrences(haystack: string, needle: string): number[] {
 }
 
 const nearest = (candidates: number[], to: number): number =>
-  candidates.reduce((best, c) => (Math.abs(c - to) < Math.abs(best - to) ? c : best));
+  candidates.reduce((best, c) =>
+    Math.abs(c - to) < Math.abs(best - to) ? c : best,
+  );
 
 /* -------------------------------------------------------------------------- */
 /* Reading a selection out of the DOM                                          */
@@ -198,7 +215,10 @@ export const blockTextsOf = (root: Element): string[] =>
  * one end found, the other orphaned — with no honest way to render the result.
  * The reader is simply not offered the bar for such a selection.
  */
-export function anchorFromSelection(root: Element, selection: Selection): Anchor | null {
+export function anchorFromSelection(
+  root: Element,
+  selection: Selection,
+): Anchor | null {
   if (selection.isCollapsed || selection.rangeCount === 0) return null;
 
   const range = selection.getRangeAt(0);
@@ -225,7 +245,9 @@ export function anchorFromSelection(root: Element, selection: Selection): Anchor
     startOffset,
     endOffset: startOffset + quote.length,
     quote,
-    prefix: prefixSource.slice(Math.max(0, prefixSource.length - PREFIX_LENGTH)),
+    prefix: prefixSource.slice(
+      Math.max(0, prefixSource.length - PREFIX_LENGTH),
+    ),
   };
 }
 

@@ -3,6 +3,13 @@ title: Al-Anwaar al-Lateefah
 title_arabic: الأنوار اللطيفة
 content_profile: islamic_scholarly
 bucket: Islamic
+# The whole work's study track (Asif, 2026-08-15). Set here rather than on each
+# volume because only vol-01 has a meta.yml of its own — the other five are
+# split artifacts with no per-volume metadata file — and the subject is a
+# property of the work, not of where a volume boundary happens to fall. A
+# volume that later grows its own meta.yml and names a different track wins for
+# that volume; this is the series default, not an override.
+study_track: reality
 collection: Al-Anwaar Collection
 shared:
   synthesis: _system/unified-book.md

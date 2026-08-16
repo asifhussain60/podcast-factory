@@ -206,8 +206,15 @@ fi
 #
 # Scoped to app/, scripts/ and test/ sources: a migration or a config change does not
 # move the suite, and the hook already runs a repo-wide probe on every commit.
+#
+# The source stylesheets the listener SYNCS FROM are in the trigger too, and that
+# is not a nicety. Both sync scripts are gated by a listener test, so a value
+# changed only in plan-dashboard — which is where both sources live, and where
+# anyone changing a colour would naturally edit — staged nothing under listener/
+# and ran no test. The drift then shipped, on the one side that has no gate of
+# its own. Adding the sources here is what makes those checks actually hold.
 listener_staged=$(printf '%s\n' "$staged_files" \
-    | grep -E '^listener/(app|scripts|test)/.*\.(ts|tsx|mjs)$' || true)
+    | grep -E '^listener/(app|scripts|test)/.*\.(ts|tsx|mjs)$|^plan-dashboard/src/styles/(quote-typography|study-track-colors)\.css$' || true)
 if [ -n "$listener_staged" ] && command -v node >/dev/null 2>&1 \
         && [ -d "$repo_root/listener/node_modules/vitest" ]; then
     if ! (cd "$repo_root/listener" && npm run test --silent) >&2; then

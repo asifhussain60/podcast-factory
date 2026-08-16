@@ -61,7 +61,11 @@ function store(outbox: Outbox): void {
  * resume at twenty minutes back, and keeping the maximum would silently refuse
  * that.
  */
-export function queuePosition(slug: string, number: number, seconds: number): void {
+export function queuePosition(
+  slug: string,
+  number: number,
+  seconds: number,
+): void {
   const outbox = load();
   outbox[`${slug}#${number}`] = { slug, number, seconds };
   store(outbox);
@@ -88,16 +92,19 @@ export async function flushPositions(): Promise<void> {
     const pending = outbox[key];
     let sent: boolean;
     try {
-      const response = await fetch(`/book/${encodeURIComponent(pending.slug)}/marks`, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          intent: "listening",
-          number: String(pending.number),
-          seconds: String(pending.seconds),
-        }),
-      });
+      const response = await fetch(
+        `/book/${encodeURIComponent(pending.slug)}/marks`,
+        {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            intent: "listening",
+            number: String(pending.number),
+            seconds: String(pending.seconds),
+          }),
+        },
+      );
       // A redirect is the signed-out case: the gate bounced us to sign-in, which
       // is not a refusal of this position. Keep it and try again later.
       if (response.redirected) break;
@@ -116,7 +123,6 @@ export async function flushPositions(): Promise<void> {
 export function pendingCount(): number {
   return Object.keys(load()).length;
 }
-
 
 /* ---- Moments kept while listening ---------------------------------------- */
 
@@ -253,9 +259,10 @@ export async function flushMoments(): Promise<void> {
     if (response.redirected) break; // signed out; not a refusal of the note
     if (!response.ok) break;
 
-    const result = (await response.json().catch(() => null)) as
-      | { error?: string; permanent?: boolean }
-      | null;
+    const result = (await response.json().catch(() => null)) as {
+      error?: string;
+      permanent?: boolean;
+    } | null;
     if (result?.error && !result.permanent) break;
 
     remaining = rest;

@@ -24,7 +24,9 @@ if (!email) {
   process.exit(2);
 }
 
-const secret = /^BETTER_AUTH_SECRET=(.*)$/m.exec(readFileSync(".dev.vars", "utf8"))?.[1];
+const secret = /^BETTER_AUTH_SECRET=(.*)$/m.exec(
+  readFileSync(".dev.vars", "utf8"),
+)?.[1];
 if (!secret) {
   console.error("BETTER_AUTH_SECRET is not set in .dev.vars");
   process.exit(2);
@@ -57,7 +59,15 @@ const sql = `
 
 execFileSync(
   "npx",
-  ["wrangler", "d1", "execute", "podcast-listener", "--local", "--command", sql],
+  [
+    "wrangler",
+    "d1",
+    "execute",
+    "podcast-listener",
+    "--local",
+    "--command",
+    sql,
+  ],
   { stdio: "pipe" },
 );
 
@@ -70,7 +80,11 @@ const key = await crypto.subtle.importKey(
   false,
   ["sign"],
 );
-const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(token));
+const signature = await crypto.subtle.sign(
+  "HMAC",
+  key,
+  new TextEncoder().encode(token),
+);
 const value = encodeURIComponent(
   `${token}.${Buffer.from(new Uint8Array(signature)).toString("base64")}`,
 );

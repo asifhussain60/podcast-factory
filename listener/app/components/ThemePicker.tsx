@@ -19,7 +19,11 @@ import {
  * there is no hydration mismatch. The real value arrives one effect later.
  */
 export function useTheme(): Theme {
-  const theme = useSyncExternalStore(subscribeTheme, themeSnapshot, themeSnapshot);
+  const theme = useSyncExternalStore(
+    subscribeTheme,
+    themeSnapshot,
+    themeSnapshot,
+  );
   useEffect(hydrateTheme, []);
   return theme;
 }

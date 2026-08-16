@@ -6,7 +6,13 @@ import { AppShell } from "~/components/AppShell";
 import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
 import { SearchBox } from "~/components/SearchBox";
-import { ALL_SECTIONS, RELEASES, type Entry, type Hue, type Section } from "~/lib/about";
+import {
+  ALL_SECTIONS,
+  RELEASES,
+  type Entry,
+  type Hue,
+  type Section,
+} from "~/lib/about";
 import { count } from "~/lib/plural";
 import { session } from "~/middleware/session";
 
@@ -39,7 +45,8 @@ export function meta(): Route.MetaDescriptors {
     { title: "About — Podcast Factory" },
     {
       name: "description",
-      content: "What this library does: reading, listening, highlights, notes and access.",
+      content:
+        "What this library does: reading, listening, highlights, notes and access.",
     },
   ];
 }
@@ -88,11 +95,16 @@ export default function About({ loaderData }: Route.ComponentProps) {
    */
   const shown = useMemo(() => {
     const scope =
-      searching || pick === null ? ALL_SECTIONS : ALL_SECTIONS.filter((s) => s.id === pick);
+      searching || pick === null
+        ? ALL_SECTIONS
+        : ALL_SECTIONS.filter((s) => s.id === pick);
     if (!searching) return scope;
 
     return scope
-      .map((s) => ({ ...s, entries: s.entries.filter((e) => haystack(e).includes(needle)) }))
+      .map((s) => ({
+        ...s,
+        entries: s.entries.filter((e) => haystack(e).includes(needle)),
+      }))
       .filter((s) => s.entries.length > 0);
   }, [needle, searching, pick]);
 
@@ -102,7 +114,8 @@ export default function About({ loaderData }: Route.ComponentProps) {
   // notes rather than questions, so it is not something the search can match. It
   // is hidden while searching rather than shown empty.
   const showReleases = !searching && (pick === null || pick === WHATS_NEW);
-  const picked = pick === null ? null : ALL_SECTIONS.find((s) => s.id === pick) ?? null;
+  const picked =
+    pick === null ? null : (ALL_SECTIONS.find((s) => s.id === pick) ?? null);
 
   return (
     <AppShell here="about" isAdmin={loaderData.isAdmin} flush>
@@ -112,14 +125,17 @@ export default function About({ loaderData }: Route.ComponentProps) {
           for somebody who already knows what they want to ask. */}
       <section className="pf-about-hero">
         <div className="pf-about-wrap pf-about-hero__inner">
-          <p className="pf-about-hero__eyebrow">Read it. Hear it. Mark it up.</p>
-          <h1 className="pf-about-hero__title">Everything this library can do</h1>
-          <p className="pf-about-hero__lead">
-            Classical works published twice over — as modern English reading editions, and as
-            long-form audio drawn from the same source. Read one, listen to the other, or follow
-            both together.
+          <p className="pf-about-hero__eyebrow">
+            Read it. Hear it. Mark it up.
           </p>
-
+          <h1 className="pf-about-hero__title">
+            Everything this library can do
+          </h1>
+          <p className="pf-about-hero__lead">
+            Classical works published twice over — as modern English reading
+            editions, and as long-form audio drawn from the same source. Read
+            one, listen to the other, or follow both together.
+          </p>
         </div>
       </section>
 
@@ -145,11 +161,16 @@ export default function About({ loaderData }: Route.ComponentProps) {
 
           {searching ? (
             <p className="pf-about-results" role="status">
-              {hits === 0 ? "Nothing matches" : count(hits, "answer")} for “{query.trim()}”
+              {hits === 0 ? "Nothing matches" : count(hits, "answer")} for “
+              {query.trim()}”
             </p>
           ) : pick === null ? null : (
             <div className="pf-about-results">
-              <button type="button" onClick={() => setPick(null)} className="pf-backlink">
+              <button
+                type="button"
+                onClick={() => setPick(null)}
+                className="pf-backlink"
+              >
                 <Icon icon={faArrowLeft} /> Show everything
               </button>
               <span className="pf-about-results__what">
@@ -200,8 +221,8 @@ export default function About({ loaderData }: Route.ComponentProps) {
         <section className="pf-about-band">
           <div className="pf-about-wrap">
             <EmptyState>
-              Nothing on this page matches “{query.trim()}”. Try a plainer word — “notes”, “audio”,
-              “access”.
+              Nothing on this page matches “{query.trim()}”. Try a plainer word
+              — “notes”, “audio”, “access”.
             </EmptyState>
           </div>
         </section>
@@ -217,8 +238,9 @@ export default function About({ loaderData }: Route.ComponentProps) {
         <div className="pf-about-wrap pf-about-close">
           <h2 className="pf-about-close__title">Anything missing?</h2>
           <p className="pf-about-close__text">
-            Something not working, a name spelt wrong, or a book you would like to read — tell
-            Asif. This page is kept up to date as the site changes.
+            Something not working, a name spelt wrong, or a book you would like
+            to read — tell Asif. This page is kept up to date as the site
+            changes.
           </p>
         </div>
       </section>
@@ -354,14 +376,20 @@ function Releases() {
     // row is most of what "bland" meant. It uses `--l-band`, the navy the library
     // cards already wear, so it is the site's own colour rather than a new one,
     // and every palette declares it with its foregrounds already measured.
-    <section id={WHATS_NEW} className="pf-about-band pf-about-band--inverse" aria-labelledby="whats-new-h">
+    <section
+      id={WHATS_NEW}
+      className="pf-about-band pf-about-band--inverse"
+      aria-labelledby="whats-new-h"
+    >
       <div className="pf-about-wrap">
         <header className="pf-about-lede">
           <h2 id="whats-new-h" className="pf-about-lede__title">
             <Icon icon={faBullhorn} />
             What’s new
           </h2>
-          <p className="pf-about-lede__blurb">Changes to the site, most recent first.</p>
+          <p className="pf-about-lede__blurb">
+            Changes to the site, most recent first.
+          </p>
         </header>
 
         <ol className="pf-about-timeline">

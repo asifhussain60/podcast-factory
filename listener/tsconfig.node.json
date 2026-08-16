@@ -1,10 +1,20 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["vite.config.ts", "react-router.config.ts", "scripts/**/*"],
+  "include": [
+    "vite.config.ts",
+    "react-router.config.ts",
+    "scripts/**/*",
+    "app/lib/media-range.ts"
+  ],
   "compilerOptions": {
     "composite": true,
     "strict": true,
     "types": ["node"],
+    // Vite's own config loader (rolldown) requires the real ".mts" extension
+    // on a relative import of local-media-plugin.mts — bundler resolution
+    // won't infer it — while tsc otherwise rejects an explicit source
+    // extension on an import. This is the one flag that lets both tools agree.
+    "allowImportingTsExtensions": true,
     // "dom" alongside "ES2022", because two of these scripts genuinely contain
     // BROWSER code: everything inside a `page.evaluate(...)` callback is
     // serialised and run in Chromium, where `document` and `window` are real.

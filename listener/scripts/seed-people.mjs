@@ -62,7 +62,15 @@ This script is local-only by design and has no remote mode to enable.`
 function d1(sql) {
   execFileSync(
     "npx",
-    ["wrangler", "d1", "execute", "podcast-listener", "--local", "--command", sql],
+    [
+      "wrangler",
+      "d1",
+      "execute",
+      "podcast-listener",
+      "--local",
+      "--command",
+      sql,
+    ],
     { stdio: ["pipe", "pipe", "inherit"], encoding: "utf8" },
   );
 }
@@ -71,7 +79,16 @@ function d1(sql) {
 function query(sql) {
   const out = execFileSync(
     "npx",
-    ["wrangler", "d1", "execute", "podcast-listener", "--local", "--json", "--command", sql],
+    [
+      "wrangler",
+      "d1",
+      "execute",
+      "podcast-listener",
+      "--local",
+      "--json",
+      "--command",
+      sql,
+    ],
     { stdio: ["pipe", "pipe", "pipe"], encoding: "utf8" },
   );
   const at = out.indexOf("[");
@@ -96,15 +113,53 @@ if (process.argv.includes("--clear")) {
    two single-word names and two with none at all, which are the rows that used to
    sort to the bottom and now sort in place. */
 const GIVEN = [
-  "Amina", "Bilal", "Dawud", "Fatima", "Hamza", "Idris", "Jamila", "Khalid",
-  "Layla", "Mansur", "Nadia", "Omar", "Rashid", "Safiya", "Tariq", "Umar",
-  "Wasim", "Yasmin", "Zainab", "Adnan", "Basma", "Faris", "Ghada", "Hakim",
-  "Imran"
+  "Amina",
+  "Bilal",
+  "Dawud",
+  "Fatima",
+  "Hamza",
+  "Idris",
+  "Jamila",
+  "Khalid",
+  "Layla",
+  "Mansur",
+  "Nadia",
+  "Omar",
+  "Rashid",
+  "Safiya",
+  "Tariq",
+  "Umar",
+  "Wasim",
+  "Yasmin",
+  "Zainab",
+  "Adnan",
+  "Basma",
+  "Faris",
+  "Ghada",
+  "Hakim",
+  "Imran",
 ];
 const FAMILY = [
-  "Ahmad", "Baksh", "Chowdhury", "Dehlavi", "Farooqi", "Ghazali", "Husain",
-  "Iqbal", "Jafri", "Karim", "Lodhi", "Mirza", "Naqvi", "Qureshi", "Rizvi",
-  "Siddiqui", "Tabrizi", "Usmani", "Wahid", "Zaidi"
+  "Ahmad",
+  "Baksh",
+  "Chowdhury",
+  "Dehlavi",
+  "Farooqi",
+  "Ghazali",
+  "Husain",
+  "Iqbal",
+  "Jafri",
+  "Karim",
+  "Lodhi",
+  "Mirza",
+  "Naqvi",
+  "Qureshi",
+  "Rizvi",
+  "Siddiqui",
+  "Tabrizi",
+  "Usmani",
+  "Wahid",
+  "Zaidi",
 ];
 
 const sq = (/** @type {string} */ s) => s.replace(/'/g, "''");
@@ -145,7 +200,7 @@ function person(/** @type {number} */ i) {
     redeemedDaysAgo: never ? null : Math.max(1, 190 - i),
     lastSeenDaysAgo: never ? null : dormant ? 45 + (i % 30) : 1 + (i % 20),
     revokedDaysAgo: revoked ? 3 : null,
-    grants: wholeLibrary ? "library" : noGrants ? "none" : ((i % 3) + 1),
+    grants: wholeLibrary ? "library" : noGrants ? "none" : (i % 3) + 1,
   };
 }
 
@@ -159,7 +214,9 @@ const slugs = query(
 ).map((r) => r.slug);
 
 if (slugs.length === 0) {
-  console.log("No content units locally — seeding people with sign-in states but no book grants.");
+  console.log(
+    "No content units locally — seeding people with sign-in states but no book grants.",
+  );
 }
 
 const inviteRows = people.map((p) => {
@@ -190,12 +247,16 @@ if (slugs.length > 0) {
   people.forEach((p, i) => {
     if (p.grants === "none") return;
     if (p.grants === "library") {
-      grantRows.push(`('${sq(p.email)}', 'library', '*', '${ACTOR}', ${iso(30)})`);
+      grantRows.push(
+        `('${sq(p.email)}', 'library', '*', '${ACTOR}', ${iso(30)})`,
+      );
       return;
     }
     for (let n = 0; n < Number(p.grants); n++) {
       const slug = slugs[(i + n * 3) % slugs.length];
-      grantRows.push(`('${sq(p.email)}', 'unit', '${sq(slug)}', '${ACTOR}', ${iso(20)})`);
+      grantRows.push(
+        `('${sq(p.email)}', 'unit', '${sq(slug)}', '${ACTOR}', ${iso(20)})`,
+      );
     }
   });
 
@@ -207,7 +268,9 @@ if (slugs.length > 0) {
   `);
 }
 
-const counted = query(`SELECT count(*) AS n FROM invite WHERE email LIKE '%@${DOMAIN}'`);
+const counted = query(
+  `SELECT count(*) AS n FROM invite WHERE email LIKE '%@${DOMAIN}'`,
+);
 console.log(
   `Seeded ${counted[0]?.n ?? 0} invented readers at @${DOMAIN} in the LOCAL database only.`,
 );

@@ -22,6 +22,7 @@ from _translation_edition import (
     _iter_source_windows,
     _para_is_echo,
     _trim_seam_overlap,
+    chapter_completeness_findings,
     contract_findings,
     dedupe_seam_paragraphs,
     duplicate_passage_findings,
@@ -30,6 +31,7 @@ from _translation_edition import (
     monochrome_svg,
     normalize_translation_prose,
     requires_monochrome_visuals,
+    source_coverage_gap_findings,
     source_title_drift_findings,
     translation_output_findings,
 )
@@ -900,3 +902,83 @@ def test_source_title_drift_still_fires_when_the_source_is_really_that_topic() -
     )
 
     assert findings
+
+
+def test_chapter_completeness_flags_a_chapter_missing_from_the_manifest() -> None:
+    toc_chapters = [{"bk_index": 1, "title": "A"}, {"bk_index": 2, "title": "B"}]
+    manifest = [{"index": 1, "title": "A", "source_words": 1000, "output_words": 900}]
+
+    findings = chapter_completeness_findings(toc_chapters, manifest)
+
+    assert len(findings) == 1
+    assert "chapter 2 (B)" in findings[0]
+    assert "missing" in findings[0]
+
+
+def test_chapter_completeness_flags_a_gutted_chapter() -> None:
+    """A compose retry that gives up without raising (_translation_chunk._compose_one)
+    can leave a chapter far under-length with nothing upstream refusing it."""
+    toc_chapters = [{"bk_index": 1, "title": "A"}]
+    manifest = [{"index": 1, "title": "A", "source_words": 1000, "output_words": 50}]
+
+    findings = chapter_completeness_findings(toc_chapters, manifest)
+
+    assert len(findings) == 1
+    assert "50/1000" in findings[0]
+
+
+def test_chapter_completeness_flags_zero_output_distinctly() -> None:
+    toc_chapters = [{"bk_index": 1, "title": "A"}]
+    manifest = [{"index": 1, "title": "A", "source_words": 1000, "output_words": 0}]
+
+    findings = chapter_completeness_findings(toc_chapters, manifest)
+
+    assert "no content (0 words)" in findings[0]
+
+
+def test_chapter_completeness_ignores_short_chapters_below_the_floor() -> None:
+    """The 200-word floor mirrors _translation_long_enough's own short-source
+    exemption — a tiny chapter's ratio is noise, not evidence."""
+    toc_chapters = [{"bk_index": 1, "title": "A"}]
+    manifest = [{"index": 1, "title": "A", "source_words": 40, "output_words": 5}]
+
+    assert chapter_completeness_findings(toc_chapters, manifest) == []
+
+
+def test_chapter_completeness_passes_a_complete_book() -> None:
+    toc_chapters = [{"bk_index": 1, "title": "A"}, {"bk_index": 2, "title": "B"}]
+    manifest = [
+        {"index": 1, "title": "A", "source_words": 1000, "output_words": 900},
+        {"index": 2, "title": "B", "source_words": 1000, "output_words": 700},
+    ]
+
+    assert chapter_completeness_findings(toc_chapters, manifest) == []
+
+
+def test_source_coverage_gap_flags_a_notable_unclaimed_stretch() -> None:
+    toc = {
+        "preface": {"include": True, "source_line_ranges": [[1, 5]]},
+        "chapters": [
+            {"source_line_ranges": [[6, 50]]},
+            {"source_line_ranges": [[100, 200]]},
+        ],
+    }
+
+    findings = source_coverage_gap_findings(toc, 200)
+
+    assert len(findings) == 1
+    assert "51-99" in findings[0]
+
+
+def test_source_coverage_gap_ignores_short_front_matter_gaps() -> None:
+    """Dropping the title page / source's own TOC is correct behaviour
+    (_authoring._book_design rule 1) — a short gap must not be a finding."""
+    toc = {"chapters": [{"source_line_ranges": [[10, 200]]}]}
+
+    assert source_coverage_gap_findings(toc, 200) == []
+
+
+def test_source_coverage_gap_passes_full_coverage() -> None:
+    toc = {"chapters": [{"source_line_ranges": [[1, 100]]}]}
+
+    assert source_coverage_gap_findings(toc, 100) == []

@@ -90,7 +90,10 @@ describe("the listening outbox", () => {
   it("keeps everything when the network is still gone", async () => {
     queuePosition("wisdom", 1, 10);
     queuePosition("wisdom", 2, 20);
-    vi.stubGlobal("fetch", vi.fn(async () => Promise.reject(new Error("offline"))));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => Promise.reject(new Error("offline"))),
+    );
 
     await flushPositions();
     expect(pendingCount()).toBe(2);
@@ -132,7 +135,10 @@ describe("the listening outbox", () => {
     // retry the same doomed request on every launch for as long as the app is
     // installed.
     queuePosition("withdrawn", 1, 10);
-    vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 404 })));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => new Response("", { status: 404 })),
+    );
 
     await flushPositions();
     expect(pendingCount()).toBe(0);
@@ -150,7 +156,11 @@ describe("the moment outbox", () => {
     // The whole reason moments are a list and positions are a map. Two writes
     // against the same note are two events, not one value.
     queueMoment(keep("a", 10));
-    queueMoment({ slug: "wisdom", intent: "un-episode-note", fields: { id: "a" } });
+    queueMoment({
+      slug: "wisdom",
+      intent: "un-episode-note",
+      fields: { id: "a" },
+    });
 
     expect(pendingMoments().map((m) => m.intent)).toEqual([
       "episode-note",
@@ -170,13 +180,19 @@ describe("the moment outbox", () => {
 
   it("replays an add-then-withdraw to nothing", () => {
     queueMoment(keep("a", 30));
-    queueMoment({ slug: "wisdom", intent: "un-episode-note", fields: { id: "a" } });
+    queueMoment({
+      slug: "wisdom",
+      intent: "un-episode-note",
+      fields: { id: "a" },
+    });
 
     expect(withPendingMoments("wisdom", 2, [])).toEqual([]);
   });
 
   it("replays an edit over what the server already has", () => {
-    const server = [{ id: "a", number: 2, seconds: 30, note: "old", quote: null }];
+    const server = [
+      { id: "a", number: 2, seconds: 30, note: "old", quote: null },
+    ];
     queueMoment(keep("a", 30, "new"));
 
     expect(withPendingMoments("wisdom", 2, server)).toEqual([
@@ -197,7 +213,11 @@ describe("the moment outbox", () => {
        against this note ahead of an earlier one, which for an add followed by a
        withdrawal means the note survives its own deletion. */
     queueMoment(keep("a", 10));
-    queueMoment({ slug: "wisdom", intent: "un-episode-note", fields: { id: "a" } });
+    queueMoment({
+      slug: "wisdom",
+      intent: "un-episode-note",
+      fields: { id: "a" },
+    });
     queueMoment(keep("c", 30));
 
     const attempted: string[] = [];
@@ -236,7 +256,9 @@ describe("the moment outbox", () => {
       "fetch",
       vi.fn(
         async () =>
-          new Response(JSON.stringify({ error: "bad id", permanent: true }), { status: 200 }),
+          new Response(JSON.stringify({ error: "bad id", permanent: true }), {
+            status: 200,
+          }),
       ),
     );
 

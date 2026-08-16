@@ -60,9 +60,23 @@ class Series:
     audio_dir: str  # relative to AUDIO_ROOT
     audio_map: dict[str, int]  # audio filename -> session Sequence
     # Sessions whose stored transcript must be ignored in favour of the
-    # recording's own transcription. Session 211 holds a 99.96% copy of session
-    # 215, so publishing it verbatim would put a different lecture under its
-    # title; the recording is the only witness to what was actually said.
+    # recording's own transcription. Two different reasons put a session here,
+    # and both come down to the recording being the better witness.
+    #
+    #   A DEFECTIVE STORED TRANSCRIPT. Session 211 holds a 99.96% copy of session
+    #   215, so publishing it verbatim would put a different lecture under its
+    #   title; the recording is the only witness to what was actually said.
+    #
+    #   READ-ALONG. A chapter can only light up paragraph by paragraph as Asif's
+    #   own recording plays if its sentences are the sentences on the tape.
+    #   Measured 2026-08-15 across all seventeen recordings: the stored notes
+    #   carry 31-43% of the spoken vocabulary of Love Of The Prophet and 55-75%
+    #   of Surah Al-Fateha, and run to roughly half the length — he taught far
+    #   more than he wrote down. So a book built from the notes cannot be mapped
+    #   to the audio at all, however the mapping is attempted.
+    #
+    # A session with no recording is unaffected wherever it is listed: the ingest
+    # falls back to the stored text, which is the only witness it has.
     transcript_from_audio: frozenset[int] = field(default_factory=frozenset)
     # Chapter titles the database gets wrong, by sequence. Corrected HERE rather
     # than in book.md, because book.md is regenerated and a fix made downstream
@@ -107,7 +121,10 @@ SERIES: dict[str, Series] = {
             "04 Character Of our prophet.mp3": 5,
             "05 Model For Success.mp3": 6,
         },
-        transcript_from_audio=frozenset({2}),
+        # Every recorded session, so the chapter is what he said and the reader
+        # can follow his own voice through it. Session 1 is not here because it
+        # is the spoken opening and becomes no chapter at all.
+        transcript_from_audio=frozenset({2, 3, 4, 5, 6}),
         # Session 1 is Asif introducing himself and the series to the room.
         preface_sessions=frozenset({1}),
         title_fixes={
@@ -164,6 +181,14 @@ SERIES: dict[str, Series] = {
         # call, not the lane's, so the casing that varies between "What is
         # Worship?" and "Worship and Assistance" is left as he typed it.
         title_fixes={},
-        transcript_from_audio=frozenset(),
+        # Every recorded session, same as Love Of The Prophet and for the same
+        # reason: the 2026-08-15 measurement above found the stored notes carry
+        # only 55-75% of this series' spoken vocabulary too — better than Love Of
+        # The Prophet's 31-43%, but the same conclusion follows ("cannot be
+        # mapped to the audio at all"). This field was left empty when that
+        # measurement was written, so all twelve of this book's lecture chapters
+        # went through the literary-rewrite pass meant only for chapters with no
+        # recording — read-along backfilled and correcting them 2026-08-15.
+        transcript_from_audio=frozenset({4, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23}),
     ),
 }

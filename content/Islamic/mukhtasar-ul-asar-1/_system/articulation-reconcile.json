@@ -1,0 +1,34 @@
+{
+  "schema": "podcast.articulation-reconcile/v1",
+  "chapters": {
+    "The Journey to the House: Pilgrimage": {
+      "resolved": false,
+      "needs_human": true,
+      "log": [
+        {
+          "attempt_kind": "pass",
+          "status": "partial",
+          "gate_findings": [
+            "fluency-09-part-24: protected structural artifacts missing: [[ARTIFACT_001]]",
+            "fluency-09-part-24: Arabic runs dropped (6<13)",
+            "fluency-09-part-24: speech tag cut into a quotation (2 interior vs 0 in source) \u2014 attribution may have moved",
+            "fluency-09-part-24: Arabic script dropped (7 run(s)) \u2014 replaced or removed: \u062a\u062d\u0644\u0642\u0648\u0627\u06df; \u062d\u062a\u0649; \u0631\u0621\u0648\u0633\u0643\u0645",
+            "fluency-09-part-24: repair still failed: speech tag cut into a quotation (2 interior vs 0 in source) \u2014 attribution may have moved"
+          ],
+          "at": "2026-08-15T22:49:35.363076+00:00"
+        },
+        {
+          "attempt_kind": "second-attempt",
+          "status": "partial",
+          "gate_findings": [
+            "reconcile-09-part-15: lecture voice added \u2014 narration addresses the reader (4 vs 0 in source) under transmitted_report frame",
+            "reconcile-09-part-15: repair still failed: lecture voice added \u2014 narration addresses the reader (4 vs 0 in source) under transmitted_report frame",
+            "reconcile-09-part-24: speech tag cut into a quotation (1 interior vs 0 in source) \u2014 attribution may have moved",
+            "reconcile-09-part-24: repair still failed: speech tag cut into a quotation (2 interior vs 0 in source) \u2014 attribution may have moved"
+          ],
+          "at": "2026-08-15T23:18:08.033886+00:00"
+        }
+      ]
+    }
+  }
+}

@@ -66,7 +66,11 @@ export interface Segment {
  * by offset, because folding does not preserve them: `al-Kirmani` is one word
  * before it and two after.
  */
-export function snippetOf(quote: string, terms: string[], radius = 14): Segment[] {
+export function snippetOf(
+  quote: string,
+  terms: string[],
+  radius = 14,
+): Segment[] {
   const words = quote.split(/\s+/).filter(Boolean);
   if (words.length === 0 || terms.length === 0) {
     return [{ text: quote, hit: false }];

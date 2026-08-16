@@ -140,3 +140,41 @@ def test_driver_records_phase_and_commits_only_when_audio_changed(tmp_path: Path
     assert state["phases"]["reader-narration"]["status"] == "completed"
     assert state["phases"]["reader-narration"]["rendered"] == ["opening"]
     commit.assert_called_once()
+
+
+def _with_enabled(book: Path, value: str) -> Path:
+    """Rewrite the book's config with an explicit reader_narration.enabled."""
+    cfg = book / "_system" / "series-config.yaml"
+    cfg.write_text(
+        cfg.read_text(encoding="utf-8").replace("reader_narration:\n", f"reader_narration:\n  enabled: {value}\n"),
+        encoding="utf-8",
+    )
+    return book
+
+
+def test_an_explicit_yes_overrides_the_profile_default(tmp_path: Path) -> None:
+    """A lecture-session book is refused by default, but the default is a guess
+    about the KIND of book — a person saying yes about THIS book outranks it."""
+    book = _with_enabled(make_book(tmp_path, profile="islamic_session"), "true")
+
+    enabled, reason = rn.narration_enabled(book)
+
+    assert enabled
+    assert reason is None
+
+
+def test_an_explicit_yes_also_overrides_the_sessions_lane(tmp_path: Path) -> None:
+    book = _with_enabled(make_book(tmp_path, bucket="Sessions", profile="islamic_session"), "true")
+
+    assert rn.narration_enabled(book)[0]
+
+
+def test_an_explicit_no_still_wins_over_an_eligible_profile(tmp_path: Path) -> None:
+    """The refusing half must keep outranking the enabling half — otherwise a
+    book turned off on purpose could be turned back on by its profile."""
+    book = _with_enabled(make_book(tmp_path, profile="islamic_scholarly"), "false")
+
+    enabled, reason = rn.narration_enabled(book)
+
+    assert not enabled
+    assert "disabled" in reason

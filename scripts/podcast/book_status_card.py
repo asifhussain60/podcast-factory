@@ -43,6 +43,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _book_status_subphase import chunk_fraction as _chunk_fraction  # noqa: E402
+from _book_status_subphase import narration_fraction as _narration_fraction  # noqa: E402
 from _book_status_subphase import sessions_articulate_fraction as _sessions_articulate_fraction  # noqa: E402
 from _paths import find_content  # noqa: E402
 from _phase_vocabulary import _PHASE_NAMES, _PHASE_WEIGHTS  # noqa: E402
@@ -101,6 +102,11 @@ def _fraction_done(phase: str, block: dict[str, Any], book_dir: Path | None = No
     chunk_fraction = _chunk_fraction(phase, book_dir)
     if chunk_fraction is not None:
         return chunk_fraction
+    # reader-narration checkpoints per chapter in its own manifest for the same
+    # reason 0b/0d checkpoint per chunk: the flag stays flat for the whole run.
+    narration = _narration_fraction(phase, book_dir)
+    if narration is not None:
+        return narration
     sessions_fraction = _sessions_articulate_fraction(phase, book_dir)
     if sessions_fraction is not None:
         # Capped here, not inside the helper: a `completed` flag that genuinely

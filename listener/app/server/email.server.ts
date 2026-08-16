@@ -24,7 +24,10 @@ const GMAIL_DOMAINS = new Set(["gmail.com", "googlemail.com"]);
 const NON_ASCII = /[^\x20-\x7E]/;
 
 export class InvalidEmailError extends Error {
-  constructor(readonly input: string, reason: string) {
+  constructor(
+    readonly input: string,
+    reason: string,
+  ) {
     super(`Not a usable email address (${reason})`);
     this.name = "InvalidEmailError";
   }
@@ -40,7 +43,8 @@ export class InvalidEmailError extends Error {
  * hands one person's library to another.
  */
 export function normalizeEmail(raw: string): string {
-  if (typeof raw !== "string") throw new InvalidEmailError(String(raw), "not a string");
+  if (typeof raw !== "string")
+    throw new InvalidEmailError(String(raw), "not a string");
 
   // NFKC first: it folds the compatibility characters (fullwidth Latin, and so
   // on) that would otherwise slip past the ASCII check as distinct code points
@@ -58,7 +62,10 @@ export function normalizeEmail(raw: string): string {
 
   let local = value.slice(0, at);
   // One trailing dot is the fully-qualified DNS form and is equivalent.
-  let domain = value.slice(at + 1).toLowerCase().replace(/\.$/, "");
+  let domain = value
+    .slice(at + 1)
+    .toLowerCase()
+    .replace(/\.$/, "");
 
   if (NON_ASCII.test(local) || NON_ASCII.test(domain)) {
     throw new InvalidEmailError(raw, "contains non-ASCII characters");

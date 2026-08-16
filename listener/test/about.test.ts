@@ -20,9 +20,14 @@ describe("what the About page says", () => {
     expect(new Set(ids).size).toBe(ids.length);
 
     for (const s of ALL_SECTIONS) {
-      expect(s.id, "an id must be URL-safe — it is an anchor").toMatch(/^[a-z][a-z0-9-]*$/);
+      expect(s.id, "an id must be URL-safe — it is an anchor").toMatch(
+        /^[a-z][a-z0-9-]*$/,
+      );
       expect(s.title.trim()).not.toBe("");
-      expect(s.blurb.trim(), `${s.id} has no blurb — it is the answer for a skimmer`).not.toBe("");
+      expect(
+        s.blurb.trim(),
+        `${s.id} has no blurb — it is the answer for a skimmer`,
+      ).not.toBe("");
       expect(s.entries.length, `${s.id} has no entries`).toBeGreaterThan(0);
     }
   });
@@ -32,7 +37,8 @@ describe("what the About page says", () => {
       for (const e of s.entries) {
         expect(e.q.trim(), `an entry in ${s.id} has no question`).not.toBe("");
         expect(e.a.length, `"${e.q}" has no answer`).toBeGreaterThan(0);
-        for (const p of e.a) expect(p.trim(), `"${e.q}" has an empty paragraph`).not.toBe("");
+        for (const p of e.a)
+          expect(p.trim(), `"${e.q}" has an empty paragraph`).not.toBe("");
       }
     }
   });
@@ -50,7 +56,9 @@ describe("what the About page says", () => {
     // so a stray `**bold**` or `<em>` would print literally.
     for (const s of ALL_SECTIONS) {
       for (const p of [s.blurb, ...s.entries.flatMap((e) => [e.q, ...e.a])]) {
-        expect(p, `markup in "${p.slice(0, 40)}…"`).not.toMatch(/<[a-z/]|\*\*|\[.+\]\(/i);
+        expect(p, `markup in "${p.slice(0, 40)}…"`).not.toMatch(
+          /<[a-z/]|\*\*|\[.+\]\(/i,
+        );
       }
     }
   });
@@ -78,8 +86,15 @@ describe("what the About page says", () => {
     // It reads nothing from the database by design. This catches the other route
     // in — somebody writing a title into an example.
     const everything = JSON.stringify(ALL_SECTIONS).toLowerCase();
-    for (const title of ["ayyuha", "al-walad", "degrees of excellence", "master and the disciple"]) {
-      expect(everything, `the About page names "${title}"`).not.toContain(title);
+    for (const title of [
+      "ayyuha",
+      "al-walad",
+      "degrees of excellence",
+      "master and the disciple",
+    ]) {
+      expect(everything, `the About page names "${title}"`).not.toContain(
+        title,
+      );
     }
   });
 });
@@ -141,7 +156,10 @@ describe("the deploy notices when this file falls behind", () => {
     // inserted after this one.
     const from = script.indexOf('step "What\'s new"');
     const next = script.indexOf('step "', from + 1);
-    const step = script.slice(from, next === -1 ? script.indexOf("--- The Worker") : next);
+    const step = script.slice(
+      from,
+      next === -1 ? script.indexOf("--- The Worker") : next,
+    );
     expect(step).not.toMatch(/\bdie\b|\bexit 1\b/);
   });
 });

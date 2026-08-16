@@ -13,8 +13,15 @@ import BookCard from "../components/studio/BookCard.astro";
 import { buildStudioShelves } from "../lib/reader/studio-shelves";
 import "../styles/studio-pipeline.css";
 
-const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
-  await buildStudioShelves();
+const {
+  shelves,
+  STATUS_FILTERS,
+  TRACK_FILTERS,
+  statusCount,
+  trackCount,
+  bucketCount,
+  totalCount,
+} = await buildStudioShelves();
 ---
 
 <Base
@@ -23,94 +30,316 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
   description="Pick a book to work on through the content pipeline."
 >
   <div class="studio-picker">
-    <header class="studio-step-head">
-      <span class="studio-eyebrow">Studio · Workshop</span>
-      <h1>Work a book through the pipeline.</h1>
-      <p>
-        Pick a book to open its content — read the edition, inspect its sources,
-        audits, and media, and step into the pipeline (intake, source review,
-        edit &amp; enrich, publish) from there.
-      </p>
-      <p>
-        Before generating audio in NotebookLM, run the <a href="/pre-upload"
-          >Pre-Upload Review</a
-        > and the <a href="/pronunciation">Pronunciation</a> utility.
-      </p>
-    </header>
+    {
+      /* The instruction paragraphs that stood here were removed 2026-08-15 —
+         the page explains itself and they cost a screen of height before the
+         first book. The two links they carried (Pre-Upload Review,
+         Pronunciation) were the ONLY route to those pages anywhere on the
+         site, so they moved into the Studio section subnav rather than being
+         deleted with the prose. See SUBNAV.studio in lib/site-nav.ts. */
+    }
+    {
+      /* The eyebrow and headline went with the prose (Asif, 2026-08-15): the
+         top nav and the section row above already say Studio · Books, so the
+         block was restating the page's own chrome and pushing the filters and
+         the first shelf down a screen.
 
-    <div class="studio-toolbar">
-      <div class="studio-toolbar-filters">
-        <div class="studio-toolbar-row">
-          <span class="studio-toolbar-row-label">Category</span>
-          <div
-            class="studio-bucket-filter-bar"
-            role="group"
-            aria-label="Filter books by content category"
+         The heading itself is KEPT, visually hidden. Deleting the element
+         would leave the page with no h1 at all and jump the outline straight
+         to the shelves' h2s — a real defect for anyone navigating by heading,
+         and invisible on screen either way. */
+    }
+    <h1 class="sr-only">Studio — work a book through the pipeline</h1>
+
+    {
+      /* THREE facets, each single-select with its own "All", narrowing
+         together. Category and status share the first row — both ask where a
+         book is in the PIPELINE. The track row sits below with its own label,
+         because "what is this book about" is a different question and,
+         practically, fifteen chips do not fit one line at any width this site
+         is used at.
+
+         `aria-pressed` on buttons rather than radios: the Podcast Factory
+         Library's find row is built this way, and "pressed" is the honest
+         shape for a chosen chip. Exactly one chip per group carries
+         `aria-pressed="true"` at any moment; the script enforces it. */
+    }
+
+    {
+      /* THE FIND BAR — one bordered panel, header row above a hairline, chips
+         below it. The site already had this panel treatment (`.studio-panel`,
+         used on every step page); the top of the picker was the one place not
+         using it, which is why it read as loose parts on the page rather than a
+         header. Structure follows the classic admin card: title and live count
+         on the left of the header, the view toggle and the primary action as a
+         toolbar on the right, a rule under it, then the controls as the body.
+
+         The hairline between the category and status groups is the fix for
+         something that could not be solved while these floated free: with the
+         `CATEGORY`/`STATUS` captions gone the two facets stopped reading as
+         separate groups, and a free-standing divider stranded itself at the end
+         of a wrapped line. Inside a panel it has a defined row to sit in, and
+         it is hidden at the width where the row is known to wrap. */
+    }
+    <section class="studio-findbar" aria-labelledby="studio-findbar-title">
+      <div class="studio-findbar-head">
+        <div class="studio-findbar-heading">
+          <h2 class="studio-findbar-title" id="studio-findbar-title">
+            Find a book
+          </h2>
+          {
+            /* The live result count, updated by the filter script. Visual only
+               — the screen-reader announcement is the live region further down,
+               and saying it twice would be worse than saying it once. */
+          }
+          <span
+            class="studio-findbar-count"
+            id="studio-findbar-count"
+            aria-hidden="true">{totalCount} works</span
           >
-            {
-              shelves.map(({ bucket, meta, cards: shelfCards }) => (
-                <button
-                  type="button"
-                  class="studio-bucket-chip"
-                  data-bucket-filter={bucket}
-                  aria-pressed="true"
-                  title={meta.desc}
-                >
-                  <i class={`fa-solid ${meta.icon}`} aria-hidden="true" />
-                  <span class="studio-bucket-chip-label">{meta.label}</span>
-                  <span class="studio-bucket-chip-count">
-                    {shelfCards.length}
-                  </span>
-                </button>
-              ))
-            }
-          </div>
+          {
+            /* Shown only while something is narrowed. A reset that is always
+               there is a no-op most of the time, and a control that does
+               nothing when pressed teaches you to distrust the row it sits in.
+               `hidden` rather than disabled: there is no state to explain. */
+          }
+          <button
+            type="button"
+            class="studio-findbar-reset"
+            id="studio-findbar-reset"
+            hidden
+          >
+            <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+            <span>Reset</span>
+          </button>
         </div>
-        <div class="studio-toolbar-row">
-          <span class="studio-toolbar-row-label">Status</span>
+        <div class="studio-findbar-actions">
+          {
+            /* The three view modes, same three as the Library. One data attribute
+               on the picker restyles the SAME cards — three markup branches would
+               be three things to keep in step, and the compact tile and the list
+               row are the full card with less shown, not different cards. */
+          }
           <div
-            class="studio-filter-bar"
+            class="studio-view-toggle"
             role="group"
-            aria-label="Filter books by lifecycle status"
+            aria-label="Choose how books are shown"
           >
-            {
-              STATUS_FILTERS.map((f) => (
-                <button
-                  type="button"
-                  class="studio-filter-chip"
-                  data-status-filter={f.id}
-                  aria-pressed={f.defaultOn ? "true" : "false"}
-                  title={f.hint}
-                >
-                  <i class={`fa-solid ${f.icon}`} aria-hidden="true" />
-                  <span class="studio-filter-chip-label">{f.label}</span>
-                  <span class="studio-filter-chip-count">
-                    {statusCount(f.id)}
-                  </span>
-                </button>
-              ))
-            }
+            <button
+              type="button"
+              class="studio-view-btn"
+              data-view-mode="cards"
+              aria-pressed="true"
+              aria-label="Card view"
+              title="Card view"
+            >
+              <i class="fa-solid fa-table-cells-large" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="studio-view-btn"
+              data-view-mode="compact"
+              aria-pressed="false"
+              aria-label="Compact tile view"
+              title="Compact tile view"
+            >
+              <i class="fa-solid fa-table-cells" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="studio-view-btn"
+              data-view-mode="list"
+              aria-pressed="false"
+              aria-label="List view"
+              title="List view"
+            >
+              <i class="fa-solid fa-list" aria-hidden="true"></i>
+            </button>
           </div>
+          <a
+            class="studio-new-content-link"
+            href="/studio/new"
+            title="Scaffold a new book, lecture, or article"
+          >
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            <span class="studio-new-content-label">New content</span>
+          </a>
         </div>
       </div>
-      <a
-        class="studio-new-content-link"
-        href="/studio/new"
-        title="Scaffold a new book, lecture, or article"
-      >
-        <i class="fa-solid fa-plus" aria-hidden="true"></i>
-        <span class="studio-new-content-label">New content</span>
-      </a>
-    </div>
+
+      {
+        /* THREE FACETS, THREE COLUMNS — one captioned cell each, hairline
+           divided (Asif, 2026-08-15). They are three independent SETS, not
+           three steps: any one narrows on its own, in any order, so nothing
+           here is numbered or arrowed. Numbering would teach a sequence the
+           page does not follow.
+
+           The captions are back on all three. They were dropped when this was a
+           compact two-row toolbar and that was right then; a hairline alone
+           cannot say what a group IS, and two unlabelled groups beside one
+           labelled one is exactly why these did not read as three.
+
+           The three "All" chips are gone with them. A third of the row used to
+           be spent on the same word three times, and each group now carries a
+           small clear control in its own caption instead — which is also what
+           makes a group look like a group rather than a row that happens to
+           start with a button. */
+      }
+      <div class="studio-findbar-body">
+        <div class="studio-facets">
+          <section class="studio-facet">
+            <div class="studio-facet-head">
+              <h3 class="studio-facet-label" id="studio-facet-bucket">
+                Category
+              </h3>
+              <button
+                type="button"
+                class="studio-facet-clear"
+                data-clear-facet="bucket"
+                aria-label="Clear the category filter"
+                title="Clear the category filter"
+                hidden
+              >
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div
+              class="studio-facet-chips studio-bucket-filter-bar"
+              role="group"
+              aria-labelledby="studio-facet-bucket"
+            >
+              {
+                shelves.map(({ bucket, meta }) => (
+                  <button
+                    type="button"
+                    class="studio-bucket-chip"
+                    data-bucket-filter={bucket}
+                    aria-pressed="false"
+                    title={meta.desc}
+                    disabled={bucketCount(bucket) === 0}
+                  >
+                    <i class={`fa-solid ${meta.icon}`} aria-hidden="true" />
+                    <span class="studio-bucket-chip-label">
+                      {meta.chipLabel}
+                    </span>
+                    <span class="studio-bucket-chip-count">
+                      {bucketCount(bucket)}
+                    </span>
+                  </button>
+                ))
+              }
+            </div>
+          </section>
+
+          <section class="studio-facet">
+            <div class="studio-facet-head">
+              <h3 class="studio-facet-label" id="studio-facet-status">
+                Status
+              </h3>
+              <button
+                type="button"
+                class="studio-facet-clear"
+                data-clear-facet="status"
+                aria-label="Clear the status filter"
+                title="Clear the status filter"
+                hidden
+              >
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div
+              class="studio-facet-chips studio-filter-bar"
+              role="group"
+              aria-labelledby="studio-facet-status"
+            >
+              {
+                STATUS_FILTERS.map((f) => (
+                  <button
+                    type="button"
+                    class="studio-filter-chip"
+                    data-status-filter={f.id}
+                    aria-pressed="false"
+                    title={f.hint}
+                    disabled={statusCount(f.id) === 0}
+                  >
+                    <i class={`fa-solid ${f.icon}`} aria-hidden="true" />
+                    <span class="studio-filter-chip-label">{f.label}</span>
+                    <span class="studio-filter-chip-count">
+                      {statusCount(f.id)}
+                    </span>
+                  </button>
+                ))
+              }
+            </div>
+          </section>
+
+          {
+            /* Counts are contextual — each reports what pressing it would show
+               GIVEN the other two facets' current choices, recomputed on every
+               change. A chip whose contextual count is zero is disabled rather
+               than dropped: the five tracks are a taxonomy worth seeing whole,
+               and a row that changes length as books move through the pipeline
+               teaches less than one that keeps its shape. */
+          }
+          <section class="studio-facet studio-facet--track">
+            <div class="studio-facet-head">
+              <h3 class="studio-facet-label" id="studio-facet-track">Track</h3>
+              <button
+                type="button"
+                class="studio-facet-clear"
+                data-clear-facet="track"
+                aria-label="Clear the track filter"
+                title="Clear the track filter"
+                hidden
+              >
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div
+              class="studio-facet-chips studio-track-filter-bar"
+              role="group"
+              aria-labelledby="studio-facet-track"
+            >
+              {
+                TRACK_FILTERS.map((f) => (
+                  <button
+                    type="button"
+                    class="studio-track-chip"
+                    data-track-filter={f.id}
+                    aria-pressed="false"
+                    title={f.hint}
+                    disabled={trackCount(f.id) === 0}
+                  >
+                    <span class="studio-track-chip-label">{f.label}</span>
+                    <span class="studio-track-chip-count">
+                      {trackCount(f.id)}
+                    </span>
+                  </button>
+                ))
+              }
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    {
+      /* Filtering changes the page with no navigation, so the result is
+         announced. `polite`, not `assertive`: it should be heard after the
+         chip's own pressed state, not instead of it. */
+    }
+    <p
+      id="studio-filter-status"
+      class="sr-only"
+      role="status"
+      aria-live="polite"
+    >
+    </p>
 
     <div class="studio-shelves">
       {
-        shelves.map(({ bucket, meta, items, cards: shelfCards }) => (
-          <section
-            class="studio-shelf"
-            data-bucket={bucket}
-            hidden={visibleInShelf(shelfCards) === 0}
-          >
+        shelves.map(({ bucket, meta, items }) => (
+          <section class="studio-shelf" data-bucket={bucket}>
             <header class="studio-shelf-header">
               <span class="studio-shelf-icon-wrap" aria-hidden="true">
                 <i class={`fa-solid ${meta.icon}`} />
@@ -120,8 +349,8 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
                 <p class="studio-shelf-desc">{meta.desc}</p>
               </div>
               <span class="studio-shelf-count">
-                {visibleInShelf(shelfCards)}{" "}
-                {visibleInShelf(shelfCards) === 1 ? "work" : "works"}
+                {bucketCount(bucket)}{" "}
+                {bucketCount(bucket) === 1 ? "work" : "works"}
               </span>
             </header>
 
@@ -140,6 +369,7 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
                       <summary
                         class="studio-picker-card studio-shelf-card studio-series-summary"
                         data-status="always"
+                        data-track={it.deck.identity.studyTrack ?? ""}
                       >
                         <BookCard
                           identity={it.deck.identity}
@@ -189,7 +419,7 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
                       class="studio-picker-card studio-shelf-card"
                       href={`/studio/${it.card.slug}`}
                       data-status={it.card.statusBucket}
-                      hidden={!defaultOn.has(it.card.statusBucket)}
+                      data-track={it.card.identity.studyTrack ?? ""}
                     >
                       <BookCard
                         identity={it.card.identity}
@@ -218,81 +448,5 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
 </Base>
 
 <script>
-  // Studio picker filters: TWO independent multi-select facets, both on for
-  // every value by default (nothing hidden on arrival) — category (which
-  // bucket a shelf belongs to) and lifecycle status (which cards within a
-  // visible shelf show). A shelf renders only when BOTH its bucket is active
-  // AND it has at least one status-visible card; the two facets are combined
-  // rather than each independently setting `hidden`, or the last one to run
-  // would silently override the other's decision.
-  const statusChips = Array.from(
-    document.querySelectorAll<HTMLButtonElement>(".studio-filter-chip"),
-  );
-  const activeStatus = new Set<string>(
-    statusChips
-      .filter((c) => c.getAttribute("aria-pressed") === "true")
-      .map((c) => c.dataset.statusFilter ?? ""),
-  );
-
-  const bucketChips = Array.from(
-    document.querySelectorAll<HTMLButtonElement>(".studio-bucket-chip"),
-  );
-  const activeBuckets = new Set<string>(
-    bucketChips
-      .filter((c) => c.getAttribute("aria-pressed") === "true")
-      .map((c) => c.dataset.bucketFilter ?? ""),
-  );
-
-  function applyFilter(): void {
-    document.querySelectorAll<HTMLElement>(".studio-shelf").forEach((shelf) => {
-      const bucketOn = activeBuckets.has(shelf.dataset.bucket ?? "");
-      let visible = 0;
-      shelf
-        .querySelectorAll<HTMLElement>(".studio-shelf-card")
-        .forEach((card) => {
-          const status = card.dataset.status ?? "";
-          // A series deck is `always`: it has no status of its own, and its
-          // volumes each carry theirs on the rows inside it. Before this the
-          // deck's summary had no `data-status` at all, so `active.has("")` was
-          // false on every pass and one chip click hid every deck permanently.
-          const show =
-            bucketOn && (status === "always" || activeStatus.has(status));
-          card.hidden = !show;
-          if (show) visible += 1;
-        });
-      // Volume rows inside a deck follow their own status, so a chip narrows
-      // what an OPEN deck lists rather than leaving stale rows on screen.
-      shelf
-        .querySelectorAll<HTMLElement>(".studio-series-vol")
-        .forEach((row) => {
-          row.hidden = !bucketOn || !activeStatus.has(row.dataset.status ?? "");
-        });
-      shelf.hidden = !bucketOn || visible === 0;
-      const count = shelf.querySelector<HTMLElement>(".studio-shelf-count");
-      if (count)
-        count.textContent = `${visible} ${visible === 1 ? "work" : "works"}`;
-    });
-  }
-
-  statusChips.forEach((chip) => {
-    chip.addEventListener("click", () => {
-      const id = chip.dataset.statusFilter ?? "";
-      const on = chip.getAttribute("aria-pressed") === "true";
-      chip.setAttribute("aria-pressed", on ? "false" : "true");
-      if (on) activeStatus.delete(id);
-      else activeStatus.add(id);
-      applyFilter();
-    });
-  });
-
-  bucketChips.forEach((chip) => {
-    chip.addEventListener("click", () => {
-      const id = chip.dataset.bucketFilter ?? "";
-      const on = chip.getAttribute("aria-pressed") === "true";
-      chip.setAttribute("aria-pressed", on ? "false" : "true");
-      if (on) activeBuckets.delete(id);
-      else activeBuckets.add(id);
-      applyFilter();
-    });
-  });
+  import "../scripts/studio-picker.ts";
 </script>

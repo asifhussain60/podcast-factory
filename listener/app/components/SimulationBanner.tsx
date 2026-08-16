@@ -33,14 +33,18 @@ export function SimulationBanner({ as }: { as: string }) {
       <div className="pf-simulating__what">
         <p className="pf-simulating__title">Simulation mode</p>
         <p className="pf-simulating__detail">
-          You are seeing the site as <strong>{as}</strong>, with only what they can open.
-          Nothing you change here is saved.
+          You are seeing the site as <strong>{as}</strong>, with only what they
+          can open. Nothing you change here is saved.
         </p>
       </div>
 
       {/* Posts to a PUBLIC route, which is the point: while this is showing, the
           admin screens answer 404 to you. */}
-      <Form method="post" action="/stop-simulating" className="pf-simulating__out">
+      <Form
+        method="post"
+        action="/stop-simulating"
+        className="pf-simulating__out"
+      >
         <button type="submit" className="pf-button pf-button--sm">
           Exit simulation
         </button>

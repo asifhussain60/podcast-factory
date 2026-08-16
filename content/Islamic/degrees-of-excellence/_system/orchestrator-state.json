@@ -4,9 +4,9 @@
   "category": "books",
   "branch": "Islamic/degrees-of-excellence",
   "status": "draft",
-  "phase": "0book-render",
+  "phase": "reader-narration",
   "phase_status": "completed",
-  "last_completed_phase": "0book-render",
+  "last_completed_phase": "reader-narration",
   "next_phase": "publish",
   "last_error": null,
   "phases": {
@@ -315,6 +315,32 @@
     },
     "done": {
       "status": "pending"
+    },
+    "reader-narration": {
+      "status": "completed",
+      "ts_started": "2026-08-15T12:17:29Z",
+      "ts_completed": "2026-08-15T12:24:26Z",
+      "rendered": [],
+      "skipped": [
+        "introduction to the book",
+        "the pole and foundation of religion",
+        "by nature and by reason",
+        "degrees of excellence",
+        "the ladder of creation",
+        "the physician of souls",
+        "governance and the first principle",
+        "the imam in the pillars of faith",
+        "from adam to ali",
+        "god's vicegerent in his time"
+      ],
+      "chars": 0,
+      "review": {
+        "verdict": "PHASE-CONCERNS",
+        "failed": 1,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": null
+      }
     }
   },
   "cost": {
@@ -324,7 +350,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-08-01T12:24:10Z",
+  "ts_updated": "2026-08-15T12:24:26Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -364,5 +390,5 @@
       "slide_challenger_verdict": "SHIP-READY"
     }
   },
-  "run_id": "20260801T110224Z-941dbb"
+  "run_id": "20260815T122426Z-665f51"
 }

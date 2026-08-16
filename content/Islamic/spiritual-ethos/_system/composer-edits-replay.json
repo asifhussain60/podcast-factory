@@ -1,0 +1,78 @@
+{
+  "schema": "podcast.composer-edits-replay/v1",
+  "applied": 14,
+  "conflicts": 0,
+  "orphaned": 0,
+  "chapters": [
+    {
+      "chapter_key": "in the prophet's shadow",
+      "title": "## 1. In the Prophet's Shadow",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the people of the house and the prophet's witness",
+      "title": "## 2. The People of the House and the Prophet's Witness",
+      "conflict": false
+    },
+    {
+      "chapter_key": "intellect, not reason",
+      "title": "## 3. Intellect, Not Reason",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the discourse to kumayl",
+      "title": "## 4. The Discourse to Kumayl",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the fruits of certainty",
+      "title": "## 5. The Fruits of Certainty",
+      "conflict": false
+    },
+    {
+      "chapter_key": "a sacred conception of justice",
+      "title": "## 6. A Sacred Conception of Justice",
+      "conflict": false
+    },
+    {
+      "chapter_key": "justice and the tyrant's pride",
+      "title": "## 7. Justice and the Tyrant's Pride",
+      "conflict": false
+    },
+    {
+      "chapter_key": "conscience, compassion, and the ordering of society",
+      "title": "## 8. Conscience, Compassion, and the Ordering of Society",
+      "conflict": false
+    },
+    {
+      "chapter_key": "justice for the poor and the sincerity of intention",
+      "title": "## 9. Justice for the Poor and the Sincerity of Intention",
+      "conflict": false
+    },
+    {
+      "chapter_key": "prayer, remembrance, and gazing on the good",
+      "title": "## 10. Prayer, Remembrance, and Gazing on the Good",
+      "conflict": false
+    },
+    {
+      "chapter_key": "dhikr: the polish of the heart",
+      "title": "## 11. Dhikr: The Polish of the Heart",
+      "conflict": false
+    },
+    {
+      "chapter_key": "remembrance as the quintessence of worship",
+      "title": "## 12. Remembrance as the Quintessence of Worship",
+      "conflict": false
+    },
+    {
+      "chapter_key": "extinction and the name: the death of the saint",
+      "title": "## 13. Extinction and the Name: The Death of the Saint",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the letter to malik al-ashtar",
+      "title": "## 15. The Letter to Malik al-Ashtar",
+      "conflict": false
+    }
+  ]
+}

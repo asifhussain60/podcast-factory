@@ -60,7 +60,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from concurrent.futures import ThreadPoolExecutor, as_completed  # noqa: E402
 
-from _arabic_coverage import arabic_run_spans  # noqa: E402
+from _arabic_coverage import ARABIC_BODY, arabic_run_spans  # noqa: E402
 from _paths import content_dir  # noqa: E402
 from _vowel_recovery import (  # noqa: E402
     askable as segment_askable,
@@ -106,7 +106,13 @@ ARABIC_LETTER_RE = re.compile("[\u0620-\u064a\u0660-\u066f\u0671-\u06d3]")
 # prose is usually a stray — so they need their own finder, and the delimiter is
 # what makes them safe to act on: it says the author put the word there to be
 # looked at, which is exactly where a reader needs the marks most.
-_LEXICAL_TOKEN_RE = re.compile(r'(?<=[("\u00ab\u201c])([\u0600-\u06ff][\u0600-\u06ff\s]*?)(?=[)"\u00bb\u201d,.:;])')
+# The token class is the SHARED definition, not the base block. Spelled out here
+# it was `\u0600-\u06ff` alone, so a quoted word carrying an Extended-A or
+# presentation-form character was Arabic to every other gate and not Arabic to
+# this one \u2014 the exact disagreement the range ratchet exists to prevent.
+_LEXICAL_TOKEN_RE = re.compile(
+    r'(?<=[("\u00ab\u201c])([' + ARABIC_BODY + r"][" + ARABIC_BODY + r'\s]*?)(?=[)"\u00bb\u201d,.:;])'
+)
 
 
 def _gemini(system: str, user: str, *, model: str = MODEL, max_output_tokens: int = 4000) -> str:

@@ -210,6 +210,14 @@
   line-height: 1.65;
   color: var(--c-ink);
   max-width: 70ch;
+  /* A plan's prose is written by an agent about code, so it carries identifiers
+     no line-breaking rule will split: `_cost_ledger.append_cost_row` is one word
+     to the browser and ran to 446px inside a 390px phone, with no scrollable
+     ancestor to reach it through. `anywhere` rather than `break-word` because
+     only `anywhere` also shrinks the element's min-content width, which is what
+     stops the long token forcing the whole column wide in the first place.
+     Found by the runtime smoke gate's 390px reachability invariant, 2026-08-16. */
+  overflow-wrap: anywhere;
 }
 
 .cp-prose h2,

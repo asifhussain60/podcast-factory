@@ -8,9 +8,27 @@ import {
 import type { Cue } from "../app/components/player/Transcript";
 
 const cues: Cue[] = [
-  { startS: 0, endS: 10, text: "First paragraph", speaker: null, blockIndex: 0 },
-  { startS: 12, endS: 20, text: "Second paragraph", speaker: null, blockIndex: 1 },
-  { startS: 24, endS: 32, text: "Fourth visible block", speaker: null, blockIndex: 3 },
+  {
+    startS: 0,
+    endS: 10,
+    text: "First paragraph",
+    speaker: null,
+    blockIndex: 0,
+  },
+  {
+    startS: 12,
+    endS: 20,
+    text: "Second paragraph",
+    speaker: null,
+    blockIndex: 1,
+  },
+  {
+    startS: 24,
+    endS: 32,
+    text: "Fourth visible block",
+    speaker: null,
+    blockIndex: 3,
+  },
 ];
 
 const css = readFileSync(

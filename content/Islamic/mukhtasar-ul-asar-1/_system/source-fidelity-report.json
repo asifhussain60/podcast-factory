@@ -1,0 +1,106 @@
+{
+  "source_fidelity_auditor_version": "1.0",
+  "slug": "mukhtasar-ul-asar-1",
+  "source_file": "content/Islamic/mukhtasar-ul-asar-1/_system/source/text/refined-english.md",
+  "deliverable_mode": "translation_edition",
+  "verdict": "FIDELITY-CONFIRMED",
+  "chapters": [
+    {
+      "bk_index": 1,
+      "title": "The First Obligation: Seeking Knowledge",
+      "source_line_range": [33, 47],
+      "book_line_range": [16, 41],
+      "verdict": "PASS",
+      "method": "full independent re-read of source and book text",
+      "findings": []
+    },
+    {
+      "bk_index": 2,
+      "title": "Purity: Water, Ablution, and the Body Made Ready",
+      "source_line_range": [49, 149],
+      "book_line_range": [42, 318],
+      "verdict": "PASS",
+      "method": "source-vs-book word-count parity check (src 6597 words, book 7364 words, +11.6%, consistent with rearticulation expansion seen elsewhere in this book; unchanged from prior run) plus repeated-sentence scan across the whole book -- no shortfall or duplication signal",
+      "findings": []
+    },
+    {
+      "bk_index": 3,
+      "title": "The Pillar of Religion: Standing in Prayer",
+      "source_line_range": [151, 289],
+      "book_line_range": [319, 626],
+      "verdict": "PASS",
+      "method": "source-vs-book word-count parity check (src 11449 words, book 11417 words, -0.3%, unchanged) plus repeated-sentence scan -- no shortfall or duplication signal",
+      "findings": []
+    },
+    {
+      "bk_index": 4,
+      "title": "Supplication and the Many Forms of Prayer",
+      "source_line_range": [291, 722],
+      "book_line_range": [627, 1208],
+      "verdict": "PASS",
+      "method": "source-vs-book word-count parity check (src 22130 words, book 22564 words, +2.0%, unchanged) plus repeated-sentence scan; the one repeat-of-Ghafir:60 sentence found here is a legitimate double citation confirmed present twice in source (refined-english.md:293 and :316, both matched at book.md:633 and :665) -- not a defect",
+      "findings": []
+    },
+    {
+      "bk_index": 5,
+      "title": "Facing Death: The Rites of the Departed",
+      "source_line_range": [725, 831],
+      "book_line_range": [1209, 1346],
+      "verdict": "PASS",
+      "method": "source-vs-book word-count parity check (src 4971 words, book 5008 words, +0.7%) plus repeated-sentence scan -- no shortfall or duplication signal",
+      "findings": []
+    },
+    {
+      "bk_index": 6,
+      "title": "The Due of Wealth: Zakat",
+      "source_line_range": [833, 966],
+      "book_line_range": [1347, 1522],
+      "verdict": "PASS",
+      "method": "source-vs-book word-count parity check (src 6040 words, book 6458 words, +6.9%) plus repeated-sentence scan -- no shortfall or duplication signal",
+      "findings": []
+    },
+    {
+      "bk_index": 7,
+      "title": "The Fast: Ramadan and the Discipline of Abstention",
+      "source_line_range": [969, 1070],
+      "book_line_range": [1523, 1767],
+      "verdict": "PASS",
+      "method": "full independent re-read of the SF-01 remediation site plus repeated-sentence scan of the full chapter",
+      "findings": [],
+      "remediation_verified": {
+        "SF-01": "RESOLVED. The orphaned mid-chapter repeat of the chapter's own title and the duplicated 'entrusted to the sick person' telling are both gone. The dispensation-for-illness ruling now appears exactly once, under the single heading 'The Dispensation Granted to the Ill' at book.md:1636, matching the source's single telling (refined-english.md:1010-1017). Word count moved from 6357 (with duplicate) to 6196 (-3.5% vs source's 6418), consistent with the ~220-word duplicate having been cut and nothing else lost."
+      }
+    },
+    {
+      "bk_index": 8,
+      "title": "The Journey to the House: Pilgrimage",
+      "source_line_range": [1072, 1563],
+      "book_line_range": [1768, 2481],
+      "verdict": "PASS",
+      "method": "full independent re-read of the SF-02 and SF-03 remediation sites plus repeated-sentence scan of the full chapter, plus a targeted count of the four legitimate uses of Al-Ma'idah 5:95 in this chapter against the source's four uses at the same locations",
+      "findings": [],
+      "remediation_verified": {
+        "SF-02": "RESOLVED. The talbiyah-repetition list and the guaranteed-vs-voluntary-offering eating rule now each appear exactly once (book.md:1942 and :1949 respectively). The first, shorter telling that duplicated this material was removed in full, including its own stray copy of the 5:95 verse.",
+        "SF-03": "RESOLVED. 'The Master said that angels are present there and say Amen to the prayer of the believer' now appears exactly once, at book.md:2138, matching the source's single telling (refined-english.md:1321).",
+        "note": "Al-Ma'idah 5:95 now appears four times in this chapter (book.md:1953, 1973, 1975, 2033) -- verified this is not new duplication: the source cites this verse four separate times across the muhrim-restriction, recompense, repeat-offense, and mistaken-killing rulings (refined-english.md:1192, 1212, 1214, 1251), and the four book occurrences map one-to-one onto those four source citations."
+      }
+    },
+    {
+      "bk_index": 9,
+      "title": "The Sword and the State: Jihad, Governance, and Justice",
+      "source_line_range": [1564, 1818],
+      "book_line_range": [2482, 2837],
+      "verdict": "PASS",
+      "method": "full independent re-read of the SF-04, SF-05 and SF-06 remediation sites plus repeated-sentence scan of the full chapter, plus a line-by-line diff of the edit against the pre-fix committed version of book.md",
+      "findings": [],
+      "remediation_verified": {
+        "SF-04": "RESOLVED. The killing-of-polytheists ruling (Al-Tawbah 5, Al-Baqarah 191, plus the Imams' weapon/fire/stone/water/siege-engine permission and the 'discussion now moves from the vows...' bridge sentence) now appears exactly once, at book.md:2633, matching the source's single telling (refined-english.md:1687-1689). The diff confirms the FIRST (shorter, less complete) telling was the one removed and the second was kept, per this agent's own prior recommendation.",
+        "SF-05": "RESOLVED. Al-Ma'idah 5:95 (do not kill game while in ihram) is now fully absent from chapter 9 -- confirmed by a direct search of the chapter's full text for the verse and for 'ihram'/'hunting'/'game', which returns nothing (the only 'game' match in this chapter is an unrelated Kharijites simile, 'they pass out of the religion as the arrow passes through the game', which is source-original at refined-english.md's jihad material and not the misplaced verse). The verse remains correctly present in chapter 8's ihram material (see chapter 8 above).",
+        "SF-06": "RESOLVED. The ship-boarding protection dua and the Ansar-commander fire narration each now appear exactly once (book.md:2557 and book.md:2563 respectively, under a single 'What follows concerns what the commanders of armies are obliged to observe' framing of the Nisa 4:59 obedience verse), matching the source's single telling of each in the commanders section."
+      },
+      "word_count_check": "src 12722 words, book 13492 words (+6.1%, down from the pre-fix +10.7%). A repeated-sentence scan of the full chapter found zero remaining duplicate sentences of 50+ characters, and the residual +6.1% is in line with the same-magnitude rearticulation expansion already accepted as normal in chapters 2 (+11.6%) and 6 (+6.9%) -- not a sign of leftover duplication."
+    }
+  ],
+  "adjacent_observations": [],
+  "summary": "Fresh, independent re-read confirms the fix was applied correctly and surgically. All six previously-recorded findings -- SF-01 through SF-06 -- are now RESOLVED: each duplicated passage appears exactly once, the orphaned mid-chapter chapter-title repeat is gone, and the misplaced Al-Ma'idah 5:95 verse has been fully removed from the jihad chapter while remaining correctly present (now confirmed four separate, legitimate times, matching the source's own four citations) in the pilgrimage chapter. A line-by-line diff against the pre-fix committed version of book.md shows only the flagged duplicate text was deleted -- no unrelated content was touched. A repo-wide repeated-sentence scan (not limited to the six previously-flagged spots) found no remaining duplication anywhere in the book, aside from one legitimate double citation of Qur'an 40:60 in the supplication chapter that is verified present twice in the source itself. Topic coverage was independently re-verified from scratch, not assumed from the prior pass: chapter and Quranic-citation counts, narrator-name counts, and word-count parity against the source were all recomputed fresh across all nine chapters, plus a full re-read of chapters 1, 7, 8, and 9 (the chapters that had any history of concern). Nothing new was found missing or thinned. On the translation_edition contract, nothing traces to no source at all -- the fix removed duplicated and misplaced material only, never substituted anything. This book is now clean: FIDELITY-CONFIRMED, no open findings."
+}

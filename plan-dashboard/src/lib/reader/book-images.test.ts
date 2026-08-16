@@ -190,12 +190,13 @@ describe("the Astro reader keeps markdown figures at a standard plate size", () 
     const rule =
       css.match(/\.bookv-body \.md-figure img\s*\{[^}]*\}/)?.[0] ?? "";
     assert.notEqual(rule, "");
-    // `var(--img-h, auto)` (2026-08-14, height not width — see
-    // image-layout.mjs's header): a Composer resize sets --img-h inline;
-    // nobody having resized this image (every image before that existed)
-    // must still fall back to `auto`, which is the same guarantee this test
-    // asserted before the custom property existed.
-    assert.match(rule, /height:\s*var\(--img-h,\s*auto\)/);
+    // `var(--img-h, 350px)` (2026-08-14, height not width — see
+    // image-layout.mjs's header; 350px fallback as of 2026-08-15's systemic
+    // fix): a Composer resize sets --img-h inline; nobody having resized
+    // this image falls back to image-layout.mjs's own DEFAULT_HEIGHT_PX,
+    // matching the audience reader and the print stylesheet so this Read
+    // tab previews what a reader actually sees, not the raw scan size.
+    assert.match(rule, /height:\s*var\(--img-h,\s*350px\)/);
     assert.match(rule, /width:\s*auto/);
     assert.match(rule, /max-width:\s*100%/);
     assert.doesNotMatch(rule, /(^|[;\s{])width\s*:\s*100%/);

@@ -1,7 +1,12 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-import { slugsToPurge, sourcesToPurge, type DownloadMeta, type TextMeta } from "../app/lib/offline";
+import {
+  slugsToPurge,
+  sourcesToPurge,
+  type DownloadMeta,
+  type TextMeta,
+} from "../app/lib/offline";
 
 /**
  * Offline listening has exactly two rules that can lose something.
@@ -27,7 +32,11 @@ const episode = (slug: string, number: number): DownloadMeta => ({
   savedAt: 1,
 });
 
-const HELD = [episode("ayyuha-al-walad", 1), episode("ayyuha-al-walad", 2), episode("wisdom", 1)];
+const HELD = [
+  episode("ayyuha-al-walad", 1),
+  episode("ayyuha-al-walad", 2),
+  episode("wisdom", 1),
+];
 
 describe("the lease", () => {
   it("deletes nothing when the answer is unknown", () => {
@@ -55,7 +64,9 @@ describe("the lease", () => {
   });
 
   it("is unaffected by a slug it was told about but does not hold", () => {
-    expect(sourcesToPurge(HELD, ["wisdom", "ayyuha-al-walad", "never-downloaded"])).toEqual([]);
+    expect(
+      sourcesToPurge(HELD, ["wisdom", "ayyuha-al-walad", "never-downloaded"]),
+    ).toEqual([]);
   });
 });
 
@@ -110,7 +121,10 @@ describe("the book-text endpoint", () => {
     // the Companion is absent, and a grep over the raw text fails on that
     // explanation — which would leave the only way to pass being to delete the
     // reasoning. What is asserted is the CODE.
-    const code = SOURCE.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
+    const code = SOURCE.replace(/\/\*[\s\S]*?\*\//g, "").replace(
+      /\/\/.*$/gm,
+      "",
+    );
     expect(code).not.toMatch(/companion/i);
   });
 
@@ -142,7 +156,10 @@ describe("the service worker", () => {
     // The worker's OWN rule, lifted out of the file and fired — not a copy of
     // it restated here, which would pass while the real one drifted.
     const literal = SW.match(/const CACHEABLE_ASSET = (\/.+\/);/);
-    expect(literal, "sw.js must declare CACHEABLE_ASSET as a regex literal").not.toBeNull();
+    expect(
+      literal,
+      "sw.js must declare CACHEABLE_ASSET as a regex literal",
+    ).not.toBeNull();
     const rule = new RegExp(literal![1].slice(1, -1));
 
     expect(rule.test("/assets/root-abc123.js")).toBe(true);

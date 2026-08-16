@@ -1,0 +1,46 @@
+/******************************************************************************
+ * study-track-colors.css — the classification palette, owned in ONE place.
+ *
+ * A book's study track (theology, history, shariah, esoteric, reality) is a
+ * property of the BOOK, not of a surface. It is shown as a corner ribbon on the
+ * Studio card here, as a corner ribbon on the Podcast Factory Library's card,
+ * and as the matching filter chip's colour on both — and a reader who learns
+ * that Esoteric is amber on one must not have to relearn it on the other.
+ *
+ * So the values live here, once, and `listener/scripts/sync-study-tracks.mjs`
+ * copies them into that app's stylesheet at author time. COPIED, not imported:
+ * the two apps are separate builds with separate token vocabularies, and the
+ * Library states of itself that it has no coupling to this site — a stylesheet
+ * reaching across that boundary would be the first one. This is the same
+ * arrangement `sync-quote-inks.mjs` already uses for the four quotation inks,
+ * and the same direction of travel: this site is the source, the Library is the
+ * copy, so there is only ever one way for a value to flow.
+ *
+ * That leaves exactly one failure mode — a value changed here and not copied —
+ * and `listener/test/study-tracks.test.ts` closes it. The repo's pre-commit
+ * hook runs that suite when this file is staged, so a stale copy cannot be
+ * committed.
+ *
+ * FIXED PER TRACK, NOT PER THEME. Each pair is a small, self-contained badge
+ * that carries its own text colour, so it is never read against whatever page
+ * happens to be underneath it and needs no light/dark variant. That is why this
+ * file has one `:root` and no media queries — and why the same ten values are
+ * correct on a warm-brown admin site and a verdigris reader alike.
+ *
+ * TO ADD A SIXTH TRACK: add its pair below, add it to the token map in
+ * sync-study-tracks.mjs, and add it to `ALL_STUDY_TRACKS` in the Library's
+ * app/lib/study-track.ts. The check test names the file to run.
+ *****************************************************************************/
+
+:root {
+  --track-theology-bg: #0a6a82;
+  --track-theology-ink: #ffffff;
+  --track-history-bg: #a3236f;
+  --track-history-ink: #ffffff;
+  --track-shariah-bg: #178a4c;
+  --track-shariah-ink: #ffffff;
+  --track-esoteric-bg: #d98a1f;
+  --track-esoteric-ink: #1c2433;
+  --track-reality-bg: #e0201f;
+  --track-reality-ink: #ffffff;
+}

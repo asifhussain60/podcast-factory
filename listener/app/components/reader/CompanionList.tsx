@@ -68,8 +68,9 @@ export function CompanionList({
   if (cards.length === 0) {
     return (
       <EmptyState>
-        No explanations for this chapter yet. Write them in the Book Composer, beside the
-        passage they explain, and they appear here the next time the book is published.
+        No explanations for this chapter yet. Write them in the Book Composer,
+        beside the passage they explain, and they appear here the next time the
+        book is published.
       </EmptyState>
     );
   }
@@ -90,9 +91,13 @@ export function CompanionList({
               onClick={() => setExpanded(open ? null : card.id)}
               className="pf-companion-card__head"
             >
-              <span className="pf-companion-card__title">{card.title ?? "Explanation"}</span>
+              <span className="pf-companion-card__title">
+                {card.title ?? "Explanation"}
+              </span>
               {open ? null : (
-                <span className="pf-companion-card__gist">{gistOf(card.bodyHtml)}</span>
+                <span className="pf-companion-card__gist">
+                  {gistOf(card.bodyHtml)}
+                </span>
               )}
             </button>
 
@@ -127,8 +132,8 @@ export function CompanionList({
                     that chapter's note. Nothing is guessed onto a passage. */}
                 {unplaced.has(card.id) ? (
                   <p className="pf-companion-card__lost">
-                    This passage is not in the chapter as it now reads, so nothing is
-                    marked in the text.
+                    This passage is not in the chapter as it now reads, so
+                    nothing is marked in the text.
                   </p>
                 ) : null}
               </div>

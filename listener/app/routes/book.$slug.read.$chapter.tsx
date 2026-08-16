@@ -176,7 +176,9 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
     // whose chapter was renumbered lands on the chapter and rings nothing, which
     // is the same answer resolveAnchor gives when the text has moved.
     find:
-      passage !== null && passage.slug === slug && passage.anchorKey === chapter.anchorKey
+      passage !== null &&
+      passage.slug === slug &&
+      passage.anchorKey === chapter.anchorKey
         ? passage.quote
         : null,
     bookTitle: unit.title,
@@ -233,7 +235,10 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   /** Companion cards whose sentence is on screen, in reading order. */
   const [inView, setInView] = useState<string[]>([]);
   /** A tinted sentence was tapped; the nonce makes a repeat tap re-fire. */
-  const [focusCard, setFocusCard] = useState<{ id: string; nonce: number } | null>(null);
+  const [focusCard, setFocusCard] = useState<{
+    id: string;
+    nonce: number;
+  } | null>(null);
   /** Bumped once per paint, so the sweep below re-observes the marks just made. */
   const [paints, setPaints] = useState(0);
 
@@ -378,7 +383,10 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
      for the life of the chapter, so the memo is what keeps it from counting as
      a change and repainting the chapter on every scroll tick.                */
   const passages = useMemo(
-    () => companion.filter((c) => c.quote !== null).map((c) => ({ id: c.id, quote: c.quote! })),
+    () =>
+      companion
+        .filter((c) => c.quote !== null)
+        .map((c) => ({ id: c.id, quote: c.quote! })),
     [companion],
   );
 
@@ -396,7 +404,8 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       })),
     [narration],
   );
-  const narrationSrc = narration === null ? null : `/media/${narration.audioKey}`;
+  const narrationSrc =
+    narration === null ? null : `/media/${narration.audioKey}`;
   const narrationActive =
     narrationSrc !== null &&
     player?.current?.kind === "chapter" &&
@@ -523,7 +532,9 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
         const ordered = marks
           .map((m) => m.dataset.companionId)
           .filter((id): id is string => id !== undefined && visible.has(id));
-        setInView((current) => (sameList(current, ordered) ? current : ordered));
+        setInView((current) =>
+          sameList(current, ordered) ? current : ordered,
+        );
       },
       // A band around the middle of the screen. The whole viewport would call a
       // passage "here" while it is still a screen away at the bottom.
@@ -568,7 +579,8 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       setFocusCard({ id, nonce: Date.now() });
     };
 
-    const onClick = (event: MouseEvent) => open(event.target as HTMLElement | null);
+    const onClick = (event: MouseEvent) =>
+      open(event.target as HTMLElement | null);
     // The marks are focusable and carry a button role, so they have to answer the
     // keyboard too — a click listener alone makes them a control only a pointer
     // can reach. Same shape as SelectionBar's own key handler.
@@ -746,7 +758,10 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     // Removed rather than left on the element: the ring says "this is the one
     // you came for", which stops being true the moment the reader starts
     // reading. Cleared on unmount too, or a chapter change would carry it.
-    const timer = window.setTimeout(() => block.classList.remove("pf-found"), 2600);
+    const timer = window.setTimeout(
+      () => block.classList.remove("pf-found"),
+      2600,
+    );
     return () => {
       window.clearTimeout(timer);
       block.classList.remove("pf-found");
@@ -765,14 +780,19 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     if (!annotations.some((a) => a.id === id) && bookmark === undefined) return;
     setActiveId(id);
     requestAnimationFrame(() => {
-      const highlighted = body.current?.querySelector(`mark[data-mark-id="${id}"]`);
+      const highlighted = body.current?.querySelector(
+        `mark[data-mark-id="${id}"]`,
+      );
       if (highlighted !== null && highlighted !== undefined) {
         highlighted.scrollIntoView({ block: "center", behavior: "smooth" });
         return;
       }
 
       if (bookmark === undefined) return;
-      const block = body.current === null ? undefined : blocksOf(body.current)[bookmark.blockIndex];
+      const block =
+        body.current === null
+          ? undefined
+          : blocksOf(body.current)[bookmark.blockIndex];
       block?.scrollIntoView({ block: "center", behavior: "smooth" });
     });
   }, [annotations, bookmarks]);
@@ -837,7 +857,9 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
             icon={isCompanion ? faBookOpen : faNoteSticky}
             docked={isCompanion}
             count={
-              isCompanion ? companion.length : marks.annotations.length + marks.bookmarks.length
+              isCompanion
+                ? companion.length
+                : marks.annotations.length + marks.bookmarks.length
             }
           >
             {isCompanion ? (
@@ -1072,16 +1094,40 @@ function Elsewhere({
 }) {
   const chips = [
     surfaces.episodes > 0
-      ? { key: "listen", to: `/book/${slug}?tab=listen`, icon: faHeadphones, label: "Podcast", count: surfaces.episodes }
+      ? {
+          key: "listen",
+          to: `/book/${slug}?tab=listen`,
+          icon: faHeadphones,
+          label: "Podcast",
+          count: surfaces.episodes,
+        }
       : null,
     surfaces.deckPages > 0
-      ? { key: "slides", to: `/book/${slug}?tab=slides`, icon: faImages, label: "Slides", count: surfaces.deckPages }
+      ? {
+          key: "slides",
+          to: `/book/${slug}?tab=slides`,
+          icon: faImages,
+          label: "Slides",
+          count: surfaces.deckPages,
+        }
       : null,
     surfaces.pdfKey === null
       ? null
-      : { key: "pdf", to: `/media/${surfaces.pdfKey}`, icon: faDownload, label: "PDF", count: 0 },
+      : {
+          key: "pdf",
+          to: `/media/${surfaces.pdfKey}`,
+          icon: faDownload,
+          label: "PDF",
+          count: 0,
+        },
     marks > 0
-      ? { key: "notes", to: `/book/${slug}?tab=notes`, icon: faNoteSticky, label: "Notes", count: marks }
+      ? {
+          key: "notes",
+          to: `/book/${slug}?tab=notes`,
+          icon: faNoteSticky,
+          label: "Notes",
+          count: marks,
+        }
       : null,
   ].filter((c): c is NonNullable<typeof c> => c !== null);
 
@@ -1093,7 +1139,9 @@ function Elsewhere({
         <Link key={chip.key} to={chip.to} className="pf-elsewhere__chip">
           <Icon icon={chip.icon} />
           {chip.label}
-          {chip.count > 0 ? <span className="pf-elsewhere__count">{chip.count}</span> : null}
+          {chip.count > 0 ? (
+            <span className="pf-elsewhere__count">{chip.count}</span>
+          ) : null}
         </Link>
       ))}
     </nav>

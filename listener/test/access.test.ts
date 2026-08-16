@@ -37,7 +37,8 @@ beforeEach(async () => {
 
 afterEach(() => t.close());
 
-const slugs = async (email: string) => (await visibleUnits(t.db, email)).map((u) => u.slug);
+const slugs = async (email: string) =>
+  (await visibleUnits(t.db, email)).map((u) => u.slug);
 
 describe("default deny", () => {
   it("shows an invited person with no grants nothing at all", async () => {
@@ -45,33 +46,60 @@ describe("default deny", () => {
   });
 
   it("refuses a book that exists and is published", async () => {
-    expect(await canRead(t.db, "reader@example.com", "ayyuhal-walad")).toBe(false);
+    expect(await canRead(t.db, "reader@example.com", "ayyuhal-walad")).toBe(
+      false,
+    );
   });
 });
 
 describe("unit grants", () => {
   it("shows exactly the granted book and nothing else", async () => {
-    await grant(t.db, "reader@example.com", "unit", "ayyuhal-walad", ADMIN, NOW);
+    await grant(
+      t.db,
+      "reader@example.com",
+      "unit",
+      "ayyuhal-walad",
+      ADMIN,
+      NOW,
+    );
     expect(await slugs("reader@example.com")).toEqual(["ayyuhal-walad"]);
-    expect(await canRead(t.db, "reader@example.com", "asaas-vol-01")).toBe(false);
+    expect(await canRead(t.db, "reader@example.com", "asaas-vol-01")).toBe(
+      false,
+    );
   });
 
   it("does not surface a granted book that is not published yet", async () => {
     // Provisioning ahead of publication is a supported move; it just does not
     // take effect until the book is published.
-    await grant(t.db, "reader@example.com", "unit", "kitab-al-riyad", ADMIN, NOW);
+    await grant(
+      t.db,
+      "reader@example.com",
+      "unit",
+      "kitab-al-riyad",
+      ADMIN,
+      NOW,
+    );
     expect(await slugs("reader@example.com")).toEqual([]);
-    expect(await canRead(t.db, "reader@example.com", "kitab-al-riyad")).toBe(false);
+    expect(await canRead(t.db, "reader@example.com", "kitab-al-riyad")).toBe(
+      false,
+    );
 
-    t.exec(`UPDATE content_unit SET status = 'published' WHERE slug = 'kitab-al-riyad'`);
-    expect(await canRead(t.db, "reader@example.com", "kitab-al-riyad")).toBe(true);
+    t.exec(
+      `UPDATE content_unit SET status = 'published' WHERE slug = 'kitab-al-riyad'`,
+    );
+    expect(await canRead(t.db, "reader@example.com", "kitab-al-riyad")).toBe(
+      true,
+    );
   });
 });
 
 describe("work grants", () => {
   it("granting the work yields every volume", async () => {
     await grant(t.db, "reader@example.com", "work", "asaas", ADMIN, NOW);
-    expect(await slugs("reader@example.com")).toEqual(["asaas-vol-01", "asaas-vol-02"]);
+    expect(await slugs("reader@example.com")).toEqual([
+      "asaas-vol-01",
+      "asaas-vol-02",
+    ]);
   });
 
   it("granting one volume yields exactly that volume", async () => {
@@ -114,22 +142,64 @@ describe("open to all", () => {
 
 describe("revocation", () => {
   it("takes a book away", async () => {
-    await grant(t.db, "reader@example.com", "unit", "ayyuhal-walad", ADMIN, NOW);
-    await revokeGrant(t.db, "reader@example.com", "unit", "ayyuhal-walad", ADMIN, NOW);
+    await grant(
+      t.db,
+      "reader@example.com",
+      "unit",
+      "ayyuhal-walad",
+      ADMIN,
+      NOW,
+    );
+    await revokeGrant(
+      t.db,
+      "reader@example.com",
+      "unit",
+      "ayyuhal-walad",
+      ADMIN,
+      NOW,
+    );
     expect(await slugs("reader@example.com")).toEqual([]);
   });
 
   it("can be re-granted afterwards", async () => {
     // The composite primary key makes a naive re-INSERT a constraint violation.
     // The UPSERT is what stops "give it back" from being a 500.
-    await grant(t.db, "reader@example.com", "unit", "ayyuhal-walad", ADMIN, NOW);
-    await revokeGrant(t.db, "reader@example.com", "unit", "ayyuhal-walad", ADMIN, NOW);
-    await grant(t.db, "reader@example.com", "unit", "ayyuhal-walad", ADMIN, NOW);
+    await grant(
+      t.db,
+      "reader@example.com",
+      "unit",
+      "ayyuhal-walad",
+      ADMIN,
+      NOW,
+    );
+    await revokeGrant(
+      t.db,
+      "reader@example.com",
+      "unit",
+      "ayyuhal-walad",
+      ADMIN,
+      NOW,
+    );
+    await grant(
+      t.db,
+      "reader@example.com",
+      "unit",
+      "ayyuhal-walad",
+      ADMIN,
+      NOW,
+    );
     expect(await slugs("reader@example.com")).toEqual(["ayyuhal-walad"]);
   });
 
   it("revoking sign-in keeps grants so re-inviting restores them", async () => {
-    await grant(t.db, "reader@example.com", "unit", "ayyuhal-walad", ADMIN, NOW);
+    await grant(
+      t.db,
+      "reader@example.com",
+      "unit",
+      "ayyuhal-walad",
+      ADMIN,
+      NOW,
+    );
     await revokeInvite(t.db, "reader@example.com", ADMIN, NOW);
 
     expect(await hasLiveInvite(t.db, "reader@example.com")).toBe(false);
@@ -152,7 +222,10 @@ describe("revocation", () => {
 
     await revokeInvite(t.db, "reader@example.com", ADMIN, NOW);
 
-    const left = await t.db.prepare(`SELECT count(*) AS n FROM session`).bind().first<{ n: number }>();
+    const left = await t.db
+      .prepare(`SELECT count(*) AS n FROM session`)
+      .bind()
+      .first<{ n: number }>();
     expect(left?.n).toBe(0);
   });
 });
@@ -162,16 +235,36 @@ describe("email folding runs end to end", () => {
     // The realistic mistake: Asif types the alias, Google returns the canonical
     // form. Without folding on the WRITE side the grant silently never matches.
     await invite(t.db, "Reader.Person+books@GoogleMail.com", ADMIN, {}, NOW);
-    await grant(t.db, "Reader.Person+books@GoogleMail.com", "unit", "ayyuhal-walad", ADMIN, NOW);
+    await grant(
+      t.db,
+      "Reader.Person+books@GoogleMail.com",
+      "unit",
+      "ayyuhal-walad",
+      ADMIN,
+      NOW,
+    );
 
-    expect(await canRead(t.db, "readerperson@gmail.com", "ayyuhal-walad")).toBe(true);
+    expect(await canRead(t.db, "readerperson@gmail.com", "ayyuhal-walad")).toBe(
+      true,
+    );
     expect(await hasLiveInvite(t.db, "readerperson@gmail.com")).toBe(true);
   });
 
   it("does not fold dots on a non-Gmail domain", async () => {
-    await grant(t.db, "first.last@company.com", "unit", "ayyuhal-walad", ADMIN, NOW);
-    expect(await canRead(t.db, "firstlast@company.com", "ayyuhal-walad")).toBe(false);
-    expect(await canRead(t.db, "first.last@company.com", "ayyuhal-walad")).toBe(true);
+    await grant(
+      t.db,
+      "first.last@company.com",
+      "unit",
+      "ayyuhal-walad",
+      ADMIN,
+      NOW,
+    );
+    expect(await canRead(t.db, "firstlast@company.com", "ayyuhal-walad")).toBe(
+      false,
+    );
+    expect(await canRead(t.db, "first.last@company.com", "ayyuhal-walad")).toBe(
+      true,
+    );
   });
 });
 
@@ -193,6 +286,8 @@ describe("schema guards", () => {
   it("refuses moving an existing account onto the admin address", () => {
     t.exec(`INSERT INTO user (id, name, email, emailVerified, createdAt, updatedAt)
             VALUES ('u9', 'Someone', 'someone@example.com', 1, '${NOW}', '${NOW}')`);
-    expect(() => t.exec(`UPDATE user SET email = '${ADMIN}' WHERE id = 'u9'`)).toThrow();
+    expect(() =>
+      t.exec(`UPDATE user SET email = '${ADMIN}' WHERE id = 'u9'`),
+    ).toThrow();
   });
 });

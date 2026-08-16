@@ -1,0 +1,25 @@
+{
+  "schema": "podcast.articulation-reconcile/v1",
+  "chapters": {
+    "Marriage and the Household": {
+      "resolved": true,
+      "needs_human": false,
+      "log": [
+        {
+          "attempt_kind": "pass",
+          "status": "partial",
+          "gate_findings": [
+            "fluency-07-part-03: speech tag cut into a quotation (7 interior vs 6 in source) \u2014 attribution may have moved"
+          ],
+          "at": "2026-08-15T22:23:10.786423+00:00"
+        },
+        {
+          "attempt_kind": "second-attempt",
+          "status": "adapted",
+          "gate_findings": [],
+          "at": "2026-08-15T22:52:36.051821+00:00"
+        }
+      ]
+    }
+  }
+}

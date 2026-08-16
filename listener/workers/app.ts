@@ -8,7 +8,15 @@ const requestHandler = createRequestHandler(
   import.meta.env.MODE,
 );
 
-const ALLOWED_METHODS = new Set(["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]);
+const ALLOWED_METHODS = new Set([
+  "GET",
+  "HEAD",
+  "POST",
+  "PUT",
+  "PATCH",
+  "DELETE",
+  "OPTIONS",
+]);
 
 /**
  * Layer 0 — everything decided before React Router sees a request.

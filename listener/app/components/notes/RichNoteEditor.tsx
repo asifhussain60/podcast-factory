@@ -44,7 +44,9 @@ export function RichNoteEditor(props: RichNoteEditorProps) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const fallback = <Skeleton value={props.initialValue} placeholder={props.placeholder} />;
+  const fallback = (
+    <Skeleton value={props.initialValue} placeholder={props.placeholder} />
+  );
 
   if (!mounted) return fallback;
 
@@ -55,15 +57,22 @@ export function RichNoteEditor(props: RichNoteEditorProps) {
   );
 }
 
-function Skeleton({ value, placeholder }: { value: string; placeholder?: string }): ReactNode {
+function Skeleton({
+  value,
+  placeholder,
+}: {
+  value: string;
+  placeholder?: string;
+}): ReactNode {
   const rendered = renderNote(value);
   return (
     <div className="pf-rte pf-rte--loading">
       <div className="pf-rte__toolbar" />
       <div className="pf-rte__content">
-        {rendered ?? (placeholder === undefined ? null : (
-          <span className="pf-rte__placeholder">{placeholder}</span>
-        ))}
+        {rendered ??
+          (placeholder === undefined ? null : (
+            <span className="pf-rte__placeholder">{placeholder}</span>
+          ))}
       </div>
     </div>
   );
@@ -74,5 +83,7 @@ function Skeleton({ value, placeholder }: { value: string; placeholder?: string 
 // would pull `@tiptap/*` into whatever chunk imported it — including
 // possibly the SSR chunk — and defeat this whole scheme.
 const RichNoteEditorInner = lazy(() =>
-  import("./RichNoteEditorInner").then((m) => ({ default: m.RichNoteEditorInner })),
+  import("./RichNoteEditorInner").then((m) => ({
+    default: m.RichNoteEditorInner,
+  })),
 );

@@ -1,0 +1,138 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 311,
+  "terms_tracked": 10,
+  "prerequisite_gaps": [
+    {
+      "term": "Al-Kafirun",
+      "first_use_page": 63,
+      "explained_page": 129,
+      "pages_carried": 66,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Al-Ikhlas",
+      "first_use_page": 51,
+      "explained_page": 87,
+      "pages_carried": 36,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Al-Ala",
+      "first_use_page": 129,
+      "explained_page": 156,
+      "pages_carried": 27,
+      "kind": "explained-late"
+    }
+  ],
+  "naming_drift": [],
+  "referent_collisions": [],
+  "dense_pages": [],
+  "long_sentences": [
+    {
+      "page": 228,
+      "words": 248,
+      "text": "Abbad ibn Bakr al-Basri said to Jafar ibn Muhammad ( ‫)َص َلَو اُت الَّلِه َع َلْي ِه‬, \"O son of the Messenger of Allah, a report from the Messenger of Allah ("
+    },
+    {
+      "page": 9,
+      "words": 233,
+      "text": "The First Obligation: Seeking Knowledge And he said: \"Learn from the scholar of my household, for whoever learns from the scholar of my household will be saved "
+    },
+    {
+      "page": 73,
+      "words": 216,
+      "text": "Supplication and the Many Forms of Prayer degrees, and an angel is charged over him who says to him, Increase in honor, until he departs.\" He (‫ )ص‬also said: \""
+    },
+    {
+      "page": 53,
+      "words": 196,
+      "text": "It was narrated from the Messenger of Allah (‫ )ص‬that a man came to him and said, \"O Messenger of Allah, I go out to my camels with my family, my children, and"
+    },
+    {
+      "page": 31,
+      "words": 181,
+      "text": "--The dry ablution AL-MA'IDAH: 6 ‫َٓي َأ ُّي َها ٱَّلِذيَن آَمُنٓو ۟ا ِإ َذا ُقْمُتْم ِإ َلى ٱلَّص َلٰوِة َفٱْغِسُلو۟ا ُوُجوَهُكْم َوَأ ْيِدَيُكْم ِإ َلى‬ ‫ٱْلَ"
+    },
+    {
+      "page": 36,
+      "words": 180,
+      "text": "He said: \"Prayer was for the believers a decree of specified times.\" [Al-Nisa: 103] He said: \"Guard strictly the prayers and the middle prayer, and stand up dev"
+    },
+    {
+      "page": 275,
+      "words": 177,
+      "text": "Supplication, Righteous Deeds, and the Etiquette of Travel in Jihad AL-BAQARAH: 250 ‫َوَلَّم ا َبَرُزو۟ا ِل َجاُلوَت َوُجُنوِدِهۦ َقاُلو۟ا َرَّب َنٓا َأ ْفِرْغ "
+    },
+    {
+      "page": 80,
+      "words": 175,
+      "text": "Then begin the prayer.\" Ali (‫ )ع‬said: \"Whoever would be pleased to be measured with a full measure that falls not short, let him say, when he has turned away "
+    },
+    {
+      "page": 59,
+      "words": 174,
+      "text": "He also said: \"O Ali, the earth cries out to Allah from the sleeper upon it at the rising of the sun.\" Ali said: \"That I should pray the Isha and the Fajr in co"
+    },
+    {
+      "page": 201,
+      "words": 167,
+      "text": "It is not fitting for him to postpone the Hajj, and if he dies, he has abandoned one of the laws of Islam.\" He said: \"Whoever dies without having performed the "
+    },
+    {
+      "page": 81,
+      "words": 161,
+      "text": "Supplication and the Many Forms of Prayer Ali said: \"Whoever sits in the place where he prayed the Fajr prayer, after completing it, and recites within that pla"
+    },
+    {
+      "page": 297,
+      "words": 160,
+      "text": "AL-ANFAL: 41 ‫َوٱْعَلُمٓو ۟ا َأ َّن َما َغِنْمُتم ِّمن َشْى ٍۢء َفَأ َّن َّلِلِه ُخُمَسُهۥ َوِلَّرُسوِل َوِلِذى ٱْلُقْرَبٰى‬ ‫َوٱْلَيَتَمٰى َوٱْلَمَسِكيِن‬ On t"
+    },
+    {
+      "page": 267,
+      "words": 159,
+      "text": "Then he said to him: \"Know that if you fulfill what we have stipulated of you, it will count as a Hajj for the one on whose behalf you have performed it, and yo"
+    },
+    {
+      "page": 74,
+      "words": 155,
+      "text": "He (‫ )ص‬also said: \"Whoever looks upon one stricken with affliction and says, Praise be to Allah who has kept me sound from what He has tried you with, and has"
+    },
+    {
+      "page": 285,
+      "words": 154,
+      "text": "O Allah, by You I attack, by You I prevail, and by You I fight.\" On the day of Uhud he said: \"O Allah, to You is all praise, to You is the complaint, and You ar"
+    },
+    {
+      "page": 61,
+      "words": 150,
+      "text": "‫ِلَّلِه َناِظ ِر‬ ‫ِه‬ ‫ َو َّج ْه ُت َو ْج َي‬:The worshipper then turns and says ‫ ِإَّن َص اَل ِتي‬، ‫الَّس َم َو اِت َو اَأْلْرِض َح ِنيًف ا ُم ْس ِلًم ا َ"
+    },
+    {
+      "page": 243,
+      "words": 150,
+      "text": "It is narrated of Jafar ibn Muhammad that he said: when you stand at the standing-place of Arafah, praise Allah and extol Him, and pray upon the Prophet Muhamma"
+    },
+    {
+      "page": 47,
+      "words": 146,
+      "text": "The Pillar of Religion: Standing in Prayer He was asked, \"O Messenger of Allah, do you not fear that your nation will contend over this after you, even with swo"
+    },
+    {
+      "page": 190,
+      "words": 145,
+      "text": "The fast of permission — meaning that a woman may not fast voluntarily except with her husband's permission, a bondsman may not fast voluntarily except with his"
+    },
+    {
+      "page": 273,
+      "words": 145,
+      "text": "But whoever does not possess these qualities and strives seeking the fleeting gains of this world and its glory, or is coerced into jihad while not keeping his "
+    }
+  ],
+  "summary": {
+    "never_explained": 0,
+    "explained_late": 3,
+    "referent_collisions": 0
+  }
+}

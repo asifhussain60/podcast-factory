@@ -39,15 +39,25 @@ export async function loader({ context }: Route.LoaderArgs) {
 export default function AdminUsage({ loaderData }: Route.ComponentProps) {
   const [searchParams] = useSearchParams();
   const view = usageView(searchParams.get("view"));
-  const totalSignals = loaderData.overview.readingSignals + loaderData.overview.listeningSignals;
+  const totalSignals =
+    loaderData.overview.readingSignals + loaderData.overview.listeningSignals;
   const topCountry = loaderData.countries[0]?.name ?? "No countries yet";
   const topTitle = loaderData.content[0]?.title ?? "No activity yet";
-  const maxCountrySignals = Math.max(...loaderData.countries.map((c) => c.signals), 1);
-  const maxContentSignals = Math.max(...loaderData.content.map((c) => c.signals), 1);
+  const maxCountrySignals = Math.max(
+    ...loaderData.countries.map((c) => c.signals),
+    1,
+  );
+  const maxContentSignals = Math.max(
+    ...loaderData.content.map((c) => c.signals),
+    1,
+  );
   const readingPercent =
-    totalSignals === 0 ? 0 : Math.round((loaderData.overview.readingSignals / totalSignals) * 100);
+    totalSignals === 0
+      ? 0
+      : Math.round((loaderData.overview.readingSignals / totalSignals) * 100);
   const listeningPercent = totalSignals === 0 ? 0 : 100 - readingPercent;
-  const peak = [...loaderData.rhythm].sort((a, b) => b.signals - a.signals)[0] ?? null;
+  const peak =
+    [...loaderData.rhythm].sort((a, b) => b.signals - a.signals)[0] ?? null;
 
   return (
     <div className="pf-usage pf-usage-canvas">
@@ -61,13 +71,16 @@ export default function AdminUsage({ loaderData }: Route.ComponentProps) {
             Reading and listening, from now forward.
           </h2>
           <p className="pf-note">
-            Country-level activity only. Raw IP addresses and user agents are not stored.
+            Country-level activity only. Raw IP addresses and user agents are
+            not stored.
           </p>
         </div>
         <div className="pf-usage-hero__pulse" aria-label="Latest activity">
           <Icon icon={faClock} />
           <span>
-            {loaderData.overview.lastSeenAt ? formatWhen(loaderData.overview.lastSeenAt) : "No activity yet"}
+            {loaderData.overview.lastSeenAt
+              ? formatWhen(loaderData.overview.lastSeenAt)
+              : "No activity yet"}
           </span>
         </div>
       </section>
@@ -120,8 +133,8 @@ export default function AdminUsage({ loaderData }: Route.ComponentProps) {
           <Icon icon={faSignal} />
           <h2>No usage has been collected yet.</h2>
           <p className="pf-note">
-            The dashboard starts from this release. It will fill as invited people read
-            chapters or play episodes.
+            The dashboard starts from this release. It will fill as invited
+            people read chapters or play episodes.
           </p>
         </section>
       ) : (
@@ -146,12 +159,20 @@ export default function AdminUsage({ loaderData }: Route.ComponentProps) {
             />
           ) : null}
 
-          {view === "people" ? <PeoplePanel people={loaderData.people} /> : null}
+          {view === "people" ? (
+            <PeoplePanel people={loaderData.people} />
+          ) : null}
           {view === "content" ? (
-            <TopContentPanel content={loaderData.content} max={maxContentSignals} />
+            <TopContentPanel
+              content={loaderData.content}
+              max={maxContentSignals}
+            />
           ) : null}
           {view === "countries" ? (
-            <CountriesTab countries={loaderData.countries} max={maxCountrySignals} />
+            <CountriesTab
+              countries={loaderData.countries}
+              max={maxCountrySignals}
+            />
           ) : null}
         </section>
       )}
@@ -223,7 +244,10 @@ function ActivityTab({
 }) {
   return (
     <div className="pf-usage-grid">
-      <section className="pf-usage-visuals pf-usage-visuals--duo pf-usage-panel--wide" aria-label="Activity rhythm">
+      <section
+        className="pf-usage-visuals pf-usage-visuals--duo pf-usage-panel--wide"
+        aria-label="Activity rhythm"
+      >
         <RhythmStrip rhythm={data.rhythm} peakLabel={peakLabel} />
         <ModeSplit
           reading={data.overview.readingSignals}
@@ -246,7 +270,10 @@ function CountriesTab({
 }) {
   return (
     <div className="pf-usage-grid">
-      <section className="pf-usage-visuals pf-usage-visuals--single pf-usage-panel--wide" aria-label="Country activity">
+      <section
+        className="pf-usage-visuals pf-usage-visuals--single pf-usage-panel--wide"
+        aria-label="Country activity"
+      >
         <CountryHeat countries={countries} max={max} />
       </section>
       <CountriesPanel countries={countries} max={max} />
@@ -268,12 +295,24 @@ function UsageTabNav({
         return (
           <Link
             key={tab.key}
-            to={tab.key === "overview" ? "/admin/usage" : `/admin/usage?view=${tab.key}`}
-            className={active === tab.key ? "pf-usage-tab pf-usage-tab--active" : "pf-usage-tab"}
+            to={
+              tab.key === "overview"
+                ? "/admin/usage"
+                : `/admin/usage?view=${tab.key}`
+            }
+            className={
+              active === tab.key
+                ? "pf-usage-tab pf-usage-tab--active"
+                : "pf-usage-tab"
+            }
             aria-current={active === tab.key ? "page" : undefined}
           >
             <span>{tab.label}</span>
-            {count === null ? null : <strong className="pf-usage-tab__meta">{count.toLocaleString()}</strong>}
+            {count === null ? null : (
+              <strong className="pf-usage-tab__meta">
+                {count.toLocaleString()}
+              </strong>
+            )}
           </Link>
         );
       })}
@@ -303,10 +342,20 @@ function RecentActivityPanel({
       <div className="pf-panel__head">
         <div>
           <h2>Recent Activity</h2>
-          <p>{compact ? "A quick pulse of the latest signals." : "Latest reading and listening signals."}</p>
+          <p>
+            {compact
+              ? "A quick pulse of the latest signals."
+              : "Latest reading and listening signals."}
+          </p>
         </div>
       </div>
-      <div className={compact ? "pf-activity-list pf-activity-list--compact" : "pf-activity-list"}>
+      <div
+        className={
+          compact
+            ? "pf-activity-list pf-activity-list--compact"
+            : "pf-activity-list"
+        }
+      >
         {recent.map((event) => (
           <article
             key={`${event.email}-${event.slug}-${event.kind}-${event.targetKey}-${event.countryCode}`}
@@ -319,7 +368,9 @@ function RecentActivityPanel({
                   : "pf-activity__icon pf-activity__icon--read"
               }
             >
-              <Icon icon={event.kind === "listen" ? faHeadphones : faBookOpen} />
+              <Icon
+                icon={event.kind === "listen" ? faHeadphones : faBookOpen}
+              />
             </div>
             <div className="pf-activity__body">
               <div className="pf-activity__line">
@@ -328,7 +379,10 @@ function RecentActivityPanel({
                 <strong>{event.title}</strong>
               </div>
               <div className="pf-activity__meta">
-                <span>{event.targetTitle ?? targetFallback(event.kind, event.targetKey)}</span>
+                <span>
+                  {event.targetTitle ??
+                    targetFallback(event.kind, event.targetKey)}
+                </span>
                 <span>
                   <Icon icon={faLocationDot} /> {event.countryName}
                 </span>
@@ -383,7 +437,13 @@ function TopContentPanel({
   className?: string;
 }) {
   return (
-    <section className={className ? "pf-panel pf-usage-panel " + className : "pf-panel pf-usage-panel"}>
+    <section
+      className={
+        className
+          ? "pf-panel pf-usage-panel " + className
+          : "pf-panel pf-usage-panel"
+      }
+    >
       <div className="pf-panel__head">
         <div>
           <h2>Top Content</h2>
@@ -492,7 +552,13 @@ function ModeSplit({
           <small>reading</small>
         </div>
         <div className="pf-donut-legend">
-          <VisualLegend icon={faBookOpen} label="Reading" value={reading} percent={readingPercent} tone="read" />
+          <VisualLegend
+            icon={faBookOpen}
+            label="Reading"
+            value={reading}
+            percent={readingPercent}
+            tone="read"
+          />
           <VisualLegend
             icon={faHeadphones}
             label="Listening"
@@ -588,7 +654,10 @@ function RhythmStrip({
         {rhythm.map((hour) => {
           const height = `${Math.max(8, Math.round((hour.signals / max) * 100))}%`;
           return (
-            <span key={hour.hour} title={`${hour.label}: ${hour.signals} signals`}>
+            <span
+              key={hour.hour}
+              title={`${hour.label}: ${hour.signals} signals`}
+            >
               <i style={{ height }} />
             </span>
           );
@@ -684,7 +753,9 @@ function RankedBar({
 }
 
 function usageView(view: string | null): UsageView {
-  return USAGE_TABS.some((tab) => tab.key === view) ? (view as UsageView) : "overview";
+  return USAGE_TABS.some((tab) => tab.key === view)
+    ? (view as UsageView)
+    : "overview";
 }
 
 function usageTabCount(

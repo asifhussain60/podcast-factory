@@ -67,7 +67,10 @@ export default function AdminLayout({ loaderData }: Route.ComponentProps) {
     <AppShell here="admin" isAdmin>
       <div className="pf-masthead pf-masthead--tight">
         <h1 className="pf-title pf-title--sm">Admin</h1>
-        <p className="pf-note">Who may sign in, what they can open, and how the Library is being used.</p>
+        <p className="pf-note">
+          Who may sign in, what they can open, and how the Library is being
+          used.
+        </p>
       </div>
 
       <MetricStrip tallies={loaderData.tallies} content={loaderData.content} />

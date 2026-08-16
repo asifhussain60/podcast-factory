@@ -14,6 +14,7 @@ import { parse } from "yaml";
 import {
   resolveBookCardIdentity,
   type BookCardIdentity,
+  type StudyTrack,
 } from "./book-card-identity";
 import {
   BUCKETS,
@@ -98,38 +99,47 @@ async function readGenerationStatus(dir: string) {
   };
 }
 
+/** `label` names the shelf; `chipLabel` names its filter chip — short, because
+ *  three facets on two rows leaves no room for "Islamic Scholarship" on a chip
+ *  and the shelf heading below already says it in full. */
 const SHELF_META: Record<
   Bucket,
-  { icon: string; label: string; desc: string }
+  { icon: string; label: string; chipLabel: string; desc: string }
 > = {
   Islamic: {
     icon: "fa-mosque",
     label: "Islamic Scholarship",
+    chipLabel: "Islamic",
     desc: "Scholarly texts, commentaries, and spiritual works",
   },
   Fiction: {
     icon: "fa-scroll",
     label: "Fiction & Narrative",
+    chipLabel: "Fiction",
     desc: "Literature, storytelling, and imaginative works",
   },
   Technical: {
     icon: "fa-code",
     label: "Technical",
+    chipLabel: "Technical",
     desc: "Engineering, architecture, and technical guides",
   },
   Guides: {
     icon: "fa-compass",
     label: "Guides & References",
+    chipLabel: "Guides",
     desc: "Practical guides, explainers, and reference materials",
   },
   Supplications: {
     icon: "fa-hands-praying",
     label: "Supplications",
+    chipLabel: "Supplications",
     desc: "Du'a, ziyarat, and munajat as facing-column reading editions",
   },
   Sessions: {
     icon: "fa-chalkboard-user",
     label: "Sessions",
+    chipLabel: "Sessions",
     desc: "Lectures Asif delivered himself, read from the transcripts he marked up",
   },
 };
@@ -228,6 +238,7 @@ export async function buildStudioShelves() {
           d = {
             seriesSlug: c.seriesSlug,
             identity: { ...identity, icon: identity.icon, volume: undefined },
+            // Filled below from the volumes, once they are all collected.
             statusLabel: "",
             steps: [],
             volumes: [],
@@ -242,6 +253,19 @@ export async function buildStudioShelves() {
     }
     for (const d of decks.values()) {
       d.volumes.sort((a, b) => (a.volumeOrder ?? 0) - (b.volumeOrder ?? 0));
+      // A series' own track, DERIVED rather than recorded: the deck wears its
+      // volumes' ribbon when they all agree, and none when they do not. A
+      // mixed series has no single subject, and painting it with the first
+      // volume's would state something no file says. Derived also means the
+      // two can never drift — there is no container field to forget to update
+      // when a volume's track changes. (asaas-al-taveel has no work.yml at
+      // all; its six volumes each say `esoteric`, and that is where the deck's
+      // ribbon comes from.)
+      if (!d.identity.studyTrack) {
+        const tracks = new Set(d.volumes.map((v) => v.identity.studyTrack));
+        const only = tracks.size === 1 ? [...tracks][0] : undefined;
+        if (only) d.identity = { ...d.identity, studyTrack: only };
+      }
       // The series is only as far along as its least-advanced volume; saying
       // otherwise would make a deck look finished while five volumes sit at
       // intake. The bar is that volume's own, so the two never disagree.
@@ -281,51 +305,127 @@ export async function buildStudioShelves() {
     )
   ).filter((s) => s.cards.length > 0);
 
-  /** Status filter buttons — MULTI-select facets; ALL on by default so no book is
-   *  ever hidden on arrival. Toggling a chip adds/removes that status from the view. */
+  /**
+   * One entry per thing the shelf actually DRAWS — a standalone book, or a
+   * series deck counted once rather than once per volume.
+   *
+   * Every filter count is measured over this, not over `cards`, because a chip's
+   * number is a promise about what pressing it will show. Counted over `cards`
+   * the promises were all wrong in the same direction: "Esoteric 7" for a shelf
+   * that draws two esoteric things (one book and one six-volume deck), and "All
+   * 25" for a shelf of thirteen. The volumes are real content and they are still
+   * reachable — inside the deck, where the deck's own row filters them — but
+   * they are not what the grid lays out.
+   */
+  type Unit = {
+    bucket: Bucket;
+    status: StatusBucket | "always";
+    track: StudyTrack | undefined;
+  };
+  const units: Unit[] = shelves.flatMap((s) =>
+    s.items.map((it): Unit =>
+      it.kind === "deck"
+        ? {
+            bucket: s.bucket,
+            // A deck has no single status of its own — its volumes each carry
+            // theirs — so it is never hidden by the status facet, and the same
+            // word the markup uses is the one counted here.
+            status: "always",
+            track: it.deck.identity.studyTrack,
+          }
+        : {
+            bucket: s.bucket,
+            status: it.card.statusBucket,
+            track: it.card.identity.studyTrack,
+          },
+    ),
+  );
+
+  /**
+   * The three filter facets — SINGLE-select each, "All" by default, and they
+   * narrow together (a category AND a status AND a track).
+   *
+   * Single-select, matching the Podcast Factory Library's find row, replaces a
+   * multi-select model that was backwards in practice: every chip started ON,
+   * so clicking "Published" REMOVED the published books. That is the opposite
+   * of what a filter chip promises, and the pressed styling made the chip you
+   * had just switched off look like the selected one.
+   *
+   * `count` is measured against the WHOLE shelf, never the filtered view — a
+   * chip that renumbered itself as you filtered would flicker, and the number
+   * is there to tell you what choosing it would give you. An option with none
+   * is rendered DISABLED rather than dropped: the taxonomy is the point, and a
+   * list that changes length as books move through the pipeline teaches less
+   * than one that keeps its shape.
+   */
   const STATUS_FILTERS: {
     id: StatusBucket;
     icon: string;
     label: string;
     hint: string;
-    defaultOn: boolean;
   }[] = [
     {
       id: "in-the-works",
       icon: "fa-gears",
-      label: "In Pipeline",
+      // Short labels (Asif, 2026-08-15): three facets on two rows leaves no
+      // room for a sentence per chip, and the icon beside it already carries
+      // half the meaning. The full sense lives in `hint`, which is the chip's
+      // title attribute.
+      label: "Pipeline",
       hint: "Books actively moving through the pipeline",
-      defaultOn: true,
     },
     {
       id: "published",
       icon: "fa-circle-check",
       label: "Published",
       hint: "Live in the library",
-      defaultOn: true,
     },
     {
       id: "up-next",
       icon: "fa-hourglass-start",
-      label: "Up Next",
+      label: "Up next",
       hint: "Scaffolded volumes where work has not begun",
-      defaultOn: true,
     },
   ];
 
+  /** The five subject tracks, in the Library's own display order —
+   *  foundational to concrete, deliberately not alphabetical. */
+  const TRACK_FILTERS: { id: StudyTrack; label: string; hint: string }[] = [
+    { id: "history", label: "History", hint: "Historical works and accounts" },
+    { id: "shariah", label: "Shariah", hint: "Law, practice, and observance" },
+    {
+      id: "theology",
+      label: "Theology",
+      hint: "Doctrine, belief, and the foundations",
+    },
+    {
+      id: "esoteric",
+      label: "Esoteric",
+      hint: "Inner meaning and interpretation",
+    },
+    { id: "reality", label: "Reality", hint: "Metaphysics and the real" },
+  ];
+
+  // A deck is counted into EVERY status, because it is shown under every one —
+  // the number and the outcome have to agree, and "Published 3" on a shelf that
+  // draws five things when you press it is the same broken promise in the other
+  // direction.
   const statusCount = (id: StatusBucket) =>
-    cards.filter((c) => c.statusBucket === id).length;
-  const defaultOn = new Set(
-    STATUS_FILTERS.filter((f) => f.defaultOn).map((f) => f.id),
-  );
-  const visibleInShelf = (shelfCards: typeof cards) =>
-    shelfCards.filter((c) => defaultOn.has(c.statusBucket)).length;
+    units.filter((u) => u.status === id || u.status === "always").length;
+  const trackCount = (id: StudyTrack) =>
+    units.filter((u) => u.track === id).length;
+  const bucketCount = (bucket: Bucket) =>
+    units.filter((u) => u.bucket === bucket).length;
+
   return {
     cards,
     shelves,
     STATUS_FILTERS,
+    TRACK_FILTERS,
     statusCount,
-    defaultOn,
-    visibleInShelf,
+    trackCount,
+    bucketCount,
+    /** Everything the shelf draws, for the three "All" chips. */
+    totalCount: units.length,
   };
 }

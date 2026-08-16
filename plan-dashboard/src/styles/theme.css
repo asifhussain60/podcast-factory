@@ -3,4 +3,7 @@
    here preserves the original cascade exactly. */
 @import "./fonts.css";
 @import "./theme-tokens.css";
+/* The classification palette. Its own file because it is the SOURCE the
+   Podcast Factory Library syncs from — see the header there. */
+@import "./study-track-colors.css";
 @import "./theme-components.css";

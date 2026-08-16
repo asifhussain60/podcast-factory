@@ -137,10 +137,14 @@ export function Transcript({
   const settle = useRef(0);
 
   useEffect(() => {
-    scroller.current = list.current?.closest<HTMLElement>(".pf-drawer__body") ?? null;
+    scroller.current =
+      list.current?.closest<HTMLElement>(".pf-drawer__body") ?? null;
   }, [cues]);
 
-  const at = useMemo(() => (cues === null ? -1 : cueAt(cues, position)), [cues, position]);
+  const at = useMemo(
+    () => (cues === null ? -1 : cueAt(cues, position)),
+    [cues, position],
+  );
 
   /* Keep the spoken line in the middle of what the reader can SEE.
      Someone reading ahead to find a passage must not be dragged back every
@@ -169,10 +173,18 @@ export function Transcript({
     // the bar's height changes with its own content and with the platform's
     // safe-area inset, and a hardcoded number would be wrong on most phones.
     const bar = document.querySelector<HTMLElement>(".pf-player");
-    const hidden = bar === null ? 0 : Math.max(0, box.getBoundingClientRect().bottom - bar.getBoundingClientRect().top);
+    const hidden =
+      bar === null
+        ? 0
+        : Math.max(
+            0,
+            box.getBoundingClientRect().bottom -
+              bar.getBoundingClientRect().top,
+          );
     const visible = Math.max(0, box.clientHeight - hidden);
 
-    const target = line.offsetTop - box.offsetTop - visible / 2 + line.offsetHeight / 2;
+    const target =
+      line.offsetTop - box.offsetTop - visible / 2 + line.offsetHeight / 2;
     programmatic.current = true;
     box.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
     // Released on a timer, not on a scroll event: a smooth scroll that is
@@ -222,7 +234,11 @@ export function Transcript({
         {follow ? null : (
           <>
             {" "}
-            <button type="button" onClick={() => setFollow(true)} className="pf-link pf-link--inline">
+            <button
+              type="button"
+              onClick={() => setFollow(true)}
+              className="pf-link pf-link--inline"
+            >
               Follow the audio again
             </button>
           </>

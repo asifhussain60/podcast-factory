@@ -60,10 +60,14 @@ const check = process.argv.includes("--check");
 /** @param {string} service @returns {string | null} */
 function fromKeychain(service) {
   try {
-    return execFileSync("security", ["find-generic-password", "-s", service, "-w"], {
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "ignore"],
-    }).trim();
+    return execFileSync(
+      "security",
+      ["find-generic-password", "-s", service, "-w"],
+      {
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      },
+    ).trim();
   } catch {
     return null;
   }
@@ -73,7 +77,9 @@ function fromKeychain(service) {
 function exists(service) {
   try {
     // No -w: an existence check that cannot read the value.
-    execFileSync("security", ["find-generic-password", "-s", service], { stdio: "ignore" });
+    execFileSync("security", ["find-generic-password", "-s", service], {
+      stdio: "ignore",
+    });
     return true;
   } catch {
     return false;
@@ -101,17 +107,22 @@ if (missing.length > 0) {
 
 // Validate SHAPE before anything is written or reported as fine. Values are
 // read but never printed — only the verdict is.
-const values = new Map(ITEMS.map((item) => [item.name, fromKeychain(item.service) ?? ""]));
-const wrong = ITEMS
-  .map((item) => ({ item, why: item.looksWrong(values.get(item.name) ?? "") }))
-  .filter((r) => r.why !== null);
+const values = new Map(
+  ITEMS.map((item) => [item.name, fromKeychain(item.service) ?? ""]),
+);
+const wrong = ITEMS.map((item) => ({
+  item,
+  why: item.looksWrong(values.get(item.name) ?? ""),
+})).filter((r) => r.why !== null);
 
 if (wrong.length > 0) {
   console.error("Keychain items present but wrong:\n");
   for (const { item, why } of wrong) {
     const v = values.get(item.name) ?? "";
     console.error(`  ${item.name} — ${why}`);
-    console.error(`    stored value is ${v.length} characters and begins ${JSON.stringify(v.slice(0, 7))}`);
+    console.error(
+      `    stored value is ${v.length} characters and begins ${JSON.stringify(v.slice(0, 7))}`,
+    );
     console.error(
       `    replace: security add-generic-password -U -a "$USER" -s ${item.service} -w\n`,
     );
@@ -120,7 +131,8 @@ if (wrong.length > 0) {
 }
 
 if (check) {
-  for (const item of ITEMS) console.log(`  ok  ${item.name}  (keychain: ${item.service})`);
+  for (const item of ITEMS)
+    console.log(`  ok  ${item.name}  (keychain: ${item.service})`);
   console.log("\nAll keychain items present and correctly shaped.");
   process.exit(0);
 }
@@ -144,4 +156,6 @@ const lines = [
 // 644 by default, i.e. world-readable. Caught on the first real run.
 writeFileSync(".dev.vars", lines.join("\n"));
 chmodSync(".dev.vars", 0o600);
-console.log(`.dev.vars rebuilt from the keychain (${ITEMS.length} secrets, mode 600).`);
+console.log(
+  `.dev.vars rebuilt from the keychain (${ITEMS.length} secrets, mode 600).`,
+);

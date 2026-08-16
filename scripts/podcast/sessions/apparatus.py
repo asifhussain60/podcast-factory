@@ -16,12 +16,13 @@ ONE DEFINITION, reused rather than reimplemented: this module calls
 apparatus's own house-style/Arabic/vowelling logic and the lane's own state
 schema each stay defined in exactly one place.
 
-ORDER IS FORCED. This must run AFTER articulation finishes, never before: the
+ORDER IS FORCED. This must run AFTER read-along finishes, never before: the
 apparatus vowels, cites and glossary-annotates whatever prose is on the page at
-the moment it runs, and articulation rewrites that prose. Running apparatus
-first would mean articulation immediately invalidates marks the apparatus just
-placed. `run_apparatus` refuses to run while `sessions-articulate` is not
-`completed`, rather than silently apparatus-ing a half-articulated book.
+the moment it runs, and both articulation and the read-along corrector rewrite
+that prose (the latter for spoken chapters only, added 2026-08-15). Running
+apparatus first would mean a later prose pass immediately invalidates marks the
+apparatus just placed. `run_apparatus` refuses to run while `sessions-read-along`
+is not `completed`, rather than silently apparatus-ing a half-corrected book.
 """
 
 from __future__ import annotations
@@ -35,7 +36,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from _book_apparatus import apply_book_apparatus  # noqa: E402
 from _paths import content_dir  # noqa: E402
 
-from sessions.ingest import ARTICULATE_STEP, LANE_STEPS, _write_state  # noqa: E402
+from sessions.ingest import LANE_STEPS, READ_ALONG_STEP, _write_state  # noqa: E402
 from sessions.series import PROFILE, SERIES  # noqa: E402
 
 
@@ -43,7 +44,7 @@ def run_apparatus(slug: str, *, force: bool = False, log=print) -> dict:
     """Run the apparatus pass over a Sessions book's composed book.md.
 
     Refuses (rather than running against half-finished prose) unless
-    `sessions-articulate` already reports `completed` in orchestrator-state.json,
+    `sessions-read-along` already reports `completed` in orchestrator-state.json,
     or `force` is passed to override that check.
     """
     series = SERIES[slug]
@@ -55,13 +56,13 @@ def run_apparatus(slug: str, *, force: bool = False, log=print) -> dict:
             state = json.loads(state_path.read_text(encoding="utf-8"))
         except (OSError, ValueError) as exc:
             return {"ran": False, "reason": f"could not read orchestrator-state.json: {exc}"}
-        art_status = ((state.get("phases") or {}).get(ARTICULATE_STEP) or {}).get("status")
-        if art_status != "completed":
+        read_along_status = ((state.get("phases") or {}).get(READ_ALONG_STEP) or {}).get("status")
+        if read_along_status != "completed":
             log(
-                f"  apparatus: refusing — sessions-articulate is {art_status!r}, not completed. "
-                "Run articulate.py to the end first, or pass --force to override."
+                f"  apparatus: refusing — sessions-read-along is {read_along_status!r}, not completed. "
+                "Run read_along.py to the end first, or pass --force to override."
             )
-            return {"ran": False, "reason": f"sessions-articulate status is {art_status!r}"}
+            return {"ran": False, "reason": f"sessions-read-along status is {read_along_status!r}"}
 
     apply_book_apparatus(book_dir, log=log)
     _write_state(book_dir, series, done_through=LANE_STEPS[-1])

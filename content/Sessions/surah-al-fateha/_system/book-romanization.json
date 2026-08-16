@@ -1,0 +1,3769 @@
+{
+  "schema": "book.romanization/v1",
+  "counts": {
+    "library": 73,
+    "researched": 0,
+    "reconstructed": 464
+  },
+  "resolutions": [
+    {
+      "romanization": "Allāhumma ṣalli ʿalā Sayyidinā Muḥammadin wa ʿalā āli Sayyidinā Muḥammadin kamā ṣallayta wa sallamta wa bārakta wa raḥimta wa taraḥamta ʿalā Ibrāhīma wa ʿalā āli Ibrāhīma fil ʿālamīna innaka Ḥamīdun Majīd.",
+      "arabic": "اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ كَمَا صَلَّيْتَ وَسَلَّمْتَ وَبَارَكْتَ وَرَحِمْتَ وَتَرَحَّمْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ فِي الْعَالَمِينَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alhamdulillahi Rabil Alameen was salatu was salam ala Rasulahi Said al Muhammadin Khatim al Nabeen was Said al Mursaleen walaqi wasi Ali Nabi Taliba Shrafil was sayeen",
+      "arabic": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِهِ سَيِّدِ الْمُحَمَّدِينَ خَاتِمِ النَّبِيِّينَ وَسَيِّدِ الْمُرْسَلِينَ وَعَلَى آلِهِ وَصَحْبِهِ عَلِيٍّ النَّبِيِّ طَالِبٍ أَشْرَفِ الْوَصِيِّينَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "illa azzam tahu li annahu mahallal iradatillahi subhana wa ta'ala haisu awjaduhu bi qawlihi kun fayakun",
+      "arabic": "إِلَّا أَعْظَمَ طَاعَتِهِ لِأَنَّهُ مَحَلُّ الْإِرَادَةِ اللَّهِ سُبْحَانَهُ وَتَعَالَى حَيْثُ أَوْجَدَهُ بِقَوْلِهِ كُنْ فَيَكُونُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Mara aytumu'minan au Musliman mahmakaanahaluhu illah azzamtahu li intisabihil 'ubu diyatillah",
+      "arabic": "مَا رَأَيْتُمْ مُؤْمِنًا أَوْ مُسْلِمًا مَهْمَا كَانَ حَالُهُ إِلَّا عَظَّمْتَهُ لِانْتِسَابِهِ الْعُبُودِيَّةَ لِلَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rabbish raḥli ṣadrī wa yassirlī amrī waḥlul ʿuqdatan min lisānī yafqahū qawlī.",
+      "arabic": "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ajaban li amr al-mu'min fa innahu amruhu lahu kulluhu khair",
+      "arabic": "عَجَبًا لِأَمْرِ الْمُؤْمِنِ فَإِنَّهُ أَمْرُهُ لَهُ كُلُّهُ خَيْرٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allahu arhamu bi ibaadihi min haadihil um li waladiha",
+      "arabic": "اللَّهُ أَرْحَمُ بِعِبَادِهِ مِنْ هَذِهِ الْأُمِّ لِوَلَدِهَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Assalamu alaikum wa rahmatullahi wa barakatuh.",
+      "arabic": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Aʿūdhu billāhi mina ash-Shayṭāni ar-rajīm.",
+      "arabic": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alhamdulillah illathi adhhaba anni al azha",
+      "arabic": "الْحَمْدُ لِلَّهِ الَّذِي أَذْهَبَ عَنِّي الْأَذَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allahu Akbar, Allahu Akbar, Allahu Akbar",
+      "arabic": "اللهُ أَكْبَرُ، اللهُ أَكْبَرُ، اللهُ أَكْبَرُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allahummajal Qur'ana Rabiyahaqalbi",
+      "arabic": "اللَّهُمَّ اجْعَلِ الْقُرْآنَ رَبِيعَ قَلْبِي",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Wa qaleelun min ibadi ash-shakur",
+      "arabic": "وَقَلِيلٌۭ مِّنْ عِبَادِىَ ٱلشَّكُورُ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Alhamdulillah. Alhamdulillah",
+      "arabic": "‏ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Bismillāhir Raḥmānir Raḥīm.",
+      "arabic": "‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Innahu kaana abdan shakura",
+      "arabic": "إِنَّهُۥ كَانَ عَبْدًۭا شَكُورًۭا",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Allah Subhanahu wa Ta'ala",
+      "arabic": "اللهُ سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allah subhanahu wa ta'ala",
+      "arabic": "اللهُ سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allah Subhanahu wa ta'ala",
+      "arabic": "اللهُ سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allah Subhanahu Wa Ta'ala",
+      "arabic": "اللهُ سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "La wallahi ya Rasulallah",
+      "arabic": "لَا وَاللَّهِ يَا رَسُولَ اللَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "subhanahu wa ta'ala",
+      "arabic": "سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Subhanahu wa Ta'ala",
+      "arabic": "سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Subhanahu Wa Ta'ala",
+      "arabic": "سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Taazim al-Mahluqat",
+      "arabic": "تَعْظِيمُ الْمَخْلُوقَاتِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Nuh alaihis salam",
+      "arabic": "نُوحٌ عَلَيْهِ السَّلَامُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "la ilaha illallah",
+      "arabic": "لَآ إِلَهَ إِلَّا ٱللَّهُ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "ni'amatul aafiya",
+      "arabic": "نِعْمَةُ الْعَافِيَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "niyama tul ayin",
+      "arabic": "نِعْمَةُ الْعَيْنِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alhamdulillah",
+      "arabic": "الْحَمْدُ لِلَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surah Al-Isra",
+      "arabic": "سُورَةُ الْإِسْرَاءِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allahu Akbar",
+      "arabic": "اللهُ أَكْبَرُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "alaihi salam",
+      "arabic": "عَلَيْهِ سَلَامٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Darus Salaam",
+      "arabic": "دَارُ السَّلَامِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Subhanallah",
+      "arabic": "سُبْحَانَ اللَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rahmaniyya",
+      "arabic": "رَحْمَانِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rasulullah",
+      "arabic": "رَسُولُ اللهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "radiAllahu",
+      "arabic": "رَضِيَ اللهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Abadashams",
+      "arabic": "عَبْدُ شَمْسٍ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rubuwiyah",
+      "arabic": "رُبُوِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ar-Rahman",
+      "arabic": "الرَّحْمَٰن",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ar-Raheem",
+      "arabic": "الرَّحِيم",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "rabubiyya",
+      "arabic": "رُبُوبِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rahimiyya",
+      "arabic": "رَحِيمِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rahmaniya",
+      "arabic": "رَحْمَانِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rabubiya",
+      "arabic": "رُبُوبِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ar-Rahim",
+      "arabic": "الرَّحِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rahimiya",
+      "arabic": "رَحِيمِيَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ilahiyya",
+      "arabic": "إِلَهِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "al-hamd",
+      "arabic": "الْحَمْدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alameen",
+      "arabic": "الْعَالَمِينَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Al-Hamd",
+      "arabic": "الْحَمْدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Yunaish",
+      "arabic": "يُنَعِّش",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rabiyah",
+      "arabic": "رَابِعَةٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ni'amah",
+      "arabic": "نِعْمَةٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "muhabba",
+      "arabic": "مَحَبَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "wallahi",
+      "arabic": "وَاللهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "mushrik",
+      "arabic": "مُشْرِك",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Tajalli",
+      "arabic": "تَجَلِّي",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alhamd",
+      "arabic": "الْحَمْدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "rahmah",
+      "arabic": "رَحْمَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "maqaam",
+      "arabic": "مَقَام",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "shakur",
+      "arabic": "شَكُورٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Shakur",
+      "arabic": "شَكُور",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Shakir",
+      "arabic": "شَاكِرٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "hadith",
+      "arabic": "حَدِيثٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "niyama",
+      "arabic": "نِعْمَةٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sahaba",
+      "arabic": "صَحَابَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "da'wah",
+      "arabic": "دَعْوَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Seerah",
+      "arabic": "السِّيرَةُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Nuh AS",
+      "arabic": "نُوحٌ عَلَيْهِ السَّلَامُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rahman",
+      "arabic": "الرَّحْمَٰن",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Hadith",
+      "arabic": "حَدِيثُ سُورَةِ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "kirbah",
+      "arabic": "قِرْبَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sajdah",
+      "arabic": "سَجْدَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surah",
+      "arabic": "سُورَةُ الْفَاتِحَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rahma",
+      "arabic": "رَحْمَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Raham",
+      "arabic": "رَحْمٰن",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "'alam",
+      "arabic": "أَلَمْ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "aalam",
+      "arabic": "آلم",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Shukr",
+      "arabic": "شُكْر",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Taqwa",
+      "arabic": "تَقْوَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "shukr",
+      "arabic": "شُكْر",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "nirma",
+      "arabic": "نِرْمَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "nyama",
+      "arabic": "نِعَمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allah",
+      "arabic": "اللَّهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "maqam",
+      "arabic": "مَقَام",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ridaa",
+      "arabic": "رِضًا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ibrah",
+      "arabic": "عِبْرَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "dunya",
+      "arabic": "دُنْيَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "na'ma",
+      "arabic": "نِعَمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Uroor",
+      "arabic": "غُرُور",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ulama",
+      "arabic": "عُلَمَاء",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "dawah",
+      "arabic": "دَعْوَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rahim",
+      "arabic": "رَحِيم",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Hamd",
+      "arabic": "حَمْدٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rabb",
+      "arabic": "رَبٌّ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rahm",
+      "arabic": "رَحْم",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alam",
+      "arabic": "الٓمٓ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Iman",
+      "arabic": "إِيمَان",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rab",
+      "arabic": "رَبِّ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ﷺ",
+      "arabic": "صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Wa akhir dawan alhamdulillahi rabbil alameen wassalatu wassalamu ala rasulihi saidana Muhammad al-Hatim al-Nabiin wassaid al-Mursaleen wala akhihi wa wassi ali nabi tali bashrafil wassiyin wa alal aimmatim zuriyatim mataibi natahin wassalim alayhi majmain al-Fateha",
+      "arabic": "وَآخِرُ دَعْوَانَا أَنِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِهِ سَيِّدِنَا مُحَمَّدٍ الْخَاتِمِ النَّبِيِّينَ وَسَيِّدِ الْمُرْسَلِينَ، وَعَلَى أَخِيهِ وَوَصِيِّهِ عَلِيِّ بْنِ أَبِي طَالِبٍ أَشْرَفِ الْوَصِيِّينَ، وَعَلَى الْأَئِمَّةِ مِنْ ذُرِّيَّتِهِ الطَّيِّبِينَ الطَّاهِرِينَ، وَالسَّلَامُ عَلَيْهِمْ أَجْمَعِينَ، الْفَاتِحَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allahumma saliya ala saydana Muhammadin wala ali saydana Muhammadin wabariq wa salam Kamasalaytawa salam tawa barak tawa rahim tawa tarahum tawa tawa tawa ali Ibrahim wala ali Ibrahim Fila alamina inna kahamidun majid.",
+      "arabic": "اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ وَبَارِكْ وَسَلِّمْ كَمَا صَلَّيْتَ وَسَلَّمْتَ وَبَارَكْتَ وَرَحِمْتَ وَتَرَحَّمْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ فِي الْعَالَمِينَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Qulillahumma malikal mulk, tu'ti almulkaman tasha wa tunzi almulkamin mantasha wa tuaizu mantasha wa tuzilu mantasha, biyadikal khair inna kaalakuli shayinuqadira.",
+      "arabic": "‏قُلِ ٱللَّهُمَّ مَلِكَ ٱلْمُلْكِ تُؤْتِى ٱلْمُلْكَ مَن تَشَآءُ وَتَنزِعُ ٱلْمُلْكَ مِمَّن تَشَآءُ وَتُعِزُّ مَن تَشَآءُ وَتُذِلُّ مَن تَشَآءُ ۖ بِيَدِكَ ٱلْخَيْرُ ۖ إِنَّكَ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌۭ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Wa maqadar Allaha haqqa adrihi wal ardu jami'an qabdatuhu yawmal qiyamati was sama'waatum mutuyyaatum bi yamini subhanahu wa ta'ala amma'isharikoon.",
+      "arabic": "‏وَمَا قَدَرُوا۟ ٱللَّهَ حَقَّ قَدْرِهِۦ وَٱلْأَرْضُ جَمِيعًۭا قَبْضَتُهُۥ يَوْمَ ٱلْقِيَمَةِ وَٱلسَّمَوَتُ مَطْوِيَّتٌۢ بِيَمِينِهِۦ ۚ سُبْحَنَهُۥ وَتَعَلَىٰ عَمَّا يُشْرِكُونَ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "wala nabluwannakum bishayim minal khawfi wal jew'i wa naqsim minal amwali wal anfusi wa thamaraat",
+      "arabic": "‏وَلَنَبْلُوَنَّكُم بِشَىْءٍۢ مِّنَ ٱلْخَوْفِ وَٱلْجُوعِ وَنَقْصٍۢ مِّنَ ٱلْأَمْوَلِ وَٱلْأَنفُسِ وَٱلثَّمَرَتِ ۗ وَبَشِّرِ ٱلصَّبِرِينَ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Rabbish rahli sadri wa yaserli amri wahlul uqdatamil lisani yaf kahu kawli.",
+      "arabic": "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alladi khalaqal mawta wal hayata liyabluwaqum ayyukum ahsanu 'Amala",
+      "arabic": "‏ٱلَّذِى خَلَقَ ٱلْمَوْتَ وَٱلْحَيَوٰةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًۭا ۚ وَهُوَ ٱلْعَزِيزُ ٱلْغَفُورُ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Yawma turjaf al-ardu al-jibalu wakanat al-jibalu kathibam mahila",
+      "arabic": "‏يَوْمَ تَرْجُفُ ٱلْأَرْضُ وَٱلْجِبَالُ وَكَانَتِ ٱلْجِبَالُ كَثِيبًۭا مَّهِيلًا ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Tabaaraka ladhi biyadihil mulk wa huwa 'ala kulli shayin qadeer",
+      "arabic": "‏تَبَرَكَ ٱلَّذِى بِيَدِهِ ٱلْمُلْكُ وَهُوَ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Wa lahu aslamaman fissama waathi wal ardhi tawaan hawqarhan",
+      "arabic": "وَلَهُۥٓ أَسْلَمَ مَن فِى ٱلسَّمَوَتِ وَٱلْأَرْضِ طَوْعًۭا وَكَرْهًۭا",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Assalamu alaikum wa rahmatullahi wa barakatu.",
+      "arabic": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Aurudubillahi mina Shaytana regime.",
+      "arabic": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Afa ghaira deen allahi yaboon",
+      "arabic": "أَفَغَيْرَ دِينِ ٱللَّهِ يَبْغُونَ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Alhamdulillah Rabil Alameena",
+      "arabic": "‏ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Bismillahur Rahmanur Rahim.",
+      "arabic": "‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Ulillahumma malikal mulk",
+      "arabic": "قُلِ ٱللَّهُمَّ مَلِكَ ٱلْمُلْكِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Lakum deenakum waliyadin",
+      "arabic": "‏لَكُمْ دِينُكُمْ وَلِىَ دِينِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Bismillah Rahman Raheem",
+      "arabic": "‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Kaifamma tudinu tudanu",
+      "arabic": "كَيْفَمَا تُدِينُ تُدَانُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "wa bashir as-sabireen",
+      "arabic": "وَبَشِّرِ الصَّابِرِينَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Maaliki yawmid deen",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "subhanahu wa ta'ala",
+      "arabic": "سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surat al-Muzzammil",
+      "arabic": "سُورَةُ الْمُزَّمِّلِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Maliki Yawmiddin",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Surat-ul-Baqarah",
+      "arabic": "سُورَةُ الْبَقَرَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surah Al-Fateha",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Maliki yawmidin",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "yaum mater jafu",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Mandana nafsuhu",
+      "arabic": "مَنْ دَنَا نَفْسُهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surat al-Fatiha",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surah Al-Zumar",
+      "arabic": "سُورَةُ الزُّمَرِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rahman Raheem",
+      "arabic": "ٱلرَّحْمَنِ ٱلرَّحِيمِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Deen-ul-Islam",
+      "arabic": "دِينُ الإِسْلَامِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Yawm al-Hisab",
+      "arabic": "يَوْمُ الْحِسَابِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surah Al-Mulk",
+      "arabic": "سُورَةُ الْمُلْكِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Yawmud-Hisab",
+      "arabic": "يَوْمُ الْحِسَابِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rasulullah ﷺ",
+      "arabic": "رَسُولُ اللهِ ﷺ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "dinul Islam",
+      "arabic": "دِينُ الإِسْلَامِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Yawm al-Din",
+      "arabic": "يَوْمِ الدِّينِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Subhanallah",
+      "arabic": "سُبْحَانَ اللَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rasulullah",
+      "arabic": "رَسُولُ اللَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Yawmud-Din",
+      "arabic": "يَوْمِ الدِّينِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "'ubudiyya",
+      "arabic": "عُبُودِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Inshallah",
+      "arabic": "إِن شَآءَ ٱللَّهُ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Rububiya",
+      "arabic": "رُبُوبِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Malakiya",
+      "arabic": "مَالِكِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "al-hamd",
+      "arabic": "اَلْحَمْدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "milqiya",
+      "arabic": "مِلْقِيَةٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "mulqiya",
+      "arabic": "مُلْقِيَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "hisaab",
+      "arabic": "حِسَاب",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Jannah",
+      "arabic": "جَنَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "akhara",
+      "arabic": "أُخْرَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Malik",
+      "arabic": "مَالِكِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "malik",
+      "arabic": "مَالِكِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "hudud",
+      "arabic": "حُدُودٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "hadud",
+      "arabic": "حُدُود",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "dunya",
+      "arabic": "دُنْيَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "milk",
+      "arabic": "مَلِكِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "mulk",
+      "arabic": "مُلْك",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "yaum",
+      "arabic": "يَوْم",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Yaum",
+      "arabic": "يَوْم",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "yawm",
+      "arabic": "يَوْمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "deen",
+      "arabic": "دِين",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "dain",
+      "arabic": "دَيْنٍ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "had",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Wa akharuda'wanan alhamdulillahi rabbil alameen wassalatu wassalamu ala rasulihi saydana muhammadin khatim nabiyin was sayid al-mursaleen wa ala akhihi wa wassiyaalid nabi taliba shrafil wassayeen wa alal ayimatiman zuriatima tayibina tahirin wassalam alaihi majma'in al-Fateha",
+      "arabic": "وَآخِرُ دَعْوَانَا أَنِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِهِ سَيِّدِنَا مُحَمَّدٍ خَاتِمِ النَّبِيِّينَ وَسَيِّدِ الْمُرْسَلِينَ، وَعَلَى أَخِيهِ وَوَصِيِّهِ عَلِيٍّ النَّبِيِّ طَالِبٍ شَرَفِ الْوَصِيِّينَ، وَعَلَى الْأَئِمَّةِ مِنْ ذُرِّيَّتِهِمَا الطَّيِّبِينَ الطَّاهِرِينَ، وَالسَّلَامُ عَلَيْهِمْ أَجْمَعِينَ. الْفَاتِحَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allahumma Salliya Allah Sayyidina Muhammadin, Waala Ali Sayyidina Muhammadin, Kamas Allaytawa Salam Tawa Baraktawa Rahim Tawa Tarahamta Ala Ibrahim, Waala Ali Ibrahim, Fil Alamina Inna Kahamidu Majid",
+      "arabic": "اللَّهُمَّ صَلِّ يَا اللَّهُ عَلَى سَيِّدِنَا مُحَمَّدٍ، وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ، كَمَا صَلَّيْتَ وَسَلَّمْتَ وَبَارَكْتَ وَرَحِمْتَ وَتَرَحَّمْتَ عَلَى إِبْرَاهِيمَ، وَعَلَى آلِ إِبْرَاهِيمَ، فِي الْعَالَمِينَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Yas aloo na ka anil khamri wal maisiri, pull feehima isthmun kabirun wa manfa'ulin naas wa isthmuha akbarum minan na fa'ihima",
+      "arabic": "يَسْـَٔلُونَكَ عَنِ ٱلْخَمْرِ وَٱلْمَيْسِرِ قُلْ فِيهِمَآ إِثْمٌۭ كَبِيرٌۭ وَمَنَفِعُ لِلنَّاسِ وَإِثْمُهُمَآ أَكْبَرُ مِن نَّفْعِهِمَا",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Ya ilahi, ma abat tuka bishaw ka jannatika, walam in khaufin naarika, bal wajat tu mustahaqqan lia ibada fal abat tuka",
+      "arabic": "يَا إِلَهِي، مَا عَبَدْتُكَ بِشَوْقِ جَنَّتِكَ، وَلَا مِنْ خَوْفِ نَارِكَ، بَلْ وَجَدْتُكَ مُسْتَحِقًّا لِلْعِبَادَةِ فَعَبَدْتُكَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rabbish Rahli Sadri, Wa Yasir Li Amri, Wahlul Uqdata mill Lisani, Yafqahu Kawli",
+      "arabic": "رَبِّ اشْرَحْ لِي صَدْرِي، وَيَسِّرْ لِي أَمْرِي، وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي، يَفْقَهُوا قَوْلِي",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Wa maa tadri nafsun maza taksibu gadan wa maa tadri nafsun bi ayyi ardin tamut",
+      "arabic": "وَمَا تَدْرِى نَفْسٌۭ مَّاذَا تَكْسِبُ غَدًۭا وَمَا تَدْرِى نَفْسٌۢ بِأَىِّ أَرْضٍۢ تَمُوتُ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Salaam Alaikum wa Rahmatullahi wa Barakatu",
+      "arabic": "سَلَامٌ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Aʿūdhu billāhi mina Shaytana regime",
+      "arabic": "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alhamdulillahi Rabbil alameen",
+      "arabic": "‏ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Alhamdulillahi Rabbil Alameen",
+      "arabic": "‏ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Bismillahir Rahmanir Rahim",
+      "arabic": "‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Allah subhanahu wa ta'ala",
+      "arabic": "اللهُ سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ar-Rahman Ar-Raheem",
+      "arabic": "ٱلرَّحْمَنِ ٱلرَّحِيمِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Maliki Yawmid Deen",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Maliki Yawmid Din",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Malik-i-Yawmiddin",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Maliki Yawmideen",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Mahmud al-Warraq",
+      "arabic": "محْمُودٌ الوَرَّاقُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Maliki Aumiddin",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Maliki Ahmadine",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Sidq-ul-Muhabba",
+      "arabic": "صِدْقُ الْمَحَبَّةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Maliki yumiddin",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Rasulullah SAW",
+      "arabic": "رَسُولُ اللهِ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Maqam al-Hayba",
+      "arabic": "مَقَامُ الْهَيْبَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "maqam al-haiba",
+      "arabic": "مَقَامُ الْهَيْبَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surah Fateha",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Subhanallah",
+      "arabic": "سُبْحَانَ اللَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rasulullah",
+      "arabic": "رَسُولُ اللَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "RasulAllah",
+      "arabic": "رَسُولُ اللَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "al-ba'ith",
+      "arabic": "الْبَاعِث",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "as-Sahifa",
+      "arabic": "الصَّحِيفَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "inshAllah",
+      "arabic": "إِن شَآءَ ٱللَّهُ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Muhasaba",
+      "arabic": "مُحَاسَبَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "khizlaan",
+      "arabic": "خِذْلَان",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Tadabur",
+      "arabic": "تَدَبُّر",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Al-Haya",
+      "arabic": "الْحَيَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Khutbah",
+      "arabic": "خُطْبَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Khushur",
+      "arabic": "خُشُوعٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "wiqaya",
+      "arabic": "وِقَايَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sharia",
+      "arabic": "شَرِيعَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Jamaat",
+      "arabic": "جَمَاعَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Taazim",
+      "arabic": "تَعْظِيم",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Malik",
+      "arabic": "مَالِكِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "'alam",
+      "arabic": "أَلَمْ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "taqwa",
+      "arabic": "تَقْوَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Taqwa",
+      "arabic": "تَقْوَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Dunya",
+      "arabic": "دُنْيَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Dubur",
+      "arabic": "دُبُر",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Adbar",
+      "arabic": "أَدْبَار",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ajala",
+      "arabic": "أَجَلَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allah",
+      "arabic": "اللَّهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Raqib",
+      "arabic": "رَقِيب",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "shukr",
+      "arabic": "شُكْر",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Taqla",
+      "arabic": "تَقْلَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ulama",
+      "arabic": "عُلَمَاء",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "mohib",
+      "arabic": "مُحِبٌّ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "haiba",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Kiswa",
+      "arabic": "كِسْوَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Kaaba",
+      "arabic": "الْكَعْبَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ashiq",
+      "arabic": "عَاشِقٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Iqab",
+      "arabic": "عِقَاب",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Aqil",
+      "arabic": "عَقِيل",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Haya",
+      "arabic": "حَيَّا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Il",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Waakhruda wan alhamdulillahi rabbil alameen wassalatu wassalamu ala rasuli he saidina Muhammadan khatimin nabiyin wassaidul Mursaleen wala Akhi wa wassi Alibnabi Talib ashrafil wassiyin wa alal aimatimin zuriatima tahirin wassalim alayhi majmain al-Fatih",
+      "arabic": "وَآخِرُ دَعْوَانَا أَنِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِهِ سَيِّدِنَا مُحَمَّدٍ خَاتِمِ النَّبِيِّينَ وَسَيِّدِ الْمُرْسَلِينَ وَعَلَى أَخِيهِ وَوَصِيِّهِ عَلِيِّ بْنِ أَبِي طَالِبٍ أَشْرَفِ الْوَصِيِّينَ وَعَلَى الْأَئِمَّةِ مِنْ ذُرِّيَّتِهِ الطَّاهِرِينَ وَالسَّلَامُ عَلَيْهِمْ أَجْمَعِينَ، الْفَاتِحَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allahumma salli ala saydana Muhammadin wa ala ali saydana Muhammadin kama sallaita wa salamta wa barakta wa rahimta wa tarahamta ala Ibrahim wa ala ali Ibrahim fil alamina inna Kahamidun Majid",
+      "arabic": "اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ كَمَا صَلَّيْتَ وَسَلَّمْتَ وَبَارَكْتَ وَرَحِمْتَ وَتَرَحَّمْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ فِي الْعَالَمِينَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "SubhanAllah thee sakhara lanaha zawa ma kunna lahumu krineen wa inna ila rabbin alaman kaliboon.",
+      "arabic": "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Bismillahi tawakkala ala Allahi wala hula wala kuwata illa billahila alilaazi.",
+      "arabic": "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rabbish Rahli Sadri wa yasserli Amri wahlul Uqdatamillisani afkahu kawli",
+      "arabic": "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alhamdulillahilladhi ahyana ba'da ma amatana wa ilaihin nushur.",
+      "arabic": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Assalamu alaikum wa rahmatullahi wa barakatu",
+      "arabic": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Audhu billahi minal khubthi wal khaba'ith,",
+      "arabic": "أَعُوذُ بِاللَّهِ مِنَ الْخُبْثِ وَالْخَبَائِثِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Aḥudubillahiminas Shaytana regime",
+      "arabic": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Iya kana abudu wa iya kana sta'in",
+      "arabic": "‏إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "iya kana abudu wa iya kanastaayin",
+      "arabic": "‏إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Alhamdulillahir Rabbila Alameen.",
+      "arabic": "‏ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "iyyaka narbudu wa iyyaka nastaye",
+      "arabic": "‏إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "iyaka naabudu wa iyaka nastainu",
+      "arabic": "‏إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Iya kanabudu wa iya kanasta'in",
+      "arabic": "‏إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Alhamdulillahi Rabbil Alameen",
+      "arabic": "‏ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Bismillahir Rahmanir Rahim.",
+      "arabic": "‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Bismillahir Rahmanir Rahim",
+      "arabic": "‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "iyaka na'abudu wa nastainu",
+      "arabic": "‏إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "iyaka nabudu wa nastainu",
+      "arabic": "‏إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "bismillah rahman rahim",
+      "arabic": "‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Istaabadu anfusikum li",
+      "arabic": "اِسْتَعْبَدُوا أَنْفُسَكُمْ لِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "subhanahu wa ta'ala",
+      "arabic": "سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ar-Rahmanir Raheem",
+      "arabic": "ٱلرَّحْمَنِ ٱلرَّحِيمِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Maliki Yawmid Deen",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "subhana wa ta'ala",
+      "arabic": "سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surah Al-Fateha",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surah Al-Fatiha",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Iyya kanaarbudu",
+      "arabic": "إِيَّاكَ نَعْبُدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "iyaka nasta'in",
+      "arabic": "إِيَّاكَ نَسْتَعِينُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rabbul Alameen",
+      "arabic": "رَبُّ الْعَالَمِينَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Iyya kanastain",
+      "arabic": "إِيَّاكَ نَسْتَعِينُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "iyaka na'abudu",
+      "arabic": "إِيَّاكَ نَعْبُدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "iyaka na'budu",
+      "arabic": "إِيَّاكَ نَعْبُدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Iyaka na'budu",
+      "arabic": "إِيَّاكَ نَعْبُدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "iyaka nastain",
+      "arabic": "إِيَّاكَ نَسْتَعِينُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Iya kanabudu",
+      "arabic": "إِيَّاكَ نَعْبُدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Iyaka a'budu",
+      "arabic": "إِيَّاكَ أَعْبُدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "hadith qudsi",
+      "arabic": "حَدِيثٌ قُدْسِيٌّ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Subhanallah",
+      "arabic": "سُبْحَانَ اللهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "as Suleiman",
+      "arabic": "السُّلَيْمَان",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Abdul Hawa",
+      "arabic": "عَبْدُ الْهَوَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Il-Tifaat",
+      "arabic": "الِٱلْتِفَاتُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "inshallah",
+      "arabic": "إِن شَآءَ ٱللَّهُ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "ubu diya",
+      "arabic": "أُمُّ الْقُرْآنِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Abdullah",
+      "arabic": "عَبْدُ اللهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "nasta'in",
+      "arabic": "نَسْتَعِينُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "isti'ana",
+      "arabic": "اِسْتِعَانَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "musa'ada",
+      "arabic": "مُسَاعَدَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "shaitaan",
+      "arabic": "شَيْطَان",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Abhudiya",
+      "arabic": "عَبْدِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Shaitaan",
+      "arabic": "شَيْطَان",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Abu Diya",
+      "arabic": "أَبُو ضِيَاء",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "nastainu",
+      "arabic": "نَسْتَعِينُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ya Allah",
+      "arabic": "يَا اللَّهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "naabudu",
+      "arabic": "نَعْبُدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "na'budu",
+      "arabic": "نَعْبُدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Hidayah",
+      "arabic": "هِدَايَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "wudiya",
+      "arabic": "وُضِيءَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Aibada",
+      "arabic": "عِبَادَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "huriya",
+      "arabic": "حُرِّيَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Shahwa",
+      "arabic": "شَهْوَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sayyid",
+      "arabic": "سَيِّد",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "millah",
+      "arabic": "مِلَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "najdah",
+      "arabic": "نَجْدَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "hikmah",
+      "arabic": "حِكْمَةٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "hidaya",
+      "arabic": "هُدًى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "surah",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "iyaqa",
+      "arabic": "إِيَّاكَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "iyaka",
+      "arabic": "إِيَّاكَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ibada",
+      "arabic": "عِبَادَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "dunya",
+      "arabic": "دُنْيَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "taqwa",
+      "arabic": "تَقْوَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Dahur",
+      "arabic": "الدَّهْرُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allah",
+      "arabic": "اللَّهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ummah",
+      "arabic": "أُمَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ummah",
+      "arabic": "أُمَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ibada",
+      "arabic": "عِبَادَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "du'a",
+      "arabic": "دُعَاء",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rabb",
+      "arabic": "رَبِّ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "nasr",
+      "arabic": "نَصْر",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Nasr",
+      "arabic": "نَصْر",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "nafs",
+      "arabic": "نَفْس",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "hawa",
+      "arabic": "هَوَىٰ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Qurb",
+      "arabic": "قُرْب",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Huda",
+      "arabic": "هُدًى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "dua",
+      "arabic": "دُعَاء",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "abd",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Abd",
+      "arabic": "عَبْدُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "aun",
+      "arabic": "عَوْن",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Aun",
+      "arabic": "أَعُوذُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Wakharudawan an alhamdulillahi rabbil alameen wassalatu wassalam ala rasuli saidna Muhammadin Khatim in Nabin wassaid al Mustalin walaqi wa wassi alib nabi talek, asharafil wassiyin wa ilalayim matim zuriyatim mataibin al-tahirin wassalim alayhim majmain al-Fatihah",
+      "arabic": "وَآخِرُ دَعْوَانَا أَنِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِ سَيِّدِنَا مُحَمَّدٍ خَاتِمِ النَّبِيِّينَ وَسَيِّدِ الْمُرْسَلِينَ، وَالْآلِ وَالْوَصِيِّ عَلِيِّ بْنِ أَبِي طَالِبٍ أَشْرَفِ الْوَصِيِّينَ، وَإِلَى الْأَئِمَّةِ مِنْ ذُرِّيَّتِهِ الطَّيِّبِينَ الطَّاهِرِينَ، وَالسَّلَامُ عَلَيْهِمْ أَجْمَعِينَ، الْفَاتِحَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Bismillah, Rahman, Raheem, Alhamdulillah, Rabbil Alameena, Rahman, Raheem, Maliki, Aumidine",
+      "arabic": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ الرَّحْمَٰنِ الرَّحِيمِ مَالِكِ يَوْمِ الدِّينِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allahumma Salliya Allah Saidana Muhammadin Wa Ala Ali Saidana Muhammadin Wabaraku Sallam.",
+      "arabic": "اللَّهُمَّ صَلِّ يَا اللَّهُ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ وَبَارِكْ وَسَلِّمْ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rabbish Rahli Sadri Wa Yasidli Amri Wahlul Rukdatam illisani yaf kahu kawli.",
+      "arabic": "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Assalamu alaykum wa rahmatullahi wa barakatu.",
+      "arabic": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "La Fata illa aliyun, La Saifa illa Zulfiqar",
+      "arabic": "لَا فَتَى إِلَّا عَلِيٌّ، لَا سَيْفَ إِلَّا ذُو الْفَقَارِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "A'udhu billahi minash Shaytanir rajim.",
+      "arabic": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Siraat al-Ladina anaam ta'alaihim",
+      "arabic": "صِرَطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "sarat al-lazeena an-amta alaihim",
+      "arabic": "صِرَطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Ihidina ilaa seraat al-mustaqim",
+      "arabic": "اِهْدِنَا إِلَى صِرَاطِ الْمُسْتَقِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "sarat al-adhina an amta alayhim",
+      "arabic": "صِرَطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Alhamdulillahi Rabbil Alameen",
+      "arabic": "‏ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Ihdina bis seraat al-mustaqim",
+      "arabic": "اِهْدِنَا بِالصِّرَاطِ الْمُسْتَقِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ihdina ala seraat al-mustaqim",
+      "arabic": "اِهْدِنَا عَلَى صِرَاطِ الْمُسْتَقِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ihdina ila siraat al-mustaqim",
+      "arabic": "اِهْدِنَا إِلَى صِرَاطِ الْمُسْتَقِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ihdina ala siraat al-mustaqim",
+      "arabic": "اِهْدِنَا عَلَى صِرَاطِ الْمُسْتَقِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ihdina bissiraat al-mustaqim",
+      "arabic": "ٱهْدِنَا ٱلصِّرَطَ ٱلْمُسْتَقِيمَ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Ihdina as-Sarat al-Mustaqeen",
+      "arabic": "ٱهْدِنَا ٱلصِّرَطَ ٱلْمُسْتَقِيمَ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Bismillahir Rahmanir Rahim.",
+      "arabic": "‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Ihdina suraatul mustaqeen",
+      "arabic": "ٱهْدِنَا ٱلصِّرَطَ ٱلْمُسْتَقِيمَ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Allah subhanahu wa ta'ala",
+      "arabic": "اللهُ سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ihdina Saraatul Mustaqim",
+      "arabic": "ٱهْدِنَا ٱلصِّرَطَ ٱلْمُسْتَقِيمَ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "La Swarata illa Zulfiqar",
+      "arabic": "لَا سُورَةَ إِلَّا ذُو الْفَقَار",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Bismillah Rahman Raheem",
+      "arabic": "‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "La Saifa illa Zulfiqar",
+      "arabic": "لَا سَيْفَ إِلَّا ذُو الْفَقَارِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "al-maghdoobi alaihim",
+      "arabic": "ٱلْمَغْضُوبِ عَلَيْهِمْ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Sera'at al-Mustaqim",
+      "arabic": "صِرَاطَ الْمُسْتَقِيمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Maliki Aumit Deen",
+      "arabic": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Maghdoobi alayhim",
+      "arabic": "ٱلْمَغْضُوبِ عَلَيْهِمْ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Ar Rahman Raheem",
+      "arabic": "ٱلرَّحْمَنِ ٱلرَّحِيمِ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Surah Al-Fatihah",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surah Al-Fateha",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "an-amta alaihim",
+      "arabic": "أَنْعَمْتَ عَلَيْهِمْ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Anamta alayhim",
+      "arabic": "أَنْعَمْتَ عَلَيْهِمْ",
+      "provenance": "library",
+      "sources": [],
+      "detail": "canonical mushaf"
+    },
+    {
+      "romanization": "Suratul Fateha",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Subhanallah",
+      "arabic": "سُبْحَانَ اللَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "subhanAllah",
+      "arabic": "سُبْحَانَ اللهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Mowlana Ali",
+      "arabic": "مَوْلَانَا عَلِي",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rasulullah",
+      "arabic": "رَسُولُ اللَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Malana Ali",
+      "arabic": "مَالِنَا عَلِي",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Mustaqeen",
+      "arabic": "مُسْتَقِيمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Zulfiqar",
+      "arabic": "ذُو الْفِقَار",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "as-sirat",
+      "arabic": "الصِّرَاطَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "as-serat",
+      "arabic": "الصِّرَاط",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "as-sarat",
+      "arabic": "السَّبْعُ... \n\nالصِّرَاطَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "As-Sarat",
+      "arabic": "السَّرَاةُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "istaqama",
+      "arabic": "اِسْتَقَامَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Maghdoob",
+      "arabic": "مَغْضُوب",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Abhudiya",
+      "arabic": "أَبْهُدِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Tawariq",
+      "arabic": "طَوَارِق",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "khushur",
+      "arabic": "خُشُوعٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ni'amah",
+      "arabic": "نِعْمَةٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sera'at",
+      "arabic": "سِرَاطَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ubudiya",
+      "arabic": "عُبُودِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Hidayah",
+      "arabic": "هِدَايَةٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "seraat",
+      "arabic": "صِرَاط",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Fateha",
+      "arabic": "فَاتِحَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ihdina",
+      "arabic": "اِهْدِنَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ehdina",
+      "arabic": "اِهْدِنَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "hidaya",
+      "arabic": "هُدًى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "hadiya",
+      "arabic": "هَدِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Hadiya",
+      "arabic": "هَدِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sabeel",
+      "arabic": "سَبِيل",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sujood",
+      "arabic": "سُجُود",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "khushu",
+      "arabic": "خُشُوع",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "sahaba",
+      "arabic": "صَحَابَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "seerah",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sahaba",
+      "arabic": "صَحَابَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "anamta",
+      "arabic": "أَنْعَمْتَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ghadab",
+      "arabic": "غَضَبٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ghadab",
+      "arabic": "غَضَب",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rahman",
+      "arabic": "الرَّحْمَٰن",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Daleen",
+      "arabic": "ضَالِّينَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Daalin",
+      "arabic": "ضَالِّينَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "niyama",
+      "arabic": "نِعْمَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "hujjah",
+      "arabic": "حُجَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Tawhid",
+      "arabic": "تَوْحِيد",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Quran",
+      "arabic": "قُرْآن",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "sirat",
+      "arabic": "صِرَاطَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Serat",
+      "arabic": "صِرَاطَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "serat",
+      "arabic": "سُورَةُ الفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "dumma",
+      "arabic": "ضُمَّ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "surat",
+      "arabic": "سُورَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sirat",
+      "arabic": "صِرَاط",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Tariq",
+      "arabic": "طَارِق",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Subul",
+      "arabic": "سُبُل",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Fijaj",
+      "arabic": "فِجَاج",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allah",
+      "arabic": "اللَّه",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sarah",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "qiyam",
+      "arabic": "قِيَامٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Salat",
+      "arabic": "صَلَاةٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rukur",
+      "arabic": "رُكُوْر",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "dunya",
+      "arabic": "دُنْيَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "salat",
+      "arabic": "صَلَاةٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ni'am",
+      "arabic": "نِعَمْ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Imams",
+      "arabic": "الْإِمَامُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Islam",
+      "arabic": "الْإِسْلَام",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Aima",
+      "arabic": "أَإِيمَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "huda",
+      "arabic": "هُدًى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "saif",
+      "arabic": "سَيْف",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Saif",
+      "arabic": "سُورَةُ الْفَاتِحَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "qama",
+      "arabic": "قَامَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Paam",
+      "arabic": "‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "sira",
+      "arabic": "سُورَة الْفَاتِحَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "anam",
+      "arabic": "أَنْعَمْتَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Huda",
+      "arabic": "هُدًى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Duat",
+      "arabic": "الدُّعَاءُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Iman",
+      "arabic": "إِيمَان",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ailm",
+      "arabic": "الْحَمْد",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Amal",
+      "arabic": "أَمَلٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ahid",
+      "arabic": "أَهْدِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ila",
+      "arabic": "إِلَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ala",
+      "arabic": "أَلَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Dua",
+      "arabic": "دُعَاء",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Faj",
+      "arabic": "فَاتِحَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Aun",
+      "arabic": "أُنْ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ba",
+      "arabic": "‏بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Wa akharuda'waan alhamdulillahi wa bilalamin was salatu was salam wa ala rasul he saydana muhammadan khatimin nabiin was sayedul mursaleen wa ala akhi wa wasi yalibnabi taaliba shrafil wasiyin wa alal aimmatimin zuriyatima taibinatahin wa salim alihi majma'in al fateen",
+      "arabic": "وَآخِرُ دَعْوَانَا أَنِ الْحَمْدُ لِلَّهِ وَبِالْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ وَعَلَى رَسُولِهِ سَيِّدِنَا مُحَمَّدٍ خَاتِمِ النَّبِيِّينَ وَسَيِّدِ الْمُرْسَلِينَ، وَعَلَى أَخِيهِ وَوَصِيِّهِ عَلِيِّ بْنِ أَبِي طَالِبٍ أَشْرَفِ الْوَصِيِّينَ، وَعَلَى الْأَئِمَّةِ مِنْ ذُرِّيَّتِهِمَا الطَّيِّبِينَ الطَّاهِرِينَ، وَسَلِّمْ عَلَيْهِمْ أَجْمَعِينَ، الْفَاتِحَةُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Araudubillahi mina shaytana rajim bismillahir rahmanur raheem Allahumma salli Allah sayyidina Muhammadin wala Ali sayyidina Muhammad kama sallaita wa salamta wa barata wa rahim ta wa tarahamta ala Ibrahim wa ila al Ibrahim fil alamina inna kahamiru majid",
+      "arabic": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ كَمَا صَلَّيْتَ وَسَلَّمْتَ وَبَارَكْتَ وَرَحِمْتَ وَتَرَحَّمْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ فِي الْعَالَمِينَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Yabnu Adam, inna ka lau ataytani bikurabil ardi khataya summa lakitani la tushiriku bishaya la ataytu ka bikurabi ha maqfirah",
+      "arabic": "يَا ابْنَ آدَمَ، إِنَّكَ لَوْ أَتَيْتَنِي بِقُرَابِ الْأَرْضِ خَطَايَا ثُمَّ لَقِيتَنِي لَا تُشْرِكُ بِي شَيْئًا لَأَتَيْتُكَ بِقُرَابِهَا مَغْفِرَةً",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Inna fil jasadi mudgha. Iza sulihat salahal jasadu kulluhu wa iza fasadat fasadal jasadu kulluhu. Ala wa hiya al-qalb.",
+      "arabic": "إِنَّ فِي الْجَسَدِ مُضْغَةً، إِذَا صَلُحَتْ صَلُحَ الْجَسَدُ كُلُّهُ، وَإِذَا فَسَدَتْ فَسَدَ الْجَسَدُ كُلُّهُ، أَلَا وَهِيَ الْقَلْبُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alam tara kaifa daraballahu mathalan kalimatin tayyibatin ka shajaratin tayyibatin asluha thaabit wa far'uha fissamaa",
+      "arabic": "‏أَلَمْ تَرَ كَيْفَ ضَرَبَ ٱللَّهُ مَثَلًۭا كَلِمَةًۭ طَيِّبَةًۭ كَشَجَرَةٍۢ طَيِّبَةٍ أَصْلُهَا ثَابِتٌۭ وَفَرْعُهَا فِى ٱلسَّمَآءِ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Yabno Adam, lau balaka zunoobu ka ananis samayi somastaghfartani ghafartulak",
+      "arabic": "يَا ابْنَ آدَمَ، لَوْ بَلَغَتْ ذُنُوبُكَ عَنَانَ السَّمَاءِ ثُمَّ اسْتَغْفَرْتَنِي غَفَرْتُ لَكَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alhamdulillahi Rabbil Alameen, Ar-Rahmanir Raheem, Maliki Yawmiddeen",
+      "arabic": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، الرَّحْمَٰنِ الرَّحِيمِ، مَالِكِ يَوْمِ الدِّينِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alhamdulillah Rabbil Alameena Rahman Rahimaliki Aumideen",
+      "arabic": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ الرَّحْمَٰنِ الرَّحِيمِ مَالِكِ يَوْمِ الدِّينِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "assalam alaikum wa rahmatullahi wa barakatu",
+      "arabic": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Iza saluhat salahal jasadu kulluhu.",
+      "arabic": "إِذَا صَلُحَتْ صَلَحَ الْجَسَدُ كُلُّهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Iya ka na'budu wa iya ka nasta'in",
+      "arabic": "‏إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ‎",
+      "provenance": "library",
+      "sources": [],
+      "detail": "the quran collection"
+    },
+    {
+      "romanization": "Wa asta'inu bis sabri wa salat",
+      "arabic": "وَأَسْتَعِينُ بِالصَّبْرِ وَالصَّلَاةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "sallallahu alaihi wa sallam",
+      "arabic": "صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "sallallahu alaihi wasallam",
+      "arabic": "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allah Subhanahu wa Ta'ala",
+      "arabic": "اللَّهُ سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "subhanahu wa ta'ala",
+      "arabic": "سُبْحَانَهُ وَتَعَالَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sirat al-Mustaqeen",
+      "arabic": "صِرَاطَ الْمُسْتَقِيمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sarat al-Mustaqeen",
+      "arabic": "صِرَاطَ الْمُسْتَقِيمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sirat al-Mustaqim",
+      "arabic": "صِرَاطَ الْمُسْتَقِيمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surat Al-Mustaqim",
+      "arabic": "صُرَاطُ الْمُسْتَقِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "saratul mustaqeen",
+      "arabic": "الصِّرَاطَ الْمُسْتَقِيمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surah Al-Baqarah",
+      "arabic": "سُورَةُ الْبَقَرَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Bisabri wassalat",
+      "arabic": "بِالصَّبْرِ وَالصَّلَاةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Saratul Mustaqim",
+      "arabic": "صِرَاطُ الْمُسْتَقِيمِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Surah Al-Fateha",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Suratul Ibrahim",
+      "arabic": "سُورَةُ إِبْرَاهِيمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Suratul Fateha",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Suratul Yaseen",
+      "arabic": "سُورَةُ يَاسِين",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Alhamdulillah",
+      "arabic": "الْحَمْدُ لِلَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Amila Salihat",
+      "arabic": "عَمِلَ صَالِحَاتٍ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ya ibn Adam",
+      "arabic": "يَا ابْنَ آدَمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ghafartulak",
+      "arabic": "غَفَرْتُ لَك",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Subhanallah",
+      "arabic": "سُبْحَانَ اللَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Rasulallah",
+      "arabic": "رَسُولُ اللهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Abu Diyya",
+      "arabic": "أَبُو دِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Istaqamah",
+      "arabic": "اِسْتَقَامَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Istiqamah",
+      "arabic": "اِسْتِقَامَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "istiqamah",
+      "arabic": "اِسْتِقَامَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Juz' Amma",
+      "arabic": "جُزْءُ عَمَّ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "astaghfar",
+      "arabic": "أَسْتَغْفِرْ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Astaghfar",
+      "arabic": "أَسْتَغْفِرُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Bani Adam",
+      "arabic": "بَنِي آدَمَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Bismillah",
+      "arabic": "بِسْمِ اللَّهِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "istiqama",
+      "arabic": "اِسْتِقَامَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ista'ana",
+      "arabic": "اسْتَعَانَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Mustaqim",
+      "arabic": "مُسْتَقِيم",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "istaqama",
+      "arabic": "اِسْتَقَامَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ubudiyya",
+      "arabic": "عُبُودِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "tawakkul",
+      "arabic": "تَوَكُّل",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Istaqama",
+      "arabic": "اِسْتَقَامَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Jahannam",
+      "arabic": "جَهَنَّم",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Shaitaan",
+      "arabic": "شَيْطَان",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ubudiya",
+      "arabic": "عُبُودِيَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "astainu",
+      "arabic": "أَسْتَعِينُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "istaqim",
+      "arabic": "اِسْتَقِمْ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "zulzilu",
+      "arabic": "زُلْزِلُوا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Shaitan",
+      "arabic": "شَيْطَان",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ibadat",
+      "arabic": "عِبَادَات",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Yaqeen",
+      "arabic": "يَقِين",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "hadith",
+      "arabic": "حَدِيثٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "tawhee",
+      "arabic": "تَوْحِيدٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "surahs",
+      "arabic": "سُورَةُ الْفَاتِحَةِ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "zilzal",
+      "arabic": "زِلْزَال",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Jannah",
+      "arabic": "جَنَّة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Ibadah",
+      "arabic": "عِبَادَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ibada",
+      "arabic": "عِبَادَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Taqwa",
+      "arabic": "تَقْوَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "salat",
+      "arabic": "صَلَاةٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "wazir",
+      "arabic": "وَزِير",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "halal",
+      "arabic": "حَلَالٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "haram",
+      "arabic": "حَرَامٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "taqwa",
+      "arabic": "تَقْوَى",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "salah",
+      "arabic": "صَلَاة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Quran",
+      "arabic": "قُرْآن",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Allah",
+      "arabic": "اللَّهُ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "namaz",
+      "arabic": "نَمَاز",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Islam",
+      "arabic": "الإِسْلَام",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "tauba",
+      "arabic": "تَوْبَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Tauba",
+      "arabic": "تَوْبَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "momin",
+      "arabic": "مُؤْمِن",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Qudsi",
+      "arabic": "قُدْسِيّ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Amanu",
+      "arabic": "آمَنُوا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Salat",
+      "arabic": "صَلَاةٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Namaz",
+      "arabic": "نَمَاز",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Sabr",
+      "arabic": "صَبْر",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ayat",
+      "arabic": "آيَاتٌ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Illa",
+      "arabic": "إِلَّا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "qama",
+      "arabic": "قَامَ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Iman",
+      "arabic": "إِيمَان",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Amal",
+      "arabic": "أَمَلْ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Shaq",
+      "arabic": "شَقَّ",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "qalb",
+      "arabic": "قَلْب",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ruku",
+      "arabic": "رُكوع",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Deen",
+      "arabic": "دِين",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "du'a",
+      "arabic": "دُعَاء",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "topi",
+      "arabic": "سُورَةُ الْفَاتِحَة",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "ama",
+      "arabic": "أَمَا",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    },
+    {
+      "romanization": "Juz",
+      "arabic": "جُزْء",
+      "provenance": "reconstructed",
+      "sources": [],
+      "detail": "rendered from the transliteration"
+    }
+  ]
+}

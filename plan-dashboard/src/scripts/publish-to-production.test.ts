@@ -138,7 +138,7 @@ test("the plain run is the complete run", () => {
 
 test("the media option does not promise localhost audio copies", () => {
   const media = byId({}).media;
-  assert.equal(media.label, "Upload media files");
+  assert.equal(media.label, "Upload assets for this destination");
   assert.match(media.hint ?? "", /Production gets recordings/);
   assert.match(media.hint ?? "", /without copying audio/);
 });
@@ -221,6 +221,47 @@ test("the progress panel hides Close while running, then shows a green success",
   assert.equal(close?.disabled, false);
   assert.match(resultText, /Publish successful/);
   assert.doesNotMatch(resultText, /deploying content rows/);
+});
+
+test("finish swaps the spinner for an outcome icon instead of removing it", () => {
+  document.body.innerHTML = "";
+  const panel = publishProgressPanel("Smoke Book");
+
+  const statusIcon = document.querySelector(".cx-pub-status-icon");
+  const headIcon = document.querySelector(".cx-confirm-icon i");
+  assert.match(statusIcon?.className ?? "", /fa-spinner/);
+  assert.match(headIcon?.className ?? "", /fa-cloud-arrow-up/);
+
+  panel.finish("ok", "The content was published and verified.");
+
+  // Same elements, not new ones and not gone — a reader glancing at the
+  // status line should see a result, not an empty space where the spinner
+  // used to be.
+  assert.equal(document.querySelector(".cx-pub-status-icon"), statusIcon);
+  assert.match(statusIcon?.className ?? "", /fa-circle-check/);
+  assert.match(statusIcon?.className ?? "", /is-ok/);
+  assert.doesNotMatch(statusIcon?.className ?? "", /fa-spinner|fa-spin\b/);
+  assert.match(headIcon?.className ?? "", /fa-circle-check/);
+});
+
+test("finish is a no-op the second time it is called", () => {
+  document.body.innerHTML = "";
+  const panel = publishProgressPanel("Smoke Book");
+
+  panel.finish("ok", "The content was published and verified.");
+  const box = document.querySelector(".cx-pub-box");
+  const resultText = document.querySelector(".cx-pub-log")?.textContent ?? "";
+
+  // A stall fallback racing the stream's own "done" event must not clobber
+  // whichever one actually won — the first call is final.
+  panel.finish("bad", "stopped sending updates");
+
+  assert.match(box?.className ?? "", /is-ok/);
+  assert.doesNotMatch(box?.className ?? "", /is-bad/);
+  assert.equal(
+    document.querySelector(".cx-pub-log")?.textContent ?? "",
+    resultText,
+  );
 });
 
 test("a failed progress panel replaces the log with copyable failure details", async () => {

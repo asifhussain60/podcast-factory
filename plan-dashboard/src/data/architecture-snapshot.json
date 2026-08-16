@@ -396,6 +396,20 @@
       "failure_mode": "surfaces error and halts"
     },
     {
+      "id": "source-fidelity-auditor",
+      "name": "Source Fidelity Auditor",
+      "role": "Narrow, single-pass source-fidelity check for a book's reading edition",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Narrow, single-pass source-fidelity check for a book's reading edition. Reads the ORIGINAL source text directly (`_system/source/text/refined-english.md`, falling back to `_system/source/text/raw-extract.md`, falling back to `_system/sou…",
+      "what_it_knows": "See infra/claude-agents/source-fidelity-auditor.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
       "id": "vacuum",
       "name": "Vacuum",
       "role": "Pipeline-aware folder hygiene and filename normalizer for podcast-factory books",

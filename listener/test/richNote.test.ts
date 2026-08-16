@@ -22,8 +22,12 @@ describe("sanitizeNote", () => {
   });
 
   it("keeps multi-item bullet and numbered lists", () => {
-    expect(sanitizeNote("<ul><li>a</li><li>b</li></ul>")).toBe("<ul><li>a</li><li>b</li></ul>");
-    expect(sanitizeNote("<ol><li>a</li><li>b</li></ol>")).toBe("<ol><li>a</li><li>b</li></ol>");
+    expect(sanitizeNote("<ul><li>a</li><li>b</li></ul>")).toBe(
+      "<ul><li>a</li><li>b</li></ul>",
+    );
+    expect(sanitizeNote("<ol><li>a</li><li>b</li></ol>")).toBe(
+      "<ol><li>a</li><li>b</li></ol>",
+    );
   });
 
   it("keeps br, self-closed or not", () => {
@@ -49,7 +53,9 @@ describe("sanitizeNote", () => {
   it("degrades an unmatched or mismatched close tag to literal text without throwing", () => {
     expect(() => sanitizeNote("</p>hello")).not.toThrow();
     expect(sanitizeNote("</p>hello")).toBe("&lt;/p&gt;hello");
-    expect(sanitizeNote("<p>hello</strong></p>")).toBe("<p>hello&lt;/strong&gt;</p>");
+    expect(sanitizeNote("<p>hello</strong></p>")).toBe(
+      "<p>hello&lt;/strong&gt;</p>",
+    );
   });
 
   it("degrades a bare '<' with no matching token shape", () => {
@@ -61,7 +67,8 @@ describe("sanitizeNote", () => {
   });
 
   it("round-trips legacy plain text, including a literal '<'/'>', unchanged in meaning", () => {
-    const legacy = "a note from before this feature, with a < b and c > d in it";
+    const legacy =
+      "a note from before this feature, with a < b and c > d in it";
     const sanitized = sanitizeNote(legacy);
     // Same visible characters as before — this is what `render` below asserts.
     expect(render(sanitized)).toBe(render(legacy));

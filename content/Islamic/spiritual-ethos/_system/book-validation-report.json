@@ -1,25 +1,25 @@
 {
   "slug": "spiritual-ethos",
-  "verdict": "BOOK-BROKEN",
-  "summary": "B7 book-gloss-coverage: 0/23 glossed terms carry Arabic (0%); glossary has 428 entries \u00b7 87 term(s) never given in Arabic script (110 uses): al-ruh, al-asma al-husna, al-khafi, al-Madhkur, al-shirk al-khafi, hudur \u2014 starved glossary; e.g. al-Madhkur, al-asma al-husna, al-din al-qayyim, al-khafi, al-nazar ila Ali ibada, al-ruh",
+  "verdict": "BOOK-SOUND",
+  "summary": "reading edition sound (8 gates checked)",
   "gates": [
     {
       "gate": "B1",
       "name": "book-md-complete",
       "passed": true,
-      "note": "book.md: 441 KB, 16 sections \u2265 15 TOC chapters"
+      "note": "book.md: 446 KB, 16 sections \u2265 15 TOC chapters"
     },
     {
       "gate": "B2",
       "name": "book-pdf-renderable",
       "passed": true,
-      "note": "book.pdf: 2637 KB, 247 pages \u2265 15 chapters"
+      "note": "book.pdf: 2900 KB, 248 pages \u2265 15 chapters"
     },
     {
       "gate": "B3",
       "name": "book-arabic-coverage",
       "passed": true,
-      "note": "Arabic script present in all 13 chapters from 168 glossary terms \u00b7 translation-edition Arabic preservation signal: 1923 rendered Arabic runs from 1201 source runs"
+      "note": "Arabic script present in all 13 chapters from 411 glossary terms \u00b7 translation-edition Arabic preservation signal: 2383 rendered Arabic runs from 1201 source runs"
     },
     {
       "gate": "B4",
@@ -42,8 +42,8 @@
     {
       "gate": "B7",
       "name": "book-gloss-coverage",
-      "passed": false,
-      "note": "0/23 glossed terms carry Arabic (0%); glossary has 428 entries \u00b7 87 term(s) never given in Arabic script (110 uses): al-ruh, al-asma al-husna, al-khafi, al-Madhkur, al-shirk al-khafi, hudur \u2014 starved glossary; e.g. al-Madhkur, al-asma al-husna, al-din al-qayyim, al-khafi, al-nazar ila Ali ibada, al-ruh"
+      "passed": true,
+      "note": "only 1 romanized glossed term(s) left \u2014 nothing to measure"
     },
     {
       "gate": "B8",

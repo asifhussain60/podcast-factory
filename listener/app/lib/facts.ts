@@ -64,21 +64,24 @@ export interface Fact {
  * An empty array means nothing is published, and the caller renders no pills at
  * all rather than one that says so.
  */
-export function describeContents(x: {
-  chapters: number;
-  /** Raw word count, never a precomputed minute figure — see `readingMinutes`. */
-  words: number;
-  episodes: number;
-  /** Episodes whose recording is in R2, not merely on someone's disk. */
-  withAudio: number;
-  /** A print edition exists at all. */
-  pdf: boolean;
-  /** ...and is in R2, so the link works. */
-  pdfAvailable: boolean;
-  deckPages: number;
-  /** At least one deck page is in R2. */
-  deckAvailable: boolean;
-}, { combineFormats = false }: { combineFormats?: boolean } = {}): Fact[] {
+export function describeContents(
+  x: {
+    chapters: number;
+    /** Raw word count, never a precomputed minute figure — see `readingMinutes`. */
+    words: number;
+    episodes: number;
+    /** Episodes whose recording is in R2, not merely on someone's disk. */
+    withAudio: number;
+    /** A print edition exists at all. */
+    pdf: boolean;
+    /** ...and is in R2, so the link works. */
+    pdfAvailable: boolean;
+    deckPages: number;
+    /** At least one deck page is in R2. */
+    deckAvailable: boolean;
+  },
+  { combineFormats = false }: { combineFormats?: boolean } = {},
+): Fact[] {
   const facts: Fact[] = [];
 
   if (x.chapters > 0) {
@@ -89,7 +92,10 @@ export function describeContents(x: {
     // one-minute floor `readingMinutes` applies, which is a reading time
     // invented out of nothing.
     if (x.words > 0) {
-      facts.push({ icon: faClock, label: `${readingMinutes(x.words)} min read` });
+      facts.push({
+        icon: faClock,
+        label: `${readingMinutes(x.words)} min read`,
+      });
     }
   }
 
@@ -128,7 +134,8 @@ export function describeContents(x: {
     if (parts.length > 0) {
       // One caveat for the pair rather than one each. The card is a summary; the
       // book page says precisely which of the two is not in R2 yet.
-      const waiting = (x.pdf && !x.pdfAvailable) || (x.deckPages > 0 && !x.deckAvailable);
+      const waiting =
+        (x.pdf && !x.pdfAvailable) || (x.deckPages > 0 && !x.deckAvailable);
       facts.push({
         icon: x.pdf ? faFileLines : faImages,
         label: parts.join(" + ") + (waiting ? ", not uploaded yet" : ""),
@@ -141,7 +148,9 @@ export function describeContents(x: {
   if (x.pdf) {
     facts.push({
       icon: faFileLines,
-      label: x.pdfAvailable ? "print edition" : "print edition, not uploaded yet",
+      label: x.pdfAvailable
+        ? "print edition"
+        : "print edition, not uploaded yet",
     });
   }
 

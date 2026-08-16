@@ -151,8 +151,8 @@ export function choicesFor(state: PublishState): PublishChoice[] {
 
   choices.push({
     id: "media",
-    icon: "fa-solid fa-headphones",
-    label: "Upload media files",
+    icon: "fa-solid fa-cloud-arrow-up",
+    label: "Upload assets for this destination",
     hint: "Production gets recordings. Localhost gets covers, slides, transcripts and the print edition without copying audio.",
     checked: true,
   });
@@ -264,7 +264,36 @@ export function initPublishToProduction(
       if (!res.ok || !res.body)
         throw new Error(`the server answered ${res.status}`);
 
-      for await (const ev of events(res.body)) {
+      // Driven by hand rather than `for await...of` so each step can be raced
+      // against a stall timeout. A publish that hangs on the server after its
+      // last check — the stream never closes, never sends "done" — otherwise
+      // leaves the panel spinning forever with no way to close it (caught
+      // 2026-08-15: the panel sat on "Media . production" indefinitely after
+      // every check had already come back green).
+      const STALL_MS = 25_000;
+      const iterator = events(res.body)[Symbol.asyncIterator]();
+      let stalled = false;
+      for (;;) {
+        const next = iterator.next();
+        const timedOut = Symbol("timed out");
+        const timer = new Promise<typeof timedOut>((resolve) =>
+          setTimeout(() => resolve(timedOut), STALL_MS),
+        );
+        const result = await Promise.race([next, timer]);
+        if (result === timedOut) {
+          stalled = true;
+          panel.log(
+            `no update from the server in ${STALL_MS / 1000}s — the run may still be working, but this dialog cannot tell`,
+            "error",
+          );
+          panel.finish(
+            "bad",
+            "The publish stopped sending updates. It may still finish on its own — check the book's status again in a minute before retrying.",
+          );
+          break;
+        }
+        if (result.done) break;
+        const ev = result.value;
         const kind = String(ev.event ?? "");
         if (kind === "step") panel.step(String(ev.name ?? ""));
         else if (kind === "warn") panel.log(String(ev.text ?? ""), "warn");
@@ -287,7 +316,7 @@ export function initPublishToProduction(
       }
       // A stream that ended without a verdict is a failure, not a success. The
       // panel would otherwise sit on its spinner with no way to close it.
-      if (!sawDone)
+      if (!sawDone && !stalled)
         panel.finish(
           "bad",
           "The publish stopped before it could confirm anything. Nothing was verified.",

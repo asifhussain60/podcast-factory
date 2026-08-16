@@ -1,4 +1,4 @@
-title: "Mukhtasar ul Asar 2"
+title: "Mukhtasar-ul-Asaar 2"
 title_arabic: "مختصر الآثار"
 study_track: shariah
 author: "Qadi al-Nu'man ibn Muhammad ibn Hayyun al-Tamimi"
@@ -6,7 +6,7 @@ slug: mukhtasar-ul-asar-2
 category: books
 content_profile: islamic_scholarly
 publication:
-  status: draft
+  status: published
 series:
   enable_book_branch: true
   enable_slide_decks: true

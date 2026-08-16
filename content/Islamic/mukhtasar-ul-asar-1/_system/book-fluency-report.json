@@ -1,0 +1,338 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "transmitted_report",
+  "adapted": 5,
+  "reverted": 0,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "The First Obligation: Seeking Knowledge",
+      "base_words": 578,
+      "output_words": 577,
+      "windows": 2,
+      "windows_kept": 2,
+      "windows_cached": 2,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 2,
+      "status": "composer-edit",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-02-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-02-part-02: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": [],
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "Purity: Water, Ablution, and the Body Made Ready",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "The Pillar of Religion: Standing in Prayer",
+      "base_words": 11410,
+      "output_words": 11402,
+      "windows": 8,
+      "windows_kept": 8,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 8,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-04-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-04-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-04-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-04-part-05: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-04-part-06: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-04-part-07: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 13,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 13,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"On the rows of prayer and their foundation\" introduces a hadith on intention rather than on row formation; the connection may be that intention is the foundation on which valid rows \u2014 and valid prayer \u2014 rest, but the transition is not made explicit in the source."
+      ],
+      "comprehension_flags": [
+        "\"The two rakkahs of Fajr and then Fajr after them\" may confuse modern readers who do not know that this refers to the two Sunnah rakkahs preceding the obligatory Fajr prayer \u2014 a gloss is not authorized here but may be worth a footnote in the final edition.",
+        "\"A bedouin of full standing\" will likely be opaque to modern readers; in classical jurisprudence this refers to a nomadic Arab (a\u02bfr\u0101b\u012b) who meets the formal conditions for leading prayer but is nonetheless considered unsuitable as a regular imam.",
+        "The list distinguishes \"the leper\" from \"the one wasted by leprosy,\" a pairing that may puzzle readers; the two terms appear to distinguish active disease from the severe physical deterioration or disfigurement it can cause."
+      ],
+      "terminology_notes": [
+        "\"rakkahs\" \u2014 the source uses this spelling; the book should standardize to either \"rakkahs\" or \"rak'ahs\" throughout.",
+        "saali \u2014 the source renders this term once without further gloss; a book-wide decision on whether to italicize or set it in roman type would be worth standardizing.",
+        "hadhaf \u2014 used once with the gloss \"small black sheep\"; if the term recurs elsewhere in the book, the gloss should appear consistently on first occurrence only."
+      ]
+    },
+    {
+      "title": "Supplication and the Many Forms of Prayer",
+      "base_words": 22555,
+      "output_words": 22387,
+      "windows": 19,
+      "windows_kept": 19,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 19,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-05-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-04: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-06: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-07: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-08: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-09: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-10: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-12: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-14: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-16: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-17: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-18: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 185,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 185,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"The Master\" is used without identification in the rider's cup passage; the referent is not named within this passage, and it is unclear which Imam is meant.",
+        "The source contains two consecutive paragraphs presenting the same Fajr latecomer scenario in nearly identical terms, differing only in minor wording (\"tashahhud\"/\"testimony,\" \"salam\"/\"salutation,\" \"forgetfulness\"/\"omission\"); these have been merged into one paragraph as mechanical repetition, with the terminology of the first paragraph retained \u2014 a compositor or editor should confirm whether any technical distinction between the two variants was intended.",
+        "The source introduces \"the recommended recitation for the two rak'ahs before the witr\" but then enumerates three positions (first, second, third), the third being the witr rakah itself; this internal inconsistency is in the source and has been resolved by adjusting the frame phrase to \"the three rak'ahs of the witr\" to match the actual enumeration \u2014 if this is not the intended reading, the original phrasing should be restored.",
+        "The eclipse-prayer qunut closes with \"as You are worthy of it and as they are worthy of it from You, may\" \u2014 the word \"may\" appears to be an incomplete phrase in the source, possibly a truncation of a closing blessing; it has been retained as given since the passage is a protected artifact."
+      ],
+      "comprehension_flags": [
+        "\"Surah Iqtarabat\" does not correspond to any standard surah name in common use and may be a variant or archaic designation that a modern reader will not recognize.",
+        "A modern reader unfamiliar with Islamic prayer terminology (qunut, tashahhud, iqamah, takbeer, tahleel, shaf, witr) may need a glossary, which this pass is not authorized to add.",
+        "The transliterations \"hajada\" and \"tahajjada\" appear in the source without accompanying Arabic script; the Arabic rule requires script plus transliteration where Arabic is discussed as letters, but since the source provides no script here, none has been added \u2014 a later pass may wish to supply the Arabic forms."
+      ],
+      "terminology_notes": [
+        "al-shuniz \u2014 the black seed (nigella sativa); spelling should be confirmed and standardized book-wide, as this transliteration varies in scholarly editions.",
+        "\"The Master\" \u2014 if this title is used consistently for a specific figure throughout the book, the term should be standardized to that figure's identification in an editorial note or glossary.",
+        "\"God\" and \"Allah\" \u2014 the passage alternates between these two renderings for the same divine entity, following the source; a book-wide editorial decision on consistency may be needed.",
+        "\"Shia\" \u2014 appears once; confirm this capitalization matches the book-wide convention.",
+        "\"thajj\" and \"ajj\" \u2014 these technical terms appear without glossing in the source; if the book uses them elsewhere, their rendering and any explanatory note should be standardized across the edition.",
+        "The takbeer formula is rendered in Latin transliteration throughout the source rather than Arabic script; if Arabic script is available for this formula, a later pass may wish to supply it alongside the transliteration in keeping with the book's Arabic policy.",
+        "\"Ali\" \u2014 confirm whether the book-wide spelling is \"Ali,\" \"\u02bfAl\u012b,\" or another form, and standardize accordingly.",
+        "\"prostrations of forgetfulness\" / \"prostrations of omission\" \u2014 both render the same act (sujud al-sahw); a single standardized rendering should be established book-wide.",
+        "takbeer / takbir \u2014 used interchangeably in the source; a single spelling should be standardized book-wide.",
+        "\"rakahs\" \u2014 confirm this is the book's established spelling (versus \"rak'ahs\" or \"raka'at\") for consistency across all chapters."
+      ]
+    },
+    {
+      "title": "Facing Death: The Rites of the Departed",
+      "base_words": 5001,
+      "output_words": 4992,
+      "windows": 5,
+      "windows_kept": 5,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 5,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-06-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-06-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-06-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-06-part-04: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-06-part-05: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 18,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 18,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "After the Quranic citation, \"He said that it belongs to the fitrah\" leaves the referent of \"He\" unresolved \u2014 it may be Ali ibn Abi Talib (\u0639), the Prophet (\u0635), or an unnamed narrator.",
+        "The source window consists almost entirely of Arabic-script placeholders with no surrounding prose frame, making it impossible to determine whether these are Quranic verses, hadith, or poetry, or how they are meant to be introduced.",
+        "\"The boy was washed three times\" is syntactically abrupt and it is unclear whether \"the boy\" refers to the Prophet (\u0635) \u2014 continuing the preceding narrative about Ali's washing \u2014 or is a general term for the deceased; the source should be checked against the original Arabic to confirm the referent."
+      ],
+      "comprehension_flags": [
+        "The ruling that \"women are not visited in illness\" may puzzle a modern general reader without contextual explanation that this pass is not authorized to supply.",
+        "The triple bracket `[\u0622\u0644` appears to be an OCR or typesetting error for `\u0622\u0644`; it has been preserved exactly as given per the protected-placeholder rule.",
+        "\"wars\" (a yellowish dye-plant used in traditional perfumery) is a technical term unfamiliar to modern general readers and may benefit from a glossary entry rather than an inline note."
+      ],
+      "terminology_notes": [
+        "fitrah \u2014 confirm book-wide spelling and whether it should be italicized on first use.",
+        "wars \u2014 confirm and standardize the rendering of this herb/dye across the book, as it may appear elsewhere in chapters on ritual purity and embalming."
+      ]
+    },
+    {
+      "title": "The Due of Wealth: Zakat",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "The Fast: Ramadan and the Discipline of Abstention",
+      "base_words": 6192,
+      "output_words": 6181,
+      "windows": 3,
+      "windows_kept": 3,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-08-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-03: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"Those two months carry a reward equal to that of the obligatory fast\" \u2014 the antecedent of \"those two months\" is unclear in the immediate context; the settled practice just described names only Shaban explicitly, and it is uncertain whether the reference is to Rajab and Shaban, to Shaban and Ramadan, or to some other pairing."
+      ],
+      "comprehension_flags": [
+        "The Sunnah fasting list is stated to have twelve divisions but enumerates only ten, and the optional fasting list is stated to have twelve but enumerates only eight; a modern reader may notice these discrepancies, which appear to be in the source rather than errors introduced in articulation."
+      ],
+      "terminology_notes": [
+        "\"making-up\" / \"make-up\" / \"making up\" \u2014 the source uses all three forms interchangeably as a noun and gerund; a single book-wide standard (e.g., \"make-up\" as noun/adjective and \"making up\" as gerund) should be established and applied consistently.",
+        "\"itikaf\" / \"itikaf\" \u2014 confirm preferred diacritical form (with or without macron: itik\u0101f) and standardize book-wide; likewise confirm \"akif\" vs. \"\u0101kif.\""
+      ]
+    },
+    {
+      "title": "The Journey to the House: Pilgrimage",
+      "base_words": 23871,
+      "output_words": 23846,
+      "windows": 26,
+      "windows_kept": 24,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 24,
+      "status": "partial",
+      "gates": [
+        "reconcile-09-part-15: lecture voice added \u2014 narration addresses the reader (4 vs 0 in source) under transmitted_report frame",
+        "reconcile-09-part-15: repair still failed: lecture voice added \u2014 narration addresses the reader (4 vs 0 in source) under transmitted_report frame",
+        "reconcile-09-part-24: speech tag cut into a quotation (1 interior vs 0 in source) \u2014 attribution may have moved",
+        "reconcile-09-part-24: repair still failed: speech tag cut into a quotation (2 interior vs 0 in source) \u2014 attribution may have moved"
+      ],
+      "assembly_gates": [],
+      "warnings": [
+        "reconcile-09-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-04: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-05: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-06: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-07: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-08: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-09: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-10: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-11: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-12: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-13: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-14: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-16: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-17: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-18: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-20: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-21: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-22: protected source artifact copied verbatim",
+        "reconcile-09-part-23: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-09-part-25: output near-identical to base \u2014 copied, not re-voiced",
+        "assembled chapter is partial \u2014 24/26 windows kept; review voice continuity"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 94,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 93,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "In the Hajj caravan paragraph, \"their reward is written for them whether or not it is concealed\" \u2014 the referent of \"it\" is unclear (the reward, or the deed), and the sentence that follows about veils being lifted compounds the difficulty; a theological gloss from the editor may be needed.",
+        "\"The ruling concerning chicks that are struck \u2014 counted according to those living and those dead\" is opaque; it is unclear whether \"struck\" refers to chicks killed by the pilgrim, chicks found dead in eggs, or some other category, and the counting method is not explained in this passage.",
+        "The passage uses \"weeks\" (usbu') to mean a complete set of seven tawaf circuits, not a period of days \u2014 this technical sense should be standardized in a glossary note elsewhere in the book.",
+        "The double appearance of the heading \"The Vow of Hajj\" at the end is reproduced as given, but it is unclear whether this is a formatting artifact (a running header and a section opener) or an error in the source."
+      ],
+      "comprehension_flags": [
+        "The phrase \"forfeited one of the two rewards\" in the paragraph on wealth loss may puzzle a reader unfamiliar with the doctrine that the pilgrim who suffers no loss receives a dual recompense; a footnote in the final edition would help.",
+        "The dye \"wars\" (a yellow plant dye) is unfamiliar to modern general readers and may be mistaken for the English word \"wars\"; a glossary entry or footnote would help.",
+        "The ruling that kohl is permitted \"provided it is not antimony\" assumes familiarity with the fact that traditional kohl is often made from antimony (ithmid); a reader unacquainted with this may find the distinction puzzling.",
+        "The phrase [\u0627\u0644\u0645\u0627\u0626\u062f\u0629: \u0669\u0665] contains a triple opening bracket, which may be a source-formatting artifact rather than intentional; it has been reproduced exactly as given.",
+        "The term \"mutamatti\" (one performing Hajj al-Tamattu') may be unfamiliar to general readers alongside \"qarin\" and should be standardized book-wide alongside the other pilgrim-type designations.",
+        "The clause \"nor while the imam is praying and he has not yet finished his tawaf and sa'i\" is syntactically compressed and may be unclear to a modern reader as to whose unfinished tawaf is meant (the pilgrim's, not the imam's).",
+        "The phrase \"circumambulation of the women\" (tawaf al-nisa') is a technical term used without explanation; a modern reader unfamiliar with Hajj rites may not understand that it refers to a distinct final circuit required before conjugal relations become lawful.",
+        "\"Jam\" as a place name distinct from yet equated with Muzdalifah may confuse a modern reader unfamiliar with pilgrimage geography; the standard transliteration is \"Jam'\" (\u062c\u0645\u0639), another name for Muzdalifah."
+      ],
+      "terminology_notes": [
+        "Talbiyah \u2014 confirm book-wide spelling (Talbiyah / Talbiyyah) for standardization.",
+        "\"say\" \u2014 the transliteration of \u0627\u0644\u0633\u0639\u064a (the walking between al-Safa and al-Marwa) appears as \"say\" in the source; this spelling should be standardized book-wide.",
+        "\"ishar\" and \"taqlid\" \u2014 these two pilgrimage terms appear without transliteration or explanation; book-wide rendering should be confirmed.",
+        "\"muhrim\" \u2014 appears once without prior definition in this passage; consistency with the book's established usage should be verified.",
+        "say \u2014 the walking ritual between al-Safa and al-Marwah; the book uses \"say\" throughout and this spelling should be confirmed as the edition standard (some editions prefer \"sa'y\").",
+        "hadi \u2014 the sacrificial animal driven to Mecca; used without gloss near the passage's close; confirm whether the edition introduces this term with an explanation earlier in the chapter.",
+        "idhkhir \u2014 a fragrant grass used in graves, roofing, and as fuel; if a glossary or parenthetical is provided elsewhere in the book for this term, the same treatment should be applied consistently here.",
+        "\"week\" / \"weeks\" \u2014 used throughout to render usbu' (a round of seven circuits); book should verify this is the established rendering and apply it consistently.",
+        "tamattu' \u2014 the apostrophe rendering the hamza should be standardized book-wide; confirm whether the book uses \"tamattu'\" or \"tamattu\" throughout.",
+        "\"Abu Jafar Muhammad ibn Ali\" and \"Abu Jafar ibn Muhammad\" \u2014 both forms appear in the source and appear to name the same person (Muhammad al-Baqir, the fifth Imam); a single standardized form should be established book-wide. Similarly, \"Jafar ibn Muhammad\" and \"Abu Abdullah Jafar ibn Muhammad\" appear to name the same person (the sixth Imam); the book should settle on one consistent form for each.",
+        "*thani* \u2014 the source uses this term for an animal that has reached a specific minimum age just short of full maturity; the book should standardize whether to gloss it on first occurrence or leave it as an unglossed technical term throughout.",
+        "*badanah* \u2014 rendered here as a term covering both camels and cattle; confirm this is the book-wide rendering.",
+        "tamattu, qiran, ihram, miqat \u2014 confirm book-wide spellings are consistent with these renderings."
+      ]
+    },
+    {
+      "title": "The Sword and the State: Jihad, Governance, and Justice",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    }
+  ]
+}

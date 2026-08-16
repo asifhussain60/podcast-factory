@@ -52,6 +52,7 @@ import re
 from pathlib import Path
 from typing import Callable, Sequence
 
+from _articulation_reconcile import reconcile_records
 from _authoring._core import AuthoringError, _run_claude_p_with_retry, pure_text_call_options
 from _book_articulation_notes import EMPTY_NOTES, extract_articulation_notes
 from _book_edits import anchor_key, edited_chapter_keys
@@ -63,7 +64,7 @@ from _book_pass_reports import load_prior_records, merge_records, restamp_counts
 # (split 2026-08-12, DR-005) and are re-exported here so every existing
 # `from _book_voice import revoice_gates` keeps working.
 from _book_voice_gates import assembled_chapter_gates, narrative_opening_findings, revoice_gates  # noqa: F401
-from _book_voice_prompts import _articulation_prompt, _voice_prompt
+from _book_voice_prompts import _articulation_prompt
 from _book_voice_windows import (
     _WINDOW_WORDS,
     _arabic_placeholder_findings,
@@ -82,6 +83,7 @@ from _book_voice_windows import (
 from _content_profile import source_language as _source_language
 from _narrative import lecture_voice_counts
 from _pipeline_flags import narrative_frame, narrator_subject
+from _text_transform import _repair_adapter
 from _translation_text import _trim_seam_overlap, subordinate_body_headings
 
 _VOICE_TIMEOUT = 900
@@ -99,36 +101,6 @@ _LONG_CHAPTER_WORDS = 4000
 # Output this similar to its input was not re-voiced — it was copied. Not a gate
 # (reverting to base yields the same text); recorded so the report says so.
 _NEAR_IDENTICAL_RATIO = 0.95
-
-
-def _revoice_chapter(
-    title: str,
-    base_text: str,
-    book_dir: Path,
-    label: str,
-    log,
-    *,
-    previous_tail: str = "",
-    frame: str = "",
-    narrator: str = "",
-) -> str:
-    """Isolated LLM call (monkeypatched in tests). Returns re-voiced prose or ''."""
-    rc, out, err = _run_claude_p_with_retry(
-        _voice_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator),
-        timeout=_VOICE_TIMEOUT,
-        book_dir=book_dir,
-        phase="0book-voice",
-        step=label,
-        log=log,
-        **pure_text_call_options(),
-    )
-    if rc != 0:
-        raise AuthoringError(
-            phase="0book-voice",
-            message=f"{label}: claude -p rc={rc}: {err[:200]}",
-            manual_fallback="Re-run 0book-voice; each chapter is idempotent.",
-        )
-    return (out or "").strip()
 
 
 def _adapt_chapter_body(
@@ -392,6 +364,7 @@ def _fluency_chapter(
 # `_book_frontmatter.INTRO_HEADING`, as `anchor_key` sees it. Not imported, to
 # keep this module free of a front-matter dependency; pinned by a test.
 _INTRODUCTION_KEY = "introduction to the book"
+_LEGACY_INTRODUCTION_KEY = "introduction"  # pre-v2 legacy books (mukhtasar-ul-asar-1/2)
 
 
 def _run_pass(
@@ -438,12 +411,11 @@ def _run_pass(
         # to be faithful to, and the fidelity gates below judge a rendering of a
         # SOURCE — so running them over it would revert or rewrite on evidence
         # that does not apply.
-        #
         # During a compose it is simply not there yet (the apparatus injects it
         # after this pass). Standalone, on a finished book, it IS there and is the
         # first `## ` section — so `only=[1]` means the introduction and not
         # chapter one, which is exactly the accident this prevents.
-        if anchor_key(head) == _INTRODUCTION_KEY:
+        if anchor_key(head) in (_INTRODUCTION_KEY, _LEGACY_INTRODUCTION_KEY):
             out.append(head + "\n\n" + body.strip() + "\n")
             continue
         if anchor_key(head) in authored:
@@ -485,6 +457,7 @@ def apply_fluency_adapt(
     force: bool = False,
     adapter: Callable[..., str] | None = None,
     only: Sequence[int] | None = None,
+    repair_fn: Callable[..., str] | None = None,
 ) -> Path:
     """De-calque each chapter of the FAITHFUL base into fluent modern English.
 
@@ -495,7 +468,11 @@ def apply_fluency_adapt(
     chapter is not all-or-nothing. Editorial asides are left untouched. ``only``
     restricts the pass to the given 1-based section numbers. Chapters authored in
     the Book Composer are passed through untouched unless ``force`` — which had been
-    an accepted-and-ignored parameter until this became its meaning. Returns the
+    an accepted-and-ignored parameter until this became its meaning. ``repair_fn``
+    defaults to the real one-shot repair adapter (until 2026-08-15 this pass ran
+    with NO repair attempt at all, unlike the on-demand Rearticulate action —
+    tests that fake ``adapter`` should also pass a deterministic ``repair_fn``
+    (or one that simply echoes its candidate back) to stay hermetic. Returns the
     book.md path.
     """
     book_dir = Path(book_dir).resolve()
@@ -506,6 +483,7 @@ def apply_fluency_adapt(
             message=f"missing {book_md} — run the base compose first.",
             manual_fallback="Run 0book-compose (base) before the fluency pass.",
         )
+    resolved_repair_fn = repair_fn if repair_fn is not None else _repair_adapter
     frame = narrative_frame(book_dir)
     subject = narrator_subject(book_dir)
     log(f"    0book-fluency: narrative frame = {frame}")
@@ -519,8 +497,25 @@ def apply_fluency_adapt(
         frame=frame,
         narrator_subject=subject,
         force=force,
+        repair_fn=resolved_repair_fn,
     )
     book_md.write_text(new_text, encoding="utf-8")
+    # A chapter left partial/reverted gets its findings persisted and ONE more
+    # bounded attempt with that history folded in — see _articulation_reconcile.
+    # This is what makes every FUTURE book's automatic compose-time pass
+    # self-heal instead of silently shipping stuck chapters; no orchestrator
+    # phase change needed, this just runs inside the existing sub-step.
+    new_text, records = reconcile_records(
+        book_dir,
+        book_md,
+        records,
+        fn=adapter or _fluency_chapter,
+        repair_fn=resolved_repair_fn,
+        frame=frame,
+        narrator_subject=subject,
+        window_words=_WINDOW_WORDS,
+        log=log,
+    )
     report_path = book_dir / "_system" / "book-fluency-report.json"
     records = merge_records(load_prior_records(report_path), records, edited_keys=edited_chapter_keys(book_dir))
     # Counted by the SAME function the re-stamp paths use, so the pass and every
@@ -541,60 +536,11 @@ def apply_fluency_adapt(
     return book_md
 
 
-def apply_author_companion_voice(
-    book_dir: Path,
-    *,
-    log=print,
-    force: bool = False,
-    revoicer: Callable[..., str] | None = None,
-    only: Sequence[int] | None = None,
-) -> Path:
-    """Re-voice each chapter of ``book/book.md`` into author-companion register.
-
-    ``revoicer`` defaults to the real LLM call; tests inject a fake. A window that
-    fails any fidelity gate is reverted to its faithful base; chapters longer than
-    ``_LONG_CHAPTER_WORDS`` are split into windows first, so one bad passage no
-    longer reverts a whole chapter. ``only`` restricts the pass to the given 1-based
-    section numbers — use it to re-run a chapter without re-voicing (and thereby
-    degrading) the ones already done. Editorial asides are preserved untouched, as
-    are chapters authored in the Book Composer unless ``force``. Returns the
-    book.md path.
-    """
-    book_dir = Path(book_dir).resolve()
-    book_md = book_dir / "book" / "book.md"
-    if not book_md.exists():
-        raise AuthoringError(
-            phase="0book-voice",
-            message=f"missing {book_md} — run the base compose first.",
-            manual_fallback="Run 0book-compose (base) before 0book-voice.",
-        )
-    frame = narrative_frame(book_dir)
-    subject = narrator_subject(book_dir)
-    log(f"    0book-voice: narrative frame = {frame}")
-    new_text, records = _run_pass(
-        book_md,
-        revoicer or _revoice_chapter,
-        log=log,
-        noun="voice",
-        label_prefix="voice",
-        only=only,
-        frame=frame,
-        narrator_subject=subject,
-        force=force,
-    )
-    book_md.write_text(new_text, encoding="utf-8")
-    report_path = book_dir / "_system" / "book-voice-report.json"
-    records = merge_records(load_prior_records(report_path), records, edited_keys=edited_chapter_keys(book_dir))
-    # Same single counter as the fluency report above — see restamp_counts().
-    report = {
-        "schema": "",
-        "narrative_frame": frame,
-        "revoiced": 0,
-        "reverted": 0,
-        "overwritten_by_replay": 0,
-        "chapters": records,
-    }
-    restamp_counts(report, records, schema="podcast.book-voice/v5", count_key="revoiced")
-    report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    log(f"    0book-voice: {report['revoiced']} chapters re-voiced, {report['reverted']} reverted to base")
-    return book_md
+# `apply_author_companion_voice` and its default adapter `_revoice_chapter` live
+# in `_book_voice_companion` (split 2026-08-15, DR-005) and are re-exported here
+# so every existing `from _book_voice import apply_author_companion_voice` keeps
+# working.
+from _book_voice_companion import (  # noqa: E402, F401
+    _revoice_chapter,
+    apply_author_companion_voice,
+)

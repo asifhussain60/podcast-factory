@@ -76,6 +76,23 @@ verify:
   - cd plan-dashboard && npm run ratchets # shrink-only lint-warning + file-size ratchets
   - cd plan-dashboard && npm run smoke # boots a dev server + headless chromium
   #
+  # The Podcast Factory Library. Added 2026-08-16: this list named the pipeline and
+  # the Astro site and was SILENT about a whole production app — so "what proves a
+  # change safe" had no answer for the surface readers actually use, and the audit
+  # could report healthy without ever having looked at it. The first three run
+  # anywhere and are already in CI. The last three drive a real browser against a
+  # booted dev server backed by the seeded local D1, so they are LOCAL-ONLY by
+  # construction (`controls` refuses any host but localhost — it presses Delete and
+  # flips open_to_all); they are recorded here because a human-run gate with no home
+  # is a gate nobody is obliged to run. See the `listener` job in
+  # .github/workflows/lint.yml for why CI stops at the first three.
+  - cd listener && npm run typecheck && npm run lint && npm run format:check && npm run ratchets
+  - cd listener && npm run test
+  - cd listener && npm run build
+  - cd listener && npm run security # access-control bypass probes, with controls
+  - cd listener && npm run smoke # LOCAL ONLY — boots the dev server + chromium
+  - cd listener && npm run controls # LOCAL ONLY — presses every control on every view
+  #
   # On the probe (added to this list 2026-07-27, catalog:
   # skills-staging/repo-surgeon/SKILL.md). It validates THIS contract, root membership,
   # the retired-surface ban, agent-mirror and skill-registry parity, mirror pins, the
@@ -112,6 +129,98 @@ size_gates:
       are advisory in eslint by design, which is how 93 accumulated where no gate had
       to look at them. Per rule rather than one total, so a new `any` cannot hide
       behind someone else's fixed hook warning.
+  - glob: "listener/{app,scripts,workers}/**/*.{ts,tsx,mts,mjs}"
+    limit: 850 # ENFORCED. Closes CQ-NO-SIZE-GATE, 2026-08-16 audit.
+    ratchet: listener/frontend-ratchets.json
+    note: >-
+      Added 2026-08-16 alongside this app's first lint config — it had NO size gate
+      and NO lint config at all before that pass (CQ-NO-LINT / CQ-NO-SIZE-GATE).
+      850 chosen from this app's own distribution (107 sized files, median 148,
+      p95 795), same reasoning as the plan-dashboard entry above: the top four
+      files (three UI routes plus the audio player, 1162-1399 lines) sit clear of
+      everything else, and the next file down sits inside a dense cluster in the
+      700s-800s rather than as a fifth outlier — so 850 grandfathers only the
+      genuine break in the distribution. Same every-file-governed-by-exactly-one-
+      rule contract as plan-dashboard's entry; same per-RULE eslint warning budget
+      in the same ratchet file. Enforced by
+      listener/scripts/check-frontend-ratchets.mjs (`npm run ratchets`), its own
+      copy rather than a shared one — this app imports nothing from
+      plan-dashboard/ at runtime and that boundary holds for dev tooling too.
+
+apps:
+  # The web surfaces, declared so the audit can reason about them instead of
+  # hardcoding two directory names in a script. Added 2026-08-16.
+  #
+  # Everything below is READ by scripts/repo_surgeon_checks.py — gate coverage
+  # (is each `gates:` entry wired into CI or the verify list above?), route
+  # integrity, lint/size-gate presence, and debug leftovers in shipped source.
+  # A field that stops resolving is a finding against THIS file, same as every
+  # other contract entry.
+  - dir: plan-dashboard
+    name: Podcast Factory Astro Site # ADMIN/authoring. Directory name is load-bearing.
+    source: [src, scripts, packages]
+    lint_config: eslint.config.js
+    route_kind: file # src/pages/**.astro; coverage pinned by site-health-routes.test.mjs
+    route_dir: src/pages
+    gates: [lint, format:check, check, test, lint:views, ratchets, smoke]
+  - dir: listener
+    name: Podcast Factory Library # AUDIENCE-facing Worker at podcast-factory.safinaverse.com
+    source: [app, workers, scripts]
+    lint_config: eslint.config.js # added 2026-08-16, closing CQ-NO-LINT. Same
+      # pinned versions and posture as plan-dashboard's config (correctness
+      # rules at error, the pre-existing React-hooks findings at warn pending
+      # the same kind of review that app already had before ratcheting them),
+      # adapted for this app's own stack — no Astro plugin, no packages/*
+      # workspace tier. scripts/check-frontend-ratchets.mjs is this app's own
+      # copy of the ratchet gate, not shared with plan-dashboard's: this app
+      # imports nothing from plan-dashboard/ at runtime and that boundary
+      # holds for dev tooling too. Baseline: listener/frontend-ratchets.json.
+    route_kind: manifest # app/routes.ts IS the access policy — position, not pathname
+    route_policy: app/routes.ts
+    route_dir: app/routes
+    error_boundary_owner: app/root.tsx # the ONLY module that may export one
+    gates: [typecheck, lint, format:check, ratchets, test, build, security, smoke, controls]
+
+hygiene:
+  # What the cleanup pass (scripts/repo_cleanup.py) may reclaim, and what it must
+  # never touch however much space it would free. Added 2026-08-16.
+  protected_runtime:
+    - path: listener/.wrangler/state/v3/d1
+      why: >-
+        The LOCAL D1. Deleting it wipes the `session` table, which signs the operator
+        out of localhost — the site then shows a sign-in page and looks like nothing
+        shipped. CLAUDE.md bans this by name: never destroy the local environment to
+        get work done. Rebuild only when no migration path exists, say so first, and
+        re-seed afterwards.
+    - path: .git/objects
+      why: >-
+        Reachable objects are the repository. Loose-object reclamation goes through
+        `git gc`, which knows what is referenced; a glob does not.
+  reclaimable:
+    # Regenerable by a documented command, so removal costs only the time to rebuild.
+    - name: python-bytecode
+      match: "**/__pycache__"
+      rebuild: automatic on next import
+    - name: tool-caches
+      match: [.ruff_cache, .pytest_cache, .benchmarks, plan-dashboard/.visual-qa]
+      rebuild: automatic on next run
+    - name: build-output
+      match: [plan-dashboard/dist, listener/build, "**/*.tsbuildinfo"]
+      rebuild: npm run build
+    - name: os-debris
+      match: "**/.DS_Store"
+      rebuild: n/a
+    - name: local-object-store
+      match: listener/.wrangler/state/v3/r2
+      rebuild: >-
+        Repopulates on demand. Since 3ce507ef the dev server serves local media
+        straight off disk rather than mirroring it into R2, so this is the
+        leftover of the previous arrangement.
+      confirm: true # large and app-adjacent; never swept without an explicit yes
+    - name: git-maintenance
+      match: .git
+      rebuild: "`git gc --prune=now` — reclaims loose objects and repacks; never a glob"
+      confirm: true
 
 mirrors:
   # Files that MUST change together. `pinned_by` names the shared fixture proving they
@@ -198,3 +307,26 @@ fragile:
     why: >-
       3,228 lines of live UI. Splitting it is a separate project with its own plan, and
       only sensible now that the runtime smoke gate actually runs in CI.
+  - path: plan-dashboard/src/scripts/book-composer.ts
+    why: >-
+      RE-PINNED to 4,253 on 2026-08-16, on Asif's explicit ruling (question 2b of that
+      day's audit). It had reached 4,369 lines against a 4,129 pin; the same pass took
+      it to 4,253 by moving out the data-island types, the inert toolbar data, and a
+      THIRD copy of the quote-kind label map that had been drifting against its two
+      siblings — genuine reduction, not the re-pin. What remains has no safe cut: the
+      file is one `boot()` closure, and every candidate block — the Arabic style group,
+      the quote-kind actions, the drag targets — reads six to nine sibling closures, so
+      extracting one means threading that many dependencies across a module boundary on
+      the surface Asif authors every book with. That is a decomposition project with its
+      own plan, exactly as recorded for NarrativeScroll.tsx above.
+      THIS PIN GOVERNS CODE ORGANIZATION ONLY. book-composer.ts is the browser-side
+      script for the Book Composer's editing UI (drag-and-drop visual placement,
+      toolbar wiring, autosave) — it holds no book prose and runs nowhere near the
+      pipeline that composes, translates, or vowels a book's text. Raising this number
+      changes how many lines of UI-wiring code may accumulate before the gate complains;
+      it has no path to affecting what a reader sees in a published book. The gates that
+      DO guard book quality — book-challenger, book-render-challenger, the vowelling
+      marks-only rule, the narrative-frame enforcement — are untouched by this ratchet
+      and unaffected by this decision.
+      Still shrink-only from here: the number may fall as the decomposition project
+      lands, and may never rise again without another explicit ruling.

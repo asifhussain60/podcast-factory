@@ -92,7 +92,9 @@ function parseEtymology(raw: string | null): string[] {
   try {
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter((row): row is string => typeof row === "string" && row.trim() !== "");
+    return parsed.filter(
+      (row): row is string => typeof row === "string" && row.trim() !== "",
+    );
   } catch {
     return [];
   }

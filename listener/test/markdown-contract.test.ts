@@ -46,7 +46,9 @@ const rendered: Rendered = JSON.parse(
 
 const chapters = new Map(rendered.chapters.map((c) => [c.anchor_key, c.html]));
 const cards = new Map(rendered.cards.map((c) => [c.id, c.html]));
-const sections = new Map(rendered.chapters.map((c) => [c.anchor_key, c.section_key]));
+const sections = new Map(
+  rendered.chapters.map((c) => [c.anchor_key, c.section_key]),
+);
 
 const expected = JSON.parse(readFileSync(EXPECTED, "utf8")) as {
   chapters: Record<string, string>;
@@ -80,22 +82,30 @@ describe("the section key a chapter's companion notes are filed under", () => {
   // The distinction the whole reconciliation exists for. If these two rules ever
   // agree, the publish step is matching on a coincidence.
   it("keeps the ordinal that the chapter's own key drops", () => {
-    expect(expected.sections["a numbered chapter heading, which must not become part of the key"])
-      .toBe("3-the-hours-before-dawn");
+    expect(
+      expected.sections[
+        "a numbered chapter heading, which must not become part of the key"
+      ],
+    ).toBe("3-the-hours-before-dawn");
   });
 });
 
 describe("the class names the reading column depends on", () => {
-  const CSS = readFileSync(new URL("../app/styles/podcast-factory.css", import.meta.url), "utf8");
+  const CSS = readFileSync(
+    new URL("../app/styles/podcast-factory.css", import.meta.url),
+    "utf8",
+  );
 
   // Read off the fixture rather than listed by hand, so a class that appears in
   // real output and has no rule is caught the moment the fixture records it.
   // Cards included: their Arabic runs carry a class of their own, and a card is
   // shown on the same page as the prose.
   const emitted = new Set(
-    [...[...Object.values(expected.chapters), ...Object.values(expected.cards)]
-      .join("\n")
-      .matchAll(/class="([^"]+)"/g)]
+    [
+      ...[...Object.values(expected.chapters), ...Object.values(expected.cards)]
+        .join("\n")
+        .matchAll(/class="([^"]+)"/g),
+    ]
       .flatMap((m) => m[1].split(/\s+/))
       .filter((c) => c.length > 0),
   );

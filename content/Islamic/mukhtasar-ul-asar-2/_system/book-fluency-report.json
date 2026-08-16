@@ -1,0 +1,274 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "transmitted_report",
+  "adapted": 4,
+  "reverted": 0,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "The Marketplace: Honest Earning, Trade, and Property",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "Binding Words: Oaths, Vows, and Their Atonement",
+      "base_words": 1165,
+      "output_words": 1159,
+      "windows": 5,
+      "windows_kept": 5,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 2,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 5,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-03-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-03-part-02: protected source artifact copied verbatim",
+        "fluency-03-part-04: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"The people of allegiance\" is unclear \u2014 it may refer to dhimmis (non-Muslims under a protection covenant), to loyal followers, or to another defined legal category; the rendering should be confirmed and standardized book-wide."
+      ],
+      "comprehension_flags": [
+        "\"A mudd\" is a traditional unit of dry measure that a modern general reader will not know; whether a footnote or gloss is warranted is an editorial decision outside this pass."
+      ],
+      "terminology_notes": [
+        "idam \u2014 confirm consistent transliteration and Arabic-script form book-wide, as the source provides no Arabic script for this term in this passage."
+      ]
+    },
+    {
+      "title": "The Body's Portion: Food, Drink, and Healing",
+      "base_words": 8101,
+      "output_words": 8082,
+      "windows": 4,
+      "windows_kept": 4,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 4,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-04-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-04-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-04-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-04-part-04: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 10,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 10,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The passage breaks off mid-honorific after \"and may Allah's prayers and \u2014,\" suggesting the source text is damaged or incomplete at this point; the editor may wish to restore the full formula.",
+        "The phrase \"The Messenger of Allah, narrating from him and his family, counseled Ali\" is grammatically unclear \u2014 it is uncertain whether the Messenger himself is the subject narrating from others, or whether a later transmitter is narrating from the Messenger and his family."
+      ],
+      "comprehension_flags": [
+        "Three terms require cultural knowledge a general reader will not have: \"ham\" (a pre-Islamic Arabic belief in an avenging bird-spirit), \"Umm Maldam\" (a personification of fever addressed directly in the ruqyah), and the fa/afa wordplay in Jibril's speech, which turns on an Arabic letter-name and a cognate noun and cannot be recovered from the English alone without the Arabic script present.",
+        "The terms sawiq and al-hamim are used without explanation; modern readers unfamiliar with classical Arabic material culture and medicine are likely to stumble on both."
+      ],
+      "terminology_notes": [
+        "al-fuqqa \u2014 should be standardized book-wide; this is a fermented grain drink sometimes translated as \"beer\" or \"barley water,\" but the source leaves it untranslated throughout and that practice should be confirmed as consistent.",
+        "\"The Master\" is applied in this passage to both the Prophet (peace be upon him and his family) and to Imam Jafar ibn Muhammad (Abu Abd-Allah); the book should establish a consistent convention for distinguishing the two referents when this title is used.",
+        "sawiq \u2014 confirm book-wide spelling and whether it should be italicized on first use as a foreign term; al-hamim \u2014 confirm consistent hyphenation and capitalization throughout the book."
+      ]
+    },
+    {
+      "title": "What We Wear: Dress, Adornment, and Fragrance",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "The Hunt and the Knife: Game, Slaughter, and Sacrifice",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "Marriage and the Household",
+      "base_words": 24284,
+      "output_words": 24245,
+      "windows": 40,
+      "windows_kept": 40,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 4,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 40,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "reconcile-07-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-02: protected source artifact copied verbatim",
+        "reconcile-07-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-04: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-05: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-06: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-07: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-08: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-09: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-10: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-11: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-13: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-14: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-15: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-16: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-17: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-18: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-19: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-20: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-21: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-22: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-23: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-24: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-26: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-28: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-30: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-31: protected source artifact copied verbatim",
+        "reconcile-07-part-32: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-33: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-34: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-36: protected source artifact copied verbatim",
+        "reconcile-07-part-37: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-38: protected source artifact copied verbatim",
+        "reconcile-07-part-39: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-07-part-40: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 84,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 84,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The double dash \"\u2014 \u2014\" following \"the father of the Prophet\" appears to mark one or more missing honorifics or a lacuna in the source; it has been reproduced exactly as given.",
+        "The sentence \"It was also narrated from him that singing bequeaths hypocrisy and brings on poverty\" appears twice in the source \u2014 once immediately after the opening verse citation and once after the dialogue about singing \u2014 with identical wording and no discernible rhetorical purpose for the repetition; it reads as a transcription duplicate, and one instance has been retained.",
+        "The pronoun \"He\" opening the paragraph on withdrawal lacks a clear stated antecedent in the source \u2014 it follows the passage on the Prophet and the Imams, yet the ruling appears to derive from Ali; the source's ambiguity is preserved here as given.",
+        "The sentence \"It is narrated from Ali that he said, concerning a man who married a woman in return for a young servant: neither falling short nor going to excess\" appears to be an incomplete ruling \u2014 the principle \"neither falling short nor going to excess\" is stated without a clear grammatical subject or governing clause, suggesting the source text may be garbled or abridged at this point.",
+        "The honorific \"(\u0639 and his family)\" is an unusual abbreviated form \u2014 it may be a book-specific convention or a scan/transcription artifact, and its exact expansion is unclear from context.",
+        "The passage states that \"the testimony of a single upright woman is accepted in matters of breastfeeding\" but immediately adds that where no upright woman is available her testimony alone does not suffice \u2014 the second clause may refer to the non-upright woman's testimony, but the referent of \"her\" is ambiguous and has been left as in the source."
+      ],
+      "comprehension_flags": [
+        "The phrase \"no woman like the daughter of one's age\" \u2014 meaning a woman of comparable age or generation to the suitor \u2014 is an archaic idiom that may be opaque to modern readers and may benefit from an editorial footnote in the published edition.",
+        "\"Those his right hand possesses\" is a classical Quranic legal phrase referring to enslaved persons; a modern general reader may not immediately recognize it as a legal category in the same class as wives and blood relations.",
+        "Several Arabic technical terms \u2014 iddah, khutbah (in the marriage-proposal sense), walimah, khurs, idhar, wakirah, aqiqah, al-hays \u2014 appear without gloss and may be unfamiliar to general readers; a glossary or footnote pass is advisable.",
+        "The term \"al-zafn\" is left untranslated in the source and may be unfamiliar to general readers; it appears to denote a form of dancing or movement.",
+        "The notation \"(\u0639 and his family)\" appears twice as an apparent transcript shorthand for the full blessing formula written out elsewhere in the passage; a modern reader may be confused by the inconsistency, and standardization is advisable.",
+        "The term \"milk of the stallion\" (laban al-fahl) is a technical legal concept unfamiliar to most modern readers; a glossary note at chapter level would assist comprehension without interrupting the prose."
+      ],
+      "terminology_notes": [
+        "Nasibiyyah / Nasib \u2014 confirm that these two forms (feminine and masculine) are the book's established spellings, to be applied consistently throughout.",
+        "\"people of truce\" \u2014 verify whether this is the book's preferred rendering of the underlying Arabic term, or whether \"people of covenant\" or another phrase has been established elsewhere in the edition.",
+        "\"khutbah\" here means a marriage proposal, not a sermon; the book should settle on a consistent English gloss or note to distinguish the two uses wherever both occur.",
+        "hadd \u2014 confirm book-wide spelling (hadd vs. \u1e25add) for consistency.",
+        "awrah \u2014 confirm this is the book's established spelling before going to press, as some editions use 'awra or 'awrah.",
+        "\"Abu Abdullah\" / \"Abu Abd-Allah\" \u2014 the source uses both spellings for what appears to be the same honorific title; a single book-wide spelling should be established.",
+        "marriage of pleasure \u2014 confirm this is the book's established rendering of *mut'ah* before standardizing.",
+        "\"umm-walad\" \u2014 confirm book-wide rendering (hyphenated, unhyphenated, or italicized) for consistency.",
+        "mukatabah \u2014 should be standardized book-wide; verify whether the book uses this form or \"m\u00fckatabah\" / \"al-mukatabah\" consistently.",
+        "mudabbarah \u2014 should be standardized book-wide alongside mukatabah.",
+        "hadd \u2014 should be standardized book-wide; verify whether the book italicizes it.",
+        "The honorific rendered as \"((\u0639) and his family)\" on first occurrence and \"and his family\" on subsequent ones \u2014 the book-wide convention for this honorific should be confirmed and applied uniformly."
+      ]
+    },
+    {
+      "title": "When a Marriage Ends: Divorce and Separation",
+      "base_words": 10196,
+      "output_words": 10083,
+      "windows": 23,
+      "windows_kept": 23,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 23,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-08-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-04: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-07: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-08: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-10: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-11: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-12: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-14: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-15: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-16: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-18: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-20: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-21: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-22: protected source artifact copied verbatim",
+        "fluency-08-part-23: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The sentence \"Both forms of divorce are, despite the difference in wording, one in substance\" follows the list of invalid divorces but is not entirely clear which two forms are being compared \u2014 the divorce of innovation and the Sunnah divorce, or two labels for the same invalid divorce; the source wording has been preserved unchanged.",
+        "In the dialogue, a man asks Abu Jafar but the response is attributed to Ali \u2014 it is unclear whether Ali is another name for Abu Jafar, a narration within a narration, or an editorial error; the tag has been preserved exactly as given."
+      ],
+      "comprehension_flags": [
+        "The phrase \"after four, and in al-Rahbah\" may puzzle modern readers who lack context about the limit of four wives and the location al-Rahbah, but no explanatory addition is authorized here.",
+        "The terms \"mudabbar\" (a slave whose manumission takes effect upon the master's death) and \"mukatab\" (a slave who has contracted to purchase his own freedom in installments) are technical legal categories that general readers will not recognize; a glossary entry or footnote may be warranted.",
+        "The clause \"she may go out in the final part of the night, provided she returns before evening\" may puzzle modern readers \u2014 it appears to mean she may leave before dawn and must be back before the following evening, but the phrasing could be read as internally contradictory; a glossing note may be warranted at a later editorial pass."
+      ],
+      "terminology_notes": [
+        "*iddah* \u2014 confirm book-wide spelling and italicization convention for this term.",
+        "al-Ila \u2014 should be standardized book-wide as \"al-Ila\" (with capital I, hyphenated prefix) to match this passage's usage.",
+        "\"sa\" and \"mudd\" \u2014 these units of dry measure appear without definition; confirm the book uses these spellings consistently and consider whether a glossary note is needed.",
+        "istiha\u1e0da \u2014 confirm book-wide spelling and whether it carries a diacritic on the \u1e0d consistently."
+      ]
+    },
+    {
+      "title": "Freedom, Generosity, and the Division of Estates",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    },
+    {
+      "title": "Wrong and Redress: Crime, Property Disputes, and the Judge",
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
+    }
+  ]
+}

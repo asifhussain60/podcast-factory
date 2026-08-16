@@ -334,6 +334,46 @@
   gap: 1.25rem;
 }
 
+/* ════════════════════════════════════════════════════════════
+   THE CARD'S PALETTE — one block, and the only place a Studio
+   card names a colour.
+   ════════════════════════════════════════════════════════════
+   Every rule below reads `--card-*` and nothing else, so the question
+   "what palette do these cards use" has exactly one answer and changing
+   it is editing this block rather than sixty-one declarations spread
+   through the file. It is the same indirection `--shelf-accent` already
+   uses for the per-bucket accent, at the same scale — this extends the
+   pattern to surface, rule and ink rather than inventing a new one.
+
+   Today every alias points at the site's own `--c-*` tokens, so this is
+   a pure refactor: nothing on screen moved when it landed. Pointing them
+   at another palette — the Podcast Factory Library's, say — is a change
+   to this block and nothing else, and reverting it is the same edit
+   backwards. That reversibility is the point: a palette is judged by
+   looking at it, and this makes looking cheap.
+
+   WHAT IS DELIBERATELY NOT HERE: the pipeline status colours (done /
+   active / blocked). Those are STATE, not surface — green means the step
+   finished whatever the card is painted with — so they keep reading the
+   site's semantic tokens directly and a palette swap cannot silently
+   restyle them into something that no longer reads as a status. */
+.studio-picker {
+  --card-surface: var(--c-bg-card);
+  --card-surface-sunken: var(--c-bg-sunken);
+  --card-rule: var(--c-rule);
+  --card-rule-soft: var(--c-rule-soft);
+  --card-ink: var(--c-ink);
+  --card-ink-muted: var(--c-ink-muted);
+  --card-ink-faint: var(--c-ink-faint);
+  --card-accent: var(--c-accent);
+  /* The native-script title's red. A one-off — it is not in the --c-*
+     palette and never was; it was written inline in the Arabic and Urdu
+     rules, twice, which is why it is here now rather than there. Kept
+     FIXED rather than following the bucket accent: it is the colour of
+     Arabic type in this edition, not a category signal. */
+  --card-script-ink: #7b1414;
+}
+
 .studio-picker-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
@@ -345,9 +385,9 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 1.1rem 1.2rem;
-  border: 1px solid var(--c-rule);
+  border: 1px solid var(--card-rule);
   border-radius: 14px;
-  background: var(--c-bg-card);
+  background: var(--card-surface);
   text-decoration: none;
   transition:
     border-color 130ms,
@@ -355,7 +395,7 @@
 }
 
 .studio-picker-card:hover {
-  border-color: var(--c-accent);
+  border-color: var(--card-accent);
   transform: translateY(-2px);
   text-decoration: none;
 }
@@ -363,11 +403,11 @@
 .studio-picker-card h2 {
   margin: 0;
   font-size: 1.05rem;
-  color: var(--c-ink);
+  color: var(--card-ink);
 }
 .studio-picker-card .studio-picker-step {
   font-size: 0.78rem;
-  color: var(--c-ink-muted);
+  color: var(--card-ink-muted);
 }
 .studio-picker-card .studio-picker-bar {
   display: flex;
@@ -394,7 +434,7 @@
 .studio-bookpick-item:focus-visible,
 .studio-step-link:focus-visible,
 .studio-picker-card:focus-visible {
-  outline: 2px solid var(--c-accent);
+  outline: 2px solid var(--card-accent);
   outline-offset: 2px;
 }
 
@@ -608,8 +648,8 @@
    below (1.5rem x 1.75 line-height) plus the padding, so the two cannot drift. */
 .card-script-wrap {
   padding: 1.1rem 1.2rem 0.9rem;
-  background: var(--c-bg-sunken);
-  border-bottom: 1px solid var(--c-rule-soft);
+  background: var(--card-surface-sunken);
+  border-bottom: 1px solid var(--card-rule-soft);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -647,7 +687,7 @@
   font-weight: 400;
   line-height: 1.75;
   letter-spacing: 0;
-  color: #7b1414;
+  color: var(--card-script-ink);
   text-align: center;
 }
 
@@ -660,7 +700,7 @@
   font-weight: 400;
   line-height: 2;
   letter-spacing: 0;
-  color: #7b1414;
+  color: var(--card-script-ink);
   text-align: center;
 }
 
@@ -672,17 +712,17 @@
   font-size: 1.45rem;
   font-weight: 400;
   line-height: 1.5;
-  color: var(--c-ink);
+  color: var(--card-ink);
   text-align: left;
 }
 
 /* Script-panel tint — light category wash via the design system */
 .studio-shelf .card-script-wrap {
-  background: color-mix(in oklab, var(--shelf-accent) 6%, var(--c-bg-card));
+  background: color-mix(in oklab, var(--shelf-accent) 6%, var(--card-surface));
   border-bottom-color: color-mix(
     in oklab,
     var(--shelf-accent) 20%,
-    var(--c-rule-soft)
+    var(--card-rule-soft)
   );
 }
 
@@ -714,7 +754,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--c-ink);
+  color: var(--card-ink);
   margin: 0;
   line-height: 1.55;
   overflow-wrap: break-word;
@@ -747,14 +787,18 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--shelf-accent, var(--c-accent));
+  color: var(--shelf-accent, var(--card-accent));
   background: color-mix(
     in oklab,
-    var(--shelf-accent, var(--c-accent)) 10%,
-    var(--c-bg-card)
+    var(--shelf-accent, var(--card-accent)) 10%,
+    var(--card-surface)
   );
   border: 1px solid
-    color-mix(in oklab, var(--shelf-accent, var(--c-accent)) 35%, var(--c-rule));
+    color-mix(
+      in oklab,
+      var(--shelf-accent, var(--card-accent)) 35%,
+      var(--card-rule)
+    );
 }
 
 /* Two lines, always — reserved whether the name needs them or not. "Qadi
@@ -766,7 +810,7 @@
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-style: italic;
-  color: var(--c-ink-muted);
+  color: var(--card-ink-muted);
   line-height: 1.3;
   text-align: center;
   display: -webkit-box;
@@ -781,8 +825,70 @@
    the element omitted, so the slot below it starts at the same height on every
    card in the row. */
 .card-author.is-empty {
-  color: var(--c-ink-faint, var(--c-ink-muted));
+  color: var(--card-ink-faint, var(--card-ink-muted));
   opacity: 0.5;
+}
+
+/* ── Study-track ribbon ──────────────────────────────────────────────────────
+   The book's subject, pinned to the script panel's top-right corner and spun
+   through 45deg so it reads as a banner across the corner rather than a badge
+   parked near it. Same corner, same rotation and the same five colour pairs as
+   the Podcast Factory Library's library card — the VALUES come from
+   study-track-colors.css, which the Library syncs from, so the two cannot
+   disagree about what Esoteric looks like.
+
+   The colour pair carries its own ink, which is why the ribbon needs no
+   contrast rule against whatever the panel behind it is painted: it is legible
+   on the warm panel here and on the verdigris one there without either site
+   knowing about the other. That property is also why a palette swap in the
+   card token block above cannot make a ribbon unreadable.
+
+   `overflow: hidden` on .studio-shelf-card is what clips the banner's tails —
+   it was already there for the accent strip. */
+.card-track-ribbon {
+  position: absolute;
+  top: 0.9rem;
+  inset-inline-end: -2.1rem;
+  z-index: 1;
+  width: 8rem;
+  padding: 0.15rem 0;
+  transform: rotate(45deg);
+  background: var(--track-fallback-bg, var(--c-ink-muted));
+  color: var(--track-fallback-ink, var(--c-bg-card));
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+.card-track-ribbon[data-track="theology"] {
+  background: var(--track-theology-bg);
+  color: var(--track-theology-ink);
+}
+.card-track-ribbon[data-track="history"] {
+  background: var(--track-history-bg);
+  color: var(--track-history-ink);
+}
+.card-track-ribbon[data-track="shariah"] {
+  background: var(--track-shariah-bg);
+  color: var(--track-shariah-ink);
+}
+/* No glow on any track here (Asif, 2026-08-15). The Podcast Factory Library
+   gives Esoteric and Reality a lit halo; it was ported and he did not like it
+   on this surface, so all five ribbons sit flat. Deliberately NOT synced: the
+   shared file owns each track's COLOUR, which must match across the two sites,
+   not how a ribbon is finished on one of them. */
+.card-track-ribbon[data-track="esoteric"] {
+  background: var(--track-esoteric-bg);
+  color: var(--track-esoteric-ink);
+}
+.card-track-ribbon[data-track="reality"] {
+  background: var(--track-reality-bg);
+  color: var(--track-reality-ink);
 }
 
 /* One-line book description above the pipeline status */
@@ -790,7 +896,7 @@
   margin: 0.5rem 0 0;
   font-family: var(--font-body);
   font-size: 0.78rem;
-  color: var(--c-ink-muted);
+  color: var(--card-ink-muted);
   line-height: 1.45;
   text-align: center;
 }
@@ -807,9 +913,9 @@
   font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.03em;
-  color: var(--c-ink-muted);
-  background: var(--c-bg-sunken);
-  border: 1px dashed var(--c-rule);
+  color: var(--card-ink-muted);
+  background: var(--card-surface-sunken);
+  border: 1px dashed var(--card-rule);
 }
 
 /* Generation-status pills — real on-disk artifacts (PDF/podcast/augmented),
@@ -830,23 +936,23 @@
   height: 1.5rem;
   border-radius: 999px;
   font-size: 0.68rem;
-  color: var(--c-ink-muted);
-  background: var(--c-bg-sunken);
-  border: 1px solid var(--c-rule-soft);
+  color: var(--card-ink-muted);
+  background: var(--card-surface-sunken);
+  border: 1px solid var(--card-rule-soft);
   opacity: 0.5;
 }
 
 .card-gen-pill.is-generated {
-  color: var(--shelf-accent, var(--c-accent));
+  color: var(--shelf-accent, var(--card-accent));
   background: color-mix(
     in oklab,
-    var(--shelf-accent, var(--c-accent)) 12%,
-    var(--c-bg-card)
+    var(--shelf-accent, var(--card-accent)) 12%,
+    var(--card-surface)
   );
   border-color: color-mix(
     in oklab,
-    var(--shelf-accent, var(--c-accent)) 30%,
-    var(--c-rule)
+    var(--shelf-accent, var(--card-accent)) 30%,
+    var(--card-rule)
   );
   opacity: 1;
 }
@@ -855,7 +961,7 @@
   margin-left: auto;
   font-family: var(--font-body);
   font-size: 0.68rem;
-  color: var(--c-ink-muted);
+  color: var(--card-ink-muted);
   white-space: nowrap;
 }
 
@@ -863,7 +969,7 @@
 .card-pipeline-status {
   margin-top: auto;
   padding-top: 0.6rem;
-  border-top: 1px solid var(--c-rule-soft);
+  border-top: 1px solid var(--card-rule-soft);
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
@@ -886,15 +992,33 @@
   flex-wrap: wrap;
 }
 
+/* Both facets on ONE line (2026-08-15) — category chips then status chips.
+   Deliberately NO divider between the groups: the row still wraps on a narrow
+   window, and a separator element strands itself at the end of the first line
+   when it does. The two groups are already told apart by colour — a category
+   chip lights in its own bucket's accent, a status chip in the site accent. */
 .studio-toolbar-filters {
   display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  /* The basis is a modest 22rem rather than `auto`, so the group does NOT
+     claim its max-content width and push `New content` onto a line of its own
+     — which is what happened at 1280px, one row worse than the two-row layout
+     this replaced. It then grows into whatever the button leaves, and the
+     CHIPS wrap inside it. Below roughly 34rem of toolbar the basis no longer
+     fits beside the button and the toolbar itself wraps, which is the right
+     behaviour on a phone. */
+  flex: 1 1 22rem;
 }
 
 /* Primary "New content" action — deliberately distinct from the filter
-   buttons: solid mid-dark fill, light text, 2px soft-rounded border. */
-.studio-toolbar .studio-new-content-link {
+   buttons: solid mid-dark fill, light text, 2px soft-rounded border.
+   Scoped to the find bar's action row since 2026-08-15; it used to be scoped to
+   `.studio-toolbar`, which the panel replaced — leaving the button to fall back
+   to the dashed outline meant for a secondary control. */
+.studio-findbar-actions .studio-new-content-link {
   padding: 0.6rem 1.15rem;
   border-radius: 12px;
   gap: 0.5rem;
@@ -906,7 +1030,7 @@
     0 2px 8px color-mix(in oklab, var(--c-accent) 22%, transparent);
 }
 
-.studio-toolbar .studio-new-content-link:hover {
+.studio-findbar-actions .studio-new-content-link:hover {
   background: color-mix(in oklab, var(--c-ink) 12%, var(--c-accent));
   border-color: color-mix(in oklab, var(--c-accent) 45%, var(--c-ink));
   color: var(--c-bg-card);
@@ -948,7 +1072,7 @@
 
 /* ── Focus rings for new shelf elements ──────────────────── */
 .studio-shelf-card:focus-visible {
-  outline: 2px solid var(--c-accent);
+  outline: 2px solid var(--card-accent);
   outline-offset: 2px;
 }
 
@@ -1052,18 +1176,27 @@
 /* ── Multi-volume series deck (collapsible "deck of cards") ──────────────── */
 /* Wrapper holds the stacked sheets behind the front; the <summary> reuses the
    standalone-book card design (.studio-picker-card .studio-shelf-card). */
+/* PADDING, not margin (2026-08-15). The room for the two peeking sheets used to
+   be `margin: 0 12px 16px 0`, which reserves it OUTSIDE the grid cell — so the
+   deck's border box never filled its track and it rendered 12px narrower and
+   16px shorter than every card beside it, at every width. Padding reserves the
+   same space INSIDE the cell, and the sheets are inset to match, so the peek is
+   unchanged and the deck is finally the size of its siblings. Caught by the
+   card-sibling-mismatch invariant in site-health-smoke.mjs, which was added
+   because INV-1 compares a deck only to its own front card — and those agreed
+   perfectly the whole time this was wrong. */
 .studio-series-deck {
   position: relative;
-  margin: 0 12px 16px 0;
+  padding: 0 12px 16px 0;
 }
 .studio-series-deck::before,
 .studio-series-deck::after {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: 0 12px 16px 0;
   z-index: 0;
-  background: var(--c-bg-card);
-  border: 1.5px solid color-mix(in oklab, var(--c-ink) 34%, var(--c-rule));
+  background: var(--card-surface);
+  border: 1.5px solid color-mix(in oklab, var(--card-ink) 34%, var(--card-rule));
   border-radius: 14px;
   pointer-events: none;
 }
@@ -1106,11 +1239,11 @@
   content: "";
 }
 .studio-series-summary:focus-visible {
-  outline: 2px solid var(--c-accent);
+  outline: 2px solid var(--card-accent);
   outline-offset: 2px;
 }
 .studio-series-deck:hover .studio-series-summary {
-  border-color: var(--shelf-accent, var(--c-accent));
+  border-color: var(--shelf-accent, var(--card-accent));
   transform: translateY(-1px);
 }
 .studio-series-count {
@@ -1164,19 +1297,19 @@
   padding: 0.6rem 0.8rem;
   border-radius: 10px;
   text-decoration: none;
-  color: var(--c-ink);
-  border: 1px solid var(--c-rule);
-  background: var(--c-bg-card);
+  color: var(--card-ink);
+  border: 1px solid var(--card-rule);
+  background: var(--card-surface);
   transition:
     background 140ms ease,
     border-color 140ms ease;
 }
 .studio-series-vol:hover {
-  background: color-mix(in oklab, var(--c-accent) 7%, var(--c-bg-card));
-  border-color: color-mix(in oklab, var(--c-accent) 34%, var(--c-rule));
+  background: color-mix(in oklab, var(--card-accent) 7%, var(--card-surface));
+  border-color: color-mix(in oklab, var(--card-accent) 34%, var(--card-rule));
 }
 .studio-series-vol:focus-visible {
-  outline: 2px solid var(--c-accent);
+  outline: 2px solid var(--card-accent);
   outline-offset: 2px;
 }
 .studio-series-vol-order {
@@ -1188,7 +1321,7 @@
   justify-content: center;
   border-radius: 50%;
   background: color-mix(in oklab, var(--c-gold) 22%, transparent);
-  color: var(--c-accent);
+  color: var(--card-accent);
   font-weight: 700;
   font-size: 0.85rem;
 }
@@ -1198,7 +1331,7 @@
   min-width: 0;
 }
 .studio-series-vol-status {
-  color: var(--c-ink-muted);
+  color: var(--card-ink-muted);
   font-size: 0.85rem;
   white-space: nowrap;
 }
@@ -1299,6 +1432,20 @@
   gap: 0.6rem;
 }
 
+/* The "All" chip stands for every bucket, so it owns no bucket colour and the
+   per-category block above declares no --shelf-accent for it. That left every
+   rule below resolving `var(--shelf-accent)` to nothing, which is invalid at
+   computed-value time and drops the whole declaration: the pressed "All" came
+   out with no fill, no accent border and inherited ink — i.e. not visibly
+   pressed at all. Harmless while it sat in its own block; inside the find bar
+   it is one row and a hairline away from the status group's "All", which fills
+   correctly, so the two identical words carried two different pressed states.
+   It takes the same site-accent fallback `.studio-shelf` already declares for
+   an unrecognised bucket — an existing token, not a new colour. */
+.studio-bucket-chip[data-bucket-filter="all"] {
+  --shelf-accent: var(--c-accent);
+}
+
 .studio-bucket-chip {
   display: inline-flex;
   align-items: center;
@@ -1364,19 +1511,744 @@
   color: var(--shelf-accent);
 }
 
-.studio-toolbar-row {
+/* `.studio-toolbar-row` / `.studio-toolbar-row-label` were deleted here with
+   the two-row toolbar they existed for (2026-08-15). They had no other user. */
+
+/* ════════════════════════════════════════════════════════════
+   THE FIND BAR — the picker's header panel
+   ════════════════════════════════════════════════════════════
+   One bordered panel holding everything above the shelves. It
+   reuses the surface, border, radius and shadow the site's own
+   `.studio-panel` already uses on every step page rather than
+   introducing a second card language — the top of the picker was
+   the one place NOT using it, which is exactly why it read as
+   loose parts floating on the page.
+
+   Shape follows the classic admin card: a header row (title +
+   live count on the left, toolbar on the right), a hairline, then
+   the controls as the panel body. Colour stays accent-only — the
+   panel is a warm surface and a 1px rule, never a filled bar with
+   reversed text, which the site's design system names as the
+   anti-pattern to move away from. */
+.studio-findbar {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.studio-findbar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--c-rule-soft);
+  /* A whisper of tint separates the header band from the body without a second
+     border. `--c-bg-elev` is the site's own raised surface, so this reads as
+     the same material rather than a new one. */
+  background: color-mix(in oklab, var(--c-bg-elev) 55%, var(--c-bg-card));
+}
+
+.studio-findbar-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+/* Fraunces, per the site's type system: a display serif for the panel's own
+   name, sized down so it sits UNDER the shelf headings in the hierarchy rather
+   than competing with them. */
+.studio-findbar-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--c-ink);
+}
+
+.studio-findbar-count {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--c-ink-muted);
+}
+
+/* Reset — a quiet text control beside the COUNT, not a third button in the
+   action row on the right. It belongs with the number it undoes: the count is
+   what tells you the shelf is narrowed, so the way back sits next to it. Muted
+   until hovered, because it is a recovery action rather than something to
+   invite. */
+.studio-findbar-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--c-rule);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 130ms,
+    color 130ms,
+    background 130ms;
+}
+
+.studio-findbar-reset:hover {
+  border-color: var(--c-accent);
+  background: color-mix(in oklab, var(--c-accent) 7%, transparent);
+  color: var(--c-accent);
+}
+
+.studio-findbar-reset:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.studio-findbar-reset i {
+  font-size: 0.66rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-findbar-reset {
+    transition: none;
+  }
+}
+
+.studio-findbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.studio-findbar-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.9rem 1.1rem 1rem;
+}
+
+/* ---- Three facets, three columns ------------------------------------------
+   Each group is a captioned cell divided from its neighbours by a hairline —
+   the segmented-panel idiom, not a stepper: these are three INDEPENDENT sets,
+   any one of which narrows on its own, so nothing is numbered or arrowed.
+
+   The columns size to their contents rather than splitting evenly: Track
+   carries five chips to Category's two, and equal thirds would have wrapped
+   Track while leaving Category half empty. Track takes the remainder. */
+.studio-facets {
+  display: grid;
+  /* `max-content` on the first two, NOT `auto`: an `auto` track takes a share
+     of the leftover space as well as its content, so Category and Status came
+     out 372px and 579px for chips needing 240 and 380 — and Track, the column
+     with five chips, was left 318px and wrapped onto three lines. Pinned to
+     their content, the remainder goes where the chips actually are. */
+  grid-template-columns: max-content max-content minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.studio-facet {
+  min-width: 0;
+}
+
+/* The hairline lives on the cell, not between cells as its own element — a
+   free-standing divider is what stranded itself at the end of a wrapped row
+   before this panel existed. As a border it cannot exist without the column it
+   belongs to, and it disappears with the grid when the columns stack. */
+.studio-facets > .studio-facet + .studio-facet {
+  border-inline-start: 1px solid var(--c-rule);
+  padding-inline-start: 1rem;
+}
+
+.studio-facet-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.studio-facet-label {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+/* Each group's own clear, shown only while THAT group is narrowed. It sits in
+   the caption rather than in the chip row because it is not one of the values
+   — a fourth chip saying "All" is what this redesign removed. */
+.studio-facet-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--c-ink) 10%, transparent);
+  color: var(--c-ink-muted);
+  font-size: 0.55rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 130ms,
+    color 130ms;
+}
+
+.studio-facet-clear:hover {
+  background: color-mix(in oklab, var(--c-accent) 18%, transparent);
+  color: var(--c-accent);
+}
+
+.studio-facet-clear:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.studio-facet-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ONE SET OF METRICS FOR ALL THREE FAMILIES.
+   The category and status chips were built as a standalone toolbar — 12px
+   corners, 1.15rem of side padding, 0.8rem text — while the track chips were
+   built later as slim pills. Side by side in three columns that read as two
+   different controls doing the same job, and the arithmetic made it worse:
+   Category's TWO chips measured 362px and Status's three 539px, so the three
+   columns wanted ~1600px of chip on a 1308px row and Track, the group with
+   five, was squeezed to 318px and wrapped onto four lines.
+
+   Unified to the slimmer pill, which is also what "shorten the buttons" asked
+   for. What stays DIFFERENT is the only thing that should: the colour each
+   family lights in when chosen — bucket accent, site accent, the track's own. */
+.studio-facet-chips > button {
+  padding: 0.42rem 0.8rem;
+  border-radius: 999px;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  box-shadow: none;
+}
+
+.studio-facet-chips > button > i {
+  font-size: 0.72rem;
+}
+
+/* The count pill shrinks with the chip — at the old size it was a third of the
+   control's width for a one-digit number. */
+.studio-facet-chips .studio-bucket-chip-count,
+.studio-facet-chips .studio-filter-chip-count {
+  min-width: auto;
+  padding: 0 0.35rem;
+  font-size: 0.68rem;
+}
+
+/* ---- Track chips stack their count under the label -------------------------
+   Measured, not guessed: five track chips side by side need 562px and the
+   column is 477px, so they wrapped to two lines. Every horizontal saving that
+   preserved the numbers came up ~35px short, and the three columns TOGETHER
+   want 1424px of a 1308px row — so no amount of rebalancing fits them either.
+
+   Setting the count beneath the label takes each chip from ~110px to ~77px:
+   five fit in 417px with room to spare, at the cost of one line of height on a
+   panel that has it. Nothing is dropped and no new iconography is invented for
+   a doctrinal taxonomy, which is not a thing to design unilaterally.
+
+   It also makes the third set look different from the first two, which is the
+   point of the redesign: these are three independent groups, and the one that
+   answers "what is this about" should not be mistaken for the two that answer
+   "where is it in the pipeline". */
+/* A GRID of five equal cells, not a wrapping row. Stacking the count alone got
+   the five to 466px in a 457px bar — a 10px miss, and tuning padding until it
+   cleared would have been a fit that held only for these five words. As a grid
+   the five ALWAYS share the row: a longer track name wraps inside its own cell
+   instead of pushing a chip onto a second line, and a sixth track added to the
+   registry changes one number here. */
+.studio-facet--track .studio-facet-chips {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.studio-facet--track .studio-track-chip {
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  padding: 0.3rem 0.5rem;
+  line-height: 1.25;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  /* Stacked, the panel is one narrow column — five cells across it would be
+     ~44px each, narrower than the words. Back to a wrapping row. */
+  .studio-facet--track .studio-facet-chips {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.studio-facet--track .studio-track-chip-count {
+  font-size: 0.62rem;
+  opacity: 0.7;
+}
+
+/* Below this the three columns become three captioned rows, each keeping its
+   caption and losing the divider with the column it belonged to. Chosen from
+   the measurement that mattered: three columns of thirteen chips stop fitting
+   one line before 900px. */
+@media (max-width: 900px) {
+  .studio-facets {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  .studio-facets > .studio-facet + .studio-facet {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+    border-top: 1px solid var(--c-rule-soft);
+    padding-top: 0.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-facet-clear {
+    transition: none;
+  }
+}
+
+/* The hairline between the two pipeline facets. It exists only because the
+   panel gives it a defined row to sit in — free-standing it stranded itself at
+   the end of a wrapped line, which is why the earlier attempt was removed. It
+   is hidden below the width where the row is known to wrap, so it never appears
+   without two groups beside it.
+
+   That width is 1360px, not 1180px: the status group leaves the category
+   group's line at a viewport of 1360 (measured, chip by chip — the panel's
+   content box drops below 1221px there), so between 1181 and 1360 the
+   separator was rendering ALONE at the end of the first row with the whole
+   rest of the line empty beside it — the exact failure the rule above claims
+   to prevent, across 1280 and 1366, two of the commonest laptop widths.
+   Hidden a little early at 1380 rather than exactly at the transition: a
+   missing divider while both groups still share a line is invisible, a
+   stranded one is not, so the rounding goes the harmless way. The chip labels
+   are data — a new bucket or status moves the wrap — so the pairing is also
+   asserted deterministically by `studio-facet-separator-stranded` in
+   scripts/site-health-smoke.mjs rather than left to this comment. */
+.studio-facet-sep {
+  flex: 0 0 1px;
+  align-self: stretch;
+  min-height: 1.75rem;
+  margin-inline: 0.3rem;
+  background: var(--c-rule);
+}
+
+/* The track row keeps its label but loses the outer margin it carried while it
+   was a free-standing block — inside the panel the body's own gap spaces it. */
+.studio-findbar .studio-tracks-panel {
+  margin-top: 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--c-rule-soft);
+}
+
+@media (max-width: 1380px) {
+  .studio-facet-sep {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .studio-findbar-head {
+    padding: 0.75rem 0.85rem;
+  }
+  .studio-findbar-body {
+    padding: 0.8rem 0.85rem 0.9rem;
+  }
+  /* The actions wrap under the title rather than squeezing beside it; the
+     primary action then takes the full row, which is the right target size on
+     a phone anyway.
+
+     `flex-wrap` is what actually delivers that second sentence. Without it the
+     row was a single non-shrinking line: at 390px the view toggle and the
+     primary action together want ~269px of a 259px row, so the button hung 8px
+     past the panel and the panel's own `overflow: hidden` sliced its right edge
+     and rounded corner clean off (38px and worse at 360px). Wrapping is width
+     -independent — the button drops to its own line only when it genuinely
+     does not fit, and `flex-grow` then makes it fill that line, which is the
+     full-width phone target the paragraph above always intended. */
+  .studio-findbar-actions {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .studio-findbar-actions .studio-new-content-link {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   View modes — cards / compact / list
+   ════════════════════════════════════════════════════════════
+   ONE set of cards, restyled by `data-view` on .studio-picker.
+   Three markup branches would be three things to keep in step,
+   and the compact tile and the list row are the full card with
+   less shown — not different cards. Everything a mode drops is
+   `display: none`, so nothing is removed from the accessibility
+   tree that a reader might be relying on to identify the book:
+   the title, author and status survive in every mode. */
+
+.studio-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--c-rule);
+  border-radius: 10px;
+  background: var(--c-bg-elev);
+}
+
+.studio-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--c-ink-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    background 130ms,
+    color 130ms;
+}
+
+.studio-view-btn:hover {
+  color: var(--c-ink);
+}
+
+.studio-view-btn[aria-pressed="true"] {
+  background: var(--c-bg-card);
+  color: var(--c-accent);
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--c-ink) 10%, transparent);
+}
+
+.studio-view-btn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+/* ---- Compact tile ---------------------------------------------------------
+   The same card scaled for scanning many at once: a shorter script panel, the
+   ribbon reduced to a corner flag, and the description and artifact pills
+   dropped. The ribbon's LABEL stays in the DOM (transparent, not hidden) so it
+   is still announced — at this size the word had no room to sit straight and
+   read as clipped lettering, but the colour alone carries the same signal the
+   filter chip does. Same reduction the Library's compact tile makes. */
+.studio-picker[data-view="compact"] .studio-shelf-grid {
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.6rem;
+}
+
+.studio-picker[data-view="compact"] .card-script-wrap {
+  min-height: 0;
+  padding: 0.7rem 0.8rem 0.6rem;
+}
+
+.studio-picker[data-view="compact"] .card-script-text {
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.studio-picker[data-view="compact"] .card-body-wrap {
+  padding: 0.7rem 0.8rem 0.8rem;
+}
+
+.studio-picker[data-view="compact"] .card-title-en {
+  font-size: 0.78rem;
+}
+
+.studio-picker[data-view="compact"] .card-blurb,
+.studio-picker[data-view="compact"] .card-gen-pills,
+.studio-picker[data-view="compact"] .card-uncatalogued-pill {
+  display: none;
+}
+
+.studio-picker[data-view="compact"] .card-track-ribbon {
+  top: 0;
+  inset-inline-end: 0;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  transform: none;
+  /* A square corner flag rather than a rotated banner: a banner earns its
+     shape by carrying a word across a corner, and with no word left to carry,
+     clip-path cuts the flag straight out of the same corner instead. */
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+  color: transparent;
+}
+
+/* ---- List row -------------------------------------------------------------
+   The card laid on its side: the script panel becomes a fixed-width plate on
+   the leading edge and the body runs beside it. One row per book, so a long
+   shelf is scannable by title without scrolling past art. */
+.studio-picker[data-view="list"] .studio-shelf-grid {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
 }
 
-.studio-toolbar-row-label {
+.studio-picker[data-view="list"] .studio-shelf-card {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.studio-picker[data-view="list"] .card-script-wrap {
+  flex: 0 0 9rem;
+  min-height: 0;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 0;
+  border-inline-end: 1px solid var(--card-rule-soft);
+  justify-content: center;
+}
+
+.studio-picker[data-view="list"] .card-script-text {
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.studio-picker[data-view="list"] .card-body-wrap {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1.4fr);
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.6rem 0.9rem;
+}
+
+/* Left-aligned, unlike the card and tile: a list is read down its leading edge,
+   and centred titles in a column give the eye no line to follow. */
+.studio-picker[data-view="list"] .card-identity {
+  min-width: 0;
+  align-items: flex-start;
+  text-align: start;
+}
+
+.studio-picker[data-view="list"] .card-title-en,
+.studio-picker[data-view="list"] .card-author {
+  text-align: start;
+}
+
+.studio-picker[data-view="list"] .card-title-en {
+  font-size: 0.9rem;
+}
+
+.studio-picker[data-view="list"] .card-blurb {
+  display: none;
+}
+
+.studio-picker[data-view="list"] .card-gen-pills {
+  margin: 0;
+  justify-content: flex-start;
+}
+
+.studio-picker[data-view="list"] .card-pipeline-status {
+  margin: 0;
+  border-top: 0;
+  padding-top: 0;
+}
+
+/* The banner is wrong on a row — it would cut across the plate's corner with
+   no corner to speak of. A flush edge stripe on the leading side instead,
+   carrying the same colour and keeping the label for assistive tech. */
+.studio-picker[data-view="list"] .card-track-ribbon {
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  width: 4px;
+  height: auto;
+  padding: 0;
+  transform: none;
+  color: transparent;
+  font-size: 0;
+}
+
+@media (max-width: 640px) {
+  /* Tighter chips below 640px. At their desktop padding only ONE fitted per
+     line on a 375px phone, so eight chips plus the view toggle and the primary
+     action filled a whole screen before the first book — the opposite of what
+     shortening the buttons was for. Trimmed enough to sit two per row; the
+     count keeps its own size because it is the part being read. */
+  .studio-bucket-chip,
+  .studio-filter-chip {
+    padding: 0.5rem 0.7rem;
+    gap: 0.4rem;
+  }
+  .studio-track-chip {
+    padding: 0.38rem 0.65rem;
+  }
+  .studio-tracks-panel {
+    gap: 0.5rem;
+  }
+
+  /* One column is already the layout below this width, so the list row's
+     three-column body would squeeze each cell to nothing. It falls back to the
+     card stack rather than pretending to be a table. */
+  .studio-picker[data-view="list"] .studio-shelf-card {
+    flex-direction: column;
+  }
+  .studio-picker[data-view="list"] .card-script-wrap {
+    flex: none;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--card-rule-soft);
+  }
+  .studio-picker[data-view="list"] .card-body-wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Study-track filter row
+   ════════════════════════════════════════════════════════════
+   Its own row, below the pipeline facets, because "what is this
+   book about" is a different question from "where is it in the
+   process" — and because fifteen chips do not fit one line at any
+   width this site is used at. Labelled, unlike the two rows above:
+   those two read as pipeline chrome beside the primary action,
+   where a bare row of subject words would not say what it filters.
+
+   Each chip lights in ITS OWN track colour, from the same tokens
+   the card ribbon reads, so choosing "Esoteric" and the amber
+   ribbons on the cards below are visibly the same fact. */
+.studio-tracks-panel {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.9rem;
+  margin-top: -0.35rem;
+}
+
+.studio-tracks-label {
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--c-ink-muted);
   font-family: var(--font-body);
+}
+
+.studio-track-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.studio-track-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-elev);
+  color: var(--c-ink-muted);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition:
+    border-color 130ms,
+    background 130ms,
+    color 130ms;
+}
+
+/* Hover darkens the label to full ink — correct on the RESTING chip, which is a
+   pale `--c-bg-elev` pill. It must not reach the PRESSED one: that chip is
+   filled with its track's saturated colour and carries the matching
+   `--track-*-ink` (white for four of the five), and this rule out-specifies the
+   pressed rule (0,3,0 against 0,2,0), so pointing at a chip you had just
+   selected swapped its white label for near-black — 2.4:1 on History, 2.7:1 on
+   Theology, 3.5:1 on Reality, against the 4.5:1 this 14px/600 text needs. The
+   state you land on after clicking is the state you are most likely to be
+   hovering, so it was the common view of the chip, not an edge case. Excluding
+   the pressed chip restores its own ink pair; no colour changes. */
+.studio-track-chip:hover:not(:disabled):not([aria-pressed="true"]) {
+  border-color: var(--track-chip-accent, var(--c-accent));
+  color: var(--c-ink);
+}
+
+.studio-track-chip[aria-pressed="true"] {
+  background: var(--track-chip-accent, var(--c-accent));
+  border-color: var(--track-chip-accent, var(--c-accent));
+  color: var(--track-chip-ink, var(--c-bg-card));
+}
+
+.studio-track-chip[data-track-filter="theology"] {
+  --track-chip-accent: var(--track-theology-bg);
+  --track-chip-ink: var(--track-theology-ink);
+}
+.studio-track-chip[data-track-filter="history"] {
+  --track-chip-accent: var(--track-history-bg);
+  --track-chip-ink: var(--track-history-ink);
+}
+.studio-track-chip[data-track-filter="shariah"] {
+  --track-chip-accent: var(--track-shariah-bg);
+  --track-chip-ink: var(--track-shariah-ink);
+}
+.studio-track-chip[data-track-filter="esoteric"] {
+  --track-chip-accent: var(--track-esoteric-bg);
+  --track-chip-ink: var(--track-esoteric-ink);
+}
+.studio-track-chip[data-track-filter="reality"] {
+  --track-chip-accent: var(--track-reality-bg);
+  --track-chip-ink: var(--track-reality-ink);
+}
+
+.studio-track-chip-count {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.68rem;
+  opacity: 0.75;
+}
+
+.studio-track-chip:focus-visible {
+  outline: 2px solid var(--track-chip-accent, var(--c-accent));
+  outline-offset: 2px;
+}
+
+/* An empty option is DISABLED, never hidden — see the note in studio.astro.
+   Dimmed and un-clickable rather than removed, so the taxonomy keeps its
+   shape as books move through the pipeline. */
+.studio-bucket-chip:disabled,
+.studio-filter-chip:disabled,
+.studio-track-chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-track-chip {
+    transition: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

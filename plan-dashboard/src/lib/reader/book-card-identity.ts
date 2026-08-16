@@ -43,8 +43,42 @@ export interface BookCardIdentity {
   icon: string;
   blurb?: string;
   volume?: number;
+  /**
+   * The book's subject track, shown as the card's corner ribbon.
+   *
+   * The SAME `study_track` field the Podcast Factory Library publishes from
+   * (scripts/podcast/_listener_book.py reads it out of this very file), so the
+   * ribbon here and the ribbon there cannot disagree about what a book is.
+   * `undefined` when the book does not say — never guessed from the bucket,
+   * which answers a different question.
+   */
+  studyTrack?: StudyTrack;
   /** True when NOTHING beyond the slug is known — the honest empty state. */
   uncatalogued: boolean;
+}
+
+/**
+ * The five tracks, spelled the same as the Library's `app/lib/study-track.ts`
+ * and as the CHECK constraint on `unit_detail.study_track`. Kept as a literal
+ * union rather than imported: the two apps are separate builds, and this is a
+ * short closed list whose drift the validator below turns into an absent
+ * ribbon rather than a broken one.
+ */
+export type StudyTrack =
+  "theology" | "history" | "shariah" | "esoteric" | "reality";
+
+const STUDY_TRACKS: readonly string[] = [
+  "theology",
+  "history",
+  "shariah",
+  "esoteric",
+  "reality",
+];
+
+/** A track only when the file names one this app can actually paint. */
+function studyTrack(value: unknown): StudyTrack | undefined {
+  const s = str(value);
+  return s && STUDY_TRACKS.includes(s) ? (s as StudyTrack) : undefined;
 }
 
 async function readYaml(path: string): Promise<Record<string, unknown> | null> {
@@ -144,6 +178,12 @@ export async function resolveBookCardIdentity(
     icon: fallback.icon ?? "fa-book",
     blurb: fallback.blurb,
     volume: fallback.volume,
+    // The book's own file wins; the series' work.yml is the default for a work
+    // whose volumes carry no metadata of their own (al-anwaar-al-lateefah is
+    // split into six, and only vol-01 has a meta.yml). There is no third
+    // source and deliberately no guess: a book that names no track gets no
+    // ribbon rather than one inferred from its shelf.
+    studyTrack: studyTrack(meta?.study_track) ?? studyTrack(work?.study_track),
     // Honest only when the book itself says nothing either. This used to be true
     // whenever the hand-typed map had no row, which is why a book carrying an
     // author and an English title on disk still read "Not yet catalogued".

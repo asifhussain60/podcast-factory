@@ -358,26 +358,30 @@ The Master said: It is a proof of the One to whom nothing is like, glorified and
 The boy said: But did the Creator not say,
 
 > فلا تضربُوا للهِ الأمثالَ
-
-"Do not strike parables for God"?
+>
+> "Do not strike parables for God"?
 
 The Master said: And did He not also say,
 
 > وَللهِ المَثْلُ الأعْلَى
-
-"And to God belongs the highest likeness"?
+>
+> "And to God belongs the highest likeness"?
 
 The boy said: Glory be to Him who set riddles in His Book so that it might be entered by its door, and you are one of its doors. Make plain to us, then, how this is.
 
 The Master said: Everything has a meaning, and the meaning of the parables is this: the outward is an indication of the inward. He, blessed and exalted, forbade that He be measured against anything of His creation, so that one should say,
 
 > هَٰذَا مَثَلُ الْإِمَامِ
+>
+> "This is like the Imam,"
 
-"This is like the Imam," or
+or
 
 > هَٰذَا مَثَلُ الْحُجَّةِ
+>
+> "This is like the proof,"
 
-"This is like the proof," or
+or
 
 > هَٰذَا مَثَلُ الدَّاعِي
 >
@@ -386,8 +390,10 @@ The Master said: Everything has a meaning, and the meaning of the parables is th
 For their likenesses became indications pointing to them and to the differences of rank among them. It is not permitted, in the matter of His greatness, that the Creator be measured against anything of His creation by word or by deed, so that one should say, "This is like God." Rather the parables are taken according to their meanings, for their meanings carry indications: the small of them points to the great, and the great points to the higher meanings, and the higher points to the Highest of the high. Therefore He said,
 
 > وَللهِ المَثَلُ الأعْلَى
+>
+> "And to God belongs the highest likeness"
 
-"And to God belongs the highest likeness" — meaning the highest indication, for there is no indication of anything higher than the indication of God. And that is the air, highest above the heaven and the earth, encompassing all things while nothing of them encompasses it. It is the highest likeness, and it is the indication of the One to whom nothing is like. He did not say that there is nothing like Him — for indeed there is nothing like Him — but He meant that no indication of Him is like the indications, that to Him belongs the highest likeness, and that no indication among the indications of others, from those of His creation whom we have described, is like the indication of Him. Blessed be God, Lord of the Mighty Throne.
+— meaning the highest indication, for there is no indication of anything higher than the indication of God. And that is the air, highest above the heaven and the earth, encompassing all things while nothing of them encompasses it. It is the highest likeness, and it is the indication of the One to whom nothing is like. He did not say that there is nothing like Him — for indeed there is nothing like Him — but He meant that no indication of Him is like the indications, that to Him belongs the highest likeness, and that no indication among the indications of others, from those of His creation whom we have described, is like the indication of Him. Blessed be God, Lord of the Mighty Throne.
 
 The boy said: The meaning has grown great and the reach has grown wide. Was there, before the air, a thing standing between it and God, given the greatness of what you have described in it?
 

@@ -31,23 +31,28 @@ export interface TestDb {
  */
 function allMigrations(): string[] {
   const dir = new URL("../migrations/", import.meta.url);
-  return readdirSync(dir)
-    .filter((name) => name.endsWith(".sql"))
-    // SEEDS are excluded, and only seeds. A migration that creates a table
-    // describes the shape production has and every test wants it; a migration
-    // that INSERTS rows describes what production happens to contain, and a test
-    // builds its own — `0003_seed_catalog` puts a row in `content_unit` for
-    // every book in the repo, which collides with the fixtures the marks tests
-    // insert under the same slugs.
-    .filter((name) => !name.includes("_seed"))
-    .sort();
+  return (
+    readdirSync(dir)
+      .filter((name) => name.endsWith(".sql"))
+      // SEEDS are excluded, and only seeds. A migration that creates a table
+      // describes the shape production has and every test wants it; a migration
+      // that INSERTS rows describes what production happens to contain, and a test
+      // builds its own — `0003_seed_catalog` puts a row in `content_unit` for
+      // every book in the repo, which collides with the fixtures the marks tests
+      // insert under the same slugs.
+      .filter((name) => !name.includes("_seed"))
+      .sort()
+  );
 }
 
 export function createTestDb(migrations?: string[]): TestDb {
   const sqlite = new DatabaseSync(":memory:");
 
   for (const name of migrations?.map((m) => `${m}.sql`) ?? allMigrations()) {
-    const sql = readFileSync(new URL(`../migrations/${name}`, import.meta.url), "utf8");
+    const sql = readFileSync(
+      new URL(`../migrations/${name}`, import.meta.url),
+      "utf8",
+    );
     sqlite.exec(sql);
   }
 

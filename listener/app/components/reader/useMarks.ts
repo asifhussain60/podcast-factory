@@ -34,7 +34,11 @@ import {
  * being backgrounded rather than closed.
  */
 export function useMarks(slug: string): Marks {
-  const marks = useSyncExternalStore(subscribeMarks, marksSnapshot, marksSnapshot);
+  const marks = useSyncExternalStore(
+    subscribeMarks,
+    marksSnapshot,
+    marksSnapshot,
+  );
 
   useEffect(() => {
     openBook(slug);
@@ -43,10 +47,13 @@ export function useMarks(slug: string): Marks {
 
     void (async () => {
       try {
-        const response = await fetch(`/book/${encodeURIComponent(slug)}/marks`, {
-          headers: { Accept: "application/json" },
-          signal: controller.signal,
-        });
+        const response = await fetch(
+          `/book/${encodeURIComponent(slug)}/marks`,
+          {
+            headers: { Accept: "application/json" },
+            signal: controller.signal,
+          },
+        );
         if (!response.ok) return;
         const server = (await response.json()) as Marks;
         reconcile(server);

@@ -33,8 +33,20 @@ let t: TestDb;
 beforeEach(async () => {
   t = createTestDb();
 
-  await invite(t.db, "Amina.Yusuf@example.com", ADMIN, { firstName: "Amina", lastName: "Yusuf" }, NOW);
-  await invite(t.db, "bilal@example.com", ADMIN, { firstName: "Bilal", lastName: "Ahmed" }, NOW);
+  await invite(
+    t.db,
+    "Amina.Yusuf@example.com",
+    ADMIN,
+    { firstName: "Amina", lastName: "Yusuf" },
+    NOW,
+  );
+  await invite(
+    t.db,
+    "bilal@example.com",
+    ADMIN,
+    { firstName: "Bilal", lastName: "Ahmed" },
+    NOW,
+  );
   await invite(t.db, "nameless@example.com", ADMIN, {}, NOW);
 
   t.exec(`
@@ -101,9 +113,7 @@ describe("opening a newly invited person", () => {
         "https://podcast-factory.safinaverse.com/admin.data?filter=never&page=2&_routes=routes%2Fadmin._index",
         "mahrooqshamsi@gmail.com",
       ),
-    ).toBe(
-      "/admin?filter=never&email=mahrooqshamsi%40gmail.com",
-    );
+    ).toBe("/admin?filter=never&email=mahrooqshamsi%40gmail.com");
   });
 
   it("preserves an ordinary admin-page redirect too", () => {
@@ -118,11 +128,13 @@ describe("opening a newly invited person", () => {
 
 describe("the filters answer the questions they are named for", () => {
   it("separates never-signed-in from signed-in", async () => {
-    t.exec(`UPDATE invite SET redeemed_at = '${NOW}' WHERE email = 'bilal@example.com'`);
+    t.exec(
+      `UPDATE invite SET redeemed_at = '${NOW}' WHERE email = 'bilal@example.com'`,
+    );
 
-    expect((await listPeople(t.db, { filter: "active" })).people.map((p) => p.email)).toEqual([
-      "bilal@example.com",
-    ]);
+    expect(
+      (await listPeople(t.db, { filter: "active" })).people.map((p) => p.email),
+    ).toEqual(["bilal@example.com"]);
     expect((await listPeople(t.db, { filter: "never" })).total).toBe(2);
   });
 
@@ -147,7 +159,14 @@ describe("the filters answer the questions they are named for", () => {
     // The widest grant this application can give, given by one press of one
     // button. Being able to ask who holds it is the only way to audit it.
     await grant(t.db, "bilal@example.com", "library", "*", ADMIN, NOW);
-    await grant(t.db, "amina.yusuf@example.com", "unit", "standalone", ADMIN, NOW);
+    await grant(
+      t.db,
+      "amina.yusuf@example.com",
+      "unit",
+      "standalone",
+      ADMIN,
+      NOW,
+    );
 
     const { people } = await listPeople(t.db, { filter: "library" });
     expect(people.map((p) => p.email)).toEqual(["bilal@example.com"]);
@@ -158,11 +177,22 @@ describe("the filters answer the questions they are named for", () => {
     // widest grant in the system is not a rounding error — it is the wrong
     // answer. The flag is what lets the column say "Everything".
     await grant(t.db, "bilal@example.com", "library", "*", ADMIN, NOW);
-    await grant(t.db, "amina.yusuf@example.com", "unit", "standalone", ADMIN, NOW);
+    await grant(
+      t.db,
+      "amina.yusuf@example.com",
+      "unit",
+      "standalone",
+      ADMIN,
+      NOW,
+    );
 
     const rows = (await listPeople(t.db)).people;
-    expect(rows.find((p) => p.email === "bilal@example.com")?.library).toBe(true);
-    expect(rows.find((p) => p.email === "amina.yusuf@example.com")?.library).toBe(false);
+    expect(rows.find((p) => p.email === "bilal@example.com")?.library).toBe(
+      true,
+    );
+    expect(
+      rows.find((p) => p.email === "amina.yusuf@example.com")?.library,
+    ).toBe(false);
   });
 
   it("finds the people who signed in once and stopped", async () => {
@@ -220,7 +250,10 @@ describe("the table reads alphabetically down the column it prints", () => {
 
 describe("one name field, two stored columns", () => {
   it("puts the last word in the surname and the rest in the given name", () => {
-    expect(splitName("Ishrat Husain")).toEqual({ firstName: "Ishrat", lastName: "Husain" });
+    expect(splitName("Ishrat Husain")).toEqual({
+      firstName: "Ishrat",
+      lastName: "Husain",
+    });
     expect(splitName("Abd al-Rahman ibn Awf")).toEqual({
       firstName: "Abd al-Rahman ibn",
       lastName: "Awf",
@@ -239,7 +272,12 @@ describe("one name field, two stored columns", () => {
   it("is reversible — what is displayed is what was typed", async () => {
     // The one property that makes a heuristic safe here. The two halves rejoin,
     // in order, with one space; nothing is dropped and no word changes places.
-    for (const typed of ["Ishrat Husain", "Cher", "Abd al-Rahman ibn Awf", "Mary  Jane   Watson"]) {
+    for (const typed of [
+      "Ishrat Husain",
+      "Cher",
+      "Abd al-Rahman ibn Awf",
+      "Mary  Jane   Watson",
+    ]) {
       const email = `${typed.replace(/\W+/g, "")}@example.com`;
       await invite(t.db, email, ADMIN, splitName(typed), NOW);
       const person = await personByEmail(t.db, email);
@@ -263,7 +301,13 @@ describe("paging", () => {
 
 describe("re-inviting somebody keeps what was recorded about them", () => {
   it("does not blank the name or the note", async () => {
-    await invite(t.db, "carer@example.com", ADMIN, { firstName: "Ada", lastName: "Lovelace", note: "A friend" }, NOW);
+    await invite(
+      t.db,
+      "carer@example.com",
+      ADMIN,
+      { firstName: "Ada", lastName: "Lovelace", note: "A friend" },
+      NOW,
+    );
     await revokeInvite(t.db, "carer@example.com", ADMIN, LATER);
 
     // The re-invite button sends no name and no note. A plain assignment would
@@ -280,7 +324,13 @@ describe("re-inviting somebody keeps what was recorded about them", () => {
 
 describe("renaming somebody in the row", () => {
   it("stores the typed name in both columns and leaves the address alone", async () => {
-    await renamePerson(t.db, "nameless@example.com", "Ishrat Husain", ADMIN, NOW);
+    await renamePerson(
+      t.db,
+      "nameless@example.com",
+      "Ishrat Husain",
+      ADMIN,
+      NOW,
+    );
 
     const person = await personByEmail(t.db, "nameless@example.com");
     expect(person?.firstName).toBe("Ishrat");
@@ -300,7 +350,9 @@ describe("renaming somebody in the row", () => {
 
   it("does not touch anybody else", async () => {
     await renamePerson(t.db, "bilal@example.com", "Bilal Karim", ADMIN, NOW);
-    expect((await personByEmail(t.db, "amina.yusuf@example.com"))?.displayName).toBe("Amina Yusuf");
+    expect(
+      (await personByEmail(t.db, "amina.yusuf@example.com"))?.displayName,
+    ).toBe("Amina Yusuf");
   });
 });
 
@@ -334,7 +386,10 @@ describe("deleting somebody is not revoking them", () => {
 
     await deletePerson(t.db, "bilal@example.com", ADMIN, LATER);
 
-    const left = await t.db.prepare(`SELECT count(*) AS n FROM session`).bind().first<{ n: number }>();
+    const left = await t.db
+      .prepare(`SELECT count(*) AS n FROM session`)
+      .bind()
+      .first<{ n: number }>();
     expect(left?.n).toBe(0);
   });
 
@@ -342,7 +397,9 @@ describe("deleting somebody is not revoking them", () => {
     // The row goes; the history of the row going does not.
     await deletePerson(t.db, "bilal@example.com", ADMIN, LATER);
     const ev = await t.db
-      .prepare(`SELECT action, subject FROM access_event WHERE action = 'delete-person'`)
+      .prepare(
+        `SELECT action, subject FROM access_event WHERE action = 'delete-person'`,
+      )
       .bind()
       .first<{ action: string; subject: string }>();
     expect(ev?.subject).toBe("bilal@example.com");
@@ -376,11 +433,15 @@ describe("who can open one book", () => {
     await grant(t.db, "amina.yusuf@example.com", "library", "*", ADMIN, NOW);
 
     const holders = await holdersOf(t.db, "vol-one");
-    expect(holders.find((h) => h.email === "amina.yusuf@example.com")?.via).toBe("unit");
+    expect(
+      holders.find((h) => h.email === "amina.yusuf@example.com")?.via,
+    ).toBe("unit");
   });
 
   it("names people rather than addresses where a name is known", async () => {
     await grant(t.db, "bilal@example.com", "unit", "standalone", ADMIN, NOW);
-    expect((await holdersOf(t.db, "standalone"))[0].displayName).toBe("Bilal Ahmed");
+    expect((await holdersOf(t.db, "standalone"))[0].displayName).toBe(
+      "Bilal Ahmed",
+    );
   });
 });

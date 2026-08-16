@@ -53,7 +53,9 @@ const BASE = process.env.LISTENER_URL ?? "http://localhost:5273";
  * is an environment variable and environment variables get set by accident.
  */
 if (!/^http:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/.test(BASE)) {
-  console.error(`refusing to press buttons at ${BASE} — this sweep is local only.`);
+  console.error(
+    `refusing to press buttons at ${BASE} — this sweep is local only.`,
+  );
   process.exit(2);
 }
 
@@ -69,9 +71,15 @@ const SAMPLE_PER_FAMILY = 3;
 /** Accessible names never pressed, each for a reason worth writing down. */
 const SKIP = [
   { match: /^sign out$/i, why: "ends the session this sweep runs in" },
-  { match: /^(light|sepia|dark)$/i, why: "writes localStorage only, by design" },
+  {
+    match: /^(light|sepia|dark)$/i,
+    why: "writes localStorage only, by design",
+  },
   { match: /^skip to content$/i, why: "moves focus, which is its whole job" },
-  { match: /^exit simulation$/i, why: "no simulation is running in this sweep" },
+  {
+    match: /^exit simulation$/i,
+    why: "no simulation is running in this sweep",
+  },
 ];
 
 const args = process.argv.slice(2);
@@ -104,8 +112,14 @@ const VIEWS = [
           label: "player",
           path: `/book/${slug}?tab=listen`,
           prepare: async (/** @type {import("playwright").Page} */ page) => {
-            await page.locator(".pf-row__action").first().click().catch(() => {});
-            await page.waitForSelector(".pf-player", { timeout: 3000 }).catch(() => {});
+            await page
+              .locator(".pf-row__action")
+              .first()
+              .click()
+              .catch(() => {});
+            await page
+              .waitForSelector(".pf-player", { timeout: 3000 })
+              .catch(() => {});
           },
         },
       ]),
@@ -138,9 +152,16 @@ let pressed = 0;
 /** A fresh page carrying the administrator's session.
  *  @param {string} path */
 async function open(path) {
-  const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+  const context = await browser.newContext({
+    viewport: { width: 1280, height: 900 },
+  });
   await context.addCookies([
-    { name: cookie.slice(0, at), value: cookie.slice(at + 1), domain: "localhost", path: "/" },
+    {
+      name: cookie.slice(0, at),
+      value: cookie.slice(at + 1),
+      domain: "localhost",
+      path: "/",
+    },
   ]);
   const page = await context.newPage();
   /** @type {string[]} */
@@ -157,7 +178,9 @@ async function inventory(page) {
   return page.evaluate(() => {
     /** @param {Element} el */
     const name = (el) =>
-      (el.getAttribute("aria-label") ?? el.textContent ?? "").replace(/\s+/g, " ").trim() ||
+      (el.getAttribute("aria-label") ?? el.textContent ?? "")
+        .replace(/\s+/g, " ")
+        .trim() ||
       el.getAttribute("title") ||
       "(unnamed)";
 
@@ -169,13 +192,17 @@ async function inventory(page) {
         index,
         // The class is the last resort rather than "(unnamed)", so a control
         // this report complains about can actually be found in the source.
-        name: name(el) === "(unnamed)" ? `(unnamed .${el.className})` : name(el),
+        name:
+          name(el) === "(unnamed)" ? `(unnamed .${el.className})` : name(el),
         disabled: el.disabled,
         // Present in the markup and not on the screen — the docked drawer's
         // scrim is `display:none` above 64rem, and a thing nobody can press is
         // not a thing that can be inert.
         visible:
-          box.width > 0 && box.height > 0 && style.display !== "none" && style.visibility !== "hidden",
+          box.width > 0 &&
+          box.height > 0 &&
+          style.display !== "none" &&
+          style.visibility !== "hidden",
         // A control already in the state it would set. Pressing it is honestly
         // nothing, and calling that a failure teaches everyone to ignore this.
         settled:
@@ -253,7 +280,9 @@ for (const view of VIEWS) {
       continue;
     }
     if (control.blocked) {
-      console.log(`  skip  ${control.name} — its form is empty, so the browser blocks the submit`);
+      console.log(
+        `  skip  ${control.name} — its form is empty, so the browser blocks the submit`,
+      );
       continue;
     }
     if (control.settled) {
@@ -291,13 +320,19 @@ for (const view of VIEWS) {
 
     pressed++;
     if (moved || changed || wrote) {
-      const how = [moved && "navigated", wrote && "wrote", changed && "changed the page"]
+      const how = [
+        moved && "navigated",
+        wrote && "wrote",
+        changed && "changed the page",
+      ]
         .filter(Boolean)
         .join(", ");
       console.log(`  ok    ${control.name}  (${how})`);
     } else {
       failures++;
-      console.log(`  \x1b[31mFAIL  ${control.name} — pressing it did nothing\x1b[0m`);
+      console.log(
+        `  \x1b[31mFAIL  ${control.name} — pressing it did nothing\x1b[0m`,
+      );
     }
 
     await context.close();
@@ -306,7 +341,9 @@ for (const view of VIEWS) {
   // Named, with its count, so "all controls passed" never quietly means "all the
   // ones I bothered with".
   for (const [key, n] of skipped) {
-    console.log(`  skip  ${n} more of "${key}" — one control rendered many times, ${SAMPLE_PER_FAMILY} sampled`);
+    console.log(
+      `  skip  ${n} more of "${key}" — one control rendered many times, ${SAMPLE_PER_FAMILY} sampled`,
+    );
   }
 }
 
@@ -315,12 +352,23 @@ tearDown();
 
 // Put the privilege bit back exactly as it was found, book by book.
 const restore = openBefore
-  .map((r) => `UPDATE content_unit SET open_to_all = ${Number(r.open_to_all)} WHERE slug = '${r.slug}';`)
+  .map(
+    (r) =>
+      `UPDATE content_unit SET open_to_all = ${Number(r.open_to_all)} WHERE slug = '${r.slug}';`,
+  )
   .join("\n");
 if (restore !== "") {
   execFileSync(
     "npx",
-    ["wrangler", "d1", "execute", "podcast-listener", "--local", "--command", restore],
+    [
+      "wrangler",
+      "d1",
+      "execute",
+      "podcast-listener",
+      "--local",
+      "--command",
+      restore,
+    ],
     { stdio: "pipe" },
   );
   console.log(`\nrestored "open to everyone" on ${openBefore.length} book(s)`);
@@ -328,7 +376,9 @@ if (restore !== "") {
 
 // Said out loud rather than left to be discovered: pressing Delete on the people
 // table deletes invented readers, and this cannot put them back.
-console.log("invented readers pressed Delete on are gone — `npm run seed:people` re-seeds them");
+console.log(
+  "invented readers pressed Delete on are gone — `npm run seed:people` re-seeds them",
+);
 
 console.log(
   failures === 0

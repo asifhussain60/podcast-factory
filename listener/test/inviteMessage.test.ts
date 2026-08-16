@@ -36,14 +36,18 @@ describe("the invitation message", () => {
   });
 
   it("carries the link", () => {
-    expect(inviteMessage(base)).toContain("https://podcast-factory.safinaverse.com");
+    expect(inviteMessage(base)).toContain(
+      "https://podcast-factory.safinaverse.com",
+    );
   });
 
   it("points them at the About page, built from the same base address", () => {
     // Not a second hardcoded host. The About page is behind the sign-in, which
     // is why the sentence around it says "once you're in" — the gate carries the
     // destination through Google and returns them there.
-    expect(inviteMessage(base)).toContain("https://podcast-factory.safinaverse.com/about");
+    expect(inviteMessage(base)).toContain(
+      "https://podcast-factory.safinaverse.com/about",
+    );
   });
 
   it("does not produce a double slash when the site address has a trailing one", () => {
@@ -64,12 +68,20 @@ describe("the invitation message", () => {
   });
 
   it("joins two books with 'and', and three with commas", () => {
-    expect(inviteMessage({ ...base, books: ["A", "B"] })).toContain("You've got: A and B");
-    expect(inviteMessage({ ...base, books: ["A", "B", "C"] })).toContain("You've got: A, B and C");
+    expect(inviteMessage({ ...base, books: ["A", "B"] })).toContain(
+      "You've got: A and B",
+    );
+    expect(inviteMessage({ ...base, books: ["A", "B", "C"] })).toContain(
+      "You've got: A, B and C",
+    );
   });
 
   it("says 'everything' rather than listing twenty-one titles", () => {
-    const msg = inviteMessage({ ...base, books: ["A", "B"], wholeLibrary: true });
+    const msg = inviteMessage({
+      ...base,
+      books: ["A", "B"],
+      wholeLibrary: true,
+    });
     expect(msg).toContain("You've got: everything in the library");
     expect(msg).not.toContain("A and B");
   });
@@ -89,7 +101,9 @@ describe("the invitation message", () => {
   it("falls back to the address when no name was recorded", () => {
     // Inventing a name would be worse, and the administrator sees the message
     // before sending it.
-    expect(inviteMessage({ ...base, displayName: base.email })).toContain(`Hi ${base.email},`);
+    expect(inviteMessage({ ...base, displayName: base.email })).toContain(
+      `Hi ${base.email},`,
+    );
   });
 
   it("is plain text — it survives being pasted anywhere", () => {
@@ -104,7 +118,9 @@ describe("the invitation message", () => {
     // Wrapping at a fixed column looked tidy in the desktop textarea and wrapped
     // a second time on a phone, leaving orphans like "work." alone on a line.
     // Paragraphs are single lines; blank lines are the only structure.
-    const paragraphs = inviteMessage(base).split("\n").filter((l) => l.trim() !== "");
+    const paragraphs = inviteMessage(base)
+      .split("\n")
+      .filter((l) => l.trim() !== "");
     expect(paragraphs.some((l) => l.length > 90)).toBe(true);
   });
 });

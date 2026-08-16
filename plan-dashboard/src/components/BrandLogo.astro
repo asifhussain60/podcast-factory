@@ -1,0 +1,124 @@
+---
+/**
+ * The Podcast Factory brand lockup for this site's top nav — the mark plus the
+ * two-tone wordmark, ported from the Podcast Factory Library's own header
+ * (`listener/app/components/brand/mark.tsx` + `Logo.tsx`) so both surfaces
+ * announce themselves the same way.
+ *
+ * ONE thing is deliberately changed in the port: the Library paints the mark's
+ * accent half with `--l-accent`, a token that does not exist here, so this copy
+ * reads this site's own `--c-accent`. The colour theme is therefore unchanged —
+ * the mark takes whatever the palette already says, rather than importing a
+ * second one. The ink half is `currentColor`, so the mark also follows the gold
+ * brand override that `narrative.css` applies on the cinematic homepage instead
+ * of fighting it.
+ *
+ * The wordmark is set as live text rather than drawn, for the same reasons the
+ * Library gives: it takes the theme's ink and accent, scales instead of
+ * pixelating, and stays selectable.
+ *
+ * `Astro Site` is kept beside it. It is the one word that tells you which of the
+ * two Podcast Factory surfaces you are looking at, and the repo's own naming
+ * rule writes this site's name in full.
+ *
+ * The mask id is a constant because the lockup renders exactly once per page
+ * (the top nav). If a second instance is ever added, give this a prop — two
+ * elements sharing an id would make the first one's mask win.
+ */
+---
+
+<span class="topnav-brand-lockup">
+  {
+    /* The mark carries the accessible name (REQ-022 triple), and the lettering
+       beside it is aria-hidden — so the site is announced exactly once whether
+       or not the wordmark is on screen at this width. */
+  }
+  <svg
+    class="topnav-brand-mark"
+    viewBox="0 0 96 96"
+    fill="none"
+    role="img"
+    aria-labelledby="pf-brand-mark-title pf-brand-mark-desc"
+    focusable="false"
+  >
+    <title id="pf-brand-mark-title">Podcast Factory</title>
+    <desc id="pf-brand-mark-desc">
+      An open book with a microphone standing in its gutter.
+    </desc>
+    {
+      /* The microphone grille is a mask rather than white paint: a hole is
+         right on every theme, because whatever the mark sits on shows through. */
+    }
+    <mask id="pf-brand-mark-slots">
+      <rect width="96" height="96" fill="#fff"></rect>
+      <rect x="42.5" y="34" width="11" height="2.6" rx="1.3"></rect>
+      <rect x="42.5" y="40" width="11" height="2.6" rx="1.3"></rect>
+      <rect x="42.5" y="46" width="11" height="2.6" rx="1.3"></rect>
+    </mask>
+
+    {/* Left page, accent */}
+    <g
+      stroke="var(--c-accent)"
+      stroke-width="3"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+    >
+      <path d="M13 20 L13 66 C27 69 39 74 46.5 80 L46.5 34 C39 28 27 23 13 20 Z"
+      ></path>
+      <path d="M8 26 L8 70" stroke-width="4"></path>
+    </g>
+
+    {/* Right page, ink */}
+    <g
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+    >
+      <path d="M83 20 L83 66 C69 69 57 74 49.5 80 L49.5 34 C57 28 69 23 83 20 Z"
+      ></path>
+      <path d="M88 26 L88 70" stroke-width="4"></path>
+    </g>
+
+    {/* Waveform, one colour per page */}
+    <g fill="var(--c-accent)">
+      <rect x="19" y="40" width="3" height="5" rx="1.5"></rect>
+      <rect x="25" y="35" width="3" height="15" rx="1.5"></rect>
+      <rect x="31" y="31" width="3" height="23" rx="1.5"></rect>
+      <rect x="37" y="36" width="3" height="13" rx="1.5"></rect>
+    </g>
+    <g fill="currentColor">
+      <rect x="56" y="36" width="3" height="13" rx="1.5"></rect>
+      <rect x="62" y="31" width="3" height="23" rx="1.5"></rect>
+      <rect x="68" y="35" width="3" height="15" rx="1.5"></rect>
+      <rect x="74" y="40" width="3" height="5" rx="1.5"></rect>
+    </g>
+
+    {/* Microphone, ink */}
+    <g stroke="currentColor" stroke-linecap="round" fill="none">
+      <rect
+        x="40"
+        y="24"
+        width="16"
+        height="34"
+        rx="8"
+        fill="currentColor"
+        stroke="none"
+        mask="url(#pf-brand-mark-slots)"></rect>
+      <path d="M34 46 L34 50 A14 14 0 0 0 62 50 L62 46" stroke-width="3.2"
+      ></path>
+      <path d="M48 64 L48 74" stroke-width="3.2"></path>
+      <path d="M39 75.5 L57 75.5" stroke-width="3.2"></path>
+    </g>
+  </svg>
+
+  {
+    /* Hidden from assistive tech: the mark above already carries the name, and
+       the `Podcast`/`Factory` split the colour treatment needs would otherwise
+       be read as two separate strings. */
+  }
+  <span class="topnav-brand-word" aria-hidden="true">
+    <span class="topnav-brand-word-a">Podcast</span>
+    <span class="topnav-brand-word-b">Factory</span>
+  </span>
+</span>

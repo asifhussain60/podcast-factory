@@ -1,10 +1,176 @@
 {
-  "schema": "book.gloss-coverage/v1",
-  "candidates": 1,
+  "schema": "book.gloss-coverage/v2",
+  "candidates": 27,
   "strong": 0,
   "covered": 0,
   "missing_strong": [],
   "glossary_entries": 10,
   "coverage": 0.0,
-  "strong_coverage": 1.0
+  "strong_coverage": 1.0,
+  "bare_terms": 27,
+  "bare_uses": 43,
+  "bare": [
+    {
+      "term": "musinnah",
+      "uses": 6,
+      "confidence": "weak",
+      "first_seen_snippet": "number reaches forty, at which point a *musinnah* is due. T"
+    },
+    {
+      "term": "tabi",
+      "uses": 6,
+      "confidence": "weak",
+      "first_seen_snippet": "assed under their owner's possession, a *tabi* or *tabia"
+    },
+    {
+      "term": "bint labun",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "- Thirty-six: a *bint labun* is due, u"
+    },
+    {
+      "term": "bint makhad",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "- Twenty-five: a *bint makhad* is due —"
+    },
+    {
+      "term": "fay",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "the hands of the polytheists is called *fay*. *Fay* me"
+    },
+    {
+      "term": "hiqqah",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "- Forty-six: a *hiqqah* is due —"
+    },
+    {
+      "term": "muja",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "The ram of the sheep — better than the *muja*"
+    },
+    {
+      "term": "mustalim",
+      "uses": 2,
+      "confidence": "weak",
+      "first_seen_snippet": "een bound or crushed) — better than the *mustalim*"
+    },
+    {
+      "term": "Al-Kafirun",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ook together with \"Say: O disbelievers\" (Al-Kafirun); and in t"
+    },
+    {
+      "term": "aqsam",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "ion is broken, such an animal is called *aqsam*. The eye"
+    },
+    {
+      "term": "badanah",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "in descending order of merit — the term *badanah* covering"
+    },
+    {
+      "term": "faa al-fay",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "d *fay*. *Fay* means 'return'; one says *faa al-fay* — that is"
+    },
+    {
+      "term": "ghait",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "the occurrence of ritual impurity — the *ghait* being the"
+    },
+    {
+      "term": "hiqqas",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "If one more camel is added, two *hiqqas* are due,"
+    },
+    {
+      "term": "ibn labun",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "d. If no *bint makhad* is available, an *ibn labun* suffices:"
+    },
+    {
+      "term": "jadhaa",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "- Sixty-one: a *jadhaa* is due —"
+    },
+    {
+      "term": "jallalah",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "cloth. They forbade the offering of the *jallalah* — the ani"
+    },
+    {
+      "term": "kharqa",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "- the *kharqa*: an anima"
+    },
+    {
+      "term": "labun",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "- Seventy-six: two daughters of *labun* are due,"
+    },
+    {
+      "term": "mudabarah",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "- the *mudabarah*: an anima"
+    },
+    {
+      "term": "mulh",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "The finest among all of them is the *mulh*: an anima"
+    },
+    {
+      "term": "muqabalah",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "- the *muqabalah*: an anima"
+    },
+    {
+      "term": "rafath",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "nd it has already been established that *rafath* means int"
+    },
+    {
+      "term": "sharqa",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "- the *sharqa*: an anima"
+    },
+    {
+      "term": "tabia",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "r their owner's possession, a *tabi* or *tabia* is due: t"
+    },
+    {
+      "term": "thani",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "an offering except a mature animal or a *thani*, save in"
+    },
+    {
+      "term": "touching",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": ", expressed indirectly through the word *touching*, since to"
+    }
+  ]
 }
