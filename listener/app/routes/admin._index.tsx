@@ -919,9 +919,20 @@ function PersonDetail({
    *  twenty-three rows in this catalogue are volumes of two works. */
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
 
-  const works = catalog.filter((u) => u.kind === "work");
+  // "Add more" offers only what a grant can actually take effect on today —
+  // a draft is invisible to everyone regardless of who holds a grant on it
+  // (per `statusHint` below), so offering one here as if it were an ordinary
+  // book is what reads as a mistake once it turns out to do nothing (Asif,
+  // 2026-08-17: "should only see books... that have the published flag set
+  // ... to avoid confusion"). This does NOT touch `held` above: a book
+  // already granted stays listed with its own "not published yet" hint even
+  // in draft, because hiding an existing grant reads as a silent revoke.
+  const works = catalog.filter(
+    (u) => u.kind === "work" && u.status === "published",
+  );
   const standalone = catalog.filter(
-    (u) => u.kind === "book" && u.workSlug === null,
+    (u) =>
+      u.kind === "book" && u.workSlug === null && u.status === "published",
   );
   const wholeLibrary = granted.has("library:*");
   const searching = find.trim() !== "";
@@ -1128,7 +1139,11 @@ function PersonDetail({
 
               const volumes = catalog
                 .filter((u) => u.workSlug === work.slug && matches(u))
-                .filter((u) => !granted.has(`unit:${u.slug}`));
+                .filter((u) => !granted.has(`unit:${u.slug}`))
+                // Same "only what's actually live" rule as `works`/`standalone`
+                // above, applied per volume — a work can publish before every
+                // one of its volumes does.
+                .filter((u) => u.status === "published");
 
               return (
                 <WorkScope
