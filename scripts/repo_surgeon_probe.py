@@ -21,6 +21,7 @@ Usage:
     python3 scripts/repo_surgeon_probe.py              # text report
     python3 scripts/repo_surgeon_probe.py --json       # machine-readable
     python3 scripts/repo_surgeon_probe.py --scope podcast   # pipeline probes only
+    python3 scripts/repo_surgeon_probe.py --scope apps      # the two web surfaces only
 
 Exit codes:
     0  no unwaived P0/P1 findings
@@ -44,6 +45,12 @@ try:
 except ImportError:  # pragma: no cover - PyYAML is in requirements.txt
     print("repo_surgeon_probe: PyYAML is required (pip install pyyaml)", file=sys.stderr)
     sys.exit(2)
+
+# The surface probes live beside this file. The path insert has to run BEFORE the
+# import, so both are exempted from import-ordering: `isort` would hoist the
+# import above the line that makes it resolvable.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import repo_surgeon_checks as surface  # noqa: E402, I001
 
 
 SEVERITY_RANK = {"P0": 0, "P1": 1, "P2": 2, "P3": 3}
@@ -734,6 +741,18 @@ def run(root: Path, scope: str) -> Probe:
         probe.check_abs_paths,
         probe.check_version_constants,
         probe.check_book_pipeline,
+        # The pipeline's capability surface: a phase nothing handles, an agent
+        # nothing defines, a command a doc tells you to run that is gone.
+        lambda: surface.check_capabilities(probe),
+    ]
+    # The two web surfaces. Split into their own module and their own scope so a
+    # front-end change can be probed without paying for the plan parse, and so
+    # neither file grows past the point where a reader can hold it.
+    app_checks = [
+        lambda: surface.check_gate_coverage(probe),
+        lambda: surface.check_routes(probe),
+        lambda: surface.check_test_hygiene(probe),
+        lambda: surface.check_clean_code(probe),
     ]
     all_checks = [
         probe.check_contract,
@@ -745,9 +764,14 @@ def run(root: Path, scope: str) -> Probe:
         probe.check_skill_registry,
         probe.check_self_references,
         *podcast_checks,
+        *app_checks,
         probe.check_plan,
+        # Last, and reported only. Removal is scripts/repo_cleanup.py's job: a
+        # gate that deletes as a side effect of running is one people route around.
+        lambda: surface.check_debris(probe),
     ]
-    for check in podcast_checks if scope == "podcast" else all_checks:
+    selected = {"podcast": podcast_checks, "apps": app_checks}.get(scope, all_checks)
+    for check in selected:
         check()
 
     probe.apply_waivers(dt.date.today())
@@ -758,7 +782,7 @@ def run(root: Path, scope: str) -> Probe:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--json", action="store_true", help="emit findings as JSON")
-    ap.add_argument("--scope", choices=["all", "podcast"], default="all", help="probe subset")
+    ap.add_argument("--scope", choices=["all", "podcast", "apps"], default="all", help="probe subset")
     args = ap.parse_args()
 
     root = Path(

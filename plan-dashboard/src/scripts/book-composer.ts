@@ -61,7 +61,6 @@ import {
   createComposeLane,
   pendingLane,
   type ComposeLane,
-  type PodcastChapterMeta,
 } from "./compose-lane";
 // NB: the module also exports `composeLane`, deliberately NOT imported here —
 // this file already binds that name to its ComposeLane controller instance.
@@ -94,7 +93,6 @@ import {
   DEFAULT_DEPTH_PROFILE,
   DEPTH_LEVELS_BY_PROFILE,
   EDITOR_FONTS,
-  type GlossaryEntry,
 } from "../components/studio/editor/studio-editor-constants";
 import ComposeAiTools from "../components/studio/compose/ComposeAiTools";
 import { mountPanelTextSize } from "./panel-text-size";
@@ -110,104 +108,27 @@ import {
   type StandaloneTextAction,
 } from "./book-composer-ai-config";
 
-type Align = "left" | "center" | "right";
-type Flow = "wrap" | "standalone";
-type PageFit = "avoid" | "before" | "isolate-plate";
+// The data-island types moved to ./compose-data-types.ts on the same pass.
+import type {
+  Align,
+  Flow,
+  PageFit,
+  Visual,
+  Placement,
+  ComposerData,
+} from "./compose-data-types";
 
-interface Visual {
-  id: string;
-  type: string;
-  caption: string;
-  file: string;
-  src: string;
-  suggested_anchor: string;
-  chapter: string;
-  cleaned: boolean;
-  embedded_title: string;
-}
-interface Citation {
-  ar: string;
-  tr: string;
-}
-interface Chapter {
-  anchor: string;
-  key: string;
-  title: string;
-  paras: number;
-  /** A stable name per prose paragraph, in order — the key the Arabic-source
-   *  alignment is stored under. Mirrors ComposerChapter.paraKeys in
-   *  lib/reader/composer.ts, computed there by the shared block splitter. */
-  paraKeys: string[];
-  citations: Citation[];
-  /** TipTap-safe seed for edit mode. Mirrors ComposerChapter.editHtml in
-   *  lib/reader/composer.ts — see the bodyByKey note in boot(). */
-  editHtml: string;
-}
-interface Placement {
-  visual_id: string;
-  anchor: string;
-  anchor_para: number | null;
-  align: Align;
-  flow: Flow;
-  width_pct: number;
-  caption: string;
-  page_fit: PageFit;
-}
-interface ComposerData {
-  slug: string;
-  chapters: Chapter[];
-  visuals: Visual[];
-  placements: Placement[];
-  glossary: GlossaryEntry[];
-  glossaryAll: GlossaryEntry[];
-  /** RCA-001 AI-3 — chapterKey -> why a save would freeze machine text.
-   *  Mirrors ComposerView.articulationWarnings in lib/reader/composer.ts. */
-  articulationWarnings?: Record<string, string>;
-  /** The read-only Podcast lane's chapter list (metadata only). Mirrors
-   *  ComposerView.podcastChapters; absent for a book with no podcast source. */
-  podcastChapters?: PodcastChapterMeta[];
-  /** Gates the "Paste & Fix Chapter" action. Mirrors ComposerView.sessionsLane. */
-  sessionsLane?: boolean;
-}
+// The toolbar's controls, icons and tooltips, and the serializer coverage list,
+// moved to ./compose-toolbar-config.ts on 2026-08-16 (frontend size ratchet).
+import {
+  WRAP_MAX,
+  DOC_TO_MARKDOWN_COVERS,
+  COMPOSE_TOOLBAR_TIPS,
+} from "./compose-toolbar-config";
 
-const WRAP_MAX = 50;
-
-// anchorKey comes from the single shared implementation — see the import above.
-
-/**
- * Everything `docToMarkdown` actually knows how to write.
- *
- * Declared by hand rather than derived from the schema on purpose: deriving it
- * would make the package's coverage assertion agree with itself and check
- * nothing. Adding a node to editorExtensions without also teaching the
- * serializer about it must fail loudly here, not quietly in book.md.
- */
-const DOC_TO_MARKDOWN_COVERS = [
-  "doc",
-  "text",
-  "paragraph",
-  "heading",
-  "blockquote",
-  "bulletList",
-  "orderedList",
-  "listItem",
-  "codeBlock",
-  "horizontalRule",
-  "chapterImage",
-  "bold",
-  "italic",
-  "code",
-  "strike",
-  "link",
-];
-
-/**
- * The text-colour button's two hooks into the page.
- *
- * Module scope because COMPOSE_TOOLBAR_ITEMS is built once, at load, while the
- * chapter the button acts on changes underneath it on every chapter switch.
- * `boot()` assigns both; until it does, the button is inert rather than wrong.
- */
+// The toolbar ITEMS stay here, deliberately: each one closes over a mutable
+// binding assigned during boot, and an imported binding cannot be assigned from
+// the importer. Only the inert data moved.
 let colourApply: ((quote: string, ink: string | null) => void) | null = null;
 let colourActive: (() => string | null) | null = null;
 /** The alignment buttons' hooks, assigned by boot for the same reason. */
@@ -242,7 +163,7 @@ let quoteKindActive: (() => QuoteKindId | null) | null = null;
  * renderMarkdown, and removing the mark would silently eat any that a chapter
  * already carries on its next save. Only the button is gone; Mod-E still works.
  */
-const COMPOSE_TOOLBAR_ITEMS = [
+export const COMPOSE_TOOLBAR_ITEMS = [
   // History
   "undo",
   "redo",
@@ -296,7 +217,7 @@ const COMPOSE_TOOLBAR_ITEMS = [
  * request failed or had not landed yet. A formatting bar is not a place to
  * accept a glyph that only usually arrives.
  */
-const COMPOSE_TOOLBAR_ICONS = TOOLBAR_ICONS;
+export const COMPOSE_TOOLBAR_ICONS = TOOLBAR_ICONS;
 
 /**
  * What each control does, and how to use it — the text of the custom tooltip.
@@ -307,48 +228,6 @@ const COMPOSE_TOOLBAR_ICONS = TOOLBAR_ICONS;
  * what it expects to be selected first, which is the part that is not guessable.
  * Keyed by the package's `data-rte-id`.
  */
-const COMPOSE_TOOLBAR_TIPS = {
-  undo: { title: "Undo", detail: "Step back through your last edits. ⌘Z." },
-  redo: { title: "Redo", detail: "Reapply an edit you undid. ⇧⌘Z." },
-  paragraphFormat: {
-    title: "Paragraph style",
-    detail: "Body or Heading 1–3. ⌥⌘1/2/3 for Heading 1/2/3, ⌥⌘0 for Body.",
-  },
-  bold: { title: "Bold", detail: "Select text and click. ⌘B." },
-  italic: {
-    title: "Italic",
-    detail:
-      "Select text and click. Used for book titles and emphasis. ⌘I. Arabic never slants — it is left upright.",
-  },
-  bulletList: {
-    title: "Bulleted list",
-    detail: "Turns the selected paragraphs into a list. Click again to undo.",
-  },
-  orderedList: {
-    title: "Numbered list",
-    detail:
-      "Turns the selected paragraphs into a numbered list. A list that starts at a number the source states keeps that number.",
-  },
-  blockquote: {
-    title: "Quotation",
-    detail:
-      "Sets the selected paragraphs as an indented quotation — for a passage quoted from elsewhere. An Arabic line above its English rendering prints as the book's verse style; the two are told apart by what they contain, so no separate control is needed.",
-  },
-  quoteKind: {
-    title: "Quote kind",
-    detail:
-      "Select a quotation, then declare what it is — a Saying, a Verse, or a Prophetic tradition. The reading edition draws a different card for each. Qur'an is never declared here — it is recognized automatically.",
-  },
-  link: {
-    title: "Link",
-    detail: "Select the words to link, click, then type the address.",
-  },
-  horizontalRule: {
-    title: "Divider",
-    detail:
-      "Inserts a horizontal rule at the cursor — a break between two passages inside one chapter, not a new chapter.",
-  },
-};
 
 /** Left by a reload that is really a chapter switch, so the next boot knows to
  *  open the new chapter at its beginning rather than where the last one ended. */
@@ -3204,6 +3083,12 @@ function boot(): void {
   // there take raw lines, never a joined paragraph, for the same reason this
   // does: a multi-line selection keyed on its full text would ask the
   // renderer to match a string it never actually holds.
+  // A LOCAL COPY of QUOTE_KIND_LABEL, and it must stay local. Its home is
+  // scripts/lib/quote-kind.mjs, but that module imports `node:fs` — importing it
+  // here pulls the filesystem into a browser bundle and every Studio page throws
+  // "Module node:fs has been externalized" on load. The 2026-08-16 audit deduped
+  // it against the note in markdown.ts saying exactly this, and `npm run smoke`
+  // caught it on four routes — which is the whole argument for that gate.
   const QUOTE_KIND_LABEL: Record<string, string> = {
     quote: "Saying",
     poem: "Verse",

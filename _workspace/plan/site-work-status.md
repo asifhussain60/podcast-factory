@@ -1,10 +1,37 @@
 # Current work - status
 
-**Last updated:** 2026-08-11 (Repo audit: CI had been red for six days and that
-hid everything else; four jobs green, four real bugs fixed, two new ratchets)
+**Last updated:** 2026-08-16 (repo-surgeon widened to every surface, then run on
+`develop`: four size regressions cleared, one phone-overflow fixed, 2.9 GB reclaimed)
 
-**Newest — a holistic audit across the pipeline, the Astro Site and the Podcast
-Factory Library. Five commits on `develop`, pushed. Nothing deployed to production.**
+**Newest — the audit layer now covers the two web apps, not just the pipeline, and
+was run end to end on `develop`. Nothing deployed to production.**
+
+- **The audit had been blind to a whole production app.** The contract's verify
+  list — "what proves a change safe" — named the pipeline and the Astro Site and
+  said nothing about the Podcast Factory Library, so the access-control probe on a
+  private site had no home in any contract, hook or workflow. It ran when somebody
+  remembered. Seven new probe groups now cover the pipeline's capability surface,
+  gate coverage, the Library's route policy, test focus, clean code and debris.
+- **The probe had no tests, so its own "prove it can fail" rule was a one-time
+  ritual.** 49 now pin it; every new check was mutation-tested.
+- **The front-end ratchets were red and had been.** Four file-size regressions
+  cleared by real extractions (the smoke runner's layout invariants, the reader's
+  inline-Arabic and quote-card concerns, the print assembler's sidecar loaders),
+  each re-exported so no call site moved. `book-composer.ts` came down 115 lines
+  and is still 125 over its pin — recorded as `fragile`, deliberately not re-pinned.
+- **A regression I introduced was caught by the gate that exists for it.** Deduping
+  a third copy of the quote-kind label map pulled `node:fs` into a browser bundle
+  and four Studio routes threw on load; `npm run smoke` found it.
+- **`/media/*` has no access check on localhost** (from `3ce507ef`, this morning).
+  Production is unaffected — the plugin cannot ship and the Worker route is gated —
+  but `npm run security` is red and localhost no longer reflects production.
+  Unresolved on purpose: the obvious repair would be a second implementation of the
+  access rule. See `_workspace/reviews/reports/2026-08-16-repo-surgeon.md`.
+
+---
+
+**2026-08-11 — the audit before this one. CI had been red for six days and that
+hid everything else; four jobs green, four real bugs fixed, two new ratchets.**
 
 - **CI had failed on EVERY push since 2026-08-05, and that was the real finding.**
   The agent-spec mirror gate compared against `.claude/agents/`, which is

@@ -68,4 +68,4 @@ Detail on what each skill owns, what triggers it, and what it explicitly defers 
 | Skill | Purpose | Triggers |
 |---|---|---|
 | `clean-commit` | Pre-commit / commit-quality discipline | "clean commit", "/clean-commit" |
-| `repo-surgeon` | This repo's project-specific audit layer — gate integrity, retired-surface ban, agent-mirror parity, mirror pins, book-pipeline invariants, plan conformance. Delegates all generic auditing (root sprawl, dead code, duplicates, debris) to the `repo-audit` skill and does not re-implement it. | "/repo-surgeon", "repo review", "repo health check", "plan conformance" |
+| `repo-surgeon` | This repo's project-specific audit layer — gate integrity, retired-surface ban, agent-mirror parity, mirror pins, book-pipeline invariants, plan conformance, and (2026-08-16) the pipeline's capability surface, gate coverage and route/clean-code health across both web apps, closing with the Pass 6 cleanup. Delegates all generic auditing (root sprawl, dead code, duplicates, debris) to the `repo-audit` skill and does not re-implement it. | "/repo-surgeon", "repo review", "repo health check", "plan conformance", "cleanup sweep" |

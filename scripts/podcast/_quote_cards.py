@@ -53,7 +53,13 @@ SPECIMEN_URL = "http://localhost:4322/_specimen-quote-tiers.html"
 #: Where each half of the contract lives.
 CSS = REPO / "plan-dashboard" / "src" / "styles" / "quote-typography.css"
 PRINT_RENDERER = REPO / "plan-dashboard" / "scripts" / "lib" / "book-html.mjs"
+# The screen side is TWO modules as of 2026-08-16, when the renderer was split
+# under its size ratchet. The requirements are unchanged; only their addresses are,
+# so each is pinned to the file that actually carries it. This test failing on that
+# move is the pin working: it noticed the markup had left the file it was watching,
+# which is exactly what it would do if the markup had been deleted.
 SCREEN_RENDERER = REPO / "plan-dashboard" / "src" / "lib" / "reader" / "markdown.ts"
+SCREEN_CARD_BAND = REPO / "plan-dashboard" / "src" / "lib" / "reader" / "quote-cards.ts"
 PDF_DRIVER = REPO / "plan-dashboard" / "scripts" / "render-book-pdf.mjs"
 
 #: The four kinds, in the order the specimen presents them. `quran` is the audit's
@@ -227,12 +233,21 @@ def _card_rules() -> list[dict]:
             "QC-120",
             "the SCREEN renderer stamps the same markup — the Compose tab is where the book is "
             "verified, so a card that differs there is a verification against the wrong page",
-            SCREEN_RENDERER,
+            SCREEN_CARD_BAND,
             [
                 ("the header band", r"q-band q-band--\$\{kind\}"),
                 ("the outlined mark", r'class="q-orn"'),
                 ("the kind's own span", r'class="q-kind"'),
                 ("the speaker", r'class="q-by"'),
+            ],
+        ),
+        _rule(
+            "QC-125",
+            "the SCREEN renderer still sets a declared poem as a two-column verse grid — the "
+            "band moved to quote-cards.ts in the 2026-08-16 split but the grid did NOT, "
+            "because it calls back into the renderer's own inline pass",
+            SCREEN_RENDERER,
+            [
                 ("the verse grid", r'class="q-verse"'),
                 ("the lone hemistich", r"bayt-solo"),
             ],

@@ -60,8 +60,10 @@ was flagged as clutter.
 | What must never be moved or rewritten | `protected` | this file |
 | What proves a change safe | `verify` | this file |
 | Which files must change together | `mirrors` (each with its `pinned_by` fixture) | this file |
-| The Python size ceiling and its ratchet | `size_gates` | this file |
+| The size ceilings and their ratchets | `size_gates` | this file |
 | What is deliberately odd and must be asked about | `fragile` | this file |
+| The web apps, their source roots, gates and route policies | `apps` | this file |
+| What may be reclaimed, and what may never be | `hygiene` | this file |
 
 A contract entry that no longer resolves is a **P1 finding against the contract**, never
 a silent obedience and never a silent drop. The probe checks this before trusting it.
@@ -100,9 +102,11 @@ who executes each pass.
 |---|---|
 | `--preview` | Findings + plan only, no execution. **Default.** |
 | `--fix` | Execute the approved repair plan. Destructive ops still need confirmation. |
-| `--scope podcast` | Pipeline + book-pipeline probes only. The post-merge sweep `CLAUDE.md` mandates. |
+| `--scope podcast` | Pipeline + book-pipeline + capability probes. The post-merge sweep `CLAUDE.md` mandates. |
+| `--scope apps` | The two web surfaces only — gates, routes, test hygiene, clean code. |
 | `--plan-only` / `--pass 5` | Plan conformance only. |
 | `--root-only` | Contract root-membership check only. |
+| `--cleanup` | The closing hygiene pass. See *Pass 6* below. Always dry-run first. |
 
 ---
 
@@ -155,10 +159,43 @@ by hand what the script already reports.
 | Self-integrity | `SK-DEADREF`, `SK-MISSING` | Every relative link in this skill and its agent spec resolves |
 | Pipeline | `AU-S2`, `AU-A2` | No machine-specific paths in pipeline source; no duplicated version constant has drifted |
 | Book pipeline | `AU-V1`, `AU-V2`, `AU-V4`, `AU-V5`, `AU-V6` | The unified compose route is the only route, its schema mirrors agree, its stages exist, its governance ids resolve |
+| **Capabilities** | `CAP-PHASE`, `CAP-AGENT-REF`, `CAP-CMD-REF` | Every phase the orchestrator declares has a handler; every agent a doc invokes has a spec; every command a normative doc prints exists |
+| **Gate coverage** | `GT-APP-UNVERIFIED`, `GT-UNGATED`, `GT-MISSING` | Every web app is named in the verify list, and every gate it declares is wired into CI, a hook, or that list |
+| **Routes** | `RT-DANGLING`, `RT-ORPHAN`, `RT-BOUNDARY`, `RT-PATH-GATE`, `RT-POLICY-GONE` | The Library's route tree — which IS its access policy — resolves both ways, owns its error boundary, and gates by position rather than by pathname |
+| **Tests** | `TS-FOCUS` | No committed `.only`, which disables a whole file while the suite still reports success |
+| **Clean code** | `CQ-NO-LINT`, `CQ-NO-SIZE-GATE`, `CQ-DEBUG` | Each app has a lint config and a size ceiling, and no debug output ships in a page |
+| **Hygiene** | `HY-DEBRIS` | Regenerable artifacts are measured, not described |
 | Plan | `L1`, `L2`, `L2-DUP`, `L10` | The plan parses, its wave references resolve, its ids are unambiguous, the ship checklist maps onto it |
 
 `SK-DEADREF` is the check that would have caught this whole rot two months ago: it
 asserts the audit's own references resolve. It exists because nothing did.
+
+The seven bolded groups were added on 2026-08-16 and live in
+[scripts/repo_surgeon_checks.py](../../scripts/repo_surgeon_checks.py) — a separate
+module for the reason this catalog rotted in the first place, that nobody could
+hold all of it at once. Each is pinned by
+[tests/test_repo_surgeon_checks.py](../../tests/test_repo_surgeon_checks.py): one
+synthetic tree carrying one defect, plus a clean-tree case, plus an empty-repo case
+so no check can crash on a partial clone. That replaces the break-it-by-hand ritual
+with something that holds after the person who wrote it has moved on.
+
+### What the new groups deliberately do NOT re-check
+
+Each of these questions already has exactly one answer, and a second one would be
+worse than none:
+
+| Already proven by | So the probe never re-asks |
+|---|---|
+| `listener/test/routes.test.ts` | whether every route sits inside the gate |
+| `plan-dashboard/.../site-health-routes.test.mjs` | whether the smoke sweep covers every Astro page |
+| `frontend-ratchets.json` + `check-dr005.py` | whether a file is over its ceiling |
+| `npm run security` | whether an access-control bypass is reachable over HTTP |
+
+What is added is the layer ABOVE them: whether each gate is **wired anywhere**.
+That is the failure nobody notices, because a gate that runs only when somebody
+types it is indistinguishable from a gate that passes — the exact condition that
+left the Podcast Factory Library's access-control probe with no home in any
+contract, hook, or workflow until this pass.
 
 ---
 
@@ -206,6 +243,91 @@ The unified book path must remain the sole compose route. Architecture:
 schema string must match verbatim between `_visual_candidates.py` and the
 `render-book-pdf.mjs` reader. The renderer reads `visual-layout.json` and the string
 appears nowhere in `plan-dashboard/`, so the rule asserted a mirror that does not exist.
+
+---
+
+## The web surfaces (`--scope apps`)
+
+Two apps, and they are not interchangeable. Both are declared in the contract's
+`apps:` block — directory, source roots, gates, route policy — so this file names
+neither a path nor a gate.
+
+| | Podcast Factory Astro Site | Podcast Factory Library |
+|---|---|---|
+| Audience | Admin / authoring | The readers, on the public internet |
+| Routing | File-based (`src/pages/**`) | A manifest that **is** the access policy |
+| Lint | ESLint + Prettier, in CI | **None** — reported as `CQ-NO-LINT` |
+| Size gate | 1,000-line ceiling + ratchet | **None** — reported as `CQ-NO-SIZE-GATE` |
+| Browser gates | `smoke` (in CI) | `smoke`, `security`, `controls` (local only) |
+
+### Routes are a security surface here, not a tidiness one
+
+On the Library, protection comes from a route's **position** in the tree. Three
+findings follow from that, and each is P0 because each is a way the gate stops
+being a gate:
+
+- **`RT-ORPHAN` / `RT-DANGLING`** — a module present in one place and absent from
+  the other. The existing test proves every route in the policy is gated; it
+  cannot see a module that is in neither. Such a file reads as a page, is reached
+  by nothing, and drifts out of step with the rule it was written under.
+- **`RT-BOUNDARY`** — an `ErrorBoundary` exported anywhere but the declared owner.
+  A denied page would then render differently from a genuine 404, and which slugs
+  exist becomes discoverable by asking.
+- **`RT-PATH-GATE`** — access decided from `pathname.startsWith(...)`. `compilePath`
+  matches case-insensitively, so `/Admin/people` walks past it, and the `.data`
+  suffix is stripped only after middleware has already seen the URL.
+
+### Clean code, where a linter cannot reach
+
+`CQ-NO-LINT` and `CQ-NO-SIZE-GATE` are findings about a **missing gate**, not about
+a line of code — which is the level an audit adds something at. ESLint cannot tell
+you it was never configured, and a ratchet cannot tell you a whole source tree
+falls outside its glob. `CQ-DEBUG` is the one line-level rule, scoped to shipped
+source only: a build script prints on purpose, a page does not.
+
+**When a finding here is a scope decision, report it and stop.** Adopting a lint
+config across an app is a formatting commit touching every file, and imposing a
+size ceiling is a number only the owner can choose — the contract already records
+that reasoning for the Astro site's 1,000.
+
+---
+
+## Pass 6 — the closing cleanup (`--cleanup`)
+
+Every run ends here, after the findings and after any approved repair. The executor
+is [scripts/repo_cleanup.py](../../scripts/repo_cleanup.py); what it may reclaim
+and what it may never touch come from the contract's `hygiene:` block.
+
+```bash
+python3 scripts/repo_cleanup.py                              # survey, removes nothing
+python3 scripts/repo_cleanup.py --apply                      # the safe categories
+python3 scripts/repo_cleanup.py --apply --include git-maintenance
+```
+
+**Dry-run first, always, and show the survey before asking.** Categories marked
+`confirm: true` in the contract — the local object store, `git gc` — are skipped
+until named, because each is large, app-adjacent, or slow to rebuild.
+
+Four refusals are structural rather than configured, and are pinned by
+[tests/test_repo_cleanup.py](../../tests/test_repo_cleanup.py):
+
+1. **A tracked file is never debris.** Whatever a glob says, if git knows about it
+   the sweep will not remove it — nor will it remove a directory containing one.
+2. **`protected_runtime` paths are refused by prefix.** The local D1 is there by
+   name: deleting it wipes the `session` table and signs Asif out of localhost, so
+   the site shows a sign-in page and looks like nothing shipped.
+3. **Nothing outside the repository root**, symlinks included — every candidate is
+   resolved and re-checked immediately before deletion, because the survey is not
+   the authority and the tree can change under it.
+4. **`.git` reaches `git gc`, never a glob.** A loose object is garbage only if
+   nothing references it, and the only thing that knows that is git.
+
+Large **untracked** trees are reported with their size and never swept. Experiment
+output and inbox drops are somebody's working files; a cleanup that guesses at them
+is the one that cannot be undone.
+
+Reclaiming a cache costs a rebuild. Reclaiming the wrong thing costs work that does
+not come back — so when a path is ambiguous, report it and let the operator rule.
 
 ---
 
@@ -309,6 +431,16 @@ Two project-specific severity calls:
 
 ## Revision log
 
+- **2026-08-16** — Widened from the pipeline to every surface the project ships.
+  Added seven probe groups in a new module: capabilities (`CAP-*`), gate coverage
+  (`GT-*`), routes (`RT-*`), test hygiene (`TS-*`), clean code (`CQ-*`) and debris
+  (`HY-*`), plus Pass 6, the cleanup executor. Declared both web apps and the
+  hygiene rules in the contract so no path or gate is named here. Pinned all of it
+  with 48 tests — the probe had none, so the "break it and confirm it fails" rule
+  had been performed once per check and never again. The condition that prompted
+  it: the verify list named the pipeline and the Astro site and was silent about
+  the Podcast Factory Library, so the access-control probe on a private site ran
+  only when somebody remembered.
 - **2026-07-27** — Refactored. Deleted the duplicated generic engine and delegated it to
   `repo-audit`; moved every project fact to the tracked contract; removed `AU-V3` and
   `L3`/`L4`/`L7`/`L8`/`L9` as asserting contracts that do not exist; rewrote `L10`, which
