@@ -1,4 +1,9 @@
-import { faCopy, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCopy,
+  faPaperPlane,
+  faTriangleExclamation,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 
 import { Icon } from "~/components/Icon";
@@ -79,7 +84,10 @@ export function InviteMessage({
       className="pf-dialog"
     >
       <div className="pf-dialog__head">
-        <h2 className="pf-dialog__title">Send them this</h2>
+        <h2 className="pf-dialog__title">
+          <Icon icon={faPaperPlane} className="pf-dialog__title-icon" />
+          Send them this
+        </h2>
         <button
           type="button"
           onClick={onClose}
@@ -100,6 +108,7 @@ export function InviteMessage({
           carries a link only the sender can open is worse than one that warns. */}
       {/^https?:\/\/(localhost|127\.0\.0\.1)/.test(message.siteUrl) ? (
         <p className="pf-message pf-message--danger">
+          <Icon icon={faTriangleExclamation} />
           This link points at your own machine, so nobody else can open it.
           Generate the message on the live site before sending it.
         </p>
