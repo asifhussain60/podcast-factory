@@ -12,6 +12,7 @@ import { Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
 import { ThemePicker } from "~/components/ThemePicker";
+import { Tooltip, TooltipProvider } from "~/components/Tooltip";
 import { useReading } from "~/components/useReading";
 import {
   FAMILIES,
@@ -153,154 +154,186 @@ export function ReaderToolbar({
   const largest = prefs.size === SIZES[SIZES.length - 1];
 
   return (
-    <div className="pf-toolbar">
-      {/* ---- Getting about, and what you have marked ----------------------
+    <TooltipProvider>
+      <div className="pf-toolbar">
+        {/* ---- Getting about, and what you have marked ----------------------
           Contents is NOT here. It was, twice — as the book's title doubling as a
           toggle, then as a labelled button — and both put a way of LEAVING this
           chapter into the row of controls for how this chapter is SET. It is a
           collapsible panel on the left now, carrying its own affordance. */}
-      <div className="pf-toolbar__group">
-        <Link
-          to="/"
-          aria-label="Back to your library"
-          className="pf-toolbar__home"
-        >
-          <Icon icon={faHouse} title="Back to your library" />
-        </Link>
+        <div className="pf-toolbar__group">
+          <Tooltip header="Home" description="Back to your library">
+            <Link
+              to="/"
+              aria-label="Back to your library"
+              className="pf-toolbar__home"
+            >
+              <Icon icon={faHouse} title="Back to your library" />
+            </Link>
+          </Tooltip>
 
-        <button
-          type="button"
-          onClick={onToggleBookmark}
-          aria-pressed={bookmarked}
-          title={bookmarked ? "Remove bookmark" : "Bookmark this place"}
-          className="pf-tool"
-        >
-          <Icon
-            icon={faBookmark}
-            title={bookmarked ? "Remove bookmark" : "Bookmark this place"}
-          />
-        </button>
-
-        {hasSourceReference ? (
-          <button
-            type="button"
-            onClick={() =>
-              setReading({ ...prefs, showSourceRefs: !prefs.showSourceRefs })
+          <Tooltip
+            header={bookmarked ? "Bookmarked" : "Bookmark"}
+            description={
+              bookmarked
+                ? "Remove the bookmark at your current place"
+                : "Mark your place in this chapter, to jump back to it later"
             }
-            aria-pressed={prefs.showSourceRefs}
-            title={
-              prefs.showSourceRefs
-                ? "Hide source reference"
-                : "Show source reference"
-            }
-            className="pf-tool"
           >
-            <Icon
-              icon={faBookOpenReader}
-              title={
+            <button
+              type="button"
+              onClick={onToggleBookmark}
+              aria-pressed={bookmarked}
+              className="pf-tool"
+            >
+              <Icon
+                icon={faBookmark}
+                title={bookmarked ? "Remove bookmark" : "Bookmark this place"}
+              />
+            </button>
+          </Tooltip>
+
+          {hasSourceReference ? (
+            <Tooltip
+              header="Source reference"
+              description={
                 prefs.showSourceRefs
-                  ? "Hide source reference"
-                  : "Show source reference"
+                  ? "Hide the original book's page range and headings"
+                  : "Show the original book's page range and headings for this chapter"
               }
-            />
-          </button>
-        ) : null}
-      </div>
-
-      {/* ---- How the page is set ----------------------------------------- */}
-      <div className="pf-toolbar__group pf-toolbar__group--set">
-        <ThemePicker compact />
-
-        <label htmlFor={`${id}-face`} className="sr-only">
-          Typeface
-        </label>
-        <select
-          id={`${id}-face`}
-          value={prefs.family}
-          onChange={(e) =>
-            setReading({ ...prefs, family: e.target.value as Family })
-          }
-          title="Typeface"
-          className="pf-select pf-select--sm pf-select--auto"
-        >
-          {FAMILIES.map((family) => (
-            <option key={family} value={family}>
-              {FAMILY_LABELS[family]}
-            </option>
-          ))}
-        </select>
-
-        <div
-          role="group"
-          aria-label="Text size"
-          className="pf-stepper pf-stepper--sm"
-        >
-          <button
-            type="button"
-            onClick={() =>
-              setReading({
-                ...prefs,
-                size: step(SIZES, prefs.size as never, -1),
-              })
-            }
-            disabled={smallest}
-            aria-label="Smaller text"
-            className="pf-stepper__step"
-          >
-            &minus;
-          </button>
-          {/* Announced on change, so a screen-reader user who cannot see the
-              text reflow still learns what the buttons did. */}
-          <span aria-live="polite" className="pf-stepper__value">
-            {prefs.size}
-          </span>
-          <button
-            type="button"
-            onClick={() =>
-              setReading({
-                ...prefs,
-                size: step(SIZES, prefs.size as never, 1),
-              })
-            }
-            disabled={largest}
-            aria-label="Larger text"
-            className="pf-stepper__step"
-          >
-            +
-          </button>
+            >
+              <button
+                type="button"
+                onClick={() =>
+                  setReading({
+                    ...prefs,
+                    showSourceRefs: !prefs.showSourceRefs,
+                  })
+                }
+                aria-pressed={prefs.showSourceRefs}
+                className="pf-tool"
+              >
+                <Icon
+                  icon={faBookOpenReader}
+                  title={
+                    prefs.showSourceRefs
+                      ? "Hide source reference"
+                      : "Show source reference"
+                  }
+                />
+              </button>
+            </Tooltip>
+          ) : null}
         </div>
 
-        {/* Spacing gets the buttons because it is the setting a reader changes
+        {/* ---- How the page is set ----------------------------------------- */}
+        <div className="pf-toolbar__group pf-toolbar__group--set">
+          <ThemePicker compact />
+
+          <label htmlFor={`${id}-face`} className="sr-only">
+            Typeface
+          </label>
+          <select
+            id={`${id}-face`}
+            value={prefs.family}
+            onChange={(e) =>
+              setReading({ ...prefs, family: e.target.value as Family })
+            }
+            title="Typeface"
+            className="pf-select pf-select--sm pf-select--auto"
+          >
+            {FAMILIES.map((family) => (
+              <option key={family} value={family}>
+                {FAMILY_LABELS[family]}
+              </option>
+            ))}
+          </select>
+
+          <div
+            role="group"
+            aria-label="Text size"
+            className="pf-stepper pf-stepper--sm"
+          >
+            <Tooltip
+              header="Smaller text"
+              description="Decrease the reading size"
+            >
+              <button
+                type="button"
+                onClick={() =>
+                  setReading({
+                    ...prefs,
+                    size: step(SIZES, prefs.size as never, -1),
+                  })
+                }
+                disabled={smallest}
+                aria-label="Smaller text"
+                className="pf-stepper__step"
+              >
+                &minus;
+              </button>
+            </Tooltip>
+            {/* Announced on change, so a screen-reader user who cannot see the
+              text reflow still learns what the buttons did. */}
+            <span aria-live="polite" className="pf-stepper__value">
+              {prefs.size}
+            </span>
+            <Tooltip
+              header="Larger text"
+              description="Increase the reading size"
+            >
+              <button
+                type="button"
+                onClick={() =>
+                  setReading({
+                    ...prefs,
+                    size: step(SIZES, prefs.size as never, 1),
+                  })
+                }
+                disabled={largest}
+                aria-label="Larger text"
+                className="pf-stepper__step"
+              >
+                +
+              </button>
+            </Tooltip>
+          </div>
+
+          {/* Spacing gets the buttons because it is the setting a reader changes
             most, and a button is one press where a select is two. Each one says
             what it sets in full — "Wide line spacing", never a bare "Wide" —
             because the width control beside it has a Wide of its own, and two
             controls stating their value in the same word with nothing to
             separate them is the confusion that took line width off this toolbar
             once already. */}
-        <div
-          role="group"
-          aria-label="Line spacing"
-          className="pf-stepper pf-stepper--sm"
-        >
-          {LEADINGS.map((leading) => (
-            <button
-              key={leading}
-              type="button"
-              onClick={() => setReading({ ...prefs, leading })}
-              aria-pressed={prefs.leading === leading}
-              aria-label={`${LEADING_LABELS[leading]} line spacing`}
-              title={`${LEADING_LABELS[leading]} line spacing`}
-              className="pf-stepper__step pf-stepper__step--toggle"
-            >
-              <Icon
-                icon={LEADING_ICONS[leading]}
-                title={`${LEADING_LABELS[leading]} line spacing`}
-              />
-            </button>
-          ))}
-        </div>
+          <div
+            role="group"
+            aria-label="Line spacing"
+            className="pf-stepper pf-stepper--sm"
+          >
+            {LEADINGS.map((leading) => (
+              <Tooltip
+                key={leading}
+                header={`${LEADING_LABELS[leading]} spacing`}
+                description={`Set ${LEADING_LABELS[leading].toLowerCase()} space between lines`}
+              >
+                <button
+                  type="button"
+                  onClick={() => setReading({ ...prefs, leading })}
+                  aria-pressed={prefs.leading === leading}
+                  aria-label={`${LEADING_LABELS[leading]} line spacing`}
+                  className="pf-stepper__step pf-stepper__step--toggle"
+                >
+                  <Icon
+                    icon={LEADING_ICONS[leading]}
+                    title={`${LEADING_LABELS[leading]} line spacing`}
+                  />
+                </button>
+              </Tooltip>
+            ))}
+          </div>
 
-        {/* Width gets buttons too, now that it has somewhere to go: each step
+          {/* Width gets buttons too, now that it has somewhere to go: each step
             widens the SHEET as well as the column, so the top of the scale uses
             the empty half of a desktop window instead of adding white space
             inside the same narrow leaf (Asif, 2026-08-06).
@@ -310,31 +343,36 @@ export function ReaderToolbar({
             window, so all three steps render identically and the control would
             be three buttons that do nothing. The CSS hides it; the setting still
             applies if it was chosen on a wider screen. */}
-        <div
-          role="group"
-          aria-label="Page width"
-          className="pf-stepper pf-stepper--sm pf-stepper--wide-only"
-        >
-          {MEASURES.map((measure) => (
-            <button
-              key={measure}
-              type="button"
-              onClick={() => setReading({ ...prefs, measure })}
-              aria-pressed={prefs.measure === measure}
-              aria-label={`${MEASURE_LABELS[measure]} page width`}
-              title={`${MEASURE_LABELS[measure]} page width`}
-              className="pf-stepper__step pf-stepper__step--toggle"
-            >
-              <WidthIcon measure={measure} />
-            </button>
-          ))}
+          <div
+            role="group"
+            aria-label="Page width"
+            className="pf-stepper pf-stepper--sm pf-stepper--wide-only"
+          >
+            {MEASURES.map((measure) => (
+              <Tooltip
+                key={measure}
+                header={`${MEASURE_LABELS[measure]} width`}
+                description={`Set the page to its ${MEASURE_LABELS[measure].toLowerCase()} width`}
+              >
+                <button
+                  type="button"
+                  onClick={() => setReading({ ...prefs, measure })}
+                  aria-pressed={prefs.measure === measure}
+                  aria-label={`${MEASURE_LABELS[measure]} page width`}
+                  className="pf-stepper__step pf-stepper__step--toggle"
+                >
+                  <WidthIcon measure={measure} />
+                </button>
+              </Tooltip>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Nothing here is information. "13 min left" sat at the end of the row
+        {/* Nothing here is information. "13 min left" sat at the end of the row
           until 2026-08-04 and was the only thing in it that could not be acted
           on — a number that changed as you read, in a bar you open to change a
           setting. */}
-    </div>
+      </div>
+    </TooltipProvider>
   );
 }

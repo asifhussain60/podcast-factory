@@ -1,5 +1,6 @@
-import { useEffect, useSyncExternalStore } from "react";
+import { Fragment, useEffect, useSyncExternalStore } from "react";
 
+import { Tooltip } from "~/components/Tooltip";
 import {
   hydrateTheme,
   setTheme,
@@ -9,6 +10,14 @@ import {
   themeSnapshot,
   type Theme,
 } from "~/lib/theme";
+
+/** The tooltip description for each dot — only shown in `compact` mode,
+ * where the button carries no visible label of its own. */
+const THEME_DESCRIPTIONS: Record<Theme, string> = {
+  light: "A bright page, best in daylight",
+  sepia: "A warm, paper-toned page that's easier on tired eyes",
+  dark: "A dark page for reading in low light",
+};
 
 /**
  * The current theme, shared by every control on the page.
@@ -58,23 +67,38 @@ export function ThemePicker({ compact = false }: { compact?: boolean }) {
       aria-label="Colour theme"
       className={`pf-swatches${compact ? " pf-swatches--dots" : ""}`}
     >
-      {THEMES.map((t) => (
-        <button
-          key={t}
-          type="button"
-          onClick={() => setTheme(t)}
-          aria-pressed={theme === t}
-          aria-label={THEME_LABELS[t]}
-          title={THEME_LABELS[t]}
-          // Only in compact mode. On the full control the words are the swatch,
-          // and re-scoping the palette under them would letter each one in a
-          // different theme's ink.
-          data-theme={compact ? t : undefined}
-          className="pf-swatch"
-        >
-          {compact ? null : THEME_LABELS[t]}
-        </button>
-      ))}
+      {THEMES.map((t) => {
+        const button = (
+          <button
+            type="button"
+            onClick={() => setTheme(t)}
+            aria-pressed={theme === t}
+            aria-label={THEME_LABELS[t]}
+            // Compact mode gets the custom Tooltip instead — a native `title`
+            // alongside it would show both, one on top of the other.
+            title={compact ? undefined : THEME_LABELS[t]}
+            // Only in compact mode. On the full control the words are the swatch,
+            // and re-scoping the palette under them would letter each one in a
+            // different theme's ink.
+            data-theme={compact ? t : undefined}
+            className="pf-swatch"
+          >
+            {compact ? null : THEME_LABELS[t]}
+          </button>
+        );
+
+        return compact ? (
+          <Tooltip
+            key={t}
+            header={THEME_LABELS[t]}
+            description={THEME_DESCRIPTIONS[t]}
+          >
+            {button}
+          </Tooltip>
+        ) : (
+          <Fragment key={t}>{button}</Fragment>
+        );
+      })}
     </div>
   );
 }
