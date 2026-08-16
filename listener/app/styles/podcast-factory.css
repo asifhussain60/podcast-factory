@@ -5034,6 +5034,16 @@
     color: var(--l-danger);
   }
 
+  /* The icon leads a message that otherwise wraps as plain paragraph text —
+     `float: left` keeps it pinned to the first line while the wrapped text
+     flows around it, instead of the icon and text drifting apart the way an
+     inline layout would once the paragraph wraps to a second line. */
+  .pf-message--danger .pf-icon {
+    float: left;
+    margin-right: var(--pf-space-2);
+    margin-top: 0.2em;
+  }
+
   .pf-message--warn {
     color: var(--l-warn);
   }
@@ -10323,10 +10333,18 @@
   }
 
   .pf-dialog__title {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
     margin: 0;
     font-family: var(--l-font-display);
     font-size: var(--pf-text-lg);
     color: var(--l-ink);
+  }
+
+  .pf-dialog__title-icon {
+    color: var(--l-accent);
+    font-size: 0.85em;
   }
 
   /* Monospace, because what is on screen is exactly what gets pasted — and a
