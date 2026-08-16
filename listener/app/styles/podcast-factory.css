@@ -10371,6 +10371,72 @@
     margin-top: var(--pf-space-5);
   }
 
+  /* ---- Tooltips --------------------------------------------------------
+     Built on Radix's Tooltip primitive (`~/components/Tooltip`) — see that
+     file for why: the reader toolbar scrolls horizontally, which per the
+     CSS spec clips vertical overflow too, so a tooltip has to render through
+     a portal to escape it. Everything visual here is this site's own card
+     language, not a theme borrowed from the library: same surface, rule and
+     elevation as the invite dialog above, a coloured header the way every
+     other floating panel's title already reads, and a muted second line for
+     the description — the split a native `title` attribute cannot offer at
+     all. */
+  .pf-tooltip {
+    z-index: 60;
+    max-width: 15rem;
+    padding: var(--pf-space-2) var(--pf-space-3);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-sm);
+    box-shadow: var(--pf-elev-3);
+    /* Radix's own custom property, set to wherever the arrow actually sits —
+       so the card visibly grows out from the button it belongs to rather
+       than from its own centre. */
+    transform-origin: var(--radix-tooltip-content-transform-origin);
+    /* Radix stamps `data-state` itself; the animation just reads it. Open
+       only — closing removes the node from the DOM immediately, which for
+       something this small and this quick reads as crisp rather than as a
+       skipped exit. */
+    animation: pf-tooltip-in 0.12s ease-out;
+  }
+
+  .pf-tooltip__header {
+    margin: 0;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 700;
+    color: var(--l-accent);
+  }
+
+  .pf-tooltip__desc {
+    margin: 2px 0 0;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    line-height: 1.4;
+    color: var(--l-muted);
+  }
+
+  .pf-tooltip__arrow {
+    fill: var(--l-surface);
+  }
+
+  @keyframes pf-tooltip-in {
+    from {
+      opacity: 0;
+      transform: scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-tooltip {
+      animation: none;
+    }
+  }
+
   /* ==== About ===============================================================
      A page built out of full-bleed BANDS rather than one column.
 
