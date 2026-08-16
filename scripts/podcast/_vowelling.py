@@ -90,6 +90,65 @@ def mark_density(text: str) -> float:
     return (mark_count(text) / len(letters)) if letters else 0.0
 
 
+def _mark_is_orphaned(text: str, i: int) -> bool:
+    """Is the combining mark at ``text[i]`` NOT carried by an Arabic letter?
+
+    Walks back over any earlier marks stacked on the same base — a shadda
+    before a vowel mark is ordinary Arabic (``لَّ`` is lam + shadda + fatha,
+    both combining onto one letter) and must not itself read as orphaned. What
+    the walk must land on is an Arabic BASE letter; landing on nothing (start
+    of string) or on a non-Arabic character means this mark has no letter
+    under it at all.
+    """
+    j = i - 1
+    while j >= 0 and MARKS_RE.match(text[j]):
+        j -= 1
+    return not (j >= 0 and ARABIC_RE.match(text[j]) and not MARKS_RE.match(text[j]))
+
+
+def orphaned_marks(text: str) -> list[dict]:
+    """Every combining Arabic mark in ``text`` not attached to an Arabic letter.
+
+    THE KITAB-AL-RIYAD DEFECT (2026-08-16), and why this is a scan over the whole
+    string rather than a narrower check. `book/book.md` printed "Rahat al-Aqlِ,"
+    -- a stray kasra (U+0650) glued onto the transliterated Latin word "Aql", right
+    at the seam where an Arabic run had ended and the page returns to English. The
+    mark carried no letter of its own: `skeleton()` would treat it as vocalising
+    whatever character sits before it, which here is the Latin "l" -- not
+    something a "marks only" rule was ever written to permit, because it is not a
+    vocalisation of anything. `rejection_reason` already refuses a candidate whose
+    LETTERS moved; this closes the sibling case, a mark that moved onto a
+    character that was never a letter of the run at all.
+
+    Returns one record per orphan: ``index`` into ``text``, the ``mark`` itself,
+    and a ``context`` window so a human (or the caller writing to
+    `book-vowelling.json`) can see exactly where it sat.
+    """
+    text = text or ""
+    out: list[dict] = []
+    for i, ch in enumerate(text):
+        if MARKS_RE.match(ch) and _mark_is_orphaned(text, i):
+            out.append({"index": i, "mark": ch, "context": text[max(0, i - 24) : i + 12]})
+    return out
+
+
+def strip_orphaned_marks(text: str) -> tuple[str, list[dict]]:
+    """``text`` with every orphaned mark (see `orphaned_marks`) removed.
+
+    The repair, not just the detector: dropping an orphan mark can never change
+    what a reader reads as a WORD -- it was never attached to one -- so removal
+    is always safe, unlike a letter-level edit. Returns the cleaned text and the
+    same records `orphaned_marks` would have reported, so a caller can log what
+    it fixed rather than silently rewriting the page.
+    """
+    text = text or ""
+    found = orphaned_marks(text)
+    if not found:
+        return text, []
+    bad = {f["index"] for f in found}
+    return "".join(ch for i, ch in enumerate(text) if i not in bad), found
+
+
 def rejection_reason(source: str, candidate: str) -> str | None:
     """Why this vowelling is inadmissible, or ``None`` when it may be applied.
 
@@ -100,6 +159,13 @@ def rejection_reason(source: str, candidate: str) -> str | None:
         return "empty"
     if not ARABIC_RE.search(candidate):
         return "no Arabic script in the candidate"
+    orphans = orphaned_marks(candidate)
+    if orphans:
+        bad = orphans[0]
+        return (
+            f"a vowel mark ({bad['mark']!r}) is not attached to an Arabic letter "
+            f'(near "{bad["context"]}") -- the reflow placed a mark at a script boundary'
+        )
     a, b = skeleton(source), skeleton(candidate)
     if a != b:
         # Report the first divergence — "differs at character 12" lets a reader

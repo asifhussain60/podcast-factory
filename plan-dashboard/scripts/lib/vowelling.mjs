@@ -107,6 +107,64 @@ export function saveProposals(bookDir, proposals) {
   return p;
 }
 
+/** Is the combining mark at `text[i]` NOT carried by an Arabic letter?
+ *
+ *  Walks back over any earlier marks stacked on the same base -- a shadda
+ *  before a vowel mark is ordinary Arabic (`لَّ` is lam + shadda + fatha, both
+ *  combining onto one letter) and must not itself read as orphaned. What the
+ *  walk must land on is an Arabic BASE letter; landing on nothing (start of
+ *  string) or on a non-Arabic character means this mark has no letter under
+ *  it at all. Python mirror: `_vowelling._mark_is_orphaned`. */
+function markIsOrphaned(text, i) {
+  let j = i - 1;
+  while (j >= 0 && MARK_RE_ONE.test(text[j])) j--;
+  return !(j >= 0 && ARABIC_RE.test(text[j]) && !MARK_RE_ONE.test(text[j]));
+}
+
+/** Every combining Arabic mark in `text` not attached to an Arabic letter.
+ *
+ *  THE KITAB-AL-RIYAD DEFECT (2026-08-16). `book/book.md` printed
+ *  "Rahat al-Aqlِ," -- a stray kasra (U+0650) glued onto the transliterated
+ *  Latin word "Aql", at the seam where an Arabic run had ended and the page
+ *  returned to English. The mark carried no letter of its own; `skeleton()`
+ *  would read it as vocalising whatever precedes it, which here is a Latin
+ *  "l" -- not a vocalisation of anything. `rejectionReason` already refuses a
+ *  candidate whose LETTERS moved; this closes the sibling case, a mark that
+ *  moved onto a character that was never a letter of the run at all.
+ *
+ *  Returns one record per orphan: `index` into `text`, the `mark` itself, and
+ *  a `context` window. Python mirror: `_vowelling.orphaned_marks`. */
+export function orphanedMarks(text) {
+  text = text ?? "";
+  const out = [];
+  for (let i = 0; i < text.length; i++) {
+    if (MARK_RE_ONE.test(text[i]) && markIsOrphaned(text, i)) {
+      out.push({
+        index: i,
+        mark: text[i],
+        context: text.slice(Math.max(0, i - 24), i + 12),
+      });
+    }
+  }
+  return out;
+}
+
+/** `text` with every orphaned mark (see `orphanedMarks`) removed.
+ *
+ *  Dropping an orphan mark can never change what a reader reads as a WORD --
+ *  it was never attached to one -- so removal is always safe, unlike a
+ *  letter-level edit. Returns the cleaned text and the records `orphanedMarks`
+ *  would have reported. Python mirror: `_vowelling.strip_orphaned_marks`. */
+export function stripOrphanedMarks(text) {
+  text = text ?? "";
+  const found = orphanedMarks(text);
+  if (!found.length) return [text, []];
+  const bad = new Set(found.map((f) => f.index));
+  let out = "";
+  for (let i = 0; i < text.length; i++) if (!bad.has(i)) out += text[i];
+  return [out, found];
+}
+
 /**
  * The gate. A candidate vowelling is admissible only if it changes NOTHING but
  * marks, and actually adds some.
@@ -118,6 +176,11 @@ export function saveProposals(bookDir, proposals) {
 export function rejectionReason(source, candidate) {
   if (!candidate || !candidate.trim()) return "empty";
   if (!ARABIC_RE.test(candidate)) return "no Arabic script in the candidate";
+  const orphans = orphanedMarks(candidate);
+  if (orphans.length) {
+    const bad = orphans[0];
+    return `a vowel mark (${JSON.stringify(bad.mark)}) is not attached to an Arabic letter (near "${bad.context}") -- the reflow placed a mark at a script boundary`;
+  }
   const a = skeleton(source);
   const b = skeleton(candidate);
   if (a !== b) {
