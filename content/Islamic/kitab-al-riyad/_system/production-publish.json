@@ -1,0 +1,85 @@
+{
+  "publishedAt": "2026-08-15T22:23:39Z",
+  "fingerprint": "2f49cf2504888603",
+  "verified": true,
+  "checks": [
+    {
+      "name": "the book exists (localhost)",
+      "ok": true,
+      "detail": "content row present",
+      "target": "localhost"
+    },
+    {
+      "name": "visible (localhost)",
+      "ok": true,
+      "detail": "status is 'published'",
+      "target": "localhost"
+    },
+    {
+      "name": "written just now (localhost)",
+      "ok": true,
+      "detail": "recorded 2026-08-15T22:24:32Z",
+      "target": "localhost"
+    },
+    {
+      "name": "chapters (localhost)",
+      "ok": true,
+      "detail": "17 live",
+      "target": "localhost"
+    },
+    {
+      "name": "Companion cards (localhost)",
+      "ok": true,
+      "detail": "0 live, 0 on disk",
+      "target": "localhost"
+    },
+    {
+      "name": "episodes (localhost)",
+      "ok": true,
+      "detail": "13 live",
+      "target": "localhost"
+    },
+    {
+      "name": "the book exists (production)",
+      "ok": true,
+      "detail": "content row present",
+      "target": "production"
+    },
+    {
+      "name": "visible (production)",
+      "ok": true,
+      "detail": "status is 'published'",
+      "target": "production"
+    },
+    {
+      "name": "written just now (production)",
+      "ok": true,
+      "detail": "recorded 2026-08-15T22:25:32Z",
+      "target": "production"
+    },
+    {
+      "name": "chapters (production)",
+      "ok": true,
+      "detail": "17 live",
+      "target": "production"
+    },
+    {
+      "name": "Companion cards (production)",
+      "ok": true,
+      "detail": "0 live, 0 on disk",
+      "target": "production"
+    },
+    {
+      "name": "episodes (production)",
+      "ok": true,
+      "detail": "13 live",
+      "target": "production"
+    },
+    {
+      "name": "media uploaded (production)",
+      "ok": true,
+      "detail": "19 of 19 file(s) in the bucket",
+      "target": "production"
+    }
+  ]
+}

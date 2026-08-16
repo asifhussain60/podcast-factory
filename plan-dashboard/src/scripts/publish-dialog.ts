@@ -105,12 +105,16 @@ function shell(opts: {
   };
 }
 
+/** Returns the badge's `<i>` icon element so a caller can swap it later — the
+ *  progress panel starts this at "uploading" and swaps it to a check/xmark
+ *  once the run has an outcome, rather than leaving a cloud-upload glyph
+ *  sitting over a finished (or failed) publish. */
 function titleRow(
   box: HTMLElement,
   id: string,
   icon: string,
   text: string,
-): void {
+): HTMLElement {
   const head = document.createElement("div");
   head.className = "cx-confirm-head";
   const badge = document.createElement("span");
@@ -125,6 +129,7 @@ function titleRow(
   h.textContent = text;
   head.append(badge, h);
   box.append(head);
+  return i;
 }
 
 /**
@@ -320,7 +325,7 @@ export function publishProgressPanel(bookTitle: string): ProgressPanel {
     onDismiss: null,
   });
 
-  titleRow(
+  const headIcon = titleRow(
     box,
     titleId,
     "fa-solid fa-cloud-arrow-up",
@@ -333,12 +338,16 @@ export function publishProgressPanel(bookTitle: string): ProgressPanel {
   // only feedback, so a screen reader must hear each phase as it starts.
   status.setAttribute("role", "status");
   status.setAttribute("aria-live", "polite");
-  const spinner = document.createElement("i");
-  spinner.className = "fa-solid fa-spinner fa-spin cx-pub-spin";
-  spinner.setAttribute("aria-hidden", "true");
+  // ONE icon element for the whole run, not a spinner that gets deleted: it
+  // starts spinning and, on `finish`, turns into the check/xmark/info glyph
+  // for the outcome. Removing it outright (the prior behaviour) left the
+  // status line with no icon at all once a run ended.
+  const statusIcon = document.createElement("i");
+  statusIcon.className = "fa-solid fa-spinner fa-spin cx-pub-status-icon";
+  statusIcon.setAttribute("aria-hidden", "true");
   const statusText = document.createElement("span");
   statusText.textContent = "Starting…";
-  status.append(spinner, statusText);
+  status.append(statusIcon, statusText);
   box.append(status);
 
   const logEl = document.createElement("div");
@@ -500,10 +509,26 @@ export function publishProgressPanel(bookTitle: string): ProgressPanel {
       checksList.append(li);
     },
     finish(outcome, text) {
+      // Guards against a second call reaching a panel that already finished —
+      // the stream's own "done" event and the caller's stall fallback (see
+      // `initPublishToProduction`) can both fire if a "done" event arrives
+      // just as the fallback trips; the first call wins.
+      if (!running) return;
       running = false;
       box.classList.remove("is-ok", "is-bad", "is-neutral");
       box.classList.add(`is-${outcome}`);
-      spinner.remove();
+      const outcomeIcon =
+        outcome === "ok"
+          ? "fa-solid fa-circle-check"
+          : outcome === "bad"
+            ? "fa-solid fa-circle-xmark"
+            : "fa-solid fa-circle-info";
+      // The spinner becomes the outcome's icon rather than disappearing — a
+      // finished panel with no icon at all read as still-in-progress at a
+      // glance, which is what left readers unsure whether a stuck spinner was
+      // actually still running.
+      statusIcon.className = `${outcomeIcon} cx-pub-status-icon is-${outcome}`;
+      headIcon.className = outcomeIcon;
       statusText.textContent =
         outcome === "ok"
           ? "Done"

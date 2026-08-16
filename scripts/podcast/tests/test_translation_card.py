@@ -282,6 +282,91 @@ def test_a_single_quoted_rendering_splits_when_a_sentence_follows():
     assert f"> {rendering}\n\n{gloss}" in out
 
 
+# ── attribution-led renderings (2026-08-15): "God Almighty said: "…" [cite]." ────
+#
+# Asif reported this one live from the Compose tab, screenshotted: a verse drew as a
+# card with its translation printed as an ordinary paragraph below it, exactly like the
+# 2026-08-09 defect above — but `translation_outside_card` reported nothing wrong. Real
+# text from mukhtasar-ul-asar-1, whose citations open on the SPEAKER, not the quotation
+# mark: `opens_on_a_quotation` asks only about `text[0]`, and every one of this book's
+# 34 renderings starts on a capital letter, not a mark. All 34 were invisible to every
+# one of the three original shapes at once.
+
+
+def test_an_attribution_led_rendering_is_found_and_folds_whole():
+    """The paragraph is an attribution plus the rendering and nothing else — the fold
+    carries the attribution in with it, unreworded, the same as any other fold."""
+    rendering = 'God Almighty said: *"And We sent down from the sky pure water"* [Surah al-Furqan: 48].'
+    md = chapter(f"> {ARABIC}", rendering)
+    assert translation_outside_card(md) == [("1. A Chapter", rendering)]
+    out, folded = fold_translation_into_card(md)
+    assert folded == 1
+    assert f"> {ARABIC}\n>\n> {rendering}" in out
+    assert out.count(rendering) == 1
+    assert translation_outside_card(out) == []
+
+
+def test_an_attribution_led_rendering_splits_from_the_verses_that_follow_it():
+    """The real paragraph from mukhtasar-ul-asar-1: three citations in one paragraph, but
+    only the first has a card above it. The rendering — attribution included — moves in
+    whole; "He also said…" and everything after it is untouched, character for
+    character, in a new paragraph of its own."""
+    rendering = 'God Almighty said: *"And We sent down from the sky pure water"* [Surah al-Furqan: 48].'
+    rest = (
+        'He also said: *"And He sent down upon you from the sky water to purify you thereby"* '
+        "[Surah al-Anfal: 11]. And again: "
+        '*"Have you not seen that God sent down water from the sky, then caused it to flow as '
+        'springs in the earth?"* [Surah al-Zumar: 21]. Through these verses, God — exalted be '
+        "His praise — established that the water of the earth originates from the sky, and the "
+        "transmitted reports confirm its purity."
+    )
+    md = chapter(f"> {ARABIC}", f"{rendering} {rest}")
+    assert translation_outside_card(md) == []
+    assert translation_fused_with_prose(md) == []
+    assert [t[1] for t in translation_leads_a_paragraph(md)] == [rendering]
+
+    out, split = split_translation_into_card(md)
+    assert split == 1
+    assert f"> {ARABIC}\n>\n> {rendering}\n\n{rest}" in out
+    assert out.count(rest) == 1
+
+
+def test_a_short_attribution_alone_is_not_enough_without_a_quotation_mark():
+    """ "Note: the following is disputed." is not this shape — nothing after the colon is
+    a quotation mark, so there is no rendering to find at all."""
+    md = chapter(f"> {ARABIC}", "Note: the following point is disputed among jurists on this matter.")
+    assert translation_outside_card(md) == []
+    assert translation_leads_a_paragraph(md) == []
+    assert translation_fused_with_prose(md) == []
+
+
+def test_a_long_lead_in_sentence_with_an_incidental_colon_does_not_qualify():
+    """A genuine sentence that happens to contain a colon well past the attribution cap
+    must never be misread as one — the cap exists precisely so a citation range or a list
+    inside a normal sentence can never reach the quotation mark test."""
+    long_lead = (
+        "In this chapter, which treats of purity, ablution, and the conditions under which "
+        'water retains its ruling: "some text that merely follows a colon" is not a verse.'
+    )
+    md = chapter(f"> {ARABIC}", long_lead)
+    assert translation_outside_card(md) == []
+    assert translation_leads_a_paragraph(md) == []
+    assert translation_fused_with_prose(md) == []
+
+
+def test_an_attribution_led_verse_still_refuses_an_unclosed_quotation():
+    """The attribution shape shares the same refuse-rather-than-guess boundary as the
+    direct-open shape — an unclosed quotation is left for a person regardless of what
+    precedes the opening mark."""
+    unclosed = 'He said: "Whoever holds fast to this will never go astray (Al-Kahf: 17).'
+    md = chapter(f"> {ARABIC}", unclosed)
+    assert translation_outside_card(md) == []
+    assert translation_leads_a_paragraph(md) == []
+    assert len(translation_fused_with_prose(md)) == 1
+    assert fold_translation_into_card(md)[1] == 0
+    assert split_translation_into_card(md)[1] == 0
+
+
 def test_an_unclosed_quotation_is_refused_rather_than_guessed():
     """How the same Al-Araf 172 passage is actually printed: it opens on a single mark and
     never closes one. Where the author's punctuation does not say where the quotation ends,

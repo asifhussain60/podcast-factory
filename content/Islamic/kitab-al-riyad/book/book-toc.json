@@ -14,54 +14,6 @@
   "chapters": [
     {
       "bk_index": 1,
-      "title": "The Freedom to Disagree",
-      "source_line_ranges": [
-        [
-          34,
-          54
-        ]
-      ],
-      "theme": "origins of the debate",
-      "rationale": "The seam is the birth of the quarrel itself — how the late-third-century Islamic intellectual world and one circulating book, al-Mahsul, set three Ismaili da'is arguing through al-Islah, al-Nusra, and finally al-Riyad."
-    },
-    {
-      "bk_index": 2,
-      "title": "The Two Rivals",
-      "source_line_ranges": [
-        [
-          56,
-          135
-        ]
-      ],
-      "theme": "the disputants",
-      "rationale": "This unit is the lives and doctrines of the two men being judged — Abu Hatim al-Razi (al-Islah) and Abu Ya'qub al-Sijistani (al-Nusra) — closing on al-Sijistani's austere theology of a God beyond every attribute."
-    },
-    {
-      "bk_index": 3,
-      "title": "The Judge and His Cosmos",
-      "source_line_ranges": [
-        [
-          137,
-          183
-        ]
-      ],
-      "theme": "the arbiter",
-      "rationale": "The theme turns to the arbitrator: Hamid al-Din al-Kirmani, his standing among the Fatimid da'wa, and the philosophical system — unity of being, the ranked intellects, continuous creation — he brings to the judgment."
-    },
-    {
-      "bk_index": 4,
-      "title": "Why I Wrote This Book",
-      "source_line_ranges": [
-        [
-          499,
-          567
-        ]
-      ],
-      "theme": "the author's charge",
-      "rationale": "The book's own voice begins here: al-Kirmani's invocation and preface stating why he judges between al-Islah and al-Nusra and corrects what al-Mahsul left unfixed."
-    },
-    {
-      "bk_index": 5,
       "title": "The Perfect and Perfection",
       "source_line_ranges": [
         [
@@ -73,7 +25,7 @@
       "rationale": "Chapter One's opening dispute: whether the soul emanated from the Intellect is complete, and whether 'perfection' or 'the perfect' holds the higher rank."
     },
     {
-      "bk_index": 6,
+      "bk_index": 2,
       "title": "Nothing Stands Beside the First",
       "source_line_ranges": [
         [
@@ -85,7 +37,7 @@
       "rationale": "The argument narrows to emanation itself — why the First Intellect can be no intermediary, how deficiency is only relational, illustrated by sun, moon, form, and matter."
     },
     {
-      "bk_index": 7,
+      "bk_index": 3,
       "title": "The Soul That Forgets",
       "source_line_ranges": [
         [
@@ -97,7 +49,7 @@
       "rationale": "Chapter One closes on action and need, whether souls 'forget' their higher world, the difference between thought and the idea, and whether Intellect and time are one — ending with Empedocles."
     },
     {
-      "bk_index": 8,
+      "bk_index": 4,
       "title": "Motion, Stillness, and the Bodiless Intellect",
       "source_line_ranges": [
         [
@@ -109,7 +61,7 @@
       "rationale": "Chapter Two asks whether motion and rest can belong to the First and Second at all, given that neither the Intellect nor the Soul is a body."
     },
     {
-      "bk_index": 9,
+      "bk_index": 5,
       "title": "Light, Darkness, and the Matter Below",
       "source_line_ranges": [
         [
@@ -121,7 +73,7 @@
       "rationale": "Chapter Three weighs whether the lower world of hyle can resemble the higher when one is pure light and the other darkness."
     },
     {
-      "bk_index": 10,
+      "bk_index": 6,
       "title": "Parts or Traces?",
       "source_line_ranges": [
         [
@@ -133,7 +85,7 @@
       "rationale": "Chapter Four turns on whether individual souls are parts of the Universal Soul or merely its traces — and what prophethood and imamate demand of the answer."
     },
     {
-      "bk_index": 11,
+      "bk_index": 7,
       "title": "The Fruit of Two Worlds",
       "source_line_ranges": [
         [
@@ -145,7 +97,7 @@
       "rationale": "Chapter Five debates whether the human being is the fruit of this material world, of the higher world, or of both at once."
     },
     {
-      "bk_index": 12,
+      "bk_index": 8,
       "title": "Body, Form, and the Two Letters of 'Be'",
       "source_line_ranges": [
         [
@@ -157,7 +109,7 @@
       "rationale": "Chapter Six treats motion, stillness, hyle and form, anchored in the creative word kun and its movable and consonant letters."
     },
     {
-      "bk_index": 13,
+      "bk_index": 9,
       "title": "The Small World",
       "source_line_ranges": [
         [
@@ -169,7 +121,7 @@
       "rationale": "Chapter Seven divides the world and argues the human being mirrors every rank of the cosmos, disputing the 'pairing' of man with horse and with angel."
     },
     {
-      "bk_index": 14,
+      "bk_index": 10,
       "title": "Decree and Destiny",
       "source_line_ranges": [
         [
@@ -181,7 +133,7 @@
       "rationale": "Chapter Eight opens the quarrel over which precedes which, decree or destiny, with the tailor who measures the cloth before he cuts it."
     },
     {
-      "bk_index": 15,
+      "bk_index": 11,
       "title": "Fleeing to God's Measure",
       "source_line_ranges": [
         [
@@ -193,7 +145,7 @@
       "rationale": "Chapter Eight concludes through scripture: the hadith to 'flee from God's decree to His destiny,' Moses at the mountain, and the license to study the sciences of other peoples."
     },
     {
-      "bk_index": 16,
+      "bk_index": 12,
       "title": "Did Adam Bring a Law?",
       "source_line_ranges": [
         [
@@ -205,7 +157,7 @@
       "rationale": "Chapter Nine opens by asking whether the first Speaker-prophet had a Shari'a, argued through the sacrifice of Adam's two sons and the raven that taught burial."
     },
     {
-      "bk_index": 17,
+      "bk_index": 13,
       "title": "The Six Gates of Necessity",
       "source_line_ranges": [
         [
@@ -217,7 +169,7 @@
       "rationale": "The chapter turns to why law must exist at all — retaliation, marriage, inheritance and the rest — the angels' prostration to Adam, and worship as the ladder to true monotheism."
     },
     {
-      "bk_index": 18,
+      "bk_index": 14,
       "title": "Cycles, Prophets, and the Ark",
       "source_line_ranges": [
         [
@@ -229,7 +181,7 @@
       "rationale": "Chapter Nine closes with the seven prophetic lines and six laws, the cycles of prophets and imams, and Noah's ark as the vessel of the true call against the drowning son."
     },
     {
-      "bk_index": 19,
+      "bk_index": 15,
       "title": "The Creator of the Thing and the No-Thing",
       "source_line_ranges": [
         [
@@ -241,7 +193,7 @@
       "rationale": "Chapter Ten begins al-Kirmani's correction of al-Mahsul on monotheism — why God cannot be 'creator of things and non-things,' and why no originated language can name Him."
     },
     {
-      "bk_index": 20,
+      "bk_index": 16,
       "title": "Creativity Is the Creator",
       "source_line_ranges": [
         [
@@ -252,5 +204,26 @@
       "theme": "creativity and God",
       "rationale": "The book ends on the world made 'all at once,' the eternal Intellect, unity and the Word, and the closing proof that creativity is nothing other than the Creator Himself."
     }
-  ]
+  ],
+  "introduction_merge": {
+    "note": "Chapters 1-4 (translator's historical framing and al-Kirmani's own preface) were folded into 'Introduction to the Book' as unnumbered subsections on 2026-08-15. Former chapter 5 became chapter 1, and so on through former 20 -> 16.",
+    "merged_chapters": [
+      {
+        "former_bk_index": 1,
+        "title": "The Freedom to Disagree"
+      },
+      {
+        "former_bk_index": 2,
+        "title": "The Two Rivals"
+      },
+      {
+        "former_bk_index": 3,
+        "title": "The Judge and His Cosmos"
+      },
+      {
+        "former_bk_index": 4,
+        "title": "Why I Wrote This Book"
+      }
+    ]
+  }
 }

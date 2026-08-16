@@ -516,7 +516,7 @@ describe("the reading column's figures", () => {
     const imageRule =
       readingColumn.match(/\.reader \.md-figure img\s*\{[^}]*\}/)?.[0] ?? "";
     expect(imageRule, "the reader must style markdown figure images").not.toBe("");
-    expect(imageRule).toContain("width: var(--img-w, auto)");
+    expect(imageRule).toContain("height: var(--img-h, 350px)");
     expect(imageRule).toContain("max-width: 100%");
     expect(imageRule).not.toMatch(/(^|[;\s{])width\s*:\s*100%/);
   });

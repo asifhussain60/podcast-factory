@@ -1,117 +1,117 @@
 {
   "schema": "book.comprehension/v1",
-  "pages": 254,
+  "pages": 236,
   "terms_tracked": 303,
   "prerequisite_gaps": [
     {
       "term": "Muhammad",
+      "first_use_page": 7,
+      "explained_page": 173,
+      "pages_carried": 166,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Adam",
+      "first_use_page": 6,
+      "explained_page": 162,
+      "pages_carried": 156,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Imām",
       "first_use_page": 9,
-      "explained_page": 193,
-      "pages_carried": 184,
+      "explained_page": 100,
+      "pages_carried": 91,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Imamate",
+      "first_use_page": 9,
+      "explained_page": 99,
+      "pages_carried": 90,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-Muʿizz",
+      "first_use_page": 10,
+      "explained_page": 100,
+      "pages_carried": 90,
       "kind": "explained-late"
     },
     {
       "term": "al-Nusrah",
       "first_use_page": 6,
-      "explained_page": 104,
-      "pages_carried": 98,
+      "explained_page": 85,
+      "pages_carried": 79,
       "kind": "explained-late"
     },
     {
       "term": "al-Nusrah",
       "first_use_page": 6,
-      "explained_page": 104,
-      "pages_carried": 98,
+      "explained_page": 85,
+      "pages_carried": 79,
       "kind": "explained-late"
     },
     {
       "term": "Shari'a",
-      "first_use_page": 56,
-      "explained_page": 120,
+      "first_use_page": 36,
+      "explained_page": 100,
       "pages_carried": 64,
       "kind": "explained-late"
     },
     {
       "term": "Sharia",
-      "first_use_page": 56,
-      "explained_page": 120,
+      "first_use_page": 36,
+      "explained_page": 100,
       "pages_carried": 64,
       "kind": "explained-late"
     },
     {
       "term": "al-aql",
-      "first_use_page": 58,
-      "explained_page": 79,
-      "pages_carried": 21,
+      "first_use_page": 38,
+      "explained_page": 60,
+      "pages_carried": 22,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-Nusra",
+      "first_use_page": 8,
+      "explained_page": 16,
+      "pages_carried": 8,
       "kind": "explained-late"
     },
     {
       "term": "Fatimid",
-      "first_use_page": 10,
-      "explained_page": 26,
-      "pages_carried": 16,
-      "kind": "explained-late"
-    },
-    {
-      "term": "Imamate",
-      "first_use_page": 15,
-      "explained_page": 31,
-      "pages_carried": 16,
-      "kind": "explained-late"
-    },
-    {
-      "term": "Ismaili",
-      "first_use_page": 7,
-      "explained_page": 18,
-      "pages_carried": 11,
-      "kind": "explained-late"
-    },
-    {
-      "term": "Baghdadi",
-      "first_use_page": 9,
+      "first_use_page": 8,
       "explained_page": null,
       "pages_carried": 4,
       "kind": "never-explained"
     },
     {
-      "term": "Samanid",
-      "first_use_page": 9,
-      "explained_page": null,
-      "pages_carried": 3,
-      "kind": "never-explained"
-    },
-    {
-      "term": "al-Baghdadi",
-      "first_use_page": 9,
-      "explained_page": null,
-      "pages_carried": 3,
-      "kind": "never-explained"
-    },
-    {
-      "term": "al-Farabi",
-      "first_use_page": 28,
-      "explained_page": null,
-      "pages_carried": 3,
-      "kind": "never-explained"
-    },
-    {
       "term": "Hijra",
       "first_use_page": 7,
-      "explained_page": 9,
-      "pages_carried": 2,
-      "kind": "explained-late"
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
     },
     {
-      "term": "Imām",
-      "first_use_page": 18,
-      "explained_page": 20,
-      "pages_carried": 2,
-      "kind": "explained-late"
+      "term": "Tawhid",
+      "first_use_page": 13,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
     },
     {
-      "term": "al-Kirmani",
-      "first_use_page": 7,
-      "explained_page": 9,
+      "term": "hudud",
+      "first_use_page": 13,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "al-Sijistani",
+      "first_use_page": 8,
+      "explained_page": 10,
       "pages_carried": 2,
       "kind": "explained-late"
     }
@@ -151,29 +151,29 @@
     },
     {
       "page": 7,
-      "term_count": 12,
+      "term_count": 10,
       "terms": [
         "Adam",
         "Hijra",
         "Ismaili",
+        "Muhammad",
         "Riyad",
-        "al-Islah",
         "al-Kirmani",
-        "al-Nasafi",
-        "al-Nusra",
+        "al-Mahsul",
         "al-Riyad",
-        "al-Sijistani"
+        "destiny",
+        "judgment"
       ]
     },
     {
-      "page": 9,
-      "term_count": 13,
+      "page": 8,
+      "term_count": 16,
       "terms": [
         "Baghdadi",
+        "Fatimid",
         "Hijra",
         "Ismaili",
-        "Khurasan",
-        "Muhammad",
+        "Riyad",
         "Samanid",
         "al-Baghdadi",
         "al-Islah",
@@ -182,212 +182,125 @@
       ]
     },
     {
-      "page": 10,
-      "term_count": 12,
+      "page": 9,
+      "term_count": 22,
       "terms": [
+        "Baghdad",
+        "Daylam",
         "Fatimid",
-        "Hijra",
+        "Imamate",
+        "Imām",
+        "Isfahan",
+        "Ismaili",
+        "Maghrib",
+        "Mardawij",
+        "Muhammad"
+      ]
+    },
+    {
+      "page": 10,
+      "term_count": 25,
+      "terms": [
+        "Bukhara",
+        "Fatimid",
+        "Imām",
+        "Ismaili",
+        "Khurasan",
+        "Kufa",
+        "Muhammad",
         "Riyad",
-        "al-Islah",
-        "al-Kirmani",
-        "al-Mahsul",
-        "al-Nusra",
-        "al-Razi",
+        "Rustam",
+        "Sijistan"
+      ]
+    },
+    {
+      "page": 11,
+      "term_count": 6,
+      "terms": [
+        "Riyad",
         "al-Riyad",
-        "al-Sijistani"
+        "al-Sijistani",
+        "destiny",
+        "judgment",
+        "matter"
       ]
     },
     {
       "page": 12,
-      "term_count": 9,
+      "term_count": 8,
       "terms": [
-        "Baghdadi",
-        "Muhammad",
-        "Samanid",
-        "al-Baghdadi",
+        "Fatimid",
+        "Iraq",
+        "Ismaili",
+        "Riyad",
         "al-Kirmani",
-        "al-Mahsul",
-        "al-Nasafi",
-        "al-Razi",
-        "al-Sijistani"
+        "al-Riyad",
+        "da'wa",
+        "judgment"
       ]
     },
     {
       "page": 13,
-      "term_count": 10,
+      "term_count": 9,
       "terms": [
-        "Fatimid",
+        "Imamate",
+        "Ismaili",
         "Riyad",
-        "al-Islah",
+        "Tawhid",
+        "al-Farabi",
         "al-Kirmani",
-        "al-Mahsul",
-        "al-Nusra",
-        "al-Razi",
         "al-Riyad",
-        "al-Sijistani",
+        "hudud",
         "judgment"
       ]
     },
     {
       "page": 14,
-      "term_count": 7,
+      "term_count": 13,
       "terms": [
-        "Riyad",
-        "al-Islah",
-        "al-Kirmani",
-        "al-Mahsul",
-        "al-Nusra",
-        "al-Razi",
-        "al-Riyad"
-      ]
-    },
-    {
-      "page": 15,
-      "term_count": 11,
-      "terms": [
-        "Baghdad",
-        "Hijra",
+        "Baghdadi",
+        "Basran",
         "Imamate",
-        "Muhammad",
+        "Mu'tazila",
         "Riyad",
-        "al-Kirmani",
-        "al-Nasafi",
-        "al-Razi",
-        "al-Riyad",
-        "al-Sijistani"
-      ]
-    },
-    {
-      "page": 16,
-      "term_count": 8,
-      "terms": [
-        "Daylam",
-        "Fatimid",
-        "Isfahan",
-        "Maghrib",
-        "Mardawij",
-        "Tabaristan",
-        "al-Marwazi",
-        "al-Razi"
-      ]
-    },
-    {
-      "page": 17,
-      "term_count": 12,
-      "terms": [
-        "Fatimid",
-        "Hijra",
-        "Imamate",
-        "Ismaili",
-        "Maghrib",
-        "Mardawij",
-        "Muhammad",
-        "Qāʾim",
-        "al-Kirmani",
-        "al-Qa'im"
-      ]
-    },
-    {
-      "page": 18,
-      "term_count": 9,
-      "terms": [
-        "Fatimid",
-        "Hijra",
-        "Imām",
-        "Ismaili",
-        "Muhammad",
-        "al-Islah",
-        "al-Jami'",
-        "al-Kirmani",
-        "al-Sijistani"
-      ]
-    },
-    {
-      "page": 19,
-      "term_count": 15,
-      "terms": [
-        "Hijra",
-        "Ismaili",
-        "Khurasan",
-        "Kufa",
-        "Nasr",
-        "Rustam",
-        "Samanid",
-        "Sijistan",
-        "al-Iftikhar",
+        "Tawhid",
+        "al-Baghdadi",
+        "al-Farabi",
+        "al-Ghazali",
         "al-Kirmani"
       ]
     },
     {
-      "page": 20,
-      "term_count": 14,
+      "page": 15,
+      "term_count": 7,
       "terms": [
-        "Bukhara",
-        "Fatimid",
-        "Imām",
         "Muhammad",
         "Riyad",
+        "Taha",
+        "Yasin",
         "al-Kirmani",
-        "al-Maghribī",
-        "al-Nusra",
         "al-Riyad",
-        "al-Sijistani"
+        "judgment"
       ]
     },
     {
-      "page": 32,
-      "term_count": 10,
+      "page": 16,
+      "term_count": 11,
       "terms": [
-        "Baghdadi",
-        "Mu'tazila",
-        "al-Baghdadi",
-        "al-Baqillani",
-        "al-Farabi",
-        "al-Ghazali",
-        "al-Kindi",
-        "al-Kirmani",
-        "matter",
-        "tatil"
-      ]
-    },
-    {
-      "page": 37,
-      "term_count": 6,
-      "terms": [
-        "Shaykh",
+        "Riyad",
+        "Tawhid",
         "al-Islah",
         "al-Mahsul",
         "al-Nusra",
         "al-Razi",
-        "al-Sijzi"
-      ]
-    },
-    {
-      "page": 38,
-      "term_count": 6,
-      "terms": [
-        "Riyad",
-        "al-Islah",
-        "al-Mahsul",
-        "al-Nusra",
         "al-Riyad",
-        "matter"
+        "al-Sijzi",
+        "hudud",
+        "judgment"
       ]
     },
     {
-      "page": 120,
-      "term_count": 6,
-      "terms": [
-        "Imamate",
-        "Imām",
-        "Ma'ad",
-        "Shari'a",
-        "Sharia",
-        "al-Muʿizz"
-      ]
-    },
-    {
-      "page": 124,
+      "page": 104,
       "term_count": 8,
       "terms": [
         "Amir",
@@ -401,19 +314,7 @@
       ]
     },
     {
-      "page": 193,
-      "term_count": 6,
-      "terms": [
-        "Adam",
-        "Muhammad",
-        "al-Islah",
-        "al-Nusrah",
-        "judgment",
-        "matter"
-      ]
-    },
-    {
-      "page": 205,
+      "page": 187,
       "term_count": 6,
       "terms": [
         "Adam",
@@ -425,7 +326,7 @@
       ]
     },
     {
-      "page": 221,
+      "page": 203,
       "term_count": 6,
       "terms": [
         "Adam",
@@ -435,108 +336,120 @@
         "al-Qa'im",
         "matter"
       ]
+    },
+    {
+      "page": 222,
+      "term_count": 6,
+      "terms": [
+        "Imām",
+        "Shari'a",
+        "Sharia",
+        "al-Muʿizz",
+        "al-Rawḍa",
+        "tatil"
+      ]
     }
   ],
   "long_sentences": [
     {
-      "page": 177,
-      "words": 205,
-      "text": "He said: ‫َلْيَس َعَل َّل َن َمُن َوَع ُل‬ ‫َم َط ُمٓو َذ‬ ‫ُجَن‬ ‫َّص‬ ‫َم‬ ‫َح‬ ‫ى ٱ ِذي آ و۟ا ِم و۟ا ٱل ِل ِت اٌۭح ِفي ا ِع ۟ا ِإ ا ا‬ ‫َع ُل‬ ‫َّتَق‬ ‫َمُن‬"
+      "page": 15,
+      "words": 248,
+      "text": "Kitab al-Riyad: A Judgment Between the Two Reformers Why al-Kirmani Wrote This Book Al-Kirmani opens the book itself in his own voice, with the Basmala — SAYING"
     },
     {
-      "page": 129,
+      "page": 109,
       "words": 201,
       "text": "As for the seventh section, and the saying of the author of al-Nusrah that every doer does what he does only in seeking to attain what he wills, and especially "
     },
     {
-      "page": 26,
-      "words": 192,
-      "text": "17-23 T he great preacher and Yemeni historian Idris Imad al-Din mentioned him in his book, saying: ‫\"ُه َأ ا الَّد ْع ِة اَّلِتي َع َل ِه ِع َم اُدَه ا َو ِبِه"
+      "page": 157,
+      "words": 169,
+      "text": "He said: AL-MA'IDAH: 93 ‫َلْيَس َعَلى ٱَّلِذيَن آَمُنو۟ا َوَعِمُلو۟ا ٱلَّص ِلَحِت ُجَناٌۭح ِفيَما َطِعُمٓو ۟ا ِإ َذا َما ٱَّتَقو۟ا‬ ‫َّو آَمُنو۟ا َوَعِمُلو۟ا ٱل"
     },
     {
-      "page": 29,
-      "words": 172,
-      "text": "This is identical to the Second Teacher's theory on creation, in which he says: ‫\"حفظ ادامة وجود الشيء الذي ليس وجودًا لذاته ادامة ال تتصل‬ \"‫بشيء من العلل غير "
+      "page": 179,
+      "words": 159,
+      "text": "Furthermore, Allah, the Most High, does not mention in the Quran that Adam had a people and followers, nor does He mention his being sent, as He does with other"
     },
     {
-      "page": 144,
-      "words": 154,
-      "text": "Rather, since the sensory soul, which is the bestial one, accepts the ruling of the rational soul when no obstacle hinders it, and the rational soul, when it se"
+      "page": 12,
+      "words": 147,
+      "text": "The Yemeni historian Idris Imad alDin called him SAYING ‫\"ُه َو َأَس اُس الَّد ْع َو ِة اَّلِتي َع َلْي ِه ِع َم اُدَه ا َو ِبِه َع اَل َو اْس َتَق اَم َم َناُر"
     },
     {
-      "page": 191,
-      "words": 153,
-      "text": "The friend said: ‫َل ْن َبَس ْط َت َلَّي َيَد َك ِلَت ْق ُتَل ي َم ا َأَنا َباِس َيِد َي َلْيَك ِلَأْقُتَلَك ي َأَخ اُف اَهَّلل‬ ‫ِإ‬ ‫ِإ‬ ‫ِب ٍط‬ ‫ِئ‬ ‫ِإِّن‬ "
-    },
-    {
-      "page": 196,
+      "page": 176,
       "words": 143,
-      "text": "The Tenth Section of the Ninth Chapter Then the command of Allah to prostrate to Adam (‫)ع‬, by His saying \"Prostrate to Adam\" ( ‫)ٱْس ُج ُد و۟ا آِلَد َم‬, is l"
+      "text": "The Tenth Section of the Ninth Chapter Then the command of Allah to prostrate to Adam, by His saying \"Prostrate to Adam\" ( ‫)ٱْس ُج ُد و۟ا آِلَد َم‬, is like Hi"
     },
     {
-      "page": 60,
-      "words": 140,
+      "page": 40,
+      "words": 141,
       "text": "What suffices as an indication of the world's perfection is what the author of al-Nusra himself said in his book known as al-Iftikhar, in the chapter of the Com"
     },
     {
-      "page": 218,
-      "words": 133,
-      "text": "For this Allah, exalted be He, said, making plain the possessor of the Resurrection, ‫واذا السماء انفطرت و إذا الكواكب انتشرت‬ \"And when the heaven is cleft asu"
+      "page": 200,
+      "words": 135,
+      "text": "For this Allah, exalted be He, said, making plain the possessor of the Resurrection, SAYING ‫واذا السماء انفطرت و إذا الكواكب انتشرت‬ \"And when the heaven is cl"
     },
     {
-      "page": 33,
-      "words": 130,
-      "text": "Al-Kirmani published a number of works, the most important of which include: The Divine Treatise, The Treatise of the Systems, The Treatise of Light, The Illumi"
-    },
-    {
-      "page": 75,
-      "words": 128,
-      "text": "The author of al-Nusra argued that bowing is upon the Foundation and prostration upon the Speaker, and that the supplication in bowing, ‫َح اَن ِّبي اْلَع ِظ يِ"
-    },
-    {
-      "page": 43,
-      "words": 127,
-      "text": "For this reason Allah, exalted, said: ‫َس ُن ي ْم آَي َنا ى ٱلٓأَفا َو ٓى َأنُف ْم َحَّت ٰى َيَتَبَّيَن َلُهْم َأَّنُه ٱْلَحُّق‬ ‫ِق ِف ِس ِه‬ ‫ِر ِه ِت ِف‬ \"We"
-    },
-    {
-      "page": 164,
+      "page": 124,
       "words": 126,
-      "text": "The leaning wall is a structure that has leaned so as to fall, and it stands for one of the ranks who has resolved upon some breaking of covenant and hypocrisy "
+      "text": "Rather, since the sensory soul, which is the bestial one, accepts the ruling of the rational soul when no obstacle hinders it, and the rational soul, when it se"
     },
     {
-      "page": 199,
-      "words": 122,
-      "text": "‫(َش َرَع َلُك م ِّم َن ٱلِّد يِن َم ا َو َّص ٰى ِبِه ۦ ُنوًۭح ا َو ٱ َّلِذ ٓى َأْوَح ْي َنٓا ِإَلْي َك َو َم ا‬ )‫َو َّص ْي َنا ِبِه ٓۦ ِإْب َر ِه يَم َو ُم وَ"
+      "page": 144,
+      "words": 126,
+      "text": "The leaning wall is a structure that has leaned so far that it is about to fall, and it stands for one of the ranks who has resolved upon breaking his covenant "
     },
     {
-      "page": 231,
-      "words": 121,
+      "page": 213,
+      "words": 120,
       "text": "Noah admonished him at one time and warned him at another, saying that the command of Allah lay in it, and that if he did not heed the admonition his headship w"
     },
     {
-      "page": 175,
-      "words": 120,
+      "page": 22,
+      "words": 119,
+      "text": "For this reason Allah, exalted, said: FUSSILAT: 53 ‫َس ُنِريِهْم آَيِتَنا ِفى ٱلٓأ َفاِق َوِفٓى َأ نُفِسِهْم َحَّتٰى َيَتَبَّيَن َلُهْم َأ َّن ُه ٱْلَحُّق‬ \"We "
+    },
+    {
+      "page": 155,
+      "words": 119,
       "text": "The Twenty-Third Section of the Eighth Chapter The author of al-Nusrah said: God has granted the prophets license in the inner meanings of the Laws, and dispens"
     },
     {
-      "page": 234,
-      "words": 120,
-      "text": "215-222 T he Creator of the Thing and the No-Thing The First Section of the Tenth Chapter We say: The author of al-Mahsul, may Allah have mercy on him, when he "
+      "page": 14,
+      "words": 116,
+      "text": "Among al-Kirmani's works, beyond those already named, are The Divine Treatise, The Treatise of the Systems, The Treatise of Light, The Illuminating Treatise, Th"
     },
     {
-      "page": 200,
-      "words": 114,
-      "text": "because his name is not mentioned alongside the five ( ‫)َع َلْي ِه ُم الَّس اَل ُم‬, then by the same reasoning — since his name is also absent from the compan"
+      "page": 37,
+      "words": 113,
+      "text": "Witness to this is what the Prophet did when he joined the Book and the 'Itra — whose existence is from him — when he said: SAYING ‫ حبل ممدود من‬، ‫ِإاَّل َأِّ"
     },
     {
-      "page": 57,
+      "page": 211,
       "words": 112,
-      "text": "Witness to this is what the Prophet did when he joined the Book and the 'Itra — whose existence is from him — when he said: ‫ حبل ممدود من‬، ‫ِإاَّل َأِّني َتاِ"
+      "text": "Chapter Thirty-Three of Title IX The author of al-Nusrah said: Following his interpretation of what Allah the Exalted related concerning the son of Noah: HUD: 4"
     },
     {
-      "page": 160,
-      "words": 111,
-      "text": "Decree and Destiny The meaning of ‫ِإَّنا‬, \"We,\" by which He intends the Ipseity, is that which no attribute and no negation of attribute taints; and \"everythi"
+      "page": 143,
+      "words": 109,
+      "text": "Decree and Destiny As for the saying of the author of al-Nusrah, in the passage where at its head stands \"We have created it\" — by which he intends the image of"
+    },
+    {
+      "page": 217,
+      "words": 109,
+      "text": "Since that is so, and since I have seen in the book of al-Mahsul what was most binding upon Abu Hatim and most obligatory for him to expound and correct — somet"
+    },
+    {
+      "page": 164,
+      "words": 108,
+      "text": "The author of al-Nusrah said: The author of al-Islah has argued for the affirmation of a Shariah for Adam (‫ )ع‬by the saying of Allah Almighty, \"And recite to "
+    },
+    {
+      "page": 127,
+      "words": 107,
+      "text": "We say: The disagreement between the two in this section is this: the author of alIslah set opposite the human's growth the plant of the greater world that grow"
     }
   ],
   "summary": {

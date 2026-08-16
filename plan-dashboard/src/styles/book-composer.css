@@ -1514,7 +1514,12 @@ body:has(.composer-grid) .to-top {
   list-style-type: disc;
 }
 .cx-prose li {
-  margin-block: 0 0.35rem;
+  /* 0.15rem, down from 0.35rem (Asif, 2026-08-15): a numbered/bulleted list was
+     reading visibly looser than the surrounding paragraph text, which gets no
+     extra gap between its own wrapped lines. Still more than zero so items stay
+     visually separated from one another, just not doubled up on top of the
+     paragraph's own 1.45 line-height. Matches .cx-body li below. */
+  margin-block: 0 0.15rem;
 }
 .cx-prose blockquote {
   border-left: 2px solid var(--paper-rule, var(--c-rule, #d9d3c4));
@@ -2641,7 +2646,8 @@ body:has(.composer-grid) .to-top {
   list-style-type: disc;
 }
 .cx-body li {
-  margin-block: 0 0.35rem;
+  /* 0.15rem, matching .cx-prose li above — same reasoning, same date. */
+  margin-block: 0 0.15rem;
 }
 
 /* Arabic verses in the preview mirror the printed page: no box, body-ink Arabic
@@ -4255,10 +4261,13 @@ button.cx-hdr-btn--publish.is-pending::after {
     var(--c-green, #4a7c4a) 36%,
     var(--c-rule, #d9d3c4)
   );
+  /* A flat, clearly-visible tint rather than the earlier 7%->3% gradient,
+   * which read as "barely off-white" instead of "this succeeded" — the whole
+   * point of colouring the panel at all (Asif, 2026-08-15). */
   background:
     linear-gradient(
-      color-mix(in oklab, var(--c-green, #4a7c4a) 7%, transparent),
-      color-mix(in oklab, var(--c-green, #4a7c4a) 3%, transparent)
+      color-mix(in oklab, var(--c-green, #4a7c4a) 14%, transparent),
+      color-mix(in oklab, var(--c-green, #4a7c4a) 14%, transparent)
     ),
     var(--c-bg-card, #fffdf8);
   box-shadow: 0 20px 50px
@@ -4272,8 +4281,8 @@ button.cx-hdr-btn--publish.is-pending::after {
   );
   background:
     linear-gradient(
-      color-mix(in oklab, var(--c-red, #a83232) 7%, transparent),
-      color-mix(in oklab, var(--c-red, #a83232) 3%, transparent)
+      color-mix(in oklab, var(--c-red, #a83232) 14%, transparent),
+      color-mix(in oklab, var(--c-red, #a83232) 14%, transparent)
     ),
     var(--c-bg-card, #fffdf8);
   box-shadow: 0 20px 50px
@@ -4392,11 +4401,23 @@ button.cx-hdr-btn--publish.is-pending::after {
   font-weight: 600;
   color: var(--c-ink, #1f1d18);
 }
-.cx-pub-spin {
+/* Spinning while the run is in flight; on `finish` the element is repointed
+ * to a check/xmark/info glyph and gains one of the .is-* modifiers below —
+ * same element throughout, so the status line never goes icon-less. */
+.cx-pub-status-icon {
   color: var(--c-accent, #8b4513);
 }
+.cx-pub-status-icon.is-ok {
+  color: var(--c-green, #4a7c4a);
+}
+.cx-pub-status-icon.is-bad {
+  color: var(--c-red, #a83232);
+}
+.cx-pub-status-icon.is-neutral {
+  color: var(--c-ink-dim, #5c574d);
+}
 @media (prefers-reduced-motion: reduce) {
-  .cx-pub-spin {
+  .cx-pub-status-icon {
     animation: none;
   }
 }

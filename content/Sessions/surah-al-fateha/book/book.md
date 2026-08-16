@@ -557,8 +557,8 @@ Allah promises His Messenger that He will give him and continue giving him until
 This is why to love the Messenger of Allah is to love Allah, and to love Allah is to love the Messenger of Allah:
 
 > قُلْ إِن كُنتُمْ تُحِبُّونَ ٱللَّهَ فَٱتَّبِعُونِى يُحْبِبْكُمُ ٱللَّهُ
-
-Say: “If you love Allah, then follow me; Allah will love you.”
+>
+> Say: “If you love Allah, then follow me; Allah will love you.”
 
 May Allah grant us the مقام of محبۃ, increase us in محبۃ, and make us people of محبۃ.
 
@@ -2005,8 +2005,10 @@ I see from the outset that Allah is truly my master. He is my رب, but His رب
 Allah alone is the رب who has granted complete freedom of choice. If denying freedom of choice is the deepest humiliation, then granting full freedom of choice is the highest honor. SubhanAllah. Allah honored us above every other creation by giving us the freedom to choose.
 
 > وَقُلِ ٱلْحَقُّ مِن رَّبِّكُمْ ۖ فَمَن شَآءَ فَلْيُؤْمِن وَمَن شَآءَ فَلْيَكْفُرْ
+>
+> And say: "The truth has been revealed by your master."
 
-And say: "The truth has been revealed by your master." Then whosoever wills, let him believe, and whosoever wills, let him disbelieve
+Then whosoever wills, let him believe, and whosoever wills, let him disbelieve
 
 ### Expectations
 
@@ -2115,8 +2117,8 @@ My greatest challenge in this life is to accept my عبودیۃ willingly and gl
 If this incredible رب does so much for disobedient and ungrateful slaves, what would He do for me if I truly became willingly obedient to Him?
 
 > وَإِذْ تَأَذَّنَ رَبُّكُمْ لَىِٕن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَىِٕن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌۭ
-
-And when your master said: “If you become grateful, I will give you more, but if you are ungrateful, then indeed my punishment is severe.”
+>
+> And when your master said: “If you become grateful, I will give you more, but if you are ungrateful, then indeed my punishment is severe.”
 
 ### If Our Relationship With Allah Is Of Master And Slave, Then What Is The Concept Of Freedom In Islam?
 
@@ -2248,8 +2250,10 @@ The strongest proof that Allah exists is that every sculpture requires a sculpto
 In the same way, everything that can be known requires the existence of one who knows it, because nothing exists as a mere passive object. Therefore, I come to know that Allah سُبْحَانَهُ وَتَعَالَى exists through the آثار, through His signs and the effects He has left in creation. This is like the Greek philosopher who asked the Bedouin:
 
 > بِمَ عَرَفتَ رَبُّك؟
+>
+> “How did you come to know of your master?”
 
-“How did you come to know of your master?” he said.
+he said.
 
 > إن البِعرَةُ تَدُلُّ علی البَعِیر. والرَّوثَةُ تَدُلُّ علی الحمیر. و آثارُ القدمُ تَدُلُّ علی المَسِیر
 
@@ -2338,8 +2342,8 @@ I keep repeating and stressing this because it is no longer only a Fironic probl
 Human beings come from a chain of dirt, from mud and water mixed together.
 
 > ثُمَّ جَعَلَ نَسْلَهُۥ مِن سُلَلَةٍۢ مِّن مَّآءٍۢ مَّهِينٍۢ
-
-I understand Allah telling these people: “We created your progeny from a lowly fluid. Who do you think you are? Get down off your high horse. Be a رجل.”
+>
+> I understand Allah telling these people: “We created your progeny from a lowly fluid. Who do you think you are? Get down off your high horse. Be a رجل.”
 
 A رجل is the one who has ِرَجَلَ. As it is said: ِرَجَلَ عن فَرِسِہ. He is the one who comes down from his high horse and plants his feet on the ground. He does not see himself as raised above the earth. He returns to the level from which he came: dust. That is الرجل.
 
@@ -2653,8 +2657,10 @@ For this reason, in the story of Adam's creation, Allah did not only create Adam
 He taught Adam all the names. He taught Adam all the divine traits. In other words, He trained Adam AS in the divine traits that Allah Himself possessed. Then He presented Adam AS to the angels and challenged them through those traits. What did the angels say?
 
 > قَالُوا۟ سُبْحَنَكَ لَا عِلْمَ لَنَآ إِلَّا مَا عَلَّمْتَنَآ ۖ إِنَّكَ أَنتَ ٱلْعَلِيمُ ٱلْحَكِيمُ
+>
+> The angels said: "May You be glorified. We know nothing except what You have taught us. We have not received the training Adam AS received. Therefore, we admit that we cannot be Your true representatives on earth."
 
-The angels said: "May You be glorified. We know nothing except what You have taught us. We have not received the training Adam AS received. Therefore, we admit that we cannot be Your true representatives on earth." That had been their original argument.
+That had been their original argument.
 
 > وَإِذْ قَالَ رَبُّكَ لِلْمَلَٓئِكَةِ إِنِّى جَاعِلٌۭ فِى ٱلْأَرْضِ خَلِيفَةًۭ ۖ قَالُوٓا۟ أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ ۖ قَالَ إِنِّىٓ أَعْلَمُ مَا لَا تَعْلَمُونَ
 
@@ -3078,8 +3084,8 @@ I trained myself to be generous with my own self. Now that generosity must appea
 This is not an easy task. That is why the first two rights must be fulfilled before the third right can truly be fulfilled. A man once came to the Messenger of Allah and said:
 
 > یَا رَسُولَ اللہِ. اَصِلُ اَخِیہِ وَ یَقطَعُنِی  وَ اُعطِیہِ وَ یَمنَعُنِی
-
-“Oh messenger of Allah, I give to him, but he withholds from me. I come to him, but he cuts me off. What should I do?” the Prophet replied, “That is صِلَۃُ الرَّحِمِ. What you are doing is right. Continue meeting him, even though he cuts you off.”
+>
+> “Oh messenger of Allah, I give to him, but he withholds from me. I come to him, but he cuts me off. What should I do?” the Prophet replied, “That is صِلَۃُ الرَّحِمِ. What you are doing is right. Continue meeting him, even though he cuts you off.”
 
 That is Islam. And Islam is hard work. I must not think of this religion as easy. I must become one who strives. I must honor myself, because Allah honored me when he said:
 
