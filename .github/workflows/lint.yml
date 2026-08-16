@@ -117,6 +117,15 @@ jobs:
       # is live, so the already-large files cannot grow meanwhile.
       - name: Front-end ratchets (lint-warning budget + file size)
         run: npm run ratchets
+      # Added 2026-08-16. This job had run every gate this app has EXCEPT the one
+      # that produces the thing it ships: `astro check` type-checks and `smoke`
+      # boots a dev server, and neither exercises the production build, so a
+      # build-only failure — an SSR-only import pulled into a client island, an
+      # adapter or asset-pipeline break — would have reached a deploy unseen.
+      # The Library's job below has always built; this one had not. Found by the
+      # repo-surgeon probe's GT-UNDECLARED check.
+      - name: Production build
+        run: npm run build
 
   listener:
     name: typecheck + tests + build (listener)

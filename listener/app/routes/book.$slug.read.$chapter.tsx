@@ -154,21 +154,22 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
       ? null
       : await passageById(env.DB, viewer?.email ?? "", wanted);
 
-  const [unit, chapter, all, surfaces, companion, sourceRef] = await Promise.all([
-    unitBySlug(env.DB, slug),
-    chapterOf(env.DB, slug, key),
-    chaptersOf(env.DB, slug),
-    // What ELSE this book offers, so a chapter can say so and point at it. One
-    // query rather than the three the book page runs, because this needs only
-    // whether each thing exists.
-    surfacesOf(env.DB, slug),
-    // Empty, and un-queried, for everyone but the administrator. The gate is
-    // inside that function rather than a condition here — see the module.
-    companionFor(env.DB, viewer, slug, key),
-    // Null on the 19-of-27 books with no source-crosswalk, or on a chapter
-    // this book's crosswalk does not cover. No viewer gate — see the module.
-    sourceReferenceFor(env.DB, slug, key),
-  ]);
+  const [unit, chapter, all, surfaces, companion, sourceRef] =
+    await Promise.all([
+      unitBySlug(env.DB, slug),
+      chapterOf(env.DB, slug, key),
+      chaptersOf(env.DB, slug),
+      // What ELSE this book offers, so a chapter can say so and point at it. One
+      // query rather than the three the book page runs, because this needs only
+      // whether each thing exists.
+      surfacesOf(env.DB, slug),
+      // Empty, and un-queried, for everyone but the administrator. The gate is
+      // inside that function rather than a condition here — see the module.
+      companionFor(env.DB, viewer, slug, key),
+      // Null on the 19-of-27 books with no source-crosswalk, or on a chapter
+      // this book's crosswalk does not cover. No viewer gate — see the module.
+      sourceReferenceFor(env.DB, slug, key),
+    ]);
 
   // A chapter key that is not in this book is a 404 exactly like a slug that is
   // not in the library — same shape, so neither reveals what exists.

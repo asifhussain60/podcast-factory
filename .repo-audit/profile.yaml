@@ -92,6 +92,14 @@ verify:
   - cd listener && npm run security # access-control bypass probes, with controls
   - cd listener && npm run smoke # LOCAL ONLY — boots the dev server + chromium
   - cd listener && npm run controls # LOCAL ONLY — presses every control on every view
+  - cd listener && npm run verify:read-aloud # LOCAL ONLY — every chapter of every published book
+  # verify:read-aloud recorded here 2026-08-16. It asks the RENDERED PAGE whether
+  # a chapter's read-aloud control is present, over every chapter of every
+  # published book — the database can say a chapter is narrated while the page
+  # shows nothing, because the control needs the narration row AND its uploaded
+  # audio to survive the same join. It signs in as the administrator to reach
+  # every book at once, so it is local-only for the same reason smoke and
+  # controls are.
   #
   # On the probe (added to this list 2026-07-27, catalog:
   # skills-staging/repo-surgeon/SKILL.md). It validates THIS contract, root membership,
@@ -162,7 +170,12 @@ apps:
     lint_config: eslint.config.js
     route_kind: file # src/pages/**.astro; coverage pinned by site-health-routes.test.mjs
     route_dir: src/pages
-    gates: [lint, format:check, check, test, lint:views, ratchets, smoke]
+    gates: [lint, format:check, check, test, lint:views, ratchets, smoke, build]
+    # `build` added 2026-08-16. This app's own production build was run by
+    # nothing — not CI, not the verify list — while the Library's was built in CI
+    # from the start. `astro check` type-checks and `smoke` boots a DEV server;
+    # neither exercises the build, so a build-only break would have reached a
+    # deploy unseen. Now a step in the `site` job of .github/workflows/lint.yml.
   - dir: listener
     name: Podcast Factory Library # AUDIENCE-facing Worker at podcast-factory.safinaverse.com
     source: [app, workers, scripts]
@@ -179,7 +192,27 @@ apps:
     route_policy: app/routes.ts
     route_dir: app/routes
     error_boundary_owner: app/root.tsx # the ONLY module that may export one
-    gates: [typecheck, lint, format:check, ratchets, test, build, security, smoke, controls]
+    gates:
+      [typecheck, lint, format:check, ratchets, test, build, security, smoke, controls, verify:read-aloud]
+      # verify:read-aloud added 2026-08-16. It existed as an npm script for a day
+      # without being named here — which is the condition GT-UNDECLARED now
+      # reports, because the gate-coverage check could only ever audit gates
+      # somebody had remembered to declare. Browser gate, so LOCAL ONLY like
+      # smoke/controls: it signs in as the administrator to reach every book.
+    migrations: migrations # numbered, applied in order; gap or duplicate = a migration nobody runs
+    sql_writers:
+      # Everything that issues SQL against this app's D1, declared because a probe
+      # cannot tell this database's tables from the pipeline's own SQLite corpora
+      # (mirror.db, morphology.db) by looking at a statement. Each entry is
+      # validated on every run; a path that stops resolving is a contract finding.
+      # A write to a table no migration creates fails at DEPLOY, against the live
+      # database, after the content has already been prepared — which is why this
+      # is checked here rather than left to the first person who notices.
+      - listener/app/server
+      - scripts/podcast/publish_to_listener.py
+      - scripts/podcast/_production_publish.py
+      - scripts/podcast/sync_listener_work_groups.py
+      - scripts/podcast/upload_listener_media.py
 
 hygiene:
   # What the cleanup pass (scripts/repo_cleanup.py) may reclaim, and what it must
@@ -221,6 +254,21 @@ hygiene:
       match: .git
       rebuild: "`git gc --prune=now` — reclaims loose objects and repacks; never a glob"
       confirm: true
+
+generators:
+  # Scripts that WRITE a committed artifact out of another file in this repo.
+  # Declared 2026-08-16, because the repo grew three of these in two weeks and the
+  # audit had no concept for them.
+  #
+  # A generated artifact is a `mirrors:` pair whose second leg happens to be
+  # produced mechanically — so it drifts the same way and costs the same to get
+  # wrong, but nothing was watching it. The probe does NOT take a "pinned" flag
+  # from this list; it DERIVES the answer by asking whether any tracked test or
+  # gate actually invokes the generator's own `--check`. A generator that offers
+  # that facility and is never asked is the finding.
+  - listener/scripts/sync-quote-inks.mjs
+  - listener/scripts/sync-study-tracks.mjs
+  - listener/scripts/sync-fonts.mjs
 
 mirrors:
   # Files that MUST change together. `pinned_by` names the shared fixture proving they
@@ -330,3 +378,12 @@ fragile:
       and unaffected by this decision.
       Still shrink-only from here: the number may fall as the decomposition project
       lands, and may never rise again without another explicit ruling.
+      CORRECTED 4253 -> 4254 later the same day, and this is a MEASUREMENT fix
+      rather than a re-pin: the file has not changed a byte since the ruling. The
+      pin was transcribed as a `wc -l` newline count while the checker measures
+      `split("\n").length`, which is one greater on any file ending in a newline —
+      so the gate had been failing since the moment it was re-pinned, against a
+      file nobody had touched. Every other pin in that ratchet file matches the
+      checker's arithmetic exactly, which is what identified this one as the
+      outlier. The ceiling still denotes the same file state Asif ruled on; if he
+      reads it otherwise, the fix is to cut one line, not to raise the number.

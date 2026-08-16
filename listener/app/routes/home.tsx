@@ -525,7 +525,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                   <WorkListRow
                     key={entry.workSlug}
                     workSlug={entry.workSlug}
-                    title={workTitles[entry.workSlug] ?? entry.volumes[0]!.title}
+                    title={
+                      workTitles[entry.workSlug] ?? entry.volumes[0]!.title
+                    }
                     volumes={entry.volumes}
                   />
                 ) : (

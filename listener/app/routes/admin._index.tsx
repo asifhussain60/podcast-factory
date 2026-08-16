@@ -931,8 +931,7 @@ function PersonDetail({
     (u) => u.kind === "work" && u.status === "published",
   );
   const standalone = catalog.filter(
-    (u) =>
-      u.kind === "book" && u.workSlug === null && u.status === "published",
+    (u) => u.kind === "book" && u.workSlug === null && u.status === "published",
   );
   const wholeLibrary = granted.has("library:*");
   const searching = find.trim() !== "";

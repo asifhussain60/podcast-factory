@@ -45,6 +45,14 @@ debris — live in
 [scripts/repo_surgeon_checks.py](../../scripts/repo_surgeon_checks.py) and are
 pinned by [tests/test_repo_surgeon_checks.py](../../tests/test_repo_surgeon_checks.py).
 
+The spec groups — gate discovery, the database contract, generated artifacts and
+the standards' citations — live in
+[scripts/repo_surgeon_specs.py](../../scripts/repo_surgeon_specs.py), pinned by
+[tests/test_repo_surgeon_specs.py](../../tests/test_repo_surgeon_specs.py). Each
+guards an invariant a recently written spec created, and `GT-UNDECLARED` is the
+gate-coverage check turned on itself — a list can only be audited against itself,
+so a gate the contract never named was invisible to it.
+
 It is a LIVE GATE as of 2026-07-27 — wired into the contract's `verify:` list, the
 pre-commit hook, and the `lint` CI workflow. Blocks on P0/P1 only; P2/P3 report without
 failing. So a P0/P1 you introduce will stop a commit, and a bypassed hook will still be
@@ -103,6 +111,14 @@ never swept: they are somebody's working files.
   rebuild; reclaiming the wrong thing costs work that does not come back.
 
 ## Revision log
+
+- **2026-08-16 (second pass)** — Caught up with the specs of the preceding
+  fortnight. Four groups in a third module: gate DISCOVERY (`GT-UNDECLARED`), the
+  Library's database contract (`DB-*`), generated artifacts (`GEN-UNPINNED`) and
+  standards citations (`SD-*`). 30 tests. Three P1s found and closed on the spot —
+  a browser gate nothing obliged anyone to run, the Astro Site's production build
+  running in no workflow at all, and a font generator whose output nothing proved
+  current.
 
 - **2026-08-16** — Widened past the pipeline. Seven new probe groups covering the
   pipeline's capability surface, gate coverage across both web apps, the Library's

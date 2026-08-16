@@ -92,7 +92,10 @@ export function inviteMessage(input: InviteMessageInput): string {
   // same reasoning as before: telling them "there's more to explore" when
   // nothing has actually been granted yet would be false, not just vague.
   if (has) {
-    lines.push("There are several books and sessions available to explore once you're in.", "");
+    lines.push(
+      "There are several books and sessions available to explore once you're in.",
+      "",
+    );
   }
 
   lines.push(
