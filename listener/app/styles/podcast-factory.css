@@ -1960,10 +1960,27 @@
 
   /* The source-reference toggle's line. Quiet on purpose — a caption, not a
      card — because it exists to be checked against the original book, not to
-     draw the eye the way the chapter opening above it does. */
+     draw the eye the way the chapter opening above it does.
+
+     `max-width: 100%` overrides `.pf-page > *`'s reading-measure cap
+     (Asif, 2026-08-17: "have the reference line span the entire page") — the
+     prose below it is capped to a comfortable line length on purpose, but a
+     caption that only names a page range and a heading or two is not prose,
+     and constraining it the same way is what forced it onto two centred
+     lines instead of one wide one.
+
+     `nowrap` + `text-overflow: ellipsis` is what makes "should not exceed one
+     line" true regardless of how many headings a chapter's crosswalk entry
+     lists — some chapters have one, some have half a dozen, and truncating is
+     more honest than silently NOT constraining a line that would otherwise
+     still wrap on a narrow phone. */
   .pf-source-ref {
     margin: var(--pf-space-3) 0 0;
+    max-width: 100%;
+    overflow: hidden;
     text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
     color: var(--l-muted);
