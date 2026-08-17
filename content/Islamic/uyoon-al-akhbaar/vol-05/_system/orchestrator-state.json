@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "book_slug": "uyoon-al-akhbaar-vol-05",
+  "work_slug": "uyoon-al-akhbaar",
+  "volume": 5,
+  "source_path": "content/Islamic/uyoon-al-akhbaar/vol-05/_source/Uyoon Al-Akhbaar vol-5.pdf",
+  "source_kind": "pdf",
+  "input_type": "pdf",
+  "phase": "preflight",
+  "phase_status": "pending",
+  "last_completed_phase": null,
+  "last_error": null,
+  "category": "books",
+  "content_profile": "islamic_scholarly",
+  "status": "draft",
+  "started": "2026-08-17T13:27:04Z",
+  "updated": "2026-08-17T13:27:04Z",
+  "phases": {},
+  "intake_via": "scripts/podcast/intake_book.py --work",
+  "branch": "Islamic/uyoon-al-akhbaar",
+  "deliverable_mode": "translation_edition",
+  "pipeline_mode": "reading_edition_only"
+}

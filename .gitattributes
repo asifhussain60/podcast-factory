@@ -9,3 +9,4 @@ content/Islamic/where-the-caravans-set-forth/_system/source/text/articulator-cha
 content/Islamic/where-the-caravans-set-forth/_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-12.md whitespace=-blank-at-eol
 content/Islamic/where-the-caravans-set-forth/book/_chapters/ch12-the-market-of-hadar-kashab-and-the-odes-of-imru-al-qays.txt whitespace=-blank-at-eol
 content/Islamic/where-the-caravans-set-forth/book/book.md whitespace=-blank-at-eol
+content/Islamic/uyoon-al-akhbaar/vol-*/_source/*.pdf filter=lfs diff=lfs merge=lfs -text

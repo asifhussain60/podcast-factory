@@ -1,0 +1,68 @@
+work_slug: uyoon-al-akhbaar
+title: Uyoon Al-Akhbaar
+content_profile: islamic_scholarly
+bucket: Islamic
+volumes:
+- order: 1
+  slug: uyoon-al-akhbaar-vol-01
+  dir: vol-01
+  title: Volume 1
+  source_pdf: vol-01/_source/Uyoon Al-Akhbaar vol-1.pdf
+  sources:
+  - path: vol-01/_source/Uyoon Al-Akhbaar vol-1.pdf
+    role: primary_source
+  status: draft
+- order: 2
+  slug: uyoon-al-akhbaar-vol-02
+  dir: vol-02
+  title: Volume 2
+  source_pdf: vol-02/_source/Uyoon Al-Akhbaar vol-2.pdf
+  sources:
+  - path: vol-02/_source/Uyoon Al-Akhbaar vol-2.pdf
+    role: primary_source
+  status: draft
+- order: 3
+  slug: uyoon-al-akhbaar-vol-03
+  dir: vol-03
+  title: Volume 3
+  source_pdf: vol-03/_source/Uyoon Al-Akhbaar vol-3.pdf
+  sources:
+  - path: vol-03/_source/Uyoon Al-Akhbaar vol-3.pdf
+    role: primary_source
+  status: draft
+- order: 4
+  slug: uyoon-al-akhbaar-vol-04
+  dir: vol-04
+  title: Volume 4
+  source_pdf: vol-04/_source/Uyoon Al-Akhbaar vol-4.pdf
+  sources:
+  - path: vol-04/_source/Uyoon Al-Akhbaar vol-4.pdf
+    role: primary_source
+  status: draft
+- order: 5
+  slug: uyoon-al-akhbaar-vol-05
+  dir: vol-05
+  title: Volume 5
+  source_pdf: vol-05/_source/Uyoon Al-Akhbaar vol-5.pdf
+  sources:
+  - path: vol-05/_source/Uyoon Al-Akhbaar vol-5.pdf
+    role: primary_source
+  status: draft
+- order: 6
+  slug: uyoon-al-akhbaar-vol-06
+  dir: vol-06
+  title: Volume 6
+  source_pdf: vol-06/_source/Uyoon Al-Akhbaar vol-6.pdf
+  sources:
+  - path: vol-06/_source/Uyoon Al-Akhbaar vol-6.pdf
+    role: primary_source
+  status: draft
+- order: 7
+  slug: uyoon-al-akhbaar-vol-07
+  dir: vol-07
+  title: Volume 7
+  source_pdf: vol-07/_source/Uyoon Al-Akhbaar vol-7.pdf
+  sources:
+  - path: vol-07/_source/Uyoon Al-Akhbaar vol-7.pdf
+    role: primary_source
+  status: draft
