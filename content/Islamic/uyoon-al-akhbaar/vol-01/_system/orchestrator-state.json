@@ -6,13 +6,13 @@
   "source_path": "content/Islamic/uyoon-al-akhbaar/vol-01/_source/Uyoon Al-Akhbaar vol-1.pdf",
   "source_kind": "pdf",
   "input_type": "pdf",
-  "phase": "0f",
-  "phase_status": "halted",
+  "phase": "0book-design",
+  "phase_status": "failed",
   "last_completed_phase": "0d",
   "last_error": {
-    "phase": "0e",
-    "message": "phase review: PE1 enrichment-recorded: enrichment-log.md is missing or empty — 0e left no record of enriching anything",
-    "ts": "2026-08-17T19:57:07Z"
+    "phase": "0book-design",
+    "message": "OSError: [Errno 7] Argument list too long: 'claude'",
+    "ts": "2026-08-17T20:02:45Z"
   },
   "category": "books",
   "content_profile": "islamic_scholarly",
@@ -104,18 +104,46 @@
       "ts_started": "2026-08-17T19:57:10Z",
       "ts_completed": "2026-08-17T19:57:10Z",
       "series_plan_path": "content/Islamic/uyoon-al-akhbaar/vol-01/_system/series-plan.md"
+    },
+    "per-chapter": {
+      "status": "failed",
+      "ts_started": "2026-08-17T19:57:43Z",
+      "current_chapter": null,
+      "last_beat": "2026-08-17T19:57:43Z",
+      "completed_slugs": [],
+      "failed_slugs": [
+        "abu-sufyans-islam-and-the-entry-into-mecca"
+      ],
+      "chapter_timings": {
+        "abu-sufyans-islam-and-the-entry-into-mecca": {
+          "started_ts": "2026-08-17T19:57:43Z",
+          "completed_ts": "2026-08-17T19:57:43Z",
+          "duration_sec": 0.1,
+          "verdict": "FAILED",
+          "cost_usd": 0.0,
+          "error": "extract_chapter.py failed for 'vol-01/ch21a-abu-sufyans-islam-and-the-entry-into-mecca': rc=1: WARNING: contract.episode_format 'narrative' is in EPISODE_FORMAT_ALLOWED but NOT in EPISODE_FORMAT_FULLY_WIRED (('deep_dive', 'debate')). Downstream framing-author + R-HOST-ROLE-PARITY rules will exh"
+        }
+      },
+      "ts_completed": "2026-08-17T19:57:43Z",
+      "convergence_iter": null
+    },
+    "0book-design": {
+      "status": "failed",
+      "ts_started": "2026-08-17T20:02:45Z",
+      "ts_completed": "2026-08-17T20:02:45Z"
     }
   },
   "intake_via": "scripts/podcast/intake_book.py --work",
   "unattended": true,
-  "ts_updated": "2026-08-17T19:57:10Z",
+  "ts_updated": "2026-08-17T20:02:45Z",
   "phase_attempts": {
     "preflight": 6,
-    "06a": 1
+    "06a": 1,
+    "0f": 1
   },
   "branch": "Islamic/uyoon-al-akhbaar",
   "deliverable_mode": "translation_edition",
   "pipeline_mode": "reading_edition_only",
-  "run_id": "20260817T195707Z-2cf0c7",
+  "run_id": "20260817T200245Z-b4b039",
   "next_phase": "0e"
 }
