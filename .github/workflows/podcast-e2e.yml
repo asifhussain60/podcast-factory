@@ -47,6 +47,12 @@ on:
 permissions:
   contents: read
 
+# Same reasoning as lint.yml: cancel a run superseded by a newer push, never on
+# `main`, where a release must be verified at its own commit.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   e2e:
     name: podcast pipeline E2E (mocked Azure / claude -p)

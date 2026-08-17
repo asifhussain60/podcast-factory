@@ -14,7 +14,83 @@ on:
 permissions:
   contents: read
 
+# Cancel a run the moment a newer push supersedes it. Measured 2026-08-17: only
+# ~8% of runs are actually superseded, so this is the small half of the saving —
+# the per-job path filters below are the large half. NOT on `main`: a production
+# release must be verified at its own commit, never cancelled by the next one.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
+  # Which surfaces did this push actually touch? Measured 2026-08-17: 56% of
+  # commits never touch plan-dashboard/ and 74% never touch listener/, yet every
+  # push ran all four jobs — ~13 billable minutes each, against a 2,000-minute
+  # monthly allowance this repo exhausts in about eight days.
+  #
+  # Uses the compare API rather than `git diff` DELIBERATELY: this repo's history
+  # is ~4.8 GB, so the `fetch-depth: 0` checkout a diff needs would cost more than
+  # the filtering saves. No checkout happens here at all.
+  #
+  # FAILS OPEN, always. If the changed-file list cannot be determined — a new
+  # branch, a force push, a truncated response, an API error — every gate runs.
+  # A gate that silently does not run is indistinguishable from one that passed;
+  # see docs/rca/2026-08-01-the-site-gates-were-dead-for-five-days.md.
+  changes:
+    name: what changed
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      site: ${{ steps.filter.outputs.site }}
+      listener: ${{ steps.filter.outputs.listener }}
+    steps:
+      - id: filter
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+          SHA: ${{ github.sha }}
+          PR: ${{ github.event.pull_request.number }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          run_everything() {
+            echo "::notice::changed-file list unavailable ($1) — running every gate"
+            echo "site=true"     >> "$GITHUB_OUTPUT"
+            echo "listener=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          }
+
+          if [ "$EVENT" = "pull_request" ]; then
+            raw=$(gh api --paginate "repos/$REPO/pulls/$PR/files" --jq '.[].filename' 2>/dev/null) \
+              || run_everything "pulls API failed"
+          else
+            case "$BEFORE" in
+              ""|0000000000000000000000000000000000000000) run_everything "no base commit" ;;
+            esac
+            body=$(gh api "repos/$REPO/compare/$BEFORE...$SHA" 2>/dev/null) || run_everything "compare API failed"
+            # The compare API caps `files` at 300. A truncated list could hide a
+            # touched surface, so treat truncation as unknown rather than absent.
+            total=$(printf '%s' "$body" | jq -r '.files | length' 2>/dev/null || echo 0)
+            [ "$total" -ge 300 ] && run_everything "compare response truncated at $total files"
+            raw=$(printf '%s' "$body" | jq -r '.files[].filename' 2>/dev/null) || run_everything "could not parse compare response"
+          fi
+
+          [ -z "$raw" ] && run_everything "empty file list"
+          echo "changed files:"; printf '%s\n' "$raw" | sed 's/^/  /'
+
+          # Anything shared or infrastructural rebuilds everything.
+          if printf '%s\n' "$raw" | grep -qE '^(\.github/|\.repo-audit/|Makefile|package(-lock)?\.json)'; then
+            run_everything "shared or infrastructure path touched"
+          fi
+
+          printf '%s\n' "$raw" | grep -qE '^plan-dashboard/' && site=true || site=false
+          printf '%s\n' "$raw" | grep -qE '^listener/'       && lis=true  || lis=false
+          echo "site=$site"     >> "$GITHUB_OUTPUT"
+          echo "listener=$lis"  >> "$GITHUB_OUTPUT"
+          echo "::notice::site=$site listener=$lis"
+
   pipeline:
     name: ruff + DR-005 (pipeline)
     runs-on: ubuntu-latest
@@ -77,6 +153,8 @@ jobs:
 
   site:
     name: eslint + prettier + astro + tests + views (site)
+    needs: changes
+    if: needs.changes.outputs.site == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     defaults:
@@ -129,6 +207,8 @@ jobs:
 
   listener:
     name: typecheck + tests + build (listener)
+    needs: changes
+    if: needs.changes.outputs.listener == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     defaults:
@@ -206,6 +286,8 @@ jobs:
 
   site-runtime:
     name: runtime smoke (site)
+    needs: changes
+    if: needs.changes.outputs.site == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     defaults:
