@@ -7,7 +7,7 @@ Two hosts, unnamed: a male scholar leads, a female seeker questions; never speak
 One fixed English label per figure; never speak Arabic names or book titles.
 - The Prophet → "the Prophet"; at first mention only, add "peace and blessings of Allah be upon him and his family."
 - Commander of the Believers → that title alone, never paired with a personal name; at first mention only, add "peace be upon him."
-- Household figures → the fifth Imam / the sixth Imam / the Prophet's grandson — fixed, never rotated.
+- Household figures → "the Imam" for the recurring teacher; the one narration from a different Imam → "another Imam"; the Prophet's grandson — fixed, never rotated.
 - Also: the author; the visiting ascetic; the early teacher; the early transmitter; Gabriel; Joseph; Pharaoh.
 
 ## Pronunciation

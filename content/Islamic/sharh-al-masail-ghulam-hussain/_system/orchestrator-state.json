@@ -5,14 +5,10 @@
   "branch": "Islamic/sharh-al-masail-ghulam-hussain",
   "status": "draft",
   "phase": "per-chapter",
-  "phase_status": "running",
+  "phase_status": "pending",
   "last_completed_phase": "0g",
   "next_phase": "0literary",
-  "last_error": {
-    "phase": "per-chapter",
-    "message": "[maintenance-dissolution-and-inheritance] pipeline_lint P0: framing structural mismatch:",
-    "ts": "2026-08-17T17:14:12Z"
-  },
+  "last_error": null,
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -118,19 +114,24 @@
       "status": "pending"
     },
     "per-chapter": {
-      "status": "running",
+      "status": "pending",
       "ts_started": "2026-08-17T16:14:04Z",
-      "current_chapter": "the-pledge-and-the-call-to-marry",
-      "last_beat": "2026-08-17T18:53:43Z",
+      "current_chapter": null,
+      "last_beat": "2026-08-17T19:47:58Z",
       "completed_slugs": [
         "earning-and-the-manners-of-the-table",
+        "maintenance-dissolution-and-inheritance",
         "sale-debt-and-the-contracts-of-trade",
         "the-marriage-contract-and-its-bonds",
         "the-pledge-and-the-call-to-marry"
       ],
-      "failed_slugs": [
-        "maintenance-dissolution-and-inheritance"
-      ],
+      "failed_slugs": [],
+      "human_override": {
+        "chapter": "maintenance-dissolution-and-inheritance",
+        "reason": "N6 (Arabic script) P0 accepted as a documented, deferred gap per Asif's 2026-08-17 decision; see _system/source-notes.md. Not a challenger pass.",
+        "decided_by": "Asif",
+        "decided_at": "2026-08-17T20:15:00Z"
+      },
       "chapter_timings": {
         "earning-and-the-manners-of-the-table": {
           "started_ts": "2026-08-17T16:14:04Z",
@@ -146,14 +147,6 @@
           "verdict": "SHIP-WITH-CAUTION",
           "cost_usd": 0.0
         },
-        "maintenance-dissolution-and-inheritance": {
-          "started_ts": "2026-08-17T17:09:58Z",
-          "completed_ts": "2026-08-17T17:14:12Z",
-          "duration_sec": 254.3,
-          "verdict": "FAILED",
-          "cost_usd": 0.0,
-          "error": "pipeline_lint P0: framing structural mismatch:"
-        },
         "the-marriage-contract-and-its-bonds": {
           "started_ts": "2026-08-17T17:59:46Z",
           "completed_ts": "2026-08-17T18:36:14Z",
@@ -167,9 +160,18 @@
           "duration_sec": 1349.8,
           "verdict": "SHIP-WITH-CAUTION",
           "cost_usd": 0.0
+        },
+        "maintenance-dissolution-and-inheritance": {
+          "started_ts": "2026-08-17T19:21:45Z",
+          "completed_ts": "2026-08-17T19:56:21Z",
+          "duration_sec": 2076.0,
+          "verdict": "HUMAN-OVERRIDE",
+          "cost_usd": 0.0,
+          "error": "iter 3 cap reached with unresolved findings (P0=1 P1=4) — N6 Arabic-script gap accepted as deferred per Asif's decision 2026-08-17; see _system/source-notes.md"
         }
       },
-      "convergence_iter": 2
+      "convergence_iter": null,
+      "ts_completed": "2026-08-17T20:15:00Z"
     },
     "per-chapter-optimize": {
       "status": "pending"
@@ -227,7 +229,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-17T18:58:44Z",
+  "ts_updated": "2026-08-17T19:56:21Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -235,10 +237,10 @@
     "unit_mode": "auto"
   },
   "unattended": false,
-  "run_id": "20260817T170958Z-5fcc1b",
+  "run_id": "20260817T192145Z-a1c4a7",
   "phase_attempts": {
     "06a": 1,
     "0f": 1,
-    "per-chapter": 1
+    "per-chapter": 3
   }
 }

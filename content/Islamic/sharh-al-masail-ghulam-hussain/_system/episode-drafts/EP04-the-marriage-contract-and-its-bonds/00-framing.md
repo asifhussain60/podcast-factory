@@ -8,7 +8,7 @@ One fixed English label per figure; never speak Arabic names or titles.
 - The Prophet → "the Prophet"; first mention only, add "peace and blessings of Allah be upon him and his family."
 - The Father of Imams → that title alone, never with a personal name; first mention only, add "peace be upon him."
 - The Imam questioned on the marriage cases → "the Imam of that generation."
-- The Imam who ruled on stipulations → "the sixth Imam."
+- The Imam who ruled on stipulations → "the Imam."
 - The jurist's compendium → "the book *The Pillars*."
 
 ## Pronunciation
