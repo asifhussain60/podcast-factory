@@ -1,6 +1,7 @@
 # series-config.yaml — Ayyuhal Walad (Ghazali's Letter to a Student)
 # Wave CP: content_profile drives pipeline behaviour.
 
+author: Imam al-Ghazali
 content_profile: islamic_scholarly
 
 # Video generation style (read by generate_video_layer.py).
