@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { grant, invite } from "../app/server/access.server";
+import { grant, invite } from "../app/server/people.server";
 import { snippetOf } from "../app/lib/search";
 import { passageById, search } from "../app/server/search.server";
 import { createTestDb, type TestDb } from "./d1";

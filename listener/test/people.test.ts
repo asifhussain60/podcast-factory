@@ -11,7 +11,7 @@ import {
   renamePerson,
   revokeInvite,
   splitName,
-} from "~/server/access.server";
+} from "~/server/people.server";
 import { selectedPersonPath } from "~/routes/admin._index";
 import { createTestDb, type TestDb } from "./d1";
 

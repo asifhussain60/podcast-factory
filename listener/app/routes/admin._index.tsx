@@ -32,23 +32,25 @@ import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { startSimulating } from "~/server/simulate.server";
 import {
+  listCatalogForAdmin,
+  recordEvent,
+  type ContentUnit,
+} from "~/server/access.server";
+import {
   deletePerson,
   grant,
   grantsFor,
   invite,
   isPeopleFilter,
-  listCatalogForAdmin,
   listPeople,
   personByEmail,
-  recordEvent,
   renamePerson,
   revokeGrant,
   revokeInvite,
   splitName,
-  type ContentUnit,
   type PeopleFilter,
   type Person,
-} from "~/server/access.server";
+} from "~/server/people.server";
 import { hasUnfoldedPlusTag, tryNormalizeEmail } from "~/server/email.server";
 
 /** The filter chips, in the order they are offered. */

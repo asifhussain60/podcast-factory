@@ -10,14 +10,14 @@ import { ToggleButton } from "~/components/admin/ToggleButton";
 import { count } from "~/lib/plural";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
+import { listCatalogForAdmin } from "~/server/access.server";
 import {
   grant,
   holdersOf,
-  listCatalogForAdmin,
   listPeople,
   revokeGrant,
   setOpenToAll,
-} from "~/server/access.server";
+} from "~/server/people.server";
 
 /**
  * The catalog, from the other direction: for each book, who can open it.
