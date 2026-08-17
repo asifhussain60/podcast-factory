@@ -6,9 +6,9 @@
   "source_path": "content/Islamic/uyoon-al-akhbaar/vol-01/_source/Uyoon Al-Akhbaar vol-1.pdf",
   "source_kind": "pdf",
   "input_type": "pdf",
-  "phase": "0a",
+  "phase": "0b",
   "phase_status": "completed",
-  "last_completed_phase": "0a",
+  "last_completed_phase": "0b",
   "last_error": null,
   "category": "books",
   "content_profile": "islamic_scholarly",
@@ -27,11 +27,23 @@
         "total": 1,
         "blocking_fail": null
       }
+    },
+    "0b": {
+      "status": "completed",
+      "ts_started": "2026-08-17T14:05:55Z",
+      "ts_completed": "2026-08-17T14:45:18Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 4,
+        "blocking_fail": null
+      }
     }
   },
   "intake_via": "scripts/podcast/intake_book.py --work",
   "unattended": true,
-  "ts_updated": "2026-08-17T14:05:50Z",
+  "ts_updated": "2026-08-17T14:45:18Z",
   "phase_attempts": {
     "preflight": 6
   },
@@ -39,5 +51,5 @@
   "deliverable_mode": "translation_edition",
   "pipeline_mode": "reading_edition_only",
   "run_id": "20260817T134404Z-40e3a8",
-  "next_phase": "0b"
+  "next_phase": "0c"
 }
