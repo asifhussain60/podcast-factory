@@ -1,0 +1,49 @@
+{
+  "schema": "podcast.translation-edition/v1",
+  "mode": "translation_edition",
+  "augmentation": "forbidden",
+  "visual_style": "black_white",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "Why This History Needed Writing",
+      "chapter_file": "book/_chapters/ch01-why-this-history-needed-writing.txt",
+      "source_line_ranges": [
+        [
+          10,
+          91
+        ]
+      ],
+      "source_words": 2071,
+      "output_words": 2379,
+      "folded_opening_words": 330
+    },
+    {
+      "index": 2,
+      "title": "The Pure Line: Ishmael to Adnan",
+      "chapter_file": "book/_chapters/ch02-the-pure-line-ishmael-to-adnan.txt",
+      "source_line_ranges": [
+        [
+          92,
+          186
+        ]
+      ],
+      "source_words": 2064,
+      "output_words": 1958
+    },
+    {
+      "index": 3,
+      "title": "Qusayy Takes Mecca",
+      "chapter_file": "book/_chapters/ch03-qusayy-takes-mecca.txt",
+      "source_line_ranges": [
+        [
+          187,
+          301
+        ]
+      ],
+      "source_words": 1180,
+      "output_words": 1361
+    }
+  ],
+  "source_crosswalk": "book/source-crosswalk.json"
+}
