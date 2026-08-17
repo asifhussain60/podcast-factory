@@ -55,6 +55,12 @@ _LINK = re.compile(r"\[([^\]]+)\]\([^)]+\)")
 _IMAGE = re.compile(r"!\[[^\]]*]\([^)]+\)")
 _TAG = re.compile(r"<[^>]+>")
 _MARKDOWN_EDGE = re.compile(r"^[>*#\-\s]+")
+# A trailing scripture citation on a quotation — `[Surah al-Baqarah: 222]`,
+# `[Al Imran: 1]`, a verse range `[al-Hujurat: 11-12]`. Read aloud, the
+# reference reads as noise between two sentences; the reading edition's own
+# printed page still carries it. Requires the bracket to end in a name
+# followed by `: <digits>` so it never touches an unrelated `[...]` aside.
+_SCRIPTURE_CITATION = re.compile(r"\s*\[[A-Za-z][A-Za-z'\- ]*:\s*\d+(?:[-–]\d+)?\]")
 _SPEAKABLE = re.compile(r"[A-Za-z0-9]")
 
 
@@ -142,6 +148,7 @@ def speech_text(markdown: str) -> str:
     text = _IMAGE.sub("", markdown)
     text = _LINK.sub(r"\1", text)
     text = _TAG.sub("", text)
+    text = _SCRIPTURE_CITATION.sub("", text)
     text = _ARABIC_PARENS.sub("", text)
     text = _ARABIC.sub("", text)
     text = re.sub(r"`([^`]+)`", r"\1", text)
