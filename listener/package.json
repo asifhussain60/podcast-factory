@@ -26,6 +26,7 @@
     "verify:read-aloud": "node scripts/verify-read-aloud.mjs",
     "security": "node scripts/security-smoke.mjs",
     "db:migrate": "wrangler d1 migrations apply podcast-listener --local",
+    "db:seed:local": "node scripts/seed-local-catalog.mjs",
     "dev-vars": "node scripts/dev-vars.mjs",
     "seed:people": "node scripts/seed-people.mjs",
     "controls": "node scripts/controls.mjs",
