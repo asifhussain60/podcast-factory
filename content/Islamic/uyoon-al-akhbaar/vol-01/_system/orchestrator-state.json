@@ -6,8 +6,8 @@
   "source_path": "content/Islamic/uyoon-al-akhbaar/vol-01/_source/Uyoon Al-Akhbaar vol-1.pdf",
   "source_kind": "pdf",
   "input_type": "pdf",
-  "phase": "0e",
-  "phase_status": "failed",
+  "phase": "0f",
+  "phase_status": "halted",
   "last_completed_phase": "0d",
   "last_error": {
     "phase": "0e",
@@ -98,11 +98,17 @@
       "ts_started": "2026-08-17T19:56:17Z",
       "ts_completed": "2026-08-17T19:56:33Z",
       "gate_warnings": 6
+    },
+    "0f": {
+      "status": "halted",
+      "ts_started": "2026-08-17T19:57:10Z",
+      "ts_completed": "2026-08-17T19:57:10Z",
+      "series_plan_path": "content/Islamic/uyoon-al-akhbaar/vol-01/_system/series-plan.md"
     }
   },
   "intake_via": "scripts/podcast/intake_book.py --work",
   "unattended": true,
-  "ts_updated": "2026-08-17T19:57:07Z",
+  "ts_updated": "2026-08-17T19:57:10Z",
   "phase_attempts": {
     "preflight": 6,
     "06a": 1
