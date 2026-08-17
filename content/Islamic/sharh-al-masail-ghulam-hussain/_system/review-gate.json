@@ -1,6 +1,6 @@
 {
   "phase": "06a",
-  "approved": false,
+  "approved": true,
   "warnings": [
     {
       "severity": "P1",
@@ -29,5 +29,13 @@
     }
   ],
   "reviewed_at": "2026-08-17T15:48:59Z",
-  "approved_at": null
+  "approved_at": "2026-08-17T16:12:59Z",
+  "human_review_notes": {
+    "madhab": "Ismaili (confirmed by Asif, 2026-08-17)",
+    "chapter_division": "Unconfirmed as original; accepted AI-designed boundaries as-is (no reference edition available)",
+    "edition": "No publisher/print-date/acquisition-source information available",
+    "resolved_by": "Asif",
+    "resolved_at": "2026-08-17T15:55:00Z",
+    "see": "_system/source-notes.md"
+  }
 }
