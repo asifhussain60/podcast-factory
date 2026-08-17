@@ -6,12 +6,12 @@
   "status": "draft",
   "phase": "per-chapter",
   "phase_status": "running",
-  "last_completed_phase": "0e",
+  "last_completed_phase": "0g",
   "next_phase": "0literary",
   "last_error": {
     "phase": "per-chapter",
-    "message": "[maintenance-dissolution-and-inheritance] framing authoring failed: claude -p exited rc=143 for Phase framing/maintenance-dissolution-and-inheritance.",
-    "ts": "2026-08-17T16:44:12Z"
+    "message": "[maintenance-dissolution-and-inheritance] pipeline_lint P0: framing structural mismatch:",
+    "ts": "2026-08-17T17:14:12Z"
   },
   "phases": {
     "pre-flight": {
@@ -120,10 +120,13 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-08-17T16:14:04Z",
-      "current_chapter": "sale-debt-and-the-contracts-of-trade",
-      "last_beat": "2026-08-17T16:44:12Z",
+      "current_chapter": "the-pledge-and-the-call-to-marry",
+      "last_beat": "2026-08-17T18:53:43Z",
       "completed_slugs": [
-        "earning-and-the-manners-of-the-table"
+        "earning-and-the-manners-of-the-table",
+        "sale-debt-and-the-contracts-of-trade",
+        "the-marriage-contract-and-its-bonds",
+        "the-pledge-and-the-call-to-marry"
       ],
       "failed_slugs": [
         "maintenance-dissolution-and-inheritance"
@@ -136,20 +139,34 @@
           "verdict": "SHIP-WITH-CAUTION",
           "cost_usd": 0.0
         },
+        "sale-debt-and-the-contracts-of-trade": {
+          "started_ts": "2026-08-17T17:14:12Z",
+          "completed_ts": "2026-08-17T17:59:46Z",
+          "duration_sec": 2734.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
         "maintenance-dissolution-and-inheritance": {
-          "started_ts": "2026-08-17T16:41:01Z",
-          "completed_ts": "2026-08-17T16:44:12Z",
-          "duration_sec": 190.8,
+          "started_ts": "2026-08-17T17:09:58Z",
+          "completed_ts": "2026-08-17T17:14:12Z",
+          "duration_sec": 254.3,
           "verdict": "FAILED",
           "cost_usd": 0.0,
-          "error": "framing authoring failed: claude -p exited rc=143 for Phase framing/maintenance-dissolution-and-inheritance."
+          "error": "pipeline_lint P0: framing structural mismatch:"
         },
-        "sale-debt-and-the-contracts-of-trade": {
-          "started_ts": "2026-08-17T16:44:12Z",
-          "completed_ts": null,
-          "duration_sec": null,
-          "verdict": null,
-          "cost_usd": null
+        "the-marriage-contract-and-its-bonds": {
+          "started_ts": "2026-08-17T17:59:46Z",
+          "completed_ts": "2026-08-17T18:36:14Z",
+          "duration_sec": 2187.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-pledge-and-the-call-to-marry": {
+          "started_ts": "2026-08-17T18:36:14Z",
+          "completed_ts": "2026-08-17T18:58:44Z",
+          "duration_sec": 1349.8,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
         }
       },
       "convergence_iter": 2
@@ -210,7 +227,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-17T16:44:12Z",
+  "ts_updated": "2026-08-17T18:58:44Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -218,9 +235,10 @@
     "unit_mode": "auto"
   },
   "unattended": false,
-  "run_id": "20260817T161404Z-7cb0f9",
+  "run_id": "20260817T170958Z-5fcc1b",
   "phase_attempts": {
     "06a": 1,
-    "0f": 1
+    "0f": 1,
+    "per-chapter": 1
   }
 }

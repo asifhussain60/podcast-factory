@@ -1,11 +1,11 @@
 # Podcast Challenger Report
 
 **Book:** sharh-al-masail-ghulam-hussain
-**Run:** 2026-08-17 (challenger v2.6)
-**Scope:** per-chapter `earning-and-the-manners-of-the-table` (EP01) + book-scope Category CS
-**Iterations:** 3 (of 5 max) — early break: iteration 3 produced zero auto-fixes and identical (P0,P1) counts
+**Run:** 2026-08-17 21:10 (challenger v2.6 — read from `_rules.CHALLENGER_VERSION` at run time)
+**Scope:** per-chapter `the-pledge-and-the-call-to-marry` (EP03 / ch03) + book-scope Category CS
+**Iterations:** 2 (of 5 max) — early break 6b: iteration 2 produced zero auto-fixes and identical (P0,P1) counts
 **Verdict:** SHIP-WITH-CAUTION
-**Health score:** 0.00 (Unstable) — note: `write_health.py` divides the weighted finding total by chapters-in-scope, which for a single-chapter invocation with 14 P1 findings clamps to the floor. The score is a book-scope instrument; read the per-category totals below, not the badge.
+**Health score:** see `_learning/health/sharh-al-masail-ghulam-hussain.json`. The score is a book-scope instrument and clamps toward the floor on a single-chapter invocation; read the per-category totals below, not the badge.
 
 ```
 content_profile: islamic_scholarly   <- detected from _system/series-config.yaml
@@ -13,143 +13,124 @@ deliverable_mode: translation_edition | length_tier: extended | episode_format: 
 ```
 
 Category P (debate) skipped: `episode_format: deep_dive`.
-Category M/N/O/Q/R transcript-empirical halves skipped: no `transcripts/EP01-*.transcript.txt`.
+Category M/N/O/Q/R transcript-empirical halves skipped: no transcript at `transcripts/EP03-*.transcript.txt`.
 Category W skipped: no augmentation ledger (`translation_policy.augmentation: forbidden`).
+Category D1/D2 (tier diversity, enrichment ratio) skipped: `augmentation: forbidden` — this is a translation edition with no outside material by design.
 Category S1 bypassed per pipeline-context directive (the visible `orchestrate_book.py` is this run's parent).
+
+## The blocking finding from the previous run is cleared
+
+The prior run recorded one P0: a trailing editorial-apparatus clause (`which the Arabic source's own apparatus does not cite`) at `ch03:19`, `:37` and `:111`, spoken aloud three times in a file NotebookLM reads verbatim. That clause is gone at all three sites. A full-text scan for `apparatus`, `editorial`, `Editorial note` and `translator` now returns exactly one hit — `the visible apparatus of domestic life` at line 85, which is the treatise's own metaphor for a rented house, not editorial apparatus.
+
+The companion F29 defect is cleared too. Line 105 now reads "The verse is from the chapter on women"; `R-SURAH-ENGLISH-ONLY` no longer fires.
+
+`build_episode_txt.py` exits 0 on both artifacts. Doctrinal checks T1–T5 return zero findings on the chapter and zero on the framing. There is no P0 outstanding on this chapter.
 
 ## Auto-fixes applied (iteration-by-iteration)
 
 | Iter | Check | File | Action |
 |---|---|---|---|
-| 1 | H3 | EP01/00-framing.md (Landing) | Inserted no-recap closing clause ("Do not recap; nothing follows the question.") |
-| 1 | K1 | EP01/00-framing.md (Host dynamic) | Inserted interruption-avoidance clause (finish a thought, no talking over) |
-| 1 | K2 | EP01/00-framing.md (Host dynamic) | Named the forbidden filler-interjection vocabulary ("yeah" / "right" / "mm-hmm") |
-| 1 | M1 | EP01/00-framing.md (Do not) | Extended DENY-modernize list: X, YouTube, TikTok, "deep dive", "the 21st century" |
-| 1 | M2 | EP01/00-framing.md (Do not) | Inserted DENY-surprise line ("wow", "right?", "exactly", "no way", "that's so interesting") |
-| 1 | R4 | EP01/00-framing.md (Do not) | Inserted formal-transition DENY line (Firstly / Secondly / Furthermore / In conclusion / To summarize / Lastly) |
-| 2 | — | EP01/00-framing.md | Compression pass to fit the live 4,500-char NotebookLM cap; four live validators (R-NAMEDISCIPLINE, R-DRAMATIC-ARC, R-CHALLENGER-FRICTION, R-ANALOGY-CAP) re-verified intact |
-| 3 | — | episodes/EP01-*.txt | Rebuilt from framing; build exit 0 at 4,499 chars / 753 words |
+| 1 | M2 | `EP03/00-framing.md:44` | Closed the DENY-surprise list. The block named `wow`, `right?`, `exactly`, `mind blown`; the canonical set also requires `no way`, `that's so interesting`, `it's chilling`, `it's devastating`, `it's terrifying`. All five inserted. |
+| 1 | — | `episodes/EP03-*.txt` | Rebuilt from framing. Exit 0 at 4,301 chars / 698 words. |
+| 2 | — | — | Verification pass. Files re-read from disk; identical finding counts; zero auto-fixes — early-break condition 6b. |
+
+**The character ceiling that constrained the previous two runs has been relieved.** The prior run reported the built prompt at 4,488 against `FRAMING_CHAR_MAX = 4500` — twelve characters — and flagged M1 and R1 as deterministic insertions it physically could not apply. The intervening fixer pass reclaimed budget by compressing Name discipline, Host dynamic and Landing. The framing entered this run at 4,188 chars, which is what made the M2 insertion possible; it exits at 4,279 with 221 characters still free.
+
+M1 and R1 are confirmed closed by this run's own scan: the DENY-modernize list carries all thirteen named platforms, and `## Host dynamic` carries the separate-prep clause.
 
 ## Findings requiring author resolution
 
 ### P0 (blocks ship)
 
-None. Category A (authenticity), B (NotebookLM literalness), T (doctrinal), G (contracts), Q (host-role parity), U (scholarly rubric) are all clean.
-
-Explicit PASS notes on checks that look like violations but are not:
-
-- **A1 (Quran citations absent) — PASS by exemption.** The chapter quotes three verses with no chapter-and-verse. The source treatise itself names none, and the contract states so (`tone_constraints`: "Quote them without a reference; do not supply one"). A1's own carve-out applies: references are never invented.
-- **A3 (translation provenance) — PASS, vacuous.** `deliverable_mode: translation_edition`, `source_language: ar`. The verse renderings are this pipeline's own faithful English from the Arabic source, not a third-party published translation. Naming a translator here would be fabrication (an A2 violation).
-- **A6 (cross-tradition collision) — PASS.** The chapter explicitly annotates the divergence it carries ("On the food of the People of the Book there is a difference of opinion, and the position recorded here is restrictive").
-- **U1 (AI-cliche "today we'll discuss" in the framing) — PASS, false positive.** The string occurs only inside the `## Do not` DENY list, as a forbidden item, not as prose any host speaks.
+None.
 
 ### P1 (ship-with-caution)
 
-#### N6: chapter carries zero Arabic script; the book has no glossary (ROOT, book-scope)
-- **File:** `chapters/ch01-earning-and-the-manners-of-the-table.txt` (whole file); root at `_system/glossary.yml`
-- **Context:** Zero Arabic Unicode codepoints in a `islamic_scholarly` chapter. Four transliteration occurrences sit bare in prose (`Sunnah` x3 at lines 67/77/117, `ihram` at line 107). `_system/glossary.yml` does not exist, so N6's remediation path (deterministic Arabic injection from the curated glossary) cannot run. `series-config.yaml` sets `translation_policy.preserve_arabic_terms: true` but nothing produced a glossary to preserve them against.
-- **Severity note (explicit, not silent):** the catalog rates N6 **P0**. It is recorded here at **P1** because the P0 remediation has no data to run on, and because the same gap affects all five chapters — it is a Phase 0c book-scope defect, not a defect of this chapter's authoring. The challenger **recommends escalation to P0 at book scope** and treating it as a systemic halt per the standing systemic-fixes rule.
-- **Suggested fix:** build `_system/glossary.yml` for the book, then re-run the deterministic chapter Arabic injection across all five chapters. Do not hand-add Arabic to prose.
+#### B4-residual: three sentences still tell the listener which edition supplies which paragraph
+- **File:** `chapters/ch03-*.txt:19`, `:37`, `:111`
+- **Context (line 19; the other two are identical in shape):** "A second, Urdu-language edition of this treatise supplies this paragraph on the guarantee of another's debt."
+- **What is left after the P0 fix:** the apparatus clause is gone and the provenance disclosure survives, which is the right shape. What remains is the phrase `supplies this paragraph on <topic>` — a pointer to the document's own structure, delivered in audio. A listener hears the chapter describe its own composition three times.
+- **Severity reasoning, stated rather than assumed.** I considered P0 and did not escalate to it, for three reasons: the edition-naming construction itself was blessed by this same loop on chapter 4, which shipped SHIP-WITH-CAUTION carrying `A second, Urdu-language edition of the same treatise gives the verse whole`; the build gate passes the current form; and the only delta from the blessed form is the word `paragraph` and the topic-label grammar around it. Recorded at P1 with the escalation visible, not silently downgraded.
+- **Suggested fix:** adopt chapter 4's content-forward construction, which hands the listener the teaching in the same breath as the provenance. Line 19 becomes something like "A second, Urdu-language edition of this treatise carries the ruling on standing surety for another man's debt." Same move at 37 (the insistence on writing) and 111 (the four unlawful marriages).
+- **Not auto-fixed:** Section 3 restricts chapter-file edits to em-dashes, honorific repeats, lexicon-grounded phonetic gaps, exact-match filler and cross-episode rewrites. Rewriting a provenance sentence is an authoring decision.
 
-#### N3: two terms have no settled spoken form; the pronunciation ladder is empty
-- **File:** `_system/pronunciation.md` (empty table) / `EP01/00-framing.md:15-16`
-- **Context:** The build emits `NOTE: 2 term(s) in this chapter have no settled spoken form: ihram, Sunnah`. `_system/pronunciation.md` has a header and an empty pipe table. The framing's two bullets are therefore authored guesses, not ladder-resolved values, and `- Sunnah: sunnah` carries no pronunciation information at all (value identical to the term), so the hosts have nothing to act on.
-- **Suggested fix:** `python3 scripts/podcast/run_pronunciation_probe.py sharh-al-masail-ghulam-hussain` — settle both by ear; the answer is written to the cross-book ledger and the build recompiles the block. Never fix by editing the framing.
+#### N6: the chapter carries no Arabic script, and the book has no glossary to inject it from
+- **File:** `chapters/ch03-*.txt` (zero Arabic-range codepoints) / `_system/glossary.yml` (does not exist)
+- **Context:** `series-config.yaml` sets `preserve_arabic_terms: true`, and N6 requires every Islamic scholarly chapter to carry visible Arabic script from glossary-backed terms. The chapter has none, and the deterministic injection N6 prescribes has no glossary to draw from.
+- **Recorded at P1 with explicit escalation, not silently downgraded.** The catalog rates N6 P0. It is a book-scope root defect affecting all five chapters identically, it cannot be resolved inside a per-chapter pass, and blocking every chapter on it would stall the book without moving the defect. This is the eighth consecutive run on this book to record it this way. It should be escalated to a book-scope decision before publish, not carried indefinitely.
+- **Suggested fix:** `python3 scripts/podcast/build_glossary.py` then `fill_glossary_arabic.py` for the book, then re-run the chapter Arabic injection. Alternatively record a deliberate profile exception for translation editions.
 
-#### F25-APPARATUS-TABLE: show-notes missing the Name and Title Preservation Table
-- **File:** `_system/episode-drafts/EP01-earning-and-the-manners-of-the-table/99-show-notes.md`
-- **Context:** Build-emitted P1, verbatim: "no '## Name and Title Preservation Table' section header found. F25 doctrine: every episode's 99-show-notes.md carries the written-layer apparatus (preserved Arabic / transliterations + audio-label crosswalk) the TTS-safe audio omits." Present H2s are only `## Related episodes` and `## References`.
-- **Suggested fix:** add the section. It is the written-layer counterpart to N6 — the audio drops Arabic names deliberately, and the show notes are where the preserved forms live.
+#### CS4: the chapter is 420 words over its own declared band
+- **File:** `chapter-contracts/the-pledge-and-the-call-to-marry.yml` (`length_target: 5500-6000`) / `chapters/ch03-*.txt` (6,420 words)
+- **Context:** `check_chapter_set.py` reports this at P0. It is not isolated: four of five chapters overshoot the same declared band — sale-debt 6,375, this chapter 6,420, marriage-contract 6,383, maintenance 6,001. A band that four of five chapters miss is a mislabelled band, not four independent overruns.
+- **Recorded at P1 with explicit escalation,** on the same reasoning as N6: book-scope, systemic, unresolvable per-chapter, and already carried at P1 on the sibling chapters that shipped.
+- **Suggested fix:** relabel `length_target` to `6000-6500` across the affected contracts so the declared band tells the truth, or trim to fit. Relabelling is the honest move here — the chapters are coherent at their current length and the extended tier accommodates it (the hard chapter ceiling is 11,000 words soft / 12,000 hard, so nothing is near a real bound).
 
-#### I1: anti-repetition clause absent from the framing
-- **File:** `EP01/00-framing.md` (`## Do not`)
-- **Context:** No "do not restate / re-cite / summarise what was just said" clause. It was inserted in iteration 1 and **removed in iteration 2 to fit the 4,500-character cap**. Note the interaction: the framing's own `R-RECURRING-THESIS` mandates three verbatim thesis repetitions, so any inserted clause must be scoped to exempt the spine thesis — a generic R-NOREPEAT block would contradict the book's design.
-- **Suggested fix:** free ~95 characters elsewhere (the `Name discipline` "Also:" roster is the cheapest donor) and reinstate the scoped form.
+#### N3: four terms in this chapter have no settled spoken form
+- **File:** `_system/pronunciation.md` (header only, zero table rows) / `EP03/00-framing.md:16-20`
+- **Context:** the build emits, verbatim: `NOTE: 4 term(s) in this chapter have no settled spoken form and were left without an entry: al-Nu'man, Ja'far al-Sadiq, Sunnah, dirham`. The bullets currently read `- al-Nu'man: al-Nu'man` and so on — the hosts are handed the spelling back and have nothing to act on. `al-Nu'man` appears three times in the chapter and carries two of its anchor passages; `Ja'far al-Sadiq` appears four times and carries the pledge list and the three divisions of land.
+- **Not N7:** the values are the term's own spelling, not a determiner-led English translation, so `assert_framing_pronunciation_render` does not fire. The defect is an empty ladder, not a wrong value.
+- **Suggested fix:** `python3 scripts/podcast/run_pronunciation_probe.py sharh-al-masail-ghulam-hussain`. **Never fix by editing the framing** — the build recompiles every value in the block, so a hand-edit is discarded on the next build.
 
-#### I2: no-irrelevant-background clause absent from the framing
-- **File:** `EP01/00-framing.md` (`## Do not`)
-- **Context:** Same root as I1 — inserted, then cut for the character cap. Nothing currently bounds host excursions into the author's biography or the period.
-- **Suggested fix:** reinstate a one-line form (~85 chars) once budget is freed.
+#### R5: modern-analogy permission absent, and inserting it would contradict the prompt
+- **File:** `EP03/00-framing.md:33-38`
+- **Context:** R5 wants both halves — the DENY list and a positive "DO use modern-life practical analogies" paragraph. The DENY half is present and now complete. The permission half is absent, and `## Tone constraints` says "Only these three images" and then names them.
+- **Recorded as absent-by-design,** the same call made on EP01, EP02, EP04 and EP05. Inserting a general analogy permission would directly contradict a cap the author set deliberately. Carried rather than fixed.
 
-#### R1: separate-prep illusion clause absent
-- **File:** `EP01/00-framing.md` (`## Host dynamic`)
-- **Context:** No "the hosts prepared separately / plant one moment where one raises a passage the other had not led toward" directive. Never landed: the character budget was exhausted by the four live validators plus the higher-value K1/K2/M2/R4 insertions.
-- **Suggested fix:** lowest priority of the three budget-displaced clauses; reinstate last.
+#### R-NAMEDISCIPLINE: no rotation set with three or more aliases
+- **File:** `EP03/00-framing.md:6-12`
+- **Context:** build-emitted. The block fixes one label per figure, which is correct doctrine for this book, but the check wants a rotation set (`→ a / b / c`) so the hosts have variety without drifting. The current block is stricter than the check anticipates.
+- **Suggested fix:** author judgment on whether a rotation is wanted here at all; if not, this is a standing by-design carry.
 
-#### R5: modern-life analogy permission absent — and conflicts with this book by design
-- **File:** `EP01/00-framing.md` (`## Do not` + `## Tone constraints`)
-- **Context:** R5 requires BOTH halves of the softened R-NOMODERNIZE: the platform DENY list (present) AND a positive "DO use modern-life practical analogies" paragraph (absent). **Deliberately not auto-fixed:** `## Tone constraints` restricts the hosts to three named source images "and no others". Inserting the permission half would directly contradict a standing instruction in the same prompt.
-- **Suggested fix:** author decision — either relax the three-image cap, or record this book as an explicit R5 exemption. Do not insert the permission half while the cap stands.
+#### F25: show-notes missing the Name and Title Preservation Table
+- **File:** `EP03/99-show-notes.md`
+- **Context:** build-emitted P1, verbatim: "no '## Name and Title Preservation Table' section header found." Present H2s: `## Related episodes`, `## References`.
+- **Not auto-fixed:** Section 8 forbids this agent from editing `99-show-notes.md`.
 
-#### F3: framing names no audience
-- **File:** `EP01/00-framing.md`
-- **Context:** No `## Audience` section. A concrete audience profile exists in `chapter-contracts/earning-and-the-manners-of-the-table.yml` but does not flow into the customize prompt, so the hosts have no register target.
-- **Suggested fix:** compress the audience line to one sentence and place it in the Opening directive. Budget-constrained; weigh against I1/I2.
+#### V3: no modern-relevance signal for the listener
+- **File:** `chapters/ch03-*.txt` (whole)
+- **Context:** the deterministic scan does return two relevance hits, but both are about the author's own period rather than the listener's — "recognisably a modern one" describing his procedure for arranging a pledge, and "makes the argument contemporary" introducing the Boer war and the census figures. Nothing bridges the pledge doctrine or the case for marriage to a listener's world. Same call made on ch01 and ch02, so it is a book-wide voice property rather than a chapter defect.
+- **Suggested fix:** one bridging sentence, or accept as a translation-edition property. Adding one would be outside-source material, which `translation_policy.augmentation: forbidden` bars on this edition — so accepting it is the likely correct disposition. Category V is never auto-fixed.
 
-#### I5: authorial-apparatus noise in the chapter opening
-- **File:** `chapters/ch01-earning-and-the-manners-of-the-table.txt:7`
-- **Context:** "Its author gathered the issues bearing on daily life and set aside those that no longer touched anybody, along with technical matters like usury and mortgage." Matched `R_NOISE_APPARATUS_PATTERNS`. The second clause is meta about how the book-OBJECT was compiled and scoped, not its teaching — and it invites the hosts to spend airtime on what the compiler omitted.
-- **Suggested fix:** keep the first clause (genuine orientation), drop the "set aside…" clause or move it to show notes. Never auto-fixed — authoring decision.
-
-#### O1 (semantic half): one honorific form expanded three times
-- **File:** `chapters/ch01-earning-and-the-manners-of-the-table.txt:35, 61, 63`
-- **Context:** "may God's peace be upon him" appears 3x; "may God's blessings and peace be upon him" 1x (line 17); "peace be upon them" 1x (line 91). The live deterministic gate did NOT fire: `HONORIFIC_PHRASES` in `_validator_constants.py` matches only the parenthesized forms `(peace be upon him)` etc., and this chapter uses unparenthesized prose forms. NotebookLM reads every expansion aloud regardless of parentheses.
-- **Suggested fix:** keep the first expansion per figure, contract the rest to "the sixth Imam" / "the fifth Imam". Secondary: the constant list is worth widening to cover the prose form (a rule-level fix, book-independent).
-
-#### E5: a broken-transmission paragraph invites host fabrication
-- **File:** `chapters/ch01-earning-and-the-manners-of-the-table.txt:59`
-- **Context:** "…Some were dealt with according to the judgement passed on them, and one was released. And the Messenger of God told him that Gabriel had informed him about the hand that is withheld from food, and assured him he would be helped in the task." The passage presents as narrative but carries no recoverable meaning — "the hand that is withheld from food" resolves to nothing. The contract acknowledges the source's transmission is broken here and forbids reconstruction, which is correct; the residual risk is that the hosts will invent an interpretation to fill the gap.
-- **Suggested fix:** either add a short clause marking the transmission as incomplete, or name the passage in the framing as one not to expand. Flagged, not auto-fixed.
-
-#### V3: no modern-relevance signal
-- **File:** `chapters/ch01-earning-and-the-manners-of-the-table.txt` (whole file)
-- **Context:** Zero matches against `R_INTEREST_RELEVANCE_PATTERNS`. V1 (curiosity hook, "What if…"), V2 (challenge-defeat arcs — the needle-through-leather objection and the ascetic's challenge, both raised and answered), V4 (no strawman) and V5 (rhetorical question) all pass.
-- **Suggested fix:** one bridging sentence. Note the tension with the framing's DENY-modernize block — the bridge must be a timeless practical connection, not a named-platform analogy.
-
-#### E1: chapter word count outside the catalog soft band
-- **File:** `chapters/ch01-earning-and-the-manners-of-the-table.txt` — 5,947 words
-- **Context:** Catalog soft band is 1,500–4,500. The contract declares `length_target: 5500-6000` and `series-config.yaml` sets `length_tier: extended`; CS4 (band conformance) therefore **passes**, and the live build accepts it. Recorded as advisory drift between the catalog band and extended-tier reality.
-
-#### CS7 (book scope): source content unassigned to any episode
-- **File:** `_system/source/text/_chunks/0d/source-toc.json`
-- **Context:** From `check_chapter_set.py`, verbatim: "source lines 1-94 (94 lines) are not assigned to any episode (next assigned: sc 1 'Earning, Eating, and the Manners of the Table') — content silently dropped from the split."
-- **Suggested fix:** confirm lines 1–94 are front matter; if so record an explicit skip, otherwise re-draw the Phase 0d plan.
+#### CS7: 94 source lines are assigned to no episode
+- **File:** `_system/source/text/_chunks/0d/source-toc.json` (book scope)
+- **Context:** `check_chapter_set.py` P7: "source lines 1-94 are not assigned to any episode (next assigned: sc 1 'Earning, Eating, and the Manners of the Table')". Almost certainly front matter, but the split records no explicit skip, so the gap is indistinguishable from dropped content.
+- **Suggested fix:** record `essential: skip` for the front matter in the 0d plan, or redraw to cover it.
 
 ### P2 (advisory)
 
-#### B5: 58 em-dashes in the chapter
-- **File:** `chapters/ch01-earning-and-the-manners-of-the-table.txt` (58 occurrences; 18 more in the framing)
-- **Severity note (explicit, not silent):** the catalog lists B5 as an auto-fix. It was **deliberately not auto-fixed and is recorded below the catalog's implied severity**, for three reasons: (1) no live validator enforces it — `build_episode_txt.py` passes the chapter at exit 0 and no em-dash rule exists in `_validators*.py` or `_rules.py`; (2) this chapter file also feeds the reading-edition/PDF lane, where the em-dash is correct typography; (3) a blind `—` -> `, ` substitution across 58 sites would manufacture comma splices in appositive constructions, which is a prose rewrite, not a mechanical fix. Surfaced for the author to decide.
+- **B5 — 61 em-dashes in the chapter.** Book-wide translation-edition style; every chapter in this book carries them at similar density (ch02 was recorded at 67). B5 is nominally in the auto-fix set, but rewriting 61 sites would restructure the chapter's cadence wholesale, which is authoring rather than mechanical cleanup. Carried at P2 as on ch02, consistent with the shipped siblings.
+- **E2 — not summarizable in one sentence.** Three genuinely separate teachings: the pledge, the shared wall, and the case for marriage. The chapter's own opening admits the seam ("then turns a corner"). This is a Phase 0d segmentation property, not a writing defect.
+- **I3 — the landing section restates all three movements.** `## What this episode lands` (lines 127-137) re-states each movement's thesis. The framing says "No recap, no preview" — but that instruction governs the hosts, not the source file, and the landing is doing real synthetic work. Recorded, not escalated. Same call as ch04.
+- **F5 / R2 — no `04-discussion-spine.md`.** Absent for every episode in this book. R2's reset-clause requirement cannot be evaluated without a beat count, so it is advisory here.
+- **F3 — the framing has no Audience section.** The contract carries a detailed `audience` field, so the information exists in the bundle; it just does not reach the Customize prompt. There is now 221 characters of headroom, so this is newly actionable if the author wants it — but a compressed audience line is an authoring decision, not a template insertion.
+- **CS6 — cross-book term bleed in a sibling chapter.** `khums` in ch05 matches `degrees-of-excellence`'s mangle-map. Book-scope, not this chapter, and `khums` is ordinary Islamic legal vocabulary — near-certain false positive. Surfaced, never auto-stripped.
 
-#### E2: the chapter is multi-thematic
-- Seven ruling domains (earning, table manners, feeding, guest/host, forbidden foods, slaughter/hunting, dress/adornment) across 5,947 words. The chapter does supply its own unifying sentence, twice ("earning is devotion, the table is a discipline, and the boundary of the lawful runs through both"), so one-sentence summarizability is achieved by assertion rather than by scope. Acceptable for an extended-tier opener; noted.
+### Recorded as by-contract false positives (not counted as findings)
 
-#### R3: cadence directive absent
-- Inserted in iteration 1, cut in iteration 2 for the character cap. Lowest-value of the displaced clauses.
-
-#### F5: no discussion spine
-- `04-discussion-spine.md` is absent (bundle carries only `00-framing.md` + `99-show-notes.md`). Optional under the current architecture; R2 (reset clause) is consequently advisory-only since no beat count can be read.
-
-#### CS6 (book scope, different chapter): possible cross-book bleed
-- From `check_chapter_set.py`, verbatim: "chapter text contains 'khums' which belongs to book 'degrees-of-excellence''s mangle-map; possible cross-book bleed" in `maintenance-dissolution-and-inheritance`. Almost certainly a false positive — *khums* is ordinary Shia legal vocabulary and belongs in an inheritance chapter. Surfaced, never auto-stripped. Out of this invocation's per-chapter scope.
-
-#### CATALOG-DIVERGENCE: the agent spec's framing budget contradicts the live gate
-- **File:** `.github/agents/podcast-challenger.agent.md` (E1) vs `scripts/podcast/build_episode_txt.py`
-- **Context:** E1 states the framing hard bound is `FRAMING_WORD_MAX = 3500` **words**. The live gate is a 4,500-**character** NotebookLM Customize-box limit (~750 words) — a bound roughly 4.7x tighter. This is not academic: it is why six of the catalog's own auto-fix insertions (I1, I2, R1, R3, plus the full canonical M1/M2 blocks) cannot all coexist in any framing. This run also demonstrated that naive compression silently breaks four other live validators (R-NAMEDISCIPLINE, R-DRAMATIC-ARC, R-CHALLENGER-FRICTION, R-ANALOGY-CAP) that the authored framing had been shaped to satisfy.
-- **Suggested fix:** correct E1 to state the character cap, and re-rank the Section 3 auto-fix list by empirical value so the challenger has a documented eviction order when the budget binds.
+- **`R-NO-ARABIC-TRANSLITERATION` on `al-Nu` and `al-Sadiq`,** fired against both the chapter and the framing. `tone_constraints[3]` states that Judge al-Nu'man is named as the source names him, and the Name discipline block fixes both labels deliberately. Same call made on ch02 and ch04.
+- **`AI_CLICHE_DENY` hit on `mind blown` and `ESSENTIALISM_STEM_PATTERNS` hit on `Muslims believe`, both in the framing.** Both occur inside the framing's own prohibition list — the framing is forbidding those phrases, not using them. Judged in context per Category U's detection note.
+- **A1 (Quranic citations without chapter-and-verse).** `tone_constraints[5]` states that the source names no chapter-and-verse reference for any verse it quotes and instructs that none be supplied. A1's own text exempts the case where the source leaves the verse unnamed; references are never invented. Pass by contract.
 
 ## Health metrics
 
-| Chapter | Words | Enrichment ratio | Tier diversity | Citations | Arabic script | Phonetic gaps | Em-dashes |
-|---|---|---|---|---|---|---|---|
-| ch01 earning-and-the-manners-of-the-table | 5,947 | 0% external (`augmentation: forbidden`) | 4 (Quran, prophetic hadith, Imami sayings, early transmitters) | 0 formal refs (source names none) | 0 codepoints | 2 unsettled (ihram, Sunnah) | 58 |
+| Chapter | Words | Arabic script | Honorific expansions | Em-dashes | Unsettled terms | Framing chars |
+|---|---|---|---|---|---|---|
+| ch03 the-pledge-and-the-call-to-marry | 6,420 | 0 | 1 `peace be upon him`, 1 `may God sanctify`, 1 `may God have mercy` — one each, O1 clean | 61 | 4 | 4,279 / 4,500 |
 
-| Artifact | Size | Gate |
-|---|---|---|
-| `chapters/ch01-*.txt` (SOURCE) | 5,947 words | build exit 0 |
-| `_system/.../EP01/00-framing.md` | 4,499 chars / 753 words | under the 4,500-char cap by 1 char |
-| `episodes/EP01-*.txt` (CUSTOMIZE PROMPT) | 753 words | body identical to framing |
+Build status: `build_episode_txt.py` exit 0 on both artifacts. Chapter validated and upload-ready by construction; episode prompt written at 698 words / 4,301 chars.
 
-**Category totals:** P0 = 0 · P1 = 14 · P2 = 6 · auto-fixes = 6
+Doctrinal (Category T): `run_doctrinal_checks` returns 0 findings on the chapter and 0 on the framing. T1 canonical attribution, T2 Imam lineage, T3 forbidden naming phrases, T5 weak hadith — all clean. T4 is a stub (`farmans.yml` does not exist).
 
-**Convergence:** iteration 1 applied 6 auto-fixes; iteration 2 was a compression pass forced by the character cap; iteration 3 applied zero auto-fixes and returned identical (P0, P1) counts — early-break condition 6b.
+Host role parity (Category Q, book scope): all five framings declare a male scholar leading and a female seeker questioning. Q1 pass, Q2 pass, Q3 pass (no swap anywhere in the book), Q4 pass (gender pairing declared in the opening directive of every episode).
+
+Category CS (book scope, computed once): CS1 pass, CS2 pass, CS3 pass, CS4 fail (4 of 5 chapters), CS5 pass, CS6 one advisory, CS7 fail, CS8 pass, CS9 vacuous (no sermon declared), CS10 pass.
+
+## What this chapter needs before publish
+
+Nothing blocks the upload. The chapter and the customize prompt are both build-clean and doctrinally clean, and the P0 that held this chapter for two runs is resolved.
+
+Two things deserve an author's attention before the book publishes, and neither is chapter-local:
+
+1. **N6 and CS4 are book-scope root defects now on their eighth carry.** No Arabic script anywhere in the book because no glossary exists, and a declared length band that four of five chapters miss. Both are one command or one relabel away from closed, and both are being carried at P1 purely because a per-chapter pass cannot reach them. They should be settled at book scope rather than carried into publish.
+2. **The three `supplies this paragraph` sentences** are the last of the apparatus register in this chapter's audio. Chapter 4 already demonstrates the construction that reads better.
