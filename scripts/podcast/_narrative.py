@@ -361,6 +361,37 @@ def narrative_person_findings(
     return [f for f in findings if not (f in seen or seen.add(f))]
 
 
+_TERMINAL_PUNCT = (".", "?", "!", "…")
+
+
+def _count_interior_tags(text: str) -> int:
+    """Count `_INTERIOR_TAG_RE` matches, excluding ones that close a COMPLETE
+    quoted sentence rather than cut into an unfinished one.
+
+    The regex's own comma/colon/dash-vs-full-stop distinction already treats
+    `X said. "..."` as two sentences with a terminated tag, never an
+    interruption — a full stop AFTER the verb ends the attribution. This is
+    that same rule applied on the OTHER side of the tag: when the quotation
+    immediately BEFORE the tag already ends in terminal punctuation, it is a
+    finished utterance, and what follows is a new, separate quotation glued to
+    it by a shared attribution — not the same sentence torn in half. A source
+    with several short, back-to-back hadith or sayings produces exactly this
+    shape once each is correctly closed and re-attributed, and a naive count
+    read that as inventing several new interruptions when none of them cut
+    into an unfinished sentence. Observed on `sharh-al-masail-ghulam-hussain`
+    bk-08 (2026-08-17): a hadith-dense chapter's faithful translation kept
+    tripping the gate worse each retry because every one of its several
+    already-separate narrations counted as a fresh interior tag.
+    """
+    count = 0
+    for match in _INTERIOR_TAG_RE.finditer(text or ""):
+        before = text[: match.start()].rstrip()
+        if before and before[-1] in _TERMINAL_PUNCT:
+            continue
+        count += 1
+    return count
+
+
 def speech_tag_findings(base_text: str, candidate: str) -> list[str]:
     """Flag speech tags the rewrite added relative to its source.
 
@@ -373,8 +404,8 @@ def speech_tag_findings(base_text: str, candidate: str) -> list[str]:
     conflated that defect with harmless rewording of an opening attribution, and
     on the first live de-calque run it reverted a chapter for exactly that.
     """
-    base_n = len(_INTERIOR_TAG_RE.findall(base_text or ""))
-    cand_n = len(_INTERIOR_TAG_RE.findall(candidate or ""))
+    base_n = _count_interior_tags(base_text)
+    cand_n = _count_interior_tags(candidate)
     if cand_n > base_n:
         return [
             f"speech tag cut into a quotation ({cand_n} interior vs {base_n} in source) — attribution may have moved"
